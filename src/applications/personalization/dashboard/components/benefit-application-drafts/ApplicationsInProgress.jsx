@@ -6,12 +6,13 @@ import { selectProfile } from '~/platform/user/selectors';
 
 import {
   filterOutExpiredForms,
-  formLinks,
-  formBenefits,
   isSIPEnabledForm,
   presentableFormIDs,
   sipFormSorter,
 } from '~/applications/personalization/dashboard/helpers';
+
+import { FORM_BENEFITS } from '~/platform/forms/constants';
+import { getFormLink } from '~/platform/forms/helpers';
 
 import ApplicationInProgress from './ApplicationInProgress';
 
@@ -46,10 +47,10 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA1 }) => {
         <div className="vads-l-row">
           {verifiedSavedForms.map(form => {
             const formId = form.form;
-            const formTitle = `application for ${formBenefits[formId]}`;
+            const formTitle = `application for ${FORM_BENEFITS[formId]}`;
             const presentableFormId = presentableFormIDs[formId];
             const { lastUpdated, expiresAt } = form.metadata || {};
-            const lastOpenedDate = format(
+            const lastSavedDate = format(
               fromUnixTime(lastUpdated),
               'MMMM d, yyyy',
             );
@@ -57,7 +58,7 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA1 }) => {
               fromUnixTime(expiresAt),
               'MMMM d, yyyy',
             );
-            const continueUrl = `${formLinks[formId]}resume`;
+            const continueUrl = `${getFormLink(formId)}resume`;
             return (
               <ApplicationInProgress
                 key={formId}
@@ -65,7 +66,7 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA1 }) => {
                 expirationDate={expirationDate}
                 formId={formId}
                 formTitle={formTitle}
-                lastOpenedDate={lastOpenedDate}
+                lastSavedDate={lastSavedDate}
                 presentableFormId={presentableFormId}
               />
             );

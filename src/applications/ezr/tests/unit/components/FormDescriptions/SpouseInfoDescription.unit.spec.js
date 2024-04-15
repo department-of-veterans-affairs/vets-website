@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
@@ -7,7 +6,7 @@ import SpouseInfoDescription from '../../../../components/FormDescriptions/Spous
 describe('ezr <SpouseInfoDescription>', () => {
   context('when the component renders', () => {
     it('should render with content', () => {
-      const { container } = render(<SpouseInfoDescription />);
+      const { container } = render(SpouseInfoDescription);
       expect(container).to.not.be.empty;
     });
   });

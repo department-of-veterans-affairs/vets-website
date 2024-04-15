@@ -58,4 +58,30 @@ export default {
     en: '/health-care/after-you-apply/',
     es: '/health-care/after-you-apply-esp/',
   },
+  compAssistanceForFamily: {
+    en:
+      '/family-member-benefits/comprehensive-assistance-for-family-caregivers/',
+    es:
+      '/family-member-benefits/comprehensive-assistance-for-family-caregivers-esp/',
+  },
+  decisionReviewsSupplementalClaim: {
+    en: '/decision-reviews/supplemental-claim/',
+    es: '/decision-reviews/supplemental-claim-esp/',
+  },
+  reportHarassment: {
+    en: '/report-harassment/',
+    es: '/report-harassment-esp/',
+  },
+  accessibility: {
+    en: '/accessibility-at-va/',
+    es: '/accessibility-at-va-esp/',
+  },
+  education: {
+    en: '/education/eligibility/',
+    es: '/education/eligibility-esp/',
+  },
+  dependencyIndemnity: {
+    en: '/disability/dependency-indemnity-compensation/',
+    es: '/disability/dependency-indemnity-compensation-esp/',
+  },
 };

@@ -4,17 +4,19 @@ import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { fromUnixTime, isBefore } from 'date-fns';
 import { format } from 'date-fns-tz';
-import { getNextPagePath } from 'platform/forms-system/src/js/routing';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
 import {
   expiredMessage,
   inProgressMessage as getInProgressMessage,
-} from 'platform/forms-system/src/js/utilities/save-in-progress-messages';
-import recordEvent from 'platform/monitoring/record-event';
+} from '~/platform/forms-system/src/js/utilities/save-in-progress-messages';
+import recordEvent from '~/platform/monitoring/record-event';
 
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
 import DowntimeNotification, {
   externalServiceStatus,
-} from 'platform/monitoring/DowntimeNotification';
+} from '~/platform/monitoring/DowntimeNotification';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
@@ -72,6 +74,7 @@ class SaveInProgressIntro extends React.Component {
       ariaLabel = null,
       ariaDescribedby = null,
     } = this.props;
+    const { signInHelpList } = formConfig;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(formId)
@@ -114,9 +117,17 @@ class SaveInProgressIntro extends React.Component {
             savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
 
           const H = `h${this.props.headingLevel}`;
+          const ContinueMsg = (
+            <p>
+              You can continue {appAction} now
+              {appContinuing && ` ${appContinuing}`}, or come back later to
+              finish your {appType}.
+            </p>
+          );
+
           includesFormControls = true;
           alert = (
-            <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
+            <va-alert status="info" uswds visible>
               <div className="schemaform-sip-alert-title">
                 <H className="usa-alert-heading vads-u-font-size--h3">
                   {inProgressMessage} {savedAt && 'and was last saved on '}
@@ -125,9 +136,7 @@ class SaveInProgressIntro extends React.Component {
               </div>
               <div className="saved-form-metadata-container">
                 <div className="expires-container">
-                  You can continue {appAction} now
-                  {appContinuing && ` ${appContinuing}`}, or come back later to
-                  finish your {appType}.
+                  {this.props.continueMsg || ContinueMsg}
                   <p>
                     Your {appType}{' '}
                     <span className="expires">
@@ -138,12 +147,12 @@ class SaveInProgressIntro extends React.Component {
               </div>
               <div>{this.props.children}</div>
               {this.getFormControls(savedForm)}
-            </div>
+            </va-alert>
           );
         } else {
           alert = (
             <div>
-              <div className="usa-alert usa-alert-warning background-color-only schemaform-sip-alert">
+              <va-alert status="warning" uswds visible>
                 <div className="schemaform-sip-alert-title">
                   <strong>Your {appType} has expired</strong>
                 </div>
@@ -153,7 +162,7 @@ class SaveInProgressIntro extends React.Component {
                   </span>
                 </div>
                 <div>{this.props.children}</div>
-              </div>
+              </va-alert>
               <br />
             </div>
           );
@@ -161,14 +170,14 @@ class SaveInProgressIntro extends React.Component {
       } else if (prefillAvailable && !verifiedPrefillAlert) {
         alert = (
           <div>
-            <div className="usa-alert usa-alert-info schemaform-sip-alert">
+            <va-alert status="info" uswds visible>
               <div className="usa-alert-body">
                 <strong>Note:</strong> Since you’re signed in to your account,
                 we can prefill part of your {appType} based on your account
                 details. You can also save your {appType} in progress and come
                 back later to finish filling it out.
               </div>
-            </div>
+            </va-alert>
             <br />
           </div>
         );
@@ -177,12 +186,12 @@ class SaveInProgressIntro extends React.Component {
       } else {
         alert = (
           <div>
-            <div className="usa-alert usa-alert-info schemaform-sip-alert">
+            <va-alert status="info" uswds visible>
               <div className="usa-alert-body">
                 You can save this {appType} in progress, and come back later to
                 finish filling it out.
               </div>
-            </div>
+            </va-alert>
             <br />
           </div>
         );
@@ -191,17 +200,20 @@ class SaveInProgressIntro extends React.Component {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
       const H = `h${this.props.headingLevel}`;
-      const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
+      const {
+        buttonOnly,
+        retentionPeriod,
+        retentionPeriodStart,
+        unauthStartText,
+      } = this.props;
       const unauthStartButton = (
-        <button
-          className="usa-button-primary"
+        <VaButton
           onClick={this.openLoginModal}
-          aria-label={ariaLabel}
-          aria-describedby={ariaDescribedby}
-          type="button"
-        >
-          {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-        </button>
+          label={ariaLabel}
+          // aria-describedby={ariaDescribedby}
+          uswds
+          text={unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+        />
       );
       alert = buttonOnly ? (
         <>
@@ -221,30 +233,35 @@ class SaveInProgressIntro extends React.Component {
           )}
         </>
       ) : (
-        <div className="usa-alert usa-alert-info schemaform-sip-alert">
+        <va-alert status="info" uswds visible>
           <div className="usa-alert-body">
             <H className="usa-alert-heading">{alertTitle}</H>
             <div className="usa-alert-text">
               {this.props.displayNonVeteranMessaging ? (
                 <p>
-                  By signing in, you can save your work in progress.
-                  You&rsquo;ll have {retentionPeriod} from when you start or
-                  make updates to your {appType} to come back and finish it.
+                  By signing in, you can save your work in progress.{' '}
+                  You&rsquo;ll have {retentionPeriod} from{' '}
+                  {retentionPeriodStart} your {appType} to come back and finish
+                  it.
                 </p>
               ) : (
                 <>
                   <p>Here&rsquo;s how signing in now helps you:</p>
-                  <ul>
-                    <li>
-                      We can fill in some of your information for you to save
-                      you time.
-                    </li>
-                    <li>
-                      You can save your work in progress. You&rsquo;ll have{' '}
-                      {retentionPeriod} from when you start or make updates to
-                      your {appType} to come back and finish it.
-                    </li>
-                  </ul>
+                  {signInHelpList ? (
+                    signInHelpList()
+                  ) : (
+                    <ul>
+                      <li>
+                        We can fill in some of your information for you to save
+                        you time.
+                      </li>
+                      <li>
+                        You can save your work in progress. You&rsquo;ll have{' '}
+                        {retentionPeriod} from {retentionPeriodStart} your{' '}
+                        {appType} to come back and finish it.
+                      </li>
+                    </ul>
+                  )}
                 </>
               )}
               <p>
@@ -272,18 +289,19 @@ class SaveInProgressIntro extends React.Component {
               )}
             </div>
           </div>
-        </div>
+        </va-alert>
       );
     } else if (prefillEnabled && unverifiedPrefillAlert) {
       alert = unverifiedPrefillAlert;
     } else {
       alert = (
         <div>
-          <div className="usa-alert usa-alert-info schemaform-sip-alert">
+          <va-alert status="info" uswds visible>
             <div className="usa-alert-body">
               You can save this {appType} in progress, and come back later to
               finish filling it out.
               <br />
+              {/* button that looks like a link - needs design review */}
               <button
                 className="va-button-link"
                 onClick={this.openLoginModal}
@@ -294,7 +312,7 @@ class SaveInProgressIntro extends React.Component {
                 Sign in to your account.
               </button>
             </div>
-          </div>
+          </va-alert>
           <br />
         </div>
       );
@@ -410,16 +428,19 @@ SaveInProgressIntro.propTypes = {
   ariaLabel: PropTypes.string,
   buttonOnly: PropTypes.bool,
   children: PropTypes.any,
+  displayNonVeteranMessaging: PropTypes.bool,
   downtime: PropTypes.object,
   formConfig: PropTypes.shape({
+    signInHelpList: PropTypes.func,
     customText: PropTypes.shape({
       appType: PropTypes.string,
+      appAction: PropTypes.string,
+      appContinuing: PropTypes.string,
     }),
   }),
   formData: PropTypes.object,
   gaStartEventName: PropTypes.string,
   headingLevel: PropTypes.number,
-  displayNonVeteranMessaging: PropTypes.bool,
   hideUnauthedStartLink: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   lastSavedDate: PropTypes.number,
@@ -431,6 +452,7 @@ SaveInProgressIntro.propTypes = {
   renderSignInMessage: PropTypes.func,
   resumeOnly: PropTypes.bool,
   retentionPeriod: PropTypes.string,
+  retentionPeriodStart: PropTypes.string,
   returnUrl: PropTypes.string,
   startMessageOnly: PropTypes.bool,
   startText: PropTypes.string,
@@ -442,7 +464,8 @@ SaveInProgressIntro.propTypes = {
 
 SaveInProgressIntro.defaultProps = {
   alertTitle: 'Sign in now to save your work in progress',
-  retentionPeriod: '60 days',
+  retentionPeriod: '60 days', // from
+  retentionPeriodStart: 'when you start or make updates to', // your {appType}
   unauthStartText: '',
   formConfig: {
     customText: {

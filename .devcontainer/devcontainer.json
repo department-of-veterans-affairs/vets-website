@@ -6,6 +6,13 @@
 			"VARIANT": "14"
 		}
 	},
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2":{},
+		"ghcr.io/devcontainers/features/desktop-lite:1": {
+			"vncPort": "5900",
+			"webPort": "6080"
+		}
+	},
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -41,7 +48,9 @@
 	"forwardPorts": [
 		3000,
 		3001,
-		3002
+		3002,
+		5900,
+		6080
 	],
 	"postCreateCommand": "./.devcontainer/codespaces-create.sh",
 	"remoteUser": "node",
@@ -59,6 +68,12 @@
 		},
 		"3002": {
 			"label": "content-build"
+		},
+		"5900": {
+			"label": "vnc"
+		},
+		"6080": {
+			"label": "desktop-lite"
 		}
 	}
 }

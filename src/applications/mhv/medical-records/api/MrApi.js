@@ -5,6 +5,8 @@ import labsAndTests from '../tests/fixtures/labsAndTests.json';
 import vitals from '../tests/fixtures/vitals.json';
 import conditions from '../tests/fixtures/conditions.json';
 import { IS_TESTING } from '../util/constants';
+import vaccines from '../tests/fixtures/vaccines.json';
+import allergies from '../tests/fixtures/allergies.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -25,54 +27,10 @@ export const createSession = () => {
   });
 };
 
-/**
- * Helper function to create a delay
- */
-const delay = ms => {
-  return new Promise(resolve => setTimeout(resolve, ms));
-};
-
-/**
- * Testable implementation.
- * @see {@link apiRequestWithRetry} for more information
- * @param {*} retryInterval how long to wait between requests
- * @param {*} apiRequestFunc the API function to call; can be mocked for tests
- * @returns
- */
-export const testableApiRequestWithRetry = (
-  retryInterval,
-  apiRequestFunc,
-) => async (path, options, endTime) => {
-  try {
-    return await apiRequestFunc(path, options);
-  } catch (e) {
-    const errorCode = e.errors && e.errors[0] && e.errors[0].code;
-
-    // Check if the error code is 404 and if the retry time limit has not been reached
-    if (errorCode === '404' && Date.now() < endTime) {
-      await delay(retryInterval);
-      return testableApiRequestWithRetry(retryInterval, apiRequestFunc)(
-        path,
-        options,
-        endTime,
-      );
-    }
-
-    // If error is not 404 or time limit exceeded, throw the error
-    throw e;
-  }
-};
-
-/**
- * Recursive function that will continue polling the provided API endpoint if it sends a 404 response.
- * At this time, we will only get a 404 if the patient record has not yet been created.
- * @param {String} path the API endpoint
- * @param {Object} options headers, method, etc.
- * @param {number} endTime the cutoff time to stop polling the path and simply return the error
- * @returns
- */
-const apiRequestWithRetry = async (path, options, endTime) => {
-  return testableApiRequestWithRetry(2000, apiRequest)(path, options, endTime);
+export const getRefreshStatus = () => {
+  return apiRequest(`${apiBasePath}/medical_records/session/status`, {
+    headers,
+  });
 };
 
 export const getLabsAndTests = runningUnitTest => {
@@ -102,46 +60,21 @@ export const getLabOrTest = (id, runningUnitTest) => {
   });
 };
 
-export const getNotes = runningUnitTest => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(notes);
-    }, 1000);
+export const getNotes = () => {
+  return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
+    headers,
   });
 };
 
-export const getNote = (id, runningUnitTest) => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/clinical_notes/${id}`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(
-        notes.entry.find(item => {
-          return item.resource.id === id;
-        }).resource,
-      );
-    }, 1000);
+export const getNote = id => {
+  return apiRequest(`${apiBasePath}/medical_records/clinical_notes/${id}`, {
+    headers,
   });
 };
 
-export const getVitalsList = runningUnitTest => {
-  if (hitApi(runningUnitTest)) {
-    return apiRequest(`${apiBasePath}/medical_records/vitals`, {
-      headers,
-    });
-  }
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(vitals);
-    }, 1000);
+export const getVitalsList = () => {
+  return apiRequest(`${apiBasePath}/medical_records/vitals`, {
+    headers,
   });
 };
 
@@ -166,26 +99,22 @@ export const getCondition = (id, runningUnitTest) => {
   }
   return new Promise(resolve => {
     setTimeout(() => {
-      const condition = conditions.find(cond => cond.id === id);
+      const condition = conditions.entry.find(entry => entry.id === id);
       resolve(condition);
     }, 1000);
   });
 };
 
 export const getAllergies = async () => {
-  return apiRequestWithRetry(
-    `${apiBasePath}/medical_records/allergies`,
-    { headers },
-    Date.now() + 90000, // Retry for 90 seconds
-  );
+  return apiRequest(`${apiBasePath}/medical_records/allergies`, {
+    headers,
+  });
 };
 
 export const getAllergy = id => {
-  return apiRequestWithRetry(
-    `${apiBasePath}/medical_records/allergies/${id}`,
-    { headers },
-    Date.now() + 90000, // Retry for 90 seconds
-  );
+  return apiRequest(`${apiBasePath}/medical_records/allergies/${id}`, {
+    headers,
+  });
 };
 
 /**
@@ -193,11 +122,9 @@ export const getAllergy = id => {
  * @returns list of patient's vaccines in FHIR format
  */
 export const getVaccineList = () => {
-  return apiRequestWithRetry(
-    `${apiBasePath}/medical_records/vaccines`,
-    { headers },
-    Date.now() + 90000, // Retry for 90 seconds
-  );
+  return apiRequest(`${apiBasePath}/medical_records/vaccines`, {
+    headers,
+  });
 };
 
 /**
@@ -206,11 +133,9 @@ export const getVaccineList = () => {
  * @returns vaccine details in FHIR format
  */
 export const getVaccine = id => {
-  return apiRequestWithRetry(
-    `${apiBasePath}/medical_records/vaccines/${id}`,
-    { headers },
-    Date.now() + 90000, // Retry for 90 seconds
-  );
+  return apiRequest(`${apiBasePath}/medical_records/vaccines/${id}`, {
+    headers,
+  });
 };
 
 /**
@@ -233,5 +158,31 @@ export const postSharingUpdateStatus = (optIn = false) => {
   return apiRequest(`${apiBasePath}/health_records/sharing/${endpoint}`, {
     method: 'POST',
     headers,
+  });
+};
+
+/**
+ * Get all of a patient's medical records for generating a Blue Button report
+ * @returns an object with
+ * - labsAndTests
+ * - careSummariesAndNotes
+ * - vaccines
+ * - allergies
+ * - healthConditions
+ * - vitals
+ */
+export const getDataForBlueButton = () => {
+  return new Promise(resolve => {
+    const data = {
+      labsAndTests,
+      careSummariesAndNotes: notes,
+      vaccines,
+      allergies,
+      healthConditions: conditions,
+      vitals,
+    };
+    setTimeout(() => {
+      resolve(data);
+    }, 1000);
   });
 };

@@ -6,6 +6,7 @@ import createDirectDepositChangePage from '../../pages/directDepositChange';
 import createDirectDepositChangePageUpdate from '../../pages/directDepositChangeUpdate';
 
 import {
+  applicantInformationUpdate,
   benefitSelection,
   benefitSelectionUpdate,
   dependents,
@@ -13,15 +14,17 @@ import {
   newSchool,
   newSchoolUpdate,
   servicePeriods,
+  servicePeriodsUpdate,
+  sponsorInfo,
 } from '../pages';
 
 import { isProductionOfTestProdEnv } from '../helpers';
+import guardianInformation from '../pages/guardianInformation';
 
-export const chapters = {
-  applicantInformation: {
-    title: 'Applicant information',
-    pages: {
-      applicantInformation: createApplicantInformationPage(fullSchema1995, {
+export const applicantInformationField = (automatedTest = false) => {
+  if (isProductionOfTestProdEnv(automatedTest)) {
+    return {
+      ...createApplicantInformationPage(fullSchema1995, {
         isVeteran: true,
         fields: [
           'veteranFullName',
@@ -31,6 +34,83 @@ export const chapters = {
         ],
         required: ['veteranFullName'],
       }),
+    };
+  }
+  return {
+    ...createApplicantInformationPage(fullSchema1995, {
+      isVeteran: true,
+      fields: [
+        'veteranFullName',
+        'veteranSocialSecurityNumber',
+        'view:noSSN',
+        'vaFileNumber',
+        'dateOfBirth',
+        'minorHighSchoolQuestions',
+        'applicantGender',
+      ],
+      required: [
+        'veteranFullName',
+        'veteranSocialSecurityNumber',
+        'dateOfBirth',
+      ],
+    }),
+    uiSchema: applicantInformationUpdate.uiSchema,
+  };
+};
+
+export const benefitSelectionUiSchema = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? benefitSelection.uiSchema
+    : benefitSelectionUpdate.uiSchema;
+};
+
+export const benefitSelectionSchema = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? benefitSelection.schema
+    : benefitSelectionUpdate.schema;
+};
+
+export const servicePeriodsUiSchema = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? servicePeriods.uiSchema
+    : servicePeriodsUpdate.uiSchema;
+};
+
+export const servicePeriodsSchema = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? servicePeriods.schema
+    : servicePeriodsUpdate.schema;
+};
+
+export const newSchoolUiSchema = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? newSchool.uiSchema
+    : newSchoolUpdate.uiSchema;
+};
+
+export const newSchoolSchema = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? newSchool.schema
+    : newSchoolUpdate.schema;
+};
+
+export const directDepositField = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? createDirectDepositChangePage(fullSchema1995)
+    : createDirectDepositChangePageUpdate(fullSchema1995);
+};
+
+export const chapters = {
+  applicantInformation: {
+    title: 'Applicant information',
+    pages: {
+      applicantInformation: applicantInformationField(),
+    },
+  },
+  guardianInformation: {
+    title: 'Guardian information',
+    pages: {
+      guardianInformation: guardianInformation(fullSchema1995, {}),
     },
   },
   benefitSelection: {
@@ -39,13 +119,15 @@ export const chapters = {
       benefitSelection: {
         title: 'Education benefit selection',
         path: 'benefits/eligibility',
-        uiSchema: isProductionOfTestProdEnv()
-          ? benefitSelection.uiSchema
-          : benefitSelectionUpdate.uiSchema,
-        schema: isProductionOfTestProdEnv()
-          ? benefitSelection.schema
-          : benefitSelectionUpdate.schema,
+        uiSchema: benefitSelectionUiSchema(),
+        schema: benefitSelectionSchema(),
       },
+    },
+  },
+  sponsorInformation: {
+    title: 'Sponsor information',
+    pages: {
+      sponsorInformation: sponsorInfo(fullSchema1995),
     },
   },
   militaryService: {
@@ -54,8 +136,8 @@ export const chapters = {
       servicePeriods: {
         path: 'military/service',
         title: 'Service periods',
-        uiSchema: servicePeriods.uiSchema,
-        schema: servicePeriods.schema,
+        uiSchema: servicePeriodsUiSchema(),
+        schema: servicePeriodsSchema(),
       },
       militaryHistory: {
         title: 'Military history',
@@ -76,14 +158,9 @@ export const chapters = {
         initialData: {
           newSchoolAddress: {},
         },
-        uiSchema: isProductionOfTestProdEnv()
-          ? newSchool.uiSchema
-          : newSchoolUpdate.uiSchema,
-        schema: isProductionOfTestProdEnv()
-          ? newSchool.schema
-          : newSchoolUpdate.schema,
+        uiSchema: newSchoolUiSchema(),
+        schema: newSchoolSchema(),
       },
-      oldSchool: createOldSchoolPage(fullSchema1995),
     },
   },
   personalInformation: {
@@ -102,9 +179,12 @@ export const chapters = {
         uiSchema: dependents.uiSchema,
         schema: dependents.schema,
       },
-      directDeposit: isProductionOfTestProdEnv()
-        ? createDirectDepositChangePage(fullSchema1995)
-        : createDirectDepositChangePageUpdate(fullSchema1995),
+      directDeposit: directDepositField(),
     },
   },
 };
+if (isProductionOfTestProdEnv()) {
+  chapters.schoolSelection.pages.oldSchool = createOldSchoolPage(
+    fullSchema1995,
+  );
+}

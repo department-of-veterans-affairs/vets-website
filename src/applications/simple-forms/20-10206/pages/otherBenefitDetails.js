@@ -1,4 +1,4 @@
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -10,9 +10,12 @@ export default {
     ),
     otherBenefitDetails: {
       'ui:title': 'Describe the benefit records you’d like to request',
-      'ui:webComponentField': VaTextInputField,
+      'ui:webComponentField': VaTextareaField,
       'ui:errorMessages': {
         required: 'Describe the benefit records you’d like to request',
+      },
+      'ui:options': {
+        charcount: true,
       },
     },
   },
@@ -21,6 +24,7 @@ export default {
     properties: {
       otherBenefitDetails: {
         type: 'string',
+        maxLength: 75,
       },
     },
     required: ['otherBenefitDetails'],

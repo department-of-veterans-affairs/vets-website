@@ -11,6 +11,20 @@ import {
 import { ROUTES } from '../../../constants';
 import { pageSetup } from '../../../utilities/page-setup';
 
+export const locationList = (
+  <ul>
+    <li>Afghanistan</li>
+    <li>Djibouti</li>
+    <li>Egypt</li>
+    <li>Jordan</li>
+    <li>Lebanon</li>
+    <li>Syria</li>
+    <li>Uzbekistan</li>
+    <li>Yemen</li>
+    <li>The airspace above any of these locations</li>
+  </ul>
+);
+
 const BurnPit212 = ({
   formResponses,
   router,
@@ -37,20 +51,6 @@ const BurnPit212 = ({
       }
     },
     [router, viewedIntroPage],
-  );
-
-  const locationList = (
-    <ul>
-      <li>Afghanistan</li>
-      <li>Djibouti</li>
-      <li>Egypt</li>
-      <li>Jordan</li>
-      <li>Lebanon</li>
-      <li>Syria</li>
-      <li>Uzbekistan</li>
-      <li>Yemen</li>
-      <li>The airspace above any of these locations</li>
-    </ul>
   );
 
   return (

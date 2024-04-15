@@ -9,7 +9,7 @@ const appointmentData = {
   status: 'Booked',
 };
 
-describe('CancelLink', () => {
+describe('VAOS Component: CancelLink', () => {
   it('renders null when hideCanceledOrPast is true', async () => {
     const initialState = {
       featureToggles: {
@@ -90,8 +90,7 @@ describe('CancelLink', () => {
     fireEvent.click(await wrapper.getByTestId('cancelButton'));
     const event = global.window.dataLayer[0];
     expect(event).to.deep.equal({
-      action: 'vaos-cancel-booked-clicked',
-      event: 'interaction',
+      event: 'vaos-cancel-booked-clicked',
     });
   });
 });

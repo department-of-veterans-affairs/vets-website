@@ -3,9 +3,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 import { formatDateShort } from 'platform/utilities/date';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
 
 import { updateBenefitSummaryRequestOption as updateBenefitSummaryRequestOptionAction } from '../actions/letters';
 import {

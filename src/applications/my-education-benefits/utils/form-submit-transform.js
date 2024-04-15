@@ -403,10 +403,62 @@ export function createRelinquishedBenefit(submissionForm) {
 }
 
 function setAdditionalConsideration(consideration) {
-  return consideration ? consideration.toUpperCase() : 'N/A';
+  return typeof consideration === 'string'
+    ? consideration.toUpperCase()
+    : 'N/A';
 }
-
+function getExclusionMessage(exclusionType, exclusionPeriods) {
+  const messages = {
+    ROTC:
+      'Dept. of Defense data shows you were commissioned as the result of a Senior ROTC.',
+    LRP:
+      'Dept. of Defense data shows a period of active duty that the military considers as being used for purposes of repaying an Education Loan.',
+    Academy:
+      'Dept. of Defense data shows you have graduated from a Military Service Academy',
+  };
+  return exclusionPeriods.includes(exclusionType)
+    ? messages[exclusionType]
+    : null;
+}
 export function createAdditionalConsiderations(submissionForm) {
+  if (submissionForm?.mebExclusionPeriodEnabled) {
+    const exclusionPeriods = submissionForm.exclusionPeriods || [];
+    const mapping = {
+      academyRotcScholarship: {
+        formKey: 'federallySponsoredAcademy',
+        exclusionType: 'Academy',
+      },
+      seniorRotcScholarship: {
+        formKey: 'seniorRotcCommission',
+        exclusionType: 'ROTC',
+      },
+      activeDutyDodRepayLoan: {
+        formKey: 'loanPayment',
+        exclusionType: 'LRP',
+      },
+      activeDutyKicker: {
+        formKey: 'activeDutyKicker',
+        exclusionType: null,
+      },
+      reserveKicker: {
+        formKey: 'selectedReserveKicker',
+        exclusionType: null,
+      },
+    };
+    return Object.entries(mapping).reduce(
+      (acc, [key, { formKey, exclusionType }]) => {
+        const value = submissionForm[formKey];
+        const exclusionMessage = exclusionType
+          ? getExclusionMessage(exclusionType, exclusionPeriods)
+          : '';
+        acc[key] =
+          setAdditionalConsideration(value) +
+          (exclusionMessage ? ` - ${exclusionMessage}` : '');
+        return acc;
+      },
+      {},
+    );
+  }
   return {
     activeDutyKicker: setAdditionalConsideration(
       submissionForm.activeDutyKicker,
@@ -457,12 +509,30 @@ export function createComments(submissionForm) {
 }
 
 export function createDirectDeposit(submissionForm) {
-  const bankInfo = {
-    directDepositAccountNumber: submissionForm?.bankAccount?.accountNumber,
-    directDepositAccountType: submissionForm?.bankAccount?.accountType,
-    directDepositRoutingNumber: submissionForm?.bankAccount?.routingNumber,
+  const bankAccountInView = submissionForm['view:directDeposit']?.bankAccount;
+  const bankAccountDirectly = submissionForm?.bankAccount;
+
+  const hasDataInView =
+    bankAccountInView &&
+    (bankAccountInView.accountNumber || bankAccountInView.routingNumber);
+  const hasDataDirectly =
+    bankAccountDirectly &&
+    (bankAccountDirectly.accountNumber || bankAccountDirectly.routingNumber);
+
+  let effectiveBankAccount = {};
+  if (hasDataInView) {
+    effectiveBankAccount = bankAccountInView;
+  } else if (hasDataDirectly) {
+    effectiveBankAccount = bankAccountDirectly;
+  }
+
+  const constructedBankInfo = {
+    directDepositAccountNumber: effectiveBankAccount?.accountNumber,
+    directDepositAccountType: effectiveBankAccount?.accountType,
+    directDepositRoutingNumber: effectiveBankAccount?.routingNumber,
   };
-  return submissionForm?.bankAccount?.accountType ? bankInfo : {};
+
+  return effectiveBankAccount?.accountType ? constructedBankInfo : {};
 }
 
 export function createSubmissionForm(submissionForm, formId) {

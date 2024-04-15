@@ -11,13 +11,35 @@ pre-check-in [README](https://github.com/department-of-veterans-affairs/vets-web
 Before you get started check [this page](https://depo-platform-documentation.scrollhelp.site/developer-docs/setting-up-your-local-frontend-environment) first to make sure you are setup to use the correct version of Node and Yarn.
   - clone vets-website repo `git clone git@github.com:department-of-veterans-affairs/vets-website.git`
   - navigate to the check-in application `cd src/applications/check-in`
-  - run `yarn install`
-  - run `yarn workspace @department-of-veterans-affairs/applications-check-in install`
-  - turn on local mocks `yarn --cwd $( git rev-parse --show-toplevel ) mock-api --responses src/applications/check-in/api/local-mock-api/index.js`
-  - start app `yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=check-in,pre-check-in`
+  - run
+```
+yarn install
+```
+  - run
+```
+yarn workspace @department-of-veterans-affairs/applications-check-in install
+```
+  - turn on local mocks
+```
+yarn --cwd $( git rev-parse --show-toplevel ) mock-api --responses src/applications/check-in/api/local-mock-api/index.js
+```
+  - start app
+```
+yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=check-in,pre-check-in,travel-claim
+```
   - visit the app:
-    - check-in `http://localhost:3001/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
-    - pre-check-in `http://localhost:3001/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
+  - check-in
+```
+http://localhost:3001/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287
+```
+  - pre-check-in 
+```
+http://localhost:3001/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287
+```
+  - travel-claim 
+```
+http://localhost:3001/my-health/appointment-travel-claim/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287
+```
   - Login using the mock user, Last name: `Smith` DOB: `04-07-1935`
 
 ## Mock UUIDs
@@ -29,10 +51,13 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - allAppointmentTypesUUID: `bb48c558-7b35-44ec-8ab7-32b7d49364fc`
   - missingUUID: `a5895713-ca42-4244-9f38-f8b5db020d04`
   - noFacilityAddressUUID: `5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
+  - demographicsConfirmedUUID: `3f93c0e0-319a-4642-91b3-750e0aec0388`
 
 ### Pre-check-in
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
   - phoneApptUUID: `258d753c-262a-4ab2-b618-64b645884daf`
+  - cvtApptUUID = `f4b9f1a7-4e3d-4d0c-8b8c-3f9b3d0f9e9b`
+  - vvcApptUUID = `cc8bd49c-5ac8-4ad2-880a-b96645cdea64`
   - alreadyPreCheckedInUUID: `4d523464-c450-49dc-9a18-c04b3f1642ee`
   - canceledAppointmentUUID: `9d7b7c15-d539-4624-8d15-b740b84e8548`
   - canceledPhoneAppointmentUUID: `1448d690-fd5f-11ec-b939-0242ac120002`
@@ -42,6 +67,11 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - noFacilityAddressUUID: `5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
   - allDemographicsCurrentUUID: `e544c217-6fe8-44c5-915f-6c3d9908a678`
   - onlyDemographicsCurrentUUID: `7397abc0-fb4d-4238-a3e2-32b0e47a1527` (NoK and Emergency Contact not current)
+
+### Travel-claim
+  - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
+  - multiApptSingleFacilityUUID: `d80ade2e-7a96-4a30-9edc-efc08b4d157d`
+  - multiApptMultiFacilityUUID: `8379d4b5-b9bc-4f3f-84a2-9cb9983a1af0`
 
 ## Design system
 99% of the styling comes from the VA design system [component library](https://design.va.gov/components/) and [utility classes](https://design.va.gov/foundation/utilities/). For the remaining 1% of styling there is an scss file in the `sass` directory in the project root.
@@ -100,9 +130,11 @@ Merging your PR may mean merging to a feature branch. Always be aware that anyth
 If you have any questions along the way be sure to ask in slack.
 
 ## How it works
-Check-in allows veterans to check into an appointment on the day of their appointment while physically at a VA clinic. The veteran texts `check-in` to `VEText` and gets returned a short-url that re-directs to the check-in application with a unique UUID for the appointment.
+Check-in allows veterans to check into an appointment on the day of their appointment while physically at a VA clinic. They also get the opportunity to file a mileage only travel-claim if they are eligible. The veteran texts `check-in` to `VEText` and gets returned a short-url that re-directs to the check-in application with a unique UUID for the appointment.
 
 Pre-check-in allows veterans to pre-check into an appointment between 1 -7 days ahead of the appointment. This usually happens when the veteran is not at a VA clinic. The vet will receive a text from `VEText` with a short-url that re-directs to the pre-check-in application with a unique UUID for the appointment.
+
+Travel-claim allows veterans to file a mileage only travel claim on the day of the appointment they are filing for. The veteran texts `travel` to `VEText` and gets returned a short-url that re-directs to the travel-claim application with a unique UUID for the appointment.
 
 ## Generating screenshots with Cypress
 We use Cypress to capture screenshots of each page of this application. The screenshot capturing is conditional on the env variable `with_screenshots` and won't run in CI. The following commands will generate screenshots in the `vets-website/cypress/screenshots` directory, these are to be run headless with out the Cypress GUI running.

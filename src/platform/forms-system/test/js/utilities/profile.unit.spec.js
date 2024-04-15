@@ -14,6 +14,7 @@ import {
   validateEmail,
   validatePhone,
   validateZipcode,
+  convertNullishObjectValuesToEmptyString,
 } from '../../../src/js/utilities/data/profile';
 
 describe('profile utilities', () => {
@@ -41,10 +42,19 @@ describe('profile utilities', () => {
 
   describe('profiledAddressSchema', () => {
     it('should return international address required array', () => {
-      expect(profileAddressSchema.oneOf[0].required.length).to.eq(3);
+      expect(profileAddressSchema.oneOf[0].required).to.deep.equal([
+        'countryName',
+        'addressLine1',
+        'city',
+      ]);
     });
     it('should return U.S. address required array', () => {
-      expect(profileAddressSchema.oneOf[1].required.length).to.eq(4);
+      expect(profileAddressSchema.oneOf[1].required).to.deep.equal([
+        'countryName',
+        'addressLine1',
+        'city',
+        'zipCode',
+      ]);
     });
   });
 
@@ -67,11 +77,32 @@ describe('profile utilities', () => {
   });
 
   describe('renderTelephone', () => {
-    const phone = { areaCode: '800', phoneNumber: '5551212' };
-    it('should return empty string', () => {
-      const { container } = render(<div>{renderTelephone(phone)}</div>);
+    it('should return not throw an error', () => {
+      const { container } = render(<div>{renderTelephone([{}])}</div>);
+      expect(container.innerHTML).to.eq('<div></div>');
+    });
+    it('should return not render anything', () => {
+      const { container } = render(<div>{renderTelephone()}</div>);
+      expect(container.innerHTML).to.eq('<div></div>');
+    });
+    it('should return telephone object', () => {
+      const phoneObj = { areaCode: '800', phoneNumber: '5551212' };
+      const { container } = render(<div>{renderTelephone(phoneObj)}</div>);
       const vaPhone = $('va-telephone', container);
       expect(vaPhone.getAttribute('contact')).to.eq('8005551212');
+      expect(vaPhone.getAttribute('extension')).to.be.null;
+      expect(vaPhone.getAttribute('not-clickable')).to.eq('true');
+    });
+    it('should return telephone object & extension', () => {
+      const phoneObj = {
+        areaCode: '800',
+        phoneNumber: '5551212',
+        extension: '45678',
+      };
+      const { container } = render(<div>{renderTelephone(phoneObj)}</div>);
+      const vaPhone = $('va-telephone', container);
+      expect(vaPhone.getAttribute('contact')).to.eq('8005551212');
+      expect(vaPhone.getAttribute('extension')).to.eq('45678');
       expect(vaPhone.getAttribute('not-clickable')).to.eq('true');
     });
   });
@@ -304,6 +335,66 @@ describe('profile utilities', () => {
       expect(validateZipcode(content, '123456')).to.eq(error);
       expect(validateZipcode(content, 'abcde')).to.eq(error);
       expect(validateZipcode(content, '123cd')).to.eq(error);
+    });
+  });
+
+  describe('convertNullishObjectValuesToEmptyString', () => {
+    it('should return an empty object', () => {
+      expect(convertNullishObjectValuesToEmptyString()).to.deep.equal({});
+      expect(convertNullishObjectValuesToEmptyString('')).to.deep.equal({});
+      expect(convertNullishObjectValuesToEmptyString(null)).to.deep.equal({});
+    });
+    it('should return object with falsy (not boolean) values replaced with an empty string', () => {
+      expect(
+        convertNullishObjectValuesToEmptyString({ test: null }),
+      ).to.deep.equal({
+        test: '',
+      });
+      expect(
+        convertNullishObjectValuesToEmptyString({ test: undefined }),
+      ).to.deep.equal({
+        test: '',
+      });
+      expect(
+        convertNullishObjectValuesToEmptyString({
+          test: null,
+          test2: '',
+          test3: undefined,
+          test4: false,
+        }),
+      ).to.deep.equal({ test: '', test2: '', test3: '', test4: false });
+      expect(
+        convertNullishObjectValuesToEmptyString({
+          test: [],
+          test2: 'string',
+          test3: null,
+          test4: false,
+          test5: {},
+        }),
+      ).to.deep.equal({
+        test: [],
+        test2: 'string',
+        test3: '',
+        test4: false,
+        test5: {},
+      });
+    });
+    it('should not alter nested objects', () => {
+      expect(
+        convertNullishObjectValuesToEmptyString({
+          test: [],
+          test2: 'string',
+          test3: null,
+          test4: false,
+          test5: { test6: null, test7: false },
+        }),
+      ).to.deep.equal({
+        test: [],
+        test2: 'string',
+        test3: '',
+        test4: false,
+        test5: { test6: null, test7: false },
+      });
     });
   });
 });

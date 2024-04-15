@@ -51,7 +51,9 @@ describe('Avs: Paragraph Block', () => {
     const headingLevel = 5;
     const props = { heading, content, headingLevel };
     const screen = render(<ParagraphBlock {...props} />);
-    expect(screen.getByRole('heading', { level: 5 })).to.have.text(heading);
+    expect(screen.getByRole('heading', { level: headingLevel })).to.have.text(
+      heading,
+    );
   });
 
   it('is hidden if there is no content', async () => {

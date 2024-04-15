@@ -98,7 +98,7 @@ describe('VAOS past appointment flow', () => {
       // Act
       PastAppointmentListPageObject.visit()
         .assertAppointmentList({ numberOfAppointments: 1 })
-        .selectDateRange(2);
+        .selectDateRange('2');
 
       // Assert
       // Constrain search within list group.

@@ -17,6 +17,8 @@ export const QUERY_LIFESPAN = 3600000;
 // SMALL_SCREEN_WIDTH is in pixels
 export const SMALL_SCREEN_WIDTH = 481;
 
+export const PREVIOUS_URL_PUSHED_TO_HISTORY = 'PREVIOUS_URL_PUSHED_TO_HISTORY';
+
 export const MINIMUM_RATING_COUNT = 5;
 
 // Max search area distance in miles
@@ -105,7 +107,7 @@ export const ariaLabels = Object.freeze({
     scholarships: 'Learn more about what types of scholarships to include',
     singlePoint: 'Learn more about single point of contact for Veterans',
     sizeOfInstitution: 'Learn more about institution size',
-    specializedMission: 'Learn more about specialized mission',
+    specializedMission: 'Learn more about community filters',
     studentVeteranGroup: 'Learn more about Student Veteran Groups',
     tuitionAndFees: 'Learn more about the tuition and fees covered by VET TEC',
     tuitionFees: 'Learn more about tuition and fees',
@@ -334,4 +336,24 @@ export const CTRatingsHeaderQuestions = [
       },
     ],
   },
+];
+export const filterKeys = [
+  'schools',
+  'excludeCautionFlags',
+  'accredited',
+  'studentVeteran',
+  'yellowRibbonScholarship',
+  'employers',
+  'vettec',
+  'preferredProvider',
+  'specialMissionHbcu',
+  'specialMissionMenonly',
+  'specialMissionWomenonly',
+  'specialMissionRelaffil',
+  'specialMissionHSI',
+  'specialMissionNANTI',
+  'specialMissionANNHI',
+  'specialMissionAANAPII',
+  'specialMissionPBI',
+  'specialMissionTRIBAL',
 ];

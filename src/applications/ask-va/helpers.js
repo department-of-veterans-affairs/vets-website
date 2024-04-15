@@ -76,3 +76,22 @@ export function formatAddress(address) {
 
   return { addressStreet, cityStateZip, addressCountry };
 }
+
+export function getFileSize(num) {
+  if (num > 999999) {
+    return `${(num / 1000000).toFixed(1)} MB`;
+  }
+  if (num > 999) {
+    return `${Math.floor(num / 1000)} KB`;
+  }
+  return `${num} B`;
+}
+
+export const setFocus = (selector, tabIndexInclude = true) => {
+  const el =
+    typeof selector === 'string' ? document.querySelector(selector) : selector;
+  if (el) {
+    if (tabIndexInclude) el.setAttribute('tabIndex', -1);
+    el.focus();
+  }
+};

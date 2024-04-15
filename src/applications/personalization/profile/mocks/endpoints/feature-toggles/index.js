@@ -8,14 +8,15 @@ const profileToggles = {
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDepositCompAndPen: false,
   profileShowPaymentsNotificationSetting: false,
-  profileUseFieldEditingPage: false,
-  profileUseHubPage: false,
   profileShowMhvNotificationSettings: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
-  profileUseNotificationSettingsCheckboxes: false,
+  profileShowCredentialRetirementMessaging: false,
+  profileShowDirectDepositSingleForm: false,
+  profileShowDirectDepositSingleFormAlert: false,
+  profileShowDirectDepositSingleFormEduDowntime: false,
   profileShowEmailNotificationSettings: false,
-  showAuthenticatedMenuEnhancements: false,
+  profileShowProofOfVeteranStatus: false,
 };
 
 const makeAllTogglesTrue = toggles => {
@@ -53,4 +54,19 @@ const generateFeatureToggles = (values = profileToggles, allOn = false) => {
   };
 };
 
-module.exports = { generateFeatureToggles };
+const generateFeatureTogglesState = (
+  values = profileToggles,
+  allOn = false,
+) => {
+  return {
+    featureToggles: generateFeatureToggles(values, allOn).data.features.reduce(
+      (acc, cur) => {
+        acc[cur.name] = cur.value;
+        return acc;
+      },
+      { loading: false },
+    ),
+  };
+};
+
+module.exports = { generateFeatureToggles, generateFeatureTogglesState };

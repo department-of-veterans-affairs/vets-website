@@ -10,7 +10,6 @@ export function titleCase(str) {
     .join(' ');
 }
 
-/* eslint-disable camelcase */
 export function buildAddressArray(representative, titleCaseText = false) {
   if (representative && representative.attributes) {
     const {

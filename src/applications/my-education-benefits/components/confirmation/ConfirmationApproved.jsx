@@ -20,14 +20,14 @@ export default function ConfirmationApproved({
           of Eligibility is now available. A physical copy will also be mailed
           to your mailing address.
         </p>
-        <a
-          type="button"
-          className="usa-button-primary va-button-primary"
-          href={LETTER_URL}
+        <va-link
           download
-        >
-          Download your Certificate of Eligibility
-        </a>
+          href={LETTER_URL}
+          text="Download your Certificate of Eligibility"
+          class="vads-u-padding-bottom--2"
+        />
+        <br />
+        <br />
         <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/ ">
           View a statement of your benefits
         </a>

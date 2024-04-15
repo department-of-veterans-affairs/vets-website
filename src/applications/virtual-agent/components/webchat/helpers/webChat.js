@@ -1,9 +1,44 @@
 import recordEvent from 'platform/monitoring/record-event';
 import * as Sentry from '@sentry/browser';
+import { IS_RX_SKILL } from '../../chatbox/utils';
+
+export const handleCardAction = (
+  cardTargetClassList,
+  cardActionValue,
+  isRxSkill,
+) => {
+  for (const item of cardTargetClassList) {
+    if (
+      item === 'webchat__suggested-action' ||
+      item === 'webchat__suggested-action__text'
+    ) {
+      if (isRxSkill === 'true') {
+        recordEvent({
+          event: 'chatbot-button-click',
+          clickText: cardActionValue,
+          topic: 'prescriptions',
+        });
+      } else {
+        recordEvent({
+          event: 'chatbot-button-click',
+          clickText: cardActionValue,
+          topic: undefined,
+        });
+      }
+    }
+  }
+};
 
 export const cardActionMiddleware = () => next => card => {
   const { cardAction } = card;
   if (!cardAction) return next(card);
+  const cardActionValue = cardAction.value;
+  const cardTargetClassList = card?.target?.classList;
+  const isRxSkill = sessionStorage.getItem(IS_RX_SKILL);
+
+  if (cardTargetClassList) {
+    handleCardAction(cardTargetClassList, cardActionValue, isRxSkill);
+  }
   const isDecisionLetter =
     typeof cardAction.value === 'string' &&
     cardAction.value.includes('/v0/claim_letters/');

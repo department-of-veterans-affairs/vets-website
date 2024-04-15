@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 const CatAndTopicSummary = ({ category, topic }) => {
   return (
@@ -21,7 +21,7 @@ const CatAndTopicSummary = ({ category, topic }) => {
   );
 };
 
-CatAndTopicSummary.prototype = {
+CatAndTopicSummary.propTypes = {
   category: PropTypes.string,
   topic: PropTypes.string,
 };

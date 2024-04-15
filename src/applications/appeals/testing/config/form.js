@@ -32,8 +32,6 @@ import evidenceUpload from '../pages/evidenceUpload';
 import review from '../pages/review';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import GetFormHelp from '../content/GetFormHelp';
-
 import AreaOfDisagreement from '../components/AreaOfDisagreement';
 import PrimaryPhone from '../components/PrimaryPhone';
 import AddContestableIssue from '../components/AddContestableIssue';
@@ -52,6 +50,7 @@ import { scrollAndFocusTarget } from '../utils/focus';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
+import GetFormHelp from '../../shared/content/GetFormHelp';
 import { appStateSelector } from '../../shared/utils/issues';
 
 import mockData from '../tests/fixtures/data/test-data.json';
@@ -383,7 +382,6 @@ const formConfig = {
       },
     },
   },
-
   footerContent: FormFooter,
   getHelp: GetFormHelp,
 };

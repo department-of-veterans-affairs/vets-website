@@ -71,8 +71,8 @@ const signAsParty = (partyLabel, signature) => {
   cy.findByTestId(partyLabel)
     .find('.signature-checkbox')
     .shadow()
-    .find('[type="checkbox"]')
-    .check();
+    .find('label')
+    .click();
 };
 
 const testSecondaryTwo = createTestConfig(
@@ -120,14 +120,19 @@ const testSecondaryTwo = createTestConfig(
           });
         });
       },
-      'vet-3-api': ({ afterHook }) => {
+      'select-facility': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.wait('@getFacilities');
-          cy.get('#root_veteranPreferredFacility_plannedClinic')
+          cy.get('va-text-input')
             .shadow()
-            .find('select')
-            .select('675');
+            .find('input')
+            .type('33880');
+          cy.get('[data-testid="caregivers-search-btn"]').click();
+          cy.wait('@getFacilities');
+          cy.get('#root_plannedClinic_plannedClinic')
+            .should('be.visible')
+            .first()
+            .click();
           cy.get('.usa-button-primary').click();
         });
       },
@@ -148,8 +153,8 @@ const testSecondaryTwo = createTestConfig(
           cy.fillPage();
           cy.get('#root_primaryAddress_autofill')
             .shadow()
-            .find('[type="checkbox"]')
-            .check();
+            .find('label')
+            .click();
           cy.get('.usa-button-primary').click();
         });
       },

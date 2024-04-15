@@ -22,7 +22,10 @@ describe('Medicaitons List component', () => {
     return 1;
   };
 
-  const setup = (state = initialState, sortOption = 'lastFilledFirst') => {
+  const setup = (
+    state = initialState,
+    sortOption = 'alphabeticallyByStatus',
+  ) => {
     return renderWithStoreAndRouter(
       <MedicationsList
         rxList={prescriptions}
@@ -55,17 +58,44 @@ describe('Medicaitons List component', () => {
     const paginationInfo = screen.getByTestId('page-total-info');
 
     expect(paginationInfo).to.contain.text(
-      'Showing 1 - 20 of 113 medications, last filled first',
+      'Showing 1 - 20 of 113 medications, alphabetically by status',
     );
   });
 
   it('shows different sorting selections', () => {
-    const screen = setup(initialState, 'alphabeticallyByStatus');
+    const screen = setup(initialState, 'lastFilledFirst');
 
-    const alphabeticallyByStatus = screen.getByTestId('page-total-info');
+    const lastFilledFirst = screen.getByTestId('page-total-info');
 
-    expect(alphabeticallyByStatus).to.contain.text(
-      rxListSortingOptions.alphabeticallyByStatus.LABEL.toLowerCase(),
+    expect(lastFilledFirst).to.contain.text(
+      rxListSortingOptions.lastFilledFirst.LABEL.toLowerCase(),
     );
+  });
+  it('shows "Showing 0-0" when an empty list is passed', () => {
+    const screen = (
+      state = initialState,
+      sortOption = 'alphabeticallyByStatus',
+    ) => {
+      return renderWithStoreAndRouter(
+        <MedicationsList
+          rxList={[]}
+          pagination={pagination}
+          setCurrentPage={setCurrentPage}
+          selectedSortOption={sortOption}
+        />,
+        {
+          initialState: {
+            ...state,
+            rx: {
+              prescriptions: { prescriptionDetails: { prescriptionId: 123 } },
+            },
+          },
+          reducers: reducer,
+          path: '/',
+        },
+      );
+    };
+    const numToNums = screen().getByTestId('page-total-info');
+    expect(numToNums).to.contain.text('Showing 0 - 0');
   });
 });

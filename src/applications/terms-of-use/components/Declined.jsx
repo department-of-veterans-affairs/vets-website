@@ -2,8 +2,8 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { COOKIES, CLIENT_IDS } from 'platform/utilities/oauth/constants';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-import { touStyles } from '../helpers';
+import IdentityPhone from 'platform/user/authentication/components/IdentityPhone';
+import { touStyles } from '../constants';
 
 export default function Declined() {
   const shouldRedirectToMobile =
@@ -32,14 +32,20 @@ export default function Declined() {
         </p>
         <h2>What you can do</h2>
         <p>
-          <strong>Note:</strong> You can still get VA health care and benefits
-          without using our online services. If you need help or have questions,{' '}
-          <SubmitSignInForm /> We’re here 24/7.
+          You can still get VA health care and benefits without using our online
+          services. If you need help or have questions, <IdentityPhone /> We’re
+          here 24/7.
         </p>
         <p>
           Or you can change your answer and accept the terms. If you want to
           accept the terms, sign in again. We’ll take you back to the terms of
           use. Then you can continue using VA online services.
+        </p>
+        <p className="vads-u-margin-y--2p5">
+          <va-link
+            href="https://va.gov/terms-of-use/"
+            text="Review the terms of use"
+          />
         </p>
         <va-button text="Sign in" onClick={openSignInModal} />
       </div>

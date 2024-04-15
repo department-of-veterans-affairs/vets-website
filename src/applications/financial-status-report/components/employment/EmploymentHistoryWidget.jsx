@@ -5,13 +5,17 @@ import { useSelector, connect } from 'react-redux';
 import EmploymentHistorySummaryCard from './EmploymentHistorySummaryCard';
 import { EmptyMiniSummaryCard } from '../shared/MiniSummaryCard';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { clearJobIndex } from '../../utils/session';
+import {
+  clearJobIndex,
+  clearJobButton,
+  setJobButton,
+  jobButtonConstants,
+} from '../../utils/session';
 
 const EmploymentHistoryWidget = props => {
   const {
     goToPath,
     goForward,
-    onReviewPage,
     contentBeforeButtons,
     contentAfterButtons,
   } = props;
@@ -22,6 +26,7 @@ const EmploymentHistoryWidget = props => {
 
   useEffect(() => {
     clearJobIndex();
+    clearJobButton();
   }, []);
 
   const handlers = {
@@ -34,7 +39,6 @@ const EmploymentHistoryWidget = props => {
   const navButtons = (
     <FormNavButtons goBack={handlers.onBackClick} goForward={goForward} />
   );
-  const updateButton = <button type="submit">Review update button</button>;
 
   return (
     <form onSubmit={handlers.onSubmit}>
@@ -59,12 +63,15 @@ const EmploymentHistoryWidget = props => {
         <Link
           className="vads-c-action-link--green"
           to="/enhanced-employment-records"
+          onClick={() => {
+            setJobButton(jobButtonConstants.ADD_ANOTHER);
+          }}
         >
           Add another job from the last 2 years
         </Link>
       </fieldset>
       {contentBeforeButtons}
-      {onReviewPage ? updateButton : navButtons}
+      {navButtons}
       {contentAfterButtons}{' '}
     </form>
   );

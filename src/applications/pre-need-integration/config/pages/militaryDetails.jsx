@@ -1,4 +1,4 @@
-import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
 import { pick } from 'lodash';
 import set from 'platform/utilities/data/set';

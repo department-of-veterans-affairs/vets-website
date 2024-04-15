@@ -14,13 +14,11 @@ describe('Radiology Images List container', () => {
           name: 'ANKLE LEFT 3 VIEWS',
           category: 'Radiology',
           orderedBy: 'Beth M. Smith',
-          orderingLocation:
-            '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
           reason: 'Injury',
           clinicalHistory: 'Information',
           imagingProvider: 'John J. Lydon',
           id: 122,
-          date: '2022-04-13T17:42:46.000Z',
+          date: 'April 13, 2022, 5:25 a.m. MDT',
           imagingLocation:
             '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
           reactions: ['Just this one'],
@@ -56,11 +54,6 @@ describe('Radiology Images List container', () => {
     expect(screen).to.exist;
   });
 
-  it('displays Date of birth for the print view', () => {
-    const screen = setup();
-    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
-  });
-
   it('displays a print button', () => {
     const screen = setup();
     const printButton = screen.getByTestId('print-records-button');
@@ -82,8 +75,8 @@ describe('Radiology Images List container', () => {
 
   it('displays the formatted received date', () => {
     const screen = setup();
-    const formattedDate = screen.getByText('April 13, 2022', {
-      exact: true,
+    const formattedDate = screen.getByText('April', {
+      exact: false,
       selector: 'span',
     });
     expect(formattedDate).to.exist;

@@ -31,9 +31,6 @@ const testConfig = createTestConfig(
       'veteran-information/mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const fieldName = 'veteranAddress';
-            const fieldData = data.veteranAddress;
-            fillAddressWebComponentPattern(fieldName, fieldData);
             selectYesNoWebComponent(
               'view:doesMailingMatchHomeAddress',
               data['view:doesMailingMatchHomeAddress'],
@@ -68,11 +65,11 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[name="privacyAgreementAccepted"]')
+          cy.get('va-checkbox[name="privacyAgreementAccepted"]')
             .scrollIntoView()
             .shadow()
-            .find('[type="checkbox"]')
-            .check();
+            .find('label')
+            .click();
           cy.findByText(/submit/i, { selector: 'button' }).click();
         });
       },

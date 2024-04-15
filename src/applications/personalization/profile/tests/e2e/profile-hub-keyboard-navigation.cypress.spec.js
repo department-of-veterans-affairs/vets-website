@@ -22,7 +22,6 @@ describe('Profile - Hub page, Keyboard navigation', () => {
     cy.intercept(
       'v0/feature_toggles*',
       generateFeatureToggles({
-        profileUseHubPage: true,
         profileContacts: true,
       }),
     );
@@ -31,7 +30,7 @@ describe('Profile - Hub page, Keyboard navigation', () => {
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     const [firstHref, ...hrefs] = PROFILE_HREFS;
-    cy.tabToElement(`a[href^="${firstHref}"`);
+    cy.tabToElement(`a[href^="${firstHref}"]`);
     hrefs.forEach(href => {
       cy.realPress('Tab');
       // using the cy.focused() method as described in the documentation

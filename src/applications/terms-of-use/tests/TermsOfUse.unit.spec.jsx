@@ -7,7 +7,7 @@ import { rest } from 'msw';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import TermsOfUse from '../containers/TermsOfUse';
-import { errorMessages } from '../helpers';
+import { errorMessages } from '../constants';
 
 const store = ({
   termsOfUseEnabled = true,
@@ -31,10 +31,14 @@ const store = ({
 });
 
 describe('TermsOfUse', () => {
+  const oldLocation = global.window.location;
   const server = setupServer();
 
   before(() => server.listen());
-  afterEach(() => server.resetHandlers());
+  afterEach(() => {
+    global.window.location = oldLocation;
+    server.resetHandlers();
+  });
   after(() => server.close());
 
   it('should render', () => {
@@ -220,7 +224,7 @@ describe('TermsOfUse', () => {
     });
   });
   it('should redirect to the `redirect_url`', async () => {
-    const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=idme`;
+    const redirectUrl = `https://dev.va.gov/?next=loginModal`;
     global.window.location = `https://dev.va.gov/terms-of-use/`;
     sessionStorage.setItem('authReturnUrl', redirectUrl);
 
@@ -250,7 +254,8 @@ describe('TermsOfUse', () => {
       expect(acceptButton).to.exist;
 
       fireEvent.click(acceptButton);
-      expect(global.window.location).to.eql(redirectUrl);
+      expect(global.window.location).to.not.eql(redirectUrl);
+      expect(global.window.location).to.eql('https://dev.va.gov');
     });
   });
   it('should redirect to the `ssoeTarget`', async () => {

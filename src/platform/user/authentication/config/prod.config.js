@@ -31,7 +31,7 @@ export default {
       allowRedirect: true,
     },
     OAuthEnabled: false,
-    requiresVerification: false,
+    requiresVerification: true,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV],
   },
   [EXTERNAL_APPS.MY_VA_HEALTH]: {

@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import * as Sentry from '@sentry/browser';
+import { APP_NAMES } from '../appConstants';
 
 /**
  * @param {string} slug
@@ -10,12 +11,19 @@ const createAnalyticsSlug = (slug, eventType = '', app = '') => {
   if (eventType) {
     prefix = `${eventType}-`;
   }
-  let context = '';
-  if (app) {
-    context = app === 'preCheckIn' ? `pre-` : '';
+  let context = 'check-in-';
+  switch (app) {
+    case APP_NAMES.PRE_CHECK_IN:
+      context = 'pre-check-in-';
+      break;
+    case APP_NAMES.TRAVEL_CLAIM:
+      context = 'travel-claim-';
+      break;
+    default:
+      break;
   }
 
-  return `${prefix}${context}check-in-${slug}`;
+  return `${prefix}${context}${slug}`;
 };
 
 /**

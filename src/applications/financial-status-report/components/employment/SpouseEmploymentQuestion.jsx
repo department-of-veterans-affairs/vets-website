@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { clearJobIndex } from '../../utils/session';
+import {
+  clearJobIndex,
+  setJobButton,
+  clearJobButton,
+  jobButtonConstants,
+} from '../../utils/session';
 
 const SpouseEmploymentQuestion = props => {
   const {
     data,
     goBack,
-    goForward,
     goToPath,
     setFormData,
     contentBeforeButtons,
@@ -24,6 +28,7 @@ const SpouseEmploymentQuestion = props => {
 
   useEffect(() => {
     clearJobIndex();
+    clearJobButton();
   }, []);
 
   useEffect(
@@ -36,30 +41,37 @@ const SpouseEmploymentQuestion = props => {
         },
       });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [hasJobToAdd],
   );
 
-  const handlers = {
-    nextPage: () => {
-      if (hasJobToAdd) {
-        const path = hasJobs
-          ? '/spouse-employment-history'
-          : '/enhanced-spouse-employment-records';
-        goToPath(path);
-      } else {
-        goToPath('/spouse-benefits');
+  const goForward = () => {
+    if (hasJobToAdd) {
+      if (!hasJobs?.length) {
+        setJobButton(jobButtonConstants.FIRST_JOB);
       }
-    },
+
+      const path = hasJobs
+        ? '/spouse-employment-history'
+        : '/enhanced-spouse-employment-records';
+      goToPath(path);
+    } else {
+      goToPath('/spouse-benefits');
+    }
   };
 
   const onSelection = event => {
+    event.preventDefault();
     const { value } = event?.detail || {};
     if (value === undefined) return;
     setHasJobToAdd(value === 'true');
+    if (!hasJobs) {
+      setJobButton(jobButtonConstants.FIRST_JOB);
+    }
   };
 
   return (
-    <form onSubmit={handlers.nextPage}>
+    <form>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0">Your spouse’s work history</h3>
@@ -69,12 +81,14 @@ const SpouseEmploymentQuestion = props => {
           label="Has your spouse had any jobs in the last 2 years? "
           onVaValueChange={onSelection}
           required
+          uswds
         >
           <va-radio-option
             id="has-job"
             label="Yes"
             value="true"
             checked={hasJobToAdd}
+            uswds
           />
           <va-radio-option
             id="has-no-job"
@@ -82,6 +96,7 @@ const SpouseEmploymentQuestion = props => {
             value="false"
             name="primary"
             checked={!hasJobToAdd}
+            uswds
           />
         </VaRadio>
       </fieldset>

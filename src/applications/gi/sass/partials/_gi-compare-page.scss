@@ -55,7 +55,7 @@
   }
 
   .institution-header {
-    background-color: $color-gray-light-alt;
+    background-color: var(--vads-color-gray-light-alt);
     border-radius: 5px;
     margin-right: 1em;
 
@@ -78,7 +78,7 @@
     font-size: 20px;
     font-family: "Bitter";
     font-weight: 700;
-    color: $color-base;
+    color: var(--vads-color-base);
   }
 
   .institution-location {
@@ -92,7 +92,7 @@
   }
 
   .empty-header {
-    border: 2px dashed $color-gray-light;
+    border: 2px dashed var(--vads-color-base-light);
     border-radius: 5px;
     margin-left: 1px;
 
@@ -102,7 +102,7 @@
   }
 
   .empty-col {
-    border: 2px dashed $color-gray-light;
+    border: 2px dashed var(--vads-color-base-light);
     border-radius: 5px;
     margin-left: 1px;
     height: 100%;
@@ -113,12 +113,12 @@
     border-top: none;
     border-right: none;
     border-bottom: none;
-    border-left: 10px solid $color-gold;
-    background-color: $color-gray-light-alt;
+    border-left: 10px solid var(--vads-color-warning);
+    background-color: var(--vads-color-gray-light-alt);
     padding-left: 0px;
 
     @media (max-width: $small-screen) {
-      border-top: 1px solid $color-gray-light;
+      border-top: 1px solid var(--vads-color-base-light);
       display: table-cell;
     }
 
@@ -146,9 +146,9 @@
   }
 
   .field-value.caution-flag-display.none {
-    border-left: 10px solid $color-green;
+    border-left: 10px solid var(--vads-color-success-dark);
     .caution-flag-icon {
-      color: $color-green;
+      color: var(--vads-color-success-dark);
     }
   }
 
@@ -199,14 +199,14 @@
   .field-value {
     padding: 1.25em 1em 1.25em 1em;
     margin-top: -1px;
-    border-left: 1px solid $color-base;
-    border-bottom: 1px solid $color-base;
+    border-left: 1px solid var(--vads-color-base);
+    border-bottom: 1px solid var(--vads-color-base);
 
     @media (max-width: $small-screen) {
       display: inline-block;
       width: 360px;
       border-left: none;
-      border-top: 1px solid $color-base;
+      border-top: 1px solid var(--vads-color-base);
     }
   }
 
@@ -219,10 +219,10 @@
 
   .field-value.has-diff  {
     font-weight: bold;
-    background-color: $color-gold-lightest;
-    border-top: 2px solid $color-base;
-    border-left: 2px solid $color-base;
-    border-bottom: 2px solid $color-base;
+    background-color: var(--vads-color-gold-lightest);
+    border-top: 2px solid var(--vads-color-base);
+    border-left: 2px solid var(--vads-color-base);
+    border-bottom: 2px solid var(--vads-color-base);
 
     @media (max-width: $small-screen) {
       border-left: none;
@@ -230,11 +230,11 @@
   }
 
   .field-value.first-row.has-diff {
-    border-top: 2px solid $color-base;
+    border-top: 2px solid var(--vads-color-base);
   }
 
   .field-value.last-col.has-diff {
-    border-right: 2px solid $color-base;
+    border-right: 2px solid var(--vads-color-base);
   }
 
   .capitalize-value {
@@ -242,11 +242,11 @@
   }
 
   .field-value.first-row {
-    border-top: 1px solid $color-base;
+    border-top: 1px solid var(--vads-color-base);
   }
 
   .field-value.last-col {
-    border-right: 1px solid $color-base;
+    border-right: 1px solid var(--vads-color-base);
 
     @media (max-width: $small-screen) {
       width: 358px;
@@ -263,13 +263,13 @@
     }
 
     .label-cell {
-      background-color: $color-gray-light-alt;
+      background-color: var(--vads-color-gray-light-alt);
       margin-right: 1.5em;
       padding: 1.25em .75em 1.25em 2.5em;
-      border-bottom: 1px solid $color-gray-light;
-      border-left: 1px solid $color-gray-light;
-      border-right: 1px solid $color-gray-light;
-      border-top: 1px solid $color-gray-light;
+      border-bottom: 1px solid var(--vads-color-base-light);
+      border-left: 1px solid var(--vads-color-base-light);
+      border-right: 1px solid var(--vads-color-base-light);
+      border-top: 1px solid var(--vads-color-base-light);
       margin-top: -1px;
 
       @media (max-width: $small-screen) {
@@ -292,10 +292,10 @@
 
     @media (max-width: $small-screen) {
       display: flex;
-      background-color: $color-gray-light-alt;
-      border-top: 1px solid $color-gray-light;
-      border-right: 1px solid $color-gray-light;
-      border-left: 1px solid $color-gray-light;
+      background-color: var(--vads-color-gray-light-alt);
+      border-top: 1px solid var(--vads-color-base-light);
+      border-right: 1px solid var(--vads-color-base-light);
+      border-left: 1px solid var(--vads-color-base-light);
     }
   }
 
@@ -310,12 +310,12 @@
   }
 
   .section-field-grid {
-    border-top: 1px solid $color-base;
-    border-left: 1px solid $color-base;
+    border-top: 1px solid var(--vads-color-base);
+    border-left: 1px solid var(--vads-color-base);
   }
 
   .section-field-grid.last {
-    border-right: 1px solid $color-base;
+    border-right: 1px solid var(--vads-color-base);
   }
 
   .card-wrapper {
@@ -338,7 +338,7 @@
       z-index: 200;
       width: 100% !important;
       overflow: visible!important;
-      background-color: $color-white;
+      background-color: var(--vads-color-white);
 
       @media (max-width: $small-screen) {
         .compare-header-row {
@@ -409,7 +409,7 @@
     }
 
     #compareHeader {
-      border-bottom: 1px solid $color-gray-light;
+      border-bottom: 1px solid var(--vads-color-base-light);
       margin-bottom: -2em;
     }
 
@@ -435,12 +435,12 @@
       }
 
       .fa-circle {
-        color: $color-gray-light;
+        color: var(--vads-color-base-light);
         margin-left: 20px;
         margin-right: 20px;
 
         &.scroll-active{
-          color: $color-base;
+          color: var(--vads-color-base);
         }
       }
 
@@ -458,7 +458,7 @@
 
       .fa-chevron-left,
       .fa-chevron-right {
-        color: $color-primary;
+        color: var(--vads-color-primary);
         font-size: 40px;
         padding-left: 10px;
         padding-right: 10px;

@@ -6,7 +6,7 @@ import readableList from 'platform/forms-system/src/js/utilities/data/readableLi
 
 import { content } from '../content/evidenceSummary';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
-import { getDate } from '../../shared/utils/dates';
+import { parseDate } from '../../shared/utils/dates';
 
 import {
   EVIDENCE_VA_PATH,
@@ -17,7 +17,10 @@ import {
   LIMITATION_KEY,
 } from '../constants';
 
-import { FORMAT_COMPACT } from '../../shared/constants';
+import {
+  FORMAT_COMPACT_DATE_FNS,
+  FORMAT_YMD_DATE_FNS,
+} from '../../shared/constants';
 
 const listClassNames = [
   'vads-u-border-top--1px',
@@ -41,9 +44,13 @@ const removeButtonClass = [
   'vads-u-margin-top--0',
 ].join(' ');
 
-const formatDate = date => {
-  const result = getDate({ date, pattern: FORMAT_COMPACT });
-  return result.includes(',') ? result : '';
+const formatDate = (date = '') => {
+  // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
+  // const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
+  const result =
+    parseDate(date, FORMAT_COMPACT_DATE_FNS, FORMAT_YMD_DATE_FNS) || '';
+  // Not entirely sure what this check is for — can we just return `result`?
+  return result || '';
 };
 
 /**
@@ -147,6 +154,7 @@ export const VaContent = ({
                       label={`${content.remove} ${locationAndName}`}
                       text={content.remove}
                       secondary
+                      uswds
                     />
                   </div>
                 )}
@@ -265,6 +273,7 @@ export const PrivateContent = ({
                       label={`${content.remove} ${providerFacilityName}`}
                       text={content.remove}
                       secondary
+                      uswds
                     />
                   </div>
                 )}
@@ -294,6 +303,7 @@ export const PrivateContent = ({
                   label={`${content.remove} ${limitContent.name}`}
                   text={content.remove}
                   secondary
+                  uswds
                 />
               ) : null}
             </div>
@@ -336,39 +346,56 @@ export const UploadContent = ({
     <>
       <Header5>{content.otherTitle}</Header5>
       <ul className="evidence-summary">
-        {list.map((upload, index) => (
-          <li key={upload.name + index} className={listClassNames}>
-            <Header6
-              className="dd-privacy-hidden"
-              data-dd-action-name="Uploaded document file name"
+        {list.map((upload, index) => {
+          const errors = {
+            attachmentId: upload.attachmentId
+              ? ''
+              : content.missing.attachmentId,
+          };
+          const hasErrors = Object.values(errors).join('');
+
+          return (
+            <li
+              key={upload.name + index}
+              className={hasErrors ? errorClassNames : listClassNames}
             >
-              {upload.name}
-            </Header6>
-            <div>{ATTACHMENTS_OTHER[upload.attachmentId] || ''}</div>
-            {!reviewMode && (
+              <Header6
+                className="dd-privacy-hidden"
+                data-dd-action-name="Uploaded document file name"
+              >
+                {upload.name}
+              </Header6>
               <div>
-                <Link
-                  id={`edit-upload-${index}`}
-                  className="edit-item"
-                  to={`/${EVIDENCE_UPLOAD_PATH}#${index}`}
-                  aria-label={`${content.editLinkAria} ${upload.name}`}
-                  data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
-                >
-                  {content.edit}
-                </Link>
-                <va-button
-                  data-index={index}
-                  data-type="upload"
-                  onClick={handlers.showModal}
-                  class={removeButtonClass}
-                  label={`${content.remove} ${upload.name}`}
-                  text={content.remove}
-                  secondary
-                />
+                {errors.attachmentId ||
+                  ATTACHMENTS_OTHER[upload.attachmentId] ||
+                  ''}
               </div>
-            )}
-          </li>
-        ))}
+              {!reviewMode && (
+                <div>
+                  <Link
+                    id={`edit-upload-${index}`}
+                    className="edit-item"
+                    to={`/${EVIDENCE_UPLOAD_PATH}#${index}`}
+                    aria-label={`${content.editLinkAria} ${upload.name}`}
+                    data-link={testing ? EVIDENCE_UPLOAD_PATH : null}
+                  >
+                    {content.edit}
+                  </Link>
+                  <va-button
+                    data-index={index}
+                    data-type="upload"
+                    onClick={handlers.showModal}
+                    class={removeButtonClass}
+                    label={`${content.remove} ${upload.name}`}
+                    text={content.remove}
+                    secondary
+                    uswds
+                  />
+                </div>
+              )}
+            </li>
+          );
+        })}
       </ul>
     </>
   ) : null;

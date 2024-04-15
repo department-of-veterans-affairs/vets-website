@@ -138,7 +138,7 @@ describe('PACT Act', () => {
     });
 
     it('redirects to home when the results 1, p1 page is loaded without the right criteria', () => {
-      cy.visit(`${h.ROOT}/${ROUTES.RESULTS_1_P1}`);
+      cy.visit(`${h.ROOT}/${ROUTES.RESULTS_1_1}`);
 
       h.verifyUrl(ROUTES.HOME);
 
@@ -148,7 +148,7 @@ describe('PACT Act', () => {
     });
 
     it('redirects to home when the results 1, p2 page is loaded without the right criteria', () => {
-      cy.visit(`${h.ROOT}/${ROUTES.RESULTS_1_P2}`);
+      cy.visit(`${h.ROOT}/${ROUTES.RESULTS_1_2}`);
 
       h.verifyUrl(ROUTES.HOME);
 

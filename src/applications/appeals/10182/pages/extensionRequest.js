@@ -1,22 +1,28 @@
+import {
+  yesNoSchema,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+
 import { content } from '../content/extensionRequest';
+import { SHOW_PART3, SHOW_PART3_REDIRECT } from '../constants';
 
 const requestExtension = {
   uiSchema: {
-    'ui:title': ' ',
+    'ui:title': content.title,
     'view:requestExtensionInfo': {
-      'ui:title': content.title,
-      'ui:description': content.description,
-      'ui:options': {
-        forceDivWrap: true,
+      'ui:option': {
+        forceDivWrapper: true,
       },
     },
-    requestingExtension: {
-      'ui:title': content.label,
-      'ui:widget': 'yesNo',
-      'ui:options': {
-        enableAnalytics: true,
+    requestingExtension: yesNoUI({
+      title: content.label,
+      enableAnalytics: true,
+      labels: {
+        Y: 'Yes',
+        N: 'No',
       },
-    },
+      uswds: true,
+    }),
   },
 
   schema: {
@@ -26,10 +32,19 @@ const requestExtension = {
         type: 'object',
         properties: {},
       },
-      requestingExtension: {
-        type: 'boolean',
-      },
+      requestingExtension: yesNoSchema,
     },
+  },
+
+  // Set redirect flag to prevent multiple redirects
+  onContinue: (formData, setFormData) => {
+    // Clear form redirect flag after this page is viewed
+    if (formData[SHOW_PART3] && formData[SHOW_PART3_REDIRECT] !== 'done') {
+      setFormData({
+        ...formData,
+        [SHOW_PART3_REDIRECT]: 'done',
+      });
+    }
   },
 };
 

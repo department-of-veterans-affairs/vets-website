@@ -56,6 +56,11 @@ class FormSignInModal extends React.Component {
 FormSignInModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSignIn: PropTypes.func.isRequired,
+  formConfig: PropTypes.shape({
+    customText: PropTypes.shape({
+      appType: PropTypes.string,
+    }),
+  }),
   visible: PropTypes.bool,
 };
 

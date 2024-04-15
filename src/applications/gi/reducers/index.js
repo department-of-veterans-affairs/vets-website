@@ -8,6 +8,8 @@ import modals from './modals';
 import preview from './preview';
 import profile from './profile';
 import search from './search';
+import errorReducer from './error';
+import filterBeforeResultsReducer from './filterBeforeResultsReducer';
 
 const rootReducer = {
   autocomplete,
@@ -20,6 +22,8 @@ const rootReducer = {
   preview,
   profile,
   search,
+  errorReducer,
+  filterBeforeResultsReducer,
 };
 
 export default rootReducer;

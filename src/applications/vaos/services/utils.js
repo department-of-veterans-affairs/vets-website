@@ -2,7 +2,7 @@
  * @module services/utils
  */
 
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 
 function vaosFHIRRequest(url, ...options) {

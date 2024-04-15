@@ -43,11 +43,11 @@ describe('My VA Dashboard', () => {
       });
     });
     describe('sortAppointments', () => {
-      it('sorts appointments by startAt time, descending order', () => {
+      it('sorts appointments by startsAt time, descending order', () => {
         const appointments = [
-          { id: 1, startAt: new Date('2020-01-03T00:00:00.000Z') },
-          { id: 2, startAt: new Date('2020-01-01T00:00:00.000Z') },
-          { id: 3, startAt: new Date('2020-01-02T00:00:00.000Z') },
+          { id: 1, startsAt: '2020-01-03T00:00:00.000Z' },
+          { id: 2, startsAt: '2020-01-01T00:00:00.000Z' },
+          { id: 3, startsAt: '2020-01-02T00:00:00.000Z' },
         ];
         const sorted = vaosV2Helpers.sortAppointments(appointments);
         expect(sorted[0].id).to.equal(2);

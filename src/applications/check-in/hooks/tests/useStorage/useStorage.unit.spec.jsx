@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render, fireEvent } from '@testing-library/react';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 import TestComponent from './TestComponent';
 
@@ -16,7 +17,7 @@ describe('check-in', () => {
       };
 
       const component = render(
-        <TestComponent window={window} sessionNameSpace />,
+        <TestComponent window={window} app={APP_NAMES.PRE_CHECK_IN} />,
       );
       const button = component.getByTestId('clear-button');
       fireEvent.click(button);
@@ -34,7 +35,9 @@ describe('check-in', () => {
           },
         };
 
-        const component = render(<TestComponent window={window} />);
+        const component = render(
+          <TestComponent window={window} app={APP_NAMES.PRE_CHECK_IN} />,
+        );
         const button = component.getByTestId('clear-button');
         fireEvent.click(button);
 
@@ -47,7 +50,9 @@ describe('check-in', () => {
       it('window is null', () => {
         const window = null;
 
-        const component = render(<TestComponent window={window} />);
+        const component = render(
+          <TestComponent window={window} app={APP_NAMES.PRE_CHECK_IN} />,
+        );
         const button = component.getByTestId('get-button');
         fireEvent.click(button);
         expect(component.getByTestId('from-session').innerHTML).to.equal('');
@@ -60,7 +65,9 @@ describe('check-in', () => {
           },
         };
 
-        const component = render(<TestComponent window={window} />);
+        const component = render(
+          <TestComponent window={window} app={APP_NAMES.PRE_CHECK_IN} />,
+        );
         const button = component.getByTestId('get-button');
         fireEvent.click(button);
 
@@ -75,7 +82,9 @@ describe('check-in', () => {
           },
         };
 
-        const component = render(<TestComponent window={window} />);
+        const component = render(
+          <TestComponent window={window} app={APP_NAMES.PRE_CHECK_IN} />,
+        );
         const button = component.getByTestId('get-button');
         fireEvent.click(button);
         expect(component.getByTestId('from-session').innerHTML).to.be.empty;
@@ -87,7 +96,9 @@ describe('check-in', () => {
           },
         };
 
-        const component = render(<TestComponent window={window} />);
+        const component = render(
+          <TestComponent window={window} app={APP_NAMES.PRE_CHECK_IN} />,
+        );
         const button = component.getByTestId('get-button');
         fireEvent.click(button);
 
@@ -106,7 +117,11 @@ describe('check-in', () => {
         };
         const testToken = 'testToken';
         const component = render(
-          <TestComponent window={window} token={testToken} />,
+          <TestComponent
+            window={window}
+            token={testToken}
+            app={APP_NAMES.PRE_CHECK_IN}
+          />,
         );
         const button = component.getByTestId('set-button');
         fireEvent.click(button);
@@ -128,7 +143,9 @@ describe('check-in', () => {
           },
         };
 
-        const component = render(<TestComponent window={window} />);
+        const component = render(
+          <TestComponent window={window} app={APP_NAMES.PRE_CHECK_IN} />,
+        );
         const button = component.getByTestId('get-local-button');
         fireEvent.click(button);
         expect(component.getByTestId('from-local').innerHTML).to.be.contain(
@@ -142,7 +159,9 @@ describe('check-in', () => {
           },
         };
 
-        const component = render(<TestComponent window={window} />);
+        const component = render(
+          <TestComponent window={window} app={APP_NAMES.PRE_CHECK_IN} />,
+        );
         const button = component.getByTestId('get-local-button');
         fireEvent.click(button);
 

@@ -33,8 +33,12 @@
   },
   "claimantPhone": "1203456789",
   "claimantEmail": "jen.c.claimant@email.com",
-  "preparerQualifications": "Court-appointed representative",
-  "preparerSigningReason": "They’re under 18 years old.",
+  "preparerQualifications": {
+    "courtAppointedRep": true
+  },
+  "preparerSigningReason": {
+    "under18": true
+  },
   "veteranFullName": {
     "first": "Alex",
     "middle": "Bee",

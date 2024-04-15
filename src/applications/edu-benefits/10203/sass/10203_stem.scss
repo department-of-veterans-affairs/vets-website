@@ -66,7 +66,7 @@ dd > span {
 }
 
 .blue-bar-block {
-  border-left: 7px solid $color-primary;
+  border-left: 7px solid var(--vads-color-primary);
   padding-left: 1em;
 
   p {
@@ -76,7 +76,7 @@ dd > span {
 
 .search-select-school-fieldset {
   .no-results-box {
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
     margin: 25px 0 0 0;
     padding: 20px;
     p {
@@ -119,7 +119,7 @@ dd > span {
       width: 100%;
 
       &.institution-name {
-        color: $color-light-blue;
+        color: var(--vads-color-primary);
         font-weight: bold;
         text-decoration: underline;
       }
@@ -133,7 +133,7 @@ dd > span {
       }
 
       .institution-information {
-        background-color: $color-gray-lightest;
+        background-color: var(--vads-color-base-lightest);
         margin-left: 25px;
         padding: 10px 15px;
       }

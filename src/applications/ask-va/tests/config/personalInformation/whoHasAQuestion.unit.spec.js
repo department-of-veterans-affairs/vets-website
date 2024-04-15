@@ -1,21 +1,20 @@
-import React from 'react';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 import formConfig from '../../../config/form';
-import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 import { getData } from '../../fixtures/data/mock-form-data';
 
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.vaInformation.pages.whoHasAQuestion;
+} = formConfig.chapters.personalInformation.pages.whoThisIsAbout_familysomeonesbenefits;
 
 describe('whoHasAQuestionPage', () => {
   it('should render', () => {
@@ -33,33 +32,14 @@ describe('whoHasAQuestionPage', () => {
     );
 
     const radioLabels = $$('.form-radio-buttons > label', container);
-    const radioLabelList = [
-      'Yes',
-      'No',
-      'A general question',
-      'About me, the Veteran',
-      'For the dependent of a Veteran',
-      'On behalf of the Veteran',
-    ];
+    const radioLabelList = ['Veteran', 'Someone else'];
 
-    const legends = $$('legend', container);
-    const legendList = [
-      'Are you currently an employee of the VA?',
-      'Who are you asking a question for?',
-    ];
-
-    expect($('h4', container).textContent).to.eq('Tell us who has a question');
-
-    radioLabels.forEach(
-      radio =>
-        expect(radioLabelList.includes(removeReqFromLabel(radio.textContent)))
-          .to.be.true,
+    expect($('h3', container).textContent).to.eq(
+      'Is your question about the Veteran or someone else?',
     );
 
-    legends.forEach(
-      legend =>
-        expect(legendList.includes(removeReqFromLabel(legend.textContent))).to
-          .be.true,
+    radioLabels.forEach(
+      radio => expect(radioLabelList.includes(radio.textContent)).to.be.true,
     );
   });
 });

@@ -5,13 +5,17 @@ import moment from 'moment';
 import { expect } from 'chai';
 
 import formConfig from '../config/form';
-import { CHAR_LIMITS } from '../constants';
+import { CHAR_LIMITS, SHOW_TOXIC_EXPOSURE } from '../constants';
 
 import { transform } from '../submit-transformer';
 
 import maximalData from './fixtures/data/maximal-test.json';
 
 describe('transform', () => {
+  beforeEach(() => {
+    sessionStorage.removeItem(SHOW_TOXIC_EXPOSURE);
+  });
+
   const servicePeriodsBDD = [
     {
       serviceBranch: 'Air Force Reserves',
@@ -26,14 +30,21 @@ describe('transform', () => {
 
   // Read all the data files
   const dataDir = path.join(__dirname, './fixtures/data/');
+
   fs.readdirSync(dataDir)
     .filter(fileName => fileName.endsWith('.json'))
     .forEach(fileName => {
       // Loop through them
       it(`should transform ${fileName} correctly`, () => {
+        // special logic for unreleased pages. set the flag, otherwise the test considers TE pages as inactive
+        if (fileName === 'maximal-toxic-exposure-test.json') {
+          sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, true);
+        }
+
         const rawData = JSON.parse(
           fs.readFileSync(path.join(dataDir, fileName), 'utf8'),
         );
+
         let transformedData;
         try {
           transformedData = fs.readFileSync(
@@ -55,7 +66,6 @@ describe('transform', () => {
           rawData.data.serviceInformation.servicePeriods = servicePeriodsBDD;
           transformedData.form526.serviceInformation.servicePeriods = servicePeriodsBDD;
         }
-
         expect(JSON.parse(transform(formConfig, rawData))).to.deep.equal(
           transformedData,
         );
@@ -88,7 +98,8 @@ describe('Test internal transform functions', () => {
               causedByDisability: 'Diabetes Mellitus0',
               causedByDisabilityDescription: longString,
             },
-            condition: 'phlebitis',
+            condition:
+              'Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)',
             'view:descriptionInfo': {},
           },
           {
@@ -97,7 +108,7 @@ describe('Test internal transform functions', () => {
               worsenedDescription: longString,
               worsenedEffects: longString,
             },
-            condition: 'knee replacement',
+            condition: 'ankylosis in knee, bilateral',
             'view:descriptionInfo': {},
           },
           {
@@ -107,7 +118,7 @@ describe('Test internal transform functions', () => {
               vaMistreatmentLocation: longString,
               vaMistreatmentDate: longString,
             },
-            condition: 'myocardial infarction (MI)',
+            condition: 'heart attack (myocardial infarction)',
             'view:descriptionInfo': {},
           },
         ],
@@ -120,29 +131,26 @@ describe('Test internal transform functions', () => {
         cause: 'NEW',
         primaryDescription: getString('primaryDescription'),
         condition: 'asthma',
-        classificationCode: '540',
       },
       {
         cause: 'WORSENED',
         worsenedDescription: getString('worsenedDescription'),
         worsenedEffects: getString('worsenedEffects'),
-        condition: 'knee replacement',
+        condition: 'ankylosis in knee, bilateral',
         specialIssues: ['POW'],
-        classificationCode: '8919',
       },
       {
         cause: 'VA',
         vaMistreatmentDescription: getString('vaMistreatmentDescription'),
         vaMistreatmentLocation: getString('vaMistreatmentLocation'),
         vaMistreatmentDate: getString('vaMistreatmentDate'),
-        condition: 'myocardial infarction (MI)',
+        condition: 'heart attack (myocardial infarction)',
         specialIssues: ['POW'],
-        classificationCode: '4440',
       },
       {
-        condition: 'phlebitis',
+        condition:
+          'Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)',
         cause: 'NEW',
-        classificationCode: '5300',
         primaryDescription: `${phlebitisPrefix}${getString(
           'primaryDescription',
           -phlebitisPrefix.length,

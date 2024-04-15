@@ -10,88 +10,7 @@ import {
   getLink,
 } from '../../../services/appointment';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
-import {
-  selectFeatureStatusImprovement,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../../redux/selectors';
-
-function VideoAppointmentDescription({ appointment }) {
-  const { isAtlas } = appointment.videoData;
-  const videoKind = appointment.videoData.kind;
-  const patientHasMobileGfe =
-    appointment.videoData.extension?.patientHasMobileGfe;
-  let desc = '';
-  if (isAtlas) {
-    desc = 'at an ATLAS location';
-  } else if (isClinicVideoAppointment(appointment)) {
-    desc = 'at a VA location';
-  } else if (
-    (videoKind === VIDEO_TYPES.mobile || videoKind === VIDEO_TYPES.adhoc) &&
-    patientHasMobileGfe
-  ) {
-    desc = 'using a VA device';
-  } else if (
-    (videoKind === VIDEO_TYPES.mobile || videoKind === VIDEO_TYPES.adhoc) &&
-    !patientHasMobileGfe
-  ) {
-    desc = 'at home';
-  }
-  return (
-    <>
-      <i
-        aria-hidden="true"
-        className="fas fa-video vads-u-margin-right--1 vads-u-color--gray"
-      />
-      VA Video Connect {desc}
-    </>
-  );
-}
-VideoAppointmentDescription.propTypes = {
-  appointment: PropTypes.object.isRequired,
-};
-
-function CommunityCareProvider({ appointment }) {
-  const {
-    providerName,
-    practiceName,
-    name,
-  } = appointment.communityCareProvider;
-  if (appointment.version === 1 && providerName !== undefined) {
-    return <>{providerName || practiceName || 'Community care'}</>;
-  }
-  if (!!providerName || !!practiceName || !!name) {
-    return <>{providerName[0] || practiceName || 'Community care'}</>;
-  }
-  return 'Community care';
-}
-
-CommunityCareProvider.propTypes = {
-  appointment: PropTypes.object.isRequired,
-};
-
-function VAFacilityName({ facility }) {
-  if (facility) {
-    return <>{facility.name}</>;
-  }
-
-  return 'VA appointment';
-}
-
-VAFacilityName.propTypes = {
-  facility: PropTypes.object,
-};
-
-function isCanceled(appointment) {
-  return appointment.status === APPOINTMENT_STATUS.cancelled;
-}
-
-function getLabelText(appointment) {
-  const appointmentDate = getAppointmentDate(appointment);
-
-  return `Details for ${
-    isCanceled(appointment) ? 'canceled ' : ''
-  }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`;
-}
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 export default function AppointmentCard({
   appointment,
@@ -99,22 +18,74 @@ export default function AppointmentCard({
   handleClick,
   handleKeyDown,
 }) {
+  const VideoAppointmentDescription = () => {
+    const { isAtlas } = appointment.videoData;
+    const videoKind = appointment.videoData.kind;
+    const patientHasMobileGfe =
+      appointment.videoData.extension?.patientHasMobileGfe;
+    let desc = '';
+    if (isAtlas) {
+      desc = 'at an ATLAS location';
+    } else if (isClinicVideoAppointment(appointment)) {
+      desc = 'at a VA location';
+    } else if (
+      (videoKind === VIDEO_TYPES.mobile || videoKind === VIDEO_TYPES.adhoc) &&
+      patientHasMobileGfe
+    ) {
+      desc = 'using a VA device';
+    } else if (
+      (videoKind === VIDEO_TYPES.mobile || videoKind === VIDEO_TYPES.adhoc) &&
+      !patientHasMobileGfe
+    ) {
+      desc = 'at home';
+    }
+    return (
+      <>
+        <i
+          aria-hidden="true"
+          className="fas fa-video vads-u-margin-right--1 vads-u-color--gray"
+        />
+        VA Video Connect {desc}
+      </>
+    );
+  };
+  const CommunityCareProvider = () => {
+    const {
+      providerName,
+      practiceName,
+      name,
+    } = appointment.communityCareProvider;
+    if (!!providerName || !!practiceName || !!name) {
+      return <>{providerName[0] || practiceName || 'Community care'}</>;
+    }
+    return 'Community care';
+  };
+  const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+  const getLabelText = () => {
+    const appointmentDate = getAppointmentDate(appointment);
+    return `Details for ${
+      isCanceled ? 'canceled ' : ''
+    }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`;
+  };
+  const VAFacilityName = () => {
+    if (facility) {
+      return <>{facility.name}</>;
+    }
+
+    return 'VA appointment';
+  };
   const appointmentDate = moment.parseZone(appointment.start);
   const { isCommunityCare, isVideo } = appointment.vaos;
   const isPhone = isVAPhoneAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const { abbreviation, description } = getAppointmentTimezone(appointment);
-  const label = getLabelText(appointment);
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
-  );
+  const label = getLabelText();
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
   const link = getLink({
     featureBreadcrumbUrlUpdate,
-    featureStatusImprovement,
     appointment,
   });
 
@@ -141,11 +112,9 @@ export default function AppointmentCard({
           <span aria-hidden="true">{abbreviation}</span>
           <span className="sr-only"> {description}</span>
           <br />
-          {isVideo && <VideoAppointmentDescription appointment={appointment} />}
-          {isCommunityCare && (
-            <CommunityCareProvider appointment={appointment} />
-          )}
-          {isInPersonVAAppointment && <VAFacilityName facility={facility} />}
+          {isVideo && <VideoAppointmentDescription />}
+          {isCommunityCare && <CommunityCareProvider />}
+          {isInPersonVAAppointment && <VAFacilityName />}
           {isPhone && (
             <>
               <i
@@ -164,6 +133,7 @@ export default function AppointmentCard({
             onClick={e => e.preventDefault()}
             text="Details"
             role="link"
+            id="link"
           />
           <i
             aria-hidden="true"
@@ -176,9 +146,54 @@ export default function AppointmentCard({
 }
 
 AppointmentCard.propTypes = {
-  appointment: PropTypes.object,
+  appointment: PropTypes.shape({
+    communityCareProvider: PropTypes.shape({
+      providerName: PropTypes.array,
+      practiceName: PropTypes.string,
+      name: PropTypes.string,
+    }),
+    status: PropTypes.string,
+    start: PropTypes.string,
+    vaos: PropTypes.shape({
+      isCommunityCare: PropTypes.bool,
+      isVideo: PropTypes.bool,
+    }),
+    videoData: PropTypes.shape({
+      isAtlas: PropTypes.bool,
+      kind: PropTypes.string,
+      extension: PropTypes.shape({
+        patientHasMobileGfe: PropTypes.bool,
+      }),
+    }),
+  }),
   facility: PropTypes.object,
   handleClick: PropTypes.func,
   handleKeyDown: PropTypes.func,
   idClickable: PropTypes.string,
+};
+AppointmentCard.defaultProps = {
+  appointment: {
+    communityCareProvider: {
+      providerName: null,
+      practiceName: null,
+      name: null,
+    },
+    status: '',
+    start: '',
+    vaos: {
+      isCommunityCare: false,
+      isVideo: false,
+    },
+    videoData: {
+      isAtlas: false,
+      kind: '',
+      extension: {
+        patientHasMobileGfe: false,
+      },
+    },
+  },
+  facility: {},
+  handleClick: null,
+  handleKeyDown: null,
+  idClickable: '',
 };

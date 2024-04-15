@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
 import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
@@ -35,14 +36,27 @@ const OverviewPage = () => {
 
   return (
     <>
-      <va-breadcrumbs className="vads-u-font-family--sans" label="Breadcrumb">
-        <a href="/">Home</a>
-        <a href="/manage-va-debt">Manage your VA debt</a>
-        <a href="/manage-va-debt/summary">Your VA debt and bills</a>
-      </va-breadcrumbs>
+      <VaBreadcrumbs
+        breadcrumbList={[
+          {
+            href: '/',
+            label: 'Home',
+          },
+          {
+            href: '/manage-va-debt',
+            label: 'Manage your VA debt',
+          },
+          {
+            href: '/manage-va-debt/summary',
+            label: 'Your VA debt and bills',
+          },
+        ]}
+        label="Breadcrumb"
+        uswds
+      />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="overview-page-title">{title}</h1>
-        <p className="vads-u-font-size--lg vads-u-font-family--serif">
+        <p className="va-introtext">
           Check the details of debt you might have from VA education, disability
           compensation, or pension programs, or VA health care and prescription
           charges from VA health care facilities. Find out how to make payments
@@ -56,6 +70,10 @@ const OverviewPage = () => {
         ) : (
           <>
             <h2>Debt and bill overview</h2>
+            <p>
+              Any payments you may have made will not be reflected here until
+              our systems are updated with your next monthly statement.
+            </p>
             <Balances />
             <h2>What to do if you have questions about your debt and bills</h2>
             <h3>Questions about benefit debt</h3>

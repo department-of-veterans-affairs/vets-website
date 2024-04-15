@@ -7,11 +7,6 @@ import version2Updates, {
 import saveInProgress from '../fixtures/data/save-in-progress-v1';
 import transformed01 from '../fixtures/data/migrated/01-migrated-v1-to-v2';
 
-/*
-  ATTN: these tests have been skipped because they were both
-        failing and flagged as flakey. Please fix before turning
-        back on.
-*/
 describe('HLR v2 migration', () => {
   describe('forceV2Migration', () => {
     it('should return force migrated v2 data', () => {

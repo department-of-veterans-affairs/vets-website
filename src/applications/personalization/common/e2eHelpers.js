@@ -28,3 +28,7 @@ export const checkForWebComponentLoadingIndicator = (loadingMessage = '') => {
 
   cy.get('va-loading-indicator', { timeout: 5000 }).should('not.exist');
 };
+
+export const findVaLinkByText = text => {
+  return cy.get(`va-link[text="${text}"]`);
+};

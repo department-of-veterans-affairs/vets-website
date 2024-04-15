@@ -1,13 +1,10 @@
 import * as Sentry from '@sentry/browser';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   // FETCH_REPRESENTATIVES,
   SEARCH_FAILED,
   SEARCH_COMPLETE,
 } from '../../utils/actionTypes';
-import { useMockData } from '../../config';
-// import mockPaginatedData from '../../constants/mock-representative-paginated-data.json';
-import mockUnpaginatedData from '../../constants/mock-rep-data-unpaginated.json';
-import { mockPaginatedResponse } from '../../utils/helpers';
 
 import RepresentativeFinderApi from '../../api/RepresentativeFinderApi';
 /**
@@ -27,10 +24,10 @@ export const fetchRepresentatives = async (
   long,
   name,
   page,
-  /* eslint-disable camelcase */
-  per_page,
+  perPage,
   sort,
   type,
+  distance,
   dispatch,
 ) => {
   try {
@@ -40,38 +37,33 @@ export const fetchRepresentatives = async (
       long,
       name,
       page,
-      per_page,
+      perPage,
       sort,
       type,
+      distance,
     );
     if (dataList.data) {
       dispatch({ type: SEARCH_COMPLETE, payload: dataList });
+
+      recordEvent({
+        // prettier-ignore
+        'event': 'far-search-results',
+        'search-query': address,
+        'search-filters-list': {
+          'representative-type': type,
+          'search-radius': distance,
+          'representative-name': name,
+        },
+        'search-selection': 'Find VA Accredited Rep',
+        'search-results-total-count': dataList?.meta?.pagination?.totalEntries,
+        'search-results-total-pages': dataList?.meta?.pagination?.totalPages,
+      });
     }
 
     if (dataList.errors?.length > 0) {
       dispatch({ type: SEARCH_FAILED, error: dataList.errors });
     }
   } catch (error) {
-    if (useMockData) {
-      /*
-      const mockedResponse = {
-        data: mockPaginatedData.mockPages[page - 1],
-        links: mockPaginatedData.links,
-        meta: {
-          ...mockPaginatedData.meta,
-          pagination: {
-            ...mockPaginatedData.meta.pagination,
-            currentPage: page,
-          },
-        },
-      };
-      */
-
-      const mockedResponse = mockPaginatedResponse(mockUnpaginatedData, page);
-      dispatch({ type: SEARCH_COMPLETE, payload: mockedResponse });
-
-      return;
-    }
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
       Sentry.captureMessage('Error fetching accredited representatives');

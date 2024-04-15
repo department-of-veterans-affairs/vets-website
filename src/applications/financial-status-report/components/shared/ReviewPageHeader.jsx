@@ -16,7 +16,7 @@ const ReviewPageHeader = ({ title, goToPath }) => {
         <h4 className="form-review-panel-page-header">
           Review {title || 'this section'}
         </h4>
-        <VaButton onClick={goToPath} secondary text="Edit section" />
+        <VaButton onClick={goToPath} secondary text="Edit section" uswds />
       </div>
       <div className="review-header">
         <p>

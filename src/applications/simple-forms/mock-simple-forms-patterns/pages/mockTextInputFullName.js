@@ -1,7 +1,6 @@
 // @ts-check
 import fullNameOldUI from 'platform/forms/definitions/fullName';
 import {
-  titleSchema,
   titleUI,
   fullNameUI,
   fullNameSchema,
@@ -36,7 +35,7 @@ const fullNameDef = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('RJSF'),
+    ...titleUI('RJSF'),
     spouseFullNameOld: {
       ...fullNameOldUI,
       first: {
@@ -64,7 +63,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       spouseFullNameOld: fullNameDef,
       'view:wcv3Title': inlineTitleSchema,
       wcv3SpouseFullNameNew: fullNameSchema,

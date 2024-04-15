@@ -6,7 +6,7 @@ import ARNReviewWidget from '../review/ARNWidget';
 const ARN_DEFAULT_TITLE = 'Alien registration number';
 
 /**
- * Web component for Alien registration number (ARN)
+ * Web component v3 for Alien registration number (ARN)
  *
  * Pattern recommendation: Use the applicable person in the title
  * rather than in the field names.

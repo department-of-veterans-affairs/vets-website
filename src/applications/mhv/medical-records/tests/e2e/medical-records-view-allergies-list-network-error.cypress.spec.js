@@ -7,11 +7,6 @@ describe('Medical Records View Allergies', () => {
     const site = new MedicalRecordsSite();
     site.login();
 
-    // cy.visit('my-health/medical-records');
-    // AllergiesListPage.clickGotoAllergiesLink(allergies);
-
-    cy.visit('my-health/medical-records/vaccines');
-
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', {
       statusCode: 400,
       body: {
@@ -25,14 +20,14 @@ describe('Medical Records View Allergies', () => {
       },
     }).as('folder');
 
+    cy.visit('my-health/medical-records');
+    cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
+    cy.wait('@session');
+
+    cy.get('[href="/my-health/medical-records/vaccines"]').should('be.visible');
+    cy.visit('my-health/medical-records/allergies');
     cy.get('[data-testid="expired-alert-message"]').should('be.visible');
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

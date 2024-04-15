@@ -1,23 +1,70 @@
+import FileUpload from '../../../components/FileUpload';
 import FormElementTitle from '../../../components/FormElementTitle';
+import { CHAPTER_2 } from '../../../constants';
+
+export const fileSchema = {
+  type: 'array',
+  minItems: 1,
+  items: {
+    type: 'object',
+    properties: {
+      fileName: {
+        type: 'string',
+      },
+      fileSize: {
+        type: 'integer',
+      },
+      confirmationNumber: {
+        type: 'string',
+      },
+      errorMessage: {
+        type: 'string',
+      },
+      uploading: {
+        type: 'boolean',
+      },
+    },
+  },
+};
 
 const yourQuestionPage = {
   uiSchema: {
-    'ui:description': FormElementTitle({ title: 'Tell us your question' }),
+    'ui:description': FormElementTitle({ title: CHAPTER_2.PAGE_3.TITLE }),
+    subject: {
+      'ui:title': 'Subject',
+      'ui:required': formData =>
+        formData.selectCategory ===
+          'Education (Ch.30, 33, 35, 1606, etc. & Work Study)' &&
+        formData.selectTopic !== 'Veteran Readiness and Employment',
+      'ui:options': {
+        hideIf: formData =>
+          !(
+            formData.selectCategory ===
+              'Education (Ch.30, 33, 35, 1606, etc. & Work Study)' &&
+            formData.selectTopic !== 'Veteran Readiness and Employment'
+          ),
+      },
+    },
     question: {
-      'ui:title': 'What is your question?',
+      'ui:title': CHAPTER_2.PAGE_3.QUESTION_1,
       'ui:widget': 'textarea',
     },
-    reason: {
-      'ui:title': `Tell us the reason you're contacting us:`,
-      'ui:widget': 'radio',
+    fileUpload: {
+      'ui:title': 'Upload your file',
+      'ui:webComponentField': FileUpload,
       'ui:options': {
-        labels: {
-          compliment: 'Compliment',
-          question: 'Question',
-          serviceComplaint: 'Service Complaint',
-          suggestion: 'Suggestion',
-          townHall: 'Town Hall',
-          other: 'Other',
+        hideIf: formData => {
+          // TODO - update mockData list with appropriate topic titles from design
+          const HealthCareCondition =
+            formData.selectCategory === 'VA Health Care' &&
+            (formData.selectTopic === 'National Recruitment Services (NRS)' ||
+              formData.selectTopic ===
+                'Medical Care Concerns at a VA Medical Facility');
+          const EducationCondition =
+            formData.selectCategory ===
+              'Education (Ch.30, 33, 35, 1606, etc. & Work Study)' &&
+            formData.selectTopic !== 'Veteran Readiness and Employment';
+          return !HealthCareCondition && !EducationCondition;
         },
       },
     },
@@ -26,19 +73,14 @@ const yourQuestionPage = {
     type: 'object',
     required: ['question'],
     properties: {
+      subject: {
+        type: 'string',
+      },
       question: {
         type: 'string',
       },
-      reason: {
+      fileUpload: {
         type: 'string',
-        enum: [
-          'compliment',
-          'question',
-          'serviceComplaint',
-          'suggestion',
-          'townHall',
-          'other',
-        ],
       },
     },
   },

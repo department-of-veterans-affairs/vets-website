@@ -1,14 +1,13 @@
-import recordAnalyticsEvent from '~/platform/monitoring/record-event';
-
+import { captureError } from '@@vap-svc/util/analytics';
 import {
-  createCNPDirectDepositAnalyticsDataObject,
   getData,
+  createCNPDirectDepositAnalyticsDataObject,
   isEligibleForCNPDirectDeposit,
   isSignedUpForCNPDirectDeposit,
   isSignedUpForEDUDirectDeposit,
-} from '../util';
+} from '@@profile/util';
+import recordAnalyticsEvent from '~/platform/monitoring/record-event';
 
-import { captureError } from '../util/analytics';
 import { DirectDepositClient } from '../util/direct-deposit';
 import { API_STATUS } from '../constants';
 
@@ -52,18 +51,17 @@ export function fetchCNPPaymentInformation({
 }) {
   return async dispatch => {
     const client = new DirectDepositClient({
-      useLighthouseDirectDepositEndpoint: true,
       recordEvent,
     });
 
     dispatch({ type: CNP_PAYMENT_INFORMATION_FETCH_STARTED });
 
-    client.recordCNPEvent({ status: API_STATUS.STARTED });
+    client.recordDirectDepositEvent({ status: API_STATUS.STARTED });
 
     const response = await getData(client.endpoint);
 
     if (response.error) {
-      client.recordCNPEvent({ status: API_STATUS.FAILED });
+      client.recordDirectDepositEvent({ status: API_STATUS.FAILED });
 
       captureCNPError(response, {
         eventName: 'cnp-get-direct-deposit-failed',
@@ -78,7 +76,7 @@ export function fetchCNPPaymentInformation({
         response,
       );
 
-      client.recordCNPEvent({
+      client.recordDirectDepositEvent({
         status: API_STATUS.SUCCESSFUL,
         extraProperties: {
           // The API might report an empty payment address for some folks who are
@@ -106,13 +104,11 @@ export function fetchCNPPaymentInformation({
 export function saveCNPPaymentInformation({
   fields,
   isEnrollingInDirectDeposit = false,
-  useLighthouseDirectDepositEndpoint = true,
   recordEvent = recordAnalyticsEvent,
   captureCNPError = captureError,
 }) {
   return async dispatch => {
     const client = new DirectDepositClient({
-      useLighthouseDirectDepositEndpoint: true,
       recordEvent,
     });
 
@@ -120,7 +116,7 @@ export function saveCNPPaymentInformation({
 
     const apiRequestOptions = client.generateApiRequestOptions(fields);
 
-    client.recordCNPEvent({
+    client.recordDirectDepositEvent({
       status: API_STATUS.STARTED,
       method: apiRequestOptions.method,
     });
@@ -133,10 +129,9 @@ export function saveCNPPaymentInformation({
       const analyticsData = createCNPDirectDepositAnalyticsDataObject({
         errors,
         isEnrolling: isEnrollingInDirectDeposit,
-        useLighthouseDirectDepositEndpoint,
       });
 
-      client.recordCNPEvent({
+      client.recordDirectDepositEvent({
         status: API_STATUS.FAILED,
         method: apiRequestOptions.method,
         extraProperties: analyticsData,
@@ -151,7 +146,7 @@ export function saveCNPPaymentInformation({
         response,
       });
     } else {
-      client.recordCNPEvent({
+      client.recordDirectDepositEvent({
         status: API_STATUS.SUCCESSFUL,
         method: apiRequestOptions.method,
         extraProperties: {

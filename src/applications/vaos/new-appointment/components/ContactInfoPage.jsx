@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
+import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import {
   selectVAPEmailAddress,
   selectVAPHomePhoneString,
   selectVAPMobilePhoneString,
-} from 'platform/user/selectors';
-import recordEvent from 'platform/monitoring/record-event';
+} from '@department-of-veterans-affairs/platform-user/selectors';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
 import FormButtons from '../../components/FormButtons';
 
 import {
@@ -26,10 +27,7 @@ import {
 import NewTabAnchor from '../../components/NewTabAnchor';
 import useFormState from '../../hooks/useFormState';
 import { FACILITY_TYPES, FLOW_TYPES, GA_PREFIX } from '../../utils/constants';
-import {
-  selectFeatureAcheronService,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -65,7 +63,7 @@ function validateLength(errors, email) {
 
   if (email && email?.length > MAX_LENGTH) {
     errors.addError(
-      `We do not support email addresses that exceeds ${MAX_LENGTH} characters`,
+      `We don’t support email addresses that exceed ${MAX_LENGTH} characters`,
     );
   }
 }
@@ -101,9 +99,39 @@ function recordChangedEvents(email, phone, data) {
   }
 }
 
+function ContactInformationParagraph() {
+  return (
+    <p>
+      We’ll use this information if we need to contact you about this
+      appointment. For most other VA communications, we'll use the contact
+      information in your VA.gov profile.
+    </p>
+  );
+}
 const phoneConfig = phoneUI('Your phone number');
 const pageKey = 'contactInfo';
-const pageTitle = 'Confirm your contact information';
+
+function Description() {
+  const flowType = useSelector(getFlowType);
+
+  if (FLOW_TYPES.DIRECT === flowType)
+    return (
+      <>
+        <ContactInformationParagraph />
+        <p className="vads-u-margin-y--2">
+          Want to update your contact information for more VA benefits and
+          services?
+          <br />
+          <NewTabAnchor href="/profile/contact-information">
+            Go to your VA profile
+          </NewTabAnchor>
+          .
+        </p>
+      </>
+    );
+
+  return <ContactInformationParagraph />;
+}
 
 export default function ContactInfoPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
@@ -118,9 +146,10 @@ export default function ContactInfoPage({ changeCrumb }) {
   const homePhone = useSelector(selectVAPHomePhoneString);
   const mobilePhone = useSelector(selectVAPMobilePhoneString);
   const flowType = useSelector(getFlowType);
-  const featureAcheronService = useSelector(state =>
-    selectFeatureAcheronService(state),
-  );
+  const pageTitle =
+    FLOW_TYPES.DIRECT === flowType
+      ? 'Confirm your contact information'
+      : 'How should we contact you?';
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -132,47 +161,31 @@ export default function ContactInfoPage({ changeCrumb }) {
   }, []);
 
   const uiSchema = {
-    'ui:description': (
-      <>
-        <p>
-          We’ll use this information to contact you about your appointment. Any
-          updates you make here will only apply to VA online appointment
-          scheduling.
-        </p>
-        <p className="vads-u-margin-y--2">
-          Want to update your contact information for more VA benefits and
-          services?
-          <br />
-          <NewTabAnchor href="/profile/contact-information">
-            Go to your VA profile
-          </NewTabAnchor>
-          .
-        </p>
-      </>
-    ),
+    'ui:description': <Description />,
     phoneNumber: {
       ...phoneConfig,
       'ui:errorMessages': {
         ...phoneConfig['ui:errorMessages'],
-        pattern:
-          'Please enter a valid 10-digit phone number (with or without dashes)',
+        required: 'Enter a phone number',
+        pattern: 'Enter a valid 10-digit phone number (with or without dashes)',
       },
     },
     bestTimeToCall: {
       'ui:title': 'What are the best times for us to call you?',
       'ui:validations':
-        (!featureAcheronService && flowType === FLOW_TYPES.REQUEST) ||
-        (featureAcheronService &&
-          userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE)
+        flowType === FLOW_TYPES.REQUEST &&
+        userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE
           ? [validateBooleanGroup]
           : [],
       'ui:options': {
         showFieldLabel: true,
         classNames: 'vaos-form__checkboxgroup',
         hideIf: () => {
-          if (featureAcheronService)
-            return userData.facilityType === FACILITY_TYPES.VAMC;
-          return flowType === FLOW_TYPES.DIRECT;
+          return (
+            flowType === FLOW_TYPES.DIRECT ||
+            (flowType === FLOW_TYPES.REQUEST &&
+              userData.facilityType === FACILITY_TYPES.VAMC)
+          );
         },
       },
       morning: {
@@ -191,9 +204,17 @@ export default function ContactInfoPage({ changeCrumb }) {
     email: {
       'ui:title': 'Your email address',
       'ui:errorMessages': {
-        required: 'Please enter an email address',
+        format: 'Enter a valid email address',
+        required: 'Enter an email address',
       },
-      'ui:validations': featureAcheronService ? [validateLength] : [],
+      'ui:validations': [validateLength],
+      'ui:options': {
+        classNames: classNames({
+          'schemaform-first-field':
+            flowType === FLOW_TYPES.REQUEST &&
+            userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE,
+        }),
+      },
     },
   };
 
@@ -223,6 +244,22 @@ export default function ContactInfoPage({ changeCrumb }) {
           onChange={newData => setData(newData)}
           data={data}
         >
+          {FLOW_TYPES.REQUEST === flowType && (
+            <va-additional-info
+              trigger="How to update your information in your VA.gov profile"
+              class="vads-u-margin-y--4"
+              data-testid="additional-info"
+            >
+              <div>
+                You can update your contact information for most of your
+                benefits and services in your VA.gov profile.
+                <br />
+                <NewTabAnchor href="/profile/contact-information">
+                  Go to your VA profile
+                </NewTabAnchor>
+              </div>
+            </va-additional-info>
+          )}
           <FormButtons
             onBack={() =>
               dispatch(routeToPreviousAppointmentPage(history, pageKey, data))

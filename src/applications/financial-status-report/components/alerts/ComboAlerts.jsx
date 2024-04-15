@@ -9,6 +9,7 @@ const ComboAlert = ({ children }) => children;
 ComboAlert.Error = () => {
   return (
     <va-alert
+      uswds
       class="row vads-u-margin-bottom--5"
       status="error"
       data-testid="balance-card-combo-alert-error"
@@ -34,6 +35,7 @@ ComboAlert.Error = () => {
 ComboAlert.Zero = () => {
   return (
     <va-alert
+      uswds
       class="row vads-u-margin-bottom--5"
       status="info"
       data-testid="balance-card-combo-alert-zero"

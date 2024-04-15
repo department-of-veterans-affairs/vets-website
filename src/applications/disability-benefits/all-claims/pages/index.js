@@ -15,6 +15,8 @@ import * as evidenceTypes from './evidenceTypes';
 import * as evidenceTypesBDD from './evidenceTypesBDD';
 import * as federalOrders from './federalOrders';
 import * as finalIncident from './finalIncident';
+import * as gulfWar1990Locations from './toxicExposure/gulfWar1990Locations';
+import * as gulfWar1990LocationDates from './toxicExposure/gulfWar1990LocationDates';
 import * as homelessOrAtRisk from './homelessOrAtRisk';
 import * as hospitalizationHistory from './hospitalizationHistory';
 import * as incidentDate from './incidentDate';
@@ -80,7 +82,7 @@ import * as summaryOfDisabilities from './summaryOfDisabilities';
 import * as summaryOfEvidence from './summaryOfEvidence';
 import * as supplementalBenefits from './supplementalBenefits';
 import * as terminallyIll from './terminallyIll';
-import * as toxicExposureIntro from './toxicExposure/toxicExposureIntro';
+import * as toxicExposureConditions from './toxicExposure/toxicExposureConditions';
 import * as trainingPay from './trainingPay';
 import * as trainingPayWaiver from './trainingPayWaiver';
 import * as unemployabilityAdditionalInformation from './unemployabilityAdditionalInformation';
@@ -117,6 +119,8 @@ export {
   evidenceTypesBDD,
   federalOrders,
   finalIncident,
+  gulfWar1990Locations,
+  gulfWar1990LocationDates,
   homelessOrAtRisk,
   hospitalizationHistory,
   incidentDate,
@@ -182,7 +186,7 @@ export {
   summaryOfEvidence,
   supplementalBenefits,
   terminallyIll,
-  toxicExposureIntro,
+  toxicExposureConditions,
   trainingPay,
   trainingPayWaiver,
   unemployabilityAdditionalInformation,

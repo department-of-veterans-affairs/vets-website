@@ -8,7 +8,7 @@ export class PastAppointmentListPageObject extends AppointmentListPageObject {
     return this;
   }
 
-  selectDateRange(index) {
+  selectDateRange(value) {
     cy.findByTestId('vaosSelect')
       .shadow()
       .as('vaosSelect');
@@ -17,7 +17,7 @@ export class PastAppointmentListPageObject extends AppointmentListPageObject {
       .should('exist')
       .should('be.enabled')
       .as('select');
-    cy.get('@select').select(index);
+    cy.get('@select').select(value);
 
     // Wait for appointments to load
     cy.wait('@v2:get:appointments');

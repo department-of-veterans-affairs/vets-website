@@ -1,0 +1,95 @@
+{
+  "data": {
+    "veteran": {
+      "ssnLastFour": "6789",
+      "vaFileLastFour": "6789",
+      "address": {
+        "addressLine1": "123 Charlesgate Rd",
+        "addressLine2": "",
+        "addressLine3": "",
+        "city": "Providence",
+        "countryName": "United States",
+        "countryCodeIso2": "US",
+        "stateCode": "RI",
+        "zipCode": "02903"
+      },
+      "phone": {
+        "countryCode": "1",
+        "areaCode": "401",
+        "phoneNumber": "2261234",
+        "phoneNumberExt": ""
+      },
+      "email": "hector.baker@gmail.com"
+    },
+    "homeless": false,
+    "boardReviewOption": "evidence_submission",
+    "hearingTypePreference": "central_office",
+    "socOptIn": false,
+    "view:additionalEvidence": true,
+    "requestingExtension": true,
+    "extensionReason": "Due to unforeseen circumstances, I am facing challenges in obtaining certain medical records and supporting documents required to support my claim. The primary reason for my request for an extension is I’m having difficulties in obtaining recent medical records my private doctor. I have made diligent efforts to gather the necessary information, but I can’t get hold of my doctor. I am actively working on obtaining the required documentation and anticipate being able to submit a comprehensive and accurate application within the extended timeframe. In light of the circumstances described above, I kindly request an extension to complete and submit the required documentation for my application.",
+    "appealingVHADenial": false,
+    "view:showPart3": true,
+
+    "contestedIssues": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "tinnitus",
+          "approxDecisionDate": "2023-06-01",
+          "decisionIssueId": 1,
+          "ratingIssueReferenceId": "2",
+          "ratingDecisionReferenceId": "3",
+          "ratingIssuePercentNumber": "10"
+        }
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "left knee",
+          "approxDecisionDate": "2023-06-02",
+          "decisionIssueId": 4,
+          "ratingIssueReferenceId": "5"
+        }
+      }
+    ],
+    "areaOfDisagreement": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "tinnitus",
+          "approxDecisionDate": "2023-06-01"
+        },
+        "disagreementOptions": {
+          "serviceConnection": true,
+          "effectiveDate": true,
+          "evaluation": true
+        },
+        "otherEntry": "this is tinnitus entry"
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "left knee",
+          "approxDecisionDate": "2023-06-02"
+        },
+        "disagreementOptions": {
+          "serviceConnection": false,
+          "effectiveDate": true
+        },
+        "otherEntry": ""
+      }
+    ],
+    "evidence": [
+      {
+        "name": "file-1.pdf",
+        "confirmationCode": "some-UUID",
+        "isEncrypted": false
+      },
+      {
+        "name": "file-2.pdf",
+        "confirmationCode": "another-UUID"
+      }
+    ]
+  }
+}

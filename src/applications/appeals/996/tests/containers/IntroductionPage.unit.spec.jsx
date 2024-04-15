@@ -1,16 +1,17 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import IntroductionPage from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';
 
-import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../actions';
-import { setHlrWizardStatus, removeHlrWizardStatus } from '../../wizard/utils';
+import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../../shared/actions';
 
 const getData = ({
   loggedIn = true,
@@ -93,12 +94,7 @@ const getData = ({
 });
 
 describe('IntroductionPage', () => {
-  afterEach(() => {
-    removeHlrWizardStatus();
-  });
-
   it('should render', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const { props, mockStore } = getData({ loggedIn: false });
     const { container } = render(
       <Provider store={mockStore}>
@@ -110,11 +106,10 @@ describe('IntroductionPage', () => {
     );
     expect($('va-process-list', container)).to.exist;
     expect($('va-omb-info', container)).to.exist;
-    expect($('.schemaform-sip-alert', container)).to.exist;
+    expect($('va-alert[status="info"]', container)).to.exist;
   });
 
   it('should render start action links', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const { props, mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
@@ -125,7 +120,6 @@ describe('IntroductionPage', () => {
   });
 
   it('should render verify identity alert', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const { props, mockStore } = getData({ isVerified: false });
     const { container } = render(
       <Provider store={mockStore}>
@@ -134,5 +128,19 @@ describe('IntroductionPage', () => {
     );
 
     expect($('va-alert[status="continue"]', container)).to.exist;
+  });
+
+  it('should record analytics for form restart', () => {
+    global.window.dataLayer = [];
+    const { props, mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+
+    fireEvent.click($('a[href$="/start"]', container));
+    const event = global.window.dataLayer.slice(-1)[0];
+    expect(event).to.deep.equal({ event: 'howToWizard-start-over' });
   });
 });

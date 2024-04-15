@@ -26,6 +26,7 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import constants from 'vets-json-schema/dist/constants.json';
+import { isValidZipcode } from 'platform/forms/validations';
 
 /**
  * CONSTANTS:
@@ -60,10 +61,14 @@ const USA = {
 
 const MilitaryBaseInfo = () => (
   <div className="vads-u-padding-x--2p5">
-    <va-additional-info trigger="Learn more about military base addresses">
+    <va-additional-info
+      trigger="Learn more about military base addresses"
+      uswds="false"
+    >
       <span>
-        The United States is automatically chosen as your country if you live on
-        a military base outside of the country.
+        Addresses on U.S. military bases are considered domestic addresses, even
+        when the military base is in another country. When you check this box,
+        we automatically choose the United States as the country.
       </span>
     </va-additional-info>
   </div>
@@ -91,6 +96,35 @@ const insertArrayIndex = (key, index) => key.replace('[INDEX]', `[${index}]`);
 const getOldFormDataPath = (path, index) => {
   const indexToSlice = index !== null ? path.indexOf(index) + 1 : 0;
   return path.slice(indexToSlice);
+};
+
+const MILITARY_BASE_ZIP_REGEX = {
+  AA: '^3{1}4{1}0{1}[0-9]{2}',
+  AE: '^0{1}9{1}[0-9]{3}',
+  AP: '^9{1}6{1}[2-6]{1}[0-9]{2}',
+};
+
+export const DOMESTIC_BASE_ERROR =
+  'This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox “I receive mail outside of the United States on a U.S. military base.” If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.';
+export const INVALID_ZIP_ERROR =
+  'Your address is on a military base outside of the United States. Please provide an APO/FPO/DPO postal code.';
+
+export const validateZipCode = (zipCode, stateCode, errors) => {
+  if (stateCode in MILITARY_BASE_ZIP_REGEX) {
+    if (!zipCode.match(MILITARY_BASE_ZIP_REGEX[stateCode])) {
+      errors.addError(INVALID_ZIP_ERROR);
+      return false;
+    }
+  } else if (isValidZipcode(zipCode)) {
+    const isDomesticZipCode = !Object.values(MILITARY_BASE_ZIP_REGEX).some(
+      regex => zipCode.match(regex),
+    );
+    if (isDomesticZipCode) {
+      errors.addError(DOMESTIC_BASE_ERROR);
+      return false;
+    }
+  }
+  return true;
 };
 
 // Temporary storage for city & state if military base checkbox is toggled more
@@ -173,12 +207,13 @@ export const addressUISchema = (
   // As mentioned above, there are certain fields that depend on the values of other fields when using updateSchema, replaceSchema, and hideIf.
   // The two constants below are paths used to retrieve the values in those other fields.
   const livesOnMilitaryBasePath = `${path}[${MILITARY_BASE_PATH}]`;
+  const alternativeLivesOnMilitaryBasePath = MILITARY_BASE_PATH;
   const checkBoxTitleState = path.includes('veteran') ? 'I' : 'They';
 
   return (function returnAddressUI() {
     return {
       [MILITARY_BASE_PATH]: {
-        'ui:title': `${checkBoxTitleState} live on a United States military base outside of the U.S.`,
+        'ui:title': `${checkBoxTitleState} receive mail outside of the United States on a U.S. military base.`,
         'ui:options': {
           hideIf: () => !isMilitaryBaseAddress,
           hideEmptyValueInReview: true,
@@ -341,7 +376,7 @@ export const addressUISchema = (
               // `src/platform/forms-system/src/js/validation.js` (`defaultMessages.enum`). There are no reasonable workarounds that I am
               // aware of.
               errors.addError(
-                `For ${city} addresses, you must check the “${checkBoxTitleState} live on a United States military base outside of the U.S.” checkbox above`,
+                `For ${city} addresses, check the "${checkBoxTitleState} receive mail outside of the United States on a U.S. military base" checkbox. If you live on a military base in the United States, enter your city.`,
               );
             }
           },
@@ -463,18 +498,49 @@ export const addressUISchema = (
         'ui:required': (formData, index) => {
           let militaryBasePath = livesOnMilitaryBasePath;
           let countryNamePath = `${path}.countryName`;
+
           if (typeof index === 'number') {
             militaryBasePath = insertArrayIndex(livesOnMilitaryBasePath, index);
             countryNamePath = insertArrayIndex(countryNamePath, index);
           }
           const livesOnMilitaryBase = get(militaryBasePath, formData);
           const countryName = get(countryNamePath, formData);
+
           return (
             (countryName && countryName === USA.value) ||
             (isMilitaryBaseAddress && livesOnMilitaryBase)
           );
         },
         'ui:title': 'Postal Code',
+        'ui:validations': [
+          (errors, zipCode, formData, _schema, _uiSchema, index) => {
+            // consider splitting on "[INDEX]." and taking the second string as path when index is null
+            let address;
+            if (typeof index === 'number') {
+              const addressPath = insertArrayIndex(
+                livesOnMilitaryBasePath,
+                index,
+              );
+              address = get(addressPath, formData);
+            } else if (
+              path === 'childrenToAdd[INDEX].childAddressInfo.address'
+            ) {
+              address = get('childAddressInfo.address', formData);
+            } else if (path === 'stepChildren[INDEX].address') {
+              address = get('address', formData);
+            } else {
+              address = get(path, formData);
+            }
+            const livesOnMilitaryBase =
+              address?.[alternativeLivesOnMilitaryBasePath];
+            if (!address || !livesOnMilitaryBase) {
+              // if (!address) console.log("no address!");
+              return true;
+            }
+
+            return validateZipCode(zipCode, address.stateCode, errors);
+          },
+        ],
         'ui:errorMessages': {
           required: 'Postal code is required',
           pattern: 'Postal code must be 5 digits',

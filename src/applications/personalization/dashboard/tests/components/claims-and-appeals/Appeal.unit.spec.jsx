@@ -2,11 +2,11 @@ import React from 'react';
 import { daysAgo } from '@@profile/tests/helpers';
 import { expect } from 'chai';
 import { format } from 'date-fns';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import Appeal from '../../../components/claims-and-appeals/Appeal';
-import { APPEAL_TYPES } from '../../../utils/appeals-v2-helpers';
+import { APPEAL_TYPES } from '../../../utils/appeals-helpers';
+import { replaceDashesWithSlashes } from '../../../utils/date-formatting/helpers';
 
 function makeAppealObject({
   updateDate,
@@ -59,26 +59,19 @@ function makeAppealObject({
 }
 
 describe('<Appeal />', () => {
-  // delete instances of this toggle and use of renderWithStoreAndRouter when #68314 is launched
-  const initialState = {
-    featureToggles: {
-      [Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend]: true,
-    },
-  };
-
   const name = { first: 'Test', middle: 'T', last: 'User' };
 
   it('should render', () => {
     const appeal = makeAppealObject({ updateDate: daysAgo(1) });
     const updatedDate = format(
-      new Date(daysAgo(1).replace(/-/g, '/')),
+      new Date(replaceDashesWithSlashes(daysAgo(1))),
       'MMMM d, yyyy',
     );
     const appealTitle = `Disability compensation appeal updated on ${updatedDate}`;
 
     const tree = renderWithStoreAndRouter(
       <Appeal appeal={appeal} name={name} />,
-      { initialState },
+      { initialState: {} },
     );
 
     expect(tree.getByText(appealTitle)).to.exist;
@@ -100,7 +93,7 @@ describe('<Appeal />', () => {
       });
       const tree = renderWithStoreAndRouter(
         <Appeal appeal={appeal} name={name} />,
-        { initialState },
+        { initialState: {} },
       );
 
       expect(
@@ -118,7 +111,7 @@ describe('<Appeal />', () => {
 
       const tree = renderWithStoreAndRouter(
         <Appeal appeal={appeal} name={name} />,
-        { initialState },
+        { initialState: {} },
       );
 
       expect(
@@ -136,7 +129,7 @@ describe('<Appeal />', () => {
 
       const tree = renderWithStoreAndRouter(
         <Appeal appeal={appeal} name={name} />,
-        { initialState },
+        { initialState: {} },
       );
 
       expect(tree.getByText(/Disability compensation appeal updated on/)).to
@@ -150,7 +143,7 @@ describe('<Appeal />', () => {
       appeal.attributes.issues.push(appeal.attributes.issues.first);
       const tree = renderWithStoreAndRouter(
         <Appeal appeal={appeal} name={name} />,
-        { initialState },
+        { initialState: {} },
       );
 
       expect(
@@ -166,7 +159,7 @@ describe('<Appeal />', () => {
       appeal.attributes.issues.push(appeal.attributes.issues.first);
       const tree = renderWithStoreAndRouter(
         <Appeal appeal={appeal} name={name} />,
-        { initialState },
+        { initialState: {} },
       );
 
       expect(

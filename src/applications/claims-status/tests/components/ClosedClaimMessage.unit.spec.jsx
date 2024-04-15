@@ -5,6 +5,7 @@ import { format, formatISO, subDays } from 'date-fns';
 
 import ClosedClaimMessage from '../../components/ClosedClaimMessage';
 import { DATE_FORMATS } from '../../constants';
+import { renderWithRouter } from '../utils';
 
 // HELPERS
 const formatString = DATE_FORMATS.LONG_DATE;
@@ -35,7 +36,7 @@ describe('<ClosedClaimMessage>', () => {
         },
       ];
 
-      const screen = render(<ClosedClaimMessage claims={claims} />);
+      const screen = renderWithRouter(<ClosedClaimMessage claims={claims} />);
 
       // Check that the component was rendered
       expect(screen.getByText('Recently closed:')).to.exist;
@@ -79,76 +80,7 @@ describe('<ClosedClaimMessage>', () => {
     });
   });
 
-  context('EVSS claims', () => {
-    it('should render closed claims within 30 days', () => {
-      const closeDate = subDays(new Date(), 29);
-      const claims = [
-        {
-          id: 1,
-          type: 'evss_claims',
-          attributes: {
-            dateFiled: '2023-01-01',
-            open: false,
-            phaseChangeDate: getISOString(closeDate),
-          },
-        },
-      ];
-
-      const screen = render(<ClosedClaimMessage claims={claims} />);
-
-      // Check that the component rendered
-      expect(screen.getByText('Recently closed:')).to.exist;
-
-      // Check that the dates match up with what we would expect
-      expect(
-        screen.getByText(
-          'Your disability compensation Received January 1, 2023',
-        ),
-      ).to.exist;
-
-      const closeDateText = format(closeDate, formatString);
-      expect(screen.getByText(`has been closed as of ${closeDateText}`)).to
-        .exist;
-    });
-
-    it('should not render closed claims at 30 days', () => {
-      const closeDate = subDays(new Date(), 30);
-      const claims = [
-        {
-          id: 1,
-          type: 'evss_claims',
-          attributes: {
-            dateFiled: '2023-01-01',
-            open: false,
-            phaseChangeDate: getISOString(closeDate),
-          },
-        },
-      ];
-
-      const screen = render(<ClosedClaimMessage claims={claims} />);
-      expect(screen.queryByText('Recently closed:')).to.not.exist;
-    });
-
-    it('should render nothing when no closed claims', () => {
-      const closeDate = subDays(new Date(), 29);
-      const claims = [
-        {
-          id: 1,
-          type: 'evss_claims',
-          attributes: {
-            dateFiled: '2023-01-01',
-            open: true,
-            phaseChangeDate: getISOString(closeDate),
-          },
-        },
-      ];
-
-      const screen = render(<ClosedClaimMessage claims={claims} />);
-      expect(screen.queryByText('Recently closed:')).to.not.exist;
-    });
-  });
-
-  context('Lighthouse claims', () => {
+  context('Benefits claims', () => {
     it('should render closed claims within 30 days', () => {
       const closeDate = subDays(new Date(), 29);
       const claims = [
@@ -158,11 +90,12 @@ describe('<ClosedClaimMessage>', () => {
           attributes: {
             claimDate: '2023-01-01',
             closeDate: getISOString(closeDate),
+            status: 'COMPLETE',
           },
         },
       ];
 
-      const screen = render(<ClosedClaimMessage claims={claims} />);
+      const screen = renderWithRouter(<ClosedClaimMessage claims={claims} />);
 
       // Check that the component rendered
       expect(screen.getByText('Recently closed:')).to.exist;
@@ -188,6 +121,7 @@ describe('<ClosedClaimMessage>', () => {
           attributes: {
             claimDate: '2023-01-01',
             closeDate: getISOString(closeDate),
+            status: 'COMPLETE',
           },
         },
       ];
@@ -204,6 +138,7 @@ describe('<ClosedClaimMessage>', () => {
           attributes: {
             claimDate: '2023-01-01',
             closeDate: null,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
           },
         },
       ];

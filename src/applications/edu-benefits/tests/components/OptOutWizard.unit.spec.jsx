@@ -8,7 +8,7 @@ describe('<OptOutWizard>', () => {
   it('should show opt out button', () => {
     const component = mount(<OptOutWizard />);
 
-    expect(component.find('button').length).to.equal(1);
+    expect(component.find('va-button').length).to.equal(2);
     expect(component.state('modalOpen')).to.be.false;
     component.unmount();
   });
@@ -20,11 +20,14 @@ describe('<OptOutWizard>', () => {
 
     const component = mount(<OptOutWizard />);
 
-    component.find('button').simulate('click');
+    component
+      .find('va-button')
+      .first()
+      .simulate('click');
     component.update();
     expect(component.state('modalOpen')).to.be.true;
-    expect(component.find('button').length).to.equal(3);
-    expect(component.find('a').length).to.equal(2);
+    expect(component.find('va-button').length).to.equal(2);
+    expect(component.find('a').length).to.equal(1);
 
     delete global.document.focus;
     global.document.querySelector = oldQuerySelector;
@@ -38,15 +41,18 @@ describe('<OptOutWizard>', () => {
 
     const component = mount(<OptOutWizard />);
 
-    component.find('button').simulate('click');
+    component
+      .find('va-button')
+      .first()
+      .simulate('click');
     component.update();
     component
-      .find('button')
+      .find('va-button')
       .last()
       .simulate('click');
     component.update();
 
-    expect(component.find('button').length).to.equal(1);
+    expect(component.find('va-button').length).to.equal(2);
     expect(component.state('modalOpen')).to.be.false;
 
     delete global.document.focus;

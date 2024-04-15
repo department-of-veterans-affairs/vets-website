@@ -10,8 +10,8 @@ export const FinancialHelp = () => (
       having a sudden decrease in income, or having an increase in out-of-pocket
       family health care expenses, we can help.
     </p>
-    <va-accordion>
-      <va-accordion-item header="Request help for your current bills">
+    <va-accordion uswds>
+      <va-accordion-item header="Request help for your current bills" uswds>
         <p>You can request these debt relief options:</p>
         <ul>
           <li>
@@ -35,7 +35,10 @@ export const FinancialHelp = () => (
           </a>
         </p>
       </va-accordion-item>
-      <va-accordion-item header="Request help for your future health care">
+      <va-accordion-item
+        header="Request help for your future health care"
+        uswds
+      >
         <p>
           You may be eligible for a hardship determination, which would qualify
           you for a copay exemption. This means we’ll assign you to a higher

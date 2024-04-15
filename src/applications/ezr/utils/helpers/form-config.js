@@ -37,6 +37,97 @@ export function hasDifferentHomeAddress(formData) {
 }
 
 /**
+ * Helper that determines if the form data contains values that enable the
+ * toxic exposure questions in the Military Service chapter
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user is not short form eligible and the
+ * TERA feature flag is set to true
+ */
+export function teraInformationEnabled(formData) {
+  const { 'view:isTeraEnabled': isTeraEnabled } = formData;
+  return isTeraEnabled;
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user wants to fill out information related to toxic exposure
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the toxic exposure quesions are enabled and
+ * the user indicated they wanted to fill out questions related to exposure
+ */
+export function includeTeraInformation(formData) {
+  const { hasTeraResponse } = formData;
+  return teraInformationEnabled(formData) && hasTeraResponse;
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user served in specific gulf war locations
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they served in the specified
+ * Gulf War locations
+ */
+export function includeGulfWarServiceDates(formData) {
+  const { gulfWarService } = formData;
+  return gulfWarService;
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user served in specific gulf war locations
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they served in the specified
+ * Gulf War locations
+ */
+export function includeAgentOrangeExposureDates(formData) {
+  const { exposedToAgentOrange } = formData;
+  return exposedToAgentOrange;
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user has a specified other toxic exposure
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they have a specified
+ * toxic exposure
+ */
+export function includeOtherExposureDates(formData) {
+  const { 'view:otherToxicExposures': otherToxicExposures = {} } = formData;
+  const exposures = Object.values(otherToxicExposures);
+  return exposures.some(o => o);
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user has a specified other toxic exposure
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they had a toxic exposure
+ * that was not on the specified list
+ */
+export function includeOtherExposureDetails(formData) {
+  return formData['view:otherToxicExposures']?.exposureToOther;
+}
+/**
+ * Helper that determines if the form data contains values that allow users to fill
+ * in their household financial information
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user can submit financial information.
+ */
+export function includeHouseholdInformation(formData) {
+  return formData['view:householdEnabled'];
+}
+
+/**
+ * Helper that determines if the form data contains values that require the financial
+ * status alert to be shown
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user cannot submit financial information.
+ */
+export function showFinancialStatusAlert(formData) {
+  return !includeHouseholdInformation(formData);
+}
+
+/**
  * Helper that determines if the form data contains values that require users
  * to fill out spousal information
  * @param {Object} formData - the current data object passed from the form
@@ -44,6 +135,7 @@ export function hasDifferentHomeAddress(formData) {
  * financial data & have a marital status of 'married' or 'separated'.
  */
 export function includeSpousalInformation(formData) {
+  if (!includeHouseholdInformation(formData)) return false;
   const { maritalStatus } = formData['view:maritalStatus'];
   return (
     maritalStatus?.toLowerCase() === 'married' ||
@@ -79,7 +171,10 @@ export function spouseAddressDoesNotMatchVeterans(formData) {
  * @returns {Boolean} - true if viewfield is set to `false`
  */
 export function includeDependentInformation(formData) {
-  return !formData[DEPENDENT_VIEW_FIELDS.skip];
+  return (
+    includeHouseholdInformation(formData) &&
+    !formData[DEPENDENT_VIEW_FIELDS.skip]
+  );
 }
 
 /**

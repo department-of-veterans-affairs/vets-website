@@ -7,13 +7,21 @@ import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 // internal app imports
 import manifest from '../manifest.json';
 import content from '../locales/en/content.json';
-import { SHARED_PATHS } from '../utils/constants';
+import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../utils/constants';
 import {
   includeSpousalInformation,
+  includeHouseholdInformation,
   isMissingVeteranDob,
   isMissingVeteranGender,
   isSigiEnabled,
   hasDifferentHomeAddress,
+  teraInformationEnabled,
+  includeTeraInformation,
+  includeGulfWarServiceDates,
+  includeAgentOrangeExposureDates,
+  includeOtherExposureDates,
+  includeOtherExposureDetails,
+  showFinancialStatusAlert,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
@@ -52,8 +60,21 @@ import deductibleExpenses from './chapters/householdInformation/deductibleExpens
 import DependentSummaryPage from '../components/FormPages/DependentSummary';
 import DependentInformationPage from '../components/FormPages/DependentInformation';
 import DependentsReviewPage from '../components/FormReview/DependentsReviewPage';
+import FinancialConfirmationPage from '../components/FormPages/FinancialStatusConfirmation';
 
-// chapter 3 - Insurance Information
+// chapter 3 Military Service
+import toxicExposure from './chapters/militaryService/toxicExposure';
+import radiationCleanup from './chapters/militaryService/radiationCleanup';
+import gulfWarService from './chapters/militaryService/gulfWarService';
+import gulfWarServiceDates from './chapters/militaryService/gulfWarServiceDates';
+import combatOperationService from './chapters/militaryService/combatOperationService';
+import agentOrangeExposure from './chapters/militaryService/agentOrangeExposure';
+import agentOrangeExposureDates from './chapters/militaryService/agentOrangeExposureDates';
+import otherToxicExposure from './chapters/militaryService/otherToxicExposure';
+import otherToxicExposureDetails from './chapters/militaryService/otherToxicExposureDetails';
+import otherToxicExposureDates from './chapters/militaryService/otherToxicExposureDates';
+
+// chapter 4 - Insurance Information
 import medicaidEligibility from './chapters/insuranceInformation/medicaid';
 import medicarePartAEnrollment from './chapters/insuranceInformation/medicare';
 import partAEffectiveDate from './chapters/insuranceInformation/partAEffectiveDate';
@@ -112,7 +133,7 @@ const formConfig = {
   },
   submissionError: SubmissionErrorAlert,
   downtime: {
-    dependencies: [externalServices.es],
+    dependencies: [externalServices['1010ezr']],
     message: DowntimeWarning,
   },
   introduction: IntroductionPage,
@@ -130,7 +151,7 @@ const formConfig = {
           CustomPage: VeteranProfileInformation,
           CustomPageReview: null,
           uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          schema: VIEW_FIELD_SCHEMA,
         },
         dateOfBirth: {
           path: 'veteran-information/date-of-birth',
@@ -178,6 +199,94 @@ const formConfig = {
           uiSchema: veteranContantInformation.uiSchema,
           schema: veteranContantInformation.schema,
         },
+        /** NOTE: this page needs to live in the "Veteran Info" section to avoid
+         * having an empty/inactive "Household Info" accordion on the review page
+         * when the user does not need to fill out household financial info
+         */
+        financialStatusConfirmation: {
+          path: 'household-information/financial-information-status',
+          title: 'Financial information status',
+          depends: showFinancialStatusAlert,
+          CustomPage: FinancialConfirmationPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: VIEW_FIELD_SCHEMA,
+        },
+      },
+    },
+    militaryService: {
+      title: 'Military service',
+      pages: {
+        toxicExposure: {
+          path: 'military-service/toxic-exposure',
+          title: 'Toxic exposure',
+          depends: teraInformationEnabled,
+          uiSchema: toxicExposure.uiSchema,
+          schema: toxicExposure.schema,
+        },
+        radiationCleanup: {
+          path: 'military-service/radiation-cleanup-efforts',
+          title: 'Radiation cleanup or response efforts',
+          depends: includeTeraInformation,
+          uiSchema: radiationCleanup.uiSchema,
+          schema: radiationCleanup.schema,
+        },
+        gulfWarService: {
+          path: 'military-service/gulf-war-service',
+          title: 'Gulf War service locations',
+          depends: includeTeraInformation,
+          uiSchema: gulfWarService.uiSchema,
+          schema: gulfWarService.schema,
+        },
+        gulfWarServiceDates: {
+          path: 'military-service/gulf-war-service-dates',
+          title: 'Gulf War service dates',
+          depends: includeGulfWarServiceDates,
+          uiSchema: gulfWarServiceDates.uiSchema,
+          schema: gulfWarServiceDates.schema,
+        },
+        combatOperationService: {
+          path: 'military-service/operation-support',
+          title: 'Operations',
+          depends: includeTeraInformation,
+          uiSchema: combatOperationService.uiSchema,
+          schema: combatOperationService.schema,
+        },
+        agentOrangeExposure: {
+          path: 'military-service/agent-orange-exposure',
+          title: 'Agent Orange exposure',
+          depends: includeTeraInformation,
+          uiSchema: agentOrangeExposure.uiSchema,
+          schema: agentOrangeExposure.schema,
+        },
+        agentOrangeExposureDates: {
+          path: 'military-service/agent-orange-exposure-dates',
+          title: 'Agent Orange exposure dates',
+          depends: includeAgentOrangeExposureDates,
+          uiSchema: agentOrangeExposureDates.uiSchema,
+          schema: agentOrangeExposureDates.schema,
+        },
+        otherToxicExposure: {
+          path: 'military-service/other-toxic-exposure',
+          title: 'Other toxic exposures',
+          depends: includeTeraInformation,
+          uiSchema: otherToxicExposure.uiSchema,
+          schema: otherToxicExposure.schema,
+        },
+        otherToxicExposureDetails: {
+          path: 'military-service/other-toxins-or-hazards',
+          title: 'Other toxin or hazard exposure',
+          depends: includeOtherExposureDetails,
+          uiSchema: otherToxicExposureDetails.uiSchema,
+          schema: otherToxicExposureDetails.schema,
+        },
+        otherToxicExposureDates: {
+          path: 'military-service/other-toxic-exposure-dates',
+          title: 'Other toxic exposure dates',
+          depends: includeOtherExposureDates,
+          uiSchema: otherToxicExposureDates.uiSchema,
+          schema: otherToxicExposureDates.schema,
+        },
       },
     },
     householdInformation: {
@@ -187,6 +296,7 @@ const formConfig = {
           path: 'household-information/marital-status',
           title: 'Marital status',
           initialData: {},
+          depends: includeHouseholdInformation,
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
         },
@@ -226,6 +336,7 @@ const formConfig = {
           title: 'Dependents',
           CustomPage: DependentSummaryPage,
           CustomPageReview: DependentsReviewPage,
+          depends: includeHouseholdInformation,
           uiSchema: dependentSummary.uiSchema,
           schema: dependentSummary.schema,
         },
@@ -236,12 +347,13 @@ const formConfig = {
           CustomPage: DependentInformationPage,
           CustomPageReview: null,
           uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          schema: VIEW_FIELD_SCHEMA,
         },
         veteranAnnualIncome: {
           path: 'household-information/veteran-annual-income',
           title: 'Your annual income',
           initialData: {},
+          depends: includeHouseholdInformation,
           uiSchema: veteranAnnualIncome.uiSchema,
           schema: veteranAnnualIncome.schema,
         },
@@ -257,6 +369,7 @@ const formConfig = {
           path: 'household-information/deductible-expenses',
           title: 'Deductible expenses',
           initialData: {},
+          depends: includeHouseholdInformation,
           uiSchema: deductibleExpenses.uiSchema,
           schema: deductibleExpenses.schema,
         },
@@ -302,7 +415,7 @@ const formConfig = {
           CustomPage: InsurancePolicyInformationPage,
           CustomPageReview: null,
           uiSchema: {},
-          schema: { type: 'object', properties: {} },
+          schema: VIEW_FIELD_SCHEMA,
         },
       },
     },

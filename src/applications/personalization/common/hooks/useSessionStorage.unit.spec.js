@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, act, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import sinon from 'sinon';
 import PropTypes from 'prop-types';
 
@@ -33,13 +33,19 @@ TestComponent.propTypes = {
 };
 
 describe('useSessionStorage', () => {
+  afterEach(cleanup);
   const testKey = 'testKey';
 
-  it('retrieves an existing value from sessionStorage', () => {
-    const mockSessionStorage = {
-      getItem: () => 'storedValue',
-      setItem: () => {},
+  let mockSessionStorage;
+  beforeEach(() => {
+    mockSessionStorage = {
+      getItem: sinon.stub(),
+      setItem: sinon.stub(),
     };
+  });
+
+  it('retrieves an existing value from sessionStorage', () => {
+    mockSessionStorage.getItem.returns('storedValue');
 
     const { getByTestId } = render(
       <TestComponent
@@ -47,15 +53,11 @@ describe('useSessionStorage', () => {
         mockSessionStorage={mockSessionStorage}
       />,
     );
-    expect(getByTestId('value').textContent).to.equal('storedValue');
+    expect(getByTestId('value')).to.have.text('storedValue');
   });
 
   it('sets a new value in sessionStorage', async () => {
-    const setItemMock = sinon.spy();
-    const mockSessionStorage = {
-      getItem: () => '',
-      setItem: setItemMock,
-    };
+    mockSessionStorage.getItem.returns('');
 
     const { getByTestId } = render(
       <TestComponent
@@ -63,23 +65,18 @@ describe('useSessionStorage', () => {
         mockSessionStorage={mockSessionStorage}
       />,
     );
-    act(() => {
-      fireEvent.click(getByTestId('change-button'));
-    });
+
+    fireEvent.click(getByTestId('change-button'));
 
     await waitFor(() => {
-      expect(setItemMock.calledWith(testKey, 'newValue')).to.be.true;
-      expect(getByTestId('value').textContent).to.equal('newValue');
+      expect(mockSessionStorage.setItem.calledWith(testKey, 'newValue')).to.be
+        .true;
+      expect(getByTestId('value')).to.have.text('newValue');
     });
   });
 
   it('throws an error if no key is provided', () => {
-    const mockSessionStorage = {
-      getItem: sinon.spy(),
-      setItem: sinon.spy(),
-    };
-
-    const view = render(
+    const renderResult = render(
       <TestComponent
         storageKey={null}
         mockSessionStorage={mockSessionStorage}
@@ -87,7 +84,7 @@ describe('useSessionStorage', () => {
     );
 
     expect(
-      view.getByText(
+      renderResult.getByText(
         'useSessionStorage requires a storageKey parameter as the first argument',
       ),
     ).to.exist;

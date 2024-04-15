@@ -1,7 +1,5 @@
 import {
-  testNumberOfErrorsOnSubmit,
   testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfFields,
   testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
@@ -13,7 +11,7 @@ const {
 
 const pageTitle = 'mock text input widgets';
 
-const expectedNumberOfWebComponentFields = 6;
+const expectedNumberOfWebComponentFields = 3;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -22,29 +20,11 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 0;
+const expectedNumberOfWebComponentErrors = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
   expectedNumberOfWebComponentErrors,
-  pageTitle,
-);
-
-const expectedNumberOfFields = 3;
-testNumberOfFields(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfFields,
-  pageTitle,
-);
-
-const expectedNumberOfErrors = 0;
-testNumberOfErrorsOnSubmit(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfErrors,
   pageTitle,
 );

@@ -1,12 +1,11 @@
 import appendQuery from 'append-query';
 
-import { api } from '../config';
-
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import { api } from '../config';
 
 import { rubyifyKeys, searchCriteriaFromCoords } from '../utils/helpers';
 import { TypeList } from '../constants';
-import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import mapboxClient from '../components/MapboxClient';
 import { buildSearchFilters } from '../selectors/filters';
 
@@ -60,7 +59,8 @@ export const UPDATE_AUTOCOMPLETE_LOCATION = 'UPDATE_AUTOCOMPLETE_LOCATION';
 export const UPDATE_COMPARE_DETAILS = 'UPDATE_COMPARE_DETAILS';
 export const UPDATE_CURRENT_SEARCH_TAB = 'UPDATE_CURRENT_TAB';
 export const UPDATE_ESTIMATED_BENEFITS = 'UPDATE_ESTIMATED_BENEFITS';
-
+export const SET_ERROR = 'SET_ERROR';
+export const FILTER_BEFORE_RESULTS = 'FILTER_BEFORE_RESULTS';
 export const UPDATE_QUERY_PARAMS = 'UPDATE_QUERY_PARAMS';
 
 export function enterPreviewMode(version) {
@@ -530,3 +530,14 @@ export function mapChanged(mapState) {
     dispatch({ type: MAP_CHANGED, payload: mapState });
   };
 }
+export const setError = error => {
+  return {
+    type: SET_ERROR,
+    payload: error,
+  };
+};
+export const filterBeforeResultFlag = () => {
+  return {
+    type: FILTER_BEFORE_RESULTS,
+  };
+};

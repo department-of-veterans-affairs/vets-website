@@ -6,7 +6,7 @@ import * as vapSvcActions from '@@vap-svc/actions';
 
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
-import * as personalInformationActions from '../../actions/personalInformation';
+import * as personalInformationActions from '@@vap-svc/actions/personalInformation';
 
 // TODO: use setFetchJSONFailure to test network failure
 

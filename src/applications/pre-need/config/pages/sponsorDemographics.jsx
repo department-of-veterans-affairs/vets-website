@@ -1,7 +1,5 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
-import environment from 'platform/utilities/environment';
-
 import { merge, pick } from 'lodash';
 import {
   sponsorDemographicsDescription,
@@ -11,45 +9,24 @@ import {
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
-// prod flag for MBMS-47182
-export const uiSchema = !environment.isProduction()
-  ? {
-      'ui:title': sponsorDemographicsSubHeader,
-      'ui:description': sponsorDemographicsDescription,
-      application: {
-        veteran: merge({}, veteranUI, {
-          gender: {
-            'ui:title': 'What’s the sponsor’s sex?',
-          },
-          race: {
-            'ui:title':
-              'Which categories best describe the sponsor? (You may check more than one.)',
-          },
-          maritalStatus: {
-            'ui:title': 'What’s the sponsor’s marital status?',
-          },
-        }),
+export const uiSchema = {
+  'ui:title': sponsorDemographicsSubHeader,
+  'ui:description': sponsorDemographicsDescription,
+  application: {
+    veteran: merge({}, veteranUI, {
+      gender: {
+        'ui:title': 'What’s the sponsor’s sex?',
       },
-    }
-  : {
-      'ui:title': sponsorDemographicsSubHeader,
-      'ui:description': sponsorDemographicsDescription,
-      application: {
-        veteran: merge({}, veteranUI, {
-          gender: {
-            'ui:title':
-              "Sponsor's sex (information will be used for statistical purposes only)",
-          },
-          race: {
-            'ui:title':
-              'Which categories best describe your sponsor? (You may check more than one.)',
-          },
-          maritalStatus: {
-            'ui:title': 'Sponsor’s marital status',
-          },
-        }),
+      race: {
+        'ui:title':
+          'Which categories best describe the sponsor? (You may check more than one.)',
       },
-    };
+      maritalStatus: {
+        'ui:title': 'What’s the sponsor’s marital status?',
+      },
+    }),
+  },
+};
 
 export const schema = {
   type: 'object',

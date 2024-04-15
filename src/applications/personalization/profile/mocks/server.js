@@ -21,6 +21,7 @@ const {
 } = require('./endpoints/communication-preferences');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const mockDisabilityCompensations = require('./endpoints/disability-compensations');
+const directDeposits = require('./endpoints/direct-deposits');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
 const fullName = require('./endpoints/full-name');
@@ -38,6 +39,8 @@ const maintenanceWindows = require('./endpoints/maintenance-windows');
 const mockLocalDSOT = require('./script/drupal-vamc-data/mockLocalDSOT');
 
 const contacts = require('../tests/fixtures/contacts.json');
+// const contactsSingleEc = require('../tests/fixtures/contacts-single-ec.json');
+// const contactsSingleNok = require('../tests/fixtures/contacts-single-nok.json');
 
 // utils
 const { debug, delaySingleResponse } = require('./script/utils');
@@ -62,32 +65,39 @@ const responses = {
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
             profileContacts: true,
-            profileUseFieldEditingPage: true,
-            profileUseHubPage: true,
-            profileUseNotificationSettingsCheckboxes: true,
+            profileHideDirectDepositCompAndPen: false,
+            profileShowCredentialRetirementMessaging: true,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,
             profileShowPaymentsNotificationSetting: true,
+            profileShowProofOfVeteranStatus: true,
             profileShowQuickSubmitNotificationSetting: true,
-            showAuthenticatedMenuEnhancements: true,
+            profileUseExperimental: true,
+            profileShowDirectDepositSingleForm: true,
+            profileShowDirectDepositSingleFormAlert: false,
+            profileShowDirectDepositSingleFormEduDowntime: false,
           }),
         ),
       secondsOfDelay,
     );
   },
   'GET /v0/user': (_req, res) => {
+    // return res.status(403).json(genericErrors.error500);
     // example user data cases
-    return res.json(user.loa3User72); // default user (success)
-    // return res.json(user.loa1User); // user with loa1
+    return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
+    // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
+    // return res.json(user.mvhUser); // user with mhv signIn.serviceName
+    // return res.json(user.loa1User); // LOA1 user w/id.me
+    // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
+    // return res.json(user.loa1UserMHV); // LOA1 user w/mhv
     // return res.json(user.badAddress); // user with bad address
-    // return res.json(user.loa3User); // user with loa3
     // return res.json(user.nonVeteranUser); // non-veteran user
     // return res.json(user.externalServiceError); // external service error
     // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
     // return res.json(user.loa3UserWithNoEmail); // user with no email address
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
-
+    // return res.json(user.loa3UserWithoutMailingAddress); // user with no mailing address
     // data claim users
     // return res.json(user.loa3UserWithNoRatingInfoClaim);
     // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
@@ -95,37 +105,64 @@ const responses = {
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {
-    // three different scenarios for testing downtime banner
-    // all service names/keys are available in src/platform/monitoring/DowntimeNotification/config/externalService.js
-    // but couldn't be directly imported due to export default vs module.exports
+    return res.json(maintenanceWindows.noDowntime);
 
-    // return res.json(
-    //   maintenanceWindows.createDowntimeApproachingNotification([
-    //     maintenanceWindows.SERVICES.EMIS,
-    //   ]),
-    // );
-
+    // downtime for VA Profile aka Vet360 (according to service name in response)
     // return res.json(
     //   maintenanceWindows.createDowntimeActiveNotification([
-    //     maintenanceWindows.SERVICES.MVI,
-    //     maintenanceWindows.SERVICES.EMIS,
+    //     maintenanceWindows.SERVICES.VA_PROFILE,
     //   ]),
     // );
-
-    return res.json(maintenanceWindows.noDowntime);
   },
 
   'GET /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
     // return res.status(500).json(genericErrors.error500);
 
     // Lighthouse based API endpoint for direct deposit CNP
+    // happy path response / user with data
     return res.json(mockDisabilityCompensations.base);
+
+    // user with no dd data but is eligible
+    // return res.json(mockDisabilityCompensations.isEligible);
+
+    // direct deposit blocked edge cases
+    // return res.json(mockDisabilityCompensations.isDeceased);
+    // return res.json(mockDisabilityCompensations.isFiduciary);
+    // return res.json(mockDisabilityCompensations.isNotCompetent);
+    // return res.json(mockDisabilityCompensations.isNotEligible);
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
-    return res
-      .status(200)
-      .json(mockDisabilityCompensations.updates.errors.invalidAccountNumber);
-    // return res.status(200).json(disabilityComps.updates.success);
+    const secondsOfDelay = 2;
+    delaySingleResponse(
+      () => res.status(200).json(mockDisabilityCompensations.updates.success),
+      secondsOfDelay,
+    );
+    // return res
+    //   .status(400)
+    //   .json(mockDisabilityCompensations.updates.errors.invalidRoutingNumber);
+    // return res.status(200).json(mockDisabilityCompensations.updates.success);
+  },
+  'GET /v0/profile/direct_deposits': (_req, res) => {
+    // this endpoint is used for the single form version of the direct deposit page
+    // return res.status(200).json(directDeposits.base);
+    // return res.status(500).json(genericErrors.error500);
+    // return res.status(400).json(directDeposits.updates.errors.unspecified);
+    // user with no dd data but is eligible
+    return res.json(directDeposits.isEligible);
+    // direct deposit blocked edge cases
+    // return res.json(directDeposits.isDeceased);
+    // return res.json(directDeposits.isFiduciary);
+    // return res.json(directDeposits.isNotCompetent);
+    // return res.json(directDeposits.isNotEligible);
+  },
+  'PUT /v0/profile/direct_deposits': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(
+      // () => res.status(500).json(error500),
+      // () => res.status(200).json(mockDisabilityCompensations.updates.success),
+      () => res.status(400).json(directDeposits.updates.errors.invalidDayPhone),
+      secondsOfDelay,
+    );
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount.needsPatient,
@@ -134,6 +171,8 @@ const responses = {
   'PUT /v0/profile/gender_identities': handlePutGenderIdentitiesRoute,
   'GET /v0/profile/full_name': fullName.success,
   'GET /v0/profile/ch33_bank_accounts': (_req, res) => {
+    // return res.status(200).json(bankAccounts.noAccount); // user with no account / not eligible
+    // return res.status(500).json(bankAccounts.errorResponse); // error response
     return res.status(200).json(bankAccounts.anAccount);
   },
   'PUT /v0/profile/ch33_bank_accounts': (_req, res) => {
@@ -148,8 +187,11 @@ const responses = {
     //   .status(200)
     //   .json(serviceHistory.generateServiceHistoryError('403'));
   },
-  'GET /v0/disability_compensation_form/rating_info':
-    ratingInfo.success.serviceConnected0,
+  'GET /v0/disability_compensation_form/rating_info': (_req, res) => {
+    return res.status(200).json(ratingInfo.success);
+    // return res.status(500).json(genericErrors.error500);
+  },
+
   'PUT /v0/profile/telephones': (req, res) => {
     if (req?.body?.phoneNumber === '1111111') {
       return res.json(phoneNumber.transactions.receivedNoChangesDetected);
@@ -205,7 +247,7 @@ const responses = {
     return res.json(address.homeAddressUpdateReceived.response);
   },
   'GET /v0/profile/status/:id': (req, res) => {
-    // uncomment this to simlulate multiple status calls
+    // uncomment this to simulate multiple status calls
     // aka long latency on getting update to go through
     // if (retries < 2) {
     //   retries += 1;
@@ -257,7 +299,8 @@ const responses = {
   },
 
   'GET /v0/user_transition_availabilities': baseUserTransitionAvailabilities,
-  // 'GET /v0/profile/contacts': {}, // simulate no contacts
+  // 'GET /v0/profile/contacts': { data: [] }, // simulate no contacts
+  // 'GET /v0/profile/contacts': (_req, res) => res.status(500).json(genericErrors.error500), // simulate error
   'GET /v0/profile/contacts': contacts,
 };
 

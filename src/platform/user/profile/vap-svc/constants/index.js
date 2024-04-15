@@ -190,3 +190,5 @@ export const COPY_ADDRESS_MODAL_STATUS = {
   SUCCESS: 'success',
   FAILURE: 'failure',
 };
+
+export const NOT_SET_TEXT = 'This information is not available right now.';

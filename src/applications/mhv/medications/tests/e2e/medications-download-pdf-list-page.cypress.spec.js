@@ -1,23 +1,25 @@
+import moment from 'moment-timezone';
 import MedicationsSite from './med_site/MedicationsSite';
+import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
 
 describe('Medications Download PDF on List Page', () => {
   it('visits download pdf on list page', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
+    const landingPage = new MedicationsLandingPage();
     site.login();
-    cy.visit('my-health/about-medications/');
-
+    landingPage.visitLandingPageURL();
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
-
-    listPage.verifyDownloadListAsPDFButtonOnListPage();
+    listPage.clickPrintOrDownloadThisListDropDown();
+    listPage.clickDownloadListAsPDFButtonOnListPage();
+    listPage.verifyDownloadCompleteSuccessMessageBanner();
+    site.verifyDownloadedPdfFile(
+      'VA-medications-list-Safari-Mhvtp',
+      moment(),
+      '',
+    );
   });
 });

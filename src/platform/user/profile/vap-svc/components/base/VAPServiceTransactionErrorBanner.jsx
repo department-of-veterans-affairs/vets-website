@@ -13,7 +13,7 @@ import {
 
 export function GenericUpdateError(props) {
   return (
-    <VaAlert {...props}>
+    <VaAlert {...props} uswds>
       <h3 slot="headline">Your recent profile update didn’t save</h3>
       We’re sorry. Something went wrong on our end and we couldn’t save the
       recent updates you made to your profile. Please try again later.
@@ -23,7 +23,7 @@ export function GenericUpdateError(props) {
 
 export function VAProfileInitError(props) {
   return (
-    <VaAlert {...props}>
+    <VaAlert {...props} uswds>
       <h3 slot="headline">We can’t load some of your information</h3>
       <div>
         <p>
@@ -67,7 +67,7 @@ export function VAProfileInitError(props) {
 
 export function MVILookupFailError(props) {
   return (
-    <VaAlert {...props}>
+    <VaAlert {...props} uswds>
       <h3 slot="headline">
         We’re having trouble matching your information to our Veteran records
       </h3>
@@ -87,7 +87,7 @@ export function MVILookupFailError(props) {
 
 export function MVIError(props) {
   return (
-    <VaAlert {...props}>
+    <VaAlert {...props} uswds>
       <h3 slot="headline">
         We can’t access your contact information right now
       </h3>

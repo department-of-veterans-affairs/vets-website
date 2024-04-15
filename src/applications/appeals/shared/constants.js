@@ -55,6 +55,9 @@ export const REVIEW_AND_SUBMIT = '/review-and-submit';
 export const FORMAT_YMD = 'YYYY-MM-DD';
 export const FORMAT_READABLE = 'LL';
 export const FORMAT_COMPACT = 'MMM DD, YYYY';
+export const FORMAT_FULL_DATE = 'MMMM d, yyyy'; // date-fn format
+export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
+export const FORMAT_COMPACT_DATE_FNS = 'MMM dd, yyyy';
 
 // Supplemental Claim allows for past decision dates, but we should limit them.
 // Limit past decision dates to 100 years until told otherwise
@@ -68,7 +71,7 @@ export const AMA_DATE = '2019-02-19'; // Appeals Modernization Act in effect
 export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
 
 export const MAX_FILE_SIZE_MB = 100;
-export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
 
 /**
  **** MAX LENGTH ****

@@ -2,6 +2,10 @@
   "data": {
     "dateDefault": "1999-02-02",
     "dateWCV3": "2000-02-12",
+    "dateRange": {
+      "from": "1999-01-03",
+      "to": "1999-01-03"
+    },
     "vaCompensationType": "none",
     "isCurrentlyActiveDuty": false,
     "wcv3VaCompensationType": "highDisability",
@@ -9,9 +13,10 @@
     "wcv3IsCurrentlyActiveDuty": true,
     "amountOrNumber": "123",
     "selectDefault": "option1",
-    "wcOldSelectFirst": "option1",
-    "wcOldSelectSecond": "option1",
-    "wcv3Select": "option1",
+    "wcv3SelectSimple": "Option 1",
+    "wcv3SelectValues": "Option 1",
+    "wcv3SelectKeyValues": "option1",
+    "wcv3TextEmailNew": "abc@abc.com",
     "rjsfCheckSimpleTextInput": "Lorem ipsum dolor sit amet",
     "rjsfCheckRequiredCheckbox": true,
     "rjsfCheckSsn": "454544545",
@@ -68,13 +73,43 @@
     "checkboxGroupAtLeastOneRequired": {
       "hasA": true
     },
-    "checkboxGroupTiledWithCustomErrorMessage":{
+    "checkboxGroupTiledWithCustomErrorMessage": {
       "hasA": false,
       "hasB": true
     },
-    "checkboxGroupTiledWithHeaderLabel":{
+    "checkboxGroupTiledWithHeaderLabel": {
       "hasB": true
     },
+    "formsPatternSingleRadio": "1",
+    "formsPatternSingleCheckboxGroup": {
+      "1": true
+    },
+    "formsPatternMultiple": "Test",
+    "formsPatternOtherField": "Test",
+    "exampleArrayOne": [
+      {
+        "facilityName": "facility a",
+        "from": "2000-01-09",
+        "to": "2001-02-09"
+      },
+      {
+        "facilityName": "facility b",
+        "from": "2010-03-03",
+        "to": "2011-12-19"
+      }
+    ],
+    "exampleArrayOne": [
+      {
+        "facilityName": "facility a",
+        "from": "2000-01-09",
+        "to": "2001-02-09"
+      },
+      {
+        "facilityName": "facility b",
+        "from": "2010-03-03",
+        "to": "2011-12-19"
+      }
+    ],
     "exampleArrayOne": [
       {
         "facilityName": "facility a",
@@ -125,6 +160,7 @@
         }
       }
     ],
-    "hasEmployment": false
+    "view:hasEmployment": false,
+    "nameCustom": "Test"
   }
 }

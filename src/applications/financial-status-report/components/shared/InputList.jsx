@@ -28,7 +28,7 @@ const InputList = ({
           <va-number-input
             error={
               submitted && errorList.includes(input.name)
-                ? 'Enter valid dollar amount'
+                ? `Please enter a valid amount below $${max}`
                 : ''
             }
             id={input.name + key}
@@ -42,6 +42,7 @@ const InputList = ({
             max={max}
             width="md"
             currency
+            uswds
           />
         </div>
       ))}

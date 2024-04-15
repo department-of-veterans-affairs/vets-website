@@ -8,6 +8,7 @@ import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import TravelPages from '../../../../tests/e2e/pages/TravelPages';
 import Appointments from '../pages/Appointments';
 import Error from '../pages/Error';
+import Arrived from '../pages/Arrived';
 
 describe('Check In Experience', () => {
   describe('travel pay path', () => {
@@ -33,6 +34,8 @@ describe('Check In Experience', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      Arrived.validateArrivedPage();
+      Arrived.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
@@ -49,10 +52,8 @@ describe('Check In Experience', () => {
     });
     it('shows the correct error message for check in failed no to travel claim', () => {
       TravelPages.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage('no');
       Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
       Appointments.attemptCheckIn(1);
       Error.validatePageLoaded('check-in-failed-find-out');
       cy.injectAxeThenAxeCheck();
@@ -62,13 +63,12 @@ describe('Check In Experience', () => {
     });
     it('shows the correct error message for check in failed no to travel vehicle', () => {
       TravelPages.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
-      cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage('no');
       Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
       Appointments.attemptCheckIn(1);
       Error.validatePageLoaded('check-in-failed-cant-file');
       cy.injectAxeThenAxeCheck();
@@ -80,14 +80,13 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
-      cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('address');
-      cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage('no');
       Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
       Appointments.attemptCheckIn(1);
       Error.validatePageLoaded('check-in-failed-cant-file');
       cy.injectAxeThenAxeCheck();
@@ -97,19 +96,10 @@ describe('Check In Experience', () => {
     });
     it('shows the correct error message for check in failed no to travel mileage', () => {
       TravelPages.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('vehicle');
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('address');
-      cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('mileage');
-      cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage('no');
       Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
       Appointments.attemptCheckIn(1);
       Error.validatePageLoaded('check-in-failed-cant-file');
       cy.injectAxeThenAxeCheck();
@@ -119,19 +109,17 @@ describe('Check In Experience', () => {
     });
     it('shows the correct error message for check in failed yes to all travel', () => {
       TravelPages.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('vehicle');
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('address');
-      cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('mileage');
-      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('vehicle');
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('address');
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('review');
+      TravelPages.acceptTerms();
       TravelPages.attemptToGoToNextPage();
       Appointments.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
       Appointments.attemptCheckIn(1);
       Error.validatePageLoaded('check-in-failed-file-later');
       cy.injectAxeThenAxeCheck();

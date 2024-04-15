@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { normalizeFullName } from '../../utils/helpers';
+import { APP_URLS } from '../../utils/constants';
 
 const AuthProfileInformation = ({ user }) => {
   const { userFullName, dob } = user;
@@ -16,8 +17,8 @@ const AuthProfileInformation = ({ user }) => {
           ? 'This is the personal information we have on file for you.'
           : 'Here\u2019s the name we have on file for you.'}
       </p>
-      <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-padding-y--1 vads-u-margin-bottom--3">
-        <dl className="vads-u-padding-left--1 vads-u-margin-y--0">
+      <div className="va-address-block vads-u-margin-y--3">
+        <dl>
           <div data-testid="hca-veteran-fullname">
             <dt className="vads-u-visibility--screen-reader">Full name:</dt>
             <dd
@@ -55,8 +56,8 @@ const AuthProfileInformation = ({ user }) => {
       </p>
       <p>
         You can also call your VA medical center (
-        <va-link href="/find-locations/" text="find a VA location tool" />) to
-        get help changing your name on file with VA. Ask for the eligibility
+        <va-link href={APP_URLS.facilities} text="find a VA location tool" />){' '}
+        to get help changing your name on file with VA. Ask for the eligibility
         department.
       </p>
     </div>

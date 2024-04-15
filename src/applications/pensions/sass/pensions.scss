@@ -8,37 +8,38 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-.pensions-disclosure-title {
-  padding-bottom: 0;
-  font-size: 1.1em;
-  line-height: 1;
-}
+$font-size: 16.96px;
 
-.pensions-disclosure-name {
-  border-bottom: 3px solid $color-primary;
-  margin: 0 0 0.8em;
-}
-
-.pensions-sources-adding {
-  max-width: 46rem;
-  margin-top: 3rem;
-}
-
-.pensions-sources-add-btn {
-  margin-top: 3rem !important;
-}
-
-.pensions-heading {
-  margin-top: 0;
-  &:focus {
-    outline: none;
+// Override widget styles to match v3 web components
+// until there is a web component pattern replacement
+.schemaform-currency-input-v3 {
+  margin-top: 24px;
+  .schemaform-widget-wrapper {
+    position: relative;
+    &:before {
+      content: "$";
+      display: block;
+      position: absolute;
+      top: 9px;
+      left: 10px;
+    }
+  }
+  label {
+    font-size: $font-size;
+  }
+  input {
+    width: 100%;
+    max-width: 480px;
+    font-size: $font-size;
+    padding-left: 25px;
   }
 }
 
-p.pension-employment-desc, .pension-dd-warning {
-  margin-top: 3rem;
-}
-
-.pensions-disclosure-warning {
-  margin-bottom: 1em;
+.schemaform-date-input-v3 {
+  &.schemaform-first-field {
+    margin-top: 8px !important;
+  }
+  legend {
+    font-size: $font-size;
+  }
 }

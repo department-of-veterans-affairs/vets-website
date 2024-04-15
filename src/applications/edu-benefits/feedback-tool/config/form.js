@@ -18,7 +18,7 @@ const { get, omit, set } = dataUtils;
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../components/SchoolSelectField.jsx';
-import GetFormHelp from '../../components/GetFormHelp';
+// import GetFormHelp from '../../components/GetFormHelp';
 
 import {
   accreditationLabel,
@@ -45,6 +45,7 @@ import {
 import migrations from './migrations';
 
 import manifest from '../manifest.json';
+import NeedHelp from '../components/NeedHelp';
 
 const {
   address: applicantAddress,
@@ -177,7 +178,8 @@ const formConfig = {
   },
   title: 'GI Bill® School Feedback Tool',
   preSubmitInfo,
-  getHelp: GetFormHelp,
+  // getHelp: GetFormHelp,
+  getHelp: NeedHelp,
   footerContent: FormFooter,
   transformForSubmit: transform,
   chapters: {

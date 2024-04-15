@@ -6,11 +6,18 @@ import { render } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import MockDate from 'mockdate';
 
+import { setupI18n, teardownI18n } from '../../../../utils/i18n/i18n';
 import CheckInProvider from '../../../../tests/unit/utils/CheckInProvider';
 import { singleAppointment } from '../../../../tests/unit/mocks/mock-appointments';
 import Error from '../index';
 
 describe('check-in', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('Pre-check-in Error page', () => {
     afterEach(() => {
       MockDate.reset();
@@ -65,8 +72,7 @@ describe('check-in', () => {
             <Error />
           </CheckInProvider>,
         );
-        expect(component.getByText('We’re sorry. This link has expired.')).to
-          .exist;
+        expect(component.getByText('This link has expired')).to.exist;
         const expiredMessage = component.getByTestId('error-message');
         expect(expiredMessage).to.exist;
         expect(
@@ -189,7 +195,7 @@ describe('check-in', () => {
           component.getByText('Sorry, pre-check-in is no longer available.'),
         ).to.exist;
         const expiredMessage = component.getByTestId('error-message');
-        expect(component.queryByTestId('how-to-link')).to.not.exist;
+        expect(component.queryByTestId('how-to-link')).to.exist;
         expect(expiredMessage).to.exist;
         expect(
           within(expiredMessage).getByText(

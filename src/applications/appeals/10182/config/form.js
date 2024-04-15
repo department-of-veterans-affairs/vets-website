@@ -13,7 +13,6 @@ import { onFormLoaded } from '../utils/redirect';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import GetFormHelp from '../content/GetFormHelp';
 import AddContestableIssue from '../components/AddContestableIssue';
 
 import {
@@ -51,9 +50,11 @@ import {
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+import GetFormHelp from '../../shared/content/GetFormHelp';
 import reviewErrors from '../../shared/content/reviewErrors';
+import { focusRadioH3 } from '../../shared/utils/focus';
 
-// import initialData from '../tests/schema/initialData';
+// import initialData from '../tests/initialData';
 
 import manifest from '../manifest.json';
 
@@ -101,6 +102,8 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+  // Fix double headers (only show v3)
+  v3SegmentedProgressBar: true,
 
   chapters: {
     infoPages: {
@@ -118,6 +121,7 @@ const formConfig = {
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
         ...contactInfo,
       },
@@ -137,6 +141,7 @@ const formConfig = {
           depends: showPart3,
           uiSchema: extensionRequest.uiSchema,
           schema: extensionRequest.schema,
+          onContinue: extensionRequest.onContinue,
         },
         extensionReason: {
           title: 'Reason for extension',
@@ -196,9 +201,10 @@ const formConfig = {
           path: 'board-review-option',
           uiSchema: boardReview.uiSchema,
           schema: boardReview.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceIntro: {
-          title: 'Evidence submission',
+          title: 'Additional evidence',
           path: 'evidence-submission',
           depends: canUploadEvidence,
           uiSchema: evidenceIntro.uiSchema,
@@ -217,6 +223,7 @@ const formConfig = {
           depends: needsHearingType,
           uiSchema: hearingType.uiSchema,
           schema: hearingType.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
       },
     },

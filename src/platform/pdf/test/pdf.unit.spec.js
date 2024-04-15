@@ -75,6 +75,11 @@ describe('PDF generation API', () => {
 
       const pdfBlob = fileSaverMock.firstCall.args[0];
       const pdfData = await blobToArrayBuffer(pdfBlob);
+
+      // For testing purposes, you may import fs and uncomment
+      // the following line to write the generated PDF file.
+      // fs.writeFileSync('/tmp/test.pdf', Buffer.from(pdfData));
+
       const pdf = await pdfjs.getDocument(pdfData).promise;
       const metadata = await pdf.getMetadata();
 

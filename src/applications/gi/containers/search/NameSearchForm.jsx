@@ -1,36 +1,50 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import {
   fetchNameAutocompleteSuggestions,
   fetchSearchByNameResults,
   updateAutocompleteName,
+  setError,
+  filterBeforeResultFlag,
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
 import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
 import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
 import FilterBeforeResults from './FilterBeforeResults';
+import {
+  isProductionOrTestProdEnv,
+  validateSearchTerm,
+} from '../../utils/helpers';
 
 export function NameSearchForm({
   autocomplete,
   dispatchFetchNameAutocompleteSuggestions,
   dispatchFetchSearchByNameResults,
   dispatchUpdateAutocompleteName,
+  dispatchError,
   filters,
   preview,
   search,
   smallScreen,
+  errorReducer,
+  filterBeforeResultsReducer,
+  dispatchShowFiltersBeforeResult,
 }) {
   const { version } = preview;
   const [name, setName] = useState(search.query.name);
-  const [error, setError] = useState(null);
+  // const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
+  const { showFiltersBeforeResult } = filterBeforeResultsReducer;
+  // const [error, setError] = useState(null);
+  const { error } = errorReducer;
   const history = useHistory();
-
+  const inputRef = createRef();
   const doSearch = value => {
-    dispatchFetchSearchByNameResults(value, 1, filters, version);
+    const searchName = value || search.query.name;
+    dispatchFetchSearchByNameResults(searchName, 1, filters, version);
     const clonedFilters = filters;
     clonedFilters.excludedSchoolTypes = FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP.filter(
       exclusion => !clonedFilters.excludedSchoolTypes.includes(exclusion),
@@ -41,7 +55,7 @@ export function NameSearchForm({
       search.tab,
       {
         ...search.query,
-        name: value,
+        name: searchName,
       },
       clonedFilters,
       version,
@@ -55,7 +69,8 @@ export function NameSearchForm({
   useEffect(
     () => {
       if (!search.loadFromUrl && filters.search && search.tab === TABS.name) {
-        doSearch(name || search?.query?.name);
+        // doSearch(name || search?.query?.name);
+        doSearch(null);
       }
     },
     [filters.search],
@@ -74,46 +89,33 @@ export function NameSearchForm({
     [search.loadFromUrl],
   );
 
-  const validateSearchTerm = searchTerm => {
-    const empty = searchTerm.trim() === '';
-    if (empty) {
-      setError('Please fill in a school, employer, or training provider.');
-    } else if (
-      filters.schools === false &&
-      filters.excludeCautionFlags === false &&
-      filters.accredited === false &&
-      filters.studentVeteran === false &&
-      filters.yellowRibbonScholarship === false &&
-      filters.employers === false &&
-      filters.vettec === false &&
-      filters.preferredProvider === false &&
-      filters.specialMissionHbcu === false &&
-      filters.specialMissionMenonly === false &&
-      filters.specialMissionWomenonly === false &&
-      filters.specialMissionRelaffil === false &&
-      filters.specialMissionHSI === false &&
-      filters.specialMissionNANTI === false &&
-      filters.specialMissionANNHI === false &&
-      filters.specialMissionAANAPII === false &&
-      filters.specialMissionPBI === false &&
-      filters.specialMissionTRIBAL === false
-    ) {
-      setError('Please select at least one filter.');
-    } else if (error !== null) {
-      setError(null);
+  useEffect(
+    () => {
+      sessionStorage.setItem('show', JSON.stringify(name?.length <= 0));
+    },
+    [showFiltersBeforeResult],
+  );
+  const onApplyFilterClick = () => {
+    if (name.length === 0) {
+      inputRef.current.focus();
     }
-    return !empty;
   };
-
   const handleSubmit = event => {
     event.preventDefault();
-    if (validateSearchTerm(name)) {
+    if (validateSearchTerm(name, dispatchError, error, filters, 'name')) {
       recordEvent({
         event: 'gibct-form-change',
         'gibct-form-field': 'nameSearch',
         'gibct-form-value': name,
       });
+      dispatchShowFiltersBeforeResult();
       doSearch(name);
+    }
+    onApplyFilterClick();
+  };
+  const onKeyEnter = event => {
+    if (event.key === 'Enter') {
+      handleSubmit();
     }
   };
 
@@ -133,13 +135,13 @@ export function NameSearchForm({
   };
 
   return (
-    <div>
+    <div className="search-form-container">
       <form onSubmit={handleSubmit}>
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
             <KeywordSearch
+              inputRef={inputRef}
               className="name-search"
-              error={error}
               inputValue={name}
               label="School, employer, or training provider"
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
@@ -147,7 +149,9 @@ export function NameSearchForm({
               onSelection={s => setName(s.label)}
               onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               suggestions={[...autocomplete.nameSuggestions]}
-              validateSearchTerm={validateSearchTerm}
+              type="name"
+              // validateSearchTerm={validateSearchTerm}
+              filters={filters}
               version={version}
             />
           </div>
@@ -155,6 +159,7 @@ export function NameSearchForm({
             <button
               className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button"
               type="submit"
+              onKeyPress={onKeyEnter}
             >
               <i
                 aria-hidden="true"
@@ -167,9 +172,14 @@ export function NameSearchForm({
         </div>
       </form>
       {!smallScreen &&
-        !environment.isProduction() && (
+        isProductionOrTestProdEnv() &&
+        JSON.parse(sessionStorage.getItem('show')) && (
           <div>
-            <FilterBeforeResults />
+            <FilterBeforeResults
+              nameVal={name}
+              searchType="name"
+              onApplyFilterClick={onApplyFilterClick}
+            />
           </div>
         )}
     </div>
@@ -181,12 +191,16 @@ const mapStateToProps = state => ({
   filters: state.filters,
   preview: state.preview,
   search: state.search,
+  errorReducer: state.errorReducer,
+  filterBeforeResultsReducer: state.filterBeforeResultsReducer,
 });
 
 const mapDispatchToProps = {
   dispatchFetchNameAutocompleteSuggestions: fetchNameAutocompleteSuggestions,
   dispatchUpdateAutocompleteName: updateAutocompleteName,
   dispatchFetchSearchByNameResults: fetchSearchByNameResults,
+  dispatchError: setError,
+  dispatchShowFiltersBeforeResult: filterBeforeResultFlag,
 };
 
 export default connect(

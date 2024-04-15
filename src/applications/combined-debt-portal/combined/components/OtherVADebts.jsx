@@ -41,16 +41,14 @@ const OtherVADebts = ({ module, subHeading }) => {
         )}
       </p>
       <Link
-        className="vads-u-font-size--sm vads-u-font-weight--bold"
+        className="vads-u-font-weight--bold"
         aria-label="View all your VA debt and bills"
         to="/manage-va-debt/summary"
         data-testid="other-va-debts-link"
       >
-        <span className="vads-u-font-family--sans">
-          View all your VA debt and bills
-        </span>
+        View all your VA debt and bills
         <i
-          className="fa fa-chevron-right vads-u-margin-left--1"
+          className="fa fa-angle-right vads-u-margin-left--1"
           aria-hidden="true"
         />
       </Link>

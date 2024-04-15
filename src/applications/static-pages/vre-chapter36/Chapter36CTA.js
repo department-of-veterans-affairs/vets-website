@@ -12,11 +12,7 @@ const Chapter36CTA = () => {
   const content = (
     <>
       {!isEducationAndCareerPage ? <h2>How do I apply?</h2> : null}
-      <a
-        className="usa-button-primary va-button-primary"
-        target="_self"
-        href={vreUrl}
-      >
+      <a target="_self" href={vreUrl}>
         Apply for career counseling
       </a>
     </>

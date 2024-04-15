@@ -5,7 +5,7 @@ import set from 'platform/utilities/data/set';
 import unset from 'platform/utilities/data/unset';
 
 import {
-  updateSchemaAndData,
+  updateSchemasAndData,
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
@@ -68,8 +68,7 @@ import { distanceBetween } from '../../utils/address';
 import { isTypeOfCareSupported } from '../../services/location';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
-  request:
-    'Please provide any additional details you’d like to share with your provider about this appointment.',
+  request: 'Add any details you’d like to share with your provider.',
   direct:
     'Please provide any additional details you’d like to share with your provider about this appointment.',
 };
@@ -112,7 +111,7 @@ const initialState = {
 
 function setupFormData(data, schema, uiSchema) {
   const schemaWithItemsCorrected = updateItemsSchema(schema);
-  return updateSchemaAndData(
+  return updateSchemasAndData(
     schemaWithItemsCorrected,
     uiSchema,
     getDefaultFormState(schemaWithItemsCorrected, data, {}),
@@ -165,7 +164,7 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_DATA_UPDATED: {
-      const { data, schema } = updateSchemaAndData(
+      const { data, schema } = updateSchemasAndData(
         state.pages[action.page],
         action.uiSchema,
         action.data,
@@ -453,7 +452,7 @@ export default function formReducer(state = initialState, action) {
         newSchema,
       );
 
-      const { schema } = updateSchemaAndData(
+      const { schema } = updateSchemasAndData(
         newSchema,
         action.uiSchema,
         formData,
@@ -658,7 +657,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_REASON_FOR_APPOINTMENT_CHANGED: {
       const newSchema = state.pages.reasonForAppointment;
 
-      const { data, schema } = updateSchemaAndData(
+      const { data, schema } = updateSchemasAndData(
         newSchema,
         action.uiSchema,
         action.data,

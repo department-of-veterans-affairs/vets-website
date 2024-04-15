@@ -13,6 +13,7 @@ import ResolutionExplainerWidget from '../../components/resolution/ResolutionExp
 import ResolutionExplainerReview from '../../components/resolution/ResolutionExplainerReview';
 import ResolutionComments from '../../components/resolution/ResolutionComments';
 import ResolutionCommentsReview from '../../components/resolution/ResolutionCommentsReview';
+import CustomResolutionOptionReview from '../../components/shared/CustomResolutionOptionReview';
 
 export default {
   resolutionOptionsChapter: {
@@ -39,6 +40,8 @@ export default {
         path: 'resolution-option/:index',
         showPagePerItem: true,
         arrayPath: 'selectedDebtsAndCopays',
+        CustomPage: null,
+        CustomPageReview: CustomResolutionOptionReview,
         uiSchema: resolutionOption.uiSchema,
         schema: resolutionOption.schema,
       },

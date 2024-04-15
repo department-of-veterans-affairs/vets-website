@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import CCInstructions from '../CCInstructions';
 
-describe('CCInstructions component', () => {
+describe('VAOS Component: CCInstructions', () => {
   const initialState = {};
 
   it('should render comment in CCInstructions', async () => {

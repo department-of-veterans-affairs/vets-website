@@ -6,6 +6,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
+import user from './fixtures/mocks/user.json';
 import { AUTHORIZER_TYPES } from '../../definitions/constants';
 import {
   fillAddressWebComponentPattern,
@@ -65,7 +66,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start your authorization without signing in/i, {
+          cy.findByText(/^start your authorization/i, {
             selector: 'a',
           }).click();
         });
@@ -128,6 +129,8 @@ const testConfig = createTestConfig(
         },
       });
       cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+
+      cy.login(user);
     },
     skip: false,
   },

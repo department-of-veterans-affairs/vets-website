@@ -7,7 +7,7 @@ const appointmentData = {
   status: 'Booked',
 };
 
-describe('VideoVisitProvider', () => {
+describe('VAOS Component: VideoVisitProvider', () => {
   it('should return null', () => {
     const appointment = {
       ...appointmentData,

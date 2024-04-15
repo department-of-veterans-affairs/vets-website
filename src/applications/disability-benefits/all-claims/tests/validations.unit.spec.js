@@ -379,14 +379,14 @@ describe('526 All Claims validations', () => {
     });
     it('should not add error when disability is in list', () => {
       const err = { addError: sinon.spy() };
-      validateDisabilityName(err, getDisabilityLabels()[7100]);
+      validateDisabilityName(err, getDisabilityLabels()[300]);
       expect(err.addError.called).to.be.false;
     });
     it('should not add error when disability is in list but capitalization is different', () => {
       const err = { addError: sinon.spy() };
       validateDisabilityName(
         err,
-        capitalizeEachWord(getDisabilityLabels()[7100]),
+        capitalizeEachWord(getDisabilityLabels()[300]),
       );
       expect(err.addError.called).to.be.false;
     });

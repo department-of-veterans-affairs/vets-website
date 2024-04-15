@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { addYears, sub } from 'date-fns';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
@@ -9,10 +10,15 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import EvidencePrivateRecords from '../../components/EvidencePrivateRecords';
-import { errorMessages, EVIDENCE_PRIVATE_PATH } from '../../constants';
+import {
+  errorMessages,
+  EVIDENCE_PRIVATE_PATH,
+  NO_ISSUES_SELECTED,
+} from '../../constants';
 
-import { getDate } from '../../../shared/utils/dates';
+import { parseDate } from '../../../shared/utils/dates';
 import { SELECTED } from '../../../shared/constants';
+import { clickAddAnother, clickBack, clickContinue } from './helpers';
 
 /*
 | Data     | Forward     | Back               | Add another      |
@@ -22,7 +28,7 @@ import { SELECTED } from '../../../shared/constants';
 | Partial  | Focus error | Modal & Prev page  | Focus error      |
  */
 describe('<EvidencePrivateRecords>', () => {
-  const validDate = getDate({ offset: { months: -2 } });
+  const validDate = parseDate(sub(new Date(), { months: 2 }));
   const mockData = {
     contestedIssues: [
       {
@@ -108,6 +114,81 @@ describe('<EvidencePrivateRecords>', () => {
     ).to.eq(2);
   });
 
+  it('should render with no data', () => {
+    const { container } = render(setup({ data: null }));
+    expect($$('va-text-input', container).length).to.eq(5);
+    expect($$('va-select', container).length).to.eq(2);
+    expect($('va-checkbox-group', container)).to.exist;
+    expect($$('va-checkbox', container).length).to.eq(0);
+    expect($$('va-memorable-date', container).length).to.eq(2);
+    expect($('.vads-c-action-link--green', container)).to.exist;
+  });
+
+  it('should update facility name', async () => {
+    const setDataSpy = sinon.spy();
+    const page = setup({ setFormData: setDataSpy });
+    const { container } = render(page);
+
+    const input = $('va-text-input', container);
+    input.value = 'location 99';
+    fireEvent.input(input, { target: { name: 'name' } });
+
+    expect(setDataSpy.called).to.be.true;
+    expect(setDataSpy.args[0][0].providerFacility[0]).to.deep.equal({
+      providerFacilityName: input.value,
+      providerFacilityAddress: {
+        country: 'USA',
+        street: '',
+        street2: '',
+        city: '',
+        state: '',
+        postalCode: '',
+      },
+      issues: [],
+      treatmentDateRange: { from: '', to: '' },
+    });
+  });
+
+  it('should add newly selected issue', async () => {
+    const setDataSpy = sinon.spy();
+    const page = setup({
+      setFormData: setDataSpy,
+      data: { ...mockData, providerFacility: [mockFacility] },
+    });
+    const { container } = render(page);
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    await checkboxGroup.__events.vaChange({
+      target: { checked: true, label: 'test 2' },
+    });
+
+    expect(setDataSpy.called).to.be.true;
+    expect(setDataSpy.args[0][0].providerFacility[0]).to.deep.equal({
+      ...mockFacility,
+      issues: ['test 1', 'test 2'],
+    });
+  });
+
+  it('should remove unselected issue', async () => {
+    const setDataSpy = sinon.spy();
+    const page = setup({
+      setFormData: setDataSpy,
+      data: { ...mockData, providerFacility: [mockFacility] },
+    });
+    const { container } = render(page);
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    await checkboxGroup.__events.vaChange({
+      target: { checked: false, label: 'test 1' },
+    });
+
+    expect(setDataSpy.called).to.be.true;
+    expect(setDataSpy.args[0][0].providerFacility[0]).to.deep.equal({
+      ...mockFacility,
+      issues: [],
+    });
+  });
+
   // *** VALID DATA ***
   describe('valid data navigation', () => {
     it('should navigate forward to limitation page with valid data', async () => {
@@ -121,7 +202,7 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // continue
-      fireEvent.click($('.usa-button-primary', container));
+      clickContinue(container);
       await waitFor(() => expect(goSpy.calledWith(data)).to.be.true);
     });
     it('should navigate back to private records request page with valid data', async () => {
@@ -136,7 +217,7 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // back
-      fireEvent.click($('.usa-button-secondary', container));
+      clickBack(container);
       // passing a negative index is okay, we're leaving the indexed pages
       await waitFor(() => expect(goSpy.calledWith(index - 1)).to.be.true);
     });
@@ -155,7 +236,7 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // add
-      fireEvent.click($('.vads-c-action-link--green', container));
+      clickAddAnother(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -176,7 +257,7 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // add
-      fireEvent.click($('.vads-c-action-link--green', container));
+      clickAddAnother(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -224,7 +305,7 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // continue
-      fireEvent.click($('.usa-button-primary', container));
+      clickContinue(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -248,7 +329,7 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // continue
-      fireEvent.click($('.usa-button-primary', container));
+      clickContinue(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -263,7 +344,7 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // back
-      fireEvent.click($('.usa-button-secondary', container));
+      clickBack(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -285,7 +366,7 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // back
-      fireEvent.click($('.usa-button-secondary', container));
+      clickBack(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
@@ -310,12 +391,28 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // add
-      fireEvent.click($('.vads-c-action-link--green', container));
+      clickAddAnother(container);
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.called).to.be.false;
         getAndTestAllErrors(container);
+      });
+    });
+    it('should cancel navigation', async () => {
+      const goSpy = sinon.spy();
+      const index = 0;
+      const page = setup({ index, goBack: goSpy, goToPath: goSpy });
+      const { container } = render(page);
+
+      // back
+      clickBack(container);
+
+      const event = new CustomEvent('closeEvent');
+      await $('va-modal', container).__events.closeEvent(event);
+
+      await waitFor(() => {
+        expect($('va-modal[visible="false"]', container)).to.exist;
       });
     });
   });
@@ -329,8 +426,8 @@ describe('<EvidencePrivateRecords>', () => {
       });
 
       // close modal
-      $('va-modal').__events[event]();
-      await waitFor(() => {
+      await $('va-modal').__events[event]();
+      return waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
       });
     };
@@ -355,7 +452,7 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // continue
-      fireEvent.click($('.usa-button-primary', container));
+      clickContinue(container);
 
       await waitFor(() => {
         expect(goSpy.called).to.be.false;
@@ -365,8 +462,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
 
     // *** BACK ***
-    // consistently flaky test
-    it.skip('should show modal, select "No, remove this location", then navigate back to previous index', async () => {
+    it('should show modal, select "No, remove this location", then navigate back to previous index', async () => {
       const goSpy = sinon.spy();
       const setDataSpy = sinon.spy();
       const index = 1;
@@ -388,7 +484,7 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // back
-      fireEvent.click($('.usa-button-secondary', container));
+      clickBack(container);
       // Click no
       await testAndCloseModal(container, 8, 'secondaryButtonClick');
 
@@ -401,8 +497,7 @@ describe('<EvidencePrivateRecords>', () => {
       });
     });
 
-    // consistently flaky test
-    it.skip('should show modal, select "Yes", then navigate back to previous index', async () => {
+    it('should show modal, select "Yes", then navigate back to previous index', async () => {
       const goSpy = sinon.spy();
       const setDataSpy = sinon.spy();
       const index = 2;
@@ -422,7 +517,7 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // back
-      fireEvent.click($('.usa-button-secondary', container));
+      clickBack(container);
       // Click yes to keep partial entry
       await testAndCloseModal(container, 8, 'primaryButtonClick');
 
@@ -449,7 +544,7 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // add
-      fireEvent.click($('.vads-c-action-link--green', container));
+      clickAddAnother(container);
 
       await waitFor(() => {
         expect(goSpy.called).to.be.false;
@@ -464,7 +559,7 @@ describe('<EvidencePrivateRecords>', () => {
     const toBlurEvent = new CustomEvent('blur', { detail: 'to' });
 
     it('should show error when start treatment date is in the future', async () => {
-      const from = getDate({ offset: { years: +1 } });
+      const from = parseDate(addYears(new Date(), 1));
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { from } }],
@@ -485,7 +580,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
 
     it('should show error when last treatment date is in the future', async () => {
-      const to = getDate({ offset: { years: +1 } });
+      const to = parseDate(addYears(new Date(), 1));
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { to } }],
@@ -506,7 +601,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
 
     it('should show an error when the start treatment date is too far in the past', async () => {
-      const from = getDate({ offset: { years: -101 } });
+      const from = parseDate(sub(new Date(), { years: 101 }));
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { from } }],
@@ -527,7 +622,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
 
     it('should show an error when the last treatment date is too far in the past', async () => {
-      const to = getDate({ offset: { years: -101 } });
+      const to = parseDate(sub(new Date(), { years: 101 }));
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { to } }],
@@ -548,8 +643,8 @@ describe('<EvidencePrivateRecords>', () => {
     });
 
     it('should show an error when the last treatment date is before the start', async () => {
-      const from = getDate({ offset: { years: -5 } });
-      const to = getDate({ offset: { years: -10 } });
+      const from = parseDate(sub(new Date(), { years: 5 }));
+      const to = parseDate(sub(new Date(), { years: 10 }));
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { from, to } }],
@@ -583,6 +678,14 @@ describe('<EvidencePrivateRecords>', () => {
       await waitFor(() => {
         expect(input.error).to.contain(errorMessages.evidence.uniquePrivate);
       });
+    });
+
+    it('should show no contestable issues were selected message', () => {
+      const data = { data: { contestedIssues: [], additionalIssues: [] } };
+      const { container } = render(setup(data));
+      expect($('va-checkbox-group', container).textContent).to.contain(
+        NO_ISSUES_SELECTED,
+      );
     });
   });
 });

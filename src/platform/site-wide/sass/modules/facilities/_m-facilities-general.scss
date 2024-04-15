@@ -1,11 +1,11 @@
 /* The brightest duo-tone color */
 .darken::before {
-  background-color: $color-primary-darkest;
+  background-color: var(--vads-color-primary-darker);
 }
 
 /* The darkest duo-tone color */
 .lighten::after {
-  background-color: $color-black;
+  background-color: var(--vads-color-black);
 }
 
 /* Duo-tone effect */
@@ -84,7 +84,7 @@
     width: 342px;
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     height: initial;
     width: initial;
     object-fit: initial;
@@ -102,7 +102,7 @@
     width: 250px;
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     object-fit: initial;
   }
 }
@@ -113,7 +113,7 @@
     width: 100%;
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     height: initial;
     width: initial;
   }
@@ -124,7 +124,7 @@
   height: auto;
   object-fit: cover;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     width: 100%;
     height: auto;
     object-fit: cover;
@@ -165,7 +165,7 @@
     }
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     width: 65%;
     &.event,
     &.facility {
@@ -202,20 +202,20 @@
 }
 
 .expand-image-button {
-  background-color: $color-primary;
+  background-color: var(--vads-color-primary);
   border-radius: 5px;
-  color: $color-white;
+  color: var(--vads-color-white);
   height: 32px;
   width: 32px;
 
   &:visited {
-    background-color: $color-primary;
-    color: $color-white;
+    background-color: var(--vads-color-primary);
+    color: var(--vads-color-white);
   }
 
   &:hover {
-    background-color: $color-primary-darker;
-    color: $color-white;
+    background-color: var(--vads-color-primary-dark);
+    color: var(--vads-color-white);
   }
 }
 

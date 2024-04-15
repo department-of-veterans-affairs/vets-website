@@ -1,9 +1,10 @@
 import { expect } from 'chai';
+import { addWeeks, sub } from 'date-fns';
 
 import { validateDate, isValidDate } from '../../validations/date';
 import { issueErrorMessages } from '../../content/addIssue';
 
-import { getDate } from '../../../shared/utils/dates';
+import { parseDate } from '../../../shared/utils/dates';
 
 describe('validateDate & isValidDate', () => {
   let errorMessage = [];
@@ -18,7 +19,7 @@ describe('validateDate & isValidDate', () => {
   });
 
   it('should allow valid dates', () => {
-    const date = getDate({ offset: { weeks: -1 } });
+    const date = parseDate(sub(new Date(), { weeks: 1 }));
     validateDate(errors, date);
     expect(errorMessage[0]).to.be.undefined;
     expect(isValidDate(date)).to.be.true;
@@ -33,7 +34,16 @@ describe('validateDate & isValidDate', () => {
     expect(errorMessage[0]).to.be.undefined;
     expect(isValidDate(date)).to.be.true;
   });
-  it('should throw a invalid date error', () => {
+  it('should throw a invalid date error for an undefined date', () => {
+    validateDate(errors);
+    expect(errorMessage[0]).to.contain(issueErrorMessages.blankDecisionDate);
+    expect(errorMessage[1]).to.contain('month');
+    expect(errorMessage[1]).to.contain('day');
+    expect(errorMessage[1]).to.contain('year');
+    expect(errorMessage[1]).to.contain('other');
+    expect(isValidDate()).to.be.false;
+  });
+  it('should throw a invalid date error for a partial date', () => {
     validateDate(errors, '200');
     expect(errorMessage[0]).to.contain(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.contain('month');
@@ -61,7 +71,7 @@ describe('validateDate & isValidDate', () => {
     expect(isValidDate('1899')).to.be.false;
   });
   it('should throw an error for dates in the future', () => {
-    const date = getDate({ offset: { weeks: 1 } });
+    const date = parseDate(addWeeks(new Date(), 1));
     validateDate(errors, date);
     expect(errorMessage[0]).to.contain(issueErrorMessages.pastDate);
     expect(errorMessage[1]).to.not.contain('month');
@@ -71,7 +81,7 @@ describe('validateDate & isValidDate', () => {
     expect(isValidDate(date)).to.be.false;
   });
   it('should throw an error for todays date', () => {
-    const date = getDate();
+    const date = parseDate(new Date());
     validateDate(errors, date);
     expect(errorMessage[0]).to.contain(issueErrorMessages.pastDate);
     expect(errorMessage[1]).to.not.contain('month');
@@ -81,7 +91,7 @@ describe('validateDate & isValidDate', () => {
     expect(isValidDate(date)).to.be.false;
   });
   it('should throw an error for dates more than a year in the past', () => {
-    const date = getDate({ offset: { weeks: -60 } });
+    const date = parseDate(sub(new Date(), { weeks: 60 }));
     validateDate(errors, date);
     expect(errorMessage[0]).to.contain(issueErrorMessages.newerDate);
     expect(errorMessage[1]).to.not.contain('month');
@@ -92,7 +102,7 @@ describe('validateDate & isValidDate', () => {
   });
   it('should throw a invalid date for truncated dates', () => {
     // Testing 'YYYY-MM-' (contact center reported errors; FE seeing this)
-    const date = getDate({ offset: { weeks: 1 } }).substring(0, 8);
+    const date = parseDate(addWeeks(new Date(), 1)).substring(0, 8);
     validateDate(errors, date);
     expect(errorMessage[0]).to.contain(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.not.contain('month');
@@ -103,7 +113,7 @@ describe('validateDate & isValidDate', () => {
   });
   it('should throw a invalid date for truncated dates', () => {
     // Testing 'YYYY--DD' (contact center reported errors; BE seeing this)
-    const date = getDate({ offset: { weeks: 1 } }).replace(/-.*-/, '--');
+    const date = parseDate(addWeeks(new Date(), 1)).replace(/-.*-/, '--');
     validateDate(errors, date);
     expect(errorMessage[0]).to.contain(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.contain('month');

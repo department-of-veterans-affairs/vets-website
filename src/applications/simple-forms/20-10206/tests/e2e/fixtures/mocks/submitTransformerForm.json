@@ -72,13 +72,12 @@
                   "ui:options": {
                       "labels": {
                           "citizen": "I’m a U.S. citizen requesting my own personal VA records",
-                          "non-citizen": "I’m a non-U.S. citizen requesting my own personal VA records",
-                          "third-party": "I’m a third-party or power of attorney requesting personal VA records for someone else"
+                          "non-citizen": "I’m a non-U.S. citizen requesting my own personal VA records"
                       },
                       "labelHeaderLevel": "3"
                   },
                   "ui:errorMessages": {
-                      "required": "Please select your identity"
+                      "required": "Select your identity"
                   }
               }
           },
@@ -89,8 +88,7 @@
                       "type": "string",
                       "enum": [
                           "citizen",
-                          "non-citizen",
-                          "third-party"
+                          "non-citizen"
                       ]
                   }
               },
@@ -135,7 +133,7 @@
                       "ui:title": "First name",
                       "ui:autocomplete": "given-name",
                       "ui:errorMessages": {
-                          "required": "Please enter a first name"
+                          "required": "Enter a first name"
                       },
                       "ui:options": {
                           "uswds": true
@@ -152,7 +150,7 @@
                       "ui:title": "Last name",
                       "ui:autocomplete": "family-name",
                       "ui:errorMessages": {
-                          "required": "Please enter a last name"
+                          "required": "Enter a last name"
                       },
                       "ui:options": {
                           "uswds": true
@@ -179,8 +177,8 @@
                       null
                   ],
                   "ui:errorMessages": {
-                      "pattern": "Please provide a valid date",
-                      "required": "Please provide the date of birth"
+                      "pattern": "Provide a valid date",
+                      "required": "Provide the date of birth"
                   },
                   "ui:options": {}
               },
@@ -190,7 +188,7 @@
                       "hint": "City and state or foreign country"
                   },
                   "ui:errorMessages": {
-                      "required": "Please enter your place of birth"
+                      "required": "Enter your place of birth"
                   }
               }
           },
@@ -276,8 +274,8 @@
                           null
                       ],
                       "ui:errorMessages": {
-                          "pattern": "Please enter a valid 9 digit Social Security number (dashes allowed)",
-                          "required": "Please enter a Social Security number"
+                          "pattern": "Enter a valid 9 digit Social Security number (dashes allowed)",
+                          "required": "Enter a Social Security number"
                       }
                   },
                   "vaFileNumber": {
@@ -350,8 +348,8 @@
                           null
                       ],
                       "ui:errorMessages": {
-                          "pattern": "Please enter a valid 7-9 digit Alien registration number (dashes allowed)",
-                          "required": "Please enter an Alien registration number"
+                          "pattern": "Enter a valid 7-9 digit Alien registration number (dashes allowed)",
+                          "required": "Enter an Alien registration number"
                       }
                   },
                   "vaFileNumber": {
@@ -449,7 +447,7 @@
                       "ui:autocomplete": "address-line1",
                       "ui:errorMessages": {
                           "required": "Street address is required",
-                          "pattern": "Please fill in a valid street address"
+                          "pattern": "Fill in a valid street address"
                       }
                   },
                   "street2": {
@@ -469,7 +467,7 @@
                   "state": {
                       "ui:autocomplete": "address-level1",
                       "ui:errorMessages": {
-                          "required": "Please enter a valid State, Province, or Region"
+                          "required": "Enter a valid State, Province, or Region"
                       },
                       "ui:options": {
                           "hideEmptyValueInReview": true
@@ -1157,8 +1155,8 @@
                       "inputType": "tel"
                   },
                   "ui:errorMessages": {
-                      "required": "Please enter a 10-digit phone number (with or without dashes)",
-                      "pattern": "Please enter a 10-digit phone number (with or without dashes)"
+                      "required": "Enter a 10-digit phone number (with or without dashes)",
+                      "pattern": "Enter a 10-digit phone number (with or without dashes)"
                   }
               },
               "emailAddress": {
@@ -1166,7 +1164,7 @@
                   "ui:autocomplete": "email",
                   "ui:description": "",
                   "ui:errorMessages": {
-                      "required": "Please enter an email address",
+                      "required": "Enter an email address",
                       "format": "Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.",
                       "pattern": "Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces."
                   },
@@ -1388,8 +1386,8 @@
                               null
                           ],
                           "ui:errorMessages": {
-                              "pattern": "Please enter a valid exam date",
-                              "required": "Please enter your exam date"
+                              "pattern": "Enter a valid exam date",
+                              "required": "Enter your exam date"
                           },
                           "ui:options": {
                               "hint": "It’s OK to estimate.",
@@ -1586,7 +1584,7 @@
               "otherCompAndPenDetails": {
                   "ui:title": "Describe the compensation and/or pension records you’d like to request",
                   "ui:errorMessages": {
-                      "required": "Please describe the compensation and/or pension records you’re requesting."
+                      "required": "Describe the compensation and/or pension records you’re requesting."
                   }
               }
           },

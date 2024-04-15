@@ -11,14 +11,14 @@
     overflow-x: hidden;
     z-index: 2001;
     padding: 1em;
-    background-color: $color-white;
+    background-color: var(--vads-color-white);
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
     .modal-button-wrapper {
-      background-color: $color-gray-lightest;
+      background-color: var(--vads-color-base-lightest);
       margin-left: -1em;
       margin-right: -1em;
       margin-bottom: -1em;
@@ -129,7 +129,7 @@
     }
 
     @include media-maxwidth($small-screen) {
-      background: $color-white;
+      background: var(--vads-color-white);
       display: none;
       height: 100%;
       left: 0;
@@ -164,7 +164,7 @@
   }
 
   .results-button {
-    background: $color-gray-lightest;
+    background: var(--vads-color-base-lightest);
     bottom: 0;
     left: 0;
     padding: 1rem 2rem;
@@ -188,7 +188,7 @@
   }
 
   .search-result {
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
     padding: 0;
     margin: 0 0 1em 0;
 
@@ -252,8 +252,8 @@
     }
 
     .info-flag {
-      color: $color-gray-dark;
-      background-color: $color-white;
+      color: var(--vads-color-base-darker);
+      background-color: var(--vads-color-white);
       font-size: 0.9em;
       display: inline-block;
       padding: 0.1em 0.5em;
@@ -267,8 +267,8 @@
     }
 
     .caution-flag {
-      color: $color-gray-dark;
-      background-color: $color-gold;
+      color: var(--vads-color-base-darker);
+      background-color: var(--vads-color-warning);
       border-radius: 3px 3px 3px 3px;
       font-size: 0.9em;
       font-weight: bold;
@@ -301,8 +301,8 @@
   }
 
   .search-result-tag {
-    background-color: $color-white;
-    color: $color-gray-dark;
+    background-color: var(--vads-color-white);
+    color: var(--vads-color-base-darker);
     display: inline-block;
     margin: 0px 8px 8px 0px;
     padding: 0px 4px;
@@ -331,7 +331,7 @@
       width: 44px;
       height: 44px;
       background-color: transparent;
-      color: $color-black;
+      color: var(--vads-color-black);
       padding: 0;
       margin: 0;
       font-family: "Font Awesome 5 Free";
@@ -352,13 +352,14 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background-color: $color-blue;
+    background-color: var(--vads-color-primary);
     border: 0;
     border-radius: 5px;
-    color: $color-white;
+    color: var(--vads-color-white);
     cursor: pointer;
     display: inline-block;
-    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+    font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
+      "Arial", sans-serif;
     font-size: 1.6rem;
     font-weight: 700;
     line-height: 1;
@@ -380,11 +381,11 @@
     }
   }
   .gi-checkbox-label:before {
-    box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-gray-medium;
+    box-shadow: 0 0 0 2px var(--vads-color-white), 0 0 0 3px var(--vads-color-gray-medium);
   }
 
   .usa-alert {
-    background-color: $color-white;
+    background-color: var(--vads-color-white);
     padding: 0.5em 1em;
     margin-top: 1em;
   }
@@ -475,11 +476,14 @@
   }
 }
 
-.search-star-container{
+.search-star-container {
   padding: 0% !important;
 }
 
-.star-icons{
+.star-icons {
   position: relative;
   margin-right: 8px;
+}
+.school-types-label {
+  margin-top: -15px !important;
 }

@@ -1,33 +1,20 @@
 // import defaultCondition from '../fixtures/Condition.json';
+import BaseDetailsPage from './BaseDetailsPage';
 
-class ConditionDetailsPage {
-  verifyPrintButton = () => {
-    // should display print button for a list "Print this list"
-    cy.get('[data-testid="printButton-0"]').should('be.visible');
+class ConditionDetailsPage extends BaseDetailsPage {
+  verifyProvider = provider => {
+    cy.get('[data-testid="condition-provider"]').should('be.visible');
+    cy.get('[data-testid="condition-provider"]').contains(provider);
   };
 
-  verifyPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').should('be.visible');
+  verifyLocation = location => {
+    cy.get('[data-testid="condition-location"]').should('be.visible');
+    cy.get('[data-testid="condition-location"]').contains(location);
   };
 
-  clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').click({ force: true });
-  };
-
-  verifyDownloadPDF = () => {
-    // should display a download pdf file button "Download PDF of this page"
-    cy.get('[data-testid="printButton-1"]').should('be.visible');
-  };
-
-  verifyDownloadTextFile = () => {
-    // should display a download text file button "Download list as a text file"
-    cy.get('[data-testid="printButton-2"]').should('be.visible');
-    // cy.get('[data-testid="printButton-2').click();
-  };
-
-  clickDownloadPDFFile = () => {
-    // should display a download text file button "Download list as a text file"
-    cy.get('[data-testid="printButton-1"]').click();
+  verifyProviderNotes = providerNotes => {
+    // cy.get('[data-testid="item-list-string"]').should('be.visible');
+    cy.get('[data-testid="list-item-single"]').contains(providerNotes);
   };
 }
 

@@ -30,7 +30,7 @@ const ConfirmationPage = ({ form }) => {
 
   return (
     <div className="vads-u-margin-bottom--9">
-      <va-alert status="success">
+      <va-alert status="success" uswds="false">
         <h2 slot="headline" className="vads-u-font-size--h3">
           You’ve successfully submitted your request for a COE.
         </h2>

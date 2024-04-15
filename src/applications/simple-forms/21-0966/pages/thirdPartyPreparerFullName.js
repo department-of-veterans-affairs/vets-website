@@ -12,12 +12,13 @@ export default {
       'Your name',
       <>
         <p>
-          If you’re representing a Veteran, or their spouse or child, add your
-          name here.
+          If you're an alternate signer, Veteran Service Officer, fiduciary, or
+          third-party representative filling this out on behalf of a Veteran,
+          add your name here.
         </p>
         <p>
-          <b>Note:</b> You must be recognized by VA to make decisions or sign
-          for them.
+          <strong>Note:</strong> You must be recognized by VA to make decisions
+          or sign for them.
         </p>
       </>,
     ),

@@ -22,7 +22,7 @@ describe('HLR homeless page', () => {
       />,
     );
 
-    expect($$('input', container).length).to.equal(2);
+    expect($$('va-radio-option', container).length).to.equal(2);
   });
 
   it('should allow submit', () => {
@@ -38,9 +38,13 @@ describe('HLR homeless page', () => {
       />,
     );
 
-    fireEvent.click($('input[value="N"]', container));
+    expect(
+      $('va-radio', container).__events.vaValueChange({
+        detail: { value: 'N' },
+      }),
+    );
     fireEvent.submit($('form', container));
-    expect($('.usa-input-error-message', container)).to.not.exist;
+    expect($('[error]')).to.not.exist;
     expect(onSubmit.called).to.be.true;
   });
 
@@ -59,31 +63,7 @@ describe('HLR homeless page', () => {
     );
 
     fireEvent.submit($('form', container));
-    expect($$('.usa-input-error-message', container).length).to.equal(1);
+    expect($('[error]')).to.exist;
     expect(onSubmit.called).to.be.false;
-  });
-
-  it('should capture google analytics', () => {
-    global.window.dataLayer = [];
-    const { container } = render(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={() => {}}
-      />,
-    );
-
-    fireEvent.click($('input[value="Y"]', container));
-
-    const event = global.window.dataLayer.slice(-1)[0];
-    expect(event).to.deep.equal({
-      event: 'int-radio-button-option-click',
-      'radio-button-label': 'Are you experiencing homelessness?',
-      'radio-button-optionLabel': 'Yes',
-      'radio-button-required': false,
-    });
   });
 });

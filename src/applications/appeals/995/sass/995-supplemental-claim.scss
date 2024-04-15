@@ -5,26 +5,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
-
-.schemaform-intro {
-  padding: 0 0 2rem 0;
-
-  .process-step:last-child {
-    padding-bottom: 0;
-  }
-
-  .omb-info--container {
-    margin-top: 1em;
-  }
-}
-
-/* Global */
-.nowrap {
-  white-space: nowrap;
-}
-
-/* Step 2 */
-/*** Contested issues block ***/
+@import "../../shared/sass/appeals";
 
 /* global definitions */
 // hide Required label (added to description)
@@ -34,73 +15,6 @@
 
 #root_additionalDocuments_add_label {
   margin-top: 0;
-}
-
-/* Contested issue cards (contested issue page & review/submit page)
- * This could go in the schemaform css, it's used in form 526 & HLR
- */
-.issues {
-
-  .widget-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-
-    .widget-checkbox-wrap {
-      margin: 0;
-      width: 5rem;
-      min-width: 5rem;
-
-      label {
-        margin-top: 0;
-      }
-
-      [type="checkbox"] {
-        width: 1.8rem;
-        height: 1.8rem;
-        margin: 0;
-      }
-    }
-
-    .widget-content {
-      width: 100%;
-      margin-inline-start: 0; /* override user agent */
-      text-align: left;
-      margin: 0;
-    }
-    .widget-content.widget-edit {
-      margin-top: 0;
-      margin-right: 0;
-      display: flex;
-
-      .widget-content-wrap {
-        margin-top: 3rem;
-        margin-right: 0.5rem;
-        width: 100%;
-      }
-
-      .edit {
-        margin-top: 2rem;
-        /* position the edit button above the overlapping label */
-        position: relative;
-        z-index: 1;
-        align-self: center;
-      }
-    }
-    .edit-issue-link:visited {
-      color: inherit;
-    }
-  }
-
-  .checkbox-hidden {
-    .widget-content {
-      margin: 2rem 0 0 0;
-    }
-  }
-}
-
-.usa-accordion-content .issues .checkbox-hidden .widget-content {
-  margin-left: 0; /* remove card margin on review & submit page */
 }
 
 .usa-input-error #root_additionalIssues_0_decisionDate-label {
@@ -135,12 +49,6 @@ ul.issues,
 
 #root_form5103Acknowledged-label {
   display: none !important;
-}
-
-/* Hide home & mobile phone extension entry, per design */
-article[data-location="edit-mobile-phone"] .schemaform-field-template:not(.schemaform-first-field),
-article[data-location="edit-home-phone"] va-text-input[name="extension"] {
-  display: none;
 }
 
 article[data-location="issue-summary"] {
@@ -185,7 +93,7 @@ article[data-location$="va-medical-records"] {
     margin-top: 0;
   }
   .va-growable-background {
-    border-bottom: solid 1px $color-gray-light;
+    border-bottom: solid 1px var(--vads-color-base-light);
   }
 }
 
@@ -197,17 +105,9 @@ article[data-location="review-and-submit"] {
 
   .review-fieldset {
     legend {
-      border-top: 1px solid $color-gray-light;
+      border-top: 1px solid var(--vads-color-base-light);
       padding-top: 2rem;
     }
-  }
-
-  .form-review-panel-page-header {
-    padding-right: 1rem;
-    line-height: 2.5rem;
-  }
-  .form-review-panel-page-header-row {
-    align-items: flex-start;
   }
 }
 

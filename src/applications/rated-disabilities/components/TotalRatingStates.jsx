@@ -30,13 +30,10 @@ export const missingTotalMessage = () => (
       disability that was caused by or got worse because of your service, you
       can file a claim for disability benefits.
     </p>
-    <a
-      href="/disability/how-to-file-claim/"
-      className="usa-link vads-u-font-size--base"
-      aria-label="Learn how to file a claim for disability compensation"
-    >
-      Learn how to file a claim for disability compensation
-    </a>
+    <va-link
+      href="/disability/how-to-file-claim"
+      text="Learn how to file a claim for disability compensation"
+    />
   </va-alert>
 );
 
@@ -44,7 +41,7 @@ export const totalRatingMessage = totalDisabilityRating => {
   const heading = `Your combined disability rating is ${totalDisabilityRating}%`;
 
   return (
-    <va-featured-content>
+    <va-summary-box>
       <h3 slot="headline">{heading}</h3>
       <p>
         This rating doesn’t include any conditions from claims that we’re still
@@ -63,6 +60,6 @@ export const totalRatingMessage = totalDisabilityRating => {
       >
         Check the status of your claims, decision reviews, or appeals online
       </a>
-    </va-featured-content>
+    </va-summary-box>
   );
 };

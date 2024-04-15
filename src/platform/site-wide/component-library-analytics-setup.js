@@ -9,17 +9,6 @@ import environment from 'platform/utilities/environment';
 
 const analyticsEvents = {
   Modal: [{ action: 'show', event: 'int-modal-show', prefix: 'modal' }],
-  Accordion: [
-    { action: 'expand', event: 'int-accordion-expand', prefix: 'accordion' },
-    {
-      action: 'collapse',
-      event: 'int-accordion-collapse',
-      prefix: 'accordion',
-    },
-  ],
-  TextInput: [
-    { action: 'blur', event: 'int-text-input-blur', prefix: 'text-input' },
-  ],
   'va-accordion': [
     {
       action: 'expand',

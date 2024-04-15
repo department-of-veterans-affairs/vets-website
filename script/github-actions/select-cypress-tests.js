@@ -306,9 +306,9 @@ function main() {
   exportVariables(testsToRunNormally);
 
   if (RUN_FULL_SUITE) {
-    core.exportVariable('TESTS_TO_STRESS_TEST', allAllowListSpecs);
+    core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', allAllowListSpecs);
   } else {
-    core.exportVariable('TESTS_TO_STRESS_TEST', testsToStressTest);
+    core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', testsToStressTest);
   }
 }
 if (RUN_FULL_SUITE || ALLOW_LIST.length > 0) {

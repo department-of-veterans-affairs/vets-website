@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const DownloadLettersAlert = () => (
-  <va-alert status="warning">
+  <va-alert status="warning" uswds>
     <h3 slot="headline">
       Downloadable letters have incorrect repayment plan terms
     </h3>
@@ -30,7 +30,7 @@ export const DownloadLettersAlert = () => (
 
 export const DowntimeMessage = () => {
   return (
-    <va-alert status="error">
+    <va-alert status="error" uswds>
       <h3 slot="headline">Nightly tool maintenance</h3>
       <p className="vads-u-font-size--base vads-u-font-family--sans">
         We’re working on this tool right now. If you have trouble signing in or
@@ -64,7 +64,7 @@ export const DowntimeMessage = () => {
 };
 
 export const ErrorMessage = () => (
-  <va-alert status="error">
+  <va-alert status="error" uswds>
     <h3 slot="headline">Information about your current debts is unavailable</h3>
     <p className="vads-u-font-family--sans">
       We’re sorry. You can’t view information about your current debts because
@@ -79,7 +79,7 @@ export const ErrorMessage = () => (
 );
 
 export const ErrorAlert = () => (
-  <va-alert status="error">
+  <va-alert status="error" uswds>
     <h3 slot="headline">Your debt letters are currently unavailable.</h3>
     <p className="vads-u-font-family--sans">
       You can’t download your debt letters because something went wrong on our
@@ -95,7 +95,7 @@ export const ErrorAlert = () => (
 );
 
 export const DependentDebt = () => (
-  <va-alert status="error">
+  <va-alert status="error" uswds>
     <h3 slot="headline">Your debt letters are currently unavailable.</h3>
     <p className="vads-u-font-family--sans">
       You can’t download your debt letters because something went wrong on our
@@ -110,7 +110,7 @@ export const DependentDebt = () => (
 );
 
 export const NoDebtLinks = () => (
-  <va-alert status="error">
+  <va-alert status="error" uswds>
     <h3 slot="headline">You don’t have any VA debt letters</h3>
     <p className="vads-u-font-family--sans">
       Our records show you don’t have any debt letters related to VA benefits.

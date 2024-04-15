@@ -10,16 +10,17 @@ describe('Medical Records View Allergies', () => {
 
     AllergiesListPage.clickGotoAllergiesLink(allergies);
 
-    cy.get('[data-testid="print-records-button"]')
-      .should('be.visible')
-      .click({ force: true });
+    cy.title().should(
+      'contain',
+      'Allergies and Reactions - Medical Records | Veterans Affairs',
+    );
+
+    // cy.get('[data-testid="print-records-button"]')
+    //   .should('be.visible')
+    //   .click({ force: true });
+    AllergiesListPage.verifyPrintOrDownload();
+    AllergiesListPage.clickPrintOrDownload();
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck('main');
   });
 });

@@ -5,13 +5,15 @@ import { selectUser } from 'platform/user/selectors';
 import { selectPatientFacilities } from 'platform/user/cerner-dsot/selectors.js';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
-import environment from 'platform/utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import NoRegistrationMessage from './NoRegistrationMessage';
+import { useDatadogRum } from '../utils/useDatadogRum';
 
 export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
   const user = useSelector(selectUser);
   const sites = useSelector(selectPatientFacilities);
   const hasRegisteredSystems = sites?.length > 0;
+  useDatadogRum();
   return (
     <RequiredLoginView
       serviceRequired={[

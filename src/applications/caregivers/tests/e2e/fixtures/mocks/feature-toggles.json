@@ -3,120 +3,12 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "preEntryCovid19Screener",
-        "value": true
-      },
-      {
-        "name": "facilityLocatorShowCommunityCares",
-        "value": true
-      },
-      {
-        "name": "facilitiesPpmsSuppressPharmacies",
+        "name": "caregiverUseFacilitiesApi",
         "value": false
       },
       {
-        "name": "facilitiesPpmsSuppressCommunityCare",
-        "value": true
-      },
-      {
-        "name": "facilityLocatorFeUseV1",
-        "value": true
-      },
-      {
-        "name": "profile_show_profile_2.0",
-        "value": true
-      },
-      {
-        "name": "vaOnlineScheduling",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingCancel",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingRequests",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingCommunityCare",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingDirect",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingPast",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingVspAppointmentList",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingVspAppointmentNew",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingCcspAppointmentList",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingCcspRequestNew",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingVspRequestList",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingVspRequestNew",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingExpressCare",
-        "value": true
-      },
-      {
-        "name": "vaOnlineSchedulingExpressCareNew",
-        "value": true
-      },
-      {
-        "name": "eduBenefitsStemScholarship",
-        "value": true
-      },
-      {
-        "name": "vaViewDependentsAccess",
-        "value": true
-      },
-      {
-        "name": "gibctEybBottomSheet",
-        "value": true
-      },
-      {
-        "name": "gibctSearchEnhancements",
-        "value": true
-      },
-      {
-        "name": "form996HigherLevelReview",
-        "value": true
-      },
-      {
-        "name": "debtLettersShowLetters",
-        "value": true
-      },
-      {
-        "name": "gibctCh33BenefitRateUpdate",
-        "value": true
-      },
-      {
-        "name": "caregiverUseFacilitiesApi",
-        "value": true
-      },
-      {
         "name": "caregiver_use_facilities_API",
-        "value": true
+        "value": false
       }
     ]
   }

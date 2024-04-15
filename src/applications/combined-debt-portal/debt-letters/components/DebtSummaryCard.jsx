@@ -22,17 +22,21 @@ const DebtSummaryCard = ({ debt }) => {
   );
 
   return (
-    <article
-      className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
-      data-testid="debt-summary-item"
-    >
-      <h3 className="vads-u-margin--0">{debtCardTotal}</h3>
-      <p className="vads-u-margin-y--2 vads-u-font-weight--normal">
-        {debtCardHeading}
-      </p>
-      {debtCardSubHeading}
-      <div className="vads-u-margin-right--5 vads-u-margin-top--2 vads-u-font-weight--bold">
+    <li>
+      <va-card
+        show-shadow
+        class="vads-u-padding--3 vads-u-margin-bottom--3"
+        data-testid="debt-summary-item"
+      >
+        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5">
+          {debtCardTotal}{' '}
+          <span className="vads-u-margin-top--1 vads-u-margin-bottom--1p5 vads-u-display--block vads-u-font-size--h4 vads-u-font-weight--normal">
+            {debtCardHeading}
+          </span>
+        </h3>
+        {debtCardSubHeading}
         <Link
+          className="vads-u-font-weight--bold"
           data-testid="debt-details-button"
           onClick={() => {
             recordEvent({ event: 'cta-link-click-debt-summary-card' });
@@ -44,11 +48,11 @@ const DebtSummaryCard = ({ debt }) => {
           Check details and resolve this debt
           <i
             aria-hidden="true"
-            className="fa fa-chevron-right vads-u-font-size--sm vads-u-margin-left--0p5"
+            className="fas fa-angle-right vads-u-margin-left--1"
           />
         </Link>
-      </div>
-    </article>
+      </va-card>
+    </li>
   );
 };
 

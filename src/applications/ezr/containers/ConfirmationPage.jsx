@@ -43,6 +43,44 @@ const ConfirmationPage = ({ form, profile }) => {
       </section>
 
       <section>
+        <h2>
+          Can I submit other supporting documents if I answered questions about
+          my military service history?
+        </h2>
+        <p>
+          Yes. If you answered questions about your military service history and
+          may have had exposure to any toxins or other hazards while you were
+          deployed or during active duty training or service, you can also send
+          us a written statement with more information by mail.
+        </p>
+        <p>
+          It’s your choice whether you want to submit a written statement. We’ll
+          use the information to confirm your military service history.
+        </p>
+        <p>Here’s what you can include in your written statement:</p>
+        <ul>
+          <li>Any toxins or hazards you were exposed to</li>
+          <li>Month and year when you were exposed</li>
+          <li>
+            Type of activity or work you were doing when you were exposed (like
+            basic training)
+          </li>
+          <li>
+            And you’ll need to write your name and Social Security number on
+            your statement.
+          </li>
+        </ul>
+        <p>Mail your documents here:</p>
+        <p className="va-address-block">
+          Health Eligibility Center
+          <br role="presentation" />
+          PO Box 5207
+          <br role="presentation" />
+          Janesville, WI 53547-5207
+        </p>
+      </section>
+
+      <section>
         <h2>What if I have more questions?</h2>
         <p>
           Call our Health Eligibility Center at{' '}

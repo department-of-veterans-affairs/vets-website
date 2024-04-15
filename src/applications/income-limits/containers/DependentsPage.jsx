@@ -125,9 +125,10 @@ const DependentsPage = ({
           onBlur={onBlurInput}
           onInput={onDependentsInput}
           required
+          uswds
           value={dependents || ''}
         />
-        <va-additional-info trigger="Who qualifies as a dependent">
+        <va-additional-info trigger="Who qualifies as a dependent" uswds>
           <div>
             <p className="vads-u-margin-top--0">
               Here&#8217;s who we consider dependents for health care
@@ -147,6 +148,7 @@ const DependentsPage = ({
           onPrimaryClick={onContinueClick}
           onSecondaryClick={onBackClick}
           continue
+          uswds
         />
       </form>
     </>

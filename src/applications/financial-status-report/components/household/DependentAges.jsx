@@ -144,10 +144,6 @@ const DependentAges = ({
     goToPath('/dependent-count');
   };
 
-  const toggleEditing = () => {
-    setIsEditing(!isEditing);
-  };
-
   const handleBlur = useCallback(
     (event, i) => {
       const { value } = event.target;
@@ -170,7 +166,6 @@ const DependentAges = ({
     onSubmit,
     onCancel,
     handleBlur,
-    toggleEditing,
     updateDependents,
   };
 
@@ -183,13 +178,14 @@ const DependentAges = ({
         name={`dependentAge-${i}`}
         onInput={({ target }) => handlers.updateDependents(target, i)}
         value={dependent.dependentAge}
-        className="input-size-2 no-wrap"
+        width="md"
         onBlur={event => handlers.handleBlur(event, i)}
         error={errors[i]}
         inputMode="numeric"
         required
         min={0}
         max={MAXIMUM_DEPENDENT_AGE}
+        uswds
       />
     </div>
   );
@@ -232,17 +228,7 @@ const DependentAges = ({
           }`}
         >
           <HeaderTag className={className}>Dependents ages</HeaderTag>
-          {isReviewMode &&
-            !isEditing && (
-              <ReviewControl
-                // readOnly
-                position="header"
-                isEditing={false}
-                onEditClick={handlers.toggleEditing}
-                ariaLabel={`Edit ${DEPENDENT_AGE_LABELS[1]}`}
-                buttonText="Edit"
-              />
-            )}
+
           {!isReviewMode ? (
             <>
               <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
@@ -275,14 +261,13 @@ const DependentAges = ({
               buttons={[
                 {
                   label: 'Back',
-                  onClick: handlers.onCancel,
-                  secondary: true,
-                  iconLeft: '«',
+                  onClick: handlers.onCancel, // Define this function based on page-specific logic
+                  isSecondary: true,
                 },
                 {
                   label: continueButtonText,
-                  type: 'submit',
-                  iconRight: '»',
+                  onClick: handlers.onSubmit,
+                  isSubmitting: true, // If this button submits a form
                 },
               ]}
             />

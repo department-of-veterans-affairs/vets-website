@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import recordEvent from 'platform/monitoring/record-event';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import FormButtons from '../../../components/FormButtons';
 import { GA_PREFIX } from '../../../utils/constants';
 import {
@@ -12,10 +12,9 @@ import {
   routeToPreviousAppointmentPage,
   updateFormData,
 } from '../../redux/actions';
-import { getFormPageInfo, getTypeOfCare } from '../../redux/selectors';
+import { getFormPageInfo } from '../../redux/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ProviderSelectionField from './ProviderSelectionField';
-import { lowerCase } from '../../../utils/formatters';
 import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 
 const initialSchema = {
@@ -40,8 +39,7 @@ export default function CommunityCareProviderSelectionPage({ changeCrumb }) {
     shallowEqual,
   );
   const history = useHistory();
-  const typeOfCare = getTypeOfCare(data);
-  const pageTitle = `Request a ${lowerCase(typeOfCare.name)} provider`;
+  const pageTitle = 'Which provider do you prefer?';
 
   const uiSchema = {
     communityCareProvider: {
@@ -69,7 +67,7 @@ export default function CommunityCareProviderSelectionPage({ changeCrumb }) {
       {!!schema && (
         <SchemaForm
           name="ccPreferences"
-          title="Community Care preferences"
+          title="Which provider do you prefer?"
           schema={schema}
           uiSchema={uiSchema}
           onSubmit={() => {
@@ -86,6 +84,16 @@ export default function CommunityCareProviderSelectionPage({ changeCrumb }) {
           }}
           data={data}
         >
+          <va-additional-info
+            trigger="What happens if you skip this step"
+            class="vads-u-margin-y--4"
+            data-testid="additional-info"
+          >
+            <div>
+              We’ll choose the provider nearest to you who is available closest
+              to your preferred time.{' '}
+            </div>
+          </va-additional-info>
           <FormButtons
             onBack={() =>
               dispatch(routeToPreviousAppointmentPage(history, pageKey))

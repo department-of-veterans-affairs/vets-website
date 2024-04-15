@@ -33,9 +33,16 @@ const ombInfo = {
 
 const childContent = (
   <>
+    <p>
+      Use this form if you want to request a Presidential Memorial Certificate.
+      A Presidential Memorial Certificate is an engraved paper certificate
+      signed by the current president. It honors the memory of a deceased
+      Veteran and expresses the country’s grateful recognition of their service
+      in the Armed Forces.
+    </p>
     <h2 className="vad-u-margin-top--0">Follow these steps to get started</h2>
     <va-process-list uswds>
-      <va-process-list-item header="Check the Veteran’s or Reservists’s eligibility">
+      <va-process-list-item header="Check the Veteran’s or Reservist’s eligibility">
         <p>
           You can request a certificate for a deceased Veteran or Reservist who
           was your family member or close friend.
@@ -45,10 +52,10 @@ const childContent = (
           Veteran or Reservist must meet eligibility requirements for burial in
           a VA national cemetery.
         </p>
-        <p>Not sure if the Veteran or Reservist is eligible?</p>
         <p>
+          Not sure if the Veteran or Reservist is eligible?{' '}
           <a href="/burials-memorials/eligibility/">
-            Check eligibility requirements for burial in a VA national cemetary
+            Check eligibility requirements for burial in a VA national cemetery
           </a>
         </p>
         <p>
@@ -60,20 +67,16 @@ const childContent = (
           Certificate. We’ll accept multiple requests for certificates.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Gather the Veteran’s or Reservists’s information">
+      <va-process-list-item header="Gather the Veteran’s or Reservist’s information">
         <p>
           We don’t require that you submit anything with this form. But to speed
-          up the process, we encourage you to submit these documents if they’re
+          up the process, we encourage you to upload these documents if they’re
           available:
         </p>
         <ul>
           <li>Military records</li>
           <li>Discharge documents (we prefer DD214).</li>
         </ul>
-        <p>
-          <strong>Note</strong>: Don’t send original documents since we can’t
-          return them.
-        </p>
       </va-process-list-item>
       <va-process-list-item header="Fill out the request">
         <p>

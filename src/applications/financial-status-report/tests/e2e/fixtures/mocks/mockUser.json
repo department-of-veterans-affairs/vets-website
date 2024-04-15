@@ -128,10 +128,10 @@
   "meta": {
     "errors": [
       {
-        "externalService": "EMIS",
+        "externalService": "VAProfile",
         "startTime": "2020-06-18T21:15:34Z",
         "endTime": null,
-        "description": "IOError, Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml]., Betamocks default response requested but none exist. Please create one at: [/cache/emis/veteran_status/default.yml].",
+        "description": "Mock Error Description for Testing",
         "status": 503
       }
     ]

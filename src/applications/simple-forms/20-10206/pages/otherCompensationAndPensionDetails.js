@@ -14,7 +14,10 @@ export default {
       'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
         required:
-          'Please describe the compensation and/or pension records you’re requesting.',
+          'Describe the compensation and/or pension records you’re requesting.',
+      },
+      'ui:options': {
+        charcount: true,
       },
     },
   },
@@ -23,6 +26,7 @@ export default {
     properties: {
       otherCompAndPenDetails: {
         type: 'string',
+        maxLength: 40,
       },
     },
     required: ['otherCompAndPenDetails'],

@@ -225,4 +225,29 @@ export default [
       metadata: newMetaData,
     };
   },
+  // 6 -> 7, we fully adopted a revised household section and need update the URLs from
+  // the to remove the `v2` reference
+  ({ formData, metadata }) => {
+    const url = metadata.returnUrl || metadata.return_url;
+    let newMetadata = metadata;
+
+    if (url.includes('household-information-v2')) {
+      const returnUrl = url.replace(
+        /household-information-v2/,
+        'household-information',
+      );
+
+      newMetadata = set('returnUrl', returnUrl, newMetadata);
+    }
+
+    return { formData, metadata: newMetadata };
+  },
+  // 7 -> 8, with the addition of the Toxic Exposure questions, we need to ensure all
+  // users go through these, so we will send users back to the start of the form
+  ({ formData, metadata }) => {
+    const returnUrl = '/veteran-information/personal-information';
+    let newMetadata = metadata;
+    newMetadata = set('returnUrl', returnUrl, newMetadata);
+    return { formData, metadata: newMetadata };
+  },
 ];

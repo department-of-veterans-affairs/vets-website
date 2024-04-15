@@ -60,7 +60,9 @@ export function NewAppointment() {
 
   const shouldRedirectToStart = useFormRedirectToStart({
     shouldRedirect: () =>
-      !isNewAppointmentStarted && !location.pathname.endsWith('confirmation'),
+      !isNewAppointmentStarted &&
+      !location.pathname.endsWith('confirmation') &&
+      !location.pathname.endsWith('type-of-care'),
   });
 
   useVariantSortMethodTracking({ skip: shouldRedirectToStart });
@@ -71,10 +73,7 @@ export function NewAppointment() {
 
   if (featureBreadcrumbUrlUpdate) {
     return (
-      <FormLayout
-        isReviewPage={location.pathname.includes('review')}
-        pageTitle={crumb}
-      >
+      <FormLayout pageTitle={crumb}>
         <Switch>
           <Route
             path={[
@@ -191,10 +190,7 @@ export function NewAppointment() {
     );
   }
   return (
-    <FormLayout
-      isReviewPage={location.pathname.includes('review')}
-      pageTitle={crumb}
-    >
+    <FormLayout pageTitle={crumb}>
       <Switch>
         <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />
         <Route

@@ -14,6 +14,10 @@ describe('995 subtask', () => {
     cy.location('pathname').should('eq', `${BASE_URL}/start`);
   });
 
+  const checkOpt = {
+    waitForAnimations: true,
+  };
+
   it('should show error when nothing selected - C30850', () => {
     cy.injectAxeThenAxeCheck();
 
@@ -21,7 +25,7 @@ describe('995 subtask', () => {
     cy.findByText(/continue/i, { selector: 'va-button' }).click();
     cy.get('va-radio')
       .shadow()
-      .find('#error-message')
+      .find('.usa-error-message')
       .contains('You must choose a claim type');
 
     cy.location('pathname').should('eq', `${BASE_URL}/start`);
@@ -31,7 +35,7 @@ describe('995 subtask', () => {
     cy.injectAxeThenAxeCheck();
 
     cy.get('h1').contains('File a Supplemental Claim');
-    cy.selectRadio('benefitType', 'compensation');
+    cy.get('va-radio-option[value="compensation"] label').click(checkOpt);
     cy.findByText(/continue/i, { selector: 'va-button' }).click();
 
     cy.location('pathname').should('eq', `${BASE_URL}/introduction`);
@@ -41,7 +45,7 @@ describe('995 subtask', () => {
     cy.injectAxeThenAxeCheck();
 
     cy.get('h1').contains('File a Supplemental Claim');
-    cy.selectRadio('benefitType', 'other');
+    cy.get('va-radio-option[value="other"] label').click(checkOpt);
     cy.findByText(/continue/i, { selector: 'va-button' }).click();
 
     cy.location('pathname').should('eq', `${BASE_URL}/start`);

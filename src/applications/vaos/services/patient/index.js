@@ -278,7 +278,6 @@ export async function fetchFlowEligibilityAndClinics({
   directSchedulingEnabled,
   useV2 = false,
   featureClinicFilter = false,
-  useAcheron = false,
 }) {
   const directSchedulingAvailable =
     locationSupportsDirectScheduling(location, typeOfCare) &&
@@ -310,9 +309,9 @@ export async function fetchFlowEligibilityAndClinics({
       : typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
 
     if (isDirectAppointmentHistoryRequired) {
-      apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
-        useAcheron,
-      ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
+      apiCalls.pastAppointments = getLongTermAppointmentHistoryV2().catch(
+        createErrorHandler('direct-no-matching-past-clinics-error'),
+      );
     }
   }
 
@@ -378,7 +377,11 @@ export async function fetchFlowEligibilityAndClinics({
     if (!results.patientEligibility.direct.hasRequiredAppointmentHistory) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noRecentVisit);
-      recordEligibilityFailure('direct-check-past-visits');
+      recordEligibilityFailure(
+        'direct-check-past-visits',
+        typeOfCare?.id,
+        location?.id,
+      );
     }
 
     if (!results.clinics.length) {

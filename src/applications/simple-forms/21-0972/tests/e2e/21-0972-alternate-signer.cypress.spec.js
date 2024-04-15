@@ -5,16 +5,12 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
+import user from './fixtures/mocks/user.json';
 import mockSubmit from '../../../shared/tests/e2e/fixtures/mocks/application-submit.json';
 import {
   fillAddressWebComponentPattern,
-  introductionPageFlow,
   reviewAndSubmitPageFlow,
-  selectGroupCheckboxWidget,
 } from '../../../shared/tests/e2e/helpers';
-
-import { preparerQualificationsQuestionLabels } from '../../config/helpers';
-import { claimantIdentificationDisplayOptions } from '../../definitions/constants';
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
@@ -37,7 +33,9 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          introductionPageFlow();
+          cy.findByText(/^start the alternate signer application/i, {
+            selector: 'a',
+          }).click();
         });
       },
       [pagePaths.preparerAddress]: ({ afterHook }) => {
@@ -66,43 +64,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [pagePaths.preparerQualifications1A]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const label = preparerQualificationsQuestionLabels(
-              claimantIdentificationDisplayOptions[data.claimantIdentification],
-            )[1];
-            selectGroupCheckboxWidget(label);
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.preparerQualifications1B]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const label = preparerQualificationsQuestionLabels(
-              claimantIdentificationDisplayOptions[data.claimantIdentification],
-            )[1];
-            selectGroupCheckboxWidget(label);
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [pagePaths.preparerQualifications2]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            selectGroupCheckboxWidget(data.preparerSigningReason);
-
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -115,6 +76,8 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', testFormConfig.submitUrl, mockSubmit);
+
+      cy.login(user);
     },
   },
   manifest,

@@ -8,6 +8,7 @@ import { makeSelectVeteranData } from '../../../selectors';
 import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { URLS } from '../../../utils/navigation';
+import { APP_NAMES } from '../../../utils/appConstants';
 import { findAppointment } from '../../../utils/appointment';
 
 const Confirmation = props => {
@@ -29,7 +30,7 @@ const Confirmation = props => {
   const {
     getShouldSendDemographicsFlags,
     setShouldSendDemographicsFlags,
-  } = useStorage(false);
+  } = useStorage(APP_NAMES.CHECK_IN);
 
   useEffect(
     () => {

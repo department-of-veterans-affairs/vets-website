@@ -86,6 +86,10 @@ export const content = {
     address: (
       <span className="usa-input-error-message">Incomplete address</span>
     ),
+
+    attachmentId: (
+      <span className="usa-input-error-message">Missing document type</span>
+    ),
   },
 
   missingEvidenceHeader: 'We noticed you didn’t add new evidence',

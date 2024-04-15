@@ -168,7 +168,7 @@ describe('Veteran address', () => {
     fillData(
       form,
       'input#root_veteranContactInformation_veteranAddress_zipCode',
-      '20500',
+      '34012',
     );
     fillData(
       form,
@@ -313,13 +313,13 @@ describe('Veteran address', () => {
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').text()).to.include(
-      'For APO addresses, you must check the “I live on a United States military base outside of the U.S.” checkbox above',
+      'For APO addresses, check the "I receive mail outside of the United States on a U.S. military base" checkbox. If you live on a military base in the United States, enter your city.',
     );
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
-  it('should not display an error if the veteran lists APO, FPO, or DPO as their city and checks the military base checkbox', () => {
+  it('should not display an error if the veteran lists APO, FPO, or DPO as their city and checks the military base checkbox while providing a valid AE zip code', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -353,7 +353,7 @@ describe('Veteran address', () => {
     fillData(
       form,
       'input#root_veteranContactInformation_veteranAddress_zipCode',
-      '20500',
+      '09123',
     );
     fillData(
       form,
@@ -363,6 +363,228 @@ describe('Veteran address', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should display an error if the veteran lists APO, FPO, or DPO as their city and checks the military base checkbox while providing an invalid zip code for the AE state selection', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    selectCheckbox(
+      form,
+      'root_veteranContactInformation_veteranAddress_view:livesOnMilitaryBase',
+      true,
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_addressLine1',
+      '1600',
+    );
+    changeDropdown(
+      form,
+      'select#root_veteranContactInformation_veteranAddress_city',
+      'APO',
+    );
+    changeDropdown(
+      form,
+      'select#root_veteranContactInformation_veteranAddress_stateCode',
+      'AE',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_zipCode',
+      '34011',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_phoneNumber',
+      '8005551212',
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').text()).to.include(
+      'Your address is on a military base outside of the United States. Please provide an APO/FPO/DPO postal code.',
+    );
+    expect(onSubmit.called).to.be.false;
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_zipCode',
+      '91211',
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').text()).to.include(
+      'Your address is on a military base outside of the United States. Please provide an APO/FPO/DPO postal code.',
+    );
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should display an error if the veteran lists APO, FPO, or DPO as their city and checks the military base checkbox while providing an invalid zip code for the AA state selection', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    selectCheckbox(
+      form,
+      'root_veteranContactInformation_veteranAddress_view:livesOnMilitaryBase',
+      true,
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_addressLine1',
+      '1600',
+    );
+    changeDropdown(
+      form,
+      'select#root_veteranContactInformation_veteranAddress_city',
+      'APO',
+    );
+    changeDropdown(
+      form,
+      'select#root_veteranContactInformation_veteranAddress_stateCode',
+      'AA',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_zipCode',
+      '09111',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_phoneNumber',
+      '8005551212',
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').text()).to.include(
+      'Your address is on a military base outside of the United States. Please provide an APO/FPO/DPO postal code.',
+    );
+    expect(onSubmit.called).to.be.false;
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_zipCode',
+      '91311',
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').text()).to.include(
+      'Your address is on a military base outside of the United States. Please provide an APO/FPO/DPO postal code.',
+    );
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should display an error if the veteran lists APO, FPO, or DPO as their city and checks the military base checkbox while providing an invalid zip code for the AP state selection', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    selectCheckbox(
+      form,
+      'root_veteranContactInformation_veteranAddress_view:livesOnMilitaryBase',
+      true,
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_addressLine1',
+      '1600',
+    );
+    changeDropdown(
+      form,
+      'select#root_veteranContactInformation_veteranAddress_city',
+      'APO',
+    );
+    changeDropdown(
+      form,
+      'select#root_veteranContactInformation_veteranAddress_stateCode',
+      'AP',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_zipCode',
+      '34011',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_phoneNumber',
+      '8005551212',
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').text()).to.include(
+      'Your address is on a military base outside of the United States. Please provide an APO/FPO/DPO postal code.',
+    );
+    expect(onSubmit.called).to.be.false;
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_zipCode',
+      '09123',
+    );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').text()).to.include(
+      'Your address is on a military base outside of the United States. Please provide an APO/FPO/DPO postal code.',
+    );
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should display an error if the veteran checks the military base checkbox while providing a domestic zip code before selecting APO/FPO/DPO or state', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    selectCheckbox(
+      form,
+      'root_veteranContactInformation_veteranAddress_view:livesOnMilitaryBase',
+      true,
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_addressLine1',
+      '1600',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_zipCode',
+      '04102',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_phoneNumber',
+      '8005551212',
+    );
+    form.find('form').simulate('submit');
+    expect(
+      form
+        .find(
+          '#root_veteranContactInformation_veteranAddress_zipCode-error-message',
+        )
+        .text(),
+    ).to.include(
+      'This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox “I receive mail outside of the United States on a U.S. military base.” If your mailing address is an AFO/FPO/DPO address, enter the postal code for the military base.',
+    );
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 });

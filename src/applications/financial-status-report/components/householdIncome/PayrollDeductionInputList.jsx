@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { getJobIndex } from '../../utils/session';
+import {
+  getJobIndex,
+  getJobButton,
+  jobButtonConstants,
+} from '../../utils/session';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
 import { isValidCurrency } from '../../utils/validations';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const PayrollDeductionInputList = props => {
-  const { goToPath, goBack, onReviewPage = false, setFormData } = props;
+  const { goToPath, goBack, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -25,9 +29,9 @@ const PayrollDeductionInputList = props => {
   const {
     personalData: {
       employmentHistory: {
+        veteran: { employmentRecords = [] } = {},
         newRecord = {},
-        veteran: { employmentRecords = [] },
-      },
+      } = {},
     },
   } = formData;
 
@@ -63,6 +67,17 @@ const PayrollDeductionInputList = props => {
     } else {
       setErrors(errors.filter(error => error !== target.name));
     }
+  };
+
+  const getContinueButtonText = () => {
+    if (getJobButton() === jobButtonConstants.FIRST_JOB) {
+      return 'Continue';
+    }
+
+    if (getJobButton() === jobButtonConstants.EDIT_JOB) {
+      return 'Update employment record';
+    }
+    return 'Add employment record';
   };
 
   const updateFormData = e => {
@@ -128,8 +143,22 @@ const PayrollDeductionInputList = props => {
     goToPath(`/employment-history`);
   };
 
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
+  const navButtons = (
+    <ButtonGroup
+      buttons={[
+        {
+          label: 'Back',
+          onClick: goBack, // Define this function based on page-specific logic
+          isSecondary: true,
+        },
+        {
+          label: getContinueButtonText(),
+          onClick: updateFormData,
+          isSubmitting: true, // If this button submits a form
+        },
+      ]}
+    />
+  );
 
   return (
     <form onSubmit={updateFormData}>
@@ -159,6 +188,7 @@ const PayrollDeductionInputList = props => {
                   ? 'Please enter a valid dollar amount below $40,000'
                   : null
               }
+              uswds
             />
           </div>
         ))}
@@ -192,7 +222,7 @@ const PayrollDeductionInputList = props => {
           </ol>
         </va-additional-info>
       </fieldset>
-      {onReviewPage ? updateButton : navButtons}
+      {navButtons}
     </form>
   );
 };

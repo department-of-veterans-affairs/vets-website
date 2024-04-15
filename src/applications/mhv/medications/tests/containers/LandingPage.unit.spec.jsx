@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import {
+  mockFetch,
+  resetFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducer from '../../reducers';
 import prescriptions from '../fixtures/prescriptions.json';
 import LandingPage from '../../containers/LandingPage';
@@ -10,6 +15,7 @@ describe('Medicaitons Landing page container', () => {
   const initialState = {
     rx: {
       prescriptions: {
+        // prescriptionsList: prescriptions,
         prescriptionDetails: prescriptions,
       },
     },
@@ -18,19 +24,32 @@ describe('Medicaitons Landing page container', () => {
       // eslint-disable-next-line camelcase
       mhv_medications_to_va_gov_release: true,
     },
+    user: {
+      login: {
+        currentlyLoggedIn: true,
+      },
+      profile: {
+        services: [backendServices.USER_PROFILE],
+      },
+    },
   };
 
-  const setup = (state = initialState) => {
+  const setup = (state = initialState, path = '/') => {
     return renderWithStoreAndRouter(<LandingPage />, {
       initialState: state,
       reducers: reducer,
-      path: '/',
+      path,
     });
   };
 
   let screen = null;
   beforeEach(() => {
     screen = setup();
+    mockFetch();
+  });
+
+  afterEach(() => {
+    resetFetch();
   });
 
   it('renders without errors', () => {
@@ -41,19 +60,87 @@ describe('Medicaitons Landing page container', () => {
     ).to.exist;
   });
 
-  it('What to know as you try out this tool', () => {
+  it('displays subheader "what to know as you try out this tool"', () => {
     expect(
       screen.getByText('What to know as you try out this tool', {
         exact: true,
       }),
     ).to.exist;
   });
-  it('More ways to manage your medications', () => {
+  it('displays subheader "More ways to manage your medications"', () => {
     expect(
       screen.getByText('More ways to manage your medications', {
         exact: true,
       }),
     ).to.exist;
+  });
+
+  it('opens accordion when url is "/about/accordion-renew-rx"', () => {
+    const setupWithSpecificPathState = (
+      state = {
+        rx: {
+          prescriptions: {
+            prescriptionsList: prescriptions,
+            prescriptionDetails: prescriptions,
+          },
+        },
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          mhv_medications_to_va_gov_release: true,
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: [backendServices.USER_PROFILE],
+          },
+        },
+      },
+    ) => {
+      return renderWithStoreAndRouter(<LandingPage />, {
+        initialState: state,
+        reducers: reducer,
+        path: '/accordion-renew-rx',
+      });
+    };
+    const newScreen = setupWithSpecificPathState();
+    expect(
+      newScreen.getByText(
+        'This tool lists medications and supplies prescribed by your VA providers. It also lists medications and supplies prescribed by non-VA providers, if you filled them through a VA pharmacy.',
+      ),
+    ).to.exist;
+  });
+
+  it('page loads when loading flag is false and logged in status is false and user navigates to /accordion-renew-rx', () => {
+    const setupWithSpecificFeatureToggleState = (
+      state = {
+        ...initialState,
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          mhv_medications_to_va_gov_release: true,
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: false,
+          },
+          profile: {
+            services: [backendServices.USER_PROFILE],
+          },
+        },
+      },
+    ) => {
+      return renderWithStoreAndRouter(<LandingPage />, {
+        initialState: state,
+        reducers: reducer,
+        path: '/accordion-renew-rx',
+      });
+    };
+    const newScreen = setupWithSpecificFeatureToggleState();
+    expect(newScreen.findByText('More ways to manage your medications.')).to
+      .exist;
   });
 });
 
@@ -65,6 +152,14 @@ describe('App-level feature flag functionality', () => {
           loading,
           // eslint-disable-next-line camelcase
           mhv_medications_to_va_gov_release: flag,
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: [backendServices.USER_PROFILE],
+          },
         },
       },
       path: `/`,
@@ -118,12 +213,16 @@ describe('App-level feature flag functionality', () => {
       initialState: {
         rx: {
           prescriptions: {
+            prescriptionsList: prescriptions,
             prescriptionDetails: prescriptions,
           },
         },
         user: {
           login: {
             currentlyLoggedIn: true,
+          },
+          profile: {
+            services: [backendServices.USER_PROFILE],
           },
         },
         featureToggles: {
@@ -139,6 +238,38 @@ describe('App-level feature flag functionality', () => {
       screenFeatureToggle
         .getByTestId('prescriptions-nav-link')
         .getAttribute('href'),
-    ).to.equal(medicationsUrls.MEDICATIONS_URL);
+    ).to.equal(medicationsUrls.subdirectories.BASE);
+  });
+  it('The user doesn’t have any medications', () => {
+    const screenFeatureToggle = renderWithStoreAndRouter(<LandingPage />, {
+      initialState: {
+        rx: {
+          prescriptions: {
+            prescriptionsList: [],
+            prescriptionDetails: prescriptions,
+          },
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: [backendServices.USER_PROFILE],
+          },
+        },
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          mhv_medications_to_va_gov_release: true,
+        },
+      },
+      reducers: reducer,
+      path: '/',
+    });
+    expect(
+      screenFeatureToggle.getByText(
+        'You don’t have any VA prescriptions or medication records',
+      ),
+    ).to.exist;
   });
 });

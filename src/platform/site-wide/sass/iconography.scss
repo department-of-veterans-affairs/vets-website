@@ -63,7 +63,7 @@
 @include make-hub(
   $hub-name: "health-care",
   $icon: $fa-var-briefcase-medical,
-  $color: $indigo-cool-60,
+  $color: var(--vads-color-hub-health-care),
   $top-large: 10.25px,
   $left-large: 10px,
   $top-small: 7px,
@@ -73,7 +73,7 @@
 @include make-hub(
   $hub-name: "education",
   $icon: $fa-var-graduation-cap,
-  $color: $mint-cool-50,
+  $color: var(--vads-color-hub-education),
   $top-large: 11px,
   $left-large: 8.2px,
   $top-small: 8px,
@@ -84,7 +84,7 @@
 @include make-hub(
   $hub-name: "disability",
   $icon: $fa-var-file-alt,
-  $color: $red-60,
+  $color: var(--vads-color-hub-disability),
   $top-large: 10px,
   $left-large: 13px,
   $left-small: 10px,
@@ -94,7 +94,7 @@
 @include make-hub(
   $hub-name: "careers",
   $icon: $fa-var-briefcase,
-  $color: $orange-warm-50,
+  $color: var(--vads-color-hub-careers),
   $top-large: 10px,
   $left-large: 10px,
   $left-small: 7.5px,
@@ -104,7 +104,7 @@
 @include make-hub(
   $hub-name: "pension",
   $icon: $fa-var-handshake,
-  $color: $green-cool-50,
+  $color: var(--vads-color-hub-pension),
   $top-large: 10px,
   $left-large: 7.75px,
   $top-small: 7.5px,
@@ -114,7 +114,7 @@
 @include make-hub(
   $hub-name: "housing",
   $icon: $fa-var-home,
-  $color: $gold-50,
+  $color: var(--vads-color-hub-housing),
   $top-large: 10px,
   $left-large: 8.2px,
   $top-small: 7.5px,
@@ -125,7 +125,7 @@
 @include make-hub(
   $hub-name: "life-insurance",
   $icon: $fa-var-shield-alt,
-  $color: $green-warm-50,
+  $color: var(--vads-color-hub-life-insurance),
   $top-small: 8px,
   $left-small: 8px,
   $top-large: 11px,
@@ -135,7 +135,7 @@
 @include make-hub(
   $hub-name: "burials",
   $icon: $fa-var-star,
-  $color: $blue-50,
+  $color: var(--vads-color-hub-burials),
   $top-small: 7px,
   $top-large: 10px,
   $left-large: 9px,
@@ -146,7 +146,7 @@
 @include make-hub(
   $hub-name: "records",
   $icon: $fa-var-id-card,
-  $color: $violet-warm-60,
+  $color: var(--vads-color-hub-records),
   $top-small: 7px,
   $left-small: 6px,
   $top-large: 10.25px,
@@ -156,7 +156,7 @@
 @include make-hub(
   $hub-name: "family-member",
   $icon: $fa-var-users,
-  $color: $color-primary-darker,
+  $color: var(--vads-color-primary-dark),
   $top-small: 7px,
   $left-small: 5.5px,
   $top-large: 10.25px,
@@ -166,7 +166,7 @@
 @include make-hub(
   $hub-name: "service-member",
   $icon: $fa-var-flag-usa,
-  $color: $color-primary-darker,
+  $color: var(--vads-color-primary-dark),
   $top-small: 8px,
   $left-small: 8px,
   $top-large: 11px,
@@ -176,7 +176,7 @@
 @include make-hub(
   $hub-name: "va-dept-info",
   $icon: $fa-var-building,
-  $color: $color-primary-darker,
+  $color: var(--vads-color-primary-dark),
   $top-small: 8px,
   $left-small: 9px,
   $top-large: 11px,

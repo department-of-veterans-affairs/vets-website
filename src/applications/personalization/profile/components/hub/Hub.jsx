@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import {
-  hasBadAddress as hasBadAddressSelector,
-  selectProfileContactsToggle,
-} from '@@profile/selectors';
+import { selectProfileContactsToggle } from '@@profile/selectors';
+
+import { hasBadAddress as hasBadAddressSelector } from '@@vap-svc/selectors';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
 import { useSignInServiceProvider } from '@@profile/hooks';
@@ -13,6 +12,7 @@ import { ProfileBreadcrumbs } from '@@profile/components/ProfileBreadcrumbs';
 import { ProfileLink } from '@@profile/components/ProfileLink';
 import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAlert';
 import { HubCard } from './HubCard';
+import { EduMigrationAlert } from '../direct-deposit/legacy/alerts/EduMigrationAlert';
 
 export const Hub = () => {
   const { label, link } = useSignInServiceProvider();
@@ -25,15 +25,17 @@ export const Hub = () => {
 
   return (
     <>
-      <ProfileBreadcrumbs className="medium-screen:vads-u-margin-left--neg1 medium-screen:vads-u-margin-top--neg2 vads-u-margin-bottom--neg1" />
+      <ProfileBreadcrumbs className="medium-screen:vads-u-padding-left--1 medium-screen:vads-u-margin-left--neg1 medium-screen:vads-u-margin-top--neg2 vads-u-margin-bottom--neg1" />
 
       {/* ROW */}
       <div className="vads-l-row">
-        <h1 className="vads-u-padding-bottom--3">Profile</h1>
+        <h1>Profile</h1>
       </div>
 
+      <EduMigrationAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 medium-screen:vads-l-col--10" />
+
       {hasBadAddress && (
-        <BadAddressAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4" />
+        <BadAddressAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 vads-l-col--10" />
       )}
 
       {/* ROW */}
@@ -82,7 +84,7 @@ export const Hub = () => {
               href={PROFILE_PATHS.MILITARY_INFORMATION}
             />
             <ProfileLink
-              className="medium-screen--line-break-at-50-characters"
+              className="medium-screen--line-break-at-40-characters"
               text="Learn how to request your DD214 and other military records"
               href="/records/get-military-service-records/"
             />

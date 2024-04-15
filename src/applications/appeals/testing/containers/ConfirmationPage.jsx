@@ -39,7 +39,8 @@ export const ConfirmationPage = ({ data }) => {
       <h1>Your request has been submitted</h1>
       <p>We may contact you for more information or documents.</p>
       <p className="screen-only">Print this page for your records.</p>
-      <div className="inset">
+
+      <va-summary-box uswds class="vads-u-margin-y--2">
         <h1 className="vads-u-margin-top--0">
           Request a Board Appeal{' '}
           <span className="additional">(Form 10182)</span>
@@ -66,7 +67,7 @@ export const ConfirmationPage = ({ data }) => {
           text="Print this for your records"
           uswds
         />
-      </div>
+      </va-summary-box>
 
       <h2>After you request a decision review</h2>
       <p>
@@ -87,7 +88,7 @@ export const ConfirmationPage = ({ data }) => {
       <p>
         If you requested an appeal and haven’t heard back from us yet, please
         don’t request another appeal. Call us at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} uswds />.
+        <va-telephone contact={CONTACTS.VA_BENEFITS} />.
       </p>
       <br role="presentation" />
       <a

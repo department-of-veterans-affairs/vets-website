@@ -1,5 +1,5 @@
 import {
-  testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
@@ -20,12 +20,8 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-/* Expect 1 instead of 3 errors.
-GroupCheckboxWidget displays 1 error-message 
-for its 3 shadow-DOM fields.
-Error shows up as alert instead of node label. */
 const expectedNumberOfErrors = 1;
-testNumberOfErrorsOnSubmit(
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,

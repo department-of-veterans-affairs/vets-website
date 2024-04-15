@@ -2,12 +2,12 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { connect } from 'react-redux';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import Dropdown from '../../components/Dropdown';
 import FilterBeforeResults from './FilterBeforeResults';
 import {
@@ -18,12 +18,17 @@ import {
   geolocateUser,
   clearGeocodeError,
   mapChanged,
+  setError,
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { updateUrlParams } from '../../selectors/search';
 import { TABS } from '../../constants';
 import { INITIAL_STATE } from '../../reducers/search';
+import {
+  isProductionOrTestProdEnv,
+  validateSearchTerm,
+} from '../../utils/helpers';
 
 export function LocationSearchForm({
   autocomplete,
@@ -31,6 +36,8 @@ export function LocationSearchForm({
   dispatchFetchSearchByLocationCoords,
   dispatchFetchSearchByLocationResults,
   dispatchUpdateAutocompleteLocation,
+  dispatchError,
+  errorReducer,
   filters,
   preview,
   search,
@@ -41,8 +48,11 @@ export function LocationSearchForm({
 }) {
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
-  const [error, setError] = useState(null);
+  const inputRef = createRef();
+  // const [error, setError] = useState(null);
+  const { error } = errorReducer;
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
+  const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
   const { version } = preview;
   const history = useHistory();
   const distanceDropdownOptions = [
@@ -71,21 +81,27 @@ export function LocationSearchForm({
     [search.loadFromUrl],
   );
 
-  const validateSearchTerm = searchTerm => {
-    const invalidZipCodePattern = /^\d{6,}$/;
+  // const validateSearchTerm = searchTerm => {
+  //   const invalidZipCodePattern = /^\d{6,}$/;
 
-    if (searchTerm.trim() === '') {
-      setError('Please fill in a city, state, or postal code.');
-    } else if (invalidZipCodePattern.test(searchTerm)) {
-      setError('Please enter a valid postal code.');
-    } else if (error !== null) {
-      setError(null);
+  //   if (searchTerm.trim() === '') {
+  //     setError('Please fill in a city, state, or postal code.');
+  //   } else if (invalidZipCodePattern.test(searchTerm)) {
+  //     setError('Please enter a valid postal code.');
+  //   } else if (error !== null) {
+  //     setError(null);
+  //   }
+  // };
+  const onApplyFilterClick = () => {
+    if (location.length === 0) {
+      inputRef.current.focus();
     }
   };
-
   const doSearch = event => {
     if (event) {
       event.preventDefault();
+      onApplyFilterClick();
+      setShowFiltersBeforeSearch(false);
     }
     let paramLocation = location;
     dispatchMapChanged({ changed: false, distance: null });
@@ -97,6 +113,7 @@ export function LocationSearchForm({
     });
 
     if (autocompleteSelection?.coords) {
+      setShowFiltersBeforeSearch(false);
       paramLocation = autocompleteSelection.label;
       dispatchFetchSearchByLocationCoords(
         autocompleteSelection.label,
@@ -107,6 +124,7 @@ export function LocationSearchForm({
       );
     } else {
       if (location.trim() !== '') {
+        setShowFiltersBeforeSearch(false);
         dispatchFetchSearchByLocationResults(
           location,
           distance,
@@ -116,7 +134,7 @@ export function LocationSearchForm({
       }
 
       if (event) {
-        validateSearchTerm(location);
+        validateSearchTerm(location, dispatchError, error, filters, 'location');
       }
     }
 
@@ -187,31 +205,30 @@ export function LocationSearchForm({
 
   return (
     <div className="location-search-form">
-      <Modal
-        title={
+      <VaModal
+        modalTitle={
           search.geocodeError === 1
             ? 'We need to use your location'
             : "We couldn't locate you"
         }
-        onClose={() => dispatchClearGeocodeError()}
+        onCloseEvent={() => dispatchClearGeocodeError()}
         status="warning"
         visible={search.geocodeError > 0}
-        contents={
-          <>
-            <p>
-              {search.geocodeError === 1
-                ? 'Please enable location sharing in your browser to use this feature.'
-                : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
-            </p>
-          </>
-        }
-      />
-      <form onSubmit={doSearch} className="vads-u-margin-y--0">
+      >
+        <p>
+          {search.geocodeError === 1
+            ? 'Please enable location sharing in your browser to use this feature.'
+            : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
+        </p>
+      </VaModal>
+      <form onSubmit={e => doSearch(e)} className="vads-u-margin-y--0">
         <div className="vads-l-row">
           <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--7 input-row">
             <KeywordSearch
+              inputRef={inputRef}
               className="location-search"
-              error={error}
+              type="location"
+              // error={error}
               inputValue={location}
               label="City, state, or postal code"
               labelAdditional={
@@ -263,7 +280,7 @@ export function LocationSearchForm({
               onSelection={selected => setAutocompleteSelection(selected)}
               onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               suggestions={[...autocomplete.locationSuggestions]}
-              validateSearchTerm={validateSearchTerm}
+              // validateSearchTerm={validateSearchTerm}
               version={version}
             />
           </div>
@@ -300,9 +317,14 @@ export function LocationSearchForm({
         </div>
       </form>
       {!smallScreen &&
-        !environment.isProduction() && (
+        isProductionOrTestProdEnv() &&
+        showFiltersBeforeSearch && (
           <div>
-            <FilterBeforeResults />
+            <FilterBeforeResults
+              nameVal={location}
+              searchType="location"
+              onApplyFilterClick={onApplyFilterClick}
+            />
           </div>
         )}
     </div>
@@ -314,6 +336,7 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   preview: state.preview,
+  errorReducer: state.errorReducer,
 });
 
 const mapDispatchToProps = {
@@ -324,6 +347,7 @@ const mapDispatchToProps = {
   dispatchGeolocateUser: geolocateUser,
   dispatchClearGeocodeError: clearGeocodeError,
   dispatchMapChanged: mapChanged,
+  dispatchError: setError,
 };
 
 export default connect(

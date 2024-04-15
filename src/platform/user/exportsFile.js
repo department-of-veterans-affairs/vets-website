@@ -22,7 +22,6 @@ export {
   selectVAPResidentialAddress,
   selectVAPMailingAddress,
   createIsServiceAvailableSelector,
-  mhvTransitionEnabled,
   mhvTransitionModalEnabled,
 } from './selectors';
 
@@ -62,7 +61,7 @@ export {
 } from './authentication/components/LoginButton';
 export {
   logoSrc,
-  LoginContainer,
+  default as LoginContainer,
 } from './authentication/components/LoginContainer';
 export {
   default as LoginGovSVG,
@@ -129,7 +128,6 @@ export {
   isAuthenticatedWithSSOe,
   isAuthenticatedWithOAuth,
   ssoeTransactionId,
-  transitionMHVAccount,
   termsOfUseEnabled,
 } from './authentication/selectors';
 export { externalApplicationsConfig } from './authentication/usip-config';

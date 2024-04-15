@@ -21,7 +21,7 @@ export const newOnlyAlert = ({ formContext }) => {
   // Display only after the user tries to submit with no disabilities
   if (!formContext.submitted) return null;
   return (
-    <va-alert status="error">
+    <va-alert status="error" uswds>
       <h3 slot="headline">We need you to add a disability</h3>
       <p className="vads-u-font-size--base">
         You need to add a new disability to claim. We can’t process your claim
@@ -56,7 +56,7 @@ export const increaseAndNewAlert = ({ formContext }) => {
   );
 
   return (
-    <va-alert status="error">
+    <va-alert status="error" uswds>
       <h3 slot="headline">We need you to add a disability</h3>
       {alertContent}
     </va-alert>

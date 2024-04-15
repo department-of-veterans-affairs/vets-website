@@ -58,7 +58,7 @@
         },
         "ssn": "244-44-4444",
         "dateOfBirth": "1978-03-02",
-        "relationshipToVet": "1"
+        "relationshipToVet": "veteran"
       },
       "hasCurrentlyBuried": "2",
       "preneedAttachments": [

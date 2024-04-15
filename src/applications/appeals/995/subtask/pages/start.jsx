@@ -58,7 +58,7 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
         event: 'howToWizard-formChange',
         'form-field-type': 'form-radio-buttons',
         'form-field-label':
-          'For what benefit type are you requesting a Supplemental Claim?',
+          'What type of claim are you filing a Supplemental Claim for?',
         'form-field-value': value,
       });
     },
@@ -87,7 +87,10 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
           ).
         </li>
       </ul>
-      <va-additional-info trigger="What are other decision review options?">
+      <va-additional-info
+        trigger="What are other decision review options?"
+        uswds
+      >
         <p className="vads-u-padding-bottom--1">
           If you don’t think this is the right form for you, find out about
           other decision review options.
@@ -103,6 +106,7 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
         onVaValueChange={handlers.setBenefitType}
         required
         label-header-level="2"
+        uswds
       >
         {options.map(({ value, label }) => (
           <VaRadioOption
@@ -113,6 +117,7 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
             value={value}
             label={label}
             checked={value === data.benefitType}
+            uswds
           />
         ))}
       </VaRadio>

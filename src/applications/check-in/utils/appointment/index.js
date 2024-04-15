@@ -1,5 +1,6 @@
 import React from 'react';
 import { parseISO, startOfDay } from 'date-fns';
+import { format, utcToZonedTime } from 'date-fns-tz';
 import { ELIGIBILITY } from './eligibility';
 import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
 
@@ -220,12 +221,23 @@ const hasPhoneAppointments = appointments => {
  */
 
 const appointmentIcon = appointment => {
+  let iconClass;
+  switch (appointment?.kind) {
+    case 'clinic':
+    case 'cvt':
+      iconClass = 'fa-building';
+      break;
+    case 'vvc':
+      iconClass = 'fa-video';
+      break;
+    default:
+      iconClass = 'fa-phone';
+      break;
+  }
+
   return (
     <i
-      aria-label="Appointment type"
-      className={`fas ${
-        appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'
-      }`}
+      className={`fas ${iconClass}`}
       aria-hidden="true"
       data-testid="appointment-icon"
     />
@@ -274,6 +286,44 @@ const findAppointment = (appointmentId, appointments) => {
   );
 };
 
+/**
+ * Determine if the appoinents have multiple facilities.
+ *
+ * @param {Array<Appointment>} appointments
+ * @returns {bool}
+ */
+
+const hasMultipleFacilities = appointments => {
+  const uniqueFacilites = [
+    ...new Map(appointments.map(appt => [appt.stationNo, appt])).values(),
+  ];
+  return uniqueFacilites.length > 1;
+};
+
+/**
+ * Return unique facilities as an array
+ * @param {Array<Appointment>} appointments
+ * @returns {Array}
+ */
+
+const getUniqueFacilies = appointments => {
+  return [...new Set(appointments.map(appt => appt.facility))];
+};
+
+/**
+ * Return adjusted ISO timestring
+ * @param {string} time
+ * @param {string} timezone
+ * @returns {string}
+ */
+
+const utcToFacilityTimeZone = (time, timezone) => {
+  const isoFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
+  return format(utcToZonedTime(time, timezone), isoFormat, {
+    timeZone: timezone,
+  });
+};
+
 export {
   appointmentStartTimePast15,
   appointmentWasCanceled,
@@ -291,4 +341,7 @@ export {
   clinicName,
   getAppointmentId,
   findAppointment,
+  hasMultipleFacilities,
+  getUniqueFacilies,
+  utcToFacilityTimeZone,
 };

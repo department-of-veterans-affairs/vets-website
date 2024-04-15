@@ -7,10 +7,7 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import {
-  getContestableIssues as getContestableIssuesAction,
-  FETCH_CONTESTABLE_ISSUES_FAILED,
-} from '../../10182/actions';
+import { getContestableIssues as getContestableIssuesAction } from '../../10182/actions';
 
 import { IssueCard } from './IssueCard';
 import { APP_NAME } from '../../10182/constants';
@@ -22,8 +19,9 @@ import {
   REVIEW_ISSUES,
   SELECTED,
 } from '../../shared/constants';
+import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../../shared/actions';
 import {
-  NoIssuesLoadedAlert,
+  NoEligibleIssuesAlert,
   NoneSelectedAlert,
   MaxSelectionsAlert,
   removeModalContent,
@@ -242,7 +240,7 @@ const ContestableIssuesWidget = props => {
   return (
     <>
       <div name="eligibleScrollElement" />
-      {showNoIssues && <NoIssuesLoadedAlert />}
+      {showNoIssues && <NoEligibleIssuesAlert />}
       {!showNoIssues &&
         !hasSelected &&
         (onReviewPage || submitted) && (

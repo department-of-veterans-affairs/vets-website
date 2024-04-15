@@ -26,8 +26,8 @@
     user-select: none;
   }
   [type="checkbox"]:checked + label::before {
-    background-color: $color-white;
-    color: $color-primary;
+    background-color: var(--vads-color-white);
+    color: var(--vads-color-primary);
     content: "\f00c";
     font-family: "Font Awesome 5 Free";
     padding-right: 2px;
@@ -35,7 +35,7 @@
 }
 
 .selected-debt {
-  border: 4px solid $color-blue;
+  border: 4px solid var(--vads-color-primary);
   padding: 20px;
 }
 
@@ -49,11 +49,11 @@
   va-table {
     table-layout: fixed;
     width: 100%;
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
   }
   .item-loop {
     padding: 15px 30px;
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
     .horizontal-field-container {
       display: flex;
       align-items: center;
@@ -75,7 +75,7 @@
       overflow-x: hidden;
     }
     .usa-button-secondary {
-      background: $color-white;
+      background: var(--vads-color-white);
     }
     .button-group {
       display: flex;
@@ -97,13 +97,13 @@
   .edit-item-container {
     margin: 5px 0;
     .usa-button-secondary {
-      background: $color-white;
+      background: var(--vads-color-white);
     }
   }
   .add-item-container {
     display: flex;
     flex-direction: column;
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
     padding: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -111,7 +111,7 @@
       cursor: pointer;
       width: fit-content;
       .plus-icon {
-        color: $color-light-blue;
+        color: var(--vads-color-primary);
         margin-right: 5px;
       }
     }
@@ -134,18 +134,18 @@
     }
   }
   .review-card--body {
-    border: 3px solid $color-light-blue;
+    border: 3px solid var(--vads-color-primary);
     padding: 25px;
   }
   .usa-button-secondary {
-    background: $color-white;
+    background: var(--vads-color-white);
   }
 }
 
 // schemaform title override to match DS
 .schemaform-block-title {
   font-size: $h3-font-size;
-  color: $color-base;
+  color: var(--vads-color-base);
   padding-bottom: 0;
 }
 
@@ -154,7 +154,7 @@
   margin: 4px 0 0;
   font-size: $base-font-size;
   max-width: 400px;
-  color: $color-gray-medium;
+  color: var(--vads-color-gray-medium);
 }
 
 // bankruptcyHistory
@@ -227,10 +227,6 @@
   max-width: 400px;
 }
 
-.max-width-400 {
-  max-width: 400px;
-}
-
 .no-wrap {
   @include media($medium-screen) {
     white-space: nowrap;
@@ -241,8 +237,8 @@
   pointer-events: none;
   input,
   select {
-    background-color: $color-gray-lightest;
-    color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
+    color: var(--vads-color-base-lightest);
   }
 }
 
@@ -265,48 +261,8 @@
   }
 }
 
-// input fields
-.input-size-1 {
-  @include media($medium-screen) {
-    width: 152px;
-    max-width: 152px;
-  }
-}
-
-.input-size-2 {
-  @include media($medium-screen) {
-    width: 173px;
-    max-width: 173px;
-  }
-}
-
-.input-size-3 {
-  @include media($medium-screen) {
-    width: 196px;
-    max-width: 196px;
-  }
-}
-
-.input-size-4 {
-  @include media($medium-screen) {
-    width: 215px;
-    max-width: 215px;
-  }
-}
-
-.input-size-5 {
-  @include media($medium-screen) {
-    width: 262px;
-    max-width: 262px;
-  }
-}
-
-.input-size-6 {
-  @include media($medium-screen) {
-    width: 283px;
-    max-width: 283px;
-  }
-}
+// va select field widths
+// TODO: depercate once va-select has a width prop
 
 .input-size-7 {
   @include media($medium-screen) {
@@ -320,7 +276,7 @@
 }
 
 .required-text {
-  color: $color-red;
+  color: var(--vads-color-secondary);
 }
 
 .error-line {
@@ -329,14 +285,14 @@
 }
 
 .summary-card-delete-button {
-  color: $color-secondary-dark;
+  color: var(--vads-color-secondary-dark);
   background-color: transparent;
   width: auto !important;
   font-weight: bold;
   &:hover,
   &:active {
-    color: $color-secondary-darkest;
-    background-color: $color-secondary-lightest;
+    color: var(--vads-color-secondary-darkest);
+    background-color: var(--vads-color-secondary-lightest);
   }
 }
 
@@ -348,27 +304,92 @@
   }
 }
 
-@mixin hide-button($selector) {
-  .form-review-panel #{$selector} {
-    display: none;
-  }
-}
-
-/* Hide default edit buttons on final review page */
-.form-review-panel-page-header-row {
-  va-button, button {
-    display: none;
-  }
-}
-
-@include hide-button("button.edit-page");
-@include hide-button(".edit-btn.primary-outline");
-
 .review-header {
-  border-bottom: 1px solid $color-gray-light;
+  border-bottom: 1px solid var(--vads-color-base-light);
 }
 
 .review-top-bottom-borders {
-  border-top: 1px solid $color-gray-light;
-  border-bottom: 1px solid $color-gray-light;
+  border-top: 1px solid var(--vads-color-base-light);
+  border-bottom: 1px solid var(--vads-color-base-light);
+}
+
+$chapters: veteranInformationChapter, householdIncomeChapter,
+  householdAssetsChapter, bankruptcyAttestationChapter, householdExpensesChapter,
+  resolutionOptionsChapter;
+
+@each $chapter in $chapters {
+  [data-chapter="#{$chapter}"] {
+    .form-review-panel-page va-button[text="Edit"],
+    .form-review-panel-page button#confirmContactInformationEdit {
+      // hope the id doesn't change
+      display: none;
+    }
+  }
+}
+
+.va-button-override {
+  @media (min-width: $xsmall-screen) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 18px;
+    max-width: 451.25px;
+  }
+  @media (min-width: $small-screen) {
+    max-width: 374px;
+  }
+}
+
+.va-button-override va-button {
+  &::part(button) {
+    white-space: nowrap;
+    z-index: 1;
+    position: relative;
+  }
+  @media (max-width: $xsmall-screen) {
+    width: -webkit-fill-available;
+    margin-bottom: 1rem;
+    &::part(button) {
+      width: 100%;
+    }
+  }
+  @media (min-width: $xsmall-screen) {
+    width: -webkit-fill-available;
+    &::part(button) {
+      width: 100%;
+    }
+  }
+}
+
+.va-button-override va-button[text="Continue"],
+.va-button-override va-button[text="Continue to review page"],
+.va-button-override va-button[text="Back"] {
+  &::part(button) {
+    &::after,
+    &::before {
+      font-family: "Font Awesome 5 Free"; /* Adjust based on your Font Awesome version */
+      font-weight: 900; /* Use 900 for solid icons */
+      font-size: 1.6rem;
+      vertical-align: bottom;
+    }
+  }
+}
+
+.va-button-override va-button[text="Back"] {
+  &::part(button) {
+    &::before {
+      content: "\f100";
+      margin-right: 8px;
+    }
+  }
+}
+
+.va-button-override va-button[text="Continue"],
+.va-button-override va-button[text="Continue to review page"] {
+  &::part(button) {
+    &::after {
+      content: "\f101";
+      margin-left: 8px;
+    }
+  }
 }

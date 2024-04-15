@@ -1,80 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import SectionGuideButton from './SectionGuideButton';
+import { getActiveLinksStyle } from '../util/helpers';
 
-const Navigation = () => {
+const Navigation = props => {
+  const { paths } = props;
+
   const [isMobile, setIsMobile] = useState(true);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const location = useLocation();
-
-  const paths = [
-    {
-      path: '/',
-      label: 'Medical records',
-      datatestid: 'about-va-medical-records-sidebar',
-      subpaths: [
-        // {
-        //   path: '/labs-and-tests',
-        //   label: 'Lab and test results',
-        //   datatestid: 'labs-and-tests-sidebar',
-        // },
-        // {
-        //   path: '/summaries-and-notes',
-        //   label: 'Care summaries and notes',
-        //   datatestid: 'care-summaries-and-notes-sidebar',
-        // },
-        // {
-        //   path: '/vaccines',
-        //   label: 'Vaccines',
-        //   datatestid: 'vaccines-sidebar',
-        // },
-        // {
-        //   path: '/allergies',
-        //   label: 'Allergies',
-        //   datatestid: 'allergies-sidebar',
-        // },
-        // {
-        //   path: '/conditions',
-        //   label: 'Health conditions',
-        //   datatestid: 'health-conditions-sidebar',
-        // },
-        // {
-        //   path: '/vitals',
-        //   label: 'Vitals',
-        //   datatestid: 'vitals-sidebar',
-        // },
-        // {
-        //   path: '/download-all',
-        //   label: 'Download all medical records',
-        //   datatestid: 'download-your-medical-records-sidebar',
-        // },
-        // {
-        //   path: '/settings',
-        //   label: 'Medical records settings',
-        //   datatestid: 'settings-sidebar',
-        // },
-      ],
-    },
-  ];
-
-  paths[0].subpaths.push({
-    path: '/vaccines',
-    label: 'Vaccines',
-    datatestid: 'vaccines-sidebar',
-  });
-  paths[0].subpaths.push({
-    path: '/allergies',
-    label: 'Allergies and reactions',
-    datatestid: 'allergies-sidebar',
-  });
+  const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
 
   function openNavigation() {
     setIsNavigationOpen(true);
   }
 
-  function closeNavigation() {
-    setIsNavigationOpen(false);
-  }
+  const closeNavigation = useCallback(
+    () => {
+      setIsNavigationOpen(false);
+      focusElement(navMenuButtonRef);
+    },
+    [navMenuButtonRef],
+  );
 
   function checkScreenSize() {
     if (window.innerWidth <= 481 && setIsMobile !== false) {
@@ -89,6 +38,7 @@ const Navigation = () => {
     return (
       isMobile && (
         <SectionGuideButton
+          setNavMenuButtonRef={setNavMenuButtonRef}
           onMenuClick={() => {
             openNavigation();
           }}
@@ -107,20 +57,7 @@ const Navigation = () => {
   window.addEventListener('resize', checkScreenSize);
 
   const handleActiveLinksStyle = path => {
-    let relativePath;
-    if (path === '/' && location.pathname === '/') return 'is-active';
-    const pathArr = location.pathname.slice(1).split('/');
-    if (
-      pathArr.length > 1 &&
-      pathArr.length < 5 &&
-      pathArr[0] === 'labs-and-tests'
-    ) {
-      relativePath = '/labs-and-tests';
-    } else if (pathArr.length === 3)
-      relativePath = `/${pathArr[0]}/${pathArr[1]}`;
-    else relativePath = location.pathname;
-    if (path === relativePath) return 'is-active';
-    return '';
+    return getActiveLinksStyle(path, location.pathname);
   };
 
   // We no longer have dynamically opening/closing nav, but leaving this the handleSubpathsOpen
@@ -158,7 +95,7 @@ const Navigation = () => {
             <div className="sidebar-navigation-header">
               <button
                 className="va-btn-close-icon"
-                aria-label="Close-this-menu"
+                aria-label="Close navigation menu"
                 aria-expanded="true"
                 aria-controls="a1"
                 onClick={closeNavigation}
@@ -175,6 +112,9 @@ const Navigation = () => {
                       className={handleActiveLinksStyle(path.path)}
                       to={path.path}
                       data-testid={path.datatestid}
+                      onClick={() => {
+                        closeNavigation();
+                      }}
                     >
                       <span>{path.label}</span>
                     </Link>
@@ -196,3 +136,7 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
+Navigation.propTypes = {
+  paths: PropTypes.any,
+};

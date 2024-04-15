@@ -101,7 +101,7 @@
         "treatedDisabilityNames": {
           "diabetesmellitus0": true,
           "diabetesmellitus1": true,
-          "myocardialinfarctionmi": true
+          "heartattackmyocardialinfarction": true
         }
       },
       {
@@ -115,8 +115,8 @@
         },
         "treatedDisabilityNames": {
           "asthma": true,
-          "phlebitis": true,
-          "kneereplacement": true
+          "heartattackmyocardialinfarction": true,
+          "ankylosisinkneebilateral": true
         }
       }
     ],
@@ -149,8 +149,8 @@
         }
       ],
       "powDisabilities": {
-        "kneereplacement": true,
-        "myocardialinfarctionmi": true
+        "ankylosisinkneebilateral": true,
+        "heartattackmyocardialinfarction": true
       }
     },
     "newDisabilities": [
@@ -166,7 +166,7 @@
           "causedByDisability": "Diabetes Mellitus0",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
-        "condition": "phlebitis",
+        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
         "view:descriptionInfo": {}
       },
       {
@@ -175,7 +175,7 @@
           "worsenedDescription": "My knee was strained in the service",
           "worsenedEffects": "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it. I think. That makes sense, right?"
         },
-        "condition": "knee replacement",
+        "condition": "ankylosis in knee, bilateral",
         "view:descriptionInfo": {}
       },
       {
@@ -185,7 +185,7 @@
           "vaMistreatmentLocation": "Somewhereville",
           "vaMistreatmentDate": "A while ago"
         },
-        "condition": "myocardial infarction (MI)",
+        "condition": "heart attack (myocardial infarction)",
         "view:descriptionInfo": {}
       }
     ],

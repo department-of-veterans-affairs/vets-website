@@ -26,11 +26,59 @@ const AppointmentListItem = props => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { is45MinuteReminderEnabled } = useSelector(selectFeatureToggles);
 
+  const detailsAriaLabel = () => {
+    let modality;
+    switch (appointment.kind) {
+      case 'clinic':
+        modality = t('in-person');
+        break;
+      case 'vvc':
+      case 'cvt':
+        modality = t('video-appointment');
+        break;
+      default:
+        modality = t('phone');
+    }
+
+    const type =
+      appointment.kind === 'cvt' || appointment.kind === 'vvc'
+        ? ''
+        : ` ${t('VA-appointment')}`;
+
+    const provider = appointment.doctorName
+      ? ` ${t('with')} ${appointment.doctorName}`
+      : '';
+
+    const facility =
+      appointment.kind === 'cvt' ? ` ${t('at')} ${appointment.facility}` : '';
+
+    return `${t('details-for')} ${modality}${type}${facility}${provider} ${t(
+      'on-date-at-time',
+      { date: appointmentDateTime },
+    )}`;
+  };
+
   const infoBlockMessage = () => {
     if (appointment?.kind === 'phone') {
       return (
         <span data-testid="phone-msg-confirmation">
           {t('your-provider-will-call-you-at-your-appointment-time')}
+        </span>
+      );
+    }
+    if (appointment?.kind === 'vvc') {
+      return (
+        <span data-testid="video-vvc-confirmation">
+          {t('you-can-join-your-appointment-by-using-our-appointments-tool')}
+        </span>
+      );
+    }
+    if (appointment?.kind === 'cvt') {
+      return (
+        <span data-testid="video-cvt-confirmation">
+          {t('go-to-facility-for-this-video-appointment', {
+            facility: appointment.facility,
+          })}
         </span>
       );
     }
@@ -48,15 +96,44 @@ const AppointmentListItem = props => {
     );
   };
 
+  const appointmentInfo = () => {
+    if (appointment?.kind === 'vvc') {
+      return <div data-testid="appointment-info-vvc">{t('video')}</div>;
+    }
+    if (appointment?.kind === 'cvt') {
+      return (
+        <div data-testid="appointment-info-cvt">
+          {`${t('video-at')} ${appointment.facility}`}
+          <br />
+          {`${t('clinic')}: ${clinic}`}
+        </div>
+      );
+    }
+    if (appointment?.kind === 'phone') {
+      return <div data-testid="appointment-info-phone">{t('phone')}</div>;
+    }
+    return (
+      <div data-testid="appointment-info-clinic">
+        {`${t('in-person-at')} ${appointment.facility}`} <br />
+        {`${t('clinic')}: ${clinic}`}
+      </div>
+    );
+  };
+
   return (
     <li
       className="vads-u-border-bottom--1px check-in--appointment-item"
       data-testid="appointment-list-item"
     >
-      <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2">
+      <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2p5">
+        {page === 'confirmation' && (
+          <div className="vads-u-font-family--serif vads-u-font-size--lg vads-u-line-height--2 vads-u-margin-bottom--1">
+            {t('date-long', { date: appointmentDateTime })}
+          </div>
+        )}
         <div
           data-testid="appointment-time"
-          className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold"
+          className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold vads-u-line-height--1 vads-u-margin-bottom--2"
         >
           {t('date-time', { date: appointmentDateTime })}{' '}
         </div>
@@ -64,9 +141,7 @@ const AppointmentListItem = props => {
           data-testid="appointment-type-and-provider"
           className="vads-u-font-weight--bold"
         >
-          {appointment.clinicStopCodeName
-            ? appointment.clinicStopCodeName
-            : t('VA-appointment')}
+          {t('VA-appointment')}
           {appointment.doctorName
             ? ` ${t('with')} ${appointment.doctorName}`
             : ''}
@@ -82,14 +157,7 @@ const AppointmentListItem = props => {
             data-testid="appointment-kind-and-location"
             className="vads-u-display--inline"
           >
-            {appointment?.kind === 'phone' ? (
-              t('phone')
-            ) : (
-              <>
-                {`${t('in-person')} ${appointment.facility}`} <br />
-                {`${t('clinic')}: ${clinic}`}
-              </>
-            )}
+            {appointmentInfo()}
           </div>
         </div>
         {showDetailsLink && (
@@ -100,12 +168,7 @@ const AppointmentListItem = props => {
                 router.location.basename
               }/appointment-details/${getAppointmentId(appointment)}`}
               onClick={e => goToDetails(e, appointment)}
-              aria-label={t('details-for-appointment', {
-                time: appointmentDateTime,
-                type: appointment.clinicStopCodeName
-                  ? appointment.clinicStopCodeName
-                  : 'VA',
-              })}
+              aria-label={detailsAriaLabel()}
             >
               {t('details')}
             </a>
@@ -113,23 +176,24 @@ const AppointmentListItem = props => {
         )}
         {app === APP_NAMES.CHECK_IN &&
           page !== 'confirmation' && (
-            <>
+            <div data-testid="appointment-action">
               <AppointmentMessage appointment={appointment} />
               <AppointmentAction
                 appointment={appointment}
                 router={router}
                 event="check-in-clicked-VAOS-design"
               />
-            </>
+            </div>
           )}
       </div>
       {app === APP_NAMES.PRE_CHECK_IN &&
         page === 'confirmation' && (
           <va-alert
-            background-only
             show-icon
             data-testid="appointment-message"
             class="vads-u-margin-bottom--2"
+            uswds
+            slim
           >
             <div>{infoBlockMessage()}</div>
           </va-alert>

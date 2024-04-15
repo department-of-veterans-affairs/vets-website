@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { VideoVisitInstructions } from '../VideoVisitInstructions';
 
-describe('VideoVisitInstructions', () => {
+describe('VAOS Component: VideoVisitInstructions', () => {
   it('renders instructions for medication review', () => {
     const instructionsType = 'Medication Review';
     const props = { instructionsType };

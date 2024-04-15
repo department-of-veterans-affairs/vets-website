@@ -9,6 +9,7 @@ import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
+import { waitFor } from '@testing-library/react';
 import formConfig from '../../config/form';
 
 describe('Edu 1995 benefitSelection', () => {
@@ -16,7 +17,7 @@ describe('Edu 1995 benefitSelection', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.benefitSelection.pages.benefitSelection;
-  it('renders the correct amount of options for the benefit selection radio button', () => {
+  it('renders the correct amount of options for the benefit selection radio button', async () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -24,8 +25,10 @@ describe('Edu 1995 benefitSelection', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(5);
-    form.unmount();
+    await waitFor(() => {
+      expect(form.find('input').length).to.equal(8);
+      form.unmount();
+    });
   });
 
   it('should have no required inputs', () => {
@@ -60,7 +63,7 @@ describe('Delete Environment Variables Edu 1995 benefitSelection', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.benefitSelection.pages.benefitSelection;
-  it('renders the correct amount of options for the benefit selection radio button', () => {
+  it('renders the correct amount of options for the benefit selection radio button', async () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -68,7 +71,9 @@ describe('Delete Environment Variables Edu 1995 benefitSelection', () => {
         uiSchema={uiSchema}
       />,
     );
-    expect(form.find('input').length).to.equal(5);
-    form.unmount();
+    await waitFor(() => {
+      expect(form.find('input').length).to.equal(8);
+      form.unmount();
+    });
   });
 });

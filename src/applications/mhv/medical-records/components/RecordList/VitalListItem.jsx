@@ -6,47 +6,65 @@ import { vitalTypeDisplayNames } from '../../util/constants';
 
 const VitalListItem = props => {
   const { record } = props;
+  const displayName = vitalTypeDisplayNames[record.type];
 
-  const content = () => {
-    if (record) {
-      const displayName = vitalTypeDisplayNames[record.type];
-      return (
-        <div
-          className="record-list-item vads-u-padding-y--2 vads-u-border-color--gray-light vads-u-border--0 vads-u-background-color--gray-lightest card"
-          data-testid="record-list-item"
-        >
-          <h3 className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4">
-            {displayName}
-          </h3>
-          <div className="vads-u-line-height--3">
-            Result: <span data-dd-privacy="mask">{record.measurement}</span>
+  return (
+    <va-card
+      class="record-list-item vads-u-border--0 vads-u-padding-left--0 vads-u-padding-top--1 small-screen:vads-u-padding-top--2"
+      data-testid="record-list-item"
+    >
+      <h2
+        className="vads-u-font-size--h3 vads-u-line-height--4 vads-u-margin-top--0 vads-u-margin-bottom--1"
+        data-testid="vital-li-display-name"
+      >
+        {displayName}
+      </h2>
+
+      {record.noRecords && (
+        <p className="vads-u-margin--0">
+          {`There are no ${displayName.toLowerCase()} results in your VA medical records.`}
+        </p>
+      )}
+
+      {!record.noRecords && (
+        <>
+          <div className="vads-u-line-height--4 vads-u-margin-bottom--1">
+            <span className="vads-u-display--inline vads-u-font-weight--bold">
+              Most recent result:
+            </span>{' '}
+            <span
+              className="vads-u-display--inline"
+              data-dd-privacy="mask"
+              data-testid="vital-li-measurement"
+            >
+              {record.measurement}
+            </span>
           </div>
-          <div className="vads-u-line-height--3" data-dd-privacy="mask">
-            {record.date}
+
+          <div
+            className="vads-u-line-height--4 vads-u-margin-bottom--1"
+            data-dd-privacy="mask"
+            data-testid="vital-li-date"
+          >
+            <span className="vads-u-font-weight--bold">Date: </span>
+            <span>{record.date}</span>
           </div>
-          <div className="location-collapsed vads-u-line-height--3">
-            Location: <span data-dd-privacy="mask">{record.location}</span>
-          </div>
-          <div className="print-only">
-            Provider notes: <span data-dd-privacy="mask">{record.notes}</span>
-          </div>
+
           <Link
             to={`/vitals/${_.kebabCase(record.type)}-history`}
-            className="vads-u-margin-y--0p5 no-print"
+            className="vads-u-line-height--4"
+            data-testid="vital-li-review-over-time"
           >
-            <strong>View {displayName.toLowerCase()} over time</strong>
+            <strong>Review {displayName.toLowerCase()} over time</strong>
             <i
               className="fas fa-angle-right details-link-icon"
               aria-hidden="true"
             />
           </Link>
-        </div>
-      );
-    }
-    return <></>;
-  };
-
-  return content();
+        </>
+      )}
+    </va-card>
+  );
 };
 
 export default VitalListItem;

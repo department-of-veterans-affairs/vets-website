@@ -96,7 +96,13 @@ export function formatFullName({
   last = '',
   suffix = '',
 }) {
-  return [first, middle, last, suffix].filter(name => !!name).join(' ');
+  // ensure that any middle initials are capitalized
+  const formattedMiddle = middle
+    ? middle.replaceAll(/\b\w{1}\b/g, c => c.toUpperCase())
+    : '';
+  return [first, formattedMiddle, last, suffix]
+    .filter(name => !!name)
+    .join(' ');
 }
 
 export const normalizePath = path => {

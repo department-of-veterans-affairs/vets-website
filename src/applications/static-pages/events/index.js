@@ -1,10 +1,8 @@
-// Node modules.
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import cookie from 'js-cookie';
 
-// Related imports.
 import App from './components/App';
 import { generateTestEvents } from './helpers/event-generator';
 
@@ -12,8 +10,8 @@ export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
 
   if (root) {
-    // Derive the props to pass to the widget.
     let rawEvents = [];
+
     if (cookie.get('useGeneratedTestEvents')) {
       // Use generated test events if the useGeneratedTestEvents cookie is set.
       rawEvents = generateTestEvents().sort(

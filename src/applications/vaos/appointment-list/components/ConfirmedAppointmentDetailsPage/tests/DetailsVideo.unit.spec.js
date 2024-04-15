@@ -22,7 +22,7 @@ const appointmentData = {
 };
 const facilityData = new Facility();
 
-describe('DetailsVideo component with descriptive back link', () => {
+describe('VAOS Component: DetailsVideo', () => {
   const initialState = {
     featureToggles: {},
   };

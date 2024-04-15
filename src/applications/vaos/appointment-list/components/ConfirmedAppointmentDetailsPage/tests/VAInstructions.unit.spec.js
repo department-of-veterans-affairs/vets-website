@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import VAInstructions from '../VAInstructions';
 
-describe('VAInstructions component', () => {
+describe('VAOS Component: VAInstructions', () => {
   const initialState = {};
 
   it('should render comment in VAInstructions for PURPOSE_TEXT_V2 short', async () => {

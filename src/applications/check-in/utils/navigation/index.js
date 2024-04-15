@@ -59,6 +59,7 @@ const updateFormPages = (
     URLS.TRAVEL_VEHICLE,
     URLS.TRAVEL_ADDRESS,
     URLS.TRAVEL_MILEAGE,
+    URLS.TRAVEL_REVIEW,
   ];
 
   // Skip travel pay if not enabled, if veteran has more than one appointment for the day, or station if not in the allow list.
@@ -91,11 +92,15 @@ const URLS = Object.freeze({
   DETAILS: 'details',
   VALIDATION_NEEDED: 'verify',
   LOADING: 'loading-appointments',
+  TRAVEL_AGREEMENT: 'travel-agreement',
+  TRAVEL_INTRO: 'travel-pay',
   TRAVEL_QUESTION: 'travel-pay',
   TRAVEL_VEHICLE: 'travel-vehicle',
   TRAVEL_ADDRESS: 'travel-address',
   TRAVEL_MILEAGE: 'travel-mileage',
+  TRAVEL_REVIEW: 'travel-review',
   APPOINTMENT_DETAILS: 'appointment-details',
+  ARRIVED: 'arrived',
 });
 
 export { updateFormPages, URLS };

@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import RemoveCompareSelectedModal from '../../components/RemoveCompareSelectedModal';
 
@@ -31,7 +32,8 @@ describe('<RemoveCompareSelectedModal/>', () => {
         onCancel={() => {}}
       />,
     );
-    wrapper.find('Modal').prop('onClose')();
+
+    wrapper.find(VaModal).prop('onCloseEvent')();
     expect(onCloseMock.called).to.be.true;
     wrapper.unmount();
   });

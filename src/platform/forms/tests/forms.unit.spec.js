@@ -16,6 +16,7 @@ const remapFormId = {
 
 // These form IDs have a config/form.js file but the formId is not found in vets-json-schema/dist/schemas
 const missingFromVetsJsonSchema = [
+  VA_FORM_IDS.FORM_10_7959C,
   VA_FORM_IDS.FORM_HC_QSTNR,
   VA_FORM_IDS.FORM_21_0845,
   VA_FORM_IDS.FORM_21_22,
@@ -30,11 +31,15 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_MOCK,
   VA_FORM_IDS.FORM_20_0995,
   VA_FORM_IDS.FORM_20_10206,
+  VA_FORM_IDS.FORM_20_10207,
   VA_FORM_IDS.FORM_40_0247,
   VA_FORM_IDS.FORM_MOCK_ALT_HEADER,
   VA_FORM_IDS.FORM_MOCK_SF_PATTERNS,
   VA_FORM_IDS.FORM_MOCK_PATTERNS_V3,
   VA_FORM_IDS.FORM_MOCK_APPEALS,
+  VA_FORM_IDS.FORM_10_10D,
+  VA_FORM_IDS.FORM_10_3542,
+  VA_FORM_IDS.FORM_10_7959F_1,
 ];
 
 const root = path.join(__dirname, '../../../');
@@ -49,6 +54,7 @@ const formConfigKeys = [
   'chapters',
   'defaultDefinitions',
   'introduction',
+  'signInHelpList',
   'prefillEnabled',
   'prefillTransformer',
   'trackingPrefix',
@@ -335,6 +341,7 @@ describe('form:', () => {
           validFunctionProperty(formConfig, 'onFormLoaded', false);
           validComponentProperty(formConfig, 'formSavedPage', false);
           validAdditionalRoutes(formConfig);
+          validFunctionProperty(formConfig, 'signInHelpList', false);
           validCustomText(formConfig);
           validFunctionProperty(formConfig, 'submissionError', false);
           validComponentProperty(formConfig, 'CustomHeader', false);

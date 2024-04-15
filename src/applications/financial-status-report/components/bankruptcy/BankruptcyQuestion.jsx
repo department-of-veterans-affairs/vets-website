@@ -102,8 +102,10 @@ const BankruptcyQuestion = ({
           onVaValueChange={onSelection}
           error={error}
           required
+          uswds
         >
           <va-radio-option
+            uswds
             id="has-declared-bankruptcy"
             label="Yes"
             value="y"
@@ -114,6 +116,7 @@ const BankruptcyQuestion = ({
             }
           />
           <va-radio-option
+            uswds
             id="has-not-declared-bankruptcy"
             label="No"
             value="n"

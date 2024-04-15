@@ -1,14 +1,13 @@
-import React from 'react';
-import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 import set from 'platform/utilities/data/set';
 import { merge } from 'lodash';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
-import { useSelector } from 'react-redux';
 import fullNameUI from '../../definitions/fullName';
 
 import EligibleBuriedView from '../../components/EligibleBuriedView';
 
-import { isVeteran, getCemeteries } from '../../utils/helpers';
+import { getCemeteries } from '../../utils/helpers';
+import DeceasedPersons from '../../components/DeceasedPersons';
 
 const {
   currentlyBuriedPersons,
@@ -20,35 +19,16 @@ function currentlyBuriedPersonsMinItem() {
   return set('items.properties.cemeteryNumber', autosuggest.schema, copy);
 }
 
-function CurrentlyBuriedPersonsDescription() {
-  const data = useSelector(state => state.form.data || {});
-  if (isVeteran(data)) {
-    return 'Please provide the details of the person(s) currently buried in a VA national cemetery under your eligibility.';
-  }
-  return 'Please provide the details of the person(s) currently buried in a VA national cemetery under the sponsor’s eligibility.';
-}
-
-export const currentlyBuriedPersonsTitle = (
-  <h3 className="vads-u-font-size--h5">Name of deceased person(s)</h3>
-);
-
-export const currentlyBuriedPersonsTitleWrapper = (
-  <CurrentlyBuriedPersonsTitle />
-);
-
-function CurrentlyBuriedPersonsTitle() {
-  return currentlyBuriedPersonsTitle;
-}
-
 export const uiSchema = {
   application: {
     currentlyBuriedPersons: {
-      'ui:title': currentlyBuriedPersonsTitleWrapper,
-      'ui:description': CurrentlyBuriedPersonsDescription,
+      'ui:field': DeceasedPersons,
       'ui:options': {
         viewField: EligibleBuriedView,
         keepInPageOnReview: true,
-        itemName: 'Name of deceased',
+        showSave: true,
+        confirmRemove: true,
+        itemName: 'deceased person',
       },
       items: {
         name: merge({}, fullNameUI),

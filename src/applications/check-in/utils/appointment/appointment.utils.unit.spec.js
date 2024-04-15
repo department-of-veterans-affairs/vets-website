@@ -16,6 +16,8 @@ import {
   clinicName,
   getAppointmentId,
   findAppointment,
+  hasMultipleFacilities,
+  utcToFacilityTimeZone,
 } from './index';
 
 import { get } from '../../api/local-mock-api/mocks/v2/shared';
@@ -470,6 +472,39 @@ describe('check in', () => {
         const appointmentId = '2222-7780';
         expect(findAppointment(appointmentId, appointments)).to.deep.equal(
           appointments[1],
+        );
+      });
+    });
+    describe('hasMultipleFacilities', () => {
+      it('returns true if more than one unique stationNo values', () => {
+        const appointments = [
+          {
+            stationNo: '4343',
+          },
+          {
+            stationNo: '7780',
+          },
+        ];
+        expect(hasMultipleFacilities(appointments)).to.be.true;
+      });
+      it('returns false if one unique stationNo value', () => {
+        const appointments = [
+          {
+            stationNo: '7780',
+          },
+          {
+            stationNo: '7780',
+          },
+        ];
+        expect(hasMultipleFacilities(appointments)).to.be.false;
+      });
+    });
+    describe('utcToFacilityTimeZone', () => {
+      it('returns the timezone adjusted ISO srting', () => {
+        const time = '2020-01-24T00:20:00.000+00:00';
+        const timezone = 'America/Los_Angeles';
+        expect(utcToFacilityTimeZone(time, timezone)).to.equal(
+          '2020-01-23T16:20:00.000-08:00',
         );
       });
     });

@@ -1,12 +1,12 @@
 export const rxListSortingOptions = {
-  lastFilledFirst: {
-    API_ENDPOINT: '&sort[]=-dispensed_date&sort[]=prescription_name',
-    LABEL: 'Last filled first',
-  },
   alphabeticallyByStatus: {
     API_ENDPOINT:
       '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
     LABEL: 'Alphabetically by status',
+  },
+  lastFilledFirst: {
+    API_ENDPOINT: '&sort[]=-dispensed_date&sort[]=prescription_name',
+    LABEL: 'Last filled first',
   },
   alphabeticalOrder: {
     API_ENDPOINT: '&sort[]=prescription_name&sort[]=dispensed_date',
@@ -17,7 +17,17 @@ export const rxListSortingOptions = {
 export const medicationsUrls = {
   MEDICATIONS_URL: '/my-health/medications',
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
-  MEDICATIONS_ABOUT: '/my-health/about-medications',
+  MEDICATIONS_ABOUT: '/my-health/medications/about',
+  MEDICATIONS_ABOUT_ACCORDION_RENEW:
+    '/my-health/medications/about/accordion-renew-rx',
+  MEDICATIONS_REFILL: '/my-health/medications/refill',
+  PRESCRIPTION_DETAILS: '/my-health/medications/prescription',
+  subdirectories: {
+    BASE: '/',
+    ABOUT: '/about',
+    REFILL: '/refill',
+    DETAILS: '/prescription',
+  },
 };
 
 export const dispStatusForRefillsLeft = [
@@ -155,8 +165,23 @@ export const dispStatusObj = {
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
 
-export const PDF_GENERATE_STATUS = {
+export const INCLUDE_IMAGE_ENDPOINT = '&include_image=true';
+
+export const PDF_TXT_GENERATE_STATUS = {
   NotStarted: 'PDF_GENERATE_NOT_STARTED',
   InProgress: 'PDF_GENERATE_IN_PROGRESS',
   Success: 'PDF_GENERATE_SUCESS',
 };
+
+export const defaultSelectedSortOption =
+  sessionStorage.getItem(SESSION_SELECTED_SORT_OPTION) ??
+  Object.keys(rxListSortingOptions)[0];
+
+export const allergyTypes = {
+  OBSERVED:
+    'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
+  REPORTED:
+    'Historical (you experienced this allergy or reaction in the past, before you started getting care at this VA location)',
+};
+
+export const EMPTY_FIELD = 'None noted';

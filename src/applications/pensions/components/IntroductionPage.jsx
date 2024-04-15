@@ -3,6 +3,7 @@ import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { FormReactivationAlert } from './FormAlerts';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -19,14 +20,18 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           downtime={this.props.route.formConfig.downtime}
           startText="Start the pension application"
+          retentionPeriod="one year"
+          retentionPeriodStart="when you start"
+          continueMsg={<FormReactivationAlert />}
         />
         <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
           Follow these steps to apply for a Veterans Pension
         </h2>
-        <va-process-list>
-          <li>
-            <h3>Prepare</h3>
-            <h4>To fill out this application, you’ll need this information:</h4>
+        <va-process-list uswds>
+          <va-process-list-item header="Prepare">
+            <h4 className="vads-u-margin-y--1">
+              To fill out this application, you’ll need this information:
+            </h4>
             <ul>
               <li>
                 Your Social Security number or VA file number{' '}
@@ -40,25 +45,16 @@ class IntroductionPage extends React.Component {
                   (*Required)
                 </span>
               </li>
-              <li>Your marital status and prior marital history</li>
-              <li>Information about your spouse’s prior marriage</li>
-              <li>Information about your dependent children</li>
-              <li>Your employment history</li>
-            </ul>
-            <h4>You’ll also need this information:</h4>
-            <ul>
               <li>
                 Financial information about you and your dependents{' '}
                 <span className="vads-u-color--secondary-dark">
                   (*Required)
                 </span>
               </li>
-              <li>
-                Your military history{' '}
-                <span className="vads-u-color--secondary-dark">
-                  (*Required)
-                </span>
-              </li>
+              <li>Your marital status and prior marital history</li>
+              <li>Information about your spouse’s prior marriage</li>
+              <li>Information about your dependent children</li>
+              <li>Your employment history</li>
             </ul>
             <h4>
               If you have special circumstances for your medical care, you may
@@ -105,11 +101,10 @@ class IntroductionPage extends React.Component {
                 )
               </li>
             </ul>
-          </li>
-          <li>
-            <h3>Apply</h3>
+          </va-process-list-item>
+          <va-process-list-item header="Apply">
             <p>Complete and submit the pension benefits application form.</p>
-          </li>
+          </va-process-list-item>
         </va-process-list>
         <SaveInProgressIntro
           buttonOnly
@@ -124,14 +119,15 @@ class IntroductionPage extends React.Component {
         <p>
           An accredited representative, like a Veterans Service Officer (VSO),
           can help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
-          </a>
+          <va-link
+            href="https://www.va.gov/disability/get-help-filing-claim/"
+            text="Get help filing your claim"
+          />
         </p>
         <va-omb-info
-          res-burden={45}
+          res-burden={30}
           omb-number="2900-0002"
-          exp-date="04/30/2019"
+          exp-date="08/31/2025"
         />
       </div>
     );

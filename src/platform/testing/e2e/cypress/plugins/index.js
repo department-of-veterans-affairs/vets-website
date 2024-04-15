@@ -114,5 +114,14 @@ module.exports = async (on, config) => {
     /* eslint-enable no-console */
   });
 
+  on('task', {
+    readFileMaybe(filename) {
+      if (fs.existsSync(filename)) {
+        return fs.readFileSync(filename, 'utf8');
+      }
+      return null;
+    },
+  });
+
   return config;
 };

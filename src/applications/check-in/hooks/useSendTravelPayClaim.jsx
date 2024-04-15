@@ -4,6 +4,7 @@ import { api } from '../api';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { useStorage } from './useStorage';
 import { useTravelPayFlags } from './useTravelPayFlags';
+import { makeSelectCurrentContext, makeSelectApp } from '../selectors';
 
 const useSendTravelPayClaim = appointment => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,13 +14,20 @@ const useSendTravelPayClaim = appointment => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
   const { isTravelReimbursementEnabled } = featureToggles;
-  const { getShouldSendTravelPayClaim } = useStorage(false);
+
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
+
+  const { getShouldSendTravelPayClaim } = useStorage(app);
   const {
     travelPayData,
     travelPayClaimSent,
     setTravelPayClaimSent,
     travelPayEligible,
   } = useTravelPayFlags(appointment);
+
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { setECheckinStartedCalled } = useSelector(selectCurrentContext);
 
   useEffect(
     () => {
@@ -40,7 +48,7 @@ const useSendTravelPayClaim = appointment => {
 
       setIsLoading(true);
       api.v2
-        .postDayOfTravelPayClaim(travelPayData)
+        .postDayOfTravelPayClaim(travelPayData, setECheckinStartedCalled)
         .catch(() => {
           setTravelPayClaimError(true);
         })
@@ -52,6 +60,7 @@ const useSendTravelPayClaim = appointment => {
     [
       getShouldSendTravelPayClaim,
       isTravelReimbursementEnabled,
+      setECheckinStartedCalled,
       setTravelPayClaimSent,
       travelPayData,
       travelPayEligible,
@@ -69,4 +78,4 @@ const useSendTravelPayClaim = appointment => {
   };
 };
 
-export default useSendTravelPayClaim;
+export { useSendTravelPayClaim };

@@ -1,28 +1,16 @@
 // import defaultMicrobiology from './fixtures/microbiology.json';
 
-class MicrobiologyDetailsPage {
-  verifyPrintButton = () => {
-    // should display print button for a list "Print this list"
-    cy.get('[data-testid="printButton-0"]').should('be.visible');
-  };
+import BaseDetailsPage from './BaseDetailsPage';
 
-  verifyPrintOrDownload = () => {
-    // should display a toggle menu button
-    cy.get('[data-testid="print-records-button"]').should('be.visible');
-  };
-
-  clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').click({ force: true });
-  };
-
-  verifyDownloadPDF = () => {
-    // should display a download pdf file button "Download PDF of this page"
-    cy.get('[data-testid="printButton-1"]').should('be.visible');
-  };
-
-  verifyDownloadTextFile = () => {
-    // should display a download text file button "Download list as a text file"
-    cy.get('[data-testid="printButton-2"]').should('be.visible');
+class MicrobiologyDetailsPage extends BaseDetailsPage {
+  verifyComposeMessageLink = composeMessageLink => {
+    // verify compose a message on the My Healthvet website
+    cy.get('[data-testid="compose-message-Link"]').should('be.visible');
+    cy.get('[data-testid="compose-message-Link"]')
+      .contains(composeMessageLink)
+      .invoke('attr', 'href')
+      .should('contain', 'myhealth.va.gov/mhv-portal-web/compose-message');
+    // https://mhv-syst.myhealth.va.gov/mhv-portal-web/compose-message
   };
 }
 

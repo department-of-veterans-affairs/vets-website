@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { merge, pick } from 'lodash';
+import { merge } from 'lodash';
 import get from 'platform/utilities/data/get';
 
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
@@ -10,10 +10,9 @@ import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { useSelector } from 'react-redux';
 
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import fullNameUI from 'platform/forms/definitions/fullName';
-import applicantDescription from 'platform/forms/components/ApplicantDescription';
+import transformForSubmit from './transformForSubmit';
+
 import emailUI from '../definitions/email';
 import * as applicantMilitaryHistory from './pages/applicantMilitaryHistory';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
@@ -44,7 +43,6 @@ import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
 import phoneUI from '../components/Phone';
 import preparerPhoneUI from '../components/PreparerPhone';
-import { validateSponsorDeathDate } from '../validation';
 
 import manifest from '../manifest.json';
 
@@ -53,11 +51,8 @@ import {
   isAuthorizedAgent,
   formatName,
   transform,
-  ssnDashesUI,
-  veteranUI,
   applicantContactInfoDescriptionNonVet,
   applicantContactInfoDescriptionVet,
-  sponsorMilitaryStatusDescription,
   isVeteranAndHasServiceName,
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
@@ -65,6 +60,8 @@ import {
   applicantsMailingAddressHasState,
   sponsorMailingAddressHasState,
   isSponsorDeceased,
+  createPayload,
+  parseResponse,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -76,7 +73,6 @@ import PreparerRadioWidget from '../components/PreparerRadioWidget';
 
 const {
   claimant,
-  veteran,
   applicant,
   preneedAttachments,
 } = fullSchemaPreNeed.properties.application.properties;
@@ -134,9 +130,13 @@ const formConfig = {
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
+  submitUrl: environment.isProduction()
+    ? `${environment.API_URL}/v0/preneeds/burial_forms`
+    : `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'preneed-',
-  transformForSubmit: transform,
+  transformForSubmit: environment.isProduction()
+    ? transform
+    : transformForSubmit,
   formId: VA_FORM_IDS.FORM_40_10007,
   saveInProgress: {
     messages: {
@@ -221,187 +221,42 @@ const formConfig = {
     },
     sponsorInformation: {
       title: 'Sponsor information',
-      /* 
-       * Prod flag this high up because its screen division. Make sure content 
-       * changes are in correct spots and not in a code chunk that is getting deleted.
-       * This prod flag is from MBMS-47184. Delete this comment when prod flag is deleted. 
-       */
-      pages: environment.isProduction()
-        ? {
-            sponsorInformation: {
-              path: 'sponsor-information',
-              depends: formData => !isVeteran(formData),
-              uiSchema: {
-                'ui:description': applicantDescription,
-                application: {
-                  veteran: merge({}, veteranUI, {
-                    currentName: merge({}, fullNameUI, {
-                      first: {
-                        'ui:title': 'Sponsor’s first name',
-                      },
-                      last: {
-                        'ui:title': 'Sponsor’s last name',
-                      },
-                      middle: {
-                        'ui:title': 'Sponsor’s middle name',
-                      },
-                      suffix: {
-                        'ui:title': 'Sponsor’s suffix',
-                      },
-                      maiden: {
-                        'ui:title': 'Sponsor’s maiden name',
-                      },
-                      'ui:order': [
-                        'first',
-                        'middle',
-                        'last',
-                        'suffix',
-                        'maiden',
-                      ],
-                    }),
-                    militaryServiceNumber: {
-                      'ui:title':
-                        'Sponsor’s Military Service number (if they have one that’s different than their Social Security number)',
-                      'ui:errorMessages': {
-                        pattern:
-                          'Sponsor’s Military Service number must be between 4 to 9 characters',
-                      },
-                    },
-                    vaClaimNumber: {
-                      'ui:title': 'Sponsor’s VA claim number (if known)',
-                      'ui:errorMessages': {
-                        pattern:
-                          'Sponsor’s VA claim number must be 8 or 9 digits',
-                      },
-                    },
-                    ssn: {
-                      ...ssnDashesUI,
-                      'ui:title': 'Sponsor’s Social Security number',
-                    },
-                    dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
-                    placeOfBirth: {
-                      'ui:title':
-                        "Sponsor's place of birth (City, State, or Territory)",
-                    },
-                    gender: {
-                      'ui:title':
-                        "Sponsor's sex (information will be used for statistical purposes only)",
-                    },
-                    race: {
-                      'ui:title':
-                        'Which categories best describe your sponsor? (You may check more than one)',
-                    },
-                    maritalStatus: {
-                      'ui:title': 'Sponsor’s marital status',
-                    },
-                    militaryStatus: {
-                      'ui:title':
-                        'Sponsor’s current military status (You can add more service history information later in this application)',
-                      'ui:options': {
-                        nestedContent: {
-                          X: sponsorMilitaryStatusDescription,
-                        },
-                      },
-                    },
-                    isDeceased: {
-                      'ui:title': 'Has the sponsor died?',
-                      'ui:widget': 'radio',
-                      'ui:options': {
-                        labels: {
-                          yes: 'Yes',
-                          no: 'No',
-                          unsure: 'I don’t know',
-                        },
-                      },
-                    },
-                    dateOfDeath: merge(
-                      {},
-                      currentOrPastDateUI('Sponsor’s date of death'),
-                      {
-                        'ui:options': {
-                          expandUnder: 'isDeceased',
-                          expandUnderCondition: 'yes',
-                        },
-                      },
-                    ),
-                    'ui:validations': [validateSponsorDeathDate],
-                  }),
-                },
-              },
-              schema: {
-                type: 'object',
-                properties: {
-                  application: {
-                    type: 'object',
-                    properties: {
-                      veteran: {
-                        type: 'object',
-                        required: [
-                          'ssn',
-                          'gender',
-                          'maritalStatus',
-                          'militaryStatus',
-                          'isDeceased',
-                          'race',
-                        ],
-                        properties: pick(veteran.properties, [
-                          'currentName',
-                          'ssn',
-                          'dateOfBirth',
-                          'militaryServiceNumber',
-                          'vaClaimNumber',
-                          'placeOfBirth',
-                          'gender',
-                          'race',
-                          'maritalStatus',
-                          'militaryStatus',
-                          'isDeceased',
-                          'dateOfDeath',
-                        ]),
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          }
-        : {
-            sponsorDetails: {
-              title: 'Sponsor details',
-              path: 'sponsor-details',
-              depends: formData => !isVeteran(formData),
-              uiSchema: sponsorDetails.uiSchema,
-              schema: sponsorDetails.schema,
-            },
-            sponsorDemographics: {
-              title: 'Sponsor demographics',
-              path: 'sponsor-demographics',
-              depends: formData => !isVeteran(formData),
-              uiSchema: sponsorDemographics.uiSchema,
-              schema: sponsorDemographics.schema,
-            },
-            sponsorDeceased: {
-              path: 'sponsor-deceased',
-              depends: formData => !isVeteran(formData),
-              uiSchema: sponsorDeceased.uiSchema,
-              schema: sponsorDeceased.schema,
-            },
-            sponsorDateOfDeath: {
-              path: 'sponsor-date-of-death',
-              depends:
-                (formData => !isVeteran(formData)) &&
-                (formData => isSponsorDeceased(formData)),
-              uiSchema: sponsorDateOfDeath.uiSchema,
-              schema: sponsorDateOfDeath.schema,
-            },
-            sponsorMilitaryDetails: {
-              title: "Sponsor's military details",
-              path: 'sponsor-military-details',
-              depends: formData => !isVeteran(formData),
-              uiSchema: sponsorMilitaryDetails.uiSchema,
-              schema: sponsorMilitaryDetails.schema,
-            },
-          },
+      pages: {
+        sponsorDetails: {
+          title: 'Sponsor details',
+          path: 'sponsor-details',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorDetails.uiSchema,
+          schema: sponsorDetails.schema,
+        },
+        sponsorDemographics: {
+          title: 'Sponsor demographics',
+          path: 'sponsor-demographics',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorDemographics.uiSchema,
+          schema: sponsorDemographics.schema,
+        },
+        sponsorDeceased: {
+          path: 'sponsor-deceased',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorDeceased.uiSchema,
+          schema: sponsorDeceased.schema,
+        },
+        sponsorDateOfDeath: {
+          path: 'sponsor-date-of-death',
+          depends: formData =>
+            !isVeteran(formData) && isSponsorDeceased(formData),
+          uiSchema: sponsorDateOfDeath.uiSchema,
+          schema: sponsorDateOfDeath.schema,
+        },
+        sponsorMilitaryDetails: {
+          title: "Sponsor's military details",
+          path: 'sponsor-military-details',
+          depends: formData => !isVeteran(formData),
+          uiSchema: sponsorMilitaryDetails.uiSchema,
+          schema: sponsorMilitaryDetails.schema,
+        },
+      },
     },
     militaryHistory: {
       title: 'Military history',
@@ -481,22 +336,28 @@ const formConfig = {
               preneedAttachments: fileUploadUI('Select files to upload', {
                 buttonText: 'Upload file',
                 addAnotherLabel: 'Upload another file',
-                fileUploadUrl: `${
-                  environment.API_URL
-                }/v0/preneeds/preneed_attachments`,
+                fileUploadUrl: environment.isProduction()
+                  ? `${environment.API_URL}/v0/preneeds/preneed_attachments`
+                  : `${
+                      environment.API_URL
+                    }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
                 fileTypes: ['pdf'],
                 maxSize: 15728640,
                 hideLabelText: true,
-                createPayload: file => {
-                  const payload = new FormData();
-                  payload.append('preneed_attachment[file_data]', file);
+                createPayload: !environment.isProduction()
+                  ? createPayload
+                  : file => {
+                      const payload = new FormData();
+                      payload.append('preneed_attachment[file_data]', file);
 
-                  return payload;
-                },
-                parseResponse: (response, file) => ({
-                  name: file.name,
-                  confirmationCode: response.data.attributes.guid,
-                }),
+                      return payload;
+                    },
+                parseResponse: !environment.isProduction()
+                  ? parseResponse
+                  : (response, file) => ({
+                      name: file.name,
+                      confirmationCode: response.data.attributes.guid,
+                    }),
                 attachmentSchema: {
                   'ui:title': 'What kind of file is this?',
                 },

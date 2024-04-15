@@ -6,7 +6,7 @@ import DownloadLink from '../components/DownloadLink';
 export const SummaryTitle = () => <h3>Summary of additional benefits</h3>;
 
 const houseAssistanceContent = (
-  <va-accordion-item>
+  <va-accordion-item bordered uswds>
     <h4 slot="headline">Adapted housing assistance</h4>
     <p>
       To apply for an adapted housing grant, you’ll need to fill out an
@@ -25,12 +25,12 @@ const houseAssistanceContent = (
 );
 
 const carAssistanceContent = (
-  <va-accordion-item>
+  <va-accordion-item bordered uswds>
     <h4 slot="headline">Automobile allowance</h4>
     <p>
-      To file a claim for a one-time payment to help you buy a specially
-      equipped vehicle, you’ll need to fill out an Application for Automobile or
-      Other Conveyance and Adaptive Equipment (VA Form 21-4502).
+      To apply for a one-time payment to help you buy a specially equipped
+      vehicle, you’ll need to fill out an Application for Automobile or Other
+      Conveyance and Adaptive Equipment (VA Form 21-4502).
     </p>
     <p>
       <DownloadLink
@@ -41,8 +41,8 @@ const carAssistanceContent = (
       .
     </p>
     <p>
-      To file a claim for adaptive equipment, you’ll need to fill out an
-      Application for Adaptive Equipment—Motor Vehicle (VA Form 10-1394).
+      To apply for an adaptive equipment grant, you’ll need to fill out an
+      Application for Adaptive Equipment-Motor Vehicle (VA Form 10-1394).
     </p>
     <p>
       <DownloadLink
@@ -56,7 +56,7 @@ const carAssistanceContent = (
 );
 
 const aidAndAttendanceContent = (
-  <va-accordion-item>
+  <va-accordion-item bordered uswds>
     <h4 slot="headline">Aid and Attendance</h4>
     <p>
       To apply for Aid and Attendance benefits, your doctor needs to fill out an
@@ -76,7 +76,7 @@ const aidAndAttendanceContent = (
 );
 
 const individualUnemployabilityContent = (
-  <va-accordion-item>
+  <va-accordion-item bordered uswds>
     <h4 slot="headline">Individual Unemployability</h4>
     <p>
       To file a claim for Individual Unemployability, you’ll need to fill out:
@@ -128,7 +128,7 @@ export const SummaryDescription = ({ formData }) => {
         Based on what you told us, you may be eligible for these additional
         disability benefits.
       </p>
-      <va-accordion bordered>
+      <va-accordion bordered uswds>
         {formData['view:modifyingHome'] && houseAssistanceContent}
         {formData['view:modifyingCar'] && carAssistanceContent}
         {formData['view:aidAndAttendance'] && aidAndAttendanceContent}

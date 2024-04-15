@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 
 import AppointmentListItem from '../AppointmentListItem';
 
@@ -29,13 +30,57 @@ const appointments = [
     clinicStopCodeName: '',
     kind: 'phone',
   },
+  {
+    facility: 'LOMA LINDA VA CLINIC',
+    clinicPhoneNumber: '5551234567',
+    clinicFriendlyName: 'TEST CLINIC',
+    clinicName: 'LOM ACC CLINIC TEST',
+    appointmentIen: 'some-ien',
+    startTime: '2021-11-16T21:39:36',
+    doctorName: 'Dr. Green',
+    clinicStopCodeName: 'Primary care',
+    kind: 'vvc',
+  },
+  {
+    facility: 'LOMA LINDA VA CLINIC',
+    clinicPhoneNumber: '5551234567',
+    clinicFriendlyName: 'TEST CLINIC',
+    clinicName: 'LOM ACC CLINIC TEST',
+    appointmentIen: 'some-ien',
+    startTime: '2021-11-16T21:39:36',
+    doctorName: 'Dr. Green',
+    clinicStopCodeName: 'Primary care',
+    kind: 'cvt',
+  },
 ];
 const mockRouter = {
   currentPage: '/health-care/appointment-check-in',
 };
 
 describe('AppointmentListItem', () => {
-  describe('pre-check-in and day-of', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
+  describe('day-of', () => {
+    describe('intro page', () => {
+      it('Renders appointment action', () => {
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
+            <AppointmentListItem
+              app="dayOf"
+              appointment={appointments[0]}
+              page="intro"
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.getByTestId('appointment-action')).to.exist;
+      });
+    });
+  });
+  describe('pre-check-in', () => {
     describe('In person appointment context', () => {
       it('Renders appointment details', () => {
         const screen = render(
@@ -52,10 +97,8 @@ describe('AppointmentListItem', () => {
         );
         expect(
           screen.getByTestId('appointment-type-and-provider'),
-        ).to.have.text('Primary care with Dr. Green');
-        expect(
-          screen.getByTestId('appointment-kind-and-location'),
-        ).to.have.text('In person at LOMA LINDA VA CLINIC Clinic: TEST CLINIC');
+        ).to.have.text('VA Appointment with Dr. Green');
+        expect(screen.getByTestId('appointment-info-clinic')).to.exist;
       });
       it('Displays appointment instructions for pre-check-in in-person appointment on confirmation page', () => {
         const screen = render(
@@ -64,6 +107,7 @@ describe('AppointmentListItem', () => {
               app="preCheckIn"
               appointment={appointments[0]}
               page="confirmation"
+              goToDetails={() => {}}
             />
           </CheckInProvider>,
         );
@@ -83,9 +127,25 @@ describe('AppointmentListItem', () => {
         expect(screen.queryByTestId('appointment-message')).to.not.exist;
         expect(screen.queryByTestId('in-person-msg-confirmation')).to.not.exist;
       });
+      it('Displays the correct aria label for the details link', () => {
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
+            <AppointmentListItem
+              app="preCheckIn"
+              appointment={appointments[0]}
+              page="details"
+              goToDetails={() => {}}
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.getByTestId('details-link')).to.have.attribute(
+          'aria-label',
+          'Details for in person VA Appointment with Dr. Green on Tuesday, November 16, 2021 at 9:39 p.m.',
+        );
+      });
     });
     describe('Phone appointment context', () => {
-      it('Renders appointment details with no stopCodeName or provider', () => {
+      it('Renders appointment details with no provider', () => {
         const screen = render(
           <CheckInProvider router={mockRouter}>
             <AppointmentListItem
@@ -101,9 +161,7 @@ describe('AppointmentListItem', () => {
         expect(
           screen.getByTestId('appointment-type-and-provider'),
         ).to.have.text('VA Appointment');
-        expect(
-          screen.getByTestId('appointment-kind-and-location'),
-        ).to.have.text('Phone');
+        expect(screen.getByTestId('appointment-info-phone')).to.exist;
       });
       it('Displays appointment instructions for pre-check-in phone appointment confirmation page', () => {
         const screen = render(
@@ -117,6 +175,64 @@ describe('AppointmentListItem', () => {
         );
         expect(screen.queryByTestId('appointment-message')).to.exist;
         expect(screen.queryByTestId('phone-msg-confirmation')).to.exist;
+      });
+      it('Displays the correct aria label for the details link', () => {
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
+            <AppointmentListItem
+              app="preCheckIn"
+              appointment={appointments[1]}
+              page="confirmation"
+              goToDetails={() => {}}
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.getByTestId('details-link')).to.have.attribute(
+          'aria-label',
+          'Details for Phone VA Appointment on Tuesday, November 16, 2021 at 9:39 p.m.',
+        );
+      });
+    });
+    describe('VVC appointment context', () => {
+      it('Displays the correct content for pre-check-in VVC appointment on confirmation page', () => {
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
+            <AppointmentListItem
+              app="preCheckIn"
+              appointment={appointments[2]}
+              page="confirmation"
+              goToDetails={() => {}}
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.queryByTestId('appointment-message')).to.exist;
+        expect(screen.queryByTestId('appointment-info-vvc')).to.exist;
+        expect(screen.queryByTestId('video-vvc-confirmation')).to.exist;
+        expect(screen.getByTestId('details-link')).to.have.attribute(
+          'aria-label',
+          'Details for video appointment with Dr. Green on Tuesday, November 16, 2021 at 9:39 p.m.',
+        );
+      });
+    });
+    describe('CVT appointment context', () => {
+      it('Displays the correct content for pre-check-in CVT appointment on confirmation page', () => {
+        const screen = render(
+          <CheckInProvider router={mockRouter}>
+            <AppointmentListItem
+              app="preCheckIn"
+              appointment={appointments[3]}
+              page="confirmation"
+              goToDetails={() => {}}
+            />
+          </CheckInProvider>,
+        );
+        expect(screen.queryByTestId('appointment-message')).to.exist;
+        expect(screen.queryByTestId('appointment-info-cvt')).to.exist;
+        expect(screen.queryByTestId('video-cvt-confirmation')).to.exist;
+        expect(screen.getByTestId('details-link')).to.have.attribute(
+          'aria-label',
+          'Details for video appointment at LOMA LINDA VA CLINIC with Dr. Green on Tuesday, November 16, 2021 at 9:39 p.m.',
+        );
       });
     });
     describe('Details link', () => {

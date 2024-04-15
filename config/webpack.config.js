@@ -303,6 +303,18 @@ module.exports = async (env = {}) => {
           },
         },
         {
+          test: /\.tsx?$/,
+          use: [
+            {
+              loader: 'babel-loader',
+            },
+            {
+              loader: 'ts-loader',
+            },
+          ],
+          exclude: /node_modules/,
+        },
+        {
           test: /\.(sa|sc|c)ss$/,
           use: [
             MiniCssExtractPlugin.loader,
@@ -395,7 +407,7 @@ module.exports = async (env = {}) => {
         fs: 'pdfkit/js/virtual-fs.js',
         'iconv-lite': false,
       },
-      extensions: ['.js', '.jsx'],
+      extensions: ['.js', '.jsx', '.tsx', '.ts'],
       fallback: {
         fs: false,
         assert: require.resolve('assert/'),
@@ -448,6 +460,8 @@ module.exports = async (env = {}) => {
         'process.env.VIRTUAL_AGENT_BACKEND_URL': JSON.stringify(
           process.env.VIRTUAL_AGENT_BACKEND_URL || '',
         ),
+        'process.env.USE_LOCAL_DIRECTLINE':
+          process.env.USE_LOCAL_DIRECTLINE || false,
       }),
 
       new webpack.ProvidePlugin({
@@ -478,6 +492,11 @@ module.exports = async (env = {}) => {
           {
             from: 'src/site/assets',
             to: buildPath,
+          },
+          {
+            from:
+              'node_modules/@department-of-veterans-affairs/component-library/dist/assets',
+            to: `${buildPath}/assets`,
           },
         ],
       }),

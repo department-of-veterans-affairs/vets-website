@@ -1,89 +1,105 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import { HCA_ENROLLMENT_STATUSES } from '../../../../../../utils/constants';
 import WarningHeadline from '../../../../../../components/IntroductionPage/EnrollmentStatus/Warning/WarningHeadline';
+import content from '../../../../../../locales/en/content.json';
 
 describe('hca <WarningHeadline>', () => {
   const expectedOutputs = {
     [HCA_ENROLLMENT_STATUSES.activeDuty]:
-      'Our records show that you’re an active-duty service member',
+      content['enrollment-alert-title--active-duty'],
     [HCA_ENROLLMENT_STATUSES.canceledDeclined]:
-      'Our records show you chose to cancel or decline VA health care',
+      content['enrollment-alert-title--reapply'],
     [HCA_ENROLLMENT_STATUSES.closed]:
-      'Our records show that your application for VA health care expired',
+      content['enrollment-alert-title--reapply'],
     [HCA_ENROLLMENT_STATUSES.deceased]:
-      'Our records show that this Veteran is deceased',
+      content['enrollment-alert-title--deceased'],
     [HCA_ENROLLMENT_STATUSES.enrolled]:
-      'You’re already enrolled in VA health care',
+      content['enrollment-alert-title--enrolled'],
     [HCA_ENROLLMENT_STATUSES.ineligCHAMPVA]:
-      'You didn’t qualify for VA health care based on your previous application',
+      content['enrollment-alert-title--inelig'],
     [HCA_ENROLLMENT_STATUSES.ineligCharacterOfDischarge]:
-      'We determined that you don’t qualify for VA health care based on your past application',
+      content['enrollment-alert-title--inelig'],
     [HCA_ENROLLMENT_STATUSES.ineligCitizens]:
-      'We determined that you don’t qualify for VA health care based on your past application',
+      content['enrollment-alert-title--inelig'],
     [HCA_ENROLLMENT_STATUSES.ineligFilipinoScouts]:
-      'We determined that you don’t qualify for VA health care based on your past application',
+      content['enrollment-alert-title--inelig'],
     [HCA_ENROLLMENT_STATUSES.ineligFugitiveFelon]:
-      'We determined that you don’t qualify for VA health care based on your past application',
+      content['enrollment-alert-title--inelig'],
     [HCA_ENROLLMENT_STATUSES.ineligGuardReserve]:
-      'We determined that you don’t qualify for VA health care based on your past application',
+      content['enrollment-alert-title--inelig'],
     [HCA_ENROLLMENT_STATUSES.ineligMedicare]:
-      'We determined that you don’t qualify for VA health care based on your past application',
+      content['enrollment-alert-title--inelig'],
     [HCA_ENROLLMENT_STATUSES.ineligNotEnoughTime]:
-      'We determined that you don’t qualify for VA health care based on your past application',
+      content['enrollment-alert-title--inelig'],
     [HCA_ENROLLMENT_STATUSES.ineligNotVerified]:
-      'We determined that you don’t qualify for VA health care based on your past application',
+      content['enrollment-alert-title--inelig'],
     [HCA_ENROLLMENT_STATUSES.ineligOther]:
-      'We determined that you don’t qualify for VA health care based on your past application',
+      content['enrollment-alert-title--inelig'],
     [HCA_ENROLLMENT_STATUSES.ineligOver65]:
-      'We determined that you don’t qualify for VA health care based on your past application',
+      content['enrollment-alert-title--inelig'],
     [HCA_ENROLLMENT_STATUSES.ineligRefusedCopay]:
-      'We determined that you don’t qualify for VA health care based on your past application',
+      content['enrollment-alert-title--inelig'],
     [HCA_ENROLLMENT_STATUSES.ineligTrainingOnly]:
-      'We determined that you don’t qualify for VA health care based on your past application',
+      content['enrollment-alert-title--inelig'],
     [HCA_ENROLLMENT_STATUSES.nonMilitary]:
-      'We see that you aren’t a Veteran or service member',
+      content['enrollment-alert-title--non-military'],
     [HCA_ENROLLMENT_STATUSES.pendingMt]:
-      'We need more information to complete our review of your VA health care application',
-    [HCA_ENROLLMENT_STATUSES.pendingOther]: 'We’re reviewing your application',
+      content['enrollment-alert-title--more-info'],
+    [HCA_ENROLLMENT_STATUSES.pendingOther]:
+      content['enrollment-alert-title--review'],
     [HCA_ENROLLMENT_STATUSES.pendingPurpleHeart]:
-      'We need more information to complete our review of your VA health care application',
+      content['enrollment-alert-title--more-info'],
     [HCA_ENROLLMENT_STATUSES.pendingUnverified]:
-      'We’re reviewing your application',
+      content['enrollment-alert-title--review'],
     [HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry]:
-      'You didn’t qualify for VA health care based on your previous application',
+      content['enrollment-alert-title--reapply'],
     [HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry]:
-      'You didn’t qualify for VA health care based on your previous application',
+      content['enrollment-alert-title--reapply'],
     [HCA_ENROLLMENT_STATUSES.rejectedRightEntry]:
-      'You didn’t qualify for VA health care based on your previous application',
+      content['enrollment-alert-title--reapply'],
   };
+  const getData = ({ statusCode = null }) => ({
+    mockStore: {
+      getState: () => ({
+        hcaEnrollmentStatus: { statusCode },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    },
+  });
 
   context('when the content is generated based on enrollment status', () => {
     it('should have content for all possible statuses', () => {
+      const excludedStatuses = new Set([
+        HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
+      ]);
       const possibleEnrollmentStatuses = Object.values({
         ...HCA_ENROLLMENT_STATUSES,
-      }).filter(
-        enrollmentStatus =>
-          enrollmentStatus !== HCA_ENROLLMENT_STATUSES.activeDuty &&
-          enrollmentStatus !== HCA_ENROLLMENT_STATUSES.deceased &&
-          enrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
-      );
+      }).filter(statusCode => !excludedStatuses.has(statusCode));
       const testedEnrollmentStatuses = Object.keys(expectedOutputs);
       expect(
-        possibleEnrollmentStatuses.every(enrollmentStatus =>
-          testedEnrollmentStatuses.includes(enrollmentStatus),
+        possibleEnrollmentStatuses.every(statusCode =>
+          testedEnrollmentStatuses.includes(statusCode),
         ),
       ).to.be.true;
     });
 
-    Object.keys(expectedOutputs).forEach(enrollmentStatus => {
-      it(`should render the correct content for status: ${enrollmentStatus}`, () => {
-        const props = { enrollmentStatus };
-        const { container } = render(<WarningHeadline {...props} />);
-        expect(container).to.not.be.empty;
-        expect(container).to.contain.text(expectedOutputs[enrollmentStatus]);
+    Object.keys(expectedOutputs).forEach(statusCode => {
+      it(`should render the correct content for status: ${statusCode}`, () => {
+        const { mockStore } = getData({ statusCode });
+        const { container } = render(
+          <Provider store={mockStore}>
+            <WarningHeadline />
+          </Provider>,
+        );
+        const selector = container.querySelector(
+          '[data-testid="hca-enrollment-alert-heading"]',
+        );
+        expect(selector).to.contain.text(expectedOutputs[statusCode]);
       });
     });
   });

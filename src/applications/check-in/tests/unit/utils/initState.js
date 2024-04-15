@@ -21,6 +21,7 @@ const createStore = ({
   travelAddress = null,
   travelMileage = null,
   travelVehicle = null,
+  travelReview = null,
   appointments = [
     {
       clinicPhone: '555-867-5309',
@@ -34,6 +35,9 @@ const createStore = ({
   features = {},
   error = null,
   seeStaffMessage = null,
+  eligibleToFile = null,
+  alreadyFiled = null,
+  facilitiesToFile = null,
 } = {}) => {
   const middleware = [];
   const mockStore = configureStore(middleware);
@@ -42,6 +46,8 @@ const createStore = ({
       app,
       context: {
         token: 'some-token',
+        eligibleToFile,
+        alreadyFiled,
       },
       form: {
         pages: formPages,
@@ -53,6 +59,8 @@ const createStore = ({
           'travel-address': travelAddress,
           'travel-mileage': travelMileage,
           'travel-vehicle': travelVehicle,
+          'travel-review': travelReview,
+          facilitiesToFile,
         },
       },
       appointments,

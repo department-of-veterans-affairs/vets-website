@@ -18,7 +18,6 @@ const errorMessages = {
     pastDate: 'You must add a decision date that’s in the past',
     newerDate:
       'You must add an issue with a decision date that’s less than 100 years old',
-    invalidDateRange: (min, max) => `Enter a year between ${min} and ${max}`,
   },
 
   invalidZip:

@@ -1,23 +1,32 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
+import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
+import { parseVeteranDob, parseVeteranGender } from '../utils/helpers/general';
 import content from '../locales/en/content.json';
 import formConfig from '../config/form';
 
 const App = props => {
   const { children, features, formData, location, setFormData, user } = props;
   const { veteranFullName } = formData;
-  const { loading: isLoadingFeatures, isProdEnabled, isSigiEnabled } = features;
+  const {
+    loading: isLoadingFeatures,
+    isProdEnabled,
+    isSigiEnabled,
+    isTeraEnabled,
+  } = features;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
     loading: isLoadingProfile,
   } = user;
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
+  const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
 
   /**
    * Redirect users without the prod feature toggle enabled to the VA.gov home page
@@ -49,9 +58,11 @@ const App = props => {
     () => {
       if (!isAppLoading) {
         const defaultViewFields = {
-          'view:userGender': veteranGender,
-          'view:userDob': veteranDateOfBirth,
+          'view:userGender': parseVeteranGender(veteranGender),
+          'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:isSigiEnabled': isSigiEnabled,
+          'view:isTeraEnabled': isTeraEnabled,
+          'view:householdEnabled': canSubmitFinancialInfo,
         };
 
         setFormData({
@@ -61,8 +72,11 @@ const App = props => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isAppLoading, veteranFullName],
+    [isAppLoading, canSubmitFinancialInfo, veteranFullName, isTeraEnabled],
   );
+
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring();
 
   return isAppLoading || !isProdEnabled ? (
     <va-loading-indicator
@@ -94,6 +108,7 @@ const mapStateToProps = state => ({
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
+    isTeraEnabled: state.featureToggles.ezrTeraEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,

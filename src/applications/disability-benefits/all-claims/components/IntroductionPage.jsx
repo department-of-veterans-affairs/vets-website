@@ -137,7 +137,7 @@ class IntroductionPage extends React.Component {
                     this required form:{' '}
                     <a href={DBQ_URL} target="_blank" rel="noreferrer">
                       Separation Health Assessment - Part A Self-Assessment
-                      (opens in a new tab)
+                      (opens in new tab)
                     </a>
                     . We recommend you download and fill out this form on a
                     desktop computer or laptop. Then return to this page to
@@ -172,12 +172,12 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               {isBDDForm ? (
-                <div className="usa-alert usa-alert-info background-color-only vads-u-margin-bottom--4">
-                  <strong className="usa-alert-body">
+                <va-summary-box class="vads-u-margin-bottom--1" uswds>
+                  <strong>
                     Please be aware that you’ll need to be available for 45 days
                     after you file a BDD claim to complete a VA exam.
                   </strong>
-                </div>
+                </va-summary-box>
               ) : (
                 <>
                   <p>
@@ -216,27 +216,20 @@ class IntroductionPage extends React.Component {
                 .
               </p>
               {!isBDDForm && (
-                <div>
-                  <div className="usa-alert usa-alert-info">
-                    <div className="usa-alert-body">
-                      <h4 className="vads-u-font-size--h6">
-                        Disability ratings
-                      </h4>
-                      <p>
-                        For each disability, we assign a rating from 0% to 100%.
-                        We base this rating on the evidence you turn in with
-                        your claim. In some cases we may also ask you to have an
-                        exam to help us rate your disability.
-                      </p>
-                      <p>
-                        Before filing a claim for increase, you might want to
-                        check to see if you’re already receiving the maximum
-                        disability rating for your condition.
-                      </p>
-                    </div>
-                  </div>
-                  <br />
-                </div>
+                <va-alert slim status="info" uswds>
+                  <h4 className="vads-u-font-size--h6">Disability ratings</h4>
+                  <p>
+                    For each disability, we assign a rating from 0% to 100%. We
+                    base this rating on the evidence you turn in with your
+                    claim. In some cases we may also ask you to have an exam to
+                    help us rate your disability.
+                  </p>
+                  <p className="vads-u-margin-y--0">
+                    Before filing a claim for increase, you might want to check
+                    to see if you’re already receiving the maximum disability
+                    rating for your condition.
+                  </p>
+                </va-alert>
               )}
             </li>
             <li className="process-step list-two">

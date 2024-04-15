@@ -9,6 +9,10 @@
       "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
     },
     {
+      "rootFolder": "caregivers",
+      "slackGroup": "@1010-fe-dev"
+    },
+    {
       "rootFolder": "check-in",
       "slackGroup": "@check-in-fe"
     },
@@ -25,10 +29,6 @@
       "slackGroup": "@cto-health-products"
     },
     {
-      "rootFolder": "coronavirus-vaccination",
-      "slackGroup": "@cto-health-products"
-    },
-    {
       "rootFolder": "education-letters",
       "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
       "continuousDeployment": false
@@ -36,6 +36,11 @@
     {
       "rootFolder": "enrollment-verification",
       "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "ezr",
+      "slackGroup": "@1010-fe-dev",
       "continuousDeployment": false
     },
     {
@@ -49,16 +54,25 @@
       "continuousDeployment": false
     },
     {
+      "rootFolder": "hca",
+      "slackGroup": "@1010-fe-dev"
+    },
+    {
+      "rootFolder": "health-care-supply-reordering",
+      "slackGroup": "<@C05DFSM57FW>"
+    },
+    {
       "rootFolder": "login",
       "slackGroup": "@vsp-identity-group"
     },
     {
-      "rootFolder": "medical-copays",
-      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
+      "rootFolder": "mhv-landing-page",
+      "slackGroup": "@mhv-on-va-gov-group"
     },
     {
-      "rootFolder": "mhv-inherited-proofing",
-      "slackGroup": "@vsp-identity-group"
+      "rootFolder": "personalization",
+      "slackGroup": "<@C053JC66YHF>, <@U026GBU02UW>",
+      "continuousDeployment": false
     },
     {
       "rootFolder": "terms-of-use",
@@ -88,6 +102,10 @@
     {
       "rootFolder": "letters",
       "slackGroup": "@benefits-app-builds"
+    },
+    {
+      "rootFolder": "accredited-representative-portal",
+      "slackGroup": "@arfeng"
     }
   ]
 }

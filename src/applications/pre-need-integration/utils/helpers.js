@@ -9,6 +9,8 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import {
   stringifyFormReplacer,
@@ -16,18 +18,32 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 
 import environment from 'platform/utilities/environment';
+import { useSelector } from 'react-redux';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
+import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
-export const applicantDetailsSubHeader = (
+export const veteranApplicantDetailsSubHeader = (
+  <div className="applicantDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Your details</h3>
+  </div>
+);
+
+export const veteranApplicantDetailsPreparerSubHeader = (
   <div className="applicantDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Applicant details</h3>
+  </div>
+);
+
+export const nonVeteranApplicantDetailsSubHeader = (
+  <div className="applicantDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Your details</h3>
   </div>
 );
 
@@ -39,7 +55,103 @@ export function ApplicantDescriptionWrapper({ formContext }) {
   );
 }
 
+export function CurrentlyBurriedPersonsDescriptionWrapper({ formContext }) {
+  return (
+    <div className="currentlyBuriedDescription">
+      {!formContext?.onReviewPage && <CurrentlyBuriedDescription />}
+    </div>
+  );
+}
+
+export const currentlyBuriedPersonsTitle = (
+  <h3 className="vads-u-font-size--h5">Name of deceased person(s)</h3>
+);
+
+export const sponsorDeceasedDescription = (
+  <div className="sponsorDeceasedDescriptionNotProd">
+    <p>
+      We’ll ask you questions about your sponsor’s death. We understand that the
+      questions may be difficult to answer, but your answers will help us
+      determine eligibility for your application.
+    </p>
+  </div>
+);
+
+export function isApplicantTheSponsor(item) {
+  return get('application.applicant.isSponsor', item) === 'yes';
+}
+
+export function sponsorDetailsSubHeader({ formContext, formData }) {
+  return (
+    <>
+      {isApplicantTheSponsor(formData) &&
+        !formContext.onReviewPage && (
+          <div className="sponsorDetailsSummaryBox">
+            <va-summary-box>
+              <p className="sponsorDetailsSummaryBoxText">
+                We’ve prefilled your details since you indicated you’re the
+                applicant’s sponsor. If you need to correct anything, you can
+                edit the fields below.
+              </p>
+            </va-summary-box>
+          </div>
+        )}
+      <div className="sponsorDetailsSubHeader">
+        <h3 className="vads-u-font-size--h5">Sponsor details</h3>
+      </div>
+    </>
+  );
+}
+
+export const sponsorDetailsGuidingText = (
+  <div className="sponsorDetailsGuidingText">
+    <p>
+      Provide the details for the Veteran or service member the applicant is
+      connected to.
+    </p>
+  </div>
+);
+
+export const sponsorDemographicsSubHeader = (
+  <div className="sponsorDemographicsSubHeader">
+    <h3 className="vads-u-font-size--h5">Sponsor demographics</h3>
+  </div>
+);
+
+export const sponsorDemographicsDescription = (
+  <div className="sponsorDemographicsDescription">
+    <p>
+      We require demographic information as part of this application. We use
+      this information for statistical purposes only.
+    </p>
+  </div>
+);
+
+export const sponsorDeceasedSubheader = (
+  <div className="sponsorDeceasedSubheader">
+    <p>Has the sponsor died?</p>
+  </div>
+);
+
+export const sponsorDateOfDeathSubheader = (
+  <div className="sponsorDateOfDeathSubheader">
+    <p>When did the sponsor die?</p>
+  </div>
+);
+
+export const sponsorMilitaryDetailsSubHeader = (
+  <div className="sponsorMilitaryDetailsSubHeader">
+    <h3 className="vads-u-font-size--h5">Sponsor’s military details</h3>
+  </div>
+);
+
 export const applicantDemographicsSubHeader = (
+  <div className="applicantDemographicsSubHeader">
+    <h3 className="vads-u-font-size--h5">Your demographics</h3>
+  </div>
+);
+
+export const applicantDemographicsPreparerSubHeader = (
   <div className="applicantDemographicsSubHeader">
     <h3 className="vads-u-font-size--h5">Applicant demographics</h3>
   </div>
@@ -48,8 +160,8 @@ export const applicantDemographicsSubHeader = (
 export const applicantDemographicsDescription = (
   <div className="applicantDemographicsDescription">
     <p>
-      We require some basic details as part of your application. Please know we
-      need to gather the data for statistical purposes.
+      We require demographic information as part of this application. We use
+      this information for statistical purposes only.
     </p>
   </div>
 );
@@ -74,41 +186,41 @@ export const contactInfoDescription = (
 );
 
 export const applicantInformationDescription = (
-  <va-additional-info trigger="What if the applicant is not a service member or Veteran?">
+  <va-additional-info trigger="Who we consider an adult dependent child">
+    <p>
+      We consider someone an adult dependent child if either of these
+      descriptions is true:
+    </p>
     <ul>
       <>
         <li>
-          A <strong>spouse</strong> is a person who is or was legally married to
-          a service member or Veteran. A <strong>surviving spouse</strong> is
-          someone who was legally married to the service member or Veteran at
-          the time of their death and includes a surviving spouse who remarried.
+          They became permanently physically or mentally disabled and unable to
+          support themselves before the age of 21, <strong>or</strong>
         </li>
         <li>
-          An <strong>unmarried adult child</strong> is an individual who became
-          physically or mentally disabled permanently and incapable of
-          self-support before the age of 21, or before 23 years of age if
-          pursuing a full-time course of instruction at an approved educational
-          institution.
-        </li>
-        <li>
-          For <strong>other</strong> applicants such as the parent of a service
-          member, we’ll ask questions about the service member (the sponsor) to
-          determine eligibility for burial in a VA national cemetery.
+          They became permanently physically or mentally disabled and unable to
+          support themselves before the age of 23, if they were enrolled full
+          time in a school or training program at the time their disability
+          started
+          <br />
         </li>
       </>
     </ul>
-  </va-additional-info>
-);
-
-export const applicantDetailsDescription = (
-  <va-additional-info trigger="Are you filling out this application on behalf of someone else?">
     <p>
-      If you’re filling out the form on behalf of someone else, you’ll need to
-      provide their details below. As the preparer, we’ll ask for your own
-      details later.
+      <strong>Note:</strong> Adult dependent children must be unmarried to be
+      eligible for burial in a VA national cemetery.
     </p>
   </va-additional-info>
 );
+
+export const veteranApplicantDetailsPreparerDescription =
+  'Provide the details for the person you’re filling out the application for (called the applicant).';
+
+export const nonVeteranApplicantDetailsDescription =
+  "Since you're applying for eligibility determination, first we'll ask for your details. Then we'll ask for the details for the Veteran or service member you’re connected to.";
+
+export const nonVeteranApplicantDetailsDescriptionPreparer =
+  'Provide the details for the person you are filling out the application for (called the applicant). Then we’ll ask for the details for the Veteran or service member the applicant is connected to.';
 
 // do not render with a prod flag
 export const applicantContactInfoDescriptionVet = (
@@ -139,10 +251,11 @@ export const applicantContactInfoDescriptionNonVet = (
 );
 
 export const PreparerPhoneNumberDescription = (
-  <va-additional-info trigger="Why do we need your phone number?">
+  <va-additional-info trigger="Why we ask for your contact details">
     <p>
-      We may contact you by phone if we need more information about the
-      application.
+      Once you’ve submitted the application, we’ll send you an email
+      confirmation. We may contact you by phone or mail if we need more
+      information about this application.
     </p>
   </va-additional-info>
 );
@@ -162,18 +275,36 @@ export const veteranRelationshipDescription = (
 
 export const authorizedAgentDescription = (
   // TODO va-additional-info component to be replaced with a more optimal solution
-  <va-additional-info
-    trigger={"If you're applying for someone else, who can you sign for?"}
-  >
-    <p>A preparer can sign for an applicant who’s:</p>
+  <va-additional-info trigger="What to know if you’re filling out this application for someone else">
+    <p>
+      One of these descriptions must be true for the applicant (the person
+      you’re filling out this application for):
+    </p>
     <ul>
       <>
         <li>
-          Mentally incompetent <strong>or</strong>
+          They have an illness, injury, or other health condition that prevents
+          them from making decisions for themselves or providing the information
+          needed to complete forms, <strong>or</strong>
         </li>
-        <li>Physically unable to sign the application</li>
+        <li>They physically can’t sign the application</li>
       </>
     </ul>
+  </va-additional-info>
+);
+
+export const isSponsorDescription = (
+  // TODO va-additional-info component to be replaced with a more optimal solution
+  <va-additional-info trigger="What it means to be the “sponsor”">
+    <p>
+      You’re the sponsor if you’re the Veteran or service member who the
+      applicant is connected to.
+    </p>
+    <br />
+    <p>
+      If you’re not the sponsor, you’ll still need to provide the details for
+      the Veteran or service member who the applicant is connected to.
+    </p>
   </va-additional-info>
 );
 
@@ -219,23 +350,116 @@ export const sponsorMilitaryStatusDescription = (
   </va-alert>
 );
 
-export const desiredCemeteryNoteDescriptionVeteran = (
-  <va-alert status="info" background-only id="burial-cemetary-note">
-    <strong>Please note:</strong> This doesn’t guarantee you’ll be buried in
-    your preferred cemetery, but we’ll try to fulfill your wishes. If space is
+export const desiredCemeteryNoteDescriptionSelfVeteran = (
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee you’ll be buried in your
+    preferred cemetery, but we’ll try to fulfill your wishes. If space is
     unavailable, we’ll work with your family to assign a gravesite in a cemetery
     with available space at the time of need.
-  </va-alert>
+  </p>
 );
 
-export const desiredCemeteryNoteDescriptionNonVeteran = (
-  <va-alert status="info" background-only id="burial-cemetary-note">
-    <strong>Please note:</strong> This doesn’t guarantee the applicant will be
-    buried in their preferred cemetery, but we’ll try to fulfill their wishes.
-    If space is unavailable, we’ll work with their family to assign a gravesite
-    in a cemetery with available space at the time of need.
-  </va-alert>
+export const desiredCemeteryNoteDescriptionPreparerVeteran = (
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee the applicant will be buried
+    in their preferred cemetery, but we’ll try to fulfill their wishes. If space
+    is unavailable, we’ll work with their family to assign a gravesite in a
+    cemetery with available space at the time of need.
+  </p>
 );
+
+export const desiredCemeteryNoteDescriptionSelfNonVeteran = (
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee you’ll be buried in your
+    preferred cemetery, but we’ll try to fulfill your wishes. If space is
+    unavailable, we’ll work with your family to assign a gravesite in a cemetery
+    with available space at the time of need.
+  </p>
+);
+
+export const desiredCemeteryNoteDescriptionPreparerNonVeteran = (
+  <p>
+    <strong>Note:</strong> This doesn’t guarantee the applicant will be buried
+    in their preferred cemetery, but we’ll try to fulfill their wishes. If space
+    is unavailable, we’ll work with their family to assign a gravesite in a
+    cemetery with available space at the time of need.
+  </p>
+);
+
+export const relationshipToVetTitle =
+  'What’s your relationship to the Veteran or service member you’re connected to?';
+
+export const relationshipToVetPreparerTitle =
+  'What’s the applicant’s relationship to the Veteran or service member they’re connected to?';
+
+export const relationshipToVetDescription = '';
+
+export const relationshipToVetPreparerDescription =
+  'You told us you’re filling out this application for someone else. Now we’ll ask you about their details (the applicant).';
+
+export function getRelationshipToVetOptions(option1) {
+  return {
+    labels: {
+      veteran: option1,
+      husband: 'Husband',
+      wife: 'Wife',
+      daughter: 'Adult dependent daughter',
+      son: 'Adult dependent son',
+      stepdaughter: 'Adult dependent stepdaughter',
+      stepson: 'Adult dependent stepson',
+      other: 'Other',
+    },
+    widgetProps: {
+      veteran: { 'aria-describedby': 'veteran-relationship' },
+      husband: { 'aria-describedby': 'spouse-relationship' },
+      wife: { 'aria-describedby': 'spouse-relationship' },
+      daughter: { 'aria-describedby': 'child-relationship' },
+      son: { 'aria-describedby': 'child-relationship' },
+      stepdaughter: { 'aria-describedby': 'child-relationship' },
+      stepson: { 'aria-describedby': 'child-relationship' },
+      other: { 'aria-describedby': 'other-relationship' },
+    },
+  };
+}
+
+export const relationshipToVetOptions = getRelationshipToVetOptions(
+  'I’m the Veteran or service member',
+);
+
+export const relationshipToVetPreparerOptions = getRelationshipToVetOptions(
+  'Applicant is the Veteran or service member',
+);
+
+export const applicantDetailsCityTitle = 'Your birth city or county';
+
+export const applicantDetailsStateTitle = 'Your birth state or territory';
+
+export const applicantDetailsPreparerCityTitle =
+  'Applicant’s birth city or county';
+
+export const applicantDetailsPreparerStateTitle =
+  'Applicant’s birth state or territory';
+
+export const applicantDemographicsGenderTitle = 'What’s your sex?';
+
+export const applicantDemographicsMaritalStatusTitle =
+  'What’s your marital status?';
+
+export const applicantDemographicsPreparerGenderTitle =
+  'What’s the applicant’s sex?';
+
+export const applicantDemographicsPreparerMaritalStatusTitle =
+  'What’s the applicant’s marital status?';
+
+export const applicantDemographicsEthnicityTitle = 'What’s your ethnicity? ';
+
+export const applicantDemographicsRaceTitle = 'What’s your race?';
+
+export const applicantDemographicsPreparerEthnicityTitle =
+  'What’s the applicant’s ethnicity?';
+
+export const applicantDemographicsPreparerRaceTitle =
+  'What’s the applicant’s race?';
 
 export function preparerAddressHasState(item) {
   const country = get(
@@ -259,15 +483,26 @@ export function sponsorMailingAddressHasState(item) {
 }
 
 export function isVeteran(item) {
-  return get('application.claimant.relationshipToVet', item) === '1';
+  return get('application.claimant.relationshipToVet', item) === 'veteran';
+}
+
+export function isSponsorDeceased(item) {
+  return get('application.veteran.isDeceased', item) === 'yes';
 }
 
 export function isSpouse(item) {
-  return get('application.claimant.relationshipToVet', item) === '2';
+  const relationshipToVet = get('application.claimant.relationshipToVet', item);
+  return relationshipToVet === 'husband' || relationshipToVet === 'wife';
 }
 
 export function isUnmarriedChild(item) {
-  return get('application.claimant.relationshipToVet', item) === '3';
+  const relationshipToVet = get('application.claimant.relationshipToVet', item);
+  return (
+    relationshipToVet === 'daughter' ||
+    relationshipToVet === 'son' ||
+    relationshipToVet === 'stepdaughter' ||
+    relationshipToVet === 'stepson'
+  );
 }
 
 export function isVeteranAndHasServiceName(item) {
@@ -429,18 +664,36 @@ export function transform(formConfig, form) {
      */
 }
 
-export const fullMaidenNameUI = !environment.isProduction()
-  ? merge({}, fullNameUI, {
-      first: { 'ui:title': 'First name' },
-      middle: { 'ui:title': 'Middle name' },
-      last: { 'ui:title': 'Last name' },
-      maiden: { 'ui:title': 'Maiden name' },
-      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-    })
-  : merge({}, fullNameUI, {
-      maiden: { 'ui:title': 'Maiden name' },
-      'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
-    });
+export const fullMaidenNameUI = merge({}, fullNameUI, {
+  first: { 'ui:title': 'First name' },
+  middle: { 'ui:title': 'Middle name' },
+  last: { 'ui:title': 'Last name' },
+  maiden: { 'ui:title': 'Maiden name' },
+  'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
+});
+
+export const nonPreparerFullMaidenNameUI = merge({}, fullMaidenNameUI, {
+  first: { 'ui:title': 'Your first name' },
+  middle: { 'ui:title': 'Your middle name' },
+  last: { 'ui:title': 'Your last name' },
+  maiden: { 'ui:title': 'Maiden name' },
+});
+
+export const preparerFullMaidenNameUI = merge({}, fullMaidenNameUI, {
+  first: { 'ui:title': 'Applicant’s first name' },
+  middle: { 'ui:title': 'Applicant’s middle name' },
+  last: { 'ui:title': 'Applicant’s last name' },
+  maiden: { 'ui:title': 'Applicant’s maiden name' },
+  suffix: { 'ui:title': 'Applicant’s suffix' },
+});
+
+export const nonPreparerDateOfBirthUI = currentOrPastDateUI(
+  'Your date of birth',
+);
+
+export const preparerDateOfBirthUI = currentOrPastDateUI(
+  'Applicant’s date of birth',
+);
 
 class SSNWidget extends React.Component {
   constructor(props) {
@@ -476,11 +729,14 @@ class SSNWidget extends React.Component {
 // Modify default uiSchema for SSN to insert any missing dashes.
 export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
 
+export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
+  'ui:title': 'Applicant’s Social Security number',
+});
+
 export const veteranUI = {
   militaryServiceNumber: {
-    'ui:title': !environment.isProduction()
-      ? 'Military Service number (if it’s different than your Social Security number)'
-      : 'Military Service number (if you have one that’s different than your Social Security number)',
+    'ui:title':
+      'Military Service number (if it’s different than your Social Security number)',
     'ui:errorMessages': {
       pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
@@ -495,15 +751,18 @@ export const veteranUI = {
     'ui:title': 'Place of birth (City, State, or Territory)',
   },
   gender: {
-    'ui:title': !environment.isProduction()
-      ? 'What’s your sex?'
-      : 'Sex (information will be used for statistical purposes only)',
+    'ui:title': 'What’s your sex?',
     'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        female: 'Female',
+        male: 'Male',
+        na: 'Prefer not to answer',
+      },
+    },
   },
   maritalStatus: {
-    'ui:title': !environment.isProduction()
-      ? 'What’s your marital status?'
-      : 'Marital status',
+    'ui:title': 'What’s your marital status?',
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -512,21 +771,33 @@ export const veteranUI = {
         married: 'Married',
         divorced: 'Divorced',
         widowed: 'Widowed',
+        na: 'Prefer not to answer',
       },
+    },
+  },
+  ethnicity: {
+    // 'ui:field': RaceEthnicityReviewField,
+    'ui:title': 'What’s your ethnicity?',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        isSpanishHispanicLatino: 'Hispanic or Latino',
+        notSpanishHispanicLatino: 'Not Hispanic or Latino',
+        unknown: 'Unknown',
+        na: 'Prefer not to answer',
+      },
+      showFieldLabel: true,
     },
   },
   race: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title':
-      'Which categories best describe you? (You may check more than one)',
-    isSpanishHispanicLatino: {
-      'ui:title': 'Hispanic or Latino',
-    },
-    notSpanishHispanicLatino: {
-      'ui:title': 'Not Hispanic or Latino',
-    },
+    'ui:title': 'What’s your race?',
+    'ui:webComponentField': VaCheckboxGroupField,
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',
+    },
+    isAsian: {
+      'ui:title': 'Asian',
     },
     isBlackOrAfricanAmerican: {
       'ui:title': 'Black or African American',
@@ -534,11 +805,14 @@ export const veteranUI = {
     isNativeHawaiianOrOtherPacificIslander: {
       'ui:title': 'Native Hawaiian or other Pacific Islander',
     },
-    isAsian: {
-      'ui:title': 'Asian',
-    },
     isWhite: {
       'ui:title': 'White',
+    },
+    isOther: {
+      'ui:title': 'Other',
+    },
+    na: {
+      'ui:title': 'Prefer not to answer',
     },
     'ui:validations': [
       // require at least one value to be true/checked
@@ -549,6 +823,7 @@ export const veteranUI = {
       },
     ],
     'ui:options': {
+      hint: 'You can select more than one option.',
       showFieldLabel: true,
     },
   },
@@ -645,6 +920,20 @@ export const militaryNameUI = {
   },
 };
 
+export function DesiredCemeteryNoteDescription() {
+  const data = useSelector(state => state.form.data || {});
+  if (isAuthorizedAgent(data)) {
+    if (isVeteran(data)) {
+      return desiredCemeteryNoteDescriptionPreparerVeteran;
+    }
+    return desiredCemeteryNoteDescriptionPreparerNonVeteran;
+  }
+  if (isVeteran(data)) {
+    return desiredCemeteryNoteDescriptionSelfVeteran;
+  }
+  return desiredCemeteryNoteDescriptionSelfNonVeteran;
+}
+
 export function getCemeteries() {
   return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
     credentials: 'include',
@@ -676,6 +965,16 @@ export function getCemeteries() {
       // to surface errors in autosuggest field
       return Promise.resolve([]);
     });
+}
+
+export function MailingAddressStateTitle(props) {
+  const { elementPath } = props;
+  const data = useSelector(state => state.form.data || {});
+  const country = get(elementPath, data);
+  if (country === 'CAN') {
+    return 'Province';
+  }
+  return 'State or territory';
 }
 
 SSNWidget.propTypes = {

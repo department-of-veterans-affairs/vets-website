@@ -17,6 +17,11 @@ describe('issuesNeedUpdating', () => {
     },
   });
 
+  it('returns false if nothing is passed in', () => {
+    expect(issuesNeedUpdating()).to.be.false;
+    expect(issuesNeedUpdating([{}], [{}])).to.be.false;
+  });
+
   it('returns false if loadedIssues have a decision date older than a year and existingIssues is empty', () => {
     let result;
     result = issuesNeedUpdating([createEntry('Old Issue', longAgo)], []);

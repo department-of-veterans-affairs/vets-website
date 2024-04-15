@@ -33,7 +33,8 @@
       "fullName": {
         "first": "Barnie",
         "last": "Rubble"
-      }
+      },
+      "dateOfBirth": "2000-07-10"
     }
   }
 }

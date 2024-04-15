@@ -1,4 +1,5 @@
-import { $, scrollElementName, scrollToElement } from '../ui';
+import { $, scrollToElement } from '../ui';
+import { SCROLL_ELEMENT_SUFFIX } from '../../../../../utilities/constants';
 
 /**
  * @typedef FormUtility~findTargetsOptions
@@ -22,9 +23,9 @@ const findTargets = error => {
   // find scroll element first
   const el = $(
     [
-      `[name$="${error.pageKey}${scrollElementName}"]`,
+      `[name$="${error.pageKey}${SCROLL_ELEMENT_SUFFIX}"]`,
       // index value indicates an array instance (saved as a string, e.g. '0')
-      `[name$="${error.pageKey}${error.index || ''}${scrollElementName}"]`,
+      `[name$="${error.pageKey}${error.index || ''}${SCROLL_ELEMENT_SUFFIX}"]`,
     ].join(','),
   );
 
@@ -36,7 +37,7 @@ const findTargets = error => {
 /**
  * Open the accordion for the specified chapter and click on the "Edit" button
  * to go into edit mode. This will also result in the focusing of the first
- * interacrtive element in the content.
+ * interactive element in the content.
  * @param {String} chapterKey - a chapter key
  */
 export const openAndEditChapter = error => {

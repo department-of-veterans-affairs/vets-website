@@ -1,3 +1,6 @@
+import { medicationsUrls } from '../../../util/constants';
+import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
+
 class MedicationsLandingPage {
   clickExpandAllAccordionButton = () => {
     cy.contains('Expand all').click({ force: true });
@@ -17,6 +20,10 @@ class MedicationsLandingPage {
         'You can refill and track your shipments of most VA prescriptions. This includes prescription medications and prescription supplies, like diabetic supplies.',
       )
       .should('be.visible');
+  };
+
+  visitLandingPageURL = () => {
+    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
   };
 
   verifyPrescriptionRefillRequestInformationAccordionDropDown = () => {
@@ -46,7 +53,7 @@ class MedicationsLandingPage {
   verifyHowtoRenewPrescriptionsAccordionDropDown = () => {
     cy.get('[data-testid="renew-information-button"]')
       .contains(
-        'If your prescription is too old to refill or has no refills left, you’ll need to request a renewal. The fastest way to renew is by calling the phone number on your prescription label. You can also send a secure message to your care team.',
+        'If your prescription is too old to refill or has no refills left, you’ll need to request a renewal.',
       )
       .should('be.visible');
   };
@@ -80,10 +87,14 @@ class MedicationsLandingPage {
   };
 
   verifyEmptyMedicationsListMessageAlertOnLandingPage = () => {
-    // cy.get('[data-testid="empty-list-alert"] >div ').should(
-    cy.get('[data-testid="alert-message"]').should(
-      'contain.text',
-      'You don’t have any medications in your medications list',
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      emptyPrescriptionsList,
+    ).as('emptyPrescriptionsList');
+    cy.get('[data-testid="empty-medications-list"]').should(
+      'contain',
+      'You don’t have any VA prescriptions',
     );
   };
 }

@@ -8,7 +8,7 @@ import Checklist from '../shared/CheckList';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
 
 const PayrollDeductionChecklist = props => {
-  const { goToPath, goBack, onReviewPage, setFormData } = props;
+  const { goToPath, goBack, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -22,9 +22,9 @@ const PayrollDeductionChecklist = props => {
   const {
     personalData: {
       employmentHistory: {
+        veteran: { employmentRecords = [] } = {},
         newRecord = {},
-        veteran: { employmentRecords = [] },
-      },
+      } = {},
     },
   } = formData;
 
@@ -122,7 +122,6 @@ const PayrollDeductionChecklist = props => {
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
 
   const title = `Your job at ${employerName}`;
   const prompt = 'Which of these payroll deductions do you pay for?';
@@ -142,7 +141,7 @@ const PayrollDeductionChecklist = props => {
           the deductions that apply to you.
         </p>
       </va-additional-info>
-      {onReviewPage ? updateButton : navButtons}
+      {navButtons}
     </form>
   );
 };

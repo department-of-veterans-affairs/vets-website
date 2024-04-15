@@ -1,29 +1,29 @@
 import React from 'react';
 
+import {
+  checkboxGroupSchema,
+  checkboxGroupUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { preparerSigningReasonOptions } from '../definitions/constants';
-import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 import { preparerSigningReasonQuestionTitle } from '../config/helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    preparerSigningReason: {
-      'ui:widget': GroupCheckboxWidget,
-      'ui:errorMessages': {
+    preparerSigningReason: checkboxGroupUI({
+      title: '',
+      labels: preparerSigningReasonOptions,
+      required: true,
+      errorMessages: {
         required:
           'You must select at least one option, so we can process your certification.',
       },
-      'ui:options': {
-        updateSchema: formData => {
-          return {
-            title: preparerSigningReasonQuestionTitle({ formData }),
-          };
-        },
-        forceDivWrapper: true,
-        labels: Object.values(preparerSigningReasonOptions),
-        showFieldLabel: true,
+      updateSchema: formData => {
+        return {
+          title: preparerSigningReasonQuestionTitle({ formData }),
+        };
       },
-    },
+    }),
     'view:explanation': {
       'ui:description': (
         <>
@@ -41,9 +41,9 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      preparerSigningReason: {
-        type: 'string',
-      },
+      preparerSigningReason: checkboxGroupSchema(
+        Object.keys(preparerSigningReasonOptions),
+      ),
       'view:explanation': {
         type: 'object',
         properties: {},

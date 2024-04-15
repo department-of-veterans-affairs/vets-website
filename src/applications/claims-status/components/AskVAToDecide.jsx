@@ -1,8 +1,7 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
-export default function AskVAToDecide({ id }) {
+export default function AskVAToDecide() {
   return (
     <div className="usa-alert usa-alert-info background-color-only claims-alert-status alert-with-details">
       <div className="item-title-container">
@@ -17,7 +16,7 @@ export default function AskVAToDecide({ id }) {
           aria-label="View details about asking VA for a claim decision"
           title="View details about asking VA for a claim decision"
           className="usa-button usa-button-secondary view-details-button"
-          to={`/your-claims/${id}/ask-va-to-decide`}
+          to="../ask-va-to-decide"
         >
           View Details
         </Link>
@@ -25,7 +24,3 @@ export default function AskVAToDecide({ id }) {
     </div>
   );
 }
-
-AskVAToDecide.propTypes = {
-  id: PropTypes.string.isRequired,
-};

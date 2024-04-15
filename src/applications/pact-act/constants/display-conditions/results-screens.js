@@ -13,7 +13,7 @@ const {
 // Refer to the README in this directory for an explanation of display conditions
 export const resultsDCs = Object.freeze({
   RESULTS: {
-    RESULTS_1_P1: {
+    RESULTS_1_1: {
       SERVICE_PERIOD_SELECTION: {
         [NINETY_OR_LATER]: {
           ONLY: [BURN_PITS],

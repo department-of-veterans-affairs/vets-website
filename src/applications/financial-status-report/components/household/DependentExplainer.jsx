@@ -5,6 +5,7 @@ const DependentExplainer = () => {
     <va-additional-info
       trigger="Who qualifies as a dependent?"
       class="vads-u-margin-top--2"
+      uswds
     >
       <p>Here’s who we consider dependents:</p>
       <ul>

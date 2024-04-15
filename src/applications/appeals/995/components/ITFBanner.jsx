@@ -79,6 +79,7 @@ const ITFBanner = props => {
                 class="vads-u-margin-left--2"
                 onClick={dismissMessage}
                 text="Continue (testing only)"
+                uswds
               />
             )}
           </p>
@@ -88,6 +89,7 @@ const ITFBanner = props => {
             continue
             onPrimaryClick={dismissMessage}
             onSecondaryClick={goHome}
+            uswds
           />
         )}
       </div>

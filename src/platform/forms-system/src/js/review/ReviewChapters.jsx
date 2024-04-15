@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import {
@@ -10,8 +11,17 @@ import {
   getActiveChapters,
   getPageKeys,
 } from '../helpers';
-import { getViewedPages } from '../state/selectors';
-import { setData, setEditMode, setViewedPages, uploadFile } from '../actions';
+import { getReviewPageOpenChapters, getViewedPages } from '../state/selectors';
+import {
+  closeReviewChapter,
+  openReviewChapter,
+  setData,
+  setEditMode,
+  setViewedPages,
+  uploadFile,
+} from '../actions';
+
+import { scrollTo } from '../../../../utilities/ui';
 
 class ReviewChapters extends React.Component {
   componentDidMount() {
@@ -19,6 +29,20 @@ class ReviewChapters extends React.Component {
     const viewedPages = new Set(getPageKeys(pageList, formData));
     this.props.setViewedPages(viewedPages);
   }
+
+  handleToggleChapter = ({ target }) => {
+    if (target) {
+      const name = target.dataset?.chapter;
+      const isOpen = target.getAttribute('open');
+      if (isOpen) {
+        this.props.openReviewChapter(name);
+        scrollTo(`chapter${name}ScrollElement`);
+      } else {
+        const chapter = this.props.chapters.find(chapt => chapt.name === name);
+        this.props.closeReviewChapter(name, chapter?.pageKeys);
+      }
+    }
+  };
 
   handleEdit = (pageKey, editing, index = null) => {
     const fullPageKey = `${pageKey}${index === null ? '' : index}`;
@@ -46,7 +70,11 @@ class ReviewChapters extends React.Component {
     } = this.props;
 
     return (
-      <va-accordion bordered>
+      <VaAccordion
+        bordered
+        onAccordionItemToggled={this.handleToggleChapter}
+        uswds
+      >
         {chapters.map(chapter => (
           <ReviewCollapsibleChapter
             expandedPages={chapter.expandedPages}
@@ -57,6 +85,7 @@ class ReviewChapters extends React.Component {
             formContext={formContext}
             key={chapter.name}
             onEdit={this.handleEdit}
+            open={chapter.open}
             pageKeys={chapter.pageKeys}
             pageList={pageList}
             setData={(...args) => this.handleSetData(...args)}
@@ -65,7 +94,7 @@ class ReviewChapters extends React.Component {
             viewedPages={viewedPages}
           />
         ))}
-      </va-accordion>
+      </VaAccordion>
     );
   }
 }
@@ -76,7 +105,8 @@ export function mapStateToProps(state, ownProps) {
 
   // from redux state
   const { form } = state;
-  const formData = state.form.data;
+  const formData = form.data;
+  const openChapters = getReviewPageOpenChapters(state) || {};
   const viewedPages = getViewedPages(state);
 
   const chapterNames = getActiveChapters(formConfig, formData);
@@ -86,9 +116,10 @@ export function mapStateToProps(state, ownProps) {
 
     const expandedPages = getActiveExpandedPages(pages, formData);
     const chapterFormConfig = formConfig.chapters[chapterName];
+    const open = openChapters[chapterName] || false;
     const pageKeys = getPageKeys(pages, formData);
 
-    const hasErrors = state.form.formErrors?.errors?.some(err =>
+    const hasErrors = form.formErrors?.errors?.some(err =>
       pageKeys.includes(err.pageKey),
     );
     const hasUnviewedPages =
@@ -103,6 +134,7 @@ export function mapStateToProps(state, ownProps) {
       ),
       formConfig: chapterFormConfig,
       name: chapterName,
+      open,
       pageKeys,
       hasUnviewedPages,
     };
@@ -120,6 +152,8 @@ export function mapStateToProps(state, ownProps) {
 }
 
 const mapDispatchToProps = {
+  closeReviewChapter,
+  openReviewChapter,
   setData,
   setEditMode,
   setViewedPages,
@@ -128,9 +162,11 @@ const mapDispatchToProps = {
 
 ReviewChapters.propTypes = {
   chapters: PropTypes.array.isRequired,
+  closeReviewChapter: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
   formData: PropTypes.object.isRequired,
+  openReviewChapter: PropTypes.func.isRequired,
   pageList: PropTypes.array.isRequired,
   setData: PropTypes.func.isRequired,
   setEditMode: PropTypes.func.isRequired,

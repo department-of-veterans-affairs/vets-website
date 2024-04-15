@@ -15,7 +15,7 @@ class Introduction {
       const window = $elements[0].ownerDocument.defaultView;
       const before = window.getComputedStyle($elements[0], 'before');
       const elementColor = before.getPropertyValue('color');
-      expect(elementColor).to.eq('rgb(46, 133, 64)');
+      expect(elementColor).to.eq('rgb(0, 136, 23)');
     });
   };
 

@@ -1,8 +1,8 @@
 import path from 'path';
 
-import testForm from 'platform/testing/e2e/cypress/support/form-tester';
-import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import { setStoredSubTask } from 'platform/forms/sub-task';
+import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
+import testForm from '~/platform/testing/e2e/cypress/support/form-tester';
+import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
@@ -40,7 +40,12 @@ const testConfig = createTestConfig(
     // dataDir: path.join(__dirname, 'data'),
 
     // Rename and modify the test data as needed.
-    dataSets: ['no-evidence-test', 'minimal-test', 'maximal-test'],
+    dataSets: [
+      'no-evidence-test',
+      'minimal-test',
+      'partial-evidence-test',
+      'maximal-test',
+    ],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -111,7 +116,7 @@ const testConfig = createTestConfig(
                 )
                   .closest('li')
                   .find('input[type="checkbox"]')
-                  .click();
+                  .click({ force: true });
               }
             });
             cy.findByText('Continue', { selector: 'button' }).click();
@@ -126,7 +131,7 @@ const testConfig = createTestConfig(
               cy.get('va-checkbox')
                 .shadow()
                 .find('input')
-                .click();
+                .click({ force: true });
             }
             cy.findByText('Continue', { selector: 'button' }).click();
           });
@@ -159,7 +164,7 @@ const testConfig = createTestConfig(
                   cy.get(`va-checkbox[value="${issue}"]`)
                     .shadow()
                     .find('input')
-                    .check();
+                    .check({ force: true });
                 });
                 cy.fillDate('from', location.evidenceDates?.from);
                 cy.fillDate('to', location.evidenceDates?.to);
@@ -171,10 +176,7 @@ const testConfig = createTestConfig(
                 }
               }
             });
-            cy.get('va-button-pair')
-              .shadow()
-              .find('va-button[continue]')
-              .click();
+            cy.findByText('Continue', { selector: 'button' }).click();
           });
         });
       },
@@ -200,7 +202,7 @@ const testConfig = createTestConfig(
               cy.get('va-checkbox')
                 .shadow()
                 .find('input')
-                .click();
+                .click({ force: true });
             }
             cy.findByText('Continue', { selector: 'button' }).click();
           });
@@ -263,7 +265,7 @@ const testConfig = createTestConfig(
                   cy.get(`va-checkbox[value="${issue}"]`)
                     .shadow()
                     .find('input')
-                    .check();
+                    .check({ force: true });
                 });
                 cy.fillDate('from', facility.treatmentDateRange?.from);
                 cy.fillDate('to', facility.treatmentDateRange?.to);
@@ -294,14 +296,16 @@ const testConfig = createTestConfig(
         });
       },
       [EVIDENCE_UPLOAD_PATH]: () => {
-        cy.get('input[type="file"]')
-          .upload(
-            path.join(__dirname, 'fixtures/data/example-upload.pdf'),
-            'testing',
-          )
-          .get('.schemaform-file-uploading')
-          .should('not.exist');
-        cy.get('select').select('Buddy/Lay Statement');
+        cy.get('input[type="file"]').upload(
+          path.join(__dirname, 'fixtures/data/example-upload.pdf'),
+          'testing',
+        );
+
+        cy.get('.schemaform-file-uploading').should('not.exist');
+        cy.get('va-select')
+          .shadow()
+          .find('select')
+          .select('Buddy/Lay Statement', { force: true });
       },
     },
 

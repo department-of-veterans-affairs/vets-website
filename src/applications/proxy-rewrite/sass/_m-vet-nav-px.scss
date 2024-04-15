@@ -18,13 +18,13 @@ body.va-pos-fixed {
   }
 
   // For medium and large screens, they're just as big as they need to be
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     min-height: 100%;
   }
 }
 
 #vetnav {
-  background-color: $color-primary-darkest;
+  background-color: var(--vads-color-primary-darker);
 
   // This value should be equal to the default y-position of the menu so that removing it
   // shouldn't affect anything. However, it's here to show how the height is offset by the
@@ -41,14 +41,14 @@ body.va-pos-fixed {
     #vetnav-menu {
       overflow: hidden;
       height: 0;
-      @include media($medium-large-screen) {
+      @include media($medium-screen) {
         height: auto;
         overflow: visible;
       }
     }
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     margin-top: 10px;
     overflow-y: visible;
     position: relative;
@@ -63,7 +63,7 @@ body.va-pos-fixed {
   margin: 0;
   padding-left: 0;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     display: flex;
     height: auto;
     margin-top: 10px;
@@ -75,12 +75,12 @@ body.va-pos-fixed {
   > li {
     margin-bottom: 6px;
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       margin-bottom: 0;
     }
 
     &:first-of-type {
-      @include media($medium-large-screen) {
+      @include media($medium-screen) {
         display: none;
       }
     }
@@ -97,34 +97,17 @@ body.va-pos-fixed {
     margin-bottom: 0;
   }
 
-  .va-button-primary {
-    border: 2px solid $color-white;
-    color: $color-white;
-    padding: 10px;
-    margin: 8px 16px;
-    width: auto;
-
-    &:visited {
-      color: $color-white;
-    }
-
-    @include media($medium-large-screen) {
-      border-color: transparent;
-      display: inline-block;
-    }
-  }
-
   .usa-button-secondary {
     padding: calc(10px + 2px);
     margin: 8px 16px;
     width: auto;
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
 
     &:hover {
       text-decoration: none;
     }
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       display: inline-block;
       background-color: transparent;
       &.vetnav-level2-button-second {
@@ -147,10 +130,10 @@ body.va-pos-fixed {
   }
 
   path {
-    fill: $color-white;
+    fill: var(--vads-color-white);
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     display: none;
   }
 }
@@ -168,13 +151,13 @@ body.va-pos-fixed {
   }
 }
 
-@include media($medium-large-screen) {
+@include media($medium-screen) {
   a.vetnav-level1 {
     //border-bottom: 1px solid transparent;
 
     &:hover {
-      background-color: $color-primary;
-      border-bottom-color: $color-primary;
+      background-color: var(--vads-color-primary);
+      border-bottom-color: var(--vads-color-primary);
       transition: none;
     }
   }
@@ -183,13 +166,13 @@ body.va-pos-fixed {
 .vetnav-level1 {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
-  background-color: $color-primary-darker;
+  background-color: var(--vads-color-primary-dark);
   background-position: right 30px center;
   background-repeat: no-repeat;
   background-size: 13px auto;
   border-radius: 0;
   border-top: 3px solid transparent;
-  color: $color-white;
+  color: var(--vads-color-white);
   cursor: pointer;
   display: block;
   font-weight: bold;
@@ -202,18 +185,18 @@ body.va-pos-fixed {
 
   &:not([href]) {
     background-image: url(/img/minus-white.svg);
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       background-position: right 16px center;
       padding-right: 32px;
     }
   }
 
   &[aria-expanded="true"] {
-    @include media($medium-large-screen) {
-      color: $color-base;
-      background-color: $color-white;
+    @include media($medium-screen) {
+      color: var(--vads-color-base);
+      background-color: var(--vads-color-white);
       background-image: url(/img/arrow-up.svg);
-      border-top-color: $color-va-accent;
+      border-top-color: var(--vads-color-va-accent);
     }
   }
 
@@ -221,15 +204,15 @@ body.va-pos-fixed {
     background-image: url(/img/plus-white.svg);
 
     &:hover {
-      background-color: $color-primary;
+      background-color: var(--vads-color-primary);
     }
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       background-image: url(/img/arrow-down-white.svg);
     }
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     background-color: transparent;
     background-size: 1rem auto;
   }
@@ -250,7 +233,7 @@ body.va-pos-fixed {
 
 .vetnav-level2 {
   font-size: 16px;
-  background: $color-primary-darkest url(/img/arrow-right-white.svg) right 30px
+  background: var(--vads-color-primary-darker) url(/img/arrow-right-white.svg) right 30px
     center no-repeat;
   background-size: 14px auto;
   border-radius: 0;
@@ -262,13 +245,13 @@ body.va-pos-fixed {
   width: 100% !important;
   -webkit-font-smoothing: antialiased;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     background: transparent url(/img/arrow-right.svg) right 10px center
       no-repeat;
     border-color: transparent;
     border-style: solid;
     border-width: 1px 0;
-    color: $color-link-default;
+    color: var(--vads-color-link);
     background-size: 10px auto;
     margin-left: 8px;
     padding: 8px 0 8px 16px;
@@ -278,17 +261,17 @@ body.va-pos-fixed {
     &:hover {
       background-color: transparent;
       border-bottom: 1px solid transparent;
-      box-shadow: -3px 0 $color-va-accent;
-      color: $color-primary;
+      box-shadow: -3px 0 var(--vads-color-va-accent);
+      color: var(--vads-color-primary);
       text-decoration: underline;
     }
 
     &[aria-expanded="true"] {
-      background-color: $color-gray-lightest;
-      border-bottom-color: $color-gray-warm-light;
-      border-top-color: $color-gray-warm-light;
-      box-shadow: -3px 0 $color-va-accent;
-      color: $color-gray-dark;
+      background-color: var(--vads-color-base-lightest);
+      border-bottom-color: var(--vads-color-gray-warm-light);
+      border-top-color: var(--vads-color-gray-warm-light);
+      box-shadow: -3px 0 var(--vads-color-va-accent);
+      color: var(--vads-color-base-darker);
       font-weight: bold;
       text-decoration: inherit;
       position: relative;
@@ -301,14 +284,14 @@ body.va-pos-fixed {
     font-weight: bold;
     padding: 8px 16px;
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       display: none;
     }
   }
 }
 
 #vetnav .back-button {
-  background: $color-primary-darker url(/img/arrow-left-white.svg) right 30px
+  background: var(--vads-color-primary-dark) url(/img/arrow-left-white.svg) right 30px
     center no-repeat;
   background-position: left 1px center;
   background-size: 14px auto;
@@ -318,7 +301,7 @@ body.va-pos-fixed {
   width: 100%;
   margin: 0;
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     display: none;
   }
 }
@@ -330,13 +313,13 @@ body.va-pos-fixed {
     font-size: 16px;
 
     background-image: none;
-    color: $color-white;
+    color: var(--vads-color-white);
     display: block;
     padding: 8px 16px;
     text-decoration: none;
 
-    @include media($medium-large-screen) {
-      color: $color-link-default;
+    @include media($medium-screen) {
+      color: var(--vads-color-link);
 
       &:hover {
         background: transparent;
@@ -345,9 +328,9 @@ body.va-pos-fixed {
     }
   }
 
-  @include media($medium-large-screen) {
-    box-shadow: 0 5px 9px -5px $color-base;
-    background: $color-white;
+  @include media($medium-screen) {
+    box-shadow: 0 5px 9px -5px var(--vads-color-base);
+    background: var(--vads-color-white);
     padding-bottom: 16px;
     position: absolute;
   }
@@ -355,7 +338,7 @@ body.va-pos-fixed {
 
 .vetnav-panel--submenu {
   &:not([hidden]) {
-    background-color: $color-primary-darkest;
+    background-color: var(--vads-color-primary-darker);
     box-shadow: none;
     position: absolute;
     width: 100%;
@@ -363,9 +346,9 @@ body.va-pos-fixed {
     visibility: visible;
     margin: 0;
 
-    @include media($medium-large-screen) {
-      border-left: 1px solid $color-gray-warm-light;
-      background-color: $color-gray-lightest;
+    @include media($medium-screen) {
+      border-left: 1px solid var(--vads-color-gray-warm-light);
+      background-color: var(--vads-color-base-lightest);
       height: 100%;
       margin-left: 230px;
       left: 30px;
@@ -387,7 +370,7 @@ body.va-pos-fixed {
     display: flex;
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     flex: 0 1 305px;
     margin-left: 0;
     margin-right: 0;
@@ -524,17 +507,17 @@ body.va-pos-fixed {
     }
 
     path {
-      fill: $color-white;
+      fill: var(--vads-color-white);
     }
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       display: none;
     }
   }
 
   .vetnav-panel {
-    @include media($medium-large-screen) {
-      box-shadow: 0 5px 9px -3px $color-base;
+    @include media($medium-screen) {
+      box-shadow: 0 5px 9px -3px var(--vads-color-base);
     }
   }
 

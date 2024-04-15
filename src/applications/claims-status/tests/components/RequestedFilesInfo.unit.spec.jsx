@@ -1,23 +1,34 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
+import sinon from 'sinon';
 
+import * as AdditionalEvidencePageOld from '../../containers/AdditionalEvidencePageOld';
 import RequestedFilesInfo from '../../components/RequestedFilesInfo';
 
-describe('<RequestedFilesInfo>', () => {
-  it('should display no documents messages', () => {
-    const filesNeeded = [];
-    const optionalFiles = [];
+let stub;
 
-    const tree = SkinDeep.shallowRender(
-      <RequestedFilesInfo
-        id="1"
-        filesNeeded={filesNeeded}
-        optionalFiles={optionalFiles}
-      />,
-    );
-    expect(tree.everySubTree('.no-documents')).not.to.be.empty;
+describe('<RequestedFilesInfo>', () => {
+  before(() => {
+    // Stubbing AdditionalEvidencePageOld as we aren't interested
+    // in testing the functionality of this component
+    stub = sinon.stub(AdditionalEvidencePageOld, 'default');
+    stub.returns(<div data-testid="additional-evidence-page-old" />);
   });
+
+  after(() => {
+    stub.restore();
+  });
+
+  it('should display no documents messages', () => {
+    const screen = render(
+      <RequestedFilesInfo id="1" filesNeeded={[]} optionalFiles={[]} />,
+    );
+
+    screen.getByText('You don’t need to turn in any documents to VA.');
+  });
+
   it('should display requested items', () => {
     const filesNeeded = [
       {
@@ -37,24 +48,27 @@ describe('<RequestedFilesInfo>', () => {
         optionalFiles={optionalFiles}
       />,
     );
-
-    expect(tree.everySubTree('.file-request-list-item')).not.to.be.empty;
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain(
+    const content = tree.dive(['FilesNeededOld']);
+    expect(content).not.to.be.empty;
+    expect(content.subTree('.file-request-list-item').text()).to.contain(
       filesNeeded[0].displayName,
     );
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain(
+    expect(content.subTree('.file-request-list-item').text()).to.contain(
       filesNeeded[0].description,
     );
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain(
+    expect(content.subTree('.file-request-list-item').text()).to.contain(
       '<Link />',
     );
   });
+
   it('should display optional files', () => {
     const optionalFiles = [
       {
         trackedItemId: 1,
         type: 'still_need_from_others_list',
         status: 'NEEDED',
+        displayName: 'Request 1',
+        description: 'Some description',
       },
     ];
     const filesNeeded = [];
@@ -67,11 +81,15 @@ describe('<RequestedFilesInfo>', () => {
       />,
     );
 
-    expect(tree.everySubTree('.file-request-list-item')).not.to.be.empty;
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain(
-      'We requested this from others',
+    const content = tree.dive(['FilesOptionalOld']);
+    expect(content).not.to.be.empty;
+    expect(content.subTree('.file-request-list-item').text()).to.contain(
+      optionalFiles[0].displayName,
     );
-    expect(tree.everySubTree('.file-request-list-item')[0].text()).to.contain(
+    expect(content.subTree('.file-request-list-item').text()).to.contain(
+      optionalFiles[0].description,
+    );
+    expect(content.subTree('.file-request-list-item').text()).to.contain(
       '<Link />',
     );
   });

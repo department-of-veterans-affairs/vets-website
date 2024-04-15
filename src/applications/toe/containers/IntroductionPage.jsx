@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import IntroductionLogin from '../components/IntroductionLogin';
 
 import { getAppData } from '../selectors';
@@ -14,7 +14,9 @@ export const IntroductionPage = ({
   isLOA3,
   isLoggedIn,
   isPersonalInfoFetchComplete,
+  isPersonalInfoFetchFailed,
   isSponsorsFetchComplete,
+  showMeb1990EMaintenanceAlert,
   route,
   user,
 }) => {
@@ -35,8 +37,10 @@ export const IntroductionPage = ({
         33) education benefits.
       </p>
 
-      {apiCallsComplete &&
-        isLoggedIn &&
+      {isLoggedIn &&
+      isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
+      showMeb1990EMaintenanceAlert === false && // Ensure the mainenance flag is not on.
+        apiCallsComplete &&
         isLOA3 && (
           <SaveInProgressIntro
             buttonOnly
@@ -129,6 +133,9 @@ export const IntroductionPage = ({
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
+  isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
+  showMeb1990EMaintenanceAlert:
+    state.featureToggles[featureFlagNames.showMeb1990EZMaintenanceAlert],
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
@@ -144,6 +151,8 @@ IntroductionPage.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchComplete: PropTypes.bool,
+  isPersonalInfoFetchFailed: PropTypes.bool,
   isSponsorsFetchComplete: PropTypes.bool,
+  showMeb1990EMaintenanceAlert: PropTypes.bool,
   user: PropTypes.object,
 };

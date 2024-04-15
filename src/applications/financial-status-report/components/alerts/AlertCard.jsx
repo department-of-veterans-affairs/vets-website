@@ -7,6 +7,7 @@ const AlertCard = ({ debtType }) => {
   return (
     <>
       <va-alert
+        uswds
         class="row vads-u-margin-bottom--5"
         status="error"
         data-testid={`balance-card-alert-${

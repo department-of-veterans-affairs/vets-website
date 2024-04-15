@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { shallowEqual, useSelector } from 'react-redux';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { selectFacilitiesRadioWidget } from '../../redux/selectors';
 import State from '../../../components/State';
 import InfoAlert from '../../../components/InfoAlert';
-import NewTabAnchor from '../../../components/NewTabAnchor';
 import {
   FACILITY_SORT_METHODS,
   FETCH_STATUS,
@@ -14,6 +14,7 @@ import {
 } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { isCernerLocation } from '../../../services/location';
+import NoAddressNote from '../NoAddressNote';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 
@@ -96,17 +97,12 @@ export default function FacilitiesRadioWidget({
             }}
             value={sortMethod}
             data-testid="facilitiesSelect"
+            uswds
           >
             {hasUserAddress ? selectOptions : selectOptions.slice(1)}
           </VaSelect>
         </div>
-        {!hasUserAddress && (
-          <p>
-            Note: to show facilities near your home, add your residential
-            address{' '}
-            <NewTabAnchor href="/profile">in your VA profile</NewTabAnchor>.
-          </p>
-        )}
+        {!hasUserAddress && <NoAddressNote />}
         {requestingLocationFailed && (
           <div className="vads-u-padding-top--1">
             <InfoAlert
@@ -117,6 +113,7 @@ export default function FacilitiesRadioWidget({
             >
               <p>Make sure your browser’s location feature is turned on.</p>
               <button
+                type="button"
                 className="va-button-link"
                 onClick={() =>
                   updateFacilitySortMethod(
@@ -199,3 +196,10 @@ export default function FacilitiesRadioWidget({
     </div>
   );
 }
+FacilitiesRadioWidget.propTypes = {
+  formContext: PropTypes.object,
+  id: PropTypes.string,
+  options: PropTypes.object,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+};

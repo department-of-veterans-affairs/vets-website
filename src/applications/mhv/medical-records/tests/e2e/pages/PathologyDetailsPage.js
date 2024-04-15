@@ -1,33 +1,42 @@
 // import defaultPathology from '../fixtures/Pathology.json';
 
-class PathologyDetailsPage {
-  verifyPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').should('be.visible');
+import BaseDetailsPage from './BaseDetailsPage';
+
+class PathologyDetailsPage extends BaseDetailsPage {
+  verifyLabName = name => {
+    cy.get('[data-testid="pathology-name"]').should('contain', name);
   };
 
-  clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').click({ force: true });
+  verifyLabDate = date => {
+    cy.get('[data-testid="header-time"]').should('contain', date);
   };
 
-  verifyPrintButton = () => {
-    // should display print button for a list "Print this list"
-    cy.get('[data-testid="printButton-0"]').should('be.visible');
+  verifySampleTested = sampleTested => {
+    cy.get('[data-testid="pathology-sample-tested"]').should(
+      'contain',
+      sampleTested,
+    );
   };
 
-  verifyDownloadPDF = () => {
-    // should display a download pdf file button "Download PDF of this page"
-    cy.get('[data-testid="printButton-1"]').should('be.visible');
+  verifyLabLocation = location => {
+    cy.get('[data-testid="pathology-location"]').should('contain', location);
   };
 
-  verifyDownloadTextFile = () => {
-    // should display a download text file button "Download list as a text file"
-    cy.get('[data-testid="printButton-2"]').should('be.visible');
-    // cy.get('[data-testid="printButton-2').click();
+  verifyDateCompleted = dateCompleted => {
+    cy.get('[data-testid="pathology-date-completed"]').should(
+      'contain',
+      dateCompleted,
+    );
   };
 
-  clickDownloadPDFFile = () => {
-    // should display a download text file button "Download list as a text file"
-    cy.get('[data-testid="printButton-1"]').click();
+  verifyComposeMessageLink = composeMessageLink => {
+    // verify compose a message on the My Healthvet website
+    cy.get('[data-testid="compose-message-Link"]').should('be.visible');
+    cy.get('[data-testid="compose-message-Link"]')
+      .contains(composeMessageLink)
+      .invoke('attr', 'href')
+      .should('contain', 'myhealth.va.gov/mhv-portal-web/compose-message');
+    // https://mhv-syst.myhealth.va.gov/mhv-portal-web/compose-message
   };
 }
 

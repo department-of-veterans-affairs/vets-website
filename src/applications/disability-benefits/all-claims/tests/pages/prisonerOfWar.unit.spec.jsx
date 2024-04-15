@@ -124,9 +124,10 @@ describe('Prisoner of war info', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={Object.assign({}, formData, {
+        data={{
+          ...formData,
           newDisabilities: [{ condition: 'ASHD' }, { condition: 'scars' }],
-        })}
+        }}
       />,
     );
 
@@ -152,7 +153,7 @@ describe('Prisoner of war info', () => {
     expect(form.find('input[type="checkbox"]').length).to.equal(0);
     const output = form.render().text();
     expect(output).to.not.contain(
-      'Which of your new conditions was caused or affected by your POW experience?',
+      'Which of your conditions is connected to your POW experience? ',
     );
     form.unmount();
   });

@@ -10,7 +10,7 @@ import set from '../../../../utilities/data/set';
 import { FormPage } from '../../../src/js/containers/FormPage';
 
 // Build our mock objects
-function makeRoute(obj) {
+function makeRoute(obj, pageConfig = {}) {
   return {
     pageConfig: {
       pageKey: 'testPage',
@@ -18,6 +18,7 @@ function makeRoute(obj) {
       uiSchema: {},
       errorMessages: {},
       title: '',
+      ...pageConfig,
     },
     pageList: [
       {
@@ -179,6 +180,7 @@ describe('Schemaform <FormPage>', () => {
   describe('should handle', () => {
     let tree;
     let setData;
+    let route;
     let router;
     let onSubmit;
     beforeEach(() => {
@@ -187,15 +189,16 @@ describe('Schemaform <FormPage>', () => {
       router = {
         push: sinon.spy(),
       };
+      route = makeRoute({}, { onContinue: sinon.spy() });
 
       tree = SkinDeep.shallowRender(
         <FormPage
           router={router}
           setData={setData}
-          form={makeForm()}
+          form={makeForm({ data: { test: true } })}
           onSubmit={onSubmit}
           location={location}
-          route={makeRoute()}
+          route={route}
         />,
       );
     });
@@ -222,6 +225,15 @@ describe('Schemaform <FormPage>', () => {
       tree.getMountedInstance().goToPath('/last-page');
 
       expect(router.push.calledWith('/last-page')).to.be.true;
+    });
+    it('onContinue', () => {
+      tree.getMountedInstance().onContinue();
+
+      expect(route.pageConfig.onContinue.called).to.be.true;
+      expect(route.pageConfig.onContinue.args[0][0]).to.deep.equal({
+        test: true,
+      });
+      expect(route.pageConfig.onContinue.args[0][1]).to.deep.equal(setData);
     });
   });
 
@@ -311,6 +323,79 @@ describe('Schemaform <FormPage>', () => {
       renderForm({ test: 'test' });
       tree.getMountedInstance().goBack({ formData: { test: 'test' } });
       expect(router.push.calledWith('last-page')).to.be.true;
+    });
+  });
+
+  describe('should allow for urlParams on goNextPath or goPreviousPath', () => {
+    let tree;
+    let setData;
+    let router;
+    let onSubmit;
+    const baseForm = makeForm();
+    const testPageConfig = {
+      schema: {
+        type: 'object',
+        properties: {
+          test: { type: 'string' },
+        },
+      },
+      uiSchema: {},
+      onNavForward: ({ goNextPath, urlParams }) => {
+        goNextPath(urlParams);
+      },
+      onNavBack: ({ goPreviousPath, urlParams }) => {
+        goPreviousPath(urlParams);
+      },
+    };
+
+    function renderForm(data) {
+      tree = SkinDeep.shallowRender(
+        <FormPage
+          router={router}
+          setData={setData}
+          form={{
+            pages: {
+              firstPage: baseForm.pages.firstPage,
+              testPage: testPageConfig,
+              lastPage: baseForm.pages.lastPage,
+            },
+            data,
+          }}
+          onSubmit={onSubmit}
+          location={{
+            pathname: '/testing',
+            query: {
+              mode: 'add',
+            },
+          }}
+          route={makeRoute({
+            pageConfig: {
+              pageKey: 'testPage',
+              ...testPageConfig,
+            },
+          })}
+        />,
+      );
+    }
+
+    beforeEach(() => {
+      setData = sinon.spy();
+      onSubmit = sinon.spy();
+      router = {
+        push: sinon.spy(),
+      };
+    });
+
+    it('onNavForward goNextPath works correctly', () => {
+      renderForm({ test: '' });
+      tree.getMountedInstance().onSubmit({ formData: { test: '' } });
+      expect(router.push.calledWith('/next-page?mode=add')).to.be.true;
+    });
+
+    it('onNavBack goPreviousPath works correctly', () => {
+      renderForm({ test: '' });
+      tree.getMountedInstance().goBack({ formData: { test: '' } });
+      expect(router.push.calledWith('/first-page?mode=add')).to.be.true;
     });
   });
 
@@ -888,6 +973,65 @@ describe('Schemaform <FormPage>', () => {
       await waitFor(() => {
         expect(document.activeElement.tagName).to.eq('H3');
       });
+    });
+
+    it('can receive ContentBeforeButtons that has access to setFormData and router', () => {
+      const setData = sinon.spy();
+      const router = {
+        push: sinon.spy(),
+      };
+      const route = makeRoute({
+        pageConfig: {
+          pageKey: 'nextPage',
+          schema: {},
+          uiSchema: {},
+          errorMessages: {},
+          title: '',
+          // eslint-disable-next-line react/prop-types
+          ContentBeforeButtons: ({ router: r, formData, setFormData }) => (
+            <>
+              <va-button
+                type="button"
+                onClick={e => {
+                  e.preventDefault();
+                  setFormData({
+                    ...formData,
+                    test: true,
+                  });
+                }}
+              >
+                set data
+              </va-button>
+              <va-button
+                type="button"
+                onClick={e => {
+                  e.preventDefault();
+                  r.push('/testing');
+                }}
+              >
+                go
+              </va-button>
+            </>
+          ),
+        },
+      });
+
+      const { getByText } = render(
+        <FormPage
+          router={router}
+          form={makeForm()}
+          setData={setData}
+          route={route}
+          location={{ pathname: '/next-page' }}
+        />,
+      );
+
+      fireEvent.click(getByText(/set data/));
+      expect(setData.firstCall.args[0]).to.eql({
+        test: true,
+      });
+      fireEvent.click(getByText(/go/));
+      expect(router.push.calledWith('/testing')).to.be.true;
     });
   });
 });

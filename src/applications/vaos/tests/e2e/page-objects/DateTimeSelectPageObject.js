@@ -1,6 +1,19 @@
+import moment from 'moment';
+import { getTimezoneByFacilityId } from '../../../utils/timezone';
 import PageObject from './PageObject';
 
 export class DateTimeSelectPageObject extends PageObject {
+  assertDateSelected(date, facilityId = 983) {
+    const timezone = getTimezoneByFacilityId(facilityId);
+    const d = moment(date).tz(timezone);
+
+    cy.findByRole('radio', {
+      name: `${d.format('h:mm')} ${d.format('A')} option selected`,
+    });
+
+    return this;
+  }
+
   assertRequestLink({ exist = true } = {}) {
     cy.get('va-alert[status=warning]')
       .as('alert')
@@ -21,12 +34,31 @@ export class DateTimeSelectPageObject extends PageObject {
   }
 
   clickNextMonth() {
+    const todayDate = moment().date();
+    const endOfMonthDate = moment()
+      .clone()
+      .endOf('month')
+      .date();
+
     cy.contains('button', 'Next')
       .as('button')
       .should('not.be.disabled')
       .focus();
     cy.get('@button').click();
 
+    if (todayDate <= endOfMonthDate) cy.get('@button').click();
+
+    return this;
+  }
+
+  compareDatesClickNextMonth(firstDate, secondDate) {
+    if (firstDate.month() < secondDate.month()) {
+      cy.contains('button', 'Next')
+        .as('button')
+        .should('not.be.disabled')
+        .focus();
+      cy.get('@button').click();
+    }
     return this;
   }
 
@@ -34,10 +66,30 @@ export class DateTimeSelectPageObject extends PageObject {
     return this;
   }
 
-  selectFirstAvailableDate() {
+  selectDate(date) {
+    // console.log(typeof date, date instanceof moment)
     cy.get(
-      '.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])',
-    ).click({ waitForAnimations: true });
+      `.vaos-calendar__calendars button[id^="date-cell-${date.format(
+        'YYYY-MM-DD',
+      )}"]:not([disabled])`,
+    )
+      .then($button => {
+        return $button[0];
+      })
+      .click({ waitForAnimations: true });
+    cy.get(
+      '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
+    ).click();
+
+    return this;
+  }
+
+  selectFirstAvailableDate() {
+    cy.get('.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])')
+      .then($button => {
+        return $button[0];
+      })
+      .click({ waitForAnimations: true });
     cy.get(
       '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
     ).click();

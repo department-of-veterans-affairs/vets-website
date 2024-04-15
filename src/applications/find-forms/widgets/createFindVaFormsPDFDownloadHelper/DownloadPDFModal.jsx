@@ -44,6 +44,7 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
         }}
         modalTitle="Download this PDF and open it in Acrobat Reader"
         visible={isOpen}
+        uswds
       >
         <>
           <p>
@@ -55,23 +56,20 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
             If you just want to fill out a paper copy, open the PDF in your
             browser and print it from there.
           </p>{' '}
-          <a href="https://get.adobe.com/reader/" rel="noopener noreferrer">
+          <a
+            href="https://get.adobe.com/reader/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Get Acrobat Reader for free from Adobe
           </a>
           <a
             href={pdfUrl}
             className="usa-button vads-u-margin-top--2"
+            download
             role="button"
             rel="noreferrer noopener"
-            onClick={() => {
-              recordEvent({
-                event: 'int-modal-click',
-                'modal-status': 'open',
-                'modal-title':
-                  'Download this PDF and open it in Acrobat Reader',
-                'modal-primaryButton-text': `Download VA Form ${pdfSelected}`,
-              });
-            }}
+            target="_blank"
           >
             Download VA Form {pdfSelected}
           </a>

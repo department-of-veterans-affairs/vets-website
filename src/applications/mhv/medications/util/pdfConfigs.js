@@ -1,5 +1,11 @@
-import { processList } from '../../medical-records/util/helpers';
-import { dateFormat, validateField } from './helpers';
+import {
+  createMedicationDescription,
+  createNoDescriptionText,
+  createOriginalFillRecord,
+  dateFormat,
+  processList,
+  validateField,
+} from './helpers';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
@@ -60,7 +66,12 @@ export const buildNonVAPrescriptionPDFList = prescription => {
             },
             {
               title: 'Provider notes',
-              value: validateField(prescription.remarks),
+              value: validateField(
+                (prescription.remarks ?? '') +
+                  (prescription.disclaimer
+                    ? ` ${prescription.disclaimer}`
+                    : ''),
+              ),
               inline: true,
             },
           ],
@@ -75,8 +86,6 @@ export const buildNonVAPrescriptionPDFList = prescription => {
  */
 export const buildPrescriptionsPDFList = prescriptions => {
   return prescriptions?.map(rx => {
-    // Image (to be added later)
-    // const cmopNdcNumber = rx.rxRfRecords.length && rx.rxRfRecords[0][1]?.[0]?.cmopNdcNumber || rx.cmopNdcNumber;
     if (rx?.prescriptionSource === 'NV') {
       return {
         ...buildNonVAPrescriptionPDFList(rx)[0],
@@ -164,16 +173,26 @@ export const buildPrescriptionsPDFList = prescriptions => {
               value: validateField(rx.quantity),
               inline: true,
             },
-            // {
-            //   title: 'Image of the medication or supply',
-            //   value: !!cmopNdcNumber ? { type: 'image', value: getImageUri(cmopNdcNumber) } : 'Image not available',
-            //   inline: false,
-            // },
-            // {
-            //   title: 'Note',
-            //   value: 'This image is from your last refill of this medication.',
-            //   inline: true,
-            // }
+            ...(rx.prescriptionImage
+              ? [
+                  {
+                    title: 'Image of the medication or supply:',
+                    value: {
+                      isBase64: true,
+                      type: 'image',
+                      value: rx.prescriptionImage,
+                      options: { width: 182.75, height: 182.75 },
+                    },
+                    inline: false,
+                  },
+                  {
+                    title: 'Note',
+                    value:
+                      'This image is from your last refill of this medication.',
+                    inline: true,
+                  },
+                ]
+              : []),
           ],
         },
       ],
@@ -192,18 +211,18 @@ export const buildAllergiesPDFList = allergies => {
         {
           items: [
             {
-              title: 'Reaction',
+              title: 'Date entered',
+              value: validateField(item.date),
+              inline: true,
+            },
+            {
+              title: 'Signs and symptoms',
               value: processList(item.reaction),
               inline: true,
             },
             {
               title: 'Type of allergy',
               value: validateField(item.type),
-              inline: true,
-            },
-            {
-              title: 'Date entered',
-              value: validateField(item.date),
               inline: true,
             },
             {
@@ -231,7 +250,14 @@ export const buildAllergiesPDFList = allergies => {
 /**
  * Return VA prescription PDF list
  */
-export const buildVAPrescriptionPDFList = prescription => {
+export const buildVAPrescriptionPDFList = (
+  prescription,
+  prescriptionImage = null,
+) => {
+  const refillHistory = [...(prescription?.rxRfRecords || [])];
+  const originalFill = createOriginalFillRecord(prescription);
+  refillHistory.push(originalFill);
+
   return [
     {
       header: 'About your prescription',
@@ -243,7 +269,7 @@ export const buildVAPrescriptionPDFList = prescription => {
               title: 'Last filled on',
               value: dateFormat(
                 (prescription.rxRfRecords?.length &&
-                  prescription.rxRfRecords?.[0]?.[1].dispensedDate) ||
+                  prescription.rxRfRecords[0].dispensedDate) ||
                   prescription.dispensedDate,
                 'MMMM D, YYYY',
               ),
@@ -305,6 +331,7 @@ export const buildVAPrescriptionPDFList = prescription => {
     },
     {
       header: 'About this medication or supply',
+      sectionSeparators: false,
       sections: [
         {
           items: [
@@ -323,7 +350,90 @@ export const buildVAPrescriptionPDFList = prescription => {
               value: validateField(prescription.quantity),
               inline: true,
             },
+            ...(prescriptionImage
+              ? [
+                  {
+                    title: 'Image of the medication or supply:',
+                    value: {
+                      isBase64: true,
+                      type: 'image',
+                      value: prescriptionImage,
+                      options: { width: 182.75, height: 182.75 },
+                    },
+                    inline: false,
+                  },
+                  {
+                    title: 'Note',
+                    value:
+                      'This image is from your last refill of this medication.',
+                    inline: true,
+                  },
+                ]
+              : []),
           ],
+        },
+      ],
+    },
+    {
+      header: 'Refill history',
+      sectionSeparators: true,
+      sectionSeperatorOptions: {
+        spaceFromEdge: 16,
+        linesAbove: 0,
+        linesBelow: 1,
+      },
+      sections: [
+        {
+          items: refillHistory
+            .map((entry, i) => {
+              const index = refillHistory.length - i - 1;
+              const phone =
+                entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+              const description =
+                createMedicationDescription(entry) ||
+                createNoDescriptionText(phone);
+              return [
+                {
+                  value: [
+                    {
+                      value: `${
+                        index === 0 ? 'First fill' : `Refill ${index}`
+                      }`,
+                      weight: 'bold',
+                      itemSeperator: index !== refillHistory.length - 1,
+                      itemSeperatorOptions: {
+                        spaceFromEdge: 16,
+                        linesAbove: 0.5,
+                        linesBelow: 0.7,
+                      },
+                      font: 'Bitter-Bold',
+                      paragraphGap: 4.75,
+                    },
+                  ],
+                  isRich: true,
+                },
+                {
+                  title: 'Description',
+                  value: description,
+                  inline: true,
+                },
+                {
+                  title: `Filled by pharmacy on`,
+                  value: entry?.dispensedDate
+                    ? dateFormat(entry.dispensedDate)
+                    : 'None noted',
+                  inline: true,
+                },
+                {
+                  title: `Shipped on`,
+                  value: entry?.trackingList?.[0]?.completeDateTime
+                    ? dateFormat(entry.trackingList[0].completeDateTime)
+                    : 'None noted',
+                  inline: true,
+                },
+              ];
+            })
+            .flat(),
         },
       ],
     },

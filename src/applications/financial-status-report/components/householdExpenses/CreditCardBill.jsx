@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { isValidCurrency } from '../../utils/validations';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const defaultRecord = [
   {
@@ -151,27 +152,26 @@ const CreditCardBill = props => {
     },
   };
 
+  const addCancelButtonsText =
+    creditCardBills.length === index ? 'Add' : 'Update';
+
   const renderAddCancelButtons = () => {
     return (
       <>
-        <button
-          type="button"
-          id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
-          onClick={handlers.onCancel}
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          id="submit"
-          className="vads-u-width--auto usa-button-primary"
-          onClick={handlers.onUpdate}
-        >
-          {`${
-            creditCardBills.length === index ? 'Add' : 'Update'
-          } a credit card bill`}
-        </button>
+        <ButtonGroup
+          buttons={[
+            {
+              label: 'Cancel',
+              onClick: handlers.onCancel,
+              isSecondary: true,
+            },
+            {
+              label: `${addCancelButtonsText} credit card bill`,
+              onClick: handlers.onUpdate,
+              isSubmitting: true,
+            },
+          ]}
+        />
       </>
     );
   };
@@ -179,22 +179,20 @@ const CreditCardBill = props => {
   const renderContinueBackButtons = () => {
     return (
       <>
-        <button
-          type="button"
-          id="cancel"
-          className="usa-button-secondary vads-u-width--auto"
-          onClick={handlers.onCancel}
-        >
-          Back
-        </button>
-        <button
-          type="button"
-          id="submit"
-          className="vads-u-width--auto"
-          onClick={updateFormData}
-        >
-          Continue
-        </button>
+        <ButtonGroup
+          buttons={[
+            {
+              label: 'Back',
+              onClick: handlers.onCancel,
+              isSecondary: true,
+            },
+            {
+              label: 'Continue',
+              onClick: updateFormData,
+              isSubmitting: true,
+            },
+          ]}
+        />
       </>
     );
   };
@@ -206,57 +204,62 @@ const CreditCardBill = props => {
           <h3 className="vads-u-margin--0">
             {`${
               creditCardBills.length === index ? 'Add' : 'Update'
-            } a credit card bill`}
+            } credit card bill`}
           </h3>
           <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
             Enter your credit card bill’s information.
           </p>
         </legend>
-        <div className="input-size-3 no-wrap">
-          <va-number-input
-            error={(submitted && unpaidBalanceError) || null}
-            hint={null}
-            currency
-            required
-            min={0}
-            max={MAXIMUM_BILL_AMOUNT}
-            inputmode="numeric"
-            label="Unpaid balance"
-            name="unpaidBalance"
-            id="unpaidBalance"
-            onInput={handleUnpaidBalanceChange}
-            value={creditCardBillRecord.unpaidBalance}
-          />
-        </div>
-        <div className="input-size-3 no-wrap">
-          <va-number-input
-            error={(submitted && minMonthlyPaymentError) || null}
-            hint={null}
-            required
-            currency
-            inputmode="numeric"
-            min={0}
-            max={MAXIMUM_BILL_AMOUNT}
-            label="Minimum monthly payment amount"
-            name="amountDueMonthly"
-            id="amountDueMonthly"
-            onInput={handleMinMonthlyPaymentChange}
-            value={creditCardBillRecord.amountDueMonthly}
-          />
-        </div>
-        <div className="input-size-3 no-wrap">
-          <va-number-input
-            error={(submitted && amountOverdueError) || null}
-            hint={null}
-            currency
-            inputmode="numeric"
-            label="Amount overdue"
-            name="amountPastDue"
-            id="amountPastDue"
-            onInput={handleAmountOverdueChange}
-            value={creditCardBillRecord.amountPastDue}
-          />
-        </div>
+
+        <va-number-input
+          error={(submitted && unpaidBalanceError) || null}
+          hint={null}
+          currency
+          required
+          min={0}
+          max={MAXIMUM_BILL_AMOUNT}
+          inputmode="numeric"
+          label="Unpaid balance"
+          name="unpaidBalance"
+          id="unpaidBalance"
+          onInput={handleUnpaidBalanceChange}
+          value={creditCardBillRecord.unpaidBalance}
+          width="md"
+          uswds
+        />
+
+        <va-number-input
+          error={(submitted && minMonthlyPaymentError) || null}
+          hint={null}
+          required
+          currency
+          inputmode="numeric"
+          min={0}
+          max={MAXIMUM_BILL_AMOUNT}
+          label="Minimum monthly payment amount"
+          name="amountDueMonthly"
+          id="amountDueMonthly"
+          onInput={handleMinMonthlyPaymentChange}
+          value={creditCardBillRecord.amountDueMonthly}
+          width="md"
+          uswds
+        />
+
+        <va-number-input
+          error={(submitted && amountOverdueError) || null}
+          hint={null}
+          currency
+          inputmode="numeric"
+          label="Amount overdue"
+          name="amountPastDue"
+          id="amountPastDue"
+          onInput={handleAmountOverdueChange}
+          value={creditCardBillRecord.amountPastDue}
+          width="md"
+          class="vads-u-margin-bottom--4"
+          uswds
+        />
+
         <p>
           {creditCardBills.length > 0
             ? renderAddCancelButtons()

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import * as addressUtils from '@@profile/util/contact-information/addressUtils';
+import * as addressUtils from '@@vap-svc/util/contact-information/addressUtils';
 import {
   FIELD_NAMES,
   FIELD_TITLES,

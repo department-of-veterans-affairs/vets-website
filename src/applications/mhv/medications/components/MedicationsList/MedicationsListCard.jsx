@@ -1,17 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dispStatusForRefillsLeft } from '../../util/constants';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
+import { setPrescriptionDetails } from '../../actions/prescriptions';
+import { selectRefillContentFlag } from '../../util/selectors';
 
-const MedicationsListCard = props => {
+const MedicationsListCard = ({ rx }) => {
   const dispatch = useDispatch();
-  const location = useLocation();
-  const { rx } = props;
+  const pagination = useSelector(
+    state => state.rx.prescriptions?.prescriptionsPagination,
+  );
+  const showRefillContent = useSelector(selectRefillContentFlag);
   let showRefillRemaining = false;
 
   if (dispStatusForRefillsLeft.includes(rx.dispStatus)) {
@@ -25,29 +29,19 @@ const MedicationsListCard = props => {
   };
   const handleLinkClick = () => {
     dispatch(
-      setBreadcrumbs(
-        [
-          {
-            url: '/my-health/about-medications',
-            label: 'About medications',
-          },
-          {
-            url: `/my-health/medications${location.pathname}`,
-            label: 'Medications',
-          },
-        ],
-        {
-          url: `/my-health/medications/prescription/${rx.prescriptionId}`,
-          label:
-            rx?.prescriptionName ||
-            (rx?.dispStatus === 'Active: Non-VA' ? rx?.orderableItem : ''),
-        },
-      ),
+      setBreadcrumbs({
+        url: `/?page=${pagination?.currentPage || 1}`,
+        label: 'Medications',
+      }),
     );
+    dispatch(setPrescriptionDetails(rx));
   };
   return (
-    <div className="rx-card-container vads-u-background-color--white vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--gray-medium no-break">
-      <div className="rx-card-detials vads-u-padding--2">
+    <div className="no-print rx-card-container vads-u-background-color--white vads-u-margin-y--2 vads-u-border--1px vads-u-border-color--gray-medium no-break">
+      <div
+        className="rx-card-details vads-u-padding--2"
+        data-testid="rx-card-info"
+      >
         <h3
           aria-describedby="status status-description fill-or-refill-button"
           className="vads-u-font-weight--bold"
@@ -55,22 +49,20 @@ const MedicationsListCard = props => {
         >
           <Link
             data-testid="medications-history-details-link"
-            className="vads-u-margin-y--0p5 vads-u-font-size--h4 no-print"
+            className="vads-u-margin-y--0p5 vads-u-font-size--h4"
             to={`/prescription/${rx.prescriptionId}`}
             onClick={handleLinkClick}
           >
             {rx.prescriptionName ||
               (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
           </Link>
-          <p
-            className="vads-u-margin-y--0p5 vads-u-font-size--h4 print-only"
-            to={`/prescription/${rx.prescriptionId}`}
-          >
-            {rx.dispStatus === 'Active: Non-VA'
-              ? rx.orderableItem
-              : rx.prescriptionName}
-          </p>
         </h3>
+        {rx.dispStatus !== 'Unknown' &&
+          rx.dispStatus !== 'Active: Non-VA' && (
+            <div data-testid="rx-number">
+              Prescription number: {rx.prescriptionNumber}
+            </div>
+          )}
         {rx && <LastFilledInfo {...rx} />}
         {showRefillRemaining && refillsRemaining()}
         {rx.dispStatus !== 'Unknown' && (
@@ -85,7 +77,7 @@ const MedicationsListCard = props => {
           </div>
         )}
         {rx && <ExtraDetails {...rx} />}
-        {rx && <FillRefillButton {...rx} />}
+        {!showRefillContent && rx && <FillRefillButton {...rx} />}
       </div>
     </div>
   );

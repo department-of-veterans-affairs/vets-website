@@ -3,7 +3,7 @@ import { generateMockUser } from './mocks/user';
 
 const selectors = {
   menu: '#login-root button[aria-controls="account-menu"]',
-  signOut: '#account-menu ul li:nth-child(4) a',
+  signOut: '#account-menu ul li:nth-child(6) a',
 };
 
 describe('User Nav Test', () => {
@@ -13,6 +13,7 @@ describe('User Nav Test', () => {
       cy.login(mockUser);
       cy.visit('/my-va');
       cy.title().should('contain', 'My VA | Veterans Affairs');
+      cy.injectAxeThenAxeCheck();
       // Skip over an API call that results in a network error.
       Cypress.on('uncaught:exception', () => false);
 

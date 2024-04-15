@@ -14,8 +14,8 @@ import { content } from '../content/addIssue';
 import {
   CONTESTABLE_ISSUES_PATH,
   REVIEW_AND_SUBMIT,
-  MAX_LENGTH,
   REVIEW_ISSUES,
+  MAX_LENGTH,
   SELECTED,
 } from '../constants';
 import { calculateIndexOffset, getSelected } from '../utils/issues';
@@ -45,11 +45,10 @@ const AddIssue = ({
   const currentData = allIssues[index] || {};
 
   const addOrEdit = currentData.issue ? 'edit' : 'add';
-
-  const onReviewPage = window.sessionStorage.getItem(REVIEW_ISSUES) === 'true';
-  const returnPath = onReviewPage
-    ? REVIEW_AND_SUBMIT
-    : `/${CONTESTABLE_ISSUES_PATH}`;
+  const returnPath =
+    window.sessionStorage.getItem(REVIEW_ISSUES) === 'true'
+      ? REVIEW_AND_SUBMIT
+      : `/${CONTESTABLE_ISSUES_PATH}`;
 
   const nameValidations = [
     missingIssueName,
@@ -75,6 +74,7 @@ const AddIssue = ({
     issueDate || '',
     data,
   );
+
   // check name & date combo uniqueness
   const uniqueErrorMessage = checkValidations(uniqueValidations, '', {
     contestedIssues,
@@ -87,7 +87,7 @@ const AddIssue = ({
   });
 
   const showIssueNameError = nameErrorMessage[0] || uniqueErrorMessage[0];
-  const [invalidDate = '', invalidDateParts = ''] = dateErrorMessage || [];
+  const [invalidDate = '', invalidDateParts = ''] = dateErrorMessage;
 
   const isInvalid = part =>
     invalidDateParts.includes(part) || invalidDateParts.includes('other');
@@ -182,6 +182,7 @@ const AddIssue = ({
           onBlur={handlers.onInputBlur}
           error={((submitted || inputDirty) && showIssueNameError) || null}
           message-aria-describedby={content.name.hintText}
+          uswds
         >
           {content.name.hint}
         </VaTextInput>
@@ -201,6 +202,8 @@ const AddIssue = ({
           invalidDay={isInvalid('day')}
           invalidYear={isInvalid('year')}
           aria-describedby="decision-date-description"
+          month-select={false}
+          uswds
         />
         <p>
           <va-button
@@ -209,12 +212,14 @@ const AddIssue = ({
             class="vads-u-width--auto"
             onClick={handlers.onCancel}
             text={content.button.cancel}
+            uswds
           />
           <va-button
             id="submit"
             class="vads-u-width--auto"
             onClick={handlers.onUpdate}
             text={content.button[addOrEdit]}
+            uswds
           />
         </p>
       </fieldset>
@@ -232,7 +237,6 @@ AddIssue.propTypes = {
     maxNameLength: PropTypes.func,
     validateDate: PropTypes.func,
   }),
-  onReviewPage: PropTypes.bool,
 };
 
 export default AddIssue;

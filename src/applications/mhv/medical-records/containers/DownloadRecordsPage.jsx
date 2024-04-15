@@ -1,12 +1,38 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import PropTypes from 'prop-types';
+import {
+  updatePageTitle,
+  generatePdfScaffold,
+  formatName,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { updatePageTitle } from '../../shared/util/helpers';
 import { pageTitles } from '../util/constants';
+import { getNameDateAndTime, makePdf, generateTextFile } from '../util/helpers';
+import { getTxtContent } from '../util/txtHelpers/downloadRecords';
+import { getBlueButtonReportData } from '../actions/blueButtonReport';
+import { generateBlueButtonData } from '../util/pdfHelpers/blueButton';
 
-const DownloadRecordsPage = () => {
+const DownloadRecordsPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user.profile);
+  const name = formatName(user.userFullName);
+  const dob = formatDateLong(user.dob);
+  const [blueButtonRequested, setBlueButtonRequested] = useState(false);
+  const [downloadType, setDownloadType] = useState('');
+
+  const labsAndTests = useSelector(
+    state => state.mr.labsAndTests.labsAndTestsList,
+  );
+  const notes = useSelector(
+    state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
+  );
+  const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
+  const allergies = useSelector(state => state.mr.allergies.allergiesList);
+  const conditions = useSelector(state => state.mr.conditions.conditionsList);
+  const vitals = useSelector(state => state.mr.vitals.vitalsList);
 
   useEffect(
     () => {
@@ -23,6 +49,143 @@ const DownloadRecordsPage = () => {
       updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
     },
     [dispatch],
+  );
+
+  const allAreDefined = arrayOfArrays => {
+    return arrayOfArrays.every(arr => !!arr?.length);
+  };
+
+  const generatePdf = useCallback(
+    async () => {
+      setDownloadType('pdf');
+      setBlueButtonRequested(true);
+      if (
+        !allAreDefined([
+          labsAndTests,
+          notes,
+          vaccines,
+          allergies,
+          conditions,
+          vitals,
+        ])
+      ) {
+        dispatch(getBlueButtonReportData());
+      } else {
+        setBlueButtonRequested(false);
+        const recordData = {
+          labsAndTests,
+          notes,
+          vaccines,
+          allergies,
+          conditions,
+          vitals,
+        };
+        const title = 'Blue Button report';
+        const subject = 'VA Medical Record';
+        const scaffold = generatePdfScaffold(user, title, subject);
+        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
+        const pdfData = {
+          recordSets: generateBlueButtonData(recordData),
+          ...scaffold,
+          name,
+          dob,
+        };
+        makePdf(pdfName, pdfData, title, runningUnitTest, 'blueButtonReport');
+      }
+    },
+    [
+      allergies,
+      conditions,
+      dispatch,
+      dob,
+      labsAndTests,
+      name,
+      notes,
+      runningUnitTest,
+      user,
+      vaccines,
+      vitals,
+    ],
+  );
+
+  /**
+   *  Generate text function
+   */
+  const generateTxt = useCallback(
+    async () => {
+      setDownloadType('txt');
+      setBlueButtonRequested(true);
+      if (
+        !allAreDefined([
+          labsAndTests,
+          notes,
+          vaccines,
+          allergies,
+          conditions,
+          vitals,
+        ])
+      ) {
+        dispatch(getBlueButtonReportData());
+      } else {
+        setBlueButtonRequested(false);
+        const recordData = {
+          labsAndTests,
+          notes,
+          vaccines,
+          allergies,
+          conditions,
+          vitals,
+        };
+        const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
+        const content = getTxtContent(recordData, user);
+
+        generateTextFile(content, pdfName, user);
+      }
+    },
+    [
+      allergies,
+      conditions,
+      dispatch,
+      labsAndTests,
+      notes,
+      user,
+      vaccines,
+      vitals,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (
+        allAreDefined([
+          labsAndTests,
+          notes,
+          vaccines,
+          allergies,
+          conditions,
+          vitals,
+        ]) &&
+        blueButtonRequested
+      ) {
+        if (downloadType === 'pdf') {
+          generatePdf();
+        } else {
+          generateTxt();
+        }
+      }
+    },
+    [
+      labsAndTests,
+      notes,
+      vaccines,
+      allergies,
+      conditions,
+      vitals,
+      generatePdf,
+      generateTxt,
+      downloadType,
+      blueButtonRequested,
+    ],
   );
 
   return (
@@ -63,7 +226,12 @@ const DownloadRecordsPage = () => {
           </li>
         </ul>
 
-        <button className="link-button" type="button">
+        <button
+          className="link-button"
+          type="button"
+          onClick={generatePdf}
+          data-testid="download-blue-button-pdf"
+        >
           <i
             className="fas fa-download vads-u-margin-right--0p5"
             aria-hidden="true"
@@ -71,7 +239,12 @@ const DownloadRecordsPage = () => {
           Download PDF document
         </button>
         <br />
-        <button className="link-button" type="button">
+        <button
+          className="link-button"
+          type="button"
+          onClick={generateTxt}
+          data-testid="download-blue-button-txt"
+        >
           <i
             className="fas fa-download vads-u-margin-right--0p5"
             aria-hidden="true"
@@ -95,3 +268,7 @@ const DownloadRecordsPage = () => {
 };
 
 export default DownloadRecordsPage;
+
+DownloadRecordsPage.propTypes = {
+  runningUnitTest: PropTypes.bool,
+};

@@ -11,6 +11,7 @@ describe('Prescriptions reducer', () => {
   function reduce(action, state = initialState) {
     return prescriptionsReducer(state, action);
   }
+
   it('should not modify state if an unrecognized action is passed', () => {
     const state = reduce({
       type: 'INVALID_ACTION',
@@ -34,17 +35,31 @@ describe('Prescriptions reducer', () => {
     });
     expect(state).to.deep.equal(rxState);
   });
-  it('should change prescriptionDetails when GET_DETIALS action is passed', () => {
+
+  it('should change prescriptionDetails when GET_DETAILS action is passed', () => {
     const rxState = {
       ...initialState,
       prescriptionDetails: prescriptionDetails.data.attributes,
     };
     const state = reduce({
       type: Actions.Prescriptions.GET_DETAILS,
-      response: prescriptionDetails,
+      prescription: prescriptionDetails.data.attributes,
     });
     expect(state).to.deep.equal(rxState);
   });
+
+  it('should change prescriptionDetails when SET_DETAILS action is passed', () => {
+    const rxState = {
+      ...initialState,
+      prescriptionDetails: prescriptionDetails.data.attributes,
+    };
+    const state = reduce({
+      type: Actions.Prescriptions.GET_DETAILS,
+      prescription: prescriptionDetails.data.attributes,
+    });
+    expect(state).to.deep.equal(rxState);
+  });
+
   it('should add error:undefined and sucess:true properties when FILL action is passed', () => {
     const initialStateWithRxList = {
       ...initialState,
@@ -67,6 +82,7 @@ describe('Prescriptions reducer', () => {
     expect(state.prescriptionsList[indexOfRxFilled].success).to.equal(true);
     expect(state.prescriptionsList[indexOfRxFilled].error).to.equal(undefined);
   });
+
   it('should add error:error and sucess:undefined properties when FILL_ERROR action is passed', () => {
     const initialStateWithRxList = {
       ...initialState,

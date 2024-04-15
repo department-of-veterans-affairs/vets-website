@@ -1,3 +1,6 @@
+/* eslint-disable react/sort-prop-types */
+/* eslint-disable react/static-property-placement */
+/* eslint-disable @department-of-veterans-affairs/use-workspace-imports */
 // Dependencies.
 import React, { Component } from 'react';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -11,7 +14,13 @@ import { focusElement } from 'platform/utilities/ui';
 import SearchResult from '../../components/SearchResult';
 import { fetchResultsThunk, toggleSearchResultsToolTip } from '../../actions';
 import { getYellowRibbonAppState } from '../../helpers/selectors';
-import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
+import {
+  CONTRIBUTION_AMOUNT_SUMMARY_TEXT,
+  NUMBER_OF_STUDENTS_SUMMARY_TEXT,
+  TOOL_TIP_CONTENT,
+  TOOL_TIP_LABEL,
+} from '../../constants';
+import { getCurrentAcademicYear, titleCase } from '../../helpers';
 
 export class SearchResults extends Component {
   static propTypes = {
@@ -46,18 +55,85 @@ export class SearchResults extends Component {
     }
   }
 
+  getSearchParams = (searchString = window.location.search) => {
+    // Derive the current name params.
+    const queryParams = new URLSearchParams(searchString);
+
+    // Derive and return the state values from our query params.
+    return {
+      name: queryParams.get('name') || '',
+      stateOrTerritory: queryParams.get('state') || '',
+      city: queryParams.get('city') || '',
+      contributionAmount: queryParams.get('contributionAmount') || '',
+      numberOfStudents: queryParams.get('numberOfStudents') || '',
+    };
+  };
+
+  deriveAdditionalParamsString = () => {
+    const {
+      name,
+      stateOrTerritory,
+      city,
+      contributionAmount,
+      numberOfStudents,
+    } = this.getSearchParams();
+
+    const searchParams = [
+      { key: 'name', value: name, transform: val => titleCase(val) },
+      { key: 'city', value: city, transform: val => titleCase(val) },
+      { key: 'stateOrTerritory', value: stateOrTerritory },
+      {
+        key: 'contributionAmount',
+        value: contributionAmount,
+        text: CONTRIBUTION_AMOUNT_SUMMARY_TEXT,
+      },
+      {
+        key: 'numberOfStudents',
+        value: numberOfStudents,
+        text: NUMBER_OF_STUDENTS_SUMMARY_TEXT,
+      },
+    ];
+
+    const additionalSearchParams = searchParams.reduce(
+      (acc, { key, value, transform, text }) => {
+        if (value) {
+          const formattedValue = transform ? transform(value) : value;
+          const displayText = text || `"${formattedValue}"`;
+          acc.push(<strong key={key}>{displayText}</strong>);
+        }
+        return acc;
+      },
+      [],
+    );
+
+    // Combine elements with commas
+    const additionalParamsJsx = additionalSearchParams.reduce(
+      (prev, curr, index) => [
+        ...prev,
+        index > 0 ? ', ' : '', // Add comma separator if not the first element
+        curr,
+      ],
+      [],
+    );
+
+    if (additionalParamsJsx.length > 0) {
+      return <>: {additionalParamsJsx}</>;
+    }
+
+    return null;
+  };
+
   onPageSelect = page => {
+    // eslint-disable-next-line react/prop-types
     const { fetchResults, perPage } = this.props;
 
-    // Derive the current name params.
-    const queryParams = new URLSearchParams(window.location.search);
-
-    // Derive the state values from our query params.
-    const city = queryParams.get('city') || '';
-    const contributionAmount = queryParams.get('contributionAmount') || '';
-    const name = queryParams.get('name') || '';
-    const numberOfStudents = queryParams.get('numberOfStudents') || '';
-    const state = queryParams.get('state') || '';
+    const {
+      city,
+      contributionAmount,
+      name,
+      numberOfStudents,
+      stateOrTerritory,
+    } = this.getSearchParams();
 
     // Refetch results.
     fetchResults({
@@ -68,7 +144,7 @@ export class SearchResults extends Component {
       numberOfStudents,
       page,
       perPage,
-      state,
+      state: stateOrTerritory,
     });
 
     // Scroll to top.
@@ -101,15 +177,13 @@ export class SearchResults extends Component {
   };
 
   recordEventOnSearchResultClick = (school = {}) => () => {
-    // Derive the current name params.
-    const queryParams = new URLSearchParams(window.location.search);
-
-    // Derive the state values from our query params.
-    const searchQuery = queryParams.get('name') || '';
-    const city = queryParams.get('city') || '';
-    const contributionAmount = queryParams.get('contributionAmount') || '';
-    const numberOfStudents = queryParams.get('numberOfStudents') || '';
-    const stateOrTerritory = queryParams.get('state') || '';
+    const {
+      name,
+      city,
+      contributionAmount,
+      numberOfStudents,
+      stateOrTerritory,
+    } = this.getSearchParams();
 
     const { page, perPage, totalResults } = this.props;
 
@@ -126,7 +200,7 @@ export class SearchResults extends Component {
       'search-selection': 'Yellow Ribbon',
       'search-result-chosen-page-url': school?.insturl || undefined,
       'search-result-chosen-title': school?.nameOfInstitution,
-      'search-query': searchQuery,
+      'search-query': name,
       'search-results-total-count': totalResults,
       'search-results-total-pages': Math.ceil(totalResults / perPage),
       'search-result-position': school?.positionInResults,
@@ -200,9 +274,10 @@ export class SearchResults extends Component {
       );
     }
 
-    // Derive values for "Displayed x-x out of x results."
     const resultsStartNumber = deriveResultsStartNumber();
     const resultsEndNumber = deriveResultsEndNumber();
+    const academicYear = getCurrentAcademicYear();
+    const additionalParamsString = this.deriveAdditionalParamsString();
 
     return (
       <>
@@ -211,13 +286,14 @@ export class SearchResults extends Component {
           data-display-results-header
           tabIndex="-1"
         >
-          {/* eslint-disable-next-line jsx-a11y/aria-role */}
           <span role="text">
-            <span>Displaying {resultsStartNumber}</span>
+            <span>Showing {resultsStartNumber}</span>
             <span className="vads-u-visibility--screen-reader">through</span>
             <span aria-hidden="true">&ndash;</span>
             <span>
-              {resultsEndNumber} of {totalResults} results
+              {resultsEndNumber} of {totalResults} schools for academic year{' '}
+              {academicYear}
+              {additionalParamsString}.
             </span>
           </span>
         </h2>

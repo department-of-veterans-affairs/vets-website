@@ -9,7 +9,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { ServerErrorAlert } from '../../config/helpers';
 // import { URL } from '../../constants';
 import { formatAddress } from '../../helpers';
-import { candidateAddresses } from '../../config/chapters/contactInformation/mockValidationResponse';
+import { candidateAddresses } from '../../config/chapters/personalInformation/mockValidationResponse';
 
 const AddressValidationRadio = props => {
   const { formData, setFormData } = props;

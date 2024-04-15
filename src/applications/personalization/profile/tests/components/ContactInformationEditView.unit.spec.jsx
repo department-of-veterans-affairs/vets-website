@@ -3,7 +3,7 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { ProfileInformationEditView } from '@@profile/components/ProfileInformationEditView';
+import { ProfileInformationEditView } from '@@vap-svc/components/ProfileInformationEditView';
 
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 

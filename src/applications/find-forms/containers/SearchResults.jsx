@@ -14,7 +14,7 @@ import {
   updatePaginationAction,
 } from '../actions';
 import { deriveDefaultModalState } from '../helpers';
-import { showPDFModal, getFindFormsAppState } from '../helpers/selectors';
+import { getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
 
@@ -49,7 +49,6 @@ export const SearchResults = ({
   sortByPropertyName,
   hasOnlyRetiredForms,
   startIndex,
-  showPDFInfoVersionOne,
   updatePagination,
   updateSortByPropertyName,
 }) => {
@@ -133,9 +132,9 @@ export const SearchResults = ({
 
   if (error) {
     return (
-      <va-alert status="error">
+      <va-alert status="error" uswds>
         <h3 slot="headline">Something went wrong</h3>
-        <div className="usa-alert-text vads-u-font-size--base">{error}</div>
+        {error}
       </va-alert>
     );
   }
@@ -199,7 +198,6 @@ export const SearchResults = ({
         key={form.id}
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
-        showPDFInfoVersionOne={showPDFInfoVersionOne}
         toggleModalState={toggleModalState}
         setPrevFocusedLink={setPrevFocusedLink}
       />
@@ -214,7 +212,6 @@ export const SearchResults = ({
           className="vads-u-font-size--md vads-u-line-height--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--1p5 va-u-outline--none"
           data-forms-focus
         >
-          {/* eslint-disable-next-line jsx-a11y/aria-role */}
           <span role="text">
             <>
               Showing <span>{startLabel}</span> &ndash; <span>{lastLabel}</span>{' '}
@@ -232,6 +229,7 @@ export const SearchResults = ({
             setSortByPropertyNameState(formMetaInfo)(value);
           }}
           value={sortByPropertyName}
+          uswds
         >
           {FAF_SORT_OPTIONS.map(opt => (
             <option key={opt} value={opt}>
@@ -255,6 +253,7 @@ export const SearchResults = ({
           modalTitle="Download this PDF and open it in Acrobat Reader"
           initialFocusSelector="#va-modal-title"
           visible={isOpen}
+          uswds
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             <p>
@@ -262,32 +261,29 @@ export const SearchResults = ({
               Adobe Acrobat Reader to open and fill out the form. Don’t try to
               open the PDF on a mobile device or fill it out in your browser.
             </p>{' '}
-            <p>
+            <p className="vads-u-margin-top--0">
               If you want to fill out a paper copy, open the PDF in your browser
               and print it from there.
             </p>{' '}
-            <a href="https://get.adobe.com/reader/" rel="noopener noreferrer">
+            <a
+              href="https://get.adobe.com/reader/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Get Acrobat Reader for free from Adobe
             </a>
             <a
               href={pdfUrl}
               className="vads-u-margin-top--2"
+              download
               rel="noreferrer noopener"
               target="_blank"
-              onClick={() => {
-                recordEvent(
-                  `Download VA form ${pdfSelected} ${pdfLabel}`,
-                  pdfUrl,
-                  'pdf',
-                );
-              }}
             >
               <i
                 aria-hidden="true"
                 className="fas fa-download fa-lg vads-u-margin-right--1"
                 role="presentation"
               />
-
               <span className="vads-u-text-decoration--underline">
                 Download VA Form {pdfSelected}
               </span>
@@ -305,6 +301,7 @@ export const SearchResults = ({
           page={page}
           pages={totalPages}
           showLastPage
+          uswds
         />
       )}
     </>
@@ -320,7 +317,6 @@ SearchResults.propTypes = {
   startIndex: PropTypes.number.isRequired,
   updatePagination: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
-  showPDFInfoVersionOne: PropTypes.bool,
   sortByPropertyName: PropTypes.string,
   updateSortByPropertyName: PropTypes.func,
 };
@@ -334,7 +330,6 @@ const mapStateToProps = state => ({
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
   startIndex: getFindFormsAppState(state).startIndex,
-  showPDFInfoVersionOne: showPDFModal(state),
 });
 
 const mapDispatchToProps = dispatch => ({

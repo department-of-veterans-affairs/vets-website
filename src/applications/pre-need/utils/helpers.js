@@ -9,6 +9,8 @@ import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 
 import {
   stringifyFormReplacer,
@@ -24,6 +26,38 @@ import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
+
+export const createPayload = (file, formId, password) => {
+  const payload = new FormData();
+  payload.set('form_id', formId);
+  payload.append('file', file);
+  if (password) {
+    payload.append('password', password);
+  }
+  return payload;
+};
+
+export function parseResponse({ data }) {
+  const { name } = data.attributes;
+  const focusFileCard = () => {
+    const target = $$('.schemaform-file-list li').find(entry =>
+      entry.textContent?.trim().includes(name),
+    );
+
+    if (target) {
+      focusElement(target);
+    }
+  };
+
+  setTimeout(() => {
+    focusFileCard();
+  }, 100);
+
+  return {
+    name,
+    confirmationCode: data.attributes.confirmationCode,
+  };
+}
 
 export const applicantDetailsSubHeader = (
   <div className="applicantDetailsSubHeader">
@@ -55,7 +89,7 @@ export const applicantDemographicsDescription = (
 );
 
 export const sponsorDeceasedDescription = (
-  <div className="sponsorDeceasedDescription">
+  <div className="sponsorDeceasedDescriptionNotProd">
     <p>
       We’ll now ask you questions about the sponsor’s passing. We understand
       that the questions may be difficult to answer, but your answers will help
@@ -76,8 +110,16 @@ export const sponsorDemographicsSubHeader = (
   </div>
 );
 
-export const sponsorDemographicsDescription = (
+export const sponsorDemographicsDescription = environment.isProduction() ? (
   <div className="sponsorDemographicsDescription">
+    <p>
+      We require some basic details about the applicant’s sponsor as part of the
+      application. Please know we need to gather the data for statistical
+      purposes.
+    </p>
+  </div>
+) : (
+  <div className="sponsorDemographicsDescriptionNotProd">
     <p>
       We require some basic details about the applicant’s sponsor as part of the
       application. Please know we need to gather the data for statistical
@@ -92,14 +134,9 @@ export const sponsorDeceasedSubheader = (
   </div>
 );
 
-// prod flag for MBMS-47182
-export const sponsorDateOfDeathSubheader = !environment.isProduction() ? (
+export const sponsorDateOfDeathSubheader = (
   <div className="sponsorDateOfDeathSubheader">
     <p>When did the sponsor pass away?</p>
-  </div>
-) : (
-  <div className="sponsorDateOfDeathSubheader">
-    <p>Sponsor’s date of death</p>
   </div>
 );
 

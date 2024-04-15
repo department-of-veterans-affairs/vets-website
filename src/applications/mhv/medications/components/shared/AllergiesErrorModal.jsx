@@ -7,6 +7,7 @@ const AllergiesErrorModal = props => {
     onCloseButtonClick,
     onDownloadButtonClick,
     onCancelButtonClick,
+    isPrint,
     visible,
   } = props;
   return (
@@ -15,16 +16,28 @@ const AllergiesErrorModal = props => {
       modalTitle="We can’t access your allergy records right now"
       onPrimaryButtonClick={onDownloadButtonClick}
       onSecondaryButtonClick={onCancelButtonClick}
-      primaryButtonText="Download without allergy list"
-      secondaryButtonText="Cancel download"
+      primaryButtonText={
+        isPrint ? 'Print without allergy list' : 'Download without allergy list'
+      }
+      secondaryButtonText={isPrint ? 'Cancel Print' : 'Cancel download'}
       status="warning"
       visible={visible}
+      uswds
+      large
     >
-      <p>
-        When you download medication records, we include a list of your
-        allergies and reactions. But we can’t access your allergy records right
-        now.
-      </p>
+      {isPrint ? (
+        <p>
+          When you print medication records, we include a list of your allergies
+          and reactions. <br />
+          But we can’t access your allergy records right now.
+        </p>
+      ) : (
+        <p>
+          When you download medication records, we include a list of your
+          allergies and reactions. But we can’t access your allergy records
+          right now.
+        </p>
+      )}
     </VaModal>
   );
 };

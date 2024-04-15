@@ -150,7 +150,7 @@ describe('profileReviewErrorOverride', () => {
   });
   it('should return chapter & page keys for matching wrapper', () => {
     const result = {
-      contactInfoChapterKey: 'infoPages',
+      chapterKey: 'infoPages',
       pageKey: 'confirmContactInfo',
     };
     expect(defaultOverride('veteran')).to.deep.equal(result);
@@ -162,7 +162,7 @@ describe('profileReviewErrorOverride', () => {
       wrapperKey: 'baz',
     });
     const result = {
-      contactInfoChapterKey: 'foo',
+      chapterKey: 'foo',
       pageKey: 'bar',
     };
     expect(customOverride('baz')).to.deep.equal(result);

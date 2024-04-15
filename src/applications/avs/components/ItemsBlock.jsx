@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { allFieldsEmpty } from '../utils';
+
 const ItemsBlock = props => {
   const { heading, intro, itemType, items, renderItem, showSeparators } = props;
 
-  if (!items || items.length === 0) {
-    return null;
-  }
+  if (!items) return null;
 
-  const listItems = items.map((item, idx) => {
+  // Filter out null/empty field values.
+  let listItems = items.filter(item => !allFieldsEmpty(item));
+  if (!listItems.length) return null;
+
+  listItems = listItems.map((item, idx) => {
     return (
       <div key={idx}>
         {renderItem(item)}
@@ -20,7 +24,7 @@ const ItemsBlock = props => {
   return (
     <div data-testid={itemType}>
       <h3>{heading}</h3>
-      {intro && <p>{intro}</p>}
+      {intro && <div>{intro}</div>}
       <div>{listItems}</div>
     </div>
   );
