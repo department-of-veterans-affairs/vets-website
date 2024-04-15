@@ -8,7 +8,7 @@ const HeaderLayout = () => {
         <div className="va-introtext">
           <p>
             <a href="/resources/my-healthevet-on-vagov-what-to-know">
-              Learn more about managing your VA health care and your health,
+              Learn more about My HealtheVet on VA.gov,
             </a>
             &nbsp;where you can manage your VA health care and your health.
           </p>

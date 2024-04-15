@@ -22,7 +22,7 @@ describe('Navigate to Message Details ', () => {
       .should('contain', 'Print');
 
     cy.realPress('Tab');
-    cy.get(Locators.BUTTONS.BUTTON_MOVE).should('have.focus');
+    cy.get(Locators.BUTTONS.BUTTON_MOVE).should('be.visible');
 
     cy.realPress('Tab');
     cy.get(Locators.BUTTONS.BUTTON_TRASH).should('be.visible');

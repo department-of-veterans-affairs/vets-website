@@ -123,7 +123,7 @@ class PatientMessageCustomFolderPage {
       .click();
   };
 
-  verifyFolderHeader = (text = this.folderName) => {
+  verifyFolderHeaderText = (text = this.folderName) => {
     cy.get('[data-testid="edit-folder-button"]')
       .should('be.visible')
       .then(() => {
@@ -138,7 +138,7 @@ class PatientMessageCustomFolderPage {
     );
   };
 
-  sortMessagesByDate = (
+  clickSortMessagesByDateButton = (
     text,
     sortedResponse = mockSortedMessages,
     folderId = this.folderId,
@@ -165,7 +165,7 @@ class PatientMessageCustomFolderPage {
         cy.log(`List before sorting: ${listBefore.join(',')}`);
       })
       .then(() => {
-        this.sortMessagesByDate('Oldest to newest');
+        this.clickSortMessagesByDateButton('Oldest to newest');
         cy.get(Locators.THREAD_LIST)
           .find(Locators.DATE_RECEIVED)
           .then(list2 => {

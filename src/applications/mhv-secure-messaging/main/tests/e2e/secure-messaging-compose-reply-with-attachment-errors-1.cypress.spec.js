@@ -14,10 +14,7 @@ describe('Start a new message With Attacments and Errors', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    composePage
-      .getCategory('COVID')
-      .first()
-      .click({ force: true });
+    composePage.selectCategory('COVID');
     composePage.attachMessageFromFile(Data.TEST_VIDEO);
     composePage.verifyAttachmentErrorMessage(
       "We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.",

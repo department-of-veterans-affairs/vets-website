@@ -25,9 +25,9 @@ export const GET_HELP_REVIEW_REQUEST_URL =
   '/decision-reviews/get-help-with-review-request';
 export const PROFILE_URL = '/profile';
 
-// 8622 is the ID of the <va-accordion-item> with a header of the "Find
-// addresses for other benefit types"
-export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#find-addresses-for-other-benef-8622`;
+// Header of the "Submit your request by mail for any type of benefit claim"
+// anchor (not an accordion)
+export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#file-by-mail-in-person-or-with`;
 
 export const CONTESTABLE_ISSUES_API =
   '/higher_level_reviews/contestable_issues/';
@@ -62,12 +62,8 @@ export const errorMessages = {
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
 
-// session storage keys
-export const SAVED_CLAIM_TYPE = 'hlrClaimType';
-export const WIZARD_STATUS = 'wizardStatus996';
-
 // Values from benefitTypes in vets-json-schema constants
-const supportedBenefitTypes = [
+export const SUPPORTED_BENEFIT_TYPES_LIST = [
   'compensation', // Phase 1
   // 'pension',
   // 'fiduciary',
@@ -81,7 +77,7 @@ const supportedBenefitTypes = [
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,
-  isSupported: supportedBenefitTypes.includes(type.value),
+  isSupported: SUPPORTED_BENEFIT_TYPES_LIST.includes(type.value),
 }));
 
 export const CONFERENCE_TIMES_V2 = {

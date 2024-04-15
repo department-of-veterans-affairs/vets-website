@@ -546,7 +546,7 @@ export function validateDateRange(
   formData,
   schema,
   errorMessages,
-  allowSameMonth = false,
+  allowSameMonth = false, // This is actually only allowing the same date
 ) {
   const fromDate = convertToDateField(dateRange.from);
   const toDate = convertToDateField(dateRange.to);

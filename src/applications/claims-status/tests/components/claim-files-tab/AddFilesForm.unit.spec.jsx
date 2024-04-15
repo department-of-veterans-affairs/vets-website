@@ -152,6 +152,67 @@ describe('<AddFilesForm>', () => {
         />,
       );
 
+      // select doc type
+      $('va-select', container).__events.vaSelect({
+        detail: { value: 'L029' },
+      });
+
+      fireEvent.click($('#submit', container));
+      expect(onSubmit.called).to.be.true;
+      expect($('#upload-status', container).visible).to.be.true;
+    });
+
+    it('should add a valid file with password and submit', async () => {
+      const onSubmit = sinon.spy();
+      const onDirtyFields = sinon.spy();
+
+      const { container, rerender } = render(
+        <AddFilesForm
+          {...fileFormProps}
+          onSubmit={onSubmit}
+          onDirtyFields={onDirtyFields}
+        />,
+      );
+
+      // Check the checkbox
+      $('va-checkbox', container).__events.vaChange({
+        detail: { checked: true },
+      });
+
+      // Rerender component with new props and submit the file upload
+      const file = {
+        file: new File(['hello'], 'hello.jpg', {
+          name: 'hello.jpg',
+          type: fileTypeSignatures.jpg.mime,
+          size: 9999,
+        }),
+        docType: { value: 'L029', dirty: true },
+        password: { value: '1234', dirty: true },
+        isEncrypted: true,
+      };
+
+      rerender(
+        <AddFilesForm
+          {...fileFormProps}
+          files={[file]}
+          onSubmit={onSubmit}
+          onDirtyFields={onDirtyFields}
+          uploading
+        />,
+      );
+
+      // select doc type
+      $('va-select', container).__events.vaSelect({
+        detail: { value: 'L029' },
+      });
+
+      // enter password
+      const input = $('va-text-input', container);
+      input.value = '1234';
+      fireEvent.input(input, {
+        target: { name: 'password' },
+      });
+
       fireEvent.click($('#submit', container));
       expect(onSubmit.called).to.be.true;
       expect($('#upload-status', container).visible).to.be.true;

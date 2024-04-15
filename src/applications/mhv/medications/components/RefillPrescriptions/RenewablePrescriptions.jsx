@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 
@@ -27,6 +28,11 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
       ...prevState,
       currentPage: page,
     }));
+    waitForRenderThenFocus(
+      "p[data-testid='renew-page-list-count']",
+      document,
+      500,
+    );
   };
 
   const startIdx = (pagination.currentPage - 1) * MAX_PAGE_LIST_LENGTH;
@@ -39,22 +45,10 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   // Functions
   const onRxLinkClick = rx => {
     dispatch(
-      setBreadcrumbs(
-        [
-          {
-            url: medicationsUrls.MEDICATIONS_ABOUT,
-            label: 'About medications',
-          },
-          {
-            url: medicationsUrls.MEDICATIONS_URL,
-            label: 'Medications',
-          },
-        ],
-        {
-          url: `${medicationsUrls.PRESCRIPTION_DETAILS}/${rx.prescriptionId}`,
-          label: rx?.prescriptionName,
-        },
-      ),
+      setBreadcrumbs({
+        url: medicationsUrls.subdirectories.REFILL,
+        label: 'Refill prescriptions',
+      }),
     );
     dispatch(setPrescriptionDetails(rx));
   };

@@ -73,10 +73,6 @@ class PatientComposePage {
       .select(recipient, { force: true });
   };
 
-  getCategory = (category = 'COVID') => {
-    return cy.get(`#compose-message-categories${category}input`);
-  };
-
   selectCategory = (category = 'OTHER') => {
     cy.get(`#compose-message-categories${category}input`).click({
       force: true,
@@ -297,16 +293,16 @@ class PatientComposePage {
       .click();
   };
 
-  verifyAlertModal = () => {
-    cy.get(`h1`).should('contain', "We can't save this message yet");
-  };
-
   clickOnContinueEditingButton = () => {
     cy.get(Locators.BUTTONS.CONTINUE_EDITING)
       .shadow()
       .find('button')
       .contains(Data.CONTINUE_EDITING)
       .click();
+  };
+
+  verifyAlertModal = () => {
+    cy.get(`h1`).should('contain', "We can't save this message yet");
   };
 
   verifyExpectedPageOpened = menuOption => {
@@ -329,7 +325,7 @@ class PatientComposePage {
     );
   };
 
-  verifyRecipient = (recipient = mockRecipients.data[0].id) => {
+  verifyRecipientNameText = (recipient = mockRecipients.data[0].id) => {
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('select')
@@ -337,7 +333,7 @@ class PatientComposePage {
       .should('contain', mockRecipients.data[0].attributes.name);
   };
 
-  verifySubjectField = subject => {
+  verifySubjectFieldText = subject => {
     cy.get(Locators.MESSAGE_SUBJECT).should('have.value', subject);
   };
 
@@ -384,7 +380,7 @@ class PatientComposePage {
       .click({ force: true });
   };
 
-  verifyDeleteDraftSuccessfulMessage = () => {
+  verifyDeleteDraftSuccessfulMessageText = () => {
     cy.get('[data-testid="alert-text"]').should(
       'contain.text',
       Data.MESSAGE_MOVED_TO_TRASH,
@@ -410,6 +406,12 @@ class PatientComposePage {
       .shadow()
       .find('[id=input-error-message]')
       .should('be.visible');
+  };
+
+  verifyDraftSaveButtonOnFocus = () => {
+    cy.get(Locators.BUTTONS.SAVE_DRAFT)
+      .should('exist')
+      .and('be.focused');
   };
 }
 
