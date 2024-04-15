@@ -69,7 +69,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA benefits.',
   },
-  title: 'Foreign Medical Program (FMP) Registration Form',
+  title: 'Register for the Foreign Medical Program (FMP)',
   defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
@@ -78,7 +78,7 @@ const formConfig = {
         page1: {
           initialData: mockdata.data,
           path: 'veteran-information',
-          title: 'Name and date of birth',
+          title: 'Personal Information',
           uiSchema: {
             ...titleUI(
               'Name and date of birth',
@@ -132,7 +132,8 @@ const formConfig = {
       pages: {
         page3: {
           path: 'home-address',
-          title: 'Home Address',
+          title: 'Home address',
+          reviewTitle: 'Home Address',
           uiSchema: {
             ...titleUI(
               'Home Address',
@@ -169,6 +170,7 @@ const formConfig = {
         page4: {
           path: 'mailing-address',
           title: 'Mailing address',
+          reviewTitle: 'Mailing Address',
           uiSchema: {
             ...titleUI(
               'Mailing address',
