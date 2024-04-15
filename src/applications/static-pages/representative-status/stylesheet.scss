@@ -1,7 +1,7 @@
-.auth-no-rep-card {
+.auth-card {
   display: flex;
 
-  .auth-no-rep-header-icon {
+  .auth-header-icon {
     margin: 0px 5px 0 0;
   }
 
@@ -16,6 +16,27 @@
 
     .auth-no-rep-body {
       margin-top: 16px;
+    }
+  }
+
+  .auth-rep-text {
+    h2,
+    h3,
+    h4 {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+
+    .auth-rep-subheader {
+      margin-top: 1rem !important;
+    }
+
+    .contact-info {
+      display: flex;
+
+      .contact-icon {
+        margin: 4px 8px 0 0;
+      }
     }
   }
 }

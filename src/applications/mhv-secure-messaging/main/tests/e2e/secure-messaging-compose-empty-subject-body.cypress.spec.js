@@ -12,10 +12,7 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
     composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4'); // trieageTeams with preferredTeam = true will appear in a recipients dropdown only
-    composePage
-      .getCategory('COVID')
-      .first()
-      .click({ force: true });
+    composePage.selectCategory('COVID');
     composePage.attachMessageFromFile(Data.TEST_IMAGE);
   });
 

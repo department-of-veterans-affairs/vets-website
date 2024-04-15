@@ -142,3 +142,14 @@ export const applicantPrimaryEOBSchema = {
     },
   }),
 };
+
+export const applicantPrimaryTypeSchema = {
+  uiSchema: {
+    applicants: { items: {} },
+  },
+  schema: applicantListSchema([], {
+    applicantPrimaryInsuranceType: {
+      type: 'string',
+    },
+  }),
+};
