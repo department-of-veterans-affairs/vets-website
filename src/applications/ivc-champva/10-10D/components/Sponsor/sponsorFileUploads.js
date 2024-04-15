@@ -1,5 +1,9 @@
 import React from 'react';
-import { fileTypes, maxSize, minSize } from '../../config/attachments';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import { fileTypes, maxSize } from '../../config/attachments';
+
+export const mailOrFaxLaterMsg =
+  'If you don’t have a copy to upload now, you can send one by mail or fax.';
 
 const marriagePapers = [
   'Marriage certificate',
@@ -35,6 +39,7 @@ export const acceptableFiles = {
     },
   ],
   spouseCert: marriagePapers,
+  divorceCert: ['Divorce decree', 'Annulment decree'],
   stepCert: marriagePapers,
   adoptionCert: ['Court ordered adoption papers'],
   helplessCert: ['VBA decision rating certificate of award'],
@@ -59,8 +64,6 @@ export const acceptableFiles = {
   ],
 };
 
-export const blankSchema = { type: 'object', properties: {} };
-
 function makeLink(el) {
   return <va-link href={el.href} text={el.text} />;
 }
@@ -81,6 +84,7 @@ function makeUl(points) {
 }
 
 export function acceptableFileList(list) {
+  if (list.length === 0) return <></>;
   const parseItem = (item, idx) => {
     // If we have nested items (we allow one layer deep nesting)
     // then make a <ul> to nest
@@ -114,33 +118,25 @@ export const fileUploadBlurb = {
   'view:fileUploadBlurb': {
     'ui:description': (
       <>
-        <va-additional-info
-          trigger="Tips for uploading"
-          class="vads-u-margin-bottom--4"
-        >
+        <div className="vads-u-margin-bottom--4">
+          <b>How to upload files</b>
           <ul>
             <li>
-              You can upload your files as one of these file types:{' '}
-              {fileTypes.join(', .')}
+              Format the file as a .{fileTypes.slice(0, -1).join(', .')}, or .
+              {fileTypes.slice(-1)} file
             </li>
+            <li>Make sure that file size is {maxSize} or less</li>
             <li>
-              Upload one or more files that add up to at least {minSize} but no
-              more than {maxSize} total.
-            </li>
-            <li>
-              If you don’t have a digital copy of a file, you can scan or take a
-              photo of it and then upload the image from your computer or phone.
-            </li>
-            <li>
-              If you don’t want to upload your supporting files now, you’ll have
-              the option to upload again at the end of this application.
-            </li>
-            <li>
-              If you don’t upload your supporting files, we’ll provide you
-              instructions for how to mail or fax in your file(s).
+              If you don’t have a digital copy of your document, you can scan or
+              take a photo of it and then upload the image from your computer or
+              phone
             </li>
           </ul>
-        </va-additional-info>
+          <p>
+            If you don’t want to upload your supporting files now, you’ll have
+            the option to upload them again at the end of this application.
+          </p>
+        </div>
       </>
     ),
   },
@@ -189,48 +185,35 @@ export function uploadWithInfoComponent(
       'view:additionalResources': {
         'ui:description': (
           <>
-            <p>
-              <b>Resources regarding {category}</b>
-            </p>
-            <ul>
-              {resources &&
-                resources.map((resource, index) => (
-                  <li key={`link-${resource}-${index}`}>
-                    {makeLink(resource)}
-                  </li>
-                ))}
-            </ul>
+            {resources ? (
+              <>
+                <p>
+                  <b>Resources regarding {category}</b>
+                </p>
+                <ul>
+                  {resources.map((resource, index) => (
+                    <li key={`link-${resource}-${index}`}>
+                      {makeLink(resource)}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              ''
+            )}
           </>
         ),
       },
-      'view:fileUploadMessage': isOptional
-        ? { ...optionalFileUploadMessage }
-        : { ...requiredFileUploadMessage },
+      // 'view:fileUploadMessage': isOptional
+      //   ? { ...optionalFileUploadMessage }
+      //   : { ...requiredFileUploadMessage },
       ...fileUploadBlurb,
     },
     schema: {
       'view:acceptableFilesList': blankSchema,
       'view:additionalResources': blankSchema,
-      'view:fileUploadMessage': blankSchema,
+      // 'view:fileUploadMessage': blankSchema,
       'view:fileUploadBlurb': blankSchema,
     },
   };
 }
-
-export const sponsorDisabilityRatingConfig = uploadWithInfoComponent(
-  acceptableFiles.disabilityCert,
-  'disability rating',
-  true,
-);
-
-export const sponsorDischargePapersConfig = uploadWithInfoComponent(
-  acceptableFiles.dischargeCert,
-  'discharge papers',
-  true,
-);
-
-export const sponsorCasualtyReportConfig = uploadWithInfoComponent(
-  acceptableFiles.casualtyCert,
-  'casualty report',
-  false,
-);

@@ -2,12 +2,13 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useState } from 'react';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from 'moment';
-import { buildDateFormatter } from '../../utils/helpers';
+
 import { ITEMS_PER_PAGE } from '../../constants';
+import { buildDateFormatter } from '../../utils/helpers';
 
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 
-const formatDate = date => buildDateFormatter('MMMM d, yyyy')(date);
+const formatDate = buildDateFormatter();
 
 const getTrackedItemText = item => {
   if (item.status === 'INITIAL_REVIEW_COMPLETE' || item.status === 'ACCEPTED') {
@@ -181,7 +182,6 @@ function DocumentsFiled({ claim }) {
           )}
           {shouldPaginate && (
             <VaPagination
-              uswds
               className="vads-u-border--0"
               page={currentPage}
               pages={numPages}

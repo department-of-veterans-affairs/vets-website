@@ -86,3 +86,12 @@ export function getFileSize(num) {
   }
   return `${num} B`;
 }
+
+export const setFocus = (selector, tabIndexInclude = true) => {
+  const el =
+    typeof selector === 'string' ? document.querySelector(selector) : selector;
+  if (el) {
+    if (tabIndexInclude) el.setAttribute('tabIndex', -1);
+    el.focus();
+  }
+};

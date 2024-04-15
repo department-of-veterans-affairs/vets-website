@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useStore } from 'react-redux';
 import {
   VaBreadcrumbs,
   VaModal,
@@ -11,6 +11,9 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
+import repStatusLoader from 'applications/static-pages/representative-status';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { recordSearchResultsChange } from '../utils/analytics';
 import SearchControls from '../components/search/SearchControls';
 import SearchResultsHeader from '../components/results/SearchResultsHeader';
 import ResultsList from '../components/results/ResultsList';
@@ -28,15 +31,28 @@ import {
   geocodeUserAddress,
   submitRepresentativeReport,
   initializeRepresentativeReport,
+  cancelRepresentativeReport,
   updateFromLocalStorage,
   clearError,
 } from '../actions';
 
 const SearchPage = props => {
   const searchResultTitleRef = useRef(null);
+  const previousLocationInputString = useRef(
+    props.currentQuery.locationInputString,
+  );
+  const previousSortType = useRef(props.currentQuery.sortType);
+  const previousRepresentativeType = useRef(
+    props.currentQuery.representativeType,
+  );
+  const previousRepresentativeInputString = useRef(
+    props.currentQuery.representativeInputString,
+  );
   const [isSearching, setIsSearching] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDisplayingResults, setIsDisplayingResults] = useState(false);
+
+  const store = useStore();
 
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
@@ -105,7 +121,7 @@ const SearchPage = props => {
   };
 
   const handleSearchOnQueryChange = () => {
-    const { currentQuery } = props;
+    const { currentQuery, searchResults } = props;
     const {
       context,
       representativeInputString,
@@ -133,7 +149,76 @@ const SearchPage = props => {
       distance,
     });
 
+    const conditionalDataLayerPush = () => {
+      return (
+        currentLocationInputString,
+        currentSortType,
+        currentRepresentativeType,
+        currentRepresentativeInputString,
+      ) => {
+        const dataLayerProps = {
+          locationInputString: context.location,
+          representativeType,
+          searchRadius: distance,
+          representativeName: representativeInputString,
+          sortType,
+          totalCount: searchResults?.meta?.totalEntries,
+          totalPages: searchResults?.meta?.totalPages,
+          currentPage: searchResults?.meta?.currentPage,
+        };
+
+        const locationUpdated =
+          currentLocationInputString !== previousLocationInputString.current;
+
+        const sortTypeUpdated = currentSortType !== previousSortType.current;
+
+        const repTypeUpdated =
+          currentRepresentativeType !== previousRepresentativeType.current;
+
+        const repNameUpdated =
+          currentRepresentativeInputString !==
+          previousRepresentativeInputString.current;
+
+        if (locationUpdated) {
+          recordSearchResultsChange(dataLayerProps, 'location');
+          previousLocationInputString.current = currentLocationInputString;
+          return;
+        }
+
+        if (sortTypeUpdated) {
+          recordSearchResultsChange(dataLayerProps, 'sort', sortType);
+          previousSortType.current = currentSortType;
+        }
+
+        if (repTypeUpdated) {
+          recordSearchResultsChange(
+            dataLayerProps,
+            'filter',
+            representativeType,
+          );
+          previousRepresentativeType.current = currentRepresentativeType;
+        }
+        if (repNameUpdated) {
+          recordSearchResultsChange(
+            dataLayerProps,
+            'filter',
+            representativeInputString,
+          );
+          previousRepresentativeInputString.current = currentRepresentativeInputString;
+        }
+      };
+    };
+
     if (!props.searchWithInputInProgress) {
+      const execute = conditionalDataLayerPush();
+
+      execute(
+        context.location,
+        sortType,
+        representativeType,
+        representativeInputString,
+      );
+
       props.searchWithInput({
         address: currentQuery.context.location,
         lat: latitude,
@@ -223,6 +308,9 @@ const SearchPage = props => {
   // search from query params on page load
   useEffect(() => {
     handleSearchViaUrl();
+    if (!environment.isProduction()) {
+      repStatusLoader(store, 'representative-status', 3);
+    }
   }, []);
 
   const renderBreadcrumbs = () => {
@@ -264,6 +352,17 @@ const SearchPage = props => {
             to help you.
           </p>
         </div>
+
+        {!environment.isProduction() && (
+          <div>
+            <h2>Check your current accredited representative</h2>
+            <p>
+              VA doesn’t automatically assign you an accredited representative.
+              But you may have appointed one in the past.{' '}
+            </p>
+            <div data-widget-type="representative-status" />
+          </div>
+        )}
 
         <SearchControls
           geolocateUser={props.geolocateUser}
@@ -326,6 +425,7 @@ const SearchPage = props => {
           sortType={currentQuery.sortType}
           submitRepresentativeReport={props.submitRepresentativeReport}
           initializeRepresentativeReport={props.initializeRepresentativeReport}
+          cancelRepresentativeReport={props.cancelRepresentativeReport}
           reportSubmissionStatus={props.reportSubmissionStatus}
         />
       );
@@ -400,6 +500,7 @@ const SearchPage = props => {
 };
 
 SearchPage.propTypes = {
+  cancelRepresentativeReport: PropTypes.func,
   clearError: PropTypes.func,
   clearSearchResults: PropTypes.func,
   clearSearchText: PropTypes.func,
@@ -414,6 +515,7 @@ SearchPage.propTypes = {
   fetchRepresentatives: PropTypes.func,
   geocodeUserAddress: PropTypes.func,
   geolocateUser: PropTypes.func,
+  initializeRepresentativeReport: PropTypes.func,
   isErrorFetchRepresentatives: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.object,
@@ -450,8 +552,8 @@ SearchPage.propTypes = {
     totalPages: PropTypes.number,
     totalEntries: PropTypes.number,
   }),
-  reportedResults: PropTypes.array,
   reportSubmissionStatus: PropTypes.string,
+  reportedResults: PropTypes.array,
   results: PropTypes.array,
   searchResults: PropTypes.array,
   searchWithBounds: PropTypes.func,
@@ -459,7 +561,6 @@ SearchPage.propTypes = {
   searchWithInputInProgress: PropTypes.bool,
   sortType: PropTypes.string,
   submitRepresentativeReport: PropTypes.func,
-  initializeRepresentativeReport: PropTypes.func,
   updateSearchQuery: PropTypes.func,
   onSubmit: PropTypes.func,
 };
@@ -489,6 +590,7 @@ const mapDispatchToProps = {
   clearSearchText,
   submitRepresentativeReport,
   initializeRepresentativeReport,
+  cancelRepresentativeReport,
   updateFromLocalStorage,
   clearError,
 };

@@ -13,11 +13,12 @@ const ChangeOfAddressForm = ({
   addressFormData,
   formSubmit,
   applicantName,
+  formData,
 }) => {
   const [addressSchema, setAddressSchema] = useState({});
   const [addressUISchema, setAddressUISchema] = useState({});
   const createFormSchema = (requiredArray = []) => {
-    const fSchema = getFormSchema(applicantName);
+    const fSchema = getFormSchema(applicantName, formData);
 
     if (requiredArray.size === 0) {
       return fSchema;
@@ -252,14 +253,9 @@ const ChangeOfAddressForm = ({
                 },
               );
               // adds province as a requiredField
-              const updateAddressRequiredData = [
-                ...tempAddressRequiredData,
-                'province',
-                'internationalPostalCode',
-              ];
               setAddressSchema(
                 removeObjectKeys(
-                  createFormSchema(updateAddressRequiredData),
+                  createFormSchema(tempAddressRequiredData),
                   [ZC.title, stateCode.title, livesOnMilitaryBaseInfo.title],
                   'schema',
                 ),
@@ -312,6 +308,7 @@ const ChangeOfAddressForm = ({
 ChangeOfAddressForm.propTypes = {
   addressFormData: PropTypes.object.isRequired,
   formChange: PropTypes.func.isRequired,
+  formData: PropTypes.object.isRequired,
   formSubmit: PropTypes.func.isRequired,
   applicantName: PropTypes.string,
   cancelButtonClasses: PropTypes.arrayOf(PropTypes.string),

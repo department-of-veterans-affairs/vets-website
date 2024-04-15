@@ -1,28 +1,27 @@
-import moment from 'moment';
+import { parse, parseISO, format, isValid } from 'date-fns';
 
-import { FORMAT_YMD } from '../constants';
+import { FORMAT_YMD_DATE_FNS } from '../constants';
+
 /**
- * @typedef DateFnsOffset
- * @property {Number} years - positive or negative number
- * @property {Number} months - positive or negative number
- * @property {Number} weeks - positive or negative number
- * @property {Number} days - positive or negative number
- * @property {Number} hours - positive or negative number
- * @property {Number} minutes - positive or negative number
- * @property {Number} seconds - positive or negative number
+ * parseDate from string, date, or JS number date (not unix time)
+ * @param {string, number, Date} date - date to format
+ * @param {string} resultFormat - date-fns format string
+ * @param {string} currentFormat - date-fns format string if `date` is not ISO8601
+ * @returns {string} date
  */
-/**
- * Get dynamic date value based on starting date and an offset
- * @param {DateFnsOffset} [offset={}] - date offset
- * @param {Date} [date=new Date()] - starting date of offset
- * @param {String} [pattern=FORMAT_YMD]
- * @returns {String} - formatted as 'YYYY-MM-DD'
- */
-export const getDate = ({
-  offset = {},
-  date = new Date(),
-  pattern = FORMAT_YMD,
-} = {}) => {
-  const dateObj = moment(date);
-  return dateObj.isValid() ? dateObj.add(offset).format(pattern) : date;
+export const parseDate = (
+  date,
+  resultFormat = FORMAT_YMD_DATE_FNS,
+  currentFormat = null,
+) => {
+  let newDate = date;
+  if (typeof date === 'string') {
+    if (date.includes('T')) {
+      newDate = parseISO((date || '').split('T')[0]);
+    } else if (currentFormat) {
+      //
+      newDate = parse(date, currentFormat, new Date());
+    }
+  }
+  return isValid(newDate) ? format(newDate, resultFormat) : null;
 };

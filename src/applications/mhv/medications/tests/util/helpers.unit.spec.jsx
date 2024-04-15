@@ -1,49 +1,230 @@
 import { expect } from 'chai';
-import * as helpers from '../../util/helpers';
-import { imageRootUri } from '../../util/constants';
+import { EMPTY_FIELD, imageRootUri } from '../../util/constants';
+import {
+  dateFormat,
+  extractContainedResource,
+  generateMedicationsPDF,
+  getImageUri,
+  getReactions,
+  processList,
+  validateField,
+  createMedicationDescription,
+  createNoDescriptionText,
+} from '../../util/helpers';
 
 describe('Date Format function', () => {
-  it("should return 'None noted'", () => {
-    expect(helpers.dateFormat()).to.equal('None noted');
+  it("should return 'None noted' when no values are passed", () => {
+    expect(dateFormat()).to.equal(EMPTY_FIELD);
   });
   it('should return a formatted date', () => {
-    expect(
-      helpers.dateFormat('2023-10-26T20:18:00.000Z', 'MMMM D, YYYY'),
-    ).to.equal('October 26, 2023');
+    expect(dateFormat('2023-10-26T20:18:00.000Z', 'MMMM D, YYYY')).to.equal(
+      'October 26, 2023',
+    );
   });
 });
 
 describe('Generate PDF function', () => {
   it('should throw an error', () => {
-    const error = helpers.generateMedicationsPDF();
+    const error = generateMedicationsPDF();
     expect(error).to.exist;
   });
 });
 
 describe('Validate Field function', () => {
   it('should return the value', () => {
-    expect(helpers.validateField('Test')).to.equal('Test');
+    expect(validateField('Test')).to.equal('Test');
   });
 
-  it("should return 'None noted'", () => {
-    expect(helpers.validateField()).to.equal('None noted');
+  it("should return 'None noted' when no values are passed", () => {
+    expect(validateField()).to.equal(EMPTY_FIELD);
   });
 
   it('should return 0', () => {
-    expect(helpers.validateField(0)).to.equal(0);
+    expect(validateField(0)).to.equal(0);
   });
 });
 
 describe('Image URI function', () => {
   it('should return the URI', () => {
-    expect(helpers.getImageUri('1test')).to.equal(
-      `${imageRootUri}1/NDC1test.jpg`,
-    );
+    expect(getImageUri('1test')).to.equal(`${imageRootUri}1/NDC1test.jpg`);
   });
 
   it('should support OTHER folder', () => {
-    expect(helpers.getImageUri()).to.equal(
-      `${imageRootUri}other/NDCundefined.jpg`,
+    expect(getImageUri()).to.equal(`${imageRootUri}other/NDCundefined.jpg`);
+  });
+});
+
+describe('processList function', () => {
+  it('returns an array of strings, separated by a period and a space, when there is more than 1 item in the list', () => {
+    const list = ['a', 'b', 'c'];
+    const result = processList(list);
+    expect(result).to.eq('a. b. c');
+  });
+  it('returns the single item as string, when there is only 1 item in the list', () => {
+    const list = ['a'];
+    const result = processList(list);
+    expect(result).to.eq('a');
+  });
+  it('returns EMPTY_FIELD value if there are no items in the list', () => {
+    const list = [];
+    const result = processList(list);
+    expect(result).to.eq(EMPTY_FIELD);
+  });
+});
+
+describe('getReactions', () => {
+  it('returns an empty array if the record passed has no reactions property', () => {
+    const record = {};
+    const reactions = getReactions(record);
+    expect(reactions.length).to.eq(0);
+  });
+});
+
+describe('extractContainedResource', () => {
+  it('should extract the contained resource when provided a valid reference ID', () => {
+    const resource = {
+      contained: [{ id: 'a1', type: 'TypeA' }, { id: 'b2', type: 'TypeB' }],
+    };
+
+    const result = extractContainedResource(resource, '#a1');
+    expect(result).to.eq(resource.contained.find(e => e.id === 'a1'));
+  });
+
+  it('should return null if resource does not contain the "contained" property', () => {
+    const resource = {};
+
+    const result = extractContainedResource(resource, '#a1');
+    expect(result).to.eq(null);
+  });
+
+  it('should return null if "contained" property is not an array', () => {
+    const resource = {
+      contained: 'not-an-array',
+    };
+
+    const result = extractContainedResource(resource, '#a1');
+    expect(result).to.eq(null);
+  });
+
+  it('should return null if reference ID is not provided', () => {
+    const resource = {
+      contained: [{ id: 'a1', type: 'TypeA' }],
+    };
+
+    const result = extractContainedResource(resource, '');
+    expect(result).to.eq(null);
+  });
+
+  it('should return null if no match is found in the "contained" array', () => {
+    const resource = {
+      contained: [{ id: 'a1', type: 'TypeA' }],
+    };
+
+    const result = extractContainedResource(resource, '#b2');
+    expect(result).to.eq(null);
+  });
+});
+
+describe('createMedicationDescription', () => {
+  it('should generate a description when all required fields are part of arg object', () => {
+    const args = {
+      color: 'AQUAMARINE',
+      shape: 'DONUT',
+      frontImprint: 'YuMMy',
+      backImprint: '3,4',
+    };
+    const result = createMedicationDescription(args);
+    expect(result).to.eq(
+      'Aquamarine, donut with YuMMy on the front and 3,4 on the back.',
+    );
+
+    expect(
+      createMedicationDescription({
+        color: 'Aquamarine',
+        shape: 'ORB',
+        frontImprint: 'HELLO there',
+        backImprint: null,
+      }),
+    ).to.eq('Aquamarine, orb with HELLO there on the front.');
+
+    // backImprint is a string of blank spaces
+    expect(
+      createMedicationDescription({
+        color: 'Aquamarine',
+        shape: 'ORB',
+        frontImprint: 'HELLO there',
+        backImprint: '            ',
+      }),
+    ).to.eq('Aquamarine, orb with HELLO there on the front.');
+  });
+
+  it('should return null when not any required field is null or a blank string', () => {
+    expect(
+      createMedicationDescription({
+        color: null,
+        shape: null,
+        frontImprint: null,
+        backImprint: null,
+      }),
+    ).to.be.null;
+
+    expect(
+      createMedicationDescription({
+        color: null,
+        shape: 'orb',
+        frontImprint: '1',
+        backImprint: '2',
+      }),
+    ).to.be.null;
+
+    expect(
+      createMedicationDescription({
+        color: 'Aquamarine',
+        shape: null,
+        frontImprint: '1',
+        backImprint: '2',
+      }),
+    ).to.be.null;
+
+    expect(
+      createMedicationDescription({
+        color: 'Aquamarine',
+        shape: 'orb',
+        frontImprint: null,
+        backImprint: '2',
+      }),
+    ).to.be.null;
+
+    expect(
+      createMedicationDescription({
+        color: ' ',
+        shape: 'orb',
+        frontImprint: null,
+        backImprint: '2',
+      }),
+    ).to.be.null;
+
+    expect(
+      createMedicationDescription({
+        color: 'Aquamarine',
+        shape: 'long',
+        frontImprint: ' ',
+        backImprint: '2',
+      }),
+    ).to.be.null;
+  });
+});
+
+describe('createNoDescriptionText', () => {
+  it('should include a phone number if provided', () => {
+    expect(createNoDescriptionText('555-111-5555')).to.eq(
+      'No description available. Call your pharmacy at 555-111-5555 if you need help identifying this medication.',
+    );
+  });
+
+  it('should create a string even if no phone number provided', () => {
+    expect(createNoDescriptionText()).to.eq(
+      'No description available. Call your pharmacy if you need help identifying this medication.',
     );
   });
 });

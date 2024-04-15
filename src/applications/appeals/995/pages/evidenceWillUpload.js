@@ -25,6 +25,7 @@ export default {
         required: errorMessages.requiredYesNo,
       },
       uswds: true,
+      hideOnReview: true,
     }),
 
     'view:otherEvidenceInfo': {

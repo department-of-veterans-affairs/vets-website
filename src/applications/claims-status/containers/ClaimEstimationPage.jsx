@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
+
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import { setUpPage } from '../utils/page';
@@ -13,18 +14,24 @@ class ClaimEstimationPage extends React.Component {
   }
 
   render() {
+    const crumbs = [
+      {
+        href: `../status`,
+        label: 'Status details',
+        isRouterLink: true,
+      },
+      {
+        href: `../claim-estimate`,
+        label: 'Estimated decision date',
+        isRouterLink: true,
+      },
+    ];
+
     return (
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
-            <ClaimsBreadcrumbs>
-              <Link to={`your-claims/${this.props.params.id}/status`}>
-                Status details
-              </Link>
-              <Link to={`your-claims/${this.props.params.id}/claim-estimate`}>
-                Estimated decision date
-              </Link>
-            </ClaimsBreadcrumbs>
+            <ClaimsBreadcrumbs crumbs={crumbs} />
           </div>
         </div>
         <div className="vads-l-row vads-u-margin-x--neg2p5">

@@ -6,6 +6,7 @@ import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Appointments from '../pages/Appointments';
+import Arrived from '../pages/Arrived';
 
 describe('Check In Experience', () => {
   describe('update skip path', () => {
@@ -28,6 +29,8 @@ describe('Check In Experience', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      Arrived.validateArrivedPage();
+      Arrived.attemptToGoToNextPage();
     });
     afterEach(() => {
       cy.window().then(window => {

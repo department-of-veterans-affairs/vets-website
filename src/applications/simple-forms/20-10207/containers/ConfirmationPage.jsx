@@ -30,34 +30,36 @@ const childContent = (
       you are requesting priority processing for, then use the corresponding
       mailing address:
     </p>
-    <p className="vads-u-font-size--h6">Compensation Claims</p>
     <p>
+      <b>Compensation Claims</b>
+      <br />
       Department of Veterans Affairs Compensation Intake Center
       <br />
       PO Box 4444
       <br />
       Janesville, WI 53547-4444
     </p>
-    <p className="vads-u-font-size--h6">
-      Pension &amp; Survivors Benefit Claims
-    </p>
     <p>
+      <b>Pension &amp; Survivors Benefit Claims</b>
+      <br />
       Department of Veterans Affairs Pension Intake Center
       <br />
       PO Box 5365
       <br />
       Janesville, WI 53547-5365
     </p>
-    <p className="vads-u-font-size--h6">Board of Veterans’ Appeals</p>
     <p>
+      <b>Board of Veterans’ Appeals</b>
+      <br />
       Department of Veterans Affairs Board of Veterans’ Appeals
       <br />
       PO Box 27063
       <br />
       Washington, DC 20038
     </p>
-    <p className="vads-u-font-size--h6">Fiduciary</p>
     <p>
+      <b>Fiduciary</b>
+      <br />
       Department of Veterans Affairs Fiduciary Intake Center
       <br />
       PO Box 5211

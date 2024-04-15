@@ -48,10 +48,9 @@
         "street2": "Apartment 2",
         "city": "APO",
         "state": "AA",
-        "postalCode": "11111"
+        "postalCode": "34055"
       },
       "ssn": "345345678",
-      "vaFileNumber": "123456789",
       "fullName": {
         "first": "Barnie",
         "middle": "Stone",

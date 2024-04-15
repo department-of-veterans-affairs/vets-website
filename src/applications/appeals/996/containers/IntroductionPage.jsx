@@ -46,6 +46,7 @@ export const IntroductionPage = props => {
     gaStartEventName: 'decision-reviews-va20-0996-start-form',
     ariaDescribedby: 'main-content',
     useActionLinks: true,
+    pathname: '/introduction',
   };
 
   const restartWizard = () => {
@@ -132,7 +133,7 @@ export const IntroductionPage = props => {
         </va-process-list-item>
       </va-process-list>
 
-      <div className="sip-wrapper">
+      <div className="sip-wrapper vads-u-margin-bottom--4">
         {showVerifyLink ? (
           <NeedsToVerify pathname={pathname} />
         ) : (

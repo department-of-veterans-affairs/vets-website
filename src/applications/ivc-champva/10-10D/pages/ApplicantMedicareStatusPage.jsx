@@ -1,165 +1,91 @@
-import React, { useState, useEffect } from 'react';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
-import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
 
-import {
-  applicantWording,
-  additionalFilesHint,
-} from '../helpers/wordingCustomization';
+import ApplicantRelationshipPage, {
+  ApplicantRelationshipReviewPage,
+  appRelBoilerplate,
+} from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 
-const keyname = 'applicantMedicareStatus';
+const KEYNAME = 'applicantMedicareStatus';
+const PRIMARY = 'eligibility';
+const SECONDARY = 'otherIneligible';
 
 export function generateOptions({ data, pagePerItemIndex }) {
-  const applicant = applicantWording(
-    data?.applicants?.[pagePerItemIndex],
-    undefined,
-    false,
-  );
-
-  const useFirstPerson =
-    data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
+  const {
+    currentListItem,
+    personTitle,
+    applicant,
+    useFirstPerson,
+    relative,
+    beingVerbPresent,
+    relativePossessive,
+  } = appRelBoilerplate({ data, pagePerItemIndex });
 
   const options = [
     {
       label: `Yes, ${
-        useFirstPerson ? "I'm" : `${applicant} is `
+        useFirstPerson ? 'I‘m' : `${applicant} is `
       } enrolled in Medicare`,
       value: 'enrolled',
     },
     {
       label: `No, ${
         useFirstPerson ? "I'm" : `${applicant} is `
-      } 65 or over, eligible, but not enrolled in Medicare`,
-      value: 'over65Eligible',
+      } not eligible for Medicare`,
+      value: 'ineligible',
     },
     {
       label: `No, ${
         useFirstPerson ? "I'm" : `${applicant} is `
-      } 65 or over and not eligible for Medicare`,
-      value: 'over65Ineligible',
-    },
-    {
-      label: `No, ${
-        useFirstPerson ? "I'm" : `${applicant} is `
-      } under 65 and not eligible for Medicare`,
-      value: 'under65Ineligible',
+      } eligible for Medicare but ${
+        useFirstPerson ? 'have' : 'has'
+      } not been signed up for it yet`,
+      value: 'eligibleNotSignedUp',
     },
   ];
 
+  const prompt = `${
+    useFirstPerson ? 'Are you' : `Is ${applicant}`
+  } enrolled in Medicare Parts A & B?`;
+
   return {
     options,
+    currentListItem,
+    personTitle,
+    relativePossessive,
+    relativeBeingVerb: `${relative} ${beingVerbPresent}`,
     useFirstPerson,
     applicant,
-    keyname,
-    description: 'Enrolled in Medicare',
+    keyname: KEYNAME,
+    primary: PRIMARY,
+    secondary: SECONDARY,
+    customTitle: `${
+      useFirstPerson ? `Your` : `${applicant}'s`
+    } Medicare status`,
+    description: prompt,
   };
 }
 
-export function ApplicantMedicareStatusReviewPage(props) {
-  return CustomCheckboxRadioReviewPage({
+// Using the widely customizable ApplicantRelationshipPage
+// as it now functions like a generic radioUI + other text field:
+export function ApplicantMedicareStatusPage(props) {
+  const newProps = {
     ...props,
-    useLabels: false,
-    generateOptions,
-  });
-}
-
-export function ApplicantMedicareStatusPage({
-  data,
-  setFormData,
-  goBack,
-  goForward,
-  pagePerItemIndex,
-  updatePage,
-  onReviewPage,
-}) {
-  const [checkValue, setCheckValue] = useState(
-    data?.applicants?.[pagePerItemIndex]?.[keyname],
-  );
-  const [error, setError] = useState(undefined);
-  const [dirty, setDirty] = useState(false);
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
-  const updateButton = <button type="submit">Update page</button>;
-  const { options, useFirstPerson, applicant } = generateOptions({
-    data,
-    pagePerItemIndex,
-  });
-
-  const handlers = {
-    validate() {
-      let isValid = true;
-      if (!checkValue) {
-        setError('This field is required');
-        isValid = false;
-      } else {
-        setError(null); // Clear any existing err msg
-      }
-      return isValid;
-    },
-    radioUpdate: ({ detail }) => {
-      setDirty(true);
-      setCheckValue(detail.value);
-    },
-    onGoForward: event => {
-      event.preventDefault();
-      if (!handlers.validate()) return;
-      const testVal = { ...data };
-      testVal.applicants[pagePerItemIndex][keyname] = checkValue;
-      setFormData(testVal); // Commit changes to the actual formdata
-      if (onReviewPage) updatePage();
-      goForward(data);
-    },
+    keyname: KEYNAME,
+    primary: PRIMARY,
+    secondary: SECONDARY,
+    genOp: generateOptions,
   };
-
-  useEffect(
-    () => {
-      if (dirty) handlers.validate();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, checkValue],
-  );
-
-  return (
-    <>
-      {
-        titleUI(
-          `${useFirstPerson ? `Your` : `${applicant}'s`} Medicare status`,
-        )['ui:title']
-      }
-
-      <form onSubmit={handlers.onGoForward}>
-        <VaRadio
-          class="vads-u-margin-y--2"
-          label={`${
-            useFirstPerson ? `Are you` : `Is ${applicant}`
-          } enrolled in Medicare?`}
-          hint={additionalFilesHint}
-          required
-          error={error}
-          uswds
-          onVaValueChange={handlers.radioUpdate}
-        >
-          {options.map(option => (
-            <va-radio-option
-              key={option.value}
-              name="describes-you"
-              label={option.label}
-              value={option.value}
-              checked={checkValue === option.value}
-              uswds
-              aria-describedby={
-                checkValue === option.value ? option.value : null
-              }
-            />
-          ))}
-        </VaRadio>
-        {onReviewPage ? updateButton : navButtons}
-      </form>
-    </>
-  );
+  return ApplicantRelationshipPage(newProps);
+}
+export function ApplicantMedicareStatusReviewPage(props) {
+  const newProps = {
+    ...props,
+    keyname: KEYNAME,
+    primary: PRIMARY,
+    secondary: SECONDARY,
+    genOp: generateOptions,
+  };
+  return ApplicantRelationshipReviewPage(newProps);
 }
 
 ApplicantMedicareStatusReviewPage.propTypes = {

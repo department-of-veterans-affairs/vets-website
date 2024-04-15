@@ -3,7 +3,10 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { homelessTitle, homelessReviewField } from '../content/homeless';
+import {
+  homelessTitle,
+  homelessReviewField,
+} from '../../shared/content/homeless';
 
 export default {
   uiSchema: {
