@@ -221,6 +221,12 @@ const useGetCheckInData = ({
           if (app === 'travelClaim') {
             setTravelData(json.payload);
           } else {
+            if (
+              json.payload.appointments?.length > 0 &&
+              appointmentStartTimePast15(json.payload.appointments)
+            ) {
+              updateError('check-in-past-appointment');
+            }
             setDayOfData(json.payload);
           }
         })
