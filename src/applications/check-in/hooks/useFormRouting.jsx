@@ -2,15 +2,19 @@ import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import URLSearchParams from 'url-search-params';
 
-import { makeSelectForm } from '../selectors';
+import { makeSelectForm, makeSelectApp } from '../selectors';
 
 import { useUpdateError } from './useUpdateError';
 
 import { URLS } from '../utils/navigation';
+import { APP_NAMES } from '../utils/appConstants';
 
 const useFormRouting = (router = {}) => {
   const selectForm = useMemo(makeSelectForm, []);
-  const { pages } = useSelector(selectForm);
+  const { pages, data } = useSelector(selectForm);
+
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
 
   const { updateError } = useUpdateError();
 
@@ -78,9 +82,13 @@ const useFormRouting = (router = {}) => {
       const here = getCurrentPageFromRouter();
       const currentPageIndex = pages.findIndex(page => page === here);
       const nextPage = pages[currentPageIndex + 1] ?? URLS.ERROR;
-      router.push(nextPage);
+      if (nextPage === 'complete' && app === APP_NAMES.CHECK_IN) {
+        router.push(`complete/${data.activeAppointmentId}`);
+      } else {
+        router.push(nextPage);
+      }
     },
-    [getCurrentPageFromRouter, pages, router],
+    [app, data.activeAppointmentId, getCurrentPageFromRouter, pages, router],
   );
   const goToPreviousPage = () => {
     const { history } = window;
