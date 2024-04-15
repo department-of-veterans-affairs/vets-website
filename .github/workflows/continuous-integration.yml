@@ -150,6 +150,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
+      apps-to-stress-test: ${{ steps.apps-to-stress-test.outputs.apps_to_test }}
       unit-tests-to-stress-test: ${{ steps.unit-tests-to-stress-test.outputs.tests }}
       changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
       disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
@@ -214,10 +215,15 @@ jobs:
         id: disallowed-tests
         run: echo "tests=$DISALLOWED_TESTS" >> $GITHUB_OUTPUT
 
-      - name: Set output of CYPRESS_TESTS_TO_STRESS_TEST
+      - name: Set output of UNIT_TESTS_TO_STRESS_TEST
         if: ${{ always() }}
         id: unit-tests-to-stress-test
         run: echo "tests=$UNIT_TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
+
+       - name: Set output of APPS_TO_STRESS_TEST
+        if: ${{ always() }}
+        id: apps-to-stress-test
+        run: echo "apps_to_test=$APPS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
       
       - name: Set output of TESTS
         id: cypress-tests
@@ -351,6 +357,7 @@ jobs:
     if: ${{ always() && needs.tests-prep.outputs.unit-tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' && needs.fetch-allow-lists.result == 'success' && needs.tests-prep.result == 'success' }}
 
     env:
+      APPS_TO_VERIFY: ${{ needs.tests-prep.outputs.apps-to-stress-test }}
       TESTS_TO_VERIFY: ${{ needs.tests-prep.outputs.unit-tests-to-stress-test }}
       DISALLOWED_TESTS: '[]'
 

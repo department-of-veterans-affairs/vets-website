@@ -113,15 +113,19 @@ if (testsToVerify === null) {
         ' ',
       )} `;
       if (testsToRun !== '') {
+        // Case: Unit Tests are available for the selected app to run and will run here for the one app only.
         runCommand(command);
       } else {
+        // Case: Unit Tests are runnning, but the app with changed code in this case has no unit tests as a part of it.
         console.log('This app has no tests to run');
       }
     }
   } else {
+    // Case: The code changed has no associated unit tests
     core.exportVariable('NO_APPS_TO_RUN', true);
   }
 } else {
+  // Case: Unit Tests are needed to be Stress Tested. Selected tests are all run in one container so each container runs the full suite.
   const command = `LOG_LEVEL=${options[
     'log-level'
   ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify}`;
