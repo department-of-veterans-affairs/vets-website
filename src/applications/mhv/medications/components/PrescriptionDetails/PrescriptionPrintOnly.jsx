@@ -11,6 +11,7 @@ const PrescriptionPrintOnly = props => {
   const { rx, hideLineBreak, refillHistory, isDetailsRx } = props;
   const prescriptionImage =
     rx.cmopNdcNumber || rx?.rxRfRecords[0]?.cmopNdcNumber;
+  const phoneNumber = rx?.cmopDivisionPhone || rx?.dialCmopDivisionPhone;
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
       <p>
@@ -142,9 +143,7 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Pharmacy phone number:</strong>{' '}
-              {validateField(
-                rx?.cmopDivisionPhone || rx?.dialCmopDivisionPhone,
-              )}
+              {validateField(phoneNumber)}
             </p>
           </div>
           <DetailsHeaderElement>
@@ -184,8 +183,6 @@ const PrescriptionPrintOnly = props => {
                 {refillHistory.map((entry, i) => {
                   const index = refillHistory.length - i - 1;
                   const { shape, color, backImprint, frontImprint } = entry;
-                  const phone =
-                    rx.cmopDivisionPhone || rx.dialCmopDivisionPhone;
                   return (
                     <div key={index}>
                       <h4>
@@ -213,7 +210,7 @@ const PrescriptionPrintOnly = props => {
                           <p className="vads-u-margin--0">
                             <strong>Note:</strong> If the medication you’re
                             taking doesn’t match this description, call{' '}
-                            <VaPharmacyText phone={phone} />.
+                            <VaPharmacyText phone={phoneNumber} />.
                           </p>
                           <ul className="vads-u-margin--0">
                             <li className="vads-u-margin-y--0">
@@ -239,8 +236,8 @@ const PrescriptionPrintOnly = props => {
                       ) : (
                         <>
                           No description available. Call{' '}
-                          <VaPharmacyText phone={phone} /> if you need help
-                          identifying this medication.
+                          <VaPharmacyText phone={phoneNumber} /> if you need
+                          help identifying this medication.
                         </>
                       )}
                       <div className="line-break" />
