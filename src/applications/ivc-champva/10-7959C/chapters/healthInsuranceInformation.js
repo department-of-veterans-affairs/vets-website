@@ -23,27 +23,33 @@ const MEDIGAP = {
   medigapPlanM: 'Medigap Plan M',
 };
 
-export const applicantHasPrimarySchema = {
-  uiSchema: {
-    applicants: { items: {} },
-  },
-  schema: applicantListSchema([], {
-    applicantHasPrimary: {
-      type: 'object',
-      properties: {
-        hasPrimary: { type: 'string' },
-        _unused: { type: 'string' },
-      },
-    },
-  }),
-};
-
 /*
 Primary health insurance and secondary health insurance information use
 the same set of questions. This schema works for either depending on
 the boolean passed in (if true, we generate the primary schema, if false
-we generate the secondary schema).
+we generate the secondary schema). Using this pattern for all primary/secondary
+schemas
 */
+export const applicantHasInsuranceSchema = isPrimary => {
+  const val = isPrimary ? 'Primary' : 'Secondary';
+  const keyname = `applicantHas${val}`;
+  const property = `has${val}`;
+  return {
+    uiSchema: {
+      applicants: { items: {} },
+    },
+    schema: applicantListSchema([], {
+      [keyname]: {
+        type: 'object',
+        properties: {
+          [property]: { type: 'string' },
+          _unused: { type: 'string' },
+        },
+      },
+    }),
+  };
+};
+
 export const applicantProviderSchema = isPrimary => {
   const keyname = `applicant${isPrimary ? 'Primary' : 'Secondary'}Provider`;
   return {
@@ -226,20 +232,5 @@ export const applicantPrimaryCommentsSchema = {
   schema: applicantListSchema([], {
     titleSchema,
     primaryAdditionalComments: { type: 'string' },
-  }),
-};
-
-export const applicantHasSecondarySchema = {
-  uiSchema: {
-    applicants: { items: {} },
-  },
-  schema: applicantListSchema([], {
-    applicantHasSecondary: {
-      type: 'object',
-      properties: {
-        hasSecondary: { type: 'string' },
-        _unused: { type: 'string' },
-      },
-    },
   }),
 };

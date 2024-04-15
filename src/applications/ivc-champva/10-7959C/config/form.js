@@ -61,16 +61,16 @@ import {
   ApplicantHasSecondaryReviewPage,
 } from '../components/ApplicantHasPrimaryPage';
 import {
-  applicantHasPrimarySchema,
+  applicantHasInsuranceSchema,
   applicantProviderSchema,
   applicantPrimaryEffectiveDateSchema,
   applicantPrimaryExpirationDateSchema,
   applicantPrimaryEOBSchema,
+  applicantPrimaryThroughEmployerSchema,
   applicantPrimaryPrescriptionSchema,
   applicantPrimaryTypeSchema,
   applicantPrimaryMedigapSchema,
   applicantPrimaryCommentsSchema,
-  applicantHasSecondarySchema,
 } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -349,8 +349,8 @@ const formConfig = {
           title: item => `${applicantWording(item)} primary health insurance`,
           CustomPage: ApplicantHasPrimaryPage,
           CustomPageReview: ApplicantHasPrimaryReviewPage,
-          uiSchema: applicantHasPrimarySchema.uiSchema,
-          schema: applicantHasPrimarySchema.schema,
+          uiSchema: applicantHasInsuranceSchema(true).uiSchema,
+          schema: applicantHasInsuranceSchema(true).schema,
         },
         primaryProvider: {
           path: ':index/primary-provider',
@@ -397,8 +397,8 @@ const formConfig = {
             } type of insurance`,
           CustomPage: ApplicantPrimaryThroughEmployerPage,
           CustomPageReview: ApplicantPrimaryThroughEmployerReviewPage,
-          uiSchema: applicantHasPrimarySchema.uiSchema,
-          schema: applicantHasPrimarySchema.schema,
+          uiSchema: applicantPrimaryThroughEmployerSchema.uiSchema,
+          schema: applicantPrimaryThroughEmployerSchema.schema,
         },
         primaryPrescription: {
           path: ':index/primary-prescription',
@@ -482,8 +482,8 @@ const formConfig = {
           title: item => `${applicantWording(item)} secondary health insurance`,
           CustomPage: ApplicantHasSecondaryPage,
           CustomPageReview: ApplicantHasSecondaryReviewPage,
-          uiSchema: applicantHasSecondarySchema.uiSchema,
-          schema: applicantHasSecondarySchema.schema,
+          uiSchema: applicantHasInsuranceSchema(false).uiSchema,
+          schema: applicantHasInsuranceSchema(false).schema,
         },
         secondaryProvider: {
           path: ':index/secondary-provider',
