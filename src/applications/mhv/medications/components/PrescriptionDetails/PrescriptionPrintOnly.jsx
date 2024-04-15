@@ -7,15 +7,12 @@ import {
 import {
   validateField,
   dateFormat,
-  getImageUri,
   createMedicationDescription,
   createNoDescriptionText,
 } from '../../util/helpers';
 
 const PrescriptionPrintOnly = props => {
   const { rx, hideLineBreak, refillHistory, isDetailsRx } = props;
-  const prescriptionImage =
-    rx.cmopNdcNumber || rx?.rxRfRecords[0]?.cmopNdcNumber;
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
       <p>
@@ -164,21 +161,6 @@ const PrescriptionPrintOnly = props => {
             <p>
               <strong>Quantity:</strong> {validateField(rx.quantity)}
             </p>
-            {prescriptionImage && (
-              <>
-                <p className="print-only-rx-image-container no-break">
-                  <strong>Image of the medication or supply:</strong>{' '}
-                  <img
-                    src={getImageUri(prescriptionImage)}
-                    alt={rx.prescriptionName}
-                  />
-                </p>
-                <p>
-                  <strong>Note:</strong> This image is from your last refill of
-                  this medication.
-                </p>
-              </>
-            )}
           </div>
           {refillHistory && (
             <div className="print-only-refill-container">

@@ -92,8 +92,9 @@ export const getPrescriptionSortedList = (
   includeImage = false,
 ) => {
   return apiRequest(
-    `${apiBasePath}/prescriptions?${sortEndpoint}${includeImage &&
-      INCLUDE_IMAGE_ENDPOINT}`,
+    `${apiBasePath}/prescriptions?${sortEndpoint}${
+      includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
+    }`,
     { headers },
   );
 };
