@@ -124,11 +124,11 @@ describe('ui/index', () => {
 
   describe('displayFileSize', () => {
     it('should display correctly', () => {
-      displayFileSize(null).should.equal('');
-      displayFileSize(0).should.equal('0B');
-      displayFileSize(1).should.equal('1B');
-      displayFileSize(1024).should.equal('1KB');
-      displayFileSize(1024 * 1024).should.equal('1MB');
+      expect(displayFileSize(null)).to.equal('');
+      expect(displayFileSize(0)).to.equal('0B');
+      expect(displayFileSize(1)).to.equal('1B');
+      expect(displayFileSize(1024)).to.equal('1KB');
+      expect(displayFileSize(1024 * 1024)).to.equal('1MB');
     });
   });
 });
