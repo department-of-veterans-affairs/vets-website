@@ -6,6 +6,8 @@ import {
 
 /** @type {PageSchema} */
 export default {
+  path: 'military/general',
+  title: 'General history',
   uiSchema: {
     ...titleUI('Other service names'),
     serveUnderOtherNames: yesNoUI({

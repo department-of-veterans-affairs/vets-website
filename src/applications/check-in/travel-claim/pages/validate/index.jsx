@@ -5,6 +5,7 @@ import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import { createSetSession } from '../../../actions/authentication';
+import { setFormData } from '../../../actions/travel-claim';
 
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
 
@@ -31,7 +32,13 @@ const Validate = ({ router }) => {
     },
     [dispatch, setPermissions],
   );
-
+  const recordTimeAndGoToNextPage = useCallback(
+    () => {
+      dispatch(setFormData({ startedTime: new Date().getTime() }));
+      goToNextPage();
+    },
+    [dispatch, goToNextPage],
+  );
   const selectContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectContext);
 
@@ -53,14 +60,22 @@ const Validate = ({ router }) => {
         setLastNameError,
         setIsLoading,
         setShowValidateError,
-        goToNextPage,
+        recordTimeAndGoToNextPage,
         token,
         setSession,
         APP_NAMES.TRAVEL_CLAIM,
         updateError,
       );
     },
-    [goToNextPage, lastName, dob, dobError, setSession, token, updateError],
+    [
+      recordTimeAndGoToNextPage,
+      lastName,
+      dob,
+      dobError,
+      setSession,
+      token,
+      updateError,
+    ],
   );
 
   const validateErrorMessage = t(

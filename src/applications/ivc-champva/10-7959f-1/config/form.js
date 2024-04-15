@@ -1,3 +1,5 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 import {
   ssnOrVaFileNumberSchema,
   ssnOrVaFileNumberNoHintUI,
@@ -15,18 +17,22 @@ import {
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
+// import mockdata from '../tests/fixtures/data/test-data.json';
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  transformForSubmit,
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959f-1-FMP-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -63,6 +69,7 @@ const formConfig = {
       title: 'Name and date of birth',
       pages: {
         page1: {
+          // initialData: mockdata.data,
           path: 'veteran-information',
           title: 'Name and date of birth',
           uiSchema: {
@@ -70,6 +77,8 @@ const formConfig = {
               'Name and date of birth',
               'We use this information to verify other details.',
             ),
+            messageAriaDescribedby:
+              'We use this information to verify other details.',
             fullName: fullNameUI(),
             veteranDOB: dateOfBirthUI(),
           },
@@ -83,6 +92,11 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    identificationInformation: {
+      title: 'Identification Information',
+      pages: {
         page2: {
           path: 'identification-information',
           title: 'Veteran SSN and VA file number',
@@ -91,6 +105,8 @@ const formConfig = {
               `Identification information`,
               `You must enter either a Social Security number of VA File number.`,
             ),
+            messageAriaDescribedby:
+              'You must enter either a Social Security number of VA File number.',
             ssn: ssnOrVaFileNumberNoHintUI(),
           },
           schema: {
@@ -102,6 +118,11 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    physicalAddress: {
+      title: 'Physical Address',
+      pages: {
         page3: {
           path: 'home-address',
           title: 'Physical Address',
@@ -110,6 +131,8 @@ const formConfig = {
               'Physical Address',
               'This is your current location, outside the United States.',
             ),
+            messageAriaDescribedby:
+              'This is your current location, outside the United States.',
             physicalAddress: addressUI({
               labels: {
                 street2: 'Apartment or unit number',
@@ -139,6 +162,8 @@ const formConfig = {
               'Mailing address',
               "We'll send any important information about your application to this address.",
             ),
+            messageAriaDescribedby:
+              "We'll send any important information about your application to this address.",
             mailingAddress: addressUI({
               labels: {
                 street2: 'Apartment or unit number',
@@ -160,11 +185,21 @@ const formConfig = {
             },
           },
         },
+      },
+    },
+    contactInformation: {
+      title: 'Contact Information',
+      pages: {
         page5: {
           path: 'contact-info',
           title: "Veteran's contact information",
           uiSchema: {
-            ...titleUI("Veteran's contact information"),
+            ...titleUI(
+              'Phone and email address',
+              'Please include this information so that we can contact you with questions or updates',
+            ),
+            messageAriaDescribedby:
+              'Please include this information so that we can contact you with questions or updates.',
             phoneNumber: phoneUI(),
             emailAddress: emailUI(),
           },

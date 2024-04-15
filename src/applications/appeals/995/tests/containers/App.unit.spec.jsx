@@ -7,8 +7,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
 
-import { setStoredSubTask } from 'platform/forms/sub-task';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import App from '../../containers/App';
 
@@ -23,12 +23,13 @@ const getData = ({
   verified = true,
   data = hasComp,
   accountUuid = '',
+  pathname = '/introduction',
   push = () => {},
 } = {}) => {
   setStoredSubTask({ benefitType: data?.benefitType || '' });
   return {
     props: {
-      location: { pathname: '/introduction', search: '' },
+      location: { pathname, search: '' },
       children: <h1>Intro</h1>,
       router: { push },
     },
@@ -131,10 +132,29 @@ describe('App', () => {
       </Provider>,
     );
 
-    const alert = $('va-loading-indicator', container);
-    expect(alert).to.exist;
-    expect(alert.getAttribute('message')).to.contain('restart the app');
+    const loadingIndicator = $('va-loading-indicator', container);
+    expect(loadingIndicator).to.exist;
+    expect(loadingIndicator.getAttribute('message')).to.contain(
+      'restart the app',
+    );
     expect(push.calledWith('/start')).to.be.true;
+  });
+
+  it('should not redirect to start for unsupported benefit types and already on the start page', () => {
+    const push = sinon.spy();
+    const { props, data } = getData({
+      push,
+      pathname: '/start',
+      data: { benefitType: 'other' },
+    });
+    const { container } = render(
+      <Provider store={mockStore(data)}>
+        <App {...props} />
+      </Provider>,
+    );
+
+    expect($('va-loading-indicator', container)).to.not.exist;
+    expect(push.notCalled).to.be.true;
   });
 
   it('should update benefit type in form data', async () => {

@@ -8,21 +8,25 @@ import {
   serviceNumberSchema,
   serviceNumberUI,
   checkboxGroupUI,
-  checkboxGroupSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
 const { placeOfSeparation } = fullSchemaPensions.properties;
 const { dateRange } = fullSchemaPensions.definitions;
+const { serviceBranch } = fullSchemaPensions.properties;
 
 import { serviceBranchLabels } from '../../../labels';
 import { WartimeWarningAlert } from '../../../components/FormAlerts';
 import { servedDuringWartime } from '../../../helpers';
 import { validateServiceBirthDates } from '../../../validation';
+import ServicePeriodReview from '../../../components/ServicePeriodReview';
 
 /** @type {PageSchema} */
 export default {
+  path: 'military/history',
+  title: 'Service period',
+  CustomPageReview: ServicePeriodReview,
   uiSchema: {
     ...titleUI('Service period'),
     serviceBranch: checkboxGroupUI({
@@ -73,7 +77,7 @@ export default {
     type: 'object',
     required: ['serviceBranch', 'activeServiceDateRange'],
     properties: {
-      serviceBranch: checkboxGroupSchema(Object.keys(serviceBranchLabels)),
+      serviceBranch,
       activeServiceDateRange: {
         ...dateRange,
         required: ['from', 'to'],

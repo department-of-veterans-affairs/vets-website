@@ -7,6 +7,9 @@ import { MedicalEvidenceAlert } from '../../../components/FormAlerts';
 
 /** @type {PageSchema} */
 export default {
+  title: 'Social Security disability',
+  path: 'medical/history/social-security-disability',
+  depends: formData => !formData.isOver65,
   uiSchema: {
     ...titleUI('Social Security disability'),
     socialSecurityDisability: yesNoUI({

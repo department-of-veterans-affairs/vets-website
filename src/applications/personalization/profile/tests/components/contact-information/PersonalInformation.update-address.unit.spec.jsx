@@ -215,7 +215,11 @@ async function testSlowFailure(addressName) {
 
 describe('Updating', () => {
   before(() => {
-    server = setupServer(...mocks.editAddressSuccess);
+    server = setupServer(
+      ...mocks.editAddressSuccess,
+      ...mocks.apmTelemetry,
+      ...mocks.rootTransactionStatus,
+    );
     server.listen();
   });
   beforeEach(() => {

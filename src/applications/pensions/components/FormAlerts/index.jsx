@@ -244,10 +244,21 @@ export const AccountInformationAlert = () => (
         If we approve your application for pension benefits, we’ll update your
         direct deposit information for all your VA benefit payments. We’ll
         deposit any payments you may receive for pension or education benefits
-        directly into the bank account you provide here. We’re making this
-        change to help protect you from fraud and to make sure we can pay you on
-        time, every time, without error.
+        directly into the bank account you provide here.
+      </p>
+      <p>
+        We’re making this change to help protect you from fraud and to make sure
+        we can pay you on time, every time, without error.
       </p>
     </va-alert>
   </div>
+);
+
+export const AdoptionEvidenceAlert = () => (
+  <va-alert status="warning" uswds>
+    <p className="vads-u-margin-y--0">
+      You’ll need to submit adoption papers or amended birth certificate with
+      this application.
+    </p>
+  </va-alert>
 );

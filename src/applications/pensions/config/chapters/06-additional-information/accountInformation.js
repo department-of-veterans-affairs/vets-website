@@ -1,14 +1,15 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import merge from 'lodash/merge';
 import bankAccountUI from '@department-of-veterans-affairs/platform-forms/bankAccount';
-import get from 'platform/utilities/data/get';
 import { AccountInformationAlert } from '../../../components/FormAlerts';
 import { bankAccount } from '../../definitions';
+import { usingDirectDeposit } from './helper';
 
-const usingDirectDeposit = formData =>
-  get(['view:usingDirectDeposit'], formData) === true;
-
-const accountInformation = {
+export default {
+  title: 'Account information for direct deposit',
+  path: 'additional-information/account-information',
+  initialData: {},
+  depends: usingDirectDeposit,
   uiSchema: {
     ...titleUI(
       'Account information for direct deposit',
@@ -41,5 +42,3 @@ const accountInformation = {
     },
   },
 };
-
-export { usingDirectDeposit, accountInformation };

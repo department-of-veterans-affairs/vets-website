@@ -16,7 +16,7 @@ import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
 import content from '../locales/en/content.json';
 
 const IntroductionPage = ({ route }) => {
-  const { isLoadingApplicationStatus } = useSelector(selectEnrollmentStatus);
+  const { loading } = useSelector(selectEnrollmentStatus);
   const { isUserLOA1 } = useSelector(selectAuthStatus);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const IntroductionPage = ({ route }) => {
         appTitle={content['form-title']}
         dependencies={[externalServices['1010ez']]}
       >
-        {isLoadingApplicationStatus ? (
+        {loading ? (
           <va-loading-indicator
             message={content['load-enrollment-status']}
             class="vads-u-margin-y--4"

@@ -1,13 +1,14 @@
-import { getDate } from '../utils/dates';
+import { sub } from 'date-fns';
+import { parseDate } from '../utils/dates';
 import { SELECTED } from '../constants';
 
 export const getRandomDate = () =>
-  getDate({
-    offset: {
-      months: -Math.floor(Math.random() * 6 + 1),
-      days: -Math.floor(Math.random() * 10),
-    },
-  });
+  parseDate(
+    sub(new Date(), {
+      months: Math.floor(Math.random() * 6 + 1),
+      days: Math.floor(Math.random() * 10),
+    }),
+  );
 
 export const fixDecisionDates = (data = [], { unselected } = {}) => {
   return data.map(issue => {
@@ -31,7 +32,7 @@ export const fixDecisionDates = (data = [], { unselected } = {}) => {
   });
 };
 
-const date = getDate({ offset: { months: -2 } });
+const date = parseDate(sub(new Date(), { months: 2 }));
 
 const twoIssues = [
   {

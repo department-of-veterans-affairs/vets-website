@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { DATE_FORMATS } from '../constants';
 import { buildDateFormatter } from '../utils/helpers';
 
 const getDownloadUrl = (id, docType) =>
   `${environment.API_URL}/v0/claim_letters/${id}?document_type=${docType}`;
 
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
+const formatDate = buildDateFormatter();
 
 const docTypeToDescription = {
   27: 'Board Of Appeals Decision Letter',

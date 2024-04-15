@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { countries } from '@department-of-veterans-affairs/platform-forms/address';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 
 const CountrySelect = props => {
   const { id, onChange, value, formData } = props;
@@ -32,8 +32,8 @@ const CountrySelect = props => {
 CountrySelect.propTypes = {
   formData: PropTypes.object,
   id: PropTypes.string,
-  onChange: PropTypes.func,
   value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

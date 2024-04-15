@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
+
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { isLoggedIn } from 'platform/user/selectors';
-
-import { setData } from 'platform/forms-system/src/js/actions';
-import { getStoredSubTask } from 'platform/forms/sub-task';
+import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
+import { isLoggedIn } from '~/platform/user/selectors';
+import { setData } from '~/platform/forms-system/src/js/actions';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
@@ -27,6 +27,7 @@ import {
 } from '../constants';
 
 import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../shared/actions';
+import { wrapInH1 } from '../../shared/content/intro';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import {
   issuesNeedUpdating,
@@ -42,7 +43,6 @@ export const App = ({
   formData,
   setFormData,
   router,
-  // savedForms,
   getContestableIssues,
   contestableIssues,
   legacyCount,
@@ -55,6 +55,10 @@ export const App = ({
 
   const subTaskBenefitType =
     formData?.benefitType || getStoredSubTask()?.benefitType;
+
+  const hasSupportedBenefitType = SUPPORTED_BENEFIT_TYPES_LIST.includes(
+    subTaskBenefitType,
+  );
 
   useEffect(
     () => {
@@ -70,7 +74,7 @@ export const App = ({
 
   useEffect(
     () => {
-      if (SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)) {
+      if (hasSupportedBenefitType) {
         // form data is reset after logging in and from the save-in-progress data,
         // so get it from the session storage
         if (!formData.benefitType) {
@@ -109,19 +113,13 @@ export const App = ({
       contestableIssues,
       formData,
       getContestableIssues,
+      hasSupportedBenefitType,
       isLoadingIssues,
       legacyCount,
       loggedIn,
-
       setFormData,
       subTaskBenefitType,
     ],
-  );
-
-  const wrapInH1 = content => (
-    <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
-      {content}
-    </h1>
   );
 
   let content = (
@@ -140,6 +138,29 @@ export const App = ({
     </RoutedSavableApp>
   );
 
+  // Go to start page if we don't have an expected benefit type
+  if (!location.pathname.endsWith('/start') && !hasSupportedBenefitType) {
+    router.push('/start');
+    content = wrapInH1(
+      <va-loading-indicator
+        set-focus
+        message="Please wait while we restart the application for you."
+      />,
+    );
+  } else if (
+    loggedIn &&
+    hasSupportedBenefitType &&
+    ((contestableIssues.status || '') === '' ||
+      contestableIssues.status === FETCH_CONTESTABLE_ISSUES_INIT)
+  ) {
+    content = wrapInH1(
+      <va-loading-indicator
+        set-focus
+        message="Loading your previous decisions..."
+      />,
+    );
+  }
+
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring({
     loggedIn,
@@ -152,27 +173,6 @@ export const App = ({
     clientToken: DATA_DOG_TOKEN,
     service: DATA_DOG_SERVICE,
   });
-
-  if (!SUPPORTED_BENEFIT_TYPES_LIST.includes(subTaskBenefitType)) {
-    router.push('/start');
-    content = wrapInH1(
-      <va-loading-indicator
-        set-focus
-        message="Please wait while we restart the application for you."
-      />,
-    );
-  } else if (
-    loggedIn &&
-    ((contestableIssues.status || '') === '' ||
-      contestableIssues.status === FETCH_CONTESTABLE_ISSUES_INIT)
-  ) {
-    content = wrapInH1(
-      <va-loading-indicator
-        set-focus
-        message="Loading your previous decisions..."
-      />,
-    );
-  }
 
   return (
     <article id="form-0995" data-location={`${location?.pathname?.slice(1)}`}>
@@ -205,7 +205,6 @@ App.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
-  testSetTag: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

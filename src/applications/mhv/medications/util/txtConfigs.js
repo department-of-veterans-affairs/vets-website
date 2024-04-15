@@ -1,5 +1,11 @@
-import { processList } from '../../medical-records/util/helpers';
-import { dateFormat, validateField } from './helpers';
+import {
+  dateFormat,
+  processList,
+  validateField,
+  createMedicationDescription,
+  createNoDescriptionText,
+  createOriginalFillRecord,
+} from './helpers';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
@@ -162,12 +168,8 @@ Provider notes: ${validateField(item.notes)}
  */
 export const buildVAPrescriptionTXT = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  refillHistory.push({
-    prescriptionName: prescription?.prescriptionName,
-    dispensedDate: prescription?.dispensedDate,
-    cmopNdcNumber: prescription?.cmopNdcNumber,
-    id: prescription?.prescriptionId,
-  });
+  const originalFill = createOriginalFillRecord(prescription);
+  refillHistory.push(originalFill);
 
   let result = `
 ---------------------------------------------------------------------------------
@@ -233,6 +235,9 @@ Refill history
   `;
 
   refillHistory.forEach((entry, i) => {
+    const phone = entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+    const description =
+      createMedicationDescription(entry) || createNoDescriptionText(phone);
     result += `
 ${i === 0 ? 'First fill' : `Refill ${i}`}
 
@@ -241,11 +246,12 @@ Filled by pharmacy on: ${
     }
 
 Shipped on: ${
-      entry?.trackingList?.[0]?.[1]?.completeDateTime
-        ? dateFormat(entry.trackingList[0][1].completeDateTime)
+      entry?.trackingList?.[0]?.completeDateTime
+        ? dateFormat(entry.trackingList[0].completeDateTime)
         : 'None noted'
     }
 
+Description: ${description}
 
 ---------------------------------------------------------------------------------
 

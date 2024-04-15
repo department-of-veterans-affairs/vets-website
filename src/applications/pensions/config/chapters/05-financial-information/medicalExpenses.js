@@ -13,6 +13,7 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
+import { doesHaveMedicalExpenses } from './helpers';
 
 const frequencyOptions = {
   ONCE_MONTH: 'Once a month',
@@ -32,6 +33,9 @@ MedicalExpenseView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
+  path: 'financial/medical-expenses/add',
+  title: 'Medical expenses and other unreimbursed expenses',
+  depends: doesHaveMedicalExpenses,
   uiSchema: {
     ...titleUI('Add a medical or other unreimbursed expense'),
     medicalExpenses: {
@@ -44,6 +48,7 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
       },
       items: {
         recipients: radioUI({

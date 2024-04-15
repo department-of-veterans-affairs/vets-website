@@ -123,7 +123,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   }
 
   const crumb = {
-    href: `your-claim-letters`,
+    href: `../your-claim-letters`,
     label: 'Your VA claim letters',
     isRouterLink: true,
   };

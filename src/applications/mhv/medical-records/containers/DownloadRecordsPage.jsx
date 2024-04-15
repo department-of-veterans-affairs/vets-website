@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import PropTypes from 'prop-types';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
-  formatName,
-  generatePdfScaffold,
   updatePageTitle,
-} from '../../shared/util/helpers';
+  generatePdfScaffold,
+  formatName,
+} from '@department-of-veterans-affairs/mhv/exports';
+import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { pageTitles } from '../util/constants';
 import { getNameDateAndTime, makePdf, generateTextFile } from '../util/helpers';
 import { getTxtContent } from '../util/txtHelpers/downloadRecords';
@@ -137,9 +137,9 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           vitals,
         };
         const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
-        const content = getTxtContent(recordData);
+        const content = getTxtContent(recordData, user);
 
-        generateTextFile(content, pdfName);
+        generateTextFile(content, pdfName, user);
       }
     },
     [

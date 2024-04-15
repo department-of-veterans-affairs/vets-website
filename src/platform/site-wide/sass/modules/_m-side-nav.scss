@@ -137,14 +137,14 @@
     // used backgrounds instead
     .open {
       color: var(--vads-color-base-darker) !important;
-      background: linear-gradient(var(--vads-color-base-darker), var(--vads-color-base-darker)) left/ 8px
+      background: linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) left/ 8px
           100%,
         var(--vads-color-base-lightest);
       background-repeat: no-repeat;
     }
 
     .expanded {
-      background: linear-gradient(var(--vads-color-base-darker), var(--vads-color-base-darker)) 100% top /
+      background: linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) 100% top /
           100% 1px,
         var(--vads-color-white);
       background-repeat: no-repeat;
@@ -152,9 +152,9 @@
 
     a.selected {
       color: var(--vads-color-base-darker) !important;
-      background: linear-gradient(var(--vads-color-base-darker), var(--vads-color-base-darker)) 100% top /
+      background: linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) 100% top /
           100% 1px,
-        linear-gradient(var(--vads-color-base-darker), var(--vads-color-base-darker)) left/ 8px 100%,
+        linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) left/ 8px 100%,
         var(--vads-color-base-lightest);
       background-repeat: no-repeat;
     }
@@ -229,12 +229,12 @@
         }
         &:active {
           color: var(--vads-color-base-darker) !important;
-          background: linear-gradient(var(--vads-color-base-darker), var(--vads-color-base-darker)) bottom /
+          background: linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) bottom /
               100% 2px,
-            linear-gradient(var(--vads-color-base-darker), var(--vads-color-base-darker)) 100% top / 100%
+            linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) 100% top / 100%
               2px,
-            linear-gradient(var(--vads-color-base-darker), var(--vads-color-base-darker)) left/ 8px 100%,
-            linear-gradient(var(--vads-color-base-darker), var(--vads-color-base-darker)) right / 3px 100%,
+            linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) left/ 8px 100%,
+            linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) right / 3px 100%,
             var(--vads-color-base-lightest);
           background-repeat: no-repeat;
         }

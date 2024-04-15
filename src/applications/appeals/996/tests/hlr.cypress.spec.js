@@ -1,7 +1,8 @@
 import path from 'path';
 
-import testForm from 'platform/testing/e2e/cypress/support/form-tester';
-import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
+import testForm from '~/platform/testing/e2e/cypress/support/form-tester';
+import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
@@ -9,7 +10,7 @@ import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 
-import { CONTESTABLE_ISSUES_API, WIZARD_STATUS, BASE_URL } from '../constants';
+import { CONTESTABLE_ISSUES_API, BASE_URL } from '../constants';
 
 import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
 
@@ -47,6 +48,17 @@ const testConfig = createTestConfig(
           cy.findAllByText(/start the request/i, { selector: 'a' })
             .first()
             .click();
+        });
+      },
+
+      homeless: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            const { homeless } = testData;
+            cy.get(`va-radio-option[value="${homeless ? 'Y' : 'N'}"]`).click();
+            cy.axeCheck();
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
         });
       },
 
@@ -94,11 +106,52 @@ const testConfig = createTestConfig(
       },
 
       'area-of-disagreement/:index': areaOfDisagreementPageHook,
+
+      'informal-conference': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            const rep = testData.informalConference;
+            cy.get(`va-radio-option[value="${rep}"]`).click();
+            cy.axeCheck();
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+
+      'informal-conference/representative-info': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            const rep = testData.informalConferenceRep;
+            cy.get('[name="root_informalConferenceRep_firstName"]')
+              .shadow()
+              .find('input')
+              .type(rep.firstName);
+            cy.get('[name="root_informalConferenceRep_lastName"]')
+              .shadow()
+              .find('input')
+              .type(rep.lastName);
+            cy.get('[name="root_informalConferenceRep_phone"]')
+              .shadow()
+              .find('input')
+              .type(rep.phone);
+            cy.get('[name="root_informalConferenceRep_extension"]')
+              .shadow()
+              .find('input')
+              .type(rep.extension);
+            cy.get('[name="root_informalConferenceRep_email"]')
+              .shadow()
+              .find('input')
+              .type(rep.email);
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
     },
 
     setupPerTest: () => {
-      window.sessionStorage.removeItem(WIZARD_STATUS);
       cypressSetup();
+
+      setStoredSubTask({ benefitType: 'compensation' });
 
       cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
       cy.intercept('POST', '/v1/higher_level_reviews', mockSubmit);
