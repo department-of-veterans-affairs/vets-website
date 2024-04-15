@@ -4,7 +4,7 @@ import ratedDisabilities from './rated-disabilities';
 import vaProfile from './vaProfile';
 import communicationPreferences from '../ducks/communicationPreferences';
 import { profileContactsReducer } from './contacts';
-import directDeposit from './directDeposit';
+import { directDepositReducer } from '../ducks/directDepositModern';
 
 export default {
   communicationPreferences,
@@ -13,7 +13,7 @@ export default {
   hcaEnrollmentStatus,
   ...ratedDisabilities,
   profileContacts: profileContactsReducer,
-  directDeposit,
+  directDeposit: directDepositReducer,
 };
 
 export const selectCommunicationPreferences = state => {

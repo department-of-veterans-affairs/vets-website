@@ -4,6 +4,7 @@ import { getData } from '~/platform/user/profile/utilities';
 
 import { API_STATUS } from '../constants';
 import { recordApiEvent } from '../util';
+import { directDepositFetchSucceeded } from '../ducks/directDepositModern';
 
 // action types for direct deposit information
 
@@ -72,10 +73,7 @@ export function fetchDirectDeposit({
         status: API_STATUS.SUCCESSFUL,
       });
 
-      dispatch({
-        type: DIRECT_DEPOSIT_FETCH_SUCCEEDED,
-        response,
-      });
+      dispatch(directDepositFetchSucceeded(response));
     }
   };
 }
