@@ -217,3 +217,18 @@ export const applicantPrimaryCommentsSchema = {
     primaryAdditionalComments: { type: 'string' },
   }),
 };
+
+export const applicantHasSecondarySchema = {
+  uiSchema: {
+    applicants: { items: {} },
+  },
+  schema: applicantListSchema([], {
+    applicantHasSecondary: {
+      type: 'object',
+      properties: {
+        hasSecondary: { type: 'string' },
+        _unused: { type: 'string' },
+      },
+    },
+  }),
+};

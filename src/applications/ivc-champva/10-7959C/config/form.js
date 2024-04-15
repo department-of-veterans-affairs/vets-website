@@ -57,6 +57,8 @@ import {
 import {
   ApplicantHasPrimaryPage,
   ApplicantHasPrimaryReviewPage,
+  ApplicantHasSecondaryPage,
+  ApplicantHasSecondaryReviewPage,
 } from '../components/ApplicantHasPrimaryPage';
 import {
   applicantHasPrimarySchema,
@@ -68,6 +70,7 @@ import {
   applicantPrimaryTypeSchema,
   applicantPrimaryMedigapSchema,
   applicantPrimaryCommentsSchema,
+  applicantHasSecondarySchema,
 } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -470,6 +473,16 @@ const formConfig = {
             } additional comments`,
           uiSchema: applicantPrimaryCommentsSchema.uiSchema,
           schema: applicantPrimaryCommentsSchema.schema,
+        },
+        hasSecondaryHealthInsurance: {
+          path: ':index/has-secondary',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} secondary health insurance`,
+          CustomPage: ApplicantHasSecondaryPage,
+          CustomPageReview: ApplicantHasSecondaryReviewPage,
+          uiSchema: applicantHasSecondarySchema.uiSchema,
+          schema: applicantHasSecondarySchema.schema,
         },
       },
     },
