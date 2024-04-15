@@ -65,6 +65,7 @@ import {
   applicantPrimaryExpirationDateSchema,
   applicantPrimaryEOBSchema,
   applicantPrimaryPrescriptionSchema,
+  applicantPrimaryTypeSchema,
 } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -74,7 +75,7 @@ import {
   noMedicareAB,
   hasPrimaryProvider,
 } from './conditionalPaths';
-import mockdata from '../tests/fixtures/data/test-data.json';
+// import mockdata from '../tests/fixtures/data/test-data.json';
 import {
   ApplicantPrimaryThroughEmployerPage,
   ApplicantPrimaryThroughEmployerReviewPage,
@@ -87,6 +88,10 @@ import {
   ApplicantPrimaryPrescriptionPage,
   ApplicantPrimaryPrescriptionReviewPage,
 } from '../components/ApplicantPrimaryPrescriptionPage';
+import {
+  ApplicantInsuranceTypePage,
+  ApplicantInsuranceTypeReviewPage,
+} from '../components/ApplicantInsurancePlanTypePage';
 
 /** @type {PageSchema} */
 const formConfig = {
@@ -127,7 +132,7 @@ const formConfig = {
         role: {
           path: 'your-information/description',
           title: 'Which of these best describes you?',
-          initialData: mockdata.data,
+          // initialData: mockdata.data,
           uiSchema: certifierRole.uiSchema,
           schema: certifierRole.schema,
         },
@@ -416,6 +421,20 @@ const formConfig = {
           CustomPageReview: ApplicantPrimaryEOBReviewPage,
           uiSchema: applicantPrimaryEOBSchema.uiSchema,
           schema: applicantPrimaryEOBSchema.schema,
+        },
+        primaryType: {
+          path: ':index/primary-insurance-type',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantPrimaryProvider
+            } insurance plan`,
+          CustomPage: ApplicantInsuranceTypePage,
+          CustomPageReview: ApplicantInsuranceTypeReviewPage,
+          uiSchema: applicantPrimaryTypeSchema.uiSchema,
+          schema: applicantPrimaryTypeSchema.schema,
         },
       },
     },
