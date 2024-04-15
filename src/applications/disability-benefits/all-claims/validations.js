@@ -336,27 +336,32 @@ export function findEarliestServiceStartDate(servicePeriods) {
       moment(),
     );
 }
-
+export function isMonthOnly(fieldData) {
+  return /^XXXX-\d{2}-XX$/.test(fieldData);
+}
+export function isYearOnly(fieldData) {
+  return /^\d{4}-XX-XX$/.test(fieldData);
+}
+export function isYearMonth(fieldData) {
+  return /^\d{4}-\d{2}-XX$/.test(fieldData);
+}
 export function startedAfterServicePeriod(err, fieldData, formData) {
   if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
     return;
   }
 
-  const isMonthOnly = /^XXXX-\d{2}-XX$/.test(fieldData);
-  const isYearOnly = /^\d{4}-XX-XX$/.test(fieldData);
-  const isYearMonth = /^\d{4}-\d{2}-XX$/.test(fieldData);
   const treatmentStartDate = moment(fieldData, 'YYYY-MM');
   const { servicePeriods } = formData.serviceInformation;
   const earliestServiceStartDate = findEarliestServiceStartDate(servicePeriods);
 
-  if (isMonthOnly) {
+  if (isMonthOnly(fieldData)) {
     err.addError('Enter a month and year.');
     return;
   }
   if (
-    (isYearOnly &&
+    (isYearOnly(fieldData) &&
       treatmentStartDate.diff(earliestServiceStartDate, 'year') < 0) ||
-    (isYearMonth &&
+    (isYearMonth(fieldData) &&
       treatmentStartDate.diff(earliestServiceStartDate, 'month') < 0)
   ) {
     err.addError(
