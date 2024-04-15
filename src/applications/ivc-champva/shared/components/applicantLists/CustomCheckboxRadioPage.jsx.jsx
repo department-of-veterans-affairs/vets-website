@@ -9,16 +9,11 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import PropTypes from 'prop-types';
 import { CustomCheckboxRadioReviewPage } from '../CustomCheckboxRadioReviewPage';
 
-function generateOptions() {
-  return [];
-}
-
 export function CheckboxCustomLabelsReviewPage(props) {
-  const genOps = props.genOp || generateOptions;
   return CustomCheckboxRadioReviewPage({
     ...props,
     useLabels: true,
-    generateOptions: genOps,
+    generateOptions: props.genOp,
   });
 }
 
@@ -40,8 +35,7 @@ export default function CheckboxCustomLabelsPage({
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = <button type="submit">Update page</button>;
-  const genOps = genOp || generateOptions;
-  const { labels, customTitle, customHint, description } = genOps({
+  const { labels, customTitle, customHint, description } = genOp({
     data,
     pagePerItemIndex,
   });
