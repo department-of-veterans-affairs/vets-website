@@ -1,3 +1,4 @@
+import React from 'react';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { radioUI, radioSchema } from './radioPattern';
 import { validateRoutingNumber } from '../validation';
@@ -6,6 +7,14 @@ const accountTypeLabels = {
   CHECKING: 'Checking',
   SAVINGS: 'Savings',
 };
+
+// Styled to match the description in the titleUI pattern
+const BankAccountDescription = () => (
+  <p className="vads-u-color--gray-dark vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4">
+    Enter the details of the bank account where you want to get your VA benefit
+    payments.
+  </p>
+);
 
 /**
  * Web component pattern for bank account information.
@@ -46,8 +55,7 @@ const bankAccountUI = ({
   omitBankName = false,
 } = {}) => {
   const uiSchema = {
-    'ui:description':
-      'Enter the details of the bank account where you want to get your VA benefit payments.',
+    'ui:description': BankAccountDescription,
     accountType: radioUI({
       title: accountTypeLabel,
       labels: accountTypeLabels,
