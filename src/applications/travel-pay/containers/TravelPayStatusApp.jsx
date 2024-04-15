@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import TravelClaimCard from '../components/TravelClaimCard';
+import { getTravelClaims } from '../redux/actions';
 
 export default function App() {
-  return (
-    // Micah's cool stuff
-    // You can reference the design here https://app.mural.co/t/departmentofveteransaffairs9999/m/departmentofveteransaffairs9999/1708602401825/9786edc7ee2a5b6c4efd1a895d067a07ae2a7f27?wid=0-1711399201475
+  const dispatch = useDispatch();
 
+  const claims = useSelector(state => state.travelPay.travelClaims);
+  useEffect(
+    () => {
+      dispatch(getTravelClaims());
+    },
+    [dispatch],
+  );
+
+  return (
     <article className="row">
       <div className="vads-l-row vads-u-margin-x--neg2p5">
         <va-breadcrumbs uswds="false" className="hydrated">
@@ -45,40 +55,15 @@ export default function App() {
           </div>
           <p id="pagination-info">Showing 1 ‒ 10 of 1543 events</p>
           <div className="claim-list">
-            <va-card
-              className="claim-list-item vads-u-margin-bottom--2 hydrated"
-              uswds="false"
-            >
-              <h2 className="claim-list-item-header vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2">
-                Friday, February 23, 2024 at 4:30 p.m. ET appointment
-              </h2>
-              <div className="card-status">
-                <h4 className="claim-list-item-header vads-u-margin-bottom--0">
-                  <div role="text">Where</div>
-                </h4>
-                <p className="vads-u-margin-y--0 submitted-on">
-                  Cheyenne VA Medical Center
-                </p>
-              </div>
-              <div className="card-status">
-                <h4 className="claim-list-item-header vads-u-margin-bottom--0p5">
-                  <div role="text">Claim details</div>
-                </h4>
-
-                <p className="vads-u-margin-y--0">
-                  <strong>Claim status: Denied</strong>
-                </p>
-                <p className="vads-u-margin-y--0">
-                  Claim number: TC0820000010877
-                </p>
-                <p className="vads-u-margin-y--0">
-                  Submitted on Friday, February 25, 2024 at 6:40 p.m. ET
-                </p>
-                <p className="vads-u-margin-y--0">
-                  Updated on Monday, March 25, 2024 at 10:20 a.m. ET
-                </p>
-              </div>
-            </va-card>
+            <TravelClaimCard
+              appointmentDate="Friday, February 23, 2024 at 4:30 p.m. ET"
+              appointmentLocation="Cheyenne VA Medical Center"
+              // claimNumber="TC0820000010877"
+              claimNumber={claims[0] ? claims[0].claimNumber : 'nope'}
+              claimStatus="Denied"
+              createdOn="Friday, February 25, 2024 at 6:40 p.m. ET"
+              updatedOn="Monday, March 25, 2024 at 10:20 a.m. ET"
+            />
 
             <va-card
               className="claim-list-item vads-u-margin-bottom--2 hydrated"
