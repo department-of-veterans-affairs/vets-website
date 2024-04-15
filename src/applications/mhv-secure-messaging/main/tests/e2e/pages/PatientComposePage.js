@@ -293,10 +293,6 @@ class PatientComposePage {
       .click();
   };
 
-  verifyAlertModal = () => {
-    cy.contains("We can't save this message yet").should('be.visible');
-  };
-
   clickOnContinueEditingButton = () => {
     cy.get(Locators.BUTTONS.CONTINUE_EDITING)
       .shadow()
@@ -306,7 +302,7 @@ class PatientComposePage {
   };
 
   verifyAlertModal = () => {
-    cy.get(`h1`).should('contain', "We can't save this message yet");
+    cy.get(`h2`).should('contain', "We can't save this message yet");
   };
 
   verifyExpectedPageOpened = menuOption => {
