@@ -62,7 +62,7 @@ import {
 } from '../components/ApplicantHasPrimaryPage';
 import {
   applicantHasPrimarySchema,
-  applicantPrimaryProviderSchema,
+  applicantProviderSchema,
   applicantPrimaryEffectiveDateSchema,
   applicantPrimaryExpirationDateSchema,
   applicantPrimaryEOBSchema,
@@ -79,6 +79,7 @@ import {
   hasMedicareD,
   noMedicareAB,
   hasPrimaryProvider,
+  hasSecondaryProvider,
 } from './conditionalPaths';
 import mockdata from '../tests/fixtures/data/test-data.json';
 import {
@@ -358,8 +359,8 @@ const formConfig = {
           depends: (formData, index) => hasPrimaryProvider(formData, index),
           title: item =>
             `${applicantWording(item)} health insurance provider’s name`,
-          uiSchema: applicantPrimaryProviderSchema.uiSchema,
-          schema: applicantPrimaryProviderSchema.schema,
+          uiSchema: applicantProviderSchema(true).uiSchema,
+          schema: applicantProviderSchema(true).schema,
         },
         primaryEffective: {
           path: ':index/primary-effective-date',
@@ -483,6 +484,18 @@ const formConfig = {
           CustomPageReview: ApplicantHasSecondaryReviewPage,
           uiSchema: applicantHasSecondarySchema.uiSchema,
           schema: applicantHasSecondarySchema.schema,
+        },
+        secondaryProvider: {
+          path: ':index/secondary-provider',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(
+              item,
+            )} secondary health insurance provider’s name`,
+          uiSchema: applicantProviderSchema(false).uiSchema,
+          schema: applicantProviderSchema(false).schema,
         },
       },
     },
