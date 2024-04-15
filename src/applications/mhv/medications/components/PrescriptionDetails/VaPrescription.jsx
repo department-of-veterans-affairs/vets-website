@@ -127,6 +127,22 @@ const VaPrescription = prescription => {
             <h2 className="vads-u-margin-top--3" data-testid="refill-History">
               Refill history
             </h2>
+            {refillHistory.length > 1 &&
+              refillHistory.some(rx => rx.cmopNdcNumber) && (
+                <p className="vads-u-margin--0">
+                  <strong>Note:</strong> Images on this page are for
+                  identification purposes only. They don’t mean that this is the
+                  amount of medication you’re supposed to take. If the most
+                  recent image doesn’t match what you’re taking, call{' '}
+                  <VaPharmacyText
+                    phone={
+                      prescription?.cmopDivisionPhone ||
+                      prescription?.dialCmopDivisionPhone
+                    }
+                  />
+                  .
+                </p>
+              )}
             {(refillHistory.length > 1 ||
               refillHistory[0].dispensedDate !== undefined) &&
               refillHistory.map((entry, i) => {
@@ -186,14 +202,6 @@ const VaPrescription = prescription => {
                     <div className="no-print">
                       {entry.cmopNdcNumber ? (
                         <>
-                          <p className="vads-u-margin--0">
-                            The image displayed is for identification purposes
-                            only and does not mean that its the dose to be
-                            taken.
-                            <br />
-                            If the medication image shown does not match what
-                            you are taking, please contact your VA Pharmacy.
-                          </p>
                           <img
                             alt=""
                             className="vads-u-margin-top--1"

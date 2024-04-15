@@ -144,7 +144,9 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Pharmacy phone number:</strong>{' '}
-              {validateField(rx.phoneNumber)}
+              {validateField(
+                rx?.cmopDivisionPhone || rx?.dialCmopDivisionPhone,
+              )}
             </p>
           </div>
           <DetailsHeaderElement>
