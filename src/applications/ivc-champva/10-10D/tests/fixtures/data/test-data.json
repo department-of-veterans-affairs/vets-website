@@ -3,12 +3,9 @@
     "certifierRole": "applicant",
     "applicants": [
       {
-        "applicantGender": { "gender": "female" },
-        "dateOfMarriageToSponsor": "1999-01-01",
-        "dateOfMarriageToOtherSpouse": "2024-01-01",
-        "remarriageIsViable": true,
-        "applicantPhone": "4442221113",
-        "applicantEmailAddress": "Janey@alvin.gov",
+        "applicantRelationshipOrigin": { "relationshipToVeteran": "blood" },
+        "applicantGender": { "gender": "male" },
+        "applicantEmailAddress": "johnny@alvin.gov",
         "applicantAddress": {
           "country": "USA",
           "street": "456 Circle Street",
@@ -19,20 +16,14 @@
         "applicantSSN": {
           "ssn": "345345345"
         },
-        "applicantRelationshipOrigin": {
-          "relationshipToVeteran": "blood"
-        },
         "applicantRelationshipToSponsor": {
-          "relationshipToVeteran": "spouse"
-        },
-        "applicantSponsorMarriageDetails": {
-          "relationshipToVeteran": "marriedTillDeathRemarriedAfter55"
+          "relationshipToVeteran": "child"
         },
         "applicantEnrolledInMedicare": false,
         "applicantEnrolledInOHI": false,
-        "applicantDOB": "1949-01-01",
+        "applicantDOB": "2003-01-04",
         "applicantName": {
-          "first": "Janey",
+          "first": "Johnny",
           "middle": "T",
           "last": "Alvin",
           "suffix": "Jr."
@@ -41,12 +32,19 @@
           "eligibility": "enrolled"
         },
         "applicantMedicarePart": "partA, partD",
-        "applicantHasOhi": "yes",
-        "applicantMedicarePartD": {
-          "enrollment": "enrolled"
-        }
+        "applicantHasOhi": "yes"
       }
     ],
+    "sponsorPhone": "5555555555",
+    "sponsorHasPhone": "yes",
+    "sponsorAddress": {
+      "country": "USA",
+      "street": "123 Anystreet",
+      "city": "Anyville",
+      "state": "AL",
+      "postalCode": "12345"
+    },
+    "sponsorHasAddress": "yes",
     "ssn": {
       "ssn": "123123123"
     },
@@ -54,12 +52,11 @@
       "first": "Joe",
       "last": "Johnson"
     },
-    "sponsorDOB": "1949-01-01",
+    "sponsorDOB": "1958-01-01",
     "sponsorIsDeceased": true,
     "sponsorDOD": "2001-01-01",
     "sponsorDeathConditions": false,
-    "statementOfTruthSignature": "Janey T Alvin",
-    "statementOfTruthCertified": true,
-    "consentToMailMissingRequiredFiles": true
+    "statementOfTruthSignature": "Joe Johnson",
+    "statementOfTruthCertified": true
   }
 }
