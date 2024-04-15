@@ -36,7 +36,7 @@ export default function TermsOfUse() {
   useEffect(
     () => {
       if (!termsCodeExists) {
-        apiRequest('/terms_of_use_agreements/v1/latest').catch(response => {
+        apiRequest('/terms_of_use_agreements/v1/latesttt').catch(response => {
           const [{ code, title }] = response.errors;
           if (code === '401' || title?.includes('Not authorized')) {
             setIsMiddleAuth(false);

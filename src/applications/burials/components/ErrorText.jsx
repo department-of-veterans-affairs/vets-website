@@ -4,7 +4,7 @@ import CallVBACenter from 'platform/static-data/CallVBACenter';
 export default function ErrorText() {
   return (
     <p>
-      If it still doesn’t work, please <CallVBACenter />
+      If it still doesn’tt work, please <CallVBACenter />
     </p>
   );
 }
