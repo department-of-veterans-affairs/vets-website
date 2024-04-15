@@ -200,3 +200,28 @@ export const applicantPrimaryMedigapSchema = {
     ]),
   }),
 };
+
+export const applicantPrimaryCommentsSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': { viewField: ApplicantField },
+      items: {
+        ...titleUI(
+          ({ formData }) =>
+            `${applicantWording(formData)} ${
+              formData?.applicantPrimaryProvider
+            } additional comments`,
+        ),
+        primaryAdditionalComments: {
+          'ui:title':
+            'Any additional comments about this applicant’s health insurance?',
+          'ui:webComponentField': VaTextInputField,
+        },
+      },
+    },
+  },
+  schema: applicantListSchema([], {
+    titleSchema,
+    primaryAdditionalComments: { type: 'string' },
+  }),
+};

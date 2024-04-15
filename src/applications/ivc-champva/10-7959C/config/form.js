@@ -67,6 +67,7 @@ import {
   applicantPrimaryPrescriptionSchema,
   applicantPrimaryTypeSchema,
   applicantPrimaryMedigapSchema,
+  applicantPrimaryCommentsSchema,
 } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -457,6 +458,18 @@ const formConfig = {
             } Medigap information`,
           uiSchema: applicantPrimaryMedigapSchema.uiSchema,
           schema: applicantPrimaryMedigapSchema.schema,
+        },
+        primaryComments: {
+          path: ':index/primary-comments',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantPrimaryProvider
+            } additional comments`,
+          uiSchema: applicantPrimaryCommentsSchema.uiSchema,
+          schema: applicantPrimaryCommentsSchema.schema,
         },
       },
     },
