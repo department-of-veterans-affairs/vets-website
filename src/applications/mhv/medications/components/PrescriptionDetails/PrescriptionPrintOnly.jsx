@@ -10,9 +10,7 @@ import VaPharmacyText from '../shared/VaPharmacyText';
 const PrescriptionPrintOnly = props => {
   const { rx, hideLineBreak, refillHistory, isDetailsRx } = props;
   const prescriptionImage =
-    rx?.rxRfRecords.length !== 0
-      ? rx?.rxRfRecords[0]?.cmopNdcNumber
-      : rx.cmopNdcNumber;
+    rx.cmopNdcNumber || rx?.rxRfRecords[0]?.cmopNdcNumber;
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
       <p>
