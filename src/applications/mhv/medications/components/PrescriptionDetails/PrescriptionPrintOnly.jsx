@@ -167,12 +167,6 @@ const PrescriptionPrintOnly = props => {
               <>
                 <p className="print-only-rx-image-container no-break">
                   <strong>Image of the medication or supply:</strong>{' '}
-                  <p className="vads-u-margin--0">
-                    The image displayed is for identification purposes only and
-                    does not mean that its the dose to be taken. If the
-                    medication image shown does not match what you are taking,
-                    please contact your VA Pharmacy.
-                  </p>
                   <img
                     src={getImageUri(prescriptionImage)}
                     alt={rx.prescriptionName}
@@ -193,7 +187,7 @@ const PrescriptionPrintOnly = props => {
                   const index = refillHistory.length - i - 1;
                   const { shape, color, backImprint, frontImprint } = entry;
                   const phone =
-                    entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+                    rx.cmopDivisionPhone || rx.dialCmopDivisionPhone;
                   return (
                     <div key={index}>
                       <h4>
@@ -211,7 +205,7 @@ const PrescriptionPrintOnly = props => {
                           ? dateFormat(entry.trackingList[0].completeDateTime)
                           : 'None noted'}
                       </p>
-                      <p className="vads-u-margin--0 vads-u-font-size--base vads-u-font-family--sans">
+                      <p className="vads-u-margin--0">
                         <strong>Medication description: </strong>
                       </p>
                       {shape?.trim() &&

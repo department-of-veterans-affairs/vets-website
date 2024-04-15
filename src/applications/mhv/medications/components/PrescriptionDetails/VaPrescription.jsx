@@ -148,7 +148,8 @@ const VaPrescription = prescription => {
               refillHistory.map((entry, i) => {
                 const { shape, color, backImprint, frontImprint } = entry;
                 const phone =
-                  entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+                  prescription?.cmopDivisionPhone ||
+                  prescription?.dialCmopDivisionPhone;
                 const refillPosition = refillHistory.length - i - 1;
                 const refillLabelId = `rx-refill-${refillPosition}`;
                 return (
