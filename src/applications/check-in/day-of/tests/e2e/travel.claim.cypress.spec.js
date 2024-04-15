@@ -62,15 +62,15 @@ describe('Check In Experience | Day Of |', () => {
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
       TravelPages.validatePageLoaded('vehicle');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
       TravelPages.validatePageLoaded('address');
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-
-      TravelPages.validatePageLoaded('mileage');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
@@ -100,7 +100,7 @@ describe('Check In Experience | Day Of |', () => {
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
-      TravelPages.validatePageLoaded('vehicle');
+      TravelPages.validatePageLoaded('mileage');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage('no');
 
@@ -125,15 +125,15 @@ describe('Check In Experience | Day Of |', () => {
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
       TravelPages.validatePageLoaded('vehicle');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
       TravelPages.validatePageLoaded('address');
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-
-      TravelPages.validatePageLoaded('mileage');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
@@ -180,15 +180,15 @@ describe('Check In Experience | Day Of |', () => {
       cy.injectAxeThenAxeCheck();
       TravelPages.clickEditLink();
 
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
       TravelPages.validatePageLoaded('vehicle');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
       TravelPages.validatePageLoaded('address');
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-
-      TravelPages.validatePageLoaded('mileage');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
