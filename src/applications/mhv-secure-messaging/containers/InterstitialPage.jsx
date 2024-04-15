@@ -37,11 +37,11 @@ const InterstitialPage = props => {
         </p>
 
         <va-button
-          uswds
           data-testid="continue-button"
           onClick={acknowledge}
           text={continueButtonText}
           data-dd-action-name={continueButtonText}
+          aria-label="Page content will change."
         />
 
         <h2 className="vads-u-font-size--h3">
