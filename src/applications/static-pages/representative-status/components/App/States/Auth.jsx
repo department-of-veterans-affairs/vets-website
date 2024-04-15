@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { useRepresentativeStatus } from '../../../hooks/useRepresentativeStatus';
 
 export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
@@ -17,17 +18,29 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
   }
 
   if (error) {
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="error"
-      uswds
-      visible
-    >
-      <h2 slot="headline">We’re sorry, something went wrong</h2>
-      <React.Fragment key=".1">
-        <p className="vads-u-margin-y--0">Please try again soon.</p>
-      </React.Fragment>
-    </va-alert>;
+    return (
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status="error"
+        uswds
+        visible
+      >
+        <h2 slot="headline">We don’t seem to have your records</h2>
+        <React.Fragment key=".1">
+          <p>We’re sorry. We can’t match your information to our records.</p>
+          <p>
+            <strong>What you can do</strong>
+          </p>
+          <p>
+            If you think your information should be here, please try again later
+            or call us at{' '}
+            <va-telephone contact={CONTACTS.VA_411} extension={0} /> (
+            <va-telephone contact={CONTACTS['711']} tty />
+            ). We’re here 24/7.
+          </p>
+        </React.Fragment>
+      </va-alert>
+    );
   }
 
   const renderAuthNoRep = () => {
