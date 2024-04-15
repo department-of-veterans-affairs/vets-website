@@ -31,31 +31,28 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
   }
 
   const renderAuthNoRep = () => {
-    if (representative) {
-      return (
-        <>
-          <div className="auth-header-icon">
-            <va-icon
-              icon="account_circle"
-              size={4}
-              srtext="Your representative"
-            />{' '}
+    return (
+      <>
+        <div className="auth-header-icon">
+          <va-icon
+            icon="account_circle"
+            size={4}
+            srtext="Your representative"
+          />{' '}
+        </div>
+        <div className="auth-no-rep-text">
+          <DynamicHeader className="auth-no-rep-header">
+            You don’t have an accredited representative
+          </DynamicHeader>
+          <div className="auth-no-rep-body">
+            <va-link
+              href="https://va.gov/va-accredited-representative-faqs"
+              text="Learn about accredited representatives"
+            />
           </div>
-          <div className="auth-no-rep-text">
-            <DynamicHeader className="auth-no-rep-header">
-              You don’t have an accredited representative
-            </DynamicHeader>
-            <div className="auth-no-rep-body">
-              <va-link
-                href="https://va.gov/va-accredited-representative-faqs"
-                text="Learn about accredited representatives"
-              />
-            </div>
-          </div>
-        </>
-      );
-    }
-    return <></>;
+        </div>
+      </>
+    );
   };
   const renderAuthRep = () => {
     if (representative) {
