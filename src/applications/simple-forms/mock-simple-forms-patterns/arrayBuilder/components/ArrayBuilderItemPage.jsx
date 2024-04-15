@@ -7,58 +7,19 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import { useEditOrAddForm } from './useEditOrAddForm';
 import ArrayBuilderCancelAddingButton from './ArrayBuilderCancelAddingButton';
 
-const DEFAULT_TEXT = {
-  cancelTitle: props =>
-    `Are you sure you want to cancel adding this ${props.nounSingular}?`,
-  cancelDescription: props =>
-    `If you cancel adding this ${
-      props.nounSingular
-    }, we won't save the information. You'll return to a screen where you can add or remove ${
-      props.nounPlural
-    }.`,
-  cancelYes: props => `Yes, cancel adding`,
-  cancelNo: props => `No, continue adding`,
-  buttonText: props => `Cancel adding this ${props.nounSingular}`,
-};
-
 /**
- * Item page for ArrayBuilder pattern. Uses local state when in
- * 'edit=true' urlQueryParam mode.
- *
- * requires `customPageUsesPagePerItemData: true` in the pageConfig
- *
- * Example:
- * ```
- * customPageUsesPagePerItemData: true
- * CustomPage: ArrayBuilderItemPage({
-    arrayPath: 'employers',
-    nounSingular: 'employer',
-    nounPlural: 'employers',
-    summaryRoute: '/array-multiple-page-builder-summary',
-  })
- * ```
- *
  * @param {{
  *   arrayPath: string,
- *   buttonText: string,
  *   nounPlural: string,
  *   nounSingular: string,
  *   summaryRoute: string,
- *   textOverrides?: {
- *     cancelTitle: (props) => string,
- *     cancelDescription: (props) => string,
- *     cancelYes: (props) => string,
- *     cancelNo: (props) => string,
- *     buttonText: (props) => string,
- *   }
+ *   getText: import('./arrayBuilderText').ArrayBuilderGetText,
  * }} props
  */
 export default function ArrayBuilderItemPage({
   arrayPath,
-  nounSingular,
-  nounPlural,
-  textOverrides,
   summaryRoute,
+  getText,
 }) {
   /** @type {CustomPageType} */
   function CustomPage(props) {
@@ -76,25 +37,6 @@ export default function ArrayBuilderItemPage({
     if (props.onReviewPage || (isEdit && !schema)) {
       return null;
     }
-
-    const textProps = {
-      nounPlural,
-      nounSingular,
-    };
-
-    function getText(key) {
-      return textOverrides?.[key]
-        ? textOverrides?.[key](textProps)
-        : DEFAULT_TEXT[key](textProps);
-    }
-
-    const text = {
-      cancelTitle: getText('cancelTitle'),
-      cancelDescription: getText('cancelDescription'),
-      cancelYes: getText('cancelYes'),
-      cancelNo: getText('cancelNo'),
-      buttonText: getText('buttonText'),
-    };
 
     return (
       <SchemaForm
@@ -114,12 +56,8 @@ export default function ArrayBuilderItemPage({
           <ArrayBuilderCancelAddingButton
             goToPath={props.goToPath}
             arrayPath={arrayPath}
-            modalDescription={text.cancelDescription}
-            modalTitle={text.cancelTitle}
-            modalButtonPrimary={text.cancelYes}
-            modalButtonSecondary={text.cancelNo}
-            buttonText={text.buttonText}
             summaryRoute={summaryRoute}
+            getText={getText}
           />
           {/* auto displayed save-in-progress link, etc */}
           {!isEdit && props.contentBeforeButtons}
@@ -161,17 +99,10 @@ export default function ArrayBuilderItemPage({
 
 ArrayBuilderItemPage.propTypes = {
   arrayPath: PropTypes.string.isRequired,
-  buttonText: PropTypes.object.isRequired,
   modalDescription: PropTypes.string.isRequired,
   modalTitle: PropTypes.string.isRequired,
   nounPlural: PropTypes.string.isRequired,
   nounSingular: PropTypes.string.isRequired,
   summaryRoute: PropTypes.string.isRequired,
-  textOverrides: PropTypes.shape({
-    cancelTitle: PropTypes.func,
-    cancelDescription: PropTypes.func,
-    cancelYes: PropTypes.func,
-    cancelNo: PropTypes.func,
-    buttonText: PropTypes.func,
-  }),
+  getText: PropTypes.func.isRequired,
 };

@@ -346,7 +346,7 @@ const FacilitiesMap = props => {
     <>
       <div id={zoomMessageDivID} aria-live="polite" className="sr-only" />
       <p className="sr-only" id="map-instructions" aria-live="assertive" />
-      <map
+      <div
         id={mapboxGlContainer}
         role="application"
         aria-label="Find VA locations on an interactive map"
@@ -362,7 +362,7 @@ const FacilitiesMap = props => {
             query={props.currentQuery}
           />
         )}
-      </map>
+      </div>
     </>
   );
 
@@ -438,8 +438,12 @@ const FacilitiesMap = props => {
           <div id="search-result-emergency-care-info">
             <p className="search-result-emergency-care-subheader">
               <strong>Note:</strong> If you think your life or health is in
-              danger, call <va-telephone contact="911" /> or go to the nearest
-              emergency department right away.
+              danger, call{' '}
+              <va-telephone
+                contact="911"
+                message-aria-describedby="Emergency care contact number"
+              />{' '}
+              or go to the nearest emergency department right away.
             </p>
           </div>
         )}

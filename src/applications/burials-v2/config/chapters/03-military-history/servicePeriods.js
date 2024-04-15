@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import format from 'date-fns-tz/format';
+import parseISO from 'date-fns/parseISO';
 import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { validateDateRange } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import {
@@ -20,7 +21,7 @@ import ReviewRowView from '../../../components/ReviewRowView';
 const { toursOfDuty } = fullSchemaBurials.properties;
 
 function formatDate(dateString) {
-  const date = new Date(dateString);
+  const date = parseISO(dateString);
   return format(date, 'LLLL d, yyyy');
 }
 
@@ -88,6 +89,7 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        itemAriaLabel: entry => entry.serviceBranch,
       },
       items: {
         dateRange: {

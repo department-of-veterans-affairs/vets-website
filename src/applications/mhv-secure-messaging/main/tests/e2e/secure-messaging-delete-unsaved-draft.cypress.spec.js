@@ -27,7 +27,7 @@ describe('Secure Messaging Delete Unsaved Compose Draft', () => {
     cy.get(Locators.BUTTONS.DELETE_DRAFT).should('be.visible');
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify confirm delete', () => {

@@ -5,6 +5,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import ContactInformationUpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 
 import { useDispatch } from 'react-redux';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleDirectDepositEdit } from '../../actions/directDeposit';
 import recordEvent from '~/platform/monitoring/record-event';
 import { DIRECT_DEPOSIT_ALERT_SETTINGS } from '../../constants';
@@ -46,9 +47,9 @@ const AccountWithInfo = ({
           )}
         </TransitionGroup>
       </div>
-      <button
+      <VaButton
         data-field-name="direct-deposit"
-        type="button"
+        text="Edit"
         className="vads-u-margin--0 vads-u-margin-top--1p5"
         aria-label="Edit your direct deposit bank information"
         ref={editButtonRef}
@@ -60,9 +61,7 @@ const AccountWithInfo = ({
           });
           toggleEdit();
         }}
-      >
-        Edit
-      </button>
+      />
     </div>
   );
 };
@@ -89,9 +88,9 @@ const NoAccountInfo = ({ editButtonRef, toggleEdit, recordEventImpl }) => {
       <p className="vads-u-margin--0">
         Edit your profile to add your bank information.
       </p>
-      <button
+      <VaButton
         className="vads-u-margin--0 vads-u-margin-top--1p5"
-        type="button"
+        text="Edit"
         data-testid="edit-bank-info-button"
         aria-label="Edit your direct deposit bank information"
         ref={editButtonRef}
@@ -103,9 +102,7 @@ const NoAccountInfo = ({ editButtonRef, toggleEdit, recordEventImpl }) => {
           });
           toggleEdit();
         }}
-      >
-        Edit
-      </button>
+      />
     </div>
   );
 };
@@ -146,12 +143,12 @@ export const AccountInfoView = ({
 };
 
 AccountInfoView.propTypes = {
+  showUpdateSuccess: PropTypes.bool.isRequired,
   paymentAccount: PropTypes.shape({
     name: PropTypes.string,
     accountNumber: PropTypes.string,
     accountType: PropTypes.string,
-  }).isRequired,
-  showUpdateSuccess: PropTypes.bool.isRequired,
+  }),
   recordEventImpl: PropTypes.func,
 };
 

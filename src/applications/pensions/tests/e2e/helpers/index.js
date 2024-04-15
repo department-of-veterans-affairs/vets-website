@@ -161,7 +161,6 @@ export const fillCurrentEmploymentHistoryPage = (fields, index) => {
     `currentEmployers_${index}_jobHoursWeek`,
     fields.jobHoursWeek,
   );
-  fillTextWebComponent(`currentEmployers_${index}_jobTitle`, fields.jobTitle);
 };
 export const fillPreviousEmploymentHistoryPage = (fields, index) => {
   fillTextWebComponent(`previousEmployers_${index}_jobType`, fields.jobType);
@@ -249,7 +248,6 @@ export const fillIncomeSourcesPage = (fields, index) => {
     );
   }
   fillTextWebComponent(`incomeSources_${index}_payer`, fields.payer);
-  // fillTextWebComponent(`incomeSources_${index}_amount`, fields.amount);
   cy.get(`input[name="root_incomeSources_${index}_amount"]`).type(
     fields.amount,
   );
@@ -276,33 +274,15 @@ export const fillCareExpensesPage = (fields, index) => {
     );
   }
   if (fields.careDateRange) {
-    const fromDate = new Date(fields.careDateRange.from);
-    const fromYear = fromDate.getFullYear();
-    const fromMonth = fromDate.getMonth() + 1;
-    const fromDay = fromDate.getDate();
-    cy.get(
-      `select[name="root_careExpenses_${index}_careDateRange_fromMonth"]`,
-    ).select(fromMonth);
-    cy.get(
-      `select[name="root_careExpenses_${index}_careDateRange_fromDay"]`,
-    ).select(fromDay);
-    cy.get(
-      `input[name="root_careExpenses_${index}_careDateRange_fromYear"]`,
-    ).type(fromYear);
+    fillDateWebComponentPattern(
+      `careExpenses_${index}_careDateRange_from`,
+      fields.careDateRange.from,
+    );
     if (fields.careDateRange.to) {
-      const toDate = new Date(fields.careDateRange.to);
-      const toYear = toDate.getFullYear();
-      const toMonth = toDate.getMonth() + 1;
-      const toDay = toDate.getDate();
-      cy.get(
-        `select[name="root_careExpenses_${index}_careDateRange_toMonth"]`,
-      ).select(toMonth);
-      cy.get(
-        `select[name="root_careExpenses_${index}_careDateRange_toDay"]`,
-      ).select(toDay);
-      cy.get(
-        `input[name="root_careExpenses_${index}_careDateRange_toYear"]`,
-      ).type(toYear);
+      fillDateWebComponentPattern(
+        `careExpenses_${index}_careDateRange_to`,
+        fields.careDateRange.to,
+      );
     }
   }
   if (fields.noCareEndDate) {

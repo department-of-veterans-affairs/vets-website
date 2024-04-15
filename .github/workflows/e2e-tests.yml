@@ -102,7 +102,7 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: Get Mapbox Token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
           env_variable_name: MAPBOX_TOKEN
@@ -176,6 +176,13 @@ jobs:
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
+
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
+
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
@@ -242,21 +249,21 @@ jobs:
         uses: ./.github/workflows/upload-artifact
         if: ${{ failure() }}
         with:
-          name: cypress-video-artifacts
+          name: cypress-video-artifacts-${{ matrix.ci_node_index }}
           path: cypress/videos
 
       - name: Archive test screenshots
         uses: ./.github/workflows/upload-artifact
         if: ${{ failure() }}
         with:
-          name: cypress-screenshot-artifacts
+          name: cypress-screenshot-artifacts-${{ matrix.ci_node_index }}
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
         uses: ./.github/workflows/upload-artifact
         if: ${{ always() }}
         with:
-          name: cypress-mochawesome-test-results
+          name: cypress-mochawesome-test-results-${{ matrix.ci_node_index }}
           path: cypress/results
           retention-days: 1
 
@@ -294,7 +301,7 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -338,7 +345,7 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -350,10 +357,10 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+            ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+            env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
@@ -375,15 +382,17 @@ jobs:
       - name: Download Cypress E2E Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-mochawesome-test-results
+          pattern: cypress-mochawesome-test-results-*
           path: qa-standards-dashboard-data/src/testing-reports/data
+          merge-multiple: true
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-video-artifacts
+          pattern: cypress-video-artifacts-*
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
+          merge-multiple: true
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery

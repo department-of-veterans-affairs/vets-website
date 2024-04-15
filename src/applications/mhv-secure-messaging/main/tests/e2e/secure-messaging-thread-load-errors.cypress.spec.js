@@ -7,12 +7,12 @@ describe('Thread list load error', () => {
   it('verify error on particular folder', () => {
     site.login();
     PatientErrorPage.loadParticularFolderError();
-    PatientErrorPage.verifyAlertMessage();
+    PatientErrorPage.verifyAlertMessageText();
   });
 
   it('verify error in My folders', () => {
     site.login();
     PatientErrorPage.loadMyFoldersError();
-    PatientErrorPage.verifyAlertMessage();
+    PatientErrorPage.verifyAlertMessageText();
   });
 });

@@ -56,6 +56,8 @@ There are several different mock UUIDs that can be used as a value for the `id` 
 ### Pre-check-in
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
   - phoneApptUUID: `258d753c-262a-4ab2-b618-64b645884daf`
+  - cvtApptUUID = `f4b9f1a7-4e3d-4d0c-8b8c-3f9b3d0f9e9b`
+  - vvcApptUUID = `cc8bd49c-5ac8-4ad2-880a-b96645cdea64`
   - alreadyPreCheckedInUUID: `4d523464-c450-49dc-9a18-c04b3f1642ee`
   - canceledAppointmentUUID: `9d7b7c15-d539-4624-8d15-b740b84e8548`
   - canceledPhoneAppointmentUUID: `1448d690-fd5f-11ec-b939-0242ac120002`

@@ -22,6 +22,12 @@ export const medicationsUrls = {
     '/my-health/medications/about/accordion-renew-rx',
   MEDICATIONS_REFILL: '/my-health/medications/refill',
   PRESCRIPTION_DETAILS: '/my-health/medications/prescription',
+  subdirectories: {
+    BASE: '/',
+    ABOUT: '/about',
+    REFILL: '/refill',
+    DETAILS: '/prescription',
+  },
 };
 
 export const dispStatusForRefillsLeft = [

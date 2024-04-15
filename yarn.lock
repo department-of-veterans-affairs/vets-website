@@ -2863,13 +2863,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^38.0.3":
-  version "38.0.3"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-38.0.3.tgz#13c0f2ea3bc4803be53d596c9f8bc8ef30008b76"
-  integrity sha512-PdOEwOr8VGc2QtwZwZoW9L7d0nf5NbGOnzNjnLksMDb9YsXHS5eTkMVIBsQ9OpuaVaWVAMvdTA5fGx6qF3HcAA==
+"@department-of-veterans-affairs/component-library@^38.0.4":
+  version "38.0.4"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-38.0.4.tgz#4b4c30309bf6b3ca1dac1001ce8e7abfe0fe561b"
+  integrity sha512-QXa8lK3hD8z3rn68Jya3+i8QoxMUr1JQkAYJWnct452mIiyvjKgzAFqd5u57pbwNHi7im5kfIkbtex9Vu/CyCA==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.0.0"
-    "@department-of-veterans-affairs/web-components" "6.0.5"
+    "@department-of-veterans-affairs/web-components" "6.0.7"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2956,10 +2956,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@6.0.5":
-  version "6.0.5"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-6.0.5.tgz#cb1ead1f5d923637edd1ded1110b102178b363c6"
-  integrity sha512-UkZ7DniN9q+TJkUvlxfr3RdsaVHaD9XE97utg3NqISiwTV2f86LSsivU3IVAt9mlmQKl9vLkAS6Q5oZMTTCReA==
+"@department-of-veterans-affairs/web-components@6.0.7":
+  version "6.0.7"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-6.0.7.tgz#17f6a0ba47f5d1498bbe929ef457d0ee4c62da0a"
+  integrity sha512-TPdOcdkF967C0wS3FBWBezzNqXvOREwrc8SYRofFrEJriZiOm6Mb9SXDyZG6v0CWIiGVESdlzBWwColPuL7dRA==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.5.1"
     "@stencil/core" "^2.19.2"
@@ -10511,10 +10511,10 @@ fs-minipass@^2.0.0, fs-minipass@^2.1.0:
   dependencies:
     minipass "^3.0.0"
 
-fs-monkey@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/fs-monkey/-/fs-monkey-1.0.3.tgz#ae3ac92d53bb328efe0e9a1d9541f6ad8d48e2d3"
-  integrity sha512-cybjIfiiE+pTWicSCLFHSrXZ6EilF30oh91FDP9S2B051prEa7QWfrVTQm10/dDpswBDXZugPa1Ogu8Yh+HV0Q==
+fs-monkey@^1.0.4:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/fs-monkey/-/fs-monkey-1.0.5.tgz#fe450175f0db0d7ea758102e1d84096acb925788"
+  integrity sha512-8uMbBjrhzW76TYgEV27Y5E//W2f/lTFmx78P2w19FZSxarhI/798APGQyuGCwmkNxgwGRhrLfvWyLBvNtuOmew==
 
 fs.realpath@^1.0.0:
   version "1.0.0"
@@ -14035,12 +14035,12 @@ mem@^5.1.0:
     mimic-fn "^2.1.0"
     p-is-promise "^2.1.0"
 
-memfs@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/memfs/-/memfs-3.4.1.tgz#b78092f466a0dce054d63d39275b24c71d3f1305"
-  integrity sha512-1c9VPVvW5P7I85c35zAdEr1TD5+F11IToIHIlrVIcflfnzPkJa0ZoYEoEdYDP8KgPFoSZ/opDrUsAoZWym3mtw==
+memfs@^3.4.3:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/memfs/-/memfs-3.6.0.tgz#d7a2110f86f79dd950a8b6df6d57bc984aa185f6"
+  integrity sha512-EGowvkkgbMcIChjMTMkESFDbZeSh8xZ7kNSF0hAiAN4Jh6jgHCRS0Ga/+C8y6Au+oqpezRHCfPsmJ2+DwAgiwQ==
   dependencies:
-    fs-monkey "1.0.3"
+    fs-monkey "^1.0.4"
 
 meow@^3.7.0, meow@^5.0.0, meow@^6.1.1, meow@^9.0.0:
   version "9.0.0"
@@ -20596,9 +20596,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#0277d5bcddf48894d22b45f3618bca33e82a8ca4":
-  version "22.0.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#0277d5bcddf48894d22b45f3618bca33e82a8ca4"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#0832461353f871b688b0c231ecf9bdbfb1f9145a":
+  version "22.0.3"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#0832461353f871b688b0c231ecf9bdbfb1f9145a"
   dependencies:
     minimist "^1.2.3"
 
@@ -20770,12 +20770,12 @@ webpack-cli@^4.9.2:
     webpack-merge "^5.7.3"
 
 webpack-dev-middleware@^5.3.1:
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-5.3.1.tgz#aa079a8dedd7e58bfeab358a9af7dab304cee57f"
-  integrity sha512-81EujCKkyles2wphtdrnPg/QqegC/AtqNH//mQkBYSMqwFVCQrxM6ktB2O/SPlZy7LqeEfTbV3cZARGQz6umhg==
+  version "5.3.4"
+  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-5.3.4.tgz#eb7b39281cbce10e104eb2b8bf2b63fce49a3517"
+  integrity sha512-BVdTqhhs+0IfoeAf7EoH5WE+exCmqGerHfDM0IL096Px60Tq2Mn9MAbnaGUe6HiMa41KMCYF19gyzZmBcq/o4Q==
   dependencies:
     colorette "^2.0.10"
-    memfs "^3.4.1"
+    memfs "^3.4.3"
     mime-types "^2.1.31"
     range-parser "^1.2.1"
     schema-utils "^4.0.0"

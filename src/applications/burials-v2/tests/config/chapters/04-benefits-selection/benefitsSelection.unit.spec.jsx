@@ -33,4 +33,22 @@ describe('Benefits Selection', () => {
 
     expect($$('va-checkbox', formDOM).length).to.equal(3);
   });
+
+  it('should show "not selected" on review page', () => {
+    const form = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{ 'view:claimedBenefits': { plotAllowance: true } }}
+          reviewMode
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+    const spanContent = $$('span', formDOM).map(s => s.innerHTML);
+    expect(spanContent.filter(s => s === 'Selected').length).to.equal(1);
+    expect(spanContent.filter(s => s === 'Not selected').length).to.equal(2);
+  });
 });

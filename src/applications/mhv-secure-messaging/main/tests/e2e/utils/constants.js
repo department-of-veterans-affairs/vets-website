@@ -43,6 +43,7 @@ export const Paths = {
 };
 
 export const Locators = {
+  FROM_TO_DATES_CONTAINER: '.fromToDatesContainer',
   MESSAGE_FAQ: '.secure-messaging-faq',
   MESSAGES: '[data-testid="message-list-item"]',
   TO: '[data-testid="to"]',
@@ -55,6 +56,7 @@ export const Locators = {
   ATTACHMENT_COUNT: '[data-testid="attachments-count"]',
   MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
   MESSAGES_BODY: '[data-testid="message-body-field"]',
+  MESSAGES_BODY_DRAFT: '.message-body-draft-preview',
   DROPDOWN: '#sort-order-dropdown',
   CERNER: '[data-testid="cerner-facility"]',
   CERNER_TEXT: '[data-testid="single-cerner-facility-text"]',
@@ -89,8 +91,10 @@ export const Locators = {
     NOT_EMP_FOLDER: '[data-testid="error-folder-not-empty"] p',
     FOLDER_INPUT_LABEL: '[data-testid="search-message-folder-input-label"]',
     FOLDER_DROPDOWN: '[data-testid="folder-dropdown"]',
+    FOLDER_NOT_EMPTY: 'va-modal[data-testid="error-folder-not-empty"]',
   },
   BUTTONS: {
+    ADDITIONAL_FILTER: '#additional-filter-accordion',
     TRASH_TEXT: '[data-testid=trash-button-text]',
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
     REPLY: '[data-testid="reply-button-body"]',
@@ -117,11 +121,12 @@ export const Locators = {
     REMOVE_ATTACHMENT: '.remove-attachment-button',
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
     CREATE_FOLDER: '[data-testid="create-folder-button"]',
-    REMOVE_FOLDER: '[data-testid="remove-folder-button"]',
+    REMOVE_FOLDER: 'button[data-testid="remove-folder-button"]',
     PREFERENCES: '[data-testid="edit-preferences-button"]',
     CATEGORY_RADIOBTN: '[data-testid="compose-category-radio-button"]',
-    DELETE_CANCEL: '[text="No, continue editing"]',
-    DELETE_CONFIRM: '[text="Yes, delete this draft"]',
+    DELETE_CANCEL: '#delete-cancel',
+    DELETE_CONFIRM: '#delete-draft',
+    ADD_FILTER_BUTTON: '[id="additional-filter-accordion"] h3.headline-text',
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
@@ -129,6 +134,7 @@ export const Locators = {
     CREATE_NEW_MESSAGE: '[data-testid="compose-message-link"]',
   },
   ALERTS: {
+    MODEL_TITLE_ALERT: '.va-modal-alert-title',
     TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
     TRIAGE_GROUP: '[data-testid="blocked-triage-group-alert"]>h2',
     CLOSE_NOTIFICATION: '.va-alert',
@@ -180,6 +186,11 @@ export const Locators = {
     MESS_SUBJECT: '#message-subject',
     VISIBLE_P: '[visible=""] > p',
     CATEGORY_DROPDOWN: '[data-testid="category-dropdown"]',
+    DATE_RANGE_DROPDOWN: '#date-range-dropdown',
+    SEARCH_MESSAGE_HEADING: '[data-testid="search-messages"] h2',
+    SEARCH_MESSAGE: '[data-testid="search-messages"] [aria-live="polite"]',
+    FILTER_MESSAGE_TEXT: '[data-testid="search-form"] h2',
+    NOT_FOR_PRINT_HEADER: '[data-testid="not-for-print-header"]',
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
@@ -244,6 +255,8 @@ export const Data = {
   ALREADY_ATTACHED_FILE: 'You have already attached this file.',
   CANNOT_SEND_MSG_TO_CARE_TEAM:
     "You can't send messages to your care teams right now",
+  REMOVE_FOLDER: 'Remove folder',
+  CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
 };
 export const Assertions = {
   MESSAGES: 'Messages',
@@ -265,4 +278,6 @@ export const Assertions = {
   SECURE_MESSAGE_PILOT: 'What is Secure Messaging Pilot?',
   NEW_MESSAGE: 'new-message',
   ARIA_EXPANDED: 'aria-expanded',
+  EMPTY_THIS_FOLDER: 'Empty this folder',
+  NO_MATCHES_SEARCH: 'We didn’t find any matches for these filters',
 };

@@ -10,23 +10,34 @@ import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veter
 import { Auth } from './States/Auth';
 import { Unauth } from './States/Unauth';
 
-export const App = ({ hasRepresentative, toggleLoginModal }) => {
-  const DynamicHeader = 'h3';
+export const App = ({
+  baseHeader,
+  toggleLoginModal,
+  authenticatedWithSSOe,
+  authenticatedWithOAuth,
+}) => {
+  const DynamicHeader = `h${baseHeader}`;
+  const DynamicSubheader = `h${baseHeader + 1}`;
 
-  const loggedIn = isAuthenticatedWithSSOe || isAuthenticatedWithOAuth;
+  const loggedIn = authenticatedWithSSOe || authenticatedWithOAuth;
 
   return (
     <>
       {loggedIn ? (
-        <Auth
-          hasRepresentative={hasRepresentative}
-          DynamicHeader={DynamicHeader}
-        />
+        <>
+          {' '}
+          <Auth
+            DynamicHeader={DynamicHeader}
+            DynamicSubheader={DynamicSubheader}
+          />
+        </>
       ) : (
-        <Unauth
-          toggleLoginModal={toggleLoginModal}
-          DynamicHeader={DynamicHeader}
-        />
+        <>
+          <Unauth
+            toggleLoginModal={toggleLoginModal}
+            DynamicHeader={DynamicHeader}
+          />
+        </>
       )}
     </>
   );
@@ -34,12 +45,16 @@ export const App = ({ hasRepresentative, toggleLoginModal }) => {
 
 App.propTypes = {
   toggleLoginModal: PropTypes.func.isRequired,
+  authenticatedWithOAuth: PropTypes.bool,
+  authenticatedWithSSOe: PropTypes.bool,
   baseHeader: PropTypes.number,
   hasRepresentative: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   hasRepresentative: state?.user?.login?.hasRepresentative || null,
+  authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
+  authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -7,6 +7,7 @@ import {
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import reducer from '../../reducers';
 import prescriptions from '../fixtures/prescriptions.json';
 import Prescriptions from '../../containers/Prescriptions';
@@ -119,7 +120,7 @@ describe('Medications Prescriptions container', () => {
     });
     expect(
       screen.getByText(
-        'You don’t have any medications in your medications list',
+        'You don’t have any VA prescriptions or medication records',
       ),
     ).to.exist;
   });
@@ -199,6 +200,9 @@ describe('Medications Prescriptions container', () => {
   it('displays text inside refill box "find a list of prescriptions you can refill online." when refill flag is true', () => {
     const screen = setup({
       ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
       featureToggles: {
         // eslint-disable-next-line camelcase
         mhv_medications_display_refill_content: true,
@@ -207,5 +211,31 @@ describe('Medications Prescriptions container', () => {
     expect(
       screen.findByText('find a list of prescriptions you can refill online..'),
     );
+  });
+
+  it('Simulates print all button click', async () => {
+    const screen = setup();
+    const button = await screen.findByTestId('download-print-all-button');
+    expect(button).to.exist;
+    expect(button).to.have.text('Print all medications');
+    button.click();
+  });
+
+  it('Simulates print button click', async () => {
+    const screen = setup();
+    const button = await screen.findByTestId('download-print-button');
+    expect(button).to.exist;
+    expect(button).to.have.text('Print this page of the list');
+    button.click();
+  });
+
+  it('Simulates primary modal button click', async () => {
+    const screen = setup();
+    $('va-modal', screen.container).__events.primaryButtonClick();
+  });
+
+  it('Simulates secondary modal button click', async () => {
+    const screen = setup();
+    $('va-modal', screen.container).__events.secondaryButtonClick();
   });
 });
