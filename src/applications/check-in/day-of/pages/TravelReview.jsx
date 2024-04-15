@@ -6,21 +6,19 @@ import { VaCheckbox } from '@department-of-veterans-affairs/component-library/di
 
 import { recordAnswer } from '../../actions/universal';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { makeSelectVeteranData, makeSelectForm } from '../../selectors';
+import { makeSelectVeteranData } from '../../selectors';
 import AddressBlock from '../../components/AddressBlock';
 import TravelPage from '../../components/pages/TravelPage';
 
 const TravelQuestion = props => {
   const { router } = props;
   const { t } = useTranslation();
-  const { jumpToPage } = useFormRouting(router);
+  const { jumpToPage, goToNextPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const [agree, setAgree] = useState(false);
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
-  const selectForm = useMemo(makeSelectForm, []);
-  const { data } = useSelector(selectForm);
 
   const onCheck = e => {
     setAgree(e.detail.checked);
@@ -28,14 +26,14 @@ const TravelQuestion = props => {
   const validation = () => {
     if (agree) {
       dispatch(recordAnswer({ 'travel-question': 'yes' }));
-      jumpToPage(`complete/${data.activeAppointmentId}`);
+      goToNextPage();
     } else {
       setError(true);
     }
   };
   const fileLater = () => {
     dispatch(recordAnswer({ 'travel-question': 'no' }));
-    jumpToPage(`complete/${data.activeAppointmentId}`);
+    goToNextPage();
   };
   const agreementLink = e => {
     e.preventDefault();
