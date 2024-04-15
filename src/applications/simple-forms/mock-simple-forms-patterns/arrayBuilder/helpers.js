@@ -56,11 +56,14 @@ export function onNavBackKeepUrlParams({ goPreviousPath, urlParams }) {
  * Creates a path with a `add` query param
  * @param {Object} props
  * @param {string} props.path e.g. `/path-item/:index`
+ * @param {boolean} [props.isReview] if coming from the review page
  * @param {string | number} props.index
  * @returns {string} e.g. `/path-item/0?add=true`
  */
-export function createArrayBuilderItemAddPath({ path, index }) {
-  return `${path.replace(':index', index)}?add=true`;
+export function createArrayBuilderItemAddPath({ path, index, isReview }) {
+  return `${path.replace(':index', index)}?add=true${
+    isReview ? '&review=true' : ''
+  }`;
 }
 
 /**
