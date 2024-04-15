@@ -70,7 +70,7 @@ describe('pension pow information page', () => {
     $('va-radio', container).__events.vaValueChange(changeEvent);
 
     fireEvent.click(submitBtn);
-    await waitFor(() => {
+    waitFor(() => {
       expect(onSubmit.called).to.be.true;
     });
   });
@@ -93,7 +93,7 @@ describe('pension pow information page', () => {
     // Verify fields not visible
     expect($$('input,select', container).length).to.equal(0);
 
-    await waitFor(() => {
+    waitFor(() => {
       const changeEvent = new CustomEvent('selected', {
         detail: { value: 'Y' },
       });
