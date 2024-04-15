@@ -220,7 +220,7 @@ jobs:
         id: unit-tests-to-stress-test
         run: echo "tests=$UNIT_TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
 
-       - name: Set output of APPS_TO_STRESS_TEST
+      - name: Set output of APPS_TO_STRESS_TEST
         if: ${{ always() }}
         id: apps-to-stress-test
         run: echo "apps_to_test=$APPS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
