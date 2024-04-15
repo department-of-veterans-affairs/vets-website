@@ -18,7 +18,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingVAOSV2Next', value: true },
   { name: 'vaOnlineSchedulingClinicFilter', value: true },
   { name: 'vaOnlineSchedulingUseDsot', value: true },
-  { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },
   { name: 'vaOnlineSchedulingConvertUtcToLocal', value: false },
   { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: true },
   { name: 'vaOnlineSchedulingBookingExclusion', value: false },
