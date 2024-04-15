@@ -37,23 +37,25 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
 
     return enrollments;
   };
-
-  const handlePageChange = pageNumber => {
-    setSubsetStart(pageNumber * ENROLLMETS_PER_PAGE - ENROLLMETS_PER_PAGE);
-    if (pageNumber * ENROLLMETS_PER_PAGE > totalEnrollmentCount) {
-      setSubsetEnd(totalEnrollmentCount);
-    } else {
-      setSubsetEnd(pageNumber * ENROLLMETS_PER_PAGE);
-    }
-    setCurrentPage(pageNumber);
-  };
+  const handlePageChange = useCallback(
+    pageNumber => {
+      setSubsetStart(pageNumber * ENROLLMETS_PER_PAGE - ENROLLMETS_PER_PAGE);
+      if (pageNumber * ENROLLMETS_PER_PAGE > totalEnrollmentCount) {
+        setSubsetEnd(totalEnrollmentCount);
+      } else {
+        setSubsetEnd(pageNumber * ENROLLMETS_PER_PAGE);
+      }
+      setCurrentPage(pageNumber);
+    },
+    [totalEnrollmentCount],
+  );
 
   const onPageSelect = useCallback(
     newPage => {
       handlePageChange(newPage);
       focusElement('.focus-element-on-pagination');
     },
-    [setCurrentPage],
+    [handlePageChange],
   );
 
   useEffect(
@@ -162,6 +164,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
           className="focus-element-on-pagination"
           aria-label={`Showing ${subsetStart +
             1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
+          aria-hidden="false"
         >
           {`Showing ${subsetStart +
             1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}

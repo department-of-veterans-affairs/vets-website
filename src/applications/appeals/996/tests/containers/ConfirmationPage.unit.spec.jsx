@@ -6,12 +6,18 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moment from 'moment';
 
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+import {
+  setStoredSubTask,
+  getStoredSubTask,
+} from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import formConfig from '../../config/form';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import { WIZARD_STATUS, SAVED_CLAIM_TYPE } from '../../constants';
 import { SELECTED } from '../../../shared/constants';
 
 const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
@@ -130,17 +136,15 @@ describe('Confirmation page', () => {
       expect(document.activeElement).to.eq(h2);
     });
   });
-  it('should reset the wizard sessionStorage', async () => {
-    sessionStorage.setItem(WIZARD_STATUS, 'foo');
-    sessionStorage.setItem(SAVED_CLAIM_TYPE, 'bar');
+  it('should reset the subtask value in sessionStorage', async () => {
+    setStoredSubTask('{ "benefitType": "compensation" }');
     render(
       <Provider store={mockStore(getData())}>
         <ConfirmationPage />
       </Provider>,
     );
     await waitFor(() => {
-      expect(sessionStorage.getItem(WIZARD_STATUS)).to.be.null;
-      expect(sessionStorage.getItem(SAVED_CLAIM_TYPE)).to.be.null;
+      expect(getStoredSubTask()).to.deep.equal({});
     });
   });
 

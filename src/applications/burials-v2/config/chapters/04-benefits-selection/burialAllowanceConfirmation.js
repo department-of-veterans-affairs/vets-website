@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  checkboxGroupUI,
-  checkboxGroupSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { generateTitle } from '../../../utils/helpers';
 
@@ -15,11 +12,11 @@ export default {
       'ui:description': (
         <>
           <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
-            You selected that you're claiming a burial allowance for the
+            You selected that you’re claiming a burial allowance for the
             unclaimed remains of a Veteran.
           </p>
           <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
-            To make this claim, you'll need to confirm that both of these
+            To make this claim, you’ll need to confirm that both of these
             statements are true:
           </p>
           <ul className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
@@ -28,24 +25,37 @@ export default {
               members or friends, <strong>and</strong>
             </li>
             <li>
-              The Veteran's estate doesn't have the financial resources to pay
+              The Veteran’s estate doesn’t have the financial resources to pay
               for burial and funeral expenses
             </li>
           </ul>
         </>
       ),
       confirmation: {
-        ...checkboxGroupUI({
-          title: ' ',
-          required: form => get('burialAllowanceRequested.unclaimed', form),
-          errorMessages: {
+        checkBox: {
+          'ui:title': 'I confirm these statements are true',
+          'ui:webComponentField': VaCheckboxField,
+          'ui:required': form =>
+            get('burialAllowanceRequested.unclaimed', form),
+          'ui:errorMessages': {
             required: confError,
-            atLeaseOne: confError,
           },
-          labels: {
-            checkBox: 'I confirm these statements are true',
+          'ui:validations': [
+            // require at least one value to be true/checked
+            (errors, _data, formData, _schema, errorMessages) => {
+              const { required } = errorMessages;
+              if (
+                formData?.['view:allowanceStatement']?.confirmation
+                  ?.checkBox !== true
+              ) {
+                errors.addError(required);
+              }
+            },
+          ],
+          'ui:options': {
+            messageAriaDescribedby: `I confirm these statements are true. The remains of the Veteran have not been claimed by their family members or friends, and the Veteran's estate doesn't have the financial resources to pay for burial and funeral expenses.`,
           },
-        }),
+        },
       },
     },
   },
@@ -56,7 +66,12 @@ export default {
         type: 'object',
         properties: {
           confirmation: {
-            ...checkboxGroupSchema(['checkBox']),
+            type: 'object',
+            properties: {
+              checkBox: {
+                type: 'boolean',
+              },
+            },
           },
         },
       },

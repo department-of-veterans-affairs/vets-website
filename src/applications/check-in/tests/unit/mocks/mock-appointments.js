@@ -41,6 +41,14 @@ const multipleAppointments = [
     ...singleAppointment[0],
     appointmentIen: 'some-other-ien',
   },
+  {
+    ...singleAppointment[0],
+    appointmentIen: 'cvt-ien',
+  },
+  {
+    ...singleAppointment[0],
+    appointmentIen: 'vvc-ien',
+  },
 ];
 
 module.exports = { singleAppointment, multipleAppointments };

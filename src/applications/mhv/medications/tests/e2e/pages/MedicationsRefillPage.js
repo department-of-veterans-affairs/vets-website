@@ -98,8 +98,8 @@ class MedicationsRefillPage {
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
-    cy.get('[data-testid="back-to-medications-page-link"]').should('exist');
-    cy.get('[data-testid="back-to-medications-page-link"]').click({
+    cy.get('[data-testid="rx-breadcrumb"] > a').should('exist');
+    cy.get('[data-testid="rx-breadcrumb"] > a').click({
       waitForAnimations: true,
     });
   };
@@ -194,7 +194,7 @@ class MedicationsRefillPage {
   verifyRxRenewSectionSubHeadingOnRefillPage = () => {
     cy.get('[data-testid="renew-section-subtitle"]').should(
       'contain',
-      'prescription isn’t ready',
+      'If you can’t find the prescription',
     );
   };
 
@@ -268,6 +268,32 @@ class MedicationsRefillPage {
     cy.get(
       `[data-testid="refill-prescription-details-${prescription}"]`,
     ).should('contain', refillsRemaining);
+  };
+
+  clickPrescriptionRefillCheckbox = prescription => {
+    cy.intercept(
+      'PATCH',
+      '/my_health/v1/prescriptions/refill_prescriptions?ids[]=22545165',
+      prescription,
+    );
+    cy.get('[data-testid="refill-prescription-checkbox-1"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickRefillRequestButton = () => {
+    cy.get('[data-testid="request-refill-button"]').should('exist');
+    cy.get('[data-testid="request-refill-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyFailedRequestMessageAlertOnRefillPage = () => {
+    cy.get('[data-testid="failed-message-title"]').should('exist');
+    cy.get('[data-testid="failed-message-title"]').should(
+      'contain',
+      'Request not submitted',
+    );
   };
 }
 

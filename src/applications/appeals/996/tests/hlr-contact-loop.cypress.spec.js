@@ -5,12 +5,10 @@
  * @testrailinfo groupId 3256
  * @testrailinfo runName HLR-e2e-ContactLoop
  */
-
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
+import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import {
   BASE_URL,
-  WIZARD_STATUS,
   CONTESTABLE_ISSUES_API,
   CONTACT_INFO_PATH,
 } from '../constants';
@@ -27,7 +25,9 @@ describe('HLR contact info loop', () => {
 
   beforeEach(() => {
     cypressSetup();
+
     window.dataLayer = [];
+    setStoredSubTask({ benefitType: 'compensation' });
 
     cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, []);
     cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockV2Data);
@@ -35,8 +35,6 @@ describe('HLR contact info loop', () => {
 
     cy.intercept('PUT', '/v0/profile/telephones', mockTelephoneUpdate);
     cy.intercept('GET', '/v0/profile/status/*', mockTelephoneUpdateSuccess);
-
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
 
     cy.visit(BASE_URL);
     cy.injectAxe();

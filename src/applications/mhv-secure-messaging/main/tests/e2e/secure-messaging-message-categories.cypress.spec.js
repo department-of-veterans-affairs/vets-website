@@ -20,7 +20,7 @@ describe('Secure Messaging Compose Categories', () => {
       landingPage.navigateToComposePage();
       composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
 
-      composePage.getCategory(listOfCategories[i]).click({ force: true });
+      composePage.selectCategory(listOfCategories[i]);
 
       composePage.enterDataToMessageSubject();
       composePage.enterDataToMessageBody();

@@ -1,14 +1,10 @@
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import set from 'platform/utilities/data/set';
-
 import {
+  currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
   titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-
-const { powDateRange } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -20,22 +16,27 @@ export default {
       title: 'Have you ever been a prisoner of war?',
       classNames: 'vads-u-margin-bottom--2',
     }),
-    powDateRange: set(
-      'ui:options.expandUnder',
-      'powStatus',
-      dateRangeUI(
+    powDateRange: {
+      ...currentOrPastDateRangeUI(
         'Start of confinement',
         'End of confinement',
         'Confinement start date must be before end date',
       ),
-    ),
+      'ui:options': {
+        expandUnder: 'powStatus',
+        expandUnderCondition: true,
+      },
+    },
   },
   schema: {
     type: 'object',
     required: ['powStatus'],
     properties: {
       powStatus: yesNoSchema,
-      powDateRange,
+      powDateRange: {
+        ...currentOrPastDateRangeSchema,
+        required: [],
+      },
     },
   },
 };

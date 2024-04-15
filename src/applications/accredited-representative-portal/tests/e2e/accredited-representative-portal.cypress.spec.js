@@ -40,7 +40,7 @@ describe('Accredited Representative Portal', () => {
       cy.axeCheck();
 
       cy.get('[data-testid=landing-page-sign-in-link]')
-        .contains('Sign in or create an account')
+        .contains('Sign in or create account')
         .click();
       cy.location('pathname').should('equal', '/sign-in/');
     });

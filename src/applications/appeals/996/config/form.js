@@ -12,7 +12,7 @@ import submitForm from './submitForm';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import AddContestableIssue from '../components/AddContestableIssue';
-import WizardContainer from '../wizard/WizardContainer';
+import SubTaskContainer from '../subtask/SubTaskContainer';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -29,7 +29,7 @@ import informalConferenceRepV2 from '../pages/informalConferenceRep';
 import informalConferenceTime from '../pages/informalConferenceTime';
 import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 
-import { errorMessages, WIZARD_STATUS, ADD_ISSUE_PATH } from '../constants';
+import { errorMessages, ADD_ISSUE_PATH } from '../constants';
 import { mayHaveLegacyAppeals } from '../utils/helpers';
 
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
@@ -59,7 +59,6 @@ const formConfig = {
   },
 
   formId: VA_FORM_IDS.FORM_20_0996,
-  wizardStorageKey: WIZARD_STATUS,
   saveInProgress: {
     messages: {
       inProgress:
@@ -101,11 +100,13 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+  // Fix double headers (only show v3)
+  v3SegmentedProgressBar: true,
 
   additionalRoutes: [
     {
       path: 'start',
-      component: WizardContainer,
+      component: SubTaskContainer,
       pageKey: 'start',
       depends: () => false,
     },
