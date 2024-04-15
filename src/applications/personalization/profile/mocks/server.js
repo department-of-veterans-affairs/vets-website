@@ -65,7 +65,7 @@ const responses = {
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
             profileContacts: true,
-            profileHideDirectDepositCompAndPen: false,
+            profileHideDirectDepositCompAndPen: true,
             profileShowCredentialRetirementMessaging: true,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,
@@ -93,6 +93,7 @@ const responses = {
     // return res.json(user.badAddress); // user with bad address
     // return res.json(user.nonVeteranUser); // non-veteran user
     // return res.json(user.externalServiceError); // external service error
+    // return res.json(user.loa3UserWithoutLighthouseServiceAvailable); // user without lighthouse service available / no icn or participant id
     // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
     // return res.json(user.loa3UserWithNoEmail); // user with no email address
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
