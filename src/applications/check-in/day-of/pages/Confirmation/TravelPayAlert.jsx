@@ -41,7 +41,7 @@ const TravelPayAlert = props => {
         <div>
           <p
             className="vads-u-margin-top--0"
-            data-testid="travel-pay-error-message"
+            data-testid="travel-pay-message-error"
           >
             <Trans
               i18nKey="sorry-something-went-wrong-on-our-end-with-filing-your-travel-claim"
