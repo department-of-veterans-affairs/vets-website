@@ -6,13 +6,26 @@ import { useRepresentativeStatus } from '../../../hooks/useRepresentativeStatus'
 export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
   const { representative, isLoading, error } = useRepresentativeStatus();
 
+  const {
+    repType,
+    name,
+    addressLine1,
+    addressLine2,
+    city,
+    id,
+    stateCode,
+    zipCode,
+    email,
+    contact,
+    extension,
+    concatAddress,
+    vcard,
+  } = representative ?? {};
+
   if (isLoading) {
     return (
       <div>
-        <va-loading-indicator
-          label="Loading"
-          message="Loading your representative..."
-        />
+        <va-loading-indicator label="Loading" message="Loading your .." />
       </div>
     );
   }
@@ -67,6 +80,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
       </>
     );
   };
+
   const renderAuthRep = () => {
     if (representative) {
       return (
@@ -82,14 +96,20 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
             <DynamicHeader className="auth-rep-header">
               Your accredited representative
             </DynamicHeader>
-            <DynamicSubheader className="auth-rep-subheader">
-              {representative.repType === 'individual'
-                ? representative.name
-                : `Accredited with ${representative.name}`}
-            </DynamicSubheader>
+            <div className="auth-rep-subheader">
+              <DynamicSubheader>
+                {repType === 'oranization' ? <>Accredited with {name}</> : name}
+              </DynamicSubheader>
+              {repType === 'oranization' && (
+                <p>
+                  You can work with any accredited representative at this
+                  organization
+                </p>
+              )}
+            </div>
 
             <div className="auth-rep-body">
-              {representative.concatAddress && (
+              {concatAddress && (
                 <div className="contact-info vads-u-margin-top--1p5">
                   <div className="contact-icon">
                     <va-icon
@@ -101,31 +121,26 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
 
                   <div className="address-link">
                     <a
-                      href={`https://maps.google.com?daddr=${
-                        representative.concatAddress
-                      }`}
+                      href={`https://maps.google.com?daddr=${concatAddress}`}
                       tabIndex="0"
                       target="_blank"
                       rel="noreferrer"
-                      aria-label={`${
-                        representative.concatAddress
-                      } (opens in a new tab)`}
+                      aria-label={`${concatAddress} (opens in a new tab)`}
                     >
-                      {representative.addressLine1}{' '}
-                      {representative.addressLine2 ? (
+                      {addressLine1}{' '}
+                      {addressLine2 ? (
                         <>
-                          <br /> {representative.addressLine2}
+                          <br /> {addressLine2}
                         </>
                       ) : null}{' '}
                       <br />
-                      {representative.city}, {representative.stateCode}{' '}
-                      {representative.zipCode}
+                      {city}, {stateCode} {zipCode}
                     </a>
                   </div>
                 </div>
               )}
-              {representative.repType === 'individual' &&
-                representative.email && (
+              {repType === 'individual' &&
+                email && (
                   <div className="contact-info vads-u-margin-top--1p5">
                     <div className="contact-icon">
                       <va-icon
@@ -134,39 +149,37 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
                         srtext="Representative email"
                       />
                     </div>
-                    <a href={`mailto:${representative.email}`}>
-                      {representative.email}
-                    </a>
+                    <a href={`mailto:${email}`}>{email}</a>
                   </div>
                 )}
-              {representative.repType === 'individual' &&
-                representative.contact && (
-                  <div className="contact-info vads-u-margin-top--1p5">
-                    <div className="contact-icon">
-                      <va-icon
-                        icon="phone"
-                        size={2}
-                        srtext="Representative phone"
-                      />
-                    </div>
-                    <va-telephone
-                      contact={representative.contact}
-                      extension={representative.extension}
-                      disable-analytics
+              {contact && (
+                <div className="contact-info vads-u-margin-top--1p5">
+                  <div className="contact-icon">
+                    <va-icon
+                      icon="phone"
+                      size={2}
+                      srtext="Representative phone"
                     />
                   </div>
-                )}
-
-              {(representative.contact || representative.email) && (
-                <div className="contact-info vads-u-margin-top--1p5">
-                  <va-link
-                    download
-                    filetype="VCF"
-                    href={representative.vcard}
-                    text="Download your accredited representative's contact information"
+                  <va-telephone
+                    contact={contact}
+                    extension={extension}
+                    disable-analytics
                   />
                 </div>
               )}
+
+              {repType === 'individual' &&
+                (contact || email) && (
+                  <div className="contact-info vads-u-margin-top--1p5">
+                    <va-link
+                      download
+                      filetype="VCF"
+                      href={vcard}
+                      text="Download your accredited representative's contact information"
+                    />
+                  </div>
+                )}
               <div className="contact-info vads-u-margin-top--1p5">
                 <div className="contact-icon">
                   <va-icon
@@ -192,7 +205,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
     <>
       <va-card>
         <div className="auth-card">
-          {representative?.id ? renderAuthRep() : renderAuthNoRep()}
+          {id ? renderAuthRep() : renderAuthNoRep()}
         </div>
       </va-card>
     </>
@@ -202,5 +215,4 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
 Auth.propTypes = {
   DynamicHeader: PropTypes.string,
   DynamicSubheader: PropTypes.string,
-  hasRepresentative: PropTypes.bool,
 };
