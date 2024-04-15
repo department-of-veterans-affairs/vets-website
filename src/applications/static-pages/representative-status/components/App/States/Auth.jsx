@@ -1,60 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import RepresentativeStatusApi from '../../../api/RepresentativeStatusApi';
-import { parsePhoneNumber } from '../../../utilities/phoneNumbers';
+import { useRepresentativeStatus } from '../../../hooks/useRepresentativeStatus';
 
 export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
-  const [representative, setRepresentative] = useState({});
-
-  const fetchRepStatus = async () => {
-    const response = await RepresentativeStatusApi.getRepresentativeStatus;
-
-    if (response.data.id) {
-      const { attributes } = response.data;
-      const { contact, extension } = parsePhoneNumber(attributes.phone);
-
-      // address as displayed on contact card + google maps link
-      const concatAddress = [
-        attributes.addressLine1,
-        attributes.addressLine2,
-        attributes.addressLine3,
-        attributes.city,
-        attributes.stateCode,
-        attributes.zipCode,
-      ]
-        .filter(str => str)
-        .join(' ');
-
-      // rep contact card
-      const vcfData = [
-        'BEGIN:VCARD',
-        'VERSION:3.0',
-        `FN:${attributes.name}`,
-        `TEL:${contact}`,
-        `EMAIL:${attributes.email}`,
-        `ADR:;;${concatAddress}`,
-        'END:VCARD',
-      ].join('\n');
-
-      const encodedVCard = `data:text/vcard;charset=utf-8,${encodeURIComponent(
-        vcfData,
-      )}`;
-
-      setRepresentative({
-        id: response.data.id,
-        repType: response.data.type,
-        ...attributes,
-        concatAddress,
-        contact,
-        extension,
-        vcard: encodedVCard,
-      });
-    }
-  };
-
-  useEffect(() => {
-    fetchRepStatus();
-  }, []);
+  const representative = useRepresentativeStatus();
 
   const renderAuthNoRep = () => {
     return (
