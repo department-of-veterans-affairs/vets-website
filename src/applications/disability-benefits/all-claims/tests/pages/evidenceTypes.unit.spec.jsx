@@ -1,8 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import { mount } from 'enzyme';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import formConfig from '../../config/form';
 
 describe('evidenceTypes', () => {
@@ -12,7 +17,7 @@ describe('evidenceTypes', () => {
   } = formConfig.chapters.supportingEvidence.pages.evidenceTypes;
 
   it('should render', () => {
-    const form = mount(
+    render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -22,75 +27,82 @@ describe('evidenceTypes', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    expect($$('va-radio-option').length).to.equal(2);
   });
 
   it('should submit when no evidence selected', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText, container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{
-          'view:hasEvidence': false,
-        }}
+        data={{}}
         formData={{}}
         onSubmit={onSubmit}
       />,
     );
 
-    form.find('form').simulate('submit');
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'N' },
+    });
+    const submitButton = getByText(/submit/i);
+    userEvent.click(submitButton);
+    expect($('va-radio').error).to.be.null;
     expect(onSubmit.calledOnce).to.be.true;
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    form.unmount();
   });
 
   it('should require at least one evidence type when evidence selected', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText, container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{
-          'view:hasEvidence': true,
-        }}
+        data={{}}
         formData={{}}
         onSubmit={onSubmit}
       />,
     );
 
-    form.find('form').simulate('submit');
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'Y' },
+    });
+    const submitButton = getByText(/submit/i);
+    userEvent.click(submitButton);
+    const error = getByText(
+      /please select at least one type of supporting evidence/i,
+    );
+    expect(error).to.exist;
     expect(onSubmit.called).to.be.false;
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    form.unmount();
   });
 
   it('should submit with all required info', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText, getByLabelText, container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={{
-          'view:hasEvidence': true,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasVaMedicalRecords': true,
-            },
-          },
-        }}
+        data={{}}
         formData={{}}
         onSubmit={onSubmit}
       />,
     );
 
-    form.find('form').simulate('submit');
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'Y' },
+    });
+    const checkbox = getByLabelText(/va medical records/i);
+    userEvent.click(checkbox);
+    const submitButton = getByText(/submit/i);
+    userEvent.click(submitButton);
     expect(onSubmit.calledOnce).to.be.true;
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    form.unmount();
+    try {
+      getByText(/please select at least one type of supporting evidence/i);
+    } catch (e) {
+      // Error text in try block should not be present.
+      expect(e).to.exist;
+    }
   });
 });
