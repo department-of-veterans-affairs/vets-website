@@ -98,10 +98,14 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
             </DynamicHeader>
             <div className="auth-rep-subheader">
               <DynamicSubheader>
-                {poaType === 'oranization' ? <>Accredited with {name}</> : name}
+                {poaType === 'organization' ? (
+                  <>Accredited with {name}</>
+                ) : (
+                  name
+                )}
               </DynamicSubheader>
-              {poaType === 'oranization' && (
-                <p>
+              {poaType === 'organization' && (
+                <p className="vads-u-margin-top--0">
                   You can work with any accredited representative at this
                   organization
                 </p>
