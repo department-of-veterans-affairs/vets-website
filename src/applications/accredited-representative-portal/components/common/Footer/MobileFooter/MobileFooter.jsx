@@ -245,6 +245,7 @@ const MobileFooter = () => {
                 <li>
                   <i
                     className="fa fa-phone va-crisis-panel-icon"
+                    aria-label="Crisis Line Phone"
                     aria-hidden="true"
                   />
                   Call{' '}
@@ -256,6 +257,7 @@ const MobileFooter = () => {
                 <li>
                   <i
                     className="fa fa-mobile-alt va-crisis-panel-icon"
+                    aria-label="Crisis Line Text"
                     aria-hidden="true"
                   />
                   Text <va-telephone contact="838255" sms aria-label="838255" />
@@ -263,6 +265,7 @@ const MobileFooter = () => {
                 <li>
                   <i
                     className="fa fa-comments va-crisis-panel-icon"
+                    aria-label="Crisis Line Chat"
                     aria-hidden="true"
                   />
                   <a
@@ -275,6 +278,7 @@ const MobileFooter = () => {
                 <li>
                   <i
                     className="fa fa-deaf va-crisis-panel-icon"
+                    aria-label="Crisis Line for Deaf Individuals"
                     aria-hidden="true"
                   />
                   <p>
@@ -288,6 +292,7 @@ const MobileFooter = () => {
               Get more resources at{' '}
               <a
                 className="no-external-icon"
+                aria-label="Crisis Line Resources"
                 href="https://www.veteranscrisisline.net/"
               >
                 VeteransCrisisLine.net
