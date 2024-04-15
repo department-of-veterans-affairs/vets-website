@@ -18,7 +18,7 @@ class IntroductionPage extends React.Component {
       <article className="schemaform-intro">
         <FormTitle
           title="Register for the Foreign Medical Program (FMP)"
-          subtitle="Form 10-7959f-1"
+          subTitle="Form 10-7959f-1"
         />
         <VaAlert status="info" visible uswds>
           <h2>Have you applied for VA health care before?</h2>
