@@ -8,7 +8,7 @@ import BackButton from '../../components/BackButton';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
-import { makeSelectVeteranData, makeSelectForm } from '../../selectors';
+import { makeSelectVeteranData } from '../../selectors';
 import { useStorage } from '../../hooks/useStorage';
 import { URLS } from '../../utils/navigation';
 import { APP_NAMES } from '../../utils/appConstants';
@@ -18,19 +18,14 @@ const NextOfKin = props => {
   const { t } = useTranslation();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
-  const selectForm = useMemo(makeSelectForm, []);
-  const { data } = useSelector(selectForm);
   const { nextOfKin1: nextOfKin } = demographics;
   const {
     jumpToPage,
     goToNextPage,
     goToPreviousPage,
     getPreviousPageFromRouter,
-    getNextPageFromRouter,
   } = useFormRouting(router);
   const { setShouldSendDemographicsFlags } = useStorage(APP_NAMES.CHECK_IN);
-
-  const nextPage = getNextPageFromRouter();
 
   const seeStaffMessage = t(
     'our-staff-can-help-you-update-your-next-of-kin-information',
@@ -47,20 +42,9 @@ const NextOfKin = props => {
     () => {
       dispatch(recordAnswer({ nextOfKinUpToDate: 'yes' }));
       setShouldSendDemographicsFlags(window, true);
-      if (nextPage === 'complete') {
-        jumpToPage(`complete/${data.activeAppointmentId}`);
-      } else {
-        goToNextPage();
-      }
+      goToNextPage();
     },
-    [
-      dispatch,
-      goToNextPage,
-      setShouldSendDemographicsFlags,
-      nextPage,
-      jumpToPage,
-      data.activeAppointmentId,
-    ],
+    [dispatch, goToNextPage, setShouldSendDemographicsFlags],
   );
 
   const noClick = useCallback(
