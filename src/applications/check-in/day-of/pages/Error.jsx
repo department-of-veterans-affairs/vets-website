@@ -181,7 +181,7 @@ const Error = () => {
           )}
           {alert.type === 'text' ? (
             <div
-              data-testid={`error-message-${index}`}
+              data-testid={alert.alertTestId}
               className={index !== 0 ? 'vads-u-margin-top--2' : ''}
             >
               {alert.message}
