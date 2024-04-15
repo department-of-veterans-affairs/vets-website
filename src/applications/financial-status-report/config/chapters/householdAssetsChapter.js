@@ -44,14 +44,7 @@ export default {
         CustomPage: CashOnHand,
         CustomPageReview: CashOnHandReview,
         depends: formData => {
-          const { gmtData } = formData;
-          // Also show if the new asset update is true
-          return (
-            (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
-            (gmtData?.isEligibleForStreamlined &&
-              gmtData?.incomeBelowOneFiftyGmt &&
-              formData['view:streamlinedWaiverAssetUpdate'])
-          );
+          return formData['view:streamlinedWaiverAssetUpdate'];
         },
       },
       cashInBank: {
@@ -62,13 +55,7 @@ export default {
         CustomPage: CashInBank,
         CustomPageReview: CashInBankReview,
         depends: formData => {
-          const { gmtData } = formData;
-          // Only show if the new asset update is true
-          return (
-            gmtData?.isEligibleForStreamlined &&
-            gmtData?.incomeBelowOneFiftyGmt &&
-            formData['view:streamlinedWaiverAssetUpdate']
-          );
+          return formData['view:streamlinedWaiverAssetUpdate'];
         },
       },
       streamlinedShortTransitionPage: {
