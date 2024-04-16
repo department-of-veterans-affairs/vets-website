@@ -2,6 +2,7 @@ export const Actions = {
   Breadcrumbs: {
     SET_BREAD_CRUMBS: 'SM_SET_BREAD_CRUMBS',
     REMOVE_BREAD_CRUMB: 'RX_REMOVE_BREAD_CRUMB',
+    CLEAR_BREAD_CRUMB: 'RX_CLEAR_BREAD_CRUMB',
   },
   Prescriptions: {
     CLEAR_DETAILS: 'RX_PRESCRIPTION_DETAILS_CLEAR',

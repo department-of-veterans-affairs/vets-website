@@ -12,3 +12,8 @@ export const removeBreadcrumbs = () => async dispatch => {
     type: Actions.Breadcrumbs.REMOVE_BREAD_CRUMB,
   });
 };
+export const clearBreadcrumbs = () => async dispatch => {
+  dispatch({
+    type: Actions.Breadcrumbs.CLEAR_BREAD_CRUMB,
+  });
+};
