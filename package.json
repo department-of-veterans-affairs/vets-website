@@ -104,7 +104,7 @@
     "path": "path-browserify"
   },
   "devDependencies": {
-    "@actions/core": "^1.9.1",
+    "@actions/core": "^1.10.1",
     "@axe-core/react": "^4.4.3",
     "@babel/core": "^7.17.7",
     "@babel/eslint-parser": "^7.22.9",
@@ -127,7 +127,7 @@
     "@cypress/code-coverage": "^3.11.0",
     "@department-of-veterans-affairs/eslint-plugin": "^1.13.0",
     "@department-of-veterans-affairs/generator-vets-website": "^3.8.0",
-    "@octokit/rest": "^18.11.0",
+    "@octokit/rest": "^20.1.0",
     "@sentry/browser": "^6.13.2",
     "@testing-library/dom": "^7.26.6",
     "@testing-library/react": "^11.1.2",
