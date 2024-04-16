@@ -11,7 +11,7 @@ describe('Medical Records View Vaccines', () => {
     // click on the vaccines link
 
     cy.get('[data-testid="no-records-message"]').should('be.visible');
-    cy.get('[data-testid="print-records-button"]').should('not.exist');
+    cy.get('[data-testid="print-download-menu"]').should('not.exist');
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');

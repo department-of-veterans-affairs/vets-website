@@ -39,6 +39,7 @@ import {
   generateVitalsContent,
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
@@ -60,6 +61,7 @@ const VitalDetails = props => {
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
   const activeAlert = useAlerts(dispatch);
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
@@ -138,6 +140,7 @@ const VitalDetails = props => {
   );
 
   const generateVitalsPdf = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateVitalsIntro();
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVitalsContent(records) };
@@ -146,6 +149,7 @@ const VitalDetails = props => {
   };
 
   const generateVitalsTxt = async () => {
+    setDownloadStarted(true);
     const content = `\n
 ${crisisLineHeader}\n\n
 ${vitalTypeDisplayNames[records[0].type]}\n
@@ -168,7 +172,12 @@ Provider notes: ${vital.notes}\n\n`,
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   if (accessAlert) {
-    return <AccessTroubleAlertBox alertType={accessAlertTypes.VITALS} />;
+    return (
+      <AccessTroubleAlertBox
+        alertType={accessAlertTypes.VITALS}
+        className="vads-u-margin-bottom--9"
+      />
+    );
   }
   if (records?.length) {
     const vitalDisplayName = vitalTypeDisplayNames[records[0].type];
@@ -178,12 +187,15 @@ Provider notes: ${vital.notes}\n\n`,
         <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
           {vitalDisplayName}
         </h1>
+
+        {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload
-          download={generateVitalsPdf}
+          downloadPdf={generateVitalsPdf}
           downloadTxt={generateVitalsTxt}
           allowTxtDownloads={allowTxtDownloads}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+
         <h2
           className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
             vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print 
