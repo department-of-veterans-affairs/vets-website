@@ -79,7 +79,12 @@ const Vitals = () => {
 
   const content = () => {
     if (accessAlert) {
-      return <AccessTroubleAlertBox alertType={accessAlertTypes.VITALS} />;
+      return (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.VITALS}
+          className="vads-u-margin-bottom--9"
+        />
+      );
     }
     if (refresh.initialFhirLoad && !vitalsCurrentAsOf) {
       return (

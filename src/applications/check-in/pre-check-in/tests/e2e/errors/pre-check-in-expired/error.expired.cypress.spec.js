@@ -34,7 +34,7 @@ describe('Pre-Check In Experience ', () => {
     ValidateVeteran.attemptToGoToNextPage();
 
     // Expired UUID should navigate to an error
-    Error.validateExpiredPageLoaded();
+    Error.validatePageLoadedExpired();
     Error.validateAccordionBlocks();
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots('Pre-check-in--expired-error--default-accordions');

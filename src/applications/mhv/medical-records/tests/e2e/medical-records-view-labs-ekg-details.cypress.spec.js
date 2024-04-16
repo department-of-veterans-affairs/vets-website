@@ -24,6 +24,7 @@ describe('Medical Records View EKG Details', () => {
       moment(),
       '',
     );
+    EKGDetailsPage.clickPrintOrDownload();
     EKGDetailsPage.clickDownloadTxtFile();
     site.verifyDownloadedTxtFile(
       'VA-labs-and-tests-details-Safari-Mhvtp',
