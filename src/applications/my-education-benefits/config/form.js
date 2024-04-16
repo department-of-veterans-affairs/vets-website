@@ -1199,11 +1199,11 @@ const formConfig = {
             [formFields.incorrectServiceHistoryExplanation]: {
               'ui:options': {
                 expandUnder: 'view:serviceHistory',
+                hideIf: formData =>
+                  !formData?.['view:serviceHistory']?.[
+                    formFields.serviceHistoryIncorrect
+                  ],
               },
-              hideIf: formData =>
-                !formData?.['view:serviceHistory']?.[
-                  formFields.serviceHistoryIncorrect
-                ],
               incorrectServiceHistoryInputs: {
                 'ui:required': formData =>
                   formData['view:serviceHistory']?.serviceHistoryIncorrect ===
