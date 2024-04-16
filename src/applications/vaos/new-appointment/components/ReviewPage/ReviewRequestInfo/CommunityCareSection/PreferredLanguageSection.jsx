@@ -26,9 +26,9 @@ export default function PreferredLanguageSection({ data }) {
     <div className="vads-l-grid-container vads-u-padding--0">
       <div className="vads-l-row vads-u-justify-content--space-between">
         <div className="vads-u-flex--1 vads-u-padding-right--1">
-          <h3 className="vaos-appts__block-label">
+          <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
             Language you’d prefer the provider speak
-          </h3>
+          </h2>
           {
             LANGUAGES.find(language => language.id === data.preferredLanguage)
               ?.value

@@ -5,6 +5,15 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  updatePageTitle,
+  generatePdfScaffold,
+  formatName,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList } from '../actions/vaccines';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -18,31 +27,19 @@ import {
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
   processList,
 } from '../util/helpers';
-import {
-  updatePageTitle,
-  generatePdfScaffold,
-  formatName,
-} from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
-import NoRecordsMessage from '../components/shared/NoRecordsMessage';
-import {
-  crisisLineHeader,
-  reportGeneratedBy,
-  txtLine,
-} from '../../shared/util/constants';
+import RecordListSection from '../components/shared/RecordListSection';
 import {
   generateVaccinesIntro,
   generateVaccinesContent,
 } from '../util/pdfHelpers/vaccines';
-import usePrintTitle from '../../shared/hooks/usePrintTitle';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -123,40 +120,6 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
     generateTextFile(content, fileName);
   };
 
-  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
-
-  const content = () => {
-    if (accessAlert) {
-      return <AccessTroubleAlertBox alertType={accessAlertTypes.VACCINE} />;
-    }
-    if (vaccines?.length === 0) {
-      return <NoRecordsMessage type={recordType.VACCINES} />;
-    }
-    if (vaccines?.length) {
-      return (
-        <>
-          <PrintDownload
-            list
-            download={generateVaccinesPdf}
-            allowTxtDownloads={allowTxtDownloads}
-            downloadTxt={generateVaccinesTxt}
-          />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          <RecordList records={vaccines} type={recordType.VACCINES} />
-        </>
-      );
-    }
-    return (
-      <div className="vads-u-margin-y--8">
-        <va-loading-indicator
-          message="We’re loading your records. This could take up to a minute."
-          setFocus
-          data-testid="loading-indicator"
-        />
-      </div>
-    );
-  };
-
   return (
     <div id="vaccines">
       <PrintHeader />
@@ -169,7 +132,23 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
           Go to your allergy records
         </Link>
       </p>
-      {content()}
+      <RecordListSection
+        accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
+        accessAlertType={accessAlertTypes.VACCINE}
+        recordCount={vaccines?.length}
+        recordType={recordType.VACCINES}
+        listCurrentAsOf={vaccinesCurrentAsOf}
+        initialFhirLoad={refresh.initialFhirLoad}
+      >
+        <PrintDownload
+          list
+          download={generateVaccinesPdf}
+          allowTxtDownloads={allowTxtDownloads}
+          downloadTxt={generateVaccinesTxt}
+        />
+        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <RecordList records={vaccines} type={recordType.VACCINES} />
+      </RecordListSection>
     </div>
   );
 };

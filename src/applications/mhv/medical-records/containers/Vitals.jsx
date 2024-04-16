@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  updatePageTitle,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals } from '../actions/vitals';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -13,12 +16,10 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
 } from '../util/constants';
-import { updatePageTitle } from '../../shared/util/helpers';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import PrintHeader from '../components/shared/PrintHeader';
-import usePrintTitle from '../../shared/hooks/usePrintTitle';
 import useListRefresh from '../hooks/useListRefresh';
 
 const Vitals = () => {
@@ -29,13 +30,13 @@ const Vitals = () => {
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
-  const vatalsCurrentAsOf = useSelector(
+  const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
   );
 
   useListRefresh({
     listState,
-    listCurrentAsOf: vatalsCurrentAsOf,
+    listCurrentAsOf: vitalsCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.VPR,
     dispatchAction: getVitals,
@@ -55,7 +56,6 @@ const Vitals = () => {
     pageTitles.VITALS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
@@ -67,6 +67,7 @@ const Vitals = () => {
         Object.keys(vitalTypes).forEach(type => {
           const firstOfType = vitals.find(item => item.type === type);
           if (firstOfType) firstOfEach.push(firstOfType);
+          else firstOfEach.push({ type, noRecords: true });
         });
         setCards(firstOfEach);
       }
@@ -80,8 +81,30 @@ const Vitals = () => {
     if (accessAlert) {
       return <AccessTroubleAlertBox alertType={accessAlertTypes.VITALS} />;
     }
+    if (refresh.initialFhirLoad && !vitalsCurrentAsOf) {
+      return (
+        <div className="vads-u-margin-y--8">
+          <va-loading-indicator
+            class="hydrated initial-fhir-load"
+            message="We're loading your records for the first time. This can take up to 2 minutes. Stay on this page until your records load."
+            setFocus
+            data-testid="initial-fhir-loading-indicator"
+          />
+        </div>
+      );
+    }
     if (vitals?.length === 0) {
-      return <NoRecordsMessage type={recordType.VITALS} />;
+      return (
+        <>
+          <ul>
+            <li>Blood pressure and blood oxygen level</li>
+            <li>Breathing rate and heart rate</li>
+            <li>Height and weight</li>
+            <li>Temperature</li>
+          </ul>
+          <NoRecordsMessage type={recordType.VITALS} />
+        </>
+      );
     }
     if (cards?.length) {
       return (
@@ -111,8 +134,8 @@ const Vitals = () => {
         Vitals
       </h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
-        Vitals are basic health numbers your providers check at your
-        appointments.
+        {`Vitals are basic health numbers your providers check at your
+        appointments. ${vitals?.length === 0 ? 'Vitals include:' : ''}`}
       </p>
       {content()}
     </div>

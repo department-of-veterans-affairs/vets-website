@@ -3,12 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
+  updatePageTitle,
+  reportGeneratedBy,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
+import {
   getPrescriptionDetails,
   getAllergiesList,
   clearAllergiesError,
 } from '../actions/prescriptions';
 import PrintOnlyPage from './PrintOnlyPage';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   dateFormat,
   generateMedicationsPDF,
@@ -18,7 +22,6 @@ import PrintDownload, {
   DOWNLOAD_FORMAT,
 } from '../components/shared/PrintDownload';
 import AllergiesErrorModal from '../components/shared/AllergiesErrorModal';
-import { updatePageTitle } from '../../shared/util/helpers';
 import NonVaPrescription from '../components/PrescriptionDetails/NonVaPrescription';
 import VaPrescription from '../components/PrescriptionDetails/VaPrescription';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -35,10 +38,8 @@ import {
 import { PDF_TXT_GENERATE_STATUS } from '../util/constants';
 import { getPrescriptionImage } from '../api/rxApi';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
-import { reportGeneratedBy } from '../../shared/util/constants';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { Actions } from '../util/actionTypes';
-import usePrintTitle from '../components/shared/usePrintTitle';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -46,7 +47,6 @@ const PrescriptionDetails = () => {
   );
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
   const userName = useSelector(state => state.user.profile.userFullName);
-  const crumbs = useSelector(state => state.rx.breadcrumbs.list);
   const dob = useSelector(state => state.user.profile.dob);
   const allergies = useSelector(state => state.rx.allergies?.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
@@ -64,37 +64,12 @@ const PrescriptionDetails = () => {
     (prescription?.dispStatus === 'Active: Non-VA'
       ? prescription?.orderableItem
       : '');
-  const refillHistory = [...(prescription?.rxRfRecords?.[0]?.[1] || [])];
+  const refillHistory = [...(prescription?.rxRfRecords || [])];
   refillHistory.push({
     prescriptionName: prescription?.prescriptionName,
     dispensedDate: prescription?.dispensedDate,
     cmopNdcNumber: prescription?.cmopNdcNumber,
     id: prescription?.prescriptionId,
-  });
-
-  useEffect(() => {
-    if (crumbs.length === 0 && prescription) {
-      dispatch(
-        setBreadcrumbs(
-          [
-            {
-              url: '/my-health/medications/about',
-              label: 'About medications',
-            },
-            {
-              url: '/my-health/medications/?page=1',
-              label: 'Medications',
-            },
-          ],
-          {
-            url: `/my-health/medications/prescription/${
-              prescription.prescriptionId
-            }`,
-            label: prescriptionHeader,
-          },
-        ),
-      );
-    }
   });
 
   useEffect(
@@ -110,7 +85,7 @@ const PrescriptionDetails = () => {
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
-  usePrintTitle(baseTitle, userName, dob, dateFormat, updatePageTitle);
+  usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
   useEffect(
     () => {
@@ -297,7 +272,7 @@ const PrescriptionDetails = () => {
     () => {
       if (!prescription) return;
       const cmopNdcNumber =
-        prescription.rxRfRecords?.[0]?.[1][0].cmopNdcNumber ??
+        prescription?.rxRfRecords?.[0]?.cmopNdcNumber ??
         prescription.cmopNdcNumber;
       if (cmopNdcNumber) {
         getPrescriptionImage(cmopNdcNumber).then(({ data: image }) => {
@@ -322,22 +297,19 @@ const PrescriptionDetails = () => {
     if (nonVaPrescription) {
       return (
         <>
-          Documented on {dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
+          Documented on {dateFormat(prescription?.orderedDate, 'MMMM D, YYYY')}
         </>
       );
     }
     return (
       <>
         {prescription.dispensedDate ||
-        prescription.rxRfRecords?.[0]?.[1].find(
-          record => record.dispensedDate,
-        ) ? (
+        prescription.rxRfRecords?.find(record => record?.dispensedDate) ? (
           <span>
             Last filled on{' '}
             {dateFormat(
-              prescription.rxRfRecords?.[0]?.[1]?.find(
-                record => record.dispensedDate,
-              )?.dispensedDate || prescription.dispensedDate,
+              prescription.rxRfRecords?.find(record => record?.dispensedDate)
+                ?.dispensedDate || prescription?.dispensedDate,
               'MMMM D, YYYY',
             )}
           </span>

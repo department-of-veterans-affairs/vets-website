@@ -22,7 +22,6 @@ const SpouseEmploymentHistoryWidget = props => {
   const formData = useSelector(state => state.form.data);
   const employmentHistory =
     formData.personalData.employmentHistory.spouse.spEmploymentRecords || [];
-  const efsrFeatureFlag = formData['view:enhancedFinancialStatusReport'];
   useEffect(() => {
     clearJobIndex();
   }, []);
@@ -62,11 +61,7 @@ const SpouseEmploymentHistoryWidget = props => {
         </div>
         <Link
           className="vads-c-action-link--green"
-          to={
-            efsrFeatureFlag
-              ? '/enhanced-spouse-employment-records'
-              : '/spouse-employment-records'
-          }
+          to="/enhanced-spouse-employment-records"
           onClick={() => {
             setJobButton(jobButtonConstants.ADD_ANOTHER);
           }}

@@ -12,7 +12,7 @@ va-alert ul {
 }
 
 .toe-form-featured-content {
-	background-color: $color-gray-lightest;
+	background-color: var(--vads-color-base-lightest);
 	padding: 24px;
 }
 
@@ -59,7 +59,7 @@ va-alert ul {
 	order: 0;
 }
 .toe-sponsors-labels_label--secondary {
-	color: $color-gray;
+	color: var(--vads-color-base-dark);
 	flex: 1 1 100%;
 	order: 2;
 }

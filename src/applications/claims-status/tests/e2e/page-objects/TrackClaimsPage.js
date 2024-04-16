@@ -41,8 +41,8 @@ class TrackClaimsPage {
     }
 
     cy.get('va-breadcrumbs').should('be.visible');
-    cy.get('.va-breadcrumbs-li').should('be.visible');
-    cy.get('a[aria-current="page"').should('be.visible');
+    cy.get('.usa-breadcrumb__list-item').should('have.length', 2);
+    cy.get('li[aria-current="page"').should('be.visible');
     cy.injectAxeThenAxeCheck();
   }
 
@@ -237,9 +237,8 @@ class TrackClaimsPage {
     cy.url().should('contain', 'ask-va-to-decide');
     cy.get('va-checkbox')
       .shadow()
-      .get('input')
-      .first()
-      .check()
+      .find('input[type="checkbox"]')
+      .check({ force: true })
       .then(() => {
         cy.get('.main .button-primary').click();
         cy.wait('@askVA');

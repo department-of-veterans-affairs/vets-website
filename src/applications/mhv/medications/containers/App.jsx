@@ -10,8 +10,10 @@ import {
   externalServices,
   externalServiceStatus,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { MHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
-import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
+import {
+  MHVDowntime,
+  useDatadogRum,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { medicationsUrls } from '../util/constants';
 
 const App = ({ children }) => {

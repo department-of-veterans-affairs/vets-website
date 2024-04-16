@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getDate } from '../utils/dates';
-import { FORMAT_READABLE } from '../constants';
+import { getDecisionDate } from '../utils/issues';
 
 const ShowIssuesList = ({ issues }) => (
   <ul>
@@ -20,13 +19,7 @@ const ShowIssuesList = ({ issues }) => (
             className="dd-privacy-hidden"
             data-dd-action-name="issue decision date"
           >
-            {getDate({
-              date:
-                issue.attributes?.approxDecisionDate ||
-                issue.decisionDate ||
-                '',
-              pattern: FORMAT_READABLE,
-            })}
+            {getDecisionDate(issue)}
           </span>
         </div>
       </li>

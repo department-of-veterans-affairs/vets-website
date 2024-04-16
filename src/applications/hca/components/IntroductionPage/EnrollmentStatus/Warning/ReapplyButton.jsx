@@ -8,7 +8,7 @@ import { selectEnrollmentStatus } from '../../../../utils/selectors/enrollment-s
 import content from '../../../../locales/en/content.json';
 
 const ReapplyButton = ({ route }) => {
-  const { enrollmentStatus } = useSelector(selectEnrollmentStatus);
+  const { statusCode } = useSelector(selectEnrollmentStatus);
   const {
     formConfig: { savedFormMessages, downtime },
     pageList,
@@ -23,7 +23,7 @@ const ReapplyButton = ({ route }) => {
     HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
     HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
     HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry,
-  ]).has(enrollmentStatus);
+  ]).has(statusCode);
 
   // set props for the Save In Progress button
   const sipProps = {

@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
-import { getTrackedItemId, truncateDescription } from '../utils/helpers';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom-v5-compat';
+
+import { truncateDescription } from '../utils/helpers';
 import DueDateOld from './DueDateOld';
 
-function FilesNeededOld({ id, item }) {
+function FilesNeededOld({ item }) {
   return (
     <div className="file-request-list-item usa-alert usa-alert-warning background-color-only alert-with-details">
       <div className="item-container">
@@ -19,7 +20,7 @@ function FilesNeededOld({ id, item }) {
           aria-label={`View Details for ${item.displayName}`}
           title={`View Details for ${item.displayName}`}
           className="usa-button usa-button-secondary view-details-button"
-          to={`your-claims/${id}/document-request/${getTrackedItemId(item)}`}
+          to={`../document-request/${item.id}`}
         >
           View Details
         </Link>
@@ -29,7 +30,6 @@ function FilesNeededOld({ id, item }) {
 }
 
 FilesNeededOld.propTypes = {
-  id: PropTypes.string.isRequired,
   item: PropTypes.object.isRequired,
 };
 

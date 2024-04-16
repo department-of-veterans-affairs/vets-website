@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import { representativeTypes } from '../../config';
-import { recordSearchResultsEvents } from '../../utils/analytics';
 import { updateSearchQuery } from '../../actions';
 
 import SearchResult from './SearchResult';
@@ -17,7 +16,6 @@ const ResultsList = props => {
   useEffect(
     () => {
       focusElement(searchResultTitle.current);
-      recordSearchResultsEvents(searchResults, props);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchResults, inProgress, props.error],
@@ -29,7 +27,7 @@ const ResultsList = props => {
         {searchResults.length ? <hr /> : null}
         {searchResults?.map((result, index) => {
           return (
-            <div key={index} className="vads-u-margin-top--4">
+            <div key={index} className="vads-u-margin-bottom--4">
               <SearchResult
                 officer={result.attributes.fullName || result.attributes.name}
                 reports={result.reports}
@@ -47,10 +45,12 @@ const ResultsList = props => {
                 associatedOrgs={result.attributes.organizationNames}
                 representative={result}
                 representativeId={result.id}
+                searchResults={searchResults}
                 submitRepresentativeReport={props.submitRepresentativeReport}
                 initializeRepresentativeReport={
                   props.initializeRepresentativeReport
                 }
+                cancelRepresentativeReport={props.cancelRepresentativeReport}
                 reportSubmissionStatus={props.reportSubmissionStatus}
                 query={query}
                 index={index}

@@ -74,12 +74,12 @@ describe('<ConfirmationPage>', () => {
     );
 
     const sections = tree.everySubTree('section');
-    expect(sections.length).to.eql(3);
+    expect(sections.length).to.eql(4);
     expect(sections[0].subTree('h3').text()).to.equal(
       'If you need to submit supporting documents',
     );
     expect(sections[1].subTree('h3').text()).to.equal('What to expect next');
-    expect(sections[2].subTree('h3').text()).to.equal(
+    expect(sections[3].subTree('h3').text()).to.equal(
       'How to contact us if you have questions',
     );
 

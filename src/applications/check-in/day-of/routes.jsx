@@ -28,6 +28,7 @@ import { APP_NAMES } from '../utils/appConstants';
 import ReloadWrapper from '../components/layout/ReloadWrapper';
 import ErrorBoundary from '../components/errors/ErrorBoundary';
 import ArrivedAtFacility from './pages/ArrivedAtFacility';
+import TravelAgreement from '../components/pages/travel-agreement';
 
 const routes = [
   {
@@ -168,6 +169,14 @@ const routes = [
     permissions: {
       requiresForm: true,
       requireAuthorization: true,
+    },
+    reloadable: true,
+  },
+  {
+    path: URLS.TRAVEL_AGREEMENT,
+    component: TravelAgreement,
+    permissions: {
+      requireAuthorization: false,
     },
     reloadable: true,
   },

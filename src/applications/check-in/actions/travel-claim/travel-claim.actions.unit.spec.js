@@ -5,8 +5,8 @@ import {
   RECEIVED_TRAVEL_DATA,
   setFilteredAppointments,
   SET_FILTERED_APPOINTMENTS,
-  SET_FACILITY_TO_FILE,
-  setFacilityToFile,
+  SET_FORM_DATA,
+  setFormData,
 } from './index';
 
 describe('travel-claim', () => {
@@ -56,13 +56,13 @@ describe('travel-claim', () => {
         expect(action.payload.eligibleToFile).to.be.an('array');
       });
     });
-    describe('setFacilityToFile', () => {
+    describe('setFormData', () => {
       it('should return correct action', () => {
-        const action = setFacilityToFile({});
-        expect(action.type).to.equal(SET_FACILITY_TO_FILE);
+        const action = setFormData({});
+        expect(action.type).to.equal(SET_FORM_DATA);
       });
       it('should return correct structure', () => {
-        const action = setFacilityToFile({
+        const action = setFormData({
           facilitiesToFile: [],
         });
         expect(action.payload).to.be.an('object');
