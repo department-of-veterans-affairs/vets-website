@@ -91,9 +91,6 @@ jobs:
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
 
-      - name: Echo Build Type
-        run: echo "Build Type: ${{ matrix.buildtype }}"
-
       - name: Cache test folder
         if: ${{ matrix.buildtype == 'vagovprod' }}
         id: cache-folderApril16
