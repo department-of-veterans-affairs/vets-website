@@ -10,7 +10,7 @@ describe('Medical Records View Allergies', () => {
 
     AllergiesListPage.clickGotoAllergiesLink(allergies);
 
-    cy.get('[data-testid="print-records-button"]')
+    cy.get('[data-testid="print-download-menu"]')
       .should('be.visible')
       .click({ force: true });
     cy.injectAxe();
