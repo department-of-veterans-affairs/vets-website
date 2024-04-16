@@ -91,6 +91,19 @@ jobs:
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
 
+      - name: Cache test folder
+        id: cache-folderApril16
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-testfolderApril16
+        with:
+          path: ./build
+          key: testvjApril16
+          restore-keys: testvjApril16
+
+      - name: List files in the workspace
+        run: ls -la ./build
+
   fetch-allow-lists:
     name: Fetch Test Stability Allow Lists
     runs-on: ubuntu-latest
@@ -700,17 +713,39 @@ jobs:
         env:
           TEST_TYPE: e2e
 
-      - name: Download production build artifact
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: ./.github/workflows/download-artifact
-        with:
-          name: vagovprod.tar.bz2
+      # - name: Download production build artifact
+      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #   uses: ./.github/workflows/download-artifact
+      #   with:
+      #     name: vagovprod.tar.bz2
 
-      - name: Unpack build
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: |
-          mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+      # - name: Unpack build
+      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #   run: |
+      #     mkdir -p build/vagovprod
+      #     tar -C build/vagovprod -xjf vagovprod.tar.bz2
+
+        #     - name: Cache test folder
+        # id: cache-folderApril16
+        # uses: actions/cache@v3
+        # env:
+        #   cache-name: cache-testfolderApril16
+        # with:
+        #   path: ./build
+        #   key: testvjApril16
+        #   restore-keys: testvjApril16
+
+      - name: Restore Cached Folder
+        id: cache-restoreApril16
+        uses: actions/cache@v3
+        with:
+          path: ./build
+          key: testvjApril16
+          restore-keys: testvjApril16
+
+      - name: List restored files
+        run: ls -la ./build
+        if: steps.cache-restoreApril16.outputs.cache-hit == 'true' && needs.tests-prep.outputs.cypress-tests != '[]'
 
       - name: Install dependencies
         if: needs.tests-prep.outputs.cypress-tests != '[]'
