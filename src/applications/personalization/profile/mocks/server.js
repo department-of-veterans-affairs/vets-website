@@ -8,7 +8,6 @@ const mhvAcccount = require('./endpoints/mhvAccount');
 const address = require('./endpoints/address');
 const emailAddress = require('./endpoints/email-adresses');
 const phoneNumber = require('./endpoints/phone-number');
-const status = require('./endpoints/status');
 const ratingInfo = require('./endpoints/rating-info');
 const {
   handlePutGenderIdentitiesRoute,
@@ -44,9 +43,11 @@ const contacts = require('../tests/fixtures/contacts.json');
 
 // utils
 const { debug, delaySingleResponse } = require('./script/utils');
-
-// uncomment if using status retries
-// let retries = 0;
+const {
+  getEmptyStatus,
+  generateStatusResponse,
+} = require('./endpoints/status');
+const handleUserUpdate = require('./endpoints/user/handleUserUpdate');
 
 // use one of these to provide a generic error for any endpoint
 const genericErrors = {
@@ -82,6 +83,10 @@ const responses = {
     );
   },
   'GET /v0/user': (_req, res) => {
+    const [shouldReturnUser, updatedUserResponse] = handleUserUpdate([]);
+    if (shouldReturnUser) {
+      return res.json(updatedUserResponse);
+    }
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
     return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
@@ -102,7 +107,6 @@ const responses = {
     // return res.json(user.loa3UserWithNoRatingInfoClaim);
     // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
   },
-  'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {
     return res.json(maintenanceWindows.noDowntime);
@@ -222,7 +226,7 @@ const responses = {
     // uncomment to test, and then uses the transactionId 'erroredId' in the status endpoint
     // return res.json(
     //   _.set(
-    //     address.mailingAddressUpdateReceived.response,
+    //     address.mailingAddressUpdateReceived,
     //     'data.attributes.transactionId',
     //     'erroredId',
     //   ),
@@ -233,7 +237,7 @@ const responses = {
     if (req.body.addressPou === 'CORRESPONDENCE') {
       return res.json(
         set(
-          { ...address.mailingAddressUpdateReceived.response },
+          { ...address.mailingAddressUpdateReceived },
           'data.attributes.transactionId',
           `mailingUpdateId-${new Date().getTime()}`,
         ),
@@ -241,29 +245,17 @@ const responses = {
     }
 
     // default response
-    return res.json(address.homeAddressUpdateReceived.response);
+    return res.json(address.homeAddressUpdateReceived);
   },
   'POST /v0/profile/addresses': (req, res) => {
-    return res.json(address.homeAddressUpdateReceived.response);
+    return res.json(address.homeAddressUpdateReceived);
   },
+  'DELETE /v0/profile/addresses': (_req, res) => {
+    return res.status(200).json(address.homeAddressDeleteReceived);
+  },
+  'GET /v0/profile/status': getEmptyStatus, // simulate no status / no transactions pending
   'GET /v0/profile/status/:id': (req, res) => {
-    // uncomment this to simulate multiple status calls
-    // aka long latency on getting update to go through
-    // if (retries < 2) {
-    //   retries += 1;
-    //   return res.json(phoneNumber.transactions.received);
-    // }
-
-    // uncomment to conditionally provide a failure error code based on transaction id
-    if (req?.params?.id === 'erroredId') {
-      return res.json(
-        _.set(status.failure, 'data.attributes.transactionId', req.params.id),
-      );
-    }
-
-    return res.json(
-      _.set(status.success, 'data.attributes.transactionId', req.params.id),
-    );
+    return generateStatusResponse(req, res);
   },
   'GET /v0/profile/communication_preferences': (req, res) => {
     if (req?.query?.error === 'true') {
