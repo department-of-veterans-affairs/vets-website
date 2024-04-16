@@ -14,7 +14,7 @@ concurrency:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-16-cores-latest
+    runs-on: ubuntu-16-cores-latest 
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
       continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        buildtype: [vagovdev, vagovstaging, vagovprod]
+        buildtype: [vagovprod]
 
     steps:
       - name: Checkout
@@ -106,6 +106,7 @@ jobs:
         run: ls -la ./build
 
   fetch-allow-lists:
+    needs: build
     name: Fetch Test Stability Allow Lists
     runs-on: ubuntu-latest
     steps:
