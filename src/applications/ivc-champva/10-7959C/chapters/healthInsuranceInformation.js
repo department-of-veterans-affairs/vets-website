@@ -161,20 +161,25 @@ export function applicantInsuranceThroughEmployerSchema(isPrimary) {
   };
 }
 
-export const applicantPrimaryPrescriptionSchema = {
-  uiSchema: {
-    applicants: { items: {} },
-  },
-  schema: applicantListSchema([], {
-    applicantPrimaryHasPrescription: {
-      type: 'object',
-      properties: {
-        hasPrescription: { type: 'string' },
-        _unused: { type: 'string' },
-      },
+export function applicantInsurancePrescriptionSchema(isPrimary) {
+  const keyname = `applicant${
+    isPrimary ? 'Primary' : 'Secondary'
+  }HasPrescription`;
+  return {
+    uiSchema: {
+      applicants: { items: {} },
     },
-  }),
-};
+    schema: applicantListSchema([keyname], {
+      [keyname]: {
+        type: 'object',
+        properties: {
+          hasPrescription: { type: 'string' },
+          _unused: { type: 'string' },
+        },
+      },
+    }),
+  };
+}
 
 export const applicantPrimaryEOBSchema = {
   uiSchema: {

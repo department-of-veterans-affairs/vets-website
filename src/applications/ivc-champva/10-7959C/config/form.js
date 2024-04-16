@@ -67,7 +67,7 @@ import {
   applicantInsuranceExpirationDateSchema,
   applicantPrimaryEOBSchema,
   applicantInsuranceThroughEmployerSchema,
-  applicantPrimaryPrescriptionSchema,
+  applicantInsurancePrescriptionSchema,
   applicantPrimaryTypeSchema,
   applicantPrimaryMedigapSchema,
   applicantPrimaryCommentsSchema,
@@ -95,6 +95,8 @@ import {
 import {
   ApplicantPrimaryPrescriptionPage,
   ApplicantPrimaryPrescriptionReviewPage,
+  ApplicantSecondaryPrescriptionPage,
+  ApplicantSecondaryPrescriptionReviewPage,
 } from '../components/ApplicantPrimaryPrescriptionPage';
 import {
   ApplicantInsuranceTypePage,
@@ -413,8 +415,8 @@ const formConfig = {
             } prescription coverage`,
           CustomPage: ApplicantPrimaryPrescriptionPage,
           CustomPageReview: ApplicantPrimaryPrescriptionReviewPage,
-          uiSchema: applicantPrimaryPrescriptionSchema.uiSchema,
-          schema: applicantPrimaryPrescriptionSchema.schema,
+          uiSchema: applicantInsurancePrescriptionSchema(true).uiSchema,
+          schema: applicantInsurancePrescriptionSchema(true).schema,
         },
         primaryEOB: {
           path: ':index/primary-eob',
@@ -536,6 +538,20 @@ const formConfig = {
           CustomPageReview: ApplicantSecondaryThroughEmployerReviewPage,
           uiSchema: applicantInsuranceThroughEmployerSchema(false).uiSchema,
           schema: applicantInsuranceThroughEmployerSchema(false).schema,
+        },
+        secondaryPrescription: {
+          path: ':index/secondary-prescription',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } secondary prescription coverage`,
+          CustomPage: ApplicantSecondaryPrescriptionPage,
+          CustomPageReview: ApplicantSecondaryPrescriptionReviewPage,
+          uiSchema: applicantInsurancePrescriptionSchema(false).uiSchema,
+          schema: applicantInsurancePrescriptionSchema(false).schema,
         },
       },
     },

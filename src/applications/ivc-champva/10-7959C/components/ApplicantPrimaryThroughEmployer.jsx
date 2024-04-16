@@ -35,7 +35,6 @@ function generateOptions({ data, pagePerItemIndex, isPrimary }) {
   return {
     ...bp,
     options,
-    relativeBeingVerb: `${bp.relative} ${bp.beingVerbPresent}`,
     customTitle: `${bp.relativePossessive} ${
       isPrimary
         ? bp.currentListItem?.applicantPrimaryProvider
