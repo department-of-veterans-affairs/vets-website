@@ -17,8 +17,8 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="Foreign Medical Program (FMP) Registration Form"
-          subtitle="Equal to VA Form 10-7959F-1 (Foreign Medical Program (FMP) Registration Form)"
+          title="Register for the Foreign Medical Program"
+          subtitle="Form 10-7959f-1"
         />
         <VaAlert status="info" visible uswds>
           <h2>Have you applied for VA health care before?</h2>
@@ -102,6 +102,17 @@ class IntroductionPage extends React.Component {
           />
         </VaAlert>
         <p />
+        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+          What if I need help filling out my application?
+        </h2>
+        <p>
+          An accredited representative, like a Veterans Service Officer (VSO),
+          can help you fill out your application.
+          <a href="https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/CITI.asp">
+            Find out if you can get care at a local VA medical center when
+            you’re covered under CHAMPVA
+          </a>
+        </p>
       </article>
     );
   }
