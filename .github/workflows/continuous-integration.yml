@@ -91,20 +91,11 @@ jobs:
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
 
-      # - name: Cache test folder
-      #   id: cache-folderApril16
-      #   uses: actions/cache@v3
-      #   env:
-      #     cache-name: cache-testfolderApril16
-      #   with:
-      #     path: ./build
-      #     key: testvjApril162
-      #     restore-keys: testvjApril162
-
       - name: Echo Build Type
         run: echo "Build Type: ${{ matrix.buildtype }}"
-      
+
       - name: Cache test folder
+        if: ${{ matrix.buildtype == 'vagovprod' }}
         id: cache-folderApril16
         uses: actions/cache@v3
         env:
@@ -113,7 +104,6 @@ jobs:
           path: ./build
           key: testvjApril162
           restore-keys: testvjApril162
-        if: ${{ matrix.buildtype == 'vagovprod' }}
 
       - name: List files in the workspace
         run: ls -la ./build
