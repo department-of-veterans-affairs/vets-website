@@ -2863,13 +2863,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^38.0.4":
-  version "38.0.4"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-38.0.4.tgz#4b4c30309bf6b3ca1dac1001ce8e7abfe0fe561b"
-  integrity sha512-QXa8lK3hD8z3rn68Jya3+i8QoxMUr1JQkAYJWnct452mIiyvjKgzAFqd5u57pbwNHi7im5kfIkbtex9Vu/CyCA==
+"@department-of-veterans-affairs/component-library@^39.0.0":
+  version "39.0.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-39.0.0.tgz#eba104cfccb95fa7f4f9ab7a69b3e77daf54bb7d"
+  integrity sha512-+g0oxlSxGEEgC6/VLa0ohetIB4O7CGUdiZAWluBum2hvwblbFJym6/20OlKW0xkRbPS/rjRmg7IeFiYgxzwYdg==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.0.0"
-    "@department-of-veterans-affairs/web-components" "6.0.7"
+    "@department-of-veterans-affairs/web-components" "7.0.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2956,10 +2956,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@6.0.7":
-  version "6.0.7"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-6.0.7.tgz#17f6a0ba47f5d1498bbe929ef457d0ee4c62da0a"
-  integrity sha512-TPdOcdkF967C0wS3FBWBezzNqXvOREwrc8SYRofFrEJriZiOm6Mb9SXDyZG6v0CWIiGVESdlzBWwColPuL7dRA==
+"@department-of-veterans-affairs/web-components@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-7.0.0.tgz#de58070c7ca7e2e9f68a147c6b0053e241018251"
+  integrity sha512-DkFB0MohviyJ6wLNh0kW9pPHpjZKP4PupIPjA6HS5cQEqtsfEWjxI6pwiJT071U2jjjnUs5nOSXN9QnzJBHhfQ==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.5.1"
     "@stencil/core" "^2.19.2"
