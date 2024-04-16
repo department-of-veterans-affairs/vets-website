@@ -263,7 +263,7 @@ const formConfig = {
       pages: {
         mailingAddressYesNoPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
+            !formData.livingSituation.NONE &&
             (formData.preparerType === PREPARER_TYPES.VETERAN ||
               formData.preparerType === PREPARER_TYPES.NON_VETERAN),
           path: 'mailing-address-yes-no',
@@ -274,7 +274,7 @@ const formConfig = {
         },
         mailingAddressYesNoThirdPartyVeteranPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
+            !formData.livingSituation.NONE &&
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
           path: 'mailing-address-yes-no-third-party-veteran',
           title: 'Mailing address yes/no',
@@ -284,7 +284,7 @@ const formConfig = {
         },
         mailingAddressYesNoThirdPartyNonVeteranPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
+            !formData.livingSituation.NONE &&
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
           path: 'mailing-address-yes-no-third-party-non-veteran',
           title: 'Mailing address yes/no',
@@ -294,8 +294,7 @@ const formConfig = {
         },
         veteranMailingAddressPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
-            formData.mailingAddressYesNo &&
+            (formData.mailingAddressYesNo || formData.livingSituation.NONE) &&
             formData.preparerType === PREPARER_TYPES.VETERAN,
           path: 'veteran-mailing-address',
           title: 'Mailing address',
@@ -305,8 +304,7 @@ const formConfig = {
         },
         nonVeteranMailingAddressPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
-            formData.mailingAddressYesNo &&
+            (formData.mailingAddressYesNo || formData.livingSituation.NONE) &&
             formData.preparerType === PREPARER_TYPES.NON_VETERAN,
           path: 'non-veteran-mailing-address',
           title: 'Mailing address',
@@ -316,8 +314,7 @@ const formConfig = {
         },
         veteranMailingAddressThirdPartyVeteranPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
-            formData.mailingAddressYesNo &&
+            (formData.mailingAddressYesNo || formData.livingSituation.NONE) &&
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
           path: 'veteran-mailing-address-third-party-veteran',
           title: 'Mailing address',
@@ -327,8 +324,7 @@ const formConfig = {
         },
         nonVeteranMailingAddressThirdPartyNonVeteranPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
-            formData.mailingAddressYesNo &&
+            (formData.mailingAddressYesNo || formData.livingSituation.NONE) &&
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
           path: 'non-veteran-mailing-address-third-party-non-veteran',
           title: 'Mailing address',
@@ -422,7 +418,7 @@ const formConfig = {
           depends: formData =>
             (formData.preparerType === PREPARER_TYPES.VETERAN ||
               formData.preparerType === PREPARER_TYPES.NON_VETERAN) &&
-            formData.livingSituation.NONE,
+            formData.livingSituation.OTHER_RISK,
           path: 'other-reasons',
           title: 'Other reasons for request',
           uiSchema: otherReasonsPg.uiSchema,
@@ -432,7 +428,7 @@ const formConfig = {
         otherReasonsThirdPartyVeteranPage: {
           depends: formData =>
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN &&
-            formData.livingSituation.NONE,
+            formData.livingSituation.OTHER_RISK,
           path: 'other-reasons-third-party-veteran',
           title: 'Other reasons for request',
           uiSchema: otherReasons3rdPtyVetPg.uiSchema,
@@ -442,7 +438,7 @@ const formConfig = {
         otherReasonsThirdPartyNonVeteranPage: {
           depends: formData =>
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN &&
-            formData.livingSituation.NONE,
+            formData.livingSituation.OTHER_RISK,
           path: 'other-reasons-third-party-non-veteran',
           title: 'Other reasons for request',
           uiSchema: otherReasons3rdPtyNonVetPg.uiSchema,
@@ -486,7 +482,7 @@ const formConfig = {
       title: 'Evidence',
       pages: {
         financialHardshipPage: {
-          depends: formData => formData.otherReasons.FINANCIAL_HARDSHIP,
+          depends: formData => formData.otherReasons?.FINANCIAL_HARDSHIP,
           path: 'evidence-financial-hardship',
           title: 'Upload evidence for extreme financial hardship',
           uiSchema: financialHardshipPg.uiSchema,
@@ -494,7 +490,7 @@ const formConfig = {
           pageClass: 'evidence-financial-hardship',
         },
         terminalIllnessPage: {
-          depends: formData => formData.otherReasons.TERMINAL_ILLNESS,
+          depends: formData => formData.otherReasons?.TERMINAL_ILLNESS,
           path: 'evidence-terminal-illness',
           title: 'Upload evidence for terminal illness',
           uiSchema: terminalIllnessPg.uiSchema,
@@ -502,7 +498,7 @@ const formConfig = {
           pageClass: 'evidence-terminal-illness',
         },
         alsPage: {
-          depends: formData => formData.otherReasons.ALS,
+          depends: formData => formData.otherReasons?.ALS,
           path: 'evidence-als',
           title:
             'Upload evidence for diagnosis of ALS (amyotrophic lateral sclerosis)',
@@ -511,7 +507,7 @@ const formConfig = {
           pageClass: 'evidence-als',
         },
         vsiPage: {
-          depends: formData => formData.otherReasons.VSI_SI,
+          depends: formData => formData.otherReasons?.VSI_SI,
           path: 'evidence-vsi',
           title:
             'Upload evidence for Seriously or Very Seriously Injured or Ill during military operations',
@@ -522,7 +518,7 @@ const formConfig = {
         powConfinementPage: {
           // TODO: Verify which stories this should be shown for.
           // Not sure about non-veteran & third-party-non-veteran stories.
-          depends: formData => formData.otherReasons.FORMER_POW,
+          depends: formData => formData.otherReasons?.FORMER_POW,
           path: 'evidence-pow-confinement',
           title: 'Former prisoner of war',
           uiSchema: powConfinementPg.uiSchema,
@@ -531,7 +527,7 @@ const formConfig = {
         },
         powConfinement2Page: {
           depends: formData =>
-            formData.otherReasons.FORMER_POW &&
+            formData.otherReasons?.FORMER_POW &&
             formData.powMultipleConfinements,
           path: 'evidence-pow-confinement-2',
           title: 'Former prisoner of war',
@@ -540,7 +536,7 @@ const formConfig = {
           pageClass: 'evidence-pow-confinement-2',
         },
         powDocumentsPage: {
-          depends: formData => formData.otherReasons.FORMER_POW,
+          depends: formData => formData.otherReasons?.FORMER_POW,
           path: 'evidence-pow-documents',
           title: 'Upload evidence for prisoner of war status',
           uiSchema: powDocsPg.uiSchema,
@@ -548,7 +544,7 @@ const formConfig = {
           pageClass: 'evidence-pow-documents',
         },
         medalAwardPage: {
-          depends: formData => formData.otherReasons.MEDAL_AWARD,
+          depends: formData => formData.otherReasons?.MEDAL_AWARD,
           path: 'evidence-medal-award',
           title:
             'Upload evidence for Medal of Honor or Purple Heart award recipient',
