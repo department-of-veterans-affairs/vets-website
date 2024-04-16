@@ -245,27 +245,33 @@ export function applicantMedigapSchema(isPrimary) {
   };
 }
 
-export const applicantPrimaryCommentsSchema = {
-  uiSchema: {
-    applicants: {
-      'ui:options': { viewField: ApplicantField },
-      items: {
-        ...titleUI(
-          ({ formData }) =>
-            `${applicantWording(formData)} ${
-              formData?.applicantPrimaryProvider
-            } additional comments`,
-        ),
-        primaryAdditionalComments: {
-          'ui:title':
-            'Any additional comments about this applicant’s health insurance?',
-          'ui:webComponentField': VaTextInputField,
+export function applicantInsuranceCommentsSchema(isPrimary) {
+  const val = isPrimary ? 'primary' : 'secondary';
+  const keyname = `${val}AdditionalComments`;
+  return {
+    uiSchema: {
+      applicants: {
+        'ui:options': { viewField: ApplicantField },
+        items: {
+          ...titleUI(
+            ({ formData }) =>
+              `${applicantWording(formData)} ${
+                isPrimary
+                  ? formData?.applicantPrimaryProvider
+                  : formData?.applicantSecondaryProvider
+              } ${val} health insurance additional comments`,
+          ),
+          [keyname]: {
+            'ui:title':
+              'Any additional comments about this applicant’s health insurance?',
+            'ui:webComponentField': VaTextInputField,
+          },
         },
       },
     },
-  },
-  schema: applicantListSchema([], {
-    titleSchema,
-    primaryAdditionalComments: { type: 'string' },
-  }),
-};
+    schema: applicantListSchema([], {
+      titleSchema,
+      [keyname]: { type: 'string' },
+    }),
+  };
+}

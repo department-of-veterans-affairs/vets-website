@@ -70,7 +70,7 @@ import {
   applicantInsurancePrescriptionSchema,
   applicantInsuranceTypeSchema,
   applicantMedigapSchema,
-  applicantPrimaryCommentsSchema,
+  applicantInsuranceCommentsSchema,
 } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -480,8 +480,8 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantPrimaryProvider
             } additional comments`,
-          uiSchema: applicantPrimaryCommentsSchema.uiSchema,
-          schema: applicantPrimaryCommentsSchema.schema,
+          uiSchema: applicantInsuranceCommentsSchema(true).uiSchema,
+          schema: applicantInsuranceCommentsSchema(true).schema,
         },
         hasSecondaryHealthInsurance: {
           path: ':index/has-secondary',
@@ -605,6 +605,18 @@ const formConfig = {
             } secondary insurance Medigap information`,
           uiSchema: applicantMedigapSchema(false).uiSchema,
           schema: applicantMedigapSchema(false).schema,
+        },
+        secondaryComments: {
+          path: ':index/secondary-comments',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } additional comments`,
+          uiSchema: applicantInsuranceCommentsSchema(false).uiSchema,
+          schema: applicantInsuranceCommentsSchema(false).schema,
         },
       },
     },
