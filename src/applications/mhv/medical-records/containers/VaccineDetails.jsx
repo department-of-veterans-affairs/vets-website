@@ -1,10 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  updatePageTitle,
+  generatePdfScaffold,
+  formatName,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import {
   generateTextFile,
   getNameDateAndTime,
@@ -23,20 +32,10 @@ import {
   pageTitles,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import {
-  updatePageTitle,
-  generatePdfScaffold,
-  formatName,
-} from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
-import {
-  crisisLineHeader,
-  reportGeneratedBy,
-  txtLine,
-} from '../../shared/util/constants';
 import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
-import usePrintTitle from '../../shared/hooks/usePrintTitle';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -52,6 +51,7 @@ const VaccineDetails = props => {
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
@@ -93,11 +93,11 @@ const VaccineDetails = props => {
     pageTitles.VACCINES_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
   const generateVaccinePdf = async () => {
+    setDownloadStarted(true);
     const title = `Vaccines: ${record.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
@@ -107,6 +107,7 @@ const VaccineDetails = props => {
   };
 
   const generateVaccineTxt = async () => {
+    setDownloadStarted(true);
     const content = `
 ${crisisLineHeader}\n\n
 ${record.name}\n
@@ -152,8 +153,9 @@ Provider notes: ${processList(record.notes)}\n`;
             label="Date received"
             id="vaccine-date"
           />
+          {downloadStarted && <DownloadSuccessAlert />}
           <PrintDownload
-            download={generateVaccinePdf}
+            downloadPdf={generateVaccinePdf}
             allowTxtDownloads={allowTxtDownloads}
             downloadTxt={generateVaccineTxt}
           />

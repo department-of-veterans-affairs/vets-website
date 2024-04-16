@@ -18,11 +18,17 @@ const stateFn = ({
   loading = false,
   error = false,
   data = contacts.data,
+  vaPatient = true,
 } = {}) => ({
   profileContacts: {
     data,
     loading,
     error,
+  },
+  user: {
+    profile: {
+      vaPatient,
+    },
   },
 });
 
@@ -54,6 +60,14 @@ describe('PersonalHealthCareContacts component', () => {
       getByRole('heading', { name: 'Personal health care contacts', level: 1 });
       getByRole('heading', { name: 'Emergency contacts', level: 2 });
       getByRole('heading', { name: 'Next of kin contacts', level: 2 });
+    });
+  });
+
+  it('renders non-VA patient message when user is not a VA patient', async () => {
+    const initialState = stateFn({ vaPatient: false });
+    const { getByTestId } = setup({ initialState });
+    await waitFor(() => {
+      getByTestId('non-va-patient-message');
     });
   });
 

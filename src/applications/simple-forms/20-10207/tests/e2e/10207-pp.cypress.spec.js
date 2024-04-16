@@ -66,25 +66,11 @@ const testConfig = createTestConfig(
       'veteran-mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.get(
-              'va-segmented-progress-bar[uswds][heading-text][header-level="2"]',
-            )
-              .should('be.visible')
-              .then(() => {
-                cy.get('[name="root_veteranMailingAddress_state"]')
-                  .should('not.have.attr', 'disabled')
-                  .then(() => {
-                    // callback to avoid field-disabled errors, but
-                    // even now we must wait a bit!
-                    // eslint-disable-next-line cypress/no-unnecessary-waiting
-                    cy.wait(500);
-                    fillAddressWebComponentPattern(
-                      'veteranMailingAddress',
-                      data.veteranMailingAddress,
-                    );
-                    cy.findByText(/continue/i, { selector: 'button' }).click();
-                  });
-              });
+            fillAddressWebComponentPattern(
+              'veteranMailingAddress',
+              data.veteranMailingAddress,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
@@ -138,7 +124,7 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       cy.intercept('/v0/api', { status: 200 });
-      cy.intercept('/v0/feature_toggles', featureToggles);
+      cy.intercept('/v0/feature_toggles*', featureToggles);
       cy.intercept('PUT', '/v0/in_progress_forms/20-10207', sipPut);
       cy.intercept('GET', '/v0/in_progress_forms/20-10207', sipGet);
       cy.intercept(formConfig.submitUrl, mockSubmit);
@@ -147,7 +133,7 @@ const testConfig = createTestConfig(
 
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

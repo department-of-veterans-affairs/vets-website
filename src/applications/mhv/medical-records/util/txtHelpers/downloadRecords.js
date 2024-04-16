@@ -1,4 +1,9 @@
-import { txtLine, txtLineDotted } from '../../../shared/util/constants';
+import {
+  txtLine,
+  txtLineDotted,
+} from '@department-of-veterans-affairs/mhv/exports';
+
+import { loincCodes } from '../constants';
 
 /**
  * Helper function to parse consolidated downloads data for txt files.
@@ -6,83 +11,137 @@ import { txtLine, txtLineDotted } from '../../../shared/util/constants';
  * @param {Object} data - The data from content downloads.
  * @returns a string parsed from the data being passed for all record downloads txt.
  */
-export const getTxtContent = data => {
+export const getTxtContent = (data, { userFullName, dob }) => {
+  const formatVitals = vitals => {
+    const typeArray = [];
+    vitals.map(
+      record => !typeArray.includes(record.type) && typeArray.push(record.type),
+    );
+    return typeArray;
+  };
+
+  const vitalNameParse = name => {
+    let parsedName = name;
+    if (name === 'RESPIRATION') parsedName = 'Breathing rate';
+    if (name === 'PULSE') parsedName = 'Heart rate';
+    if (name === 'PULSE_OXIMETRY') parsedName = 'Blood oxygen level';
+    return parsedName;
+  };
+
   //  Labs and test parse
   const parseLabsAndTests = records => {
     return `
 ${txtLine}
-Lab and test results
+1) Lab and test results
 
 If your results are outside the reference range, this doesn't automatically mean you have a health problem. Your provider will explain what your results mean for your health.
 
-${records.map(
-      record => `
+${records
+      .map(
+        record => `
 ${record.name} on ${record.date}
 ${txtLineDotted}
+${
+          record.name !== 'Electrocardiogram (EKG)'
+            ? `${`
 Details about this test
 
-${'type' in record ? `Type of test: ${record.type}` : ''}
 ${'sampleTested' in record ? `Sample tested: ${record.sampleTested}` : ''}
-${'orderedBy' in record ? `Ordered by: ${record.orderedBy}` : ''}
+${'reason' in record ? `Reason for test: ${record.reason}` : ''}
 ${
-        'orderingLocation' in record
-          ? `Ordering location: ${record.orderingLocation}`
-          : ''
-      }
+                'clinicalHistory' in record
+                  ? `Clinical history: ${record.clinicalHistory}`
+                  : ''
+              }
 ${
-        'collectingLocation' in record
-          ? `Collecting location: ${record.collectingLocation}`
-          : ''
-      }
+                'imagingLocation' in record
+                  ? `Imaging location: ${record.imagingLocation}`
+                  : ''
+              }
 ${
-        'comments' in record
-          ? `Provider notes ${record.comments.map(comment => `\n${comment}`)}`
-          : ''
-      }
+                'imagingProvider' in record
+                  ? `Imaging provider: ${record.imagingProvider}`
+                  : ''
+              }
+${'sampleFrom' in record ? `Sample from: ${record.sampleFrom}` : ''}
+${
+                'orderedBy' in record && record.type !== 'pathology'
+                  ? `Ordered by: ${record.orderedBy}`
+                  : ''
+              }
+${
+                'orderingLocation' in record
+                  ? `Ordering location: ${record.orderingLocation}`
+                  : ''
+              }
+${
+                'collectingLocation' in record && record.type !== 'pathology'
+                  ? `Collecting location: ${record.collectingLocation}`
+                  : ''
+              }
+${'labLocation' in record ? `Lab location: ${record.labLocation}` : ''}
+${'date' in record ? `Date completed: ${record.date}` : ''}
+${
+                'comments' in record
+                  ? `Provider notes ${record.comments
+                      .map(comment => `\n${comment}`)
+                      .join('')}`
+                  : ''
+              }
 
 Results
-
 ${
-        'results' in record
-          ? `${
-              Array.isArray(record.results)
-                ? `${record.results.map(
-                    result =>
-                      `${'name' in result ? `${result.name}` : ''}
+                'results' in record
+                  ? `${
+                      Array.isArray(record.results)
+                        ? `${record.results
+                            .map(
+                              result =>
+                                `\n\n${'name' in result ? `${result.name}` : ''}
+  ${'result' in result ? `Result: ${result.result}` : ''}                      
   ${'standardRange' in result ? `Standard range: ${result.standardRange}` : ''}
   ${'status' in result ? `Staus: ${result.status}` : ''}
-  ${'labLocation' in result ? `Lab location: ${result.labLocation}` : ''}
   ${
     'interpretation' in result ? `Interpretation: ${result.interpretation}` : ''
   }`,
-                  )}`
-                : `${record.results}`
-            }`
-          : ''
-      }
+                            )
+                            .join('')}\n`
+                        : `${record.results}\n`
+                    }`
+                  : ''
+              }`}\n`
+            : `
+${'date' in record ? `Date: ${record.date}` : ''}
+${'facility' in record ? `Location: ${record.facility}` : ''}
+${'orderedBy' in record ? `Provider: ${record.orderedBy}` : ''}\n`
+        }
 `,
-    )}`;
+      )
+      .join('')}`;
   };
 
   //  care summaries and notes parse
   const parseCareSummariesAndNotes = records => {
     return `
 ${txtLine}
-Care summaries and notes
+2) Care summaries and notes
 
 This report only includes care summaries and notes from 2013 and later.
 For after-visit summaries, (summaries of your appointments with VA providers), go to your appointment records.
 
-${records.map(
-      record =>
-        `${
-          record.name === 'Progress note'
-            ? `
+${records
+      .map(
+        record =>
+          `${
+            record.type === loincCodes.PHYSICIAN_PROCEDURE_NOTE ||
+            record.type === loincCodes.CONSULT_RESULT
+              ? `
 ${record.name}
 ${txtLineDotted}
 
 Details
-
+  
+  Date: ${record.date}
   Location: ${record.location}
   Signed by: ${record.signedBy}
   Co-signed by: ${record.coSignedBy}
@@ -91,21 +150,23 @@ Details
 Notes
   ${record.note}
 `
-            : `
+              : `
 
 ${record.name}
 ${txtLineDotted}
 
 Details
   Location: ${record.location}
+  Admission Date: ${record.admissionDate}
   Discharge date: ${record.dischargeDate}
   Discharged by: ${record.dischargedBy}
 
 Summary
   ${record.summary}
               `
-        }`,
-    )}
+          }`,
+      )
+      .join('')}
 
 `;
   };
@@ -114,14 +175,15 @@ Summary
   const parseVaccines = records => {
     return `
 ${txtLine}
-Vaccines
+3) Vaccines
 
 This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.
 For complete records of your allergies and reactions to vaccines, review your allergy records in this report.
 
-${records.map(
-      record =>
-        `
+${records
+      .map(
+        record =>
+          `
 ${record.name}
 ${txtLineDotted}
 ${`Date received: ${record.date}`}
@@ -129,7 +191,8 @@ ${`Location: ${record.location}`}
 Provider notes
 ${record.notes.map(note => `${note}`)}
             `,
-    )}
+      )
+      .join('')}
     `;
   };
 
@@ -137,63 +200,77 @@ ${record.notes.map(note => `${note}`)}
   const parseAllergies = records => {
     return `
 ${txtLine}
-Allergies
+4) Allergies
 
 If you have allergies that are missing from this list, send a secure message to your care team.
-${records.map(
-      record => `
+${records
+      .map(
+        record => `
 ${record.name}
 ${txtLineDotted}
 Date entered: ${record.date}
-Signs and symptoms: ${record.reaction.map(reaction => `${reaction}`)}
+Signs and symptoms: ${record.reaction.map(reaction => `${reaction}`).join(', ')}
 Type of allergy: ${record.type}
 Location: ${record.location}
 Observed or historical: ${record.observedOrReported}
 Provider notes: ${record.notes}
 `,
-    )}
+      )
+      .join('')}
 `;
   };
-  //  health conditions parse
 
+  //  health conditions parse
   const parseHealthConditions = records => {
     return `
 ${txtLine}
-Health conditions
+5) Health conditions
 
 This list includes your current health conditions that VA providers are helping you manage. It may not include conditions non-VA providers are helping you manage.
-${records.map(
-      record => `
+${records
+      .map(
+        record => `
 ${record.name}
 ${txtLineDotted}
-Date entered: ${record.date}
+Date: ${record.date}
 Provider: ${record.provider}
 Provider Notes
 Status of health condition: ${record.active}
 Location: ${record.facility}
 SNOMED Clinical term: ${record.name}
 `,
-    )}
+      )
+      .join('')}
 `;
   };
 
   //  vitals parse
-
   const parseVitals = records => {
+    const vitalTypes = formatVitals(records);
     return `
 ${txtLine}
-Vitals
+6) Vitals
 
 This list includes vitals and other basic health numbers your providers check at your appointments.
-${records.map(
-      record => `
-${record.name}
+${vitalTypes
+      .map(
+        vitalType => `
+${vitalNameParse(vitalType)}
 ${txtLineDotted}
-Result: ${record.measurement}
-Provider Notes: ${record.notes}
-Location: ${record.location}
+  ${records
+    .filter(record => record.type === vitalType)
+    .map(
+      record => `
+${record.dateTime}
+  Result: ${record.measurement}
+  Location: ${record.location}
+  Provider Notes: ${record.notes}
 `,
-    )}
+    )
+    .join('')}
+`,
+      )
+      .join('')}
 `;
   };
 
@@ -201,7 +278,8 @@ Location: ${record.location}
 Blue Button report
 
 This report includes key information from your VA medical records.
-Date of birth: ${data.dob}\n
+${userFullName.last}, ${userFullName.first}\n
+Date of birth: ${dob}\n
 
 What to know about your Blue Button report
 - If you print or download your Blue Button report, you'll need to take responsibility for protecting the information in the report.
@@ -211,6 +289,16 @@ What to know about your Blue Button report
 Need help?
 - If you have questions about this report or you need to add information to your records, send a secure message to your care team.
 - If you're ever in crisis and need to talk with someone right away, call the Veterans Crisis line at 988. Then select 1.
+
+${txtLine}
+The following records have been downloaded:
+${txtLineDotted}
+  1. Labs and Tests
+  2. Care Summaries and Notes
+  3. Vaccines
+  4. Allergies
+  5. Health Conditions
+  6. Vitals
 
 ${parseLabsAndTests(data.labsAndTests)}
 ${parseCareSummariesAndNotes(data.notes)}

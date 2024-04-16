@@ -6,22 +6,13 @@ import { subDays } from 'date-fns';
 import { phoneNumbers } from '../../../utils/appConstants';
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
 import HowToLink from '../../../components/HowToLink';
+import ExternalLink from '../../../components/ExternalLink';
 
 import { makeSelectVeteranData, makeSelectError } from '../../../selectors';
 
 import Wrapper from '../../../components/layout/Wrapper';
 
 import { getFirstCanceledAppointment } from '../../../utils/appointment';
-
-const appointmentAccordion = appointments => {
-  return (
-    <PreCheckInAccordionBlock
-      key="accordion"
-      errorPage
-      appointments={appointments}
-    />
-  );
-};
 
 const Error = () => {
   const selectError = useMemo(makeSelectError, []);
@@ -35,20 +26,39 @@ const Error = () => {
 
   let header = '';
 
-  let apptType = '';
-  if (appointments && appointments.length > 0) {
-    apptType = appointments[0]?.kind ?? 'clinic';
-  }
-
-  let accordion = null;
   let alertType = '';
   let messageText = '';
-  let showHowToLink = false;
 
-  const mixedPhoneAndInPersonMessage = (
-    <div>
+  const noLongerAvailableMessage = (
+    <p
+      data-testid="no-longer-available-message"
+      className="vads-u-margin-top--0"
+    >
+      {t('pre-check-in-no-longer-available')}
+    </p>
+  );
+  const somethingWentWrongMesage = (
+    <div data-testid="something-went-wrong-message">
+      <p className="vads-u-margin-top--0">{t('something-went-wrong')}</p>
+      <p>
+        <ExternalLink
+          href="https://www.va.gov/find-locations"
+          hrefLang="en"
+          eventId="find-facility-locations--link-clicked"
+          eventPrefix="nav"
+        >
+          {t('find-your-va-health-facility')}
+        </ExternalLink>
+      </p>
+    </div>
+  );
+  const chevRight = (
+    <span className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
+  );
+  const mixedModalityMessage = (
+    <div data-testid="mixed-modality-message">
       <div>
-        <span className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
+        {chevRight}
         <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
           {t('in-person-appointment')}
         </span>
@@ -59,14 +69,29 @@ const Error = () => {
         )}
       </div>
       <div className="vads-u-margin-top--2">
-        <span className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
+        {chevRight}
         <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
-          {t('telephone-appointment')}
+          {t('video-appointment--title')}
         </span>
       </div>
+      <div className="vads-u-margin-top--2">{t('video-error-help-text')}</div>
       <div className="vads-u-margin-top--2">
-        {t('your-provider-will-call-you-at-your-appointment-time')}
+        <ExternalLink
+          href="https://www.va.gov/resources/signing-in-to-vagov/"
+          hrefLang="en"
+          eventId="sign-in-to-find--link-clicked"
+          eventPrefix="nav"
+        >
+          {t('sign-in-to-find-appointment')}
+        </ExternalLink>
       </div>
+      <div className="vads-u-margin-top--2">
+        {chevRight}
+        <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
+          {t('phone-appointment')}
+        </span>
+      </div>
+      <div className="vads-u-margin-top--2">{t('phone-error-help-text')}</div>
     </div>
   );
 
@@ -79,31 +104,29 @@ const Error = () => {
           <div className="vads-u-margin-bottom--2">
             {t('were-sorry-we-couldnt-match-your-information-to-our-records')}
           </div>
-          {mixedPhoneAndInPersonMessage}
+          {mixedModalityMessage}
         </>
       );
-      showHowToLink = false;
       break;
     case 'pre-check-in-post-error':
     case 'error-completing-pre-check-in':
-      alertType = 'info';
+      alertType = 'error';
       header = t('sorry-we-cant-complete-pre-check-in');
       messageText = (
         <>
-          <div>
-            {t('were-sorry-something-went-wrong-on-our-end-please-try-again')}
-          </div>
-          <div data-testid="date-message">
+          <p className="vads-u-margin-top--0">
+            {t('something-went-wrong-please-try-again')}
+          </p>
+          <p data-testid="date-message">
             {t('you-can-pre-check-in-online-until-date', {
               date: subDays(new Date(appointments[0].startTime), 1),
             })}
-          </div>
+          </p>
         </>
       );
-      showHowToLink = apptType === 'clinic';
       break;
     case 'appointment-canceled': {
-      alertType = 'info';
+      alertType = 'warning';
       header = t('sorry-pre-check-in-is-no-longer-available');
       // get first appointment that was cancelled?
       const canceledAppointment = getFirstCanceledAppointment(appointments);
@@ -137,55 +160,62 @@ const Error = () => {
           )}
         </div>
       );
-      showHowToLink = false;
-      accordion = appointmentAccordion(appointments);
       break;
     }
-    case 'pre-check-in-past-appointment':
-      alertType = 'info';
-      header = t('sorry-pre-check-in-is-no-longer-available');
-      messageText = t('pre-check-in-no-longer-available--info-message');
-      showHowToLink = false;
-      accordion = appointmentAccordion(appointments);
-      break;
     case 'pre-check-in-expired':
-      alertType = 'info';
+    case 'pre-check-in-past-appointment':
+      alertType = 'warning';
       header = t('sorry-pre-check-in-is-no-longer-available');
-      messageText =
-        apptType === 'clinic'
-          ? t('you-can-still-check-in-once-you-arrive')
-          : t('your-provider-will-call-you-at-your-appointment-time');
-      accordion = appointmentAccordion(appointments);
-      showHowToLink = true;
+      messageText = (
+        <>
+          {noLongerAvailableMessage}
+          {mixedModalityMessage}
+        </>
+      );
       break;
     case 'uuid-not-found':
       // Shown when POST sessions returns 404.
-      alertType = 'info';
-      header = t('this-link-has-expired');
-      messageText = mixedPhoneAndInPersonMessage;
-      showHowToLink = false;
+      alertType = 'warning';
+      header = t('sorry-pre-check-in-is-no-longer-available');
+      messageText = (
+        <>
+          {somethingWentWrongMesage}
+          {mixedModalityMessage}
+        </>
+      );
       break;
-    case 'session-error':
-    case 'bad-token':
-    case 'no-token':
     case 'reload-data-error':
-    case 'possible-canceled-appointment':
-      // This is considered our generic error message
-      alertType = 'info';
-      header = t('sorry-we-cant-complete-pre-check-in');
-      messageText = mixedPhoneAndInPersonMessage;
-      showHowToLink = false;
-      break;
-    default:
-      // should never get here but if it does show the minimum
       alertType = 'error';
       header = t('sorry-we-cant-complete-pre-check-in');
       messageText = (
-        <div>
-          {t('were-sorry-something-went-wrong-on-our-end-please-try-again')}
-        </div>
+        <>
+          <p className="vads-u-margin-top--0">
+            {t('something-went-wrong-please-try-again')}
+          </p>
+          <p>{t('if-you-have-questions-call')}</p>
+          <p>
+            <ExternalLink
+              href="https://www.va.gov/find-locations"
+              hrefLang="en"
+              eventId="find-facility-locations--link-clicked"
+              eventPrefix="nav"
+            >
+              {t('find-your-va-health-facility')}
+            </ExternalLink>
+          </p>
+        </>
       );
-      showHowToLink = false;
+      break;
+    default:
+      // This is considered our generic error message
+      alertType = 'error';
+      header = t('sorry-we-cant-complete-pre-check-in');
+      messageText = (
+        <>
+          {somethingWentWrongMesage}
+          {mixedModalityMessage}
+        </>
+      );
       break;
   }
 
@@ -200,8 +230,14 @@ const Error = () => {
       >
         <div>{messageText}</div>
       </va-alert>
-      {showHowToLink && <HowToLink apptType={apptType} />}
-      {accordion && <div className="vads-u-margin-top--3">{accordion}</div>}
+      <HowToLink />
+      <div className="vads-u-margin-top--3">
+        <PreCheckInAccordionBlock
+          key="accordion"
+          errorPage
+          appointments={appointments}
+        />
+      </div>
     </Wrapper>
   );
 };

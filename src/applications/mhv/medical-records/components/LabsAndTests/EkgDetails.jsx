@@ -1,9 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  generatePdfScaffold,
+  updatePageTitle,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -12,18 +17,15 @@ import {
   getNameDateAndTime,
   makePdf,
 } from '../../util/helpers';
-import {
-  generatePdfScaffold,
-  updatePageTitle,
-} from '../../../shared/util/helpers';
+
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
-import { txtLine } from '../../../shared/util/constants';
+
 import {
   generateLabsIntro,
   generateEkgContent,
 } from '../../util/pdfHelpers/labsAndTests';
-import usePrintTitle from '../../../shared/hooks/usePrintTitle';
+import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 
 const EkgDetails = props => {
   const { record, runningUnitTest } = props;
@@ -34,6 +36,7 @@ const EkgDetails = props => {
       ],
   );
   const user = useSelector(state => state.user.profile);
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
@@ -49,11 +52,11 @@ const EkgDetails = props => {
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
-  const generateEkgDetails = async () => {
+  const generateEkgDetailsPdf = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateLabsIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateEkgContent(record) };
@@ -62,6 +65,7 @@ const EkgDetails = props => {
   };
 
   const generateEkgTxt = async () => {
+    setDownloadStarted(true);
     const content = `
     ${record.name} \n
     Date: ${record.date} \n
@@ -88,14 +92,14 @@ const EkgDetails = props => {
       </h1>
       <DateSubheading date={record.date} id="ekg-date" />
 
-      <div className="electrocardiogram-buttons no-print">
-        <PrintDownload
-          download={generateEkgDetails}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generateEkgTxt}
-        />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-      </div>
+      {downloadStarted && <DownloadSuccessAlert />}
+      <PrintDownload
+        downloadPdf={generateEkgDetailsPdf}
+        allowTxtDownloads={allowTxtDownloads}
+        downloadTxt={generateEkgTxt}
+      />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+
       <div className="electrocardiogram-details max-80">
         <h2 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordering location

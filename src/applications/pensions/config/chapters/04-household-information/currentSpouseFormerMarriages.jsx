@@ -27,6 +27,7 @@ import {
   validateAfterMarriageDates,
   validateUniqueMarriageDates,
 } from '../../../validation';
+import { currentSpouseHasFormerMarriages } from './helpers';
 
 const { marriages } = fullSchemaPensions.definitions;
 
@@ -52,6 +53,9 @@ SpouseMarriageView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Spouse’s former marriages',
+  path: 'household/marital-status/spouse-marriages',
+  depends: currentSpouseHasFormerMarriages,
   uiSchema: {
     ...titleUI(SpouseMarriageTitle),
     'view:contactWarning': {
@@ -78,6 +82,7 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
       },
       items: {
         spouseFullName: fullNameUI(title => `Former spouse’s ${title}`),
@@ -87,7 +92,7 @@ export default {
           classNames: 'vads-u-margin-bottom--2',
         }),
         otherExplanation: {
-          'ui:title': 'Please specify',
+          'ui:title': 'Tell us how the marriage ended',
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
             expandUnder: 'reasonForSeparation',

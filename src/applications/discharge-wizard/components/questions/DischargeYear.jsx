@@ -9,7 +9,7 @@ import { shouldShowQuestion } from '../../helpers';
 
 const { Element } = Scroll;
 
-const DischargeYearQuestion = ({
+const DischargeYear = ({
   formValues,
   handleKeyDown,
   scrollToLast,
@@ -66,11 +66,11 @@ const DischargeYearQuestion = ({
   );
 };
 
-DischargeYearQuestion.propTypes = {
+DischargeYear.propTypes = {
   formValues: PropTypes.object.isRequired,
   handleKeyDown: PropTypes.func,
   scrollToLast: PropTypes.func,
   updateField: PropTypes.func,
 };
 
-export default DischargeYearQuestion;
+export default DischargeYear;

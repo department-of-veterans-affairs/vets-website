@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from 'moment';
 
-import { buildDateFormatter, getTrackedItemId } from '../../utils/helpers';
 import { ITEMS_PER_PAGE } from '../../constants';
+import { buildDateFormatter } from '../../utils/helpers';
 
-const getOldestDocuentDate = item => {
+const getOldestDocumentDate = item => {
   const arrDocumentDates = item.documents.map(document => document.uploadDate);
   return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
 };
@@ -20,7 +20,7 @@ const getTrackedItemDateFromStatus = item => {
     case 'NO_LONGER_REQUIRED':
       return item.closedDate;
     case 'SUBMITTED_AWAITING_REVIEW':
-      return getOldestDocuentDate(item);
+      return getOldestDocumentDate(item);
     case 'INITIAL_REVIEW_COMPLETE':
     case 'ACCEPTED':
       return item.receivedDate;
@@ -53,6 +53,7 @@ const generateTrackedItems = claim => {
     id: item.id,
     date: getTrackedItemDateFromStatus(item),
     description: getTrackedItemDescription(item),
+    displayName: item.displayName,
     status: item.status,
     type: 'tracked_item',
   }));
@@ -69,7 +70,7 @@ const getSortedItems = claim => {
   });
 };
 
-function RecentActivity({ claim }) {
+export default function RecentActivity({ claim }) {
   const [currentPage, setCurrentPage] = useState(1);
   const items = getSortedItems(claim);
   const pageLength = items.length;
@@ -139,16 +140,13 @@ function RecentActivity({ claim }) {
                   class="optional-alert vads-u-padding-bottom--1"
                   status="info"
                   slim
-                  uswds
                 >
                   You don’t have to do anything, but if you have this
                   information you can{' '}
                   <Link
                     aria-label={`Add information for ${item.displayName}`}
                     className="add-your-claims-link"
-                    to={`your-claims/${
-                      item.id
-                    }/document-request/${getTrackedItemId(item)}`}
+                    to={`../document-request/${item.id}`}
                   >
                     add it here.
                   </Link>
@@ -160,7 +158,6 @@ function RecentActivity({ claim }) {
       )}
       {shouldPaginate && (
         <VaPagination
-          uswds
           className="vads-u-border--0"
           page={currentPage}
           pages={numPages}
@@ -174,5 +171,3 @@ function RecentActivity({ claim }) {
 RecentActivity.propTypes = {
   claim: PropTypes.object,
 };
-
-export default RecentActivity;

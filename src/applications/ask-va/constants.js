@@ -1,7 +1,8 @@
-const baseURL = '/ask_va_api/v0';
+export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
+  GET_CATEGORIESTOPICS: `${baseURL}/categories`,
   GET_TOPICS: `/topics?user_mock_data=true`,
   GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
   // TODO: Add address validation endpoint
@@ -9,6 +10,8 @@ export const URL = {
   GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
+  GET_SCHOOL: `v0/gi/institutions/search?name=`,
+  SEND_REPLY: `/reply/new`,
 };
 
 export const requireSignInCategories = [
@@ -130,12 +133,12 @@ export const questionAboutDescriptions = {
 
 // Reason options
 export const reasonOptions = {
-  QUESTION: 'I have a question',
-  NICE: 'I want to say something nice',
-  COMPLAINT: 'I have a complaint about a service',
-  SUGGESTION: 'I have a suggestion',
-  TOWN_HALL: 'I attended a Town Hall and now I have a question',
-  SOMETHING_ELSE: 'I want to say something else',
+  QUESTION: 'I had a question',
+  NICE: 'I wanted to say something nice',
+  COMPLAINT: 'I had a complaint about a service',
+  SUGGESTION: 'I had a suggestion',
+  TOWN_HALL: 'I had a question after attending a Town Hall',
+  OTHER: 'Other',
 };
 
 // Reason options
@@ -144,6 +147,28 @@ export const yourRoleOptions = {
     'Accredited representative (such as an accredited attorney, claims agent, or Veterans Service Officer)',
   FIDUCIARY: 'Fiduciary',
   FUNERAL_DIR: 'Funeral director',
+  TRAINING_OR_APPRENTICESHIP_SUP:
+    'On-the-job training or apprenticeship supervisor',
+  SCO: 'School Certifying Official (SCO)',
+  VA_EMPLOYEE: 'VA employee',
+  WORK_STUDY_SUP: 'Work study site supervisor',
+  OTHER: 'Other',
+};
+
+// State or Facility options
+export const stateOrFacilityOptions = {
+  SCHOOL_STATE: 'School state',
+  SCHOOL_FACILITY: 'School facility',
+};
+
+// Do you want to use this school options
+export const useThisSchoolOptions = {
+  YES: 'Yes',
+  NO: "No, I'll choose a different option",
+};
+
+// Reason options
+export const yourRoleOptionsEducation = {
   TRAINING_OR_APPRENTICESHIP_SUP:
     'On-the-job training or apprenticeship supervisor',
   SCO: 'School Certifying Official (SCO)',
@@ -186,15 +211,15 @@ export const CHAPTER_2 = {
   },
   PAGE_2: {
     PATH: 'question-2',
-    TITLE: "Reason you're contacting us",
+    TITLE: 'Reason you contacted us',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select the reason you are contacting us today: (Optional)',
+    QUESTION_1: 'Select the reason you contacted us today:',
   },
   PAGE_3: {
     PATH: 'question-3',
     TITLE: 'Your question',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: "What's your question?",
+    QUESTION_1: 'What is your question?',
   },
 };
 
@@ -264,6 +289,11 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
+  SCHOOL: {
+    TITLE: 'School information',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
+  },
   PHONE_EMAIL: {
     TITLE: 'Your phone number and email',
     PAGE_DESCRIPTION: '',
@@ -303,6 +333,24 @@ export const CHAPTER_3 = {
   YOUR_ROLE: {
     TITLE: 'Your role',
     QUESTION_1: 'Select your role:',
+  },
+  STATE_OR_FACILITY: {
+    TITLE: 'School information',
+    PAGE_DESCRIPTION: 'Would you like to choose your school state or facility?',
+    QUESTION_1: 'Select school or state facility',
+  },
+  USE_THIS_SCHOOL: {
+    TITLE: 'School information',
+    QUESTION_1: 'Do you want to use this school?',
+  },
+  STATE_OF_SCHOOL: {
+    TITLE: 'State of school',
+    QUESTION_1: 'Select state',
+  },
+  SCHOOL_STATE_OR_RESIDENCY: {
+    TITLE: 'School information',
+    PAGE_DESCRIPTION: 'School or state of residency',
+    QUESTION_1: 'Please provide one of the following',
   },
 };
 

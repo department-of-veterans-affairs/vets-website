@@ -12,7 +12,7 @@ const reasonContactPage = {
   },
   schema: {
     type: 'object',
-    required: [],
+    required: ['contactReason'],
     properties: {
       contactReason: radioSchema(Object.keys(reasonOptions)),
     },

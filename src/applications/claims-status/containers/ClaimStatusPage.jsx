@@ -22,6 +22,7 @@ import ClosedClaimAlert from '../components/claim-status-tab/ClosedClaimAlert';
 import { showClaimLettersFeature } from '../selectors';
 import {
   buildDateFormatter,
+  claimAvailable,
   getClaimType,
   getItemDate,
   getStatusMap,
@@ -195,8 +196,10 @@ class ClaimStatusPage extends React.Component {
   getPageContent() {
     const { claim, showClaimLettersLink } = this.props;
 
-    // claim can be null
-    const attributes = (claim && claim.attributes) || {};
+    // Return null if the claim/ claim.attributes dont exist
+    if (!claimAvailable(claim)) {
+      return null;
+    }
 
     const {
       claimPhaseDates,
@@ -204,21 +207,22 @@ class ClaimStatusPage extends React.Component {
       decisionLetterSent,
       documentsNeeded,
       status,
-    } = attributes;
+      trackedItems,
+    } = claim.attributes;
     const isOpen = isClaimOpen(status, closeDate);
-    const filesNeeded = itemsNeedingAttentionFromVet(attributes.trackedItems);
+    const filesNeeded = itemsNeedingAttentionFromVet(trackedItems);
     const showDocsNeeded =
       !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
 
     return (
-      <div>
+      <div className="claim-status">
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
           <Toggler.Enabled>
             <ClaimStatusHeader claim={claim} />
             {isOpen ? (
               <>
                 <WhatYouNeedToDo claim={claim} useLighthouse />
-                <WhatWeAreDoing claim={claim} />
+                <WhatWeAreDoing status={status} />
               </>
             ) : (
               <>
@@ -233,9 +237,7 @@ class ClaimStatusPage extends React.Component {
             <RecentActivity claim={claim} />
           </Toggler.Enabled>
           <Toggler.Disabled>
-            {showDocsNeeded && (
-              <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-            )}
+            {showDocsNeeded && <NeedFilesFromYou files={filesNeeded} />}
             {status &&
               isOpen && (
                 <ClaimTimeline
@@ -263,7 +265,7 @@ class ClaimStatusPage extends React.Component {
   setTitle() {
     const { claim } = this.props;
 
-    if (claim) {
+    if (claimAvailable(claim)) {
       const claimDate = buildDateFormatter()(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Status Of ${claimDate} ${claimType} Claim`;
@@ -274,7 +276,7 @@ class ClaimStatusPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced } = this.props;
+    const { claim, loading, message } = this.props;
 
     let content = null;
     if (!loading) {
@@ -283,13 +285,11 @@ class ClaimStatusPage extends React.Component {
 
     return (
       <ClaimDetailLayout
-        id={this.props.params.id}
         claim={claim}
-        loading={loading}
         clearNotification={this.props.clearNotification}
         currentTab="Status"
+        loading={loading}
         message={message}
-        synced={synced}
       >
         {content}
       </ClaimDetailLayout>
@@ -301,12 +301,11 @@ function mapStateToProps(state) {
   const claimsState = state.disability.status;
 
   return {
-    loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
-    message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
+    loading: claimsState.claimDetail.loading,
+    message: claimsState.notifications.message,
     showClaimLettersLink: showClaimLettersFeature(state),
-    synced: claimsState.claimSync.synced,
   };
 }
 
@@ -319,10 +318,8 @@ ClaimStatusPage.propTypes = {
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
-  message: PropTypes.string,
-  params: PropTypes.object,
+  message: PropTypes.object,
   showClaimLettersLink: PropTypes.bool,
-  synced: PropTypes.bool,
 };
 
 export default connect(

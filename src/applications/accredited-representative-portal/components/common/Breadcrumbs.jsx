@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import upperFirst from 'lodash/upperFirst';
 import lowerCase from 'lodash/lowerCase';
+import kebabCase from 'lodash/kebabCase';
 
 const acronymMapping = {
   poa: 'POA',
@@ -47,10 +48,16 @@ const Breadcrumbs = ({ pathname }) => {
   });
 
   return (
-    <va-breadcrumbs uswds="false" home-veterans-affairs={false}>
+    <va-breadcrumbs
+      data-testid="breadcrumbs"
+      home-veterans-affairs={false}
+      uswds="false"
+    >
       {breadcrumbs.map(({ link, label }) => (
         <li key={label}>
-          <Link to={link}>{label}</Link>
+          <Link data-testid={`breadcrumbs-${kebabCase(label)}`} to={link}>
+            {label}
+          </Link>
         </li>
       ))}
     </va-breadcrumbs>

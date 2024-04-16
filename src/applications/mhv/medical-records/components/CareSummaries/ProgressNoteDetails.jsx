@@ -1,9 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import {
+  generatePdfScaffold,
+  updatePageTitle,
+  formatName,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -12,23 +21,13 @@ import {
   getNameDateAndTime,
   makePdf,
 } from '../../util/helpers';
-import {
-  generatePdfScaffold,
-  updatePageTitle,
-  formatName,
-} from '../../../shared/util/helpers';
 import { EMPTY_FIELD, pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
-import {
-  crisisLineHeader,
-  reportGeneratedBy,
-  txtLine,
-} from '../../../shared/util/constants';
 import {
   generateNotesIntro,
   generateProgressNoteContent,
 } from '../../util/pdfHelpers/notes';
-import usePrintTitle from '../../../shared/hooks/usePrintTitle';
+import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 
 const ProgressNoteDetails = props => {
   const { record, runningUnitTest } = props;
@@ -39,6 +38,7 @@ const ProgressNoteDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
@@ -54,11 +54,11 @@ const ProgressNoteDetails = props => {
     pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
   const generateCareNotesPDF = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateNotesIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateProgressNoteContent(record) };
@@ -67,6 +67,7 @@ const ProgressNoteDetails = props => {
   };
 
   const generateCareNotesTxt = () => {
+    setDownloadStarted(true);
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
@@ -89,10 +90,6 @@ ${record.note}`;
     );
   };
 
-  const download = () => {
-    generateCareNotesPDF();
-  };
-
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
@@ -112,14 +109,13 @@ ${record.note}`;
         <DateSubheading date={record.date} id="progress-note-date" />
       )}
 
-      <div className="no-print">
-        <PrintDownload
-          download={download}
-          downloadTxt={generateCareNotesTxt}
-          allowTxtDownloads={allowTxtDownloads}
-        />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-      </div>
+      {downloadStarted && <DownloadSuccessAlert />}
+      <PrintDownload
+        downloadPdf={generateCareNotesPDF}
+        downloadTxt={generateCareNotesTxt}
+        allowTxtDownloads={allowTxtDownloads}
+      />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
 
       <div className="test-details-container max-80">
         <h2>Details</h2>

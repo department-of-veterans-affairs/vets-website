@@ -200,7 +200,11 @@ async function testSlowFailure(numberName) {
 
 describe('Deleting', () => {
   before(() => {
-    server = setupServer(...mocks.deletePhoneNumberSuccess());
+    server = setupServer(
+      ...mocks.deletePhoneNumberSuccess(),
+      ...mocks.apmTelemetry,
+      ...mocks.rootTransactionStatus,
+    );
     server.listen();
   });
   beforeEach(() => {

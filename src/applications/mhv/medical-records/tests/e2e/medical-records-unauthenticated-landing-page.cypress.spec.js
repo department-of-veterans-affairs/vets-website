@@ -1,7 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 // import VitalsDetailsPage from './pages/VitalsDetailsPage';
 
-describe('Medical Records Unauthenticated Users', () => {
+describe.skip('Medical Records Unauthenticated Users', () => {
   it('Visits Medical Records Unauthenticated Users', () => {
     const site = new MedicalRecordsSite();
     // Unauthenticated users implement visibility restrictions

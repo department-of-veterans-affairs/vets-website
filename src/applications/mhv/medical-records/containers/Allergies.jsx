@@ -1,9 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  generatePdfScaffold,
+  formatName,
+  updatePageTitle,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
@@ -18,25 +27,14 @@ import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
 import { generateTextFile, getNameDateAndTime, makePdf } from '../util/helpers';
-import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import {
-  updatePageTitle,
-  generatePdfScaffold,
-  formatName,
-} from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
-import NoRecordsMessage from '../components/shared/NoRecordsMessage';
-import {
-  crisisLineHeader,
-  reportGeneratedBy,
-  txtLine,
-} from '../../shared/util/constants';
+import RecordListSection from '../components/shared/RecordListSection';
 import {
   generateAllergiesIntro,
   generateAllergiesContent,
 } from '../util/pdfHelpers/allergies';
-import usePrintTitle from '../../shared/hooks/usePrintTitle';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -55,6 +53,7 @@ const Allergies = props => {
   );
   const user = useSelector(state => state.user.profile);
   const activeAlert = useAlerts(dispatch);
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useListRefresh({
     listState,
@@ -78,11 +77,11 @@ const Allergies = props => {
     pageTitles.ALLERGIES_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
   const generateAllergiesPdf = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateAllergiesIntro(allergies);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };
@@ -91,6 +90,7 @@ const Allergies = props => {
   };
 
   const generateAllergyListItemTxt = item => {
+    setDownloadStarted(true);
     return `
 ${txtLine}\n\n
 ${item.name}\n
@@ -122,40 +122,6 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
     generateTextFile(content, fileName);
   };
 
-  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
-
-  const content = () => {
-    if (accessAlert) {
-      return <AccessTroubleAlertBox alertType={accessAlertTypes.ALLERGY} />;
-    }
-    if (allergies?.length === 0) {
-      return <NoRecordsMessage type="allergies or reactions" />;
-    }
-    if (allergies?.length) {
-      return (
-        <>
-          <PrintDownload
-            list
-            download={generateAllergiesPdf}
-            allowTxtDownloads={allowTxtDownloads}
-            downloadTxt={generateAllergiesTxt}
-          />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          <RecordList records={allergies} type={recordType.ALLERGIES} />
-        </>
-      );
-    }
-    return (
-      <div className="vads-u-margin-y--8">
-        <va-loading-indicator
-          message="We’re loading your records. This could take up to a minute."
-          setFocus
-          data-testid="loading-indicator"
-        />
-      </div>
-    );
-  };
-
   return (
     <div id="allergies">
       <PrintHeader />
@@ -169,7 +135,24 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         If you have allergies that are missing from this list, tell your care
         team at your next appointment.
       </p>
-      {content()}
+      {downloadStarted && <DownloadSuccessAlert />}
+      <RecordListSection
+        accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
+        accessAlertType={accessAlertTypes.ALLERGY}
+        recordCount={allergies?.length}
+        recordType="allergies or reactions"
+        listCurrentAsOf={allergiesCurrentAsOf}
+        initialFhirLoad={refresh.initialFhirLoad}
+      >
+        <PrintDownload
+          list
+          downloadPdf={generateAllergiesPdf}
+          allowTxtDownloads={allowTxtDownloads}
+          downloadTxt={generateAllergiesTxt}
+        />
+        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <RecordList records={allergies} type={recordType.ALLERGIES} />
+      </RecordListSection>
     </div>
   );
 };

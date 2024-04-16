@@ -8,7 +8,7 @@ export const DATE_FORMATS = {
 export const CST_BREADCRUMB_BASE = [
   { href: '/', label: 'VA.gov home' },
   {
-    href: 'your-claims',
+    href: '/your-claims',
     label: 'Check your claims and appeals',
     isRouterLink: true,
   },

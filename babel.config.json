@@ -316,7 +316,7 @@
     "test": {
       "presets": ["@babel/env", "@babel/preset-react"],
       "plugins": [
-        "istanbul",
+        ["istanbul", { "exclude": ["**/tests/**/*", "**/mocks/**/*"] }],
         "transform-class-properties",
         "dynamic-import-node",
         "transform-react-remove-prop-types",

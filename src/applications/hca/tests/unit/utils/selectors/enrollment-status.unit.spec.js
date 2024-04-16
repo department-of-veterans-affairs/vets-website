@@ -5,24 +5,22 @@ import {
   ENROLLMENT_STATUS_INIT_STATE,
 } from '../../../../utils/constants';
 
-describe('hca EnrollmentStatus selectors', () => {
-  const getData = ({ status = null, error = false, loading = false }) => ({
+describe('hca enrollment status selectors', () => {
+  const getData = ({ status = null, error = false, isLoading = false }) => ({
     state: {
       hcaEnrollmentStatus: {
         ...ENROLLMENT_STATUS_INIT_STATE,
-        isLoadingApplicationStatus: loading,
+        loading: isLoading,
         hasServerError: error,
-        enrollmentStatus: status,
-        noESRRecordFound:
-          status && status === HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
+        statusCode: status,
       },
     },
   });
 
   it('should set the correct values when the application status is loading', () => {
-    const { state } = getData({ loading: true });
-    const { isLoadingApplicationStatus } = selectEnrollmentStatus(state);
-    expect(isLoadingApplicationStatus).to.be.true;
+    const { state } = getData({ isLoading: true });
+    const { loading } = selectEnrollmentStatus(state);
+    expect(loading).to.be.true;
   });
 
   it('should set the correct values when a server error has occurred', () => {
@@ -32,30 +30,28 @@ describe('hca EnrollmentStatus selectors', () => {
   });
 
   it('should set the correct values when a status of `none_of_the_above` is returned', () => {
-    const { state } = getData({
-      status: HCA_ENROLLMENT_STATUSES.noneOfTheAbove,
-    });
+    const { noneOfTheAbove } = HCA_ENROLLMENT_STATUSES;
+    const { state } = getData({ status: noneOfTheAbove });
     const {
-      enrollmentStatus,
-      noESRRecordFound,
+      statusCode,
+      vesRecordFound,
       isEnrolledInESR,
     } = selectEnrollmentStatus(state);
-    expect(enrollmentStatus).to.eq(HCA_ENROLLMENT_STATUSES.noneOfTheAbove);
-    expect(noESRRecordFound).to.be.true;
+    expect(statusCode).to.eq(noneOfTheAbove);
+    expect(vesRecordFound).to.be.false;
     expect(isEnrolledInESR).to.be.false;
   });
 
   it('should set the correct values when a status of `enrolled` is returned', () => {
-    const { state } = getData({
-      status: HCA_ENROLLMENT_STATUSES.enrolled,
-    });
+    const { enrolled } = HCA_ENROLLMENT_STATUSES;
+    const { state } = getData({ status: enrolled });
     const {
-      enrollmentStatus,
-      noESRRecordFound,
+      statusCode,
+      vesRecordFound,
       isEnrolledInESR,
     } = selectEnrollmentStatus(state);
-    expect(enrollmentStatus).to.eq(HCA_ENROLLMENT_STATUSES.enrolled);
-    expect(noESRRecordFound).to.be.false;
+    expect(statusCode).to.eq(enrolled);
+    expect(vesRecordFound).to.be.true;
     expect(isEnrolledInESR).to.be.true;
   });
 });

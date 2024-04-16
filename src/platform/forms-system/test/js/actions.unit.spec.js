@@ -309,7 +309,7 @@ describe('Schemaform actions:', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
-          name: 'jpg',
+          name: '1.jpg',
           size: 10,
         },
         {
@@ -321,7 +321,7 @@ describe('Schemaform actions:', () => {
         onChange,
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
-            name: 'jpg',
+            name: '1.jpg',
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too large. ' +
               `File size must be less than 5B.`,
@@ -346,7 +346,7 @@ describe('Schemaform actions:', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
-          name: 'pdf',
+          name: '1.pdf',
           size: 10,
         },
         {
@@ -358,7 +358,7 @@ describe('Schemaform actions:', () => {
         onChange,
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
-            name: 'pdf',
+            name: '1.pdf',
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too large. ' +
               `File size must be less than 5B.`,
@@ -383,7 +383,7 @@ describe('Schemaform actions:', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
-          name: 'jpg',
+          name: '1.jpg',
           size: 10,
         },
         {
@@ -396,7 +396,7 @@ describe('Schemaform actions:', () => {
         onChange,
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
-            name: 'jpg',
+            name: '1.jpg',
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too large. ' +
               `File size must be less than 5 Bytes.`,
@@ -421,7 +421,7 @@ describe('Schemaform actions:', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
-          name: 'jpg',
+          name: '1.jpg',
           size: 1,
         },
         {
@@ -434,7 +434,7 @@ describe('Schemaform actions:', () => {
         onChange,
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
-            name: 'jpg',
+            name: '1.jpg',
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too small. ' +
               `Try uploading a file that\u2019s 5 Bytes or more.`,
@@ -458,7 +458,7 @@ describe('Schemaform actions:', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
-          name: 'jpg',
+          name: '1.jpg',
           size: 1,
         },
         {
@@ -470,7 +470,7 @@ describe('Schemaform actions:', () => {
         onChange,
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
-            name: 'jpg',
+            name: '1.jpg',
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too small. ' +
               `Try uploading a file that\u2019s 5B or more.`,
@@ -494,7 +494,7 @@ describe('Schemaform actions:', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
-          name: 'jpg',
+          name: '1.jpg',
           size: 5,
         },
         {
@@ -508,7 +508,7 @@ describe('Schemaform actions:', () => {
             errorMessage:
               'We couldn\u2019t upload your file because we can\u2019t accept this type of file. ' +
               'Please make sure the file is a .jpeg file and try again.',
-            name: 'jpg',
+            name: '1.jpg',
           });
           done();
         },
@@ -529,7 +529,7 @@ describe('Schemaform actions:', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
-          name: 'jpg',
+          name: '1.jpg',
           size: 5,
         },
         {
@@ -543,7 +543,7 @@ describe('Schemaform actions:', () => {
             errorMessage:
               'We couldn\u2019t upload your file because we can\u2019t accept this type of file. ' +
               'Please make sure the file is a .jpeg, .pdf, or .img file and try again.',
-            name: 'jpg',
+            name: '1.jpg',
           });
           done();
         },
@@ -565,7 +565,7 @@ describe('Schemaform actions:', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
-          name: 'jpg',
+          name: '1.jpg',
           size: 1234,
         },
         {
@@ -601,7 +601,7 @@ describe('Schemaform actions:', () => {
       );
 
       expect(onChange.firstCall.args[0]).to.eql({
-        name: 'jpg',
+        name: '1.jpg',
         uploading: true,
       });
       expect(onChange.secondCall.args[0]).to.eql({
@@ -616,7 +616,7 @@ describe('Schemaform actions:', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
-          name: 'pdf',
+          name: '1.pdf',
           size: 10,
         },
         {
@@ -653,7 +653,7 @@ describe('Schemaform actions:', () => {
       );
 
       expect(onChange.firstCall.args[0]).to.eql({
-        name: 'pdf',
+        name: '1.pdf',
         uploading: true,
       });
       expect(onChange.secondCall.args[0]).to.eql({
@@ -668,11 +668,11 @@ describe('Schemaform actions:', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
-          name: 'jpg',
+          name: '1.jpg',
           size: 1,
         },
         {
-          fileTypes: ['jpg'],
+          fileTypes: ['1.jpg'],
           maxSize: 5,
           createPayload: f => f,
           parseResponse: f => f.data.attributes,
@@ -695,11 +695,12 @@ describe('Schemaform actions:', () => {
       requests[0].respond(400);
 
       expect(onChange.firstCall.args[0]).to.eql({
-        name: 'jpg',
+        name: '1.jpg',
         uploading: true,
       });
       expect(onChange.secondCall.args[0]).to.eql({
-        name: 'jpg',
+        file: { name: '1.jpg', size: 1 },
+        name: '1.jpg',
         size: 1,
         errorMessage: 'Bad Request',
       });
@@ -708,11 +709,11 @@ describe('Schemaform actions:', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
-          name: 'jpg',
+          name: '1.jpg',
           size: 0,
         },
         {
-          fileTypes: ['jpg'],
+          fileTypes: ['1.jpg'],
           maxSize: 5,
           createPayload: f => f,
           parseResponse: f => f.data.attributes,
@@ -734,15 +735,15 @@ describe('Schemaform actions:', () => {
 
       requests[0].error();
       expect(onChange.firstCall.args[0]).to.eql({
-        name: 'jpg',
+        name: '1.jpg',
         uploading: true,
       });
       expect(onChange.secondCall.args[0]).to.eql({
-        name: 'jpg',
+        name: '1.jpg',
         errorMessage:
           'We\u2019re sorry. We had a connection problem. Please try again.',
         file: {
-          name: 'jpg',
+          name: '1.jpg',
           size: 0,
         },
       });
@@ -751,7 +752,7 @@ describe('Schemaform actions:', () => {
       const onChange = sinon.spy();
       const thunk = uploadFile(
         {
-          name: 'jpg',
+          name: '1.jpg',
           size: 42,
         },
         {
@@ -776,11 +777,12 @@ describe('Schemaform actions:', () => {
       requests[0].respond(500, null, undefined);
 
       expect(onChange.firstCall.args[0]).to.eql({
-        name: 'jpg',
+        name: '1.jpg',
         uploading: true,
       });
       expect(onChange.secondCall.args[0]).to.eql({
-        name: 'jpg',
+        file: { name: '1.jpg', size: 42 },
+        name: '1.jpg',
         size: 42,
         errorMessage: 'Internal Server Error',
       });

@@ -62,7 +62,7 @@ export default function ClaimsListItem({ claim }) {
   const showAlert = showPrecomms && documentsNeeded;
 
   const ariaLabel = `View details for claim submitted on ${formattedReceiptDate}`;
-  const href = `your-claims/${claim.id}/status`;
+  const href = `/your-claims/${claim.id}/status`;
 
   return (
     <ClaimCard
@@ -87,7 +87,7 @@ export default function ClaimsListItem({ claim }) {
         <p>{getLastUpdated(claim)}</p>
       </div>
       {showAlert && (
-        <va-alert status="warning" slim uswds>
+        <va-alert status="warning" slim>
           An item in the claim needs your attention
         </va-alert>
       )}

@@ -854,13 +854,13 @@
                 "prescriptionName": "BACITRACIN 500 UNT/GM OPH OINT",
                 "refillStatus": "refillinprocess",
                 "refillSubmitDate": "2023-09-26T20:10:24.000Z",
-                "refillDate": "2023-09-23T04:00:00.000Z",
+                "refillDate": "2023-08-29T04:00:00.000Z",
                 "refillRemaining": 1,
                 "facilityName": "SLC10 TEST LAB",
                 "orderedDate": "2023-08-27T04:00:00.000Z",
                 "quantity": 1,
                 "expirationDate": "2024-08-27T04:00:00.000Z",
-                "dispensedDate": "2023-08-29T04:00:00.000Z",
+                "dispensedDate": "September 24, 2023",
                 "stationNumber": "979",
                 "isRefillable": false,
                 "isTrackable": true,
@@ -887,25 +887,20 @@
                 "indicationForUseFlag": null,
                 "category": "Rx Medication",
                 "trackingList": [
-                    [
-                        "tracking",
-                        [
-                            {
-                                "id": 49049,
-                                "stationNumber": "979",
-                                "rxNumber": "3636889A",
-                                "carrier": "FEDEX",
-                                "trackingNumber": "77298036368890000006962",
-                                "completeDateTime": "Sun, 24 Sep 2023 04:39:11 EDT",
-                                "divisionPhone": "(410)636-6899",
-                                "ndc": "00113002239",
-                                "dateLoaded": "Tue, 26 Sep 2023 16:20:00 EDT",
-                                "isLocalTracking": false,
-                                "othersInSamePackage": false,
-                                "viewImageDisplayed": true
-                            }
-                        ]
-                    ]
+                    {
+                        "id": 49049,
+                        "stationNumber": "979",
+                        "rxNumber": "3636889A",
+                        "carrier": "FEDEX",
+                        "trackingNumber": "77298036368890000006962",
+                        "completeDateTime": "Sun, 24 Sep 2023 04:39:11 EDT",
+                        "divisionPhone": "(410)636-6899",
+                        "ndc": "00113002239",
+                        "dateLoaded": "Tue, 26 Sep 2023 16:20:00 EDT",
+                        "isLocalTracking": false,
+                        "othersInSamePackage": false,
+                        "viewImageDisplayed": true
+                    }
                 ],
                 "rxRfRecords": [
                     {
@@ -1107,61 +1102,68 @@
             }
         },
         {
-            "id": "22217099",
+            "id": "22634377",
             "type": "prescription_details",
             "attributes": {
-                "prescriptionId": 22217099,
-                "prescriptionNumber": "3636937",
-                "prescriptionName": "FEEDING BAG,1000ML KENDAL #8884773600",
-                "refillStatus": "expired",
-                "refillSubmitDate": "2023-06-21T19:18:00.000Z",
-                "refillDate": "2023-06-21T04:00:00.000Z",
-                "refillRemaining": 0,
-                "facilityName": "SLC10 TEST LAB",
-                "orderedDate": "2023-05-26T04:00:00.000Z",
-                "quantity": 1,
-                "expirationDate": "2023-06-25T04:00:00.000Z",
+                "prescriptionId": 22634377,
+                "prescriptionNumber": "2720665",
+                "prescriptionName": "ABSORBABLE GELATIN POWDER 1 GM BTL",
+                "prescriptionImage": null,
+                "refillStatus": "active",
+                "refillSubmitDate": null,
+                "refillDate": "2023-11-03T04:00:00.000Z",
+                "refillRemaining": 3,
+                "facilityName": "DAYT29",
+                "orderedDate": "2023-11-03T04:00:00.000Z",
+                "quantity": 30,
+                "expirationDate": "2024-11-03T04:00:00.000Z",
                 "dispensedDate": null,
-                "stationNumber": "979",
-                "isRefillable": false,
+                "stationNumber": "989",
+                "isRefillable": true,
                 "isTrackable": false,
                 "cmopNdcNumber": null,
                 "inCernerTransition": false,
                 "notRefillableDisplayMessage": "A refill request cannot be submitted at this time. Please review the prescription status and fill date. If you need more of this medication, please call the pharmacy phone number on your prescription label.",
-                "sig": "1 MISCORAL WEEKLY FOR 30 DAYS",
+                "sig": "TAKE 1 SMALL AMOUNT AFFECTED AREA DAILY FOR 30 DAYS TEST",
                 "cmopDivisionPhone": null,
-                "userId": 16955936,
+                "userId": 22496029,
                 "providerFirstName": "MOHAMMAD",
                 "providerLastName": "ISLAM",
                 "remarks": null,
-                "divisionName": "VAMC SLC-OUTPTRX",
-                "modifiedDate": "2023-08-04T13:57:12.000Z",
+                "divisionName": "DAYTON",
+                "modifiedDate": "2024-04-08T20:28:51.000Z",
                 "institutionId": null,
                 "dialCmopDivisionPhone": "",
-                "dispStatus": "Expired",
-                "ndc": "08884-7736-00",
+                "dispStatus": "Active",
+                "ndc": "00009-0433-01",
                 "reason": null,
                 "prescriptionNumberIndex": "RX",
                 "prescriptionSource": "RX",
                 "disclaimer": null,
-                "indicationForUse": null,
-                "indicationForUseFlag": null,
+                "indicationForUse": "TEST",
+                "indicationForUseFlag": "1",
                 "category": "Rx Medication",
                 "trackingList": [],
                 "rxRfRecords": [],
-                "tracking": false
+                "tracking": false,
+                "orderableItem": "GELATIN,ABSORBABLE",
+                "sortedDispensedDate": null,
+                "shape": "round",
+                "color": "white",
+                "backImprint": 250,
+                "frontImprint": "IP188"
             },
             "links": {
-                "self": "http://127.0.0.1:3000/my_health/v1/prescriptions/22217099"
+                "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22634377"
             }
         }
     ],
     "links": {
-        "self": "http://127.0.0.1:3000/my_health/v1/prescriptions?page=1&per_page=10&sort=-prescription_id",
-        "first": "http://127.0.0.1:3000/my_health/v1/prescriptions?page=1&per_page=20&sort=-prescription_id",
+        "self": "http://127.0.0.1:3000my_health/v1/prescriptions?page=1&per_page=20&sort%5B%5D=disp_status&sort%5B%5D=prescription_name&sort%5B%5D=dispensed_date",
+        "first": "http://127.0.0.1:3000/my_health/v1/prescriptions?page=1&per_page=20&sort%5B%5D=disp_status&sort%5B%5D=prescription_name&sort%5B%5D=dispensed_date",
         "prev": null,
-        "next": "http://127.0.0.1:3000/my_health/v1/prescriptions?page=2&per_page=10&sort=-prescription_id",
-        "last": "http://127.0.0.1:3000/my_health/v1/prescriptions?page=21&per_page=29&sort=-prescription_id"
+        "next": "http://127.0.0.1:3000/my_health/v1/prescriptions?page=2&per_page=20&sort%5B%5D=disp_status&sort%5B%5D=prescription_name&sort%5B%5D=dispensed_date",
+        "last": "http://127.0.0.1:3000/my_health/v1/prescriptions?page=2&per_page=20&sort%5B%5D=disp_status&sort%5B%5D=prescription_name&sort%5B%5D=dispensed_date"
     },
     "meta": {
         "updatedAt": "Fri, 11 Aug 2023 11:56:58 EDT",

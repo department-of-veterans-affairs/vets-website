@@ -14,7 +14,9 @@ export default {
       'Veteran’s name and date of birth',
       'Please provide the Veteran’s information.',
     ),
-    veteranFullName: fullNameNoSuffixUI(label => getFullNameLabels(label)),
+    veteranFullName: fullNameNoSuffixUI(label =>
+      getFullNameLabels(label, true),
+    ),
     veteranDateOfBirth: dateOfBirthUI({ required: true }),
   },
   schema: {

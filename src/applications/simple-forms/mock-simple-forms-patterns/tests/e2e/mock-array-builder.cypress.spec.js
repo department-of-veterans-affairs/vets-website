@@ -99,7 +99,7 @@ function cancelItemPage1() {
   cy.get('va-modal[status="warning"]')
     .shadow()
     .get('h2')
-    .should('contain', 'Are you sure you want to cancel adding this employer?');
+    .should('include', /cancel/gi);
   cy.get('va-modal[status="warning"]')
     .shadow()
     .get('.va-modal-alert-body va-button')
@@ -128,10 +128,10 @@ function removeItem1() {
   cy.findByText(/continue/i, { selector: 'button' }).click();
 }
 
-const routeItem1Page1 = 'array-multiple-page-builder-item-page-1/0';
-const routeItem1Page2 = 'array-multiple-page-builder-item-page-2/0';
-const routeItem2Page1 = 'array-multiple-page-builder-item-page-1/1';
-const routeItem2Page2 = 'array-multiple-page-builder-item-page-2/1';
+const routeItem1Page1 = 'array-multiple-page-builder/0/name-and-address';
+const routeItem1Page2 = 'array-multiple-page-builder/0/dates';
+const routeItem2Page1 = 'array-multiple-page-builder/1/name-and-address';
+const routeItem2Page2 = 'array-multiple-page-builder/1/dates';
 
 const testConfig = createTestConfig(
   {

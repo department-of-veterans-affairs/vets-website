@@ -1,5 +1,11 @@
-import { processList } from '../../medical-records/util/helpers';
-import { dateFormat, validateField } from './helpers';
+import {
+  createNoDescriptionText,
+  createOriginalFillRecord,
+  dateFormat,
+  processList,
+  validateField,
+  createVAPharmacyText,
+} from './helpers';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
@@ -249,12 +255,9 @@ export const buildVAPrescriptionPDFList = (
   prescriptionImage = null,
 ) => {
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  refillHistory.push({
-    prescriptionName: prescription?.prescriptionName,
-    dispensedDate: prescription?.dispensedDate,
-    cmopNdcNumber: prescription?.cmopNdcNumber,
-    id: prescription?.prescriptionId,
-  });
+  const originalFill = createOriginalFillRecord(prescription);
+  refillHistory.push(originalFill);
+
   return [
     {
       header: 'About your prescription',
@@ -383,7 +386,20 @@ export const buildVAPrescriptionPDFList = (
         {
           items: refillHistory
             .map((entry, i) => {
+              const { shape, color, backImprint, frontImprint } = entry;
               const index = refillHistory.length - i - 1;
+              const phone =
+                entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+              const hasValidDesc =
+                shape?.trim() && color?.trim() && frontImprint?.trim();
+              const description = hasValidDesc
+                ? `* Shape: ${shape[0].toUpperCase()}${shape
+                    .slice(1)
+                    .toLowerCase()}
+* Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
+* Front marking: ${frontImprint}
+${backImprint ? `* Back marking: ${backImprint}` : ''}`
+                : createNoDescriptionText(phone);
               return [
                 {
                   value: [
@@ -405,6 +421,24 @@ export const buildVAPrescriptionPDFList = (
                   isRich: true,
                 },
                 {
+                  title: 'Medication description',
+                  inline: false,
+                },
+                ...(hasValidDesc
+                  ? [
+                      {
+                        title: 'Note',
+                        value: `If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
+                          phone,
+                        )}.`,
+                        inline: true,
+                      },
+                    ]
+                  : []),
+                {
+                  value: description,
+                },
+                {
                   title: `Filled by pharmacy on`,
                   value: entry?.dispensedDate
                     ? dateFormat(entry.dispensedDate)
@@ -413,8 +447,8 @@ export const buildVAPrescriptionPDFList = (
                 },
                 {
                   title: `Shipped on`,
-                  value: entry?.trackingList?.[0]?.[1]?.completeDateTime
-                    ? dateFormat(entry.trackingList[0][1].completeDateTime)
+                  value: entry?.trackingList?.[0]?.completeDateTime
+                    ? dateFormat(entry.trackingList[0].completeDateTime)
                     : 'None noted',
                   inline: true,
                 },

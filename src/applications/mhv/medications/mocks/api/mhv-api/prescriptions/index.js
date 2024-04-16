@@ -1,27 +1,37 @@
 const { differenceInDays, formatISO, sub } = require('date-fns');
 
 function mockPrescription(n = 0, attrs = {}) {
+  // Generate some refillable, some not
+  const isRefillable = n % 3 === 0;
+  const refillRemaining = isRefillable ? Math.ceil(Math.log(n + 1)) : 0;
+  const {
+    cmopNdcNumber,
+    cmopDivisionPhone = '(555) 555-5555',
+    dialCmopDivisionPhone = '5555555555',
+  } = attrs;
+  const prescriptionName = `Fake ${n}`;
+
   return {
     id: `fake-${n}`,
     type: 'prescriptions',
     attributes: {
       prescriptionId: n,
       prescriptionNumber: `${n}`,
-      prescriptionName: `Fake ${n}`,
+      prescriptionName,
       refillStatus: 'active',
       refillSubmitDate: '2024-02-21T10:30:00-05:00',
       refillDate: '2024-02-28T10:30:00-05:00',
-      refillRemaining: 6,
+      refillRemaining,
       facilityName: 'The Facility',
       orderedDate: '2024-02-23T10:30:00-05:00',
       quantity: 1,
       expirationDate: '2099-01-02T10:30:00-05:00',
       dispensedDate: '2024-02-25T10:30:00-05:00',
       stationNumber: '001',
-      isRefillable: true,
+      isRefillable,
       isTrackable: null,
       sig: null,
-      cmopDivisionPhone: null,
+      cmopDivisionPhone,
       inCernerTransition: null,
       notRefillableDisplayMessage: 'You cannot refill this!',
       cmopNdcNumber: null,
@@ -32,7 +42,8 @@ function mockPrescription(n = 0, attrs = {}) {
       divisionName: null,
       modifiedDate: null,
       institutionId: null,
-      dialCmopDivisionPhone: null,
+      dialCmopDivisionPhone,
+      dispStatus: isRefillable ? 'Active' : 'Expired',
       ndc: null,
       reason: 'A good reason',
       prescriptionNumberIndex: null,
@@ -41,8 +52,34 @@ function mockPrescription(n = 0, attrs = {}) {
       indicationForUse: null,
       indicationForUseFlag: null,
       category: null,
-      trackingList: [],
-      rxRfRecords: [],
+      trackingList: [
+        {
+          carrier: 'USPS',
+          completeDateTime: '2024-05-28T04:39:11-04:00',
+          dateLoaded: '2024-04-21T16:55:19-04:00',
+          divisionPhone: '(401)271-9804',
+          id: 9878,
+          isLocalTracking: false,
+          ndc: '00113002240',
+          othersInSamePackage: false,
+          rxNumber: 2719780,
+          stationNumber: 995,
+          trackingNumber: '332980271979930000002300',
+          viewImageDisplayed: false,
+        },
+      ],
+      rxRfRecords: [
+        {
+          shape: 'OVAL',
+          color: 'WHITE',
+          frontImprint: '9,3',
+          backImprint: '72,14',
+          cmopNdcNumber,
+          cmopDivisionPhone,
+          dialCmopDivisionPhone,
+          prescriptionName,
+        },
+      ],
       tracking: null,
       orderableItem: null,
       sortedDispensedDate: '2024-02-25T10:30:00-05:00',
@@ -74,7 +111,7 @@ function mockPrescriptionArray(n = 20) {
       refillSubmitDate: formatISO(oneWeekAgo),
       sortedDispensedDate: recentlyISOString,
       dispStatus: statusString,
-      refillStatus: statusString.toLowerCase(),
+      refillStatus: statusString,
       prescriptionName,
     });
   });
@@ -98,5 +135,6 @@ function generateMockPrescriptions(n = 20) {
 }
 
 module.exports = {
+  mockPrescription,
   generateMockPrescriptions,
 };

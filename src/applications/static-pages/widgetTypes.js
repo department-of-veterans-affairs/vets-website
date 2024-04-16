@@ -5,6 +5,7 @@ export default {
   BASIC_FACILITY_LOCATIONS_LIST: 'basic-facility-locations-list',
   BURIALS_APP_STATUS: 'burials-app-status',
   BURIAL_HOW_DO_I_APPLY_WIDGET: 'burial-how-do-i-apply-widget',
+  BURIALS_V2_HOW_DO_I_APPLY_WIDGET: 'burials-v2-how-do-i-apply-widget',
   BTSSS_LOGIN: 'btsss-login',
   CHAPTER_31_CTA: 'chapter-31-cta',
   CHAPTER_31_WIZARD: 'chapter-31-Wizard',
@@ -18,7 +19,6 @@ export default {
   EDUCATION_APP_STATUS: 'education-app-status',
   EVENTS: 'events',
   EZR_SUBMISSION_OPTIONS: 'ezr-submission-options',
-  EZR_TERA_ALERT: 'ezr-tera-alert',
   FACILITY_APPOINTMENT_WAIT_TIMES_WIDGET:
     'facility-appointment-wait-times-widget',
   FACILITY_DETAIL: 'facility-detail',
@@ -62,6 +62,7 @@ export default {
   PENSION_HOW_DO_I_APPLY_WIDGET: 'pension-how-do-i-apply-widget',
   POST_911_GI_BILL_STATUS_WIDGET: 'post-9-11-gi-bill-status',
   REFILL_TRACK_PRESCRIPTIONS_PAGE: 'refill-track-prescriptions-page',
+  REPRESENTATIVE_STATUS: 'representative-status',
   RESOURCES_AND_SUPPORT_SEARCH: 'resources-and-support-search',
   SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE: 'schedule-view-va-appointments-page',
   SCO_ANNOUNCEMENTS: 'sco-announcements',

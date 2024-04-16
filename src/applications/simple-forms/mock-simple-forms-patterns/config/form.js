@@ -24,12 +24,17 @@ import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
+// import arrayAddresses from '../pages/mockArrayAddresses';
 
-import arrayMultiPageBuilderItemPage1 from '../pages/mockArrayMultiPageBuilderItemPage1';
-import arrayMultiPageBuilderItemPage2 from '../pages/mockArrayMultiPageBuilderItemPage2';
+import {
+  employersDatesPage,
+  employersOptions,
+  employersPageNameAndAddressPage,
+  employersSummaryPage,
+} from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import { arrayBuilderPages } from '../arrayBuilder/components/arrayBuilder';
-import { arrayMultiPageBuilderSummary } from '../pages/mockArrayMultiPageBuilderSummary';
+import { arrayBuilderMockData } from '../arrayBuilder/components/arrayMockData';
 
 const chapterSelectInitialData = {
   chapterSelect: {
@@ -259,6 +264,14 @@ const formConfig = {
           schema: arraySinglePage.schema,
           depends: includeChapter('arraySinglePage'),
         },
+        // hide until preexisting addressUI bugs are fixed
+        // arrayAddresses: {
+        //   title: 'Multiple Addresses', // for review page (has to be more than one word)
+        //   path: 'array-addresses',
+        //   uiSchema: arrayAddresses.uiSchema,
+        //   schema: arrayAddresses.schema,
+        //   depends: includeChapter('arraySinglePage'),
+        // },
       },
     },
     arrayMultiPageAggregate: {
@@ -285,51 +298,32 @@ const formConfig = {
     arrayMultiPageBuilder: {
       title: 'Array Multi-Page Builder (WIP)',
       pages: {
-        ...arrayBuilderPages(
-          {
-            arrayPath: 'employers',
-            nounSingular: 'employer',
-            nounPlural: 'employers',
-            getItemName: item => item.name,
-            isIncompleteItem: item =>
-              !item?.name ||
-              !item?.address?.country ||
-              !item?.address?.city ||
-              !item?.address?.street ||
-              !item?.address?.postalCode,
-            maxItems: 5,
-            customContent: {
-              cards: {
-                description: item => `${item?.dateStart} - ${item?.dateEnd}`,
-              },
-              cancel: {},
-              remove: {},
-            },
-          },
-          pageBuilder => ({
-            multiPageBuilderStart: pageBuilder.summaryPage({
-              title: 'Array with multiple page builder summary',
-              path: 'array-multiple-page-builder-summary',
-              uiSchema: arrayMultiPageBuilderSummary.uiSchema,
-              schema: arrayMultiPageBuilderSummary.schema,
-              depends: includeChapter('arrayMultiPageBuilder'),
-            }),
-            multiPageBuilderStepOne: pageBuilder.itemFirstPage({
-              title: 'Multiple Page Item Title',
-              path: 'array-multiple-page-builder-item-page-1/:index',
-              uiSchema: arrayMultiPageBuilderItemPage1.uiSchema,
-              schema: arrayMultiPageBuilderItemPage1.schema,
-              depends: includeChapter('arrayMultiPageBuilder'),
-            }),
-            multiPageBuilderStepTwo: pageBuilder.itemLastPage({
-              title: 'Multiple Page Item Title',
-              path: 'array-multiple-page-builder-item-page-2/:index',
-              uiSchema: arrayMultiPageBuilderItemPage2.uiSchema,
-              schema: arrayMultiPageBuilderItemPage2.schema,
-              depends: includeChapter('arrayMultiPageBuilder'),
-            }),
+        ...arrayBuilderPages(employersOptions, pageBuilder => ({
+          multiPageBuilderStart: pageBuilder.summaryPage({
+            title: 'Array with multiple page builder summary',
+            path: 'array-multiple-page-builder-summary',
+            uiSchema: employersSummaryPage.uiSchema,
+            schema: employersSummaryPage.schema,
+            depends: includeChapter('arrayMultiPageBuilder'),
+            // keep comment this for now while working on this feature
+            // eslint-disable-next-line sonarjs/no-redundant-boolean
+            initialData: false && arrayBuilderMockData,
           }),
-        ),
+          multiPageBuilderStepOne: pageBuilder.itemPage({
+            title: 'Employer name and address',
+            path: 'array-multiple-page-builder/:index/name-and-address',
+            uiSchema: employersPageNameAndAddressPage.uiSchema,
+            schema: employersPageNameAndAddressPage.schema,
+            depends: includeChapter('arrayMultiPageBuilder'),
+          }),
+          multiPageBuilderStepTwo: pageBuilder.itemPage({
+            title: 'Employer dates',
+            path: 'array-multiple-page-builder/:index/dates',
+            uiSchema: employersDatesPage.uiSchema,
+            schema: employersDatesPage.schema,
+            depends: includeChapter('arrayMultiPageBuilder'),
+          }),
+        })),
       },
     },
   },

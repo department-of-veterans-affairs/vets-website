@@ -9,6 +9,13 @@ export const MISSING_PASSWORD_ERROR = [
   'Document is locked with a user password',
 ];
 
+// Lighthouse limits file names to 255 characters
+export const MAX_FILE_NAME_LENGTH = 255;
+export const FILE_NAME_TOO_LONG_ERROR = `Your file name can’t exceed ${MAX_FILE_NAME_LENGTH} characters. Rename your file and try again.`;
+
+export const INCORRECT_PASSWORD_ERROR =
+  'We couldn’t unlock your PDF. Save the PDF without a password and try again.';
+
 export const errormessageMaps = {
   'exceeds the page size limit':
     'Your file can’t have a width and height larger than 78 inches by 101 inches. Follow the instructions for your device on how to resize the file and try again.',
@@ -21,6 +28,9 @@ export const reMapErrorMessage = error => {
   return errormessageMaps?.[result] ?? error;
 };
 
+export const checkIsFileNameTooLong = (name = '') =>
+  name.length > MAX_FILE_NAME_LENGTH;
+
 export const createPayload = (file, _formId, password) => {
   const payload = new FormData();
   payload.append('decision_review_evidence_attachment[file_data]', file);
@@ -30,17 +40,29 @@ export const createPayload = (file, _formId, password) => {
   return payload;
 };
 
-export const parseResponse = (response, { name }) => {
+export const parseResponse = (response, { name, size }) => {
   setTimeout(() => {
     focusFileCard(name);
   });
 
   return {
     name,
+    size,
     confirmationCode: response.data.attributes.guid,
     attachmentId: '',
   };
 };
+
+export const hasSomeUploading = files => files.some(file => file?.uploading);
+
+// Do not show upload if any error exist
+export const checkUploadVisibility = (files, errorSchema) =>
+  !files.some((file, index) => {
+    const errors =
+      errorSchema?.[index]?.__errors ||
+      [file.errorMessage].filter(error => error);
+    return errors.length > 0;
+  });
 
 export const createContent = (content = {}) => ({
   cancel: content.cancel || 'Cancel',

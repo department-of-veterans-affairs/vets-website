@@ -1,6 +1,12 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/jsx-key */ // keys are defined, error being thrown in eslint even when key is defined
 import React from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
-import { TIMS_DOCUMENTS } from './constants';
+import {
+  BAD_UNIT_NUMBER,
+  MISSING_UNIT_NUMBER,
+  TIMS_DOCUMENTS,
+} from './constants';
 
 export const translateDateIntoMonthYearFormat = dateString => {
   // Parse the date string as UTC
@@ -195,12 +201,304 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
     .reverse();
 };
 
-export const combineEnrollmentsWithEndMonths = enrollmentPeriods => {
+export const getGroupedPreviousEnrollments = month => {
+  const {
+    verifiedDate,
+    awardBeginDate,
+    id,
+    PendingVerificationSubmitted,
+  } = month[0];
+
+  return (
+    <div className="vye-top-border" key={id}>
+      {verifiedDate ? (
+        <>
+          <h3 className="vads-u-font-size--h4">
+            {translateDateIntoMonthYearFormat(awardBeginDate)}{' '}
+            <i
+              className="fas fa-check-circle vads-u-color--green"
+              aria-hidden="true"
+            />{' '}
+            Verified
+          </h3>
+          <p>Payment for this month was deposited.</p>
+          <va-additional-info
+            trigger={`${translateDateIntoMonthYearFormat(
+              awardBeginDate,
+            )} verification details`}
+            class="vads-u-margin-bottom--4"
+          >
+            {month.map((monthAward, index) => {
+              const { numberHours, monthlyRate, paymentDate } = monthAward;
+              return (
+                <div key={monthAward.id}>
+                  <p className="vads-u-font-weight--bold vads-u-margin--0">
+                    {translateDatePeriod(
+                      monthAward.awardBeginDate,
+                      monthAward.awardEndDate,
+                    )}
+                  </p>
+                  <p className="vads-u-margin--0">
+                    <span className="vads-u-font-weight--bold">
+                      Total Credit Hours:
+                    </span>{' '}
+                    {numberHours}
+                  </p>
+                  <p className="vads-u-margin--0">
+                    <span className="vads-u-font-weight--bold">
+                      Monthly Rate:
+                    </span>{' '}
+                    {formatCurrency(monthlyRate)}
+                  </p>
+                  <p className="vads-u-margin--0">
+                    <span className="vads-u-font-weight--bold">
+                      Payment Deposited on:
+                    </span>{' '}
+                    {translateDateIntoMonthDayYearFormat(paymentDate)}
+                  </p>
+                  <div className="vads-u-font-style--italic vads-u-margin--0">
+                    Verified on{' '}
+                    {translateDateIntoMonthDayYearFormat(
+                      monthAward.verifiedDate,
+                    )}
+                  </div>
+                  <div
+                    className={
+                      index === month.length - 1
+                        ? 'vads-u-margin-bottom--0'
+                        : 'vads-u-margin-bottom--3'
+                    }
+                  />
+                </div>
+              );
+            })}
+          </va-additional-info>
+        </>
+      ) : PendingVerificationSubmitted ? (
+        <>
+          <h3 className="vads-u-font-size--h4">
+            {translateDateIntoMonthYearFormat(awardBeginDate)}{' '}
+            <i
+              className="fas fa-check-circle vads-u-color--green"
+              aria-hidden="true"
+            />{' '}
+            Verified
+          </h3>
+          <p>
+            Verifications are processed on the business day after submission.
+            Payment is projected to be deposited within 3-5 business days.
+          </p>
+          <va-additional-info
+            trigger={`${translateDateIntoMonthYearFormat(
+              awardBeginDate,
+            )} verification details`}
+            class="vads-u-margin-bottom--4"
+          >
+            {month.map((monthAward, index) => {
+              const { numberHours, monthlyRate } = monthAward;
+              return (
+                <div>
+                  <p className="vads-u-font-weight--bold vads-u-margin--0">
+                    {translateDatePeriod(
+                      monthAward.awardBeginDate,
+                      monthAward.awardEndDate,
+                    )}
+                  </p>
+                  <p className="vads-u-margin--0">
+                    <span className="vads-u-font-weight--bold">
+                      Total Credit Hours:
+                    </span>{' '}
+                    {numberHours}
+                  </p>
+                  <p className="vads-u-margin--0">
+                    <span className="vads-u-font-weight--bold">
+                      Monthly Rate:
+                    </span>{' '}
+                    {formatCurrency(monthlyRate)}
+                  </p>
+                  <p className="vads-u-margin--0">
+                    <span className="vads-u-font-weight--bold">
+                      Payment Deposited on:
+                    </span>{' '}
+                    Pending
+                  </p>
+                  <div className="vads-u-font-style--italic vads-u-margin--0">
+                    Verified on{' '}
+                    {translateDateIntoMonthDayYearFormat(
+                      monthAward.PendingVerificationSubmitted,
+                    )}
+                  </div>
+                  <div
+                    className={
+                      index === month.length - 1
+                        ? 'vads-u-margin-bottom--0'
+                        : 'vads-u-margin-bottom--3'
+                    }
+                  />
+                </div>
+              );
+            })}
+          </va-additional-info>
+        </>
+      ) : (
+        <div key={id}>
+          <h3 className="vads-u-font-size--h4">
+            {translateDateIntoMonthYearFormat(awardBeginDate)}
+          </h3>
+          <div key={id}>
+            <va-alert
+              background-only
+              class="vads-u-margin-bottom--3"
+              close-btn-aria-label="Close notification"
+              disable-analytics="true"
+              full-width="false"
+              status="info"
+              visible="true"
+              slim
+            >
+              <p
+                key={`not-verified-${id}`}
+                className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
+              >
+                This month has not yet been verified.
+              </p>
+            </va-alert>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const getSignlePreviousEnrollments = awards => {
+  return (
+    <div className="vye-top-border" key={awards.id}>
+      {awards.verifiedDate && (
+        <>
+          <h3 className="vads-u-font-size--h4">
+            {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
+            {'   '}
+            <i
+              className="fas fa-check-circle vads-u-color--green "
+              aria-hidden="true"
+            />{' '}
+            Verified
+          </h3>
+          <p>Payment for this month was deposited.</p>
+          <va-additional-info
+            trigger={`${translateDateIntoMonthYearFormat(
+              awards.awardBeginDate,
+            )} verification details`}
+            class="vads-u-margin-bottom--4"
+          >
+            <p className="vads-u-font-weight--bold">
+              {translateDatePeriod(awards.awardBeginDate, awards.awardEndDate)}
+            </p>
+            <p>
+              <span className="vads-u-font-weight--bold">
+                Total Credit Hours:
+              </span>{' '}
+              {awards.numberHours}
+            </p>
+            <p>
+              <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
+              {formatCurrency(awards.monthlyRate)}
+            </p>
+            <p>
+              <span className="vads-u-font-weight--bold">
+                Payment Deposited on:
+              </span>{' '}
+              {translateDateIntoMonthDayYearFormat(awards.paymentDate)}
+            </p>
+            <div className="vads-u-font-style--italic">
+              Verified on{' '}
+              {translateDateIntoMonthDayYearFormat(awards.verifiedDate)}
+            </div>
+          </va-additional-info>
+        </>
+      )}
+      {awards.PendingVerificationSubmitted && (
+        <>
+          <h3 className="vads-u-font-size--h4">
+            {translateDateIntoMonthYearFormat(awards.awardBeginDate)}{' '}
+            <i
+              className="fas fa-check-circle vads-u-color--green"
+              aria-hidden="true"
+            />{' '}
+            Verified
+          </h3>
+          <p>
+            Verifications are processed on the business day after submission.
+            Payment is projected to be deposited within 3-5 business days.
+          </p>
+          <va-additional-info
+            trigger={`${translateDateIntoMonthYearFormat(
+              awards.awardBeginDate,
+            )} verification details`}
+            class="vads-u-margin-bottom--4"
+          >
+            <p className="vads-u-font-weight--bold">
+              {translateDatePeriod(awards.awardBeginDate, awards.awardEndDate)}
+            </p>
+            <p>
+              <span className="vads-u-font-weight--bold">
+                Total Credit Hours:
+              </span>{' '}
+              {awards.numberHours}
+            </p>
+            <p>
+              <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
+              {formatCurrency(awards.monthlyRate)}
+            </p>
+            <p className="vads-u-margin--0">
+              <span className="vads-u-font-weight--bold">
+                Payment Deposited on:
+              </span>{' '}
+              Pending
+            </p>
+            <div className="vads-u-font-style--italic">
+              Verified on{' '}
+              {translateDateIntoMonthDayYearFormat(
+                awards.PendingVerificationSubmitted,
+              )}
+            </div>
+          </va-additional-info>
+        </>
+      )}
+      {!awards.verifiedDate &&
+        !awards.PendingVerificationSubmitted && (
+          <>
+            <h3 className="vads-u-font-size--h4">
+              {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
+            </h3>
+            <va-alert
+              background-only
+              class="vads-u-margin-bottom--3"
+              close-btn-aria-label="Close notification"
+              disable-analytics="true"
+              full-width="false"
+              status="info"
+              visible="true"
+              slim
+            >
+              <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
+                This month has not yet been verified.
+              </p>
+            </va-alert>
+          </>
+        )}
+    </div>
+  );
+};
+
+export const combineEnrollmentsWithStartMonth = enrollmentPeriods => {
   const trackEndDate = [];
   const combineMonths = {};
 
   enrollmentPeriods.forEach(period => {
-    const tempMonthYear = translateDateIntoMonthYearFormat(period.awardEndDate);
+    const tempMonthYear = translateDateIntoMonthYearFormat(
+      period.awardBeginDate,
+    );
     if (trackEndDate.includes(tempMonthYear)) {
       combineMonths[tempMonthYear].push({
         id: period.id,
@@ -208,6 +506,9 @@ export const combineEnrollmentsWithEndMonths = enrollmentPeriods => {
         awardEndDate: period.awardEndDate,
         numberHours: period.numberHours,
         monthlyRate: period.monthlyRate,
+        verifiedDate: period.verifiedDate,
+        PendingVerificationSubmitted: period.PendingVerificationSubmitted,
+        paymentDate: period.paymentDate,
       });
     } else {
       trackEndDate.push(tempMonthYear);
@@ -218,6 +519,9 @@ export const combineEnrollmentsWithEndMonths = enrollmentPeriods => {
           awardEndDate: period.awardEndDate,
           numberHours: period.numberHours,
           monthlyRate: period.monthlyRate,
+          verifiedDate: period.verifiedDate,
+          PendingVerificationSubmitted: period.PendingVerificationSubmitted,
+          paymentDate: period.paymentDate,
         },
       ];
     }
@@ -230,6 +534,88 @@ export const isMobileDevice = () => {
     navigator.userAgent,
   );
 };
-export const objectHaNoUndefinedValues = obj => {
+export const objectHasNoUndefinedValues = obj => {
   return Object.values(obj).every(value => value !== undefined);
+};
+export const noSuggestedAddress = deliveryPointValidation => {
+  return (
+    deliveryPointValidation === BAD_UNIT_NUMBER ||
+    deliveryPointValidation === MISSING_UNIT_NUMBER ||
+    deliveryPointValidation === 'MISSING_ZIP'
+  );
+};
+
+export const prepareAddressData = formData => {
+  let addressData = {
+    veteranName: formData.fullName,
+    addressLine1: formData.addressLine1,
+    addressLine2: formData.addressLine2,
+    addressLine3: formData.addressLine3,
+    addressLine4: formData.addressLine4,
+    addressPou: 'CORRESPONDENCE',
+    countryCodeIso3: formData.countryCodeIso3,
+    city: formData.city,
+  };
+  if (formData.countryCodeIso3 === 'USA') {
+    const baseUSAData = {
+      stateCode: formData.stateCode,
+      zipCode: formData.zipCode,
+      addressType: 'DOMESTIC',
+    };
+    if (formData['view:livesOnMilitaryBase']) {
+      baseUSAData.addressType = 'OVERSEAS MILITARY';
+    }
+    addressData = { ...addressData, ...baseUSAData };
+  } else {
+    const internationalData = {
+      province: formData.province,
+      internationalPostalCode: formData.internationalPostalCode,
+      addressType: 'INTERNATIONAL',
+    };
+    addressData = { ...addressData, ...internationalData };
+  }
+  return addressData;
+};
+
+export const addressLabel = address => {
+  // Destructure address object for easier access
+  const {
+    addressLine1,
+    addressLine2,
+    city,
+    province,
+    stateCode,
+    internationalPostalCode,
+    zipCode,
+  } = address;
+
+  const line1 = addressLine1 || '';
+  const line2 = addressLine2 || '';
+
+  const cityState = city && (province || stateCode) ? `${city}, ` : city;
+
+  const state = province || stateCode || '';
+
+  const postalCode = internationalPostalCode || zipCode || '';
+
+  return (
+    <span>
+      {line1 && (
+        <>
+          {line1}
+          <br />
+        </>
+      )}
+      {line2 && (
+        <>
+          {line2}
+          <br />
+        </>
+      )}
+      {cityState && <>{cityState}</>}
+      {state && <>{state}</>}
+      {postalCode && (state || cityState) && ' '}
+      {postalCode}
+    </span>
+  );
 };

@@ -42,7 +42,7 @@ import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import NotEligible from './alerts/NotEligible';
-import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../../constants';
+import { DIRECT_DEPOSIT_ALERT_SETTINGS } from '../../../constants';
 import { ProfileInfoCard } from '../../ProfileInfoCard';
 import { EduMigrationDowntimeAlert } from './alerts/EduMigrationDowntimeAlert';
 import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
@@ -192,9 +192,9 @@ export const BankInfo = ({
               classNames="form-expanding-group-inner"
               appear
               timeout={{
-                appear: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
-                enter: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
-                exit: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
+                appear: DIRECT_DEPOSIT_ALERT_SETTINGS.FADE_SPEED,
+                enter: DIRECT_DEPOSIT_ALERT_SETTINGS.FADE_SPEED,
+                exit: DIRECT_DEPOSIT_ALERT_SETTINGS.FADE_SPEED,
               }}
             >
               <div data-testid="bankInfoUpdateSuccessAlert">
