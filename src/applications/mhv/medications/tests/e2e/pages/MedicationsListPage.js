@@ -106,6 +106,11 @@ class MedicationsListPage {
   };
 
   clickDownloadListAsTxtButtonOnListPage = () => {
+    cy.intercept(
+      'GET',
+      'my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    ).as('medicationsList');
     cy.get('[data-testid="download-txt-button"]').should(
       'contain',
       'Download a text file',
