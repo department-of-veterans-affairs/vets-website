@@ -1,33 +1,59 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useRepresentativeStatus } from '../../../hooks/useRepresentativeStatus';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { useRepresentativeStatus } from '../../hooks/useRepresentativeStatus';
 
 export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
   const { representative, isLoading, error } = useRepresentativeStatus();
 
+  const {
+    poaType,
+    name,
+    addressLine1,
+    addressLine2,
+    city,
+    id,
+    stateCode,
+    zipCode,
+    email,
+    contact,
+    extension,
+    concatAddress,
+    vcard,
+  } = representative ?? {};
+
   if (isLoading) {
     return (
       <div>
-        <va-loading-indicator
-          label="Loading"
-          message="Loading your representative..."
-        />
+        <va-loading-indicator label="Loading" message="Loading your .." />
       </div>
     );
   }
 
   if (error) {
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="error"
-      uswds
-      visible
-    >
-      <h2 slot="headline">We’re sorry, something went wrong</h2>
-      <React.Fragment key=".1">
-        <p className="vads-u-margin-y--0">Please try again soon.</p>
-      </React.Fragment>
-    </va-alert>;
+    return (
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status="error"
+        uswds
+        visible
+      >
+        <h2 slot="headline">We don’t seem to have your records</h2>
+        <React.Fragment key=".1">
+          <p>We’re sorry. We can’t match your information to our records.</p>
+          <p>
+            <strong>What you can do</strong>
+          </p>
+          <p>
+            If you think your information should be here, please try again later
+            or call us at{' '}
+            <va-telephone contact={CONTACTS.VA_411} extension={0} /> (
+            <va-telephone contact={CONTACTS['711']} tty />
+            ). We’re here 24/7.
+          </p>
+        </React.Fragment>
+      </va-alert>
+    );
   }
 
   const renderAuthNoRep = () => {
@@ -54,6 +80,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
       </>
     );
   };
+
   const renderAuthRep = () => {
     if (representative) {
       return (
@@ -69,12 +96,24 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
             <DynamicHeader className="auth-rep-header">
               Your accredited representative
             </DynamicHeader>
-            <DynamicSubheader className="auth-rep-subheader">
-              {representative.name}
-            </DynamicSubheader>
+            <div className="auth-rep-subheader">
+              <DynamicSubheader>
+                {poaType === 'organization' ? (
+                  <>Accredited with {name}</>
+                ) : (
+                  name
+                )}
+              </DynamicSubheader>
+              {poaType === 'organization' && (
+                <p className="vads-u-margin-top--0">
+                  You can work with any accredited representative at this
+                  organization
+                </p>
+              )}
+            </div>
 
             <div className="auth-rep-body">
-              {representative.concatAddress && (
+              {concatAddress && (
                 <div className="contact-info vads-u-margin-top--1p5">
                   <div className="contact-icon">
                     <va-icon
@@ -86,44 +125,38 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
 
                   <div className="address-link">
                     <a
-                      href={`https://maps.google.com?daddr=${
-                        representative.concatAddress
-                      }`}
+                      href={`https://maps.google.com?daddr=${concatAddress}`}
                       tabIndex="0"
                       target="_blank"
                       rel="noreferrer"
-                      aria-label={`${
-                        representative.concatAddress
-                      } (opens in a new tab)`}
+                      aria-label={`${concatAddress} (opens in a new tab)`}
                     >
-                      {representative.addressLine1}{' '}
-                      {representative.addressLine2 ? (
+                      {addressLine1}{' '}
+                      {addressLine2 ? (
                         <>
-                          <br /> {representative.addressLine2}
+                          <br /> {addressLine2}
                         </>
                       ) : null}{' '}
                       <br />
-                      {representative.city}, {representative.stateCode}{' '}
-                      {representative.zipCode}
+                      {city}, {stateCode} {zipCode}
                     </a>
                   </div>
                 </div>
               )}
-              {representative.email && (
-                <div className="contact-info vads-u-margin-top--1p5">
-                  <div className="contact-icon">
-                    <va-icon
-                      icon="mail"
-                      size={2}
-                      srtext="Representative email"
-                    />
+              {poaType === 'representative' &&
+                email && (
+                  <div className="contact-info vads-u-margin-top--1p5">
+                    <div className="contact-icon">
+                      <va-icon
+                        icon="mail"
+                        size={2}
+                        srtext="Representative email"
+                      />
+                    </div>
+                    <a href={`mailto:${email}`}>{email}</a>
                   </div>
-                  <a href={`mailto:${representative.email}`}>
-                    {representative.email}
-                  </a>
-                </div>
-              )}
-              {representative.contact && (
+                )}
+              {contact && (
                 <div className="contact-info vads-u-margin-top--1p5">
                   <div className="contact-icon">
                     <va-icon
@@ -133,23 +166,24 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
                     />
                   </div>
                   <va-telephone
-                    contact={representative.contact}
-                    extension={representative.extension}
+                    contact={contact}
+                    extension={extension}
                     disable-analytics
                   />
                 </div>
               )}
 
-              {(representative.contact || representative.email) && (
-                <div className="contact-info vads-u-margin-top--1p5">
-                  <va-link
-                    download
-                    filetype="VCF"
-                    href={representative.vcard}
-                    text="Download your accredited representative's contact information"
-                  />
-                </div>
-              )}
+              {poaType === 'representative' &&
+                (contact || email) && (
+                  <div className="contact-info vads-u-margin-top--1p5">
+                    <va-link
+                      download
+                      filetype="VCF"
+                      href={vcard}
+                      text="Download your accredited representative's contact information"
+                    />
+                  </div>
+                )}
               <div className="contact-info vads-u-margin-top--1p5">
                 <div className="contact-icon">
                   <va-icon
@@ -175,7 +209,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
     <>
       <va-card>
         <div className="auth-card">
-          {representative?.id ? renderAuthRep() : renderAuthNoRep()}
+          {id ? renderAuthRep() : renderAuthNoRep()}
         </div>
       </va-card>
     </>
@@ -185,5 +219,4 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
 Auth.propTypes = {
   DynamicHeader: PropTypes.string,
   DynamicSubheader: PropTypes.string,
-  hasRepresentative: PropTypes.bool,
 };
