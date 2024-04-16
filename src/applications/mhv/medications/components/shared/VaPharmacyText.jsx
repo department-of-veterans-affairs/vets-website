@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const VAPharmacyText = ({ phone = '' }) => {
+const VAPharmacyText = ({ phone = '', isNotClickable = false }) => {
   let dialFragment = '';
   if (phone) {
     dialFragment = (
       <>
         {' '}
-        at <va-telephone contact={phone} />
+        at <va-telephone contact={phone} not-clickable={isNotClickable} />
       </>
     );
   }
@@ -20,6 +20,7 @@ const VAPharmacyText = ({ phone = '' }) => {
 };
 
 VAPharmacyText.propTypes = {
+  isNotClickable: PropTypes.bool,
   phone: PropTypes.string,
 };
 
