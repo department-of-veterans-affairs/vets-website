@@ -37,7 +37,7 @@ describe('LabsAndTestsListItem component', () => {
     expect(
       screen.getAllByText(
         'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
-        { exact: false },
+        { exact: true },
       )[0],
     ).to.exist;
   });
@@ -46,7 +46,7 @@ describe('LabsAndTestsListItem component', () => {
     const recordName = screen.getAllByText(
       'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
       {
-        exact: false,
+        exact: true,
       },
     )[0];
     const recordDate = screen.getAllByText('January', { exact: false });
@@ -58,7 +58,7 @@ describe('LabsAndTestsListItem component', () => {
     const recordDetailsLink = screen.getByText(
       'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
       {
-        selector: 'a',
+        selector: 'span',
         exact: true,
       },
     );
