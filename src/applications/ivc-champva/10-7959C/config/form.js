@@ -357,8 +357,7 @@ const formConfig = {
           title: item => `${applicantWording(item)} primary health insurance`,
           CustomPage: ApplicantHasPrimaryPage,
           CustomPageReview: ApplicantHasPrimaryReviewPage,
-          uiSchema: applicantHasInsuranceSchema(true).uiSchema,
-          schema: applicantHasInsuranceSchema(true).schema,
+          ...applicantHasInsuranceSchema(true),
         },
         primaryProvider: {
           path: ':index/primary-provider',
@@ -367,8 +366,7 @@ const formConfig = {
           depends: (formData, index) => hasPrimaryProvider(formData, index),
           title: item =>
             `${applicantWording(item)} health insurance provider’s name`,
-          uiSchema: applicantProviderSchema(true).uiSchema,
-          schema: applicantProviderSchema(true).schema,
+          ...applicantProviderSchema(true),
         },
         primaryEffective: {
           path: ':index/primary-effective-date',
@@ -379,8 +377,7 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantPrimaryProvider
             } insurance effective date`,
-          uiSchema: applicantInsuranceEffectiveDateSchema(true).uiSchema,
-          schema: applicantInsuranceEffectiveDateSchema(true).schema,
+          ...applicantInsuranceEffectiveDateSchema(true),
         },
         primaryExpiration: {
           path: ':index/primary-expiration-date',
@@ -391,8 +388,7 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantPrimaryProvider
             } insurance expiration date`,
-          uiSchema: applicantInsuranceExpirationDateSchema(true).uiSchema,
-          schema: applicantInsuranceExpirationDateSchema(true).schema,
+          ...applicantInsuranceExpirationDateSchema(true),
         },
         primaryThroughEmployer: {
           path: ':index/primary-through-employer',
@@ -405,8 +401,7 @@ const formConfig = {
             } type of insurance`,
           CustomPage: ApplicantPrimaryThroughEmployerPage,
           CustomPageReview: ApplicantPrimaryThroughEmployerReviewPage,
-          uiSchema: applicantInsuranceThroughEmployerSchema(true).uiSchema,
-          schema: applicantInsuranceThroughEmployerSchema(true).schema,
+          ...applicantInsuranceThroughEmployerSchema(true),
         },
         primaryPrescription: {
           path: ':index/primary-prescription',
@@ -419,8 +414,7 @@ const formConfig = {
             } prescription coverage`,
           CustomPage: ApplicantPrimaryPrescriptionPage,
           CustomPageReview: ApplicantPrimaryPrescriptionReviewPage,
-          uiSchema: applicantInsurancePrescriptionSchema(true).uiSchema,
-          schema: applicantInsurancePrescriptionSchema(true).schema,
+          ...applicantInsurancePrescriptionSchema(true),
         },
         primaryEOB: {
           path: ':index/primary-eob',
@@ -433,8 +427,7 @@ const formConfig = {
             } explanation of benefits`,
           CustomPage: ApplicantPrimaryEOBPage,
           CustomPageReview: ApplicantPrimaryEOBReviewPage,
-          uiSchema: applicantInsuranceEOBSchema(true).uiSchema,
-          schema: applicantInsuranceEOBSchema(true).schema,
+          ...applicantInsuranceEOBSchema(true),
         },
         primaryType: {
           path: ':index/primary-insurance-type',
@@ -447,8 +440,7 @@ const formConfig = {
             } insurance plan`,
           CustomPage: ApplicantInsuranceTypePage,
           CustomPageReview: ApplicantInsuranceTypeReviewPage,
-          uiSchema: applicantInsuranceTypeSchema(true).uiSchema,
-          schema: applicantInsuranceTypeSchema(true).schema,
+          ...applicantInsuranceTypeSchema(true),
         },
         primaryMedigap: {
           path: ':index/primary-medigap',
@@ -468,8 +460,7 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantPrimaryProvider
             } Medigap information`,
-          uiSchema: applicantMedigapSchema(true).uiSchema,
-          schema: applicantMedigapSchema(true).schema,
+          ...applicantMedigapSchema(true),
         },
         primaryComments: {
           path: ':index/primary-comments',
@@ -480,8 +471,7 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantPrimaryProvider
             } additional comments`,
-          uiSchema: applicantInsuranceCommentsSchema(true).uiSchema,
-          schema: applicantInsuranceCommentsSchema(true).schema,
+          ...applicantInsuranceCommentsSchema(true),
         },
         hasSecondaryHealthInsurance: {
           path: ':index/has-secondary',
@@ -490,8 +480,7 @@ const formConfig = {
           title: item => `${applicantWording(item)} secondary health insurance`,
           CustomPage: ApplicantHasSecondaryPage,
           CustomPageReview: ApplicantHasSecondaryReviewPage,
-          uiSchema: applicantHasInsuranceSchema(false).uiSchema,
-          schema: applicantHasInsuranceSchema(false).schema,
+          ...applicantHasInsuranceSchema(false),
         },
         secondaryProvider: {
           path: ':index/secondary-provider',
@@ -502,8 +491,7 @@ const formConfig = {
             `${applicantWording(
               item,
             )} secondary health insurance provider’s name`,
-          uiSchema: applicantProviderSchema(false).uiSchema,
-          schema: applicantProviderSchema(false).schema,
+          ...applicantProviderSchema(false),
         },
         secondaryEffective: {
           path: ':index/secondary-effective-date',
@@ -514,8 +502,7 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantSecondaryProvider
             } insurance effective date`,
-          uiSchema: applicantInsuranceEffectiveDateSchema(false).uiSchema,
-          schema: applicantInsuranceEffectiveDateSchema(false).schema,
+          ...applicantInsuranceEffectiveDateSchema(false),
         },
         secondaryExpiration: {
           path: ':index/secondary-expiration-date',
@@ -526,8 +513,7 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantSecondaryProvider
             } secondary insurance expiration date`,
-          uiSchema: applicantInsuranceExpirationDateSchema(false).uiSchema,
-          schema: applicantInsuranceExpirationDateSchema(false).schema,
+          ...applicantInsuranceExpirationDateSchema(false),
         },
         secondaryThroughEmployer: {
           path: ':index/secondary-through-employer',
@@ -540,8 +526,7 @@ const formConfig = {
             } type of secondary insurance`,
           CustomPage: ApplicantSecondaryThroughEmployerPage,
           CustomPageReview: ApplicantSecondaryThroughEmployerReviewPage,
-          uiSchema: applicantInsuranceThroughEmployerSchema(false).uiSchema,
-          schema: applicantInsuranceThroughEmployerSchema(false).schema,
+          ...applicantInsuranceThroughEmployerSchema(false),
         },
         secondaryPrescription: {
           path: ':index/secondary-prescription',
@@ -554,8 +539,7 @@ const formConfig = {
             } secondary prescription coverage`,
           CustomPage: ApplicantSecondaryPrescriptionPage,
           CustomPageReview: ApplicantSecondaryPrescriptionReviewPage,
-          uiSchema: applicantInsurancePrescriptionSchema(false).uiSchema,
-          schema: applicantInsurancePrescriptionSchema(false).schema,
+          ...applicantInsurancePrescriptionSchema(false),
         },
         secondaryEOB: {
           path: ':index/secondary-eob',
@@ -568,8 +552,7 @@ const formConfig = {
             } explanation of benefits for secondary insurance`,
           CustomPage: ApplicantSecondaryEOBPage,
           CustomPageReview: ApplicantSecondaryEOBReviewPage,
-          uiSchema: applicantInsuranceEOBSchema(false).uiSchema,
-          schema: applicantInsuranceEOBSchema(false).schema,
+          ...applicantInsuranceEOBSchema(false),
         },
         secondaryType: {
           path: ':index/secondary-insurance-type',
@@ -582,8 +565,7 @@ const formConfig = {
             } secondary insurance plan type`,
           CustomPage: ApplicantSecondaryInsuranceTypePage,
           CustomPageReview: ApplicantSecondaryInsuranceTypeReviewPage,
-          uiSchema: applicantInsuranceTypeSchema(false).uiSchema,
-          schema: applicantInsuranceTypeSchema(false).schema,
+          ...applicantInsuranceTypeSchema(false),
         },
         secondaryMedigap: {
           path: ':index/secondary-medigap',
@@ -603,8 +585,7 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantSecondaryProvider
             } secondary insurance Medigap information`,
-          uiSchema: applicantMedigapSchema(false).uiSchema,
-          schema: applicantMedigapSchema(false).schema,
+          ...applicantMedigapSchema(false),
         },
         secondaryComments: {
           path: ':index/secondary-comments',
@@ -615,8 +596,7 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantSecondaryProvider
             } additional comments`,
-          uiSchema: applicantInsuranceCommentsSchema(false).uiSchema,
-          schema: applicantInsuranceCommentsSchema(false).schema,
+          ...applicantInsuranceCommentsSchema(false),
         },
       },
     },
