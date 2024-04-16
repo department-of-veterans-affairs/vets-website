@@ -22,6 +22,8 @@ const PrevApplication = ({
   const H1 = QUESTION_MAP[shortName];
   const prevApplication = formResponses[shortName];
   const { PREV_APPLICATION_1, PREV_APPLICATION_2 } = RESPONSES;
+  const hint =
+    'Note: You can still apply even if you’ve been denied before. We’ll tell you where to send your application based on your answer. ';
 
   useEffect(
     () => {
@@ -45,6 +47,7 @@ const PrevApplication = ({
       formResponses={formResponses}
       formValue={prevApplication}
       H1={H1}
+      hint={hint}
       responses={[PREV_APPLICATION_1, PREV_APPLICATION_2]}
       router={router}
       setFormError={setFormError}

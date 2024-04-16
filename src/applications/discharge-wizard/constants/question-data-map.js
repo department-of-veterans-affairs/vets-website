@@ -83,8 +83,8 @@ export const RESPONSES = Object.freeze({
   PREV_APPLICATION_YEAR_1C: '2017 or earlier',
   PREV_APPLICATION_YEAR_2C: 'After 2017',
   PRIOR_SERVICE_1:
-    'Yes, I have discharge paperwork documenting a discharge that is honorable or under honorable conditions.',
+    'Yes, I have paperwork for a discharge that’s honorable or under honorable conditions.',
   PRIOR_SERVICE_2:
-    'Yes, I completed a prior period of service, but I did not receive discharge paperwork from that period.',
-  PRIOR_SERVICE_3: 'No, I did not complete an earlier period of service.',
+    'Yes, I completed an earlier period of service. But I didn’t receive discharge paperwork from that period.',
+  PRIOR_SERVICE_3: 'No, I didn’t complete an earlier period of service.',
 });
