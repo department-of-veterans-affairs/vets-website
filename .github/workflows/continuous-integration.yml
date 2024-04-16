@@ -311,8 +311,7 @@ jobs:
           output-type: 'folder'
 
       - name: Log unit test values
-        run: echo "CHANGED_FILES:" ${{steps.get-changed-apps.outputs.changed_files}},
-            echo "APP_FOLDERS:" ${{steps.get-changed-apps.outputs.folders}}
+        run: echo "APP_FOLDERS:" ${{steps.get-changed-apps.outputs.folders}}
 
       - name: Run unit tests
         run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
