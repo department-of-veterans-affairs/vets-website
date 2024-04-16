@@ -158,6 +158,7 @@ const ssnOrVaFileNumberUI = () => {
         if (!ssn && vaFileNumber) {
           required = ['vaFileNumber'];
         }
+
         return {
           ..._schema,
           required,
