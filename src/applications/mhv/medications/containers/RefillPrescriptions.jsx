@@ -9,8 +9,9 @@ import PropTypes from 'prop-types';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { getRefillablePrescriptionsList } from '../actions/prescriptions';
 import { dateFormat } from '../util/helpers';
-import { getRefillablePrescriptionList, fillRxs } from '../api/rxApi';
+import { fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
 import { dispStatusObj, DD_ACTIONS_PAGE_TYPE } from '../util/constants';
@@ -40,6 +41,12 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // Selectors
   const selectedSortOption = useSelector(
     state => state.rx.prescriptions?.selectedSortOption,
+  );
+  const refillablePrescriptionsList = useSelector(
+    state => state.rx.prescriptions?.refillablePrescriptionsList,
+  );
+  const prescriptionsApiError = useSelector(
+    state => state.rx.prescriptions?.apiError,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
   const allergies = useSelector(state => state.rx.allergies?.allergiesList);
@@ -118,21 +125,9 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
         updateLoadingStatus(true);
       }
       if (refillResult.status !== 'inProgress') {
-        getRefillablePrescriptionList().then(({ data }) => {
-          const fullList = data
-            .map(({ attributes }) => attributes)
-            .sort((a, b) =>
-              a.prescriptionName.localeCompare(b.prescriptionName),
-            );
-          const [refillableList, renewableList] = fullList.reduce(
-            categorizePrescriptions,
-            [[], []],
-          );
-          setFullRefillList(refillableList);
-          setFullRenewList(renewableList);
-          if (!allergies) dispatch(getAllergiesList());
-          updateLoadingStatus(false);
-        });
+        dispatch(getRefillablePrescriptionsList()).then(() =>
+          updateLoadingStatus(false),
+        );
       }
       updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
     },
@@ -148,6 +143,25 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
       }
     },
     [isLoading],
+  );
+
+  useEffect(
+    () => {
+      if (refillablePrescriptionsList) {
+        const fullList = refillablePrescriptionsList.sort((a, b) =>
+          a.prescriptionName.localeCompare(b.prescriptionName),
+        );
+        const [refillableList, renewableList] = fullList.reduce(
+          categorizePrescriptions,
+          [[], []],
+        );
+        setFullRefillList(refillableList);
+        setFullRenewList(renewableList);
+      }
+      // disabled warning: fullRefillList must be left of out dependency array to avoid infinite loop
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [refillablePrescriptionsList, prescriptionsApiError],
   );
 
   const content = () => {

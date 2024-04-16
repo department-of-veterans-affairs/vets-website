@@ -18,6 +18,7 @@ import {
   DD_ACTIONS_PAGE_TYPE,
 } from '../util/constants';
 import { selectRefillContentFlag } from '../util/selectors';
+import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 
 const LandingPage = () => {
   const user = useSelector(selectUser);
@@ -26,6 +27,9 @@ const LandingPage = () => {
   const fullState = useSelector(state => state);
   const paginatedPrescriptionsList = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
+  );
+  const prescriptionsApiError = useSelector(
+    state => state.rx.prescriptions?.apiError,
   );
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
@@ -107,74 +111,82 @@ const LandingPage = () => {
               medications list.
             </p>
           </section>
-          {paginatedPrescriptionsList?.length ? (
+          {prescriptionsApiError ? (
             <section>
-              <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                {showRefillContent ? (
-                  <>
-                    <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1.5 vads-u-font-size--h3">
-                      Manage your medications
-                    </h2>
-                    <Link
-                      data-dd-action-name={`Refill Prescriptions Action Link - ${
-                        DD_ACTIONS_PAGE_TYPE.ABOUT
-                      }`}
-                      className="vads-u-display--block vads-c-action-link--blue vads-u-margin-bottom--1"
-                      to={refillUrl}
-                      data-testid="refill-nav-link"
-                    >
-                      Refill prescriptions
-                    </Link>
-                    <Link
-                      className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
-                      to={medicationsUrl}
-                      data-testid="prescriptions-nav-link"
-                      data-dd-action-name={`Go To Your Medications List Action Link - ${
-                        DD_ACTIONS_PAGE_TYPE.ABOUT
-                      }`}
-                    >
-                      Go to your medications list
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                      Go to your medications now
-                    </h2>
-                    <p className="vads-u-margin-y--3">
-                      Refill and track your VA prescriptions. And review your
-                      medications list.
-                    </p>
-                    <Link
-                      className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
-                      to={medicationsUrl}
-                      data-testid="prescriptions-nav-link"
-                      data-dd-action-name={`Go To Your Medications List Action Link - ${
-                        DD_ACTIONS_PAGE_TYPE.ABOUT
-                      }`}
-                    >
-                      Go to your medications list
-                    </Link>
-                  </>
-                )}
-              </div>
+              <ApiErrorNotification />
             </section>
           ) : (
-            <section>
-              <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                <h2
-                  className="vads-u-margin--0"
-                  data-testid="empty-medications-list"
-                >
-                  You don’t have any VA prescriptions or medication records
-                </h2>
-                <p className="vads-u-margin-y--3">
-                  If you need a prescription or you want to tell us about a
-                  medication you’re taking, tell your care team at your next
-                  appointment.
-                </p>
-              </div>
-            </section>
+            <>
+              {paginatedPrescriptionsList?.length ? (
+                <section>
+                  <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
+                    {showRefillContent ? (
+                      <>
+                        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1.5 vads-u-font-size--h3">
+                          Manage your medications
+                        </h2>
+                        <Link
+                      	  data-dd-action-name={`Refill Prescriptions Action Link - ${
+                            DD_ACTIONS_PAGE_TYPE.ABOUT
+                      	  }`}
+                          className="vads-u-display--block vads-c-action-link--blue vads-u-margin-bottom--1"
+                          to={refillUrl}
+                          data-testid="refill-nav-link"
+                        >
+                          Refill prescriptions
+                        </Link>
+                        <Link
+                          className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
+                          to={medicationsUrl}
+                          data-testid="prescriptions-nav-link"
+                          data-dd-action-name={`Go To Your Medications List Action Link - ${
+                            DD_ACTIONS_PAGE_TYPE.ABOUT
+                          }`}
+                        >
+                          Go to your medications list
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+                          Go to your medications now
+                        </h2>
+                        <p className="vads-u-margin-y--3">
+                          Refill and track your VA prescriptions. And review
+                          your medications list.
+                        </p>
+                        <Link
+                          className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
+                          to={medicationsUrl}
+                          data-testid="prescriptions-nav-link"
+                          data-dd-action-name={`Go To Your Medications List Action Link - ${
+                            DD_ACTIONS_PAGE_TYPE.ABOUT
+                          }`}
+                        >
+                          Go to your medications list
+                        </Link>
+                      </>
+                    )}
+                  </div>
+                </section>
+              ) : (
+                <section>
+                  <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
+                    <h2
+                      className="vads-u-margin--0"
+                      data-testid="empty-medications-list"
+                    >
+                      You don’t have any VA prescriptions or medication records
+                    </h2>
+                    <p className="vads-u-margin-y--3">
+                      If you need a prescription or you want to tell us about a
+                      medication you’re taking, tell your care team at your next
+                      appointment.
+                    </p>
+                  </div>
+                </section>
+              )}
+            </>
           )}
           <hr className="vads-u-margin-top--6" />
           <section>
@@ -202,8 +214,7 @@ const LandingPage = () => {
           <section>
             <h2>Questions about this tool</h2>
             <section>
-              <va-accordion
-                bordered
+              <va-accordion bordered
                 data-testid="accordion-dropdown"
                 data-dd-action-name={`Questions About This Tool Accordion - ${
                   DD_ACTIONS_PAGE_TYPE.ABOUT

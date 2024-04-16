@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   updatePageTitle,
@@ -47,6 +47,9 @@ const PrescriptionDetails = () => {
   const prescription = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails,
   );
+  const prescriptionsApiError = useSelector(
+    state => state.rx.prescriptions?.apiError,
+  );
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
   const userName = useSelector(state => state.user.profile.userFullName);
   const dob = useSelector(state => state.user.profile.dob);
@@ -60,6 +63,7 @@ const PrescriptionDetails = () => {
     message: undefined,
   });
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const prescriptionHeader =
     prescription?.prescriptionName ||
@@ -229,10 +233,14 @@ const PrescriptionDetails = () => {
 
   useEffect(
     () => {
+      if (prescriptionsApiError && !prescription && prescriptionId) {
+        history.replace('/about');
+        return;
+      }
       if (!prescription && prescriptionId)
         dispatch(getPrescriptionDetails(prescriptionId));
     },
-    [prescriptionId, dispatch, prescription],
+    [prescriptionId, dispatch, prescription, prescriptionsApiError, history],
   );
 
   useEffect(

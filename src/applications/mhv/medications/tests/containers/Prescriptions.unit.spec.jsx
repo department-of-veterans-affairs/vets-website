@@ -26,6 +26,7 @@ describe('Medications Prescriptions container', () => {
         prescriptionDetails: {
           prescriptionId: 1234567890,
         },
+        apiError: false,
       },
       breadcrumbs: {
         list: [
