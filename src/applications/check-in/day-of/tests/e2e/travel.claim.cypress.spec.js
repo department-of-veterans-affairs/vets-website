@@ -164,6 +164,10 @@ describe('Check In Experience | Day Of |', () => {
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
+
       TravelPages.validatePageLoaded('vehicle');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
@@ -172,13 +176,13 @@ describe('Check In Experience | Day Of |', () => {
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
 
-      TravelPages.validatePageLoaded('mileage');
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-
       TravelPages.validatePageLoaded('review');
       cy.injectAxeThenAxeCheck();
-      TravelPages.clickEditLink();
+      TravelPages.clickStartOver();
+
+      TravelPages.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
 
       TravelPages.validatePageLoaded('mileage');
       cy.injectAxeThenAxeCheck();
