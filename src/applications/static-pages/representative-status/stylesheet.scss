@@ -20,15 +20,30 @@
   }
 
   .auth-rep-text {
-    h2,
-    h3,
-    h4 {
-      margin-top: 0px;
-      margin-bottom: 0px;
+    .auth-rep-header {
+      h2 {
+        margin-top: -7px;
+        margin-bottom: 0px;
+      }
+
+      h3 {
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+
+      h4 {
+        margin-top: 2px;
+        margin-bottom: 0px;
+      }
     }
 
     .auth-rep-subheader {
-      margin-top: 1rem !important;
+      h3,
+      h4,
+      h5 {
+        margin-top: 12px;
+        margin-bottom: 4px;
+      }
     }
 
     .contact-info {
