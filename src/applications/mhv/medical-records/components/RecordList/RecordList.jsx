@@ -76,9 +76,9 @@ const RecordList = props => {
         className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--0 vads-u-font-weight--normal vads-u-padding-y--1 vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
         hidden={hidePagination}
         id="showingRecords"
-        aria-describedby={`received-message-date-${records.id}`}
+        aria-describedby={`recordList-date-${records.id}`}
       >
-        <span id={`received-message-date-${records.id}`}>
+        <span id={`recordList-date-${records.id}`}>
           {`Showing ${displayNums[0]} to ${
             displayNums[1]
           } of ${totalEntries} records from newest to oldest`}

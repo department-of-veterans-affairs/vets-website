@@ -16,9 +16,9 @@ const LabsAndTestsListItem = props => {
         <Link
           to={`/labs-and-tests/${record.id}`}
           data-dd-privacy="mask"
-          aria-describedby={`received-message-date-${record.id}`}
+          aria-describedby={`labsAndTests-date-${record.id}`}
         >
-          <span id={`received-message-date-${record.id}`}>
+          <span id={`labsAndTests-date-${record.id}`}>
             {record.name} <span className="sr-only">on {record.date}</span>
           </span>
         </Link>
