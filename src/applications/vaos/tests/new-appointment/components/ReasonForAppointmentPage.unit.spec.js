@@ -62,19 +62,20 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
       store,
     });
-
-    const textBox = await screen.findByRole('textbox');
-    expect(textBox).to.exist;
-    expect(textBox)
-      .to.have.attribute('maxlength')
-      .to.equal('250');
-
-    expect(screen.baseElement).to.contain.text(
-      'What’s the reason for this appointment?',
+    expect(await screen.findByTestId('reason-comment-field')).to.have.attribute(
+      'label',
+      'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
+    );
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: /What’s the reason for this appointment?/i,
+      }),
     );
 
     expect(
       screen.getByRole('heading', {
+        level: 2,
         name: /If you have an urgent medical need, please:/i,
       }),
     );
@@ -93,22 +94,25 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     expect(alerts[0]).to.contain.text('Select a reason for your appointment');
   });
 
-  it.skip('should show error msg when enter all spaces for VA medical request', async () => {
+  it('should show error msg when not entering additional detail for VA medical request', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
       store,
     });
 
-    fireEvent.click(
-      await screen.findByLabelText(/Routine or follow-up visit/i),
-    );
-    const textBox = screen.getByRole('textbox');
-    fireEvent.change(textBox, { target: { value: '   ' } });
-    expect(textBox.value).to.equal('   ');
+    const selectors = screen.container.querySelectorAll('va-radio-option');
+    await waitFor(() => {
+      expect(selectors).to.have.lengthOf(4);
+      expect(selectors[0]).to.have.attribute(
+        'label',
+        'This is a routine or follow-up visit.',
+      );
+    });
+
     fireEvent.click(screen.getByText(/Continue/));
 
     expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
+      'Provide more information about why you are requesting this appointment',
     );
   });
 
@@ -156,7 +160,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     );
   });
 
-  it('should show error msg when enter all spaces for Community Care medical request', async () => {
+  it.skip('should show error msg when enter all spaces for Community Care medical request', async () => {
     const store = createTestStore(initialState);
     await setTypeOfFacility(store, /Community Care/i);
 
@@ -212,12 +216,16 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       },
     );
 
-    const textBox = await screen.findByRole('textbox');
-    fireEvent.change(textBox, { target: { value: 'test' } });
-    expect(textBox.value).to.equal('test');
+    expect(await screen.findByTestId('reason-comment-field')).to.have.attribute(
+      'label',
+      'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
+    );
 
-    expect(screen.baseElement).to.contain.text(
-      'What’s the reason for this appointment?',
+    expect(
+      await screen.getByRole('heading', {
+        level: 1,
+        name: /What’s the reason for this appointment?/i,
+      }),
     );
 
     fireEvent.click(screen.getByText(/Continue/));

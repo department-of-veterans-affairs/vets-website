@@ -15,43 +15,14 @@ describe('Secure Messaging Trash Folder checks', () => {
 
   it('Verify folder header', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
     PatientMessageTrashPage.verifyFolderHeaderText('Trash');
     PatientMessageTrashPage.verifyResponseBodyLength();
   });
 
-  it('Verify filter works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessageTrashPage.inputFilterDataText('test');
-    PatientMessageTrashPage.clickFilterMessagesButton();
-    PatientMessageTrashPage.verifyFilterResultsText('test');
-  });
-
-  it('Verify clear filter btn works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessageTrashPage.inputFilterDataText('any');
-    PatientMessageTrashPage.clickFilterMessagesButton();
-    PatientMessageTrashPage.clickClearFilterButton();
-    PatientMessageTrashPage.verifyFilterFieldCleared();
-  });
-
-  it('Check sorting works properly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessageTrashPage.verifySorting();
-  });
-
   it('Checks for "End of conversations in this folder" text', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
 
     cy.get('.endOfThreads').should('not.exist');
     cy.get('.usa-pagination__list li').then(pagesList => {

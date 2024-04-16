@@ -30,13 +30,49 @@ describe('DownloadRecordsPage', () => {
     expect(screen.getByText('Download all medical records')).to.exist;
   });
 
-  it('should download a pdf', () => {
+  it('should display a download started message when the download pdf button is clicked', () => {
     fireEvent.click(screen.getByTestId('download-blue-button-pdf'));
-    expect(screen).to.exist;
+    expect(screen.getByTestId('download-success-alert-message')).to.exist;
   });
 
-  it('should download a txt', () => {
+  it('should display a download started message when the download txt file button is clicked', () => {
     fireEvent.click(screen.getByTestId('download-blue-button-txt'));
-    expect(screen).to.exist;
+    expect(screen.getByTestId('download-success-alert-message')).to.exist;
+  });
+});
+
+describe('DownloadRecordsPage with connection error', () => {
+  const initialState = {
+    user,
+    mr: {
+      alerts: {
+        alertList: [
+          {
+            datestamp: '2024-04-11T02:43:15.227Z',
+            isActive: true,
+            type: 'error',
+          },
+        ],
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<DownloadRecordsPage runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/download-all',
+    });
+  });
+
+  it('should display download an error message when the download pdf button is clicked', () => {
+    fireEvent.click(screen.getByTestId('download-blue-button-pdf'));
+    expect(screen.getByTestId('expired-alert-message')).to.exist;
+  });
+
+  it('should display download an error when the download txt file button is clicked', () => {
+    fireEvent.click(screen.getByTestId('download-blue-button-txt'));
+    expect(screen.getByTestId('expired-alert-message')).to.exist;
   });
 });

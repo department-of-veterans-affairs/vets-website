@@ -32,7 +32,7 @@ const RxBreadcrumbs = () => {
     <>
       {crumbs.length > 0 &&
         crumbs[0]?.url && (
-          <div className="no-print">
+          <div className="no-print rx-breadcrumbs">
             <div
               className="vads-l-row vads-u-padding-y--3"
               label="Breadcrumb"

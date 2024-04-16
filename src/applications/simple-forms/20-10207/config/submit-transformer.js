@@ -128,7 +128,7 @@ export default function transformForSubmit(formConfig, form) {
   // delete any unneeded evidence form-data based on otherReasons
   Object.keys(otherReasonsEvidenceData).forEach(key => {
     // if otherReasons[key] is not selected, delete corresponding evidence form-data
-    if (!otherReasons[key]) {
+    if (!otherReasons?.[key]) {
       if (otherReasonsEvidenceData[key] instanceof Array) {
         otherReasonsEvidenceData[key].forEach(dataKey => {
           delete transformedData[dataKey];
