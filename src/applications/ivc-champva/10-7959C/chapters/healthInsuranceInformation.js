@@ -215,30 +215,35 @@ export function applicantInsuranceTypeSchema(isPrimary) {
   };
 }
 
-export const applicantPrimaryMedigapSchema = {
-  uiSchema: {
-    applicants: {
-      'ui:options': { viewField: ApplicantField },
-      items: {
-        ...titleUI(
-          ({ formData }) =>
-            `${applicantWording(formData)} ${
-              formData?.applicantPrimaryProvider
-            } Medigap information`,
-        ),
-        primaryMedigapPlan: radioUI({
-          title: 'Which type of Medigap plan is the applicant enrolled in?',
-          required: () => true,
-          labels: MEDIGAP,
-        }),
+export function applicantMedigapSchema(isPrimary) {
+  const keyname = `${isPrimary ? 'primary' : 'secondary'}MedigapPlan`;
+  return {
+    uiSchema: {
+      applicants: {
+        'ui:options': { viewField: ApplicantField },
+        items: {
+          ...titleUI(
+            ({ formData }) =>
+              `${applicantWording(formData)} ${
+                isPrimary
+                  ? formData?.applicantPrimaryProvider
+                  : formData?.applicantSecondaryProvider
+              } Medigap information`,
+          ),
+          [keyname]: radioUI({
+            title: 'Which type of Medigap plan is the applicant enrolled in?',
+            required: () => true,
+            labels: MEDIGAP,
+          }),
+        },
       },
     },
-  },
-  schema: applicantListSchema(['primaryMedigapPlan'], {
-    titleSchema,
-    primaryMedigapPlan: radioSchema(Object.keys(MEDIGAP)),
-  }),
-};
+    schema: applicantListSchema([keyname], {
+      titleSchema,
+      [keyname]: radioSchema(Object.keys(MEDIGAP)),
+    }),
+  };
+}
 
 export const applicantPrimaryCommentsSchema = {
   uiSchema: {

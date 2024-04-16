@@ -69,7 +69,7 @@ import {
   applicantInsuranceThroughEmployerSchema,
   applicantInsurancePrescriptionSchema,
   applicantInsuranceTypeSchema,
-  applicantPrimaryMedigapSchema,
+  applicantMedigapSchema,
   applicantPrimaryCommentsSchema,
 } from '../chapters/healthInsuranceInformation';
 
@@ -468,8 +468,8 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantPrimaryProvider
             } Medigap information`,
-          uiSchema: applicantPrimaryMedigapSchema.uiSchema,
-          schema: applicantPrimaryMedigapSchema.schema,
+          uiSchema: applicantMedigapSchema(true).uiSchema,
+          schema: applicantMedigapSchema(true).schema,
         },
         primaryComments: {
           path: ':index/primary-comments',
@@ -584,6 +584,27 @@ const formConfig = {
           CustomPageReview: ApplicantSecondaryInsuranceTypeReviewPage,
           uiSchema: applicantInsuranceTypeSchema(false).uiSchema,
           schema: applicantInsuranceTypeSchema(false).schema,
+        },
+        secondaryMedigap: {
+          path: ':index/secondary-medigap',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              hasSecondaryProvider(formData, index) &&
+              get(
+                'applicantSecondaryInsuranceType',
+                formData?.applicants?.[index],
+              )?.includes('medigap')
+            );
+          },
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } secondary insurance Medigap information`,
+          uiSchema: applicantMedigapSchema(false).uiSchema,
+          schema: applicantMedigapSchema(false).schema,
         },
       },
     },
