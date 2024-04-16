@@ -173,26 +173,6 @@ export const buildPrescriptionsPDFList = prescriptions => {
               value: validateField(rx.quantity),
               inline: true,
             },
-            ...(rx.prescriptionImage
-              ? [
-                  {
-                    title: 'Image of the medication or supply:',
-                    value: {
-                      isBase64: true,
-                      type: 'image',
-                      value: rx.prescriptionImage,
-                      options: { width: 182.75, height: 182.75 },
-                    },
-                    inline: false,
-                  },
-                  {
-                    title: 'Note',
-                    value:
-                      'This image is from your last refill of this medication.',
-                    inline: true,
-                  },
-                ]
-              : []),
           ],
         },
       ],
@@ -250,10 +230,7 @@ export const buildAllergiesPDFList = allergies => {
 /**
  * Return VA prescription PDF list
  */
-export const buildVAPrescriptionPDFList = (
-  prescription,
-  prescriptionImage = null,
-) => {
+export const buildVAPrescriptionPDFList = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords || [])];
   const originalFill = createOriginalFillRecord(prescription);
   refillHistory.push(originalFill);
@@ -350,26 +327,6 @@ export const buildVAPrescriptionPDFList = (
               value: validateField(prescription.quantity),
               inline: true,
             },
-            ...(prescriptionImage
-              ? [
-                  {
-                    title: 'Image of the medication or supply:',
-                    value: {
-                      isBase64: true,
-                      type: 'image',
-                      value: prescriptionImage,
-                      options: { width: 182.75, height: 182.75 },
-                    },
-                    inline: false,
-                  },
-                  {
-                    title: 'Note',
-                    value:
-                      'This image is from your last refill of this medication.',
-                    inline: true,
-                  },
-                ]
-              : []),
           ],
         },
       ],

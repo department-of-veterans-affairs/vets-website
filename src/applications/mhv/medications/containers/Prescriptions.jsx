@@ -309,7 +309,7 @@ const Prescriptions = () => {
           setIsRetrievingFullList(false);
           await getPrescriptionSortedList(
             rxListSortingOptions[selectedSortOption].API_ENDPOINT,
-            true,
+            false,
           )
             .then(response => {
               const list = response.data.map(rx => ({ ...rx.attributes }));
@@ -318,6 +318,7 @@ const Prescriptions = () => {
             })
             .catch(() => {
               setHasFullListDownloadError(true);
+              updateLoadingStatus(false, '');
             });
           if (!allergies) dispatch(getAllergiesList());
         };
