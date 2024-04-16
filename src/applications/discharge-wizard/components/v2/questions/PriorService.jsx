@@ -7,44 +7,21 @@ import {
   SHORT_NAME_MAP,
 } from '../../../constants/question-data-map';
 import RadioGroup from './shared/RadioGroup';
-import { updatePrevApplicationType } from '../../../actions';
+import { updatePriorService } from '../../../actions';
 import { pageSetup } from '../../../utilities/page-setup';
 import { ROUTES } from '../../../constants';
 
-const PrevApplicationType = ({
+const PriorService = ({
   formResponses,
-  setPrevApplicationType,
+  setPriorService,
   router,
   viewedIntroPage,
 }) => {
   const [formError, setFormError] = useState(false);
-  const shortName = SHORT_NAME_MAP.PREV_APPLICATION_TYPE;
+  const shortName = SHORT_NAME_MAP.PRIOR_SERVICE;
   const H1 = QUESTION_MAP[shortName];
-  const prevApplicationType = formResponses[shortName];
-  const {
-    PREV_APPLICATION_TYPE_1,
-    PREV_APPLICATION_TYPE_2,
-    PREV_APPLICATION_TYPE_3A,
-    PREV_APPLICATION_TYPE_3B,
-    PREV_APPLICATION_TYPE_4,
-  } = RESPONSES;
-
-  const prevApplicationTypeOptions = [
-    PREV_APPLICATION_TYPE_1,
-    PREV_APPLICATION_TYPE_2,
-    PREV_APPLICATION_TYPE_3A,
-    PREV_APPLICATION_TYPE_3B,
-    PREV_APPLICATION_TYPE_4,
-  ].filter(option => {
-    if (
-      [RESPONSES.NAVY, RESPONSES.MARINE_CORPS].includes(
-        formResponses.SERVICE_BRANCH,
-      )
-    ) {
-      return option !== PREV_APPLICATION_TYPE_3A;
-    }
-    return option !== PREV_APPLICATION_TYPE_3B;
-  });
+  const priorService = formResponses[shortName];
+  const { PRIOR_SERVICE_1, PRIOR_SERVICE_2, PRIOR_SERVICE_3 } = RESPONSES;
 
   useEffect(
     () => {
@@ -66,24 +43,24 @@ const PrevApplicationType = ({
     <RadioGroup
       formError={formError}
       formResponses={formResponses}
-      formValue={prevApplicationType}
+      formValue={priorService}
       H1={H1}
-      responses={prevApplicationTypeOptions}
+      responses={[PRIOR_SERVICE_1, PRIOR_SERVICE_2, PRIOR_SERVICE_3]}
       router={router}
       setFormError={setFormError}
       shortName={shortName}
-      testId="duw-prev_application_type"
-      valueSetter={setPrevApplicationType}
+      testId="duw-prior_service"
+      valueSetter={setPriorService}
     />
   );
 };
 
-PrevApplicationType.propTypes = {
+PriorService.propTypes = {
   formResponses: PropTypes.object,
   router: PropTypes.shape({
     push: PropTypes.func,
   }),
-  setPrevApplicationType: PropTypes.func,
+  setPriorService: PropTypes.func,
   viewedIntroPage: PropTypes.bool,
 };
 
@@ -93,10 +70,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  setPrevApplicationType: updatePrevApplicationType,
+  setPriorService: updatePriorService,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PrevApplicationType);
+)(PriorService);

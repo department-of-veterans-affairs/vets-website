@@ -13,6 +13,8 @@ export const QUESTION_MAP = Object.freeze({
   PREV_APPLICATION_TYPE:
     'What type of application did you make to upgrade your discharge previously?',
   PREV_APPLICATION_YEAR: 'What year did you apply for a discharge upgrade?',
+  PRIOR_SERVICE:
+    'Did you complete a period of service in which your character of service was Honorable or General Under Honorable Conditions?',
 });
 
 export const SHORT_NAME_MAP = Object.freeze({
@@ -21,13 +23,14 @@ export const SHORT_NAME_MAP = Object.freeze({
   DISCHARGE_YEAR: 'DISCHARGE_YEAR',
   DISCHARGE_MONTH: 'DISCHARGE_MONTH',
   REASON: 'REASON',
-  PREV_APPLICATION_TYPE_A: 'PREV_APPLICATION_TYPE',
+  // PREV_APPLICATION_TYPE_A: 'PREV_APPLICATION_TYPE',
   DISCHARGE_TYPE: 'DISCHARGE_TYPE',
   INTENTION: 'INTENTION',
   COURT_MARTIAL: 'COURT_MARTIAL',
   PREV_APPLICATION: 'PREV_APPLICATION',
   PREV_APPLICATION_YEAR: 'PREV_APPLICATION_YEAR',
   PREV_APPLICATION_TYPE: 'PREV_APPLICATION_TYPE',
+  PRIOR_SERVICE: 'PRIOR_SERVICE',
 });
 
 export const RESPONSES = Object.freeze({
@@ -79,4 +82,9 @@ export const RESPONSES = Object.freeze({
   PREV_APPLICATION_YEAR_2B: 'After 2011',
   PREV_APPLICATION_YEAR_1C: '2017 or earlier',
   PREV_APPLICATION_YEAR_2C: 'After 2017',
+  PRIOR_SERVICE_1:
+    'Yes, I have discharge paperwork documenting a discharge that is honorable or under honorable conditions.',
+  PRIOR_SERVICE_2:
+    'Yes, I completed a prior period of service, but I did not receive discharge paperwork from that period.',
+  PRIOR_SERVICE_3: 'No, I did not complete an earlier period of service.',
 });

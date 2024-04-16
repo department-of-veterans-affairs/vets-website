@@ -2,7 +2,7 @@ import * as h from './helpers';
 import { ROUTES } from '../../../constants';
 import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
 
-xdescribe('Discharge Upgrade Wizard', () => {
+describe('Discharge Upgrade Wizard', () => {
   describe('Base navigation', () => {
     it('navigates through the flow forward successfully', () => {
       cy.visit(`${h.ROOT}/introduction1`);
@@ -51,7 +51,7 @@ xdescribe('Discharge Upgrade Wizard', () => {
       h.clickContinue();
 
       // PREVIOUS_APPLICATION
-      h.verifyUrl(ROUTES.PREVIOUS_APPLICATION);
+      h.verifyUrl(ROUTES.PREV_APPLICATION);
     });
   });
 });

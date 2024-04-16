@@ -121,6 +121,8 @@ export const DUW_UPDATE_PREV_APPLICATION_TYPE =
   'discharge-upgrade-wizard/DUW_UPDATE_PREV_APPLICATION_TYPE';
 export const DUW_UPDATE_PREV_APPLICATION_YEAR =
   'discharge-upgrade-wizard/DUW_UPDATE_PREV_APPLICATION_YEAR';
+export const DUW_UPDATE_PRIOR_SERVICE =
+  'discharge-upgrade-wizard/DUW_UPDATE_PREV_PRIOR_SERVICE';
 
 export const ROUTES = Object.freeze({
   HOME: 'introduction',
@@ -135,6 +137,7 @@ export const ROUTES = Object.freeze({
   PREV_APPLICATION_TYPE_A: 'prev-application-type',
   PREV_APPLICATION_TYPE: 'prev-application-type',
   PREV_APPLICATION_YEAR: 'prev-application-year',
+  PRIOR_SERVICE: 'prior-service',
   RESULT: 'result',
 });
 
@@ -154,6 +157,7 @@ export const questionsToClearMap = Object.freeze({
   PREV_APPLICATION: [],
   PREV_APPLICATION_TYPE: [],
   PREV_APPLICATION_YEAR: [],
+  PRIOR_SERVICE: [],
 });
 
 export const errorTextMap = Object.freeze({
