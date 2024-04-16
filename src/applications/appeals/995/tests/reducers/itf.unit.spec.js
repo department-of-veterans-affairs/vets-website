@@ -1,7 +1,6 @@
 import { expect } from 'chai';
-import moment from 'moment';
 
-import { requestStates } from 'platform/utilities/constants';
+import { requestStates } from '~/platform/utilities/constants';
 import { ITF_STATUSES } from '../../constants';
 
 import {
@@ -14,6 +13,8 @@ import {
 } from '../../actions';
 
 import reducers from '../../reducers';
+
+import { parseDateWithOffset } from '../../../shared/utils/dates';
 
 const initialState = {
   fetchCallState: requestStates.notCalled,
@@ -50,17 +51,13 @@ describe('ITF reducer', () => {
               {
                 type: 'compensation',
                 status: ITF_STATUSES.active,
-                expirationDate: moment()
-                  .add(1, 'days')
-                  .format(),
+                expirationDate: parseDateWithOffset({ days: 1 }),
               },
               {
                 // duplicate ITF with later expiration date; should use the active one
                 type: 'compensation',
                 status: ITF_STATUSES.duplicate,
-                expirationDate: moment()
-                  .add(1, 'year')
-                  .format(),
+                expirationDate: parseDateWithOffset({ year: -1 }),
               },
             ],
           },
@@ -83,16 +80,12 @@ describe('ITF reducer', () => {
               {
                 type: 'compensation',
                 status: ITF_STATUSES.expired,
-                expirationDate: moment()
-                  .subtract(1, 'd')
-                  .format(),
+                expirationDate: parseDateWithOffset({ days: -1 }),
               },
               {
                 type: 'compensation',
                 status: ITF_STATUSES.duplicate,
-                expirationDate: moment()
-                  .add(1, 'd')
-                  .format(),
+                expirationDate: parseDateWithOffset({ days: 1 }),
               },
             ],
           },
@@ -125,23 +118,17 @@ describe('ITF reducer', () => {
             {
               type: 'compensation',
               status: ITF_STATUSES.expired,
-              expirationDate: moment()
-                .subtract(3, 'd')
-                .format(),
+              expirationDate: parseDateWithOffset({ days: -3 }),
             },
             {
               type: 'compensation',
               status: ITF_STATUSES.duplicate,
-              expirationDate: moment()
-                .subtract(2, 'd')
-                .format(),
+              expirationDate: parseDateWithOffset({ days: -2 }),
             },
             {
               type: 'compensation',
               status: ITF_STATUSES.active,
-              expirationDate: moment()
-                .subtract(1, 'd')
-                .format(),
+              expirationDate: parseDateWithOffset({ days: -1 }),
             },
           ],
         },

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { startOfDay, sub } from 'date-fns';
+import { startOfToday, sub } from 'date-fns';
 
 import {
   getEligibleContestableIssues,
@@ -24,7 +24,7 @@ import {
 } from '../../../shared/utils/issues';
 
 describe('getEligibleContestableIssues', () => {
-  const date = startOfDay(new Date());
+  const date = startOfToday();
 
   const getIssue = (text, description = '', dateOffset) => ({
     type: 'contestableIssue',
