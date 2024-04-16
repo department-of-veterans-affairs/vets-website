@@ -4,14 +4,18 @@ import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moment from 'moment';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import ConfirmationDecisionReviews from '../../components/ConfirmationDecisionReviews';
-import { SELECTED } from '../../constants';
+import { parseDate } from '../../utils/dates';
+import { SELECTED, FORMAT_READABLE_DATE_FNS } from '../../constants';
 
-const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
+const getData = ({
+  renderName = true,
+  suffix = 'Esq.',
+  timestamp = '2024-01-02T03:04:05.067Z',
+} = {}) => ({
   user: {
     profile: {
       userFullName: renderName
@@ -22,7 +26,7 @@ const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
   form: {
     formId: '12345',
     submission: {
-      response: Date.now(),
+      timestamp,
     },
     data: {
       contestedIssues: [
@@ -69,15 +73,20 @@ describe('Confirmation page', () => {
     expect($('h2', container).textContent).to.eq('Request a snack');
     expect($('#content h3', container).textContent).to.eq('After your snack');
     expect($('#content p', container).textContent).to.eq('Take a nap');
+    expect($('va-summary-box', container).textContent).to.contain(
+      'January 2nd, 2024',
+    );
   });
 
   it('should render with no data', () => {
+    const today = parseDate(new Date(), FORMAT_READABLE_DATE_FNS);
     const { container } = render(
       <Provider store={mockStore({})}>
         <ConfirmationDecisionReviews />
       </Provider>,
     );
     expect($('va-alert[status="success"]', container)).to.exist;
+    expect(container.textContent).to.contain(today);
   });
 
   it('should render the user name', () => {
@@ -112,7 +121,10 @@ describe('Confirmation page', () => {
 
   it('should render the submit date', () => {
     const data = getData();
-    const date = moment(data.form.submission.response).format('MMMM D, YYYY');
+    const date = parseDate(
+      data.form.submission.timestamp,
+      FORMAT_READABLE_DATE_FNS,
+    );
     const { container } = render(
       <Provider store={mockStore(data)}>
         <ConfirmationDecisionReviews />
@@ -151,7 +163,7 @@ describe('Confirmation page', () => {
       form: {
         formId: '12345',
         submission: {
-          response: Date.now(),
+          timestamp: Date.now(),
         },
         data: {},
       },

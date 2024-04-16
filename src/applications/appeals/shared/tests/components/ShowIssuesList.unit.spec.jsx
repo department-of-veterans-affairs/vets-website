@@ -40,9 +40,9 @@ describe('ShowIssuesList', () => {
     const list = wrapper.find('li');
     expect(list.length).to.eq(4);
     expect(list.first().text()).to.contain('Issue 1');
-    expect(list.first().text()).to.contain('Decision date: January 1, 2021');
+    expect(list.first().text()).to.contain('Decision date: January 1st, 2021');
     expect(list.last().text()).to.contain('Issue 4');
-    expect(list.last().text()).to.contain('Decision date: February 2, 2021');
+    expect(list.last().text()).to.contain('Decision date: February 2nd, 2021');
     expect(
       wrapper.find('strong.dd-privacy-hidden[data-dd-action-name]').length,
     ).to.eq(4);
