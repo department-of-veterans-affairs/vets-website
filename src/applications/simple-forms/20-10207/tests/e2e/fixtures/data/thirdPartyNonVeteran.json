@@ -17,14 +17,6 @@
     "livingSituation": {
       "NONE": true
     },
-    "mailingAddressYesNo": true,
-    "nonVeteranMailingAddress": {
-      "country": "USA",
-      "street": "124 Any St",
-      "city": "Anytown",
-      "state": "CA",
-      "postalCode": "12345"
-    },
     "nonVeteranPhone": "1234567893",
     "veteranFullName": {
       "first": "John",
@@ -33,9 +25,6 @@
     "veteranDateOfBirth": "1980-01-01",
     "veteranId": {
       "ssn": "321540987"
-    },
-    "otherReasons": {
-      "OVER_85": true
     },
     "view:hasReceivedMedicalTreatment": true,
     "medicalTreatments": [

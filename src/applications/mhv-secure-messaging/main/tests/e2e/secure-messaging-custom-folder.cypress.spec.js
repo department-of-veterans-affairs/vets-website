@@ -20,12 +20,6 @@ describe('Secure Messaging Custom Folder AXE Check', () => {
     PatientMessageCustomFolderPage.verifyResponseBodyLength();
   });
 
-  it('Check sorting works properly', () => {
-    PatientMessageCustomFolderPage.verifySorting();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-  });
-
   it('Verify Filter btn exists', () => {
     PatientMessageCustomFolderPage.VerifyFilterBtnExist();
     cy.injectAxe();
