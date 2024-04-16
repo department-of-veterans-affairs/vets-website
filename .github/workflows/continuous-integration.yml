@@ -91,6 +91,19 @@ jobs:
           path: ${{ matrix.buildtype }}.tar.bz2
           retention-days: 1
 
+      # - name: Cache test folder
+      #   id: cache-folderApril16
+      #   uses: actions/cache@v3
+      #   env:
+      #     cache-name: cache-testfolderApril16
+      #   with:
+      #     path: ./build
+      #     key: testvjApril162
+      #     restore-keys: testvjApril162
+
+      - name: Echo Build Type
+        run: echo "Build Type: ${{ matrix.buildtype }}"
+      
       - name: Cache test folder
         id: cache-folderApril16
         uses: actions/cache@v3
@@ -98,8 +111,9 @@ jobs:
           cache-name: cache-testfolderApril16
         with:
           path: ./build
-          key: testvjApril16
-          restore-keys: testvjApril16
+          key: testvjApril162
+          restore-keys: testvjApril162
+        if: ${{ matrix.buildtype == 'vagovprod' }}
 
       - name: List files in the workspace
         run: ls -la ./build
@@ -732,16 +746,16 @@ jobs:
         #   cache-name: cache-testfolderApril16
         # with:
         #   path: ./build
-        #   key: testvjApril16
-        #   restore-keys: testvjApril16
+        #   key: testvjApril162
+        #   restore-keys: testvjApril162
 
       - name: Restore Cached Folder
         id: cache-restoreApril16
         uses: actions/cache@v3
         with:
           path: ./build
-          key: testvjApril16
-          restore-keys: testvjApril16
+          key: testvjApril162
+          restore-keys: testvjApril162
 
       - name: List restored files
         run: ls -la ./build
