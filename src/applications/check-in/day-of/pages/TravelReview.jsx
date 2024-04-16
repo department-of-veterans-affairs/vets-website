@@ -53,7 +53,7 @@ const TravelQuestion = props => {
         <dt className="vads-u-margin-top--2p5">{t('what-youre-claiming')}</dt>
         <dd className="vads-u-margin-top--0p5" data-testid="claim-list">
           <span data-testid="claim-list">
-            {t('mileage-reimbursement-only')}
+            {t('mileage-only-reimbursement')}
           </span>
         </dd>
       </dl>

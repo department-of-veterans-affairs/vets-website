@@ -7,11 +7,7 @@ import DueDate from '../DueDate';
 
 function FilesNeeded({ item }) {
   return (
-    <va-alert
-      class="primary-alert vads-u-margin-bottom--2"
-      status="warning"
-      uswds
-    >
+    <va-alert class="primary-alert vads-u-margin-bottom--2" status="warning">
       <h4 slot="headline" className="alert-title">
         {item.displayName}
       </h4>

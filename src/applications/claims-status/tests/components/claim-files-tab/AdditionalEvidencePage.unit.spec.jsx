@@ -77,6 +77,40 @@ describe('<AdditionalEvidencePage>', () => {
       expect(tree.subTree('Notification')).not.to.be.false;
     });
 
+    it('should render upload error alert when rerendered', () => {
+      const { container, rerender } = render(
+        <AdditionalEvidencePage
+          params={params}
+          claim={claim}
+          filesNeeded={[]}
+          filesOptional={[]}
+          resetUploads={() => {}}
+          clearAdditionalEvidenceNotification={() => {}}
+        />,
+      );
+      expect($('va-alert', container)).not.to.exist;
+
+      const message = {
+        title: 'Error uploading',
+        body: 'Internal server error',
+        type: 'error',
+      };
+
+      rerender(
+        <AdditionalEvidencePage
+          params={params}
+          claim={claim}
+          message={message}
+          filesNeeded={[]}
+          filesOptional={[]}
+          resetUploads={() => {}}
+          clearAdditionalEvidenceNotification={() => {}}
+        />,
+      );
+      expect($('va-alert', container)).to.exist;
+      expect($('va-alert h2', container).textContent).to.equal(message.title);
+    });
+
     it('should clear upload error when leaving', () => {
       const message = {
         title: 'test',

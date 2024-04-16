@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import {
   cnpDirectDepositLoadError,
-  cnpDirectDepositIsBlocked,
+  selectIsBlocked,
 } from '@@profile/selectors';
 
 import { CSP_IDS } from '~/platform/user/authentication/constants';
@@ -18,7 +18,7 @@ const DirectDepositWrapper = props => {
   const { children, setViewingIsRestricted } = props;
   const { profile, loading } = useSelector(state => state.user || {});
   const cnpError = useSelector(cnpDirectDepositLoadError);
-  const isBlocked = useSelector(cnpDirectDepositIsBlocked);
+  const isBlocked = useSelector(selectIsBlocked);
   const useOAuth = useSelector(isAuthenticatedWithOAuth);
 
   if (loading) {

@@ -2,11 +2,12 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
 import { createSelector } from 'reselect';
 
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { isFullDate } from 'platform/forms/validations';
 import {
-  serviceNumberSchema,
+  currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
   serviceNumberUI,
+  serviceNumberSchema,
   checkboxGroupUI,
   checkboxGroupSchema,
   titleUI,
@@ -14,15 +15,18 @@ import {
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
 const { placeOfSeparation } = fullSchemaPensions.properties;
-const { dateRange } = fullSchemaPensions.definitions;
 
 import { serviceBranchLabels } from '../../../labels';
 import { WartimeWarningAlert } from '../../../components/FormAlerts';
 import { servedDuringWartime } from '../../../helpers';
 import { validateServiceBirthDates } from '../../../validation';
+import ServicePeriodReview from '../../../components/ServicePeriodReview';
 
 /** @type {PageSchema} */
 export default {
+  path: 'military/history',
+  title: 'Service period',
+  CustomPageReview: ServicePeriodReview,
   uiSchema: {
     ...titleUI('Service period'),
     serviceBranch: checkboxGroupUI({
@@ -30,7 +34,7 @@ export default {
       labels: serviceBranchLabels,
       required: true,
     }),
-    activeServiceDateRange: dateRangeUI(
+    activeServiceDateRange: currentOrPastDateRangeUI(
       'Date initially entered active duty',
       'Final release date from active duty',
       'Date initially entered active duty must be before final date released from active duty',
@@ -74,10 +78,7 @@ export default {
     required: ['serviceBranch', 'activeServiceDateRange'],
     properties: {
       serviceBranch: checkboxGroupSchema(Object.keys(serviceBranchLabels)),
-      activeServiceDateRange: {
-        ...dateRange,
-        required: ['from', 'to'],
-      },
+      activeServiceDateRange: currentOrPastDateRangeSchema,
       serviceNumber: serviceNumberSchema,
       placeOfSeparation,
       'view:wartimeWarning': {

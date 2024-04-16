@@ -20,6 +20,21 @@ const EnhancedEligibilityDescription = () => (
       these descriptions:
     </p>
     <ul>
+      <li>
+        You were discharged for a disability resulting from something that
+        happened to you in the line of duty.
+      </li>
+      <li>
+        You were discharged for a disability that got worse in the line of duty.
+      </li>
+      <li>
+        You’re a combat Veteran discharged or released on or after September,
+        11, 2001.{' '}
+        <a href="/health-care/eligibility/active-duty" target="_blank">
+          Learn more about eligibility for transitioning active-duty service
+          members and returning combat Veterans (opens in new tab)
+        </a>
+      </li>
       <li>You’re a former Prisoner of War (POW).</li>
       <li>You received a Purple Heart.</li>
       <li>You received a Medal of Honor.</li>

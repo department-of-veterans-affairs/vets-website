@@ -105,12 +105,13 @@ class ReviewCollapsibleChapter extends React.Component {
     }
   };
 
-  goToPath = customPath => {
+  goToPath = (customPath, options = {}) => {
     const { form, pageList, location } = this.props;
+    const { force } = options;
 
     const path =
       customPath &&
-      checkValidPagePath(pageList, this.props.form.data, customPath)
+      (force || checkValidPagePath(pageList, this.props.form.data, customPath))
         ? customPath
         : getPreviousPagePath(pageList, form.data, location.pathname);
 
@@ -119,6 +120,7 @@ class ReviewCollapsibleChapter extends React.Component {
 
   shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
     expandedPages.length === 1 &&
+    typeof pageTitle === 'string' &&
     (chapterTitle || '').toLowerCase() === pageTitle.toLowerCase();
 
   hasValidationError = (key, index) => {

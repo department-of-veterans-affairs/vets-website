@@ -23,5 +23,6 @@ export default {
     properties: {
       otherReasons: checkboxGroupSchema(Object.keys(OTHER_REASONS_3RD_PTY_VET)),
     },
+    required: ['otherReasons'],
   },
 };

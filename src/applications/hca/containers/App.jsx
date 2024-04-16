@@ -7,7 +7,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import { selectProfile } from '~/platform/user/selectors';
 
-import { getEnrollmentStatus as getEnrollmentStatusAction } from '../utils/actions';
+import { fetchEnrollmentStatus } from '../utils/actions/enrollment-status';
 import { fetchTotalDisabilityRating } from '../utils/actions/disability-rating';
 import { selectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
@@ -150,7 +150,7 @@ App.propTypes = {
 
 const mapDispatchToProps = {
   setFormData: setData,
-  getEnrollmentStatus: getEnrollmentStatusAction,
+  getEnrollmentStatus: fetchEnrollmentStatus,
   getDisabilityRating: fetchTotalDisabilityRating,
 };
 

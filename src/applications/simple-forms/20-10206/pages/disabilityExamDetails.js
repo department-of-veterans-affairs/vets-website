@@ -48,8 +48,8 @@ export default {
           'ui:webComponentField': VaMemorableDateField,
           'ui:validations': [validateCurrentOrPastMemorableDate],
           'ui:errorMessages': {
-            pattern: 'Please enter a valid exam date',
-            required: 'Please enter your exam date',
+            pattern: 'Enter a valid exam date',
+            required: 'Enter your exam date',
           },
           'ui:options': {
             hint: 'It’s OK to estimate.',

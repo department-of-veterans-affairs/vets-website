@@ -1,7 +1,7 @@
 import environment from 'platform/utilities/environment';
 
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-import { FileField } from '../components/FileField';
+import FileField from 'platform/forms-system/src/js/fields/FileField';
 import TerminalIllnessViewField from '../components/TerminalIllnessViewField';
 
 import { TERMINAL_ILLNESS_DESCRIPTION } from '../config/constants';

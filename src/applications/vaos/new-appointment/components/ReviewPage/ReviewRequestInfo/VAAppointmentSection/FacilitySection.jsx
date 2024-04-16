@@ -18,7 +18,7 @@ export default function FacilitySection({ facility }) {
 
   return (
     <>
-      <h2 className="vads-u-font-size--h3 vaos-appts__block-label">Facility</h2>
+      <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">Facility</h2>
       {facility.name}
       <br />
       {facility.address?.city}, <State state={facility.address?.state} />

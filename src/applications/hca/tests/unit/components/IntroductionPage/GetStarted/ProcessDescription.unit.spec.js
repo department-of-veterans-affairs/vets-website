@@ -24,9 +24,9 @@ describe('hca <ProcessDescription>', () => {
     mockStore: {
       getState: () => ({
         hcaEnrollmentStatus: {
-          noESRRecordFound: true,
+          vesRecordFound: false,
           hasServerError: false,
-          isLoadingApplicationStatus: false,
+          loading: false,
         },
         form: {
           formId: formConfig.formId,

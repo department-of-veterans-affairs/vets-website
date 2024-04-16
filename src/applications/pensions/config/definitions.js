@@ -7,6 +7,7 @@ export const {
   spouseVaFileNumber,
   liveWithSpouse,
   spouseIsVeteran,
+  netWorthEstimation,
 } = fullSchemaPensions.properties;
 
 export const {
@@ -21,6 +22,7 @@ export const {
   ssn,
   centralMailVaFile,
   bankAccount,
+  files,
 } = fullSchemaPensions.definitions;
 
 export const defaultDefinitions = {

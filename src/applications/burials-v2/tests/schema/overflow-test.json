@@ -1,0 +1,153 @@
+{
+  "processOption": true,
+  "additionalEvidence": [
+    {
+      "name": "Screenshot from 2024-03-14 09-20-38.png",
+      "size": 172662,
+      "confirmationCode": "041cd572-8cc3-4fe8-ad95-2872b5054194",
+      "isEncrypted": false
+    }
+  ],
+  "transportationReceipts": [
+    {
+      "name": "Screenshot from 2024-03-14 11-36-14.png",
+      "size": 164821,
+      "confirmationCode": "44300dbd-5e15-4a5d-b78b-627b64c8232f",
+      "isEncrypted": false
+    },
+    {
+      "name": "Screenshot from 2024-03-14 09-20-38.png",
+      "size": 172662,
+      "confirmationCode": "baa92de4-c4b9-45ec-88fa-80a22003651f",
+      "isEncrypted": false
+    },
+    {
+      "name": "Screenshot from 2024-03-07 09-28-35.png",
+      "size": 43149,
+      "confirmationCode": "97f17a17-2c9f-48ca-b4fd-32a474ec5b9b",
+      "isEncrypted": false
+    }
+  ],
+  "transportationExpenses": true,
+  "plotExpenseResponsibility": true,
+  "govtContributions": true,
+  "amountGovtContribution": "99999999999999",
+  "cemeteryLocation": {
+    "name": "Really long cemetery name",
+    "zip": "78099"
+  },
+  "cemetaryLocationQuestion": "cemetery",
+  "nationalOrFederal": true,
+  "name": "Longer Cemetery Name",
+  "finalRestingPlace": {
+    "location": "other",
+    "other": "Longer explanation of the Veteran's final resting place location"
+  },
+  "previouslyReceivedAllowance": true,
+  "burialExpenseResponsibility": true,
+  "view:allowanceStatement": {
+    "confirmation": {
+      "checkBox": true
+    }
+  },
+  "burialAllowanceRequested": {
+    "service": true,
+    "nonService": true,
+    "unclaimed": true
+  },
+  "view:claimedBenefits": {
+    "burialAllowance": true,
+    "plotAllowance": true,
+    "transportation": true
+  },
+  "previousNames": [
+    {
+      "first": "Tommy",
+      "middle": "Kealohilaniokalanikapunanaamaluhia",
+      "last": "Riddle",
+      "suffix": "Jr.",
+      "serviceBranch": "Army and Air Force"
+    }
+  ],
+  "view:servedUnderOtherNames": true,
+  "militaryServiceNumber": "1234567",
+  "toursOfDuty": [
+    {
+      "serviceBranch": "Army",
+      "dateRange": {
+        "from": "1940-02-19",
+        "to": "1998-09-12"
+      },
+      "placeOfEntry": "Jacksonville North Carolina Military Base",
+      "placeOfSeparation": "Jacksonville North Carolina Military Base",
+      "rank": "Sergeant First Class",
+      "unit": "1st Battalion, 505th Parachute Infantry Regiment, 3rd Brigade Combat Team, 82nd Airborne Division"
+    },
+    {
+      "serviceBranch": "Air Force Reserve",
+      "dateRange": {
+        "from": "2005-03-05",
+        "to": "2016-02-15"
+      },
+      "placeOfEntry": "Nellis Air Force Base, Las Vegas Nevada",
+      "placeOfSeparation": "Nellis Air Force Base, Las Vegas Nevada",
+      "rank": "Technical Sergeant ",
+      "unit": "934th Airlift Wing, 96th Airlift Squadron, Air Force Reserve Command"
+    }
+  ],
+  "view:separationDocuments": false,
+  "deathDate": "1998-05-02",
+  "burialDate": "1998-05-02",
+  "view:burialDateWarning": {},
+  "veteranFullName": {
+    "first": "Tom",
+    "last": "Riddle",
+    "suffix": "Jr."
+  },
+  "veteranSocialSecurityNumber": "333445556",
+  "veteranDateOfBirth": "1926-12-21",
+  "claimantEmail": "extremely.long.username@overflow-test.org",
+  "claimantPhone": "9008675309",
+  "claimantIntPhone": "9008675309",
+  "claimantFullName": {
+    "first": "Kahealani",
+    "last": "Riddle"
+  },
+  "claimantSocialSecurityNumber": "333445555",
+  "claimantDateOfBirth": "1991-07-21",
+  "formV2": true,
+  "relationshipToVeteran": "spouse",
+  "deathCertificate": [
+    {
+      "name": "Screenshot from 2024-03-14 09-26-05.png",
+      "size": 95183,
+      "confirmationCode": "d56723cb-7de1-4ae6-b835-215061ac4e50",
+      "isEncrypted": false
+    }
+  ],
+  "militarySeparationDocuments": [
+    {
+      "name": "Screenshot from 2024-03-07 09-28-35.png",
+      "size": 43149,
+      "confirmationCode": "920d72a5-1ccf-47fc-b316-cca4f9f53453",
+      "isEncrypted": false
+    }
+  ],
+  "locationOfDeath": {
+    "location": "stateVeteransHome",
+    "stateVeteransHome": {
+      "facilityName": "CA State facility",
+      "facilityLocation": "Modesto, CA"
+    }
+  },
+  "claimantAddress": {
+    "view:militaryBaseDescription": {},
+    "country": "USA",
+    "street": "123 Fake St.",
+    "street2": "Apt 1033",
+    "city": "Fakesville",
+    "state": "FL",
+    "postalCode": "12345"
+  },
+  "tribalLandLocation": {}
+}

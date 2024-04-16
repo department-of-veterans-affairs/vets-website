@@ -4,7 +4,13 @@ import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
 } from '../../util/constants';
-import { validateField, dateFormat, getImageUri } from '../../util/helpers';
+import {
+  validateField,
+  dateFormat,
+  getImageUri,
+  createMedicationDescription,
+  createNoDescriptionText,
+} from '../../util/helpers';
 
 const PrescriptionPrintOnly = props => {
   const { rx, hideLineBreak, refillHistory, isDetailsRx } = props;
@@ -180,6 +186,12 @@ const PrescriptionPrintOnly = props => {
               <div className="print-only-rx-details-container">
                 {refillHistory.map((entry, i) => {
                   const index = refillHistory.length - i - 1;
+                  let description = createMedicationDescription(entry);
+                  if (description == null) {
+                    const phone =
+                      entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+                    description = createNoDescriptionText(phone);
+                  }
                   return (
                     <div key={index}>
                       <h4>
@@ -193,11 +205,12 @@ const PrescriptionPrintOnly = props => {
                       </p>
                       <p>
                         <strong>Shipped on:</strong>{' '}
-                        {entry?.trackingList?.[0]?.[1]?.completeDateTime
-                          ? dateFormat(
-                              entry.trackingList[0][1].completeDateTime,
-                            )
+                        {entry?.trackingList?.[0]?.completeDateTime
+                          ? dateFormat(entry.trackingList[0].completeDateTime)
                           : 'None noted'}
+                      </p>
+                      <p>
+                        <strong>Description:</strong> {description}
                       </p>
                       <div className="line-break" />
                     </div>

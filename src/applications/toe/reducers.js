@@ -32,14 +32,27 @@ const handleDirectDepositApi = action => {
     return {};
   }
 
+  const accountNumber = action?.response?.data?.attributes?.paymentAccount
+    ? action?.response?.data?.attributes?.paymentAccount?.accountNumber
+    : action?.response?.data?.attributes?.accountNumber;
+  const originalRoutingNumber = action?.response?.data?.attributes
+    ?.paymentAccount
+    ? action?.response?.data?.attributes?.paymentAccount?.routingNumber
+    : action?.response?.data?.attributes?.financialInstitutionRoutingNumber;
+  const routingNumber = action?.response?.data?.attributes?.paymentAccount
+    ? action?.response?.data?.attributes?.paymentAccount?.routingNumber
+    : action?.response?.data?.attributes?.financialInstitutionRoutingNumber;
+
+  const accountType = action?.response?.data?.attributes?.paymentAccount
+    ? action?.response?.data?.attributes?.paymentAccount?.accountType
+    : action?.response?.data?.attributes?.accountType;
+
   return {
-    ...action?.response?.data?.attributes,
-    [formFields.originalAccountNumber]:
-      action?.response?.data?.attributes?.accountNumber,
-    [formFields.originalRoutingNumber]:
-      action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
-    [formFields.routingNumber]:
-      action?.response?.data?.attributes?.financialInstitutionRoutingNumber,
+    [formFields.originalAccountNumber]: accountNumber,
+    [formFields.originalRoutingNumber]: originalRoutingNumber,
+    [formFields.accountNumber]: accountNumber,
+    [formFields.routingNumber]: routingNumber,
+    [formFields.accountType]: accountType?.toLowerCase(),
   };
 };
 

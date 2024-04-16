@@ -1,0 +1,31 @@
+{
+  "preparerIdentification": "VETERAN",
+  "view:activePensionITF": {
+    "expirationDate": "2025-01-30T17:56:30.512Z",
+    "status": "active"
+  },
+  "benefitSelectionCompensation": true,
+  "veteranFullName": {
+    "first": "Veteran",
+    "middle": "Elddim",
+    "last": "Eteranvay"
+  },
+  "veteranDateOfBirth": "1962-01-21",
+  "veteranId": {
+    "ssn": "246813579",
+    "vaFileNumber": "24681357"
+  },
+  "veteranMailingAddress": {
+    "isMilitary": true,
+    "country": "USA",
+    "street": "867 Five St",
+    "street2": "Call me",
+    "street3": "Any time",
+    "city": "APO",
+    "state": "AA",
+    "postalCode": "34055"
+  },
+  "veteranPhone": "1122334455",
+  "veteranInternationalPhone": "5544332211",
+  "veteranEmail": "veteran@person.com"
+}

@@ -101,7 +101,7 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
           name={benefitType}
           onInput={handleChange}
           value={inputValue}
-          className="no-wrap input-size-2"
+          width="md"
           required
           uswds
         />
