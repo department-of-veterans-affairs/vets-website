@@ -86,7 +86,12 @@ describe('VA prescription Config', () => {
   it('should show refill information', () => {
     const txt = buildVAPrescriptionTXT(prescriptionDetails.data.attributes);
     expect(txt).to.include('Refill history\n');
-    expect(txt).to.include('Description: Purple, hexagon');
+    expect(txt).to.include('Description:');
+    expect(txt).to.include(
+      'Note: If the medication you’re taking doesn’t match this description',
+    );
+    expect(txt).to.include('Shape: Hexagon');
+    expect(txt).to.include('Color: Purple');
   });
 });
 

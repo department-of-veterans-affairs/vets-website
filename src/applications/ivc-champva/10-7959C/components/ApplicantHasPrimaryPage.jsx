@@ -11,6 +11,12 @@ const PROPERTY_NAMES = {
   secondary: '_unused',
 };
 
+const SECONDARY_PROPERTY_NAMES = {
+  keyname: 'applicantHasSecondary',
+  primary: 'hasSecondary',
+  secondary: '_unused',
+};
+
 function generateOptions({ data, pagePerItemIndex }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
   const prompt = `Does ${
@@ -25,22 +31,53 @@ function generateOptions({ data, pagePerItemIndex }) {
   };
 }
 
-export function ApplicantHasPrimaryPage(props) {
-  const newProps = {
-    ...props,
-    ...PROPERTY_NAMES,
-    genOp: generateOptions,
+function secondaryGenerateOptions({ data, pagePerItemIndex }) {
+  const bp = appRelBoilerplate({ data, pagePerItemIndex });
+  const prompt = `Does ${
+    bp.applicant
+  } have secondary health insurance to add or update?`;
+  return {
+    ...bp,
+    options: yesNoOptions,
+    relativeBeingVerb: `${bp.relative} ${bp.beingVerbPresent}`,
+    customTitle: `${bp.applicant}’s secondary health insurance`,
+    description: prompt,
   };
-  return ApplicantRelationshipPage(newProps);
 }
-export function ApplicantHasPrimaryReviewPage(props) {
-  const newProps = {
+
+export function ApplicantHasPrimaryPage(props) {
+  return ApplicantRelationshipPage({
     ...props,
     ...PROPERTY_NAMES,
     genOp: generateOptions,
-  };
-  return ApplicantRelationshipReviewPage(newProps);
+  });
+}
+
+export function ApplicantHasPrimaryReviewPage(props) {
+  return ApplicantRelationshipReviewPage({
+    ...props,
+    ...PROPERTY_NAMES,
+    genOp: generateOptions,
+  });
+}
+
+export function ApplicantHasSecondaryPage(props) {
+  return ApplicantRelationshipPage({
+    ...props,
+    ...SECONDARY_PROPERTY_NAMES,
+    genOp: secondaryGenerateOptions,
+  });
+}
+
+export function ApplicantHasSecondaryReviewPage(props) {
+  return ApplicantRelationshipReviewPage({
+    ...props,
+    ...SECONDARY_PROPERTY_NAMES,
+    genOp: secondaryGenerateOptions,
+  });
 }
 
 ApplicantHasPrimaryPage.propTypes = pageProps;
 ApplicantHasPrimaryReviewPage.propTypes = reviewPageProps;
+ApplicantHasSecondaryPage.propTypes = pageProps;
+ApplicantHasSecondaryReviewPage.propTypes = reviewPageProps;
