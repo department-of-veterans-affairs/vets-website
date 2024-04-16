@@ -96,7 +96,7 @@ const PrintDownload = props => {
         <div className="vads-u-margin-bottom--3">
           <va-alert status="error" uswds>
             <h2 slot="headline">We can’t download your records right now</h2>
-            <p className="vads-u-margin-bottom--0">
+            <p>
               We’re sorry. There’s a problem with our system. Check back later.
             </p>
             <p className="vads-u-margin--0">
