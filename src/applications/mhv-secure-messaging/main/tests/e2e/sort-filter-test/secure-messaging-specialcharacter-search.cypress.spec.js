@@ -22,13 +22,7 @@ describe('Secure Messaging Basic Search Tests', () => {
     PatientBasicSearchPage.verifyHighlightedText(searchText);
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('Basic Search Highlight Drafts Check', () => {
@@ -38,12 +32,6 @@ describe('Secure Messaging Basic Search Tests', () => {
     PatientBasicSearchPage.verifyHighlightedText(searchText);
     cy.injectAxe();
 
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

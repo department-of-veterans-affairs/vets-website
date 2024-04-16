@@ -107,11 +107,8 @@ describe('<AccountUpdateView />', () => {
       .exist;
     expect(container.querySelector('va-text-input[label="Routing number"]')).to
       .exist;
-    expect(
-      container.querySelector(
-        'va-text-input[label="Account number (No more than 17 digits)"]',
-      ),
-    ).to.exist;
+    expect(container.querySelector('va-text-input[label="Account number"]')).to
+      .exist;
   });
 
   it('renders the UpdateErrorAlert when saveError is provided', () => {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -40,6 +40,7 @@ import {
   generateVaccinesIntro,
   generateVaccinesContent,
 } from '../util/pdfHelpers/vaccines';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -58,6 +59,7 @@ const Vaccines = props => {
       ],
   );
   const activeAlert = useAlerts(dispatch);
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useListRefresh({
     listState,
@@ -86,6 +88,7 @@ const Vaccines = props => {
   );
 
   const generateVaccinesPdf = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateVaccinesIntro();
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVaccinesContent(vaccines) };
@@ -94,6 +97,7 @@ const Vaccines = props => {
   };
 
   const generateVaccineListItemTxt = item => {
+    setDownloadStarted(true);
     return `
 ${txtLine}\n\n
 ${item.name}\n
@@ -132,6 +136,7 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
           Go to your allergy records
         </Link>
       </p>
+      {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.VACCINE}
@@ -142,7 +147,7 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
       >
         <PrintDownload
           list
-          download={generateVaccinesPdf}
+          downloadPdf={generateVaccinesPdf}
           allowTxtDownloads={allowTxtDownloads}
           downloadTxt={generateVaccinesTxt}
         />

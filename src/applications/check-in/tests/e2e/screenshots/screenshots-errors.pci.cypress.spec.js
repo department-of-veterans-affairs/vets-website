@@ -8,6 +8,7 @@
     await import('../../../pre-check-in/tests/e2e/errors/max.validation.failed.cypress.spec');
     await import('../../../pre-check-in/tests/e2e/errors/post-pre-check-in/error.in.body.cypress.spec');
     await import('../../../pre-check-in/tests/e2e/app-reload/reload.page.uuid.error.cypress.spec');
+    await import('../../../pre-check-in/tests/e2e/app-reload/reload.page.error.cypress.spec');
   }
 })();
 describe('Screenshots PCI', () => {

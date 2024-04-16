@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
+import moment from 'moment';
 import formConfig from '../../config/form';
 
 describe('VA Medical Records', () => {
@@ -230,6 +231,138 @@ describe('VA Medical Records', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.calledOnce).to.be.true;
+    form.unmount();
+  });
+
+  it('should submit when treatment start date year without month equals earliest service start date year', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ...claimType,
+          ratedDisabilities,
+          vaTreatmentFacilities: [
+            {
+              treatmentCenterName: 'Sommerset VA Clinic',
+              treatedDisabilityNames: {
+                diabetesmelitus: true,
+              },
+              treatmentDateRange: {
+                from: '2001-XX-XX',
+              },
+              treatmentCenterAddress: {
+                country: 'USA',
+                city: 'Sommerset',
+                state: 'VA',
+              },
+            },
+          ],
+          serviceInformation: {
+            servicePeriods: [
+              { dateRange: { from: '2012-01-12' }, serviceBranch: 'Army' },
+              { dateRange: { from: '2001-05-30' }, serviceBranch: 'Army' },
+            ],
+          },
+        }}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.calledOnce).to.be.true;
+    form.unmount();
+  });
+
+  it('should not submit when treatment start date includes a month but no year', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ...claimType,
+          ratedDisabilities,
+          vaTreatmentFacilities: [
+            {
+              treatmentCenterName: 'Sommerset VA Clinic',
+              treatedDisabilityNames: {
+                diabetesmelitus: true,
+              },
+              treatmentDateRange: {
+                from: 'XXXX-05-XX',
+              },
+              treatmentCenterAddress: {
+                country: 'USA',
+                city: 'Sommerset',
+                state: 'VA',
+              },
+            },
+          ],
+          serviceInformation: {
+            servicePeriods: [
+              { dateRange: { from: '2012-01-12' } },
+              { dateRange: { from: '2001-06-30' } },
+            ],
+          },
+        }}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should not submit when treatment start date is in the future', () => {
+    const onSubmit = sinon.spy();
+    const futureDate = `${moment()
+      .add(1, 'month')
+      .format('YYYY-MM')}-XX`;
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ...claimType,
+          ratedDisabilities,
+          vaTreatmentFacilities: [
+            {
+              treatmentCenterName: 'Sommerset VA Clinic',
+              treatedDisabilityNames: {
+                diabetesmelitus: true,
+              },
+              treatmentDateRange: {
+                from: futureDate,
+              },
+              treatmentCenterAddress: {
+                country: 'USA',
+                city: 'Sommerset',
+                state: 'VA',
+              },
+            },
+          ],
+          serviceInformation: {
+            servicePeriods: [
+              { dateRange: { from: '2012-01-12' } },
+              { dateRange: { from: '2001-06-30' } },
+            ],
+          },
+        }}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
