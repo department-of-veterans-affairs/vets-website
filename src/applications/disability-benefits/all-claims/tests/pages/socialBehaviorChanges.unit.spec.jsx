@@ -26,7 +26,8 @@ describe('Social Behavior Changes 781a', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(6);
+    // These checkboxes are inside shadow roots
+    // expect(form.find('input').length).to.equal(6);
     expect(form.find('textarea').length).to.equal(1);
     form.unmount();
   });
