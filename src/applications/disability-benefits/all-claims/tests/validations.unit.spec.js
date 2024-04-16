@@ -217,6 +217,31 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).to.be.false;
     });
 
+    it('should not add error if treatment start date year is the same as earliest active service start date year', () => {
+      const err = { addError: sinon.spy() };
+
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { from: '2003-03-12' }, serviceBranch: 'Army' },
+            {
+              dateRange: { from: '2000-01-14' },
+              serviceBranch: 'Coast Guard Reserves',
+            },
+            { dateRange: { from: '2011-12-25' }, serviceBranch: 'Coast Guard' },
+            // ignored
+            {
+              dateRange: { from: '1990-10-11' },
+              serviceBranch: '',
+            },
+          ],
+        },
+      };
+
+      startedAfterServicePeriod(err, '2000-XX-XX', formData);
+      expect(err.addError.called).to.be.false;
+    });
+
     it('should not add error if treatment start date is after earliest active service start date', () => {
       const err = { addError: sinon.spy() };
 
@@ -240,6 +265,31 @@ describe('526 All Claims validations', () => {
 
       startedAfterServicePeriod(err, '2000-02-XX', formData);
       expect(err.addError.called).to.be.false;
+    });
+
+    it('should add error if only treatment start date month is entered', () => {
+      const err = { addError: sinon.spy() };
+
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { from: '2003-03-12' }, serviceBranch: 'Army' },
+            {
+              dateRange: { from: '2000-01-14' },
+              serviceBranch: 'Army Reserves',
+            },
+            { dateRange: { from: '2011-12-25' }, serviceBranch: 'Army' },
+            // ignored
+            {
+              dateRange: { from: '1990-10-11' },
+              serviceBranch: '', // missing branch name
+            },
+          ],
+        },
+      };
+
+      startedAfterServicePeriod(err, 'XXXX-12-XX', formData);
+      expect(err.addError.calledOnce).to.be.true;
     });
 
     it('should not add error if serviceInformation is missing', () => {
