@@ -65,7 +65,7 @@ import {
   applicantProviderSchema,
   applicantInsuranceEffectiveDateSchema,
   applicantInsuranceExpirationDateSchema,
-  applicantPrimaryEOBSchema,
+  applicantInsuranceEOBSchema,
   applicantInsuranceThroughEmployerSchema,
   applicantInsurancePrescriptionSchema,
   applicantPrimaryTypeSchema,
@@ -91,6 +91,8 @@ import {
 import {
   ApplicantPrimaryEOBPage,
   ApplicantPrimaryEOBReviewPage,
+  ApplicantSecondaryEOBPage,
+  ApplicantSecondaryEOBReviewPage,
 } from '../components/ApplicantPrimaryEOBPage';
 import {
   ApplicantPrimaryPrescriptionPage,
@@ -429,8 +431,8 @@ const formConfig = {
             } explanation of benefits`,
           CustomPage: ApplicantPrimaryEOBPage,
           CustomPageReview: ApplicantPrimaryEOBReviewPage,
-          uiSchema: applicantPrimaryEOBSchema.uiSchema,
-          schema: applicantPrimaryEOBSchema.schema,
+          uiSchema: applicantInsuranceEOBSchema(true).uiSchema,
+          schema: applicantInsuranceEOBSchema(true).schema,
         },
         primaryType: {
           path: ':index/primary-insurance-type',
@@ -552,6 +554,20 @@ const formConfig = {
           CustomPageReview: ApplicantSecondaryPrescriptionReviewPage,
           uiSchema: applicantInsurancePrescriptionSchema(false).uiSchema,
           schema: applicantInsurancePrescriptionSchema(false).schema,
+        },
+        secondaryEOB: {
+          path: ':index/secondary-eob',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } explanation of benefits for secondary insurance`,
+          CustomPage: ApplicantSecondaryEOBPage,
+          CustomPageReview: ApplicantSecondaryEOBReviewPage,
+          uiSchema: applicantInsuranceEOBSchema(false).uiSchema,
+          schema: applicantInsuranceEOBSchema(false).schema,
         },
       },
     },

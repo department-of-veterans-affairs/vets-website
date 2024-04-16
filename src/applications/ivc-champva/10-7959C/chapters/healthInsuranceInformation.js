@@ -181,20 +181,23 @@ export function applicantInsurancePrescriptionSchema(isPrimary) {
   };
 }
 
-export const applicantPrimaryEOBSchema = {
-  uiSchema: {
-    applicants: { items: {} },
-  },
-  schema: applicantListSchema([], {
-    applicantPrimaryEOB: {
-      type: 'object',
-      properties: {
-        providesEOB: { type: 'string' },
-        _unused: { type: 'string' },
-      },
+export function applicantInsuranceEOBSchema(isPrimary) {
+  const keyname = `applicant${isPrimary ? 'Primary' : 'Secondary'}EOB`;
+  return {
+    uiSchema: {
+      applicants: { items: {} },
     },
-  }),
-};
+    schema: applicantListSchema([keyname], {
+      [keyname]: {
+        type: 'object',
+        properties: {
+          providesEOB: { type: 'string' },
+          _unused: { type: 'string' },
+        },
+      },
+    }),
+  };
+}
 
 export const applicantPrimaryTypeSchema = {
   uiSchema: {
