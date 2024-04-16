@@ -34,10 +34,12 @@ export const displayConditionsMet = (SHORT_NAME, formResponses) => {
     const forkedReqs = displayConditionsForShortName?.FORK;
     let anyForkConditionsMet = false;
 
+    // Iterates through the entries available for the current questions reqs.
     for (const forkIndex of Object.keys(forkedReqs)) {
       const forkConditions = forkedReqs[forkIndex];
       let allConditionsMet = true;
 
+      // Iterates through the responses required and checks for valid conditions.
       for (const conditionKey of Object.keys(forkConditions)) {
         const requiredResponses = forkConditions[conditionKey];
         const formResponse = formResponses?.[conditionKey];

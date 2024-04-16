@@ -65,7 +65,7 @@ describe('Previous Application Year Page', () => {
       </Provider>,
     );
 
-    expect(screen.getByTestId('duw-prev_application')).to.exist;
+    expect(screen.getByTestId('duw-prev_application_year')).to.exist;
   });
 
   it('should redirect to home when the intro page has not been viewed', () => {
