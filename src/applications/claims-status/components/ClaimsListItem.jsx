@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 import {
   getClaimType,
   buildDateFormatter,
@@ -47,6 +50,14 @@ CommunicationsItem.propTypes = {
   icon: PropTypes.string.isRequired,
 };
 
+const clickHandler = href => {
+  recordEvent({
+    event: 'claim-list-item-link',
+    'gtm.element.textContent': 'Claim List Item View details',
+    'gtm.elementUrl': environment.API_URL + href,
+  });
+};
+
 export default function ClaimsListItem({ claim }) {
   const {
     claimDate,
@@ -91,7 +102,13 @@ export default function ClaimsListItem({ claim }) {
           An item in the claim needs your attention
         </va-alert>
       )}
-      <ClaimCard.Link ariaLabel={ariaLabel} href={href} />
+      <ClaimCard.Link
+        ariaLabel={ariaLabel}
+        href={href}
+        onClick={() => {
+          clickHandler(href);
+        }}
+      />
     </ClaimCard>
   );
 }

@@ -2,6 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Scroll from 'react-scroll';
 
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 import {
   VaFileInput,
   VaModal,
@@ -44,6 +47,14 @@ const scrollToFile = position => {
 };
 
 const { Element } = Scroll;
+
+const clickHandler = href => {
+  recordEvent({
+    event: 'cst-add-files-form-submitted',
+    'gtm.element.textContent': 'CST Add Files Form submitted',
+    'gtm.elementUrl': environment.API_URL + href,
+  });
+};
 
 class AddFilesForm extends React.Component {
   constructor(props) {
@@ -272,7 +283,10 @@ class AddFilesForm extends React.Component {
         <VaButton
           id="submit"
           text="Submit files for review"
-          onClick={this.submit}
+          onClick={() => {
+            clickHandler();
+            this.submit();
+          }}
         />
         <va-additional-info
           class="vads-u-margin-y--3"

@@ -7,6 +7,8 @@ import { getScrollOptions } from '@department-of-veterans-affairs/platform-utili
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+
 import AddFilesForm from './AddFilesForm';
 import Notification from '../Notification';
 import FilesOptional from './FilesOptional';
@@ -41,6 +43,13 @@ const scrollToError = () => {
   setTimeout(() => {
     scrollTo('uploadError', options);
     setFocus('.usa-alert-error');
+  });
+};
+
+const clickHandler = () => {
+  recordEvent({
+    event: 'claim-files-tab-additional-evidence-submission',
+    'gtm.element.textContent': 'Claim Files Tab Additional Evidence Submission',
   });
 };
 
@@ -133,6 +142,7 @@ class AdditionalEvidencePage extends React.Component {
                 files={this.props.files}
                 backUrl={lastPage ? `/${lastPage}` : filesPath}
                 onSubmit={() => {
+                  clickHandler();
                   // START lighthouse_migration
                   if (this.props.documentsUseLighthouse) {
                     this.props.submitFilesLighthouse(
