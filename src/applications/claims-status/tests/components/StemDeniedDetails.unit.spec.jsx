@@ -2,11 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
 import sinon from 'sinon';
+import { renderWithRouter } from '../utils';
 
 import * as recordEventModule from '~/platform/monitoring/record-event';
 
 import StemDeniedDetails from '../../components/StemDeniedDetails';
-import { renderWithRouter } from '../utils';
 
 const props = {
   deniedAt: '2024-01-01',
