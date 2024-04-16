@@ -132,8 +132,7 @@ const formConfig = {
       pages: {
         page3: {
           path: 'home-address',
-          title: 'Home address',
-          reviewTitle: 'Home Address',
+          title: "Veteran's Home address",
           uiSchema: {
             ...titleUI(
               'Home Address',
@@ -169,8 +168,7 @@ const formConfig = {
       pages: {
         page4: {
           path: 'mailing-address',
-          title: 'Mailing address',
-          reviewTitle: 'Mailing Address',
+          title: "Veteran's Mailing address",
           uiSchema: {
             ...titleUI(
               'Mailing address',
