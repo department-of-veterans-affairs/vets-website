@@ -61,9 +61,7 @@ export function applicantProviderSchema(isPrimary) {
   return {
     uiSchema: {
       applicants: {
-        'ui:options': {
-          viewField: ApplicantField,
-        },
+        'ui:options': { viewField: ApplicantField },
         items: {
           ...titleUI(
             ({ formData }) =>
@@ -92,9 +90,7 @@ export function applicantInsuranceEffectiveDateSchema(isPrimary) {
   return {
     uiSchema: {
       applicants: {
-        'ui:options': {
-          viewField: ApplicantField,
-        },
+        'ui:options': { viewField: ApplicantField },
         items: {
           ...titleUI(
             ({ formData }) =>
