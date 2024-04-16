@@ -221,12 +221,23 @@ const hasPhoneAppointments = appointments => {
  */
 
 const appointmentIcon = appointment => {
+  let iconClass;
+  switch (appointment?.kind) {
+    case 'clinic':
+    case 'cvt':
+      iconClass = 'fa-building';
+      break;
+    case 'vvc':
+      iconClass = 'fa-video';
+      break;
+    default:
+      iconClass = 'fa-phone';
+      break;
+  }
+
   return (
     <i
-      aria-label="Appointment type"
-      className={`fas ${
-        appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'
-      }`}
+      className={`fas ${iconClass}`}
       aria-hidden="true"
       data-testid="appointment-icon"
     />

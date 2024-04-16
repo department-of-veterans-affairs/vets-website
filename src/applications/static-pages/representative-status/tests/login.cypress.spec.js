@@ -19,7 +19,18 @@ const setup = ({ authenticated, isEnabled = true } = {}) => {
 
 describe('Unauthenticated', () => {
   beforeEach(() => {
-    setup({ isEnabled: false });
+    setup({ authenticated: false });
+    cy.injectAxe();
+  });
+
+  it('Accessibility check', () => {
+    cy.axeCheck();
+  });
+});
+
+describe('Authenticated', () => {
+  beforeEach(() => {
+    setup({ authenticated: true });
     cy.injectAxe();
   });
 

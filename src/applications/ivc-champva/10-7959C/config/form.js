@@ -65,6 +65,9 @@ import {
   applicantPrimaryExpirationDateSchema,
   applicantPrimaryEOBSchema,
   applicantPrimaryPrescriptionSchema,
+  applicantPrimaryTypeSchema,
+  applicantPrimaryMedigapSchema,
+  applicantPrimaryCommentsSchema,
 } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -87,6 +90,10 @@ import {
   ApplicantPrimaryPrescriptionPage,
   ApplicantPrimaryPrescriptionReviewPage,
 } from '../components/ApplicantPrimaryPrescriptionPage';
+import {
+  ApplicantInsuranceTypePage,
+  ApplicantInsuranceTypeReviewPage,
+} from '../components/ApplicantInsurancePlanTypePage';
 
 /** @type {PageSchema} */
 const formConfig = {
@@ -416,6 +423,53 @@ const formConfig = {
           CustomPageReview: ApplicantPrimaryEOBReviewPage,
           uiSchema: applicantPrimaryEOBSchema.uiSchema,
           schema: applicantPrimaryEOBSchema.schema,
+        },
+        primaryType: {
+          path: ':index/primary-insurance-type',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantPrimaryProvider
+            } insurance plan`,
+          CustomPage: ApplicantInsuranceTypePage,
+          CustomPageReview: ApplicantInsuranceTypeReviewPage,
+          uiSchema: applicantPrimaryTypeSchema.uiSchema,
+          schema: applicantPrimaryTypeSchema.schema,
+        },
+        primaryMedigap: {
+          path: ':index/primary-medigap',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              hasPrimaryProvider(formData, index) &&
+              get(
+                'applicantPrimaryInsuranceType',
+                formData?.applicants?.[index],
+              )?.includes('medigap')
+            );
+          },
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantPrimaryProvider
+            } Medigap information`,
+          uiSchema: applicantPrimaryMedigapSchema.uiSchema,
+          schema: applicantPrimaryMedigapSchema.schema,
+        },
+        primaryComments: {
+          path: ':index/primary-comments',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantPrimaryProvider
+            } additional comments`,
+          uiSchema: applicantPrimaryCommentsSchema.uiSchema,
+          schema: applicantPrimaryCommentsSchema.schema,
         },
       },
     },
