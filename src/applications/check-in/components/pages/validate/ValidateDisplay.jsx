@@ -83,7 +83,7 @@ export default function ValidateDisplay({
 
   return (
     <Wrapper
-      pageTitle={header || t('start-checking-in-for-your-appointment')} 
+      pageTitle={header || t('start-checking-in-for-your-appointment')}
       testID={`${app}-validate-page`}
     >
       <p>{subtitle || t('we-need-your-last-name-and-birth')}</p>
