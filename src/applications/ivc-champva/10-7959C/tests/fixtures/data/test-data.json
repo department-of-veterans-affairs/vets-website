@@ -45,7 +45,8 @@
         "applicantHasSecondary": { "hasSecondary": "yes" },
         "applicantSecondaryProvider": "Secondary Provider",
         "applicantSecondaryEffectiveDate": "2010-01-01",
-        "applicantSecondaryExpirationDate": "2010-01-01"
+        "applicantSecondaryExpirationDate": "2010-01-01",
+        "applicantSecondaryThroughEmployer": { "throughEmployer": "yes" }
       }
     ],
     "certifierRelationship": {

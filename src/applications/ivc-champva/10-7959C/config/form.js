@@ -66,7 +66,7 @@ import {
   applicantInsuranceEffectiveDateSchema,
   applicantInsuranceExpirationDateSchema,
   applicantPrimaryEOBSchema,
-  applicantPrimaryThroughEmployerSchema,
+  applicantInsuranceThroughEmployerSchema,
   applicantPrimaryPrescriptionSchema,
   applicantPrimaryTypeSchema,
   applicantPrimaryMedigapSchema,
@@ -85,6 +85,8 @@ import mockdata from '../tests/fixtures/data/test-data.json';
 import {
   ApplicantPrimaryThroughEmployerPage,
   ApplicantPrimaryThroughEmployerReviewPage,
+  ApplicantSecondaryThroughEmployerPage,
+  ApplicantSecondaryThroughEmployerReviewPage,
 } from '../components/ApplicantPrimaryThroughEmployer';
 import {
   ApplicantPrimaryEOBPage,
@@ -397,8 +399,8 @@ const formConfig = {
             } type of insurance`,
           CustomPage: ApplicantPrimaryThroughEmployerPage,
           CustomPageReview: ApplicantPrimaryThroughEmployerReviewPage,
-          uiSchema: applicantPrimaryThroughEmployerSchema.uiSchema,
-          schema: applicantPrimaryThroughEmployerSchema.schema,
+          uiSchema: applicantInsuranceThroughEmployerSchema(true).uiSchema,
+          schema: applicantInsuranceThroughEmployerSchema(true).schema,
         },
         primaryPrescription: {
           path: ':index/primary-prescription',
@@ -520,6 +522,20 @@ const formConfig = {
             } secondary insurance expiration date`,
           uiSchema: applicantInsuranceExpirationDateSchema(false).uiSchema,
           schema: applicantInsuranceExpirationDateSchema(false).schema,
+        },
+        secondaryThroughEmployer: {
+          path: ':index/secondary-through-employer',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } type of secondary insurance`,
+          CustomPage: ApplicantSecondaryThroughEmployerPage,
+          CustomPageReview: ApplicantSecondaryThroughEmployerReviewPage,
+          uiSchema: applicantInsuranceThroughEmployerSchema(false).uiSchema,
+          schema: applicantInsuranceThroughEmployerSchema(false).schema,
         },
       },
     },
