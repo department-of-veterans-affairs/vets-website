@@ -114,33 +114,12 @@ describe('The My VA Dashboard', () => {
       cy.axeCheck();
     });
   });
+
   describe('when there are no in-progress forms', () => {
     beforeEach(() => {
       // a single form that fails the `isSIPEnabledForm()` check so none will be
       // shown
-      const now = Date.now() / 1000;
-      const savedForms = [
-        // This form is unknown and will be filtered out of the list of applications
-        {
-          form: '28-1800',
-          metadata: {
-            version: 0,
-            returnUrl: '/communication-preferences',
-            savedAt: 1611946775267,
-            submission: {
-              status: false,
-              errorMessage: false,
-              id: false,
-              timestamp: false,
-              hasAttemptedSubmit: false,
-            },
-            expiresAt: now + oneDayInSeconds,
-            lastUpdated: 1611946775,
-            inProgressFormId: 9332,
-          },
-          lastUpdated: 1611946775,
-        },
-      ];
+      const savedForms = [];
       mockUser.data.attributes.inProgressForms = savedForms;
       cy.login(mockUser);
       cy.visit(manifest.rootUrl);
@@ -155,5 +134,48 @@ describe('The My VA Dashboard', () => {
       cy.axeCheck();
     });
     // TODO: add task to properly handle in-progress forms that have expired
+  });
+
+  describe('regression test for SiP Forms (#78504)', () => {
+    beforeEach(() => {
+      const now = Date.now() / 1000;
+      const savedForms = [
+        {
+          form: '26-1880',
+          metadata: {
+            version: 0,
+            returnUrl: '/#',
+            savedAt: 1604951152710,
+            expiresAt: now + oneYearInSeconds,
+            lastUpdated: 1604951152,
+            inProgressFormId: 5105,
+          },
+          lastUpdated: 1604951152,
+        },
+        {
+          form: '28-8832',
+          metadata: {
+            version: 0,
+            returnUrl: '/#',
+            savedAt: 1611946775267,
+            expiresAt: now + oneYearInSeconds,
+            lastUpdated: 1607012813,
+            inProgressFormId: 5179,
+          },
+          lastUpdated: 1607012813,
+        },
+      ];
+      mockUser.data.attributes.inProgressForms = savedForms;
+      cy.login(mockUser);
+      cy.visit(manifest.rootUrl);
+    });
+
+    it('should show in-progress 26-1880 and 28-8832 forms', () => {
+      cy.findByText(/26-1880/i).should('exist');
+      cy.findByText(/28-8832/i).should('exist');
+      // make the a11y check
+      cy.injectAxe();
+      cy.axeCheck();
+    });
   });
 });

@@ -19,10 +19,7 @@ describe('SM back navigation', () => {
     const composePage = new PatientComposePage();
     landingPage.navigateToComposePage();
     composePage.selectRecipient(requestBody.recipientId);
-    composePage
-      .getCategory(requestBody.category)
-      .first()
-      .click({ force: true });
+    composePage.selectCategory(requestBody.category);
     composePage.getMessageSubjectField().type(`${requestBody.subject}`);
     composePage
       .getMessageBodyField()

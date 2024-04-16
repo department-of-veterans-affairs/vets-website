@@ -577,12 +577,45 @@ export const prepareAddressData = formData => {
   return addressData;
 };
 
-export const addressLabel = address => (
-  <span>
-    {`${address?.addressLine1} ${address?.addressLine2 || ''}`}
-    <br />
-    {`${address?.city}, ${address?.province ||
-      address?.stateCode} ${address?.internationalPostalCode ||
-      address?.zipCode}`}
-  </span>
-);
+export const addressLabel = address => {
+  // Destructure address object for easier access
+  const {
+    addressLine1,
+    addressLine2,
+    city,
+    province,
+    stateCode,
+    internationalPostalCode,
+    zipCode,
+  } = address;
+
+  const line1 = addressLine1 || '';
+  const line2 = addressLine2 || '';
+
+  const cityState = city && (province || stateCode) ? `${city}, ` : city;
+
+  const state = province || stateCode || '';
+
+  const postalCode = internationalPostalCode || zipCode || '';
+
+  return (
+    <span>
+      {line1 && (
+        <>
+          {line1}
+          <br />
+        </>
+      )}
+      {line2 && (
+        <>
+          {line2}
+          <br />
+        </>
+      )}
+      {cityState && <>{cityState}</>}
+      {state && <>{state}</>}
+      {postalCode && (state || cityState) && ' '}
+      {postalCode}
+    </span>
+  );
+};

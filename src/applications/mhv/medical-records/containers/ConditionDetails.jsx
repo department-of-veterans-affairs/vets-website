@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -38,6 +38,7 @@ import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateConditionContent } from '../util/pdfHelpers/conditions';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -55,6 +56,7 @@ const ConditionDetails = props => {
   const { conditionId } = useParams();
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
@@ -100,7 +102,8 @@ const ConditionDetails = props => {
     updatePageTitle,
   );
 
-  const generateConditionDetails = async () => {
+  const generateConditionDetailsPdf = async () => {
+    setDownloadStarted(true);
     const title = `Conditions: ${record.name} on ${record.date}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
@@ -109,11 +112,8 @@ const ConditionDetails = props => {
     makePdf(pdfName, pdfData, 'Condition details', runningUnitTest);
   };
 
-  const download = () => {
-    generateConditionDetails();
-  };
-
   const generateConditionTxt = async () => {
+    setDownloadStarted(true);
     const content = `
 ${crisisLineHeader}\n\n
 ${record.name} \n
@@ -138,7 +138,10 @@ SNOMED Clinical term: ${record.name} \n`;
   const content = () => {
     if (accessAlert) {
       return (
-        <AccessTroubleAlertBox alertType={accessAlertTypes.HEALTH_CONDITIONS} />
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.HEALTH_CONDITIONS}
+          className="vads-u-margin-bottom--9"
+        />
       );
     }
     if (record) {
@@ -158,14 +161,14 @@ SNOMED Clinical term: ${record.name} \n`;
             label="Date entered"
           />
 
-          <div className="condition-subheader vads-u-margin-bottom--3">
-            <PrintDownload
-              download={download}
-              allowTxtDownloads={allowTxtDownloads}
-              downloadTxt={generateConditionTxt}
-            />
-            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          </div>
+          {downloadStarted && <DownloadSuccessAlert />}
+          <PrintDownload
+            downloadPdf={generateConditionDetailsPdf}
+            allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateConditionTxt}
+          />
+          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+
           <div className="condition-details max-80">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider

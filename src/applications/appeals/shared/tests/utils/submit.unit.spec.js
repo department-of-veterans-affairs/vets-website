@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { getDate } from '../../utils/dates';
+import { sub } from 'date-fns';
+import { parseDate } from '../../utils/dates';
 
 import { SELECTED } from '../../constants';
 
@@ -15,7 +16,7 @@ import {
 const text =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, seddo eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
 
-const validDate1 = getDate({ offset: { months: -2 } });
+const validDate1 = parseDate(sub(new Date(), { months: 2 }));
 const issue1 = {
   raw: {
     type: 'contestableIssue',
@@ -41,7 +42,7 @@ const issue1 = {
   },
 };
 
-const validDate2 = getDate({ offset: { months: -4 } });
+const validDate2 = parseDate(sub(new Date(), { months: 4 }));
 const issue2 = {
   raw: {
     type: 'contestableIssue',
