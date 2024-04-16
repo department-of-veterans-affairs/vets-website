@@ -23,8 +23,7 @@ const CareSummariesAndNotesListItem = props => {
           <span id={`received-message-date-${record.id}`}>
             {record.name}
             <span className="sr-only">
-              on $
-              {isDischargeSummary ? record.admissionDate : record.dateSigned}
+              on {isDischargeSummary ? record.admissionDate : record.dateSigned}
             </span>
           </span>
         </Link>
