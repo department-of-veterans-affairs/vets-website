@@ -49,14 +49,6 @@ const LandingPage = () => {
     ? medicationsUrls.subdirectories.REFILL
     : medicationsUrls.MEDICATIONS_LOGIN;
 
-  const focusAndOpenAccordionRxRenew = () => {
-    setIsRxRenewAccordionOpen(true);
-    focusElement(manageMedicationsHeader.current);
-    if (!featureTogglesLoading && appEnabled) {
-      manageMedicationsAccordionSection.current?.scrollIntoView();
-    }
-  };
-
   useEffect(
     () => {
       updatePageTitle('About medications | Veterans Affairs');
@@ -65,14 +57,17 @@ const LandingPage = () => {
         !featureTogglesLoading &&
         !isPrescriptionsLoading
       ) {
-        focusAndOpenAccordionRxRenew();
+        setIsRxRenewAccordionOpen(true);
+        focusElement(manageMedicationsHeader.current);
+        if (!featureTogglesLoading && appEnabled) {
+          manageMedicationsAccordionSection.current?.scrollIntoView();
+        }
       }
     },
     [
       location.pathname,
       featureTogglesLoading,
       appEnabled,
-      featureTogglesLoading,
       isPrescriptionsLoading,
     ],
   );
