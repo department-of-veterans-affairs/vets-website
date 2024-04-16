@@ -4,8 +4,8 @@ import { radioUI, radioSchema } from './radioPattern';
 import { validateRoutingNumber } from '../validation';
 
 const accountTypeLabels = {
-  CHECKING: 'Checking',
-  SAVINGS: 'Savings',
+  checking: 'Checking',
+  savings: 'Savings',
 };
 
 // Styled to match the description in the titleUI pattern
