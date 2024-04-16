@@ -120,19 +120,6 @@ jobs:
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: us-gov-west-1
 
-#new
-      - name: Restore Cached Folder
-        id: cache-restoreApril16
-        uses: actions/cache@v3
-        with:
-          path: ./build
-          key: testvjApril162
-          restore-keys: testvjApril162
-#new
-      - name: List restored files
-        run: ls -la ./build
-        if: steps.cache-restoreApril16.outputs.cache-hit == 'true'
-
       - name: Get va-vsp-bot token
         uses: ./.github/workflows/inject-secrets
         with:
@@ -656,165 +643,178 @@ jobs:
   #     ecr_user: ${{ steps.login-ecr.outputs.docker_username_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
   #     ecr_password: ${{ steps.login-ecr.outputs.docker_password_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
       
-  # cypress-tests:
-  #   name: Cypress E2E Tests
-  #   runs-on: ubuntu-16-cores-latest
-  #   timeout-minutes: 60
-  #   needs: [build, tests-prep, fetch-ecr-credentials]
-  #   if: |
-  #     needs.build.result == 'success' &&
-  #     needs.tests-prep.result == 'success'
-  #   container:
-  #     image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
-  #     credentials:
-  #       username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
-  #       password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
+  cypress-tests:
+    name: Cypress E2E Tests
+    runs-on: ubuntu-16-cores-latest
+    timeout-minutes: 60
+    needs: [build, tests-prep, fetch-ecr-credentials]
+    if: |
+      needs.build.result == 'success' &&
+      needs.tests-prep.result == 'success'
+    container:
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      credentials:
+        username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
+        password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
 
-  #   strategy:
-  #     fail-fast: false
-  #     max-parallel: 12
-  #     matrix:
-  #       ci_node_index: ${{ fromJson(needs.tests-prep.outputs.ci_node_index) }}
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        ci_node_index: ${{ fromJson(needs.tests-prep.outputs.ci_node_index) }}
 
-  #   env:
-  #     CI_NODE_INDEX: ${{ needs.tests-prep.outputs.ci_node_index }}
-  #     TESTS: ${{ needs.tests-prep.outputs.cypress-tests }}
+    env:
+      CI_NODE_INDEX: ${{ needs.tests-prep.outputs.ci_node_index }}
+      TESTS: ${{ needs.tests-prep.outputs.cypress-tests }}
 
-  #   steps:
-  #     # The following statement is included in each step because of a bug in
-  #     # GitHub's branch protection:
-  #     #
-  #     # if: needs.tests-prep.outputs.cypress-tests != '[]'
-  #     #
-  #     # Previously, if no tests were selected, the branch protection check that
-  #     # requires the cypress-tests job to run was not satisfied. This update forces
-  #     # the job to always run, and skips each step if no tests are selected.
-  #     # Previously, the above conditional was included in the job's if statement.
-      
-          
+    steps:
+      # The following statement is included in each step because of a bug in
+      # GitHub's branch protection:
+      #
+      # if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #
+      # Previously, if no tests were selected, the branch protection check that
+      # requires the cypress-tests job to run was not satisfied. This update forces
+      # the job to always run, and skips each step if no tests are selected.
+      # Previously, the above conditional was included in the job's if statement.
 
-  #     - name: Checkout vets-website
-  #       if: needs.tests-prep.outputs.cypress-tests != '[]'
-  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+      - name: Checkout vets-website
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
-  #     - name: Configure AWS credentials
-  #       if: needs.tests-prep.outputs.cypress-tests != '[]'
-  #       uses: ./.github/workflows/configure-aws-credentials
-  #       with:
-  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws_region: us-gov-west-1
+      - name: Configure AWS credentials
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
-  #     - name: Get va-vsp-bot token
-  #       if: needs.tests-prep.outputs.cypress-tests != '[]'
-  #       uses: ./.github/workflows/inject-secrets
-  #       with:
-  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-  #     - name: Init Dashboard Data Repo
-  #       if: needs.tests-prep.outputs.cypress-tests != '[]'
-  #       uses: ./.github/workflows/init-data-repo
+#new
+      - name: Restore Cached Folder
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        id: cache-restoreApril16
+        uses: actions/cache@v3
+        with:
+          path: ./build
+          key: testvjApril162
+          restore-keys: testvjApril162
+#new
+      - name: List restored files
+        run: ls -la ./build
+        if: steps.cache-restoreApril16.outputs.cache-hit == 'true' && needs.tests-prep.outputs.cypress-tests != '[]'
 
-  #     - name: Set Up BigQuery Creds
-  #       if: needs.tests-prep.outputs.cypress-tests != '[]'
-  #       uses: ./.github/workflows/configure-bigquery
+      - name: Get va-vsp-bot token
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-  #     - name: Fetch E2E Test Stability Allow List
-  #       if: needs.tests-prep.outputs.cypress-tests != '[]'
-  #       run: yarn get-allow-list
-  #       working-directory: qa-standards-dashboard-data
-  #       env:
-  #         TEST_TYPE: e2e
+      - name: Init Dashboard Data Repo
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: ./.github/workflows/init-data-repo
 
-  #     # - name: Download production build artifact
-  #     #   if: needs.tests-prep.outputs.cypress-tests != '[]'
-  #     #   uses: ./.github/workflows/download-artifact
-  #     #   with:
-  #     #     name: vagovprod.tar.bz2
+      - name: Set Up BigQuery Creds
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: ./.github/workflows/configure-bigquery
 
-  #     # - name: Unpack build
-  #     #   if: needs.tests-prep.outputs.cypress-tests != '[]'
-  #     #   run: |
-  #     #     mkdir -p build/vagovprod
-  #     #     tar -C build/vagovprod -xjf vagovprod.tar.bz2
+      - name: Fetch E2E Test Stability Allow List
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: e2e
 
-  #       #     - name: Cache test folder
-  #       # id: cache-folderApril16
-  #       # uses: actions/cache@v3
-  #       # env:
-  #       #   cache-name: cache-testfolderApril16
-  #       # with:
-  #       #   path: ./build
-  #       #   key: testvjApril162
-  #       #   restore-keys: testvjApril162
+      # - name: Download production build artifact
+      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #   uses: ./.github/workflows/download-artifact
+      #   with:
+      #     name: vagovprod.tar.bz2
 
-  #     - name: Restore Cached Folder
-  #       id: cache-restoreApril16
-  #       uses: actions/cache@v3
-  #       with:
-  #         path: ./build
-  #         key: testvjApril162
-  #         restore-keys: testvjApril162
+      # - name: Unpack build
+      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
+      #   run: |
+      #     mkdir -p build/vagovprod
+      #     tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
-  #     - name: List restored files
-  #       run: ls -la ./build
-  #       if: steps.cache-restoreApril16.outputs.cache-hit == 'true' && needs.tests-prep.outputs.cypress-tests != '[]'
+        #     - name: Cache test folder
+        # id: cache-folderApril16
+        # uses: actions/cache@v3
+        # env:
+        #   cache-name: cache-testfolderApril16
+        # with:
+        #   path: ./build
+        #   key: testvjApril162
+        #   restore-keys: testvjApril162
 
-  #     - name: Install dependencies
-  #       if: needs.tests-prep.outputs.cypress-tests != '[]'
-  #       uses: ./.github/workflows/install
-  #       timeout-minutes: 20
-  #       with:
-  #         key: ${{ hashFiles('yarn.lock') }}
-  #         yarn_cache_folder: .cache/yarn
-  #         path: |
-  #           .cache/yarn
-  #           /github/home/.cache/Cypress
-  #           node_modules
+      - name: Restore Cached Folder
+        id: cache-restoreApril16
+        uses: actions/cache@v3
+        with:
+          path: ./build
+          key: testvjApril162
+          restore-keys: testvjApril162
 
-  #     - name: Check for newly added disallowed tests
-  #       if: needs.tests-prep.outputs.cypress-tests != '[]'
-  #       run: node script/github-actions/double-check-allow-list.js
-  #       env:
-  #         TEST_TYPE: e2e
-  #         TEST_PROPERTY: 'TESTS'
+      - name: List restored files
+        run: ls -la ./build
+        if: steps.cache-restoreApril16.outputs.cache-hit == 'true' && needs.tests-prep.outputs.cypress-tests != '[]'
 
-  #     - name: Start server
-  #       if: needs.tests-prep.outputs.cypress-tests != '[]'
-  #       run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+      - name: Install dependencies
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: ./.github/workflows/install
+        timeout-minutes: 20
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            /github/home/.cache/Cypress
+            node_modules
 
-  #     - name: Run Cypress tests
-  #       if: needs.tests-prep.outputs.cypress-tests != '[]'
-  #       run: node script/github-actions/run-cypress-tests.js
-  #       timeout-minutes: 40
-  #       env:
-  #         CYPRESS_CI: true
-  #         STEP: ${{ matrix.ci_node_index }}
-  #         APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
-  #         NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
+      - name: Check for newly added disallowed tests
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: node script/github-actions/double-check-allow-list.js
+        env:
+          TEST_TYPE: e2e
+          TEST_PROPERTY: 'TESTS'
 
-  #     - name: Archive test videos
-  #       if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
-  #       uses: ./.github/workflows/upload-artifact
-  #       with:
-  #         name: cypress-video-artifacts-${{ matrix.ci_node_index }}
-  #         path: cypress/videos
+      - name: Start server
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
-  #     - name: Archive test screenshots
-  #       if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
-  #       uses: ./.github/workflows/upload-artifact
-  #       with:
-  #         name: cypress-screenshot-artifacts-${{ matrix.ci_node_index }}
-  #         path: cypress/screenshots
+      - name: Run Cypress tests
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: node script/github-actions/run-cypress-tests.js
+        timeout-minutes: 40
+        env:
+          CYPRESS_CI: true
+          STEP: ${{ matrix.ci_node_index }}
+          APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
+          NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
 
-  #     - name: Archive Mochawesome test results
-  #       if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && always() }}
-  #       uses: ./.github/workflows/upload-artifact
-  #       with:
-  #         name: cypress-mochawesome-test-results-${{ matrix.ci_node_index }}
-  #         path: cypress/results
-  #         retention-days: 1
+      - name: Archive test videos
+        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: cypress-video-artifacts-${{ matrix.ci_node_index }}
+          path: cypress/videos
+
+      - name: Archive test screenshots
+        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: cypress-screenshot-artifacts-${{ matrix.ci_node_index }}
+          path: cypress/screenshots
+
+      - name: Archive Mochawesome test results
+        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: cypress-mochawesome-test-results-${{ matrix.ci_node_index }}
+          path: cypress/results
+          retention-days: 1
 
   # stress-test-cypress-tests:
   #   name: E2E Test Stability Review
