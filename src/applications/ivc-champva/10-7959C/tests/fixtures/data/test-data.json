@@ -44,7 +44,8 @@
         "primaryAdditionalComments": "Additional comment",
         "applicantHasSecondary": { "hasSecondary": "yes" },
         "applicantSecondaryProvider": "Secondary Provider",
-        "applicantSecondaryEffectiveDate": "2010-01-01"
+        "applicantSecondaryEffectiveDate": "2010-01-01",
+        "applicantSecondaryExpirationDate": "2010-01-01"
       }
     ],
     "certifierRelationship": {

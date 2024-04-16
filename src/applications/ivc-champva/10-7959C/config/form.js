@@ -64,7 +64,7 @@ import {
   applicantHasInsuranceSchema,
   applicantProviderSchema,
   applicantInsuranceEffectiveDateSchema,
-  applicantPrimaryExpirationDateSchema,
+  applicantInsuranceExpirationDateSchema,
   applicantPrimaryEOBSchema,
   applicantPrimaryThroughEmployerSchema,
   applicantPrimaryPrescriptionSchema,
@@ -383,8 +383,8 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantPrimaryProvider
             } insurance expiration date`,
-          uiSchema: applicantPrimaryExpirationDateSchema.uiSchema,
-          schema: applicantPrimaryExpirationDateSchema.schema,
+          uiSchema: applicantInsuranceExpirationDateSchema(true).uiSchema,
+          schema: applicantInsuranceExpirationDateSchema(true).schema,
         },
         primaryThroughEmployer: {
           path: ':index/primary-through-employer',
@@ -508,6 +508,18 @@ const formConfig = {
             } insurance effective date`,
           uiSchema: applicantInsuranceEffectiveDateSchema(false).uiSchema,
           schema: applicantInsuranceEffectiveDateSchema(false).schema,
+        },
+        secondaryExpiration: {
+          path: ':index/secondary-expiration-date',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } secondary insurance expiration date`,
+          uiSchema: applicantInsuranceExpirationDateSchema(false).uiSchema,
+          schema: applicantInsuranceExpirationDateSchema(false).schema,
         },
       },
     },

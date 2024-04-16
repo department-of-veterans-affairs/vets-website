@@ -97,7 +97,9 @@ export function applicantInsuranceEffectiveDateSchema(isPrimary) {
               `${applicantWording(formData)} ${insuranceName(
                 formData,
                 isPrimary,
-              )} insurance effective date`,
+              )} ${
+                isPrimary ? 'primary' : 'secondary'
+              } insurance effective date`,
           ),
           [keyname]: currentOrPastDateUI('Health insurance effective date'),
         },
@@ -110,30 +112,34 @@ export function applicantInsuranceEffectiveDateSchema(isPrimary) {
   };
 }
 
-export const applicantPrimaryExpirationDateSchema = {
-  uiSchema: {
-    applicants: {
-      'ui:options': {
-        viewField: ApplicantField,
-      },
-      items: {
-        ...titleUI(
-          ({ formData }) =>
-            `${applicantWording(formData)} ${
-              formData?.applicantPrimaryProvider
-            } insurance expiration date`,
-        ),
-        applicantPrimaryExpirationDate: currentOrPastDateUI(
-          'Health insurance expiration date',
-        ),
+export function applicantInsuranceExpirationDateSchema(isPrimary) {
+  const keyname = `applicant${
+    isPrimary ? 'Primary' : 'Secondary'
+  }ExpirationDate`;
+  return {
+    uiSchema: {
+      applicants: {
+        'ui:options': { viewField: ApplicantField },
+        items: {
+          ...titleUI(
+            ({ formData }) =>
+              `${applicantWording(formData)} ${insuranceName(
+                formData,
+                isPrimary,
+              )} ${
+                isPrimary ? 'primary' : 'secondary'
+              } insurance expiration date`,
+          ),
+          [keyname]: currentOrPastDateUI('Health insurance expiration date'),
+        },
       },
     },
-  },
-  schema: applicantListSchema(['applicantPrimaryExpirationDate'], {
-    titleSchema,
-    applicantPrimaryExpirationDate: currentOrPastDateSchema,
-  }),
-};
+    schema: applicantListSchema([keyname], {
+      titleSchema,
+      [keyname]: currentOrPastDateSchema,
+    }),
+  };
+}
 
 export const applicantPrimaryThroughEmployerSchema = {
   uiSchema: {
