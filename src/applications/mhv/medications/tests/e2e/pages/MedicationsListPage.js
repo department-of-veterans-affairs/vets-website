@@ -92,6 +92,11 @@ class MedicationsListPage {
   };
 
   clickDownloadListAsPDFButtonOnListPage = () => {
+    cy.intercept(
+      'GET',
+      'my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    ).as('medicationsList');
     cy.get('[data-testid="download-pdf-button"]')
       .should('contain', 'Download a PDF of this list')
       .should('be.visible');
