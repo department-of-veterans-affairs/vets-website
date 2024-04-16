@@ -1,10 +1,12 @@
 import { expect } from 'chai';
-import moment from 'moment';
+import { subDays } from 'date-fns';
 import { SHOW_PART3 } from '../../constants';
 import { issuesNeedUpdating } from '../../utils/issues';
 
+import { parseDate } from '../../../shared/utils/dates';
+
 describe('issuesNeedUpdating', () => {
-  const yesterday = moment().format('YYYY-MM-DD');
+  const yesterday = parseDate(subDays(new Date(), 1));
   const longAgo = '2000-01-01';
 
   const createEntry = (
