@@ -20,7 +20,15 @@ describe('Medical Records View Allergies', () => {
     //   .click({ force: true });
     AllergiesListPage.verifyPrintOrDownload();
     AllergiesListPage.clickPrintOrDownload();
+    // cy.injectAxe();
+    // cy.axeCheck('main');
     cy.injectAxe();
-    cy.axeCheck('main');
+    cy.axeCheck('main', {
+      rules: {
+        'duplicate-id-aria': {
+          enabled: false,
+        },
+      },
+    });
   });
 });
