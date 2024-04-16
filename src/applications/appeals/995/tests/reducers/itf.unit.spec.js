@@ -57,7 +57,7 @@ describe('ITF reducer', () => {
                 // duplicate ITF with later expiration date; should use the active one
                 type: 'compensation',
                 status: ITF_STATUSES.duplicate,
-                expirationDate: parseDateWithOffset({ year: -1 }),
+                expirationDate: parseDateWithOffset({ year: 1 }),
               },
             ],
           },
