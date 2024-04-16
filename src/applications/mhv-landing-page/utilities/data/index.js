@@ -72,23 +72,23 @@ const resolveLandingPageLinks = (
   const messagesLinks = resolveLinkCollection(
     [
       {
-        href: null,
+        href: '/my-health/secure-messages/folders/inbox',
         oldHref: mhvUrl(authdWithSSOe, 'secure-messaging'),
         text: 'Inbox',
-        toggle: null,
+        toggle: 'mhvLandingPageEnableVaGovHealthToolsLinks',
         ariaLabel: unreadMessageAriaLabel,
       },
       {
-        href: null,
+        href: '/my-health/secure-messages/new-message',
         oldHref: mhvUrl(authdWithSSOe, 'compose-message'),
         text: 'Compose message',
-        toggle: null,
+        toggle: 'mhvLandingPageEnableVaGovHealthToolsLinks',
       },
       {
-        href: null,
+        href: '/my-health/secure-messages/folders',
         oldHref: mhvUrl(authdWithSSOe, 'manage-folders'),
         text: 'Manage folders',
-        toggle: null,
+        toggle: 'mhvLandingPageEnableVaGovHealthToolsLinks',
       },
     ],
     featureToggles,
@@ -97,10 +97,10 @@ const resolveLandingPageLinks = (
   const medicationsLinks = resolveLinkCollection(
     [
       {
-        href: null,
+        href: '/my-health/medications/refill',
         oldHref: mhvUrl(authdWithSSOe, 'prescription_refill'),
         text: 'Refill VA prescriptions',
-        toggle: null,
+        toggle: 'mhvLandingPageEnableVaGovHealthToolsLinks',
       },
       {
         href: null,
@@ -121,16 +121,16 @@ const resolveLandingPageLinks = (
   const healthRecordsLinks = resolveLinkCollection(
     [
       {
-        href: null,
+        href: '/my-health/medical-records/download-all',
         oldHref: mhvUrl(authdWithSSOe, '/download-my-data'),
         text: 'Download medical record (Blue Button®)',
-        toggle: null,
+        toggle: 'mhvLandingPageEnableVaGovHealthToolsLinks',
       },
       {
-        href: null,
+        href: '/my-health/medical-records/labs-and-tests',
         oldHref: mhvUrl(authdWithSSOe, '/labs-tests'),
         text: 'Lab and test results',
-        toggle: null,
+        toggle: 'mhvMedicalRecordsDisplayLabsAndTests',
       },
       {
         href: null,
