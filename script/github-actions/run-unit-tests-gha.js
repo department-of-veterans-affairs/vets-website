@@ -125,5 +125,7 @@ if (testsToVerify === null) {
   const command = `LOG_LEVEL=${options[
     'log-level'
   ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify}`;
+  console.log(`testsToVerify:${testsToVerify}`);
+  console.log(`command:${command}`);
   runCommand(command);
 }
