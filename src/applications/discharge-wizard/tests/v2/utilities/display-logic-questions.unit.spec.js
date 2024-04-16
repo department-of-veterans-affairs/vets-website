@@ -19,13 +19,13 @@ describe('utils: display logic for questions', () => {
     expect(
       responseMatchesRequired(
         [COURT_MARTIAL_1, COURT_MARTIAL_2, COURT_MARTIAL_3],
-        [COURT_MARTIAL_1],
+        COURT_MARTIAL_1,
       ),
     ).to.be.true;
 
     it(
       'Should return false when the response matches any value in the requried array of choices',
     );
-    expect(responseMatchesRequired([ARMY, NAVY], [AIR_FORCE])).to.be.false;
+    expect(responseMatchesRequired([ARMY, NAVY], AIR_FORCE)).to.be.false;
   });
 });
