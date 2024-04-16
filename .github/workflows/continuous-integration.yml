@@ -99,8 +99,8 @@ jobs:
           cache-name: cache-testfolderApril16
         with:
           path: ./build
-          key: testvjApril162
-          restore-keys: testvjApril162
+          key: ${{ github.run_id }}-${{ github.sha }}
+          restore-keys: ${{ github.run_id }}-${{ github.sha }}
 
       - name: List files in the workspace
         run: ls -la ./build
@@ -698,8 +698,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ./build
-          key: testvjApril162
-          restore-keys: testvjApril162
+          key: ${{ github.run_id }}-${{ github.sha }}
+          restore-keys: ${{ github.run_id }}-${{ github.sha }}
 #new
       - name: List restored files
         run: ls -la ./build
