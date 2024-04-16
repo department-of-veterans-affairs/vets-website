@@ -56,6 +56,35 @@ const genericErrors = {
   error403,
 };
 
+const requestHistory = [];
+
+const logRequest = req => {
+  const { body, url, method, params, query } = req;
+  const historyEntry = {};
+  // only add variables to requestHistory if they are not empty
+  if (!_.isEmpty(params)) {
+    historyEntry.params = params;
+  }
+  if (!_.isEmpty(query)) {
+    historyEntry.query = query;
+  }
+
+  if (!_.isEmpty(body)) {
+    try {
+      historyEntry.body = JSON.parse(body);
+    } catch (e) {
+      historyEntry.body = body;
+    }
+  }
+
+  historyEntry.method = method;
+  historyEntry.url = url;
+
+  debug(historyEntry);
+
+  requestHistory.push({ ...historyEntry, url, method });
+};
+
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': (_req, res) => {
@@ -83,7 +112,9 @@ const responses = {
     );
   },
   'GET /v0/user': (_req, res) => {
-    const [shouldReturnUser, updatedUserResponse] = handleUserUpdate([]);
+    const [shouldReturnUser, updatedUserResponse] = handleUserUpdate(
+      requestHistory,
+    );
     if (shouldReturnUser) {
       return res.json(updatedUserResponse);
     }
@@ -251,7 +282,11 @@ const responses = {
     return res.json(address.homeAddressUpdateReceived);
   },
   'DELETE /v0/profile/addresses': (_req, res) => {
-    return res.status(200).json(address.homeAddressDeleteReceived);
+    const secondsOfDelay = 1;
+    delaySingleResponse(
+      () => res.status(200).json(address.homeAddressDeleteReceived),
+      secondsOfDelay,
+    );
   },
   'GET /v0/profile/status': getEmptyStatus, // simulate no status / no transactions pending
   'GET /v0/profile/status/:id': (req, res) => {
@@ -294,6 +329,10 @@ const responses = {
   // 'GET /v0/profile/contacts': { data: [] }, // simulate no contacts
   // 'GET /v0/profile/contacts': (_req, res) => res.status(500).json(genericErrors.error500), // simulate error
   'GET /v0/profile/contacts': contacts,
+
+  'GET /v0/mocks/history': (_req, res) => {
+    return res.json(requestHistory);
+  },
 };
 
 function terminationHandler(signal) {
@@ -325,6 +364,16 @@ const generateMockResponses = () => {
   // set DELAY=1000 when running mock server script
   // to add 1 sec delay to all responses
   const responseDelay = process?.env?.DELAY || 0;
+
+  Object.entries(responses).forEach(([key, value]) => {
+    if (typeof value === 'function') {
+      // add logging to all responses
+      responses[key] = (req, res) => {
+        logRequest(req);
+        return value(req, res);
+      };
+    }
+  });
 
   return responseDelay > 0 ? delay(responses, responseDelay) : responses;
 };
