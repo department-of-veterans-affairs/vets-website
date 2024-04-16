@@ -14,7 +14,7 @@ const {
 describe('utils: display logic for questions', () => {
   it('responseMatchesRequired', () => {
     it(
-      'Should return true when the response matches any value in the requried array of choices',
+      'Should return true when the response matches any value in the required array of choices',
     );
     expect(
       responseMatchesRequired(
@@ -24,7 +24,7 @@ describe('utils: display logic for questions', () => {
     ).to.be.true;
 
     it(
-      'Should return false when the response matches any value in the requried array of choices',
+      'Should return false when the response does not match any value in the requried array of choices',
     );
     expect(responseMatchesRequired([ARMY, NAVY], AIR_FORCE)).to.be.false;
   });
