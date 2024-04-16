@@ -199,16 +199,21 @@ export function applicantInsuranceEOBSchema(isPrimary) {
   };
 }
 
-export const applicantPrimaryTypeSchema = {
-  uiSchema: {
-    applicants: { items: {} },
-  },
-  schema: applicantListSchema([], {
-    applicantPrimaryInsuranceType: {
-      type: 'string',
+export function applicantInsuranceTypeSchema(isPrimary) {
+  const keyname = `applicant${
+    isPrimary ? 'Primary' : 'Secondary'
+  }InsuranceType`;
+  return {
+    uiSchema: {
+      applicants: { items: {} },
     },
-  }),
-};
+    schema: applicantListSchema([], {
+      [keyname]: {
+        type: 'string',
+      },
+    }),
+  };
+}
 
 export const applicantPrimaryMedigapSchema = {
   uiSchema: {

@@ -68,7 +68,7 @@ import {
   applicantInsuranceEOBSchema,
   applicantInsuranceThroughEmployerSchema,
   applicantInsurancePrescriptionSchema,
-  applicantPrimaryTypeSchema,
+  applicantInsuranceTypeSchema,
   applicantPrimaryMedigapSchema,
   applicantPrimaryCommentsSchema,
 } from '../chapters/healthInsuranceInformation';
@@ -103,6 +103,8 @@ import {
 import {
   ApplicantInsuranceTypePage,
   ApplicantInsuranceTypeReviewPage,
+  ApplicantSecondaryInsuranceTypePage,
+  ApplicantSecondaryInsuranceTypeReviewPage,
 } from '../components/ApplicantInsurancePlanTypePage';
 
 /** @type {PageSchema} */
@@ -445,8 +447,8 @@ const formConfig = {
             } insurance plan`,
           CustomPage: ApplicantInsuranceTypePage,
           CustomPageReview: ApplicantInsuranceTypeReviewPage,
-          uiSchema: applicantPrimaryTypeSchema.uiSchema,
-          schema: applicantPrimaryTypeSchema.schema,
+          uiSchema: applicantInsuranceTypeSchema(true).uiSchema,
+          schema: applicantInsuranceTypeSchema(true).schema,
         },
         primaryMedigap: {
           path: ':index/primary-medigap',
@@ -568,6 +570,20 @@ const formConfig = {
           CustomPageReview: ApplicantSecondaryEOBReviewPage,
           uiSchema: applicantInsuranceEOBSchema(false).uiSchema,
           schema: applicantInsuranceEOBSchema(false).schema,
+        },
+        secondaryType: {
+          path: ':index/secondary-insurance-type',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } secondary insurance plan type`,
+          CustomPage: ApplicantSecondaryInsuranceTypePage,
+          CustomPageReview: ApplicantSecondaryInsuranceTypeReviewPage,
+          uiSchema: applicantInsuranceTypeSchema(false).uiSchema,
+          schema: applicantInsuranceTypeSchema(false).schema,
         },
       },
     },
