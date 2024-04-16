@@ -4,15 +4,12 @@ import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
 } from '../../util/constants';
-import {
-  validateField,
-  dateFormat,
-  createMedicationDescription,
-  createNoDescriptionText,
-} from '../../util/helpers';
+import { validateField, dateFormat } from '../../util/helpers';
+import VaPharmacyText from '../shared/VaPharmacyText';
 
 const PrescriptionPrintOnly = props => {
   const { rx, hideLineBreak, refillHistory, isDetailsRx } = props;
+  const phoneNumber = rx?.cmopDivisionPhone || rx?.dialCmopDivisionPhone;
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
       <p>
@@ -144,7 +141,7 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Pharmacy phone number:</strong>{' '}
-              {validateField(rx.phoneNumber)}
+              {validateField(phoneNumber)}
             </p>
           </div>
           <DetailsHeaderElement>
@@ -168,12 +165,7 @@ const PrescriptionPrintOnly = props => {
               <div className="print-only-rx-details-container">
                 {refillHistory.map((entry, i) => {
                   const index = refillHistory.length - i - 1;
-                  let description = createMedicationDescription(entry);
-                  if (description == null) {
-                    const phone =
-                      entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
-                    description = createNoDescriptionText(phone);
-                  }
+                  const { shape, color, backImprint, frontImprint } = entry;
                   return (
                     <div key={index}>
                       <h4>
@@ -191,9 +183,46 @@ const PrescriptionPrintOnly = props => {
                           ? dateFormat(entry.trackingList[0].completeDateTime)
                           : 'None noted'}
                       </p>
-                      <p>
-                        <strong>Description:</strong> {description}
+                      <p className="vads-u-margin--0">
+                        <strong>Medication description: </strong>
                       </p>
+                      {shape?.trim() &&
+                      color?.trim() &&
+                      frontImprint?.trim() ? (
+                        <>
+                          <p className="vads-u-margin--0">
+                            <strong>Note:</strong> If the medication you’re
+                            taking doesn’t match this description, call{' '}
+                            <VaPharmacyText phone={phoneNumber} />.
+                          </p>
+                          <ul className="vads-u-margin--0">
+                            <li className="vads-u-margin-y--0">
+                              <strong>Shape:</strong> {shape[0].toUpperCase()}
+                              {shape.slice(1).toLowerCase()}
+                            </li>
+                            <li className="vads-u-margin-y--0">
+                              <strong>Color:</strong> {color[0].toUpperCase()}
+                              {color.slice(1).toLowerCase()}
+                            </li>
+                            <li className="vads-u-margin-y--0">
+                              <strong>Front marking:</strong> {frontImprint}
+                            </li>
+                            {backImprint ? (
+                              <li className="vads-u-margin-y--0">
+                                <strong>Back marking:</strong> {backImprint}
+                              </li>
+                            ) : (
+                              <></>
+                            )}
+                          </ul>
+                        </>
+                      ) : (
+                        <>
+                          No description available. Call{' '}
+                          <VaPharmacyText phone={phoneNumber} /> if you need
+                          help identifying this medication.
+                        </>
+                      )}
                       <div className="line-break" />
                     </div>
                   );

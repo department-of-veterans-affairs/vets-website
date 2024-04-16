@@ -1,10 +1,10 @@
 import {
-  createMedicationDescription,
   createNoDescriptionText,
   createOriginalFillRecord,
   dateFormat,
   processList,
   validateField,
+  createVAPharmacyText,
 } from './helpers';
 import {
   pdfStatusDefinitions,
@@ -343,12 +343,20 @@ export const buildVAPrescriptionPDFList = prescription => {
         {
           items: refillHistory
             .map((entry, i) => {
+              const { shape, color, backImprint, frontImprint } = entry;
               const index = refillHistory.length - i - 1;
               const phone =
                 entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
-              const description =
-                createMedicationDescription(entry) ||
-                createNoDescriptionText(phone);
+              const hasValidDesc =
+                shape?.trim() && color?.trim() && frontImprint?.trim();
+              const description = hasValidDesc
+                ? `* Shape: ${shape[0].toUpperCase()}${shape
+                    .slice(1)
+                    .toLowerCase()}
+* Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
+* Front marking: ${frontImprint}
+${backImprint ? `* Back marking: ${backImprint}` : ''}`
+                : createNoDescriptionText(phone);
               return [
                 {
                   value: [
@@ -370,9 +378,22 @@ export const buildVAPrescriptionPDFList = prescription => {
                   isRich: true,
                 },
                 {
-                  title: 'Description',
+                  title: 'Medication description',
+                  inline: false,
+                },
+                ...(hasValidDesc
+                  ? [
+                      {
+                        title: 'Note',
+                        value: `If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
+                          phone,
+                        )}.`,
+                        inline: true,
+                      },
+                    ]
+                  : []),
+                {
                   value: description,
-                  inline: true,
                 },
                 {
                   title: `Filled by pharmacy on`,
