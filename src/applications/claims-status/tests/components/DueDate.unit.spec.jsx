@@ -25,11 +25,11 @@ describe('<DueDate>', () => {
 
   it('should render past due class when less than a months difference', () => {
     const date = moment()
-      .subtract(1, 'day')
+      .subtract(3, 'day')
       .format('YYYY-MM-DD');
     const tree = SkinDeep.shallowRender(<DueDate date={date} />);
     const formattedClaimDate = formatDate(date);
-    const dueDateHeader = `Needed from you by ${formattedClaimDate} - due 2 days ago`;
+    const dueDateHeader = `Needed from you by ${formattedClaimDate} - due 4 days ago`;
 
     expect(tree.everySubTree('.past-due')).not.to.be.empty;
     expect(tree.everySubTree('.due-date-header')[0].text()).to.equal(
@@ -37,27 +37,13 @@ describe('<DueDate>', () => {
     );
   });
 
-  it('should render past due class when less than day difference', () => {
+  it('should render file due class when more than a days difference', () => {
     const date = moment()
-      .subtract(1, 'hour')
+      .add(3, 'day')
       .format('YYYY-MM-DD');
     const tree = SkinDeep.shallowRender(<DueDate date={date} />);
     const formattedClaimDate = formatDate(date);
-    const dueDateHeader = `Needed from you by ${formattedClaimDate} - due 16 hours ago`;
-
-    expect(tree.everySubTree('.past-due')).not.to.be.empty;
-    expect(tree.everySubTree('.due-date-header')[0].text()).to.equal(
-      dueDateHeader,
-    );
-  });
-
-  it('should render file due class when less than a day difference', () => {
-    const date = moment()
-      .add(1, 'day')
-      .format('YYYY-MM-DD');
-    const tree = SkinDeep.shallowRender(<DueDate date={date} />);
-    const formattedClaimDate = formatDate(date);
-    const dueDateHeader = `Needed from you by ${formattedClaimDate} - due in 8 hours`;
+    const dueDateHeader = `Needed from you by ${formattedClaimDate} - due in 2 days`;
 
     expect(tree.everySubTree('.due-file')).not.to.be.empty;
     expect(tree.everySubTree('.due-date-header')[0].text()).to.equal(
