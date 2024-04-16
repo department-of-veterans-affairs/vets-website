@@ -40,7 +40,7 @@ describe('check-in', () => {
         const dateMessage = component.getByTestId('date-message');
         expect(dateMessage).to.exist;
         expect(dateMessage).to.contain.text(
-          'You can pre-check in online until 01/02/2022.',
+          'You can pre-check in online until January 02, 2022.',
         );
       });
     });
@@ -139,7 +139,7 @@ describe('check-in', () => {
         const dateMessage = component.getByTestId('date-message');
         expect(dateMessage).to.exist;
         expect(dateMessage).to.contain.text(
-          'You can pre-check in online until 01/02/2022.',
+          'You can pre-check in online until January 02, 2022.',
         );
       });
     });
