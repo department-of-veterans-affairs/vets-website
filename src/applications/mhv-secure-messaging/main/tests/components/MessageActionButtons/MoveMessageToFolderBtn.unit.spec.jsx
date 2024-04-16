@@ -83,7 +83,7 @@ describe('Move button', () => {
     fireEvent.click(await screen.getByTestId('move-button-text'));
     expect(
       screen.getByText(
-        'This conversation will be moved. Any replies to this message will appear in your inbox',
+        'This conversation will be moved. Any replies to this message will appear in your inbox.',
       ),
     ).to.exist;
     expect(screen.getByTestId('move-to-modal')).to.exist;
