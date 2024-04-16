@@ -36,13 +36,19 @@ const InterstitialPage = props => {
           reply.
         </p>
 
-        <va-button
+        <span className="sr-only" id="continue-content-change-message">
+          Page content will change.
+        </span>
+
+        <button
+          className="continue-button vads-u-padding-y--1p5 vads-u-padding-x--2p5"
           data-testid="continue-button"
           onClick={acknowledge}
-          text={continueButtonText}
           data-dd-action-name={continueButtonText}
-          aria-label="Page content will change."
-        />
+          aria-describedby="continue-content-change-message"
+        >
+          {continueButtonText}
+        </button>
 
         <h2 className="vads-u-font-size--h3">
           If you need help sooner, use one of these urgent communication
