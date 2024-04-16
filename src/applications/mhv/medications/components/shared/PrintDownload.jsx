@@ -81,10 +81,11 @@ const PrintDownload = props => {
     <>
       {isSuccess && (
         <div
+          aria-live="polite"
           className="vads-u-margin-bottom--3"
           data-testid="download-success-banner"
         >
-          <va-alert status="success" aria-live="polite" background-only uswds>
+          <va-alert status="success" background-only uswds>
             <h2 slot="headline">Download started</h2>
             <p className="vads-u-margin--0">
               Check your device’s downloads location for your file.
