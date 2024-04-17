@@ -10,6 +10,10 @@ import {
   DUW_UPDATE_DISCHARGE_TYPE,
   DUW_UPDATE_COURT_MARTIAL,
   DUW_UPDATE_INTENTION,
+  DUW_UPDATE_PREV_APPLICATION,
+  DUW_UPDATE_PREV_APPLICATION_TYPE,
+  DUW_UPDATE_PREV_APPLICATION_YEAR,
+  DUW_UPDATE_PRIOR_SERVICE,
 } from '../constants';
 
 export const updateField = (key, value) => {
@@ -79,6 +83,34 @@ export const updateIntention = value => {
 export const updateDischargeType = value => {
   return {
     type: DUW_UPDATE_DISCHARGE_TYPE,
+    payload: value,
+  };
+};
+
+export const updatePrevApplication = value => {
+  return {
+    type: DUW_UPDATE_PREV_APPLICATION,
+    payload: value,
+  };
+};
+
+export const updatePrevApplicationType = value => {
+  return {
+    type: DUW_UPDATE_PREV_APPLICATION_TYPE,
+    payload: value,
+  };
+};
+
+export const updatePrevApplicationYear = value => {
+  return {
+    type: DUW_UPDATE_PREV_APPLICATION_YEAR,
+    payload: value,
+  };
+};
+
+export const updatePriorService = value => {
+  return {
+    type: DUW_UPDATE_PRIOR_SERVICE,
     payload: value,
   };
 };
