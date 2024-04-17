@@ -11,66 +11,97 @@ import { UpdateErrorAlert } from '../../../components/direct-deposit/alerts/Upda
 describe('<UpdateErrorAlert />', () => {
   it('renders', () => {
     const { container } = render(
-      <UpdateErrorAlert
-        saveError={{
-          error: errors.generic,
-        }}
-      />,
+      <UpdateErrorAlert saveError={errors.generic} />,
     );
     expect(container.innerHTML).to.not.be.empty;
   });
 
-  it('renders the default error when it gets an unrecognized error message', () => {
+  it('renders the default error when it gets an unrecognized error message', async () => {
     const { findByText } = render(
-      <UpdateErrorAlert saveError={errors.generic} />,
+      <UpdateErrorAlert saveError={errors.generic.errors} />,
     );
     expect(
-      findByText(
+      await findByText(
         'We’re sorry. We couldn’t update your payment information. Please try again later.',
       ),
     ).to.exist;
   });
 
-  it('renders the invalid routing number error', () => {
+  it('renders the invalid routing number error for checksum error', async () => {
     const { findByText } = render(
       <UpdateErrorAlert
-        saveError={{ error: errors.invalidChecksumRoutingNumber }}
+        saveError={errors.invalidChecksumRoutingNumber.errors}
       />,
     );
     expect(
-      findByText(
-        'We can’t find a bank linked to the routing number you entered.',
-      ),
-    ).to.exist;
-
-    const { findByText: findByText2 } = render(
-      <UpdateErrorAlert saveError={{ error: errors.invalidRoutingNumber }} />,
-    );
-    expect(
-      findByText2(
+      await findByText(
         'We can’t find a bank linked to the routing number you entered.',
       ),
     ).to.exist;
   });
 
-  it('renders the flagged account error', () => {
-    const { findByText } = render(
-      <UpdateErrorAlert saveError={errors.flaggedAccount} />,
+  it('renders the invalid routing number error for invalid error', async () => {
+    const { findByText: findByText2 } = render(
+      <UpdateErrorAlert saveError={errors.invalidRoutingNumber.errors} />,
     );
     expect(
-      findByText(
+      await findByText2(
+        'We can’t find a bank linked to the routing number you entered.',
+      ),
+    ).to.exist;
+  });
+
+  it('renders the flagged account error', async () => {
+    const { findByText } = render(
+      <UpdateErrorAlert saveError={errors.accountNumberFlagged.errors} />,
+    );
+    expect(
+      await findByText(
         'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
       ),
     ).to.exist;
   });
 
-  it('renders the flagged routing number error', () => {
+  it('renders the flagged routing number error', async () => {
     const { findByText } = render(
-      <UpdateErrorAlert saveError={{ error: errors.flaggedRoutingNumber }} />,
+      <UpdateErrorAlert saveError={errors.routingNumberFlagged.errors} />,
     );
     expect(
-      findByText(
-        'We’re sorry. The bank routing number you entered requires additional verification before we can save your information. To use this bank routing number, you’ll need to call us at 800-827-1000 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
+      await findByText(
+        /We’re sorry. The bank routing number you entered requires additional verification before we can save your information/i,
+      ),
+    ).to.exist;
+  });
+
+  it('renders the mailing address error', async () => {
+    const { findByText } = render(
+      <UpdateErrorAlert saveError={errors.invalidMailingAddress.errors} />,
+    );
+    expect(
+      await findByText(
+        /We’re sorry. We couldn’t update your direct deposit bank information because your mailing address is missing or invalid./i,
+      ),
+    ).to.exist;
+  });
+
+  it('renders the day phone number error', async () => {
+    const { findByText } = render(
+      <UpdateErrorAlert saveError={errors.invalidDayPhone.errors} />,
+    );
+    expect(
+      await findByText(
+        /We’re sorry. We couldn’t update your direct deposit bank information because your work phone number is missing or invalid./i,
+      ),
+    ).to.exist;
+  });
+
+  it('renders the night phone number error', async () => {
+    const { findByText } = render(
+      <UpdateErrorAlert saveError={errors.invalidNightPhone.errors} />,
+    );
+    expect(
+      await findByText(
+        /We’re sorry. We couldn’t update your direct deposit bank information because your home phone number is missing or invalid./i,
       ),
     ).to.exist;
   });
