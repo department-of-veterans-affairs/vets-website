@@ -12,7 +12,7 @@ export default function DueDateOld({ date }) {
         <i className="fa fa-exclamation-triangle past-due-icon" /> Needed from
         you
       </strong>
-      <span className={className}> - Due {dueDate.fromNow()}</span>
+      <span className={className}> - due {dueDate.fromNow()}</span>
     </div>
   );
 }

@@ -9,7 +9,7 @@ import DueDate from '../../components/DueDate';
 const formatDate = buildDateFormatter();
 
 describe('<DueDate>', () => {
-  it('should render past due class when less than a years difference', () => {
+  it('should render past due class when theres more than a years difference', () => {
     const date = moment()
       .subtract(15, 'month')
       .format('YYYY-MM-DD');
@@ -23,13 +23,27 @@ describe('<DueDate>', () => {
     );
   });
 
-  it('should render past due class when less than a months difference', () => {
+  it('should render past due class when theres more than a months difference', () => {
+    const date = moment()
+      .subtract(4, 'month')
+      .format('YYYY-MM-DD');
+    const tree = SkinDeep.shallowRender(<DueDate date={date} />);
+    const formattedClaimDate = formatDate(date);
+    const dueDateHeader = `Needed from you by ${formattedClaimDate} - Due 4 months ago`;
+
+    expect(tree.everySubTree('.past-due')).not.to.be.empty;
+    expect(tree.everySubTree('.due-date-header')[0].text()).to.equal(
+      dueDateHeader,
+    );
+  });
+
+  it('should render past due class when theres more than a days difference', () => {
     const date = moment()
       .subtract(3, 'day')
       .format('YYYY-MM-DD');
     const tree = SkinDeep.shallowRender(<DueDate date={date} />);
     const formattedClaimDate = formatDate(date);
-    const dueDateHeader = `Needed from you by ${formattedClaimDate} - Due 4 days ago`;
+    const dueDateHeader = `Needed from you by ${formattedClaimDate} - Due 3 days ago`;
 
     expect(tree.everySubTree('.past-due')).not.to.be.empty;
     expect(tree.everySubTree('.due-date-header')[0].text()).to.equal(
@@ -43,7 +57,7 @@ describe('<DueDate>', () => {
       .format('YYYY-MM-DD');
     const tree = SkinDeep.shallowRender(<DueDate date={date} />);
     const formattedClaimDate = formatDate(date);
-    const dueDateHeader = `Needed from you by ${formattedClaimDate} - Due in 2 days`;
+    const dueDateHeader = `Needed from you by ${formattedClaimDate}`;
 
     expect(tree.everySubTree('.due-file')).not.to.be.empty;
     expect(tree.everySubTree('.due-date-header')[0].text()).to.equal(
@@ -57,7 +71,7 @@ describe('<DueDate>', () => {
       .format('YYYY-MM-DD');
     const tree = SkinDeep.shallowRender(<DueDate date={date} />);
     const formattedClaimDate = formatDate(date);
-    const dueDateHeader = `Needed from you by ${formattedClaimDate} - Due in 10 months`;
+    const dueDateHeader = `Needed from you by ${formattedClaimDate}`;
 
     expect(tree.everySubTree('.due-file')).not.to.be.empty;
     expect(tree.everySubTree('.due-date-header')[0].text()).to.equal(
@@ -71,7 +85,7 @@ describe('<DueDate>', () => {
       .format('YYYY-MM-DD');
     const tree = SkinDeep.shallowRender(<DueDate date={date} />);
     const formattedClaimDate = formatDate(date);
-    const dueDateHeader = `Needed from you by ${formattedClaimDate} - Due in a year`;
+    const dueDateHeader = `Needed from you by ${formattedClaimDate}`;
 
     expect(tree.everySubTree('.due-file')).not.to.be.empty;
     expect(tree.everySubTree('.due-date-header')[0].text()).to.equal(
