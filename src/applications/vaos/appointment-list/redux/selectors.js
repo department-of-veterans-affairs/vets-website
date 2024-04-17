@@ -256,6 +256,7 @@ export function selectRequestedAppointmentDetails(state, id) {
   const provider = featureVAOSServiceCCAppointments
     ? appointment?.preferredProviderName
     : appointment?.preferredCommunityCareProviders?.[0];
+  const preferredLanguage = appointment?.vaos.apiData.preferredLanguage;
   const requestedPeriod = appointment?.requestedPeriod;
   const typeOfCare = getTypeOfCareById(appointment?.vaos.apiData.serviceType);
   const typeOfCareName = typeOfCare?.name;
@@ -276,6 +277,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     isCanceled,
     phone,
     preferredDates: requestedPeriod,
+    preferredLanguage,
     preferredTimesForPhoneCall,
     provider,
     typeOfCare,
