@@ -58,7 +58,10 @@ const LabAndTestDetails = () => {
 
   if (accessAlert) {
     return (
-      <AccessTroubleAlertBox alertType={accessAlertTypes.LABS_AND_TESTS} />
+      <AccessTroubleAlertBox
+        alertType={accessAlertTypes.LABS_AND_TESTS}
+        className="vads-u-margin-bottom--9"
+      />
     );
   }
   if (labAndTestDetails?.type === labTypes.CHEM_HEM) {

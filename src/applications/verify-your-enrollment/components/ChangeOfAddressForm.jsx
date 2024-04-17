@@ -153,23 +153,6 @@ const ChangeOfAddressForm = ({
     return newObject;
   };
 
-  useEffect(() => {
-    setAddressSchema(
-      removeObjectKeys(
-        createFormSchema(addressFormRequiredData),
-        [province.title, ipc.title, livesOnMilitaryBaseInfo.title],
-        'schema',
-      ),
-    );
-    setAddressUISchema(
-      removeObjectKeys(
-        getUiSchema(),
-        [province.title, ipc.title, livesOnMilitaryBaseInfo.title],
-        'uiSchema',
-      ),
-    );
-  }, []);
-
   useEffect(
     () => {
       const updateSchema = () => {
@@ -212,9 +195,8 @@ const ChangeOfAddressForm = ({
           // if livesOnMilitaryBase is unchecked
           if (!addressFormData?.['view:livesOnMilitaryBase']) {
             if (
-              Object.keys(addressFormData).length === 0 ||
-              addressFormData?.countryCodeIso3 === 'USA' ||
-              addressFormData?.countryCodeIso3 === undefined
+              formData?.countryCodeIso3 === undefined ||
+              formData?.countryCodeIso3 === 'USA'
             ) {
               setAddressSchema(
                 removeObjectKeys(

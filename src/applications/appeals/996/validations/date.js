@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { isBefore, startOfDay, subYears } from 'date-fns';
 
 import { issueErrorMessages } from '../content/addIssue';
 import {
@@ -7,16 +7,14 @@ import {
   addDateErrorMessages,
 } from '../../shared/validations/date';
 
-const minDate = moment()
-  .subtract(1, 'year')
-  .startOf('day');
+const minDate = startOfDay(subYears(new Date(), 1));
 
 export const validateDate = (errors, rawDateString = '') => {
   const date = createDateObject(rawDateString);
 
   const hasMessages = addDateErrorMessages(errors, issueErrorMessages, date);
 
-  if (!hasMessages && date.momentDate.isBefore(minDate)) {
+  if (!hasMessages && isBefore(date.dateObj, minDate)) {
     errors.addError(issueErrorMessages.newerDate);
     date.errors.year = true; // only the year is invalid at this point
   }

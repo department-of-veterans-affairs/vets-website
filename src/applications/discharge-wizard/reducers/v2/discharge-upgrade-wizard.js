@@ -8,6 +8,10 @@ import {
   DUW_UPDATE_INTENTION,
   DUW_UPDATE_COURT_MARTIAL,
   DUW_UPDATE_FORM_STORE,
+  DUW_UPDATE_PREV_APPLICATION,
+  DUW_UPDATE_PREV_APPLICATION_TYPE,
+  DUW_UPDATE_PREV_APPLICATION_YEAR,
+  DUW_UPDATE_PRIOR_SERVICE,
 } from '../../constants';
 
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
@@ -21,6 +25,10 @@ const {
   DISCHARGE_TYPE,
   COURT_MARTIAL,
   INTENTION,
+  PREV_APPLICATION,
+  PREV_APPLICATION_TYPE,
+  PREV_APPLICATION_YEAR,
+  PRIOR_SERVICE,
 } = SHORT_NAME_MAP;
 
 const initialState = {
@@ -45,6 +53,14 @@ export default (state = initialState, action) => {
       return updateFormValue(COURT_MARTIAL, state, action);
     case DUW_UPDATE_INTENTION:
       return updateFormValue(INTENTION, state, action);
+    case DUW_UPDATE_PREV_APPLICATION:
+      return updateFormValue(PREV_APPLICATION, state, action);
+    case DUW_UPDATE_PREV_APPLICATION_TYPE:
+      return updateFormValue(PREV_APPLICATION_TYPE, state, action);
+    case DUW_UPDATE_PREV_APPLICATION_YEAR:
+      return updateFormValue(PREV_APPLICATION_YEAR, state, action);
+    case DUW_UPDATE_PRIOR_SERVICE:
+      return updateFormValue(PRIOR_SERVICE, state, action);
     case DUW_VIEWED_INTRO_PAGE:
       return {
         ...state,

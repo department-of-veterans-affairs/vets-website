@@ -20,7 +20,8 @@ export const responseMatchesRequired = (requiredResponses, formResponse) => {
 };
 
 /** ================================================================
- * Function for evaluating whether a question should display
+ * Function for evaluating whether a question should display, takes into account "forked" display conditions
+ * where there could be multiple cases for a single question to display in the logic flow.
  *
  * @param {string} SHORT_NAME - name for the current question
  * @param {object} formResponses - all answers in the store
@@ -29,8 +30,32 @@ export const displayConditionsMet = (SHORT_NAME, formResponses) => {
   const displayConditionsForShortName = DISPLAY_CONDITIONS[SHORT_NAME];
   const questionRequirements = Object.keys(displayConditionsForShortName);
 
+  if (questionRequirements.includes('FORK')) {
+    const forkedReqs = displayConditionsForShortName?.FORK;
+
+    // Iterates through the entries available for the current questions reqs.
+    for (const forkIndex of Object.keys(forkedReqs)) {
+      const forkConditions = forkedReqs[forkIndex];
+
+      // Iterates through the responses required and checks for valid conditions.
+      for (const conditionKey of Object.keys(forkConditions)) {
+        const requiredResponses = forkConditions[conditionKey];
+        const formResponse = formResponses?.[conditionKey];
+
+        if (
+          !responseMatchesRequired(requiredResponses, formResponse) &&
+          requiredResponses.length
+        ) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   for (const questionShortName of questionRequirements) {
     const formResponse = formResponses?.[questionShortName];
+
     const requiredResponses = displayConditionsForShortName[questionShortName];
 
     if (
