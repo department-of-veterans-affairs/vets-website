@@ -170,7 +170,7 @@ export const INCLUDE_IMAGE_ENDPOINT = '&include_image=true';
 export const PDF_TXT_GENERATE_STATUS = {
   NotStarted: 'PDF_GENERATE_NOT_STARTED',
   InProgress: 'PDF_GENERATE_IN_PROGRESS',
-  Success: 'PDF_GENERATE_SUCESS',
+  Success: 'PDF_GENERATE_SUCCESS',
 };
 
 export const defaultSelectedSortOption =
