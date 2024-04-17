@@ -103,17 +103,19 @@ function UpdateAddressError() {
   );
 }
 
-function UpdatePhoneNumberError({ phoneNumberType = 'home' }) {
+function UpdatePhoneNumberError({ phoneNumberType }) {
   const editLink = `/profile/contact-information#edit-${phoneNumberType}-phone-number`;
   return (
     <p
       className="vads-u-margin-y--0"
       data-test-id={`update-${phoneNumberType}-phone-number-error`}
     >
-      We’re sorry. We couldn’t update your direct deposit bank information
-      because your {phoneNumberType} phone number is missing or invalid. Please
-      go back to <a href={editLink}>your profile</a> and fill in this required
-      information.
+      {`We’re sorry. We couldn’t update your direct deposit bank information
+      because your ${phoneNumberType} phone number is missing or invalid. Please
+      go back to`}{' '}
+      <a href={editLink}>your profile</a>{' '}
+      {`and fill in this required
+      information.`}
     </p>
   );
 }

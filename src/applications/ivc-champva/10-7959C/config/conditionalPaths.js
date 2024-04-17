@@ -40,3 +40,11 @@ export function hasPrimaryProvider(formData, index) {
     'yes'
   );
 }
+
+export function hasSecondaryProvider(formData, index) {
+  if (index === undefined) return true;
+  return (
+    get('applicantHasSecondary.hasSecondary', formData?.applicants?.[index]) ===
+    'yes'
+  );
+}

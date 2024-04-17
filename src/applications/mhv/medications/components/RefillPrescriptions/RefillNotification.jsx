@@ -11,12 +11,12 @@ const RefillNotification = ({ refillResult = {} }) => {
       {refillResult?.successfulMeds.length === 0 ? (
         <div className="vads-u-margin-y--1">
           <va-alert status="error" setFocus aria-live="polite" uswds>
-            <h3
-              className="vads-u-margin-y--0"
+            <h2
+              className="vads-u-margin-y--0 vads-u-font-size--h3"
               data-testid="failed-message-title"
             >
               Request not submitted
-            </h3>
+            </h2>
             <p>We’re sorry. There’s a problem with our system.</p>
             <p>
               To request refills, call the pharmacy number on your prescription
@@ -29,12 +29,12 @@ const RefillNotification = ({ refillResult = {} }) => {
           {refillResult?.failedMeds.length > 0 && (
             <div className="vads-u-margin-y--2">
               <va-alert status="error" setFocus aria-live="polite" uswds>
-                <h3
-                  className="vads-u-margin-y--0"
+                <h2
+                  className="vads-u-margin-y--0 vads-u-font-size--h3"
                   data-testid="failed-message-title"
                 >
                   Only part of your request was submitted
-                </h3>
+                </h2>
                 <p data-testid="failed-message-description">
                   We’re sorry. There’s a problem with our system. We couldn’t
                   submit these refill requests:
@@ -61,12 +61,12 @@ const RefillNotification = ({ refillResult = {} }) => {
           )}
           <div className="vads-u-margin-y--2">
             <va-alert status="success" setFocus aria-live="polite" uswds>
-              <h3
-                className="vads-u-margin-y--0"
+              <h2
+                className="vads-u-margin-y--0 vads-u-font-size--h3"
                 data-testid="success-message-title"
               >
                 Refill prescriptions
-              </h3>
+              </h2>
               <ul className="va-list--disc">
                 {refillResult?.successfulMeds.map((id, idx) => (
                   <li className="vads-u-padding-y--0" key={idx}>

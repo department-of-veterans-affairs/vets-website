@@ -15,7 +15,7 @@ describe('Medicaitons Landing page container', () => {
   const initialState = {
     rx: {
       prescriptions: {
-        // prescriptionsList: prescriptions,
+        prescriptionsList: prescriptions,
         prescriptionDetails: prescriptions,
       },
     },
@@ -33,7 +33,6 @@ describe('Medicaitons Landing page container', () => {
       },
     },
   };
-
   const setup = (state = initialState, path = '/') => {
     return renderWithStoreAndRouter(<LandingPage />, {
       initialState: state,
@@ -81,11 +80,10 @@ describe('Medicaitons Landing page container', () => {
         rx: {
           prescriptions: {
             prescriptionsList: prescriptions,
-            prescriptionDetails: prescriptions,
           },
         },
         featureToggles: {
-          loading: false,
+          loading: true,
           // eslint-disable-next-line camelcase
           mhv_medications_to_va_gov_release: true,
         },
@@ -238,7 +236,7 @@ describe('App-level feature flag functionality', () => {
       screenFeatureToggle
         .getByTestId('prescriptions-nav-link')
         .getAttribute('href'),
-    ).to.equal(medicationsUrls.MEDICATIONS_URL);
+    ).to.equal(medicationsUrls.subdirectories.BASE);
   });
   it('The user doesn’t have any medications', () => {
     const screenFeatureToggle = renderWithStoreAndRouter(<LandingPage />, {

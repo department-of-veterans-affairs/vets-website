@@ -1,6 +1,7 @@
 // import defaultRadiology from '../fixtures/Radiology.json';
+import BaseListPage from './BaseListPage';
 
-class RadiologyListPage {
+class RadiologyListPage extends BaseListPage {
   /*
   clickGotoRadiologyLink = (
    /* Radiology = defaultRadiology,
