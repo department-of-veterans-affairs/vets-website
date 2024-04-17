@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
-// import { TITLE, SUBTITLE } from '../config/constants';
+import { TITLE, SUBTITLE } from '../config/constants';
 // import manifest from '../manifest.json';
 
 const IntroductionPage = props => {
@@ -22,8 +22,8 @@ const IntroductionPage = props => {
   );
 
   const content = {
-    formTitle: 'TITLE',
-    formSubTitle: 'SUBTITLE',
+    formTitle: TITLE,
+    formSubTitle: SUBTITLE,
     authStartFormText: 'Start your request for priority processing',
     unauthStartText: 'Sign in to start filling out your form',
     displayNonVeteranMessaging: true,
