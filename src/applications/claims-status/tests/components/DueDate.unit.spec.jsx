@@ -44,7 +44,8 @@ describe('<DueDate>', () => {
 
   it('should render past due class when theres more than a days difference', () => {
     const date = moment()
-      .tz('America/Los_Angeles')
+      .utcOffset(0)
+      .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
       .subtract(3, 'day');
     const dateString = date.format('YYYY-MM-DD');
     const { container, getByText } = renderWithRouter(
@@ -60,7 +61,8 @@ describe('<DueDate>', () => {
 
   it('should render past due class when theres more than a few hours difference', () => {
     const date = moment()
-      .tz('America/Los_Angeles')
+      .utcOffset(0)
+      .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
       .subtract(1, 'day');
     const dateString = date.format('YYYY-MM-DD');
     const { container, getByText } = renderWithRouter(
