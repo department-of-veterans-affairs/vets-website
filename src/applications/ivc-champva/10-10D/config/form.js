@@ -127,11 +127,11 @@ import {
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 
-import { hasReq } from '../components/File/MissingFileOverview';
+import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import { fileWithMetadataSchema } from './attachments';
 
 // import mockData from '../tests/fixtures/data/test-data.json';
-import FileFieldCustom from '../components/File/FileUpload';
+import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 
 /** @type {FormConfig} */
 const formConfig = {

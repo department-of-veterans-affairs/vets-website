@@ -2,7 +2,7 @@ import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantWording } from '../../../shared/utilities';
 import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
-import { fileUploadUi as fileUploadUI } from '../File/upload';
+import { fileUploadUi as fileUploadUI } from '../../../shared/components/fileUploads/upload';
 import { isRequiredFile } from '../../helpers/supportingDocsVerification';
 import {
   uploadWithInfoComponent,

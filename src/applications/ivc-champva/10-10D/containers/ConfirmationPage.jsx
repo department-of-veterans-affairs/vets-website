@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import MissingFileOverview from '../components/File/MissingFileOverview';
+import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 
 const heading = (
   <>

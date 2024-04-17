@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import {
   identifyMissingUploads,
   getConditionalPages,
-} from '../../helpers/supportingDocsVerification';
+} from '../../../10-10D/helpers/supportingDocsVerification';
 import MissingFileList from './MissingFileList';
 
 const mailInfo = (

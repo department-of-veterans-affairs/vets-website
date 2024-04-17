@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { makeHumanReadable } from '../../helpers/utilities';
+import { makeHumanReadable } from '../../../10-10D/helpers/utilities';
 import {
   requiredFiles,
   optionalFiles,
-} from '../../helpers/supportingDocsVerification';
+} from '../../../10-10D/helpers/supportingDocsVerification';
 
 // All file names mapped to their presentable labels
 const fileNameMap = { ...requiredFiles, ...optionalFiles };

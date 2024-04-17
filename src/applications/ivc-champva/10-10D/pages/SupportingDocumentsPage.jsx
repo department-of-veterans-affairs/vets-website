@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MissingFileOverview from '../components/File/MissingFileOverview';
+import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 
 export default function SupportingDocumentsPage({
   contentAfterButtons,
