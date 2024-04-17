@@ -128,13 +128,13 @@ const Error = () => {
     case 'appointment-canceled': {
       alertType = 'warning';
       header = t('sorry-pre-check-in-is-no-longer-available');
-      // get first appointment that was cancelled?
+      // get first appointment that was canceled?
       const canceledAppointment = getFirstCanceledAppointment(appointments);
       const appointmentDateTime = new Date(canceledAppointment.startTime);
       messageText = (
         <div>
           <p className="vads-u-margin-top--0">
-            {t('your-appointment-at-on-is-cancelled', {
+            {t('your-appointment-at-on-is-canceled', {
               day: appointmentDateTime,
               time: appointmentDateTime,
             })}

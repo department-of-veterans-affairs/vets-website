@@ -14,6 +14,7 @@ export function useRepresentativeStatus() {
 
       try {
         const response = await RepresentativeStatusApi.getRepresentativeStatus();
+
         if (response.data.id) {
           const { attributes } = response.data;
           const { contact, extension } = parsePhoneNumber(attributes.phone);
@@ -47,7 +48,7 @@ export function useRepresentativeStatus() {
 
           setRepresentative({
             id: response.data.id,
-            poaType: response.data.type,
+            poaType: response.data.attributes.type,
             ...attributes,
             concatAddress,
             contact,

@@ -272,7 +272,7 @@ describe('check-in experience', () => {
           );
           expect(
             getByTestId('appointment-details--appointment-value'),
-          ).to.have.text('VA Appointment');
+          ).to.have.text('VA appointment');
         });
         it('renders doctor name if exists', () => {
           const { getByTestId } = render(
@@ -309,7 +309,7 @@ describe('check-in experience', () => {
           );
           expect(
             getByTestId('appointment-details--appointment-value'),
-          ).to.have.text('VA Appointment');
+          ).to.have.text('VA appointment');
         });
         it('renders generic appointment if stopCodeName is empty string', () => {
           const { getByTestId } = render(
@@ -322,7 +322,7 @@ describe('check-in experience', () => {
           );
           expect(
             getByTestId('appointment-details--appointment-value'),
-          ).to.have.text('VA Appointment');
+          ).to.have.text('VA appointment');
         });
         it('does not render doctor name if missing', () => {
           const { queryByTestId } = render(
