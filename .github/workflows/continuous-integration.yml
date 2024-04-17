@@ -180,6 +180,21 @@ jobs:
         with:
           fetch-depth: 0
 
+
+#new
+      - name: Restore Cached Folder
+        #if: needs.tests-prep.outputs.cypress-tests != '[]'
+        id: cache-restoreApril16
+        uses: actions/cache@v3
+        with:
+          path: ./build
+          key: ${{ github.run_id }}-${{ github.sha }}
+          restore-keys: ${{ github.run_id }}-${{ github.sha }}
+#new
+      - name: List restored files
+        run: ls -la ./build
+        #if: steps.cache-restoreApril16.outputs.cache-hit == 'true' && needs.tests-prep.outputs.cypress-tests != '[]'
+
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
@@ -678,19 +693,6 @@ jobs:
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
 
-#new
-      - name: Restore Cached Folder
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        id: cache-restoreApril16
-        uses: actions/cache@v3
-        with:
-          path: ./build
-          key: ${{ github.run_id }}-${{ github.sha }}
-          restore-keys: ${{ github.run_id }}-${{ github.sha }}
-#new
-      - name: List restored files
-        run: ls -la ./build
-        if: steps.cache-restoreApril16.outputs.cache-hit == 'true' && needs.tests-prep.outputs.cypress-tests != '[]'
 
       - name: Checkout vets-website
         if: needs.tests-prep.outputs.cypress-tests != '[]'
