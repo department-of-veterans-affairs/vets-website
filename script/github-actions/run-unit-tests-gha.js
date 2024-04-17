@@ -129,9 +129,9 @@ if (testsToVerify === null) {
     .filter(app => app.startsWith('src/applications'))
     .map(app => app.split('/')[2]);
   for (const app of appsToVerify) {
-    const testsToRun = testsToVerify.filter(test =>
-      test.includes(`src/applications/${app}`).join(' '),
-    );
+    const testsToRun = testsToVerify
+      .filter(test => test.includes(`src/applications/${app}`))
+      .join(' ');
     if (testsToRun !== '') {
       const command = `LOG_LEVEL=${options[
         'log-level'
