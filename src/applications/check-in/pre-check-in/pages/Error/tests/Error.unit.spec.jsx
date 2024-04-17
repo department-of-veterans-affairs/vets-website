@@ -35,7 +35,7 @@ describe('check-in', () => {
             <Error />
           </CheckInProvider>,
         );
-        expect(component.getByText('Sorry, we can’t complete pre-check-in.')).to
+        expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
           .exist;
         const dateMessage = component.getByTestId('date-message');
         expect(dateMessage).to.exist;
@@ -60,7 +60,7 @@ describe('check-in', () => {
         expect(expiredMessage).to.exist;
         expect(
           within(expiredMessage).getByText(
-            'You can still check-in with your phone on the day of your appointment.',
+            'You can still check in with your phone on the day of your appointment.',
           ),
         ).to.exist;
       });
@@ -73,13 +73,13 @@ describe('check-in', () => {
           </CheckInProvider>,
         );
         expect(
-          component.getByText('Sorry, pre-check-in is no longer available.'),
+          component.getByText('Sorry, pre-check-in is no longer available'),
         ).to.exist;
         const expiredMessage = component.getByTestId('error-message');
         expect(expiredMessage).to.exist;
         expect(
           within(expiredMessage).getByText(
-            'You can still check-in with your phone on the day of your appointment.',
+            'You can still check in with your phone on the day of your appointment.',
           ),
         ).to.exist;
       });
@@ -92,7 +92,7 @@ describe('check-in', () => {
           </CheckInProvider>,
         );
         expect(
-          component.getByText('Sorry, pre-check-in is no longer available.'),
+          component.getByText('Sorry, pre-check-in is no longer available'),
         ).to.exist;
         const expiredMessage = component.getByTestId('error-message');
         expect(expiredMessage).to.exist;
@@ -110,13 +110,13 @@ describe('check-in', () => {
             <Error />
           </CheckInProvider>,
         );
-        expect(component.getByText('Sorry, we can’t complete pre-check-in.')).to
+        expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
           .exist;
         const expiredMessage = component.getByTestId('error-message');
         expect(expiredMessage).to.exist;
         expect(
           within(expiredMessage).getByText(
-            'You can still check-in with your phone on the day of your appointment.',
+            'You can still check in with your phone on the day of your appointment.',
           ),
         ).to.exist;
       });
@@ -134,7 +134,7 @@ describe('check-in', () => {
             <Error />
           </CheckInProvider>,
         );
-        expect(component.getByText('Sorry, we can’t complete pre-check-in.')).to
+        expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
           .exist;
         const dateMessage = component.getByTestId('date-message');
         expect(dateMessage).to.exist;
@@ -168,14 +168,14 @@ describe('check-in', () => {
           </CheckInProvider>,
         );
         expect(
-          component.getByText('Sorry, pre-check-in is no longer available.'),
+          component.getByText('Sorry, pre-check-in is no longer available'),
         ).to.exist;
         expect(component.queryByTestId('how-to-link')).to.exist;
         const expiredMessage = component.getByTestId('error-message');
         expect(expiredMessage).to.exist;
         expect(
           within(expiredMessage).getByText(
-            'You can still check-in with your phone on the day of your appointment.',
+            'You can still check in with your phone on the day of your appointment.',
           ),
         ).to.exist;
       });
@@ -194,7 +194,7 @@ describe('check-in', () => {
           </CheckInProvider>,
         );
         expect(
-          component.getByText('Sorry, pre-check-in is no longer available.'),
+          component.getByText('Sorry, pre-check-in is no longer available'),
         ).to.exist;
         const expiredMessage = component.getByTestId('error-message');
         expect(expiredMessage).to.exist;
@@ -232,13 +232,13 @@ describe('check-in', () => {
           </CheckInProvider>,
         );
         expect(
-          component.getByText('Sorry, pre-check-in is no longer available.'),
+          component.getByText('Sorry, pre-check-in is no longer available'),
         ).to.exist;
         const canceledMessage = component.getByTestId('error-message');
         expect(canceledMessage).to.exist;
         expect(
           within(canceledMessage).getByText(
-            'Your appointment at 2:56 p.m. on January 03, 2022 is cancelled.',
+            'Your appointment at 2:56 p.m. on January 03, 2022 is canceled.',
           ),
         ).to.exist;
         expect(
@@ -261,13 +261,13 @@ describe('check-in', () => {
           </CheckInProvider>,
         );
         expect(
-          component.getByText('Sorry, pre-check-in is no longer available.'),
+          component.getByText('Sorry, pre-check-in is no longer available'),
         ).to.exist;
         const canceledMessage = component.getByTestId('error-message');
         expect(canceledMessage).to.exist;
         expect(
           within(canceledMessage).getByText(
-            'Your appointment at 2:56 p.m. on January 03, 2022 is cancelled.',
+            'Your appointment at 2:56 p.m. on January 03, 2022 is canceled.',
           ),
         ).to.exist;
         expect(
@@ -309,7 +309,7 @@ describe('check-in', () => {
             <Error />
           </CheckInProvider>,
         );
-        expect(component.getByText('Sorry, we can’t complete pre-check-in.')).to
+        expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
           .exist;
         expect(component.getByTestId('error-message')).to.exist;
       });

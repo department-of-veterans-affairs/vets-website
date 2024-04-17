@@ -23,6 +23,12 @@ const MEDIGAP = {
   medigapPlanM: 'Medigap Plan M',
 };
 
+function insuranceName(applicant, isPrimary) {
+  return isPrimary
+    ? applicant?.applicantPrimaryProvider
+    : applicant?.applicantSecondaryProvider;
+}
+
 /*
 Primary health insurance and secondary health insurance information use
 the same set of questions. This schema works for either depending on
@@ -30,7 +36,7 @@ the boolean passed in (if true, we generate the primary schema, if false
 we generate the secondary schema). Using this pattern for all primary/secondary
 schemas
 */
-export const applicantHasInsuranceSchema = isPrimary => {
+export function applicantHasInsuranceSchema(isPrimary) {
   const val = isPrimary ? 'Primary' : 'Secondary';
   const keyname = `applicantHas${val}`;
   const property = `has${val}`;
@@ -48,16 +54,14 @@ export const applicantHasInsuranceSchema = isPrimary => {
       },
     }),
   };
-};
+}
 
-export const applicantProviderSchema = isPrimary => {
+export function applicantProviderSchema(isPrimary) {
   const keyname = `applicant${isPrimary ? 'Primary' : 'Secondary'}Provider`;
   return {
     uiSchema: {
       applicants: {
-        'ui:options': {
-          viewField: ApplicantField,
-        },
+        'ui:options': { viewField: ApplicantField },
         items: {
           ...titleUI(
             ({ formData }) =>
@@ -77,32 +81,34 @@ export const applicantProviderSchema = isPrimary => {
       [keyname]: { type: 'string' },
     }),
   };
-};
+}
 
-export const applicantPrimaryEffectiveDateSchema = {
-  uiSchema: {
-    applicants: {
-      'ui:options': {
-        viewField: ApplicantField,
-      },
-      items: {
-        ...titleUI(
-          ({ formData }) =>
-            `${applicantWording(formData)} ${
-              formData?.applicantPrimaryProvider
-            } insurance effective date`,
-        ),
-        applicantPrimaryEffectiveDate: currentOrPastDateUI(
-          'Health insurance effective date',
-        ),
+export function applicantInsuranceEffectiveDateSchema(isPrimary) {
+  const keyname = `applicant${
+    isPrimary ? 'Primary' : 'Secondary'
+  }EffectiveDate`;
+  return {
+    uiSchema: {
+      applicants: {
+        'ui:options': { viewField: ApplicantField },
+        items: {
+          ...titleUI(
+            ({ formData }) =>
+              `${applicantWording(formData)} ${insuranceName(
+                formData,
+                isPrimary,
+              )} insurance effective date`,
+          ),
+          [keyname]: currentOrPastDateUI('Health insurance effective date'),
+        },
       },
     },
-  },
-  schema: applicantListSchema(['applicantPrimaryEffectiveDate'], {
-    titleSchema,
-    applicantPrimaryEffectiveDate: currentOrPastDateSchema,
-  }),
-};
+    schema: applicantListSchema([keyname], {
+      titleSchema,
+      [keyname]: currentOrPastDateSchema,
+    }),
+  };
+}
 
 export const applicantPrimaryExpirationDateSchema = {
   uiSchema: {

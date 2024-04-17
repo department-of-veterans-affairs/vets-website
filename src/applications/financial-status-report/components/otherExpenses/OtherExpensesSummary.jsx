@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import * as Sentry from '@sentry/browser';
 import {
   EmptyMiniSummaryCard,
   MiniSummaryCard,
@@ -13,10 +12,11 @@ import {
   firstLetterLowerCase,
   generateUniqueKey,
 } from '../../utils/helpers';
-import { isStreamlinedLongForm } from '../../utils/streamlinedDepends';
+import {
+  calculateDiscretionaryIncome,
+  isStreamlinedLongForm,
+} from '../../utils/streamlinedDepends';
 import ButtonGroup from '../shared/ButtonGroup';
-import { getMonthlyIncome } from '../../utils/calculateIncome';
-import { getMonthlyExpensesAPI } from '../../utils/calculateExpenses';
 
 export const keyFieldsForOtherExpenses = ['name', 'amount'];
 
@@ -43,34 +43,29 @@ const OtherExpensesSummary = ({
     ? 'Continue to review page'
     : 'Continue';
 
-  useEffect(() => {
-    if (!gmtData?.isEligibleForStreamlined) return;
+  useEffect(
+    () => {
+      if (!gmtData?.isEligibleForStreamlined) return;
 
-    getMonthlyExpensesAPI(data)
-      .then(({ calculatedMonthlyExpenses }) => {
-        const { totalMonthlyNetIncome } = getMonthlyIncome(data);
-        const calculatedDiscretionaryIncome =
-          totalMonthlyNetIncome - calculatedMonthlyExpenses;
-
-        setFormData({
-          ...data,
-          gmtData: {
-            ...gmtData,
-            discretionaryBelow:
-              calculatedDiscretionaryIncome <
-              gmtData?.discretionaryIncomeThreshold,
-          },
-        });
-      })
-      .catch(error => {
-        Sentry.withScope(scope => {
-          scope.setExtra('error', error);
-          Sentry.captureMessage(
-            `calculate_monthly_expenses failed in OtherExpensesSummary: ${error}`,
-          );
-        });
+      const calculatedDiscretionaryIncome = calculateDiscretionaryIncome(data);
+      setFormData({
+        ...data,
+        gmtData: {
+          ...gmtData,
+          discretionaryBelow:
+            calculatedDiscretionaryIncome <
+            gmtData?.discretionaryIncomeThreshold,
+        },
       });
-  }, []);
+    },
+    // avoiding use of data since it changes so often
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      otherExpenses,
+      gmtData?.isEligibleForStreamlined,
+      gmtData?.discretionaryIncomeThreshold,
+    ],
+  );
 
   const onDelete = deleteIndex => {
     const newExpenses = otherExpenses.filter(
