@@ -92,7 +92,7 @@ export function DynamicRadioWidget(props) {
   ) {
     // there are no locations returned or there is an error
     locationsList = (
-      <va-alert status="info" uswds>
+      <va-alert status="info">
         <h3 slot="headline">We can't share your closest medical centers</h3>
         <p className="vads-u-font-size--base">{alertContent}</p>
       </va-alert>

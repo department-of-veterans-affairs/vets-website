@@ -6,7 +6,6 @@ const ShortFormAlert = () => (
     status="success"
     class="vads-u-margin-y--5"
     data-testid="hca-short-form-alert"
-    uswds
   >
     Your service-connected disability rating is 50% or higher. This is one of
     our eligibility criteria.

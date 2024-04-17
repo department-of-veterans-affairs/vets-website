@@ -65,7 +65,7 @@ export function EnrollmentVerificationIntroPage({
   );
 
   const noPost911GiBillAlert = (
-    <va-alert status="info" visible uswds>
+    <va-alert status="info" visible>
       <h3 slot="headline">
         You do not have an active Post-9/11 GI Bill education benefit
       </h3>
