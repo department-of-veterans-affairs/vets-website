@@ -510,8 +510,7 @@ class PatientMessageDetailsPage {
         if (button.attr('aria-label') === 'Expand all accordions') {
           return false;
         }
-
-        return true;
+        return 0;
       });
   };
 
