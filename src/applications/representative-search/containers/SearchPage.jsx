@@ -64,7 +64,7 @@ const SearchPage = props => {
       long: currentQuery.position?.longitude,
       page: currentQuery.page || 1,
       perPage: 10,
-      sort: currentQuery.sortType.toLowerCase(),
+      sort: currentQuery.sortType?.toLowerCase(),
       type: currentQuery.representativeType,
       name: currentQuery.representativeInputString,
       ...params,
