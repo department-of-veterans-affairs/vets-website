@@ -28,6 +28,9 @@ export const getAppData = state => ({
   showMeb1990EZMaintenanceAlert: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMeb1990EZMaintenanceAlert
   ],
+  showMeb1990EZR6MaintenanceMessage: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMeb1990EZR6MaintenanceMessage
+  ],
   showMebDgi40Features: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebDgi40Features
   ],

@@ -56,7 +56,7 @@ describe('Radiology Images List container', () => {
 
   it('displays a print button', () => {
     const screen = setup();
-    const printButton = screen.getByTestId('print-records-button');
+    const printButton = screen.getByTestId('print-download-menu');
     expect(printButton).to.exist;
   });
 

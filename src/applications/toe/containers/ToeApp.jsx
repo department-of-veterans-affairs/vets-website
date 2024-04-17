@@ -24,6 +24,7 @@ function ToeApp({
   sponsorsInitial,
   sponsorsSavedState,
   user,
+  showMeb1990ER6MaintenanceMessage,
   showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
@@ -98,6 +99,21 @@ function ToeApp({
       }
     },
     [formData, setFormData, showMebEnhancements06],
+  );
+
+  useEffect(
+    () => {
+      if (
+        showMeb1990ER6MaintenanceMessage !==
+        formData.showMeb1990ER6MaintenanceMessage
+      ) {
+        setFormData({
+          ...formData,
+          showMeb1990ER6MaintenanceMessage,
+        });
+      }
+    },
+    [formData, setFormData, showMeb1990ER6MaintenanceMessage],
   );
 
   useEffect(

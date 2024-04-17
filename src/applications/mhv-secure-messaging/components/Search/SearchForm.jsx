@@ -25,6 +25,7 @@ const SearchForm = props => {
   const resultsCountRef = useRef();
   const filterBoxRef = useRef();
   const filterInputRef = useRef();
+  const filterFormTitleRef = useRef();
 
   useEffect(
     () => {
@@ -109,9 +110,9 @@ const SearchForm = props => {
   const handleFilterClear = e => {
     e.preventDefault();
     dispatch(clearSearchResults());
-    setSearchTerm('');
-    focusElement(filterInputRef.current.shadowRoot?.querySelector('input'));
     setFiltersCleared(true);
+    setSearchTerm('');
+    focusElement(filterFormTitleRef.current);
     setCategory('');
     setDateRange('any');
     setFromDate('');
@@ -224,14 +225,18 @@ const SearchForm = props => {
           handleSearch();
         }}
       >
-        <h2>{filterLabelHeading}</h2>
+        <h2
+          ref={filterFormTitleRef}
+          aria-describedby="filter-clear-success"
+          onBlur={() => {
+            if (filtersCleared) {
+              setFiltersCleared(false);
+            }
+          }}
+        >
+          {filterLabelHeading}
+        </h2>
         <>
-          {searchTermError && (
-            <div className="error-message" role="alert">
-              <span className="sr-only">Error</span>
-              {searchTermError}
-            </div>
-          )}
           <div className="filter-input-box-container">
             <div className="filter-text-input">
               <va-text-input
@@ -248,6 +253,7 @@ const SearchForm = props => {
                   if (e.key === 'Enter') handleSearch();
                 }}
                 data-dd-privacy="mask"
+                error={searchTermError}
               />
             </div>
           </div>
@@ -282,7 +288,7 @@ const SearchForm = props => {
           <va-button
             text="Filter"
             primary
-            class="filter-button vads-u-margin-left--0"
+            class="filter-button"
             data-testid="filter-messages-button"
             onClick={e => {
               e.preventDefault();
@@ -293,12 +299,16 @@ const SearchForm = props => {
             <va-button
               text="Clear Filters"
               secondary
-              class="clear-filter-button"
+              class="clear-filter-button vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
               onClick={handleFilterClear}
             />
           )}
           {filtersCleared && (
-            <span className="sr-only" aria-live="polite">
+            <span
+              className="sr-only"
+              aria-live="polite"
+              id="filter-clear-success"
+            >
               Filters succesfully cleared
             </span>
           )}

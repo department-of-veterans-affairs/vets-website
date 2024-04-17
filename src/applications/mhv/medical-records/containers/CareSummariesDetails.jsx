@@ -59,6 +59,7 @@ const CareSummariesDetails = () => {
     return (
       <AccessTroubleAlertBox
         alertType={accessAlertTypes.CARE_SUMMARIES_AND_NOTES}
+        className="vads-u-margin-bottom--9"
       />
     );
   }

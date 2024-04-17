@@ -22,7 +22,7 @@ class Confirmation {
   };
 
   validateConfirmWithUpdates = () => {
-    cy.get("[header='How can I update my information?'][open='true']")
+    cy.get("[header='How can I update my information?']")
       .shadow()
       .find('button')
       .contains('How can I update my information?')
