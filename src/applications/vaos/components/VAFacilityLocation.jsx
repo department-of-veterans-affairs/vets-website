@@ -14,6 +14,7 @@ export default function VAFacilityLocation({
   showCovidPhone,
   showPhone,
   isPhone,
+  showDirectionsLink = true,
 }) {
   let content = null;
 
@@ -42,7 +43,7 @@ export default function VAFacilityLocation({
         )}
         <FacilityAddress
           facility={facility}
-          showDirectionsLink
+          showDirectionsLink={showDirectionsLink}
           clinicName={clinicFriendlyName}
           clinicPhysicalLocation={clinicPhysicalLocation}
           level={2}
@@ -73,5 +74,6 @@ VAFacilityLocation.propTypes = {
   facilityName: PropTypes.string,
   isPhone: PropTypes.bool,
   showCovidPhone: PropTypes.bool,
+  showDirectionsLink: PropTypes.bool,
   showPhone: PropTypes.bool,
 };

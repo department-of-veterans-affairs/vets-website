@@ -7,6 +7,7 @@ import { shallowEqual } from 'recompose';
 import FacilityPhone from '../../../components/FacilityPhone';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { selectRequestedAppointmentDetails } from '../../redux/selectors';
+import ListBestTimeToCall from '../ListBestTimeToCall';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -24,7 +25,11 @@ export default function CancelPageLayout() {
     isCC,
     phone,
     preferredDates,
+    preferredLanguage,
+    preferredProvider,
+    preferredTimesForPhoneCall,
     typeOfCareName,
+    typeOfVisit,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
@@ -33,8 +38,12 @@ export default function CancelPageLayout() {
 
   return (
     <>
-      <h2 className="vads-u-font-size--h3">Request for appointment</h2>
-      <h3 className="vads-u-font-size--h5">Preferred date and time</h3>
+      <h2 className="vads-u-font-size--h3">
+        {`Request for ${isCC ? 'community care appointment' : 'appointment'}`}
+      </h2>
+      <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
+        Preferred date and time
+      </h3>
       <ul className="usa-unstyled-list">
         {preferredDates.map((option, optionIndex) => (
           <li key={`${id}-option-${optionIndex}`}>
@@ -43,37 +52,77 @@ export default function CancelPageLayout() {
           </li>
         ))}
       </ul>
-      <h3 className="vads-u-font-size--h5">Type of care</h3>
+      <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
+        Type of care
+      </h3>
       {typeOfCareName}
-      <h3 className="vads-u-font-size--h5">Facility</h3>
-      {!!facility &&
-        !isCC && (
+      {isCC && (
+        <>
+          <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
+            Scheduling facility
+          </h3>
+          <p className="vads-u-margin-top--0">
+            This facility will contact you if we need more information about
+            your request.
+          </p>
+          <span>{facility?.name}</span>
+          <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
+            Preferred community care provider
+          </h3>
+          {preferredProvider?.name || 'Provider information not available'}
+          <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
+            Language you’d prefer the provider speak
+          </h3>
+          {preferredLanguage}
+        </>
+      )}
+      {!isCC && (
+        <>
+          <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
+            How you prefer to attend
+          </h3>
+          {typeOfVisit}
+          <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
+            Facility
+          </h3>
           <VAFacilityLocation
             facility={facility}
             facilityName={facility?.name}
             facilityId={facilityId}
             isPhone={false}
             showPhone={false}
+            showDirectionsLink={false}
           />
-        )}
-      <h3 className="vads-u-font-size--h5">Phone</h3>
-      <FacilityPhone contact={phone} icon />
-      <h3 className="vads-u-font-size--h5">
-        Details you share with your provider
+          <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
+            Phone
+          </h3>
+          <FacilityPhone contact={phone} icon />
+        </>
+      )}
+
+      <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
+        Details you’d like to share with your provider
       </h3>
-      <span>Reason: {reason}</span>
+      <span>
+        Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
+      </span>
       <br />
-      <span>Other details: {otherDetails}</span>
-      <h3 className="vads-u-font-size--h5">Your contact details</h3>
+      <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
+      <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
+        Your contact details
+      </h3>
       <span>Email: </span>
-      <span>{email}</span>
+      <span data-dd-privacy="mask">{email}</span>
       <br />
       <span>Phone number: </span>
       <VaTelephone
+        data-dd-privacy="mask"
         notClickable
         contact={phone}
         data-testid="patient-telephone"
       />
+      <br />
+      {isCC && <ListBestTimeToCall timesToCall={preferredTimesForPhoneCall} />}
     </>
   );
 }

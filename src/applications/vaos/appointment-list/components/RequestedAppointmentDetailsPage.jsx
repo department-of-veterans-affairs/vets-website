@@ -26,6 +26,7 @@ import CancelWarningPage from './cancel/CancelWarningPage';
 import CancelConfirmationPage from './cancel/CancelConfirmationPage';
 import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
+import FacilityAddress from '../../components/FacilityAddress';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -306,6 +307,17 @@ export default function RequestedAppointmentDetailsPage() {
                 Please contact your medical center to cancel:
                 <br />
                 <br />
+                {isCC && (
+                  <>
+                    <strong>{facility?.name}</strong>
+                    <br />
+                    <FacilityAddress
+                      facility={facility}
+                      showPhone
+                      phoneHeading="Scheduling facility phone:"
+                    />
+                  </>
+                )}
                 {!!facility &&
                   !isCC && (
                     <VAFacilityLocation

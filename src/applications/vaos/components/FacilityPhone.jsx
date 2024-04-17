@@ -8,6 +8,7 @@ export default function FacilityPhone({
   className = 'vads-u-font-weight--bold',
   level,
   icon,
+  heading = 'Main phone:',
 }) {
   if (!contact) {
     return null;
@@ -23,7 +24,7 @@ export default function FacilityPhone({
           <Heading
             className={`vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base ${className}`}
           >
-            Main phone:
+            {heading}
           </Heading>{' '}
         </>
       )}
@@ -51,6 +52,7 @@ export default function FacilityPhone({
 FacilityPhone.propTypes = {
   className: PropTypes.string,
   contact: PropTypes.string,
+  heading: PropTypes.string,
   icon: PropTypes.bool,
   level(props, propName, componentName) {
     if (
