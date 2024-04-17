@@ -151,9 +151,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
         .find('p')
         .last()
         .text(),
-    ).to.equal(
-      'You’re already at the maximum rating for post traumatic stress disorder.',
-    );
+    ).to.equal('You’re already at the maximum rating for this disability.');
     expect(
       labels
         .at(1)
@@ -161,6 +159,13 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
         .last()
         .text(),
     ).to.equal('Current rating: 0%');
+    expect(
+      labels
+        .at(2)
+        .find('p')
+        .last()
+        .text(),
+    ).to.equal('You’re already at the maximum rating for this disability.');
     form.unmount();
     window.sessionStorage.removeItem('showDisability526MaximumRating');
   });
@@ -194,9 +199,7 @@ describe('Disability benefits 526EZ -- Rated disabilities selection', () => {
         .find('p')
         .last()
         .text(),
-    ).to.equal(
-      `You’re already at the maximum rating for ${NULL_CONDITION_STRING}.`,
-    );
+    ).to.equal(`You’re already at the maximum rating for this disability.`);
 
     // Simulating a click event doesn't trigger onChange, so we have to call it explicitly
     form

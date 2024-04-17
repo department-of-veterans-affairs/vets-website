@@ -136,7 +136,7 @@ const formConfig = {
     noAuth: 'Please sign in again to resume your application for health care.',
   },
   downtime: {
-    dependencies: [externalServices.es],
+    dependencies: [externalServices['1010ez']],
     message: DowntimeWarning,
   },
   transformForSubmit: transform,

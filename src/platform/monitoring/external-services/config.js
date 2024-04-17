@@ -10,6 +10,8 @@ export const EXTERNAL_SERVICES = {
   es: 'es',
   evss: 'evss',
   global: 'global',
+  '1010ez': '1010ez',
+  '1010ezr': '1010ezr',
   // Intake, conversion, and mail handling services (central mail)
   icmhs: 'icmhs',
   // ID.me, identity provider

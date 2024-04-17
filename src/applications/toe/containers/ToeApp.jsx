@@ -14,6 +14,7 @@ import { getAppData } from '../selectors';
 
 function ToeApp({
   children,
+  dob,
   formData,
   getDirectDeposit,
   getPersonalInformation,
@@ -24,14 +25,16 @@ function ToeApp({
   sponsorsInitial,
   sponsorsSavedState,
   user,
+  showMeb1990ER6MaintenanceMessage,
   showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
   toeHighSchoolInfoChange,
-  dob,
+  toeLightHouseDgiDirectDeposit,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
+  const [lightHouseFlag, setLighthouseFlag] = useState(false);
 
   useEffect(
     () => {
@@ -102,6 +105,21 @@ function ToeApp({
 
   useEffect(
     () => {
+      if (
+        showMeb1990ER6MaintenanceMessage !==
+        formData.showMeb1990ER6MaintenanceMessage
+      ) {
+        setFormData({
+          ...formData,
+          showMeb1990ER6MaintenanceMessage,
+        });
+      }
+    },
+    [formData, setFormData, showMeb1990ER6MaintenanceMessage],
+  );
+
+  useEffect(
+    () => {
       if (showMebEnhancements08 !== formData.showMebEnhancements08) {
         setFormData({
           ...formData,
@@ -115,8 +133,25 @@ function ToeApp({
           toeHighSchoolInfoChange,
         });
       }
+      if (
+        toeLightHouseDgiDirectDeposit !==
+        formData?.toeLightHouseDgiDirectDeposit
+      ) {
+        setLighthouseFlag(true);
+
+        setFormData({
+          ...formData,
+          toeLightHouseDgiDirectDeposit,
+        });
+      }
     },
-    [formData, setFormData, showMebEnhancements08, toeHighSchoolInfoChange],
+    [
+      formData,
+      setFormData,
+      showMebEnhancements08,
+      toeLightHouseDgiDirectDeposit,
+      toeHighSchoolInfoChange
+    ],
   );
 
   useEffect(
@@ -124,12 +159,18 @@ function ToeApp({
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
-      if (!fetchedDirectDeposit) {
+
+      if (!fetchedDirectDeposit && lightHouseFlag) {
         setFetchedDirectDeposit(true);
-        getDirectDeposit();
+        getDirectDeposit(formData?.toeLightHouseDgiDirectDeposit);
       }
     },
-    [fetchedDirectDeposit, getDirectDeposit, user?.login?.currentlyLoggedIn],
+    [
+      fetchedDirectDeposit,
+      getDirectDeposit,
+      user?.login?.currentlyLoggedIn,
+      lightHouseFlag,
+    ],
   );
 
   useEffect(
@@ -176,6 +217,7 @@ ToeApp.propTypes = {
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
   sponsorsSavedState: SPONSORS_TYPE,
+  toeLightHouseDgiDirectDeposit: PropTypes.bool,
   user: PropTypes.object,
 };
 

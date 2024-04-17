@@ -3,6 +3,8 @@ import { expect } from 'chai';
 import v3formData from '../fixtures/data/v3formData.json';
 import v4formData from '../fixtures/data/v4formData.json';
 import v3formDataMigrated from '../fixtures/data/v3formDataMigrated.json';
+import v8formData from '../fixtures/data/v8formData.json';
+
 import migrations from '../../migrations';
 
 describe('Pension migrations', () => {
@@ -236,5 +238,47 @@ describe('Pension migrations', () => {
     expect(formData).to.be.an('object');
     expect(formData).to.not.have.any.keys(['view:history', 'jobs']);
     expect(formData).to.eql(v4formData);
+  });
+  it('should update from v6 to v7', () => {
+    const { formData, metadata } = migrations[6]({
+      formData: {
+        ...v4formData,
+        gender: 'M',
+      },
+      metadata: {
+        returnUrl: '/review-and-submit',
+      },
+    });
+
+    expect(metadata.returnUrl).to.equal('/review-and-submit');
+    expect(formData).to.be.an('object');
+    expect(formData).to.not.have.key('gender');
+    expect(formData).to.eql(v4formData);
+  });
+  it('should update from v7 to v8', () => {
+    const { formData, metadata } = migrations[7]({
+      formData: v4formData,
+      metadata: {
+        returnUrl: '/review-and-submit',
+      },
+    });
+
+    expect(metadata.returnUrl).to.equal('/review-and-submit');
+    expect(formData).to.be.an('object');
+    expect(formData.currentEmployers[0]).to.have.keys([
+      'jobType',
+      'jobHoursWeek',
+    ]);
+    expect(formData.dependents[0].fullName).to.have.keys([
+      'first',
+      'middle',
+      'last',
+    ]);
+    expect(formData.marriages[1].spouseFullName).to.have.keys([
+      'first',
+      'middle',
+      'last',
+    ]);
+    expect(formData).to.eql(v8formData);
   });
 });

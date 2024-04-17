@@ -3,9 +3,16 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import Error from '../Error';
 
 describe('check-in', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('Error component', () => {
     it('renders without the phone number', () => {
       const component = render(

@@ -20,9 +20,7 @@ const setup = path => {
   );
 
   const breadcrumbList = JSON.parse(
-    view.container
-      .querySelector('va-breadcrumbs')
-      .getAttribute('breadcrumb-list'),
+    view.getByTestId('profile-breadcrumbs-wrapper').dataset.breadcrumbsJson,
   );
 
   return { breadcrumbList };
@@ -83,6 +81,12 @@ describe('<ProfileBreadcrumbs />', () => {
       expect(breadcrumbList[0].label).to.equal('Home');
       expect(breadcrumbList[1].label).to.equal('Profile');
       expect(breadcrumbList[2].label).to.equal('Connected apps');
+    });
+
+    it('renders root breadcrumb when path is invalid', () => {
+      const { breadcrumbList } = setup('/profile/invalid-path');
+      expect(breadcrumbList[0].label).to.equal('Home');
+      expect(breadcrumbList[1].label).to.equal('Profile');
     });
   });
 });

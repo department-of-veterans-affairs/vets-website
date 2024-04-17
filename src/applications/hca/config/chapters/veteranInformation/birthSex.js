@@ -1,6 +1,6 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import { genderLabels } from 'platform/static-data/labels';
+import PrefillMessage from '~/platform/forms/save-in-progress/PrefillMessage';
+import { genderLabels } from '~/platform/static-data/labels';
 
 import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import { notShortFormEligible } from '../../../utils/helpers/form-config';
@@ -10,17 +10,10 @@ const { gender } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
+    'ui:description': PrefillMessage,
     'view:birthSexShortFormMessage': {
       'ui:description': ShortFormAlert,
-      'ui:options': {
-        hideIf: notShortFormEligible,
-      },
-    },
-    'view:prefillMessage': {
-      'ui:description': PrefillMessage,
-      'ui:options': {
-        hideIf: formData => !formData['view:isLoggedIn'],
-      },
+      'ui:options': { hideIf: notShortFormEligible },
     },
     gender: {
       'ui:title': 'What sex were you assigned at birth?',
@@ -35,7 +28,6 @@ export default {
     required: ['gender'],
     properties: {
       'view:birthSexShortFormMessage': emptyObjectSchema,
-      'view:prefillMessage': emptyObjectSchema,
       gender,
     },
   },

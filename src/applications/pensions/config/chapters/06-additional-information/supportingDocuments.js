@@ -3,6 +3,7 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const childAttendsCollege = child => child.attendingCollege;
 export const childIsDisabled = child => child.disabled;
+export const childIsAdopted = child => child.childRelationship === 'ADOPTED';
 
 const SupportingDocument = ({ formId, formName }) => {
   const linkText = `Get VA Form ${formId} to download (opens in new tab)`;
@@ -24,6 +25,7 @@ const SupportingDocument = ({ formId, formName }) => {
 function Description({ formData }) {
   const hasDisabledChild = (formData.dependents || []).some(childIsDisabled);
   const hasSchoolChild = (formData.dependents || []).some(childAttendsCollege);
+  const hasAdoptedChild = (formData.dependents || []).some(childIsAdopted);
   const hasSpecialMonthlyPension = formData.specialMonthlyPension;
   const livesInNursingHome = formData.nursingHome;
   const assetsOverThreshold = formData.totalNetWorth; // over $25,000 in assets
@@ -36,6 +38,7 @@ function Description({ formData }) {
   const showDocumentsList =
     hasDisabledChild ||
     hasSchoolChild ||
+    hasAdoptedChild ||
     hasSpecialMonthlyPension ||
     livesInNursingHome ||
     needsIncomeAndAssetStatement;
@@ -81,6 +84,10 @@ function Description({ formData }) {
                 Private medical records documenting your child's disability
                 before the age of 18
               </li>
+            )}
+
+            {hasAdoptedChild && (
+              <li>Adoption papers or amended birth certificate</li>
             )}
 
             {needsIncomeAndAssetStatement && (
@@ -160,6 +167,8 @@ function Description({ formData }) {
 }
 
 export default {
+  title: 'Supporting documents',
+  path: 'additional-information/supporting-documents',
   uiSchema: {
     ...titleUI('Supporting documents'),
     'ui:description': Description,

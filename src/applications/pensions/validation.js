@@ -3,7 +3,9 @@ import { isValidDateRange } from '@department-of-veterans-affairs/platform-forms
 import { convertToDateField } from '@department-of-veterans-affairs/platform-forms-system/validation';
 
 export function validateAfterMarriageDate(errors, dateOfSeparation, formData) {
-  const fromDate = convertToDateField(formData.dateOfMarriage);
+  const fromDate = convertToDateField(
+    formData['view:pastMarriage']?.dateOfMarriage || formData.dateOfMarriage,
+  );
   const toDate = convertToDateField(dateOfSeparation);
 
   if (!isValidDateRange(fromDate, toDate)) {

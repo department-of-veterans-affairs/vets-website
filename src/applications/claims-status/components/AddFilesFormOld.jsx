@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import Scroll from 'react-scroll';
 
 import {
@@ -9,18 +9,19 @@ import {
   VaSelect,
   VaTextInput,
   VaCheckbox,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import {
   readAndCheckFile,
   checkTypeAndExtensionMatches,
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
-} from 'platform/forms-system/src/js/utilities/file';
-import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+} from '~/platform/forms-system/src/js/utilities/file';
 
-import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
+import { displayFileSize, DOC_TYPES } from '../utils/helpers';
 import { setFocus } from '../utils/page';
 import {
   validateIfDirty,
@@ -44,24 +45,7 @@ const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
   scrollTo(`documentScroll${position}`, options);
 };
-const scrollToError = () => {
-  const errors = document.querySelectorAll('.usa-input-error');
-  if (errors.length) {
-    const errorPosition = getTopPosition(errors[0]);
-    const options = getScrollOptions({ offset: -25 });
-    const errorID = errors[0].querySelector('label').getAttribute('for');
-    const errorInput = document.getElementById(`${errorID}`);
-    const inputType = errorInput.getAttribute('type');
-    scrollTo(errorPosition, options);
 
-    if (inputType === 'file') {
-      // Sends focus to the file input button
-      errors[0].querySelector('label[role="button"]').focus();
-    } else {
-      errorInput.focus();
-    }
-  }
-};
 const { Element } = Scroll;
 
 class AddFilesFormOld extends React.Component {
@@ -71,6 +55,7 @@ class AddFilesFormOld extends React.Component {
       errorMessage: null,
       checked: false,
       errorMessageCheckbox: null,
+      canShowUploadModal: false,
     };
   }
 
@@ -166,6 +151,8 @@ class AddFilesFormOld extends React.Component {
           : 'Please confirm these documents apply to this claim only',
       });
 
+      this.setState({ canShowUploadModal: true });
+
       if (this.state.checked) {
         this.props.onSubmit();
         return;
@@ -173,16 +160,17 @@ class AddFilesFormOld extends React.Component {
     }
 
     this.props.onDirtyFields();
-    setTimeout(scrollToError);
   };
 
   render() {
+    const showUploadModal =
+      this.props.uploading && this.state.canShowUploadModal;
+
     return (
       <>
         <va-additional-info
           class="vads-u-margin-y--2"
           trigger="Need to mail your files?"
-          uswds="false"
         >
           {mailMessage}
         </va-additional-info>
@@ -231,7 +219,6 @@ class AddFilesFormOld extends React.Component {
                       secondary
                       text="Remove"
                       onClick={() => this.props.onRemoveFile(index)}
-                      uswds
                     />
                   </div>
                 </div>
@@ -244,7 +231,6 @@ class AddFilesFormOld extends React.Component {
                     </p>
                     <VaTextInput
                       required
-                      uswds="false"
                       error={
                         validateIfDirty(password, isNotBlank)
                           ? undefined
@@ -260,7 +246,6 @@ class AddFilesFormOld extends React.Component {
                 )}
                 <VaSelect
                   required
-                  uswds="false"
                   error={
                     validateIfDirty(docType, isNotBlank)
                       ? undefined
@@ -273,9 +258,6 @@ class AddFilesFormOld extends React.Component {
                     this.handleDocTypeChange(e.detail.value, index)
                   }
                 >
-                  <option disabled value="">
-                    Select a description
-                  </option>
                   {DOC_TYPES.map(doc => (
                     <option key={doc.value} value={doc.value}>
                       {doc.label}
@@ -287,13 +269,11 @@ class AddFilesFormOld extends React.Component {
           ),
         )}
         <VaCheckbox
-          uswds="false"
           onVaChange={event => {
             this.setState({ checked: event.detail.checked });
           }}
           checked={this.state.checked}
           error={this.state.errorMessageCheckbox}
-          message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page link below."
           label="The files I uploaded are supporting documents for this claim only."
         />
         <div className="vads-u-padding-top--2 vads-u-padding-bottom--2 vads-u-padding-left--4">
@@ -302,12 +282,10 @@ class AddFilesFormOld extends React.Component {
           <a href="/disability/how-to-file-claim">How to File a Claim</a> page.
         </div>
         <div>
-          <va-button
-            primary
+          <VaButton
             text="Submit Files for Review"
             class="submit-files-button"
             onClick={this.submit}
-            uswds
           />
           <Link to={this.props.backUrl} className="claims-files-cancel">
             Cancel
@@ -315,9 +293,8 @@ class AddFilesFormOld extends React.Component {
         </div>
         <VaModal
           id="upload-status"
-          onCloseEvent={() => true}
-          visible={Boolean(this.props.uploading)}
-          uswds="false"
+          onCloseEvent={() => this.setState({ canShowUploadModal: false })}
+          visible={showUploadModal}
         >
           <UploadStatus
             progress={this.props.progress}

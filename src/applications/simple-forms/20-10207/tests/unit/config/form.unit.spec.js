@@ -519,13 +519,13 @@ describe('formConfig', () => {
         it('returns TRUE if preparerType is veteran or non-veteran', () => {
           expect(
             depends({
-              livingSituation: { NONE: true },
+              livingSituation: { NONE: false },
               preparerType: PREPARER_TYPES.VETERAN,
             }),
           ).to.be.true;
           expect(
             depends({
-              livingSituation: { NONE: true },
+              livingSituation: { NONE: false },
               preparerType: PREPARER_TYPES.NON_VETERAN,
             }),
           ).to.be.true;
@@ -581,10 +581,10 @@ describe('formConfig', () => {
           ).to.be.false;
         });
 
-        it('returns TRUE if livingSituation.NONE is TRUE and preparerType is third-party-veteran', () => {
+        it('returns TRUE if livingSituation.NONE is FALSE and preparerType is third-party-veteran', () => {
           expect(
             depends({
-              livingSituation: { NONE: true },
+              livingSituation: { NONE: false },
               preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
             }),
           ).to.be.true;
@@ -625,10 +625,10 @@ describe('formConfig', () => {
           ).to.be.false;
         });
 
-        it('returns TRUE if livingSituation.NONE is TRUE and preparerType is third-party-non-veteran', () => {
+        it('returns TRUE if livingSituation.NONE is FALSE and preparerType is third-party-non-veteran', () => {
           expect(
             depends({
-              livingSituation: { NONE: true },
+              livingSituation: { NONE: false },
               preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
             }),
           ).to.be.true;
@@ -1010,16 +1010,16 @@ describe('formConfig', () => {
           ).to.be.false;
         });
 
-        it('returns TRUE if livingSituation.NONE is TRUE and preparerType is veteran or non-veteran', () => {
+        it('returns TRUE if livingSituation.OTHER_RISK is TRUE and preparerType is veteran or non-veteran', () => {
           expect(
             depends({
-              livingSituation: { NONE: true },
+              livingSituation: { OTHER_RISK: true },
               preparerType: PREPARER_TYPES.VETERAN,
             }),
           ).to.be.true;
           expect(
             depends({
-              livingSituation: { NONE: true },
+              livingSituation: { OTHER_RISK: true },
               preparerType: PREPARER_TYPES.NON_VETERAN,
             }),
           ).to.be.true;
@@ -1075,10 +1075,10 @@ describe('formConfig', () => {
           ).to.be.false;
         });
 
-        it('returns TRUE if livingSituation.NONE is TRUE and preparerType is third-party-veteran', () => {
+        it('returns TRUE if livingSituation.OTHER_RISK is TRUE and preparerType is third-party-veteran', () => {
           expect(
             depends({
-              livingSituation: { NONE: true },
+              livingSituation: { OTHER_RISK: true },
               preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
             }),
           ).to.be.true;
@@ -1119,10 +1119,10 @@ describe('formConfig', () => {
           ).to.be.false;
         });
 
-        it('returns TRUE if livingSituation.NONE is TRUE and preparerType is third-party-non-veteran', () => {
+        it('returns TRUE if livingSituation.OTHER_RISK is TRUE and preparerType is third-party-non-veteran', () => {
           expect(
             depends({
-              livingSituation: { NONE: true },
+              livingSituation: { OTHER_RISK: true },
               preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
             }),
           ).to.be.true;
@@ -1450,14 +1450,25 @@ describe('formConfig', () => {
           depends,
         } = formConfig.chapters.medicalTreatmentChapter.pages.medicalTreatmentPage;
 
+        it('returns FALSE if hasReceivedMedicalTreatment is false', () => {
+          expect(
+            depends({
+              'view:hasReceivedMedicalTreatment': false,
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+        });
+
         it('returns TRUE if preparerType is veteran or non-veteran', () => {
           expect(
             depends({
+              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.VETERAN,
             }),
           ).to.be.true;
           expect(
             depends({
+              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.NON_VETERAN,
             }),
           ).to.be.true;
@@ -1466,11 +1477,13 @@ describe('formConfig', () => {
         it('returns FALSE if preparerType is third-party-veteran or third-party-non-veteran', () => {
           expect(
             depends({
+              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
             }),
           ).to.be.false;
           expect(
             depends({
+              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
             }),
           ).to.be.false;
@@ -1482,19 +1495,31 @@ describe('formConfig', () => {
           depends,
         } = formConfig.chapters.medicalTreatmentChapter.pages.medicalTreatmentThirdPartyVeteranPage;
 
+        it('returns FALSE if hasReceivedMedicalTreatment is false', () => {
+          expect(
+            depends({
+              'view:hasReceivedMedicalTreatment': false,
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+        });
+
         it('returns FALSE if preparerType is veteran, non-veteran, or third-party-non-veteran', () => {
           expect(
             depends({
+              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.VETERAN,
             }),
           ).to.be.false;
           expect(
             depends({
+              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.NON_VETERAN,
             }),
           ).to.be.false;
           expect(
             depends({
+              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
             }),
           ).to.be.false;
@@ -1503,6 +1528,7 @@ describe('formConfig', () => {
         it('returns TRUE if preparerType is third-party-veteran', () => {
           expect(
             depends({
+              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
             }),
           ).to.be.true;
@@ -1514,19 +1540,31 @@ describe('formConfig', () => {
           depends,
         } = formConfig.chapters.medicalTreatmentChapter.pages.medicalTreatmentThirdPartyNonVeteranPage;
 
+        it('returns FALSE if hasReceivedMedicalTreatment is false', () => {
+          expect(
+            depends({
+              'view:hasReceivedMedicalTreatment': false,
+              preparerType: PREPARER_TYPES.VETERAN,
+            }),
+          ).to.be.false;
+        });
+
         it('returns FALSE if preparerType is veteran, non-veteran, or third-party-veteran', () => {
           expect(
             depends({
+              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.VETERAN,
             }),
           ).to.be.false;
           expect(
             depends({
+              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.NON_VETERAN,
             }),
           ).to.be.false;
           expect(
             depends({
+              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
             }),
           ).to.be.false;
@@ -1535,6 +1573,7 @@ describe('formConfig', () => {
         it('returns TRUE if preparerType is third-party-non-veteran', () => {
           expect(
             depends({
+              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
             }),
           ).to.be.true;

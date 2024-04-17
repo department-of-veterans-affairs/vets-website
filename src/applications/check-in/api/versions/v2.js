@@ -236,7 +236,7 @@ const v2 = {
       ...json,
     };
   },
-  postTravelPayClaims: async (claims, uuid) => {
+  postTravelPayClaims: async (claims, uuid, timeToComplete) => {
     const url = '/check_in/v0/travel_claims/';
     const headers = { 'Content-Type': 'application/json' };
 
@@ -245,6 +245,7 @@ const v2 = {
         travelClaims: {
           uuid,
           appointmentDate: claim.startTime,
+          timeToComplete,
           facilityType: 'oh',
         },
       };

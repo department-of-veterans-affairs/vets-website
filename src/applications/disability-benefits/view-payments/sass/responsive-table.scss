@@ -39,10 +39,10 @@ table.responsive {
     }
 
     tr {
-      border-bottom: 1px solid $color-gray-medium;
+      border-bottom: 1px solid var(--vads-color-gray-medium);
 
       &:first-child {
-        border-top: 1px solid $color-gray-medium !important;
+        border-top: 1px solid var(--vads-color-gray-medium) !important;
       }
     }
 

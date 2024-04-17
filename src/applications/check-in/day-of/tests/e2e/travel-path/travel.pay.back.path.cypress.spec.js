@@ -7,6 +7,7 @@ import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Appointments from '../pages/Appointments';
 import TravelPages from '../../../../tests/e2e/pages/TravelPages';
+import Arrived from '../pages/Arrived';
 
 describe('Check In Experience', () => {
   describe('travel pay back path', () => {
@@ -32,6 +33,8 @@ describe('Check In Experience', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      Arrived.validateArrivedPage();
+      Arrived.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
@@ -54,8 +57,20 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
-    it('routes back to the second page (vehicle) if no from appointments', () => {
+    it('routes back to the second page(mileage) if no from appointments', () => {
       TravelPages.validatePageLoaded();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      TravelPages.attemptToGoToNextPage('no');
+      Appointments.validatePageLoaded();
+      cy.get(`[data-testid="back-button"]`).click();
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+    });
+    it('routes back to the third page (vehicle) if no from appointments', () => {
+      TravelPages.validatePageLoaded();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       TravelPages.attemptToGoToNextPage('no');
@@ -64,8 +79,10 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded('vehicle');
       cy.injectAxeThenAxeCheck();
     });
-    it('routes back to the third page (address) if no from appointments', () => {
+    it('routes back to the fourth page (address) if no from appointments', () => {
       TravelPages.validatePageLoaded();
+      TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       TravelPages.attemptToGoToNextPage();

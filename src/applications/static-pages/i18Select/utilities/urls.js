@@ -80,4 +80,8 @@ export default {
     en: '/education/eligibility/',
     es: '/education/eligibility-esp/',
   },
+  dependencyIndemnity: {
+    en: '/disability/dependency-indemnity-compensation/',
+    es: '/disability/dependency-indemnity-compensation-esp/',
+  },
 };

@@ -3,6 +3,7 @@ import {
   radioSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { isMarried } from './helpers';
 
 const radioOptions = {
   YES: 'Yes',
@@ -12,6 +13,9 @@ const radioOptions = {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Current spouse marital history',
+  path: 'household/marital-status/spouse-marital-history',
+  depends: isMarried,
   uiSchema: {
     ...titleUI('Current spouse’s marital history'),
     currentSpouseMaritalHistory: radioUI({

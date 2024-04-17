@@ -1,15 +1,16 @@
+import SponsorRadioWidget from '../../components/SponsorRadioWidget';
+
 export const uiSchema = {
   application: {
-    'ui:title': ' ',
     applicant: {
-      'ui:title': ' ',
       isSponsor: {
-        'ui:title': 'Are you the applicant’s sponsor?',
-        'ui:widget': 'radio',
+        'ui:title': "Are you the applicant's sponsor?",
+        'ui:widget': SponsorRadioWidget,
         'ui:options': {
-          labels: {
-            yes: 'Yes',
-            no: 'No',
+          updateSchema: () => {
+            return {
+              enumNames: ['Yes', 'No'],
+            };
           },
         },
       },

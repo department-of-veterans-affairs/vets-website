@@ -37,6 +37,7 @@ const TravelIntro = props => {
     <>
       <Wrapper
         pageTitle={t('file-travel-reimbursement-claim')}
+        testID="travel-intro-page"
         classNames="travel-page"
       >
         <p className="vads-u-margin-bottom--0">

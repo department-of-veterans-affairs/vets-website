@@ -1,23 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 import { isServerError } from '../util';
 import RatedDisabilityListItem from './RatedDisabilityListItem';
 import SortSelect from './SortSelect';
-
-// Need to transform date string into a meaningful format and extract any special issues.
-const formalizeData = data => {
-  return data.map(d => {
-    // example effectiveDate: '2004-06-14T05:00:00.000+0000'
-    const effectiveDate = d.effectiveDate
-      ? moment(d.effectiveDate, 'YYYY-MM-DDThh:mm:ss.SSSZ')
-      : null;
-
-    return { ...d, effectiveDate };
-  });
-};
 
 const isServiceConnected = item => item.decisionText === 'Service Connected';
 
@@ -42,8 +29,8 @@ const noDisabilityRatingContent = errorCode => {
         </p>
         <p className="vads-u-font-size--base">
           If you get this error again, please call the VA.gov help desk at{' '}
-          <va-telephone contact={CONTACTS.VA_311} uswds="false" /> (
-          <va-telephone contact={CONTACTS['711']} tty uswds="false" />
+          <va-telephone contact={CONTACTS.VA_311} /> (
+          <va-telephone contact={CONTACTS['711']} tty />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </>
@@ -73,18 +60,16 @@ const noDisabilityRatingContent = errorCode => {
 
   return (
     <div className="vads-u-margin-y--5">
-      <va-alert status={status} uswds="false">
-        {content}
-      </va-alert>
+      <va-alert status={status}>{content}</va-alert>
     </div>
   );
 };
 
-const RatedDisabilityList = ({
+export default function RatedDisabilityList({
   fetchRatedDisabilities,
   ratedDisabilities,
   sortToggle,
-}) => {
+}) {
   const [sortBy, setSortBy] = useState('effectiveDate.desc');
 
   useEffect(
@@ -97,18 +82,19 @@ const RatedDisabilityList = ({
   const sortFunc = (a, b) => {
     const [sortKey, direction] = sortBy.split('.');
 
+    if (sortKey === 'ratingPercentage') {
+      return direction === 'asc'
+        ? a[sortKey] - b[sortKey]
+        : b[sortKey] - a[sortKey];
+    }
+
     return direction === 'asc'
-      ? a[sortKey] - b[sortKey]
-      : b[sortKey] - a[sortKey];
+      ? a[sortKey].localeCompare(b[sortKey])
+      : b[sortKey].localeCompare(a[sortKey]);
   };
 
   if (!ratedDisabilities) {
-    return (
-      <va-loading-indicator
-        message="Loading your information..."
-        uswds="false"
-      />
-    );
+    return <va-loading-indicator message="Loading your information..." />;
   }
 
   if (
@@ -127,18 +113,9 @@ const RatedDisabilityList = ({
 
   const serviceConnected = getServiceConnectedDisabilities(
     ratedDisabilities?.ratedDisabilities,
-  );
-
+  ).sort(sortFunc);
   const nonServiceConnected = getNonServiceConnectedDisabilities(
     ratedDisabilities?.ratedDisabilities,
-  );
-
-  const formattedServiceConnected = formalizeData(serviceConnected).sort(
-    sortFunc,
-  );
-
-  const formattedNonServiceConnected = formalizeData(nonServiceConnected).sort(
-    sortFunc,
   );
 
   return (
@@ -150,7 +127,7 @@ const RatedDisabilityList = ({
       )}
       <h3 className="vads-u-margin-y--2">Service-connected ratings</h3>
       <div className="vads-l-row vads-u-flex-direction--column">
-        {formattedServiceConnected.map((disability, index) => (
+        {serviceConnected.map((disability, index) => (
           <RatedDisabilityListItem ratedDisability={disability} key={index} />
         ))}
       </div>
@@ -158,13 +135,13 @@ const RatedDisabilityList = ({
         Conditions VA determined aren’t service-connected
       </h3>
       <div className="vads-l-row vads-u-flex-direction--column">
-        {formattedNonServiceConnected.map((disability, index) => (
+        {nonServiceConnected.map((disability, index) => (
           <RatedDisabilityListItem ratedDisability={disability} key={index} />
         ))}
       </div>
     </div>
   );
-};
+}
 
 RatedDisabilityList.propTypes = {
   fetchRatedDisabilities: PropTypes.func.isRequired,
@@ -174,5 +151,3 @@ RatedDisabilityList.propTypes = {
   }),
   sortToggle: PropTypes.bool,
 };
-
-export default RatedDisabilityList;

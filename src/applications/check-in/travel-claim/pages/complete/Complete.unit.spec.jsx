@@ -5,6 +5,7 @@ import { render } from '@testing-library/react';
 import MockDate from 'mockdate';
 import sinon from 'sinon';
 import Complete from './index';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import * as usePostTravelClaimsModule from '../../../hooks/usePostTravelClaims';
 import * as useUpdateErrorModule from '../../../hooks/useUpdateError';
@@ -12,6 +13,12 @@ import * as useStorageModule from '../../../hooks/useStorage';
 import { api } from '../../../api';
 
 describe('Check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('travel-claim components', () => {
     describe('Complete', () => {
       const sandbox = sinon.createSandbox();
@@ -80,6 +87,28 @@ describe('Check-in experience', () => {
           </CheckInProvider>,
         );
         expect(updateErrorSpy.calledOnce).to.be.true;
+      });
+      it('redirects to intro if questions are skipped', () => {
+        const skippedQuestionsStore = {
+          app: 'travelClaim',
+          facilitiesToFile: [
+            {
+              stationNo: '500',
+              startTime: '2024-03-12T10:18:02.422Z',
+              appointmentCount: 1,
+            },
+          ],
+          travelAddress: '',
+          travelVehicle: '',
+          travelReview: '',
+        };
+        const push = sinon.spy();
+        render(
+          <CheckInProvider store={skippedQuestionsStore} router={{ push }}>
+            <Complete />
+          </CheckInProvider>,
+        );
+        expect(push.calledOnce).to.be.true;
       });
       it.skip('does not call API on reload or already filed', () => {
         MockDate.set('2024-03-12T10:18:02.422Z');

@@ -4,7 +4,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-nav-sidebar";
 
 .outreach-asset-form-filters {
-  background: $color-gray-lightest;
+  background: var(--vads-color-base-lightest);
 }
 .va-sidebarnav .left-side-nav-title h4 {
   width: 100%;
@@ -26,7 +26,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     }
 
     .card-inside-wrap {
-      background: $color-gray-lightest;
+      background: var(--vads-color-base-lightest);
       height: 100%;
     }
     &.show-type {

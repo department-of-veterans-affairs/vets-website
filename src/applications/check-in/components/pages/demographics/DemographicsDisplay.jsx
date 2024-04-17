@@ -53,6 +53,7 @@ export default function DemographicsDisplay({
         noAction={noAction}
         pageType="demographic-information"
         router={router}
+        withBackButton
       />
     </>
   );

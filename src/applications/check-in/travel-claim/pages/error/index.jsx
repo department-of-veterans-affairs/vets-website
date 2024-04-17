@@ -143,6 +143,7 @@ const Error = () => {
       // no-token
       // bad-token
       // session-error
+      // cant-retrieve-travel-claim-data
       header = t('something-went-wrong-on-our-end');
       alerts = [
         {
@@ -161,7 +162,7 @@ const Error = () => {
   }
 
   return (
-    <Wrapper pageTitle={header}>
+    <Wrapper pageTitle={header} testID="travel-error-page">
       {alerts.map((alert, index) => (
         <div key={`alert-${index}`} data-testid={error}>
           <va-alert

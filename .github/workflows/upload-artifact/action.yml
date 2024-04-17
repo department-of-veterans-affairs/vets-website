@@ -16,7 +16,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@ef09cdac3e2d3e60d8ccadda691f4f1cec5035cb
       with:
         name: ${{ inputs.name }}
         path: ${{ inputs.path }}

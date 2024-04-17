@@ -4,6 +4,7 @@ const SERVICES = {
   EVSS: 'evss',
   MVI: 'mvi',
   GLOBAL: 'global',
+  VA_PROFILE: 'vet360',
 };
 
 const beforeNow = moment()

@@ -1,6 +1,8 @@
 import { isEmpty } from 'lodash';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import { format } from 'date-fns';
+import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   preparerIdentifications,
   veteranBenefits,
@@ -42,6 +44,15 @@ export const preparerIsThirdParty = ({ formData } = {}) => {
   );
 };
 
+export const preparerIsSurvivingDependentOrThirdPartyToSurvivingDependent = ({
+  formData,
+}) => {
+  return (
+    preparerIsSurvivingDependent({ formData }) ||
+    preparerIsThirdPartyToASurvivingDependent({ formData })
+  );
+};
+
 export const hasActiveCompensationITF = ({ formData } = {}) => {
   return !isEmpty(formData?.['view:activeCompensationITF']);
 };
@@ -57,11 +68,43 @@ export const noActiveITF = ({ formData } = {}) => {
   );
 };
 
+export const shouldSeeVeteranBenefitSelection = ({ formData }) => {
+  return preparerIsVeteran({ formData }) && noActiveITF({ formData });
+};
+
+export const shouldSeeVeteranBenefitSelectionCompensation = ({ formData }) => {
+  return preparerIsVeteran({ formData }) && hasActivePensionITF({ formData });
+};
+
+export const shouldSeeVeteranBenefitSelectionPension = ({ formData }) => {
+  return (
+    preparerIsVeteran({ formData }) && hasActiveCompensationITF({ formData })
+  );
+};
+
 export const hasVeteranPrefill = ({ formData } = {}) => {
   return (
     !isEmpty(formData?.['view:veteranPrefillStore']?.fullName) &&
     !isEmpty(formData?.['view:veteranPrefillStore']?.ssn) &&
     !isEmpty(formData?.['view:veteranPrefillStore']?.dateOfBirth)
+  );
+};
+
+export const preparerIsVeteranAndHasPrefill = ({ formData }) => {
+  return preparerIsVeteran({ formData }) && hasVeteranPrefill({ formData });
+};
+
+export const shouldSeeVeteranPersonalInformation = ({ formData }) => {
+  return (
+    (preparerIsVeteran({ formData }) && !hasVeteranPrefill({ formData })) ||
+    preparerIsThirdPartyToTheVeteran({ formData })
+  );
+};
+
+export const shouldSeeVeteranIdentificationInformation = ({ formData }) => {
+  return (
+    !preparerIsVeteran({ formData }) ||
+    (preparerIsVeteran({ formData }) && !hasVeteranPrefill({ formData }))
   );
 };
 
@@ -151,6 +194,74 @@ export const initializeFormDataWithPreparerIdentificationAndPrefill = (
   };
 };
 
+export const goPathAfterGettingITF = (
+  { compensationIntent, pensionIntent },
+  formData,
+  goPath,
+  goNextPath,
+  setFormData,
+) => {
+  const formDataToSet = {
+    ...formData,
+    'view:activeCompensationITF':
+      compensationIntent?.status === 'active' ? compensationIntent : {},
+    'view:activePensionITF':
+      pensionIntent?.status === 'active' ? pensionIntent : {},
+  };
+
+  setFormData(formDataToSet);
+
+  if (
+    hasActiveCompensationITF({ formData: formDataToSet }) &&
+    hasActivePensionITF({ formData: formDataToSet })
+  ) {
+    goPath('confirmation');
+  } else if (hasActiveCompensationITF({ formData: formDataToSet })) {
+    goPath('veteran-benefit-selection-pension');
+  } else if (hasActivePensionITF({ formData: formDataToSet })) {
+    goPath('veteran-benefit-selection-compensation');
+  } else {
+    goNextPath();
+  }
+};
+
+export const getIntentsToFile = ({
+  formData,
+  goPath,
+  goNextPath,
+  setFormData,
+}) => {
+  if (preparerIsVeteran({ formData })) {
+    goPath('get-itf-status');
+
+    apiRequest(
+      `${
+        environment.API_URL
+      }/simple_forms_api/v1/simple_forms/get_intents_to_file`,
+    )
+      .then(({ compensationIntent, pensionIntent }) => {
+        goPathAfterGettingITF(
+          { compensationIntent, pensionIntent },
+          formData,
+          goPath,
+          goNextPath,
+          setFormData,
+        );
+      })
+      .catch(() => goNextPath());
+  } else {
+    goNextPath();
+  }
+};
+
+export const bypassFormCheck = (type, { formData, goPath, goNextPath }) => {
+  if (formData?.[type]) {
+    goNextPath();
+  } else {
+    goPath('confirmation');
+  }
+};
+
 export const confirmationPageFormBypassed = formData => {
   return Object.values(formData.benefitSelection).every(benefit => !benefit);
 };
@@ -191,6 +302,22 @@ export const confirmationPageAlertParagraph = formData => {
         'MMMM d, yyyy',
       )}.`;
     }
+  }
+
+  if (
+    formData.benefitSelection[veteranBenefits.COMPENSATION] &&
+    formData.benefitSelection[veteranBenefits.PENSION]
+  ) {
+    return 'It may take us a few days to process your intent to file for disability compensation and for pension claims. Then you’ll have 1 year to file your claim.';
+  }
+  if (formData.benefitSelection[veteranBenefits.COMPENSATION]) {
+    return 'It may take us a few days to process your intent to file for disability compensation. Then you’ll have 1 year to file your claim.';
+  }
+  if (formData.benefitSelection[veteranBenefits.PENSION]) {
+    return 'It may take us a few days to process your intent to file for pension claims. Then you’ll have 1 year to file your claim.';
+  }
+  if (formData.benefitSelection[survivingDependentBenefits.SURVIVOR]) {
+    return 'It may take us a few days to process your intent to file for pension claims for survivors. Then you’ll have 1 year to file your claim.';
   }
 
   return 'It may take us a few days to process your intent to file. Then you’ll have 1 year to file your claim.';
