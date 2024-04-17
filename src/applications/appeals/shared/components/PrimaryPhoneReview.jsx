@@ -6,9 +6,10 @@ import {
   getPhoneString,
   hasHomeAndMobilePhone,
 } from '../utils/contactInfo';
-import { PRIMARY_PHONE, errorMessages } from '../constants';
+import { PRIMARY_PHONE } from '../constants';
 import { content } from '../content/primaryPhone';
-import { data995 } from '../../shared/props';
+import errorMessages from '../content/errorMessages';
+import { data995 } from '../props';
 
 const PrimaryPhoneReview = ({ data, editPage }) => {
   const primary = data[PRIMARY_PHONE] || '';

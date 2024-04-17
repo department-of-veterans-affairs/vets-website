@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import {
   contactInfoValidation,
-  contactInfo995Validation,
+  contactInfo2PhoneValidation,
 } from '../../validations/contactInfo';
 import { errorMessages } from '../../content/contactInfo';
 
@@ -129,7 +129,7 @@ describe('contactInfoValidation', () => {
   });
 });
 
-describe('contactInfo995Validation', () => {
+describe('contactInfo2PhoneValidation', () => {
   const getData = ({
     email = true,
     homePhone = true,
@@ -157,19 +157,19 @@ describe('contactInfo995Validation', () => {
   });
   it('should not show an error when data is available', () => {
     const addError = sinon.spy();
-    contactInfo995Validation({ addError }, null, getData());
+    contactInfo2PhoneValidation({ addError }, null, getData());
     expect(addError.notCalled).to.be.true;
   });
   it('should have an error when email is missing', () => {
     const addError = sinon.spy();
-    contactInfo995Validation({ addError }, null, getData({ email: false }));
+    contactInfo2PhoneValidation({ addError }, null, getData({ email: false }));
     const errors = [[errorMessages.missingEmail]];
     expect(addError.called).to.be.true;
     expect(addError.args).to.deep.equal(errors);
   });
   it('should have one error when email & home phone are missing', () => {
     const addError = sinon.spy();
-    contactInfo995Validation(
+    contactInfo2PhoneValidation(
       { addError },
       null,
       getData({ email: false, homePhone: false }),
@@ -183,7 +183,7 @@ describe('contactInfo995Validation', () => {
   });
   it('should have multiple errors when everything is missing', () => {
     const addError = sinon.spy();
-    contactInfo995Validation(
+    contactInfo2PhoneValidation(
       { addError },
       null,
       getData({
@@ -205,7 +205,7 @@ describe('contactInfo995Validation', () => {
   });
   it('should not throw an error when addError function is missing', () => {
     try {
-      contactInfo995Validation();
+      contactInfo2PhoneValidation();
       expect(true).to.be.true;
     } catch (error) {
       expect(error).to.be.null;

@@ -20,6 +20,8 @@ const errorMessages = {
       'You must add an issue with a decision date that’s less than 100 years old',
   },
 
+  missingPrimaryPhone: 'You must choose a primary phone number',
+
   invalidZip:
     'You must enter a valid 5- or 9-digit postal code (dashes allowed)',
 };
