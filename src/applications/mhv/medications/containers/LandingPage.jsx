@@ -69,15 +69,19 @@ const LandingPage = () => {
 
   useEffect(
     () => {
-      setIsPrescriptionsLoading(true);
+      if (!paginatedPrescriptionsList) {
+        setIsPrescriptionsLoading(true);
+      }
       dispatch(
         getPrescriptionsPaginatedSortedList(
           1,
           rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
         ),
-      ).then(() => setIsPrescriptionsLoading(false));
+      )
+        .then(() => setIsPrescriptionsLoading(false))
+        .catch(() => setIsPrescriptionsLoading(false));
     },
-    [dispatch],
+    [dispatch, paginatedPrescriptionsList],
   );
 
   const content = () => {
