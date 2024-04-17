@@ -123,7 +123,7 @@ class MedicationsListPage {
   verifyDownloadCompleteSuccessMessageBanner = () => {
     cy.get('[data-testid="download-success-banner"]').should(
       'contain',
-      'Download complete',
+      'Download started',
     );
   };
 
