@@ -60,11 +60,6 @@ const bankInfoHelpText = (
 
 const directDepositDescription = (
   <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
-    {/* <p>
-      Direct deposit information is not mandatory at this time. However,
-      benefits cannot be awarded without this information per U.S. Treasury
-      regulation 31 C.F.R. § 208.3.
-    </p> */}
     <img
       src="/img/direct-deposit-check-guide.svg"
       alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
