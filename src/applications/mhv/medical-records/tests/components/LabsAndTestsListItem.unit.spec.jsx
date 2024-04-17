@@ -58,7 +58,7 @@ describe('LabsAndTestsListItem component', () => {
     const recordDetailsLink = screen.getByText(
       'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
       {
-        selector: 'a',
+        selector: 'span',
         exact: true,
       },
     );
