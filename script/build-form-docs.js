@@ -40,7 +40,7 @@ ${Object.values(chapter.pages)
               : page.title
           }
 Path: ${page.path}
-${page.depends?.name ? `Depends: ${page.depends.name}\n` : ''}`,
+${page.depends?.name ? `\nDepends: ${page.depends.name}\n` : ''}`,
         )
         .join('\n')}`,
     )
