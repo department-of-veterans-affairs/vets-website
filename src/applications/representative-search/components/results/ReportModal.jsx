@@ -241,6 +241,7 @@ const ReportModal = ({
               <va-textarea
                 hint={null}
                 label="Describe the other information we need to update"
+                required
                 error={otherIsBlankError ? 'This field is required' : null}
                 value={reportObject.other}
                 name="Other comment input"
