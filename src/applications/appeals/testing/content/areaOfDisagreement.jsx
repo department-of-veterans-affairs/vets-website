@@ -1,8 +1,12 @@
 import React from 'react';
-import moment from 'moment';
 
 import { getIssueName, getIssueDate } from '../../shared/utils/issues';
-import { FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
+import {
+  FORMAT_YMD_DATE_FNS,
+  FORMAT_READABLE_DATE_FNS,
+} from '../../shared/constants';
+
+import { parseDate } from '../../shared/utils/dates';
 
 export const errorMessages = {
   maxOtherEntry: max => `This field should be less than ${max} characters`,
@@ -40,11 +44,11 @@ export const getIssueTitle = (data = {}, { plainText } = {}) => {
   const prefix = 'What is your disagreement with ';
   const joiner = ' decision on ';
   const name = getIssueName(data);
-  const date = moment(getIssueDate(data) || undefined, FORMAT_YMD);
-  const formattedDate = `${
-    date.isValid() ? date.format(FORMAT_READABLE) : ''
-  }?`;
-
+  const formattedDate = parseDate(
+    getIssueDate(data),
+    FORMAT_READABLE_DATE_FNS,
+    FORMAT_YMD_DATE_FNS,
+  );
   return plainText === true ? (
     [prefix, name, joiner, formattedDate].join('')
   ) : (
