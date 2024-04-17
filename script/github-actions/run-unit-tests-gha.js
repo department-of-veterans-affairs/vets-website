@@ -125,9 +125,9 @@ if (testsToVerify === null) {
     core.exportVariable('NO_APPS_TO_RUN', true);
   }
 } else {
-  const appsToVerify = process.env.APPS_TO_VERIFY.filter(app =>
-    app.startsWith('src/applications'),
-  ).map(app => app.split('/')[2]);
+  const appsToVerify = JSON.parse(process.env.APPS_TO_VERIFY)
+    .filter(app => app.startsWith('src/applications'))
+    .map(app => app.split('/')[2]);
   for (const app of appsToVerify) {
     const testsToRun = testsToVerify.filter(test =>
       test.includes(`src/applications/${app}`),
