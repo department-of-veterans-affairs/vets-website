@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   currentOrPastDateUI,
@@ -10,7 +9,6 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
-
 import { getJobTitleOrType } from '../../../helpers';
 
 export const EmployerView = ({ formData }) => (

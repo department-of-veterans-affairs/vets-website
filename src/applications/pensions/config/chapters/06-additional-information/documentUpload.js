@@ -1,9 +1,7 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-
 import { files } from '../../definitions';
 
 const Description = (

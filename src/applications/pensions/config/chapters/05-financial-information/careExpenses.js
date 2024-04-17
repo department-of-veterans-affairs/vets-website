@@ -42,8 +42,8 @@ CareExpenseView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
-  path: 'financial/care-expenses/add',
   title: 'Unreimbursed care expenses',
+  path: 'financial/care-expenses/add',
   depends: doesHaveCareExpenses,
   uiSchema: {
     ...titleUI('Add an unreimbursed care expense'),

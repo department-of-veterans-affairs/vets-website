@@ -8,9 +8,11 @@ import React from 'react';
 export function isSeparated(formData) {
   return formData.maritalStatus === 'SEPARATED';
 }
+
 export function isMarried(form = {}) {
   return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
 }
+
 export function doesHaveDependents(formData) {
   return get(['view:hasDependents'], formData) === true;
 }

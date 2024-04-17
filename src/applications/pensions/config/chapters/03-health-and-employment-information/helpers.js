@@ -3,9 +3,11 @@ import moment from 'moment/moment';
 export function hasFederalTreatmentHistory(formData) {
   return formData.federalTreatmentHistory === true;
 }
+
 export function hasNoSocialSecurityDisability(formData) {
   return formData.socialSecurityDisability === false;
 }
+
 export function hasVaTreatmentHistory(formData) {
   return formData.vaTreatmentHistory === true;
 }
