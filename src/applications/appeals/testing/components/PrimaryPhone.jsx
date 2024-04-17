@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import recordEvent from 'platform/monitoring/record-event';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import recordEvent from '~/platform/monitoring/record-event';
 
-import { content } from '../../995/content/primaryPhone';
+import { content } from '../../shared/content/primaryPhone';
 import { customPageProps } from '../../shared/props';
 
 export const PrimaryPhone = ({
