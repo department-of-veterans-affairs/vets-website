@@ -33,6 +33,7 @@ export const DIRECT_DEPOSIT_API_ENDPOINT = '/profile/direct_deposits';
 export const fetchDirectDepositArgs = {
   captureError,
   recordApiEvent,
+  getData,
 };
 
 // action creator to fetch direct deposit information
@@ -86,6 +87,7 @@ export function saveDirectDeposit(
   {
     captureError: captureDirectDepositError,
     recordApiEvent: recordDirectDepositEvent,
+    getData: getDataDirectDeposit,
   } = fetchDirectDepositArgs,
 ) {
   return async dispatch => {
@@ -96,7 +98,7 @@ export function saveDirectDeposit(
       status: API_STATUS.STARTED,
     });
 
-    const response = await getData(DIRECT_DEPOSIT_API_ENDPOINT, {
+    const response = await getDataDirectDeposit(DIRECT_DEPOSIT_API_ENDPOINT, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
