@@ -758,39 +758,19 @@ export const formSubtitle = title => (
 );
 
 /**
- * Formats a date in human-readable form. For example:
- * 'January 2000' or '2000' or 'No date entered'
+ * Formats a raw date using month and year only. For example: 'January 2000'
  *
- * @param {*} rawDate A date in the form 'MM-DD-YYYY'
- * @returns A human-readable date string.
+ * @param {string} rawDate - Assuming a date in the format 'YYYY-MM-DD'
+ * @returns {string} A friendly date string if a valid date. Empty string otherwise.
  */
-export const formatMonthYearDate = rawDate => {
-  if (!rawDate || rawDate === 'XX-XX-XXXX') {
-    return '';
-  }
+export const formatMonthYearDate = (rawDate = '') => {
+  const date = new Date(rawDate.split('-').join('/')).toLocaleDateString(
+    'en-US',
+    {
+      year: 'numeric',
+      month: 'long',
+    },
+  );
 
-  const dateParts = rawDate.split('-');
-  const year = dateParts[0];
-  const month = dateParts[1];
-
-  if (year === 'XXXX' && month === 'XX') {
-    return '';
-  }
-
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
-  return `${months[Number.parseInt(month, 10) - 1]} ${year}`;
+  return date === 'Invalid Date' ? '' : date;
 };

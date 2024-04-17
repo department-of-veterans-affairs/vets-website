@@ -298,7 +298,7 @@ export function showGulfWar1990SummaryPage(formData) {
     isClaimingTECondition(formData) &&
     formData?.gulfWar1990 &&
     Object.values(formData?.gulfWar1990).filter(value => value === true)
-      .length > 1
+      .length > 0
   );
 }
 
