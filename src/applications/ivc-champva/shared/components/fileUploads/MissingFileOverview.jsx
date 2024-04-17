@@ -130,6 +130,7 @@ export default function MissingFileOverview({
   showMail,
   showConsent,
   allPages,
+  fileNameMap,
 }) {
   const [error, setError] = useState(undefined);
   const [isChecked, setIsChecked] = useState(
@@ -250,6 +251,7 @@ export default function MissingFileOverview({
               subset="required"
               description={requiredDescription}
               disableLinks={disableLinks}
+              fileNameMap={fileNameMap}
             />
           ) : null}
           {hasReq(apps, true, showConsent) ? (
@@ -260,6 +262,7 @@ export default function MissingFileOverview({
               subset="required"
               description={requiredDescription}
               disableLinks={disableLinks}
+              fileNameMap={fileNameMap}
             />
           ) : null}
           {hasReq(sponsorMiss, false, showConsent) ? (
@@ -270,6 +273,7 @@ export default function MissingFileOverview({
               subset="optional"
               description={optionalDescription}
               disableLinks={disableLinks}
+              fileNameMap={fileNameMap}
             />
           ) : null}
           {hasReq(apps, false, showConsent) ? (
@@ -280,6 +284,7 @@ export default function MissingFileOverview({
               subset="optional"
               description={optionalDescription}
               disableLinks={disableLinks}
+              fileNameMap={fileNameMap}
             />
           ) : null}
           {requiredFilesStillMissing && showMail ? <>{mailInfo}</> : null}
@@ -315,6 +320,7 @@ MissingFileOverview.propTypes = {
   contentAfterButtons: PropTypes.object,
   data: PropTypes.object,
   disableLinks: PropTypes.bool,
+  fileNameMap: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   heading: PropTypes.node,

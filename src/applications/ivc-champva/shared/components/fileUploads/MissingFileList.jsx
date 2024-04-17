@@ -3,13 +3,6 @@ import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { makeHumanReadable } from '../../../10-10D/helpers/utilities';
-import {
-  requiredFiles,
-  optionalFiles,
-} from '../../../10-10D/helpers/supportingDocsVerification';
-
-// All file names mapped to their presentable labels
-const fileNameMap = { ...requiredFiles, ...optionalFiles };
 
 /**
  * Produce either a success message or a link to upload a file
@@ -60,6 +53,7 @@ export default function MissingFileList({
   description,
   disableLinks,
   subset,
+  fileNameMap,
 }) {
   const inSubset = file => {
     if (subset === 'required') {
@@ -117,6 +111,7 @@ MissingFileList.propTypes = {
   data: PropTypes.any,
   description: PropTypes.string,
   disableLinks: PropTypes.bool,
+  fileNameMap: PropTypes.any,
   nameKey: PropTypes.string,
   subset: PropTypes.string,
   title: PropTypes.string,
