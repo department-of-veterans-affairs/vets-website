@@ -659,9 +659,9 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: 12
-      matrix:
-        ci_node_index: ${{ fromJson(needs.tests-prep.outputs.ci_node_index) }}
+      # max-parallel: 12
+      # matrix:
+      #   ci_node_index: ${{ fromJson(needs.tests-prep.outputs.ci_node_index) }}
 
     env:
       CI_NODE_INDEX: ${{ needs.tests-prep.outputs.ci_node_index }}
@@ -678,19 +678,6 @@ jobs:
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
 
-      - name: Checkout vets-website
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
-
-      - name: Configure AWS credentials
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-
-
 #new
       - name: Restore Cached Folder
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -704,6 +691,18 @@ jobs:
       - name: List restored files
         run: ls -la ./build
         if: steps.cache-restoreApril16.outputs.cache-hit == 'true' && needs.tests-prep.outputs.cypress-tests != '[]'
+
+      - name: Checkout vets-website
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Configure AWS credentials
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
       - name: Get va-vsp-bot token
         if: needs.tests-prep.outputs.cypress-tests != '[]'
