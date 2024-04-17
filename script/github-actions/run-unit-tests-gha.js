@@ -94,6 +94,7 @@ const appsToRun = options['app-folder']
   : splitUnitTests[matrixStep];
 
 if (testsToVerify === null) {
+  // Not a stress test as no tests need to be verified
   if (appsToRun && appsToRun.length > 0) {
     core.exportVariable('NO_APPS_TO_RUN', false);
     for (const dir of appsToRun) {
@@ -125,6 +126,7 @@ if (testsToVerify === null) {
     core.exportVariable('NO_APPS_TO_RUN', true);
   }
 } else {
+  // Stress test
   const appsToVerify = JSON.parse(process.env.APPS_TO_VERIFY)
     .filter(app => app.startsWith('src/applications'))
     .map(app => app.split('/')[2]);

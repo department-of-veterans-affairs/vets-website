@@ -14,7 +14,7 @@ export default function FormButtons({
   nextButtonText,
 }) {
   return (
-    <div className="vads-l-row form-progress-buttons schemaform-buttonsss">
+    <div className="vads-l-row form-progress-buttons schemaform-buttons">
       <div className="vaos__form-button-back xsmall-screen:vads-u-padding-right--1p5 medium-screen:vads-u-padding-right--0p5">
         <ProgressButton
           onButtonClick={onBack}
