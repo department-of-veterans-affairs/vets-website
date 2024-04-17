@@ -1,12 +1,11 @@
 import { expect } from 'chai';
-import { subDays } from 'date-fns';
 import { SHOW_PART3 } from '../../constants';
 import { issuesNeedUpdating } from '../../utils/issues';
 
-import { parseDate } from '../../../shared/utils/dates';
+import { parseDateWithOffset } from '../../../shared/utils/dates';
 
 describe('issuesNeedUpdating', () => {
-  const yesterday = parseDate(subDays(new Date(), 1));
+  const yesterday = parseDateWithOffset({ days: -1 });
   const longAgo = '2000-01-01';
 
   const createEntry = (

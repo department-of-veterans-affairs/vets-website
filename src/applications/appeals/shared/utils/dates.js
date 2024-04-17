@@ -18,7 +18,7 @@ export const parseDateToDateObj = (date, template) => {
   } else if (date instanceof Date && isValid(date)) {
     // Remove timezone offset - the only time we pass in a date object is for
     // unit tests (see https://stackoverflow.com/a/67599505)
-    date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+    newDate.setMinutes(newDate.getMinutes() + newDate.getTimezoneOffset());
   }
   return isValid(newDate) ? newDate : null;
 };
