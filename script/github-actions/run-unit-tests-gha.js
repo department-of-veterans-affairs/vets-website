@@ -8,8 +8,8 @@ const { runCommand } = require('../utils');
 
 const specDirs = '{src,script}';
 const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
-const numContainers = process.env.NUM_CONTAINERS || 1;
-const matrixStep = process.env.STEP || 0;
+// const numContainers = process.env.NUM_CONTAINERS || 1;
+// const matrixStep = process.env.STEP || 0;
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'log-level', type: String, defaultValue: 'log' },
@@ -41,14 +41,14 @@ const allUnitTestDirs = Array.from(
   ),
 ).filter(spec => spec !== undefined);
 
-function splitArray(array, chunks) {
-  const [...arrayCopy] = array;
-  const arrayChunks = [];
-  while (arrayCopy.length) {
-    arrayChunks.push(arrayCopy.splice(0, chunks));
-  }
-  return arrayChunks;
-}
+// function splitArray(array, chunks) {
+//   const [...arrayCopy] = array;
+//   const arrayChunks = [];
+//   while (arrayCopy.length) {
+//     arrayChunks.push(arrayCopy.splice(0, chunks));
+//   }
+//   return arrayChunks;
+// }
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
 let coverageInclude = '';
 
@@ -85,13 +85,13 @@ if (process.env.TESTS_TO_VERIFY) {
   testsToVerify = JSON.parse(process.env.TESTS_TO_VERIFY).join(' ');
 }
 
-const splitUnitTests = splitArray(
-  allUnitTestDirs,
-  Math.ceil(allUnitTestDirs.length / numContainers),
-);
+// const splitUnitTests = splitArray(
+//   allUnitTestDirs,
+//   Math.ceil(allUnitTestDirs.length / numContainers),
+// );
 const appsToRun = options['app-folder']
   ? [options['app-folder']]
-  : splitUnitTests[matrixStep];
+  : allUnitTestDirs;
 
 if (testsToVerify === null) {
   if (appsToRun && appsToRun.length > 0) {
