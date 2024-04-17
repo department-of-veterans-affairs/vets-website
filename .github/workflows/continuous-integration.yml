@@ -626,21 +626,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
-#new
-      - name: Restore Cached Folder
-        #if: needs.tests-prep.outputs.cypress-tests != '[]'
-        id: cache-restoreApril16
-        uses: actions/cache@v3
-        with:
-          path: ./build
-          key: ${{ github.run_id }}-${{ github.sha }}
-          restore-keys: ${{ github.run_id }}-${{ github.sha }}
-#new
-      - name: List restored files
-        run: ls -la ./build
-        #if: steps.cache-restoreApril16.outputs.cache-hit == 'true' && needs.tests-prep.outputs.cypress-tests != '[]'
-
-
       - name: Configure AWS Credentials
         uses: ./.github/workflows/configure-aws-credentials
         with:
@@ -663,24 +648,24 @@ jobs:
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 60
     needs: [build, tests-prep, fetch-ecr-credentials]
-    if: |
-      needs.build.result == 'success' &&
-      needs.tests-prep.result == 'success'
-    container:
-      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
-      credentials:
-        username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
-        password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
+    # if: |
+    #   needs.build.result == 'success' &&
+    #   needs.tests-prep.result == 'success'
+    # container:
+    #   image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+    #   credentials:
+    #     username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
+    #     password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
 
-    strategy:
-      fail-fast: false
-      # max-parallel: 12
-      # matrix:
-      #   ci_node_index: ${{ fromJson(needs.tests-prep.outputs.ci_node_index) }}
+    # strategy:
+    #   fail-fast: false
+    #   max-parallel: 12
+    #   matrix:
+    #     ci_node_index: ${{ fromJson(needs.tests-prep.outputs.ci_node_index) }}
 
-    env:
-      CI_NODE_INDEX: ${{ needs.tests-prep.outputs.ci_node_index }}
-      TESTS: ${{ needs.tests-prep.outputs.cypress-tests }}
+    # env:
+    #   CI_NODE_INDEX: ${{ needs.tests-prep.outputs.ci_node_index }}
+    #   TESTS: ${{ needs.tests-prep.outputs.cypress-tests }}
 
     steps:
       # The following statement is included in each step because of a bug in
@@ -693,6 +678,19 @@ jobs:
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
 
+#new
+      - name: Restore Cached Folder
+        #if: needs.tests-prep.outputs.cypress-tests != '[]'
+        id: cache-restoreApril16
+        uses: actions/cache@v3
+        with:
+          path: ./build
+          key: ${{ github.run_id }}-${{ github.sha }}
+          restore-keys: ${{ github.run_id }}-${{ github.sha }}
+#new
+      - name: List restored files
+        run: ls -la ./build
+        #if: steps.cache-restoreApril16.outputs.cache-hit == 'true' && needs.tests-prep.outputs.cypress-tests != '[]'
 
       - name: Checkout vets-website
         if: needs.tests-prep.outputs.cypress-tests != '[]'
