@@ -651,11 +651,11 @@ jobs:
     # if: |
     #   needs.build.result == 'success' &&
     #   needs.tests-prep.result == 'success'
-    # container:
-    #   image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
-    #   credentials:
-    #     username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
-    #     password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
+    container:
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      credentials:
+        username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
+        password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
 
     # strategy:
     #   fail-fast: false
