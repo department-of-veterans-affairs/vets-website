@@ -1,10 +1,10 @@
 import React from 'react';
-import {
-  checkboxGroupUI,
-  checkboxGroupSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { checkboxGroupUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
-import { generateTitle } from '../../../utils/helpers';
+import {
+  generateTitle,
+  checkboxGroupSchemaWithReviewLabels,
+} from '../../../utils/helpers';
 import { benefitsLabels } from '../../../utils/labels';
 
 export default {
@@ -52,7 +52,7 @@ export default {
     required: ['view:claimedBenefits'],
     properties: {
       'view:claimedBenefits': {
-        ...checkboxGroupSchema([
+        ...checkboxGroupSchemaWithReviewLabels([
           'burialAllowance',
           'plotAllowance',
           'transportation',

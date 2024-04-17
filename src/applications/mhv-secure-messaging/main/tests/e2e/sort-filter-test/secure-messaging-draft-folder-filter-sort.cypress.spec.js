@@ -1,6 +1,7 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessagesDraftsPage from '../pages/PatientMessageDraftsPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Draft Folder checks', () => {
   const landingPage = new PatientInboxPage();
@@ -13,55 +14,25 @@ describe('Secure Messaging Draft Folder checks', () => {
   });
 
   it('Verify filter works correctly', () => {
+    draftsPage.inputFilterDataText('test');
+    draftsPage.clickFilterMessagesButton();
+    draftsPage.verifyFilterResultsText('test');
     cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-    draftsPage.inputFilterData('test');
-    draftsPage.filterMessages();
-    draftsPage.verifyFilterResults('test');
+    cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('Verify filter works with Date', () => {
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-    draftsPage.inputFilterData('Last 3 Months');
-    draftsPage.filterMessages();
-  });
   it('Verify clear filter btn works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
-    draftsPage.inputFilterData('any');
-    draftsPage.filterMessages();
-    draftsPage.clearFilter();
+    draftsPage.inputFilterDataText('any');
+    draftsPage.clickFilterMessagesButton();
+    draftsPage.clickClearFilterButton();
     draftsPage.verifyFilterFieldCleared();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('Check sorting works properly', () => {
-    cy.injectAxe();
-    cy.axeCheck('main', {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
     draftsPage.verifySorting();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

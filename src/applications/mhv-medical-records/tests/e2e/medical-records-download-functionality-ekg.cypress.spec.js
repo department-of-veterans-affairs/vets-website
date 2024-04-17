@@ -37,6 +37,7 @@ describe('Medical Records Labs and Tests List Page', () => {
       '',
     );
 
+    EKGDetailsPage.clickPrintOrDownload();
     EKGDetailsPage.clickDownloadTxtFile();
 
     site.verifyDownloadedTxtFile(

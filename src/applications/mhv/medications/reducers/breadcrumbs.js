@@ -2,12 +2,25 @@ import { Actions } from '../util/actionTypes';
 
 const initialState = {
   list: [],
-  location: '',
 };
 
 export const breadcrumbsReducer = (state = initialState, action) => {
-  if (action.type === Actions.Breadcrumbs.SET_BREAD_CRUMBS) {
-    return { list: action.payload.crumbs, location: action.payload.location };
+  switch (action.type) {
+    case Actions.Breadcrumbs.SET_BREAD_CRUMBS: {
+      const newCrumbList = [...state.list];
+      newCrumbList.push(action.payload.crumbs);
+      return {
+        list: newCrumbList,
+      };
+    }
+    case Actions.Breadcrumbs.REMOVE_BREAD_CRUMB: {
+      const newCrumbList = [...state.list];
+      newCrumbList.pop();
+      return {
+        list: newCrumbList,
+      };
+    }
+    default:
+      return state;
   }
-  return state;
 };

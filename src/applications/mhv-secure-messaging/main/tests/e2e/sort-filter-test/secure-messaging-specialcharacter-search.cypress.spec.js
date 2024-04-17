@@ -18,32 +18,20 @@ describe('Secure Messaging Basic Search Tests', () => {
 
   it('Basic Search Highlight Inbox Check', () => {
     PatientBasicSearchPage.typeSearchInputFieldText(searchText);
-    PatientBasicSearchPage.submitInboxSearch();
+    PatientBasicSearchPage.clickInboxSearchButton();
     PatientBasicSearchPage.verifyHighlightedText(searchText);
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('Basic Search Highlight Drafts Check', () => {
     patientMessageDraftsPage.loadDraftMessages();
     PatientBasicSearchPage.typeSearchInputFieldText(searchText);
-    PatientBasicSearchPage.submitDraftSearch();
+    PatientBasicSearchPage.clickDraftSearchButton();
     PatientBasicSearchPage.verifyHighlightedText(searchText);
     cy.injectAxe();
 
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

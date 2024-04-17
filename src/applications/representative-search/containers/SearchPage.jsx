@@ -13,7 +13,6 @@ import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import repStatusLoader from 'applications/static-pages/representative-status';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { recordSearchResultsChange } from '../utils/analytics';
 import SearchControls from '../components/search/SearchControls';
 import SearchResultsHeader from '../components/results/SearchResultsHeader';
@@ -32,6 +31,7 @@ import {
   geocodeUserAddress,
   submitRepresentativeReport,
   initializeRepresentativeReport,
+  cancelRepresentativeReport,
   updateFromLocalStorage,
   clearError,
 } from '../actions';
@@ -53,11 +53,6 @@ const SearchPage = props => {
   const [isDisplayingResults, setIsDisplayingResults] = useState(false);
 
   const store = useStore();
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-
-  const repStatusEnabled = useToggleValue(
-    TOGGLE_NAMES.representativeStatusEnabled,
-  );
 
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
@@ -69,7 +64,7 @@ const SearchPage = props => {
       long: currentQuery.position?.longitude,
       page: currentQuery.page || 1,
       perPage: 10,
-      sort: currentQuery.sortType.toLowerCase(),
+      sort: currentQuery.sortType?.toLowerCase(),
       type: currentQuery.representativeType,
       name: currentQuery.representativeInputString,
       ...params,
@@ -313,16 +308,10 @@ const SearchPage = props => {
   // search from query params on page load
   useEffect(() => {
     handleSearchViaUrl();
+    if (!environment.isProduction()) {
+      repStatusLoader(store, 'representative-status', 3);
+    }
   }, []);
-
-  useEffect(
-    () => {
-      if (repStatusEnabled) {
-        repStatusLoader(store, 'representative-status');
-      }
-    },
-    [repStatusEnabled],
-  );
 
   const renderBreadcrumbs = () => {
     const breadcrumbs = [
@@ -351,11 +340,6 @@ const SearchPage = props => {
       <div className="row search-section">
         <div className="title-section">
           <h1>Find a VA accredited representative or VSO</h1>
-
-          {!environment.isProduction() && (
-            <div data-widget-type="representative-status" />
-          )}
-
           <p>
             An accredited attorney, claims agent, or Veterans Service Officer
             (VSO) can help you file a claim or request a decision review. Use
@@ -368,6 +352,17 @@ const SearchPage = props => {
             to help you.
           </p>
         </div>
+
+        {!environment.isProduction() && (
+          <div>
+            <h2>Check your current accredited representative</h2>
+            <p>
+              VA doesn’t automatically assign you an accredited representative.
+              But you may have appointed one in the past.{' '}
+            </p>
+            <div data-widget-type="representative-status" />
+          </div>
+        )}
 
         <SearchControls
           geolocateUser={props.geolocateUser}
@@ -430,6 +425,7 @@ const SearchPage = props => {
           sortType={currentQuery.sortType}
           submitRepresentativeReport={props.submitRepresentativeReport}
           initializeRepresentativeReport={props.initializeRepresentativeReport}
+          cancelRepresentativeReport={props.cancelRepresentativeReport}
           reportSubmissionStatus={props.reportSubmissionStatus}
         />
       );
@@ -504,6 +500,7 @@ const SearchPage = props => {
 };
 
 SearchPage.propTypes = {
+  cancelRepresentativeReport: PropTypes.func,
   clearError: PropTypes.func,
   clearSearchResults: PropTypes.func,
   clearSearchText: PropTypes.func,
@@ -593,6 +590,7 @@ const mapDispatchToProps = {
   clearSearchText,
   submitRepresentativeReport,
   initializeRepresentativeReport,
+  cancelRepresentativeReport,
   updateFromLocalStorage,
   clearError,
 };

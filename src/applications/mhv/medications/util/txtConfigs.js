@@ -1,4 +1,11 @@
-import { dateFormat, processList, validateField } from './helpers';
+import {
+  dateFormat,
+  processList,
+  validateField,
+  createVAPharmacyText,
+  createNoDescriptionText,
+  createOriginalFillRecord,
+} from './helpers';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
@@ -161,12 +168,8 @@ Provider notes: ${validateField(item.notes)}
  */
 export const buildVAPrescriptionTXT = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  refillHistory.push({
-    prescriptionName: prescription?.prescriptionName,
-    dispensedDate: prescription?.dispensedDate,
-    cmopNdcNumber: prescription?.cmopNdcNumber,
-    id: prescription?.prescriptionId,
-  });
+  const originalFill = createOriginalFillRecord(prescription);
+  refillHistory.push(originalFill);
 
   let result = `
 ---------------------------------------------------------------------------------
@@ -232,6 +235,20 @@ Refill history
   `;
 
   refillHistory.forEach((entry, i) => {
+    const phone = entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+    const { shape, color, backImprint, frontImprint } = entry;
+    const hasValidDesc = shape?.trim() && color?.trim() && frontImprint?.trim();
+    const description = hasValidDesc
+      ? `
+Note: If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
+          phone,
+        )}
+
+* Shape: ${shape[0].toUpperCase()}${shape.slice(1).toLowerCase()}
+* Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
+* Front marking: ${frontImprint}
+${backImprint ? `* Back marking: ${backImprint}` : ''}`
+      : createNoDescriptionText(phone);
     result += `
 ${i === 0 ? 'First fill' : `Refill ${i}`}
 
@@ -245,6 +262,7 @@ Shipped on: ${
         : 'None noted'
     }
 
+Description: ${description}
 
 ---------------------------------------------------------------------------------
 

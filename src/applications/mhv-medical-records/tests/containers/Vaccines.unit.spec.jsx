@@ -36,23 +36,19 @@ describe('Vaccines list container', () => {
     expect(screen.getByText('Vaccines', { exact: true })).to.exist;
   });
 
-  it('displays Date of birth for the print view', () => {
-    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
-  });
-
   it('displays a print button', () => {
-    const printButton = screen.getByTestId('print-records-button');
+    const printButton = screen.getByTestId('print-download-menu');
     expect(printButton).to.exist;
   });
 
-  it('should download a pdf', () => {
+  it('should display a download started message when the download pdf button is clicked', () => {
     fireEvent.click(screen.getByTestId('printButton-1'));
-    expect(screen).to.exist;
+    expect(screen.getByTestId('download-success-alert-message')).to.exist;
   });
 
-  it('should download a text file', () => {
+  it('should display a download started message when the download txt file button is clicked', () => {
     fireEvent.click(screen.getByTestId('printButton-2'));
-    expect(screen).to.exist;
+    expect(screen.getByTestId('download-success-alert-message')).to.exist;
   });
 });
 
@@ -78,6 +74,40 @@ describe('Vaccines list container still loading', () => {
 
   it('displays a loading indicator', () => {
     expect(screen.getByTestId('loading-indicator')).to.exist;
+  });
+});
+
+describe('Vaccines list container first time loading', () => {
+  const initialState = {
+    user,
+    mr: {
+      vaccines: { listCurrentAsOf: undefined },
+      alerts: { alertList: [] },
+      refresh: { initialFhirLoad: true },
+    },
+  };
+
+  it('displays the first-time loading indicator when data is stale', () => {
+    const screen = renderWithStoreAndRouter(<Vaccines runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/vaccines',
+    });
+
+    expect(screen.getByTestId('initial-fhir-loading-indicator')).to.exist;
+  });
+
+  it('does not display the first-time loading indicator when data is current', () => {
+    const screen = renderWithStoreAndRouter(<Vaccines runningUnitTest />, {
+      initialState: {
+        ...initialState,
+        mr: { ...initialState.mr, vaccines: { listCurrentAsOf: new Date() } },
+      },
+      reducers: reducer,
+      path: '/vaccines',
+    });
+
+    expect(screen.queryByTestId('initial-fhir-loading-indicator')).to.not.exist;
   });
 });
 
@@ -152,7 +182,7 @@ describe('Vaccines list container with errors', async () => {
   });
 
   it('does not display a print button', () => {
-    const printButton = screen.queryByTestId('print-records-button');
+    const printButton = screen.queryByTestId('print-download-menu');
     expect(printButton).to.be.null;
   });
 });

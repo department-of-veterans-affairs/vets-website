@@ -1,87 +1,161 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { usePrevious } from '~/platform/utilities/react-hooks';
 import {
   isAuthenticatedWithOAuth,
   signInServiceName,
 } from '~/platform/user/authentication/selectors';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
-import { usePrevious } from '~/platform/utilities/react-hooks';
 import {
+  createIsServiceAvailableSelector,
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled as isMultifactorEnabledSelector,
 } from '~/platform/user/selectors';
+import backendServices from '~/platform/user/profile/constants/backendServices';
 
-import { DIRECT_DEPOSIT_ALERT_SETTINGS } from '../constants';
+import { getIsBlocked } from '../selectors';
 import {
-  getIsBlocked,
-  selectHasDirectDepositLoadError,
-  selectHasDirectDepositSaveError,
-} from '../selectors';
+  saveDirectDeposit,
+  toggleDirectDepositEdit,
+} from '../actions/directDeposit';
 
 export const useDirectDeposit = () => {
-  const [showUpdateSuccess, setShowUpdateSuccess] = useState(false);
-  const [formIsDirty, setFormIsDirty] = useState(false);
+  const dispatch = useDispatch();
 
-  // redux state for direct deposit form
-  const { ui, error, paymentAccount, controlInformation } = useSelector(
-    state => state.directDeposit,
+  const [formData, setFormData] = useState({});
+
+  const [showUpdateSuccess, setShowUpdateSuccess] = useState(false);
+
+  const [showCancelModal, setShowCancelModal] = useState(false);
+
+  const editButtonRef = useRef();
+
+  const cancelButtonRef = useRef();
+
+  // Determine if the form has unsaved edits for any of the fields
+  const hasUnsavedFormEdits = useMemo(
+    () =>
+      !!(
+        formData?.accountType ||
+        formData?.routingNumber ||
+        formData?.accountNumber
+      ),
+    [formData],
   );
 
-  const hasLoadError = useSelector(selectHasDirectDepositLoadError);
-  const hasSaveError = useSelector(selectHasDirectDepositSaveError);
+  const {
+    ui,
+    paymentAccount,
+    controlInformation,
+    saveError,
+    loadError,
+  } = useSelector(state => state.directDeposit);
 
   const wasSaving = usePrevious(ui.isSaving);
+  const wasEditing = usePrevious(ui.isEditing);
 
-  // redux state for access information
   const useOAuth = useSelector(isAuthenticatedWithOAuth);
 
-  // check for control information to block a user from viewing the page
   const isBlocked = getIsBlocked(controlInformation);
 
-  // conditions to show the verify identity alert
   const signInService = useSelector(signInServiceName);
+
   const isUsingEligibleSignInService =
     signInService &&
     new Set([CSP_IDS.ID_ME, CSP_IDS.LOGIN_GOV]).has(signInService);
+
   const isLOA3 = useSelector(isLOA3Selector);
+
   const isMultifactorEnabled = useSelector(isMultifactorEnabledSelector);
 
-  // combine all several conditions to show the verify identity alert and hide the bank info / form
+  // Determine if the user has verified their identity
+  // by checking if they are using an eligible sign-in service,
+  // have an LOA3 profile, and have multifactor enabled
   const isIdentityVerified = useMemo(
     () => isUsingEligibleSignInService && isLOA3 && isMultifactorEnabled,
     [isLOA3, isMultifactorEnabled, isUsingEligibleSignInService],
   );
 
-  const removeBankInfoUpdatedAlert = useCallback(() => {
-    setTimeout(() => {
-      setShowUpdateSuccess(false);
-    }, DIRECT_DEPOSIT_ALERT_SETTINGS.TIMEOUT);
-  }, []);
-
-  // effects to trigger the success alert
-  useEffect(
-    () => {
-      if (!ui.isSaving && !hasSaveError && wasSaving) {
-        setShowUpdateSuccess(true);
-        removeBankInfoUpdatedAlert();
-      }
-    },
-    [wasSaving, ui.isSaving, hasSaveError, removeBankInfoUpdatedAlert],
+  // based on user.icn.present? && user.participant_id.present? in vets-api policy
+  const isLighthouseAvailable = useSelector(
+    createIsServiceAvailableSelector(backendServices.LIGHTHOUSE),
   );
+
+  // function to exit the direct deposit update view
+  // also will clear any pending form data in UI
+  const exitUpdateView = useCallback(
+    () => {
+      setFormData({});
+      dispatch(toggleDirectDepositEdit(false));
+    },
+    [setFormData, dispatch],
+  );
+
+  // function to handle the cancel button click
+  // on direct deposit update form
+  const onCancel = useCallback(
+    () => {
+      if (hasUnsavedFormEdits) {
+        setShowCancelModal(true);
+        return;
+      }
+
+      exitUpdateView();
+    },
+    [hasUnsavedFormEdits, setShowCancelModal, exitUpdateView],
+  );
+
+  const onFormSubmit = useCallback(
+    () => {
+      const payload = {
+        paymentAccount: {
+          accountType: formData.accountType,
+          accountNumber: formData.accountNumber,
+          routingNumber: formData.routingNumber,
+        },
+        controlInformation,
+      };
+      dispatch(saveDirectDeposit(payload));
+    },
+    [dispatch, formData, controlInformation],
+  );
+
+  const {
+    canUpdateDirectDeposit,
+    isCorpAvailable,
+    isEduClaimAvailable,
+  } = controlInformation || { canUpdateDirectDeposit: false };
+
+  const hasEligibleControlInformation =
+    canUpdateDirectDeposit && (isCorpAvailable || isEduClaimAvailable);
 
   return {
     ui: useMemo(() => ui, [ui]),
-    error: useMemo(() => error, [error]),
-    hasLoadError,
-    hasSaveError,
+    loadError,
+    saveError,
     paymentAccount: useMemo(() => paymentAccount, [paymentAccount]),
     controlInformation: useMemo(() => controlInformation, [controlInformation]),
-    formIsDirty,
-    setFormIsDirty,
     showUpdateSuccess,
+    setShowUpdateSuccess,
+    showCancelModal,
+    setShowCancelModal,
     isIdentityVerified,
     useOAuth,
     isBlocked,
+    formData,
+    onFormSubmit,
+    setFormData,
+    editButtonRef,
+    cancelButtonRef,
+    onCancel,
+    exitUpdateView,
+    wasSaving,
+    wasEditing,
+    hasUnsavedFormEdits,
+    isEligible:
+      isLighthouseAvailable &&
+      isIdentityVerified &&
+      hasEligibleControlInformation,
   };
 };

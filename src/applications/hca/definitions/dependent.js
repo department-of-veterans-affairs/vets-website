@@ -7,6 +7,7 @@ import currencyUI from '~/platform/forms-system/src/js/definitions/currency';
 import { validateCurrency, validateDependentDate } from '../utils/validation';
 import { LAST_YEAR } from '../utils/constants';
 import {
+  DependentEducationExpensesDescription,
   DependentSupportDescription,
   GrossIncomeDescription,
   OtherIncomeDescription,
@@ -59,8 +60,9 @@ export const dependentUISchema = {
     },
     dependentEducationExpenses: {
       ...currencyUI(
-        'Enter the total amount of money your dependent paid for college, vocational rehabilitation, or training (like tuition, book, or supplies)',
+        'Enter the total amount of money your dependent paid for college, vocational rehabilitation, or training (like tuition, books, or supplies)',
       ),
+      'ui:description': DependentEducationExpensesDescription,
       'ui:validations': [validateCurrency],
     },
   },
@@ -81,7 +83,7 @@ export const dependentUISchema = {
   },
   support: {
     receivedSupportLastYear: {
-      'ui:title': `If your dependent didn\u2019t live with you in ${LAST_YEAR}, did you provide financial support?`,
+      'ui:title': `If your dependent didn\u2019t live with you in ${LAST_YEAR}, did you provide any financial support?`,
       'ui:description': DependentSupportDescription,
       'ui:widget': 'yesNo',
     },
@@ -106,7 +108,6 @@ export const dependentUISchema = {
           `Enter your dependent\u2019s net annual income from a farm, ranch, property or business from ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
-        'ui:required': () => true,
       },
     },
     'view:otherIncome': {
@@ -117,7 +118,6 @@ export const dependentUISchema = {
           `Enter your dependent\u2019s other annual income from ${LAST_YEAR}`,
         ),
         'ui:validations': [validateCurrency],
-        'ui:required': () => true,
       },
     },
   },

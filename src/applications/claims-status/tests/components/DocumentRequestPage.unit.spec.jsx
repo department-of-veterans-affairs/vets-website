@@ -184,10 +184,8 @@ describe('<DocumentRequestPage>', () => {
       <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
     );
 
-    expect(tree.subTree('DueDateOld')).not.to.be.false;
-    expect(tree.subTree('DueDateOld').props.date).to.eql(
-      trackedItem.suspenseDate,
-    );
+    expect(tree.subTree('DueDate')).not.to.be.false;
+    expect(tree.subTree('DueDate').props.date).to.eql(trackedItem.suspenseDate);
   });
 
   it('should render optional upload alert', () => {

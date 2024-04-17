@@ -16,14 +16,7 @@ const responses = {
   'GET /v0/feature_toggles': mockFeatureToggles,
   'GET /v0/in_progress_forms/20-10207': mockSipGet,
   'PUT /v0/in_progress_forms/20-10207': mockSipPut,
-  'POST /simple_forms_api/v1/simple_forms/submit_financial_hardship_documents': mockUpload,
-  'POST /simple_forms_api/v1/simple_forms/submit_terminal_illness_documents': mockUpload,
-  'POST /simple_forms_api/v1/simple_forms/submit_als_documents': mockUpload,
-  'POST /simple_forms_api/v1/simple_forms/submit_vsi_documents': mockUpload,
-  'POST /simple_forms_api/v1/simple_forms/submit_pow_documents': mockUpload,
-  'POST /simple_forms_api/v1/simple_forms/submit_pow_documents2': mockUpload,
-  'POST /simple_forms_api/v1/simple_forms/submit_medal_award_documents': mockUpload,
-  'POST /simple_forms_api/v1/simple_forms/submit_medal_award_documents2': mockUpload,
+  'POST /simple_forms_api/v1/simple_forms/submit_supporting_documents': mockUpload,
   'POST /simple_forms_api/v1/simple_forms': mockSubmit,
 };
 

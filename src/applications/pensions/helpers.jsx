@@ -141,19 +141,6 @@ export function submit(form, formConfig) {
 
 export const formatCurrency = num => `$${num.toLocaleString()}`;
 
-export const DirectDepositWarning = (
-  <div className="pension-dd-warning">
-    <div>
-      <p>
-        The Department of Treasury requires all federal benefit payments be made
-        by electronic funds transfer (EFT), also called direct deposit. If we
-        approve your application for pension benefits, we’ll use direct deposit
-        to deposit your payments directly into a bank account.
-      </p>
-    </div>
-  </div>
-);
-
 export const DirectDepositOtherOptions = (
   <div>
     <h4>Option 1: Get your payment through Direct Express Debit MasterCard</h4>
@@ -284,3 +271,9 @@ export function isHomeAcreageMoreThanTwo(formData) {
     formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
   );
 }
+
+export const getJobTitleOrType = item => {
+  if (item?.jobTitle) return item.jobTitle;
+  if (item?.jobType) return item.jobType;
+  return '';
+};

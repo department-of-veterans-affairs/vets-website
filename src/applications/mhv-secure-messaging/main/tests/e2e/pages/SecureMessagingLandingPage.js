@@ -42,25 +42,27 @@ class SecureMessagingLandingPage {
     cy.wait('@generalFolder');
   };
 
-  verifyHeader = (text = 'Messages') => {
+  verifyHeaderText = (text = 'Messages') => {
     cy.get(Locators.HEADER)
       .should('be.visible')
       .and('have.text', `${text}`);
   };
 
-  verifyUnreadMessagesNote = (text = 'unread messages in your inbox') => {
+  verifyUnreadMessagesNoteText = (text = 'unread messages in your inbox') => {
     cy.get(Locators.ALERTS.UNREAD_MESS)
       .should('be.visible')
       .and('include.text', `${text}`);
   };
 
-  verifyWelcomeMessage = (text = 'What to know as you try out this tool') => {
+  verifyWelcomeMessageText = (
+    text = 'What to know as you try out this tool',
+  ) => {
     cy.get(Locators.ALERTS.WELCOME_MESSAGE)
       .should('be.visible')
       .and('contain.text', `${text}`);
   };
 
-  verifyFaqMessage = (text = 'Questions about this messaging tool') => {
+  verifyFaqMessageText = (text = 'Questions about this messaging tool') => {
     cy.get(Locators.MESSAGE_FAQ)
       .should('be.visible')
       .and('contain.text', `${text}`);

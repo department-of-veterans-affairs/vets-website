@@ -15,8 +15,8 @@ import {
   NO_ISSUES_SELECTED,
 } from '../../constants';
 
-import { getDate } from '../../../shared/utils/dates';
-import { SELECTED } from '../../../shared/constants';
+import { parseDateWithOffset } from '../../../shared/utils/dates';
+import { SELECTED, MAX_YEARS_PAST } from '../../../shared/constants';
 import { clickAddAnother, clickBack, clickContinue } from './helpers';
 
 /*
@@ -27,7 +27,7 @@ import { clickAddAnother, clickBack, clickContinue } from './helpers';
 | Partial  | Focus error | Modal & Prev page  | Focus error      |
  */
 describe('<EvidencePrivateRecords>', () => {
-  const validDate = getDate({ offset: { months: -2 } });
+  const validDate = parseDateWithOffset({ months: -2 });
   const mockData = {
     contestedIssues: [
       {
@@ -558,7 +558,7 @@ describe('<EvidencePrivateRecords>', () => {
     const toBlurEvent = new CustomEvent('blur', { detail: 'to' });
 
     it('should show error when start treatment date is in the future', async () => {
-      const from = getDate({ offset: { years: +1 } });
+      const from = parseDateWithOffset({ years: 1 });
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { from } }],
@@ -579,7 +579,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
 
     it('should show error when last treatment date is in the future', async () => {
-      const to = getDate({ offset: { years: +1 } });
+      const to = parseDateWithOffset({ years: 1 });
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { to } }],
@@ -600,7 +600,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
 
     it('should show an error when the start treatment date is too far in the past', async () => {
-      const from = getDate({ offset: { years: -101 } });
+      const from = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { from } }],
@@ -621,7 +621,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
 
     it('should show an error when the last treatment date is too far in the past', async () => {
-      const to = getDate({ offset: { years: -101 } });
+      const to = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { to } }],
@@ -642,8 +642,8 @@ describe('<EvidencePrivateRecords>', () => {
     });
 
     it('should show an error when the last treatment date is before the start', async () => {
-      const from = getDate({ offset: { years: -5 } });
-      const to = getDate({ offset: { years: -10 } });
+      const from = parseDateWithOffset({ years: -5 });
+      const to = parseDateWithOffset({ years: -10 });
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { from, to } }],
