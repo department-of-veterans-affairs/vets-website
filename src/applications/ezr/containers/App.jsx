@@ -5,13 +5,15 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { parseVeteranDob, parseVeteranGender } from '../utils/helpers/general';
 import content from '../locales/en/content.json';
 import formConfig from '../config/form';
 
-const App = props => {
+export const App = props => {
   const { children, features, formData, location, setFormData, user } = props;
   const { veteranFullName } = formData;
   const {
@@ -24,9 +26,22 @@ const App = props => {
     dob: veteranDateOfBirth,
     gender: veteranGender,
     loading: isLoadingProfile,
-  } = user;
+  } = user.profile;
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
   const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
+  const sipApp =
+    isAppLoading || !isProdEnabled ? (
+      <va-loading-indicator
+        data-testid="ezr-loading-indicator"
+        message={content['load-app']}
+        class="vads-u-margin-y--4"
+        set-focus
+      />
+    ) : (
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    );
 
   /**
    * Redirect users without the prod feature toggle enabled to the VA.gov home page
@@ -78,16 +93,13 @@ const App = props => {
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring();
 
-  return isAppLoading || !isProdEnabled ? (
-    <va-loading-indicator
-      message={content['load-app']}
-      class="vads-u-margin-y--4"
-      set-focus
-    />
-  ) : (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+  return (
+    <RequiredLoginView
+      serviceRequired={backendServices.USER_PROFILE}
+      user={user}
+    >
+      {sipApp}
+    </RequiredLoginView>
   );
 };
 
@@ -111,7 +123,7 @@ const mapStateToProps = state => ({
     isTeraEnabled: state.featureToggles.ezrTeraEnabled,
   },
   formData: state.form.data,
-  user: state.user.profile,
+  user: state.user,
 });
 
 const mapDispatchToProps = {
