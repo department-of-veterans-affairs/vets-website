@@ -15,6 +15,7 @@ import {
   filterReduceByName,
 } from './helpers';
 import { getMonthlyIncome } from './calculateIncome';
+import { getMonthlyExpenses, getAllExpenses } from './calculateExpenses';
 import { getFormattedPhone } from './contactInformation';
 
 export const transform = (formConfig, form) => {
@@ -38,9 +39,7 @@ export const transform = (formConfig, form) => {
     },
     assets,
     additionalData,
-    expenses: { totalMonthlyExpenses },
     selectedDebtsAndCopays = [],
-    totalExpenses,
   } = form.data;
 
   try {
@@ -73,11 +72,9 @@ export const transform = (formConfig, form) => {
     );
 
     // === Expenses ===
-    // expenses calculated in PreSubmit
+    const totalMonthlyExpenses = getMonthlyExpenses(form.data);
 
-    // Extract the values from calculated totals
-    // TODO double check this struct against previous implementation -- still
-    //  getting bad response when first submitting
+    // Extract the values from getMonthlyExpenses
     const {
       food,
       rentOrMortgage,
@@ -86,7 +83,7 @@ export const transform = (formConfig, form) => {
       filteredExpenses,
       installmentContractsAndCreditCards,
       expensesInstallmentContractsAndOtherDebts,
-    } = totalExpenses;
+    } = getAllExpenses(form.data);
 
     const employmentHistory = getEmploymentHistory(form.data);
     const totalAssets = getTotalAssets(form.data);

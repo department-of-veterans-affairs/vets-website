@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   VaTextInput,
   VaPrivacyAgreement,
   VaCheckbox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import * as Sentry from '@sentry/browser';
-import { setData } from 'platform/forms-system/src/js/actions';
-import {
-  getMonthlyExpensesAPI,
-  getAllExpensesAPI,
-} from '../../utils/calculateExpenses';
 
 import {
   isStreamlinedLongForm,
@@ -55,7 +49,6 @@ const PreSubmitSignature = ({
   onSectionComplete,
   formSubmission,
 }) => {
-  const dispatch = useDispatch();
   const isSubmitPending = formSubmission.status === 'submitPending';
   const hasSubmit = !!formSubmission.status;
   const { first, middle, last } = formData.personalData.veteranFullName;
@@ -137,51 +130,6 @@ const PreSubmitSignature = ({
       signatureMatches,
       setSignatureError,
     ],
-  );
-
-  // useEffect to get monthly expenses
-  useEffect(
-    () => {
-      getAllExpensesAPI(formData)
-        .then(totalExpenses => {
-          dispatch(
-            setData({
-              ...formData,
-              totalExpenses,
-            }),
-          );
-        })
-        .catch(error => {
-          Sentry.withScope(scope => {
-            scope.setExtra('error', error);
-            Sentry.captureMessage(`calculate_all_expenses failed: ${error}`);
-          });
-        });
-
-      getMonthlyExpensesAPI(formData)
-        .then(({ calculatedMonthlyExpenses }) => {
-          dispatch(
-            setData({
-              ...formData,
-              expenses: {
-                ...formData.expenses,
-                totalMonthlyExpenses: calculatedMonthlyExpenses,
-              },
-            }),
-          );
-        })
-        .catch(error => {
-          Sentry.withScope(scope => {
-            scope.setExtra('error', error);
-            Sentry.captureMessage(
-              `calculate_monthly_expenses failed in PreSubmitSignature: ${error}`,
-            );
-          });
-        });
-    },
-    // avoiding use of data since it changes so often
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
   );
 
   const getAriaMessage = () => {
@@ -290,6 +238,13 @@ const PreSubmitSignature = ({
       />
     </>
   );
+};
+
+PreSubmitSignature.propTypes = {
+  formData: PropTypes.object,
+  formSubmission: PropTypes.object,
+  showError: PropTypes.bool,
+  onSectionComplete: PropTypes.func,
 };
 
 const mapStateToProps = ({ form }) => {
