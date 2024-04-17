@@ -38,7 +38,7 @@ export function uiSchema(
       'ui:title': 'VA file number',
       'ui:errorMessages': {
         pattern: 'Your VA file number must be between 7 to 9 digits',
-        required: 'Please enter a VA file number',
+        required: 'Enter a VA file number',
       },
       'ui:options': {
         expandUnder: 'view:noSSN',

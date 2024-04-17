@@ -12,7 +12,7 @@ const uiSchema = {
     hideEmptyValueInReview: true,
   },
   'ui:validations': [validateVAFileNumber],
-  'ui:errorMessages': { pattern: 'Please enter a valid VA File number' },
+  'ui:errorMessages': { pattern: 'Enter a valid VA File number' },
 };
 
 export default uiSchema;

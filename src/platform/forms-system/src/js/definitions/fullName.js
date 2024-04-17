@@ -3,14 +3,14 @@ const uiSchema = {
     'ui:title': 'First name',
     'ui:autocomplete': 'given-name',
     'ui:errorMessages': {
-      required: 'Please enter a first name',
+      required: 'Enter a first name',
     },
   },
   last: {
     'ui:title': 'Last name',
     'ui:autocomplete': 'family-name',
     'ui:errorMessages': {
-      required: 'Please enter a last name',
+      required: 'Enter a last name',
     },
   },
   middle: {

@@ -10,8 +10,8 @@ export default function uiSchema(title) {
       classNames: 'schemaform-currency-input',
     },
     'ui:errorMessages': {
-      pattern: 'Please enter a valid dollar amount',
-      required: 'Please enter an amount',
+      pattern: 'Enter a valid dollar amount',
+      required: 'Enter an amount',
     },
   };
 }

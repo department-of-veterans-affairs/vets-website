@@ -6,8 +6,8 @@ export default function uiSchema(title = 'Date') {
     ...monthYearUI(title),
     'ui:validations': [validateCurrentOrPastMonthYear],
     'ui:errorMessages': {
-      pattern: 'Please enter a valid current or past date',
-      required: 'Please enter a date',
+      pattern: 'Enter a valid current or past date',
+      required: 'Enter a date',
     },
   };
 }

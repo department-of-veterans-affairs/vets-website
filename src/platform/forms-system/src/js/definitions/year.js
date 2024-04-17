@@ -6,8 +6,8 @@ const uiSchema = {
   'ui:reviewWidget': ReviewWidget.TextWidget,
   'ui:validations': [validateCurrentOrPastYear],
   'ui:errorMessages': {
-    pattern: 'Please enter a valid year',
-    required: 'Please enter a year',
+    pattern: 'Enter a valid year',
+    required: 'Enter a year',
   },
   'ui:options': {
     widgetClassNames: 'usa-input-medium',

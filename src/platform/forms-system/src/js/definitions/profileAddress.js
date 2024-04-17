@@ -294,7 +294,7 @@ export default function addressUiSchema(
       'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
         required: 'Street address is required',
-        pattern: 'Please fill in a valid street address',
+        pattern: 'Fill in a valid street address',
       },
     },
     [schemaKeys.street2]: {
@@ -357,7 +357,7 @@ export default function addressUiSchema(
         return country && country === USA.value;
       },
       'ui:errorMessages': {
-        required: 'Please enter a valid State, Province, or Region',
+        required: 'Enter a valid State, Province, or Region',
       },
       'ui:options': {
         hideEmptyValueInReview: true,
@@ -406,7 +406,7 @@ export default function addressUiSchema(
       'ui:autocomplete': 'postal-code',
       'ui:errorMessages': {
         required: 'Postal code is required',
-        pattern: 'Please enter a valid 5 digit US zip code',
+        pattern: 'Enter a valid 5 digit US zip code',
       },
       'ui:options': {
         widgetClassNames: 'usa-input-medium',

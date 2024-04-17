@@ -11,9 +11,8 @@ const uiSchema = {
   },
   'ui:validations': [validateSSN],
   'ui:errorMessages': {
-    pattern:
-      'Please enter a valid 9 digit Social Security number (dashes allowed)',
-    required: 'Please enter a Social Security number',
+    pattern: 'Enter a valid 9 digit Social Security number (dashes allowed)',
+    required: 'Enter a Social Security number',
   },
 };
 

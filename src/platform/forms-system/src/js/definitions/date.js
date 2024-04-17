@@ -6,8 +6,8 @@ export default function uiSchema(title = 'Date') {
     'ui:widget': 'date',
     'ui:validations': [validateDate],
     'ui:errorMessages': {
-      pattern: 'Please enter a valid date',
-      required: 'Please enter a date',
+      pattern: 'Enter a valid date',
+      required: 'Enter a date',
     },
   };
 }

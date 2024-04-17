@@ -24,7 +24,7 @@ function validatePostalCodes(errors, address) {
 
   // Add error message for postal code if it is invalid
   if (address.postalCode && !isValidPostalCode) {
-    errors.postalCode.addError('Please provide a valid postal code');
+    errors.postalCode.addError('Provide a valid postal code');
   }
 }
 
@@ -38,7 +38,7 @@ function validateAddress(errors, address, formData, currentSchema) {
     address.state === undefined &&
     currentSchema.required.length
   ) {
-    errors.state.addError('Please select a state or province');
+    errors.state.addError('Select a state or province');
   }
 
   const hasAddressInfo =
@@ -50,7 +50,7 @@ function validateAddress(errors, address, formData, currentSchema) {
 
   if (hasAddressInfo && typeof address.state === 'undefined') {
     errors.state.addError(
-      'Please enter a state or province, or remove other address information.',
+      'Enter a state or province, or remove other address information.',
     );
   }
 
@@ -277,7 +277,7 @@ export function uiSchema(
       'ui:title': 'Street',
       'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
-        required: 'Please enter a street address',
+        required: 'Enter a street address',
       },
     },
     street2: {
@@ -292,12 +292,12 @@ export function uiSchema(
       'ui:title': 'City',
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
-        required: 'Please enter a city',
+        required: 'Enter a city',
       },
     },
     state: {
       'ui:errorMessages': {
-        required: 'Please enter a state',
+        required: 'Enter a state',
         'ui:autocomplete': 'address-level1',
       },
     },
@@ -308,9 +308,8 @@ export function uiSchema(
         widgetClassNames: 'usa-input-medium',
       },
       'ui:errorMessages': {
-        required: 'Please enter a postal code',
-        pattern:
-          'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
+        required: 'Enter a postal code',
+        pattern: 'Enter a valid 5- or 9-digit postal code (dashes allowed)',
       },
     },
   };

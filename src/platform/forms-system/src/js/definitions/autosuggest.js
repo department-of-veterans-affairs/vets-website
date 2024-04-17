@@ -37,7 +37,7 @@ export function uiSchema(label, getOptions, options = {}) {
       'ui:field': AutosuggestField,
       'ui:validations': validations,
       'ui:errorMessages': {
-        required: 'Please select an option from the suggestions',
+        required: 'Select an option from the suggestions',
       },
       'ui:options': {
         showFieldLabel: 'label',
