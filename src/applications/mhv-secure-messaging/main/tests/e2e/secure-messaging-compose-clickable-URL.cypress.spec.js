@@ -21,10 +21,7 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
     PatientInterstitialPage.getContinueButton().click();
     composePage.selectRecipient(requestBodyUpdated.recipientId);
-    composePage
-      .getCategory(requestBodyUpdated.category)
-      .first()
-      .click({ force: true });
+    composePage.selectCategory(requestBodyUpdated.category);
     composePage.getMessageSubjectField().type(`${requestBodyUpdated.subject}`);
     composePage
       .getMessageBodyField()

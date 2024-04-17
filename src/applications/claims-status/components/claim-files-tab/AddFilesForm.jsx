@@ -190,7 +190,6 @@ class AddFilesForm extends React.Component {
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
             aria-describedby="file-requirements"
-            uswds
           />
         </div>
         {this.props.files.map(
@@ -262,7 +261,6 @@ class AddFilesForm extends React.Component {
         <VaCheckbox
           label="The files I uploaded support this claim only."
           className="vads-u-margin-y--3"
-          message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page link below."
           checked={this.state.checked}
           error={this.state.errorMessageCheckbox}
           onVaChange={event => {

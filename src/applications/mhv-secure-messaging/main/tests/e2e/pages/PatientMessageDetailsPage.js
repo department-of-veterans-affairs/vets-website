@@ -353,7 +353,7 @@ class PatientMessageDetailsPage {
     cy.log('message does not have attachment');
   };
 
-  verifyUnexpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
+  verifyUnexpandedMessageFrom = (messageDetails, messageIndex = 0) => {
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGES}/${messageDetails.data.attributes.messageId}`,
@@ -369,48 +369,7 @@ class PatientMessageDetailsPage {
       );
   };
 
-  verifyExpandedMessageFromDisplay = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="from"]')
-      .eq(messageIndex)
-      .should(
-        'have.text',
-        `From: ${messageDetails.data.attributes.senderName} (${
-          messageDetails.data.attributes.triageGroupName
-        })`,
-      );
-  };
-
-  verifyExpandedMessageToDisplay = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="to"]')
-      .eq(messageIndex)
-      .should(
-        'have.text',
-        `To: ${messageDetails.data.attributes.recipientName}`,
-      );
-  };
-
-  verifyExpandedMessageIDDisplay = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-id"]')
-      .eq(messageIndex)
-      .should(
-        'have.text',
-        `Message ID: ${messageDetails.data.attributes.messageId}`,
-      );
-  };
-
-  verifyExpandedMessageDateDisplayText = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-date"]')
-      .eq(messageIndex)
-      .should(
-        'have.text',
-        `Date: ${dateFormat(
-          messageDetails.data.attributes.sentDate,
-          'MMMM D, YYYY [at] h:mm a z',
-        )}`,
-      );
-  };
-
-  verifyExpandedThreadAttachmentDisplay = (
+  verifyExpandedThreadAttachment = (
     messageThread,
     messageIndex = 0,
     attachmentIndex = 0,
@@ -437,7 +396,48 @@ class PatientMessageDetailsPage {
       );
   };
 
-  verifyExpandedThreadBodyDisplay = (messageThread, messageIndex = 0) => {
+  verifyExpandedMessageFrom = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="from"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `From: ${messageDetails.data.attributes.senderName} (${
+          messageDetails.data.attributes.triageGroupName
+        })`,
+      );
+  };
+
+  verifyExpandedMessageTo = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="to"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `To: ${messageDetails.data.attributes.recipientName}`,
+      );
+  };
+
+  verifyExpandedMessageId = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="message-id"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `Message ID: ${messageDetails.data.attributes.messageId}`,
+      );
+  };
+
+  verifyExpandedMessageDate = (messageDetails, messageIndex = 0) => {
+    cy.get('[data-testid="message-date"]')
+      .eq(messageIndex)
+      .should(
+        'have.text',
+        `Date: ${dateFormat(
+          messageDetails.data.attributes.sentDate,
+          'MMMM D, YYYY [at] h:mm a z',
+        )}`,
+      );
+  };
+
+  verifyExpandedThreadBody = (messageThread, messageIndex = 0) => {
     cy.get(
       `[data-testid="expand-message-button-${
         messageThread.data[messageIndex].id
@@ -452,7 +452,7 @@ class PatientMessageDetailsPage {
       );
   };
 
-  ReplyToMessageTO = (messageDetails, messageIndex = 0) => {
+  replyToMessageTo = (messageDetails, messageIndex = 0) => {
     cy.get('[data-testid="draft-reply-to"')
       .eq(messageIndex)
       .should(
@@ -463,7 +463,7 @@ class PatientMessageDetailsPage {
       );
   };
 
-  ReplyToMessagesenderName = (messageDetails, messageIndex = 0) => {
+  replyToMessageSenderName = (messageDetails, messageIndex = 0) => {
     cy.log('testing message from sender');
     cy.get('[data-testid="from"]')
       .eq(messageIndex)
@@ -475,14 +475,14 @@ class PatientMessageDetailsPage {
       );
   };
 
-  ReplyToMessageRecipientName = (messageDetails, messageIndex = 0) => {
+  replyToMessageRecipientName = (messageDetails, messageIndex = 0) => {
     cy.log('testing message to recipient');
     cy.get('[data-testid="to"]')
       .eq(messageIndex)
       .should('contain', `To: ${messageDetails.data.attributes.recipientName}`);
   };
 
-  ReplyToMessageDate = (messageDetails, messageIndex = 0) => {
+  replyToMessageDate = (messageDetails, messageIndex = 0) => {
     cy.get('[data-testid="message-date"]')
       .eq(messageIndex)
       .should(
@@ -494,7 +494,7 @@ class PatientMessageDetailsPage {
       );
   };
 
-  ReplyToMessageId = messageDetails => {
+  replyToMessageId = messageDetails => {
     cy.get('[data-testid="message-id"]').should(
       'contain',
       `Message ID: ${messageDetails.data.attributes.messageId}`,
@@ -537,7 +537,7 @@ class PatientMessageDetailsPage {
   };
 
   // temporary changed to 'contain', 'REPLY'
-  ReplyToMessageBody = testMessageBody => {
+  replyToMessageBody = testMessageBody => {
     cy.get('[data-testid="message-body"]').should('contain', testMessageBody);
   };
 
@@ -545,4 +545,5 @@ class PatientMessageDetailsPage {
     cy.focused().should('contain.text', 'Draft was successfully deleted.');
   };
 }
+
 export default PatientMessageDetailsPage;

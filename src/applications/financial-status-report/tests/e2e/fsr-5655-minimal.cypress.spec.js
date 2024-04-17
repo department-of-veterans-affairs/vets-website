@@ -76,6 +76,14 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'spouse-information': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_questions_isMarriedNo')
+            .should('be.visible')
+            .click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'dependents-count': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(testData => {

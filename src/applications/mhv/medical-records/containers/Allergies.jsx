@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -34,6 +34,7 @@ import {
   generateAllergiesIntro,
   generateAllergiesContent,
 } from '../util/pdfHelpers/allergies';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -52,6 +53,7 @@ const Allergies = props => {
   );
   const user = useSelector(state => state.user.profile);
   const activeAlert = useAlerts(dispatch);
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useListRefresh({
     listState,
@@ -79,6 +81,7 @@ const Allergies = props => {
   );
 
   const generateAllergiesPdf = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateAllergiesIntro(allergies);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };
@@ -87,6 +90,7 @@ const Allergies = props => {
   };
 
   const generateAllergyListItemTxt = item => {
+    setDownloadStarted(true);
     return `
 ${txtLine}\n\n
 ${item.name}\n
@@ -131,6 +135,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         If you have allergies that are missing from this list, tell your care
         team at your next appointment.
       </p>
+      {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.ALLERGY}
@@ -141,7 +146,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
       >
         <PrintDownload
           list
-          download={generateAllergiesPdf}
+          downloadPdf={generateAllergiesPdf}
           allowTxtDownloads={allowTxtDownloads}
           downloadTxt={generateAllergiesTxt}
         />

@@ -267,8 +267,8 @@ class PatientMessageDraftsPage {
     ).as('deletedDraftResponse');
     if (isNewDraftText) {
       cy.get(Locators.ALERTS.DRAFT_MODAL)
-        .find('va-button[text="Yes, delete this draft"]', { force: true })
-        .contains('Yes, delete this draft')
+        .find('va-button[text="Delete draft"]', { force: true })
+        .contains('Delete draft')
         .click({ force: true });
       // Wait needs to be added back in before closing PR
       // cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });

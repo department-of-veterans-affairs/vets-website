@@ -9,6 +9,7 @@ const validOptions = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',
+  required: true,
 };
 
 describe('arrayBuilderPages required parameters and props tests', () => {

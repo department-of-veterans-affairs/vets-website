@@ -29,7 +29,7 @@ const DecisionReviewPage = () => {
   };
 
   return (
-    <div id={pageNames.other}>
+    <div id={pageNames.other} className="vads-u-padding-bottom--2">
       <h1 className="vads-u-margin-bottom--0">Request a Higher-Level Review</h1>
       <div className="schemaform-subtitle vads-u-font-size--lg">
         VA Form 20-0996
