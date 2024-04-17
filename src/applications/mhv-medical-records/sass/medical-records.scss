@@ -21,7 +21,7 @@
   text-decoration: underline;
   border: none;
   border-radius: 0px;
-  transition-duration: 0.0s;
+  transition-duration: 0s;
   padding: 0px;
   width: fit-content;
 }
@@ -120,7 +120,7 @@
   font-style: normal;
   font-weight: 400;
   src: local("Roboto Mono"),
-    url(../../../../site/assets/fonts/robotomono-regular.ttf) format("truetype");
+    url(../../../site/assets/fonts/robotomono-regular.ttf) format("truetype");
 }
 
 .monospace {
