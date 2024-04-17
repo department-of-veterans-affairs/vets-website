@@ -62,7 +62,7 @@ export function getDependentChildTitle(item, description) {
     return `${item.fullName.first || ''} ${item.fullName.last ||
       ''} ${description}`;
   }
-  return 'description';
+  return description;
 }
 
 export function createSpouseLabelSelector(nameTemplate) {
