@@ -1,4 +1,4 @@
-const baseURL = '/ask_va_api/v0';
+export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
@@ -11,6 +11,7 @@ export const URL = {
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `v0/gi/institutions/search?name=`,
+  SEND_REPLY: `/reply/new`,
 };
 
 export const requireSignInCategories = [

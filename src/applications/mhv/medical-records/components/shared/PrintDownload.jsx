@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const PrintDownload = props => {
-  const { download, downloadTxt, list, allowTxtDownloads } = props;
+  const { downloadPdf, downloadTxt, list, allowTxtDownloads } = props;
   const menu = useRef(null);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -48,6 +49,21 @@ const PrintDownload = props => {
     // Reset printIndex to 0 every time the element receives focus
     setPrintIndex(0);
   };
+  const handlePrint = () => {
+    window.print();
+    setMenuOpen(false);
+    focusElement(document.querySelector('#print-download-menu'));
+  };
+  const handlePdfDownload = () => {
+    downloadPdf();
+    setMenuOpen(false);
+    focusElement(document.querySelector('#print-download-menu'));
+  };
+  const handleTxtDownload = () => {
+    downloadTxt();
+    setMenuOpen(false);
+    focusElement(document.querySelector('#print-download-menu'));
+  };
 
   return (
     <div
@@ -61,7 +77,8 @@ const PrintDownload = props => {
         className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}
         type="button"
         onClick={() => setMenuOpen(!menuOpen)}
-        data-testid="print-records-button"
+        id="print-download-menu"
+        data-testid="print-download-menu"
         aria-expanded={menuOpen}
       >
         <span>Print or download</span>
@@ -72,7 +89,7 @@ const PrintDownload = props => {
           <button
             className="vads-u-padding-x--2"
             type="button"
-            onClick={window.print}
+            onClick={handlePrint}
             id="printButton-0"
             data-testid="printButton-0"
           >
@@ -83,7 +100,7 @@ const PrintDownload = props => {
           <button
             className="vads-u-padding-x--2"
             type="button"
-            onClick={download}
+            onClick={handlePdfDownload}
             id="printButton-1"
             data-testid="printButton-1"
           >
@@ -97,7 +114,7 @@ const PrintDownload = props => {
               type="button"
               id="printButton-2"
               data-testid="printButton-2"
-              onClick={downloadTxt}
+              onClick={handleTxtDownload}
             >
               Download a text file (.txt) of this {list ? 'list' : 'page'}
             </button>
@@ -112,7 +129,7 @@ export default PrintDownload;
 
 PrintDownload.propTypes = {
   allowTxtDownloads: PropTypes.bool,
-  download: PropTypes.any,
+  downloadPdf: PropTypes.any,
   downloadTxt: PropTypes.any,
   list: PropTypes.any,
 };

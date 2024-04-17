@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
 import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
@@ -42,7 +43,7 @@ const uiSchema = {
     'ui:webComponentField': VaRadioField,
     'ui:title': 'Account type',
     'ui:errorMessages': {
-      required: 'Choose the type that best describes your account',
+      required: 'Select your account type',
     },
   },
   routingNumber: {
@@ -58,7 +59,7 @@ const uiSchema = {
     'ui:title': 'Account number',
     'ui:errorMessages': {
       pattern: 'Enter an account number between 4 and 17 digits',
-      required: 'Enter your account number',
+      required: 'Enter an account number',
     },
   },
   'view:directDepositInfo': {
@@ -112,7 +113,8 @@ export const AccountUpdateView = props => {
         >
           Save
         </LoadingButton>
-        <va-button
+        <VaButton
+          className="vads-u-width--full medium-screen:vads-u-width--auto"
           data-testid="cancel-direct-deposit"
           onClick={onCancel}
           secondary

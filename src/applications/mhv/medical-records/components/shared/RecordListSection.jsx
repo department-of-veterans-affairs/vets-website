@@ -13,7 +13,12 @@ const RecordListSection = ({
   initialFhirLoad,
 }) => {
   if (accessAlert) {
-    return <AccessTroubleAlertBox alertType={accessAlertType} />;
+    return (
+      <AccessTroubleAlertBox
+        alertType={accessAlertType}
+        className="vads-u-margin-bottom--9"
+      />
+    );
   }
   if (initialFhirLoad && !listCurrentAsOf) {
     return (
