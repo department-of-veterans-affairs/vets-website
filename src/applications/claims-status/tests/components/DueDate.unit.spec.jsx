@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { buildDateFormatter } from '../../utils/helpers';
 import { renderWithRouter } from '../utils';
@@ -11,7 +11,9 @@ const formatDate = buildDateFormatter();
 
 describe('<DueDate>', () => {
   it('should render past due class when theres more than a years difference', () => {
-    const date = moment().subtract(15, 'month');
+    const date = moment()
+      .tz('America/Los_Angeles')
+      .subtract(15, 'month');
     const dateString = date.format('YYYY-MM-DD');
     const { container, getByText } = renderWithRouter(
       <DueDate date={dateString} />,
@@ -25,7 +27,9 @@ describe('<DueDate>', () => {
   });
 
   it('should render past due class when theres more than a months difference', () => {
-    const date = moment().subtract(4, 'month');
+    const date = moment()
+      .tz('America/Los_Angeles')
+      .subtract(4, 'month');
     const dateString = date.format('YYYY-MM-DD');
     const { container, getByText } = renderWithRouter(
       <DueDate date={dateString} />,
@@ -39,7 +43,9 @@ describe('<DueDate>', () => {
   });
 
   it('should render past due class when theres more than a days difference', () => {
-    const date = moment().subtract(3, 'day');
+    const date = moment()
+      .tz('America/Los_Angeles')
+      .subtract(3, 'day');
     const dateString = date.format('YYYY-MM-DD');
     const { container, getByText } = renderWithRouter(
       <DueDate date={dateString} />,
@@ -53,7 +59,9 @@ describe('<DueDate>', () => {
   });
 
   it('should render past due class when theres more than a few hours difference', () => {
-    const date = moment().subtract(1, 'day');
+    const date = moment()
+      .tz('America/Los_Angeles')
+      .subtract(1, 'day');
     const dateString = date.format('YYYY-MM-DD');
     const { container, getByText } = renderWithRouter(
       <DueDate date={dateString} />,
@@ -67,7 +75,9 @@ describe('<DueDate>', () => {
   });
 
   it('should render file due class when more than a days difference', () => {
-    const date = moment().add(3, 'day');
+    const date = moment()
+      .tz('America/Los_Angeles')
+      .add(3, 'day');
     const dateString = date.format('YYYY-MM-DD');
     const { container, getByText } = renderWithRouter(
       <DueDate date={dateString} />,
@@ -79,7 +89,9 @@ describe('<DueDate>', () => {
   });
 
   it('should render file due class when more than a months difference', () => {
-    const date = moment().add(10, 'month');
+    const date = moment()
+      .tz('America/Los_Angeles')
+      .add(10, 'month');
     const dateString = date.format('YYYY-MM-DD');
     const { container, getByText } = renderWithRouter(
       <DueDate date={dateString} />,
@@ -91,7 +103,9 @@ describe('<DueDate>', () => {
   });
 
   it('should render file due class when more than a years difference', () => {
-    const date = moment().add(15, 'month');
+    const date = moment()
+      .tz('America/Los_Angeles')
+      .add(15, 'month');
     const dateString = date.format('YYYY-MM-DD');
     const { container, getByText } = renderWithRouter(
       <DueDate date={dateString} />,
