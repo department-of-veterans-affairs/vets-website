@@ -1,17 +1,17 @@
 import MedicationsSite from './med_site/MedicationsSite';
+import MedicationsRefillPage from './pages/MedicationsRefillPage';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
-import MedicationsListPage from './pages/MedicationsListPage';
 
-describe('Medications Landing Page Error when List Page API call Fails ', () => {
-  it('visits Medications Landing Page Error Message for List Page API Failure', () => {
+describe('Medications Error Message for Refill Page API Call Failure ', () => {
+  it('visits Medications Landing Page Error Message for Refill Page Call Failure', () => {
     const site = new MedicationsSite();
-    const listPage = new MedicationsListPage();
+    const refillPage = new MedicationsRefillPage();
     const landingPage = new MedicationsLandingPage();
     site.login();
     landingPage.visitLandingPageURL();
     cy.injectAxe();
     cy.axeCheck('main');
-    listPage.clickGotoMedicationsLinkForListPageAPICallFail();
+    refillPage.loadRefillPageForApiCallFailure();
     landingPage.verifyErroMessageforFailedAPICallListPage();
   });
 });

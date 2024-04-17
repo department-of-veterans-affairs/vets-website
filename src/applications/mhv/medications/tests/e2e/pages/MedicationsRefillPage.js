@@ -13,6 +13,10 @@ class MedicationsRefillPage {
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
   };
 
+  loadRefillPageForApiCallFailure = () => {
+    cy.visit(medicationsUrls.MEDICATIONS_REFILL);
+  };
+
   verifyRefillPageTitle = () => {
     cy.get('[data-testid="refill-page-title"]').should(
       'contain',
