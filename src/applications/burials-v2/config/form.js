@@ -279,7 +279,17 @@ const formConfig = {
           title: 'Burial allowance',
           reviewTitle: ' ',
           path: 'benefits/burial-allowance/statement-of-truth',
-          depends: form => get('burialAllowanceRequested.unclaimed', form),
+          depends: form => {
+            const burialsSelected = get(
+              'view:claimedBenefits.burialAllowance',
+              form,
+            );
+            const unclaimedSelected = get(
+              'burialAllowanceRequested.unclaimed',
+              form,
+            );
+            return burialsSelected && unclaimedSelected;
+          },
           uiSchema: burialAllowanceConfirmation.uiSchema,
           schema: burialAllowanceConfirmation.schema,
         },
@@ -299,7 +309,7 @@ const formConfig = {
             </div>
           ),
           path: 'benefits/final-resting-place',
-          depends: form => get('view:claimedBenefits.burialAllowance', form),
+          depends: form => get('view:claimedBenefits.plotAllowance', form),
           uiSchema: finalRestingPlace.uiSchema,
           schema: finalRestingPlace.schema,
         },
@@ -311,7 +321,7 @@ const formConfig = {
             </div>
           ),
           path: 'benefits/cemetery-type',
-          depends: form => get('view:claimedBenefits.burialAllowance', form),
+          depends: form => get('view:claimedBenefits.plotAllowance', form),
           uiSchema: nationalOrFederalCemetery.uiSchema,
           schema: nationalOrFederalCemetery.schema,
         },
@@ -320,7 +330,7 @@ const formConfig = {
           reviewTitle: ' ',
           path: 'benefits/cemetery-location',
           depends: form =>
-            get('view:claimedBenefits.burialAllowance', form) &&
+            get('view:claimedBenefits.plotAllowance', form) &&
             !get('nationalOrFederal', form),
           uiSchema: cemeteryLocationQuestion.uiSchema,
           schema: cemeteryLocationQuestion.schema,
@@ -330,7 +340,7 @@ const formConfig = {
           reviewTitle: ' ',
           path: 'benefits/cemetery-location/add',
           depends: form =>
-            get('view:claimedBenefits.burialAllowance', form) &&
+            get('view:claimedBenefits.plotAllowance', form) &&
             get('cemetaryLocationQuestion', form) === 'cemetery',
           uiSchema: cemeteryLocation.uiSchema,
           schema: cemeteryLocation.schema,
@@ -340,7 +350,7 @@ const formConfig = {
           reviewTitle: ' ',
           path: 'benefits/cemetery-location/tribal-land/add',
           depends: form =>
-            get('view:claimedBenefits.burialAllowance', form) &&
+            get('view:claimedBenefits.plotAllowance', form) &&
             get('cemetaryLocationQuestion', form) === 'tribalLand',
           uiSchema: tribalLandLocation.uiSchema,
           schema: tribalLandLocation.schema,
