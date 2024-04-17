@@ -65,7 +65,7 @@ const responses = {
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
             profileContacts: true,
-            profileHideDirectDepositCompAndPen: true,
+            profileHideDirectDepositCompAndPen: false,
             profileShowCredentialRetirementMessaging: true,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,
