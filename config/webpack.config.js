@@ -498,6 +498,11 @@ module.exports = async (env = {}) => {
               'node_modules/@department-of-veterans-affairs/component-library/dist/assets',
             to: `${buildPath}/assets`,
           },
+          {
+            from:
+              'node_modules/@department-of-veterans-affairs/component-library/dist/assets/sprite.svg',
+            to: `${buildPath}/img`,
+          },
         ],
       }),
 
