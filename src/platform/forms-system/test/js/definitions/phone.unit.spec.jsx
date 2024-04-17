@@ -56,8 +56,6 @@ describe('Schemaform definition phone', () => {
 
     expect(
       formDOM.querySelector('.usa-input-error-message').textContent,
-    ).to.include(
-      'Please enter a 10-digit phone number (with or without dashes)',
-    );
+    ).to.include('Enter a 10-digit phone number (with or without dashes)');
   });
 });
