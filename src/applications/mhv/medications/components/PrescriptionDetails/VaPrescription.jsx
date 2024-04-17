@@ -25,6 +25,8 @@ const VaPrescription = prescription => {
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
   const latestTrackingStatus = prescription?.trackingList?.[0];
+  const phoneNumber =
+    prescription?.cmopDivisionPhone || prescription?.dialCmopDivisionPhone;
   const content = () => {
     if (prescription) {
       const dispStatus = prescription.dispStatus?.toString();
@@ -98,8 +100,8 @@ const VaPrescription = prescription => {
               Pharmacy phone number
             </h3>
             <div className="no-print">
-              {prescription?.phoneNumber ? (
-                <va-telephone contact={prescription.phoneNumber} />
+              {phoneNumber ? (
+                <va-telephone contact={phoneNumber} />
               ) : (
                 'None noted'
               )}

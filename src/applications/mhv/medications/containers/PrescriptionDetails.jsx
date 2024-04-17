@@ -36,7 +36,6 @@ import {
   buildAllergiesTXT,
 } from '../util/txtConfigs';
 import { PDF_TXT_GENERATE_STATUS } from '../util/constants';
-import { getPrescriptionImage } from '../api/rxApi';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { Actions } from '../util/actionTypes';
@@ -271,24 +270,11 @@ const PrescriptionDetails = () => {
   useEffect(
     () => {
       if (!prescription) return;
-      const cmopNdcNumber =
-        prescription?.rxRfRecords?.[0]?.cmopNdcNumber ??
-        prescription.cmopNdcNumber;
-      if (cmopNdcNumber) {
-        getPrescriptionImage(cmopNdcNumber).then(({ data: image }) => {
-          setPrescriptionPdfList(
-            nonVaPrescription
-              ? buildNonVAPrescriptionPDFList(prescription)
-              : buildVAPrescriptionPDFList(prescription, image),
-          );
-        });
-      } else {
-        setPrescriptionPdfList(
-          nonVaPrescription
-            ? buildNonVAPrescriptionPDFList(prescription)
-            : buildVAPrescriptionPDFList(prescription),
-        );
-      }
+      setPrescriptionPdfList(
+        nonVaPrescription
+          ? buildNonVAPrescriptionPDFList(prescription)
+          : buildVAPrescriptionPDFList(prescription),
+      );
     },
     [nonVaPrescription, prescription],
   );
