@@ -59,7 +59,7 @@ export default function BenefitsSelection(props) {
                   required={!!state.values.benefitsSelection?.transportation}
                 />
                 <div className="vads-u-margin-y--2">
-                  <va-alert>
+                  <va-alert uswds>
                     <strong>Note: </strong>
                     At the end of the application, you will be asked to upload
                     documentation for the expenses you incurred for transporting

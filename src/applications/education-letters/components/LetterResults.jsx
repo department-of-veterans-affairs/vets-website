@@ -24,6 +24,7 @@ export const HasLetters = ({ claimStatus, showMebLettersMaintenanceAlert }) => {
           close-btn-aria-label="Close notification"
           status="error"
           visible
+          uswds
         >
           <h2 slot="headline">System Maintenance</h2>
           <p>

@@ -87,7 +87,7 @@ export default function ClaimsListItem({ claim }) {
         <p>{getLastUpdated(claim)}</p>
       </div>
       {showAlert && (
-        <va-alert status="warning" slim>
+        <va-alert status="warning" slim uswds>
           An item in the claim needs your attention
         </va-alert>
       )}

@@ -79,7 +79,7 @@ class Batteries extends Component {
         )}
         {!haveBatteriesBeenOrderedInLastTwoYears &&
           !areBatterySuppliesEligible && (
-            <va-alert status="info" visible>
+            <va-alert status="info" visible uswds>
               <h3 slot="headline">
                 Your batteries aren’t available for online ordering
               </h3>
