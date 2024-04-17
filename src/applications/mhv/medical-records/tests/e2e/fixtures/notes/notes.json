@@ -635,7 +635,7 @@
         "subject": {
         "reference": "Patient/4103"
         },
-        "date": "2024-02-07T15:41:18.003-05:00",
+        "date": "2024-02-07T12:00:00Z",
         "author": [
         {
           "reference": "#Author-0"
@@ -645,7 +645,7 @@
         "extension": [
           {
             "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/noteAuthenticatedWhen",
-            "valueDateTime": "2024-02-07T15:41:47-05:00"
+            "valueDateTime": "2024-02-07T12:00:00Z"
           }
         ],
         "reference": "#Provider-1"
