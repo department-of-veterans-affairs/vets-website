@@ -144,9 +144,8 @@ class ConfirmationPage extends React.Component {
             </h3>
             <va-alert uswds>
               <h4 slot="headline" className="vads-u-font-size--h4">
-                If we approve your application for pension benefits and you
-                provided a bank account for direct deposit, we'll use that
-                account for all your VA benefit payments
+                If we approve your application for pension benefits, we'll use
+                the account you provided for all your VA benefit payments
               </h4>
               <p>
                 That means we'll update your direct deposit information for all
@@ -155,8 +154,9 @@ class ConfirmationPage extends React.Component {
                 account you provided in this application.
               </p>
               <p>
-                We’re making this change to help protect you from fraud and to
-                make sure we can pay you on time, every time, without error.
+                We use a single account for benefits direct deposits to help
+                protect you from fraud, and to make sure we can pay you on time,
+                every time, without error.
               </p>
             </va-alert>
             <h4>Bank account you provided in your VA pension application</h4>
