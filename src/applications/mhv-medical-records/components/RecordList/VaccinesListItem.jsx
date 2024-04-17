@@ -14,12 +14,8 @@ const VaccinesListItem = props => {
     >
       {/* web view header */}
       <h3 className="vads-u-font-size--h4 vads-u-line-height--4 vads-u-margin-bottom--0p5 no-print">
-        <Link
-          to={`/vaccines/${record.id}`}
-          data-dd-privacy="mask"
-          aria-describedby={`vaccinesList-date-${record.id}`}
-        >
-          <span id={`vaccinesList-date-${record.id}`}>
+        <Link to={`/vaccines/${record.id}`} data-dd-privacy="mask">
+          <span>
             {record.name} <span className="sr-only">on {record.date}</span>
           </span>
         </Link>
