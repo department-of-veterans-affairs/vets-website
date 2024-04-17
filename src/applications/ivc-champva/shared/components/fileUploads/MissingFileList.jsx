@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { makeHumanReadable } from '../../../10-10D/helpers/utilities';
+import { makeHumanReadable } from '../../utilities';
 
 /**
  * Produce either a success message or a link to upload a file
