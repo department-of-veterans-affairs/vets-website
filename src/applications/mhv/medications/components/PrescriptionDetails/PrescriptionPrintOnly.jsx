@@ -4,13 +4,11 @@ import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
 } from '../../util/constants';
-import { validateField, dateFormat, getImageUri } from '../../util/helpers';
+import { validateField, dateFormat } from '../../util/helpers';
 import VaPharmacyText from '../shared/VaPharmacyText';
 
 const PrescriptionPrintOnly = props => {
   const { rx, hideLineBreak, refillHistory, isDetailsRx } = props;
-  const prescriptionImage =
-    rx.cmopNdcNumber || rx?.rxRfRecords[0]?.cmopNdcNumber;
   const phoneNumber = rx?.cmopDivisionPhone || rx?.dialCmopDivisionPhone;
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
@@ -143,7 +141,11 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Pharmacy phone number:</strong>{' '}
-              {validateField(phoneNumber)}
+              {phoneNumber ? (
+                <va-telephone contact={phoneNumber} not-clickable />
+              ) : (
+                'None noted'
+              )}
             </p>
           </div>
           <DetailsHeaderElement>
@@ -160,21 +162,6 @@ const PrescriptionPrintOnly = props => {
             <p>
               <strong>Quantity:</strong> {validateField(rx.quantity)}
             </p>
-            {prescriptionImage && (
-              <>
-                <p className="print-only-rx-image-container no-break">
-                  <strong>Image of the medication or supply:</strong>{' '}
-                  <img
-                    src={getImageUri(prescriptionImage)}
-                    alt={rx.prescriptionName}
-                  />
-                </p>
-                <p>
-                  <strong>Note:</strong> This image is from your last refill of
-                  this medication.
-                </p>
-              </>
-            )}
           </div>
           {refillHistory && (
             <div className="print-only-refill-container">
@@ -210,7 +197,11 @@ const PrescriptionPrintOnly = props => {
                           <p className="vads-u-margin--0">
                             <strong>Note:</strong> If the medication you’re
                             taking doesn’t match this description, call{' '}
-                            <VaPharmacyText phone={phoneNumber} />.
+                            <VaPharmacyText
+                              phone={phoneNumber}
+                              isNotClickable
+                            />
+                            .
                           </p>
                           <ul className="vads-u-margin--0">
                             <li className="vads-u-margin-y--0">
@@ -236,8 +227,8 @@ const PrescriptionPrintOnly = props => {
                       ) : (
                         <>
                           No description available. Call{' '}
-                          <VaPharmacyText phone={phoneNumber} /> if you need
-                          help identifying this medication.
+                          <VaPharmacyText phone={phoneNumber} isNotClickable />{' '}
+                          if you need help identifying this medication.
                         </>
                       )}
                       <div className="line-break" />

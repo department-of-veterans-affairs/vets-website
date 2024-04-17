@@ -64,6 +64,16 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/debts', debts);
       cy.intercept('GET', '/v0/medical_copays', copays);
 
+      const calculatedMonthlyExpenseResponse = {
+        calculatedMonthlyExpenses: '6759',
+      };
+
+      cy.intercept(
+        'POST',
+        '/debts_api/v0/calculate_monthly_expenses',
+        calculatedMonthlyExpenseResponse,
+      );
+
       cy.intercept('POST', formConfig.submitUrl, {
         statusCode: 200,
         body: {

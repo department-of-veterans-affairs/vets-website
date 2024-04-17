@@ -58,7 +58,7 @@ export const uiSchema = {
   minorHighSchoolQuestions: {
     'ui:description': ageWarning,
     'ui:options': {
-      expandUnder: ['dateOfBirth'],
+      // expandUnder: ['dateOfBirth'],
       hideIf: formData => eighteenOrOver(formData.dateOfBirth),
     },
     minorHighSchoolQuestion: {

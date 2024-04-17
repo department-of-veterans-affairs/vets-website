@@ -17,9 +17,11 @@ const AllergyListItem = props => {
         <Link
           to={`/allergies/${record.id}`}
           data-dd-privacy="mask"
-          aria-label={`${record.name} on ${record.date}`}
+          aria-describedby={`allergy-date-${record.id}`}
         >
-          {record.name}
+          <span id={`allergy-date-${record.id}`}>
+            {record.name} <span className="sr-only">on {record.date}</span>
+          </span>
         </Link>
       </h3>
 
