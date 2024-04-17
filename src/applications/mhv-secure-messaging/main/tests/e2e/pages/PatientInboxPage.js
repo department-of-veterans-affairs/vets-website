@@ -506,7 +506,7 @@ class PatientInboxPage {
       .and('not.be.empty');
   };
 
-  inputFilterDataText = text => {
+  inputFilterData = text => {
     cy.get(Locators.FILTER_INPUT)
       .shadow()
       .find('#inputField')
@@ -523,7 +523,37 @@ class PatientInboxPage {
     cy.wait('@filterResult');
   };
 
-  verifyFilterResultsText = (filterValue, responseData) => {
+  clickClearFilterButton = () => {
+    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
+  };
+
+  inputFilterDataByKeyboard = text => {
+    cy.tabToElement('#inputField')
+      .first()
+      .type(`${text}`, { force: true });
+  };
+
+  submitFilerByKeyboard = mockFilterResponse => {
+    cy.intercept(
+      'POST',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
+      mockFilterResponse,
+    ).as('filterResult');
+
+    cy.realPress('Enter');
+  };
+
+  clearFilterByKeyboard = () => {
+    // next line required to start tab navigation from the header of the page
+    cy.get('[data-testid="folder-header"]').click();
+    cy.contains('Clear Filters').then(el => {
+      cy.tabToElement(el)
+        .first()
+        .click();
+    });
+  };
+
+  verifyFilterResults = (filterValue, responseData) => {
     cy.get(Locators.MESSAGES).should(
       'have.length',
       `${responseData.data.length}`,
@@ -537,10 +567,6 @@ class PatientInboxPage {
           expect(lowerCaseText).to.contain(`${filterValue}`);
         });
     });
-  };
-
-  clickClearFilterButton = () => {
-    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
   };
 
   verifyFilterFieldCleared = () => {
