@@ -37,9 +37,8 @@ we generate the secondary schema). Using this pattern for all primary/secondary
 schemas
 */
 export function applicantHasInsuranceSchema(isPrimary) {
-  const val = isPrimary ? 'Primary' : 'Secondary';
-  const keyname = `applicantHas${val}`;
-  const property = `has${val}`;
+  const keyname = isPrimary ? 'applicantHasPrimary' : 'applicantHasSecondary';
+  const property = isPrimary ? 'hasPrimary' : 'hasSecondary';
   return {
     uiSchema: {
       applicants: { items: {} },
@@ -57,7 +56,9 @@ export function applicantHasInsuranceSchema(isPrimary) {
 }
 
 export function applicantProviderSchema(isPrimary) {
-  const keyname = `applicant${isPrimary ? 'Primary' : 'Secondary'}Provider`;
+  const keyname = isPrimary
+    ? 'applicantPrimaryProvider'
+    : 'applicantSecondaryProvider';
   return {
     uiSchema: {
       applicants: {
@@ -84,9 +85,9 @@ export function applicantProviderSchema(isPrimary) {
 }
 
 export function applicantInsuranceEffectiveDateSchema(isPrimary) {
-  const keyname = `applicant${
-    isPrimary ? 'Primary' : 'Secondary'
-  }EffectiveDate`;
+  const keyname = isPrimary
+    ? 'applicantPrimaryEffectiveDate'
+    : 'applicantSecondaryEffectiveDate';
   return {
     uiSchema: {
       applicants: {
@@ -113,9 +114,9 @@ export function applicantInsuranceEffectiveDateSchema(isPrimary) {
 }
 
 export function applicantInsuranceExpirationDateSchema(isPrimary) {
-  const keyname = `applicant${
-    isPrimary ? 'Primary' : 'Secondary'
-  }ExpirationDate`;
+  const keyname = isPrimary
+    ? 'applicantPrimaryExpirationDate'
+    : 'applicantSecondaryExpirationDate';
   return {
     uiSchema: {
       applicants: {
@@ -142,9 +143,9 @@ export function applicantInsuranceExpirationDateSchema(isPrimary) {
 }
 
 export function applicantInsuranceThroughEmployerSchema(isPrimary) {
-  const keyname = `applicant${
-    isPrimary ? 'Primary' : 'Secondary'
-  }ThroughEmployer`;
+  const keyname = isPrimary
+    ? 'applicantPrimaryThroughEmployer'
+    : 'applicantSecondaryThroughEmployer';
   return {
     uiSchema: {
       applicants: { items: {} },
@@ -162,9 +163,9 @@ export function applicantInsuranceThroughEmployerSchema(isPrimary) {
 }
 
 export function applicantInsurancePrescriptionSchema(isPrimary) {
-  const keyname = `applicant${
-    isPrimary ? 'Primary' : 'Secondary'
-  }HasPrescription`;
+  const keyname = isPrimary
+    ? 'applicantPrimaryHasPrescription'
+    : 'applicantSecondaryHasPrescription';
   return {
     uiSchema: {
       applicants: { items: {} },
@@ -182,7 +183,7 @@ export function applicantInsurancePrescriptionSchema(isPrimary) {
 }
 
 export function applicantInsuranceEOBSchema(isPrimary) {
-  const keyname = `applicant${isPrimary ? 'Primary' : 'Secondary'}EOB`;
+  const keyname = isPrimary ? 'applicantPrimaryEOB' : 'applicantSecondaryEOB';
   return {
     uiSchema: {
       applicants: { items: {} },
@@ -200,9 +201,9 @@ export function applicantInsuranceEOBSchema(isPrimary) {
 }
 
 export function applicantInsuranceTypeSchema(isPrimary) {
-  const keyname = `applicant${
-    isPrimary ? 'Primary' : 'Secondary'
-  }InsuranceType`;
+  const keyname = isPrimary
+    ? 'applicantPrimaryInsuranceType'
+    : 'applicantSecondaryInsuranceType';
   return {
     uiSchema: {
       applicants: { items: {} },
@@ -216,7 +217,7 @@ export function applicantInsuranceTypeSchema(isPrimary) {
 }
 
 export function applicantMedigapSchema(isPrimary) {
-  const keyname = `${isPrimary ? 'primary' : 'secondary'}MedigapPlan`;
+  const keyname = isPrimary ? 'primaryMedigapPlan' : 'secondaryMedigapPlan';
   return {
     uiSchema: {
       applicants: {
@@ -247,7 +248,9 @@ export function applicantMedigapSchema(isPrimary) {
 
 export function applicantInsuranceCommentsSchema(isPrimary) {
   const val = isPrimary ? 'primary' : 'secondary';
-  const keyname = `${val}AdditionalComments`;
+  const keyname = isPrimary
+    ? 'primaryAdditionalComments'
+    : 'secondaryAdditionalComments';
   return {
     uiSchema: {
       applicants: {
