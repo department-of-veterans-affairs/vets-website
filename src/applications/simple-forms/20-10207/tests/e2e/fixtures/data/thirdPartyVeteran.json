@@ -17,21 +17,11 @@
     "livingSituation": {
       "NONE": true
     },
-    "mailingAddressYesNo": true,
-    "veteranMailingAddress": {
-      "country": "USA",
-      "street": "125 Any St",
-      "city": "Anytown",
-      "state": "CA",
-      "postalCode": "12345"
-    },
     "veteranPhone": "1234567892",
-    "otherReasons": {
-      "OVER_85": true
-    },
+    "view:hasReceivedMedicalTreatment": true,
     "medicalTreatments": [
       {
-        "facilityName": "Guido’s Trailer",
+        "facilityName": "Facility Name",
         "facilityAddress": {
           "country": "USA",
           "street": "123 Any St",

@@ -5,11 +5,12 @@ export const fetchSharingStatus = () => async dispatch => {
   try {
     const response = await getSharingStatus();
     dispatch({ type: Actions.Sharing.STATUS, response });
-  } catch (e) {
+  } catch (error) {
     dispatch({
       type: Actions.Sharing.STATUS_ERROR,
-      response: { type: 'fetch', error: e },
+      response: { type: 'fetch', error },
     });
+    throw error;
   }
 };
 
@@ -20,11 +21,12 @@ export const updateSharingStatus = optIn => async dispatch => {
       type: Actions.Sharing.UPDATE,
       response: { ...response, optIn },
     });
-  } catch (e) {
+  } catch (error) {
     dispatch({
       type: Actions.Sharing.STATUS_ERROR,
-      response: { type: optIn ? 'optin' : 'optout', error: e },
+      response: { type: optIn ? 'optin' : 'optout', error },
     });
+    throw error;
   }
 };
 

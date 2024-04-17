@@ -1,4 +1,5 @@
 import React from 'react';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
   validateCurrency,
   validateRecreationalVechicleAssetsLimits,
@@ -32,9 +33,10 @@ const recreationalVehicleUISchema = {
     recVehicleAmount: {
       'ui:title':
         'What is the estimated value of all of your trailers, campers, and boats?',
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         classNames: 'schemaform-currency-input',
-        widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
+        width: 'md',
       },
       'ui:required': () => true,
       'ui:errorMessages': {

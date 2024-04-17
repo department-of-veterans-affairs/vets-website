@@ -29,9 +29,13 @@ describe('Get vitals action', () => {
     const mockData = vitals;
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
-    return getVitals()(dispatch).then(() => {
-      expect(typeof dispatch.secondCall.args[0]).to.equal('function');
-    });
+    return getVitals()(dispatch)
+      .then(() => {
+        throw new Error('Expected getVitals() to throw an error.');
+      })
+      .catch(() => {
+        expect(typeof dispatch.secondCall.args[0]).to.equal('function');
+      });
   });
 });
 

@@ -21,37 +21,42 @@ describe('functionality of discharge wizard', () => {
     // questions page | fill out form
     cy.get('.main .vads-c-action-link--green').click();
 
-    cy.get('va-radio[name="1_branchOfService"] va-radio-option')
-      .first()
+    cy.get('va-radio-option[name=1_branchOfService][value="army"]')
+      .find('label')
       .click();
 
     cy.get('select[name="2_dischargeYear"]').select('2016');
+
+    cy.get(`va-radio-option[label="${questionLabels['4_reason']['1']}"]`)
+      .find('label')
+      .click();
+
     cy.get(
-      `va-radio-option[label="${
-        questionLabels['4_reason']['1']
-      }"] input[type="radio"]`,
-    ).click();
+      `va-radio-option[label="Yes, ${questionLabels['6_intention']['1']}"]`,
+    )
+      .find('label')
+      .click();
 
     cy.get(
-      `va-radio-option[label="Yes, ${
-        questionLabels['6_intention']['1']
-      }"] input[type="radio"]`,
-    ).click();
-
-    cy.get('va-radio[name="7_courtMartial"] va-radio-option')
-      .first()
+      `va-radio-option[label="Yes, ${questionLabels['7_courtMartial'][
+        '1'
+      ].toLowerCase()}"]`,
+    )
+      .find('label')
       .click();
 
-    cy.get('va-radio[name="8_prevApplication"] va-radio-option')
-      .first()
+    cy.get('va-radio-option[name="8_prevApplication"][value="1"]')
+      .find('label')
       .click();
 
-    cy.get('va-radio[name="9_prevApplicationYear"] va-radio-option')
-      .first()
+    cy.get('va-radio-option[name="9_prevApplicationYear"][value="1"]')
+      .find('label')
       .click();
 
-    cy.get('va-radio[name="12_priorService"] va-radio-option')
-      .first()
+    cy.get(
+      `va-radio-option[label="Yes, ${questionLabels['12_priorService']['1']}"`,
+    )
+      .find('label')
       .click();
 
     // a11y check after all elements are visible

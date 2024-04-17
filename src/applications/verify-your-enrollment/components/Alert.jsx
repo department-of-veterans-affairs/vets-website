@@ -2,13 +2,16 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 
-const Alert = ({ status, message }) => {
+const Alert = ({ status, title, message }) => {
   const dispatch = useDispatch();
+
+  // This Effcet to reset errors or response after 15s
   useEffect(
     () => {
       const timer = setTimeout(() => {
         dispatch({ type: 'RESET_ERROR' });
         dispatch({ type: 'RESET_SUCCESS_MESSAGE' });
+        dispatch({ type: 'RESET_ADDRESS_VALIDATIONS_ERROR' });
       }, 15000);
       return () => clearTimeout(timer);
     },
@@ -24,6 +27,7 @@ const Alert = ({ status, message }) => {
         visible
       >
         <React.Fragment key=".1">
+          {title && <h2 slot="headline">{title}</h2>}
           <p data-testid="alert" className="vads-u-margin-y--0">
             {message}
           </p>
@@ -36,6 +40,7 @@ const Alert = ({ status, message }) => {
 Alert.propTypes = {
   message: PropTypes.string,
   status: PropTypes.string,
+  title: PropTypes.string,
 };
 
 export default Alert;

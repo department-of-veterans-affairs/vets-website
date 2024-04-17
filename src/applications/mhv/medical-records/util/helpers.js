@@ -229,6 +229,16 @@ export const dispatchDetails = async (
 };
 
 /**
+ * Parse a value from a url using the parameter name
+ * @param {String} url url
+ * @param {String} paramName name for the text file
+ */
+export const getParamValue = (url, paramName) => {
+  const getParams = new URLSearchParams(url);
+  return getParams.get(`${paramName}`) ? getParams.get(`${paramName}`) : 1;
+};
+
+/**
  * Function: getActiveLinksStyle
  * Description: Determines the style for active links based on the linkPath and currentPath.
  * Pre-conditions:

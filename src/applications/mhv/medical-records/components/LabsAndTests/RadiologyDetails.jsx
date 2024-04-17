@@ -1,26 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  formatName,
+  updatePageTitle,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
 import GenerateRadiologyPdf from './GenerateRadiologyPdf';
-import { formatName, updatePageTitle } from '../../../shared/util/helpers';
+
 import { pageTitles } from '../../util/constants';
 import { generateTextFile, getNameDateAndTime } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import {
-  crisisLineHeader,
-  reportGeneratedBy,
-  txtLine,
-} from '../../../shared/util/constants';
-import usePrintTitle from '../../../shared/hooks/usePrintTitle';
+import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -31,6 +34,7 @@ const RadiologyDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
@@ -46,15 +50,16 @@ const RadiologyDetails = props => {
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
-  const download = () => {
+  const downloadPdf = () => {
+    setDownloadStarted(true);
     GenerateRadiologyPdf(record, user, runningUnitTest);
   };
 
   const generateRadioloyTxt = async () => {
+    setDownloadStarted(true);
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
@@ -81,19 +86,23 @@ ${record.results}`;
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1 className="vads-u-margin-bottom--0" aria-describedby="radiology-date">
+      <h1
+        className="vads-u-margin-bottom--0"
+        aria-describedby="radiology-date"
+        data-testid="radiology-record-name"
+      >
         {record.name}
       </h1>
       <DateSubheading date={record.date} id="radiology-date" />
 
-      <div className="no-print">
-        <PrintDownload
-          download={download}
-          downloadTxt={generateRadioloyTxt}
-          allowTxtDownloads={allowTxtDownloads}
-        />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-      </div>
+      {downloadStarted && <DownloadSuccessAlert />}
+      <PrintDownload
+        downloadPdf={downloadPdf}
+        downloadTxt={generateRadioloyTxt}
+        allowTxtDownloads={allowTxtDownloads}
+      />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans no-print">
@@ -111,29 +120,31 @@ ${record.results}`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Reason for test
         </h3>
-        <p>{record.reason}</p>
+        <p data-testid="radiology-reason">{record.reason}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Clinical history
         </h3>
-        <p>{record.clinicalHistory}</p>
+        <p data-testid="radiology-clinical-history">{record.clinicalHistory}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p>{record.orderedBy}</p>
+        <p data-testid="radiology-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Imaging location
         </h3>
-        <p>{record.imagingLocation}</p>
+        <p data-testid="radiology-imaging-location">{record.imagingLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Imaging provider
         </h3>
-        <p>{record.imagingProvider}</p>
+        <p data-testid="radiology-imaging-provider">{record.imagingProvider}</p>
       </div>
 
       <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p className="monospace">{record.results}</p>
+        <p data-testid="radiology-record-results" className="monospace">
+          {record.results}
+        </p>
       </div>
     </div>
   );

@@ -2,21 +2,86 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import MissingFileOverview, { hasReq } from './MissingFileOverview';
 
 export function FileFieldCustom(props) {
-  const navButtons = <FormNavButtons goBack={props.goBack} submitToContinue />;
   // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
-  const updateButton = <button type="submit">Update page</button>;
+  const updateButton = (
+    <button type="submit" onClick={props.updatePage}>
+      Update page
+    </button>
+  );
 
-  const onGoForward = args => {
+  /* Run this to track missing uploads as we go - this is necessary
+  so that we can conditionally skip displaying the file overview page
+  later in the form (because to show or hide depends on logic that
+  would have to run inside that component, so we run it earlier). */
+  try {
+    MissingFileOverview({
+      contentAfterButtons: props.contentAfterButtons,
+      data: props.contentAfterButtons.props.form.data,
+      goBack: props.goBack,
+      goForward: props.goForward,
+      disableLinks: true,
+      setFormData: props.setFormData,
+      showConsent: false,
+    });
+  } catch (e) {
+    // Let it fail - if this trips it most likely means we're uploading a
+    // sponsor file and applicants array won't be defined till later.
+  }
+
+  function uploadsMissing(data) {
+    return (
+      hasReq(data.applicants, true, true) ||
+      hasReq(data.applicants, false, true) ||
+      hasReq(data, true, true) ||
+      hasReq(data, false, true)
+    );
+  }
+
+  function customSet(data) {
+    if (props.pagePerItemIndex !== undefined) {
+      // We're editing an array item (an applicant) on the review page
+      const tmpData = props.data;
+      tmpData.applicants[props.pagePerItemIndex] = data;
+      props.setFormData(tmpData);
+    } else {
+      // Just update all the form data like normal
+      props.setFormData(data);
+    }
+  }
+
+  function onGoForward(args) {
     // Check if url is a review page
     const urlParams = new URLSearchParams(window?.location?.search);
     if (urlParams.get('fileReview') === 'true') {
-      props.goToPath('/supporting-files');
+      /* Have to use contentAfterButtons' data because we might have
+      just received a single list-loop element as our props.data,
+      which would then lead us to the wrong conclusions */
+      if (uploadsMissing(props.contentAfterButtons.props.form.data)) {
+        props.goToPath('/supporting-files');
+      } else {
+        // Since we just uploaded the last file, bypass files overview page
+        props.goToPath('/review-and-submit');
+      }
     } else {
       props.goForward(args);
     }
-  };
+  }
+
+  function onGoBack(args) {
+    const urlParams = new URLSearchParams(window?.location?.search);
+    // If fileReview is true we're in the special file review flow, so we should
+    // actually return to the file overview screen, which is technically forward.
+    if (urlParams.get('fileReview') === 'true') {
+      onGoForward(args);
+    } else {
+      props.goBack(args);
+    }
+  }
+
+  const navButtons = <FormNavButtons goBack={onGoBack} submitToContinue />;
 
   return (
     <>
@@ -25,11 +90,15 @@ export function FileFieldCustom(props) {
         uiSchema={props.uiSchema}
         name={props.name}
         title={props.title}
-        data={props.data}
         pagePerItemIndex={props.pagePerItemIndex}
+        data={
+          props.pagePerItemIndex !== undefined && props.onReviewPage
+            ? props.data.applicants[props.pagePerItemIndex]
+            : props.data
+        }
         formContext={props}
         trackingPrefix={props.trackingPrefix}
-        onChange={props.onChange}
+        onChange={props.onReviewPage ? customSet : props.onChange}
         onSubmit={onGoForward}
       >
         <div className="vads-u-margin-top--4">
@@ -44,21 +113,22 @@ export function FileFieldCustom(props) {
 
 // TODO: update these:
 FileFieldCustom.propTypes = {
-  props: PropTypes.shape({
-    schema: PropTypes.object,
-    uiSchema: PropTypes.object,
-    name: PropTypes.string || PropTypes.func,
-    title: PropTypes.string || PropTypes.func,
-    data: PropTypes.object,
-    pagePerItemIndex: PropTypes.string || PropTypes.number,
-    formContext: PropTypes.object,
-    trackingPrefix: PropTypes.string,
-    onChange: PropTypes.func,
-    contentAfterButtons: PropTypes.any,
-    contentBeforeButtons: PropTypes.any,
-    setFormData: PropTypes.func,
-    goToPath: PropTypes.func,
-    goForward: PropTypes.func,
-  }),
+  data: PropTypes.object,
+  formContext: PropTypes.object,
+  goBack: PropTypes.func,
+  name: PropTypes.string || PropTypes.func,
+  onChange: PropTypes.func,
+  // eslint-disable-next-line react/sort-prop-types
+  onReviewPage: PropTypes.bool,
+  pagePerItemIndex: PropTypes.any,
+  schema: PropTypes.object,
+  title: PropTypes.any,
+  trackingPrefix: PropTypes.string,
+  uiSchema: PropTypes.object,
+  contentAfterButtons: PropTypes.any,
+  contentBeforeButtons: PropTypes.any,
+  setFormData: PropTypes.func,
+  goToPath: PropTypes.func,
+  goForward: PropTypes.func,
 };
 export default FileFieldCustom;

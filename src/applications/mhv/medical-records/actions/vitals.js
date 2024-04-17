@@ -3,6 +3,7 @@ import { getVitalsList } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { isArrayAndHasItems } from '../util/helpers';
+import { getListWithRetry } from './common';
 
 export const getVitals = (isCurrent = false) => async dispatch => {
   dispatch({
@@ -10,7 +11,7 @@ export const getVitals = (isCurrent = false) => async dispatch => {
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const response = await getVitalsList();
+    const response = await getListWithRetry(dispatch, getVitalsList);
     dispatch({
       type: Actions.Vitals.GET_LIST,
       response,
@@ -18,6 +19,7 @@ export const getVitals = (isCurrent = false) => async dispatch => {
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
   }
 };
 
@@ -29,6 +31,7 @@ export const getVitalDetails = (vitalType, vitalList) => async dispatch => {
     dispatch({ type: Actions.Vitals.GET, vitalType });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
   }
 };
 

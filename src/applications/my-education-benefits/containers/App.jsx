@@ -37,6 +37,7 @@ export const App = ({
   mebExclusionPeriodEnabled,
   setFormData,
   showMeb1990EZMaintenanceAlert,
+  showMeb1990EZR6MaintenanceMessage,
   showDgiDirectDeposit1990EZ,
   showMebEnhancements09,
   showMebServiceHistoryCategorizeDisagreement,
@@ -94,6 +95,7 @@ export const App = ({
       isLoggedIn,
       setFormData,
       showMeb1990EZMaintenanceAlert,
+      showMeb1990EZR6MaintenanceMessage,
       showMebEnhancements09,
     ],
   );
@@ -196,6 +198,15 @@ export const App = ({
           showMeb1990EZMaintenanceAlert,
         });
       }
+      if (
+        showMeb1990EZR6MaintenanceMessage !==
+        formData.showMeb1990EZR6MaintenanceMessage
+      ) {
+        setFormData({
+          ...formData,
+          showMeb1990EZR6MaintenanceMessage,
+        });
+      }
 
       if (
         formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
@@ -271,6 +282,7 @@ export const App = ({
       setFormData,
       showDgiDirectDeposit1990EZ,
       showMeb1990EZMaintenanceAlert,
+      showMeb1990EZR6MaintenanceMessage,
       showMebEnhancements09,
       showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
@@ -355,6 +367,7 @@ App.propTypes = {
   setFormData: PropTypes.func,
   showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
+  showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
   showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
 };

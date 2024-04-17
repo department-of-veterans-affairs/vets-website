@@ -1,17 +1,50 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { OverviewPage } from '../../containers/OverviewPage';
+import { renderWithRouter } from '../utils';
 
-const params = { id: 1 };
+const props = {
+  claim: {},
+  clearNotification: () => {},
+  lastPage: '',
+  loading: false,
+  message: {},
+  params: { id: 1 },
+};
 
 describe('<OverviewPage>', () => {
   const store = createStore(() => ({}));
+
+  it('should render null when claim empty', () => {
+    const { container, getByText } = renderWithRouter(
+      <Provider store={store}>
+        <OverviewPage {...props} />
+      </Provider>,
+    );
+    expect($('.overview-container', container)).to.not.exist;
+    expect(document.title).to.equal(
+      'Overview Of Your Claim | Veterans Affairs',
+    );
+    getByText('Claim status is unavailable');
+  });
+
+  it('should render null when claim is null', () => {
+    const { container, getByText } = renderWithRouter(
+      <Provider store={store}>
+        <OverviewPage {...props} claim={null} />
+      </Provider>,
+    );
+    expect($('.overview-container', container)).to.not.exist;
+    expect(document.title).to.equal(
+      'Overview Of Your Claim | Veterans Affairs',
+    );
+    getByText('Claim status is unavailable');
+  });
 
   context('when claim is closed', () => {
     const claim = {
@@ -35,14 +68,9 @@ describe('<OverviewPage>', () => {
     };
 
     it('should render empty content when loading', () => {
-      const { container } = render(
+      const { container } = renderWithRouter(
         <Provider store={store}>
-          <OverviewPage
-            claim={claim}
-            params={params}
-            clearNotification={() => {}}
-            loading
-          />
+          <OverviewPage {...props} claim={claim} loading />
         </Provider>,
       );
       const overviewSection = $('.overview-container', container);
@@ -51,13 +79,9 @@ describe('<OverviewPage>', () => {
     });
 
     it('should render overview header and timeline', () => {
-      const { container, getByText } = render(
+      const { container, getByText } = renderWithRouter(
         <Provider store={store}>
-          <OverviewPage
-            claim={claim}
-            params={params}
-            clearNotification={() => {}}
-          />
+          <OverviewPage {...props} claim={claim} />
         </Provider>,
       );
       const overviewPage = $('#tabPanelFiles', container);
@@ -84,19 +108,27 @@ describe('<OverviewPage>', () => {
         decisionLetterSent: true,
         status: 'INITIAL_REVIEW',
         supportingDocuments: [],
-        trackedItems: [],
+        trackedItems: [
+          {
+            id: 1,
+            requestedDate: '2023-02-01',
+            status: 'INITIAL_REVIEW_COMPLETE',
+            displayName: 'Initial review complete Request',
+          },
+          {
+            id: 2,
+            requestedDate: '2023-02-01',
+            status: 'INITIAL_REVIEW_COMPLETE',
+            displayName: 'Initial review complete Request',
+          },
+        ],
       },
     };
 
     it('should render empty content when loading', () => {
-      const { container } = render(
+      const { container } = renderWithRouter(
         <Provider store={store}>
-          <OverviewPage
-            claim={claim}
-            params={params}
-            clearNotification={() => {}}
-            loading
-          />
+          <OverviewPage claim={claim} {...props} loading />
         </Provider>,
       );
       const overviewSection = $('.overview-container', container);
@@ -105,13 +137,9 @@ describe('<OverviewPage>', () => {
     });
 
     it('should render overview header and timeline', () => {
-      const { container, getByText } = render(
+      const { container, getByText } = renderWithRouter(
         <Provider store={store}>
-          <OverviewPage
-            claim={claim}
-            params={params}
-            clearNotification={() => {}}
-          />
+          <OverviewPage {...props} claim={claim} />
         </Provider>,
       );
       const overviewPage = $('#tabPanelFiles', container);

@@ -11,17 +11,23 @@ import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 
+/**
+ * @param {{
+ *   arrayPath: string,
+ *   setFormData: (data) => void,
+ *   formData: any,
+ *   goToPath: (path, force) => void,
+ *   summaryRoute: string,
+ *   getText: import('./arrayBuilderText').ArrayBuilderGetText,
+ * }} props
+ */
 const ArrayBuilderCancelAddingButton = ({
   arrayPath,
   setFormData,
   formData,
-  buttonText,
-  modalButtonPrimary,
-  modalButtonSecondary,
-  modalTitle,
-  modalDescription,
   goToPath,
   summaryRoute,
+  getText,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const urlParams = new URLSearchParams(window?.location?.search);
@@ -55,7 +61,7 @@ const ArrayBuilderCancelAddingButton = ({
   return (
     <div className="vads-u-margin-top--3 vads-u-margin-bottom--4">
       <va-button
-        text={buttonText}
+        text={getText('cancelButtonText')}
         data-action="cancel"
         onClick={showCancelConfirmationModal}
         secondary
@@ -64,16 +70,16 @@ const ArrayBuilderCancelAddingButton = ({
       <VaModal
         clickToClose
         status="warning"
-        modalTitle={modalTitle}
-        primaryButtonText={modalButtonPrimary}
-        secondaryButtonText={modalButtonSecondary}
+        modalTitle={getText('cancelTitle')}
+        primaryButtonText={getText('cancelYes')}
+        secondaryButtonText={getText('cancelNo')}
         onCloseEvent={hideCancelConfirmationModal}
         onPrimaryButtonClick={cancelAction}
         onSecondaryButtonClick={hideCancelConfirmationModal}
         visible={isModalVisible}
         uswds
       >
-        {modalDescription}
+        {getText('cancelDescription')}
       </VaModal>
     </div>
   );
@@ -91,11 +97,8 @@ ArrayBuilderCancelAddingButton.propTypes = {
   arrayPath: PropTypes.string.isRequired,
   buttonText: PropTypes.string.isRequired,
   formData: PropTypes.object.isRequired,
+  getText: PropTypes.func.isRequired,
   goToPath: PropTypes.func.isRequired,
-  modalButtonPrimary: PropTypes.string.isRequired,
-  modalButtonSecondary: PropTypes.string.isRequired,
-  modalDescription: PropTypes.string.isRequired,
-  modalTitle: PropTypes.string.isRequired,
   setFormData: PropTypes.func.isRequired,
   summaryRoute: PropTypes.string.isRequired,
 };
@@ -108,7 +111,7 @@ ArrayBuilderCancelAddingButton.propTypes = {
  *   arrayPath="employers"
  *   modalTitle="Are you sure you want to cancel adding this employer?"
  *   modalDescription="If you cancel adding this employer, we won't save the information. You'll return to a screen where you can add or remove employers."
- *   modalButtonPrimary="Yes, cancel"
+ *   modalButtonPrimary="Yes, cancel adding"
  *   modalButtonSecondary="No, continue adding"
  *   goToPath={goToPath}
  *   summaryRoute="/array-multiple-page-builder-summary"

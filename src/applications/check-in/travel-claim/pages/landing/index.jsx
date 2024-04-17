@@ -82,7 +82,7 @@ const Landing = props => {
                 setSession(token, session.permissions);
                 if (session.permissions === SCOPES.READ_FULL) {
                   // redirect if already full access
-                  jumpToPage(URLS.INTRODUCTION);
+                  jumpToPage(URLS.LOADING);
                 } else {
                   // TODO: dispatch to redux
                   jumpToPage(URLS.VERIFY);

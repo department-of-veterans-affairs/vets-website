@@ -16,6 +16,7 @@ const ReportModal = ({
   existingReports,
   onCloseReportModal,
   submitRepresentativeReport,
+  cancelRepresentativeReport,
   handleOtherInputChangeTestId,
   testReportObject,
 }) => {
@@ -114,12 +115,16 @@ const ReportModal = ({
     onCloseReportModal();
   };
 
+  const onCancelOrClose = () => {
+    cancelRepresentativeReport();
+    onCloseReportModal();
+  };
   return (
     <>
       <VaModal
-        onCloseEvent={onCloseReportModal}
+        onCloseEvent={onCancelOrClose}
         onPrimaryButtonClick={onSubmitModal}
-        onSecondaryButtonClick={onCloseReportModal}
+        onSecondaryButtonClick={onCancelOrClose}
         primaryButtonText="Submit"
         secondaryButtonText="Cancel"
         visible

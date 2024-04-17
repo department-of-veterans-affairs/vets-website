@@ -11,14 +11,35 @@ pre-check-in [README](https://github.com/department-of-veterans-affairs/vets-web
 Before you get started check [this page](https://depo-platform-documentation.scrollhelp.site/developer-docs/setting-up-your-local-frontend-environment) first to make sure you are setup to use the correct version of Node and Yarn.
   - clone vets-website repo `git clone git@github.com:department-of-veterans-affairs/vets-website.git`
   - navigate to the check-in application `cd src/applications/check-in`
-  - run `yarn install`
-  - run `yarn workspace @department-of-veterans-affairs/applications-check-in install`
-  - turn on local mocks `yarn --cwd $( git rev-parse --show-toplevel ) mock-api --responses src/applications/check-in/api/local-mock-api/index.js`
-  - start app `yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=check-in,pre-check-in,travel-claim`
+  - run
+```
+yarn install
+```
+  - run
+```
+yarn workspace @department-of-veterans-affairs/applications-check-in install
+```
+  - turn on local mocks
+```
+yarn --cwd $( git rev-parse --show-toplevel ) mock-api --responses src/applications/check-in/api/local-mock-api/index.js
+```
+  - start app
+```
+yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=check-in,pre-check-in,travel-claim
+```
   - visit the app:
-    - check-in `http://localhost:3001/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
-    - pre-check-in `http://localhost:3001/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
-    - travel-claim `http://localhost:3001/my-health/appointment-travel-claim/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
+  - check-in
+```
+http://localhost:3001/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287
+```
+  - pre-check-in 
+```
+http://localhost:3001/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287
+```
+  - travel-claim 
+```
+http://localhost:3001/my-health/appointment-travel-claim/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287
+```
   - Login using the mock user, Last name: `Smith` DOB: `04-07-1935`
 
 ## Mock UUIDs
@@ -35,6 +56,8 @@ There are several different mock UUIDs that can be used as a value for the `id` 
 ### Pre-check-in
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
   - phoneApptUUID: `258d753c-262a-4ab2-b618-64b645884daf`
+  - cvtApptUUID = `f4b9f1a7-4e3d-4d0c-8b8c-3f9b3d0f9e9b`
+  - vvcApptUUID = `cc8bd49c-5ac8-4ad2-880a-b96645cdea64`
   - alreadyPreCheckedInUUID: `4d523464-c450-49dc-9a18-c04b3f1642ee`
   - canceledAppointmentUUID: `9d7b7c15-d539-4624-8d15-b740b84e8548`
   - canceledPhoneAppointmentUUID: `1448d690-fd5f-11ec-b939-0242ac120002`

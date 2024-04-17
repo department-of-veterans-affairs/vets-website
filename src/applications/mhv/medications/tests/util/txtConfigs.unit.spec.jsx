@@ -78,8 +78,20 @@ describe('VA prescription Config', () => {
   });
 
   it('should create "About this medication or supply" section', () => {
-    const txt = buildVAPrescriptionTXT(prescriptionDetails);
+    const txt = buildVAPrescriptionTXT(prescriptionDetails.data.attributes);
     expect(txt).to.include('About this medication or supply');
+    expect(txt).to.include('Quantity: 30');
+  });
+
+  it('should show refill information', () => {
+    const txt = buildVAPrescriptionTXT(prescriptionDetails.data.attributes);
+    expect(txt).to.include('Refill history\n');
+    expect(txt).to.include('Description:');
+    expect(txt).to.include(
+      'Note: If the medication you’re taking doesn’t match this description',
+    );
+    expect(txt).to.include('Shape: Hexagon');
+    expect(txt).to.include('Color: Purple');
   });
 });
 

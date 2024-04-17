@@ -28,6 +28,7 @@ const TravelPage = ({
   yesFunction,
   noButtonText,
   noFunction,
+  testID = 'travel-page',
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -83,22 +84,20 @@ const TravelPage = ({
         classNames="travel-page"
         eyebrow={eyebrow}
         withBackButton
+        testID={testID}
       >
         {bodyText && (
-          <div
-            data-testid="body-text"
-            className="vads-u-font-family--serif vads-u-margin-bottom--3"
-          >
+          <div data-testid="body-text" className="vads-u-margin-bottom--3">
             {bodyText}
           </div>
         )}
         {additionalInfoItems &&
           additionalInfoItems.map((infoData, index) => (
-            <React.Fragment key={index}>
+            <div className="vads-u-margin-bottom--2" key={index}>
               <va-additional-info uswds trigger={infoData.trigger}>
                 {infoData.info}
               </va-additional-info>
-            </React.Fragment>
+            </div>
           ))}
         {helpText && (
           <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
@@ -148,6 +147,7 @@ TravelPage.propTypes = {
   helpText: PropTypes.node,
   noButtonText: PropTypes.string,
   noFunction: PropTypes.func,
+  testID: PropTypes.string,
   yesButtonText: PropTypes.string,
   yesFunction: PropTypes.func,
 };

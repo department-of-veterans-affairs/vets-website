@@ -1,12 +1,7 @@
-// Below is placeholder code which will be updated in MBMS-54141
-
 export const uiSchema = {
+  'ui:title': 'PLACEHOLDER',
   application: {
-    applicant: {
-      placeholder: {
-        'ui:title': 'PLACEHOLDER',
-      },
-    },
+    veteran: {},
   },
 };
 
@@ -16,13 +11,9 @@ export const schema = {
     application: {
       type: 'object',
       properties: {
-        applicant: {
+        veteran: {
           type: 'object',
-          properties: {
-            placeholder: {
-              type: 'string',
-            },
-          },
+          properties: {},
         },
       },
     },

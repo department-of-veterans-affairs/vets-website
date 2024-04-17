@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Loader = ({ className }) => (
+const Loader = ({
+  className,
+  message = 'Please wait while we load the application for you.',
+}) => (
   <div className={className}>
-    <va-loading-indicator label="Loading" set-focus />
+    <va-loading-indicator message={message} label="Loading" set-focus />
   </div>
 );
 
 Loader.propTypes = {
   className: PropTypes.string,
+  message: PropTypes.string,
 };
 export default Loader;

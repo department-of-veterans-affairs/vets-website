@@ -13,5 +13,9 @@ export const getAppData = state => ({
   savedForms: state?.user?.profile?.savedForms,
   showMeb1990EMaintenanceAlert:
     state.featureToggles.showMeb1990EMaintenanceAlert,
+  showMeb1990ER6MaintenanceMessage:
+    state.featureToggles.showMeb1990ER6MaintenanceMessage,
+  toeLightHouseDgiDirectDeposit:
+    state?.featureToggles?.toeLightHouseDGIDirectDeposit,
   user: state.user || {},
 });

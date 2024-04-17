@@ -24,7 +24,12 @@ import { ProfileInfoCard } from '../ProfileInfoCard';
 const NotAVeteranAlert = () => {
   return (
     <>
-      <va-alert status="info" data-testid="not-a-veteran-alert" uswds>
+      <va-alert
+        status="info"
+        data-testid="not-a-veteran-alert"
+        uswds
+        class="vads-u-margin-bottom--4"
+      >
         <h2 slot="headline">We don’t have military service records for you</h2>
 
         <p>
@@ -42,7 +47,12 @@ const NotAVeteranAlert = () => {
 const NotInDEERSAlert = () => {
   return (
     <>
-      <va-alert status="warning" data-testid="not-in-deers-alert" uswds>
+      <va-alert
+        status="warning"
+        data-testid="not-in-deers-alert"
+        uswds
+        class="vads-u-margin-bottom--4"
+      >
         <h2 slot="headline">
           We can’t match your information to any military service records
         </h2>
@@ -81,7 +91,7 @@ const NotInDEERSAlert = () => {
 const NoServiceHistoryAlert = () => {
   return (
     <>
-      <va-alert status="warning" uswds>
+      <va-alert status="warning" uswds class="vads-u-margin-bottom--4">
         <h2 slot="headline">
           We can’t match your information to any military service records
         </h2>
@@ -228,16 +238,13 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
         />
       </va-summary-box>
 
-      {profileShowProofOfVeteranStatus && (
-        <div className="vads-u-margin-y--4">
-          <ProofOfVeteranStatus />
-        </div>
-      )}
-      <DevTools
-        alwaysShowChildren={false}
-        devToolsData={{ militaryInformation, veteranStatus }}
-        panel
-      >
+      {profileShowProofOfVeteranStatus &&
+        militaryInformation?.serviceHistory?.serviceHistory && (
+          <div className="vads-u-margin-y--4">
+            <ProofOfVeteranStatus />
+          </div>
+        )}
+      <DevTools devToolsData={{ militaryInformation, veteranStatus }} panel>
         <p>Profile devtools test, please ignore.</p>
       </DevTools>
     </div>

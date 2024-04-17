@@ -29,24 +29,10 @@ const MedicationsListCard = ({ rx }) => {
   };
   const handleLinkClick = () => {
     dispatch(
-      setBreadcrumbs(
-        [
-          {
-            url: '/my-health/medications/about',
-            label: 'About medications',
-          },
-          {
-            url: `/my-health/medications/?page=${pagination?.currentPage || 1}`,
-            label: 'Medications',
-          },
-        ],
-        {
-          url: `/my-health/medications/prescription/${rx.prescriptionId}`,
-          label:
-            rx?.prescriptionName ||
-            (rx?.dispStatus === 'Active: Non-VA' ? rx?.orderableItem : ''),
-        },
-      ),
+      setBreadcrumbs({
+        url: `/?page=${pagination?.currentPage || 1}`,
+        label: 'Medications',
+      }),
     );
     dispatch(setPrescriptionDetails(rx));
   };

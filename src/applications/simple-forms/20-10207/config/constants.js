@@ -67,17 +67,17 @@ export const LIVING_SITUATIONS_3RD_PTY_VET = Object.freeze({
 });
 export const LIVING_SITUATIONS_3RD_PTY_NON_VET = Object.freeze({
   OVERNIGHT:
-    'The Claimant lives or sleeps overnight in a place that isn’t meant for regular sleeping. This includes a car, park, abandoned building, bus station, train station, airport, or camping ground.',
+    'The claimant lives or sleeps overnight in a place that isn’t meant for regular sleeping. This includes a car, park, abandoned building, bus station, train station, airport, or camping ground.',
   SHELTER:
-    'The Claimant lives in a shelter (including a hotel or motel) that’s meant for temporary stays.',
+    'The claimant lives in a shelter (including a hotel or motel) that’s meant for temporary stays.',
   FRIEND_OR_FAMILY:
-    'The Claimant is staying with a friend or family member, because the Claimant can’t get my own home right now.',
+    'The claimant is staying with a friend or family member, because the claimant can’t get their own home right now.',
   LEAVING_SHELTER:
-    'In the next 30 days, the Claimant will have to leave a facility, like a homeless shelter.',
+    'In the next 30 days, the claimant will have to leave a facility, like a homeless shelter.',
   LOSING_HOME:
-    'In the next 30 days, the Claimant will lose their home. (Note: This could include a house, apartment, trailer, or other living space that you own, rent, or live in without paying rent. Or it could include a living space that they share with others. It could also include rooms in hotels or motels.)',
-  OTHER_RISK: 'The Claimant has another housing risk not listed here.',
-  NONE: 'None of these situations apply to the Claimant.',
+    'In the next 30 days, the claimant will lose their home. (Note: This could include a house, apartment, trailer, or other living space that you own, rent, or live in without paying rent. Or it could include a living space that they share with others. It could also include rooms in hotels or motels.)',
+  OTHER_RISK: 'The claimant has another housing risk not listed here.',
+  NONE: 'None of these situations apply to the claimant.',
 });
 
 export const ADDITIONAL_INFO_THIRD_PARTY = Object.freeze(
@@ -87,10 +87,11 @@ export const ADDITIONAL_INFO_THIRD_PARTY = Object.freeze(
   >
     <div>
       <p>
-        <b>If you’re a third-party representative</b> (a family member or other
-        assigned person who is not a power of attorney, agent, or fiduciary)
-        requesting VA records for someone else, we must have an authorization
-        form on record (VA Form 21-0845) for us to release their information.
+        <strong>If you’re a third-party representative</strong> (a family member
+        or other assigned person who is not a power of attorney, agent, or
+        fiduciary) requesting VA records for someone else, we must have an
+        authorization form on record (VA Form 21-0845) for us to release their
+        information.
       </p>
       <p>
         <a
@@ -103,9 +104,9 @@ export const ADDITIONAL_INFO_THIRD_PARTY = Object.freeze(
         </a>
       </p>
       <p>
-        <b>If you’re a power of attorney</b> requesting VA records for someone
-        else, we must have an official record that you were appointed as their
-        representative (VA Form 21-22 or VA Form 21-22a).
+        <strong>If you’re a power of attorney</strong> requesting VA records for
+        someone else, we must have an official record that you were appointed as
+        their representative (VA Form 21-22 or VA Form 21-22a).
       </p>
       <p>
         <a
@@ -138,10 +139,10 @@ export const ADDITIONAL_INFO_THIRD_PARTY_TYPE = Object.freeze(
   >
     <div>
       <p>
-        <b>A third-party representative</b> can be a family member or designated
-        person filling out this form for a Veteran or someone with a claim. We
-        consider you to be a third-party representative if you’re not already a
-        power of attorney, agent, or fiduciary.
+        <strong>A third-party representative</strong> can be a family member or
+        designated person filling out this form for a Veteran or someone with a
+        claim. We consider you to be a third-party representative if you’re not
+        already a power of attorney, agent, or fiduciary.
       </p>
       <p>
         If you’re a third-party representative, we must have an authorization
@@ -158,9 +159,9 @@ export const ADDITIONAL_INFO_THIRD_PARTY_TYPE = Object.freeze(
         </a>
       </p>
       <p>
-        <b>An authorized power of attorney</b> can fill out this request for the
-        person with the claim. If you’re a power of attorney, we must have one
-        of these records on file:
+        <strong>An authorized power of attorney</strong> can fill out this
+        request for the person with the claim. If you’re a power of attorney, we
+        must have one of these records on file:
       </p>
       <p>
         <a
@@ -199,11 +200,11 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
         We’ll use this information only to prioritize your request.
       </p>
       <p>
-        Note: If you need help because of domestic violence, call the National
-        Domestic Violence hotline <va-telephone contact="8007997233" /> (TTY:{' '}
-        <va-telephone contact="8007873224" />) or text "START" to 88788. Staff
-        are there to help 24 hours a day, 7 days a week. All conversations are
-        private and confidential.
+        <b>Note:</b> If you need help because of domestic violence, call the
+        National Domestic Violence hotline <va-telephone contact="8007997233" />{' '}
+        (TTY: <va-telephone contact="8007873224" />) or text "START" to 88788.
+        Staff are there to help 24 hours a day, 7 days a week. All conversations
+        are private and confidential.
       </p>
     </div>
   </va-additional-info>,
@@ -222,10 +223,12 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_VET = Object.freeze(
         any details. We’ll use this information only to prioritize the request.
       </p>
       <p>
-        Note: If the Veteran needs help because of domestic violence, call the
-        National Domestic Violence hotline <va-telephone contact="8007997233" />{' '}
-        (TTY: ) or text "START" to 88788. Staff are there to help 24 hours a
-        day, 7 days a week. All conversations are private and confidential.
+        <b>Note:</b> If the Veteran needs help because of domestic violence,
+        call the National Domestic Violence hotline{' '}
+        <va-telephone contact="8007997233" /> (TTY:{' '}
+        <va-telephone contact="8007873224" />) or text "START" to 88788. Staff
+        are there to help 24 hours a day, 7 days a week. All conversations are
+        private and confidential.
       </p>
     </div>
   </va-additional-info>,
@@ -244,11 +247,12 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_NON_VET = Object.freeze
         any details. We’ll use this information only to prioritize the request.
       </p>
       <p>
-        Note: If the claimant needs help because of domestic violence, call the
-        National Domestic Violence hotline <va-telephone contact="8007997233" />{' '}
-        (TTY: <va-telephone contact="8007873224" />) or text "START" to 88788.
-        Staff are there to help 24 hours a day, 7 days a week. All conversations
-        are private and confidential.
+        <b>Note:</b> If the claimant needs help because of domestic violence,
+        call the National Domestic Violence hotline{' '}
+        <va-telephone contact="8007997233" /> (TTY:{' '}
+        <va-telephone contact="8007873224" />) or text "START" to 88788. Staff
+        are there to help 24 hours a day, 7 days a week. All conversations are
+        private and confidential.
       </p>
     </div>
   </va-additional-info>,
@@ -265,8 +269,8 @@ export const MAILING_ADDRESS_YES_NO_LABELS_3RD_PTY_VET = Object.freeze({
 });
 
 export const MAILING_ADDRESS_YES_NO_LABELS_3RD_PTY_NON_VET = Object.freeze({
-  Y: 'Yes, the Claimant has a current mailing address.',
-  N: 'No, the Claimant doesn’t have a current mailing address.',
+  Y: 'Yes, the claimant has a current mailing address.',
+  N: 'No, the claimant doesn’t have a current mailing address.',
 });
 
 export const OTHER_REASONS = Object.freeze({
@@ -296,16 +300,16 @@ export const OTHER_REASONS_3RD_PTY_VET = Object.freeze({
 
 export const OTHER_REASONS_3RD_PTY_NON_VET = Object.freeze({
   FINANCIAL_HARDSHIP:
-    'The Claimant is experiencing extreme financial hardship.',
+    'The claimant is experiencing extreme financial hardship.',
   ALS:
-    'The Claimant has ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
-  TERMINAL_ILLNESS: 'The Claimant has a terminal illness.',
+    'The claimant has ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
+  TERMINAL_ILLNESS: 'The claimant has a terminal illness.',
   VSI_SI:
-    'The Claimant has a status from the Defense Department of Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI).',
-  OVER_85: 'The Claimant is age 85 or older.',
-  FORMER_POW: 'The Claimant is a former prisoner of war (POW).',
+    'The claimant has a status from the Defense Department of Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI).',
+  OVER_85: 'The claimant is age 85 or older.',
+  FORMER_POW: 'The claimant is a former prisoner of war (POW).',
   MEDAL_AWARD:
-    'The Claimant is a Medal of Honor or Purple Heart award recipient.',
+    'The claimant is a Medal of Honor or Purple Heart award recipient.',
 });
 
 export const FINANCIAL_HARDSHIP_DESCRIPTION = Object.freeze(
@@ -360,14 +364,16 @@ export const TERMINAL_ILLNESS_DESCRIPTION = Object.freeze(
         you’ll need to submit an authorization to disclose non-VA medical
         information to us (VA Forms 21-4142 and 21-4142a).
       </p>
-      <a
-        href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="vads-u-display--block vads-u-margin-top--2"
-      >
-        Go to VA Forms 21-4142 and 21-4142a (opens in new tab)
-      </a>
+      <p>
+        <a
+          href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="vads-u-display--inline-block vads-u-margin-top--2 vads-u-margin-bottom--1"
+        >
+          Go to VA Forms 21-4142 and 21-4142a (opens in new tab)
+        </a>
+      </p>
     </va-additional-info>
     <p />
   </div>,
@@ -399,14 +405,16 @@ export const ALS_DESCRIPTION = Object.freeze(
         you’ll need to submit an authorization to disclose non-VA medical
         information to us (VA Forms 21-4142 and 21-4142a).
       </p>
-      <a
-        href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="vads-u-display--block vads-u-margin-top--2"
-      >
-        Go to VA Forms 21-4142 and 21-4142a (opens in new tab)
-      </a>
+      <p>
+        <a
+          href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="vads-u-display--inline-block vads-u-margin-top--2 vads-u-margin-bottom--1"
+        >
+          Go to VA Forms 21-4142 and 21-4142a (opens in new tab)
+        </a>
+      </p>
     </va-additional-info>
     <p />
   </div>,
@@ -430,23 +438,27 @@ export const VSI_DESCRIPTION = Object.freeze(
     >
       <ul>
         <li className="vads-u-margin-bottom--2">
-          Copy of medical evidence showing ALS, <b>and</b>
+          Copy of medical evidence showing ALS, <strong>and</strong>
         </li>
-        <li>Medical evidence showing severe disability or injury</li>
+        <li className="vads-u-margin-bottom--2">
+          Medical evidence showing severe disability or injury
+        </li>
       </ul>
       <p>
         <b>Note</b>: If you want us to access your private treatment records,
         you’ll need to submit an authorization to disclose non-VA medical
         information to us (VA Forms 21-4142 and 21-4142a).
       </p>
-      <a
-        href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="vads-u-display--block vads-u-margin-top--2"
-      >
-        Go to VA Forms 21-4142 and 21-4142a (opens in new tab)
-      </a>
+      <p>
+        <a
+          href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="vads-u-display--inline-block vads-u-margin-top--2 vads-u-margin-bottom--1"
+        >
+          Go to VA Forms 21-4142 and 21-4142a (opens in new tab)
+        </a>
+      </p>
     </va-additional-info>
     <p />
   </div>,
@@ -481,9 +493,7 @@ export const POW_DESCRIPTION = Object.freeze(
       <ul>
         <li className="vads-u-margin-bottom--2">
           Copy of military personnel records such as DD214, Certificate of
-          Release, or Discharge from Active Duty,
-          <br />
-          <b>or</b>
+          Release, or Discharge from Active Duty, <strong>or</strong>
         </li>
         <li>
           Information such as service number, branch and dates of service, dates
@@ -514,7 +524,7 @@ export const MEDAL_AWARD_DESCRIPTION = Object.freeze(
     >
       <ul>
         <li className="vads-u-margin-bottom--2">
-          Copy of military personnel records such as DD214, <b>or</b>
+          Copy of military personnel records such as DD214, <strong>or</strong>
         </li>
         <li>
           Information showing receipt of Medal of Honor or Purple Heart award
@@ -524,3 +534,79 @@ export const MEDAL_AWARD_DESCRIPTION = Object.freeze(
     <p />
   </div>,
 );
+
+export const workInProgressContent = {
+  description:
+    'We’re rolling out Request Priority Processing (VA Form 20-10207) in stages. It’s not quite ready yet. Please check back again soon.',
+  redirectLink: '/',
+  redirectText: 'Return to VA home page',
+};
+
+const HAS_RECEIVED_MEDICAL_TREATMENT_TITLES = {
+  [PREPARER_TYPES.VETERAN]:
+    'Have you received medical treatment for any medical issues related to this request?',
+  [PREPARER_TYPES.NON_VETERAN]:
+    'Have you received medical treatment for any medical issues related to this request?',
+  [PREPARER_TYPES.THIRD_PARTY_VETERAN]:
+    'Has the Veteran received medical treatment for any medical issues related to this request?',
+  [PREPARER_TYPES.THIRD_PARTY_NON_VETERAN]:
+    'Has the claimant received medical treatment for any medical issues related to this request?',
+};
+
+export function hasMedicalTreatmentTitle(formData) {
+  if (!formData?.preparerType) {
+    return HAS_RECEIVED_MEDICAL_TREATMENT_TITLES[PREPARER_TYPES.VETERAN];
+  }
+  return HAS_RECEIVED_MEDICAL_TREATMENT_TITLES[formData.preparerType];
+}
+
+const HAS_RECEIVED_MEDICAL_TREATMENT_YES_LABELS = {
+  [PREPARER_TYPES.VETERAN]: 'Yes, I have received medical treatment',
+  [PREPARER_TYPES.NON_VETERAN]: 'Yes, I have received medical treatment',
+  [PREPARER_TYPES.THIRD_PARTY_VETERAN]:
+    'Yes, the Veteran has received medical treatment',
+  [PREPARER_TYPES.THIRD_PARTY_NON_VETERAN]:
+    'Yes, the claimant has received medical treatment',
+};
+
+export function hasMedicalTreatmentTitleYesLabel(formData) {
+  if (!formData?.preparerType) {
+    return HAS_RECEIVED_MEDICAL_TREATMENT_YES_LABELS[PREPARER_TYPES.VETERAN];
+  }
+  return HAS_RECEIVED_MEDICAL_TREATMENT_YES_LABELS[formData.preparerType];
+}
+
+const HAS_RECEIVED_MEDICAL_TREATMENT_NO_LABELS = {
+  [PREPARER_TYPES.VETERAN]: 'No, I have not received medical treatment',
+  [PREPARER_TYPES.NON_VETERAN]: 'No, I have not received medical treatment',
+  [PREPARER_TYPES.THIRD_PARTY_VETERAN]:
+    'No, the Veteran has not received medical treatment',
+  [PREPARER_TYPES.THIRD_PARTY_NON_VETERAN]:
+    'No, the claimant has not received medical treatment',
+};
+
+export function hasMedicalTreatmentTitleNoLabel(formData) {
+  if (!formData?.preparerType) {
+    return HAS_RECEIVED_MEDICAL_TREATMENT_NO_LABELS[PREPARER_TYPES.VETERAN];
+  }
+  return HAS_RECEIVED_MEDICAL_TREATMENT_NO_LABELS[formData.preparerType];
+}
+
+const HAS_RECEIVED_MEDICAL_TREATMENT_ERROR_MESSAGES = {
+  [PREPARER_TYPES.VETERAN]: 'Select yes if you have received medical treatment',
+  [PREPARER_TYPES.NON_VETERAN]:
+    'Select yes if you have received medical treatment',
+  [PREPARER_TYPES.THIRD_PARTY_VETERAN]:
+    'Select yes if the Veteran has received medical treatment',
+  [PREPARER_TYPES.THIRD_PARTY_NON_VETERAN]:
+    'Select yes if the claimant has received medical treatment',
+};
+
+export function hasMedicalTreatmentTitleErrorMessage(formData) {
+  if (!formData?.preparerType) {
+    return HAS_RECEIVED_MEDICAL_TREATMENT_ERROR_MESSAGES[
+      PREPARER_TYPES.VETERAN
+    ];
+  }
+  return HAS_RECEIVED_MEDICAL_TREATMENT_ERROR_MESSAGES[formData.preparerType];
+}

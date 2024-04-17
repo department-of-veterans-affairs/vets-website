@@ -4,16 +4,15 @@ import {
   testNumberOfWebComponentFields,
   testComponentRender,
 } from '../../../shared/tests/pages/pageTests.spec';
-import ApplicantMedicareStatusContinuedPage, {
-  ApplicantMedicareStatusContinuedReviewPage,
-} from '../../pages/ApplicantMedicareStatusContinuedPage';
+// import ApplicantMedicareStatusContinuedPage, {
+//   ApplicantMedicareStatusContinuedReviewPage,
+// } from '../../pages/ApplicantMedicareStatusContinuedPage';
 import ApplicantOhiStatusPage from '../../pages/ApplicantOhiStatusPage';
-import ApplicantRelationshipPage from '../../pages/ApplicantRelationshipPage';
+import ApplicantRelationshipPage from '../../../shared/components/applicantLists/ApplicantRelationshipPage';
 import formConfig from '../../config/form';
 import { getFileSize } from '../../helpers/utilities';
 
 import FileFieldCustom from '../../components/File/FileUpload';
-// import FileViewField from '../../components/File/FileViewField';
 
 import mockData from '../fixtures/data/test-data.json';
 
@@ -51,15 +50,6 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.sponsorInformation.pages.page9a.schema,
-  formConfig.chapters.sponsorInformation.pages.page9a.uiSchema,
-  0,
-  'Sponsor - casualty report',
-  { ...mockData.data, sponsorIsDeceased: true, sponsorDeathConditions: true },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
   formConfig.chapters.sponsorInformation.pages.page10b1.schema,
   formConfig.chapters.sponsorInformation.pages.page10b1.uiSchema,
   8,
@@ -74,24 +64,6 @@ testNumberOfWebComponentFields(
   1,
   "Sponsor's phone number",
   { sponsorIsDeceased: false },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.sponsorInformation.pages.page12.schema,
-  formConfig.chapters.sponsorInformation.pages.page12.uiSchema,
-  0,
-  'Sponsor - disability rating',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.sponsorInformation.pages.page12a.schema,
-  formConfig.chapters.sponsorInformation.pages.page12a.uiSchema,
-  0,
-  'Sponsor - discharge papers',
-  { ...mockData.data },
 );
 
 testNumberOfWebComponentFields(
@@ -125,7 +97,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page17.schema,
   formConfig.chapters.applicantInformation.pages.page17.uiSchema,
-  1,
+  0,
   'Applicant - gender',
   { ...mockData.data },
 );
@@ -232,15 +204,15 @@ testNumberOfWebComponentFields(
 );
 */
 
-testComponentRender(
-  'ApplicantMedicareStatusContinuedPage',
-  <ApplicantMedicareStatusContinuedPage data={{}} />,
-);
+// testComponentRender(
+//   'ApplicantMedicareStatusContinuedPage',
+//   <ApplicantMedicareStatusContinuedPage data={{}} />,
+// );
 
-testComponentRender(
-  'ApplicantMedicareStatusContinuedReviewPage ',
-  <>{ApplicantMedicareStatusContinuedReviewPage()}</>,
-);
+// testComponentRender(
+//   'ApplicantMedicareStatusContinuedReviewPage ',
+//   <>{ApplicantMedicareStatusContinuedReviewPage()}</>,
+// );
 
 testComponentRender(
   'ApplicantOhiStatusPage',
@@ -253,15 +225,6 @@ testComponentRender(
 );
 
 testComponentRender('FileFieldCustom', <FileFieldCustom data={{}} />);
-
-/* TODO: needs rework
-testComponentRender(
-  'FileViewField',
-  <FileViewField
-    data={{ supportingDocuments: [{ f1: { name: 'f1', size: 123 } }] }}
-  />,
-);
-*/
 
 describe('File sizes', () => {
   it('should be in bytes for values < 999', () => {

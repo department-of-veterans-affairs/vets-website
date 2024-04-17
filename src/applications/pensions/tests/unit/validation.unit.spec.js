@@ -24,6 +24,21 @@ describe('Pension validation', () => {
       expect(errors.addError.called).to.be.true;
     });
   });
+  describe('validateAfterPastMarriageDate', () => {
+    it('should add error if date of past marriage is after date of separation', () => {
+      const errors = {
+        addError: sinon.spy(),
+      };
+
+      validateAfterMarriageDate(errors, '2014-01-01', {
+        'view:pastMarriage': {
+          dateOfMarriage: '2016-01-01',
+        },
+      });
+
+      expect(errors.addError.called).to.be.true;
+    });
+  });
   describe('validateAfterMarriageDates', () => {
     it('should add error if date of marriage is after date of separation within array data', () => {
       const errors = {

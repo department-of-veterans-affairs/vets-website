@@ -50,7 +50,7 @@ const ShowPdfPassword = ({
         uswds
       />
       <va-button
-        className="vads-u-width--auto"
+        class="vads-u-width--auto vads-u-margin-top--2"
         text="Add password"
         onClick={() => {
           if (value) {

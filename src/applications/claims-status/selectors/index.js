@@ -30,6 +30,7 @@ export const cstUseLighthouse = (state, endpoint) => {
   // undefined and the feature toggle should always return true anyways
   // Note: Checking for window.Cypress here because some of the Cypress
   // tests are written for EVSS and will fail if this only returns true
+
   if (endpoint === 'show' && !window.Cypress) return true;
 
   return toggleValues(state)[
@@ -52,6 +53,10 @@ export const benefitsDocumentsUseLighthouse = state =>
 // 'cst_use_claim_details_v2'
 export const cstUseClaimDetailsV2 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.cstUseClaimDetailsV2];
+
+// 'cst_use_dd_rum'
+export const cstUseDataDogRUM = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.cstUseDataDogRUM];
 
 // Backend Services
 export const getBackendServices = state => state.user.profile.services;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isProductionOfTestProdEnv } from '../utils/helpers';
+import { isProductionOrTestProdEnv } from '../utils/helpers';
 import { filterChange } from '../actions';
 
 function ClearFiltersBtn({
@@ -41,21 +41,9 @@ function ClearFiltersBtn({
     });
     setIsCleared(true);
   };
-
   return (
     <>
-      {isProductionOfTestProdEnv() ? (
-        <button
-          onClick={clearAllFilters}
-          className={
-            smallScreen
-              ? 'clear-filters-button mobile-clear-filter-button'
-              : 'clear-filters-button'
-          }
-        >
-          {children}
-        </button>
-      ) : (
+      {isProductionOrTestProdEnv() ? (
         <button
           className="clear-filters-btn"
           onClick={clearAllFilters}
@@ -68,6 +56,17 @@ function ClearFiltersBtn({
           onKeyDown={onKeyDown}
         >
           {' '}
+          {children}
+        </button>
+      ) : (
+        <button
+          onClick={clearAllFilters}
+          className={
+            smallScreen
+              ? 'clear-filters-button mobile-clear-filter-button'
+              : 'clear-filters-button'
+          }
+        >
           {children}
         </button>
       )}

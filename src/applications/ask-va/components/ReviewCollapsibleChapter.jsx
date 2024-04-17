@@ -404,9 +404,9 @@ const mapDispatchToProps = {
 ReviewCollapsibleChapter.propTypes = {
   chapterFormConfig: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
-  onEdit: PropTypes.func.isRequired,
   pageList: PropTypes.array.isRequired,
   setFormErrors: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),

@@ -4,7 +4,12 @@ import { formatDateShort } from 'platform/utilities/date';
 import { serviceBranchLabels } from '../labels';
 
 const ServicePeriodReview = ({ data, editPage }) => {
-  const { serviceBranch = {}, activeServiceDateRange, serviceNumber } = data;
+  const {
+    serviceBranch = {},
+    activeServiceDateRange,
+    serviceNumber,
+    placeOfSeparation,
+  } = data;
   const selectedBranches = Object.keys(serviceBranch).filter(
     branch => serviceBranch[branch],
   );
@@ -51,6 +56,12 @@ const ServicePeriodReview = ({ data, editPage }) => {
           <div className="review-row">
             <dt>Military Service number</dt>
             <dd>{serviceNumber}</dd>
+          </div>
+        )}
+        {placeOfSeparation && (
+          <div className="review-row">
+            <dt>Place of your last separation</dt>
+            <dd>{placeOfSeparation}</dd>
           </div>
         )}
       </dl>

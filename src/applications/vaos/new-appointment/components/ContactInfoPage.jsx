@@ -11,6 +11,7 @@ import {
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { useHistory } from 'react-router-dom';
+import classNames from 'classnames';
 import FormButtons from '../../components/FormButtons';
 
 import {
@@ -62,7 +63,7 @@ function validateLength(errors, email) {
 
   if (email && email?.length > MAX_LENGTH) {
     errors.addError(
-      `We don’t support email addresses that exceeds ${MAX_LENGTH} characters`,
+      `We don’t support email addresses that exceed ${MAX_LENGTH} characters`,
     );
   }
 }
@@ -98,18 +99,25 @@ function recordChangedEvents(email, phone, data) {
   }
 }
 
+function ContactInformationParagraph() {
+  return (
+    <p>
+      We’ll use this information if we need to contact you about this
+      appointment. For most other VA communications, we'll use the contact
+      information in your VA.gov profile.
+    </p>
+  );
+}
 const phoneConfig = phoneUI('Your phone number');
 const pageKey = 'contactInfo';
 
-function Description({ flowType }) {
+function Description() {
+  const flowType = useSelector(getFlowType);
+
   if (FLOW_TYPES.DIRECT === flowType)
     return (
       <>
-        <p>
-          We’ll use this information to contact you about your appointment. Any
-          updates you make here will only apply to VA online appointment
-          scheduling.
-        </p>
+        <ContactInformationParagraph />
         <p className="vads-u-margin-y--2">
           Want to update your contact information for more VA benefits and
           services?
@@ -121,13 +129,9 @@ function Description({ flowType }) {
         </p>
       </>
     );
-  return (
-    <p>We’ll use this information to contact you about your appointment.</p>
-  );
+
+  return <ContactInformationParagraph />;
 }
-Description.propTypes = {
-  flowType: PropTypes.elementType,
-};
 
 export default function ContactInfoPage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
@@ -157,7 +161,7 @@ export default function ContactInfoPage({ changeCrumb }) {
   }, []);
 
   const uiSchema = {
-    'ui:description': <Description flowType={flowType} />,
+    'ui:description': <Description />,
     phoneNumber: {
       ...phoneConfig,
       'ui:errorMessages': {
@@ -204,6 +208,13 @@ export default function ContactInfoPage({ changeCrumb }) {
         required: 'Enter an email address',
       },
       'ui:validations': [validateLength],
+      'ui:options': {
+        classNames: classNames({
+          'schemaform-first-field':
+            flowType === FLOW_TYPES.REQUEST &&
+            userData.facilityType === FACILITY_TYPES.COMMUNITY_CARE,
+        }),
+      },
     },
   };
 
@@ -242,6 +253,7 @@ export default function ContactInfoPage({ changeCrumb }) {
               <div>
                 You can update your contact information for most of your
                 benefits and services in your VA.gov profile.
+                <br />
                 <NewTabAnchor href="/profile/contact-information">
                   Go to your VA profile
                 </NewTabAnchor>

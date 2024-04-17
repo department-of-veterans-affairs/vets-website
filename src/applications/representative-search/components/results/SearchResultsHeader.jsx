@@ -5,6 +5,7 @@ import { VaSelect } from '@department-of-veterans-affairs/component-library/dist
 import { sortOptions } from '../../config';
 
 /* eslint-disable camelcase */
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 
 export const SearchResultsHeader = props => {
   const { searchResults, pagination, query } = props;
@@ -74,6 +75,7 @@ export const SearchResultsHeader = props => {
       {props.onClickApplyButtonTester ? (
         <button
           id="test-button"
+          label="test-button"
           type="button"
           text-label="button"
           onClick={onClickApplyButton}
@@ -138,7 +140,7 @@ export const SearchResultsHeader = props => {
           )}
           <>
             sorted by &quot;
-            <b>{sortOptions[selectedSortType]}</b>
+            <b>{sortOptions[sortType]}</b>
             &quot;
           </>
         </p>
@@ -186,10 +188,12 @@ SearchResultsHeader.propTypes = {
     }),
     inProgress: PropTypes.bool,
     representativeType: PropTypes.string,
+    searchArea: PropTypes.any,
     sortType: PropTypes.string,
   }),
   searchResults: PropTypes.array,
   updateSearchQuery: PropTypes.func,
+  onClickApplyButtonTester: PropTypes.func,
 };
 
 // Only re-render if results or inProgress props have changed

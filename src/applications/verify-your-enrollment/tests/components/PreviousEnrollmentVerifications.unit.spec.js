@@ -29,7 +29,7 @@ describe('PreviousEnrollmentVerifications', () => {
     // test should wait for data to laod before assertion
     await waitFor(() => {
       // testing block that hasn't been verified
-      expect(getByText('February 2025')).to.exist;
+      expect(getByText('January 2025')).to.exist;
       // testing blovk that has been verified
       expect(getByText('September 2024 Verified')).to.exist;
     });

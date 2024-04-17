@@ -7,8 +7,12 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { setFacilityToFile } from '../../../actions/travel-claim';
-import { hasMultipleFacilities } from '../../../utils/appointment';
+import { setFormData } from '../../../actions/travel-claim';
+import {
+  hasMultipleFacilities,
+  sortAppointmentsByStartTime,
+  utcToFacilityTimeZone,
+} from '../../../utils/appointment';
 import { makeSelectCurrentContext, makeSelectForm } from '../../../selectors';
 import { APP_NAMES } from '../../../utils/appConstants';
 import Wrapper from '../../../components/layout/Wrapper';
@@ -40,11 +44,14 @@ const TravelMileage = props => {
   useEffect(
     () => {
       if (!multipleFacilities) {
-        const firstAppointment = eligibleToFile[0];
+        const firstAppointment = sortAppointmentsByStartTime(eligibleToFile)[0];
         setSelectedFacilities([
           {
             stationNo: firstAppointment.stationNo,
-            startTime: firstAppointment.startTime,
+            startTime: utcToFacilityTimeZone(
+              firstAppointment.startTime,
+              firstAppointment.timezone,
+            ),
             appointmentCount: eligibleToFile.length,
             facility: firstAppointment.facility,
           },
@@ -71,7 +78,7 @@ const TravelMileage = props => {
             APP_NAMES.TRAVEL_CLAIM,
           ),
         });
-        dispatch(setFacilityToFile({ facilitiesToFile: selectedFacilities }));
+        dispatch(setFormData({ facilitiesToFile: selectedFacilities }));
         goToNextPage();
       } else {
         setError(true);
@@ -100,7 +107,12 @@ const TravelMileage = props => {
         action={goToPreviousPage}
         prevUrl={getPreviousPageFromRouter()}
       />
-      <Wrapper pageTitle={header} classNames="travel-page" withBackButton>
+      <Wrapper
+        pageTitle={header}
+        classNames="travel-page"
+        withBackButton
+        testID="travel-mileage-page"
+      >
         {/* Setting state value here for testing purposes. Could not mock hook with our test setup. */}
         <div data-testid={JSON.stringify(selectedFacilities)}>
           {multipleFacilities ? (

@@ -12,8 +12,8 @@
     margin-left: 0px;
     height: 54px;
     i.fa-medkit {
-      color: $color-white;
-      background-color: $color-primary;
+      color: var(--vads-color-white);
+      background-color: var(--vads-color-primary);
       margin-top: 9px;
       margin-bottom: 11px;
       height: 34px;
@@ -22,7 +22,7 @@
       border-radius: 100%;
     }
     h4 {
-      color: $color-gray-dark;
+      color: var(--vads-color-base-darker);
       width: 88px;
       height: 20px;
       margin-left: 5px;
@@ -40,19 +40,19 @@
   a {
     font-size: 17px;
     margin: 2px 0px;
-    color: $color-link-default;
+    color: var(--vads-color-link);
     &:active,
     &:focus,
     &:hover {
-      background-color: $color-primary-alt-lightest;
-      border-left: 4px solid $color-link-default;
+      background-color: var(--vads-color-primary-alt-lightest);
+      border-left: 4px solid var(--vads-color-link);
       transition: background-color 0.1s ease-in-out,
         border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
     }
     &.is-active {
-      background-color: $color-gray-lightest;
-      border-left: 4px solid $color-base;
-      color: $color-black;
+      background-color: var(--vads-color-base-lightest);
+      border-left: 4px solid var(--vads-color-base);
+      color: var(--vads-color-black);
       font-weight: bold;
       padding-left: units-px(1.5);
       span {
@@ -69,17 +69,17 @@
   .sidebar-navigation-mr-list {
     .sidebar-navigation-mr-list-header {
       &.is-active {
-        background-color: $color-gray-lightest;
-        border-left: 4px solid $color-base;
+        background-color: var(--vads-color-base-lightest);
+        border-left: 4px solid var(--vads-color-base);
       }
       a {
         padding-top: 7px;
-        color: $color-link-default;
+        color: var(--vads-color-link);
         &.is-active {
-          color: $color-black;
+          color: var(--vads-color-black);
         }
         &:active {
-          color: $color-gray-dark;
+          color: var(--vads-color-base-darker);
           text-decoration: underline;
         }
       }
@@ -112,8 +112,8 @@
     top: 0;
     right: 0;
     display: flex;
-    border: 1px solid $color-gray;
-    background-color: $color-white;
+    border: 1px solid var(--vads-color-base-dark);
+    background-color: var(--vads-color-white);
     a {
       font-size: 15px;
     }
@@ -125,12 +125,12 @@
       }
     }
     button {
-      background-color: $color-gray-lightest;
+      background-color: var(--vads-color-base-lightest);
       height: 46.64px;
     }
     .fa-times {
       width: 14px;
-      color: $color-black;
+      color: var(--vads-color-black);
     }
     ul {
       margin: 0px;
@@ -141,11 +141,11 @@
       padding-right: 15px;
       .sidebar-navigation-mr-list-header {
         a {
-          color: $color-link-default;
+          color: var(--vads-color-link);
         }
       }
       .usa-sidenav-list {
-        border-top: 1px solid $color-gray;
+        border-top: 1px solid var(--vads-color-base-dark);
         padding-top: 4px;
         li {
           display: none;
@@ -161,7 +161,7 @@
             border: 0px;
           }
           .sidebar-navigation-mr-list-menu {
-            background-color: $color-white;
+            background-color: var(--vads-color-white);
             display: block;
             .sub-list li {
               display: block;

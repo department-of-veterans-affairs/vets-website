@@ -249,13 +249,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -313,7 +313,7 @@ const baseUserResponses = {
               isCerner: false,
             },
           ],
-          vaPatient: false,
+          vaPatient: true,
           mhvAccountState: 'NONE',
         },
         veteranStatus: {
@@ -472,13 +472,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -684,13 +684,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -896,13 +896,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -1104,13 +1104,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -1319,13 +1319,13 @@ const mockErrorResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -1470,6 +1470,14 @@ const loa3UserWithoutMailingAddress = set(
   null,
 );
 
+const loa3UserWithoutLighthouseServiceAvailable = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.services',
+  baseUserResponses.loa3User72.data.attributes.services.filter(
+    service => service !== 'lighthouse',
+  ),
+);
+
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
@@ -1489,6 +1497,7 @@ const responses = {
   loa3UserWithNoRatingInfoClaim,
   loa3UserWithNoMilitaryHistoryClaim,
   loa3UserWithoutMailingAddress,
+  loa3UserWithoutLighthouseServiceAvailable,
 };
 
 // handler that can be used to customize the user data returned

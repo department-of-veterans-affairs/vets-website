@@ -3,6 +3,7 @@ import React from 'react';
 import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import { CSP_IDS } from '../../authentication/constants';
 
 export const HowToVerifyLink = () => (
   <p className="vads-u-margin-y--4">
@@ -14,29 +15,70 @@ export const HowToVerifyLink = () => (
   </p>
 );
 
+const VerifyIdentityInfo = () => (
+  <va-additional-info
+    trigger="If you have trouble verifying your identity"
+    uswds
+  >
+    <a
+      href="https://www.va.gov/resources/verifying-your-identity-on-vagov/"
+      clasName="vads-u-padding-bottom--2"
+    >
+      Get answers to common questions about verifying your identity
+    </a>
+    <div className="vads-u-margin-top--2p5">
+      <p>
+        Or, if you have a Premium My HealtheVet account with a My HealtheVet
+        user ID and password, you can sign out and then sign back in with that
+        account to access My HealtheVet.
+      </p>
+    </div>
+  </va-additional-info>
+);
+
 const IdentityNotVerified = ({
   headline = 'Verify your identity to access your complete profile',
   showHelpContent = true,
+  showVerifyIdenityHelpInfo = false,
+  signInService,
 }) => {
+  let serviceName;
+  switch (signInService) {
+    case CSP_IDS.MHV:
+    case CSP_IDS.MHV_VERBOSE:
+    case CSP_IDS.DS_LOGON:
+      serviceName = 'Login.gov or ID.me';
+      break;
+    case CSP_IDS.ID_ME:
+      serviceName = 'ID.me';
+      break;
+    case CSP_IDS.LOGIN_GOV:
+      serviceName = 'Login.gov';
+      break;
+    default:
+      serviceName = '';
+  }
   return (
     <>
-      <va-alert status="continue" class="vads-u-margin-top--3">
+      <va-alert
+        status="continue"
+        class="vads-u-margin-top--3 vads-u-margin-bottom--3"
+      >
         <h2 slot="headline" data-testid="verify-identity-alert-headline">
           {headline}
         </h2>
-
         <div className="vads-u-margin-bottom--1">
           <p>
-            We need to make sure you’re you&#8212;and not someone pretending to
-            be you&#8212;before we can give you access to your personal and
-            health-related information. This helps to keep your information
-            safe. It helps to prevent fraud and identity theft.
+            {`Our records show that you haven’t verified your identity for your
+            ${serviceName} account. We need you to verify your identity for this
+            account to help us keep your information safe and prevent fraud and
+            identity theft.`}
           </p>
-
-          <p className="vads-u-font-weight--bold">
-            This one-time process takes about 5-10 minutes.
+          <p>
+            {serviceName || 'Your account'} will ask you for certain personal
+            information and identification. This process often takes about 10
+            minutes.
           </p>
-
           <a
             className="vads-c-action-link--green"
             href="/verify"
@@ -48,14 +90,17 @@ const IdentityNotVerified = ({
       </va-alert>
 
       {showHelpContent && <HowToVerifyLink />}
+      {showVerifyIdenityHelpInfo && <VerifyIdentityInfo />}
     </>
   );
 };
 
 IdentityNotVerified.propTypes = {
+  signInService: PropTypes.string.isRequired,
   additionalInfoClickHandler: PropTypes.func,
   headline: PropTypes.string,
   showHelpContent: PropTypes.bool,
+  showVerifyIdenityHelpInfo: PropTypes.bool,
 };
 
 export { IdentityNotVerified as default };

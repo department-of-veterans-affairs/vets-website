@@ -1,9 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  generatePdfScaffold,
+  formatName,
+  updatePageTitle,
+  crisisLineHeader,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -13,19 +21,14 @@ import {
   getNameDateAndTime,
   generateTextFile,
 } from '../../util/helpers';
-import {
-  updatePageTitle,
-  generatePdfScaffold,
-  formatName,
-} from '../../../shared/util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
-import { txtLine, crisisLineHeader } from '../../../shared/util/constants';
+
 import {
   generateLabsIntro,
   generatePathologyContent,
 } from '../../util/pdfHelpers/labsAndTests';
-import usePrintTitle from '../../../shared/hooks/usePrintTitle';
+import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 
 const PathologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -36,6 +39,7 @@ const PathologyDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
@@ -51,11 +55,11 @@ const PathologyDetails = props => {
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
   const generatePathologyPdf = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateLabsIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generatePathologyContent(record) };
@@ -64,6 +68,7 @@ const PathologyDetails = props => {
   };
 
   const generatePathologyTxt = async () => {
+    setDownloadStarted(true);
     const content = `
 ${crisisLineHeader}\n\n    
 ${record.name} \n
@@ -94,14 +99,14 @@ ${record.results} \n`;
       </h1>
       <DateSubheading date={record.date} id="pathology-date" />
 
-      <div className="no-print">
-        <PrintDownload
-          download={generatePathologyPdf}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generatePathologyTxt}
-        />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-      </div>
+      {downloadStarted && <DownloadSuccessAlert />}
+      <PrintDownload
+        downloadPdf={generatePathologyPdf}
+        allowTxtDownloads={allowTxtDownloads}
+        downloadTxt={generatePathologyTxt}
+      />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">

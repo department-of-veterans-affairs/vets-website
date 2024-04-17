@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  useLocation,
-  useHistory,
-} from 'react-router-dom/cjs/react-router-dom.min';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import PropTypes from 'prop-types';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
-import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  renderMHVDowntime,
+  useDatadogRum,
+} from '@department-of-veterans-affairs/mhv/exports';
 import {
   DowntimeNotification,
   externalServices,
@@ -19,7 +19,7 @@ import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
 import Navigation from '../components/Navigation';
-import { useDatadogRum } from '../../shared/hooks/useDatadogRum';
+
 import {
   flagsLoadedAndMhvEnabled,
   selectConditionsFlag,
@@ -29,7 +29,6 @@ import {
   selectVaccinesFlag,
   selectVitalsFlag,
 } from '../util/selectors';
-import { resetPagination } from '../actions/pagination';
 import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
@@ -41,7 +40,6 @@ const App = ({ children }) => {
     state => state.featureToggles,
   );
 
-  const history = useHistory();
   const dispatch = useDispatch();
 
   // Individual feature flags
@@ -102,15 +100,6 @@ const App = ({ children }) => {
     defaultPrivacyLevel: 'mask-user-input',
   };
   useDatadogRum(datadogRumConfig);
-
-  useEffect(
-    () => {
-      return () => {
-        dispatch(resetPagination(history.location.pathname));
-      };
-    },
-    [dispatch, history.location.pathname],
-  );
 
   const addSideNavItem = (navPaths, isDisplayed, path, label) => {
     if (isDisplayed)
@@ -202,6 +191,24 @@ const App = ({ children }) => {
     [current],
   );
 
+  useEffect(
+    () => {
+      // If the user is not whitelisted or feature flag is disabled, redirect them.
+      if (featureTogglesLoading === false && appEnabled !== true) {
+        window.location.replace('/health-care/get-medical-records');
+      }
+    },
+    [featureTogglesLoading, appEnabled],
+  );
+
+  const isMissingRequiredService = (loggedIn, services) => {
+    if (loggedIn && !services.includes(backendServices.MEDICAL_RECORDS)) {
+      window.location.replace('/health-care/get-medical-records');
+      return true;
+    }
+    return false;
+  };
+
   if (featureTogglesLoading) {
     return (
       <div className="vads-l-grid-container">
@@ -214,19 +221,10 @@ const App = ({ children }) => {
     );
   }
 
-  // If the user is not whitelisted or feature flag is disabled, redirect them.
-  if (!appEnabled) {
-    window.location.replace('/health-care/get-medical-records');
+  if (appEnabled !== true) {
+    // If the user is not whitelisted or feature flag is disabled, return nothing.
     return <></>;
   }
-
-  const isMissingRequiredService = (loggedIn, services) => {
-    if (loggedIn && !services.includes(backendServices.MEDICAL_RECORDS)) {
-      window.location.replace('/health-care/get-medical-records');
-      return true;
-    }
-    return false;
-  };
 
   return (
     <RequiredLoginView
@@ -261,7 +259,7 @@ const App = ({ children }) => {
                 {showSideNav && (
                   <>
                     <Navigation paths={paths} data-testid="mhv-mr-navigation" />
-                    <div className="vads-u-margin-right--4" />
+                    <div className="vads-u-margin-right--4 no-print" />
                   </>
                 )}
                 <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">

@@ -20,6 +20,14 @@ function interceptSetup() {
       },
     },
   });
+  cy.intercept('POST', '/simple_forms_api/v1/simple_forms', {
+    data: {
+      attributes: {
+        confirmationNumber: '123fake-submission-id-567',
+        submittedAt: '2016-05-16',
+      },
+    },
+  });
   cy.intercept('GET', '/v0/preneeds/cemeteries', cemeteries);
   cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
 }
@@ -28,8 +36,8 @@ function interceptSetup() {
 function validateProgressBar(index) {
   cy.get('va-segmented-progress-bar')
     .shadow()
-    .find(`.progress-bar-segmented div.progress-segment:nth-child(${index})`)
-    .should('have.class', 'progress-segment-complete');
+    .find(`.usa-step-indicator__segments > li:nth-child(${index})`)
+    .should('have.class', 'usa-step-indicator__segment--current');
 }
 
 function clickContinue() {

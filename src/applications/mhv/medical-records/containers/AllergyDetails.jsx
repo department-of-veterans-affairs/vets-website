@@ -1,10 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  generatePdfScaffold,
+  formatName,
+  updatePageTitle,
+  crisisLineHeader,
+  reportGeneratedBy,
+  txtLine,
+  usePrintTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
@@ -18,20 +27,10 @@ import {
   pageTitles,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import {
-  formatName,
-  generatePdfScaffold,
-  updatePageTitle,
-} from '../../shared/util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
-import {
-  crisisLineHeader,
-  reportGeneratedBy,
-  txtLine,
-} from '../../shared/util/constants';
 import { generateAllergyItem } from '../util/pdfHelpers/allergies';
-import usePrintTitle from '../../shared/hooks/usePrintTitle';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -47,6 +46,7 @@ const AllergyDetails = props => {
   const { allergyId } = useParams();
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
@@ -86,11 +86,11 @@ const AllergyDetails = props => {
     pageTitles.ALLERGIES_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
   const generateAllergyPdf = async () => {
+    setDownloadStarted(true);
     const title = `Allergies and reactions: ${allergy.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
@@ -100,6 +100,7 @@ const AllergyDetails = props => {
   };
 
   const generateAllergyTxt = async () => {
+    setDownloadStarted(true);
     const content = `
 ${crisisLineHeader}\n\n
 ${allergy.name}\n
@@ -148,16 +149,16 @@ Provider notes: ${allergy.notes} \n`;
             id="allergy-date"
           />
 
-          <div className="condition-subheader vads-u-margin-bottom--4">
-            <PrintDownload
-              download={generateAllergyPdf}
-              allowTxtDownloads={allowTxtDownloads}
-              downloadTxt={generateAllergyTxt}
-            />
-            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          </div>
+          {downloadStarted && <DownloadSuccessAlert />}
+          <PrintDownload
+            downloadPdf={generateAllergyPdf}
+            allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateAllergyTxt}
+          />
+          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+
           <div
-            className="condition-details max-80"
+            className="condition-details max-80 vads-u-margin-top--4"
             data-testid="allergy-reaction"
           >
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">

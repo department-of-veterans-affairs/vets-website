@@ -13,8 +13,22 @@ export const USER_MOCK_DATA = {
     delDate: '2021-09-03T00:00:00.000Z',
     dateLastCertified: '2018-06-21T00:00:00.000Z',
     paymentAmt: '3989.36',
-    indicator: 'MGIB (Montgomery GI Bill) - Active Duty (Chapter 30)',
+    indicator: 'B',
     awards: [
+      {
+        id: 7,
+        curAwardInd: 'example',
+        awardBeginDate: '2023-12-15T16:12:43.447Z',
+        awardEndDate: '2024-01-22T16:12:43.447Z',
+        trainingTime: 40,
+        paymentDate: '2024-01-01T16:12:43.447Z',
+        monthlyRate: '3200.0',
+        beginRsn: 'reason',
+        endRsn: 'reason',
+        typeTraining: 'type',
+        numberHours: 6,
+        typeHours: 'type',
+      },
       {
         id: 8,
         curAwardInd: 'example',
@@ -211,6 +225,20 @@ export const USER_MOCK_DATA = {
         numberHours: 6,
         typeHours: 'type',
       },
+      {
+        id: 22,
+        curAwardInd: 'C',
+        awardBeginDate: '2025-02-20T16:12:43.447Z',
+        awardEndDate: '2025-03-20T16:12:43.447Z',
+        trainingTime: 30,
+        paymentDate: '2025-03-01T16:12:43.447Z',
+        monthlyRate: '200.0',
+        beginRsn: 'reason',
+        endRsn: 'reason',
+        typeTraining: 'type',
+        numberHours: 6,
+        typeHours: 'type',
+      },
     ],
     pendingDocuments: [
       {
@@ -219,9 +247,13 @@ export const USER_MOCK_DATA = {
       },
     ],
     pendingVerifications: {
-      awardIds: [],
+      awardIds: [18, 19, 20, 21, 22],
     },
     verifications: [
+      {
+        createdOn: '2024-01-15T16:12:43.491Z',
+        awardIds: [7],
+      },
       {
         createdOn: '2024-01-15T16:12:43.491Z',
         awardIds: [8],
@@ -262,6 +294,26 @@ export const USER_MOCK_DATA = {
         createdOn: '2024-08-15T16:12:43.491Z',
         awardIds: [17],
       },
+      // {
+      //   createdOn: '2024-07-15T16:12:43.491Z',
+      //   awardIds: [18],
+      // },
+      // {
+      //   createdOn: '2024-09-15T16:12:43.491Z',
+      //   awardIds: [19],
+      // },
+      // {
+      //   createdOn: '2024-10-15T16:12:43.491Z',
+      //   awardIds: [20],
+      // },
+      // {
+      //   createdOn: '2024-11-15T16:12:43.491Z',
+      //   awardIds: [21],
+      // },
+      // {
+      //   createdOn: '2024-11-15T16:12:43.491Z',
+      //   awardIds: [22],
+      // },
     ],
   },
 };

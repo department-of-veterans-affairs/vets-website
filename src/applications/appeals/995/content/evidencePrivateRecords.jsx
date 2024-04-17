@@ -16,10 +16,11 @@ export const content = {
     state: 'State',
     postal: 'Postal code',
   },
+
   issuesLabel:
     'Choose the conditions you received treatment for at this facility.',
-  fromLabel: 'First treatment date (you can estimate)',
-  toLabel: 'Last treatment date (you can estimate)',
+  dateStart: 'First treatment date (you can estimate)',
+  dateEnd: 'Last treatment date (you can estimate)',
   modal: {
     title: ({ providerFacilityName }) =>
       `Do you want to keep ${providerFacilityName || 'this location'}?`,

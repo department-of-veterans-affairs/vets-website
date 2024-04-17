@@ -5,8 +5,8 @@
 
   li {
     margin: 0px 0px 24px 0px;
-    background: $color-gray-lightest;
-    border: 2px solid $color-gray-lighter;
+    background: var(--vads-color-base-lightest);
+    border: 2px solid var(--vads-color-base-lighter);
 
     h3 {
       margin: 0px;
@@ -14,8 +14,8 @@
     }
 
     div {
-      background: $color-white;
-      border-top: 2px solid $color-gray-lighter;
+      background: var(--vads-color-white);
+      border-top: 2px solid var(--vads-color-base-lighter);
       padding: 8px 16px 8px 16px;
 
       h4 {

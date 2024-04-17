@@ -1,9 +1,9 @@
 .breadcrumbs-container {
   // height: 106px;
   span {
-    color: $color-link-default;
+    color: var(--vads-color-link);
   }
   a {
-    color: $color-link-default;
+    color: var(--vads-color-link);
   }
 }

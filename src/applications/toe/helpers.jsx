@@ -342,7 +342,7 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
     },
     [formFields.bankAccount]: {
       ...bankInformation,
-      accountType: bankInformation?.accountType?.toLowerCase(),
+      // accountType: bankInformation?.accountType?.toLowerCase(),
     },
     [formFields.viewMailingAddress]: {
       [formFields.address]: {

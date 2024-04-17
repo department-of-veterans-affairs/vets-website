@@ -29,9 +29,13 @@ describe('Get allergies action', () => {
     const mockData = allergies;
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
-    return getAllergiesList()(dispatch).then(() => {
-      expect(typeof dispatch.secondCall.args[0]).to.equal('function');
-    });
+    return getAllergiesList()(dispatch)
+      .then(() => {
+        throw new Error('Expected getAllergiesList() to throw an error.');
+      })
+      .catch(() => {
+        expect(typeof dispatch.secondCall.args[0]).to.equal('function');
+      });
   });
 });
 
@@ -44,6 +48,7 @@ describe('Get allergy details action', () => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Allergies.GET);
     });
   });
+
   it('should dispatch a get details action and pull from the list argument', () => {
     const dispatch = sinon.spy();
     return getAllergyDetails('1', [{ id: '1' }])(dispatch).then(() => {
@@ -52,13 +57,18 @@ describe('Get allergy details action', () => {
       );
     });
   });
+
   it('should dispatch an add alert action', () => {
     const mockData = allergy;
     mockApiRequest(mockData, false);
     const dispatch = sinon.spy();
-    return getAllergyDetails()(dispatch).then(() => {
-      expect(typeof dispatch.firstCall.args[0]).to.equal('function');
-    });
+    return getAllergyDetails()(dispatch)
+      .then(() => {
+        throw new Error('Expected getAllergyDetails() to throw an error.');
+      })
+      .catch(() => {
+        expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+      });
   });
 });
 
