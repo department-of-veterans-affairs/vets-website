@@ -85,7 +85,7 @@ export default function MissingFileList({
         const entryName = `${entry[nameKey].first} ${entry[nameKey]?.middle ||
           ''} ${entry[nameKey].last}${entry[nameKey]?.suffix || ''}`;
         return (
-          <div key={Object.keys(entry).join('') + idx}>
+          <div key={`${entryName}-${subset}`}>
             <strong>{entryName}</strong>
             <ul style={!disableLinks ? { listStyleType: 'none' } : {}}>
               {entry.missingUploads?.map((file, index) => {
