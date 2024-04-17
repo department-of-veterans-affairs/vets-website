@@ -44,6 +44,7 @@ function alertOrLink(file, entryName, index, fileNameDict = {}) {
  * description: description text to display
  * disableLinks: whether or not to show link to edit page
  * subset: which classification of files to show: 'required', 'optional', 'all'
+ * filenameMap: (optional) all file names mapped to user-friendly labels
  * @returns JSX
  */
 export default function MissingFileList({
