@@ -54,7 +54,7 @@ describe('<AreaOfDisagreement>', () => {
     );
 
     expect($('h3', container).textContent).to.contain(
-      'Disagreement with right arm decision on June 7th, 2021',
+      'Disagreement with right arm decision on June 7, 2021',
     );
     expect($('va-checkbox-group', container)).to.exist;
 

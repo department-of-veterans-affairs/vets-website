@@ -48,7 +48,7 @@ describe('<IssueCard>', () => {
       'Current rating: 10%',
     );
     expect($('.widget-content', container).textContent).to.contain(
-      'Decision date: January 10th, 2021',
+      'Decision date: January 10, 2021',
     );
     expect($$('a.edit-issue-link').length).to.equal(0);
     expect($$('.dd-privacy-hidden[data-dd-action-name]').length).to.equal(4);
@@ -60,7 +60,7 @@ describe('<IssueCard>', () => {
     expect($$('input[type="checkbox"]').length).to.equal(1);
     expect($('.widget-title', container).textContent).to.eq('new-issue-22');
     expect($('.widget-content', container).textContent).to.contain(
-      'Decision date: February 22nd, 2021',
+      'Decision date: February 22, 2021',
     );
     expect($$('a.edit-issue-link').length).to.equal(1);
     expect($$('.dd-privacy-hidden[data-dd-action-name]').length).to.equal(2);
@@ -113,7 +113,7 @@ describe('<IssueCardContent>', () => {
       'Current rating: 20%',
     );
     expect($('.widget-content-wrap', container).textContent).to.contain(
-      'Decision date: January 20th, 2021',
+      'Decision date: January 20, 2021',
     );
     expect($$('a.edit-issue-link').length).to.equal(0);
     expect($$('.dd-privacy-hidden[data-dd-action-name]').length).to.equal(3);
@@ -122,7 +122,7 @@ describe('<IssueCardContent>', () => {
     const issue = getAdditionalIssue('21');
     const { container } = render(<IssueCardContent {...issue} />);
     expect($('.widget-content-wrap', container).textContent).to.contain(
-      'Decision date: February 21st, 2021',
+      'Decision date: February 21, 2021',
     );
     expect($$('.dd-privacy-hidden[data-dd-action-name]').length).to.equal(1);
   });

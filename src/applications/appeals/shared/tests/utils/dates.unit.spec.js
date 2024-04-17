@@ -36,7 +36,7 @@ describe('parseDateToDateObj', () => {
     ).to.contain(result);
     expect(
       parseDateToDateObj(
-        'February 10th, 2021',
+        'February 10, 2021',
         FORMAT_READABLE_DATE_FNS,
       ).toString(),
     ).to.contain(result);
@@ -60,19 +60,19 @@ describe('parseDate', () => {
     expect(parseDate(new Date('2024-05-06T00:00:00.000'))).to.eq('2024-05-06');
     expect(parseDate('2023-06-17T12:34:56.000-06:00')).to.eq('2023-06-17');
     expect(parseDate(1712854521628, FORMAT_READABLE_DATE_FNS)).to.eq(
-      'April 11th, 2024',
+      'April 11, 2024',
     );
     // Non-ISO8601 format example
     expect(
       parseDate('2024-02-03', FORMAT_READABLE_DATE_FNS, FORMAT_YMD_DATE_FNS),
-    ).to.eq('February 3rd, 2024');
+    ).to.eq('February 3, 2024');
     // one off date example if you don't include the time
     expect(
       parseDate(new Date('2024-05-06T00:00:00.000'), FORMAT_READABLE_DATE_FNS),
-    ).to.eq('May 6th, 2024');
+    ).to.eq('May 6, 2024');
     expect(
       parseDate('2023-06-17T12:34:56.000-06:00', FORMAT_READABLE_DATE_FNS),
-    ).to.eq('June 17th, 2023');
+    ).to.eq('June 17, 2023');
   });
 });
 
@@ -89,14 +89,14 @@ describe('parseDateWithOffset', () => {
     expect(parseDateWithOffset({ years: 1 }, date)).to.contain('2025-01-01');
     expect(
       parseDateWithOffset({ months: -1 }, date, FORMAT_READABLE_DATE_FNS),
-    ).to.contain('December 1st, 2023');
+    ).to.contain('December 1, 2023');
     expect(
       parseDateWithOffset(
         { days: 3, months: 1 },
         date,
         FORMAT_READABLE_DATE_FNS,
       ),
-    ).to.contain('February 4th, 2024');
+    ).to.contain('February 4, 2024');
   });
 });
 
@@ -107,7 +107,7 @@ describe('getReadableDate', () => {
     expect(getReadableDate('2023-03')).to.be.null;
   });
   it('should return a readable date', () => {
-    expect(getReadableDate('2023-10-15')).to.eq('October 15th, 2023');
-    expect(getReadableDate('2024-06-04')).to.eq('June 4th, 2024');
+    expect(getReadableDate('2023-10-15')).to.eq('October 15, 2023');
+    expect(getReadableDate('2024-06-04')).to.eq('June 4, 2024');
   });
 });

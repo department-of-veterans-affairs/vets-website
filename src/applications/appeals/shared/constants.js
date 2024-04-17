@@ -53,8 +53,8 @@ export const REVIEW_AND_SUBMIT = '/review-and-submit';
  */
 // contested issue dates - date-fns formatting
 export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
-export const FORMAT_COMPACT_DATE_FNS = 'MMM dd, yyyy';
-export const FORMAT_READABLE_DATE_FNS = 'PPP';
+export const FORMAT_COMPACT_DATE_FNS = 'MMM d, yyyy';
+export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
 
 // Supplemental Claim allows for past decision dates, but we should limit them.
 // Limit past decision dates to 100 years until told otherwise

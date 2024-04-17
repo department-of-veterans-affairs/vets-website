@@ -74,7 +74,7 @@ describe('Confirmation page', () => {
     expect($('#content h3', container).textContent).to.eq('After your snack');
     expect($('#content p', container).textContent).to.eq('Take a nap');
     expect($('va-summary-box', container).textContent).to.contain(
-      'January 2nd, 2024',
+      'January 2, 2024',
     );
   });
 

@@ -16,7 +16,7 @@ describe('getIssueTitle', () => {
     const { container } = render(<div>{getIssueTitle(data)}</div>);
 
     expect($('div', container).textContent).to.eq(
-      'Disagreement with left arm decision on February 2nd, 2022',
+      'Disagreement with left arm decision on February 2, 2022',
     );
     expect(
       $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
@@ -25,7 +25,7 @@ describe('getIssueTitle', () => {
   it('should return a plain string', () => {
     const result = getIssueTitle(data, { plainText: true });
     expect(result).to.eq(
-      'Disagreement with left arm decision on February 2nd, 2022',
+      'Disagreement with left arm decision on February 2, 2022',
     );
   });
   it('should not render a date if it is invalid', () => {
@@ -59,7 +59,7 @@ describe('issueTitle', () => {
     const header = $('h3', container);
     expect(header.id).to.eq('disagreement-title-1');
     expect(header.textContent).to.eq(
-      'Disagreement with right arm decision on March 3rd, 2023',
+      'Disagreement with right arm decision on March 3, 2023',
     );
   });
   it('should return title wrapped in an h4', () => {
@@ -76,7 +76,7 @@ describe('issueTitle', () => {
     const header = $('h4', container);
     expect(header.id).to.eq('disagreement-title-2');
     expect(header.textContent).to.eq(
-      'Disagreement with right arm decision on April 4th, 2023',
+      'Disagreement with right arm decision on April 4, 2023',
     );
   });
 });
