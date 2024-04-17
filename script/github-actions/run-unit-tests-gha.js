@@ -82,7 +82,7 @@ const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';
 let testsToVerify = null;
 if (process.env.TESTS_TO_VERIFY) {
-  testsToVerify = JSON.parse(process.env.TESTS_TO_VERIFY).join(' ');
+  testsToVerify = JSON.parse(process.env.TESTS_TO_VERIFY);
 }
 
 const splitUnitTests = splitArray(
@@ -129,10 +129,8 @@ if (testsToVerify === null) {
     .filter(app => app.startsWith('src/applications'))
     .map(app => app.split('/')[2]);
   for (const app of appsToVerify) {
-    const testsToRun = JSON.stringify(
-      JSON.parse(testsToVerify).filter(test =>
-        test.includes(`src/applications/${app}`),
-      ),
+    const testsToRun = testsToVerify.filter(test =>
+      test.includes(`src/applications/${app}`).join(' '),
     );
     if (testsToRun !== '') {
       const command = `LOG_LEVEL=${options[
