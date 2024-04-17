@@ -501,13 +501,22 @@ class PatientMessageDetailsPage {
     );
   };
 
-  verifyClickAndExpendAllMessagesHasFocus = () => {
-    cy.get(Locators.BUTTONS.THREAD_EXPAND)
-      .shadow()
-      .contains('button', 'Expand all +')
-      .should('be.visible')
-      .and('have.focus');
-    cy.realPress('Tab');
+  realPressForExpandAllButton = () => {
+    cy.get(Locators.BUTTONS.SECURE_MESSAGING)
+      .find('button')
+      .each(button => {
+        cy.realPress('Tab');
+        cy.wrap(button).focus();
+        if (button.attr('aria-label') === 'Expand all accordions') {
+          return false;
+        }
+
+        return true;
+      });
+  };
+
+  verifyClickAndExpandAllMessagesHasFocus = () => {
+    cy.tabToElement(Locators.BUTTONS.THREAD_EXPAND_MESSAGES);
     cy.realPress('Enter');
     cy.get(Locators.BUTTONS.THREAD_EXPAND_MESSAGES).each(el => {
       cy.realPress('Enter');

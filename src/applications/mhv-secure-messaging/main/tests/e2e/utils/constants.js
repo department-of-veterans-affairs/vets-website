@@ -95,6 +95,7 @@ export const Locators = {
     FOLDER_NOT_EMPTY: 'va-modal[data-testid="error-folder-not-empty"]',
   },
   BUTTONS: {
+    SECURE_MESSAGING: '[data-testid="secure-messaging"]',
     THREAD_EXPAND: '[data-testid="thread-expand-all"]',
     THREAD_EXPAND_MESSAGES:
       '[data-testid="thread-expand-all"] va-accordion-item',
