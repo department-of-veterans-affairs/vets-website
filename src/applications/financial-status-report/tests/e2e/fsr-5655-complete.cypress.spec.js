@@ -35,7 +35,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     // starting with no data, so form is filled with navigation
-    dataSets: ['initial-feature'],
+    dataSets: ['initial', 'initial-feature'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
