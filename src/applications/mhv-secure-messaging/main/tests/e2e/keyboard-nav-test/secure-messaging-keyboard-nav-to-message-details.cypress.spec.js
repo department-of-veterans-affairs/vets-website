@@ -32,16 +32,7 @@ describe('Navigate to Message Details ', () => {
     messageDetailsPage.verifyClickAndExpandAllMessagesHasFocus();
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT, {});
   });
   it('Keyboard Navigation to Print Button', () => {
     const landingPage = new PatientInboxPage();
