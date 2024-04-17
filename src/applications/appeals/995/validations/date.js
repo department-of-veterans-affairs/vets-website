@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { startOfToday, subYears, isBefore } from 'date-fns';
 
 import { errorMessages } from '../constants';
 import { MAX_YEARS_PAST } from '../../shared/constants';
@@ -7,9 +7,8 @@ import {
   createDateObject,
 } from '../../shared/validations/date';
 
-export const minDate = moment()
-  .subtract(MAX_YEARS_PAST, 'year')
-  .startOf('day');
+// substract max years in the past
+export const minDate = subYears(startOfToday(), MAX_YEARS_PAST);
 
 export const validateDate = (errors, rawDateString = '', fullData) => {
   const date = createDateObject(rawDateString);
@@ -27,7 +26,7 @@ export const validateDate = (errors, rawDateString = '', fullData) => {
     // Lighthouse won't accept same day (as submission) decision date
     errors.addError(errorMessages[dateType].pastDate);
     date.errors.year = true; // only the year is invalid at this point
-  } else if (date.momentDate.isBefore(minDate)) {
+  } else if (isBefore(date.dateObj, minDate)) {
     errors.addError(errorMessages[dateType].newerDate);
     date.errors.year = true; // only the year is invalid at this point
   }

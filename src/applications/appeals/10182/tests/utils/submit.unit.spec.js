@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { sub } from 'date-fns';
 
 import { SHOW_PART3 } from '../../constants';
 import {
@@ -15,9 +14,9 @@ import {
 } from '../../utils/submit';
 
 import { SELECTED } from '../../../shared/constants';
-import { parseDate } from '../../../shared/utils/dates';
+import { parseDateWithOffset } from '../../../shared/utils/dates';
 
-const validDate1 = parseDate(sub(new Date(), { months: 2 }));
+const validDate1 = parseDateWithOffset({ months: -2 });
 const issue1 = {
   raw: {
     type: 'contestableIssue',
@@ -55,7 +54,7 @@ const issue1 = {
   },
 };
 
-const validDate2 = parseDate(sub(new Date(), { months: 4 }));
+const validDate2 = parseDateWithOffset({ months: -4 });
 const issue2 = {
   raw: {
     type: 'contestableIssue',
