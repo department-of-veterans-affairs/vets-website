@@ -18,7 +18,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     // removing data sets to confirm formData gets filled out properly
     // dataSets: ['fsr-minimal', 'fsr-maximal'],
-    dataSets: ['fsr-minimal'],
+    dataSets: ['fsr-minimal', 'initial-feature'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
@@ -96,6 +96,26 @@ const testConfig = createTestConfig(
               .find('button:contains("Continue")')
               .click();
           });
+        });
+      },
+      'cash-on-hand': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('125');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'cash-in-bank': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('329.12');
+          cy.get('.usa-button-primary').click();
         });
       },
       // ==============================================================

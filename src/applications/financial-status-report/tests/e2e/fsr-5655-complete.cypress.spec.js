@@ -35,7 +35,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     // starting with no data, so form is filled with navigation
-    dataSets: ['initial'],
+    dataSets: ['initial-feature'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
@@ -277,6 +277,26 @@ const testConfig = createTestConfig(
       // ============================================================
       // ================== householdAssetsChapter ==================
       // ============================================================
+      'cash-on-hand': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('125');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'cash-in-bank': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('329.12');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'monetary-asset-checklist': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type=checkbox]')
@@ -293,19 +313,38 @@ const testConfig = createTestConfig(
       },
       'monetary-asset-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-number-input')
-            .as('numberInputs')
-            .should('have.length', 2);
-          cy.get('#Cash0')
-            .first()
-            .shadow()
-            .find('input')
-            .type('1000');
-          cy.get('[id="Checking accounts1"]')
-            .first()
-            .shadow()
-            .find('input')
-            .type('1500');
+          cy.get('@testData').then(testData => {
+            if (testData['view:reviewPageNavigationToggle']) {
+              cy.get('va-number-input')
+                .as('numberInputs')
+                .should('have.length', 2);
+              cy.get('#Cash0')
+                .first()
+                .shadow()
+                .find('input')
+                .type('1000');
+              cy.get('[id="Checking accounts1"]')
+                .first()
+                .shadow()
+                .find('input')
+                .type('1500');
+            } else {
+              // do U.S. Savings Bonds, and Retirement
+              cy.get('va-number-input')
+                .as('numberInputs')
+                .should('have.length', 2);
+              cy.get('#U.S. Savings Bonds0')
+                .first()
+                .shadow()
+                .find('input')
+                .type('1000');
+              cy.get('[id="Retirement accounts (401k, IRAs, 403b, TSP)1"]')
+                .first()
+                .shadow()
+                .find('input')
+                .type('1500');
+            }
+          });
           cy.get('.usa-button-primary').click();
         });
       },
