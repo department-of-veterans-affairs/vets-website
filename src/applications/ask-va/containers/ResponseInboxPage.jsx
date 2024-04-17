@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import {
+  VaAlert,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import moment from 'moment';
 import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-// import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import moment from 'moment';
-import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
-import {
-  VaButton,
-  VaAlert,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NeedHelpFooter from '../components/NeedHelpFooter';
 import { ServerErrorAlert } from '../config/helpers';
-import { RESPONSE_PAGE } from '../constants';
+import { RESPONSE_PAGE, URL, baseURL } from '../constants';
 import { replyMessage } from './mockInquiryReplyData';
 
 const attachmentBox = fileName => (
@@ -40,6 +40,26 @@ const ResponseInboxPage = ({ loggedIn }) => {
   const [sendReply, setSendReply] = useState({ reply: '', attachments: [] });
   const [loading, isLoading] = useState(true);
 
+  const options = {
+    body: JSON.stringify(sendReply),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const postApiData = url => {
+    isLoading(true);
+    return apiRequest(url, options)
+      .then(() => {
+        isLoading(false);
+      })
+      .catch(() => {
+        isLoading(false);
+        hasError(true);
+      });
+  };
+
   const handlers = {
     onInput: event => {
       setSendReply({ ...sendReply, reply: event.target.value });
@@ -47,7 +67,13 @@ const ResponseInboxPage = ({ loggedIn }) => {
 
     onSubmit: () => {
       if (sendReply.reply) {
-        // TODO: Add endpoint to submit the reply
+        // Using a temporary test id provided by BE, will be replaced once inquiry endpoint is complete
+        const temporaryTestInquiryId = 'A-20230305-306178';
+        postApiData(
+          `${
+            environment.API_URL
+          }${baseURL}/inquiries/${temporaryTestInquiryId}${URL.SEND_REPLY}`,
+        );
       }
     },
   };
@@ -55,6 +81,26 @@ const ResponseInboxPage = ({ loggedIn }) => {
   // const INQUIRY_DATA = `${environment.API_URL}/ask_va_api/v0/inquiries/${
   //   params.id
   // }?mock=true`;
+
+  // const getApiData = url => {
+  //   isLoading(true);
+  //   return apiRequest(url)
+  //     .then(res => {
+  //       setApiData(res.data);
+  //       isLoading(false);
+  //     })
+  //     .catch(() => {
+  //       isLoading(false);
+  //       hasError(true);
+  //     });
+  // };
+
+  // useEffect(
+  //   () => {
+  //     getApiData(`${environment.API_URL}${URL.GET_CATEGORIES}`);
+  //   },
+  //   [loggedIn],
+  // );
 
   const getInquiry = async () => {
     // using Mock data till static data is updated

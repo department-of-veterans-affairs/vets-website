@@ -1,10 +1,10 @@
 class BaseListPage {
   verifyPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').should('be.visible');
+    cy.get('[data-testid="print-download-menu"]').should('be.visible');
   };
 
   clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').click({ force: true });
+    cy.get('[data-testid="print-download-menu"]').click({ force: true });
   };
 
   verifyPrintButton = () => {

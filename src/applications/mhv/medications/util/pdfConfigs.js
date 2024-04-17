@@ -1,10 +1,10 @@
 import {
-  createMedicationDescription,
   createNoDescriptionText,
   createOriginalFillRecord,
   dateFormat,
   processList,
   validateField,
+  createVAPharmacyText,
 } from './helpers';
 import {
   pdfStatusDefinitions,
@@ -173,26 +173,6 @@ export const buildPrescriptionsPDFList = prescriptions => {
               value: validateField(rx.quantity),
               inline: true,
             },
-            ...(rx.prescriptionImage
-              ? [
-                  {
-                    title: 'Image of the medication or supply:',
-                    value: {
-                      isBase64: true,
-                      type: 'image',
-                      value: rx.prescriptionImage,
-                      options: { width: 182.75, height: 182.75 },
-                    },
-                    inline: false,
-                  },
-                  {
-                    title: 'Note',
-                    value:
-                      'This image is from your last refill of this medication.',
-                    inline: true,
-                  },
-                ]
-              : []),
           ],
         },
       ],
@@ -250,10 +230,7 @@ export const buildAllergiesPDFList = allergies => {
 /**
  * Return VA prescription PDF list
  */
-export const buildVAPrescriptionPDFList = (
-  prescription,
-  prescriptionImage = null,
-) => {
+export const buildVAPrescriptionPDFList = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords || [])];
   const originalFill = createOriginalFillRecord(prescription);
   refillHistory.push(originalFill);
@@ -350,26 +327,6 @@ export const buildVAPrescriptionPDFList = (
               value: validateField(prescription.quantity),
               inline: true,
             },
-            ...(prescriptionImage
-              ? [
-                  {
-                    title: 'Image of the medication or supply:',
-                    value: {
-                      isBase64: true,
-                      type: 'image',
-                      value: prescriptionImage,
-                      options: { width: 182.75, height: 182.75 },
-                    },
-                    inline: false,
-                  },
-                  {
-                    title: 'Note',
-                    value:
-                      'This image is from your last refill of this medication.',
-                    inline: true,
-                  },
-                ]
-              : []),
           ],
         },
       ],
@@ -386,12 +343,20 @@ export const buildVAPrescriptionPDFList = (
         {
           items: refillHistory
             .map((entry, i) => {
+              const { shape, color, backImprint, frontImprint } = entry;
               const index = refillHistory.length - i - 1;
               const phone =
                 entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
-              const description =
-                createMedicationDescription(entry) ||
-                createNoDescriptionText(phone);
+              const hasValidDesc =
+                shape?.trim() && color?.trim() && frontImprint?.trim();
+              const description = hasValidDesc
+                ? `* Shape: ${shape[0].toUpperCase()}${shape
+                    .slice(1)
+                    .toLowerCase()}
+* Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
+* Front marking: ${frontImprint}
+${backImprint ? `* Back marking: ${backImprint}` : ''}`
+                : createNoDescriptionText(phone);
               return [
                 {
                   value: [
@@ -413,9 +378,22 @@ export const buildVAPrescriptionPDFList = (
                   isRich: true,
                 },
                 {
-                  title: 'Description',
+                  title: 'Medication description',
+                  inline: false,
+                },
+                ...(hasValidDesc
+                  ? [
+                      {
+                        title: 'Note',
+                        value: `If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
+                          phone,
+                        )}.`,
+                        inline: true,
+                      },
+                    ]
+                  : []),
+                {
                   value: description,
-                  inline: true,
                 },
                 {
                   title: `Filled by pharmacy on`,
