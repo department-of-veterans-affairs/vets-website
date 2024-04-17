@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { sub } from 'date-fns';
 import { parseDate } from '../../utils/dates';
 
-import { SELECTED } from '../../constants';
+import { SELECTED, PRIMARY_PHONE } from '../../constants';
 
 import {
   removeEmptyEntries,
@@ -190,8 +190,20 @@ describe('addIncludedIssues', () => {
 });
 
 describe('getPhone', () => {
-  it('should return a cleaned up phone object', () => {
-    const wrap = obj => ({ veteran: { phone: obj } });
+  const phone1 = {
+    countryCode: '1',
+    areaCode: '222',
+    phoneNumber: '1234567',
+    phoneNumberExt: '0000',
+  };
+  const phone2 = {
+    countryCode: '1',
+    areaCode: '333',
+    phoneNumber: '3456789',
+    phoneNumberExt: '0001',
+  };
+  it('should return a cleaned up phone object from the default home phone', () => {
+    const wrap = obj => ({ veteran: { homePhone: obj } });
     expect(getPhone()).to.deep.equal({});
     expect(getPhone(wrap({}))).to.deep.equal({});
     expect(getPhone(wrap({ temp: 'test' }))).to.deep.equal({});
@@ -201,19 +213,35 @@ describe('getPhone', () => {
     expect(
       getPhone(
         wrap({
-          countryCode: '1',
-          areaCode: '222',
-          phoneNumber: '1234567',
-          phoneNumberExt: '0000',
+          ...phone1,
           extra: 'will not be included',
         }),
       ),
-    ).to.deep.equal({
-      countryCode: '1',
-      areaCode: '222',
-      phoneNumber: '1234567',
-      phoneNumberExt: '0000',
+    ).to.deep.equal(phone1);
+  });
+  it('should ignore selected primary phone when only home is available', () => {
+    const wrap = primary => ({
+      [PRIMARY_PHONE]: primary,
+      veteran: { homePhone: phone1, mobilePhone: {} },
     });
+    expect(getPhone(wrap('home'))).to.deep.equal(phone1);
+    expect(getPhone(wrap('mobile'))).to.deep.equal(phone1);
+  });
+  it('should ignore selected primary phone when only mobile is available', () => {
+    const wrap = primary => ({
+      [PRIMARY_PHONE]: primary,
+      veteran: { homePhone: {}, mobilePhone: phone2 },
+    });
+    expect(getPhone(wrap('home'))).to.deep.equal(phone2);
+    expect(getPhone(wrap('mobile'))).to.deep.equal(phone2);
+  });
+  it('should return selected primary phone', () => {
+    const wrap = primary => ({
+      [PRIMARY_PHONE]: primary,
+      veteran: { homePhone: phone1, mobilePhone: phone2 },
+    });
+    expect(getPhone(wrap('home'))).to.deep.equal(phone1);
+    expect(getPhone(wrap('mobile'))).to.deep.equal(phone2);
   });
 });
 

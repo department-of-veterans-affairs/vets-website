@@ -4,6 +4,9 @@
 // key for contestableIssues to indicate that the user selected the issue
 export const SELECTED = 'view:selected';
 
+export const PRIMARY_PHONE = 'view:primaryPhone';
+export const PRIMARY_PHONE_TYPES = ['home', 'mobile'];
+
 /**
  **** INTERNAL FORM URL PATHS ****
  */
@@ -24,7 +27,9 @@ export const SC_FORM_URL =
 
 // session storage keys
 export const REVIEW_ISSUES = 'onReviewPageIssues';
+export const LAST_ISSUE = 'last-issue'; // focus management across pages
 
+// URLs
 export const HLR_INFO_URL = `${DR_URL}/higher-level-review`;
 export const HLR_BASE_URL = `${HLR_INFO_URL}/request-higher-level-review-form-20-0996`;
 // 8622 is the ID of the <va-accordion-item> with a header of the "Find
@@ -141,6 +146,3 @@ export const SUBMITTED_DISAGREEMENTS = {
   effectiveDate: 'effective date',
   evaluation: 'disability evaluation',
 };
-
-// session storage keys
-export const LAST_ISSUE = 'last-issue'; // focus management across pages

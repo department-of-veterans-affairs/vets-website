@@ -1,6 +1,16 @@
-import { MAX_LENGTH, SELECTED, SUBMITTED_DISAGREEMENTS } from '../constants';
+import {
+  MAX_LENGTH,
+  SELECTED,
+  SUBMITTED_DISAGREEMENTS,
+  PRIMARY_PHONE,
+} from '../constants';
 import { fixDateFormat, replaceSubmittedData } from './replace';
 import { returnUniqueIssues } from './issues';
+import {
+  hasHomeAndMobilePhone,
+  hasHomePhone,
+  hasMobilePhone,
+} from './contactInfo';
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -106,17 +116,32 @@ export const addIncludedIssues = formData => {
 /**
  * Strip out extra profile phone data
  * @param {Veteran} veteran - Veteran formData object
- * @returns {Object} submittable address
+ * @returns {Object} submittable phone
  */
-export const getPhone = ({ veteran = {} } = {}) => {
+export const getPhone = formData => {
+  const data = formData || {};
+  const { veteran = {} } = data;
+  const primary = data[PRIMARY_PHONE] || '';
+  // we shouldn't ever get to this point without a home or mobile phone
+  let phone = 'phone'; // fallback for 996 & 10182
+  if (primary && hasHomeAndMobilePhone(data)) {
+    phone = `${primary}Phone`;
+  } else if (hasMobilePhone(data)) {
+    phone = 'mobilePhone';
+  } else if (hasHomePhone(data)) {
+    phone = 'homePhone';
+  }
+
   const truncate = (value, max) =>
-    replaceSubmittedData(veteran.phone?.[value] || '').substring(0, max);
-  return removeEmptyEntries({
-    countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
-    areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
-    phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
-    phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
-  });
+    replaceSubmittedData(veteran[phone]?.[value] || '').substring(0, max);
+  return phone
+    ? removeEmptyEntries({
+        countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
+        areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
+        phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
+        phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
+      })
+    : {};
 };
 
 /**

@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { missingPrimaryPhone } from '../../validations';
-import { errorMessages, PRIMARY_PHONE } from '../../constants';
+import { missingPrimaryPhone } from '../../validations/primaryPhone';
+import errorMessages from '../../content/errorMessages';
+import { PRIMARY_PHONE } from '../../constants';
 
 describe('missingPrimaryPhone', () => {
   it('should show an error if no primary phone selected', () => {

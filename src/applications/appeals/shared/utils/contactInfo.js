@@ -1,11 +1,11 @@
-import '../../shared/definitions';
+import { common } from '../props';
 
 /**
  * Combine area code and phone number & extension in a string; Not using the
  * va-telephone component because the va-radio-option description only accepts a
  * string value
  * @param {PhoneObject} phone
- * @returns {String} area code + phone number
+ * @returns {string} area code + phone number
  */
 export const getPhoneString = (phone = {}) =>
   `${phone?.areaCode || ''}${phone?.phoneNumber || ''}`;
@@ -28,5 +28,16 @@ export const hasHomePhone = formData =>
 export const hasMobilePhone = formData =>
   getPhoneString(formData?.veteran?.mobilePhone).length >= 2;
 
+/**
+ * Check if both home & mobile phone exists, if both exists and they are exactly
+ * the same, then don't show the primary phone page
+ * @param {Object} formData - full form data
+ * @returns {boolean}
+ */
 export const hasHomeAndMobilePhone = formData =>
-  hasHomePhone(formData) && hasMobilePhone(formData);
+  hasHomePhone(formData) &&
+  hasMobilePhone(formData) &&
+  getFormattedPhone(formData.veteran.homePhone) !==
+    getFormattedPhone(formData.veteran.mobilePhone);
+
+hasHomeAndMobilePhone.propTypes = common;

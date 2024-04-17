@@ -29,7 +29,11 @@ export const contactInfoValidation = (errors = {}, _fieldData, formData) => {
 };
 
 // 995 validation; no homeless question & has both home & mobile phones
-export const contactInfo995Validation = (errors = {}, _fieldData, formData) => {
+export const contactInfo2PhoneValidation = (
+  errors = {},
+  _fieldData,
+  formData,
+) => {
   const { veteran = {} } = formData || {};
 
   validateValue(errors, veteran.email, 'missingEmail');

@@ -9,7 +9,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { PrimaryPhone } from '../../components/PrimaryPhone';
-import { PRIMARY_PHONE, errorMessages } from '../../constants';
+import { PRIMARY_PHONE, errorMessages } from '../../../995/constants';
 import { content } from '../../content/primaryPhone';
 
 describe('<PrimaryPhone>', () => {

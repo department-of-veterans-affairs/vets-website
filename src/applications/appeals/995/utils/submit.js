@@ -3,13 +3,8 @@ import {
   EVIDENCE_OTHER,
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
-  PRIMARY_PHONE,
 } from '../constants';
-import {
-  hasHomeAndMobilePhone,
-  hasHomePhone,
-  hasMobilePhone,
-} from './contactInfo';
+
 import {
   buildPrivateString,
   buildVaLocationString,
@@ -100,39 +95,6 @@ export const getAddress = formData => {
     zipCode5,
     internationalPostalCode,
   });
-};
-
-/**
- * Strip out extra profile phone data
- * @param {Veteran} veteran - Veteran formData object
- * @returns {Object} submittable address
- */
-
-// NOTE: This one stays in 995 because 995 includes a mobile phone number while 996 and 10182 do not
-export const getPhone = formData => {
-  const data = formData || {};
-  const { veteran = {} } = data;
-  const primary = data[PRIMARY_PHONE] || '';
-  // we shouldn't ever get to this point without a home or mobile phone
-  let phone;
-  if (hasHomeAndMobilePhone(data) && primary) {
-    phone = `${primary}Phone`;
-  } else if (hasMobilePhone(data)) {
-    phone = 'mobilePhone';
-  } else if (hasHomePhone(data)) {
-    phone = 'homePhone';
-  }
-
-  const truncate = (value, max) =>
-    replaceSubmittedData(veteran[phone]?.[value] || '').substring(0, max);
-  return phone
-    ? removeEmptyEntries({
-        countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
-        areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
-        phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
-        phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
-      })
-    : {};
 };
 
 export const hasDuplicateLocation = (list, currentLocation) =>

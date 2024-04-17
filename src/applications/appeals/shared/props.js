@@ -12,7 +12,7 @@ import {
 import { SELECTED } from './constants';
 import { PRIMARY_PHONE } from '../995/constants';
 
-const common = {
+export const common = {
   contestedIssues: arrayOf(
     shape({
       attributes: shape({

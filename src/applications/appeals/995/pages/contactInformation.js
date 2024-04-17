@@ -1,7 +1,7 @@
-import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
-import { getContent } from 'platform/forms-system/src/js/utilities/data/profile.js';
+import profileContactInfo from '~/platform/forms-system/src/js/definitions/profileContactInfo';
+import { getContent } from '~/platform/forms-system/src/js/utilities/data/profile';
 
-import { contactInfo995Validation } from '../../shared/validations/contactInfo';
+import { contactInfo2PhoneValidation } from '../../shared/validations/contactInfo';
 
 const allContacts = ['mobilePhone', 'homePhone', 'address', 'email'];
 
@@ -13,6 +13,6 @@ export default profileContactInfo({
   contactInfoRequiredKeys: allContacts,
   contactInfoUiSchema: {
     'ui:required': () => true,
-    'ui:validations': [contactInfo995Validation],
+    'ui:validations': [contactInfo2PhoneValidation],
   },
 });

@@ -1,8 +1,8 @@
-import { VA_FORM_IDS } from 'platform/forms/constants';
+import { VA_FORM_IDS } from '~/platform/forms/constants';
 
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
-import FormFooter from 'platform/forms/components/FormFooter';
-import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
+import preSubmitInfo from '~/platform/forms/preSubmitInfo';
+import FormFooter from '~/platform/forms/components/FormFooter';
+import { externalServices as services } from '~/platform/monitoring/DowntimeNotification';
 
 import migrations from '../migrations';
 
@@ -11,8 +11,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import SubTaskContainer from '../subtask/SubTaskContainer';
 
 import AddContestableIssue from '../components/AddContestableIssue';
-import PrimaryPhone from '../components/PrimaryPhone';
-import PrimaryPhoneReview from '../components/PrimaryPhoneReview';
+import PrimaryPhone from '../../shared/components/PrimaryPhone';
+import PrimaryPhoneReview from '../../shared/components/PrimaryPhoneReview';
 import EvidenceVaRecords from '../components/EvidenceVaRecords';
 import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest';
 import EvidencePrivateRecordsAuthorization from '../components/EvidencePrivateRecordsAuthorization';
@@ -26,7 +26,7 @@ import reviewErrors from '../content/reviewErrors';
 
 import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInformation';
-import primaryPhone from '../pages/primaryPhone';
+import primaryPhone from '../../shared/pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
 import issueSummary from '../pages/issueSummary';
 import optIn from '../pages/optIn';
@@ -46,7 +46,7 @@ import {
   hasPrivateEvidence,
   hasOtherEvidence,
 } from '../utils/evidence';
-import { hasHomeAndMobilePhone } from '../utils/contactInfo';
+import { hasHomeAndMobilePhone } from '../../shared/utils/contactInfo';
 
 import manifest from '../manifest.json';
 import {
@@ -141,7 +141,7 @@ const formConfig = {
         choosePrimaryPhone: {
           title: 'Primary phone number',
           path: 'primary-phone-number',
-          // only visible if both the home & mobile phone are populated
+          // only visible if both the home & mobile phone exist & not equal
           depends: hasHomeAndMobilePhone,
           CustomPage: PrimaryPhone,
           CustomPageReview: PrimaryPhoneReview,
