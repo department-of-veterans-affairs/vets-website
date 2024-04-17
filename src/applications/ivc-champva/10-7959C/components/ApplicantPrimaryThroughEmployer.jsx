@@ -11,9 +11,13 @@ const PROPERTY_NAMES = {
   secondary: '_unused',
 };
 
-function generateOptions({ data, pagePerItemIndex }) {
+const SECONDARY_PROPERTY_NAMES = {
+  ...PROPERTY_NAMES,
+  keyname: 'applicantSecondaryThroughEmployer',
+};
+
+function generateOptions({ data, pagePerItemIndex, isPrimary }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
-  const prompt = `Is this insurance through ${bp.relativePossessive} employer?`;
   const options = [
     {
       label: `Yes, ${
@@ -31,30 +35,46 @@ function generateOptions({ data, pagePerItemIndex }) {
   return {
     ...bp,
     options,
-    relativeBeingVerb: `${bp.relative} ${bp.beingVerbPresent}`,
     customTitle: `${bp.relativePossessive} ${
-      bp.currentListItem?.applicantPrimaryProvider
+      isPrimary
+        ? bp.currentListItem?.applicantPrimaryProvider
+        : bp.currentListItem?.applicantSecondaryProvider
     } type of insurance`,
-    description: prompt,
+    description: `Is this insurance through ${bp.relativePossessive} employer?`,
   };
 }
 
 export function ApplicantPrimaryThroughEmployerPage(props) {
-  const newProps = {
+  return ApplicantRelationshipPage({
     ...props,
     ...PROPERTY_NAMES,
-    genOp: generateOptions,
-  };
-  return ApplicantRelationshipPage(newProps);
+    genOp: args => generateOptions({ ...args, isPrimary: true }),
+  });
 }
 export function ApplicantPrimaryThroughEmployerReviewPage(props) {
-  const newProps = {
+  return ApplicantRelationshipReviewPage({
     ...props,
     ...PROPERTY_NAMES,
-    genOp: generateOptions,
-  };
-  return ApplicantRelationshipReviewPage(newProps);
+    genOp: args => generateOptions({ ...args, isPrimary: true }),
+  });
+}
+
+export function ApplicantSecondaryThroughEmployerPage(props) {
+  return ApplicantRelationshipPage({
+    ...props,
+    ...SECONDARY_PROPERTY_NAMES,
+    genOp: args => generateOptions({ ...args, isPrimary: false }),
+  });
+}
+export function ApplicantSecondaryThroughEmployerReviewPage(props) {
+  return ApplicantRelationshipReviewPage({
+    ...props,
+    ...SECONDARY_PROPERTY_NAMES,
+    genOp: args => generateOptions({ ...args, isPrimary: false }),
+  });
 }
 
 ApplicantPrimaryThroughEmployerPage.propTypes = pageProps;
 ApplicantPrimaryThroughEmployerReviewPage.propTypes = reviewPageProps;
+ApplicantSecondaryThroughEmployerPage.propTypes = pageProps;
+ApplicantSecondaryThroughEmployerReviewPage.propTypes = reviewPageProps;
