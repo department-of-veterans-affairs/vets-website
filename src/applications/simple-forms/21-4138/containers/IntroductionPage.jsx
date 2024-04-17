@@ -85,7 +85,7 @@ class IntroductionPage extends React.Component {
           res-burden={15}
           omb-number="2900-0075"
           exp-date="06/30/2024"
-          benefit-type="Priority processing request"
+          benefit-type="Statement in support of a claim"
         />
       </article>
     );
