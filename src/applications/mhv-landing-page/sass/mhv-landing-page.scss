@@ -126,3 +126,44 @@ $anchor-font-size: 1.9rem;
     }
   }
 }
+
+.my-health-nav {
+  background-color: $color-hub-burials;
+  overflow: auto;
+  width: 100%;
+
+  ul {
+    align-items: baseline;
+    display: flex;
+    justify-content: flex-start;
+    list-style-type: none;
+    margin: 0 auto;
+    max-width: 100rem;
+    padding-left: 0;
+  }
+
+  li:first-of-type {
+    font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+  }
+
+  li {
+    margin-bottom: 0;
+  }
+
+  a {
+    color: var(--vads-color-white);
+    display: block;
+    font-weight: bold;
+    height: 100%;
+    padding: units(2.5);
+    text-decoration: none;
+    width: 100%;
+  }
+
+  i {
+    font-size: 24px;
+    margin-right: units(1.5);
+    position: relative;
+    top: 2px;
+  }
+}

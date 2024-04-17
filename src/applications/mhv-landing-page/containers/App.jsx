@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
+import MyHealthNav from './MyHealthNav';
 import LandingPage from '../components/LandingPage';
 import {
   resolveLandingPageLinks,
@@ -101,6 +102,7 @@ const App = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
+      <MyHealthNav />
       <LandingPage data={data} />
     </RequiredLoginView>
   );
