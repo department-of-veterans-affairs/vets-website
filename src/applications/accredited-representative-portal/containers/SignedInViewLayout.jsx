@@ -1,13 +1,30 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { Navigate, Outlet } from 'react-router-dom-v5-compat';
+
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import Sidenav from '../components/common/Sidenav';
 import Breadcrumbs from '../components/common/Breadcrumbs';
+import { selectUser } from '../selectors/user';
 
 const SignedInViewLayout = ({ children, poaPermissions = true }) => {
+  const { isLoading, profile } = useSelector(selectUser);
   let content = null;
-
   const { pathname } = document.location;
+
+  if (isLoading) {
+    return (
+      <div className="vads-u-margin-x--3">
+        <VaLoadingIndicator />
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return <Navigate to="/" />;
+  }
 
   // If the VSO does not have permission to be Power of Attorney ( this will eventually be pulled from Redux state)
   if (!poaPermissions) {
@@ -42,20 +59,22 @@ const SignedInViewLayout = ({ children, poaPermissions = true }) => {
     );
   }
 
-  return (
-    <>
+  if (children) {
+    return (
       <div className="vads-u-margin-bottom--3">
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
           <Breadcrumbs pathname={pathname} />
           {content}
         </div>
       </div>
-    </>
-  );
+    );
+  }
+
+  return <Outlet />;
 };
 
 SignedInViewLayout.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   poaPermissions: PropTypes.bool,
 };
 

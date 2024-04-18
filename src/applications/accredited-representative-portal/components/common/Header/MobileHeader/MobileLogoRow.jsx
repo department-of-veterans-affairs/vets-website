@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { SIGN_IN_URL } from '../../../../constants';
+import UserNav from '../common/UserNav';
 
 export const MobileLogoRow = () => {
   return (
@@ -25,13 +25,7 @@ export const MobileLogoRow = () => {
             <div className="hidden-header vads-u-display--flex vads-u-align-items--center">
               <div className="sign-in-nav">
                 <div className="sign-in-links">
-                  <a
-                    data-testid="mobile-logo-row-sign-in-link"
-                    href={SIGN_IN_URL}
-                    className="sign-in-link"
-                  >
-                    Sign in
-                  </a>
+                  <UserNav isMobile />
                 </div>
               </div>
             </div>

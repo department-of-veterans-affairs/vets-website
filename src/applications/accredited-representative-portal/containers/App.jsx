@@ -8,7 +8,6 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatur
 
 import { fetchUser } from '../actions/user';
 import Header from '../components/common/Header/Header';
-import UserNav from '../components/common/Header/common/UserNav';
 
 function App() {
   const dispatch = useDispatch();
@@ -47,7 +46,6 @@ function App() {
   return (
     <>
       <Header />
-      <UserNav />
       <Outlet />
     </>
   );

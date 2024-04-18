@@ -7,18 +7,15 @@ import LandingPage from './containers/LandingPage';
 import POARequests from './containers/POARequests';
 import PermissionsPage from './containers/PermissionsPage';
 import SignedInViewLayout from './containers/SignedInViewLayout';
-import RequireAuth from './components/common/RequireAuth';
 
 const routes = (
   <Routes>
     <Route element={<App />}>
       <Route path="/" element={<LandingPage />} />
-      <Route element={<RequireAuth />}>
-        <Route element={<SignedInViewLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/poa-requests" element={<POARequests />} />
-          <Route path="/permissions" element={<PermissionsPage />} />
-        </Route>
+      <Route element={<SignedInViewLayout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/poa-requests" element={<POARequests />} />
+        <Route path="/permissions" element={<PermissionsPage />} />
       </Route>
     </Route>
   </Routes>
