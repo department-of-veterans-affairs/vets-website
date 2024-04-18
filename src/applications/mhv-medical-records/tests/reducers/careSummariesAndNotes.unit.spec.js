@@ -370,6 +370,14 @@ describe('getAttending', () => {
 });
 
 describe('getAdmissionDate', () => {
+  it('should return null if there is an invalid date', () => {
+    const record = { context: { period: { start: null } } };
+    const summary = '  DATE OF ADMISSION:  INVALID-DATE  ';
+    expect(getAdmissionDate(record, summary)).to.eq(null);
+  });
+});
+
+describe('getAdmissionDate', () => {
   it('should return the context.period.start field if it exists', () => {
     const record = { context: { period: { start: '2022-08-05T13:41:23Z' } } };
     expect(getAdmissionDate(record, '')).to.deep.equal(
@@ -526,5 +534,49 @@ describe('careSummariesAndNotesReducer', () => {
       listState: 'fetched',
       careSummariesAndNotesList: [],
     });
+  });
+
+  it('sorts the list in descending date order, with nulls at the end', () => {
+    const response = {
+      entry: [
+        {
+          resource: {
+            id: 1,
+            type: { coding: [{ code: '18842-5' }] },
+            context: {
+              period: { start: '2022-08-01' },
+            },
+          },
+        },
+        {
+          resource: { id: 'NULL1', type: { coding: [{ code: '18842-5' }] } },
+        },
+        {
+          resource: {
+            id: 3,
+            type: { coding: [{ code: '11506-3' }] },
+            date: '2022-08-03',
+          },
+        },
+        {
+          resource: { id: 'NULL2', type: { coding: [{ code: '11506-3' }] } },
+        },
+        {
+          resource: {
+            id: 2,
+            type: { coding: [{ code: '18842-5' }] },
+            date: '2022-08-02',
+          },
+        },
+      ],
+      resourceType: 'Bundle',
+    };
+    const newState = careSummariesAndNotesReducer(
+      {},
+      { type: Actions.CareSummariesAndNotes.GET_LIST, response },
+    );
+    expect(newState.careSummariesAndNotesList.map(rec => rec.id)).to.deep.equal(
+      [3, 2, 1, 'NULL1', 'NULL2'],
+    );
   });
 });

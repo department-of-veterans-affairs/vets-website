@@ -114,13 +114,18 @@ export const getAttending = noteSummary => {
   );
 };
 
-const getDateFromBody = (noteSummary, label) => {
+const isValidDate = d => {
+  return d instanceof Date && !Number.isNaN(d.getTime());
+};
+
+export const getDateFromBody = (noteSummary, label) => {
   const dateStr =
     noteSummary
       ?.split(label)[1]
       ?.split('\n')[0]
       ?.trim() || null;
-  return dateStr ? new Date(formatDateLong(dateStr)) : null;
+  const date = dateStr ? new Date(formatDateLong(dateStr)) : null;
+  return isValidDate(date) ? date : null;
 };
 
 export const getAdmissionDate = (record, noteSummary) => {
@@ -148,7 +153,7 @@ export const convertAdmissionAndDischargeDetails = record => {
 
   const admissionDate = getAdmissionDate(record, summary);
   const dischargeDate = getDischargeDate(record, summary);
-  const dateEntered = record.date;
+  const dateEntered = record.date ? new Date(record.date) : null;
 
   const sortByDate = admissionDate || dischargeDate || dateEntered;
   let sortByField = null;
@@ -176,18 +181,17 @@ export const convertAdmissionAndDischargeDetails = record => {
 };
 
 const convertProgressNote = record => {
-  const date = record.date ? formatDateLong(record.date) : EMPTY_FIELD;
   return {
     id: record.id || null,
     name: getTitle(record) || EMPTY_FIELD,
     type: getType(record),
-    date,
+    date: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
     dateSigned: getDateSigned(record) || EMPTY_FIELD,
     signedBy: extractAuthor(record) || EMPTY_FIELD,
     coSignedBy: extractAuthenticator(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     note: getNote(record) || EMPTY_FIELD,
-    sortByDate: date,
+    sortByDate: record.date ? new Date(record.date) : null,
   };
 };
 
@@ -258,7 +262,13 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
             ?.map(note => {
               return convertCareSummariesAndNotesRecord(note.resource);
             })
-            .filter(record => record.type !== noteTypes.OTHER) || [],
+            .filter(record => record.type !== noteTypes.OTHER)
+            .sort((a, b) => {
+              console.log(a.id, a.sortByDate, b.id, b.sortByDate);
+              if (!a.sortByDate) return 1; // Push nulls to the end
+              if (!b.sortByDate) return -1; // Keep non-nulls at the front
+              return b.sortByDate.getTime() - a.sortByDate.getTime();
+            }) || [],
       };
     }
     case Actions.CareSummariesAndNotes.CLEAR_DETAIL: {
