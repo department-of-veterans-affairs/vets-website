@@ -232,7 +232,6 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
         <va-additional-info
           class="vads-u-margin-top--4"
           trigger="Why do I need to provide this information?"
-          uswds
         >
           We ask for vehicle details such as type, make, model, year, and
           estimated value because this allows us to make a more informed
@@ -244,7 +243,6 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
         <va-additional-info
           class="vads-u-margin-y--2"
           trigger="What if I don’t know the estimated value of car or other vehicle?"
-          uswds
         >
           Include the amount of money you think you would get if you sold the
           vehicle in your local community. To get an idea of prices, you can

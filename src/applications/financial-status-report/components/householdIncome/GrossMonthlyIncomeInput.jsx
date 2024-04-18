@@ -158,7 +158,6 @@ const GrossMonthlyIncomeInput = props => {
       <va-additional-info
         trigger="How to calculate your gross monthly income"
         class="vads-u-margin-top--2"
-        uswds
       >
         <p className="vads-u-padding-bottom--2">
           <strong>If you’re a salaried employee,</strong> divide your annual

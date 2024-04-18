@@ -195,7 +195,6 @@ const PayrollDeductionInputList = props => {
         <va-additional-info
           trigger="How to calculate your monthly deductions"
           class="vads-u-margin-top--2"
-          uswds
         >
           <p>
             First, find the total deduction amount on your pay stub. Then follow
