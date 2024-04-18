@@ -1,13 +1,25 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { Outlet } from 'react-router-dom-v5-compat';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import Header from '../components/common/Header/Header';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
-function App({ children }) {
+import { fetchUser } from '../actions/user';
+import Header from '../components/common/Header/Header';
+import UserNav from '../components/common/Header/common/UserNav';
+
+function App() {
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+      dispatch(fetchUser());
+    },
+    [dispatch],
+  );
+
   const {
     useToggleValue,
     useToggleLoadingValue,
@@ -35,14 +47,11 @@ function App({ children }) {
   return (
     <>
       <Header />
-      {children}
+      <UserNav />
+      <Outlet />
     </>
   );
 }
-
-App.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 function mapStateToProps({ user }) {
   return { user };

@@ -1,9 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom-v5-compat';
 
+import { selectUser } from '../selectors/user';
 import { SIGN_IN_URL } from '../constants';
 
 const LandingPage = () => {
+  const { isLoading, profile } = useSelector(selectUser);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!profile) {
+    return <a href={SIGN_IN_URL}>Sign in or create an account</a>;
+  }
+
   return (
     <div className="homepage-hero__wrapper homepage-hero__look-and-feel">
       <div className="vads-l-grid-container vads-u-padding-x--0 homepage-hero">

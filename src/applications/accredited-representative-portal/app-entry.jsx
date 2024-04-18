@@ -1,13 +1,19 @@
+import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom-v5-compat';
+
 import '@department-of-veterans-affairs/platform-polyfills';
-import startApp from '@department-of-veterans-affairs/platform-startup/index';
+import startReactApp from '@department-of-veterans-affairs/platform-startup/react';
 
-import './sass/accredited-representative-portal.scss';
-import routes from './routes';
-import reducer from './reducers';
 import manifest from './manifest.json';
+import reducer from './reducers';
+import routes from './routes';
+import createReduxStore from './store';
 
-startApp({
-  url: manifest.rootUrl,
-  reducer,
-  routes,
-});
+window.appName = manifest.entryName;
+
+startReactApp(
+  <Provider store={createReduxStore(reducer)}>
+    <BrowserRouter basename={manifest.rootUrl}>{routes}</BrowserRouter>
+  </Provider>,
+);
