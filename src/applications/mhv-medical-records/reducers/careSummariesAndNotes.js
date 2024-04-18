@@ -114,30 +114,31 @@ export const getAttending = noteSummary => {
   );
 };
 
-const getParsedDateFromBody = (noteSummary, label) => {
+const getDateFromBody = (noteSummary, label) => {
   const dateStr =
     noteSummary
       ?.split(label)[1]
       ?.split('\n')[0]
       ?.trim() || null;
-  return dateStr && formatDateLong(dateStr);
+  return dateStr ? new Date(formatDateLong(dateStr)) : null;
 };
 
 export const getAdmissionDate = (record, noteSummary) => {
-  let admissionDate =
-    record.context?.period?.start &&
-    formatDateLong(record.context.period.start);
+  let admissionDate = record.context?.period?.start
+    ? new Date(record.context.period.start)
+    : null;
   if (!admissionDate) {
-    admissionDate = getParsedDateFromBody(noteSummary, 'DATE OF ADMISSION:');
+    admissionDate = getDateFromBody(noteSummary, 'DATE OF ADMISSION:');
   }
   return admissionDate;
 };
 
 export const getDischargeDate = (record, noteSummary) => {
-  let dischargeDate =
-    record.context?.period?.end && formatDateLong(record.context.period.end);
+  let dischargeDate = record.context?.period?.end
+    ? new Date(record.context.period.end)
+    : null;
   if (!dischargeDate) {
-    dischargeDate = getParsedDateFromBody(noteSummary, 'DATE OF DISCHARGE:');
+    dischargeDate = getDateFromBody(noteSummary, 'DATE OF DISCHARGE:');
   }
   return dischargeDate;
 };
@@ -147,7 +148,7 @@ export const convertAdmissionAndDischargeDetails = record => {
 
   const admissionDate = getAdmissionDate(record, summary);
   const dischargeDate = getDischargeDate(record, summary);
-  const dateEntered = record.date && formatDateLong(record.date);
+  const dateEntered = record.date;
 
   const sortByDate = admissionDate || dischargeDate || dateEntered;
   let sortByField = null;
@@ -163,8 +164,8 @@ export const convertAdmissionAndDischargeDetails = record => {
     id: record.id,
     name: getTitle(record),
     type: getType(record),
-    admissionDate: admissionDate || EMPTY_FIELD,
-    dischargeDate: dischargeDate || EMPTY_FIELD,
+    admissionDate: admissionDate ? formatDateLong(admissionDate) : EMPTY_FIELD,
+    dischargeDate: dischargeDate ? formatDateLong(dischargeDate) : EMPTY_FIELD,
     admittedBy: getAttending(summary) || EMPTY_FIELD,
     dischargedBy: extractAuthor(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
