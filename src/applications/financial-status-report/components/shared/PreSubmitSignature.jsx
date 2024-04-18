@@ -215,7 +215,6 @@ const PreSubmitSignature = ({
           }
           required
           enable-analytics
-          uswds
         />
       </article>
 

@@ -181,7 +181,6 @@ const EmploymentRecord = ({
         onVaChange={event =>
           handleCheckboxChange('isCurrent', event.detail.checked)
         }
-        uswds
       />
       <div className="vads-u-margin-bottom--2">
         <VaTextInput
