@@ -168,14 +168,14 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       expect(queryByText(/By April 20, 2024/i)).to.not.exist;
     });
 
-    it('Renders TemporaryOutageCnp when hideDirectDepositCompAndPen is true', () => {
+    it('Renders TemporaryOutageCnp when hideDirectDeposit is true', () => {
       const { getByText } = renderWithProfileReducersAndRouter(
         <DirectDeposit />,
         {
           initialState: createInitialState({
             serviceType: CSP_IDS.ID_ME,
             toggles: generateFeatureTogglesState({
-              profileHideDirectDepositCompAndPen: true,
+              profileHideDirectDeposit: true,
             }).featureToggles,
           }),
           path: '/profile/direct-deposit',
