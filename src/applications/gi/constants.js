@@ -54,7 +54,7 @@ export const TABS = Object.freeze({
 
 export const INSTITUTION_TYPES = [
   'Public',
-  'For profit',
+  'For-profit',
   'Private',
   'Foreign',
   'Flight',

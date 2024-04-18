@@ -418,7 +418,7 @@ export function FilterBeforeResults({
         dataTestId: 'special-mission-relaffil',
         checked: specialMissionRelaffil,
         optionLabel: isProductionOrTestProdEnv()
-          ? 'Religiously affiliated institutions'
+          ? 'Religiously-affiliated institutions'
           : 'Religious affiliation',
       },
       {
@@ -471,6 +471,10 @@ export function FilterBeforeResults({
       },
     ];
 
+    const sortedOptions = options.sort((a, b) =>
+      a.optionLabel.localeCompare(b.optionLabel),
+    );
+
     return (
       <div className="community-focus-container">
         <h3
@@ -505,7 +509,7 @@ export function FilterBeforeResults({
               </h3>
             }
             onChange={onChangeCheckbox}
-            options={options}
+            options={sortedOptions}
             setIsCleared={setIsCleared}
             row={!smallScreen}
             colNum="4"
