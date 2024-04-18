@@ -2,7 +2,7 @@ import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from 'applications/vre/components/GetFormHelp';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { submit } from '../helpers';
+import { submit } from './submit';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorText from '../components/ErrorText';

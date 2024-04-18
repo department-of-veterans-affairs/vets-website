@@ -8,7 +8,7 @@ import {
 import formConfig from '../../../../config/form';
 import generateEmployersSchemas, {
   EmployerView,
-} from '../../../../config/chapters/03-health-and-employment-information/employmentHistory';
+} from '../../../../config/chapters/03-health-and-employment-information/helpers';
 
 const { schema, uiSchema } = generateEmployersSchemas({
   showJobTitleField: true,
