@@ -18,6 +18,7 @@ import {
   addAllOption,
   createId,
   specializedMissionDefinitions,
+  sortedSpecializedMissionDefinitions,
   validateSearchTerm,
 } from '../../utils/helpers';
 import { showModal, filterChange, setError } from '../../actions';
@@ -80,7 +81,7 @@ export function FilterBeforeResults({
   const [smfAccordionExpanded, setSmfAccordionExpanded] = useState(false);
   const [jumpLinkToggle, setJumpLinkToggle] = useState(0);
 
-  const smfDefinitions = specializedMissionDefinitions.map(smf => {
+  const smfDefinitions = sortedSpecializedMissionDefinitions().map(smf => {
     return (
       <div key={smf.key}>
         <h3>{smf.title}</h3>
