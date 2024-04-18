@@ -262,6 +262,7 @@ export default ReportModal;
 
 ReportModal.propTypes = {
   address: PropTypes.string,
+  cancelRepresentativeReport: PropTypes.func,
   email: PropTypes.string,
   existingReports: PropTypes.shape({
     address: PropTypes.string,
