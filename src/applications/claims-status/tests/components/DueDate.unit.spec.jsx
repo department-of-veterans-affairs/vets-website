@@ -44,7 +44,7 @@ describe('<DueDate>', () => {
 
   it('should render past due class when theres more than a days difference', () => {
     const date = moment()
-      .utcOffset(0)
+      .tz('America/Los_Angeles')
       .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
       .subtract(3, 'day');
     const dateString = date.format('YYYY-MM-DD');
@@ -61,7 +61,7 @@ describe('<DueDate>', () => {
 
   it('should render past due class when theres more than a few hours difference', () => {
     const date = moment()
-      .utcOffset(0)
+      .tz('America/Los_Angeles')
       .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
       .subtract(1, 'day');
     const dateString = date.format('YYYY-MM-DD');

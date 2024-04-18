@@ -160,6 +160,25 @@ describe('Actions', () => {
         })
         .then(done, done);
     });
+    it('navigates to `/your-claims` when errors on 404 ', done => {
+      const apiStub = sinon.stub(api, 'apiRequest');
+
+      apiStub.returns(Promise.reject({ status: 404 }));
+
+      const navigate = sinon.spy();
+
+      const thunk = getClaim(1, navigate);
+      const dispatch = sinon.spy();
+      thunk(dispatch)
+        .then(() => {
+          const action = dispatch.firstCall.args[0];
+
+          expect(action.type).to.equal(GET_CLAIM_DETAIL);
+          expect(navigate.called).to.be.true;
+        })
+        .then(() => apiStub.restore())
+        .then(done, done);
+    });
   });
   describe('getClaims', () => {
     it('dispatches FETCH_CLAIMS_PENDING and FETCH_CLAIMS_SUCCESS', done => {
