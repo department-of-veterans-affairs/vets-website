@@ -84,7 +84,6 @@ const ResolutionComments = ({
           }}
           required={commentsRequired}
           type="text"
-          uswds
           value={commentText}
         >
           <div>
