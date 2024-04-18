@@ -54,10 +54,7 @@ const IntroductionPage = ({ route, formId }) => {
         </a>
         .
       </p>
-      <va-process-list
-        uswds
-        class="vads-u-margin-left--neg2 vads-u-padding-bottom--0"
-      >
+      <va-process-list class="vads-u-margin-left--neg2 vads-u-padding-bottom--0">
         <va-process-list-item header="Prepare">
           <p>
             You’ll need this information for you (and your spouse if you’re
@@ -147,7 +144,7 @@ const IntroductionPage = ({ route, formId }) => {
             interest, and other collection actions.
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Follow-up" uswds>
+        <va-process-list-item header="Follow-up">
           <p>
             After we review your request, we’ll send you this information by
             mail:
