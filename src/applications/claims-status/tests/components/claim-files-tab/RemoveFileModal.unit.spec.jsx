@@ -13,7 +13,7 @@ describe('<RemoveFileModal>', () => {
     const onRemoveFile = sinon.spy();
     const onCloseModal = sinon.spy();
 
-    const { container } = render(
+    const { container, getByText } = render(
       <RemoveFileModal
         removeFileName={removeFileName}
         showRemoveFileModal={showRemoveFileModal}
@@ -29,23 +29,6 @@ describe('<RemoveFileModal>', () => {
     expect(
       $('va-modal', container).getAttribute('secondarybuttontext'),
     ).to.equal('No, keep this');
-  });
-
-  it('shows the filename to be removed', () => {
-    const removeFileName = 'test.pdf';
-    const showRemoveFileModal = true;
-    const onRemoveFile = sinon.spy();
-    const onCloseModal = sinon.spy();
-
-    const { getByText } = render(
-      <RemoveFileModal
-        removeFileName={removeFileName}
-        showRemoveFileModal={showRemoveFileModal}
-        closeModal={onCloseModal}
-        removeFile={onRemoveFile}
-      />,
-    );
-
     expect(getByText(removeFileName)).to.exist;
   });
 
