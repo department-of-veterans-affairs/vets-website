@@ -20,9 +20,6 @@ function IntroductionLoginV2({
   showHideLoginModal,
   user,
   showMeb1990EZMaintenanceAlert,
-  showMeb1990EZR6MaintenanceMessage,
-  showMebEnhancements, // Add showMebEnhancements as a prop
-  showMebEnhancements06, // Add showMebEnhancements06 as a prop
   showMebEnhancements09, // Add showMebEnhancements09 as a prop
 }) {
   const apiCallsComplete =
@@ -32,9 +29,8 @@ function IntroductionLoginV2({
   };
   const nextQuery = { next: window.location.pathname };
   const verifyUrl = appendQuery('/verify', nextQuery);
-  const headlineText = showMebEnhancements06
-    ? 'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information.'
-    : 'Save time-and save your work in progress-by signing in before starting your application.';
+  const headlineText =
+    'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information.';
 
   // If showMebEnhancements09 is false and the user is not logged in or the API calls have not completed, then show the loading indicator
   const shouldShowLoadingIndicator =
@@ -117,22 +113,14 @@ function IntroductionLoginV2({
               </div>
             </va-alert>
             <p className="vads-u-margin-top--4">
-              {showMebEnhancements ? (
-                // If showMebEnhancements is true, display paper form option
-                <>
-                  If you don't want to sign in, you can{' '}
-                  <a href="https://www.va.gov/find-forms/about-form-22-1990/">
-                    apply using the paper form
-                  </a>
-                  . Please expect longer processing time for decisions when
-                  opting for this method.
-                </>
-              ) : (
-                // If showMebEnhancements is false, display option to start application without signing in
-                <a href="/education/apply-for-education-benefits/application/1990/applicant/information">
-                  Start your application without signing in
+              <>
+                If you don't want to sign in, you can{' '}
+                <a href="https://www.va.gov/find-forms/about-form-22-1990/">
+                  apply using the paper form
                 </a>
-              )}
+                . Please expect longer processing time for decisions when opting
+                for this method.
+              </>
             </p>
           </>
         )}
@@ -200,8 +188,6 @@ IntroductionLoginV2.propTypes = {
   showHideLoginModal: PropTypes.func,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceAlert: PropTypes.bool,
-  showMebEnhancements: PropTypes.bool, // Add showMebEnhancements to propTypes
-  showMebEnhancements06: PropTypes.bool, // Add showMebEnhancements06 to propTypes
   showMebEnhancements09: PropTypes.bool, // Added new feature flag to propTypes
   user: PropTypes.object,
 };

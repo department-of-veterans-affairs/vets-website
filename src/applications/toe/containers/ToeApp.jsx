@@ -26,9 +26,6 @@ function ToeApp({
   sponsorsSavedState,
   user,
   showMeb1990ER6MaintenanceMessage,
-  showMebEnhancements,
-  showMebEnhancements06,
-  showMebEnhancements08,
   toeHighSchoolInfoChange,
   toeLightHouseDgiDirectDeposit,
 }) {
@@ -81,30 +78,6 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (showMebEnhancements !== formData.showMebEnhancements) {
-        setFormData({
-          ...formData,
-          showMebEnhancements,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements],
-  );
-
-  useEffect(
-    () => {
-      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
-        setFormData({
-          ...formData,
-          showMebEnhancements06,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements06],
-  );
-
-  useEffect(
-    () => {
       if (
         showMeb1990ER6MaintenanceMessage !==
         formData.showMeb1990ER6MaintenanceMessage
@@ -120,19 +93,13 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
-        setFormData({
-          ...formData,
-          showMebEnhancements08,
-        });
-      }
-
       if (toeHighSchoolInfoChange !== formData.toeHighSchoolInfoChange) {
         setFormData({
           ...formData,
           toeHighSchoolInfoChange,
         });
       }
+
       if (
         toeLightHouseDgiDirectDeposit !==
         formData?.toeLightHouseDgiDirectDeposit
@@ -148,7 +115,6 @@ function ToeApp({
     [
       formData,
       setFormData,
-      showMebEnhancements08,
       toeLightHouseDgiDirectDeposit,
       toeHighSchoolInfoChange
     ],
@@ -211,8 +177,6 @@ ToeApp.propTypes = {
   isLOA3: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
-  showMebEnhancements: PropTypes.bool,
-  showMebEnhancements06: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,

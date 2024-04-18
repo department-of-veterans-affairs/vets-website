@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -14,7 +15,7 @@ import {
   fetchDirectDeposit,
 } from '../actions';
 import { formFields } from '../constants';
-import { prefillTransformer } from '../helpers';
+import { prefillTransformer, checkDate } from '../helpers';
 import { getAppData } from '../selectors/selectors';
 import { duplicateArrays } from '../utils/validation';
 
@@ -39,16 +40,13 @@ export const App = ({
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
   showDgiDirectDeposit1990EZ,
-  showMebDgi40Features,
-  showMebDgi42Features,
-  showMebEnhancements,
-  showMebEnhancements06,
-  showMebEnhancements08,
   showMebEnhancements09,
   showMebServiceHistoryCategorizeDisagreement,
+  mebAutoPopulateRelinquishmentDate,
   email,
   duplicateEmail,
   duplicatePhone,
+  benefitEffectiveDate,
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -156,7 +154,6 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
-      showMebDgi40Features,
     ],
   );
 
@@ -196,18 +193,6 @@ export const App = ({
 
   useEffect(
     () => {
-      if (showMebDgi40Features !== formData.showMebDgi40Features) {
-        setFormData({
-          ...formData,
-          showMebDgi40Features,
-        });
-      }
-      if (showMebDgi42Features !== formData.showMebDgi42Features) {
-        setFormData({
-          ...formData,
-          showMebDgi42Features,
-        });
-      }
       if (
         showMeb1990EZMaintenanceAlert !== formData.showMeb1990EZMaintenanceAlert
       ) {
@@ -230,8 +215,7 @@ export const App = ({
         formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
         formData?.email?.email &&
         !formData?.duplicateEmail &&
-        !formData?.duplicatePhone &&
-        formData?.showMebEnhancements08
+        !formData?.duplicatePhone
       ) {
         getDuplicateContactInfo(
           [{ value: formData?.email?.email, dupe: '' }],
@@ -264,23 +248,13 @@ export const App = ({
         });
       }
 
-      if (showMebEnhancements !== formData.showMebEnhancements) {
+      if (
+        mebAutoPopulateRelinquishmentDate !==
+        formData.mebAutoPopulateRelinquishmentDate
+      ) {
         setFormData({
           ...formData,
-          showMebEnhancements,
-        });
-      }
-      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
-        setFormData({
-          ...formData,
-          showMebEnhancements06,
-        });
-      }
-
-      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
-        setFormData({
-          ...formData,
-          showMebEnhancements08,
+          mebAutoPopulateRelinquishmentDate,
         });
       }
 
@@ -320,18 +294,14 @@ export const App = ({
       isLOA3,
       setFormData,
       showDgiDirectDeposit1990EZ,
-      showMebDgi40Features,
-      showMebDgi42Features,
       showMeb1990EZMaintenanceAlert,
       showMeb1990EZR6MaintenanceMessage,
-      showMebEnhancements,
-      showMebEnhancements06,
-      showMebEnhancements08,
       showMebEnhancements09,
       showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
       duplicateEmail,
       duplicatePhone,
+      mebAutoPopulateRelinquishmentDate,
     ],
   );
 
@@ -359,6 +329,22 @@ export const App = ({
         }
       };
       fetchAndUpdateDirectDepositInfo();
+
+      const currentDate = moment();
+      const oneYearAgo = currentDate.subtract(1, 'y');
+      if (
+        !benefitEffectiveDate ||
+        (mebAutoPopulateRelinquishmentDate &&
+          moment(benefitEffectiveDate).isBefore(oneYearAgo))
+      ) {
+        setFormData({
+          ...formData,
+          benefitEffectiveDate: checkDate(
+            mebAutoPopulateRelinquishmentDate,
+            benefitEffectiveDate,
+          ),
+        });
+      }
     },
     [
       isLoggedIn,
@@ -368,6 +354,7 @@ export const App = ({
       fetchedDirectDeposit,
       getDirectDeposit,
       setFetchedDirectDeposit,
+      benefitEffectiveDate,
     ],
   );
 
@@ -412,13 +399,9 @@ App.propTypes = {
   showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
-  showMebDgi40Features: PropTypes.bool,
-  showMebDgi42Features: PropTypes.bool,
-  showMebEnhancements: PropTypes.bool,
-  showMebEnhancements06: PropTypes.bool,
-  showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
   showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
+  mebAutoPopulateRelinquishmentDate: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
