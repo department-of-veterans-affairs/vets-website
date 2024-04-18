@@ -11,9 +11,6 @@ export const getLettersData = state => ({
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
   hasCheckedKeepAlive: state?.user?.login?.hasCheckedKeepAlive || false,
-  showMebEnhancements09: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebEnhancements09
-  ],
   showMebLettersMaintenanceAlert: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebLettersMaintenanceAlert
   ],

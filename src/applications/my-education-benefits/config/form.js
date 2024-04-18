@@ -1320,11 +1320,7 @@ const formConfig = {
           title: 'Benefit selection',
           subTitle: 'You’re applying for the Post-9/11 GI Bill®',
           depends: formData => {
-            // If the showMebEnhancements09 feature flag is turned on, show the page
-            if (formData.showMebEnhancements09) {
-              return true;
-            }
-            // If the feature flag is not turned on, check the eligibility length
+            // Now only dependent on the length of the eligibility data
             return Boolean(formData.eligibility?.length);
           },
           uiSchema: {

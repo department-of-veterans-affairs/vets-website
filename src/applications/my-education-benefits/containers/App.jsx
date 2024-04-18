@@ -40,7 +40,6 @@ export const App = ({
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
   showDgiDirectDeposit1990EZ,
-  showMebEnhancements09,
   showMebServiceHistoryCategorizeDisagreement,
   mebAutoPopulateRelinquishmentDate,
   email,
@@ -79,7 +78,7 @@ export const App = ({
       if (!fetchedPersonalInfo || !fetchedContactInfo) {
         setFetchedPersonalInfo(true);
         setFetchedContactInfo(true);
-        getPersonalInfo(showMebEnhancements09);
+        getPersonalInfo();
       } else if (!formData[formFields.claimantId] && claimantInfo?.claimantId) {
         setFormData({
           ...formData,
@@ -99,7 +98,6 @@ export const App = ({
       setFormData,
       showMeb1990EZMaintenanceAlert,
       showMeb1990EZR6MaintenanceMessage,
-      showMebEnhancements09,
     ],
   );
 
@@ -258,13 +256,6 @@ export const App = ({
         });
       }
 
-      if (showMebEnhancements09 !== formData.showMebEnhancements09) {
-        setFormData({
-          ...formData,
-          showMebEnhancements09,
-        });
-      }
-
       if (
         showMebServiceHistoryCategorizeDisagreement !==
         formData.showMebServiceHistoryCategorizeDisagreement
@@ -296,7 +287,6 @@ export const App = ({
       showDgiDirectDeposit1990EZ,
       showMeb1990EZMaintenanceAlert,
       showMeb1990EZR6MaintenanceMessage,
-      showMebEnhancements09,
       showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
       duplicateEmail,
@@ -393,15 +383,14 @@ App.propTypes = {
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
+  mebAutoPopulateRelinquishmentDate: PropTypes.bool,
   mebExclusionPeriodEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
   showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
-  showMebEnhancements09: PropTypes.bool,
   showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
-  mebAutoPopulateRelinquishmentDate: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

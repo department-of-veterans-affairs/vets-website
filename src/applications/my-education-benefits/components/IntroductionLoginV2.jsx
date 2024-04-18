@@ -21,10 +21,8 @@ function IntroductionLoginV2({
   user,
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
-  showMebEnhancements09, // Add showMebEnhancements09 as a prop
 }) {
-  const apiCallsComplete =
-    isLOA3 === false || (isClaimantCallComplete && isEligibilityCallComplete);
+  const apiCallsComplete = isClaimantCallComplete && isEligibilityCallComplete;
   const openLoginModal = () => {
     showHideLoginModal(true, 'cta-form');
   };
@@ -32,18 +30,16 @@ function IntroductionLoginV2({
   const verifyUrl = appendQuery('/verify', nextQuery);
   const headlineText =
     'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information.';
-
-  // If showMebEnhancements09 is false and the user is not logged in or the API calls have not completed, then show the loading indicator
+  // Determine if loading indicator should be shown
   const shouldShowLoadingIndicator =
-    !showMebEnhancements09 &&
-    ((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete);
-  const shouldShowMaintenanceAlert = showMeb1990EZMaintenanceAlert;
+    (!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete;
+  // Determine which maintenance message should be displayed
   let maintenanceMessage;
   if (showMeb1990EZR6MaintenanceMessage) {
-    // Message for the R6 maintenance period
+    // R6 maintenance message
     maintenanceMessage =
       'We are currently performing system updates. Please come back on May 6 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.';
-  } else if (shouldShowMaintenanceAlert) {
+  } else if (showMeb1990EZMaintenanceAlert) {
     // General maintenance message
     maintenanceMessage =
       'We’re currently making updates to the My Education Benefits platform. We apologize for the inconvenience. Please check back soon.';
@@ -57,8 +53,7 @@ function IntroductionLoginV2({
         </h2>
       )}
       {shouldShowLoadingIndicator && <LoadingIndicator />}
-
-      {(isPersonalInfoFetchFailed || shouldShowMaintenanceAlert) && (
+      {(isPersonalInfoFetchFailed || showMeb1990EZMaintenanceAlert) && (
         <va-alert
           close-btn-aria-label="Close notification"
           status="error"
@@ -105,8 +100,6 @@ function IntroductionLoginV2({
                 <button
                   className="usa-button-primary"
                   onClick={openLoginModal}
-                  // aria-label={ariaLabel}
-                  // aria-describedby={ariaDescribedby}
                   type="button"
                 >
                   {UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
@@ -114,22 +107,19 @@ function IntroductionLoginV2({
               </div>
             </va-alert>
             <p className="vads-u-margin-top--4">
-              <>
-                If you don't want to sign in, you can{' '}
-                <a href="https://www.va.gov/find-forms/about-form-22-1990/">
-                  apply using the paper form
-                </a>
-                . Please expect longer processing time for decisions when opting
-                for this method.
-              </>
+              If you don’t want to sign in, you can{' '}
+              <a href="https://www.va.gov/find-forms/about-form-22-1990/">
+                apply using the paper form
+              </a>
+              . Please expect longer processing time for decisions when opting
+              for this method.
             </p>
           </>
         )}
       {isLoggedIn &&
-      isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
-      shouldShowMaintenanceAlert === false && // Ensure the mainenance flag is not on.
-        ((!showMebEnhancements09 && apiCallsComplete && isLOA3) ||
-          (showMebEnhancements09 && isLOA3)) && (
+        apiCallsComplete &&
+        !showMeb1990EZMaintenanceAlert &&
+        isLOA3 && (
           <SaveInProgressIntro
             headingLevel={2}
             hideUnauthedStartLink
@@ -189,15 +179,12 @@ IntroductionLoginV2.propTypes = {
   showHideLoginModal: PropTypes.func,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
-  showMebEnhancements09: PropTypes.bool, // Added new feature flag to propTypes
   user: PropTypes.object,
 };
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
-  showMebEnhancements09:
-    state.featureToggles[featureFlagNames.showMebEnhancements09], // Added new feature flag to mapStateToProps
   showMeb1990EZMaintenanceAlert:
     state.featureToggles[featureFlagNames.showMeb1990EZMaintenanceAlert],
   showMeb1990EZR6MaintenanceMessage:

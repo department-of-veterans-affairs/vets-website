@@ -22,9 +22,7 @@ const BenefitRelinquishWidget = ({ formData, setFormData }) => {
     (chapter30Null && !chapter1606) ||
     (!chapter1606 && !chapter30);
 
-  const notEligibleText = formData?.showMebEnhancements09
-    ? 'NotEligible'
-    : 'CannotRelinquish';
+  const notEligibleText = 'NotEligible';
 
   useEffect(
     () => {
@@ -32,7 +30,7 @@ const BenefitRelinquishWidget = ({ formData, setFormData }) => {
         setSelected(formData['view:benefitSelection']?.benefitRelinquished);
       }
     },
-    [setFormData],
+    [formData, setFormData],
   );
 
   const handlers = {

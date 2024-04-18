@@ -33,9 +33,6 @@ export const getAppData = state => ({
   showMeb1990EZR6MaintenanceMessage: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMeb1990EZR6MaintenanceMessage
   ],
-  showMebEnhancements09: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebEnhancements09
-  ],
   showMebServiceHistoryCategorizeDisagreement: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebServiceHistoryCategorizeDisagreement
   ],
