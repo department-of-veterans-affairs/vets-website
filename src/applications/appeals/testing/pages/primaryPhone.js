@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PRIMARY_PHONE, PRIMARY_PHONE_TYPES } from '../../995/constants';
+import { PRIMARY_PHONE, PRIMARY_PHONE_TYPES } from '../../shared/constants';
 
 const primaryPhone = {
   uiSchema: {},

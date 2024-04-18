@@ -9,8 +9,9 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { PrimaryPhone } from '../../components/PrimaryPhone';
-import { PRIMARY_PHONE, errorMessages } from '../../../995/constants';
+import { PRIMARY_PHONE } from '../../constants';
 import { content } from '../../content/primaryPhone';
+import errorMessages from '../../content/errorMessages';
 
 describe('<PrimaryPhone>', () => {
   const setup = ({

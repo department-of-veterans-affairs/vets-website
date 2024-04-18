@@ -1,6 +1,6 @@
 import { profileReviewErrorOverride } from 'platform/forms-system/src/js/definitions/profileContactInfo';
 
-import { PRIMARY_PHONE } from '../constants';
+import { PRIMARY_PHONE } from '../../shared/constants';
 
 const profileOverride = profileReviewErrorOverride();
 

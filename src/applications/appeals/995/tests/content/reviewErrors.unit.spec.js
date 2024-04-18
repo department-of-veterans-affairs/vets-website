@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import reviewErrors from '../../content/reviewErrors';
-import { PRIMARY_PHONE } from '../../constants';
+import { PRIMARY_PHONE } from '../../../shared/constants';
 
 describe('reviewErrors override', () => {
   const override = reviewErrors._override;

@@ -9,8 +9,7 @@ import {
   string,
 } from 'prop-types';
 
-import { SELECTED } from './constants';
-import { PRIMARY_PHONE } from '../995/constants';
+import { PRIMARY_PHONE, SELECTED } from './constants';
 
 export const common = {
   contestedIssues: arrayOf(

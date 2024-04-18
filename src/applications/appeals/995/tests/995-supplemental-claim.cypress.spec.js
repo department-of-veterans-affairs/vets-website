@@ -15,7 +15,6 @@ import mockUpload from './fixtures/mocks/mockUpload.json';
 import {
   CONTESTABLE_ISSUES_API,
   EVIDENCE_UPLOAD_API,
-  PRIMARY_PHONE,
   BASE_URL,
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_REQUEST,
@@ -31,7 +30,11 @@ import {
   mockContestableIssuesWithLegacyAppeals,
   getRandomDate,
 } from '../../shared/tests/cypress.helpers';
-import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
+import {
+  CONTESTABLE_ISSUES_PATH,
+  SELECTED,
+  PRIMARY_PHONE,
+} from '../../shared/constants';
 
 const testConfig = createTestConfig(
   {
