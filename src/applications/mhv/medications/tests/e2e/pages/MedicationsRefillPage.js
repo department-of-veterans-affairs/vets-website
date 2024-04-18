@@ -295,6 +295,13 @@ class MedicationsRefillPage {
       'Request not submitted',
     );
   };
+
+  verifyErrorMessageWhenRefillRequestWithoutSelectingPrescription = () => {
+    cy.get('[data-testid="select-rx-error-message"]').should(
+      'contain',
+      'Select at least one prescription',
+    );
+  };
 }
 
 export default MedicationsRefillPage;

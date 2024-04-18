@@ -181,7 +181,10 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
               role="alert"
             >
               <span className="usa-sr-only">Error</span>
-              <span className="usa-error-message">
+              <span
+                className="usa-error-message"
+                data-testid="select-rx-error-message"
+              >
                 Select at least one prescription to refill
               </span>
             </p>
