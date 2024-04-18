@@ -6,10 +6,6 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import {
-//   requiredFiles,
-//   optionalFiles,
-// } from '../helpers/supportingDocsVerification';
 import { requiredFiles, optionalFiles } from '../config/requiredUploads';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 
