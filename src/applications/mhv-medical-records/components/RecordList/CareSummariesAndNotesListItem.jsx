@@ -44,10 +44,10 @@ const CareSummariesAndNotesListItem = props => {
       <div data-dd-privacy="mask">{record.location}</div>
       <div>
         <span className="vads-u-display--inline">
-          {isDischargeSummary ? 'Discharged by ' : 'Signed by '}
+          {isDischargeSummary ? 'Discharged by ' : 'Written by '}
         </span>
         <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {isDischargeSummary ? record.dischargedBy : record.signedBy}
+          {isDischargeSummary ? record.dischargedBy : record.writtenBy}
         </span>
       </div>
     </va-card>

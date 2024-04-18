@@ -143,8 +143,8 @@ Details
   
   Date: ${record.date}
   Location: ${record.location}
+  Written by: ${record.writtenBy}
   Signed by: ${record.signedBy}
-  Co-signed by: ${record.coSignedBy}
   Date signed: ${record.dateSigned}
 
 Notes
