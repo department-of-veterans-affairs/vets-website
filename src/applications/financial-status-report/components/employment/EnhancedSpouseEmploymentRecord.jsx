@@ -204,14 +204,12 @@ const EmploymentRecord = props => {
           label="Does your spouse currently work at this job?"
           onVaValueChange={handlers.onRadioSelect}
           required
-          uswds
         >
           <va-radio-option
             id="works-here"
             label="Yes"
             value="true"
             checked={currentlyWorksHere}
-            uswds
           />
           <va-radio-option
             id="does-not-work-here"
@@ -219,7 +217,6 @@ const EmploymentRecord = props => {
             value="false"
             name="primary"
             checked={!currentlyWorksHere}
-            uswds
           />
         </VaRadio>
 
