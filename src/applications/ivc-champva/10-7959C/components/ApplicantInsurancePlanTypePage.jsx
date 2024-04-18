@@ -5,8 +5,9 @@ import CheckboxCustomLabelsPage, {
 import { applicantWording } from '../../shared/utilities';
 
 const KEYNAME = 'applicantPrimaryInsuranceType';
+const SECONDARY_KEYNAME = 'applicantSecondaryInsuranceType';
 
-function generateOptions({ data, pagePerItemIndex }) {
+function generateOptions({ data, pagePerItemIndex, isPrimary }) {
   const applicant = applicantWording(
     data?.applicants?.[pagePerItemIndex],
     undefined,
@@ -42,30 +43,47 @@ function generateOptions({ data, pagePerItemIndex }) {
   return {
     labels,
     applicant,
-    keyname: KEYNAME,
+    keyname: isPrimary ? KEYNAME : SECONDARY_KEYNAME,
     description: `What type of insurance is ${applicant} enrolled in?`,
     customTitle: `${applicant}’s ${
-      data?.applicants?.[pagePerItemIndex]?.applicantPrimaryProvider
-    } insurance plan`,
+      isPrimary
+        ? data?.applicants?.[pagePerItemIndex]?.applicantPrimaryProvider
+        : data?.applicants?.[pagePerItemIndex]?.applicantSecondaryProvider
+    } ${!isPrimary ? 'secondary' : ''} insurance plan type`,
   };
 }
 
 export function ApplicantInsuranceTypePage(props) {
-  const newProps = {
+  return CheckboxCustomLabelsPage({
     ...props,
     keyname: KEYNAME,
-    genOp: generateOptions,
-  };
-  return CheckboxCustomLabelsPage(newProps);
+    genOp: args => generateOptions({ ...args, isPrimary: true }),
+  });
 }
 export function ApplicantInsuranceTypeReviewPage(props) {
-  const newProps = {
+  return CheckboxCustomLabelsReviewPage({
     ...props,
     keyname: KEYNAME,
-    genOp: generateOptions,
-  };
-  return CheckboxCustomLabelsReviewPage(newProps);
+    genOp: args => generateOptions({ ...args, isPrimary: true }),
+  });
+}
+
+export function ApplicantSecondaryInsuranceTypePage(props) {
+  return CheckboxCustomLabelsPage({
+    ...props,
+    keyname: SECONDARY_KEYNAME,
+    genOp: args => generateOptions({ ...args, isPrimary: false }),
+  });
+}
+export function ApplicantSecondaryInsuranceTypeReviewPage(props) {
+  return CheckboxCustomLabelsReviewPage({
+    ...props,
+    keyname: SECONDARY_KEYNAME,
+    genOp: args => generateOptions({ ...args, isPrimary: false }),
+  });
 }
 
 ApplicantInsuranceTypePage.propTypes = pageProps;
 ApplicantInsuranceTypeReviewPage.propTypes = reviewPageProps;
+ApplicantSecondaryInsuranceTypePage.propTypes = pageProps;
+ApplicantSecondaryInsuranceTypeReviewPage.propTypes = reviewPageProps;

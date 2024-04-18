@@ -16,9 +16,8 @@ const ConditionListItem = props => {
           to={`/conditions/${record.id}`}
           className="vads-u-margin--0"
           data-dd-privacy="mask"
-          aria-describedby={`condition-date-${record.id}`}
         >
-          <span id={`conditions-date-${record.id}`}>
+          <span>
             {record.name} <span className="sr-only">on {record.date}</span>
           </span>
         </Link>
