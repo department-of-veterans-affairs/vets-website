@@ -28,9 +28,9 @@ export default function TravelClaimCard(props) {
     id,
     createdOn,
     claimStatus,
-    claimName,
+    // claimName,
     claimNumber,
-    appointmentName,
+    // appointmentName,
     appointmentDate: appointmentDateTime,
     appointmentLocation,
     modifiedOn,
@@ -42,7 +42,7 @@ export default function TravelClaimCard(props) {
 
   return (
     <va-card key={id} class="travel-claim-card vads-u-margin-bottom--2">
-      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--h3 ">
         {appointmentDate} at {appointmentTime} appointment
       </h2>
       {/* <p className="vads-u-margin-top--0">Received on {createdOn}</p> */}

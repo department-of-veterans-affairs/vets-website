@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   isProfileLoading,
@@ -9,7 +9,10 @@ import PropTypes from 'prop-types';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import HelpText from '../components/HelpText';
-import { getTravelClaims, getUnauthPing } from '../redux/actions';
+import {
+  getTravelClaims,
+  // getUnauthPing
+} from '../redux/actions';
 
 export default function App({ children }) {
   const dispatch = useDispatch();
@@ -23,12 +26,31 @@ export default function App({ children }) {
   const {
     isLoading,
     travelClaims,
-    isFetchingUnauthPing,
-    unauthPingResponse,
+    // isFetchingUnauthPing,
+    // unauthPingResponse,
   } = useSelector(state => state.travelPay);
 
-  async function handleUnauthButtonClick() {
-    dispatch(getUnauthPing());
+  // async function handleUnauthButtonClick() {
+  //   dispatch(getUnauthPing());
+  // }
+
+  const [filterBy, setFilterBy] = useState('mostRecent');
+
+  switch (filterBy) {
+    case 'mostRecent':
+      console.log('sort by most recent'); // eslint-disable-line no-console
+      travelClaims.sort(
+        (a, b) => new Date(b.appointmentDate) - new Date(a.appointmentDate),
+      );
+      break;
+    case 'oldest':
+      console.log('sort by most oldest'); // eslint-disable-line no-console
+      travelClaims.sort(
+        (a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate),
+      );
+      break;
+    default:
+      break;
   }
 
   useEffect(
@@ -74,23 +96,32 @@ export default function App({ children }) {
                   <p className="vads-u-margin-bottom--0">
                     Filter appointments by:
                   </p>
-                  <div className="vaos-hide-for-print vads-l-row xsmall-screen:vads-u-border-bottom--0 vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 small-screen:vads-u-border-bottom--1px vads-u-color--gray-medium">
+                  <div className="vaos-hide-for-print vads-l-row xsmall-screen:vads-u-border-bottom--0 vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 small-screen:vads-u-border-bottom--1px">
+                    {/* vads-u-color--gray-medium"> */}
                     <nav
                       aria-label="Appointment list navigation"
                       className="vaos-appts__breadcrumb vads-u-flex--1 vads-u-padding-top--0p5"
                     >
                       <ul>
                         <li>
-                          <a
-                            aria-current="true"
-                            className="active"
-                            href="/my-health/appointments/"
-                          >
-                            Most recent
-                          </a>
+                          {filterBy === 'mostRecent' ? (
+                            <strong className="vads-u-color--primary">
+                              Most recent
+                            </strong>
+                          ) : (
+                            <a onClick={() => setFilterBy('mostRecent')}>
+                              Most recent
+                            </a>
+                          )}
                         </li>
                         <li>
-                          <a href="/my-health/appointments/pending">Oldest</a>
+                          {filterBy === 'oldest' ? (
+                            <strong className="vads-u-color--primary">
+                              Oldest
+                            </strong>
+                          ) : (
+                            <a onClick={() => setFilterBy('oldest')}>Oldest</a>
+                          )}
                         </li>
                       </ul>
                     </nav>
