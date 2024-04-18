@@ -273,7 +273,7 @@ export function getSelectedCount(objectName, { formData } = {}) {
 /**
  * Checks if a specific location dates page should display. It should display if all
  * the following is true
- * 1. toggle is enabled and claiming a new disability
+ * 1. TE pages should be showing at all
  * 2. gulfWar1990 checkbox location data is present with a true value
  *
  * @param {object} formData - full form data
@@ -290,8 +290,8 @@ export function showGulfWar1990LocationDatesPage(formData, locationId) {
 
 /**
  * Checks if the 1990 summary page should display. It should display if all the following are true
- * 1. toggle is enabled and claiming a new disability
- * 2. at least one location was selected
+ * 1. TE pages should be showing at all
+ * 2. at least one 1990 location was selected
  * @param {object} formData - full form data
  * @returns {boolean} true if the page should display, false otherwise
  */
