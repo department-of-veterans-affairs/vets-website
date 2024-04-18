@@ -270,7 +270,7 @@ const formConfig = {
           schema: applicantMedicarePartACarrierSchema.schema,
         },
         // If ineligible and over 65, require user to upload proof of ineligibility
-        page20c: {
+        medicareIneligible: {
           path: ':index/ineligible',
           arrayPath: 'applicants',
           showPagePerItem: true,
