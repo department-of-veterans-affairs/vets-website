@@ -292,40 +292,6 @@ class AddFilesForm extends React.Component {
         >
           {mailMessage}
         </va-additional-info>
-        {/* <VaModal
-          id="remove-file"
-          modalTitle="Remove this file?"
-          onCloseEvent={() => {
-            this.setState({
-              showRemoveFileModal: false,
-              removeFileIndex: null,
-              removeFileName: null,
-            });
-          }}
-          onPrimaryButtonClick={() => {
-            this.props.onRemoveFile(this.state.removeFileIndex);
-            this.setState({
-              showRemoveFileModal: false,
-              removeFileIndex: null,
-              removeFileName: null,
-            });
-          }}
-          onSecondaryButtonClick={() => {
-            this.setState({
-              showRemoveFileModal: false,
-              removeFileIndex: null,
-              removeFileName: null,
-            });
-          }}
-          primaryButtonText="Yes, remove this"
-          secondaryButtonText="No, keep this"
-          visible={this.state.showRemoveFileModal}
-          status="warning"
-        >
-          <p>
-            We'll remove <strong>{this.state.removeFileName}</strong>
-          </p>
-        </VaModal> */}
         <RemoveFileModal
           removeFile={() => {
             this.props.onRemoveFile(this.state.removeFileIndex);
