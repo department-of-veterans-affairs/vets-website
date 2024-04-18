@@ -10,6 +10,8 @@ describe('<RemoveFileModal>', () => {
   const props = {
     removeFileName: 'test.pdf',
     showRemoveFileModal: true,
+    removeFile: () => {},
+    closeModal: () => {},
   };
 
   it('should render component', () => {
@@ -27,13 +29,8 @@ describe('<RemoveFileModal>', () => {
 
   it('calls removeFile when primary button is clicked', () => {
     const removeFile = sinon.spy();
-    const closeModal = () => {};
     const { container } = render(
-      <RemoveFileModal
-        {...props}
-        removeFile={removeFile}
-        closeModal={closeModal}
-      />,
+      <RemoveFileModal {...props} removeFile={removeFile} />,
     );
 
     $('va-modal', container).__events.primaryButtonClick();
