@@ -194,7 +194,6 @@ const PreSubmitSignature = ({
           type="text"
           messageAriaDescribedby={getAriaMessage()}
           required
-          uswds
           error={
             signatureError
               ? `Please enter your name exactly as it appears on your VA profile: ${first} ${middle} ${last}`

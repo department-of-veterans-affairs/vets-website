@@ -126,7 +126,6 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             type="text"
             value={expenseName || ''}
             charcount
-            uswds
           />
           <VaNumberInput
             width="md"

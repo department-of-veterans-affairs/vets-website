@@ -259,7 +259,6 @@ const InstallmentContract = props => {
           required
           type="text"
           value={purpose || ''}
-          uswds
         />
 
         <VaTextInput
@@ -270,7 +269,6 @@ const InstallmentContract = props => {
           onInput={handleCreditorNameChange}
           type="text"
           value={creditorName || ''}
-          uswds
         />
 
         <va-number-input

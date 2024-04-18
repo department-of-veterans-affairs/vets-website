@@ -192,7 +192,6 @@ const EmploymentRecord = ({
           type="text"
           value={employerName || ''}
           width="xl"
-          uswds
         />
       </div>
     </>

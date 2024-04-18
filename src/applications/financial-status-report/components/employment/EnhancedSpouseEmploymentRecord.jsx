@@ -196,7 +196,6 @@ const EmploymentRecord = props => {
             type="text"
             value={employmentRecord.employerName}
             width="xl"
-            uswds
           />
         </div>
         <VaRadio
