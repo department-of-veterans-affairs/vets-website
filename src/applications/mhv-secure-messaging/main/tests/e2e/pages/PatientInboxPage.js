@@ -478,28 +478,6 @@ class PatientInboxPage {
       .type('testMessage', { force: true });
   };
 
-  verifySorting = () => {
-    let listBefore;
-    let listAfter;
-    cy.get(Locators.THREAD_LIST)
-      .find(Locators.DATE_RECEIVED)
-      .then(list => {
-        listBefore = Cypress._.map(list, el => el.innerText);
-        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
-      })
-      .then(() => {
-        this.clickSortMessagesByDateButton('Oldest to newest');
-        cy.get(Locators.THREAD_LIST)
-          .find(Locators.DATE_RECEIVED)
-          .then(list2 => {
-            listAfter = Cypress._.map(list2, el => el.innerText);
-            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
-            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
-            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
-          });
-      });
-  };
-
   verifySignature = () => {
     cy.get(Locators.MESSAGES_BODY)
       .should('have.attr', 'value')
@@ -590,6 +568,61 @@ class PatientInboxPage {
       sortedResponse,
     );
     cy.get(Locators.BUTTONS.SORT).click({ force: true });
+  };
+
+  sortMessagesByKeyboard = (text, data) => {
+    cy.get(Locators.DROPDOWN)
+      .shadow()
+      .find('select')
+      .select(`${text}`, { force: true });
+
+    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/threads**`, data);
+    cy.tabToElement('[data-testid="sort-button"]');
+    cy.realPress('Enter');
+  };
+
+  verifySorting = () => {
+    let listBefore;
+    let listAfter;
+    cy.get(Locators.THREAD_LIST)
+      .find(Locators.DATE_RECEIVED)
+      .then(list => {
+        listBefore = Cypress._.map(list, el => el.innerText);
+        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
+      })
+      .then(() => {
+        this.clickSortMessagesByDateButton('Oldest to newest');
+        cy.get(Locators.THREAD_LIST)
+          .find(Locators.DATE_RECEIVED)
+          .then(list2 => {
+            listAfter = Cypress._.map(list2, el => el.innerText);
+            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
+            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
+            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
+          });
+      });
+  };
+
+  verifySortingByKeyboard = (text, data) => {
+    let listBefore;
+    let listAfter;
+    cy.get(Locators.THREAD_LIST)
+      .find(Locators.DATE_RECEIVED)
+      .then(list => {
+        listBefore = Cypress._.map(list, el => el.innerText);
+        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
+      })
+      .then(() => {
+        this.sortMessagesByKeyboard(`${text}`, data);
+        cy.get(Locators.THREAD_LIST)
+          .find(Locators.DATE_RECEIVED)
+          .then(list2 => {
+            listAfter = Cypress._.map(list2, el => el.innerText);
+            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
+            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
+            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
+          });
+      });
   };
 
   getInboxHeader = text => {
