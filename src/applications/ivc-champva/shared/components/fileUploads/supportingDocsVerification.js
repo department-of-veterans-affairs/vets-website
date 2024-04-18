@@ -1,4 +1,16 @@
+// This class is used by the MissingFileOverview component to verify
+// arbitrary "required" documents have been uploaded. Requirement is based
+// off of the object provided to SupportingDocsVerification at instantiation.
+
 export default class SupportingDocsVerification {
+  /**
+   * Constructs this class with the form-specific required files object.
+   * @param {object} requiredFiles object mapping required file keynames to
+   * human-readable names, e.g.:
+   *   {
+   *     applicantAdoptionPapers: 'Proof of Adoption',
+   *   }
+   */
   constructor(requiredFiles) {
     this.requiredFiles = requiredFiles;
   }

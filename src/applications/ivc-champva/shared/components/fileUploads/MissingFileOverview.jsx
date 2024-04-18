@@ -7,7 +7,7 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 import { getConditionalPages } from '../../utilities';
-import SupportingDocsVerification from '../../../10-10D/helpers/supportingDocsVerification';
+import SupportingDocsVerification from './supportingDocsVerification';
 import MissingFileList from './MissingFileList';
 
 const mailInfo = (
