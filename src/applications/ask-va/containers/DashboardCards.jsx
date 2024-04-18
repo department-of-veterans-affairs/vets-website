@@ -25,8 +25,6 @@ const DashboardCards = () => {
     inquiries.length > 0 &&
     inquiries.some(card => card.levelOfAuthentication === 'Business');
 
-  // Now use sortedInquiries in your map function instead of inquiries
-
   const getData = async () => {
     const response = await apiRequest(DASHBOARD_DATA)
       .then(res => {
