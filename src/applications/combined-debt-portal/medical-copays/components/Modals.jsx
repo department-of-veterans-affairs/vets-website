@@ -16,7 +16,6 @@ const Modals = ({ children, title }) => {
         visible={visible}
         modalTitle={title}
         large
-        uswds
       >
         {children}
       </VaModal>
