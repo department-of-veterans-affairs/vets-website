@@ -27,7 +27,7 @@ describe('<RemoveFileModal>', () => {
 
   it('calls removeFile when primary button is clicked', () => {
     const removeFile = sinon.spy();
-    const closeModal = sinon.spy();
+    const closeModal = () => {};
     const { container } = render(
       <RemoveFileModal
         {...props}
