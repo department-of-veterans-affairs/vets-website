@@ -31,6 +31,10 @@ export default {
         facilityName: {
           'ui:title': 'Name of treatment facility',
           'ui:webComponentField': VaTextInputField,
+          'ui:errorMessages': {
+            required:
+              'Enter the name of the facility where the Veteran received treatment',
+          },
           'ui:options': {
             charcount: 40,
           },
@@ -38,7 +42,12 @@ export default {
         facilityAddress: addressNoMilitaryUI({
           omit: ['street2', 'street3'],
         }),
-        startDate: currentOrPastDateUI('Approximate start date of treatment'),
+        startDate: currentOrPastDateUI({
+          title: 'Approximate start date of treatment',
+          errorMessages: {
+            required: 'Enter the approximate date of when treatment began',
+          },
+        }),
       },
     },
   },
