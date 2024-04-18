@@ -113,7 +113,7 @@ const IntroductionPage = ({ route, formId }) => {
               contact a local Veterans Service Organization (VSO).
             </a>
           </p>
-          <va-alert status="info" uswds visible>
+          <va-alert status="info" visible>
             <p className="vads-u-margin-top--0p25">
               <strong>Why do we ask for this information?</strong>
             </p>

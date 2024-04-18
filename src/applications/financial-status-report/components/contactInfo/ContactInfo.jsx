@@ -122,7 +122,6 @@ const ContactInfo = ({
         status="success"
         background-only
         role="alert"
-        uswds
       >
         {`${text} updated`}
       </va-alert>
@@ -205,7 +204,7 @@ const ContactInfo = ({
           {hadError &&
             missingInfo.length === 0 && (
               <div className="vads-u-margin-top--1p5">
-                <va-alert status="success" background-only uswds>
+                <va-alert status="success" background-only>
                   <div className="vads-u-font-size--base">
                     {content.alertContent}
                   </div>
@@ -221,7 +220,7 @@ const ContactInfo = ({
               </p>
               {submitted && (
                 <div className="vads-u-margin-top--1p5" role="alert">
-                  <va-alert status="error" background-only uswds>
+                  <va-alert status="error" background-only>
                     <div className="vads-u-font-size--base">
                       We still don’t have your {list}. Please edit and update
                       the field.
@@ -230,7 +229,7 @@ const ContactInfo = ({
                 </div>
               )}
               <div className="vads-u-margin-top--1p5" role="alert">
-                <va-alert status="warning" background-only uswds>
+                <va-alert status="warning" background-only>
                   <div className="vads-u-font-size--base">
                     Your {list} {plural ? 'are' : 'is'} missing. Please edit and
                     update the {plural ? 'fields' : 'field'}.

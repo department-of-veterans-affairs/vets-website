@@ -123,7 +123,7 @@ const ConfirmationPage = ({ form, download }) => {
   const renderLongFormAlert = () => {
     return (
       <>
-        <va-alert status="success" uswds>
+        <va-alert status="success">
           <h3 slot="headline" className="vads-u-font-size--h3">
             We’ve received your request
           </h3>
@@ -147,7 +147,7 @@ const ConfirmationPage = ({ form, download }) => {
   const renderSWConfirmationAlert = () => {
     return (
       <>
-        <va-alert status="success" uswds>
+        <va-alert status="success">
           <h3 slot="headline" className="vads-u-font-size--h3">
             You’re tentatively eligible for debt relief
           </h3>
