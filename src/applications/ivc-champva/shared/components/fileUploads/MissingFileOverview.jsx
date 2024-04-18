@@ -329,6 +329,7 @@ MissingFileOverview.propTypes = {
   goForward: PropTypes.func,
   heading: PropTypes.node,
   optionalWarningHeading: PropTypes.node,
+  requiredFiles: PropTypes.any,
   requiredWarningHeading: PropTypes.node,
   setFormData: PropTypes.func,
   showConsent: PropTypes.bool,
