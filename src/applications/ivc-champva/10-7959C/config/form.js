@@ -3,7 +3,9 @@ import get from 'platform/utilities/data/get';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { applicantWording } from '../../shared/utilities';
+import transformForSubmit from './submitTransformer';
+import { applicantWording, getAgeInYears } from '../../shared/utilities';
+import FileFieldWrapped from '../components/FileUploadWrapper';
 
 import {
   certifierRole,
@@ -33,6 +35,7 @@ import {
   applicantHasMedicareDSchema,
   applicantMedicarePartDCarrierSchema,
   applicantMedicarePartDEffectiveDateSchema,
+  appMedicareOver65IneligibleUploadSchema,
 } from '../chapters/medicareInformation';
 import {
   ApplicantMedicareStatusPage,
@@ -119,6 +122,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   formId: '10-7959C',
+  transformForSubmit,
   saveInProgress: {
     messages: {
       inProgress:
@@ -264,6 +268,28 @@ const formConfig = {
           depends: (formData, index) => hasMedicareAB(formData, index),
           uiSchema: applicantMedicarePartACarrierSchema.uiSchema,
           schema: applicantMedicarePartACarrierSchema.schema,
+        },
+        // If ineligible and over 65, require user to upload proof of ineligibility
+        page20c: {
+          path: ':index/ineligible',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} over 65 and ineligible for Medicare`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantMedicareStatusContinued.medicareContext',
+                formData?.applicants?.[index],
+              ) === 'ineligible' &&
+              getAgeInYears(formData.applicants[index]?.applicantDOB) >= 65
+            );
+          },
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...appMedicareOver65IneligibleUploadSchema,
         },
         partAEffective: {
           path: ':index/effective-a',
