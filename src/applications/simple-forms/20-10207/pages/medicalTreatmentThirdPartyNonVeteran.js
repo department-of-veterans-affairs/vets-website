@@ -12,7 +12,7 @@ import { MedicalTreatmentViewField } from '../components/MedicalTreatmentViewFie
 export default {
   uiSchema: {
     ...titleUI(
-      'Where the claimant receive medical treatment?',
+      'Where did the claimant receive medical treatment?',
       'List VA medical centers, Defense Department military treatment facilities, or private medical facilities where the claimant was treated. Provide the approximate date that the treatment started. You may add up to 5 facilities.',
     ),
     medicalTreatments: {

@@ -312,7 +312,7 @@ const formConfig = {
         survivingDependentRelationshipToVeteran: {
           path: 'surviving-dependent-relationship-to-veteran',
           depends: formData => preparerIsSurvivingDependent({ formData }),
-          title: '',
+          title: 'Relationship to Veteran',
           uiSchema: survivingDependentRelationshipToVeteran.uiSchema,
           schema: survivingDependentRelationshipToVeteran.schema,
         },
@@ -320,7 +320,7 @@ const formConfig = {
           path: 'third-party-surviving-dependent-relationship-to-veteran',
           depends: formData =>
             preparerIsThirdPartyToASurvivingDependent({ formData }),
-          title: '',
+          title: 'Relationship to Veteran',
           uiSchema: thirdPartySurvivingDependentRelationshipToVeteran.uiSchema,
           schema: thirdPartySurvivingDependentRelationshipToVeteran.schema,
         },
