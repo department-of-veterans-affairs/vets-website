@@ -54,7 +54,11 @@ const BenefitRelinquishWidget = ({ formData, setFormData }) => {
 
   return (
     <div>
-      <VaRadio label-header-level="3" onVaValueChange={handlers.onSelection}>
+      <VaRadio
+        label-header-level="3"
+        className="no-margin"
+        onVaValueChange={handlers.onSelection}
+      >
         {chapter30Eligible && (
           <va-radio-option
             label="Chapter 30"
