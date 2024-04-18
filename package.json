@@ -325,6 +325,7 @@
     "regenerator-runtime": "^0.13.9",
     "reselect": "^2.5.4",
     "sass-graph": "4.0.1",
+    "scss-tokenizer": "0.4.3",
     "styled-components": "^5.3.1",
     "url-search-params": "^1.1.0",
     "url-search-params-polyfill": "^8.1.1",
