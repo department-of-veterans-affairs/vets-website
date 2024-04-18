@@ -38,6 +38,18 @@
 .refill-loading-indicator {
   margin-top: 70px;
 }
+
+.rx-breadcrumbs {
+  .breadcrumb-angle {
+    color: var(--vads-color-link);
+  }
+  a {
+    &:visited {
+      color: var(--vads-color-link);
+    }
+  }
+}
+
 .renew-pagination-container {
   width: 100%;
   display: flex;

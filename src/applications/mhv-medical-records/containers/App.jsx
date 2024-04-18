@@ -191,6 +191,24 @@ const App = ({ children }) => {
     [current],
   );
 
+  useEffect(
+    () => {
+      // If the user is not whitelisted or feature flag is disabled, redirect them.
+      if (featureTogglesLoading === false && appEnabled !== true) {
+        window.location.replace('/health-care/get-medical-records');
+      }
+    },
+    [featureTogglesLoading, appEnabled],
+  );
+
+  const isMissingRequiredService = (loggedIn, services) => {
+    if (loggedIn && !services.includes(backendServices.MEDICAL_RECORDS)) {
+      window.location.replace('/health-care/get-medical-records');
+      return true;
+    }
+    return false;
+  };
+
   if (featureTogglesLoading) {
     return (
       <div className="vads-l-grid-container">
@@ -203,19 +221,10 @@ const App = ({ children }) => {
     );
   }
 
-  // If the user is not whitelisted or feature flag is disabled, redirect them.
-  if (!appEnabled) {
-    window.location.replace('/health-care/get-medical-records');
+  if (appEnabled !== true) {
+    // If the user is not whitelisted or feature flag is disabled, return nothing.
     return <></>;
   }
-
-  const isMissingRequiredService = (loggedIn, services) => {
-    if (loggedIn && !services.includes(backendServices.MEDICAL_RECORDS)) {
-      window.location.replace('/health-care/get-medical-records');
-      return true;
-    }
-    return false;
-  };
 
   return (
     <RequiredLoginView
@@ -250,7 +259,7 @@ const App = ({ children }) => {
                 {showSideNav && (
                   <>
                     <Navigation paths={paths} data-testid="mhv-mr-navigation" />
-                    <div className="vads-u-margin-right--4" />
+                    <div className="vads-u-margin-right--4 no-print" />
                   </>
                 )}
                 <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">

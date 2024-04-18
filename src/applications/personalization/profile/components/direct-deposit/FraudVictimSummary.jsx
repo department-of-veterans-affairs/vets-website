@@ -5,7 +5,7 @@ export const FraudVictimSummary = () => (
   <div className="vads-u-margin-top--4">
     <va-summary-box uswds>
       <h3 className="vads-u-font-size--md" slot="headline">
-        What to do if you think you’ve been the victim of bank fraud
+        What if I think I’ve been the victim of bank fraud?
       </h3>
       <p className="text-balance">
         Call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (

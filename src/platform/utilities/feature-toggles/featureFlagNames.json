@@ -1,6 +1,7 @@
 {
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
   "authExpVbaDowntimeMessage": "auth_exp_vba_downtime_message",
+  "mebAutoPopulateRelinquishmentDate": "meb_auto_populate_relinquishment_date",
   "avsEnabled": "avs_enabled",
   "bcasLettersUseLighthouse": "bcas_letters_use_lighthouse",
   "benefitsEducationUseLighthouse": "benefits_education_use_lighthouse",
@@ -180,7 +181,9 @@
   "showMebInternationalAddressPrefill": "show_meb_international_address_prefill",
   "mebExclusionPeriodEnabled": "meb_exclusion_period_enabled",
   "showMeb1990EZMaintenanceAlert": "show_meb_1990EZ_maintenance_alert",
+  "showMeb1990EZR6MaintenanceMessage": "show_meb_1990EZ_R6_maintenance_message",
   "showMeb1990EMaintenanceAlert": "show_meb_1990E_maintenance_alert",
+  "showMeb1990ER6MaintenanceMessage": "show_meb_1990E_R6_maintenance_message",
   "showMebLettersMaintenanceAlert": "show_meb_letters_maintenance_alert",
   "showMebEnrollmentVerificationMaintenanceAlert": "show_meb_enrollment_verification_maintenance_alert",
   "showMebServiceHistoryCategorizeDisagreement": "show_meb_service_history_categorize_disagreement",

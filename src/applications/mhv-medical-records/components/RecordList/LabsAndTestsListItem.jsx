@@ -13,12 +13,10 @@ const LabsAndTestsListItem = props => {
       data-testid="record-list-item"
     >
       <h3 className="vads-u-font-size--h4 vads-u-line-height--4 vads-u-margin-bottom--0p5">
-        <Link
-          to={`/labs-and-tests/${record.id}`}
-          data-dd-privacy="mask"
-          aria-label={`${record.name} on ${record.date}`}
-        >
-          {record.name}
+        <Link to={`/labs-and-tests/${record.id}`} data-dd-privacy="mask">
+          <span>
+            {record.name} <span className="sr-only">on {record.date}</span>
+          </span>
         </Link>
       </h3>
 
