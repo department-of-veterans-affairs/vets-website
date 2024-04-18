@@ -309,8 +309,8 @@ export function showGulfWar1990SummaryPage(formData) {
  * the output format may vary depending on available data. Scenarios
  * startDate: '' and endDate: '' -> 'No dates entered'
  * startDate: '1992-04-01' and endDate: '1995-06-01' -> 'April 1992 - June 1995'
- * startDate: '1992-XX-XX' and endDate: '1995-XX-XX' -> '1992 - 1995'
- * startDate: 'XXXX-XX-XX' and endDate: '1995-XX-XX' -> No start date entered - 1995
+ * startDate: '1992-04-01' and endDate: '' -> 'April 1992 - No end date entered'
+ * startDate: '' and endDate: '1995-06-01' -> 'No start date entered - June 1995'
  *
  * @param {object} dates - object containing the date range
  * @returns {string} a description string with month and year, e.g. "September 1992 - September 1993"

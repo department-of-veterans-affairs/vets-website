@@ -749,12 +749,12 @@ export const formTitle = title => (
 );
 
 /**
- * Creates consistent form sub title
- * @param {string} title
+ * Creates consistent form subtitle
+ * @param {string} subtitle
  * @returns {string} markup with h4 tag and consistent styling
  */
-export const formSubtitle = title => (
-  <h4 className="vads-u-font-size--h5 vads-u-margin-top--2">{title}</h4>
+export const formSubtitle = subtitle => (
+  <h4 className="vads-u-font-size--h5 vads-u-margin-top--2">{subtitle}</h4>
 );
 
 /**

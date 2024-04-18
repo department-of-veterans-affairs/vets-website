@@ -1374,25 +1374,20 @@ describe('formatMonthYearDate', () => {
   it('should return empty when empty date', () => {
     expect(formatMonthYearDate('')).to.equal('');
     expect(formatMonthYearDate(undefined)).to.equal('');
-    expect(formatMonthYearDate('XXXX-XX-XX'));
   });
 
-  it('should return empty when month and year not provided', () => {
-    expect(formatMonthYearDate('XXXX-01-XX')).to.equal('');
-  });
-
-  it('should return appropriate month when month and year provided', () => {
+  it('should return appropriate month and year when date provided', () => {
     expect(formatMonthYearDate('2000-01-01')).to.equal('January 2000');
-    expect(formatMonthYearDate('2000-02-01')).to.equal('February 2000');
-    expect(formatMonthYearDate('2000-03-01')).to.equal('March 2000');
-    expect(formatMonthYearDate('2000-04-01')).to.equal('April 2000');
-    expect(formatMonthYearDate('2000-05-01')).to.equal('May 2000');
-    expect(formatMonthYearDate('2000-06-01')).to.equal('June 2000');
-    expect(formatMonthYearDate('2000-07-01')).to.equal('July 2000');
-    expect(formatMonthYearDate('2000-08-01')).to.equal('August 2000');
-    expect(formatMonthYearDate('2000-09-01')).to.equal('September 2000');
-    expect(formatMonthYearDate('2000-10-01')).to.equal('October 2000');
-    expect(formatMonthYearDate('2000-11-01')).to.equal('November 2000');
-    expect(formatMonthYearDate('2000-12-01')).to.equal('December 2000');
+    expect(formatMonthYearDate('2001-02-01')).to.equal('February 2001');
+    expect(formatMonthYearDate('2002-03-01')).to.equal('March 2002');
+    expect(formatMonthYearDate('2003-04-01')).to.equal('April 2003');
+    expect(formatMonthYearDate('2004-05-01')).to.equal('May 2004');
+    expect(formatMonthYearDate('2005-06-01')).to.equal('June 2005');
+    expect(formatMonthYearDate('2006-07-01')).to.equal('July 2006');
+    expect(formatMonthYearDate('2007-08-01')).to.equal('August 2007');
+    expect(formatMonthYearDate('2008-09-01')).to.equal('September 2008');
+    expect(formatMonthYearDate('2009-10-01')).to.equal('October 2009');
+    expect(formatMonthYearDate('2010-11-01')).to.equal('November 2010');
+    expect(formatMonthYearDate('1970-12-01')).to.equal('December 1970');
   });
 });
