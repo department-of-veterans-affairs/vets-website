@@ -103,11 +103,7 @@ function ToeApp({
         });
       }
     },
-    [
-      formData,
-      setFormData,
-      toeLightHouseDgiDirectDeposit,
-    ],
+    [formData, setFormData, toeLightHouseDgiDirectDeposit],
   );
 
   useEffect(
@@ -126,6 +122,7 @@ function ToeApp({
       getDirectDeposit,
       user?.login?.currentlyLoggedIn,
       lightHouseFlag,
+      formData?.toeLightHouseDgiDirectDeposit,
     ],
   );
 
@@ -156,6 +153,7 @@ ToeApp.propTypes = {
   isLOA3: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
+  showMeb1990ER6MaintenanceMessage: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,

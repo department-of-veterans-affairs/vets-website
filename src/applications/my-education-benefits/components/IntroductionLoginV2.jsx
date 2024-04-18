@@ -20,6 +20,7 @@ function IntroductionLoginV2({
   showHideLoginModal,
   user,
   showMeb1990EZMaintenanceAlert,
+  showMeb1990EZR6MaintenanceMessage,
   showMebEnhancements09, // Add showMebEnhancements09 as a prop
 }) {
   const apiCallsComplete =
@@ -187,7 +188,7 @@ IntroductionLoginV2.propTypes = {
   isPersonalInfoFetchFailed: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
-  showMeb1990EZR6MaintenanceAlert: PropTypes.bool,
+  showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool, // Added new feature flag to propTypes
   user: PropTypes.object,
 };
