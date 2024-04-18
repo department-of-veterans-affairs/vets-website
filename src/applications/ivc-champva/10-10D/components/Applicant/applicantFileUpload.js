@@ -3,12 +3,30 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantWording } from '../../../shared/utilities';
 import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
 import { fileUploadUi as fileUploadUI } from '../../../shared/components/fileUploads/upload';
-import { isRequiredFile } from '../../helpers/supportingDocsVerification';
+import { requiredFiles } from '../../config/requiredUploads';
 import {
   uploadWithInfoComponent,
   // acceptableFiles,
   mailOrFaxLaterMsg,
 } from '../Sponsor/sponsorFileUploads';
+
+// This file contains the ui/schemas for applicant file upload screens.
+
+/**
+ * Provide a string indicating if a file contained in a form page is in the
+ * requiredFiles object
+ * @param {object} formContext formContext object from a list loop page
+ * @returns a string, either '(Required)' or '(Optional)' depending on if the
+ * formContext contained one or more properties that intersect with the
+ * requiredFiles object
+ */
+function isRequiredFile(formContext) {
+  return Object.keys(formContext?.schema?.properties || {}).filter(v =>
+    Object.keys(requiredFiles).includes(v),
+  ).length >= 1
+    ? '(Required)'
+    : '(Optional)';
+}
 
 export const marriageDocumentList = (
   <>

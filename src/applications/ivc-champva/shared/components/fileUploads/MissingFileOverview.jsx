@@ -6,10 +6,9 @@ import {
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
-import {
-  identifyMissingUploads,
-  getConditionalPages,
-} from '../../../10-10D/helpers/supportingDocsVerification';
+import { getConditionalPages } from '../../utilities';
+// import { identifyMissingUploads } from '../../../10-10D/helpers/supportingDocsVerification';
+import SupportingDocsVerification from '../../../10-10D/helpers/supportingDocsVerification';
 import MissingFileList from './MissingFileList';
 
 const mailInfo = (
@@ -131,6 +130,7 @@ export default function MissingFileOverview({
   showConsent,
   allPages,
   fileNameMap,
+  requiredFiles,
 }) {
   const [error, setError] = useState(undefined);
   const [isChecked, setIsChecked] = useState(
@@ -138,6 +138,7 @@ export default function MissingFileOverview({
   );
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
   const chapters = contentAfterButtons?.props?.formConfig?.chapters;
+  const verifier = new SupportingDocsVerification(requiredFiles);
   // Create single list of pages from multiple chapter objects
   const pages =
     allPages ||
@@ -157,13 +158,13 @@ export default function MissingFileOverview({
       return checkFlags(
         conditionalPages,
         app,
-        identifyMissingUploads(conditionalPages, app, false),
+        verifier.identifyMissingUploads(conditionalPages, app, false),
       );
     });
 
   const applicantsWithMissingFiles = data.applicants
     .map(applicant => {
-      const missing = identifyMissingUploads(
+      const missing = verifier.identifyMissingUploads(
         getConditionalPages(pages, { ...data, applicants: [applicant] }, 0),
         applicant,
         false,
@@ -184,7 +185,11 @@ export default function MissingFileOverview({
     missingUploads: checkFlags(
       pages,
       data,
-      identifyMissingUploads(getConditionalPages(pages, data), data, true),
+      verifier.identifyMissingUploads(
+        getConditionalPages(pages, data),
+        data,
+        true,
+      ),
     ).missingUploads,
   };
 

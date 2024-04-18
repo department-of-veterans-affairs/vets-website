@@ -25,6 +25,7 @@ export function FileFieldCustom(props) {
       disableLinks: true,
       setFormData: props.setFormData,
       showConsent: false,
+      requiredFiles: props.requiredFiles, // To be injected via wrapper class
     });
   } catch (e) {
     // Let it fail - if this trips it most likely means we're uploading a
@@ -121,6 +122,7 @@ FileFieldCustom.propTypes = {
   // eslint-disable-next-line react/sort-prop-types
   onReviewPage: PropTypes.bool,
   pagePerItemIndex: PropTypes.any,
+  requiredFiles: PropTypes.any,
   schema: PropTypes.object,
   title: PropTypes.any,
   trackingPrefix: PropTypes.string,

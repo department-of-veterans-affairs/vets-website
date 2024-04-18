@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  requiredFiles,
-  optionalFiles,
-} from '../helpers/supportingDocsVerification';
+// import {
+//   requiredFiles,
+//   optionalFiles,
+// } from '../helpers/supportingDocsVerification';
+import { requiredFiles, optionalFiles } from '../config/requiredUploads';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 
 export default function SupportingDocumentsPage({
@@ -22,6 +23,7 @@ export default function SupportingDocumentsPage({
     setFormData,
     showConsent: false,
     fileNameMap: { ...requiredFiles, ...optionalFiles },
+    requiredFiles,
   });
   return <>{OverviewComp}</>;
 }
