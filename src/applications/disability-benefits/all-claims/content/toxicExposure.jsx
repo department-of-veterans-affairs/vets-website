@@ -58,6 +58,8 @@ export const dateHelp =
   'Enter any date range you served in this location. You don’t need to have exact dates.';
 export const startDateApproximate = 'Service start date (approximate)';
 export const endDateApproximate = 'Service end date (approximate)';
+export const goBackLink = 'Edit locations and dates';
+export const noDatesEntered = 'No dates entered';
 
 /**
  * Create the markup for page description. If there are item counts, it will display
@@ -314,13 +316,11 @@ export function showGulfWar1990SummaryPage(formData) {
  * @returns {string} a description string with month and year, e.g. "September 1992 - September 1993"
  */
 export function datesDescription(dates) {
-  if (!dates.startDate && !dates.endDate) {
-    return 'No dates entered';
+  if (!dates?.startDate && !dates?.endDate) {
+    return noDatesEntered;
   }
   const startDate =
     formatMonthYearDate(dates?.startDate) || 'No start date entered';
   const endDate = formatMonthYearDate(dates?.endDate) || 'No end date entered';
-  return !startDate && !endDate
-    ? 'No dates entered'
-    : `${startDate} - ${endDate}`;
+  return !startDate && !endDate ? noDatesEntered : `${startDate} - ${endDate}`;
 }

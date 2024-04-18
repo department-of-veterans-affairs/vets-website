@@ -1,5 +1,5 @@
 import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
-import { toxicExposureSummary } from '../../content/toxicExosureSummary';
+import { toxicExposureSummary } from '../../content/toxicExposureSummary';
 import { gulfWar1990PageTitle } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
 

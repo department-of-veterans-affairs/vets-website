@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { formSubtitle } from '../utils';
-import { datesDescription } from './toxicExposure';
+import { datesDescription, goBackLink } from './toxicExposure';
 
 export function toxicExposureSummary(
   { formData },
@@ -40,7 +40,7 @@ export function toxicExposureSummary(
             search: '?redirect',
           }}
         >
-          Edit locations and dates
+          {goBackLink}
         </Link>
       </p>
     </>
