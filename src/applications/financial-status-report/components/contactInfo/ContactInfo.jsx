@@ -176,7 +176,7 @@ const ContactInfo = ({
   );
 
   const navButtons = onReviewPage ? (
-    <va-button text={content.update} onClick={handlers.updatePage} uswds />
+    <va-button text={content.update} onClick={handlers.updatePage} />
   ) : (
     <>
       {contentBeforeButtons}
