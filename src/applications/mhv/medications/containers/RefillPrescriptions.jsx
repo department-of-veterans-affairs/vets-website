@@ -172,28 +172,34 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
               {`prescription${fullRefillList.length !== 1 ? 's' : ''}`} ready to
               refill.
             </p>
-            {hasNoOptionSelectedError && (
-              <p className="vads-u-color--secondary vads-u-margin-top--0 vads-u-margin-bottom--2p5">
-                <span className="usa-sr-only">Error</span>
-                <strong
-                  id="select-one-rx-error"
-                  data-testid="select-one-rx-error"
-                >
-                  Select at least one prescription to refill
-                </strong>
-              </p>
-            )}
+            <p
+              id="select-one-rx-error"
+              data-testid="select-one-rx-error"
+              className={`vads-u-color--secondary vads-u-font-weight--bold rx-refill-submit-error-${
+                !hasNoOptionSelectedError ? 'hidden' : 'visible'
+              }`}
+              role="alert"
+            >
+              <span className="usa-sr-only">Error</span>
+              <span className="usa-error-message">
+                Select at least one prescription to refill
+              </span>
+            </p>
             {fullRefillList?.length > 1 && (
               <div className="vads-u-margin-bottom--3">
                 <VaCheckbox
                   id="select-all-checkbox"
                   data-testid="select-all-checkbox"
                   label="Select all"
-                  aria-describedby={`refill-page-list-count ${
-                    hasNoOptionSelectedError ? 'select-one-rx-error' : ''
+                  aria-describedby={`${
+                    !hasNoOptionSelectedError
+                      ? 'refill-page-list-count'
+                      : 'select-one-rx-error'
                   }`}
-                  message-aria-describedby={`refill-page-list-count ${
-                    hasNoOptionSelectedError ? 'select-one-rx-error' : ''
+                  message-aria-describedby={`${
+                    !hasNoOptionSelectedError
+                      ? 'refill-page-list-count'
+                      : 'select-one-rx-error'
                   }`}
                   className="vads-u-margin-bottom--3"
                   checked={selectedRefillListLength === fullRefillList.length}
