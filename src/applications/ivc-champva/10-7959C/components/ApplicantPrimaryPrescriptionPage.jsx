@@ -11,11 +11,13 @@ const PROPERTY_NAMES = {
   secondary: '_unused',
 };
 
-function generateOptions({ data, pagePerItemIndex }) {
+const SECONDARY_PROPERTY_NAMES = {
+  ...PROPERTY_NAMES,
+  keyname: 'applicantSecondaryHasPrescription',
+};
+
+function generateOptions({ data, pagePerItemIndex, isPrimary }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
-  const prompt = `Does ${
-    bp.relativePossessive
-  } health insurance cover prescriptions?`;
   const options = [
     {
       label: `Yes, ${
@@ -33,32 +35,50 @@ function generateOptions({ data, pagePerItemIndex }) {
   return {
     ...bp,
     options,
-    relativeBeingVerb: `${bp.relative} ${bp.beingVerbPresent}`,
     customTitle: `${bp.relativePossessive} ${
-      bp.currentListItem?.applicantPrimaryProvider
+      isPrimary
+        ? bp.currentListItem?.applicantPrimaryProvider
+        : bp.currentListItem?.applicantSecondaryProvider
     } prescription coverage`,
     customHint:
       'You can find this information on the front of your health insurance card.',
-    description: prompt,
+    description: `Does ${
+      bp.relativePossessive
+    } health insurance cover prescriptions?`,
   };
 }
 
 export function ApplicantPrimaryPrescriptionPage(props) {
-  const newProps = {
+  return ApplicantRelationshipPage({
     ...props,
     ...PROPERTY_NAMES,
-    genOp: generateOptions,
-  };
-  return ApplicantRelationshipPage(newProps);
+    genOp: args => generateOptions({ ...args, isPrimary: true }),
+  });
 }
 export function ApplicantPrimaryPrescriptionReviewPage(props) {
-  const newProps = {
+  return ApplicantRelationshipReviewPage({
     ...props,
     ...PROPERTY_NAMES,
-    genOp: generateOptions,
-  };
-  return ApplicantRelationshipReviewPage(newProps);
+    genOp: args => generateOptions({ ...args, isPrimary: true }),
+  });
+}
+
+export function ApplicantSecondaryPrescriptionPage(props) {
+  return ApplicantRelationshipPage({
+    ...props,
+    ...SECONDARY_PROPERTY_NAMES,
+    genOp: args => generateOptions({ ...args, isPrimary: false }),
+  });
+}
+export function ApplicantSecondaryPrescriptionReviewPage(props) {
+  return ApplicantRelationshipReviewPage({
+    ...props,
+    ...SECONDARY_PROPERTY_NAMES,
+    genOp: args => generateOptions({ ...args, isPrimary: false }),
+  });
 }
 
 ApplicantPrimaryPrescriptionPage.propTypes = pageProps;
 ApplicantPrimaryPrescriptionReviewPage.propTypes = reviewPageProps;
+ApplicantSecondaryPrescriptionPage.propTypes = pageProps;
+ApplicantSecondaryPrescriptionReviewPage.propTypes = reviewPageProps;

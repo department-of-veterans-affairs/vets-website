@@ -60,11 +60,6 @@ const bankInfoHelpText = (
 
 const directDepositDescription = (
   <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
-    <p>
-      Direct deposit information is not mandatory at this time. However,
-      benefits cannot be awarded without this information per U.S. Treasury
-      regulation 31 C.F.R. § 208.3.
-    </p>
     <img
       src="/img/direct-deposit-check-guide.svg"
       alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
@@ -103,6 +98,13 @@ const directDepDescription = (
       subject to section 208.4, “all Federal payments made by an agency shall be
       made by electronic funds transfer” (EFT).
     </p>
+    <p>
+      Note: Any bank account information you enter here will update all other
+      existing Veteran benefits, including Compensation, Pension, and benefits
+      for certain children with disabilities (Chapter 18) payments. Information
+      entered here WILL NOT change your existing bank account for VA health
+      benefits.
+    </p>
   </div>
 );
 export default function createDirectDepositChangePage(schema) {
@@ -129,12 +131,6 @@ export default function createDirectDepositChangePage(schema) {
             formData.bankAccountChangeUpdate !== 'startUpdate',
         },
       },
-      // bankAccount: merge({}, bankAccountUI, {
-      //   'ui:options': {
-      //     hideIf: formData => !isStartUpdate(formData),
-      //     expandUnder: 'view:directDepositImageAndText',
-      //   },
-      // }),
       bankAccount: {
         'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
         'ui:options': {
