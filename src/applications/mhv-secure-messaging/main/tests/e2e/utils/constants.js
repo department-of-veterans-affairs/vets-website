@@ -78,6 +78,7 @@ export const Locators = {
   FILTER_INPUT: '#filter-input',
   ADDITIONAL_FILTER: '#additional-filter-accordion',
   ACCORDIONS: '[data-testid="faq-accordion-item"]',
+  MESSAGE_THREAD_META: '.message-thread-meta',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -94,6 +95,10 @@ export const Locators = {
     FOLDER_NOT_EMPTY: 'va-modal[data-testid="error-folder-not-empty"]',
   },
   BUTTONS: {
+    SECURE_MESSAGING: '[data-testid="secure-messaging"]',
+    THREAD_EXPAND: '[data-testid="thread-expand-all"]',
+    THREAD_EXPAND_MESSAGES:
+      '[data-testid="thread-expand-all"] va-accordion-item',
     ADDITIONAL_FILTER: '#additional-filter-accordion',
     TRASH_TEXT: '[data-testid=trash-button-text]',
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
