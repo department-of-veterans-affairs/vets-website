@@ -95,7 +95,7 @@ export default function App({ children }) {
                       </ul>
                     </nav>
                   </div>
-                  <p id="pagination-info">Showing 1 ‒ 10 of 1543 events</p>
+                  <p id="pagination-info">Showing 1 ‒ 5 of 5 events</p>
                   {travelClaims.map(travelClaim =>
                     TravelClaimCard(travelClaim),
                   )}
