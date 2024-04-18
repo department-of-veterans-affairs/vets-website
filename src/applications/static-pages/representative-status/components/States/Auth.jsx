@@ -51,6 +51,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
             <va-telephone contact={CONTACTS['711']} tty />
             ). We’re here 24/7.
           </p>
+          <p className="error-log">{error}</p>
         </React.Fragment>
       </va-alert>
     );
