@@ -41,9 +41,6 @@ export const EVIDENCE_UPLOAD_API = '/v0/decision_review_evidence';
 
 export const SUBMIT_URL = '/v1/supplemental_claims';
 
-export const PRIMARY_PHONE = 'view:primaryPhone';
-export const PRIMARY_PHONE_TYPES = ['home', 'mobile'];
-
 export const EVIDENCE_VA = 'view:hasVaEvidence';
 export const EVIDENCE_PRIVATE = 'view:hasPrivateEvidence';
 export const EVIDENCE_OTHER = 'view:hasOtherEvidence';
@@ -99,7 +96,6 @@ export const errorMessages = {
     upload: 'You must provide a password to decrypt this file',
   },
 
-  missingPrimaryPhone: 'You must choose a primary phone number',
   invalidZip:
     'You must enter a valid 5- or 9-digit postal code (dashes allowed)',
 };

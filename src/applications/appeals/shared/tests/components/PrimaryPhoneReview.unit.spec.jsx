@@ -6,8 +6,9 @@ import sinon from 'sinon';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import PrimaryPhoneReview from '../../components/PrimaryPhoneReview';
-import { PRIMARY_PHONE, errorMessages } from '../../../995/constants';
+import { PRIMARY_PHONE } from '../../constants';
 import { content } from '../../content/primaryPhone';
+import errorMessages from '../../content/errorMessages';
 
 import maximalData from '../../../995/tests/fixtures/data/maximal-test.json';
 
