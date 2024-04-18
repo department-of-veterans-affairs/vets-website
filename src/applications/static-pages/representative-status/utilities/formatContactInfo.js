@@ -16,16 +16,17 @@ export function formatContactInfo(poaAttributes) {
   const { contact, extension } = parsePhoneNumber(phone);
 
   // address as displayed on contact card + google maps link
-  const concatAddress = [
-    addressLine1,
-    addressLine2,
-    addressLine3,
-    `${city},`,
-    stateCode,
-    zipCode,
-  ]
-    .filter(str => str)
-    .join(' ');
+  const concatAddress =
+    [
+      addressLine1,
+      addressLine2,
+      addressLine3,
+      city ? `${city},` : null,
+      stateCode,
+      zipCode,
+    ]
+      .filter(Boolean)
+      .join(' ') || null;
 
   // rep contact card
   const vcfData = [
