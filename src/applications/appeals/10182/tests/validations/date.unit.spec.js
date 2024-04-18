@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import { addWeeks, sub } from 'date-fns';
 import { validateDate, isValidDate } from '../../validations/date';
 import { issueErrorMessages } from '../../content/addIssue';
 import { SHOW_PART3 } from '../../constants';
 
-import { parseDate } from '../../../shared/utils/dates';
+import { parseDate, parseDateWithOffset } from '../../../shared/utils/dates';
+import { MAX_YEARS_PAST } from '../../../shared/constants';
 
 describe('validateDate & isValidDate', () => {
   let errorMessage = [];
@@ -20,7 +20,7 @@ describe('validateDate & isValidDate', () => {
   });
 
   it('should allow valid dates', () => {
-    const date = parseDate(sub(new Date(), { weeks: 1 }));
+    const date = parseDateWithOffset({ weeks: -1 });
     validateDate(errors, date);
     expect(errorMessage[0]).to.be.undefined;
     expect(isValidDate(date)).to.be.true;
@@ -63,7 +63,7 @@ describe('validateDate & isValidDate', () => {
     expect(isValidDate('1899')).to.be.false;
   });
   it('should throw an error for dates in the future', () => {
-    const date = parseDate(addWeeks(new Date(), 1));
+    const date = parseDateWithOffset({ weeks: 1 });
     validateDate(errors, date);
     expect(errorMessage[0]).to.eq(issueErrorMessages.pastDate);
     expect(errorMessage[1]).to.not.contain('month');
@@ -83,7 +83,7 @@ describe('validateDate & isValidDate', () => {
     expect(isValidDate(date)).to.be.false;
   });
   it('should throw an error for dates in the distant past', () => {
-    const date = parseDate(sub(new Date(), { years: 2 }));
+    const date = parseDateWithOffset({ years: -2 });
     validateDate(errors, date);
     expect(errorMessage[0]).to.eq(issueErrorMessages.recentDate);
     expect(errorMessage[1]).to.not.contain('month');
@@ -94,7 +94,7 @@ describe('validateDate & isValidDate', () => {
   });
   it('should throw a invalid date for truncated dates', () => {
     // Testing 'YYYY-MM-' (contact center reported errors; FE seeing this)
-    const date = parseDate(addWeeks(new Date(), 1)).substring(0, 8);
+    const date = parseDateWithOffset({ weeks: 1 }).substring(0, 8);
     validateDate(errors, date);
     expect(errorMessage[0]).to.eq(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.not.contain('month');
@@ -105,7 +105,7 @@ describe('validateDate & isValidDate', () => {
   });
   it('should throw a invalid date for truncated dates', () => {
     // Testing 'YYYY--DD' (contact center reported errors; BE seeing this)
-    const date = parseDate(addWeeks(new Date(), 1)).replace(/-.*-/, '--');
+    const date = parseDateWithOffset({ weeks: 1 }).replace(/-.*-/, '--');
     validateDate(errors, date);
     expect(errorMessage[0]).to.eq(issueErrorMessages.blankDecisionDate);
     expect(errorMessage[1]).to.contain('month');
@@ -115,12 +115,12 @@ describe('validateDate & isValidDate', () => {
     expect(isValidDate(date)).to.be.false;
   });
   it('should not throw an error for older dates when feature toggle is set to support the new form', () => {
-    const date = parseDate(sub(new Date(), { years: 2 }));
+    const date = parseDateWithOffset({ years: -2 });
     validateDate(errors, date, { [SHOW_PART3]: true });
     expect(errorMessage[0]).to.be.undefined;
   });
   it('should throw an error for dates in the distant past when feature toggle is set to support the new form', () => {
-    const date = parseDate(sub(new Date(), { years: 110 }));
+    const date = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 10) });
     validateDate(errors, date, { [SHOW_PART3]: true });
     expect(errorMessage[0]).to.eq(issueErrorMessages.newerDate);
     expect(errorMessage[1]).to.not.contain('month');

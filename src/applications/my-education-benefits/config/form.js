@@ -26,6 +26,7 @@ import toursOfDutyUI from '../definitions/toursOfDuty';
 import AccordionField from '../components/AccordionField';
 import ApplicantIdentityView from '../components/ApplicantIdentityView';
 import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage';
+import BenefitRelinquishmentDate from '../components/BenefitRelinquishmentDate';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import BenefitRelinquishWidget from '../components/BenefitRelinquishWidget';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -1398,27 +1399,37 @@ const formConfig = {
                 hideIf: notGivingUpBenefitSelected,
                 expandUnder: [formFields.viewBenefitSelection],
               },
+              'ui:widget': BenefitRelinquishmentDate,
               'ui:required': givingUpBenefitSelected,
               'ui:reviewField': DateReviewField,
               'ui:validations': [validateEffectiveDate],
             },
             'view:effectiveDateNotes': {
               'ui:description': (
-                <ul>
-                  <li>
-                    You can select a date up to one year in the past. We may be
-                    able to pay you benefits for education or training taken
-                    during this time.
-                  </li>
-                  <li>
-                    We can’t pay for education or training taken more than one
-                    year before the date of your application for benefits.
-                  </li>
-                  <li>
-                    If you are currently using another benefit, select the date
-                    you would like to start using the Post-9/11 GI Bill.
-                  </li>
-                </ul>
+                <div>
+                  <br />
+                  <ul>
+                    <li>
+                      You can select a date up to one year in the past. We may
+                      be able to pay you benefits for education or training
+                      taken during this time.
+                    </li>
+                    <li>
+                      We can’t pay for education or training taken more than one
+                      year before the date of your application for benefits.
+                    </li>
+                    <li>
+                      If you are currently using another benefit, select the
+                      date you would like to start using the Post-9/11 GI Bill.
+                    </li>
+                    <li>
+                      Be aware that if you enter a date exactly one year prior
+                      to this date, it will recalculate when you choose the
+                      “Finish this application later” option and log back in at
+                      a later time
+                    </li>
+                  </ul>
+                </div>
               ),
               'ui:options': {
                 hideIf: notGivingUpBenefitSelected,
