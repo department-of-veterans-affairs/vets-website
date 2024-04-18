@@ -38,6 +38,7 @@ import {
 } from '../utils/validations';
 import UploadStatus from './UploadStatus';
 import mailMessage from './MailMessage';
+import RemoveFileModal from './claim-files-tab/RemoveFileModal';
 
 const displayTypes = FILE_TYPES.join(', ');
 
@@ -304,40 +305,20 @@ class AddFilesFormOld extends React.Component {
             Cancel
           </Link>
         </div>
-        <VaModal
-          id="remove-file"
-          onCloseEvent={() => {
-            this.setState({
-              showRemoveFileModal: false,
-              removeFileIndex: null,
-              removeFileName: null,
-            });
-          }}
-          onPrimaryButtonClick={() => {
+        <RemoveFileModal
+          removeFile={() => {
             this.props.onRemoveFile(this.state.removeFileIndex);
+          }}
+          showRemoveFileModal={this.state.showRemoveFileModal}
+          removeFileName={this.state.removeFileName}
+          closeModal={() => {
             this.setState({
               showRemoveFileModal: false,
               removeFileIndex: null,
               removeFileName: null,
             });
           }}
-          onSecondaryButtonClick={() => {
-            this.setState({
-              showRemoveFileModal: false,
-              removeFileIndex: null,
-              removeFileName: null,
-            });
-          }}
-          primaryButtonText="Remove"
-          secondaryButtonText="Keep"
-          visible={this.state.showRemoveFileModal}
-        >
-          <h3>Remove this file?</h3>
-          <p>
-            We'll remove the document{' '}
-            <strong>{this.state.removeFileName}</strong>
-          </p>
-        </VaModal>
+        />
         <VaModal
           id="upload-status"
           onCloseEvent={() => this.setState({ canShowUploadModal: false })}

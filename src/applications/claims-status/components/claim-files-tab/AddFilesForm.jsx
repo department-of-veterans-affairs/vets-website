@@ -37,6 +37,7 @@ import {
 } from '../../utils/validations';
 import UploadStatus from '../UploadStatus';
 import mailMessage from '../MailMessage';
+import RemoveFileModal from './RemoveFileModal';
 
 const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
@@ -291,8 +292,9 @@ class AddFilesForm extends React.Component {
         >
           {mailMessage}
         </va-additional-info>
-        <VaModal
+        {/* <VaModal
           id="remove-file"
+          modalTitle="Remove this file?"
           onCloseEvent={() => {
             this.setState({
               showRemoveFileModal: false,
@@ -315,16 +317,29 @@ class AddFilesForm extends React.Component {
               removeFileName: null,
             });
           }}
-          primaryButtonText="Remove"
-          secondaryButtonText="Keep"
+          primaryButtonText="Yes, remove this"
+          secondaryButtonText="No, keep this"
           visible={this.state.showRemoveFileModal}
+          status="warning"
         >
-          <h3>Remove this file?</h3>
           <p>
-            We'll remove the document{' '}
-            <strong>{this.state.removeFileName}</strong>
+            We'll remove <strong>{this.state.removeFileName}</strong>
           </p>
-        </VaModal>
+        </VaModal> */}
+        <RemoveFileModal
+          removeFile={() => {
+            this.props.onRemoveFile(this.state.removeFileIndex);
+          }}
+          showRemoveFileModal={this.state.showRemoveFileModal}
+          removeFileName={this.state.removeFileName}
+          closeModal={() => {
+            this.setState({
+              showRemoveFileModal: false,
+              removeFileIndex: null,
+              removeFileName: null,
+            });
+          }}
+        />
         <VaModal
           id="upload-status"
           onCloseEvent={() => this.setState({ canShowUploadModal: false })}
