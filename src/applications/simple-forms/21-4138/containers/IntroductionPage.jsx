@@ -11,21 +11,40 @@ import { TITLE, SUBTITLE } from '../config/constants';
 
 const IntroductionPage = props => {
   const { route } = props;
-  // WIP: need to keep unit-tests passing with these new selector-hooks
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
 
   const childContent = (
     <>
-      <p>Stuff</p>
+      <p>
+        Use this form to provide additional information to support an existing
+        claim.
+      </p>
+      <h2>What to know before filling out this form</h2>
+      <p>
+        If you want to submit more than one statement, you’ll need to use a new
+        form for each statement.
+      </p>
+      <h3>Not sure if this is the right form to use?</h3>
+      <p>
+        For more information about how to choose the best supporting form, read
+        about all our supporting forms.
+      </p>
+      <h2>Start your form</h2>
+      <p>
+        <b>Note:</b> You’ll need to sign in with a verified <b>Login.gov</b> or{' '}
+        <b>ID.me</b> account or a Premium <b>DS Logon</b> or{' '}
+        <b>My HealtheVet</b> account. If you don’t have any of those accounts,
+        you can create a free <b>Login.gov</b> or <b>ID.me</b> account now.
+      </p>
     </>
   );
 
   const content = {
     formTitle: TITLE,
     formSubTitle: SUBTITLE,
-    authStartFormText: 'Start your request for priority processing',
-    unauthStartText: 'Sign in to start filling out your form',
+    authStartFormText: 'Start your statement',
+    unauthStartText: 'Sign in to start your statement',
     displayNonVeteranMessaging: true,
     hideSipIntro: userLoggedIn && !userIdVerified,
   };
