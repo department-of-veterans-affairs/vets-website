@@ -207,5 +207,16 @@ describe('Refill Prescriptions Component', () => {
     expect(error).to.exist;
     const focusEl = document.activeElement;
     expect(focusEl).to.have.property('id', 'select-all-checkbox');
+
+  it('Shows h1 and note if no prescriptions are refillable', async () => {
+    const screen = setup(initialState, []);
+    const title = await screen.findByTestId('refill-page-title');
+    expect(title).to.exist;
+    expect(title).to.have.text('Refill prescriptions');
+    expect(
+      screen.getByText(
+        'You don’t have any VA prescriptions with refills available. If you need a prescription, contact your care team.',
+      ),
+    ).to.exist;
   });
 });
