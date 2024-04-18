@@ -31,7 +31,6 @@ const DebtDetailsCard = ({ debt }) => {
       show-icon={debtCardContent.showIcon}
       status={debtCardContent.status}
       visible="true"
-      uswds
     >
       <h2 slot="headline">{debtCardContent.headerText}</h2>
 
