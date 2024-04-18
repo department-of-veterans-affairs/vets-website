@@ -61,7 +61,7 @@ export const MenuItemLevel1 = ({
           {/* Expand title */}
           <button
             aria-expanded={isExpanded ? 'true' : 'false'}
-            className="header-menu-item-button vads-u-background-color--primary-darker vads-u-display--flex vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
+            className="header-menu-item-button vads-u-background-color--primary-darker vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-width--full vads-u-text-decoration--none vads-u-margin--0 vads-u-padding--2 vads-u-color--white"
             data-e2e-id={menuItemID}
             id={menuItemID}
             onClick={toggleShowItems(item?.title)}
@@ -69,15 +69,45 @@ export const MenuItemLevel1 = ({
           >
             {item?.title}
             {isExpanded ? (
-              <i
-                aria-hidden="true"
-                className="fa fa-minus vads-u-margin-left--1 vads-u-font-size--lg"
-              />
+              <>
+                {/* minus icon */}
+                {/* Convert to va-icon when injected header/footer split is in prod: https://github.com/department-of-veterans-affairs/vets-website/pull/27590 */}
+                <svg
+                  aria-hidden="true"
+                  className="vads-u-margin-left--0p5"
+                  focusable="false"
+                  viewBox="0 2 20 20"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="#fff"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M19 13H5V11H19V13Z"
+                  />
+                </svg>
+              </>
             ) : (
-              <i
-                aria-hidden="true"
-                className="fa fa-plus vads-u-margin-left--1 vads-u-font-size--lg"
-              />
+              <>
+                {/* plus icon */}
+                {/* Convert to va-icon when injected header/footer split is in prod: https://github.com/department-of-veterans-affairs/vets-website/pull/27590 */}
+                <svg
+                  aria-hidden="true"
+                  className="vads-u-margin-left--0p5"
+                  focusable="false"
+                  viewBox="0 2 20 20"
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="#fff"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"
+                  />
+                </svg>
+              </>
             )}
           </button>
           {/* Level 2 menu items */}

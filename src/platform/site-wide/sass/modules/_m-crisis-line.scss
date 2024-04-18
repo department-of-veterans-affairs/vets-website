@@ -32,6 +32,7 @@ button.va-crisis-line {
   &:hover,
   &:active {
     background-color: var(--vads-color-secondary-darkest);
+
     .va-crisis-line-icon {
       @include media($small-desktop-screen) {
         background-color: var(--vads-color-secondary-dark);
@@ -94,10 +95,12 @@ button.va-crisis-line {
 
 .va-crisis-panel {
   color: var(--vads-color-base);
+
   &-body {
     padding: 1.5em;
     max-height: 100%;
   }
+
   &-title {
     color: var(--vads-color-base);
     padding-left: 41px;
@@ -107,33 +110,40 @@ button.va-crisis-line {
     margin-top: 0;
     width: 90%;
   }
+
   &-list {
     list-style: none;
     padding: 0;
+
     > li {
       display: flex;
       min-height: 56px;
       margin-bottom: 0;
       border-top: 1px solid var(--vads-color-base-light);
+
       &:last-child {
         border-bottom: 1px solid var(--vads-color-base-light);
       }
+
       > a {
         color: var(--vads-color-link);
         text-decoration: underline;
         align-self: center;
       }
+
       > p {
         color: var(--vads-color-link);
         text-decoration: underline;
         margin-bottom: 0;
       }
+
       > p > a {
         color: var(--vads-color-link);
         padding: 0;
       }
     }
   }
+
   &-icon {
     color: var(--vads-color-base) !important;
     font-size: 26px;
@@ -142,18 +152,18 @@ button.va-crisis-line {
     align-self: center;
     flex-shrink: 0;
     font-family: "Font Awesome 5 Free";
+
     &.fa-mobile {
       font-size: 38px;
       padding: 0.15em 0.3em;
     }
   }
+
   &-close.va-modal-close {
-    font-size: 4rem;
-    color: var(--vads-color-link);
     padding-top: 0.1rem;
+
     &:hover {
-      color: var(--vads-color-black);
-      background-color: transparent;
+      fill: var(--vads-color-black);
     }
   }
 }
@@ -161,4 +171,8 @@ button.va-crisis-line {
 .va-modal-large .va-crisis-panel.va-modal-inner {
   width: 90vw;
   max-width: 75rem;
+}
+
+.va-crisis-panel-close:hover svg path {
+  fill: var(--vads-color-black);
 }
