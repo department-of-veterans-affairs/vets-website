@@ -7,20 +7,13 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import RemoveFileModal from '../../../components/claim-files-tab/RemoveFileModal';
 
 describe('<RemoveFileModal>', () => {
-  it('should render component', () => {
-    const removeFileName = 'test.pdf';
-    const showRemoveFileModal = true;
-    const onRemoveFile = sinon.spy();
-    const onCloseModal = sinon.spy();
+  const props = {
+    removeFileName: 'test.pdf',
+    showRemoveFileModal: true,
+  };
 
-    const { container, getByText } = render(
-      <RemoveFileModal
-        removeFileName={removeFileName}
-        showRemoveFileModal={showRemoveFileModal}
-        closeModal={onCloseModal}
-        removeFile={onRemoveFile}
-      />,
-    );
+  it('should render component', () => {
+    const { container, getByText } = render(<RemoveFileModal {...props} />);
 
     expect($('#remove-file', container)).to.exist;
     expect($('va-modal', container).getAttribute('primarybuttontext')).to.equal(
@@ -29,63 +22,41 @@ describe('<RemoveFileModal>', () => {
     expect(
       $('va-modal', container).getAttribute('secondarybuttontext'),
     ).to.equal('No, keep this');
-    expect(getByText(removeFileName)).to.exist;
+    expect(getByText(props.removeFileName)).to.exist;
   });
 
   it('calls removeFile when primary button is clicked', () => {
-    const removeFileName = 'test.pdf';
-    const showRemoveFileModal = true;
-    const onRemoveFile = sinon.spy();
-    const onCloseModal = sinon.spy();
-
+    const removeFile = sinon.spy();
+    const closeModal = sinon.spy();
     const { container } = render(
       <RemoveFileModal
-        removeFileName={removeFileName}
-        showRemoveFileModal={showRemoveFileModal}
-        closeModal={onCloseModal}
-        removeFile={onRemoveFile}
+        {...props}
+        removeFile={removeFile}
+        closeModal={closeModal}
       />,
     );
 
     $('va-modal', container).__events.primaryButtonClick();
-    expect(onRemoveFile.calledOnce).to.be.true;
+    expect(removeFile.calledOnce).to.be.true;
   });
 
   it('calls closeModal when secondary button is clicked', () => {
-    const removeFileName = 'test.pdf';
-    const showRemoveFileModal = true;
-    const onRemoveFile = sinon.spy();
-    const onCloseModal = sinon.spy();
-
+    const closeModal = sinon.spy();
     const { container } = render(
-      <RemoveFileModal
-        removeFileName={removeFileName}
-        showRemoveFileModal={showRemoveFileModal}
-        closeModal={onCloseModal}
-        removeFile={onRemoveFile}
-      />,
+      <RemoveFileModal {...props} closeModal={closeModal} />,
     );
 
     $('va-modal', container).__events.secondaryButtonClick();
-    expect(onCloseModal.calledOnce).to.be.true;
+    expect(closeModal.calledOnce).to.be.true;
   });
 
   it('calls closeModal when close button is clicked', () => {
-    const removeFileName = 'test.pdf';
-    const showRemoveFileModal = true;
-    const onRemoveFile = sinon.spy();
-    const onCloseModal = sinon.spy();
-
+    const closeModal = sinon.spy();
     const { container } = render(
-      <RemoveFileModal
-        removeFileName={removeFileName}
-        showRemoveFileModal={showRemoveFileModal}
-        closeModal={onCloseModal}
-        removeFile={onRemoveFile}
-      />,
+      <RemoveFileModal {...props} closeModal={closeModal} />,
     );
 
     $('va-modal', container).__events.closeEvent();
-    expect(onCloseModal.calledOnce).to.be.true;
+    expect(closeModal.calledOnce).to.be.true;
   });
 });
