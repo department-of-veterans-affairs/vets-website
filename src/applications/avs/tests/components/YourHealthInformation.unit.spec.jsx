@@ -48,6 +48,9 @@ describe('Avs: Your Health Information', () => {
       'INSULIN REGULAR 500',
     );
     expect(screen.getByTestId('my-medications')).to.contain.text(
+      'Quantity: 90 for 90 days',
+    );
+    expect(screen.getByTestId('my-medications')).to.contain.text(
       'Documenting Facility & Provider: CAMP MASTER, PROVIDER,ONE',
     );
     expect(screen.getByTestId('my-va-supplies')).to.contain.text(
