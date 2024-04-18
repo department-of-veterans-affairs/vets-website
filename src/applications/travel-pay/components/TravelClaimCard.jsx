@@ -28,24 +28,21 @@ export default function TravelClaimCard(props) {
 
   return (
     <va-card key={id} class="travel-claim-card vads-u-margin-bottom--2">
-      {claimStatus === 'IN_PROCESS' && (
-        <span className="usa-label uswds-system-color-gold-20v">
-          In Progress
-        </span>
-      )}
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-        Travel claim
+        DATE at TIME appointment
       </h2>
-      <p className="vads-u-margin-top--0">Received on {createdOn}</p>
-      <p>
-        Status: {CLAIM_STATUS[claimStatus]} <br />
-        Claim name: {claimName} <br />
+      {/* <p className="vads-u-margin-top--0">Received on {createdOn}</p> */}
+      <h3 className="vads-u-margin-bottom--1">Where</h3>
+      <p className="vads-u-margin-top--0">Venue name placeholder</p>
+
+      <h3 className="vads-u-margin-bottom--1">Claim Details</h3>
+      <p className="vads-u-margin-top--0">
+        <strong>Claim status: {CLAIM_STATUS[claimStatus]}</strong> <br />
         Claim number: {claimNumber} <br />
-        Appointment name: {appointmentName} <br />
-        Appointment date: {appointmentDate} <br />
-        Last updated: {modifiedOn}
+        Submitted on {modifiedOn} at TIME_PLACEHOLDER <br />
+        Updated on UPDATED_ON at TIME_PLACEHOLDER
       </p>
-      <va-link href="" text="View details" />
+      {/* <va-link href="" text="View details" /> */}
     </va-card>
   );
 }

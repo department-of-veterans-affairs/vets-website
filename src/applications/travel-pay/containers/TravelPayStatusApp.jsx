@@ -8,6 +8,7 @@ import {
 import PropTypes from 'prop-types';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
+import HelpText from '../components/HelpText';
 import { getTravelClaims, getUnauthPing } from '../redux/actions';
 
 export default function App({ children }) {
@@ -51,38 +52,61 @@ export default function App({ children }) {
   }
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-y--2">
-      <BreadCrumbs />
-      <h1 tabIndex="-1" data-testid="header">
-        Check your travel reimbursement claim status
-      </h1>
-      <p className="va-introtext">Lead text</p>
-      <p>Body text</p>
-      <br />
-      {!isFetchingUnauthPing ? (
-        <>
-          <va-button
-            onClick={handleUnauthButtonClick}
-            text="Unauthorized Ping"
-          />
-          <p>{unauthPingResponse}</p>
-        </>
-      ) : (
-        <va-loading-indicator
-          label="Fetching"
-          message="Fetching unauthorized ping..."
-        />
-      )}
-
+    // <div className="vads-l-grid-container vads-u-padding-y--2">
+    <div>
       <main>
-        {isLoading ? (
-          <va-loading-indicator
-            label="Loading"
-            message="Loading Travel Claims..."
-          />
-        ) : (
-          travelClaims.map(travelClaim => TravelClaimCard(travelClaim))
-        )}
+        <article className="row">
+          <div className="vads-l-row vads-u-margin-x--neg2p5">
+            <div className="vads-u-padding-x--2p5">
+              <BreadCrumbs />
+              <h1 tabIndex="-1" data-testid="header">
+                Check your travel reimbursement claim status
+              </h1>
+            </div>
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              {isLoading ? (
+                <va-loading-indicator
+                  label="Loading"
+                  message="Loading Travel Claims..."
+                />
+              ) : (
+                <>
+                  <p className="vads-u-margin-bottom--0">
+                    Filter appointments by:
+                  </p>
+                  <div className="vaos-hide-for-print vads-l-row xsmall-screen:vads-u-border-bottom--0 vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 small-screen:vads-u-border-bottom--1px vads-u-color--gray-medium">
+                    <nav
+                      aria-label="Appointment list navigation"
+                      className="vaos-appts__breadcrumb vads-u-flex--1 vads-u-padding-top--0p5"
+                    >
+                      <ul>
+                        <li>
+                          <a
+                            aria-current="true"
+                            className="active"
+                            href="/my-health/appointments/"
+                          >
+                            Most recent
+                          </a>
+                        </li>
+                        <li>
+                          <a href="/my-health/appointments/pending">Oldest</a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                  <p id="pagination-info">Showing 1 ‒ 10 of 1543 events</p>
+                  {travelClaims.map(travelClaim =>
+                    TravelClaimCard(travelClaim),
+                  )}
+                </>
+              )}
+            </div>
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 vads-u-margin-top--5 medium-screen:vads-l-col--4">
+              <HelpText />
+            </div>
+          </div>
+        </article>
       </main>
 
       {children}
