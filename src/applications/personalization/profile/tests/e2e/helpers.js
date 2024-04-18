@@ -119,7 +119,7 @@ export function mockNotificationSettingsAPIs() {
  * Specific feature toggles should be passed in as an object, otherwise the default toggles will be used with false values
  * @param {*} toggles
  */
-export function mockProfileLOA3(toggles = {}) {
+export function mockProfileLOA3(toggles) {
   mockGETEndpoints(['/v0/mhv_account']);
   cy.intercept(
     '/v0/disability_compensation_form/rating_info',
@@ -130,7 +130,7 @@ export function mockProfileLOA3(toggles = {}) {
   cy.intercept('/v0/profile/personal_information', personalInformation);
   cy.intercept('/v0/profile/service_history', serviceHistory);
 
-  mockFeatureToggles(() => toggles);
+  mockFeatureToggles(toggles ? () => toggles : null);
 }
 
 export function registerCypressHelpers() {
