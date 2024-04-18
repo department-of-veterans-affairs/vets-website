@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -14,7 +15,7 @@ import {
   fetchDirectDeposit,
 } from '../actions';
 import { formFields } from '../constants';
-import { prefillTransformer } from '../helpers';
+import { prefillTransformer, checkDate } from '../helpers';
 import { getAppData } from '../selectors/selectors';
 import { duplicateArrays } from '../utils/validation';
 
@@ -46,9 +47,11 @@ export const App = ({
   showMebEnhancements08,
   showMebEnhancements09,
   showMebServiceHistoryCategorizeDisagreement,
+  mebAutoPopulateRelinquishmentDate,
   email,
   duplicateEmail,
   duplicatePhone,
+  benefitEffectiveDate,
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -284,6 +287,16 @@ export const App = ({
         });
       }
 
+      if (
+        mebAutoPopulateRelinquishmentDate !==
+        formData.mebAutoPopulateRelinquishmentDate
+      ) {
+        setFormData({
+          ...formData,
+          mebAutoPopulateRelinquishmentDate,
+        });
+      }
+
       if (showMebEnhancements09 !== formData.showMebEnhancements09) {
         setFormData({
           ...formData,
@@ -332,6 +345,7 @@ export const App = ({
       getDuplicateContactInfo,
       duplicateEmail,
       duplicatePhone,
+      mebAutoPopulateRelinquishmentDate,
     ],
   );
 
@@ -359,6 +373,22 @@ export const App = ({
         }
       };
       fetchAndUpdateDirectDepositInfo();
+
+      const currentDate = moment();
+      const oneYearAgo = currentDate.subtract(1, 'y');
+      if (
+        !benefitEffectiveDate ||
+        (mebAutoPopulateRelinquishmentDate &&
+          moment(benefitEffectiveDate).isBefore(oneYearAgo))
+      ) {
+        setFormData({
+          ...formData,
+          benefitEffectiveDate: checkDate(
+            mebAutoPopulateRelinquishmentDate,
+            benefitEffectiveDate,
+          ),
+        });
+      }
     },
     [
       isLoggedIn,
@@ -368,6 +398,7 @@ export const App = ({
       fetchedDirectDeposit,
       getDirectDeposit,
       setFetchedDirectDeposit,
+      benefitEffectiveDate,
     ],
   );
 
@@ -419,6 +450,7 @@ App.propTypes = {
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
   showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
+  mebAutoPopulateRelinquishmentDate: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
