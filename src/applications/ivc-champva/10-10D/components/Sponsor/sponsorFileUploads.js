@@ -1,6 +1,9 @@
 import React from 'react';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
-import { fileTypes, maxSize } from '../../config/attachments';
+import {
+  fileTypes,
+  maxSize,
+} from '../../../shared/components/fileUploads/attachments';
 
 export const mailOrFaxLaterMsg =
   'If you don’t have a copy to upload now, you can send one by mail or fax.';

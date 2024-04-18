@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import MissingFileOverview from '../components/File/MissingFileOverview';
+import { requiredFiles, optionalFiles } from '../config/requiredUploads';
+import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 
 const heading = (
   <>
@@ -47,6 +48,8 @@ export function ConfirmationPage(props) {
     requiredWarningHeading: <>{requiredWarningHeading}</>,
     showMail: true,
     allPages: form.pages,
+    fileNameMap: { ...requiredFiles, ...optionalFiles },
+    requiredFiles,
   });
 
   useEffect(() => {
