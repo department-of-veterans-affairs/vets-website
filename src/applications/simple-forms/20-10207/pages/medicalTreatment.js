@@ -48,7 +48,7 @@ export default {
       medicalTreatments: {
         type: 'array',
         minItems: 1,
-        maxItems: 5,
+        maxItems: 4,
         items: {
           type: 'object',
           properties: {
