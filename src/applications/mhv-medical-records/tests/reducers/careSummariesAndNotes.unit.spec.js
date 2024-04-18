@@ -1,18 +1,21 @@
 import { expect } from 'chai';
 import {
   careSummariesAndNotesReducer,
+  convertAdmissionAndDischargeDetails,
   convertCareSummariesAndNotesRecord,
   extractAuthenticator,
   extractAuthor,
   extractLocation,
+  getAdmissionDate,
   getAttending,
   getDateSigned,
+  getDischargeDate,
   getNote,
   getRecordType,
   getTitle,
   getType,
 } from '../../reducers/careSummariesAndNotes';
-import { noteTypes } from '../../util/constants';
+import { dischargeSummarySortFields, noteTypes } from '../../util/constants';
 import dischargeSummary from '../fixtures/dischargeSummary.json';
 import progressNote from '../fixtures/physicianProcedureNote.json';
 import consultResultNote from '../fixtures/consultResultNote.json';
@@ -366,12 +369,63 @@ describe('getAttending', () => {
   });
 });
 
+describe('getAdmissionDate', () => {
+  it('should return the context.period.start field if it exists', () => {
+    const record = { context: { period: { start: '2022-08-05T13:41:23Z' } } };
+    expect(getAdmissionDate(record, '')).to.eq('August 5, 2022');
+  });
+
+  it('should parse the note text if context.period.start does not exist', () => {
+    const record = { context: { period: { start: null } } };
+    const summary = '  DATE OF ADMISSION: AUG 18,2022  ';
+    expect(getAdmissionDate(record, summary)).to.eq('August 18, 2022');
+  });
+
+  it('should return null if there is no admission date', () => {
+    const record = { context: { period: { start: null } } };
+    const summary = '  DATE OF ADMISSION:  ';
+    expect(getAdmissionDate(record, summary)).to.eq(null);
+  });
+});
+
+describe('getDischargeDate', () => {
+  it('should return the context.period.end field if it exists', () => {
+    const record = { context: { period: { end: '2022-08-05T13:41:23Z' } } };
+    expect(getDischargeDate(record, '')).to.eq('August 5, 2022');
+  });
+
+  it('should parse the note text if context.period.end does not exist', () => {
+    const record = { context: { period: { end: null } } };
+    const summary = '  DATE OF DISCHARGE: AUG 18,2022  ';
+    expect(getDischargeDate(record, summary)).to.eq('August 18, 2022');
+  });
+
+  it('should return null if there is no discharge date', () => {
+    const record = { context: { period: { end: null } } };
+    const summary = '  DATE OF DISCHARGE:  ';
+    expect(getDischargeDate(record, summary)).to.eq(null);
+  });
+});
+
+describe('convertAdmissionAndDischargeDetails', () => {
+  it('should set up sort first by admission date', () => {
+    const record = {
+      context: {
+        period: { start: '2022-08-05T13:41:23Z', end: '2022-08-06T13:41:23Z' },
+      },
+      date: '2022-08-07T13:41:23Z',
+    };
+    const dsNote = convertAdmissionAndDischargeDetails(record);
+    expect(dsNote.sortByField).to.eq(dischargeSummarySortFields.ADMISSION_DATE);
+  });
+});
+
 describe('convertCareSummariesAndNotesRecord', () => {
   it('should properly convert discharge summaries', () => {
     const note = convertCareSummariesAndNotesRecord(dischargeSummary);
     expect(note.type).to.equal('18842-5');
-    expect(note.admissionDate).to.be.not.null;
-    expect(note.dischargeDate).to.be.not.null;
+    expect(note.admissionDate).to.eq('August 5, 2022');
+    expect(note.dischargeDate).to.eq('August 9, 2022');
     expect(note.dateSigned).to.be.undefined;
   });
 
