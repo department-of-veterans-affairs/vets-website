@@ -28,6 +28,13 @@ const makeAllTogglesTrue = toggles => {
   return result;
 };
 
+/**
+ * Generates feature toggles mock api response object for profile app
+ *
+ * @param {*} values - set specific values to true or false
+ * @param {*} allOn - set all values to true
+ * @returns
+ */
 const generateFeatureToggles = (values = profileToggles, allOn = false) => {
   const toggles = allOn
     ? makeAllTogglesTrue(profileToggles)
