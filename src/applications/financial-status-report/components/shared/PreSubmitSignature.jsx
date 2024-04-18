@@ -233,7 +233,6 @@ const PreSubmitSignature = ({
           privacyCheckboxError && 'You must accept by checking the box.'
         }
         onVaChange={value => setPrivacyChecked(value.detail.checked)}
-        uswds
       />
     </>
   );
