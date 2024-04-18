@@ -188,7 +188,6 @@ const PayrollDeductionInputList = props => {
                   ? 'Please enter a valid dollar amount below $40,000'
                   : null
               }
-              uswds
             />
           </div>
         ))}

@@ -99,7 +99,6 @@ const CashInBank = ({
           required
           value={cash}
           width="md"
-          uswds
         />
         {contentBeforeButtons}
         <FormNavButtons

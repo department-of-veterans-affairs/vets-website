@@ -128,7 +128,6 @@ const AddAsset = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetAmount || ''}
-            uswds
           />
           <br />
           <va-additional-info

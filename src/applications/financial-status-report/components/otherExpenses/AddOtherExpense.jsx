@@ -141,7 +141,6 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             required
             type="number"
             value={expenseAmount || ''}
-            uswds
           />
           <div className="vads-u-margin-top--2">
             <ButtonGroup

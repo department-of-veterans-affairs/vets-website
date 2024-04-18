@@ -130,7 +130,6 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={utilityAmount || ''}
-            uswds
           />
 
           <ButtonGroup

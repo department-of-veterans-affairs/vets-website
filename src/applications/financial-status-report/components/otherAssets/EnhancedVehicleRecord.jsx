@@ -208,7 +208,6 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           onInput={handleVehicleYearChange}
           value={vehicleRecord.year || ''}
           width="md"
-          uswds
         />
         <va-number-input
           error={
@@ -227,7 +226,6 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           min={0}
           max={MAXIMUM_RESALE_VALUE}
           width="md"
-          uswds
         />
         <va-additional-info
           class="vads-u-margin-top--4"

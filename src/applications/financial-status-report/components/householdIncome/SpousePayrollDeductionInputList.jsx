@@ -192,7 +192,6 @@ const SpousePayrollDeductionInputList = props => {
                   : null
               }
               width="md"
-              uswds
             />
           </div>
         ))}

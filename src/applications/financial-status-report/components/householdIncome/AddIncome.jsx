@@ -136,7 +136,6 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetAmount || ''}
-            uswds
           />
           <br />
           <ButtonGroup

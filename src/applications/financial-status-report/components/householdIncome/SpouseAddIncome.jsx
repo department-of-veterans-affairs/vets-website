@@ -141,7 +141,6 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetAmount || ''}
-            uswds
           />
           <br />
 

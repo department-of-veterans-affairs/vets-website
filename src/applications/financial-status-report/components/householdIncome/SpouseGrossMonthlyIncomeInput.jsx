@@ -153,7 +153,6 @@ const SpouseGrossMonthlyIncomeInput = props => {
         max={MAXIMUM_GROSS_MONTHLY_INCOME}
         width="md"
         error={error}
-        uswds
       />
       <va-additional-info
         trigger="How to calculate your spouse’s gross monthly income"
