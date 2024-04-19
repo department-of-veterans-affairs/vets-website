@@ -65,14 +65,12 @@ describe('EZR App', () => {
   context('when the user is not authenticated', () => {
     it("should render with the RequiredLoginView's 'va-loading-indicator' component, meaning the user was successfully redirected", () => {
       const { mockStore, props } = getData({});
-      const { container } = render(
+      const container = render(
         <Provider store={mockStore}>
           <App {...props} />
         </Provider>,
       );
-      const selector = container.querySelector(
-        '[data-testid="redirect-to-login"]',
-      );
+      const selector = container.getByTestId('redirect-to-login');
 
       expect(selector).to.exist;
     });
@@ -81,14 +79,12 @@ describe('EZR App', () => {
   context('when the user is authenticated', () => {
     it("should render with the EZR 'va-loading-indicator' component, meaning the user was NOT redirected", () => {
       const { mockStore, props } = getData({ loading: true, loggedIn: true });
-      const { container } = render(
+      const container = render(
         <Provider store={mockStore}>
           <App {...props} />
         </Provider>,
       );
-      const selector = container.querySelector(
-        '[data-testid="ezr-loading-indicator"]',
-      );
+      const selector = container.getByTestId('ezr-loading-indicator');
 
       expect(selector).to.exist;
     });
