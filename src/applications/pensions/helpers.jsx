@@ -239,6 +239,7 @@ export const IncomeSourceDescription = (
     <p>List the sources of income for you, your spouse, and your dependents.</p>
   </>
 );
+
 /**
  * Formats a full name from the given first, middle, last, and suffix
  *
@@ -276,4 +277,9 @@ export const getJobTitleOrType = item => {
   if (item?.jobTitle) return item.jobTitle;
   if (item?.jobType) return item.jobType;
   return '';
+};
+
+export const obfuscateAccountNumber = accountNumber => {
+  // Replace all digits except the last 4 with asterisks (*)
+  return accountNumber.replace(/\d(?=\d{4})/g, '*');
 };
