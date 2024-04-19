@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import * as api from '@department-of-veterans-affairs/platform-utilities/api';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-// import * as constants from '../constants';
+import * as constants from '../../constants';
 
 import {
   addFile,
@@ -23,7 +23,7 @@ import {
   submitRequest,
   updateField,
   submit5103,
-} from '../actions';
+} from '../../actions';
 
 import {
   ADD_FILE,
@@ -49,7 +49,7 @@ import {
   FETCH_STEM_CLAIMS_SUCCESS,
   FETCH_STEM_CLAIMS_PENDING,
   FETCH_CLAIMS_SUCCESS,
-} from '../actions/types';
+} from '../../actions/types';
 
 describe('Actions', () => {
   describe('getClaimLetters', () => {
@@ -380,26 +380,24 @@ describe('Actions', () => {
     });
   });
   describe('submitRequest', () => {
-    // it.only('should submit request with USE_MOCKS true', done => {
-    //   const useMocks = sinon.stub(constants, 'USE_MOCKS');
-    //   useMocks.returns(true);
+    it('should submit request with canUseMocks true', done => {
+      const useMocksStub = sinon.stub(constants, 'canUseMocks').returns(true);
 
-    //   const thunk = submitRequest(5);
-    //   const dispatch = sinon.spy();
+      const thunk = submitRequest(5);
+      const dispatch = sinon.spy();
 
-    //   thunk(dispatch)
-    //     .then(() => {
-    //       expect(dispatch.firstCall.args[0].type).to.equal(
-    //         SUBMIT_DECISION_REQUEST,
-    //       );
-    //       expect(dispatch.secondCall.args[0]).to.eql({
-    //         type: SET_DECISION_REQUESTED,
-    //         claims: [],
-    //       });
-    //     })
-    //     .then(() => useMocks.restore())
-    //     .then(done, done);
-    // });
+      thunk(dispatch)
+        .then(() => {
+          expect(dispatch.firstCall.args[0].type).to.equal(
+            SUBMIT_DECISION_REQUEST,
+          );
+          expect(dispatch.secondCall.args[0].type).to.equal(
+            SET_DECISION_REQUESTED,
+          );
+        })
+        .then(() => useMocksStub.restore())
+        .then(done, done);
+    });
 
     context('', () => {
       let expectedUrl;
@@ -495,34 +493,23 @@ describe('Actions', () => {
 
     after(() => server.close());
 
-    // it('should fetch stem claims when USE_MOCKS true', done => {
-    //   server.use(
-    //     rest.get(
-    //       `https://dev-api.va.gov/v0/education_benefits_claims/stem_claim_status`,
-    //       (req, res, ctx) => res(ctx.status(200), ctx.json({ data: [] })),
-    //     ),
-    //   );
-    //   const useMocks = sinon.stub(constants, 'USE_MOCKS');
-    //   useMocks.returns(true);
+    it('should fetch stem claims when canUseMocks true', done => {
+      const useMocksStub = sinon.stub(constants, 'canUseMocks').returns(true);
+      const thunk = getStemClaims();
+      const dispatch = sinon.spy();
 
-    //   const thunk = getStemClaims();
-    //   const dispatchSpy = sinon.spy();
-    //   const dispatch = action => {
-    //     dispatchSpy(action);
-    //     if (dispatchSpy.callCount === 2) {
-    //       expect(dispatchSpy.firstCall.args[0].type).to.eql(
-    //         FETCH_STEM_CLAIMS_PENDING,
-    //       );
-    //       expect(dispatchSpy.secondCall.args[0].type).to.eql(
-    //         FETCH_STEM_CLAIMS_SUCCESS,
-    //       );
-    //       useMocks.restore();
-    //       done();
-    //     }
-    //   };
-
-    //   thunk(dispatch);
-    // });
+      thunk(dispatch)
+        .then(() => {
+          expect(dispatch.firstCall.args[0].type).to.equal(
+            FETCH_STEM_CLAIMS_PENDING,
+          );
+          expect(dispatch.secondCall.args[0].type).to.equal(
+            FETCH_STEM_CLAIMS_SUCCESS,
+          );
+        })
+        .then(() => useMocksStub.restore())
+        .then(done, done);
+    });
 
     it('should fetch stem claims', done => {
       server.use(
