@@ -12,8 +12,8 @@ const checkOpt = {
 };
 
 describe('NOD contact info loop', () => {
-  beforeEach(() => {
-    cypressSetup();
+  const setup = noMobile => {
+    cypressSetup(noMobile);
     window.dataLayer = [];
 
     cy.intercept(
@@ -32,9 +32,9 @@ describe('NOD contact info loop', () => {
 
     cy.visit(NOD_BASE_URL);
     cy.injectAxe();
-  });
+  };
 
-  const getToContactPage = () => {
+  const getToContactPage = (homelessValue = 'N') => {
     // start form
     cy.get('.vads-c-action-link--green')
       .first()
@@ -48,13 +48,17 @@ describe('NOD contact info loop', () => {
 
     // Homeless question
     cy.location('pathname').should('eq', `${NOD_BASE_URL}/homeless`);
-    cy.get('[type="radio"][value="N"]').check({ ...checkOpt, force: true });
+    cy.get(`[type="radio"][value="${homelessValue}"]`).check({
+      ...checkOpt,
+      force: true,
+    });
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
       .click();
   };
 
   it('should edit info on a new page & cancel returns to contact info page', () => {
+    setup();
     getToContactPage();
     const contactPageUrl = `${NOD_BASE_URL}/contact-information`;
 
@@ -63,11 +67,11 @@ describe('NOD contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    // Mobile phone loops *****
-    cy.get('a[href$="phone"]').click();
+    // Home phone
+    cy.get('a[href$="home-phone"]').click();
     cy.location('pathname').should(
       'eq',
-      `${NOD_BASE_URL}/edit-contact-information-mobile-phone`,
+      `${NOD_BASE_URL}/edit-contact-information-home-phone`,
     );
     cy.injectAxe();
     cy.axeCheck();
@@ -76,10 +80,22 @@ describe('NOD contact info loop', () => {
     cy.findByText(/cancel/i, { selector: 'button' }).click();
     cy.location('pathname').should('eq', contactPageUrl);
 
-    // update phone
+    // Mobile phone
+    cy.get('a[href$="mobile-phone"]').click();
+    cy.location('pathname').should(
+      'eq',
+      `${NOD_BASE_URL}/edit-contact-information-mobile-phone`,
+    );
+    cy.injectAxe();
+    cy.axeCheck();
+
+    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.location('pathname').should('eq', contactPageUrl);
+
+    // update home phone - not working because we're missing some API calls
     /*
-    cy.get('a[href$="phone"]').click();
-    cy.location('pathname').should('eq', `${NOD_BASE_URL}/edit-mobile-phone`);
+    cy.get('a[href$="home-phone"]').click();
+    cy.location('pathname').should('eq', `${NOD_BASE_URL}/edit-home-phone`);
     cy.findByLabelText(/extension/i)
       .clear()
       .type('12345');
@@ -146,5 +162,24 @@ describe('NOD contact info loop', () => {
       .click();
     */
     cy.location('pathname').should('eq', contactPageUrl);
+
+    cy.findAllByText(/continue/i, { selector: 'button' })
+      .first()
+      .click();
+
+    cy.location('pathname').should(
+      'eq',
+      `${NOD_BASE_URL}/primary-phone-number`,
+    );
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+
+  it('should edit info on a new page & cancel returns to contact info page', () => {
+    setup(true);
+    getToContactPage();
+
+
+
   });
 });

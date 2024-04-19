@@ -31,7 +31,8 @@ describe('NOD contact information page', () => {
     const formData = { homeless: true };
     const resultSchema = uiSchema['ui:options'].updateSchema(formData, schema);
     expect(resultSchema.properties.veteran.required).to.deep.equal([
-      'phone',
+      'mobilePhone',
+      'homePhone',
       'email',
     ]);
   });
@@ -40,9 +41,10 @@ describe('NOD contact information page', () => {
     const formData = { homeless: false };
     const resultSchema = uiSchema['ui:options'].updateSchema(formData, schema);
     expect(resultSchema.properties.veteran.required).to.deep.equal([
+      'mobilePhone',
+      'homePhone',
       'address',
       'email',
-      'phone',
     ]);
   });
 

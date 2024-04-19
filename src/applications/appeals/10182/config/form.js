@@ -27,6 +27,7 @@ import {
 import veteranInfo from '../pages/veteranInfo';
 import homeless from '../pages/homeless';
 import contactInfo from '../pages/contactInfo';
+import primaryPhone from '../../shared/pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../../shared/pages/areaOfDisagreement';
@@ -46,10 +47,12 @@ import {
   saveInProgress,
   savedFormMessages,
 } from '../content/saveInProgress';
-
+import PrimaryPhone from '../../shared/components/PrimaryPhone';
+import PrimaryPhoneReview from '../../shared/components/PrimaryPhoneReview';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
-import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+import { hasHomeAndMobilePhone } from '../../shared/utils/contactInfo';
+import { CONTESTABLE_ISSUES_PATH, PRIMARY_PHONE } from '../../shared/constants';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 import reviewErrors from '../../shared/content/reviewErrors';
 import { focusRadioH3 } from '../../shared/utils/focus';
@@ -124,6 +127,18 @@ const formConfig = {
           scrollAndFocusTarget: focusRadioH3,
         },
         ...contactInfo,
+        choosePrimaryPhone: {
+          title: 'Primary phone number',
+          path: 'primary-phone-number',
+          // only visible if both the home & mobile phone exist & not equal
+          depends: hasHomeAndMobilePhone,
+          CustomPage: PrimaryPhone,
+          CustomPageReview: PrimaryPhoneReview,
+          uiSchema: { 'ui:options': { noPhoneHint: true } },
+          schema: primaryPhone.schema,
+          scrollAndFocusTarget: focusRadioH3,
+          initialData: { [PRIMARY_PHONE]: '' },
+        },
       },
     },
     conditions: {

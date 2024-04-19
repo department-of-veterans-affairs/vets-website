@@ -9,16 +9,16 @@ import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from '../constants';
  */
 export const parseDateToDateObj = (date, template) => {
   let newDate = date;
-  if (typeof date === 'string') {
-    if (date.includes('T')) {
-      newDate = parseISO((date || '').split('T')[0]);
+  if (newDate instanceof Date && isValid(newDate)) {
+    // Remove timezone offset
+    newDate = newDate.toISOString();
+  }
+  if (typeof newDate === 'string') {
+    if (newDate.includes('T')) {
+      newDate = parseISO((newDate || '').split('T')[0]);
     } else if (template) {
-      newDate = parse(date, template, new Date());
+      newDate = parse(newDate, template, new Date());
     }
-  } else if (date instanceof Date && isValid(date)) {
-    // Remove timezone offset - the only time we pass in a date object is for
-    // unit tests (see https://stackoverflow.com/a/67599505)
-    newDate.setMinutes(newDate.getMinutes() + newDate.getTimezoneOffset());
   }
   return isValid(newDate) ? newDate : null;
 };

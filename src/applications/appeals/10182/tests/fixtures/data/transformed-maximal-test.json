@@ -16,8 +16,8 @@
         "phone": {
           "countryCode": "6",
           "areaCode": "555",
-          "phoneNumber": "8001111",
-          "phoneNumberExt": "2"
+          "phoneNumber": "8002222",
+          "phoneNumberExt": "123"
         },
         "emailAddressText": "user@example.com"
       },

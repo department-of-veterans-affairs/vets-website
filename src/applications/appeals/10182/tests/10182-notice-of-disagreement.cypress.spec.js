@@ -16,6 +16,7 @@ import {
   CONTESTABLE_ISSUES_PATH,
   NOD_BASE_URL,
   SELECTED,
+  PRIMARY_PHONE,
 } from '../../shared/constants';
 import cypressSetup from '../../shared/tests/cypress.setup';
 import {
@@ -44,6 +45,16 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+
+      'primary-phone-number': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            cy.selectRadio('primary', testData[PRIMARY_PHONE] || 'home');
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
+
       [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {

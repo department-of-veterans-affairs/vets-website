@@ -13,15 +13,22 @@
         "stateCode": "NY",
         "zipCode": "30012"
       },
-      "phone": {
+      "homePhone": {
         "countryCode": "6",
         "areaCode": "555",
         "phoneNumber": "8001111",
         "phoneNumberExt": "2"
       },
+      "mobilePhone": {
+        "countryCode": "6",
+        "areaCode": "555",
+        "phoneNumber": "8002222",
+        "phoneNumberExt": "123"
+      },
       "email": "user@example.com"
     },
     "homeless": false,
+    "view:primaryPhone": "mobile",
     "boardReviewOption": "evidence_submission",
     "hearingTypePreference": "central_office",
     "socOptIn": false,

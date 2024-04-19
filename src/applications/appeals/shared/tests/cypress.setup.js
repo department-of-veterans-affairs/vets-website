@@ -1,4 +1,5 @@
 import mockUser from './fixtures/mocks/user.json';
+import mockUserNoMobile from './fixtures/mocks/user-no-mobile.json';
 import mockUserAvail from './fixtures/mocks/user-transition-availabilities.json';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockVamc from './fixtures/mocks/vamc-ehr.json';
@@ -11,9 +12,16 @@ import mockProfileEmail from './fixtures/mocks/profile-email.json';
 import mockProfileAddress from './fixtures/mocks/profile-address.json';
 import mockProfileAddressValidation from './fixtures/mocks/profile-address-validation.json';
 
-export default function cypressSetup() {
+export default function cypressSetup(noMobile) {
   Cypress.config({ scrollBehavior: 'nearest' });
 
+  // TODO: Ask Adam about overriding /v0/user response
+  const mockUserData =
+    noMobile || Cypress.currentTest.titlePath.includes('minimal-test')
+      ? mockUserNoMobile
+      : mockUser;
+console.log(noMobile, mockUserData.data.attributes.vet360ContactInformation);
+  cy.intercept('GET', '/v0/user', mockUserData);
   cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
     'features',
   );
@@ -33,5 +41,5 @@ export default function cypressSetup() {
     mockProfileAddressValidation,
   ).as('getAddressValidation');
 
-  cy.login(mockUser);
+  cy.login(mockUserData);
 }

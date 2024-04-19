@@ -21,6 +21,7 @@ export const PrimaryPhone = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
+  uiSchema = {},
 }) => {
   const [primary, setPrimary] = useState(data?.[PRIMARY_PHONE] || '');
   const [hasError, setHasError] = useState(null);
@@ -68,6 +69,9 @@ export const PrimaryPhone = ({
     </>
   );
 
+  // NOD board needs to approve this extra content
+  const formHint = uiSchema['ui:options']?.noPhoneHint ? '' : content.hint;
+
   // Using data-number + css to show option hint text, but only until the
   // va-radio-option gets hint text added
   return (
@@ -78,7 +82,7 @@ export const PrimaryPhone = ({
           class="vads-u-margin-y--2"
           label={content.label}
           label-header-level="3"
-          hint={content.hint}
+          hint={formHint}
           error={hasError && errorMessages.missingPrimaryPhone}
           onVaValueChange={handlers.onSelection}
           required

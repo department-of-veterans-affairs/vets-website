@@ -67,11 +67,17 @@ export const customPageProps = {
   goBack: func,
   goForward: func,
   goToPath: func,
+  name: string,
+  onReviewPage: bool,
   pagePerItemIndex: number,
+  schema: shape({}),
   setFormData: func,
   testingIndex: number,
+  title: string,
+  trackingPrefix: string,
+  uiSchema: shape({}),
   updatePage: func,
-  onReviewPage: bool,
+  uploadFile: func,
 };
 
 export const data995 = shape({
