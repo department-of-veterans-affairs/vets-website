@@ -65,6 +65,9 @@ const Prescriptions = () => {
     state => state.rx.prescriptions?.selectedSortOption,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const backLinkFocus = useSelector(
+    state => state.rx.breadcrumbs?.crumbBackFocus,
+  );
   const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
   const [printedList, setPrintedList] = useState([]);
   const [hasFullListDownloadError, setHasFullListDownloadError] = useState(
@@ -151,6 +154,12 @@ const Prescriptions = () => {
     },
     [paginatedPrescriptionsList],
   );
+
+  useEffect(() => {
+    if (backLinkFocus) {
+      focusElement(document.querySelector('h1'));
+    }
+  });
 
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);

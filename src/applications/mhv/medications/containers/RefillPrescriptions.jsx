@@ -8,6 +8,7 @@ import {
 import PropTypes from 'prop-types';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { dateFormat } from '../util/helpers';
 import { getRefillablePrescriptionList, fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
@@ -34,6 +35,9 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // Selectors
   const selectedSortOption = useSelector(
     state => state.rx.prescriptions?.selectedSortOption,
+  );
+  const backLinkFocus = useSelector(
+    state => state.rx.breadcrumbs?.crumbBackFocus,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
   // Memoized Values
@@ -117,6 +121,15 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     // disabled warning: fullRefillList must be left of out dependency array to avoid infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, location.pathname, selectedSortOption, refillResult],
+  );
+
+  useEffect(
+    () => {
+      if (!isLoading && backLinkFocus) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [isLoading, backLinkFocus],
   );
 
   const content = () => {

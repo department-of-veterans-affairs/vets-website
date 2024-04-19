@@ -16,6 +16,9 @@ const MedicationsList = props => {
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
+  const backLinkFocus = useSelector(
+    state => state.rx.breadcrumbs?.crumbBackFocus,
+  );
   const scrollLocation = useRef();
   const goToPrevious = () => {
     scrollLocation.current?.scrollIntoView();
@@ -23,7 +26,7 @@ const MedicationsList = props => {
 
   useEffect(
     () => {
-      if (prescriptionId) {
+      if (prescriptionId && !backLinkFocus) {
         goToPrevious();
       }
     },
