@@ -19,7 +19,7 @@ describe('Keyboard Navigation for Filter & Sort functionalities', () => {
 
   it('Verify filter works correctly', () => {
     landingPage.inputFilterDataByKeyboard('test');
-    landingPage.submitFilerByKeyboard(filteredData);
+    landingPage.submitFilterByKeyboard(filteredData);
     landingPage.verifyFilterResults('test', filteredData);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -27,7 +27,7 @@ describe('Keyboard Navigation for Filter & Sort functionalities', () => {
 
   it('Verify clear filter btn works correctly', () => {
     landingPage.inputFilterDataByKeyboard('test');
-    landingPage.submitFilerByKeyboard(filteredData);
+    landingPage.submitFilterByKeyboard(filteredData);
     landingPage.clearFilterByKeyboard();
     landingPage.verifyFilterFieldCleared();
     cy.injectAxe();

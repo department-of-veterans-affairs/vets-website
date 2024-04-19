@@ -511,7 +511,7 @@ class PatientInboxPage {
       .type(`${text}`, { force: true });
   };
 
-  submitFilerByKeyboard = mockFilterResponse => {
+  submitFilterByKeyboard = mockFilterResponse => {
     cy.intercept(
       'POST',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
