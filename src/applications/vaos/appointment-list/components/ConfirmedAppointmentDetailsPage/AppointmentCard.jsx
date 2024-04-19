@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AppointmentCardIcon from './AppointmentCardIcon';
 
 export default function AppointmentCard({ children, appointment }) {
-  // placeholder fore feature flag
+  // placeholder for feature flag
   const selectSchedulingCardIcon = true;
 
   return (
