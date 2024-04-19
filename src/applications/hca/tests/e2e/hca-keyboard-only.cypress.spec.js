@@ -47,7 +47,9 @@ describe('HCA-Keyboard-Only', () => {
     }).as('mockSubmit');
   });
 
-  it('should navigate and input maximal data using only a keyboard', () => {
+  // NOTE: This test is skipped due to a limitation in CI with Electron not allowing
+  // `realPress` to be utilized
+  it.skip('should navigate and input maximal data using only a keyboard', () => {
     cy.wrap(maxTestData.data).as('testData');
     cy.get('@testData').then(data => {
       cy.visit(manifest.rootUrl);
