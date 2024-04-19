@@ -41,7 +41,7 @@ const appointmentData = {
 };
 
 describe('VAOS Component: AppointmentCardIcon', () => {
-  describe('When the va_online_scheduling_card_icon feature flag is on', () => {
+  describe('When the vaOnlineSchedulingAppointmentDetailsRedesign feature flag is on', () => {
     const initialState = {
       featureToggles: {},
     };

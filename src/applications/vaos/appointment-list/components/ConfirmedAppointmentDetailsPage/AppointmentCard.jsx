@@ -2,14 +2,16 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import AppointmentCardIcon from './AppointmentCardIcon';
-import { selectFeatureCardIcon } from '../../../redux/selectors';
+import { selectFeatureAppointmentDetailsRedesign } from '../../../redux/selectors';
 
 export default function AppointmentCard({ children, appointment }) {
-  const featureCardIcon = useSelector(state => selectFeatureCardIcon(state));
+  const featureAppointmentDetailsRedesign = useSelector(state =>
+    selectFeatureAppointmentDetailsRedesign(state),
+  );
 
   return (
     <>
-      {featureCardIcon && (
+      {featureAppointmentDetailsRedesign && (
         <div className="vaos-appts__appointment-details--container vads-u-margin-top--2 vads-u-border--2px vads-u-border-color--gray-lighter vads-u-padding-x--2p5 vads-u-padding-top--5 vads-u-padding-bottom--3">
           <AppointmentCardIcon appointment={appointment} />
 
@@ -17,7 +19,7 @@ export default function AppointmentCard({ children, appointment }) {
         </div>
       )}
 
-      {!featureCardIcon && children}
+      {!featureAppointmentDetailsRedesign && children}
     </>
   );
 }

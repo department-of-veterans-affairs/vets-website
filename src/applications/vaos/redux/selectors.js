@@ -111,6 +111,3 @@ export const selectFeatureDatadogRum = state =>
 
 export const selectFeatureAppointmentDetailsRedesign = state =>
   toggleValues(state).vaOnlineSchedulingAppointmentDetailsRedesign;
-
-export const selectFeatureCardIcon = state =>
-  toggleValues(state).vaOnlineSchedulingCardIcon;
