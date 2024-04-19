@@ -14,20 +14,20 @@ const redirectToErrorPage = () => {
   }/auth/login/callback/?auth=fail&code=110`;
 };
 
+const defaultMessage = {
+  loadingMessage: 'Provisioning your acount...',
+  isLoading: false,
+};
+
 export default function MyVAHealth() {
-  const [loadingMessage, setLoadingMessage] = useState(
-    'Provisioning your acount...',
+  const [{ loadingMessage, isLoading }, setLoadingMessage] = useState(
+    defaultMessage,
   );
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [error, setError] = useState({ isError: false, message: '' });
   const [displayTerms, setDisplayTerms] = useState(false);
   const url = new URL(window.location);
   const ssoeTarget = url.searchParams.get('ssoeTarget');
-  const redirectAfterProvisioning = response => {
-    if (response?.provisioned) {
-      window.location = parseRedirectUrl(decodeURIComponent(ssoeTarget));
-    }
-  };
 
   useEffect(
     () => {
@@ -37,15 +37,23 @@ export default function MyVAHealth() {
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
         })
-          .then(redirectAfterProvisioning)
+          .then(response => {
+            if (response?.provisioned) {
+              window.location = parseRedirectUrl(
+                decodeURIComponent(ssoeTarget),
+              );
+            }
+          })
           .catch(({ errors }) => {
             const [{ code }] = errors;
             if (code === '422') {
               setDisplayTerms(true);
-            } else if (code === '408') {
-              redirectToErrorPage();
             } else {
-              setError({ isError: true, message: errorMessages.network });
+              setError({
+                isError: true,
+                message: errorMessages.network,
+              });
+              redirectToErrorPage();
             }
           });
       }
@@ -54,52 +62,47 @@ export default function MyVAHealth() {
   );
 
   const handleTouClick = async type => {
-    const response = await apiRequest(`/terms_of_use_agreements/v1/${type}`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const cernerType = type === 'accept' ? 'accept_and_provision' : type;
 
-    // if the type was accept
-    if (response && type === 'accept') {
-      setDisplayTerms(false);
-      setLoadingMessage('Retrying to provision your account...');
-      apiRequest(`/terms_of_use_agreements/update_provisioning?poll=true`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-      })
-        .then(redirectAfterProvisioning)
-        .catch(({ errors }) => {
-          setDisplayTerms(false);
-          const [{ code }] = errors;
+    try {
+      setLoadingMessage(prev => ({ ...prev, isLoading: true }));
+      const response = await apiRequest(
+        `/terms_of_use_agreements/v1/${cernerType}`,
+        {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+        },
+      );
 
-          if (code === '408') {
-            setLoadingMessage(
-              'Unable to provision your account. Redirecting...',
-            );
-            redirectToErrorPage();
-          }
+      // if the type was accept
+      if (response && type === 'accept') {
+        setLoadingMessage(defaultMessage);
+        window.location = parseRedirectUrl(decodeURIComponent(ssoeTarget));
+      }
+
+      // if the type was decline
+      if (response && type === 'decline') {
+        setShowDeclineModal(false);
+        declineAndLogout({
+          termsCodeExists: false,
+          shouldRedirectToMobile: false,
+          isAuthenticatedWithSiS: false,
         });
-    }
-
-    if (response && type === 'decline') {
-      setShowDeclineModal(false);
-      declineAndLogout({
-        termsCodeExists: false,
-        shouldRedirectToMobile: false,
-        isAuthenticatedWithSiS: false,
-      });
+      }
+    } catch (err) {
+      setError({ isError: true, message: errorMessages.network });
+      // fatal or network error redirect to 110 page
+      redirectToErrorPage();
     }
   };
 
   return (
     <div className="vads-u-margin-y--2">
       <style>{touStyles}</style>
-      {!displayTerms &&
-        !error.isError && (
-          <va-loading-indicator set-focus message={loadingMessage} />
-        )}
+      {!displayTerms && (
+        <va-loading-indicator set-focus message={loadingMessage} />
+      )}
       <section className="usa-grid usa-grid-full">
         <article className="usa-content vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
           {!displayTerms &&
@@ -180,6 +183,9 @@ export default function MyVAHealth() {
                   <li>Update your personal information</li>
                 </ul>
               </va-alert>
+              {isLoading && (
+                <va-loading-indicator set-focus message={loadingMessage} />
+              )}
               <TermsAcceptance
                 error={error}
                 isMiddleAuth
