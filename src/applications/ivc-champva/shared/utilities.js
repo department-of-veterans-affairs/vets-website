@@ -54,3 +54,9 @@ export function getConditionalPages(pages, data, index) {
     pg => pg.depends === undefined || pg?.depends({ ...data }, index),
   );
 }
+
+// Expects a date as a string in YYYY-MM-DD format
+export function getAgeInYears(date) {
+  const difference = Date.now() - Date.parse(date);
+  return Math.abs(new Date(difference).getUTCFullYear() - 1970);
+}
