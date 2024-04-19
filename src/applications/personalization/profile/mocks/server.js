@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const delay = require('mocker-api/lib/delay');
-const { set } = require('lodash');
 
 // endpoint data or generator functions
 const user = require('./endpoints/user');
@@ -255,6 +254,7 @@ const responses = {
     // simulate a initial request returning a transactionId that is
     // subsequently used for triggering error from GET v0/profile/status
     // uncomment to test, and then uses the transactionId 'erroredId' in the status endpoint
+    // the status endpoint will return a COMPLETED_FAILURE status based on the string 'error' being in the transactionId
     // return res.json(
     //   _.set(
     //     address.mailingAddressUpdateReceived,
@@ -265,15 +265,15 @@ const responses = {
 
     // to test the update that comes from the 'yes' action on the address change modal prompt,
     // we can create a success response with a transactionId that is unique using date timestamp
-    if (req.body.addressPou === 'CORRESPONDENCE') {
-      return res.json(
-        set(
-          { ...address.mailingAddressUpdateReceived },
-          'data.attributes.transactionId',
-          `mailingUpdateId-${new Date().getTime()}`,
-        ),
-      );
-    }
+    // if (req.body.addressPou === 'CORRESPONDENCE') {
+    //   return res.json(
+    //     set(
+    //       { ...address.mailingAddressUpdateReceived },
+    //       'data.attributes.transactionId',
+    //       `mailingUpdateId-${new Date().getTime()}`,
+    //     ),
+    //   );
+    // }
 
     // default response
     return res.json(address.homeAddressUpdateReceived);
@@ -290,6 +290,8 @@ const responses = {
   },
   'GET /v0/profile/status': getEmptyStatus, // simulate no status / no transactions pending
   'GET /v0/profile/status/:id': (req, res) => {
+    // this function allows some conditional logic to be added to the status endpoint
+    // to simulate different responses based on the transactionId param
     return generateStatusResponse(req, res);
   },
   'GET /v0/profile/communication_preferences': (req, res) => {

@@ -36,6 +36,7 @@ const generateStatusResponse = (req, res) => {
   }
 
   // cases to return a failure status
+  // if you want to test a failure status, add 'failure' or 'error' to the id that is returned from any transaction
   if (id.includes('failure') || id.includes('error')) {
     return res.status(200).json({
       data: {
