@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { Link } from 'react-router';
 
 import { replaceDescriptionContent } from '../../shared/utils/replace';
-import { SELECTED, FORMAT_YMD, FORMAT_READABLE } from '../../shared/constants';
+import {
+  SELECTED,
+  FORMAT_YMD_DATE_FNS,
+  FORMAT_READABLE_DATE_FNS,
+} from '../../shared/constants';
+
+import { parseDate } from '../../shared/utils/dates';
 
 /** Copied from HLR v2 issue card */
 /**
@@ -60,7 +65,7 @@ export const IssueCardContent = ({
             className="dd-privacy-hidden"
             data-dd-action-name="rated issue decision date"
           >
-            {moment(date, FORMAT_YMD).format(FORMAT_READABLE)}
+            {parseDate(date, FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS)}
           </strong>
         </p>
       )}

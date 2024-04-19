@@ -71,7 +71,6 @@ const HTMLStatementPage = ({ match }) => {
           },
         ]}
         label="Breadcrumb"
-        uswds
         wrapping
       />
       <article className="vads-u-padding--0 medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">

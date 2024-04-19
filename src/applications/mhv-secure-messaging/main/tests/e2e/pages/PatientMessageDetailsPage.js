@@ -501,6 +501,41 @@ class PatientMessageDetailsPage {
     );
   };
 
+  realPressForExpandAllButton = () => {
+    cy.get(Locators.BUTTONS.SECURE_MESSAGING)
+      .find('button')
+      .each(button => {
+        cy.realPress('Tab');
+        cy.wrap(button).focus();
+        if (button.attr('aria-label') === 'Expand all accordions') {
+          return false;
+        }
+        return 0;
+      });
+  };
+
+  verifyClickAndExpandAllMessagesHasFocus = () => {
+    cy.tabToElement(Locators.BUTTONS.THREAD_EXPAND_MESSAGES);
+    cy.realPress('Enter');
+    cy.get(Locators.BUTTONS.THREAD_EXPAND_MESSAGES).each(el => {
+      cy.realPress('Enter');
+      cy.wrap(el)
+        .should('be.visible')
+        .and('have.focus');
+      cy.wrap(el)
+        .find(Locators.MESSAGE_THREAD_META)
+        .should('be.visible');
+      cy.realPress('Enter');
+      cy.wrap(el)
+        .should('be.visible')
+        .and('have.focus');
+      cy.wrap(el)
+        .find(Locators.MESSAGE_THREAD_META)
+        .should('not.be.visible');
+      cy.realPress('Tab');
+    });
+  };
+
   // temporary changed to 'contain', 'REPLY'
   replyToMessageBody = testMessageBody => {
     cy.get('[data-testid="message-body"]').should('contain', testMessageBody);

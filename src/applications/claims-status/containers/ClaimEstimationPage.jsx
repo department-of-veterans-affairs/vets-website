@@ -5,11 +5,12 @@ import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/
 
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
+import { setDocumentTitle } from '../utils/helpers';
 import { setUpPage } from '../utils/page';
 
 class ClaimEstimationPage extends React.Component {
   componentDidMount() {
-    document.title = 'How We Come Up with Your Estimated Decision Date';
+    setDocumentTitle('How We Come Up with Your Estimated Decision Date');
     setUpPage();
   }
 

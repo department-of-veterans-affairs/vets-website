@@ -37,6 +37,7 @@ import {
 } from '../../utils/validations';
 import UploadStatus from '../UploadStatus';
 import mailMessage from '../MailMessage';
+import RemoveFileModal from './RemoveFileModal';
 
 const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
@@ -53,6 +54,9 @@ class AddFilesForm extends React.Component {
       checked: false,
       errorMessageCheckbox: null,
       canShowUploadModal: false,
+      showRemoveFileModal: false,
+      removeFileIndex: null,
+      removeFileName: null,
     };
   }
 
@@ -158,6 +162,14 @@ class AddFilesForm extends React.Component {
     this.props.onDirtyFields();
   };
 
+  removeFileConfirmation = (fileIndex, fileName) => {
+    this.setState({
+      showRemoveFileModal: true,
+      removeFileIndex: fileIndex,
+      removeFileName: fileName,
+    });
+  };
+
   render() {
     const showUploadModal =
       this.props.uploading && this.state.canShowUploadModal;
@@ -208,7 +220,9 @@ class AddFilesForm extends React.Component {
                     <va-button
                       secondary
                       text="Remove"
-                      onClick={() => this.props.onRemoveFile(index)}
+                      onClick={() => {
+                        this.removeFileConfirmation(index, file.name);
+                      }}
                     />
                   </div>
                 </div>
@@ -278,6 +292,20 @@ class AddFilesForm extends React.Component {
         >
           {mailMessage}
         </va-additional-info>
+        <RemoveFileModal
+          removeFile={() => {
+            this.props.onRemoveFile(this.state.removeFileIndex);
+          }}
+          showRemoveFileModal={this.state.showRemoveFileModal}
+          removeFileName={this.state.removeFileName}
+          closeModal={() => {
+            this.setState({
+              showRemoveFileModal: false,
+              removeFileIndex: null,
+              removeFileName: null,
+            });
+          }}
+        />
         <VaModal
           id="upload-status"
           onCloseEvent={() => this.setState({ canShowUploadModal: false })}

@@ -35,7 +35,7 @@ describe('<DocumentRequestPage>', () => {
   it('when component mounts should set document title', () => {
     renderWithRouter(<DocumentRequestPage {...defaultProps} loading />);
 
-    expect(document.title).to.equal('Document Request');
+    expect(document.title).to.equal('Document Request | Veterans Affairs');
   });
 
   it('when component mounts should set document title', async () => {
@@ -184,10 +184,8 @@ describe('<DocumentRequestPage>', () => {
       <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
     );
 
-    expect(tree.subTree('DueDateOld')).not.to.be.false;
-    expect(tree.subTree('DueDateOld').props.date).to.eql(
-      trackedItem.suspenseDate,
-    );
+    expect(tree.subTree('DueDate')).not.to.be.false;
+    expect(tree.subTree('DueDate').props.date).to.eql(trackedItem.suspenseDate);
   });
 
   it('should render optional upload alert', () => {
@@ -291,7 +289,7 @@ describe('<DocumentRequestPage>', () => {
       </Provider>,
     );
 
-    expect(document.title).to.equal('Request for Testing');
+    expect(document.title).to.equal('Request for Testing | Veterans Affairs');
     expect(resetUploads.called).to.be.true;
   });
 

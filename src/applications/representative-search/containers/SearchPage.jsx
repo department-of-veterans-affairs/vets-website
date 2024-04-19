@@ -341,10 +341,10 @@ const SearchPage = props => {
         <div className="title-section">
           <h1>Find a VA accredited representative or VSO</h1>
           <p>
-            An accredited attorney, claims agent, or Veterans Service Officer
-            (VSO) can help you file a claim or request a decision review. Use
-            our search tool to find one of these types of accredited
-            representatives to help you.
+            An accredited attorney, claims agent, or Veterans Service
+            Organization (VSO) representative can help you file a claim or
+            request a decision review. Use our search tool to find one of these
+            types of accredited representatives to help you.
           </p>
           <p>
             <strong>Note:</strong> You’ll need to contact the accredited
