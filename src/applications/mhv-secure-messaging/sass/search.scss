@@ -61,6 +61,10 @@
     }
   }
 
+  #additional-filter-accordion::part(accordion-content) {
+    background-color: var(--color-gray-lightest);
+  }
+
   .custom-filter-button {
     @media (max-width: $small-screen) {
       width: 80%;

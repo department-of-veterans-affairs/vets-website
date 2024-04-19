@@ -1,15 +1,17 @@
 import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { convertKeysToCamelCase } from '../utilities/camelCase';
 
 class RepresentativeStatusApi {
   static getRepresentativeStatus() {
     const requestUrl = `${
-      environment.BASE_URL
+      environment.API_URL
     }/representation_management/v0/power_of_attorney`;
     const apiSettings = {
       'Content-Type': 'application/json',
       mode: 'cors',
       credentials: 'include',
+      'X-Key-Inflection': 'camel',
     };
     const startTime = new Date().getTime();
 
@@ -20,7 +22,9 @@ class RepresentativeStatusApi {
             throw Error(response.statusText);
           }
 
-          return response.json();
+          const res = response.json();
+
+          return convertKeysToCamelCase(res);
         })
         .then(res => {
           const endTime = new Date().getTime();

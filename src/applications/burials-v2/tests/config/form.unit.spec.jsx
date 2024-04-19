@@ -130,9 +130,30 @@ describe('Burials Form', () => {
       expect(result).to.eq(true);
     });
 
-    it('should depend correctly for burial allowance confirmation', () => {
+    it('should hide state of true when burial allowance not selected', () => {
       const result = formConfig.chapters.benefitsSelection.pages.burialAllowanceConfirmation.depends(
-        { burialAllowanceRequested: { unclaimed: true } },
+        {
+          'view:claimedBenefits': {
+            plotAllowance: true,
+          },
+          burialAllowanceRequested: {
+            unclaimed: true,
+          },
+        },
+      );
+      expect(result).to.eq(undefined);
+    });
+
+    it('should show state of true when burial allowance not selected', () => {
+      const result = formConfig.chapters.benefitsSelection.pages.burialAllowanceConfirmation.depends(
+        {
+          'view:claimedBenefits': {
+            burialAllowance: true,
+          },
+          burialAllowanceRequested: {
+            unclaimed: true,
+          },
+        },
       );
       expect(result).to.eq(true);
     });
@@ -153,7 +174,7 @@ describe('Burials Form', () => {
 
     it('should depend correctly for final resting place', () => {
       const result = formConfig.chapters.benefitsSelection.pages.finalRestingPlace.depends(
-        { 'view:claimedBenefits': { burialAllowance: true } },
+        { 'view:claimedBenefits': { plotAllowance: true } },
       );
       expect(result).to.eq(true);
     });
@@ -167,14 +188,14 @@ describe('Burials Form', () => {
 
     it('should depend correctly for national or federal cemetery', () => {
       const result = formConfig.chapters.benefitsSelection.pages.nationalOrFederalCemetery.depends(
-        { 'view:claimedBenefits': { burialAllowance: true } },
+        { 'view:claimedBenefits': { plotAllowance: true } },
       );
       expect(result).to.eq(true);
     });
 
     it('should depend correctly for cemetery location question', () => {
       const result = formConfig.chapters.benefitsSelection.pages.cemeteryLocationQuestion.depends(
-        { 'view:claimedBenefits': { burialAllowance: true } },
+        { 'view:claimedBenefits': { plotAllowance: true } },
       );
       expect(result).to.eq(true);
     });
@@ -182,7 +203,7 @@ describe('Burials Form', () => {
     it('should depend correctly for cemetery location', () => {
       const result = formConfig.chapters.benefitsSelection.pages.cemeteryLocation.depends(
         {
-          'view:claimedBenefits': { burialAllowance: true },
+          'view:claimedBenefits': { plotAllowance: true },
           cemetaryLocationQuestion: 'cemetery',
         },
       );
@@ -192,7 +213,7 @@ describe('Burials Form', () => {
     it('should depend correctly for tribal land location', () => {
       const result = formConfig.chapters.benefitsSelection.pages.tribalLandLocation.depends(
         {
-          'view:claimedBenefits': { burialAllowance: true },
+          'view:claimedBenefits': { plotAllowance: true },
           cemetaryLocationQuestion: 'tribalLand',
         },
       );
