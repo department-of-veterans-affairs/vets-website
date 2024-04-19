@@ -1,3 +1,4 @@
+import React from 'react';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
   titleUI,
@@ -5,9 +6,15 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { applicantListSchema } from '../config/constants';
+import { applicantListSchema, requiredFiles } from '../config/constants';
 import { applicantWording } from '../../shared/utilities';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
+import { isRequiredFile } from '../helpers/utilities';
+import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+import {
+  fileWithMetadataSchema,
+  fileUploadBlurb,
+} from '../../shared/components/fileUploads/attachments';
 
 export const blankSchema = { type: 'object', properties: {} };
 
@@ -72,6 +79,54 @@ export const applicantMedicarePartACarrierSchema = {
   schema: applicantListSchema(['applicantMedicarePartACarrier'], {
     titleSchema,
     applicantMedicarePartACarrier: { type: 'string' },
+  }),
+};
+
+export const appMedicareOver65IneligibleUploadSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': {
+        viewField: ApplicantField,
+      },
+      items: {
+        ...titleUI(
+          ({ _formData, formContext }) =>
+            `Upload proof of Medicare ineligibility ${isRequiredFile(
+              formContext,
+              requiredFiles,
+            )}`,
+          ({ formData }) => {
+            const appName = applicantWording(formData, undefined, false);
+            return (
+              <>
+                <b>{appName}</b> is 65 years or older and you selected that{' '}
+                they’re not eligible for Medicare.
+                <br />
+                <br />
+                You’ll need to submit a copy of a letter from the Social
+                Security Administration that confirms that <b>{appName}</b>{' '}
+                doesn’t qualify for Medicare benefits under anyone’s Social
+                Security number.
+                <br />
+                If you don’t have a copy to upload now, you can send one by mail
+                or fax
+              </>
+            );
+          },
+        ),
+        ...fileUploadBlurb,
+        applicantMedicareIneligibleProof: fileUploadUI({
+          label: 'Upload proof of Medicare ineligibility',
+        }),
+      },
+    },
+  },
+  schema: applicantListSchema([], {
+    titleSchema,
+    'view:fileUploadBlurb': blankSchema,
+    applicantMedicareIneligibleProof: fileWithMetadataSchema([
+      'Letter from the SSA',
+    ]),
   }),
 };
 
