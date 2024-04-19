@@ -17,7 +17,7 @@ describe('evidenceTypes', () => {
   } = formConfig.chapters.supportingEvidence.pages.evidenceTypes;
 
   it('should render', () => {
-    render(
+    const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -28,6 +28,17 @@ describe('evidenceTypes', () => {
     );
 
     expect($$('va-radio-option').length).to.equal(2);
+
+    const question = container.querySelector('va-radio');
+    expect(question).to.have.attribute(
+      'label',
+      'Is there any evidence you’d like us to review as part of your claim?',
+    );
+
+    expect(container.querySelector('va-radio-option[label="Yes"', container)).to
+      .exist;
+    expect(container.querySelector('va-radio-option[label="No"', container)).to
+      .exist;
   });
 
   it('should submit when no evidence selected', () => {
