@@ -29,6 +29,7 @@ describe('Medications Prescriptions container', () => {
           { url: medicationsUrls.MEDICATIONS_ABOUT },
           { label: 'About medications' },
         ],
+        crumbBackFocus: true,
       },
       allergies: { error: true },
     },

@@ -88,6 +88,15 @@ describe('Medicaitons List component', () => {
             ...state,
             rx: {
               prescriptions: { prescriptionDetails: { prescriptionId: 123 } },
+              breadcrumbs: {
+                list: [
+                  {
+                    url: '/my-health/medications/about',
+                    label: 'About medications',
+                  },
+                ],
+                crumbBackFocus: true,
+              },
             },
           },
           reducers: reducer,
