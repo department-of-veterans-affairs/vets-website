@@ -555,9 +555,12 @@ export function validateBooleanGroup(
   schema,
   errorMessages = {},
 ) {
+  console.log('VALIDATEBOOLEANGROUP');
   const { atLeastOne = 'Please choose at least one option' } = errorMessages;
   const group = userGroup || {};
   const props = schema?.properties || {};
+  console.log({ group });
+  console.log({ props });
   if (
     !Object.keys(group).filter(
       item =>

@@ -15,11 +15,13 @@ export const uiSchema = {
     'ui:validations': [
       {
         validator: validateBooleanGroup,
+        options: { wrappedValidator: validateBooleanGroup },
       },
     ],
     'ui:errorMessages': {
       atLeastOne: 'Please select at least one event type',
     },
+    'ui:required': () => true,
     'view:combatPtsdType': {
       'ui:title': ptsdTypeEnum.combatPtsdType,
     },

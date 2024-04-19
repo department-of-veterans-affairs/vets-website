@@ -1,7 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
@@ -15,7 +20,7 @@ describe('Disability benefits 718 PTSD type', () => {
 
   it('renders ptsd type form', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
@@ -34,13 +39,12 @@ describe('Disability benefits 718 PTSD type', () => {
       />,
     );
 
-    expect(form.find('va-checkbox').length).to.equal(4);
-    form.unmount();
+    expect($$('va-checkbox', container).length).to.equal(4);
   });
 
-  it('should fill in ptsd type information', () => {
+  it('should fill in ptsd type information', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container, getByText } = render(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
@@ -59,40 +63,28 @@ describe('Disability benefits 718 PTSD type', () => {
       />,
     );
 
-    /* We can't select v3 checkboxes anymore due to the use of the shadow root
-    /
-    * selectCheckbox(
-    *   form,
-    *   'root_view:selectablePtsdTypes_view:combatPtsdType',
-    *   true,
-    * );
-    * selectCheckbox(
-    *   form,
-    *   'root_view:selectablePtsdTypes_view:mstPtsdType',
-    *   true,
-    * );
-    * selectCheckbox(
-    *   form,
-    *   'root_view:selectablePtsdTypes_view:assaultPtsdType',
-    *   true,
-    * );
-    * selectCheckbox(
-    *   form,
-    *   'root_view:selectablePtsdTypes_view:nonCombatPtsdType',
-    *   true,
-    * );
-    *
-    *
-    * form.find('form').simulate('submit');
-    * expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    * expect(onSubmit.called).to.be.true;
-    */
-    form.unmount();
+    const checkboxGroup = $('va-checkbox-group', container);
+    for (const type of ['combat', 'mst', 'assault', 'nonCombat']) {
+      // eslint-disable-next-line no-await-in-loop
+      await checkboxGroup.__events.vaChange({
+        target: { checked: true, dataset: { key: `view:${type}PtsdType` } },
+        detail: { checked: true },
+      });
+    }
+
+    await userEvent.click(getByText('Submit'));
+    expect(
+      $$(
+        'va-checkbox-group[error="Please select at least one event type"]',
+        container,
+      ).length,
+    ).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 
-  it('should require a PTSD type to be selected', () => {
+  it('should require a PTSD type to be selected', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container, getByText } = render(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
@@ -111,11 +103,13 @@ describe('Disability benefits 718 PTSD type', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    // This error is on a v3 checkbox and thus inside of a shadow root and
-    // therefor cannot be tested
-    // expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    await userEvent.click(getByText('Submit'));
+    expect(
+      $$(
+        'va-checkbox-group[error="Please select at least one event type"]',
+        container,
+      ).length,
+    ).to.equal(1);
+    await userEvent.click(getByText('Submit'));
   });
 });
