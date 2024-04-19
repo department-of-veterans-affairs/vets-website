@@ -16,7 +16,7 @@ export function useRepresentativeStatus() {
       try {
         const response = await RepresentativeStatusApi.getRepresentativeStatus();
 
-        if (response.data.id) {
+        if (response?.data?.id) {
           const camelResponse = convertKeysToCamelCase(response);
 
           const poaData = camelResponse.data;
