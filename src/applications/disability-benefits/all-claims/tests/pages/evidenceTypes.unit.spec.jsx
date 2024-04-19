@@ -70,10 +70,8 @@ describe('evidenceTypes', () => {
     });
     const submitButton = getByText(/submit/i);
     userEvent.click(submitButton);
-    const error = getByText(
-      /please select at least one type of supporting evidence/i,
-    );
-    expect(error).to.exist;
+    // Error text should be present.
+    getByText(/please select at least one type of supporting evidence/i);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -98,11 +96,7 @@ describe('evidenceTypes', () => {
     const submitButton = getByText(/submit/i);
     userEvent.click(submitButton);
     expect(onSubmit.calledOnce).to.be.true;
-    try {
-      getByText(/please select at least one type of supporting evidence/i);
-    } catch (e) {
-      // Error text in try block should not be present.
-      expect(e).to.exist;
-    }
+    // Check for absence of an error message.
+    expect($('va-radio').error).to.be.null;
   });
 });
