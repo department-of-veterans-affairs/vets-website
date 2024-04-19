@@ -418,7 +418,7 @@ const formConfig = {
           depends: formData =>
             (formData.preparerType === PREPARER_TYPES.VETERAN ||
               formData.preparerType === PREPARER_TYPES.NON_VETERAN) &&
-            formData.livingSituation.OTHER_RISK,
+            formData.livingSituation.NONE,
           path: 'other-reasons',
           title: 'Other reasons for request',
           uiSchema: otherReasonsPg.uiSchema,
@@ -428,7 +428,7 @@ const formConfig = {
         otherReasonsThirdPartyVeteranPage: {
           depends: formData =>
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN &&
-            formData.livingSituation.OTHER_RISK,
+            formData.livingSituation.NONE,
           path: 'other-reasons-third-party-veteran',
           title: 'Other reasons for request',
           uiSchema: otherReasons3rdPtyVetPg.uiSchema,
@@ -438,7 +438,7 @@ const formConfig = {
         otherReasonsThirdPartyNonVeteranPage: {
           depends: formData =>
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN &&
-            formData.livingSituation.OTHER_RISK,
+            formData.livingSituation.NONE,
           path: 'other-reasons-third-party-non-veteran',
           title: 'Other reasons for request',
           uiSchema: otherReasons3rdPtyNonVetPg.uiSchema,
