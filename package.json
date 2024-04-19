@@ -170,7 +170,7 @@
     "cypress": "^12.17.3",
     "cypress-axe": "^1.4.0",
     "cypress-multi-reporters": "^1.6.3",
-    "dd-trace": "2.24.0",
+    "dd-trace": "3.55.0",
     "docdash": "^1.2.0",
     "enzyme": "^3.11.0",
     "esbuild": "^0.20.1",
