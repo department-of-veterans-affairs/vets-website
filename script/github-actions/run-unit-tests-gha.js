@@ -107,6 +107,7 @@ if (testsToVerify === null) {
       const testsToRun = options['app-folder']
         ? `--recursive ${updatedPath}`
         : `--recursive ${glob.sync(updatedPath)}`;
+      console.log('normal unit tests: ', testsToRun);
       const command = `LOG_LEVEL=${options[
         'log-level'
       ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
@@ -134,6 +135,8 @@ if (testsToVerify === null) {
     const testsToRun = testsToVerify
       .filter(test => test.includes(`src/applications/${app}`))
       .join(' ');
+    console.log('stress test unit tests: ', testsToRun);
+
     if (testsToRun !== '') {
       const command = `LOG_LEVEL=${options[
         'log-level'

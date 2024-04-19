@@ -28,7 +28,7 @@ const EvidencePrivateRecordsAuthorization = ({
     () => {
       if (hasError) {
         recordEvent({
-          event: 'visible-alert-box',
+          event: 'visible-alert-boxz',
           'alert-box-type': 'warning',
           'alert-box-heading':
             'Authorize your doctor to release your records or upload them yourself',
