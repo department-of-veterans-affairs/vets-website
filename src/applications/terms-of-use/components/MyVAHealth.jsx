@@ -1,23 +1,33 @@
 import React, { useEffect, useState } from 'react';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { parseRedirectUrl } from '../helpers';
-import { touStyles } from '../constants';
+import IdentityPhone from 'platform/user/authentication/components/IdentityPhone';
+import TermsAcceptance from './TermsAcceptanceAction';
+import { parseRedirectUrl, touUpdatedDate, declineAndLogout } from '../helpers';
+import { touStyles, errorMessages } from '../constants';
+import touData from '../touData';
 
-const redirectUserToErrorPage = () => {
-  setTimeout(() => {
-    window.history.pushState(
-      {},
-      '',
-      '/auth/login/callback/?auth=fail&code=110',
-    );
-    window.history.go();
-  }, 3000);
+const redirectToErrorPage = () => {
+  window.location = `${
+    environment.BASE_URL
+  }/auth/login/callback/?auth=fail&code=110`;
 };
 
 export default function MyVAHealth() {
-  const [message, setMessage] = useState('Provisioning your acount...');
+  const [loadingMessage, setLoadingMessage] = useState(
+    'Provisioning your acount...',
+  );
+  const [showDeclineModal, setShowDeclineModal] = useState(false);
+  const [error, setError] = useState({ isError: false, message: '' });
+  const [displayTerms, setDisplayTerms] = useState(false);
   const url = new URL(window.location);
   const ssoeTarget = url.searchParams.get('ssoeTarget');
+  const redirectAfterProvisioning = response => {
+    if (response?.provisioned) {
+      window.location = parseRedirectUrl(decodeURIComponent(ssoeTarget));
+    }
+  };
 
   useEffect(
     () => {
@@ -27,28 +37,184 @@ export default function MyVAHealth() {
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
         })
-          .then(response => {
-            if (response?.provisioned) {
-              window.location = parseRedirectUrl(
-                decodeURIComponent(ssoeTarget),
-              );
+          .then(redirectAfterProvisioning)
+          .catch(({ errors }) => {
+            const [{ code }] = errors;
+            if (code === '422') {
+              setDisplayTerms(true);
+            } else if (code === '408') {
+              redirectToErrorPage();
+            } else {
+              setError({ isError: true, message: errorMessages.network });
             }
-          })
-          .catch(() => {
-            setMessage(
-              'There was an error provisioning your account. Redirecting...',
-            );
-            redirectUserToErrorPage();
           });
       }
     },
     [ssoeTarget],
   );
 
+  const handleTouClick = async type => {
+    const response = await apiRequest(`/terms_of_use_agreements/v1/${type}`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    // if the type was accept
+    if (response && type === 'accept') {
+      setDisplayTerms(false);
+      setLoadingMessage('Retrying to provision your account...');
+      apiRequest(`/terms_of_use_agreements/update_provisioning?poll=true`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+      })
+        .then(redirectAfterProvisioning)
+        .catch(({ errors }) => {
+          setDisplayTerms(false);
+          const [{ code }] = errors;
+
+          if (code === '408') {
+            setLoadingMessage(
+              'Unable to provision your account. Redirecting...',
+            );
+            redirectToErrorPage();
+          }
+        });
+    }
+
+    if (response && type === 'decline') {
+      setShowDeclineModal(false);
+      declineAndLogout({
+        termsCodeExists: false,
+        shouldRedirectToMobile: false,
+        isAuthenticatedWithSiS: false,
+      });
+    }
+  };
+
   return (
     <div className="vads-u-margin-y--2">
       <style>{touStyles}</style>
-      <va-loading-indicator set-focus message={message} />
+      {!displayTerms &&
+        !error.isError && (
+          <va-loading-indicator set-focus message={loadingMessage} />
+        )}
+      <section className="usa-grid usa-grid-full">
+        <article className="usa-content vads-u-padding-x--1 medium-screen:vads-u-padding-x--0">
+          {!displayTerms &&
+            error.isError && (
+              <va-alert
+                status="error"
+                slim
+                visible
+                uswds
+                class="vads-u-margin-y--1p5"
+              >
+                {error.message}
+              </va-alert>
+            )}
+          {displayTerms && (
+            <>
+              <h1>VA online services terms of use</h1>
+              <p className="va-introtext">
+                To sign in, you’ll need to accept the updated terms of use. Read
+                the updated terms on this page. Then confirm if you accept.
+              </p>
+              <div>
+                <p>
+                  Version: 1<br />
+                  Last updated: {touUpdatedDate}
+                </p>
+              </div>
+              <h2 id="terms-of-use">Terms of use</h2>
+              <div>
+                <va-accordion bordered>
+                  {touData.map(({ header, content }, i) => (
+                    <va-accordion-item
+                      header={header}
+                      level={3}
+                      key={header}
+                      part={`item-${i}`}
+                    >
+                      {content}
+                    </va-accordion-item>
+                  ))}
+                </va-accordion>
+              </div>
+              <h2 id="getting-va-benefits-and-services">
+                Getting VA benefits and services if you don’t accept
+              </h2>
+              <p>
+                Your decision to decline these terms won’t affect your
+                eligibility for VA health care and benefits in any way. You can
+                still get VA health care and benefits without using online
+                services. If you need help or have questions, <IdentityPhone />{' '}
+                We’re here 24/7.
+              </p>
+              <va-alert status="warning" visible>
+                <h3 slot="headline" id="what-happens-if-you-decline">
+                  What will happen if you decline
+                </h3>
+                <p>
+                  If you decline these terms, we’ll sign you out. You can still
+                  get VA health care and benefits by phone, by mail, or in
+                  person. But you won't be able to use some VA online services,
+                  including these services:
+                </p>
+                <ul>
+                  <li>VA.gov</li>
+                  <li>My HealtheVet</li>
+                  <li>My VA Health</li>
+                  <li>VA Health and Benefits Mobile App</li>
+                </ul>
+                <p>
+                  This means you won’t be able to do these types of things using
+                  VA online services:
+                </p>
+                <ul>
+                  <li>Apply for some benefits</li>
+                  <li>Check your claim status</li>
+                  <li>Send messages to your VA health care providers</li>
+                  <li>Refill your prescriptions</li>
+                  <li>Update your personal information</li>
+                </ul>
+              </va-alert>
+              <TermsAcceptance
+                error={error}
+                isMiddleAuth
+                handleTouClick={handleTouClick}
+                setShowDeclineModal={setShowDeclineModal}
+                isFullyAuthenticated
+                isUnauthenticated={false}
+              />
+            </>
+          )}
+        </article>
+        <VaModal
+          visible={showDeclineModal}
+          clickToClose
+          onCloseEvent={() => setShowDeclineModal(false)}
+          modalTitle="Decline the terms of use and sign out?"
+          onPrimaryButtonClick={() => handleTouClick('decline')}
+          onSecondaryButtonClick={() => setShowDeclineModal(false)}
+          primaryButtonText="Decline and sign out"
+          secondaryButtonText="Go back"
+          data-testid="modal-show"
+        >
+          {error.isError && (
+            <va-alert
+              status="error"
+              slim
+              visible
+              uswds
+              class="vads-u-margin-y--1p5"
+            >
+              {error.message}
+            </va-alert>
+          )}
+        </VaModal>
+      </section>
     </div>
   );
 }
