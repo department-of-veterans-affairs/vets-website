@@ -38,13 +38,12 @@ import ApplicantField from '../../shared/components/applicantLists/ApplicantFiel
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
 import {
-  getAgeInYears,
   isInRange,
   onReviewPage,
   MAX_APPLICANTS,
   applicantListSchema,
 } from '../helpers/utilities';
-import { applicantWording } from '../../shared/utilities';
+import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import {
   sponsorWording,
   additionalFilesHint,
