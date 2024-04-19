@@ -14,7 +14,6 @@ const hasAlternateName = formData =>
 export const uiSchema = {
   'view:hasAlternateName': yesNoUI({
     title: 'Have you served under a different name?',
-    uswds: false,
   }),
   alternateNames: {
     'ui:description': 'What name did you serve under?',

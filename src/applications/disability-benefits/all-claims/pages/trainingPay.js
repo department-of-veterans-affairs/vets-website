@@ -6,7 +6,6 @@ import {
 export const uiSchema = {
   hasTrainingPay: yesNoUI({
     title: 'Do you expect to receive active or inactive duty training pay?',
-    uswds: false,
   }),
 };
 

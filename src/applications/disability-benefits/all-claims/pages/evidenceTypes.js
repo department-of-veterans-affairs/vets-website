@@ -12,7 +12,6 @@ export const uiSchema = {
   'view:hasEvidence': yesNoUI({
     title:
       'Is there any evidence you’d like us to review as part of your claim?',
-    uswds: false,
   }),
   'view:hasEvidenceFollowUp': {
     'ui:options': {

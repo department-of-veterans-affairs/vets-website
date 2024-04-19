@@ -17,7 +17,6 @@ export const uiSchema = {
   'ui:title': 'High Priority claims',
   isTerminallyIll: yesNoUI({
     title: 'Are you terminally ill?',
-    uswds: false,
   }),
   'view:terminallyIllInfo': {
     'ui:description': TerminallyIllInfo,
