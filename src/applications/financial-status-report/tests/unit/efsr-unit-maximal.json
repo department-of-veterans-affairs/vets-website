@@ -1,63 +1,5 @@
 {
   "data": {
-    "totalExpenses": {
-      "rentOrMortgage": 2000.53,
-      "food": 1000.54,
-      "utilities": 701.35,
-      "otherLivingExpenses": {
-        "name": "Clothing, Veteran added, Property tax",
-        "amount": 195.25
-      },
-      "expensesInstallmentContractsAndOtherDebts": 2000.64,
-      "otherExpenses": [
-        {
-          "name": "Clothing",
-          "amount": "10"
-        },
-        {
-          "name": "Food",
-          "amount": "1000.54"
-        },
-        {
-          "name": "Veteran added",
-          "amount": "100"
-        }
-      ],
-      "filteredExpenses": [
-        {
-          "name": "Clothing",
-          "amount": "10"
-        },
-        {
-          "name": "Veteran added",
-          "amount": "100"
-        },
-        {
-          "name": "Property tax",
-          "amount": "85.25"
-        }
-      ],
-      "installmentContractsAndCreditCards": [
-        {
-          "creditorName": "Creditor One",
-          "dateStarted": "2017-03-XX",
-          "purpose": "Credit card payments",
-          "originalAmount": "50000.54",
-          "unpaidBalance": "15000.56",
-          "amountDueMonthly": "800.10",
-          "amountPastDue": "125.43"
-        },
-        {
-          "creditorName": "Creditor Two",
-          "dateStarted": "2019-05-XX",
-          "purpose": "Car payment/lease",
-          "originalAmount": "100000.43",
-          "unpaidBalance": "50000.26",
-          "amountDueMonthly": "1200.54",
-          "amountPastDue": "0"
-        }
-      ]
-    },
     "view:enhancedFinancialStatusReport": true,
     "otherExpenses": [
       {
@@ -95,8 +37,7 @@
           "name": "Property tax",
           "amount": "85.25"
         }
-      ],
-      "totalMonthlyExpenses": 5898.31
+      ]
     },
     "assets": {
       "realEstateValue": "800000.81",

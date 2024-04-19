@@ -58,21 +58,27 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
       <h2 className="vads-u-margin-top--4" data-testid="renew-section-subtitle">
         If you can’t find the prescription you’re looking for
       </h2>
-      <p className="vads-u-margin-y--3">
-        You may need to renew it.{' '}
-        <va-link
-          href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
-          text="Learn how to renew prescriptions"
-          data-testid="learn-to-renew-prescriptions-link"
-        />
-      </p>
-      <p>
-        <strong>Note:</strong> If your prescription isn’t listed here, find it
-        in your medications list.{' '}
-        <Link data-testid="medications-page-link" to="/">
-          Go to your medications list
-        </Link>
-      </p>
+      <div className="vads-u-margin-y--3">
+        <p className="vads-u-margin-y--0">You may need to renew it. </p>
+        <p className="vads-u-margin-y--0">
+          <va-link
+            href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
+            text="Learn how to renew prescriptions"
+            data-testid="learn-to-renew-prescriptions-link"
+          />
+        </p>
+      </div>
+      <div>
+        <p className="vads-u-margin-y--0">
+          <strong>Note:</strong> If your prescription isn’t listed here, find it
+          in your medications list.{' '}
+        </p>
+        <p className="vads-u-margin-y--0">
+          <Link data-testid="medications-page-link" to="/">
+            Go to your medications list
+          </Link>
+        </p>
+      </div>
       {renewablePrescriptionsList.length > 0 && (
         <>
           <p data-testid="renew-page-list-count">

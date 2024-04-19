@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import classNames from 'classnames';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const getUuid = nanoidImp => nanoidImp();
 
@@ -36,14 +37,11 @@ const DevToolsPanel = ({ devToolsData, show, setShow }) => {
   return (
     <div className={classes} data-testid="devtools-panel">
       <div className="devtools-panel__content">
-        <button
-          type="button"
-          className="devtools-panel__close-button"
+        <VaButton
           onClick={handlers.close}
+          text="close panel"
           data-testid="close-devtools-panel-button"
-        >
-          <i className="fas fa-times" />
-        </button>
+        />
 
         <h6>devToolsData</h6>
         <pre>{normalizeData(devToolsData)}</pre>
@@ -107,10 +105,14 @@ export const DevToolsLoader = ({ devToolsData, nanoidImp, showIcon }) => {
       {showIcon && (
         <button
           type="button"
-          className="devtools-show-button vads-u-background-color--primary vads-u-color--white"
+          className="devtools-show-button vads-u-background-color--primary vads-u-color--white vads-u-width--auto"
           onClick={handlers.togglePanel}
         >
-          <i className="fas fa-code" />
+          <va-icon
+            icon="code"
+            size={3}
+            srtext="open developer panel to view extra code information about this page"
+          />
         </button>
       )}
       {show && (
