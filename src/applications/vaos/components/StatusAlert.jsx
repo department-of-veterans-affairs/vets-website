@@ -3,16 +3,16 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import InfoAlert from '../../../components/InfoAlert';
+import InfoAlert from './InfoAlert';
 import {
   APPOINTMENT_STATUS,
   CANCELLATION_REASONS,
   GA_PREFIX,
-} from '../../../utils/constants';
-import { startNewAppointmentFlow } from '../../redux/actions';
+} from '../utils/constants';
+import { startNewAppointmentFlow } from '../appointment-list/redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
-import getNewAppointmentFlow from '../../../new-appointment/newAppointmentFlow';
-import { selectFeatureAfterVisitSummary } from '../../../redux/selectors';
+import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
+import { selectFeatureAfterVisitSummary } from '../redux/selectors';
 
 function handleClick(history, dispatch, typeOfCare) {
   return () => {
