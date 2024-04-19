@@ -19,5 +19,23 @@ describe('utilities: display logic', () => {
           .true;
       });
     });
+
+    describe('routing to application type question and skip ahead', () => {
+      const formResponses = {
+        SERVICE_BRANCH: RESPONSES.ARMY,
+        DISCHARGE_YEAR: '2024',
+        REASON: RESPONSES.REASON_8,
+      };
+
+      const router = {
+        push: sinon.spy(),
+      };
+
+      it('Reason: should correctly route to the next question based on the specific answer', () => {
+        navigateForward(SHORT_NAME_MAP.REASON, formResponses, router);
+        expect(router.push.firstCall.calledWith(ROUTES.PREV_APPLICATION_TYPE))
+          .to.be.true;
+      });
+    });
   });
 });

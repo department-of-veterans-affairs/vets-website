@@ -10,8 +10,7 @@ export const QUESTION_MAP = Object.freeze({
   COURT_MARTIAL: 'Was your discharge the outcome of a general court-martial?',
   PREV_APPLICATION:
     'Have you previously applied for and been denied a discharge upgrade for this period of service?',
-  PREV_APPLICATION_TYPE:
-    'What type of application did you make to upgrade your discharge previously?',
+  PREV_APPLICATION_TYPE: 'How did you apply for a discharge upgrade last time?',
   PREV_APPLICATION_YEAR: 'What year did you apply for a discharge upgrade?',
   PRIOR_SERVICE:
     'Did you complete a period of service in which your character of service was Honorable or General Under Honorable Conditions?',
@@ -23,7 +22,6 @@ export const SHORT_NAME_MAP = Object.freeze({
   DISCHARGE_YEAR: 'DISCHARGE_YEAR',
   DISCHARGE_MONTH: 'DISCHARGE_MONTH',
   REASON: 'REASON',
-  // PREV_APPLICATION_TYPE_A: 'PREV_APPLICATION_TYPE',
   DISCHARGE_TYPE: 'DISCHARGE_TYPE',
   INTENTION: 'INTENTION',
   COURT_MARTIAL: 'COURT_MARTIAL',

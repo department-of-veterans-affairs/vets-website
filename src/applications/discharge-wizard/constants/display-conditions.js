@@ -7,6 +7,7 @@ const yearResponses = range(currentYear - 1992).map(i => {
   const year = currentYear - i;
   return year.toString();
 });
+
 const {
   ARMY,
   NAVY,
@@ -24,6 +25,7 @@ const {
   COURT_MARTIAL_1,
   COURT_MARTIAL_2,
   COURT_MARTIAL_3,
+  //   INTENTION_2,
   PREV_APPLICATION_1,
   PREV_APPLICATION_2,
   //   DISCHARGE_TYPE_1,
@@ -34,6 +36,8 @@ const {
   PREV_APPLICATION_YEAR_2A,
   PREV_APPLICATION_YEAR_2B,
   PREV_APPLICATION_YEAR_2C,
+  //   PREV_APPLICATION_TYPE_3A,
+  //   PREV_APPLICATION_TYPE_3B,
 } = RESPONSES;
 
 export const DISPLAY_CONDITIONS = Object.freeze({
@@ -111,6 +115,13 @@ export const DISPLAY_CONDITIONS = Object.freeze({
         SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
+        REASON: [REASON_5, REASON_6, REASON_7],
+        PREV_APPLICATION: [PREV_APPLICATION_1],
+      },
+      2: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
         REASON: [
           REASON_1,
           REASON_2,
@@ -119,7 +130,6 @@ export const DISPLAY_CONDITIONS = Object.freeze({
           REASON_5,
           REASON_6,
           REASON_7,
-          REASON_8,
         ],
         PREV_APPLICATION_YEAR: [
           PREV_APPLICATION_YEAR_2A,
@@ -166,6 +176,13 @@ export const DISPLAY_CONDITIONS = Object.freeze({
           PREV_APPLICATION_YEAR_1B,
           PREV_APPLICATION_YEAR_1C,
         ],
+      },
+      2: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
+        REASON: [REASON_1, REASON_2, REASON_3, REASON_4, REASON_6, REASON_7],
+        DISCHARGE_TYPE: [DISCHARGE_TYPE_2],
       },
     },
   },

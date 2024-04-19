@@ -134,7 +134,6 @@ export const ROUTES = Object.freeze({
   COURT_MARTIAL: 'court-martial',
   INTENTION: 'intention',
   PREV_APPLICATION: 'prev-application',
-  PREV_APPLICATION_TYPE_A: 'prev-application-type',
   PREV_APPLICATION_TYPE: 'prev-application-type',
   PREV_APPLICATION_YEAR: 'prev-application-year',
   PRIOR_SERVICE: 'prior-service',
