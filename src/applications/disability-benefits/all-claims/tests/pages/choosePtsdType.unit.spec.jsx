@@ -34,8 +34,7 @@ describe('Disability benefits 718 PTSD type', () => {
       />,
     );
 
-    // We can't test these due to the new v3 checkboxes using a shadow root
-    // expect(form.find('input').length).to.equal(4);
+    expect(form.find('va-checkbox').length).to.equal(4);
     form.unmount();
   });
 

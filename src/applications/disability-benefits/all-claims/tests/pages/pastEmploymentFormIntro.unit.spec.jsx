@@ -28,9 +28,7 @@ describe('Disability benefits 4192', () => {
       />,
     );
 
-    // These checkboxes are all v3 and therefor cannot be tested due to using
-    // the shadow root
-    // expect(form.find('input').length).to.equal(4);
+    expect(form.find('va-checkbox').length).to.equal(4);
     form.unmount();
   });
 
@@ -50,9 +48,11 @@ describe('Disability benefits 4192', () => {
     );
 
     form.find('form').simulate('submit');
-    // This error message shows up on a checkbox, which is now v3 and using a
-    // shadow root, so cannot be tested
-    // expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+    expect(
+      form.find(
+        'va-checkbox-group[error=" Please select at least one option (or all that apply)."]',
+      ).length,
+    ).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

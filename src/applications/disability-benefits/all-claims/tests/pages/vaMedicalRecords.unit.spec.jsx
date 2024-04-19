@@ -58,8 +58,8 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    // This should be 6, but the disbility checkboxes are inside shadow roots
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('input').length).to.equal(3); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(3);
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
@@ -86,8 +86,8 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    // This should be 7, but the disbility checkboxes are inside shadow roots
-    expect(form.find('input').length).to.equal(3);
+    expect(form.find('input').length).to.equal(3); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(4);
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
@@ -145,9 +145,12 @@ describe('VA Medical Records', () => {
 
     form.find('form').simulate('submit');
     // Required field: Facility name
-    // Related disability is also throwing an error but is inside a shadow root
-    // and cannot be seen. This number should be '2'
     expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(
+      form.find(
+        'va-checkbox-group[error="Please select at least one condition"]',
+      ).length,
+    ).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

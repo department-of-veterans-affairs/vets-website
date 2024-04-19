@@ -64,9 +64,11 @@ describe('evidenceTypes', () => {
 
     form.find('form').simulate('submit');
     expect(onSubmit.called).to.be.false;
-    // This error message is on a v3 checkbox and cannot be tested due to the
-    // use of the shadow root
-    // expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(
+      form.find(
+        'va-checkbox-group[error="Please select at least one type of supporting evidence"]',
+      ).length,
+    ).to.equal(1);
     form.unmount();
   });
 

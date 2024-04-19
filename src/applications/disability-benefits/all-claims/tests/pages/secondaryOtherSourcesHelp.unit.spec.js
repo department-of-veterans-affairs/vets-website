@@ -27,8 +27,7 @@ describe('Add secondary other sources of information help ', () => {
       />,
     );
 
-    // These checkboxes are inside shadow roots
-    // expect(form.find('input').length).to.equal(2);
+    expect(form.find('va-checkbox').length).to.equal(2);
     form.unmount();
   });
 

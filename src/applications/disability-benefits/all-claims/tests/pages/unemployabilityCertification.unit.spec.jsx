@@ -1,11 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
-import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Recent Job Applications', () => {
   const page =
@@ -13,7 +14,7 @@ describe('Recent Job Applications', () => {
   const { schema, uiSchema } = page;
 
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -21,18 +22,12 @@ describe('Recent Job Applications', () => {
       />,
     );
 
-    // The two checkboxes are inside shadow roots
-    // expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    expect($$('va-checkbox', container).length).to.equal(2);
   });
 
-  // We removed a test here that confirmed no errors when the statements were
-  // certified because doing so is impossible with v3 checkboxes due to the
-  // shadow root
-
-  it('should error when statements are not certified', () => {
+  it('should certify both statements', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container, getByText } = render(
       <DefinitionTester
         onSubmit={onSubmit}
         definitions={formConfig.defaultDefinitions}
@@ -41,15 +36,27 @@ describe('Recent Job Applications', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    const checkboxes = $$('va-checkbox', container);
+    await checkboxes.forEach(checkbox =>
+      checkbox.__events.vaChange({
+        target: {
+          checked: true,
+          dataset: { key: 'none' },
+        },
+        detail: { checked: true },
+      }),
+    );
+
+    await userEvent.click(getByText('Submit'));
+    expect(
+      $$('va-checkbox[error="Please provide a response"]', container).length,
+    ).to.equal(0);
+    expect(onSubmit.called).to.be.true;
   });
 
-  it('should not allow submission with no data', () => {
+  it('should not allow submission with no data', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container, getByText } = render(
       <DefinitionTester
         onSubmit={onSubmit}
         definitions={formConfig.defaultDefinitions}
@@ -58,12 +65,14 @@ describe('Recent Job Applications', () => {
       />,
     );
 
-    // The two checkboxes are inside shadow roots
-    // expect(form.find('input').length).to.equal(2);
+    expect($$('va-checkbox').length).to.equal(2);
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(2);
+    await userEvent.click(getByText('Submit'));
+
+    expect(
+      $$('va-checkbox[error="Please provide a response"]', container).length,
+    ).to.equal(2);
+
     expect(onSubmit.called).to.be.false;
-    form.unmount();
   });
 });

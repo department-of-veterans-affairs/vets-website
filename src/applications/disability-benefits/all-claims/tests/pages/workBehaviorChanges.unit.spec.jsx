@@ -26,8 +26,7 @@ describe('Work Behavior Changes 781a', () => {
       />,
     );
 
-    // These are inside shadow roots
-    // expect(form.find('input').length).to.equal(8);
+    expect(form.find('va-checkbox').length).to.equal(8);
     expect(form.find('textarea').length).to.equal(1);
     form.unmount();
   });

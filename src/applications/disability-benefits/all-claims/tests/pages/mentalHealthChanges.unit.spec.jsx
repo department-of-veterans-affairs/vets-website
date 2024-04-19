@@ -26,9 +26,7 @@ describe('Mental Changes 781a', () => {
       />,
     );
 
-    // These checkboxes are all v3 and therefor use the shadow root and so
-    // cannot be tested
-    // expect(form.find('input').length).to.equal(9);
+    expect(form.find('va-checkbox').length).to.equal(9);
     expect(form.find('textarea').length).to.equal(1);
     form.unmount();
   });

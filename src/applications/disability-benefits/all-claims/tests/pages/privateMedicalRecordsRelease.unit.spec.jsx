@@ -31,9 +31,8 @@ describe('Disability benefits 4142 provider medical records facility information
     );
 
     expect(form);
-    // This should be 7, except the checkbox can't be tested due to the shadow
-    // root
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(7); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(1);
     expect(form.find('select').length).to.equal(6);
     form.unmount();
   });
@@ -118,9 +117,8 @@ describe('Disability benefits 4142 provider medical records facility information
     expect(form.find('.usa-input-error').length).to.equal(7);
 
     expect(form.find('select').length).to.equal(6);
-    // There is 1 checkbox at the bottom of this page that cannot be tested, so
-    // the real number here should be 8.
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(7); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(1);
     form.unmount();
   });
 
@@ -146,9 +144,8 @@ describe('Disability benefits 4142 provider medical records facility information
 
     expect(form.find('.usa-input-error').length).to.equal(8);
 
-    // There is 1 checkbox at the bottom of this page that cannot be tested, so
-    // the real number here should be 9.
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(8); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(1);
     form.unmount();
   });
 });
