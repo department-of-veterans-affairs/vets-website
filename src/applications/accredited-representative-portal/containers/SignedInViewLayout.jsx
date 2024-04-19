@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet } from 'react-router-dom-v5-compat';
+import { Navigate, Outlet, useLocation } from 'react-router-dom-v5-compat';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -9,10 +9,11 @@ import Sidenav from '../components/common/Sidenav';
 import Breadcrumbs from '../components/common/Breadcrumbs';
 import { selectUser } from '../selectors/user';
 
-const SignedInViewLayout = ({ children, poaPermissions = true }) => {
+const SignedInViewLayout = ({ poaPermissions = true }) => {
   const { isLoading, profile } = useSelector(selectUser);
   let content = null;
-  const { pathname } = document.location;
+
+  const { pathname } = useLocation();
 
   if (isLoading) {
     return (
@@ -53,28 +54,23 @@ const SignedInViewLayout = ({ children, poaPermissions = true }) => {
           <Sidenav />
         </div>
         <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9">
-          {children}
+          <Outlet />
         </div>
       </div>
     );
   }
 
-  if (children) {
-    return (
-      <div className="vads-u-margin-bottom--3">
-        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-          <Breadcrumbs pathname={pathname} />
-          {content}
-        </div>
+  return (
+    <div className="vads-u-margin-bottom--3">
+      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+        <Breadcrumbs pathname={pathname} />
+        {content}
       </div>
-    );
-  }
-
-  return <Outlet />;
+    </div>
+  );
 };
 
 SignedInViewLayout.propTypes = {
-  children: PropTypes.node,
   poaPermissions: PropTypes.bool,
 };
 
