@@ -218,6 +218,56 @@ export function isClinicVideoAppointment(appointment) {
 }
 
 /**
+ * Returns true if the appointment is a video appointment
+ * where the Veteran uses a VA furnished device
+ *
+ * @export
+ * @param {Appointment} appointment
+ * @returns {boolean} True if appointment is a video appointment that uses a VA furnished device
+ */
+export function isGfeVideoAppointment(appointment) {
+  const patientHasMobileGfe =
+    appointment.videoData.extension?.patientHasMobileGfe;
+
+  return (
+    (appointment?.videoData.kind === VIDEO_TYPES.mobile ||
+      appointment?.videoData.kind === VIDEO_TYPES.adhoc) &&
+    (!appointment?.videoData.isAtlas && patientHasMobileGfe)
+  );
+}
+
+/**
+ * Returns true if the appointment is a video appointment
+ * at an ATLAS location
+ *
+ * @export
+ * @param {Appointment} appointment
+ * @returns {boolean} True if appointment is a video appointment at ATLAS location
+ */
+export function isAtlasVideoAppointment(appointment) {
+  return appointment?.videoData.isAtlas;
+}
+
+/**
+ * Returns true if the appointment is a video appointment
+ * where the veteran connects from their own device
+ *
+ * @export
+ * @param {Appointment} appointment
+ * @returns {boolean} True if appointment is a home video appointment
+ */
+export function isHomeVideoAppointment(appointment) {
+  const patientHasMobileGfe =
+    appointment.videoData.extension?.patientHasMobileGfe;
+
+  return (
+    (appointment?.videoData.kind === VIDEO_TYPES.mobile ||
+      appointment?.videoData.kind === VIDEO_TYPES.adhoc) &&
+    (!appointment?.videoData.isAtlas && !patientHasMobileGfe)
+  );
+}
+
+/**
  * Returns the location ID of a VA appointment (in person or video)
  *
  * @export
