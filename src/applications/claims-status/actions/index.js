@@ -10,7 +10,7 @@ import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
 import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
-
+import { USE_MOCKS } from '../constants';
 import {
   ADD_FILE,
   BACKEND_SERVICE_ERROR,
@@ -49,12 +49,6 @@ import {
   USER_FORBIDDEN_ERROR,
   VALIDATION_ERROR,
 } from './types';
-
-// This should make it a bit easier to turn mocks on and off manually
-const SHOULD_USE_MOCKS = true;
-// NOTE: This should only be TRUE when developing locally
-const CAN_USE_MOCKS = environment.isLocalhost() && !window.Cypress;
-const USE_MOCKS = CAN_USE_MOCKS && SHOULD_USE_MOCKS;
 
 export const getClaimLetters = async () => {
   return apiRequest('/claim_letters');
@@ -229,8 +223,10 @@ export function submitRequest(id) {
     dispatch({
       type: SUBMIT_DECISION_REQUEST,
     });
+    // console.log('USE_MOCKS', USE_MOCKS);
 
     if (USE_MOCKS) {
+      // console.log('test');
       dispatch({ type: SET_DECISION_REQUESTED });
       dispatch(
         setNotification({
@@ -735,8 +731,10 @@ const getStemClaimsMock = dispatch => {
 export function getStemClaims() {
   return dispatch => {
     dispatch({ type: FETCH_STEM_CLAIMS_PENDING });
+    // console.log('USE_MOCKS', USE_MOCKS);
 
     if (USE_MOCKS) {
+      // console.log('test');
       return getStemClaimsMock(dispatch);
     }
 
