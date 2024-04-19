@@ -57,7 +57,7 @@ const Contacts = ({ data }) => {
             <li>Ask a staff member at your next appointment, or</li>
             <li>
               Call us at <HelpDeskContact testId="help-desk" />. We’re here
-              24/7.
+              Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
             </li>
           </ul>
         </va-additional-info>
