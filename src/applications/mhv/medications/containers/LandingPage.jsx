@@ -7,9 +7,9 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { getPrescriptionsPaginatedSortedList } from '../actions/prescriptions';
 import {
   medicationsUrls,
@@ -37,6 +37,9 @@ const LandingPage = () => {
     state => state.featureToggles,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const backLinkFocus = useSelector(
+    state => state.rx.breadcrumbs?.crumbBackFocus,
+  );
 
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
@@ -71,6 +74,12 @@ const LandingPage = () => {
       isPrescriptionsLoading,
     ],
   );
+
+  useEffect(() => {
+    if (backLinkFocus) {
+      focusElement(document.querySelector('h1'));
+    }
+  });
 
   useEffect(
     () => {
