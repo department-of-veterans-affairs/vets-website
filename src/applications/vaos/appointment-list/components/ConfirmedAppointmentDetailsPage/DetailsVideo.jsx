@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import {
   getVAAppointmentLocationId,
   isClinicVideoAppointment,
+  isGfeVideoAppointment,
+  isHomeVideoAppointment,
+  isAtlasVideoAppointment,
 } from '../../../services/appointment';
-import { VIDEO_TYPES } from '../../../utils/constants';
 import AppointmentDateTime from '../AppointmentDateTime';
+import AppointmentCard from './AppointmentCard';
 import BackLink from '../../../components/BackLink';
 import CalendarLink from './CalendarLink';
 import StatusAlert from './StatusAlert';
@@ -17,26 +20,16 @@ import VideoInstructionsLink from './VideoInstructionsLink';
 import VideoLocation from './VideoLocation';
 
 function formatHeader(appointment) {
-  const patientHasMobileGfe =
-    appointment.videoData.extension?.patientHasMobileGfe;
-  if (
-    (appointment.videoData.kind === VIDEO_TYPES.mobile ||
-      appointment.videoData.kind === VIDEO_TYPES.adhoc) &&
-    (!appointment.videoData.isAtlas && patientHasMobileGfe)
-  ) {
+  if (isGfeVideoAppointment(appointment)) {
     return 'VA Video Connect using VA device';
   }
-  if (
-    (appointment.videoData.kind === VIDEO_TYPES.mobile ||
-      appointment.videoData.kind === VIDEO_TYPES.adhoc) &&
-    (!appointment.videoData.isAtlas && !patientHasMobileGfe)
-  ) {
+  if (isHomeVideoAppointment(appointment)) {
     return 'VA Video Connect at home';
   }
   if (isClinicVideoAppointment(appointment)) {
     return 'VA Video Connect at VA location';
   }
-  if (appointment.videoData.isAtlas) {
+  if (isAtlasVideoAppointment(appointment)) {
     return 'VA Video Connect at an ATLAS location';
   }
   return null;
@@ -52,23 +45,25 @@ export default function DetailsVideo({ appointment, facilityData }) {
     <>
       <BackLink appointment={appointment} />
 
-      <h1 className="vads-u-margin-y--2p5">
-        <AppointmentDateTime appointment={appointment} />
-      </h1>
+      <AppointmentCard appointment={appointment}>
+        <h1 className="vads-u-margin-y--2p5">
+          <AppointmentDateTime appointment={appointment} />
+        </h1>
 
-      <StatusAlert appointment={appointment} facility={facility} />
+        <StatusAlert appointment={appointment} facility={facility} />
 
-      <TypeHeader isVideo>{header}</TypeHeader>
+        <TypeHeader isVideo>{header}</TypeHeader>
 
-      <VideoLocation appointment={appointment} facility={facility} />
+        <VideoLocation appointment={appointment} facility={facility} />
 
-      <VideoVisitProvider appointment={appointment} />
+        <VideoVisitProvider appointment={appointment} />
 
-      <VideoInstructionsLink appointment={appointment} />
+        <VideoInstructionsLink appointment={appointment} />
 
-      <CalendarLink appointment={appointment} facility={facility} />
-      <PrintLink appointment={appointment} />
-      <NoOnlineCancelAlert appointment={appointment} facility={facility} />
+        <CalendarLink appointment={appointment} facility={facility} />
+        <PrintLink appointment={appointment} />
+        <NoOnlineCancelAlert appointment={appointment} facility={facility} />
+      </AppointmentCard>
     </>
   );
 }
