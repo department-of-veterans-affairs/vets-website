@@ -133,9 +133,7 @@ const EmploymentRecord = ({
           value={employment[index].type || []}
           onVaSelect={e => handleChange('type', e.detail.value)}
           error={showError() || null}
-          uswds
         >
-          <option value=""> </option>
           <option value="Full time">Full time</option>
           <option value="Part time">Part time</option>
           <option value="Seasonal">Seasonal</option>

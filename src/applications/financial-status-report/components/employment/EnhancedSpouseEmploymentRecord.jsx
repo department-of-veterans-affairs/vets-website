@@ -176,9 +176,7 @@ const EmploymentRecord = props => {
             onVaSelect={handlers.onChange}
             error={typeError}
             class="advanced-search-field"
-            uswds
           >
-            <option value=""> </option>
             <option value="Full time">Full time</option>
             <option value="Part time">Part time</option>
             <option value="Seasonal">Seasonal</option>

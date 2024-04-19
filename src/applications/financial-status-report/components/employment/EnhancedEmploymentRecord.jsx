@@ -175,9 +175,7 @@ const EmploymentRecord = props => {
             value={employmentRecord.type}
             onVaSelect={handlers.onChange}
             error={typeError}
-            uswds
           >
-            <option value=""> </option>
             <option value="Full time">Full time</option>
             <option value="Part time">Part time</option>
             <option value="Seasonal">Seasonal</option>
