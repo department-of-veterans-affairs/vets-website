@@ -18,7 +18,7 @@ describe('Training Pay', () => {
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
-    render(
+    const { container } = render(
       <DefinitionTester
         definitions={definitions}
         schema={schema}
@@ -31,6 +31,17 @@ describe('Training Pay', () => {
     // Expect one question with two radio inputs
     expect($$('va-radio').length).to.equal(1);
     expect($$('va-radio-option').length).to.equal(2);
+
+    const question = container.querySelector('va-radio');
+    expect(question).to.have.attribute(
+      'label',
+      'Do you expect to receive active or inactive duty training pay?',
+    );
+
+    expect(container.querySelector('va-radio-option[label="Yes"', container)).to
+      .exist;
+    expect(container.querySelector('va-radio-option[label="No"', container)).to
+      .exist;
   });
 
   it('should fail to submit if no answers provided', () => {
