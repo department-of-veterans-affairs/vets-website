@@ -172,7 +172,6 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
                   />
                 </div>
               )}
-
               {poaType === 'representative' &&
                 (contact || email) && (
                   <div className="contact-info vads-u-margin-top--1p5">
