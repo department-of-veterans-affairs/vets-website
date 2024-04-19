@@ -2,6 +2,7 @@
   if (Cypress.env('with_screenshots')) {
     await import('./screenshots-current.day-of.cypress.spec');
     await import('./screenshots-current.pci.cypress.spec');
+    await import('./screenshots-travel-claim.cypress.spec');
   }
 })();
 describe('Screenshots all', () => {

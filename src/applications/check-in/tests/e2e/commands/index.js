@@ -57,5 +57,30 @@ Cypress.Commands.add('createScreenshots', filename => {
     cy.wait(1000);
     // Back to english
     cy.get('[data-testid="translate-button-en"]').click();
+    // Expand additional info if it exists and make more screenshots
+    // eslint-disable-next-line cypress/no-assigning-return-values
+    const additionalInfo = cy.$$('va-additional-info');
+    if (additionalInfo.length) {
+      additionalInfo.each((i, v) => {
+        cy.get(v)
+          .shadow()
+          .find('a[role="button"]')
+          .click();
+      });
+      cy.screenshot(`english/${filename}-info-expanded`);
+      cy.wait(1000);
+      // Capture Spanish
+      cy.get('[data-testid="translate-button-es"]').click();
+      cy.wait(1000);
+      cy.screenshot(`spanish/${filename}-info-expanded-spanish`);
+      cy.wait(1000);
+      // Capture Tagalog
+      cy.get('[data-testid="translate-button-tl"]').click();
+      cy.wait(1000);
+      cy.screenshot(`tagalog/${filename}-info-expanded-tagalog`);
+      cy.wait(1000);
+      // Back to english
+      cy.get('[data-testid="translate-button-en"]').click();
+    }
   }
 });
