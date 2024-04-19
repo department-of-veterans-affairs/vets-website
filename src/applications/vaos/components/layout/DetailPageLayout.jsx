@@ -3,16 +3,19 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { shallowEqual } from 'recompose';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import BackLink from '../BackLink';
 import { getConfirmedAppointmentDetailsInfo } from '../../appointment-list/redux/selectors';
-import NewTabAnchor from '../NewTabAnchor';
-import { APPOINTMENT_STATUS } from '../../utils/constants';
+import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
+import { startAppointmentCancel } from '../../appointment-list/redux/actions';
 
 export function Section({ children, heading }) {
   return (
     <>
-      <h2 className="vads-u-font-size--h3">{heading}</h2>
+      <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
+        {heading}
+      </h2>
       {children}
     </>
   );
@@ -52,6 +55,7 @@ Where.propTypes = {
 
 export default function DetailPageLayout({ children, header, instructions }) {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const { appointment, status } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
@@ -61,25 +65,29 @@ export default function DetailPageLayout({ children, header, instructions }) {
     <>
       <BackLink appointment={appointment} />
       <h1>{header}</h1>
-      <p>{instructions}</p>
+      {!!instructions && <p>{instructions}</p>}
       {children}
-      {status !== APPOINTMENT_STATUS.cancelled && (
-        <Section heading="Prepare for your visit">
-          <NewTabAnchor href="#" aria-label="">
-            Review your personal healthcare contacts
-          </NewTabAnchor>
-        </Section>
-      )}
-      <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-        <VaButton
-          text="Print"
-          secondary
-          onClick={() => window.print()}
-          data-testid="print-button"
-          uswds
-        />
+      <div className="vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print">
+        <span className="vads-u-margin-right--2">
+          <VaButton
+            text="Print"
+            secondary
+            onClick={() => window.print()}
+            data-testid="print-button"
+            uswds
+          />
+        </span>
         {status !== APPOINTMENT_STATUS.cancelled && (
-          <VaButton text="Cancel appointment" secondary onClick="" />
+          <VaButton
+            text="Cancel appointment"
+            secondary
+            onClick={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-cancel-booked-clicked`,
+              });
+              dispatch(startAppointmentCancel(appointment));
+            }}
+          />
         )}
       </div>
     </>

@@ -24,6 +24,7 @@ import {
   getAppointmentTimezone,
   isClinicVideoAppointment,
   getPatientTelecom,
+  hasValidCovidPhoneNumber,
 } from '../../services/appointment';
 import {
   selectFeatureRequests,
@@ -332,15 +333,26 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
   const startDate = moment.parseZone(appointment?.start);
   const status = appointment?.status;
   const typeOfCareName = selectTypeOfCareName(appointment);
+  const clinicName = appointment?.location?.clinicName;
+  const facilityPhone = hasValidCovidPhoneNumber(facility)
+    ? facility?.telecom?.find(tele => tele.system === 'covid')?.value
+    : facility?.telecom?.find(tele => tele.system === 'phone')?.value;
+
+  const clinicPhysicalLocation = appointment?.location?.clinicPhysicalLocation;
+  const duration = appointment?.minutesDuration;
 
   return {
     appointment,
     appointmentDetailsStatus,
     appointmentTypePrefix,
     cancelInfo: getCancelInfo(state),
+    clinicName,
+    clinicPhysicalLocation,
     comment,
+    duration,
     facility,
     facilityData,
+    facilityPhone,
     isCommunityCare,
     isVA,
     isVideo,
