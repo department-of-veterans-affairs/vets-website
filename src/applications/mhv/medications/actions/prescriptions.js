@@ -60,15 +60,9 @@ export const setPrescriptionDetails = prescription => async dispatch => {
   dispatch({ type: Actions.Prescriptions.SET_DETAILS, prescription });
 };
 
-export const getRefillablePrescriptionsList = (
-  pageNumber,
-  sortEndpoint,
-) => async dispatch => {
+export const getRefillablePrescriptionsList = () => async dispatch => {
   try {
-    const response = await getRefillablePrescriptionList(
-      pageNumber,
-      sortEndpoint,
-    );
+    const response = await getRefillablePrescriptionList();
     dispatch({
       type: Actions.Prescriptions.GET_REFILLABLE_LIST,
       response,

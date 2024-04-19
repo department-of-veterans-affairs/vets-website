@@ -70,8 +70,6 @@ export const prescriptionsReducer = (state = initialState, action) => {
     case Actions.Prescriptions.GET_API_ERROR: {
       return {
         ...state,
-        // prescriptionsList: undefined,
-        // prescriptionsPagination: undefined,
         apiError: true,
       };
     }

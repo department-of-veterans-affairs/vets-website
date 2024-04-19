@@ -518,6 +518,7 @@ const Prescriptions = () => {
                   </p>
                 </div>
               ) : (
+<<<<<<< HEAD
                 <>
                   {showRefillContent && (
                     <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
@@ -588,6 +589,9 @@ const Prescriptions = () => {
                     <></>
                   )}
                 </>
+=======
+                <></>
+>>>>>>> 51105c0a07 (resolve the feedback)
               )}
             </>
           )}
