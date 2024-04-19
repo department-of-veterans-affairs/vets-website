@@ -13,10 +13,11 @@ import {
   selectDropdownWithKeyboard,
 } from './utils';
 
-// NOTE: This test is skipped in CI due to a limitiation with Electron not allowing
-// `realPress` to be utilized
 describe('HCA-Keyboard-Only', () => {
-  beforeEach(() => {
+  // NOTE: This test is skipped in CI due to a limitiation with Electron not allowing
+  // `realPress` to be utilized
+  // eslint-disable-next-line func-names
+  beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
 
     cy.login(mockUser);
