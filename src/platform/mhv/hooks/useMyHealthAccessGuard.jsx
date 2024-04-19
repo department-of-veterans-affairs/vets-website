@@ -9,7 +9,7 @@ export const useMyHealthAccessGuard = () => {
     state => state?.user?.profile?.mhvAccountState,
   );
 
-  if (mhvAccountState !== 'NONE') {
+  if (mhvAccountState === 'NONE') {
     window.history.replaceState({}, '', '/my-health/');
     window.location.reload();
     return null;
