@@ -139,7 +139,7 @@ Travel-claim allows veterans to file a mileage only travel claim on the day of t
 ## Generating screenshots with Cypress
 We use Cypress to capture screenshots of each page of this application. The screenshot capturing is conditional on the env variable `with_screenshots` and won't run in CI. The following commands will generate screenshots in the `vets-website/cypress/screenshots` directory, these are to be run headless with out the Cypress GUI running.
 
-Current features PCI & day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.all.cypress.spec.js`
+Current features PCI, day-of, and travel-claim: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.all.cypress.spec.js`
 
 Current features PCI only: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.pci.cypress.spec.js`
 
