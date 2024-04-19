@@ -16,7 +16,7 @@ export const pushToRoute = (shortName, router) => {
 export const determineErrorMessage = shortName => {
   return errorTextMap[shortName]
     ? errorTextMap[shortName]
-    : 'Select a response';
+    : 'Select a response.';
 };
 
 export const determineLabel = shortName => {

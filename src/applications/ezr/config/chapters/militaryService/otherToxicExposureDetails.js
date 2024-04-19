@@ -1,6 +1,5 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import OtherToxicExposureDescription from '../../../components/FormDescriptions/OtherToxicExposureDescription';
 import content from '../../../locales/en/content.json';
 
@@ -15,7 +14,6 @@ export default {
     'ui:description': OtherToxicExposureDescription,
     otherToxicExposure: {
       'ui:title': content['military-service-other-exposure-description-2'],
-      'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
         pattern: content['military-service-other-exposure-error-message'],
       },

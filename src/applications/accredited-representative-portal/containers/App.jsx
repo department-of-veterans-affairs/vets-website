@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+import Header from '../components/common/Header/Header';
 
 function App({ children }) {
   const {
@@ -31,7 +32,12 @@ function App({ children }) {
     return document.location.replace('/');
   }
 
-  return children;
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 }
 
 App.propTypes = {

@@ -33,12 +33,24 @@
         "applicantMedicarePartDCarrier": "Test D Carrier",
         "applicantMedicarePartDEffectiveDate": "2010-01-01",
         "applicantHasPrimary": { "hasPrimary": "yes" },
-        "applicantPrimaryProvider": "Primary Provider 1",
+        "applicantPrimaryProvider": "Primary Provider",
         "applicantPrimaryEffectiveDate": "2010-01-01",
         "applicantPrimaryExpirationDate": "2010-01-01",
         "applicantPrimaryThroughEmployer": { "throughEmployer": "yes" },
         "applicantPrimaryHasPrescription": { "hasPrescription": "yes" },
-        "applicantPrimaryEOB": { "providesEOB": "yes" }
+        "applicantPrimaryEOB": { "providesEOB": "yes" },
+        "applicantPrimaryInsuranceType": "hmo, medigap",
+        "primaryMedigapPlan": "medigapPlanA",
+        "primaryAdditionalComments": "Additional comment",
+        "applicantHasSecondary": { "hasSecondary": "yes" },
+        "applicantSecondaryProvider": "Secondary Provider",
+        "applicantSecondaryEffectiveDate": "2010-01-01",
+        "applicantSecondaryExpirationDate": "2010-01-01",
+        "applicantSecondaryThroughEmployer": { "throughEmployer": "yes" },
+        "applicantSecondaryHasPrescription": { "hasPrescription": "yes" },
+        "applicantSecondaryEOB": { "providesEOB": "yes" },
+        "applicantSecondaryInsuranceType": "ppo, medigap",
+        "secondaryMedigapPlan": "medigapPlanA"
       }
     ],
     "certifierRelationship": {

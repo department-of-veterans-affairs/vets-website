@@ -1,6 +1,7 @@
 import defaultNotes from '../fixtures/notes/notes.json';
+import BaseListPage from './BaseListPage';
 
-class NotesListPage {
+class NotesListPage extends BaseListPage {
   clickGotoNotesLink = (notes = defaultNotes, waitForNotes = false) => {
     cy.intercept(
       'GET',
@@ -24,35 +25,6 @@ class NotesListPage {
       .find('a')
       .eq(_NotesIndex)
       .click();
-  };
-
-  verifyPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').should('be.visible');
-  };
-
-  clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').click({ force: true });
-  };
-
-  verifyPrintButton = () => {
-    // should display print button for a list "Print this list"
-    cy.get('[data-testid="printButton-0"]').should('be.visible');
-  };
-
-  verifyDownloadPDF = () => {
-    // should display a download pdf file button "Download PDF of this page"
-    cy.get('[data-testid="printButton-1"]').should('be.visible');
-  };
-
-  verifyDownloadTextFile = () => {
-    // should display a download text file button "Download list as a text file"
-    cy.get('[data-testid="printButton-2"]').should('be.visible');
-    // cy.get('[data-testid="printButton-2').click();
-  };
-
-  clickDownloadPDFFile = () => {
-    // should display a download text file button "Download list as a text file"
-    cy.get('[data-testid="printButton-1"]').click();
   };
 }
 

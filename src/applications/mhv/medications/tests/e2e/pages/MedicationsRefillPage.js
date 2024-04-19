@@ -98,8 +98,8 @@ class MedicationsRefillPage {
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
-    cy.get('[data-testid="back-to-medications-page-link"]').should('exist');
-    cy.get('[data-testid="back-to-medications-page-link"]').click({
+    cy.get('[data-testid="rx-breadcrumb"] > a').should('exist');
+    cy.get('[data-testid="rx-breadcrumb"] > a').click({
       waitForAnimations: true,
     });
   };

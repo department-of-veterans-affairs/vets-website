@@ -36,12 +36,8 @@ describe('LabsAndTests details container', () => {
     expect(screen).to.exist;
   });
 
-  it('displays date of birth for the print view', () => {
-    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
-  });
-
   it('displays a print button', () => {
-    const printButton = screen.getByTestId('print-records-button');
+    const printButton = screen.getByTestId('print-download-menu');
     expect(printButton).to.exist;
   });
 

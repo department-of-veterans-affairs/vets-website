@@ -9,7 +9,10 @@ const usePrintTitle = (baseTitle, userDetails, dob, updatePageTitle) => {
         .filter(part => part !== undefined && part !== null)
         .join(' ')
         .trim();
-      const pageTitle = `${name} | ${formatDateShort(new Date(dob))}`;
+      // eslint-disable-next-line no-irregular-whitespace
+      const pageTitle = `${name}${name ? '\u2003' : ''}​DOB:​${formatDateShort(
+        new Date(dob),
+      )}`;
 
       const beforePrintHandler = () => {
         updatePageTitle(pageTitle);

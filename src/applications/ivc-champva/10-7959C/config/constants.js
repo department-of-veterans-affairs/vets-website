@@ -27,7 +27,7 @@ export const pageProps = {
   data: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  pagePerItemIndex: PropTypes.string || PropTypes.number,
+  pagePerItemIndex: PropTypes.any,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
@@ -35,7 +35,7 @@ export const pageProps = {
 export const reviewPageProps = {
   data: PropTypes.object,
   editPage: PropTypes.func,
-  pagePerItemIndex: PropTypes.number,
+  pagePerItemIndex: PropTypes.any,
   props: PropTypes.object,
   title: PropTypes.func,
 };

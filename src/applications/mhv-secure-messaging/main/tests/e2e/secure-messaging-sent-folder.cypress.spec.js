@@ -15,41 +15,18 @@ describe('Secure Messaging Sent Folder checks', () => {
 
   it('Verify folder header', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessagesSentPage.verifyFolderHeader('Sent');
+    cy.axeCheck(AXE_CONTEXT);
+    PatientMessagesSentPage.verifyFolderHeaderText('Sent');
     PatientMessagesSentPage.verifyResponseBodyLength();
-  });
-
-  it('Verify filter works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessagesSentPage.inputFilterData('test');
-    PatientMessagesSentPage.filterMessages();
-    PatientMessagesSentPage.verifyFilterResults('test');
-  });
-
-  it('Verify clear filter btn works correctly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessagesSentPage.inputFilterData('any');
-    PatientMessagesSentPage.filterMessages();
-    PatientMessagesSentPage.clearFilter();
-    PatientMessagesSentPage.verifyFilterFieldCleared();
-  });
-
-  it('Check sorting works properly', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessagesSentPage.verifySorting();
   });
 
   it('Checks for "End of conversations in this folder" text', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
     cy.get('.endOfThreads').should('not.exist');
     cy.get('.usa-pagination__list li').then(pagesList => {
       const lastPageIndex = pagesList.length - 2;
-      FolderLoadPage.navigateToLastPage(lastPageIndex);
+      FolderLoadPage.clickAndNavigateToLastPage(lastPageIndex);
       cy.get('.endOfThreads').should(
         'have.text',
         Data.END_CONVERSATION_IN_FOLDER,

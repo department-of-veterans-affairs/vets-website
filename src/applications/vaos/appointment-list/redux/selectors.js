@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
 import moment from 'moment';
 import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { lowerCase } from 'lodash';
 import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
@@ -215,20 +216,75 @@ export function selectCanUseVaccineFlow(state) {
   );
 }
 
+export function selectAppointmentDetails(appointment) {
+  if (!appointment) return '';
+
+  if (appointment.version === 2) {
+    return appointment.comment ? appointment.comment : 'none';
+  }
+
+  const { comment } = appointment;
+  if (appointment.vaos.isCommunityCare) {
+    return comment || 'none';
+  }
+  return appointment.reason && comment
+    ? `${appointment.reason}: ${comment}`
+    : comment || (appointment.reason ? appointment.reason : null);
+}
+
 export function selectRequestedAppointmentDetails(state, id) {
   const { appointmentDetailsStatus, facilityData } = state.appointments;
   const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
     state,
   );
+  const appointment = selectAppointmentById(state, id, [
+    APPOINTMENT_TYPES.request,
+    APPOINTMENT_TYPES.ccRequest,
+  ]);
+
+  const bookingNotes = selectAppointmentDetails(appointment);
+  const cancelInfo = getCancelInfo(state);
+  const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
+  const email = getPatientTelecom(appointment, 'email');
+  const facilityId = getVAAppointmentLocationId(appointment);
+  const facility = facilityData?.[facilityId];
+  const isCC = appointment?.vaos.isCommunityCare;
+  const isCCRequest =
+    appointment?.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
+  const isCanceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
+  const phone = getPatientTelecom(appointment, 'phone');
+  const preferredTimesForPhoneCall = appointment?.preferredTimesForPhoneCall;
+  const provider = featureVAOSServiceCCAppointments
+    ? appointment?.preferredProviderName
+    : appointment?.preferredCommunityCareProviders?.[0];
+  const preferredLanguage = appointment?.vaos.apiData.preferredLanguage;
+  const requestedPeriod = appointment?.requestedPeriod;
+  const typeOfCare = getTypeOfCareById(appointment?.vaos.apiData.serviceType);
+  const typeOfCareName = typeOfCare?.name;
+  const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
+  const typeOfVisit = appointment?.requestVisitType;
+
   return {
-    appointment: selectAppointmentById(state, id, [
-      APPOINTMENT_TYPES.request,
-      APPOINTMENT_TYPES.ccRequest,
-    ]),
+    appointment,
     appointmentDetailsStatus,
+    bookingNotes,
+    cancelInfo,
+    canceled,
+    email,
+    facility,
     facilityData,
-    cancelInfo: getCancelInfo(state),
-    useV2: featureVAOSServiceCCAppointments,
+    isCC,
+    isCCRequest,
+    isCanceled,
+    phone,
+    preferredDates: requestedPeriod,
+    preferredLanguage,
+    preferredTimesForPhoneCall,
+    provider,
+    typeOfCare,
+    typeOfCareName,
+    typeOfCareText,
+    typeOfVisit,
   };
 }
 

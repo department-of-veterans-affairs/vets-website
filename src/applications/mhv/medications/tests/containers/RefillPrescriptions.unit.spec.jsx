@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 import {
   mockApiRequest,
   mockFetch,
@@ -15,6 +15,20 @@ import prescriptionsList from '../fixtures/prescriptionsList.json';
 
 describe('Refill Prescriptions Component', () => {
   const initialState = {
+    rx: {
+      prescriptions: {
+        selectedSortOption: 'alphabeticallyByStatus',
+      },
+      breadcrumbs: {
+        list: [
+          {
+            url: '/my-health/medications/about',
+            label: 'About medications',
+          },
+        ],
+      },
+      allergies: {},
+    },
     featureToggles: {
       // eslint-disable-next-line camelcase
       mhv_medications_display_refill_content: true,
@@ -117,12 +131,6 @@ describe('Refill Prescriptions Component', () => {
     checkbox.click();
   });
 
-  it('Clicks the medications list page link', async () => {
-    const screen = setup();
-    const link = await screen.findByTestId('back-to-medications-page-link');
-    fireEvent.click(link);
-  });
-
   it('Shows the correct "last filled on" date for refill', async () => {
     const screen = setup();
     const lastFilledEl = await screen.findByTestId('refill-last-filled-0');
@@ -176,5 +184,17 @@ describe('Refill Prescriptions Component', () => {
     checkbox.click();
     const button = await screen.findByTestId('request-refill-button');
     button.click();
+  });
+
+  it('Shows h1 and note if no prescriptions are refillable', async () => {
+    const screen = setup(initialState, []);
+    const title = await screen.findByTestId('refill-page-title');
+    expect(title).to.exist;
+    expect(title).to.have.text('Refill prescriptions');
+    expect(
+      screen.getByText(
+        'You don’t have any VA prescriptions with refills available. If you need a prescription, contact your care team.',
+      ),
+    ).to.exist;
   });
 });

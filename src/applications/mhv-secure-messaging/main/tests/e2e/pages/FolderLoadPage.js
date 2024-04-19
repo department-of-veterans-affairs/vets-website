@@ -60,7 +60,7 @@ class FolderLoadPage {
     this.loadFolderMessages('trash', -3, 3);
   };
 
-  getFolderHeader = text => {
+  verifyFolderHeaderText = text => {
     cy.get(Locators.FOLDERS.FOLDER_HEADER).should('have.text', `${text}`);
   };
 
@@ -74,7 +74,7 @@ class FolderLoadPage {
     cy.get(Locators.HEADER).should('contain', Assertions.MESSAGES);
   };
 
-  navigateToLastPage = index => {
+  clickAndNavigateToLastPage = index => {
     cy.get(Locators.ALERTS.PAGIN_LIST)
       .eq(index)
       .click();

@@ -6,8 +6,8 @@ import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 
 import { AccountUpdateView } from '@@profile/components/direct-deposit/AccountUpdateView';
-import { renderWithProfileReducers } from '../../unit-test-helpers';
 import { getVaButtonByText } from '~/applications/personalization/common/unitHelpers';
+import { renderWithProfileReducers } from '../../unit-test-helpers';
 
 const createInitialState = ({
   saveError,
@@ -107,11 +107,8 @@ describe('<AccountUpdateView />', () => {
       .exist;
     expect(container.querySelector('va-text-input[label="Routing number"]')).to
       .exist;
-    expect(
-      container.querySelector(
-        'va-text-input[label="Account number (No more than 17 digits)"]',
-      ),
-    ).to.exist;
+    expect(container.querySelector('va-text-input[label="Account number"]')).to
+      .exist;
   });
 
   it('renders the UpdateErrorAlert when saveError is provided', () => {

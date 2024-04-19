@@ -1,6 +1,10 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { fireEvent } from '@testing-library/dom';
+import sinon from 'sinon';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import * as recordEventModule from '~/platform/monitoring/record-event';
+import { renderWithRouter } from '../utils';
 
 import StemClaimListItem from '../../components/StemClaimListItem';
 
@@ -15,9 +19,37 @@ describe('<StemClaimListItem>', () => {
   };
 
   it('should render a denied STEM claim', () => {
-    const tree = shallow(<StemClaimListItem claim={defaultClaim} />);
-    expect(tree.find('ClaimCard').length).to.equal(1);
-    tree.unmount();
+    const { getByText } = renderWithRouter(
+      <StemClaimListItem claim={defaultClaim} />,
+    );
+    getByText('Edith Nourse Rogers STEM Scholarship application');
+    getByText('Received on March 1, 2021');
+    getByText('Status: Denied');
+    getByText('Last updated on: March 2, 2021');
+  });
+
+  it('when click claimCardLink, should call record event', () => {
+    const recordEventStub = sinon.stub(recordEventModule, 'default');
+    const { getByText, container } = renderWithRouter(
+      <StemClaimListItem claim={defaultClaim} />,
+    );
+    getByText('View details');
+    const claimCardLink = $('a', container);
+    fireEvent.click(claimCardLink);
+
+    expect(
+      recordEventStub.calledWith({
+        event: 'cta-action-link-click',
+        'action-link-type': 'secondary',
+        'action-link-click-label': 'View details',
+        'action-link-icon-color': 'blue',
+        'claim-type': 'STEM Scholarship',
+        'claim-last-updated-date': 'March 2, 2021',
+        'claim-submitted-date': 'March 1, 2021',
+        'claim-status': 'Denied',
+      }),
+    ).to.be.true;
+    recordEventStub.restore();
   });
 
   it('should not render a non-denied STEM claim', () => {
@@ -28,31 +60,11 @@ describe('<StemClaimListItem>', () => {
       },
     };
 
-    const tree = shallow(<StemClaimListItem claim={claim} />);
-    expect(tree.isEmptyRender()).to.be.true;
-    tree.unmount();
-  });
-
-  it('should render updated on and submitted on with proper date', () => {
-    const wrapper = shallow(<StemClaimListItem claim={defaultClaim} />);
-    expect(
-      wrapper
-        .find('ClaimCard')
-        .shallow()
-        .find('.submitted-on')
-        .text(),
-    ).to.equal('Received on March 1, 2021');
-    wrapper.unmount();
-  });
-
-  it('should show denied status', () => {
-    const tree = shallow(<StemClaimListItem claim={defaultClaim} />);
-    expect(
-      tree
-        .find('.card-status p')
-        .first()
-        .text(),
-    ).to.equal('Status: Denied');
-    tree.unmount();
+    const { queryByText } = renderWithRouter(
+      <StemClaimListItem claim={claim} />,
+    );
+    expect(queryByText('Edith Nourse Rogers STEM Scholarship application')).to
+      .not.exist;
+    expect(queryByText('Received on March 1, 2021')).to.not.exist;
   });
 });

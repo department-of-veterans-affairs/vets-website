@@ -1,20 +1,31 @@
 import React, { useEffect } from 'react';
+import { uniqBy } from 'lodash';
+
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { setPageFocus } from '../../combined/utils/helpers';
+import {
+  setPageFocus,
+  sortStatementsByDate,
+} from '../../combined/utils/helpers';
 import Modals from '../components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
 import StatementCharges from '../components/StatementCharges';
 import DownloadStatement from '../components/DownloadStatement';
 import { OnThisPageStatements } from '../components/OnThisPageStatements';
+import DisputeCharges from '../components/DisputeCharges';
+import HowToPay from '../components/HowToPay';
+import BalanceQuestions from '../components/BalanceQuestions';
+import FinancialHelp from '../components/FinancialHelp';
 
 const HTMLStatementPage = ({ match }) => {
   const selectedId = match.params.id;
   const combinedPortalData = useSelector(state => state.combinedPortal);
   const statements = combinedPortalData.mcp.statements ?? [];
+  const sortedStatements = sortStatementsByDate(statements ?? []);
+  const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
   const [selectedCopay] = statements.filter(({ id }) => id === selectedId);
   const statementDate = moment(selectedCopay.pSStatementDate, 'MM-DD').format(
@@ -60,7 +71,6 @@ const HTMLStatementPage = ({ match }) => {
           },
         ]}
         label="Breadcrumb"
-        uswds
         wrapping
       />
       <article className="vads-u-padding--0 medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
@@ -101,6 +111,13 @@ const HTMLStatementPage = ({ match }) => {
           <va-telephone tty contact="711" />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
+        <HowToPay
+          acctNum={statementsByUniqueFacility[0].pHAccountNumber}
+          facility={statementsByUniqueFacility[0].station}
+        />
+        <FinancialHelp />
+        <DisputeCharges />
+        <BalanceQuestions />
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />
         </Modals>

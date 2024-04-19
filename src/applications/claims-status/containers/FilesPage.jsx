@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
 import AskVAToDecide from '../components/AskVAToDecide';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
@@ -21,9 +22,9 @@ import {
   getFilesNeeded,
   getFilesOptional,
   isClaimOpen,
+  claimAvailable,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 // CONSTANTS
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
@@ -63,17 +64,24 @@ class FilesPage extends React.Component {
   getPageContent() {
     const { claim } = this.props;
 
+    // Return null if the claim/ claim.attributes dont exist
+    if (!claimAvailable(claim)) {
+      return null;
+    }
+
     const {
       closeDate,
       status,
       supportingDocuments,
       trackedItems,
+      evidenceWaiverSubmitted5103,
+      claimPhaseDates,
     } = claim.attributes;
     const isOpen = isClaimOpen(status, closeDate);
-    const waiverSubmitted = claim.attributes.evidenceWaiverSubmitted5103;
+    const waiverSubmitted = evidenceWaiverSubmitted5103;
     const showDecision =
-      claim.attributes.claimPhaseDates.latestPhaseType ===
-        FIRST_GATHERING_EVIDENCE_PHASE && !waiverSubmitted;
+      claimPhaseDates.latestPhaseType === FIRST_GATHERING_EVIDENCE_PHASE &&
+      !waiverSubmitted;
 
     const filesNeeded = getFilesNeeded(trackedItems, true);
     const optionalFiles = getFilesOptional(trackedItems, true);
@@ -88,7 +96,7 @@ class FilesPage extends React.Component {
     });
 
     return (
-      <div>
+      <div className="claim-files">
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
           <Toggler.Disabled>
             {isOpen && (
@@ -131,7 +139,7 @@ class FilesPage extends React.Component {
   setTitle() {
     const { claim } = this.props;
 
-    if (claim) {
+    if (claimAvailable(claim)) {
       const claimDate = buildDateFormatter()(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Files For ${claimDate} ${claimType} Claim`;

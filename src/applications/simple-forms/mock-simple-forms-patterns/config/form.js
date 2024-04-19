@@ -24,6 +24,7 @@ import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
+// import arrayAddresses from '../pages/mockArrayAddresses';
 
 import {
   employersDatesPage,
@@ -33,6 +34,7 @@ import {
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import { arrayBuilderPages } from '../arrayBuilder/components/arrayBuilder';
+import { arrayBuilderMockData } from '../arrayBuilder/components/arrayMockData';
 
 const chapterSelectInitialData = {
   chapterSelect: {
@@ -262,6 +264,14 @@ const formConfig = {
           schema: arraySinglePage.schema,
           depends: includeChapter('arraySinglePage'),
         },
+        // hide until preexisting addressUI bugs are fixed
+        // arrayAddresses: {
+        //   title: 'Multiple Addresses', // for review page (has to be more than one word)
+        //   path: 'array-addresses',
+        //   uiSchema: arrayAddresses.uiSchema,
+        //   schema: arrayAddresses.schema,
+        //   depends: includeChapter('arraySinglePage'),
+        // },
       },
     },
     arrayMultiPageAggregate: {
@@ -295,6 +305,9 @@ const formConfig = {
             uiSchema: employersSummaryPage.uiSchema,
             schema: employersSummaryPage.schema,
             depends: includeChapter('arrayMultiPageBuilder'),
+            // keep comment this for now while working on this feature
+            // eslint-disable-next-line sonarjs/no-redundant-boolean
+            initialData: false && arrayBuilderMockData,
           }),
           multiPageBuilderStepOne: pageBuilder.itemPage({
             title: 'Employer name and address',

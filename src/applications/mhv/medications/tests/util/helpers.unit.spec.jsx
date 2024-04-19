@@ -8,8 +8,8 @@ import {
   getReactions,
   processList,
   validateField,
-  createMedicationDescription,
   createNoDescriptionText,
+  createVAPharmacyText,
 } from '../../util/helpers';
 
 describe('Date Format function', () => {
@@ -125,96 +125,6 @@ describe('extractContainedResource', () => {
   });
 });
 
-describe('createMedicationDescription', () => {
-  it('should generate a description when all required fields are part of arg object', () => {
-    const args = {
-      color: 'AQUAMARINE',
-      shape: 'DONUT',
-      frontImprint: 'YuMMy',
-      backImprint: '3,4',
-    };
-    const result = createMedicationDescription(args);
-    expect(result).to.eq(
-      'Aquamarine, donut with YuMMy on the front and 3,4 on the back.',
-    );
-
-    expect(
-      createMedicationDescription({
-        color: 'Aquamarine',
-        shape: 'ORB',
-        frontImprint: 'HELLO there',
-        backImprint: null,
-      }),
-    ).to.eq('Aquamarine, orb with HELLO there on the front.');
-
-    // backImprint is a string of blank spaces
-    expect(
-      createMedicationDescription({
-        color: 'Aquamarine',
-        shape: 'ORB',
-        frontImprint: 'HELLO there',
-        backImprint: '            ',
-      }),
-    ).to.eq('Aquamarine, orb with HELLO there on the front.');
-  });
-
-  it('should return null when not any required field is null or a blank string', () => {
-    expect(
-      createMedicationDescription({
-        color: null,
-        shape: null,
-        frontImprint: null,
-        backImprint: null,
-      }),
-    ).to.be.null;
-
-    expect(
-      createMedicationDescription({
-        color: null,
-        shape: 'orb',
-        frontImprint: '1',
-        backImprint: '2',
-      }),
-    ).to.be.null;
-
-    expect(
-      createMedicationDescription({
-        color: 'Aquamarine',
-        shape: null,
-        frontImprint: '1',
-        backImprint: '2',
-      }),
-    ).to.be.null;
-
-    expect(
-      createMedicationDescription({
-        color: 'Aquamarine',
-        shape: 'orb',
-        frontImprint: null,
-        backImprint: '2',
-      }),
-    ).to.be.null;
-
-    expect(
-      createMedicationDescription({
-        color: ' ',
-        shape: 'orb',
-        frontImprint: null,
-        backImprint: '2',
-      }),
-    ).to.be.null;
-
-    expect(
-      createMedicationDescription({
-        color: 'Aquamarine',
-        shape: 'long',
-        frontImprint: ' ',
-        backImprint: '2',
-      }),
-    ).to.be.null;
-  });
-});
-
 describe('createNoDescriptionText', () => {
   it('should include a phone number if provided', () => {
     expect(createNoDescriptionText('555-111-5555')).to.eq(
@@ -226,5 +136,17 @@ describe('createNoDescriptionText', () => {
     expect(createNoDescriptionText()).to.eq(
       'No description available. Call your pharmacy if you need help identifying this medication.',
     );
+  });
+
+  describe('createVAPharmacyText', () => {
+    it('should include a phone number if provided', () => {
+      expect(createVAPharmacyText('555-111-5555')).to.eq(
+        'your VA pharmacy at 555-111-5555',
+      );
+    });
+
+    it('should create a string even if no phone number provided', () => {
+      expect(createVAPharmacyText()).to.eq('your VA pharmacy');
+    });
   });
 });
