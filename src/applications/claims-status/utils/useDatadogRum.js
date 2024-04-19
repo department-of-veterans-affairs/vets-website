@@ -27,15 +27,13 @@ const defaultRumSettings = {
   defaultPrivacyLevel: 'mask-user-input',
 };
 
+import { isProductionEnv } from '../constants';
+
 // Initialize Datadog RUM directly, if not using a feature flag
 // Don't call this function if not logged in
 const initializeRealUserMonitoring = customRumSettings => {
   // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
-  if (
-    !environment.BASE_URL.includes('localhost') &&
-    !window.DD_RUM?.getInitConfiguration() &&
-    !window.Mocha
-  ) {
+  if (isProductionEnv()) {
     datadogRum.init({
       ...defaultRumSettings,
       ...customRumSettings,

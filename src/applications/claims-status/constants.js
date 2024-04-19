@@ -22,3 +22,12 @@ const SHOULD_USE_MOCKS = true;
 const CAN_USE_MOCKS = !window.Cypress && environment.isLocalhost();
 
 export const canUseMocks = () => SHOULD_USE_MOCKS && CAN_USE_MOCKS;
+
+// This is used in useDataDogRum
+export const isProductionEnv = () => {
+  return (
+    !environment.BASE_URL.includes('localhost') &&
+    !window.DD_RUM?.getInitConfiguration() &&
+    !window.Mocha
+  );
+};
