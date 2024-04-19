@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { shallowEqual } from 'recompose';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import {
   AppointmentDate,
@@ -9,35 +9,49 @@ import {
 } from '../../appointment-list/components/AppointmentDateTime';
 import { getConfirmedAppointmentDetailsInfo } from '../../appointment-list/redux/selectors';
 import StatusAlert from '../StatusAlert';
-import VAFacilityLocation from '../VAFacilityLocation';
 import DetailPageLayout, {
   When,
   What,
   Where,
   Section,
+  Who,
 } from './DetailPageLayout';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
+import FacilityDirectionsLink from '../FacilityDirectionsLink';
+import Address from '../Address';
+import { selectFeaturePhysicalLocation } from '../../redux/selectors';
+import AddToCalendarButton from '../AddToCalendarButton';
 
 export function InPersonLayout() {
   const { id } = useParams();
   const {
     appointment,
+    clinicName,
+    clinicPhysicalLocation,
     comment,
     facility,
-    isCovid,
-    isPhoneAppointment,
-    locationId,
+    facilityPhone,
     startDate,
+    status,
     typeOfCareName,
   } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
   );
+  const featurePhysicalLocation = useSelector(state =>
+    selectFeaturePhysicalLocation(state),
+  );
+  const [number, extension] = facilityPhone?.split('x');
   const [reason, otherDetails] = comment.split(':');
+  const oracleHealthProviderName = null;
 
   return (
     <DetailPageLayout
-      header="In-person appointment"
-      instructions={`Go to ${facility?.name} for this appointment`}
+      header={`${
+        APPOINTMENT_STATUS.cancelled === status
+          ? 'Canceled in-person appointment'
+          : 'In-person appointment'
+      }`}
     >
       <StatusAlert
         appointment={appointment}
@@ -49,21 +63,46 @@ export function InPersonLayout() {
         <br />
         <AppointmentTime appointment={appointment} />
         <br />
-        <div className="vads-u-margin-top--2">
-          <VaButton text="Add to calendar" secondary onClick="" />
-        </div>
+        {APPOINTMENT_STATUS.cancelled !== status && (
+          <div className="vads-u-margin-top--2">
+            <AddToCalendarButton
+              appointment={appointment}
+              facility={facility}
+            />
+          </div>
+        )}
       </When>
       <What>{typeOfCareName || 'Type of care not noted'}</What>
+      {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
       <Where>
-        <VAFacilityLocation
-          facility={facility}
-          facilityName={facility?.name}
-          facilityId={locationId}
-          clinicFriendlyName={appointment.location?.clinicName}
-          clinicPhysicalLocation={appointment.location?.clinicPhysicalLocation}
-          showCovidPhone={isCovid}
-          isPhone={isPhoneAppointment}
-        />
+        {!!facility?.name && (
+          <>
+            {facility.name}
+            <br />
+          </>
+        )}
+        <Address address={facility?.address} />
+        <div className="vads-u-display--flex vads-u-margin-top--1 vads-u-color--link-default">
+          <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
+          <FacilityDirectionsLink location={facility} />
+        </div>
+        <br />
+        <span>Clinic: {clinicName}</span> <br />
+        {featurePhysicalLocation &&
+          clinicPhysicalLocation && (
+            <>
+              <span>Location: {clinicPhysicalLocation}</span> <br />
+            </>
+          )}
+        <span>
+          Clinic phone:{' '}
+          <VaTelephone
+            contact={number}
+            extension={extension}
+            data-testid="facility-telephone"
+          />{' '}
+          (<VaTelephone contact="711" tty data-testid="tty-telephone" />)
+        </span>
       </Where>
       <Section heading="Details you shared with your provider">
         <span>
