@@ -74,7 +74,6 @@ export const MenuItemLevel1 = ({
                 {/* Convert to va-icon when injected header/footer split is in prod: https://github.com/department-of-veterans-affairs/vets-website/pull/27590 */}
                 <svg
                   aria-hidden="true"
-                  className="vads-u-margin-left--0p5"
                   focusable="false"
                   viewBox="0 2 20 20"
                   width="20"
@@ -94,7 +93,6 @@ export const MenuItemLevel1 = ({
                 {/* Convert to va-icon when injected header/footer split is in prod: https://github.com/department-of-veterans-affairs/vets-website/pull/27590 */}
                 <svg
                   aria-hidden="true"
-                  className="vads-u-margin-left--0p5"
                   focusable="false"
                   viewBox="0 2 20 20"
                   width="20"

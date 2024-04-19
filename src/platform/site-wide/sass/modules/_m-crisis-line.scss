@@ -96,6 +96,10 @@ button.va-crisis-line {
 .va-crisis-panel {
   color: var(--vads-color-base);
 
+  li:nth-child(odd) {
+    border-bottom: none;
+  }
+
   &-body {
     padding: 1.5em;
     max-height: 100%;
