@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 (async () => {
   if (Cypress.env('with_screenshots')) {
     await import('./screenshots-current.day-of.cypress.spec');

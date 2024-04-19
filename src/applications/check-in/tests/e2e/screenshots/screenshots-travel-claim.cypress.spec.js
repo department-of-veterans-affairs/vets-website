@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 (async () => {
   if (Cypress.env('with_screenshots')) {
     await import('../../../travel-claim/tests/e2e/errors-already-filed.cypress.spec');
