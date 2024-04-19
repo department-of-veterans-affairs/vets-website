@@ -36,18 +36,14 @@ const InterstitialPage = props => {
           reply.
         </p>
 
-        <span className="sr-only" id="continue-content-change-message">
-          Page content will change.
-        </span>
-
         <button
           className="continue-button vads-u-padding-y--1p5 vads-u-padding-x--2p5"
           data-testid="continue-button"
           onClick={acknowledge}
           data-dd-action-name={continueButtonText}
-          aria-describedby="continue-content-change-message"
         >
           {continueButtonText}
+          <span className="sr-only">. Page content will change.</span>
         </button>
 
         <h2 className="vads-u-font-size--h3">
