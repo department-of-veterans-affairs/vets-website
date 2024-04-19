@@ -7,6 +7,7 @@ import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
 import App from '../../containers/App';
 import reducer from '../../reducers';
+import pilotRoutes from '../../pilot/routes';
 
 describe('App', () => {
   let oldLocation;
@@ -327,6 +328,40 @@ describe('App', () => {
       reducers: reducer,
       path: `/`,
     });
+    expect(window.location.replace.called).to.be.true;
+  });
+
+  it('should NOT redirect to the SM info page if the user is whitelisted or the feature flag is enabled', () => {
+    const customState = { ...initialState, featureToggles: [] };
+    customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
+    customState.featureToggles[
+      `${'mhv_secure_messaging_to_va_gov_release'}`
+    ] = true;
+    const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
+      initialState: customState,
+      reducers: reducer,
+      path: `/`,
+    });
+
+    expect(queryByText('Messages', { selector: 'h1', exact: true }));
+    expect(window.location.replace.calledOnce).to.be.false;
+  });
+
+  it('should redirect to the SM info page if the user is not whitelisted or the feature flag is disabled', () => {
+    const customState = { ...initialState, featureToggles: [] };
+    customState.featureToggles[
+      `${'mhv_secure_messaging_cerner_pilot'}`
+    ] = false;
+    customState.featureToggles[
+      `${'mhv_secure_messaging_to_va_gov_release'}`
+    ] = true;
+    const { queryByText } = renderWithStoreAndRouter(pilotRoutes, {
+      initialState: customState,
+      reducers: reducer,
+      path: `/`,
+    });
+
+    expect(queryByText('Messages', { selector: 'h1', exact: true }));
     expect(window.location.replace.called).to.be.true;
   });
 });
