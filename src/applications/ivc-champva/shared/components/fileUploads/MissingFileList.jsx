@@ -2,14 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { makeHumanReadable } from '../../helpers/utilities';
-import {
-  requiredFiles,
-  optionalFiles,
-} from '../../helpers/supportingDocsVerification';
-
-// All file names mapped to their presentable labels
-const fileNameMap = { ...requiredFiles, ...optionalFiles };
+import { makeHumanReadable } from '../../utilities';
 
 /**
  * Produce either a success message or a link to upload a file
@@ -51,6 +44,7 @@ function alertOrLink(file, entryName, index, fileNameDict = {}) {
  * description: description text to display
  * disableLinks: whether or not to show link to edit page
  * subset: which classification of files to show: 'required', 'optional', 'all'
+ * filenameMap: (optional) all file names mapped to user-friendly labels
  * @returns JSX
  */
 export default function MissingFileList({
@@ -60,6 +54,7 @@ export default function MissingFileList({
   description,
   disableLinks,
   subset,
+  fileNameMap,
 }) {
   const inSubset = file => {
     if (subset === 'required') {
@@ -91,7 +86,7 @@ export default function MissingFileList({
         const entryName = `${entry[nameKey].first} ${entry[nameKey]?.middle ||
           ''} ${entry[nameKey].last}${entry[nameKey]?.suffix || ''}`;
         return (
-          <div key={Object.keys(entry).join('') + idx}>
+          <div key={`${entryName}-${subset}`}>
             <strong>{entryName}</strong>
             <ul style={!disableLinks ? { listStyleType: 'none' } : {}}>
               {entry.missingUploads?.map((file, index) => {
@@ -117,6 +112,7 @@ MissingFileList.propTypes = {
   data: PropTypes.any,
   description: PropTypes.string,
   disableLinks: PropTypes.bool,
+  fileNameMap: PropTypes.any,
   nameKey: PropTypes.string,
   subset: PropTypes.string,
   title: PropTypes.string,
