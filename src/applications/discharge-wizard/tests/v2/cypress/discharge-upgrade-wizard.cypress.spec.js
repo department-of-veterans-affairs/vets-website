@@ -51,7 +51,7 @@ xdescribe('Discharge Upgrade Wizard', () => {
       h.clickContinue();
 
       // PREVIOUS_APPLICATION
-      h.verifyUrl(ROUTES.PREVIOUS_APPLICATION);
+      h.verifyUrl(ROUTES.PREV_APPLICATION);
     });
   });
 });

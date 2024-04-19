@@ -1,10 +1,14 @@
-import moment from 'moment';
-import { parseISODate } from 'platform/forms-system/src/js/helpers';
+import { isValid, isToday, isAfter, startOfToday } from 'date-fns';
 
-import { FORMAT_YMD } from '../constants';
+import { parseISODate } from '~/platform/forms-system/src/js/helpers';
+
+import { FORMAT_YMD_DATE_FNS } from '../constants';
+import { parseDateToDateObj } from '../utils/dates';
 import { fixDateFormat } from '../utils/replace';
 
 const buildDatePartErrors = (month, day, year) => {
+  // get last day of the month (month is zero based, so we're +1 month, day 0);
+  // new Date() will recalculate and go back to last day of the previous month
   const maxDaysInAMonth =
     year && month ? new Date(year, month, 0).getDate() : 31;
   return {
@@ -26,18 +30,16 @@ const isInvalidDateString = (year, day, month, dateString) => {
     !month ||
     isNaN(month) ||
     month === '0' ||
-    dateString?.length < FORMAT_YMD.length
+    dateString?.length < FORMAT_YMD_DATE_FNS.length
   );
 };
 
 export const createDateObject = rawDateString => {
   const dateString = fixDateFormat(rawDateString);
   const { day, month, year } = parseISODate(dateString);
-  const momentDate = moment(rawDateString, FORMAT_YMD);
-  // get last day of the month (month is zero based, so we're +1 month, day 0);
-  // new Date() will recalculate and go back to last day of the previous month
+  const dateObj = parseDateToDateObj(rawDateString, FORMAT_YMD_DATE_FNS);
   const invalidDate =
-    dateString?.length < FORMAT_YMD.length || !momentDate.isValid();
+    dateString?.length < FORMAT_YMD_DATE_FNS.length || !isValid(dateObj);
   const datePartErrors = buildDatePartErrors(month, day, year);
 
   return {
@@ -48,8 +50,8 @@ export const createDateObject = rawDateString => {
       datePartErrors.day ||
       datePartErrors.year ||
       invalidDate,
-    momentDate,
-    isTodayOrInFuture: momentDate.isSameOrAfter(moment().startOf('day')),
+    dateObj,
+    isTodayOrInFuture: isToday(dateObj) || isAfter(dateObj, startOfToday()),
   };
 };
 
