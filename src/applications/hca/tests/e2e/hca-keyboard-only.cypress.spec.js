@@ -13,8 +13,12 @@ import {
   selectDropdownWithKeyboard,
 } from './utils';
 
+// NOTE: This test is skipped in CI due to a limitiation with Electron not allowing
+// `realPress` to be utilized
 describe('HCA-Keyboard-Only', () => {
   beforeEach(() => {
+    if (Cypress.env('CI')) this.skip();
+
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
@@ -47,9 +51,7 @@ describe('HCA-Keyboard-Only', () => {
     }).as('mockSubmit');
   });
 
-  // NOTE: This test is skipped due to a limitation in CI with Electron not allowing
-  // `realPress` to be utilized
-  it.skip('should navigate and input maximal data using only a keyboard', () => {
+  it('should navigate and input maximal data using only a keyboard', () => {
     cy.wrap(maxTestData.data).as('testData');
     cy.get('@testData').then(data => {
       cy.visit(manifest.rootUrl);
