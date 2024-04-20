@@ -9,11 +9,15 @@ import {
   formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { pageTitles } from '../util/constants';
+import { accessAlertTypes, pageTitles } from '../util/constants';
 import { getNameDateAndTime, makePdf, generateTextFile } from '../util/helpers';
 import { getTxtContent } from '../util/txtHelpers/downloadRecords';
 import { getBlueButtonReportData } from '../actions/blueButtonReport';
 import { generateBlueButtonData } from '../util/pdfHelpers/blueButton';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import useAlerts from '../hooks/use-alerts';
+import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import { clearAlerts } from '../actions/alerts';
 
 const DownloadRecordsPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
@@ -33,6 +37,8 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
   const allergies = useSelector(state => state.mr.allergies.allergiesList);
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
+  const [downloadStarted, setDownloadStarted] = useState(false);
+  const activeAlert = useAlerts(dispatch);
 
   useEffect(
     () => {
@@ -57,8 +63,10 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
 
   const generatePdf = useCallback(
     async () => {
+      setDownloadStarted(true);
       setDownloadType('pdf');
       setBlueButtonRequested(true);
+      dispatch(clearAlerts());
       if (
         !allAreDefined([
           labsAndTests,
@@ -113,8 +121,10 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
    */
   const generateTxt = useCallback(
     async () => {
+      setDownloadStarted(true);
       setDownloadType('txt');
       setBlueButtonRequested(true);
+      dispatch(clearAlerts());
       if (
         !allAreDefined([
           labsAndTests,
@@ -137,9 +147,9 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           vitals,
         };
         const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
-        const content = getTxtContent(recordData);
+        const content = getTxtContent(recordData, user);
 
-        generateTextFile(content, pdfName);
+        generateTextFile(content, pdfName, user);
       }
     },
     [
@@ -225,6 +235,17 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
             will save a copy of your records to that computer.
           </li>
         </ul>
+
+        {!activeAlert &&
+          downloadStarted && (
+            <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+          )}
+        {activeAlert && (
+          <AccessTroubleAlertBox
+            alertType={accessAlertTypes.BLUE_BUTTON_REPORT}
+            className="vads-u-margin-bottom--1"
+          />
+        )}
 
         <button
           className="link-button"

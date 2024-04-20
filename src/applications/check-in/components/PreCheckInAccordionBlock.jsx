@@ -134,7 +134,7 @@ const PreCheckInAccordionBlock = ({
     accordions.unshift({
       header: t('how-can-i-update-my-information'),
       body: updateBody,
-      open: true,
+      open: false,
     });
   }
 

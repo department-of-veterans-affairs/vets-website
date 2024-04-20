@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import RepresentativeStatusApi from '../api/RepresentativeStatusApi';
-import { parsePhoneNumber } from '../utilities/phoneNumbers';
+import { convertKeysToCamelCase } from '../utilities/camelCase';
+import { formatContactInfo } from '../utilities/formatContactInfo';
 
 export function useRepresentativeStatus() {
   const [representative, setRepresentative] = useState(null);
@@ -13,50 +14,32 @@ export function useRepresentativeStatus() {
       setError(null);
 
       try {
-        const response = await RepresentativeStatusApi.getRepresentativeStatus;
-        if (response.data.id) {
-          const { attributes } = response.data;
-          const { contact, extension } = parsePhoneNumber(attributes.phone);
+        const response = await RepresentativeStatusApi.getRepresentativeStatus();
 
-          // address as displayed on contact card + google maps link
-          const concatAddress = [
-            attributes.addressLine1,
-            attributes.addressLine2,
-            attributes.addressLine3,
-            attributes.city,
-            attributes.stateCode,
-            attributes.zipCode,
-          ]
-            .filter(str => str)
-            .join(' ');
+        if (response?.data?.id) {
+          const camelResponse = convertKeysToCamelCase(response);
 
-          // rep contact card
-          const vcfData = [
-            'BEGIN:VCARD',
-            'VERSION:3.0',
-            `FN:${attributes.name}`,
-            `TEL:${contact}`,
-            `EMAIL:${attributes.email}`,
-            `ADR:;;${concatAddress}`,
-            'END:VCARD',
-          ].join('\n');
+          const poaData = camelResponse.data;
 
-          const encodedVCard = `data:text/vcard;charset=utf-8,${encodeURIComponent(
-            vcfData,
-          )}`;
-
-          setRepresentative({
-            id: response.data.id,
-            repType: response.data.type,
-            ...attributes,
+          const {
             concatAddress,
             contact,
             extension,
-            vcard: encodedVCard,
+            vcard,
+          } = formatContactInfo(poaData.attributes);
+
+          setRepresentative({
+            id: poaData.id,
+            poaType: poaData.attributes.type,
+            ...poaData.attributes,
+            concatAddress,
+            contact,
+            extension,
+            vcard,
           });
         }
       } catch (e) {
-        setError(e);
+        setError(e.message);
       } finally {
         setIsLoading(false);
       }

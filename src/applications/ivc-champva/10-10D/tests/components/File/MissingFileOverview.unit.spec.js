@@ -5,7 +5,7 @@ import { testComponentRender } from '../../../../shared/tests/pages/pageTests.sp
 import {
   hasReq,
   checkFlags,
-} from '../../../components/File/MissingFileOverview';
+} from '../../../../shared/components/fileUploads/MissingFileOverview';
 
 import formConfig from '../../../config/form';
 import mockData from '../../fixtures/data/test-data.json';

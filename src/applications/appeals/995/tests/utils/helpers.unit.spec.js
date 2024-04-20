@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { startOfDay, sub } from 'date-fns';
+import { startOfToday } from 'date-fns';
 
 import {
   getEligibleContestableIssues,
@@ -8,7 +8,7 @@ import {
 
 import { LEGACY_TYPE, SELECTED } from '../../../shared/constants';
 import { getItemSchema, isEmptyObject } from '../../../shared/utils/helpers';
-import { parseDate } from '../../../shared/utils/dates';
+import { parseDateWithOffset } from '../../../shared/utils/dates';
 import {
   appStateSelector,
   calculateIndexOffset,
@@ -24,21 +24,21 @@ import {
 } from '../../../shared/utils/issues';
 
 describe('getEligibleContestableIssues', () => {
-  const date = startOfDay(new Date());
+  const date = startOfToday();
 
-  const getIssue = (text, description = '', dateOffset) => ({
+  const getIssue = (text, description = '', dateOffset = 0) => ({
     type: 'contestableIssue',
     attributes: {
       ratingIssueSubjectText: text,
       description,
       approxDecisionDate: dateOffset
-        ? parseDate(sub(date, { months: dateOffset }))
+        ? parseDateWithOffset({ months: dateOffset }, date)
         : '',
     },
   });
-  const olderIssue = getIssue('Issue 1', '', 25);
-  const eligibleIssue = getIssue('Issue 2', '', 10);
-  const deferredIssue = getIssue('Issue 3', 'this is a deferred issue', 1);
+  const olderIssue = getIssue('Issue 1', '', -25);
+  const eligibleIssue = getIssue('Issue 2', '', -10);
+  const deferredIssue = getIssue('Issue 3', 'this is a deferred issue', -1);
   const emptyDateIssue = getIssue('Issue 4');
 
   it('should return empty array', () => {

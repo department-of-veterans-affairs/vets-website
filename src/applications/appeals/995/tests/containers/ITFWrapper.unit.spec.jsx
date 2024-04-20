@@ -1,21 +1,21 @@
 import React from 'react';
-import moment from 'moment';
 import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { add, format } from 'date-fns';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { requestStates } from 'platform/utilities/constants';
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { requestStates } from '~/platform/utilities/constants';
+import { mockApiRequest, resetFetch } from '~/platform/testing/unit/helpers';
+import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
 
 import ITFWrapper from '../../containers/ITFWrapper';
-import { outputDateFormat } from '../../content/itfWrapper';
 import { ITF_STATUSES } from '../../constants';
 import itfFetchResponse from '../fixtures/mocks/intent-to-file.json';
 import itfCreateResponse from '../fixtures/mocks/intent-to-file-compensation.json';
 
-import { FORMAT_YMD } from '../../../shared/constants';
+import { FORMAT_READABLE_DATE_FNS } from '../../../shared/constants';
+import { parseDateToDateObj } from '../../../shared/utils/dates';
 
 const getData = ({
   loggedIn = true,
@@ -46,9 +46,6 @@ const getData = ({
     dispatch: () => {},
   },
 });
-
-const getFormattedExpirationDate = date =>
-  moment(date, FORMAT_YMD).format(outputDateFormat);
 
 describe('ITFWrapper', () => {
   afterEach(() => {
@@ -278,7 +275,7 @@ describe('ITFWrapper', () => {
         </ITFWrapper>
       </Provider>,
     );
-    // Fetch succeded, but no ITFs were returned
+    // Fetch succeeded, but no ITFs were returned
     const mockDispatch = sinon.spy();
     const newData = getData({
       fetchCallState: requestStates.succeeded,
@@ -308,15 +305,13 @@ describe('ITFWrapper', () => {
     );
     // Fetch succeeded, but no ITFs were returned
     const mockDispatch = sinon.spy();
-    const expirationDate = moment()
-      .subtract(1, 'd')
-      .format();
+    const expirationDate = parseDateToDateObj(add(new Date(), { days: -1 }));
     const newData = getData({
       fetchCallState: requestStates.succeeded,
       mockDispatch,
       currentITF: {
         status: 'active',
-        expirationDate,
+        expirationDate: expirationDate.toISOString(),
       },
     });
     await rerender(
@@ -353,15 +348,13 @@ describe('ITFWrapper', () => {
   });
 
   it('should render a success message for fetched ITF', () => {
-    const expirationDate = moment()
-      .add(1, 'd')
-      .format();
+    const expirationDate = parseDateToDateObj(add(new Date(), { days: 1 }));
     mockApiRequest();
     const data = getData({
       fetchCallState: requestStates.succeeded,
       currentITF: {
         status: ITF_STATUSES.active,
-        expirationDate,
+        expirationDate: expirationDate.toISOString(),
       },
     });
     const { container } = render(
@@ -374,28 +367,26 @@ describe('ITFWrapper', () => {
     expect($('va-alert h2', container).textContent).to.contain(
       'You already have an Intent to File',
     );
-    const date = getFormattedExpirationDate(expirationDate);
+    const date = format(expirationDate, FORMAT_READABLE_DATE_FNS);
     expect($('va-alert').innerHTML).to.contain(date);
   });
 
   it('should render a success message for newly created ITF', () => {
-    const expirationDate = moment()
-      .add(1, 'd')
-      .format();
-    const previousExpirationDate = moment()
-      .subtract(1, 'd')
-      .format();
+    const expirationDate = parseDateToDateObj(add(new Date(), { days: 1 }));
+    const previousExpirationDate = parseDateToDateObj(
+      add(new Date(), { days: -1 }),
+    );
 
     mockApiRequest();
     const data = getData({
       fetchCallState: requestStates.succeeded,
       currentITF: {
         status: ITF_STATUSES.active,
-        expirationDate,
+        expirationDate: expirationDate.toISOString(),
       },
       creationCallState: requestStates.succeeded,
       previousITF: {
-        expirationDate: previousExpirationDate,
+        expirationDate: previousExpirationDate.toISOString(),
       },
     });
     const { container } = render(
@@ -410,7 +401,9 @@ describe('ITFWrapper', () => {
       'You submitted an Intent to File',
     );
     const html = $('va-alert').innerHTML;
-    expect(html).to.contain(getFormattedExpirationDate(expirationDate));
-    expect(html).to.contain(getFormattedExpirationDate(previousExpirationDate));
+    expect(html).to.contain(format(expirationDate, FORMAT_READABLE_DATE_FNS));
+    expect(html).to.contain(
+      format(previousExpirationDate, FORMAT_READABLE_DATE_FNS),
+    );
   });
 });

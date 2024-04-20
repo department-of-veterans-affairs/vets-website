@@ -34,6 +34,7 @@ const PrintDownload = props => {
 
   const handleDownload = async format => {
     try {
+      setMenuOpen(!menuOpen);
       setIsError(false);
       await download(format);
     } catch {
@@ -79,22 +80,24 @@ const PrintDownload = props => {
   return (
     <>
       {isSuccess && (
-        <div className="vads-u-margin-bottom--2">
+        <div
+          aria-live="polite"
+          className="vads-u-margin-bottom--3"
+          data-testid="download-success-banner"
+        >
           <va-alert status="success" background-only uswds>
-            <p
-              className="vads-u-margin--0"
-              data-testid="download-success-banner"
-            >
-              Download complete
+            <h2 slot="headline">Download started</h2>
+            <p className="vads-u-margin--0">
+              Check your device’s downloads location for your file.
             </p>
           </va-alert>
         </div>
       )}
       {isError && (
-        <div className="vads-u-margin-bottom--2">
+        <div className="vads-u-margin-bottom--3">
           <va-alert status="error" uswds>
-            <h2 slot="headline">We can’t access your medications right now</h2>
-            <p className="vads-u-margin-bottom--0">
+            <h2 slot="headline">We can’t download your records right now</h2>
+            <p>
               We’re sorry. There’s a problem with our system. Check back later.
             </p>
             <p className="vads-u-margin--0">

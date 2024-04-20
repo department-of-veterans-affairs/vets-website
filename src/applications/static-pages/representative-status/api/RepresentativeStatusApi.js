@@ -4,12 +4,13 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 class RepresentativeStatusApi {
   static getRepresentativeStatus() {
     const requestUrl = `${
-      environment.BASE_URL
+      environment.API_URL
     }/representation_management/v0/power_of_attorney`;
     const apiSettings = {
       'Content-Type': 'application/json',
       mode: 'cors',
       credentials: 'include',
+      'X-Key-Inflection': 'camel',
     };
     const startTime = new Date().getTime();
 

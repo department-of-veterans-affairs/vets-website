@@ -1,91 +1,110 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { expect } from 'chai';
-import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
-
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import {
-  DefinitionTester,
-  getFormDOM,
-} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import fullSchemaPensions from '../../../../config/form';
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-describe('Pensions accountInformation', () => {
-  const {
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import {
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
+} from '../pageTests.spec';
+import getData from '../../../fixtures/mocks/mockStore';
+
+import formConfig from '../../../../config/form';
+import accountInformation from '../../../../config/chapters/06-additional-information/accountInformation';
+
+const definitions = formConfig.defaultDefinitions;
+const { schema, uiSchema } = accountInformation;
+
+describe('web component tests', () => {
+  const pageTitle = 'account information';
+  const expectedNumberOfFields = 4;
+  testNumberOfWebComponentFields(
+    formConfig,
     schema,
     uiSchema,
-  } = fullSchemaPensions.chapters.additionalInformation.pages.accountInformation;
+    expectedNumberOfFields,
+    pageTitle,
+  );
 
-  it('should render', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
-    );
+  const expectedNumberOfErrors = 3;
+  testNumberOfErrorsOnSubmitForWebComponents(
+    formConfig,
+    schema,
+    uiSchema,
+    expectedNumberOfErrors,
+    pageTitle,
+  );
+});
 
-    const formDOM = getFormDOM(form);
+describe('Pensions account information page', () => {
+  const middleware = [];
+  const mockStore = configureStore(middleware);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(5);
-  });
-
-  it('should require bank account fields', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{
-          'view:usingDirectDeposit': true,
-        }}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    const formDOM = getFormDOM(form);
-
-    expect(formDOM.querySelectorAll('input').length).to.equal(5);
-
-    formDOM.submitForm(form);
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
-  });
-
-  it('should show error on bad routing number', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
-    );
-
-    const formDOM = getFormDOM(form);
-
-    const routingNumber = formDOM.querySelector(
-      '#root_bankAccount_routingNumber',
-    );
-
-    formDOM.fillData('#root_bankAccount_routingNumber', '01234567');
-
-    ReactTestUtils.Simulate.blur(routingNumber);
-
-    expect(
-      formDOM.querySelector('.usa-input-error #root_bankAccount_routingNumber'),
-    ).not.to.be.null;
-  });
-
-  it('should submit with valid data', () => {
+  it('should show error on bad routing number', async () => {
     const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        data={{}}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
+    const { data } = getData({ loggedIn: false });
+    const { container } = render(
+      <Provider store={mockStore(data)}>
+        <DefinitionTester
+          definitions={definitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            bankAccount: {
+              accountType: 'checking',
+              bankName: 'Best Bank',
+              accountNumber: '001122334455',
+              routingNumber: '012345678',
+            },
+          }}
+          formData={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
+    fireEvent.submit($('form', container));
+    await waitFor(() => {
+      const errors = '.usa-input-error, va-radio[error], va-text-input[error]';
+      expect($$(errors, container).length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
+  });
 
-    const formDOM = getFormDOM(form);
+  it('should submit with valid data', async () => {
+    const onSubmit = sinon.spy();
+    const { data } = getData({ loggedIn: false });
 
-    formDOM.fillData('#root_bankAccount_accountType_0', 'checking');
-    formDOM.fillData('#root_bankAccount_accountNumber', '1234');
-    formDOM.fillData('#root_bankAccount_routingNumber', '122105155');
-
-    formDOM.submitForm(form);
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
-
-    expect(onSubmit.called).to.be.true;
+    const { container } = render(
+      <Provider store={mockStore(data)}>
+        <DefinitionTester
+          definitions={definitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            bankAccount: {
+              accountType: 'checking',
+              bankName: 'Best Bank',
+              accountNumber: '001122334455',
+              routingNumber: '123123123',
+            },
+          }}
+          formData={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
+    );
+    fireEvent.submit($('form', container));
+    await waitFor(() => {
+      const errors = '.usa-input-error, va-radio[error], va-text-input[error]';
+      expect($$(errors, container).length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
   });
 });
