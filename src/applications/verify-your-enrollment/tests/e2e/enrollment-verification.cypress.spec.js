@@ -53,6 +53,9 @@ describe('Enrollment Verification Page Tests', () => {
   it('should show success message when submit button is clicked', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
+      '[class="vads-u-margin-y--0 text-color vads-u-font-family--sans"]',
+    ).should('contain', 'This month has not yet been verified.');
+    cy.get(
       '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
     ).click();
     cy.get('[for="vye-radio-button-yesinput"]').click();
@@ -60,5 +63,6 @@ describe('Enrollment Verification Page Tests', () => {
     cy.get(
       '[class=" vads-u-font-size--h2 vads-u-font-weight--bold vye-h2-style-as-h3 "]',
     ).should('contain', 'You have successfully verified your enrollment');
+    cy.get('[class="vads-u-font-size--h4"]').should('contain', 'Verified');
   });
 });
