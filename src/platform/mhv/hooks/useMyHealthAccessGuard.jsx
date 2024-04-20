@@ -1,19 +1,21 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-/**
- * Route guard hook that will redirect the user to the /my-health landing page if the user does not have an MHV account
- * @returns {null}
- */
 export const useMyHealthAccessGuard = () => {
+  const history = useHistory();
   const mhvAccountState = useSelector(
     state => state?.user?.profile?.mhvAccountState,
   );
 
-  if (mhvAccountState === 'NONE') {
-    window.history.replaceState({}, '', '/my-health/');
-    window.location.reload();
-    return null;
-  }
+  useEffect(
+    () => {
+      if (mhvAccountState === 'NONE') {
+        history.push('/my-health');
+      }
+    },
+    [mhvAccountState, history],
+  );
 
   return null;
 };
