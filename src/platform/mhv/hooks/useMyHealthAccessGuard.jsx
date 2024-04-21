@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 export const useMyHealthAccessGuard = () => {
@@ -6,21 +7,9 @@ export const useMyHealthAccessGuard = () => {
     state => state?.user?.profile?.mhvAccountState,
   );
 
-  useEffect(
-    () => {
-      if (mhvAccountState !== 'NONE') {
-        const currentPath = window.location.pathname;
-        // Check if the path starts with '/my-health/' and has more characters beyond '/my-health/'
-        if (
-          currentPath.startsWith('/my-health/') &&
-          currentPath !== '/my-health'
-        ) {
-          window.location.replace('/my-health');
-        }
-      }
-    },
-    [mhvAccountState],
-  );
+  if (mhvAccountState === 'NONE') {
+    return <Redirect to="/my-health" push />;
+  }
 
   return null;
 };
