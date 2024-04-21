@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux';
 
 /**
  * Route guard hook that will redirect the user to the /my-health landing page if mhvAccountState is 'NONE'
- * @returns {JSX.Element|null}
  */
 
 export const useMyHealthAccessGuard = () => {
