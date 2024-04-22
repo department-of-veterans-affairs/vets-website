@@ -53,10 +53,35 @@ Where.propTypes = {
   children: PropTypes.node,
 };
 
+function CancelButton({ appointment }) {
+  const dispatch = useDispatch();
+  const { status, vaos } = appointment;
+  const { isCommunityCare } = vaos;
+
+  const button = (
+    <VaButton
+      text="Cancel appointment"
+      secondary
+      onClick={() => {
+        recordEvent({
+          event: `${GA_PREFIX}-cancel-booked-clicked`,
+        });
+        dispatch(startAppointmentCancel(appointment));
+      }}
+    />
+  );
+
+  if (!isCommunityCare && APPOINTMENT_STATUS.cancelled !== status)
+    return button;
+
+  if (isCommunityCare && APPOINTMENT_STATUS.booked !== status) return button;
+
+  return null;
+}
+
 export default function DetailPageLayout({ children, header, instructions }) {
   const { id } = useParams();
-  const dispatch = useDispatch();
-  const { appointment, status } = useSelector(
+  const { appointment } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
   );
@@ -77,18 +102,7 @@ export default function DetailPageLayout({ children, header, instructions }) {
             uswds
           />
         </span>
-        {status !== APPOINTMENT_STATUS.cancelled && (
-          <VaButton
-            text="Cancel appointment"
-            secondary
-            onClick={() => {
-              recordEvent({
-                event: `${GA_PREFIX}-cancel-booked-clicked`,
-              });
-              dispatch(startAppointmentCancel(appointment));
-            }}
-          />
-        )}
+        <CancelButton appointment={appointment} />
       </div>
     </>
   );
