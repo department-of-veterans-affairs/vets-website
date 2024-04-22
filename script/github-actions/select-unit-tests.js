@@ -23,18 +23,14 @@ const CHANGED_APPS =
       )
     : [];
 
-/* eslint-disable no-console */
-console.log('CHANGED_APPS', CHANGED_APPS);
-console.log('CHANGED_APPS new Set', new Set(CHANGED_APPS));
 const CHANGED_APPS_UNIQUE = [...new Set(CHANGED_APPS)];
-console.log('CHANGED_APPS_UNIQUE', CHANGED_APPS_UNIQUE);
 
 const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(
   specPath =>
-    CHANGED_APPS.some(filePath => specPath.includes(filePath)) &&
+    CHANGED_APPS_UNIQUE.some(filePath => specPath.includes(filePath)) &&
     fs.existsSync(specPath),
 );
 
-core.exportVariable('APPS_TO_STRESS_TEST', CHANGED_APPS);
+core.exportVariable('APPS_TO_STRESS_TEST', CHANGED_APPS_UNIQUE);
 core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', TESTS_TO_STRESS_TEST);
 core.exportVariable('DISALLOWED_TESTS', DISALLOWED_SPECS);
