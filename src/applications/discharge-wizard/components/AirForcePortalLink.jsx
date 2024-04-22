@@ -6,7 +6,7 @@ const AirForcePortalLink = () => (
       className="vads-c-action-link--green"
       href="https://afrba-portal.cce.af.mil/"
     >
-      Get the form on the Air Force portal
+      Get the form on the Air Force Review Boards Agency Website and Portal.
     </a>
   </section>
 );
