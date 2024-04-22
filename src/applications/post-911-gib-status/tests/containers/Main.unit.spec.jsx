@@ -8,6 +8,7 @@ import { Main } from '../../containers/Main';
 const defaultProps = {
   availability: 'available',
   enrollmentData: {},
+  apiVersion: { apiVersion: 'v1' },
 };
 
 describe('Main', () => {
