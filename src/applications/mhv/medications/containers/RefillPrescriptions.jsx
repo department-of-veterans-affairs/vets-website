@@ -132,14 +132,14 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     }
     return (
       <div>
-        {fullRefillList?.length > 0 && (
+        <h1
+          className="vads-u-margin-top--neg1 vads-u-margin-bottom--4"
+          data-testid="refill-page-title"
+        >
+          Refill prescriptions
+        </h1>
+        {fullRefillList?.length > 0 ? (
           <div>
-            <h1
-              className="vads-u-margin-top--neg1 vads-u-margin-bottom--4"
-              data-testid="refill-page-title"
-            >
-              Refill prescriptions
-            </h1>
             <RefillNotification refillResult={refillResult} />
             <h2
               className="vads-u-margin-top--3"
@@ -235,6 +235,11 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
               }`}
             />
           </div>
+        ) : (
+          <p data-testid="no-refills-message">
+            You don’t have any VA prescriptions with refills available. If you
+            need a prescription, contact your care team.
+          </p>
         )}
         <RenewablePrescriptions renewablePrescriptionsList={fullRenewList} />
       </div>

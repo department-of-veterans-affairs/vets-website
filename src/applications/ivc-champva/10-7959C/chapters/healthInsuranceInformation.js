@@ -1,3 +1,4 @@
+import React from 'react';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
   titleUI,
@@ -7,9 +8,16 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { applicantListSchema } from '../config/constants';
+import { applicantListSchema, requiredFiles } from '../config/constants';
 import { applicantWording } from '../../shared/utilities';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
+import { isRequiredFile } from '../helpers/utilities';
+import {
+  fileWithMetadataSchema,
+  fileUploadBlurb,
+} from '../../shared/components/fileUploads/attachments';
+import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+import { blankSchema } from './applicantInformation';
 
 const MEDIGAP = {
   medigapPlanA: 'Medigap Plan A',
@@ -37,9 +45,8 @@ we generate the secondary schema). Using this pattern for all primary/secondary
 schemas
 */
 export function applicantHasInsuranceSchema(isPrimary) {
-  const val = isPrimary ? 'Primary' : 'Secondary';
-  const keyname = `applicantHas${val}`;
-  const property = `has${val}`;
+  const keyname = isPrimary ? 'applicantHasPrimary' : 'applicantHasSecondary';
+  const property = isPrimary ? 'hasPrimary' : 'hasSecondary';
   return {
     uiSchema: {
       applicants: { items: {} },
@@ -57,7 +64,9 @@ export function applicantHasInsuranceSchema(isPrimary) {
 }
 
 export function applicantProviderSchema(isPrimary) {
-  const keyname = `applicant${isPrimary ? 'Primary' : 'Secondary'}Provider`;
+  const keyname = isPrimary
+    ? 'applicantPrimaryProvider'
+    : 'applicantSecondaryProvider';
   return {
     uiSchema: {
       applicants: {
@@ -84,9 +93,9 @@ export function applicantProviderSchema(isPrimary) {
 }
 
 export function applicantInsuranceEffectiveDateSchema(isPrimary) {
-  const keyname = `applicant${
-    isPrimary ? 'Primary' : 'Secondary'
-  }EffectiveDate`;
+  const keyname = isPrimary
+    ? 'applicantPrimaryEffectiveDate'
+    : 'applicantSecondaryEffectiveDate';
   return {
     uiSchema: {
       applicants: {
@@ -97,7 +106,9 @@ export function applicantInsuranceEffectiveDateSchema(isPrimary) {
               `${applicantWording(formData)} ${insuranceName(
                 formData,
                 isPrimary,
-              )} insurance effective date`,
+              )} ${
+                isPrimary ? 'primary' : 'secondary'
+              } insurance effective date`,
           ),
           [keyname]: currentOrPastDateUI('Health insurance effective date'),
         },
@@ -110,133 +121,217 @@ export function applicantInsuranceEffectiveDateSchema(isPrimary) {
   };
 }
 
-export const applicantPrimaryExpirationDateSchema = {
-  uiSchema: {
-    applicants: {
-      'ui:options': {
-        viewField: ApplicantField,
-      },
-      items: {
-        ...titleUI(
-          ({ formData }) =>
-            `${applicantWording(formData)} ${
-              formData?.applicantPrimaryProvider
-            } insurance expiration date`,
-        ),
-        applicantPrimaryExpirationDate: currentOrPastDateUI(
-          'Health insurance expiration date',
-        ),
-      },
-    },
-  },
-  schema: applicantListSchema(['applicantPrimaryExpirationDate'], {
-    titleSchema,
-    applicantPrimaryExpirationDate: currentOrPastDateSchema,
-  }),
-};
-
-export const applicantPrimaryThroughEmployerSchema = {
-  uiSchema: {
-    applicants: { items: {} },
-  },
-  schema: applicantListSchema([], {
-    applicantPrimaryThroughEmployer: {
-      type: 'object',
-      properties: {
-        throughEmployer: { type: 'string' },
-        _unused: { type: 'string' },
-      },
-    },
-  }),
-};
-
-export const applicantPrimaryPrescriptionSchema = {
-  uiSchema: {
-    applicants: { items: {} },
-  },
-  schema: applicantListSchema([], {
-    applicantPrimaryHasPrescription: {
-      type: 'object',
-      properties: {
-        hasPrescription: { type: 'string' },
-        _unused: { type: 'string' },
-      },
-    },
-  }),
-};
-
-export const applicantPrimaryEOBSchema = {
-  uiSchema: {
-    applicants: { items: {} },
-  },
-  schema: applicantListSchema([], {
-    applicantPrimaryEOB: {
-      type: 'object',
-      properties: {
-        providesEOB: { type: 'string' },
-        _unused: { type: 'string' },
-      },
-    },
-  }),
-};
-
-export const applicantPrimaryTypeSchema = {
-  uiSchema: {
-    applicants: { items: {} },
-  },
-  schema: applicantListSchema([], {
-    applicantPrimaryInsuranceType: {
-      type: 'string',
-    },
-  }),
-};
-
-export const applicantPrimaryMedigapSchema = {
-  uiSchema: {
-    applicants: {
-      'ui:options': { viewField: ApplicantField },
-      items: {
-        ...titleUI(
-          ({ formData }) =>
-            `${applicantWording(formData)} ${
-              formData?.applicantPrimaryProvider
-            } Medigap information`,
-        ),
-        primaryMedigapPlan: radioUI({
-          title: 'Which type of Medigap plan is the applicant enrolled in?',
-          required: () => true,
-          labels: MEDIGAP,
-        }),
-      },
-    },
-  },
-  schema: applicantListSchema(['primaryMedigapPlan'], {
-    titleSchema,
-    primaryMedigapPlan: radioSchema(Object.keys(MEDIGAP)),
-  }),
-};
-
-export const applicantPrimaryCommentsSchema = {
-  uiSchema: {
-    applicants: {
-      'ui:options': { viewField: ApplicantField },
-      items: {
-        ...titleUI(
-          ({ formData }) =>
-            `${applicantWording(formData)} ${
-              formData?.applicantPrimaryProvider
-            } additional comments`,
-        ),
-        primaryAdditionalComments: {
-          'ui:title':
-            'Any additional comments about this applicant’s health insurance?',
-          'ui:webComponentField': VaTextInputField,
+export function applicantInsuranceExpirationDateSchema(isPrimary) {
+  const keyname = isPrimary
+    ? 'applicantPrimaryExpirationDate'
+    : 'applicantSecondaryExpirationDate';
+  return {
+    uiSchema: {
+      applicants: {
+        'ui:options': { viewField: ApplicantField },
+        items: {
+          ...titleUI(
+            ({ formData }) =>
+              `${applicantWording(formData)} ${insuranceName(
+                formData,
+                isPrimary,
+              )} ${
+                isPrimary ? 'primary' : 'secondary'
+              } insurance expiration date`,
+          ),
+          [keyname]: currentOrPastDateUI('Health insurance expiration date'),
         },
       },
     },
-  },
-  schema: applicantListSchema([], {
-    titleSchema,
-    primaryAdditionalComments: { type: 'string' },
-  }),
-};
+    schema: applicantListSchema([keyname], {
+      titleSchema,
+      [keyname]: currentOrPastDateSchema,
+    }),
+  };
+}
+
+export function applicantInsuranceThroughEmployerSchema(isPrimary) {
+  const keyname = isPrimary
+    ? 'applicantPrimaryThroughEmployer'
+    : 'applicantSecondaryThroughEmployer';
+  return {
+    uiSchema: {
+      applicants: { items: {} },
+    },
+    schema: applicantListSchema([keyname], {
+      [keyname]: {
+        type: 'object',
+        properties: {
+          throughEmployer: { type: 'string' },
+          _unused: { type: 'string' },
+        },
+      },
+    }),
+  };
+}
+
+export function applicantInsurancePrescriptionSchema(isPrimary) {
+  const keyname = isPrimary
+    ? 'applicantPrimaryHasPrescription'
+    : 'applicantSecondaryHasPrescription';
+  return {
+    uiSchema: {
+      applicants: { items: {} },
+    },
+    schema: applicantListSchema([keyname], {
+      [keyname]: {
+        type: 'object',
+        properties: {
+          hasPrescription: { type: 'string' },
+          _unused: { type: 'string' },
+        },
+      },
+    }),
+  };
+}
+
+export function applicantInsuranceEOBSchema(isPrimary) {
+  const keyname = isPrimary ? 'applicantPrimaryEOB' : 'applicantSecondaryEOB';
+  return {
+    uiSchema: {
+      applicants: { items: {} },
+    },
+    schema: applicantListSchema([keyname], {
+      [keyname]: {
+        type: 'object',
+        properties: {
+          providesEOB: { type: 'string' },
+          _unused: { type: 'string' },
+        },
+      },
+    }),
+  };
+}
+
+export function applicantInsuranceTypeSchema(isPrimary) {
+  const keyname = isPrimary
+    ? 'applicantPrimaryInsuranceType'
+    : 'applicantSecondaryInsuranceType';
+  return {
+    uiSchema: {
+      applicants: { items: {} },
+    },
+    schema: applicantListSchema([], {
+      [keyname]: {
+        type: 'string',
+      },
+    }),
+  };
+}
+
+export function applicantMedigapSchema(isPrimary) {
+  const keyname = isPrimary ? 'primaryMedigapPlan' : 'secondaryMedigapPlan';
+  return {
+    uiSchema: {
+      applicants: {
+        'ui:options': { viewField: ApplicantField },
+        items: {
+          ...titleUI(
+            ({ formData }) =>
+              `${applicantWording(formData)} ${
+                isPrimary
+                  ? formData?.applicantPrimaryProvider
+                  : formData?.applicantSecondaryProvider
+              } Medigap information`,
+          ),
+          [keyname]: radioUI({
+            title: 'Which type of Medigap plan is the applicant enrolled in?',
+            required: () => true,
+            labels: MEDIGAP,
+          }),
+        },
+      },
+    },
+    schema: applicantListSchema([keyname], {
+      titleSchema,
+      [keyname]: radioSchema(Object.keys(MEDIGAP)),
+    }),
+  };
+}
+
+export function applicantInsuranceCommentsSchema(isPrimary) {
+  const val = isPrimary ? 'primary' : 'secondary';
+  const keyname = isPrimary
+    ? 'primaryAdditionalComments'
+    : 'secondaryAdditionalComments';
+  return {
+    uiSchema: {
+      applicants: {
+        'ui:options': { viewField: ApplicantField },
+        items: {
+          ...titleUI(
+            ({ formData }) =>
+              `${applicantWording(formData)} ${
+                isPrimary
+                  ? formData?.applicantPrimaryProvider
+                  : formData?.applicantSecondaryProvider
+              } ${val} health insurance additional comments`,
+          ),
+          [keyname]: {
+            'ui:title':
+              'Any additional comments about this applicant’s health insurance?',
+            'ui:webComponentField': VaTextInputField,
+          },
+        },
+      },
+    },
+    schema: applicantListSchema([], {
+      titleSchema,
+      [keyname]: { type: 'string' },
+    }),
+  };
+}
+
+export function applicantInsuranceCardSchema(isPrimary) {
+  const val = isPrimary ? 'primary' : 'secondary';
+  const keyname = isPrimary ? 'primaryInsuranceCard' : 'secondaryInsuranceCard';
+  return {
+    uiSchema: {
+      applicants: {
+        'ui:options': { viewField: ApplicantField },
+        items: {
+          ...titleUI(
+            ({ formData, formContext }) =>
+              `Upload ${
+                isPrimary
+                  ? formData?.applicantPrimaryProvider
+                  : formData?.applicantSecondaryProvider
+              } ${val} health insurance cards ${isRequiredFile(
+                formContext,
+                requiredFiles,
+              )}`,
+            ({ formData }) => {
+              const appName = applicantWording(formData);
+              return (
+                <>
+                  You’ll need to submit a copy of the front and back of{' '}
+                  {appName} Medicare Part A & B card.
+                  <br />
+                  If you don’t have a copy to upload now, you can send it by
+                  mail or fax
+                </>
+              );
+            },
+          ),
+          ...fileUploadBlurb,
+          [keyname]: fileUploadUI({
+            label: 'Upload other health insurance cards',
+          }),
+        },
+      },
+    },
+    schema: applicantListSchema([], {
+      titleSchema,
+      'view:fileUploadBlurb': blankSchema,
+      [keyname]: fileWithMetadataSchema([
+        `Front of ${val} insurance card`,
+        `Back of ${val} insurance card`,
+      ]),
+    }),
+  };
+}

@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 
 import ContestableIssuesWidget from '../components/ContestableIssuesWidget';
 import { ContestableIssuesAdditionalInfo } from '../content/contestableIssues';
@@ -11,7 +10,12 @@ import {
   hasSomeSelected,
 } from '../../shared/utils/issues';
 import { selectionRequired, maxIssues } from '../../shared/validations/issues';
-import { FORMAT_READABLE, FORMAT_YMD, SELECTED } from '../../shared/constants';
+import {
+  FORMAT_READABLE_DATE_FNS,
+  FORMAT_YMD_DATE_FNS,
+  SELECTED,
+} from '../../shared/constants';
+import { parseDate } from '../../shared/utils/dates';
 
 /**
  * contestable issues with add issue link (list loop)
@@ -67,8 +71,10 @@ const contestableIssues = {
             <div className="issue-title">{getIssueName(disagreement)}</div>
             <div>
               Decision date:{' '}
-              {moment(getIssueDate(disagreement), FORMAT_YMD).format(
-                FORMAT_READABLE,
+              {parseDate(
+                getIssueDate(disagreement),
+                FORMAT_YMD_DATE_FNS,
+                FORMAT_READABLE_DATE_FNS,
               )}
             </div>
             <div>{disagreeWith(disagreement)}</div>

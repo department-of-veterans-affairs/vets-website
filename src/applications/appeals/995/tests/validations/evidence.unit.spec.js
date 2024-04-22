@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { addYears } from 'date-fns';
 import sinon from 'sinon';
 
 import { errorMessages } from '../../constants';
@@ -26,8 +25,12 @@ import {
   validatePrivateUnique,
 } from '../../validations/evidence';
 
-import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
-import { parseDate } from '../../../shared/utils/dates';
+import {
+  MAX_LENGTH,
+  MAX_YEARS_PAST,
+  SELECTED,
+} from '../../../shared/constants';
+import { parseDateWithOffset } from '../../../shared/utils/dates';
 
 describe('VA evidence', () => {
   describe('validateVaLocation', () => {
@@ -123,7 +126,9 @@ describe('VA evidence', () => {
     it('should show an error for a to date in the future', () => {
       const errors = { addError: sinon.spy() };
       validateVaToDate(errors, {
-        evidenceDates: { to: parseDate(addYears(new Date(), 101)) },
+        evidenceDates: {
+          to: parseDateWithOffset({ years: MAX_YEARS_PAST + 1 }),
+        },
       });
       expect(errors.addError.args[0][0]).eq(errorMessages.evidence.pastDate);
     });
@@ -491,7 +496,9 @@ describe('Private evidence', () => {
     it('should show an error for a to date in the future', () => {
       const errors = { addError: sinon.spy() };
       validatePrivateToDate(errors, {
-        treatmentDateRange: { to: parseDate(addYears(new Date(), 101)) },
+        treatmentDateRange: {
+          to: parseDateWithOffset({ years: MAX_YEARS_PAST + 1 }),
+        },
       });
       expect(errors.addError.args[0][0]).eq(errorMessages.evidence.pastDate);
     });
