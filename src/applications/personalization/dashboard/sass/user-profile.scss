@@ -8,7 +8,7 @@
 button.dismissible-close {
   float: right;
   &:hover {
-    color: $color-link-default;
+    color: var(--vads-color-link);
     background-color: transparent;
   }
 }
@@ -35,7 +35,7 @@ button.dismissible-close {
 
 
   h4 {
-    border-bottom: 2px solid $color-primary;
+    border-bottom: 2px solid var(--vads-color-primary);
     margin-bottom: 0.5em !important;
   }
 
@@ -53,18 +53,18 @@ button.dismissible-close {
   }
 
   .success {
-    color: $color-green;
+    color: var(--vads-color-success-dark);
   }
 
   .error {
-    color: $color-secondary-darkest;
+    color: var(--vads-color-secondary-darkest);
   }
 
   .va-callout {
-    color: $color-primary-darker;
+    color: var(--vads-color-primary-dark);
 
     &.grey {
-      background-color: $color-gray-lighter;
+      background-color: var(--vads-color-base-lighter);
     }
 
     p {
@@ -104,7 +104,7 @@ button.dismissible-close {
   }
 
   .saved {
-    color: $color-primary;
+    color: var(--vads-color-primary);
   }
 
   .form-title {

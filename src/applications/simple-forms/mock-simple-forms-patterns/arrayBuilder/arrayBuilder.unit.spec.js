@@ -9,6 +9,7 @@ const validOptions = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',
+  required: true,
 };
 
 describe('arrayBuilderPages required parameters and props tests', () => {
@@ -94,11 +95,6 @@ describe('arrayBuilderPages required parameters and props tests', () => {
   it('should throw an error if specific pageOptions are not provided', () => {
     try {
       arrayBuilderPages(validOptions, pageBuilder => ({
-        options: {
-          arrayPath: 'employers',
-          noun: 'employer',
-          nextChapterPath: '/next-chapter',
-        },
         summaryPage: pageBuilder.summaryPage({
           title: 'Employment history',
           uiSchema: {
@@ -120,11 +116,6 @@ describe('arrayBuilderPages required parameters and props tests', () => {
   it('should pass if everything is provided correctly', () => {
     try {
       arrayBuilderPages(validOptions, pageBuilder => ({
-        options: {
-          arrayPath: 'employers',
-          noun: 'employer',
-          nextChapterPath: '/next-chapter',
-        },
         summaryPage: pageBuilder.summaryPage({
           title: 'Employment history',
           path: '/summary',
@@ -135,13 +126,13 @@ describe('arrayBuilderPages required parameters and props tests', () => {
           },
           schema: {},
         }),
-        firstPage: pageBuilder.itemFirstPage({
+        firstPage: pageBuilder.itemPage({
           title: 'Name of employer',
           path: '/name/:index',
           uiSchema: {},
           schema: {},
         }),
-        lastPage: pageBuilder.itemLastPage({
+        lastPage: pageBuilder.itemPage({
           title: 'Address of employer',
           path: '/address/:index',
           uiSchema: {},

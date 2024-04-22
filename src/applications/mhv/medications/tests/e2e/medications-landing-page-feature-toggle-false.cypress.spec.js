@@ -1,3 +1,4 @@
+import { medicationsUrls } from '../../util/constants';
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
@@ -8,7 +9,7 @@ describe('Medications Landing Page', () => {
     site.login(true, false);
     landingPage.visitLandingPageURL();
 
-    cy.url().should('include', '/my-health/medications/about');
+    cy.url().should('include', medicationsUrls.MEDICATIONS_ABOUT);
 
     site.login(true, true);
     landingPage.visitLandingPageURL();

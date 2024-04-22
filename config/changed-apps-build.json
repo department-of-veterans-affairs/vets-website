@@ -104,8 +104,12 @@
       "slackGroup": "@benefits-app-builds"
     },
     {
-      "rootFolder": "representatives",
+      "rootFolder": "accredited-representative-portal",
       "slackGroup": "@arfeng"
+    },
+    {
+      "rootFolder": "pensions",
+      "slackGroup": "<@C0667PCPVLM>"
     }
   ]
 }

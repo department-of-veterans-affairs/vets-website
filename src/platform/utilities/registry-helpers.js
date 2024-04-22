@@ -7,7 +7,6 @@
 export const getAppUrl = entryName => {
   // Global app registry defined in the Webpack config
   const appRegistry = __REGISTRY__;
-
   // Return empty string when registry is empty or not defined
   if (!appRegistry.length) return '';
 

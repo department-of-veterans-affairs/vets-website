@@ -118,10 +118,10 @@ describe('hca <EnrollmentStatusFAQ>', () => {
       'hca-reapply-faq-4',
     ],
   };
-  const getData = ({ enrollmentStatus = null }) => ({
+  const getData = ({ statusCode = null }) => ({
     mockStore: {
       getState: () => ({
-        hcaEnrollmentStatus: { enrollmentStatus },
+        hcaEnrollmentStatus: { statusCode },
       }),
       subscribe: () => {},
       dispatch: () => {},
@@ -136,25 +136,25 @@ describe('hca <EnrollmentStatusFAQ>', () => {
       ]);
       const possibleEnrollmentStatuses = Object.values({
         ...HCA_ENROLLMENT_STATUSES,
-      }).filter(enrollmentStatus => !excludedStatuses.has(enrollmentStatus));
+      }).filter(statusCode => !excludedStatuses.has(statusCode));
       const testedEnrollmentStatuses = Object.keys(expectedTestIds);
       expect(
-        possibleEnrollmentStatuses.every(enrollmentStatus =>
-          testedEnrollmentStatuses.includes(enrollmentStatus),
+        possibleEnrollmentStatuses.every(statusCode =>
+          testedEnrollmentStatuses.includes(statusCode),
         ),
       ).to.be.true;
     });
 
-    Object.keys(expectedTestIds).forEach(enrollmentStatus => {
-      it(`should render the correct content for status: ${enrollmentStatus}`, () => {
-        const { mockStore } = getData({ enrollmentStatus });
+    Object.keys(expectedTestIds).forEach(statusCode => {
+      it(`should render the correct content for status: ${statusCode}`, () => {
+        const { mockStore } = getData({ statusCode });
         const { container } = render(
           <Provider store={mockStore}>
             <EnrollmentStatusFAQ />
           </Provider>,
         );
         const allFaqs = container.querySelectorAll('.hca-enrollment-faq');
-        const testIds = expectedTestIds[enrollmentStatus];
+        const testIds = expectedTestIds[statusCode];
         expect(allFaqs).to.have.lengthOf(testIds.length);
         testIds.forEach(id => {
           const selector = container.querySelector(`[data-testid="${id}"]`);

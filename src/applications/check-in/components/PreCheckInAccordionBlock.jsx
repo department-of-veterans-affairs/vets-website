@@ -15,68 +15,44 @@ const PreCheckInAccordionBlock = ({
   const { t } = useTranslation();
   let hasUpdates = false;
   let updateBody = '';
-  let appointmentType = 'clinic';
-  if (appointments && appointments.length) {
-    appointmentType = appointments[0]?.kind;
-  }
+  const modalityMessage = <p>{t('if-your-appointment-is-in-person')}</p>;
+  const callMessage = (
+    <p>
+      <Trans
+        i18nKey="or-you-can-call-MyVA411"
+        components={[
+          <va-telephone
+            key={phoneNumbers.mainInfo}
+            contact={phoneNumbers.mainInfo}
+          />,
+        ]}
+      />
+    </p>
+  );
   if (demographicsUpToDate === 'no') {
     hasUpdates = true;
     updateBody = (
       <>
         <strong>{t('contact-information')}</strong>
-        {appointmentType === 'clinic' ? (
-          <>
-            <p>
-              {t('a-staff-member-will-help-you-on-the-day-of-your-appointment')}
-            </p>
-            <p>
-              <Trans
-                i18nKey="or-you-can-login-to-your-va-gov-profile-to-update-your-contact-info-online"
-                components={[
-                  <ExternalLink
-                    key="link"
-                    href="https://www.va.gov/profile/personal-information"
-                    hrefLang="en"
-                    eventId="sign-in-from-accordion-clicked"
-                    eventPrefix="nav"
-                  >
-                    link
-                  </ExternalLink>,
-                ]}
-                values={{ link: t('sign-in') }}
-              />
-            </p>
-          </>
-        ) : (
-          <>
-            <p>
-              <Trans
-                i18nKey="you-can-sign-in-to-your-va-gov-profile"
-                components={[
-                  <ExternalLink
-                    key="link"
-                    href="https://www.va.gov/profile/personal-information"
-                    hrefLang="en"
-                  >
-                    link
-                  </ExternalLink>,
-                ]}
-                values={{ link: t('sign-in') }}
-              />
-            </p>
-            <p data-testid="or-you-can-call">
-              <Trans
-                i18nKey="or-you-can-call"
-                components={[
-                  <va-telephone
-                    key={phoneNumbers.mainInfo}
-                    contact={phoneNumbers.mainInfo}
-                  />,
-                ]}
-              />
-            </p>
-          </>
-        )}
+        {modalityMessage}
+        <p>
+          <Trans
+            i18nKey="or-you-can-sign-in"
+            components={[
+              <ExternalLink
+                key="link"
+                href="https://www.va.gov/profile/personal-information"
+                hrefLang="en"
+                eventId="sign-in-from-accordion-clicked"
+                eventPrefix="nav"
+              >
+                link
+              </ExternalLink>,
+            ]}
+            values={{ link: t('sign-in') }}
+          />
+        </p>
+        {callMessage}
       </>
     );
   }
@@ -94,23 +70,8 @@ const PreCheckInAccordionBlock = ({
       <>
         {updateBody}
         <strong>{title}</strong>
-        {appointmentType === 'clinic' ? (
-          <p>
-            {t('a-staff-member-will-help-you-on-the-day-of-your-appointment')}
-          </p>
-        ) : (
-          <p data-testid="please-call">
-            <Trans
-              i18nKey="please-call"
-              components={[
-                <va-telephone
-                  key={phoneNumbers.mainInfo}
-                  contact={phoneNumbers.mainInfo}
-                />,
-              ]}
-            />
-          </p>
-        )}
+        {modalityMessage}
+        {callMessage}
       </>
     );
   }
@@ -173,7 +134,7 @@ const PreCheckInAccordionBlock = ({
     accordions.unshift({
       header: t('how-can-i-update-my-information'),
       body: updateBody,
-      open: true,
+      open: false,
     });
   }
 

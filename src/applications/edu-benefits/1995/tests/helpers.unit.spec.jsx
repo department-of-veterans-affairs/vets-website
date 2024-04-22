@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 
-import { buildSubmitEventData, directDepositMethod } from '../helpers';
+import {
+  buildSubmitEventData,
+  directDepositMethod,
+  eighteenOrOver,
+} from '../helpers';
 
 import minimalData from './e2e/fixtures/data/minimal.json';
 import maximalData from './e2e/fixtures/data/maximal.json';
@@ -67,5 +71,10 @@ describe('helpers', () => {
     const automatedTest = true;
     const directDeposit = directDepositMethod({}, automatedTest);
     expect(directDeposit).not.to.be.null;
+  });
+  describe('eightneenOrOver', () => {
+    it('should return true if age is 18 or over', () => {
+      expect(eighteenOrOver('2000-05-06')).to.be.true;
+    });
   });
 });

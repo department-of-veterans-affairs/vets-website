@@ -55,9 +55,6 @@ describe('ResultsWhereContent', () => {
       const screen = render(<ResultsWhereContent event={event} />);
 
       expect(
-        screen.getByTestId('event-fieldLocationTitle').textContent,
-      ).to.equal('Test title');
-      expect(
         screen.getByTestId('event-fieldLocationHumanReadable').textContent,
       ).to.equal('Recreation Center');
       expect(

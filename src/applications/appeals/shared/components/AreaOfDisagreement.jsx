@@ -159,7 +159,12 @@ const AreaOfDisagreement = ({
       </VaCheckboxGroup>
 
       {onReviewPage ? (
-        <va-button text={content.update} onClick={handlers.updatePage} uswds />
+        <va-button
+          class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+          text={content.update}
+          onClick={handlers.updatePage}
+          uswds
+        />
       ) : (
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}

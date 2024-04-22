@@ -4,12 +4,12 @@ import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
 } from '../../util/constants';
-import { validateField, dateFormat, getImageUri } from '../../util/helpers';
+import { validateField, dateFormat } from '../../util/helpers';
+import VaPharmacyText from '../shared/VaPharmacyText';
 
 const PrescriptionPrintOnly = props => {
   const { rx, hideLineBreak, refillHistory, isDetailsRx } = props;
-  const prescriptionImage =
-    rx.cmopNdcNumber || rx?.rxRfRecords?.[0]?.[1]?.[0].cmopNdcNumber;
+  const phoneNumber = rx?.cmopDivisionPhone || rx?.dialCmopDivisionPhone;
   const activeNonVaContent = pres => (
     <div className="print-only-rx-details-container vads-u-margin-top--1p5">
       <p>
@@ -141,7 +141,11 @@ const PrescriptionPrintOnly = props => {
             </p>
             <p>
               <strong>Pharmacy phone number:</strong>{' '}
-              {validateField(rx.phoneNumber)}
+              {phoneNumber ? (
+                <va-telephone contact={phoneNumber} not-clickable />
+              ) : (
+                'None noted'
+              )}
             </p>
           </div>
           <DetailsHeaderElement>
@@ -158,51 +162,79 @@ const PrescriptionPrintOnly = props => {
             <p>
               <strong>Quantity:</strong> {validateField(rx.quantity)}
             </p>
-            {prescriptionImage && (
-              <>
-                <p className="print-only-rx-image-container no-break">
-                  <strong>Image of the medication or supply:</strong>{' '}
-                  <img
-                    src={getImageUri(prescriptionImage)}
-                    alt={rx.prescriptionName}
-                  />
-                </p>
-                <p>
-                  <strong>Note:</strong> This image is from your last refill of
-                  this medication.
-                </p>
-              </>
-            )}
           </div>
           {refillHistory && (
             <div className="print-only-refill-container">
               <DetailsHeaderElement>Refill history</DetailsHeaderElement>
               <div className="print-only-rx-details-container">
-                {refillHistory
-                  .map((entry, i) => {
-                    return (
-                      <div key={i}>
-                        <h4>{`${i === 0 ? 'First fill' : `Refill ${i}`}`}</h4>
-                        <p>
-                          <strong>Filled by pharmacy on:</strong>{' '}
-                          {entry?.dispensedDate
-                            ? dateFormat(entry.dispensedDate)
-                            : 'None noted'}
-                        </p>
-                        <p>
-                          <strong>Shipped on:</strong>{' '}
-                          {entry?.trackingList?.[0]?.[1]?.completeDateTime
-                            ? dateFormat(
-                                entry.trackingList[0][1].completeDateTime,
-                              )
-                            : 'None noted'}
-                        </p>
-                        <div className="line-break" />
-                      </div>
-                    );
-                  })
-                  .reverse()
-                  .flat()}
+                {refillHistory.map((entry, i) => {
+                  const index = refillHistory.length - i - 1;
+                  const { shape, color, backImprint, frontImprint } = entry;
+                  return (
+                    <div key={index}>
+                      <h4>
+                        {`${index === 0 ? 'First fill' : `Refill ${index}`}`}
+                      </h4>
+                      <p>
+                        <strong>Filled by pharmacy on:</strong>{' '}
+                        {entry?.dispensedDate
+                          ? dateFormat(entry.dispensedDate)
+                          : 'None noted'}
+                      </p>
+                      <p>
+                        <strong>Shipped on:</strong>{' '}
+                        {entry?.trackingList?.[0]?.completeDateTime
+                          ? dateFormat(entry.trackingList[0].completeDateTime)
+                          : 'None noted'}
+                      </p>
+                      <p className="vads-u-margin--0">
+                        <strong>Medication description: </strong>
+                      </p>
+                      {shape?.trim() &&
+                      color?.trim() &&
+                      frontImprint?.trim() ? (
+                        <>
+                          <p className="vads-u-margin--0">
+                            <strong>Note:</strong> If the medication you’re
+                            taking doesn’t match this description, call{' '}
+                            <VaPharmacyText
+                              phone={phoneNumber}
+                              isNotClickable
+                            />
+                            .
+                          </p>
+                          <ul className="vads-u-margin--0">
+                            <li className="vads-u-margin-y--0">
+                              <strong>Shape:</strong> {shape[0].toUpperCase()}
+                              {shape.slice(1).toLowerCase()}
+                            </li>
+                            <li className="vads-u-margin-y--0">
+                              <strong>Color:</strong> {color[0].toUpperCase()}
+                              {color.slice(1).toLowerCase()}
+                            </li>
+                            <li className="vads-u-margin-y--0">
+                              <strong>Front marking:</strong> {frontImprint}
+                            </li>
+                            {backImprint ? (
+                              <li className="vads-u-margin-y--0">
+                                <strong>Back marking:</strong> {backImprint}
+                              </li>
+                            ) : (
+                              <></>
+                            )}
+                          </ul>
+                        </>
+                      ) : (
+                        <>
+                          No description available. Call{' '}
+                          <VaPharmacyText phone={phoneNumber} isNotClickable />{' '}
+                          if you need help identifying this medication.
+                        </>
+                      )}
+                      <div className="line-break" />
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}

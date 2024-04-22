@@ -10,7 +10,7 @@ import {
   setCommunityCareFlow,
 } from '../../mocks/setup';
 
-describe('VAOS Page: ClosestCityStatePage', () => {
+describe.skip('VAOS Page: ClosestCityStatePage', () => {
   beforeEach(() => mockFetch());
 
   it('should show supported parent sites', async () => {

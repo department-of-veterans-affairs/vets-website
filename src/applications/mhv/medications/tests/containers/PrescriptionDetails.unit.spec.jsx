@@ -51,14 +51,9 @@ describe('Prescription details container', () => {
         prescriptions: {
           prescriptionDetails: {
             rxRfRecords: [
-              [
-                'rf_record',
-                [
-                  {
-                    cmopNdcNumber: '00093314705',
-                  },
-                ],
-              ],
+              {
+                cmopNdcNumber: '00093314705',
+              },
             ],
           },
         },
@@ -121,6 +116,7 @@ describe('Prescription details container', () => {
       rx: {
         prescriptions: {
           prescriptionDetails: {
+            ...rxDetailsResponse.data.attributes,
             dispensedDate: null,
           },
         },

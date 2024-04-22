@@ -26,8 +26,8 @@ export function getPersonalInformationChapterTitle(formData) {
   return `${preparerString} personal information`;
 }
 
-export function getFullNameLabels(label) {
-  if (label === 'middle name') {
+export function getFullNameLabels(label, skipMiddleCheck = false) {
+  if (label === 'middle name' && !skipMiddleCheck) {
     return 'Middle initial';
   }
 
@@ -217,4 +217,31 @@ export const getSubmitterName = formData => {
     default:
       return formData.thirdPartyFullName;
   }
+};
+
+export const evidenceConfinementHintUpdateUiSchema = ({
+  formData,
+  beganEndedString,
+}) => {
+  if (formData?.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN) {
+    return {
+      'ui:options': {
+        hint: `Tell us the dates the Veteran’s confinement ${beganEndedString} as a prisoner of war.`,
+      },
+    };
+  }
+
+  if (formData?.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN) {
+    return {
+      'ui:options': {
+        hint: `Tell us the dates the claimant’s confinement ${beganEndedString} as a prisoner of war.`,
+      },
+    };
+  }
+
+  return {
+    'ui:options': {
+      hint: `Tell us the dates your confinement ${beganEndedString} as a prisoner of war.`,
+    },
+  };
 };

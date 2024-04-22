@@ -1,4 +1,5 @@
 import React from 'react';
+import YesNoField from 'platform/forms-system/src/js/web-component-fields/YesNoField';
 import ContractsExplainer from '../../../components/householdExpenses/ContractsExplainer';
 
 export const uiSchema = {
@@ -15,7 +16,7 @@ export const uiSchema = {
     hasRepayments: {
       'ui:title':
         'Do you make monthly payments on any installments contracts or other debts you make monthly payments on?',
-      'ui:widget': 'yesNo',
+      'ui:webComponentField': YesNoField,
       'ui:required': () => true,
       'ui:errorMessages': {
         required:

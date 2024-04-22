@@ -24,11 +24,17 @@ export default {
         customTitle: ' ',
         useDlWrap: true,
         confirmRemove: true,
+        confirmRemoveDescription:
+          'This will remove the facility from your priority processing request.',
       },
       items: {
         facilityName: {
           'ui:title': 'Name of treatment facility',
           'ui:webComponentField': VaTextInputField,
+          'ui:errorMessages': {
+            required:
+              'Enter the name of the facility where the Veteran received treatment',
+          },
           'ui:options': {
             charcount: 40,
           },
@@ -36,7 +42,12 @@ export default {
         facilityAddress: addressNoMilitaryUI({
           omit: ['street2', 'street3'],
         }),
-        startDate: currentOrPastDateUI('Approximate start date of treatment'),
+        startDate: currentOrPastDateUI({
+          title: 'Approximate start date of treatment',
+          errorMessages: {
+            required: 'Enter the approximate date of when treatment began',
+          },
+        }),
       },
     },
   },
@@ -46,7 +57,7 @@ export default {
       medicalTreatments: {
         type: 'array',
         minItems: 1,
-        maxItems: 5,
+        maxItems: 4,
         items: {
           type: 'object',
           properties: {
@@ -59,6 +70,7 @@ export default {
             }),
             startDate: currentOrPastDateSchema,
           },
+          required: ['facilityName', 'facilityAddress', 'startDate'],
         },
       },
     },

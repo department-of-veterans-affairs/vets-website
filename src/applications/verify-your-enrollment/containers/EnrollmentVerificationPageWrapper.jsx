@@ -55,7 +55,6 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                 <PeriodsToVerify
                   enrollmentData={mockData}
                   isUserLoggedIn={isUserLoggedIn}
-                  loading={loading}
                   link={() => (
                     <PageLink
                       linkText="Start enrollment verification"

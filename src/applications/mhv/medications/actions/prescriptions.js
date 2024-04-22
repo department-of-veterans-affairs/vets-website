@@ -1,6 +1,10 @@
 import { Actions } from '../util/actionTypes';
-import { getPrescription, getPaginatedSortedList, fillRx } from '../api/rxApi';
-import { getAllergies } from '../../medical-records/api/MrApi';
+import {
+  getPrescription,
+  getPaginatedSortedList,
+  fillRx,
+  getAllergies,
+} from '../api/rxApi';
 
 export const getPrescriptionsPaginatedSortedList = (
   pageNumber,

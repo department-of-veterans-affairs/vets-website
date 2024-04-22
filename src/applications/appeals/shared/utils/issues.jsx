@@ -1,7 +1,14 @@
 import React from 'react';
 
 // import the toggleValues helper
-import { LEGACY_TYPE, REGEXP, SELECTED } from '../constants';
+import {
+  FORMAT_READABLE_DATE_FNS,
+  FORMAT_YMD_DATE_FNS,
+  LEGACY_TYPE,
+  REGEXP,
+  SELECTED,
+} from '../constants';
+import { parseDate } from './dates';
 
 import { replaceDescriptionContent } from './replace';
 import '../definitions';
@@ -16,6 +23,11 @@ export const getIssueName = (entry = {}) =>
 
 export const getIssueDate = (entry = {}) =>
   entry.decisionDate || entry.attributes?.approxDecisionDate || '';
+
+export const getDecisionDate = issue => {
+  const dateToParse = getIssueDate(issue);
+  return parseDate(dateToParse, FORMAT_READABLE_DATE_FNS, FORMAT_YMD_DATE_FNS);
+};
 
 // used for string comparison
 export const getIssueNameAndDate = (entry = {}) =>
@@ -111,7 +123,7 @@ export const processContestableIssues = contestableIssues => {
         // If the dates are the same, sort by title
         return getIssueName(a) > getIssueName(b) ? 1 : -1;
       }
-      // YYYYMMDD string comparisons will work in place of using moment
+      // YYYYMMDD string comparisons will work in place of using a library
       return dateA > dateB ? -1 : 1;
     });
 

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import Scroll from 'react-scroll';
 
 import {
@@ -12,16 +12,16 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
 import {
   readAndCheckFile,
   checkTypeAndExtensionMatches,
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
-} from 'platform/forms-system/src/js/utilities/file';
-import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
-import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+} from '~/platform/forms-system/src/js/utilities/file';
 
-import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
+import { displayFileSize, DOC_TYPES } from '../utils/helpers';
 import { setFocus } from '../utils/page';
 import {
   validateIfDirty,
@@ -38,6 +38,7 @@ import {
 } from '../utils/validations';
 import UploadStatus from './UploadStatus';
 import mailMessage from './MailMessage';
+import RemoveFileModal from './claim-files-tab/RemoveFileModal';
 
 const displayTypes = FILE_TYPES.join(', ');
 
@@ -45,24 +46,7 @@ const scrollToFile = position => {
   const options = getScrollOptions({ offset: -25 });
   scrollTo(`documentScroll${position}`, options);
 };
-const scrollToError = () => {
-  const errors = document.querySelectorAll('.usa-input-error');
-  if (errors.length) {
-    const errorPosition = getTopPosition(errors[0]);
-    const options = getScrollOptions({ offset: -25 });
-    const errorID = errors[0].querySelector('label').getAttribute('for');
-    const errorInput = document.getElementById(`${errorID}`);
-    const inputType = errorInput.getAttribute('type');
-    scrollTo(errorPosition, options);
 
-    if (inputType === 'file') {
-      // Sends focus to the file input button
-      errors[0].querySelector('label[role="button"]').focus();
-    } else {
-      errorInput.focus();
-    }
-  }
-};
 const { Element } = Scroll;
 
 class AddFilesFormOld extends React.Component {
@@ -73,6 +57,9 @@ class AddFilesFormOld extends React.Component {
       checked: false,
       errorMessageCheckbox: null,
       canShowUploadModal: false,
+      showRemoveFileModal: false,
+      removeFileIndex: null,
+      removeFileName: null,
     };
   }
 
@@ -177,7 +164,14 @@ class AddFilesFormOld extends React.Component {
     }
 
     this.props.onDirtyFields();
-    setTimeout(scrollToError);
+  };
+
+  removeFileConfirmation = (fileIndex, fileName) => {
+    this.setState({
+      showRemoveFileModal: true,
+      removeFileIndex: fileIndex,
+      removeFileName: fileName,
+    });
   };
 
   render() {
@@ -189,7 +183,6 @@ class AddFilesFormOld extends React.Component {
         <va-additional-info
           class="vads-u-margin-y--2"
           trigger="Need to mail your files?"
-          uswds="false"
         >
           {mailMessage}
         </va-additional-info>
@@ -237,8 +230,9 @@ class AddFilesFormOld extends React.Component {
                     <va-button
                       secondary
                       text="Remove"
-                      onClick={() => this.props.onRemoveFile(index)}
-                      uswds
+                      onClick={() => {
+                        this.removeFileConfirmation(index, file.name);
+                      }}
                     />
                   </div>
                 </div>
@@ -251,7 +245,6 @@ class AddFilesFormOld extends React.Component {
                     </p>
                     <VaTextInput
                       required
-                      uswds="false"
                       error={
                         validateIfDirty(password, isNotBlank)
                           ? undefined
@@ -267,7 +260,6 @@ class AddFilesFormOld extends React.Component {
                 )}
                 <VaSelect
                   required
-                  uswds="false"
                   error={
                     validateIfDirty(docType, isNotBlank)
                       ? undefined
@@ -280,9 +272,6 @@ class AddFilesFormOld extends React.Component {
                     this.handleDocTypeChange(e.detail.value, index)
                   }
                 >
-                  <option disabled value="">
-                    Select a description
-                  </option>
                   {DOC_TYPES.map(doc => (
                     <option key={doc.value} value={doc.value}>
                       {doc.label}
@@ -294,13 +283,11 @@ class AddFilesFormOld extends React.Component {
           ),
         )}
         <VaCheckbox
-          uswds="false"
           onVaChange={event => {
             this.setState({ checked: event.detail.checked });
           }}
           checked={this.state.checked}
           error={this.state.errorMessageCheckbox}
-          message-aria-describedby="To submit supporting documents for a new disability claim, please visit our How to File a Claim page link below."
           label="The files I uploaded are supporting documents for this claim only."
         />
         <div className="vads-u-padding-top--2 vads-u-padding-bottom--2 vads-u-padding-left--4">
@@ -318,6 +305,20 @@ class AddFilesFormOld extends React.Component {
             Cancel
           </Link>
         </div>
+        <RemoveFileModal
+          removeFile={() => {
+            this.props.onRemoveFile(this.state.removeFileIndex);
+          }}
+          showRemoveFileModal={this.state.showRemoveFileModal}
+          removeFileName={this.state.removeFileName}
+          closeModal={() => {
+            this.setState({
+              showRemoveFileModal: false,
+              removeFileIndex: null,
+              removeFileName: null,
+            });
+          }}
+        />
         <VaModal
           id="upload-status"
           onCloseEvent={() => this.setState({ canShowUploadModal: false })}
