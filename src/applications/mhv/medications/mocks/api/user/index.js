@@ -118,7 +118,6 @@ const cernerUser = {
             is_cerner: true,
           },
         ],
-        mhvAccountState: 'OK',
       },
     },
   },
