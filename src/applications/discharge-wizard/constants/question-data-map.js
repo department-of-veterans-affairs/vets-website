@@ -67,7 +67,7 @@ export const RESPONSES = Object.freeze({
   PREV_APPLICATION_TYPE_1:
     'I applied to a Discharge Review Board (DRB) for a Documentary Review',
   PREV_APPLICATION_TYPE_2:
-    'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review in Washington, DC',
+    'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review',
   PREV_APPLICATION_TYPE_3A:
     'I applied to a Board for Correction of Military Records (BCMR)',
   PREV_APPLICATION_TYPE_3B:
