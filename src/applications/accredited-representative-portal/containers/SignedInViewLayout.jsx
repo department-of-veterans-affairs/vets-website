@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet, useLocation } from 'react-router-dom-v5-compat';
+// import { Navigate, Outlet, useLocation } from 'react-router-dom-v5-compat';
+import { Outlet, useLocation } from 'react-router-dom-v5-compat';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -10,7 +11,8 @@ import Breadcrumbs from '../components/common/Breadcrumbs';
 import { selectUser } from '../selectors/user';
 
 const SignedInViewLayout = ({ poaPermissions = true }) => {
-  const { isLoading, profile } = useSelector(selectUser);
+  // const { isLoading, profile } = useSelector(selectUser);
+  const { isLoading } = useSelector(selectUser);
   let content = null;
 
   const { pathname } = useLocation();
@@ -23,9 +25,9 @@ const SignedInViewLayout = ({ poaPermissions = true }) => {
     );
   }
 
-  if (!profile) {
-    return <Navigate to="/" />;
-  }
+  // if (!profile) {
+  //   return <Navigate to="/" />;
+  // }
 
   // If the VSO does not have permission to be Power of Attorney ( this will eventually be pulled from Redux state)
   if (!poaPermissions) {
