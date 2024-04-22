@@ -109,6 +109,10 @@ import {
   workBehaviorChanges,
 } from '../pages';
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
+import {
+  showLegacyAddDisabilitiesPage,
+  showRevisedNewDisabilitiesPage,
+} from '../content/addDisabilities';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
@@ -321,7 +325,7 @@ const formConfig = {
         addDisabilities: {
           title: 'Add a new disability',
           path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
-          depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
+          depends: showLegacyAddDisabilitiesPage,
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
           updateFormData: addDisabilities.updateFormData,
@@ -336,7 +340,7 @@ const formConfig = {
         addDisabilitiesRevised: {
           title: 'Add a new disability',
           path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
-          depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
+          depends: showRevisedNewDisabilitiesPage,
           uiSchema: addDisabilitiesRevised.uiSchema,
           schema: addDisabilitiesRevised.schema,
           updateFormData: addDisabilitiesRevised.updateFormData,

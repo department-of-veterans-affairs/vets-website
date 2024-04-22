@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { DISABILITY_SHARED_CONFIG } from '../utils';
+import { SHOW_REVISED_ADD_DISABILITIES_PAGE } from '../constants';
 
 export const autoSuggestTitle = (
   <>
@@ -62,3 +64,14 @@ export const increaseAndNewAlert = ({ formContext }) => {
     </va-alert>
   );
 };
+
+export function showRevisedNewDisabilitiesPage(formData) {
+  return (
+    DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData) &&
+    window.sessionStorage.getItem(SHOW_REVISED_ADD_DISABILITIES_PAGE) === 'true'
+  );
+}
+
+export function showLegacyAddDisabilitiesPage(formData) {
+  return !showRevisedNewDisabilitiesPage(formData);
+}
