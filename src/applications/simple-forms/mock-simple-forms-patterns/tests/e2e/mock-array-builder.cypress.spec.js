@@ -72,19 +72,16 @@ function editItemPage1() {
   cy.get('va-button[data-action="cancel"]').should('exist');
   cy.fillVaTextInput('root_name', 'Updated Name');
   cy.get('va-button[continue]').click();
-  // cy.findByText(/continue/i, { selector: 'va-button' }).click();
 }
 
 function editItemPage2() {
   cy.url().should('include', 'edit=true');
   cy.get('va-button[continue]').click();
-  // cy.findByText(/continue/i, { selector: 'va-button' }).click();
 }
 
 function editItemPage1Skip() {
   cy.url().should('include', 'edit=true');
   cy.get('va-button[continue]').click();
-  // cy.findByText(/continue/i, { selector: 'va-button' }).click();
 }
 
 /**
