@@ -46,12 +46,12 @@ export default {
         depends: formData => {
           const { gmtData } = formData;
           // Also show if the new asset update is true
-          return (
+          const gmtDepends =
             (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
             (gmtData?.isEligibleForStreamlined &&
               gmtData?.incomeBelowOneFiftyGmt &&
-              formData['view:streamlinedWaiverAssetUpdate'])
-          );
+              formData['view:streamlinedWaiverAssetUpdate']);
+          return gmtDepends || formData['view:reviewPageNavigationToggle'];
         },
       },
       cashInBank: {
@@ -64,11 +64,11 @@ export default {
         depends: formData => {
           const { gmtData } = formData;
           // Only show if the new asset update is true
-          return (
+          const gmtDepends =
             gmtData?.isEligibleForStreamlined &&
             gmtData?.incomeBelowOneFiftyGmt &&
-            formData['view:streamlinedWaiverAssetUpdate']
-          );
+            formData['view:streamlinedWaiverAssetUpdate'];
+          return gmtDepends || formData['view:reviewPageNavigationToggle'];
         },
       },
       streamlinedShortTransitionPage: {
@@ -83,7 +83,6 @@ export default {
           formData?.gmtData?.isEligibleForStreamlined &&
           isStreamlinedShortForm(formData),
       },
-
       monetaryChecklist: {
         path: 'monetary-asset-checklist',
         title: 'Monetary asset options',
@@ -91,7 +90,12 @@ export default {
         schema: { type: 'object', properties: {} },
         CustomPage: MonetaryCheckList,
         CustomPageReview: null,
-        depends: formData => !isStreamlinedShortForm(formData),
+        depends: formData => {
+          return (
+            formData['view:reviewPageNavigationToggle'] ||
+            !isStreamlinedShortForm(formData)
+          );
+        },
       },
       monetaryValues: {
         path: 'monetary-asset-values',
@@ -110,7 +114,9 @@ export default {
           );
 
           return (
-            filteredLiquidAssets.length > 0 && !isStreamlinedShortForm(formData)
+            filteredLiquidAssets.length > 0 &&
+            (formData['view:reviewPageNavigationToggle'] ||
+              !isStreamlinedShortForm(formData))
           );
         },
       },
