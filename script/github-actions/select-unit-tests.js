@@ -13,23 +13,23 @@ const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false).map(
 );
 
 const CHANGED_APPS = process.env.CHANGED_FILES
-  ? process.env.CHANGED_FILES.split(' ').map(filePath =>
-      filePath
-        .split('/')
-        .slice(0, 3)
-        .join('/'),
+  ? Array.from(
+      new Set(
+        ...process.env.CHANGED_FILES.split(' ').map(filePath =>
+          filePath
+            .split('/')
+            .slice(0, 3)
+            .join('/'),
+        ),
+      ),
     )
   : [];
 
-const TESTS_TO_STRESS_TEST = [
-  new Set(
-    ...ALL_SPECS.filter(
-      specPath =>
-        CHANGED_APPS.some(filePath => specPath.includes(filePath)) &&
-        fs.existsSync(specPath),
-    ),
-  ),
-];
+const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(
+  specPath =>
+    CHANGED_APPS.some(filePath => specPath.includes(filePath)) &&
+    fs.existsSync(specPath),
+);
 
 core.exportVariable('APPS_TO_STRESS_TEST', CHANGED_APPS);
 core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', TESTS_TO_STRESS_TEST);
