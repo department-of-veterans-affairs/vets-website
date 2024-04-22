@@ -15,7 +15,7 @@ const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false).map(
 
 const CHANGED_APPS =
   CHANGED_FILES !== []
-    ? Array.from(new Set(...CHANGED_FILES.split(' '))).map(filePath =>
+    ? CHANGED_FILES.split(' ').map(filePath =>
         filePath
           .split('/')
           .slice(0, 3)
