@@ -70,9 +70,12 @@ export const DirectDeposit = () => {
     useToggleLoadingValue,
   } = useFeatureToggle();
 
-  // TODO: rename toggle to not include CompAndPen legacy naming
-  const hideDirectDepositViaToggle = useToggleValue(
-    TOGGLE_NAMES.profileHideDirectDepositCompAndPen,
+  const hideDirectDeposit = useToggleValue(
+    TOGGLE_NAMES.profileHideDirectDeposit,
+  );
+
+  const profileShowDirectDepositSingleFormUAT = useToggleValue(
+    TOGGLE_NAMES.profileShowDirectDepositSingleFormUAT,
   );
 
   const togglesLoading = useToggleLoadingValue();
@@ -85,7 +88,7 @@ export const DirectDeposit = () => {
     );
   }
 
-  if (hideDirectDepositViaToggle) {
+  if (hideDirectDeposit && !profileShowDirectDepositSingleFormUAT) {
     return (
       <Wrapper>
         <TemporaryOutage />

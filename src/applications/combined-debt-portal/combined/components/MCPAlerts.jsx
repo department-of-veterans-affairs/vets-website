@@ -11,7 +11,6 @@ Alert.Error = () => (
     class="row vads-u-margin-bottom--5"
     status="error"
     data-testid="error-alert"
-    uswds
   >
     <h2 slot="headline">
       We can’t access your current copay balances right now
@@ -52,7 +51,6 @@ Alert.PastDue = ({ copay }) => {
       class="row vads-u-margin-bottom--5"
       status="info"
       data-testid="past-due-balance-alert"
-      uswds
     >
       <h2 slot="headline">Your balance may be overdue</h2>
       <p className="vads-u-font-size--base vads-u-font-family--sans">
@@ -94,7 +92,6 @@ Alert.ZeroBalance = ({ copay }) => {
       class="row vads-u-margin-bottom--5"
       status="info"
       data-testid="zero-balance-alert"
-      uswds
     >
       <h2 slot="headline">You don’t need to make a payment at this time</h2>
       <p className="vads-u-font-size--base vads-u-font-family--sans">
@@ -131,7 +128,6 @@ Alert.NoHealthcare = () => (
     class="row vads-u-margin-bottom--5"
     status="warning"
     data-testid="no-healthcare-alert"
-    uswds
   >
     <h2 slot="headline">You’re not enrolled in VA health care</h2>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
@@ -160,7 +156,6 @@ Alert.NoHistory = () => (
     class="row vads-u-margin-bottom--5"
     status="info"
     data-testid="no-history-alert"
-    uswds
   >
     <h2 slot="headline">
       You haven’t received a copay bill in the past 6 months
@@ -181,7 +176,7 @@ Alert.NoHistory = () => (
 );
 
 Alert.Status = ({ copay }) => (
-  <va-alert background-only status="info" data-testid="status-alert" uswds>
+  <va-alert background-only status="info" data-testid="status-alert">
     <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
       {/* using vads-u-margin-left here causes the word "before" 
       to wrap to the next line so we need a {' '} space here */}

@@ -438,7 +438,8 @@ export const VSI_DESCRIPTION = Object.freeze(
     >
       <ul>
         <li className="vads-u-margin-bottom--2">
-          Copy of medical evidence showing ALS, <strong>and</strong>
+          Copy of military personnel records, such as a determination from the
+          Defense Department (DOD), <strong>and</strong>
         </li>
         <li className="vads-u-margin-bottom--2">
           Medical evidence showing severe disability or injury

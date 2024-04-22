@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import * as Sentry from '@sentry/browser';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { otherLivingExpensesOptions } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import { isStreamlinedLongForm } from '../../utils/streamlinedDepends';
-import { getMonthlyIncome } from '../../utils/calculateIncome';
-import { getMonthlyExpensesAPI } from '../../utils/calculateExpenses';
+import {
+  calculateDiscretionaryIncome,
+  isStreamlinedLongForm,
+} from '../../utils/streamlinedDepends';
 
 const OtherExpensesChecklist = ({
   data,
@@ -39,34 +39,20 @@ const OtherExpensesChecklist = ({
         });
   };
 
-  useEffect(() => {
-    if (!gmtData?.isEligibleForStreamlined) return;
+  // Calculate Discretionary income as necessary
+  const updateStreamlinedValues = () => {
+    if (otherExpenses?.length || !gmtData?.isEligibleForStreamlined) return;
 
-    getMonthlyExpensesAPI(data)
-      .then(({ calculatedMonthlyExpenses }) => {
-        const { totalMonthlyNetIncome } = getMonthlyIncome(data);
-        const calculatedDiscretionaryIncome =
-          totalMonthlyNetIncome - calculatedMonthlyExpenses;
-
-        setFormData({
-          ...data,
-          gmtData: {
-            ...gmtData,
-            discretionaryBelow:
-              calculatedDiscretionaryIncome <
-              gmtData?.discretionaryIncomeThreshold,
-          },
-        });
-      })
-      .catch(error => {
-        Sentry.withScope(scope => {
-          scope.setExtra('error', error);
-          Sentry.captureMessage(
-            `calculate_monthly_expenses failed in OtherExpensesChecklist: ${error}`,
-          );
-        });
-      });
-  }, []);
+    const calculatedDiscretionaryIncome = calculateDiscretionaryIncome(data);
+    setFormData({
+      ...data,
+      gmtData: {
+        ...gmtData,
+        discretionaryBelow:
+          calculatedDiscretionaryIncome < gmtData?.discretionaryIncomeThreshold,
+      },
+    });
+  };
 
   const onSubmit = event => {
     event.preventDefault();
@@ -107,7 +93,7 @@ const OtherExpensesChecklist = ({
           {contentBeforeButtons}
           <FormNavButtons
             goBack={goBack}
-            goForward={goForward}
+            goForward={updateStreamlinedValues}
             submitToContinue
           />
           {contentAfterButtons}
