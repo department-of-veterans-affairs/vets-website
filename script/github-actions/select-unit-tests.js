@@ -14,13 +14,11 @@ const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false).map(
 );
 
 const CHANGED_APPS = CHANGED_FILES
-  ? new Set(
-      ...CHANGED_FILES.split(' ').map(filePath =>
-        filePath
-          .split('/')
-          .slice(0, 3)
-          .join('/'),
-      ),
+  ? Array.from(new Set(...CHANGED_FILES.split(' '))).map(filePath =>
+      filePath
+        .split('/')
+        .slice(0, 3)
+        .join('/'),
     )
   : [];
 
