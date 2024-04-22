@@ -78,7 +78,6 @@ describe('A Patient with appointments at one facility', () => {
     cy.visitTravelClaimWithUUID();
     ValidateVeteran.validatePage.travelClaim();
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Travel-claim--Validate');
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
 

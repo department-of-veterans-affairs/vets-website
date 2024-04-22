@@ -1,6 +1,5 @@
 import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { convertKeysToCamelCase } from '../utilities/camelCase';
 
 class RepresentativeStatusApi {
   static getRepresentativeStatus() {
@@ -22,9 +21,7 @@ class RepresentativeStatusApi {
             throw Error(response.statusText);
           }
 
-          const res = response.json();
-
-          return convertKeysToCamelCase(res);
+          return response.json();
         })
         .then(res => {
           const endTime = new Date().getTime();

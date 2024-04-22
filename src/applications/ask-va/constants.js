@@ -113,6 +113,15 @@ export const aboutRelationship = {
   NOT_LISTED: "I have a relationship to the Veteran that's not listed",
 };
 
+// What is your relationship to the family member
+export const aboutFamilyMemberRelationship = {
+  SPOUSE: "They're my spouse",
+  CHILD: "They're my child",
+  STEPCHILD: "They're my step child",
+  PARENT: "They're my parent",
+  NOT_LISTED: "We have a relationship that's not listed",
+};
+
 // Who your question is about
 export const whoYourQuestionIsAbout = {
   VETERAN: 'Veteran',
@@ -327,8 +336,9 @@ export const CHAPTER_3 = {
     QUESTION_1: 'Select your relationship to the family member',
   },
   RELATIONSHIP_TO_FAM_MEM: {
-    TITLE: 'Tell us about the family member',
+    TITLE: 'What is your relationship to the family member?',
     PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
   },
   YOUR_ROLE: {
     TITLE: 'Your role',
