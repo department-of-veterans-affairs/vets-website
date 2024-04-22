@@ -1,4 +1,4 @@
-const baseURL = '/ask_va_api/v0';
+export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
@@ -11,6 +11,7 @@ export const URL = {
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `v0/gi/institutions/search?name=`,
+  SEND_REPLY: `/reply/new`,
 };
 
 export const requireSignInCategories = [
@@ -110,6 +111,15 @@ export const aboutRelationship = {
   STEPCHILD: "I'm the Veteran's stepchild",
   PARENT: "I'm the Veteran's parent",
   NOT_LISTED: "I have a relationship to the Veteran that's not listed",
+};
+
+// What is your relationship to the family member
+export const aboutFamilyMemberRelationship = {
+  SPOUSE: "They're my spouse",
+  CHILD: "They're my child",
+  STEPCHILD: "They're my step child",
+  PARENT: "They're my parent",
+  NOT_LISTED: "We have a relationship that's not listed",
 };
 
 // Who your question is about
@@ -326,8 +336,9 @@ export const CHAPTER_3 = {
     QUESTION_1: 'Select your relationship to the family member',
   },
   RELATIONSHIP_TO_FAM_MEM: {
-    TITLE: 'Tell us about the family member',
+    TITLE: 'What is your relationship to the family member?',
     PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
   },
   YOUR_ROLE: {
     TITLE: 'Your role',

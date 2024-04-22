@@ -3,7 +3,7 @@ import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import parkedRx from '../fixtures/parked-prescription-details.json';
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
-import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
+
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
@@ -27,21 +27,6 @@ class MedicationsListPage {
     if (waitForMeds) {
       cy.wait('@medicationsList');
     }
-  };
-
-  clickGotoMedicationsLinkforEmptyMedicationsList = () => {
-    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      emptyPrescriptionsList,
-    );
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
-      emptyPrescriptionsList,
-    );
-    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
   };
 
   verifyTextInsideDropDownOnListPage = () => {
@@ -107,6 +92,11 @@ class MedicationsListPage {
   };
 
   clickDownloadListAsPDFButtonOnListPage = () => {
+    cy.intercept(
+      'GET',
+      'my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    ).as('medicationsList');
     cy.get('[data-testid="download-pdf-button"]')
       .should('contain', 'Download a PDF of this list')
       .should('be.visible');
@@ -116,6 +106,11 @@ class MedicationsListPage {
   };
 
   clickDownloadListAsTxtButtonOnListPage = () => {
+    cy.intercept(
+      'GET',
+      'my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    ).as('medicationsList');
     cy.get('[data-testid="download-txt-button"]').should(
       'contain',
       'Download a text file',
@@ -128,7 +123,7 @@ class MedicationsListPage {
   verifyDownloadCompleteSuccessMessageBanner = () => {
     cy.get('[data-testid="download-success-banner"]').should(
       'contain',
-      'Download complete',
+      'Download started',
     );
   };
 

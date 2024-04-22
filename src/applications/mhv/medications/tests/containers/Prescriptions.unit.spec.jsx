@@ -120,7 +120,7 @@ describe('Medications Prescriptions container', () => {
     });
     expect(
       screen.getByText(
-        'You don’t have any medications in your medications list',
+        'You don’t have any VA prescriptions or medication records',
       ),
     ).to.exist;
   });
@@ -200,6 +200,9 @@ describe('Medications Prescriptions container', () => {
   it('displays text inside refill box "find a list of prescriptions you can refill online." when refill flag is true', () => {
     const screen = setup({
       ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
       featureToggles: {
         // eslint-disable-next-line camelcase
         mhv_medications_display_refill_content: true,

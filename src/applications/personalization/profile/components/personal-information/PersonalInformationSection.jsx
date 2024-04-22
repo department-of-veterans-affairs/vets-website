@@ -115,7 +115,7 @@ PersonalInformationSection.propTypes = {
 
 const mapStateToProps = state => ({
   dob: state.vaProfile?.personalInformation?.birthDate,
-  preferredName: state.vaProfile?.personalInformation?.preferredName,
+  preferredName: state.vaProfile?.personalInformation?.preferredName || 'none',
   pronouns: state.vaProfile?.personalInformation?.pronouns,
   genderIdentity: state.vaProfile?.personalInformation?.genderIdentity,
   sexualOrientation: state.vaProfile?.personalInformation?.sexualOrientation,

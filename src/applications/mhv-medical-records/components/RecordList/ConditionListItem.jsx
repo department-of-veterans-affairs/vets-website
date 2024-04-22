@@ -16,9 +16,10 @@ const ConditionListItem = props => {
           to={`/conditions/${record.id}`}
           className="vads-u-margin--0"
           data-dd-privacy="mask"
-          aria-label={`${record.name} on ${record?.date}`}
         >
-          {record.name}
+          <span>
+            {record.name} <span className="sr-only">on {record.date}</span>
+          </span>
         </Link>
       </h3>
       <h3

@@ -1,6 +1,7 @@
 import defaultAllergies from '../fixtures/allergies.json';
+import BaseListPage from './BaseListPage';
 
-class AllergiesListPage {
+class AllergiesListPage extends BaseListPage {
   clickGotoAllergiesLink = (
     allergies = defaultAllergies,
     waitForAllergies = false,

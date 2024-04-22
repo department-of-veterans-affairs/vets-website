@@ -30,6 +30,7 @@ describe('directDeposit actions', () => {
   let server = null;
   let recordApiEventStub = null;
   let captureErrorStub = null;
+  let getDataStub = null;
 
   beforeEach(() => {
     recordApiEventStub = sinon.stub(fetchDirectDepositArgs, 'recordApiEvent');
@@ -40,6 +41,9 @@ describe('directDeposit actions', () => {
     server.resetHandlers();
     recordApiEventStub.restore();
     captureErrorStub.restore();
+    if (getDataStub) {
+      getDataStub.restore();
+    }
   });
 
   after(() => {
@@ -178,13 +182,43 @@ describe('directDeposit actions', () => {
       expect(dispatchSpy.firstCall.args[0]).to.eql({
         type: DIRECT_DEPOSIT_SAVE_STARTED,
       });
-      // TODO: update!
+
       expect(dispatchSpy.secondCall.args[0]).to.eql({
         type: DIRECT_DEPOSIT_SAVE_FAILED,
         response: error500,
       });
 
       expect(recordApiEventStub.calledTwice).to.be.true;
+    });
+
+    it('should dispatch the FAILURE state when the response is an instance of Error', async () => {
+      server = setupServer(
+        rest.put(`${endpointUrl}`, (req, res, ctx) => {
+          return res(ctx.json(error500), ctx.status(400));
+        }),
+      );
+
+      server.listen();
+
+      getDataStub = sinon
+        .stub(fetchDirectDepositArgs, 'getData')
+        .returns(new Error('Failed to save direct deposit information'));
+
+      const actionCreator = saveDirectDeposit({});
+
+      const dispatchSpy = sinon.spy();
+
+      await actionCreator(dispatchSpy);
+
+      expect(dispatchSpy.firstCall.args[0]).to.eql({
+        type: DIRECT_DEPOSIT_SAVE_STARTED,
+      });
+
+      expect(dispatchSpy.secondCall.args[0].response instanceof Error).to.be
+        .true;
+
+      expect(recordApiEventStub.calledTwice).to.be.true;
+      expect(captureErrorStub.calledOnce).to.be.true;
     });
   });
 });

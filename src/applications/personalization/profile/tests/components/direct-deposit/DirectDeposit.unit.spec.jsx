@@ -69,6 +69,7 @@ const createInitialState = ({
           authBroker: 'sis',
         },
         loading: false,
+        services: ['lighthouse'],
       },
     },
     featureToggles: toggles || baseToggles,
@@ -112,15 +113,15 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
       expect(container.querySelector('va-loading-indicator')).to.exist;
     });
 
-    // TODO: remove 'CompAndPen' from the toggle name for use within unified direct deposit
-    it('Renders TemporaryOutage when hideDirectDepositCompAndPen is true', () => {
+    it('Renders TemporaryOutage when hideDirectDeposit is true', () => {
       const { getByRole } = renderWithProfileReducersAndRouter(
         <DirectDeposit />,
         {
           initialState: createInitialState({
             serviceType: CSP_IDS.ID_ME,
             toggles: generateFeatureTogglesState({
-              profileHideDirectDepositCompAndPen: true,
+              profileHideDirectDeposit: true,
+              profileShowDirectDepositSingleFormUAT: false,
             }).featureToggles,
           }),
           path: '/profile/direct-deposit',
@@ -129,7 +130,7 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
 
       expect(
         getByRole('heading', {
-          name: 'Direct deposit information isn’t available right now',
+          name: 'You can’t manage your direct deposit information right now',
         }),
       ).to.exist;
     });
@@ -186,6 +187,24 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
     it('renders ineligible state when canUpdateDirectDeposit is false', () => {
       const state = createInitialState();
       state.directDeposit.controlInformation.canUpdateDirectDeposit = false;
+
+      const { getByText } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: state,
+        },
+      );
+
+      expect(
+        getByText(
+          /Our records show that you don’t receive benefit payments from VA/i,
+        ),
+      ).to.exist;
+    });
+
+    it('renders ineligible state when profile services do not include lighthouse', () => {
+      const state = createInitialState();
+      state.user.profile.services = [];
 
       const { getByText } = renderWithProfileReducersAndRouter(
         <DirectDeposit />,

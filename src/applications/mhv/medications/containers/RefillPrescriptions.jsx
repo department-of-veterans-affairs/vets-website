@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   VaButton,
@@ -11,9 +11,8 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { dateFormat } from '../util/helpers';
 import { getRefillablePrescriptionList, fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
-import { dispStatusObj, medicationsUrls } from '../util/constants';
+import { dispStatusObj } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 
 const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
@@ -37,7 +36,6 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     state => state.rx.prescriptions?.selectedSortOption,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
-
   // Memoized Values
   const selectedRefillListLength = useMemo(() => selectedRefillList.length, [
     selectedRefillList,
@@ -114,20 +112,6 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           updateLoadingStatus(false);
         });
       }
-      dispatch(
-        setBreadcrumbs(
-          [
-            {
-              url: `${medicationsUrls.MEDICATIONS_URL}/1`,
-              label: 'Medications',
-            },
-          ],
-          {
-            url: `${medicationsUrls.MEDICATIONS_REFILL}`,
-            label: 'Refill',
-          },
-        ),
-      );
       updatePageTitle('Refill prescriptions - Medications | Veterans Affairs');
     },
     // disabled warning: fullRefillList must be left of out dependency array to avoid infinite loop
@@ -148,23 +132,14 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     }
     return (
       <div>
-        <span className="refill-back-arrow">
-          <Link
-            data-testid="back-to-medications-page-link"
-            to="/"
-            className="refill-back-link"
-          >
-            Back to Medications
-          </Link>
-        </span>
-        {fullRefillList?.length > 0 && (
+        <h1
+          className="vads-u-margin-top--neg1 vads-u-margin-bottom--4"
+          data-testid="refill-page-title"
+        >
+          Refill prescriptions
+        </h1>
+        {fullRefillList?.length > 0 ? (
           <div>
-            <h1
-              className="vads-u-margin-top--neg1 vads-u-margin-bottom--4"
-              data-testid="refill-page-title"
-            >
-              Refill prescriptions
-            </h1>
             <RefillNotification refillResult={refillResult} />
             <h2
               className="vads-u-margin-top--3"
@@ -260,6 +235,11 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
               }`}
             />
           </div>
+        ) : (
+          <p data-testid="no-refills-message">
+            You don’t have any VA prescriptions with refills available. If you
+            need a prescription, contact your care team.
+          </p>
         )}
         <RenewablePrescriptions renewablePrescriptionsList={fullRenewList} />
       </div>
