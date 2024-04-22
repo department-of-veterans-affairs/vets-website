@@ -15,17 +15,18 @@ const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false).map(
 
 const CHANGED_APPS =
   CHANGED_FILES !== []
-    ? Array.from(
-        ...new Set(
-          CHANGED_FILES.split(' ').map(filePath =>
-            filePath
-              .split('/')
-              .slice(0, 3)
-              .join('/'),
-          ),
-        ),
+    ? CHANGED_FILES.split(' ').map(filePath =>
+        filePath
+          .split('/')
+          .slice(0, 3)
+          .join('/'),
       )
     : [];
+
+/* eslint-disable no-console */
+console.log('CHANGED_APPS', CHANGED_APPS);
+const CHANGED_APPS_UNIQUE = Array.from(...new Set(CHANGED_APPS.split(' ')));
+console.log('CHANGED_APPS_UNIQUE', CHANGED_APPS_UNIQUE);
 
 const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(
   specPath =>
