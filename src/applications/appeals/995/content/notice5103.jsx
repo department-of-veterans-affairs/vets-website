@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 export const Notice5103Description = ({ onReviewPage }) => {
   const [visibleAlert, setVisibleAlert] = useState(true);

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
-import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { focusElement } from 'platform/utilities/ui';

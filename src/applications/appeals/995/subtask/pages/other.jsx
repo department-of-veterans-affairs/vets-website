@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+
 import { focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
 
 import pageNames from './pageNames';
 import DownloadLink from '../../content/DownloadLink';

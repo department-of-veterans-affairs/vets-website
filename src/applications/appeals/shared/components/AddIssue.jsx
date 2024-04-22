@@ -4,10 +4,10 @@ import {
   VaMemorableDate,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 import { focusElement } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { content } from '../content/addIssue';
 

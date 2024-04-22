@@ -4,9 +4,9 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 import { focusElement } from 'platform/utilities/ui';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { BASE_URL } from '../../constants';
 import pageNames from './pageNames';
