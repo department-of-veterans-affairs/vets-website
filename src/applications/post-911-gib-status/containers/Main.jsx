@@ -39,7 +39,7 @@ export class Main extends React.Component {
         appContent = genericErrorMessage;
     }
 
-    return <div>{appContent}</div>;
+    return appContent;
   }
 }
 
