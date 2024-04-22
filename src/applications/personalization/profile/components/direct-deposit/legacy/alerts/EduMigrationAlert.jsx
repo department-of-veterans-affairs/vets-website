@@ -10,6 +10,7 @@ import {
   eduDirectDepositIsSetUp,
 } from '../../../../selectors';
 import { useSessionStorage } from '../../../../../common/hooks/useSessionStorage';
+import HelpDeskContact from '../../../HelpDeskContact';
 
 export const EduMigrationAlert = ({ className }) => {
   const directDepositPath = '/profile/direct-deposit';
@@ -31,15 +32,10 @@ export const EduMigrationAlert = ({ className }) => {
     TOGGLE_NAMES.profileShowDirectDepositSingleFormAlert,
   );
 
-  const isDowntimeAlertToggleEnabled = useToggleValue(
-    TOGGLE_NAMES.profileShowDirectDepositSingleFormEduDowntime,
-  );
-
   if (
     !isAlertToggleEnabled ||
     !hasBothDirectDeposits ||
-    (dismissed && includeExtraLinkAndDismiss) ||
-    isDowntimeAlertToggleEnabled
+    (dismissed && includeExtraLinkAndDismiss)
   ) {
     return null;
   }
@@ -56,11 +52,20 @@ export const EduMigrationAlert = ({ className }) => {
       closeable={includeExtraLinkAndDismiss}
       onCloseEvent={hideAlert}
     >
-      <h2 slot="headline">
-        By April 20, 2024, you must have a single bank account for all VA
-        benefit payments
-      </h2>
-      <p>Check your direct deposit information for each benefit.</p>
+      <h2 slot="headline">Upcoming site maintenance for direct deposit</h2>
+      <p>
+        We’ll soon be doing some work to update our systems for online direct
+        deposit management. We expect the maintenance period will last for 5
+        days.
+      </p>
+      <p>
+        During this time, you won’t be able to manage your direct deposit
+        information online. You’ll still be able to manage your information for
+        disability compensation, pension, or education benefits by phone. Call
+        us at <HelpDeskContact />. We’re here Monday through Friday, 8:00 a.m.
+        to 9:00 p.m. ET.
+      </p>
+
       <p className={!includeExtraLinkAndDismiss && 'vads-u-margin-bottom--0'}>
         If your bank accounts don’t match, update the information so it’s the
         same for all benefits.
