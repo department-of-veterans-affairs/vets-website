@@ -138,6 +138,7 @@ if (testsToVerify === null) {
     const testsToRun = testsToVerify
       .filter(test => test.includes(`src/applications/${app}`))
       .join(' ');
+    console.log(testsToRun);
     if (testsToRun !== '') {
       const command = `LOG_LEVEL=${options[
         'log-level'
