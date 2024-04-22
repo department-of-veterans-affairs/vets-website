@@ -308,7 +308,6 @@ class MedicationsRefillPage {
     );
   };
 
-
   verifyRefillRequestSuccessConfirmationMessage = () => {
     cy.get('[data-testid="success-message-title"]').should(
       'contain',
@@ -322,11 +321,11 @@ class MedicationsRefillPage {
       refillName,
     );
   };
+
   verifyNoMedicationsAvailableMessageOnRefillPage = () => {
     cy.get('[data-testid="no-refills-message"]').should(
       'contain',
-      'You don’t have any VA prescriptions with refills ',
-
+      'You don’t have any VA prescriptions with refills',
     );
   };
 }
