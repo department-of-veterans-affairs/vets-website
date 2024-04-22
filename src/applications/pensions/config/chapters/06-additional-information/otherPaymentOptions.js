@@ -1,6 +1,5 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { DirectDepositOtherOptions } from '../../../helpers';
-import { usingDirectDeposit } from './helper';
+import { DirectDepositOtherOptions, usingDirectDeposit } from './helper';
 
 export default {
   title: 'Other payment options',
