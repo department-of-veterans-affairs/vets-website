@@ -295,6 +295,13 @@ class MedicationsRefillPage {
       'Request not submitted',
     );
   };
+
+  verifyNoMedicationsAvailableMessageOnRefillPage = () => {
+    cy.get('[data-testid="no-refills-message"]').should(
+      'contain',
+      'You don’t have any VA prescriptions with refills ',
+    );
+  };
 }
 
 export default MedicationsRefillPage;
