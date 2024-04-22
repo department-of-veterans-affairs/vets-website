@@ -333,7 +333,7 @@ const testConfig = createTestConfig(
               cy.get('va-number-input')
                 .as('numberInputs')
                 .should('have.length', 2);
-              cy.get('#U.S. Savings Bonds0')
+              cy.get(`[name="U.S. Savings Bonds"]`)
                 .first()
                 .shadow()
                 .find('input')
