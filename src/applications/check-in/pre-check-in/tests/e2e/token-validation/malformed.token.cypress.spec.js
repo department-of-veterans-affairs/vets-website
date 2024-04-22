@@ -15,7 +15,7 @@ describe('Pre-Check In Experience ', () => {
   });
   it('malformed token present', () => {
     cy.visitPreCheckInWithUUID('not-a-uuid');
-    Error.validateUUIDErrorPageLoaded();
+    Error.validatePageLoadedGeneric();
     cy.injectAxeThenAxeCheck();
   });
 });

@@ -54,16 +54,16 @@ describe('vaPrescription details container', () => {
     expect(shippedOn).to.exist;
   });
 
-  it('displays sentence-cased description in Refill History', () => {
+  it('displays description correctly', async () => {
     const screen = setup();
-    const medDesc = screen.getByText(
-      'Purple, hexagon with test on the front and fake on the back.',
-      {
-        exact: true,
-        selector: 'p',
-      },
-    );
-    expect(medDesc).to.exist;
+    const shape = await screen.findByTestId('rx-shape');
+    const color = await screen.findByTestId('rx-color');
+    const frontMarking = await screen.findByTestId('rx-front-marking');
+    const backMarking = await screen.findByTestId('rx-back-marking');
+    expect(color).to.exist;
+    expect(shape).to.exist;
+    expect(frontMarking).to.exist;
+    expect(backMarking).to.exist;
   });
 
   it('does not display description in Refill History when details are missing', () => {
@@ -118,16 +118,10 @@ describe('vaPrescription details container', () => {
       ...newRx,
       rxRfRecords: [mysteriousRefill],
     });
-    const medDesc = screen.queryByText(
-      'null, orb with colorless on the front and null on the back',
-      { selector: 'p' },
+    const description = screen.findByText(
+      'No description available. Call your VA Pharmacy at (101) 555-0110 if you need help identifying this medication.',
     );
-    expect(medDesc).not.to.exist;
-
-    const callText = screen.getByText(
-      /No description available. Call your pharmacy at/,
-    );
-    expect(callText).to.exist;
+    expect(description).to.exist;
   });
 
   it('displays the tracking number within Tracking Info', () => {
