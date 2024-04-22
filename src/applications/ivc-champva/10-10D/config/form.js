@@ -38,13 +38,12 @@ import ApplicantField from '../../shared/components/applicantLists/ApplicantFiel
 import ConfirmationPage from '../containers/ConfirmationPage';
 import getNameKeyForSignature from '../helpers/signatureKeyName';
 import {
-  getAgeInYears,
   isInRange,
   onReviewPage,
   MAX_APPLICANTS,
   applicantListSchema,
 } from '../helpers/utilities';
-import { applicantWording } from '../../shared/utilities';
+import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import {
   sponsorWording,
   additionalFilesHint,
@@ -127,11 +126,11 @@ import {
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 
-import { hasReq } from '../components/File/MissingFileOverview';
-import { fileWithMetadataSchema } from './attachments';
+import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
+import { fileWithMetadataSchema } from '../../shared/components/fileUploads/attachments';
 
 // import mockData from '../tests/fixtures/data/test-data.json';
-import FileFieldCustom from '../components/File/FileUpload';
+import FileFieldWrapped from '../components/FileUploadWrapper';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -794,7 +793,7 @@ const formConfig = {
                 ?.relationshipToVeteran === 'child'
             );
           },
-          CustomPage: FileFieldCustom,
+          CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: applicantBirthCertUploadUiSchema,
@@ -824,7 +823,7 @@ const formConfig = {
               ) === 'adoption'
             );
           },
-          CustomPage: FileFieldCustom,
+          CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: applicantAdoptedUploadUiSchema,
@@ -855,7 +854,7 @@ const formConfig = {
               ) === 'step'
             );
           },
-          CustomPage: FileFieldCustom,
+          CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: applicantStepChildUploadUiSchema,
@@ -930,7 +929,7 @@ const formConfig = {
               )
             );
           },
-          CustomPage: FileFieldCustom,
+          CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: applicantSchoolCertUploadUiSchema,
@@ -957,7 +956,7 @@ const formConfig = {
                 'over18HelplessChild'
             );
           },
-          CustomPage: FileFieldCustom,
+          CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: applicantHelplessChildUploadUiSchema,
@@ -1077,7 +1076,7 @@ const formConfig = {
                 !get('sponsorIsDeceased', formData))
             );
           },
-          CustomPage: FileFieldCustom,
+          CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: applicantMarriageCertUploadUiSchema,
@@ -1107,7 +1106,7 @@ const formConfig = {
               ) === 'marriedTillDeathRemarriedAfter55'
             );
           },
-          CustomPage: FileFieldCustom,
+          CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: applicantSecondMarriageCertUploadUiSchema,
@@ -1141,7 +1140,7 @@ const formConfig = {
               !get('remarriageIsViable', formData?.applicants?.[index])
             );
           },
-          CustomPage: FileFieldCustom,
+          CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: applicantSecondMarriageDivorceCertUploadUiSchema,
@@ -1221,7 +1220,7 @@ const formConfig = {
               ) === 'enrolled'
             );
           },
-          CustomPage: FileFieldCustom,
+          CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: applicantMedicarePartAPartBCardsUploadUiSchema,
@@ -1251,7 +1250,7 @@ const formConfig = {
               ) === 'enrolled'
             );
           },
-          CustomPage: FileFieldCustom,
+          CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: applicantMedicarePartDCardsUploadUiSchema,
@@ -1281,7 +1280,7 @@ const formConfig = {
               getAgeInYears(formData.applicants[index]?.applicantDOB) >= 65
             );
           },
-          CustomPage: FileFieldCustom,
+          CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: appMedicareOver65IneligibleUploadUiSchema,
@@ -1320,7 +1319,7 @@ const formConfig = {
               get('applicantHasOhi', formData?.applicants?.[index]) === 'yes'
             );
           },
-          CustomPage: FileFieldCustom,
+          CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: applicantOhiCardsUploadUiSchema,
@@ -1347,7 +1346,7 @@ const formConfig = {
               ) === 'enrolled'
             );
           },
-          CustomPage: FileFieldCustom,
+          CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           uiSchema: applicantOtherInsuranceCertificationUploadUiSchema,
