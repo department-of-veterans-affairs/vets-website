@@ -7,7 +7,7 @@ import './Footer.scss';
 
 const Footer = () => {
   return (
-    <footer data-testid="arp-Footer" className="footer arp-footer">
+    <footer data-testid="arp-footer" className="footer arp-footer">
       <MobileFooter />
       <WiderThanMobileFooter />
     </footer>

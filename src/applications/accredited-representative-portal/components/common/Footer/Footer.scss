@@ -12,39 +12,11 @@
 
     @media (min-width: $medium-screen) {
       display: block;
-
-      .arp-logo {
-        width: 496px;
-      }
-
-      .vet-toolbar {
-        display: flex;
-        flex-basis: 198px;
-      }
-
-      .va-footer-logo-menu {
-        padding-top: 1em;
-      }
-    }
-
-    .vetnav-menu {
-      height: auto;
-      list-style: none;
-      margin: 0;
-      padding-left: 0;
-
-      @include media($medium-screen) {
-        display: flex;
-        height: auto;
-        margin-bottom: 0;
-        overflow-y: visible;
-        position: relative;
-      }
-
-        @include media($medium-screen) {
-          display: inline-block;
-          background-color: transparent;
-        }
-      }
     }
   }
+}
+
+// There is a div in content-build accredited-representative-portal.html that would require changes to platform code to remove. For now this scss hides it.
+.arp-footer-hidden {
+    display: none;
+}

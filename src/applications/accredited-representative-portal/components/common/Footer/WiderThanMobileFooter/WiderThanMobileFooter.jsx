@@ -12,14 +12,14 @@ const WiderThanMobileFooter = () => {
           <div
             className="va-footer-linkgroup"
             id="footer-reps"
-            data-testid="footer-full-accredited-reps"
+            data-testid="wider-than-mobile-footer-full-accredited-reps"
           >
             <h2 className="va-footer-linkgroup-title">
               For Accredited Representatives
             </h2>
             <ul className="va-footer-links">
               <li>
-                <a href="https://va.gov/representative">VA forms</a>
+                <a href="https://www.va.gov/find-forms/">VA forms</a>
               </li>
               <li>
                 <a href="https://va.gov/representative">Portal user guide</a>
@@ -39,11 +39,14 @@ const WiderThanMobileFooter = () => {
           </div>
           <div
             className="va-footer-linkgroup"
-            id="footer-services"
-            data-testid="footer-full-veteran-services"
+            id="footer-programs"
+            data-testid="wider-than-mobile-footer-full-veteran-programs"
           >
             <h2 className="va-footer-linkgroup-title">For Veterans</h2>
             <ul className="va-footer-links">
+              <li>
+                <a href="https://va.gov/homeless/">Resources</a>
+              </li>
               <li>
                 <a href="https://va.gov/homeless/">Homeless Veterans</a>
               </li>
@@ -65,7 +68,7 @@ const WiderThanMobileFooter = () => {
           <div
             className="va-footer-linkgroup"
             id="footer-services-more"
-            data-testid="footer-full-veteran-services-more"
+            data-testid="wider-than-mobile-footer-full-veteran-programs-more"
           >
             <ul className="vads-u-margin-top--5 va-footer-links">
               <li>
@@ -89,25 +92,6 @@ const WiderThanMobileFooter = () => {
               </li>
             </ul>
           </div>
-          <div
-            className="va-footer-linkgroup"
-            id="veteran-crisis"
-            data-testid="footer-full-crisis-line"
-          >
-            <h2 className="va-footer-linkgroup-title">
-              In crisis? Talk to someone now
-            </h2>
-            <ul className="va-footer-links">
-              <li>
-                <va-button
-                  className="va-button-link va-overlay-trigger"
-                  data-show="#modal-crisisline"
-                >
-                  Veterans Crisis Line
-                </va-button>
-              </li>
-            </ul>
-          </div>
         </div>
         <div className="usa-grid usa-grid-full footer-banner vads-u-border-color--white vads-u-border-top--1px vads-u-padding-top--2">
           <a href="/" title="Go to VA.gov">
@@ -118,13 +102,13 @@ const WiderThanMobileFooter = () => {
               alt="VA logo and Seal, U.S. Department of Veterans Affairs"
               width="200"
               className="vads-u-height--auto"
-              data-testid="footer-full-logo"
+              data-testid="wider-than-mobile-footer-full-logo"
             />
           </a>
         </div>
         <div
           className="usa-grid usa-grid-full va-footer-links-bottom"
-          data-testid="footer-full-links-bottom"
+          data-testid="wider-than-mobile-footer-full-links-bottom"
         >
           <ul>
             <li>
@@ -176,87 +160,6 @@ const WiderThanMobileFooter = () => {
               </a>
             </li>
           </ul>
-        </div>
-      </div>
-      <div
-        id="modal-crisisline"
-        className="va-overlay va-modal va-modal-large"
-        role="alertdialog"
-      >
-        <div className="va-crisis-panel va-modal-inner">
-          <va-button
-            aria-label="Close this modal"
-            className="va-modal-close va-overlay-close va-crisis-panel-close"
-            type="button"
-          >
-            <i
-              className="fas fa-times-circle va-overlay-close"
-              aria-hidden="true"
-            />
-          </va-button>
-          <div className="va-overlay-body va-crisis-panel-body">
-            <h3 className="va-crisis-panel-title">
-              We’re here anytime, day or night - 24/7
-            </h3>
-            <p>
-              If you are a Veteran in crisis or concerned about one, connect
-              with our caring, qualified responders for confidential help. Many
-              of them are Veterans themselves.
-            </p>
-            <ul className="va-crisis-panel-list">
-              <li>
-                <i
-                  className="fa fa-phone va-crisis-panel-icon"
-                  aria-label="Crisis Hotline Phone"
-                  aria-hidden="true"
-                />
-                Call{' '}
-                <strong>
-                  <va-telephone contact="988" aria-label="9 8 8" /> and select 1
-                </strong>
-              </li>
-              <li>
-                <i
-                  className="fa fa-mobile-alt va-crisis-panel-icon"
-                  aria-label="Crisis Hotline Text"
-                  aria-hidden="true"
-                />
-                Text <va-telephone contact="838255" sms aria-label="838255" />
-              </li>
-              <li>
-                <i
-                  className="fa fa-comments va-crisis-panel-icon"
-                  aria-label="Crisis Hotline Chat"
-                  aria-hidden="true"
-                />
-                <a
-                  className="no-external-icon"
-                  href="https://www.veteranscrisisline.net/get-help-now/chat/"
-                >
-                  Start a confidential chat
-                </a>
-              </li>
-              <li>
-                <i
-                  className="fa fa-deaf va-crisis-panel-icon"
-                  aria-label="Crisis Hotline for Deaf Line"
-                  aria-hidden="true"
-                />
-                <p>
-                  <va-telephone contact="711" />
-                </p>
-              </li>
-            </ul>
-            Get more resources at{' '}
-            <a
-              className="no-external-icon"
-              aria-label="Crisis Line Resources"
-              href="https://www.veteranscrisisline.net/"
-            >
-              VeteransCrisisLine.net
-            </a>
-            .
-          </div>
         </div>
       </div>
     </div>

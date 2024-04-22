@@ -8,37 +8,24 @@ const MobileFooter = () => {
         <div aria-hidden="false" className="va-footer-content">
           <ul
             className="usa-accordion va-footer-accordion"
-            data-testid="va-footer-accordion"
+            data-testid="mobile-footer-accordion"
           >
             <li>
-              <div className="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
-                <button
-                  className="va-button-link vads-u-color--white vads-u-text-decoration--none va-overlay-trigger"
-                  data-show="#modal-crisisline"
-                  id="footer-crisis-line"
-                >
-                  Talk to the <strong>Veterans Crisis Line</strong> now
-                  <i
-                    aria-hidden="true"
-                    className="fa fa-chevron-right vads-u-margin-left--1"
-                  />
-                </button>
-              </div>
-            </li>
-            <li>
+              {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
               <button
                 className="usa-button-unstyled usa-accordion-button va-footer-button"
                 aria-controls="footer-accredited-reps"
                 itemProp="name"
                 aria-expanded="false"
-                data-testid="footer-accredited-reps"
+                data-testid="mobile-footer-accredited-reps-button"
               >
-                For accredited representatives
+                For Accredited Representatives
               </button>
               <div
                 className="usa-accordion-content va-footer-accordion-content"
                 aria-hidden="true"
                 id="footer-accredited-reps"
+                data-testid="mobile-footer-accredited-reps"
               >
                 <ul className="va-footer-links">
                   <li>
@@ -60,21 +47,28 @@ const MobileFooter = () => {
               </div>
             </li>
             <li>
+              {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
               <button
                 className="usa-button-unstyled usa-accordion-button va-footer-button"
-                aria-controls="footer-veteran-programs"
+                aria-controls="mobile-footer-veteran-programs"
                 itemProp="name"
                 aria-expanded="false"
-                data-testid="footer-veteran-prrograms"
+                data-testid="mobile-footer-veteran-programs-button"
               >
-                Veteran programs and services
+                For Veterans
               </button>
               <div
                 className="usa-accordion-content va-footer-accordion-content"
                 aria-hidden="true"
-                id="footer-veteran-programs"
+                id="mobile-footer-veteran-programs"
+                data-testid="mobile-footer-veteran-programs"
               >
                 <ul className="va-footer-links">
+                  <li>
+                    <a href="/homeless/" target="">
+                      Resources
+                    </a>
+                  </li>
                   <li>
                     <a href="/homeless/" target="">
                       Homeless Veterans
@@ -152,7 +146,7 @@ const MobileFooter = () => {
                 alt="VA logo and Seal, U.S. Department of Veterans Affairs"
                 width="200"
                 className="vads-u-height--auto"
-                data-testid="footer-logo"
+                data-testid="mobile-footer-logo"
               />
             </a>
           </div>
@@ -217,91 +211,6 @@ const MobileFooter = () => {
                 </a>
               </li>
             </ul>
-          </div>
-        </div>
-        <div
-          id="modal-crisisline"
-          className="va-overlay va-modal va-modal-large"
-          role="alertdialog"
-        >
-          <div className="va-crisis-panel va-modal-inner">
-            <button
-              aria-label="Close this modal"
-              className="va-modal-close va-overlay-close va-crisis-panel-close"
-              type="button"
-            >
-              <i
-                className="fas fa-times-circle va-overlay-close"
-                aria-hidden="true"
-              />
-            </button>
-            <div className="va-overlay-body va-crisis-panel-body">
-              <h3 className="va-crisis-panel-title">
-                We’re here anytime, day or night - 24/7
-              </h3>
-              <p>
-                If you are a Veteran in crisis or concerned about one, connect
-                with our caring, qualified responders for confidential help.
-                Many of them are Veterans themselves.
-              </p>
-              <ul className="va-crisis-panel-list">
-                <li>
-                  <i
-                    className="fa fa-phone va-crisis-panel-icon"
-                    aria-label="Crisis Line Phone"
-                    aria-hidden="true"
-                  />
-                  Call{' '}
-                  <strong>
-                    <va-telephone contact="988" aria-label="9 8 8" /> and select
-                    1
-                  </strong>
-                </li>
-                <li>
-                  <i
-                    className="fa fa-mobile-alt va-crisis-panel-icon"
-                    aria-label="Crisis Line Text"
-                    aria-hidden="true"
-                  />
-                  Text <va-telephone contact="838255" sms aria-label="838255" />
-                </li>
-                <li>
-                  <i
-                    className="fa fa-comments va-crisis-panel-icon"
-                    aria-label="Crisis Line Chat"
-                    aria-hidden="true"
-                  />
-                  <a
-                    className="no-external-icon"
-                    href="https://www.veteranscrisisline.net/get-help-now/chat/"
-                  >
-                    Start a confidential chat
-                  </a>
-                </li>
-                <li>
-                  <i
-                    className="fa fa-deaf va-crisis-panel-icon"
-                    aria-label="Crisis Line for Deaf Individuals"
-                    aria-hidden="true"
-                  />
-                  <p>
-                    For TTY, call{' '}
-                    <strong>
-                      <va-telephone contact="711" aria-label="7 1 1" /> then 988
-                    </strong>
-                  </p>
-                </li>
-              </ul>
-              Get more resources at{' '}
-              <a
-                className="no-external-icon"
-                aria-label="Crisis Line Resources"
-                href="https://www.veteranscrisisline.net/"
-              >
-                VeteransCrisisLine.net
-              </a>
-              .
-            </div>
           </div>
         </div>
       </div>
