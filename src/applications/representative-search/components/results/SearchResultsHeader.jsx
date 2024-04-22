@@ -147,7 +147,7 @@ export const SearchResultsHeader = props => {
 
         {noResultsFound ? (
           <p className="vads-u-margin-bottom--8">
-            For better results, you can increase your <b>search area</b>.
+            For better results, try increasing your <b>search area</b>.
           </p>
         ) : (
           <div className="sort-dropdown">

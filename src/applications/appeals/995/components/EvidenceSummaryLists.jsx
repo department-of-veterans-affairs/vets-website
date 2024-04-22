@@ -44,14 +44,10 @@ const removeButtonClass = [
   'vads-u-margin-top--0',
 ].join(' ');
 
-const formatDate = (date = '') => {
+const formatDate = (date = '') =>
   // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
   // const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
-  const result =
-    parseDate(date, FORMAT_COMPACT_DATE_FNS, FORMAT_YMD_DATE_FNS) || '';
-  // Not entirely sure what this check is for — can we just return `result`?
-  return result || '';
-};
+  parseDate(date, FORMAT_COMPACT_DATE_FNS, FORMAT_YMD_DATE_FNS) || '';
 
 /**
  * Changing header levels :(

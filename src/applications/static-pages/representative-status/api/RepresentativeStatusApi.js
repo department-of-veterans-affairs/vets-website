@@ -10,6 +10,7 @@ class RepresentativeStatusApi {
       'Content-Type': 'application/json',
       mode: 'cors',
       credentials: 'include',
+      'X-Key-Inflection': 'camel',
     };
     const startTime = new Date().getTime();
 

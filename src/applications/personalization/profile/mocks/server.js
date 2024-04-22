@@ -55,7 +55,6 @@ const genericErrors = {
   error403,
 };
 
-/* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': (_req, res) => {
     const secondsOfDelay = 0;
@@ -65,7 +64,7 @@ const responses = {
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
             profileContacts: true,
-            profileHideDirectDepositCompAndPen: true,
+            profileHideDirectDeposit: false,
             profileShowCredentialRetirementMessaging: true,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,
@@ -74,6 +73,7 @@ const responses = {
             profileShowQuickSubmitNotificationSetting: true,
             profileUseExperimental: true,
             profileShowDirectDepositSingleForm: true,
+            profileShowDirectDepositSingleFormUAT: false,
             profileShowDirectDepositSingleFormAlert: false,
             profileShowDirectDepositSingleFormEduDowntime: false,
           }),
@@ -145,11 +145,11 @@ const responses = {
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
     // this endpoint is used for the single form version of the direct deposit page
-    // return res.status(200).json(directDeposits.base);
+    return res.status(200).json(directDeposits.base);
     // return res.status(500).json(genericErrors.error500);
     // return res.status(400).json(directDeposits.updates.errors.unspecified);
     // user with no dd data but is eligible
-    return res.json(directDeposits.isEligible);
+    // return res.json(directDeposits.isEligible);
     // direct deposit blocked edge cases
     // return res.json(directDeposits.isDeceased);
     // return res.json(directDeposits.isFiduciary);

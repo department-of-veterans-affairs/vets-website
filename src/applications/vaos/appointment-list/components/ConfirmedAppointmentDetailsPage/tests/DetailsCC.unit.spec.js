@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import DetailsCC from '../DetailsCC';
+import { createTestStore } from '../../../../tests/mocks/setup';
 
 const appointmentData = {
   start: '2024-07-19T08:00:00-07:00',
@@ -47,6 +48,7 @@ describe('VAOS Component: DetailsCC', () => {
 
   it('should render the specialty type', async () => {
     // Given the appointment has treatmentSpecialty
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
     };
@@ -54,7 +56,7 @@ describe('VAOS Component: DetailsCC', () => {
     const screen = renderWithStoreAndRouter(
       <DetailsCC appointment={appointment} useV2 featureVaosV2Next />,
       {
-        initialState,
+        store,
         path: `/${appointment.id}`,
       },
     );
@@ -63,6 +65,7 @@ describe('VAOS Component: DetailsCC', () => {
   });
   it('should not render the specialty type', async () => {
     // Given the appointment has treatmentSpecialty
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
     };
@@ -70,7 +73,7 @@ describe('VAOS Component: DetailsCC', () => {
     const screen = renderWithStoreAndRouter(
       <DetailsCC appointment={appointment} useV2 featureVaosV2Next={false} />,
       {
-        initialState,
+        store,
         path: `/${appointment.id}`,
       },
     );
@@ -79,6 +82,7 @@ describe('VAOS Component: DetailsCC', () => {
   });
   it('should render the type of care', async () => {
     // Given the appointment has serviceType
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -94,7 +98,7 @@ describe('VAOS Component: DetailsCC', () => {
     const screen = renderWithStoreAndRouter(
       <DetailsCC appointment={appointment} useV2 featureVaosV2Next />,
       {
-        initialState,
+        store,
         path: `/${appointment.id}`,
       },
     );
@@ -103,6 +107,7 @@ describe('VAOS Component: DetailsCC', () => {
   });
   it('should not render the type of care', async () => {
     // Given the appointment has serviceType
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -118,7 +123,7 @@ describe('VAOS Component: DetailsCC', () => {
     const screen = renderWithStoreAndRouter(
       <DetailsCC appointment={appointment} useV2={false} featureVaosV2Next />,
       {
-        initialState,
+        store,
         path: `/${appointment.id}`,
       },
     );
