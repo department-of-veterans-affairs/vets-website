@@ -91,7 +91,8 @@ export const DirectDeposit = () => {
   if (hideDirectDeposit && !profileShowDirectDepositSingleFormUAT) {
     return (
       <Wrapper>
-        <TemporaryOutage />
+        <TemporaryOutage customMessaging />
+        <PaymentHistoryCard />
       </Wrapper>
     );
   }
