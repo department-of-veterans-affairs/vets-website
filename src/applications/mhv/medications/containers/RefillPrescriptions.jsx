@@ -36,9 +36,6 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   const selectedSortOption = useSelector(
     state => state.rx.prescriptions?.selectedSortOption,
   );
-  const backLinkFocus = useSelector(
-    state => state.rx.breadcrumbs?.crumbBackFocus,
-  );
   const showRefillContent = useSelector(selectRefillContentFlag);
   // Memoized Values
   const selectedRefillListLength = useMemo(() => selectedRefillList.length, [
@@ -125,11 +122,11 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
 
   useEffect(
     () => {
-      if (!isLoading && backLinkFocus) {
+      if (!isLoading) {
         focusElement(document.querySelector('h1'));
       }
     },
-    [isLoading, backLinkFocus],
+    [isLoading],
   );
 
   const content = () => {
