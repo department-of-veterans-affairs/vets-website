@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
 
 import Contact from './Contact';
-import HelpDeskContact from './HelpDeskContact';
+import HelpDeskContact from '../HelpDeskContact';
 import Instructions from './Instructions';
 
 const Contacts = ({ data }) => {
