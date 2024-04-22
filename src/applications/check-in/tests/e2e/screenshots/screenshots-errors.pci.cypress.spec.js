@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 (async () => {
   if (Cypress.env('with_screenshots')) {
     await import('../../../pre-check-in/tests/e2e/errors/pre-check-in-expired/error.expired.cypress.spec');
