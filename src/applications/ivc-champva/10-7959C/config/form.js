@@ -21,6 +21,7 @@ import {
   applicantPreAddressSchema,
   applicantAddressInfoSchema,
   applicantContactInfoSchema,
+  blankSchema,
 } from '../chapters/applicantInformation';
 
 import {
@@ -36,6 +37,8 @@ import {
   applicantMedicarePartDCarrierSchema,
   applicantMedicarePartDEffectiveDateSchema,
   appMedicareOver65IneligibleUploadSchema,
+  applicantMedicareABUploadSchema,
+  applicantMedicareDUploadSchema,
 } from '../chapters/medicareInformation';
 import {
   ApplicantMedicareStatusPage,
@@ -74,6 +77,7 @@ import {
   applicantInsuranceTypeSchema,
   applicantMedigapSchema,
   applicantInsuranceCommentsSchema,
+  applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -109,6 +113,10 @@ import {
   ApplicantSecondaryInsuranceTypePage,
   ApplicantSecondaryInsuranceTypeReviewPage,
 } from '../components/ApplicantInsurancePlanTypePage';
+
+import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
+import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
+import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
 
 /** @type {PageSchema} */
 const formConfig = {
@@ -340,6 +348,17 @@ const formConfig = {
           uiSchema: applicantMedicareAdvantageSchema.uiSchema,
           schema: applicantMedicareAdvantageSchema.schema,
         },
+        medicareABCards: {
+          path: ':index/ab-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare card (A/B)`,
+          depends: (formData, index) => hasMedicareAB(formData, index),
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...applicantMedicareABUploadSchema,
+        },
         hasMedicareD: {
           path: ':index/medicare-d',
           arrayPath: 'applicants',
@@ -370,6 +389,18 @@ const formConfig = {
             hasMedicareAB(formData, index) && hasMedicareD(formData, index),
           uiSchema: applicantMedicarePartDEffectiveDateSchema.uiSchema,
           schema: applicantMedicarePartDEffectiveDateSchema.schema,
+        },
+        medicareDCards: {
+          path: ':index/d-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare card (D)`,
+          depends: (formData, index) =>
+            hasMedicareAB(formData, index) && hasMedicareD(formData, index),
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...applicantMedicareDUploadSchema,
         },
       },
     },
@@ -499,6 +530,18 @@ const formConfig = {
             } additional comments`,
           ...applicantInsuranceCommentsSchema(true),
         },
+        primaryCard: {
+          path: ':index/primary-card-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} primary health insurance card`,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...applicantInsuranceCardSchema(true),
+        },
         hasSecondaryHealthInsurance: {
           path: ':index/has-secondary',
           arrayPath: 'applicants',
@@ -623,6 +666,59 @@ const formConfig = {
               item?.applicantSecondaryProvider
             } additional comments`,
           ...applicantInsuranceCommentsSchema(false),
+        },
+        secondaryCard: {
+          path: ':index/secondary-card-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} secondary health insurance card`,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...applicantInsuranceCardSchema(false),
+        },
+      },
+    },
+    fileUpload: {
+      title: 'File Upload',
+      pages: {
+        supportingFilesReview: {
+          path: 'supporting-files',
+          title: 'Upload your supporting files',
+          CustomPage: SupportingDocumentsPage,
+          CustomPageReview: null,
+          uiSchema: {
+            'ui:options': {
+              keepInPageOnReview: false,
+            },
+          },
+          schema: blankSchema,
+        },
+        missingFileConsent: {
+          path: 'consent-mail',
+          title: 'Upload your supporting files',
+          depends: formData => {
+            try {
+              return (
+                hasReq(formData.applicants, true) ||
+                hasReq(formData.applicants, false) ||
+                hasReq(formData, true) ||
+                hasReq(formData, false)
+              );
+            } catch {
+              return false;
+            }
+          },
+          CustomPage: MissingFileConsentPage,
+          CustomPageReview: null,
+          uiSchema: {
+            'ui:options': {
+              keepInPageOnReview: false,
+            },
+          },
+          schema: blankSchema,
         },
       },
     },

@@ -246,7 +246,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             />
           </div>
         ) : (
-          <p>
+          <p data-testid="no-refills-message">
             You don’t have any VA prescriptions with refills available. If you
             need a prescription, contact your care team.
           </p>

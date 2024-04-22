@@ -251,6 +251,49 @@ export const applicantMedicareAdvantageSchema = {
   }),
 };
 
+export const applicantMedicareABUploadSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': {
+        viewField: ApplicantField,
+      },
+      items: {
+        ...titleUI(
+          ({ _formData, formContext }) =>
+            `Upload Medicare card ${isRequiredFile(
+              formContext,
+              requiredFiles,
+            )}`,
+          ({ formData }) => {
+            const appName = applicantWording(formData);
+            return (
+              <>
+                You’ll need to submit a copy of the front and back of {appName}{' '}
+                Medicare Part A & B card.
+                <br />
+                If you don’t have a copy to upload now, you can send it by mail
+                or fax
+              </>
+            );
+          },
+        ),
+        ...fileUploadBlurb,
+        applicantMedicarePartAPartBCard: fileUploadUI({
+          label: 'Upload Medicare card',
+        }),
+      },
+    },
+  },
+  schema: applicantListSchema([], {
+    titleSchema,
+    'view:fileUploadBlurb': blankSchema,
+    applicantMedicarePartAPartBCard: fileWithMetadataSchema([
+      'Front of Medicare Parts A or B card',
+      'Back of Medicare Parts A or B card',
+    ]),
+  }),
+};
+
 export const applicantHasMedicareDSchema = {
   uiSchema: {
     applicants: { items: {} },
@@ -325,5 +368,48 @@ export const applicantMedicarePartDEffectiveDateSchema = {
   schema: applicantListSchema(['applicantMedicarePartDEffectiveDate'], {
     titleSchema,
     applicantMedicarePartDEffectiveDate: currentOrPastDateSchema,
+  }),
+};
+
+export const applicantMedicareDUploadSchema = {
+  uiSchema: {
+    applicants: {
+      'ui:options': {
+        viewField: ApplicantField,
+      },
+      items: {
+        ...titleUI(
+          ({ _formData, formContext }) =>
+            `Upload Medicare card ${isRequiredFile(
+              formContext,
+              requiredFiles,
+            )}`,
+          ({ formData }) => {
+            const appName = applicantWording(formData);
+            return (
+              <>
+                You’ll need to submit a copy of the front and back of {appName}{' '}
+                Medicare Part D card.
+                <br />
+                If you don’t have a copy to upload now, you can send it by mail
+                or fax
+              </>
+            );
+          },
+        ),
+        ...fileUploadBlurb,
+        applicantMedicarePartDCard: fileUploadUI({
+          label: 'Upload Medicare card',
+        }),
+      },
+    },
+  },
+  schema: applicantListSchema([], {
+    titleSchema,
+    'view:fileUploadBlurb': blankSchema,
+    applicantMedicarePartDCard: fileWithMetadataSchema([
+      'Front of Medicare Part D card',
+      'Back of Medicare Part D card',
+    ]),
   }),
 };
