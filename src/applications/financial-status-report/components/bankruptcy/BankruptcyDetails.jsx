@@ -45,7 +45,7 @@ const BankruptcyDetails = ({
     const dateInput = new Date(dateDischarged.split('-').join(' '));
 
     if (dateInput > today) {
-      setDateError('Date must be in the pastt');
+      setDateError('Date must be in the past');
     } else {
       setDateError(null);
     }
