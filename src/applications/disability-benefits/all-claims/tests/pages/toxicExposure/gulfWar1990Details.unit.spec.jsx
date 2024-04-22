@@ -44,6 +44,12 @@ describe('gulfWar1990Details', () => {
       getByText(gulfWar1990PageTitle);
       getByText(dateHelp);
 
+      const addlInfo = container.querySelector('va-additional-info');
+      expect(addlInfo).to.have.attribute(
+        'trigger',
+        'What if I have more than one date range?',
+      );
+
       expect($(`va-memorable-date[label="${startDateApproximate}"]`, container))
         .to.exist;
       expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
