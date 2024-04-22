@@ -76,6 +76,7 @@ import {
   applicantInsuranceTypeSchema,
   applicantMedigapSchema,
   applicantInsuranceCommentsSchema,
+  applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -524,6 +525,18 @@ const formConfig = {
             } additional comments`,
           ...applicantInsuranceCommentsSchema(true),
         },
+        primaryCard: {
+          path: ':index/primary-card-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} primary health insurance card`,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...applicantInsuranceCardSchema(true),
+        },
         hasSecondaryHealthInsurance: {
           path: ':index/has-secondary',
           arrayPath: 'applicants',
@@ -648,6 +661,18 @@ const formConfig = {
               item?.applicantSecondaryProvider
             } additional comments`,
           ...applicantInsuranceCommentsSchema(false),
+        },
+        secondaryCard: {
+          path: ':index/secondary-card-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} secondary health insurance card`,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...applicantInsuranceCardSchema(false),
         },
       },
     },

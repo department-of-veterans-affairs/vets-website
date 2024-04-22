@@ -296,10 +296,18 @@ class MedicationsRefillPage {
     );
   };
 
+
   verifyErrorMessageWhenRefillRequestWithoutSelectingPrescription = () => {
     cy.get('[data-testid="select-rx-error-message"]').should(
       'contain',
       'Select at least one prescription',
+    );
+  };
+  verifyNoMedicationsAvailableMessageOnRefillPage = () => {
+    cy.get('[data-testid="no-refills-message"]').should(
+      'contain',
+      'You don’t have any VA prescriptions with refills ',
+
     );
   };
 }
