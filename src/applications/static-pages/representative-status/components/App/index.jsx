@@ -12,6 +12,7 @@ import { Unauth } from '../States/Unauth';
 
 export const App = ({
   baseHeader,
+  showIntroCopy,
   toggleLoginModal,
   authenticatedWithSSOe,
   authenticatedWithOAuth,
@@ -23,6 +24,19 @@ export const App = ({
 
   return (
     <>
+      {showIntroCopy && (
+        <>
+          <h2>Check if you already have an accredited representative</h2>
+          <p>
+            We don’t automatically assign you an accredited representative, but
+            you may have appointed one in the past.
+          </p>
+          <p>
+            If you appoint a new accredited representative, they will replace
+            your current one.
+          </p>
+        </>
+      )}
       {loggedIn ? (
         <>
           <Auth
@@ -48,6 +62,7 @@ App.propTypes = {
   authenticatedWithSSOe: PropTypes.bool,
   baseHeader: PropTypes.number,
   hasRepresentative: PropTypes.bool,
+  showIntroCopy: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

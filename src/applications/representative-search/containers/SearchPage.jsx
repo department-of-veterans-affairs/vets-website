@@ -309,7 +309,7 @@ const SearchPage = props => {
   useEffect(() => {
     handleSearchViaUrl();
     if (!environment.isProduction()) {
-      repStatusLoader(store, 'representative-status', 3);
+      repStatusLoader(store, 'representative-status', 3, false);
     }
   }, []);
 
