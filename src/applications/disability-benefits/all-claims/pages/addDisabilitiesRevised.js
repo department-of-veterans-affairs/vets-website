@@ -30,11 +30,11 @@ const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 export const uiSchema = {
   newDisabilities: {
-    'ui:title': 'Tell us the new conditions you want to claim.',
+    'ui:title': 'Tell us the new conditions you want to claim REVISED VERSION!',
     'ui:field': ArrayField,
     'ui:options': {
       viewField: NewDisability,
-      reviewTitle: 'New Conditions',
+      reviewTitle: 'Conditions',
       duplicateKey: 'condition',
       itemName: 'Condition',
       itemAriaLabel: data => data.condition,
