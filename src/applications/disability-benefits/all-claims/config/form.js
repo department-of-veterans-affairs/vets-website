@@ -54,6 +54,7 @@ import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrie
 import {
   adaptiveBenefits,
   addDisabilities,
+  addDisabilitiesRevised,
   additionalBehaviorChanges,
   additionalDocuments,
   additionalRemarks781,
@@ -324,6 +325,21 @@ const formConfig = {
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
           updateFormData: addDisabilities.updateFormData,
+          appStateSelector: state => ({
+            // needed for validateDisabilityName to work properly on the review
+            // & submit page. Validation functions are provided the pageData and
+            // not the formData on the review & submit page. For more details
+            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+            newDisabilities: state.form?.data?.newDisabilities || [],
+          }),
+        },
+        addDisabilitiesRevised: {
+          title: 'Add a new disability',
+          path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
+          depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
+          uiSchema: addDisabilitiesRevised.uiSchema,
+          schema: addDisabilitiesRevised.schema,
+          updateFormData: addDisabilitiesRevised.updateFormData,
           appStateSelector: state => ({
             // needed for validateDisabilityName to work properly on the review
             // & submit page. Validation functions are provided the pageData and
