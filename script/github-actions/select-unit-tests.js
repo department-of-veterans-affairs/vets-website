@@ -25,7 +25,8 @@ const CHANGED_APPS =
 
 /* eslint-disable no-console */
 console.log('CHANGED_APPS', CHANGED_APPS);
-const CHANGED_APPS_UNIQUE = Array.from(...new Set(CHANGED_APPS));
+console.log('CHANGED_APPS new Set', new Set(CHANGED_APPS));
+const CHANGED_APPS_UNIQUE = [...new Set(CHANGED_APPS)];
 console.log('CHANGED_APPS_UNIQUE', CHANGED_APPS_UNIQUE);
 
 const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(
