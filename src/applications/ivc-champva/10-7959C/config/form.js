@@ -3,9 +3,9 @@ import get from 'platform/utilities/data/get';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import transformForSubmit from './submitTransformer';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
+import { prefillTransformer } from './prefillTransformer';
 
 import {
   certifierRole,
@@ -124,8 +124,12 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  showReviewErrors: !environment.isProduction(),
   formId: '10-7959C',
-  transformForSubmit,
+  dev: {
+    showNavLinks: false,
+    collapsibleNavLinks: true,
+  },
   saveInProgress: {
     messages: {
       inProgress:
@@ -138,6 +142,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound:
       'Please start over to apply for CHAMPVA other health insurance certification.',
