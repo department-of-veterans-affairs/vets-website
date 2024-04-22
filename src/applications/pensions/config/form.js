@@ -1,7 +1,7 @@
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import FormFooter from 'platform/forms/components/FormFooter';
-import GetFormHelp from 'applications/vre/components/GetFormHelp';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import GetFormHelp from '../components/GetFormHelp';
 import { submit } from './submit';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -18,7 +18,7 @@ import additionalInformation from './chapters/06-additional-information';
 
 const formConfig = {
   formId: VA_FORM_IDS.FORM_21P_527EZ,
-  version: 8,
+  version: 9,
   migrations,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
