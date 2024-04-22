@@ -22,10 +22,12 @@ import { GULF_WAR_1990_LOCATIONS } from '../../../constants';
 describe('gulfWar1990LocationDates', () => {
   const schemas = { ...makePages() };
   const formData = {
-    gulfWar1990: {
-      afghanistan: true,
-      iraq: false,
-      airspace: true,
+    toxicExposure: {
+      gulfWar1990: {
+        afghanistan: true,
+        iraq: false,
+        airspace: true,
+      },
     },
   };
 

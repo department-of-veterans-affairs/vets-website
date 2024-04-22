@@ -155,10 +155,12 @@ describe('toxicExposure', () => {
             condition: 'Anemia',
           },
         ],
-        toxicExposureConditions: {
-          tinnitus: true,
-          anemia: false,
-          none: false,
+        toxicExposure: {
+          conditions: {
+            tinnitus: true,
+            anemia: false,
+            none: false,
+          },
         },
       };
 
@@ -182,10 +184,12 @@ describe('toxicExposure', () => {
           'view:claimingIncrease': false,
           'view:claimingNew': true,
         },
-        toxicExposureConditions: {
-          tinnitus: false,
-          anemia: false,
-          none: false,
+        toxicExposure: {
+          conditions: {
+            tinnitus: false,
+            anemia: false,
+            none: false,
+          },
         },
       };
 
@@ -198,10 +202,12 @@ describe('toxicExposure', () => {
           'view:claimingIncrease': false,
           'view:claimingNew': true,
         },
-        toxicExposureConditions: {
-          tinnitus: false,
-          anemia: false,
-          none: true,
+        toxicExposure: {
+          conditions: {
+            tinnitus: false,
+            anemia: false,
+            none: true,
+          },
         },
       };
 
@@ -304,40 +310,48 @@ describe('toxicExposure', () => {
   describe('validateTEConditions', () => {
     it('should add error when selecting none and a condition', () => {
       const errors = {
-        toxicExposureConditions: {
-          addError: sinon.spy(),
+        toxicExposure: {
+          conditions: {
+            addError: sinon.spy(),
+          },
         },
       };
 
       const formData = {
-        toxicExposureConditions: {
-          anemia: true,
-          tinnitusringingorhissinginears: false,
-          none: true,
+        toxicExposure: {
+          conditions: {
+            anemia: true,
+            tinnitusringingorhissinginears: false,
+            none: true,
+          },
         },
       };
 
       validateTEConditions(errors, formData);
-      expect(errors.toxicExposureConditions.addError.called).to.be.true;
+      expect(errors.toxicExposure.conditions.addError.called).to.be.true;
     });
 
     it('should not add error when selecting conditions', () => {
       const errors = {
-        toxicExposureConditions: {
-          addError: sinon.spy(),
+        toxicExposure: {
+          conditions: {
+            addError: sinon.spy(),
+          },
         },
       };
 
       const formData = {
-        toxicExposureConditions: {
-          anemia: true,
-          tinnitusringingorhissinginears: true,
-          none: false,
+        toxicExposure: {
+          conditions: {
+            anemia: true,
+            tinnitusringingorhissinginears: true,
+            none: false,
+          },
         },
       };
 
       validateTEConditions(errors, formData);
-      expect(errors.toxicExposureConditions.addError.called).to.be.false;
+      expect(errors.toxicExposure.conditions.addError.called).to.be.false;
     });
   });
 
@@ -358,10 +372,12 @@ describe('toxicExposure', () => {
   describe('getKeyIndex', () => {
     it('finds and returns the index', () => {
       const formData = {
-        gulfWar1990: {
-          bahrain: true,
-          egypt: false,
-          airspace: true,
+        toxicExposure: {
+          gulfWar1990: {
+            bahrain: true,
+            egypt: false,
+            airspace: true,
+          },
         },
       };
 
@@ -369,16 +385,21 @@ describe('toxicExposure', () => {
       expect(getKeyIndex('airspace', 'gulfWar1990', { formData })).to.equal(2);
     });
 
-    it('returns 0 when not location data not available', () => {
-      const formData = {};
+    it('returns 0 when location data not available', () => {
+      const formData = {
+        toxicExposure: {},
+      };
 
-      expect(getKeyIndex('bahrain', 'gulfWar1990', { formData })).to.equal(0);
+      expect(getKeyIndex('bahrain', 'gulfWar1990', {})).to.equal(0);
+      expect(getKeyIndex('bahrain', 'gulfWar1990', formData)).to.equal(0);
     });
 
     it('returns 0 when location not selected', () => {
       const formData = {
-        gulfWar1990: {
-          egypt: false,
+        toxicExposure: {
+          gulfWar1990: {
+            egypt: false,
+          },
         },
       };
 
@@ -390,10 +411,12 @@ describe('toxicExposure', () => {
   describe('getSelectedCount', () => {
     it('gets the count with a mix of selected and deselected items', () => {
       const formData = {
-        gulfWar1990: {
-          bahrain: true,
-          egypt: false,
-          airspace: true,
+        toxicExposure: {
+          gulfWar1990: {
+            bahrain: true,
+            egypt: false,
+            airspace: true,
+          },
         },
       };
 
@@ -402,10 +425,12 @@ describe('toxicExposure', () => {
 
     it('gets 0 count when no items selected', () => {
       const formData = {
-        gulfWar1990: {
-          bahrain: false,
-          egypt: false,
-          airspace: false,
+        toxicExposure: {
+          gulfWar1990: {
+            bahrain: false,
+            egypt: false,
+            airspace: false,
+          },
         },
       };
 
@@ -414,7 +439,9 @@ describe('toxicExposure', () => {
 
     it('gets 0 count when no checkbox values', () => {
       const formData = {
-        gulfWar1990: {},
+        toxicExposure: {
+          gulfWar1990: {},
+        },
       };
 
       expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
@@ -435,11 +462,6 @@ describe('toxicExposure', () => {
     describe('toggle disabled', () => {
       it('should return false when toggle not enabled', () => {
         const formData = {
-          gulfWar1990: {
-            bahrain: true,
-            egypt: false,
-            airspace: true,
-          },
           newDisabilities: [
             {
               cause: 'NEW',
@@ -448,8 +470,15 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
-          toxicExposureConditions: {
-            anemia: true,
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              bahrain: true,
+              egypt: false,
+              airspace: true,
+            },
           },
         };
 
@@ -474,10 +503,6 @@ describe('toxicExposure', () => {
 
       it('should return false when toggle enabled, claiming new disability, but no selected locations', () => {
         const formData = {
-          gulfWar1990: {
-            bahrain: false,
-            airspace: false,
-          },
           newDisabilities: [
             {
               cause: 'NEW',
@@ -486,8 +511,14 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
-          toxicExposureConditions: {
-            anemia: true,
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              bahrain: false,
+              airspace: false,
+            },
           },
         };
 
@@ -500,11 +531,6 @@ describe('toxicExposure', () => {
 
       it('should return true when all criteria met', () => {
         const formData = {
-          gulfWar1990: {
-            bahrain: true,
-            egypt: false,
-            airspace: true,
-          },
           newDisabilities: [
             {
               cause: 'NEW',
@@ -513,8 +539,15 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
-          toxicExposureConditions: {
-            anemia: true,
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              bahrain: true,
+              egypt: false,
+              airspace: true,
+            },
           },
         };
         expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
@@ -540,8 +573,10 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
-          toxicExposureConditions: {
-            anemia: true,
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
           },
         };
 
@@ -576,8 +611,10 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
-          toxicExposureConditions: {
-            anemia: true,
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
           },
         };
 
@@ -599,8 +636,10 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
-          toxicExposureConditions: {
-            anemia: true,
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
           },
         };
 

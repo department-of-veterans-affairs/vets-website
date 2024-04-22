@@ -120,11 +120,10 @@ export function showToxicExposurePages(formData) {
 export function isClaimingTECondition(formData) {
   return (
     showToxicExposurePages(formData) &&
-    formData.toxicExposureConditions &&
-    Object.keys(formData.toxicExposureConditions).some(
-      condition =>
-        condition !== 'none' &&
-        formData.toxicExposureConditions[condition] === true,
+    formData?.toxicExposure?.conditions &&
+    Object.keys(formData.toxicExposure.conditions).some(
+      item =>
+        item !== 'none' && formData.toxicExposure.conditions[item] === true,
     )
   );
 }
@@ -212,14 +211,13 @@ export function makeTEConditionsUISchema(formData) {
  * @param {object} formData
  */
 export function validateTEConditions(errors, formData) {
-  const { toxicExposureConditions = {} } = formData;
+  const { conditions = {} } = formData?.toxicExposure;
 
   if (
-    toxicExposureConditions.none === true &&
-    Object.values(toxicExposureConditions).filter(value => value === true)
-      .length > 1
+    conditions?.none === true &&
+    Object.values(conditions).filter(value => value === true).length > 1
   ) {
-    errors.toxicExposureConditions.addError(noneAndConditionError);
+    errors.toxicExposure.conditions.addError(noneAndConditionError);
   }
 }
 
@@ -228,10 +226,12 @@ export function validateTEConditions(errors, formData) {
  * example, there are two selected locations. The key='bahrain' would give index of 1, and
  * key='airspace' would give index 2.
  *
- * gulfWar1990: {
- *   bahrain: true,
- *   egypt: false,
- *   airspace: true,
+ * toxicExposure: {
+ *    gulfWar1990: {
+ *       bahrain: true,
+ *       egypt: false,
+ *       airspace: true,
+ *    }
  * }
  *
  * @param {string} key - the id for the checkbox option
@@ -240,12 +240,18 @@ export function validateTEConditions(errors, formData) {
  * @returns {number} - index of the key within the list of selected items if found, 0 otherwise
  */
 export function getKeyIndex(key, objectName, { formData }) {
-  if (!formData[objectName]) return 0;
+  if (
+    !formData ||
+    !formData?.toxicExposure ||
+    !formData?.toxicExposure[objectName]
+  ) {
+    return 0;
+  }
 
   let index = 0;
-  const properties = Object.keys(formData[objectName]);
+  const properties = Object.keys(formData.toxicExposure[objectName]);
   for (let i = 0; i < properties.length; i += 1) {
-    if (formData[objectName][properties[i]] === true) {
+    if (formData.toxicExposure[objectName][properties[i]] === true) {
       index += 1;
       if (key === properties[i]) {
         return index;
@@ -264,10 +270,16 @@ export function getKeyIndex(key, objectName, { formData }) {
  * @returns {number} count of checkboxes with a value of true
  */
 export function getSelectedCount(objectName, { formData } = {}) {
-  if (!formData || !formData[objectName]) return 0;
+  if (
+    !formData ||
+    !formData?.toxicExposure ||
+    !formData?.toxicExposure[objectName]
+  )
+    return 0;
 
-  return Object.values(formData[objectName]).filter(value => value === true)
-    .length;
+  return Object.values(formData.toxicExposure[objectName]).filter(
+    value => value === true,
+  ).length;
 }
 
 /**
@@ -283,8 +295,8 @@ export function getSelectedCount(objectName, { formData } = {}) {
 export function showGulfWar1990LocationDatesPage(formData, locationId) {
   return (
     isClaimingTECondition(formData) &&
-    formData?.gulfWar1990 &&
-    formData?.gulfWar1990?.[locationId] === true
+    formData?.toxicExposure?.gulfWar1990 &&
+    formData?.toxicExposure?.gulfWar1990?.[locationId] === true
   );
 }
 
@@ -298,9 +310,10 @@ export function showGulfWar1990LocationDatesPage(formData, locationId) {
 export function showGulfWar1990SummaryPage(formData) {
   return (
     isClaimingTECondition(formData) &&
-    formData?.gulfWar1990 &&
-    Object.values(formData?.gulfWar1990).filter(value => value === true)
-      .length > 0
+    formData?.toxicExposure?.gulfWar1990 &&
+    Object.values(formData?.toxicExposure?.gulfWar1990).filter(
+      value => value === true,
+    ).length > 0
   );
 }
 

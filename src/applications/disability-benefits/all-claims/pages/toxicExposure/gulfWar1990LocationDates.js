@@ -29,20 +29,22 @@ function makeUiSchema(locationId) {
         getSelectedCount('gulfWar1990', formData),
         GULF_WAR_1990_LOCATIONS[locationId],
       ),
-    gulfWar1990Locations: {
-      [locationId]: {
-        startDate: currentOrPastDateUI({
-          title: startDateApproximate,
-          monthYearOnly: true,
-        }),
-        endDate: currentOrPastDateUI({
-          title: endDateApproximate,
-          monthYearOnly: true,
-        }),
+    toxicExposure: {
+      gulfWar1990Locations: {
+        [locationId]: {
+          startDate: currentOrPastDateUI({
+            title: startDateApproximate,
+            monthYearOnly: true,
+          }),
+          endDate: currentOrPastDateUI({
+            title: endDateApproximate,
+            monthYearOnly: true,
+          }),
+        },
       },
-    },
-    'view:gulfWar1990AdditionalInfo': {
-      'ui:description': gulfWar1990LocationsAdditionalInfo,
+      'view:gulfWar1990AdditionalInfo': {
+        'ui:description': gulfWar1990LocationsAdditionalInfo,
+      },
     },
   };
 }
@@ -56,21 +58,26 @@ function makeSchema(locationId) {
   return {
     type: 'object',
     properties: {
-      gulfWar1990Locations: {
+      toxicExposure: {
         type: 'object',
         properties: {
-          [locationId]: {
+          gulfWar1990Locations: {
             type: 'object',
             properties: {
-              startDate: currentOrPastDateSchema,
-              endDate: currentOrPastDateSchema,
+              [locationId]: {
+                type: 'object',
+                properties: {
+                  startDate: currentOrPastDateSchema,
+                  endDate: currentOrPastDateSchema,
+                },
+              },
             },
           },
         },
-      },
-      'view:gulfWar1990AdditionalInfo': {
-        type: 'object',
-        properties: {},
+        'view:gulfWar1990AdditionalInfo': {
+          type: 'object',
+          properties: {},
+        },
       },
     },
   };
