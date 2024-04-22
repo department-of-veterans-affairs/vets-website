@@ -3,7 +3,9 @@ import get from 'platform/utilities/data/get';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { applicantWording } from '../../shared/utilities';
+import transformForSubmit from './submitTransformer';
+import { applicantWording, getAgeInYears } from '../../shared/utilities';
+import FileFieldWrapped from '../components/FileUploadWrapper';
 
 import {
   certifierRole,
@@ -33,6 +35,9 @@ import {
   applicantHasMedicareDSchema,
   applicantMedicarePartDCarrierSchema,
   applicantMedicarePartDEffectiveDateSchema,
+  appMedicareOver65IneligibleUploadSchema,
+  applicantMedicareABUploadSchema,
+  applicantMedicareDUploadSchema,
 } from '../chapters/medicareInformation';
 import {
   ApplicantMedicareStatusPage,
@@ -119,6 +124,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   formId: '10-7959C',
+  transformForSubmit,
   saveInProgress: {
     messages: {
       inProgress:
@@ -265,6 +271,28 @@ const formConfig = {
           uiSchema: applicantMedicarePartACarrierSchema.uiSchema,
           schema: applicantMedicarePartACarrierSchema.schema,
         },
+        // If ineligible and over 65, require user to upload proof of ineligibility
+        medicareIneligible: {
+          path: ':index/ineligible',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} over 65 and ineligible for Medicare`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantMedicareStatusContinued.medicareContext',
+                formData?.applicants?.[index],
+              ) === 'ineligible' &&
+              getAgeInYears(formData.applicants[index]?.applicantDOB) >= 65
+            );
+          },
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...appMedicareOver65IneligibleUploadSchema,
+        },
         partAEffective: {
           path: ':index/effective-a',
           arrayPath: 'applicants',
@@ -314,6 +342,17 @@ const formConfig = {
           uiSchema: applicantMedicareAdvantageSchema.uiSchema,
           schema: applicantMedicareAdvantageSchema.schema,
         },
+        medicareABCards: {
+          path: ':index/ab-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare card (A/B)`,
+          depends: (formData, index) => hasMedicareAB(formData, index),
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...applicantMedicareABUploadSchema,
+        },
         hasMedicareD: {
           path: ':index/medicare-d',
           arrayPath: 'applicants',
@@ -344,6 +383,18 @@ const formConfig = {
             hasMedicareAB(formData, index) && hasMedicareD(formData, index),
           uiSchema: applicantMedicarePartDEffectiveDateSchema.uiSchema,
           schema: applicantMedicarePartDEffectiveDateSchema.schema,
+        },
+        medicareDCards: {
+          path: ':index/d-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare card (D)`,
+          depends: (formData, index) =>
+            hasMedicareAB(formData, index) && hasMedicareD(formData, index),
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...applicantMedicareDUploadSchema,
         },
       },
     },
