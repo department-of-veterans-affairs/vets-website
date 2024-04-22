@@ -13,14 +13,15 @@ const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false).map(
   spec => spec.spec_path.substring(spec.spec_path.indexOf('src')),
 );
 
-const CHANGED_APPS = CHANGED_FILES
-  ? Array.from(new Set(...CHANGED_FILES.split(' '))).map(filePath =>
-      filePath
-        .split('/')
-        .slice(0, 3)
-        .join('/'),
-    )
-  : [];
+const CHANGED_APPS =
+  CHANGED_FILES !== []
+    ? Array.from(new Set(...CHANGED_FILES.split(' '))).map(filePath =>
+        filePath
+          .split('/')
+          .slice(0, 3)
+          .join('/'),
+      )
+    : [];
 
 const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(
   specPath =>
