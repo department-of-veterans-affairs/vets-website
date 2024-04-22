@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 
 import {
   EVIDENCE_VA_PATH,
