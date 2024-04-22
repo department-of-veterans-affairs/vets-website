@@ -10,13 +10,13 @@ import {
   getSelectedCount,
   gulfWar1990LocationsAdditionalInfo,
   gulfWar1990PageTitle,
-  showGulfWar1990LocationDatesPage,
+  showGulfWar1990DetailsPage,
   startDateApproximate,
 } from '../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 
 /**
- * Make the uiSchema for each gulf war 1990 location with dates page
+ * Make the uiSchema for each gulf war 1990 details page
  * @param {string} locationId - unique id for the location
  * @returns {object} uiSchema object
  */
@@ -30,7 +30,7 @@ function makeUiSchema(locationId) {
         GULF_WAR_1990_LOCATIONS[locationId],
       ),
     toxicExposure: {
-      gulfWar1990Locations: {
+      gulfWar1990Details: {
         [locationId]: {
           startDate: currentOrPastDateUI({
             title: startDateApproximate,
@@ -61,7 +61,7 @@ function makeSchema(locationId) {
       toxicExposure: {
         type: 'object',
         properties: {
-          gulfWar1990Locations: {
+          gulfWar1990Details: {
             type: 'object',
             properties: {
               [locationId]: {
@@ -84,28 +84,24 @@ function makeSchema(locationId) {
 }
 
 /**
- * Make all the page configurations for each Gulf War 1990 location + dates page. Example
+ * Make all the page configurations for each Gulf War 1990 details pages. Example
  * {
- *    'gulf-war-1990-location-afghanistan': {
- *      title: 'Service after August 2, 1990',
- *      path: 'toxic-exposure/gulf-war-1990-location-afghanistan',
- *      uiSchema: {
- *        'ui:title': [Object],
- *        'ui:description': [Function: uiDescription],
- *         gulfWar1990Locations: [Object],
- *        'view:gulfWar1990AdditionalInfo': [Object]
- *      },
- *      schema: { type: 'object', properties: [Object] },
- *      depends: [Function: depends]
- *    },
- *    'gulf-war-1990-location-bahrain': {
- *      ... // continue for the rest of the 17 locations
+ *  'gulf-war-1990-location-afghanistan': {
+ *    title: 'Service after August 2, 1990',
+ *    path: 'toxic-exposure/gulf-war-1990-location-afghanistan',
+ *    uiSchema: [Object],
+ *    schema: [Object],
+ *    depends: [Function: depends]
+ *  },
+ *  'gulf-war-1990-location-bahrain': {
+ *    ... // continue for the rest of the 17 locations
+ *  }
  * }
  *
- * @returns an object with a page object for each location + dates page
+ * @returns an object with a page object for each details page
  */
 export function makePages() {
-  const gulfWar1990LocationPagesList = Object.keys(GULF_WAR_1990_LOCATIONS).map(
+  const gulfWar1990DetailPagesList = Object.keys(GULF_WAR_1990_LOCATIONS).map(
     locationId => {
       const pageName = `gulf-war-1990-location-${locationId}`;
       return {
@@ -114,12 +110,11 @@ export function makePages() {
           path: `${TE_URL_PREFIX}/${pageName}`,
           uiSchema: makeUiSchema(locationId),
           schema: makeSchema(locationId),
-          depends: formData =>
-            showGulfWar1990LocationDatesPage(formData, locationId),
+          depends: formData => showGulfWar1990DetailsPage(formData, locationId),
         },
       };
     },
   );
 
-  return Object.assign({}, ...gulfWar1990LocationPagesList);
+  return Object.assign({}, ...gulfWar1990DetailPagesList);
 }

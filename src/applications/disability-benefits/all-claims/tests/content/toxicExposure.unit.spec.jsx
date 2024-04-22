@@ -10,7 +10,7 @@ import {
   isClaimingTECondition,
   makeTEConditionsSchema,
   makeTEConditionsUISchema,
-  showGulfWar1990LocationDatesPage,
+  showGulfWar1990DetailsPage,
   showGulfWar1990SummaryPage,
   showToxicExposurePages,
   validateTEConditions,
@@ -458,7 +458,7 @@ describe('toxicExposure', () => {
     });
   });
 
-  describe('showGulfWar1990LocationDatesPage', () => {
+  describe('showGulfWar1990DetailsPage', () => {
     describe('toggle disabled', () => {
       it('should return false when toggle not enabled', () => {
         const formData = {
@@ -482,8 +482,7 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
-          .false;
+        expect(showGulfWar1990DetailsPage(formData, 'bahrain')).to.be.false;
       });
     });
 
@@ -497,8 +496,7 @@ describe('toxicExposure', () => {
           newDisabilities: [],
         };
 
-        expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
-          .false;
+        expect(showGulfWar1990DetailsPage(formData, 'bahrain')).to.be.false;
       });
 
       it('should return false when toggle enabled, claiming new disability, but no selected locations', () => {
@@ -522,11 +520,9 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
-          .false;
-        expect(showGulfWar1990LocationDatesPage(formData, 'egypt')).to.be.false;
-        expect(showGulfWar1990LocationDatesPage(formData, 'airspace')).to.be
-          .false;
+        expect(showGulfWar1990DetailsPage(formData, 'bahrain')).to.be.false;
+        expect(showGulfWar1990DetailsPage(formData, 'egypt')).to.be.false;
+        expect(showGulfWar1990DetailsPage(formData, 'airspace')).to.be.false;
       });
 
       it('should return true when all criteria met', () => {
@@ -550,8 +546,7 @@ describe('toxicExposure', () => {
             },
           },
         };
-        expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
-          .true;
+        expect(showGulfWar1990DetailsPage(formData, 'bahrain')).to.be.true;
       });
     });
   });
@@ -599,10 +594,6 @@ describe('toxicExposure', () => {
 
       it('should return false when toggle enabled, claiming new disability, but no selected locations', () => {
         const formData = {
-          gulfWar1990: {
-            bahrain: false,
-            airspace: false,
-          },
           newDisabilities: [
             {
               cause: 'NEW',
@@ -614,6 +605,10 @@ describe('toxicExposure', () => {
           toxicExposure: {
             conditions: {
               anemia: true,
+            },
+            gulfWar1990: {
+              bahrain: false,
+              airspace: false,
             },
           },
         };
@@ -623,11 +618,6 @@ describe('toxicExposure', () => {
 
       it('should return true when all criteria met', () => {
         const formData = {
-          gulfWar1990: {
-            bahrain: true,
-            egypt: false,
-            airspace: true,
-          },
           newDisabilities: [
             {
               cause: 'NEW',
@@ -639,6 +629,11 @@ describe('toxicExposure', () => {
           toxicExposure: {
             conditions: {
               anemia: true,
+            },
+            gulfWar1990: {
+              bahrain: true,
+              egypt: false,
+              airspace: true,
             },
           },
         };

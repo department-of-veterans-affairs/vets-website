@@ -283,7 +283,7 @@ export function getSelectedCount(objectName, { formData } = {}) {
 }
 
 /**
- * Checks if a specific location dates page should display. It should display if all
+ * Checks if a specific 1990 details page should display. It should display if all
  * the following is true
  * 1. TE pages should be showing at all
  * 2. gulfWar1990 checkbox location data is present with a true value
@@ -292,7 +292,7 @@ export function getSelectedCount(objectName, { formData } = {}) {
  * @param {string} locationId - unique id for the location
  * @returns {boolean} true if the page should display, false otherwise
  */
-export function showGulfWar1990LocationDatesPage(formData, locationId) {
+export function showGulfWar1990DetailsPage(formData, locationId) {
   return (
     isClaimingTECondition(formData) &&
     formData?.toxicExposure?.gulfWar1990 &&

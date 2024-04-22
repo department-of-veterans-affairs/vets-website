@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { makePages } from '../../../pages/toxicExposure/gulfWar1990LocationDates';
+import { makePages } from '../../../pages/toxicExposure/gulfWar1990Details';
 import {
   dateHelp,
   endDateApproximate,
@@ -19,7 +19,7 @@ import { GULF_WAR_1990_LOCATIONS } from '../../../constants';
  * and without dates. Additionally, verifies the subtitles are built appropriately whether or not
  * the location was selected.
  */
-describe('gulfWar1990LocationDates', () => {
+describe('gulfWar1990Details', () => {
   const schemas = { ...makePages() };
   const formData = {
     toxicExposure: {
