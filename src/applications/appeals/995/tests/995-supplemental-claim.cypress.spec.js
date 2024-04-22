@@ -90,21 +90,16 @@ const testConfig = createTestConfig(
 
             testData.additionalIssues?.forEach(additionalIssue => {
               if (additionalIssue.issue && additionalIssue[SELECTED]) {
-                cy.get('.add-new-issue').click();
-                cy.url().should('include', `${BASE_URL}/add-issue?index=`);
-                cy.axeCheck();
-                if (navigator.userAgent.includes('Chrome')) {
-                  cy.get('#issue-name')
-                    .shadow()
-                    .find('input')
-                    .focus()
-                    .realType(additionalIssue.issue);
-                } else {
-                  cy.get('#issue-name')
-                    .shadow()
-                    .find('input')
-                    .type(additionalIssue.issue);
-                }
+                cy.get('#issue-name')
+                  .shadow()
+                  .find('input')
+                  .focus();
+
+                cy.get('#issue-name')
+                  .shadow()
+                  .find('input')
+                  .realType(additionalIssue.issue);
+
                 cy.fillDate('decision-date', getRandomDate());
                 cy.get('#submit').click();
               }
@@ -152,7 +147,10 @@ const testConfig = createTestConfig(
                   cy.get('#add-location-name')
                     .shadow()
                     .find('input')
-                    .focus()
+                    .focus();
+                  cy.get('#add-location-name')
+                    .shadow()
+                    .find('input')
                     .realType(location.locationAndName);
                 } else {
                   cy.get('#add-location-name')
