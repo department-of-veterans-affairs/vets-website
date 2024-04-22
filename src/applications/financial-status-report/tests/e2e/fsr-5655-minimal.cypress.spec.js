@@ -18,7 +18,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     // removing data sets to confirm formData gets filled out properly
     // dataSets: ['fsr-minimal', 'fsr-maximal'],
-    dataSets: ['fsr-minimal', 'initial-feature'],
+    dataSets: ['fsr-minimal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {

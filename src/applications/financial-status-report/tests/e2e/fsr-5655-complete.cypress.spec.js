@@ -35,7 +35,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     // starting with no data, so form is filled with navigation
-    dataSets: ['initial', 'initial-feature'],
+    dataSets: ['initial'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
@@ -313,38 +313,20 @@ const testConfig = createTestConfig(
       },
       'monetary-asset-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('@testData').then(testData => {
-            if (testData['view:reviewPageNavigationToggle']) {
-              cy.get('va-number-input')
-                .as('numberInputs')
-                .should('have.length', 2);
-              cy.get('#Cash0')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1000');
-              cy.get('[id="Checking accounts1"]')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1500');
-            } else {
-              // do U.S. Savings Bonds, and Retirement
-              cy.get('va-number-input')
-                .as('numberInputs')
-                .should('have.length', 2);
-              cy.get(`[name="U.S. Savings Bonds"]`)
-                .first()
-                .shadow()
-                .find('input')
-                .type('1000');
-              cy.get('[id="Retirement accounts (401k, IRAs, 403b, TSP)1"]')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1500');
-            }
-          });
+          // do U.S. Savings Bonds, and Retirement
+          cy.get('va-number-input')
+            .as('numberInputs')
+            .should('have.length', 2);
+          cy.get('#Cash0')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('[id="Checking accounts1"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1500');
           cy.get('.usa-button-primary').click();
         });
       },
