@@ -8,7 +8,7 @@ const BankruptcyQuestionReview = ({ data, goToPath, title }) => {
   const dispatch = useDispatch();
   const {
     questions,
-    'view:reviewPageNavigationToggle': showReviewNavigation,
+    'view:reviewPageNavigationTogglee': showReviewNavigation,
   } = data;
 
   // set reviewNavigation to true to show the review page alert

@@ -21,7 +21,7 @@ const DependentCount = ({
   const {
     questions: { hasDependents, isMarried },
     reviewNavigation = false,
-    'view:reviewPageNavigationToggle': showReviewNavigation,
+    'view:reviewPageNavigationTogglee': showReviewNavigation,
   } = data;
 
   const MAXIMUM_DEPENDENT_COUNT = 25;
