@@ -44,9 +44,9 @@ export default function MyVAHealth() {
               );
             }
           })
-          .catch(({ errors }) => {
-            const [{ code }] = errors;
-            if (code === '422') {
+          .catch(err => {
+            const message = err?.error;
+            if (message === 'Agreement not accepted') {
               setDisplayTerms(true);
             } else {
               setError({
@@ -133,7 +133,7 @@ export default function MyVAHealth() {
               <h2 id="terms-of-use">Terms of use</h2>
               <div>
                 <va-accordion bordered>
-                  {touData.map(({ header, content }, i) => (
+                  {touData?.map(({ header, content }, i) => (
                     <va-accordion-item
                       header={header}
                       level={3}
