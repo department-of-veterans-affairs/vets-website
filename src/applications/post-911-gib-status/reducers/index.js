@@ -9,6 +9,7 @@ import {
   SERVICE_AVAILABILITY_STATES,
   SET_SERVICE_AVAILABILITY,
   SET_SERVICE_UPTIME_REMAINING,
+  SERVICE_DOWNTIME_ERROR,
 } from '../utils/constants';
 
 const initialState = {
@@ -37,6 +38,8 @@ function post911GIBStatus(state = initialState, action) {
       return set('serviceAvailability', action.serviceAvailability, state);
     case SET_SERVICE_UPTIME_REMAINING:
       return set('uptimeRemaining', action.uptimeRemaining, state);
+    case SERVICE_DOWNTIME_ERROR:
+      return set('availability', 'serviceDowntimeError', state);
     default:
       return state;
   }

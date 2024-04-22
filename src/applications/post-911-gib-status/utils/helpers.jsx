@@ -180,6 +180,29 @@ export const backendErrorMessage = (
   </div>
 );
 
+export const serviceDowntimeErrorMessage = (
+  <div
+    id="serviceDowntimeErrorMessage"
+    className="vads-u-margin-bottom--2 grid-col usa-width-two-thirds"
+  >
+    <VaAlert status="info" visible>
+      This tool isn’t available right now. You can use this tool Sunday through
+      Friday, 6:00 a.m. to 10:00 p.m. ET, and Saturday 6:00 a.m. to 7:00 p.m.
+      ET.
+    </VaAlert>
+    <p>
+      If you need information about your GI Bill benefits now, call the GI Bill
+      Hotline at <va-telephone contact="8884424551" />
+      &nbsp;(&nbsp;
+      <va-telephone tty contact="711" />
+      ).
+    </p>
+    <Link className="vads-c-action-link--green" to="/" hrefLang="en">
+      Go back to VA.gov
+    </Link>
+  </div>
+);
+
 export const genericErrorMessage = (
   <div>
     <h3>We’re sorry. Something went wrong on our end. Please try again.</h3>
