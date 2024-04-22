@@ -11,7 +11,8 @@ function SignInProfileMenu({ greeting, clickHandler, isOpen, disabled }) {
     <svg
       aria-hidden="true"
       focusable="false"
-      style={{ width: '26px', height: '24px', marginRight: '0.5em' }} // overrides formation styles
+      className="vads-u-display--block vads-u-margin-right--0 medium-screen:vads-u-margin-right--0p5"
+      style={{ width: '26px', height: '24px' }} // overrides formation styles
       viewBox="0 2 21 21"
       xmlns="http://www.w3.org/2000/svg"
     >
