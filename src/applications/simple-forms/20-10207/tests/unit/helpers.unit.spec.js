@@ -23,6 +23,7 @@ import {
   powConfinement2DateRangeValidation,
   statementOfTruthFullNamePath,
   getSubmitterName,
+  evidenceConfinementHintUpdateUiSchema,
 } from '../../helpers';
 
 describe('getMockData', () => {
@@ -637,5 +638,49 @@ describe('getSubmitterName()', () => {
         thirdPartyFullName: 'thirdPartyName',
       }),
     ).to.equal('thirdPartyName');
+  });
+});
+
+describe('evidenceConfinementHintUpdateUiSchema', () => {
+  it('returns the correct hint string depending on preparer type', () => {
+    const beganEndedString = 'began';
+    const formData = {
+      preparerType: PREPARER_TYPES.VETERAN,
+    };
+
+    expect(
+      evidenceConfinementHintUpdateUiSchema({ formData, beganEndedString })[
+        'ui:options'
+      ].hint,
+    ).to.equal(
+      `Tell us the dates your confinement ${beganEndedString} as a prisoner of war.`,
+    );
+
+    formData.preparerType = PREPARER_TYPES.NON_VETERAN;
+    expect(
+      evidenceConfinementHintUpdateUiSchema({ formData, beganEndedString })[
+        'ui:options'
+      ].hint,
+    ).to.equal(
+      `Tell us the dates your confinement ${beganEndedString} as a prisoner of war.`,
+    );
+
+    formData.preparerType = PREPARER_TYPES.THIRD_PARTY_VETERAN;
+    expect(
+      evidenceConfinementHintUpdateUiSchema({ formData, beganEndedString })[
+        'ui:options'
+      ].hint,
+    ).to.equal(
+      `Tell us the dates the Veteran’s confinement ${beganEndedString} as a prisoner of war.`,
+    );
+
+    formData.preparerType = PREPARER_TYPES.THIRD_PARTY_NON_VETERAN;
+    expect(
+      evidenceConfinementHintUpdateUiSchema({ formData, beganEndedString })[
+        'ui:options'
+      ].hint,
+    ).to.equal(
+      `Tell us the dates the claimant’s confinement ${beganEndedString} as a prisoner of war.`,
+    );
   });
 });
