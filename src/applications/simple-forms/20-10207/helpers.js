@@ -218,3 +218,30 @@ export const getSubmitterName = formData => {
       return formData.thirdPartyFullName;
   }
 };
+
+export const evidenceConfinementHintUpdateUiSchema = ({
+  formData,
+  beganEndedString,
+}) => {
+  if (formData?.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN) {
+    return {
+      'ui:options': {
+        hint: `Tell us the dates the Veteran’s confinement ${beganEndedString} as a prisoner of war.`,
+      },
+    };
+  }
+
+  if (formData?.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN) {
+    return {
+      'ui:options': {
+        hint: `Tell us the dates the claimant’s confinement ${beganEndedString} as a prisoner of war.`,
+      },
+    };
+  }
+
+  return {
+    'ui:options': {
+      hint: `Tell us the dates your confinement ${beganEndedString} as a prisoner of war.`,
+    },
+  };
+};
