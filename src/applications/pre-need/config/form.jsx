@@ -63,7 +63,6 @@ import {
   createPayload,
   parseResponse,
   applicantDemographicsSubHeader,
-  applicantDemographicsDescription,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -207,7 +206,6 @@ const formConfig = {
         },
         applicantDemographics: {
           title: applicantDemographicsSubHeader,
-          description: applicantDemographicsDescription,
           path: 'applicant-demographics',
           depends: isVeteran,
           uiSchema: applicantDemographics.uiSchema,
