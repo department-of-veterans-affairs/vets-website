@@ -11,6 +11,7 @@ import {
   defineCustomElementVaTextInput,
   defineCustomElementVaAdditionalInfo,
   defineCustomElementVaButton,
+  defineCustomElementVaIcon,
 } from '@department-of-veterans-affairs/component-library/dist/components';
 
 defineCustomElementVaAccordion();
@@ -24,3 +25,4 @@ defineCustomElementVaTelephone();
 defineCustomElementVaTextInput();
 defineCustomElementVaAdditionalInfo();
 defineCustomElementVaButton();
+defineCustomElementVaIcon();

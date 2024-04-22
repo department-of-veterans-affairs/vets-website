@@ -51,9 +51,10 @@ const AddressBlock = ({ address, showDirections = false, placeName }) => {
       {showDirections &&
         placeName && (
           <div data-testid="directions-link-wrapper">
-            <i
-              className="fas fa-road vads-u-color--link-default vads-u-margin-right--0p5"
-              aria-hidden="true"
+            <va-icon
+              className="vads-u-margin-right--0p5"
+              icon="directions"
+              size={3}
             />
             <a
               data-testid="directions-link"
