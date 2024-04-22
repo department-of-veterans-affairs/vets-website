@@ -19,6 +19,7 @@ import {
   clearGeocodeError,
   mapChanged,
   setError,
+  locationAutoCompleteReset,
 } from '../../actions';
 import KeywordSearch from '../../components/search/KeywordSearch';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -27,14 +28,17 @@ import { TABS } from '../../constants';
 import { INITIAL_STATE } from '../../reducers/search';
 import {
   isProductionOrTestProdEnv,
+  isV3TestProdEnv,
   validateSearchTerm,
 } from '../../utils/helpers';
+import VAKeywordSearch from '../../components/search/VAKeywordSearch';
 
 export function LocationSearchForm({
   autocomplete,
   dispatchFetchLocationAutocompleteSuggestions,
   dispatchFetchSearchByLocationCoords,
   dispatchFetchSearchByLocationResults,
+  dispatchLocationAutoCompleteReset,
   dispatchUpdateAutocompleteLocation,
   dispatchError,
   errorReducer,
@@ -97,7 +101,7 @@ export function LocationSearchForm({
       inputRef.current.focus();
     }
   };
-  const doSearch = event => {
+  const doSearch = (event, resetAutoComplete = false) => {
     if (event) {
       event.preventDefault();
       onApplyFilterClick();
@@ -135,6 +139,9 @@ export function LocationSearchForm({
 
       if (event) {
         validateSearchTerm(location, dispatchError, error, filters, 'location');
+      }
+      if (resetAutoComplete) {
+        dispatchLocationAutoCompleteReset();
       }
     }
 
@@ -187,8 +194,11 @@ export function LocationSearchForm({
       if (
         search.query.streetAddress.searchString !== null &&
         search.query.streetAddress.searchString !== ''
-      )
+      ) {
+        // eslint-disable-next-line no-console
+        console.log(`------------useEffect setLocation`);
         setLocation(search.query.streetAddress.searchString);
+      }
     },
     [search.query.streetAddress.searchString],
   );
@@ -221,101 +231,117 @@ export function LocationSearchForm({
             : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
         </p>
       </VaModal>
-      <form onSubmit={e => doSearch(e)} className="vads-u-margin-y--0">
-        <div className="vads-l-row">
-          <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--7 input-row">
-            <KeywordSearch
-              inputRef={inputRef}
-              className="location-search"
-              type="location"
-              // error={error}
-              inputValue={location}
-              label="City, state, or postal code"
-              labelAdditional={
-                <span className="use-my-location-container">
-                  {search.geolocationInProgress ? (
-                    <div className="use-my-location-link">
-                      <i
-                        className="fa fa-spinner fa-spin"
-                        aria-hidden="true"
-                        role="presentation"
-                      />
-                      <span aria-live="assertive">
-                        Finding your location...
-                      </span>
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      name="use-my-location"
-                      onClick={evnt => {
-                        if (document.activeElement.name !== 'use-my-location') {
-                          return;
-                        }
-                        recordEvent({
-                          event: 'map-use-my-location',
-                        });
-                        dispatchGeolocateUser();
-                        setAutocompleteSelection(location);
-                        doSearch(evnt);
-                      }}
-                      className="use-my-location-link"
-                    >
-                      <i
-                        className="use-my-location-button"
-                        aria-hidden="true"
-                        role="presentation"
-                      />
-                      Use my location
-                    </button>
-                  )}
-                </span>
-              }
-              name="locationSearch"
-              onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
-              onPressEnter={e => {
-                setAutocompleteSelection(null);
-                doSearch(e);
-              }}
-              onSelection={selected => setAutocompleteSelection(selected)}
-              onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
-              suggestions={[...autocomplete.locationSuggestions]}
-              // validateSearchTerm={validateSearchTerm}
-              version={version}
-            />
-          </div>
-
-          <div className="location-search-inputs vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--5 medium-screen:vads-l-col--5 input-row">
-            <div className="bottom-positioner">
-              <Dropdown
-                ariaLabel="Distance"
-                className="vads-u-font-style--italic vads-u-display--inline-block "
-                selectClassName="vads-u-font-style--italic vads-u-color--gray"
-                name="distance"
-                options={distanceDropdownOptions}
-                value={distance}
-                alt="distance"
-                visible
-                onChange={e => {
-                  recordEvent({
-                    event: 'gibct-form-change',
-                    'gibct-form-field': 'locationRadius',
-                    'gibct-form-value': e.target.value,
-                  });
-                  setDistance(e.target.value);
+      {isV3TestProdEnv() ? (
+        <VAKeywordSearch
+          error={error}
+          inputValue={location}
+          label="City, state, or postal code"
+          onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
+          onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
+          suggestions={[...autocomplete.locationSuggestions]}
+          handleSubmit={event => doSearch(event, true)}
+          version={version}
+          showFiltersBeforeSearch={showFiltersBeforeSearch}
+        />
+      ) : (
+        <form onSubmit={e => doSearch(e)} className="vads-u-margin-y--0">
+          <div className="vads-l-row">
+            <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--7 input-row">
+              <KeywordSearch
+                inputRef={inputRef}
+                className="location-search"
+                type="location"
+                // error={error}
+                inputValue={location}
+                label="City, state, or postal code"
+                labelAdditional={
+                  <span className="use-my-location-container">
+                    {search.geolocationInProgress ? (
+                      <div className="use-my-location-link">
+                        <i
+                          className="fa fa-spinner fa-spin"
+                          aria-hidden="true"
+                          role="presentation"
+                        />
+                        <span aria-live="assertive">
+                          Finding your location...
+                        </span>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        name="use-my-location"
+                        onClick={evnt => {
+                          if (
+                            document.activeElement.name !== 'use-my-location'
+                          ) {
+                            return;
+                          }
+                          recordEvent({
+                            event: 'map-use-my-location',
+                          });
+                          dispatchGeolocateUser();
+                          setAutocompleteSelection(location);
+                          doSearch(evnt);
+                        }}
+                        className="use-my-location-link"
+                      >
+                        <i
+                          className="use-my-location-button"
+                          aria-hidden="true"
+                          role="presentation"
+                        />
+                        Use my location
+                      </button>
+                    )}
+                  </span>
+                }
+                name="locationSearch"
+                onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
+                onPressEnter={e => {
+                  setAutocompleteSelection(null);
+                  doSearch(e);
                 }}
+                onSelection={selected => setAutocompleteSelection(selected)}
+                onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
+                suggestions={[...autocomplete.locationSuggestions]}
+                // validateSearchTerm={validateSearchTerm}
+                version={version}
               />
-              <button
-                type="submit"
-                className="usa-button location-search-button"
-              >
-                Search
-                <i aria-hidden="true" className="fa fa-search" />
-              </button>
+            </div>
+
+            <div className="location-search-inputs vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--5 medium-screen:vads-l-col--5 input-row">
+              <div className="bottom-positioner">
+                <Dropdown
+                  ariaLabel="Distance"
+                  className="vads-u-font-style--italic vads-u-display--inline-block "
+                  selectClassName="vads-u-font-style--italic vads-u-color--gray"
+                  name="distance"
+                  options={distanceDropdownOptions}
+                  value={distance}
+                  alt="distance"
+                  visible
+                  onChange={e => {
+                    recordEvent({
+                      event: 'gibct-form-change',
+                      'gibct-form-field': 'locationRadius',
+                      'gibct-form-value': e.target.value,
+                    });
+                    setDistance(e.target.value);
+                  }}
+                />
+                <button
+                  type="submit"
+                  className="usa-button location-search-button"
+                >
+                  Search
+                  <i aria-hidden="true" className="fa fa-search" />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      )}
       {!smallScreen &&
         isProductionOrTestProdEnv() &&
         showFiltersBeforeSearch && (
@@ -342,6 +368,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchFetchSearchByLocationResults: fetchSearchByLocationResults,
   dispatchFetchLocationAutocompleteSuggestions: fetchLocationAutocompleteSuggestions,
+  dispatchLocationAutoCompleteReset: locationAutoCompleteReset,
   dispatchFetchSearchByLocationCoords: fetchSearchByLocationCoords,
   dispatchUpdateAutocompleteLocation: updateAutocompleteLocation,
   dispatchGeolocateUser: geolocateUser,

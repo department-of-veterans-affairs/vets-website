@@ -42,6 +42,7 @@ export const GEOCODE_CLEAR_ERROR = 'GEOCODE_CLEAR_ERROR';
 export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
 export const LOCATION_AUTOCOMPLETE_SUCCEEDED =
   'LOCATION_AUTOCOMPLETE_SUCCEEDED';
+export const LOCATION_AUTOCOMPLETE_RESET = 'LOCATION_AUTOCOMPLETE_RESET';
 export const MAP_CHANGED = 'MAP_CHANGED';
 export const NAME_AUTOCOMPLETE_SUCCEEDED = 'NAME_AUTOCOMPLETE_SUCCEEDED';
 export const REMOVE_COMPARE_INSTITUTION = 'REMOVE_COMPARE_INSTITUTION';
@@ -307,6 +308,12 @@ export function fetchNameAutocompleteSuggestions(name, filterFields, version) {
       .catch(err => {
         dispatch({ type: AUTOCOMPLETE_FAILED, err });
       });
+  };
+}
+
+export function locationAutoCompleteReset() {
+  return dispatch => {
+    dispatch({ type: LOCATION_AUTOCOMPLETE_RESET });
   };
 }
 

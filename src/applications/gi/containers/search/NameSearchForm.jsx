@@ -43,7 +43,6 @@ export function NameSearchForm({
   const { error } = errorReducer;
   const history = useHistory();
   const inputRef = createRef();
-  const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
   const doSearch = value => {
     const searchName = value || search.query.name;
     dispatchFetchSearchByNameResults(searchName, 1, filters, version);
@@ -113,7 +112,6 @@ export function NameSearchForm({
       dispatchShowFiltersBeforeResult();
       doSearch(name);
     }
-    setShowFiltersBeforeSearch(false);
     onApplyFilterClick();
   };
   const onKeyEnter = event => {
@@ -149,7 +147,6 @@ export function NameSearchForm({
           suggestions={[...autocomplete.nameSuggestions]}
           handleSubmit={handleSubmit}
           version={version}
-          showFiltersBeforeSearch={showFiltersBeforeSearch}
         />
       ) : (
         <form onSubmit={handleSubmit}>

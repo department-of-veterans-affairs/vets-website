@@ -78,6 +78,8 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...validateForm(state, action.payload),
       };
     case MAP_MOVED:
+      // eslint-disable-next-line no-console
+      console.log(`-------------action.currentRadius=${action.currentRadius}`);
       return {
         ...state,
         mapMoved: true,
