@@ -106,6 +106,10 @@
     {
       "rootFolder": "accredited-representative-portal",
       "slackGroup": "@arfeng"
+    },
+    {
+      "rootFolder": "pensions",
+      "slackGroup": "<@C0667PCPVLM>"
     }
   ]
 }
