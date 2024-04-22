@@ -1,16 +1,18 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { usePrevious } from '~/platform/utilities/react-hooks';
 import {
   isAuthenticatedWithOAuth,
   signInServiceName,
 } from '~/platform/user/authentication/selectors';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
-import { usePrevious } from '~/platform/utilities/react-hooks';
 import {
+  createIsServiceAvailableSelector,
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled as isMultifactorEnabledSelector,
 } from '~/platform/user/selectors';
+import backendServices from '~/platform/user/profile/constants/backendServices';
 
 import { getIsBlocked } from '../selectors';
 import {
@@ -75,6 +77,11 @@ export const useDirectDeposit = () => {
     [isLOA3, isMultifactorEnabled, isUsingEligibleSignInService],
   );
 
+  // based on user.icn.present? && user.participant_id.present? in vets-api policy
+  const isLighthouseAvailable = useSelector(
+    createIsServiceAvailableSelector(backendServices.LIGHTHOUSE),
+  );
+
   // function to exit the direct deposit update view
   // also will clear any pending form data in UI
   const exitUpdateView = useCallback(
@@ -114,6 +121,15 @@ export const useDirectDeposit = () => {
     [dispatch, formData, controlInformation],
   );
 
+  const {
+    canUpdateDirectDeposit,
+    isCorpAvailable,
+    isEduClaimAvailable,
+  } = controlInformation || { canUpdateDirectDeposit: false };
+
+  const hasEligibleControlInformation =
+    canUpdateDirectDeposit && (isCorpAvailable || isEduClaimAvailable);
+
   return {
     ui: useMemo(() => ui, [ui]),
     loadError,
@@ -137,5 +153,9 @@ export const useDirectDeposit = () => {
     wasSaving,
     wasEditing,
     hasUnsavedFormEdits,
+    isEligible:
+      isLighthouseAvailable &&
+      isIdentityVerified &&
+      hasEligibleControlInformation,
   };
 };

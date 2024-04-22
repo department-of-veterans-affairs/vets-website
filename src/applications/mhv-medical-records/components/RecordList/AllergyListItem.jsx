@@ -14,12 +14,10 @@ const AllergyListItem = props => {
     >
       {/* web view header */}
       <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--0p5 vads-u-line-height--4 no-print">
-        <Link
-          to={`/allergies/${record.id}`}
-          data-dd-privacy="mask"
-          aria-label={`${record.name} on ${record.date}`}
-        >
-          {record.name}
+        <Link to={`/allergies/${record.id}`} data-dd-privacy="mask">
+          <span>
+            {record.name} <span className="sr-only">on {record.date}</span>
+          </span>
         </Link>
       </h3>
 

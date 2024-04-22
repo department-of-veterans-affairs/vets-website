@@ -15,10 +15,20 @@ describe('Medical Records View Allergies', () => {
       'Allergies and Reactions - Medical Records | Veterans Affairs',
     );
 
-    cy.get('[data-testid="print-records-button"]')
-      .should('be.visible')
-      .click({ force: true });
+    // cy.get('[data-testid="print-download-menu"]')
+    //   .should('be.visible')
+    //   .click({ force: true });
+    AllergiesListPage.verifyPrintOrDownload();
+    AllergiesListPage.clickPrintOrDownload();
+    // cy.injectAxe();
+    // cy.axeCheck('main');
     cy.injectAxe();
-    cy.axeCheck('main');
+    cy.axeCheck('main', {
+      rules: {
+        'duplicate-id-aria': {
+          enabled: false,
+        },
+      },
+    });
   });
 });

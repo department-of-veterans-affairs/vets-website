@@ -7,8 +7,8 @@ import {
 } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
 
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
-import { Auth } from './States/Auth';
-import { Unauth } from './States/Unauth';
+import { Auth } from '../States/Auth';
+import { Unauth } from '../States/Unauth';
 
 export const App = ({
   baseHeader,
@@ -25,7 +25,6 @@ export const App = ({
     <>
       {loggedIn ? (
         <>
-          {' '}
           <Auth
             DynamicHeader={DynamicHeader}
             DynamicSubheader={DynamicSubheader}
