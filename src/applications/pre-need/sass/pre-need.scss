@@ -84,6 +84,10 @@ article#pre-need[data-location="review-and-submit"] {
   .schemaform-widget-wrapper > fieldset {
     margin-top: 0em !important;
   }
+  fieldset.schemaform-field-template.schemaform-first-field {
+    margin-top: 0.8em;
+    margin-bottom: 0em;
+  }
   .applicantDemographicsDescription,
   .sponsorDemographicsDescription {
     p {
@@ -100,7 +104,7 @@ dl.review + dl.review .review-row {
 }
 
 fieldset.schemaform-field-template.schemaform-first-field {
-  margin-top: 0.8em;
+  margin-top: -2em;
   margin-bottom: 0em;
 }
 
