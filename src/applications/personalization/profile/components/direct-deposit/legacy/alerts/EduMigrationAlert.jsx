@@ -52,6 +52,13 @@ export const EduMigrationAlert = ({ className }) => {
         to 9:00 p.m. ET.
       </p>
 
+      <p className="vads-u-margin-bottom--0">
+        <strong>Start:</strong> Friday, April 26, 2024, at TBD
+      </p>
+      <p className="vads-u-margin-top--0">
+        <strong>End:</strong> Thursday, May 2, 2024, at TBD
+      </p>
+
       {includeExtraLinkAndDismiss && (
         <ProfileLink
           href={directDepositPath}
