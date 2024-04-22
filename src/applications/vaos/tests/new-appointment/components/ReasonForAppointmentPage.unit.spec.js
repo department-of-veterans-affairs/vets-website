@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
-import { cleanup } from '@testing-library/react';
 import ReasonForAppointmentPage from '../../../new-appointment/components/ReasonForAppointmentPage';
 import {
   createTestStore,
@@ -30,109 +29,248 @@ const initialState = {
 describe('VAOS Page: ReasonForAppointmentPage', () => {
   beforeEach(() => mockFetch());
 
-  it.skip('should show page for VA medical request', async () => {
-    const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
-      store,
-    });
+  describe('VA requests', () => {
+    it('should show page for VA medical request', async () => {
+      const store = createTestStore(initialState);
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
 
-    const textBox = await screen.findByRole('textbox');
-    expect(textBox).to.exist;
-    expect(textBox)
-      .to.have.attribute('maxlength')
-      .to.equal('250');
-
-    expect((await screen.findAllByRole('radio')).length).to.equal(4);
-
-    expect(screen.baseElement).to.contain.text(
-      'What’s the reason for this appointment?',
-    );
-
-    expect(
-      screen.getByRole('heading', {
-        name: /If you have an urgent medical need, please:/i,
-      }),
-    );
-  });
-
-  it('should show page for Community Care medical request', async () => {
-    const store = createTestStore(initialState);
-    await setTypeOfFacility(store, /Community Care/i);
-
-    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
-      store,
-    });
-    expect(await screen.findByTestId('reason-comment-field')).to.have.attribute(
-      'label',
-      'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
-    );
-    expect(
-      screen.getByRole('heading', {
-        level: 1,
-        name: /What’s the reason for this appointment?/i,
-      }),
-    );
-
-    expect(
-      screen.getByRole('heading', {
-        level: 2,
-        name: /If you have an urgent medical need, please:/i,
-      }),
-    );
-  });
-
-  it.skip('should show validation for VA medical request', async () => {
-    const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
-      store,
-    });
-
-    await screen.findByLabelText(/Routine or follow-up visit/i);
-    fireEvent.click(screen.getByText(/Continue/));
-
-    const alerts = await screen.findAllByRole('alert');
-    expect(alerts[0]).to.contain.text('Select a reason for your appointment');
-  });
-
-  it('should show error msg when not entering additional detail for VA medical request', async () => {
-    const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
-      store,
-    });
-
-    const selectors = screen.container.querySelectorAll('va-radio-option');
-    await waitFor(() => {
-      expect(selectors).to.have.lengthOf(4);
-      expect(selectors[0]).to.have.attribute(
+      expect(screen.container.querySelector('va-radio')).to.exist;
+      expect(screen.container.querySelector('va-radio')).to.have.attribute(
         'label',
-        'This is a routine or follow-up visit.',
+        'What’s the reason for this appointment?',
+      );
+
+      const radioOptions = screen.container.querySelectorAll('va-radio-option');
+      await waitFor(() => {
+        expect(radioOptions).to.have.lengthOf(4);
+        expect(radioOptions[0]).to.have.attribute(
+          'label',
+          'This is a routine or follow-up visit.',
+        );
+      });
+
+      expect(
+        screen.getByRole('heading', {
+          name: /If you have an urgent medical need, please:/i,
+        }),
       );
     });
 
-    fireEvent.click(screen.getByText(/Continue/));
+    it('should show validation for VA medical request', async () => {
+      const store = createTestStore(initialState);
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+      expect(screen.container.querySelector('va-radio')).to.exist;
+      const radioSelector = screen.container.querySelector('va-radio');
 
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'Provide more information about why you are requesting this appointment',
-    );
-  });
+      const radioOptions = screen.container.querySelectorAll('va-radio-option');
+      await waitFor(() => {
+        expect(radioOptions).to.have.lengthOf(4);
+        expect(radioOptions[0]).to.have.attribute(
+          'label',
+          'This is a routine or follow-up visit.',
+        );
+      });
+      // click continue without selecting from radio button
+      fireEvent.click(screen.getByText(/Continue/));
+      expect(radioSelector.error).to.exist;
+      // select a radio button
+      const changeEvent = new CustomEvent('selected', {
+        detail: { value: 'routine-follow-up' },
+      });
 
-  it.skip('should show error msg when ^ is entered in VA medical request', async () => {
-    const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
-      store,
+      radioSelector.__events.vaValueChange(changeEvent);
+      fireEvent.click(screen.getByText(/Continue/));
+      expect(radioSelector.error).to.not.exist;
     });
 
-    fireEvent.click(
-      await screen.findByLabelText(/Routine or follow-up visit/i),
-    );
-    const textBox = screen.getByRole('textbox');
-    fireEvent.change(textBox, { target: { value: '^' } });
-    expect(textBox.value).to.equal('^');
-    fireEvent.click(screen.getByText(/Continue/));
+    it('should show error msg when not entering additional detail for VA medical request', async () => {
+      const store = createTestStore(initialState);
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
 
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'following special characters are not allowed: ^ |',
-    );
+      const radioOptions = screen.container.querySelectorAll('va-radio-option');
+      await waitFor(() => {
+        expect(radioOptions).to.have.lengthOf(4);
+        expect(radioOptions[0]).to.have.attribute(
+          'label',
+          'This is a routine or follow-up visit.',
+        );
+      });
+
+      fireEvent.click(screen.getByText(/Continue/));
+
+      expect(await screen.findByRole('alert')).to.contain.text(
+        'Provide more information about why you are requesting this appointment',
+      );
+    });
+
+    it('should show error msg when ^ is entered in VA medical request', async () => {
+      const store = createTestStore(initialState);
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+      expect(
+        await screen.findByTestId('reason-comment-field'),
+      ).to.have.attribute(
+        'label',
+        'Add any details you’d like to share with your provider.',
+      );
+      const inputText = screen.container.querySelector('va-textarea');
+      inputText.value = '^hello^';
+      const changeEvent = new CustomEvent('input', {
+        bubbles: true,
+      });
+      inputText.dispatchEvent(changeEvent);
+
+      fireEvent.click(screen.getByText(/Continue/));
+
+      expect(await screen.findByRole('alert')).to.contain.text(
+        'following special characters are not allowed: ^ |',
+      );
+    });
+
+    it('should continue to the correct page based on type choice for VA medical request', async () => {
+      const store = createTestStore(initialState);
+      const screen = renderWithStoreAndRouter(
+        <Route component={ReasonForAppointmentPage} />,
+        {
+          store,
+        },
+      );
+
+      const radioOptions = screen.container.querySelectorAll('va-radio-option');
+      const radioSelector = screen.container.querySelector('va-radio');
+      const inputText = screen.container.querySelector('va-textarea');
+      inputText.value = 'This is a test';
+
+      await waitFor(() => {
+        expect(radioOptions).to.have.lengthOf(4);
+        expect(radioOptions[0]).to.have.attribute(
+          'label',
+          'This is a routine or follow-up visit.',
+        );
+      });
+
+      // select a radio button
+      let changeEvent = new CustomEvent('selected', {
+        detail: { value: 'routine-follow-up' },
+      });
+
+      radioSelector.__events.vaValueChange(changeEvent);
+
+      await waitFor(() => {
+        expect(radioSelector).to.have.attribute('value', 'routine-follow-up');
+      });
+
+      changeEvent = new CustomEvent('input', {
+        bubbles: true,
+      });
+      inputText.dispatchEvent(changeEvent);
+
+      fireEvent.click(screen.getByText(/Continue/));
+
+      await waitFor(() =>
+        expect(screen.history.push.lastCall?.args[0]).to.equal(
+          '/new-appointment/choose-visit-type',
+        ),
+      );
+    });
+  });
+
+  describe('Community care requests', () => {
+    it('should show page for Community Care medical request', async () => {
+      const store = createTestStore(initialState);
+      await setTypeOfFacility(store, /Community Care/i);
+
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+      expect(
+        await screen.findByTestId('reason-comment-field'),
+      ).to.have.attribute(
+        'label',
+        'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
+      );
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: /What’s the reason for this appointment?/i,
+        }),
+      );
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /If you have an urgent medical need, please:/i,
+        }),
+      );
+    });
+
+    it('should show error msg when enter all spaces for Community Care medical request', async () => {
+      const store = createTestStore(initialState);
+      await setTypeOfFacility(store, /Community Care/i);
+
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+
+      expect(
+        await screen.findByTestId('reason-comment-field'),
+      ).to.have.attribute(
+        'label',
+        'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
+      );
+      const inputText = screen.container.querySelector('va-textarea');
+      inputText.value = '    ';
+      const changeEvent = new CustomEvent('input', {
+        bubbles: true,
+      });
+      inputText.dispatchEvent(changeEvent);
+
+      fireEvent.click(screen.getByText(/Continue/));
+
+      expect(await screen.findByRole('alert')).to.contain.text(
+        'Please provide a response',
+      );
+    });
+
+    it('should continue to the correct page for Community Care medical request', async () => {
+      const store = createTestStore(initialState);
+      await setTypeOfFacility(store, /Community Care/i);
+      const screen = renderWithStoreAndRouter(
+        <Route component={ReasonForAppointmentPage} />,
+        {
+          store,
+        },
+      );
+
+      expect(
+        await screen.findByTestId('reason-comment-field'),
+      ).to.have.attribute(
+        'label',
+        'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
+      );
+
+      expect(
+        await screen.getByRole('heading', {
+          level: 1,
+          name: /What’s the reason for this appointment?/i,
+        }),
+      );
+
+      fireEvent.click(screen.getByText(/Continue/));
+
+      await waitFor(() =>
+        expect(screen.history.push.lastCall?.args[0]).to.equal(
+          '/new-appointment/contact-info',
+        ),
+      );
+    });
   });
 
   it.skip('should show alternate textbox char length if navigated via direct schedule flow', async () => {
@@ -158,108 +296,5 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
         name: /If you have an urgent medical need, please:/i,
       }),
     );
-  });
-
-  it.skip('should show error msg when enter all spaces for Community Care medical request', async () => {
-    const store = createTestStore(initialState);
-    await setTypeOfFacility(store, /Community Care/i);
-
-    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
-      store,
-    });
-
-    const textBox = await screen.findByRole('textbox');
-    fireEvent.change(textBox, { target: { value: '   ' } });
-    expect(textBox.value).to.equal('   ');
-
-    expect(screen.baseElement).to.contain.text(
-      'What’s the reason for this appointment?',
-    );
-
-    fireEvent.click(screen.getByText(/Continue/));
-
-    expect(await screen.findByText('Please provide a response')).to.be.ok;
-  });
-
-  it.skip('should continue to the correct page based on type choice for VA medical request', async () => {
-    const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(
-      <Route component={ReasonForAppointmentPage} />,
-      {
-        store,
-      },
-    );
-
-    fireEvent.click(
-      await screen.findByLabelText(/Routine or follow-up visit/i),
-    );
-    const textBox = screen.getByRole('textbox');
-    fireEvent.change(textBox, { target: { value: 'test' } });
-    expect(textBox.value).to.equal('test');
-
-    fireEvent.click(screen.getByText(/Continue/));
-
-    await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-visit-type',
-      ),
-    );
-  });
-
-  it('should continue to the correct page for Community Care medical request', async () => {
-    const store = createTestStore(initialState);
-    await setTypeOfFacility(store, /Community Care/i);
-    const screen = renderWithStoreAndRouter(
-      <Route component={ReasonForAppointmentPage} />,
-      {
-        store,
-      },
-    );
-
-    expect(await screen.findByTestId('reason-comment-field')).to.have.attribute(
-      'label',
-      'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
-    );
-
-    expect(
-      await screen.getByRole('heading', {
-        level: 1,
-        name: /What’s the reason for this appointment?/i,
-      }),
-    );
-
-    fireEvent.click(screen.getByText(/Continue/));
-
-    await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/contact-info',
-      ),
-    );
-  });
-
-  it.skip('should save reason choice on for VA medical request page change', async () => {
-    const store = createTestStore(initialState);
-    let screen = renderWithStoreAndRouter(
-      <Route component={ReasonForAppointmentPage} />,
-      {
-        store,
-      },
-    );
-
-    fireEvent.click(
-      await screen.findByLabelText(/Routine or follow-up visit/i),
-    );
-    await cleanup();
-
-    screen = renderWithStoreAndRouter(
-      <Route component={ReasonForAppointmentPage} />,
-      {
-        store,
-      },
-    );
-
-    expect(
-      await screen.findByLabelText(/Routine or follow-up visit/i),
-    ).to.have.attribute('checked');
   });
 });
