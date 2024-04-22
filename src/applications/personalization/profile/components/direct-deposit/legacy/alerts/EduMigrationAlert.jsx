@@ -1,14 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
-import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { ProfileLink } from '../../../ProfileLink';
-import {
-  cnpDirectDepositIsEligible,
-  eduDirectDepositIsSetUp,
-} from '../../../../selectors';
 import { useSessionStorage } from '../../../../../common/hooks/useSessionStorage';
 import HelpDeskContact from '../../../HelpDeskContact';
 
@@ -17,11 +12,6 @@ export const EduMigrationAlert = ({ className }) => {
 
   const path = useLocation().pathname;
   const includeExtraLinkAndDismiss = path !== directDepositPath;
-
-  const hasBothDirectDeposits = useSelector(
-    state =>
-      eduDirectDepositIsSetUp(state) && cnpDirectDepositIsEligible(state),
-  );
 
   const [dismissed, setDismissed] = useSessionStorage(
     'dismissedDirectDepositSingleFormAlert',
@@ -32,11 +22,7 @@ export const EduMigrationAlert = ({ className }) => {
     TOGGLE_NAMES.profileShowDirectDepositSingleFormAlert,
   );
 
-  if (
-    !isAlertToggleEnabled ||
-    !hasBothDirectDeposits ||
-    (dismissed && includeExtraLinkAndDismiss)
-  ) {
+  if (!isAlertToggleEnabled || (dismissed && includeExtraLinkAndDismiss)) {
     return null;
   }
 
