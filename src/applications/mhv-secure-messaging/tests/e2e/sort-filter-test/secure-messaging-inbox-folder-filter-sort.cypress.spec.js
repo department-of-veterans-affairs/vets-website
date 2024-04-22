@@ -20,15 +20,15 @@ describe('Secure Messaging Inbox Folder checks', () => {
   });
 
   it('Verify filter works correctly', () => {
-    landingPage.inputFilterDataText('test');
+    landingPage.inputFilterData('test');
     landingPage.clickFilterMessagesButton(mockFilterResults);
-    landingPage.verifyFilterResultsText('test', mockFilterResults);
+    landingPage.verifyFilterResults('test', mockFilterResults);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('Verify clear filter btn works correctly', () => {
-    landingPage.inputFilterDataText('test');
+    landingPage.inputFilterData('test');
     landingPage.clickFilterMessagesButton(mockFilterResults);
     landingPage.clickClearFilterButton();
     landingPage.verifyFilterFieldCleared();
@@ -58,9 +58,9 @@ describe('Verify sorting feature with only one filter result', () => {
     site.login();
     landingPage.loadInboxMessages();
 
-    landingPage.inputFilterDataText('draft');
+    landingPage.inputFilterData('draft');
     landingPage.clickFilterMessagesButton(mockSingleFilterResult);
-    landingPage.verifyFilterResultsText('draft', mockSingleFilterResult);
+    landingPage.verifyFilterResults('draft', mockSingleFilterResult);
 
     cy.get(Locators.DROPDOWN).should('not.exist');
 

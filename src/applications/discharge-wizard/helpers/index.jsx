@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import { questionLabels, prevApplicationYearCutoff } from '../constants';
 import * as options from 'platform/static-data/options-for-select';
+import { questionLabels, prevApplicationYearCutoff } from '../constants';
 
 export const shouldShowQuestion = (currentKey, validQuestions) => {
   const lastQuestion = validQuestions[validQuestions.length - 1];
@@ -86,13 +86,11 @@ export const venueAddress = (formValues, noDRB) => {
       case 'airForce':
         return (
           <p className="va-address-block">
-            Air Force Review Boards Agency
+            Air Force Discharge Review Board
             <br />
-            SAF/MRBR
+            3351 Celmers Lane
             <br />
-            550-C Street West, Suite 40
-            <br />
-            Randolph AFB, TX 78150-4742
+            Joint Base Andrews, MD 20762-6435
             <br />
           </p>
         );
