@@ -286,6 +286,6 @@ va-checkbox.select-all-checkbox::part(label) {
   }
 }
 
-.hide-visited-link {
+.hide-visited-link:visited {
   color: var(--vads-color-link) !important;
 }

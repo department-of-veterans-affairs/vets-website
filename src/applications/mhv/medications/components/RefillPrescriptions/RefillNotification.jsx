@@ -6,19 +6,19 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 const RefillNotification = ({ refillResult = {} }) => {
   useEffect(
     () => {
-      let elemId = '';
-      if (refillResult?.status !== 'finished') {
-        elemId = '';
-      } else if (refillResult?.successfulMeds.length === 0) {
-        elemId = 'failed-refill';
-      } else if (refillResult?.failedMeds.length > 0) {
-        elemId = 'partial-refill';
-      } else {
-        elemId = 'success-refill';
-      }
-      const element = document.getElementById(elemId);
-      if (element) {
-        focusElement(element);
+      if (refillResult?.status === 'finished') {
+        let elemId = '';
+        if (refillResult?.successfulMeds.length === 0) {
+          elemId = 'failed-refill';
+        } else if (refillResult?.failedMeds.length > 0) {
+          elemId = 'partial-refill';
+        } else {
+          elemId = 'success-refill';
+        }
+        const element = document.getElementById(elemId);
+        if (element) {
+          focusElement(element);
+        }
       }
     },
     [refillResult],
@@ -27,7 +27,7 @@ const RefillNotification = ({ refillResult = {} }) => {
     return <></>;
   }
   return (
-    <div>
+    <>
       {refillResult?.successfulMeds.length === 0 ? (
         <div className="vads-u-margin-y--1">
           <va-alert
@@ -132,7 +132,7 @@ const RefillNotification = ({ refillResult = {} }) => {
           </div>
         </>
       )}
-    </div>
+    </>
   );
 };
 
