@@ -109,7 +109,11 @@ const RefillNotification = ({ refillResult = {} }) => {
               </h2>
               <ul className="va-list--disc">
                 {refillResult?.successfulMeds.map((id, idx) => (
-                  <li className="vads-u-padding-y--0" key={idx}>
+                  <li
+                    className="vads-u-padding-y--0"
+                    data-testid="medication-requested"
+                    key={idx}
+                  >
                     {id?.prescriptionName}
                   </li>
                 ))}
