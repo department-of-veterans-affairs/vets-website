@@ -62,7 +62,6 @@ import {
   isSponsorDeceased,
   createPayload,
   parseResponse,
-  applicantDemographicsSubHeader,
 } from '../utils/helpers';
 import SupportingFilesDescription from '../components/SupportingFilesDescription';
 import {
@@ -205,7 +204,7 @@ const formConfig = {
           schema: nonVeteranApplicantDetails.schema,
         },
         applicantDemographics: {
-          title: applicantDemographicsSubHeader,
+          title: 'Applicant demographics',
           path: 'applicant-demographics',
           depends: isVeteran,
           uiSchema: applicantDemographics.uiSchema,
