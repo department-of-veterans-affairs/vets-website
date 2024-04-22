@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import moment from 'moment';
 
 import {
   getTypeName,
@@ -67,10 +68,69 @@ describe('functions', () => {
       expect(contents.title).to.eql(
         'A Decision Review Officer is reviewing your appeal',
       );
-      // console.log(contents.description.props);
-      // expect(contents.description.props).to.contain(
-      //   'Agency of Original Jurisdiction',
-      // );
+      const description = contents.description.props.children;
+      expect(description).to.contain('Agency of Original Jurisdiction');
+    });
+
+    it('when appeal status pendingCertification shows specific title/description', () => {
+      const appeal = {
+        id: '1234',
+        type: 'legacyAppeal',
+        attributes: {
+          active: true,
+          status: {
+            type: STATUS_TYPES.pendingCertification,
+            details: {
+              lastSocDate: '2015-09-12',
+              certificationTimeliness: [1, 4],
+              socTimeliness: [2, 16],
+            },
+          },
+          aoj: '',
+          programArea: 'compensation',
+        },
+      };
+      const contents = getStatusContents(appeal);
+
+      expect(contents.title).to.eql(
+        'The Decision Review Officer is finishing their review of your appeal',
+      );
+      const description = contents.description.props.children;
+      expect(description).to.contain('Agency of Original Jurisdiction');
+    });
+
+    it('when appeal status pendingCertificationSsoc shows specific title/description', () => {
+      const appeal = {
+        id: '1234',
+        type: 'legacyAppeal',
+        attributes: {
+          active: true,
+          status: {
+            type: STATUS_TYPES.pendingCertificationSsoc,
+            details: {
+              lastSocDate: '2015-09-12',
+              certificationTimeliness: [1, 4],
+              socTimeliness: [2, 16],
+            },
+          },
+          aoj: '',
+          programArea: 'compensation',
+        },
+      };
+      const contents = getStatusContents(appeal);
+
+      expect(contents.title).to.eql(
+        'Please review your Supplemental Statement of the Case',
+      );
+      // Get the description from the <p/>
+      const description = contents.description.props.children[0].props.children;
+      expect(description).to.contain('Agency of Original Jurisdiction');
+
+      const formattedSocDate = moment(
+        appeal.attributes.status.details.lastSocDate,
+        'YYYY-MM-DD',
+      ).format('MMMM D, YYYY');
+      expect(description).to.contain(formattedSocDate);
     });
   });
 });

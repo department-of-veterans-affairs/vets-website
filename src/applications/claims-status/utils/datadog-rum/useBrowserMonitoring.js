@@ -1,48 +1,9 @@
 import { useEffect } from 'react';
-import { datadogRum } from '@datadog/browser-rum';
 import { datadogLogs } from '@datadog/browser-logs';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-
-// https://docs.datadoghq.com/real_user_monitoring/browser/#configuration
-const defaultRumSettings = {
-  // Custom settings
-  // applicationId: '{UUID}',
-  // clientToken: 'pubb{ID}',
-  // service: 'benefits-{app name}',
-  // version: '1.0.0',
-
-  // Default settings
-  site: 'ddog-gov.com',
-  // see src/site/constants/vsp-environments.js for defaults
-  env: environment.vspEnvironment(), // 'production'
-  sessionSampleRate: 5,
-  sessionReplaySampleRate: 20,
-  trackInteractions: true,
-  trackUserInteractions: true,
-  trackFrustrations: true,
-  trackResources: true,
-  trackLongTasks: true,
-  defaultPrivacyLevel: 'mask-user-input',
-};
-
-import { isProductionEnv } from '../constants';
-
-// Initialize Datadog RUM directly, if not using a feature flag
-// Don't call this function if not logged in
-const initializeRealUserMonitoring = customRumSettings => {
-  // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
-  if (isProductionEnv()) {
-    datadogRum.init({
-      ...defaultRumSettings,
-      ...customRumSettings,
-    });
-
-    // If sessionReplaySampleRate > 0, we need to manually start the recording
-    datadogRum.startSessionReplayRecording();
-  }
-};
+import { initializeRealUserMonitoring } from './initializeRealUserMonitoring';
 
 // https://docs.datadoghq.com/logs/log_collection/javascript/?tab=us#configuration
 const defaultLogSettings = {
@@ -77,7 +38,7 @@ const initializeBrowserLogging = customLogSettings => {
 };
 
 // Initialize Datadog RUM behind feature flag
-const useBrowserMonitoring = ({ loggedIn, ...settings }) => {
+export const useBrowserMonitoring = ({ loggedIn, ...settings }) => {
   const {
     TOGGLE_NAMES,
     useToggleValue,
@@ -106,5 +67,3 @@ const useBrowserMonitoring = ({ loggedIn, ...settings }) => {
     [loggedIn, isBrowserMonitoringEnabled, isLoadingFeatureFlags],
   );
 };
-
-export { useBrowserMonitoring, initializeRealUserMonitoring };
