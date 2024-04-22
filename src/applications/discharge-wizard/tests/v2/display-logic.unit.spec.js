@@ -20,7 +20,7 @@ describe('utilities: display logic', () => {
       });
     });
 
-    describe('routing to prev application type question and skip ahead', () => {
+    describe('routing to prev application type question by skip ahead', () => {
       const formResponses = {
         SERVICE_BRANCH: RESPONSES.ARMY,
         DISCHARGE_YEAR: '2024',
@@ -38,7 +38,7 @@ describe('utilities: display logic', () => {
       });
     });
 
-    describe('routing to prior service question and skip ahead', () => {
+    describe('routing to prior service question by skip ahead', () => {
       const formResponses = {
         SERVICE_BRANCH: RESPONSES.ARMY,
         DISCHARGE_YEAR: '2024',

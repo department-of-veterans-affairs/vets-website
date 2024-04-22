@@ -137,6 +137,13 @@ export const DISPLAY_CONDITIONS = Object.freeze({
           PREV_APPLICATION_YEAR_2C,
         ],
       },
+      3: {
+        PREV_APPLICATION_YEAR: [
+          PREV_APPLICATION_YEAR_2A,
+          PREV_APPLICATION_YEAR_2B,
+          PREV_APPLICATION_YEAR_2C,
+        ],
+      },
     },
   },
   PRIOR_SERVICE: {
