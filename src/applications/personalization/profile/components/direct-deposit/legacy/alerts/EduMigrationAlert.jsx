@@ -66,11 +66,6 @@ export const EduMigrationAlert = ({ className }) => {
         to 9:00 p.m. ET.
       </p>
 
-      <p className={!includeExtraLinkAndDismiss && 'vads-u-margin-bottom--0'}>
-        If your bank accounts don’t match, update the information so it’s the
-        same for all benefits.
-      </p>
-
       {includeExtraLinkAndDismiss && (
         <ProfileLink
           href={directDepositPath}
