@@ -6,12 +6,14 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
+import transformForSubmit from './submitTransformer';
 
 import {
   certifierRole,
   certifierAddress,
   certifierPhoneEmail,
   certifierRelationship,
+  certifierNameSchema,
 } from '../chapters/certifierInformation';
 
 import {
@@ -88,7 +90,7 @@ import {
   hasPrimaryProvider,
   hasSecondaryProvider,
 } from './conditionalPaths';
-import mockdata from '../tests/fixtures/data/test-data.json';
+// import mockdata from '../tests/fixtures/data/test-data.json';
 import {
   ApplicantPrimaryThroughEmployerPage,
   ApplicantPrimaryThroughEmployerReviewPage,
@@ -135,6 +137,18 @@ const formConfig = {
     showNavLinks: false,
     collapsibleNavLinks: true,
   },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: formData =>
+        formData.certifierRole === 'applicant'
+          ? 'applicants[0].applicantName'
+          : 'certifierName',
+    },
+  },
   saveInProgress: {
     messages: {
       inProgress:
@@ -148,6 +162,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  transformForSubmit,
   savedFormMessages: {
     notFound:
       'Please start over to apply for CHAMPVA other health insurance certification.',
@@ -163,9 +178,15 @@ const formConfig = {
         role: {
           path: 'your-information/description',
           title: 'Which of these best describes you?',
-          initialData: mockdata.data,
+          // initialData: mockdata.data,
           uiSchema: certifierRole.uiSchema,
           schema: certifierRole.schema,
+        },
+        name: {
+          path: 'your-information/name',
+          title: 'Your name',
+          depends: formData => get('certifierRole', formData) === 'other',
+          ...certifierNameSchema,
         },
         address: {
           path: 'your-information/address',
