@@ -6,7 +6,8 @@ import {
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
-import generateEmployersSchemas, {
+import {
+  generateEmployersSchemas,
   EmployerView,
 } from '../../../../config/chapters/03-health-and-employment-information/helpers';
 

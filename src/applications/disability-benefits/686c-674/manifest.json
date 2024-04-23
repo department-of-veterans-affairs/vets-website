@@ -4,5 +4,208 @@
   "entryName": "686C-674",
   "rootUrl": "/view-change-dependents/add-remove-form-21-686c",
   "e2eTestsDisabled": false,
-  "productId": "500cfb4d-0f70-4663-bfe2-28d295d3301a"
+  "productId": "500cfb4d-0f70-4663-bfe2-28d295d3301a",
+  "formConfig": [
+    {
+      "title": "What do you want to do",
+      "pages": [
+        {
+          "title": "What do you want to do?",
+          "path": "686-options-selection"
+        }
+      ]
+    },
+    {
+      "title": "Veteran's information",
+      "pages": [
+        {
+          "title": "Veteran Information",
+          "path": "veteran-information"
+        },
+        {
+          "title": "Veteran Address",
+          "path": "veteran-address"
+        }
+      ]
+    },
+    {
+      "title": "Information needed to add your spouse",
+      "pages": [
+        {
+          "title": "Information needed to add your spouse: Spouse information",
+          "path": "add-spouse",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.addSpouse);"
+        },
+        {
+          "title": "Information needed to add your spouse: Marriage information",
+          "path": "current-marriage-information",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.addSpouse);"
+        },
+        {
+          "title": "Information needed to add your spouse: Address information",
+          "path": "current-marriage-address",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.addSpouse);"
+        },
+        {
+          "title": "Information about your spouse’s former marriage(s): Marriage history",
+          "path": "current-spouse-marriage-history",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.addSpouse);"
+        },
+        {
+          "title": "Information about your spouse’s former marriage(s): Marriage history details",
+          "path": "current-spouse-marriage-history/:index",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.addSpouse);"
+        },
+        {
+          "title": "Information about your former marriage(s): Veteran marriage history",
+          "path": "veteran-marriage-history",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.addSpouse);"
+        },
+        {
+          "title": "Information about your former marriage(s): Veteran marriage history details",
+          "path": "veteran-marriage-history/:index",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.addSpouse);"
+        },
+        {
+          "title": "Additional evidence needed to add spouse",
+          "path": "add-spouse-evidence",
+          "depends": "return (cov_1jl053ip8q().b[0][0]++, typeof (formData === null || formData === void 0 ? void 0 : (_formData$currentMarr = formData.currentMarriageInformation) === null || _formData$currentMarr === void 0 ? void 0 : _formData$currentMarr.type) === 'string') && (cov_1jl053ip8q().b[0][1]++, (formData === null || formData === void 0 ? void 0 : (_formData$currentMarr2 = formData.currentMarriageInformation) === null || _formData$currentMarr2 === void 0 ? void 0 : _formData$currentMarr2.type) !== _constants2.MARRIAGE_TYPES.ceremonial) && (cov_1jl053ip8q().b[0][2]++, (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.addSpouse));"
+        }
+      ]
+    },
+    {
+      "title": "Information needed to add children",
+      "pages": [
+        {
+          "title": "Information needed to add your child: Basic information",
+          "path": "add-child",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.addChild);"
+        },
+        {
+          "title": "Information needed to add your child: Place of birth",
+          "path": "add-child/:index",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.addChild);"
+        },
+        {
+          "title": "Information needed to add your child: Additional information",
+          "path": "add-child/:index/additional-information",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.addChild);"
+        },
+        {
+          "title": "Additional evidence needed to add child",
+          "path": "add-child-evidence",
+          "depends": "return (cov_1jl053ip8q().b[2][0]++, (child === null || child === void 0 ? void 0 : (_child$childStatus = child.childStatus) === null || _child$childStatus === void 0 ? void 0 : _child$childStatus.stepchild) === true) || (cov_1jl053ip8q().b[2][1]++, (child === null || child === void 0 ? void 0 : (_child$childStatus2 = child.childStatus) === null || _child$childStatus2 === void 0 ? void 0 : _child$childStatus2.adopted) === true) || (cov_1jl053ip8q().b[2][2]++, (child === null || child === void 0 ? void 0 : (_child$childStatus3 = child.childStatus) === null || _child$childStatus3 === void 0 ? void 0 : _child$childStatus3.notCapable) === true);"
+        }
+      ]
+    },
+    {
+      "title": "Information needed to add a student 18 to 23 years old",
+      "pages": [
+        {
+          "title": "Information needed to add a student 18 to 23 years old: Basic information",
+          "path": "report-674",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.report674);"
+        },
+        {
+          "title": "Information needed to add a student 18 to 23 years old: Additional information",
+          "path": "report-674-student-address",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.report674);"
+        },
+        {
+          "title": "Information needed to add a student 18 to 23 years old: School addresses",
+          "path": "report-674-student-school-address",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.report674);"
+        },
+        {
+          "title": "Information needed to add a student 18 to 23 years old: Student term dates",
+          "path": "report-674-student-school-term-dates",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.report674);"
+        },
+        {
+          "title": "Information needed to add a student 18 to 23 years old: Last term date",
+          "path": "report-674-student-last-term-information",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.report674);"
+        },
+        {
+          "title": "Information needed to add a student 18 to 23 years old: Income information",
+          "path": "report-674-student-income-information",
+          "depends": "return false;"
+        },
+        {
+          "title": "Information needed to add a student 18 to 23 years old: Net worth information",
+          "path": "report-674-student-networth-information",
+          "depends": "return false;"
+        }
+      ]
+    },
+    {
+      "title": "Information needed to remove a divorced spouse",
+      "pages": [
+        {
+          "title": "Information needed to report a divorce",
+          "path": "report-a-divorce",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.reportDivorce);"
+        }
+      ]
+    },
+    {
+      "title": "Information needed to remove a stepchild who has left your household",
+      "pages": [
+        {
+          "title": "Information needed to report a stepchild is no longer part of your household: Basic information",
+          "path": "686-stepchild-no-longer-part-of-household",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.reportStepchildNotInHousehold);"
+        },
+        {
+          "title": "Information needed to report a stepchild is no longer part of your household: Additional information",
+          "path": "686-stepchild-no-longer-part-of-household/:index",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.reportStepchildNotInHousehold);"
+        }
+      ]
+    },
+    {
+      "title": "Information needed to remove a dependent who has died",
+      "pages": [
+        {
+          "title": "Report the death of a dependent: Basic information",
+          "path": "686-report-dependent-death",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.reportDeath);"
+        },
+        {
+          "title": "Report the death of a dependent: Additional information",
+          "path": "686-report-dependent-death/:index/additional-information",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.reportDeath);"
+        }
+      ]
+    },
+    {
+      "title": "Information to remove a child under 18 who has married",
+      "pages": [
+        {
+          "title": "Information needed to report the marriage of a child under 18",
+          "path": "686-report-marriage-of-child",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.reportMarriageOfChildUnder18);"
+        }
+      ]
+    },
+    {
+      "title": "Information to remove a child 18 to 23 years old who has stopped attending school",
+      "pages": [
+        {
+          "title": "Information needed to report a child 18-23 years old stopped attending school",
+          "path": "report-child-stopped-attending-school",
+          "depends": "return (0, _helpers.isChapterFieldRequired)(formData, _constants2.TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool);"
+        }
+      ]
+    },
+    {
+      "title": "Your net worth",
+      "pages": [
+        {
+          "title": "Your net worth",
+          "path": "net-worth"
+        }
+      ]
+    }
+  ]
 }

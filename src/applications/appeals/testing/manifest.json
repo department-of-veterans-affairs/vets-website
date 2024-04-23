@@ -4,5 +4,146 @@
   "entryName": "appeals-testing",
   "rootUrl": "/decision-reviews/appeals-testing",
   "production": false,
-  "productId": "5dd32517-00fd-4e97-afed-e6db1f1f54f9"
+  "productId": "5dd32517-00fd-4e97-afed-e6db1f1f54f9",
+  "formConfig": [
+    {
+      "title": "Veteran Information",
+      "pages": [
+        {
+          "title": "Task List",
+          "path": "task-list"
+        },
+        {
+          "title": "Veteran information",
+          "path": "veteran-details"
+        },
+        {
+          "title": "Homelessness",
+          "path": "homeless"
+        },
+        {
+          "title": "Contact information",
+          "path": "contact-information"
+        },
+        {
+          "title": "Edit home phone number",
+          "path": "edit-home-phone",
+          "depends": "return false;"
+        },
+        {
+          "title": "Edit mobile phone number",
+          "path": "edit-mobile-phone",
+          "depends": "return false;"
+        },
+        {
+          "title": "Edit email address",
+          "path": "edit-email-address",
+          "depends": "return false;"
+        },
+        {
+          "title": "Edit mailing address",
+          "path": "edit-mailing-address",
+          "depends": "return false;"
+        },
+        {
+          "title": "Primary phone number",
+          "path": "primary-phone-number"
+        }
+      ]
+    },
+    {
+      "title": "Issues for review",
+      "pages": [
+        {
+          "title": "Filing deadlines",
+          "path": "filing-deadlines"
+        },
+        {
+          "title": "Request an extension",
+          "path": "extension-request"
+        },
+        {
+          "title": "Reason for extension",
+          "path": "extension-reason",
+          "depends": "showExtensionReason"
+        },
+        {
+          "title": "Appealing denial of VA health care benefits",
+          "path": "appealing-denial"
+        },
+        {
+          "title": "You’ve selected these issues for review",
+          "path": "contestable-issues"
+        },
+        {
+          "title": "Add issues for review",
+          "path": "add-issue",
+          "depends": "return false;"
+        },
+        {
+          "path": "area-of-disagreement/:index"
+        },
+        {
+          "title": "Issue summary",
+          "path": "issue-summary"
+        },
+        {
+          "title": "Additional information",
+          "path": "additional-info-request"
+        },
+        {
+          "title": "Add additional information",
+          "path": "additional-info",
+          "depends": "return formData['view:additionalInfo'];"
+        },
+        {
+          "title": "Upload additional information",
+          "path": "additional-info-upload",
+          "depends": "return formData['view:additionalInfo'];"
+        }
+      ]
+    },
+    {
+      "title": "Board review option",
+      "pages": [
+        {
+          "title": "Board review option",
+          "path": "board-review-option"
+        },
+        {
+          "title": "Evidence submission",
+          "path": "evidence-submission",
+          "depends": "canUploadEvidence"
+        },
+        {
+          "title": "Evidence upload",
+          "path": "evidence-submission/upload",
+          "depends": "wantsToUploadEvidence"
+        },
+        {
+          "title": "Hearing type",
+          "path": "hearing-type",
+          "depends": "needsHearingType"
+        }
+      ]
+    },
+    {
+      "title": "Apply",
+      "pages": [
+        {
+          "title": "Review and submit",
+          "path": "review-then-submit"
+        },
+        {
+          "title": "Review and submit",
+          "path": "review-then-submit2",
+          "depends": "return false;"
+        },
+        {
+          "title": "Confirmation page",
+          "path": "confirmation"
+        }
+      ]
+    }
+  ]
 }

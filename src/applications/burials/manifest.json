@@ -3,5 +3,74 @@
   "entryFile": "./burials-entry.jsx",
   "entryName": "burials",
   "rootUrl": "/burials-and-memorials/application/530",
-  "productId": "02990746-9fc6-425b-9fdd-b33bf32ee580"
+  "productId": "02990746-9fc6-425b-9fdd-b33bf32ee580",
+  "formConfig": [
+    {
+      "title": "Claimant Information",
+      "pages": [
+        {
+          "title": "Claimant information",
+          "path": "claimant-information"
+        }
+      ]
+    },
+    {
+      "title": "Deceased Veteran information",
+      "pages": [
+        {
+          "title": "Deceased Veteran information",
+          "path": "veteran-information"
+        },
+        {
+          "title": "Burial information",
+          "path": "veteran-information/burial"
+        }
+      ]
+    },
+    {
+      "title": "Military history",
+      "pages": [
+        {
+          "title": "Service periods",
+          "path": "military-history/service-periods"
+        },
+        {
+          "title": "Previous names",
+          "path": "military-history/previous-names"
+        }
+      ]
+    },
+    {
+      "title": "Benefits selection",
+      "pages": [
+        {
+          "title": "Benefits selection",
+          "path": "benefits/selection"
+        },
+        {
+          "title": "Burial allowance",
+          "path": "benefits/burial-allowance",
+          "depends": "return (0, _get.default)('view:claimedBenefits.burialAllowance', form) === true;"
+        },
+        {
+          "title": "Plot or interment allowance",
+          "path": "benefits/plot-allowance",
+          "depends": "return (0, _get.default)('view:claimedBenefits.plotAllowance', form) === true;"
+        }
+      ]
+    },
+    {
+      "title": "Additional information",
+      "pages": [
+        {
+          "title": "Claimant contact information",
+          "path": "claimant-contact-information"
+        },
+        {
+          "title": "Document upload",
+          "path": "documents"
+        }
+      ]
+    }
+  ]
 }

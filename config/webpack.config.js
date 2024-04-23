@@ -34,6 +34,7 @@ const {
 const vaMedalliaStylesFilename = 'va-medallia-styles';
 
 const generateWebpackDevConfig = require('./webpack.dev.config.js');
+const GenerateJsonPlugin = require('./generate-form-docs');
 
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
@@ -505,6 +506,8 @@ module.exports = async (env = {}) => {
     ],
     devServer: generateWebpackDevConfig(buildOptions),
   };
+
+  baseConfig.plugins.push(new GenerateJsonPlugin(apps));
 
   if (!buildOptions.watch) {
     baseConfig.plugins.push(

@@ -4,5 +4,194 @@
   "entryName": "mock-form",
   "rootUrl": "/mock-form",
   "production": false,
-  "productId": "b00f9ad9-f81a-402b-957f-eeb9b2554f2d"
+  "productId": "b00f9ad9-f81a-402b-957f-eeb9b2554f2d",
+  "formConfig": [
+    {
+      "title": "Contact info",
+      "pages": [
+        {
+          "title": "Section Title: Required contact info",
+          "path": "contact-info-required"
+        },
+        {
+          "title": "Contact information",
+          "path": "contact-information",
+          "depends": "return formData.contactInfoSettings === 'none';"
+        },
+        {
+          "title": "Edit mailing address",
+          "path": "edit-contact-information-mailing-address",
+          "depends": "return false;"
+        },
+        {
+          "title": "Edit home phone number",
+          "path": "edit-contact-information-home-phone",
+          "depends": "return false;"
+        },
+        {
+          "title": "Edit mobile phone number",
+          "path": "edit-contact-information-mobile-phone",
+          "depends": "return false;"
+        },
+        {
+          "title": "Edit email address",
+          "path": "edit-contact-information-email-address",
+          "depends": "return false;"
+        },
+        {
+          "title": "Contact information",
+          "path": "contact-info-with-email",
+          "depends": "return formData.contactInfoSettings === 'email';"
+        },
+        {
+          "title": "Edit email address",
+          "path": "edit-contact-info-with-email-email-address",
+          "depends": "return false;"
+        },
+        {
+          "title": "Contact information",
+          "path": "contact-info-with-home-phone",
+          "depends": "return formData.contactInfoSettings === 'home';"
+        },
+        {
+          "title": "Edit mailing address",
+          "path": "edit-contact-info-with-home-phone-mailing-address",
+          "depends": "return false;"
+        },
+        {
+          "title": "Edit home phone number",
+          "path": "edit-contact-info-with-home-phone-home-phone",
+          "depends": "return false;"
+        },
+        {
+          "title": "Edit email address",
+          "path": "edit-contact-info-with-home-phone-email-address",
+          "depends": "return false;"
+        },
+        {
+          "title": "Contact information",
+          "path": "contact-info-with-mobile-phone",
+          "depends": "return formData.contactInfoSettings === 'mobile';"
+        },
+        {
+          "title": "Edit mailing address",
+          "path": "edit-contact-info-with-mobile-phone-mailing-address",
+          "depends": "return false;"
+        },
+        {
+          "title": "Edit mobile phone number",
+          "path": "edit-contact-info-with-mobile-phone-mobile-phone",
+          "depends": "return false;"
+        },
+        {
+          "title": "Edit email address",
+          "path": "edit-contact-info-with-mobile-phone-email-address",
+          "depends": "return false;"
+        },
+        {
+          "title": "Contact information",
+          "path": "contact-info-all",
+          "depends": "return formData.contactInfoSettings === 'all';"
+        },
+        {
+          "title": "Edit mailing address",
+          "path": "edit-contact-info-all-mailing-address",
+          "depends": "return false;"
+        },
+        {
+          "title": "Edit home phone number",
+          "path": "edit-contact-info-all-home-phone",
+          "depends": "return false;"
+        },
+        {
+          "title": "Edit mobile phone number",
+          "path": "edit-contact-info-all-mobile-phone",
+          "depends": "return false;"
+        },
+        {
+          "title": "Edit email address",
+          "path": "edit-contact-info-all-email-address",
+          "depends": "return false;"
+        }
+      ]
+    },
+    {
+      "title": "Chapter Title: Applicant Information (Basic Form elements)",
+      "pages": [
+        {
+          "title": "Section Title: Applicant Information",
+          "path": "applicant-information"
+        }
+      ]
+    },
+    {
+      "title": "Chapter Title: Service History (Simple array loop)",
+      "pages": [
+        {
+          "title": "Section Title: Service History",
+          "path": "service-history"
+        }
+      ]
+    },
+    {
+      "title": "Chapter Title: Additional Information (manual method)",
+      "pages": [
+        {
+          "title": "Section Title: Contact Information",
+          "path": "contact-information-with-email-and-phone"
+        },
+        {
+          "title": "Section Title: Contact Information with Military base",
+          "path": "contact-information-with-military-base"
+        },
+        {
+          "title": "Section Title: Direct Deposit",
+          "path": "direct-deposit"
+        }
+      ]
+    },
+    {
+      "title": "Chapter Title: Intermediate tutorial examples",
+      "pages": [
+        {
+          "title": "Section Title: Expand under",
+          "path": "expand-under"
+        },
+        {
+          "title": "Section Title: Conditionally hidden",
+          "path": "conditionally-hidden"
+        },
+        {
+          "title": "Section Title: Conditional page",
+          "path": "conditional-page"
+        }
+      ]
+    },
+    {
+      "title": "Chapter Title: Available features and usage guidelines examples",
+      "pages": [
+        {
+          "title": "Section Title: Radio button group example",
+          "path": "radio-button-group"
+        },
+        {
+          "title": "Section Title: Checkbox group pattern",
+          "path": "checkbox-group-pattern"
+        }
+      ]
+    },
+    {
+      "title": "Chapter Title: Workarounds for form widget problems",
+      "pages": [
+        {
+          "title": "Section Title: single checkbox validation",
+          "path": "single-checkbox-validation"
+        },
+        {
+          "title": "Section Title: Checkbox group validation",
+          "path": "checkbox-group-validation"
+        }
+      ]
+    }
+  ]
 }

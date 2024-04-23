@@ -4,5 +4,102 @@
   "entryName": "1010cg-application-caregiver-assistance",
   "rootUrl": "/family-member-benefits/apply-for-caregiver-assistance-form-10-10cg",
   "e2eTestsDisabled": true,
-  "productId": "4d22afe4-3f1b-4b02-bebf-18840df27cbc"
+  "productId": "4d22afe4-3f1b-4b02-bebf-18840df27cbc",
+  "formConfig": [
+    {
+      "title": "Veteran information",
+      "pages": [
+        {
+          "title": "Veteran information",
+          "path": "vet-1"
+        },
+        {
+          "title": "Contact information",
+          "path": "vet-2"
+        },
+        {
+          "title": "VA medical center",
+          "path": "vet-3-json",
+          "depends": "return !formData['view:useFacilitiesAPI'];"
+        },
+        {
+          "title": "VA medical center",
+          "path": "select-facility",
+          "depends": "return formData['view:useFacilitiesAPI'];"
+        }
+      ]
+    },
+    {
+      "title": "Primary Family Caregiver applicant information",
+      "pages": [
+        {
+          "title": "Primary Family Caregiver information",
+          "path": "primary-1"
+        },
+        {
+          "title": "Primary Family Caregiver information",
+          "path": "primary-2",
+          "depends": "return (0, _helpers.hasPrimaryCaregiver)(formData);"
+        },
+        {
+          "title": "Contact information",
+          "path": "primary-3",
+          "depends": "return (0, _helpers.hasPrimaryCaregiver)(formData);"
+        },
+        {
+          "title": "Health care coverage",
+          "path": "primary-4",
+          "depends": "return (0, _helpers.hasPrimaryCaregiver)(formData);"
+        }
+      ]
+    },
+    {
+      "title": "Secondary Family Caregiver applicant information",
+      "pages": [
+        {
+          "title": "Secondary Family Caregiver information",
+          "path": "secondary-one-1"
+        },
+        {
+          "title": "Secondary Family Caregiver information",
+          "path": "secondary-one-2",
+          "depends": "return (0, _helpers.hasSecondaryCaregiverOne)(formData);"
+        },
+        {
+          "title": "Secondary Family Caregiver information",
+          "path": "secondary-one-3",
+          "depends": "return (0, _helpers.hasSecondaryCaregiverOne)(formData);"
+        }
+      ]
+    },
+    {
+      "title": "Secondary Family Caregiver (2) applicant information",
+      "pages": [
+        {
+          "title": "Secondary Family Caregiver (2) applicant information",
+          "path": "secondary-two-1",
+          "depends": "return (0, _helpers.hasSecondaryCaregiverTwo)(formData);"
+        },
+        {
+          "title": "Secondary Family Caregiver (2) applicant information",
+          "path": "secondary-two-2",
+          "depends": "return (0, _helpers.hasSecondaryCaregiverTwo)(formData);"
+        }
+      ]
+    },
+    {
+      "title": "Application signature",
+      "pages": [
+        {
+          "title": "Application signature",
+          "path": "representative-document"
+        },
+        {
+          "title": "Application signature",
+          "path": "representative-document-upload",
+          "depends": "return formData.signAsRepresentativeYesNo === 'yes';"
+        }
+      ]
+    }
+  ]
 }
