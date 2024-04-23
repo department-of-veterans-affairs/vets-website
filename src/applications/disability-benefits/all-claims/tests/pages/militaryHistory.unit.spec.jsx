@@ -102,7 +102,7 @@ describe('Military history', () => {
     fillDate(
       form,
       'root_serviceInformation_servicePeriods_0_dateRange_from',
-      '2002-12-31',
+      '2003-01-01',
     );
     fillDate(
       form,
