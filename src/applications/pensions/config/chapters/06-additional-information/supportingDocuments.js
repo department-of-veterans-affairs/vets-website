@@ -22,7 +22,7 @@ const SupportingDocument = ({ formId, formName }) => {
   );
 };
 
-function Description({ formData }) {
+function Documents({ formData }) {
   const hasDisabledChild = (formData.dependents || []).some(childIsDisabled);
   const hasSchoolChild = (formData.dependents || []).some(childAttendsCollege);
   const hasAdoptedChild = (formData.dependents || []).some(childIsAdopted);
@@ -45,12 +45,6 @@ function Description({ formData }) {
 
   return (
     <>
-      <p>
-        On the next screen, we’ll ask you to submit supporting documents for
-        your claim. If you upload all of your supporting documents online now,
-        you may be able to get a faster decision on your claim.
-      </p>
-
       {showDocumentsList && (
         <>
           <p> You'll need to upload these documents: </p>
@@ -170,8 +164,11 @@ export default {
   title: 'Supporting documents',
   path: 'additional-information/supporting-documents',
   uiSchema: {
-    ...titleUI('Supporting documents'),
-    'ui:description': Description,
+    ...titleUI(
+      'Supporting documents',
+      'On the next screen, we’ll ask you to submit supporting documents for your claim. If you upload all of your supporting documents online now, you may be able to get a faster decision on your claim.',
+    ),
+    'ui:description': Documents,
   },
   schema: {
     type: 'object',
