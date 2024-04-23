@@ -11,7 +11,6 @@ const AlertCard = ({ appType }) => {
         data-testid={`balance-card-alert-${
           appType === APP_TYPES.DEBT ? 'debt' : 'copay'
         }`}
-        uswds
       >
         <h2 slot="headline" className="vads-u-font-size--h3">
           We can’t access your{' '}

@@ -326,13 +326,8 @@ export const isValidYear = (err, fieldData) => {
  * first visited the facility.
  * @param {Object} formData - Full formData for the form
  */
-export function startedAfterServicePeriod(err, fieldData, formData) {
-  if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
-    return;
-  }
-
-  // find the earliest service period
-  const earliestServiceStartDate = formData.serviceInformation.servicePeriods
+export function findEarliestServiceDate(servicePeriods) {
+  return servicePeriods
     .filter(({ serviceBranch } = {}) => (serviceBranch || '') !== '')
     .map(period => moment(period.dateRange.from, 'YYYY-MM-DD'))
     .reduce(
@@ -340,11 +335,43 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
         current.isBefore(earliestDate) ? current : earliestDate,
       moment(),
     );
+}
+export function isMonthOnly(fieldData) {
+  return /^XXXX-\d{2}-XX$/.test(fieldData);
+}
+export function isYearOnly(fieldData) {
+  return /^\d{4}-XX-XX$/.test(fieldData);
+}
+export function isYearMonth(fieldData) {
+  return /^\d{4}-\d{2}-XX$/.test(fieldData);
+}
+export function isTreatmentBeforeService(
+  treatmentDate,
+  earliestServiceDate,
+  fieldData,
+) {
+  return (
+    (isYearOnly(fieldData) &&
+      treatmentDate.diff(earliestServiceDate, 'year') < 0) ||
+    (isYearMonth(fieldData) &&
+      treatmentDate.diff(earliestServiceDate, 'month') < 0)
+  );
+}
+export function startedAfterServicePeriod(err, fieldData, formData) {
+  if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
+    return;
+  }
 
-  const treatmentStartDate = moment(fieldData, 'YYYY-MM');
-  // If the moment is earlier than the moment passed to moment.diff(),
-  // the return value will be negative.
-  if (treatmentStartDate.diff(earliestServiceStartDate, 'month') < 0) {
+  const treatmentDate = moment(fieldData, 'YYYY-MM');
+  const { servicePeriods } = formData.serviceInformation;
+  const earliestServiceDate = findEarliestServiceDate(servicePeriods);
+
+  if (isMonthOnly(fieldData)) {
+    err.addError('Enter a month and year.');
+    return;
+  }
+
+  if (isTreatmentBeforeService(treatmentDate, earliestServiceDate, fieldData)) {
     err.addError(
       'Your first treatment date needs to be after the start of your earliest service period.',
     );

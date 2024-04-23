@@ -65,8 +65,14 @@ export const yesNoOptions = {
   NO: 'No',
 };
 
-// Relationship options
-export const relationshipOptions = {
+// Relationship options for Myself
+export const relationshipOptionsMyself = {
+  VETERAN: "I'm the Veteran",
+  FAMILY_MEMBER: "I'm a family member of a Veteran",
+};
+
+// Relationship options for SomeoneElse
+export const relationshipOptionsSomeoneElse = {
   VETERAN: "I'm the Veteran",
   FAMILY_MEMBER: "I'm a family member of a Veteran",
   WORK:
@@ -111,6 +117,15 @@ export const aboutRelationship = {
   STEPCHILD: "I'm the Veteran's stepchild",
   PARENT: "I'm the Veteran's parent",
   NOT_LISTED: "I have a relationship to the Veteran that's not listed",
+};
+
+// What is your relationship to the family member
+export const aboutFamilyMemberRelationship = {
+  SPOUSE: "They're my spouse",
+  CHILD: "They're my child",
+  STEPCHILD: "They're my step child",
+  PARENT: "They're my parent",
+  NOT_LISTED: "We have a relationship that's not listed",
 };
 
 // Who your question is about
@@ -228,10 +243,9 @@ export const CHAPTER_3 = {
   CHAPTER_TITLE: 'Personal Information',
   RELATIONSHIP_TO_VET: {
     PATH: 'relationship-to-veteran',
-    TITLE: 'Your relationship to the Veteran',
-    PAGE_DESCRIPTION:
-      "Now we'll ask for some personal information. We use this information to help us understand your question and find the answers you need.",
-    QUESTION_1: 'Select your relationship to the Veteran:',
+    TITLE: 'What is your relationship to the Veteran?',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
   },
   ABOUT_YOUR_RELATIONSHIP: {
     TITLE: 'Tell us more about your relationship to the Veteran',
@@ -327,8 +341,9 @@ export const CHAPTER_3 = {
     QUESTION_1: 'Select your relationship to the family member',
   },
   RELATIONSHIP_TO_FAM_MEM: {
-    TITLE: 'Tell us about the family member',
+    TITLE: 'What is your relationship to the family member?',
     PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
   },
   YOUR_ROLE: {
     TITLE: 'Your role',

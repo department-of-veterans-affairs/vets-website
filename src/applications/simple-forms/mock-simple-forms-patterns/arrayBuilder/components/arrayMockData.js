@@ -10,8 +10,10 @@ export const arrayBuilderMockData = {
         state: 'IL',
         postalCode: '12345',
       },
-      dateStart: '2010-01-01',
-      dateEnd: '2012-12-31',
+      dateRange: {
+        from: '2010-01-01',
+        to: '2012-12-31',
+      },
     },
     {
       name: 'Acme Corp2',
@@ -23,8 +25,10 @@ export const arrayBuilderMockData = {
         state: 'IL',
         postalCode: '12345',
       },
-      dateStart: '2010-01-01',
-      dateEnd: '2012-12-31',
+      dateRange: {
+        from: '2010-01-01',
+        to: '2012-12-31',
+      },
     },
     {
       name: 'Acme Corp3',
@@ -36,8 +40,10 @@ export const arrayBuilderMockData = {
         state: 'IL',
         postalCode: '12345',
       },
-      dateStart: '2010-01-01',
-      dateEnd: '2012-12-31',
+      dateRange: {
+        from: '2010-01-01',
+        to: '2012-12-31',
+      },
     },
     {
       name: 'Acme Corp4',
@@ -49,8 +55,10 @@ export const arrayBuilderMockData = {
         state: 'IL',
         postalCode: '12345',
       },
-      dateStart: '2010-01-01',
-      dateEnd: '2012-12-31',
+      dateRange: {
+        from: '2010-01-01',
+        to: '2012-12-31',
+      },
     },
     {
       name: 'Acme Corp5',
@@ -62,8 +70,10 @@ export const arrayBuilderMockData = {
         state: 'IL',
         postalCode: '12345',
       },
-      dateStart: '2010-01-01',
-      dateEnd: '2012-12-31',
+      dateRange: {
+        from: '2010-01-01',
+        to: '2012-12-31',
+      },
     },
   ],
 };

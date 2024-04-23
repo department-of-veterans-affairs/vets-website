@@ -93,9 +93,9 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
             />{' '}
           </div>
           <div className="auth-rep-text">
-            <DynamicHeader className="auth-rep-header">
-              Your accredited representative
-            </DynamicHeader>
+            <div className="auth-rep-header">
+              <DynamicHeader>Your accredited representative</DynamicHeader>
+            </div>
             <div className="auth-rep-subheader">
               <DynamicSubheader>
                 {poaType === 'organization' ? (
@@ -172,7 +172,6 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
                   />
                 </div>
               )}
-
               {poaType === 'representative' &&
                 (contact || email) && (
                   <div className="contact-info vads-u-margin-top--1p5">

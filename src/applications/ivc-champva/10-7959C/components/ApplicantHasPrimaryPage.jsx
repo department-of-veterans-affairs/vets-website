@@ -19,29 +19,25 @@ const SECONDARY_PROPERTY_NAMES = {
 
 function generateOptions({ data, pagePerItemIndex }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
-  const prompt = `Does ${
-    bp.applicant
-  } have other health insurance to add or update?`;
   return {
     ...bp,
     options: yesNoOptions,
-    relativeBeingVerb: `${bp.relative} ${bp.beingVerbPresent}`,
     customTitle: `${bp.applicant}’s primary health insurance`,
-    description: prompt,
+    description: `Does ${
+      bp.applicant
+    } have other health insurance to add or update?`,
   };
 }
 
 function secondaryGenerateOptions({ data, pagePerItemIndex }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
-  const prompt = `Does ${
-    bp.applicant
-  } have secondary health insurance to add or update?`;
   return {
     ...bp,
     options: yesNoOptions,
-    relativeBeingVerb: `${bp.relative} ${bp.beingVerbPresent}`,
     customTitle: `${bp.applicant}’s secondary health insurance`,
-    description: prompt,
+    description: `Does ${
+      bp.applicant
+    } have secondary health insurance to add or update?`,
   };
 }
 

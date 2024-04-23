@@ -1,6 +1,12 @@
 import React from 'react';
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
-import { capitalizeEachWord, isClaimingNew, sippableId } from '../utils';
+import {
+  capitalizeEachWord,
+  formSubtitle,
+  formatMonthYearDate,
+  isClaimingNew,
+  sippableId,
+} from '../utils';
 import { NULL_CONDITION_STRING, SHOW_TOXIC_EXPOSURE } from '../constants';
 
 /* ---------- content ----------*/
@@ -33,6 +39,8 @@ export const conditionsDescription = (
 export const gulfWar1990PageTitle = 'Service after August 2, 1990';
 export const gulfWar1990Question =
   'Did you serve in any of these Gulf War locations on or after August 2, 1990? Check any locations where you served.';
+export const summaryOfGulfWar1990PageTitle =
+  'Summary of service after August 2, 1990';
 
 export const noneAndConditionError =
   'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.';
@@ -50,6 +58,8 @@ export const dateHelp =
   'Enter any date range you served in this location. You don’t need to have exact dates.';
 export const startDateApproximate = 'Service start date (approximate)';
 export const endDateApproximate = 'Service end date (approximate)';
+export const goBackLink = 'Edit locations and dates';
+export const noDatesEntered = 'No dates entered';
 
 /**
  * Create the markup for page description. If there are item counts, it will display
@@ -66,14 +76,15 @@ export function dateRangePageDescription(
   totalItems,
   locationName,
 ) {
+  const subtitle = formSubtitle(
+    (currentItem > 0 &&
+      totalItems > 0 &&
+      `${currentItem} of ${totalItems}: ${locationName}`) ||
+      locationName,
+  );
   return (
     <>
-      <h4 className="vads-u-font-size--h5 vads-u-margin-top--2">
-        {currentItem > 0 &&
-          totalItems > 0 &&
-          `${currentItem} of ${totalItems}: `}
-        {locationName}
-      </h4>
+      {subtitle}
       <p>{dateHelp}</p>
     </>
   );
@@ -262,7 +273,7 @@ export function getSelectedCount(objectName, { formData } = {}) {
 /**
  * Checks if a specific location dates page should display. It should display if all
  * the following is true
- * 1. toggle is enabled and claiming a new disability
+ * 1. TE pages should be showing at all
  * 2. gulfWar1990 checkbox location data is present with a true value
  *
  * @param {object} formData - full form data
@@ -275,4 +286,41 @@ export function showGulfWar1990LocationDatesPage(formData, locationId) {
     formData?.gulfWar1990 &&
     formData?.gulfWar1990?.[locationId] === true
   );
+}
+
+/**
+ * Checks if the 1990 summary page should display. It should display if all the following are true
+ * 1. TE pages should be showing at all
+ * 2. at least one 1990 location was selected
+ * @param {object} formData - full form data
+ * @returns {boolean} true if the page should display, false otherwise
+ */
+export function showGulfWar1990SummaryPage(formData) {
+  return (
+    isClaimingTECondition(formData) &&
+    formData?.gulfWar1990 &&
+    Object.values(formData?.gulfWar1990).filter(value => value === true)
+      .length > 0
+  );
+}
+
+/**
+ * Takes a date range object with start and end dates and generates a description. Fields are optional so
+ * the output format may vary depending on available data. Scenarios
+ * startDate: '' and endDate: '' -> 'No dates entered'
+ * startDate: '1992-04-01' and endDate: '1995-06-01' -> 'April 1992 - June 1995'
+ * startDate: '1992-04-01' and endDate: '' -> 'April 1992 - No end date entered'
+ * startDate: '' and endDate: '1995-06-01' -> 'No start date entered - June 1995'
+ *
+ * @param {object} dates - object containing the date range
+ * @returns {string} a description string with month and year, e.g. "September 1992 - September 1993"
+ */
+export function datesDescription(dates) {
+  if (!dates?.startDate && !dates?.endDate) {
+    return noDatesEntered;
+  }
+  const startDate =
+    formatMonthYearDate(dates?.startDate) || 'No start date entered';
+  const endDate = formatMonthYearDate(dates?.endDate) || 'No end date entered';
+  return !startDate && !endDate ? noDatesEntered : `${startDate} - ${endDate}`;
 }
