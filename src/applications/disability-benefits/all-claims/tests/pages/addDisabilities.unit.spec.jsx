@@ -263,7 +263,7 @@ describe('Add new disabilities', () => {
 describe('showRevisedNewDisabilitiesPage', () => {
   it('should return false if the toggle is not enabled', () => {
     const formData = {};
-    expect(showRevisedNewDisabilitiesPage(formData).to.be.false);
+    expect(showRevisedNewDisabilitiesPage(formData)).to.be.false;
   });
 
   describe('toggle enabled', () => {
@@ -277,7 +277,7 @@ describe('showRevisedNewDisabilitiesPage', () => {
 
     it('should return true if the toggle is enabled', () => {
       const formData = {};
-      expect(showRevisedNewDisabilitiesPage(formData).to.be.true);
+      expect(showRevisedNewDisabilitiesPage(formData)).to.be.true;
     });
   });
 });
