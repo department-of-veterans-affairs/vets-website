@@ -39,6 +39,10 @@ const NoHealthAlert = ({ headline }) => {
   );
 };
 
+NoHealthAlert.defaultProps = {
+  headline: 'You don’t have access to My HealtheVet',
+};
+
 NoHealthAlert.propTypes = {
   headline: PropTypes.string,
 };

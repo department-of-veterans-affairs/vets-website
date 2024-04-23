@@ -25,7 +25,6 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;
   const isUnverified = useSelector(isLOA1);
   const hasHealth = useSelector(hasHealthData);
-  const noHealthDataHeadline = 'You don’t have access to My HealtheVet';
   const signInService = useSelector(signInServiceName);
   const showPersonalization = useSelector(personalizationEnabled);
   const showCards = hasHealth && !isUnverified;
@@ -39,7 +38,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
       signInService={signInService}
     />
   ) : (
-    <NoHealthAlert headline={noHealthDataHeadline} />
+    <NoHealthAlert />
   );
 
   useEffect(() => {
@@ -55,7 +54,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
     } else {
       recordEvent({
         ...event,
-        'alert-box-headline': noHealthDataHeadline,
+        'alert-box-headline': NoHealthAlert.defaultProps.headline,
         'alert-box-status': 'warning',
       });
     }
