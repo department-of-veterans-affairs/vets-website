@@ -40,7 +40,6 @@ export const App = ({
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
   showDgiDirectDeposit1990EZ,
-  showMebServiceHistoryCategorizeDisagreement,
   mebAutoPopulateRelinquishmentDate,
   email,
   duplicateEmail,
@@ -256,16 +255,6 @@ export const App = ({
         });
       }
 
-      if (
-        showMebServiceHistoryCategorizeDisagreement !==
-        formData.showMebServiceHistoryCategorizeDisagreement
-      ) {
-        setFormData({
-          ...formData,
-          showMebServiceHistoryCategorizeDisagreement,
-        });
-      }
-
       if (showDgiDirectDeposit1990EZ !== formData.showDgiDirectDeposit1990EZ) {
         setFormData({
           ...formData,
@@ -287,7 +276,6 @@ export const App = ({
       showDgiDirectDeposit1990EZ,
       showMeb1990EZMaintenanceAlert,
       showMeb1990EZR6MaintenanceMessage,
-      showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
       duplicateEmail,
       duplicatePhone,
@@ -393,7 +381,6 @@ App.propTypes = {
   showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
-  showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
