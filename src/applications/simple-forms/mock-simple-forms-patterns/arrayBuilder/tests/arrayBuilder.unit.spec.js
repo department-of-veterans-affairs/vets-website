@@ -1,9 +1,16 @@
+import sinon from 'sinon';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { YesNoField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   arrayBuilderPages,
   getPageAfterPageKey,
-} from './components/arrayBuilder';
+} from '../components/arrayBuilder';
+import {
+  arrayBuilderItemFirstPageTitleUI,
+  arrayBuilderYesNoUI,
+} from '../components/arrayBuilderPatterns';
+import * as helpers from '../helpers';
 
 const validOptions = {
   arrayPath: 'employers',
@@ -11,6 +18,35 @@ const validOptions = {
   nounPlural: 'employers',
   required: true,
 };
+
+const validYesNoPattern = arrayBuilderYesNoUI({
+  arrayPath: 'employers',
+  nounSingular: 'employer',
+  required: false,
+});
+
+const validPages = pageBuilder => ({
+  summaryPage: pageBuilder.summaryPage({
+    title: 'Employment history',
+    path: '/summary',
+    uiSchema: {
+      hasEmployment: validYesNoPattern,
+    },
+    schema: {},
+  }),
+  firstPage: pageBuilder.itemPage({
+    title: 'Name of employer',
+    path: '/name/:index',
+    uiSchema: {},
+    schema: {},
+  }),
+  lastPage: pageBuilder.itemPage({
+    title: 'Address of employer',
+    path: '/address/:index',
+    uiSchema: {},
+    schema: {},
+  }),
+});
 
 describe('arrayBuilderPages required parameters and props tests', () => {
   it('should throw an error if incorrect config is passed', () => {
@@ -33,6 +69,24 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       expect(true).to.be.false;
     } catch (e) {
       expect(e.message).to.include(msg);
+    }
+  });
+
+  it('should throw an error if incorrect review path', () => {
+    try {
+      arrayBuilderPages({ ...validOptions, reviewPath: '/review' }, validPages);
+      expect(true).to.be.false;
+    } catch (e) {
+      expect(e.message).to.include('reviewPath should not start with a `/`');
+    }
+  });
+
+  it('should throw an error if required is not passed', () => {
+    try {
+      arrayBuilderPages({ ...validOptions, required: undefined }, validPages);
+      expect(true).to.be.false;
+    } catch (e) {
+      expect(e.message).to.include('must include a `required`');
     }
   });
 
@@ -92,16 +146,60 @@ describe('arrayBuilderPages required parameters and props tests', () => {
     }
   });
 
+  it('should throw an error if itemPage not provided', () => {
+    try {
+      arrayBuilderPages(validOptions, pageBuilder => ({
+        summaryPage: pageBuilder.summaryPage({
+          title: 'Employment history',
+          uiSchema: {
+            hasEmployment: validYesNoPattern,
+          },
+        }),
+      }));
+      expect(true).to.be.false;
+    } catch (e) {
+      expect(e.message).to.include('must include at least one item page');
+    }
+  });
+
+  it('should throw an error if summaryPage is not defined before itemPage', () => {
+    try {
+      arrayBuilderPages(validOptions, pageBuilder => ({
+        itemPage: pageBuilder.itemPage({
+          path: 'test/:index',
+          title: 'title',
+          uiSchema: {},
+          schema: {},
+        }),
+        summaryPage: pageBuilder.summaryPage({
+          title: 'Employment history',
+          uiSchema: {
+            hasEmployment: validYesNoPattern,
+          },
+        }),
+      }));
+      expect(true).to.be.false;
+    } catch (e) {
+      expect(e.message).to.include(
+        '`pageBuilder.summaryPage` must be defined only once and be defined before the item pages',
+      );
+    }
+  });
+
   it('should throw an error if specific pageOptions are not provided', () => {
     try {
       arrayBuilderPages(validOptions, pageBuilder => ({
         summaryPage: pageBuilder.summaryPage({
           title: 'Employment history',
           uiSchema: {
-            hasEmployment: {
-              'ui:webComponentField': YesNoField,
-            },
+            hasEmployment: validYesNoPattern,
           },
+        }),
+        itemPage: pageBuilder.itemPage({
+          path: 'test/:index',
+          title: 'title',
+          uiSchema: {},
+          schema: {},
         }),
       }));
       expect(true).to.be.false;
@@ -115,30 +213,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
 
   it('should pass if everything is provided correctly', () => {
     try {
-      arrayBuilderPages(validOptions, pageBuilder => ({
-        summaryPage: pageBuilder.summaryPage({
-          title: 'Employment history',
-          path: '/summary',
-          uiSchema: {
-            hasEmployment: {
-              'ui:webComponentField': YesNoField,
-            },
-          },
-          schema: {},
-        }),
-        firstPage: pageBuilder.itemPage({
-          title: 'Name of employer',
-          path: '/name/:index',
-          uiSchema: {},
-          schema: {},
-        }),
-        lastPage: pageBuilder.itemPage({
-          title: 'Address of employer',
-          path: '/address/:index',
-          uiSchema: {},
-          schema: {},
-        }),
-      }));
+      arrayBuilderPages(validOptions, validPages);
     } catch (e) {
       expect(e.message).to.eq('Did not expect error');
     }
@@ -240,5 +315,63 @@ describe('getPageAfterPageKey', () => {
 
     page = getPageAfterPageKey(mockPageList, 'review-and-submit');
     expect(page).to.eq(undefined);
+  });
+});
+
+describe('arrayBuilderPatterns', () => {
+  let getArrayUrlSearchParamsStub;
+
+  function stubUrlParams(str) {
+    getArrayUrlSearchParamsStub = sinon
+      .stub(helpers, 'getArrayUrlSearchParams')
+      .returns(new URLSearchParams(str));
+  }
+
+  afterEach(() => {
+    if (getArrayUrlSearchParamsStub) {
+      getArrayUrlSearchParamsStub.restore();
+      getArrayUrlSearchParamsStub = null;
+    }
+  });
+
+  const titleOptions = {
+    title: 'Name and address of employer',
+    nounSingular: 'employer',
+  };
+
+  it('should display correctly for URL param "add"', () => {
+    stubUrlParams('?add=true');
+    const uiSchema = arrayBuilderItemFirstPageTitleUI(titleOptions);
+    const { getByText } = render(uiSchema['ui:title']());
+    expect(getByText('Name and address of employer')).to.exist;
+  });
+
+  it('should display correctly for URL param "edit"', () => {
+    stubUrlParams('?edit=true');
+    const uiSchema = arrayBuilderItemFirstPageTitleUI(titleOptions);
+    const { getByText } = render(uiSchema['ui:title']());
+    expect(getByText('Edit name and address of employer')).to.exist;
+  });
+
+  it('should display correctly for URL param "edit"', () => {
+    stubUrlParams('?add=true&removedAllWarn=true');
+    const uiSchema = arrayBuilderItemFirstPageTitleUI(titleOptions);
+    const { queryByText } = render(uiSchema['ui:title']());
+    expect(
+      queryByText(
+        'You must add at least one employer for us to process this form.',
+      ),
+    ).to.exist;
+  });
+
+  it('should display correctly for URL param "edit"', () => {
+    stubUrlParams('?edit=true&removedAllWarn=true');
+    const uiSchema = arrayBuilderItemFirstPageTitleUI(titleOptions);
+    const { queryByText } = render(uiSchema['ui:title']());
+    expect(
+      queryByText(
+        'You must add at least one employer for us to process this form.',
+      ),
+    ).to.not.exist;
   });
 });

@@ -5,11 +5,11 @@ import { waitFor } from '@testing-library/dom';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { format, addHours } from 'date-fns';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import LandingPageAuth from '../../containers/LandingPageAuth';
 import { PageTitles, ErrorMessages } from '../../util/constants';
 import reducer from '../../reducers';
 import folders from '../fixtures/folder-inbox-response.json';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 describe('Landing dashboard', () => {
   const initialState = {
