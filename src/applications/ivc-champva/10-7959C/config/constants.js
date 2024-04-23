@@ -57,4 +57,6 @@ export const requiredFiles = {
   applicantMedicareIneligibleProof: 'Proof of Medicare Ineligibility',
   applicantMedicarePartAPartBCard: 'Medicare Cards (Parts A/B)',
   applicantMedicarePartDCard: 'Medicare Card (Part D)',
+  primaryInsuranceCard: 'Primary health insurance card',
+  secondaryInsuranceCard: 'Secondary health insurance card',
 };
