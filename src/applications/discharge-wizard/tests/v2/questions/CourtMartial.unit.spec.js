@@ -3,9 +3,9 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { ROUTES } from '../../constants';
+import { ROUTES } from '../../../constants';
 
-import DischargeMonth from '../../components/v2/questions/DischargeMonth';
+import CourtMartial from '../../../components/v2/questions/CourtMartial';
 
 const mockStoreStandard = {
   getState: () => ({
@@ -37,7 +37,7 @@ const pushStub = sinon.stub();
 
 const propsStandard = {
   formResponses: {},
-  setDischargeMonth: () => {},
+  setCourtMartial: () => {},
   router: {
     push: pushStub,
   },
@@ -46,32 +46,32 @@ const propsStandard = {
 
 const propsNoIntroPage = {
   formResponses: {},
-  setDischargeMonth: () => {},
+  setCourtMartial: () => {},
   router: {
     push: pushStub,
   },
   viewedIntroPage: false,
 };
 
-describe('Discharge Month Page', () => {
+describe('Court Martial Page', () => {
   afterEach(() => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the discharge month page in the standard flow', () => {
+  it('should correctly load the court martial page in the standard flow', () => {
     const screen = render(
       <Provider store={mockStoreStandard}>
-        <DischargeMonth {...propsStandard} />
+        <CourtMartial {...propsStandard} />
       </Provider>,
     );
 
-    expect(screen.getByTestId('duw-discharge_month')).to.exist;
+    expect(screen.getByTestId('duw-court_martial')).to.exist;
   });
 
   it('should redirect to home when the intro page has not been viewed', () => {
     render(
       <Provider store={mockStoreNoIntroPage}>
-        <DischargeMonth {...propsNoIntroPage} />
+        <CourtMartial {...propsNoIntroPage} />
       </Provider>,
     );
 

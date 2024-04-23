@@ -3,9 +3,9 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { ROUTES } from '../../constants';
+import { ROUTES } from '../../../constants';
 
-import Intention from '../../components/v2/questions/Intention';
+import DischargeYear from '../../../components/v2/questions/DischargeYear';
 
 const mockStoreStandard = {
   getState: () => ({
@@ -37,7 +37,7 @@ const pushStub = sinon.stub();
 
 const propsStandard = {
   formResponses: {},
-  setIntention: () => {},
+  setDischargeYear: () => {},
   router: {
     push: pushStub,
   },
@@ -46,32 +46,32 @@ const propsStandard = {
 
 const propsNoIntroPage = {
   formResponses: {},
-  setIntention: () => {},
+  setDischargeYear: () => {},
   router: {
     push: pushStub,
   },
   viewedIntroPage: false,
 };
 
-describe('Intention Page', () => {
+describe('Discharge Year Page', () => {
   afterEach(() => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the intention page in the standard flow', () => {
+  it('should correctly load the discharge year page in the standard flow', () => {
     const screen = render(
       <Provider store={mockStoreStandard}>
-        <Intention {...propsStandard} />
+        <DischargeYear {...propsStandard} />
       </Provider>,
     );
 
-    expect(screen.getByTestId('duw-intention')).to.exist;
+    expect(screen.getByTestId('duw-discharge_year')).to.exist;
   });
 
   it('should redirect to home when the intro page has not been viewed', () => {
     render(
       <Provider store={mockStoreNoIntroPage}>
-        <Intention {...propsNoIntroPage} />
+        <DischargeYear {...propsNoIntroPage} />
       </Provider>,
     );
 

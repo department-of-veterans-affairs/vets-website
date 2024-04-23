@@ -3,9 +3,9 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { ROUTES } from '../../constants';
+import { ROUTES } from '../../../constants';
 
-import PrevApplicationType from '../../components/v2/questions/PrevApplicationType';
+import PrevApplicationType from '../../../components/v2/questions/PrevApplicationType';
 
 const mockStoreStandard = {
   getState: () => ({

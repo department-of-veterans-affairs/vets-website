@@ -18,7 +18,7 @@ const FailureToExhaust = ({
   viewedIntroPage,
 }) => {
   const [formError, setFormError] = useState(false);
-  const shortName = SHORT_NAME_MAP.PREV_APPLICATION;
+  const shortName = SHORT_NAME_MAP.FAILURE_TO_EXHAUST;
   const H1 = QUESTION_MAP[shortName];
   const failureToExhaust = formResponses[shortName];
   const {

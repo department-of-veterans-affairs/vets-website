@@ -140,6 +140,7 @@ export const ROUTES = Object.freeze({
   PREV_APPLICATION_YEAR: 'prev-application-year',
   PRIOR_SERVICE: 'prior-service',
   FAILURE_TO_EXHAUST: 'failure-to-exhaust',
+  REVIEW: 'review',
   RESULT: 'result',
 });
 
