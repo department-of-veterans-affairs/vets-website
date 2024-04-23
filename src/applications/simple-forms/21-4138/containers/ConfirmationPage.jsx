@@ -1,6 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+// import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 
 import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
 // import { getSubmitterName } from '../helpers';
@@ -16,19 +17,22 @@ const content = {
     </>
   ),
 };
-const childContent = {};
+const childContent = <div />;
 
 export const ConfirmationPage = () => {
-  const form = useSelector(state => state.form || {});
-  const { submission } = form;
-  const submitDate = submission.timestamp;
-  const confirmationNumber = submission.response?.confirmationNumber;
+  // const form = useSelector(state => state.form || {});
+  // const { submission } = form;
+  // const submitDate = submission.timestamp;
+  // const confirmationNumber = submission.response?.confirmationNumber;
+  // const submitterFullName = getSubmitterName(form.data);
+  const submitDate = '01/21/2024';
+  const confirmationNumber = '123412341234';
   const submitterFullName = {
     first: 'Burt',
     middle: 'Wurt',
     last: 'Furt',
     suffix: '',
-  }; // getSubmitterName(form.data);
+  };
 
   return (
     <ConfirmationPageView

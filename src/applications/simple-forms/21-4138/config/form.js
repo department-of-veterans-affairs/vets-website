@@ -1,3 +1,4 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 
@@ -10,7 +11,7 @@ import { TITLE, SUBTITLE } from './constants';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   dev: {
@@ -49,10 +50,10 @@ const formConfig = {
         page1: {
           path: 'first-page',
           title: 'First Page',
-          uiSchema: {},
+          uiSchema: { name: { 'ui:title': 'Burt' } },
           schema: {
             type: 'object',
-            properties: {},
+            properties: { name: { type: 'string' } },
           },
         },
       },
