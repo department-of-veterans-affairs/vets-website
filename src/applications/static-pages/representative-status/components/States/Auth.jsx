@@ -44,7 +44,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
           <p>
             <strong>What you can do</strong>
           </p>
-          <p>
+          <p className="vads-u-margin-y--0">
             If you think your information should be here, please try again later
             or call us at{' '}
             <va-telephone contact={CONTACTS.VA_411} extension={0} /> (
