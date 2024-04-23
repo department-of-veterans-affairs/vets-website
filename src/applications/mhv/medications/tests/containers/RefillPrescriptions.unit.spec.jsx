@@ -207,6 +207,7 @@ describe('Refill Prescriptions Component', () => {
     expect(error).to.exist;
     const focusEl = document.activeElement;
     expect(focusEl).to.have.property('id', 'select-all-checkbox');
+  });
 
   it('Shows h1 and note if no prescriptions are refillable', async () => {
     const screen = setup(initialState, []);
