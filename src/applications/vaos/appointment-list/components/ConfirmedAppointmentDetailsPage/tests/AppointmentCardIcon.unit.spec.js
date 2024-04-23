@@ -19,64 +19,330 @@ const appointmentData = {
     isCanceled: false,
     isUpcomingAppointment: true,
     isPastAppointment: false,
-    isCommunityCare: true,
+    isCommunityCare: false,
+    isPhoneAppointment: false,
+    isCompAndPenAppointment: false,
+    isVideo: false,
+    isCOVIDVaccine: false,
     apiData: {},
-  },
-  communityCareProvider: {
-    treatmentSpecialty: 'Optometrist',
-    providerName: ['John Smith'],
-    telecom: [
-      {
-        system: 'phone',
-        value: '703-691-2020',
-      },
-    ],
-    address: {
-      postalCode: '22030',
-      city: 'FAIRFAX',
-      state: 'VA',
-      line: ['10640 MAIN ST ; STE 100'],
-    },
   },
 };
 
 describe('VAOS Component: AppointmentCardIcon', () => {
-  describe('When the vaOnlineSchedulingAppointmentDetailsRedesign feature flag is on', () => {
-    const initialState = {
-      featureToggles: {},
+  const initialState = {
+    featureToggles: {},
+  };
+
+  it('should display location_city icon for VA in-person appointments', async () => {
+    // Given the appointment is a VA in-person appointment
+    const appointment = {
+      ...appointmentData,
     };
 
-    it('should display location_city icon for VA In-person appointments', async () => {
-      // Given the appointment has treatmentSpecialty
+    const wrapper = renderWithStoreAndRouter(
+      <AppointmentCardIcon appointment={appointment} />,
+      {
+        initialState,
+      },
+    );
+
+    expect(wrapper.getByTestId('appointment-icon')).to.exist;
+    expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+      'icon',
+      'location_city',
+    );
+  });
+
+  it('should display location_city icon for VA in-person vaccine appointments', async () => {
+    const appointment = {
+      ...appointmentData,
+      vaos: {
+        isCOVIDVaccine: true,
+      },
+    };
+
+    const wrapper = renderWithStoreAndRouter(
+      <AppointmentCardIcon appointment={appointment} />,
+      {
+        initialState,
+      },
+    );
+
+    expect(wrapper.getByTestId('appointment-icon')).to.exist;
+    expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+      'icon',
+      'location_city',
+    );
+  });
+
+  it(
+    'should display location_city icon for VA video care at a VA location appointments',
+    async () => {
       const appointment = {
         ...appointmentData,
+        vaos: {
+          isVideo: true,
+        },
+        videoData: {
+          isAtlas: false,
+          kind: 'CLINIC_BASED',
+          extension: {
+            patientHasMobileGfe: false,
+          },
+        },
       };
-      // when featureVaosV2Next flag is on
-      const screen = renderWithStoreAndRouter(
+
+      const wrapper = renderWithStoreAndRouter(
         <AppointmentCardIcon appointment={appointment} />,
         {
           initialState,
-          path: `/${appointment.id}`,
         },
       );
-      // it will display the div that contains the data-testid
-      expect(screen.getByTestId('appointment-treatment-specialty')).to.exist;
-    });
 
-    it('should display location_city icon for VA In-person vaccine appointments', async () => {});
+      expect(wrapper.getByTestId('appointment-icon')).to.exist;
+      expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+        'icon',
+        'location_city',
+      );
+    },
+    async () => {
+      const appointment = {
+        ...appointmentData,
+        vaos: {
+          isVideo: true,
+        },
+        videoData: {
+          isAtlas: false,
+          kind: 'STORE_FORWARD',
+          extension: {
+            patientHasMobileGfe: false,
+          },
+        },
+      };
 
-    it('should display location_city icon for VA video care at a VA location appointments', async () => {});
+      const wrapper = renderWithStoreAndRouter(
+        <AppointmentCardIcon appointment={appointment} />,
+        {
+          initialState,
+        },
+      );
 
-    it('should display location_city icon for claim exam appointment', async () => {});
+      expect(wrapper.getByTestId('appointment-icon')).to.exist;
+      expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+        'icon',
+        'location_city',
+      );
+    },
+  );
 
-    it('should display location_city icon for VA video care at ATLAS location appointments', async () => {});
+  it('should display location_city icon for claim exam appointment', async () => {
+    const appointment = {
+      ...appointmentData,
+      vaos: {
+        isCompAndPenAppointment: true,
+      },
+    };
 
-    it('should display calendar_today icon for community care appointment appointments', async () => {});
+    const wrapper = renderWithStoreAndRouter(
+      <AppointmentCardIcon appointment={appointment} />,
+      {
+        initialState,
+      },
+    );
 
-    it('should display videocam icon for VA video care at a home appointments', async () => {});
+    expect(wrapper.getByTestId('appointment-icon')).to.exist;
+    expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+      'icon',
+      'location_city',
+    );
+  });
 
-    it('should display videocam icon for VA video care on GFE appointments', async () => {});
+  it('should display location_city icon for VA video care at ATLAS location appointments', async () => {
+    const appointment = {
+      ...appointmentData,
+      vaos: {
+        isVideo: true,
+      },
+      videoData: {
+        isAtlas: true,
+      },
+    };
 
-    it('should display phone icon for VA phone appointments', async () => {});
+    const wrapper = renderWithStoreAndRouter(
+      <AppointmentCardIcon appointment={appointment} />,
+      {
+        initialState,
+      },
+    );
+
+    expect(wrapper.getByTestId('appointment-icon')).to.exist;
+    expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+      'icon',
+      'location_city',
+    );
+  });
+
+  it('should display calendar_today icon for community care appointment appointments', async () => {
+    const appointment = {
+      ...appointmentData,
+      vaos: {
+        isCommunityCare: true,
+      },
+    };
+
+    const wrapper = renderWithStoreAndRouter(
+      <AppointmentCardIcon appointment={appointment} />,
+      {
+        initialState,
+      },
+    );
+
+    expect(wrapper.getByTestId('appointment-icon')).to.exist;
+    expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+      'icon',
+      'calendar_today',
+    );
+  });
+
+  it(
+    'should display videocam icon for VA video care at a home appointments',
+    async () => {
+      const appointment = {
+        ...appointmentData,
+        vaos: {
+          isVideo: true,
+        },
+        videoData: {
+          isAtlas: false,
+          kind: 'MOBILE_ANY',
+          extension: {
+            patientHasMobileGfe: false,
+          },
+        },
+      };
+
+      const wrapper = renderWithStoreAndRouter(
+        <AppointmentCardIcon appointment={appointment} />,
+        {
+          initialState,
+        },
+      );
+
+      expect(wrapper.getByTestId('appointment-icon')).to.exist;
+      expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+        'icon',
+        'videocam',
+      );
+    },
+    async () => {
+      const appointment = {
+        ...appointmentData,
+        vaos: {
+          isVideo: true,
+        },
+        videoData: {
+          isAtlas: false,
+          kind: 'ADHOC',
+          extension: {
+            patientHasMobileGfe: false,
+          },
+        },
+      };
+
+      const wrapper = renderWithStoreAndRouter(
+        <AppointmentCardIcon appointment={appointment} />,
+        {
+          initialState,
+        },
+      );
+
+      expect(wrapper.getByTestId('appointment-icon')).to.exist;
+      expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+        'icon',
+        'videocam',
+      );
+    },
+  );
+
+  it(
+    'should display videocam icon for VA video care on GFE appointments',
+    async () => {
+      const appointment = {
+        ...appointmentData,
+        vaos: {
+          isVideo: true,
+        },
+        videoData: {
+          isAtlas: false,
+          kind: 'MOBILE_ANY',
+          extension: {
+            patientHasMobileGfe: true,
+          },
+        },
+      };
+
+      const wrapper = renderWithStoreAndRouter(
+        <AppointmentCardIcon appointment={appointment} />,
+        {
+          initialState,
+        },
+      );
+
+      expect(wrapper.getByTestId('appointment-icon')).to.exist;
+      expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+        'icon',
+        'videocam',
+      );
+    },
+    async () => {
+      const appointment = {
+        ...appointmentData,
+        vaos: {
+          isVideo: true,
+        },
+        videoData: {
+          isAtlas: false,
+          kind: 'ADHOC',
+          extension: {
+            patientHasMobileGfe: true,
+          },
+        },
+      };
+
+      const wrapper = renderWithStoreAndRouter(
+        <AppointmentCardIcon appointment={appointment} />,
+        {
+          initialState,
+        },
+      );
+
+      expect(wrapper.getByTestId('appointment-icon')).to.exist;
+      expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+        'icon',
+        'videocam',
+      );
+    },
+  );
+
+  it('should display phone icon for VA phone appointments', async () => {
+    const appointment = {
+      ...appointmentData,
+      vaos: {
+        isPhoneAppointment: true,
+      },
+    };
+
+    const wrapper = renderWithStoreAndRouter(
+      <AppointmentCardIcon appointment={appointment} />,
+      {
+        initialState,
+      },
+    );
+
+    expect(wrapper.getByTestId('appointment-icon')).to.exist;
+    expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+      'icon',
+      'phone',
+    );
   });
 });
