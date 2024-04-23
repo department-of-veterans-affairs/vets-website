@@ -11,7 +11,7 @@ export const INITIAL_STATE = Object.freeze({
   schools: true,
   excludedSchoolTypes: [
     'PUBLIC',
-    'FOR-PROFIT',
+    'FOR PROFIT',
     'PRIVATE',
     'FOREIGN',
     'FLIGHT',
@@ -53,7 +53,7 @@ export default function(state = INITIAL_STATE, action) {
       const onLoadState = {
         excludedSchoolTypes: [
           'PUBLIC',
-          'FOR-PROFIT',
+          'FOR PROFIT',
           'PRIVATE',
           'FOREIGN',
           'FLIGHT',
