@@ -21,9 +21,8 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
     },
   };
 
-  it('should show information without facility name', async () => {
-    // Arrange
-    const startDate = moment();
+  // This function creates a baseline canceled appointment
+  function mockBaseCanceledAppointment(start) {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
@@ -31,11 +30,15 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
       status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
       clinic: '308',
-      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
+      localStartTime: start.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       locationId: '983GC',
     };
+    return appointment;
+  }
 
-    // And developer is using the v2 API
+  // This function mocks the behavior of fetchFutureAppointments
+  // which fetches appointments and appointment requests
+  function mockFetchFutureAppointments(appointment) {
     mockVAOSAppointmentsFetch({
       start: moment()
         .subtract(30, 'days')
@@ -54,6 +57,13 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
       statuses: ['proposed', 'cancelled'],
       requests: [appointment],
     });
+  }
+
+  it('should show information without facility name', async () => {
+    // Arrange
+    const startDate = moment();
+    const appointment = mockBaseCanceledAppointment(startDate);
+    mockFetchFutureAppointments(appointment);
 
     // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -100,25 +110,7 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
       }),
     };
 
-    // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-    });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
-      statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
-    });
+    mockFetchFutureAppointments(appointment);
 
     // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -137,36 +129,9 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
   it('should not display when they have hidden statuses', () => {
     // Arrange
     const startDate = moment();
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      id: '1234',
-      status: APPOINTMENT_STATUS.noshow,
-      kind: 'clinic',
-      clinic: '308',
-      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      locationId: '983GC',
-    };
-
-    // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-    });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
-      statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
-    });
+    const appointment = mockBaseCanceledAppointment(startDate);
+    appointment.attributes.status = APPOINTMENT_STATUS.noshow;
+    mockFetchFutureAppointments(appointment);
 
     // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -195,25 +160,7 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
       locationId: '983GC',
     };
 
-    // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-    });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
-      statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
-    });
+    mockFetchFutureAppointments(appointment);
 
     // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -227,7 +174,7 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
   });
 
   it('should show error message when request fails', async () => {
-    // And developer is using the v2 API
+    // Mock a fetch failure
     mockVAOSAppointmentsFetch({
       start: moment()
         .subtract(30, 'days')
@@ -239,17 +186,6 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
       requests: [],
       error: true,
     });
-
-    // setFetchJSONFailure(
-    //   global.fetch.withArgs(
-    //     `${
-    //       environment.API_URL
-    //     }/vaos/v0/appointment_requests?start_date=${moment()
-    //       .add(-120, 'days')
-    //       .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
-    //   ),
-    //   { errors: [] },
-    // );
 
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
@@ -265,37 +201,10 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
   it('should show at home video appointment text', async () => {
     // Arrange
     const startDate = moment();
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      id: '1234',
-      status: APPOINTMENT_STATUS.cancelled,
-      kind: 'telehealth',
-      clinic: '308',
-      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      locationId: '983GC',
-      telehealth: { vvsKind: VIDEO_TYPES.adhoc },
-    };
-
-    // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-    });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
-      statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
-    });
+    const appointment = mockBaseCanceledAppointment(startDate);
+    appointment.attributes.kind = 'telehealth';
+    appointment.attributes.telehealth = { vvsKind: VIDEO_TYPES.adhoc };
+    mockFetchFutureAppointments(appointment);
 
     // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -319,55 +228,29 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
   it('should show ATLAS video appointment text', async () => {
     // Arrange
     const startDate = moment();
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      id: '1234',
-      status: APPOINTMENT_STATUS.cancelled,
-      currentStatus: 'CANCELLED BY CLINIC',
-      kind: 'telehealth',
-      clinic: '308',
-      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      locationId: '983GC',
-      telehealth: {
-        vvsKind: VIDEO_TYPES.adhoc,
-        atlas: {
-          siteCode: '9931',
-          slotId: 'Slot8',
-          confirmationCode: '7VBBCA',
-          address: {
-            streetAddress: '114 Dewey Ave',
-            city: 'Eureka',
-            state: 'MT',
-            zipCode: '59917',
-            country: 'USA',
-            longitude: null,
-            latitude: null,
-            additionalDetails: '',
-          },
+    const appointment = mockBaseCanceledAppointment(startDate);
+    appointment.attributes.kind = 'telehealth';
+    appointment.attributes.currentStatus = 'CANCELLED BY CLINIC';
+    appointment.attributes.telehealth = {
+      vvsKind: VIDEO_TYPES.adhoc,
+      atlas: {
+        siteCode: '9931',
+        slotId: 'Slot8',
+        confirmationCode: '7VBBCA',
+        address: {
+          streetAddress: '114 Dewey Ave',
+          city: 'Eureka',
+          state: 'MT',
+          zipCode: '59917',
+          country: 'USA',
+          longitude: null,
+          latitude: null,
+          additionalDetails: '',
         },
       },
     };
 
-    // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-    });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
-      statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
-    });
+    mockFetchFutureAppointments(appointment);
 
     // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -393,41 +276,12 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
   it('should show video appointment on gfe text', async () => {
     // Arrange
     const startDate = moment();
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      id: '1234',
-      status: APPOINTMENT_STATUS.cancelled,
-      currentStatus: 'CANCELLED BY CLINIC',
-      kind: 'telehealth',
-      clinic: '308',
-      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      locationId: '983GC',
-      telehealth: { vvsKind: VIDEO_TYPES.adhoc },
-      extension: {
-        patientHasMobileGfe: true,
-      },
-    };
-
-    // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-    });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
-      statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
-    });
+    const appointment = mockBaseCanceledAppointment(startDate);
+    appointment.attributes.kind = 'telehealth';
+    appointment.attributes.currentStatus = 'CANCELLED BY CLINIC';
+    appointment.attributes.telehealth = { vvsKind: VIDEO_TYPES.adhoc };
+    appointment.attributes.extension = { patientHasMobileGfe: true };
+    mockFetchFutureAppointments(appointment);
 
     // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -453,38 +307,11 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
   it('should show video appointment at VA location text', async () => {
     // Arrange
     const startDate = moment();
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      id: '1234',
-      currentStatus: 'CANCELLED BY CLINIC',
-      status: APPOINTMENT_STATUS.cancelled,
-      kind: 'telehealth',
-      clinic: '308',
-      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      locationId: '983GC',
-      telehealth: { vvsKind: VIDEO_TYPES.clinic },
-    };
-
-    // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-    });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
-      statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
-    });
+    const appointment = mockBaseCanceledAppointment(startDate);
+    appointment.attributes.kind = 'telehealth';
+    appointment.attributes.currentStatus = 'CANCELLED BY CLINIC';
+    appointment.attributes.telehealth = { vvsKind: VIDEO_TYPES.clinic };
+    mockFetchFutureAppointments(appointment);
 
     // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -510,38 +337,11 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
   it('should show phone call appointment text', async () => {
     // Arrange
     const startDate = moment();
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      id: '1234',
-      currentStatus: 'CANCELLED BY CLINIC',
-      status: APPOINTMENT_STATUS.cancelled,
-      kind: 'phone',
-      clinic: '308',
-      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      locationId: '983GC',
-      telehealth: { vvsKind: VIDEO_TYPES.clinic },
-    };
-
-    // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-    });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
-      statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
-    });
+    const appointment = mockBaseCanceledAppointment(startDate);
+    appointment.attributes.kind = 'phone';
+    appointment.attributes.currentStatus = 'CANCELLED BY CLINIC';
+    appointment.attributes.telehealth = { vvsKind: VIDEO_TYPES.clinic };
+    mockFetchFutureAppointments(appointment);
 
     // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -559,36 +359,8 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
   it('should show canceled appointment from past if less than 30 days ago', async () => {
     // Arrange
     const startDate = moment().subtract(28, 'days');
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      id: '1234',
-      status: APPOINTMENT_STATUS.cancelled,
-      kind: 'clinic',
-      clinic: '308',
-      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      locationId: '983GC',
-    };
-
-    // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-    });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
-      statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
-    });
+    const appointment = mockBaseCanceledAppointment(startDate);
+    mockFetchFutureAppointments(appointment);
 
     // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -613,36 +385,8 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
   it('should show canceled appointment from past if less than 395 days ahead', async () => {
     // Arrange
     const startDate = moment().add(393, 'days');
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      id: '1234',
-      status: APPOINTMENT_STATUS.cancelled,
-      kind: 'clinic',
-      clinic: '308',
-      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      locationId: '983GC',
-    };
-
-    // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-    });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
-      statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
-    });
+    const appointment = mockBaseCanceledAppointment(startDate);
+    mockFetchFutureAppointments(appointment);
 
     // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -667,36 +411,8 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
   it('should not show canceled appointment from past if more than 30 days ago', async () => {
     // Arrange
     const startDate = moment().subtract(32, 'days');
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      id: '1234',
-      status: APPOINTMENT_STATUS.cancelled,
-      kind: 'clinic',
-      clinic: '308',
-      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      locationId: '983GC',
-    };
-
-    // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-    });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
-      statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
-    });
+    const appointment = mockBaseCanceledAppointment(startDate);
+    mockFetchFutureAppointments(appointment);
 
     // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
@@ -712,36 +428,8 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
   it('should not show canceled appointment if more than 395 days ahead', async () => {
     // Arrange
     const startDate = moment().subtract(393, 'days');
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      id: '1234',
-      status: APPOINTMENT_STATUS.cancelled,
-      kind: 'clinic',
-      clinic: '308',
-      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      locationId: '983GC',
-    };
-
-    // And developer is using the v2 API
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(30, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment()
-        .add(395, 'days')
-        .format('YYYY-MM-DD'),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
-      requests: [appointment],
-    });
-    mockVAOSAppointmentsFetch({
-      start: moment()
-        .subtract(120, 'days')
-        .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
-      statuses: ['proposed', 'cancelled'],
-      requests: [appointment],
-    });
+    const appointment = mockBaseCanceledAppointment(startDate);
+    mockFetchFutureAppointments(appointment);
 
     // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
