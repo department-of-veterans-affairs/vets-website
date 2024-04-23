@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import { YesNoField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   createArrayBuilderItemAddPath,
@@ -7,9 +6,10 @@ import {
   onNavBackKeepUrlParams,
   onNavBackRemoveAddingItem,
   createArrayBuilderUpdatedPath,
+  getArrayIndexFromPathName,
 } from '../helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
-import { ArrayBuilderSummaryPage } from './ArrayBuilderSummaryPage';
+import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 /**
@@ -34,7 +34,7 @@ import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
  * nounPlural: "employers"
  * ```
  * @property {(item) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. e.g. `item => !item?.name`
- * @property {string} [reviewPath] Will default to the last page. Specify this to manually set it e.g. `"/review-and-submit"`
+ * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
  * @property {{
  *   getItemName?: (item) => string | JSX.Element,
  *   cardDescription?: (item) => string,
@@ -67,16 +67,32 @@ function throwMissingYesNoField() {
   );
 }
 
+function throwMissingYesNoValidation() {
+  throw new Error(
+    "arrayBuilderPages `pageBuilder.summaryPage()` must include a `uiSchema` that is using `arrayBuilderYesNoUI` pattern instead of `yesNoUI` pattern, or a similar pattern including `yesNoUI` with `'ui:validations'`",
+  );
+}
+
 function throwIncorrectItemPath() {
   throw new Error(
     'arrayBuilderPages item pages must include a `path` property that includes `/:index`',
   );
 }
 
+function throwValidateRequired() {
+  throw new Error(
+    'arrayBuilderPages options must include a `required` boolean or function that returns a boolean. If `required` returns `true`, the flow should start with an "intro" page and expects at least 1 item from the user. If `required` returns `false`, the user can choose to skip the array entirely with a yes no question on the "summary" page.',
+  );
+}
+
 function verifyRequiredArrayBuilderOptions(options, requiredOpts) {
   requiredOpts.forEach(option => {
     if (options[option] === undefined) {
-      throwErrorOption(option);
+      if (option === 'required') {
+        throwValidateRequired();
+      } else {
+        throwErrorOption(option);
+      }
     }
   });
 }
@@ -111,6 +127,58 @@ export function getPageAfterPageKey(pageList, pageKey) {
   return nextPage;
 }
 
+export function validatePages(orderedPageTypes) {
+  const pageTypes = {};
+  for (const pageType of orderedPageTypes) {
+    if (pageType === 'intro') {
+      if (pageTypes.intro || pageTypes.summary || pageTypes.item) {
+        throw new Error(
+          "arrayBuilderPages `pageBuilder.introPage` must be first and defined only once. Intro page should be used for 'required' flow, and should contain only text.",
+        );
+      }
+      pageTypes.intro = true;
+    } else if (pageType === 'summary') {
+      if (pageTypes.summary || pageTypes.item) {
+        throw new Error(
+          'arrayBuilderPages `pageBuilder.summaryPage` must be defined only once and be defined before the item pages. This is so the loop cycle, and back and continue buttons will work consistently and appropriately. In a "required" flow, the summary path will be skipped on the first round despite being defined first.',
+        );
+      }
+      pageTypes.summary = true;
+    } else if (pageType === 'item') {
+      pageTypes.item = true;
+    }
+  }
+  if (!pageTypes.summary) {
+    throw new Error(
+      'arrayBuilderPages must include a summary page with `pageBuilder.summaryPage`',
+    );
+  }
+  if (!pageTypes.item) {
+    throw new Error(
+      'arrayBuilderPages must include at least one item page with `pageBuilder.itemPage`',
+    );
+  }
+}
+
+export function validateRequired(required) {
+  if (required == null || typeof required === 'string') {
+    throwValidateRequired();
+  }
+}
+
+export function validateReviewPath(reviewPath) {
+  if (reviewPath?.charAt(0) === '/') {
+    throw new Error('reviewPath should not start with a `/`');
+  }
+}
+
+export function validateMinItems(minItems) {
+  if (minItems != null) {
+    // eslint-disable-next-line no-console
+    console.warn('minItems is not yet implemented. Use "required" instead.');
+  }
+}
+
 /**
  * Example:
  * ```
@@ -122,6 +190,7 @@ export function getPageAfterPageKey(pageList, pageKey) {
  *       nounPlural: 'employers',
  *       isItemIncomplete: item => !item?.name,
  *       maxItems: 5,
+ *       required: true,
  *       text: {
  *         getItemName: item => item.name,
  *         cardDescription: item => `${item?.dateStart} - ${item?.dateEnd}`,
@@ -160,9 +229,11 @@ export function getPageAfterPageKey(pageList, pageKey) {
  * @returns {FormConfigChapter}
  */
 export function arrayBuilderPages(options, pageBuilderCallback) {
+  let introPath;
   let summaryPath;
   let hasItemsKey;
   const itemPages = [];
+  const orderedPageTypes = [];
 
   if (
     !options ||
@@ -189,8 +260,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     minItems = 1,
     maxItems = 100,
     text: userText = {},
-    reviewPath,
-    required,
+    reviewPath = 'review-and-submit',
+    required: userRequired,
   } = options;
 
   const text = {
@@ -226,6 +297,11 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
    * }}
    */
   const pageBuilderVerifyAndSetup = {
+    introPage: pageConfig => {
+      introPath = pageConfig.path;
+      orderedPageTypes.push('intro');
+      return pageConfig;
+    },
     summaryPage: pageConfig => {
       summaryPath = pageConfig.path;
       try {
@@ -236,6 +312,10 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       if (!hasItemsKey) {
         throwMissingYesNoField();
       }
+      if (!pageConfig.uiSchema?.[hasItemsKey]?.['ui:validations']?.[0]) {
+        throwMissingYesNoValidation();
+      }
+      orderedPageTypes.push('summary');
       return pageConfig;
     },
     itemPage: pageConfig => {
@@ -243,12 +323,19 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         throwIncorrectItemPath();
       }
       itemPages.push(pageConfig);
+      orderedPageTypes.push('item');
       return pageConfig;
     },
   };
 
   // Verify and setup any initial page options
   const testConfig = pageBuilderCallback(pageBuilderVerifyAndSetup);
+  validatePages(orderedPageTypes);
+  validateRequired(userRequired);
+  validateReviewPath(reviewPath);
+  validateMinItems(options.minItems);
+  const required =
+    typeof userRequired === 'function' ? userRequired : () => userRequired;
   const pageKeys = Object.keys(testConfig);
   const firstItemPagePath = itemPages?.[0]?.path;
   const lastItemPagePath = itemPages?.[itemPages.length - 1]?.path;
@@ -258,17 +345,11 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   const pageBuilder = pageBuilderVerifyAndSetup;
 
   /** @type {FormConfigPage['onNavForward']} */
-  const navForwardFinishedItem = ({
-    goPath,
-    urlParams,
-    pathname,
-    pageList,
-  }) => {
+  const navForwardFinishedItem = ({ goPath, urlParams, pathname }) => {
     let path = summaryPath;
     if (urlParams?.edit || (urlParams?.add && urlParams?.review)) {
-      const index = getUrlPathIndex(pathname);
-      const review = reviewPath || pageList[pageList.length - 1]?.path;
-      const basePath = urlParams?.review ? review : summaryPath;
+      const index = getArrayIndexFromPathName(pathname);
+      const basePath = urlParams?.review ? reviewPath : summaryPath;
       path = createArrayBuilderUpdatedPath({
         basePath,
         index,
@@ -281,7 +362,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   /** @type {FormConfigPage['onNavBack']} */
   const navBackFirstItem = onNavBackRemoveAddingItem({
     arrayPath,
-    summaryPathUrl: summaryPath,
+    introRoute: introPath,
+    summaryRoute: summaryPath,
   });
 
   /** @type {FormConfigPage['onNavForward']} */
@@ -299,6 +381,24 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     }
   };
 
+  /** @type {FormConfigPage['onNavForward']} */
+  const navForwardIntro = ({ formData, goPath, goNextPath }) => {
+    // required flow:
+    // intro -> items -> summary -> items -> summary
+    //
+    // optional flow:
+    // summary -> items -> summary
+    if (required(formData) && !formData[arrayPath]?.length) {
+      const path = createArrayBuilderItemAddPath({
+        path: firstItemPagePath,
+        index: 0,
+      });
+      goPath(path);
+    } else {
+      goPath(summaryPath);
+    }
+  };
+
   function getNavItem(path) {
     const onNavBack =
       firstItemPagePath === path ? navBackFirstItem : onNavBackKeepUrlParams;
@@ -309,13 +409,23 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     return { onNavBack, onNavForward };
   }
 
+  pageBuilder.introPage = pageConfig => {
+    const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
+    verifyRequiredPropsPageConfig('introPage', requiredOpts, pageConfig);
+
+    return {
+      onNavForward: navForwardIntro,
+      ...pageConfig,
+    };
+  };
+
   pageBuilder.summaryPage = pageConfig => {
     const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
     verifyRequiredPropsPageConfig('summaryPage', requiredOpts, pageConfig);
 
     const summaryPageProps = {
       arrayPath,
-      determineYesNoField,
+      hasItemsKey,
       firstItemPagePath,
       getText,
       isItemIncomplete,
@@ -340,7 +450,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   };
 
   pageBuilder.itemPage = pageConfig => {
-    const { depends, ...restPageConfig } = pageConfig;
     const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
     verifyRequiredPropsPageConfig('itemPage', requiredOpts, pageConfig);
     const { onNavBack, onNavForward } = getNavItem(pageConfig.path);
@@ -351,17 +460,17 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       arrayPath,
       CustomPage: ArrayBuilderItemPage({
         arrayPath,
+        introRoute: introPath,
         summaryRoute: summaryPath,
+        reviewRoute: reviewPath,
+        required,
         getText,
       }),
       CustomPageReview: () => null,
       customPageUsesPagePerItemData: true,
-      depends: formData =>
-        (depends ? depends(formData) : true) &&
-        (formData[hasItemsKey] || formData[arrayPath]?.length > 0),
       onNavBack,
       onNavForward,
-      ...restPageConfig,
+      ...pageConfig,
       uiSchema: {
         [arrayPath]: {
           items: pageConfig.uiSchema,

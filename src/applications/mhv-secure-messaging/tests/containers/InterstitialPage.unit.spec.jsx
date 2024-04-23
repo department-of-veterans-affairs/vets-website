@@ -37,7 +37,7 @@ describe('Interstitial page header', () => {
       <InterstitialPage type="draft" acknowledge={acknowledgeSpy} />,
     );
     const continueButton = screen.queryByTestId('continue-button');
-    expect(continueButton).to.have.attribute('text', 'Continue to draft');
+    expect(continueButton.textContent).to.contain('Continue to draft');
   });
 
   it('renders "Continue to reply" on type reply', () => {
@@ -46,7 +46,7 @@ describe('Interstitial page header', () => {
       <InterstitialPage type="reply" acknowledge={acknowledgeSpy} />,
     );
     const continueButton = screen.queryByTestId('continue-button');
-    expect(continueButton).to.have.attribute('text', 'Continue to reply');
+    expect(continueButton.textContent).to.contain('Continue to reply');
   });
 
   it('"Continue to start message" button responds on Enter key', async () => {
