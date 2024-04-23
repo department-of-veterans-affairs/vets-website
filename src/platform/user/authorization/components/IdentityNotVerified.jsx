@@ -20,10 +20,7 @@ const VerifyIdentityInfo = () => (
     trigger="If you have trouble verifying your identity"
     uswds
   >
-    <a
-      href="https://www.va.gov/resources/verifying-your-identity-on-vagov/"
-      clasName="vads-u-padding-bottom--2"
-    >
+    <a href="https://www.va.gov/resources/verifying-your-identity-on-vagov/">
       Get answers to common questions about verifying your identity
     </a>
     <div className="vads-u-margin-top--2p5">
