@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  BASE_URL,
   REVIEW_ENROLLMENTS_URL,
   REVIEW_ENROLLMENTS_URL_SEGMENT,
   VERIFY_ENROLLMENTS_ERROR_URL_SEGMENT,
@@ -16,7 +15,7 @@ export default function EnrollmentVerificationBreadcrumbs() {
     <a href="/education/" key="education-and-training">
       Education and training
     </a>,
-    <a href={BASE_URL} key="enrollment-history">
+    <a href="/education/verify-school-enrollment/" key="enrollment-history">
       Verify your school enrollments for GI Bill benefits
     </a>,
   ];
