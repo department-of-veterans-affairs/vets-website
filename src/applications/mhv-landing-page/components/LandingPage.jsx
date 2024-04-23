@@ -48,7 +48,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
       event: 'nav-alert-box-load',
       action: 'load',
       'alert-box-headline': unVerifiedHeadline,
-      'alert-box-status': 'alert',
+      'alert-box-status': 'continue',
     };
     if (isUnverified) {
       recordEvent(event);
@@ -56,6 +56,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
       recordEvent({
         ...event,
         'alert-box-headline': noHealthDataHeadline,
+        'alert-box-status': 'warning',
       });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps

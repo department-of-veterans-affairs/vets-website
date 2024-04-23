@@ -33,7 +33,7 @@ const event = {
   event: 'nav-alert-box-load',
   action: 'load',
   'alert-box-headline': '',
-  'alert-box-status': 'alert',
+  'alert-box-status': 'continue',
 };
 
 const setup = ({ initialState = stateFn(), props = {} } = {}) =>
@@ -85,6 +85,7 @@ describe('LandingPage component', () => {
     const loa1Event = {
       ...event,
       'alert-box-headline': 'You don’t have access to My HealtheVet',
+      'alert-box-status': 'warning',
     };
     const recordEventSpy = sinon.spy();
     const props = { recordEvent: recordEventSpy };
