@@ -238,6 +238,17 @@ class PatientComposePage {
     });
   };
 
+  attachFewFiles = fileList => {
+    for (let i = 0; i < fileList.length; i += 1) {
+      const filepath = `src/applications/mhv-secure-messaging/tests/e2e/fixtures/mock-attachments/${
+        fileList[i]
+      }`;
+      cy.get(Locators.ATTACH_FILE_INPUT).selectFile(filepath, {
+        force: true,
+      });
+    }
+  };
+
   verifyAttachmentButtonText = (numberOfAttachments = 0) => {
     if (numberOfAttachments < 1) {
       cy.get(Locators.BUTTONS.ATTACH_FILE)
@@ -412,6 +423,12 @@ class PatientComposePage {
     cy.get(Locators.BUTTONS.SAVE_DRAFT)
       .should('exist')
       .and('be.focused');
+  };
+
+  verifyAttachmentInfo = data => {
+    cy.get(Locators.INFO.ATTACH_OPT).each((el, index) => {
+      cy.wrap(el).should('have.text', data[index]);
+    });
   };
 }
 
