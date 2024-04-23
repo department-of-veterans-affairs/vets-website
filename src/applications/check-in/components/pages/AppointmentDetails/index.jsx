@@ -15,7 +15,7 @@ import {
   clinicName,
   findAppointment,
 } from '../../../utils/appointment';
-import { APP_NAMES } from '../../../utils/appConstants';
+import { APP_NAMES, phoneNumbers } from '../../../utils/appConstants';
 
 import Wrapper from '../../layout/Wrapper';
 import BackButton from '../../BackButton';
@@ -39,8 +39,9 @@ const AppointmentDetails = props => {
   const isPhoneAppointment = appointment?.kind === 'phone';
   const isCvtAppointment = appointment?.kind === 'cvt';
   const isVvcAppointment = appointment?.kind === 'vvc';
+  const isInPersonAppointment = appointment?.kind === 'clinic';
   const { appointmentId } = router.params;
-  const isPreCheckIn = app === 'preCheckIn';
+  const isPreCheckIn = app === APP_NAMES.PRE_CHECK_IN;
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { is45MinuteReminderEnabled } = useSelector(selectFeatureToggles);
@@ -178,11 +179,12 @@ const AppointmentDetails = props => {
                   </div>
                 </div>
               )}
-              <div data-testid="appointment-details--where">
-                <h2 className="vads-u-font-size--sm">
-                  {isPhoneAppointment ? t('clinic') : t('where-to-attend')}
-                </h2>
-                {!isPhoneAppointment && (
+
+              {(isInPersonAppointment || isCvtAppointment) && (
+                <div data-testid="appointment-details--where">
+                  <h2 className="vads-u-font-size--sm">
+                    {t('where-to-attend')}
+                  </h2>
                   <div data-testid="appointment-details--facility-value">
                     {appointment.facility}
                     <br />
@@ -196,29 +198,63 @@ const AppointmentDetails = props => {
                       </div>
                     )}
                   </div>
-                )}
-                <div data-testid="appointment-details--clinic-value">
-                  {!isPhoneAppointment && `${t('clinic')}:`} {clinic}
                 </div>
-                {!isPhoneAppointment && (
+              )}
+              {(isPhoneAppointment || isVvcAppointment) && (
+                <div data-testid="appointment-details--need-to-make-changes">
+                  <h2 className="vads-u-font-size--sm">
+                    {t('need-to-make-changes')}
+                  </h2>
+                  <p className="vads-u-margin-top--0">
+                    {t('contact-this-facility')}
+                  </p>
+                </div>
+              )}
+
+              {(isPhoneAppointment || isVvcAppointment) && (
+                <div data-testid="appointment-details--facility-info">
+                  {appointment.facility && (
+                    <div data-testid="appointment-details--facility-value">
+                      {appointment.facility}
+                    </div>
+                  )}
+                  {appointment.facilityAddress?.city &&
+                    appointment.facilityAddress?.state && (
+                      <div data-testid="appointment-details--facility-address">
+                        {`${appointment.facilityAddress.city}, ${
+                          appointment.facilityAddress.state
+                        }`}
+                      </div>
+                    )}
+                </div>
+              )}
+
+              {clinic && (
+                <div data-testid="appointment-details--clinic-value">
+                  {`${t('clinic')}:`} {clinic}
+                </div>
+              )}
+              {(isInPersonAppointment || isCvtAppointment) &&
+                appointment.clinicLocation && (
                   <div data-testid="appointment-details--location-value">
                     {`${t('location')}: ${appointment.clinicLocation}`}
                   </div>
                 )}
-              </div>
               {appointment.clinicPhoneNumber && (
                 <div data-testid="appointment-details--phone">
-                  <h2 className="vads-u-font-size--sm">{t('phone')}</h2>
                   <div data-testid="appointment-details--phone-value">
-                    <i
-                      aria-label="phone"
-                      className="fas fa-phone vads-u-color--link-default vads-u-margin-right--1"
-                      aria-hidden="true"
-                    />
+                    {`${t('clinic-phone')}: `}
                     <va-telephone
                       onClick={handlePhoneNumberClick}
                       contact={appointment.clinicPhoneNumber}
                     />
+                    <br />(
+                    <va-telephone
+                      contact={phoneNumbers.tty}
+                      tty
+                      ariaLabel="7 1 1."
+                    />
+                    )
                   </div>
                 </div>
               )}
