@@ -26,7 +26,6 @@ describe('VAOS Component: AppointmentCardIcon', () => {
   };
 
   it('should display location_city icon for VA in-person appointments', async () => {
-    // Given the appointment is a VA in-person appointment
     const appointment = {
       ...appointmentData,
     };
