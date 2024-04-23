@@ -7,14 +7,6 @@ const appointmentData = {
   start: '2024-07-19T08:00:00-07:00',
   version: 2,
   status: 'booked',
-  videoData: {
-    isVideo: false,
-  },
-  location: {
-    vistaId: '983',
-    clinicId: '848',
-    stationId: '983',
-  },
   vaos: {
     isCanceled: false,
     isUpcomingAppointment: true,
