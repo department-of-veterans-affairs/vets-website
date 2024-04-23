@@ -27,7 +27,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
       <div>
         <va-loading-indicator
           label="Loading"
-          message="Loading your representative..."
+          message="Loading your accredited representative information..."
         />
       </div>
     );
