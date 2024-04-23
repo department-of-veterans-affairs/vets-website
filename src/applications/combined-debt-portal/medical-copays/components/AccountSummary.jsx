@@ -50,7 +50,7 @@ export const AccountSummary = ({
           {`New charges: ${currency(newCharges)}`}
         </li>
       </ul>
-      <h3 className="vads-u-margin-top--2">Accounnt number</h3>
+      <h3 className="vads-u-margin-top--2">Account number</h3>
       <p>{acctNum}</p>
     </div>
   );
