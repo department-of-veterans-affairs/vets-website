@@ -25,7 +25,6 @@ import {
   getAppointmentTimezone,
   isClinicVideoAppointment,
   getPatientTelecom,
-  hasValidCovidPhoneNumber,
 } from '../../services/appointment';
 import {
   selectFeatureRequests,
@@ -263,6 +262,10 @@ export function selectRequestedAppointmentDetails(state, id) {
   const typeOfCareName = typeOfCare?.name;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const typeOfVisit = appointment?.requestVisitType;
+  const facilityPhone =
+    appointment?.vaos.apiData.extension?.clinic?.phoneNumber ||
+    facility?.telecom?.find(tele => tele.system === 'covid')?.value ||
+    facility?.telecom?.find(tele => tele.system === 'phone')?.value;
 
   return {
     appointment,
@@ -273,6 +276,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     email,
     facility,
     facilityData,
+    facilityPhone,
     isCC,
     isCCRequest,
     isCanceled,
@@ -390,9 +394,10 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
   const status = appointment?.status;
   const typeOfCareName = selectTypeOfCareName(appointment);
   const clinicName = appointment?.location?.clinicName;
-  const facilityPhone = hasValidCovidPhoneNumber(facility)
-    ? facility?.telecom?.find(tele => tele.system === 'covid')?.value
-    : facility?.telecom?.find(tele => tele.system === 'phone')?.value;
+  const facilityPhone =
+    appointment?.vaos?.apiData?.extension?.clinic?.phoneNumber ||
+    facility?.telecom?.find(tele => tele.system === 'covid')?.value ||
+    facility?.telecom?.find(tele => tele.system === 'phone')?.value;
 
   const clinicPhysicalLocation = appointment?.location?.clinicPhysicalLocation;
   const duration = appointment?.minutesDuration;
@@ -736,4 +741,8 @@ export function selectModalityIcon(appointment) {
   if (isCommunityCare) icon = 'fa-blank';
 
   return icon;
+}
+
+export function selectAppointmentType(appointment) {
+  return appointment?.vaos.appointmentType;
 }
