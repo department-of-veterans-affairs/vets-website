@@ -12,6 +12,7 @@ import FullWidthLayout from '../../../components/FullWidthLayout';
 import { fetchConfirmedAppointmentDetails } from '../../redux/actions';
 import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 import {
+  selectFeatureAppointmentDetailsRedesign,
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureVaosV2Next,
 } from '../../../redux/selectors';
@@ -36,6 +37,9 @@ export default function ConfirmedAppointmentDetailsPage() {
   );
   const featureVaosV2Next = useSelector(state =>
     selectFeatureVaosV2Next(state),
+  );
+  const featureAppointmentDetailsRedesign = useSelector(
+    selectFeatureAppointmentDetailsRedesign,
   );
   const appointmentDate = moment.parseZone(appointment?.start);
 
@@ -119,7 +123,7 @@ export default function ConfirmedAppointmentDetailsPage() {
           featureVaosV2Next={featureVaosV2Next}
         />
       )}
-      <CancelAppointmentModal />
+      {!featureAppointmentDetailsRedesign && <CancelAppointmentModal />}
     </PageLayout>
   );
 }

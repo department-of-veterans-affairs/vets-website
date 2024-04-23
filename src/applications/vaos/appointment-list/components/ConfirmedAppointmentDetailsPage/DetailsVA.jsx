@@ -1,5 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { shallowEqual } from 'recompose';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import BackLink from '../../../components/BackLink';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
@@ -12,29 +16,38 @@ import PrintLink from './PrintLink';
 import VAInstructions from './VAInstructions';
 import NoOnlineCancelAlert from './NoOnlineCancelAlert';
 import PhoneInstructions from './PhoneInstructions';
-import { selectTypeOfCareName } from '../../redux/selectors';
-import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import {
+  getConfirmedAppointmentDetailsInfo,
+  selectTypeOfCareName,
+} from '../../redux/selectors';
+import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
 import { formatHeader } from './DetailsVA.util';
+import { selectFeatureAppointmentDetailsRedesign } from '../../../redux/selectors';
+import CancelWarningPage from '../cancel/CancelWarningPage';
+import CancelConfirmationPage from '../cancel/CancelConfirmationPage';
+import PageLayout from '../PageLayout';
+import FacilityAddress from '../../../components/FacilityAddress';
 
-export default function DetailsVA({ appointment, facilityData }) {
+function Content({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[locationId];
-  const isCovid = appointment.vaos.isCOVIDVaccine;
+  const isCovid = appointment?.vaos?.isCOVIDVaccine;
+  const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
   const header = formatHeader(appointment);
   const {
     isPastAppointment,
     isCompAndPenAppointment,
     isPhoneAppointment,
     isCancellable: isAppointmentCancellable,
-  } = appointment.vaos;
-  const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+  } = appointment?.vaos;
 
-  const typeOfCareName = selectTypeOfCareName(appointment);
   // we don't want to display the appointment type header for upcoming C&P appointments.
   const displayTypeHeader =
     !isCompAndPenAppointment ||
     (isCompAndPenAppointment && (isPastAppointment || canceled));
   const ShowTypeOfCare = () => {
+    const typeOfCareName = selectTypeOfCareName(appointment);
+
     return (
       !!typeOfCareName && (
         <>
@@ -92,6 +105,90 @@ export default function DetailsVA({ appointment, facilityData }) {
       )}
     </>
   );
+}
+Content.propTypes = {
+  appointment: PropTypes.object,
+  facilityData: PropTypes.object,
+};
+
+export default function DetailsVA() {
+  const { id } = useParams();
+  const { appointment, cancelInfo, facilityData, isCC } = useSelector(
+    state => getConfirmedAppointmentDetailsInfo(state, id),
+    shallowEqual,
+  );
+  const featureAppointmentDetailsRedesign = useSelector(
+    selectFeatureAppointmentDetailsRedesign,
+  );
+  const locationId = getVAAppointmentLocationId(appointment);
+  const facility = facilityData?.[locationId];
+  const data = {
+    appointment,
+    cancelInfo,
+    facilityData,
+    isCC,
+  };
+
+  if (featureAppointmentDetailsRedesign) {
+    if (cancelInfo.showCancelModal === false) {
+      return <Content appointment={appointment} facilityData={facilityData} />;
+    }
+    if (
+      cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted ||
+      cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading
+    ) {
+      return <CancelWarningPage {...data} />;
+    }
+    if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
+      return (
+        <CancelConfirmationPage
+          appointment={appointment}
+          cancelInfo={cancelInfo}
+        />
+      );
+    }
+    if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.failed) {
+      return (
+        <PageLayout showNeedHelp>
+          <BackLink appointment={appointment} />
+          <div className="vads-u-margin-y--2p5">
+            <VaAlert status="error" visible>
+              <h2 slot="headline">We couldn’t cancel your request</h2>
+              <p>
+                Something went wrong when we tried to cancel this request.
+                Please contact your medical center to cancel:
+                <br />
+                <br />
+                {isCC && (
+                  <>
+                    <strong>{facility?.name}</strong>
+                    <br />
+                    <FacilityAddress
+                      facility={facility}
+                      showPhone
+                      phoneHeading="Scheduling facility phone:"
+                    />
+                  </>
+                )}
+                {!!facility &&
+                  !isCC && (
+                    <VAFacilityLocation
+                      facility={facility}
+                      facilityName={facility?.name}
+                      facilityId={facility?.id}
+                      isPhone
+                      showDirectionsLink={false}
+                    />
+                  )}
+              </p>
+            </VaAlert>
+          </div>
+        </PageLayout>
+      );
+    }
+  }
+
+  return <Content appointment={(appointment, facilityData)} />;
 }
 
 DetailsVA.propTypes = {

@@ -205,6 +205,7 @@ export default function RequestedAppointmentDetailsPage() {
     appointmentDetailsStatus,
     cancelInfo,
     facility,
+    facilityData,
     isCC,
     isCanceled,
     typeOfCareText,
@@ -290,7 +291,15 @@ export default function RequestedAppointmentDetailsPage() {
       cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted ||
       cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading
     ) {
-      return <CancelWarningPage />;
+      return (
+        <CancelWarningPage
+          {...{
+            appointment,
+            cancelInfo,
+            facilityData,
+          }}
+        />
+      );
     }
     if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
       return <CancelConfirmationPage />;
