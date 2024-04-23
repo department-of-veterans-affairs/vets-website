@@ -93,11 +93,11 @@ const TravelPage = ({
         )}
         {additionalInfoItems &&
           additionalInfoItems.map((infoData, index) => (
-            <React.Fragment key={index}>
+            <div className="vads-u-margin-bottom--2" key={index}>
               <va-additional-info uswds trigger={infoData.trigger}>
                 {infoData.info}
               </va-additional-info>
-            </React.Fragment>
+            </div>
           ))}
         {helpText && (
           <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">

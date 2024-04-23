@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import {
   buildDateFormatter,
+  claimAvailable,
   getClaimType,
   isClaimOpen,
   isPopulatedClaim,
@@ -11,7 +12,6 @@ import { setFocus } from '../utils/page';
 import AddingDetails from './AddingDetails';
 import NeedHelp from './NeedHelp';
 import ClaimsBreadcrumbs from './ClaimsBreadcrumbs';
-import ClaimSyncWarning from './ClaimSyncWarning';
 import ClaimsUnavailable from './ClaimsUnavailable';
 import ClaimContentionList from './ClaimContentionList';
 import Notification from './Notification';
@@ -33,15 +33,7 @@ const getBreadcrumbText = (currentTab, claimType) => {
 };
 
 export default function ClaimDetailLayout(props) {
-  const {
-    claim,
-    loading,
-    message,
-    clearNotification,
-    currentTab,
-    synced,
-    id,
-  } = props;
+  const { claim, clearNotification, currentTab, loading, message } = props;
 
   const tabs = ['Status', 'Files', 'Details', 'Overview'];
   const claimType = getClaimType(claim).toLowerCase();
@@ -55,7 +47,7 @@ export default function ClaimDetailLayout(props) {
         message="Loading your claim information..."
       />
     );
-  } else if (claim !== null) {
+  } else if (claimAvailable(claim)) {
     const claimTitle = `Your ${claimType} claim`;
     const { claimDate, closeDate, contentions, status } =
       claim.attributes || {};
@@ -80,7 +72,6 @@ export default function ClaimDetailLayout(props) {
             {claimSubheader}
           </span>
         </h1>
-        {!synced && <ClaimSyncWarning olderVersion={!synced} />}
         <div className="claim-contentions">
           <h2 className="claim-contentions-header vads-u-font-size--h3">
             What you’ve claimed
@@ -120,7 +111,7 @@ export default function ClaimDetailLayout(props) {
   }
 
   const crumb = {
-    href: `your-claims/${id}`,
+    href: `../status`,
     label: getBreadcrumbText(currentTab, claimType),
     isRouterLink: true,
   };
@@ -161,8 +152,6 @@ ClaimDetailLayout.propTypes = {
   claim: PropTypes.object,
   clearNotification: PropTypes.func,
   currentTab: PropTypes.string,
-  id: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
-  synced: PropTypes.bool,
 };

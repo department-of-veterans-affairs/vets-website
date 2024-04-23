@@ -11,7 +11,7 @@ describe('Medical Records Download Functionality For Radiology', () => {
 
     // should display a toggle menu button
     LabsAndTestsListPage.verifyPrintOrDownload();
-
+    LabsAndTestsListPage.clickPrintOrDownload();
     // should display print button for a list "Print this list"
     LabsAndTestsListPage.verifyPrintButton();
 

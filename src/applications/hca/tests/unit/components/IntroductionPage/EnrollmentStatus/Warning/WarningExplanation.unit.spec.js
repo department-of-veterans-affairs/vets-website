@@ -28,10 +28,10 @@ describe('hca <WarningExplanation>', () => {
     [HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry]: 'hca-enrollment-text-11',
     [HCA_ENROLLMENT_STATUSES.rejectedRightEntry]: 'hca-enrollment-text-11',
   };
-  const getData = ({ enrollmentStatus = null }) => ({
+  const getData = ({ statusCode = null }) => ({
     mockStore: {
       getState: () => ({
-        hcaEnrollmentStatus: { enrollmentStatus },
+        hcaEnrollmentStatus: { statusCode },
       }),
       subscribe: () => {},
       dispatch: () => {},
@@ -53,25 +53,25 @@ describe('hca <WarningExplanation>', () => {
       ]);
       const possibleStatuses = Object.values({
         ...HCA_ENROLLMENT_STATUSES,
-      }).filter(enrollmentStatus => !excludedStatuses.has(enrollmentStatus));
+      }).filter(statusCode => !excludedStatuses.has(statusCode));
       const testedEnrollmentStatuses = Object.keys(expectedTestIds);
       expect(
-        possibleStatuses.every(enrollmentStatus =>
-          testedEnrollmentStatuses.includes(enrollmentStatus),
+        possibleStatuses.every(statusCode =>
+          testedEnrollmentStatuses.includes(statusCode),
         ),
       ).to.be.true;
     });
 
-    Object.keys(expectedTestIds).forEach(enrollmentStatus => {
-      it(`should render the correct content for status: ${enrollmentStatus}`, () => {
-        const { mockStore } = getData({ enrollmentStatus });
+    Object.keys(expectedTestIds).forEach(statusCode => {
+      it(`should render the correct content for status: ${statusCode}`, () => {
+        const { mockStore } = getData({ statusCode });
         const { container } = render(
           <Provider store={mockStore}>
             <WarningExplanation />
           </Provider>,
         );
         const selector = container.querySelector(
-          `[data-testid="${expectedTestIds[enrollmentStatus]}"]`,
+          `[data-testid="${expectedTestIds[statusCode]}"]`,
         );
         expect(selector).to.exist;
       });

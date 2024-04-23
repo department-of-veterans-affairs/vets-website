@@ -1,6 +1,10 @@
-import moment from 'moment';
+import { isValid } from 'date-fns';
 
-import { FORMAT_READABLE } from '../shared/constants';
+import {
+  FORMAT_READABLE_DATE_FNS,
+  FORMAT_YMD_DATE_FNS,
+} from '../shared/constants';
+import { parseDate, parseDateToDateObj } from '../shared/utils/dates';
 
 export const BASE_URL = '/decision-reviews/appeals-testing';
 
@@ -32,9 +36,14 @@ export const DISAGREEMENT_DETAILS = {
     const granted =
       description.includes('Service connection for') &&
       description.includes('is granted');
-    const date = moment(data.attributes?.approxDecisionDate || null);
+    const date = parseDateToDateObj(
+      data.attributes?.approxDecisionDate || null,
+      FORMAT_YMD_DATE_FNS,
+    );
     return `Currently ${
-      date.isValid() && granted ? date.format(FORMAT_READABLE) : 'N/A'
+      isValid(date) && granted
+        ? parseDate(date, FORMAT_READABLE_DATE_FNS)
+        : 'N/A'
     }`;
   },
   evaluation: data => {

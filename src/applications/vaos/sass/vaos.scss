@@ -8,8 +8,6 @@
 @import "../covid-19-vaccine/sass/styles";
 @import "../appointment-list/sass/print";
 
-$vaos-loading-overlay: rgba($color-white, 0.9);
-
 .vaos-form__title,
 .vaos-u-text-transform--uppercase {
   text-transform: uppercase;
@@ -29,7 +27,8 @@ h1:focus {
 
 }
 .vaos__loading-overlay {
-  background: $vaos-loading-overlay;
+  background-color: var(--vads-color-white);
+  opacity: 0.9;
   content: " ";
   display: block;
   height: 100%;

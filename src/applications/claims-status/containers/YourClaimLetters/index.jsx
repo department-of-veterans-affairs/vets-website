@@ -13,6 +13,7 @@ import { isLoadingFeatures, showClaimLettersFeature } from '../../selectors';
 import NoLettersContent from './errorComponents/NoLettersContent';
 import ServerErrorContent from './errorComponents/ServerErrorContent';
 import UnauthenticatedContent from './errorComponents/UnauthenticatedContent';
+import { setDocumentTitle } from '../../utils/helpers';
 
 const paginateItems = items => {
   return items?.length ? chunk(items, ITEMS_PER_PAGE) : [[]];
@@ -50,7 +51,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
         setLettersLoading(false);
       });
 
-    document.title = 'Your VA Claim Letters | Veterans Affairs';
+    setDocumentTitle('Your VA Claim Letters');
   }, []);
 
   /**
@@ -123,7 +124,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   }
 
   const crumb = {
-    href: `your-claim-letters`,
+    href: `../your-claim-letters`,
     label: 'Your VA claim letters',
     isRouterLink: true,
   };

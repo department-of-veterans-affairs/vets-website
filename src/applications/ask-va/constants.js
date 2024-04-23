@@ -1,7 +1,8 @@
-const baseURL = '/ask_va_api/v0';
+export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
+  GET_CATEGORIESTOPICS: `${baseURL}/categories`,
   GET_TOPICS: `/topics?user_mock_data=true`,
   GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
   // TODO: Add address validation endpoint
@@ -9,6 +10,8 @@ export const URL = {
   GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
+  GET_SCHOOL: `v0/gi/institutions/search?name=`,
+  SEND_REPLY: `/reply/new`,
 };
 
 export const requireSignInCategories = [
@@ -62,8 +65,14 @@ export const yesNoOptions = {
   NO: 'No',
 };
 
-// Relationship options
-export const relationshipOptions = {
+// Relationship options for Myself
+export const relationshipOptionsMyself = {
+  VETERAN: "I'm the Veteran",
+  FAMILY_MEMBER: "I'm a family member of a Veteran",
+};
+
+// Relationship options for SomeoneElse
+export const relationshipOptionsSomeoneElse = {
   VETERAN: "I'm the Veteran",
   FAMILY_MEMBER: "I'm a family member of a Veteran",
   WORK:
@@ -110,6 +119,15 @@ export const aboutRelationship = {
   NOT_LISTED: "I have a relationship to the Veteran that's not listed",
 };
 
+// What is your relationship to the family member
+export const aboutFamilyMemberRelationship = {
+  SPOUSE: "They're my spouse",
+  CHILD: "They're my child",
+  STEPCHILD: "They're my step child",
+  PARENT: "They're my parent",
+  NOT_LISTED: "We have a relationship that's not listed",
+};
+
 // Who your question is about
 export const whoYourQuestionIsAbout = {
   VETERAN: 'Veteran',
@@ -130,12 +148,12 @@ export const questionAboutDescriptions = {
 
 // Reason options
 export const reasonOptions = {
-  QUESTION: 'I have a question',
-  NICE: 'I want to say something nice',
-  COMPLAINT: 'I have a complaint about a service',
-  SUGGESTION: 'I have a suggestion',
-  TOWN_HALL: 'I attended a Town Hall and now I have a question',
-  SOMETHING_ELSE: 'I want to say something else',
+  QUESTION: 'I had a question',
+  NICE: 'I wanted to say something nice',
+  COMPLAINT: 'I had a complaint about a service',
+  SUGGESTION: 'I had a suggestion',
+  TOWN_HALL: 'I had a question after attending a Town Hall',
+  OTHER: 'Other',
 };
 
 // Reason options
@@ -150,6 +168,18 @@ export const yourRoleOptions = {
   VA_EMPLOYEE: 'VA employee',
   WORK_STUDY_SUP: 'Work study site supervisor',
   OTHER: 'Other',
+};
+
+// State or Facility options
+export const stateOrFacilityOptions = {
+  SCHOOL_STATE: 'School state',
+  SCHOOL_FACILITY: 'School facility',
+};
+
+// Do you want to use this school options
+export const useThisSchoolOptions = {
+  YES: 'Yes',
+  NO: "No, I'll choose a different option",
 };
 
 // Reason options
@@ -196,15 +226,15 @@ export const CHAPTER_2 = {
   },
   PAGE_2: {
     PATH: 'question-2',
-    TITLE: "Reason you're contacting us",
+    TITLE: 'Reason you contacted us',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select the reason you are contacting us today: (Optional)',
+    QUESTION_1: 'Select the reason you contacted us today:',
   },
   PAGE_3: {
     PATH: 'question-3',
     TITLE: 'Your question',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: "What's your question?",
+    QUESTION_1: 'What is your question?',
   },
 };
 
@@ -213,10 +243,9 @@ export const CHAPTER_3 = {
   CHAPTER_TITLE: 'Personal Information',
   RELATIONSHIP_TO_VET: {
     PATH: 'relationship-to-veteran',
-    TITLE: 'Your relationship to the Veteran',
-    PAGE_DESCRIPTION:
-      "Now we'll ask for some personal information. We use this information to help us understand your question and find the answers you need.",
-    QUESTION_1: 'Select your relationship to the Veteran:',
+    TITLE: 'What is your relationship to the Veteran?',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
   },
   ABOUT_YOUR_RELATIONSHIP: {
     TITLE: 'Tell us more about your relationship to the Veteran',
@@ -274,6 +303,11 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
+  SCHOOL: {
+    TITLE: 'School information',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
+  },
   PHONE_EMAIL: {
     TITLE: 'Your phone number and email',
     PAGE_DESCRIPTION: '',
@@ -307,12 +341,31 @@ export const CHAPTER_3 = {
     QUESTION_1: 'Select your relationship to the family member',
   },
   RELATIONSHIP_TO_FAM_MEM: {
-    TITLE: 'Tell us about the family member',
+    TITLE: 'What is your relationship to the family member?',
     PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
   },
   YOUR_ROLE: {
     TITLE: 'Your role',
     QUESTION_1: 'Select your role:',
+  },
+  STATE_OR_FACILITY: {
+    TITLE: 'School information',
+    PAGE_DESCRIPTION: 'Would you like to choose your school state or facility?',
+    QUESTION_1: 'Select school or state facility',
+  },
+  USE_THIS_SCHOOL: {
+    TITLE: 'School information',
+    QUESTION_1: 'Do you want to use this school?',
+  },
+  STATE_OF_SCHOOL: {
+    TITLE: 'State of school',
+    QUESTION_1: 'Select state',
+  },
+  SCHOOL_STATE_OR_RESIDENCY: {
+    TITLE: 'School information',
+    PAGE_DESCRIPTION: 'School or state of residency',
+    QUESTION_1: 'Please provide one of the following',
   },
 };
 

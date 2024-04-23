@@ -49,7 +49,7 @@ describe('Medicaitons Print/Download button component', () => {
     fireEvent.click(downloadButton);
 
     const errorMessage = await screen.getByText(
-      'We can’t access your medications right now',
+      'We can’t download your records right now',
     );
     expect(errorMessage).to.exist;
   });
@@ -57,7 +57,7 @@ describe('Medicaitons Print/Download button component', () => {
   it('displays success message ', () => {
     const screen = setup(handleFullListDownload, true);
 
-    const sucessMessage = screen.getByText('Download complete');
+    const sucessMessage = screen.getByText('Download started');
     expect(sucessMessage).to.exist;
   });
 

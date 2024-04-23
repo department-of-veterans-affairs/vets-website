@@ -8,7 +8,7 @@ import { HCA_ENROLLMENT_STATUSES } from '../../../../../utils/constants';
 import EnrollmentStatus from '../../../../../components/IntroductionPage/EnrollmentStatus';
 
 describe('hca <EnrollmentStatus>', () => {
-  const getData = ({ hasServerError = false, enrollmentStatus = null }) => ({
+  const getData = ({ hasServerError = false, statusCode = null }) => ({
     props: {
       route: {
         formConfig,
@@ -18,15 +18,14 @@ describe('hca <EnrollmentStatus>', () => {
     mockStore: {
       getState: () => ({
         hcaEnrollmentStatus: {
-          enrollmentStatus,
+          statusCode,
           hasServerError,
           applicationDate: null,
           enrollmentDate: null,
           preferredFacility: null,
-          isUserInMVI: true,
-          loginRequired: false,
-          noESRRecordFound: false,
-          isLoadingApplicationStatus: false,
+          isUserInMPI: true,
+          vesRecordFound: true,
+          loading: false,
         },
         form: {
           formId: formConfig.formId,
@@ -62,7 +61,7 @@ describe('hca <EnrollmentStatus>', () => {
   });
 
   it('should render FAQ content', () => {
-    const { mockStore, props } = getData({ enrollmentStatus: 'enrolled' });
+    const { mockStore, props } = getData({ statusCode: 'enrolled' });
     const { container } = render(
       <Provider store={mockStore}>
         <EnrollmentStatus {...props} />
@@ -86,7 +85,7 @@ describe('hca <EnrollmentStatus>', () => {
 
   it('should render `va-alert` with status of `continue` when enrollment status is `enrolled`', () => {
     const { mockStore, props } = getData({
-      enrollmentStatus: HCA_ENROLLMENT_STATUSES.enrolled,
+      statusCode: HCA_ENROLLMENT_STATUSES.enrolled,
     });
     const { container } = render(
       <Provider store={mockStore}>
@@ -100,7 +99,7 @@ describe('hca <EnrollmentStatus>', () => {
 
   it('should render `va-alert` with status of `warning` when enrollment status is not `enrolled`', () => {
     const { mockStore, props } = getData({
-      enrollmentStatus: HCA_ENROLLMENT_STATUSES.closed,
+      statusCode: HCA_ENROLLMENT_STATUSES.closed,
     });
     const { container } = render(
       <Provider store={mockStore}>
@@ -114,7 +113,7 @@ describe('hca <EnrollmentStatus>', () => {
 
   it('should not render `Start` button when enrollment status is not in the allow list', () => {
     const { mockStore, props } = getData({
-      enrollmentStatus: HCA_ENROLLMENT_STATUSES.enrolled,
+      statusCode: HCA_ENROLLMENT_STATUSES.enrolled,
     });
     const { container } = render(
       <Provider store={mockStore}>
@@ -127,7 +126,7 @@ describe('hca <EnrollmentStatus>', () => {
 
   it('should render `Start` button when enrollment status is in the allow list', () => {
     const { mockStore, props } = getData({
-      enrollmentStatus: HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
+      statusCode: HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
     });
     const { container } = render(
       <Provider store={mockStore}>

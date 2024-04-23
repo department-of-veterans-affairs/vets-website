@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
 import { buildDateFormatter } from '../../utils/helpers';
 
@@ -9,9 +9,13 @@ const headerText = closeDate => {
     ? `We closed your claim on ${buildDateFormatter()(closeDate)}`
     : 'We closed your claim';
 };
-function ClosedClaimAlert({ closeDate, decisionLetterSent = false }) {
+
+export default function ClosedClaimAlert({
+  closeDate,
+  decisionLetterSent = false,
+}) {
   return (
-    <va-alert class="vads-u-margin-bottom--4" status="info" uswds>
+    <va-alert class="vads-u-margin-bottom--4" status="info">
       <h2 id="claims-alert-header" slot="headline">
         {headerText(closeDate)}
       </h2>
@@ -27,7 +31,7 @@ function ClosedClaimAlert({ closeDate, decisionLetterSent = false }) {
             take longer.
           </p>
           <div className="link-action-container">
-            <Link className="vads-c-action-link--blue" to="your-claim-letters">
+            <Link className="vads-c-action-link--blue" to="/your-claim-letters">
               Get your claim letters
             </Link>
           </div>
@@ -46,5 +50,3 @@ ClosedClaimAlert.propTypes = {
   closeDate: PropTypes.string,
   decisionLetterSent: PropTypes.bool,
 };
-
-export default ClosedClaimAlert;

@@ -55,7 +55,6 @@ const genericErrors = {
   error403,
 };
 
-/* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': (_req, res) => {
     const secondsOfDelay = 0;
@@ -65,7 +64,7 @@ const responses = {
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
             profileContacts: true,
-            profileHideDirectDepositCompAndPen: false,
+            profileHideDirectDeposit: false,
             profileShowCredentialRetirementMessaging: true,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,
@@ -73,9 +72,10 @@ const responses = {
             profileShowProofOfVeteranStatus: true,
             profileShowQuickSubmitNotificationSetting: true,
             profileUseExperimental: true,
-            profileShowDirectDepositSingleForm: true,
-            profileShowDirectDepositSingleFormAlert: false,
-            profileShowDirectDepositSingleFormEduDowntime: false,
+            profileShowDirectDepositSingleForm: false,
+            profileShowDirectDepositSingleFormUAT: false,
+            profileShowDirectDepositSingleFormAlert: true,
+            profileShowDirectDepositSingleFormEduDowntime: true,
           }),
         ),
       secondsOfDelay,
@@ -93,6 +93,7 @@ const responses = {
     // return res.json(user.badAddress); // user with bad address
     // return res.json(user.nonVeteranUser); // non-veteran user
     // return res.json(user.externalServiceError); // external service error
+    // return res.json(user.loa3UserWithoutLighthouseServiceAvailable); // user without lighthouse service available / no icn or participant id
     // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
     // return res.json(user.loa3UserWithNoEmail); // user with no email address
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
@@ -105,9 +106,14 @@ const responses = {
   'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {
-    // all service names/keys are available in src/platform/monitoring/DowntimeNotification/config/externalService.js
-    // but couldn't be directly imported due to export default vs module.exports
     return res.json(maintenanceWindows.noDowntime);
+
+    // downtime for VA Profile aka Vet360 (according to service name in response)
+    // return res.json(
+    //   maintenanceWindows.createDowntimeActiveNotification([
+    //     maintenanceWindows.SERVICES.VA_PROFILE,
+    //   ]),
+    // );
   },
 
   'GET /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
@@ -127,21 +133,37 @@ const responses = {
     // return res.json(mockDisabilityCompensations.isNotEligible);
   },
   'PUT /v0/profile/direct_deposits/disability_compensations': (_req, res) => {
-    return res
-      .status(200)
-      .json(mockDisabilityCompensations.updates.errors.invalidAccountNumber);
-    // return res.status(200).json(disabilityComps.updates.success);
+    const secondsOfDelay = 2;
+    delaySingleResponse(
+      () => res.status(200).json(mockDisabilityCompensations.updates.success),
+      secondsOfDelay,
+    );
+    // return res
+    //   .status(400)
+    //   .json(mockDisabilityCompensations.updates.errors.invalidRoutingNumber);
+    // return res.status(200).json(mockDisabilityCompensations.updates.success);
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
     // this endpoint is used for the single form version of the direct deposit page
     return res.status(200).json(directDeposits.base);
     // return res.status(500).json(genericErrors.error500);
+    // return res.status(400).json(directDeposits.updates.errors.unspecified);
+    // user with no dd data but is eligible
+    // return res.json(directDeposits.isEligible);
+    // direct deposit blocked edge cases
+    // return res.json(directDeposits.isDeceased);
+    // return res.json(directDeposits.isFiduciary);
+    // return res.json(directDeposits.isNotCompetent);
+    // return res.json(directDeposits.isNotEligible);
   },
   'PUT /v0/profile/direct_deposits': (_req, res) => {
-    return res
-      .status(200)
-      .json(directDeposits.updates.errors.invalidAccountNumber);
-    // return res.status(200).json(disabilityComps.updates.success);
+    const secondsOfDelay = 1;
+    delaySingleResponse(
+      // () => res.status(500).json(error500),
+      // () => res.status(200).json(mockDisabilityCompensations.updates.success),
+      () => res.status(400).json(directDeposits.updates.errors.invalidDayPhone),
+      secondsOfDelay,
+    );
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount.needsPatient,

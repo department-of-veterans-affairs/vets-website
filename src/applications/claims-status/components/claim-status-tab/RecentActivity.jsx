@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import moment from 'moment';
 
@@ -53,6 +53,7 @@ const generateTrackedItems = claim => {
     id: item.id,
     date: getTrackedItemDateFromStatus(item),
     description: getTrackedItemDescription(item),
+    displayName: item.displayName,
     status: item.status,
     type: 'tracked_item',
   }));
@@ -139,14 +140,13 @@ export default function RecentActivity({ claim }) {
                   class="optional-alert vads-u-padding-bottom--1"
                   status="info"
                   slim
-                  uswds
                 >
                   You don’t have to do anything, but if you have this
                   information you can{' '}
                   <Link
                     aria-label={`Add information for ${item.displayName}`}
                     className="add-your-claims-link"
-                    to={`your-claims/${claim.id}/document-request/${item.id}`}
+                    to={`../document-request/${item.id}`}
                   >
                     add it here.
                   </Link>
@@ -158,7 +158,6 @@ export default function RecentActivity({ claim }) {
       )}
       {shouldPaginate && (
         <VaPagination
-          uswds
           className="vads-u-border--0"
           page={currentPage}
           pages={numPages}

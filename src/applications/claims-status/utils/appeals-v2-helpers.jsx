@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { find, get, startCase } from 'lodash';
 import * as Sentry from '@sentry/browser';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
 import { Toggler } from '~/platform/utilities/feature-toggles';
 
@@ -511,7 +511,7 @@ export function getStatusContents(appeal, name = {}) {
                 get other letters related to your claims and appeals.
                 <Link
                   className="ddl-link vads-c-action-link--blue"
-                  to="your-claim-letters"
+                  to="/your-claim-letters"
                 >
                   Get your decision letters
                 </Link>
@@ -686,7 +686,7 @@ export function getStatusContents(appeal, name = {}) {
                 get other letters related to your claims and appeals.
                 <Link
                   className="ddl-link vads-c-action-link--blue"
-                  to="your-claim-letters"
+                  to="/your-claim-letters"
                 >
                   Get your decision letters
                 </Link>
@@ -731,7 +731,7 @@ export function getStatusContents(appeal, name = {}) {
       );
       break;
     }
-    // TODO: Remove this if Caseflow fixes the issue on their end
+    // TODO: Remove this if Caseflow fixes the typo issue on their end
     case 'sc_recieved':
     case STATUS_TYPES.scReceived:
       contents.title = 'A reviewer is examining your new evidence';
@@ -864,6 +864,22 @@ export function getStatusContents(appeal, name = {}) {
           and will return your case to the Board of Veterans’ Appeals.
         </p>
       );
+      break;
+    // We need to add content for these, but adding cases for them so that they
+    // don't get logged to Sentry anymore. This will help prevent other unknown
+    // statuses from getting overshadowed by these
+    // Github Tickets
+    // motion:
+    //   https://github.com/department-of-veterans-affairs/va.gov-team/issues/80665
+    // pre_docketed:
+    //   https://github.com/department-of-veterans-affairs/va.gov-team/issues/80647
+    case 'motion':
+    case 'pre_docketed':
+      contents.title = 'We don’t know your status';
+      contents.description = (
+        <p>We’re sorry, VA.gov will soon be updated to show your status.</p>
+      );
+
       break;
     default:
       contents.title = 'We don’t know your status';

@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 
 import { dateFormat } from '../../util/helpers';
+import { medicationsUrls } from '../../util/constants';
 
 const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   // Hooks
@@ -26,6 +28,11 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
       ...prevState,
       currentPage: page,
     }));
+    waitForRenderThenFocus(
+      "p[data-testid='renew-page-list-count']",
+      document,
+      500,
+    );
   };
 
   const startIdx = (pagination.currentPage - 1) * MAX_PAGE_LIST_LENGTH;
@@ -38,22 +45,10 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   // Functions
   const onRxLinkClick = rx => {
     dispatch(
-      setBreadcrumbs(
-        [
-          {
-            url: '/my-health/medications/about',
-            label: 'About medications',
-          },
-          {
-            url: `/my-health/medications`,
-            label: 'Medications',
-          },
-        ],
-        {
-          url: `/my-health/medications/prescription/${rx.prescriptionId}`,
-          label: rx?.prescriptionName,
-        },
-      ),
+      setBreadcrumbs({
+        url: medicationsUrls.subdirectories.REFILL,
+        label: 'Refill prescriptions',
+      }),
     );
     dispatch(setPrescriptionDetails(rx));
   };
@@ -61,24 +56,29 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   return (
     <div>
       <h2 className="vads-u-margin-top--4" data-testid="renew-section-subtitle">
-        If your prescription isn’t ready to refill
+        If you can’t find the prescription you’re looking for
       </h2>
-      <p className="vads-u-margin-y--3">
-        You may need to renew it. Here are some recent prescriptions you may
-        need to renew.{' '}
-        <va-link
-          href="/my-health/medications/about/accordion-renew-rx"
-          text="Learn how to renew prescriptions"
-          data-testid="learn-to-renew-prescriptions-link"
-        />
-      </p>
-      <p>
-        <strong>Note:</strong> If your prescription isn’t in this list, find it
-        in your medications list.{' '}
-        <Link data-testid="medications-page-link" to="/">
-          Go to your medications list
-        </Link>
-      </p>
+      <div className="vads-u-margin-y--3">
+        <p className="vads-u-margin-y--0">You may need to renew it. </p>
+        <p className="vads-u-margin-y--0">
+          <va-link
+            href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
+            text="Learn how to renew prescriptions"
+            data-testid="learn-to-renew-prescriptions-link"
+          />
+        </p>
+      </div>
+      <div>
+        <p className="vads-u-margin-y--0">
+          <strong>Note:</strong> If your prescription isn’t listed here, find it
+          in your medications list.{' '}
+        </p>
+        <p className="vads-u-margin-y--0">
+          <Link data-testid="medications-page-link" to="/">
+            Go to your medications list
+          </Link>
+        </p>
+      </div>
       {renewablePrescriptionsList.length > 0 && (
         <>
           <p data-testid="renew-page-list-count">
@@ -115,6 +115,19 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
                   'MMMM D, YYYY',
                 )}
               </span>
+              {prescription?.trackingList?.[0]?.completeDateTime && (
+                <>
+                  <br />
+                  <span data-testid={`medications-last-shipped-${idx}`}>
+                    <i className="fas fa-truck vads-u-margin-right--1p5" />
+                    Last refill shipped on{' '}
+                    {dateFormat(
+                      prescription.trackingList[0].completeDateTime,
+                      'MMMM D, YYYY',
+                    )}
+                  </span>
+                </>
+              )}
             </p>
           </div>
         ))}

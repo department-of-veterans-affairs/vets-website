@@ -9,6 +9,7 @@ import {
   buildDateFormatter,
   getClaimType,
   setDocumentTitle,
+  claimAvailable,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 
@@ -45,10 +46,11 @@ class DetailsPage extends React.Component {
   setTitle() {
     const { claim } = this.props;
 
-    if (claim) {
+    if (claimAvailable(claim)) {
       const claimDate = formatDate(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Details Of ${claimDate} ${claimType} Claim`;
+
       setDocumentTitle(title);
     } else {
       setDocumentTitle('Details Of Your Claim');
@@ -58,7 +60,12 @@ class DetailsPage extends React.Component {
   getPageContent() {
     const { claim } = this.props;
 
-    const { claimDate, claimType, contentions } = claim.attributes || {};
+    // Return null if the claim/ claim.attributes dont exist
+    if (!claimAvailable(claim)) {
+      return null;
+    }
+
+    const { claimDate, claimType, contentions } = claim.attributes;
     const hasContentions = contentions && contentions.length;
 
     return (
@@ -95,7 +102,7 @@ class DetailsPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, synced } = this.props;
+    const { claim, loading } = this.props;
 
     let content = null;
     if (!loading) {
@@ -103,12 +110,7 @@ class DetailsPage extends React.Component {
     }
 
     return (
-      <ClaimDetailLayout
-        claim={claim}
-        currentTab="Details"
-        loading={loading}
-        synced={synced}
-      >
+      <ClaimDetailLayout claim={claim} currentTab="Details" loading={loading}>
         {content}
       </ClaimDetailLayout>
     );
@@ -121,7 +123,6 @@ function mapStateToProps(state) {
     loading: claimsState.claimDetail.loading,
     claim: claimsState.claimDetail.detail,
     lastPage: claimsState.routing.lastPage,
-    synced: claimsState.claimSync.synced,
   };
 }
 
@@ -129,7 +130,6 @@ DetailsPage.propTypes = {
   claim: PropTypes.object,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
-  synced: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(DetailsPage);

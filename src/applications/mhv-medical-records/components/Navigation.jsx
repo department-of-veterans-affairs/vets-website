@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import SectionGuideButton from './SectionGuideButton';
 import { getActiveLinksStyle } from '../util/helpers';
 
@@ -10,14 +11,19 @@ const Navigation = props => {
   const [isMobile, setIsMobile] = useState(true);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const location = useLocation();
+  const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
 
   function openNavigation() {
     setIsNavigationOpen(true);
   }
 
-  function closeNavigation() {
-    setIsNavigationOpen(false);
-  }
+  const closeNavigation = useCallback(
+    () => {
+      setIsNavigationOpen(false);
+      focusElement(navMenuButtonRef);
+    },
+    [navMenuButtonRef],
+  );
 
   function checkScreenSize() {
     if (window.innerWidth <= 481 && setIsMobile !== false) {
@@ -32,6 +38,7 @@ const Navigation = props => {
     return (
       isMobile && (
         <SectionGuideButton
+          setNavMenuButtonRef={setNavMenuButtonRef}
           onMenuClick={() => {
             openNavigation();
           }}
@@ -88,7 +95,7 @@ const Navigation = props => {
             <div className="sidebar-navigation-header">
               <button
                 className="va-btn-close-icon"
-                aria-label="Close-this-menu"
+                aria-label="Close navigation menu"
                 aria-expanded="true"
                 aria-controls="a1"
                 onClick={closeNavigation}
@@ -105,6 +112,9 @@ const Navigation = props => {
                       className={handleActiveLinksStyle(path.path)}
                       to={path.path}
                       data-testid={path.datatestid}
+                      onClick={() => {
+                        closeNavigation();
+                      }}
                     >
                       <span>{path.label}</span>
                     </Link>

@@ -111,21 +111,21 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
       reasonAdditionalInfo: {
         'ui:widget': TextareaWidget,
         'ui:options': {
+          hideLabelText: true,
           rows: 5,
         },
         'ui:validations': [validComment],
         'ui:errorMessages': {
           required:
-            'Provide more details about why you are requesting this appointment',
+            'Provide more information about why you are requesting this appointment',
         },
       },
     },
     cc: {
       reasonAdditionalInfo: {
         'ui:widget': TextareaWidget,
-        'ui:title':
-          'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
         'ui:options': {
+          hideLabelText: true,
           rows: 5,
         },
         'ui:validations': [validateWhiteSpace],

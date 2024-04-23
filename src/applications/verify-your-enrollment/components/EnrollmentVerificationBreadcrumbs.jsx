@@ -5,7 +5,6 @@ import {
   BENEFITS_PROFILE_URL,
   VERIFICATION_PROFILE_URL,
   VERIFICATION_REVIEW_URL_SEGMENT,
-  CONFIRMATION_REVIEW_URL_SEGMENT,
 } from '../constants';
 
 export default function EnrollmentVerificationBreadcrumbs() {
@@ -38,14 +37,6 @@ export default function EnrollmentVerificationBreadcrumbs() {
   if ([VERIFICATION_REVIEW_URL_SEGMENT].includes(page)) {
     breadcrumbs.push(
       <a href={VERIFICATION_PROFILE_URL} key="VerificationReviewPage">
-        Verify your enrollment
-      </a>,
-    );
-  }
-
-  if ([CONFIRMATION_REVIEW_URL_SEGMENT].includes(page)) {
-    breadcrumbs.push(
-      <a href={VERIFICATION_PROFILE_URL} key="ConfirmationReviewPage">
         Verify your enrollment
       </a>,
     );

@@ -2,36 +2,40 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { validateField, getImageUri, dateFormat } from '../../util/helpers';
+import {
+  validateField,
+  getImageUri,
+  dateFormat,
+  createOriginalFillRecord,
+} from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
 import { selectRefillContentFlag } from '../../util/selectors';
+import VaPharmacyText from '../shared/VaPharmacyText';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const refillHistory = [...(prescription?.rxRfRecords || [])];
-  refillHistory.push({
-    prescriptionName: prescription?.prescriptionName,
-    dispensedDate: prescription?.dispensedDate,
-    cmopNdcNumber: prescription?.cmopNdcNumber,
-    id: prescription?.prescriptionId,
-  });
+  const originalFill = createOriginalFillRecord(prescription);
+  refillHistory.push(originalFill);
 
   const hasBeenDispensed =
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
-  const shippedOn = prescription?.trackingList?.[0]?.[1];
+  const latestTrackingStatus = prescription?.trackingList?.[0];
+  const phoneNumber =
+    prescription?.cmopDivisionPhone || prescription?.dialCmopDivisionPhone;
   const content = () => {
     if (prescription) {
       const dispStatus = prescription.dispStatus?.toString();
       return (
         <>
           <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--2 vads-u-margin-bottom--3">
-            {shippedOn?.[0] && (
+            {latestTrackingStatus && (
               <TrackingInfo
-                {...shippedOn[0]}
+                {...latestTrackingStatus}
                 prescriptionName={prescription.prescriptionName}
               />
             )}
@@ -96,8 +100,8 @@ const VaPrescription = prescription => {
               Pharmacy phone number
             </h3>
             <div className="no-print">
-              {prescription?.phoneNumber ? (
-                <va-telephone contact={prescription.phoneNumber} />
+              {phoneNumber ? (
+                <va-telephone contact={phoneNumber} />
               ) : (
                 'None noted'
               )}
@@ -125,77 +129,155 @@ const VaPrescription = prescription => {
             <h2 className="vads-u-margin-top--3" data-testid="refill-History">
               Refill history
             </h2>
+            {refillHistory.length > 1 &&
+              refillHistory.some(rx => rx.cmopNdcNumber) && (
+                <p className="vads-u-margin--0">
+                  <strong>Note:</strong> Images on this page are for
+                  identification purposes only. They don’t mean that this is the
+                  amount of medication you’re supposed to take. If the most
+                  recent image doesn’t match what you’re taking, call{' '}
+                  <VaPharmacyText
+                    phone={
+                      prescription?.cmopDivisionPhone ||
+                      prescription?.dialCmopDivisionPhone
+                    }
+                  />
+                  .
+                </p>
+              )}
             {(refillHistory.length > 1 ||
               refillHistory[0].dispensedDate !== undefined) &&
-              refillHistory.map((entry, i) => (
-                <div
-                  key={i}
-                  className={
-                    i + 1 < refillHistory.length
-                      ? 'vads-u-margin-bottom--3 refill-entry'
-                      : 'refill-entry'
-                  }
-                >
-                  <h3
-                    className="vads-u-margin-y--2 vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2"
-                    data-testid="refill"
+              refillHistory.map((entry, i) => {
+                const { shape, color, backImprint, frontImprint } = entry;
+                const phone =
+                  prescription?.cmopDivisionPhone ||
+                  prescription?.dialCmopDivisionPhone;
+                const refillPosition = refillHistory.length - i - 1;
+                const refillLabelId = `rx-refill-${refillPosition}`;
+                return (
+                  <div
+                    key={i}
+                    className={
+                      i + 1 < refillHistory.length
+                        ? 'vads-u-margin-bottom--3 refill-entry'
+                        : 'refill-entry'
+                    }
                   >
-                    {i + 1 === refillHistory.length
-                      ? 'First fill'
-                      : `Refill ${refillHistory.length - i - 1}`}
-                  </h3>
-                  <h4
-                    className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
-                    data-testid="fill-date"
-                  >
-                    Filled by pharmacy on
-                  </h4>
-                  <p
-                    className="vads-u-margin--0 vads-u-margin-bottom--1"
-                    data-testid="dispensedDate"
-                  >
-                    {dateFormat(entry.dispensedDate)}
-                  </p>
-                  <h4
-                    className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
-                    data-testid="shipped-date"
-                  >
-                    Shipped on
-                  </h4>
-                  <p
-                    className="vads-u-margin--0 vads-u-margin-bottom--1"
-                    data-testid="shipped-on"
-                  >
-                    {dateFormat(shippedOn?.[i]?.completeDateTime)}
-                  </p>
-                  <h4
-                    className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
-                    data-testid="med-image"
-                  >
-                    Image of the medication or supply
-                  </h4>
-                  <div className="no-print">
-                    {entry.cmopNdcNumber ? (
-                      <va-additional-info
-                        trigger="Review image"
-                        data-testid="review-rx-image"
-                        uswds
-                      >
-                        <img
-                          src={getImageUri(entry.cmopNdcNumber)}
-                          alt={entry.prescriptionName}
-                          width="350"
-                          height="350"
-                        />
-                      </va-additional-info>
-                    ) : (
-                      <p className="vads-u-margin--0" data-testid="no-image">
-                        No image available
-                      </p>
-                    )}
+                    <h3
+                      className="vads-u-margin-y--2 vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2"
+                      data-testid="rx-refill"
+                      id={refillLabelId}
+                    >
+                      {i + 1 === refillHistory.length
+                        ? 'Original fill'
+                        : `Refill ${refillPosition}`}
+                    </h3>
+                    <h4
+                      className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
+                      data-testid="fill-date"
+                    >
+                      Filled by pharmacy on
+                    </h4>
+                    <p
+                      className="vads-u-margin--0 vads-u-margin-bottom--1"
+                      data-testid="dispensedDate"
+                    >
+                      {dateFormat(entry.dispensedDate)}
+                    </p>
+                    <h4
+                      className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
+                      data-testid="shipped-date"
+                    >
+                      Shipped on
+                    </h4>
+                    <p
+                      className="vads-u-margin--0 vads-u-margin-bottom--1"
+                      data-testid="shipped-on"
+                    >
+                      {dateFormat(latestTrackingStatus?.completeDateTime)}
+                    </p>
+                    <h4
+                      className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
+                      data-testid="med-image"
+                    >
+                      Image
+                    </h4>
+                    <div className="no-print">
+                      {entry.cmopNdcNumber ? (
+                        <>
+                          <img
+                            alt=""
+                            className="vads-u-margin-top--1"
+                            data-testid="rx-image"
+                            src={getImageUri(entry.cmopNdcNumber)}
+                            width="350"
+                            height="350"
+                            aria-hidden="true"
+                          />
+                        </>
+                      ) : (
+                        <p className="vads-u-margin--0" data-testid="no-image">
+                          Image not available
+                        </p>
+                      )}
+                    </div>
+                    <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
+                      Medication description
+                    </h4>
+                    <div data-testid="rx-description">
+                      {shape?.trim() &&
+                      color?.trim() &&
+                      frontImprint?.trim() ? (
+                        <>
+                          <p className="vads-u-margin--0">
+                            <strong>Note:</strong> If the medication you’re
+                            taking doesn’t match this description, call{' '}
+                            <VaPharmacyText phone={phone} />.
+                          </p>
+                          <ul className="vads-u-margin--0">
+                            <li
+                              className="vads-u-margin-y--0"
+                              data-testid="rx-shape"
+                            >
+                              <strong>Shape:</strong> {shape[0].toUpperCase()}
+                              {shape.slice(1).toLowerCase()}
+                            </li>
+                            <li
+                              className="vads-u-margin-y--0"
+                              data-testid="rx-color"
+                            >
+                              <strong>Color:</strong> {color[0].toUpperCase()}
+                              {color.slice(1).toLowerCase()}
+                            </li>
+                            <li
+                              className="vads-u-margin-y--0"
+                              data-testid="rx-front-marking"
+                            >
+                              <strong>Front marking:</strong> {frontImprint}
+                            </li>
+                            {backImprint ? (
+                              <li
+                                className="vads-u-margin-y--0"
+                                data-testid="rx-back-marking"
+                              >
+                                <strong>Back marking:</strong> {backImprint}
+                              </li>
+                            ) : (
+                              <></>
+                            )}
+                          </ul>
+                        </>
+                      ) : (
+                        <>
+                          No description available. Call{' '}
+                          <VaPharmacyText phone={phone} /> if you need help
+                          identifying this medication.
+                        </>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             {refillHistory.length <= 1 &&
               refillHistory[0].dispensedDate === undefined && (
                 <p>You haven’t filled this prescription yet.</p>

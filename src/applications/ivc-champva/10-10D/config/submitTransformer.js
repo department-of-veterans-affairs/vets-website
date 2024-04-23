@@ -29,6 +29,8 @@ function transformApplicants(applicants) {
       vet_relationship: transformRelationship(
         app.applicantRelationshipToSponsor?.relationshipToVeteran || 'NA',
       ),
+      sponsor_marriage_details:
+        app?.applicantSponsorMarriageDetails?.relationshipToVeteran || 'NA',
       applicant_supporting_documents: [
         app?.applicantMedicareCardFront,
         app?.applicantMedicareCardBack,
@@ -45,11 +47,11 @@ function transformApplicants(applicants) {
         app?.applicantMedicarePartDCard,
         app?.applicantMedicareIneligibleProof,
         app?.applicantOhiCard,
-        app?.applicant107959c,
+        app?.applicantOtherInsuranceCertification,
         app?.applicantHelplessCert,
       ],
       address: app.applicantAddress ?? '',
-      gender: app.applicantGender ?? '',
+      gender: app.applicantGender?.gender ?? '',
     };
 
     // eslint-disable-next-line dot-notation
@@ -98,6 +100,7 @@ export default function transformForSubmit(formConfig, form) {
       },
       date_of_death: transformedData?.sponsorDOD || '',
       date_of_marriage: transformedData?.sponsorDOM || '',
+      is_active_service_death: transformedData?.sponsorDeathConditions || '',
     },
     applicants: transformApplicants(transformedData.applicants ?? []),
     certification: {
@@ -114,11 +117,7 @@ export default function transformForSubmit(formConfig, form) {
       state: transformedData?.certifierAddress?.state || '',
       postal_code: transformedData?.certifierAddress?.postalCode || '',
     },
-    supporting_docs: [
-      transformedData?.sponsorCasualtyReport,
-      transformedData?.sponsorDisabilityRating,
-      transformedData?.sponsorDischargePapers,
-    ],
+    supporting_docs: [],
     // Include everything we originally received
     raw_data: transformedData,
   };

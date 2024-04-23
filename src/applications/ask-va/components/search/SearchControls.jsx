@@ -43,7 +43,7 @@ const SearchControls = props => {
       const getLocation = async () => {
         if (userLocation && !geoCodeError) {
           const place = await convertLocation(userLocation);
-          setQueryState(place);
+          setQueryState(place.place_name);
           dispatch(setLocationInput(place));
           await locateUser(userLocation);
         }

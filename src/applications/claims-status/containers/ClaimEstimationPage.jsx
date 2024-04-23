@@ -1,25 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
+
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
+import { setDocumentTitle } from '../utils/helpers';
 import { setUpPage } from '../utils/page';
 
 class ClaimEstimationPage extends React.Component {
   componentDidMount() {
-    document.title = 'How We Come Up with Your Estimated Decision Date';
+    setDocumentTitle('How We Come Up with Your Estimated Decision Date');
     setUpPage();
   }
 
   render() {
     const crumbs = [
       {
-        href: `your-claims/${this.props.params.id}/status`,
+        href: `../status`,
         label: 'Status details',
         isRouterLink: true,
       },
       {
-        href: `your-claims/${this.props.params.id}/claim-estimate`,
+        href: `../claim-estimate`,
         label: 'Estimated decision date',
         isRouterLink: true,
       },

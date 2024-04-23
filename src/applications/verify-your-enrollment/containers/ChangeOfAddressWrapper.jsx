@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import '../sass/change-of-address-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import {
@@ -13,7 +14,7 @@ import {
   CHANGE_OF_ADDRESS_TITLE,
   ADDRESS_BUTTON_TEXT,
 } from '../constants/index';
-import { validateAddress } from '../actions';
+import { handleSuggestedAddressPicked, validateAddress } from '../actions';
 import Alert from '../components/Alert';
 import Loader from '../components/Loader';
 import SuggestedAddress from '../components/SuggestedAddress';
@@ -30,7 +31,8 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const address = addressValidationData?.addresses[0]?.address;
   const confidenceScore =
     addressValidationData?.addresses[0]?.addressMetaData?.confidenceScore;
-
+  const addressType =
+    addressValidationData?.addresses[0]?.addressMetaData?.addressType;
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
   const [editFormData, setEditFormData] = useState({});
@@ -38,7 +40,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const [newAddress, setNewAddress] = useState({});
   const dispatch = useDispatch();
   const PREFIX = 'GI-Bill-Chapters-';
-
+  const location = useLocation();
   const scrollToTopOfForm = () => {
     scrollToElement('Contact information');
   };
@@ -103,9 +105,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     [handleCloseForm, isLoading, isLoadingValidateAddress],
   );
   const setAddressToUI = value => {
-    if (response) {
-      setNewAddress(value);
-    }
+    setNewAddress(value);
   };
 
   // This effect to reset setEditFormData and remove address from sessionStorage
@@ -114,8 +114,17 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     () => {
       setEditFormData({});
       sessionStorage.removeItem('address');
+      dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
+      dispatch(handleSuggestedAddressPicked(false));
     },
-    [error, response, validationError],
+    [dispatch, error, response, validationError],
+  );
+
+  useEffect(
+    () => {
+      dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
+    },
+    [dispatch, location.pathname],
   );
   const addressDescription = () => {
     return (
@@ -196,7 +205,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
         tempData.stateCode = '';
       }
     }
-
     setFormData(tempData);
     setEditFormData(tempData);
   };
@@ -218,7 +226,8 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       >
         {!toggleAddressForm && (
           <>
-            {confidenceScore < 100 || suggestedAddressPicked ? (
+            {suggestedAddressPicked ||
+            confidenceScore < (addressType === 'International' ? 96 : 100) ? (
               <SuggestedAddress
                 formData={editFormData}
                 address={JSON.parse(sessionStorage.getItem('address'))}

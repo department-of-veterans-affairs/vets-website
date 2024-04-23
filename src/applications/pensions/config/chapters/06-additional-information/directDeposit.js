@@ -3,13 +3,15 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { DirectDepositWarning } from '../../../helpers';
 
-const directDeposit = {
+export default {
+  title: 'Direct deposit for Veterans Pension benefits',
+  path: 'additional-information/direct-deposit',
+  initialData: {},
   uiSchema: {
     ...titleUI(
       'Direct deposit for Veterans Pension benefits',
-      DirectDepositWarning,
+      'The Department of Treasury requires all federal benefit payments be made by electronic funds transfer (EFT), also called direct deposit. If we approve your application for pension benefits, we’ll use direct deposit to deposit your payments directly into a bank account.',
     ),
     'view:usingDirectDeposit': yesNoUI({
       title: 'Do you have a bank account to use for direct deposit?',
@@ -23,5 +25,3 @@ const directDeposit = {
     required: ['view:usingDirectDeposit'],
   },
 };
-
-export { directDeposit };

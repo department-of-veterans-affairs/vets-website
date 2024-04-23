@@ -1,5 +1,6 @@
 import rxTracking from '../fixtures/prescription-tracking-details.json';
 import expiredRx from '../fixtures/expired-prescription-details.json';
+import { medicationsUrls } from '../../../util/constants';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
@@ -118,14 +119,16 @@ class MedicationsDetailsPage {
 
   clickMedicationsLandingPageBreadcrumbsOnListPage = () => {
     cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
-    cy.get('[href="/my-health/medications/about"]').click({
+    cy.get(`[href="${medicationsUrls.MEDICATIONS_ABOUT}"]`).click({
       waitForAnimations: true,
     });
   };
 
   clickMedicationsListPageBreadcrumbsOnDetailsPage = (interceptedPage = 1) => {
     cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
-    cy.get(`[href="/my-health/medications/?page=${interceptedPage}"]`).click({
+    cy.get(
+      `[href="${medicationsUrls.MEDICATIONS_URL}/?page=${interceptedPage}"]`,
+    ).click({
       waitForAnimations: true,
     });
     // cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').should('exist');
@@ -138,7 +141,9 @@ class MedicationsDetailsPage {
     interceptedPage = 2,
   ) => {
     cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
-    cy.get(`[href="/my-health/medications/?page=${interceptedPage}"]`).click({
+    cy.get(
+      `[href="${medicationsUrls.MEDICATIONS_URL}/?page=${interceptedPage}"]`,
+    ).click({
       waitForAnimations: true,
     });
     // cy.get('[data-testid="rx-breadcrumb"] > :nth-child(2) > a').should('exist');
@@ -276,23 +281,21 @@ class MedicationsDetailsPage {
     );
   };
 
-  clickReviewImageDropDownOnDetailsPage = () => {
+  verifyMedicationImageVisibleOnDetailsPage = () => {
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions/get_prescription_image/00113002239',
       rxTracking,
     ).as('rxImage');
-    cy.get('[data-testid="review-rx-image"]').should('exist');
-    cy.get('[data-testid="review-rx-image"]').click({
-      waitForAnimations: true,
-    });
-  };
-
-  verifyMedicationImageVisibleOnDetailsPage = () => {
-    cy.get('[data-testid="review-rx-image"] > img').should('be.visible');
+    cy.get('[data-testid="rx-image"]').should('be.visible');
   };
 
   verifyRefillHistoryHeaderOnDetailsPage = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions/get_prescription_image/00113002239',
+      rxTracking,
+    ).as('rxImage');
     cy.get('[data-testid="refill-History"]').should(
       'contain',
       'Refill history',
@@ -300,7 +303,7 @@ class MedicationsDetailsPage {
   };
 
   verifyFirstRefillHeaderTextOnDetailsPage = () => {
-    cy.get('[data-testid="refill"]')
+    cy.get('[data-testid="rx-refill"]')
       .first()
       .should('contain', 'Refill 1');
   };
@@ -317,26 +320,31 @@ class MedicationsDetailsPage {
   };
 
   verifyImageOfMedicationFieldOnDetailsPage = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions/get_prescription_image/00113002239',
+      rxTracking,
+    ).as('rxImage');
     cy.get('[data-testid="med-image"]').should(
       'contain',
       'Image of the medication or supply',
     );
   };
 
-  verifyRxFilledByPharmacyDateOnDetailsPage = dispensedDate => {
+  verifyRxFilledByPharmacyDateOnDetailsPage = () => {
     cy.get('[data-testid="dispensedDate"]')
       // .first()
-      .should('contain', dispensedDate);
+      .should('contain', 'September 24, 2023');
   };
 
-  verifyRxShippedOnDateOnDetailsPage = shippedDate => {
+  verifyRxShippedOnDateOnDetailsPage = () => {
     cy.get('[data-testid="shipped-on"]')
       .first()
-      .should('contain', shippedDate);
+      .should('contain', 'September 24, 2023');
   };
 
   verifyNoImageFieldMessageOnDetailsPage = () => {
-    cy.get('[data-testid="no-image"]').should('contain', 'No image available');
+    cy.get('[data-testid="no-image"]').should('contain', 'Image not available');
   };
 
   verifyNonVaMedicationStatusOnDetailsPage = prescriptionDetails => {

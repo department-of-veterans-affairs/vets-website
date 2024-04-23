@@ -1,5 +1,10 @@
 import moment from 'moment';
-import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation';
+import { isEqual } from 'lodash';
+import {
+  convertToDateField,
+  validateCurrentOrPastDate,
+} from '~/platform/forms-system/src/js/validation';
+import { isValidDateRange } from '~/platform/forms/validations';
 import content from '../locales/en/content.json';
 
 /**
@@ -49,5 +54,80 @@ export function validatePolicyNumberGroupCode(errors, fieldData) {
     errors.insurancePolicyNumber.addError(
       content['validation-insurance-policy-number'],
     );
+  }
+}
+
+export function validateGulfWarDates(
+  errors,
+  { gulfWarStartDate, gulfWarEndDate },
+) {
+  const fromDate = convertToDateField(gulfWarStartDate);
+  const toDate = convertToDateField(gulfWarEndDate);
+  const messages = {
+    range: content['military-service-validation-gulf-war-range'],
+    format: content['military-service-validation-toxic-exposure-format'],
+  };
+
+  // As of 4/2/2024, we are allowing users to enter the same month/date
+  if (!isValidDateRange(fromDate, toDate) && !isEqual(fromDate, toDate)) {
+    errors.gulfWarEndDate.addError(messages.range);
+  }
+
+  if (fromDate.month.value && !fromDate.year.value) {
+    errors.gulfWarStartDate.addError(messages.format);
+  }
+
+  if (toDate.month.value && !toDate.year.value) {
+    errors.gulfWarEndDate.addError(messages.format);
+  }
+}
+
+export function validateAgentOrangeExposureDates(
+  errors,
+  { agentOrangeStartDate, agentOrangeEndDate },
+) {
+  const fromDate = convertToDateField(agentOrangeStartDate);
+  const toDate = convertToDateField(agentOrangeEndDate);
+  const messages = {
+    range: content['military-service-validation-exposure-range'],
+    format: content['military-service-validation-toxic-exposure-format'],
+  };
+
+  // As of 4/2/2024, we are allowing users to enter the same month/date
+  if (!isValidDateRange(fromDate, toDate) && !isEqual(fromDate, toDate)) {
+    errors.agentOrangeEndDate.addError(messages.range);
+  }
+
+  if (fromDate.month.value && !fromDate.year.value) {
+    errors.agentOrangeStartDate.addError(messages.format);
+  }
+
+  if (toDate.month.value && !toDate.year.value) {
+    errors.agentOrangeEndDate.addError(messages.format);
+  }
+}
+
+export function validateExposureDates(
+  errors,
+  { toxicExposureStartDate, toxicExposureEndDate },
+) {
+  const fromDate = convertToDateField(toxicExposureStartDate);
+  const toDate = convertToDateField(toxicExposureEndDate);
+  const messages = {
+    range: content['military-service-validation-exposure-range'],
+    format: content['military-service-validation-toxic-exposure-format'],
+  };
+
+  // As of 4/2/2024, we are allowing users to enter the same month/date
+  if (!isValidDateRange(fromDate, toDate) && !isEqual(fromDate, toDate)) {
+    errors.toxicExposureEndDate.addError(messages.range);
+  }
+
+  if (fromDate.month.value && !fromDate.year.value) {
+    errors.toxicExposureStartDate.addError(messages.format);
+  }
+
+  if (toDate.month.value && !toDate.year.value) {
+    errors.toxicExposureEndDate.addError(messages.format);
   }
 }

@@ -14,7 +14,8 @@ describe('directDeposit reducer', () => {
   const initialState = {
     controlInformation: null,
     paymentAccount: null,
-    error: null,
+    loadError: null,
+    saveError: null,
     ui: {
       isEditing: false,
       isSaving: false,
@@ -55,7 +56,8 @@ describe('directDeposit reducer', () => {
     const expectedState = {
       controlInformation: response.controlInformation,
       paymentAccount: response.paymentAccount,
-      error: null,
+      loadError: null,
+      saveError: null,
       ui: {
         isEditing: false,
         isSaving: false,
@@ -73,7 +75,7 @@ describe('directDeposit reducer', () => {
     };
     const expectedState = {
       ...initialState,
-      error: action.response.error,
+      loadError: action.response.error,
     };
     expect(directDeposit(initialState, action)).deep.equal(expectedState);
   });
@@ -85,7 +87,7 @@ describe('directDeposit reducer', () => {
     };
     const expectedState = {
       ...initialState,
-      error: true,
+      loadError: true,
     };
     expect(directDeposit(initialState, action)).deep.equal(expectedState);
   });
@@ -98,7 +100,6 @@ describe('directDeposit reducer', () => {
       ...initialState,
       ui: {
         ...initialState.ui,
-        responseError: null,
         isSaving: true,
       },
     };
@@ -135,7 +136,8 @@ describe('directDeposit reducer', () => {
     const expectedState = {
       controlInformation: response.controlInformation,
       paymentAccount: response.paymentAccount,
-      error: null,
+      loadError: null,
+      saveError: null,
       ui: {
         isEditing: false,
         isSaving: false,
@@ -147,11 +149,11 @@ describe('directDeposit reducer', () => {
   it('should handle DIRECT_DEPOSIT_SAVE_FAILED', () => {
     const action = {
       type: DIRECT_DEPOSIT_SAVE_FAILED,
-      response: 'error',
+      response: { error: 'error' },
     };
     const expectedState = {
       ...initialState,
-      error: action.response,
+      saveError: action.response.error,
       ui: {
         ...initialState.ui,
         isSaving: false,
@@ -167,7 +169,6 @@ describe('directDeposit reducer', () => {
     };
     const expectedState = {
       ...initialState,
-      error: null,
       ui: {
         ...initialState.ui,
         isEditing: true,
