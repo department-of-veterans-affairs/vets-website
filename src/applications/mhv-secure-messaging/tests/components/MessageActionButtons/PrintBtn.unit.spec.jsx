@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import reducers from '~/applications/mhv-secure-messaging/reducers';
 import PrintBtn from '../../../components/MessageActionButtons/PrintBtn';
 import messageDetails from '../../fixtures/threads/message-thread-reducer.json';
-import reducers from '~/applications/mhv-secure-messaging/reducers';
 
 describe('Print button', () => {
   let screen;
