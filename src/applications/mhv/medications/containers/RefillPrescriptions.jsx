@@ -75,6 +75,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
         ),
       );
     }
+    setSelectedRefillList([]);
   };
   const onSelectPrescription = id => {
     if (!selectedRefillList.includes(id)) {
