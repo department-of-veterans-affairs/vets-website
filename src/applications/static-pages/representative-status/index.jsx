@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import './stylesheet.scss';
+import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
 export default (store, widgetType, baseHeader = 3, showIntroCopy) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
@@ -9,6 +10,7 @@ export default (store, widgetType, baseHeader = 3, showIntroCopy) => {
     import(/* webpackChunkName: "representative-status" */
     './components/App').then(module => {
       const App = module.default;
+      connectFeatureToggle(store.dispatch);
 
       ReactDOM.render(
         <Provider store={store}>

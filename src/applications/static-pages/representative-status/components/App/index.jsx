@@ -5,8 +5,8 @@ import {
   isAuthenticatedWithSSOe,
   isAuthenticatedWithOAuth,
 } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
-
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { Auth } from '../States/Auth';
 import { Unauth } from '../States/Unauth';
 
@@ -21,6 +21,19 @@ export const App = ({
   const DynamicSubheader = `h${baseHeader + 1}`;
 
   const loggedIn = authenticatedWithSSOe || authenticatedWithOAuth;
+
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+  const togglesLoading = useToggleLoadingValue();
+
+  const appEnabled = useToggleValue(TOGGLE_NAMES.representativeStatusEnabled);
+
+  if (togglesLoading || !appEnabled) {
+    return null;
+  }
 
   return (
     <>
