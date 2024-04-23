@@ -150,7 +150,8 @@ describe('authenticated experience -- profile -- direct deposit', () => {
         },
       );
 
-      expect(getByText(/By April 20, 2024/i)).to.exist;
+      expect(getByText(/Upcoming site maintenance for direct deposit/i)).to
+        .exist;
     });
 
     it('Does not render EduMigrationAlert when profileShowDirectDepositSingleFormAlert toggle is OFF', () => {
@@ -165,7 +166,8 @@ describe('authenticated experience -- profile -- direct deposit', () => {
         },
       );
 
-      expect(queryByText(/By April 20, 2024/i)).to.not.exist;
+      expect(queryByText(/Upcoming site maintenance for direct deposit/i)).to
+        .not.exist;
     });
 
     it('Renders TemporaryOutageCnp when hideDirectDeposit is true', () => {
