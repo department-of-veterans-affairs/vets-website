@@ -238,14 +238,9 @@ class PatientComposePage {
     });
   };
 
-  attachFewFiles = fileList => {
-    for (let i = 0; i < fileList.length; i += 1) {
-      const filepath = `src/applications/mhv-secure-messaging/tests/e2e/fixtures/mock-attachments/${
-        fileList[i]
-      }`;
-      cy.get(Locators.ATTACH_FILE_INPUT).selectFile(filepath, {
-        force: true,
-      });
+  attachFewFiles = list => {
+    for (let i = 0; i < list.length; i += 1) {
+      this.attachMessageFromFile(list[i]);
     }
   };
 

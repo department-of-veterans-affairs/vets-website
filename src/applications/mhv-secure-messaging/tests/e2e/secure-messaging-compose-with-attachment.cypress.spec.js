@@ -40,7 +40,7 @@ describe('Compose a new message With Attacments and Errors', () => {
   });
 
   it('verify attach file button behaviour', () => {
-    // const fileList = ['file.jpg', 'file.pdf', 'file.doc']
+    const fileList = [Data.SAMPLE_XLS, Data.SAMPLE_IMG, Data.SAMPLE_DOC];
     cy.get(Locators.BUTTONS.ATTACH_FILE)
       .shadow()
       .find('button')
@@ -58,7 +58,9 @@ describe('Compose a new message With Attacments and Errors', () => {
       Data.ALREADY_ATTACHED_FILE,
     );
 
-    // composePage.attachFewFiles(fileList)
+    composePage.attachFewFiles(fileList);
+
+    cy.get(Locators.BUTTONS.ATTACH_FILE).should('not.exist');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

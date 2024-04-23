@@ -231,6 +231,8 @@ export const Data = {
   TEST_MESSAGE_SUBJECT: 'Test Message Subject',
   SAMPLE_DOC: 'sample_docx.docx',
   SAMPLE_PDF: 'sample_pdf.pdf',
+  SAMPLE_XLS: 'sample_XLS.xls',
+  SAMPLE_IMG: 'test_image.gif',
   START_NEW_MSG: 'Start a new message',
   GO_YOUR_INBOX: 'Go to your inbox',
   BACK_TO_MSG: 'Back to messages',
