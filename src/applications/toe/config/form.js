@@ -44,8 +44,8 @@ import preSubmitInfo from '../components/preSubmitInfo';
 
 import {
   addWhitespaceOnlyError,
+  applicantIsaMinor,
   applicantIsChildOfSponsor,
-  hideUnder18Field,
   isOnlyWhitespace,
   prefillTransformer,
 } from '../helpers';
@@ -139,12 +139,14 @@ const formConfig = {
                   </>
                 </va-alert>
               ),
+              'ui:options': {
+                hideIf: formData => !applicantIsaMinor(formData),
+              },
             },
             [formFields.parentGuardianSponsor]: {
               'ui:title': 'Parent / Guardian signature',
               'ui:options': {
-                hideIf: formData =>
-                  hideUnder18Field(formData, formFields.dateOfBirth),
+                hideIf: formData => !applicantIsaMinor(formData),
               },
               'ui:validations': [
                 (errors, field) =>
@@ -161,13 +163,11 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [formFields.dateOfBirth],
             properties: {
               'view:applicantInformation': {
                 type: 'object',
                 properties: {},
               },
-              [formFields.dateOfBirth]: date,
               'view:dateOfBirthUnder18Alert': {
                 type: 'object',
                 properties: {},

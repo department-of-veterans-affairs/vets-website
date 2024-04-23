@@ -345,6 +345,9 @@ export const App = ({
       getDirectDeposit,
       setFetchedDirectDeposit,
       benefitEffectiveDate,
+      mebAutoPopulateRelinquishmentDate,
+      setFormData,
+      formData,
     ],
   );
 

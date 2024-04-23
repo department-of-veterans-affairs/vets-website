@@ -14,6 +14,7 @@ import { getAppData } from '../selectors';
 
 function ToeApp({
   children,
+  dob,
   formData,
   getDirectDeposit,
   getPersonalInformation,
@@ -108,6 +109,18 @@ function ToeApp({
 
   useEffect(
     () => {
+      if (dob !== formData?.dob) {
+        setFormData({
+          ...formData,
+          dob,
+        });
+      }
+    },
+    [dob, formData, setFormData],
+  );
+
+  useEffect(
+    () => {
       if (!user?.login?.currentlyLoggedIn) {
         return;
       }
@@ -147,6 +160,7 @@ function ToeApp({
 
 ToeApp.propTypes = {
   children: PropTypes.object,
+  dob: PropTypes.string,
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
   getPersonalInformation: PropTypes.func,
@@ -164,6 +178,7 @@ ToeApp.propTypes = {
 
 const mapStateToProps = state => ({
   ...getAppData(state),
+  dob: state.user.profile?.dob,
   formData: state.form?.data || {},
   claimant: state.data?.formData?.data?.attributes?.claimant,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
