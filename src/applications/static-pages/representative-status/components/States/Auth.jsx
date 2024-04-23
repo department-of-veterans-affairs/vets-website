@@ -41,9 +41,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
         <h2 slot="headline">We don’t seem to have your records</h2>
         <React.Fragment key=".1">
           <p>We’re sorry. We can’t match your information to our records.</p>
-          <p>
-            <strong>What you can do</strong>
-          </p>
+
           <p className="vads-u-margin-y--0">
             If you think your information should be here, please try again later
             or call us at{' '}
