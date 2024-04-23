@@ -1,3 +1,5 @@
+import { mockUser } from './login';
+
 describe('Enrollment Verification Page Tests', () => {
   beforeEach(() => {
     cy.intercept('GET', '/vye/v1').as('getData');
@@ -65,5 +67,30 @@ describe('Enrollment Verification Page Tests', () => {
       'contain',
       'Please enter the name of your Financial Institution',
     );
+  });
+  it('Should submit without any errors ', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.login(mockUser);
+    cy.get(
+      '[href="/education/verify-your-enrollment/benefits-profile/"]',
+    ).click();
+    cy.get('[id="VYE-add-new-account-button"]').click();
+    cy.get('[id="root_GI-Bill-Chapters-fullName"]').type('John Smith');
+    cy.get('input[id="root_GI-Bill-Chapters-phone"]').type('4082037901');
+    cy.get('[id="root_GI-Bill-Chapters-email"]').type('uer01@mail.com');
+    cy.get(
+      'label[for="root_GI-Bill-Chapters-AccountTypeCheckinginput"]',
+    ).click();
+    cy.get('[for="root_GI-Bill-Chapters-AccountTypeCheckinginput"]').click();
+    cy.get('[id="root_GI-Bill-Chapters-BankName"]').type('Bank Of America');
+    cy.get('[id="root_GI-Bill-Chapters-BankPhone"]').type('3155682345');
+    cy.get('[id="root_GI-Bill-Chapters-RoutingNumber"]').type('938235879');
+    cy.get('[id="root_GI-Bill-Chapters-AccountNumber"]').type('00026643207');
+    cy.get('[id="root_GI-Bill-Chapters-VerifyAccountNumber"]').type(
+      '00026643207',
+    );
+    cy.get(
+      '[aria-label="save your bank information for GI Bill® benefits"]',
+    ).click();
   });
 });
