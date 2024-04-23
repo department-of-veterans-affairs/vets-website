@@ -16,10 +16,10 @@ export const OnThisPageStatements = () => (
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
             <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              size={2}
+              icon="arrow_downward"
               aria-hidden="true"
-              className="vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             Account summary
           </a>
@@ -28,10 +28,10 @@ export const OnThisPageStatements = () => (
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
             <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              size={2}
+              icon="arrow_downward"
               aria-hidden="true"
-              className="vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             Statement charges
           </a>
@@ -40,10 +40,10 @@ export const OnThisPageStatements = () => (
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
             <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              size={2}
+              icon="arrow_downward"
               aria-hidden="true"
-              className="vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             Statement addresses
           </a>
@@ -52,10 +52,10 @@ export const OnThisPageStatements = () => (
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
             <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              size={2}
+              icon="arrow_downward"
               aria-hidden="true"
-              className="vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             How to pay your copay bill
           </a>
@@ -64,10 +64,10 @@ export const OnThisPageStatements = () => (
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
             <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              size={2}
+              icon="arrow_downward"
               aria-hidden="true"
-              className="vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             How to get financial help for your copays
           </a>
@@ -76,10 +76,10 @@ export const OnThisPageStatements = () => (
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
             <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              size={2}
+              icon="arrow_downward"
               aria-hidden="true"
-              className="vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             How to dispute your copay charges
           </a>
@@ -88,10 +88,10 @@ export const OnThisPageStatements = () => (
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
             <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              size={2}
+              icon="arrow_downward"
               aria-hidden="true"
-              className="vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             What to do if you have questions about your balance
           </a>
