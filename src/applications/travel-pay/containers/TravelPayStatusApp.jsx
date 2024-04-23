@@ -6,11 +6,10 @@ import {
 } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import PropTypes from 'prop-types';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import { getTravelClaims, getUnauthPing } from '../redux/actions';
-
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 export default function App({ children }) {
   const dispatch = useDispatch();
