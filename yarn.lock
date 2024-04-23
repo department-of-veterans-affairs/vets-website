@@ -4117,6 +4117,11 @@
   resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-1.1.1.tgz#827fd05bb542cf874116176d8ef48d5b12163f81"
   integrity sha512-7PGLWa9MZ5x/cWy8EH2VzI4T8q5WpuHbixzCDXqixP/WyqwIrg5NDUPgYuFnB4IEIZF+6nA265mYzswFo/h1Pw==
 
+"@remix-run/router@1.15.3":
+  version "1.15.3"
+  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.15.3.tgz#d2509048d69dbb72d5389a14945339f1430b2d3c"
+  integrity sha512-Oy8rmScVrVxWZVOpEF57ovlnhpZ8CCPlnIIumVcV9nFdiSIrus99+Lw78ekXyGvVDlIsFJbSfmSovJUhCWYV3w==
+
 "@sentry/browser@^6.13.2":
   version "6.13.2"
   resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-6.13.2.tgz#8b731ecf8c3cdd92a4b6893a26f975fd5844056d"
@@ -17421,6 +17426,14 @@ react-remove-scroll@^2.5.2:
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
 
+react-router-dom-v5-compat@^6.22.3:
+  version "6.22.3"
+  resolved "https://registry.yarnpkg.com/react-router-dom-v5-compat/-/react-router-dom-v5-compat-6.22.3.tgz#4889b46d060492a58c401700c987bddcc8b915f4"
+  integrity sha512-icbyLKEUdMqWjehsRrQv0g/N4C33KFC2ZmnOBF7vvy1hudYSJWY4VTOjy3ey2YY+r3WtcdEH72M7IIGVHAkEtw==
+  dependencies:
+    history "^5.3.0"
+    react-router "6.22.3"
+
 react-router-dom-v5-compat@^6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/react-router-dom-v5-compat/-/react-router-dom-v5-compat-6.3.0.tgz#a6b1bf18a42e3c1b902711931c4b496920740815"
@@ -17476,6 +17489,13 @@ react-router@5.2.1:
     react-is "^16.6.0"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
+
+react-router@6.22.3:
+  version "6.22.3"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.22.3.tgz#9d9142f35e08be08c736a2082db5f0c9540a885e"
+  integrity sha512-dr2eb3Mj5zK2YISHK++foM9w4eBnO23eKnZEDs7c880P6oKbrjz/Svg9+nxqtHQK+oMW4OtjZca0RqPglXxguQ==
+  dependencies:
+    "@remix-run/router" "1.15.3"
 
 react-router@6.3.0:
   version "6.3.0"
