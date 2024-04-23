@@ -1,6 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import React from 'react';
+import { Link } from 'react-router-dom-v5-compat';
 
 const POARequestsWidget = ({ poaRequests }) => (
   <div className="vads-u-background-color--white vads-u-padding--2p5 rounded-corners">
