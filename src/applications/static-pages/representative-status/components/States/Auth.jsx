@@ -206,7 +206,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
 
   return (
     <>
-      <va-card>
+      <va-card show-shadow>
         <div className="auth-card">
           {id ? renderAuthRep() : renderAuthNoRep()}
         </div>
