@@ -94,16 +94,12 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
           </div>
           <div className="auth-rep-text">
             <div className="auth-rep-header">
-              <DynamicHeader>Your accredited representative</DynamicHeader>
+              <DynamicHeader>
+                Your current accredited representative
+              </DynamicHeader>
             </div>
             <div className="auth-rep-subheader">
-              <DynamicSubheader>
-                {poaType === 'organization' ? (
-                  <>Accredited with {name}</>
-                ) : (
-                  name
-                )}
-              </DynamicSubheader>
+              <DynamicSubheader>{name}</DynamicSubheader>
               {poaType === 'organization' && (
                 <p className="vads-u-margin-top--0">
                   You can work with any accredited representative at this
