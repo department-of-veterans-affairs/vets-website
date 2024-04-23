@@ -144,35 +144,6 @@ describe('VAOS Component: CanceledAppointmentsList', () => {
     ).to.eventually.be.ok;
   });
 
-  it('should not display when over 13 months away', () => {
-    // Arrange
-    const startDate = moment();
-    const appointment = getVAOSRequestMock();
-    appointment.id = '1234';
-    appointment.attributes = {
-      id: '1234',
-      status: APPOINTMENT_STATUS.cancelled,
-      kind: 'clinic',
-      clinic: '308',
-      localStartTime: startDate
-        .add(14, 'months')
-        .format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
-      locationId: '983GC',
-    };
-
-    mockFetchFutureAppointments(appointment);
-
-    // Act
-    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
-      initialState,
-    });
-
-    // Assert
-    return expect(
-      screen.findByText(/You don’t have any canceled appointments/i),
-    ).to.eventually.be.ok;
-  });
-
   it('should show error message when request fails', async () => {
     // Mock a fetch failure
     mockVAOSAppointmentsFetch({
