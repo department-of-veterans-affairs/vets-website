@@ -19,7 +19,6 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
               className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
             >
               <va-icon
-                size={2}
                 icon="arrow_downward"
                 aria-hidden="true"
                 class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
@@ -34,7 +33,6 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
               className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
             >
               <va-icon
-                size={2}
                 icon="arrow_downward"
                 aria-hidden="true"
                 class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
@@ -49,7 +47,6 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
               className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
             >
               <va-icon
-                size={2}
                 icon="arrow_downward"
                 aria-hidden="true"
                 class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
