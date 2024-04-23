@@ -50,19 +50,21 @@ export default function App({ children }) {
     [dispatch, userLoggedIn],
   );
 
-  if ((profileLoading || toggleIsLoading) && !userLoggedIn) {
+  if ((profileLoading && !userLoggedIn) || toggleIsLoading) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
           label="Loading"
           message="Please wait while we load the application for you."
+          data-testid="travel-pay-loading-indicator"
         />
       </div>
     );
   }
 
   if (!appEnabled) {
-    return document.location.replace('/');
+    window.location.replace('/');
+    return null;
   }
 
   return (
