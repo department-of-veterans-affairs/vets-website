@@ -1,8 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CSP_IDS } from 'platform/user/authentication/constants';
-import CreateAccountLink from 'platform/user/authentication/components/CreateAccountLink';
-import VerifyAccountLink from 'platform/user/authentication/components/VerifyAccountLink';
+import { useSelector } from 'react-redux';
+import {
+  CSP_IDS,
+  SERVICE_PROVIDERS,
+} from '~/platform/user/authentication/constants';
+import CreateAccountLink from '~/platform/user/authentication/components/CreateAccountLink';
+import VerifyAccountLink from '~/platform/user/authentication/components/VerifyAccountLink';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
+
+const CredentialRetirementMessaging = () => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const showCredentialRetirementMessaging = useToggleValue(
+    TOGGLE_NAMES.profileShowCredentialRetirementMessaging,
+  );
+  const signInService = useSelector(signInServiceName);
+  const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
+  return showCredentialRetirementMessaging ? (
+    <>
+      Starting December 31, 2024, you’ll no longer be able to sign in with your
+      {` ${serviceLabel}` || ''} username and password.
+    </>
+  ) : null;
+};
 
 export default function VerifyIdentity({ useOAuth }) {
   const { ID_ME, LOGIN_GOV } = CSP_IDS;
@@ -24,7 +45,7 @@ export default function VerifyIdentity({ useOAuth }) {
       </p>
       <p>
         <strong>If you don’t have one of these accounts</strong>, you can create
-        one and verify your identity now.
+        one and verify your identity now. <CredentialRetirementMessaging />
       </p>
       {[ID_ME, LOGIN_GOV].map(policy => (
         <p key={policy}>
