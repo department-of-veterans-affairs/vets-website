@@ -3,13 +3,16 @@ import get from 'platform/utilities/data/get';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { applicantWording } from '../../shared/utilities';
+import transformForSubmit from './submitTransformer';
+import { applicantWording, getAgeInYears } from '../../shared/utilities';
+import FileFieldWrapped from '../components/FileUploadWrapper';
 
 import {
   certifierRole,
   certifierAddress,
   certifierPhoneEmail,
   certifierRelationship,
+  certifierNameSchema,
 } from '../chapters/certifierInformation';
 
 import {
@@ -19,6 +22,7 @@ import {
   applicantPreAddressSchema,
   applicantAddressInfoSchema,
   applicantContactInfoSchema,
+  blankSchema,
 } from '../chapters/applicantInformation';
 
 import {
@@ -33,6 +37,9 @@ import {
   applicantHasMedicareDSchema,
   applicantMedicarePartDCarrierSchema,
   applicantMedicarePartDEffectiveDateSchema,
+  appMedicareOver65IneligibleUploadSchema,
+  applicantMedicareABUploadSchema,
+  applicantMedicareDUploadSchema,
 } from '../chapters/medicareInformation';
 import {
   ApplicantMedicareStatusPage,
@@ -63,14 +70,15 @@ import {
 import {
   applicantHasInsuranceSchema,
   applicantProviderSchema,
-  applicantPrimaryEffectiveDateSchema,
-  applicantPrimaryExpirationDateSchema,
-  applicantPrimaryEOBSchema,
-  applicantPrimaryThroughEmployerSchema,
-  applicantPrimaryPrescriptionSchema,
-  applicantPrimaryTypeSchema,
-  applicantPrimaryMedigapSchema,
-  applicantPrimaryCommentsSchema,
+  applicantInsuranceEffectiveDateSchema,
+  applicantInsuranceExpirationDateSchema,
+  applicantInsuranceEOBSchema,
+  applicantInsuranceThroughEmployerSchema,
+  applicantInsurancePrescriptionSchema,
+  applicantInsuranceTypeSchema,
+  applicantMedigapSchema,
+  applicantInsuranceCommentsSchema,
+  applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
@@ -81,23 +89,35 @@ import {
   hasPrimaryProvider,
   hasSecondaryProvider,
 } from './conditionalPaths';
-import mockdata from '../tests/fixtures/data/test-data.json';
+// import mockdata from '../tests/fixtures/data/test-data.json';
 import {
   ApplicantPrimaryThroughEmployerPage,
   ApplicantPrimaryThroughEmployerReviewPage,
+  ApplicantSecondaryThroughEmployerPage,
+  ApplicantSecondaryThroughEmployerReviewPage,
 } from '../components/ApplicantPrimaryThroughEmployer';
 import {
   ApplicantPrimaryEOBPage,
   ApplicantPrimaryEOBReviewPage,
+  ApplicantSecondaryEOBPage,
+  ApplicantSecondaryEOBReviewPage,
 } from '../components/ApplicantPrimaryEOBPage';
 import {
   ApplicantPrimaryPrescriptionPage,
   ApplicantPrimaryPrescriptionReviewPage,
+  ApplicantSecondaryPrescriptionPage,
+  ApplicantSecondaryPrescriptionReviewPage,
 } from '../components/ApplicantPrimaryPrescriptionPage';
 import {
   ApplicantInsuranceTypePage,
   ApplicantInsuranceTypeReviewPage,
+  ApplicantSecondaryInsuranceTypePage,
+  ApplicantSecondaryInsuranceTypeReviewPage,
 } from '../components/ApplicantInsurancePlanTypePage';
+
+import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
+import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
+import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
 
 /** @type {PageSchema} */
 const formConfig = {
@@ -111,6 +131,19 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   formId: '10-7959C',
+  transformForSubmit,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: formData =>
+        formData.certifierRole === 'applicant'
+          ? 'applicants[0].applicantName'
+          : 'certifierName',
+    },
+  },
   saveInProgress: {
     messages: {
       inProgress:
@@ -138,9 +171,15 @@ const formConfig = {
         role: {
           path: 'your-information/description',
           title: 'Which of these best describes you?',
-          initialData: mockdata.data,
+          // initialData: mockdata.data,
           uiSchema: certifierRole.uiSchema,
           schema: certifierRole.schema,
+        },
+        name: {
+          path: 'your-information/name',
+          title: 'Your name',
+          depends: formData => get('certifierRole', formData) === 'other',
+          ...certifierNameSchema,
         },
         address: {
           path: 'your-information/address',
@@ -257,6 +296,28 @@ const formConfig = {
           uiSchema: applicantMedicarePartACarrierSchema.uiSchema,
           schema: applicantMedicarePartACarrierSchema.schema,
         },
+        // If ineligible and over 65, require user to upload proof of ineligibility
+        medicareIneligible: {
+          path: ':index/ineligible',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} over 65 and ineligible for Medicare`,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              get(
+                'applicantMedicareStatusContinued.medicareContext',
+                formData?.applicants?.[index],
+              ) === 'ineligible' &&
+              getAgeInYears(formData.applicants[index]?.applicantDOB) >= 65
+            );
+          },
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...appMedicareOver65IneligibleUploadSchema,
+        },
         partAEffective: {
           path: ':index/effective-a',
           arrayPath: 'applicants',
@@ -306,6 +367,17 @@ const formConfig = {
           uiSchema: applicantMedicareAdvantageSchema.uiSchema,
           schema: applicantMedicareAdvantageSchema.schema,
         },
+        medicareABCards: {
+          path: ':index/ab-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare card (A/B)`,
+          depends: (formData, index) => hasMedicareAB(formData, index),
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...applicantMedicareABUploadSchema,
+        },
         hasMedicareD: {
           path: ':index/medicare-d',
           arrayPath: 'applicants',
@@ -337,6 +409,18 @@ const formConfig = {
           uiSchema: applicantMedicarePartDEffectiveDateSchema.uiSchema,
           schema: applicantMedicarePartDEffectiveDateSchema.schema,
         },
+        medicareDCards: {
+          path: ':index/d-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item => `${applicantWording(item)} Medicare card (D)`,
+          depends: (formData, index) =>
+            hasMedicareAB(formData, index) && hasMedicareD(formData, index),
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...applicantMedicareDUploadSchema,
+        },
       },
     },
     healthcareInformation: {
@@ -349,8 +433,7 @@ const formConfig = {
           title: item => `${applicantWording(item)} primary health insurance`,
           CustomPage: ApplicantHasPrimaryPage,
           CustomPageReview: ApplicantHasPrimaryReviewPage,
-          uiSchema: applicantHasInsuranceSchema(true).uiSchema,
-          schema: applicantHasInsuranceSchema(true).schema,
+          ...applicantHasInsuranceSchema(true),
         },
         primaryProvider: {
           path: ':index/primary-provider',
@@ -359,8 +442,7 @@ const formConfig = {
           depends: (formData, index) => hasPrimaryProvider(formData, index),
           title: item =>
             `${applicantWording(item)} health insurance provider’s name`,
-          uiSchema: applicantProviderSchema(true).uiSchema,
-          schema: applicantProviderSchema(true).schema,
+          ...applicantProviderSchema(true),
         },
         primaryEffective: {
           path: ':index/primary-effective-date',
@@ -371,8 +453,7 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantPrimaryProvider
             } insurance effective date`,
-          uiSchema: applicantPrimaryEffectiveDateSchema.uiSchema,
-          schema: applicantPrimaryEffectiveDateSchema.schema,
+          ...applicantInsuranceEffectiveDateSchema(true),
         },
         primaryExpiration: {
           path: ':index/primary-expiration-date',
@@ -383,8 +464,7 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantPrimaryProvider
             } insurance expiration date`,
-          uiSchema: applicantPrimaryExpirationDateSchema.uiSchema,
-          schema: applicantPrimaryExpirationDateSchema.schema,
+          ...applicantInsuranceExpirationDateSchema(true),
         },
         primaryThroughEmployer: {
           path: ':index/primary-through-employer',
@@ -397,8 +477,7 @@ const formConfig = {
             } type of insurance`,
           CustomPage: ApplicantPrimaryThroughEmployerPage,
           CustomPageReview: ApplicantPrimaryThroughEmployerReviewPage,
-          uiSchema: applicantPrimaryThroughEmployerSchema.uiSchema,
-          schema: applicantPrimaryThroughEmployerSchema.schema,
+          ...applicantInsuranceThroughEmployerSchema(true),
         },
         primaryPrescription: {
           path: ':index/primary-prescription',
@@ -411,8 +490,7 @@ const formConfig = {
             } prescription coverage`,
           CustomPage: ApplicantPrimaryPrescriptionPage,
           CustomPageReview: ApplicantPrimaryPrescriptionReviewPage,
-          uiSchema: applicantPrimaryPrescriptionSchema.uiSchema,
-          schema: applicantPrimaryPrescriptionSchema.schema,
+          ...applicantInsurancePrescriptionSchema(true),
         },
         primaryEOB: {
           path: ':index/primary-eob',
@@ -425,8 +503,7 @@ const formConfig = {
             } explanation of benefits`,
           CustomPage: ApplicantPrimaryEOBPage,
           CustomPageReview: ApplicantPrimaryEOBReviewPage,
-          uiSchema: applicantPrimaryEOBSchema.uiSchema,
-          schema: applicantPrimaryEOBSchema.schema,
+          ...applicantInsuranceEOBSchema(true),
         },
         primaryType: {
           path: ':index/primary-insurance-type',
@@ -439,8 +516,7 @@ const formConfig = {
             } insurance plan`,
           CustomPage: ApplicantInsuranceTypePage,
           CustomPageReview: ApplicantInsuranceTypeReviewPage,
-          uiSchema: applicantPrimaryTypeSchema.uiSchema,
-          schema: applicantPrimaryTypeSchema.schema,
+          ...applicantInsuranceTypeSchema(true),
         },
         primaryMedigap: {
           path: ':index/primary-medigap',
@@ -460,8 +536,7 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantPrimaryProvider
             } Medigap information`,
-          uiSchema: applicantPrimaryMedigapSchema.uiSchema,
-          schema: applicantPrimaryMedigapSchema.schema,
+          ...applicantMedigapSchema(true),
         },
         primaryComments: {
           path: ':index/primary-comments',
@@ -472,8 +547,19 @@ const formConfig = {
             `${applicantWording(item)} ${
               item?.applicantPrimaryProvider
             } additional comments`,
-          uiSchema: applicantPrimaryCommentsSchema.uiSchema,
-          schema: applicantPrimaryCommentsSchema.schema,
+          ...applicantInsuranceCommentsSchema(true),
+        },
+        primaryCard: {
+          path: ':index/primary-card-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} primary health insurance card`,
+          depends: (formData, index) => hasPrimaryProvider(formData, index),
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...applicantInsuranceCardSchema(true),
         },
         hasSecondaryHealthInsurance: {
           path: ':index/has-secondary',
@@ -482,8 +568,7 @@ const formConfig = {
           title: item => `${applicantWording(item)} secondary health insurance`,
           CustomPage: ApplicantHasSecondaryPage,
           CustomPageReview: ApplicantHasSecondaryReviewPage,
-          uiSchema: applicantHasInsuranceSchema(false).uiSchema,
-          schema: applicantHasInsuranceSchema(false).schema,
+          ...applicantHasInsuranceSchema(false),
         },
         secondaryProvider: {
           path: ':index/secondary-provider',
@@ -494,8 +579,165 @@ const formConfig = {
             `${applicantWording(
               item,
             )} secondary health insurance provider’s name`,
-          uiSchema: applicantProviderSchema(false).uiSchema,
-          schema: applicantProviderSchema(false).schema,
+          ...applicantProviderSchema(false),
+        },
+        secondaryEffective: {
+          path: ':index/secondary-effective-date',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } insurance effective date`,
+          ...applicantInsuranceEffectiveDateSchema(false),
+        },
+        secondaryExpiration: {
+          path: ':index/secondary-expiration-date',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } secondary insurance expiration date`,
+          ...applicantInsuranceExpirationDateSchema(false),
+        },
+        secondaryThroughEmployer: {
+          path: ':index/secondary-through-employer',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } type of secondary insurance`,
+          CustomPage: ApplicantSecondaryThroughEmployerPage,
+          CustomPageReview: ApplicantSecondaryThroughEmployerReviewPage,
+          ...applicantInsuranceThroughEmployerSchema(false),
+        },
+        secondaryPrescription: {
+          path: ':index/secondary-prescription',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } secondary prescription coverage`,
+          CustomPage: ApplicantSecondaryPrescriptionPage,
+          CustomPageReview: ApplicantSecondaryPrescriptionReviewPage,
+          ...applicantInsurancePrescriptionSchema(false),
+        },
+        secondaryEOB: {
+          path: ':index/secondary-eob',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } explanation of benefits for secondary insurance`,
+          CustomPage: ApplicantSecondaryEOBPage,
+          CustomPageReview: ApplicantSecondaryEOBReviewPage,
+          ...applicantInsuranceEOBSchema(false),
+        },
+        secondaryType: {
+          path: ':index/secondary-insurance-type',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } secondary insurance plan type`,
+          CustomPage: ApplicantSecondaryInsuranceTypePage,
+          CustomPageReview: ApplicantSecondaryInsuranceTypeReviewPage,
+          ...applicantInsuranceTypeSchema(false),
+        },
+        secondaryMedigap: {
+          path: ':index/secondary-medigap',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => {
+            if (index === undefined) return true;
+            return (
+              hasSecondaryProvider(formData, index) &&
+              get(
+                'applicantSecondaryInsuranceType',
+                formData?.applicants?.[index],
+              )?.includes('medigap')
+            );
+          },
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } secondary insurance Medigap information`,
+          ...applicantMedigapSchema(false),
+        },
+        secondaryComments: {
+          path: ':index/secondary-comments',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          title: item =>
+            `${applicantWording(item)} ${
+              item?.applicantSecondaryProvider
+            } additional comments`,
+          ...applicantInsuranceCommentsSchema(false),
+        },
+        secondaryCard: {
+          path: ':index/secondary-card-upload',
+          arrayPath: 'applicants',
+          showPagePerItem: true,
+          title: item =>
+            `${applicantWording(item)} secondary health insurance card`,
+          depends: (formData, index) => hasSecondaryProvider(formData, index),
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...applicantInsuranceCardSchema(false),
+        },
+      },
+    },
+    fileUpload: {
+      title: 'File Upload',
+      pages: {
+        supportingFilesReview: {
+          path: 'supporting-files',
+          title: 'Upload your supporting files',
+          CustomPage: SupportingDocumentsPage,
+          CustomPageReview: null,
+          uiSchema: {
+            'ui:options': {
+              keepInPageOnReview: false,
+            },
+          },
+          schema: blankSchema,
+        },
+        missingFileConsent: {
+          path: 'consent-mail',
+          title: 'Upload your supporting files',
+          depends: formData => {
+            try {
+              return (
+                hasReq(formData.applicants, true) ||
+                hasReq(formData.applicants, false) ||
+                hasReq(formData, true) ||
+                hasReq(formData, false)
+              );
+            } catch {
+              return false;
+            }
+          },
+          CustomPage: MissingFileConsentPage,
+          CustomPageReview: null,
+          uiSchema: {
+            'ui:options': {
+              keepInPageOnReview: false,
+            },
+          },
+          schema: blankSchema,
         },
       },
     },

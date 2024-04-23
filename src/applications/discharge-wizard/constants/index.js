@@ -115,6 +115,14 @@ export const DUW_UPDATE_COURT_MARTIAL =
   'discharge-upgrade-wizard/DUW_UPDATE_COURT_MARTIAL';
 export const DUW_UPDATE_INTENTION =
   'discharge-upgrade-wizard/DUW_UPDATE_INTENTION';
+export const DUW_UPDATE_PREV_APPLICATION =
+  'discharge-upgrade-wizard/DUW_UPDATE_PREV_APPLICATION';
+export const DUW_UPDATE_PREV_APPLICATION_TYPE =
+  'discharge-upgrade-wizard/DUW_UPDATE_PREV_APPLICATION_TYPE';
+export const DUW_UPDATE_PREV_APPLICATION_YEAR =
+  'discharge-upgrade-wizard/DUW_UPDATE_PREV_APPLICATION_YEAR';
+export const DUW_UPDATE_PRIOR_SERVICE =
+  'discharge-upgrade-wizard/DUW_UPDATE_PREV_PRIOR_SERVICE';
 
 export const ROUTES = Object.freeze({
   HOME: 'introduction',
@@ -125,8 +133,10 @@ export const ROUTES = Object.freeze({
   DISCHARGE_TYPE: 'discharge-type',
   COURT_MARTIAL: 'court-martial',
   INTENTION: 'intention',
-  PREVIOUS_APPLICATION: 'previous-application',
-  PREVIOUS_APPLICATION_TYPE: 'previous-application-type',
+  PREV_APPLICATION: 'prev-application',
+  PREV_APPLICATION_TYPE: 'prev-application-type',
+  PREV_APPLICATION_YEAR: 'prev-application-year',
+  PRIOR_SERVICE: 'prior-service',
   RESULT: 'result',
 });
 
@@ -138,19 +148,37 @@ export const questionsToClearMap = Object.freeze({
     SHORT_NAME_MAP.DISCHARGE_TYPE,
     SHORT_NAME_MAP.COURT_MARTIAL,
     SHORT_NAME_MAP.INTENTION,
-    SHORT_NAME_MAP.PREVIOUS_APPLICATION,
+    SHORT_NAME_MAP.PREV_APPLICATION,
+    SHORT_NAME_MAP.PREV_APPLICATION_TYPE,
+    SHORT_NAME_MAP.PREV_APPLICATION_YEAR,
+    SHORT_NAME_MAP.PRIOR_SERVICE,
   ],
   DISCHARGE_TYPE: [],
   COURT_MARTIAL: [],
   INTENTION: [],
-  PREVIOUS_APPLICATION: [],
+  PREV_APPLICATION: [
+    SHORT_NAME_MAP.PREV_APPLICATION_TYPE,
+    SHORT_NAME_MAP.PREV_APPLICATION_YEAR,
+    SHORT_NAME_MAP.PRIOR_SERVICE,
+    SHORT_NAME_MAP.FAILURE_TO_EXHAUST,
+  ],
+  PREV_APPLICATION_TYPE: [
+    SHORT_NAME_MAP.PRIOR_SERVICE,
+    SHORT_NAME_MAP.FAILURE_TO_EXHAUST,
+  ],
+  PREV_APPLICATION_YEAR: [
+    SHORT_NAME_MAP.PREV_APPLICATION_TYPE,
+    SHORT_NAME_MAP.FAILURE_TO_EXHAUST,
+    SHORT_NAME_MAP.PRIOR_SERVICE,
+  ],
+  PRIOR_SERVICE: [],
 });
 
 export const errorTextMap = Object.freeze({
-  SERVICE_BRANCH: 'Select a branch',
-  DISCHARGE_YEAR: 'Select a year',
-  DISCHARGE_MONTH: 'Select a month',
-  REASON: 'Select a reason',
+  SERVICE_BRANCH: 'Select a branch.',
+  DISCHARGE_YEAR: 'Select a year.',
+  DISCHARGE_MONTH: 'Select a month.',
+  REASON: 'Select a reason.',
 });
 
 export const labelTextMap = Object.freeze({

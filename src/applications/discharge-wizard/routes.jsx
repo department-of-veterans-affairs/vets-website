@@ -14,6 +14,10 @@ import Reason from './components/v2/questions/Reason';
 import DischargeType from './components/v2/questions/DischargeType';
 import CourtMartial from './components/v2/questions/CourtMartial';
 import Intention from './components/v2/questions/Intention';
+import PrevApplicationType from './components/v2/questions/PrevApplicationType';
+import PrevApplication from './components/v2/questions/PrevApplication';
+import PrevApplicationYear from './components/v2/questions/PrevApplicationYear';
+import PriorService from './components/v2/questions/PriorService';
 
 const envChildRoutes = environment.isProduction()
   ? [
@@ -35,6 +39,10 @@ const envChildRoutes = environment.isProduction()
       { path: 'discharge-type', component: DischargeType },
       { path: 'court-martial', component: CourtMartial },
       { path: 'intention', component: Intention },
+      { path: 'prev-application-type', component: PrevApplicationType },
+      { path: 'prev-application', component: PrevApplication },
+      { path: 'prev-application-year', component: PrevApplicationYear },
+      { path: 'prior-service', component: PriorService },
     ];
 const routes = {
   path: '/',

@@ -20,8 +20,10 @@ export default {
     formChapters.arrayMultiPageAggregate.pages.multiPageStart.path,
   arrayMultiPageAggregateItem:
     formChapters.arrayMultiPageAggregate.pages.multiPageItem.path,
-  arrayMultiPageBuilderStart:
-    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderStart.path,
+  arrayMultiPageBuilderIntro:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderIntro.path,
+  arrayMultiPageBuilderSummary:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderSummary.path,
   arrayMultiPageBuilderStepOne:
     formChapters.arrayMultiPageBuilder.pages.multiPageBuilderStepOne.path,
   arrayMultiPageBuilderStepTwo:
