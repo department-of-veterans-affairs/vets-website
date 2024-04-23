@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import Footer from '../components/common/Footer/Footer';
 import Header from '../components/common/Header/Header';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 function App({ children }) {
   const {
