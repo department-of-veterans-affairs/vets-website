@@ -1,62 +1,70 @@
 import React from 'react';
-import MockDate from 'mockdate';
 import { expect } from 'chai';
-import moment from 'moment';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
-import reducers from '../../../redux/reducer';
-import { mockAppointmentInfo } from '../../mocks/helpers';
-import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
+import moment from 'moment-timezone';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import CanceledAppointmentsList from '../../../appointment-list/components/CanceledAppointmentsList';
-import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
-import {
-  createMockAppointmentByVersion,
-  createMockFacilityByVersion,
-} from '../../mocks/data';
+import { renderWithStoreAndRouter } from '../../mocks/setup';
+import { getVAOSRequestMock } from '../../mocks/v2';
+import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
+import { createMockFacilityByVersion } from '../../mocks/data';
 
-const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCancel: true,
-  },
-};
-
-describe.skip('VAOS Component: CanceledAppointmentsList', () => {
+describe('VAOS Component: CanceledAppointmentsList', () => {
   beforeEach(() => {
     mockFetch();
-    MockDate.set(getTestDate());
-    mockFacilitiesFetchByVersion({ version: 0 });
   });
-  afterEach(() => {
-    MockDate.reset();
-  });
+
+  const initialState = {
+    featureToggles: {
+      vaOnlineSchedulingCancel: true,
+      vaOnlineSchedulingVAOSServiceVAAppointments: true,
+    },
+  };
+
   it('should show information without facility name', async () => {
-    const startDate = moment.utc();
-    const data = {
+    // Arrange
+    const startDate = moment();
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
       id: '1234',
       status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
       clinic: '308',
-      start: startDate.format(),
+      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       locationId: '983GC',
     };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
     });
 
-    mockAppointmentInfo({ va: [appointment] });
+    // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
-      reducers,
     });
 
-    await screen.findByText(
-      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-    );
+    // Assert
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
 
     const timeHeader = screen.getByText(
-      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+      new RegExp(startDate.format('h:mm'), 'i'),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -68,134 +76,183 @@ describe.skip('VAOS Component: CanceledAppointmentsList', () => {
   });
 
   it('should show information with facility name', async () => {
-    const data = {
+    // Arrange
+    const startDate = moment();
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
       id: '1234',
       status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
-      vvsKind: VIDEO_TYPES.clinic,
       clinic: '308',
-      start: moment().format(),
+      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       locationId: '983GC',
+      location: createMockFacilityByVersion({
+        id: '983GC',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          postalCode: '82001-5356',
+          city: 'Cheyenne',
+          state: 'WY',
+          line: ['2360 East Pershing Boulevard'],
+        },
+        phone: '970-224-1550',
+      }),
     };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
     });
 
-    mockAppointmentInfo({ va: [appointment] });
-
-    mockFacilitiesFetchByVersion({
-      facilities: [
-        createMockFacilityByVersion({
-          id: '442GC',
-          name: 'Cheyenne VA Medical Center',
-          address: {
-            postalCode: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            line: ['2360 East Pershing Boulevard'],
-          },
-          phone: '307-778-7550',
-          version: 0,
-        }),
-      ],
-      version: 0,
-    });
-
+    // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
-      reducers,
     });
 
-    await screen.findByText(
-      new RegExp(
-        moment()
-          .tz('America/Denver')
-          .format('dddd, MMMM D'),
-        'i',
-      ),
-    );
-
-    expect(
-      screen.getByText(
-        new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('h:mm'),
-          'i',
-        ),
-      ),
-    ).to.exist;
+    // Assert
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
+    expect(screen.getByText(new RegExp(startDate.format('h:mm'), 'i'))).to
+      .exist;
     expect(await screen.findByText(/Cheyenne VA Medical Center/i)).to.exist;
     expect(screen.baseElement).not.to.contain.text('VA appointment');
     expect(screen.baseElement).to.contain.text('Canceled');
   });
 
   it('should not display when they have hidden statuses', () => {
-    const data = {
+    // Arrange
+    const startDate = moment();
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
       id: '1234',
       status: APPOINTMENT_STATUS.noshow,
       kind: 'clinic',
-      start: moment().format(),
+      clinic: '308',
+      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       locationId: '983GC',
     };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
     });
 
-    mockAppointmentInfo({ va: [appointment] });
+    // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
-      reducers,
     });
 
+    // Assert
     return expect(
       screen.findByText(/You don’t have any canceled appointments/i),
     ).to.eventually.be.ok;
   });
 
   it('should not display when over 13 months away', () => {
-    const data = {
+    // Arrange
+    const startDate = moment();
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
       id: '1234',
       status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
-      start: moment()
+      clinic: '308',
+      localStartTime: startDate
         .add(14, 'months')
-        .format(),
+        .format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       locationId: '983GC',
     };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
     });
 
-    mockAppointmentInfo({ va: [appointment] });
+    // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
-      reducers,
     });
 
+    // Assert
     return expect(
       screen.findByText(/You don’t have any canceled appointments/i),
     ).to.eventually.be.ok;
   });
 
   it('should show error message when request fails', async () => {
-    setFetchJSONFailure(
-      global.fetch.withArgs(
-        `${
-          environment.API_URL
-        }/vaos/v0/appointment_requests?start_date=${moment()
-          .add(-120, 'days')
-          .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
-      ),
-      { errors: [] },
-    );
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [],
+      error: true,
+    });
+
+    // setFetchJSONFailure(
+    //   global.fetch.withArgs(
+    //     `${
+    //       environment.API_URL
+    //     }/vaos/v0/appointment_requests?start_date=${moment()
+    //       .add(-120, 'days')
+    //       .format('YYYY-MM-DD')}&end_date=${moment().format('YYYY-MM-DD')}`,
+    //   ),
+    //   { errors: [] },
+    // );
 
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
-      reducers,
     });
 
     expect(
@@ -206,33 +263,50 @@ describe.skip('VAOS Component: CanceledAppointmentsList', () => {
   });
 
   it('should show at home video appointment text', async () => {
-    const startDate = moment.utc();
-    const data = {
+    // Arrange
+    const startDate = moment();
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
       id: '1234',
-      currentStatus: 'CANCELLED BY CLINIC',
       status: APPOINTMENT_STATUS.cancelled,
       kind: 'telehealth',
-      start: startDate.format(),
+      clinic: '308',
+      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       locationId: '983GC',
       telehealth: { vvsKind: VIDEO_TYPES.adhoc },
     };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
     });
 
-    mockAppointmentInfo({ va: [appointment] });
+    // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
-      reducers,
     });
 
-    await screen.findByText(
-      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-    );
+    // Assert
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
 
     const timeHeader = screen.getByText(
-      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+      new RegExp(startDate.format('h:mm'), 'i'),
     );
     expect(timeHeader).to.contain.text('MT');
     expect(timeHeader).to.contain.text('Mountain time');
@@ -243,13 +317,17 @@ describe.skip('VAOS Component: CanceledAppointmentsList', () => {
   });
 
   it('should show ATLAS video appointment text', async () => {
-    const startDate = moment.utc();
-    const data = {
+    // Arrange
+    const startDate = moment();
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
       id: '1234',
-      currentStatus: 'CANCELLED BY CLINIC',
       status: APPOINTMENT_STATUS.cancelled,
+      currentStatus: 'CANCELLED BY CLINIC',
       kind: 'telehealth',
-      start: startDate.format(),
+      clinic: '308',
+      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       locationId: '983GC',
       telehealth: {
         vvsKind: VIDEO_TYPES.adhoc,
@@ -270,24 +348,37 @@ describe.skip('VAOS Component: CanceledAppointmentsList', () => {
         },
       },
     };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
     });
 
-    mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetchByVersion({ ids: ['442'], version: 0 });
+    // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
-      reducers,
     });
 
-    await screen.findByText(
-      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-    );
+    // Assert
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
 
     const timeHeader = screen.getByText(
-      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+      new RegExp(startDate.format('h:mm'), 'i'),
     );
     expect(timeHeader).to.contain.text('MT');
     expect(timeHeader).to.contain.text('Mountain time');
@@ -300,33 +391,54 @@ describe.skip('VAOS Component: CanceledAppointmentsList', () => {
   });
 
   it('should show video appointment on gfe text', async () => {
-    const startDate = moment.utc();
-    const data = {
+    // Arrange
+    const startDate = moment();
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
       id: '1234',
-      currentStatus: 'CANCELLED BY CLINIC',
       status: APPOINTMENT_STATUS.cancelled,
+      currentStatus: 'CANCELLED BY CLINIC',
       kind: 'telehealth',
-      start: startDate.format(),
+      clinic: '308',
+      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       locationId: '983GC',
-      telehealth: { vvsKind: VIDEO_TYPES.gfe },
+      telehealth: { vvsKind: VIDEO_TYPES.adhoc },
+      extension: {
+        patientHasMobileGfe: true,
+      },
     };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
     });
 
-    mockAppointmentInfo({ va: [appointment] });
+    // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
-      reducers,
     });
 
-    await screen.findByText(
-      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-    );
+    // Assert
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
 
     const timeHeader = screen.getByText(
-      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+      new RegExp(startDate.format('h:mm'), 'i'),
     );
     expect(timeHeader).to.contain.text('MT');
     expect(timeHeader).to.contain.text('Mountain time');
@@ -339,33 +451,51 @@ describe.skip('VAOS Component: CanceledAppointmentsList', () => {
   });
 
   it('should show video appointment at VA location text', async () => {
-    const startDate = moment.utc();
-    const data = {
+    // Arrange
+    const startDate = moment();
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
       id: '1234',
       currentStatus: 'CANCELLED BY CLINIC',
       status: APPOINTMENT_STATUS.cancelled,
       kind: 'telehealth',
-      start: startDate.format(),
+      clinic: '308',
+      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       locationId: '983GC',
       telehealth: { vvsKind: VIDEO_TYPES.clinic },
     };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
     });
 
-    mockAppointmentInfo({ va: [appointment] });
+    // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
-      reducers,
     });
 
-    await screen.findByText(
-      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-    );
+    // Assert
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
 
     const timeHeader = screen.getByText(
-      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+      new RegExp(startDate.format('h:mm'), 'i'),
     );
     expect(timeHeader).to.contain.text('MT');
     expect(timeHeader).to.contain.text('Mountain time');
@@ -378,32 +508,48 @@ describe.skip('VAOS Component: CanceledAppointmentsList', () => {
   });
 
   it('should show phone call appointment text', async () => {
-    const startDate = moment.utc();
-    const data = {
+    // Arrange
+    const startDate = moment();
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
       id: '1234',
       currentStatus: 'CANCELLED BY CLINIC',
       status: APPOINTMENT_STATUS.cancelled,
       kind: 'phone',
       clinic: '308',
-      start: startDate.format(),
+      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       locationId: '983GC',
       telehealth: { vvsKind: VIDEO_TYPES.clinic },
     };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
     });
 
-    mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });
+    // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
-      reducers,
     });
 
-    await screen.findByText(
-      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-    );
+    // Assert
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(screen.baseElement).to.contain.text('Phone call');
@@ -411,35 +557,49 @@ describe.skip('VAOS Component: CanceledAppointmentsList', () => {
   });
 
   it('should show canceled appointment from past if less than 30 days ago', async () => {
-    const startDate = moment()
-      .subtract(28, 'days')
-      .utc();
-    const data = {
+    // Arrange
+    const startDate = moment().subtract(28, 'days');
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
       id: '1234',
       status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
       clinic: '308',
-      start: startDate.format(),
+      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       locationId: '983GC',
     };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
     });
 
-    mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });
+    // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
-      reducers,
     });
 
-    await screen.findByText(
-      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-    );
+    // Assert
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
 
     const timeHeader = screen.getByText(
-      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+      new RegExp(startDate.format('h:mm'), 'i'),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -451,35 +611,49 @@ describe.skip('VAOS Component: CanceledAppointmentsList', () => {
   });
 
   it('should show canceled appointment from past if less than 395 days ahead', async () => {
-    const startDate = moment()
-      .add(393, 'days')
-      .utc();
-    const data = {
+    // Arrange
+    const startDate = moment().add(393, 'days');
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
       id: '1234',
       status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
       clinic: '308',
-      start: startDate.format(),
+      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       locationId: '983GC',
     };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
     });
 
-    mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });
+    // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
-      reducers,
     });
 
-    await screen.findByText(
-      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-    );
+    // Assert
+    await screen.findByText(new RegExp(startDate.format('dddd, MMMM D'), 'i'));
 
     const timeHeader = screen.getByText(
-      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+      new RegExp(startDate.format('h:mm'), 'i'),
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
@@ -491,58 +665,90 @@ describe.skip('VAOS Component: CanceledAppointmentsList', () => {
   });
 
   it('should not show canceled appointment from past if more than 30 days ago', async () => {
-    const startDate = moment()
-      .subtract(32, 'days')
-      .utc();
-    const data = {
+    // Arrange
+    const startDate = moment().subtract(32, 'days');
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
       id: '1234',
       status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
       clinic: '308',
-      start: startDate.format(),
+      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       locationId: '983GC',
     };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
     });
 
-    mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });
+    // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
-      reducers,
     });
 
+    // Assert
     return expect(
       screen.findByText(/You don’t have any canceled appointments/i),
     ).to.eventually.be.ok;
   });
 
   it('should not show canceled appointment if more than 395 days ahead', async () => {
-    const startDate = moment()
-      .add(397, 'days')
-      .utc();
-    const data = {
+    // Arrange
+    const startDate = moment().subtract(393, 'days');
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
       id: '1234',
       status: APPOINTMENT_STATUS.cancelled,
       kind: 'clinic',
       clinic: '308',
-      start: startDate.format(),
+      localStartTime: startDate.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       locationId: '983GC',
     };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
+
+    // And developer is using the v2 API
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(30, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment()
+        .add(395, 'days')
+        .format('YYYY-MM-DD'),
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      requests: [appointment],
+    });
+    mockVAOSAppointmentsFetch({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      requests: [appointment],
     });
 
-    mockAppointmentInfo({ va: [appointment] });
-    mockFacilitiesFetchByVersion({ ids: ['442GC'], version: 0 });
+    // Act
     const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
       initialState,
-      reducers,
     });
 
+    // Assert
     return expect(
       screen.findByText(/You don’t have any canceled appointments/i),
     ).to.eventually.be.ok;
