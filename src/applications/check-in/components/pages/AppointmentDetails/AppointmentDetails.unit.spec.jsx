@@ -80,13 +80,6 @@ describe('check-in experience', () => {
       app: 'preCheckIn',
       appointments: initAppointments,
     };
-    const preCheckInStoreWith45MinuteFlag = {
-      app: 'preCheckIn',
-      appointments: initAppointments,
-      features: {
-        check_in_experience_45_minute_reminder: true,
-      },
-    };
     const dayOfCheckInStore = {
       app: 'dayOf',
       appointments: initAppointments,
@@ -186,17 +179,6 @@ describe('check-in experience', () => {
           );
           expect(getByTestId('in-person-appointment-subtitle')).to.exist;
         });
-        it('renders correct subtitle for 45 minute reminder feature flag', () => {
-          const { getByTestId } = render(
-            <CheckInProvider
-              store={preCheckInStoreWith45MinuteFlag}
-              router={appointmentTwoRoute}
-            >
-              <AppointmentDetails />
-            </CheckInProvider>,
-          );
-          expect(getByTestId('in-person-45-minute-subtitle')).to.exist;
-        });
         it('renders where to attend instead of clinic', () => {
           const { getByRole } = render(
             <CheckInProvider
@@ -272,7 +254,7 @@ describe('check-in experience', () => {
           );
           expect(
             getByTestId('appointment-details--appointment-value'),
-          ).to.have.text('VA Appointment');
+          ).to.have.text('VA appointment');
         });
         it('renders doctor name if exists', () => {
           const { getByTestId } = render(
@@ -309,7 +291,7 @@ describe('check-in experience', () => {
           );
           expect(
             getByTestId('appointment-details--appointment-value'),
-          ).to.have.text('VA Appointment');
+          ).to.have.text('VA appointment');
         });
         it('renders generic appointment if stopCodeName is empty string', () => {
           const { getByTestId } = render(
@@ -322,7 +304,7 @@ describe('check-in experience', () => {
           );
           expect(
             getByTestId('appointment-details--appointment-value'),
-          ).to.have.text('VA Appointment');
+          ).to.have.text('VA appointment');
         });
         it('does not render doctor name if missing', () => {
           const { queryByTestId } = render(

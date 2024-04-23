@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -27,7 +27,6 @@ import {
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import {
   generateTextFile,
   getNameDateAndTime,
@@ -36,11 +35,12 @@ import {
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
-import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import RecordListSection from '../components/shared/RecordListSection';
 import {
   generateVaccinesIntro,
   generateVaccinesContent,
 } from '../util/pdfHelpers/vaccines';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -59,6 +59,7 @@ const Vaccines = props => {
       ],
   );
   const activeAlert = useAlerts(dispatch);
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useListRefresh({
     listState,
@@ -82,10 +83,12 @@ const Vaccines = props => {
     pageTitles.VACCINES_PAGE_TITLE,
     user.userFullName,
     user.dob,
+    formatDateLong,
     updatePageTitle,
   );
 
   const generateVaccinesPdf = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateVaccinesIntro();
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVaccinesContent(vaccines) };
@@ -94,6 +97,7 @@ const Vaccines = props => {
   };
 
   const generateVaccineListItemTxt = item => {
+    setDownloadStarted(true);
     return `
 ${txtLine}\n\n
 ${item.name}\n
@@ -120,40 +124,6 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
     generateTextFile(content, fileName);
   };
 
-  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
-
-  const content = () => {
-    if (accessAlert) {
-      return <AccessTroubleAlertBox alertType={accessAlertTypes.VACCINE} />;
-    }
-    if (vaccines?.length === 0) {
-      return <NoRecordsMessage type={recordType.VACCINES} />;
-    }
-    if (vaccines?.length) {
-      return (
-        <>
-          <PrintDownload
-            list
-            download={generateVaccinesPdf}
-            allowTxtDownloads={allowTxtDownloads}
-            downloadTxt={generateVaccinesTxt}
-          />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          <RecordList records={vaccines} type={recordType.VACCINES} />
-        </>
-      );
-    }
-    return (
-      <div className="vads-u-margin-y--8">
-        <va-loading-indicator
-          message="We’re loading your records. This could take up to a minute."
-          setFocus
-          data-testid="loading-indicator"
-        />
-      </div>
-    );
-  };
-
   return (
     <div id="vaccines">
       <PrintHeader />
@@ -166,7 +136,24 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
           Go to your allergy records
         </Link>
       </p>
-      {content()}
+      {downloadStarted && <DownloadSuccessAlert />}
+      <RecordListSection
+        accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
+        accessAlertType={accessAlertTypes.VACCINE}
+        recordCount={vaccines?.length}
+        recordType={recordType.VACCINES}
+        listCurrentAsOf={vaccinesCurrentAsOf}
+        initialFhirLoad={refresh.initialFhirLoad}
+      >
+        <PrintDownload
+          list
+          downloadPdf={generateVaccinesPdf}
+          allowTxtDownloads={allowTxtDownloads}
+          downloadTxt={generateVaccinesTxt}
+        />
+        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <RecordList records={vaccines} type={recordType.VACCINES} />
+      </RecordListSection>
     </div>
   );
 };

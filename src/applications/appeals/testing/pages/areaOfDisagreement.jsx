@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 
 import {
   issueTitle,
@@ -14,10 +13,11 @@ import {
   MAX_LENGTH,
   DISAGREEMENT_TYPES,
   SUBMITTED_DISAGREEMENTS,
-  FORMAT_READABLE,
-  FORMAT_YMD,
+  FORMAT_READABLE_DATE_FNS,
+  FORMAT_YMD_DATE_FNS,
 } from '../../shared/constants';
 import { getIssueName, getIssueDate } from '../../shared/utils/issues';
+import { parseDate } from '../../shared/utils/dates';
 
 // add 1 for last comma
 const allDisagreementsLength =
@@ -107,8 +107,10 @@ export default {
             <div className="issue-title">{getIssueName(disagreement)}</div>
             <div>
               Decision date:{' '}
-              {moment(getIssueDate(disagreement), FORMAT_YMD).format(
-                FORMAT_READABLE,
+              {parseDate(
+                getIssueDate(disagreement),
+                FORMAT_YMD_DATE_FNS,
+                FORMAT_READABLE_DATE_FNS,
               )}
             </div>
             <div>{disagreeWith(disagreement)}</div>

@@ -4,12 +4,14 @@ import sinon from 'sinon';
 import {
   dateHelp,
   dateRangePageDescription,
+  datesDescription,
   getKeyIndex,
   getSelectedCount,
   isClaimingTECondition,
   makeTEConditionsSchema,
   makeTEConditionsUISchema,
   showGulfWar1990LocationDatesPage,
+  showGulfWar1990SummaryPage,
   showToxicExposurePages,
   validateTEConditions,
 } from '../../content/toxicExposure';
@@ -518,6 +520,136 @@ describe('toxicExposure', () => {
         expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
           .true;
       });
+    });
+  });
+
+  describe('showGulfWar1990SummaryPage', () => {
+    describe('toggle disabled', () => {
+      it('should return false when toggle not enabled', () => {
+        const formData = {
+          gulfWar1990: {
+            bahrain: true,
+            egypt: false,
+            airspace: true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
+        };
+
+        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+      });
+    });
+
+    describe('toggle enabled', () => {
+      beforeEach(() => {
+        window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, 'true');
+      });
+
+      it('should return false when toggle enabled, but no new disabilities', () => {
+        const formData = {
+          newDisabilities: [],
+        };
+
+        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+      });
+
+      it('should return false when toggle enabled, claiming new disability, but no selected locations', () => {
+        const formData = {
+          gulfWar1990: {
+            bahrain: false,
+            airspace: false,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
+        };
+
+        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+      });
+
+      it('should return true when all criteria met', () => {
+        const formData = {
+          gulfWar1990: {
+            bahrain: true,
+            egypt: false,
+            airspace: true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
+        };
+
+        expect(showGulfWar1990SummaryPage(formData)).to.be.true;
+      });
+    });
+  });
+
+  describe('datesDescription', () => {
+    it('build the no dates description when no dates are provided', () => {
+      expect(datesDescription({})).to.equal('No dates entered');
+    });
+
+    it('build the no dates description when empty dates are provided', () => {
+      const dates = {
+        startDate: '',
+        endDate: '',
+      };
+
+      expect(datesDescription(dates)).to.equal('No dates entered');
+    });
+
+    it('build the description with both dates when both dates are provided', () => {
+      const dates = {
+        startDate: '2020-01-01',
+        endDate: '2022-01-05',
+      };
+
+      expect(datesDescription(dates)).to.equal('January 2020 - January 2022');
+    });
+
+    it('builds the description with end date only', () => {
+      const dates = {
+        endDate: '2022-01-05',
+      };
+
+      expect(datesDescription(dates)).to.equal(
+        'No start date entered - January 2022',
+      );
+    });
+
+    it('builds the description with start date only', () => {
+      const dates = {
+        startDate: '2022-01-05',
+      };
+
+      expect(datesDescription(dates)).to.equal(
+        'January 2022 - No end date entered',
+      );
     });
   });
 });

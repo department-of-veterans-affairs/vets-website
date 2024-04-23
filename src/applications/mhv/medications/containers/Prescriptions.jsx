@@ -74,6 +74,7 @@ const Prescriptions = () => {
   const [isAlertVisible, setAlertVisible] = useState('false');
   const [isLoading, setLoading] = useState();
   const [loadingMessage, setLoadingMessage] = useState('');
+  const [sortingInProgress, setSortingInProgress] = useState(false);
   const [pdfTxtGenerateStatus, setPdfTxtGenerateStatus] = useState({
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
@@ -107,9 +108,9 @@ const Prescriptions = () => {
     if (sortOption !== selectedSortOption) {
       updateSortOption(sortOption);
       updateLoadingStatus(true, 'Sorting your medications...');
+      setSortingInProgress(true);
     }
     sessionStorage.setItem(SESSION_SELECTED_SORT_OPTION, sortOption);
-    focusElement(document.getElementById('showingRx'));
   };
 
   const printRxList = () =>
@@ -117,6 +118,16 @@ const Prescriptions = () => {
       window.print();
       setPrintedList(paginatedPrescriptionsList);
     }, 1);
+
+  useEffect(
+    () => {
+      if (sortingInProgress && !isLoading) {
+        focusElement(document.getElementById('showingRx'));
+        setSortingInProgress(false);
+      }
+    },
+    [sortingInProgress, isLoading],
+  );
 
   useEffect(
     () => {
@@ -309,7 +320,7 @@ const Prescriptions = () => {
           setIsRetrievingFullList(false);
           await getPrescriptionSortedList(
             rxListSortingOptions[selectedSortOption].API_ENDPOINT,
-            true,
+            false,
           )
             .then(response => {
               const list = response.data.map(rx => ({ ...rx.attributes }));
@@ -318,6 +329,7 @@ const Prescriptions = () => {
             })
             .catch(() => {
               setHasFullListDownloadError(true);
+              updateLoadingStatus(false, '');
             });
           if (!allergies) dispatch(getAllergiesList());
         };

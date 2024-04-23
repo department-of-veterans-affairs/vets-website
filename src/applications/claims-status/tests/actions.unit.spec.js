@@ -1,18 +1,16 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import * as api from '@department-of-veterans-affairs/platform-utilities/api';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-// import {
-//   mockFetch,
-//   setFetchJSONFailure,
-//   setFetchJSONResponse,
-// } from 'platform/testing/unit/helpers';
 
 import {
   addFile,
   cancelUpload,
   clearAdditionalEvidenceNotification,
   clearNotification,
+  getClaims,
+  getClaim,
   getStemClaims,
   removeFile,
   resetUploads,
@@ -22,6 +20,7 @@ import {
   setNotification,
   submitRequest,
   updateField,
+  submit5103,
 } from '../actions';
 
 import {
@@ -29,6 +28,9 @@ import {
   CANCEL_UPLOAD,
   CLEAR_NOTIFICATION,
   CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
+  GET_CLAIM_DETAIL,
+  SET_CLAIM_DETAIL,
+  SET_CLAIMS_UNAVAILABLE,
   REMOVE_FILE,
   RESET_UPLOADS,
   SET_DECISION_REQUEST_ERROR,
@@ -39,12 +41,176 @@ import {
   SET_ADDITIONAL_EVIDENCE_NOTIFICATION,
   SUBMIT_DECISION_REQUEST,
   UPDATE_FIELD,
+  FETCH_CLAIMS_PENDING,
+  FETCH_CLAIMS_ERROR,
   FETCH_STEM_CLAIMS_ERROR,
   FETCH_STEM_CLAIMS_SUCCESS,
   FETCH_STEM_CLAIMS_PENDING,
+  FETCH_CLAIMS_SUCCESS,
 } from '../actions/types';
 
 describe('Actions', () => {
+  describe('submit5103', () => {
+    let expectedUrl;
+    const server = setupServer();
+
+    before(() => {
+      server.listen();
+      server.events.on('request:start', req => {
+        expectedUrl = req.url.href;
+      });
+    });
+
+    afterEach(() => {
+      server.resetHandlers();
+      expectedUrl = undefined;
+    });
+
+    after(() => server.close());
+
+    it('should submit request', done => {
+      const ID = 5;
+      server.use(
+        rest.post(
+          `https://dev-api.va.gov/v0/benefits_claims/${ID}/submit5103`,
+          (req, res, ctx) =>
+            res(
+              ctx.status(200),
+              ctx.json({
+                // eslint-disable-next-line camelcase
+                job_id: ID,
+              }),
+            ),
+        ),
+      );
+
+      const thunk = submit5103(ID);
+      const dispatchSpy = sinon.spy();
+      const dispatch = action => {
+        dispatchSpy(action);
+        if (dispatchSpy.callCount === 3) {
+          expect(expectedUrl).to.contain('5/submit5103');
+          expect(dispatchSpy.firstCall.args[0]).to.eql({
+            type: SUBMIT_DECISION_REQUEST,
+          });
+          expect(dispatchSpy.secondCall.args[0]).to.eql({
+            type: SET_DECISION_REQUESTED,
+          });
+          expect(dispatchSpy.thirdCall.args[0].type).to.eql(SET_NOTIFICATION);
+          done();
+        }
+      };
+
+      thunk(dispatch);
+    });
+    it('should fail on error', done => {
+      const ID = 5;
+      server.use(
+        rest.post(
+          `https://dev-api.va.gov/v0/benefits_claims/${ID}/submit5103`,
+          (req, res, ctx) => res(ctx.status(400), ctx.json({ status: 400 })),
+        ),
+      );
+      const thunk = submitRequest(ID);
+      const dispatchSpy = sinon.spy();
+      const dispatch = action => {
+        dispatchSpy(action);
+        if (dispatchSpy.callCount === 2) {
+          expect(dispatchSpy.firstCall.args[0]).to.eql({
+            type: SUBMIT_DECISION_REQUEST,
+          });
+          expect(dispatchSpy.secondCall.args[0].type).to.eql(
+            SET_DECISION_REQUEST_ERROR,
+          );
+          done();
+        }
+      };
+
+      thunk(dispatch);
+    });
+  });
+  describe('getClaim', () => {
+    it('dispatches GET_CLAIM_DETAIL and SET_CLAIM_DETAIL', done => {
+      const apiStub = sinon.stub(api, 'apiRequest');
+
+      apiStub.returns(Promise.resolve({ data: [] }));
+      const thunk = getClaim(1);
+      const dispatch = sinon.spy();
+
+      thunk(dispatch)
+        .then(() => {
+          const action = dispatch.firstCall.args[0];
+
+          expect(action.type).to.equal(GET_CLAIM_DETAIL);
+          expect(dispatch.secondCall.args[0]).to.eql({
+            type: SET_CLAIM_DETAIL,
+            claim: [],
+          });
+        })
+        .then(() => apiStub.restore())
+        .then(done, done);
+    });
+    it('dispatches SET_CLAIMS_UNAVAILABLE', done => {
+      const thunk = getClaim(1);
+      const dispatch = sinon.spy();
+      thunk(dispatch)
+        .then(() => {
+          const action = dispatch.secondCall.args[0];
+          expect(action.type).to.equal(SET_CLAIMS_UNAVAILABLE);
+        })
+        .then(done, done);
+    });
+    it('navigates to `/your-claims` when errors on 404 ', done => {
+      const apiStub = sinon.stub(api, 'apiRequest');
+
+      apiStub.returns(Promise.reject({ status: 404 }));
+
+      const navigate = sinon.spy();
+
+      const thunk = getClaim(1, navigate);
+      const dispatch = sinon.spy();
+      thunk(dispatch)
+        .then(() => {
+          const action = dispatch.firstCall.args[0];
+
+          expect(action.type).to.equal(GET_CLAIM_DETAIL);
+          expect(navigate.called).to.be.true;
+        })
+        .then(() => apiStub.restore())
+        .then(done, done);
+    });
+  });
+  describe('getClaims', () => {
+    it('dispatches FETCH_CLAIMS_PENDING and FETCH_CLAIMS_SUCCESS', done => {
+      const apiStub = sinon.stub(api, 'apiRequest');
+      apiStub.returns(Promise.resolve({ data: [] }));
+      const thunk = getClaims();
+      const dispatch = sinon.spy();
+
+      thunk(dispatch)
+        .then(() => {
+          const action = dispatch.firstCall.args[0];
+
+          expect(action.type).to.equal(FETCH_CLAIMS_PENDING);
+          expect(dispatch.secondCall.args[0]).to.eql({
+            type: FETCH_CLAIMS_SUCCESS,
+            claims: [],
+          });
+        })
+        .then(() => apiStub.restore())
+        .then(done, done);
+    });
+    it('dispatches FETCH_CLAIMS_ERROR - null', done => {
+      const thunk = getClaims();
+      const dispatch = sinon.spy();
+      thunk(dispatch)
+        .then(() => {
+          const action = dispatch.secondCall.args[0];
+          expect(action.type).to.equal(FETCH_CLAIMS_ERROR);
+        })
+        .then(done, done);
+    });
+  });
   describe('setNotification', () => {
     it('should return the correct action object', () => {
       const action = setNotification('Testing');
@@ -144,7 +310,6 @@ describe('Actions', () => {
       });
     });
   });
-
   describe('setLastPage', () => {
     it('should return the correct action object', () => {
       const action = setLastPage(2);
@@ -181,7 +346,6 @@ describe('Actions', () => {
       global.window.dataLayer = oldDataLayer;
     });
   });
-
   describe('submitRequest', () => {
     let expectedUrl;
     const server = setupServer();

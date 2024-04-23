@@ -1,18 +1,12 @@
 import React from 'react';
-import moment from 'moment';
-import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { recordEventOnce } from 'platform/monitoring/record-event';
+import { recordEventOnce } from '~/platform/monitoring/record-event';
 
 import formConfig from '../config/form';
-
-// EVSS returns dates like '2014-07-28T19:53:45.810+0000'
-const evssDateFormat = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
-export const outputDateFormat = 'MMMM DD, YYYY';
-const displayDate = dateString =>
-  moment(dateString, evssDateFormat).format(outputDateFormat);
+import { getReadableDate } from '../../shared/utils/dates';
 
 export const itfMessage = (headline, content, status) => (
   // Inline style to match .full-page-alert bottom margin because usa-grid > :last-child has a
@@ -80,16 +74,16 @@ export const itfSuccess = (
     <p className="vads-u-font-size--base">
       By starting this Supplemental Claim request, you automatically submitted
       an Intent to File. Your Intent to File will expire on{' '}
-      {displayDate(expirationDate)}.
+      {getReadableDate(expirationDate) || ''}.
     </p>
     {hasPreviousItf && (
       <p className="vads-u-font-size--base">
         <strong>Note:</strong> We found in our records an Intent to File that
-        expired on {displayDate(prevExpirationDate)}. There are 2 possible
-        reasons you have an expired Intent to File. You may have started an
-        application that you didn’t finish before the Intent to File expired.
-        Or, you may have already submitted the claim connected to this Intent to
-        File.
+        expired on {getReadableDate(prevExpirationDate) || ''}. There are 2
+        possible reasons you have an expired Intent to File. You may have
+        started an application that you didn’t finish before the Intent to File
+        expired. Or, you may have already submitted the claim connected to this
+        Intent to File.
       </p>
     )}
   </div>
@@ -99,7 +93,7 @@ export const itfActive = expirationDate => (
   <p className="vads-u-font-size--base">
     Our records show that you already submitted an Intent to File for disability
     compensation. Your Intent to File will expire on{' '}
-    {displayDate(expirationDate)}. You’ll need to file your claim by this date
-    to receive payments starting from your effective date.
+    {getReadableDate(expirationDate) || ''}. You’ll need to file your claim by
+    this date to receive payments starting from your effective date.
   </p>
 );

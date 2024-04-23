@@ -3,7 +3,7 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
-import { CustomCheckboxRadioReviewPage } from '../components/CustomCheckboxRadioReviewPage';
+import { CustomCheckboxRadioReviewPage } from '../../shared/components/CustomCheckboxRadioReviewPage';
 
 import { additionalFilesHint } from '../helpers/wordingCustomization';
 import { applicantWording } from '../../shared/utilities';

@@ -76,7 +76,11 @@ const LandingPage = () => {
             This includes summaries of your stays in health facilities (called
             admission and discharge summaries).
           </p>
-          <Link to="/summaries-and-notes" className="vads-c-action-link--blue">
+          <Link
+            to="/summaries-and-notes"
+            className="vads-c-action-link--blue"
+            data-testid="notes-landing-page-link"
+          >
             Go to your care summaries and notes
           </Link>
         </section>

@@ -28,12 +28,15 @@ import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateIte
 
 import {
   employersDatesPage,
+  employersIntroPage,
   employersOptions,
   employersPageNameAndAddressPage,
   employersSummaryPage,
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
+import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
 import { arrayBuilderPages } from '../arrayBuilder/components/arrayBuilder';
+import { arrayBuilderMockData } from '../arrayBuilder/components/arrayMockData';
 
 const chapterSelectInitialData = {
   chapterSelect: {
@@ -297,13 +300,43 @@ const formConfig = {
     arrayMultiPageBuilder: {
       title: 'Array Multi-Page Builder (WIP)',
       pages: {
+        // this page is not part of the pattern, but is needed
+        // to showcase the 2 different styles of array builder pattern
+        multiPageBuilderChooseFlow: {
+          title: 'Array builder pattern choose flow',
+          path: 'array-multiple-page-builder-choose-flow',
+          uiSchema: arrayBuilderPatternChooseFlow.uiSchema,
+          schema: arrayBuilderPatternChooseFlow.schema,
+          depends: includeChapter('arrayMultiPageBuilder'),
+          initialData: {
+            arrayBuilderPatternFlowType: 'required',
+          },
+        },
         ...arrayBuilderPages(employersOptions, pageBuilder => ({
-          multiPageBuilderStart: pageBuilder.summaryPage({
+          // introPage needed for "required" flow
+          multiPageBuilderIntro: pageBuilder.introPage({
+            title: 'Your Employers',
+            path: 'array-multiple-page-builder',
+            uiSchema: employersIntroPage.uiSchema,
+            schema: employersIntroPage.schema,
+            depends: formData =>
+              includeChapter('arrayMultiPageBuilder')(formData) &&
+              // normally you don't need this kind of check,
+              // but this is so we can test the 2 different styles
+              // of array builder pattern - "required" and "optional".
+              // "introPage" is needed in the "required" flow,
+              // but unnecessary in the "optional" flow
+              formData?.arrayBuilderPatternFlowType === 'required',
+          }),
+          multiPageBuilderSummary: pageBuilder.summaryPage({
             title: 'Array with multiple page builder summary',
             path: 'array-multiple-page-builder-summary',
             uiSchema: employersSummaryPage.uiSchema,
             schema: employersSummaryPage.schema,
             depends: includeChapter('arrayMultiPageBuilder'),
+            // keep comment this for now while working on this feature
+            // eslint-disable-next-line sonarjs/no-redundant-boolean
+            initialData: false && arrayBuilderMockData,
           }),
           multiPageBuilderStepOne: pageBuilder.itemPage({
             title: 'Employer name and address',

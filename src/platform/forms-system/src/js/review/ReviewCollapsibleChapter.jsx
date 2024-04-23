@@ -105,12 +105,13 @@ class ReviewCollapsibleChapter extends React.Component {
     }
   };
 
-  goToPath = customPath => {
+  goToPath = (customPath, options = {}) => {
     const { form, pageList, location } = this.props;
+    const { force } = options;
 
     const path =
       customPath &&
-      checkValidPagePath(pageList, this.props.form.data, customPath)
+      (force || checkValidPagePath(pageList, this.props.form.data, customPath))
         ? customPath
         : getPreviousPagePath(pageList, form.data, location.pathname);
 

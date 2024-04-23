@@ -1,6 +1,7 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import { EMPTY_FIELD, loadStates } from '../util/constants';
+import { isArrayAndHasItems, extractContainedResource } from '../util/helpers';
 
 const initialState = {
   /**
@@ -24,16 +25,66 @@ const initialState = {
   conditionDetails: undefined,
 };
 
+/**
+ * Extracts the location name from a condition object.
+ *
+ * @param {object} condition - The condition object containing location information.
+ * @returns {string} - The location name or an empty field if not found.
+ */
+export const extractLocation = condition => {
+  if (isArrayAndHasItems(condition?.recorder?.extension)) {
+    const ref = condition.recorder.extension[0].valueReference?.reference;
+    // Use the reference inside "recorder" to get the value from "contained".
+    const org = extractContainedResource(condition, ref);
+    if (org?.name) {
+      return org.name;
+    }
+  }
+  return EMPTY_FIELD;
+};
+
+/**
+ * Extracts the observation code text from a condition object.
+ *
+ * @param {object} condition - The condition object containing observation information.
+ * @returns {string} - The observation code text or an empty field if not found.
+ */
+export const extractProvider = condition => {
+  if (condition?.recorder) {
+    const ref = condition.recorder?.reference;
+    // Use the reference inside "recorder" to get the value from "contained".
+    const org = extractContainedResource(condition, ref);
+    if (org?.name) {
+      return org.name[0].text;
+    }
+  }
+  return EMPTY_FIELD;
+};
+
+/**
+ * Extracts the note text from a condition object.
+ *
+ * @param {object} condition - The condition object containing note information.
+ * @returns {string} - The note text or an empty field if not found.
+ */
+export const extractProviderNote = condition => {
+  // Check if condition is defined and has the 'note' property
+  if (condition && isArrayAndHasItems(condition.note)) {
+    return condition.note.map(note => note.text);
+  }
+  return EMPTY_FIELD;
+};
+
 export const convertCondition = condition => {
   return {
-    id: 'SCT161891005',
-    date: condition.recordedDate
+    id: condition?.id,
+    date: condition?.recordedDate
       ? formatDateLong(condition.recordedDate)
       : EMPTY_FIELD,
-    name: condition.code?.text || EMPTY_FIELD,
-    provider: condition.asserter || EMPTY_FIELD,
-    facility: condition.facility,
-    comments: condition.note || EMPTY_FIELD,
+    name: condition?.code?.text || EMPTY_FIELD,
+    provider: extractProvider(condition),
+    facility: extractLocation(condition),
+    comments: extractProviderNote(condition),
   };
 };
 
@@ -52,13 +103,18 @@ export const conditionReducer = (state = initialState, action) => {
       };
     }
     case Actions.Conditions.GET_LIST: {
+      const conditionsList = action.response.entry;
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        conditionsList: action.response.map(item => {
-          return convertCondition(item);
-        }),
+        conditionsList:
+          conditionsList
+            ?.map(record => {
+              const condition = record.resource;
+              return convertCondition(condition);
+            })
+            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [],
       };
     }
     case Actions.Conditions.CLEAR_DETAIL: {

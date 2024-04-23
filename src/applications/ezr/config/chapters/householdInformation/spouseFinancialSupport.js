@@ -21,6 +21,7 @@ export default {
   },
   schema: {
     type: 'object',
+    required: ['provideSupportLastYear'],
     properties: {
       provideSupportLastYear: yesNoSchema,
     },

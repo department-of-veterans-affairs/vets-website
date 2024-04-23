@@ -40,6 +40,7 @@ function deleteAddress(addressName) {
   const confirmDeleteButton = view.getByText('Yes, remove my information', {
     selector: 'button',
   });
+
   confirmDeleteButton.click();
 
   return {
@@ -147,23 +148,19 @@ describe('Deleting', () => {
     server.close();
   });
 
-  // the list of address fields that we need to test
-  const addresses = [FIELD_NAMES.RESIDENTIAL_ADDRESS];
-
-  addresses.forEach(address => {
-    const addressName = FIELD_TITLES[address];
-    describe(addressName, () => {
-      it('should handle a transaction that succeeds', async () => {
-        await testSlowSuccess(addressName);
-      });
-      it('should show an error if the transaction cannot be created', async () => {
-        await testTransactionCreationFails(addressName);
-      });
-      it('should show an error if the transaction fails after some time', async () => {
-        await testSlowFailure(addressName);
-      });
+  const resAddressName = FIELD_TITLES[FIELD_NAMES.RESIDENTIAL_ADDRESS];
+  describe(resAddressName, () => {
+    it('should handle a transaction that succeeds', async () => {
+      await testSlowSuccess(resAddressName);
+    });
+    it('should show an error if the transaction cannot be created', async () => {
+      await testTransactionCreationFails(resAddressName);
+    });
+    it('should show an error if the transaction fails after some time', async () => {
+      await testSlowFailure(resAddressName);
     });
   });
+
   it('should not be supported for mailing address', () => {
     const addressName = FIELD_TITLES[FIELD_NAMES.MAILING_ADDRESS];
     getEditButton(addressName).click();

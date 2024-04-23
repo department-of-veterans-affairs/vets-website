@@ -14,6 +14,7 @@ export const accessAlertTypes = {
   VITALS: 'vitals',
   LABS_AND_TESTS: 'labs and tests',
   HEALTH_CONDITIONS: 'health conditions',
+  BLUE_BUTTON_REPORT: 'Blue Button report',
 };
 
 export const labTypes = {
@@ -157,6 +158,7 @@ export const vitalUnitDisplayText = {
 };
 
 export const ALERT_TYPE_ERROR = 'error';
+export const ALERT_TYPE_SUCCESS = 'success';
 
 export const pageTitles = {
   MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',

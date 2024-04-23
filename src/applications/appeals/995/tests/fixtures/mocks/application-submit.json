@@ -1,6 +1,6 @@
 {
   "data": {
-    "id": "123456789",
+    "id": "1234567890-uuid",
     "type": "supplementalClaim",
     "attributes": {
       "status": "pending",
