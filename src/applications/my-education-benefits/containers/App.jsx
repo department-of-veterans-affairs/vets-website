@@ -356,6 +356,7 @@ export const App = ({
 };
 
 App.propTypes = {
+  benefitEffectiveDate: PropTypes.string,
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
   duplicateEmail: PropTypes.array,
