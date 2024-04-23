@@ -42,9 +42,9 @@ function makeUiSchema(locationId) {
           }),
         },
       },
-    },
-    'view:gulfWar1990AdditionalInfo': {
-      'ui:description': gulfWar1990LocationsAdditionalInfo,
+      'view:gulfWar1990AdditionalInfo': {
+        'ui:description': gulfWar1990LocationsAdditionalInfo,
+      },
     },
   };
 }
@@ -73,11 +73,11 @@ function makeSchema(locationId) {
               },
             },
           },
+          'view:gulfWar1990AdditionalInfo': {
+            type: 'object',
+            properties: {},
+          },
         },
-      },
-      'view:gulfWar1990AdditionalInfo': {
-        type: 'object',
-        properties: {},
       },
     },
   };
