@@ -41,7 +41,6 @@ const AppointmentDetails = props => {
   const isVvcAppointment = appointment?.kind === 'vvc';
   const isInPersonAppointment = appointment?.kind === 'clinic';
   const { appointmentId } = router.params;
-  const isPreCheckIn = app === APP_NAMES.PRE_CHECK_IN;
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { is45MinuteReminderEnabled } = useSelector(selectFeatureToggles);
@@ -193,7 +192,7 @@ const AppointmentDetails = props => {
                         <AddressBlock
                           address={appointment.facilityAddress}
                           placeName={appointment.facility}
-                          showDirections={isPreCheckIn}
+                          showDirections
                         />
                       </div>
                     )}
