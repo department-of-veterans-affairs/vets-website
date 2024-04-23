@@ -1,8 +1,19 @@
 import React from 'react';
+import classnames from 'classnames';
 
 const HeaderLayout = () => {
   return (
-    <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
+    <div
+      className={classnames(
+        'vads-u-display--flex',
+        'vads-u-justify-content--space-between',
+        'vads-u-margin-bottom--1',
+        'medium-screen:vads-u-margin-bottom--2',
+        'vads-u-border-color--gray-light-alt',
+        'vads-u-border-bottom--2px',
+        'vads-u-margin-bottom--3',
+      )}
+    >
       <div className="vads-l-col medium-screen:vads-l-col--8">
         <h1>My HealtheVet</h1>
         <div className="va-introtext">
@@ -14,7 +25,15 @@ const HeaderLayout = () => {
           </p>
         </div>
       </div>
-      <div className="vads-u-display--none medium-screen:vads-u-display--block vads-l-col--4 vads-u-text-align--right">
+      <div
+        className={classnames(
+          'vads-u-display--none',
+          'medium-screen:vads-u-display--block',
+          'vads-l-col--4',
+          'vads-u-text-align--right',
+          'vads-u-margin-top--2',
+        )}
+      >
         <img
           src="/img/mhv-logo.png"
           className="mhv-logo"

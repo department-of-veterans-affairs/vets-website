@@ -7,9 +7,6 @@ const Welcome = ({ loading, name }) => (
     className={classnames(
       'vads-u-display--flex',
       'vads-u-justify-content--flex-start',
-      'vads-u-border-color--gray-light',
-      'vads-u-border-bottom--2px',
-      'vads-u-margin-bottom--3',
       { 'visibility:hidden': loading },
     )}
   >
@@ -24,10 +21,11 @@ const Welcome = ({ loading, name }) => (
       </h2>
     </div>
     <div className="vads-u-font-size--md medium-screen:vads-u-font-size--lg">
-      <i
+      <va-icon
+        size={4}
+        icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
         aria-hidden="true"
-        role="img"
-        className="fas fa-user vads-u-color--primary-darker vads-u-padding-left--4 vads-u-padding-right--0p5"
+        className="vads-u-color--primary-darker vads-u-padding-left--4 vads-u-padding-right--0p5"
       />
       <va-link
         href="/profile"

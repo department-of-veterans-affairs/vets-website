@@ -11,7 +11,6 @@ import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import CardLayout from './CardLayout';
 import NoHealthAlert from './NoHealthAlert';
-import HeaderLayoutV1 from './HeaderLayoutV1';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
@@ -48,13 +47,8 @@ const LandingPage = ({ data = {} }) => {
           dependencies={[externalServices.mhvPlatform]}
           render={renderMHVDowntime}
         />
-        {!showPersonalization && <HeaderLayoutV1 />}
-        {showPersonalization && (
-          <>
-            <HeaderLayout />
-            <WelcomeContainer />
-          </>
-        )}
+        <HeaderLayout />
+        {showPersonalization && <WelcomeContainer />}
         {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
       </div>
       <HubLinks hubs={hubs} />
