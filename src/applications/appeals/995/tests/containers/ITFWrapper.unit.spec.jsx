@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { add, format } from 'date-fns';
+import { add } from 'date-fns';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -14,8 +14,10 @@ import { ITF_STATUSES } from '../../constants';
 import itfFetchResponse from '../fixtures/mocks/intent-to-file.json';
 import itfCreateResponse from '../fixtures/mocks/intent-to-file-compensation.json';
 
-import { FORMAT_READABLE_DATE_FNS } from '../../../shared/constants';
-import { parseDateToDateObj } from '../../../shared/utils/dates';
+import {
+  getReadableDate,
+  parseDateToDateObj,
+} from '../../../shared/utils/dates';
 
 const getData = ({
   loggedIn = true,
@@ -367,7 +369,7 @@ describe('ITFWrapper', () => {
     expect($('va-alert h2', container).textContent).to.contain(
       'You already have an Intent to File',
     );
-    const date = format(expirationDate, FORMAT_READABLE_DATE_FNS);
+    const date = getReadableDate(expirationDate);
     expect($('va-alert').innerHTML).to.contain(date);
   });
 
@@ -401,9 +403,7 @@ describe('ITFWrapper', () => {
       'You submitted an Intent to File',
     );
     const html = $('va-alert').innerHTML;
-    expect(html).to.contain(format(expirationDate, FORMAT_READABLE_DATE_FNS));
-    expect(html).to.contain(
-      format(previousExpirationDate, FORMAT_READABLE_DATE_FNS),
-    );
+    expect(html).to.contain(getReadableDate(expirationDate));
+    expect(html).to.contain(getReadableDate(previousExpirationDate));
   });
 });
