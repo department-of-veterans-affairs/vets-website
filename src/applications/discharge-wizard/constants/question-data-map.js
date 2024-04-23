@@ -10,8 +10,7 @@ export const QUESTION_MAP = Object.freeze({
   COURT_MARTIAL: 'Was your discharge the outcome of a general court-martial?',
   PREV_APPLICATION:
     'Have you previously applied for and been denied a discharge upgrade for this period of service?',
-  PREV_APPLICATION_TYPE:
-    'What type of application did you make to upgrade your discharge previously?',
+  PREV_APPLICATION_TYPE: 'How did you apply for a discharge upgrade last time?',
   PREV_APPLICATION_YEAR: 'What year did you apply for a discharge upgrade?',
   PRIOR_SERVICE:
     'Did you complete a period of service in which your character of service was Honorable or General Under Honorable Conditions?',
@@ -23,7 +22,6 @@ export const SHORT_NAME_MAP = Object.freeze({
   DISCHARGE_YEAR: 'DISCHARGE_YEAR',
   DISCHARGE_MONTH: 'DISCHARGE_MONTH',
   REASON: 'REASON',
-  // PREV_APPLICATION_TYPE_A: 'PREV_APPLICATION_TYPE',
   DISCHARGE_TYPE: 'DISCHARGE_TYPE',
   INTENTION: 'INTENTION',
   COURT_MARTIAL: 'COURT_MARTIAL',
@@ -31,6 +29,7 @@ export const SHORT_NAME_MAP = Object.freeze({
   PREV_APPLICATION_YEAR: 'PREV_APPLICATION_YEAR',
   PREV_APPLICATION_TYPE: 'PREV_APPLICATION_TYPE',
   PRIOR_SERVICE: 'PRIOR_SERVICE',
+  FAILURE_TO_EXHAUST: 'FAILURE_TO_EXHAUST',
 });
 
 export const RESPONSES = Object.freeze({
@@ -68,7 +67,7 @@ export const RESPONSES = Object.freeze({
   PREV_APPLICATION_TYPE_1:
     'I applied to a Discharge Review Board (DRB) for a Documentary Review',
   PREV_APPLICATION_TYPE_2:
-    'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review in Washington, DC',
+    'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review',
   PREV_APPLICATION_TYPE_3A:
     'I applied to a Board for Correction of Military Records (BCMR)',
   PREV_APPLICATION_TYPE_3B:

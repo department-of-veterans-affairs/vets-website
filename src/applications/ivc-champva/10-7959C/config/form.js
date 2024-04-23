@@ -12,6 +12,7 @@ import {
   certifierAddress,
   certifierPhoneEmail,
   certifierRelationship,
+  certifierNameSchema,
 } from '../chapters/certifierInformation';
 
 import {
@@ -88,7 +89,7 @@ import {
   hasPrimaryProvider,
   hasSecondaryProvider,
 } from './conditionalPaths';
-import mockdata from '../tests/fixtures/data/test-data.json';
+// import mockdata from '../tests/fixtures/data/test-data.json';
 import {
   ApplicantPrimaryThroughEmployerPage,
   ApplicantPrimaryThroughEmployerReviewPage,
@@ -131,6 +132,18 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   formId: '10-7959C',
   transformForSubmit,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: formData =>
+        formData.certifierRole === 'applicant'
+          ? 'applicants[0].applicantName'
+          : 'certifierName',
+    },
+  },
   saveInProgress: {
     messages: {
       inProgress:
@@ -158,9 +171,15 @@ const formConfig = {
         role: {
           path: 'your-information/description',
           title: 'Which of these best describes you?',
-          initialData: mockdata.data,
+          // initialData: mockdata.data,
           uiSchema: certifierRole.uiSchema,
           schema: certifierRole.schema,
+        },
+        name: {
+          path: 'your-information/name',
+          title: 'Your name',
+          depends: formData => get('certifierRole', formData) === 'other',
+          ...certifierNameSchema,
         },
         address: {
           path: 'your-information/address',
