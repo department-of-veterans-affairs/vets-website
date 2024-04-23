@@ -237,7 +237,7 @@
   "the-staff-can-call-you-back-anytime": "El personal puede devolverle la llamada en cualquier momento ahora que se ha registrado.",
   "the-staff-can-call-you-back-anytime-see-staff": "El personal puede devolverle la llamada en cualquier momento ahora que se ha registrado. Busque a un miembro del personal cuando llegue a la sala de espera.",
   "this-appointment-isnt-eligible-check-in-with-a-staff-member": "Esta cita no es elegible para el registro en línea. Regístrese con un miembro del personal.",
-  "this-claim-is-for-your-appointment": "$t(this-claim-is-for-your-appointment-claims, {\"count\": {{claims}} }) for your $t(this-claim-is-for-your-appointment-appointments, {\"count\": {{appointments}} }) on {{date, long}} at",
+  "this-claim-is-for-your-appointment": "$t(this-claim-is-for-your-appointment-claims, {\"count\": {{claims}} }) por su $t(this-claim-is-for-your-appointment-appointments, {\"count\": {{appointments}} }) en {{date, long}} a",
   "this-claim-is-for-your-appointment-appointments": "cita",
   "this-claim-is-for-your-appointment-appointments_other": "citas",
   "this-claim-is-for-your-appointment-claims": "Esta reclamación es",
