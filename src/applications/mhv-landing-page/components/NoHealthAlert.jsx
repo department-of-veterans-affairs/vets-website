@@ -11,8 +11,8 @@ const NoHealthAlert = () => {
       <h2 slot="headline">You don’t have access to My HealtheVet</h2>
       <div>
         <p className="vads-u-margin-y--0">
-          To access My HealtheVet, <b>one</b> of these descriptions must be
-          true:
+          To access My HealtheVet, <b>at least one</b> of these descriptions
+          must be true:
         </p>
         <ul>
           <li>
