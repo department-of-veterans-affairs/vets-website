@@ -6,6 +6,8 @@ import {
   APPEAL_TYPES,
   STATUS_TYPES,
   getStatusContents,
+  EVENT_TYPES,
+  getEventContent,
 } from '../../utils/appeals-v2-helpers';
 
 describe('functions', () => {
@@ -963,6 +965,329 @@ describe('functions', () => {
       expect(description).to.contain(
         'We’re sorry, VA.gov will soon be updated to show your status.',
       );
+    });
+  });
+
+  describe('getEventContent', () => {
+    const event = {
+      type: '',
+    };
+    it('when event type is claimDecision, should return a given title/description', () => {
+      event.type = EVENT_TYPES.claimDecision;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('VA sent you a claim decision');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is nod, should return a given title/description', () => {
+      event.type = EVENT_TYPES.nod;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('VA received your Notice of Disagreement');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is soc, should return a given title/description', () => {
+      event.type = EVENT_TYPES.soc;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('VA sent you a Statement of the Case');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is form9, should return a given title/description', () => {
+      event.type = EVENT_TYPES.form9;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('VA received your Form 9');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is ssoc, should return a given title/description', () => {
+      event.type = EVENT_TYPES.ssoc;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'VA sent you a Supplemental Statement of the Case',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is certified, should return a given title/description', () => {
+      event.type = EVENT_TYPES.certified;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'Your appeal was sent to the Board of Veterans’ Appeals',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is hearingHeld, should return a given title/description', () => {
+      event.type = EVENT_TYPES.hearingHeld;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'You attended a hearing with a Veterans Law Judge',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is hearingNoShow, should return a given title/description', () => {
+      event.type = EVENT_TYPES.hearingNoShow;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'You missed your hearing with a Veterans Law Judge',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is transcript, should return a given title/description', () => {
+      event.type = EVENT_TYPES.transcript;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('VA sent you a transcript of your hearing');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is bvaDecision, should return a given title/description', () => {
+      event.type = EVENT_TYPES.bvaDecision;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'Board of Veterans’ Appeals made a decision',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is cavcDecision, should return a given title/description', () => {
+      event.type = EVENT_TYPES.cavcDecision;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'U.S. Court of Appeals for Veterans Claims made a decision',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is remandReturn, should return a given title/description', () => {
+      event.type = EVENT_TYPES.remandReturn;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'Your appeal was returned to the Board of Veterans’ Appeals',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is rampNotice, should return a given title/description', () => {
+      event.type = EVENT_TYPES.rampNotice;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'VA sent you a letter about the Rapid Appeals Modernization Program',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is fieldGrant, should return a given title/description', () => {
+      event.type = EVENT_TYPES.fieldGrant;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('VA granted one or more issues');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is withdrawn, should return a given title/description', () => {
+      event.type = EVENT_TYPES.withdrawn;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('You withdrew your appeal');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is failureToRespond, should return a given title/description', () => {
+      event.type = EVENT_TYPES.failureToRespond;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('Your appeal was closed');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is otherClose, should return a given title/description', () => {
+      event.type = EVENT_TYPES.otherClose;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('Your appeal was closed');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is rampOptIn, should return a given title/description', () => {
+      event.type = EVENT_TYPES.rampOptIn;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'You opted in to the Rapid Appeals Modernization Program',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is death, should return a given title/description', () => {
+      event.type = EVENT_TYPES.death;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('The appeal was closed');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is merged, should return a given title/description', () => {
+      event.type = EVENT_TYPES.merged;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('Your appeals were merged');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is reconsideration, should return a given title/description', () => {
+      event.type = EVENT_TYPES.reconsideration;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'Your Motion for Reconsideration was denied',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is vacated, should return a given title/description', () => {
+      event.type = EVENT_TYPES.vacated;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'Board of Veterans’ Appeals vacated a previous decision',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is amaNod, should return a given title/description', () => {
+      event.type = EVENT_TYPES.amaNod;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'Board of Veterans’ Appeals received your appeal',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is docketChange, should return a given title/description', () => {
+      event.type = EVENT_TYPES.docketChange;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('You switched appeal options');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is distributedToVlj, should return a given title/description', () => {
+      event.type = EVENT_TYPES.distributedToVlj;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'Your appeal was distributed to a Veterans Law Judge',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is bvaDecisionEffectuation, should return a given title/description', () => {
+      event.type = EVENT_TYPES.bvaDecisionEffectuation;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'VA updated your benefits to reflect the Board’s decision',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is dtaDecision, should return a given title/description', () => {
+      event.type = EVENT_TYPES.dtaDecision;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'VA corrected an error and made a new decision',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is scRequest, should return a given title/description', () => {
+      event.type = EVENT_TYPES.scRequest;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'VA received your Supplemental Claim request',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is scDecision, should return a given title/description', () => {
+      event.type = EVENT_TYPES.scDecision;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('VA made a new decision');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is hlrDecision, should return a given title/description', () => {
+      event.type = EVENT_TYPES.hlrDecision;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('VA made a new decision');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is scOtherClose, should return a given title/description', () => {
+      event.type = EVENT_TYPES.scOtherClose;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('Your Supplemental Claim was closed');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is hlrRequest, should return a given title/description', () => {
+      event.type = EVENT_TYPES.hlrRequest;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'VA received your Higher-Level Review request',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is hlrDtaError, should return a given title/description', () => {
+      event.type = EVENT_TYPES.hlrDtaError;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'VA identified an error that must be corrected',
+      );
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is hlrOtherClose, should return a given title/description', () => {
+      event.type = EVENT_TYPES.hlrOtherClose;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql('Your Higher-Level Review was closed');
+      expect(content.description).to.eql('');
+    });
+
+    it('when event type is statutoryOptIn, should return a given title/description', () => {
+      event.type = EVENT_TYPES.statutoryOptIn;
+      const content = getEventContent(event);
+
+      expect(content.title).to.eql(
+        'You requested a decision review under the Appeals Modernization Act',
+      );
+      expect(content.description).to.eql('');
     });
   });
 });
