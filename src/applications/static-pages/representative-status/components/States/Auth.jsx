@@ -25,7 +25,10 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
   if (isLoading) {
     return (
       <div>
-        <va-loading-indicator label="Loading" message="Loading your .." />
+        <va-loading-indicator
+          label="Loading"
+          message="Loading your representative..."
+        />
       </div>
     );
   }
