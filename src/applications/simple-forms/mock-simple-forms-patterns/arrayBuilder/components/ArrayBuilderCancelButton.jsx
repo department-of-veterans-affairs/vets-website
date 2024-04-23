@@ -9,31 +9,51 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
+import { getArrayIndexFromPathName, getArrayUrlSearchParams } from '../helpers';
+
+function formatPath(path) {
+  return path && path.charAt(0) !== '/' ? `/${path}` : path;
+}
 
 /**
  * @param {{
  *   arrayPath: string,
+ *   className: string,
  *   setFormData: (data) => void,
  *   formData: any,
  *   goToPath: (path, force) => void,
  *   summaryRoute: string,
+ *   required: (formData) => boolean,
+ *   reviewRoute: string,
+ *   introRoute: string,
  *   getText: import('./arrayBuilderText').ArrayBuilderGetText,
  * }} props
  */
-const ArrayBuilderCancelAddingButton = ({
+const ArrayBuilderCancelButton = ({
   arrayPath,
   setFormData,
   formData,
   goToPath,
   summaryRoute,
+  introRoute,
   getText,
+  className,
+  reviewRoute,
+  required,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const urlParams = new URLSearchParams(window?.location?.search);
+  const urlParams = getArrayUrlSearchParams();
+  const isEdit = urlParams?.has('edit');
+  const isAdd = urlParams?.has('add');
+  const isReview = urlParams?.has('review');
 
-  if (!urlParams?.has('add')) {
-    return null; // cancel button only applicable for adding
+  let modalDescriptionKey = isEdit
+    ? 'cancelEditDescription'
+    : 'cancelAddDescription';
+  if (isReview) {
+    modalDescriptionKey = isEdit
+      ? 'cancelEditReviewDescription'
+      : 'cancelAddReviewDescription';
   }
 
   const arrayData = get(arrayPath, formData);
@@ -49,19 +69,50 @@ const ArrayBuilderCancelAddingButton = ({
     setIsModalVisible(false);
   }
 
-  function cancelAction() {
-    const arrayIndex = getUrlPathIndex(window.location.pathname);
+  function removeCurrentItem() {
+    const arrayIndex = getArrayIndexFromPathName();
     const newArrayData = arrayData.filter((_, i) => i !== arrayIndex);
     const newData = set(arrayPath, newArrayData, formData);
     setFormData(newData);
+    return newArrayData;
+  }
+
+  function cancelAction() {
+    let newArrayData = arrayData;
+    let path;
+
+    if (isAdd) {
+      newArrayData = removeCurrentItem();
+    }
+
     hideCancelConfirmationModal();
-    goToPath(summaryRoute);
+
+    if (isReview) {
+      path = reviewRoute;
+    } else if (isEdit) {
+      path = summaryRoute;
+    } else {
+      // Required flow goes:
+      // intro -> items -> summary -> items -> summary
+      // so if we have no items, go back to intro
+      // otherwise go to summary
+      //
+      // Optional flow goes:
+      // summary -> items -> summary, so go back to summary
+      path =
+        required(formData) && introRoute && !newArrayData?.length
+          ? introRoute
+          : summaryRoute;
+    }
+    goToPath(formatPath(path));
   }
 
   return (
-    <div className="vads-u-margin-top--3 vads-u-margin-bottom--4">
+    <div
+      className={className || 'vads-u-margin-top--3 vads-u-margin-bottom--4'}
+    >
       <va-button
-        text={getText('cancelButtonText')}
+        text={getText(isEdit ? 'cancelEditButtonText' : 'cancelAddButtonText')}
         data-action="cancel"
         onClick={showCancelConfirmationModal}
         secondary
@@ -70,16 +121,16 @@ const ArrayBuilderCancelAddingButton = ({
       <VaModal
         clickToClose
         status="warning"
-        modalTitle={getText('cancelTitle')}
+        modalTitle={getText(isEdit ? 'cancelEditTitle' : 'cancelAddTitle')}
         primaryButtonText={getText('cancelYes')}
-        secondaryButtonText={getText('cancelNo')}
+        secondaryButtonText={getText(isEdit ? 'cancelEditNo' : 'cancelAddNo')}
         onCloseEvent={hideCancelConfirmationModal}
         onPrimaryButtonClick={cancelAction}
         onSecondaryButtonClick={hideCancelConfirmationModal}
         visible={isModalVisible}
         uswds
       >
-        {getText('cancelDescription')}
+        {getText(modalDescriptionKey)}
       </VaModal>
     </div>
   );
@@ -93,32 +144,20 @@ const mapDispatchToProps = {
   setFormData: setData,
 };
 
-ArrayBuilderCancelAddingButton.propTypes = {
+ArrayBuilderCancelButton.propTypes = {
   arrayPath: PropTypes.string.isRequired,
-  buttonText: PropTypes.string.isRequired,
   formData: PropTypes.object.isRequired,
   getText: PropTypes.func.isRequired,
   goToPath: PropTypes.func.isRequired,
+  introRoute: PropTypes.string.isRequired,
+  required: PropTypes.func.isRequired,
+  reviewRoute: PropTypes.string.isRequired,
   setFormData: PropTypes.func.isRequired,
   summaryRoute: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
-/**
- * Usage:
- * ```
- * <ArrayBuilderCancelAddingButton
- *   buttonText="Cancel adding this employer"
- *   arrayPath="employers"
- *   modalTitle="Are you sure you want to cancel adding this employer?"
- *   modalDescription="If you cancel adding this employer, we won't save the information. You'll return to a screen where you can add or remove employers."
- *   modalButtonPrimary="Yes, cancel adding"
- *   modalButtonSecondary="No, continue adding"
- *   goToPath={goToPath}
- *   summaryRoute="/array-multiple-page-builder-summary"
- * />
- * ```
- */
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ArrayBuilderCancelAddingButton);
+)(ArrayBuilderCancelButton);
