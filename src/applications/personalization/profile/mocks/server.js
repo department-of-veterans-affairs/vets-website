@@ -84,7 +84,6 @@ const logRequest = req => {
   requestHistory.push({ ...historyEntry, url, method });
 };
 
-/* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': (_req, res) => {
     const secondsOfDelay = 0;
