@@ -10,3 +10,10 @@ export const workInProgressContent = {
   redirectLink: '/',
   redirectText: 'Return to VA home page',
 };
+
+export const PREPARER_TYPES = Object.freeze({
+  VETERAN: 'veteran',
+  NON_VETERAN: 'non-veteran',
+  THIRD_PARTY_VETERAN: 'third-party-veteran',
+  THIRD_PARTY_NON_VETERAN: 'third-party-non-veteran',
+});
