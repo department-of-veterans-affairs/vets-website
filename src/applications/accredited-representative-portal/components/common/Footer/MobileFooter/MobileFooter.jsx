@@ -5,7 +5,7 @@ const MobileFooter = () => {
   return (
     <div data-testid="mobile-footer" className="mobile">
       <div className="footer-inner">
-        <div aria-hidden="false" className="va-footer-content">
+        <div className="va-footer-content">
           <ul
             className="usa-accordion va-footer-accordion"
             data-testid="mobile-footer-accordion"
@@ -65,7 +65,7 @@ const MobileFooter = () => {
               >
                 <ul className="va-footer-links">
                   <li>
-                    <a href="/homeless/" target="">
+                    <a href="/resources/" target="">
                       Resources
                     </a>
                   </li>

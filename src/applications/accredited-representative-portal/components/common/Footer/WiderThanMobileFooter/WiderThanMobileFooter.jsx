@@ -45,7 +45,7 @@ const WiderThanMobileFooter = () => {
             <h2 className="va-footer-linkgroup-title">For Veterans</h2>
             <ul className="va-footer-links">
               <li>
-                <a href="https://va.gov/homeless/">Resources</a>
+                <a href="https://va.gov/resources/">Resources</a>
               </li>
               <li>
                 <a href="https://va.gov/homeless/">Homeless Veterans</a>
