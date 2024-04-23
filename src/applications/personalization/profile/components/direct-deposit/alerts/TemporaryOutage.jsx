@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import HelpDeskContact from '../../HelpDeskContact';
 
 const CustomMessaging = () => (
@@ -51,3 +53,7 @@ export const TemporaryOutage = ({ customMessaging = false }) => (
     )}
   </div>
 );
+
+TemporaryOutage.propTypes = {
+  customMessaging: PropTypes.bool,
+};
