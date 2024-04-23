@@ -14,7 +14,6 @@ import FacilitiesRadioWidget from './FacilitiesRadioWidget';
 import FormButtons from '../../../components/FormButtons';
 import NoValidVAFacilities from './NoValidVAFacilitiesV2';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
-import LoadingOverlay from '../../../components/LoadingOverlay';
 import FacilitiesNotShown from './FacilitiesNotShown';
 import SingleFacilityAvailable from './SingleFacilityAvailable';
 import { lowerCase } from '../../../utils/formatters';
@@ -151,6 +150,15 @@ export default function VAFacilityPageV2({ changeCrumb }) {
       <va-loading-indicator message="Finding available locations for your appointment..." />
     );
   }
+  if (loadingEligibility) {
+    return (
+      <va-loading-indicator
+        message="We’re checking if we can create an appointment for you at this
+                facility. This may take up to a minute. Thank you for your
+                patience."
+      />
+    );
+  }
 
   if (noValidVAFacilities) {
     return (
@@ -282,13 +290,6 @@ export default function VAFacilityPageV2({ changeCrumb }) {
             />
           </SchemaForm>
         )}
-
-      <LoadingOverlay
-        show={loadingEligibility}
-        message="We’re checking if we can create an appointment for you at this
-                facility. This may take up to a minute. Thank you for your
-                patience."
-      />
 
       {showEligibilityModal && (
         <EligibilityModal
