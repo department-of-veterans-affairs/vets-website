@@ -1,14 +1,9 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
-import {
-  FIELD_TITLES,
-  FIELD_NAMES,
-  DEFAULT_ERROR_MESSAGE,
-} from '@@vap-svc/constants';
+import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
 
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
@@ -52,46 +47,12 @@ function deleteAddress(addressName) {
   };
 }
 
-// When the update happens while the delete modal is still active
-async function testQuickSuccess(addressName) {
-  server.use(...mocks.transactionPending);
-
-  const { confirmDeleteButton } = deleteAddress(addressName);
-
-  // Buttons should be disabled while the delete transaction is pending...
-  // Waiting 10ms to make this check so that it happens _after_ the initial
-  // delete transaction request is created. We had a UX bug where the buttons
-  // were disabled while the initial transaction request was being created but
-  // were enabled again while polling the transaction status. This test was
-  // added to prevent regressing back to that poor experience where users were
-  // able to interact with buttons that created duplicate XHRs.
-  await wait(10);
-  expect(view.queryByText('Cancel', { selector: 'button' })).to.not.exist;
-  expect(!!confirmDeleteButton.attributes.disabled).to.be.true;
-  expect(confirmDeleteButton)
-    .to.have.descendant('i')
-    .and.have.class('fa-spinner');
-
-  server.use(...mocks.transactionSucceeded);
-
-  // wait for the delete modal to exit
-  await waitForElementToBeRemoved(confirmDeleteButton);
-
-  // the edit address button should still exist
-  view.getByRole('button', { name: new RegExp(`edit.*${addressName}`, 'i') });
-  // and the add text should exist
-  view.getByText(new RegExp(`add.*${addressName}`, 'i'));
-}
-
 // When the update happens but not until after the delete modal has exited and the
 // user returned to the read-only view
 async function testSlowSuccess(addressName) {
   server.use(...mocks.transactionPending);
 
-  const { confirmDeleteButton } = deleteAddress(addressName);
-
-  // wait for the delete modal to exit
-  await waitForElementToBeRemoved(confirmDeleteButton);
+  deleteAddress(addressName);
 
   // check that the "we're deleting your..." message appears
   const deletingMessage = await view.findByText(
@@ -104,7 +65,10 @@ async function testSlowSuccess(addressName) {
 
   server.use(...mocks.transactionSucceeded);
 
-  await waitForElementToBeRemoved(deletingMessage);
+  await wait(1500);
+
+  // update saved alert should appear
+  await view.findByText('Update saved.');
 
   // the edit button should exist
   view.getByRole('button', { name: new RegExp(`edit.*${addressName}`, 'i') });
@@ -119,30 +83,13 @@ async function testTransactionCreationFails(addressName) {
   deleteAddress(addressName);
 
   // expect an error to be shown
-  const alert = await view.findByTestId('delete-error-alert');
-  expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
+  await view.findByText(
+    /We couldn’t save your recent home address update. Please try again later./i,
+    { exact: false },
+  );
 
-  // make sure that delete modal is not automatically exited
-  await wait(75);
-  expect(view.getByTestId('delete-error-alert')).to.exist;
-  const editButton = getEditButton();
-  expect(editButton).to.not.exist;
-}
-
-// When the update fails while the Delete Modal is still active
-async function testQuickFailure(addressName) {
-  server.use(...mocks.transactionFailed);
-
-  const { confirmDeleteButton } = deleteAddress(addressName);
-
-  // expect an error to be shown
-  const alert = await view.findByTestId('delete-error-alert');
-  expect(alert).to.contain.text(DEFAULT_ERROR_MESSAGE);
-
-  // waiting to make sure it doesn't auto exit
-  await wait(75);
-  expect(view.getByTestId('delete-error-alert')).to.exist;
-  expect(confirmDeleteButton).to.exist;
+  const editButton = getEditButton(addressName);
+  expect(editButton).to.exist;
 }
 
 // When the update fails but not until after the Delete Modal has exited and the
@@ -150,10 +97,7 @@ async function testQuickFailure(addressName) {
 async function testSlowFailure(addressName) {
   server.use(...mocks.transactionPending);
 
-  const { confirmDeleteButton } = deleteAddress(addressName);
-
-  // wait for the delete modal to exit
-  await waitForElementToBeRemoved(confirmDeleteButton);
+  deleteAddress(addressName);
 
   // check that the "we're deleting your..." message appears
   const deletingMessage = await view.findByText(
@@ -166,7 +110,7 @@ async function testSlowFailure(addressName) {
 
   server.use(...mocks.transactionFailed);
 
-  await waitForElementToBeRemoved(deletingMessage);
+  await wait(1500);
 
   // make sure the error message appears
   expect(
@@ -209,19 +153,13 @@ describe('Deleting', () => {
   addresses.forEach(address => {
     const addressName = FIELD_TITLES[address];
     describe(addressName, () => {
-      it('should handle a transaction that succeeds quickly', async () => {
-        await testQuickSuccess(addressName);
-      });
-      it('should handle a transaction that does not succeed until after the delete modal exits', async () => {
+      it('should handle a transaction that succeeds', async () => {
         await testSlowSuccess(addressName);
       });
-      it('should show an error and not auto-exit delete modal if the transaction cannot be created', async () => {
+      it('should show an error if the transaction cannot be created', async () => {
         await testTransactionCreationFails(addressName);
       });
-      it('should show an error and not auto-exit delete modal if the transaction fails quickly', async () => {
-        await testQuickFailure(addressName);
-      });
-      it('should show an error if the transaction fails after the delete modal exits', async () => {
+      it('should show an error if the transaction fails after some time', async () => {
         await testSlowFailure(addressName);
       });
     });

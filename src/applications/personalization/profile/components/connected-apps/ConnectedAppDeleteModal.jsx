@@ -16,8 +16,6 @@ export function ConnectedAppDeleteModal({
       onCloseEvent={closeModal}
       modalTitle="Are you sure?"
       visible={modalOpen}
-      status="warning"
-      uswds={false}
     >
       <p>
         After you disconnect this app, the app won’t have access to new
