@@ -18,11 +18,11 @@ describe('<RemoveFileModal>', () => {
     const { container, getByText } = render(<RemoveFileModal {...props} />);
 
     expect($('#remove-file', container)).to.exist;
-    expect($('va-modal', container).getAttribute('primarybuttontext')).to.equal(
-      'Yes, remove this',
-    );
     expect(
-      $('va-modal', container).getAttribute('secondarybuttontext'),
+      $('va-modal', container).getAttribute('primary-button-text'),
+    ).to.equal('Yes, remove this');
+    expect(
+      $('va-modal', container).getAttribute('secondary-button-text'),
     ).to.equal('No, keep this');
     expect(getByText(props.removeFileName)).to.exist;
   });
