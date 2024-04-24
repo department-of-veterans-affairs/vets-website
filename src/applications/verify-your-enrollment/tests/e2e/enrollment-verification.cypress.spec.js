@@ -1,12 +1,8 @@
 // Testing Start enrollment verification
 
-import { USER_MOCK_DATA } from '../../constants/mockData';
-
 describe('Enrollment Verification Page Tests', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/vye/v1', USER_MOCK_DATA).as('getData');
     cy.visit('/education/verify-your-enrollment/');
-    cy.wait('@getData');
   });
 
   it('should display the enrollment verification breadcrumbs', () => {

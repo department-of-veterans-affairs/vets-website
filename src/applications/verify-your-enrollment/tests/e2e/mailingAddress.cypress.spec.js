@@ -1,11 +1,8 @@
-import { USER_MOCK_DATA } from '../../constants/mockData';
 import './login';
 
 describe('Enrollment Verification Page Tests', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/vye/v1', USER_MOCK_DATA).as('getData');
     cy.visit('/education/verify-your-enrollment/');
-    cy.wait('@getData');
   });
   it('should navigate to benefits-profile when Manage your benefits profile link is clicked', () => {
     cy.injectAxeThenAxeCheck();
