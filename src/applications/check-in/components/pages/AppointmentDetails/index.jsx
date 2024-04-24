@@ -185,9 +185,7 @@ const AppointmentDetails = props => {
                     {t('where-to-attend')}
                   </h2>
                   <div data-testid="appointment-details--facility-value">
-                    <p className="vads-u-margin-top--0">
-                      {appointment.facility}
-                    </p>
+                    {appointment.facility}
                     {appointment.facilityAddress?.street1 && (
                       <div className="vads-u-margin-bottom--2">
                         <AddressBlock
@@ -228,45 +226,46 @@ const AppointmentDetails = props => {
                     )}
                 </div>
               )}
-
-              {clinic && (
-                <div data-testid="appointment-details--clinic-value">
-                  {`${t('clinic')}:`} {clinic}
-                </div>
-              )}
-              {(isInPersonAppointment || isCvtAppointment) &&
-                appointment.clinicLocation && (
-                  <div data-testid="appointment-details--location-value">
-                    {`${t('location')}: ${appointment.clinicLocation}`}
+              <div className="vads-u-margin-top--2">
+                {clinic && (
+                  <div data-testid="appointment-details--clinic-value">
+                    {`${t('clinic')}:`} {clinic}
                   </div>
                 )}
-              {appointment.clinicPhoneNumber && (
-                <div data-testid="appointment-details--phone">
-                  <div data-testid="appointment-details--phone-value">
-                    {`${t('clinic-phone')}: `}
-                    <va-telephone
-                      onClick={handlePhoneNumberClick}
-                      contact={appointment.clinicPhoneNumber}
-                    />
-                    <br />(
-                    <va-telephone
-                      contact={phoneNumbers.tty}
-                      tty
-                      ariaLabel="7 1 1."
-                    />
-                    )
+                {(isInPersonAppointment || isCvtAppointment) &&
+                  appointment.clinicLocation && (
+                    <div data-testid="appointment-details--location-value">
+                      {`${t('location')}: ${appointment.clinicLocation}`}
+                    </div>
+                  )}
+                {appointment.clinicPhoneNumber && (
+                  <div data-testid="appointment-details--phone">
+                    <div data-testid="appointment-details--phone-value">
+                      {`${t('clinic-phone')}: `}
+                      <va-telephone
+                        onClick={handlePhoneNumberClick}
+                        contact={appointment.clinicPhoneNumber}
+                      />
+                      <br />(
+                      <va-telephone
+                        contact={phoneNumbers.tty}
+                        tty
+                        ariaLabel="7 1 1."
+                      />
+                      )
+                    </div>
                   </div>
-                </div>
-              )}
-              {app === APP_NAMES.CHECK_IN && (
-                <div className="vads-u-margin-top--2">
-                  <AppointmentAction
-                    appointment={appointment}
-                    router={router}
-                    event="check-in-clicked-VAOS-design"
-                  />
-                </div>
-              )}
+                )}
+                {app === APP_NAMES.CHECK_IN && (
+                  <div className="vads-u-margin-top--2">
+                    <AppointmentAction
+                      appointment={appointment}
+                      router={router}
+                      event="check-in-clicked-VAOS-design"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </Wrapper>
         </>
