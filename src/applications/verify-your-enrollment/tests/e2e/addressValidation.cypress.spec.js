@@ -36,10 +36,10 @@ describe('Address Validations', () => {
   beforeEach(() => {
     cy.intercept('GET', '/vye/v1', USER_MOCK_DATA).as('getData');
     cy.visit('/education/verify-your-enrollment/');
-    cy.wait('@getData');
   });
   it('should not show suggested address if address is correct', () => {
     cy.injectAxeThenAxeCheck();
+    cy.wait('@getData');
     cy.get(
       '[href="/education/verify-your-enrollment/benefits-profile/"]',
     ).click();
@@ -56,6 +56,7 @@ describe('Address Validations', () => {
   });
   it('should show suggested address when address is partially correct', () => {
     cy.injectAxeThenAxeCheck();
+    cy.wait('@getData');
     cy.intercept(
       'POST',
       `https://staging-api.va.gov/v0/profile/address_validation`,
@@ -83,6 +84,7 @@ describe('Address Validations', () => {
   });
   it('should not give suggessted address if confidenceScore is 100 ', () => {
     cy.injectAxeThenAxeCheck();
+    cy.wait('@getData');
     cy.intercept(
       'POST',
       `https://staging-api.va.gov/v0/profile/address_validation`,
@@ -113,6 +115,7 @@ describe('Address Validations', () => {
   });
   it('should show We can’t confirm the address Alert if address in completely wrong', () => {
     cy.injectAxeThenAxeCheck();
+    cy.wait('@getData');
     cy.intercept(
       'POST',
       `https://staging-api.va.gov/v0/profile/address_validation`,
@@ -142,6 +145,7 @@ describe('Address Validations', () => {
   });
   it('should show that the address may need a unit number if unit number is missing', () => {
     cy.injectAxeThenAxeCheck();
+    cy.wait('@getData');
     cy.intercept(
       'POST',
       `https://staging-api.va.gov/v0/profile/address_validation`,
@@ -174,6 +178,7 @@ describe('Address Validations', () => {
   });
   it('should show that there may be a problem with the unit number for this address Alert if unit number doesnot exist within the address', () => {
     cy.injectAxeThenAxeCheck();
+    cy.wait('@getData');
     cy.intercept(
       'POST',
       `https://staging-api.va.gov/v0/profile/address_validation`,
@@ -206,6 +211,7 @@ describe('Address Validations', () => {
   });
   it('should update the address if user choose the Suggested address ', () => {
     cy.injectAxeThenAxeCheck();
+    cy.wait('@getData');
     cy.intercept(
       'POST',
       `https://staging-api.va.gov/v0/profile/address_validation`,
@@ -241,6 +247,7 @@ describe('Address Validations', () => {
   });
   it('should not update the address if there is something went wrong ', () => {
     cy.injectAxeThenAxeCheck();
+    cy.wait('@getData');
     cy.intercept(
       'POST',
       `https://staging-api.va.gov/v0/profile/address_validation`,
