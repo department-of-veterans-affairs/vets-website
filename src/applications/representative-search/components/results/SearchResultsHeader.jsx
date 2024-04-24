@@ -111,21 +111,19 @@ export const SearchResultsHeader = props => {
         >
           {handleNumberOfResults()} for
           {` `}
-          &quot;
           <b>{repFormat[representativeType]}</b>
-          &quot;
           {context.repOrgName && (
             <>
               {` `}
-              named &quot;
+              named
               <b>{context.repOrgName}</b>
-              &quot;
             </>
           )}
           {` `}
           {context.location && (
             <>
-              within &quot;
+              within
+              {` `}
               <b>
                 {searchArea === 'Show all' ? (
                   'Show all'
@@ -133,15 +131,16 @@ export const SearchResultsHeader = props => {
                   <>{searchArea} miles</>
                 )}
               </b>
-              &quot; of &quot;
-              <b>{context.location}</b>
-              &quot;{' '}
+              {` `}
+              of
+              {` `}
+              <b>{context.location}</b>{' '}
             </>
           )}
           <>
-            sorted by &quot;
+            sorted by
+            {` `}
             <b>{sortOptions[sortType]}</b>
-            &quot;
           </>
         </p>
 
