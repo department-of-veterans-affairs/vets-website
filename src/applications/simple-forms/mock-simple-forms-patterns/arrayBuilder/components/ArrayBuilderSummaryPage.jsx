@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/sort-prop-types */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import get from 'platform/utilities/data/get';
-import { connect } from 'react-redux';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import ArrayBuilderCards from './ArrayBuilderCards';
@@ -20,11 +21,17 @@ function getUpdatedItemIndexFromPath() {
   return updatedValue?.split('-')?.pop();
 }
 
-const SuccessAlert = ({ children }) => (
+const SuccessAlert = ({ children, nounSingular, index, onDismiss }) => (
   <div className="vads-u-margin-top--2">
-    <va-alert status="success" uswds>
+    <VaAlert
+      onCloseEvent={onDismiss}
+      closeable
+      name={`${nounSingular}_${index}`}
+      status="success"
+      uswds
+    >
       {children}
-    </va-alert>
+    </VaAlert>
   </div>
 );
 
@@ -75,6 +82,7 @@ export default function ArrayBuilderSummaryPage({
 }) {
   /** @type {CustomPageType} */
   function CustomPage(props) {
+    const [showUpdatedAlert, setShowUpdatedAlert] = useState(false);
     const { uiSchema, schema } = props;
     const arrayData = get(arrayPath, props.data);
     const updateItemIndex = getUpdatedItemIndexFromPath();
@@ -96,6 +104,13 @@ export default function ArrayBuilderSummaryPage({
         }
       }
     }, []);
+
+    useEffect(
+      () => {
+        setShowUpdatedAlert(updateItemIndex != null);
+      },
+      [updateItemIndex],
+    );
 
     useEffect(
       () => {
@@ -146,6 +161,10 @@ export default function ArrayBuilderSummaryPage({
       }
     }
 
+    function onDismissUpdatedAlert() {
+      setShowUpdatedAlert(false);
+    }
+
     const Title = (
       <>
         <Heading className="vads-u-color--gray-dark vads-u-margin-top--0">
@@ -156,11 +175,16 @@ export default function ArrayBuilderSummaryPage({
 
     const Cards = (
       <>
-        {updatedItemData && (
-          <SuccessAlert>
-            {getText('alertItemUpdated', updatedItemData)}
-          </SuccessAlert>
-        )}
+        {updatedItemData &&
+          showUpdatedAlert && (
+            <SuccessAlert
+              onDismiss={onDismissUpdatedAlert}
+              nounSingular={nounSingular}
+              index={updateItemIndex}
+            >
+              {getText('alertItemUpdated', updatedItemData)}
+            </SuccessAlert>
+          )}
         <ArrayBuilderCards
           cardDescription={getText('cardDescription', updatedItemData)}
           arrayPath={arrayPath}
