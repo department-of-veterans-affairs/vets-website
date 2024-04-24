@@ -9,7 +9,9 @@ export function fetchUser() {
     dispatch({ type: FETCH_USER });
 
     try {
-      const response = await apiRequest('/user');
+      const response = await apiRequest('/user', {
+        apiVersion: 'accredited_representative_portal/v0',
+      });
 
       dispatch({
         type: FETCH_USER_SUCCESS,
