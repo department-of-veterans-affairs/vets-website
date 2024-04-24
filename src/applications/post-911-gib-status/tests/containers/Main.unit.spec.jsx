@@ -12,12 +12,9 @@ const defaultProps = {
 
 describe('Main', () => {
   it('should render', () => {
-    /*
     const tree = SkinDeep.shallowRender(<Main {...defaultProps} />);
     const vdom = tree.getRenderOutput();
-    // TODO: why is vdom undefined?
     expect(vdom).to.not.be.undefined;
-    */
   });
 
   it('should show data when service is available', () => {
