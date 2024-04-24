@@ -313,12 +313,14 @@ export default function formReducer(state = initialState, action) {
         isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
 
-      if (typeOfCareFacilities.length === 1) {
-        newData = {
-          ...newData,
-          vaFacility: typeOfCareFacilities[0]?.id,
-        };
-      }
+      newData = {
+        ...newData,
+        vaFacility:
+          typeOfCareFacilities.length === 1
+            ? typeOfCareFacilities[0]?.id
+            : null,
+        isSingleVaFacility: typeOfCareFacilities.length === 1,
+      };
 
       newSchema = set(
         'properties.vaFacility',
