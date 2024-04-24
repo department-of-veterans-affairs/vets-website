@@ -1,7 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
-import environment from 'platform/utilities/environment';
+import {
+  mockFetch,
+  setFetchJSONResponse,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getAppealsV2 } from '../../actions';
 
 import {

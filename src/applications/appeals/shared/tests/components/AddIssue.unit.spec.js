@@ -19,9 +19,8 @@ import {
   MAX_LENGTH,
   MAX_YEARS_PAST,
 } from '../../constants';
-import sharedErrorMessages from '../../content/errorMessages';
+import errorMessages from '../../content/errorMessages';
 
-import { errorMessages } from '../../../995/constants';
 import { maxNameLength } from '../../../995/validations/issues';
 import { validateDate } from '../../../995/validations/date';
 
@@ -136,7 +135,9 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const textInput = $('va-text-input', container);
-    expect(textInput.error).to.contain(errorMessages.maxLength);
+    expect(textInput.error).to.contain(
+      errorMessages.maxLength(MAX_LENGTH.ISSUE_NAME),
+    );
   });
   it('should show error when issue date is not in range', () => {
     const decisionDate = parseDateWithOffset({ years: MAX_YEARS_PAST * 2 });
@@ -206,7 +207,7 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const textInput = $('va-text-input', container);
-    expect(textInput.error).to.contain(sharedErrorMessages.uniqueIssue);
+    expect(textInput.error).to.contain(errorMessages.uniqueIssue);
   });
 
   it('should submit when everything is valid', () => {

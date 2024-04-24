@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { add, format } from 'date-fns';
+import { add } from 'date-fns';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -14,8 +14,7 @@ import { ITF_STATUSES } from '../../constants';
 import itfFetchResponse from '../fixtures/mocks/intent-to-file.json';
 import itfCreateResponse from '../fixtures/mocks/intent-to-file-compensation.json';
 
-import { FORMAT_READABLE_DATE_FNS } from '../../../shared/constants';
-import { parseDateToDateObj } from '../../../shared/utils/dates';
+import { getReadableDate } from '../../../shared/utils/dates';
 
 const getData = ({
   loggedIn = true,
@@ -305,7 +304,7 @@ describe('ITFWrapper', () => {
     );
     // Fetch succeeded, but no ITFs were returned
     const mockDispatch = sinon.spy();
-    const expirationDate = parseDateToDateObj(add(new Date(), { days: -1 }));
+    const expirationDate = add(new Date(), { days: -1 });
     const newData = getData({
       fetchCallState: requestStates.succeeded,
       mockDispatch,
@@ -348,7 +347,7 @@ describe('ITFWrapper', () => {
   });
 
   it('should render a success message for fetched ITF', () => {
-    const expirationDate = parseDateToDateObj(add(new Date(), { days: 1 }));
+    const expirationDate = add(new Date(), { days: 1 });
     mockApiRequest();
     const data = getData({
       fetchCallState: requestStates.succeeded,
@@ -367,15 +366,13 @@ describe('ITFWrapper', () => {
     expect($('va-alert h2', container).textContent).to.contain(
       'You already have an Intent to File',
     );
-    const date = format(expirationDate, FORMAT_READABLE_DATE_FNS);
+    const date = getReadableDate(expirationDate);
     expect($('va-alert').innerHTML).to.contain(date);
   });
 
   it('should render a success message for newly created ITF', () => {
-    const expirationDate = parseDateToDateObj(add(new Date(), { days: 1 }));
-    const previousExpirationDate = parseDateToDateObj(
-      add(new Date(), { days: -1 }),
-    );
+    const expirationDate = add(new Date(), { days: 1 });
+    const previousExpirationDate = add(new Date(), { days: -1 });
 
     mockApiRequest();
     const data = getData({
@@ -401,9 +398,7 @@ describe('ITFWrapper', () => {
       'You submitted an Intent to File',
     );
     const html = $('va-alert').innerHTML;
-    expect(html).to.contain(format(expirationDate, FORMAT_READABLE_DATE_FNS));
-    expect(html).to.contain(
-      format(previousExpirationDate, FORMAT_READABLE_DATE_FNS),
-    );
+    expect(html).to.contain(getReadableDate(expirationDate));
+    expect(html).to.contain(getReadableDate(previousExpirationDate));
   });
 });
