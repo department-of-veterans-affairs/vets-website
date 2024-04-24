@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
 import { SIGN_IN_URL } from '../../../../constants';
 
@@ -45,9 +45,11 @@ export const MobileLogoRow = () => {
             type="button"
           >
             Menu
-            <i
+            <va-icon
+              size={4}
+              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
               aria-hidden="true"
-              className="fa fa-bars vads-u-margin-left--1 vads-u-font-size--sm"
+              className="vads-u-margin-left--1 vads-u-font-size--sm"
             />
           </button>
         </div>
