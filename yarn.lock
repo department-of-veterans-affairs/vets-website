@@ -2863,10 +2863,10 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^39.1.0-beta":
-  version "39.1.0-beta"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-39.1.0-beta.tgz#a566a7f5ec52fa58ef3f8d40d9f4cc07b9e33a9c"
-  integrity sha512-5aFKpYM0Idpff0ZdnANeIxGXVJRE1/CbI9J7O1ow+Qq9M077ArzL3CyhmsliIUbWTjZzm09M0azwKv8HFQCLrg==
+"@department-of-veterans-affairs/component-library@39.1.0-beta3":
+  version "39.1.0-beta3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-39.1.0-beta3.tgz#020645ba33e93407db851e4f8ce357dd96be9792"
+  integrity sha512-q9yRtm7meEYixYx68LeC6GoJr0dZQksakDhYuqDJf9ju1dgdT5DCPm3BvcLNDg+zMpIUHilbET3IAa/ylqq9qA==
   dependencies:
     "@department-of-veterans-affairs/react-components" "workspace:*"
     "@department-of-veterans-affairs/web-components" "workspace:*"
