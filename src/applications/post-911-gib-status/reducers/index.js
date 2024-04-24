@@ -1,4 +1,4 @@
-import set from '@department-of-veterans-affairs/platform-utilities/data';
+import set from '~/platform/utilities/data/set';
 
 import {
   BACKEND_AUTHENTICATION_ERROR,
