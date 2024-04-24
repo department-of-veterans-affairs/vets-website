@@ -1,7 +1,7 @@
 export const rxListSortingOptions = {
   alphabeticallyByStatus: {
     API_ENDPOINT:
-      '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      '&sort[]=disp_status&sort[]=prescription_name&sort[]=-dispensed_date',
     LABEL: 'Alphabetically by status',
   },
   lastFilledFirst: {
@@ -9,7 +9,7 @@ export const rxListSortingOptions = {
     LABEL: 'Last filled first',
   },
   alphabeticalOrder: {
-    API_ENDPOINT: '&sort[]=prescription_name&sort[]=dispensed_date',
+    API_ENDPOINT: '&sort[]=prescription_name&sort[]=-dispensed_date',
     LABEL: 'Alphabetically by name',
   },
 };
