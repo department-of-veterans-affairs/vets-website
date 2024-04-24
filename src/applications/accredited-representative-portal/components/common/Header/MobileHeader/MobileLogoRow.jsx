@@ -45,11 +45,10 @@ export const MobileLogoRow = () => {
             type="button"
           >
             Menu
-            <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-icon-component */}
+            <i
               aria-hidden="true"
-              className="vads-u-margin-left--1 vads-u-font-size--sm"
+              className="fa fa-bars vads-u-margin-left--1 vads-u-font-size--sm"
             />
           </button>
         </div>
