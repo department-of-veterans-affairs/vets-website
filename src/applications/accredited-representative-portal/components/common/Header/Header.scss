@@ -1,6 +1,14 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .arp-header {
+  .user-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    width: 88px;
+  }
+
   .mobile {
     .usa-banner-header {
       display: flex;
