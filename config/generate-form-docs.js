@@ -79,20 +79,20 @@ const parseFormConfig = formConfig =>
     })),
   }));
 
-class GenerateJsonPlugin {
-  constructor(options) {
-    this.options = options;
+class GenerateFormDocs {
+  constructor(apps) {
+    this.apps = apps;
   }
 
   apply(compiler) {
     compiler.hooks.emit.tapAsync(
       'GenerateJsonPlugin',
       (compilation, callback) => {
-        if (compilation.error) {
+        if (compilation.getStats().compilation.errors.length > 0) {
           callback();
         }
 
-        for (const entry of Object.values(this.options)) {
+        for (const entry of Object.values(this.apps)) {
           const appPath = path.dirname(entry);
           const formJsPath = `${appPath}/config/form.js`;
           const manifestJsonPath = `${appPath}/manifest.json`;
@@ -119,4 +119,4 @@ class GenerateJsonPlugin {
   }
 }
 
-module.exports = GenerateJsonPlugin;
+module.exports = GenerateFormDocs;
