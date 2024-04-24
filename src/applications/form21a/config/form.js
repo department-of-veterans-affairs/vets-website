@@ -123,7 +123,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${
     environment.API_URL
-  }/accredited_representatives/accreditation/applications/form21a`,
+  }/accredited_representative_portal/accreditation/applications/form21a`,
   trackingPrefix: 'form21a-',
   preSubmitInfo: {
     required: true,

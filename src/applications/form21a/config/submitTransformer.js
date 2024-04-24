@@ -21,9 +21,27 @@ export function transform(formConfig, form) {
       ...workRest
     },
     birthDate,
+    serviceBranches,
     AGREED,
     ...restData
   } = form.data;
+
+  const transformedServiceBranches = serviceBranches.map((item, index) => {
+    const { dateRange, ...restItem } = item;
+    return {
+      ...restItem,
+      dischargeType: {
+        text: item.dischargeType,
+        id: index + 1,
+      },
+      entryDate: dateRange.from && dateRange.from + 'T00:00:00.000Z',
+      dischargeDate: dateRange.to && dateRange.to + 'T00:00:00.000Z',
+      serviceBranch: {
+        text: item.serviceBranch,
+        id: index + 1,
+      },
+    };
+  });
 
   const transformedData = {
     ...restData,
@@ -46,6 +64,7 @@ export function transform(formConfig, form) {
       ...workRest,
     },
     birthDate: birthDate + 'T00:00:00.000Z',
+    serviceBranches: transformedServiceBranches,
   };
 
   const transformedForm = { ...form, data: transformedData };

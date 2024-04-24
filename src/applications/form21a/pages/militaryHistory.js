@@ -1,6 +1,5 @@
 import set from 'platform/utilities/data/set';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
-import fullSchema from 'vets-json-schema/dist/VA21A-schema.json';
 
 import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validation';
 
@@ -24,8 +23,46 @@ const dateRangeUISchema = dateRangeUI(
 //);
 //dateRangeUISchema.to['ui:validations'].push(validateSeparationDate);
 
-const { date, dateRange } = fullSchema.definitions;
-const { serviceBranches } = fullSchema.properties;
+const date = {
+  format: 'date',
+  type: 'string',
+};
+const dateRange = {
+  type: 'object',
+  properties: {
+    from: {
+      $ref: '#/definitions/date',
+    },
+    to: {
+      $ref: '#/definitions/date',
+    },
+  },
+};
+const serviceBranches = {
+  type: 'array',
+  items: {
+    type: 'object',
+    properties: {
+      serviceBranch: {
+        type: 'string',
+      },
+      dateRange: {
+        $ref: '#/definitions/dateRange',
+      },
+      dischargeType: {
+        type: 'string',
+        enum: [
+          'honorable',
+          'general',
+          'other',
+          'bad-conduct',
+          'dishonorable',
+          'undesirable',
+        ],
+      },
+    },
+  },
+};
 
 const itemAriaLabel = data => {
   const hasDate =
@@ -36,39 +73,37 @@ const itemAriaLabel = data => {
 };
 
 export const uiSchema = {
-  serviceInformation: {
-    serviceBranches: {
-      'ui:title': 'Military service history',
-      'ui:description':
-        'Please add or update your military service history details below.',
-      'ui:field': ArrayField,
-      'ui:options': {
-        itemName: 'Service Period',
-        itemAriaLabel,
-        viewField: ValidatedServicePeriodView,
-        reviewMode: true,
-        showSave: true,
-        setEditState: formData =>
-          formData.map(data => !isValidServicePeriod(data)),
-      },
-      items: {
-        serviceBranch: {
-          'ui:title': 'Branch of service',
-          'ui:options': {
-            updateSchema: (_formData, schema) => {
-              if (!schema.enum?.length) {
-                const options = getBranches();
-                return set('enum', options, schema);
-              }
-              return schema;
-            },
+  serviceBranches: {
+    'ui:title': 'Military service history',
+    'ui:description':
+      'Please add or update your military service history details below.',
+    'ui:field': ArrayField,
+    'ui:options': {
+      itemName: 'Service Period',
+      itemAriaLabel,
+      viewField: ValidatedServicePeriodView,
+      reviewMode: true,
+      showSave: true,
+      setEditState: formData =>
+        formData.map(data => !isValidServicePeriod(data)),
+    },
+    items: {
+      serviceBranch: {
+        'ui:title': 'Branch of service',
+        'ui:options': {
+          updateSchema: (_formData, schema) => {
+            if (!schema.enum?.length) {
+              const options = getBranches();
+              return set('enum', options, schema);
+            }
+            return schema;
           },
         },
-        dateRange: dateRangeUISchema,
-        'ui:options': {
-          itemAriaLabel,
-          itemName: 'Military service history',
-        },
+      },
+      dateRange: dateRangeUISchema,
+      'ui:options': {
+        itemAriaLabel,
+        itemName: 'Military service history',
       },
     },
   },
@@ -84,13 +119,7 @@ export const schema = {
     dateRange,
   },
   properties: {
-    serviceInformation: {
-      type: 'object',
-      required: ['serviceBranches'],
-      properties: {
-        serviceBranches,
-      },
-    },
+    serviceBranches,
     'view:serviceNote': {
       type: 'object',
       properties: {},
