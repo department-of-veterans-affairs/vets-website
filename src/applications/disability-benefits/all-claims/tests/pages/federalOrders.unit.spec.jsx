@@ -147,7 +147,9 @@ describe('Federal orders info', () => {
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
-      activationDate.add(10, 'days'),
+      moment(activationDate, 'YYYY-MM-DD')
+        .add(10, 'days')
+        .format('YYYY-MM-DD'),
     );
 
     form.find('form').simulate('submit');
@@ -189,7 +191,9 @@ describe('Federal orders info', () => {
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
-      activationDate.add(-10, 'days'),
+      moment(activationDate, 'YYYY-MM-DD')
+        .add(-10, 'days')
+        .format('YYYY-MM-DD'),
     );
 
     form.find('form').simulate('submit');
