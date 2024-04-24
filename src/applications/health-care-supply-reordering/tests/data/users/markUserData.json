@@ -76,7 +76,7 @@
           }
         ],
         "vaPatient": true,
-        "mhvAccountState": "NONE"
+        "mhvAccountState": "OK"
       },
       "veteranStatus": {
         "status": "OK",
