@@ -119,8 +119,6 @@ describe('Federal orders info', () => {
   });
   it('should fail to submit when activation date is in the future', () => {
     const onSubmit = sinon.spy();
-    const activationDate = daysFromToday(10);
-    const separationDate = daysFromToday(20);
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -145,12 +143,12 @@ describe('Federal orders info', () => {
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_title10ActivationDate',
-      activationDate,
+      daysFromToday(10),
     );
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
-      separationDate,
+      daysFromToday(20),
     );
 
     form.find('form').simulate('submit');
@@ -160,8 +158,6 @@ describe('Federal orders info', () => {
   });
   it('should fail to submit when separation date is before activation', () => {
     const onSubmit = sinon.spy();
-    const activationDate = daysFromToday(-10);
-    const separationDate = daysFromToday(-20);
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -186,12 +182,12 @@ describe('Federal orders info', () => {
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_title10ActivationDate',
-      activationDate,
+      daysFromToday(-10),
     );
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
-      separationDate,
+      daysFromToday(-20),
     );
 
     form.find('form').simulate('submit');
