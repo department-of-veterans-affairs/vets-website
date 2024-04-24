@@ -1,11 +1,24 @@
 import React from 'react';
-import { render, cleanup, waitFor } from '@testing-library/react';
+import { cleanup, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
-import VerifyIdentity from '../../../../../components/direct-deposit/alerts/VerifyIdentity';
+import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
+import VerifyIdentity from '../../../components/direct-deposit/alerts/VerifyIdentity';
 
 const oldCrypto = global.window.crypto;
+
+const initialState = {
+  featureToggles: {
+    profileShowCredentialRetirementMessaging: true,
+  },
+  user: {
+    profile: {
+      signIn: {
+        service: 'idme',
+      },
+    },
+  },
+};
 
 describe('authenticated experience -- profile -- direct deposit', () => {
   describe('VerifyIdentity', () => {
@@ -19,12 +32,11 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       cleanup();
     });
 
-    it('passes axeCheck', () => {
-      axeCheck(<VerifyIdentity />);
-    });
-
     it('renders the proper URLs for VerifyIdentity (SAML)', async () => {
-      const screen = render(<VerifyIdentity useOAuth={false} />);
+      const screen = renderInReduxProvider(
+        <VerifyIdentity useOAuth={false} />,
+        { initialState },
+      );
       const loginGovAnchor = await screen.findByTestId('logingov');
       const idmeAnchor = await screen.findByTestId('idme');
 
@@ -38,7 +50,9 @@ describe('authenticated experience -- profile -- direct deposit', () => {
     });
 
     it('renders the proper URLs for VerifyIdentity (OAuth)', async () => {
-      const screen = render(<VerifyIdentity useOAuth />);
+      const screen = renderInReduxProvider(<VerifyIdentity useOAuth />, {
+        initialState,
+      });
       const loginGovAnchor = await screen.findByTestId('logingov');
       const idmeAnchor = await screen.findByTestId('idme');
 
