@@ -7,6 +7,9 @@ export function addMultiresponseStyles() {
   .rjsf-web-component-field[error]:not([error=""]) {
     margin-left: 0;
   }
+  .usa-input-error {
+    right: 0;
+  }
   .rjsf-array-field button.edit {
     align-self: flex-end;
   }

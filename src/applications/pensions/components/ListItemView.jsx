@@ -8,10 +8,9 @@ const ListItemView = ({ title }) => {
     TOGGLE_NAMES.pensionMultiresponseStyles,
   );
   return pensionMultiresponseStyles ? (
-    <div className="vads-u-padding--2">
-      <strong>{title}</strong>
-      <br />
-    </div>
+    <h3 className="vads-u-font-size--h5 vads-u-margin-y--1 vads-u-margin-right--2">
+      {title}
+    </h3>
   ) : (
     <h3 className="vads-u-font-size--h5 vads-u-margin-y--1">{title}</h3>
   );
