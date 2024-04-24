@@ -4,7 +4,7 @@ import BackLink from '../../../components/BackLink';
 import FacilityAddress from '../../../components/FacilityAddress';
 import AppointmentDateTime from '../AppointmentDateTime';
 import CalendarLink from './CalendarLink';
-import StatusAlert from './StatusAlert';
+import StatusAlert from '../../../components/StatusAlert';
 import TypeHeader from './TypeHeader';
 import PrintLink from './PrintLink';
 import RescheduleOrCancelAlert from './RescheduleOrCancelAlert';

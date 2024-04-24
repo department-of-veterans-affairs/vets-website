@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import BackLink from '../../../components/BackLink';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
 import AppointmentDateTime from '../AppointmentDateTime';
 import CalendarLink from './CalendarLink';
 import CancelLink from './CancelLink';
-import StatusAlert from './StatusAlert';
+import StatusAlert from '../../../components/StatusAlert';
 import TypeHeader from './TypeHeader';
 import PrintLink from './PrintLink';
 import VAInstructions from './VAInstructions';
@@ -16,6 +17,8 @@ import AppointmentCard from './AppointmentCard';
 import { selectTypeOfCareName } from '../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import { formatHeader } from './DetailsVA.util';
+import { selectFeatureAppointmentDetailsRedesign } from '../../../redux/selectors';
+import { InPersonLayout } from '../../../components/layout/InPersonLayout';
 
 export default function DetailsVA({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
@@ -31,6 +34,10 @@ export default function DetailsVA({ appointment, facilityData }) {
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
 
   const typeOfCareName = selectTypeOfCareName(appointment);
+  const featureAppointmentDetailsRedesign = useSelector(
+    selectFeatureAppointmentDetailsRedesign,
+  );
+
   // we don't want to display the appointment type header for upcoming C&P appointments.
   const displayTypeHeader =
     !isCompAndPenAppointment ||
@@ -64,6 +71,8 @@ export default function DetailsVA({ appointment, facilityData }) {
       )
     );
   };
+
+  if (featureAppointmentDetailsRedesign) return <InPersonLayout />;
 
   return (
     <>
