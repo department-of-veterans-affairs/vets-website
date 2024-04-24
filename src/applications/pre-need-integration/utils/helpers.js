@@ -740,10 +740,20 @@ export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
   'ui:title': 'Applicant’s Social Security number',
 });
 
+export const VAClaimNumberAdditionalInfo = (
+  <va-additional-info trigger="What is a ”VA claim number&quot;?">
+    <p>
+      We used to give a VA claim number to every person who applied for VA
+      benefits or services. We no longer give people these numbers. But if you
+      have one, you can provide it here.
+    </p>
+  </va-additional-info>
+);
+
 export const veteranUI = {
   militaryServiceNumber: {
-    'ui:title':
-      'Military Service number (if it’s different than your Social Security number)',
+    'ui:title': 'Military Service number',
+    'ui:hint': "If you don't have a VA claim number, leave this blank.",
     'ui:errorMessages': {
       pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
@@ -835,16 +845,17 @@ export const veteranUI = {
     },
   },
   militaryStatus: {
-    'ui:title':
-      'Current military status (You can add more service history information later in this application.)',
+    'ui:title': 'Current military status',
+    'ui:descrption':
+      'You can add more service history information later in this application.',
     'ui:options': {
       labels: {
-        A: 'Active Duty',
+        A: 'Active duty',
         I: 'Death Related to Inactive Duty Training',
         D: 'Died on Active Duty',
         S: 'Reserve/National Guard',
         R: 'Retired',
-        E: 'Retired Active Duty',
+        E: 'Retired active duty',
         O: 'Retired Reserve/National Guard',
         V: 'Veteran',
         X: 'Other',
