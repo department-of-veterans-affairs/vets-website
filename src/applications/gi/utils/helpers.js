@@ -330,7 +330,7 @@ export const specializedMissionDefinitions = [
     key: `${SMFKey}-NANTI`,
     title: 'Native American-Serving Nontribal Institutions',
     definition:
-      'A Native American-Serving Non-Tribal Institution is a postsecondary institution that is not affiliated with American Indian and Native Alaskan tribes and receives federal discretionary funding to improve and expand its capacity to serve Native American students. ',
+      'A Native American-Serving Nontribal Institution is a postsecondary institution that is not affiliated with American Indian and Native Alaskan tribes and receives federal discretionary funding to improve and expand its capacity to serve Native American students. ',
   },
   {
     key: `${SMFKey}-TRIBAL`,
@@ -358,6 +358,12 @@ export const specializedMissionDefinitions = [
       'An Alaska Native-Serving Institution (ANSI) is a college or university  that receives federal funding to help serve Alaska Native students. At least 20% of the school’s full-time undergraduate students identify as Alaska Native.',
   },
 ];
+
+export const sortedSpecializedMissionDefinitions = () => {
+  return specializedMissionDefinitions.sort((a, b) =>
+    a.title.localeCompare(b.title),
+  );
+};
 
 export const validateSearchTerm = (
   searchTerm,
