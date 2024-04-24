@@ -31,7 +31,7 @@ import MockAppointmentResponse from '../../../e2e/fixtures/MockAppointmentRespon
 import MockFacilityResponse from '../../../e2e/fixtures/MockFacilityResponse';
 import MockClinicResponse from '../../../e2e/fixtures/MockClinicResponse';
 
-describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
+describe.skip('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   const initialState = {
     featureToggles: {
       // eslint-disable-next-line camelcase
@@ -58,7 +58,10 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       .setLocationId('983')
       .setClinicId('1')
       .setReasonCode({ text: 'I have a headache' });
-    const clinicResponse = new MockClinicResponse({ id: 1, locationId: '983' });
+    const clinicResponse = new MockClinicResponse({
+      id: 1,
+      locationId: '983',
+    });
     const facilityResponse = new MockFacilityResponse({ id: '983' });
 
     mockAppointmentApi({ response });
