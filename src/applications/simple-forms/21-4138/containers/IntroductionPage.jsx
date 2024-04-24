@@ -1,13 +1,10 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
-
 import { TITLE, SUBTITLE } from '../config/constants';
-// import manifest from '../manifest.json';
 
 const IntroductionPage = props => {
   const { route } = props;
@@ -27,8 +24,14 @@ const IntroductionPage = props => {
       </p>
       <h3>Not sure if this is the right form to use?</h3>
       <p>
-        For more information about how to choose the best supporting form, read
-        about all our supporting forms.
+        For more information about how to choose the best supporting form,{' '}
+        <a
+          href="/supporting-forms-for-claims/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          read about all our supporting forms.
+        </a>
       </p>
       <h2>Start your form</h2>
       <p>
@@ -44,7 +47,7 @@ const IntroductionPage = props => {
     formTitle: TITLE,
     formSubTitle: SUBTITLE,
     authStartFormText: 'Start your statement',
-    unauthStartText: 'Sign in to start your statement',
+    unauthStartText: 'Sign in to start filling out your form',
     displayNonVeteranMessaging: true,
     hideSipIntro: userLoggedIn && !userIdVerified,
   };
@@ -56,14 +59,35 @@ const IntroductionPage = props => {
   };
 
   return (
-    <IntroductionPageView
-      route={route}
-      content={content}
-      ombInfo={ombInfo}
-      childContent={childContent}
-      userIdVerified={userIdVerified}
-      userLoggedIn={userLoggedIn}
-    />
+    <>
+      <VaBreadcrumbs
+        label="Breadcrumbs"
+        class="vads-u-margin-left--0p5 vads-u-padding-bottom--5 vads-u-padding-top--3"
+        breadcrumbList={[
+          {
+            href: '/',
+            label: 'Home',
+          },
+          {
+            href: '/supporting-forms-for-claims',
+            label: 'Supporting forms for VA claims',
+          },
+          {
+            href: '/supporting-forms-for-claims/support-statement-21-4138',
+            label: 'Submit a statement to support a claim',
+          },
+        ]}
+        uswds
+      />
+      <IntroductionPageView
+        route={route}
+        content={content}
+        ombInfo={ombInfo}
+        childContent={childContent}
+        userIdVerified={userIdVerified}
+        userLoggedIn={userLoggedIn}
+      />
+    </>
   );
 };
 

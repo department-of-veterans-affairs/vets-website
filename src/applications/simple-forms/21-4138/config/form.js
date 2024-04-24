@@ -4,6 +4,7 @@ import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { TITLE, SUBTITLE } from './constants';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -27,13 +28,15 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  hideUnauthedStartLink: true,
+  signInHelpList: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for statement in support of a claim.',
     noAuth:
       'Please sign in again to continue your application for statement in support of a claim.',
   },
-  title: 'Provide a statement in support of a claim',
-  subTitle: 'Statement in Support of a Claim (VA form 21-4138)',
+  title: TITLE,
+  subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
     chapter1: {
@@ -45,7 +48,11 @@ const formConfig = {
           uiSchema: {},
           schema: {
             type: 'object',
-            properties: {},
+            properties: {
+              firstField: {
+                type: 'string',
+              },
+            },
           },
         },
       },
