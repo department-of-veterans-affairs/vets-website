@@ -136,11 +136,14 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: 'VA21A',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your accreditation as a claims agent or attorney application (VA21A) is in progress.',
-    //   expired: 'Your saved accreditation as a claims agent or attorney application (VA21A) has expired. If you want to apply for accreditation as a claims agent or attorney, please start a new application.',
-    //   saved: 'Your accreditation as a claims agent or attorney application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your accreditation as a claims agent or attorney application (VA21A) is in progress.',
+      expired:
+        'Your saved accreditation as a claims agent or attorney application (VA21A) has expired. If you want to apply for accreditation as a claims agent or attorney, please start a new application.',
+      saved:
+        'Your accreditation as a claims agent or attorney application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,

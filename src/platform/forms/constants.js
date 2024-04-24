@@ -61,6 +61,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_MOCK_SF_PATTERNS: 'FORM_MOCK_SF_PATTERNS',
   FORM_MOCK_PATTERNS_V3: 'FORM_MOCK_PATTERNS_V3',
   FORM_MOCK_APPEALS: 'FORM_MOCK_APPEALS',
+  FORM_VA21A: 'VA21A',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -71,6 +72,7 @@ export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
   // 526 save-in-progress endpoint that adds an `updatedRatedDisabilities` array
   // to the saved form data from /v0/disability_compensation_in_progress_forms/
   [VA_FORM_IDS.FORM_21_526EZ]: '/v0/disability_compensation_in_progress_forms/',
+  [VA_FORM_IDS.FORM_VA21A]: '/in_progress_forms/v0/in_progress_forms/',
 });
 
 export const FORM_BENEFITS = {
