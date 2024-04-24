@@ -121,14 +121,15 @@ export const arrayBuilderYesNoUI = (
   yesNoOptionsMore,
 ) => {
   const { arrayPath, nounSingular, maxItems, required } = arrayBuilderOptions;
+  const defaultTitle =
+    yesNoOptions?.title || `Do you have a ${nounSingular} to add?`;
   return {
     ...yesNoUI({
+      title: defaultTitle,
       updateUiSchema: formData => {
         return formData?.[arrayPath]?.length
           ? {
-              'ui:title':
-                yesNoOptionsMore?.title ||
-                `Do you have another ${nounSingular} to add?`,
+              'ui:title': defaultTitle,
               'ui:options': {
                 labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
                 hint:

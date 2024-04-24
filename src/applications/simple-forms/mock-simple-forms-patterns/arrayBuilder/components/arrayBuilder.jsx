@@ -7,6 +7,7 @@ import {
   onNavBackRemoveAddingItem,
   createArrayBuilderUpdatedPath,
   getArrayIndexFromPathName,
+  initGetText,
 } from '../helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
@@ -264,32 +265,12 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     required: userRequired,
   } = options;
 
-  const text = {
-    ...DEFAULT_ARRAY_BUILDER_TEXT,
-    getItemName,
-    ...userText,
-  };
-
-  const textProps = {
+  const getText = initGetText({
     getItemName,
     nounPlural,
     nounSingular,
-  };
-
-  /**
-   * @param {ArrayBuilderTextKey} key
-   * @param {any} itemData
-   * @returns {string}
-   */
-  const getText = (key, itemData) => {
-    if (key === 'getItemName' || key === 'cardDescription') {
-      return text?.[key](itemData);
-    }
-    return text?.[key]({
-      ...textProps,
-      itemData,
-    });
-  };
+    textOverrides: userText,
+  });
 
   /**
    * @type {{
