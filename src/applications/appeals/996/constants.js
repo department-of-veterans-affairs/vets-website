@@ -41,23 +41,18 @@ export const errorMessages = {
   savedFormNotFound: 'Please start over to request a Higher-Level Review',
   savedFormNoAuth:
     'Please sign in again to continue your request for Higher-Level Review',
-  forwardStartDate: 'Please select a date',
-  startDateInPast: 'Start date must be in the future',
-  endDateInPast: 'End date must be in the future',
-  endDateBeforeStart: 'End date must be after start date',
-  informalConferenceContactChoice: 'Please choose an option',
-  informalConferenceContactName: 'Please enter your representative’s name',
+
+  informalConferenceContactChoice: 'You must choose an option',
+  informalConferenceContactName: 'You must enter your representative’s name',
   informalConferenceContactFirstName:
-    'Please enter your representative’s first name',
+    'You must enter your representative’s first name',
   informalConferenceContactLastName:
-    'Please enter your representative’s last name',
+    'You must enter your representative’s last name',
   informalConferenceContactPhone:
-    'Please enter your representative’s phone number',
+    'You must enter your representative’s phone number',
   informalConferenceContactPhonePattern:
-    'Please enter a 10-digit phone number (with or without dashes)',
-  informalConferenceTimes: 'Please select a time',
-  contestedIssue: 'Please select an eligible issue',
-  requiredYesNo: 'You must answer yes or no',
+    'You must enter a 10-digit phone number (with or without dashes)',
+  informalConferenceTimes: 'You must select a time',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
