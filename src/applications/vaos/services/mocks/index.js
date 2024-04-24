@@ -452,7 +452,7 @@ const responses = {
           middle_name: '',
           last_name: 'Doe',
           gender: 'F',
-          birth_date: '1987-01-01',
+          birth_date: '1985-01-01',
           verified: true,
         },
         veteran_status: {
