@@ -33,9 +33,14 @@ describe('Address Validations', () => {
   };
 
   beforeEach(() => {
-    cy.visit('/education/verify-your-enrollment/');
+    cy.intercept('GET', '/vye/v1/*', { statusCode: 200 });
+    cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
   });
+
   it('should not show suggested address if address is correct', () => {
+    cy.visit('/education/verify-your-enrollment/');
+    cy.intercept('POST', '/v0/profile/address_validation', { status: 200 });
     cy.injectAxeThenAxeCheck();
     cy.get('va-card')
       .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
@@ -53,7 +58,9 @@ describe('Address Validations', () => {
       '[aria-label="save your Mailing address for GI Bill benefits"]',
     ).click();
   });
+
   it('should show suggested address when address is partially correct', () => {
+    cy.visit('/education/verify-your-enrollment/');
     cy.injectAxeThenAxeCheck();
     cy.intercept('POST', `/v0/profile/address_validation`, {
       statusCode: 200,
@@ -78,7 +85,9 @@ describe('Address Validations', () => {
     cy.get('input[id="suggested-address"]').should('exist');
     cy.get('input[id="suggested-address"]').should('be.checked');
   });
+
   it('should not give suggessted address if confidenceScore is 100 ', () => {
+    cy.visit('/education/verify-your-enrollment/');
     cy.injectAxeThenAxeCheck();
     cy.intercept('POST', `/v0/profile/address_validation`, {
       statusCode: 200,
@@ -102,11 +111,13 @@ describe('Address Validations', () => {
     cy.wait('@submitAddress');
     cy.login(mockUser);
     cy.intercept('POST', `/vye/v1/address`, {
-      status: 201,
+      statusCode: 201,
       ok: true,
     }).as('updateAddress');
   });
+
   it('should show We can’t confirm the address Alert if address in completely wrong', () => {
+    cy.visit('/education/verify-your-enrollment/');
     cy.injectAxeThenAxeCheck();
     cy.intercept('POST', `/v0/profile/address_validation`, {
       statusCode: 200,
@@ -133,7 +144,9 @@ describe('Address Validations', () => {
       'We can’t confirm the address you entered with the U.S. Postal Service. Confirm that you want us to use this address as you entered it. Or, go back to edit it.',
     );
   });
+
   it('should show that the address may need a unit number if unit number is missing', () => {
+    cy.visit('/education/verify-your-enrollment/');
     cy.injectAxeThenAxeCheck();
     cy.intercept('POST', `/v0/profile/address_validation`, {
       statusCode: 200,
@@ -163,7 +176,9 @@ describe('Address Validations', () => {
       'U.S. Postal Service records show this address may need a unit number. Confirm that you want us to use this address as you entered it. Or, go back to edit and add a unit number.',
     );
   });
+
   it('should show that there may be a problem with the unit number for this address Alert if unit number doesnot exist within the address', () => {
+    cy.visit('/education/verify-your-enrollment/');
     cy.injectAxeThenAxeCheck();
     cy.intercept('POST', `/v0/profile/address_validation`, {
       statusCode: 200,
@@ -193,7 +208,9 @@ describe('Address Validations', () => {
       'U.S. Postal Service records show that there may be a problem with the unit number for this address. Confirm that you want us to use this address as you entered it. Or, cancel to edit the address.',
     );
   });
+
   it('should update the address if user choose the Suggested address ', () => {
+    cy.visit('/education/verify-your-enrollment/');
     cy.injectAxeThenAxeCheck();
     cy.intercept('POST', `/v0/profile/address_validation`, {
       statusCode: 200,
@@ -216,7 +233,7 @@ describe('Address Validations', () => {
     ).click();
     cy.wait('@submitAddress');
     cy.intercept('POST', `/vye/v1/address`, {
-      status: 201,
+      statusCode: 201,
       ok: true,
     }).as('updateAddress');
     cy.get('[text="Update"]').click();
@@ -226,7 +243,9 @@ describe('Address Validations', () => {
       'Your Address has been successfully updated.',
     );
   });
+
   it('should not update the address if there is something went wrong ', () => {
+    cy.visit('/education/verify-your-enrollment/');
     cy.injectAxeThenAxeCheck();
     cy.intercept('POST', `/v0/profile/address_validation`, {
       statusCode: 200,
