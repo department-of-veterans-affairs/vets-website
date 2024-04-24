@@ -1,6 +1,53 @@
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
+import { DEFAULT_ARRAY_BUILDER_TEXT } from './components/arrayBuilderText';
+
+/**
+ * Initializes the getText function for the ArrayBuilder
+ */
+export function initGetText({
+  textOverrides = {},
+  getItemName,
+  nounPlural,
+  nounSingular,
+} = {}) {
+  if (!getItemName || typeof getItemName !== 'function') {
+    throw new Error('getItemName is required for initGetText');
+  }
+  if (!nounPlural) {
+    throw new Error('nounPlural is required for initGetText');
+  }
+  if (!nounSingular) {
+    throw new Error('nounSingular is required for initGetText');
+  }
+  const getTextValues = {
+    ...DEFAULT_ARRAY_BUILDER_TEXT,
+    getItemName,
+    ...textOverrides,
+  };
+
+  const getTextProps = {
+    getItemName,
+    nounPlural,
+    nounSingular,
+  };
+
+  /**
+   * @param {ArrayBuilderTextKey} key
+   * @param {any} itemData
+   * @returns {string}
+   */
+  return (key, itemData) => {
+    if (key === 'getItemName' || key === 'cardDescription') {
+      return getTextValues?.[key](itemData);
+    }
+    return getTextValues?.[key]({
+      ...getTextProps,
+      itemData,
+    });
+  };
+}
 
 /**
  * introRoute is optional, if not provided, it will default to summaryRoute
