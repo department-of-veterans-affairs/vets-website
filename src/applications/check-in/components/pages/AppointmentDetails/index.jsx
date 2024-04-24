@@ -185,7 +185,9 @@ const AppointmentDetails = props => {
                     {t('where-to-attend')}
                   </h2>
                   <div data-testid="appointment-details--facility-value">
-                    <p>{appointment.facility}</p>
+                    <p className="vads-u-margin-top--0">
+                      {appointment.facility}
+                    </p>
                     {appointment.facilityAddress?.street1 && (
                       <div className="vads-u-margin-bottom--2">
                         <AddressBlock
