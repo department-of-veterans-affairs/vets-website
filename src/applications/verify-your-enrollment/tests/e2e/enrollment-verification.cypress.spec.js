@@ -67,4 +67,41 @@ describe('Enrollment Verification Page Tests', () => {
     ).should('contain', 'You have successfully verified your enrollment');
     cy.get('[class="vads-u-font-size--h4"]').should('contain', 'Verified');
   });
+  it("should go to  'Your benefits profile when' when 'Manage your benefits profile' link is clicked ", () => {
+    cy.injectAxeThenAxeCheck();
+    cy.get(
+      'a[href="/education/verify-your-enrollment/benefits-profile/"]',
+    ).click();
+    cy.get('div[id="benefits-gi-bill-profile-statement"]').should(
+      'contain',
+      'Your benefits profile',
+    );
+  });
+  it("should go back to 'enrollment verification' when 'Mongomery GI Bill Enrollment Verification' link is clicked ", () => {
+    cy.injectAxeThenAxeCheck();
+    cy.get(
+      'a[href="/education/verify-your-enrollment/benefits-profile/"]',
+    ).click();
+    cy.get('a[href="/education/verify-your-enrollment/"]')
+      .first()
+      .click();
+    cy.get('div[id="montgomery-gi-bill-enrollment-statement"]').should(
+      'contain',
+      'Montgomery GI Bill® enrollment verification',
+    );
+  });
+  it("should go back to 'Manage your VA debt' when 'Manage your VA debt' link is clicked ", () => {
+    cy.injectAxeThenAxeCheck();
+    cy.get('a[href="https://www.va.gov/manage-va-debt/"]').click();
+    cy.url().should('include', '/manage-va-debt');
+    cy.get('h1').should(
+      'contain',
+      'Manage your VA debt for benefit overpayments and copay bills',
+    );
+  });
+  it("should  have focus around 'Showing x-y of z monthly enrollments listed by most recent' when pagination button is clicked", () => {
+    cy.injectAxeThenAxeCheck();
+    cy.get('a[class="usa-pagination__button usa-current"]').click();
+    cy.get('[id="vye-pagination-page-status-text"]').focused();
+  });
 });
