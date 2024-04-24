@@ -37,6 +37,7 @@ const VerifyIdentityInfo = () => (
 );
 
 const IdentityNotVerified = ({
+  disableAnalytics = false,
   headline = 'Verify your identity to access your complete profile',
   showHelpContent = true,
   showVerifyIdenityHelpInfo = false,
@@ -63,6 +64,7 @@ const IdentityNotVerified = ({
       <va-alert
         status="continue"
         class="vads-u-margin-top--3 vads-u-margin-bottom--3"
+        disable-analyitcs={disableAnalytics}
       >
         <h2 slot="headline" data-testid="verify-identity-alert-headline">
           {headline}
@@ -98,6 +100,7 @@ const IdentityNotVerified = ({
 IdentityNotVerified.propTypes = {
   signInService: PropTypes.string.isRequired,
   additionalInfoClickHandler: PropTypes.func,
+  disableAnalytics: PropTypes.bool,
   headline: PropTypes.string,
   showHelpContent: PropTypes.bool,
   showVerifyIdenityHelpInfo: PropTypes.bool,

@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line import/no-named-default
+import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const NoHealthAlert = ({ headline }) => {
+const NoHealthAlert = ({ headline, recordEvent }) => {
+  const status = 'warning';
+
+  useEffect(() => {
+    recordEvent({
+      event: 'nav-alert-box-load',
+      action: 'load',
+      'alert-box-headline': headline,
+      'alert-box-status': status,
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <VaAlert status="warning" data-testid="no-health-message">
+    <VaAlert status={status} data-testid="no-health-message" disableAnalytics>
       <h2 slot="headline">{headline}</h2>
       <div>
         <p className="vads-u-margin-y--0">
@@ -41,10 +54,12 @@ const NoHealthAlert = ({ headline }) => {
 
 NoHealthAlert.defaultProps = {
   headline: 'You don’t have access to My HealtheVet',
+  recordEvent: recordEventFn,
 };
 
 NoHealthAlert.propTypes = {
   headline: PropTypes.string,
+  recordEvent: PropTypes.func,
 };
 
 export default NoHealthAlert;

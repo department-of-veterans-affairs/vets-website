@@ -32,6 +32,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
   const noCardsDisplay = isUnverified ? (
     <IdentityNotVerified
+      disableAnayltics
       headline={unVerifiedHeadline}
       showHelpContent={false}
       showVerifyIdenityHelpInfo
@@ -42,20 +43,12 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   );
 
   useEffect(() => {
-    if (showCards) return;
-    const event = {
-      event: 'nav-alert-box-load',
-      action: 'load',
-      'alert-box-headline': unVerifiedHeadline,
-      'alert-box-status': 'continue',
-    };
     if (isUnverified) {
-      recordEvent(event);
-    } else {
       recordEvent({
-        ...event,
-        'alert-box-headline': NoHealthAlert.defaultProps.headline,
-        'alert-box-status': 'warning',
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': unVerifiedHeadline,
+        'alert-box-status': 'continue',
       });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
