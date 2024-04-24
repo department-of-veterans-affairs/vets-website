@@ -33,7 +33,7 @@ describe('Address Validations', () => {
   };
 
   beforeEach(() => {
-    cy.visit('/education/verify-your-enrollment/');
+    cy.visit('https://staging.va.gov/education/verify-your-enrollment/');
   });
   it('should not show suggested address if address is correct', () => {
     cy.injectAxeThenAxeCheck();

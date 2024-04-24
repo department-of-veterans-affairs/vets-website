@@ -2,7 +2,7 @@ import { mockUser } from './login';
 
 describe('Enrollment Verification Page Tests', () => {
   beforeEach(() => {
-    cy.visit('/education/verify-your-enrollment/');
+    cy.visit('https://staging.va.gov/education/verify-your-enrollment/');
   });
   it('should show Dirct deposit infromation', () => {
     cy.injectAxeThenAxeCheck();
