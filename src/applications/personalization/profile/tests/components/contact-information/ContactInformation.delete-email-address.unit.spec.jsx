@@ -41,6 +41,7 @@ function deleteEmailAddress() {
 describe('Deleting email address', () => {
   const userNameRegex = /alongusername/;
   before(() => {
+    window.VetsGov = { pollTimeout: 5 };
     server = setupServer(
       ...mocks.deleteEmailAddressSuccess,
       ...mocks.apmTelemetry,
@@ -98,7 +99,7 @@ describe('Deleting email address', () => {
 
     server.use(...mocks.transactionSucceeded);
 
-    await wait(1500);
+    await wait(10);
 
     // update saved alert should appear
     await view.findByText('Update saved.');
@@ -129,7 +130,7 @@ describe('Deleting email address', () => {
 
     server.use(...mocks.transactionFailed);
 
-    await wait(1500);
+    await wait(10);
 
     // expect an error to be shown
     await view.findByText(

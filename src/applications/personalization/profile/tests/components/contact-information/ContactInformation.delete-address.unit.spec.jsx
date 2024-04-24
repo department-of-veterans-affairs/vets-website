@@ -66,7 +66,7 @@ async function testSlowSuccess(addressName) {
 
   server.use(...mocks.transactionSucceeded);
 
-  await wait(1500);
+  await wait(10);
 
   // update saved alert should appear
   await view.findByText('Update saved.');
@@ -111,7 +111,7 @@ async function testSlowFailure(addressName) {
 
   server.use(...mocks.transactionFailed);
 
-  await wait(1500);
+  await wait(20);
 
   // make sure the error message appears
   expect(
@@ -134,7 +134,7 @@ describe('Deleting', () => {
     server.listen();
   });
   beforeEach(() => {
-    window.VetsGov = { pollTimeout: 1 };
+    window.VetsGov = { pollTimeout: 5 };
     const initialState = createBasicInitialState();
 
     view = renderWithProfileReducers(ui, {
