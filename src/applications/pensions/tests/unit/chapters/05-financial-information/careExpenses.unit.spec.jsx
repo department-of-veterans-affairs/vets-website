@@ -6,6 +6,7 @@ import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
+  FakeProvider,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import careExpenses, {
@@ -55,7 +56,9 @@ describe('Unreimbursed care expenses pension page', () => {
   describe('CareExpenseView', () => {
     it('should render a list view', () => {
       const { container } = render(
-        <CareExpenseView formData={{ provider: 'Doctor' }} />,
+        <FakeProvider>
+          <CareExpenseView formData={{ provider: 'Doctor' }} />
+        </FakeProvider>,
       );
       const text = container.querySelector('h3');
       expect(text.innerHTML).to.equal('Doctor');

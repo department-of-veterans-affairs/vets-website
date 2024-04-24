@@ -10,7 +10,7 @@ import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
 import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
-
+import { canUseMocks } from '../constants';
 import {
   ADD_FILE,
   BACKEND_SERVICE_ERROR,
@@ -49,12 +49,6 @@ import {
   USER_FORBIDDEN_ERROR,
   VALIDATION_ERROR,
 } from './types';
-
-// This should make it a bit easier to turn mocks on and off manually
-const SHOULD_USE_MOCKS = true;
-// NOTE: This should only be TRUE when developing locally
-const CAN_USE_MOCKS = environment.isLocalhost() && !window.Cypress;
-const USE_MOCKS = CAN_USE_MOCKS && SHOULD_USE_MOCKS;
 
 export const getClaimLetters = async () => {
   return apiRequest('/claim_letters');
@@ -230,7 +224,7 @@ export function submitRequest(id) {
       type: SUBMIT_DECISION_REQUEST,
     });
 
-    if (USE_MOCKS) {
+    if (canUseMocks()) {
       dispatch({ type: SET_DECISION_REQUESTED });
       dispatch(
         setNotification({
@@ -239,10 +233,10 @@ export function submitRequest(id) {
             'Thank you. We have your claim request and will make a decision.',
         }),
       );
-      return;
+      return Promise.resolve();
     }
 
-    makeAuthRequest(
+    return makeAuthRequest(
       `/v0/evss_claims/${id}/request_decision`,
       { method: 'POST' },
       dispatch,
@@ -381,7 +375,7 @@ export function submitFiles(claimId, trackedItem, files) {
           multiple: false,
           callbacks: {
             onAllComplete: () => {
-              if (USE_MOCKS) {
+              if (canUseMocks()) {
                 dispatch({ type: DONE_UPLOADING });
                 dispatch(
                   setNotification({
@@ -736,7 +730,7 @@ export function getStemClaims() {
   return dispatch => {
     dispatch({ type: FETCH_STEM_CLAIMS_PENDING });
 
-    if (USE_MOCKS) {
+    if (canUseMocks()) {
       return getStemClaimsMock(dispatch);
     }
 

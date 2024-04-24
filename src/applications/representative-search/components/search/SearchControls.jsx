@@ -104,12 +104,14 @@ const SearchControls = props => {
         <div className="additional-representative-info">
           <div className="vads-u-margin-top--2p5">
             <va-additional-info
-              trigger="What does an accredited VSO do?"
+              trigger="What does an accredited VSO representative do?"
               uswds
               disable-border
             >
               <p>
-                <strong>An accredited Veterans Service Officer (VSO)</strong>{' '}
+                <strong>
+                  An accredited Veterans Service Officer (VSO) representative
+                </strong>{' '}
                 can help you gather evidence, file a claim, or request a
                 decision review. They can also communicate with VA on your
                 behalf.
