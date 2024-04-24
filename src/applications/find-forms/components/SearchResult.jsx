@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import environment from '~/platform/utilities/environment';
 import recordEvent from '~/platform/monitoring/record-event';
 import * as customPropTypes from '../prop-types';
@@ -111,7 +112,10 @@ const deriveRelatedTo = ({
     relatedTo = (
       <>
         A non-VA form. For other government agency forms, go to the{' '}
-        <a href="https://www.gsa.gov/reference/forms">GSA forms library</a>
+        <va-link
+          href="https://www.gsa.gov/reference/forms"
+          text="GSA forms library"
+        />
       </>
     );
   }
@@ -158,7 +162,9 @@ const SearchResult = ({
     },
     id,
   } = form;
-
+  const relativeFormToolUrl = formToolUrl
+    ? replaceWithStagingDomain(formToolUrl)
+    : formToolUrl;
   const linkProps = deriveLinkPropsFromFormURL(url);
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
@@ -200,35 +206,29 @@ const SearchResult = ({
       </div>
 
       {relatedTo}
-      {formToolUrl ? (
+      {relativeFormToolUrl ? (
         <div className="vads-u-margin-bottom--2p5">
-          <a
-            className="find-forms-max-content vads-u-display--flex vads-u-align-items--center vads-u-text-decoration--none"
-            href={formToolUrl}
+          <va-link
+            className="vads-c-action-link--green"
+            disable-analytics
+            href={relativeFormToolUrl}
+            lang={language}
             onClick={() =>
-              recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
+              recordGAEvent(`Go to online tool`, relativeFormToolUrl, 'cta')
             }
-          >
-            <i
-              aria-hidden="true"
-              className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
-              role="presentation"
-            />
-            <span
-              lang={language}
-              className="vads-u-text-decoration--underline vads-u-font-weight--bold"
-            >
-              {deriveLanguageTranslation(language, 'goToOnlineTool', formName)}
-            </span>
-          </a>
+            text={deriveLanguageTranslation(
+              language,
+              'goToOnlineTool',
+              formName,
+            )}
+          />
         </div>
       ) : null}
       <div className="vads-u-margin-y--0">
         <button
-          className="find-forms-max-content vads-u-text-decoration--none va-button-link"
+          className="va-button-link"
           data-testid={`pdf-link-${id}`}
           id={`pdf-link-${id}`}
-          rel="noreferrer noopener"
           tabIndex="0"
           onKeyDown={event => {
             if (event === 13) {
@@ -243,7 +243,6 @@ const SearchResult = ({
             className="fas fa-download fa-lg vads-u-margin-right--1"
             role="presentation"
           />
-
           <span lang={language} className="vads-u-text-decoration--underline">
             {deriveLanguageTranslation(language, 'downloadVaForm', formName)}
           </span>

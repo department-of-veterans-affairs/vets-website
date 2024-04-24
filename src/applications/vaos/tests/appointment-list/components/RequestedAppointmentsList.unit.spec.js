@@ -112,7 +112,7 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
     expect(await screen.findByText('Cheyenne VA Medical Center')).to.be.ok;
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(screen.baseElement).to.contain.text(
-      'Your appointment requests that haven’t been scheduled yet.',
+      'Appointments that you request will show here until staff review and schedule them.',
     );
   });
 
@@ -175,7 +175,7 @@ describe('VAOS Component: RequestedAppointmentsList with the VAOS service', () =
     expect(screen.baseElement).to.contain.text('Community care');
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
     expect(screen.baseElement).to.contain.text(
-      'Your appointment requests that haven’t been scheduled yet.',
+      'Appointments that you request will show here until staff review and schedule them.',
     );
   });
 

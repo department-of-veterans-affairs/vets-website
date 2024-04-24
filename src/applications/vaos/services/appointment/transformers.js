@@ -393,6 +393,7 @@ export function transformVAOSAppointment(appt) {
       clinicId: appt.clinic,
       stationId: appt.locationId,
       clinicName: appt.friendlyName || appt.serviceName || null,
+      clinicPhysicalLocation: appt.physicalLocation || null,
     },
     comment:
       isVideo && !!appt.patientInstruction

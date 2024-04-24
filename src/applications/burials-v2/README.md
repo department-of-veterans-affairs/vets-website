@@ -1,6 +1,6 @@
 App Name: `Form 21P-530`
 Application for Burial Benefits (Under 38 U.S.C. Chapter 23)
-Active engineers: Name (front end), Name (front end), Name (back end), Name (back end)
+Active engineers: Sean Midgley (front end), Dakota Larson (front end), Evan Smith (back end), Thomas Blackwell (back end)
 Form ID (if different from app name): `21P-530EZ`
 
 # Background
@@ -21,12 +21,12 @@ In production, VA.gov provides a downloadable form only when searching for a 'Bu
 
 The applicant is shown an introduction page that gives an overview of the process to apply for burial benefits. It includes 4 steps:
 
-- `Prepare`
+- `Determine eligibility`
+- `Gather information`
 - `Apply`
-- `VA Review`
-- `Decision`
+- `Decision by mail`
 
-The applicant may click a link [Find out if you qualify for a burial allowance](https://va.gov/burials-memorials/veterans-burial-allowance/) that redirects them to a static page.
+The applicant may click a link [Find out if you're eligible for a Veterans burial allowance](https://va.gov/burials-memorials/veterans-burial-allowance/) that redirects them to a static page.
 
 ## Authentication
 
@@ -37,25 +37,41 @@ Note: The applicant may begin the application without signing in. (Review securi
 
 The form is configured using the VA Forms library. The `/config/form.js` config file includes 5 chapters:
 
-- `Claimant Information` (1 page)
-- `Deceased Veteran Information` (2 pages)
-- `Military History` (2 pages)
-- `Benefits Selection` (5 pages)
-- `Additional Information` (2 pages)
+- `Claimant Information` (4 pages)
+- `Deceased Veteran Information` (3 pages)
+- `Military History` (5 pages)
+- `Benefits Selection` (12 pages)
+- `Additional Information` (3 pages)
 
 The default form configuration includes a `Review Application` step that gives the applicant to review and edit their application before submitting the application.
 
 The form system uses Redux and thus we also use Redux in our form so we have a `/actions` and a `/reducers` folder to hold the respective Redux code.
 
-Each individual chapter of the form into it's own folder and put each page from each of the form into it's own folder inside the chapter folder as well. We then have an `index.js` file inside the chapter folder that imports all of the pages and then exports them deconstructed so that they are easier to import and use inside `/config/form.js`. Inside each of the page folders there is a jsx file named for the page as well as any helper files we used to accomplish that page. Inside the JSX file we export a `schema` object as well as a `uiSchema` object, these are what is used inside `/config/form.js` to build the form.
+Each individual chapter of the form has it's own folder labeled 01 - 05 followed by the section name (`/config/chapters/). Each folder houses the individual pages for the corresponding chapter.
+All of the applications helper functions, labels, and additional validation is located in the utility folder (`/utils`). This includes submission, polling, and error handling.
 
 ## Callouts on how the front end works
 
 The original form system is used to build this application and follows a pretty standard implementation with just a few areas worth noting.
 
-### Feature Toggle (front end)
+### Feature Toggles (front end)
 
-The form is built using `/config/form.js` which is imported and used inside `/BurialsApp.jsx` with the `<RoutedSavableApp />` component from the platform. In `/BurialsApp.jsx` we dynamically render a loading indicator if the app is in an `isLoading` state from Redux. This allows us to show a loading indicator while we check the `BurialFormEnabled` feature toggle boolean to decide whether we show the form or not. If the feature toggle is not enabled we display a `NoFormPage` that explains that 'the online form is not working right now' with a prompt and instructions to apply by mail or in person instead. If the feature toggle is enabled then the form renders a `<SaveInProgressIntro />` component from the platform and an introduction to start the form.
+Active toggle names: 
+- `burial_form_enabled`
+- `burial_form_v2` (temporary for rollout)
+- `va_burial_v2` (temporary for rollout)
+
+The form is built using `/config/form.js` which is imported and used inside `/BurialsApp.jsx` with the `<RoutedSavableApp />` component from the platform. 
+In `/BurialsApp.jsx` we dynamically render a loading indicator if the app is in an `isLoading` state from Redux. This allows us to show a loading indicator while we check the `BurialFormEnabled` feature toggle boolean to decide whether we show the form or not. 
+If the feature toggle is not enabled we display a deactivation page (`NoFormPage.jsx`) which explains 'the online form is not working right now' with a prompt and instructions to apply by mail or in person instead. 
+If the feature toggle is enabled then the form renders a `<SaveInProgressIntro />` component from the platform and an introduction to start the form.
+Note: this was put in place in the event the form needs to be fully deactivated for any reason.
+
+This iteration of the form was built in 2024 and referred to as `burials-v2`.
+***explain redirect and flipper for redirect***
+
+### Custom Styling
+All custom styling in `/sass/burials.scss` is needed specifically to address WCAG contrast violations that the lighter colored "help text" or "hint" presents and fixes spacing in the Array Views.
 
 ### Saving Progress (back end)
 

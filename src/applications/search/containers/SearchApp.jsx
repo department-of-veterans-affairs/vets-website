@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import { getDay, getHours, setHours, setMinutes, setSeconds } from 'date-fns';
+import { utcToZonedTime, format as tzFormat } from 'date-fns-tz';
+
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
@@ -380,7 +383,22 @@ class SearchApp extends React.Component {
                 onChange={this.handleInputChange}
               />
               <button type="submit">
-                <i className="fas fa-solid fa-sm fa-search vads-u-margin-right--0p5" />
+                {/* search icon on the header dropdown (next to the input on mobile) */}
+                {/* Convert to va-icon when injected header/footer split is in prod: https://github.com/department-of-veterans-affairs/vets-website/pull/27590 */}
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  width="18"
+                  viewBox="3 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="#fff"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"
+                  />
+                </svg>
                 <span className="button-text">Search</span>
               </button>
             </form>
@@ -412,6 +430,85 @@ class SearchApp extends React.Component {
       </div>
     );
 
+    function isWithinMaintenanceWindow() {
+      const maintenanceDays = [2, 4]; // Days: 2 for Tuesday, 4 for Thursday
+      const maintenanceStartHour = 15; // Start time: 3 PM in 24-hour format
+      const maintenanceEndHour = 18; // End time: 6 PM in 24-hour format
+      const timeZone = 'America/New_York';
+
+      const now = new Date();
+      const zonedNow = utcToZonedTime(now, timeZone);
+
+      return (
+        maintenanceDays.includes(getDay(zonedNow)) &&
+        getHours(zonedNow) >= maintenanceStartHour &&
+        getHours(zonedNow) < maintenanceEndHour
+      );
+    }
+
+    function calculateCurrentMaintenanceWindow() {
+      const maintenanceStartHour = 15; // 3 PM in 24-hour format
+      const maintenanceDurationHours = 3; // Duration of the maintenance window in hours
+      const timeZone = 'America/New_York';
+
+      // Current date and time in the specified timezone
+      let start = new Date();
+      start = utcToZonedTime(start, timeZone);
+      start = setHours(start, maintenanceStartHour);
+      start = setMinutes(start, 0);
+      start = setSeconds(start, 0);
+
+      // Calculate end time by adding the duration to the start time
+      let end = new Date(
+        start.getTime() + maintenanceDurationHours * 60 * 60 * 1000,
+      );
+      end = utcToZonedTime(end, timeZone); // Ensure the end time is also adjusted to the specified timezone
+
+      // Format start and end dates to include timezone offset correctly
+      const startFormatted = tzFormat(
+        start,
+        "EEE MMM d yyyy HH:mm:ss 'GMT'XXXX",
+        { timeZone },
+      );
+      const endFormatted = tzFormat(end, "EEE MMM d yyyy HH:mm:ss 'GMT'XXXX", {
+        timeZone,
+      });
+
+      return {
+        start: startFormatted,
+        end: endFormatted,
+      };
+    }
+
+    if (
+      isWithinMaintenanceWindow() &&
+      results &&
+      results.length === 0 &&
+      !hasErrors &&
+      !loading
+    ) {
+      const { start, end } = calculateCurrentMaintenanceWindow(); // Use this for the next scheduled maintenance window
+      return (
+        <div className="columns vads-u-margin-bottom--4">
+          <va-maintenance-banner
+            banner-id="search-gov-maintenance-banner"
+            maintenance-title="Search.gov Maintenance"
+            maintenance-start-date-time={start}
+            maintenance-end-date-time={end}
+            isError
+          >
+            <div slot="maintenance-content">
+              We’re working on Search VA.gov right now. If you have trouble
+              using the search tool, check back after we’re finished. Thank you
+              for your patience.
+            </div>
+          </va-maintenance-banner>
+          {searchInput}
+        </div>
+      );
+    }
+
+    // Failed call to Search.gov (successful vets-api response) AND Failed call to vets-api endpoint
     if ((hasErrors && !loading) || isSearchStrInvalid(userInput)) {
       let errorMessage;
 

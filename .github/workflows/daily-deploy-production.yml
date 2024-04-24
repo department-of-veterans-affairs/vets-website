@@ -6,12 +6,12 @@ on:
       release_wait:
         description: Minutes to wait before creating release
         required: false
-        default: 5
+        default: '5'
       commit_sha:
         description: Deploy specific commit
         required: false
   schedule:
-    - cron: 0 20 * * 1-5
+    - cron: 0 19 * * 1-5
 
 env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
@@ -47,7 +47,7 @@ jobs:
         uses: andymckay/cancel-action@0.2
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
 
@@ -80,7 +80,7 @@ jobs:
     needs: set-env
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -103,7 +103,7 @@ jobs:
     needs: set-env
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
@@ -142,7 +142,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           ref: ${{ needs.set-env.outputs.COMMIT_SHA }}
 
@@ -176,7 +176,7 @@ jobs:
         run: tar -C build/${{ env.BUILD_ENV }} -cjf ${{ env.BUILD_ENV }}.tar.bz2 .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         with:
           name: ${{ env.BUILD_ENV }}.tar.bz2
           path: ${{ env.BUILD_ENV }}.tar.bz2
@@ -188,18 +188,20 @@ jobs:
     needs: [set-env, build]
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: ${{ env.BUILD_ENV }}.tar.bz2
 
       - name: Configure AWS credentials (1)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
       - name: Get AWS IAM role
         uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
@@ -208,15 +210,14 @@ jobs:
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
 
       - name: Upload build
         run: aws s3 cp ${{ env.BUILD_ENV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2 --acl public-read --region us-gov-west-1
@@ -226,25 +227,24 @@ jobs:
     runs-on: ubuntu-latest
     needs: [set-env, notify-start, validate-build-status, archive]
     steps:
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
+          fetch-depth: 0
+
+      - name: Configure AWS Credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
       - name: Get bot token from Parameter Store
         uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
 
       - name: Waiting to release
         run: |
@@ -290,24 +290,23 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Configure AWS credentials (1)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
-          mask-aws-account-id: true
 
       - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_PROD_ROLE
           env_variable_name: AWS_FRONTEND_PROD_ROLE
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -315,7 +314,6 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_PROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
 
       - name: Deploy
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
@@ -331,7 +329,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
@@ -350,7 +348,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Notify Slack
         if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}

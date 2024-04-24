@@ -1,4 +1,9 @@
-import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
+/* eslint-disable camelcase */
+
+import {
+  fetchAndUpdateSessionExpiration as fetch,
+  apiRequest,
+} from '@department-of-veterans-affairs/platform-utilities/api';
 import { getApi, resolveParamsWithUrl, endpointOptions } from '../config';
 
 class RepresentativeFinderApi {
@@ -41,6 +46,7 @@ class RepresentativeFinderApi {
           if (!response.ok) {
             throw Error(response.statusText);
           }
+
           return response.json();
         })
         .then(res => {
@@ -57,35 +63,21 @@ class RepresentativeFinderApi {
   }
 
   static reportResult(newReport) {
-    const reportRequestBody = {
-      representativeId: newReport.representativeId,
-      flags: [],
-    };
-
     const startTime = new Date().getTime();
-
-    for (const [flagType, flaggedValue] of Object.entries(newReport.reports)) {
-      if (flaggedValue !== null) {
-        reportRequestBody.flags.push({
-          flagType,
-          flaggedValue,
-        });
-      }
-    }
 
     const { requestUrl, apiSettings } = getApi(
       endpointOptions.flagReps,
       'POST',
-      reportRequestBody,
+      newReport,
     );
 
     return new Promise((resolve, reject) => {
-      fetch(requestUrl, apiSettings)
+      apiRequest(requestUrl, apiSettings)
         .then(response => {
-          if (!response.ok) {
-            throw Error(response.statusText);
+          if (response.error) {
+            throw Error(response.error);
           }
-          return response.json();
+          return response;
         })
         .then(res => {
           const endTime = new Date().getTime();

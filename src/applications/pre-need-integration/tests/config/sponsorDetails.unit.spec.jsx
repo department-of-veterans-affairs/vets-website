@@ -29,25 +29,8 @@ describe('Pre-need sponsor details', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-
-    expect(form.find('.usa-input-error').length).to.equal(3);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should submit with required information', () => {
+  // Non of these fields are required
+  it('should submit with information', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester

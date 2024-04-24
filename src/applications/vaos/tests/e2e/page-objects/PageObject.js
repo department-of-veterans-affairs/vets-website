@@ -72,13 +72,33 @@ export default class PageObject {
     cy.get(element)
       .shadow()
       .findByText(text)
-      .should(exist ? 'exist' : 'not.existF');
+      .should(exist ? 'exist' : 'not.exist');
 
     return this;
   }
 
   assertText({ text, exist = true } = {}) {
+    cy.get('va-loading-indicator.hydrated', { timeout: 120000 }).should(
+      'not.exist',
+    );
+
     cy.findByText(text).should(exist ? 'exist' : 'not.exist');
+    return this;
+  }
+
+  assertUrl({ url, breadcrumb }) {
+    cy.get('va-loading-indicator.hydrated', { timeout: 240000 }).should(
+      'not.exist',
+    );
+
+    cy.url().should('include', url);
+    cy.get('va-breadcrumbs')
+      .shadow()
+      .find('a')
+      .contains(breadcrumb);
+
+    cy.axeCheckBestPractice();
+
     return this;
   }
 

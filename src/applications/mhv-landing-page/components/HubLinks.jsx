@@ -10,7 +10,6 @@ const HubSection = ({ title, links }) => {
         disable-analytics
         href={href}
         text={text}
-        uswds="false"
         onClick={() => {
           recordEvent({
             event: 'nav-linkslist',

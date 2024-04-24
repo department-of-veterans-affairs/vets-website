@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
-function NeedFilesFromYou({ files, claimId }) {
+function NeedFilesFromYou({ files }) {
   return (
     <div className="usa-alert usa-alert-warning claims-alert claims-alert-status need-files-alert">
       <div className="usa-alert-body alert-with-details">
@@ -15,7 +15,7 @@ function NeedFilesFromYou({ files, claimId }) {
           <Link
             aria-label="View details about items that need your attention"
             title="View details about items that need your attention"
-            to={`your-claims/${claimId}/files`}
+            to="../files"
             className="usa-button usa-button-secondary view-details-button"
           >
             View Details

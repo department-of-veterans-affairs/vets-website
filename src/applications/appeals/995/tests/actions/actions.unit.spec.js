@@ -6,9 +6,6 @@ import { mockApiRequest } from 'platform/testing/unit/helpers';
 
 import {
   getContestableIssues,
-  FETCH_CONTESTABLE_ISSUES_INIT,
-  FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
-  FETCH_CONTESTABLE_ISSUES_FAILED,
   fetchITF,
   ITF_FETCH_INITIATED,
   ITF_FETCH_SUCCEEDED,
@@ -18,6 +15,11 @@ import {
   ITF_CREATION_SUCCEEDED,
   ITF_CREATION_FAILED,
 } from '../../actions';
+import {
+  FETCH_CONTESTABLE_ISSUES_INIT,
+  FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+  FETCH_CONTESTABLE_ISSUES_FAILED,
+} from '../../../shared/actions';
 
 describe('fetch contestable issues action', () => {
   it('should dispatch an init action', () => {

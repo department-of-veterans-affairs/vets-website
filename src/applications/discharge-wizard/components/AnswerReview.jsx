@@ -42,6 +42,7 @@ const AnswerReview = ({ formValues, handleScrollTo }) => {
               <div key={k} className="answer-review">
                 <p className="vads-u-padding-right--2">{reviewLabel}</p>
                 <va-link
+                  disable-analytics
                   href="#"
                   onClick={handleScrollTo}
                   name={k}
@@ -53,8 +54,8 @@ const AnswerReview = ({ formValues, handleScrollTo }) => {
           );
         })}
       </div>
-      <Link to="/guidance" className="usa-button-primary va-button">
-        Get my results »
+      <Link to="/guidance" className="vads-c-action-link--green">
+        Get my results
       </Link>
     </div>
   );

@@ -1,12 +1,15 @@
 import {
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
+  title: 'Nursing home information',
+  path: 'medical/history/nursing-home',
   uiSchema: {
-    'ui:title': 'Nursing home information',
+    ...titleUI('Nursing home information'),
     nursingHome: yesNoUI({
       title: 'Do you live in a nursing home?',
       classNames: 'vads-u-margin-bottom--2',

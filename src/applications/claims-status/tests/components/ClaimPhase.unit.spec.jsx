@@ -5,6 +5,7 @@ import { render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import ClaimPhase from '../../components/ClaimPhase';
+import { renderWithRouter } from '../utils';
 
 describe('<ClaimPhase>', () => {
   const activity = {
@@ -51,9 +52,10 @@ describe('<ClaimPhase>', () => {
       ],
     };
 
-    const { container, getByText } = render(
+    const { container, getByText } = renderWithRouter(
       <ClaimPhase id="2" current={1} phase={1} activity={newActivity} />,
     );
+
     expect($('.claims-evidence-item', container)).to.exist;
     getByText('We added a notice for:');
     getByText(newActivity[1][0].displayName);
@@ -100,7 +102,7 @@ describe('<ClaimPhase>', () => {
         },
       ],
     };
-    const { container } = render(
+    const { container } = renderWithRouter(
       <ClaimPhase id="2" current={1} phase={1} activity={newActivity} />,
     );
     expect($('va-button', container).getAttribute('text')).to.eq(
@@ -120,9 +122,10 @@ describe('<ClaimPhase>', () => {
         date: '2010-01-04',
       });
 
-      const descTree = SkinDeep.shallowRender(output);
+      const { container, getByText } = renderWithRouter(output);
 
-      expect(descTree.text()).to.equal('Your claim moved to Claim received');
+      expect($('.claims-evidence-item', container)).to.exist;
+      getByText('Your claim moved to Claim received');
     });
 
     it('should show file description', () => {
@@ -131,9 +134,10 @@ describe('<ClaimPhase>', () => {
         date: '2010-01-04',
       });
 
-      const descTree = SkinDeep.shallowRender(output);
+      const { container, getByText } = renderWithRouter(output);
 
-      expect(descTree.text()).to.equal('Thank you. VA received your claim');
+      expect($('.claims-evidence-item', container)).to.exist;
+      getByText('Thank you. VA received your claim');
     });
 
     it('should show completed description', () => {
@@ -142,9 +146,33 @@ describe('<ClaimPhase>', () => {
         date: '2010-01-04',
       });
 
-      const descTree = SkinDeep.shallowRender(output);
+      const { container, getByText } = renderWithRouter(output);
 
-      expect(descTree.text()).to.equal('Your claim is closed');
+      expect($('.claims-evidence-item', container)).to.exist;
+      getByText('Your claim is closed');
+    });
+
+    it('should show supporting_documnet description', () => {
+      const output = instance.getEventDescription({
+        type: 'supporting_document',
+        date: '2010-01-04',
+      });
+
+      const { container, getByText } = renderWithRouter(output);
+
+      expect($('.claims-evidence-item', container)).to.exist;
+      getByText('You or someone else submitted a file.');
+    });
+
+    it('should show no description when type null', () => {
+      const output = instance.getEventDescription({
+        type: null,
+        date: '2010-01-04',
+      });
+
+      const { container } = renderWithRouter(output);
+
+      expect($('.claims-evidence-item', container)).to.not.exist;
     });
 
     it('should show received from you reviewed description', () => {
@@ -155,9 +183,10 @@ describe('<ClaimPhase>', () => {
         date: '2010-01-04',
       });
 
-      const descTree = SkinDeep.shallowRender(output);
+      const { container, getByText } = renderWithRouter(output);
 
-      expect(descTree.text()).to.equal(
+      expect($('.claims-evidence-item', container)).to.exist;
+      getByText(
         'We have reviewed your submitted evidence for Request 1. We will notify you if we need additional information.',
       );
     });
@@ -170,11 +199,10 @@ describe('<ClaimPhase>', () => {
         date: '2010-01-04',
       });
 
-      const descTree = SkinDeep.shallowRender(output);
+      const { container, getByText } = renderWithRouter(output);
 
-      expect(descTree.text()).to.equal(
-        'You or someone else submitted Request 1.',
-      );
+      expect($('.claims-evidence-item', container)).to.exist;
+      getByText('You or someone else submitted Request 1.');
     });
 
     it('should show received from others reviewed description', () => {
@@ -185,9 +213,10 @@ describe('<ClaimPhase>', () => {
         date: '2010-01-04',
       });
 
-      const descTree = SkinDeep.shallowRender(output);
+      const { container, getByText } = renderWithRouter(output);
 
-      expect(descTree.text()).to.equal(
+      expect($('.claims-evidence-item', container)).to.exist;
+      getByText(
         'We have reviewed your submitted evidence for Request 1. We will notify you if we need additional information.',
       );
     });
@@ -200,11 +229,10 @@ describe('<ClaimPhase>', () => {
         date: '2010-01-04',
       });
 
-      const descTree = SkinDeep.shallowRender(output);
+      const { container, getByText } = renderWithRouter(output);
 
-      expect(descTree.text()).to.equal(
-        'You or someone else submitted Request 1.',
-      );
+      expect($('.claims-evidence-item', container)).to.exist;
+      getByText('You or someone else submitted Request 1.');
     });
 
     it('should show still need from others not reviewed description', () => {
@@ -215,9 +243,11 @@ describe('<ClaimPhase>', () => {
         date: '2010-01-04',
       });
 
-      const descTree = SkinDeep.shallowRender(output);
+      const { container, getByText } = renderWithRouter(output);
 
-      expect(descTree.text()).to.equal('We added a notice for: <Link />');
+      expect($('.claims-evidence-item', container)).to.exist;
+      getByText('We added a notice for:');
+      getByText('Request 1');
     });
 
     it('should show never received from you description', () => {
@@ -228,9 +258,10 @@ describe('<ClaimPhase>', () => {
         date: '2010-01-04',
       });
 
-      const descTree = SkinDeep.shallowRender(output);
+      const { container, getByText } = renderWithRouter(output);
 
-      expect(descTree.text()).to.equal('We closed the notice for Request 1');
+      expect($('.claims-evidence-item', container)).to.exist;
+      getByText('We closed the notice for Request 1');
     });
   });
 });

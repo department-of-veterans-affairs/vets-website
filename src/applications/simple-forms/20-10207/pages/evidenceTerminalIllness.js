@@ -1,7 +1,7 @@
 import environment from 'platform/utilities/environment';
 
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-import { FileField } from '../components/FileField';
+import FileField from 'platform/forms-system/src/js/fields/FileField';
 import TerminalIllnessViewField from '../components/TerminalIllnessViewField';
 
 import { TERMINAL_ILLNESS_DESCRIPTION } from '../config/constants';
@@ -15,7 +15,7 @@ const uiDescription =
 export default {
   uiSchema: {
     ...titleUI(uiTitle, uiDescription),
-    'ui:description': TERMINAL_ILLNESS_DESCRIPTION,
+    'ui:description': () => TERMINAL_ILLNESS_DESCRIPTION,
     'ui:objectViewField': TerminalIllnessViewField,
     terminalIllnessDocuments: {
       'ui:title': 'Upload additional evidence',
@@ -34,7 +34,7 @@ export default {
         },
         fileUploadUrl: `${
           environment.API_URL
-        }/simple_forms_api/v1/simple_forms/submit_terminal_illness_documents`,
+        }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
         fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
         createPayload,
         parseResponse,

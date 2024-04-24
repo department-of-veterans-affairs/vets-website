@@ -6,6 +6,7 @@ import {
   titleUI,
   phoneUI,
   emailUI,
+  phoneSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { veteranFields } from '../definitions/constants';
 
@@ -35,7 +36,11 @@ export default {
       [veteranFields.parentObject]: {
         type: 'object',
         required: intersection(required, pageFields),
-        properties: pick(properties, pageFields),
+        properties: {
+          ...pick(properties, pageFields),
+          [veteranFields.homePhone]: phoneSchema,
+          [veteranFields.mobilePhone]: phoneSchema,
+        },
       },
     },
   },

@@ -12,9 +12,9 @@
   margin: 2rem 0rem;
   padding: 2rem 3rem;
   line-height: 2.2rem;
-  background-color: $color-inset-bg;
+  background-color: var(--vads-color-inset-bg);
   &.secondary {
-    background-color: $color-gray-light-alt;
+    background-color: var(--vads-color-gray-light-alt);
   }
   &.expandable {
     .form-expanding-group,

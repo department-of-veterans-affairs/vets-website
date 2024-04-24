@@ -4,15 +4,21 @@ import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moment from 'moment';
 
-import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+import {
+  setStoredSubTask,
+  getStoredSubTask,
+} from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import formConfig from '../../config/form';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import { WIZARD_STATUS, SAVED_CLAIM_TYPE } from '../../constants';
-import { SELECTED } from '../../../shared/constants';
+import { FORMAT_READABLE_DATE_FNS, SELECTED } from '../../../shared/constants';
+import { parseDate } from '../../../shared/utils/dates';
 
 const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
   user: {
@@ -100,13 +106,16 @@ describe('Confirmation page', () => {
 
   it('should render the submit date', () => {
     const data = getData();
-    const date = moment(data.form.submission.response).format('MMMM D, YYYY');
+    const date = parseDate(
+      data.form.submission.response,
+      FORMAT_READABLE_DATE_FNS,
+    );
     const { container } = render(
       <Provider store={mockStore(data)}>
         <ConfirmationPage />
       </Provider>,
     );
-    expect($('.inset', container).textContent).to.contain(date);
+    expect($('va-summary-box', container).textContent).to.contain(date);
   });
   it('should render the selected contested issue', () => {
     const { container } = render(
@@ -130,17 +139,15 @@ describe('Confirmation page', () => {
       expect(document.activeElement).to.eq(h2);
     });
   });
-  it('should reset the wizard sessionStorage', async () => {
-    sessionStorage.setItem(WIZARD_STATUS, 'foo');
-    sessionStorage.setItem(SAVED_CLAIM_TYPE, 'bar');
+  it('should reset the subtask value in sessionStorage', async () => {
+    setStoredSubTask('{ "benefitType": "compensation" }');
     render(
       <Provider store={mockStore(getData())}>
         <ConfirmationPage />
       </Provider>,
     );
     await waitFor(() => {
-      expect(sessionStorage.getItem(WIZARD_STATUS)).to.be.null;
-      expect(sessionStorage.getItem(SAVED_CLAIM_TYPE)).to.be.null;
+      expect(getStoredSubTask()).to.deep.equal({});
     });
   });
 

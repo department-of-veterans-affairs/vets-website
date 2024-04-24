@@ -33,7 +33,9 @@ describe('Yellow Ribbon <SearchResult>', () => {
 
     expect(text).to.include(props.school.city);
     expect(text).to.include(props.school.contributionAmount);
-    expect(text).to.include(props.school.insturl);
+    expect(text).to.include(
+      `Visit ${titleCase(props.school.nameOfInstitution)} website`,
+    );
     expect(text).to.include(props.school.numberOfStudents);
     expect(text).to.include(titleCase(props.school.nameOfInstitution));
     expect(text).to.include(props.school.state);

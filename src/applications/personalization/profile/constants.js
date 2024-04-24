@@ -2,7 +2,7 @@
 export const PROFILE_TOGGLES = {
   profileContacts: false,
   profileShowPronounsAndSexualOrientation: false,
-  profileHideDirectDepositCompAndPen: false,
+  profileHideDirectDeposit: false,
   profileShowPaymentsNotificationSetting: false,
   profileShowMhvNotificationSettings: false,
   profileLighthouseDirectDeposit: false,
@@ -10,6 +10,10 @@ export const PROFILE_TOGGLES = {
   profileShowQuickSubmitNotificationSetting: false,
   profileShowEmailNotificationSettings: false,
   profileShowProofOfVeteranStatus: false,
+  profileShowDirectDepositSingleForm: false,
+  profileShowDirectDepositSingleFormUAT: false,
+  profileShowDirectDepositSingleFormAlert: false,
+  profileShowDirectDepositSingleFormEduDowntime: false,
 };
 
 // The values of these constants map to the possible values that come back from
@@ -71,11 +75,6 @@ export const PROFILE_PATHS_WITH_NAMES = Object.entries(PROFILE_PATHS).map(
   },
 );
 
-export const ACCOUNT_TYPES_OPTIONS = {
-  checking: 'Checking',
-  savings: 'Savings',
-};
-
 export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '402', // VA Maine Healthcare System - Togus
   '459', // VA Pacific Islands Health Care System
@@ -131,11 +130,6 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
 
 export const NOT_SET_TEXT = 'This information is not available right now.';
 
-export const BANK_INFO_UPDATED_ALERT_SETTINGS = {
-  FADE_SPEED: window.Cypress ? 1 : 500,
-  TIMEOUT: window.Cypress ? 500 : 6000,
-};
-
 export const NOTIFICATION_GROUPS = Object.freeze({
   APPLICATIONS: 'group1',
   GENERAL: 'group2',
@@ -181,3 +175,14 @@ export const API_STATUS = Object.freeze({
   SUCCESSFUL: 'successful',
   FAILED: 'failed',
 });
+
+// Direct deposit constants
+export const ACCOUNT_TYPES_OPTIONS = {
+  checking: 'Checking',
+  savings: 'Savings',
+};
+
+export const DIRECT_DEPOSIT_ALERT_SETTINGS = {
+  FADE_SPEED: window.Cypress ? 1 : 500,
+  TIMEOUT: window.Cypress ? 500 : 6000,
+};

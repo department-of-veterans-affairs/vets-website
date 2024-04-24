@@ -1,94 +1,123 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { showReapplyContent as showReapplyContentAction } from '../../../../utils/actions';
-import { shouldShowReapplyContent } from '../../../../utils/selectors';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
+import { selectEnrollmentStatus } from '../../../../utils/selectors/enrollment-status';
+import { createLiteralMap } from '../../../../utils/helpers';
+import GeneralFAQs from '../ContentBlocks/GeneralFAQs';
+import ReapplyFAQs from '../ContentBlocks/ReapplyFAQs';
 
-import ProcessTimeline from '../../GetStarted/ProcessTimeline';
-import OMBInfo from '../../GetStarted/OMBInfo';
-import FAQContent from './FAQContent';
-import ApplyButton from './ApplyButton';
+const EnrollmentStatusFAQ = () => {
+  const { statusCode } = useSelector(selectEnrollmentStatus);
 
-const EnrollmentStatusFAQ = props => {
-  const showReapplyContent = useSelector(shouldShowReapplyContent);
-  const { enrollmentStatus, route, renderReapplyContent } = props;
-  const { formConfig, pageList } = route;
+  // Declare content blocks for use
+  const {
+    faqBlock1,
+    faqBlock2,
+    faqBlock3,
+    faqBlock4,
+    faqBlock5,
+    faqBlock6,
+    faqBlock7,
+    faqBlock8,
+    faqBlock9,
+    faqBlock10,
+    faqBlock11,
+  } = GeneralFAQs;
+  const {
+    reapplyBlock1,
+    reapplyBlock2,
+    reapplyBlock4,
+    reapplyBlock5,
+    reapplyBlock6,
+  } = ReapplyFAQs;
 
-  // Declare the enrollment statuses that are considered for apply/reapply opportunities
-  const statusMap = {
-    apply: new Set([
-      HCA_ENROLLMENT_STATUSES.activeDuty,
-      HCA_ENROLLMENT_STATUSES.nonMilitary,
-    ]),
-    reapply: new Set([
-      HCA_ENROLLMENT_STATUSES.deceased,
-      HCA_ENROLLMENT_STATUSES.enrolled,
-    ]),
+  // Helper function to wrap multiple content blocks in JSX fragment
+  const wrapContentBlocks = arrayToMap => {
+    return arrayToMap.map((jsx, i) => (
+      <React.Fragment key={i}>{jsx}</React.Fragment>
+    ));
   };
 
-  // Determine if user can apply/reapply based on enrollment status
-  const applyAllowed = statusMap.apply.has(enrollmentStatus);
-  const reapplyAllowed =
-    !applyAllowed && statusMap.reapply.has(enrollmentStatus) === false;
+  // Declare content block dictionary
+  const contentDictionary = [
+    [faqBlock8, [HCA_ENROLLMENT_STATUSES.activeDuty]],
+    [
+      wrapContentBlocks([faqBlock1, reapplyBlock1]),
+      [HCA_ENROLLMENT_STATUSES.enrolled],
+    ],
+    [
+      wrapContentBlocks([faqBlock4, reapplyBlock2]),
+      [HCA_ENROLLMENT_STATUSES.ineligCHAMPVA],
+    ],
+    [
+      wrapContentBlocks([faqBlock2, faqBlock9, faqBlock11, reapplyBlock2]),
+      [HCA_ENROLLMENT_STATUSES.ineligCharacterOfDischarge],
+    ],
+    [
+      wrapContentBlocks([faqBlock2, reapplyBlock2]),
+      [
+        HCA_ENROLLMENT_STATUSES.ineligCitizens,
+        HCA_ENROLLMENT_STATUSES.ineligFilipinoScouts,
+      ],
+    ],
+    [
+      wrapContentBlocks([faqBlock5, reapplyBlock2]),
+      [HCA_ENROLLMENT_STATUSES.ineligFugitiveFelon],
+    ],
+    [
+      wrapContentBlocks([faqBlock2, faqBlock11, reapplyBlock2]),
+      [
+        HCA_ENROLLMENT_STATUSES.ineligGuardReserve,
+        HCA_ENROLLMENT_STATUSES.ineligNotEnoughTime,
+        HCA_ENROLLMENT_STATUSES.ineligTrainingOnly,
+      ],
+    ],
+    [
+      wrapContentBlocks([faqBlock5, faqBlock11, reapplyBlock2]),
+      [
+        HCA_ENROLLMENT_STATUSES.ineligMedicare,
+        HCA_ENROLLMENT_STATUSES.ineligOther,
+        HCA_ENROLLMENT_STATUSES.ineligOver65,
+        HCA_ENROLLMENT_STATUSES.ineligRefusedCopay,
+      ],
+    ],
+    [
+      wrapContentBlocks([faqBlock3, faqBlock11, reapplyBlock2]),
+      [HCA_ENROLLMENT_STATUSES.ineligNotVerified],
+    ],
+    [faqBlock10, [HCA_ENROLLMENT_STATUSES.nonMilitary]],
+    [
+      wrapContentBlocks([faqBlock6, reapplyBlock5]),
+      [
+        HCA_ENROLLMENT_STATUSES.pendingMt,
+        HCA_ENROLLMENT_STATUSES.pendingPurpleHeart,
+      ],
+    ],
+    [
+      wrapContentBlocks([faqBlock7, reapplyBlock6]),
+      [
+        HCA_ENROLLMENT_STATUSES.pendingOther,
+        HCA_ENROLLMENT_STATUSES.pendingUnverified,
+      ],
+    ],
+    [
+      wrapContentBlocks([faqBlock5, faqBlock11, reapplyBlock4]),
+      [
+        HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
+        HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
+        HCA_ENROLLMENT_STATUSES.rejectedScWrongEntry,
+        HCA_ENROLLMENT_STATUSES.canceledDeclined,
+        HCA_ENROLLMENT_STATUSES.closed,
+      ],
+    ],
+  ];
 
-  // Render FAQ / Reapply content
-  return (
-    <>
-      <FAQContent enrollmentStatus={enrollmentStatus} />
+  // Reduce content dictionary to object literal
+  const contentMap = createLiteralMap(contentDictionary);
 
-      {reapplyAllowed &&
-        !showReapplyContent && (
-          <ApplyButton
-            event="hca-form-reapply"
-            label="Reapply for VA health care"
-            clickEvent={renderReapplyContent}
-          />
-        )}
-
-      {applyAllowed &&
-        !showReapplyContent && (
-          <ApplyButton
-            event="hca-form-apply"
-            label="Apply for VA health care"
-            clickEvent={renderReapplyContent}
-          />
-        )}
-
-      {(reapplyAllowed || applyAllowed) && showReapplyContent ? (
-        <>
-          <ProcessTimeline />
-
-          <div className="hca-sip-intro vads-u-margin-y--3">
-            <SaveInProgressIntro
-              messages={formConfig.savedFormMessages}
-              downtime={formConfig.downtime}
-              pageList={pageList}
-              startText="Start the health care application"
-              buttonOnly
-            />
-          </div>
-
-          <OMBInfo />
-        </>
-      ) : null}
-    </>
-  );
+  // Render based on enrollment status
+  return contentMap[statusCode] || null;
 };
 
-EnrollmentStatusFAQ.propTypes = {
-  enrollmentStatus: PropTypes.string,
-  renderReapplyContent: PropTypes.func,
-  route: PropTypes.object,
-};
-
-const mapDispatchToProps = {
-  renderReapplyContent: showReapplyContentAction,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(EnrollmentStatusFAQ);
+export default EnrollmentStatusFAQ;

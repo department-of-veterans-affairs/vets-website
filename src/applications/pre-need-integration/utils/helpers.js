@@ -70,16 +70,45 @@ export const currentlyBuriedPersonsTitle = (
 export const sponsorDeceasedDescription = (
   <div className="sponsorDeceasedDescriptionNotProd">
     <p>
-      We’ll now ask you questions about the sponsor’s passing. We understand
-      that the questions may be difficult to answer, but your answers will help
-      us determine eligibility for your application.
+      We’ll ask you questions about your sponsor’s death. We understand that the
+      questions may be difficult to answer, but your answers will help us
+      determine eligibility for your application.
     </p>
   </div>
 );
 
-export const sponsorDetailsSubHeader = (
-  <div className="sponsorDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Sponsor details</h3>
+export function isApplicantTheSponsor(item) {
+  return get('application.applicant.isSponsor', item) === 'yes';
+}
+
+export function sponsorDetailsSubHeader({ formContext, formData }) {
+  return (
+    <>
+      {isApplicantTheSponsor(formData) &&
+        !formContext.onReviewPage && (
+          <div className="sponsorDetailsSummaryBox">
+            <va-summary-box>
+              <p className="sponsorDetailsSummaryBoxText">
+                We’ve prefilled your details since you indicated you’re the
+                applicant’s sponsor. If you need to correct anything, you can
+                edit the fields below.
+              </p>
+            </va-summary-box>
+          </div>
+        )}
+      <div className="sponsorDetailsSubHeader">
+        <h3 className="vads-u-font-size--h5">Sponsor details</h3>
+      </div>
+    </>
+  );
+}
+
+export const sponsorDetailsGuidingText = (
+  <div className="sponsorDetailsGuidingText">
+    <p>
+      Provide the details for the Veteran or service member the applicant is
+      connected to.
+    </p>
   </div>
 );
 
@@ -92,9 +121,8 @@ export const sponsorDemographicsSubHeader = (
 export const sponsorDemographicsDescription = (
   <div className="sponsorDemographicsDescription">
     <p>
-      We require some basic details about the applicant’s sponsor as part of the
-      application. Please know we need to gather the data for statistical
-      purposes.
+      We require demographic information as part of this application. We use
+      this information for statistical purposes only.
     </p>
   </div>
 );
@@ -107,7 +135,7 @@ export const sponsorDeceasedSubheader = (
 
 export const sponsorDateOfDeathSubheader = (
   <div className="sponsorDateOfDeathSubheader">
-    <p>When did the sponsor pass away?</p>
+    <p>When did the sponsor die?</p>
   </div>
 );
 
@@ -194,25 +222,6 @@ export const nonVeteranApplicantDetailsDescription =
 export const nonVeteranApplicantDetailsDescriptionPreparer =
   'Provide the details for the person you are filling out the application for (called the applicant). Then we’ll ask for the details for the Veteran or service member the applicant is connected to.';
 
-export const sponsorDetailsDescription = (
-  <va-additional-info trigger="What is a sponsor?">
-    <ul>
-      <>
-        <li>
-          You’re considered the sponsor if you’re the service member or Veteran
-          sponsoring the applicant’s benefits. We’ll ask you to provide your
-          details.
-        </li>
-        <li>
-          If you’re not the sponsor, you’ll still need to provide the details
-          for the service member or Veteran who is sponsoring the applicant’s
-          benefits.
-        </li>
-      </>
-    </ul>
-  </va-additional-info>
-);
-
 // do not render with a prod flag
 export const applicantContactInfoDescriptionVet = (
   <va-additional-info trigger="Why do we need your contact details?">
@@ -281,6 +290,21 @@ export const authorizedAgentDescription = (
         <li>They physically can’t sign the application</li>
       </>
     </ul>
+  </va-additional-info>
+);
+
+export const isSponsorDescription = (
+  // TODO va-additional-info component to be replaced with a more optimal solution
+  <va-additional-info trigger="What it means to be the “sponsor”">
+    <p>
+      You’re the sponsor if you’re the Veteran or service member who the
+      applicant is connected to.
+    </p>
+    <br />
+    <p>
+      If you’re not the sponsor, you’ll still need to provide the details for
+      the Veteran or service member who the applicant is connected to.
+    </p>
   </va-additional-info>
 );
 

@@ -10,14 +10,17 @@ export const content = {
   description: 'We’ll request your VA medical records from this facility',
   locationAndName:
     'Name of VA medical center, VA treatment facility, or Federal department or agency',
-  conditions:
+
+  issuesLabel:
     'Choose the conditions you received treatment for at this facility.',
   dateStart: 'First treatment date (you can estimate)',
   dateEnd: 'Last treatment date (you can estimate)',
-  addAnother: 'Add another location',
-  modalTitle: ({ locationAndName }) =>
-    `Do you want to keep ${locationAndName || 'this location'}?`,
-  modalDescription: 'We’ve saved your current information.',
-  modalYes: 'Yes, keep location',
-  modalNo: 'No, remove location',
+  addAnotherLink: 'Add another location',
+  modal: {
+    title: ({ locationAndName }) =>
+      `Do you want to keep ${locationAndName || 'this location'}?`,
+    description: 'We’ve saved your current information.',
+    yes: 'Yes, keep location',
+    no: 'No, remove location',
+  },
 };

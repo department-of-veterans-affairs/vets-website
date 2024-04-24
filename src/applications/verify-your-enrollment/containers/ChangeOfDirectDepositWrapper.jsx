@@ -153,7 +153,7 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
             {error && (
               <Alert
                 status="error"
-                message="Sorry, something went wrong. Please try agian Later"
+                message="Sorry, something went wrong. Please try again Later"
               />
             )}
             {response?.ok && (
@@ -169,24 +169,17 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
               background-only
               class="vads-u-margin-y--2"
             >
-              <h2 id="VYE-change-of-direct-deposit" slot="headline">
-                Change of Direct Deposit for Veryify Your Enrollment
-              </h2>
-              <div>
-                <span className="vads-u-margin-y--0">
-                  <p>
-                    This direct deposit information is only used for payments
-                    for Montgomery GI Bill® Benefits.
-                  </p>
-                  <p>
-                    To change your direct deposit information for other VA
-                    services, edit your{' '}
-                    <a href="https://www.va.gov/profile/personal-information">
-                      VA Profile.
-                    </a>
-                  </p>
-                </span>
-              </div>
+              <p className="vye-alert-absolute-title-position">
+                This direct deposit information is only used for payments for
+                Montgomery GI Bill® Benefits.
+              </p>
+              <p>
+                To change your direct deposit information for other VA services,
+                edit your{' '}
+                <a href="https://www.va.gov/profile/personal-information">
+                  VA Profile.
+                </a>
+              </p>
             </va-alert>
             {bankInfoHelpText}
           </>

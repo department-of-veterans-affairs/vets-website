@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -8,6 +9,7 @@ import {
   IncomeAssetStatementFormAlert,
   LandMarketableAlert,
 } from '../../../components/FormAlerts';
+import { isHomeAcreageMoreThanTwo } from '../../../helpers';
 
 const LandMarketableDescription = () => (
   <div>
@@ -18,8 +20,11 @@ const LandMarketableDescription = () => (
 
 /** @type {PageSchema} */
 export default {
+  title: 'Land marketable',
+  path: 'financial/land-marketable',
+  depends: isHomeAcreageMoreThanTwo,
   uiSchema: {
-    'ui:title': 'Income and assets',
+    ...titleUI('Income and assets'),
     'ui:description': LandMarketableDescription,
     landMarketable: yesNoUI({
       title: 'Is the additional land marketable?',

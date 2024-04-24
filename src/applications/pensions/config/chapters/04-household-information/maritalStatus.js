@@ -1,6 +1,7 @@
 import {
   radioUI,
   radioSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const maritalStatusOptions = {
@@ -13,8 +14,10 @@ const maritalStatusOptions = {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Marital status',
+  path: 'household/marital-status',
   uiSchema: {
-    'ui:title': 'Marital status',
+    ...titleUI('Marital status'),
     maritalStatus: radioUI({
       title: 'What’s your current marital status?',
       labels: maritalStatusOptions,

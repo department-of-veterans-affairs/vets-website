@@ -16,18 +16,13 @@ import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import { OnThisPageOverview } from '../components/OnThisPageOverview';
-import '../sass/medical-copays.scss';
 
 const renderAlert = (alertType, debts) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.COPAY);
   const showOther = debts > 0;
 
   return (
-    <va-alert
-      data-testid={alertInfo.testID}
-      status={alertInfo.alertStatus}
-      uswds
-    >
+    <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
       <h2 className="vads-u-font-size--h3" slot="headline">
         {alertInfo.header}
       </h2>
@@ -52,11 +47,7 @@ const renderOtherVA = (debtLength, debtError) => {
     return (
       <>
         <h3>Your other VA debts</h3>
-        <va-alert
-          data-testid={alertInfo.testID}
-          status={alertInfo.alertStatus}
-          uswds
-        >
+        <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
           <h4 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
           </h4>
@@ -125,7 +116,6 @@ const OverviewPage = () => {
           },
         ]}
         label="Breadcrumb"
-        uswds
         wrapping
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">

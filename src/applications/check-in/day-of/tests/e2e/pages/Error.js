@@ -7,7 +7,7 @@ const titles = {
     tl: 'Hindi ka namin mai-check in',
   },
   uuidNotFound: {
-    en: 'This link has expired.',
+    en: 'This link has expired',
   },
 };
 

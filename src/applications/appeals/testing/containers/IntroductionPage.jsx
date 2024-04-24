@@ -15,7 +15,7 @@ import {
   HLR_BASE_URL,
   NOD_OPTIONS_URL,
 } from '../../shared/constants';
-import GetFormHelp from '../content/GetFormHelp';
+import GetFormHelp from '../../shared/content/GetFormHelp';
 
 const IntroductionPage = ({ route }) => {
   useEffect(() => {

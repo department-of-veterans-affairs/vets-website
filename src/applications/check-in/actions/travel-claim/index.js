@@ -15,3 +15,12 @@ export const setFilteredAppointments = payload => {
     payload,
   };
 };
+
+export const SET_FORM_DATA = 'SET_FORM_DATA';
+
+export const setFormData = data => {
+  return {
+    type: SET_FORM_DATA,
+    payload: data,
+  };
+};

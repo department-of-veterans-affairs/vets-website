@@ -44,23 +44,15 @@ export const FindVaForms = ({ showPdfWarningBanner = false }) => {
           <p className="va-nav-linkslist-description">
             Equal to VA Form 21-526EZ
           </p>
-          <a
+          <va-link
+            active
+            aria-label="Apply online about filing a VA disability claim"
             className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
+            disable-analytics
             href="/disability/file-disability-claim-form-21-526ez/"
             onClick={onFeaturedContentClick('File a VA disability claim')}
-          >
-            <span>
-              Apply online
-              <span className="vads-u-visibility--screen-reader">
-                about filing a VA disability claim
-              </span>
-              <i
-                aria-hidden="true"
-                className="fa fa-chevron-right vads-facility-hub-cta-arrow"
-                role="presentation"
-              />
-            </span>
-          </a>
+            text="Apply online"
+          />
         </li>
         <li className="featured-content-list-item vads-u-background-color--primary-alt-lightest  vads-u-padding-y--1p5 vads-u-padding-x--1p5 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-display--flex vads-u-flex-direction--column">
           <h3 className="vads-u-font-size--base vads-u-margin--0">
@@ -74,25 +66,17 @@ export const FindVaForms = ({ showPdfWarningBanner = false }) => {
           <p className="va-nav-linkslist-description">
             Includes VA Forms 22-1990 and 22-1995
           </p>
-          <a
+          <va-link
+            active
+            aria-label="Learn how to apply online about applying for the GI Bill and other education benefits"
             className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
+            disable-analytics
             href="/education/how-to-apply/"
             onClick={onFeaturedContentClick(
               'Apply for the GI Bill and other education benefits',
             )}
-          >
-            <span>
-              Learn how to apply online
-              <span className="vads-u-visibility--screen-reader">
-                about applying for the GI Bill and other education benefits
-              </span>
-              <i
-                aria-hidden="true"
-                className="fa fa-chevron-right vads-facility-hub-cta-arrow"
-                role="presentation"
-              />
-            </span>
-          </a>
+            text="Learn how to apply online"
+          />
         </li>
         <li className="featured-content-list-item vads-u-background-color--primary-alt-lightest  vads-u-padding-y--1p5 vads-u-padding-x--1p5 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-display--flex vads-u-flex-direction--column">
           <h3 className="vads-u-font-size--base vads-u-margin--0">
@@ -106,25 +90,17 @@ export const FindVaForms = ({ showPdfWarningBanner = false }) => {
           <p className="va-nav-linkslist-description">
             Equal to VA Form 10-10EZ
           </p>
-          <a
+          <va-link
+            active
+            aria-label="Apply online about applying for VA health care benefits"
             className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
+            disable-analytics
             href="/health-care/apply/application/"
             onClick={onFeaturedContentClick(
               'Apply for VA health care benefits',
             )}
-          >
-            <span>
-              Apply online
-              <span className="vads-u-visibility--screen-reader">
-                about applying for VA health care benefits
-              </span>
-              <i
-                aria-hidden="true"
-                className="fa fa-chevron-right vads-facility-hub-cta-arrow"
-                role="presentation"
-              />
-            </span>
-          </a>
+            text="Apply online"
+          />
         </li>
       </ul>
     </>

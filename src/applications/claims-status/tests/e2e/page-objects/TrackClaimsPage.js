@@ -12,8 +12,9 @@ class TrackClaimsPage {
         body: {},
       }).as('askVA');
     }
+
     if (mock) {
-      cy.intercept('GET', `/v0/evss_claims_async/189685`, mock).as(
+      cy.intercept('GET', `/v0/benefits_claims/189685`, mock).as(
         'detailRequest',
       );
     }
@@ -40,8 +41,8 @@ class TrackClaimsPage {
     }
 
     cy.get('va-breadcrumbs').should('be.visible');
-    cy.get('.va-breadcrumbs-li').should('be.visible');
-    cy.get('a[aria-current="page"').should('be.visible');
+    cy.get('.usa-breadcrumb__list-item').should('have.length', 2);
+    cy.get('li[aria-current="page"').should('be.visible');
     cy.injectAxeThenAxeCheck();
   }
 
@@ -118,13 +119,6 @@ class TrackClaimsPage {
     }
   }
 
-  verifyClaimedConditions(conditions) {
-    cy.get('.claim-contentions > span').should(
-      'contain',
-      conditions.join(', '),
-    );
-  }
-
   verifyCompletedSteps(step) {
     cy.get(`.list-one.section-${step > 1 ? 'complete' : 'current'}`).should(
       'exist',
@@ -177,7 +171,7 @@ class TrackClaimsPage {
     );
   }
 
-  verifyNumberOfFiles(number) {
+  verifyNumberOfTrackedItems(number) {
     cy.get('.tabs li:nth-child(2) > a')
       .click()
       .then(() => {
@@ -186,6 +180,16 @@ class TrackClaimsPage {
       });
     cy.get('a.tab.tab--current').should('contain', 'Files');
     cy.get('.file-request-list-item').should('have.length', number);
+  }
+
+  verifyNumberOfFiles(number) {
+    cy.get('.tabs li:nth-child(2) > a')
+      .click()
+      .then(() => {
+        cy.get('.file-request-list-item').should('be.visible');
+        cy.injectAxeThenAxeCheck();
+      });
+    cy.get('a.tab.tab--current').should('contain', 'Files');
     cy.get('.submitted-file-list-item').should('have.length', number);
   }
 
@@ -208,13 +212,8 @@ class TrackClaimsPage {
 
   verifyClaimDetails() {
     cy.get('a.tab.tab--current').should('contain', 'Details');
-    const details = [
-      'Claim type',
-      'What you’ve claimed',
-      'Date received',
-      'Your representative for VA claims',
-    ];
-    for (const id of [1, 2, 3, 4]) {
+    const details = ['Claim type', 'What you’ve claimed', 'Date received'];
+    for (const id of [1, 2, 3]) {
       cy.get(`.claim-detail-label:nth-of-type(${id})`).should(
         'contain',
         `${details[id - 1]}`,
@@ -238,15 +237,14 @@ class TrackClaimsPage {
     cy.url().should('contain', 'ask-va-to-decide');
     cy.get('va-checkbox')
       .shadow()
-      .get('input')
-      .first()
-      .check()
+      .find('input[type="checkbox"]')
+      .check({ force: true })
       .then(() => {
         cy.get('.main .button-primary').click();
         cy.wait('@askVA');
       });
     cy.url().should('contain', 'status');
-    cy.get('.usa-alert-success').should('be.visible');
+    cy.get('va-alert').should('be.visible');
     cy.axeCheck();
   }
 

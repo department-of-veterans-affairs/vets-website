@@ -79,7 +79,8 @@
       "spouseFullName": {
         "first": "Jane",
         "middle": "Middle",
-        "last": "Doe"
+        "last": "Doe",
+        "suffix": "Sr."
       },
       "view:pastMarriage": {
         "reasonForSeparation": "Spouse's death",
@@ -160,7 +161,8 @@
       "fullName": {
         "first": "Emily",
         "middle": "Anne",
-        "last": "Doe"
+        "last": "Doe",
+        "suffix": "Jr."
       },
       "childDateOfBirth": "2000-03-03"
     },
@@ -188,7 +190,7 @@
       "provider": "NYC Care Provider",
       "careType": "CARE_FACILITY",
       "ratePerHour": 100,
-      "hoursPerWeek": 20,
+      "hoursPerWeek": "20",
       "careDateRange": {
         "from": "2020-08-01",
         "to": "2023-05-25"
@@ -202,7 +204,7 @@
       "provider": "LA Care Provider",
       "careType": "CARE_FACILITY",
       "ratePerHour": 200,
-      "hoursPerWeek": 10,
+      "hoursPerWeek": "10",
       "careDateRange": {
         "from": "2020-08-01"
       },

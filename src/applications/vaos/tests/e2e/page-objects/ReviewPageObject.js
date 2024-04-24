@@ -14,7 +14,7 @@ export class ReviewPageObject extends PageObject {
   }
 
   clickRequestButton() {
-    cy.findByText('Request appointment').click();
+    cy.findByText('Submit request').click();
     return this;
   }
 }

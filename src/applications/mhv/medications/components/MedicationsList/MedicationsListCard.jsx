@@ -8,12 +8,14 @@ import LastFilledInfo from '../shared/LastFilledInfo';
 import { dispStatusForRefillsLeft } from '../../util/constants';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
+import { selectRefillContentFlag } from '../../util/selectors';
 
 const MedicationsListCard = ({ rx }) => {
   const dispatch = useDispatch();
   const pagination = useSelector(
     state => state.rx.prescriptions?.prescriptionsPagination,
   );
+  const showRefillContent = useSelector(selectRefillContentFlag);
   let showRefillRemaining = false;
 
   if (dispStatusForRefillsLeft.includes(rx.dispStatus)) {
@@ -27,24 +29,10 @@ const MedicationsListCard = ({ rx }) => {
   };
   const handleLinkClick = () => {
     dispatch(
-      setBreadcrumbs(
-        [
-          {
-            url: '/my-health/medications/about',
-            label: 'About medications',
-          },
-          {
-            url: `/my-health/medications/?page=${pagination?.currentPage || 1}`,
-            label: 'Medications',
-          },
-        ],
-        {
-          url: `/my-health/medications/prescription/${rx.prescriptionId}`,
-          label:
-            rx?.prescriptionName ||
-            (rx?.dispStatus === 'Active: Non-VA' ? rx?.orderableItem : ''),
-        },
-      ),
+      setBreadcrumbs({
+        url: `/?page=${pagination?.currentPage || 1}`,
+        label: 'Medications',
+      }),
     );
     dispatch(setPrescriptionDetails(rx));
   };
@@ -89,7 +77,7 @@ const MedicationsListCard = ({ rx }) => {
           </div>
         )}
         {rx && <ExtraDetails {...rx} />}
-        {rx && <FillRefillButton {...rx} />}
+        {!showRefillContent && rx && <FillRefillButton {...rx} />}
       </div>
     </div>
   );

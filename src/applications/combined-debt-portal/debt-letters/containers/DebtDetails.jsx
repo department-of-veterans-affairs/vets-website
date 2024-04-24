@@ -7,7 +7,6 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import OnThisPageLinks from '../components/OnThisPageLinks';
-import '../sass/debt-letters.scss';
 import HistoryTable from '../components/HistoryTable';
 import { getCurrentDebt } from '../utils/page';
 import { setPageFocus } from '../../combined/utils/helpers';
@@ -79,7 +78,6 @@ const DebtDetails = () => {
           },
         ]}
         label="Breadcrumb"
-        uswds
         wrapping
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
@@ -99,7 +97,6 @@ const DebtDetails = () => {
         {whyContent && (
           <va-additional-info
             trigger="Why might I have this debt?"
-            uswds
             class="vads-u-margin-y--2"
           >
             {whyContent}

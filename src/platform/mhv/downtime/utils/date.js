@@ -1,7 +1,7 @@
 // Date parsing
 // DowntimeNotification uses momentjs, which is deprecated.
-
-const HOUR_MS = 3600000; // 1000 * 60 * 60
+import { formatDuration, differenceInHours } from 'date-fns';
+import { format } from 'date-fns-tz';
 
 /*
  * Attempts to coerce a momentjs object to a plain date. Returns null if it cannot return a date
@@ -36,42 +36,6 @@ function parseDate(input) {
   return result;
 }
 
-/* Datetime formatter */
-const vaDatetimeFormat = new Intl.DateTimeFormat('en', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  // timeZone: 'America/New_York',
-  timeZoneName: 'short', // `shortGeneric` not supported by node, deno
-});
-
-/**
- * Transforms Intl.DateTimeFormat `formatToParts` into a dictionary-like object
- * @typedef {{ type: string, value: string}} DateTimePart
- * @param {DateTimePart[]} dtParts - See Intl.DateTimeFormat.prototype.formatToParts()
- * @returns {Object.<string,string>} - Object of datetime parts
- */
-function datetimePartsToObj(dtParts) {
-  return dtParts.reduce((acc, currentValue) => {
-    if (
-      [
-        'year',
-        'month',
-        'day',
-        'dayPeriod',
-        'hour',
-        'minute',
-        'timeZoneName',
-      ].includes(currentValue.type)
-    ) {
-      acc[currentValue.type] = currentValue.value;
-    }
-    return acc;
-  }, {});
-}
-
 /**
  * Format a Date into a VA-preferred datetime string
  * <https://design.va.gov/content-style-guide/dates-and-numbers>
@@ -84,38 +48,19 @@ function datetimePartsToObj(dtParts) {
 function formatDatetime(input) {
   const d = coerceToDate(input);
   if (d === null) return '';
-  const dtParts = vaDatetimeFormat.formatToParts(d);
-  const dtDict = datetimePartsToObj(dtParts);
-  const { year, month, day, hour, minute } = dtDict;
-  let { dayPeriod, timeZoneName } = dtDict;
+
+  let timeString = format(d, "MMMM d, yyyy 'at' h:mm bbbb z");
 
   // remove S or D in timezone abbreviation
-  timeZoneName = timeZoneName.replace(/([A-Z])(S|D)T$/, (_, p1) => `${p1}T`);
-  // Lowercase and add periods to dayPeriod
-  dayPeriod = [...dayPeriod.toLowerCase(), ''].join('.');
-  //
-  let timeString = `${hour}:${minute} ${dayPeriod}`;
+  timeString = timeString.replace(/([A-Z])(S|D)T$/, (_, p1) => `${p1}T`);
+
   // Handle 12:00 as noon or midnight
-  if (hour === '12' && minute === '00') {
-    if (dayPeriod === 'a.m.') {
-      timeString = 'midnight';
-    } else {
-      timeString = 'noon';
-    }
-  }
+  timeString = timeString.replace(
+    /\d{1,2}:\d{2} (noon|midnight)/,
+    (_, p1) => `${p1}`,
+  );
 
-  return `${month} ${day}, ${year} at ${timeString} ${timeZoneName}`;
-}
-
-/*
- * Calculate a fractional number of hours between two datetimes
- * @param {Date} startDate
- * @param {Date} endDate
- * @returns {number}
- */
-function getElapsedHours(startDate, endDate) {
-  const elapsedMs = Math.abs(endDate - startDate);
-  return elapsedMs / HOUR_MS;
+  return timeString;
 }
 
 /*
@@ -128,15 +73,10 @@ function formatElapsedHours(start, end) {
   const startDate = coerceToDate(start);
   const endDate = coerceToDate(end);
   if (!(startDate && endDate)) return null;
-  let hours = getElapsedHours(startDate, endDate);
-  hours = Math.round(hours);
-  return `${hours} hour${hours > 1 ? 's' : ''}`;
+  const hours = differenceInHours(endDate, startDate, {
+    roundingMethod: 'round',
+  });
+  return formatDuration({ hours });
 }
 
-export {
-  coerceToDate,
-  formatDatetime,
-  formatElapsedHours,
-  getElapsedHours,
-  parseDate,
-};
+export { coerceToDate, formatDatetime, formatElapsedHours, parseDate };

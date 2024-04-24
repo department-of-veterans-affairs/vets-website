@@ -15,7 +15,6 @@ import {
   verifyCurrentBalance,
   setPageFocus,
 } from '../../combined/utils/helpers';
-import '../sass/medical-copays.scss';
 
 const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
@@ -69,7 +68,6 @@ const DetailPage = ({ match }) => {
           },
         ]}
         label="Breadcrumb"
-        uswds
         wrapping
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">

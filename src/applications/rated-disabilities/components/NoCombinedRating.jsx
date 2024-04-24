@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function NoCombinedRating() {
   return (
-    <va-alert status="info" uswds>
+    <va-alert status="info">
       <h3 slot="headline">
         We don’t have a combined disability rating on file for you
       </h3>

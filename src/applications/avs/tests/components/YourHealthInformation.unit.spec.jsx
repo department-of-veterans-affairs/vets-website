@@ -48,13 +48,13 @@ describe('Avs: Your Health Information', () => {
       'INSULIN REGULAR 500',
     );
     expect(screen.getByTestId('my-medications')).to.contain.text(
+      'Quantity: 90 for 90 days',
+    );
+    expect(screen.getByTestId('my-medications')).to.contain.text(
       'Documenting Facility & Provider: CAMP MASTER, PROVIDER,ONE',
     );
     expect(screen.getByTestId('my-va-supplies')).to.contain.text(
       'TABLET CUTTER',
-    );
-    expect(screen.getByTestId('medications-not-taking')).to.contain.text(
-      'NELFINAVIR TAB',
     );
   });
 
@@ -82,6 +82,5 @@ describe('Avs: Your Health Information', () => {
     expect(screen.queryByTestId('lab-results')).to.not.exist;
     expect(screen.queryByTestId('my-medications')).to.not.exist;
     expect(screen.queryByTestId('my-va-supplies')).to.not.exist;
-    expect(screen.queryByTestId('medications-not-taking')).to.not.exist;
   });
 });

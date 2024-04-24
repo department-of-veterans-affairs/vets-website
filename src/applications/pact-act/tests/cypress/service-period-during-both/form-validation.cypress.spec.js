@@ -70,13 +70,13 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_B --------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_B);
-      h.verifyFormErrorNotShownCheckBox(h.ORANGE_2_2_B_INPUT);
+      h.verifyFormErrorNotShown(h.ORANGE_2_2_B_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(h.ORANGE_2_2_B_INPUT, 'Error Select a location.');
+      h.checkFormAlertText(h.ORANGE_2_2_B_INPUT, 'ErrorSelect a location.');
 
       h.selectCheckbox(h.ORANGE_2_2_B_INPUT, 0);
-      h.verifyFormErrorNotShownCheckBox(h.ORANGE_2_2_B_INPUT);
+      h.verifyFormErrorNotShown(h.ORANGE_2_2_B_INPUT);
       h.clickBack();
 
       // ORANGE_2_2_A --------------------------------
@@ -98,13 +98,13 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_1_B -----------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_1_B);
-      h.verifyFormErrorNotShownCheckBox(h.ORANGE_2_2_1_B_INPUT);
+      h.verifyFormErrorNotShown(h.ORANGE_2_2_1_B_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(h.ORANGE_2_2_1_B_INPUT, 'Error Select a location.');
+      h.checkFormAlertText(h.ORANGE_2_2_1_B_INPUT, 'ErrorSelect a location.');
 
       h.selectCheckbox(h.ORANGE_2_2_1_B_INPUT, 0);
-      h.verifyFormErrorNotShownCheckBox(h.ORANGE_2_2_1_B_INPUT);
+      h.verifyFormErrorNotShown(h.ORANGE_2_2_1_B_INPUT);
       h.clickBack();
 
       // ORANGE_2_2_1_A ------------------------------
@@ -146,13 +146,13 @@ describe('PACT Act', () => {
 
       // RADIATION_2_3_B -----------------------------
       h.verifyUrl(ROUTES.RADIATION_2_3_B);
-      h.verifyFormErrorNotShownCheckBox(h.RADIATION_2_3_B_INPUT);
+      h.verifyFormErrorNotShown(h.RADIATION_2_3_B_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(h.RADIATION_2_3_B_INPUT, 'Error Select a location.');
+      h.checkFormAlertText(h.RADIATION_2_3_B_INPUT, 'ErrorSelect a location.');
 
       h.selectCheckbox(h.RADIATION_2_3_B_INPUT, 0);
-      h.verifyFormErrorNotShownCheckBox(h.RADIATION_2_3_B_INPUT);
+      h.verifyFormErrorNotShown(h.RADIATION_2_3_B_INPUT);
       h.clickBack();
 
       // RADIATION_2_3_A ------------------------------

@@ -10,7 +10,6 @@ const ShowPdfPassword = ({
   onSubmitPassword,
   passwordLabel = null,
   testVal = '', // for testing
-  uswds,
 }) => {
   const [value, setValue] = useState(testVal);
   const [dirty, setDirty] = useState(false);
@@ -48,10 +47,10 @@ const ShowPdfPassword = ({
         onInput={({ target }) => setValue(target.value || '')}
         onBlur={() => setDirty(true)}
         messageAriaDescribedby={passwordLabel}
-        uswds={uswds}
+        uswds
       />
       <va-button
-        className="vads-u-width--auto"
+        class="vads-u-width--auto vads-u-margin-top--2"
         text="Add password"
         onClick={() => {
           if (value) {
@@ -63,7 +62,7 @@ const ShowPdfPassword = ({
           }
         }}
         label={passwordLabel}
-        uswds={uswds}
+        uswds
       />
     </div>
   );
@@ -74,7 +73,6 @@ ShowPdfPassword.propTypes = {
   index: PropTypes.number,
   passwordLabel: PropTypes.string,
   testVal: PropTypes.string,
-  uswds: PropTypes.bool,
   onSubmitPassword: PropTypes.func,
 };
 

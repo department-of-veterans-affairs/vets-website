@@ -10,7 +10,7 @@ import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
 import LearnMoreLabel from '../components/LearnMoreLabel';
 import {
-  isProductionOfTestProdEnv,
+  isProductionOrTestProdEnv,
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
@@ -22,6 +22,8 @@ import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
 import ClearFiltersBtn from '../components/ClearFiltersBtn';
+import { useFilterBtn } from '../hooks/useFilterbtn';
+import Loader from '../components/Loader';
 
 export function FilterYourResults({
   dispatchShowModal,
@@ -66,7 +68,9 @@ export function FilterYourResults({
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
   const [nameValue, setNameValue] = useState(search.query.name);
-
+  const { isCleared, setIsCleared, focusOnFirstInput, loading } = useFilterBtn(
+    true,
+  );
   const recordCheckboxEvent = e => {
     recordEvent({
       event: 'gibct-form-change',
@@ -181,7 +185,7 @@ export function FilterYourResults({
   };
 
   const updateResults = () => {
-    if (!isProductionOfTestProdEnv()) {
+    if (isProductionOrTestProdEnv()) {
       validateSearchTerm(nameValue, dispatchError, error, filters, searchType);
     }
     updateInstitutionFilters('search', true);
@@ -213,6 +217,7 @@ export function FilterYourResults({
           }
           onChange={handleIncludedSchoolTypesChange}
           options={options}
+          setIsCleared={setIsCleared}
         />
       </div>
     );
@@ -223,7 +228,7 @@ export function FilterYourResults({
       {
         name: 'excludeCautionFlags',
         checked: excludeCautionFlags,
-        optionLabel: isProductionOfTestProdEnv() ? (
+        optionLabel: isProductionOrTestProdEnv() ? (
           <LearnMoreLabel
             text="Has no cautionary warnings"
             onClick={() => {
@@ -240,7 +245,7 @@ export function FilterYourResults({
       {
         name: 'accredited',
         checked: accredited,
-        optionLabel: isProductionOfTestProdEnv() ? (
+        optionLabel: isProductionOrTestProdEnv() ? (
           <LearnMoreLabel
             text="Is accredited"
             onClick={() => {
@@ -273,6 +278,7 @@ export function FilterYourResults({
           <div className="vads-u-margin-left--neg0p25">About the school:</div>
         }
         onChange={onChangeCheckbox}
+        setIsCleared={setIsCleared}
         options={options}
       />
     );
@@ -283,73 +289,54 @@ export function FilterYourResults({
       {
         name: 'specialMissionHbcu',
         checked: specialMissionHbcu,
-        optionLabel: !isProductionOfTestProdEnv()
-          ? 'Historically Black college or university'
-          : 'Historically Black Colleges and Universities',
+        optionLabel: 'Historically Black Colleges and Universities',
       },
       {
         name: 'specialMissionMenonly',
         checked: specialMissionMenonly,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Men-only'
-          : 'Men’s colleges and universities',
+        optionLabel: 'Men’s colleges and universities',
       },
       {
         name: 'specialMissionWomenonly',
         checked: specialMissionWomenonly,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Women-only'
-          : 'Women’s colleges and universities',
+        optionLabel: 'Women’s colleges and universities',
         // optionLabel: 'Women-only',
       },
       {
         name: 'specialMissionRelaffil',
         checked: specialMissionRelaffil,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Religious affiliation'
-          : 'Religiously affiliated institutions',
+        optionLabel: 'Religiously affiliated institutions',
       },
       {
         name: 'specialMissionHSI',
         checked: specialMissionHSI,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Hispanic-serving institutions'
-          : 'Hispanic-Serving Institutions',
+        optionLabel: 'Hispanic-Serving Institutions',
       },
       {
         name: 'specialMissionNANTI',
         checked: specialMissionNANTI,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Native American-serving institutions'
-          : 'Native American-Serving Nontribal Institutions',
+        optionLabel: 'Native American-Serving Nontribal Institutions',
       },
       {
         name: 'specialMissionANNHI',
         checked: specialMissionANNHI,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Alaska Native-serving institutions'
-          : 'Alaska Native-Serving Institutions',
+        optionLabel: 'Alaska Native-Serving Institutions',
       },
       {
         name: 'specialMissionAANAPII',
         checked: specialMissionAANAPII,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Asian American Native American Pacific Islander-serving institutions'
-          : 'Asian American and Native American Pacific Islander-Serving Institutions',
+        optionLabel:
+          'Asian American and Native American Pacific Islander-Serving Institutions',
       },
       {
         name: 'specialMissionPBI',
         checked: specialMissionPBI,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Predominantly Black institutions'
-          : 'Predominantly Black Institutions',
+        optionLabel: 'Predominantly Black Institutions',
       },
       {
         name: 'specialMissionTRIBAL',
         checked: specialMissionTRIBAL,
-        optionLabel: isProductionOfTestProdEnv()
-          ? 'Tribal college and university'
-          : 'Tribal Colleges and Universities',
+        optionLabel: 'Tribal Colleges and Universities',
       },
     ];
 
@@ -358,14 +345,11 @@ export function FilterYourResults({
         class="vads-u-margin-y--4"
         label={
           <div className="vads-u-margin-left--neg0p25">
-            {`${
-              environment.isProduction()
-                ? 'Specialized mission'
-                : 'Community focus'
-            } (i.e., Single-gender, Religious affiliation, HBCU)`}
+            Community focus (i.e., Single-gender, Religious affiliation, HBCU)
           </div>
         }
         onChange={onChangeCheckbox}
+        setIsCleared={setIsCleared}
         options={options}
       />
     );
@@ -394,6 +378,7 @@ export function FilterYourResults({
             onChange={handleSchoolChange}
             className="expanding-header-checkbox"
             inputAriaLabelledBy={legendId}
+            focusOnFirstInput={focusOnFirstInput}
           />
           <div className="school-types expanding-group-children">
             {schools && (
@@ -478,6 +463,7 @@ export function FilterYourResults({
   const renderLocation = () => {
     return (
       <>
+        {loading && <Loader className="search-loader" />}
         <h3>Location</h3>
         {renderCountryFilter()}
         {renderStateFilter()}
@@ -503,6 +489,8 @@ export function FilterYourResults({
           buttonOnClick={() => updateResults()}
           expanded={expanded}
           onClick={onAccordionChange}
+          isCleared={isCleared}
+          setIsCleared={setIsCleared}
         >
           {search.inProgress && (
             <VaLoadingIndicator
@@ -535,7 +523,11 @@ export function FilterYourResults({
               Update results
             </button>
             {!environment.isProduction() && (
-              <ClearFiltersBtn smallScreen={smallScreen}>
+              <ClearFiltersBtn
+                smallScreen={smallScreen}
+                isCleared={isCleared}
+                setIsCleared={setIsCleared}
+              >
                 Clear filters
               </ClearFiltersBtn>
             )}

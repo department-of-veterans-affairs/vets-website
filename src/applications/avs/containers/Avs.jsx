@@ -15,7 +15,7 @@ import { useDatadogRum } from '../hooks/useDatadogRum';
 
 import BreadCrumb from '../components/BreadCrumb';
 import MoreInformation from '../components/MoreInformation';
-import TextWithLineBreaks from '../components/TextWithLineBreaks';
+import AvsPageHeader from '../components/AvsPageHeader';
 import YourAppointment from '../components/YourAppointment';
 import YourHealthInformation from '../components/YourHealthInformation';
 import YourTreatmentPlan from '../components/YourTreatmentPlan';
@@ -64,7 +64,7 @@ const Avs = props => {
         }
       };
 
-      if (isLoggedIn && avsLoading) {
+      if (isLoggedIn && avsLoading && id) {
         fetchAvs();
       }
     },
@@ -73,9 +73,10 @@ const Avs = props => {
 
   if (avsEnabled === false) {
     window.location.replace('/');
+    return null;
   }
 
-  if (isLoggedIn && (avsLoading || featureTogglesLoading)) {
+  if (isLoggedIn && id && (avsLoading || featureTogglesLoading)) {
     return (
       <va-loading-indicator
         data-testid="avs-loading-indicator"
@@ -84,17 +85,22 @@ const Avs = props => {
     );
   }
 
+  if (!id) {
+    window.location.replace('/my-health/medical-records/summaries-and-notes/');
+    return null;
+  }
+
   return (
-    <div className="vads-l-grid-container main-content">
+    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 main-content">
       <RequiredLoginView
         user={user}
         serviceRequired={[backendServices.USER_PROFILE]}
       >
         <BreadCrumb />
-        <h1>After-visit summary</h1>
+        <h1 className="vads-u-padding-top--2">After-visit summary</h1>
         {avs.meta?.pageHeader && (
           <p>
-            <TextWithLineBreaks text={avs.meta.pageHeader} />
+            <AvsPageHeader text={avs.meta.pageHeader} />
           </p>
         )}
 

@@ -11,7 +11,7 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
-import { paymentsError } from '../fixtures/test-payments-response';
+import { paymentsServerError } from '../fixtures/test-payments-response';
 import appointmentsEmpty from '../fixtures/appointments-empty';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
@@ -40,14 +40,14 @@ describe('My VA - Benefit payments - error-states', () => {
 
   describe('Payments API-error', () => {
     beforeEach(() => {
-      cy.intercept('/v0/profile/payment_history', paymentsError()).as(
-        'paymentsErrorA',
+      cy.intercept('/v0/profile/payment_history', paymentsServerError()).as(
+        'paymentsServerErrorA',
       );
     });
 
     it('shows error - C30358', () => {
       cy.visit('my-va/');
-      cy.wait(['@noDebts', '@noCopays', '@paymentsErrorA']);
+      cy.wait(['@noDebts', '@noCopays', '@paymentsServerErrorA']);
       cy.findByTestId('dashboard-section-debts').should('exist');
 
       cy.findByTestId('dashboard-section-payment').should('exist');

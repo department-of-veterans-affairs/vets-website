@@ -743,5 +743,34 @@ export const truncateDescriptions = data =>
  * @returns {string} markup with h3 tag and consistent styling
  */
 export const formTitle = title => (
-  <h3 className="vads-u-font-size--h4 vads-u-margin--0">{title}</h3>
+  <h3 className="vads-u-font-size--h4 vads-u-color--base vads-u-margin--0">
+    {title}
+  </h3>
 );
+
+/**
+ * Creates consistent form subtitle
+ * @param {string} subtitle
+ * @returns {string} markup with h4 tag and consistent styling
+ */
+export const formSubtitle = subtitle => (
+  <h4 className="vads-u-font-size--h5 vads-u-margin-top--2">{subtitle}</h4>
+);
+
+/**
+ * Formats a raw date using month and year only. For example: 'January 2000'
+ *
+ * @param {string} rawDate - Assuming a date in the format 'YYYY-MM-DD'
+ * @returns {string} A friendly date string if a valid date. Empty string otherwise.
+ */
+export const formatMonthYearDate = (rawDate = '') => {
+  const date = new Date(rawDate.split('-').join('/')).toLocaleDateString(
+    'en-US',
+    {
+      year: 'numeric',
+      month: 'long',
+    },
+  );
+
+  return date === 'Invalid Date' ? '' : date;
+};

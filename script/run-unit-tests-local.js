@@ -1,9 +1,12 @@
 /* eslint-disable no-console */
 const commandLineArgs = require('command-line-args');
 const glob = require('glob');
+const path = require('path');
+const { promisify } = require('util');
 const printUnitTestHelp = require('./run-unit-test-help');
 const { runCommand } = require('./utils');
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
+const exec = promisify(require('child_process').exec);
 
 const specDirs = '{src,script}';
 const defaultPath = `./${specDirs}/**/*.unit.spec.js?(x)`;
@@ -62,10 +65,62 @@ const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageRepor
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';
 
-const command = `LOG_LEVEL=${options[
-  'log-level'
-].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} ${`--recursive ${options.path
-  .map(p => `'${p}'`)
-  .join(' ')}`}`;
+async function runCommandAsync(command) {
+  return new Promise((resolve, reject) => {
+    console.log(`Executing: ${command}`);
+    exec(command, (error, stdout) => {
+      if (error) {
+        console.error(`Error: ${error}`);
+        reject(error);
+      } else {
+        console.log(`Output: ${stdout}`);
+        resolve(stdout);
+      }
+    });
+  });
+}
 
-runCommand(command);
+async function runTests() {
+  const allUnitTests = glob.sync(defaultPath);
+
+  const allUnitTestDirs = Array.from(
+    new Set(
+      allUnitTests.map(spec =>
+        JSON.stringify(
+          path
+            .dirname(spec)
+            .split('/')
+            .slice(1, 4),
+        ),
+      ),
+    ),
+  )
+    .filter(spec => spec !== undefined)
+    .map(directory => JSON.parse(directory).join('/'));
+  for (const app of allUnitTestDirs) {
+    const command = `LOG_LEVEL=${options[
+      'log-level'
+    ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} "${`${app}/**/*.unit.spec.js?(x)`}"`;
+
+    try {
+      /* eslint-disable-next-line no-await-in-loop */
+      await runCommandAsync(command);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+if (options.path[0] !== defaultPath) {
+  const command = `LOG_LEVEL=${options[
+    'log-level'
+  ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} ${`--recursive ${options.path
+    .map(p => `'${p}'`)
+    .join(' ')}`}`;
+
+  runCommand(command);
+} else {
+  runTests().then(() => {
+    console.log('All Tests Complete');
+  });
+}

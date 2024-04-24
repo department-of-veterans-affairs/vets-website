@@ -62,8 +62,8 @@
   }
 
   .compare-header {
-    background-color: $color-primary;
-    color: $color-white;
+    background-color: var(--vads-color-primary);
+    color: var(--vads-color-white);
     text-align: center;
     height: 2.5em;
     border-top-left-radius: 6px;
@@ -80,7 +80,7 @@
       margin-top: -5px;
       margin-bottom: 0px;
       padding-bottom: 3px;
-      background-color: $color-primary !important;
+      background-color: var(--vads-color-primary) !important;
 
       &:focus:not(:focus-visible) {
         outline: none;
@@ -107,8 +107,8 @@
   }
 
   .compare-body {
-    background-color: $color-white;
-    border: 1px solid $color-gray-light;
+    background-color: var(--vads-color-white);
+    border: 1px solid var(--vads-color-base-light);
     height: 10em;
     padding-left: 0.75em;
     padding-right: 0.75em;
@@ -147,7 +147,7 @@
     }
 
     .blank {
-      border: 2px dashed $color-gray-light;
+      border: 2px dashed var(--vads-color-base-light);
       height: 6em;
       border-radius: 5px;
       margin-right: 1.5em;

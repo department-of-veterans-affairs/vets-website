@@ -29,9 +29,9 @@ const EmploymentRecord = props => {
   const {
     personalData: {
       employmentHistory: {
-        veteran: { employmentRecords = [] },
+        veteran: { employmentRecords = [] } = {},
         newRecord = { ...BASE_EMPLOYMENT_RECORD },
-      },
+      } = {},
     },
   } = data;
 
@@ -166,7 +166,7 @@ const EmploymentRecord = props => {
             information if it’s a current job.
           </p>
         </legend>
-        <div className="input-size-5">
+        <div className="input-size-7">
           <VaSelect
             id="type"
             name="type"
@@ -184,9 +184,8 @@ const EmploymentRecord = props => {
             <option value="Temporary">Temporary</option>
           </VaSelect>
         </div>
-        <div className="input-size-7 vads-u-margin-bottom--2">
+        <div className="vads-u-margin-bottom--2">
           <VaTextInput
-            className="no-wrap"
             error={employerNameError ? 'Please enter your employer name.' : ''}
             id="employer-name"
             label="Employer name"
@@ -195,6 +194,7 @@ const EmploymentRecord = props => {
             required
             type="text"
             value={employmentRecord.employerName}
+            width="xl"
             uswds
           />
         </div>

@@ -1,12 +1,15 @@
 import {
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
+  title: 'Receives income',
+  path: 'financial/receives-income',
   uiSchema: {
-    'ui:title': 'Gross monthly income',
+    ...titleUI('Gross monthly income'),
     receivesIncome: yesNoUI({
       title: 'Do you, your spouse, or your dependents receive income?',
       hint:

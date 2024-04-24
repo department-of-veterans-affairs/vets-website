@@ -22,9 +22,9 @@ describe('Pre-Check In Experience ', () => {
       it('error in the body', () => {
         cy.visitPreCheckInWithUUID();
 
-        Error.validateUUIDErrorPageLoaded();
+        Error.validatePageLoadedGeneric();
         cy.injectAxeThenAxeCheck();
-        cy.createScreenshots('Pre-check-in--UUID-error');
+        cy.createScreenshots('Pre-check-in-session-get-error');
       });
     });
   });

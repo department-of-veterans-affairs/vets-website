@@ -29,7 +29,9 @@ export default function transformForSubmit(formConfig, form) {
   remarkString = remarkString.slice(0, remarkString.length - 2).trim();
 
   const transformedData = JSON.parse(
-    sharedTransformForSubmit(formConfig, form),
+    sharedTransformForSubmit(formConfig, form, {
+      allowPartialAddress: true,
+    }),
   );
 
   // otherConditions is combined into remarks string, so remove from transformedData

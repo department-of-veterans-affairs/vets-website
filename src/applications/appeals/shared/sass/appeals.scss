@@ -1,5 +1,96 @@
+/* Global */
+.nowrap {
+  white-space: nowrap;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+fieldset.vads-u-margin-y--2 {
+  margin-top: 0 !important;
+}
+
+// .rjsf-object-field:empty {
+//   display: none;
+// }
+
 
 /* area of disagreement input error removes top margin */
 va-checkbox-group va-text-input[error]::part(label) {
   margin-top: 3rem;
+}
+
+/* Contested issue cards (contested issue page & review/submit page)
+ * This could go in the schemaform css, it's used in form 526 & HLR
+ */
+ .issues {
+
+  .widget-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    .widget-checkbox-wrap {
+      margin: 0;
+      width: 5rem;
+      min-width: 5rem;
+
+      label {
+        margin-top: 0;
+      }
+
+      /* contestable issues widget - copy uswds v3 style */
+      label:before {
+        box-shadow: rgb(27, 27, 27) 0px 0px 0px 2px;
+      }
+
+      [type="checkbox"] {
+        width: 1.8rem;
+        height: 1.8rem;
+        margin: 0;
+      }
+    }
+
+    .widget-content {
+      width: 100%;
+      margin-inline-start: 0; /* override user agent */
+      text-align: left;
+      margin: 0;
+    }
+    .widget-content.widget-edit {
+      margin-top: 0;
+      margin-right: 0;
+      display: flex;
+
+      .widget-content-wrap {
+        margin-top: 3rem;
+        margin-right: 0.5rem;
+        width: 100%;
+      }
+
+      .edit {
+        margin-top: 2rem;
+        /* position the edit button above the overlapping label */
+        position: relative;
+        z-index: 1;
+        align-self: center;
+      }
+    }
+    .edit-issue-link:visited {
+      color: inherit;
+    }
+  }
+
+  .checkbox-hidden {
+    .widget-content {
+      margin: 2rem 0 0 0;
+    }
+  }
+}
+
+article[data-location="review-and-submit"] {
+  dd {
+    word-break: break-word;
+  }
 }

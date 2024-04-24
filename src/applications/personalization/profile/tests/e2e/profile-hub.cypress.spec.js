@@ -8,7 +8,11 @@ import user from '../../mocks/endpoints/user';
 describe('Profile - Hub page', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    mockProfileLOA3();
+    mockProfileLOA3(
+      generateFeatureToggles({
+        profileContacts: true,
+      }),
+    );
   });
 
   it('should render the correct content', () => {
@@ -44,9 +48,7 @@ describe('Profile - Hub page', () => {
     cy.findByText('Review your mailing address').should('exist');
 
     // link text for the bad address indicator alert
-    cy.findByText(
-      'Go to your contact information to review your address',
-    ).should('exist');
+    cy.findByText('Review the mailing address in your profile').should('exist');
 
     cy.url().should('not.include', 'personal-information');
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { APP_URLS } from '../../utils/constants';
 
 const confirmationFAQ = () => {
   return (
@@ -40,10 +41,7 @@ const confirmationFAQ = () => {
           find your application status at the top of the page.
         </p>
         <p className="no-print">
-          <a
-            href="/health-care/apply/application"
-            className="vads-c-action-link--green"
-          >
+          <a href={APP_URLS.hca} className="vads-c-action-link--green">
             Go to health care application page
           </a>
         </p>
@@ -80,9 +78,9 @@ const confirmationFAQ = () => {
         <p>Mail your documents here:</p>
         <p className="va-address-block">
           Health Eligibility Center
-          <hr />
+          <br role="presentation" />
           PO Box 5207
-          <hr />
+          <br role="presentation" />
           Janesville, WI 53547-5207
         </p>
       </section>

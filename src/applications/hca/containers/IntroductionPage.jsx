@@ -1,40 +1,23 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { focusElement } from 'platform/utilities/ui';
+import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
+import { focusElement } from '~/platform/utilities/ui';
 import {
   DowntimeNotification,
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
-import recordEvent from 'platform/monitoring/record-event';
+} from '~/platform/monitoring/DowntimeNotification';
 
-import EnrollmentStatus from '../components/IntroductionPage/EnrollmentStatus';
-import GetStartedContent from '../components/IntroductionPage/GetStarted';
 import IdentityVerificationAlert from '../components/FormAlerts/IdentityVerificationAlert';
+import GetStarted from '../components/IntroductionPage/GetStarted';
+import { selectAuthStatus } from '../utils/selectors/auth-status';
+import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
+import content from '../locales/en/content.json';
 
-import {
-  isLoading,
-  isLoggedOut,
-  isUserLOA1,
-  isUserLOA3,
-  shouldShowGetStartedContent,
-} from '../utils/selectors';
-
-const IntroductionPage = props => {
-  const { route, displayConditions, features } = props;
-  const {
-    showLoader,
-    showLoginAlert,
-    showIdentityAlert,
-    showLOA3Content,
-    showGetStartedContent,
-  } = displayConditions;
-  const { enrollmentOverrideEnabled } = features;
-
-  const onVerifyEvent = recordEvent({ event: AUTH_EVENTS.VERIFY });
+const IntroductionPage = ({ route }) => {
+  const { loading } = useSelector(selectEnrollmentStatus);
+  const { isUserLOA1 } = useSelector(selectAuthStatus);
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -42,70 +25,37 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      {!showLoader && (
-        <>
-          <FormTitle
-            title="Apply for VA health care"
-            subTitle="Enrollment Application for Health Benefits (VA Form 10-10EZ)"
-          />
-        </>
-      )}
-
       <DowntimeNotification
-        appTitle="Application for VA health care"
-        dependencies={[externalServices.es]}
+        appTitle={content['form-title']}
+        dependencies={[externalServices['1010ez']]}
       >
-        {!showLoader &&
-          !showLOA3Content && (
-            <p data-testid="hca-loa1-description">
-              VA health care covers care for your physical and mental health.
-              This includes a range of services from checkups to surgeries to
-              home health care. It also includes prescriptions and medical
-              equipment. Apply online now.
-            </p>
-          )}
-
-        {showLoader && (
+        {loading ? (
           <va-loading-indicator
-            label="Loading"
-            message="Loading your application..."
+            message={content['load-enrollment-status']}
+            class="vads-u-margin-y--4"
+            set-focus
           />
-        )}
+        ) : (
+          <>
+            <FormTitle
+              title={content['form-title']}
+              subTitle={content['form-subtitle']}
+            />
 
-        {showIdentityAlert && (
-          <IdentityVerificationAlert onVerify={onVerifyEvent} />
+            {isUserLOA1 ? (
+              <IdentityVerificationAlert />
+            ) : (
+              <GetStarted route={route} />
+            )}
+          </>
         )}
-
-        {(showGetStartedContent || enrollmentOverrideEnabled) && (
-          <GetStartedContent route={route} showLoginAlert={showLoginAlert} />
-        )}
-
-        {showLOA3Content &&
-          !enrollmentOverrideEnabled && <EnrollmentStatus route={route} />}
       </DowntimeNotification>
     </div>
   );
 };
 
 IntroductionPage.propTypes = {
-  displayConditions: PropTypes.object,
-  features: PropTypes.object,
   route: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  displayConditions: {
-    showLoader: isLoading(state),
-    showLOA3Content: isUserLOA3(state),
-    showGetStartedContent: shouldShowGetStartedContent(state),
-    showLoginAlert: isLoggedOut(state),
-    showIdentityAlert: isUserLOA1(state),
-  },
-  features: {
-    enrollmentOverrideEnabled:
-      state.featureToggles.hcaEnrollmentStatusOverrideEnabled,
-  },
-});
-
-export { IntroductionPage };
-export default connect(mapStateToProps)(IntroductionPage);
+export default IntroductionPage;

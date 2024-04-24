@@ -2,10 +2,17 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import DemographicsDisplay from './DemographicsDisplay';
 
 describe('pre-check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('shared components', () => {
     describe('DemographicsDisplay', () => {
       it('renders with default values', () => {

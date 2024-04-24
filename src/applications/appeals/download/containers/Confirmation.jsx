@@ -82,8 +82,7 @@ const Confirmation = () => {
           </p>
         </va-alert>
 
-        {/* <va-summary-box uswds class="vads-u-margin-y--2"> */}
-        <div className="inset">
+        <va-summary-box uswds class="vads-u-margin-y--2">
           <h3 slot="headline" className="vads-u-margin-top--0">
             Save a PDF copy of your Board Appeal
           </h3>
@@ -98,8 +97,7 @@ const Confirmation = () => {
             href="#"
             text="Download a copy of your Board Appeal (PDF)"
           />
-        </div>
-        {/* </va-summary-box> */}
+        </va-summary-box>
 
         <h3 className="vads-u-margin-top--0">
           {`You submitted the following information for Board Appeal on ${format(

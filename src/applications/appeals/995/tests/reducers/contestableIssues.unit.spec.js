@@ -4,7 +4,7 @@ import {
   FETCH_CONTESTABLE_ISSUES_INIT,
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
-} from '../../actions';
+} from '../../../shared/actions';
 
 import reducers from '../../reducers';
 

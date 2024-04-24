@@ -5,7 +5,9 @@ import contactsSingleEc from '@@profile/tests/fixtures/contacts-single-ec.json';
 import contactsSingleNok from '@@profile/tests/fixtures/contacts-single-nok.json';
 
 import { PROFILE_PATHS } from '@@profile/constants';
-import { loa3User72 } from '@@profile/mocks/endpoints/user';
+import { loa3User72, nonVeteranUser } from '@@profile/mocks/endpoints/user';
+
+let featureToggles;
 
 describe('Personal health care contacts -- feature enabled', () => {
   beforeEach(() => {
@@ -18,11 +20,28 @@ describe('Personal health care contacts -- feature enabled', () => {
       '/v0/profile/personal_information',
     ];
     mockGETEndpoints(otherEndpoints, 200, {});
+
+    featureToggles = generateFeatureToggles({ profileContacts: true });
+    cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+  });
+
+  it('links from the hub page', () => {
+    cy.intercept('GET', '/v0/profile/contacts', contacts);
+    cy.login(loa3User72);
+    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+    cy.get('a[href$="/profile/contacts"]').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('links from the nav', () => {
+    cy.intercept('GET', '/v0/profile/contacts', contacts);
+    cy.login(loa3User72);
+    cy.visit(PROFILE_PATHS.CONTACTS);
+    cy.get('a[href$="/profile/contacts"]').should('exist');
+    cy.injectAxeThenAxeCheck();
   });
 
   it("displays a Veteran's Next of kin and Emergency contacts", () => {
-    const featureToggles = generateFeatureToggles({ profileContacts: true });
-    cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
     cy.intercept('GET', '/v0/profile/contacts', contacts);
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.CONTACTS);
@@ -34,8 +53,6 @@ describe('Personal health care contacts -- feature enabled', () => {
   });
 
   it('displays instructions when no contacts are present', () => {
-    const featureToggles = generateFeatureToggles({ profileContacts: true });
-    cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
     cy.intercept('GET', '/v0/profile/contacts', { data: [] });
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.CONTACTS);
@@ -45,8 +62,6 @@ describe('Personal health care contacts -- feature enabled', () => {
   });
 
   it('handles one emergency contact', () => {
-    const featureToggles = generateFeatureToggles({ profileContacts: true });
-    cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
     cy.intercept('GET', '/v0/profile/contacts', contactsSingleEc);
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.CONTACTS);
@@ -56,8 +71,6 @@ describe('Personal health care contacts -- feature enabled', () => {
   });
 
   it('handles one next of kin', () => {
-    const featureToggles = generateFeatureToggles({ profileContacts: true });
-    cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
     cy.intercept('GET', '/v0/profile/contacts', contactsSingleNok);
     cy.login(loa3User72);
     cy.visit(PROFILE_PATHS.CONTACTS);
@@ -65,11 +78,27 @@ describe('Personal health care contacts -- feature enabled', () => {
     cy.findByText(/James Daniel Bishop/);
     cy.injectAxeThenAxeCheck();
   });
+
+  it('handles a 500 response', () => {
+    cy.intercept('GET', '/v0/profile/contacts', { statusCode: 500 });
+    cy.login(loa3User72);
+    cy.visit(PROFILE_PATHS.CONTACTS);
+    cy.findByTestId('service-is-down-banner');
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('handles a non-veteran user by displaying the non-va-patient-message ', () => {
+    cy.intercept('GET', '/v0/profile/contacts', contacts);
+    cy.login(nonVeteranUser);
+    cy.visit(PROFILE_PATHS.CONTACTS);
+    cy.findByTestId('non-va-patient-message');
+    cy.injectAxeThenAxeCheck();
+  });
 });
 
 describe('Personal health care contacts -- feature disabled', () => {
   it('removes the link from the nav', () => {
-    const featureToggles = generateFeatureToggles({ profileContacts: false });
+    featureToggles = generateFeatureToggles({ profileContacts: false });
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
     cy.intercept('GET', '/v0/profile/contacts', contacts);
     cy.login(loa3User72);

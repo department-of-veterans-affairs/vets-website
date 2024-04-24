@@ -1,10 +1,13 @@
 {
   "data": {
-    "hasEmployment": true,
+    "arrayBuilderPatternFlowType": "optional",
+    "view:hasEmployment": true,
     "employers": [
       {
-        "dateStart": "1999-01-03",
-        "dateEnd": "1999-01-03",
+        "dateRange": {
+          "from": "1999-01-03",
+          "to": "1999-01-03"
+        },
         "name": "Employer 1",
         "address": {
           "view:militaryBaseDescription": {},
@@ -16,8 +19,10 @@
         }
       },
       {
-        "dateStart": "1999-01-03",
-        "dateEnd": "1999-01-03",
+        "dateRange": {
+          "from": "1999-01-03",
+          "to": "1999-01-03"
+        },
         "name": "Employer 2",
         "address": {
           "view:militaryBaseDescription": {},

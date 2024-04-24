@@ -100,5 +100,14 @@ export const selectFeatureAfterVisitSummary = state =>
 export const selectFeatureStartSchedulingLink = state =>
   toggleValues(state).vaOnlineSchedulingStartSchedulingLink;
 
+export const selectFeaturePhysicalLocation = state =>
+  toggleValues(state).vaOnlineSchedulingPhysicalLocation;
+
 export const selectFeatureBookingExclusion = state =>
   toggleValues(state).vaOnlineSchedulingBookingExclusion;
+
+export const selectFeatureDatadogRum = state =>
+  toggleValues(state).vaOnlineSchedulingDatadogRum;
+
+export const selectFeatureAppointmentDetailsRedesign = state =>
+  toggleValues(state).vaOnlineSchedulingAppointmentDetailsRedesign;

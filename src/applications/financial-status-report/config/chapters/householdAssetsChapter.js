@@ -1,16 +1,10 @@
 import {
-  monetary,
   monetaryValues,
-  realEstate,
-  realEstateRecords,
   enhancedRealEstate,
   enhancedRealEstateRecords,
   vehicles,
-  vehicleRecords,
   recreationalVehicles,
   recreationalVehicleRecords,
-  otherAssets,
-  otherAssetRecords,
   otherAssetPages,
 } from '../../pages';
 
@@ -89,15 +83,7 @@ export default {
           formData?.gmtData?.isEligibleForStreamlined &&
           isStreamlinedShortForm(formData),
       },
-      monetary: {
-        path: 'monetary-assets',
-        title: 'Monetary assets',
-        uiSchema: monetary.uiSchema,
-        schema: monetary.schema,
-        depends: formData =>
-          !formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
-      },
+
       monetaryChecklist: {
         path: 'monetary-asset-checklist',
         title: 'Monetary asset options',
@@ -105,9 +91,7 @@ export default {
         schema: { type: 'object', properties: {} },
         CustomPage: MonetaryCheckList,
         CustomPageReview: null,
-        depends: formData =>
-          formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
+        depends: formData => !isStreamlinedShortForm(formData),
       },
       monetaryValues: {
         path: 'monetary-asset-values',
@@ -126,40 +110,16 @@ export default {
           );
 
           return (
-            formData['view:enhancedFinancialStatusReport'] &&
-            filteredLiquidAssets.length > 0 &&
-            !isStreamlinedShortForm(formData)
+            filteredLiquidAssets.length > 0 && !isStreamlinedShortForm(formData)
           );
         },
-      },
-      realEstate: {
-        path: 'real-estate-assets',
-        title: 'Real estate',
-        uiSchema: realEstate.uiSchema,
-        schema: realEstate.schema,
-        depends: formData =>
-          !formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
-      },
-      realEstateRecords: {
-        path: 'real-estate-asset-records',
-        title: 'Real estate',
-        uiSchema: realEstateRecords.uiSchema,
-        schema: realEstateRecords.schema,
-        depends: formData =>
-          formData.questions.hasRealEstate &&
-          !formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
-        editModeOnReviewPage: true,
       },
       enhancedRealEstate: {
         path: 'enhanced-real-estate-assets',
         title: 'Real estate',
         uiSchema: enhancedRealEstate.uiSchema,
         schema: enhancedRealEstate.schema,
-        depends: formData =>
-          formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
+        depends: formData => !isStreamlinedShortForm(formData),
         editModeOnReviewPage: false,
         CustomPageReview: RealEstateQuestionReview,
       },
@@ -170,7 +130,6 @@ export default {
         schema: enhancedRealEstateRecords.schema,
         depends: formData =>
           formData.questions?.hasRealEstate &&
-          formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
         CustomPageReview: RealEstateReview,
@@ -182,17 +141,6 @@ export default {
         schema: vehicles.schema,
         depends: formData => !isStreamlinedShortForm(formData),
       },
-      vehicleRecords: {
-        path: 'vehicle-records',
-        title: 'Vehicles',
-        uiSchema: vehicleRecords.uiSchema,
-        schema: vehicleRecords.schema,
-        depends: formData =>
-          formData.questions.hasVehicle &&
-          !formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
-        editModeOnReviewPage: true,
-      },
       enhancedVehicleRecords: {
         path: 'your-vehicle-records',
         title: 'Vehicles',
@@ -201,7 +149,6 @@ export default {
         depends: formData =>
           formData.questions.hasVehicle &&
           !formData.assets?.automobiles?.length &&
-          formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
         CustomPage: EnhancedVehicleRecord,
@@ -214,9 +161,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.hasVehicle &&
-          formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
+          formData.questions.hasVehicle && !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
         CustomPage: VehicleSummaryWidget,
         CustomPageReview: VehicleSummaryReview,
@@ -239,26 +184,6 @@ export default {
         editModeOnReviewPage: true,
         CustomPageReview: RecreationalVehiclesReview,
       },
-      otherAssets: {
-        path: 'other-assets',
-        title: 'Other assets',
-        uiSchema: otherAssets.uiSchema,
-        schema: otherAssets.schema,
-        depends: formData =>
-          !formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
-      },
-      otherAssetRecords: {
-        path: 'other-asset-records',
-        title: 'Other assets',
-        uiSchema: otherAssetRecords.uiSchema,
-        schema: otherAssetRecords.schema,
-        depends: formData =>
-          formData.questions.hasOtherAssets &&
-          !formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
-        editModeOnReviewPage: true,
-      },
       // Other Household Assets
       otherAssetsChecklist: {
         path: 'other-assets-checklist',
@@ -267,9 +192,7 @@ export default {
         CustomPageReview: null,
         uiSchema: {},
         schema: { type: 'object', properties: {} },
-        depends: formData =>
-          formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
+        depends: formData => !isStreamlinedShortForm(formData),
       },
       otherAssetsValues: {
         path: 'other-assets-values',
@@ -278,7 +201,6 @@ export default {
         schema: otherAssetPages.otherAssetsValues.schema,
         depends: formData =>
           !!formData.assets?.otherAssets?.length &&
-          formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
       },
       otherAssetsSummary: {
@@ -291,7 +213,6 @@ export default {
         schema: { type: 'object', properties: {} },
         depends: formData =>
           !!formData.assets?.otherAssets?.length &&
-          formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
       },
       addOtherAsset: {

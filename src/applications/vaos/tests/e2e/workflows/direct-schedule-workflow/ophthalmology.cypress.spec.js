@@ -44,29 +44,29 @@ describe('VAOS request schedule flow - Audiology', () => {
   beforeEach(() => {
     vaosSetup();
 
-    const response = new MockAppointmentResponse({
-      id: 'mock1',
-      localStartTime: moment(),
-      status: APPOINTMENT_STATUS.booked,
-      serviceType: typeOfCareId,
-    });
-    mockAppointmentGetApi({
-      response,
-    });
-    mockAppointmentCreateApi({ response });
     mockAppointmentsGetApi({ response: [] });
     mockFeatureToggles();
     mockVamcEhrApi();
   });
 
   describe('When veteran is CC eligible', () => {
-    beforeEach(() => {
+    const setup = () => {
       const mockEligibilityResponse = new MockEligibilityResponse({
         facilityId: '983',
         typeOfCareId,
         isEligible: true,
       });
+      const response = new MockAppointmentResponse({
+        id: 'mock1',
+        localStartTime: moment(),
+        status: APPOINTMENT_STATUS.booked,
+        serviceType: typeOfCareId,
+      });
 
+      mockAppointmentCreateApi({ response });
+      mockAppointmentGetApi({
+        response,
+      });
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({
           facilityIds: ['983', '984'],
@@ -87,9 +87,11 @@ describe('VAOS request schedule flow - Audiology', () => {
           startTimes: [moment().add(1, 'month')],
         }),
       });
-    });
+    };
 
     describe('And more than one facility supports online scheduling', () => {
+      beforeEach(setup);
+
       it('should submit form', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });

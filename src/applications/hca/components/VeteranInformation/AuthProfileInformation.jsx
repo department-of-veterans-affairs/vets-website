@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { normalizeFullName } from '../../utils/helpers';
+import { APP_URLS } from '../../utils/constants';
 
 const AuthProfileInformation = ({ user }) => {
   const { userFullName, dob } = user;
@@ -55,8 +56,8 @@ const AuthProfileInformation = ({ user }) => {
       </p>
       <p>
         You can also call your VA medical center (
-        <va-link href="/find-locations/" text="find a VA location tool" />) to
-        get help changing your name on file with VA. Ask for the eligibility
+        <va-link href={APP_URLS.facilities} text="find a VA location tool" />){' '}
+        to get help changing your name on file with VA. Ask for the eligibility
         department.
       </p>
     </div>

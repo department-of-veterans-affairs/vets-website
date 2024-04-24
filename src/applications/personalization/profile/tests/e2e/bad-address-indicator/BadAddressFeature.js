@@ -23,6 +23,14 @@ class BadAddressFeature {
       .and('include', PROFILE_PATHS.CONTACT_INFORMATION);
   };
 
+  confirmPageAlertLinkNavigatesToContactInformation = () => {
+    cy.get('[data-testid="bad-address-profile-alert"] > a')
+      .should('have.attr', 'href')
+      .and('include', PROFILE_PATHS.CONTACT_INFORMATION);
+    cy.get('[data-testid="bad-address-profile-alert"] > a').click();
+    cy.url().should('include', PROFILE_PATHS.CONTACT_INFORMATION);
+  };
+
   confirmPageAlertIsNotShowing = () => {
     cy.findByTestId(this.PROFILE_ALERT_TEST_ID).should('not.exist');
   };

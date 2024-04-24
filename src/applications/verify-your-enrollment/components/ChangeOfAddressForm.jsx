@@ -13,11 +13,12 @@ const ChangeOfAddressForm = ({
   addressFormData,
   formSubmit,
   applicantName,
+  formData,
 }) => {
   const [addressSchema, setAddressSchema] = useState({});
   const [addressUISchema, setAddressUISchema] = useState({});
   const createFormSchema = (requiredArray = []) => {
-    const fSchema = getFormSchema(applicantName);
+    const fSchema = getFormSchema(applicantName, formData);
 
     if (requiredArray.size === 0) {
       return fSchema;
@@ -152,23 +153,6 @@ const ChangeOfAddressForm = ({
     return newObject;
   };
 
-  useEffect(() => {
-    setAddressSchema(
-      removeObjectKeys(
-        createFormSchema(addressFormRequiredData),
-        [province.title, ipc.title, livesOnMilitaryBaseInfo.title],
-        'schema',
-      ),
-    );
-    setAddressUISchema(
-      removeObjectKeys(
-        getUiSchema(),
-        [province.title, ipc.title, livesOnMilitaryBaseInfo.title],
-        'uiSchema',
-      ),
-    );
-  }, []);
-
   useEffect(
     () => {
       const updateSchema = () => {
@@ -211,9 +195,8 @@ const ChangeOfAddressForm = ({
           // if livesOnMilitaryBase is unchecked
           if (!addressFormData?.['view:livesOnMilitaryBase']) {
             if (
-              Object.keys(addressFormData).length === 0 ||
-              addressFormData?.countryCodeIso3 === 'USA' ||
-              addressFormData?.countryCodeIso3 === undefined
+              formData?.countryCodeIso3 === undefined ||
+              formData?.countryCodeIso3 === 'USA'
             ) {
               setAddressSchema(
                 removeObjectKeys(
@@ -252,14 +235,9 @@ const ChangeOfAddressForm = ({
                 },
               );
               // adds province as a requiredField
-              const updateAddressRequiredData = [
-                ...tempAddressRequiredData,
-                'province',
-                'internationalPostalCode',
-              ];
               setAddressSchema(
                 removeObjectKeys(
-                  createFormSchema(updateAddressRequiredData),
+                  createFormSchema(tempAddressRequiredData),
                   [ZC.title, stateCode.title, livesOnMilitaryBaseInfo.title],
                   'schema',
                 ),
@@ -312,6 +290,7 @@ const ChangeOfAddressForm = ({
 ChangeOfAddressForm.propTypes = {
   addressFormData: PropTypes.object.isRequired,
   formChange: PropTypes.func.isRequired,
+  formData: PropTypes.object.isRequired,
   formSubmit: PropTypes.func.isRequired,
   applicantName: PropTypes.string,
   cancelButtonClasses: PropTypes.arrayOf(PropTypes.string),

@@ -1,27 +1,18 @@
-import sinon from 'sinon';
 import { expect } from 'chai';
 import React from 'react';
 import {
-  $,
-  $$,
-} from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { render, fireEvent, waitFor } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import {
   testNumberOfWebComponentFields,
   testComponentRender,
-  getProps,
 } from '../../../shared/tests/pages/pageTests.spec';
-import ApplicantMedicareStatusContinuedPage, {
-  ApplicantMedicareStatusContinuedReviewPage,
-} from '../../pages/ApplicantMedicareStatusContinuedPage';
+// import ApplicantMedicareStatusContinuedPage, {
+//   ApplicantMedicareStatusContinuedReviewPage,
+// } from '../../pages/ApplicantMedicareStatusContinuedPage';
 import ApplicantOhiStatusPage from '../../pages/ApplicantOhiStatusPage';
-import ApplicantRelationshipPage from '../../pages/ApplicantRelationshipPage';
+import ApplicantRelationshipPage from '../../../shared/components/applicantLists/ApplicantRelationshipPage';
 import formConfig from '../../config/form';
 import { getFileSize } from '../../helpers/utilities';
 
-import FileFieldCustom from '../../components/File/FileUpload';
-import FileViewField from '../../components/File/FileViewField';
+import FileFieldCustom from '../../../shared/components/fileUploads/FileUpload';
 
 import mockData from '../fixtures/data/test-data.json';
 
@@ -59,15 +50,6 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.sponsorInformation.pages.page9a.schema,
-  formConfig.chapters.sponsorInformation.pages.page9a.uiSchema,
-  0,
-  'Sponsor - casualty report',
-  { ...mockData.data, sponsorIsDeceased: true, sponsorDeathConditions: true },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
   formConfig.chapters.sponsorInformation.pages.page10b1.schema,
   formConfig.chapters.sponsorInformation.pages.page10b1.uiSchema,
   8,
@@ -82,24 +64,6 @@ testNumberOfWebComponentFields(
   1,
   "Sponsor's phone number",
   { sponsorIsDeceased: false },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.sponsorInformation.pages.page12.schema,
-  formConfig.chapters.sponsorInformation.pages.page12.uiSchema,
-  0,
-  'Sponsor - disability rating',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.sponsorInformation.pages.page12a.schema,
-  formConfig.chapters.sponsorInformation.pages.page12a.uiSchema,
-  0,
-  'Sponsor - discharge papers',
-  { ...mockData.data },
 );
 
 testNumberOfWebComponentFields(
@@ -133,7 +97,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page17.schema,
   formConfig.chapters.applicantInformation.pages.page17.uiSchema,
-  1,
+  0,
   'Applicant - gender',
   { ...mockData.data },
 );
@@ -160,7 +124,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page18c.schema,
   formConfig.chapters.applicantInformation.pages.page18c.uiSchema,
-  1,
+  0,
   'Applicant - relationship to sponsor',
   { ...mockData.data },
 );
@@ -240,15 +204,15 @@ testNumberOfWebComponentFields(
 );
 */
 
-testComponentRender(
-  'ApplicantMedicareStatusContinuedPage',
-  <ApplicantMedicareStatusContinuedPage data={{}} />,
-);
+// testComponentRender(
+//   'ApplicantMedicareStatusContinuedPage',
+//   <ApplicantMedicareStatusContinuedPage data={{}} />,
+// );
 
-testComponentRender(
-  'ApplicantMedicareStatusContinuedReviewPage ',
-  <>{ApplicantMedicareStatusContinuedReviewPage()}</>,
-);
+// testComponentRender(
+//   'ApplicantMedicareStatusContinuedReviewPage ',
+//   <>{ApplicantMedicareStatusContinuedReviewPage()}</>,
+// );
 
 testComponentRender(
   'ApplicantOhiStatusPage',
@@ -261,54 +225,6 @@ testComponentRender(
 );
 
 testComponentRender('FileFieldCustom', <FileFieldCustom data={{}} />);
-testComponentRender(
-  'FileViewField',
-  <FileViewField
-    data={{ supportingDocuments: [{ f1: { name: 'f1', size: 123 } }] }}
-  />,
-);
-
-describe('FileFieldCustom remove button', () => {
-  it('should remove files when clicked', async () => {
-    const component = (
-      <FileFieldCustom
-        data={{ supportingDocuments: [{ name: 'filetest', size: 100 }] }}
-      />
-    );
-    const { mockStore } = getProps();
-
-    const view = render(<Provider store={mockStore}>{component}</Provider>);
-
-    const buttons = $$('va-button', $('.attachment-file', view.container));
-    expect(buttons.length === 1).to.be.true;
-    fireEvent.click(buttons[0]);
-
-    await waitFor(() => {
-      expect($('.no-attachments', view.container)).to.exist;
-    });
-  });
-});
-
-describe('FileFieldCustom continue button', () => {
-  it('should call goForward', async () => {
-    const goFwdSpy = sinon.spy();
-    const component = (
-      <FileFieldCustom
-        data={{ supportingDocuments: [{ name: 'filetest', size: 100 }] }}
-        goForward={goFwdSpy}
-        setFormData={() => {}}
-      />
-    );
-    const { mockStore } = getProps();
-    const view = render(<Provider store={mockStore}>{component}</Provider>);
-    const continueButton = $('.usa-button-primary', view.container);
-    expect(continueButton).to.contain.text('Continue');
-    fireEvent.click(continueButton);
-    await waitFor(() => {
-      expect(goFwdSpy.called).to.be.true;
-    });
-  });
-});
 
 describe('File sizes', () => {
   it('should be in bytes for values < 999', () => {

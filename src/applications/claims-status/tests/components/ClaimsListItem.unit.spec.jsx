@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { render } from '@testing-library/react';
 
 import ClaimsListItem from '../../components/ClaimsListItem';
+import { renderWithRouter } from '../utils';
 
 describe('<ClaimsListItem>', () => {
   it('should not show any flags', () => {
@@ -17,7 +17,7 @@ describe('<ClaimsListItem>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItem claim={claim} />);
+    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
     expect(screen.queryByRole('listitem')).not.to.exist;
   });
 
@@ -29,7 +29,7 @@ describe('<ClaimsListItem>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItem claim={claim} />);
+    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
     expect(screen.getByText('Step 5 of 5: Closed')).to.exist;
   });
 
@@ -41,7 +41,7 @@ describe('<ClaimsListItem>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItem claim={claim} />);
+    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
     expect(screen.getByText(/Initial review/i)).to.exist;
   });
 
@@ -56,7 +56,7 @@ describe('<ClaimsListItem>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItem claim={claim} />);
+    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
     expect(screen.getByText('We sent you a development letter')).to.exist;
   });
 
@@ -71,7 +71,7 @@ describe('<ClaimsListItem>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItem claim={claim} />);
+    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
     expect(screen.queryByText('We sent you a development letter')).to.be.null;
     expect(screen.queryByText('An item in the claim needs your attention')).to
       .be.null;
@@ -89,7 +89,7 @@ describe('<ClaimsListItem>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItem claim={claim} />);
+    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
     expect(screen.getByText('An item in the claim needs your attention')).to
       .exist;
   });
@@ -105,7 +105,7 @@ describe('<ClaimsListItem>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItem claim={claim} />);
+    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
     expect(screen.queryByRole('listitem')).not.to.exist;
   });
 
@@ -122,7 +122,7 @@ describe('<ClaimsListItem>', () => {
       .find('ClaimCardLink')
       .first()
       .props();
-    expect(linkProps.href).to.equal(`your-claims/${claim.id}/status`);
+    expect(linkProps.href).to.equal(`/your-claims/${claim.id}/status`);
     tree.unmount();
   });
 
@@ -138,7 +138,7 @@ describe('<ClaimsListItem>', () => {
       },
     };
 
-    const screen = render(<ClaimsListItem claim={claim} />);
+    const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
     expect(screen.getByText(/Last updated: August 20, 2019/i)).to.exist;
     expect(screen.getByText(/Received on February 10, 2019/i)).to.exist;
   });

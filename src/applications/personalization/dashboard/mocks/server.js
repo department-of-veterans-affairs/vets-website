@@ -5,7 +5,7 @@ const {
 const user = require('../../common/mocks/users');
 const notifications = require('../../common/mocks/notifications');
 const { createSuccessPayment } = require('./payment-history');
-const { createAppealsSuccess } = require('./appeals-success');
+const { createAppealsSuccess } = require('./appeals');
 const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
 const { createClaimsSuccess } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
@@ -20,18 +20,13 @@ const hasDebts = false;
 
 /* eslint-disable camelcase */
 const responses = {
-  'GET /v0/feature_toggles': generateFeatureToggles({
-    authExpVbaDowntimeMessage: false,
-    myVaEnableNotificationComponent: true,
-    myVaUseExperimental: false,
-    myVaUseExperimentalFrontend: true,
-    myVaUseExperimentalFullstack: true,
-    myVaHideNotificationsSection: true,
-    myVaNotificationDotIndicator: true,
-    myVaEnableMhvLink: true,
-    myVaUpdateErrorsWarnings: true,
-    vaOnlineSchedulingStaticLandingPage: true,
-  }),
+  'GET /v0/feature_toggles': generateFeatureToggles(
+    {
+      authExpVbaDowntimeMessage: false,
+      myVaUseExperimental: false,
+    },
+    true,
+  ),
   'GET /v0/user': user.simpleUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },

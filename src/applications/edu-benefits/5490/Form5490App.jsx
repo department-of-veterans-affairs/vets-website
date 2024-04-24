@@ -20,8 +20,8 @@ export default function Form5490Entry({ location, children }) {
         }
       };
 
-      if (location.pathname === '/applicant/information') {
-        checkbox.addEventListener('change', disableSsnField);
+      if (checkbox && location.pathname === '/applicant/information') {
+        checkbox?.addEventListener('change', disableSsnField);
       }
       return () => checkbox?.removeEventListener('change', disableSsnField);
     },

@@ -1,18 +1,20 @@
 import MedicationsSite from './med_site/MedicationsSite';
-import MedicationsLandingPage from './pages/MedicationsLandingPage';
-import MedicationsListPage from './pages/MedicationsListPage';
+import prescriptions from './fixtures/listOfPrescriptions.json';
+import MedicationsRefillPage from './pages/MedicationsRefillPage';
+import prescription from './fixtures/active-prescriptions-with-refills.json';
 
 describe('Medications Refill Submit Error Message List Page', () => {
   it('visits Error Message on list page', () => {
     const site = new MedicationsSite();
-    const listPage = new MedicationsListPage();
-    const landingPage = new MedicationsLandingPage();
+    const refillPage = new MedicationsRefillPage();
+
     site.login();
-    landingPage.visitLandingPageURL();
+    refillPage.loadRefillPage(prescriptions);
     cy.injectAxe();
     cy.axeCheck('main');
-    listPage.clickGotoMedicationsLink();
-    listPage.clickRefillButtonForVerifyingError();
-    listPage.verifyInlineErrorMessageForRefillRequest();
+    refillPage.verifyRefillPageTitle();
+    refillPage.clickPrescriptionRefillCheckbox(prescription);
+    refillPage.clickRefillRequestButton();
+    refillPage.verifyFailedRequestMessageAlertOnRefillPage();
   });
 });

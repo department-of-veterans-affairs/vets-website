@@ -1,19 +1,19 @@
 import React from 'react';
-
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-
-const { noRapidProcessing } = fullSchemaPensions.properties;
+import {
+  titleUI,
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const fullyDevelopedClaimsLinkText =
   'Learn more about fully developed claims (opens in new tab)';
 const Description = (
-  <div className="vads-u-margin-bottom--1">
+  <>
     <p>
       If you’ve uploaded all your supporting documents, you may be able to get a
       faster decision on your claim. We call this the Fully Developed Claims
       (FDC) program.
     </p>
-
     <a
       rel="noopener noreferrer"
       target="_blank"
@@ -22,7 +22,7 @@ const Description = (
     >
       {fullyDevelopedClaimsLinkText}
     </a>
-  </div>
+  </>
 );
 
 export const FdcWarning = (
@@ -49,22 +49,19 @@ export const NoFDCWarning = (
 );
 
 export default {
+  title: 'Faster claim processing',
+  path: 'additional-information/faster-claim-processing',
   uiSchema: {
-    'ui:title': 'Faster claim processing',
-    'ui:description': Description,
-    noRapidProcessing: {
-      'ui:title':
-        'Do you want to use the Fully Developed Claims program to apply?',
-      'ui:widget': 'yesNo',
-      'ui:options': {
-        yesNoReverse: true,
-        labels: {
-          Y:
-            'Yes. I’ve uploaded all my supporting documents for my pension application.',
-          N: 'No. I have other supporting documents to submit later.',
-        },
+    ...titleUI('Faster claim processing', Description),
+    noRapidProcessing: yesNoUI({
+      title: 'Do you want to use the Fully Developed Claims program to apply?',
+      yesNoReverse: true,
+      labels: {
+        Y:
+          'Yes. I’ve uploaded all my supporting documents for my pension application.',
+        N: 'No. I have other supporting documents to submit later.',
       },
-    },
+    }),
     fdcWarning: {
       'ui:description': FdcWarning,
       'ui:options': {
@@ -84,7 +81,7 @@ export default {
     type: 'object',
     required: ['noRapidProcessing'],
     properties: {
-      noRapidProcessing,
+      noRapidProcessing: yesNoSchema,
       fdcWarning: {
         type: 'object',
         properties: {},

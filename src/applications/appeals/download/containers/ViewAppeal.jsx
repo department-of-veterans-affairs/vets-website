@@ -9,10 +9,9 @@ import { focusElement } from 'platform/utilities/ui';
 import extraData from '../tests/fixtures/data/extra-data.json';
 import testData from '../tests/fixtures/data/test-data.json';
 
-import GetFormHelp from '../../10182/content/GetFormHelp';
-
 import { disagreeWith } from '../../testing/utils/areaOfDisagreement';
 import { getIssueName, getIssueDate } from '../../shared/utils/issues';
+import GetFormHelp from '../../shared/content/GetFormHelp';
 
 const ViewAppeal = () => {
   useEffect(() => {
@@ -74,7 +73,7 @@ const ViewAppeal = () => {
           your records.
         </p>
 
-        <div className="inset">
+        <va-summary-box uswds class="vads-u-margin-y--2">
           <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
             Download a copy of your Board Appeal (PDF)
           </h3>
@@ -89,7 +88,7 @@ const ViewAppeal = () => {
             href="#"
             text="Download a copy of your Board Appeal (PDF)"
           />
-        </div>
+        </va-summary-box>
 
         <h3 className="vads-u-margin-top--0">
           You submitted the following information for Board Appeal

@@ -11,7 +11,11 @@ const renderLetters = letters =>
 const ClaimLetterList = ({ letters }) => (
   <>
     {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-    <ol className="usa-unstyled-list vads-u-margin--0" role="list">
+    <ol
+      id="claim-letter-list"
+      className="usa-unstyled-list vads-u-margin--0"
+      role="list"
+    >
       {renderLetters(letters)}
     </ol>
   </>

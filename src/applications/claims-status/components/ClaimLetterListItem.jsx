@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { DATE_FORMATS } from '../constants';
 import { buildDateFormatter } from '../utils/helpers';
 
 const getDownloadUrl = (id, docType) =>
   `${environment.API_URL}/v0/claim_letters/${id}?document_type=${docType}`;
 
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
+const formatDate = buildDateFormatter();
 
 const docTypeToDescription = {
   27: 'Board Of Appeals Decision Letter',
-  65: '5103 Notice',
-  68: '5103 Notice',
+  704: '5103 Notice',
+  706: '5103 Notice',
+  858: '5103 Notice',
   184: 'Notification Letter',
 };
 
@@ -59,7 +59,6 @@ const ClaimLetterListItem = ({ letter }) => {
         href={getDownloadUrl(letter.documentId, letter.docType)}
         onClick={() => downloadHandler(letter.docType)}
         text={`Download ${formattedDate} letter`}
-        uswds="false"
       />
     </li>
   );

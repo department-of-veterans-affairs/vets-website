@@ -1,7 +1,7 @@
 import environment from 'platform/utilities/environment';
 
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
-import { FileField } from '../components/FileField';
+import FileField from 'platform/forms-system/src/js/fields/FileField';
 import PowViewField from '../components/PowViewField';
 
 import { POW_DESCRIPTION } from '../config/constants';
@@ -15,7 +15,7 @@ const uiDescription =
 export default {
   uiSchema: {
     ...titleUI(uiTitle, uiDescription),
-    'ui:description': POW_DESCRIPTION,
+    'ui:description': () => POW_DESCRIPTION,
     'ui:objectViewField': PowViewField,
     powDocuments: {
       'ui:title': 'Upload additional evidence',
@@ -34,7 +34,7 @@ export default {
         },
         fileUploadUrl: `${
           environment.API_URL
-        }/simple_forms_api/v1/simple_forms/submit_pow_documents`,
+        }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
         fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
         createPayload,
         parseResponse,

@@ -47,4 +47,22 @@ describe('startReactApp', () => {
     startReactApp(FakeWidget, document.getElementById('another-widget-root'));
     expect(renderStub.called).to.be.false;
   });
+
+  it('should not render the component if the window location indicates loading in a locally saved file', () => {
+    // Method from https://stackoverflow.com/a/54021633
+    global.window = Object.create(window);
+    Object.defineProperty(window, 'location', {
+      value: { protocol: 'file:' },
+      writable: true,
+    });
+
+    startReactApp(FakeWidget, document.getElementById('widget-root'));
+    expect(renderStub.called).to.be.false;
+
+    // restore
+    Object.defineProperty(window, 'location', {
+      value: { protocol: 'http:' },
+      writable: false,
+    });
+  });
 });

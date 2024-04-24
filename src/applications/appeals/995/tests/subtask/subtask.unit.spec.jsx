@@ -113,7 +113,7 @@ describe('the Supplemental Claims Sub-task', () => {
       event: 'howToWizard-formChange',
       'form-field-type': 'form-radio-buttons',
       'form-field-label':
-        'For what benefit type are you requesting a Supplemental Claim?',
+        'What type of claim are you filing a Supplemental Claim for?',
       'form-field-value': 'compensation',
     });
 

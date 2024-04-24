@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import EnhancedEligibilityDescription from '../FormDescriptions/EnhancedEligibilityDescription';
+import { LAST_YEAR } from '../../utils/constants';
 
 const HouseholdFinancialOnboarding = props => {
   const {
@@ -10,15 +11,13 @@ const HouseholdFinancialOnboarding = props => {
     contentBeforeButtons,
     contentAfterButtons,
   } = props;
-  const date = new Date();
-  const lastYear = date.getFullYear() - 1;
 
   return (
     <>
       <p>
         Next we’ll ask about your household financial information from{' '}
-        {lastYear}. We’ll ask about income and expenses for you, your spouse (if
-        you’re married), and any dependents you may have.
+        {LAST_YEAR}. We’ll ask about income and expenses for you, your spouse
+        (if you’re married), and any dependents you may have.
       </p>
 
       <h3 data-testid="hca-custom-page-title">

@@ -89,6 +89,9 @@ export function mockAppointmentGetApi({
       {
         method: 'GET',
         pathname: `/vaos/v2/appointments/${data.id}`,
+        query: {
+          _include: '*',
+        },
       },
       req => {
         if (responseCode !== 200) {

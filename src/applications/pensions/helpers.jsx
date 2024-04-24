@@ -4,10 +4,7 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
-import titleCase from 'platform/utilities/data/titleCase';
 import Scroll from 'react-scroll';
-import { createSelector } from 'reselect';
 
 const { scroller } = Scroll;
 export const scrollToTop = () => {
@@ -142,103 +139,7 @@ export function submit(form, formConfig) {
     });
 }
 
-export const employmentDescription = (
-  <p className="pension-employment-desc">
-    Please tell us about all of your employment, including self-employment,{' '}
-    <strong>from one year before you became disabled</strong> to the present.
-  </p>
-);
-
-export function isMarried(form = {}) {
-  return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
-}
-
-export function getMarriageTitle(index) {
-  const desc = numberToWords(index + 1);
-  return `${titleCase(desc)} marriage`;
-}
-
-export function getMarriageTitleWithCurrent(form, index) {
-  if (isMarried(form) && form.marriages.length - 1 === index) {
-    return 'Current marriage';
-  }
-
-  return getMarriageTitle(index);
-}
-
-export function getDependentChildTitle(item, description) {
-  if (item.fullName) {
-    return `${item.fullName.first || ''} ${item.fullName.last ||
-      ''} ${description}`;
-  }
-  return 'description';
-}
-
-export function createSpouseLabelSelector(nameTemplate) {
-  return createSelector(
-    form =>
-      form.marriages && form.marriages.length
-        ? form.marriages[form.marriages.length - 1].spouseFullName
-        : null,
-    spouseFullName => {
-      if (spouseFullName) {
-        return {
-          title: nameTemplate(spouseFullName),
-        };
-      }
-
-      return {
-        title: null,
-      };
-    },
-  );
-}
-
 export const formatCurrency = num => `$${num.toLocaleString()}`;
-
-export const directDepositWarning = (
-  <div className="pension-dd-warning">
-    <div>
-      <p>
-        The Department of Treasury requires all federal benefit payments be made
-        by electronic funds transfer (EFT), also called direct deposit.
-      </p>
-    </div>
-    <div>
-      <h3>If you don’t have a bank account</h3>
-      <p>
-        If you don’t have a bank account, you must get your payment through
-        Direct Express Debit MasterCard. To request a Direct Express Debit
-        MasterCard, you’ll need to apply one of these two ways:
-      </p>
-      <ul>
-        <li>
-          <a
-            href="http://www.usdirectexpress.com"
-            rel="noopener noreferrer"
-            target="_blank"
-            aria-label="Apply online for a Direct Express Debit MasterCard (opens in new tab)"
-          >
-            Apply online for a Direct Express Debit MasterCard (opens in new
-            tab)
-          </a>
-        </li>
-        <li>
-          Call <va-telephone contact="8003331795" /> to apply by phone
-        </li>
-      </ul>
-    </div>
-    <div>
-      <h3>If you want to opt out of direct deposit</h3>
-      <p>
-        If you chose not to enroll, you must contact representatives handling
-        waiver requests for the Department of Treasury at{' '}
-        <va-telephone contact="8882242950" />. They will address any questions
-        or concerns you may have and encourage your participation in EFT.
-      </p>
-    </div>
-  </div>
-);
 
 const warDates = [
   ['1916-05-09', '1917-04-05'], // Mexican Border Period (May 9, 1916 - April 5, 1917)
@@ -263,35 +164,14 @@ export function servedDuringWartime(period) {
   });
 }
 
-export const dependentsMinItem = (
+export const DependentsMinItem = (
   <span>
     If you are claiming child dependents,{' '}
     <strong>you must add at least one</strong> here.
   </span>
 );
 
-export const expectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that you expect to receive
-    in the next 12 months
-  </span>
-);
-
-export const spouseExpectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that your spouse expects
-    to receive in the next 12 months
-  </span>
-);
-
-export const dependentExpectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that your dependent
-    expects to receive in the next 12 months
-  </span>
-);
-
-export const dependentSeriouslyDisabledDescription = (
+export const DependentSeriouslyDisabledDescription = (
   <div className="vads-u-padding-y--1">
     <va-additional-info trigger="What do we mean by seriously disabled?">
       <span>
@@ -304,26 +184,14 @@ export const dependentSeriouslyDisabledDescription = (
 );
 
 export const IncomeSourceDescription = (
-  <div>
+  <>
     <p>
       We want to know more about the gross monthly income you, your spouse, and
       your dependents receive.
     </p>
     <p>List the sources of income for you, your spouse, and your dependents.</p>
-  </div>
+  </>
 );
-
-export const generateHelpText = text => {
-  return (
-    <span className="vads-u-color--gray vads-u-margin-left--0">{text}</span>
-  );
-};
-
-export const validateWorkHours = (errors, fieldData) => {
-  if (fieldData > 168) {
-    errors.addError('Enter a number less than 169');
-  }
-};
 
 /**
  * Formats a full name from the given first, middle, last, and suffix
@@ -357,3 +225,14 @@ export function isHomeAcreageMoreThanTwo(formData) {
     formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
   );
 }
+
+export const getJobTitleOrType = item => {
+  if (item?.jobTitle) return item.jobTitle;
+  if (item?.jobType) return item.jobType;
+  return '';
+};
+
+export const obfuscateAccountNumber = accountNumber => {
+  // Replace all digits except the last 4 with asterisks (*)
+  return accountNumber.replace(/\d(?=\d{4})/g, '*');
+};

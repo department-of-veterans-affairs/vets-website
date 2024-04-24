@@ -68,6 +68,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your specially adapted housing grant (26-4555) application.',
   },
+  v3SegmentedProgressBar: true,
   version: 0,
   migrations: [],
   prefillEnabled: true,

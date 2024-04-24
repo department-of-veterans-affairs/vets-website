@@ -1,4 +1,5 @@
 import {
+  titleUI,
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -10,8 +11,10 @@ import {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Transferred assets',
+  path: 'financial/transferred-assets',
   uiSchema: {
-    'ui:title': 'Income and assets',
+    ...titleUI('Income and assets'),
     'view:informationAlert': {
       'ui:description': AssetTransferInformationAlert,
     },
