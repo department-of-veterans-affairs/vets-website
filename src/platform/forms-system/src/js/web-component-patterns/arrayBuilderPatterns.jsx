@@ -126,6 +126,7 @@ export const arrayBuilderYesNoUI = (
   return {
     ...yesNoUI({
       title: defaultTitle,
+      classNames: 'wc-pattern-array-builder-yes-no',
       updateUiSchema: formData => {
         return formData?.[arrayPath]?.length
           ? {

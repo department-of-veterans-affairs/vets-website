@@ -64,7 +64,7 @@ function throwErrorNoOptionsOrCallbackFunction() {
 
 function throwMissingYesNoField() {
   throw new Error(
-    "arrayBuilderPages `pageBuilder.summaryPage()` must include a `uiSchema` that has a property with a `'ui:webComponentField': YesNoField`",
+    "arrayBuilderPages `pageBuilder.summaryPage()` must include a `uiSchema` that is using `arrayBuilderYesNoUI` pattern (class 'wc-pattern-array-builder-yes-no')",
   );
 }
 
@@ -110,7 +110,11 @@ function determineYesNoField(uiSchema) {
   let yesNoKey;
   if (uiSchema) {
     for (const key of Object.keys(uiSchema)) {
-      if (uiSchema[key]['ui:webComponentField'] === YesNoField) {
+      if (
+        uiSchema[key]['ui:options'].classNames.includes(
+          'wc-pattern-array-builder-yes-no',
+        )
+      ) {
         yesNoKey = key;
       }
     }
