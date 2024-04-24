@@ -161,7 +161,7 @@ describe('Federal orders info', () => {
   it('should fail to submit when separation date is before activation', () => {
     const onSubmit = sinon.spy();
     const activationDate = daysFromToday(-10);
-    const separationDate = daysFromToday(-10);
+    const separationDate = daysFromToday(-20);
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
