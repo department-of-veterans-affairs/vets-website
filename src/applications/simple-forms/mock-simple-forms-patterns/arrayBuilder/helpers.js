@@ -1,30 +1,89 @@
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
+import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
+import { DEFAULT_ARRAY_BUILDER_TEXT } from './components/arrayBuilderText';
 
 /**
+ * Initializes the getText function for the ArrayBuilder
+ */
+export function initGetText({
+  textOverrides = {},
+  getItemName,
+  nounPlural,
+  nounSingular,
+} = {}) {
+  if (!getItemName || typeof getItemName !== 'function') {
+    throw new Error('getItemName is required for initGetText');
+  }
+  if (!nounPlural) {
+    throw new Error('nounPlural is required for initGetText');
+  }
+  if (!nounSingular) {
+    throw new Error('nounSingular is required for initGetText');
+  }
+  const getTextValues = {
+    ...DEFAULT_ARRAY_BUILDER_TEXT,
+    getItemName,
+    ...textOverrides,
+  };
+
+  const getTextProps = {
+    getItemName,
+    nounPlural,
+    nounSingular,
+  };
+
+  /**
+   * @param {ArrayBuilderTextKey} key
+   * @param {any} itemData
+   * @returns {string}
+   */
+  return (key, itemData) => {
+    if (key === 'getItemName' || key === 'cardDescription') {
+      return getTextValues?.[key](itemData);
+    }
+    return getTextValues?.[key]({
+      ...getTextProps,
+      itemData,
+    });
+  };
+}
+
+/**
+ * introRoute is optional, if not provided, it will default to summaryRoute
+ *
  * Usage:
  * ```
  * onNavBack: onNavBackRemoveAddingItem({
  *  arrayPath: 'employers',
- *  summaryPathUrl: '/array-multiple-page-builder-summary',
+ *  summaryRoute: '/array-multiple-page-builder-summary',
+ *  introRoute: '/array-multiple-page-builder',
  * }),
  * ```
  * @param {{
  *  arrayPath: string;
- *  summaryPathUrl: string;
+ *  summaryRoute: string;
+ *  introRoute?: string;
  * }} props
  */
-export function onNavBackRemoveAddingItem({ arrayPath, summaryPathUrl }) {
+export function onNavBackRemoveAddingItem({
+  arrayPath,
+  summaryRoute,
+  introRoute,
+}) {
   return function onNavBack({ goPath, formData, setFormData, urlParams }) {
-    if ('add' in urlParams) {
+    const arrayData = get(arrayPath, formData);
+    let newArrayData = arrayData;
+    if ('add' in urlParams && arrayData?.length) {
       // remove current item
-      const arrayData = get(arrayPath, formData);
-      const newArrayData = arrayData.slice(0, -1);
+      newArrayData = arrayData.slice(0, -1);
       const newData = set(arrayPath, newArrayData, formData);
       setFormData(newData);
     }
 
-    goPath(summaryPathUrl);
+    const path =
+      introRoute && !newArrayData?.length ? introRoute : summaryRoute;
+    goPath(path);
   };
 }
 
@@ -57,13 +116,19 @@ export function onNavBackKeepUrlParams({ goPreviousPath, urlParams }) {
  * @param {Object} props
  * @param {string} props.path e.g. `/path-item/:index`
  * @param {boolean} [props.isReview] if coming from the review page
+ * @param {boolean} [props.removedAllWarn] if all items were removed
  * @param {string | number} props.index
  * @returns {string} e.g. `/path-item/0?add=true`
  */
-export function createArrayBuilderItemAddPath({ path, index, isReview }) {
+export function createArrayBuilderItemAddPath({
+  path,
+  index,
+  isReview,
+  removedAllWarn,
+}) {
   return `${path.replace(':index', index)}?add=true${
     isReview ? '&review=true' : ''
-  }`;
+  }${removedAllWarn ? '&removedAllWarn=true' : ''}`;
 }
 
 /**
@@ -94,4 +159,28 @@ export function createArrayBuilderUpdatedPath({
   index,
 }) {
   return `${basePath}?updated=${nounSingular}-${index}`;
+}
+
+export function isDeepEmpty(obj) {
+  return obj
+    ? Object.values(obj).every(
+        value =>
+          (typeof value === 'object' && value !== null && isDeepEmpty(value)) ||
+          value === null ||
+          value === undefined ||
+          value === '',
+      )
+    : true;
+}
+
+// Used as a helper so that we can stub this for tests
+export function getArrayUrlSearchParams(search = window?.location?.search) {
+  return new URLSearchParams(search);
+}
+
+// Used as a helper so that we can stub this for tests
+export function getArrayIndexFromPathName(
+  pathname = window?.location?.pathname,
+) {
+  return getUrlPathIndex(pathname);
 }

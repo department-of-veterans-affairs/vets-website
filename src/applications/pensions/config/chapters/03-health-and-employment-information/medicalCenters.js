@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import ListItemView from '../../../components/ListItemView';
+import { updateMultiresponseUiOptions } from '../../../helpers';
 
 const MedicalCenterView = ({ formData }) => (
   <ListItemView title={formData.medicalCenter} />
@@ -46,6 +47,7 @@ const generateMedicalCentersSchemas = (
           confirmRemove: true,
           useDlWrap: true,
           useVaCards: true,
+          updateSchema: updateMultiresponseUiOptions,
         },
         items: {
           medicalCenter: {

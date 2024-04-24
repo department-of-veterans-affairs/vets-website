@@ -262,6 +262,10 @@ export function selectRequestedAppointmentDetails(state, id) {
   const typeOfCareName = typeOfCare?.name;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const typeOfVisit = appointment?.requestVisitType;
+  const facilityPhone =
+    appointment?.vaos.apiData.extension?.clinic?.phoneNumber ||
+    facility?.telecom?.find(tele => tele.system === 'covid')?.value ||
+    facility?.telecom?.find(tele => tele.system === 'phone')?.value;
 
   return {
     appointment,
@@ -272,6 +276,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     email,
     facility,
     facilityData,
+    facilityPhone,
     isCC,
     isCCRequest,
     isCanceled,
@@ -353,10 +358,12 @@ export function getUpcomingAppointmentListInfo(state) {
 }
 
 export function selectTypeOfCareName(appointment) {
+  if (!appointment) return '';
+
   const { name } =
-    getTypeOfCareById(appointment?.vaos.apiData?.serviceType) || {};
+    getTypeOfCareById(appointment.vaos.apiData?.serviceType) || '';
   const serviceCategoryName =
-    appointment?.vaos.apiData?.serviceCategory?.[0]?.text || {};
+    appointment.vaos.apiData?.serviceCategory?.[0]?.text || {};
   if (serviceCategoryName === COMP_AND_PEN) {
     const { displayName } = getTypeOfCareById(serviceCategoryName);
     return displayName;
@@ -370,7 +377,6 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
     state,
   );
 
-  const bookingNotes = selectAppointmentDetails(appointment);
   const comment = selectComment(appointment);
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
@@ -396,6 +402,7 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
 
   const clinicPhysicalLocation = appointment?.location?.clinicPhysicalLocation;
   const duration = appointment?.minutesDuration;
+  const bookingNotes = selectAppointmentDetails(appointment);
 
   return {
     appointment,

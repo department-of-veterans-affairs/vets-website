@@ -104,12 +104,14 @@ const SearchControls = props => {
         <div className="additional-representative-info">
           <div className="vads-u-margin-top--2p5">
             <va-additional-info
-              trigger="What does an accredited VSO do?"
+              trigger="What does an accredited VSO representative do?"
               uswds
               disable-border
             >
               <p>
-                <strong>An accredited Veterans Service Officer (VSO)</strong>{' '}
+                <strong>
+                  An accredited Veterans Service Officer (VSO) representative
+                </strong>{' '}
                 can help you gather evidence, file a claim, or request a
                 decision review. They can also communicate with VA on your
                 behalf.
@@ -216,10 +218,11 @@ const SearchControls = props => {
                   className="finding-your-location-loading"
                   style={{ order: 2 }}
                 >
-                  <i
-                    className="fa fa-spinner fa-spin use-my-location-icon"
+                  <va-icon
+                    size={4}
+                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                    className="use-my-location-icon"
                     aria-hidden="true"
-                    role="presentation"
                   />
                   <span aria-live="assertive"> Finding your location...</span>
                 </div>
@@ -231,10 +234,11 @@ const SearchControls = props => {
                   aria-label="Use my location"
                   style={{ order: 2 }}
                 >
-                  <i
+                  <va-icon
+                    size={4}
+                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
                     className="use-my-location-icon"
                     aria-hidden="true"
-                    role="presentation"
                   />
                   <div className="button-text">Use my location</div>
                 </button>

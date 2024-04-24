@@ -26,13 +26,14 @@ export default function FacilityPhone({
               className={`vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base ${className}`}
             >
               {heading}
-            </Heading>
+            </Heading>{' '}
           </>
         )}
       {typeof icon === 'undefined' &&
         typeof level === 'undefined' &&
         `${heading} `}
-      {!!icon && (
+      {!!icon === true && (
+        // eslint-disable-next-line @department-of-veterans-affairs/prefer-icon-component
         <i
           aria-hidden="true"
           className={classNames(
@@ -58,15 +59,5 @@ FacilityPhone.propTypes = {
   contact: PropTypes.string,
   heading: PropTypes.string,
   icon: PropTypes.bool,
-  level(props, propName, componentName) {
-    if (
-      (props.icon === undefined || props.icon === false) &&
-      (props[propName] === undefined || typeof props[propName] !== 'number')
-    ) {
-      return new Error(
-        `Failed prop type: The prop '${propName}' is marked as required in '${componentName}', but its value is 'undefined'.`,
-      );
-    }
-    return null;
-  },
+  level: PropTypes.number,
 };

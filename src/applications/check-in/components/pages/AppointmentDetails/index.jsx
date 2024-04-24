@@ -82,7 +82,7 @@ const AppointmentDetails = props => {
   if (is45MinuteReminderEnabled) {
     preCheckInSubTitle = (
       <p
-        data-testid="in-person-45-minute-subtitle"
+        data-testid="in-person-appointment-subtitle"
         className="vads-u-margin--0"
       >
         {t('remember-to-bring-your-insurance-cards-with-you')}
@@ -210,9 +210,11 @@ const AppointmentDetails = props => {
                 <div data-testid="appointment-details--phone">
                   <h2 className="vads-u-font-size--sm">{t('phone')}</h2>
                   <div data-testid="appointment-details--phone-value">
-                    <i
-                      aria-label="phone"
-                      className="fas fa-phone vads-u-color--link-default vads-u-margin-right--1"
+                    <va-icon
+                      size={4}
+                      icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                      srtext="phone"
+                      className="vads-u-margin-right--1"
                       aria-hidden="true"
                     />
                     <va-telephone

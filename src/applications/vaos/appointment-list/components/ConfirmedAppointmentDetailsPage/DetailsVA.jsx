@@ -10,7 +10,7 @@ import { getVAAppointmentLocationId } from '../../../services/appointment';
 import AppointmentDateTime from '../AppointmentDateTime';
 import CalendarLink from './CalendarLink';
 import CancelLink from './CancelLink';
-import StatusAlert from './StatusAlert';
+import StatusAlert from '../../../components/StatusAlert';
 import TypeHeader from './TypeHeader';
 import PrintLink from './PrintLink';
 import VAInstructions from './VAInstructions';
@@ -23,6 +23,7 @@ import {
 import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
 import { formatHeader } from './DetailsVA.util';
 import { selectFeatureAppointmentDetailsRedesign } from '../../../redux/selectors';
+import { InPersonLayout } from '../../../components/layout/InPersonLayout';
 import CancelWarningPage from '../cancel/CancelWarningPage';
 import CancelConfirmationPage from '../cancel/CancelConfirmationPage';
 import PageLayout from '../PageLayout';
@@ -40,6 +41,10 @@ function Content({ appointment, facilityData }) {
     isPhoneAppointment,
     isCancellable: isAppointmentCancellable,
   } = appointment?.vaos;
+
+  const featureAppointmentDetailsRedesign = useSelector(
+    selectFeatureAppointmentDetailsRedesign,
+  );
 
   // we don't want to display the appointment type header for upcoming C&P appointments.
   const displayTypeHeader =
@@ -76,6 +81,8 @@ function Content({ appointment, facilityData }) {
       )
     );
   };
+
+  if (featureAppointmentDetailsRedesign) return <InPersonLayout />;
 
   return (
     <>

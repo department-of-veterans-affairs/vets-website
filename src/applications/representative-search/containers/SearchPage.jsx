@@ -309,7 +309,7 @@ const SearchPage = props => {
   useEffect(() => {
     handleSearchViaUrl();
     if (!environment.isProduction()) {
-      repStatusLoader(store, 'representative-status', 3);
+      repStatusLoader(store, 'representative-status', 3, true);
     }
   }, []);
 
@@ -354,14 +354,7 @@ const SearchPage = props => {
         </div>
 
         {!environment.isProduction() && (
-          <div>
-            <h2>Check your current accredited representative</h2>
-            <p>
-              VA doesn’t automatically assign you an accredited representative.
-              But you may have appointed one in the past.{' '}
-            </p>
-            <div data-widget-type="representative-status" />
-          </div>
+          <div data-widget-type="representative-status" />
         )}
 
         <SearchControls
