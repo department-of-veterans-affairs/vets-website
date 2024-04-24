@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 import React from 'react';
-
+import { waitFor } from '@testing-library/react';
+import sinon from 'sinon';
+import { expect } from 'chai';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import LandingPage from '../../components/LandingPage';
@@ -26,6 +28,13 @@ const stateFn = ({
     },
   },
 });
+
+const event = {
+  event: 'nav-alert-box-load',
+  action: 'load',
+  'alert-box-headline': '',
+  'alert-box-status': 'continue',
+};
 
 const setup = ({ initialState = stateFn(), props = {} } = {}) =>
   renderInReduxProvider(<LandingPage {...props} />, { initialState, reducers });
@@ -54,5 +63,37 @@ describe('LandingPage component', () => {
     getByText(
       'Verify your identity to use your ID.me account on My HealtheVet',
     );
+  });
+
+  it('reports LOA1 condition to GA via recordEvent', async () => {
+    const loa1Event = {
+      ...event,
+      'alert-box-headline':
+        'Verify your identity to use your Login.gov account on My HealtheVet',
+    };
+    const recordEventSpy = sinon.spy();
+    const props = { recordEvent: recordEventSpy };
+    const initialState = stateFn({ loa: 1, facilities: [] });
+    setup({ initialState, props });
+    await waitFor(() => {
+      expect(recordEventSpy.calledOnce).to.be.true;
+      expect(recordEventSpy.calledWith(loa1Event)).to.be.true;
+    });
+  });
+
+  it('reports non-VA Patient condition to GA via recordEvent', async () => {
+    const loa1Event = {
+      ...event,
+      'alert-box-headline': 'You don’t have access to My HealtheVet',
+      'alert-box-status': 'warning',
+    };
+    const recordEventSpy = sinon.spy();
+    const props = { recordEvent: recordEventSpy };
+    const initialState = stateFn({ facilities: [] });
+    setup({ initialState, props });
+    await waitFor(() => {
+      expect(recordEventSpy.calledOnce).to.be.true;
+      expect(recordEventSpy.calledWith(loa1Event)).to.be.true;
+    });
   });
 });
