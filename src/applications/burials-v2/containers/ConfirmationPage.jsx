@@ -130,7 +130,29 @@ const ConfirmationPage = ({ form, isLoggedIn }) => {
           text="Print this page"
         />
       </div>
-      <h2>What are my next steps?</h2>
+      <h4 className="vads-u-font-size--h2 vads-u-margin-top--3">
+        What if I have more documents to submit?
+      </h4>
+      <p>Follow these steps to prepare to submit your document:</p>
+      <p />
+      <p>Mail your documents here:</p>
+      <p className="va-address-block">
+        Department of Veterans Affairs <br />
+        Pension Intake Center
+        <br />
+        PO Box 5365
+        <br />
+        Janesville, WI 53547-5365
+        <br />
+      </p>
+      <p>
+        <strong>Note: </strong>
+        Mail us copies of your documents only. Don’t send us your original
+        documents. We can’t return them.
+      </p>
+      <h4 className="vads-u-font-size--h2 vads-u-margin-top--3">
+        What are my next steps?
+      </h4>
       <p>
         We’ll review your claim. Then we’ll send you a letter with our decision.
         If we have more questions or need more information, we’ll contact you by
@@ -138,7 +160,9 @@ const ConfirmationPage = ({ form, isLoggedIn }) => {
       </p>
       {isLoggedIn && (
         <>
-          <h2>How can I check the status of my claim?</h2>
+          <h4 className="vads-u-font-size--h2 vads-u-margin-top--3">
+            How can I check the status of my claim?
+          </h4>
           <p>
             You can check the status of your claim online. <br />
             <strong>Note:</strong> It may take 7 to 10 days after you apply for
