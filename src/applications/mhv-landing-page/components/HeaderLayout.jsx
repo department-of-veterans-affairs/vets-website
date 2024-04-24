@@ -7,11 +7,9 @@ const HeaderLayout = () => {
       className={classnames(
         'vads-u-display--flex',
         'vads-u-justify-content--space-between',
-        'vads-u-margin-bottom--1',
-        'medium-screen:vads-u-margin-bottom--2',
-        'vads-u-border-color--gray-light-alt',
-        'vads-u-border-bottom--2px',
-        'vads-u-margin-bottom--3',
+        'vads-u-margin-bottom--2',
+        'vads-u-border-color--base',
+        'vads-u-border-bottom--1px',
       )}
     >
       <div className="vads-l-col medium-screen:vads-l-col--8">
