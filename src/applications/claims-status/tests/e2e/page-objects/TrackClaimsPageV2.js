@@ -453,8 +453,7 @@ class TrackClaimsPageV2 {
   verifyOverviewShowPastUpdates() {
     cy.get('#tabOverview').click();
     cy.url().should('contain', '/your-claims/189685/overview');
-    cy.get('.process-step.list-three va-button')
-      .shadow()
+    cy.get('.process-step.list-three')
       .find('button')
       .click();
     cy.get('#older-updates-3').should('be.visible');
