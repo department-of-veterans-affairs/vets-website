@@ -1,7 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { shallowEqual } from 'recompose';
-import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import {
   AppointmentDate,
@@ -21,6 +20,8 @@ import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import Address from '../Address';
 import { selectFeaturePhysicalLocation } from '../../redux/selectors';
 import AddToCalendarButton from '../AddToCalendarButton';
+import NewTabAnchor from '../NewTabAnchor';
+import FacilityPhone from '../FacilityPhone';
 
 export function InPersonLayout() {
   const { id } = useParams();
@@ -41,8 +42,7 @@ export function InPersonLayout() {
   const featurePhysicalLocation = useSelector(state =>
     selectFeaturePhysicalLocation(state),
   );
-  const [number, extension] = facilityPhone?.split('x');
-  const [reason, otherDetails] = comment.split(':');
+  const [reason, otherDetails] = comment ? comment?.split(':') : [];
   const oracleHealthProviderName = null;
 
   return (
@@ -75,34 +75,40 @@ export function InPersonLayout() {
       <What>{typeOfCareName || 'Type of care not noted'}</What>
       {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
       <Where>
-        {!!facility?.name && (
+        {!!facility === false && (
           <>
-            {facility.name}
+            <span>Facility details not available</span>
+            <br />
+            <NewTabAnchor href="/find-locations">
+              Find facility information
+            </NewTabAnchor>
+            <br />
             <br />
           </>
         )}
-        <Address address={facility?.address} />
-        <div className="vads-u-display--flex vads-u-margin-top--1 vads-u-color--link-default">
-          <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-          <FacilityDirectionsLink location={facility} />
-        </div>
-        <br />
-        <span>Clinic: {clinicName}</span> <br />
-        {featurePhysicalLocation &&
-          clinicPhysicalLocation && (
-            <>
-              <span>Location: {clinicPhysicalLocation}</span> <br />
-            </>
-          )}
-        <span>
-          Clinic phone:{' '}
-          <VaTelephone
-            contact={number}
-            extension={extension}
-            data-testid="facility-telephone"
-          />{' '}
-          (<VaTelephone contact="711" tty data-testid="tty-telephone" />)
-        </span>
+        {!!facility && (
+          <>
+            {facility.name}
+            <br />
+            <Address address={facility?.address} />
+            <div className="vads-u-display--flex vads-u-margin-top--1 vads-u-color--link-default">
+              <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
+              <FacilityDirectionsLink location={facility} />
+            </div>
+            <br />
+          </>
+        )}
+        <span>Clinic: {clinicName || 'Not available'}</span> <br />
+        {featurePhysicalLocation && (
+          <>
+            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
+            <br />
+          </>
+        )}
+        {facilityPhone && (
+          <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
+        )}
+        {!facilityPhone && <>Not available</>}
       </Where>
       <Section heading="Details you shared with your provider">
         <span>
