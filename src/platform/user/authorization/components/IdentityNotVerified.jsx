@@ -22,7 +22,7 @@ const VerifyIdentityInfo = () => (
   >
     <a
       href="https://www.va.gov/resources/verifying-your-identity-on-vagov/"
-      clasName="vads-u-padding-bottom--2"
+      className="vads-u-padding-bottom--2"
     >
       Get answers to common questions about verifying your identity
     </a>

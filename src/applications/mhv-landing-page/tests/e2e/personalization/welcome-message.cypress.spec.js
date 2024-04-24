@@ -24,7 +24,7 @@ describe(`${appName} -- Welcome message`, () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('personalization enabled', () => {
+  it('personalization disabled', () => {
     cy.intercept(
       'GET',
       '/v0/feature_toggles*',
