@@ -3,6 +3,7 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import ListItemView from '../../../components/ListItemView';
 import { FakeProvider } from '../chapters/pageTests.spec';
 
@@ -47,8 +48,7 @@ describe('ListItemView Component Multiresponse Flipper', () => {
         state={{
           featureToggles: {
             loading: false,
-            // eslint-disable-next-line camelcase
-            pension_multiresponse_styles: true,
+            [Toggler.TOGGLE_NAMES.pensionMultiresponseStyles]: true,
           },
         }}
       >
@@ -67,8 +67,7 @@ describe('ListItemView Component Multiresponse Flipper', () => {
         state={{
           featureToggles: {
             loading: false,
-            // eslint-disable-next-line camelcase
-            pension_multiresponse_styles: true,
+            [Toggler.TOGGLE_NAMES.pensionMultiresponseStyles]: true,
           },
         }}
       >
@@ -84,8 +83,7 @@ describe('ListItemView Component Multiresponse Flipper', () => {
         state={{
           featureToggles: {
             loading: false,
-            // eslint-disable-next-line camelcase
-            pension_multiresponse_styles: true,
+            [Toggler.TOGGLE_NAMES.pensionMultiresponseStyles]: true,
           },
         }}
       >
