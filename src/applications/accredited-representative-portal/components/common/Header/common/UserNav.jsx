@@ -14,7 +14,7 @@ const UserNav = ({ isMobile }) => {
       <>
         {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-icon-component */}
         <i
-          className="fa fa-spinner fa-spin fa-2x"
+          className="fa fa-spinner fa-spin fa-lg"
           data-testid="user-nav-loading-icon"
           aria-hidden="true"
           role="presentation"
@@ -49,21 +49,23 @@ const UserNav = ({ isMobile }) => {
 
   if (!isLoading && profile) {
     content = (
-      <div className="sign-in-nav">
-        <div className="sign-in-links">
-          <a
-            data-testid="user-nav-sign-out-link"
-            href={SIGN_OUT_URL}
-            className="sign-in-link"
-          >
-            {profile.firstName} {profile.lastName}
-          </a>
-        </div>
-      </div>
+      <a
+        data-testid="user-nav-sign-out-link"
+        href={SIGN_OUT_URL}
+        className="sign-in-link"
+      >
+        {profile.firstName} {profile.lastName}
+      </a>
     );
   }
 
-  return <div className="user-nav">{content}</div>;
+  return (
+    <div className="user-nav">
+      <div className="sign-in-nav">
+        <div className="sign-in-links">{content}</div>
+      </div>
+    </div>
+  );
 };
 
 UserNav.propTypes = {

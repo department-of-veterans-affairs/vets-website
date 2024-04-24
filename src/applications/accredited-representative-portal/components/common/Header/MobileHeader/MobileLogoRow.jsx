@@ -23,11 +23,7 @@ export const MobileLogoRow = () => {
         <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center">
           <div className="profile-nav-container">
             <div className="hidden-header vads-u-display--flex vads-u-align-items--center">
-              <div className="sign-in-nav">
-                <div className="sign-in-links">
-                  <UserNav isMobile />
-                </div>
-              </div>
+              <UserNav isMobile />
             </div>
           </div>
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
@@ -39,11 +35,10 @@ export const MobileLogoRow = () => {
             type="button"
           >
             Menu
-            <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-icon-component */}
+            <i
               aria-hidden="true"
-              className="vads-u-margin-left--1 vads-u-font-size--sm"
+              className="fa fa-bars vads-u-margin-left--1 vads-u-font-size--sm"
             />
           </button>
         </div>
