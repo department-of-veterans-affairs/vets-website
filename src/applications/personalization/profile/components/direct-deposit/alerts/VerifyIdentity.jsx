@@ -16,11 +16,12 @@ const CredentialRetirementMessaging = () => {
     TOGGLE_NAMES.profileShowCredentialRetirementMessaging,
   );
   const signInService = useSelector(signInServiceName);
-  const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
+  const serviceLabel = SERVICE_PROVIDERS?.[signInService]?.label;
+  const serviceLabelFormatted = serviceLabel ? ` ${serviceLabel}` : '';
   return showCredentialRetirementMessaging ? (
     <>
       Starting December 31, 2024, you’ll no longer be able to sign in with your
-      {` ${serviceLabel}` || ''} username and password.
+      {serviceLabelFormatted} username and password.
     </>
   ) : null;
 };
