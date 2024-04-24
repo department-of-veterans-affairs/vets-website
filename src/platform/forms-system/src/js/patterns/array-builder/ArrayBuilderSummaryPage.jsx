@@ -4,16 +4,16 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import get from 'platform/utilities/data/get';
+import get from '~/platform/utilities/data/get';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { setData } from '~/platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import ArrayBuilderCards from './ArrayBuilderCards';
 import {
   createArrayBuilderItemAddPath,
   getArrayUrlSearchParams,
   isDeepEmpty,
-} from '../helpers';
+} from './helpers';
 
 function getUpdatedItemIndexFromPath() {
   const urlParams = getArrayUrlSearchParams();
