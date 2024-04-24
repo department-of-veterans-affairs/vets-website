@@ -14,10 +14,7 @@ import { ITF_STATUSES } from '../../constants';
 import itfFetchResponse from '../fixtures/mocks/intent-to-file.json';
 import itfCreateResponse from '../fixtures/mocks/intent-to-file-compensation.json';
 
-import {
-  getReadableDate,
-  parseDateToDateObj,
-} from '../../../shared/utils/dates';
+import { getReadableDate } from '../../../shared/utils/dates';
 
 const getData = ({
   loggedIn = true,
@@ -307,7 +304,7 @@ describe('ITFWrapper', () => {
     );
     // Fetch succeeded, but no ITFs were returned
     const mockDispatch = sinon.spy();
-    const expirationDate = parseDateToDateObj(add(new Date(), { days: -1 }));
+    const expirationDate = add(new Date(), { days: -1 });
     const newData = getData({
       fetchCallState: requestStates.succeeded,
       mockDispatch,
@@ -350,7 +347,7 @@ describe('ITFWrapper', () => {
   });
 
   it('should render a success message for fetched ITF', () => {
-    const expirationDate = parseDateToDateObj(add(new Date(), { days: 1 }));
+    const expirationDate = add(new Date(), { days: 1 });
     mockApiRequest();
     const data = getData({
       fetchCallState: requestStates.succeeded,
@@ -374,10 +371,8 @@ describe('ITFWrapper', () => {
   });
 
   it('should render a success message for newly created ITF', () => {
-    const expirationDate = parseDateToDateObj(add(new Date(), { days: 1 }));
-    const previousExpirationDate = parseDateToDateObj(
-      add(new Date(), { days: -1 }),
-    );
+    const expirationDate = add(new Date(), { days: 1 });
+    const previousExpirationDate = add(new Date(), { days: -1 });
 
     mockApiRequest();
     const data = getData({
