@@ -8,7 +8,7 @@ import { selectFeatureDatadogRum } from '../redux/selectors';
 const initializeDatadogRum = () => {
   if (
     // Prevent RUM from running on local/CI environments.
-    environment.BASE_URL.indexOf('localhost') < 0 &&
+    // environment.BASE_URL.indexOf('localhost') < 0 &&
     // Prevent re-initializing the SDK.
     !window.DD_RUM?.getInitConfiguration() &&
     !window.Mocha
@@ -20,7 +20,7 @@ const initializeDatadogRum = () => {
       service: 'va.gov-appointments',
       env: environment.vspEnvironment(),
       sessionSampleRate: 100,
-      sessionReplaySampleRate: 100,
+      sessionReplaySampleRate: 25,
       trackInteractions: true,
       trackFrustrations: true,
       trackResources: true,
