@@ -37,7 +37,7 @@ const testConfig = createTestConfig(
 
     dataPrefix: 'data',
     dataDir: path.join(__dirname, 'fixtures', 'data'),
-    dataSets: ['veteran'],
+    dataSets: ['test-data'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
