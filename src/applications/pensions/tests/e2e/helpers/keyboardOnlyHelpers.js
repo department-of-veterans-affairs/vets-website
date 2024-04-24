@@ -101,7 +101,7 @@ export const fillSelectByTyping = (str, i = 0, attempt = 0) => {
         return fillSelectByTyping(str, 0, attempt + 1);
       }
       if (!text.includes(str)) {
-        return fillSelectByTyping(str, i + 1);
+        return fillSelectByTyping(str, i + 1, attempt);
       }
       return text;
     });
