@@ -60,6 +60,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
         failedMeds,
         successfulMeds,
       });
+      setSelectedRefillList([]);
     }
   };
   const onSelectPrescription = id => {

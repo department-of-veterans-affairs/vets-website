@@ -1,4 +1,3 @@
-/* eslint-disable @department-of-veterans-affairs/use-workspace-imports */
 import Timeouts from 'platform/testing/e2e/timeouts';
 
 class NextOfKin {

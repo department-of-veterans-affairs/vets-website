@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import * as api from '@department-of-veterans-affairs/platform-utilities/api';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import * as constants from '../../constants';
 
 import {
   addFile,
@@ -11,6 +12,7 @@ import {
   clearNotification,
   getClaims,
   getClaim,
+  getClaimLetters,
   getStemClaims,
   removeFile,
   resetUploads,
@@ -21,7 +23,7 @@ import {
   submitRequest,
   updateField,
   submit5103,
-} from '../actions';
+} from '../../actions';
 
 import {
   ADD_FILE,
@@ -47,9 +49,20 @@ import {
   FETCH_STEM_CLAIMS_SUCCESS,
   FETCH_STEM_CLAIMS_PENDING,
   FETCH_CLAIMS_SUCCESS,
-} from '../actions/types';
+} from '../../actions/types';
 
 describe('Actions', () => {
+  describe('getClaimLetters', () => {
+    it('should get claim letters', () => {
+      const apiStub = sinon.stub(api, 'apiRequest');
+
+      apiStub.returns(Promise.resolve({ data: [] }));
+
+      getClaimLetters();
+      expect(apiStub.called).to.be.true;
+      apiStub.restore();
+    });
+  });
   describe('submit5103', () => {
     let expectedUrl;
     const server = setupServer();
@@ -201,6 +214,10 @@ describe('Actions', () => {
         .then(done, done);
     });
     it('dispatches FETCH_CLAIMS_ERROR - null', done => {
+      const apiStub = sinon.stub(api, 'apiRequest');
+
+      apiStub.returns(Promise.reject(null));
+
       const thunk = getClaims();
       const dispatch = sinon.spy();
       thunk(dispatch)
@@ -208,6 +225,22 @@ describe('Actions', () => {
           const action = dispatch.secondCall.args[0];
           expect(action.type).to.equal(FETCH_CLAIMS_ERROR);
         })
+        .then(() => apiStub.restore())
+        .then(done, done);
+    });
+    it('dispatches FETCH_CLAIMS_ERROR - not null error code', done => {
+      const apiStub = sinon.stub(api, 'apiRequest');
+
+      apiStub.returns(Promise.reject({ errors: [{ status: 404 }] }));
+
+      const thunk = getClaims();
+      const dispatch = sinon.spy();
+      thunk(dispatch)
+        .then(() => {
+          const action = dispatch.secondCall.args[0];
+          expect(action.type).to.equal(FETCH_CLAIMS_ERROR);
+        })
+        .then(() => apiStub.restore())
         .then(done, done);
     });
   });
@@ -347,82 +380,103 @@ describe('Actions', () => {
     });
   });
   describe('submitRequest', () => {
-    let expectedUrl;
-    const server = setupServer();
+    it('should submit request with canUseMocks true', done => {
+      const useMocksStub = sinon.stub(constants, 'canUseMocks').returns(true);
 
-    before(() => {
-      server.listen();
-      server.events.on('request:start', req => {
-        expectedUrl = req.url.href;
-      });
-    });
+      const thunk = submitRequest(5);
+      const dispatch = sinon.spy();
 
-    afterEach(() => {
-      server.resetHandlers();
-      expectedUrl = undefined;
-    });
-
-    after(() => server.close());
-
-    it('should submit request', done => {
-      const ID = 5;
-      server.use(
-        rest.post(
-          `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
-          (req, res, ctx) =>
-            res(
-              ctx.status(200),
-              ctx.json({
-                // eslint-disable-next-line camelcase
-                job_id: ID,
-              }),
-            ),
-        ),
-      );
-
-      const thunk = submitRequest(ID);
-      const dispatchSpy = sinon.spy();
-      const dispatch = action => {
-        dispatchSpy(action);
-        if (dispatchSpy.callCount === 3) {
-          expect(expectedUrl).to.contain('5/request_decision');
-          expect(dispatchSpy.firstCall.args[0]).to.eql({
-            type: SUBMIT_DECISION_REQUEST,
-          });
-          expect(dispatchSpy.secondCall.args[0]).to.eql({
-            type: SET_DECISION_REQUESTED,
-          });
-          expect(dispatchSpy.thirdCall.args[0].type).to.eql(SET_NOTIFICATION);
-          done();
-        }
-      };
-
-      thunk(dispatch);
-    });
-    it('should fail on error', done => {
-      const ID = 5;
-      server.use(
-        rest.post(
-          `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
-          (req, res, ctx) => res(ctx.status(400), ctx.json({ status: 400 })),
-        ),
-      );
-      const thunk = submitRequest(ID);
-      const dispatchSpy = sinon.spy();
-      const dispatch = action => {
-        dispatchSpy(action);
-        if (dispatchSpy.callCount === 2) {
-          expect(dispatchSpy.firstCall.args[0]).to.eql({
-            type: SUBMIT_DECISION_REQUEST,
-          });
-          expect(dispatchSpy.secondCall.args[0].type).to.eql(
-            SET_DECISION_REQUEST_ERROR,
+      thunk(dispatch)
+        .then(() => {
+          expect(dispatch.firstCall.args[0].type).to.equal(
+            SUBMIT_DECISION_REQUEST,
           );
-          done();
-        }
-      };
+          expect(dispatch.secondCall.args[0].type).to.equal(
+            SET_DECISION_REQUESTED,
+          );
+        })
+        .then(() => useMocksStub.restore())
+        .then(done, done);
+    });
 
-      thunk(dispatch);
+    context('', () => {
+      let expectedUrl;
+      const server = setupServer();
+
+      before(() => {
+        server.listen();
+        server.events.on('request:start', req => {
+          expectedUrl = req.url.href;
+        });
+      });
+
+      afterEach(() => {
+        server.resetHandlers();
+        expectedUrl = undefined;
+      });
+
+      after(() => server.close());
+
+      it('should submit request', done => {
+        const ID = 5;
+        server.use(
+          rest.post(
+            `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
+            (req, res, ctx) =>
+              res(
+                ctx.status(200),
+                ctx.json({
+                  // eslint-disable-next-line camelcase
+                  job_id: ID,
+                }),
+              ),
+          ),
+        );
+
+        const thunk = submitRequest(ID);
+        const dispatchSpy = sinon.spy();
+        const dispatch = action => {
+          dispatchSpy(action);
+          if (dispatchSpy.callCount === 3) {
+            expect(expectedUrl).to.contain('5/request_decision');
+            expect(dispatchSpy.firstCall.args[0]).to.eql({
+              type: SUBMIT_DECISION_REQUEST,
+            });
+            expect(dispatchSpy.secondCall.args[0]).to.eql({
+              type: SET_DECISION_REQUESTED,
+            });
+            expect(dispatchSpy.thirdCall.args[0].type).to.eql(SET_NOTIFICATION);
+            done();
+          }
+        };
+
+        thunk(dispatch);
+      });
+      it('should fail on error', done => {
+        const ID = 5;
+        server.use(
+          rest.post(
+            `https://dev-api.va.gov/v0/evss_claims/${ID}/request_decision`,
+            (req, res, ctx) => res(ctx.status(400), ctx.json({ status: 400 })),
+          ),
+        );
+        const thunk = submitRequest(ID);
+        const dispatchSpy = sinon.spy();
+        const dispatch = action => {
+          dispatchSpy(action);
+          if (dispatchSpy.callCount === 2) {
+            expect(dispatchSpy.firstCall.args[0]).to.eql({
+              type: SUBMIT_DECISION_REQUEST,
+            });
+            expect(dispatchSpy.secondCall.args[0].type).to.eql(
+              SET_DECISION_REQUEST_ERROR,
+            );
+            done();
+          }
+        };
+
+        thunk(dispatch);
+      });
     });
   });
 
@@ -430,7 +484,7 @@ describe('Actions', () => {
     const server = setupServer();
 
     before(() => {
-      server.listen();
+      server.listen({ onUnhandledRequest: 'bypass' });
     });
 
     afterEach(() => {
@@ -438,6 +492,24 @@ describe('Actions', () => {
     });
 
     after(() => server.close());
+
+    it('should fetch stem claims when canUseMocks true', done => {
+      const useMocksStub = sinon.stub(constants, 'canUseMocks').returns(true);
+      const thunk = getStemClaims();
+      const dispatch = sinon.spy();
+
+      thunk(dispatch)
+        .then(() => {
+          expect(dispatch.firstCall.args[0].type).to.equal(
+            FETCH_STEM_CLAIMS_PENDING,
+          );
+          expect(dispatch.secondCall.args[0].type).to.equal(
+            FETCH_STEM_CLAIMS_SUCCESS,
+          );
+        })
+        .then(() => useMocksStub.restore())
+        .then(done, done);
+    });
 
     it('should fetch stem claims', done => {
       server.use(
