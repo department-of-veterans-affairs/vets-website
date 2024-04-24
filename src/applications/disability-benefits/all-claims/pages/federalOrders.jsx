@@ -33,7 +33,7 @@ export const uiSchema = {
         },
         title10ActivationDate: {
           ...activationDate,
-          'ui:validations': [isInPast, validateTitle10StartDate],
+          'ui:validations': [validateDate, isInPast, validateTitle10StartDate],
           'ui:required': title10DatesRequired,
         },
         anticipatedSeparationDate: {
