@@ -1,10 +1,9 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { getStatementPageTitle } from '../helpers';
+import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export const statementPage = {
   uiSchema: {
-    ...titleUI(({ formData }) => getStatementPageTitle(formData)),
+    ...titleUI('Your statement'),
     statement: {
       'ui:widget': 'textarea',
       'ui:autocomplete': 'off',
