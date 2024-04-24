@@ -28,6 +28,6 @@ export default function AppointmentCard({ children, appointment }) {
 }
 
 AppointmentCard.propTypes = {
-  appointment: PropTypes.node.isRequired,
+  appointment: PropTypes.object.isRequired,
   children: PropTypes.node,
 };

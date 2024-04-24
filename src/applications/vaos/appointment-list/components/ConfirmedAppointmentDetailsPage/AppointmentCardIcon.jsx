@@ -8,7 +8,7 @@ import {
   isGfeVideoAppointment,
 } from '../../../services/appointment';
 
-const appointmentIcon = appointment => {
+const iconClass = appointment => {
   const isPhone = isVAPhoneAppointment(appointment);
   const isVideo = appointment.vaos?.isVideo;
   const {
@@ -20,11 +20,11 @@ const appointmentIcon = appointment => {
   const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
 
   if (isPhone) {
-    return 'phone';
+    return 'fa-phone-alt';
   }
 
   if (isCommunityCare) {
-    return 'calendar_today';
+    return 'fa-calendar';
   }
 
   if (
@@ -34,31 +34,30 @@ const appointmentIcon = appointment => {
     isClinicVideoAppointment(appointment) ||
     isAtlasVideoAppointment(appointment)
   ) {
-    return 'location_city';
+    return 'fa-building';
   }
 
   if (
     isHomeVideoAppointment(appointment) ||
     isGfeVideoAppointment(appointment)
   ) {
-    return 'videocam';
+    return 'fa-video';
   }
-  return 'calendar_today';
+  return 'fa-calendar';
 };
 
 export default function AppointmentCardIcon({ appointment }) {
   return (
     <div className="vaos-appts__appointment-details--icon">
-      <va-icon
-        icon={appointmentIcon(appointment)}
+      <i
+        className={`fas ${iconClass(appointment)}`}
         aria-hidden="true"
         data-testid="appointment-icon"
-        size={3}
       />
     </div>
   );
 }
 
 AppointmentCardIcon.propTypes = {
-  appointment: PropTypes.node.isRequired,
+  appointment: PropTypes.object.isRequired,
 };
