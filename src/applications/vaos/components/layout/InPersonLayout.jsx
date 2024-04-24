@@ -64,7 +64,7 @@ export function InPersonLayout() {
         <AppointmentTime appointment={appointment} />
         <br />
         {APPOINTMENT_STATUS.cancelled !== status && (
-          <div className="vads-u-margin-top--2">
+          <div className="vads-u-margin-top--2 vaos-hide-for-print">
             <AddToCalendarButton
               appointment={appointment}
               facility={facility}
