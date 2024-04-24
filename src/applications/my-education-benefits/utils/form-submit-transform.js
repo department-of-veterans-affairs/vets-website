@@ -472,25 +472,22 @@ function getTodayDate() {
 }
 
 export function createComments(submissionForm) {
-  // Check if the service history was marked as incorrect.
   if (submissionForm['view:serviceHistory'].serviceHistoryIncorrect) {
-    // Check if there is an explanation provided for the incorrect service history.
-    if (submissionForm.incorrectServiceHistoryExplanation) {
+    const explanation = submissionForm.incorrectServiceHistoryExplanation;
+    if (explanation && explanation.incorrectServiceHistoryText) {
       return {
         claimantComment: {
           commentDate: getTodayDate(),
-          comments: submissionForm.incorrectServiceHistoryExplanation,
+          comments: explanation.incorrectServiceHistoryText,
         },
         disagreeWithServicePeriod: true,
       };
     }
-    // Return an empty comment object if no explanation is provided, but disagreement is noted.
     return {
       claimantComment: {},
       disagreeWithServicePeriod: true,
     };
   }
-  // Return no disagreement and an empty comment object if the service history is not marked as incorrect.
   return {
     claimantComment: {},
     disagreeWithServicePeriod: false,
