@@ -143,7 +143,7 @@ function ApplicantContactInfoDescription() {
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
-    showNavLinks: false,
+    showNavLinks: true,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -398,13 +398,6 @@ const formConfig = {
           ),
           schema: applicantDemographics2.schema,
         },
-        militaryDetails: {
-          path: 'applicant-military-details',
-          title: 'Military details',
-          depends: isVeteran,
-          uiSchema: militaryDetails.uiSchema,
-          schema: militaryDetails.schema,
-        },
       },
     },
     sponsorInformation: {
@@ -475,6 +468,13 @@ const formConfig = {
     militaryHistory: {
       title: 'Military history',
       pages: {
+        militaryDetails: {
+          path: 'applicant-military-details',
+          title: 'Military details',
+          depends: isVeteran,
+          uiSchema: militaryDetails.uiSchema,
+          schema: militaryDetails.schema,
+        },
         // Two sets of military history pages dependent on
         // whether the applicant is the veteran or not.
         // If not, "Sponsor’s" precedes all the field labels.

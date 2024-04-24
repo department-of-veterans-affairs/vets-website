@@ -8,7 +8,7 @@ const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
   application: {
-    'ui:title': militaryDetailsSubHeader,
+    'ui:title': formData => militaryDetailsSubHeader(formData),
     veteran: veteranUI,
   },
 };

@@ -166,11 +166,18 @@ export const applicantDemographicsDescription = (
   </div>
 );
 
-export const militaryDetailsSubHeader = (
-  <div className="militaryDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Military details</h3>
-  </div>
-);
+export function militaryDetailsSubHeader(formData) {
+  return (
+    <div className="militaryDetailsSubHeader">
+      {get('applicant.applicantRelationshipToClaimant', formData.formData) ===
+      'Authorized Agent/Rep' ? (
+        <h3 className="vads-u-font-size--h5">Applicant's military details</h3>
+      ) : (
+        <h3 className="vads-u-font-size--h5">Your military details</h3>
+      )}
+    </div>
+  );
+}
 
 export const contactInfoDescription = (
   <va-additional-info trigger="Why do we need your contact information?">
