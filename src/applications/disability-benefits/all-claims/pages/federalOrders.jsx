@@ -6,6 +6,7 @@ import { validateDate } from 'platform/forms-system/src/js/validation';
 import { title10DatesRequired } from '../utils';
 import {
   title10BeforeRad,
+  isInPast,
   isLessThan180DaysInFuture,
   validateTitle10StartDate,
 } from '../validations';
@@ -15,7 +16,6 @@ const {
 } = fullSchema.properties.serviceInformation.properties.reservesNationalGuardService.properties;
 
 const activationDate = dateUI('Activation date');
-activationDate['ui:validations'].push(validateTitle10StartDate);
 
 export const uiSchema = {
   'ui:title': 'Federal Orders',
@@ -33,6 +33,7 @@ export const uiSchema = {
         },
         title10ActivationDate: {
           ...activationDate,
+          'ui:validations': [isInPast, validateTitle10StartDate],
           'ui:required': title10DatesRequired,
         },
         anticipatedSeparationDate: {

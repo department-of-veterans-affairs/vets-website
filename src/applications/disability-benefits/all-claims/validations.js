@@ -260,6 +260,18 @@ export const isInFuture = (err, fieldData) => {
 };
 
 /**
+ * Validates activation date date. Adds error if date is in the future.
+ * @param {Object} errors - Errors object from rjsf, which includes an addError method
+ * @param {string} fieldData - The data associated with the current schema. Activation date
+ */
+export const isInPast = (errors, fieldData) => {
+  const fieldDate = new Date(fieldData);
+  if (fieldDate.getTime() > Date.now()) {
+    errors.addError('Enter an activation date in the past');
+  }
+};
+
+/**
  * Validates anticipated separation date. Adds error if date is not in the
  * future or if date is more than 180 days in the future.
  * @param {Object} errors - Errors object from rjsf, which includes an addError method
@@ -270,10 +282,10 @@ export const isLessThan180DaysInFuture = (errors, fieldData) => {
   const in180Days = moment().add(180, 'days');
   if (enteredDate.isValid()) {
     if (enteredDate.isBefore()) {
-      errors.addError('Please enter a future separation date');
+      errors.addError('Enter a future separation date');
     } else if (enteredDate.isSameOrAfter(in180Days)) {
       errors.addError(
-        'Please enter a separation date less than 180 days in the future',
+        'Enter a separation date less than 180 days in the future',
       );
     }
   }
@@ -295,7 +307,7 @@ export const title10BeforeRad = (errors, pageData) => {
 
   if (rad.isValid() && activation.isValid() && rad.isBefore(activation)) {
     errors.reservesNationalGuardService.title10Activation.anticipatedSeparationDate.addError(
-      'Please enter an expected separation date that is after your activation date',
+      'Enter an expected separation date that is after your activation date',
     );
   }
 };
