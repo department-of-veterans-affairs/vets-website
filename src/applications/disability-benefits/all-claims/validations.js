@@ -252,15 +252,15 @@ export const oneDisabilityRequired = disabilityList => (
   }
 };
 
-export const isInFuture = (err, fieldData) => {
-  const fieldDate = new Date(fieldData);
-  if (fieldDate.getTime() < Date.now()) {
-    err.addError('Start date must be in the future');
-  }
-};
+// export const isInFuture = (err, fieldData) => {
+//   const fieldDate = new Date(fieldData);
+//   if (fieldDate.getTime() < Date.now()) {
+//     err.addError('Start date must be in the future');
+//   }
+// };
 
 /**
- * Validates activation date date. Adds error if date is in the future.
+ * Validates activation date. Adds error if date is in the future.
  * @param {Object} errors - Errors object from rjsf, which includes an addError method
  * @param {string} fieldData - The data associated with the current schema. Activation date
  */

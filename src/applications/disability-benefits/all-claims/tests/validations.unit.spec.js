@@ -14,7 +14,7 @@ import {
   validateBooleanGroup,
   validateAge,
   validateSeparationDate,
-  isInFuture,
+  // isInFuture,
   isInPast,
   isLessThan180DaysInFuture,
   title10BeforeRad,
@@ -687,25 +687,25 @@ describe('526 All Claims validations', () => {
     });
   });
 
-  describe('isInFuture', () => {
-    it('adds an error when entered date is today or earlier', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-      const fieldData = '2018-04-12';
+  // describe('isInFuture', () => {
+  //   it('adds an error when entered date is today or earlier', () => {
+  //     const addError = sinon.spy();
+  //     const errors = { addError };
+  //     const fieldData = '2018-04-12';
 
-      isInFuture(errors, fieldData);
-      expect(addError.calledOnce).to.be.true;
-    });
+  //     isInFuture(errors, fieldData);
+  //     expect(addError.calledOnce).to.be.true;
+  //   });
 
-    it('does not add an error when the entered date is in the future', () => {
-      const addError = sinon.spy();
-      const errors = { addError };
-      const fieldData = '2099-04-12';
+  //   it('does not add an error when the entered date is in the future', () => {
+  //     const addError = sinon.spy();
+  //     const errors = { addError };
+  //     const fieldData = '2099-04-12';
 
-      isInFuture(errors, fieldData);
-      expect(addError.callCount).to.equal(0);
-    });
-  });
+  //     isInFuture(errors, fieldData);
+  //     expect(addError.callCount).to.equal(0);
+  //   });
+  // });
 
   describe('isInPast', () => {
     it('adds an error when entered date is in the future', () => {

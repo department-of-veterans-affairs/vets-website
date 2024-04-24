@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
+import { add, format } from 'date-fns';
 import sinon from 'sinon';
 import {
   DefinitionTester,
@@ -9,6 +10,9 @@ import {
 } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
+
+const formatDate = date => format(date, 'yyyy-MM-dd');
+const daysFromToday = days => formatDate(add(new Date(), { days }));
 
 describe('Federal orders info', () => {
   const {
@@ -115,9 +119,8 @@ describe('Federal orders info', () => {
   });
   it('should fail to submit when activation date is in the future', () => {
     const onSubmit = sinon.spy();
-    const activationDate = moment()
-      .add(10, 'days')
-      .format('YYYY-MM-DD');
+    const activationDate = daysFromToday(10);
+    const separationDate = daysFromToday(20);
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -147,9 +150,7 @@ describe('Federal orders info', () => {
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
-      moment(activationDate, 'YYYY-MM-DD')
-        .add(10, 'days')
-        .format('YYYY-MM-DD'),
+      separationDate,
     );
 
     form.find('form').simulate('submit');
@@ -159,9 +160,8 @@ describe('Federal orders info', () => {
   });
   it('should fail to submit when separation date is before activation', () => {
     const onSubmit = sinon.spy();
-    const activationDate = moment()
-      .add(-10, 'days')
-      .format('YYYY-MM-DD');
+    const activationDate = daysFromToday(-10);
+    const separationDate = daysFromToday(-10);
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -191,9 +191,7 @@ describe('Federal orders info', () => {
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
-      moment(activationDate, 'YYYY-MM-DD')
-        .add(-10, 'days')
-        .format('YYYY-MM-DD'),
+      separationDate,
     );
 
     form.find('form').simulate('submit');
