@@ -47,7 +47,22 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'living-situation': ({ afterHook }) => {
+      'name-and-date-of-birth': ({ afterHook }) => {
+        afterHook(() => {});
+      },
+      'identification-information': ({ afterHook }) => {
+        afterHook(() => {});
+      },
+      'mailing-address': ({ afterHook }) => {
+        afterHook(() => {});
+      },
+      'phone-and-email': ({ afterHook }) => {
+        afterHook(() => {});
+      },
+      statement: ({ afterHook }) => {
+        afterHook(() => {});
+      },
+      'review-and-submit': ({ afterHook }) => {
         afterHook(() => {});
       },
     },
