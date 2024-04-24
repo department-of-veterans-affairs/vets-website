@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../constants';
 
 const UserNav = ({ isMobile }) => {
+  // TODO: Replace with real data from redux store #80240
   let content = null;
   const isLoading = false;
-  // const profile = false;
-  const profile = { firstName: 'Johnathon', lastName: 'Smith' };
+  const profile = false;
+  // const profile = { firstName: 'Test', lastName: 'User' };
 
   if (isLoading) {
     content = (
