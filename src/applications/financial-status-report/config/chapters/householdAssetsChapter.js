@@ -92,7 +92,8 @@ export default {
         CustomPageReview: null,
         depends: formData => {
           return (
-            formData['view:reviewPageNavigationToggle'] ||
+            (formData['view:reviewPageNavigationToggle'] &&
+              !isStreamlinedShortForm(formData)) ||
             !isStreamlinedShortForm(formData)
           );
         },
@@ -114,8 +115,10 @@ export default {
           );
 
           return (
-            filteredLiquidAssets.length > 0 &&
-            (formData['view:reviewPageNavigationToggle'] ||
+            (filteredLiquidAssets.length > 0 &&
+              (formData['view:reviewPageNavigationToggle'] &&
+                !isStreamlinedShortForm(formData))) ||
+            (filteredLiquidAssets.length > 0 &&
               !isStreamlinedShortForm(formData))
           );
         },
