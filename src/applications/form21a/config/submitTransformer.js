@@ -23,6 +23,7 @@ export function transform(formConfig, form) {
     birthDate,
     serviceBranches,
     AGREED,
+    agreed,
     ...restData
   } = form.data;
 

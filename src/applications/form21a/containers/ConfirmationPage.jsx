@@ -16,7 +16,7 @@ export class ConfirmationPage extends React.Component {
     const { form } = this.props;
     const { submission, formId, data } = form;
 
-    const { fullName } = data;
+    const fullName = data['view:fullName'];
 
     return (
       <div>
@@ -61,7 +61,7 @@ export class ConfirmationPage extends React.Component {
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      fullName: {
+      'view:fullName': {
         first: PropTypes.string,
         middle: PropTypes.string,
         last: PropTypes.string,
