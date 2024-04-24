@@ -69,8 +69,8 @@ export default function DetailsCC({ appointment, useV2, featureVaosV2Next }) {
         <CCInstructions appointment={appointment} />
         <CalendarLink appointment={appointment} facility={facility} />
         <PrintLink appointment={appointment} />
-        <RescheduleOrCancelAlert appointment={appointment} />
       </AppointmentCard>
+      <RescheduleOrCancelAlert appointment={appointment} />
     </>
   );
 }

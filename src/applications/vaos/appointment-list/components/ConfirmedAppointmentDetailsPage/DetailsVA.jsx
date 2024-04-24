@@ -89,10 +89,10 @@ export default function DetailsVA({ appointment, facilityData }) {
         <CalendarLink appointment={appointment} facility={facility} />
         <PrintLink appointment={appointment} />
         {isAppointmentCancellable && <CancelLink appointment={appointment} />}
-        {!isAppointmentCancellable && (
-          <NoOnlineCancelAlert appointment={appointment} facility={facility} />
-        )}
       </AppointmentCard>
+      {!isAppointmentCancellable && (
+        <NoOnlineCancelAlert appointment={appointment} facility={facility} />
+      )}
     </>
   );
 }

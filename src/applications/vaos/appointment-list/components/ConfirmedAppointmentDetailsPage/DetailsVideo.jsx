@@ -62,8 +62,8 @@ export default function DetailsVideo({ appointment, facilityData }) {
 
         <CalendarLink appointment={appointment} facility={facility} />
         <PrintLink appointment={appointment} />
-        <NoOnlineCancelAlert appointment={appointment} facility={facility} />
       </AppointmentCard>
+      <NoOnlineCancelAlert appointment={appointment} facility={facility} />
     </>
   );
 }
