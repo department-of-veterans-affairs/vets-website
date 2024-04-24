@@ -5,7 +5,6 @@ import {
   phoneUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { getPhoneAndEmailPageTitle } from '../helpers';
 
 /** @type {PageSchema} */
 export const phoneAndEmailPage = {
@@ -19,38 +18,6 @@ export const phoneAndEmailPage = {
     properties: {
       phone: phoneSchema,
       emailAddress: emailSchema,
-    },
-  },
-};
-
-/** @type {PageSchema} */
-export const veteranPhoneAndEmailPage = {
-  uiSchema: {
-    ...titleUI(({ formData }) => getPhoneAndEmailPageTitle(formData)),
-    veteranPhone: phoneUI('Phone number'),
-    veteranEmailAddress: emailUI(),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      veteranPhone: phoneSchema,
-      veteranEmailAddress: emailSchema,
-    },
-  },
-};
-
-/** @type {PageSchema} */
-export const nonVeteranPhoneAndEmailPage = {
-  uiSchema: {
-    ...titleUI(({ formData }) => getPhoneAndEmailPageTitle(formData)),
-    nonVeteranPhone: phoneUI('Phone number'),
-    nonVeteranEmailAddress: emailUI(),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      nonVeteranPhone: phoneSchema,
-      nonVeteranEmailAddress: emailSchema,
     },
   },
 };

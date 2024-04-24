@@ -3,41 +3,21 @@ import {
   ssnOrVaFileNumberNoHintSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  getIdentityInfoPageTitle,
-  getVeteranIdentityInfoPageTitle,
-} from '../helpers';
+import { getIdentityInfoPageTitle } from '../helpers';
 
 /** @type {PageSchema} */
-export const nonVeteranIdInfoPage = {
+export const identificationInformationPage = {
   uiSchema: {
     ...titleUI(
       ({ formData }) => getIdentityInfoPageTitle(formData),
       'You must enter either a Social Security number or VA File number',
     ),
-    nonVeteranId: ssnOrVaFileNumberNoHintUI(),
+    idNumber: ssnOrVaFileNumberNoHintUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      nonVeteranId: ssnOrVaFileNumberNoHintSchema,
-    },
-  },
-};
-
-/** @type {PageSchema} */
-export const veteranIdInfoPage = {
-  uiSchema: {
-    ...titleUI(
-      ({ formData }) => getVeteranIdentityInfoPageTitle(formData),
-      'You must enter either a Social Security number or VA File number',
-    ),
-    veteranId: ssnOrVaFileNumberNoHintUI(),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      veteranId: ssnOrVaFileNumberNoHintSchema,
+      idNumber: ssnOrVaFileNumberNoHintSchema,
     },
   },
 };

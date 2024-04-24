@@ -12,67 +12,21 @@ import {
 } from '../helpers';
 
 /** @type {PageSchema} */
-export const nonVeteranDateOfBirthPage = {
+export const nameAndDateOfBirthPage = {
   uiSchema: {
     ...titleUI(
       ({ formData }) => getNameAndDobPageTitle(formData),
       ({ formData }) => getNameAndDobPageDescription(formData),
     ),
-    nonVeteranFullName: fullNameNoSuffixUI(label =>
-      getFullNameLabels(label, true),
-    ),
-    nonVeteranDateOfBirth: dateOfBirthUI({ required: true }),
+    fullName: fullNameNoSuffixUI(label => getFullNameLabels(label, true)),
+    dateOfBirth: dateOfBirthUI({ required: true }),
   },
   schema: {
     type: 'object',
     properties: {
-      nonVeteranFullName: fullNameNoSuffixSchema,
-      nonVeteranDateOfBirth: dateOfBirthSchema,
+      fullName: fullNameNoSuffixSchema,
+      dateOfBirth: dateOfBirthSchema,
     },
-    required: ['nonVeteranFullName', 'nonVeteranDateOfBirth'],
-  },
-};
-
-/** @type {PageSchema} */
-export const veteranNameAndDateofBirthPageA = {
-  uiSchema: {
-    ...titleUI(
-      ({ formData }) => getNameAndDobPageTitle(formData),
-      ({ formData }) => getNameAndDobPageDescription(formData),
-    ),
-    veteranFullName: fullNameNoSuffixUI(label =>
-      getFullNameLabels(label, true),
-    ),
-    veteranDateOfBirth: dateOfBirthUI({ required: true }),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      veteranFullName: fullNameNoSuffixSchema,
-      veteranDateOfBirth: dateOfBirthSchema,
-    },
-    required: ['veteranFullName', 'veteranDateOfBirth'],
-  },
-};
-
-/** @type {PageSchema} */
-export const veteranNameAndDateofBirthPageB = {
-  uiSchema: {
-    ...titleUI(
-      'Veteran’s name and date of birth',
-      'Please provide the Veteran’s information.',
-    ),
-    veteranFullName: fullNameNoSuffixUI(label =>
-      getFullNameLabels(label, true),
-    ),
-    veteranDateOfBirth: dateOfBirthUI({ required: true }),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      veteranFullName: fullNameNoSuffixSchema,
-      veteranDateOfBirth: dateOfBirthSchema,
-    },
-    required: ['veteranFullName', 'veteranDateOfBirth'],
+    required: ['fullName', 'dateOfBirth'],
   },
 };

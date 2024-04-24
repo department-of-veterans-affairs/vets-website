@@ -17,6 +17,12 @@ export function getPersonalInformationChapterTitle(formData) {
   return `${preparerString} personal information`;
 }
 
+export function getIdentificationInfoChapterTitle(formData) {
+  const preparerString = getPreparerString(formData.preparerType);
+
+  return `${preparerString} identification information`;
+}
+
 export function getFullNameLabels(label, skipMiddleCheck = false) {
   if (label === 'middle name' && !skipMiddleCheck) {
     return 'Middle initial';
@@ -70,6 +76,11 @@ export function getVeteranIdentityInfoPageTitle(formData) {
   return formData.preparerType === PREPARER_TYPES.VETERAN
     ? `Your ${titleEnding}`
     : `Veteran’s ${titleEnding}`;
+}
+
+export function getMailingAddressChapterTitle(formData) {
+  const preparerString = getPreparerString(formData.preparerType);
+  return `${preparerString} mailing address`;
 }
 
 export function getContactInfoChapterTitle(formData) {
