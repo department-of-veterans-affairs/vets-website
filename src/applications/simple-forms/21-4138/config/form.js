@@ -29,7 +29,6 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   hideUnauthedStartLink: true,
-  signInHelpList: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for statement in support of a claim.',
     noAuth:
