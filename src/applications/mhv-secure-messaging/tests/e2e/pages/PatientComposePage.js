@@ -262,9 +262,11 @@ class PatientComposePage {
     cy.get(Locators.ATTACHMENT_COUNT).should('contain', expectedCount);
   };
 
-  removeAttachMessageFromFile = () => {
-    cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT).click();
-    cy.contains('Remove').click();
+  removeAttachedFile = () => {
+    cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT).click({ force: true });
+    cy.get(Locators.BUTTONS.CONFIRM_REMOVE_ATTACHMENT).click({
+      force: true,
+    });
   };
 
   verifyRemoveAttachmentButtonHasFocus = (_attachmentIndex = 0) => {

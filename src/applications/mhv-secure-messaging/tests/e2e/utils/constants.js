@@ -123,7 +123,9 @@ export const Locators = {
     PRINT: '[data-testid="print-button"]',
     SORT: '[data-testid="sort-button"]',
     ATTACH_FILE: '[data-testid="attach-file-button"]',
-    REMOVE_ATTACHMENT: '.remove-attachment-button',
+    REMOVE_ATTACHMENT: '[data-testid="remove-attachment-button"]',
+    CONFIRM_REMOVE_ATTACHMENT:
+      '[data-testid="confirm-remove-attachment-button"]',
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
     CREATE_FOLDER: '[data-testid="create-folder-button"]',
     REMOVE_FOLDER: 'button[data-testid="remove-folder-button"]',
@@ -202,6 +204,9 @@ export const Locators = {
     MESSAGE: '@message',
     ATTACH_INFO: '[class="additional-info-title"]',
     ATTACH_OPT: '[class="how-to-attach-files"] li',
+  },
+  BLOCKS: {
+    ATTACHMENTS: '.attachments-list',
   },
 };
 
