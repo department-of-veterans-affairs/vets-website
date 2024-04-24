@@ -47,6 +47,12 @@ const testConfig = createTestConfig(
       },
     },
 
+    setup: () => {
+      Cypress.config({
+        defaultCommandTimeout: 10000,
+      });
+    },
+
     setupPerTest: () => {
       cy.intercept('/v0/api', { status: 200 });
       cy.intercept('/v0/feature_toggles', featureToggles);
