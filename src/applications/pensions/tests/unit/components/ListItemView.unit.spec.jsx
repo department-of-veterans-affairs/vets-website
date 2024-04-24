@@ -56,7 +56,7 @@ describe('ListItemView Component Multiresponse Flipper', () => {
       </FakeProvider>,
     );
     await waitFor(() => {
-      expect($('strong', container)).to.exist;
+      expect($('h3', container)).to.exist;
     });
   });
 
@@ -75,7 +75,7 @@ describe('ListItemView Component Multiresponse Flipper', () => {
         <ListItemView title={title} />
       </FakeProvider>,
     );
-    expect($('strong', container).textContent).to.eql(title);
+    expect($('h3', container).textContent).to.eql(title);
   });
 
   it('handles missing title gracefully', () => {
@@ -92,6 +92,6 @@ describe('ListItemView Component Multiresponse Flipper', () => {
         <ListItemView />
       </FakeProvider>,
     );
-    expect($('strong', container).textContent).to.eql('');
+    expect($('h3', container).textContent).to.eql('');
   });
 });
