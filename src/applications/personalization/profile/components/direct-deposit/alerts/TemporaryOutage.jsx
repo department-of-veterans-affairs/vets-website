@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import HelpDeskContact from '../../HelpDeskContact';
 
 const CustomMessaging = () => (
@@ -14,7 +16,7 @@ const CustomMessaging = () => (
 
     <p>
       We’re updating our systems for online direct deposit management. We expect
-      to complete this work by Thursday, May 2, 2024, at TBD.
+      to complete this work by Thursday, May 2, 2024, at 8:00 p.m. ET.
     </p>
     <p className="vads-u-margin-bottom--0">
       If you need to manage your direct deposit information for disability
@@ -51,3 +53,7 @@ export const TemporaryOutage = ({ customMessaging = false }) => (
     )}
   </div>
 );
+
+TemporaryOutage.propTypes = {
+  customMessaging: PropTypes.bool,
+};
