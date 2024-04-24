@@ -1,13 +1,16 @@
 import React from 'react';
 
 export default function HelpText() {
+  const BTSSS_PORTAL_URL = 'https://dvagov-btsss.dynamics365portals.us/';
+
   return (
     <>
       <h2 className="help-heading">
         Need to manage your travel reimbursement claim?
       </h2>
       <p>
-        You can login to the <a href="#">BTSSS portal</a>
+        You can login to the
+        <a href={BTSSS_PORTAL_URL}>BTSSS portal</a>
         &nbsp;&nbsp;
         <svg
           xmlns="http://www.w3.org/2000/svg"

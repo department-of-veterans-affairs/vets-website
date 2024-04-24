@@ -36,15 +36,14 @@ export default function App({ children }) {
 
   const [filterBy, setFilterBy] = useState('mostRecent');
 
+  // TODO: Move this logic to the API-side
   switch (filterBy) {
     case 'mostRecent':
-      console.log('sort by most recent'); // eslint-disable-line no-console
       travelClaims.sort(
         (a, b) => new Date(b.appointmentDate) - new Date(a.appointmentDate),
       );
       break;
     case 'oldest':
-      console.log('sort by most oldest'); // eslint-disable-line no-console
       travelClaims.sort(
         (a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate),
       );
@@ -74,7 +73,6 @@ export default function App({ children }) {
   }
 
   return (
-    // <div className="vads-l-grid-container vads-u-padding-y--2">
     <div>
       <main>
         <article className="row">
@@ -97,7 +95,6 @@ export default function App({ children }) {
                     Filter appointments by:
                   </p>
                   <div className="vaos-hide-for-print vads-l-row xsmall-screen:vads-u-border-bottom--0 vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 small-screen:vads-u-border-bottom--1px">
-                    {/* vads-u-color--gray-medium"> */}
                     <nav
                       aria-label="Appointment list navigation"
                       className="vaos-appts__breadcrumb vads-u-flex--1 vads-u-padding-top--0p5"
@@ -109,9 +106,11 @@ export default function App({ children }) {
                               Most recent
                             </strong>
                           ) : (
-                            <a onClick={() => setFilterBy('mostRecent')}>
+                            <va-button
+                              onClick={() => setFilterBy('mostRecent')}
+                            >
                               Most recent
-                            </a>
+                            </va-button>
                           )}
                         </li>
                         <li>
@@ -120,7 +119,9 @@ export default function App({ children }) {
                               Oldest
                             </strong>
                           ) : (
-                            <a onClick={() => setFilterBy('oldest')}>Oldest</a>
+                            <va-button onClick={() => setFilterBy('oldest')}>
+                              Oldest
+                            </va-button>
                           )}
                         </li>
                       </ul>
