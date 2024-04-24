@@ -1,0 +1,23 @@
+{
+  "household-dependent-info-basic-title": "%s\u2019s basic information",
+  "household-dependent-info-addtl-title": "%s\u2019s additional information",
+  "household-dependent-info-support-title": "Financial support for %s",
+  "household-dependent-info-income-title": "%s\u2019s annual income from %d",
+  "household-dependent-info-education-title": "%s\u2019s education expenses",
+  "enrollment-alert-title--active-duty": "Our records show that you\u2019re an active-duty service member",
+  "enrollment-alert-title--deceased": "Our records show that this Veteran is deceased",
+  "enrollment-alert-title--enrolled": "You\u2019re already enrolled in VA health care",
+  "enrollment-alert-title--inelig": "We determined that you don\u2019t qualify for VA health care based on your past application",
+  "enrollment-alert-title--more-info": "We need more information to complete our review of your VA health care application",
+  "enrollment-alert-title--non-military": "We see that you aren\u2019t a Veteran or service member",
+  "enrollment-alert-title--reapply": "You applied before. But you can apply again now.",
+  "enrollment-alert-title--review": "We\u2019re reviewing your application",
+  "enrollment-alert-application-date-label": "You applied on:",
+  "enrollment-alert-enrolled-date-label": "We enrolled you on:",
+  "enrollment-alert-facility-label": "Your preferred VA medical center is:",
+  "form-title": "Apply for VA health care",
+  "form-subtitle": "Enrollment Application for Health Benefits (VA Form 10-10EZ)",
+  "load-app": "Loading application...",
+  "load-enrollment-status": "Verifying your enrollment status...",
+  "sip-start-form-text": "Start the health care application"
+}

@@ -46,7 +46,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    color: $color-blue;
+    color: var(--vads-color-primary);
     background-color: transparent;
     cursor: pointer;
     display: inline-block;

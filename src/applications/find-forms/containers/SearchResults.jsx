@@ -275,22 +275,15 @@ export const SearchResults = ({
             <a
               href={pdfUrl}
               className="vads-u-margin-top--2"
+              download
               rel="noreferrer noopener"
               target="_blank"
-              onClick={() => {
-                recordEvent(
-                  `Download VA form ${pdfSelected} ${pdfLabel}`,
-                  pdfUrl,
-                  'pdf',
-                );
-              }}
             >
               <i
                 aria-hidden="true"
                 className="fas fa-download fa-lg vads-u-margin-right--1"
                 role="presentation"
               />
-
               <span className="vads-u-text-decoration--underline">
                 Download VA Form {pdfSelected}
               </span>

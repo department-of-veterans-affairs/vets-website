@@ -11,7 +11,11 @@ import environment from 'platform/utilities/environment';
 import mapboxClient from '../components/MapboxClient';
 
 const mbxClient = mbxGeo(mapboxClient);
-import { SMALL_SCREEN_WIDTH, filterKeys } from '../constants';
+import {
+  SMALL_SCREEN_WIDTH,
+  PREVIOUS_URL_PUSHED_TO_HISTORY,
+  filterKeys,
+} from '../constants';
 
 /**
  * Snake-cases field names
@@ -26,12 +30,27 @@ export const rubyifyKeys = query =>
     }),
     {},
   );
-export const isProductionOfTestProdEnv = () => {
+
+export const isReviewInstance = () => {
+  const { hostname } = window.location;
+  const globalRegex = new RegExp('review.vetsgov-internal', 'g');
+  return globalRegex.test(hostname);
+};
+
+export const isProductionOrTestProdEnv = (automatedTest = false) => {
+  const isTest = global && global?.window && global?.window?.buildType;
+  if (isTest || automatedTest) {
+    return false;
+  }
   return (
-    environment.isProduction() ||
-    (global && global?.window && global?.window?.buildType)
+    environment.isProduction() || // Comment out to send to production
+    environment.isStaging() ||
+    environment.isDev() ||
+    isReviewInstance() ||
+    environment.isLocalhost()
   );
 };
+
 export const formatNumber = value => {
   const str = (+value).toString();
   return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
@@ -269,7 +288,7 @@ export const specializedMissionDefinitions = [
     key: `${SMFKey}-HBCU`,
     title: 'Historically Black Colleges and Universities',
     definition:
-      'HBCU’s are colleges and universities founded before 1964 and were originally intended to provide higher education to African American communities.',
+      'Historically Black Colleges and Universities (HBCUs) are colleges and universities founded before 1964 and were originally intended to provide higher education to African American communities.',
   },
   {
     key: `${SMFKey}-MENONLY`,
@@ -285,15 +304,15 @@ export const specializedMissionDefinitions = [
   },
   {
     key: `${SMFKey}-RELAFFIL`,
-    title: 'Religiously affiliated institutions',
+    title: 'Religiously-affiliated institutions',
     definition:
-      'A religiously affiliated institution identifies with a specific religious group.',
+      'A religiously-affiliated institution identifies with a specific religious group.',
   },
   {
     key: `${SMFKey}-HSI`,
     title: 'Hispanic-Serving Institutions',
     definition:
-      'A Hispanic-Serving Institution (HSI) that receives federal funding to help serve Hispanic and low-income students. At least 20 percent of the school’s full-time undergraduate students identify as Hispanic.',
+      'A Hispanic-Serving Institution (HSI) that receives federal funding to help serve Hispanic and low-income students. At least 25% of the school’s full-time undergraduate students identify as Hispanic.',
   },
   {
     key: `${SMFKey}-NANTI`,
@@ -312,19 +331,19 @@ export const specializedMissionDefinitions = [
     title:
       'Asian American and Native American Pacific Islander-Serving Institutions',
     definition:
-      'An Asian American Native American Pacific Islander-Serving Institution (AANAPISI) is a college or university  that receives federal funding to help serve Asian Americans and Native American Pacific Islanders and low-income students. At least 10 percent of the school’s full-time undergraduate students identify as Asian American and Native American Pacific Islander.',
+      'An Asian American Native American Pacific Islander-Serving Institution (AANAPISI) is a college or university  that receives federal funding to help serve Asian Americans and Native American Pacific Islanders and low-income students. At least 10% of the school’s full-time undergraduate students identify as Asian American and Native American Pacific Islander.',
   },
   {
     key: `${SMFKey}-PBI`,
     title: 'Predominantly Black Institutions',
     definition:
-      'A Predominantly Black Institution (PBI) receives federal funding to help serve black students, as well as low-income and first-generation students. At least 40 percent of the school’s undergraduate students are Black.',
+      'A Predominantly Black Institution (PBI) receives federal funding to help serve black students, as well as low-income and first-generation students. At least 40% of the school’s undergraduate students are Black.',
   },
   {
     key: `${SMFKey}-ANNHI`,
     title: 'Alaska Native-Serving Institutions',
     definition:
-      'An Alaska Native-Serving Institution (ANSI) is a college or university  that receives federal funding to help serve Alaska Native students. At least 20 percent of the school’s full-time undergraduate students identify as Alaska Native.',
+      'An Alaska Native-Serving Institution (ANSI) is a college or university  that receives federal funding to help serve Alaska Native students. At least 20% of the school’s full-time undergraduate students identify as Alaska Native.',
   },
 ];
 
@@ -401,4 +420,14 @@ export const giDocumentTitle = () => {
 
 export const setDocumentTitle = () => {
   document.title = `${giDocumentTitle()} | Veterans Affairs`;
+};
+
+export const managePushHistory = (history, url) => {
+  const previousUrl = window.sessionStorage.getItem(
+    PREVIOUS_URL_PUSHED_TO_HISTORY,
+  );
+  if (url !== previousUrl) {
+    window.sessionStorage.setItem(PREVIOUS_URL_PUSHED_TO_HISTORY, url);
+    history.push(url);
+  }
 };

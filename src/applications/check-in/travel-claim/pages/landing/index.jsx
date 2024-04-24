@@ -67,7 +67,7 @@ const Landing = props => {
         if (token && !sessionCallMade) {
           setSessionCallMade(true);
           api.v2
-            .getSession({ token, checkInType })
+            .getSession({ token, checkInType, facilityType: 'oh' })
             .then(session => {
               // if successful, dispatch session data  into redux and current window
 
@@ -82,7 +82,7 @@ const Landing = props => {
                 setSession(token, session.permissions);
                 if (session.permissions === SCOPES.READ_FULL) {
                   // redirect if already full access
-                  jumpToPage(URLS.INTRODUCTION);
+                  jumpToPage(URLS.LOADING);
                 } else {
                   // TODO: dispatch to redux
                   jumpToPage(URLS.VERIFY);

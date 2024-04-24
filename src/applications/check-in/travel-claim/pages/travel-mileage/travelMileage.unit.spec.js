@@ -2,16 +2,24 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import TravelMileage from '.';
 
 describe('travel-mileage', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('Mileage page', () => {
     it('displays single facility context', () => {
       const store = {
         eligibleToFile: [
           {
             stationNo: '500',
+            startTime: '2021-08-19T13:56:31',
           },
         ],
       };
@@ -27,9 +35,11 @@ describe('travel-mileage', () => {
         eligibleToFile: [
           {
             stationNo: '500',
+            startTime: '2021-08-19T13:56:31',
           },
           {
             stationNo: '633',
+            startTime: '2021-08-19T14:56:31',
           },
         ],
       };
@@ -45,15 +55,16 @@ describe('travel-mileage', () => {
         eligibleToFile: [
           {
             stationNo: '500',
-            startTime: '2021-08-19T13:56:31',
+            startTime: '2024-03-21T22:19:12.099Z',
+            timezone: 'America/Los_Angeles',
           },
         ],
       };
       const expectedStateValue = [
         {
           stationNo: '500',
-          startTime: '2021-08-19T13:56:31',
-          multipleAppointments: false,
+          startTime: '2024-03-21T15:19:12.099-07:00',
+          appointmentCount: 1,
         },
       ];
       const component = render(
@@ -69,11 +80,13 @@ describe('travel-mileage', () => {
         eligibleToFile: [
           {
             stationNo: '500',
-            startTime: '2021-08-19T13:56:31',
+            startTime: '2024-03-21T22:19:12.099Z',
+            timezone: 'America/Los_Angeles',
           },
           {
             stationNo: '600',
-            startTime: '2021-08-19T13:56:31',
+            startTime: '2024-03-21T20:19:12.099Z',
+            timezone: 'America/Los_Angeles',
           },
         ],
       };
@@ -89,26 +102,28 @@ describe('travel-mileage', () => {
         eligibleToFile: [
           {
             stationNo: '500',
-            startTime: '2021-08-19T13:56:31',
+            startTime: '2024-03-21T22:19:12.099Z',
+            timezone: 'America/Los_Angeles',
           },
           {
             stationNo: '600',
-            startTime: '2021-08-19T13:56:31',
+            startTime: '2024-03-21T21:19:12.099Z',
+            timezone: 'America/Los_Angeles',
           },
         ],
         facilitiesToFile: [
           {
             stationNo: '500',
-            startTime: '2021-08-19T13:56:31',
-            multipleAppointments: false,
+            startTime: '2024-03-21T15:19:12.099-07:00',
+            appoinmentCount: 1,
           },
         ],
       };
       const expectedStateValue = [
         {
           stationNo: '500',
-          startTime: '2021-08-19T13:56:31',
-          multipleAppointments: false,
+          startTime: '2024-03-21T15:19:12.099-07:00',
+          appoinmentCount: 1,
         },
       ];
       const component = render(
@@ -126,7 +141,8 @@ describe('travel-mileage', () => {
           eligibleToFile: [
             {
               stationNo: '500',
-              startTime: '2021-08-19T13:56:31',
+              startTime: '2024-03-21T22:19:12.099Z',
+              timezone: 'America/Los_Angeles',
             },
           ],
         };
@@ -153,11 +169,13 @@ describe('travel-mileage', () => {
           eligibleToFile: [
             {
               stationNo: '500',
-              startTime: '2021-08-19T13:56:31',
+              startTime: '2024-03-21T22:19:12.099Z',
+              timezone: 'America/Los_Angeles',
             },
             {
               stationNo: '600',
-              startTime: '2021-08-19T13:56:31',
+              startTime: '2024-03-21T21:19:12.099Z',
+              timezone: 'America/Los_Angeles',
             },
           ],
         };
@@ -179,46 +197,6 @@ describe('travel-mileage', () => {
         expect(push.notCalled).to.be.true;
       });
     });
-    // This test is currently impossible due to shadowDOM
-    // describe('onCheck', () => {
-    //   it('updates state on facility check', () => {
-    //     const store = {
-    //       eligibleToFile: [
-    //         {
-    //           stationNo: '500',
-    //           startTime: '2021-08-19T13:56:31',
-    //           facility: 'fac 1',
-    //         },
-    //         {
-    //           stationNo: '600',
-    //           startTime: '2021-08-19T13:56:31',
-    //           facility: 'fac 2',
-    //         },
-    //       ],
-    //     };
-    //     const expectedStateValue = [
-    //       {
-    //         stationNo: '500',
-    //         startTime: '2021-08-19T13:56:31',
-    //         multipleAppointments: false,
-    //       },
-    //     ];
-    //     const component = render(
-    //       <CheckInProvider store={store}>
-    //         <TravelMileage />
-    //       </CheckInProvider>,
-    //     );
-    //     expect(component.getByTestId('[]')).to.exist;
-    //     const checkBox = component.getByTestId('checkbox-500');
-    //     // checkBox.__events.vaChange();
-    //     // checkBox.__events.vaChange({ detail: { value: 'other' } });
-    //     fireEvent.click(checkBox);
-    //     expect(await component.getByTestId(JSON.stringify(expectedStateValue)))
-    //       .to.exist;
-    //   });
-    //   it('updates state on facility un-check', () => {
-    //   });
-    // });
     describe('formatAppointment', () => {
       it('formats string with values', () => {
         const store = {
@@ -228,6 +206,8 @@ describe('travel-mileage', () => {
               appointmentIen: '111',
               clinicStopCodeName: 'Dermatology',
               doctorName: 'Dr. Face',
+              startTime: '2024-03-21T22:19:12.099Z',
+              timezone: 'America/Los_Angeles',
             },
           ],
         };
@@ -248,18 +228,24 @@ describe('travel-mileage', () => {
               appointmentIen: '111',
               clinicStopCodeName: '',
               doctorName: 'Dr. Face',
+              startTime: '2024-03-21T22:19:12.099Z',
+              timezone: 'America/Los_Angeles',
             },
             {
               stationNo: '500',
               appointmentIen: '222',
               clinicStopCodeName: '',
               doctorName: '',
+              startTime: '2024-03-21T22:19:12.099Z',
+              timezone: 'America/Los_Angeles',
             },
             {
               stationNo: '500',
               appointmentIen: '333',
               clinicStopCodeName: 'Dermatology',
               doctorName: '',
+              startTime: '2024-03-21T22:19:12.099Z',
+              timezone: 'America/Los_Angeles',
             },
           ],
         };
@@ -270,10 +256,10 @@ describe('travel-mileage', () => {
         );
         expect(
           component.getByTestId('appointment-list-item-111'),
-        ).to.contain.text('VA Appointment with Dr. Face');
+        ).to.contain.text('VA appointment with Dr. Face');
         expect(
           component.getByTestId('appointment-list-item-222'),
-        ).to.contain.text('VA Appointment');
+        ).to.contain.text('VA appointment');
         expect(
           component.getByTestId('appointment-list-item-333'),
         ).to.contain.text('Dermatology appointment');

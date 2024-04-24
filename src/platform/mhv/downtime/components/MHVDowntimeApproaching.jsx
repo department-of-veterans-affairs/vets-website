@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function MHVDowntimeApproaching({
-  appTitle = 'some of our health tools',
+  appTitle = 'our health tools',
   endString,
   startString,
   timeInterval,
@@ -13,7 +13,7 @@ function MHVDowntimeApproaching({
         <h2 slot="headline">Upcoming maintenance on My HealtheVet</h2>
         <p>
           We&#x2019;ll be working on My HealtheVet soon. The maintenance will
-          last {timeInterval}. During this time, you may have trouble using{' '}
+          last {timeInterval}. During this time, you won&#x2019;t be able to use{' '}
           {appTitle}.
         </p>
         {startString && (

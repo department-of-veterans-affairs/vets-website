@@ -15,5 +15,5 @@ export const IssuesSubmitted = ({ issues }) => (
 );
 
 IssuesSubmitted.propTypes = {
-  issues: PropTypes.element.isRequired,
+  issues: PropTypes.array.isRequired,
 };

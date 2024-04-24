@@ -8,6 +8,7 @@ import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Appointments from '../pages/Appointments';
 import Error from '../pages/Error';
 import Confirmation from '../pages/Confirmation';
+import Arrived from '../pages/Arrived';
 
 describe('Check In Experience', () => {
   describe('reload pages', () => {
@@ -32,6 +33,8 @@ describe('Check In Experience', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      Arrived.validateArrivedPage();
+      Arrived.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       ApiInitializer.initializeCheckInDataGet.withUuidNotFound();
     });

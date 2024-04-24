@@ -92,6 +92,7 @@ const URLS = Object.freeze({
   DETAILS: 'details',
   VALIDATION_NEEDED: 'verify',
   LOADING: 'loading-appointments',
+  TRAVEL_AGREEMENT: 'travel-agreement',
   TRAVEL_INTRO: 'travel-pay',
   TRAVEL_QUESTION: 'travel-pay',
   TRAVEL_VEHICLE: 'travel-vehicle',
@@ -99,6 +100,7 @@ const URLS = Object.freeze({
   TRAVEL_MILEAGE: 'travel-mileage',
   TRAVEL_REVIEW: 'travel-review',
   APPOINTMENT_DETAILS: 'appointment-details',
+  ARRIVED: 'arrived',
 });
 
 export { updateFormPages, URLS };

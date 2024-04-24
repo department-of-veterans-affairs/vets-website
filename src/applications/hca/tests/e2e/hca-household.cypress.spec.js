@@ -436,12 +436,6 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
-    cy.get('#root_dependentEducationExpenses').type(
-      testData.dependents[0].dependentEducationExpenses,
-    );
-
-    goToNextPage();
     cy.get('[name="root_disabledBefore18"]').check('N');
     cy.get('[name="root_cohabitedLastYear"]').check('Y');
     cy.get('[name="root_view:dependentIncome"]').check('N');
@@ -515,12 +509,6 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
-    cy.get('#root_dependentEducationExpenses').type(
-      testData.dependents[0].dependentEducationExpenses,
-    );
-
-    goToNextPage();
     cy.get('[name="root_disabledBefore18"]').check('N');
     cy.get('[name="root_cohabitedLastYear"]').check('Y');
     cy.get('[name="root_view:dependentIncome"]').check('Y');
@@ -529,6 +517,12 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     cy.get('[name="root_view:grossIncome_grossIncome"]').type(22500);
     cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
     cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
+
+    goToNextPage();
+    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
+    cy.get('#root_dependentEducationExpenses').type(
+      testData.dependents[0].dependentEducationExpenses,
+    );
 
     goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
@@ -597,12 +591,6 @@ describe('HCA-Household-Dependent-Disclosure', () => {
 
     goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
-
-    goToNextPage();
-    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
-    cy.get('#root_dependentEducationExpenses').type(
-      testData.dependents[0].dependentEducationExpenses,
-    );
 
     goToNextPage();
     cy.get('[name="root_disabledBefore18"]').check('N');
@@ -681,12 +669,6 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
-    cy.get('#root_dependentEducationExpenses').type(
-      testData.dependents[0].dependentEducationExpenses,
-    );
-
-    goToNextPage();
     cy.get('[name="root_disabledBefore18"]').check('N');
     cy.get('[name="root_cohabitedLastYear"]').check('N');
     cy.get('[name="root_view:dependentIncome"]').check('Y');
@@ -698,6 +680,12 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     cy.get('[name="root_view:grossIncome_grossIncome"]').type(22500);
     cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
     cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
+
+    goToNextPage();
+    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
+    cy.get('#root_dependentEducationExpenses').type(
+      testData.dependents[0].dependentEducationExpenses,
+    );
 
     goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
@@ -1129,12 +1117,6 @@ describe('HCA-Household-Full-Disclosure', () => {
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
-    cy.get('#root_dependentEducationExpenses').type(
-      testData.dependents[0].dependentEducationExpenses,
-    );
-
-    goToNextPage();
     cy.get('[name="root_disabledBefore18"]').check('N');
     cy.get('[name="root_cohabitedLastYear"]').check('N');
     cy.get('[name="root_view:dependentIncome"]').check('Y');
@@ -1146,6 +1128,12 @@ describe('HCA-Household-Full-Disclosure', () => {
     cy.get('[name="root_view:grossIncome_grossIncome"]').type(22500);
     cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
     cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
+
+    goToNextPage();
+    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
+    cy.get('#root_dependentEducationExpenses').type(
+      testData.dependents[0].dependentEducationExpenses,
+    );
 
     goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');

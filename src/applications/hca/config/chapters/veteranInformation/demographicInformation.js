@@ -1,6 +1,4 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-
 import DemographicField from '../../../components/FormFields/DemographicViewField';
 import { DemographicInfoDescription } from '../../../components/FormDescriptions';
 import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
@@ -21,15 +19,7 @@ export default {
   uiSchema: {
     'view:dmShortFormMessage': {
       'ui:description': ShortFormAlert,
-      'ui:options': {
-        hideIf: notShortFormEligible,
-      },
-    },
-    'view:prefillMessage': {
-      'ui:description': PrefillMessage,
-      'ui:options': {
-        hideIf: formData => !formData['view:isLoggedIn'],
-      },
+      'ui:options': { hideIf: notShortFormEligible },
     },
     'view:demographicCategories': {
       'ui:title': ' ',
@@ -62,7 +52,6 @@ export default {
     type: 'object',
     properties: {
       'view:dmShortFormMessage': emptyObjectSchema,
-      'view:prefillMessage': emptyObjectSchema,
       'view:demographicCategories': {
         type: 'object',
         required: [],

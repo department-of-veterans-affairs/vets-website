@@ -220,3 +220,45 @@ export const WartimeWarningAlert = () => (
     </p>
   </va-alert>
 );
+
+export const FormReactivationAlert = () => (
+  <p>
+    You should know that we updated our online form.{' '}
+    <strong>If you started applying online before November 8, 2023</strong>, we
+    have some new questions for you to answer. And we changed some questions, so
+    you may need to provide certain information again.
+    <br />
+    <br />
+    Select <strong>Continue your application</strong> to use our update form. Or
+    come back later to finish your application.
+  </p>
+);
+
+export const AccountInformationAlert = () => (
+  <div className="vads-u-margin-top--4">
+    <va-alert uswds>
+      <h4 slot="headline" className="vads-u-font-size--h4">
+        We’ll use this bank account for all your VA benefit payments
+      </h4>
+      <p className="vads-u-margin-y--0">
+        If we approve your application for pension benefits, we’ll update your
+        direct deposit information for all your VA benefit payments. We’ll
+        deposit any payments you may receive for pension or education benefits
+        directly into the bank account you provide here.
+      </p>
+      <p>
+        We’re making this change to help protect you from fraud and to make sure
+        we can pay you on time, every time, without error.
+      </p>
+    </va-alert>
+  </div>
+);
+
+export const AdoptionEvidenceAlert = () => (
+  <va-alert status="warning" uswds>
+    <p className="vads-u-margin-y--0">
+      You’ll need to submit adoption papers or amended birth certificate with
+      this application.
+    </p>
+  </va-alert>
+);

@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
+import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 import HelpBlock from '../HelpBlock';
 
@@ -14,6 +15,12 @@ describe('<HelpBlock />', () => {
     },
   };
 
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   it('renders correctly without the travel block when travel prop is false or undefined', () => {
     const component = render(
       <CheckInProvider
@@ -40,11 +47,11 @@ describe('<HelpBlock />', () => {
         store={initState}
         router={{ currentPage: 'contact-information' }}
       >
-        <HelpBlock travel />
+        <HelpBlock travelClaim />
       </CheckInProvider>,
     );
 
-    expect(component.getByTestId('for-help-using-this-tool')).to.exist;
+    expect(component.queryByTestId('for-help-using-this-tool')).to.not.exist;
     expect(component.getByTestId('if-you-have-questions')).to.exist;
     expect(component.getByTestId('for-questions-about-filing')).to.exist;
     expect(component.getByTestId('if-yourre-in-crisis')).to.exist;

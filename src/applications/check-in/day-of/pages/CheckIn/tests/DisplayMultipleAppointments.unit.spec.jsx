@@ -3,10 +3,17 @@ import { expect } from 'chai';
 import format from 'date-fns/format';
 import { render } from '@testing-library/react';
 
+import { setupI18n, teardownI18n } from '../../../../utils/i18n/i18n';
 import CheckInProvider from '../../../../tests/unit/utils/CheckInProvider';
 import DisplayMultipleAppointments from '../DisplayMultipleAppointments';
 
 describe('check-in', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('DisplayMultipleAppointments component', () => {
     it('shows appointment details progress', () => {
       const token = 'token-123';

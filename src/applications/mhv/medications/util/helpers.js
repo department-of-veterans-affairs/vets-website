@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
-import { imageRootUri } from './constants';
+import { EMPTY_FIELD, imageRootUri } from './constants';
 
 /**
  * @param {*} timestamp
@@ -14,7 +14,7 @@ export const dateFormat = (timestamp, format = null) => {
       .tz(timestamp, 'America/New_York')
       .format(format || 'MMMM D, YYYY');
   }
-  return 'None noted';
+  return EMPTY_FIELD;
 };
 
 /**
@@ -43,7 +43,7 @@ export const validateField = fieldValue => {
   if (fieldValue || fieldValue === 0) {
     return fieldValue;
   }
-  return 'None noted';
+  return EMPTY_FIELD;
 };
 
 /**
@@ -77,4 +77,114 @@ export const generateTextFile = (content, fileName) => {
   a.click();
   window.URL.revokeObjectURL(url);
   a.remove();
+};
+
+/**
+ * @param {Array} list
+ * @returns {String} array of strings, separated by a comma
+ */
+export const processList = list => {
+  if (Array.isArray(list)) {
+    if (list?.length > 1) return list.join('. ');
+    if (list?.length === 1) return list.toString();
+  }
+  return EMPTY_FIELD;
+};
+
+/**
+ * @param {Any} obj
+ * @returns {Boolean} true if obj is an array and has at least one item
+ */
+export const isArrayAndHasItems = obj => {
+  return Array.isArray(obj) && obj.length;
+};
+
+/**
+ * @param {Object} record
+ * @returns {Array of Strings} array of reactions
+ */
+export const getReactions = record => {
+  const reactions = [];
+  if (!record || !record.reaction) return reactions;
+  record.reaction.forEach(reaction => {
+    reaction.manifestation.forEach(manifestation => {
+      reactions.push(manifestation.text);
+    });
+  });
+  return reactions;
+};
+
+/**
+ * Extract a contained resource from a FHIR resource's "contained" array.
+ * @param {Object} resource a FHIR resource (e.g. AllergyIntolerance)
+ * @param {String} referenceId an internal ID referencing a contained resource
+ * @returns the specified contained FHIR resource, or null if not found
+ */
+export const extractContainedResource = (resource, referenceId) => {
+  if (resource && isArrayAndHasItems(resource.contained) && referenceId) {
+    // Strip the leading "#" from the reference.
+    const strippedRefId = referenceId.substring(1);
+    const containedResource = resource.contained.find(
+      containedItem => containedItem.id === strippedRefId,
+    );
+    return containedResource || null;
+  }
+  return null;
+};
+
+/**
+ * Create a refill history item for the original fill, using the prescription
+ * @param {Object} Prescription object
+ * @returns {Object} Object similar to or marching an rxRefillHistory object
+ */
+export const createOriginalFillRecord = prescription => {
+  const {
+    backImprint,
+    cmopDivisionPhone,
+    cmopNdcNumber,
+    color,
+    dialCmopDivisionPhone,
+    dispensedDate,
+    frontImprint,
+    prescriptionId,
+    prescriptionName,
+    shape,
+  } = prescription;
+  return {
+    backImprint,
+    cmopDivisionPhone,
+    cmopNdcNumber,
+    color,
+    dialCmopDivisionPhone,
+    dispensedDate,
+    frontImprint,
+    prescriptionId,
+    prescriptionName,
+    shape,
+  };
+};
+
+/**
+ * Create a plain text string for when a medication description can't be provided
+ * @param {String} Phone number, as a string
+ * @returns {String} A string suitable for display anywhere plain text is preferable
+ */
+export const createNoDescriptionText = phone => {
+  let dialFragment = '';
+  if (phone) {
+    dialFragment = ` at ${phone}`;
+  }
+  return `No description available. Call your pharmacy${dialFragment} if you need help identifying this medication.`;
+};
+
+/**
+ * Create a plain text string to display the correct text for a VA pharmacy phone number
+ * @param {String} Phone number, as a string
+ */
+export const createVAPharmacyText = (phone = null) => {
+  let dialFragment = '';
+  if (phone) {
+    dialFragment = `at ${phone}`;
+  }
+  return `your VA pharmacy ${dialFragment}`.trim();
 };

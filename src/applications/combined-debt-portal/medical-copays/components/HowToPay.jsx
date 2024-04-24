@@ -7,8 +7,8 @@ export const HowToPay = ({ isOverview, acctNum, facility }) => (
     <p>
       <strong>You can pay your bill in any of these 4 ways:</strong>
     </p>
-    <va-accordion uswds>
-      <va-accordion-item header="Option 1: Pay online" uswds>
+    <va-accordion>
+      <va-accordion-item header="Option 1: Pay online" open="true">
         <p>
           Pay directly from your bank account or by debit or credit card on the
           secure
@@ -24,14 +24,15 @@ export const HowToPay = ({ isOverview, acctNum, facility }) => (
           .
         </p>
         <p>
-          You will need to provide an account number to pay this debt online.
+          You will need to provide your account number to pay{' '}
+          {isOverview ? 'the' : 'this'} debt online.
         </p>
-        {!isOverview && (
-          <p>
-            <strong>Account number: </strong>
-            {acctNum}
-          </p>
-        )}
+
+        <p>
+          <strong>Account number: </strong>
+          {acctNum}
+        </p>
+
         <a
           className="vads-c-action-link--blue"
           href="https://www.pay.gov/public/form/start/25987221"
@@ -47,13 +48,13 @@ export const HowToPay = ({ isOverview, acctNum, facility }) => (
           Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </va-accordion-item>
-      <va-accordion-item header="Option 2: Pay by phone" uswds>
+      <va-accordion-item header="Option 2: Pay by phone">
         <p>
           Call us at <va-telephone contact="8888274817" />. We’re here Monday
           through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </va-accordion-item>
-      <va-accordion-item header="Option 3: Pay by mail" uswds>
+      <va-accordion-item header="Option 3: Pay by mail">
         <p>Please send us these items:</p>
         <ul>
           <li>
@@ -87,7 +88,7 @@ export const HowToPay = ({ isOverview, acctNum, facility }) => (
           <br />
         </p>
       </va-accordion-item>
-      <va-accordion-item header="Option 4: Pay in person" uswds>
+      <va-accordion-item header="Option 4: Pay in person">
         <p>
           Visit {isOverview ? 'the facility' : facility?.facilityName} and ask
           for the agent cashier’s office. Bring your payment stub, along with a

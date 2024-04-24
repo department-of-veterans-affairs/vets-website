@@ -1,26 +1,32 @@
 import { useEffect, useRef, useState } from 'react';
-import { isProductionOfTestProdEnv } from '../utils/helpers';
+import { isProductionOrTestProdEnv } from '../utils/helpers';
 
 export const useFilterBtn = (afterResults = false) => {
   const [isCleared, setIsCleared] = useState(false);
+  const [loading, setIsloading] = useState(false);
   const inputRef = useRef({});
   useEffect(
     () => {
       let timer;
-      if (isCleared && inputRef.current.Public && !afterResults) {
+
+      const setLoadingAndFocus = ref => {
+        setIsloading(true);
         timer = setTimeout(() => {
-          inputRef.current.Public?.focus();
+          setIsloading(false);
+          ref.focus();
         }, 2600);
+      };
+      if (isCleared && !afterResults && inputRef.current.Public) {
+        setLoadingAndFocus(inputRef.current.Public);
       }
+
       if (
         isCleared &&
         afterResults &&
-        !isProductionOfTestProdEnv() &&
+        isProductionOrTestProdEnv() &&
         inputRef.current.Schools
       ) {
-        timer = setTimeout(() => {
-          inputRef.current.Schools.focus();
-        }, 2600);
+        setLoadingAndFocus(inputRef.current.Schools);
       }
       return () => clearTimeout(timer);
     },
@@ -29,5 +35,5 @@ export const useFilterBtn = (afterResults = false) => {
   const focusOnFirstInput = (id, el) => {
     inputRef.current[id] = el;
   };
-  return { focusOnFirstInput, isCleared, setIsCleared };
+  return { focusOnFirstInput, isCleared, setIsCleared, loading };
 };

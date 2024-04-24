@@ -9,6 +9,12 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: rgba(255,255,255,0.7),
+        background-color: rgba(255,255,255,0.7);
+        z-index: 1000;
     }
+}
+.custom-radio{
+    appearance: none !important;
+    opacity: 0 !important;
+    position: absolute !important;
 }

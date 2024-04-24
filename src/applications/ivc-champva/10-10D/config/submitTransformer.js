@@ -29,6 +29,8 @@ function transformApplicants(applicants) {
       vet_relationship: transformRelationship(
         app.applicantRelationshipToSponsor?.relationshipToVeteran || 'NA',
       ),
+      sponsor_marriage_details:
+        app?.applicantSponsorMarriageDetails?.relationshipToVeteran || 'NA',
       applicant_supporting_documents: [
         app?.applicantMedicareCardFront,
         app?.applicantMedicareCardBack,
@@ -39,13 +41,17 @@ function transformApplicants(applicants) {
         app?.applicantAdoptionPapers,
         app?.applicantStepMarriageCert,
         app?.applicantMarriageCert,
+        app?.applicantSecondMarriageCert,
+        app?.applicantSecondMarriageDivorceCert,
         app?.applicantMedicarePartAPartBCard,
         app?.applicantMedicarePartDCard,
+        app?.applicantMedicareIneligibleProof,
         app?.applicantOhiCard,
-        app?.applicant107959c,
+        app?.applicantOtherInsuranceCertification,
+        app?.applicantHelplessCert,
       ],
       address: app.applicantAddress ?? '',
-      gender: app.applicantGender ?? '',
+      gender: app.applicantGender?.gender ?? '',
     };
 
     // eslint-disable-next-line dot-notation
@@ -94,6 +100,7 @@ export default function transformForSubmit(formConfig, form) {
       },
       date_of_death: transformedData?.sponsorDOD || '',
       date_of_marriage: transformedData?.sponsorDOM || '',
+      is_active_service_death: transformedData?.sponsorDeathConditions || '',
     },
     applicants: transformApplicants(transformedData.applicants ?? []),
     certification: {
@@ -110,11 +117,9 @@ export default function transformForSubmit(formConfig, form) {
       state: transformedData?.certifierAddress?.state || '',
       postal_code: transformedData?.certifierAddress?.postalCode || '',
     },
-    supporting_docs: [
-      transformedData?.sponsorCasualtyReport,
-      transformedData?.sponsorDisabilityRating,
-      transformedData?.sponsorDischargePapers,
-    ],
+    supporting_docs: [],
+    // Include everything we originally received
+    raw_data: transformedData,
   };
 
   // Fill in certification data with sponsor info as needed
@@ -126,8 +131,16 @@ export default function transformForSubmit(formConfig, form) {
   dataPostTransform.applicants.forEach(app => {
     if (app.applicant_supporting_documents.length > 0) {
       app.applicant_supporting_documents.forEach(doc => {
-        if (doc !== undefined) {
-          supDocs.push(...doc);
+        if (doc !== undefined && doc !== null) {
+          // doc is an array of files for a given input (e.g., insurance cards).
+
+          // For clarity's sake, add applicant's name onto each file object:
+          const files = doc.map(file => ({
+            ...file,
+            applicantName: app.full_name,
+          }));
+
+          supDocs.push(...files);
         }
       });
     }

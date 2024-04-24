@@ -15,19 +15,13 @@ import * as spousePayrollDeductionInputList from './income/employmentEnhanced/sp
 import * as spouseAdditionalIncomeValues from './income/spouse/additionalIncome/enhancedRecords';
 import * as dependents from './income/dependents';
 import * as dependentRecords from './income/dependents/records';
-import * as monetary from './assets/monetary';
 import * as monetaryValues from './assets/monetary/monetaryValues';
-import * as realEstate from './assets/realEstate';
-import * as realEstateRecords from './assets/realEstate/records';
 import * as enhancedRealEstate from './assets/realEstate/enhancedIndex';
 import * as enhancedRealEstateRecords from './assets/realEstate/enhancedRecords';
 import * as recreationalVehicles from './assets/recreationalVehicles';
 import * as recreationalVehicleRecords from './assets/recreationalVehicles/records';
 import * as vehicles from './assets/vehicles';
-import * as vehicleRecords from './assets/vehicles/records';
-import * as otherAssets from './assets/other';
 import * as otherAssetPages from './assets/other/otherAssetsEnhanced';
-import * as otherAssetRecords from './assets/other/records';
 import * as expenses from './expenses/household';
 import * as utilityBillPages from './expenses/utilities/utilityBillsEnhanced';
 import * as otherExpensesPages from './expenses/other/otherExpensesPages';
@@ -64,18 +58,12 @@ export {
   spouseAdditionalIncomeValues,
   dependents,
   dependentRecords,
-  monetary,
   monetaryValues,
-  realEstate,
-  realEstateRecords,
   enhancedRealEstate,
   enhancedRealEstateRecords,
   recreationalVehicles,
   recreationalVehicleRecords,
   vehicles,
-  vehicleRecords,
-  otherAssets,
-  otherAssetRecords,
   otherAssetPages,
   expenses,
   utilityBillPages,

@@ -1,9 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
 import { getUserPhaseDescription } from '../utils/helpers';
 
@@ -29,18 +27,17 @@ function getClasses(phase, current) {
 }
 
 export default class ClaimPhase extends React.Component {
-  constructor(props) {
+  constructor() {
     super();
-    this.state = { open: props.current === props.phase, showOlder: false };
-    this.expandCollapse = this.expandCollapse.bind(this);
+    this.state = { showOlder: false };
     this.displayActivity = this.displayActivity.bind(this);
     this.showOlderActivity = this.showOlderActivity.bind(this);
     this.getEventDescription = this.getEventDescription.bind(this);
   }
 
   getEventDescription(event) {
-    const { id, phase } = this.props;
-    const filesPath = `your-claims/${id}/document-request/${event.id}`;
+    const { phase } = this.props;
+    const filesPath = `../document-request/${event.id}`;
     const file = event.originalFileName || event.documentTypeLabel || '';
 
     switch (event.type) {
@@ -132,12 +129,16 @@ export default class ClaimPhase extends React.Component {
               <h5 className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
                 {`Past updates (${activityList.length - 1})`}
               </h5>
-              <va-button
-                secondary
-                text={`${showOlder ? 'Hide' : 'Show'} past updates`}
+              {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+              <button
+                type="button"
+                className="claim-older-updates usa-button-secondary"
+                aria-controls={`older-updates-${phase}`}
+                aria-expanded={showOlder}
                 onClick={this.showOlderActivity}
-                uswds
-              />
+              >
+                {`${showOlder ? 'Hide' : 'Show'} past updates`}
+              </button>
             </>
           ) : null}
           {showOlder && hasMoreActivity ? (
@@ -166,17 +167,6 @@ export default class ClaimPhase extends React.Component {
     this.setState(prev => ({ showOlder: !prev.showOlder }));
   }
 
-  expandCollapse() {
-    recordEvent({
-      event: 'claims-expandcollapse',
-    });
-    const { phase, current } = this.props;
-    const { open } = this.state;
-    if (phase <= current) {
-      this.setState({ open: !open });
-    }
-  }
-
   render() {
     const { children, current, phase } = this.props;
     const titleText = getUserPhaseDescription(phase);
@@ -195,7 +185,6 @@ export default class ClaimPhase extends React.Component {
 }
 
 ClaimPhase.propTypes = {
-  id: PropTypes.string.isRequired,
   phase: PropTypes.number.isRequired,
   activity: PropTypes.object,
   children: PropTypes.any,

@@ -1,60 +1,59 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import DirectDeposit from '@@profile/components/direct-deposit/DirectDeposit';
+import { fireEvent } from '@testing-library/dom';
+import { getVaButtonByText } from '~/applications/personalization/common/unitHelpers';
+import { DirectDeposit } from '~/applications/personalization/profile/components/direct-deposit/DirectDeposit';
+
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { generateFeatureTogglesState } from '../../../mocks/endpoints/feature-toggles';
 import { renderWithProfileReducersAndRouter } from '../../unit-test-helpers';
+
+const baseToggles = generateFeatureTogglesState({
+  [Toggler.TOGGLE_NAMES.profileShowDirectDepositSingleForm]: true,
+}).featureToggles;
 
 // all required data for direct deposit page in a 'happy path' state
 // loading is set to false for dependent api calls
 // bank account information is set to a known value for cnp and edu
 const createInitialState = ({
   serviceType = CSP_IDS.ID_ME,
-  cpnErrors,
+  saveError,
+  loadError,
   controlInformation = {
     canUpdateDirectDeposit: true,
-    canUpdateAddress: true,
-    corpAvailIndicator: true,
-    corpRecFoundIndicator: true,
-    hasNoBdnPaymentsIndicator: true,
-    identityIndicator: true,
-    isCompetentIndicator: true,
-    indexIndicator: true,
-    noFiduciaryAssignedIndicator: true,
-    notDeceasedIndicator: true,
+    isCorpAvailable: true,
+    isEduClaimAvailable: true,
+    isCorpRecFound: true,
+    hasNoBdnPayments: true,
+    hasIdentity: true,
+    hasIndex: true,
+    isCompetent: true,
+    hasMailingAddress: true,
+    hasNoFiduciaryAssigned: true,
+    isNotDeceased: true,
+    hasPaymentAddress: true,
   },
-  toggles = null,
+  toggles = baseToggles,
 } = {}) => {
   const state = {
-    vaProfile: {
-      cnpPaymentInformation: {
-        controlInformation,
-        paymentAccount: {
-          financialInstitutionName: 'CNP BANK NAME',
-          financialInstitutionRoutingNumber: '*****1533',
-          accountNumber: '*******5487',
-          accountType: 'Checking',
-        },
-      },
-      eduPaymentInformation: {
-        paymentAccount: {
-          accountType: 'Checking',
-          accountNumber: '********2168',
-          financialInstitutionRoutingNumber: '*****2084',
-          financialInstitutionName: 'EDU BANK NAME',
-        },
-      },
-      cnpPaymentInformationUiState: {
+    directDeposit: {
+      controlInformation,
+      paymentAccount: loadError
+        ? null
+        : {
+            name: 'TEST BANK NAME',
+            accountNumber: 'test account number',
+            routingNumber: 'test routing number',
+            accountType: 'Checking',
+          },
+      loadError: null,
+      saveError: saveError || null,
+      ui: {
         isEditing: false,
         isSaving: false,
-        responseError: null,
-      },
-      eduPaymentInformationUiState: {
-        isEditing: false,
-        isSaving: false,
-        responseError: null,
       },
     },
     user: {
@@ -70,9 +69,10 @@ const createInitialState = ({
           authBroker: 'sis',
         },
         loading: false,
+        services: ['lighthouse'],
       },
     },
-    featureToggles: toggles || generateFeatureTogglesState().featureToggles,
+    featureToggles: toggles || baseToggles,
     scheduledDowntime: {
       globalDowntime: null,
       isReady: true,
@@ -81,20 +81,17 @@ const createInitialState = ({
       dismissedDowntimeWarnings: [],
     },
   };
-  if (cpnErrors) {
-    state.vaProfile = {
-      cnpPaymentInformation: {
-        error: cpnErrors,
-      },
-    };
+
+  if (loadError) {
+    state.directDeposit.loadError = loadError;
   }
 
   return state;
 };
 
-describe('authenticated experience -- profile -- direct deposit', () => {
+describe('authenticated experience -- profile -- unified direct deposit', () => {
   describe('DirectDeposit', () => {
-    it('Renders CNP and EDU bank account read state - happy path', () => {
+    it('Renders bank account read state - happy path', () => {
       const { getByText } = renderWithProfileReducersAndRouter(
         <DirectDeposit />,
         {
@@ -102,80 +99,29 @@ describe('authenticated experience -- profile -- direct deposit', () => {
         },
       );
 
-      expect(getByText(/CNP BANK NAME/i)).to.exist;
-      expect(getByText(/EDU BANK NAME/i)).to.exist;
+      expect(getByText(/TEST BANK NAME/i)).to.exist;
     });
 
-    it('Renders EduMigrationDowntimeAlert when profileShowDirectDepositSingleFormEduDowntime toggle is ON', () => {
-      const { getByTestId } = renderWithProfileReducersAndRouter(
+    it('renders loading indicator when toggles are loading', () => {
+      const { container } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: createInitialState({ toggles: { loading: true } }),
+        },
+      );
+
+      expect(container.querySelector('va-loading-indicator')).to.exist;
+    });
+
+    it('Renders TemporaryOutage when hideDirectDeposit is true', () => {
+      const { getByRole } = renderWithProfileReducersAndRouter(
         <DirectDeposit />,
         {
           initialState: createInitialState({
             serviceType: CSP_IDS.ID_ME,
             toggles: generateFeatureTogglesState({
-              profileShowDirectDepositSingleFormEduDowntime: true,
-            }).featureToggles,
-          }),
-        },
-      );
-
-      expect(getByTestId('edu-migration-downtime-alert')).to.exist;
-    });
-
-    it('Does not render EduMigrationDowntimeAlert when profileShowDirectDepositSingleFormEduDowntime toggle is OFF', () => {
-      const { queryByTestId } = renderWithProfileReducersAndRouter(
-        <DirectDeposit />,
-        {
-          initialState: createInitialState({
-            serviceType: CSP_IDS.ID_ME,
-            toggles: generateFeatureTogglesState().featureToggles,
-          }),
-        },
-      );
-
-      expect(queryByTestId('edu-migration-downtime-alert')).to.not.exist;
-    });
-
-    it('Renders EduMigrationAlert when profileShowDirectDepositSingleFormAlert toggle is ON', () => {
-      const { getByText } = renderWithProfileReducersAndRouter(
-        <DirectDeposit />,
-        {
-          initialState: createInitialState({
-            serviceType: CSP_IDS.ID_ME,
-            toggles: generateFeatureTogglesState({
-              profileShowDirectDepositSingleFormAlert: true,
-            }).featureToggles,
-          }),
-          path: '/profile/direct-deposit',
-        },
-      );
-
-      expect(getByText(/By April 20, 2024/i)).to.exist;
-    });
-
-    it('Does not render EduMigrationAlert when profileShowDirectDepositSingleFormAlert toggle is OFF', () => {
-      const { queryByText } = renderWithProfileReducersAndRouter(
-        <DirectDeposit />,
-        {
-          initialState: createInitialState({
-            serviceType: CSP_IDS.ID_ME,
-            toggles: generateFeatureTogglesState().featureToggles,
-          }),
-          path: '/profile/direct-deposit',
-        },
-      );
-
-      expect(queryByText(/By April 20, 2024/i)).to.not.exist;
-    });
-
-    it('Renders TemporaryOutageCnp when hideDirectDepositCompAndPen is true', () => {
-      const { getByText } = renderWithProfileReducersAndRouter(
-        <DirectDeposit />,
-        {
-          initialState: createInitialState({
-            serviceType: CSP_IDS.ID_ME,
-            toggles: generateFeatureTogglesState({
-              profileHideDirectDepositCompAndPen: true,
+              profileHideDirectDeposit: true,
+              profileShowDirectDepositSingleFormUAT: false,
             }).featureToggles,
           }),
           path: '/profile/direct-deposit',
@@ -183,16 +129,46 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       );
 
       expect(
-        getByText(
-          /Disability and pension direct deposit information isn’t available right now/i,
-        ),
+        getByRole('heading', {
+          name: 'You can’t manage your direct deposit information right now',
+        }),
       ).to.exist;
+    });
+
+    it('Renders error state when error is present', () => {
+      const { getByRole } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: createInitialState({
+            serviceType: CSP_IDS.ID_ME,
+            loadError: 'Internal Server Error',
+          }),
+          path: '/profile/direct-deposit',
+        },
+      );
+
+      expect(
+        getByRole('heading', { name: "This page isn't available right now." }),
+      ).to.exist;
+    });
+
+    it('Renders blocked state when isBlocked is true / user is deceased', () => {
+      const state = createInitialState();
+      state.directDeposit.controlInformation.isNotDeceased = false;
+
+      const { getByTestId } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: state,
+        },
+      );
+
+      expect(getByTestId('direct-deposit-blocked')).to.exist;
     });
 
     it('Renders VerifyIdentity when showBankInformation is false', () => {
       const state = createInitialState({
         serviceType: CSP_IDS.ID_ME,
-        toggles: generateFeatureTogglesState().featureToggles,
       });
 
       state.user.profile.multifactor = false;
@@ -206,6 +182,58 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       );
 
       expect(getByTestId('direct-deposit-mfa-message')).to.exist;
+    });
+
+    it('renders ineligible state when canUpdateDirectDeposit is false', () => {
+      const state = createInitialState();
+      state.directDeposit.controlInformation.canUpdateDirectDeposit = false;
+
+      const { getByText } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: state,
+        },
+      );
+
+      expect(
+        getByText(
+          /Our records show that you don’t receive benefit payments from VA/i,
+        ),
+      ).to.exist;
+    });
+
+    it('renders ineligible state when profile services do not include lighthouse', () => {
+      const state = createInitialState();
+      state.user.profile.services = [];
+
+      const { getByText } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: state,
+        },
+      );
+
+      expect(
+        getByText(
+          /Our records show that you don’t receive benefit payments from VA/i,
+        ),
+      ).to.exist;
+    });
+
+    it('renders AccountUpdateView when isEditing is true', async () => {
+      const { getByRole, container } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: createInitialState(),
+        },
+      );
+
+      const button = getVaButtonByText('Edit', { container });
+
+      fireEvent.click(button);
+
+      // save button is shown when update view is rendered
+      expect(getByRole('button', { name: /save/i })).to.exist;
     });
   });
 });

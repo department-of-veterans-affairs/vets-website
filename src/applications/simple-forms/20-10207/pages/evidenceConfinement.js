@@ -7,7 +7,10 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { POW_MULTIPLE_CONFINEMENTS_LABELS } from '../config/constants';
-import { powConfinementDateRangeValidation } from '../helpers';
+import {
+  evidenceConfinementHintUpdateUiSchema,
+  powConfinementDateRangeValidation,
+} from '../helpers';
 
 /** @type {PageSchema} */
 export default {
@@ -16,18 +19,26 @@ export default {
     powConfinementStartDate: currentOrPastDateUI({
       title: 'Start of confinement',
       hint: 'Tell us the dates your confinement began as a prisoner of war.',
-      required: () => true,
       errorMessages: {
         required: 'Provide the start date of confinement',
       },
+      updateUiSchema: formData =>
+        evidenceConfinementHintUpdateUiSchema({
+          formData,
+          beganEndedString: 'began',
+        }),
     }),
     powConfinementEndDate: currentOrPastDateUI({
       title: 'End of confinement',
       hint: 'Tell us the dates your confinement ended as a prisoner of war.',
-      required: () => true,
       errorMessages: {
         required: 'Provide the end date of confinement',
       },
+      updateUiSchema: formData =>
+        evidenceConfinementHintUpdateUiSchema({
+          formData,
+          beganEndedString: 'ended',
+        }),
     }),
     powMultipleConfinements: yesNoUI({
       title: 'Were you confined more than once?',

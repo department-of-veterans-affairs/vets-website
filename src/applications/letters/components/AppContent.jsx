@@ -34,7 +34,7 @@ export default class AppContent extends React.Component {
       return (
         <div className="usa-grid">
           <h1>VA letters and documents</h1>
-          <va-alert status="error" uswds="false">
+          <va-alert status="error">
             We weren’t able to find information about your VA letters. If you
             think you should be able to access this information, please{' '}
             <CallVBACenter />
@@ -52,7 +52,6 @@ export default class AppContent extends React.Component {
         <va-loading-indicator
           data-testid="feature-flags-loading"
           message="Loading your information..."
-          uswds="false"
         />
       </div>
     );

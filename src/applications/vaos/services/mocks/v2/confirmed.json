@@ -1,6 +1,122 @@
 {
   "data": [
     {
+      "id": "167419",
+      "type": "appointments",
+      "attributes": {
+        "id": "167419",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/vvs/id",
+            "value": "fa720cf4-f1b8-450b-bd4a-e6f29007fd73"
+          }
+        ],
+        "kind": "telehealth",
+        "status": "booked",
+        "patientIcn": "1012845331V153043",
+        "locationId": "984",
+        "physicalLocation" : "should not display",
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": "dfn-984",
+                "value": "36016"
+              }
+            ],
+            "name": {
+              "family": "NADEAU",
+              "given": [
+                "MARCY"
+              ]
+            },
+            "practiceName": "Dayton OH VAMC"
+          }
+        ],
+        "start": "2024-03-25T12:00:00Z",
+        "end": "2024-03-25T12:30:00Z",
+        "minutesDuration": 30,
+        "created": "2023-03-24T17:33:19.072Z",
+        "cancellable": true,
+        "patientInstruction": "Video Visit Preparation\n\nThe VA is excited to offer you this upcoming appointment using video telehealth. The Virtual Medical Room platform is simple to use and will only require an application download for iPad and iPhone products or Android tablet or phone products. All other home devices will NOT require any software/application download. Because we want you to have the best possible video experience, we suggest the following:\nConnect to your video appointment from a location that is quiet, private, and well lit.\nUse a device or computer that has a strong internet connection.\nIf using a cell phone, use a Wi-Fi connection so your cell data plan is not used.\nTo use a Virtual Medical Room, your home devices must have a web cam and microphone available. External cameras and microphones may be used if your personal device does not have a built in camera and/or microphone.\nIf you will be using an iPad or iPhone, download the required iOS app in advance: VideoConnect.\nYou can connect to your Virtual Medical Room through the VA Video Appointment App using the link in your appointment confirmation email.",
+        "telehealth": {
+          "url": "https://pexip.mapsandbox.net/vvc-app/?join=1&media=1&escalate=1&userType=guest&conference=VAC000423689@pexip.mapsandbox.net&pin=353881&aid=fa720cf4-f1b8-450b-bd4a-e6f29007fd73#",
+          "atlas": {
+            "siteCode": "VFW-DC-20011-01",
+            "confirmationCode": "271631",
+            "address": {
+              "streetAddress": "5929 Georgia Ave NW",
+              "city": "Washington",
+              "state": "DC",
+              "zipCode": "20011",
+              "country": "USA",
+              "latitutde": 38.96198,
+              "longitude": -77.02791,
+              "additionalDetails": ""
+            }
+          },
+          "group": false,
+          "vvsKind": "ADHOC"
+        },
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": [],
+          "patientHasMobileGfe": false
+        },
+        "localStartTime": "2024-03-25T08:00:00.000-04:00",
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_health_facility",
+            "name": "Dayton VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.74935,
+            "long": -84.2532,
+            "website": "https://www.dayton.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "937-268-6511"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "4100 West Third Street"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45428-9000"
+            },
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "Urology",
+              "WomensHealth"
+            ]
+          }
+        }
+      }
+    },
+    {
       "id": "00C891va",
       "type": "Appointment",
       "attributes": {
@@ -1766,7 +1882,7 @@
         "id": "10aa456vvs",
         "kind": "telehealth",
         "locationId": "983",
-        "localStartTime": "2023-12-22T18:00:00.000-06:00",
+        "localStartTime": "2023-11-22T18:00:00.000-06:00",
         "minutesDuration": 30,
         "patientIcn": null,
         "practitioners": [
@@ -1791,7 +1907,7 @@
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2023-12-27T18:19:34",
+        "start": "2023-11-27T18:19:34",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",

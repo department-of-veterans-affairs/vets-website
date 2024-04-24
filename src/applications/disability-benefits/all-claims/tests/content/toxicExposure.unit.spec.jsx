@@ -1,9 +1,17 @@
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
+  dateHelp,
+  dateRangePageDescription,
+  datesDescription,
+  getKeyIndex,
+  getSelectedCount,
   isClaimingTECondition,
   makeTEConditionsSchema,
   makeTEConditionsUISchema,
+  showGulfWar1990LocationDatesPage,
+  showGulfWar1990SummaryPage,
   showToxicExposurePages,
   validateTEConditions,
 } from '../../content/toxicExposure';
@@ -15,115 +23,138 @@ describe('toxicExposure', () => {
   });
 
   describe('showToxicExposurePages', () => {
-    it('returns false when toggle disabled and claim type is new', () => {
-      const formData = {
-        'view:claimType': {
-          'view:claimingIncrease': false,
-          'view:claimingNew': true,
-        },
-        newDisabilities: [
-          {
-            cause: 'NEW',
-            primaryDescription: 'Test description',
-            'view:serviceConnectedDisability': {},
-            condition: 'anemia',
+    describe('toggle disabled', () => {
+      it('returns false when claim type is new', () => {
+        const formData = {
+          'view:claimType': {
+            'view:claimingIncrease': false,
+            'view:claimingNew': true,
           },
-        ],
-      };
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+        };
 
-      expect(showToxicExposurePages(formData)).to.be.false;
-    });
+        expect(showToxicExposurePages(formData)).to.be.false;
+      });
 
-    it('returns false when toggle disabled and claiming cfi', () => {
-      const formData = {
-        'view:claimType': {
-          'view:claimingIncrease': true,
-          'view:claimingNew': false,
-        },
-      };
-
-      expect(showToxicExposurePages(formData)).to.be.false;
-    });
-
-    it('returns false when toggle disabled and both claim types', () => {
-      const formData = {
-        'view:claimType': {
-          'view:claimingIncrease': true,
-          'view:claimingNew': true,
-        },
-        newDisabilities: [
-          {
-            cause: 'NEW',
-            primaryDescription: 'Test description',
-            'view:serviceConnectedDisability': {},
-            condition: 'anemia',
+      it('returns false when claim type is CFI', () => {
+        const formData = {
+          'view:claimType': {
+            'view:claimingIncrease': true,
+            'view:claimingNew': false,
           },
-        ],
-      };
+        };
 
-      expect(showToxicExposurePages(formData)).to.be.false;
-    });
+        expect(showToxicExposurePages(formData)).to.be.false;
+      });
 
-    it('returns true when toggle enabled and claiming one or more new conditions', () => {
-      window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, true);
-      const formData = {
-        'view:claimType': {
-          'view:claimingIncrease': false,
-          'view:claimingNew': true,
-        },
-        newDisabilities: [
-          {
-            cause: 'NEW',
-            primaryDescription: 'Test description',
-            'view:serviceConnectedDisability': {},
-            condition: 'anemia',
+      it('returns false when using both claim types', () => {
+        const formData = {
+          'view:claimType': {
+            'view:claimingIncrease': true,
+            'view:claimingNew': true,
           },
-        ],
-      };
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+        };
 
-      expect(showToxicExposurePages(formData)).to.be.true;
+        expect(showToxicExposurePages(formData)).to.be.false;
+      });
     });
 
-    it('returns false when toggle enabled and claiming cfi', () => {
-      window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, true);
-      const formData = {
-        'view:claimType': {
-          'view:claimingIncrease': true,
-          'view:claimingNew': false,
-        },
-      };
+    describe('toggle enabled', () => {
+      beforeEach(() => {
+        window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, 'true');
+      });
 
-      expect(showToxicExposurePages(formData)).to.be.false;
-    });
-
-    it('returns true when toggle enabled and claiming one or more new conditions and cfi', () => {
-      window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, true);
-      const formData = {
-        'view:claimType': {
-          'view:claimingIncrease': true,
-          'view:claimingNew': true,
-        },
-        newDisabilities: [
-          {
-            cause: 'NEW',
-            primaryDescription: 'Test description',
-            'view:serviceConnectedDisability': {},
-            condition: 'anemia',
+      it('returns true when claiming one or more new conditions', () => {
+        const formData = {
+          'view:claimType': {
+            'view:claimingIncrease': false,
+            'view:claimingNew': true,
           },
-        ],
-      };
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+        };
 
-      expect(showToxicExposurePages(formData)).to.be.true;
+        expect(showToxicExposurePages(formData)).to.be.true;
+      });
+
+      it('returns false when claim type is CFI', () => {
+        const formData = {
+          'view:claimType': {
+            'view:claimingIncrease': true,
+            'view:claimingNew': false,
+          },
+        };
+
+        expect(showToxicExposurePages(formData)).to.be.false;
+      });
+
+      it('returns true when both claim types', () => {
+        const formData = {
+          'view:claimType': {
+            'view:claimingIncrease': true,
+            'view:claimingNew': true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+        };
+
+        expect(showToxicExposurePages(formData)).to.be.true;
+      });
     });
   });
 
   describe('isClaimingTECondition', () => {
-    it('returns true when enabled, claiming new, one condition selected', () => {
+    beforeEach(() => {
+      window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, 'true');
+    });
+
+    it('returns true when claiming new, one condition selected', () => {
       const formData = {
         'view:claimType': {
           'view:claimingIncrease': false,
           'view:claimingNew': true,
         },
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            primaryDescription: 'Test description',
+            'view:serviceConnectedDisability': {},
+            condition: 'Tinnitus',
+          },
+          {
+            cause: 'NEW',
+            primaryDescription: 'Test description2',
+            'view:serviceConnectedDisability': {},
+            condition: 'Anemia',
+          },
+        ],
         toxicExposureConditions: {
           tinnitus: true,
           anemia: false,
@@ -131,12 +162,10 @@ describe('toxicExposure', () => {
         },
       };
 
-      window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, true);
-
       expect(isClaimingTECondition(formData)).to.be.true;
     });
 
-    it('returns false when enabled, not claiming new', () => {
+    it('returns false when not claiming new', () => {
       const formData = {
         'view:claimType': {
           'view:claimingIncrease': true,
@@ -144,12 +173,10 @@ describe('toxicExposure', () => {
         },
       };
 
-      window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, true);
-
       expect(isClaimingTECondition(formData)).to.be.false;
     });
 
-    it('returns false when enabled, claiming new, no conditions selected', () => {
+    it('returns false when claiming new, no conditions selected', () => {
       const formData = {
         'view:claimType': {
           'view:claimingIncrease': false,
@@ -162,12 +189,10 @@ describe('toxicExposure', () => {
         },
       };
 
-      window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, true);
-
       expect(isClaimingTECondition(formData)).to.be.false;
     });
 
-    it('returns false when enabled, selected none checkbox', () => {
+    it('returns false when selected none checkbox', () => {
       const formData = {
         'view:claimType': {
           'view:claimingIncrease': false,
@@ -179,8 +204,6 @@ describe('toxicExposure', () => {
           none: true,
         },
       };
-
-      window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, true);
 
       expect(isClaimingTECondition(formData)).to.be.false;
     });
@@ -315,6 +338,318 @@ describe('toxicExposure', () => {
 
       validateTEConditions(errors, formData);
       expect(errors.toxicExposureConditions.addError.called).to.be.false;
+    });
+  });
+
+  describe('dateRangePageDescription', () => {
+    it('displays description when counts specified', () => {
+      const tree = render(dateRangePageDescription(1, 5, 'Egypt'));
+      tree.getByText('1 of 5: Egypt', { exact: false });
+      tree.getByText(dateHelp);
+    });
+
+    it('displays description when counts not specified', () => {
+      const tree = render(dateRangePageDescription(0, 0, 'Egypt'));
+      tree.getByText('Egypt');
+      tree.getByText(dateHelp);
+    });
+  });
+
+  describe('getKeyIndex', () => {
+    it('finds and returns the index', () => {
+      const formData = {
+        gulfWar1990: {
+          bahrain: true,
+          egypt: false,
+          airspace: true,
+        },
+      };
+
+      expect(getKeyIndex('bahrain', 'gulfWar1990', { formData })).to.equal(1);
+      expect(getKeyIndex('airspace', 'gulfWar1990', { formData })).to.equal(2);
+    });
+
+    it('returns 0 when not location data not available', () => {
+      const formData = {};
+
+      expect(getKeyIndex('bahrain', 'gulfWar1990', { formData })).to.equal(0);
+    });
+
+    it('returns 0 when location not selected', () => {
+      const formData = {
+        gulfWar1990: {
+          egypt: false,
+        },
+      };
+
+      expect(getKeyIndex('egypt', 'gulfWar1990', { formData })).to.equal(0);
+      expect(getKeyIndex('bahrain', 'gulfWar1990', { formData })).to.equal(0);
+    });
+  });
+
+  describe('getSelectedCount', () => {
+    it('gets the count with a mix of selected and deselected items', () => {
+      const formData = {
+        gulfWar1990: {
+          bahrain: true,
+          egypt: false,
+          airspace: true,
+        },
+      };
+
+      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(2);
+    });
+
+    it('gets 0 count when no items selected', () => {
+      const formData = {
+        gulfWar1990: {
+          bahrain: false,
+          egypt: false,
+          airspace: false,
+        },
+      };
+
+      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
+    });
+
+    it('gets 0 count when no checkbox values', () => {
+      const formData = {
+        gulfWar1990: {},
+      };
+
+      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
+    });
+
+    it('gets 0 count when no checkbox object not found', () => {
+      const formData = {};
+
+      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
+    });
+
+    it('gets 0 count when no form data', () => {
+      expect(getSelectedCount('gulfWar1990', undefined)).to.be.equal(0);
+    });
+  });
+
+  describe('showGulfWar1990LocationDatesPage', () => {
+    describe('toggle disabled', () => {
+      it('should return false when toggle not enabled', () => {
+        const formData = {
+          gulfWar1990: {
+            bahrain: true,
+            egypt: false,
+            airspace: true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
+        };
+
+        expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
+          .false;
+      });
+    });
+
+    describe('toggle enabled', () => {
+      beforeEach(() => {
+        window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, 'true');
+      });
+
+      it('should return false when toggle enabled, but no new disabilities', () => {
+        const formData = {
+          newDisabilities: [],
+        };
+
+        expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
+          .false;
+      });
+
+      it('should return false when toggle enabled, claiming new disability, but no selected locations', () => {
+        const formData = {
+          gulfWar1990: {
+            bahrain: false,
+            airspace: false,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
+        };
+
+        expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
+          .false;
+        expect(showGulfWar1990LocationDatesPage(formData, 'egypt')).to.be.false;
+        expect(showGulfWar1990LocationDatesPage(formData, 'airspace')).to.be
+          .false;
+      });
+
+      it('should return true when all criteria met', () => {
+        const formData = {
+          gulfWar1990: {
+            bahrain: true,
+            egypt: false,
+            airspace: true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
+        };
+        expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
+          .true;
+      });
+    });
+  });
+
+  describe('showGulfWar1990SummaryPage', () => {
+    describe('toggle disabled', () => {
+      it('should return false when toggle not enabled', () => {
+        const formData = {
+          gulfWar1990: {
+            bahrain: true,
+            egypt: false,
+            airspace: true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
+        };
+
+        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+      });
+    });
+
+    describe('toggle enabled', () => {
+      beforeEach(() => {
+        window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, 'true');
+      });
+
+      it('should return false when toggle enabled, but no new disabilities', () => {
+        const formData = {
+          newDisabilities: [],
+        };
+
+        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+      });
+
+      it('should return false when toggle enabled, claiming new disability, but no selected locations', () => {
+        const formData = {
+          gulfWar1990: {
+            bahrain: false,
+            airspace: false,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
+        };
+
+        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+      });
+
+      it('should return true when all criteria met', () => {
+        const formData = {
+          gulfWar1990: {
+            bahrain: true,
+            egypt: false,
+            airspace: true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
+        };
+
+        expect(showGulfWar1990SummaryPage(formData)).to.be.true;
+      });
+    });
+  });
+
+  describe('datesDescription', () => {
+    it('build the no dates description when no dates are provided', () => {
+      expect(datesDescription({})).to.equal('No dates entered');
+    });
+
+    it('build the no dates description when empty dates are provided', () => {
+      const dates = {
+        startDate: '',
+        endDate: '',
+      };
+
+      expect(datesDescription(dates)).to.equal('No dates entered');
+    });
+
+    it('build the description with both dates when both dates are provided', () => {
+      const dates = {
+        startDate: '2020-01-01',
+        endDate: '2022-01-05',
+      };
+
+      expect(datesDescription(dates)).to.equal('January 2020 - January 2022');
+    });
+
+    it('builds the description with end date only', () => {
+      const dates = {
+        endDate: '2022-01-05',
+      };
+
+      expect(datesDescription(dates)).to.equal(
+        'No start date entered - January 2022',
+      );
+    });
+
+    it('builds the description with start date only', () => {
+      const dates = {
+        startDate: '2022-01-05',
+      };
+
+      expect(datesDescription(dates)).to.equal(
+        'January 2022 - No end date entered',
+      );
     });
   });
 });

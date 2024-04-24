@@ -271,15 +271,18 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           DateTimeSelectPageObject.assertUrl()
+            .assertHeading({ name: /Choose a date and time/i })
             .selectFirstAvailableDate()
             .clickNextButton();
 
           ReasonForAppointmentPageObject.assertUrl()
+            .assertHeading({ name: /Tell us the reason for this appointment/i })
             .selectReasonForAppointment()
             .typeAdditionalText({ content: 'This is a test' })
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
+            .assertHeading({ name: /Confirm your contact information/i })
             .typeEmailAddress('veteran@va.gov')
             .typePhoneNumber('5555555555')
             .clickNextButton();

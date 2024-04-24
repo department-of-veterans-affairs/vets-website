@@ -4,50 +4,44 @@ import PropTypes from 'prop-types';
 import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
 
 import Contact from './Contact';
-import HelpDeskContact from './HelpDeskContact';
+import HelpDeskContact from '../HelpDeskContact';
 import Instructions from './Instructions';
 
 const Contacts = ({ data }) => {
   const ecs = data.filter(el => el.id.match(/emergency contact/i));
   const noks = data.filter(el => el.id.match(/next of kin/i));
 
-  const renderEmergencyContacts =
-    ecs && ecs.length ? (
-      ecs.map((ec, i) => ({
-        value: (
-          <>
-            <Contact
-              testId={`phcc-emergency-contact-${i}`}
-              key={ec.id}
-              index={i}
-              numberOfContacts={ecs.length}
-              {...ec.attributes}
-            />
-          </>
-        ),
-      }))
-    ) : (
-      <Instructions testId="phcc-no-ecs" />
-    );
+  const renderEmergencyContacts = ecs?.length ? (
+    ecs.map((ec, i) => ({
+      value: (
+        <Contact
+          testId={`phcc-emergency-contact-${i}`}
+          key={ec.id}
+          index={i}
+          numberOfContacts={ecs.length}
+          {...ec.attributes}
+        />
+      ),
+    }))
+  ) : (
+    <Instructions testId="phcc-no-ecs" />
+  );
 
-  const renderNextOfKin =
-    noks && noks.length ? (
-      noks.map((nok, i) => ({
-        value: (
-          <>
-            <Contact
-              testId={`phcc-next-of-kin-${i}`}
-              key={nok.id}
-              index={i}
-              numberOfContacts={noks.length}
-              {...nok.attributes}
-            />
-          </>
-        ),
-      }))
-    ) : (
-      <Instructions testId="phcc-no-nok" />
-    );
+  const renderNextOfKin = noks?.length ? (
+    noks.map((nok, i) => ({
+      value: (
+        <Contact
+          testId={`phcc-next-of-kin-${i}`}
+          key={nok.id}
+          index={i}
+          numberOfContacts={noks.length}
+          {...nok.attributes}
+        />
+      ),
+    }))
+  ) : (
+    <Instructions testId="phcc-no-nok" />
+  );
 
   return (
     <>
@@ -63,7 +57,7 @@ const Contacts = ({ data }) => {
             <li>Ask a staff member at your next appointment, or</li>
             <li>
               Call us at <HelpDeskContact testId="help-desk" />. We’re here
-              24/7.
+              Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
             </li>
           </ul>
         </va-additional-info>

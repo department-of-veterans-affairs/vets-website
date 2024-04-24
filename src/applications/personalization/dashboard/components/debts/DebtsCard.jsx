@@ -50,7 +50,7 @@ export const DebtsCard = ({ debts }) => {
       </p>
       <CTALink
         text="Manage your VA debt"
-        href="/manage-va-debt/your-debt"
+        href="/manage-va-debt/summary/debt-balances"
         showArrow
         className="vads-u-font-weight--bold"
         onClick={() =>

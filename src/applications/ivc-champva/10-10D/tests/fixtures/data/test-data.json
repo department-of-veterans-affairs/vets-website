@@ -1,10 +1,10 @@
 {
   "data": {
-    "certifierRole": "sponsor",
+    "certifierRole": "applicant",
     "applicants": [
       {
-        "applicantRelationshipOrigin": "blood",
-        "applicantGender": "male",
+        "applicantRelationshipOrigin": { "relationshipToVeteran": "blood" },
+        "applicantGender": { "gender": "male" },
         "applicantEmailAddress": "johnny@alvin.gov",
         "applicantAddress": {
           "country": "USA",
@@ -21,14 +21,16 @@
         },
         "applicantEnrolledInMedicare": false,
         "applicantEnrolledInOHI": false,
-        "applicantDOB": "2000-01-04",
+        "applicantDOB": "2003-01-04",
         "applicantName": {
           "first": "Johnny",
           "middle": "T",
           "last": "Alvin",
           "suffix": "Jr."
         },
-        "applicantMedicareStatus": "enrolled",
+        "applicantMedicareStatus": {
+          "eligibility": "enrolled"
+        },
         "applicantMedicarePart": "partA, partD",
         "applicantHasOhi": "yes"
       }
@@ -51,6 +53,9 @@
       "last": "Johnson"
     },
     "sponsorDOB": "1958-01-01",
+    "sponsorIsDeceased": true,
+    "sponsorDOD": "2001-01-01",
+    "sponsorDeathConditions": false,
     "statementOfTruthSignature": "Joe Johnson",
     "statementOfTruthCertified": true
   }

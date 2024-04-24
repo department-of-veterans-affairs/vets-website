@@ -1,10 +1,12 @@
-import PropTypes from 'prop-types';
-
+import { useSelector } from 'react-redux';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
+import { selectEnrollmentStatus } from '../../../../utils/selectors/enrollment-status';
 import { createLiteralMap } from '../../../../utils/helpers';
 import WarningExplainations from '../ContentBlocks/WarningExplainations';
 
-const WarningExplanation = ({ enrollmentStatus }) => {
+const WarningExplanation = () => {
+  const { statusCode } = useSelector(selectEnrollmentStatus);
+
   // Declare content blocks for use
   const {
     explainBlock1,
@@ -13,11 +15,11 @@ const WarningExplanation = ({ enrollmentStatus }) => {
     explainBlock4,
     explainBlock5,
     explainBlock6,
+    explainBlock7,
     explainBlock8,
+    explainBlock9,
     explainBlock10,
     explainBlock11,
-    explainBlock12,
-    explainBlock14,
   } = WarningExplainations;
 
   // Declare content block dictionary
@@ -40,18 +42,18 @@ const WarningExplanation = ({ enrollmentStatus }) => {
         HCA_ENROLLMENT_STATUSES.ineligFilipinoScouts,
       ],
     ],
-    [explainBlock8, [HCA_ENROLLMENT_STATUSES.deceased]],
-    [explainBlock10, [HCA_ENROLLMENT_STATUSES.pendingMt]],
+    [explainBlock7, [HCA_ENROLLMENT_STATUSES.deceased]],
+    [explainBlock8, [HCA_ENROLLMENT_STATUSES.pendingMt]],
     [
-      explainBlock11,
+      explainBlock9,
       [
         HCA_ENROLLMENT_STATUSES.pendingOther,
         HCA_ENROLLMENT_STATUSES.pendingUnverified,
       ],
     ],
-    [explainBlock12, [HCA_ENROLLMENT_STATUSES.pendingPurpleHeart]],
+    [explainBlock10, [HCA_ENROLLMENT_STATUSES.pendingPurpleHeart]],
     [
-      explainBlock14,
+      explainBlock11,
       [
         HCA_ENROLLMENT_STATUSES.rejectedIncWrongEntry,
         HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
@@ -66,11 +68,7 @@ const WarningExplanation = ({ enrollmentStatus }) => {
   const contentMap = createLiteralMap(contentDictionary);
 
   // Render based on enrollment status
-  return contentMap[enrollmentStatus] || null;
-};
-
-WarningExplanation.propTypes = {
-  enrollmentStatus: PropTypes.string,
+  return contentMap[statusCode] || null;
 };
 
 export default WarningExplanation;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { APP_URLS, LAST_YEAR } from '../../utils/constants';
 
 /** CHAPTER 1: Veteran Information */
 export const BirthInfoDescription = (
@@ -229,63 +230,70 @@ export const OtherToxicExposureDescription = (
   </div>
 );
 
-/** CHAPTER 4: Household Information */
-export const DeductibleExpensesDescription = () => {
-  const date = new Date();
-  return (
-    <legend className="schemaform-block-title">
-      Deductible expenses from {date.getFullYear() - 1}
-      <span className="sr-only">.</span>
-      <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-y--2">
-        These deductible expenses will lower the amount of money we count as
-        your income.
-      </div>
-    </legend>
-  );
-};
+export const OtherToxicExposureHint = (
+  <div className="vads-u-color--gray-medium">
+    If you’re listing multiple toxins or hazards, list them without commas or
+    any other special characters
+  </div>
+);
 
-export const DependentDescription = () => {
-  const date = new Date();
-  return (
-    <va-additional-info
-      trigger="Who we consider a dependent"
-      class="vads-u-margin-top--2 vads-u-margin-bottom--3"
-      uswds
-    >
-      <div>
-        <p className="vads-u-margin-top--0">
-          <strong>Here’s who we consider to be a dependent:</strong>
-        </p>
-        <ul>
-          <li>A spouse (we recognize same-sex and common law marriages)</li>
-          <li>
-            An unmarried child (including adopted children or stepchildren)
-          </li>
-        </ul>
-        <p>
-          <strong>
-            If your dependent is an unmarried child, one of these descriptions
-            must be true:
-          </strong>
-        </p>
-        <ul className="vads-u-margin-bottom--0">
-          <li>
-            They’re under 18 years old, <strong>or</strong>
-          </li>
-          <li>
-            They’re between the ages of 18 and 23 years old and were enrolled as
-            a full-time or part-time student in high school, college, or
-            vocational school in {date.getFullYear() - 1}, <strong>or</strong>
-          </li>
-          <li>
-            They’re living with a permanent disability that happened before they
-            turned 18 years old
-          </li>
-        </ul>
-      </div>
-    </va-additional-info>
-  );
-};
+/** CHAPTER 4: Household Information */
+export const DeductibleExpensesDescription = () => (
+  <legend className="schemaform-block-title">
+    Deductible expenses from {LAST_YEAR}
+    <span className="sr-only">.</span>
+    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-y--2">
+      These deductible expenses will lower the amount of money we count as your
+      income.
+    </div>
+  </legend>
+);
+
+export const DependentDescription = () => (
+  <va-additional-info
+    trigger="Who we consider a dependent"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
+    uswds
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        <strong>Here’s who we consider to be a dependent:</strong>
+      </p>
+      <ul>
+        <li>A spouse (we recognize same-sex and common law marriages)</li>
+        <li>An unmarried child (including adopted children or stepchildren)</li>
+      </ul>
+      <p>
+        <strong>
+          If your dependent is an unmarried child, one of these descriptions
+          must be true:
+        </strong>
+      </p>
+      <ul className="vads-u-margin-bottom--0">
+        <li>
+          They’re under 18 years old, <strong>or</strong>
+        </li>
+        <li>
+          They’re between the ages of 18 and 23 years old and were enrolled as a
+          full-time or part-time student in high school, college, or vocational
+          school in {LAST_YEAR}, <strong>or</strong>
+        </li>
+        <li>
+          They’re living with a permanent disability that happened before they
+          turned 18 years old
+        </li>
+      </ul>
+    </div>
+  </va-additional-info>
+);
+
+export const DependentEducationExpensesDescription = (
+  <div className="vads-u-color--gray-medium">
+    Only enter an amount if they had gross income to report to the IRS in{' '}
+    {LAST_YEAR}. This income is the minimum amount of gross income the IRS
+    requires to file a federal income tax return.
+  </div>
+);
 
 export const DependentSupportDescription = (
   <va-additional-info
@@ -485,23 +493,20 @@ export const SpouseAdditionalInformationTitle = (
   </>
 );
 
-export const SpouseAdditionalInformationDescription = () => {
-  const date = new Date();
-  return (
-    <va-additional-info
-      trigger="Why we ask for this information"
-      class="vads-u-margin-top--1 vads-u-margin-bottom--4"
-      uswds
-    >
-      <div>
-        <p className="vads-u-margin-top--0">
-          This information helps us determine if your spouse was your dependent
-          in {date.getFullYear() - 1}.
-        </p>
-      </div>
-    </va-additional-info>
-  );
-};
+export const SpouseAdditionalInformationDescription = () => (
+  <va-additional-info
+    trigger="Why we ask for this information"
+    class="vads-u-margin-top--1 vads-u-margin-bottom--4"
+    uswds
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        This information helps us determine if your spouse was your dependent in{' '}
+        {LAST_YEAR}.
+      </p>
+    </div>
+  </va-additional-info>
+);
 
 export const SpouseFinancialSupportDescription = (
   <va-additional-info
@@ -545,7 +550,7 @@ export const FacilityLocatorDescription = (
   <>
     <p>
       OR{' '}
-      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
+      <a href={APP_URLS.facilities} rel="noopener noreferrer" target="_blank">
         Find locations with the VA Facility Locator
       </a>
     </p>

@@ -796,14 +796,19 @@ export function stringifyUrlParams(urlParams) {
  *
  * Tip: use `window.location.pathname` to get the current url path index
  *
+ * Example: Returns `1` if url is `'current-form/1'`
  * Example: Returns `1` if url is `'current-form/1?edit=true'`
+ * Example: Returns `0` if URL is `'current-form/0/page-name'`
  * @returns {number | undefined}
  */
 export function getUrlPathIndex(url) {
-  let index = url
-    ?.split('/')
-    .pop()
-    .replace(/\?.*/, ''); // remove query params
-  index = Number(index);
-  return Number.isNaN(index) ? undefined : index;
+  if (!url) {
+    return undefined;
+  }
+  const urlParts = url.split('/');
+  const indexString = urlParts
+    .map(part => part.replace(/\?.*/, ''))
+    .reverse()
+    .find(part => !Number.isNaN(Number(part)));
+  return indexString ? Number(indexString) : undefined;
 }

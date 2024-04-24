@@ -1,14 +1,15 @@
-import 'platform/polyfills';
+import '@department-of-veterans-affairs/platform-polyfills';
+import startApp from '@department-of-veterans-affairs/platform-startup/router';
+
 import './sass/view-payments.scss';
 
-import startApp from 'platform/startup';
-
-import routes from './routes';
-import reducer from './reducers';
 import manifest from './manifest.json';
+import reducer from './reducers';
+import routes from './routes';
 
 startApp({
-  url: manifest.rootUrl,
+  entryName: manifest.entryName,
   reducer,
   routes,
+  url: manifest.rootUrl,
 });

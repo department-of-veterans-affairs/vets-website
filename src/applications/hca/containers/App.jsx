@@ -2,19 +2,28 @@ import React, { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/RoutedSavableApp';
-import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
-import { isLOA3, isLoggedIn, selectProfile } from 'platform/user/selectors';
-import recordEvent from 'platform/monitoring/record-event';
+import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
+import recordEvent from '~/platform/monitoring/record-event';
+import { setData } from '~/platform/forms-system/src/js/actions';
+import { selectProfile } from '~/platform/user/selectors';
 
-import { fetchTotalDisabilityRating } from '../utils/actions';
+import { fetchEnrollmentStatus } from '../utils/actions/enrollment-status';
+import { fetchTotalDisabilityRating } from '../utils/actions/disability-rating';
 import { selectFeatureToggles } from '../utils/selectors/feature-toggles';
+import { selectAuthStatus } from '../utils/selectors/auth-status';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { parseVeteranDob } from '../utils/helpers';
+import content from '../locales/en/content.json';
 import formConfig from '../config/form';
 
 const App = props => {
-  const { children, location, setFormData, getTotalDisabilityRating } = props;
+  const {
+    children,
+    location,
+    setFormData,
+    getDisabilityRating,
+    getEnrollmentStatus,
+  } = props;
 
   const {
     isLoadingFeatureFlags,
@@ -22,25 +31,25 @@ const App = props => {
     isSigiEnabled,
     isTeraEnabled,
   } = useSelector(selectFeatureToggles);
-  const { dob: veteranDob, loading: isLoadingProfile } = useSelector(
-    selectProfile,
-  );
-  const { totalDisabilityRating } = useSelector(state => state.totalRating);
+  const { dob: veteranDob } = useSelector(selectProfile);
+  const { totalRating } = useSelector(state => state.disabilityRating);
   const { data: formData } = useSelector(state => state.form);
-  const loggedIn = useSelector(isLoggedIn);
-  const isLOA3User = useSelector(isLOA3);
+  const { isUserLOA3, isLoggedIn, isLoadingProfile } = useSelector(
+    selectAuthStatus,
+  );
   const { veteranFullName } = formData;
   const isAppLoading = isLoadingFeatureFlags || isLoadingProfile;
 
   // Attempt to fetch disability rating for LOA3 users
   useEffect(
     () => {
-      if (isLOA3User) {
-        getTotalDisabilityRating();
+      if (isUserLOA3) {
+        getDisabilityRating();
+        getEnrollmentStatus();
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLOA3User],
+    [isUserLOA3],
   );
 
   /**
@@ -56,14 +65,14 @@ const App = props => {
   useEffect(
     () => {
       const defaultViewFields = {
-        'view:isLoggedIn': loggedIn,
+        'view:isLoggedIn': isLoggedIn,
         'view:isSigiEnabled': isSigiEnabled,
         'view:isTeraEnabled': isTeraEnabled,
         'view:isFacilitiesApiEnabled': isFacilitiesApiEnabled,
-        'view:totalDisabilityRating': parseInt(totalDisabilityRating, 10) || 0,
+        'view:totalDisabilityRating': parseInt(totalRating, 10) || 0,
       };
 
-      if (loggedIn) {
+      if (isLoggedIn) {
         setFormData({
           ...formData,
           ...defaultViewFields,
@@ -79,13 +88,13 @@ const App = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      loggedIn,
+      isLoggedIn,
       veteranDob,
       veteranFullName,
       isSigiEnabled,
       isTeraEnabled,
       isFacilitiesApiEnabled,
-      totalDisabilityRating,
+      totalRating,
     ],
   );
 
@@ -117,7 +126,7 @@ const App = props => {
 
   return isAppLoading ? (
     <va-loading-indicator
-      message="Loading application..."
+      message={content['load-app']}
       class="vads-u-margin-y--4"
       set-focus
     />
@@ -133,14 +142,16 @@ App.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
-  getTotalDisabilityRating: PropTypes.func,
+  getDisabilityRating: PropTypes.func,
+  getEnrollmentStatus: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
 };
 
 const mapDispatchToProps = {
   setFormData: setData,
-  getTotalDisabilityRating: fetchTotalDisabilityRating,
+  getEnrollmentStatus: fetchEnrollmentStatus,
+  getDisabilityRating: fetchTotalDisabilityRating,
 };
 
 export default connect(
