@@ -113,8 +113,11 @@ describe('Federal orders info', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
-  it('should fail to submit when separation date is before activation', () => {
+  it('should fail to submit when activation date is in the future', () => {
     const onSubmit = sinon.spy();
+    const activationDate = moment()
+      .add(10, 'days')
+      .format('YYYY-MM-DD');
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -139,16 +142,54 @@ describe('Federal orders info', () => {
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_title10ActivationDate',
-      moment()
-        .add(100, 'days')
-        .format('YYYY-MM-DD'),
+      activationDate,
     );
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
-      moment()
-        .add(90, 'days')
-        .format('YYYY-MM-DD'),
+      activationDate.add(10, 'days'),
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+  it('should fail to submit when separation date is before activation', () => {
+    const onSubmit = sinon.spy();
+    const activationDate = moment()
+      .add(-10, 'days')
+      .format('YYYY-MM-DD');
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        appStateData={{
+          servicePeriods: [
+            { serviceBranch: 'Reserves', dateRange: { from: '2008-03-12' } },
+          ],
+        }}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    selectRadio(
+      form,
+      'root_serviceInformation_reservesNationalGuardService_view:isTitle10Activated',
+      'Y',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_reservesNationalGuardService_title10Activation_title10ActivationDate',
+      activationDate,
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
+      activationDate.add(-10, 'days'),
     );
 
     form.find('form').simulate('submit');
