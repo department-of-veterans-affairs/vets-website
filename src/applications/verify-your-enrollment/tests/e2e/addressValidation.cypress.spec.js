@@ -1,6 +1,40 @@
+import { USER_MOCK_DATA } from '../../constants/mockData';
+import { mockUser } from './login';
+
 describe('Address Validations', () => {
+  const mockAddressResponse = (
+    confidenceScore = 100,
+    deliveryPointValidation = 'CONFIRMED',
+  ) => {
+    return {
+      addresses: [
+        {
+          address: {
+            addressLine1: '3833 Howlett Hill Rd',
+            addressType: 'DOMESTIC',
+            city: 'Syracuse',
+            countryName: 'United States',
+            countryCodeIso3: 'USA',
+            countyCode: '36067',
+            countyName: 'Onondaga',
+            stateCode: 'NY',
+            zipCode: '13215',
+            zipCodeSuffix: '8688',
+          },
+          addressMetaData: {
+            confidenceScore,
+            addressType: 'Domestic',
+            deliveryPointValidation,
+            residentialDeliveryIndicator: 'RESIDENTIAL',
+          },
+        },
+      ],
+      validationKey: 1232036439,
+    };
+  };
+
   beforeEach(() => {
-    cy.intercept('GET', '/vye/v1').as('getData');
+    cy.intercept('GET', '/vye/v1', USER_MOCK_DATA).as('getData');
     cy.visit('/education/verify-your-enrollment/');
     cy.wait('@getData');
   });
@@ -22,6 +56,14 @@ describe('Address Validations', () => {
   });
   it('should show suggested address when address is partially correct', () => {
     cy.injectAxeThenAxeCheck();
+    cy.intercept(
+      'POST',
+      `https://staging-api.va.gov/v0/profile/address_validation`,
+      {
+        statusCode: 200,
+        body: mockAddressResponse(92, 'CONFIRMED'),
+      },
+    ).as('submitAddress');
     cy.get(
       '[href="/education/verify-your-enrollment/benefits-profile/"]',
     ).click();
@@ -35,5 +77,162 @@ describe('Address Validations', () => {
     cy.get(
       '[aria-label="save your Mailing address for GI Bill benefits"]',
     ).click();
+    cy.wait('@submitAddress');
+    cy.get('input[id="suggested-address"]').should('exist');
+    cy.get('input[id="suggested-address"]').should('be.checked');
+  });
+  it('should send update the address if user choose the Suggested address ', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.intercept(
+      'POST',
+      `https://staging-api.va.gov/v0/profile/address_validation`,
+      {
+        statusCode: 200,
+        body: mockAddressResponse(92, 'CONFIRMED'),
+      },
+    ).as('submitAddress');
+    cy.get(
+      '[href="/education/verify-your-enrollment/benefits-profile/"]',
+    ).click();
+    cy.get('[id="VYE-mailing-address-button"]').click();
+    cy.get('input[id="root_fullName"]').type('Jhon Doe');
+    cy.get('[id="root_countryCodeIso3"]').select('United States');
+    cy.get('input[id="root_addressLine1"]').type('322 26th ave');
+    cy.get('input[id="root_city"]').type('San Francisco');
+    cy.get('[id="root_stateCode"]').select('California');
+    cy.get('input[id="root_zipCode"]').type('94121');
+    cy.get(
+      '[aria-label="save your Mailing address for GI Bill benefits"]',
+    ).click();
+    cy.wait('@submitAddress');
+    cy.get('[text="Update"]').click();
+    cy.login(mockUser);
+    cy.intercept('POST', `https://staging-api.va.gov/vye/v1/address`, {
+      status: 201,
+      ok: true,
+    }).as('updateAddress');
+  });
+  it('should not give suggessted address if confidenceScore is 100 ', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.intercept(
+      'POST',
+      `https://staging-api.va.gov/v0/profile/address_validation`,
+      {
+        statusCode: 200,
+        body: mockAddressResponse(),
+      },
+    ).as('submitAddress');
+    cy.get(
+      '[href="/education/verify-your-enrollment/benefits-profile/"]',
+    ).click();
+    cy.get('[id="VYE-mailing-address-button"]').click();
+    cy.get('input[id="root_fullName"]').type('Jhon Doe');
+    cy.get('[id="root_countryCodeIso3"]').select('United States');
+    cy.get('input[id="root_addressLine1"]').type('322 26th ave');
+    cy.get('input[id="root_city"]').type('San Francisco');
+    cy.get('[id="root_stateCode"]').select('California');
+    cy.get('input[id="root_zipCode"]').type('94121');
+    cy.get(
+      '[aria-label="save your Mailing address for GI Bill benefits"]',
+    ).click();
+    cy.wait('@submitAddress');
+    cy.login(mockUser);
+    cy.intercept('POST', `https://staging-api.va.gov/vye/v1/address`, {
+      status: 201,
+      ok: true,
+    }).as('updateAddress');
+  });
+  it('should show We can’t confirm the address Alert if address in completely wrong', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.intercept(
+      'POST',
+      `https://staging-api.va.gov/v0/profile/address_validation`,
+      {
+        statusCode: 200,
+        body: mockAddressResponse(92, 'MISSING_ZIP'),
+      },
+    ).as('submitAddress');
+    cy.get(
+      '[href="/education/verify-your-enrollment/benefits-profile/"]',
+    ).click();
+    cy.get('[id="VYE-mailing-address-button"]').click();
+    cy.get('input[id="root_fullName"]').type('Jhon Doe');
+    cy.get('[id="root_countryCodeIso3"]').select('United States');
+    cy.get('input[id="root_addressLine1"]').type('322 26th ave');
+    cy.get('input[id="root_city"]').type('San Francisco');
+    cy.get('[id="root_stateCode"]').select('California');
+    cy.get('input[id="root_zipCode"]').type('94121');
+    cy.get(
+      '[aria-label="save your Mailing address for GI Bill benefits"]',
+    ).click();
+    cy.wait('@submitAddress');
+    cy.get('p[data-testid]').should(
+      'contain',
+      'We can’t confirm the address you entered with the U.S. Postal Service. Confirm that you want us to use this address as you entered it. Or, go back to edit it.',
+    );
+  });
+  it('should show that the address may need a unit number if unit number is missing', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.intercept(
+      'POST',
+      `https://staging-api.va.gov/v0/profile/address_validation`,
+      {
+        statusCode: 200,
+        body: mockAddressResponse(
+          98,
+          'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER',
+        ),
+      },
+    ).as('submitAddress');
+    cy.get(
+      '[href="/education/verify-your-enrollment/benefits-profile/"]',
+    ).click();
+    cy.get('[id="VYE-mailing-address-button"]').click();
+    cy.get('input[id="root_fullName"]').type('Jhon Doe');
+    cy.get('[id="root_countryCodeIso3"]').select('United States');
+    cy.get('input[id="root_addressLine1"]').type('322 26th ave');
+    cy.get('input[id="root_city"]').type('San Francisco');
+    cy.get('[id="root_stateCode"]').select('California');
+    cy.get('input[id="root_zipCode"]').type('94121');
+    cy.get(
+      '[aria-label="save your Mailing address for GI Bill benefits"]',
+    ).click();
+    cy.wait('@submitAddress');
+    cy.get('p[data-testid]').should(
+      'contain',
+      'U.S. Postal Service records show this address may need a unit number. Confirm that you want us to use this address as you entered it. Or, go back to edit and add a unit number.',
+    );
+  });
+  it('should show that there may be a problem with the unit number for this address Alert if unit number doesnot exist within the address', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.intercept(
+      'POST',
+      `https://staging-api.va.gov/v0/profile/address_validation`,
+      {
+        statusCode: 200,
+        body: mockAddressResponse(
+          94,
+          'STREET_NUMBER_VALIDATED_BUT_BAD_UNIT_NUMBER',
+        ),
+      },
+    ).as('submitAddress');
+    cy.get(
+      '[href="/education/verify-your-enrollment/benefits-profile/"]',
+    ).click();
+    cy.get('[id="VYE-mailing-address-button"]').click();
+    cy.get('input[id="root_fullName"]').type('Jhon Doe');
+    cy.get('[id="root_countryCodeIso3"]').select('United States');
+    cy.get('input[id="root_addressLine1"]').type('322 26th ave');
+    cy.get('input[id="root_city"]').type('San Francisco');
+    cy.get('[id="root_stateCode"]').select('California');
+    cy.get('input[id="root_zipCode"]').type('94121');
+    cy.get(
+      '[aria-label="save your Mailing address for GI Bill benefits"]',
+    ).click();
+    cy.wait('@submitAddress');
+    cy.get('p[data-testid]').should(
+      'contain',
+      'U.S. Postal Service records show that there may be a problem with the unit number for this address. Confirm that you want us to use this address as you entered it. Or, cancel to edit the address.',
+    );
   });
 });
