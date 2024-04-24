@@ -53,14 +53,10 @@ describe('Address Validations', () => {
   });
   it('should show suggested address when address is partially correct', () => {
     cy.injectAxeThenAxeCheck();
-    cy.intercept(
-      'POST',
-      `https://staging-api.va.gov/v0/profile/address_validation`,
-      {
-        statusCode: 200,
-        body: mockAddressResponse(92, 'CONFIRMED'),
-      },
-    ).as('submitAddress');
+    cy.intercept('POST', `/v0/profile/address_validation`, {
+      statusCode: 200,
+      body: mockAddressResponse(92, 'CONFIRMED'),
+    }).as('submitAddress');
     cy.get(
       '[href="/education/verify-your-enrollment/benefits-profile/"]',
     ).click();
@@ -80,14 +76,10 @@ describe('Address Validations', () => {
   });
   it('should not give suggessted address if confidenceScore is 100 ', () => {
     cy.injectAxeThenAxeCheck();
-    cy.intercept(
-      'POST',
-      `https://staging-api.va.gov/v0/profile/address_validation`,
-      {
-        statusCode: 200,
-        body: mockAddressResponse(),
-      },
-    ).as('submitAddress');
+    cy.intercept('POST', `/v0/profile/address_validation`, {
+      statusCode: 200,
+      body: mockAddressResponse(),
+    }).as('submitAddress');
     cy.get(
       '[href="/education/verify-your-enrollment/benefits-profile/"]',
     ).click();
@@ -103,21 +95,17 @@ describe('Address Validations', () => {
     ).click();
     cy.wait('@submitAddress');
     cy.login(mockUser);
-    cy.intercept('POST', `https://staging-api.va.gov/vye/v1/address`, {
+    cy.intercept('POST', `/vye/v1/address`, {
       status: 201,
       ok: true,
     }).as('updateAddress');
   });
   it('should show We can’t confirm the address Alert if address in completely wrong', () => {
     cy.injectAxeThenAxeCheck();
-    cy.intercept(
-      'POST',
-      `https://staging-api.va.gov/v0/profile/address_validation`,
-      {
-        statusCode: 200,
-        body: mockAddressResponse(92, 'MISSING_ZIP'),
-      },
-    ).as('submitAddress');
+    cy.intercept('POST', `/v0/profile/address_validation`, {
+      statusCode: 200,
+      body: mockAddressResponse(92, 'MISSING_ZIP'),
+    }).as('submitAddress');
     cy.get(
       '[href="/education/verify-your-enrollment/benefits-profile/"]',
     ).click();
@@ -139,17 +127,13 @@ describe('Address Validations', () => {
   });
   it('should show that the address may need a unit number if unit number is missing', () => {
     cy.injectAxeThenAxeCheck();
-    cy.intercept(
-      'POST',
-      `https://staging-api.va.gov/v0/profile/address_validation`,
-      {
-        statusCode: 200,
-        body: mockAddressResponse(
-          98,
-          'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER',
-        ),
-      },
-    ).as('submitAddress');
+    cy.intercept('POST', `/v0/profile/address_validation`, {
+      statusCode: 200,
+      body: mockAddressResponse(
+        98,
+        'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER',
+      ),
+    }).as('submitAddress');
     cy.get(
       '[href="/education/verify-your-enrollment/benefits-profile/"]',
     ).click();
@@ -171,17 +155,13 @@ describe('Address Validations', () => {
   });
   it('should show that there may be a problem with the unit number for this address Alert if unit number doesnot exist within the address', () => {
     cy.injectAxeThenAxeCheck();
-    cy.intercept(
-      'POST',
-      `https://staging-api.va.gov/v0/profile/address_validation`,
-      {
-        statusCode: 200,
-        body: mockAddressResponse(
-          94,
-          'STREET_NUMBER_VALIDATED_BUT_BAD_UNIT_NUMBER',
-        ),
-      },
-    ).as('submitAddress');
+    cy.intercept('POST', `/v0/profile/address_validation`, {
+      statusCode: 200,
+      body: mockAddressResponse(
+        94,
+        'STREET_NUMBER_VALIDATED_BUT_BAD_UNIT_NUMBER',
+      ),
+    }).as('submitAddress');
     cy.get(
       '[href="/education/verify-your-enrollment/benefits-profile/"]',
     ).click();
@@ -203,14 +183,10 @@ describe('Address Validations', () => {
   });
   it('should update the address if user choose the Suggested address ', () => {
     cy.injectAxeThenAxeCheck();
-    cy.intercept(
-      'POST',
-      `https://staging-api.va.gov/v0/profile/address_validation`,
-      {
-        statusCode: 200,
-        body: mockAddressResponse(92, 'CONFIRMED'),
-      },
-    ).as('submitAddress');
+    cy.intercept('POST', `/v0/profile/address_validation`, {
+      statusCode: 200,
+      body: mockAddressResponse(92, 'CONFIRMED'),
+    }).as('submitAddress');
     cy.get(
       '[href="/education/verify-your-enrollment/benefits-profile/"]',
     ).click();
@@ -238,14 +214,10 @@ describe('Address Validations', () => {
   });
   it('should not update the address if there is something went wrong ', () => {
     cy.injectAxeThenAxeCheck();
-    cy.intercept(
-      'POST',
-      `https://staging-api.va.gov/v0/profile/address_validation`,
-      {
-        statusCode: 200,
-        body: mockAddressResponse(92, 'CONFIRMED'),
-      },
-    ).as('submitAddress');
+    cy.intercept('POST', `/v0/profile/address_validation`, {
+      statusCode: 200,
+      body: mockAddressResponse(92, 'CONFIRMED'),
+    }).as('submitAddress');
     cy.get(
       '[href="/education/verify-your-enrollment/benefits-profile/"]',
     ).click();

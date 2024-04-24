@@ -2,7 +2,7 @@ import './login';
 
 describe('Enrollment Verification Page Tests', () => {
   beforeEach(() => {
-    cy.visit('https://staging.va.gov/education/verify-your-enrollment/');
+    cy.visit('/education/verify-your-enrollment/');
   });
   it('should navigate to benefits-profile when Manage your benefits profile link is clicked', () => {
     cy.injectAxeThenAxeCheck();

@@ -2,7 +2,7 @@
 
 describe('Enrollment Verification Page Tests', () => {
   beforeEach(() => {
-    cy.visit('https://staging.va.gov/education/verify-your-enrollment/');
+    cy.visit('/education/verify-your-enrollment/');
   });
 
   it('should display the enrollment verification breadcrumbs', () => {
