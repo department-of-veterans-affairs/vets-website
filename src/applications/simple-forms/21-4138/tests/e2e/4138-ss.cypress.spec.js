@@ -40,7 +40,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/^Start your request/, { selector: 'a' })
+          cy.findAllByText(/^Start your statement/, { selector: 'a' })
             .last()
             .click();
         });
