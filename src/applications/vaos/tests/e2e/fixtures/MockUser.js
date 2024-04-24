@@ -70,7 +70,7 @@ export default class MockUser {
             },
           ],
           vaPatient: true,
-          mhvAccountState: 'NONE',
+          mhvAccountState: 'OK',
         },
         veteranStatus: null,
         inProgressForms: [],
