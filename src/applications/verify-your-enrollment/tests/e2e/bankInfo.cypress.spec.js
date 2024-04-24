@@ -6,18 +6,22 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('should show Dirct deposit infromation', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      '[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).click();
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .click({ position: 'top' });
     cy.get(
       '[class="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold"]',
     ).should('contain', 'Direct deposit information');
   });
   it('should open bank info form when Add or update account buttton is clicked', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      '[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).click();
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .click({ position: 'top' });
     cy.get('[id="VYE-add-new-account-button"]').click();
     cy.get(
       '[alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."]',
@@ -29,9 +33,11 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('should close the form when Cancel button is clicked ', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      '[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).click();
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .click({ position: 'top' });
     cy.get('[id="VYE-add-new-account-button"]').click();
     cy.get(
       '[aria-label="cancel updating your bank information for GI Bill® benefits"]',
@@ -42,9 +48,11 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('should show show errors when save button is clicked and some or all of the required fields empty ', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      '[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).click();
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .click({ position: 'top' });
     cy.get('[id="VYE-add-new-account-button"]').click();
     cy.get('input[id="root_GI-Bill-Chapters-phone"]').type('4082037901');
     cy.get(
@@ -73,9 +81,11 @@ describe('Enrollment Verification Page Tests', () => {
       statusCode: 200,
       ok: true,
     }).as('updateDirectDeposit');
-    cy.get(
-      '[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).click();
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .click({ position: 'top' });
     cy.get('[id="VYE-add-new-account-button"]').click();
     cy.get('[id="root_GI-Bill-Chapters-fullName"]').type('John Smith');
     cy.get('input[id="root_GI-Bill-Chapters-phone"]').type('4082037901');
@@ -105,9 +115,11 @@ describe('Enrollment Verification Page Tests', () => {
     cy.intercept('POST', `/vye/v1/bank_info`, {
       statusCode: 401,
     }).as('updateDirectDeposit');
-    cy.get(
-      '[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).click();
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .click({ position: 'top' });
     cy.get('[id="VYE-add-new-account-button"]').click();
     cy.get('[id="root_GI-Bill-Chapters-fullName"]').type('John Smith');
     cy.get('input[id="root_GI-Bill-Chapters-phone"]').type('4082037901');

@@ -6,12 +6,16 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('should navigate to benefits-profile when Manage your benefits profile link is clicked', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      '[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).should('exist');
-    cy.get(
-      '[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).click();
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .should('exist');
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .click({ position: 'top' });
     cy.url().should('include', '/benefits-profile');
     cy.get('[class="vads-u-margin-top--0 vads-u-font-weight--bold"]').should(
       'contain',
@@ -20,9 +24,11 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('Should expand the form when Edit button is clicked', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      '[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).click();
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .click({ position: 'top' });
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get('[class="vads-u-font-weight--bold"]').should(
       'contain',
@@ -35,9 +41,11 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('Should shows error if one if requried field is missing', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      '[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).click();
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .click({ position: 'top' });
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get(
       '[aria-label="save your Mailing address for GI Bill benefits"]',
@@ -53,9 +61,11 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('Should submit form when all required fileds not empty', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      '[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).click();
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .click({ position: 'top' });
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get(
       '[aria-label="save your Mailing address for GI Bill benefits"]',
@@ -71,9 +81,11 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('should close address form when cancle button is clicked', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      '[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).click();
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .click({ position: 'top' });
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get(
       '[label="cancel updating your bank information for GI Bill benefits"]',
@@ -86,9 +98,11 @@ describe('Enrollment Verification Page Tests', () => {
   it('should send address after save button is clicked', () => {
     cy.injectAxeThenAxeCheck();
     cy.login();
-    cy.get(
-      '[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).click();
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .click({ position: 'top' });
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');

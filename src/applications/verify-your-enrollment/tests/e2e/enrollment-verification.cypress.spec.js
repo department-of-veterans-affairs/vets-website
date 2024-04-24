@@ -65,9 +65,11 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it("should go to  'Your benefits profile when' when 'Manage your benefits profile' link is clicked ", () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      'a[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).click();
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .click({ position: 'top' });
     cy.get('div[id="benefits-gi-bill-profile-statement"]').should(
       'contain',
       'Your benefits profile',
@@ -75,9 +77,11 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it("should go back to 'enrollment verification' when 'Mongomery GI Bill Enrollment Verification' link is clicked ", () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      'a[href="/education/verify-your-enrollment/benefits-profile/"]',
-    ).click();
+    cy.get('va-card')
+      .find('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+        includeShadowDom: true,
+      })
+      .click({ position: 'top' });
     cy.get('a[href="/education/verify-your-enrollment/"]')
       .first()
       .click();
