@@ -589,7 +589,8 @@ export const validateAge = (
   _currentIndex,
   appStateData,
 ) => {
-  if (moment(dateString).isBefore(moment(appStateData.dob).add(13, 'years'))) {
+  const dob = moment(appStateData.dob).add(13, 'years');
+  if (moment(dateString).isSameOrBefore(dob)) {
     errors.addError('Your start date must be after your 13th birthday');
   }
 };
