@@ -12,6 +12,7 @@ import {
   certifierAddress,
   certifierPhoneEmail,
   certifierRelationship,
+  certifierNameSchema,
 } from '../chapters/certifierInformation';
 
 import {
@@ -21,6 +22,7 @@ import {
   applicantPreAddressSchema,
   applicantAddressInfoSchema,
   applicantContactInfoSchema,
+  blankSchema,
 } from '../chapters/applicantInformation';
 
 import {
@@ -87,7 +89,7 @@ import {
   hasPrimaryProvider,
   hasSecondaryProvider,
 } from './conditionalPaths';
-import mockdata from '../tests/fixtures/data/test-data.json';
+// import mockdata from '../tests/fixtures/data/test-data.json';
 import {
   ApplicantPrimaryThroughEmployerPage,
   ApplicantPrimaryThroughEmployerReviewPage,
@@ -113,6 +115,10 @@ import {
   ApplicantSecondaryInsuranceTypeReviewPage,
 } from '../components/ApplicantInsurancePlanTypePage';
 
+import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
+import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
+import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
+
 /** @type {PageSchema} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -126,6 +132,18 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   formId: '10-7959C',
   transformForSubmit,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: formData =>
+        formData.certifierRole === 'applicant'
+          ? 'applicants[0].applicantName'
+          : 'certifierName',
+    },
+  },
   saveInProgress: {
     messages: {
       inProgress:
@@ -153,9 +171,15 @@ const formConfig = {
         role: {
           path: 'your-information/description',
           title: 'Which of these best describes you?',
-          initialData: mockdata.data,
+          // initialData: mockdata.data,
           uiSchema: certifierRole.uiSchema,
           schema: certifierRole.schema,
+        },
+        name: {
+          path: 'your-information/name',
+          title: 'Your name',
+          depends: formData => get('certifierRole', formData) === 'other',
+          ...certifierNameSchema,
         },
         address: {
           path: 'your-information/address',
@@ -673,6 +697,47 @@ const formConfig = {
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           ...applicantInsuranceCardSchema(false),
+        },
+      },
+    },
+    fileUpload: {
+      title: 'File Upload',
+      pages: {
+        supportingFilesReview: {
+          path: 'supporting-files',
+          title: 'Upload your supporting files',
+          CustomPage: SupportingDocumentsPage,
+          CustomPageReview: null,
+          uiSchema: {
+            'ui:options': {
+              keepInPageOnReview: false,
+            },
+          },
+          schema: blankSchema,
+        },
+        missingFileConsent: {
+          path: 'consent-mail',
+          title: 'Upload your supporting files',
+          depends: formData => {
+            try {
+              return (
+                hasReq(formData.applicants, true) ||
+                hasReq(formData.applicants, false) ||
+                hasReq(formData, true) ||
+                hasReq(formData, false)
+              );
+            } catch {
+              return false;
+            }
+          },
+          CustomPage: MissingFileConsentPage,
+          CustomPageReview: null,
+          uiSchema: {
+            'ui:options': {
+              keepInPageOnReview: false,
+            },
+          },
+          schema: blankSchema,
         },
       },
     },

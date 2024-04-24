@@ -50,6 +50,21 @@ export const certifierRole = {
   },
 };
 
+export const certifierNameSchema = {
+  uiSchema: {
+    ...titleUI('Your name'),
+    certifierName: fullNameUI(),
+  },
+  schema: {
+    type: 'object',
+    required: ['certifierName'],
+    properties: {
+      titleSchema,
+      certifierName: fullNameSchema,
+    },
+  },
+};
+
 export const certifierAddress = {
   uiSchema: {
     ...titleUI(
