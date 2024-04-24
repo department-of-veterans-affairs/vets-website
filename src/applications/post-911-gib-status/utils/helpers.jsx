@@ -241,11 +241,10 @@ export const authenticationErrorMessage = (
           </li>
           <li>
             You haven’t applied yet for Post-9/11 GI Bill education benefits.
-          </li>
-          <li>
-            <a href="/education/apply-for-benefits-form-22-1990/introduction">
+            <br />
+            <Link to="/education/apply-for-benefits-form-22-1990/introduction">
               Apply for education benefits
-            </a>
+            </Link>
           </li>
           <li>You’re not eligible for Post-9/11 GI Bill benefits.</li>
           <li>
