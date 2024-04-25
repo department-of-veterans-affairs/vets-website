@@ -8,7 +8,6 @@ import {
   isAtlasVideoAppointment,
 } from '../../../services/appointment';
 import AppointmentDateTime from '../AppointmentDateTime';
-import AppointmentCard from './AppointmentCard';
 import BackLink from '../../../components/BackLink';
 import CalendarLink from './CalendarLink';
 import StatusAlert from '../../../components/StatusAlert';
@@ -45,24 +44,22 @@ export default function DetailsVideo({ appointment, facilityData }) {
     <>
       <BackLink appointment={appointment} />
 
-      <AppointmentCard appointment={appointment}>
-        <h1 className="vads-u-margin-y--2p5">
-          <AppointmentDateTime appointment={appointment} />
-        </h1>
+      <h1 className="vads-u-margin-y--2p5">
+        <AppointmentDateTime appointment={appointment} />
+      </h1>
 
-        <StatusAlert appointment={appointment} facility={facility} />
+      <StatusAlert appointment={appointment} facility={facility} />
 
-        <TypeHeader isVideo>{header}</TypeHeader>
+      <TypeHeader isVideo>{header}</TypeHeader>
 
-        <VideoLocation appointment={appointment} facility={facility} />
+      <VideoLocation appointment={appointment} facility={facility} />
 
-        <VideoVisitProvider appointment={appointment} />
+      <VideoVisitProvider appointment={appointment} />
 
-        <VideoInstructionsLink appointment={appointment} />
+      <VideoInstructionsLink appointment={appointment} />
 
-        <CalendarLink appointment={appointment} facility={facility} />
-        <PrintLink appointment={appointment} />
-      </AppointmentCard>
+      <CalendarLink appointment={appointment} facility={facility} />
+      <PrintLink appointment={appointment} />
       <NoOnlineCancelAlert appointment={appointment} facility={facility} />
     </>
   );

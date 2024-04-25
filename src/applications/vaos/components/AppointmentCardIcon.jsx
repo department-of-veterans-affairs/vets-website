@@ -6,7 +6,8 @@ import {
   isAtlasVideoAppointment,
   isHomeVideoAppointment,
   isGfeVideoAppointment,
-} from '../../../services/appointment';
+  isInPersonVAAppointment,
+} from '../services/appointment';
 
 const iconClass = appointment => {
   const isPhone = isVAPhoneAppointment(appointment);
@@ -16,8 +17,6 @@ const iconClass = appointment => {
     isCompAndPenAppointment,
     isCOVIDVaccine,
   } = appointment.vaos;
-
-  const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
 
   if (isPhone) {
     return 'fa-phone-alt';

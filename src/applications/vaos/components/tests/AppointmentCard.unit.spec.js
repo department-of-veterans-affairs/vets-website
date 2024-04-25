@@ -2,8 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import AppointmentCard from '../AppointmentCard';
-import AppointmentDateTime from '../../AppointmentDateTime';
-import { createTestStore } from '../../../../tests/mocks/setup';
+import AppointmentDateTime from '../../appointment-list/components/AppointmentDateTime';
+import { createTestStore } from '../../tests/mocks/setup';
 
 const appointmentData = {
   start: '2024-07-19T08:00:00-07:00',

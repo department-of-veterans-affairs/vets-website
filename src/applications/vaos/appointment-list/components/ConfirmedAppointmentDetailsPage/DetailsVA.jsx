@@ -13,7 +13,6 @@ import PrintLink from './PrintLink';
 import VAInstructions from './VAInstructions';
 import NoOnlineCancelAlert from './NoOnlineCancelAlert';
 import PhoneInstructions from './PhoneInstructions';
-import AppointmentCard from './AppointmentCard';
 import { selectTypeOfCareName } from '../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import { formatHeader } from './DetailsVA.util';
@@ -77,28 +76,26 @@ export default function DetailsVA({ appointment, facilityData }) {
   return (
     <>
       <BackLink appointment={appointment} />
-      <AppointmentCard appointment={appointment}>
-        <h1 className="vads-u-margin-y--2p5">
-          <AppointmentDateTime appointment={appointment} />
-        </h1>
-        <StatusAlert appointment={appointment} facility={facility} />
-        <ShowTypeOfCare />
-        {displayTypeHeader && <TypeHeader>{header}</TypeHeader>}
-        {!isPastAppointment && <PhoneInstructions appointment={appointment} />}
-        <VAFacilityLocation
-          facility={facility}
-          facilityName={facility?.name}
-          facilityId={locationId}
-          clinicFriendlyName={appointment.location?.clinicName}
-          clinicPhysicalLocation={appointment.location?.clinicPhysicalLocation}
-          showCovidPhone={isCovid}
-          isPhone={isPhoneAppointment}
-        />
-        <VAInstructions appointment={appointment} />
-        <CalendarLink appointment={appointment} facility={facility} />
-        <PrintLink appointment={appointment} />
-        {isAppointmentCancellable && <CancelLink appointment={appointment} />}
-      </AppointmentCard>
+      <h1 className="vads-u-margin-y--2p5">
+        <AppointmentDateTime appointment={appointment} />
+      </h1>
+      <StatusAlert appointment={appointment} facility={facility} />
+      <ShowTypeOfCare />
+      {displayTypeHeader && <TypeHeader>{header}</TypeHeader>}
+      {!isPastAppointment && <PhoneInstructions appointment={appointment} />}
+      <VAFacilityLocation
+        facility={facility}
+        facilityName={facility?.name}
+        facilityId={locationId}
+        clinicFriendlyName={appointment.location?.clinicName}
+        clinicPhysicalLocation={appointment.location?.clinicPhysicalLocation}
+        showCovidPhone={isCovid}
+        isPhone={isPhoneAppointment}
+      />
+      <VAInstructions appointment={appointment} />
+      <CalendarLink appointment={appointment} facility={facility} />
+      <PrintLink appointment={appointment} />
+      {isAppointmentCancellable && <CancelLink appointment={appointment} />}
       {!isAppointmentCancellable && (
         <NoOnlineCancelAlert appointment={appointment} facility={facility} />
       )}

@@ -10,7 +10,6 @@ import PrintLink from './PrintLink';
 import RescheduleOrCancelAlert from './RescheduleOrCancelAlert';
 import ProviderName from './ProviderName';
 import CCInstructions from './CCInstructions';
-import AppointmentCard from './AppointmentCard';
 import { getTypeOfCareById } from '../../../utils/appointment';
 
 export default function DetailsCC({ appointment, useV2, featureVaosV2Next }) {
@@ -52,24 +51,22 @@ export default function DetailsCC({ appointment, useV2, featureVaosV2Next }) {
   return (
     <>
       <BackLink appointment={appointment} />
-      <AppointmentCard appointment={appointment}>
-        <h1 className="vads-u-margin-y--2p5">
-          <AppointmentDateTime appointment={appointment} />
-        </h1>
-        <StatusAlert appointment={appointment} />
-        <ShowTypeOfCare />
-        <TypeHeader isCC>{header}</TypeHeader>
-        <ProviderName appointment={appointment} useV2={useV2} />
-        <ShowTreatmentSpecialty />
-        <FacilityAddress
-          facility={facility}
-          showDirectionsLink={!!appointment.communityCareProvider?.address}
-          level={2}
-        />
-        <CCInstructions appointment={appointment} />
-        <CalendarLink appointment={appointment} facility={facility} />
-        <PrintLink appointment={appointment} />
-      </AppointmentCard>
+      <h1 className="vads-u-margin-y--2p5">
+        <AppointmentDateTime appointment={appointment} />
+      </h1>
+      <StatusAlert appointment={appointment} />
+      <ShowTypeOfCare />
+      <TypeHeader isCC>{header}</TypeHeader>
+      <ProviderName appointment={appointment} useV2={useV2} />
+      <ShowTreatmentSpecialty />
+      <FacilityAddress
+        facility={facility}
+        showDirectionsLink={!!appointment.communityCareProvider?.address}
+        level={2}
+      />
+      <CCInstructions appointment={appointment} />
+      <CalendarLink appointment={appointment} facility={facility} />
+      <PrintLink appointment={appointment} />
       <RescheduleOrCancelAlert appointment={appointment} />
     </>
   );
