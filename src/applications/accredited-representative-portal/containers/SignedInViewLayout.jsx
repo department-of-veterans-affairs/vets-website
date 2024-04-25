@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Outlet } from 'react-router-dom-v5-compat';
 
 import Sidenav from '../components/common/Sidenav';
 import Breadcrumbs from '../components/common/Breadcrumbs';
 
-const SignedInViewLayout = ({ children, poaPermissions = true }) => {
+const SignedInViewLayout = ({ poaPermissions = true }) => {
   let content = null;
-
-  const { pathname } = document.location;
 
   // If the VSO does not have permission to be Power of Attorney ( this will eventually be pulled from Redux state)
   if (!poaPermissions) {
@@ -36,7 +35,7 @@ const SignedInViewLayout = ({ children, poaPermissions = true }) => {
           <Sidenav />
         </div>
         <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9">
-          {children}
+          <Outlet />
         </div>
       </div>
     );
@@ -46,7 +45,7 @@ const SignedInViewLayout = ({ children, poaPermissions = true }) => {
     <>
       <div className="vads-u-margin-bottom--3">
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-          <Breadcrumbs pathname={pathname} />
+          <Breadcrumbs />
           {content}
         </div>
       </div>
@@ -55,7 +54,6 @@ const SignedInViewLayout = ({ children, poaPermissions = true }) => {
 };
 
 SignedInViewLayout.propTypes = {
-  children: PropTypes.node.isRequired,
   poaPermissions: PropTypes.bool,
 };
 
