@@ -46,6 +46,7 @@ const initialState = {
   session: {},
   mhvTransitionEligible: false,
   errors: false,
+  shouldShowOnboardingScreen: false,
 };
 
 const updateMhvAccountState = (state, mhvAccount) =>
