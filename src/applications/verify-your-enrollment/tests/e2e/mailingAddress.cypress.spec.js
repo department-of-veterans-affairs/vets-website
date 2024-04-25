@@ -2,7 +2,15 @@ import './login';
 
 describe('Enrollment Verification Page Tests', () => {
   beforeEach(() => {
-    cy.visit('/education/verify-your-enrollment/');
+    cy.intercept('GET', '/vye/v1/*', { statusCode: 200 });
+    cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
+    cy.visit('/education/verify-your-enrollment/', {
+      onBeforeLoad: win => {
+        /* eslint no-param-reassign: "error" */
+        win.isProduction = true;
+      },
+    });
   });
   it('should navigate to benefits-profile when Manage your benefits profile link is clicked', () => {
     cy.injectAxeThenAxeCheck();

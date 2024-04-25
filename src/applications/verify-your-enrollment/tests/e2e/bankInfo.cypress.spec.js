@@ -2,8 +2,20 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import { mockUser } from './login';
 
 describe('Enrollment Verification Page Tests', () => {
+  /**
+   *
+   * @param {object} win
+   */
   beforeEach(() => {
-    cy.visit('/education/verify-your-enrollment/');
+    cy.intercept('GET', '/vye/v1/*', { statusCode: 200 });
+    cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
+    cy.visit('/education/verify-your-enrollment/', {
+      onBeforeLoad: win => {
+        /* eslint no-param-reassign: "error" */
+        win.isProduction = true;
+      },
+    });
   });
   it('should show Dirct deposit infromation', () => {
     cy.injectAxeThenAxeCheck();

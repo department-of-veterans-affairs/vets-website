@@ -35,12 +35,15 @@ describe('Address Validations', () => {
   };
 
   beforeEach(() => {
-    cy.intercept('GET', '/vye/v1', { statusCode: 200 });
-    cy.intercept('GET', ' /data/cms/vamc-ehr.json', { statusCode: 200 }).as(
-      'Data',
-    );
-    cy.visit('/education/verify-your-enrollment/');
-    cy.wait('@Data');
+    cy.intercept('GET', '/vye/v1/*', { statusCode: 200 });
+    cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
+    cy.visit('/education/verify-your-enrollment/', {
+      onBeforeLoad: win => {
+        /* eslint no-param-reassign: "error" */
+        win.isProduction = true;
+      },
+    });
   });
   it('should not show suggested address if address is correct', () => {
     cy.injectAxeThenAxeCheck();
