@@ -98,6 +98,26 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'cash-on-hand': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('125');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'cash-in-bank': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('329.12');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       // ==============================================================
       // ================== resolutionOptionsChapter ==================
       // ==============================================================
