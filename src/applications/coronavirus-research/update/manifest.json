@@ -3,16 +3,5 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "coronavirus-research-update",
   "rootUrl": "/coronavirus-research/volunteer/update",
-  "productId": "36a4b95a-af8e-4fe7-8aa4-e8c430124fcf",
-  "formConfig": [
-    {
-      "title": "Update your information",
-      "pages": [
-        {
-          "title": "Your information - page 1",
-          "path": "update-form"
-        }
-      ]
-    }
-  ]
+  "productId": "36a4b95a-af8e-4fe7-8aa4-e8c430124fcf"
 }

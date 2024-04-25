@@ -3,16 +3,5 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "coronavirus-research",
   "rootUrl": "/coronavirus-research/volunteer",
-  "productId": "39af3c31-26cc-4b69-8cb4-131881f90f9b",
-  "formConfig": [
-    {
-      "title": "Your information",
-      "pages": [
-        {
-          "title": "Your information - page 1",
-          "path": "sign-up"
-        }
-      ]
-    }
-  ]
+  "productId": "39af3c31-26cc-4b69-8cb4-131881f90f9b"
 }

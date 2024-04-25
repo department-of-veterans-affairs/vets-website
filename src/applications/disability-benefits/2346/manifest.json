@@ -4,29 +4,5 @@
   "entryName": "order-form-2346",
   "rootUrl": "/health-care/order-hearing-aid-batteries-and-accessories/order-form-2346",
   "e2eTestsDisabled": false,
-  "productId": "57a9ee68-ed2f-42ef-a194-f803d3fbca9d",
-  "formConfig": [
-    {
-      "title": "Veteran information",
-      "pages": [
-        {
-          "title": "Veteran information",
-          "path": "veteran-information"
-        },
-        {
-          "title": "Shipping address",
-          "path": "address"
-        }
-      ]
-    },
-    {
-      "title": "Select your supplies",
-      "pages": [
-        {
-          "title": "Add supplies to your order",
-          "path": "supplies"
-        }
-      ]
-    }
-  ]
+  "productId": "57a9ee68-ed2f-42ef-a194-f803d3fbca9d"
 }
