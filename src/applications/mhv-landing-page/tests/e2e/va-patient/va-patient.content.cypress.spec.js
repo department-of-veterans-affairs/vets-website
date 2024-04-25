@@ -6,17 +6,17 @@ import { resolveLandingPageLinks } from '../../../utilities/data';
 
 const viewportSizes = ['va-top-desktop-1', 'va-top-mobile-1'];
 
-const noHealthDataHeading = /You don’t have access to My HealtheVet/i;
+const unregisteredHeadline = 'You don’t have access to My HealtheVet';
 
 describe(appName, () => {
-  describe('Display content based on patient facilities', () => {
+  describe('Display content based on VA Patient property', () => {
     viewportSizes.forEach(size => {
       beforeEach(() => {
         cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
         ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       });
 
-      it(`No health info for patients with no facilities on ${size} screen`, () => {
+      it(`VA Patient property is false -- ${size} screen`, () => {
         cy.viewportPreset(size);
         const pageLinks = resolveLandingPageLinks(
           false,
@@ -26,15 +26,12 @@ describe(appName, () => {
           false,
         );
 
-        LandingPage.visitPage({ facilities: [] });
+        LandingPage.visitPage({ vaPatient: false });
         LandingPage.validatePageLoaded();
         LandingPage.validateURL();
         cy.injectAxeThenAxeCheck();
 
-        // Test that the no health data message is present
-        cy.findByRole('heading', {
-          name: noHealthDataHeading,
-        }).should.exist;
+        cy.findByRole('heading', { name: unregisteredHeadline }).should.exist;
 
         // Test the cards are not visible
         pageLinks.cards.forEach(card => {
@@ -46,10 +43,10 @@ describe(appName, () => {
         });
 
         // Test for the conditional heading for VA health benefits
-        cy.findByRole('heading', { name: /VA health benefits/i }).should.exist;
+        cy.findByRole('heading', { name: 'VA health benefits' }).should.exist;
       });
 
-      it(`landing page is enabled for patients with facilities on ${size} screen`, () => {
+      it(`VA Patient property is true -- ${size} screen`, () => {
         cy.viewportPreset(size);
         const pageLinks = resolveLandingPageLinks(
           false,
@@ -59,9 +56,7 @@ describe(appName, () => {
           true,
         );
 
-        LandingPage.visitPage({
-          facilities: [{ facilityId: '123', isCerner: false }],
-        });
+        LandingPage.visitPage();
         LandingPage.validatePageLoaded();
         LandingPage.validateURL();
         cy.injectAxeThenAxeCheck();
@@ -75,12 +70,12 @@ describe(appName, () => {
         });
 
         // Test for the conditional heading for VA health benefits
-        cy.findByRole('heading', { name: /My VA health benefits/i }).should
+        cy.findByRole('heading', { name: 'My VA health benefits' }).should
           .exist;
 
         // Test that the no health data message is NOT present
         cy.findByRole('heading', {
-          name: noHealthDataHeading,
+          name: unregisteredHeadline,
         }).should('not.exist');
       });
     });

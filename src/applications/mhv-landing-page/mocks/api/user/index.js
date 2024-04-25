@@ -174,7 +174,12 @@ const generateUserWithServiceProvider = ({ serviceProvider = 'idme' }) => {
   };
 };
 
-const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
+const generateUser = ({
+  serviceProvider = 'idme',
+  facilities,
+  loa = 3,
+  vaPatient = true,
+}) => {
   return {
     ...defaultUser,
     data: {
@@ -186,6 +191,7 @@ const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
           facilities:
             facilities || defaultUser.data.attributes.va_profile.facilities,
           mhvAccountState: 'OK',
+          va_patient: vaPatient,
         },
         profile: {
           ...defaultUser.data.attributes.profile,

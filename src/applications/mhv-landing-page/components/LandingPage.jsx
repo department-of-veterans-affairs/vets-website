@@ -5,8 +5,6 @@ import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
-import { isLOA1, isVAPatient } from '~/platform/user/selectors';
-import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 // eslint-disable-next-line import/no-named-default
@@ -19,7 +17,12 @@ import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import WelcomeContainer from '../containers/WelcomeContainer';
-import { personalizationEnabled } from '../selectors';
+import {
+  isLOA1,
+  isVAPatient,
+  personalizationEnabled,
+  signInServiceName,
+} from '../selectors';
 
 const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;

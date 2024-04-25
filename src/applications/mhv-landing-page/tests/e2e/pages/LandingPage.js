@@ -10,8 +10,12 @@ class LandingPage {
 
   validateURL = () => cy.url().should('match', /my-health/);
 
-  visitPage = ({ serviceProvider = 'idme', facilities, loa = 3 } = {}) => {
-    cy.login(generateUser({ serviceProvider, facilities, loa }));
+  visitPage = ({
+    serviceProvider = 'idme',
+    loa = 3,
+    vaPatient = true,
+  } = {}) => {
+    cy.login(generateUser({ serviceProvider, loa, vaPatient }));
     cy.visit(this.pageUrl);
   };
 

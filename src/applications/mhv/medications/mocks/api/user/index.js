@@ -57,6 +57,7 @@ const defaultUser = {
             is_cerner: false,
           },
         ],
+        va_patient: true,
       },
     },
   },
@@ -118,6 +119,7 @@ const cernerUser = {
             is_cerner: true,
           },
         ],
+        va_patient: true,
       },
     },
   },
@@ -159,7 +161,12 @@ const generateUserWithServiceProvider = ({ serviceProvider = 'idme' }) => {
   };
 };
 
-const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
+const generateUser = ({
+  serviceProvider = 'idme',
+  facilities,
+  loa = 3,
+  vaPatient = true,
+}) => {
   return {
     ...defaultUser,
     data: {
@@ -170,6 +177,7 @@ const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
           ...defaultUser.data.attributes.va_profile,
           facilities:
             facilities || defaultUser.data.attributes.va_profile.facilities,
+          va_patient: vaPatient,
         },
         profile: {
           ...defaultUser.data.attributes.profile,

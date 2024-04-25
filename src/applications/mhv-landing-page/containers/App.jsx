@@ -13,10 +13,10 @@ import { useDatadogRum } from '../hooks/useDatadogRum';
 import {
   isAuthenticatedWithSSOe,
   isLandingPageEnabledForUser,
+  isVAPatient,
   selectProfile,
   selectVamcEhrData,
   signInServiceEnabled,
-  hasHealthData,
   selectHasMHVAccountState,
 } from '../selectors';
 import { getFolderList } from '../utilities/api';
@@ -29,7 +29,7 @@ const App = () => {
   const profile = useSelector(selectProfile);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
-  const userHasHealthData = useSelector(hasHealthData);
+  const vaPatient = useSelector(isVAPatient);
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
@@ -42,7 +42,7 @@ const App = () => {
         featureToggles,
         unreadMessageCount,
         unreadMessageAriaLabel,
-        userHasHealthData,
+        vaPatient,
       );
     },
     [
@@ -50,7 +50,7 @@ const App = () => {
       ssoe,
       unreadMessageCount,
       unreadMessageAriaLabel,
-      userHasHealthData,
+      vaPatient,
     ],
   );
 

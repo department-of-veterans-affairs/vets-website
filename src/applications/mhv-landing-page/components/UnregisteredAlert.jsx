@@ -15,7 +15,7 @@ const UnregisteredAlert = ({ headline, recordEvent, status }) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <VaAlert status={status} data-testid="no-health-message" disableAnalytics>
+    <VaAlert status={status} data-testid="unregistered-alert" disableAnalytics>
       <h2 slot="headline">{headline}</h2>
       <div>
         <p className="vads-u-margin-y--0">
