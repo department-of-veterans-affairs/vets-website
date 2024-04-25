@@ -160,15 +160,15 @@ const CashInBankReview = ({ data, goToPath }) => {
 
     // if the user saw cash on hand/in bank, they should be routed to
     //  cash on hand page since it's the head of the chapter
-    if (
+    const gmtDepends =
       (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
       (gmtData?.isEligibleForStreamlined &&
         gmtData?.incomeBelowOneFiftyGmt &&
-        data['view:streamlinedWaiverAssetUpdate'])
-    ) {
+        data['view:streamlinedWaiverAssetUpdate']);
+
+    if (gmtDepends || data['view:reviewPageNavigationToggle']) {
       return goToPath('/cash-on-hand');
     }
-
     return goToPath('/monetary-asset-checklist');
   };
 
@@ -203,6 +203,7 @@ const CashInBankReview = ({ data, goToPath }) => {
 
 CashInBankReview.propTypes = {
   data: PropTypes.shape({
+    'view:reviewPageNavigationToggle': PropTypes.bool,
     assets: PropTypes.shape({
       monetaryAssets: PropTypes.array,
     }),
