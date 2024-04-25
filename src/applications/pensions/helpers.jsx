@@ -4,11 +4,7 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
-import titleCase from 'platform/utilities/data/titleCase';
 import Scroll from 'react-scroll';
-import { createSelector } from 'reselect';
-import { Title } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 const { scroller } = Scroll;
 export const scrollToTop = () => {
@@ -143,112 +139,7 @@ export function submit(form, formConfig) {
     });
 }
 
-export function isMarried(form = {}) {
-  return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
-}
-
-export function getMarriageTitle(index) {
-  const desc = numberToWords(index + 1);
-  return `${titleCase(desc)} marriage`;
-}
-
-export function getMarriageTitleWithCurrent(form, index) {
-  if (isMarried(form) && form.marriages.length - 1 === index) {
-    return 'Current marriage';
-  }
-
-  return getMarriageTitle(index);
-}
-
-export function getDependentChildTitle(item, description) {
-  if (item.fullName) {
-    return `${item.fullName.first || ''} ${item.fullName.last ||
-      ''} ${description}`;
-  }
-  return 'description';
-}
-
-export function createSpouseLabelSelector(nameTemplate) {
-  return createSelector(
-    form =>
-      form.marriages && form.marriages.length
-        ? form.marriages[form.marriages.length - 1].spouseFullName
-        : null,
-    spouseFullName => {
-      if (spouseFullName) {
-        return {
-          title: nameTemplate(spouseFullName),
-        };
-      }
-
-      return {
-        title: null,
-      };
-    },
-  );
-}
-
 export const formatCurrency = num => `$${num.toLocaleString()}`;
-
-export const DirectDepositWarning = (
-  <div className="pension-dd-warning">
-    <div>
-      <p>
-        The Department of Treasury requires all federal benefit payments be made
-        by electronic funds transfer (EFT), also called direct deposit. If we
-        approve your application for pension benefits, we’ll use direct deposit
-        to deposit your payments directly into a bank account.
-      </p>
-    </div>
-  </div>
-);
-
-export const DirectDepositOtherOptions = (
-  <div>
-    <h4>Option 1: Get your payment through Direct Express Debit MasterCard</h4>
-    <p>
-      To request a Direct Express Debit MasterCard, call{' '}
-      <va-telephone contact="8003331795" />.
-    </p>
-    <p>
-      <a
-        href="https://www.usdirectexpress.com/how_it_works.html"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Go to the Direct Express Debit Mastercard website to learn more (opens
-        in new tab)
-      </a>
-    </p>
-    <p>
-      <strong>Note:</strong> If you choose to get payments through a Direct
-      Express Debit MasterCard, you’ll need to call{' '}
-      <va-telephone contact="8882242950" /> to request a waiver from the
-      Department of Treasury.
-    </p>
-    <h4>Option 2: Open a bank account</h4>
-    <p>
-      If you want to use direct deposit, the Veterans Benefits Banking Program
-      (VBBP) can help you open a bank account. VBBP provides a list of
-      Veteran-friendly banks and credit unions that will work with you to set up
-      an account, or help you qualify for an account.
-    </p>
-    <p>
-      To get started, call one of the participating banks or credit unions
-      listed on the VBBP website. Be sure to mention the Veterans Benefits
-      Banking Program.
-    </p>
-    <p>
-      <a
-        href="https://veteransbenefitsbanking.org/find-bank-credit-union/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Go to the VBBP website (opens in new tab)
-      </a>
-    </p>
-  </div>
-);
 
 const warDates = [
   ['1916-05-09', '1917-04-05'], // Mexican Border Period (May 9, 1916 - April 5, 1917)
@@ -302,8 +193,6 @@ export const IncomeSourceDescription = (
   </>
 );
 
-export const MarriageTitle = title => <Title title={title} />;
-
 /**
  * Formats a full name from the given first, middle, last, and suffix
  *
@@ -336,3 +225,14 @@ export function isHomeAcreageMoreThanTwo(formData) {
     formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
   );
 }
+
+export const getJobTitleOrType = item => {
+  if (item?.jobTitle) return item.jobTitle;
+  if (item?.jobType) return item.jobType;
+  return '';
+};
+
+export const obfuscateAccountNumber = accountNumber => {
+  // Replace all digits except the last 4 with asterisks (*)
+  return accountNumber.replace(/\d(?=\d{4})/g, '*');
+};

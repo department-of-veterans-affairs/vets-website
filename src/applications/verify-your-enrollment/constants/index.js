@@ -6,7 +6,6 @@ import Alert from '../components/Alert';
 export const BASE_URL = `${manifest.rootUrl}/`;
 export const BENEFITS_PROFILE_URL_SEGMENT = 'benefits-profile';
 export const VERIFICATION_REVIEW_URL_SEGMENT = 'verification-review';
-export const CONFIRMATION_REVIEW_URL_SEGMENT = 'confirmation-review';
 export const VERIFICATION_PROFILE_URL = BASE_URL;
 export const VERIFICATION_RELATIVE_URL = `/`;
 
@@ -15,9 +14,6 @@ export const BENEFITS_PROFILE_RELATIVE_URL = `${VERIFICATION_RELATIVE_URL}${BENE
 
 export const VERIFICATION_REVIEW_URL = `${VERIFICATION_PROFILE_URL}${VERIFICATION_REVIEW_URL_SEGMENT}/`;
 export const VERIFICATION_REVIEW_RELATIVE_URL = `${VERIFICATION_RELATIVE_URL}${VERIFICATION_REVIEW_URL_SEGMENT}/`;
-
-export const CONFIRMATION_REVIEW_URL = `${VERIFICATION_PROFILE_URL}${CONFIRMATION_REVIEW_URL_SEGMENT}/`;
-export const CONFIRMATION_REVIEW_RELATIVE_URL = `${VERIFICATION_RELATIVE_URL}${CONFIRMATION_REVIEW_URL_SEGMENT}/`;
 
 export const CHANGE_OF_DIRECT_DEPOSIT_TITLE = 'Direct deposit information';
 export const DIRECT_DEPOSIT_BUTTON_TEXT = 'Add or update account';
@@ -98,7 +94,7 @@ export const NO_PENDING_DOCUMENTS_STATMENT = (
   </p>
 );
 
-export const errorAddressAlrt = deliveryPointValidation => {
+export const errorAddressAlert = deliveryPointValidation => {
   if (deliveryPointValidation === BAD_UNIT_NUMBER) {
     return (
       <Alert

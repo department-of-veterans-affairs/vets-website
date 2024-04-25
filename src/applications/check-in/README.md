@@ -56,6 +56,8 @@ There are several different mock UUIDs that can be used as a value for the `id` 
 ### Pre-check-in
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
   - phoneApptUUID: `258d753c-262a-4ab2-b618-64b645884daf`
+  - cvtApptUUID = `f4b9f1a7-4e3d-4d0c-8b8c-3f9b3d0f9e9b`
+  - vvcApptUUID = `cc8bd49c-5ac8-4ad2-880a-b96645cdea64`
   - alreadyPreCheckedInUUID: `4d523464-c450-49dc-9a18-c04b3f1642ee`
   - canceledAppointmentUUID: `9d7b7c15-d539-4624-8d15-b740b84e8548`
   - canceledPhoneAppointmentUUID: `1448d690-fd5f-11ec-b939-0242ac120002`
@@ -137,7 +139,7 @@ Travel-claim allows veterans to file a mileage only travel claim on the day of t
 ## Generating screenshots with Cypress
 We use Cypress to capture screenshots of each page of this application. The screenshot capturing is conditional on the env variable `with_screenshots` and won't run in CI. The following commands will generate screenshots in the `vets-website/cypress/screenshots` directory, these are to be run headless with out the Cypress GUI running.
 
-Current features PCI & day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.all.cypress.spec.js`
+Current features PCI, day-of, and travel-claim: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.all.cypress.spec.js`
 
 Current features PCI only: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.pci.cypress.spec.js`
 
@@ -150,6 +152,8 @@ Travel Pay day-of: `yarn cy:run --env with_screenshots=true --spec src/applicati
 Errors only day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-errors.day-of.cypress.spec.js`
 
 Errors only PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-errors.pci.cypress.spec.js`
+
+Current and errors Travel-claim: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-claim.cypress.spec.js`
 
 ### Adding additional screenshots
 There is a cypress command that gets imported in our local commands named `createScreenshots`. It is best used after an axe check on the page you wish to capture. Add cy.createScreenshots([filename]) and also make sure that the test is imported in one of the screenshot scripts listed above. Filename syntax should be `application--page-name` example: `Pre-check-in--Validate-with-DOB`. The command will automatically get screenshots for translated versions of the page.

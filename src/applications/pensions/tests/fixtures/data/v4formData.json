@@ -79,7 +79,8 @@
       "spouseFullName": {
         "first": "Jane",
         "middle": "Middle",
-        "last": "Doe"
+        "last": "Doe",
+        "suffix": "Sr."
       },
       "view:pastMarriage": {
         "reasonForSeparation": "Spouse's death",
@@ -160,7 +161,8 @@
       "fullName": {
         "first": "Emily",
         "middle": "Anne",
-        "last": "Doe"
+        "last": "Doe",
+        "suffix": "Jr."
       },
       "childDateOfBirth": "2000-03-03"
     },

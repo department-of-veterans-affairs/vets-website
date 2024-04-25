@@ -7,7 +7,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { setFacilityToFile } from '../../../actions/travel-claim';
+import { setFormData } from '../../../actions/travel-claim';
 import {
   hasMultipleFacilities,
   sortAppointmentsByStartTime,
@@ -78,7 +78,7 @@ const TravelMileage = props => {
             APP_NAMES.TRAVEL_CLAIM,
           ),
         });
-        dispatch(setFacilityToFile({ facilitiesToFile: selectedFacilities }));
+        dispatch(setFormData({ facilitiesToFile: selectedFacilities }));
         goToNextPage();
       } else {
         setError(true);

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
   appRelBoilerplate,
-} from './ApplicantRelationshipPage';
+} from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 
 const KEYNAME = 'applicantMedicarePartD';
 const PRIMARY = 'enrollment';

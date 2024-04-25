@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { useSelector } from 'react-redux';
@@ -32,6 +32,7 @@ import {
   generateLabsIntro,
   generateChemHemContent,
 } from '../../util/pdfHelpers/labsAndTests';
+import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -42,6 +43,7 @@ const ChemHemDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
@@ -57,11 +59,11 @@ const ChemHemDetails = props => {
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
   const generateChemHemPdf = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateLabsIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateChemHemContent(record) };
@@ -70,6 +72,7 @@ const ChemHemDetails = props => {
   };
 
   const generateChemHemTxt = async () => {
+    setDownloadStarted(true);
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
@@ -118,14 +121,14 @@ Interpretation: ${entry.interpretation}\n`,
       </h1>
       <DateSubheading date={record.date} id="chem-hem-date" />
 
-      <div className="no-print">
-        <PrintDownload
-          download={generateChemHemPdf}
-          downloadTxt={generateChemHemTxt}
-          allowTxtDownloads={allowTxtDownloads}
-        />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-      </div>
+      {downloadStarted && <DownloadSuccessAlert />}
+      <PrintDownload
+        downloadPdf={generateChemHemPdf}
+        downloadTxt={generateChemHemTxt}
+        allowTxtDownloads={allowTxtDownloads}
+      />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+
       {/*                   TEST DETAILS                          */}
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>

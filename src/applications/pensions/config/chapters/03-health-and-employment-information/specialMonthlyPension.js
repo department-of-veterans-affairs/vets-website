@@ -23,6 +23,8 @@ const Description = (
 
 /** @type {PageSchema} */
 export default {
+  title: 'Special monthly pension',
+  path: 'medical/history/monthly-pension',
   uiSchema: {
     ...titleUI('Special monthly pension', Description),
     specialMonthlyPension: yesNoUI({

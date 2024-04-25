@@ -1,7 +1,11 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { DirectDepositOtherOptions } from '../../../helpers';
+import { DirectDepositOtherOptions, usingDirectDeposit } from './helper';
 
-const otherPaymentOptions = {
+export default {
+  title: 'Other payment options',
+  path: 'additional-information/other-payment-options',
+  initialData: {},
+  depends: formData => !usingDirectDeposit(formData),
   uiSchema: {
     ...titleUI('Other payment options', DirectDepositOtherOptions),
   },
@@ -10,5 +14,3 @@ const otherPaymentOptions = {
     properties: {},
   },
 };
-
-export { otherPaymentOptions };

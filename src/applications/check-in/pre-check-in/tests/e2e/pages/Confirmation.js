@@ -22,7 +22,7 @@ class Confirmation {
   };
 
   validateConfirmWithUpdates = () => {
-    cy.get("[header='How can I update my information?'][open='true']")
+    cy.get("[header='How can I update my information?']")
       .shadow()
       .find('button')
       .contains('How can I update my information?')
@@ -34,56 +34,31 @@ class Confirmation {
   };
 
   validateDemographicsMessage = () => {
-    cy.get("[header='How can I update my information?']")
-      .contains(
-        "[header='How can I update my information?']",
-        'Contact Information',
-      )
-      .contains(
-        "[header='How can I update my information?']",
-        'A staff member will help you on the day of your appointment.',
-        'Or you can sign in to your VA.gov profile to update your contact information online.',
-      );
+    cy.get("[header='How can I update my information?']").contains(
+      "[header='How can I update my information?']",
+      'Contact Information',
+    );
   };
 
   validateEmergencyContactMessage = () => {
-    cy.get("[header='How can I update my information?']")
-      .contains(
-        "[header='How can I update my information?']",
-        'Emergency information',
-      )
-      .contains(
-        "[header='How can I update my information?']",
-        'A staff member will help you on the day of your appointment.',
-      );
+    cy.get("[header='How can I update my information?']").contains(
+      "[header='How can I update my information?']",
+      'Emergency information',
+    );
   };
 
   validateNextOfKinMessage = () => {
-    cy.get("[header='How can I update my information?']")
-      .contains("[header='How can I update my information?']", 'Next of kin')
-      .contains(
-        "[header='How can I update my information?']",
-        'A staff member will help you on the day of your appointment.',
-      );
+    cy.get("[header='How can I update my information?']").contains(
+      "[header='How can I update my information?']",
+      'Next of kin',
+    );
   };
 
   validateEmergencyContactAndNextOfKinMessage = () => {
-    cy.get("[header='How can I update my information?']")
-      .contains(
-        "[header='How can I update my information?']",
-        'Emergency and next of kin information',
-      )
-      .contains(
-        "[header='How can I update my information?']",
-        'A staff member will help you on the day of your appointment.',
-      );
-  };
-
-  expandAllAccordions = () => {
-    cy.get('[data-testid="pre-check-in-accordions"]')
-      .shadow()
-      .find('button[aria-label="Expand all accordions"]')
-      .click();
+    cy.get("[header='How can I update my information?']").contains(
+      "[header='How can I update my information?']",
+      'Emergency and next of kin information',
+    );
   };
 
   validateAppointmentType = type => {

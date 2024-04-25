@@ -17,6 +17,7 @@ import { cstUseLighthouse } from '../selectors';
 // END lighthouse_migration
 import { setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
+import { setDocumentTitle } from '../utils/helpers';
 
 class AskVAPage extends React.Component {
   constructor() {
@@ -27,7 +28,7 @@ class AskVAPage extends React.Component {
   }
 
   componentDidMount() {
-    document.title = 'Ask for your Claim Decision';
+    setDocumentTitle('Ask for your Claim Decision');
     setUpPage();
   }
 
@@ -110,19 +111,20 @@ class AskVAPage extends React.Component {
                 </li>
                 <li>The date benefits will begin if we approve your claim</li>
               </ul>
-              <div className="usa-alert usa-alert-info background-color-only claims-alert">
-                <VaCheckbox
-                  className="claims-alert-checkbox"
-                  uswds="false"
-                  checked={this.state.submittedDocs}
-                  label="I have submitted all evidence that will support my claim and I’m not going to turn in any more information. I would like VA to make a decision on my claim based on the information already provided."
-                  onVaChange={e => this.setSubmittedDocs(e.detail.checked)}
-                />
-              </div>
+              <p>
+                If you have submitted all evidence that will support your claim,
+                the VA will make a decision on your claim based on the
+                information already provided.
+              </p>
+              <VaCheckbox
+                className="claims-alert-checkbox vads-u-padding-top--1 vads-u-padding-bottom--2"
+                checked={this.state.submittedDocs}
+                label="I have submitted all evidence that supports my claim"
+                onVaChange={e => this.setSubmittedDocs(e.detail.checked)}
+              />
               <va-button
                 disabled={submitDisabled}
                 submit
-                uswds
                 class="button-primary vads-u-margin-top--1"
                 text={buttonMsg}
                 onClick={() => submitFunc(params.id)}
@@ -130,7 +132,6 @@ class AskVAPage extends React.Component {
               {!loadingDecisionRequest ? (
                 <va-button
                   secondary
-                  uswds
                   class="button-secondary vads-u-margin-top--1"
                   text="Not yet–I still have more evidence to submit"
                   onClick={this.goToStatusPage}

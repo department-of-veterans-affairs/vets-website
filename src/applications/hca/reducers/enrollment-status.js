@@ -1,11 +1,17 @@
 import {
   ENROLLMENT_STATUS_ACTIONS,
-  HCA_ENROLLMENT_STATUSES,
   ENROLLMENT_STATUS_INIT_STATE,
 } from '../utils/constants';
 
-function hcaEnrollmentStatus(state = ENROLLMENT_STATUS_INIT_STATE, action) {
-  const { data = {}, type } = action;
+/**
+ * Map proper data values to enrollment status actions
+ * @param {Object} state - initial data object to map
+ * @param {Object} action - dispatched action to perform
+ * @returns {Boolean} - mapped data object or initial state object if action type is
+ * not relevant to this function
+ */
+function enrollmentStatus(state = ENROLLMENT_STATUS_INIT_STATE, action) {
+  const { response = {}, type } = action;
   const {
     FETCH_ENROLLMENT_STATUS_STARTED,
     FETCH_ENROLLMENT_STATUS_SUCCEEDED,
@@ -14,49 +20,38 @@ function hcaEnrollmentStatus(state = ENROLLMENT_STATUS_INIT_STATE, action) {
   } = ENROLLMENT_STATUS_ACTIONS;
 
   const actionMap = {
-    [FETCH_ENROLLMENT_STATUS_STARTED]: () => ({
-      ...state,
-      isLoadingApplicationStatus: true,
-    }),
+    [FETCH_ENROLLMENT_STATUS_STARTED]: () => ({ ...state, loading: true }),
     [FETCH_ENROLLMENT_STATUS_SUCCEEDED]: () => {
       const {
         parsedStatus,
         applicationDate,
-        effectiveDate: enrollmentStatusEffectiveDate,
         enrollmentDate,
         preferredFacility,
-      } = data;
-      const enrollmentStatus = parsedStatus;
-      const isInESR =
-        enrollmentStatus !== HCA_ENROLLMENT_STATUSES.noneOfTheAbove;
+      } = response;
       return {
         ...state,
+        statusCode: parsedStatus,
         hasServerError: false,
-        enrollmentStatus,
-        enrollmentStatusEffectiveDate,
+        fetchAttempted: true,
+        isUserInMPI: true,
+        loading: false,
         applicationDate,
         enrollmentDate,
         preferredFacility,
-        loginRequired: isInESR,
-        noESRRecordFound: !isInESR,
-        isLoadingApplicationStatus: false,
-        isUserInMVI: true,
       };
     },
     [FETCH_ENROLLMENT_STATUS_FAILED]: () => {
       const { errors } = action;
-      const noESRRecordFound =
-        errors && errors.some(error => error.code === '404');
-      const hasRateLimitError =
-        errors && errors.some(error => error.code === '429');
+      const has404Error = errors?.some(({ code }) => code === '404');
+      const hasRateLimitError = errors?.some(({ code }) => code === '429');
       // if the error is not given special handling, treat it like a server error
-      const hasServerError = !noESRRecordFound && !hasRateLimitError;
+      const hasServerError = !has404Error && !hasRateLimitError;
       return {
         ...state,
+        fetchAttempted: true,
+        loading: false,
+        hasRateLimitError,
         hasServerError,
-        isLoadingApplicationStatus: false,
-        loginRequired: hasRateLimitError,
-        noESRRecordFound,
       };
     },
     [RESET_ENROLLMENT_STATUS]: () => ({ ...ENROLLMENT_STATUS_INIT_STATE }),
@@ -65,4 +60,4 @@ function hcaEnrollmentStatus(state = ENROLLMENT_STATUS_INIT_STATE, action) {
   return actionMap[type] ? actionMap[type]() : state;
 }
 
-export default hcaEnrollmentStatus;
+export default enrollmentStatus;

@@ -6,62 +6,32 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import MissingFileOverview, {
-  mailInfo,
-} from '../components/File/MissingFileOverview';
-
-export const missingFileMessage = (
-  <section>
-    <h2 className="vads-u-font-size--h3">
-      Do you need to send us more supporting documents?
-    </h2>
-    You can mail or fax us copies of these supporting documents for the sponsor
-    and applicants.
-    <br />
-    <br />
-    Write the applicant’s name and confirmation number on each page of the
-    document.
-    <br />
-    <br />
-    {mailInfo}
-    <br />
-    <br />
-    These are the documents you’ll need to submit by mail:
-  </section>
-);
+import { requiredFiles, optionalFiles } from '../config/requiredUploads';
+import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 
 const heading = (
   <>
     <VaAlert uswds status="success">
-      <h2>You’ve submitted the CHAMPVA benefits enrollment form</h2>
+      <h2>You’ve submitted your CHAMPVA application</h2>
     </VaAlert>
   </>
 );
 
 const requiredWarningHeading = (
   <>
-    <VaAlert uswds status="warning">
-      <h2>
-        You’ve submitted the CHAMPVA benefits enrollment form but your
-        application is not complete yet
-      </h2>
-    </VaAlert>
+    {heading}
     <p>
-      We need to receive your required supporting files before we consider the
-      application complete. You can submit these documents via mail or fax.
+      You’ll still need to send us these required documents in order for us to
+      process this application:
     </p>
-    <h2>Your next steps</h2>
+    {/* <h2>Your next steps</h2> */}
   </>
 );
 
 const optionalWarningHeading = (
   <>
     {heading}
-    <p>
-      Your application is considered complete. There are optional files
-      remaining that may speed up your application process if you submit these
-      documents via mail or fax.
-    </p>
+    <p>You can still send us these optional documents for faster processing:</p>
   </>
 );
 
@@ -78,6 +48,8 @@ export function ConfirmationPage(props) {
     requiredWarningHeading: <>{requiredWarningHeading}</>,
     showMail: true,
     allPages: form.pages,
+    fileNameMap: { ...requiredFiles, ...optionalFiles },
+    requiredFiles,
   });
 
   useEffect(() => {
@@ -101,11 +73,10 @@ export function ConfirmationPage(props) {
       <h2 className="vads-u-font-size--h3">What to expect next</h2>
       <p>
         We'll contact you by mail or phone if we have questions or need more
-        information about this application.
+        information.
         <br />
         <br />
-        And we'll send you a letter in the mail to let you know if we approved
-        the application.
+        And we'll send you a letter in the mail with our decision.
       </p>
       <div className="inset">
         <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">

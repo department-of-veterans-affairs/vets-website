@@ -244,9 +244,8 @@ class TrackClaimsPageV2 {
     cy.url().should('contain', 'ask-va-to-decide');
     cy.get('va-checkbox')
       .shadow()
-      .get('input')
-      .first()
-      .check()
+      .find('input[type="checkbox"]')
+      .check({ force: true })
       .then(() => {
         cy.get('.main .button-primary').click();
         cy.wait('@askVA');
@@ -454,8 +453,7 @@ class TrackClaimsPageV2 {
   verifyOverviewShowPastUpdates() {
     cy.get('#tabOverview').click();
     cy.url().should('contain', '/your-claims/189685/overview');
-    cy.get('.process-step.list-three va-button')
-      .shadow()
+    cy.get('.process-step.list-three')
       .find('button')
       .click();
     cy.get('#older-updates-3').should('be.visible');

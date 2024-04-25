@@ -1,7 +1,7 @@
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
   appRelBoilerplate,
-} from './ApplicantRelationshipPage';
+} from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 
 const KEYNAME = 'applicantDependentStatus';
 const PRIMARY = 'status';

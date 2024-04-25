@@ -141,7 +141,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     width: 18px;
     text-align: center;
     margin-right: 8px;
-    color: var(--vads-color-link);
+    color: $color-link-default;
   }
 
   .clearfix {
@@ -152,11 +152,11 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
   .search-controls-container {
     padding: 24px 16px 0 12px;
-    border: solid thin var(--vads-color-base-lightest);
-    background: var(--vads-color-base-lightest);
+    border: solid thin $color-gray-lightest;
+    background: $color-gray-lightest;
 
     select:disabled {
-      background: var(--vads-color-base-lightest);
+      background: $color-gray-lightest;
     }
 
     #facility-search-controls {
@@ -236,7 +236,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       .use-my-location-link {
         text-decoration: none;
         background-color: transparent;
-        color: var(--vads-color-link);
+        color: $color-link-default;
         font-weight: normal;
         padding: 0;
         margin: 0;
@@ -273,8 +273,8 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     font-size: 16px;
     position: absolute;
     float: right;
-    background-color: rgb(255, 255, 255);
-    color: var(--vads-color-black);
+    background-color: rgba(255, 255, 255, 0);
+    color: $color-black;
     font-family: "Font Awesome 5 Free";
     max-width: 2rem;
     left: 68%;

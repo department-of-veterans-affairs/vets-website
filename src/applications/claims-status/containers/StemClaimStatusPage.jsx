@@ -9,9 +9,10 @@ import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import StemDeniedDetails from '../components/StemDeniedDetails';
 import { setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
+import { claimAvailable, setDocumentTitle } from '../utils/helpers';
 
 const setTitle = () => {
-  document.title = 'Your Edith Nourse Rogers STEM Scholarship application';
+  setDocumentTitle('Your Edith Nourse Rogers STEM Scholarship application');
 };
 
 class StemClaimStatusPage extends React.Component {
@@ -29,16 +30,20 @@ class StemClaimStatusPage extends React.Component {
         <va-loading-indicator
           set-focus
           message="Loading your claim information..."
-          uswds="false"
         />
       );
-    } else if (claim) {
-      const claimAttributes = claim.attributes;
+    } else if (claimAvailable(claim)) {
+      const {
+        deniedAt,
+        isEnrolledStem,
+        isPursuingTeachingCert,
+      } = claim.attributes;
+
       content = (
         <StemDeniedDetails
-          deniedAt={claimAttributes.deniedAt}
-          isEnrolledStem={claimAttributes.isEnrolledStem}
-          isPursuingTeachingCert={claimAttributes.isPursuingTeachingCert}
+          deniedAt={deniedAt}
+          isEnrolledStem={isEnrolledStem}
+          isPursuingTeachingCert={isPursuingTeachingCert}
         />
       );
     } else {

@@ -53,6 +53,7 @@ const generateTrackedItems = claim => {
     id: item.id,
     date: getTrackedItemDateFromStatus(item),
     description: getTrackedItemDescription(item),
+    displayName: item.displayName,
     status: item.status,
     type: 'tracked_item',
   }));
@@ -139,7 +140,6 @@ export default function RecentActivity({ claim }) {
                   class="optional-alert vads-u-padding-bottom--1"
                   status="info"
                   slim
-                  uswds
                 >
                   You don’t have to do anything, but if you have this
                   information you can{' '}
@@ -158,7 +158,6 @@ export default function RecentActivity({ claim }) {
       )}
       {shouldPaginate && (
         <VaPagination
-          uswds
           className="vads-u-border--0"
           page={currentPage}
           pages={numPages}

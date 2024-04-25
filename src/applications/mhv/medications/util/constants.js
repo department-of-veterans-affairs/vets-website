@@ -1,12 +1,12 @@
 export const rxListSortingOptions = {
-  lastFilledFirst: {
-    API_ENDPOINT: '&sort[]=-dispensed_date&sort[]=prescription_name',
-    LABEL: 'Last filled first',
-  },
   alphabeticallyByStatus: {
     API_ENDPOINT:
       '&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
     LABEL: 'Alphabetically by status',
+  },
+  lastFilledFirst: {
+    API_ENDPOINT: '&sort[]=-dispensed_date&sort[]=prescription_name',
+    LABEL: 'Last filled first',
   },
   alphabeticalOrder: {
     API_ENDPOINT: '&sort[]=prescription_name&sort[]=dispensed_date',
@@ -18,7 +18,16 @@ export const medicationsUrls = {
   MEDICATIONS_URL: '/my-health/medications',
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
   MEDICATIONS_ABOUT: '/my-health/medications/about',
+  MEDICATIONS_ABOUT_ACCORDION_RENEW:
+    '/my-health/medications/about/accordion-renew-rx',
   MEDICATIONS_REFILL: '/my-health/medications/refill',
+  PRESCRIPTION_DETAILS: '/my-health/medications/prescription',
+  subdirectories: {
+    BASE: '/',
+    ABOUT: '/about',
+    REFILL: '/refill',
+    DETAILS: '/prescription',
+  },
 };
 
 export const dispStatusForRefillsLeft = [
@@ -161,7 +170,7 @@ export const INCLUDE_IMAGE_ENDPOINT = '&include_image=true';
 export const PDF_TXT_GENERATE_STATUS = {
   NotStarted: 'PDF_GENERATE_NOT_STARTED',
   InProgress: 'PDF_GENERATE_IN_PROGRESS',
-  Success: 'PDF_GENERATE_SUCESS',
+  Success: 'PDF_GENERATE_SUCCESS',
 };
 
 export const defaultSelectedSortOption =

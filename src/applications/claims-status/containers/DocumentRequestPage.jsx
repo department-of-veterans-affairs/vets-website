@@ -10,7 +10,7 @@ import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scro
 import AddFilesFormOld from '../components/AddFilesFormOld';
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
-import DueDateOld from '../components/DueDateOld';
+import DueDate from '../components/DueDate';
 import Notification from '../components/Notification';
 import {
   addFile,
@@ -31,7 +31,7 @@ import {
 // START lighthouse_migration
 import { benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
-import { scrubDescription } from '../utils/helpers';
+import { scrubDescription, setDocumentTitle } from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
 
@@ -47,9 +47,9 @@ class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
     if (this.props.trackedItem) {
-      document.title = `Request for ${this.props.trackedItem.displayName}`;
+      setDocumentTitle(`Request for ${this.props.trackedItem.displayName}`);
     } else {
-      document.title = 'Document Request';
+      setDocumentTitle('Document Request');
     }
     if (!this.props.loading) {
       setUpPage();
@@ -93,7 +93,7 @@ class DocumentRequestPage extends React.Component {
       <>
         <h1 className="claims-header">{trackedItem.displayName}</h1>
         {trackedItem.status === 'NEEDED_FROM_YOU' ? (
-          <DueDateOld date={trackedItem.suspenseDate} />
+          <DueDate date={trackedItem.suspenseDate} />
         ) : null}
         {trackedItem.status === 'NEEDED_FROM_OTHERS' ? (
           <div className="optional-upload">
@@ -122,7 +122,6 @@ class DocumentRequestPage extends React.Component {
         <va-loading-indicator
           set-focus
           message="Loading your claim information..."
-          uswds="false"
         />
       );
     } else {

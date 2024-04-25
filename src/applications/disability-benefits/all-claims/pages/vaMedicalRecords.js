@@ -1,5 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import dateUI from 'platform/forms-system/src/js/definitions/monthYear';
+import dateUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import { treatmentView } from '../content/vaMedicalRecords';
 import { hasVAEvidence } from '../utils';
 import { makeSchemaForAllDisabilities } from '../utils/schemas';

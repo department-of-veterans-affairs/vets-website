@@ -44,7 +44,6 @@ const filesPath = '../files';
 class AdditionalEvidencePageOld extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    document.title = 'Additional Evidence';
     if (!this.props.loading) {
       setUpPage();
     } else {
@@ -87,7 +86,6 @@ class AdditionalEvidencePageOld extends React.Component {
         <va-loading-indicator
           set-focus
           message="Loading your claim information..."
-          uswds="false"
         />
       );
     } else {

@@ -1,16 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { SAVED_CLAIM_TYPE, WIZARD_STATUS } from '../constants';
+import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import ConfirmationDecisionReviews from '../../shared/components/ConfirmationDecisionReviews';
 
 export const ConfirmationPage = () => {
-  useEffect(() => {
-    // reset the wizard
-    window.sessionStorage.removeItem(WIZARD_STATUS);
-    window.sessionStorage.removeItem(SAVED_CLAIM_TYPE);
-  });
+  resetStoredSubTask();
 
   return (
     <ConfirmationDecisionReviews

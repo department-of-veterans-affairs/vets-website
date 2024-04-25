@@ -6,6 +6,9 @@ import {
 } from '../util/constants';
 
 const initialState = {
+  /** True if a patient FHIR record needed to be created in order to start a session */
+  initialFhirLoad: undefined,
+
   /** The overall phase of the PHR refresh (stale, in progress, current, or failed) */
   phase: undefined,
 
@@ -103,9 +106,13 @@ export const refreshCompleted = statusList => {
 };
 
 export const refreshReducer = (state = initialState, action) => {
-  // We currently only have one action for this reducer. This may change.
-  // eslint-disable-next-line sonarjs/no-small-switch
   switch (action.type) {
+    case Actions.Refresh.SET_INITIAL_FHIR_LOAD: {
+      return {
+        ...state,
+        initialFhirLoad: true,
+      };
+    }
     case Actions.Refresh.GET_STATUS: {
       const { facilityExtractStatusList } = action.payload;
       return {

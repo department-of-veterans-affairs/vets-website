@@ -63,7 +63,7 @@ describe('<RecentActivity>', () => {
         },
       };
 
-      const { container, getByText } = renderWithRouter(
+      const { container, getByText, getByLabelText } = renderWithRouter(
         <RecentActivity claim={claim} />,
       );
 
@@ -72,6 +72,7 @@ describe('<RecentActivity>', () => {
       getByText('We opened a request for "Needed from others Request"');
       expect($('ol', container)).to.exist;
       expect($('va-alert', container)).to.exist;
+      getByLabelText('Add information for Needed from others Request');
       expect($('va-pagination', container)).not.to.exist;
     });
 

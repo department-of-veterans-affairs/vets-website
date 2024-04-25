@@ -16,7 +16,7 @@ const usePostTravelClaims = props => {
   const [travelPayClaimError, setTravelPayClaimError] = useState(false);
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
-  const { facilitiesToFile } = data;
+  const { facilitiesToFile, startedTime } = data;
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token: uuid } = useSelector(selectCurrentContext);
   const { setTravelPaySent, getTravelPaySent } = useStorage(
@@ -24,7 +24,8 @@ const usePostTravelClaims = props => {
     true,
   );
   const travelPaySent = getTravelPaySent(window);
-
+  const now = new Date().getTime();
+  const timeToComplete = Math.round((now - startedTime) / 1000).toString();
   const faciltiesToPost = facilitiesToFile.filter(
     facility =>
       !(facility.stationNo in travelPaySent) ||
@@ -58,7 +59,7 @@ const usePostTravelClaims = props => {
         return;
       }
       api.v2
-        .postTravelPayClaims(faciltiesToPost, uuid)
+        .postTravelPayClaims(faciltiesToPost, uuid, timeToComplete)
         .catch(() => {
           setTravelPayClaimError(true);
         })
@@ -77,6 +78,7 @@ const usePostTravelClaims = props => {
       travelPaySent,
       data,
       jumpToPage,
+      timeToComplete,
     ],
   );
 
