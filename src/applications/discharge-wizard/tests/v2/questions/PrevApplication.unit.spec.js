@@ -3,9 +3,9 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { ROUTES } from '../../constants';
+import { ROUTES } from '../../../constants';
 
-import DischargeYear from '../../components/v2/questions/DischargeYear';
+import PrevApplication from '../../../components/v2/questions/PrevApplication';
 
 const mockStoreStandard = {
   getState: () => ({
@@ -37,7 +37,7 @@ const pushStub = sinon.stub();
 
 const propsStandard = {
   formResponses: {},
-  setDischargeYear: () => {},
+  setPrevApplication: () => {},
   router: {
     push: pushStub,
   },
@@ -46,32 +46,32 @@ const propsStandard = {
 
 const propsNoIntroPage = {
   formResponses: {},
-  setDischargeYear: () => {},
+  setPrevApplication: () => {},
   router: {
     push: pushStub,
   },
   viewedIntroPage: false,
 };
 
-describe('Discharge Year Page', () => {
+describe('Previous Application Page', () => {
   afterEach(() => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the discharge year page in the standard flow', () => {
+  it('should correctly load the Previous Application page in the standard flow', () => {
     const screen = render(
       <Provider store={mockStoreStandard}>
-        <DischargeYear {...propsStandard} />
+        <PrevApplication {...propsStandard} />
       </Provider>,
     );
 
-    expect(screen.getByTestId('duw-discharge_year')).to.exist;
+    expect(screen.getByTestId('duw-prev_application')).to.exist;
   });
 
   it('should redirect to home when the intro page has not been viewed', () => {
     render(
       <Provider store={mockStoreNoIntroPage}>
-        <DischargeYear {...propsNoIntroPage} />
+        <PrevApplication {...propsNoIntroPage} />
       </Provider>,
     );
 
