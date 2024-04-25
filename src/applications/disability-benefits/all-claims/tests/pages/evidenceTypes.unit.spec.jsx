@@ -82,13 +82,15 @@ describe('evidenceTypes', () => {
     const submitButton = getByText(/submit/i);
     userEvent.click(submitButton);
     // Error text should be present.
-    getByText(/please select at least one type of supporting evidence/i);
     expect(onSubmit.called).to.be.false;
+    expect($('va-checkbox-group').error).to.include(
+      'Please select at least one type of supporting evidence',
+    );
   });
 
-  it('should submit with all required info', () => {
+  it('should submit with all required info', async () => {
     const onSubmit = sinon.spy();
-    const { getByText, getByLabelText, container } = render(
+    const { getByText, container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -102,8 +104,11 @@ describe('evidenceTypes', () => {
     $('va-radio', container).__events.vaValueChange({
       detail: { value: 'Y' },
     });
-    const checkbox = getByLabelText(/va medical records/i);
-    userEvent.click(checkbox);
+    const checkboxGroup = $('va-checkbox-group', container);
+    await checkboxGroup.__events.vaChange({
+      target: { checked: true, dataset: { key: 'hasVaMedicalRecords' } },
+      detail: { checked: true },
+    });
     const submitButton = getByText(/submit/i);
     userEvent.click(submitButton);
     expect(onSubmit.calledOnce).to.be.true;

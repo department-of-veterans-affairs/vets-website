@@ -236,3 +236,25 @@ export const obfuscateAccountNumber = accountNumber => {
   // Replace all digits except the last 4 with asterisks (*)
   return accountNumber.replace(/\d(?=\d{4})/g, '*');
 };
+
+// TODO: Remove when removing TOGGLE_NAMES.pensionMultiresponseStyles
+const MULTIRESPONSE_STYLES = 'multiresponse_styles';
+
+export const setSessionMultiresponseStyles = () =>
+  sessionStorage.setItem(MULTIRESPONSE_STYLES, true);
+
+export const removeSessionMultiresponseStyles = () =>
+  sessionStorage.removeItem(MULTIRESPONSE_STYLES);
+
+// TODO: when removing TOGGLE_NAMES.pensionMultiresponseStyles, replace occurences of this helper with 'true'
+export const multiresponseStyles = () =>
+  sessionStorage.getItem(MULTIRESPONSE_STYLES) === 'true';
+
+// TODO: when removing TOGGLE_NAMES.pensionMultiresponseStyles, remove this, and
+// update the ui:options of any schema where it appears to have showSave: true and reviewMode: true
+export const updateMultiresponseUiOptions = (_formData, schema, uiSchema) => {
+  const currentUiOptions = uiSchema['ui:options'];
+  currentUiOptions.showSave = multiresponseStyles();
+  currentUiOptions.reviewMode = multiresponseStyles();
+  return schema;
+};

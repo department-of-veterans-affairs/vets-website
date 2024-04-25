@@ -1,3 +1,4 @@
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import get from 'platform/utilities/data/get';
 import {
@@ -21,6 +22,7 @@ export const uiSchema = {
     'view:selectableEvidenceTypes': {
       'ui:title':
         'What type of evidence do you want us to review as part of your claim?',
+      'ui:webComponentField': VaCheckboxGroupField,
       'ui:options': { showFieldLabel: true },
       'ui:validations': [
         {
