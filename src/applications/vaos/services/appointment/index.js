@@ -737,24 +737,25 @@ export function getCalendarData({ appointment, facility }) {
  */
 export function getAppointmentTimezone(appointment) {
   // Most VA appointments will use this, since they're associated with a facility
-  if (appointment.location.vistaId) {
+  if (appointment?.location.vistaId) {
     const locationId =
-      appointment.location.stationId || appointment.location.vistaId;
+      appointment?.location.stationId || appointment?.location.vistaId;
     const abbreviation = getTimezoneAbbrByFacilityId(locationId);
 
     return {
       identifier: moment.tz
         .zone(getTimezoneByFacilityId(locationId))
-        ?.abbr(appointment.start),
+        ?.abbr(appointment?.start),
       abbreviation,
       description: getTimezoneNameFromAbbr(abbreviation),
     };
   }
 
   // Community Care appointments with timezone included
-  if (appointment.vaos.timeZone) {
+  if (appointment?.vaos.timeZone) {
     const abbreviation = stripDST(
-      appointment.vaos.timeZone?.split(' ')?.[1] || appointment.vaos.timeZone,
+      appointment?.vaos?.timeZone?.split(' ')?.[1] ||
+        appointment?.vaos?.timeZone,
     );
 
     return {

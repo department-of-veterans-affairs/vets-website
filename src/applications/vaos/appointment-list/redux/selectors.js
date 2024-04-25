@@ -371,6 +371,15 @@ export function selectTypeOfCareName(appointment) {
   return name;
 }
 
+export function selectIsPhone(appointment) {
+  return appointment?.vaos?.isPhoneAppointment;
+}
+
+export function selectTimeZoneAbbr(appointment) {
+  const { abbreviation } = getAppointmentTimezone(appointment);
+  return abbreviation;
+}
+
 export function getConfirmedAppointmentDetailsInfo(state, id) {
   const appointment = selectAppointmentById(state, id);
   const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
@@ -395,14 +404,17 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
   const status = appointment?.status;
   const typeOfCareName = selectTypeOfCareName(appointment);
   const clinicName = appointment?.location?.clinicName;
+  const clinicPhone =
+    appointment?.vaos?.apiData?.extension?.clinic?.phoneNumber;
   const facilityPhone =
-    appointment?.vaos?.apiData?.extension?.clinic?.phoneNumber ||
     facility?.telecom?.find(tele => tele.system === 'covid')?.value ||
     facility?.telecom?.find(tele => tele.system === 'phone')?.value;
 
   const clinicPhysicalLocation = appointment?.location?.clinicPhysicalLocation;
   const duration = appointment?.minutesDuration;
   const bookingNotes = selectAppointmentDetails(appointment);
+  const isPhone = selectIsPhone(appointment);
+  const timeZoneAbbr = selectTimeZoneAbbr(appointment);
 
   return {
     appointment,
@@ -411,6 +423,7 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
     bookingNotes,
     cancelInfo: getCancelInfo(state),
     clinicName,
+    clinicPhone,
     clinicPhysicalLocation,
     comment,
     duration,
@@ -420,11 +433,13 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
     isCommunityCare,
     isVA,
     isVideo,
+    isPhone,
     phone,
     provider,
     showCancelButton: selectFeatureCancel(state),
     startDate,
     status,
+    timeZoneAbbr,
     typeOfCareName,
     useV2: featureVAOSServiceVAAppointments,
   };
@@ -481,10 +496,6 @@ export function selectIsCanceled(appointment) {
 
 export function selectIsCommunityCare(appointment) {
   return appointment.vaos.isCommunityCare;
-}
-
-export function selectIsPhone(appointment) {
-  return appointment.vaos.isPhoneAppointment;
 }
 
 export function selectIsVideo(appointment) {
@@ -614,11 +625,6 @@ export function selectIsHomeVideo(appointment) {
       !selectIsAtlasVideo(appointment) &&
       !selectIsGFEVideo(appointment))
   );
-}
-
-export function selectTimeZoneAbbr(appointment) {
-  const { abbreviation } = getAppointmentTimezone(appointment);
-  return abbreviation;
 }
 
 export function selectModalityText(appointment, isPendingAppointment = false) {

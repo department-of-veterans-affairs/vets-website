@@ -2,22 +2,30 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
+import moment from 'moment-timezone';
 import {
   getConfirmedAppointmentDetailsInfo,
   selectIsCanceled,
   selectIsInPerson,
+  selectIsPhone,
 } from '../../redux/selectors';
-import AppointmentDateTime from '../AppointmentDateTime';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import FacilityPhone from '../../../components/FacilityPhone';
 
 function getHeading(appointment) {
+  const isCanceled = selectIsCanceled(appointment);
+
   if (selectIsInPerson(appointment)) {
-    if (selectIsCanceled(appointment)) return 'Canceled in-person appointment';
+    if (isCanceled) return 'Canceled in-person appointment';
     return 'In-person appointment';
   }
 
-  return 'not defined yet';
+  if (selectIsPhone(appointment)) {
+    if (isCanceled) return 'Canceled phone appointment';
+    return 'Phone appointment';
+  }
+
+  return 'Not defined';
 }
 
 export default function CancelPageLayout() {
@@ -25,9 +33,15 @@ export default function CancelPageLayout() {
   const {
     appointment,
     bookingNotes,
+    clinicName,
+    clinicPhone,
+    clinicPhysicalLocation,
     facility,
     facilityId,
     facilityPhone,
+    isPhone,
+    startDate,
+    timeZoneAbbr,
     typeOfCareName,
   } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
@@ -42,32 +56,56 @@ export default function CancelPageLayout() {
     <>
       <h2 className="vads-u-font-size--h3">{heading}</h2>
       <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">When</h3>
-      <AppointmentDateTime appointment={appointment} />
-
+      {moment(startDate).format('ddd, MMMM D, YYYY')} <br />
+      {moment(startDate).format('HH:mm:ss')} {timeZoneAbbr}
       <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">What</h3>
       {typeOfCareName || 'Type of care information not available'}
-
       <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">Who</h3>
       {provider || 'Provider information not available'}
-      <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">Where</h3>
-      <VAFacilityLocation
-        facility={facility}
-        facilityName={facility?.name}
-        facilityId={facilityId}
-        isPhone={false}
-        showPhone={false}
-      />
       <br />
-      <span>Clinic: Not available</span>
-      <br />
-      <span>Location: Not available</span>
-      <br />
-      <span>
-        <FacilityPhone contact={facilityPhone} heading="Clinic phone:" />
-      </span>
-
+      {isPhone && (
+        <>
+          <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
+            Scheduling facility
+          </h3>
+          <span>Facility: {facility?.name}</span>
+          <br />
+          <span>Clinic: {clinicName || `Not available`}</span>
+          <br />
+          <span>Location: {clinicPhysicalLocation || `Not available`}</span>
+          <br />
+          <FacilityPhone
+            contact={clinicPhone || facilityPhone}
+            heading={`${clinicPhone ? 'Clinic phone:' : 'Phone:'}`}
+          />
+        </>
+      )}
+      {!isPhone && (
+        <>
+          <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
+            <span>Where</span>
+          </h3>
+          <VAFacilityLocation
+            facility={facility}
+            facilityName={facility?.name}
+            facilityId={facilityId}
+            isPhone={false}
+            showPhone={false}
+            showDirectionsLink={false}
+          />
+          <br />
+          <span>Clinic: {clinicName || `Not available`}</span>
+          <br />
+          <span>Location: {clinicPhysicalLocation || `Not available`}</span>
+          <br />
+          <FacilityPhone
+            contact={clinicPhone || facilityPhone}
+            heading={`${clinicPhone ? 'Clinic phone:' : 'Phone:'}`}
+          />
+        </>
+      )}
       <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
-        Details you share with your provider
+        <span>Details you shared with your provider</span>
       </h3>
       <span>
         Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
