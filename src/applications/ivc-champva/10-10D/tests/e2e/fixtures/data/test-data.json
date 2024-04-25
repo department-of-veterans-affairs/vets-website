@@ -4,7 +4,6 @@
     "applicants": [
       {
         "applicantRelationshipOrigin": { "relationshipToVeteran": "blood" },
-        "applicantGender": { "gender": "male" },
         "applicantEmailAddress": "johnny@alvin.gov",
         "applicantAddress": {
           "country": "USA",
@@ -16,10 +15,12 @@
         "applicantSSN": {
           "ssn": "345345345"
         },
+        "applicantPhone": "555-555-1234",
+        "applicantGender": { "gender": "male" },
         "applicantRelationshipToSponsor": {
           "relationshipToVeteran": "child"
         },
-        "applicantEnrolledInMedicare": false,
+        "applicantDependentStatus": { "status": "enrolled" },
         "applicantEnrolledInOHI": false,
         "applicantDOB": "2003-01-04",
         "applicantName": {
@@ -31,7 +32,7 @@
         "applicantMedicareStatus": {
           "eligibility": "enrolled"
         },
-        "applicantMedicarePart": "partA, partD",
+        "applicantMedicarePartD": { "enrollment": "enrolled" },
         "applicantHasOhi": "yes"
       }
     ],
