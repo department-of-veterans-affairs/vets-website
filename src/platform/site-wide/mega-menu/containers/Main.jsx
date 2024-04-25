@@ -14,8 +14,6 @@ import {
   togglePanelOpen,
   updateCurrentSection,
 } from '../actions';
-import { toggleValues } from '../../feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from '../../../utilities/feature-toggles/featureFlagNames';
 
 const tabbableSelectors =
   'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -185,14 +183,10 @@ const mapStateToProps = (state, ownProps) => {
   const defaultLinks = ownProps?.megaMenuData ? [...ownProps.megaMenuData] : [];
 
   if (loggedIn) {
-    defaultLinks.push(MY_VA_LINK);
+    defaultLinks.push(MY_VA_LINK, MY_HEALTH_LINK);
   }
 
-  const authenticatedLinks = toggleValues(state)[
-    FEATURE_FLAG_NAMES.mhvLandingPageEnabled
-  ]
-    ? [{ ...MY_HEALTH_LINK }]
-    : undefined;
+  const authenticatedLinks = [];
 
   const data = flagCurrentPageInTopLevelLinks(
     getAuthorizedLinkData(loggedIn, defaultLinks, authenticatedLinks),
