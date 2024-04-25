@@ -1300,7 +1300,13 @@ const formConfig = {
           CustomPage: ApplicantOhiStatusPage,
           CustomPageReview: ApplicantOhiStatusReviewPage,
           schema: applicantListSchema([], {
-            applicantHasOhi: { type: 'string' },
+            applicantHasOhi: {
+              type: 'object',
+              properties: {
+                hasOhi: { type: 'string' },
+                _unused: { type: 'string' },
+              },
+            },
           }),
           uiSchema: {
             applicants: {
