@@ -4,63 +4,69 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 import mockMessages from './fixtures/messages-response.json';
-import { AXE_CONTEXT } from './utils/constants';
+import mockSingleThread from './fixtures/thread-response.json';
+import { AXE_CONTEXT, Paths, Data, Locators } from './utils/constants';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
+    // define constants
     const landingPage = new PatientInboxPage();
-    const messageDetailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();
-    site.login();
-    const messageDetails = landingPage.getNewMessageDetails();
-    const messageDetailsBody = messageDetails.data.attributes.body;
+    const messageDetailsPage = new PatientMessageDetailsPage();
+    const bodyText = ' Updated body text';
 
-    landingPage.loadInboxMessages(mockMessages, messageDetails);
-    messageDetailsPage.loadMessageDetails(messageDetails);
-    messageDetailsPage.loadReplyPageDetails(messageDetails);
+    const singleMessage = { data: mockSingleThread.data[0] };
+    singleMessage.data.attributes.body = bodyText;
+
+    // load single thread
+    site.login();
+    landingPage.loadInboxMessages(mockMessages);
+    landingPage.loadSingleThread(mockSingleThread);
+
+    // reply to message
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${mockSingleThread.data[0].id}/thread*`,
+      mockSingleThread,
+    ).as('replyThread');
+
+    cy.get(Locators.BUTTONS.REPLY).click({ force: true });
     PatientInterstitialPage.getContinueButton().click();
-    const testMessageBody = 'Test message body';
-    PatientReplyPage.getMessageBodyField().type(testMessageBody, {
+
+    // change message
+    PatientReplyPage.getMessageBodyField().type(bodyText, {
       force: true,
     });
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
 
-    PatientReplyPage.clickSaveReplyDraftButton(messageDetails, testMessageBody);
-    cy.log(
-      `the message details after clickSaveReplyDraftButton ${JSON.stringify(
-        messageDetails,
-      )}`,
-    );
-    cy.log(
-      `the message details before assert${JSON.stringify(messageDetails)}`,
-    );
-    cy.log(`message details  Body${messageDetailsBody}`);
-    cy.log(
-      `messageDetails.data.attributes.body = ${
-        messageDetails.data.attributes.body
-      }`,
+    // save changed message as a draft
+    cy.intercept(
+      'POST',
+      `${Paths.SM_API_BASE}/message_drafts/${
+        mockSingleThread.data[0].id
+      }/replydraft`,
+      singleMessage,
+    ).as('replyThread');
+
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ force: true });
+
+    // assert message saved with updated body
+    cy.get(Locators.ALERTS.SAVE_DRAFT).should(
+      'include.text',
+      Data.MESSAGE_WAS_SAVED,
     );
 
-    messageDetailsPage.replyToMessageTo(messageDetails);
-    // messageDetailsPage.ReplyToMessagesenderName(messageDetails); // TODO skipped for flakiness
-    messageDetailsPage.replyToMessageRecipientName(messageDetails);
-    messageDetailsPage.replyToMessageDate(messageDetails);
-    messageDetailsPage.replyToMessageId(messageDetails);
+    // verify reply topic
+    messageDetailsPage.replyToMessageTo(singleMessage);
 
-    messageDetails.data.attributes.body = messageDetailsBody;
-    // messageDetailsPage.ReplyToMessageBody(messageDetailsBody); // TODO skipped for flakiness
+    messageDetailsPage.replyToMessageSenderName(singleMessage); // TODO skipped for flakiness
 
-    // Possibly move this to another test
-    PatientReplyPage.clickSendReplyDraftButton(
-      messageDetails.data.attributes.messageId,
-      messageDetails.data.attributes.senderId,
-      messageDetails.data.attributes.category,
-      messageDetails.data.attributes.subject,
-      `\n\n\nName\nTitleTest${testMessageBody}`,
-    );
-    PatientReplyPage.verifySendMessageConfirmationMessageText();
-    PatientReplyPage.verifySendMessageConfirmationHasFocus();
+    messageDetailsPage.replyToMessageRecipientName(singleMessage);
+
+    messageDetailsPage.replyToMessageDate(singleMessage);
+
+    messageDetailsPage.replyToMessageId(singleMessage);
+
+    messageDetailsPage.replyToMessageBody(singleMessage); // TODO skipped for flakiness
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
