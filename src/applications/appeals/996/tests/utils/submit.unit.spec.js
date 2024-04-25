@@ -18,7 +18,7 @@ describe('getRep', () => {
     informalConferenceRep: {
       firstName: 'James',
       lastName: 'Sullivan',
-      phone: '8005551212',
+      phone: '800-555-1212',
       extension,
       email,
     },

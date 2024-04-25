@@ -3,9 +3,9 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { ROUTES } from '../../constants';
+import { ROUTES } from '../../../constants';
 
-import Reason from '../../components/v2/questions/Reason';
+import Intention from '../../../components/v2/questions/Intention';
 
 const mockStoreStandard = {
   getState: () => ({
@@ -37,7 +37,7 @@ const pushStub = sinon.stub();
 
 const propsStandard = {
   formResponses: {},
-  setReason: () => {},
+  setIntention: () => {},
   router: {
     push: pushStub,
   },
@@ -46,32 +46,32 @@ const propsStandard = {
 
 const propsNoIntroPage = {
   formResponses: {},
-  setReason: () => {},
+  setIntention: () => {},
   router: {
     push: pushStub,
   },
   viewedIntroPage: false,
 };
 
-describe('Reason Page', () => {
+describe('Intention Page', () => {
   afterEach(() => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the reason page in the standard flow', () => {
+  it('should correctly load the intention page in the standard flow', () => {
     const screen = render(
       <Provider store={mockStoreStandard}>
-        <Reason {...propsStandard} />
+        <Intention {...propsStandard} />
       </Provider>,
     );
 
-    expect(screen.getByTestId('duw-reason')).to.exist;
+    expect(screen.getByTestId('duw-intention')).to.exist;
   });
 
   it('should redirect to home when the intro page has not been viewed', () => {
     render(
       <Provider store={mockStoreNoIntroPage}>
-        <Reason {...propsNoIntroPage} />
+        <Intention {...propsNoIntroPage} />
       </Provider>,
     );
 
