@@ -348,5 +348,8 @@
   "pre-check-in-no-longer-available": "Pre-check-in is no longer available for your appointment time.",
   "something-went-wrong-please-try-again": "Something went wrong on our end. Please try again.",
   "if-you-have-questions-call": "If you have questions about your appointments, call your VA health facility.",
-  "something-went-wrong": "Something went wrong. If you have questions about your appointments, call your VA health facility."
+  "something-went-wrong": "Something went wrong. If you have questions about your appointments, call your VA health facility.",
+  "clinic-phone": "Clinic phone",
+  "need-to-make-changes": "Need to make changes?",
+  "contact-this-facility": "Contact this facility if you need to reschedule or cancel your appointment."
 }
