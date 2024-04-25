@@ -27,7 +27,6 @@ describe(appName, () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('landing page is enabled for DS Logon', () => {
     LandingPage.visitPage({ serviceProvider: CSP_IDS.DS_LOGON });
     LandingPage.validatePageLoaded();

@@ -76,15 +76,15 @@ const LandingPage = () => {
     () => {
       if (!paginatedPrescriptionsList) {
         setIsPrescriptionsLoading(true);
+        dispatch(
+          getPrescriptionsPaginatedSortedList(
+            1,
+            rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
+          ),
+        )
+          .then(() => setIsPrescriptionsLoading(false))
+          .catch(() => setIsPrescriptionsLoading(false));
       }
-      dispatch(
-        getPrescriptionsPaginatedSortedList(
-          1,
-          rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-        ),
-      )
-        .then(() => setIsPrescriptionsLoading(false))
-        .catch(() => setIsPrescriptionsLoading(false));
     },
     [dispatch, paginatedPrescriptionsList],
   );
