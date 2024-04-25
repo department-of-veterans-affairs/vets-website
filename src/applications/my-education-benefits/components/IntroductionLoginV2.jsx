@@ -22,7 +22,8 @@ function IntroductionLoginV2({
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
 }) {
-  const apiCallsComplete = isClaimantCallComplete && isEligibilityCallComplete;
+  const apiCallsComplete =
+    isLOA3 === false || (isClaimantCallComplete && isEligibilityCallComplete);
   const openLoginModal = () => {
     showHideLoginModal(true, 'cta-form');
   };
@@ -33,20 +34,20 @@ function IntroductionLoginV2({
   // Determine if loading indicator should be shown
   const shouldShowLoadingIndicator =
     (!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete;
-  // Determine which maintenance message should be displayed
+  const shouldShowMaintenanceAlert = showMeb1990EZMaintenanceAlert;
+
   let maintenanceMessage;
   if (showMeb1990EZR6MaintenanceMessage) {
     // R6 maintenance message
     maintenanceMessage =
       'We are currently performing system updates. Please come back on May 6 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.';
-  } else if (showMeb1990EZMaintenanceAlert) {
+  } else if (shouldShowMaintenanceAlert || isPersonalInfoFetchFailed) {
     // General maintenance message
     maintenanceMessage =
       'We’re currently making updates to the My Education Benefits platform. We apologize for the inconvenience. Please check back soon.';
   }
   return (
     <>
-      {shouldShowLoadingIndicator && <LoadingIndicator />}
       {(isLoggedIn || user?.login?.hasCheckedKeepAlive) && (
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--3">
           Begin your application for education benefits
@@ -117,6 +118,8 @@ function IntroductionLoginV2({
           </>
         )}
       {isLoggedIn &&
+      isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
+      shouldShowMaintenanceAlert === false && // Ensure the mainenance flag is not on.
         apiCallsComplete &&
         !showMeb1990EZMaintenanceAlert &&
         isLOA3 && (
