@@ -3,9 +3,9 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { ROUTES } from '../../constants';
+import { ROUTES } from '../../../constants';
 
-import DischargeMonth from '../../components/v2/questions/DischargeMonth';
+import ServiceBranch from '../../../components/v2/questions/ServiceBranch';
 
 const mockStoreStandard = {
   getState: () => ({
@@ -33,11 +33,12 @@ const mockStoreNoIntroPage = {
   dispatch: () => {},
 };
 
+const setServiceBranch = sinon.stub();
 const pushStub = sinon.stub();
 
 const propsStandard = {
   formResponses: {},
-  setDischargeMonth: () => {},
+  setServiceBranch,
   router: {
     push: pushStub,
   },
@@ -46,32 +47,32 @@ const propsStandard = {
 
 const propsNoIntroPage = {
   formResponses: {},
-  setDischargeMonth: () => {},
+  setServiceBranch,
   router: {
     push: pushStub,
   },
   viewedIntroPage: false,
 };
 
-describe('Discharge Month Page', () => {
+describe('Service Branch Page', () => {
   afterEach(() => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the discharge month page in the standard flow', () => {
+  it('should correctly load the service branch page in the standard flow', () => {
     const screen = render(
       <Provider store={mockStoreStandard}>
-        <DischargeMonth {...propsStandard} />
+        <ServiceBranch {...propsStandard} />
       </Provider>,
     );
 
-    expect(screen.getByTestId('duw-discharge_month')).to.exist;
+    expect(screen.getByTestId('duw-service_branch')).to.exist;
   });
 
   it('should redirect to home when the intro page has not been viewed', () => {
     render(
       <Provider store={mockStoreNoIntroPage}>
-        <DischargeMonth {...propsNoIntroPage} />
+        <ServiceBranch {...propsNoIntroPage} />
       </Provider>,
     );
 

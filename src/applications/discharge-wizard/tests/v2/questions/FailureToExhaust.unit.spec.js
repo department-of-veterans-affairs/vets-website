@@ -3,9 +3,9 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { ROUTES } from '../../constants';
+import { ROUTES } from '../../../constants';
 
-import DischargeType from '../../components/v2/questions/DischargeType';
+import FailureToExhaust from '../../../components/v2/questions/FailureToExhaust';
 
 const mockStoreStandard = {
   getState: () => ({
@@ -37,7 +37,7 @@ const pushStub = sinon.stub();
 
 const propsStandard = {
   formResponses: {},
-  setCourtMartial: () => {},
+  setFailureToExhaust: () => {},
   router: {
     push: pushStub,
   },
@@ -46,32 +46,32 @@ const propsStandard = {
 
 const propsNoIntroPage = {
   formResponses: {},
-  setCourtMartial: () => {},
+  setFailureToExhaust: () => {},
   router: {
     push: pushStub,
   },
   viewedIntroPage: false,
 };
 
-describe('Discharge Type Page', () => {
+describe('Failure to Exhaust Page', () => {
   afterEach(() => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the discharge type page in the standard flow', () => {
+  it('should correctly load the Failure to Exhaust page in the standard flow', () => {
     const screen = render(
       <Provider store={mockStoreStandard}>
-        <DischargeType {...propsStandard} />
+        <FailureToExhaust {...propsStandard} />
       </Provider>,
     );
 
-    expect(screen.getByTestId('duw-discharge_type')).to.exist;
+    expect(screen.getByTestId('duw-failure_to_exhaust')).to.exist;
   });
 
   it('should redirect to home when the intro page has not been viewed', () => {
     render(
       <Provider store={mockStoreNoIntroPage}>
-        <DischargeType {...propsNoIntroPage} />
+        <FailureToExhaust {...propsNoIntroPage} />
       </Provider>,
     );
 

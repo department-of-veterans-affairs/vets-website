@@ -12,6 +12,7 @@ import {
   DUW_UPDATE_PREV_APPLICATION_TYPE,
   DUW_UPDATE_PREV_APPLICATION_YEAR,
   DUW_UPDATE_PRIOR_SERVICE,
+  DUW_UPDATE_FAILURE_TO_EXHAUST,
 } from '../../constants';
 
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
@@ -29,6 +30,7 @@ const {
   PREV_APPLICATION_TYPE,
   PREV_APPLICATION_YEAR,
   PRIOR_SERVICE,
+  FAILURE_TO_EXHAUST,
 } = SHORT_NAME_MAP;
 
 const initialState = {
@@ -61,6 +63,8 @@ export default (state = initialState, action) => {
       return updateFormValue(PREV_APPLICATION_YEAR, state, action);
     case DUW_UPDATE_PRIOR_SERVICE:
       return updateFormValue(PRIOR_SERVICE, state, action);
+    case DUW_UPDATE_FAILURE_TO_EXHAUST:
+      return updateFormValue(FAILURE_TO_EXHAUST, state, action);
     case DUW_VIEWED_INTRO_PAGE:
       return {
         ...state,
