@@ -23,8 +23,7 @@ function IntroductionLoginV2({
   showMeb1990EZR6MaintenanceMessage,
 }) {
   const apiCallsComplete =
-    isLOA3 === false ||
-    ((isClaimantCallComplete || false) && (isEligibilityCallComplete || false));
+    isLOA3 === false || (isClaimantCallComplete && isEligibilityCallComplete);
   const openLoginModal = () => {
     showHideLoginModal(true, 'cta-form');
   };
