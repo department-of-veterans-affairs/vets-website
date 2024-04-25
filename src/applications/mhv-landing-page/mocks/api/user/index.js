@@ -126,7 +126,10 @@ const cernerUser = {
   meta: { errors: null },
 };
 
-const generateUserWithFacilities = ({ facilities = [], name = 'Harry' }) => {
+const generateUserWithFacilities = ({
+  facilities = [],
+  name = 'Harry',
+} = {}) => {
   return {
     ...defaultUser,
     data: {

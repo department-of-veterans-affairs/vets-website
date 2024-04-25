@@ -8,7 +8,7 @@ import { VIDEO_TYPES } from '../../../utils/constants';
 import AppointmentDateTime from '../AppointmentDateTime';
 import BackLink from '../../../components/BackLink';
 import CalendarLink from './CalendarLink';
-import StatusAlert from './StatusAlert';
+import StatusAlert from '../../../components/StatusAlert';
 import TypeHeader from './TypeHeader';
 import PrintLink from './PrintLink';
 import VideoVisitProvider from './VideoVisitProvider';

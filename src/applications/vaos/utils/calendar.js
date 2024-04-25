@@ -1,3 +1,6 @@
+import moment from 'moment';
+import guid from 'simple-guid';
+
 /*
  * ICS files have a 75 character line limit. Longer fields need to be broken
  * into 75 character chunks with a CRLF in between. They also apparenly need to have a tab
@@ -112,4 +115,97 @@ export function getICSTokens(buffer) {
     }
   });
   return map;
+}
+
+export function formatDescription(description, location = '') {
+  if (!description || !description.text) {
+    return 'DESCRIPTION:';
+  }
+
+  const chunked = [];
+  if (typeof description === 'object') {
+    let text = `DESCRIPTION:${description.text}`;
+    text = text.replace(/\r/g, '').replace(/\n/g, '\\n');
+
+    while (text.length > ICS_LINE_LIMIT) {
+      chunked.push(`${text}\\n`.substring(0, ICS_LINE_LIMIT));
+      text = text.substring(ICS_LINE_LIMIT);
+    }
+
+    // Add last line of description text
+    if (text) {
+      chunked.push(text);
+    }
+
+    if (description.providerName) {
+      chunked.push(`\\n\\n${description.providerName}`);
+    }
+
+    if (location) {
+      const loc = description.providerName
+        ? `\\n${location}`
+        : `\\n\\n${location}`;
+      const index = loc.indexOf(',');
+
+      if (index !== -1) {
+        chunked.push(`${loc.substring(0, index)}\\n`);
+        chunked.push(`${loc.substring(index + 1).trimStart()}\\n`);
+      } else {
+        chunked.push(`${loc}\\n`);
+      }
+    }
+
+    const phone = description.phone?.replace(/\r/g, '').replace(/\n/g, '\\n');
+    if (phone && phone !== 'undefined') {
+      chunked.push(`${phone}\\n`);
+    }
+
+    if (description.additionalText) {
+      description.additionalText.forEach(val => {
+        let line = `\\n${val}`;
+        while (line.length > ICS_LINE_LIMIT) {
+          chunked.push(`${line}\\n`.substring(0, ICS_LINE_LIMIT));
+          line = line.substring(ICS_LINE_LIMIT);
+        }
+        chunked.push(`${line}\\n`);
+      });
+    }
+  }
+
+  return chunked.join('\r\n\t').replace(/,/g, '\\,');
+}
+
+export function generateICS(
+  summary,
+  description,
+  location,
+  startDateTime,
+  endDateTime,
+) {
+  const startDate = moment(startDateTime)
+    .utc()
+    .format('YYYYMMDDTHHmmss[Z]');
+  const endDate = moment(endDateTime)
+    .utc()
+    .format('YYYYMMDDTHHmmss[Z]');
+
+  let loc = '';
+  if (location) {
+    loc = location.replace(/,/g, '\\,');
+  }
+  return [
+    `BEGIN:VCALENDAR`,
+    `VERSION:2.0`,
+    `PRODID:VA`,
+    `BEGIN:VEVENT`,
+    `UID:${guid()}`,
+    `SUMMARY:${summary}`,
+    `${formatDescription(description, location)}`,
+    `LOCATION:${summary.startsWith('Phone') ? 'Phone call' : loc}`,
+    `DTSTAMP:${startDate}`,
+    `DTSTART:${startDate}`,
+    `DTEND:${endDate}`,
+    `END:VEVENT`,
+    `END:VCALENDAR`,
+  ].join('\r\n');
 }

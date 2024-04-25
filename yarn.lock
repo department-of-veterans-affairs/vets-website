@@ -2863,10 +2863,10 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^39.1.0-beta":
-  version "39.1.0-beta"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-39.1.0-beta.tgz#a566a7f5ec52fa58ef3f8d40d9f4cc07b9e33a9c"
-  integrity sha512-5aFKpYM0Idpff0ZdnANeIxGXVJRE1/CbI9J7O1ow+Qq9M077ArzL3CyhmsliIUbWTjZzm09M0azwKv8HFQCLrg==
+"@department-of-veterans-affairs/component-library@39.2.0-beta":
+  version "39.2.0-beta"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-39.2.0-beta.tgz#e535c6fd7f08bd97aafdbcad43274b37a303835f"
+  integrity sha512-YwPEEgRQwNhtPRZLAb+dnhOv5zlwgR5sd5UiiRGRQMV+Gbl47LX2Z4XM3B7R/MMNN6cLKPwLkiDIPKdDep80nA==
   dependencies:
     "@department-of-veterans-affairs/react-components" "workspace:*"
     "@department-of-veterans-affairs/web-components" "workspace:*"
@@ -2957,9 +2957,9 @@
     minimist "^1.2.6"
 
 "@department-of-veterans-affairs/web-components@workspace:*":
-  version "7.1.0-beta"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-7.1.0-beta.tgz#862e3464eddc2f777d5a10decca20b7ae5155594"
-  integrity sha512-dM9BZajQPn21Un8zCtZUAfwQo3IsXpN/A0ArVI+HHXMI/bxmzQYPNu42iSfxdW6Gpavg4hc5VItRNUSEutX7sw==
+  version "7.2.0-beta"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-7.2.0-beta.tgz#b7588af333cb715932ef23613ec8914c00c6e1dd"
+  integrity sha512-iZZRj/iFersPzg3eCQI4elA2sGGgM1EEIp//SC+2lvbKx37pi+8Zi1szQYUYtB9HRfMmFU176lP6A8YJ7z/kUQ==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.5.1"
     "@stencil/core" "^2.19.2"
@@ -4116,6 +4116,11 @@
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-1.1.1.tgz#827fd05bb542cf874116176d8ef48d5b12163f81"
   integrity sha512-7PGLWa9MZ5x/cWy8EH2VzI4T8q5WpuHbixzCDXqixP/WyqwIrg5NDUPgYuFnB4IEIZF+6nA265mYzswFo/h1Pw==
+
+"@remix-run/router@1.15.3":
+  version "1.15.3"
+  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.15.3.tgz#d2509048d69dbb72d5389a14945339f1430b2d3c"
+  integrity sha512-Oy8rmScVrVxWZVOpEF57ovlnhpZ8CCPlnIIumVcV9nFdiSIrus99+Lw78ekXyGvVDlIsFJbSfmSovJUhCWYV3w==
 
 "@sentry/browser@^6.13.2":
   version "6.13.2"
@@ -17421,6 +17426,14 @@ react-remove-scroll@^2.5.2:
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
 
+react-router-dom-v5-compat@^6.22.3:
+  version "6.22.3"
+  resolved "https://registry.yarnpkg.com/react-router-dom-v5-compat/-/react-router-dom-v5-compat-6.22.3.tgz#4889b46d060492a58c401700c987bddcc8b915f4"
+  integrity sha512-icbyLKEUdMqWjehsRrQv0g/N4C33KFC2ZmnOBF7vvy1hudYSJWY4VTOjy3ey2YY+r3WtcdEH72M7IIGVHAkEtw==
+  dependencies:
+    history "^5.3.0"
+    react-router "6.22.3"
+
 react-router-dom-v5-compat@^6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/react-router-dom-v5-compat/-/react-router-dom-v5-compat-6.3.0.tgz#a6b1bf18a42e3c1b902711931c4b496920740815"
@@ -17476,6 +17489,13 @@ react-router@5.2.1:
     react-is "^16.6.0"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
+
+react-router@6.22.3:
+  version "6.22.3"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.22.3.tgz#9d9142f35e08be08c736a2082db5f0c9540a885e"
+  integrity sha512-dr2eb3Mj5zK2YISHK++foM9w4eBnO23eKnZEDs7c880P6oKbrjz/Svg9+nxqtHQK+oMW4OtjZca0RqPglXxguQ==
+  dependencies:
+    "@remix-run/router" "1.15.3"
 
 react-router@6.3.0:
   version "6.3.0"

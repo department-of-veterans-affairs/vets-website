@@ -1,6 +1,5 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
-// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import { merge, pick } from 'lodash';

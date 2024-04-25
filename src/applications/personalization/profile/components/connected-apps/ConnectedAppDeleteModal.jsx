@@ -14,10 +14,9 @@ export function ConnectedAppDeleteModal({
     <VaModal
       clickToClose
       onCloseEvent={closeModal}
-      modalTitle="Are you sure?"
+      modalTitle="Disconnect app?"
       visible={modalOpen}
       status="warning"
-      uswds={false}
     >
       <p>
         After you disconnect this app, the app won’t have access to new

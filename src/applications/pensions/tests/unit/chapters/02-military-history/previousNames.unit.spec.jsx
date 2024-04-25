@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
 import {
+  FakeProvider,
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
@@ -36,11 +37,17 @@ describe('pensions military history', () => {
   describe('PreviousNameView', () => {
     it('should render a list view', () => {
       const { container } = render(
-        <PreviousNameView
-          formData={{
-            previousFullName: { first: 'Jamie', middle: 'Andrew', last: 'Doe' },
-          }}
-        />,
+        <FakeProvider>
+          <PreviousNameView
+            formData={{
+              previousFullName: {
+                first: 'Jamie',
+                middle: 'Andrew',
+                last: 'Doe',
+              },
+            }}
+          />
+        </FakeProvider>,
       );
       const text = container.querySelector('h3');
       expect(text.innerHTML).to.equal('Jamie Andrew Doe');
