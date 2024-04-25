@@ -18,9 +18,7 @@ describe('<ConnectedAppDeleteModal />', () => {
     const view = render(<ConnectedAppDeleteModal {...defaultProps} />);
     expect(view.container.querySelector('va-modal')).to.exist;
     expect(
-      // prettier inserting comma at end of line for some reason. disabling
-      // eslint-disable-next-line prettier/prettier
-      view.container.querySelector('va-modal[modal-title="Are you sure?"]')
+      view.container.querySelector('va-modal[modal-title="Disconnect app?"]'),
     ).to.exist;
     expect(view.getByText(/This may affect how useful the app is to you./i)).to
       .exist;
