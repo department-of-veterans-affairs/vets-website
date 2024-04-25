@@ -51,7 +51,7 @@ export const errorMessages = {
   informalConferenceContactPhone:
     'You must enter your representative’s phone number',
   informalConferenceContactPhonePattern:
-    'You must enter a 10-digit phone number (with or without dashes)',
+    'You must enter a 10-digit phone number',
   informalConferenceTimes: 'You must select a time',
 };
 
