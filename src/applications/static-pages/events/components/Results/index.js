@@ -43,7 +43,10 @@ export const Results = ({
     <>
       {/* Showing 10 results for All upcoming */}
       {results && (
-        <h2 className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1 vads-u-font-size--base vads-u-font-weight--normal">
+        <h2
+          className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1 vads-u-font-size--base vads-u-font-weight--normal"
+          data-events-focus="true"
+        >
           <span>Displaying {resultsStartNumber}</span>
           <span className="vads-u-visibility--screen-reader">through</span>
           <span aria-hidden="true">&ndash;</span>
@@ -101,8 +104,10 @@ export const Results = ({
                     </p>
                     {event?.fieldDatetimeRangeTimezone?.length > 1 && (
                       <p className="vads-u-margin--0">
-                        <i
-                          className="fa fa-sync vads-u-font-size--sm vads-u-margin-right--0p5"
+                        <va-icon
+                          size={4}
+                          icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                          className="vads-u-font-size--sm vads-u-margin-right--0p5"
                           aria-hidden="true"
                         />{' '}
                         Repeats
