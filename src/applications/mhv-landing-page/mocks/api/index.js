@@ -13,7 +13,7 @@ const personalInformation = require('../../tests/fixtures/personal-information.j
 
 const responses = {
   ...commonResponses,
-  'GET /v0/user': user,
+  'GET /v0/user': user.defaultUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvLandingPageEnabled: true,
     mhvLandingPagePersonalization: false,

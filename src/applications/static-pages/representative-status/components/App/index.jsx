@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   isAuthenticatedWithSSOe,
   isAuthenticatedWithOAuth,
 } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { Auth } from '../States/Auth';
@@ -31,6 +32,15 @@ export const App = ({
 
   const appEnabled = useToggleValue(TOGGLE_NAMES.representativeStatusEnabled);
 
+  useEffect(
+    () => {
+      if (loggedIn) {
+        focusElement('.representative-status-widget');
+      }
+    },
+    [loggedIn],
+  );
+
   if (togglesLoading || !appEnabled) {
     return null;
   }
@@ -50,21 +60,23 @@ export const App = ({
           </p>
         </>
       )}
-      {loggedIn ? (
-        <>
-          <Auth
-            DynamicHeader={DynamicHeader}
-            DynamicSubheader={DynamicSubheader}
-          />
-        </>
-      ) : (
-        <>
-          <Unauth
-            toggleLoginModal={toggleLoginModal}
-            DynamicHeader={DynamicHeader}
-          />
-        </>
-      )}
+      <div className="representative-status-widget">
+        {loggedIn ? (
+          <>
+            <Auth
+              DynamicHeader={DynamicHeader}
+              DynamicSubheader={DynamicSubheader}
+            />
+          </>
+        ) : (
+          <>
+            <Unauth
+              toggleLoginModal={toggleLoginModal}
+              DynamicHeader={DynamicHeader}
+            />
+          </>
+        )}
+      </div>
     </>
   );
 };
