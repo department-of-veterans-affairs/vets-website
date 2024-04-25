@@ -14,8 +14,8 @@ export const tabToElement = (
   reverse = false,
   attempt = 0,
 ) => {
-  if (attempt > 10) {
-    throw new Error(`Unable to find ${selector} after 10 full searches`);
+  if (attempt > 5) {
+    throw new Error(`Unable to find ${selector} after 5 full searches`);
   }
   if (checkInDom) {
     cy.get(selector).should('exist');
@@ -81,8 +81,13 @@ export const fillSelectByTyping = (str, i = 0, attempt = 0) => {
     return fillSelectByTyping(`${str}`);
   }
 
-  if (attempt > 10) {
-    throw new Error(`Unable to enter ${str} in select after 10 tries`);
+  if (attempt > 3) {
+    return cy.get(':focus :selected').then($el => {
+      const options = [...$el, $el.siblings()].map(s => s.text).join(', ');
+      throw new Error(
+        `Unable to enter ${str} in select after 3 tries among options ${options}`,
+      );
+    });
   }
 
   cy.realPress(str[i]);
