@@ -213,15 +213,16 @@ export const getGroupedPreviousEnrollments = month => {
     <div className="vye-top-border" key={id}>
       {verifiedDate ? (
         <>
-          <h3 className="vads-u-font-size--h4">
-            {translateDateIntoMonthYearFormat(awardBeginDate)}{' '}
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {translateDateIntoMonthYearFormat(awardBeginDate)}
+            </span>{' '}
             <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-              className="vads-u-color--green"
+              icon="check_circle"
+              class="icon-color"
               aria-hidden="true"
             />{' '}
-            Verified
+            <span className="vads-u-display--block">Verified</span>
           </h3>
           <p>Payment for this month was processed.</p>
           <va-additional-info
@@ -278,15 +279,16 @@ export const getGroupedPreviousEnrollments = month => {
         </>
       ) : PendingVerificationSubmitted ? (
         <>
-          <h3 className="vads-u-font-size--h4">
-            {translateDateIntoMonthYearFormat(awardBeginDate)}{' '}
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {translateDateIntoMonthYearFormat(awardBeginDate)}
+            </span>{' '}
             <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-              className="vads-u-color--green"
+              icon="check_circle"
+              class="icon-color"
               aria-hidden="true"
             />{' '}
-            Verified
+            <span className="vads-u-display--block">Verified</span>
           </h3>
           <va-additional-info
             trigger={`${translateDateIntoMonthYearFormat(
@@ -369,16 +371,16 @@ export const getSignlePreviousEnrollments = awards => {
     <div className="vye-top-border" key={awards.id}>
       {awards.verifiedDate && (
         <>
-          <h3 className="vads-u-font-size--h4">
-            {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
-            {'   '}
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
+            </span>{' '}
             <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-              className="vads-u-color--green "
+              icon="check_circle"
+              class="icon-color"
               aria-hidden="true"
             />{' '}
-            Verified
+            <span className="vads-u-display--block">Verified</span>
           </h3>
           <p>Payment for this month has been processed.</p>
           <va-additional-info
@@ -409,15 +411,16 @@ export const getSignlePreviousEnrollments = awards => {
       )}
       {awards.PendingVerificationSubmitted && (
         <>
-          <h3 className="vads-u-font-size--h4">
-            {translateDateIntoMonthYearFormat(awards.awardBeginDate)}{' '}
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
+            </span>{' '}
             <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-              className="vads-u-color--green"
+              icon="check_circle"
+              class="icon-color"
               aria-hidden="true"
             />{' '}
-            Verified
+            <span className="vads-u-display--block">Verified</span>
           </h3>
           <va-additional-info
             trigger={`${translateDateIntoMonthYearFormat(
