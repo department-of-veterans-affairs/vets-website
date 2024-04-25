@@ -86,7 +86,7 @@ class GenerateFormDocs {
 
   apply(compiler) {
     compiler.hooks.emit.tapAsync(
-      'GenerateJsonPlugin',
+      'GenerateFormDocs',
       (compilation, callback) => {
         if (compilation.getStats().compilation.errors.length > 0) {
           callback();
