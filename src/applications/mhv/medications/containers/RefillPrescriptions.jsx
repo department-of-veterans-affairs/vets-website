@@ -192,6 +192,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             </p>
             {fullRefillList?.length > 1 && (
               <VaCheckbox
+                id="select-all-checkbox"
                 data-testid="select-all-checkbox"
                 label={`Select all ${fullRefillList.length} refills`}
                 name="select-all-checkbox"
