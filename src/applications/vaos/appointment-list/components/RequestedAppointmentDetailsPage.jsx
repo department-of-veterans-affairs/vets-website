@@ -27,6 +27,7 @@ import CancelConfirmationPage from './cancel/CancelConfirmationPage';
 import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import FacilityAddress from '../../components/FacilityAddress';
+import FacilityPhone from '../../components/FacilityPhone';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -163,9 +164,11 @@ function Content() {
         {!canceled && (
           <>
             <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3 vaos-hide-for-print">
-              <i
+              <va-icon
+                size={4}
+                icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
                 aria-hidden="true"
-                className="fas fa-times vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1"
+                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1"
               />
               <button
                 type="button"
@@ -205,6 +208,7 @@ export default function RequestedAppointmentDetailsPage() {
     appointmentDetailsStatus,
     cancelInfo,
     facility,
+    facilityPhone,
     isCC,
     isCanceled,
     typeOfCareText,
@@ -290,10 +294,24 @@ export default function RequestedAppointmentDetailsPage() {
       cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted ||
       cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading
     ) {
-      return <CancelWarningPage />;
+      return (
+        <CancelWarningPage
+          {...{
+            appointment,
+            cancelInfo,
+          }}
+        />
+      );
     }
     if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
-      return <CancelConfirmationPage />;
+      return (
+        <CancelConfirmationPage
+          {...{
+            appointment,
+            cancelInfo,
+          }}
+        />
+      );
     }
     if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.failed) {
       return (
@@ -320,13 +338,17 @@ export default function RequestedAppointmentDetailsPage() {
                 )}
                 {!!facility &&
                   !isCC && (
-                    <VAFacilityLocation
-                      facility={facility}
-                      facilityName={facility?.name}
-                      facilityId={facility?.id}
-                      isPhone
-                      showDirectionsLink={false}
-                    />
+                    <>
+                      <VAFacilityLocation
+                        facility={facility}
+                        facilityName={facility?.name}
+                        facilityId={facility?.id}
+                        showDirectionsLink={false}
+                        showPhone={false}
+                      />
+                      <br />
+                      <FacilityPhone contact={facilityPhone} level={3} />
+                    </>
                   )}
               </p>
             </VaAlert>

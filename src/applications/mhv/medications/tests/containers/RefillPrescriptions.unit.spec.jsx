@@ -127,7 +127,7 @@ describe('Refill Prescriptions Component', () => {
     const screen = setup();
     const checkbox = await screen.findByTestId('select-all-checkbox');
     expect(checkbox).to.exist;
-    expect(checkbox).to.have.property('label', 'Select all');
+    expect(checkbox).to.have.property('label', `Select all 8 refills`);
     checkbox.click();
   });
 
