@@ -44,6 +44,7 @@ const MedicationsList = props => {
   const displayNums = fromToNumbs(
     pagination.currentPage,
     pagination.totalEntries,
+    rxList?.length,
     perPage,
   );
 

@@ -44,6 +44,7 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   const displayRange = fromToNumbs(
     pagination.currentPage,
     renewablePrescriptionsList?.length,
+    renewablePrescriptionsList.length,
     MAX_PAGE_LIST_LENGTH,
   );
 
