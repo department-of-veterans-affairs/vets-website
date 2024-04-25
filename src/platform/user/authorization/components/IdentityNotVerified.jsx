@@ -64,7 +64,7 @@ const IdentityNotVerified = ({
       <va-alert
         status="continue"
         class="vads-u-margin-top--3 vads-u-margin-bottom--3"
-        disable-analyitcs={disableAnalytics}
+        disable-analytics={disableAnalytics}
       >
         <h2 slot="headline" data-testid="verify-identity-alert-headline">
           {headline}
