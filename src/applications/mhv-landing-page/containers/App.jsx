@@ -101,7 +101,7 @@ const App = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <LandingPage data={data} />
+      <LandingPage data={data} vaPatient={vaPatient} />
     </RequiredLoginView>
   );
 };

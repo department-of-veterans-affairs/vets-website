@@ -19,15 +19,13 @@ import NewsletterSignup from './NewsletterSignup';
 import WelcomeContainer from '../containers/WelcomeContainer';
 import {
   isLOA1,
-  isVAPatient,
   personalizationEnabled,
   signInServiceName,
 } from '../selectors';
 
-const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
+const LandingPage = ({ data = {}, recordEvent = recordEventFn, vaPatient }) => {
   const { cards = [], hubs = [] } = data;
   const loa1 = useSelector(isLOA1);
-  const vaPatient = useSelector(isVAPatient);
   const signInService = useSelector(signInServiceName);
   const showPersonalization = useSelector(personalizationEnabled);
   const showCards = vaPatient && !loa1;
@@ -84,6 +82,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
 LandingPage.propTypes = {
   data: PropTypes.object,
   recordEvent: PropTypes.func,
+  vaPatient: PropTypes.bool,
 };
 
 export default LandingPage;
