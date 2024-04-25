@@ -4,7 +4,7 @@ import {
   getVAAppointmentLocationId,
   isClinicVideoAppointment,
   isGfeVideoAppointment,
-  isHomeVideoAppointment,
+  isVideoHome,
   isAtlasVideoAppointment,
 } from '../../../services/appointment';
 import AppointmentDateTime from '../AppointmentDateTime';
@@ -22,7 +22,7 @@ function formatHeader(appointment) {
   if (isGfeVideoAppointment(appointment)) {
     return 'VA Video Connect using VA device';
   }
-  if (isHomeVideoAppointment(appointment)) {
+  if (isVideoHome(appointment)) {
     return 'VA Video Connect at home';
   }
   if (isClinicVideoAppointment(appointment)) {

@@ -4,7 +4,7 @@ import {
   isVAPhoneAppointment,
   isClinicVideoAppointment,
   isAtlasVideoAppointment,
-  isHomeVideoAppointment,
+  isVideoHome,
   isGfeVideoAppointment,
   isInPersonVAAppointment,
 } from '../services/appointment';
@@ -35,10 +35,7 @@ const iconClass = appointment => {
     return 'fa-building';
   }
 
-  if (
-    isHomeVideoAppointment(appointment) ||
-    isGfeVideoAppointment(appointment)
-  ) {
+  if (isVideoHome(appointment) || isGfeVideoAppointment(appointment)) {
     return 'fa-video';
   }
   return 'fa-calendar';

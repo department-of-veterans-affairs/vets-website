@@ -249,25 +249,6 @@ export function isAtlasVideoAppointment(appointment) {
 }
 
 /**
- * Returns true if the appointment is a video appointment
- * where the veteran connects from their own device
- *
- * @export
- * @param {Appointment} appointment
- * @returns {boolean} True if appointment is a home video appointment
- */
-export function isHomeVideoAppointment(appointment) {
-  const patientHasMobileGfe =
-    appointment.videoData.extension?.patientHasMobileGfe;
-
-  return (
-    (appointment?.videoData.kind === VIDEO_TYPES.mobile ||
-      appointment?.videoData.kind === VIDEO_TYPES.adhoc) &&
-    (!appointment?.videoData.isAtlas && !patientHasMobileGfe)
-  );
-}
-
-/**
  * Returns the location ID of a VA appointment (in person or video)
  *
  * @export
