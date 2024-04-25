@@ -2,8 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { ConnectedAppDeleteModal } from '../../../components/connected-apps/ConnectedAppDeleteModal';
 import { getVaButtonByText } from '~/applications/personalization/common/unitHelpers';
+import { ConnectedAppDeleteModal } from '../../../components/connected-apps/ConnectedAppDeleteModal';
 
 describe('<ConnectedAppDeleteModal />', () => {
   const defaultProps = {
@@ -18,8 +18,9 @@ describe('<ConnectedAppDeleteModal />', () => {
     const view = render(<ConnectedAppDeleteModal {...defaultProps} />);
     expect(view.container.querySelector('va-modal')).to.exist;
 
-    expect(view.container.querySelector('va-modal[modalTitle="Are you sure?"]'))
-      .to.exist;
+    expect(
+      view.container.querySelector('va-modal[modalTitle="Disconnect app?"]'),
+    ).to.exist;
     expect(view.getByText(/This may affect how useful the app is to you./i)).to
       .exist;
   });
