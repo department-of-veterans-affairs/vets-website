@@ -19,6 +19,7 @@ describe('<ConnectedAppDeleteModal />', () => {
     expect(view.container.querySelector('va-modal')).to.exist;
     expect(
       view.container.querySelector('va-modal[modal-title="Are you sure?"]'),
+
     ).to.exist;
     expect(view.getByText(/This may affect how useful the app is to you./i)).to
       .exist;
