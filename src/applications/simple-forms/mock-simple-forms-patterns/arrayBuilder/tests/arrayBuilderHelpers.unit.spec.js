@@ -1,6 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import * as helpers from '../helpers';
+import { DEFAULT_ARRAY_BUILDER_TEXT } from '../components/arrayBuilderText';
 
 describe('arrayBuilder helpers', () => {
   it('onNavBackRemoveAddingItem returned to intro if items are 0', () => {
@@ -247,4 +248,19 @@ describe('arrayBuilder helpers', () => {
     index = helpers.getArrayIndexFromPathName('asdf');
     expect(index).to.eq(undefined);
   });
+});
+
+describe('arrayBuilderText', () => {
+  const getText = helpers.initGetText({
+    getItemName: item => item?.name,
+    nounPlural: 'employers',
+    nounSingular: 'employer',
+  });
+  Object.keys(DEFAULT_ARRAY_BUILDER_TEXT).forEach(key => {
+    if (key === 'getItemName') {
+      return;
+    }
+    expect(getText(key)).to.be.a('string');
+  });
+  expect(getText).to.be.a('function');
 });
