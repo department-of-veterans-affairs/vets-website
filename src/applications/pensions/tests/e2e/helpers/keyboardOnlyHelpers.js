@@ -14,8 +14,8 @@ export const tabToElement = (
   reverse = false,
   attempt = 0,
 ) => {
-  if (attempt > 6) {
-    throw new Error(`Unable to find ${selector} after 6 full searches`);
+  if (attempt > 10) {
+    throw new Error(`Unable to find ${selector} after 10 full searches`);
   }
   if (checkInDom) {
     cy.get(selector).should('exist');
@@ -80,29 +80,34 @@ export const fillSelectByTyping = (str, i = 0, attempt = 0) => {
   if (typeof str !== 'string') {
     return fillSelectByTyping(`${str}`);
   }
-  if (attempt > 3) {
-    throw new Error(`Unable to enter ${str} in select after 3 tries`);
+
+  if (attempt > 10) {
+    throw new Error(`Unable to enter ${str} in select after 10 tries`);
   }
+
   cy.realPress(str[i]);
   return cy
     .get(':focus :selected')
     .should(Cypress._.noop)
     .then($el => {
       const text = $el.text();
-      if (text === str) return text;
+
+      if (text === str || text === `${str}${str}`) return text;
+
       if (!text.startsWith(str.slice(0, i)) || i + 1 >= str.length) {
         // Sometimes the select doesn't pick up the first character,
         // causing the wrong option to be selected. Waiting before
         // re-typing the selection mimics user behavior and allows
-        // the select to reset the selection process..
+        // the select to reset the selection process.
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(100);
-
         return fillSelectByTyping(str, 0, attempt + 1);
       }
+
       if (!text.includes(str)) {
         return fillSelectByTyping(str, i + 1, attempt);
       }
+
       return text;
     });
 };
