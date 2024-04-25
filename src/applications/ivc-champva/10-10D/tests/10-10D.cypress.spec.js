@@ -11,6 +11,7 @@ import {
   selectRadioWebComponent,
   fillTextWebComponent,
   fillFullNameWebComponentPattern,
+  reviewAndSubmitPageFlow,
   fillDateWebComponentPattern,
   fillAddressWebComponentPattern,
 } from '../../shared/tests/helpers';
@@ -204,6 +205,39 @@ const testConfig = createTestConfig(
             );
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'applicant-other-insurance-status/:index': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            selectRadioWebComponent(
+              'applicantHasOhi',
+              data.applicants[0].applicantHasOhi.hasOhi,
+            );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'consent-mail': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.selectVaCheckbox(
+              `consent-checkbox`,
+              data.consentToMailMissingRequiredFiles,
+            );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            reviewAndSubmitPageFlow(data.applicants[0].applicantName);
           });
         });
       },

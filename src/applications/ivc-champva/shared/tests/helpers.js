@@ -93,3 +93,28 @@ export const fillDateWebComponentPattern = (fieldName, value) => {
     }
   }
 };
+
+export const reviewAndSubmitPageFlow = (
+  signerName,
+  submitButtonText = 'Submit application',
+) => {
+  let veteranSignature = signerName;
+
+  if (typeof veteranSignature === 'object') {
+    veteranSignature = signerName.middle
+      ? `${signerName.first} ${signerName.middle} ${signerName.last}`
+      : `${signerName.first} ${signerName.last}`;
+  }
+
+  cy.get('#veteran-signature')
+    .shadow()
+    .get('#inputField')
+    .type(veteranSignature);
+  cy.get(`va-checkbox[name="veteran-certify"]`)
+    .shadow()
+    .find('input')
+    .click({ force: true });
+  cy.findByText(submitButtonText, {
+    selector: 'button',
+  }).click();
+};
