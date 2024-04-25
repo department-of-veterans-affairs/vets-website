@@ -228,6 +228,7 @@ describe('VAOS Component: AppointmentCardIcon', () => {
     },
   );
 
+  // Will re-enable once video appointment content is updated
   it.skip(
     'should display fa-video icon for VA video care on GFE appointments',
     async () => {
