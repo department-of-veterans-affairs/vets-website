@@ -23,7 +23,7 @@ describe('Secure Messaging Reply', () => {
     landingPage.loadInboxMessages(mockMessages);
     landingPage.loadSingleThread(mockSingleThread);
 
-    // reply to message
+    // reply to message - // TODO add to a method - clickReplyButton
     cy.intercept(
       'GET',
       `${Paths.SM_API_EXTENDED}/${mockSingleThread.data[0].id}/thread*`,
@@ -38,7 +38,7 @@ describe('Secure Messaging Reply', () => {
       force: true,
     });
 
-    // save changed message as a draft
+    // save changed message as a draft - // TODO add to method - saveNewDraft in PatientMessageDraftPage
     cy.intercept(
       'POST',
       `${Paths.SM_API_BASE}/message_drafts/${
@@ -55,10 +55,10 @@ describe('Secure Messaging Reply', () => {
       Data.MESSAGE_WAS_SAVED,
     );
 
-    // verify reply topic
+    // verify reply topic - // TODO probably unite to one method
     messageDetailsPage.replyToMessageTo(singleMessage);
 
-    messageDetailsPage.replyToMessageSenderName(singleMessage); // TODO skipped for flakiness
+    messageDetailsPage.replyToMessageSenderName(singleMessage); // TODO skipped for flakiness - verify by 200x pattern
 
     messageDetailsPage.replyToMessageRecipientName(singleMessage);
 
@@ -66,9 +66,9 @@ describe('Secure Messaging Reply', () => {
 
     messageDetailsPage.replyToMessageId(singleMessage);
 
-    messageDetailsPage.replyToMessageBody(singleMessage); // TODO skipped for flakiness
+    messageDetailsPage.replyToMessageBody(singleMessage); // TODO skipped for flakiness - verify by 200x pattern
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

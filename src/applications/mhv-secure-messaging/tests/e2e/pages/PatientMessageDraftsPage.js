@@ -388,7 +388,7 @@ class PatientMessageDraftsPage {
       .type(text);
   };
 
-  saveDraftMessage = mockResponse => {
+  saveExistingDraftMessage = mockResponse => {
     cy.intercept(
       'PUT',
       `/my_health/v1/messaging/message_drafts/3163320/replydraft/3163906`,
