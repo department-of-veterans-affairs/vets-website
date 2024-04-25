@@ -3,14 +3,6 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "mhvLandingPageEnabled",
-        "value": false
-      },
-      {
-        "name": "mhv_landing_page_enabled",
-        "value": false
-      },
-      {
         "name": "mhvLandingPagePersonalization",
         "value": false
       },

@@ -13,9 +13,7 @@ class ApiInitializer {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          mhvLandingPageEnabled: false,
-        }),
+        featureToggles.generateFeatureToggles({}),
       );
     },
     withCurrentFeatures: () => {
@@ -24,7 +22,6 @@ class ApiInitializer {
         'GET',
         '/v0/feature_toggles*',
         featureToggles.generateFeatureToggles({
-          mhvLandingPageEnabled: true,
           mhvLandingPagePersonalization: false,
           mhvLandingPageEnableVaGovHealthToolsLinks: false,
         }),
@@ -35,7 +32,6 @@ class ApiInitializer {
         'GET',
         '/v0/feature_toggles*',
         featureToggles.generateFeatureToggles({
-          mhvLandingPageEnabled: true,
           mhvLandingPagePersonalization: true,
           mhvLandingPageEnableVaGovHealthToolsLinks: true,
         }),
