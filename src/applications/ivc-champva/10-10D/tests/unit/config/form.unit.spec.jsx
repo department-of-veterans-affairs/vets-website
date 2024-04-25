@@ -7,14 +7,13 @@ import {
 // import ApplicantMedicareStatusContinuedPage, {
 //   ApplicantMedicareStatusContinuedReviewPage,
 // } from '../../pages/ApplicantMedicareStatusContinuedPage';
-import ApplicantOhiStatusPage from '../../../pages/ApplicantOhiStatusPage';
 import ApplicantRelationshipPage from '../../../../shared/components/applicantLists/ApplicantRelationshipPage';
 import formConfig from '../../../config/form';
 import { getFileSize } from '../../../helpers/utilities';
 
 import FileFieldCustom from '../../../../shared/components/fileUploads/FileUpload';
 
-import mockData from '../fixtures/data/test-data.json';
+import mockData from '../../e2e/fixtures/data/test-data.json';
 
 const applicants = [
   {
@@ -213,11 +212,6 @@ testNumberOfWebComponentFields(
 //   'ApplicantMedicareStatusContinuedReviewPage ',
 //   <>{ApplicantMedicareStatusContinuedReviewPage()}</>,
 // );
-
-testComponentRender(
-  'ApplicantOhiStatusPage',
-  <ApplicantOhiStatusPage data={{}} />,
-);
 
 testComponentRender(
   'ApplicantRelationshipPage ',

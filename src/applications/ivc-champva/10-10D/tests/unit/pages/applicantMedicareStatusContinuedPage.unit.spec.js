@@ -9,7 +9,7 @@ import {
   // getProps,
 } from '../../../../shared/tests/pages/pageTests.spec';
 import { ApplicantMedicareStatusContinuedPage } from '../../../pages/ApplicantMedicareStatusContinuedPage';
-import mockData from '../fixtures/data/test-data.json';
+import mockData from '../../e2e/fixtures/data/test-data.json';
 
 // The tests in here need to be re-worked. This medicare component was overhauled.
 

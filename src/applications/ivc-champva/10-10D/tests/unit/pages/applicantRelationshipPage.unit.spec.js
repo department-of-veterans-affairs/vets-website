@@ -11,7 +11,7 @@ import {
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
 } from '../../../../shared/components/applicantLists/ApplicantRelationshipPage';
-import mockData from '../fixtures/data/test-data.json';
+import mockData from '../../e2e/fixtures/data/test-data.json';
 
 testComponentRender(
   'ApplicantRelationshipReviewPage',

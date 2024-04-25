@@ -12,7 +12,7 @@ import {
   ApplicantMedicareStatusPage,
   ApplicantMedicareStatusReviewPage,
 } from '../../../pages/ApplicantMedicareStatusPage';
-import mockData from '../fixtures/data/test-data.json';
+import mockData from '../../e2e/fixtures/data/test-data.json';
 
 testComponentRender(
   'ApplicantMedicareStatusReviewPage',
