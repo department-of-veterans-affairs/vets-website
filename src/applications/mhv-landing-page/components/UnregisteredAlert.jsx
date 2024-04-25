@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const NoHealthAlert = ({ headline, recordEvent }) => {
-  const status = 'warning';
-
+const UnregisteredAlert = ({ headline, recordEvent, status }) => {
   useEffect(() => {
     recordEvent({
       event: 'nav-alert-box-load',
@@ -52,14 +50,16 @@ const NoHealthAlert = ({ headline, recordEvent }) => {
   );
 };
 
-NoHealthAlert.defaultProps = {
+UnregisteredAlert.defaultProps = {
   headline: 'You don’t have access to My HealtheVet',
   recordEvent: recordEventFn,
+  status: 'warning',
 };
 
-NoHealthAlert.propTypes = {
+UnregisteredAlert.propTypes = {
   headline: PropTypes.string,
   recordEvent: PropTypes.func,
+  status: PropTypes.string,
 };
 
-export default NoHealthAlert;
+export default UnregisteredAlert;

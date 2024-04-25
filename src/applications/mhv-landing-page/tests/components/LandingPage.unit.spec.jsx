@@ -10,9 +10,9 @@ import reducers from '../../reducers';
 
 const stateFn = ({
   mhv_landing_page_personalization = false,
-  facilities = [{ facilityId: 983, isCerner: false }],
   loa = 3,
   serviceName = 'logingov',
+  vaPatient = true,
 } = {}) => ({
   featureToggles: {
     mhv_landing_page_personalization,
@@ -22,9 +22,10 @@ const stateFn = ({
       userFullName: {
         first: 'Sam',
       },
-      facilities,
+
       loa: { current: loa },
       signIn: { serviceName },
+      vaPatient,
     },
   },
 });
@@ -51,8 +52,8 @@ describe('LandingPage component', () => {
     getByRole('heading', { level: 2, name: /Welcome/ });
   });
 
-  it('shows an alert when user has no facilities (aka no health data)', () => {
-    const initialState = stateFn({ facilities: [] });
+  it('shows an alert when user is not a VA Patient', () => {
+    const initialState = stateFn({ vaPatient: false });
     const { getByText } = setup({ initialState });
     getByText('You don’t have access to My HealtheVet');
   });
@@ -74,22 +75,6 @@ describe('LandingPage component', () => {
     const recordEventSpy = sinon.spy();
     const props = { recordEvent: recordEventSpy };
     const initialState = stateFn({ loa: 1, facilities: [] });
-    setup({ initialState, props });
-    await waitFor(() => {
-      expect(recordEventSpy.calledOnce).to.be.true;
-      expect(recordEventSpy.calledWith(loa1Event)).to.be.true;
-    });
-  });
-
-  it('reports non-VA Patient condition to GA via recordEvent', async () => {
-    const loa1Event = {
-      ...event,
-      'alert-box-headline': 'You don’t have access to My HealtheVet',
-      'alert-box-status': 'warning',
-    };
-    const recordEventSpy = sinon.spy();
-    const props = { recordEvent: recordEventSpy };
-    const initialState = stateFn({ facilities: [] });
     setup({ initialState, props });
     await waitFor(() => {
       expect(recordEventSpy.calledOnce).to.be.true;

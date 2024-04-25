@@ -5,7 +5,7 @@ import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
-import { isLOA1 } from '~/platform/user/selectors';
+import { isLOA1, isVAPatient } from '~/platform/user/selectors';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
@@ -13,41 +13,41 @@ import IdentityNotVerified from '~/platform/user/authorization/components/Identi
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
 import CardLayout from './CardLayout';
-import NoHealthAlert from './NoHealthAlert';
+import UnregisteredAlert from './UnregisteredAlert';
 import HeaderLayoutV1 from './HeaderLayoutV1';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import WelcomeContainer from '../containers/WelcomeContainer';
-import { hasHealthData, personalizationEnabled } from '../selectors';
+import { personalizationEnabled } from '../selectors';
 
 const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;
-  const isUnverified = useSelector(isLOA1);
-  const hasHealth = useSelector(hasHealthData);
+  const loa1 = useSelector(isLOA1);
+  const vaPatient = useSelector(isVAPatient);
   const signInService = useSelector(signInServiceName);
   const showPersonalization = useSelector(personalizationEnabled);
-  const showCards = hasHealth && !isUnverified;
+  const showCards = vaPatient && !loa1;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
-  const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
-  const noCardsDisplay = isUnverified ? (
+  const unverifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
+  const noCardsDisplay = vaPatient ? (
     <IdentityNotVerified
       disableAnayltics
-      headline={unVerifiedHeadline}
+      headline={unverifiedHeadline}
       showHelpContent={false}
       showVerifyIdenityHelpInfo
       signInService={signInService}
     />
   ) : (
-    <NoHealthAlert />
+    <UnregisteredAlert />
   );
 
   useEffect(() => {
-    if (isUnverified) {
+    if (loa1) {
       recordEvent({
         event: 'nav-alert-box-load',
         action: 'load',
-        'alert-box-headline': unVerifiedHeadline,
+        'alert-box-headline': unverifiedHeadline,
         'alert-box-status': 'continue',
       });
     }
