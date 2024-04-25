@@ -5,7 +5,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceTranslationDisclaimerSpanishEnabled = true,
     checkInExperienceTranslationDislaimerTagalogEnabled = true,
     checkInExperienceTravelReimbursement = true,
-    checkInExperienceTravelLogic = false,
+    checkInExperienceTravelLogic = true,
     checkInExperience45MinuteReminder = true,
     checkInExperienceBrowserMonitoring = false,
     checkInExperiencePreCheckInActionLinkTopPlacement = true,
