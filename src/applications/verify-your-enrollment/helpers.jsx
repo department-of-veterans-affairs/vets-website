@@ -215,13 +215,15 @@ export const getGroupedPreviousEnrollments = month => {
         <>
           <h3 className="vads-u-font-size--h4">
             {translateDateIntoMonthYearFormat(awardBeginDate)}{' '}
-            <i
-              className="fas fa-check-circle vads-u-color--green"
+            <va-icon
+              size={4}
+              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              className="vads-u-color--green"
               aria-hidden="true"
             />{' '}
             Verified
           </h3>
-          <p>Payment for this month was deposited.</p>
+          <p>Payment for this month was processed.</p>
           <va-additional-info
             trigger={`${translateDateIntoMonthYearFormat(
               awardBeginDate,
@@ -229,7 +231,7 @@ export const getGroupedPreviousEnrollments = month => {
             class="vads-u-margin-bottom--4"
           >
             {month.map((monthAward, index) => {
-              const { numberHours, monthlyRate, paymentDate } = monthAward;
+              const { numberHours, monthlyRate } = monthAward;
               return (
                 <div key={monthAward.id}>
                   <p className="vads-u-font-weight--bold vads-u-margin--0">
@@ -250,14 +252,14 @@ export const getGroupedPreviousEnrollments = month => {
                     </span>{' '}
                     {formatCurrency(monthlyRate)}
                   </p>
-                  <p className="vads-u-margin--0">
+                  {/* <p className="vads-u-margin--0">
                     <span className="vads-u-font-weight--bold">
                       Payment Deposited on:
                     </span>{' '}
                     {translateDateIntoMonthDayYearFormat(paymentDate)}
-                  </p>
+                  </p> */}
                   <div className="vads-u-font-style--italic vads-u-margin--0">
-                    Verified on{' '}
+                    You verified on{' '}
                     {translateDateIntoMonthDayYearFormat(
                       monthAward.verifiedDate,
                     )}
@@ -278,16 +280,14 @@ export const getGroupedPreviousEnrollments = month => {
         <>
           <h3 className="vads-u-font-size--h4">
             {translateDateIntoMonthYearFormat(awardBeginDate)}{' '}
-            <i
-              className="fas fa-check-circle vads-u-color--green"
+            <va-icon
+              size={4}
+              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              className="vads-u-color--green"
               aria-hidden="true"
             />{' '}
             Verified
           </h3>
-          <p>
-            Verifications are processed on the business day after submission.
-            Payment is projected to be deposited within 3-5 business days.
-          </p>
           <va-additional-info
             trigger={`${translateDateIntoMonthYearFormat(
               awardBeginDate,
@@ -316,14 +316,8 @@ export const getGroupedPreviousEnrollments = month => {
                     </span>{' '}
                     {formatCurrency(monthlyRate)}
                   </p>
-                  <p className="vads-u-margin--0">
-                    <span className="vads-u-font-weight--bold">
-                      Payment Deposited on:
-                    </span>{' '}
-                    Pending
-                  </p>
                   <div className="vads-u-font-style--italic vads-u-margin--0">
-                    Verified on{' '}
+                    You verified on{' '}
                     {translateDateIntoMonthDayYearFormat(
                       monthAward.PendingVerificationSubmitted,
                     )}
@@ -378,13 +372,15 @@ export const getSignlePreviousEnrollments = awards => {
           <h3 className="vads-u-font-size--h4">
             {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
             {'   '}
-            <i
-              className="fas fa-check-circle vads-u-color--green "
+            <va-icon
+              size={4}
+              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              className="vads-u-color--green "
               aria-hidden="true"
             />{' '}
             Verified
           </h3>
-          <p>Payment for this month was deposited.</p>
+          <p>Payment for this month has been processed.</p>
           <va-additional-info
             trigger={`${translateDateIntoMonthYearFormat(
               awards.awardBeginDate,
@@ -404,14 +400,8 @@ export const getSignlePreviousEnrollments = awards => {
               <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
               {formatCurrency(awards.monthlyRate)}
             </p>
-            <p>
-              <span className="vads-u-font-weight--bold">
-                Payment Deposited on:
-              </span>{' '}
-              {translateDateIntoMonthDayYearFormat(awards.paymentDate)}
-            </p>
             <div className="vads-u-font-style--italic">
-              Verified on{' '}
+              You verified on{' '}
               {translateDateIntoMonthDayYearFormat(awards.verifiedDate)}
             </div>
           </va-additional-info>
@@ -421,16 +411,14 @@ export const getSignlePreviousEnrollments = awards => {
         <>
           <h3 className="vads-u-font-size--h4">
             {translateDateIntoMonthYearFormat(awards.awardBeginDate)}{' '}
-            <i
-              className="fas fa-check-circle vads-u-color--green"
+            <va-icon
+              size={4}
+              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              className="vads-u-color--green"
               aria-hidden="true"
             />{' '}
             Verified
           </h3>
-          <p>
-            Verifications are processed on the business day after submission.
-            Payment is projected to be deposited within 3-5 business days.
-          </p>
           <va-additional-info
             trigger={`${translateDateIntoMonthYearFormat(
               awards.awardBeginDate,
@@ -450,14 +438,8 @@ export const getSignlePreviousEnrollments = awards => {
               <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
               {formatCurrency(awards.monthlyRate)}
             </p>
-            <p className="vads-u-margin--0">
-              <span className="vads-u-font-weight--bold">
-                Payment Deposited on:
-              </span>{' '}
-              Pending
-            </p>
             <div className="vads-u-font-style--italic">
-              Verified on{' '}
+              You verified on{' '}
               {translateDateIntoMonthDayYearFormat(
                 awards.PendingVerificationSubmitted,
               )}
