@@ -68,7 +68,6 @@ export default {
   SCO_ANNOUNCEMENTS: 'sco-announcements',
   SCO_EVENTS: 'sco-events',
   SECURE_MESSAGING_PAGE: 'secure-messaging-page',
-  SHIFTED_VETS_BANNER: 'shifted-vets-banner',
   SIDE_NAV: 'side-nav',
   SUPPLEMENTAL_CLAIM: 'supplemental_claim',
   THIRD_PARTY_APP_DIRECTORY: 'third-party-app-directory',

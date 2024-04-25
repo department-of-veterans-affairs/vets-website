@@ -19,9 +19,15 @@ const success = message => {
 };
 
 // easy way to just log out messages when debugging locally
-const debug = message => {
+const debug = (message, status = 'info') => {
+  const statusLookup = {
+    warn,
+    error,
+    info,
+    success,
+  };
   if (process?.env?.AEDEBUG) {
-    info(message);
+    statusLookup[status](message);
   }
 };
 

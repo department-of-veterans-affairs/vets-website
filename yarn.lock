@@ -2863,10 +2863,10 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^39.1.0-beta":
-  version "39.1.0-beta"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-39.1.0-beta.tgz#a566a7f5ec52fa58ef3f8d40d9f4cc07b9e33a9c"
-  integrity sha512-5aFKpYM0Idpff0ZdnANeIxGXVJRE1/CbI9J7O1ow+Qq9M077ArzL3CyhmsliIUbWTjZzm09M0azwKv8HFQCLrg==
+"@department-of-veterans-affairs/component-library@39.2.0-beta":
+  version "39.2.0-beta"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-39.2.0-beta.tgz#e535c6fd7f08bd97aafdbcad43274b37a303835f"
+  integrity sha512-YwPEEgRQwNhtPRZLAb+dnhOv5zlwgR5sd5UiiRGRQMV+Gbl47LX2Z4XM3B7R/MMNN6cLKPwLkiDIPKdDep80nA==
   dependencies:
     "@department-of-veterans-affairs/react-components" "workspace:*"
     "@department-of-veterans-affairs/web-components" "workspace:*"
@@ -2957,9 +2957,9 @@
     minimist "^1.2.6"
 
 "@department-of-veterans-affairs/web-components@workspace:*":
-  version "7.1.0-beta"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-7.1.0-beta.tgz#862e3464eddc2f777d5a10decca20b7ae5155594"
-  integrity sha512-dM9BZajQPn21Un8zCtZUAfwQo3IsXpN/A0ArVI+HHXMI/bxmzQYPNu42iSfxdW6Gpavg4hc5VItRNUSEutX7sw==
+  version "7.2.0-beta"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-7.2.0-beta.tgz#b7588af333cb715932ef23613ec8914c00c6e1dd"
+  integrity sha512-iZZRj/iFersPzg3eCQI4elA2sGGgM1EEIp//SC+2lvbKx37pi+8Zi1szQYUYtB9HRfMmFU176lP6A8YJ7z/kUQ==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.5.1"
     "@stencil/core" "^2.19.2"
