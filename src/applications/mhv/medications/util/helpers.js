@@ -188,3 +188,18 @@ export const createVAPharmacyText = (phone = null) => {
   }
   return `your VA pharmacy ${dialFragment}`.trim();
 };
+
+/**
+ * Create pagination numbers
+ * @param {Number} currentPage
+ * @param {Number} totalPages
+ * @returns {Array} Array of numbers
+ */
+export const fromToNumbs = (currentPage, listLength, maxPerPage) => {
+  if (listLength < 1) {
+    return [0, 0];
+  }
+  const from = (currentPage - 1) * maxPerPage + 1;
+  const to = Math.min(currentPage * maxPerPage, listLength);
+  return [from, to];
+};

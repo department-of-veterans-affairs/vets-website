@@ -14,6 +14,8 @@ import { selectRefillContentFlag } from '../util/selectors';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
 import { dispStatusObj } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
+import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
+import { getAllergiesList } from '../actions/prescriptions';
 
 const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // Hooks
@@ -36,6 +38,9 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     state => state.rx.prescriptions?.selectedSortOption,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const allergies = useSelector(state => state.rx.allergies?.allergiesList);
+  const allergiesError = useSelector(state => state.rx.allergies.error);
+
   // Memoized Values
   const selectedRefillListLength = useMemo(() => selectedRefillList.length, [
     selectedRefillList,
@@ -82,6 +87,17 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     }
   };
 
+  const categorizePrescriptions = ([refillable, renewable], rx) => {
+    if (
+      (rx.dispStatus === dispStatusObj.active && rx.refillRemaining > 0) ||
+      (rx.dispStatus === dispStatusObj.activeParked &&
+        (rx.refillRemaining > 0 || rx.rxRfRecords.length === 0))
+    ) {
+      return [[...refillable, rx], renewable];
+    }
+    return [refillable, [...renewable, rx]];
+  };
+
   useEffect(
     () => {
       if (fullRefillList === undefined || fullRefillList.length === 0) {
@@ -94,23 +110,13 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             .sort((a, b) =>
               a.prescriptionName.localeCompare(b.prescriptionName),
             );
-          const reduceBy = ([refillable, renewable], rx) => {
-            if (
-              (rx.dispStatus === dispStatusObj.active &&
-                rx.refillRemaining > 0) ||
-              (rx.dispStatus === dispStatusObj.activeParked &&
-                (rx.refillRemaining > 0 || rx.rxRfRecords.length === 0))
-            ) {
-              return [[...refillable, rx], renewable];
-            }
-            return [refillable, [...renewable, rx]];
-          };
-          const [refillableList, renewableList] = fullList.reduce(reduceBy, [
-            [],
-            [],
-          ]);
+          const [refillableList, renewableList] = fullList.reduce(
+            categorizePrescriptions,
+            [[], []],
+          );
           setFullRefillList(refillableList);
           setFullRenewList(renewableList);
+          if (!allergies) dispatch(getAllergiesList());
           updateLoadingStatus(false);
         });
       }
@@ -244,6 +250,12 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           </p>
         )}
         <RenewablePrescriptions renewablePrescriptionsList={fullRenewList} />
+        <div className="print-only">
+          <AllergiesPrintOnly
+            allergies={allergies}
+            allergiesError={allergiesError}
+          />
+        </div>
       </div>
     );
   };

@@ -6,8 +6,7 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
-
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, fromToNumbs } from '../../util/helpers';
 import { medicationsUrls } from '../../util/constants';
 
 const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
@@ -40,6 +39,12 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   const paginatedRenewablePrescriptions = renewablePrescriptionsList.slice(
     startIdx,
     endIdx,
+  );
+
+  const displayRange = fromToNumbs(
+    pagination.currentPage,
+    renewablePrescriptionsList?.length,
+    MAX_PAGE_LIST_LENGTH,
   );
 
   // Functions
@@ -82,9 +87,9 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
       {renewablePrescriptionsList.length > 0 && (
         <>
           <p data-testid="renew-page-list-count">
-            Showing {renewablePrescriptionsList.length} prescription
-            {renewablePrescriptionsList.length !== 1 ? 's' : ''} you may need to
-            renew
+            Showing
+            <span>{` ${displayRange[0]} - ${displayRange[1]} of`}</span>
+            {` ${renewablePrescriptionsList.length} prescriptions`}
           </p>
           <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
         </>
@@ -119,7 +124,11 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
                 <>
                   <br />
                   <span data-testid={`medications-last-shipped-${idx}`}>
-                    <i className="fas fa-truck vads-u-margin-right--1p5" />
+                    <va-icon
+                      size={4}
+                      icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                      className="vads-u-margin-right--1p5"
+                    />
                     Last refill shipped on{' '}
                     {dateFormat(
                       prescription.trackingList[0].completeDateTime,
