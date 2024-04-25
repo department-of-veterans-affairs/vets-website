@@ -33,4 +33,11 @@ describe(appName, () => {
     LandingPage.validateURL();
     cy.injectAxeThenAxeCheck();
   });
+
+  it('landing page is enabled for MHV', () => {
+    LandingPage.visitPage({ serviceProvider: CSP_IDS.MHV });
+    LandingPage.validatePageLoaded();
+    LandingPage.validateURL();
+    cy.injectAxeThenAxeCheck();
+  });
 });
