@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const RefillNotification = ({ refillResult = {} }) => {
+  useEffect(
+    () => {
+      if (refillResult?.status === 'finished') {
+        let elemId = '';
+        if (refillResult?.successfulMeds.length === 0) {
+          elemId = 'failed-refill';
+        } else if (refillResult?.failedMeds.length > 0) {
+          elemId = 'partial-refill';
+        } else {
+          elemId = 'success-refill';
+        }
+        const element = document.getElementById(elemId);
+        if (element) {
+          focusElement(element);
+        }
+      }
+    },
+    [refillResult],
+  );
   if (refillResult?.status !== 'finished') {
     return <></>;
   }
@@ -10,7 +30,14 @@ const RefillNotification = ({ refillResult = {} }) => {
     <>
       {refillResult?.successfulMeds.length === 0 ? (
         <div className="vads-u-margin-y--1">
-          <va-alert status="error" setFocus aria-live="polite" uswds>
+          <va-alert
+            id="failed-refill"
+            status="error"
+            setFocus
+            role="alert"
+            aria-live="polite"
+            uswds
+          >
             <h2
               className="vads-u-margin-y--0 vads-u-font-size--h3"
               data-testid="failed-message-title"
@@ -28,7 +55,13 @@ const RefillNotification = ({ refillResult = {} }) => {
         <>
           {refillResult?.failedMeds.length > 0 && (
             <div className="vads-u-margin-y--2">
-              <va-alert status="error" setFocus aria-live="polite" uswds>
+              <va-alert
+                id="partial-refill"
+                status="error"
+                role="alert"
+                aria-live="polite"
+                uswds
+              >
                 <h2
                   className="vads-u-margin-y--0 vads-u-font-size--h3"
                   data-testid="failed-message-title"
@@ -60,16 +93,27 @@ const RefillNotification = ({ refillResult = {} }) => {
             </div>
           )}
           <div className="vads-u-margin-y--2">
-            <va-alert status="success" setFocus aria-live="polite" uswds>
+            <va-alert
+              id="success-refill"
+              status="success"
+              setFocus
+              role="alert"
+              aria-live="polite"
+              uswds
+            >
               <h2
                 className="vads-u-margin-y--0 vads-u-font-size--h3"
                 data-testid="success-message-title"
               >
-                Refill prescriptions
+                Refills requested
               </h2>
               <ul className="va-list--disc">
                 {refillResult?.successfulMeds.map((id, idx) => (
-                  <li className="vads-u-padding-y--0" key={idx}>
+                  <li
+                    className="vads-u-padding-y--0"
+                    data-testid="medication-requested"
+                    key={idx}
+                  >
                     {id?.prescriptionName}
                   </li>
                 ))}
@@ -80,7 +124,11 @@ const RefillNotification = ({ refillResult = {} }) => {
               >
                 For updates on your refill requests, go to your medications
                 list. <br />
-                <Link data-testid="back-to-medications-page-link" to="/">
+                <Link
+                  data-testid="back-to-medications-page-link"
+                  to="/"
+                  className="hide-visited-link"
+                >
                   Go to your medications list
                 </Link>
               </p>

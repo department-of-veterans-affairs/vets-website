@@ -24,9 +24,7 @@ describe('Start a new message With Attacments and Errors', () => {
       'Your file is empty. Try attaching a different file.',
     );
     composePage.attachMessageFromFile('test_ext.TXT');
-
-    // TO DO: remove attachment
-    composePage.removeAttachMessageFromFile();
+    composePage.removeAttachedFile();
 
     composePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     composePage

@@ -8,7 +8,11 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
-import { DependentsMinItem, formatFullName } from '../../../helpers';
+import {
+  DependentsMinItem,
+  formatFullName,
+  updateMultiresponseUiOptions,
+} from '../../../helpers';
 import { doesHaveDependents } from './helpers';
 
 const DependentNameView = ({ formData }) => (
@@ -39,6 +43,7 @@ export default {
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
+        updateSchema: updateMultiresponseUiOptions,
       },
       'ui:errorMessages': {
         minItems: DependentsMinItem,

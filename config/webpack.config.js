@@ -495,8 +495,8 @@ module.exports = async (env = {}) => {
           },
           {
             from:
-              'node_modules/@department-of-veterans-affairs/component-library/dist/assets',
-            to: `${buildPath}/assets`,
+              'node_modules/@department-of-veterans-affairs/component-library/dist/img/',
+            to: `${buildPath}/img/`,
           },
         ],
       }),

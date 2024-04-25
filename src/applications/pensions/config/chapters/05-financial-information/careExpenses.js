@@ -16,6 +16,7 @@ import {
   VaCheckboxField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { updateMultiresponseUiOptions } from '../../../helpers';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
 import { doesHaveCareExpenses } from './helpers';
@@ -58,6 +59,7 @@ export default {
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
+        updateSchema: updateMultiresponseUiOptions,
       },
       items: {
         recipients: radioUI({
