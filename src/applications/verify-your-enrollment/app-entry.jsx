@@ -8,7 +8,7 @@ import reducer from './reducers';
 import manifest from './manifest.json';
 
 // eslint-disable-next-line no-unused-expressions
-(environment.isProduction() || window.isProduction) &&
+(!environment.isProduction() || window.isProduction) &&
   startApp({
     url: manifest.rootUrl,
     reducer,
