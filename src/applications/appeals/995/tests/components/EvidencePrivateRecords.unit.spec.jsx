@@ -15,9 +15,10 @@ import {
   NO_ISSUES_SELECTED,
 } from '../../constants';
 
+import { clickAddAnother, clickBack, clickContinue } from './helpers';
 import { parseDateWithOffset } from '../../../shared/utils/dates';
 import { SELECTED, MAX_YEARS_PAST } from '../../../shared/constants';
-import { clickAddAnother, clickBack, clickContinue } from './helpers';
+import sharedErrorMessages from '../../../shared/content/errorMessages';
 
 /*
 | Data     | Forward     | Back               | Add another      |
@@ -273,11 +274,11 @@ describe('<EvidencePrivateRecords>', () => {
       const errorEls = getErrorElements(container);
       [
         errors.facilityMissing,
-        options.ignoreCountry ? null : errors.country, // default set to USA
-        errors.street,
-        errors.city,
-        errors.state,
-        errors.postal,
+        options.ignoreCountry ? null : sharedErrorMessages.country, // default set to USA
+        sharedErrorMessages.street,
+        sharedErrorMessages.city,
+        sharedErrorMessages.state,
+        sharedErrorMessages.postal,
         errors.issuesMissing,
         errors.blankDate,
         errors.blankDate,
@@ -656,7 +657,7 @@ describe('<EvidencePrivateRecords>', () => {
 
       await waitFor(() => {
         const dateTo = $$('va-memorable-date', container)[1];
-        expect(dateTo.error).to.contain(errorMessages.endDateBeforeStart);
+        expect(dateTo.error).to.contain(sharedErrorMessages.endDateBeforeStart);
         expect(dateTo.invalidMonth).to.be.true;
         expect(dateTo.invalidDay).to.be.true;
         expect(dateTo.invalidYear).to.be.true;

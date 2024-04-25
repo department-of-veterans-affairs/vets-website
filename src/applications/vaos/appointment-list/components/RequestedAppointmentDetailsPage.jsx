@@ -27,6 +27,7 @@ import CancelConfirmationPage from './cancel/CancelConfirmationPage';
 import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import FacilityAddress from '../../components/FacilityAddress';
+import FacilityPhone from '../../components/FacilityPhone';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -205,6 +206,7 @@ export default function RequestedAppointmentDetailsPage() {
     appointmentDetailsStatus,
     cancelInfo,
     facility,
+    facilityPhone,
     isCC,
     isCanceled,
     typeOfCareText,
@@ -290,10 +292,24 @@ export default function RequestedAppointmentDetailsPage() {
       cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted ||
       cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading
     ) {
-      return <CancelWarningPage />;
+      return (
+        <CancelWarningPage
+          {...{
+            appointment,
+            cancelInfo,
+          }}
+        />
+      );
     }
     if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
-      return <CancelConfirmationPage />;
+      return (
+        <CancelConfirmationPage
+          {...{
+            appointment,
+            cancelInfo,
+          }}
+        />
+      );
     }
     if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.failed) {
       return (
@@ -320,13 +336,17 @@ export default function RequestedAppointmentDetailsPage() {
                 )}
                 {!!facility &&
                   !isCC && (
-                    <VAFacilityLocation
-                      facility={facility}
-                      facilityName={facility?.name}
-                      facilityId={facility?.id}
-                      isPhone
-                      showDirectionsLink={false}
-                    />
+                    <>
+                      <VAFacilityLocation
+                        facility={facility}
+                        facilityName={facility?.name}
+                        facilityId={facility?.id}
+                        showDirectionsLink={false}
+                        showPhone={false}
+                      />
+                      <br />
+                      <FacilityPhone contact={facilityPhone} level={3} />
+                    </>
                   )}
               </p>
             </VaAlert>
