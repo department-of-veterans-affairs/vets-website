@@ -224,14 +224,11 @@ export const nonVeteranApplicantDetailsDescriptionPreparer =
 
 // do not render with a prod flag
 export const applicantContactInfoDescriptionVet = (
-  <va-additional-info trigger="Why do we need your contact details?">
+  <va-additional-info trigger="Why we ask for your contact details">
     <p>
-      We may reach out by phone if we need more information about your
-      application.
-    </p>
-    <p>
-      Your email address will be used to send a confirmation message once you’ve
-      submitted your application.
+      Once you’ve submitted this application, we’ll send you an email
+      confirmation. We may contact you by phone or mail if we need more
+      information about this application.
     </p>
   </va-additional-info>
 );

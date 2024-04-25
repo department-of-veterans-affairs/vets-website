@@ -130,7 +130,7 @@ export const applicantContactInfoWrapper = <ApplicantContactInfoDescription />;
 // NOTE: Commented since only used in Contact Information section which is currently commented until it is moved
 //       Uncomment once Contact Information is moved and uncommented
 /* const applicantContactInfoSubheader = (
-  <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>
+  <h3 className="vads-u-font-size--h5">Your contact details</h3>
 ); */
 
 function ApplicantContactInfoDescription() {
@@ -607,7 +607,7 @@ const formConfig = {
               claimant: {
                 address: merge(
                   {},
-                  address.uiSchema('Applicant’s mailing address'),
+                  address.uiSchema('Your mailing address'),
                   {
                     street: {
                       'ui:title': 'Street address',
