@@ -14,8 +14,7 @@ import {
   validateBooleanGroup,
   validateAge,
   validateSeparationDate,
-  // isInFuture,
-  isInPast,
+  isInFuture,
   isLessThan180DaysInFuture,
   title10BeforeRad,
   validateTitle10StartDate,
@@ -687,42 +686,22 @@ describe('526 All Claims validations', () => {
     });
   });
 
-  // describe('isInFuture', () => {
-  //   it('adds an error when entered date is today or earlier', () => {
-  //     const addError = sinon.spy();
-  //     const errors = { addError };
-  //     const fieldData = '2018-04-12';
-
-  //     isInFuture(errors, fieldData);
-  //     expect(addError.calledOnce).to.be.true;
-  //   });
-
-  //   it('does not add an error when the entered date is in the future', () => {
-  //     const addError = sinon.spy();
-  //     const errors = { addError };
-  //     const fieldData = '2099-04-12';
-
-  //     isInFuture(errors, fieldData);
-  //     expect(addError.callCount).to.equal(0);
-  //   });
-  // });
-
-  describe('isInPast', () => {
-    it('adds an error when entered date is in the future', () => {
+  describe('isInFuture', () => {
+    it('adds an error when entered date is today or earlier', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      const fieldData = daysFromToday(1);
+      const fieldData = '2018-04-12';
 
-      isInPast(errors, fieldData);
+      isInFuture(errors, fieldData);
       expect(addError.calledOnce).to.be.true;
     });
 
-    it('does not add an error when the entered date is in the past', () => {
+    it('does not add an error when the entered date is in the future', () => {
       const addError = sinon.spy();
       const errors = { addError };
-      const fieldData = daysFromToday(-1);
+      const fieldData = '2099-04-12';
 
-      isInPast(errors, fieldData);
+      isInFuture(errors, fieldData);
       expect(addError.callCount).to.equal(0);
     });
   });
@@ -814,6 +793,20 @@ describe('526 All Claims validations', () => {
       };
       validateTitle10StartDate(errors, '2001-01-01', _, _, _, _, formData);
       expect(addError.called).to.be.false;
+    });
+
+    it('should show an error for an activation date in the future', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const data = {
+        servicePeriods: [
+          { serviceBranch: 'Reserves', dateRange: { from: '2003-03-12' } },
+          { serviceBranch: 'Reserves', dateRange: { from: '2000-01-14' } },
+          { serviceBranch: 'Reserves', dateRange: { from: '2005-12-25' } },
+        ],
+      };
+      validateTitle10StartDate(errors, daysFromToday(1), _, _, _, _, data);
+      expect(addError.called).to.be.true;
     });
 
     it('should show an error for an activation date before start date', () => {

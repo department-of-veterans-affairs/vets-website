@@ -252,22 +252,10 @@ export const oneDisabilityRequired = disabilityList => (
   }
 };
 
-// export const isInFuture = (err, fieldData) => {
-//   const fieldDate = new Date(fieldData);
-//   if (fieldDate.getTime() < Date.now()) {
-//     err.addError('Start date must be in the future');
-//   }
-// };
-
-/**
- * Validates activation date. Adds error if date is in the future.
- * @param {Object} errors - Errors object from rjsf, which includes an addError method
- * @param {string} fieldData - The data associated with the current schema. Activation date
- */
-export const isInPast = (errors, fieldData) => {
+export const isInFuture = (err, fieldData) => {
   const fieldDate = new Date(fieldData);
-  if (fieldDate.getTime() > Date.now()) {
-    errors.addError('Enter an activation date in the past');
+  if (fieldDate.getTime() < Date.now()) {
+    err.addError('Start date must be in the future');
   }
 };
 
@@ -686,7 +674,9 @@ export const validateTitle10StartDate = (
       }
       return b > a ? -1 : 1;
     });
-  if (!startTimes[0] || dateString < startTimes[0]) {
+  if (moment(dateString).isAfter()) {
+    errors.addError('Enter an activation date in the past');
+  } else if (!startTimes[0] || dateString < startTimes[0]) {
     errors.addError(
       'Your activation date must be after your earliest service start date for the Reserve or the National Guard',
     );

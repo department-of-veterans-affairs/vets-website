@@ -6,7 +6,6 @@ import { validateDate } from 'platform/forms-system/src/js/validation';
 import { title10DatesRequired } from '../utils';
 import {
   title10BeforeRad,
-  isInPast,
   isLessThan180DaysInFuture,
   validateTitle10StartDate,
 } from '../validations';
@@ -33,7 +32,7 @@ export const uiSchema = {
         },
         title10ActivationDate: {
           ...activationDate,
-          'ui:validations': [validateDate, isInPast, validateTitle10StartDate],
+          'ui:validations': [validateDate, validateTitle10StartDate],
           'ui:required': title10DatesRequired,
         },
         anticipatedSeparationDate: {
