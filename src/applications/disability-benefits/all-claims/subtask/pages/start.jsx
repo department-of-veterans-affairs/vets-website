@@ -82,7 +82,6 @@ const ActiveDuty = ({ data = {}, error, setPageData }) => {
             value={value}
             label={label}
             checked={value === data[dataKey]}
-            uswds={false}
           />
         ))}
       </VaRadio>

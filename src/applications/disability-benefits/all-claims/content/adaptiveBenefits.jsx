@@ -36,7 +36,5 @@ const doubleAllowanceAlertContent = (
 );
 
 export const doubleAllowanceAlert = (
-  <va-alert status="warning" uswds>
-    {doubleAllowanceAlertContent}
-  </va-alert>
+  <va-alert status="warning">{doubleAllowanceAlertContent}</va-alert>
 );
