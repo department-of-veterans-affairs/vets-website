@@ -47,7 +47,7 @@ fieldset.schemaform-block,
 /* federal orders */
 article[data-location$="federal-orders"] {
   .schemaform-field-template.usa-input-error {
-    margin-top: 3rem;
+    margin-top: 1.875rem;
   }
 }
 
@@ -126,7 +126,7 @@ article[data-location$="federal-orders"] {
 // Supporting evidence legend (matches h4 style)
 #root_privateMedicalRecordAttachments-label {
   font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
-  font-size: 1.7rem;
+  font-size: 1.0625rem;
   font-weight: 700;
 
   .schemaform-required-span {
@@ -149,7 +149,7 @@ article[data-location$="federal-orders"] {
 // Mimics usa-form-group-year minus the float and sets the max width so the
 //  error formatting doesn't increase the size
 .year-input {
-  max-width: 7rem;
+  max-width: 4.375rem;
 }
 
 .patient-acknowldegment-help {
@@ -180,7 +180,7 @@ div.review {
     justify-content: space-between;
     flex-direction: column;
     border-top: 1px solid var(--vads-color-base-light);
-    padding: 1.5rem;
+    padding: 0.9375rem;
     padding-left: 0;
   }
   .review-row > dd {
