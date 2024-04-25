@@ -21,6 +21,7 @@ const App = props => {
     isProdEnabled,
     isSigiEnabled,
     isTeraEnabled,
+    isAuthOnlyEnabled,
   } = features;
   const {
     dob: veteranDateOfBirth,
@@ -93,13 +94,15 @@ const App = props => {
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring();
 
-  return (
+  return isAuthOnlyEnabled ? (
     <RequiredLoginView
       serviceRequired={backendServices.USER_PROFILE}
       user={user}
     >
       {sipApp}
     </RequiredLoginView>
+  ) : (
+    sipApp
   );
 };
 
@@ -121,6 +124,7 @@ const mapStateToProps = state => ({
     isProdEnabled: state.featureToggles.ezrProdEnabled,
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
     isTeraEnabled: state.featureToggles.ezrTeraEnabled,
+    isAuthOnlyEnabled: state.featureToggles.ezrAuthOnlyEnabled,
   },
   formData: state.form.data,
   user: state.user,
