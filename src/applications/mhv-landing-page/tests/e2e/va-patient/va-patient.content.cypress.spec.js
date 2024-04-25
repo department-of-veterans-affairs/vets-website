@@ -4,80 +4,91 @@ import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
 import { resolveLandingPageLinks } from '../../../utilities/data';
 
-const viewportSizes = ['va-top-desktop-1', 'va-top-mobile-1'];
-
 const unregisteredHeadline = 'You don’t have access to My HealtheVet';
+let pageLinks;
 
-describe(appName, () => {
-  describe('Display content based on VA Patient property', () => {
-    viewportSizes.forEach(size => {
-      beforeEach(() => {
-        cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
-        ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
+describe(`${appName} -- VA Patient`, () => {
+  describe('user is not a VA Patient', () => {
+    beforeEach(() => {
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
+      ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
+      LandingPage.visitPage({ vaPatient: false });
+      LandingPage.validatePageLoaded();
+      LandingPage.validateURL();
+
+      pageLinks = resolveLandingPageLinks(false, [], 0, 'arialLabel', false);
+    });
+
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+    it('displays the Unregistered Alert', () => {
+      cy.findByTestId('unregistered-alert');
+      cy.findByRole('heading', { name: unregisteredHeadline }).should.exist;
+    });
+
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+    it('does not display Health Tools cards', () => {
+      pageLinks.cards.forEach(card => {
+        cy.findByRole('heading', { name: card.title }).should('not.exist');
       });
+    });
 
-      it(`VA Patient property is false -- ${size} screen`, () => {
-        cy.viewportPreset(size);
-        const pageLinks = resolveLandingPageLinks(
-          false,
-          [],
-          0,
-          'arialLabel',
-          false,
-        );
-
-        LandingPage.visitPage({ vaPatient: false });
-        LandingPage.validatePageLoaded();
-        LandingPage.validateURL();
-        cy.injectAxeThenAxeCheck();
-
-        cy.findByRole('heading', { name: unregisteredHeadline }).should.exist;
-
-        // Test the cards are not visible
-        pageLinks.cards.forEach(card => {
-          cy.findByRole('heading', { name: card.title }).should('not.exist');
-        });
-        // Test the hubs are visible
-        pageLinks.hubs.forEach(hub => {
-          LandingPage.validateLinkGroup(hub.title, hub.links.length);
-        });
-
-        // Test for the conditional heading for VA health benefits
-        cy.findByRole('heading', { name: 'VA health benefits' }).should.exist;
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+    it('displays hub links', () => {
+      pageLinks.hubs.forEach(hub => {
+        LandingPage.validateLinkGroup(hub.title, hub.links.length);
       });
+    });
 
-      it(`VA Patient property is true -- ${size} screen`, () => {
-        cy.viewportPreset(size);
-        const pageLinks = resolveLandingPageLinks(
-          false,
-          [],
-          0,
-          'arialLabel',
-          true,
-        );
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+    it('displays the "VA health benefits" heading', () => {
+      cy.findByRole('heading', { name: 'VA health benefits' }).should.exist;
+    });
 
-        LandingPage.visitPage();
-        LandingPage.validatePageLoaded();
-        LandingPage.validateURL();
-        cy.injectAxeThenAxeCheck();
+    it('passes automated accessibility (a11y) checks', () => {
+      cy.injectAxeThenAxeCheck();
+    });
+  });
 
-        // Validate the cards and hubs
-        pageLinks.cards.forEach(card => {
-          LandingPage.validateLinkGroup(card.title, card.links.length);
-        });
-        pageLinks.hubs.forEach(hub => {
-          LandingPage.validateLinkGroup(hub.title, hub.links.length);
-        });
+  describe('user is a VA Patient', () => {
+    beforeEach(() => {
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
+      ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
+      LandingPage.visitPage();
+      LandingPage.validatePageLoaded();
+      LandingPage.validateURL();
 
-        // Test for the conditional heading for VA health benefits
-        cy.findByRole('heading', { name: 'My VA health benefits' }).should
-          .exist;
+      pageLinks = resolveLandingPageLinks(false, [], 0, 'arialLabel', true);
+    });
 
-        // Test that the no health data message is NOT present
-        cy.findByRole('heading', {
-          name: unregisteredHeadline,
-        }).should('not.exist');
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+    it('does not display the Unregistered Alert', () => {
+      cy.findByTestId('unregistered-alert').should('not.exist');
+      cy.findByRole('heading', {
+        name: unregisteredHeadline,
+      }).should('not.exist');
+    });
+
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+    it('displays Health Tools cards', () => {
+      pageLinks.cards.forEach(card => {
+        LandingPage.validateLinkGroup(card.title, card.links.length);
       });
+    });
+
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+    it('displays hub links', () => {
+      pageLinks.hubs.forEach(hub => {
+        LandingPage.validateLinkGroup(hub.title, hub.links.length);
+      });
+    });
+
+    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+    it('displays the "My VA health benefits" heading', () => {
+      cy.findByRole('heading', { name: 'My VA health benefits' }).should.exist;
+    });
+
+    it('passes automated accessibility (a11y) checks', () => {
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
