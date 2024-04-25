@@ -5,7 +5,7 @@ import MockDate from 'mockdate';
 import moment from 'moment';
 import React from 'react';
 import { AppointmentList } from '../../../appointment-list';
-import { APPOINTMENT_STATUS } from '../../../utils/constants';
+import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
 import MockAppointmentResponse from '../../e2e/fixtures/MockAppointmentResponse';
 import MockFacilityResponse from '../../e2e/fixtures/MockFacilityResponse';
 import { mockFacilityFetchByVersion } from '../../mocks/fetch';
@@ -519,6 +519,310 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       expect(global.document.title).to.equal(
         'Canceled VA primary care appointment | Veterans Affairs',
       );
+    });
+  });
+
+  describe('When "vaOnlineSchedulingAppointmentDetailsRedesign" feature is on', () => {
+    const state = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingAppointmentDetailsRedesign: true,
+      },
+    };
+
+    it('should display cancel warning page', async () => {
+      // Arrange
+      const store = createTestStore(state);
+      const requestedPeriods = [moment()];
+      const response = new MockAppointmentResponse({
+        status: APPOINTMENT_STATUS.proposed,
+      });
+      const canceledResponse = MockAppointmentResponse.createCCResponse({
+        serviceType: 'primaryCare',
+      });
+      canceledResponse
+        .setCancelationReason('pat')
+        .setRequestedPeriods(requestedPeriods)
+        .setStatus(APPOINTMENT_STATUS.cancelled);
+
+      mockAppointmentApi({ response });
+      mockAppointmentUpdateApi({ response: canceledResponse });
+      mockFacilityFetchByVersion({
+        facility: new MockFacilityResponse({ id: '983' }),
+      });
+
+      // Act
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        store,
+        path: `/pending/${response.id}`,
+      });
+
+      // Assert
+      expect(await screen.findByText('Pending primary care appointment')).to.be
+        .ok;
+      expect(screen.baseElement).not.to.contain.text('Canceled');
+
+      // When user clicks on cancel request link
+      fireEvent.click(screen.getByText(/cancel request/i));
+      await waitFor(() => {
+        expect(store.getState().appointments.showCancelModal).to.equal(true);
+      });
+
+      expect(await screen.findByText('Would you like to cancel this request?'))
+        .to.be.ok;
+    });
+
+    it('should display cancel confirmation page', async () => {
+      // Arrange
+      const store = createTestStore(state);
+      const requestedPeriods = [moment()];
+      const response = new MockAppointmentResponse({
+        status: APPOINTMENT_STATUS.proposed,
+      });
+      const canceledResponse = MockAppointmentResponse.createCCResponse({
+        serviceType: 'primaryCare',
+      });
+      canceledResponse
+        .setCancelationReason('pat')
+        .setRequestedPeriods(requestedPeriods)
+        .setStatus(APPOINTMENT_STATUS.cancelled);
+
+      mockAppointmentApi({ response });
+      mockAppointmentUpdateApi({ response: canceledResponse });
+      mockFacilityFetchByVersion({
+        facility: new MockFacilityResponse({ id: '983' }),
+      });
+
+      // Act
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        store,
+        path: `/pending/${response.id}`,
+      });
+
+      // Assert
+      expect(await screen.findByText('Pending primary care appointment')).to.be
+        .ok;
+      expect(screen.baseElement).not.to.contain.text('Canceled');
+
+      fireEvent.click(screen.getByText(/cancel request/i));
+      await waitFor(() => {
+        expect(store.getState().appointments.showCancelModal).to.equal(true);
+      });
+
+      expect(await screen.findByText('Would you like to cancel this request?'))
+        .to.be.ok;
+
+      const button = screen.getByText(/Yes, cancel appointment/i);
+      button.click();
+
+      expect(window.dataLayer[0]).to.deep.equal({
+        event: 'vaos-cancel-request-clicked',
+      });
+
+      await waitFor(() => {
+        screen.queryByText(/You have canceled your appointment/i);
+      });
+    });
+
+    describe('And on cancel warning page', () => {
+      it('should go back to pending appointments detail page when breadcrumb is clicked', async () => {
+        // Arrange
+        const store = createTestStore(state);
+        const requestedPeriods = [moment()];
+        const response = new MockAppointmentResponse({
+          status: APPOINTMENT_STATUS.proposed,
+        });
+        const canceledResponse = MockAppointmentResponse.createCCResponse({
+          serviceType: 'primaryCare',
+        });
+        canceledResponse
+          .setCancelationReason('pat')
+          .setRequestedPeriods(requestedPeriods)
+          .setStatus(APPOINTMENT_STATUS.cancelled);
+
+        mockAppointmentApi({ response });
+        mockAppointmentUpdateApi({ response: canceledResponse });
+        mockFacilityFetchByVersion({
+          facility: new MockFacilityResponse({ id: '983' }),
+        });
+
+        // Act
+        const screen = renderWithStoreAndRouter(<AppointmentList />, {
+          store,
+          path: `/pending/${response.id}`,
+        });
+
+        // Assert
+        expect(await screen.findByText('Pending primary care appointment')).to
+          .be.ok;
+        expect(screen.baseElement).not.to.contain.text('Canceled');
+
+        fireEvent.click(screen.getByText(/cancel request/i));
+        await waitFor(() => {
+          expect(store.getState().appointments.showCancelModal).to.equal(true);
+        });
+
+        expect(
+          await screen.findByText('Would you like to cancel this request?'),
+        ).to.be.ok;
+
+        const link = screen.getByRole('link', {
+          name: 'Back to request for appointments',
+        });
+        fireEvent.click(link);
+        await waitFor(
+          () =>
+            expect(screen.queryByText(/Pending primary care appointment/i)).to
+              .be.ok,
+        );
+      });
+    });
+
+    describe('And on cancel confirmation page', () => {
+      it('should go back to pending appointments list page when breadcrumb is clicked', async () => {
+        // Arrange
+        const store = createTestStore(state);
+        const requestedPeriods = [moment()];
+        const response = new MockAppointmentResponse({
+          status: APPOINTMENT_STATUS.proposed,
+        });
+        const canceledResponse = MockAppointmentResponse.createCCResponse({
+          serviceType: 'primaryCare',
+        });
+        canceledResponse
+          .setCancelationReason('pat')
+          .setRequestedPeriods(requestedPeriods)
+          .setStatus(APPOINTMENT_STATUS.cancelled);
+
+        mockAppointmentApi({ response });
+
+        mockAppointmentsApi({
+          start: moment()
+            .subtract(120, 'days')
+            .format('YYYY-MM-DD'),
+          end: moment()
+            .add(1, 'day')
+            .format('YYYY-MM-DD'),
+          statuses: ['proposed', 'cancelled'],
+          response: [],
+        });
+        mockAppointmentUpdateApi({ response: canceledResponse });
+        mockFacilityFetchByVersion({
+          facility: new MockFacilityResponse({ id: '983' }),
+        });
+
+        // Act
+        const screen = renderWithStoreAndRouter(<AppointmentList />, {
+          store,
+          path: `/pending/${response.id}`,
+        });
+
+        // Assert
+        expect(await screen.findByText('Pending primary care appointment')).to
+          .be.ok;
+        expect(screen.baseElement).not.to.contain.text('Canceled');
+
+        fireEvent.click(screen.getByText(/cancel request/i));
+        await waitFor(() => {
+          expect(store.getState().appointments.showCancelModal).to.equal(true);
+        });
+
+        expect(
+          await screen.findByText('Would you like to cancel this request?'),
+        ).to.be.ok;
+
+        const button = screen.getByText(/Yes, cancel appointment/i);
+        button.click();
+
+        expect(window.dataLayer[0]).to.deep.equal({
+          event: 'vaos-cancel-request-clicked',
+        });
+
+        await waitFor(() => {
+          screen.queryByText(/You have canceled your appointment/i);
+        });
+
+        const link = screen.getByRole('link', {
+          name: 'Back to pending appointments',
+        });
+        fireEvent.click(link);
+        await waitFor(
+          () => expect(screen.queryByText(/Pending appointments/i)).to.be.ok,
+        );
+      });
+
+      it('should display an error', async () => {
+        // Arrange
+        const store = createTestStore(state);
+        const requestedPeriods = [moment()];
+        const response = new MockAppointmentResponse({
+          status: APPOINTMENT_STATUS.proposed,
+        });
+        const canceledResponse = MockAppointmentResponse.createCCResponse({
+          serviceType: 'primaryCare',
+        });
+        canceledResponse
+          .setCancelationReason('pat')
+          .setRequestedPeriods(requestedPeriods)
+          .setStatus(APPOINTMENT_STATUS.cancelled);
+
+        mockAppointmentApi({ response });
+
+        mockAppointmentsApi({
+          start: moment()
+            .subtract(120, 'days')
+            .format('YYYY-MM-DD'),
+          end: moment()
+            .add(1, 'day')
+            .format('YYYY-MM-DD'),
+          statuses: ['proposed', 'cancelled'],
+          response: [],
+        });
+        mockAppointmentUpdateApi({
+          response: canceledResponse,
+          responseCode: 500,
+        });
+        mockFacilityFetchByVersion({
+          facility: new MockFacilityResponse({ id: '983' }),
+        });
+
+        // Act
+        const screen = renderWithStoreAndRouter(<AppointmentList />, {
+          store,
+          path: `/pending/${response.id}`,
+        });
+
+        // Assert
+        expect(await screen.findByText('Pending primary care appointment')).to
+          .be.ok;
+        expect(screen.baseElement).not.to.contain.text('Canceled');
+
+        fireEvent.click(screen.getByText(/cancel request/i));
+        await waitFor(() => {
+          expect(store.getState().appointments.showCancelModal).to.equal(true);
+        });
+
+        expect(
+          await screen.findByText('Would you like to cancel this request?'),
+        ).to.be.ok;
+
+        const button = screen.getByText(/Yes, cancel appointment/i);
+        button.click();
+
+        await waitFor(() => {
+          expect(
+            store.getState().appointments.cancelAppointmentStatus,
+          ).to.equal(FETCH_STATUS.failed);
+        });
+
+        expect(screen.getByText(/We couldn.t cancel your request/i)).to.be.ok;
+        expect(
+          screen.getByText(
+            /Something went wrong when we tried to cancel this request. Please contact your medical center to cancel:/i,
+          ),
+        ).to.be.ok;
+      });
     });
   });
 });

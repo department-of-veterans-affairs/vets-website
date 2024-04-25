@@ -9,7 +9,7 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.arrayMultiPageBuilder.pages.multiPageBuilderStart;
+} = formConfig.chapters.arrayMultiPageBuilder.pages.multiPageBuilderSummary;
 
 const pageTitle = 'array multi page builder summary';
 

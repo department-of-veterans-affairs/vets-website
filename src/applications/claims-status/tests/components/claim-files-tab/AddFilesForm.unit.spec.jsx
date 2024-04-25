@@ -64,6 +64,11 @@ describe('<AddFilesForm>', () => {
       expect($('#upload-status', container).visible).to.be.false;
     });
 
+    it('remove files modal should not be visible', () => {
+      const { container } = render(<AddFilesForm {...fileFormProps} />);
+      expect($('#remove-file', container).visible).to.be.false;
+    });
+
     it('should include mail info additional info', () => {
       const { container } = render(<AddFilesForm {...fileFormProps} />);
 
