@@ -45,8 +45,8 @@
               .use-my-location-button-container {
                 align-self: flex-end;
                 min-width: 10em;
-                margin-left: 2em;
-                margin-bottom: 4px;
+                margin-left: 3em;
+                margin-bottom: 1.3rem;
               }
             }
 
@@ -70,6 +70,11 @@
             .representative-name-input {
               max-width: 46rem;
             }
+
+            .use-my-location-button-container {
+              margin-top: 1rem;
+              margin-left: -1rem;
+            }
           }
         }
 
@@ -83,16 +88,26 @@
           }
         }
 
-        .use-my-location-button {
+        .use-my-location-link {
           text-decoration: none;
           background-color: transparent;
           color: var(--vads-color-link);
           font-weight: normal;
-          padding: 0 0 0 1.5em;
+          padding: 0;
+          margin: 0 0 0 1rem;
+
+          @media (max-width: $small-desktop-screen) {
+            text-align: left;
+          }
+        }
+
+        .use-my-location-button {
+          width: 18px;
+          height: 18px;
           background-image: url("/img/location-arrow-solid.svg");
           background-repeat: no-repeat;
           background-color: transparent;
-          max-width: 9em;
+          padding: 0 1.5em 0 0;
         }
 
         .finding-your-location-loading {
