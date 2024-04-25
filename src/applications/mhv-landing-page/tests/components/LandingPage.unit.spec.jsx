@@ -30,6 +30,10 @@ const stateFn = ({
   },
 });
 
+const defaultProps = {
+  vaPatient: true,
+};
+
 const event = {
   event: 'nav-alert-box-load',
   action: 'load',
@@ -37,7 +41,7 @@ const event = {
   'alert-box-status': 'continue',
 };
 
-const setup = ({ initialState = stateFn(), props = {} } = {}) =>
+const setup = ({ initialState = stateFn(), props = defaultProps } = {}) =>
   renderInReduxProvider(<LandingPage {...props} />, { initialState, reducers });
 
 describe('LandingPage component', () => {
@@ -53,8 +57,7 @@ describe('LandingPage component', () => {
   });
 
   it('shows an alert when user is not a VA Patient', () => {
-    const initialState = stateFn({ vaPatient: false });
-    const { getByText } = setup({ initialState });
+    const { getByText } = setup({ props: { vaPatient: false } });
     getByText('You don’t have access to My HealtheVet');
   });
 
