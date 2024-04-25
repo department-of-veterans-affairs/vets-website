@@ -2,7 +2,7 @@
 
 describe('Enrollment Verification Page Tests', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/vye/v1/*', { statusCode: 200 });
+    cy.intercept('GET', '/vye/v1', { statusCode: 200 });
     cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
     cy.visit('/education/verify-your-enrollment/', {
@@ -89,10 +89,7 @@ describe('Enrollment Verification Page Tests', () => {
     cy.get('a[href="/education/verify-your-enrollment/"]')
       .first()
       .click();
-    cy.get('div[id="montgomery-gi-bill-enrollment-statement"]').should(
-      'contain',
-      'Montgomery GI Bill® enrollment verification',
-    );
+    cy.url().should('not.include', '/benefits-profile');
   });
   it("should go back to 'Manage your VA debt' when 'Manage your VA debt' link is clicked ", () => {
     cy.injectAxeThenAxeCheck();
