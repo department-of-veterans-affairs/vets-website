@@ -1,5 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import footerContent from 'platform/forms/components/FormFooter';
+import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 
 import getHelp from '../../shared/components/GetFormHelp';
