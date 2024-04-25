@@ -23,7 +23,8 @@ function IntroductionLoginV2({
   showMeb1990EZR6MaintenanceMessage,
 }) {
   const apiCallsComplete =
-    isLOA3 === false || (isClaimantCallComplete && isEligibilityCallComplete);
+    isLOA3 === false ||
+    ((isClaimantCallComplete || false) && (isEligibilityCallComplete || false));
   const openLoginModal = () => {
     showHideLoginModal(true, 'cta-form');
   };
@@ -118,11 +119,11 @@ function IntroductionLoginV2({
           </>
         )}
       {isLoggedIn &&
-      isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
-      shouldShowMaintenanceAlert === false && // Ensure the mainenance flag is not on.
-        apiCallsComplete &&
-        !showMeb1990EZMaintenanceAlert &&
-        isLOA3 && (
+      isPersonalInfoFetchFailed === false && // Ensure the error didn’t occur.
+      shouldShowMaintenanceAlert === false && // Ensure the maintenance flag is not on.
+      isLOA3 && // Previously: (showMebEnhancements09 && isLOA3)
+      apiCallsComplete && // This check remains in line with previous true logic.
+      !showMeb1990EZMaintenanceAlert && ( // Ensure there's no maintenance alert.
           <SaveInProgressIntro
             headingLevel={2}
             hideUnauthedStartLink
