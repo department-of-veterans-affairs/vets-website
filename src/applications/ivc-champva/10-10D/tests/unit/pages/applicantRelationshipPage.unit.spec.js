@@ -7,26 +7,21 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import {
   testComponentRender,
   getProps,
-} from '../../../shared/tests/pages/pageTests.spec';
-import ApplicantOhiStatusPage, {
-  ApplicantOhiStatusReviewPage,
-} from '../../pages/ApplicantOhiStatusPage';
+} from '../../../../shared/tests/pages/pageTests.spec';
+import ApplicantRelationshipPage, {
+  ApplicantRelationshipReviewPage,
+} from '../../../../shared/components/applicantLists/ApplicantRelationshipPage';
 import mockData from '../fixtures/data/test-data.json';
 
 testComponentRender(
-  'ApplicantOhiStatusReviewPage',
-  <>{ApplicantOhiStatusReviewPage()}</>,
-);
-
-testComponentRender(
-  'ApplicantOhiStatusPage',
-  <ApplicantOhiStatusPage data={{}} />,
+  'ApplicantRelationshipReviewPage',
+  <>{ApplicantRelationshipReviewPage({ data: '' })}</>,
 );
 
 // Causes 'useFirstPerson' to be true:
 testComponentRender(
-  'ApplicantOhiStatusPage',
-  <ApplicantOhiStatusPage
+  'ApplicantRelationshipPage',
+  <ApplicantRelationshipPage
     data={{
       ...mockData.data,
       certifierRole: 'applicant',
@@ -35,11 +30,11 @@ testComponentRender(
   />,
 );
 
-describe('ApplicantOhiStatusPage handlers', () => {
+describe('ApplicantRelationshipPage handlers', () => {
   it('should call goForward when "continue" clicked', async () => {
     const goFwdSpy = sinon.spy();
     const component = (
-      <ApplicantOhiStatusPage
+      <ApplicantRelationshipPage
         data={mockData.data}
         pagePerItemIndex={0}
         goForward={goFwdSpy}
@@ -57,9 +52,14 @@ describe('ApplicantOhiStatusPage handlers', () => {
   });
 });
 
-describe('ApplicantOhiStatusPage', () => {
+describe('ApplicantRelationshipPage', () => {
   it('should show err msg when no option selected', async () => {
-    const component = <ApplicantOhiStatusPage setFormData={() => {}} />;
+    const component = (
+      <ApplicantRelationshipPage
+        data={{ sponsorIsDeceased: true }}
+        setFormData={() => {}}
+      />
+    );
     const { mockStore } = getProps();
     const view = render(<Provider store={mockStore}>{component}</Provider>);
     const group = $('va-radio', view.container);

@@ -7,8 +7,8 @@ import React from 'react';
 import {
   testComponentRender,
   // getProps,
-} from '../../../shared/tests/pages/pageTests.spec';
-import { ApplicantMedicareStatusContinuedPage } from '../../pages/ApplicantMedicareStatusContinuedPage';
+} from '../../../../shared/tests/pages/pageTests.spec';
+import { ApplicantMedicareStatusContinuedPage } from '../../../pages/ApplicantMedicareStatusContinuedPage';
 import mockData from '../fixtures/data/test-data.json';
 
 // The tests in here need to be re-worked. This medicare component was overhauled.

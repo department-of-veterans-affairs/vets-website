@@ -7,11 +7,11 @@ import React from 'react';
 import {
   testComponentRender,
   // getProps,
-} from '../../../shared/tests/pages/pageTests.spec';
+} from '../../../../shared/tests/pages/pageTests.spec';
 import {
   ApplicantMedicareStatusPage,
   ApplicantMedicareStatusReviewPage,
-} from '../../pages/ApplicantMedicareStatusPage';
+} from '../../../pages/ApplicantMedicareStatusPage';
 import mockData from '../fixtures/data/test-data.json';
 
 testComponentRender(

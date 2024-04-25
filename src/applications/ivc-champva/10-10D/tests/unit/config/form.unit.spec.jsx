@@ -3,16 +3,16 @@ import React from 'react';
 import {
   testNumberOfWebComponentFields,
   testComponentRender,
-} from '../../../shared/tests/pages/pageTests.spec';
+} from '../../../../shared/tests/pages/pageTests.spec';
 // import ApplicantMedicareStatusContinuedPage, {
 //   ApplicantMedicareStatusContinuedReviewPage,
 // } from '../../pages/ApplicantMedicareStatusContinuedPage';
-import ApplicantOhiStatusPage from '../../pages/ApplicantOhiStatusPage';
-import ApplicantRelationshipPage from '../../../shared/components/applicantLists/ApplicantRelationshipPage';
-import formConfig from '../../config/form';
-import { getFileSize } from '../../helpers/utilities';
+import ApplicantOhiStatusPage from '../../../pages/ApplicantOhiStatusPage';
+import ApplicantRelationshipPage from '../../../../shared/components/applicantLists/ApplicantRelationshipPage';
+import formConfig from '../../../config/form';
+import { getFileSize } from '../../../helpers/utilities';
 
-import FileFieldCustom from '../../../shared/components/fileUploads/FileUpload';
+import FileFieldCustom from '../../../../shared/components/fileUploads/FileUpload';
 
 import mockData from '../fixtures/data/test-data.json';
 

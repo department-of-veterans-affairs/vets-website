@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import ConfirmationPage from '../../containers/ConfirmationPage'; */
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
 
 import mockData from '../fixtures/data/test-data.json';
 
