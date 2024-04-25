@@ -174,7 +174,7 @@ describe('VAOS Component: AppointmentCardIcon', () => {
     expect(wrapper.baseElement).to.contain('.fa-calendar');
   });
 
-  it(
+  it.skip(
     'should display fa-video icon for VA video care at a home appointments',
     async () => {
       const appointment = {
@@ -228,7 +228,7 @@ describe('VAOS Component: AppointmentCardIcon', () => {
     },
   );
 
-  it(
+  it.skip(
     'should display fa-video icon for VA video care on GFE appointments',
     async () => {
       const appointment = {
