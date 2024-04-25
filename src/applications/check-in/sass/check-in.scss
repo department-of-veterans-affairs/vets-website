@@ -53,7 +53,7 @@ ul.check-in--appointment-list {
 // check-in specific
 .appointment-check-in{
   h1{
-    font-size: 3.2rem;
+    font-size: 2rem;
   }
 }
 
@@ -62,7 +62,7 @@ ul.appointment-list{
 }// DS removes label margin now, this maintains it.
 va-text-input[error]:not([error=""])::part(label) ,
 va-text-input[error]:not([error=""])::part(span)  {
-  margin-top: 3rem;
+  margin-top: 1.875rem;
 }
 .appointment-details--container {
   position: relative;

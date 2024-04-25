@@ -21,17 +21,17 @@
   font-size: 1.35em;
   line-height: 1.2;
   font-weight: bold;
-  max-width: 22.5rem;
+  max-width: 14.0625rem;
 }
 
 .claims-status-content {
   .help-sidebar {
     // Line up the bottom border under "Need help?" with the tab list bottom border
-    margin-top: calc(3rem - 10px);
+    margin-top: calc(1.875rem - 10px);
     margin-bottom: 50px;
 
     & > div {
-      margin-bottom: 3rem;
+      margin-bottom: 1.875rem;
     }
   }
 
@@ -125,11 +125,11 @@
 
   .status-circle {
     flex-shrink: 0;
-    height: 1.5rem;
-    width: 1.5rem;
+    height: 0.9375rem;
+    width: 0.9375rem;
     border-radius: 50%;
-    margin-right: 0.8rem;
-    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    margin-top: 0.3125rem;
 
     &.open-claim {
       background-color: var(--vads-color-success-dark);
@@ -172,7 +172,7 @@
   span {
     display: block;
     width: fit-content;
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-family: var(--font-source-sans);
     font-weight: normal;
     line-height: 1.5;
@@ -200,7 +200,7 @@
 }
 
 .claim-list-item-header-v2 {
-  margin-top: -2rem;
+  margin-top: -1.25rem;
   white-space: pre-line;
 }
 
@@ -276,7 +276,7 @@
 
 .content {
   position: relative;
-  padding-left: 3.25rem;
+  padding-left: 2.03125rem;
 }
 
 .last-status-content-icon {
@@ -305,26 +305,26 @@
 }
 
 .event-date {
-  flex: 0 0 10rem;
-  margin-right: 1rem;
+  flex: 0 0 6.25rem;
+  margin-right: 0.625rem;
 }
 
 .event-header {
   cursor: pointer;
   display: flex;
   align-items: center;
-  padding: 1.5rem 0;
+  padding: 0.9375rem 0;
 }
 
 .event-header-icon {
   &:first-child {
     color: var(--vads-color-base-dark);
-    flex: 0 0 3.25rem;
+    flex: 0 0 2.03125rem;
   }
 
   &:last-child {
-    font-size: 1.75rem;
-    margin-left: 2rem;
+    font-size: 1.09375rem;
+    margin-left: 1.25rem;
   }
 }
 
@@ -333,8 +333,8 @@
 }
 
 .event-description {
-  margin-bottom: 1.5rem;
-  margin-left: 3.25rem;
+  margin-bottom: 0.9375rem;
+  margin-left: 2.03125rem;
 }
 
 .help-phone-number {
@@ -352,7 +352,7 @@
 .loading-message-center-spinner {
   > img {
     width: 100px;
-    margin: 2rem auto;
+    margin: 1.25rem auto;
     display: block;
   }
 }
@@ -453,7 +453,7 @@
 }
 
 .usa-input-error {
-  padding-left: 1rem;
+  padding-left: 0.625rem;
   right: 0.9em;
 }
 
@@ -511,7 +511,7 @@ h1:focus {
 }
 
 .claims-list-sort-label {
-  margin-right: 1.5rem;
+  margin-right: 0.9375rem;
 }
 
 @media (max-width: $medium-screen) {
@@ -522,13 +522,13 @@ h1:focus {
 
   .claims-list-sort-select {
     display: block;
-    margin: 1.4rem 0;
+    margin: 0.875rem 0;
   }
 }
 
 .claims-breadcrumbs {
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
+  padding-left: 0.5859375rem;
+  padding-right: 0.5859375rem;
 }
 
 .claim-tab-content {
@@ -570,7 +570,7 @@ h1:focus {
   .section-header-title {
     width: 100%;
     position: relative;
-    top: -1rem;
+    top: -0.625rem;
     background: inherit;
     border: inherit;
     color: inherit;
@@ -1038,7 +1038,7 @@ ol.va-list-horizontal {
     .sidelines {
       // line up the horizontal divider with the li::before 'bullets'
       font-family: $font-serif;
-      font-size: 3rem; // match h2 size
+      font-size: 1.875rem; // match h2 size
       margin-left: -0.6em;
       width: 102%;
     }
@@ -1094,8 +1094,8 @@ ol.va-list-horizontal {
 
 $end-of-docket-width: 4px;
 $docket-bar-width: calc(100% - #{$end-of-docket-width});
-$marker-width: 3rem;
-$marker-text-width: 9rem;
+$marker-width: 1.875rem;
+$marker-text-width: 5.625rem;
 
 .docket-container {
   // This is slightly darker than the cards above it
@@ -1115,7 +1115,7 @@ $marker-text-width: 9rem;
     padding-bottom: 12px;
     border-bottom: 1px solid var(--vads-color-base-light);
     width: 80%;
-    max-width: 24rem;
+    max-width: 15rem;
 
     & + p {
       margin-top: 6px;
@@ -1180,7 +1180,7 @@ $marker-text-width: 9rem;
     flex-direction: row-reverse;
 
     p {
-      width: 8rem;
+      width: 5rem;
       text-align: right;
     }
   }
@@ -1194,7 +1194,7 @@ $marker-text-width: 9rem;
   }
   .usa-accordion-bordered {
     .usa-accordion-button {
-      font-size: 2rem; // match standard h3
+      font-size: 1.25rem; // match standard h3
     }
 
     .usa-accordion-content {
@@ -1225,15 +1225,15 @@ $marker-text-width: 9rem;
   text-align: center;
   font-family: $font-sans;
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 1.25rem;
   background-color: var(--vads-color-base-lightest);
   margin-top: 2em;
   margin-bottom: 2em;
 }
 
 .usa-button .fa-chevron-right {
-  margin-left: 1.4rem;
-  margin-right: -0.6rem;
+  margin-left: 0.875rem;
+  margin-right: -0.375rem;
   font-size: 80%;
 }
 
@@ -1259,7 +1259,7 @@ $marker-text-width: 9rem;
 
   &:focus i::before,
   &:hover i::before {
-    margin-left: 1.2rem;
+    margin-left: 0.75rem;
     transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
     transition-property: margin;
@@ -1270,16 +1270,16 @@ $marker-text-width: 9rem;
     -webkit-font-smoothing: antialiased;
     display: inline-block;
     font-family: "Font Awesome 5 Free";
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-style: normal;
     font-variant: normal;
     font-weight: 900;
     line-height: 1;
-    margin-right: 0.8rem;
+    margin-right: 0.5rem;
     text-rendering: auto;
     content: "\f105"; /* fa-angle-right */
-    margin-bottom: 0.1rem;
-    margin-left: 0.8rem;
+    margin-bottom: 0.0625rem;
+    margin-left: 0.5rem;
     margin-right: 0;
     vertical-align: middle;
   }
@@ -1298,7 +1298,7 @@ $marker-text-width: 9rem;
 }
 
 .tab {
-  padding: 0.5em 1.5rem;
+  padding: 0.5em 0.9375rem;
   display: inline-block;
   font-size: 20px;
   text-decoration: none;
@@ -1315,8 +1315,8 @@ $marker-text-width: 9rem;
       display: block;
       position: absolute;
       height: 6px;
-      left: 1rem;
-      right: 1rem;
+      left: 0.625rem;
+      right: 0.625rem;
       bottom: 0;
     }
   }
@@ -1326,8 +1326,8 @@ $marker-text-width: 9rem;
   font-weight: bold;
   position: relative;
   // Lowering the padding to account for the font-weight: bold above
-  padding-left: 1.4rem;
-  padding-right: 1.4rem;
+  padding-left: 0.875rem;
+  padding-right: 0.875rem;
 
   & > span::after {
     background-color: var(--vads-color-primary);
@@ -1336,8 +1336,8 @@ $marker-text-width: 9rem;
     display: block;
     position: absolute;
     height: 6px;
-    left: 1rem;
-    right: 1rem;
+    left: 0.625rem;
+    right: 0.625rem;
     bottom: 0;
   }
 }
