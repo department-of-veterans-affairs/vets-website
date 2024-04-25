@@ -33,6 +33,7 @@
       "./actions": "./user-nav/actions/index.js",
       "./AutoSSO": "./user-nav/containers/AutoSSO.jsx",
       "./PageNotFound": "./user-nav/components/PageNotFound.jsx",
+      "./MhvSecondaryNav": "./user-nav/components/MhvSecondaryNav.jsx",
       "./user-nav": "./user-nav/index.js",
       "./sass/user-nav": "./user-nav/sass/user-nav.scss",
       "./user-nav/reducers": "./user-nav/reducers/index.js",
