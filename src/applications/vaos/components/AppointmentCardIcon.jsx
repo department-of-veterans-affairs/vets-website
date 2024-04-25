@@ -11,7 +11,6 @@ import {
 
 const iconClass = appointment => {
   const isPhone = isVAPhoneAppointment(appointment);
-  const isVideo = appointment.vaos?.isVideo;
   const {
     isCommunityCare,
     isCompAndPenAppointment,
