@@ -12,7 +12,7 @@ import {
 import { useDatadogRum } from '../hooks/useDatadogRum';
 import {
   isAuthenticatedWithSSOe,
-  isLandingPageEnabledForUser,
+  isLoggedIn,
   selectProfile,
   selectVamcEhrData,
   signInServiceEnabled,
@@ -24,7 +24,7 @@ import { getFolderList } from '../utilities/api';
 const App = () => {
   const { featureToggles, user } = useSelector(state => state);
   const [unreadMessageCount, setUnreadMessageCount] = useState();
-  const enabled = useSelector(isLandingPageEnabledForUser);
+  const loggedIn = useSelector(isLoggedIn);
   const vamcEhrData = useSelector(selectVamcEhrData);
   const profile = useSelector(selectProfile);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
@@ -79,11 +79,11 @@ const App = () => {
         const unreadMessages = countUnreadMessages(folders);
         setUnreadMessageCount(unreadMessages);
       }
-      if (enabled && hasMHVAccount) {
+      if (loggedIn && hasMHVAccount) {
         loadMessages();
       }
     },
-    [enabled, hasMHVAccount],
+    [loggedIn, hasMHVAccount],
   );
 
   if (loading)
