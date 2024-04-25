@@ -107,10 +107,7 @@ const DependentsPage = ({
           className="vads-u-margin-bottom--1"
           data-testid="il-dependents"
           error={
-            (submitted &&
-              error &&
-              'Please enter a number between 0 and 100.') ||
-            null
+            (submitted && error && 'Enter a number between 0 and 100.') || null
           }
           hint={`Enter the total number of dependents for ${getPreviousYear(
             pastMode,
@@ -124,7 +121,6 @@ const DependentsPage = ({
           name="numberOfDependents"
           onBlur={onBlurInput}
           onInput={onDependentsInput}
-          required
           uswds
           value={dependents || ''}
         />

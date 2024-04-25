@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const delay = require('mocker-api/lib/delay');
-const { set } = require('lodash');
 
 // endpoint data or generator functions
 const user = require('./endpoints/user');
@@ -8,7 +7,6 @@ const mhvAcccount = require('./endpoints/mhvAccount');
 const address = require('./endpoints/address');
 const emailAddress = require('./endpoints/email-adresses');
 const phoneNumber = require('./endpoints/phone-number');
-const status = require('./endpoints/status');
 const ratingInfo = require('./endpoints/rating-info');
 const {
   handlePutGenderIdentitiesRoute,
@@ -44,9 +42,11 @@ const contacts = require('../tests/fixtures/contacts.json');
 
 // utils
 const { debug, delaySingleResponse } = require('./script/utils');
-
-// uncomment if using status retries
-// let retries = 0;
+const {
+  getEmptyStatus,
+  generateStatusResponse,
+} = require('./endpoints/status');
+const handleUserUpdate = require('./endpoints/user/handleUserUpdate');
 
 // use one of these to provide a generic error for any endpoint
 const genericErrors = {
@@ -55,7 +55,35 @@ const genericErrors = {
   error403,
 };
 
-/* eslint-disable camelcase */
+const requestHistory = [];
+
+const logRequest = req => {
+  const { body, url, method, params, query } = req;
+  const historyEntry = {};
+  // only add variables to requestHistory if they are not empty
+  if (!_.isEmpty(params)) {
+    historyEntry.params = params;
+  }
+  if (!_.isEmpty(query)) {
+    historyEntry.query = query;
+  }
+
+  if (!_.isEmpty(body)) {
+    try {
+      historyEntry.body = JSON.parse(body);
+    } catch (e) {
+      historyEntry.body = body;
+    }
+  }
+
+  historyEntry.method = method;
+  historyEntry.url = url;
+
+  debug(JSON.stringify(historyEntry, null, 2));
+
+  requestHistory.push({ ...historyEntry, url, method });
+};
+
 const responses = {
   'GET /v0/feature_toggles': (_req, res) => {
     const secondsOfDelay = 0;
@@ -65,7 +93,7 @@ const responses = {
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
             profileContacts: true,
-            profileHideDirectDepositCompAndPen: false,
+            profileHideDirectDeposit: false,
             profileShowCredentialRetirementMessaging: true,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,
@@ -73,15 +101,22 @@ const responses = {
             profileShowProofOfVeteranStatus: true,
             profileShowQuickSubmitNotificationSetting: true,
             profileUseExperimental: true,
-            profileShowDirectDepositSingleForm: true,
-            profileShowDirectDepositSingleFormAlert: false,
-            profileShowDirectDepositSingleFormEduDowntime: false,
+            profileShowDirectDepositSingleForm: false,
+            profileShowDirectDepositSingleFormUAT: false,
+            profileShowDirectDepositSingleFormAlert: true,
+            profileShowDirectDepositSingleFormEduDowntime: true,
           }),
         ),
       secondsOfDelay,
     );
   },
   'GET /v0/user': (_req, res) => {
+    const [shouldReturnUser, updatedUserResponse] = handleUserUpdate(
+      requestHistory,
+    );
+    if (shouldReturnUser) {
+      return res.json(updatedUserResponse);
+    }
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
     return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
@@ -103,7 +138,6 @@ const responses = {
     // return res.json(user.loa3UserWithNoRatingInfoClaim);
     // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
   },
-  'GET /v0/profile/status': status.success,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': (_req, res) => {
     return res.json(maintenanceWindows.noDowntime);
@@ -145,11 +179,11 @@ const responses = {
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
     // this endpoint is used for the single form version of the direct deposit page
-    // return res.status(200).json(directDeposits.base);
+    return res.status(200).json(directDeposits.base);
     // return res.status(500).json(genericErrors.error500);
     // return res.status(400).json(directDeposits.updates.errors.unspecified);
     // user with no dd data but is eligible
-    return res.json(directDeposits.isEligible);
+    // return res.json(directDeposits.isEligible);
     // direct deposit blocked edge cases
     // return res.json(directDeposits.isDeceased);
     // return res.json(directDeposits.isFiduciary);
@@ -221,9 +255,10 @@ const responses = {
     // simulate a initial request returning a transactionId that is
     // subsequently used for triggering error from GET v0/profile/status
     // uncomment to test, and then uses the transactionId 'erroredId' in the status endpoint
+    // the status endpoint will return a COMPLETED_FAILURE status based on the string 'error' being in the transactionId
     // return res.json(
     //   _.set(
-    //     address.mailingAddressUpdateReceived.response,
+    //     address.mailingAddressUpdateReceived,
     //     'data.attributes.transactionId',
     //     'erroredId',
     //   ),
@@ -231,40 +266,34 @@ const responses = {
 
     // to test the update that comes from the 'yes' action on the address change modal prompt,
     // we can create a success response with a transactionId that is unique using date timestamp
-    if (req.body.addressPou === 'CORRESPONDENCE') {
-      return res.json(
-        set(
-          { ...address.mailingAddressUpdateReceived.response },
-          'data.attributes.transactionId',
-          `mailingUpdateId-${new Date().getTime()}`,
-        ),
-      );
-    }
-
-    // default response
-    return res.json(address.homeAddressUpdateReceived.response);
-  },
-  'POST /v0/profile/addresses': (req, res) => {
-    return res.json(address.homeAddressUpdateReceived.response);
-  },
-  'GET /v0/profile/status/:id': (req, res) => {
-    // uncomment this to simulate multiple status calls
-    // aka long latency on getting update to go through
-    // if (retries < 2) {
-    //   retries += 1;
-    //   return res.json(phoneNumber.transactions.received);
+    // if (req.body.addressPou === 'CORRESPONDENCE') {
+    //   return res.json(
+    //     set(
+    //       { ...address.mailingAddressUpdateReceived },
+    //       'data.attributes.transactionId',
+    //       `mailingUpdateId-${new Date().getTime()}`,
+    //     ),
+    //   );
     // }
 
-    // uncomment to conditionally provide a failure error code based on transaction id
-    if (req?.params?.id === 'erroredId') {
-      return res.json(
-        _.set(status.failure, 'data.attributes.transactionId', req.params.id),
-      );
-    }
-
-    return res.json(
-      _.set(status.success, 'data.attributes.transactionId', req.params.id),
+    // default response
+    return res.json(address.homeAddressUpdateReceived);
+  },
+  'POST /v0/profile/addresses': (req, res) => {
+    return res.json(address.homeAddressUpdateReceived);
+  },
+  'DELETE /v0/profile/addresses': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(
+      () => res.status(200).json(address.homeAddressDeleteReceived),
+      secondsOfDelay,
     );
+  },
+  'GET /v0/profile/status': getEmptyStatus, // simulate no status / no transactions pending
+  'GET /v0/profile/status/:id': (req, res) => {
+    // this function allows some conditional logic to be added to the status endpoint
+    // to simulate different responses based on the transactionId param
+    return generateStatusResponse(req, res);
   },
   'GET /v0/profile/communication_preferences': (req, res) => {
     if (req?.query?.error === 'true') {
@@ -303,6 +332,10 @@ const responses = {
   // 'GET /v0/profile/contacts': { data: [] }, // simulate no contacts
   // 'GET /v0/profile/contacts': (_req, res) => res.status(500).json(genericErrors.error500), // simulate error
   'GET /v0/profile/contacts': contacts,
+
+  'GET /v0/mocks/history': (_req, res) => {
+    return res.json(requestHistory);
+  },
 };
 
 function terminationHandler(signal) {
@@ -334,6 +367,16 @@ const generateMockResponses = () => {
   // set DELAY=1000 when running mock server script
   // to add 1 sec delay to all responses
   const responseDelay = process?.env?.DELAY || 0;
+
+  Object.entries(responses).forEach(([key, value]) => {
+    if (typeof value === 'function') {
+      // add logging to all responses
+      responses[key] = (req, res) => {
+        logRequest(req);
+        return value(req, res);
+      };
+    }
+  });
 
   return responseDelay > 0 ? delay(responses, responseDelay) : responses;
 };

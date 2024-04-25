@@ -26,6 +26,7 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           mhvLandingPageEnabled: true,
           mhvLandingPagePersonalization: false,
+          mhvLandingPageEnableVaGovHealthToolsLinks: false,
         }),
       );
     },
@@ -36,6 +37,7 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           mhvLandingPageEnabled: true,
           mhvLandingPagePersonalization: true,
+          mhvLandingPageEnableVaGovHealthToolsLinks: true,
         }),
       );
     },

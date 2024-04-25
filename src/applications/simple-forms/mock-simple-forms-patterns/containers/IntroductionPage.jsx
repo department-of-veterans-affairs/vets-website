@@ -94,7 +94,7 @@ class IntroductionPage extends React.Component {
               </Link>
             </li>
             <li>
-              <Link to="/array-multiple-page-builder-summary">
+              <Link to="/array-multiple-page-builder-choose-flow">
                 Array - multiple page - builder pattern
               </Link>
             </li>
