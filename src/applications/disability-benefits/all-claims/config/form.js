@@ -338,8 +338,8 @@ const formConfig = {
           }),
         },
         addDisabilitiesRevised: {
-          title: 'Add a new disability',
-          path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
+          title: 'Add a new disability REVISED!',
+          path: 'new-disabilities-revised/add',
           depends: showRevisedNewDisabilitiesPage,
           uiSchema: addDisabilitiesRevised.uiSchema,
           schema: addDisabilitiesRevised.schema,
