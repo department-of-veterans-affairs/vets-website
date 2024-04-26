@@ -27,11 +27,15 @@ const Welcome = ({ loading, name }) => (
       {!name && <>Welcome</>}
     </h2>
     <div className="vads-u-font-size--md medium-screen:vads-u-font-size--lg">
-      <va-icon
-        size={4}
-        icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+      <i
         aria-hidden="true"
-        className="vads-u-color--primary-darker vads-u-padding-left--4 vads-u-padding-right--0p5"
+        className={classnames(
+          'fas',
+          'fa-user',
+          'vads-u-color--primary-darker',
+          'vads-u-padding-left--4',
+          'vads-u-padding-right--0p5',
+        )}
       />
       <va-link
         href="/profile"
