@@ -4,6 +4,48 @@ import { yesNoSchema, yesNoUI } from './yesNoPattern';
 import { getArrayUrlSearchParams } from '../patterns/array-builder/helpers';
 
 /**
+ * Looks for URL param 'add' and 'removedAllWarn' and returns a warning alert if both are present
+ */
+export function withAlertOrDescription({ nounSingular }) {
+  return () => {
+    const search = getArrayUrlSearchParams();
+    const isAdd = search.get('add');
+    const isEdit = search.get('edit');
+    const removedAllWarn = search.get('removedAllWarn');
+    if (isAdd && removedAllWarn) {
+      return (
+        <>
+          <div className="vads-u-margin-top--4">
+            <va-alert slim status="warning" visible>
+              <p className="vads-u-margin-y--0">
+                {`You must add at least one ${nounSingular} for us to process this form.`}
+              </p>
+            </va-alert>
+          </div>
+        </>
+      );
+    }
+    return isEdit
+      ? `We’ll take you through each of the sections of this ${nounSingular} for you to review and edit`
+      : '';
+  };
+}
+
+/**
+ * Looks for URL param 'edit' and returns a title with 'Edit' prepended if it is present
+ */
+export const withEditTitle = title => {
+  return props => {
+    const search = getArrayUrlSearchParams();
+    const isEdit = search.get('edit');
+    const titleStr = typeof title === 'function' ? title(props) : title;
+    return isEdit
+      ? `Edit ${titleStr.charAt(0).toLowerCase() + titleStr.slice(1)}`
+      : titleStr;
+  };
+};
+
+/**
  * Title for the first page of an item in an array builder
  *
  * - Puts the title in the format "Edit {title}" when editing
@@ -16,6 +58,7 @@ import { getArrayUrlSearchParams } from '../patterns/array-builder/helpers';
  *   ...arrayBuilderItemFirstPageTitleUI({
  *     title: 'Name and address of employer',
  *     nounSingular: 'employer',
+ *     isFirstPage: true,
  *   }),
  *   ...
  * }
@@ -29,34 +72,36 @@ import { getArrayUrlSearchParams } from '../patterns/array-builder/helpers';
  */
 export const arrayBuilderItemFirstPageTitleUI = ({ title, nounSingular }) => {
   return titleUI(
-    () => {
-      const search = getArrayUrlSearchParams();
-      const isEdit = search.get('edit');
-      return isEdit
-        ? `Edit ${title.charAt(0).toLowerCase() + title.slice(1)}`
-        : title;
-    },
-    () => {
-      const search = getArrayUrlSearchParams();
-      const isAdd = search.get('add');
-      const isEdit = search.get('edit');
-      const removedAllWarn = search.get('removedAllWarn');
-      if (isAdd && removedAllWarn) {
-        return (
-          <div className="vads-u-margin-top--4">
-            <va-alert slim status="warning" visible>
-              <p className="vads-u-margin-y--0">
-                {`You must add at least one ${nounSingular} for us to process this form.`}
-              </p>
-            </va-alert>
-          </div>
-        );
-      }
-      return isEdit
-        ? `We’ll take you through each of the sections of this ${nounSingular} for you to review and edit`
-        : '';
-    },
+    withEditTitle(title),
+    withAlertOrDescription({ nounSingular }),
   );
+};
+
+/**
+ * Title for the top of a subsequent page (not the first) of an item in array builder pattern
+ * - Puts the title in the format "Edit {title}" when editing
+ *
+ * ```js
+ * uiSchema: {
+ *   ...arrayBuilderItemSubsequentPageTitleUI('Your contact information')
+ *   ...arrayBuilderItemSubsequentPageTitleUI(({ formData, formContext }) => `Your contact information ${formData.firstName}`)
+ *   ...arrayBuilderItemSubsequentPageTitleUI('Your contact information', 'We’ll send any important information to this address.')
+ *   ...arrayBuilderItemSubsequentPageTitleUI('Previous deductible expenses', (<p>
+      Tell us more.
+          <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
+            We understand in some cases your expenses might be higher than your
+            income. If your expenses exceed your income, we’ll adjust them to be
+            equal to your income. This won’t affect your application or benefits.
+          </AdditionalInfo>
+      </p>))
+ * ```
+ * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [title] 'ui:title'
+ * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [description] 'ui:description'
+ *
+ * @returns {UISchemaOptions}
+ */
+export const arrayBuilderItemSubsequentPageTitleUI = (title, description) => {
+  return titleUI(withEditTitle(title), description);
 };
 
 /**
