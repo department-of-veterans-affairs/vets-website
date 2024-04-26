@@ -198,6 +198,9 @@ va-modal va-radio {
       padding-left: 12px;
       span {
         margin: auto;
+        .attachment-name-text {
+          overflow-wrap: anywhere;
+        }
       }
       @media (min-width: $medium-screen) {
         flex-direction: row;
@@ -251,7 +254,6 @@ va-modal va-radio {
       left: 3px;
     }
   }
-
 }
 
 .close-success-alert-button {
@@ -295,4 +297,20 @@ va-loading-indicator {
   .link:visited {
     color: var(--vads-color-primary);
   }
+}
+
+.move-folder-modal-buttons {
+  va-button::part(button) {
+    width: 100%;
+
+    @media (min-width: $small-screen) {
+      width: auto;
+    }
+  }
+}
+
+.continue-button {
+  max-width: 242px;
+  border-radius: 4px;
+  font-size: 16.96px;
 }

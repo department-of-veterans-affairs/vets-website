@@ -25,11 +25,12 @@ export class ReasonForAppointmentPageObject extends PageObject {
     return this;
   }
 
-  typeAdditionalText({
-    content,
-    label = /Please provide any additional details/,
-  }) {
-    cy.findByLabelText(label).type(content);
+  typeAdditionalText({ content }) {
+    cy.get('va-textarea')
+      .shadow()
+      .find('textarea')
+      .type(content);
+
     return this;
   }
 }

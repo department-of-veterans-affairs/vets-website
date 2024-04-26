@@ -48,9 +48,10 @@ const AccountWithInfo = ({
         </TransitionGroup>
       </div>
       <VaButton
+        data-testid="edit-bank-info-button"
         data-field-name="direct-deposit"
         text="Edit"
-        className="vads-u-margin--0 vads-u-margin-top--1p5"
+        className="vads-u-margin--0 vads-u-margin-top--1p5 vads-u-width--full"
         aria-label="Edit your direct deposit bank information"
         ref={editButtonRef}
         onClick={() => {
@@ -89,7 +90,7 @@ const NoAccountInfo = ({ editButtonRef, toggleEdit, recordEventImpl }) => {
         Edit your profile to add your bank information.
       </p>
       <VaButton
-        className="vads-u-margin--0 vads-u-margin-top--1p5"
+        className="vads-u-margin--0 vads-u-margin-top--1p5 vads-u-width--full"
         text="Edit"
         data-testid="edit-bank-info-button"
         aria-label="Edit your direct deposit bank information"
@@ -143,12 +144,12 @@ export const AccountInfoView = ({
 };
 
 AccountInfoView.propTypes = {
+  showUpdateSuccess: PropTypes.bool.isRequired,
   paymentAccount: PropTypes.shape({
     name: PropTypes.string,
     accountNumber: PropTypes.string,
     accountType: PropTypes.string,
-  }).isRequired,
-  showUpdateSuccess: PropTypes.bool.isRequired,
+  }),
   recordEventImpl: PropTypes.func,
 };
 

@@ -8,10 +8,12 @@ import DowntimeNotification, {
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import { setLastPage } from '../actions';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import { isLoadingFeatures } from '../selectors';
+import { useBrowserMonitoring } from '../utils/datadog-rum/useBrowserMonitoring';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.
@@ -45,7 +47,12 @@ AppContent.propTypes = {
   isDataAvailable: PropTypes.bool,
 };
 
-function ClaimsStatusApp({ dispatchSetLastPage, featureFlagsLoading, user }) {
+function ClaimsStatusApp({
+  dispatchSetLastPage,
+  featureFlagsLoading,
+  user,
+  loggedIn,
+}) {
   const { pathname } = useLocation();
   useEffect(
     () => {
@@ -53,6 +60,15 @@ function ClaimsStatusApp({ dispatchSetLastPage, featureFlagsLoading, user }) {
     },
     [pathname],
   );
+
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring({
+    loggedIn,
+    version: '1.0.0',
+    applicationId: '75bb17aa-34f0-4366-b196-eb11eda75425',
+    clientToken: 'pub21bfd23fdfb656231f24906ea91ccb01',
+    service: 'benefits-claim-status-tool',
+  });
 
   return (
     <RequiredLoginView
@@ -85,6 +101,7 @@ function ClaimsStatusApp({ dispatchSetLastPage, featureFlagsLoading, user }) {
 ClaimsStatusApp.propTypes = {
   dispatchSetLastPage: PropTypes.func,
   featureFlagsLoading: PropTypes.bool,
+  loggedIn: PropTypes.bool,
   user: PropTypes.object,
 };
 
@@ -93,6 +110,7 @@ function mapStateToProps(state) {
 
   return {
     featureFlagsLoading,
+    loggedIn: isLoggedIn(state),
     user: state.user,
   };
 }

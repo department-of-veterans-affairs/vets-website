@@ -14,7 +14,6 @@ const Button = ({ label, onClick, isSubmitting, isSecondary }) => {
       onClick={onClick}
       submit={isSubmitting}
       secondary={isSecondary}
-      uswds
     />
   );
 };

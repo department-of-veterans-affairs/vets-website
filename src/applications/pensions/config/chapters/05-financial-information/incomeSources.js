@@ -9,7 +9,10 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
-import { IncomeSourceDescription } from '../../../helpers';
+import {
+  IncomeSourceDescription,
+  updateMultiresponseUiOptions,
+} from '../../../helpers';
 import { recipientTypeLabels, typeOfIncomeLabels } from '../../../labels';
 import IncomeSourceView from '../../../components/IncomeSourceView';
 import { doesReceiveIncome } from './helpers';
@@ -42,6 +45,7 @@ export default {
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
+        updateSchema: updateMultiresponseUiOptions,
       },
       items: {
         typeOfIncome: radioUI({
@@ -49,7 +53,7 @@ export default {
           labels: typeOfIncomeLabels,
         }),
         otherTypeExplanation: {
-          'ui:title': 'Please specify',
+          'ui:title': 'Tell us the type of income',
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
             expandUnder: 'typeOfIncome',

@@ -53,7 +53,6 @@ export const pageSetup = H1 => {
 export const applyErrorFocus = id => {
   const element = document.getElementById(id);
 
-  // focusElement(element)
   const tabindex = element.getAttribute('tabindex');
   if (element.tabIndex !== 0) {
     element.setAttribute('tabindex', '-1');

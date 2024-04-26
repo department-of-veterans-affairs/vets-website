@@ -12,7 +12,12 @@ import howToContactPage from '../chapters/personalInformation/howToContact';
 import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeteranDeceased';
 import whoQuestionAboutPage from '../chapters/personalInformation/questionIsAbout';
 import aboutYourRelationshipToFamilyMemberPage from '../chapters/personalInformation/relationshipToFamilyMember';
+import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
+import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
 import searchVAMedicalCenterPage from '../chapters/personalInformation/searchVAMedicalCenter';
+import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
+import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
+import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
 import veteransAddressZipPage from '../chapters/personalInformation/veteranAddressZip';
 import yourAddressPage from '../chapters/personalInformation/yourAddress';
 import yourCountryPage from '../chapters/personalInformation/yourCountry';
@@ -76,10 +81,38 @@ const ch3Pages = {
     schema: aboutYourselfPage.schema,
   },
   searchVAMedicalCenter: {
-    path: CHAPTER_3.VA_MED_CENTER.PATH,
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
     uiSchema: searchVAMedicalCenterPage.uiSchema,
     schema: searchVAMedicalCenterPage.schema,
+    depends: form =>
+      form.selectCategory === 'VA Health Care' &&
+      (form.selectTopic === 'Medical Care Concerns at a VA Medical Facility' ||
+        form.selectTopic === 'VHA Audiology & Hearing Aids'),
+  },
+  searchSchools: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: searchSchoolsPage.uiSchema,
+    schema: searchSchoolsPage.schema,
+  },
+  schoolStOrResidency: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: schoolStOrResidencyPage.uiSchema,
+    schema: schoolStOrResidencyPage.schema,
+  },
+  stateOfSchool: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: stateOfSchoolPage.uiSchema,
+    schema: stateOfSchoolPage.schema,
+  },
+  stateOrFacility: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: stateOrFacilityPage.uiSchema,
+    schema: stateOrFacilityPage.schema,
+  },
+  useThisSchool: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: useThisSchoolPage.uiSchema,
+    schema: useThisSchoolPage.schema,
   },
   yourPhoneAndEmail: {
     title: CHAPTER_3.PHONE_EMAIL.TITLE,
@@ -149,7 +182,6 @@ export const flowPages = (obj, list, path) => {
       flowGroup[key].onNavBack = ({ goPath }) => goPath('/question-3');
     }
   });
-
   return flowGroup;
 };
 
@@ -157,6 +189,11 @@ export const flowPages = (obj, list, path) => {
 const myOwnBenVet = [
   'aboutYourself',
   'searchVAMedicalCenter',
+  'searchSchools',
+  'schoolStOrResidency',
+  'stateOrFacility',
+  'stateOfSchool',
+  'useThisSchool',
   'yourPhoneAndEmail',
   'howToContact',
   'yourCountry',

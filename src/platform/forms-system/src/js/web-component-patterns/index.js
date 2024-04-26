@@ -1,4 +1,6 @@
 export * from './addressPattern';
+export * from './arrayBuilderPatterns';
+export * from './bankPattern';
 export * from './checkboxGroupPattern';
 export * from './datePatterns';
 export * from './emailPattern';

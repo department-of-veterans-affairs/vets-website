@@ -14,8 +14,9 @@ const fakeStore = createStore(
 );
 
 describe('isActiveDuty', () => {
-  it('should always return false until we implement the functionality', () => {
-    expect(isActiveDuty()).to.be.false;
+  it('should return false', () => {
+    const formData = { isActiveDuty: false };
+    expect(isActiveDuty(formData)).to.be.false;
   });
 });
 

@@ -213,15 +213,18 @@ export const getGroupedPreviousEnrollments = month => {
     <div className="vye-top-border" key={id}>
       {verifiedDate ? (
         <>
-          <h3 className="vads-u-font-size--h4">
-            {translateDateIntoMonthYearFormat(awardBeginDate)}{' '}
-            <i
-              className="fas fa-check-circle vads-u-color--green"
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {translateDateIntoMonthYearFormat(awardBeginDate)}
+            </span>{' '}
+            <va-icon
+              icon="check_circle"
+              class="icon-color"
               aria-hidden="true"
             />{' '}
-            Verified
+            <span className="vads-u-display--block">Verified</span>
           </h3>
-          <p>Payment for this month was deposited.</p>
+          <p>Payment for this month was processed.</p>
           <va-additional-info
             trigger={`${translateDateIntoMonthYearFormat(
               awardBeginDate,
@@ -229,7 +232,7 @@ export const getGroupedPreviousEnrollments = month => {
             class="vads-u-margin-bottom--4"
           >
             {month.map((monthAward, index) => {
-              const { numberHours, monthlyRate, paymentDate } = monthAward;
+              const { numberHours, monthlyRate } = monthAward;
               return (
                 <div key={monthAward.id}>
                   <p className="vads-u-font-weight--bold vads-u-margin--0">
@@ -250,14 +253,14 @@ export const getGroupedPreviousEnrollments = month => {
                     </span>{' '}
                     {formatCurrency(monthlyRate)}
                   </p>
-                  <p className="vads-u-margin--0">
+                  {/* <p className="vads-u-margin--0">
                     <span className="vads-u-font-weight--bold">
                       Payment Deposited on:
                     </span>{' '}
                     {translateDateIntoMonthDayYearFormat(paymentDate)}
-                  </p>
+                  </p> */}
                   <div className="vads-u-font-style--italic vads-u-margin--0">
-                    Verified on{' '}
+                    You verified on{' '}
                     {translateDateIntoMonthDayYearFormat(
                       monthAward.verifiedDate,
                     )}
@@ -276,18 +279,17 @@ export const getGroupedPreviousEnrollments = month => {
         </>
       ) : PendingVerificationSubmitted ? (
         <>
-          <h3 className="vads-u-font-size--h4">
-            {translateDateIntoMonthYearFormat(awardBeginDate)}{' '}
-            <i
-              className="fas fa-check-circle vads-u-color--green"
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {translateDateIntoMonthYearFormat(awardBeginDate)}
+            </span>{' '}
+            <va-icon
+              icon="check_circle"
+              class="icon-color"
               aria-hidden="true"
             />{' '}
-            Pending Verification
+            <span className="vads-u-display--block">Verified</span>
           </h3>
-          <p>
-            Verifications are processed on the business day after submission.
-            Payment is projected to be deposited within 3-5 business days.
-          </p>
           <va-additional-info
             trigger={`${translateDateIntoMonthYearFormat(
               awardBeginDate,
@@ -316,14 +318,8 @@ export const getGroupedPreviousEnrollments = month => {
                     </span>{' '}
                     {formatCurrency(monthlyRate)}
                   </p>
-                  <p className="vads-u-margin--0">
-                    <span className="vads-u-font-weight--bold">
-                      Payment Deposited on:
-                    </span>{' '}
-                    Pending
-                  </p>
                   <div className="vads-u-font-style--italic vads-u-margin--0">
-                    Verified on{' '}
+                    You verified on{' '}
                     {translateDateIntoMonthDayYearFormat(
                       monthAward.PendingVerificationSubmitted,
                     )}
@@ -375,16 +371,18 @@ export const getSignlePreviousEnrollments = awards => {
     <div className="vye-top-border" key={awards.id}>
       {awards.verifiedDate && (
         <>
-          <h3 className="vads-u-font-size--h4">
-            {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
-            {'   '}
-            <i
-              className="fas fa-check-circle vads-u-color--green "
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
+            </span>{' '}
+            <va-icon
+              icon="check_circle"
+              class="icon-color"
               aria-hidden="true"
             />{' '}
-            Verified
+            <span className="vads-u-display--block">Verified</span>
           </h3>
-          <p>Payment for this month was deposited.</p>
+          <p>Payment for this month has been processed.</p>
           <va-additional-info
             trigger={`${translateDateIntoMonthYearFormat(
               awards.awardBeginDate,
@@ -404,14 +402,8 @@ export const getSignlePreviousEnrollments = awards => {
               <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
               {formatCurrency(awards.monthlyRate)}
             </p>
-            <p>
-              <span className="vads-u-font-weight--bold">
-                Payment Deposited on:
-              </span>{' '}
-              {translateDateIntoMonthDayYearFormat(awards.paymentDate)}
-            </p>
             <div className="vads-u-font-style--italic">
-              Verified on{' '}
+              You verified on{' '}
               {translateDateIntoMonthDayYearFormat(awards.verifiedDate)}
             </div>
           </va-additional-info>
@@ -419,19 +411,17 @@ export const getSignlePreviousEnrollments = awards => {
       )}
       {awards.PendingVerificationSubmitted && (
         <>
-          <h3 className="vads-u-font-size--h4">
-            {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
-            {'   '}
-            <i
-              className="fas fa-check-circle vads-u-color--green "
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
+            </span>{' '}
+            <va-icon
+              icon="check_circle"
+              class="icon-color"
               aria-hidden="true"
             />{' '}
-            Verified
+            <span className="vads-u-display--block">Verified</span>
           </h3>
-          <p>
-            Verifications are processed on the business day after submission.
-            Payment is projected to be deposited within 3-5 business days.
-          </p>
           <va-additional-info
             trigger={`${translateDateIntoMonthYearFormat(
               awards.awardBeginDate,
@@ -451,14 +441,8 @@ export const getSignlePreviousEnrollments = awards => {
               <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
               {formatCurrency(awards.monthlyRate)}
             </p>
-            <p className="vads-u-margin--0">
-              <span className="vads-u-font-weight--bold">
-                Payment Deposited on:
-              </span>{' '}
-              Pending
-            </p>
             <div className="vads-u-font-style--italic">
-              Verified on{' '}
+              You verified on{' '}
               {translateDateIntoMonthDayYearFormat(
                 awards.PendingVerificationSubmitted,
               )}
@@ -578,12 +562,45 @@ export const prepareAddressData = formData => {
   return addressData;
 };
 
-export const addressLabel = address => (
-  <span>
-    {`${address?.addressLine1} ${address?.addressLine2 || ''}`}
-    <br />
-    {`${address?.city}, ${address?.province ||
-      address?.stateCode} ${address?.internationalPostalCode ||
-      address?.zipCode}`}
-  </span>
-);
+export const addressLabel = address => {
+  // Destructure address object for easier access
+  const {
+    addressLine1,
+    addressLine2,
+    city,
+    province,
+    stateCode,
+    internationalPostalCode,
+    zipCode,
+  } = address;
+
+  const line1 = addressLine1 || '';
+  const line2 = addressLine2 || '';
+
+  const cityState = city && (province || stateCode) ? `${city}, ` : city;
+
+  const state = province || stateCode || '';
+
+  const postalCode = internationalPostalCode || zipCode || '';
+
+  return (
+    <span>
+      {line1 && (
+        <>
+          {line1}
+          <br />
+        </>
+      )}
+      {line2 && (
+        <>
+          {line2}
+          <br />
+        </>
+      )}
+      {cityState && <>{cityState}</>}
+      {state && <>{state}</>}
+      {postalCode && (state || cityState) && ' '}
+      {postalCode}
+    </span>
+  );
+};

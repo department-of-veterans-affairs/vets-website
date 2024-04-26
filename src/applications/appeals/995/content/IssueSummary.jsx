@@ -1,10 +1,8 @@
 import React from 'react';
 
-import { getDate } from '../../shared/utils/dates';
 import { NO_ISSUES_SELECTED } from '../constants';
 
-import { FORMAT_READABLE } from '../../shared/constants';
-import { getSelected } from '../../shared/utils/issues';
+import { getSelected, getDecisionDate } from '../../shared/utils/issues';
 import { data995 } from '../../shared/props';
 
 const legendClassNames = [
@@ -46,13 +44,7 @@ const IssueSummary = ({ formData }) => {
                   className="dd-privacy-hidden"
                   data-dd-action-name="rated issue decision date"
                 >
-                  {getDate({
-                    date:
-                      issue.attributes?.approxDecisionDate ||
-                      issue.decisionDate ||
-                      '',
-                    pattern: FORMAT_READABLE,
-                  })}
+                  {getDecisionDate(issue)}
                 </span>
               </div>
             </li>

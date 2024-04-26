@@ -50,6 +50,9 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        itemAriaLabel: entry => {
+          return `${entry.first || ''} ${entry.last || ''}`;
+        },
       },
       items: {
         ...fullNameUI(title => `Previous ${title}`),

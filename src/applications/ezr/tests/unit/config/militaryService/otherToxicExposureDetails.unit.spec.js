@@ -1,35 +1,48 @@
-import {
-  testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfWebComponentFields,
-} from '../helpers.spec';
+import React from 'react';
+import { findDOMNode } from 'react-dom';
+import { expect } from 'chai';
+import sinon from 'sinon';
+import ReactTestUtils from 'react-dom/test-utils';
 
+import {
+  DefinitionTester,
+  submitForm,
+} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../../config/form';
 
-const {
-  chapters: {
-    militaryService: {
-      pages: { otherToxicExposureDetails },
-    },
-  },
-} = formConfig;
-const { title: pageTitle, schema, uiSchema } = otherToxicExposureDetails;
+describe('hca Other Toxic Exposure Details config', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.militaryService.pages.otherToxicExposureDetails;
+  const { defaultDefinitions: definitions } = formConfig;
 
-// run test for correct number of fields on the page
-const expectedNumberOfWebComponentFields = 1;
-testNumberOfWebComponentFields(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfWebComponentFields,
-  pageTitle,
-);
+  it('should render', () => {
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+    expect(formDOM.querySelectorAll('va-text-input').length).to.equal(1);
+  });
 
-// run test for correct number of error messages on submit
-const expectedNumberOfWebComponentErrors = 0;
-testNumberOfErrorsOnSubmitForWebComponents(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfWebComponentErrors,
-  pageTitle,
-);
+  it('should submit empty form', () => {
+    const onSubmit = sinon.spy();
+    const form = ReactTestUtils.renderIntoDocument(
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+    const formDOM = findDOMNode(form);
+    submitForm(form);
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+  });
+});

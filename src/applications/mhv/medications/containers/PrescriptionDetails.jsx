@@ -5,6 +5,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import {
   updatePageTitle,
   reportGeneratedBy,
+  usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   getPrescriptionDetails,
@@ -12,7 +13,6 @@ import {
   clearAllergiesError,
 } from '../actions/prescriptions';
 import PrintOnlyPage from './PrintOnlyPage';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   dateFormat,
   generateMedicationsPDF,
@@ -35,12 +35,10 @@ import {
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
 } from '../util/txtConfigs';
-import { medicationsUrls, PDF_TXT_GENERATE_STATUS } from '../util/constants';
-import { getPrescriptionImage } from '../api/rxApi';
+import { PDF_TXT_GENERATE_STATUS } from '../util/constants';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { Actions } from '../util/actionTypes';
-import usePrintTitle from '../components/shared/usePrintTitle';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -48,7 +46,6 @@ const PrescriptionDetails = () => {
   );
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
   const userName = useSelector(state => state.user.profile.userFullName);
-  const crumbs = useSelector(state => state.rx.breadcrumbs.list);
   const dob = useSelector(state => state.user.profile.dob);
   const allergies = useSelector(state => state.rx.allergies?.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
@@ -74,31 +71,6 @@ const PrescriptionDetails = () => {
     id: prescription?.prescriptionId,
   });
 
-  useEffect(() => {
-    if (crumbs.length === 0 && prescription) {
-      dispatch(
-        setBreadcrumbs(
-          [
-            {
-              url: medicationsUrls.MEDICATIONS_ABOUT,
-              label: 'About medications',
-            },
-            {
-              url: `${medicationsUrls.MEDICATIONS_URL}/?page=1`,
-              label: 'Medications',
-            },
-          ],
-          {
-            url: `${medicationsUrls.PRESCRIPTION_DETAILS}/${
-              prescription.prescriptionId
-            }`,
-            label: prescriptionHeader,
-          },
-        ),
-      );
-    }
-  });
-
   useEffect(
     () => {
       if (prescription) {
@@ -112,7 +84,7 @@ const PrescriptionDetails = () => {
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
-  usePrintTitle(baseTitle, userName, dob, dateFormat, updatePageTitle);
+  usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
   useEffect(
     () => {
@@ -298,24 +270,11 @@ const PrescriptionDetails = () => {
   useEffect(
     () => {
       if (!prescription) return;
-      const cmopNdcNumber =
-        prescription?.rxRfRecords?.[0]?.cmopNdcNumber ??
-        prescription.cmopNdcNumber;
-      if (cmopNdcNumber) {
-        getPrescriptionImage(cmopNdcNumber).then(({ data: image }) => {
-          setPrescriptionPdfList(
-            nonVaPrescription
-              ? buildNonVAPrescriptionPDFList(prescription)
-              : buildVAPrescriptionPDFList(prescription, image),
-          );
-        });
-      } else {
-        setPrescriptionPdfList(
-          nonVaPrescription
-            ? buildNonVAPrescriptionPDFList(prescription)
-            : buildVAPrescriptionPDFList(prescription),
-        );
-      }
+      setPrescriptionPdfList(
+        nonVaPrescription
+          ? buildNonVAPrescriptionPDFList(prescription)
+          : buildVAPrescriptionPDFList(prescription),
+      );
     },
     [nonVaPrescription, prescription],
   );
