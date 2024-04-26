@@ -45,7 +45,7 @@ describe('Secure Messaging Reply', () => {
     messageDetailsPage.replyToMessageTo(singleMessage);
 
     // verify saved draft details
-    messageDetailsPage.replyToMessageSenderName(singleMessage); // TODO skipped for flakiness - verify by 200x pattern
+    messageDetailsPage.replyToMessageSenderName(singleMessage);
 
     messageDetailsPage.replyToMessageRecipientName(singleMessage);
 
@@ -53,7 +53,7 @@ describe('Secure Messaging Reply', () => {
 
     messageDetailsPage.replyToMessageId(singleMessage);
 
-    messageDetailsPage.replyToMessageBody(singleMessage); // TODO skipped for flakiness - verify by 200x pattern
+    messageDetailsPage.replyToMessageBody(singleMessage);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
