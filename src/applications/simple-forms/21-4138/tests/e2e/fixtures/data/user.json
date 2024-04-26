@@ -1,0 +1,21 @@
+{
+  "data": {
+    "statementType": "buddy-statement",
+    "fullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "dateOfBirth": "1980-01-01",
+    "idNumber": {
+      "ssn": "321540987"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "street": "123 Any St",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "phone": "1234567890"
+  }
+}
