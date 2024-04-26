@@ -197,8 +197,6 @@ async function testSlowFailure(numberName) {
 
   await waitForElementToBeRemoved(savingMessage);
 
-  await wait(500);
-
   // make sure the error message appears
   expect(
     view.getByText(

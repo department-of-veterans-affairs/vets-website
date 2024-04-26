@@ -112,7 +112,7 @@ async function testSlowFailure(numberName) {
 
   server.use(...mocks.transactionFailed);
 
-  await wait(20);
+  await wait(1500);
 
   // make sure the error message appears
   expect(
