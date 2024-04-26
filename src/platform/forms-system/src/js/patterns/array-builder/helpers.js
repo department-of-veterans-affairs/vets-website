@@ -1,7 +1,7 @@
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
-import { DEFAULT_ARRAY_BUILDER_TEXT } from './components/arrayBuilderText';
+import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 /**
  * Initializes the getText function for the ArrayBuilder

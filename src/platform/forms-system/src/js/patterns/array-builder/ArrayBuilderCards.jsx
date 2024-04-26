@@ -12,16 +12,15 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import { createArrayBuilderItemEditPath } from '../helpers';
+import { createArrayBuilderItemEditPath } from './helpers';
 
 const EditLink = ({ to, itemName }) => (
   <Link to={to} data-action="edit">
-    Edit
-    <i
-      aria-hidden="true"
-      className="fa fa-chevron-right vads-u-margin-left--1"
-    />
-    <span className="sr-only">{itemName}</span>
+    <span className="vads-u-display--flex vads-u-align-items--center">
+      Edit
+      <va-icon size={3} icon="chevron_right" aria-hidden="true" />
+      <span className="sr-only">{itemName}</span>
+    </span>
   </Link>
 );
 
@@ -32,9 +31,11 @@ const RemoveButton = ({ onClick, itemName }) => (
     data-action="remove"
     onClick={onClick}
   >
-    <i
+    <va-icon
+      size={3}
+      icon="delete"
       aria-hidden="true"
-      className="fa fa-trash vads-u-margin-right--1 vads-u-font-size--md"
+      className="vads-u-margin-right--1 vads-u-font-size--md"
     />
     Remove
     <span className="sr-only">{itemName}</span>
