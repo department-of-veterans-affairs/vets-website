@@ -1,22 +1,19 @@
 import { expect } from 'chai';
 import { Actions } from '../../util/actionTypes';
 import { breadcrumbsReducer } from '../../reducers/breadcrumbs';
+import { medicationsUrls } from '../../util/constants';
 
 const breadcrumbs = {
   crumbs: [
     {
-      url: '/my-health/medications/about',
+      url: `${medicationsUrls.MEDICATIONS_ABOUT}`,
       label: 'About medications',
     },
     {
-      url: '/my-health/medications/1',
+      url: `${medicationsUrls.MEDICATIONS_URL}/1`,
       label: 'Medications',
     },
   ],
-  location: {
-    url: `/my-health/medications/prescription/000`,
-    label: 'Prescription Name',
-  },
 };
 
 describe('Breadcrumbs reducer', () => {
@@ -31,6 +28,28 @@ describe('Breadcrumbs reducer', () => {
     };
     const nextState = breadcrumbsReducer(initialState, action);
     expect(nextState.list).to.exist;
-    expect(nextState.location).to.exist;
+  });
+  it('remove breadcrumb should update the breadcrumbs list', () => {
+    const stateWithList = {
+      list: [
+        {
+          url: '/about',
+          label: 'About medications',
+        },
+        {
+          url: '/',
+          label: 'Medications',
+        },
+        {
+          url: '/refill',
+          label: 'Refill prescriptions',
+        },
+      ],
+    };
+    const action = {
+      type: Actions.Breadcrumbs.REMOVE_BREAD_CRUMB,
+    };
+    const nextState = breadcrumbsReducer(stateWithList, action);
+    expect(nextState.list.length).to.equal(2);
   });
 });

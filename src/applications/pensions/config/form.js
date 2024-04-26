@@ -1,7 +1,7 @@
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import FormFooter from 'platform/forms/components/FormFooter';
-import GetFormHelp from 'applications/vre/components/GetFormHelp';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import GetFormHelp from '../components/GetFormHelp';
 
 import { submit } from '../helpers';
 
@@ -40,7 +40,7 @@ const formConfig = {
       saved: 'Your Veterans pension benefits application has been saved.',
     },
   },
-  version: 7,
+  version: 9,
   migrations,
   prefillEnabled: true,
   // verifyRequiredPrefill: true,

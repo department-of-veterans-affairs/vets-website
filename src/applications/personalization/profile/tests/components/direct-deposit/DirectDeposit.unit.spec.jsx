@@ -1,6 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 
+import { fireEvent } from '@testing-library/dom';
+import { getVaButtonByText } from '~/applications/personalization/common/unitHelpers';
 import { DirectDeposit } from '~/applications/personalization/profile/components/direct-deposit/DirectDeposit';
 
 import { Toggler } from '~/platform/utilities/feature-toggles';
@@ -22,15 +24,17 @@ const createInitialState = ({
   loadError,
   controlInformation = {
     canUpdateDirectDeposit: true,
-    canUpdateAddress: true,
-    corpAvailIndicator: true,
-    corpRecFoundIndicator: true,
-    hasNoBdnPaymentsIndicator: true,
-    identityIndicator: true,
-    isCompetentIndicator: true,
-    indexIndicator: true,
-    noFiduciaryAssignedIndicator: true,
-    notDeceasedIndicator: true,
+    isCorpAvailable: true,
+    isEduClaimAvailable: true,
+    isCorpRecFound: true,
+    hasNoBdnPayments: true,
+    hasIdentity: true,
+    hasIndex: true,
+    isCompetent: true,
+    hasMailingAddress: true,
+    hasNoFiduciaryAssigned: true,
+    isNotDeceased: true,
+    hasPaymentAddress: true,
   },
   toggles = baseToggles,
 } = {}) => {
@@ -41,8 +45,9 @@ const createInitialState = ({
         ? null
         : {
             name: 'TEST BANK NAME',
-            accountNumber: 'test acount number',
+            accountNumber: 'test account number',
             routingNumber: 'test routing number',
+            accountType: 'Checking',
           },
       loadError: null,
       saveError: saveError || null,
@@ -64,6 +69,7 @@ const createInitialState = ({
           authBroker: 'sis',
         },
         loading: false,
+        services: ['lighthouse'],
       },
     },
     featureToggles: toggles || baseToggles,
@@ -96,15 +102,26 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
       expect(getByText(/TEST BANK NAME/i)).to.exist;
     });
 
-    // TODO: remove 'CompAndPen' from the toggle name for use within unified direct deposit
-    it('Renders TemporaryOutage when hideDirectDepositCompAndPen is true', () => {
+    it('renders loading indicator when toggles are loading', () => {
+      const { container } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: createInitialState({ toggles: { loading: true } }),
+        },
+      );
+
+      expect(container.querySelector('va-loading-indicator')).to.exist;
+    });
+
+    it('Renders TemporaryOutage when hideDirectDeposit is true', () => {
       const { getByRole } = renderWithProfileReducersAndRouter(
         <DirectDeposit />,
         {
           initialState: createInitialState({
             serviceType: CSP_IDS.ID_ME,
             toggles: generateFeatureTogglesState({
-              profileHideDirectDepositCompAndPen: true,
+              profileHideDirectDeposit: true,
+              profileShowDirectDepositSingleFormUAT: false,
             }).featureToggles,
           }),
           path: '/profile/direct-deposit',
@@ -113,9 +130,40 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
 
       expect(
         getByRole('heading', {
-          name: 'Direct deposit information isn’t available right now',
+          name: 'You can’t manage your direct deposit information right now',
         }),
       ).to.exist;
+    });
+
+    it('Renders error state when error is present', () => {
+      const { getByRole } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: createInitialState({
+            serviceType: CSP_IDS.ID_ME,
+            loadError: 'Internal Server Error',
+          }),
+          path: '/profile/direct-deposit',
+        },
+      );
+
+      expect(
+        getByRole('heading', { name: "This page isn't available right now." }),
+      ).to.exist;
+    });
+
+    it('Renders blocked state when isBlocked is true / user is deceased', () => {
+      const state = createInitialState();
+      state.directDeposit.controlInformation.isNotDeceased = false;
+
+      const { getByTestId } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: state,
+        },
+      );
+
+      expect(getByTestId('direct-deposit-blocked')).to.exist;
     });
 
     it('Renders VerifyIdentity when showBankInformation is false', () => {
@@ -136,21 +184,56 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
       expect(getByTestId('direct-deposit-mfa-message')).to.exist;
     });
 
-    it('Renders error state when error is present', () => {
-      const { getByRole } = renderWithProfileReducersAndRouter(
+    it('renders ineligible state when canUpdateDirectDeposit is false', () => {
+      const state = createInitialState();
+      state.directDeposit.controlInformation.canUpdateDirectDeposit = false;
+
+      const { getByText } = renderWithProfileReducersAndRouter(
         <DirectDeposit />,
         {
-          initialState: createInitialState({
-            serviceType: CSP_IDS.ID_ME,
-            loadError: 'Internal Server Error',
-          }),
-          path: '/profile/direct-deposit',
+          initialState: state,
         },
       );
 
       expect(
-        getByRole('heading', { name: "This page isn't available right now." }),
+        getByText(
+          /Our records show that you don’t receive benefit payments from VA/i,
+        ),
       ).to.exist;
+    });
+
+    it('renders ineligible state when profile services do not include lighthouse', () => {
+      const state = createInitialState();
+      state.user.profile.services = [];
+
+      const { getByText } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: state,
+        },
+      );
+
+      expect(
+        getByText(
+          /Our records show that you don’t receive benefit payments from VA/i,
+        ),
+      ).to.exist;
+    });
+
+    it('renders AccountUpdateView when isEditing is true', async () => {
+      const { getByRole, container } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: createInitialState(),
+        },
+      );
+
+      const button = getVaButtonByText('Edit', { container });
+
+      fireEvent.click(button);
+
+      // save button is shown when update view is rendered
+      expect(getByRole('button', { name: /save/i })).to.exist;
     });
   });
 });

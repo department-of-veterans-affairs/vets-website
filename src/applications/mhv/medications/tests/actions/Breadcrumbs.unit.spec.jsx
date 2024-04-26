@@ -2,26 +2,21 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Actions } from '../../util/actionTypes';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
+import { medicationsUrls } from '../../util/constants';
 
 describe('Set breadcrumbs action', () => {
   it('should dispatch a set breadcrumbs action', () => {
     const dispatch = sinon.spy();
-    return setBreadcrumbs(
-      [
-        {
-          url: '/my-health/medications/about',
-          label: 'About medications',
-        },
-        {
-          url: '/my-health/medications/1',
-          label: 'Medications',
-        },
-      ],
+    return setBreadcrumbs([
       {
-        url: `/my-health/medications/prescription/000`,
-        label: 'Prescription Name',
+        url: medicationsUrls.MEDICATIONS_ABOUT,
+        label: 'About medications',
       },
-    )(dispatch).then(() => {
+      {
+        url: `${medicationsUrls.MEDICATIONS_URL}/1`,
+        label: 'Medications',
+      },
+    ])(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Breadcrumbs.SET_BREAD_CRUMBS,
       );
@@ -30,9 +25,6 @@ describe('Set breadcrumbs action', () => {
       );
       expect(dispatch.firstCall.args[0].payload.crumbs[1].label).to.equal(
         'Medications',
-      );
-      expect(dispatch.firstCall.args[0].payload.location.label).to.equal(
-        'Prescription Name',
       );
     });
   });

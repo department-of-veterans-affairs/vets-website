@@ -32,7 +32,6 @@ const PreCheckinConfirmation = props => {
     return <></>;
   }
 
-  const apptType = appointments[0]?.kind ?? 'clinic';
   const renderLoadingMessage = () => {
     return (
       <div>
@@ -57,7 +56,7 @@ const PreCheckinConfirmation = props => {
           page="confirmation"
           router={router}
         />
-        <HowToLink apptType={apptType} />
+        <HowToLink />
         <p className="vads-u-margin-bottom--4">
           <ExternalLink href={apptLink} hrefLang="en">
             {t('sign-in-to-manage')}

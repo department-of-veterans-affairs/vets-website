@@ -1,38 +1,50 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 // import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { removeBreadcrumbs, setBreadcrumbs } from '../actions/breadcrumbs';
 import { medicationsUrls } from '../util/constants';
-
-const alignToLeft = `va-nav-breadcrumbs xsmall-screen:vads-u-margin-left--neg1 
-small-screen:vads-u-margin-left--neg1 
-medium-screen:vads-u-margin-left--neg2
-small-desktop-screen:vads-u-margin-left--neg2
-large-screen:vads-u-margin-left--0 `;
 
 const RxBreadcrumbs = () => {
   const location = useLocation();
-  const crumbs = useSelector(state => state.rx.breadcrumbs.list);
-  const currentPath = useSelector(state => state.rx.breadcrumbs.location);
-  const allCrumbs = [...crumbs, currentPath];
+  const dispatch = useDispatch();
+  const crumbs = useSelector(state => state.rx.breadcrumbs?.list);
+  const oneLevelDeepCrumb = crumbs?.length - 1;
+
+  useEffect(
+    () => {
+      if (!crumbs?.length && !location.pathname.includes('/about')) {
+        dispatch(
+          setBreadcrumbs({
+            url: medicationsUrls.subdirectories.ABOUT,
+            label: 'About medications',
+          }),
+        );
+      }
+    },
+    [dispatch, crumbs, location.pathname],
+  );
+
+  const backLink = () => {
+    dispatch(removeBreadcrumbs());
+  };
   return (
     <>
-      {!medicationsUrls.MEDICATIONS_ABOUT.endsWith(location.pathname) &&
-        !medicationsUrls.MEDICATIONS_REFILL.endsWith(location.pathname) &&
-        allCrumbs.length > 0 &&
-        allCrumbs[0]?.url && (
-          <div className="no-print">
-            <VaBreadcrumbs
-              uswds
+      {crumbs.length > 0 &&
+        crumbs[0]?.url && (
+          <div className="no-print rx-breadcrumbs">
+            <div
+              className="vads-l-row vads-u-padding-y--3"
               label="Breadcrumb"
               data-testid="rx-breadcrumb"
-              breadcrumbList={allCrumbs.map(crumb => ({
-                href: crumb.url,
-                label: crumb.label,
-              }))}
-              className={`${alignToLeft} va-breadcrumbs-li vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
-            />
+            >
+              <span className="breadcrumb-angle vads-u-padding-right--1">
+                {'\u2039'}{' '}
+              </span>
+              <Link to={crumbs[oneLevelDeepCrumb]?.url} onClick={backLink}>
+                Back to {crumbs[oneLevelDeepCrumb]?.label}
+              </Link>
+            </div>
           </div>
         )}
     </>

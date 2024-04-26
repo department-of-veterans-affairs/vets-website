@@ -51,7 +51,6 @@ const filesPath = `../files`;
 class AdditionalEvidencePage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    document.title = 'Additional Evidence';
     if (!this.props.loading) {
       setUpPage();
     } else {

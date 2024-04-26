@@ -217,17 +217,17 @@ const flow = {
   },
   ccPreferences: {
     url: '/new-appointment/community-care-preferences',
-    label: 'Request a preferred provider',
+    label: 'Which provider do you prefer?',
     next: 'ccLanguage',
   },
   ccLanguage: {
     url: '/new-appointment/community-care-language',
-    label: 'Choose a preferred language',
+    label: 'What language do you prefer?',
     next: 'reasonForAppointment',
   },
   ccClosestCity: {
     url: '/new-appointment/choose-closest-city',
-    label: 'What’s the closest city to you?',
+    label: 'What’s the nearest city to you?',
     next: 'ccPreferences',
   },
   vaFacility: {
@@ -385,6 +385,10 @@ export default function getNewAppointmentFlow(state) {
     },
     reasonForAppointment: {
       ...flow.reasonForAppointment,
+      label:
+        FLOW_TYPES.DIRECT === flowType
+          ? 'Tell us the reason for this appointment'
+          : 'What’s the reason for this appointment?',
       url: featureBreadcrumbUrlUpdate
         ? 'reason'
         : '/new-appointment/reason-appointment',
@@ -426,10 +430,6 @@ export default function getNewAppointmentFlow(state) {
         ? 'date-time'
         : '/new-appointment/select-date',
     },
-    // typeOfAppointment: {
-    //   ...flow.typeOfAppointment,
-    //   url: featureBreadcrumbUrlUpdate ? 'type-of-care' : '/new-appointment',
-    // },
     typeOfCare: {
       ...flow.typeOfCare,
       url: featureBreadcrumbUrlUpdate
@@ -459,7 +459,7 @@ export default function getNewAppointmentFlow(state) {
       url: featureBreadcrumbUrlUpdate
         ? // IMPORTANT!!!
           // The trailing slash is needed for going back to the previous page to work properly.
-          // The trainling slash indicates that 'new-covid-19-vaccine-appointment' is a parent path
+          // The training slash indicates that 'new-covid-19-vaccine-appointment' is a parent path
           // with children.
           //
           // Ex. /schedule/new-covid-19-vaccine-appointment/
@@ -510,4 +510,18 @@ export function getUrlLabel(state, location) {
     return results[0].label;
   }
   return null;
+}
+
+/**
+ * Function to get label from the flow based on the pageKey
+ * returns the label which is the page title
+ *
+ * @export
+ * @param {object} state
+ * @param {string} pageKey
+ * @returns {string} the label string
+ */
+export function getPageTitle(state, pageKey) {
+  const _flow = getNewAppointmentFlow(state);
+  return _flow[pageKey].label;
 }

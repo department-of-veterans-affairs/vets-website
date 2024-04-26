@@ -7,16 +7,10 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import localStorage from 'platform/utilities/storage/localStorage';
 
 import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
-import {
-  // START lighthouse_migration
-  getTrackedItemId,
-  // END lighthouse_migration
-  makeAuthRequest,
-  roundToNearest,
-} from '../utils/helpers';
+import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
-
+import { canUseMocks } from '../constants';
 import {
   ADD_FILE,
   BACKEND_SERVICE_ERROR,
@@ -55,12 +49,6 @@ import {
   USER_FORBIDDEN_ERROR,
   VALIDATION_ERROR,
 } from './types';
-
-// This should make it a bit easier to turn mocks on and off manually
-const SHOULD_USE_MOCKS = true;
-// NOTE: This should only be TRUE when developing locally
-const CAN_USE_MOCKS = environment.isLocalhost() && !window.Cypress;
-const USE_MOCKS = CAN_USE_MOCKS && SHOULD_USE_MOCKS;
 
 export const getClaimLetters = async () => {
   return apiRequest('/claim_letters');
@@ -215,7 +203,6 @@ export const getClaim = (id, navigate) => {
         dispatch({
           type: SET_CLAIM_DETAIL,
           claim: res.data,
-          meta: { syncStatus: 'SUCCESS' },
         });
       })
       .catch(error => {
@@ -237,7 +224,7 @@ export function submitRequest(id) {
       type: SUBMIT_DECISION_REQUEST,
     });
 
-    if (USE_MOCKS) {
+    if (canUseMocks()) {
       dispatch({ type: SET_DECISION_REQUESTED });
       dispatch(
         setNotification({
@@ -246,10 +233,10 @@ export function submitRequest(id) {
             'Thank you. We have your claim request and will make a decision.',
         }),
       );
-      return;
+      return Promise.resolve();
     }
 
-    makeAuthRequest(
+    return makeAuthRequest(
       `/v0/evss_claims/${id}/request_decision`,
       { method: 'POST' },
       dispatch,
@@ -347,9 +334,8 @@ export function submitFiles(claimId, trackedItem, files) {
   let hasError = false;
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
-  // START lighthouse_migration
-  const trackedItemId = trackedItem ? getTrackedItemId(trackedItem) : null;
-  // END lighthouse_migration
+  const trackedItemId = trackedItem ? trackedItem.id : null;
+
   recordEvent({
     event: 'claims-upload-start',
   });
@@ -389,7 +375,7 @@ export function submitFiles(claimId, trackedItem, files) {
           multiple: false,
           callbacks: {
             onAllComplete: () => {
-              if (USE_MOCKS) {
+              if (canUseMocks()) {
                 dispatch({ type: DONE_UPLOADING });
                 dispatch(
                   setNotification({
@@ -529,9 +515,8 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
   let hasError = false;
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
-  // START lighthouse_migration
-  const trackedItemId = trackedItem ? getTrackedItemId(trackedItem) : null;
-  // END lighthouse_migration
+  const trackedItemId = trackedItem ? trackedItem.id : null;
+
   recordEvent({
     event: 'claims-upload-start',
   });
@@ -745,7 +730,7 @@ export function getStemClaims() {
   return dispatch => {
     dispatch({ type: FETCH_STEM_CLAIMS_PENDING });
 
-    if (USE_MOCKS) {
+    if (canUseMocks()) {
       return getStemClaimsMock(dispatch);
     }
 

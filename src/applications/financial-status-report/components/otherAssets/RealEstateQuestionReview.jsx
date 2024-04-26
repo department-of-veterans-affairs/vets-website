@@ -17,7 +17,9 @@ const RealEstateQuestionReview = ({ data, goToPath, title }) => {
         reviewNavigation: true,
       }),
     );
-    goToPath('/monetary-asset-checklist');
+    return data['view:reviewPageNavigationToggle']
+      ? goToPath('/cash-on-hand')
+      : goToPath('/monetary-asset-checklist');
   };
 
   return (
@@ -44,6 +46,7 @@ const RealEstateQuestionReview = ({ data, goToPath, title }) => {
 
 RealEstateQuestionReview.propTypes = {
   data: PropTypes.shape({
+    'view:reviewPageNavigationToggle': PropTypes.bool,
     assets: PropTypes.shape({
       monetaryAssets: PropTypes.array,
     }),

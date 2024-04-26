@@ -31,7 +31,7 @@ describe('PreviousEnrollmentVerifications', () => {
       // testing block that hasn't been verified
       expect(getByText('January 2025')).to.exist;
       // testing blovk that has been verified
-      expect(getByText('September 2024 Verified')).to.exist;
+      expect(getByText('September 2024')).to.exist;
     });
   });
 
@@ -45,9 +45,9 @@ describe('PreviousEnrollmentVerifications', () => {
     // test should wait for data to laod before assertion
     await waitFor(() => {
       // testing block that has been verified but still pending processing
-      expect(getByText('February 2025 Verified')).to.exist;
+      expect(getByText('February 2025')).to.exist;
       // testing blovk that has been verified
-      expect(getByText('September 2024 Verified')).to.exist;
+      expect(getByText('September 2024')).to.exist;
     });
   });
 
@@ -85,7 +85,7 @@ describe('PreviousEnrollmentVerifications', () => {
       const textContent = pElement.text();
 
       expect(textContent).to.equal(
-        'Showing 7-12 of 15 monthly enrollments listed by most recent',
+        'Showing 7-12 of 14 monthly enrollments listed by most recent',
       );
     });
     wrapper.unmount();
@@ -114,7 +114,7 @@ describe('PreviousEnrollmentVerifications', () => {
       const textContent = pElement.text();
 
       expect(textContent).to.equal(
-        'Showing 13-15 of 15 monthly enrollments listed by most recent',
+        'Showing 13-14 of 14 monthly enrollments listed by most recent',
       );
     });
 

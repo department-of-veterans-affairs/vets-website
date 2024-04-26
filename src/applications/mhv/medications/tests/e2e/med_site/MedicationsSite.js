@@ -4,6 +4,7 @@ import mockUnauthenticatedUser from '../fixtures/non-rx-user.json';
 import mockToggles from '../fixtures/toggles-response.json';
 
 import prescriptions from '../fixtures/prescriptions.json';
+import { medicationsUrls } from '../../../util/constants';
 
 class MedicationsSite {
   login = (isMedicationsUser = true) => {
@@ -51,7 +52,7 @@ class MedicationsSite {
   };
 
   verifyloadLogInModal = () => {
-    cy.visit('my-health/medications/about');
+    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
     cy.get('#signin-signup-modal-title').should('contain', 'Sign in');
   };
 

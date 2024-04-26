@@ -19,7 +19,6 @@ export default {
   EDUCATION_APP_STATUS: 'education-app-status',
   EVENTS: 'events',
   EZR_SUBMISSION_OPTIONS: 'ezr-submission-options',
-  EZR_TERA_ALERT: 'ezr-tera-alert',
   FACILITY_APPOINTMENT_WAIT_TIMES_WIDGET:
     'facility-appointment-wait-times-widget',
   FACILITY_DETAIL: 'facility-detail',
@@ -69,7 +68,6 @@ export default {
   SCO_ANNOUNCEMENTS: 'sco-announcements',
   SCO_EVENTS: 'sco-events',
   SECURE_MESSAGING_PAGE: 'secure-messaging-page',
-  SHIFTED_VETS_BANNER: 'shifted-vets-banner',
   SIDE_NAV: 'side-nav',
   SUPPLEMENTAL_CLAIM: 'supplemental_claim',
   THIRD_PARTY_APP_DIRECTORY: 'third-party-app-directory',

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -35,6 +35,7 @@ import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -50,6 +51,7 @@ const VaccineDetails = props => {
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
@@ -91,11 +93,11 @@ const VaccineDetails = props => {
     pageTitles.VACCINES_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
   const generateVaccinePdf = async () => {
+    setDownloadStarted(true);
     const title = `Vaccines: ${record.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
@@ -105,6 +107,7 @@ const VaccineDetails = props => {
   };
 
   const generateVaccineTxt = async () => {
+    setDownloadStarted(true);
     const content = `
 ${crisisLineHeader}\n\n
 ${record.name}\n
@@ -150,8 +153,9 @@ Provider notes: ${processList(record.notes)}\n`;
             label="Date received"
             id="vaccine-date"
           />
+          {downloadStarted && <DownloadSuccessAlert />}
           <PrintDownload
-            download={generateVaccinePdf}
+            downloadPdf={generateVaccinePdf}
             allowTxtDownloads={allowTxtDownloads}
             downloadTxt={generateVaccineTxt}
           />

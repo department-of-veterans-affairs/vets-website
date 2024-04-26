@@ -2,6 +2,7 @@
   "form526": {
     "standardClaim": false,
     "isVaEmployee": true,
+    "isTerminallyIll": false,
     "homelessOrAtRisk": "homeless",
     "homelessHousingSituation": "other",
     "otherHomelessHousing": "Under a bridge",

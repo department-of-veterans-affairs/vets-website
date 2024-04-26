@@ -44,7 +44,6 @@ import createEducationApplicationStatus from '../edu-benefits/components/createE
 import createEventsPage from './events';
 import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
 import createEZRSubmissionOptions from './ezr-submission-options';
-import createEZRTeraAlert from './ezr-tera-alert';
 import createFacilityPage from './facilities/createFacilityPage';
 import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
 import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
@@ -66,7 +65,6 @@ import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 import createResourcesAndSupportSearchWidget from './widget-creators/resources-and-support-search';
-import createShiftedVetsBanner from './shifted-vets-banner';
 import createSupplementalClaim from './supplemental-claim';
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
@@ -189,7 +187,6 @@ form686CTA(store, widgetTypes.FORM_686_CTA);
 createAskVAWidget(store, widgetTypes.ASK_VA);
 createEventsPage(store, widgetTypes.EVENTS);
 createEZRSubmissionOptions(store, widgetTypes.EZR_SUBMISSION_OPTIONS);
-createEZRTeraAlert(store, widgetTypes.EZR_TERA_ALERT);
 createMedicalCopaysCTA(store, widgetTypes.MEDICAL_COPAYS_CTA);
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
 createRefillTrackPrescriptionsPage(
@@ -216,7 +213,6 @@ createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
 createHomepageSearch(store, widgetTypes.HOMEPAGE_SEARCH);
 create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
-createShiftedVetsBanner(store);
 createNodCTA(store, widgetTypes.FORM_10182_CTA);
 createSupplementalClaim(store, widgetTypes.SUPPLEMENTAL_CLAIM);
 createEnrollmentVerificationLoginWidget(

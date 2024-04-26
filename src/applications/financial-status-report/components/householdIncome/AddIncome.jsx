@@ -110,7 +110,7 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
             Add your additional sources of income
           </legend>
           <VaTextInput
-            className="no-wrap input-size-3"
+            width="md"
             error={(submitted && nameError) || null}
             id="add-other-income-name"
             label="What is the income source?"
@@ -120,11 +120,10 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetName || ''}
-            uswds
             charcount
           />
           <VaNumberInput
-            className="no-wrap input-size-3"
+            width="md"
             error={otherAssetAmountError}
             id="add-other-asset-amount"
             inputmode="decimal"
@@ -136,7 +135,6 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetAmount || ''}
-            uswds
           />
           <br />
           <ButtonGroup

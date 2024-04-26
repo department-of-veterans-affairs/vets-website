@@ -102,6 +102,9 @@ export function dateToMoment(dateField) {
   });
 }
 
+// To do: Fix
+// allowSameMonth only checks whether the end/to date is the same as or after the
+// start/from date, regardless of month, rename to allowSameDate or fix
 export function isValidDateRange(fromDate, toDate, allowSameMonth = false) {
   if (isBlankDateField(toDate) || isBlankDateField(fromDate)) {
     return true;
