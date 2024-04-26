@@ -289,7 +289,7 @@ $medium-phone-screen: 375px;
           font-weight: 600;
           padding-left: 0;
           margin-right: 1em;
-          background-position: right 1.5rem center;
+          background-position: right 0.9375rem center;
           line-height: unset;
 
           span {
@@ -336,8 +336,8 @@ $medium-phone-screen: 375px;
     }
 
     .va-navigation-nextprevious {
-      padding-left: 0.9375rem;
-      padding-right: 0.9375rem;
+      padding-left: 0.5859375rem;
+      padding-right: 0.5859375rem;
     }
   }
 
@@ -363,7 +363,7 @@ $medium-phone-screen: 375px;
 
         .va-dropdown {
           .va-dropdown-trigger {
-            background-position: right 0.8rem center;
+            background-position: right 0.5rem center;
           }
 
           .sign-in-links {

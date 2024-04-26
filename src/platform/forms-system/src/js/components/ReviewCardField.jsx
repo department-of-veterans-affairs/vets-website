@@ -304,14 +304,14 @@ export default class ReviewCardField extends React.Component {
 
     return (
       <div className="review-card">
-        <div className={headerClasses} style={{ minHeight: '5rem' }}>
+        <div className={headerClasses} style={{ minHeight: '3.125rem' }}>
           <Tag tabIndex={0} className={titleClasses}>
             {title}
           </Tag>
           {!volatileData && (
             <button
               className={`usa-button-secondary ${editButton}`}
-              style={{ minWidth: '8rem' }}
+              style={{ minWidth: '5rem' }}
               onClick={this.startEditing}
               aria-label={`Edit ${title}`}
             >
@@ -325,7 +325,7 @@ export default class ReviewCardField extends React.Component {
         {volatileData && (
           <button
             className={`usa-button-primary ${editButton}`}
-            style={{ minWidth: '8rem' }}
+            style={{ minWidth: '5rem' }}
             onClick={this.startEditing}
             aria-label={`${itemNameAction || 'New'} ${itemName || title}`}
           >
