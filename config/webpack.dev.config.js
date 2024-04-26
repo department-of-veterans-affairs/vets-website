@@ -1,8 +1,6 @@
 const path = require('path');
 const setupLocalProxyRewrite = require('../src/applications/proxy-rewrite/local-proxy-rewrite');
 const manifestHelpers = require('./manifest-helpers');
-const vamcEhrData = require('../src/applications/mhv-landing-page/tests/fixtures/vamc-ehr.json');
-const ENVIRONMENTS = require('../src/site/constants/environments');
 
 function generateWebpackDevConfig(buildOptions) {
   const routes = manifestHelpers.getAppRoutes();
@@ -72,13 +70,6 @@ function generateWebpackDevConfig(buildOptions) {
         res.type('html');
         next();
       });
-
-      // Serve vamc-ehr.json from yarn watch in local development
-      if (buildOptions.host === ENVIRONMENTS.LOCALHOST) {
-        devServer.app.get('/data/cms/vamc-ehr.json', (_, res) => {
-          res.json(vamcEhrData);
-        });
-      }
 
       if (buildOptions['local-proxy-rewrite']) {
         setupLocalProxyRewrite(devServer, buildOptions);
