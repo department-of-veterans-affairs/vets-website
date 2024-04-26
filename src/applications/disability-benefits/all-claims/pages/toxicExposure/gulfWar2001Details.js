@@ -9,28 +9,29 @@ import {
   getKeyIndex,
   getSelectedCount,
   dateRangeAdditionalInfo,
-  gulfWar1990PageTitle,
-  showCheckboxLoopDetailsPage,
   startDateApproximate,
+  gulfWar2001PageTitle,
+  showCheckboxLoopDetailsPage,
+  teSubtitle,
 } from '../../content/toxicExposure';
-import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
+import { GULF_WAR_2001_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 
 /**
- * Make the uiSchema for each gulf war 1990 details page
+ * Make the uiSchema for each gulf war 2001 details page
  * @param {string} locationId - unique id for the location
  * @returns {object} uiSchema object
  */
 function makeUiSchema(locationId) {
   return {
-    'ui:title': formTitle(gulfWar1990PageTitle),
+    'ui:title': formTitle(gulfWar2001PageTitle),
     'ui:description': formData =>
       dateRangePageDescription(
-        getKeyIndex(locationId, 'gulfWar1990', formData),
-        getSelectedCount('gulfWar1990', formData),
-        GULF_WAR_1990_LOCATIONS[locationId],
+        getKeyIndex(locationId, 'gulfWar2001', formData),
+        getSelectedCount('gulfWar2001', formData),
+        GULF_WAR_2001_LOCATIONS[locationId],
       ),
     toxicExposure: {
-      gulfWar1990Details: {
+      gulfWar2001Details: {
         [locationId]: {
           startDate: currentOrPastDateUI({
             title: startDateApproximate,
@@ -42,7 +43,7 @@ function makeUiSchema(locationId) {
           }),
         },
       },
-      'view:gulfWar1990AdditionalInfo': {
+      'view:gulfWar2001AdditionalInfo': {
         'ui:description': dateRangeAdditionalInfo,
       },
     },
@@ -50,7 +51,7 @@ function makeUiSchema(locationId) {
 }
 
 /**
- * Make the schema for each gulf war 1990 location with dates page
+ * Make the schema for each gulf war 2001 location with dates page
  * @param {string} locationId - unique id for the location
  * @returns {object} - schema object
  */
@@ -61,7 +62,7 @@ function makeSchema(locationId) {
       toxicExposure: {
         type: 'object',
         properties: {
-          gulfWar1990Details: {
+          gulfWar2001Details: {
             type: 'object',
             properties: {
               [locationId]: {
@@ -73,7 +74,7 @@ function makeSchema(locationId) {
               },
             },
           },
-          'view:gulfWar1990AdditionalInfo': {
+          'view:gulfWar2001AdditionalInfo': {
             type: 'object',
             properties: {},
           },
@@ -84,38 +85,44 @@ function makeSchema(locationId) {
 }
 
 /**
- * Make all the page configurations for each Gulf War 1990 details pages. Example
+ * Make all the page configurations for each Gulf War 2001 details pages. Example
  * {
- *  'gulf-war-1990-location-afghanistan': {
- *    title: 'Service after August 2, 1990',
- *    path: 'toxic-exposure/gulf-war-1990-location-afghanistan',
+ *  'gulf-war-2001-location-djibouti': {
+ *    title: 'Service post-9/11',
+ *    path: 'toxic-exposure/gulf-war-2001-location-djibouti',
  *    uiSchema: [Object],
  *    schema: [Object],
  *    depends: [Function: depends]
  *  },
- *  'gulf-war-1990-location-bahrain': {
- *    ... // continue for the rest of the 17 locations
+ *  'gulf-war-2001-location-lebanon': {
+ *    ... // continue for the rest of the locations
  *  }
  * }
  *
  * @returns an object with a page object for each details page
  */
 export function makePages() {
-  const gulfWar1990DetailPagesList = Object.keys(GULF_WAR_1990_LOCATIONS).map(
+  const gulfWar2001DetailPagesList = Object.keys(GULF_WAR_2001_LOCATIONS).map(
     locationId => {
-      const pageName = `gulf-war-1990-location-${locationId}`;
+      const pageName = `gulf-war-2001-location-${locationId}`;
+
       return {
         [pageName]: {
-          title: gulfWar1990PageTitle,
+          title: formData =>
+            teSubtitle(
+              getKeyIndex(locationId, 'gulfWar2001', { formData }),
+              getSelectedCount('gulfWar2001', { formData }),
+              GULF_WAR_2001_LOCATIONS[locationId],
+            ),
           path: `${TE_URL_PREFIX}/${pageName}`,
           uiSchema: makeUiSchema(locationId),
           schema: makeSchema(locationId),
           depends: formData =>
-            showCheckboxLoopDetailsPage(formData, 'gulfWar1990', locationId),
+            showCheckboxLoopDetailsPage(formData, 'gulfWar2001', locationId),
         },
       };
     },
   );
 
-  return Object.assign({}, ...gulfWar1990DetailPagesList);
+  return Object.assign({}, ...gulfWar2001DetailPagesList);
 }

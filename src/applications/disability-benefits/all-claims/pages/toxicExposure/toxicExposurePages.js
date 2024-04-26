@@ -4,6 +4,7 @@ import {
   gulfWar1990Details,
   gulfWar1990Summary,
   gulfWar2001Locations,
+  gulfWar2001Details,
 } from '..';
 import { TE_URL_PREFIX } from '../../constants';
 import {
@@ -45,4 +46,5 @@ export const toxicExposurePages = {
     uiSchema: gulfWar2001Locations.uiSchema,
     schema: gulfWar2001Locations.schema,
   },
+  ...gulfWar2001Details.makePages(),
 };

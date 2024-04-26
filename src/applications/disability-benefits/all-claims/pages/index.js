@@ -19,6 +19,7 @@ import * as gulfWar1990Locations from './toxicExposure/gulfWar1990Locations';
 import * as gulfWar1990Details from './toxicExposure/gulfWar1990Details';
 import * as gulfWar1990Summary from './toxicExposure/gulfWar1990Summary';
 import * as gulfWar2001Locations from './toxicExposure/gulfWar2001Locations';
+import * as gulfWar2001Details from './toxicExposure/gulfWar2001Details';
 import * as homelessOrAtRisk from './homelessOrAtRisk';
 import * as hospitalizationHistory from './hospitalizationHistory';
 import * as incidentDate from './incidentDate';
@@ -125,6 +126,7 @@ export {
   gulfWar1990Details,
   gulfWar1990Summary,
   gulfWar2001Locations,
+  gulfWar2001Details,
   homelessOrAtRisk,
   hospitalizationHistory,
   incidentDate,

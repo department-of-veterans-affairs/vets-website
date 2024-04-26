@@ -49,7 +49,7 @@ export const gulfWar2001Question =
 export const noneAndConditionError =
   'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.';
 
-export const gulfWar1990LocationsAdditionalInfo = (
+export const dateRangeAdditionalInfo = (
   <va-additional-info trigger="What if I have more than one date range?">
     <p>
       You only need to enter one date range. We’ll use this information to find
@@ -58,7 +58,7 @@ export const gulfWar1990LocationsAdditionalInfo = (
   </va-additional-info>
 );
 
-export const dateHelp =
+export const dateRangeDescription =
   'Enter any date range you served in this location. You don’t need to have exact dates.';
 export const startDateApproximate = 'Service start date (approximate)';
 export const endDateApproximate = 'Service end date (approximate)';
@@ -66,30 +66,42 @@ export const goBackLink = 'Edit locations and dates';
 export const noDatesEntered = 'No dates entered';
 
 /**
- * Create the markup for page description. If there are item counts, it will display
- * something like '1 of 3: Location'. If there are no counts yet, the prefix will
- * be dropped to only display Location.
+ * Generate the Toxic Exposure subtitle. If there are item counts, it will display
+ * something like '1 of 3: Location Name'. If either count is invalid, the prefix will
+ * be dropped to only display Location Name.
+ *
+ * @param {number} currentItem - this item's count out of the total selected items
+ * @param {number} totalItems - total number of selected items
+ * @param {string} locationName - Display name of the location
+ * @returns
+ */
+export function teSubtitle(currentItem, totalItems, locationName) {
+  return formSubtitle(
+    (currentItem > 0 &&
+      totalItems > 0 &&
+      `Location ${currentItem} of ${totalItems}: ${locationName}`) ||
+      locationName,
+  );
+}
+
+/**
+ * Create the markup for page description including the subtitle and date range description text
  *
  * @param {number} currentItem - Current item being viewed
  * @param {number} totalItems - Total items for this location
  * @param {string} locationName - Display name of the location
- * @returns level 4 heading description
+ * @returns h4 subtitle and p description
  */
 export function dateRangePageDescription(
   currentItem,
   totalItems,
   locationName,
 ) {
-  const subtitle = formSubtitle(
-    (currentItem > 0 &&
-      totalItems > 0 &&
-      `${currentItem} of ${totalItems}: ${locationName}`) ||
-      locationName,
-  );
+  const subtitle = teSubtitle(currentItem, totalItems, locationName);
   return (
     <>
       {subtitle}
-      <p>{dateHelp}</p>
+      <p>{dateRangeDescription}</p>
     </>
   );
 }
@@ -287,20 +299,24 @@ export function getSelectedCount(objectName, { formData } = {}) {
 }
 
 /**
- * Checks if a specific 1990 details page should display. It should display if all
+ * Checks if a specific details page should display. It should display if all
  * the following is true
  * 1. TE pages should be showing at all
- * 2. gulfWar1990 checkbox location data is present with a true value
+ * 2. the given checkbox location data is present for the given itemId with a true value
  *
  * @param {object} formData - full form data
  * @param {string} locationId - unique id for the location
  * @returns {boolean} true if the page should display, false otherwise
  */
-export function showGulfWar1990DetailsPage(formData, locationId) {
+export function showCheckboxLoopDetailsPage(
+  formData,
+  checkboxObjectName,
+  itemId,
+) {
   return (
     isClaimingTECondition(formData) &&
-    formData?.toxicExposure?.gulfWar1990 &&
-    formData?.toxicExposure?.gulfWar1990?.[locationId] === true
+    formData?.toxicExposure[checkboxObjectName] &&
+    formData?.toxicExposure[checkboxObjectName][itemId] === true
   );
 }
 
