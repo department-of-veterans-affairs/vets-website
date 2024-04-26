@@ -5,7 +5,6 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema
 import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { useSelector } from 'react-redux';
 
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import * as applicantMilitaryHistory from './pages/applicantMilitaryHistory';
@@ -17,7 +16,7 @@ import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInfo
 import * as burialBenefits from './pages/burialBenefits';
 import * as isSponsor from './pages/isSponsor';
 import * as sponsorDetails from './pages/sponsorDetails';
-import * as sponsorContactInfo from './pages/sponsorContactInfo';
+import * as sponsorContactInformation from './pages/sponsorContactInformation';
 import * as sponsorDemographics from './pages/sponsorDemographics';
 import * as sponsorDeceased from './pages/sponsorDeceased';
 import * as sponsorDateOfDeath from './pages/sponsorDateOfDeath';
@@ -26,8 +25,7 @@ import * as sponsorMilitaryDetails from './pages/sponsorMilitaryDetails';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
 import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
-import * as applicantMailingAddress from './pages/applicantMailingAddress';
-import * as applicantContactInfo from './pages/applicantContactInfo';
+import * as applicantContactInformation from './pages/applicantContactInformation';
 import * as preparer from './pages/preparer';
 import * as preparerDetails from './pages/preparerDetails';
 import * as preparerContactDetails from './pages/preparerContactDetails';
@@ -51,12 +49,9 @@ import {
   isVeteran,
   isAuthorizedAgent,
   transform,
-  applicantContactInfoDescriptionNonVet,
-  applicantContactInfoDescriptionVet,
   isVeteranAndHasServiceName,
   isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
-  MailingAddressStateTitle,
   relationshipToVetTitle,
   relationshipToVetPreparerTitle,
   relationshipToVetDescription,
@@ -117,28 +112,6 @@ const {
   race,
   ethnicity,
 } = fullSchemaPreNeed.definitions;
-
-export const applicantMailingAddressStateTitleWrapper = (
-  <MailingAddressStateTitle elementPath="application.claimant.address.country" />
-);
-export const sponsorMailingAddressStateTitleWrapper = (
-  <MailingAddressStateTitle elementPath="application.veteran.address.country" />
-);
-
-export const applicantContactInfoWrapper = <ApplicantContactInfoDescription />;
-
-// NOTE: Commented since only used in Contact Information section which is currently commented until it is moved
-//       Uncomment once Contact Information is moved and uncommented
-/* const applicantContactInfoSubheader = (
-  <h3 className="vads-u-font-size--h5">Your contact details</h3>
-); */
-
-function ApplicantContactInfoDescription() {
-  const data = useSelector(state => state.form.data || {});
-  return isVeteran(data)
-    ? applicantContactInfoDescriptionVet
-    : applicantContactInfoDescriptionNonVet;
-}
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -339,18 +312,23 @@ const formConfig = {
           schema: nonVeteranApplicantDetails.schema,
         },
         applicantMailingAddress: {
-          title: 'Applicant Mailing Address Placeholder',
-          path: 'applicant-mailing-address',
-          depends: formData => !isVeteran(formData),
-          uiSchema: applicantMailingAddress.uiSchema,
-          schema: applicantMailingAddress.schema,
+          title: 'Your mailing address',
+          path: 'applicant-contact-information',
+          depends: formData => !isAuthorizedAgent(formData),
+          uiSchema: applicantContactInformation.uiSchema(
+            'Your mailing address',
+          ),
+          schema: applicantContactInformation.schema,
         },
-        applicantContactInfo: {
-          title: 'Applicant contact information',
-          path: 'applicant-contact-info',
-          depends: formData => isVeteran(formData),
-          uiSchema: applicantContactInfo.uiSchema,
-          schema: applicantContactInfo.schema,
+        applicantMailingAddressPreparer: {
+          title: 'Applicant’s mailing address',
+          path: 'applicant-contact-information-preparer',
+          depends: formData => isAuthorizedAgent(formData),
+          uiSchema: applicantContactInformation.uiSchema(
+            'Applicant’s mailing address',
+            '',
+          ),
+          schema: applicantContactInformation.schema,
         },
         applicantDemographics: {
           title: 'Your demographics',
@@ -439,16 +417,15 @@ const formConfig = {
           uiSchema: sponsorDateOfDeath.uiSchema,
           schema: sponsorDateOfDeath.schema,
         },
-        // sponsorContactInfo is a placeholder screen for MBMS-54141
-        sponsorContactInfo: {
-          path: 'sponsor-contact-info',
+        sponsorContactInformation: {
+          path: 'sponsor-contact-information',
           depends: formData =>
             !isVeteran(formData) &&
             ((!isApplicantTheSponsor(formData) &&
               !isSponsorDeceased(formData)) ||
               isApplicantTheSponsor(formData)),
-          uiSchema: sponsorContactInfo.uiSchema,
-          schema: sponsorContactInfo.schema,
+          uiSchema: sponsorContactInformation.uiSchema,
+          schema: sponsorContactInformation.schema,
         },
         sponsorDemographics: {
           title: 'Sponsor demographics',

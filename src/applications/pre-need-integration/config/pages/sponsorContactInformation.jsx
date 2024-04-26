@@ -1,28 +1,22 @@
 import React from 'react';
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
-import { useSelector } from 'react-redux';
 import { merge } from 'lodash';
+import phoneUI from '../../components/Phone';
+import emailUI from '../../definitions/email';
 import * as address from '../../definitions/address';
 import {
-  isVeteran,
   MailingAddressStateTitle,
   sponsorMailingAddressHasState,
-  applicantContactInfoDescriptionVet,
-  applicantContactInfoDescriptionNonVet,
+  sponsorContactInfoDescription,
 } from '../../utils/helpers';
 
 export const sponsorMailingAddressStateTitleWrapper = (
   <MailingAddressStateTitle elementPath="application.veteran.address.country" />
 );
 
-export const applicantContactInfoWrapper = <ApplicantContactInfoDescription />;
-
-function ApplicantContactInfoDescription() {
-  const data = useSelector(state => state.form.data || {});
-  return isVeteran(data)
-    ? applicantContactInfoDescriptionVet
-    : applicantContactInfoDescriptionNonVet;
-}
+const sponsorContactInfoSubheader = (
+  <h3 className="vads-u-font-size--h5">Sponsor’s contact details</h3>
+);
 
 export const uiSchema = {
   application: {
@@ -41,6 +35,20 @@ export const uiSchema = {
           },
         },
       }),
+      'view:sponsorContactInfoSubheader': {
+        'ui:description': sponsorContactInfoSubheader,
+        'ui:options': {
+          displayEmptyObjectOnReview: true,
+        },
+      },
+      phoneNumber: phoneUI('Phone number'),
+      email: emailUI(),
+      'view:contactInfoDescription': {
+        'ui:description': sponsorContactInfoDescription,
+        'ui:options': {
+          displayEmptyObjectOnReview: true,
+        },
+      },
     },
   },
 };

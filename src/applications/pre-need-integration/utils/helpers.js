@@ -222,8 +222,7 @@ export const nonVeteranApplicantDetailsDescription =
 export const nonVeteranApplicantDetailsDescriptionPreparer =
   'Provide the details for the person you are filling out the application for (called the applicant). Then we’ll ask for the details for the Veteran or service member the applicant is connected to.';
 
-// do not render with a prod flag
-export const applicantContactInfoDescriptionVet = (
+export const applicantContactInfoDescription = (
   <va-additional-info trigger="Why we ask for your contact details">
     <p>
       Once you’ve submitted this application, we’ll send you an email
@@ -233,16 +232,11 @@ export const applicantContactInfoDescriptionVet = (
   </va-additional-info>
 );
 
-// do not render with a prod flag
-export const applicantContactInfoDescriptionNonVet = (
-  <va-additional-info trigger="Why do we need the applicant’s contact details?">
+export const sponsorContactInfoDescription = (
+  <va-additional-info trigger="Why we ask for contact details">
     <p>
-      We may reach out by phone if we need more information about the
-      application.
-    </p>
-    <p>
-      Their email address will be used to send a confirmation message once the
-      application is submitted.
+      We may contact the sponsor by phone or mail if we need more information
+      about this application.
     </p>
   </va-additional-info>
 );
