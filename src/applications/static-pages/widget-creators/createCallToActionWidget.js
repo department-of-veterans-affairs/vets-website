@@ -19,11 +19,7 @@ export default async function createCallToActionWidget(store, widgetType) {
     widgets.forEach(el => {
       ReactDOM.render(
         <Provider store={store}>
-          <CallToActionWidget
-            appId={el.dataset.appId}
-            setFocus={false}
-            originalContent={el.cloneNode(true)}
-          />
+          <CallToActionWidget appId={el.dataset.appId} setFocus={false} />
         </Provider>,
         el,
       );

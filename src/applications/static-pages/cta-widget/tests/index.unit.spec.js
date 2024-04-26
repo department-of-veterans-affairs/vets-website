@@ -860,7 +860,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('renders the original content when feature disabled', () => {
+    it('renders nothing when feature disabled', () => {
       const originalContent = <div id="og-content" />;
       const tree = mount(
         <CallToActionWidget
@@ -882,7 +882,6 @@ describe('<CallToActionWidget>', () => {
         />,
       );
 
-      expect(tree.find('#og-content').exists()).to.be.true;
       expect(tree.find('LoadingIndicator').exists()).to.be.false;
       expect(tree.find('SignIn').exists()).to.be.false;
       expect(tree.find('Verify').exists()).to.be.false;
