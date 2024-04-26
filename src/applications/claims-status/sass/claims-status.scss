@@ -118,34 +118,6 @@
   margin: 0;
 }
 
-// Index page V2
-.claim-list-item-container .card-status {
-  margin: 0 0 0.5em;
-  display: flex;
-
-  .status-circle {
-    flex-shrink: 0;
-    height: 1.5rem;
-    width: 1.5rem;
-    border-radius: 50%;
-    margin-right: 0.8rem;
-    margin-top: 0.5rem;
-
-    &.open-claim {
-      background-color: var(--vads-color-success-dark);
-    }
-
-    &.closed-claim {
-      background-color: var(--vads-color-base-dark);
-    }
-  }
-
-  p {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-}
-
 // Index page V3
 .claim-list-item {
   margin-bottom: 1em;
@@ -192,16 +164,6 @@
   font-size: 0.8em;
   padding: 0.5em 0.75em;
   border-radius: 0 0 0.5em 0.5em;
-}
-
-.claim-list-item-header-old {
-  color: var(--vads-color-primary);
-  margin-top: 0;
-}
-
-.claim-list-item-header-v2 {
-  margin-top: -2rem;
-  white-space: pre-line;
 }
 
 .claims-status {
@@ -304,39 +266,6 @@
   }
 }
 
-.event-date {
-  flex: 0 0 10rem;
-  margin-right: 1rem;
-}
-
-.event-header {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  padding: 1.5rem 0;
-}
-
-.event-header-icon {
-  &:first-child {
-    color: var(--vads-color-base-dark);
-    flex: 0 0 3.25rem;
-  }
-
-  &:last-child {
-    font-size: 1.75rem;
-    margin-left: 2rem;
-  }
-}
-
-.event-title {
-  flex: 1 1;
-}
-
-.event-description {
-  margin-bottom: 1.5rem;
-  margin-left: 3.25rem;
-}
-
 .help-phone-number {
   margin: 0.5em 0;
 }
@@ -347,14 +276,6 @@
   display: block;
   height: 0;
   clear: both;
-}
-
-.loading-message-center-spinner {
-  > img {
-    width: 100px;
-    margin: 2rem auto;
-    display: block;
-  }
 }
 
 .first-of-type {
@@ -452,11 +373,6 @@
   margin: 0 0;
 }
 
-.usa-input-error {
-  padding-left: 1rem;
-  right: 0.9em;
-}
-
 .item-title-container {
   float: none;
   width: 100%;
@@ -499,36 +415,6 @@ h1:focus {
 
 .view-details-button {
   margin: 0;
-}
-
-.claims-list-sort {
-  margin: 2em 0;
-}
-
-.claims-list-sort-label,
-.claims-list-sort-select {
-  display: inline-block;
-}
-
-.claims-list-sort-label {
-  margin-right: 1.5rem;
-}
-
-@media (max-width: $medium-screen) {
-  .claims-list-sort-label {
-    display: block;
-    margin: 0;
-  }
-
-  .claims-list-sort-select {
-    display: block;
-    margin: 1.4rem 0;
-  }
-}
-
-.claims-breadcrumbs {
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
 }
 
 .claim-tab-content {
