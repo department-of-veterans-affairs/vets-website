@@ -30,7 +30,6 @@ const generateDocsFiled = docsFiled => {
         requestTypeText: `Request type: ${document.displayName}`,
         documents: document.documents,
         text: getTrackedItemText(document),
-        // date: document.date,
         date:
           document.documents.length !== 0
             ? document.documents[0].uploadDate || document.date
