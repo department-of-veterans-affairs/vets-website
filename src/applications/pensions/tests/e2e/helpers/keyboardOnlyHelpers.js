@@ -77,9 +77,9 @@ export const typeEachChar = str => {
   return cy.realType(str);
 };
 
-export const fillSelectByTyping = (str, attempt = 0, debug = []) => {
+export const fillSelectByTyping = (str, debug = [], attempt = 0) => {
   if (typeof str !== 'string') {
-    return fillSelectByTyping(`${str}`);
+    return fillSelectByTyping(`${str}`, debug);
   }
 
   if (attempt > 4) {
@@ -92,14 +92,13 @@ export const fillSelectByTyping = (str, attempt = 0, debug = []) => {
     });
   }
 
-  // cy.realType(str);
   return cy
     .get(':focus :selected')
     .should(Cypress._.noop)
     .then($el => {
       const text = $el.text();
       debug.push($el.tagName, text);
-      if (text === str || text === `${str}${str}`) return text;
+      if (text === str || text === `${str}${str}`) return;
       cy.realType(str);
       debug.push(str);
       // Sometimes the select doesn't pick up the first character,
@@ -108,7 +107,7 @@ export const fillSelectByTyping = (str, attempt = 0, debug = []) => {
       // the select to reset the selection process.
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
-      return fillSelectByTyping(str, attempt + 1, debug);
+      fillSelectByTyping(str, debug, attempt + 1);
     });
 };
 
@@ -118,7 +117,7 @@ export const fillDate = fieldData => {
     month: 'long',
     timeZone: 'UTC',
   });
-  fillSelectByTyping(monthString);
+  fillSelectByTyping(monthString, ['fillDate']);
   cy.realPress('Tab', { pressDelay: 0 });
   typeEachChar(parseInt(dateSegments[2], 10));
   cy.realPress('Tab', { pressDelay: 0 });
@@ -169,12 +168,16 @@ export const fillField = ({
       month: 'long',
       timeZone: 'UTC',
     });
-    fillSelectByTyping(monthString);
+    fillSelectByTyping(monthString, ['type.date']);
     cy.tabToElement(`#${name}Day`);
-    fillSelectByTyping(date[2]);
+    fillSelectByTyping(date[2], 'type.date.date');
     cy.tabToElement(`input[name="${name}Year"]`);
     typeEachChar(date[0]);
     return;
+  }
+
+  if (path.includes('powDateRange')) {
+    cy.get('input#root_powStatusYesinput').should('be.checked');
   }
 
   tabToElementByPath(path);
@@ -186,7 +189,7 @@ export const fillField = ({
             elementSchema.enum.findIndex(value => value === fieldData)
           ]
         : fieldData;
-    fillSelectByTyping(enumName);
+    fillSelectByTyping(enumName, ['type.VaSelectField']);
   } else if (type === 'VaMemorableDateField') {
     fillDate(fieldData);
   } else if (type === 'YesNoField' || type === 'yesNo') {
@@ -231,7 +234,7 @@ export const fillStateField = (path, schema, uiSchema, data) => {
   cy.document().then(doc => {
     const tagName = doc.activeElement?.tagName?.toLowerCase();
     if (tagName === 'select' || tagName === 'va-select') {
-      fillSelectByTyping(enumName);
+      fillSelectByTyping(enumName, [`tag:${tagName}`]);
     } else {
       fillInput(fieldData);
     }
