@@ -76,45 +76,42 @@ export const typeEachChar = str => {
   }
 };
 
-export const fillSelectByTyping = (str, i = 0, attempt = 0) => {
+export const fillSelectByTyping = (str, i = 0, attempt = 0, debug = []) => {
   if (typeof str !== 'string') {
     return fillSelectByTyping(`${str}`);
   }
 
   if (attempt > 3) {
-    return cy.get(':focus :selected').then($el => {
-      const options = [...$el, $el.siblings()].map(s => s.text).join(', ');
-      throw new Error(
-        `Unable to enter ${str} in select after 3 tries among options ${options}`,
-      );
-    });
+    throw new Error(
+      `Unable to enter ${str} in select after 3 tries after ${debug.join(
+        ', ',
+      )}`,
+    );
   }
 
   cy.realPress(str[i]);
-  return cy
-    .get(':focus :selected')
-    .should(Cypress._.noop)
-    .then($el => {
-      const text = $el.text();
+  debug.push(str[i]);
+  return cy.get(':focus :selected').then($el => {
+    const text = $el.text();
+    debug.push(text);
+    if (text === str || text === `${str}${str}`) return text;
 
-      if (text === str || text === `${str}${str}`) return text;
+    if (!text.startsWith(str.slice(0, i)) || i + 1 >= str.length) {
+      // Sometimes the select doesn't pick up the first character,
+      // causing the wrong option to be selected. Waiting before
+      // re-typing the selection mimics user behavior and allows
+      // the select to reset the selection process.
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
+      return fillSelectByTyping(str, 0, attempt + 1, debug);
+    }
 
-      if (!text.startsWith(str.slice(0, i)) || i + 1 >= str.length) {
-        // Sometimes the select doesn't pick up the first character,
-        // causing the wrong option to be selected. Waiting before
-        // re-typing the selection mimics user behavior and allows
-        // the select to reset the selection process.
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(100);
-        return fillSelectByTyping(str, 0, attempt + 1);
-      }
+    if (!text.includes(str)) {
+      return fillSelectByTyping(str, i + 1, attempt, debug);
+    }
 
-      if (!text.includes(str)) {
-        return fillSelectByTyping(str, i + 1, attempt);
-      }
-
-      return text;
-    });
+    return text;
+  });
 };
 
 export const fillDate = fieldData => {
