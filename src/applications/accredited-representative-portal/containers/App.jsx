@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { Outlet } from 'react-router-dom-v5-compat';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -8,7 +8,7 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatur
 import Footer from '../components/common/Footer/Footer';
 import Header from '../components/common/Header/Header';
 
-function App({ children }) {
+function App() {
   const {
     useToggleValue,
     useToggleLoadingValue,
@@ -36,15 +36,11 @@ function App({ children }) {
   return (
     <>
       <Header />
-      {children}
+      <Outlet />
       <Footer />
     </>
   );
 }
-
-App.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 function mapStateToProps({ user }) {
   return { user };

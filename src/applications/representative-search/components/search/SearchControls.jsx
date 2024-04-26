@@ -118,15 +118,15 @@ const SearchControls = props => {
               </p>
               <br />
               <p>
-                Accredited VSOs provide free services for Veterans and their
-                families. They have completed training and passed tests about VA
-                claims and decision reviews.
+                Accredited VSO representatives provide free services for
+                Veterans and their families. They have completed training and
+                passed tests about VA claims and decision reviews.
               </p>
               <br />
               <p>
-                Accredited VSOs work for Veterans Service Organizations, like
-                the American Legion, Disabled American Veterans, and Veterans of
-                Foreign Wars.
+                Accredited VSO representatives work for Veterans Service
+                Organizations, like the American Legion, Disabled American
+                Veterans, and Veterans of Foreign Wars.
               </p>
             </va-additional-info>
           </div>
@@ -218,10 +218,11 @@ const SearchControls = props => {
                   className="finding-your-location-loading"
                   style={{ order: 2 }}
                 >
-                  <i
-                    className="fa fa-spinner fa-spin use-my-location-icon"
+                  <va-icon
+                    size={4}
+                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                    className="use-my-location-icon"
                     aria-hidden="true"
-                    role="presentation"
                   />
                   <span aria-live="assertive"> Finding your location...</span>
                 </div>
@@ -233,10 +234,11 @@ const SearchControls = props => {
                   aria-label="Use my location"
                   style={{ order: 2 }}
                 >
-                  <i
+                  <va-icon
+                    size={4}
+                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
                     className="use-my-location-icon"
                     aria-hidden="true"
-                    role="presentation"
                   />
                   <div className="button-text">Use my location</div>
                 </button>
