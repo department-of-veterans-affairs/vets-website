@@ -2,14 +2,11 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { YesNoField } from 'platform/forms-system/src/js/web-component-fields';
-import {
-  arrayBuilderPages,
-  getPageAfterPageKey,
-} from '../components/arrayBuilder';
+import { arrayBuilderPages, getPageAfterPageKey } from '../arrayBuilder';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoUI,
-} from '../components/arrayBuilderPatterns';
+} from '../../../web-component-patterns/arrayBuilderPatterns';
 import * as helpers from '../helpers';
 
 const validOptions = {
@@ -90,7 +87,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
     }
   });
 
-  it('should throw an error if uiSchema is not defined with YesNoField', () => {
+  it('should throw an error if uiSchema is not defined with arrayBuilderYesNoUI', () => {
     try {
       arrayBuilderPages(validOptions, pageBuilder => ({
         summaryPage: pageBuilder.summaryPage({
@@ -100,7 +97,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       }));
       expect(true).to.be.false;
     } catch (e) {
-      expect(e.message).to.include('YesNoField');
+      expect(e.message).to.include('arrayBuilderYesNoUI');
     }
   });
 

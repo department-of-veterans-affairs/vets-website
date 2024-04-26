@@ -5,12 +5,12 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { render } from '@testing-library/react';
-import ArrayBuilderSummaryPage from '../components/ArrayBuilderSummaryPage';
-import * as helpers from '../helpers';
 import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-} from '../components/arrayBuilderPatterns';
+} from 'platform/forms-system/src/js/web-component-patterns/arrayBuilderPatterns';
+import ArrayBuilderSummaryPage from '../ArrayBuilderSummaryPage';
+import * as helpers from '../helpers';
 
 const mockRedux = ({
   review = false,
