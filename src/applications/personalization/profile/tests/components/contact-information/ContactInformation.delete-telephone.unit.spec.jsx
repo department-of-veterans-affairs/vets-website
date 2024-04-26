@@ -67,7 +67,7 @@ async function testSuccess(numberName) {
 
   server.use(...mocks.transactionSucceeded);
 
-  await wait(100);
+  await wait(1500);
 
   // update saved alert should appear
   await view.findByText('Update saved.');

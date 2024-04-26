@@ -130,7 +130,7 @@ describe('Deleting email address', () => {
 
     server.use(...mocks.transactionFailed);
 
-    await wait(100);
+    await wait(1500);
 
     // expect an error to be shown
     await view.findByText(
