@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { VaTextarea } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import vaTextareaFieldMapping from './vaTextareaFieldMapping';
 
@@ -34,3 +34,17 @@ export default function VaTextAreaField(props) {
   const mappedProps = vaTextareaFieldMapping(props);
   return <VaTextarea {...mappedProps} />;
 }
+
+// TODO: This is just an idea
+export function StyledLabelComponent({ Component, classNames }) {
+  useEffect(() => {
+    if (Component && Component.shadowRoot) {
+      const label = Component.shadowRoot.querySelector('label');
+      label.classNames = classNames;
+    }
+  }, []);
+
+  return <Component />;
+}
+
+StyledLabelComponent.propTypes = {};
