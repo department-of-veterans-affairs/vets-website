@@ -40,7 +40,7 @@ function Content({ appointment, facilityData }) {
     isCompAndPenAppointment,
     isPhoneAppointment,
     isCancellable: isAppointmentCancellable,
-  } = appointment?.vaos;
+  } = appointment?.vaos || {};
 
   const featureAppointmentDetailsRedesign = useSelector(
     selectFeatureAppointmentDetailsRedesign,
@@ -118,15 +118,18 @@ Content.propTypes = {
   facilityData: PropTypes.object,
 };
 
-export default function DetailsVA() {
+export default function DetailsVA({ appointment, facilityData }) {
   const { id } = useParams();
-  const { appointment, cancelInfo, facilityData, isCC } = useSelector(
+  const { cancelInfo, isCC } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
   );
   const featureAppointmentDetailsRedesign = useSelector(
     selectFeatureAppointmentDetailsRedesign,
   );
+
+  if (appointment === 'undefined' || !appointment) return null;
+
   const locationId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[locationId];
   const data = {
@@ -195,7 +198,7 @@ export default function DetailsVA() {
     }
   }
 
-  return <Content appointment={(appointment, facilityData)} />;
+  return <Content appointment={appointment} facilityData={facilityData} />;
 }
 
 DetailsVA.propTypes = {
