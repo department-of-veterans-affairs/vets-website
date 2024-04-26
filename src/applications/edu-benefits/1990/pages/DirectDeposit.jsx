@@ -31,6 +31,13 @@ const bankInfoHelpText = (
         subject to section 208.4, “all Federal payments made by an agency shall
         be made by electronic funds transfer” (EFT).
       </p>
+      <p>
+        Note: Any bank account information you enter here will update all other
+        existing Veteran benefits, including Compensation, Pension, and benefits
+        for certain children with disabilities (Chapter 18) payments.
+        Information entered here WILL NOT change your existing bank account for
+        VA health benefits.
+      </p>
     </span>
   </va-additional-info>
 );
