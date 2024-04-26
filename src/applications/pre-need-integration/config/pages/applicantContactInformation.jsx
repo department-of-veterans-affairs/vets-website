@@ -69,7 +69,7 @@ export const schema = {
           required: ['email', 'phoneNumber'],
           properties: {
             address: address.schema(fullSchemaPreNeed, true),
-            'view:applicantContactInfoSubheader': {
+            'view:contactInfoSubheader': {
               type: 'object',
               properties: {},
             },

@@ -72,6 +72,7 @@ import {
   applicantContactInfoSubheader,
   applicantContactInfoPreparerSubheader,
   applicantContactInfoDescription,
+  applicantContactInfoPreparerDescription,
   // partial implementation of story resolving the address change:
   // applicantDetailsCityTitle,
   // applicantDetailsStateTitle,
@@ -332,7 +333,7 @@ const formConfig = {
           uiSchema: applicantContactInformation.uiSchema(
             applicantContactInfoPreparerAddressTitle,
             applicantContactInfoPreparerSubheader,
-            '',
+            applicantContactInfoPreparerDescription,
           ),
           schema: applicantContactInformation.schema,
         },

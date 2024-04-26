@@ -245,6 +245,8 @@ export const applicantContactInfoDescription = (
   </va-additional-info>
 );
 
+export const applicantContactInfoPreparerDescription = <p />;
+
 export const sponsorContactInfoDescription = (
   <va-additional-info trigger="Why we ask for contact details">
     <p>
