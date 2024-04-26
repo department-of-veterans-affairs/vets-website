@@ -90,6 +90,8 @@ const formConfig = {
       hideFormTitle: true,
       pages: {
         nameAndDateOfBirthPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.NOT_LISTED,
           path: 'name-and-date-of-birth',
           title: 'Name and date of birth',
           uiSchema: nameAndDateOfBirthPage.uiSchema,
@@ -103,6 +105,8 @@ const formConfig = {
       hideFormTitle: true,
       pages: {
         identificationInformationPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.NOT_LISTED,
           path: 'identification-information',
           title: 'Identification information',
           uiSchema: identificationInformationPage.uiSchema,
@@ -116,6 +120,8 @@ const formConfig = {
       hideFormTitle: true,
       pages: {
         mailingAddressPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.NOT_LISTED,
           path: 'mailing-address',
           title: 'Mailing address',
           uiSchema: mailingAddressPage.uiSchema,
@@ -129,6 +135,8 @@ const formConfig = {
       hideFormTitle: true,
       pages: {
         phoneAndEmailPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.NOT_LISTED,
           path: 'phone-and-email',
           title: 'Phone and email address',
           uiSchema: phoneAndEmailPage.uiSchema,
@@ -142,6 +150,8 @@ const formConfig = {
       hideFormTitle: true,
       pages: {
         statement: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.NOT_LISTED,
           path: 'statement',
           title: 'Your statement',
           uiSchema: statementPage.uiSchema,
