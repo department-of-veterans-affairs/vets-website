@@ -30,7 +30,11 @@ const generateDocsFiled = docsFiled => {
         requestTypeText: `Request type: ${document.displayName}`,
         documents: document.documents,
         text: getTrackedItemText(document),
-        date: document.date,
+        // date: document.date,
+        date:
+          document.documents.length !== 0
+            ? document.documents[0].uploadDate || document.date
+            : document.date,
         type: 'tracked_item',
       };
     }
@@ -171,7 +175,11 @@ function DocumentsFiled({ claim }) {
                   {item.text && (
                     <div className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                       {reviewed(item.text) && (
-                        <i className="fa fa-check-circle docs-filed-icon" />
+                        <va-icon
+                          size={4}
+                          icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                          className="docs-filed-icon"
+                        />
                       )}
                       <span className="docs-filed-text">{item.text}</span>
                     </div>
