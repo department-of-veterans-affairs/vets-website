@@ -64,7 +64,6 @@ const formConfig = {
     statementTypeChapter: {
       title: 'What kind of statement do you want to submit?',
       hideFormNavProgress: true,
-      hideFormTitle: true,
       pages: {
         statementTypePage: {
           path: 'statement-type',
@@ -88,6 +87,7 @@ const formConfig = {
     },
     personalInformationChapter: {
       title: 'Your personal information',
+      hideFormTitle: true,
       pages: {
         nameAndDateOfBirthPage: {
           path: 'name-and-date-of-birth',
@@ -100,6 +100,7 @@ const formConfig = {
     },
     identificationChapter: {
       title: 'Your identification information',
+      hideFormTitle: true,
       pages: {
         identificationInformationPage: {
           path: 'identification-information',
@@ -112,6 +113,7 @@ const formConfig = {
     },
     mailingAddressChapter: {
       title: 'Your mailing address',
+      hideFormTitle: true,
       pages: {
         mailingAddressPage: {
           path: 'mailing-address',
@@ -124,6 +126,7 @@ const formConfig = {
     },
     contactInformationChapter: {
       title: 'Your contact information',
+      hideFormTitle: true,
       pages: {
         phoneAndEmailPage: {
           path: 'phone-and-email',
@@ -136,6 +139,7 @@ const formConfig = {
     },
     statementChapter: {
       title: 'Your statement',
+      hideFormTitle: true,
       pages: {
         statement: {
           path: 'statement',
