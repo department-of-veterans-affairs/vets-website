@@ -8,7 +8,6 @@ import {
   closeCancelAppointment,
   confirmCancelAppointment,
 } from '../../redux/actions';
-import PageLayout from '../PageLayout';
 import { selectAppointmentType } from '../../redux/selectors';
 import { APPOINTMENT_TYPES } from '../../../utils/constants';
 import CancelPageContent from './CancelPageContent';
@@ -42,7 +41,7 @@ export default function CancelWarningPage({ appointment, cancelInfo }) {
   }
 
   return (
-    <PageLayout showNeedHelp>
+    <>
       <BackLink appointment={appointment} featureAppointmentDetailsRedesign />
       <h1 className="vads-u-margin-y--2p5">{heading}</h1>
       <p>
@@ -69,7 +68,7 @@ export default function CancelWarningPage({ appointment, cancelInfo }) {
           No, do not cancel
         </button>
       </div>
-    </PageLayout>
+    </>
   );
 }
 CancelWarningPage.propTypes = {
