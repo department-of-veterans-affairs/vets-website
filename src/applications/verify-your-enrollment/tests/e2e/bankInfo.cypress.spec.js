@@ -1,7 +1,7 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 import { mockUser } from './login';
 
-describe('Direct deposit information', () => {
+describe('Enrollment Verification Page Tests', () => {
   /**
    *
    * @param {object} win

@@ -21,6 +21,7 @@ import {
   updateVerifications,
   verifyEnrollmentAction,
 } from '../actions';
+import { toLocalISOString } from '../helpers';
 
 const VerificationReviewWrapper = ({
   children,
@@ -40,7 +41,7 @@ const VerificationReviewWrapper = ({
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
-  const [currentPendingAwardIDs, setCurrentPendingAwardIDs] = useState([]);
+  // const [currentPendingAwardIDs, setCurrentPendingAwardIDs] = useState([]);
   // const userData = isUserLoggedIn ? loggedIEnenrollmentData : enrollmentData;
   const history = useHistory();
 
@@ -56,16 +57,23 @@ const VerificationReviewWrapper = ({
   // used with mock data to mock what happens after
   // successfully verifying
   const handleVerification = () => {
-    const currentDateTime = new Date().toISOString();
-    // update awardIds to a blank array
-    dispatchUpdatePendingVerifications({ awardIds: [] });
-    const newVerifiedIDS = currentPendingAwardIDs?.map(id => {
+    const currentDateTime = toLocalISOString(new Date());
+    // update pendingVerifications to a blank array
+    dispatchUpdatePendingVerifications([]);
+    const newVerifiedEnrollments = enrollmentPeriodsToVerify.map(period => {
       return {
-        PendingVerificationSubmitted: currentDateTime,
-        awardIds: [id],
+        ...period,
+        verifiedDate: currentDateTime,
+        paymentDate: null,
       };
     });
-    dispatchUpdateVerifications(newVerifiedIDS);
+    // const newVerifiedIDS = currentPendingAwardIDs?.map(id => {
+    //   return {
+    //     PendingVerificationSubmitted: currentDateTime,
+    //     awardIds: [id],
+    //   };
+    // });
+    dispatchUpdateVerifications(newVerifiedEnrollments);
     dispatchVerifyEnrollmentAction();
   };
 
@@ -78,26 +86,26 @@ const VerificationReviewWrapper = ({
   useEffect(
     () => {
       if (
-        enrollmentData?.['vye::UserInfo']?.awards &&
+        // enrollmentData?.['vye::UserInfo']?.awards &&
         enrollmentData?.['vye::UserInfo']?.pendingVerifications
       ) {
-        const { awards, pendingVerifications } = enrollmentData?.[
-          'vye::UserInfo'
-        ];
-        // add all previouslyVerified data into single array
-        const { awardIds } = pendingVerifications;
-        const toBeVerifiedEnrollmentsArray = [];
-        setCurrentPendingAwardIDs(awardIds);
-        awardIds.forEach(id => {
-          // check for each id inside award_ids array
-          if (awards.some(award => award.id === id)) {
-            toBeVerifiedEnrollmentsArray.push(
-              awards.find(award => award.id === id),
-            );
-          }
-        });
-
-        setEnrollmentPeriodsToVerify(toBeVerifiedEnrollmentsArray);
+        // const { awards, pendingVerifications } = enrollmentData?.[
+        //   'vye::UserInfo'
+        // ];
+        // // add all previouslyVerified data into single array
+        // const { awardIds } = pendingVerifications;
+        // const toBeVerifiedEnrollmentsArray = [];
+        // setCurrentPendingAwardIDs(awardIds);
+        // awardIds.forEach(id => {
+        //   // check for each id inside award_ids array
+        //   if (awards.some(award => award.id === id)) {
+        //     toBeVerifiedEnrollmentsArray.push(
+        //       awards.find(award => award.id === id),
+        //     );
+        //   }
+        // });
+        const { pendingVerifications } = enrollmentData?.['vye::UserInfo'];
+        setEnrollmentPeriodsToVerify(pendingVerifications);
       }
     },
     [enrollmentData],
@@ -137,16 +145,15 @@ const VerificationReviewWrapper = ({
                     </span>{' '}
                     please do not submit the form. Instead, work with your
                     School Certifying Official (SCO) to ensure your enrollment
-                    information is updated with the VA before submitting this
-                    form.
+                    information is updated with the VA.
                   </p>
                   <p className="vads-u-margin-top--3">
                     <span className="vads-u-font-weight--bold">Note:</span>{' '}
-                    Please note that providing false reports concerning your
-                    benefits may result in a fine, imprisonment or both.
+                    Providing false reports concerning your benefits may result
+                    in a fine, imprisonment or both.
                   </p>
                 </div>
-                <div className="vads-u-margin-top--3">
+                <div className="vads-u-margin-top--8">
                   <VaRadio
                     error={errorStatement}
                     hint=""

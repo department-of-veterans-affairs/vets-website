@@ -23,10 +23,10 @@ const EnrollmentCard = ({
     // if there are more than one enrollment periods that startd in the same month
     // then the records are combined into the same array
     // if else is in place to take account for arrays that have multiple objects
-    return combinedEnrollmentsValues.map(enrollment => {
+    return combinedEnrollmentsValues.map((enrollment, index) => {
       if (enrollment.length > 1) {
         return (
-          <div key={enrollment[0].id}>
+          <div key={index}>
             <div className="vads-u-margin-top--3">
               <h2 className="vye-highlighted-title-container">
                 {translateDateIntoMonthYearFormat(enrollment[0].awardBeginDate)}
@@ -40,8 +40,10 @@ const EnrollmentCard = ({
               {confirmationPage &&
                 confirmedEnrollment && (
                   <>
-                    <i
-                      className="fas fa-check-circle vads-u-color--green "
+                    <va-icon
+                      size={4}
+                      icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                      className="vads-u-color--green "
                       aria-hidden="true"
                     />{' '}
                     You are verifying that this month’s enrollment information
@@ -59,7 +61,7 @@ const EnrollmentCard = ({
         );
       }
       return (
-        <div key={enrollment[0].id}>
+        <div key={index}>
           <div className="vads-u-margin-top--3">
             <h2 className="vye-highlighted-title-container">
               {translateDateIntoMonthYearFormat(enrollment[0].awardBeginDate)}
@@ -73,8 +75,10 @@ const EnrollmentCard = ({
             {confirmationPage &&
               confirmedEnrollment && (
                 <>
-                  <i
-                    className="fas fa-check-circle vads-u-color--green "
+                  <va-icon
+                    size={4}
+                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                    className="vads-u-color--green "
                     aria-hidden="true"
                   />{' '}
                   You are verifying that this month’s enrollment information is

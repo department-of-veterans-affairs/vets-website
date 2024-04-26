@@ -601,3 +601,87 @@ export const USER_PENDINGVERIFICATION_MOCK_DATA = {
     ],
   },
 };
+
+export const UPDATED_USER_MOCK_DATA = {
+  'vye::UserInfo': {
+    suffix: 'CPA',
+    fullName: 'Ben Simonis MD',
+    addressLine2: 'Apt. 116',
+    addressLine3: 'Park Crossing',
+    addressLine4: 'Leanneside',
+    addressLine5: 'Montana',
+    addressLine6: '03729-2762',
+    zip: '46786-3217',
+    remEnt: '2854321', // 28(first 2 numbers) for months .54321 * 30 = res needs to be rounded
+    certIssueDate: '2019-06-28T00:00:00.000Z',
+    delDate: '2026-09-03T00:00:00.000Z',
+    dateLastCertified: '2024-03-01',
+    paymentAmt: '3989.36',
+    indicator: 'B',
+
+    pendingDocuments: [
+      {
+        docType: '1990',
+        queueDate: '2023-12-04T22:24:20.000Z',
+      },
+    ],
+    pendingVerifications: [
+      {
+        awardId: '00001',
+        awardBeginDate: '2024-03-01',
+        awardEndDate: '2024-03-24',
+        numberHours: 10,
+        monthlyRate: 600.0,
+        caseTrace: 'CASE 1b',
+      },
+      {
+        awardId: '00002',
+        awardBeginDate: '2024-03-25',
+        awardEndDate: '2024-03-31',
+        numberHours: 12,
+        monthlyRate: 1400.0,
+        caseTrace: 'CASE 7',
+      },
+      {
+        awardId: '00003',
+        awardBeginDate: '2024-02-05',
+        awardEndDate: '2024-02-31',
+        numberHours: 12,
+        monthlyRate: 1400.0,
+        caseTrace: 'CASE 7',
+      },
+    ],
+    verifications: [
+      {
+        verifiedDate: '2020-06-01',
+        awardBeginDate: null,
+        awardEndDate: '2020-05-31',
+        numberHours: null,
+        monthlyRate: null,
+        paymentDate: '2020-06-01',
+        caseTrace: 'CASE 1b',
+      },
+      {
+        verifiedDate: '2020-05-15',
+        awardBeginDate: null,
+        // "awardBeginDate":'2020-04-01',
+        awardEndDate: '2020-04-30',
+        numberHours: 4,
+        monthlyRate: null,
+        paymentDate: '2020-05-15',
+        caseTrace: 'CASE 1b',
+      },
+      {
+        verifiedDate: '2023-03-01',
+        // "awardBeginDate":'2023-02-06',
+        awardBeginDate: '2020-04-06',
+        awardEndDate: null,
+        // "awardEndDate":'2023-02-28',
+        numberHours: 6,
+        monthlyRate: 800.0,
+        paymentDate: '2023-03-01',
+        caseTrace: 'CASE 1b',
+      },
+    ],
+  },
+};
