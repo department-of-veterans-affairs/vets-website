@@ -49,6 +49,7 @@ const directDepositDescription = (
       However, benefits cannot be paid without this information per U.S.
       Treasury regulation 31 C.F.R. § 208.3.
     </p>
+    <p>{bankInfoHelpText}</p>
     <img
       src="/img/direct-deposit-check-guide.svg"
       alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
@@ -83,10 +84,6 @@ export default function createDirectDepositPage() {
       accountNumber: {
         type: 'string',
       },
-      'view:bankInfoHelpText': {
-        type: 'object',
-        properties: {},
-      },
     },
   };
 
@@ -118,12 +115,6 @@ export default function createDirectDepositPage() {
             'ui:validations': [validateRoutingNumber],
             'ui:errorMessages': {
               pattern: 'Please enter a valid 9 digit routing number',
-            },
-          },
-          'view:bankInfoHelpText': {
-            'ui:description': bankInfoHelpText,
-            'ui:options': {
-              hideOnReview: true,
             },
           },
         },
