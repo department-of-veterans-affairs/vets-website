@@ -1904,7 +1904,7 @@ jobs:
           ASSET_DEST: s3://${{ matrix.asset_bucket }}
 
   full-build-and-archive:
-    name: Build
+    name: Full Build and Archive
     runs-on: ubuntu-latest
     if: always() && github.ref == 'refs/heads/main' && ${{ needs.build.outputs.continuous_deployment }} == true
     needs: [build, deploy]
@@ -1982,9 +1982,10 @@ jobs:
 
   tag-commit:
     name: Tag Commit
-    needs: [archive, build]
+    needs: [full-build-and-archive]
     runs-on: ubuntu-latest
     # if: always() && github.ref == 'refs/heads/main'
+    if: always()
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
