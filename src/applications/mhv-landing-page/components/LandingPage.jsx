@@ -14,7 +14,6 @@ import NoHealthAlert from './NoHealthAlert';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
-import WelcomeContainer from '../containers/WelcomeContainer';
 import { hasHealthData, personalizationEnabled } from '../selectors';
 
 const LandingPage = ({ data = {} }) => {
@@ -22,7 +21,7 @@ const LandingPage = ({ data = {} }) => {
   const isUnverified = useSelector(isLOA1);
   const hasHealth = useSelector(hasHealthData);
   const signInService = useSelector(signInServiceName);
-  const showPersonalization = useSelector(personalizationEnabled);
+  const showWelcomeMessage = useSelector(personalizationEnabled);
   const showCards = hasHealth && !isUnverified;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
@@ -47,8 +46,7 @@ const LandingPage = ({ data = {} }) => {
           dependencies={[externalServices.mhvPlatform]}
           render={renderMHVDowntime}
         />
-        <HeaderLayout />
-        {showPersonalization && <WelcomeContainer />}
+        <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
         {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
       </div>
       <HubLinks hubs={hubs} />
