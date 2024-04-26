@@ -231,7 +231,7 @@ export function selectSingleValidVALocation(state) {
 
   return validFacilities?.length === 1 && !!data.vaFacility;
 }
-export function hasSingleValidVALocation(state) {
+export function selectSingleSupportedVALocation(state) {
   return getNewAppointment(state)?.data?.isSingleVaFacility;
 }
 

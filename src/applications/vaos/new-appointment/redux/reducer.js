@@ -266,7 +266,12 @@ export default function formReducer(state = initialState, action) {
     case FORM_UPDATE_FACILITY_TYPE: {
       return {
         ...state,
-        data: { ...state.data, facilityType: action.facilityType },
+        data: {
+          ...state.data,
+          facilityType: action.facilityType,
+          isSingleVaFacility:
+            action.facilityType !== FACILITY_TYPES.COMMUNITY_CARE,
+        },
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN: {

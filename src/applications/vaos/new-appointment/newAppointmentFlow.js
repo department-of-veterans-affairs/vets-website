@@ -9,7 +9,7 @@ import {
   getFormData,
   getNewAppointment,
   getTypeOfCare,
-  hasSingleValidVALocation,
+  selectSingleSupportedVALocation,
   selectCommunityCareSupportedSites,
   selectEligibility,
 } from './redux/selectors';
@@ -329,7 +329,7 @@ const flow = {
 export default function getNewAppointmentFlow(state) {
   const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
   const flowType = getFlowType(state);
-  const isSingleVaFacility = hasSingleValidVALocation(state);
+  const isSingleVaFacility = selectSingleSupportedVALocation(state);
 
   return {
     ...flow,
