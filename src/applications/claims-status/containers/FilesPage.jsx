@@ -21,6 +21,7 @@ import {
   getFilesNeeded,
   getFilesOptional,
   isClaimOpen,
+  claimAvailable,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
 import { Toggler } from '~/platform/utilities/feature-toggles';
@@ -63,17 +64,24 @@ class FilesPage extends React.Component {
   getPageContent() {
     const { claim } = this.props;
 
+    // Return null if the claim/ claim.attributes dont exist
+    if (!claimAvailable(claim)) {
+      return null;
+    }
+
     const {
       closeDate,
       status,
       supportingDocuments,
       trackedItems,
+      evidenceWaiverSubmitted5103,
+      claimPhaseDates,
     } = claim.attributes;
     const isOpen = isClaimOpen(status, closeDate);
-    const waiverSubmitted = claim.attributes.evidenceWaiverSubmitted5103;
+    const waiverSubmitted = evidenceWaiverSubmitted5103;
     const showDecision =
-      claim.attributes.claimPhaseDates.latestPhaseType ===
-        FIRST_GATHERING_EVIDENCE_PHASE && !waiverSubmitted;
+      claimPhaseDates.latestPhaseType === FIRST_GATHERING_EVIDENCE_PHASE &&
+      !waiverSubmitted;
 
     const filesNeeded = getFilesNeeded(trackedItems, true);
     const optionalFiles = getFilesOptional(trackedItems, true);
@@ -88,7 +96,7 @@ class FilesPage extends React.Component {
     });
 
     return (
-      <div>
+      <div className="claim-files">
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
           <Toggler.Disabled>
             {isOpen && (
@@ -131,7 +139,7 @@ class FilesPage extends React.Component {
   setTitle() {
     const { claim } = this.props;
 
-    if (claim) {
+    if (claimAvailable(claim)) {
       const claimDate = buildDateFormatter()(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Files For ${claimDate} ${claimType} Claim`;
@@ -142,7 +150,7 @@ class FilesPage extends React.Component {
   }
 
   render() {
-    const { claim, loading, message, synced } = this.props;
+    const { claim, loading, message } = this.props;
 
     let content = null;
     if (!loading && claim) {
@@ -156,7 +164,6 @@ class FilesPage extends React.Component {
         clearNotification={this.props.clearNotification}
         currentTab="Files"
         message={message}
-        synced={synced}
       >
         {content}
       </ClaimDetailLayout>
@@ -172,7 +179,6 @@ function mapStateToProps(state) {
     claim: claimsState.claimDetail.detail,
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
-    synced: claimsState.claimSync.synced,
   };
 }
 
@@ -190,7 +196,6 @@ FilesPage.propTypes = {
     title: PropTypes.string,
     type: PropTypes.string,
   }),
-  synced: PropTypes.bool,
 };
 
 export default connect(

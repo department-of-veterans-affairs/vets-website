@@ -1,11 +1,17 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 
 import LandingPage from '../../containers/LandingPage';
 
 describe('LandingPage', () => {
-  const getLandingPage = () => render(<LandingPage />);
+  const getLandingPage = () =>
+    render(
+      <MemoryRouter>
+        <LandingPage />
+      </MemoryRouter>,
+    );
 
   it('renders main heading', () => {
     const { getByTestId } = getLandingPage();
@@ -24,7 +30,7 @@ describe('LandingPage', () => {
   it('renders the link to sign in', () => {
     const { getByTestId } = getLandingPage();
     expect(getByTestId('landing-page-sign-in-link').textContent).to.eq(
-      'Sign in or create an account',
+      'Sign in or create account',
     );
   });
 });

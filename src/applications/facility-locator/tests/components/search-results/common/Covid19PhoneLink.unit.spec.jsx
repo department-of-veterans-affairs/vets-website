@@ -16,7 +16,7 @@ describe('Covid19PhoneLink', () => {
         .trim(),
     ).to.equal('Call to schedule:');
     expect(wrapper.find('va-telephone').html()).to.equal(
-      '<va-telephone className="vads-u-margin-left--0p25" contact="9994567890" extension=""></va-telephone>',
+      '<va-telephone className="vads-u-margin-left--0p25" contact="9994567890" extension="" message-aria-describedby="Call to schedule"></va-telephone>',
     );
     wrapper.unmount();
   });
@@ -34,7 +34,7 @@ describe('Covid19PhoneLink', () => {
         .trim(),
     ).to.equal('Call to schedule:');
     expect(wrapper.find('va-telephone').html()).to.equal(
-      '<va-telephone className="vads-u-margin-left--0p25" contact="9994567890" extension="421"></va-telephone>',
+      '<va-telephone className="vads-u-margin-left--0p25" contact="9994567890" extension="421" message-aria-describedby="Call to schedule"></va-telephone>',
     );
     wrapper.unmount();
   });
@@ -51,7 +51,7 @@ describe('Covid19PhoneLink', () => {
         .trim(),
     ).to.equal('Call to schedule:');
     expect(wrapper.find('va-telephone').html()).to.equal(
-      '<va-telephone className="vads-u-margin-left--0p25" contact="9994567890" extension="421"></va-telephone>',
+      '<va-telephone className="vads-u-margin-left--0p25" contact="9994567890" extension="421" message-aria-describedby="Call to schedule"></va-telephone>',
     );
     wrapper.unmount();
   });

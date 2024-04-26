@@ -1,5 +1,6 @@
 import React from 'react';
-import { fileTypes, maxSize } from '../../config/attachments';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import { fileUploadBlurb } from '../../../shared/components/fileUploads/attachments';
 
 export const mailOrFaxLaterMsg =
   'If you don’t have a copy to upload now, you can send one by mail or fax.';
@@ -63,8 +64,6 @@ export const acceptableFiles = {
   ],
 };
 
-export const blankSchema = { type: 'object', properties: {} };
-
 function makeLink(el) {
   return <va-link href={el.href} text={el.text} />;
 }
@@ -114,29 +113,6 @@ export function acceptableFileList(list) {
     },
   };
 }
-
-export const fileUploadBlurb = {
-  'view:fileUploadBlurb': {
-    'ui:description': (
-      <>
-        <div className="vads-u-margin-bottom--4">
-          <b>How to upload files</b>
-          <ul>
-            <li>
-              Use a .{fileTypes.slice(0, -1).join(', .')}, or .
-              {fileTypes.slice(-1)} file format
-            </li>
-            <li>Make sure that file size is {maxSize} or less.</li>
-            <li>
-              If you only have a paper copy, scan or take a photo and upload the
-              image.
-            </li>
-          </ul>
-        </div>
-      </>
-    ),
-  },
-};
 
 export const requiredFileUploadMessage = {
   'ui:description': (

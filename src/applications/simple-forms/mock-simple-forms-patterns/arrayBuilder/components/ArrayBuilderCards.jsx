@@ -4,7 +4,7 @@
  * For array builder pattern
  * Cards with "Edit" and "Remove"
  */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
@@ -13,27 +13,6 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { createArrayBuilderItemEditPath } from '../helpers';
-
-const DEFAULT_TEXT = {
-  title: props => `Review your ${props.nounPlural}`,
-  removeTitle: props =>
-    `Are you sure you want to remove this ${props.nounSingular}?`,
-  removeDescription: props =>
-    `This will remove ${props.getItemName(
-      props.itemData,
-    )} and all the information from your list of ${props.nounPlural}.`,
-  removeYes: props => `Yes, remove this ${props.nounSingular}`,
-  removeNo: props => `No, continue`,
-  itemUpdated: props =>
-    `${props.getItemName(props.itemData)}’s information has been updated`,
-  itemMissingInformation: props =>
-    `This ${
-      props.nounSingular
-    } is missing information. Edit and complete this ${
-      props.nounSingular
-    }’s information before continuing.`,
-  getItemName: itemData => itemData?.name,
-};
 
 const EditLink = ({ to, itemName }) => (
   <Link to={to} data-action="edit">
@@ -70,42 +49,25 @@ const MissingInformationAlert = ({ children }) => (
   </div>
 );
 
-const SuccessAlert = ({ children }) => (
-  <div className="vads-u-margin-top--2">
-    <va-alert status="success" uswds>
-      {children}
-    </va-alert>
-  </div>
-);
-
 const IncompleteLabel = () => (
   <div className="vads-u-margin-bottom--1">
     <span className="usa-label">INCOMPLETE</span>
   </div>
 );
 
-function getUpdatedItemIndexFromPath() {
-  const urlParams = new URLSearchParams(window.location?.search);
-  const updatedValue = urlParams.get('updated');
-  return updatedValue?.split('-')?.pop();
-}
-
 /**
- * Usage:
- * ```
- * <ArrayBuilderCards
- *   cardDescription={itemData =>
- *     `${itemData?.dateStart} - ${itemData?.dateEnd}`
- *   }
- *   arrayPath="employers"
- *   nounSingular="employer"
- *   nounPlural="employers"
- *   isIncomplete={item => !item?.name}
- *   editItemPathUrl="/array-multiple-page-builder-item-page-1/:index"
- * />
- * ```x
- *
- * @param {Object} props
+ * @param {{
+ *   arrayPath: string,
+ *   editItemPathUrl: string,
+ *   formData: any,
+ *   isIncomplete: (itemData: any) => boolean,
+ *   nounSingular: string,
+ *   setFormData: (formData: any) => void,
+ *   titleHeaderLevel: string,
+ *   getText: import('./arrayBuilderText').ArrayBuilderGetText
+ *   onRemoveAll: () => void,
+ *   required: (formData: any) => boolean,
+ * }} props
  */
 const ArrayBuilderCards = ({
   arrayPath,
@@ -114,45 +76,16 @@ const ArrayBuilderCards = ({
   setFormData,
   formData,
   nounSingular,
-  nounPlural,
-  cardDescription,
   titleHeaderLevel = '3',
-  textOverrides,
+  getText,
+  onRemoveAll,
+  required,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const arrayData = get(arrayPath, formData);
   const currentItem = arrayData?.[currentIndex];
   const isReview = window.location?.pathname?.includes('review-and-submit');
-  const updateItemIndex = getUpdatedItemIndexFromPath();
-  const updatedItemData =
-    updateItemIndex != null ? arrayData?.[updateItemIndex] : null;
-
-  const textProps = {
-    getItemName: textOverrides?.getItemName || (itemData => itemData?.name),
-    itemData: currentItem,
-    nounPlural,
-    nounSingular,
-  };
-
-  function getText(key, props) {
-    return textOverrides?.[key]
-      ? textOverrides?.[key](props || textProps)
-      : DEFAULT_TEXT[key](props || textProps);
-  }
-
-  const text = {
-    title: getText('title'),
-    removeTitle: getText('removeTitle'),
-    removeDescription: getText('removeDescription'),
-    removeYes: getText('removeYes'),
-    removeNo: getText('removeNo'),
-    itemUpdated: getText('itemUpdated', {
-      ...textProps,
-      itemData: updatedItemData,
-    }),
-    itemMissingInformation: getText('itemMissingInformation'),
-  };
 
   if (!arrayData?.length) {
     return null;
@@ -169,18 +102,20 @@ const ArrayBuilderCards = ({
   }
 
   function removeAction() {
-    const item = arrayData[currentIndex];
     const arrayWithRemovedItem = arrayData.filter(
-      data => data.name !== item.name,
+      (_, index) => index !== currentIndex,
     );
     const newData = set(arrayPath, arrayWithRemovedItem, formData);
 
     setFormData(newData);
     hideRemoveConfirmationModal();
+    if (arrayWithRemovedItem.length === 0) {
+      onRemoveAll();
+    }
   }
 
   const Card = ({ index, children }) => (
-    <div className="vads-u-margin-bottom--2">
+    <div className="vads-u-margin-top--2">
       <va-card uswds name={`${nounSingular}_${index}`}>
         {children}
       </va-card>
@@ -191,18 +126,15 @@ const ArrayBuilderCards = ({
     index: PropTypes.number.isRequired,
   };
 
-  const Heading = `h${titleHeaderLevel}`;
   const CardHeading = `h${Number(titleHeaderLevel) + 1}`;
 
   return (
     <div>
-      <Heading>{text.title}</Heading>
       <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-flex-direction--column">
-        {updatedItemData && <SuccessAlert>{text.itemUpdated}</SuccessAlert>}
         {arrayData?.length && (
-          <ul className="vads-u-margin-top--4 vads-u-padding--0">
+          <ul className="vads-u-margin-top--2 vads-u-padding--0">
             {arrayData.map((itemData, index) => {
-              const itemName = textProps.getItemName(itemData);
+              const itemName = getText('getItemName', itemData);
               return (
                 <li key={index} style={{ listStyleType: 'none' }}>
                   <Card index={index}>
@@ -211,10 +143,10 @@ const ArrayBuilderCards = ({
                       <CardHeading className="vads-u-margin-top--0">
                         {itemName}
                       </CardHeading>
-                      {cardDescription(itemData)}
+                      {getText('cardDescription', itemData)}
                       {isIncomplete(itemData) && (
                         <MissingInformationAlert>
-                          {text.itemMissingInformation}
+                          {getText('cardItemMissingInformation', itemData)}
                         </MissingInformationAlert>
                       )}
                     </div>
@@ -242,16 +174,18 @@ const ArrayBuilderCards = ({
       <VaModal
         clickToClose
         status="warning"
-        modalTitle={text.removeTitle}
-        primaryButtonText={text.removeYes}
-        secondaryButtonText={text.removeNo}
+        modalTitle={getText('removeTitle', currentItem)}
+        primaryButtonText={getText('removeYes', currentItem)}
+        secondaryButtonText={getText('removeNo', currentItem)}
         onCloseEvent={hideRemoveConfirmationModal}
         onPrimaryButtonClick={removeAction}
         onSecondaryButtonClick={hideRemoveConfirmationModal}
         visible={isModalVisible}
         uswds
       >
-        {text.removeDescription}
+        {required(formData) && arrayData?.length === 1
+          ? getText('removeNeedAtLeastOneDescription', currentItem)
+          : getText('removeDescription', currentItem)}
       </VaModal>
     </div>
   );
@@ -275,40 +209,15 @@ ArrayBuilderCards.propTypes = {
   ]).isRequired,
   editItemPathUrl: PropTypes.string.isRequired,
   formData: PropTypes.object.isRequired,
+  getText: PropTypes.func.isRequired,
   isIncomplete: PropTypes.func.isRequired,
-  nounPlural: PropTypes.string.isRequired,
   nounSingular: PropTypes.string.isRequired,
+  required: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
-  textOverrides: PropTypes.shape({
-    title: PropTypes.func,
-    removeTitle: PropTypes.func,
-    removeDescription: PropTypes.func,
-    removeYes: PropTypes.func,
-    removeNo: PropTypes.func,
-    itemUpdated: PropTypes.func,
-    itemMissingInformation: PropTypes.func,
-    getItemName: PropTypes.func,
-  }),
+  onRemoveAll: PropTypes.func.isRequired,
   titleHeaderLevel: PropTypes.func,
 };
 
-/**
- * Usage:
- * ```
- * <ArrayBuilderCards
- *   cardDescription={itemData =>
- *     `${itemData?.dateStart} - ${itemData?.dateEnd}`
- *   }
- *   arrayPath="employers"
- *   nounSingular="employer"
- *   nounPlural="employers"
- *   isIncomplete={item => !item?.name}
- *   editItemPathUrl="/array-multiple-page-builder-item-page-1"
- * />
- * ```
- *
- * @param {Object} props
- */
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

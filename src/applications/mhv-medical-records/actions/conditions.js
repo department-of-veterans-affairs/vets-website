@@ -3,6 +3,7 @@ import { getConditions, getCondition } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
+import { getListWithRetry } from './common';
 
 export const getConditionsList = (isCurrent = false) => async dispatch => {
   dispatch({
@@ -10,7 +11,7 @@ export const getConditionsList = (isCurrent = false) => async dispatch => {
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const response = await getConditions();
+    const response = await getListWithRetry(dispatch, getConditions);
     dispatch({
       type: Actions.Conditions.GET_LIST,
       response,

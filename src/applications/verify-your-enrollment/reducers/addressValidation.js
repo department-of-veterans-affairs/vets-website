@@ -40,9 +40,13 @@ function addressReducer(state = initialState, action) {
       return {
         ...state,
         isLoadingValidateAddress: false,
-        validationError: null,
         validationSuccess: false,
         addressValidationData: null,
+      };
+    case 'RESET_ADDRESS_VALIDATIONS_ERROR':
+      return {
+        ...state,
+        validationError: null,
       };
     default:
       return state;

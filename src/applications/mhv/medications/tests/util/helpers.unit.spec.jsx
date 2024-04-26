@@ -8,6 +8,8 @@ import {
   getReactions,
   processList,
   validateField,
+  createNoDescriptionText,
+  createVAPharmacyText,
 } from '../../util/helpers';
 
 describe('Date Format function', () => {
@@ -120,5 +122,31 @@ describe('extractContainedResource', () => {
 
     const result = extractContainedResource(resource, '#b2');
     expect(result).to.eq(null);
+  });
+});
+
+describe('createNoDescriptionText', () => {
+  it('should include a phone number if provided', () => {
+    expect(createNoDescriptionText('555-111-5555')).to.eq(
+      'No description available. Call your pharmacy at 555-111-5555 if you need help identifying this medication.',
+    );
+  });
+
+  it('should create a string even if no phone number provided', () => {
+    expect(createNoDescriptionText()).to.eq(
+      'No description available. Call your pharmacy if you need help identifying this medication.',
+    );
+  });
+
+  describe('createVAPharmacyText', () => {
+    it('should include a phone number if provided', () => {
+      expect(createVAPharmacyText('555-111-5555')).to.eq(
+        'your VA pharmacy at 555-111-5555',
+      );
+    });
+
+    it('should create a string even if no phone number provided', () => {
+      expect(createVAPharmacyText()).to.eq('your VA pharmacy');
+    });
   });
 });

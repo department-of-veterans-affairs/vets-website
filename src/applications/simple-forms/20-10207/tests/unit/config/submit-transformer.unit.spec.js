@@ -262,6 +262,10 @@ describe('transformForSubmit', () => {
     };
 
     it('removes unneeded evidence data', () => {
+      const otherRiskVet = fixtureVet;
+      otherRiskVet.data.livingSituation = { OTHER_RISK: true };
+      delete otherRiskVet.data.veteranMailingAddress;
+
       const otherReasonsOver85 = {
         ALS: false,
         FINANCIAL_HARDSHIP: false,
@@ -273,13 +277,13 @@ describe('transformForSubmit', () => {
       };
       const data = {
         data: {
-          ...fixtureVet.data,
+          ...otherRiskVet.data,
           otherReasons: otherReasonsOver85,
           ...unneededEvidence,
         },
       };
       const transformedData = {
-        ...fixtureVet.data,
+        ...otherRiskVet.data,
         otherReasons: otherReasonsOver85,
         formNumber: '20-10207',
       };

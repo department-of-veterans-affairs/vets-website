@@ -114,6 +114,8 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+  // Fix double headers (only show v3)
+  v3SegmentedProgressBar: true,
 
   additionalRoutes: [
     {

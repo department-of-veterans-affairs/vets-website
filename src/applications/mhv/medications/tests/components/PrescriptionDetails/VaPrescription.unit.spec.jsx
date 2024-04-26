@@ -53,6 +53,77 @@ describe('vaPrescription details container', () => {
     );
     expect(shippedOn).to.exist;
   });
+
+  it('displays description correctly', async () => {
+    const screen = setup();
+    const shape = await screen.findByTestId('rx-shape');
+    const color = await screen.findByTestId('rx-color');
+    const frontMarking = await screen.findByTestId('rx-front-marking');
+    const backMarking = await screen.findByTestId('rx-back-marking');
+    expect(color).to.exist;
+    expect(shape).to.exist;
+    expect(frontMarking).to.exist;
+    expect(backMarking).to.exist;
+  });
+
+  it('does not display description in Refill History when details are missing', () => {
+    const mysteriousRefill = {
+      refillStatus: 'suspended',
+      refillSubmitDate: 'Tue, 10 Jan 2023 00:00:00 EDT',
+      refillDate: 'Fri, 14 Jul 2023 00:00:00 EDT',
+      refillRemaining: 12,
+      facilityName: 'UNREAL',
+      isRefillable: false,
+      isTrackable: false,
+      prescriptionId: 42,
+      sig: null,
+      orderedDate: 'Thu, 03 Aug 2023 00:00:00 EDT',
+      quantity: null,
+      expirationDate: null,
+      prescriptionNumber: '2720542',
+      prescriptionName: 'TESTATHING ORB',
+      dispensedDate: 'Mon, 02 Jan 2023 05:00:00 EDT',
+      stationNumber: '989',
+      inCernerTransition: false,
+      notRefillableDisplayMessage: null,
+      cmopNdcNumber: null,
+      id: 22332828,
+      userId: 16955936,
+      providerFirstName: null,
+      providerLastName: null,
+      remarks: null,
+      divisionName: null,
+      modifiedDate: null,
+      institutionId: null,
+      cmopDivisionPhone: '(101) 555-0110',
+      dialCmopDivisionPhone: null,
+      dispStatus: 'Suspended',
+      ndc: null,
+      reason: null,
+      prescriptionNumberIndex: 'RF1',
+      prescriptionSource: 'RF',
+      disclaimer: null,
+      indicationForUse: null,
+      indicationForUseFlag: null,
+      category: 'Rx Medication',
+      trackingList: null,
+      rxRfRecords: null,
+      tracking: false,
+      color: null,
+      shape: 'orb',
+      frontImprint: 'colorless',
+      backImprint: null,
+    };
+    const screen = setup({
+      ...newRx,
+      rxRfRecords: [mysteriousRefill],
+    });
+    const description = screen.findByText(
+      'No description available. Call your VA Pharmacy at (101) 555-0110 if you need help identifying this medication.',
+    );
+    expect(description).to.exist;
+  });
+
   it('displays the tracking number within Tracking Info', () => {
     const screen = setup();
 
@@ -69,7 +140,7 @@ describe('vaPrescription details container', () => {
 
     expect(pharmacyPhone).to.not.exist;
   });
-  it('displays "You haven’t filled this prescription yet" if there is no refil history', () => {
+  it('displays "You haven’t filled this prescription yet" if there is no refill history', () => {
     const rxWithNoRefillHistory = {
       ...prescription,
       rxRfRecords: [],

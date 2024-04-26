@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/jsx-key */ // keys are defined, error being thrown in eslint even when key is defined
 import React from 'react';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import {
@@ -199,12 +201,289 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
     .reverse();
 };
 
-export const combineEnrollmentsWithEndMonths = enrollmentPeriods => {
+export const getGroupedPreviousEnrollments = month => {
+  const {
+    verifiedDate,
+    awardBeginDate,
+    id,
+    PendingVerificationSubmitted,
+  } = month[0];
+
+  return (
+    <div className="vye-top-border" key={id}>
+      {verifiedDate ? (
+        <>
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {translateDateIntoMonthYearFormat(awardBeginDate)}
+            </span>{' '}
+            <va-icon
+              icon="check_circle"
+              class="icon-color"
+              aria-hidden="true"
+            />{' '}
+            <span className="vads-u-display--block">Verified</span>
+          </h3>
+          <p>Payment for this month was processed.</p>
+          <va-additional-info
+            trigger={`${translateDateIntoMonthYearFormat(
+              awardBeginDate,
+            )} verification details`}
+            class="vads-u-margin-bottom--4"
+          >
+            {month.map((monthAward, index) => {
+              const { numberHours, monthlyRate } = monthAward;
+              return (
+                <div key={monthAward.id}>
+                  <p className="vads-u-font-weight--bold vads-u-margin--0">
+                    {translateDatePeriod(
+                      monthAward.awardBeginDate,
+                      monthAward.awardEndDate,
+                    )}
+                  </p>
+                  <p className="vads-u-margin--0">
+                    <span className="vads-u-font-weight--bold">
+                      Total Credit Hours:
+                    </span>{' '}
+                    {numberHours}
+                  </p>
+                  <p className="vads-u-margin--0">
+                    <span className="vads-u-font-weight--bold">
+                      Monthly Rate:
+                    </span>{' '}
+                    {formatCurrency(monthlyRate)}
+                  </p>
+                  {/* <p className="vads-u-margin--0">
+                    <span className="vads-u-font-weight--bold">
+                      Payment Deposited on:
+                    </span>{' '}
+                    {translateDateIntoMonthDayYearFormat(paymentDate)}
+                  </p> */}
+                  <div className="vads-u-font-style--italic vads-u-margin--0">
+                    You verified on{' '}
+                    {translateDateIntoMonthDayYearFormat(
+                      monthAward.verifiedDate,
+                    )}
+                  </div>
+                  <div
+                    className={
+                      index === month.length - 1
+                        ? 'vads-u-margin-bottom--0'
+                        : 'vads-u-margin-bottom--3'
+                    }
+                  />
+                </div>
+              );
+            })}
+          </va-additional-info>
+        </>
+      ) : PendingVerificationSubmitted ? (
+        <>
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {translateDateIntoMonthYearFormat(awardBeginDate)}
+            </span>{' '}
+            <va-icon
+              icon="check_circle"
+              class="icon-color"
+              aria-hidden="true"
+            />{' '}
+            <span className="vads-u-display--block">Verified</span>
+          </h3>
+          <va-additional-info
+            trigger={`${translateDateIntoMonthYearFormat(
+              awardBeginDate,
+            )} verification details`}
+            class="vads-u-margin-bottom--4"
+          >
+            {month.map((monthAward, index) => {
+              const { numberHours, monthlyRate } = monthAward;
+              return (
+                <div>
+                  <p className="vads-u-font-weight--bold vads-u-margin--0">
+                    {translateDatePeriod(
+                      monthAward.awardBeginDate,
+                      monthAward.awardEndDate,
+                    )}
+                  </p>
+                  <p className="vads-u-margin--0">
+                    <span className="vads-u-font-weight--bold">
+                      Total Credit Hours:
+                    </span>{' '}
+                    {numberHours}
+                  </p>
+                  <p className="vads-u-margin--0">
+                    <span className="vads-u-font-weight--bold">
+                      Monthly Rate:
+                    </span>{' '}
+                    {formatCurrency(monthlyRate)}
+                  </p>
+                  <div className="vads-u-font-style--italic vads-u-margin--0">
+                    You verified on{' '}
+                    {translateDateIntoMonthDayYearFormat(
+                      monthAward.PendingVerificationSubmitted,
+                    )}
+                  </div>
+                  <div
+                    className={
+                      index === month.length - 1
+                        ? 'vads-u-margin-bottom--0'
+                        : 'vads-u-margin-bottom--3'
+                    }
+                  />
+                </div>
+              );
+            })}
+          </va-additional-info>
+        </>
+      ) : (
+        <div key={id}>
+          <h3 className="vads-u-font-size--h4">
+            {translateDateIntoMonthYearFormat(awardBeginDate)}
+          </h3>
+          <div key={id}>
+            <va-alert
+              background-only
+              class="vads-u-margin-bottom--3"
+              close-btn-aria-label="Close notification"
+              disable-analytics="true"
+              full-width="false"
+              status="info"
+              visible="true"
+              slim
+            >
+              <p
+                key={`not-verified-${id}`}
+                className="vads-u-margin-y--0 text-color vads-u-font-family--sans"
+              >
+                This month has not yet been verified.
+              </p>
+            </va-alert>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const getSignlePreviousEnrollments = awards => {
+  return (
+    <div className="vye-top-border" key={awards.id}>
+      {awards.verifiedDate && (
+        <>
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
+            </span>{' '}
+            <va-icon
+              icon="check_circle"
+              class="icon-color"
+              aria-hidden="true"
+            />{' '}
+            <span className="vads-u-display--block">Verified</span>
+          </h3>
+          <p>Payment for this month has been processed.</p>
+          <va-additional-info
+            trigger={`${translateDateIntoMonthYearFormat(
+              awards.awardBeginDate,
+            )} verification details`}
+            class="vads-u-margin-bottom--4"
+          >
+            <p className="vads-u-font-weight--bold">
+              {translateDatePeriod(awards.awardBeginDate, awards.awardEndDate)}
+            </p>
+            <p>
+              <span className="vads-u-font-weight--bold">
+                Total Credit Hours:
+              </span>{' '}
+              {awards.numberHours}
+            </p>
+            <p>
+              <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
+              {formatCurrency(awards.monthlyRate)}
+            </p>
+            <div className="vads-u-font-style--italic">
+              You verified on{' '}
+              {translateDateIntoMonthDayYearFormat(awards.verifiedDate)}
+            </div>
+          </va-additional-info>
+        </>
+      )}
+      {awards.PendingVerificationSubmitted && (
+        <>
+          <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
+            <span className="vads-u-display--inline-block ">
+              {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
+            </span>{' '}
+            <va-icon
+              icon="check_circle"
+              class="icon-color"
+              aria-hidden="true"
+            />{' '}
+            <span className="vads-u-display--block">Verified</span>
+          </h3>
+          <va-additional-info
+            trigger={`${translateDateIntoMonthYearFormat(
+              awards.awardBeginDate,
+            )} verification details`}
+            class="vads-u-margin-bottom--4"
+          >
+            <p className="vads-u-font-weight--bold">
+              {translateDatePeriod(awards.awardBeginDate, awards.awardEndDate)}
+            </p>
+            <p>
+              <span className="vads-u-font-weight--bold">
+                Total Credit Hours:
+              </span>{' '}
+              {awards.numberHours}
+            </p>
+            <p>
+              <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
+              {formatCurrency(awards.monthlyRate)}
+            </p>
+            <div className="vads-u-font-style--italic">
+              You verified on{' '}
+              {translateDateIntoMonthDayYearFormat(
+                awards.PendingVerificationSubmitted,
+              )}
+            </div>
+          </va-additional-info>
+        </>
+      )}
+      {!awards.verifiedDate &&
+        !awards.PendingVerificationSubmitted && (
+          <>
+            <h3 className="vads-u-font-size--h4">
+              {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
+            </h3>
+            <va-alert
+              background-only
+              class="vads-u-margin-bottom--3"
+              close-btn-aria-label="Close notification"
+              disable-analytics="true"
+              full-width="false"
+              status="info"
+              visible="true"
+              slim
+            >
+              <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
+                This month has not yet been verified.
+              </p>
+            </va-alert>
+          </>
+        )}
+    </div>
+  );
+};
+
+export const combineEnrollmentsWithStartMonth = enrollmentPeriods => {
   const trackEndDate = [];
   const combineMonths = {};
 
   enrollmentPeriods.forEach(period => {
-    const tempMonthYear = translateDateIntoMonthYearFormat(period.awardEndDate);
+    const tempMonthYear = translateDateIntoMonthYearFormat(
+      period.awardBeginDate,
+    );
     if (trackEndDate.includes(tempMonthYear)) {
       combineMonths[tempMonthYear].push({
         id: period.id,
@@ -212,6 +491,9 @@ export const combineEnrollmentsWithEndMonths = enrollmentPeriods => {
         awardEndDate: period.awardEndDate,
         numberHours: period.numberHours,
         monthlyRate: period.monthlyRate,
+        verifiedDate: period.verifiedDate,
+        PendingVerificationSubmitted: period.PendingVerificationSubmitted,
+        paymentDate: period.paymentDate,
       });
     } else {
       trackEndDate.push(tempMonthYear);
@@ -222,6 +504,9 @@ export const combineEnrollmentsWithEndMonths = enrollmentPeriods => {
           awardEndDate: period.awardEndDate,
           numberHours: period.numberHours,
           monthlyRate: period.monthlyRate,
+          verifiedDate: period.verifiedDate,
+          PendingVerificationSubmitted: period.PendingVerificationSubmitted,
+          paymentDate: period.paymentDate,
         },
       ];
     }
@@ -277,12 +562,45 @@ export const prepareAddressData = formData => {
   return addressData;
 };
 
-export const addressLabel = address => (
-  <span>
-    {`${address?.addressLine1} ${address?.addressLine2 || ''}`}
-    <br />
-    {`${address?.city}, ${address?.province ||
-      address?.stateCode} ${address?.internationalPostalCode ||
-      address?.zipCode}`}
-  </span>
-);
+export const addressLabel = address => {
+  // Destructure address object for easier access
+  const {
+    addressLine1,
+    addressLine2,
+    city,
+    province,
+    stateCode,
+    internationalPostalCode,
+    zipCode,
+  } = address;
+
+  const line1 = addressLine1 || '';
+  const line2 = addressLine2 || '';
+
+  const cityState = city && (province || stateCode) ? `${city}, ` : city;
+
+  const state = province || stateCode || '';
+
+  const postalCode = internationalPostalCode || zipCode || '';
+
+  return (
+    <span>
+      {line1 && (
+        <>
+          {line1}
+          <br />
+        </>
+      )}
+      {line2 && (
+        <>
+          {line2}
+          <br />
+        </>
+      )}
+      {cityState && <>{cityState}</>}
+      {state && <>{state}</>}
+      {postalCode && (state || cityState) && ' '}
+      {postalCode}
+    </span>
+  );
+};

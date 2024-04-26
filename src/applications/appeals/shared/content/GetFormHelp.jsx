@@ -1,9 +1,9 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-export function GetFormHelp() {
+export default function GetFormHelp() {
   return (
-    <div slot="content">
+    <>
       <p>
         If you have questions or need help filling out this form, please call us
         at <va-telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday
@@ -13,8 +13,6 @@ export function GetFormHelp() {
         If you have hearing loss, call{' '}
         <va-telephone contact={CONTACTS['711']} tty />.
       </p>
-    </div>
+    </>
   );
 }
-
-export default GetFormHelp;

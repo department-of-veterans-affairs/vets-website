@@ -1,25 +1,26 @@
 import React from 'react';
 import { expect } from 'chai';
+import { renderHook, act } from '@testing-library/react-hooks';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 
+import {
+  DIRECT_DEPOSIT_API_ENDPOINT,
+  DIRECT_DEPOSIT_SAVE_ERROR_CLEARED,
+  DIRECT_DEPOSIT_SAVE_STARTED,
+  DIRECT_DEPOSIT_SAVE_SUCCEEDED,
+  toggleDirectDepositEdit,
+} from '@@profile/actions/directDeposit';
+
+import thunk from 'redux-thunk';
+import environment from '~/platform/utilities/environment';
 import { useDirectDeposit } from '../../../hooks';
-import { renderWithProfileReducersAndRouter } from '../../unit-test-helpers';
+import { wait } from '../../unit-test-helpers';
+import directDeposits from '../../../mocks/endpoints/direct-deposits';
 
-const TestingComponent = () => {
-  const hookResults = useDirectDeposit();
-
-  // Use a data-testid for selecting in the tests
-  return (
-    <>
-      <div data-testid="hookResults">{JSON.stringify(hookResults)}</div>;
-      <button
-        data-testid="set-form-is-dirty"
-        onClick={() => hookResults.setFormIsDirty(true)}
-      >
-        Set form dirty
-      </button>
-    </>
-  );
-};
+const mockStore = configureMockStore([thunk]);
 
 const baseState = {
   directDeposit: {
@@ -66,79 +67,169 @@ const baseState = {
 };
 
 describe('useDirectDeposit hook', () => {
-  it('returns direct deposit information for account and ui state', () => {
-    const { getByTestId } = renderWithProfileReducersAndRouter(
-      <TestingComponent />,
-      {
-        initialState: baseState,
-      },
+  const endpointUrl = `${environment.API_URL}/v0${DIRECT_DEPOSIT_API_ENDPOINT}`;
+  let store;
+  let server;
+
+  before(() => {
+    server = setupServer(
+      rest.put(endpointUrl, (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(directDeposits.updates.success));
+      }),
     );
 
-    const parsedResults = JSON.parse(getByTestId('hookResults').textContent);
+    server.listen();
+  });
+
+  beforeEach(() => {
+    store = mockStore(baseState);
+  });
+
+  after(() => server.close());
+
+  it('returns direct deposit information for account and ui state', () => {
+    const { result } = renderHook(() => useDirectDeposit(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
 
     // direct deposit paymentAccount is passed through
-    expect(parsedResults.paymentAccount.name).to.equal(
+    expect(result.current.paymentAccount.name).to.equal(
       'BASE TEST - DIRECT DEPOSIT',
     );
-    expect(parsedResults.paymentAccount.accountType).to.equal('CHECKING');
-    expect(parsedResults.paymentAccount.accountNumber).to.equal('*******5487');
-    expect(parsedResults.paymentAccount.routingNumber).to.equal('*****1533');
+    expect(result.current.paymentAccount.accountType).to.equal('CHECKING');
+    expect(result.current.paymentAccount.accountNumber).to.equal('*******5487');
+    expect(result.current.paymentAccount.routingNumber).to.equal('*****1533');
 
     // main controlInformation is passed through
-    expect(parsedResults.controlInformation.canUpdateDirectDeposit).to.be.true;
-    expect(parsedResults.controlInformation.isCorpAvailable).to.be.true;
-    expect(parsedResults.controlInformation.isEduClaimAvailable).to.be.true;
+    expect(result.current.controlInformation.canUpdateDirectDeposit).to.be.true;
+    expect(result.current.controlInformation.isCorpAvailable).to.be.true;
+    expect(result.current.controlInformation.isEduClaimAvailable).to.be.true;
 
     // isBlocked and useOauth selectors are returned correctly
-    expect(parsedResults.isBlocked).to.be.false;
-    expect(parsedResults.useOAuth).to.be.false;
+    expect(result.current.isBlocked).to.be.false;
+    expect(result.current.useOAuth).to.be.false;
 
     // isIdentityVerified is returned correctly
-    expect(parsedResults.isIdentityVerified).to.be.true;
+    expect(result.current.isIdentityVerified).to.be.true;
 
     // showUpdateSuccess and formIsDirty are returned correctly
-    expect(parsedResults.showUpdateSuccess).to.be.false;
+    expect(result.current.showUpdateSuccess).to.be.false;
   });
 
   it('returns isIdentityVerified as false when not all conditions are met', () => {
-    const { getByTestId } = renderWithProfileReducersAndRouter(
-      <TestingComponent />,
-      {
-        initialState: {
-          ...baseState,
-          user: {
-            ...baseState.user,
-            profile: {
-              ...baseState.user.profile,
-              loa: {
-                current: 1,
-              },
-            },
+    store = mockStore({
+      ...baseState,
+      user: {
+        ...baseState.user,
+        profile: {
+          ...baseState.user.profile,
+          loa: {
+            current: 1,
           },
         },
       },
-    );
+    });
 
-    const parsedResults = JSON.parse(getByTestId('hookResults').textContent);
+    const { result } = renderHook(() => useDirectDeposit(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
 
-    expect(parsedResults.isIdentityVerified).to.be.false;
+    expect(result.current.isIdentityVerified).to.be.false;
   });
 
   it('returns isBlocked as false when controlInformation is not provided', () => {
-    const { getByTestId } = renderWithProfileReducersAndRouter(
-      <TestingComponent />,
-      {
-        initialState: {
-          ...baseState,
-          directDeposit: {
-            ...baseState.directDeposit,
-            controlInformation: null,
-          },
-        },
+    store = mockStore({
+      ...baseState,
+      directDeposit: {
+        ...baseState.directDeposit,
+        controlInformation: null,
       },
-    );
+    });
 
-    const parsedResults = JSON.parse(getByTestId('hookResults').textContent);
-    expect(parsedResults.isBlocked).to.be.false;
+    const { result } = renderHook(() => useDirectDeposit(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
+
+    expect(result.current.isBlocked).to.be.false;
+  });
+
+  it('should handle exitUpdateView correctly', () => {
+    const { result } = renderHook(() => useDirectDeposit(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
+
+    act(() => {
+      result.current.setFormData({ accountType: 'Checking' });
+    });
+
+    expect(result.current.formData).to.deep.equal({ accountType: 'Checking' });
+
+    act(() => {
+      result.current.exitUpdateView();
+    });
+
+    expect(result.current.formData).to.deep.equal({});
+    expect(store.getActions()).to.deep.equal([toggleDirectDepositEdit(false)]);
+  });
+
+  it('should handle onCancel correctly when there are unsaved form edits', () => {
+    const { result } = renderHook(() => useDirectDeposit(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
+
+    act(() => {
+      result.current.setFormData({ accountType: 'Checking' });
+    });
+
+    act(() => {
+      result.current.onCancel();
+    });
+
+    expect(result.current.showCancelModal).to.be.true;
+  });
+
+  it('should handle onCancel correctly when there are no unsaved form edits', () => {
+    const { result } = renderHook(() => useDirectDeposit(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
+
+    act(() => {
+      result.current.onCancel();
+    });
+
+    expect(result.current.showCancelModal).to.be.false;
+    expect(store.getActions()).to.deep.equal([toggleDirectDepositEdit(false)]);
+  });
+
+  it('should handle onFormSubmit correctly', async () => {
+    window.VetsGov = { pollTimeout: 5 };
+    const formData = {
+      accountType: 'Checking',
+      routingNumber: '123456789',
+      accountNumber: '987654321',
+    };
+
+    const { result } = renderHook(() => useDirectDeposit(), {
+      wrapper: ({ children }) => <Provider store={store}>{children}</Provider>,
+    });
+
+    act(() => {
+      result.current.setFormData(formData);
+    });
+
+    act(() => {
+      result.current.onFormSubmit();
+    });
+
+    await wait(20);
+
+    expect(store.getActions()).to.deep.equal([
+      { type: DIRECT_DEPOSIT_SAVE_STARTED },
+      { type: DIRECT_DEPOSIT_SAVE_ERROR_CLEARED },
+      {
+        response: directDeposits.updates.success.data.attributes,
+        type: DIRECT_DEPOSIT_SAVE_SUCCEEDED,
+      },
+    ]);
   });
 });

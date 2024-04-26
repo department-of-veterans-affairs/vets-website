@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -27,6 +27,7 @@ import {
   generateNotesIntro,
   generateDischargeSummaryContent,
 } from '../../util/pdfHelpers/notes';
+import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 
 const AdmissionAndDischargeDetails = props => {
   const { record, runningUnitTest } = props;
@@ -37,6 +38,7 @@ const AdmissionAndDischargeDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
@@ -52,11 +54,11 @@ const AdmissionAndDischargeDetails = props => {
     pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
   const generateCareNotesPDF = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateNotesIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateDischargeSummaryContent(record) };
@@ -65,6 +67,7 @@ const AdmissionAndDischargeDetails = props => {
   };
 
   const generateCareNotesTxt = () => {
+    setDownloadStarted(true);
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
@@ -117,14 +120,14 @@ ${record.summary}`;
         Review a summary of your stay at a hospital or other health facility
         (called an admission and discharge summary).
       </p>
-      <div className="no-print">
-        <PrintDownload
-          download={generateCareNotesPDF}
-          downloadTxt={generateCareNotesTxt}
-          allowTxtDownloads={allowTxtDownloads}
-        />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-      </div>
+
+      {downloadStarted && <DownloadSuccessAlert />}
+      <PrintDownload
+        downloadPdf={generateCareNotesPDF}
+        downloadTxt={generateCareNotesTxt}
+        allowTxtDownloads={allowTxtDownloads}
+      />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
 
       <div className="test-details-container max-80">
         <h2>Details</h2>

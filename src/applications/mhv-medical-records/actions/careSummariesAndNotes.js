@@ -3,6 +3,7 @@ import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { dispatchDetails } from '../util/helpers';
+import { getListWithRetry } from './common';
 
 export const getCareSummariesAndNotesList = (
   isCurrent = false,
@@ -12,7 +13,7 @@ export const getCareSummariesAndNotesList = (
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const response = await getNotes();
+    const response = await getListWithRetry(dispatch, getNotes);
     dispatch({
       type: Actions.CareSummariesAndNotes.GET_LIST,
       response,

@@ -73,8 +73,8 @@ const formConfig = {
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
-    notFound: 'Please start over to request personal records.',
-    noAuth: 'Please sign in again to continue your Personal records request.',
+    notFound: 'Start over to request personal records.',
+    noAuth: 'Sign in again to continue your Personal records request.',
   },
   title: TITLE,
   subTitle: SUBTITLE,

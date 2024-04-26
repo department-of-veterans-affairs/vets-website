@@ -1,6 +1,4 @@
 import sharedTransformForSubmit from '../../shared/config/submit-transformer';
-import livingSituation from '../pages/livingSituation';
-
 import { PREPARER_TYPES } from './constants';
 
 export default function transformForSubmit(formConfig, form) {
@@ -121,14 +119,14 @@ export default function transformForSubmit(formConfig, form) {
   }
 
   // delete unneeded otherHousingRisks data based on livingSituation
-  if (!livingSituation.OTHER_RISK) {
+  if (!transformedData.livingSituation.OTHER_RISK) {
     delete transformedData.otherHousingRisks;
   }
 
   // delete any unneeded evidence form-data based on otherReasons
   Object.keys(otherReasonsEvidenceData).forEach(key => {
     // if otherReasons[key] is not selected, delete corresponding evidence form-data
-    if (!otherReasons[key]) {
+    if (!otherReasons?.[key]) {
       if (otherReasonsEvidenceData[key] instanceof Array) {
         otherReasonsEvidenceData[key].forEach(dataKey => {
           delete transformedData[dataKey];

@@ -32,3 +32,19 @@ export function noMedicareAB(formData, index) {
     'no'
   );
 }
+
+export function hasPrimaryProvider(formData, index) {
+  if (index === undefined) return true;
+  return (
+    get('applicantHasPrimary.hasPrimary', formData?.applicants?.[index]) ===
+    'yes'
+  );
+}
+
+export function hasSecondaryProvider(formData, index) {
+  if (index === undefined) return true;
+  return (
+    get('applicantHasSecondary.hasSecondary', formData?.applicants?.[index]) ===
+    'yes'
+  );
+}
