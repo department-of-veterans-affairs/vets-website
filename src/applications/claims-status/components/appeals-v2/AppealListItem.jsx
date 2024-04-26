@@ -74,7 +74,7 @@ export default function AppealListItem({ appeal, name }) {
   appealTitle = capitalizeWord(appealTitle);
   updatedOn = formatDate(updatedEventDateString);
 
-  const ariaLabel = `View details for ${appealTitle}`;
+  const ariaLabel = `Details for ${appealTitle}`;
   const href = `/appeals/${appeal.id}/status`;
 
   return (
