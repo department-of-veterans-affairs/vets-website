@@ -17,20 +17,6 @@ const mockStore = ({ isFeatureEnabled = false } = {}) => ({
   dispatch: () => {},
 });
 
-const testSecNavItems = [
-  {
-    title: 'My HealtheVet',
-    iconClass: 'fas fa-home',
-    href: '/my-health',
-  },
-  {
-    title: 'Appointments',
-    abbreviation: 'Appts',
-    iconClass: 'fas fa-calendar',
-    href: `/my-health/appointments`,
-  },
-];
-
 describe('MHV Secondary Navigation Component', () => {
   it('renders when the toggle is on', () => {
     const mock = mockStore({ isFeatureEnabled: true });
@@ -82,6 +68,20 @@ describe('MHV Secondary Navigation Component', () => {
   });
 
   it('abbreviations render when provided', () => {
+    const testSecNavItems = [
+      {
+        title: 'My HealtheVet',
+        iconClass: 'fas fa-home',
+        href: '/my-health',
+      },
+      {
+        title: 'Appointments',
+        abbreviation: 'Appts',
+        iconClass: 'fas fa-calendar',
+        href: `/my-health/appointments`,
+      },
+    ];
+
     const mock = mockStore({ isFeatureEnabled: true });
     const { getAllByRole } = render(
       <Provider store={mock}>
@@ -90,7 +90,16 @@ describe('MHV Secondary Navigation Component', () => {
     );
     const links = getAllByRole('link');
     expect(links.length).to.eql(testSecNavItems.length);
-    // console.log(links[0]);
-    expect(links[0].text).to.be.eql(testSecNavItems[0].title);
+    // The title and abbreviation are always part of the link.
+    expect(
+      links[0].text.match(new RegExp(testSecNavItems[0].title, 'g'))?.length,
+    ).to.eql(2);
+    expect(
+      links[1].text.match(new RegExp(testSecNavItems[1].title, 'g'))?.length,
+    ).to.eql(1);
+    expect(
+      links[1].text.match(new RegExp(testSecNavItems[1].abbreviation, 'g'))
+        ?.length,
+    ).to.eql(1);
   });
 });
