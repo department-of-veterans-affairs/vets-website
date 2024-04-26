@@ -147,12 +147,12 @@ const AttachmentsList = props => {
                 handleSuccessAlertClose();
               }}
             >
-              <i
-                className="fas fa-times-circle vads-u-color--black"
-                style={{ fontSize: '2.4rem' }}
-                alt="Close notification icon"
+              <va-icon
+                size={4}
+                icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                className="vads-u-color--black"
+                style={{ fontSize: '1.5rem' }}
                 aria-hidden="true"
-                role="presentation"
               />
             </button>
           </VaAlert>
@@ -178,9 +178,9 @@ const AttachmentsList = props => {
                           )}, button available: Remove ${file.name}`
                     }
                   >
-                    <i
-                      className="fas fa-paperclip"
-                      alt="Attachment icon"
+                    <va-icon
+                      size={4}
+                      icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
                       aria-hidden="true"
                     />
                     <span className="attachment-name-text">{file.name}</span>(
@@ -223,11 +223,11 @@ const AttachmentsList = props => {
                       });
                     }}
                   >
-                    <i
+                    <va-icon
+                      size={4}
+                      icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
                       aria-labelledby={attachmentNameId(file.id)}
-                      className="fas fa-paperclip"
                       aria-hidden="true"
-                      alt="Attachment icon"
                     />
                     <span
                       className="attachment-name-text"
