@@ -12,7 +12,10 @@ export const getHeadingText = rating => {
   return headingParts.join(' ');
 };
 
-const isServiceConnected = item => item.decision === 'Service Connected';
+const serviceConnectedDecisions = ['1151 Granted', 'Service Connected'];
+
+const isServiceConnected = item =>
+  serviceConnectedDecisions.includes(item.decision);
 
 export const sortRatings = ratings => {
   return ratings.sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
