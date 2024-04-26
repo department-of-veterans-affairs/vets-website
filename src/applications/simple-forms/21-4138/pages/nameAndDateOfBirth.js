@@ -4,17 +4,14 @@ import {
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '~/platform/forms-system/src/js/web-component-patterns';
 import { getFullNameLabels } from '../helpers';
 
 /** @type {PageSchema} */
 export const nameAndDateOfBirthPage = {
   uiSchema: {
-    ...titleUI(
-      'Your name and date of birth',
-      'Please provide your information as the person with the claim.',
-    ),
-    fullName: fullNameNoSuffixUI(label => getFullNameLabels(label, true)),
+    ...titleUI('Name and date of birth', undefined, 1, 'vads-u-color--black'),
+    fullName: fullNameNoSuffixUI(label => getFullNameLabels(label, false)),
     dateOfBirth: dateOfBirthUI({ required: true }),
   },
   schema: {

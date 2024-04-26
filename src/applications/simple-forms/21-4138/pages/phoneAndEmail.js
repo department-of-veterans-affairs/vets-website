@@ -4,14 +4,14 @@ import {
   phoneSchema,
   phoneUI,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+} from '~/platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export const phoneAndEmailPage = {
   uiSchema: {
-    ...titleUI('Your phone and email address'),
-    phone: phoneUI('Phone number'),
-    emailAddress: emailUI(),
+    ...titleUI('Phone and email address', undefined, 1, 'vads-u-color--black'),
+    phone: phoneUI('Home phone number', { required: true }),
+    emailAddress: emailUI('Email'),
   },
   schema: {
     type: 'object',
@@ -19,5 +19,6 @@ export const phoneAndEmailPage = {
       phone: phoneSchema,
       emailAddress: emailSchema,
     },
+    required: ['phone'],
   },
 };
