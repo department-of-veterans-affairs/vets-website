@@ -6,55 +6,11 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-// .travel-claim-card {
-//   min-width: 220px;
-//   max-width: 500px;
-// }
-
-.va-notice--banner p {
-  font-size: 1.2rem;
+.btsss-portal-link {
+  display: inline-flex;
+  align-items: center;
 }
 
-.claims-container-title {
-  font-size: 4rem !important;
-  font-weight: 700;
-}
-
-article a:visited {
-  // color: #005ea2 !important;
-}
-
-.active-va-link i::before {
-  content: "";
-}
-
-.vaos-appts__breadcrumb {
-  ul {
-    margin: 0;
-    padding-left: 0;
-    list-style: none;
-  }
-
-  li {
-    padding: 0em !important;
-    display: inline;
-  }
-
-  li + li::before {
-    display: inline-block;
-    margin: 0 0.5em;
-    content: "";
-  }
-}
-
-.vaos-appts__breadcrumb li > a[aria-current="true"] {
-  cursor: default;
-  pointer-events: none;
-  text-decoration: none;
-  color: $color-black !important;
-  font-weight: 700;
-}
-
-.help-heading {
-  max-width: 100%;
+.btsss-portal-link va-icon {
+  margin-left: 4px;
 }
