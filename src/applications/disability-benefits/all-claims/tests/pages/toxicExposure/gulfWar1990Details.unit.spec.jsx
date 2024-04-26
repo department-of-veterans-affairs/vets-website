@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { makePages } from '../../../pages/toxicExposure/gulfWar1990LocationDates';
+import { makePages } from '../../../pages/toxicExposure/gulfWar1990Details';
 import {
   dateHelp,
   endDateApproximate,
@@ -19,13 +19,15 @@ import { GULF_WAR_1990_LOCATIONS } from '../../../constants';
  * and without dates. Additionally, verifies the subtitles are built appropriately whether or not
  * the location was selected.
  */
-describe('gulfWar1990LocationDates', () => {
+describe('gulfWar1990Details', () => {
   const schemas = { ...makePages() };
   const formData = {
-    gulfWar1990: {
-      afghanistan: true,
-      iraq: false,
-      airspace: true,
+    toxicExposure: {
+      gulfWar1990: {
+        afghanistan: true,
+        iraq: false,
+        airspace: true,
+      },
     },
   };
 
@@ -41,6 +43,12 @@ describe('gulfWar1990LocationDates', () => {
 
       getByText(gulfWar1990PageTitle);
       getByText(dateHelp);
+
+      const addlInfo = container.querySelector('va-additional-info');
+      expect(addlInfo).to.have.attribute(
+        'trigger',
+        'What if I have more than one date range?',
+      );
 
       expect($(`va-memorable-date[label="${startDateApproximate}"]`, container))
         .to.exist;

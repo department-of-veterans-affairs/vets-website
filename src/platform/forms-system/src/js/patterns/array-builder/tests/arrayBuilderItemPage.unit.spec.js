@@ -6,9 +6,9 @@ import { Provider } from 'react-redux';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { render } from '@testing-library/react';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import ArrayBuilderItemPage from '../components/ArrayBuilderItemPage';
+import { arrayBuilderItemFirstPageTitleUI } from 'platform/forms-system/src/js/web-component-patterns/arrayBuilderPatterns';
+import ArrayBuilderItemPage from '../ArrayBuilderItemPage';
 import * as helpers from '../helpers';
-import { arrayBuilderItemFirstPageTitleUI } from '../components/arrayBuilderPatterns';
 
 const mockRedux = ({
   review = false,

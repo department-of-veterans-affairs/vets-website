@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { YesNoField } from 'platform/forms-system/src/js/web-component-fields';
+import { YesNoField } from '~/platform/forms-system/src/js/web-component-fields';
 import {
   createArrayBuilderItemAddPath,
   onNavForwardKeepUrlParams,
@@ -8,7 +8,7 @@ import {
   createArrayBuilderUpdatedPath,
   getArrayIndexFromPathName,
   initGetText,
-} from '../helpers';
+} from './helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
@@ -64,7 +64,7 @@ function throwErrorNoOptionsOrCallbackFunction() {
 
 function throwMissingYesNoField() {
   throw new Error(
-    "arrayBuilderPages `pageBuilder.summaryPage()` must include a `uiSchema` that has a property with a `'ui:webComponentField': YesNoField`",
+    "arrayBuilderPages `pageBuilder.summaryPage()` must include a `uiSchema` that is using `arrayBuilderYesNoUI` pattern (class 'wc-pattern-array-builder-yes-no')",
   );
 }
 
@@ -110,7 +110,11 @@ function determineYesNoField(uiSchema) {
   let yesNoKey;
   if (uiSchema) {
     for (const key of Object.keys(uiSchema)) {
-      if (uiSchema[key]['ui:webComponentField'] === YesNoField) {
+      if (
+        uiSchema[key]['ui:options'].classNames.includes(
+          'wc-pattern-array-builder-yes-no',
+        )
+      ) {
         yesNoKey = key;
       }
     }
@@ -120,7 +124,7 @@ function determineYesNoField(uiSchema) {
 
 export function getPageAfterPageKey(pageList, pageKey) {
   let nextPage;
-  for (let i = 0; i < pageList.length; i++) {
+  for (let i = 0; i < pageList.length; i += 1) {
     if (pageList[i].pageKey === pageKey) {
       nextPage = pageList[i + 1];
     }
@@ -181,49 +185,8 @@ export function validateMinItems(minItems) {
 }
 
 /**
- * Example:
- * ```
- * pages: {
- *   ...arrayBuilderPages(
- *     {
- *       arrayPath: 'employers',
- *       nounSingular: 'employer',
- *       nounPlural: 'employers',
- *       isItemIncomplete: item => !item?.name,
- *       maxItems: 5,
- *       required: true,
- *       text: {
- *         getItemName: item => item.name,
- *         cardDescription: item => `${item?.dateStart} - ${item?.dateEnd}`,
- *         ...you can override any of the text content
- *       },
- *     },
- *     pageBuilder => ({
- *       mySummaryPage: pageBuilder.summaryPage({
- *         title: 'Employers',
- *         path: 'employers-summary',
- *         uiSchema: ...,
- *         schema: ...,
- *       }),
- *       myItemPageOne: pageBuilder.itemPage({
- *         title: 'Name of employer',
- *         path: 'employers/:index/name',
- *         uiSchema: ...,
- *         schema: ...,
- *       }),
- *       myItemPageTwo: pageBuilder.itemPage({
- *         title: 'Address of employer',
- *         path: 'employers/:index/address',
- *         uiSchema: ...,
- *         schema: ...,
- *       }),
- *     }),
- *   ),
- * },
- * ```
+ * README: {@link https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/platform/forms-system/src/js/patterns/array-builder/README.md|Array Builder Usage/Guidance/Examples}
  *
- * - Use `pageBuilder.summaryPage` for the summary page with the yes/no question and the cards
- * - Use `pageBuilder.itemPage` for a page that will be repeated for each item
  *
  * @param {ArrayBuilderOptions} options
  * @param {(pageBuilder: ArrayBuilderPages) => FormConfigChapter} pageBuilderCallback

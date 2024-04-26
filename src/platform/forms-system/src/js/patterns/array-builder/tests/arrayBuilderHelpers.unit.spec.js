@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import * as helpers from '../helpers';
-import { DEFAULT_ARRAY_BUILDER_TEXT } from '../components/arrayBuilderText';
+import { DEFAULT_ARRAY_BUILDER_TEXT } from '../arrayBuilderText';
 
 describe('arrayBuilder helpers', () => {
   it('onNavBackRemoveAddingItem returned to intro if items are 0', () => {

@@ -7,7 +7,7 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { useEditOrAddForm } from './useEditOrAddForm';
 import ArrayBuilderCancelButton from './ArrayBuilderCancelButton';
-import { getArrayUrlSearchParams } from '../helpers';
+import { getArrayUrlSearchParams } from './helpers';
 
 /**
  * @param {{
