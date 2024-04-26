@@ -69,6 +69,9 @@
       "state": "AL",
       "postalCode": "12345"
     },
-    "certifierRole": "other"
+    "certifierRole": "applicant",
+    "consentToMailMissingRequiredFiles": true,
+    "statementOfTruthCertified": true,
+    "statementOfTruthSignature": "Jimmy Alvin"
   }
 }

@@ -1,3 +1,4 @@
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   privateRecordsChoiceHelp,
   patientAcknowledgmentTitle,
@@ -45,6 +46,7 @@ export const uiSchema = {
     },
     'view:acknowledgement': {
       'ui:title': 'I acknowledge and authorize this release of information',
+      'ui:webComponentField': VaCheckboxField,
       'ui:options': {
         useDlWrap: true,
       },
