@@ -3,9 +3,9 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { ROUTES } from '../../constants';
+import { ROUTES } from '../../../constants';
 
-import CourtMartial from '../../components/v2/questions/CourtMartial';
+import PrevApplicationType from '../../../components/v2/questions/PrevApplicationType';
 
 const mockStoreStandard = {
   getState: () => ({
@@ -37,7 +37,7 @@ const pushStub = sinon.stub();
 
 const propsStandard = {
   formResponses: {},
-  setCourtMartial: () => {},
+  setPrevApplicationType: () => {},
   router: {
     push: pushStub,
   },
@@ -46,32 +46,32 @@ const propsStandard = {
 
 const propsNoIntroPage = {
   formResponses: {},
-  setCourtMartial: () => {},
+  setPrevApplicationType: () => {},
   router: {
     push: pushStub,
   },
   viewedIntroPage: false,
 };
 
-describe('Court Martial Page', () => {
+describe('Previous Application Type Page', () => {
   afterEach(() => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the court martial page in the standard flow', () => {
+  it('should correctly load the Previous Application page in the standard flow', () => {
     const screen = render(
       <Provider store={mockStoreStandard}>
-        <CourtMartial {...propsStandard} />
+        <PrevApplicationType {...propsStandard} />
       </Provider>,
     );
 
-    expect(screen.getByTestId('duw-court_martial')).to.exist;
+    expect(screen.getByTestId('duw-prev_application_type')).to.exist;
   });
 
   it('should redirect to home when the intro page has not been viewed', () => {
     render(
       <Provider store={mockStoreNoIntroPage}>
-        <CourtMartial {...propsNoIntroPage} />
+        <PrevApplicationType {...propsNoIntroPage} />
       </Provider>,
     );
 
