@@ -39,7 +39,7 @@
   .vettec-logo-container {
     padding-top: 1.333em;
     padding-bottom: 1em;
-    padding-left: 0.9375rem;
+    padding-left: 0.5859rem;
     @include media($medium-screen) {
       text-align: right;
     }
@@ -97,10 +97,10 @@
     }
 
     .program-description {
-      margin-top: 1.0rem;
-      margin-bottom: 1.0rem;
+      margin-top: 0.625rem;
+      margin-bottom: 0.625rem;
       label {
-        margin-left: 1.7rem;
+        margin-left: 1.0625rem;
       }
     }
   }
