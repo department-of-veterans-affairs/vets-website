@@ -15,7 +15,7 @@ export const conditionsQuestion =
   'Are any of your new conditions related to toxic exposure during your military service? Check any that are related.';
 export const conditionsDescription = (
   <va-additional-info
-    class="vads-u-margin-top--2"
+    class="vads-u-margin-y--3"
     trigger="What is toxic exposure?"
   >
     <div>
@@ -41,6 +41,10 @@ export const gulfWar1990Question =
   'Did you serve in any of these Gulf War locations on or after August 2, 1990? Check any locations where you served.';
 export const summaryOfGulfWar1990PageTitle =
   'Summary of service after August 2, 1990';
+
+export const gulfWar2001PageTitle = 'Service post-9/11';
+export const gulfWar2001Question =
+  'Did you serve in any of these Gulf War locations on or after September 11, 2001? Check any locations where you served.';
 
 export const noneAndConditionError =
   'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.';

@@ -52,6 +52,9 @@
           "startDate": "1991-02-01",
           "endDate": "1992-12-15"
         }
+      },
+      "gulfWar2001": {
+        "yemen": true
       }
     },
     "vaTreatmentFacilities": [

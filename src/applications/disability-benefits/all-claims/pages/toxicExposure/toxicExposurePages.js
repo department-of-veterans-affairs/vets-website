@@ -3,11 +3,13 @@ import {
   toxicExposureConditions,
   gulfWar1990Details,
   gulfWar1990Summary,
+  gulfWar2001Locations,
 } from '..';
 import { TE_URL_PREFIX } from '../../constants';
 import {
   conditionsPageTitle,
   gulfWar1990PageTitle,
+  gulfWar2001PageTitle,
   isClaimingTECondition,
   showGulfWar1990SummaryPage,
   showToxicExposurePages,
@@ -35,5 +37,12 @@ export const toxicExposurePages = {
     depends: formData => showGulfWar1990SummaryPage(formData),
     uiSchema: gulfWar1990Summary.uiSchema,
     schema: gulfWar1990Summary.schema,
+  },
+  gulfWar2001Locations: {
+    title: gulfWar2001PageTitle,
+    path: `${TE_URL_PREFIX}/gulf-war-2001`,
+    depends: formData => isClaimingTECondition(formData),
+    uiSchema: gulfWar2001Locations.uiSchema,
+    schema: gulfWar2001Locations.schema,
   },
 };
