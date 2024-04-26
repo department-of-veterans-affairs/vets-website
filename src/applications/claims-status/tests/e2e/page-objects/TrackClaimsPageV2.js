@@ -78,7 +78,7 @@ class TrackClaimsPageV2 {
       .should('contain', `Claim for disability compensation`);
     cy.get('.card-status')
       .first()
-      .should('contain', `Last updated: October 31, 2016`);
+      .should('contain', `Moved to this step October 31, 2016`);
     cy.get('.claim-list-item:first-child a.active-va-link')
       .click()
       .then(() => {

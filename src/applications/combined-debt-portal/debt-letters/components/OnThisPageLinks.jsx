@@ -60,10 +60,9 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
             <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              icon="arrow_downward"
               aria-hidden="true"
-              className="vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             How do I pay my VA debt?
           </a>
@@ -73,10 +72,9 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
             <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              icon="arrow_downward"
               aria-hidden="true"
-              className="vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             How do I get financial help?
           </a>
@@ -86,10 +84,9 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
             <va-icon
-              size={4}
-              icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              icon="arrow_downward"
               aria-hidden="true"
-              className="vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             How do I dispute a debt?
           </a>
