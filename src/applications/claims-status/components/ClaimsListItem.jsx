@@ -19,7 +19,7 @@ const getLastUpdated = claim => {
     claim.attributes.claimPhaseDates?.phaseChangeDate,
   );
 
-  return `Last updated: ${updatedOn}`;
+  return `Moved to this step on ${updatedOn}`;
 };
 
 const showPreDecisionCommunications = claim => {

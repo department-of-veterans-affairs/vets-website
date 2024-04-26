@@ -90,7 +90,6 @@ module.exports = {
       files: ['*'],
       rules: {
         'cypress/unsafe-to-chain-command': 'warn',
-        'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
       },
     },
     {

@@ -308,6 +308,13 @@ class MedicationsRefillPage {
     );
   };
 
+  verifyErrorMessageWhenRefillRequestWithoutSelectingPrescription = () => {
+    cy.get('[data-testid="select-rx-error-message"]').should(
+      'contain',
+      'Select at least one prescription',
+    );
+  };
+
   verifyRefillRequestSuccessConfirmationMessage = () => {
     cy.get('[data-testid="success-message-title"]').should(
       'contain',
