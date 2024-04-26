@@ -9,7 +9,7 @@ import {
   isInPersonVAAppointment,
 } from '../../services/appointment';
 
-const iconClass = appointment => {
+const appointmentIcon = appointment => {
   const isPhone = isVAPhoneAppointment(appointment);
   const {
     isCommunityCare,
@@ -18,36 +18,37 @@ const iconClass = appointment => {
   } = appointment.vaos;
 
   if (isPhone) {
-    return 'fa-phone-alt';
+    return 'phone';
   }
 
   if (isCommunityCare) {
-    return 'fa-calendar';
+    return 'calendar_today';
   }
 
   if (
-    isInPersonVAAppointment ||
+    isInPersonVAAppointment(appointment) ||
     isCOVIDVaccine ||
     isCompAndPenAppointment ||
     isClinicVideoAppointment(appointment) ||
     isAtlasVideoAppointment(appointment)
   ) {
-    return 'fa-building';
+    return 'location_city';
   }
 
   if (isVideoHome(appointment) || isGfeVideoAppointment(appointment)) {
-    return 'fa-video';
+    return 'videocam';
   }
-  return 'fa-calendar';
+  return 'calendar_today';
 };
 
 export default function AppointmentCardIcon({ appointment }) {
   return (
     <div className="vaos-appts__appointment-details--icon">
-      <i
-        className={`fas ${iconClass(appointment)}`}
+      <va-icon
+        icon={appointmentIcon(appointment)}
         aria-hidden="true"
         data-testid="appointment-icon"
+        size={3}
       />
     </div>
   );

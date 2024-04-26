@@ -25,7 +25,7 @@ describe('VAOS Component: AppointmentCardIcon', () => {
     featureToggles: {},
   };
 
-  it('should display fa-building icon for VA in-person appointments', async () => {
+  it('should display location_city icon for VA in-person appointments', async () => {
     const appointment = {
       ...appointmentData,
     };
@@ -38,10 +38,13 @@ describe('VAOS Component: AppointmentCardIcon', () => {
     );
 
     expect(wrapper.getByTestId('appointment-icon')).to.exist;
-    expect(wrapper.baseElement).to.contain('.fa-building');
+    expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+      'icon',
+      'location_city',
+    );
   });
 
-  it('should display fa-building icon for VA in-person vaccine appointments', async () => {
+  it('should display location_city icon for VA in-person vaccine appointments', async () => {
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -57,11 +60,14 @@ describe('VAOS Component: AppointmentCardIcon', () => {
     );
 
     expect(wrapper.getByTestId('appointment-icon')).to.exist;
-    expect(wrapper.baseElement).to.contain('.fa-building');
+    expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+      'icon',
+      'location_city',
+    );
   });
 
   it(
-    'should display fa-building icon for VA video care at a VA location appointments',
+    'should display location_city icon for VA video care at a VA location appointments',
     async () => {
       const appointment = {
         ...appointmentData,
@@ -85,7 +91,10 @@ describe('VAOS Component: AppointmentCardIcon', () => {
       );
 
       expect(wrapper.getByTestId('appointment-icon')).to.exist;
-      expect(wrapper.baseElement).to.contain('.fa-building');
+      expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+        'icon',
+        'location_city',
+      );
     },
     async () => {
       const appointment = {
@@ -110,11 +119,14 @@ describe('VAOS Component: AppointmentCardIcon', () => {
       );
 
       expect(wrapper.getByTestId('appointment-icon')).to.exist;
-      expect(wrapper.baseElement).to.contain('.fa-building');
+      expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+        'icon',
+        'location_city',
+      );
     },
   );
 
-  it('should display fa-building icon for claim exam appointment', async () => {
+  it('should display location_city icon for claim exam appointment', async () => {
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -130,10 +142,13 @@ describe('VAOS Component: AppointmentCardIcon', () => {
     );
 
     expect(wrapper.getByTestId('appointment-icon')).to.exist;
-    expect(wrapper.baseElement).to.contain('.fa-building');
+    expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+      'icon',
+      'location_city',
+    );
   });
 
-  it('should display fa-building icon for VA video care at ATLAS location appointments', async () => {
+  it('should display location_city icon for VA video care at ATLAS location appointments', async () => {
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -152,10 +167,13 @@ describe('VAOS Component: AppointmentCardIcon', () => {
     );
 
     expect(wrapper.getByTestId('appointment-icon')).to.exist;
-    expect(wrapper.baseElement).to.contain('.fa-building');
+    expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+      'icon',
+      'location_city',
+    );
   });
 
-  it('should display fa-calendar icon for community care appointment appointments', async () => {
+  it('should display calendar_today icon for community care appointment appointments', async () => {
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -171,11 +189,14 @@ describe('VAOS Component: AppointmentCardIcon', () => {
     );
 
     expect(wrapper.getByTestId('appointment-icon')).to.exist;
-    expect(wrapper.baseElement).to.contain('.fa-calendar');
+    expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+      'icon',
+      'calendar_today',
+    );
   });
 
-  it.skip(
-    'should display fa-video icon for VA video care at a home appointments',
+  it(
+    'should display videocam icon for VA video care at a home appointments',
     async () => {
       const appointment = {
         ...appointmentData,
@@ -199,7 +220,10 @@ describe('VAOS Component: AppointmentCardIcon', () => {
       );
 
       expect(wrapper.getByTestId('appointment-icon')).to.exist;
-      expect(wrapper.baseElement).to.contain('.fa-video');
+      expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+        'icon',
+        'videocam',
+      );
     },
     async () => {
       const appointment = {
@@ -224,13 +248,15 @@ describe('VAOS Component: AppointmentCardIcon', () => {
       );
 
       expect(wrapper.getByTestId('appointment-icon')).to.exist;
-      expect(wrapper.baseElement).to.contain('.fa-video');
+      expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+        'icon',
+        'videocam',
+      );
     },
   );
 
-  // Will re-enable once video appointment content is updated
-  it.skip(
-    'should display fa-video icon for VA video care on GFE appointments',
+  it(
+    'should display videocam icon for VA video care on GFE appointments',
     async () => {
       const appointment = {
         ...appointmentData,
@@ -252,9 +278,11 @@ describe('VAOS Component: AppointmentCardIcon', () => {
           initialState,
         },
       );
-
       expect(wrapper.getByTestId('appointment-icon')).to.exist;
-      expect(wrapper.baseElement).to.contain('.fa-video');
+      expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+        'icon',
+        'videocam',
+      );
     },
     async () => {
       const appointment = {
@@ -279,7 +307,7 @@ describe('VAOS Component: AppointmentCardIcon', () => {
       );
 
       expect(wrapper.getByTestId('appointment-icon')).to.exist;
-      expect(wrapper.baseElement).to.contain('.fa-video');
+      expect(wrapper.baseElement).to.contain('videocam');
     },
   );
 
@@ -299,6 +327,9 @@ describe('VAOS Component: AppointmentCardIcon', () => {
     );
 
     expect(wrapper.getByTestId('appointment-icon')).to.exist;
-    expect(wrapper.baseElement).to.contain('.fa-phone-alt');
+    expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
+      'icon',
+      'phone',
+    );
   });
 });
