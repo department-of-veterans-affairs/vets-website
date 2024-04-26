@@ -71,47 +71,45 @@ export const getComponentType = (parentUi, elementUi, schemaType) => {
 };
 
 export const typeEachChar = str => {
-  for (const character of `${str}`) {
-    cy.realPress(character);
+  if (typeof str !== 'string') {
+    return typeEachChar(`${str}`);
   }
+  return cy.realType(str);
 };
 
-export const fillSelectByTyping = (str, i = 0, attempt = 0, debug = []) => {
+export const fillSelectByTyping = (str, attempt = 0, debug = []) => {
   if (typeof str !== 'string') {
     return fillSelectByTyping(`${str}`);
   }
 
-  if (attempt > 3) {
-    throw new Error(
-      `Unable to enter ${str} in select after 3 tries after ${debug.join(
-        ', ',
-      )}`,
-    );
+  if (attempt > 4) {
+    cy.document().then(doc => {
+      throw new Error(
+        `Unable to enter ${str} in ${
+          doc?.activeElement?.tagName
+        } after 4 tries after ${debug.join(', ')}`,
+      );
+    });
   }
 
-  cy.realPress(str[i]);
-  debug.push(str[i]);
-  return cy.get(':focus :selected').then($el => {
-    const text = $el.text();
-    debug.push(text);
-    if (text === str || text === `${str}${str}`) return text;
-
-    if (!text.startsWith(str.slice(0, i)) || i + 1 >= str.length) {
+  // cy.realType(str);
+  return cy
+    .get(':focus :selected')
+    .should(Cypress._.noop)
+    .then($el => {
+      const text = $el.text();
+      debug.push($el.tagName, text);
+      if (text === str || text === `${str}${str}`) return text;
+      cy.realType(str);
+      debug.push(str);
       // Sometimes the select doesn't pick up the first character,
       // causing the wrong option to be selected. Waiting before
       // re-typing the selection mimics user behavior and allows
       // the select to reset the selection process.
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
-      return fillSelectByTyping(str, 0, attempt + 1, debug);
-    }
-
-    if (!text.includes(str)) {
-      return fillSelectByTyping(str, i + 1, attempt, debug);
-    }
-
-    return text;
-  });
+      return fillSelectByTyping(str, attempt + 1, debug);
+    });
 };
 
 export const fillDate = fieldData => {
