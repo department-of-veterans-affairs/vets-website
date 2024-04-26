@@ -197,7 +197,7 @@ async function testSlowFailure(numberName) {
 
   await waitForElementToBeRemoved(savingMessage);
 
-  wait(500);
+  await wait(500);
 
   // make sure the error message appears
   expect(
