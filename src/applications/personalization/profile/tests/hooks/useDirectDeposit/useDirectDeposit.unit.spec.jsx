@@ -15,8 +15,8 @@ import {
 } from '@@profile/actions/directDeposit';
 
 import thunk from 'redux-thunk';
-import { useDirectDeposit } from '../../../hooks';
 import environment from '~/platform/utilities/environment';
+import { useDirectDeposit } from '../../../hooks';
 import { wait } from '../../unit-test-helpers';
 import directDeposits from '../../../mocks/endpoints/direct-deposits';
 
@@ -202,6 +202,7 @@ describe('useDirectDeposit hook', () => {
   });
 
   it('should handle onFormSubmit correctly', async () => {
+    window.VetsGov = { pollTimeout: 5 };
     const formData = {
       accountType: 'Checking',
       routingNumber: '123456789',
@@ -220,7 +221,7 @@ describe('useDirectDeposit hook', () => {
       result.current.onFormSubmit();
     });
 
-    await wait(1000);
+    await wait(20);
 
     expect(store.getActions()).to.deep.equal([
       { type: DIRECT_DEPOSIT_SAVE_STARTED },

@@ -25,7 +25,10 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
   if (isLoading) {
     return (
       <div>
-        <va-loading-indicator label="Loading" message="Loading your .." />
+        <va-loading-indicator
+          label="Loading"
+          message="Loading your accredited representative information..."
+        />
       </div>
     );
   }
@@ -41,10 +44,8 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
         <h2 slot="headline">We don’t seem to have your records</h2>
         <React.Fragment key=".1">
           <p>We’re sorry. We can’t match your information to our records.</p>
-          <p>
-            <strong>What you can do</strong>
-          </p>
-          <p>
+
+          <p className="vads-u-margin-y--0">
             If you think your information should be here, please try again later
             or call us at{' '}
             <va-telephone contact={CONTACTS.VA_411} extension={0} /> (
@@ -72,7 +73,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
           </DynamicHeader>
           <div className="auth-no-rep-body">
             <va-link
-              href="https://va.gov/va-accredited-representative-faqs"
+              href="https://www.va.gov/resources/va-accredited-representative-faqs/"
               text="Learn about accredited representatives"
             />
           </div>
@@ -94,16 +95,12 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
           </div>
           <div className="auth-rep-text">
             <div className="auth-rep-header">
-              <DynamicHeader>Your accredited representative</DynamicHeader>
+              <DynamicHeader>
+                Your current accredited representative
+              </DynamicHeader>
             </div>
             <div className="auth-rep-subheader">
-              <DynamicSubheader>
-                {poaType === 'organization' ? (
-                  <>Accredited with {name}</>
-                ) : (
-                  name
-                )}
-              </DynamicSubheader>
+              <DynamicSubheader>{name}</DynamicSubheader>
               {poaType === 'organization' && (
                 <p className="vads-u-margin-top--0">
                   You can work with any accredited representative at this
@@ -206,7 +203,7 @@ export const Auth = ({ DynamicHeader, DynamicSubheader }) => {
 
   return (
     <>
-      <va-card>
+      <va-card show-shadow>
         <div className="auth-card">
           {id ? renderAuthRep() : renderAuthNoRep()}
         </div>

@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { cleanup } from '@testing-library/react';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import reducers from '~/applications/mhv-secure-messaging/reducers';
 import folderResponse from '../../fixtures/folder-response.json';
 import folderInboxResponse from '../../fixtures/folder-inbox-response.json';
-import reducers from '~/applications/mhv-secure-messaging/reducers';
 import MoveMessageToFolderBtn from '../../../components/MessageActionButtons/MoveMessageToFolderBtn';
 import * as Constants from '../../../util/constants';
 import { DefaultFolders } from '../../../util/constants';
@@ -162,9 +162,9 @@ describe('Move button', () => {
     });
     fireEvent.click(document.querySelector('va-button[text="Confirm"]'));
     expect(
-      document.querySelector('va-modal[modaltitle="Create a new folder"]'),
+      document.querySelector('va-modal[modal-title="Create a new folder"]'),
     ).to.have.attribute(
-      'modaltitle',
+      'modal-title',
       Constants.Alerts.Folder.CREATE_FOLDER_MODAL_HEADER,
     );
 

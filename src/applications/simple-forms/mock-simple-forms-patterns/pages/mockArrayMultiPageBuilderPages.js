@@ -4,28 +4,26 @@ import {
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
   titleUI,
-  yesNoSchema,
-  yesNoUI,
+  arrayBuilderItemFirstPageTitleUI,
+  arrayBuilderYesNoSchema,
+  arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-
-const MAX_ITEMS = 5;
 
 /** @type {ArrayBuilderOptions} */
 export const employersOptions = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',
-  required: true,
+  required: formData => formData?.arrayBuilderPatternFlowType === 'required',
   isItemIncomplete: item =>
     !item?.name ||
     !item?.address?.country ||
     !item?.address?.city ||
     !item?.address?.street ||
     !item?.address?.postalCode,
-  maxItems: MAX_ITEMS,
+  maxItems: 5,
   text: {
-    // if the value is null/undefined, it will use default text
     getItemName: item => item.name,
     cardDescription: item =>
       `${item?.dateRange?.from} - ${item?.dateRange?.to}`,
@@ -33,45 +31,47 @@ export const employersOptions = {
 };
 
 /** @returns {PageSchema} */
+export const employersIntroPage = {
+  uiSchema: {
+    ...titleUI(
+      'Your employers',
+      'In the next few questions, we’ll ask you about your employers. You must add at least one employer. You may add up to 5 employers.',
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
+
+/** @returns {PageSchema} */
 export const employersSummaryPage = {
   uiSchema: {
-    // cards above this autopopulated by the array builder
-    'view:hasEmployment': yesNoUI({
-      errorMessages: {
-        required: 'Select yes if you have another employer to add',
+    'view:hasEmployment': arrayBuilderYesNoUI(
+      employersOptions,
+      {
+        title:
+          'Do you have any employment, including self-employment for the last 5 years to report?',
+        hint:
+          'Include self-employment and military duty (including inactive duty for training).',
+        labels: {
+          Y: 'Yes, I have employment to report',
+          N: 'No, I don’t have employment to report',
+        },
       },
-      updateUiSchema: formData => {
-        return formData?.employers?.length
-          ? {
-              'ui:title': `Do you have another employer to report?`,
-              'ui:options': {
-                labelHeaderLevel: '4',
-                hint: '',
-                labels: {
-                  Y: 'Yes, I have another employer to report',
-                  N: 'No, I don’t have another employer to report',
-                },
-              },
-            }
-          : {
-              'ui:title': `Do you have any employment, including self-employment for the last 5 years to report?`,
-              'ui:options': {
-                labelHeaderLevel: '3',
-                hint:
-                  'Include self-employment and military duty (including inactive duty for training).',
-                labels: {
-                  Y: 'Yes, I have employment to report',
-                  N: 'No, I don’t have employment to report',
-                },
-              },
-            };
+      {
+        title: 'Do you have another employer to report?',
+        labels: {
+          Y: 'Yes, I have another employer to report',
+          N: 'No, I don’t have another employer to report',
+        },
       },
-    }),
+    ),
   },
   schema: {
     type: 'object',
     properties: {
-      'view:hasEmployment': yesNoSchema,
+      'view:hasEmployment': arrayBuilderYesNoSchema,
     },
     required: ['view:hasEmployment'],
   },
@@ -80,20 +80,10 @@ export const employersSummaryPage = {
 /** @returns {PageSchema} */
 export const employersPageNameAndAddressPage = {
   uiSchema: {
-    ...titleUI(
-      () => {
-        const isEdit = window.location.search.includes('edit=true');
-        return isEdit
-          ? 'Edit name and address of employer or unit'
-          : 'Name and address of employer or unit';
-      },
-      () => {
-        const isEdit = window.location.search.includes('edit=true');
-        return isEdit
-          ? 'We’ll take you through each of the sections of this employer for you to review and edit'
-          : '';
-      },
-    ),
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Name and address of employer',
+      nounSingular: employersOptions.nounSingular,
+    }),
     name: {
       'ui:title': 'Name of employer',
       'ui:webComponentField': VaTextInputField,

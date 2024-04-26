@@ -11,7 +11,10 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
 
-import { getJobTitleOrType } from '../../../helpers';
+import {
+  getJobTitleOrType,
+  updateMultiresponseUiOptions,
+} from '../../../helpers';
 
 export const EmployerView = ({ formData }) => (
   <ListItemView title={getJobTitleOrType(formData)} />
@@ -47,6 +50,7 @@ const generateEmployersUISchema = ({
       confirmRemove: true,
       useDlWrap: true,
       useVaCards: true,
+      updateSchema: updateMultiresponseUiOptions,
     },
     items: {
       ...(showJobDateField && {

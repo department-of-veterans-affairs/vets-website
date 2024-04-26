@@ -44,7 +44,6 @@ const ResolutionExplainerWidget = ({
           show-icon
           status="info"
           visible="true"
-          uswds
         >
           <h3 slot="headline">
             Next, you’ll be asked to choose a relief option for each debt you

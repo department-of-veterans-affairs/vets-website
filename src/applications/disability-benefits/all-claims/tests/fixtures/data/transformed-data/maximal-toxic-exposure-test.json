@@ -33,23 +33,25 @@
       "zipCode": "54321",
       "effectiveDate": { "from": "2099-12-01", "to": "2100-01-01" }
     },
-    "toxicExposureConditions": {
-      "asthma": true,
-      "heartattackmyocardialinfarction": true
-    },
-    "gulfWar1990": {
-      "afghanistan": true,
-      "iraq": true,
-      "airspace": true
-    },
-    "gulfWar1990Locations": {
-      "afghanistan": {
-        "startDate": "1990-01-01",
-        "endDate": "1990-12-31"
+    "toxicExposure": {
+      "conditions": {
+        "asthma": true,
+        "heartattackmyocardialinfarction": true
       },
-      "iraq": {
-        "startDate": "1991-02-01",
-        "endDate": "1992-12-15"
+      "gulfWar1990": {
+        "afghanistan": true,
+        "iraq": true,
+        "airspace": true
+      },
+      "gulfWar1990Details": {
+        "afghanistan": {
+          "startDate": "1990-01-01",
+          "endDate": "1990-12-31"
+        },
+        "iraq": {
+          "startDate": "1991-02-01",
+          "endDate": "1992-12-15"
+        }
       }
     },
     "vaTreatmentFacilities": [

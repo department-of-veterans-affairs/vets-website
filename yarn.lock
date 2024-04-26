@@ -2862,14 +2862,13 @@
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
-
-"@department-of-veterans-affairs/component-library@^39.0.0":
-  version "39.0.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-39.0.0.tgz#eba104cfccb95fa7f4f9ab7a69b3e77daf54bb7d"
-  integrity sha512-+g0oxlSxGEEgC6/VLa0ohetIB4O7CGUdiZAWluBum2hvwblbFJym6/20OlKW0xkRbPS/rjRmg7IeFiYgxzwYdg==
+"@department-of-veterans-affairs/component-library@^39.0.1":
+  version "39.0.1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-39.0.1.tgz#06a1fdcae4d0623b00003f7ebf6d19e1519ae603"
+  integrity sha512-jJsgy6KcC0el15JQJe71NOt9TZy5/XfUg+rESskpMsL1UJt4l2dJc83Evlu/wqw6E6/FwuHXgnUwKIA38S+Ksg==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.0.0"
-    "@department-of-veterans-affairs/web-components" "7.0.0"
+    "@department-of-veterans-affairs/web-components" "7.0.2"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2889,10 +2888,10 @@
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
 
-"@department-of-veterans-affairs/eslint-plugin@^1.13.0":
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.13.0.tgz#1bf84fa6eb4b1a6b602b2c77ce23921bab5a0f87"
-  integrity sha512-s4ovnPp+VbI0qqMqdhV391mw25X3T1cpizinLyuoC7msvwdW9e+UcFIO7XK4LCWKoG5kkx4nCLjAKhcKcFj/yA==
+"@department-of-veterans-affairs/eslint-plugin@^1.17.0":
+  version "1.17.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.17.0.tgz#068fe827b953c32f0bdf61f7dfc6cad7fcf6b1e8"
+  integrity sha512-aLeYTaoLN2aqmL1PTGyJ2sLVjPmr6qYBVdIaWE1Fkq7yuThkZlAAX0LqPCleSqPuy6c0PUiuKqZNwKR1YHtr4Q==
   dependencies:
     jsx-ast-utils "^3.3.3"
 
@@ -2956,10 +2955,12 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@7.0.0":
-  version "7.0.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-7.0.0.tgz#de58070c7ca7e2e9f68a147c6b0053e241018251"
-  integrity sha512-DkFB0MohviyJ6wLNh0kW9pPHpjZKP4PupIPjA6HS5cQEqtsfEWjxI6pwiJT071U2jjjnUs5nOSXN9QnzJBHhfQ==
+
+
+"@department-of-veterans-affairs/web-components@7.0.2":
+  version "7.0.2"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-7.0.2.tgz#d9f8ab221b55a096e42224d718a3711809ffebb7"
+  integrity sha512-Go24fe8q9lKXuPhhqrUJFvlPa+/Gs5sdqHXRpCJ4xf5U5RbhRjwgPSKVFnj5vC9nd/8nMYEilimA47+Va6Rzpg==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.5.1"
     "@stencil/core" "^2.19.2"
@@ -4116,6 +4117,11 @@
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-1.1.1.tgz#827fd05bb542cf874116176d8ef48d5b12163f81"
   integrity sha512-7PGLWa9MZ5x/cWy8EH2VzI4T8q5WpuHbixzCDXqixP/WyqwIrg5NDUPgYuFnB4IEIZF+6nA265mYzswFo/h1Pw==
+
+"@remix-run/router@1.15.3":
+  version "1.15.3"
+  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.15.3.tgz#d2509048d69dbb72d5389a14945339f1430b2d3c"
+  integrity sha512-Oy8rmScVrVxWZVOpEF57ovlnhpZ8CCPlnIIumVcV9nFdiSIrus99+Lw78ekXyGvVDlIsFJbSfmSovJUhCWYV3w==
 
 "@sentry/browser@^6.13.2":
   version "6.13.2"
@@ -17036,9 +17042,9 @@ proto-list@~1.2.1:
   integrity sha512-vtK/94akxsTMhe0/cbfpR+syPuszcuwhqVjJq26CuNDgFGj682oRBXOP5MJpv2r7JtE8MsiepGIqvvOTBwn2vA==
 
 protobufjs@^7.0.0, protobufjs@^7.1.2:
-  version "7.2.4"
-  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-7.2.4.tgz#3fc1ec0cdc89dd91aef9ba6037ba07408485c3ae"
-  integrity sha512-AT+RJgD2sH8phPmCf7OUZR8xGdcJRga4+1cOaXJ64hvcSkVhNcRHOwIxUatPH15+nj59WAGTDv3LSGZPEQbJaQ==
+  version "7.2.6"
+  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-7.2.6.tgz#4a0ccd79eb292717aacf07530a07e0ed20278215"
+  integrity sha512-dgJaEDDL6x8ASUZ1YqWciTRrdOuYNzoOf27oHNfdyvKqHr5i0FV7FSLU+aIeFjyFgVxrpTOtQUi0BLLBymZaBw==
   dependencies:
     "@protobufjs/aspromise" "^1.1.2"
     "@protobufjs/base64" "^1.1.2"
@@ -17421,6 +17427,14 @@ react-remove-scroll@^2.5.2:
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
 
+react-router-dom-v5-compat@^6.22.3:
+  version "6.22.3"
+  resolved "https://registry.yarnpkg.com/react-router-dom-v5-compat/-/react-router-dom-v5-compat-6.22.3.tgz#4889b46d060492a58c401700c987bddcc8b915f4"
+  integrity sha512-icbyLKEUdMqWjehsRrQv0g/N4C33KFC2ZmnOBF7vvy1hudYSJWY4VTOjy3ey2YY+r3WtcdEH72M7IIGVHAkEtw==
+  dependencies:
+    history "^5.3.0"
+    react-router "6.22.3"
+
 react-router-dom-v5-compat@^6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/react-router-dom-v5-compat/-/react-router-dom-v5-compat-6.3.0.tgz#a6b1bf18a42e3c1b902711931c4b496920740815"
@@ -17476,6 +17490,13 @@ react-router@5.2.1:
     react-is "^16.6.0"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
+
+react-router@6.22.3:
+  version "6.22.3"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.22.3.tgz#9d9142f35e08be08c736a2082db5f0c9540a885e"
+  integrity sha512-dr2eb3Mj5zK2YISHK++foM9w4eBnO23eKnZEDs7c880P6oKbrjz/Svg9+nxqtHQK+oMW4OtjZca0RqPglXxguQ==
+  dependencies:
+    "@remix-run/router" "1.15.3"
 
 react-router@6.3.0:
   version "6.3.0"

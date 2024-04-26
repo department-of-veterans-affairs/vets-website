@@ -478,6 +478,86 @@ class PatientInboxPage {
       .type('testMessage', { force: true });
   };
 
+  verifySignature = () => {
+    cy.get(Locators.MESSAGES_BODY)
+      .should('have.attr', 'value')
+      .and('not.be.empty');
+  };
+
+  inputFilterData = text => {
+    cy.get(Locators.FILTER_INPUT)
+      .shadow()
+      .find('#inputField')
+      .type(`${text}`, { force: true });
+  };
+
+  clickFilterMessagesButton = mockFilterResponse => {
+    cy.intercept(
+      'POST',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
+      mockFilterResponse,
+    ).as('filterResult');
+    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
+    cy.wait('@filterResult');
+  };
+
+  verifyFilterResults = (filterValue, responseData) => {
+    cy.get(Locators.MESSAGES).should(
+      'have.length',
+      `${responseData.data.length}`,
+    );
+
+    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
+      cy.wrap(element)
+        .invoke('text')
+        .then(text => {
+          const lowerCaseText = text.toLowerCase();
+          expect(lowerCaseText).to.contain(`${filterValue}`);
+        });
+    });
+  };
+
+  clickClearFilterButton = () => {
+    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
+  };
+
+  inputFilterDataByKeyboard = text => {
+    cy.tabToElement('#inputField')
+      .first()
+      .type(`${text}`, { force: true });
+  };
+
+  submitFilterByKeyboard = mockFilterResponse => {
+    cy.intercept(
+      'POST',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
+      mockFilterResponse,
+    ).as('filterResult');
+
+    cy.realPress('Enter');
+  };
+
+  clearFilterByKeyboard = () => {
+    // next line required to start tab navigation from the header of the page
+    cy.get('[data-testid="folder-header"]').click();
+    cy.contains('Clear Filters').then(el => {
+      cy.tabToElement(el)
+        .first()
+        .click();
+    });
+  };
+
+  sortMessagesByKeyboard = (text, data) => {
+    cy.get(Locators.DROPDOWN)
+      .shadow()
+      .find('select')
+      .select(`${text}`, { force: true });
+
+    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/threads**`, data);
+    cy.tabToElement('[data-testid="sort-button"]');
+    cy.realPress('Enter');
+  };
+
   verifySorting = () => {
     let listBefore;
     let listAfter;
@@ -500,47 +580,26 @@ class PatientInboxPage {
       });
   };
 
-  verifySignature = () => {
-    cy.get(Locators.MESSAGES_BODY)
-      .should('have.attr', 'value')
-      .and('not.be.empty');
-  };
-
-  inputFilterDataText = text => {
-    cy.get(Locators.FILTER_INPUT)
-      .shadow()
-      .find('#inputField')
-      .type(`${text}`, { force: true });
-  };
-
-  clickFilterMessagesButton = mockFilterResponse => {
-    cy.intercept(
-      'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
-      mockFilterResponse,
-    ).as('filterResult');
-    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
-    cy.wait('@filterResult');
-  };
-
-  verifyFilterResultsText = (filterValue, responseData) => {
-    cy.get(Locators.MESSAGES).should(
-      'have.length',
-      `${responseData.data.length}`,
-    );
-
-    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
-      cy.wrap(element)
-        .invoke('text')
-        .then(text => {
-          const lowerCaseText = text.toLowerCase();
-          expect(lowerCaseText).to.contain(`${filterValue}`);
-        });
-    });
-  };
-
-  clickClearFilterButton = () => {
-    cy.get(Locators.CLEAR_FILTERS).click({ force: true });
+  verifySortingByKeyboard = (text, data) => {
+    let listBefore;
+    let listAfter;
+    cy.get(Locators.THREAD_LIST)
+      .find(Locators.DATE_RECEIVED)
+      .then(list => {
+        listBefore = Cypress._.map(list, el => el.innerText);
+        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
+      })
+      .then(() => {
+        this.sortMessagesByKeyboard(`${text}`, data);
+        cy.get(Locators.THREAD_LIST)
+          .find(Locators.DATE_RECEIVED)
+          .then(list2 => {
+            listAfter = Cypress._.map(list2, el => el.innerText);
+            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
+            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
+            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
+          });
+      });
   };
 
   verifyFilterFieldCleared = () => {
