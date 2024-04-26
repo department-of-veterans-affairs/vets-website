@@ -11,6 +11,7 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
           'vads-u-display--flex',
           'vads-u-justify-content--space-between',
           'vads-u-margin-bottom--2',
+          'vads-u-align-items--center',
         )}
       >
         <div className="vads-l-col medium-screen:vads-l-col--8">
@@ -30,7 +31,6 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
             'medium-screen:vads-u-display--block',
             'vads-l-col--4',
             'vads-u-text-align--right',
-            'vads-u-margin-top--2',
           )}
         >
           <img
@@ -44,7 +44,7 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
         className={classnames(
           'vads-u-border-color--gray-light',
           'vads-u-border-bottom--1px',
-          'vads-u-margin-bottom--2',
+          'vads-u-margin-bottom--3',
         )}
       >
         {showWelcomeMessage && <WelcomeContainer />}

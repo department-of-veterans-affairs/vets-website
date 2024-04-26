@@ -7,24 +7,31 @@ const Welcome = ({ loading, name }) => (
     className={classnames(
       'vads-u-display--flex',
       'vads-u-justify-content--flex-start',
+      'vads-u-margin-bottom--1p5',
       { 'visibility:hidden': loading },
     )}
   >
-    <div>
-      <h2 className="vads-u-font-size--h4 medium-screen:vads-u-font-size--h3 vads-u-margin-top--0">
-        {!!name && (
-          <>
-            Welcome, <span data-dd-privacy="mask">{name}</span>
-          </>
-        )}
-        {!name && <>Welcome</>}
-      </h2>
-    </div>
+    <h2
+      className={classnames(
+        'vads-u-font-size--h4',
+        'medium-screen:vads-u-font-size--h3',
+        'vads-u-margin-top--0',
+        'vads-u-margin-bottom--0',
+      )}
+    >
+      {!!name && (
+        <>
+          Welcome, <span data-dd-privacy="mask">{name}</span>
+        </>
+      )}
+      {!name && <>Welcome</>}
+    </h2>
     <div className="vads-u-font-size--md medium-screen:vads-u-font-size--lg">
-      <i
+      <va-icon
+        size={4}
+        icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
         aria-hidden="true"
-        role="img"
-        className="fas fa-user vads-u-color--primary-darker vads-u-padding-left--4 vads-u-padding-right--0p5"
+        className="vads-u-color--primary-darker vads-u-padding-left--4 vads-u-padding-right--0p5"
       />
       <va-link
         href="/profile"

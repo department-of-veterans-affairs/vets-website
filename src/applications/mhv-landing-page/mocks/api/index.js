@@ -16,7 +16,7 @@ const responses = {
   'GET /v0/user': user.defaultUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvLandingPageEnabled: true,
-    mhvLandingPagePersonalization: true,
+    mhvLandingPagePersonalization: false,
   }),
   'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,
   'GET /data/cms/vamc-ehr.json': vamcEhr,
