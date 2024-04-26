@@ -12,6 +12,10 @@ export const getHeadingText = rating => {
   return headingParts.join(' ');
 };
 
+// Possible decision values:
+//   1151 Denied, 1151 Granted, Not Service Connected, Service Connected
+// Decisions that should be considered Service Connected:
+//   1151 Granted and Service Connected
 const serviceConnectedDecisions = ['1151 Granted', 'Service Connected'];
 
 const isServiceConnected = item =>
