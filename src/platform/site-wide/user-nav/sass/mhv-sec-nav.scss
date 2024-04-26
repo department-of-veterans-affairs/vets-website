@@ -1,8 +1,6 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-
 $nav-background-color: var(--vads-color-primary);
 $nav-item-color: var(--vads-color-white);
-$nav-width-bar-max: 696px;
+$nav-width-bar-max-width: 696px;
 $nav-mobile-breakpoint: 650px;
 $nav-abbr-breakpoint: 415px;
 $nav-item-gap: 10px;
@@ -14,7 +12,7 @@ $nav-item-height: 60px;
 
   .mhv-sec-nav-container {
     display: flex;
-    max-width: $nav-width-bar-max;
+    max-width: $nav-width-bar-max-width;
   }
 
   .mhv-sec-nav-item-row {
@@ -79,6 +77,7 @@ $nav-item-height: 60px;
     .mhv-sec-nav-item:first-child {
       flex: 0 0 100%;
 
+      // Show the home item as a white bar when active
       &.sec-nav-item-active {
         color: $nav-background-color;
         background-color: $nav-item-color;
@@ -92,6 +91,7 @@ $nav-item-height: 60px;
       padding: 7px 7px 1px 7px;
     }
 
+    // Show the abbreviation instead
     @media (max-width: $nav-abbr-breakpoint) {
       .mhv-sec-nav-item {
         .sec-nav-item-title {

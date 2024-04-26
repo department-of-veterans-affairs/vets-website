@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../sass/mhv-sec-nav.scss';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 /**
  * MHV secondary navigation items. Note the first item is the home link.
  */
-const mhvSecNavItems = [
+export const mhvSecNavItems = [
   {
     title: 'My HealtheVet',
     iconClass: 'fas fa-home',
@@ -41,6 +41,7 @@ const mhvSecNavItems = [
  * @param href the link for the navigation item
  * @param title the title for the navigation item
  * @param abbreviation the abbreviation for the navigation item shown instead of the title when the width is less than 400px
+ * @param isActive true if the nav item is to be shown as active
  * @returns a secondary nav item
  */
 const SecondaryNavItem = ({
@@ -60,6 +61,7 @@ const SecondaryNavItem = ({
     <div
       key={key}
       className={`mhv-sec-nav-item ${isActive ? 'sec-nav-item-active' : ''}`}
+      data-testid="mhv-sec-nav-item"
     >
       <a href={href}>
         {!!iconClass && <i className={iconClass} aria-hidden="true" />}
@@ -88,32 +90,38 @@ SecondaryNavItem.propTypes = {
  * @returns the navigation bar
  */
 const MhvSecondaryNav = ({ items = mhvSecNavItems }) => {
-  // Perform a reverse find to match which nav link we are on, so we match on the home page last
-  const activeItem = [...items] // Clone the array, so the original stays the same
-    .reverse()
-    .find(item => window.location.pathname.startsWith(item.href));
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const secNavEnabled = useToggleValue(TOGGLE_NAMES.mhvSecondaryNav);
 
-  const navContent = items.map(item => {
-    const key = item.title.toLowerCase().replaceAll(' ', '_');
+  if (secNavEnabled) {
+    // Perform a reverse find to match which nav link we are on, so we match on the home page last
+    const activeItem = [...items] // Clone the array, so the original stays the same
+      .reverse()
+      .find(item => window.location.pathname.startsWith(item.href));
+
+    const navContent = items.map(item => {
+      const key = item.title.toLowerCase().replaceAll(' ', '_');
+      return (
+        <SecondaryNavItem
+          title={item.title}
+          href={item.href}
+          iconClass={item.iconClass}
+          abbreviation={item.abbreviation}
+          isActive={activeItem === item}
+          key={key}
+        />
+      );
+    });
+
     return (
-      <SecondaryNavItem
-        title={item.title}
-        href={item.href}
-        iconClass={item.iconClass}
-        abbreviation={item.abbreviation}
-        isActive={activeItem === item}
-        key={key}
-      />
+      <nav id="mhv-sec-nav-bar">
+        <div className="mhv-sec-nav-container vads-u-font-family--sans vads-font-weight-regular">
+          <div className="mhv-sec-nav-item-row">{navContent}</div>
+        </div>
+      </nav>
     );
-  });
-
-  return (
-    <div id="mhv-sec-nav-bar">
-      <div className="mhv-sec-nav-container vads-u-font-family--sans vads-font-weight-regular">
-        <div className="mhv-sec-nav-item-row">{navContent}</div>
-      </div>
-    </div>
-  );
+  }
+  return null;
 };
 
 MhvSecondaryNav.propTypes = {
