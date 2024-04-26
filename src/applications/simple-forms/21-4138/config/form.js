@@ -8,6 +8,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { TITLE, SUBTITLE, STATEMENT_TYPES } from './constants';
 import { statementTypePage } from '../pages/statementType';
 import { layOrWitnessHandoffPage } from '../pages/layOrWitnessHandoff';
+import { noticeOfDisagreementHandoffPage } from '../pages/noticeOfDisagreementHandoff';
 import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
 import { identificationInformationPage } from '../pages/identificationInfo';
 import { mailingAddressPage } from '../pages/mailingAddress';
@@ -64,6 +65,7 @@ const formConfig = {
     statementTypeChapter: {
       title: 'What kind of statement do you want to submit?',
       hideFormNavProgress: true,
+      hideFormTitle: true,
       pages: {
         statementTypePage: {
           path: 'statement-type',
@@ -82,6 +84,15 @@ const formConfig = {
           uiSchema: layOrWitnessHandoffPage.uiSchema,
           schema: layOrWitnessHandoffPage.schema,
           pageClass: 'lay-or-witness-handoff',
+        },
+        noticeOfDisagreementHandoffPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.DECISION_REVIEW,
+          path: 'notice-of-disagreement-handoff',
+          title: 'What to know before you request a decision review',
+          uiSchema: noticeOfDisagreementHandoffPage.uiSchema,
+          schema: noticeOfDisagreementHandoffPage.schema,
+          pageClass: 'notice-of-disagreement-handoff',
         },
       },
     },
