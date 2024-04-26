@@ -160,6 +160,7 @@ export default {
           ...state,
           duplicateEmail: action?.response?.data?.attributes?.email,
           duplicatePhone: action?.response?.data?.attributes?.phone,
+          duplicateContactFetchComplete: true,
         };
       case FETCH_DUPLICATE_CONTACT_INFO_FAILURE:
       case UPDATE_GLOBAL_EMAIL:

@@ -12,7 +12,6 @@ import LoadingIndicator from './LoadingIndicator';
 
 function IntroductionLoginV2({
   isClaimantCallComplete,
-  isEligibilityCallComplete,
   isPersonalInfoFetchFailed,
   isLoggedIn,
   isLOA3,
@@ -22,8 +21,7 @@ function IntroductionLoginV2({
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
 }) {
-  const apiCallsComplete =
-    isLOA3 === false || (isClaimantCallComplete && isEligibilityCallComplete);
+  const apiCallsComplete = isLOA3 === false || isClaimantCallComplete;
   const openLoginModal = () => {
     showHideLoginModal(true, 'cta-form');
   };
@@ -31,14 +29,15 @@ function IntroductionLoginV2({
   const verifyUrl = appendQuery('/verify', nextQuery);
   const headlineText =
     'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information.';
-  // Determine if loading indicator should be shown
-  const shouldShowLoadingIndicator =
-    (!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete;
-  const shouldShowMaintenanceAlert = showMeb1990EZMaintenanceAlert;
 
+  // If the user is not logged in or the Claimant API calls have not completed, then show the loading indicator
+  const shouldShowLoadingIndicator =
+    (!isLoggedIn && !user?.login?.hasCheckedKeepAlive) ||
+    isClaimantCallComplete;
+  const shouldShowMaintenanceAlert = showMeb1990EZMaintenanceAlert;
   let maintenanceMessage;
   if (showMeb1990EZR6MaintenanceMessage) {
-    // R6 maintenance message
+    // Message for the R6 maintenance period
     maintenanceMessage =
       'We are currently performing system updates. Please come back on May 6 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.';
   } else if (shouldShowMaintenanceAlert || isPersonalInfoFetchFailed) {
@@ -48,13 +47,15 @@ function IntroductionLoginV2({
   }
   return (
     <>
+      {shouldShowLoadingIndicator && <LoadingIndicator />}
       {(isLoggedIn || user?.login?.hasCheckedKeepAlive) && (
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--3">
           Begin your application for education benefits
         </h2>
       )}
       {shouldShowLoadingIndicator && <LoadingIndicator />}
-      {(isPersonalInfoFetchFailed || showMeb1990EZMaintenanceAlert) && (
+
+      {(isPersonalInfoFetchFailed || shouldShowMaintenanceAlert) && (
         <va-alert
           close-btn-aria-label="Close notification"
           status="error"
@@ -101,6 +102,8 @@ function IntroductionLoginV2({
                 <button
                   className="usa-button-primary"
                   onClick={openLoginModal}
+                  // aria-label={ariaLabel}
+                  // aria-describedby={ariaDescribedby}
                   type="button"
                 >
                   {UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
@@ -118,11 +121,9 @@ function IntroductionLoginV2({
           </>
         )}
       {isLoggedIn &&
-      isPersonalInfoFetchFailed === false && // Ensure the error didn’t occur.
-      shouldShowMaintenanceAlert === false && // Ensure the maintenance flag is not on.
-      isLOA3 && // Previously: (showMebEnhancements09 && isLOA3)
-      apiCallsComplete && // This check remains in line with previous true logic.
-      !showMeb1990EZMaintenanceAlert && ( // Ensure there's no maintenance alert.
+      isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
+      shouldShowMaintenanceAlert === false && // Ensure the mainenance flag is not on.
+        isLOA3 && (
           <SaveInProgressIntro
             headingLevel={2}
             hideUnauthedStartLink
@@ -175,12 +176,12 @@ IntroductionLoginV2.propTypes = {
   route: PropTypes.object.isRequired,
   eligibility: PropTypes.arrayOf(PropTypes.string),
   isClaimantCallComplete: PropTypes.bool,
-  isEligibilityCallComplete: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
+  showMeb1990EZR6MaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
   user: PropTypes.object,
 };

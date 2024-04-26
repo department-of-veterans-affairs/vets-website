@@ -24,6 +24,7 @@ export const App = ({
   claimantInfo,
   eligibility,
   exclusionPeriods,
+  duplicateContactFetchComplete,
   featureTogglesLoaded,
   firstName,
   formData,
@@ -212,7 +213,8 @@ export const App = ({
         formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
         formData?.email?.email &&
         !formData?.duplicateEmail &&
-        !formData?.duplicatePhone
+        !formData?.duplicatePhone &&
+        duplicateContactFetchComplete
       ) {
         getDuplicateContactInfo(
           [{ value: formData?.email?.email, dupe: '' }],
@@ -271,6 +273,7 @@ export const App = ({
     },
     [
       formData,
+      duplicateContactFetchComplete,
       isLOA3,
       setFormData,
       showDgiDirectDeposit1990EZ,
@@ -359,6 +362,7 @@ App.propTypes = {
   benefitEffectiveDate: PropTypes.string,
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
+  duplicateContactFetchComplete: PropTypes.bool,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
   eligibility: PropTypes.arrayOf(PropTypes.string),
