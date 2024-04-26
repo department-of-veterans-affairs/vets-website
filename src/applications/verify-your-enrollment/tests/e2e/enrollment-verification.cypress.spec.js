@@ -83,7 +83,7 @@ describe('Enrollment Verification Page Tests', () => {
       'Your benefits profile',
     );
   });
-  it("should go back to 'enrollment verification' when 'Mongomery GI Bill Enrollment Verification' link is clicked ", () => {
+  it("should go back to 'enrollment verification' when 'Montgomery GI Bill Enrollment Verification' link is clicked ", () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       'a[href="/education/verify-your-enrollment/benefits-profile/"]',
