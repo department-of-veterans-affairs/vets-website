@@ -17,6 +17,20 @@ const mockStore = ({ isFeatureEnabled = false } = {}) => ({
   dispatch: () => {},
 });
 
+const testSecNavItems = [
+  {
+    title: 'My HealtheVet',
+    iconClass: 'fas fa-home',
+    href: '/my-health',
+  },
+  {
+    title: 'Appointments',
+    abbreviation: 'Appts',
+    iconClass: 'fas fa-calendar',
+    href: `/my-health/appointments`,
+  },
+];
+
 describe('MHV Secondary Navigation Component', () => {
   it('renders when the toggle is on', () => {
     const mock = mockStore({ isFeatureEnabled: true });
@@ -65,5 +79,18 @@ describe('MHV Secondary Navigation Component', () => {
       });
       cleanup(); // must be done after the render
     });
+  });
+
+  it('abbreviations render when provided', () => {
+    const mock = mockStore({ isFeatureEnabled: true });
+    const { getAllByRole } = render(
+      <Provider store={mock}>
+        <MhvSecondaryNav items={testSecNavItems} />
+      </Provider>,
+    );
+    const links = getAllByRole('link');
+    expect(links.length).to.eql(testSecNavItems.length);
+    // console.log(links[0]);
+    expect(links[0].text).to.be.eql(testSecNavItems[0].title);
   });
 });

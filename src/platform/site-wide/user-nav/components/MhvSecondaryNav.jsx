@@ -44,7 +44,7 @@ export const mhvSecNavItems = [
  * @param isActive true if the nav item is to be shown as active
  * @returns a secondary nav item
  */
-const SecondaryNavItem = ({
+export const SecondaryNavItem = ({
   iconClass,
   href,
   title,
