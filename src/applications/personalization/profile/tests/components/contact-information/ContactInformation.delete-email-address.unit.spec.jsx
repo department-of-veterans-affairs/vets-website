@@ -68,7 +68,7 @@ describe('Deleting email address', () => {
     server.use(...mocks.transactionPending);
     deleteEmailAddress();
 
-    await wait(10);
+    await wait(100);
 
     // check that the "we're saving your..." message appears
     const deletingMessage = await view.findByText(
@@ -99,7 +99,7 @@ describe('Deleting email address', () => {
 
     server.use(...mocks.transactionSucceeded);
 
-    await wait(10);
+    await wait(100);
 
     // update saved alert should appear
     await view.findByText('Update saved.');
@@ -130,7 +130,7 @@ describe('Deleting email address', () => {
 
     server.use(...mocks.transactionFailed);
 
-    await wait(10);
+    await wait(100);
 
     // expect an error to be shown
     await view.findByText(
