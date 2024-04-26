@@ -67,6 +67,11 @@ import {
   preparerSsnDashesUI,
   nonPreparerDateOfBirthUI,
   preparerDateOfBirthUI,
+  applicantContactInfoAddressTitle,
+  applicantContactInfoPreparerAddressTitle,
+  applicantContactInfoSubheader,
+  applicantContactInfoPreparerSubheader,
+  applicantContactInfoDescription,
   // partial implementation of story resolving the address change:
   // applicantDetailsCityTitle,
   // applicantDetailsStateTitle,
@@ -311,21 +316,22 @@ const formConfig = {
           ),
           schema: nonVeteranApplicantDetails.schema,
         },
-        applicantMailingAddress: {
-          title: 'Your mailing address',
+        applicantContactInformation: {
           path: 'applicant-contact-information',
           depends: formData => !isAuthorizedAgent(formData),
           uiSchema: applicantContactInformation.uiSchema(
-            'Your mailing address',
+            applicantContactInfoAddressTitle,
+            applicantContactInfoSubheader,
+            applicantContactInfoDescription,
           ),
           schema: applicantContactInformation.schema,
         },
-        applicantMailingAddressPreparer: {
-          title: 'Applicant’s mailing address',
+        applicantContactInformationPreparer: {
           path: 'applicant-contact-information-preparer',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: applicantContactInformation.uiSchema(
-            'Applicant’s mailing address',
+            applicantContactInfoPreparerAddressTitle,
+            applicantContactInfoPreparerSubheader,
             '',
           ),
           schema: applicantContactInformation.schema,

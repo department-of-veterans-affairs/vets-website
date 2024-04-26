@@ -222,6 +222,19 @@ export const nonVeteranApplicantDetailsDescription =
 export const nonVeteranApplicantDetailsDescriptionPreparer =
   'Provide the details for the person you are filling out the application for (called the applicant). Then we’ll ask for the details for the Veteran or service member the applicant is connected to.';
 
+export const applicantContactInfoAddressTitle = 'Your mailing address';
+
+export const applicantContactInfoPreparerAddressTitle =
+  'Applicant’s mailing address';
+
+export const applicantContactInfoSubheader = (
+  <h3 className="vads-u-font-size--h5">Your contact details</h3>
+);
+
+export const applicantContactInfoPreparerSubheader = (
+  <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>
+);
+
 export const applicantContactInfoDescription = (
   <va-additional-info trigger="Why we ask for your contact details">
     <p>

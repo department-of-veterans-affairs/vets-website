@@ -7,6 +7,8 @@ import * as address from '../../definitions/address';
 import {
   MailingAddressStateTitle,
   applicantsMailingAddressHasState,
+  applicantContactInfoAddressTitle,
+  applicantContactInfoSubheader,
   applicantContactInfoDescription,
 } from '../../utils/helpers';
 
@@ -16,12 +18,9 @@ export const applicantMailingAddressStateTitleWrapper = (
   <MailingAddressStateTitle elementPath="application.claimant.address.country" />
 );
 
-const applicantContactInfoSubheader = (
-  <h3 className="vads-u-font-size--h5">Your contact details</h3>
-);
-
 export function uiSchema(
-  addressTitle,
+  addressTitle = applicantContactInfoAddressTitle,
+  contactInfoSubheader = applicantContactInfoSubheader,
   contactInfoDescription = applicantContactInfoDescription,
 ) {
   return {
@@ -41,8 +40,8 @@ export function uiSchema(
             },
           },
         }),
-        'view:applicantContactInfoSubheader': {
-          'ui:description': applicantContactInfoSubheader,
+        'view:contactInfoSubheader': {
+          'ui:description': contactInfoSubheader,
           'ui:options': {
             displayEmptyObjectOnReview: true,
           },
