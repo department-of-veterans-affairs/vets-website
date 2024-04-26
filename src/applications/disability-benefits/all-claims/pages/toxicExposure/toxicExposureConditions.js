@@ -14,21 +14,28 @@ import { formTitle } from '../../utils';
 
 export const uiSchema = {
   'ui:title': formTitle(conditionsPageTitle),
-  toxicExposureConditions: checkboxGroupUI({
-    title: conditionsQuestion,
-    description: conditionsDescription,
-    labels: {},
-    required: false,
-    uswds: false,
-    replaceSchema: makeTEConditionsSchema,
-    updateUiSchema: makeTEConditionsUISchema,
-  }),
+  toxicExposure: {
+    conditions: checkboxGroupUI({
+      title: conditionsQuestion,
+      description: conditionsDescription,
+      labels: {},
+      required: false,
+      uswds: false,
+      replaceSchema: makeTEConditionsSchema,
+      updateUiSchema: makeTEConditionsUISchema,
+    }),
+  },
   'ui:validations': [validateTEConditions],
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    toxicExposureConditions: checkboxGroupSchema([]),
+    toxicExposure: {
+      type: 'object',
+      properties: {
+        conditions: checkboxGroupSchema([]),
+      },
+    },
   },
 };

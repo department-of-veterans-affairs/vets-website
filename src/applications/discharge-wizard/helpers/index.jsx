@@ -88,6 +88,8 @@ export const venueAddress = (formValues, noDRB) => {
           <p className="va-address-block">
             Air Force Discharge Review Board
             <br />
+            SAF/MRBP (AFDRB)
+            <br />
             3351 Celmers Lane
             <br />
             Joint Base Andrews, MD 20762-6435
@@ -144,11 +146,11 @@ export const venueAddress = (formValues, noDRB) => {
           <p className="va-address-block">
             Air Force Board for Correction of Military Records
             <br />
-            SAF/MRBR
+            SAF/MRBC (AFBCMR)
             <br />
             3351 Celmers Lane
             <br />
-            Joint Base Andrews NAF Washington 20762-6604
+            Joint Base Andrews, MD 20762-6435
             <br />
           </p>
         );

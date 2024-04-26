@@ -78,7 +78,7 @@ class TrackClaimsPageV2 {
       .should('contain', `Claim for disability compensation`);
     cy.get('.card-status')
       .first()
-      .should('contain', `Last updated: October 31, 2016`);
+      .should('contain', `Moved to this step October 31, 2016`);
     cy.get('.claim-list-item:first-child a.active-va-link')
       .click()
       .then(() => {
@@ -453,8 +453,7 @@ class TrackClaimsPageV2 {
   verifyOverviewShowPastUpdates() {
     cy.get('#tabOverview').click();
     cy.url().should('contain', '/your-claims/189685/overview');
-    cy.get('.process-step.list-three va-button')
-      .shadow()
+    cy.get('.process-step.list-three')
       .find('button')
       .click();
     cy.get('#older-updates-3').should('be.visible');

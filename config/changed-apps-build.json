@@ -109,7 +109,8 @@
     },
     {
       "rootFolder": "pensions",
-      "slackGroup": "<@C0667PCPVLM>"
+      "slackGroup": "<@C0667PCPVLM>",
+      "continuousDeployment": false
     }
   ]
 }
