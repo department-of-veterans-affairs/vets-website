@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { isEmpty } from 'lodash';
 import moment from '../../../lib/moment-tz';
 import {
   getAppointmentTimezone,
@@ -69,7 +68,7 @@ export default function AppointmentCard({
     }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`;
   };
   const VAFacilityName = () => {
-    if (facility && !isEmpty(facility)) {
+    if (facility) {
       return <>{facility.name}</>;
     }
 
