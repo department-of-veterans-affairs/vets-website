@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 
 import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../constants';
 
-const UserNav = ({ isMobile }) => {
+const UserNav = ({ isLoading, isMobile, profile }) => {
   // TODO: Replace with real data from redux store #80240
   let content = null;
-  const isLoading = false;
-  const profile = false;
-  // const profile = { firstName: 'Test', lastName: 'User' };
 
   if (isLoading) {
     content = (
@@ -28,7 +25,7 @@ const UserNav = ({ isMobile }) => {
     content = (
       <a
         href={SIGN_IN_URL}
-        data-testid="user-nav-sign-in-link"
+        data-testid="user-nav-mobile-sign-in-link"
         className="sign-in-link"
       >
         Sign in
@@ -70,7 +67,12 @@ const UserNav = ({ isMobile }) => {
 };
 
 UserNav.propTypes = {
+  isLoading: PropTypes.bool,
   isMobile: PropTypes.bool,
+  profile: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+  }),
 };
 
 export default UserNav;
