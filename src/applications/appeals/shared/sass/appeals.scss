@@ -18,7 +18,7 @@ fieldset.vads-u-margin-y--2 {
 
 /* area of disagreement input error removes top margin */
 va-checkbox-group va-text-input[error]::part(label) {
-  margin-top: 3rem;
+  margin-top: 1.875rem;
 }
 
 /* Contested issue cards (contested issue page & review/submit page)
@@ -33,8 +33,8 @@ va-checkbox-group va-text-input[error]::part(label) {
 
     .widget-checkbox-wrap {
       margin: 0;
-      width: 5rem;
-      min-width: 5rem;
+      width: 3.125rem;
+      min-width: 3.125rem;
 
       label {
         margin-top: 0;
@@ -46,8 +46,8 @@ va-checkbox-group va-text-input[error]::part(label) {
       }
 
       [type="checkbox"] {
-        width: 1.8rem;
-        height: 1.8rem;
+        width: 1.125rem;
+        height: 1.125rem;
         margin: 0;
       }
     }
@@ -64,13 +64,13 @@ va-checkbox-group va-text-input[error]::part(label) {
       display: flex;
 
       .widget-content-wrap {
-        margin-top: 3rem;
-        margin-right: 0.5rem;
+        margin-top: 1.875rem;
+        margin-right: 0.3125rem;
         width: 100%;
       }
 
       .edit {
-        margin-top: 2rem;
+        margin-top: 1.25rem;
         /* position the edit button above the overlapping label */
         position: relative;
         z-index: 1;
@@ -84,7 +84,7 @@ va-checkbox-group va-text-input[error]::part(label) {
 
   .checkbox-hidden {
     .widget-content {
-      margin: 2rem 0 0 0;
+      margin: 1.25rem 0 0 0;
     }
   }
 }
