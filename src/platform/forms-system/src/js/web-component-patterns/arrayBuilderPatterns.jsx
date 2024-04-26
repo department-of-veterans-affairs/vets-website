@@ -1,10 +1,7 @@
 import React from 'react';
-import {
-  titleUI,
-  yesNoSchema,
-  yesNoUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import { getArrayUrlSearchParams } from '../helpers';
+import { titleUI } from './titlePattern';
+import { yesNoSchema, yesNoUI } from './yesNoPattern';
+import { getArrayUrlSearchParams } from '../patterns/array-builder/helpers';
 
 /**
  * Title for the first page of an item in an array builder
@@ -87,7 +84,7 @@ export const arrayBuilderItemFirstPageTitleUI = ({ title, nounSingular }) => {
  * // simple
  * 'view:hasEmployment': arrayBuilderYesNoUI(arrayBuilderOptions)
  *
- * // explicit
+ * // explicit props
  * 'view:hasEmployment': arrayBuilderYesNoUI({
  *   arrayPath: 'employers',
  *   nounSingular: 'employer',
@@ -123,17 +120,22 @@ export const arrayBuilderYesNoUI = (
   const { arrayPath, nounSingular, maxItems, required } = arrayBuilderOptions;
   const defaultTitle =
     yesNoOptions?.title || `Do you have a ${nounSingular} to add?`;
+
+  const requiredFn = typeof required === 'function' ? required : () => required;
+
   return {
     ...yesNoUI({
       title: defaultTitle,
+      classNames: 'wc-pattern-array-builder-yes-no',
       updateUiSchema: formData => {
         return formData?.[arrayPath]?.length
           ? {
-              'ui:title': defaultTitle,
+              'ui:title': `Do you have another ${nounSingular} to add?`,
               'ui:options': {
                 labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
                 hint:
-                  yesNoOptionsMore?.hint || `You can add up to ${maxItems}.`,
+                  yesNoOptionsMore?.hint ||
+                  (maxItems ? `You can add up to ${maxItems}.` : ''),
                 labels: {
                   Y: yesNoOptionsMore?.labels?.Y || 'Yes',
                   N: yesNoOptionsMore?.labels?.N || 'No',
@@ -146,8 +148,7 @@ export const arrayBuilderYesNoUI = (
               },
             }
           : {
-              'ui:title':
-                yesNoOptions?.title || `Do you have a ${nounSingular} to add?`,
+              'ui:title': defaultTitle,
               'ui:options': {
                 labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '3',
                 hint:
@@ -171,7 +172,7 @@ export const arrayBuilderYesNoUI = (
         const arrayData = formData?.[arrayPath];
         // This validation may not be visible,
         // but helps the review page error work correctly
-        if (!arrayData?.length && !yesNoBoolean && required(formData)) {
+        if (!arrayData?.length && !yesNoBoolean && requiredFn(formData)) {
           errors.addError(
             `You must add at least one ${nounSingular} for us to process this form.`,
           );

@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { fireEvent, render } from '@testing-library/react';
-import ArrayBuilderCancelButton from '../components/ArrayBuilderCancelButton';
+import ArrayBuilderCancelButton from '../ArrayBuilderCancelButton';
 import * as helpers from '../helpers';
 
 const mockRedux = ({

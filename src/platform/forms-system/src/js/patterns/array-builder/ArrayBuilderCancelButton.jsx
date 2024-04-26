@@ -5,11 +5,11 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { setData } from '~/platform/forms-system/src/js/actions';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import get from 'platform/utilities/data/get';
-import set from 'platform/utilities/data/set';
-import { getArrayIndexFromPathName, getArrayUrlSearchParams } from '../helpers';
+import get from '~/platform/utilities/data/get';
+import set from '~/platform/utilities/data/set';
+import { getArrayIndexFromPathName, getArrayUrlSearchParams } from './helpers';
 
 function formatPath(path) {
   return path && path.charAt(0) !== '/' ? `/${path}` : path;
