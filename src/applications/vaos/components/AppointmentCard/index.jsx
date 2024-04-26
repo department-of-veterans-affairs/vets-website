@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import AppointmentCardIcon from './AppointmentCardIcon';
-import { selectFeatureAppointmentDetailsRedesign } from '../redux/selectors';
+import { selectFeatureAppointmentDetailsRedesign } from '../../redux/selectors';
 
 export default function AppointmentCard({ children, appointment }) {
   const featureAppointmentDetailsRedesign = useSelector(state =>

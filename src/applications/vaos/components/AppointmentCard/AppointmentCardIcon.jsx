@@ -7,7 +7,7 @@ import {
   isVideoHome,
   isGfeVideoAppointment,
   isInPersonVAAppointment,
-} from '../services/appointment';
+} from '../../services/appointment';
 
 const iconClass = appointment => {
   const isPhone = isVAPhoneAppointment(appointment);
