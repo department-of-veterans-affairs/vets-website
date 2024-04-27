@@ -162,9 +162,9 @@ describe('Move button', () => {
     });
     fireEvent.click(document.querySelector('va-button[text="Confirm"]'));
     expect(
-      document.querySelector('va-modal[modaltitle="Create a new folder"]'),
+      document.querySelector('va-modal[modal-title="Create a new folder"]'),
     ).to.have.attribute(
-      'modaltitle',
+      'modal-title',
       Constants.Alerts.Folder.CREATE_FOLDER_MODAL_HEADER,
     );
 

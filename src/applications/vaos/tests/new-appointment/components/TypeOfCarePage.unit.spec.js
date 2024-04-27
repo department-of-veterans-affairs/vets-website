@@ -218,7 +218,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     );
     expect(screen.queryByTestId('toc-modal')).to.exist;
     expect(
-      screen.queryByTestId('toc-modal').getAttribute('primaryButtonText'),
+      screen.queryByTestId('toc-modal').getAttribute('primary-button-text'),
     ).to.eq('Ok');
     expect(screen.queryByTestId('toc-modal')).to.have.attribute(
       'visible',

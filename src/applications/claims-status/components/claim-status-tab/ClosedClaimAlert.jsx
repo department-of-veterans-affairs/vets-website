@@ -23,12 +23,12 @@ export default function ClosedClaimAlert({
         <>
           <p>
             You can download your decision letter online now. You can also get
-            letters related to your claims.
+            other letters related to your claims.
           </p>
           <p className="vads-u-margin-y--0">
             We’ll also send you a copy of your decision letter by mail. It
-            arrive within 10 days after the date we closed your claim, but it
-            take longer.
+            should arrive within 10 days after the date we closed your claim,
+            but it may take longer.
           </p>
           <div className="link-action-container">
             <Link className="vads-c-action-link--blue" to="/your-claim-letters">

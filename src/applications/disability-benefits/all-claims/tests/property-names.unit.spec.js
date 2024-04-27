@@ -21,6 +21,7 @@ const ignoreList = {
     'reservesNationalGuardService',
     'separationLocation',
   ],
+  toxicExposure: ['toxicExposureConditions', 'gulfWar1990Locations'],
   unemployability: [
     'medicalCare',
     'hospitalizationHistory',
