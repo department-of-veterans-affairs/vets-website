@@ -73,7 +73,7 @@
                 }
               ],
               "vaPatient": true,
-              "mhvAccountState": "NONE"
+              "mhvAccountState": "OK"
           },
           "veteranStatus": null,
           "inProgressForms": [
