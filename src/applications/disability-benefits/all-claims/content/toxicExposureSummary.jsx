@@ -21,7 +21,8 @@ export function toxicExposureSummary(
   goBackDescription,
   goBackUrlPath,
 ) {
-  const checkboxes = formData[checkboxObjectName];
+  const { toxicExposure } = formData;
+  const checkboxes = toxicExposure[checkboxObjectName];
 
   return (
     <>
@@ -35,7 +36,7 @@ export function toxicExposureSummary(
                   {checkboxDefinitions[item]}
                 </h5>
                 <p className="vads-u-margin-y--1">
-                  {datesDescription(formData[datesObjectName][item])}
+                  {datesDescription(toxicExposure[datesObjectName][item])}
                 </p>
               </li>
             )

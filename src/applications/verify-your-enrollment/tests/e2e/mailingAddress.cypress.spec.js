@@ -1,6 +1,6 @@
 import './login';
 
-describe('Enrollment Verification Page Tests', () => {
+describe('Contact information', () => {
   beforeEach(() => {
     cy.intercept('GET', '/vye/v1/*', { statusCode: 200 });
     cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
