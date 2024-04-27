@@ -454,7 +454,7 @@ export const getSignlePreviousEnrollments = awards => {
                   : formatCurrency(awards.monthlyRate)}
               </p>
               <div className="vads-u-font-style--italic">
-                Verified on{' '}
+                You verified on{' '}
                 {translateDateIntoMonthDayYearFormat(awards.verifiedDate)}
               </div>
             </va-additional-info>

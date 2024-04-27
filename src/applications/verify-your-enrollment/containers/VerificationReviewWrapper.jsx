@@ -41,8 +41,7 @@ const VerificationReviewWrapper = ({
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
-  // const [currentPendingAwardIDs, setCurrentPendingAwardIDs] = useState([]);
-  // const userData = isUserLoggedIn ? loggedIEnenrollmentData : enrollmentData;
+
   const history = useHistory();
 
   const handleBackClick = () => {
@@ -67,12 +66,6 @@ const VerificationReviewWrapper = ({
         paymentDate: null,
       };
     });
-    // const newVerifiedIDS = currentPendingAwardIDs?.map(id => {
-    //   return {
-    //     PendingVerificationSubmitted: currentDateTime,
-    //     awardIds: [id],
-    //   };
-    // });
     dispatchUpdateVerifications(newVerifiedEnrollments);
     dispatchVerifyEnrollmentAction();
   };
@@ -85,25 +78,7 @@ const VerificationReviewWrapper = ({
 
   useEffect(
     () => {
-      if (
-        // enrollmentData?.['vye::UserInfo']?.awards &&
-        enrollmentData?.['vye::UserInfo']?.pendingVerifications
-      ) {
-        // const { awards, pendingVerifications } = enrollmentData?.[
-        //   'vye::UserInfo'
-        // ];
-        // // add all previouslyVerified data into single array
-        // const { awardIds } = pendingVerifications;
-        // const toBeVerifiedEnrollmentsArray = [];
-        // setCurrentPendingAwardIDs(awardIds);
-        // awardIds.forEach(id => {
-        //   // check for each id inside award_ids array
-        //   if (awards.some(award => award.id === id)) {
-        //     toBeVerifiedEnrollmentsArray.push(
-        //       awards.find(award => award.id === id),
-        //     );
-        //   }
-        // });
+      if (enrollmentData?.['vye::UserInfo']?.pendingVerifications) {
         const { pendingVerifications } = enrollmentData?.['vye::UserInfo'];
         setEnrollmentPeriodsToVerify(pendingVerifications);
       }
