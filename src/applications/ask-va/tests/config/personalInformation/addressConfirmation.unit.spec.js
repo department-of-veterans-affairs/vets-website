@@ -64,7 +64,7 @@ describe('addressConfirmationPage', () => {
       </Provider>,
     );
 
-    const spans = $$('label', container);
+    const spans = $$('span', container);
     const spanList = ['You entered:', 'Suggested Addresses:'];
 
     expect($('h2', container).textContent).to.eq(
@@ -72,7 +72,7 @@ describe('addressConfirmationPage', () => {
     );
 
     spans.forEach(
-      span => expect(spanList.includes(span.textContent).trim()).to.be.true,
+      span => expect(spanList.includes(span.textContent.trim())).to.be.true,
     );
   });
 });
