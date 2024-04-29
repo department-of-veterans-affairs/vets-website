@@ -10,12 +10,10 @@ const handlePOARequest = async (procId, action) => {
 };
 
 export const getPOARequestsByCodes = async poaCodes => {
-  try {
-    const resource = `/accredited_representative_portal/v0/power_of_attorney_requests?poa_codes=${poaCodes}`;
-    return await apiRequest(resource);
-  } catch (error) {
-    return error;
-  }
+  const resource = `/power_of_attorney_requests?poa_codes=${poaCodes}`;
+  return apiRequest(resource, {
+    apiVersion: 'accredited_representative_portal/v0',
+  });
 };
 
 export const acceptPOARequest = procId => handlePOARequest(procId, 'accept');
