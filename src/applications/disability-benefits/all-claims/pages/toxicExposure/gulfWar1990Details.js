@@ -50,7 +50,7 @@ function makeUiSchema(locationId) {
 }
 
 /**
- * Make the schema for each gulf war 1990 location with dates page
+ * Make the schema for each gulf war 1990 details page
  * @param {string} locationId - unique id for the location
  * @returns {object} - schema object
  */

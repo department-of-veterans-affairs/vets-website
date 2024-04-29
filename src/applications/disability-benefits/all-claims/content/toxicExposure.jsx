@@ -66,9 +66,9 @@ export const goBackLink = 'Edit locations and dates';
 export const noDatesEntered = 'No dates entered';
 
 /**
- * Generate the Toxic Exposure subtitle. If there are item counts, it will display
- * something like '1 of 3: Location Name'. If either count is invalid, the prefix will
- * be dropped to only display Location Name.
+ * Generate the Toxic Exposure subtitle, which is used on Review and Submit and on the pages
+ * themselves. If there are item counts, it will display something like '1 of 3: Location Name'.
+ * If either count is invalid, the prefix will be dropped to only display 'Location Name'.
  *
  * @param {number} currentItem - this item's count out of the total selected items
  * @param {number} totalItems - total number of selected items
@@ -76,11 +76,11 @@ export const noDatesEntered = 'No dates entered';
  * @returns
  */
 export function teSubtitle(currentItem, totalItems, locationName) {
-  return formSubtitle(
+  return (
     (currentItem > 0 &&
       totalItems > 0 &&
       `Location ${currentItem} of ${totalItems}: ${locationName}`) ||
-      locationName,
+    locationName
   );
 }
 
@@ -97,7 +97,9 @@ export function dateRangePageDescription(
   totalItems,
   locationName,
 ) {
-  const subtitle = teSubtitle(currentItem, totalItems, locationName);
+  const subtitle = formSubtitle(
+    teSubtitle(currentItem, totalItems, locationName),
+  );
   return (
     <>
       {subtitle}
@@ -302,7 +304,7 @@ export function getSelectedCount(objectName, { formData } = {}) {
  * Checks if a specific details page should display. It should display if all
  * the following is true
  * 1. TE pages should be showing at all
- * 2. the given checkbox location data is present for the given itemId with a true value
+ * 2. the given checkbox data is present for the given itemId with a value of true
  *
  * @param {object} formData - full form data
  * @param {string} locationId - unique id for the location
@@ -355,5 +357,5 @@ export function datesDescription(dates) {
   const startDate =
     formatMonthYearDate(dates?.startDate) || 'No start date entered';
   const endDate = formatMonthYearDate(dates?.endDate) || 'No end date entered';
-  return !startDate && !endDate ? noDatesEntered : `${startDate} - ${endDate}`;
+  return `${startDate} - ${endDate}`;
 }
