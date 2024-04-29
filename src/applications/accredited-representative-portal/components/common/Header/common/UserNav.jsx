@@ -6,7 +6,7 @@ import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../constants';
 const testProfile = null;
 // const testProfile = { firstName: 'John', lastName: 'Smith' };
 
-const UserNav = ({ isMobile, isLoading = true, profile = testProfile }) => {
+const UserNav = ({ isMobile, isLoading = false, profile = testProfile }) => {
   let content = null;
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
