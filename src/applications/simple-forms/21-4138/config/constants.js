@@ -93,3 +93,16 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
     </div>
   </va-additional-info>,
 );
+
+export const OTHER_REASONS = Object.freeze({
+  FINANCIAL_HARDSHIP:
+    'I’m experiencing extreme financial hardship (such as loss of your job or sudden decrease in income).',
+  ALS:
+    'I have ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
+  TERMINAL_ILLNESS: 'I have a terminal illness.',
+  VSI_SI:
+    'I have a status from the Defense Department of Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI).',
+  OVER_85: 'I’m age 85 or older.',
+  FORMER_POW: 'I’m a former prisoner of war (POW).',
+  MEDAL_AWARD: 'I’m a Medal of Honor or Purple Heart award recipient.',
+});

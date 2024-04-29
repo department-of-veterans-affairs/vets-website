@@ -8,11 +8,12 @@ import VaTextareaField from '~/platform/forms-system/src/js/web-component-fields
 import {
   LIVING_SITUATIONS,
   ADDITIONAL_INFO_OTHER_HOUSING_RISKS,
+  OTHER_REASONS,
 } from '../config/constants';
 import { validateLivingSituation } from '../helpers';
 
 /** @type {PageSchema} */
-export const priorityProcessingIntroPage = {
+export const ppIntroPage = {
   uiSchema: {
     ...titleUI(
       'What to know before you request priority processing',
@@ -48,7 +49,7 @@ export const priorityProcessingIntroPage = {
 };
 
 /** @type {PageSchema} */
-export const priorityProcessingLivingSituationPage = {
+export const ppLivingSituationPage = {
   uiSchema: {
     livingSituation: checkboxGroupUI({
       title: 'Which of these statements best describes your living situation?',
@@ -72,7 +73,7 @@ export const priorityProcessingLivingSituationPage = {
 };
 
 /** @type {PageSchema} */
-export const priorityProcessingOtherHousingRisksPage = {
+export const ppOtherHousingRisksPage = {
   uiSchema: {
     ...titleUI('Other housing risks', undefined, 1, 'vads-u-color--black'),
     'view:additionalInfo': {
@@ -102,5 +103,49 @@ export const priorityProcessingOtherHousingRisksPage = {
       },
     },
     required: ['otherHousingRisks'],
+  },
+};
+
+/** @type {PageSchema} */
+export const ppOtherReasonsOptionalPage = {
+  uiSchema: {
+    otherReasons: checkboxGroupUI({
+      title: 'Are any of these descriptions true for you?',
+      hint: 'If not, select continue',
+      required: false,
+      labels: OTHER_REASONS,
+      labelHeaderLevel: '1',
+      tile: false,
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      otherReasons: checkboxGroupSchema(Object.keys(OTHER_REASONS)),
+    },
+  },
+};
+
+/** @type {PageSchema} */
+export const ppOtherReasonsRequiredPage = {
+  uiSchema: {
+    otherReasons: checkboxGroupUI({
+      title: 'Which of these descriptions is true for you?',
+      hint: 'Select all that apply.',
+      required: true,
+      labels: OTHER_REASONS,
+      labelHeaderLevel: '1',
+      tile: false,
+      errorMessages: {
+        required: 'Select at least one description',
+      },
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      otherReasons: checkboxGroupSchema(Object.keys(OTHER_REASONS)),
+    },
+    required: ['otherReasons'],
   },
 };

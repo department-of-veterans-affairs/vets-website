@@ -25,9 +25,11 @@ import {
   nodBAHandoffPage,
 } from '../pages/noticeOfDisagreementHandoff';
 import {
-  priorityProcessingIntroPage,
-  priorityProcessingLivingSituationPage,
-  priorityProcessingOtherHousingRisksPage,
+  ppIntroPage,
+  ppLivingSituationPage,
+  ppOtherHousingRisksPage,
+  ppOtherReasonsOptionalPage,
+  ppOtherReasonsRequiredPage,
 } from '../pages/priorityProcessing';
 import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
 import { identificationInformationPage } from '../pages/identificationInfo';
@@ -170,8 +172,8 @@ const formConfig = {
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING,
           path: 'priority-processing-intro',
           title: 'What to know before you request priority processing',
-          uiSchema: priorityProcessingIntroPage.uiSchema,
-          schema: priorityProcessingIntroPage.schema,
+          uiSchema: ppIntroPage.uiSchema,
+          schema: ppIntroPage.schema,
           pageClass: 'priority-processing-intro',
         },
         priorityProcessingLivingSituationPage: {
@@ -180,8 +182,8 @@ const formConfig = {
           path: 'priority-processing-living-situation',
           title:
             'Which of these statements best describes your living situation?',
-          uiSchema: priorityProcessingLivingSituationPage.uiSchema,
-          schema: priorityProcessingLivingSituationPage.schema,
+          uiSchema: ppLivingSituationPage.uiSchema,
+          schema: ppLivingSituationPage.schema,
           pageClass: 'priority-processing-living-situation',
         },
         priorityProcessingOtherHousingRiskPage: {
@@ -190,9 +192,29 @@ const formConfig = {
             formData.livingSituation === LIVING_SITUATIONS.OTHER_RISK,
           path: 'priority-processing-other-housing-risks',
           title: 'Other housing risks',
-          uiSchema: priorityProcessingOtherHousingRisksPage.uiSchema,
-          schema: priorityProcessingOtherHousingRisksPage.schema,
+          uiSchema: ppOtherHousingRisksPage.uiSchema,
+          schema: ppOtherHousingRisksPage.schema,
           pageClass: 'priority-processing-other-housing-risks',
+        },
+        priorityProcessingOtherReasonsOptionalPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
+            formData.livingSituation !== LIVING_SITUATIONS.NONE,
+          path: 'priority-processing-other-reasons-optional',
+          title: 'Other reasons for request',
+          uiSchema: ppOtherReasonsOptionalPage.uiSchema,
+          schema: ppOtherReasonsOptionalPage.schema,
+          pageClass: 'priority-processing-other-reasons-optional',
+        },
+        priorityProcessingOtherReasonsRequiredPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
+            formData.livingSituation === LIVING_SITUATIONS.NONE,
+          path: 'priority-processing-other-reasons',
+          title: 'Other reasons for request',
+          uiSchema: ppOtherReasonsRequiredPage.uiSchema,
+          schema: ppOtherReasonsRequiredPage.schema,
+          pageClass: 'priority-processing-other-reasons',
         },
       },
     },
