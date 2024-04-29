@@ -37,7 +37,7 @@ const OverviewPage = () => {
   return (
     <>
       <VaBreadcrumbs
-        class="row medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8"
+        class="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8"
         breadcrumbList={[
           {
             href: '/',
@@ -50,7 +50,8 @@ const OverviewPage = () => {
         ]}
         label="Breadcrumb"
       />
-      <div className="row medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
+      <br />
+      <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="overview-page-title">{title}</h1>
         <p className="va-introtext">
           Check the details of debt you might have from VA education, disability
