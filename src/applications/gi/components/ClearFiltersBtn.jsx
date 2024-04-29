@@ -10,21 +10,28 @@ function ClearFiltersBtn({
   smallScreen,
   children,
   testId,
-  isCleared,
-  setIsCleared,
   onKeyDown,
+  onClick,
 }) {
   const clearAllFilters = () => {
     dispatchFilterChange({
       ...filters,
       schools: false,
-      excludedSchoolTypes: [],
+      excludedSchoolTypes: [
+        'PUBLIC',
+        'FOR PROFIT',
+        'PRIVATE',
+        'FOREIGN',
+        'FLIGHT',
+        'CORRESPONDENCE',
+        'HIGH SCHOOL',
+      ],
       excludeCautionFlags: false,
       accredited: false,
       studentVeteran: false,
       yellowRibbonScholarship: false,
-      employers: false,
-      vettec: false,
+      employers: true,
+      vettec: true,
       preferredProvider: false,
       country: 'ALL',
       state: 'ALL',
@@ -39,7 +46,7 @@ function ClearFiltersBtn({
       specialMissionPBI: false,
       specialMissionTRIBAL: false,
     });
-    setIsCleared(true);
+    onClick();
   };
   return (
     <>
@@ -48,11 +55,11 @@ function ClearFiltersBtn({
           className="clear-filters-btn"
           onClick={clearAllFilters}
           data-testid={testId}
-          aria-label={
-            isCleared
-              ? 'All filters have been removed. Please select at least one filter.'
-              : ''
-          }
+          // aria-label={
+          //   isCleared
+          //     ? 'All filters have been removed. Please select at least one filter.'
+          //     : ''
+          // }
           onKeyDown={onKeyDown}
         >
           {' '}

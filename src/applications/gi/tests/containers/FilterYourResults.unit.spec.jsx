@@ -103,7 +103,7 @@ describe('<FilterYourResults>', () => {
     fireEvent.click(VETTECCheckBox);
 
     await waitFor(() => {
-      expect(VETTECCheckBox).to.have.property('checked', false);
+      expect(VETTECCheckBox).to.have.property('checked', true);
     });
   });
 
@@ -185,7 +185,7 @@ describe('<FilterYourResults>', () => {
     fireEvent.click(aboutTheSchoolCheckBox);
 
     await waitFor(() => {
-      expect(aboutTheSchoolCheckBox).to.have.property('checked', false);
+      expect(aboutTheSchoolCheckBox).to.have.property('checked', true);
     });
   });
   it('should render', () => {

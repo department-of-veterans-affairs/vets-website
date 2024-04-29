@@ -38,6 +38,7 @@ export function NameSearchForm({
   const [name, setName] = useState(search.query.name);
   // const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
   const { showFiltersBeforeResult } = filterBeforeResultsReducer;
+  const [isClearButtonClicked, setIsButtonClicked] = useState(false);
   // const [error, setError] = useState(null);
   const { error } = errorReducer;
   const history = useHistory();
@@ -100,6 +101,10 @@ export function NameSearchForm({
       inputRef.current.focus();
     }
   };
+  const onCearFilterClick = () => {
+    inputRef.current.focus();
+  };
+
   const handleSubmit = event => {
     event.preventDefault();
     if (validateSearchTerm(name, dispatchError, error, filters, 'name')) {
@@ -141,6 +146,7 @@ export function NameSearchForm({
           <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
             <KeywordSearch
               inputRef={inputRef}
+              isClearButtonClicked={isClearButtonClicked}
               className="name-search"
               inputValue={name}
               label="School, employer, or training provider"
@@ -157,14 +163,15 @@ export function NameSearchForm({
           </div>
           <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto name-search-button-container">
             <button
-              className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button"
+              className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button vads-u-display--flex vads-u-align-items--center"
               type="submit"
               onKeyPress={onKeyEnter}
             >
-              <i
+              <va-icon
+                size={3}
+                icon="search"
                 aria-hidden="true"
-                className="fas fa-search vads-u-margin-right--0p5"
-                role="presentation"
+                className="vads-u-margin-right--0p5"
               />
               Search
             </button>
@@ -176,9 +183,10 @@ export function NameSearchForm({
         JSON.parse(sessionStorage.getItem('show')) && (
           <div>
             <FilterBeforeResults
+              setIsButtonClicked={setIsButtonClicked}
               nameVal={name}
               searchType="name"
-              onApplyFilterClick={onApplyFilterClick}
+              onApplyFilterClick={onCearFilterClick}
             />
           </div>
         )}
