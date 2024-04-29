@@ -2868,7 +2868,7 @@
   integrity sha512-u30CVmct+ZEc0fSeiHlL4xU0kNwCjDRbp7uXL+U18+BqcGXAA/ZBuiUiA7SHX+FU5E+bkO4VQlrwIwGHDjnoQg==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.0.0"
-    "@department-of-veterans-affairs/web-components" "7.0.2"
+    "@department-of-veterans-affairs/web-components" "7.2.1"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"

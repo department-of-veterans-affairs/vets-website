@@ -126,7 +126,6 @@
 }
 
 .vaos-appts__breadcrumb {
-
   ul {
     margin: 0;
     padding-left: 0;
@@ -254,11 +253,30 @@ div[id^="vaos-appts__detail-"] {
   left: 0;
 }
 
+.vaos-appts__appointment-details--container {
+  position: relative;
+}
+
+.vaos-appts__appointment-details--icon {
+  height: 40px;
+  width: 40px;
+  background: var(--vads-color-primary-darker);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vads-color-white);
+  font-size: 20px;
+  position: absolute;
+  top: -20px;
+  left: calc(50% - 20px);
+}
+
 .fa-blank {
   margin-right: 0 !important;
 }
 
-.tertiary-button{
+.tertiary-button {
   text-decoration: none;
   background-color: transparent;
   color: var(--vads-color-primary);
@@ -268,17 +286,17 @@ div[id^="vaos-appts__detail-"] {
   margin: 0em !important;
 
   &:hover,
-    &:active {
-      color: var(--vads-color-primary-dark);
-      background: var(--vads-color-gray-cool-light);
-    }
-    &:focus {background: var(--vads-color-gray-cool-light)}
-
-    &:focus,
-    &:active {
-      outline: 2px solid var(--vads-color-warning);
-      outline-offset: 2px;
-    }
-
+  &:active {
+    color: var(--vads-color-primary-dark);
+    background: var(--vads-color-gray-cool-light);
+  }
+  &:focus {
+    background: var(--vads-color-gray-cool-light);
   }
 
+  &:focus,
+  &:active {
+    outline: 2px solid var(--vads-color-warning);
+    outline-offset: 2px;
+  }
+}
