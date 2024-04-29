@@ -47,6 +47,25 @@ export const layOrWitnessHandoffPage = {
               Start your statement
             </a>
           </div>
+          <va-omb-info
+            res-burden={10}
+            omb-number="2900-0881"
+            exp-date="06/30/2024"
+            style={{
+              margin: '10px 0',
+            }}
+          />
+          <div
+            style={{
+              margin: '10px 0',
+            }}
+          >
+            If you’d like to use VA Form 21-4138 for your statement without
+            selecting an answer here, you can{' '}
+            <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
+              go to VA Form 21-4138 now.
+            </a>
+          </div>
         </div>
       ),
     },

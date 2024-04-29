@@ -8,6 +8,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { TITLE, SUBTITLE, STATEMENT_TYPES } from './constants';
 import { statementTypePage } from '../pages/statementType';
 import { layOrWitnessHandoffPage } from '../pages/layOrWitnessHandoff';
+import { decisionReviewPage } from '../pages/decisionReview';
+import { decisionReviewTypePage } from '../pages/decisionReviewType';
 import { noticeOfDisagreementHandoffPage } from '../pages/noticeOfDisagreementHandoff';
 import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
 import { identificationInformationPage } from '../pages/identificationInfo';
@@ -85,9 +87,27 @@ const formConfig = {
           schema: layOrWitnessHandoffPage.schema,
           pageClass: 'lay-or-witness-handoff',
         },
-        noticeOfDisagreementHandoffPage: {
+        decisionReviewPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW,
+          path: 'decision-review',
+          title: 'What to know before you request a decision review',
+          uiSchema: decisionReviewPage.uiSchema,
+          schema: decisionReviewPage.schema,
+          pageClass: 'decision-review',
+        },
+        decisionReviewTypePage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.DECISION_REVIEW, // && formData.decisionDate <= 1.year.ago,
+          path: 'decision-review-type',
+          title: 'Which description is true for you?',
+          uiSchema: decisionReviewTypePage.uiSchema,
+          schema: decisionReviewTypePage.schema,
+          pageClass: 'decision-review-type',
+        },
+        noticeOfDisagreementHandoffPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.DECISION_REVIEW, // && formData.decisionDate > 1.year.ago,
           path: 'notice-of-disagreement-handoff',
           title: 'What to know before you request a decision review',
           uiSchema: noticeOfDisagreementHandoffPage.uiSchema,

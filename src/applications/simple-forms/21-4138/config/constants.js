@@ -32,3 +32,24 @@ export const STATEMENT_TYPE_LABELS = Object.freeze({
   [STATEMENT_TYPES.NOT_LISTED]:
     "The type of statement I want to submit isn't listed here.",
 });
+
+export const DECISION_REVIEW_TYPES = Object.freeze({
+  NEW_EVIDENCE: 'new-evidence',
+  ERROR_MADE: 'error-made',
+  BVA_REQUEST: 'bva-request',
+});
+
+export const DECISION_REVIEW_TYPE_LABELS = Object.freeze({
+  [DECISION_REVIEW_TYPES.NEW_EVIDENCE]: 'I have new and relevant evidence.',
+  [DECISION_REVIEW_TYPES.ERROR_MADE]:
+    'I think there was an error with a decision on my case.',
+  [DECISION_REVIEW_TYPES.BVA_REQUEST]:
+    "I want the Board of Veteran's Appeals to review my case.",
+});
+
+export const DECISION_REVIEW_TYPE_DESCRIPTIONS = Object.freeze({
+  [DECISION_REVIEW_TYPES.ERROR_MADE]:
+    "Don't select this option if you have new evidence to submit",
+  [DECISION_REVIEW_TYPES.BVA_REQUEST]:
+    'You can also submit new evidence with certain types of Board Appeals.',
+});
