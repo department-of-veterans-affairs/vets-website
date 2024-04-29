@@ -50,16 +50,6 @@ export default function AppealListItem({ appeal, name }) {
     appeal.attributes.events[appeal.attributes.events.length - 1].date;
   const programArea = programAreaMap[appeal.attributes.programArea];
 
-  // appealTitle is in the format:
-  // "Supplemental Claim for Disability Compensation Receieved March 6, 2019"
-  //
-  // If it's an appeal:
-  // "Disability Compensation Appeal Receieved March 6, 2019"
-  //
-  // programArea or requestEvent might be missing:
-  // "Appeal updated on March 6, 2019"
-  // "Disability Compensation Appeal"
-
   let appealTitle = getTypeName(appeal);
   let updatedOn = '';
 

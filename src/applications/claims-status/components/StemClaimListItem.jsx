@@ -23,7 +23,7 @@ export default function StemClaimListItem({ claim }) {
       recordEvent({
         event: 'cta-action-link-click',
         'action-link-type': 'secondary',
-        'action-link-click-label': 'View details',
+        'action-link-click-label': 'Details',
         'action-link-icon-color': 'blue',
         'claim-type': 'STEM Scholarship',
         'claim-last-updated-date': formattedDeniedAtDate,
