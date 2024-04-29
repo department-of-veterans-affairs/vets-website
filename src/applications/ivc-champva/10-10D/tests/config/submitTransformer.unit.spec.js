@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import formConfig from '../../../config/form';
-import transformForSubmit from '../../../config/submitTransformer';
+import formConfig from '../../config/form';
+import transformForSubmit from '../../config/submitTransformer';
 
 describe('transform for submit', () => {
   it('should adjust zip code keyname', () => {
