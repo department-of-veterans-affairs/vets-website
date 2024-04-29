@@ -54,7 +54,13 @@
         }
       },
       "gulfWar2001": {
-        "yemen": true
+        "yemen": true,
+        "airspace": false
+      },
+      "gulfWar2001Details": {
+        "yemen": {
+          "startDate": "2002-01-01"
+        }
       }
     },
     "vaTreatmentFacilities": [
