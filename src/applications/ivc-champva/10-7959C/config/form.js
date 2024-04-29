@@ -41,6 +41,10 @@ import {
   applicantMedicareDUploadSchema,
 } from '../chapters/medicareInformation';
 import {
+  ApplicantMedicareStatusPage,
+  ApplicantMedicareStatusReviewPage,
+} from '../components/ApplicantMedicareStatusPage';
+import {
   ApplicantMedicareStatusContinuedPage,
   ApplicantMedicareStatusContinuedReviewPage,
 } from '../components/ApplicantMedicareStatusContinuedPage';
