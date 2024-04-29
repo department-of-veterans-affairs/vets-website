@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -35,8 +36,6 @@ import {
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
-import { arrayBuilderPages } from '../arrayBuilder/components/arrayBuilder';
-import { arrayBuilderMockData } from '../arrayBuilder/components/arrayMockData';
 
 const chapterSelectInitialData = {
   chapterSelect: {
@@ -334,9 +333,6 @@ const formConfig = {
             uiSchema: employersSummaryPage.uiSchema,
             schema: employersSummaryPage.schema,
             depends: includeChapter('arrayMultiPageBuilder'),
-            // keep comment this for now while working on this feature
-            // eslint-disable-next-line sonarjs/no-redundant-boolean
-            initialData: false && arrayBuilderMockData,
           }),
           multiPageBuilderStepOne: pageBuilder.itemPage({
             title: 'Employer name and address',

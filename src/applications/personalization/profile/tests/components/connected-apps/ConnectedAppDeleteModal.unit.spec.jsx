@@ -17,9 +17,8 @@ describe('<ConnectedAppDeleteModal />', () => {
   it('renders the modal and content', () => {
     const view = render(<ConnectedAppDeleteModal {...defaultProps} />);
     expect(view.container.querySelector('va-modal')).to.exist;
-
     expect(
-      view.container.querySelector('va-modal[modalTitle="Disconnect app?"]'),
+      view.container.querySelector('va-modal[modal-title="Disconnect app?"]'),
     ).to.exist;
     expect(view.getByText(/This may affect how useful the app is to you./i)).to
       .exist;

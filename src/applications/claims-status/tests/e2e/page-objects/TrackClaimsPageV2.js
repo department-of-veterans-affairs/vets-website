@@ -358,7 +358,7 @@ class TrackClaimsPageV2 {
       .first()
       .shadow()
       .get('va-alert.primary-alert:first-of-type a')
-      .should('contain', 'View details');
+      .should('contain', 'Details');
     cy.get('va-alert.primary-alert')
       .first()
       .shadow()
