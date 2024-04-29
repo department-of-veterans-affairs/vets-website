@@ -9,10 +9,7 @@ import PropTypes from 'prop-types';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import HelpText from '../components/HelpText';
-import {
-  getTravelClaims,
-  // getUnauthPing
-} from '../redux/actions';
+import { getTravelClaims } from '../redux/actions';
 
 export default function App({ children }) {
   const dispatch = useDispatch();
@@ -23,21 +20,13 @@ export default function App({ children }) {
   // and validating logged in status
   // const user = useSelector(selectUser);
 
-  const {
-    isLoading,
-    travelClaims,
-    // isFetchingUnauthPing,
-    // unauthPingResponse,
-  } = useSelector(state => state.travelPay);
+  const { isLoading, travelClaims } = useSelector(state => state.travelPay);
 
-  // async function handleUnauthButtonClick() {
-  //   dispatch(getUnauthPing());
-  // }
-
-  const [filterBy, setFilterBy] = useState('mostRecent');
+  const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
+  const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
 
   // TODO: Move this logic to the API-side
-  switch (filterBy) {
+  switch (orderClaimsBy) {
     case 'mostRecent':
       travelClaims.sort(
         (a, b) => new Date(b.appointmentDate) - new Date(a.appointmentDate),
@@ -92,41 +81,27 @@ export default function App({ children }) {
               ) : (
                 <>
                   <p className="vads-u-margin-bottom--0">
-                    Filter appointments by:
+                    Show appointments in this order
                   </p>
-                  <div className="vaos-hide-for-print vads-l-row xsmall-screen:vads-u-border-bottom--0 vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 small-screen:vads-u-border-bottom--1px">
-                    <nav
-                      aria-label="Appointment list navigation"
-                      className="vaos-appts__breadcrumb vads-u-flex--1 vads-u-padding-top--0p5"
+                  <div className="btsss-claims-order-container">
+                    <select
+                      hint={null}
+                      label="Show appointments in this order"
+                      name="claimsOrder"
+                      value={selectedClaimsOrder}
+                      onChange={e => setSelectedClaimsOrder(e.target.value)}
                     >
-                      <ul>
-                        <li>
-                          {filterBy === 'mostRecent' ? (
-                            <strong className="vads-u-color--primary">
-                              Most recent
-                            </strong>
-                          ) : (
-                            <va-button
-                              onClick={() => setFilterBy('mostRecent')}
-                            >
-                              Most recent
-                            </va-button>
-                          )}
-                        </li>
-                        <li>
-                          {filterBy === 'oldest' ? (
-                            <strong className="vads-u-color--primary">
-                              Oldest
-                            </strong>
-                          ) : (
-                            <va-button onClick={() => setFilterBy('oldest')}>
-                              Oldest
-                            </va-button>
-                          )}
-                        </li>
-                      </ul>
-                    </nav>
+                      <option value="mostRecent" selected>
+                        Most Recent
+                      </option>
+                      <option value="oldest">Oldest</option>
+                    </select>
+                    <va-button
+                      onClick={() => setOrderClaimsBy(selectedClaimsOrder)}
+                      text="Sort"
+                    />
                   </div>
+
                   <p id="pagination-info">
                     Showing 1 ‒ {travelClaims.length} of {travelClaims.length}{' '}
                     events
