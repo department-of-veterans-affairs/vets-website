@@ -71,7 +71,7 @@ const formConfig = {
       'Please sign in again to continue your application for CHAMPVA benefits.',
   },
   title: 'Register for the Foreign Medical Program (FMP)',
-  subTitle: 'Form 10-7959f-1',
+  subTitle: 'FMP Registration Form (VA Form 10-7959f-1)',
   defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {

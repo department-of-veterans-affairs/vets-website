@@ -18,62 +18,26 @@ class IntroductionPage extends React.Component {
       <article className="schemaform-intro">
         <FormTitle
           title="Register for the Foreign Medical Program (FMP)"
-          subTitle="Form 10-7959f-1"
+          subTitle="FMP Registration Form (VA Form 10-7959f-1)"
         />
-        <VaAlert status="info" visible uswds>
-          <h2>Have you applied for VA health care before?</h2>
-          <SaveInProgressIntro
-            buttonOnly
-            headingLevel={2}
-            prefillEnabled={formConfig.prefillEnabled}
-            messages={formConfig.savedFormMessages}
-            pageList={pageList}
-            unauthStartText="Sign in to check your application status"
-            hideUnauthedStartLink
-          />
-        </VaAlert>
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps below to apply for Foreign Medical Program benefits.
-        </h2>
+        <p>
+          If you're a Veteran who gets medical care outside the U.S. for a
+          service-connected condition, we may cover the cost of your care. Use
+          this form to register for the Foreign Medical Program.
+        </p>
         <va-process-list uswds="false">
-          <li>
-            <h3>Prepare</h3>
-            <h4>To fill out this application, you’ll need your:</h4>
-            <ul>
-              <li>Social Security number (required)</li>
-            </ul>
-            <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
-              An accredited representative, like a Veterans Service Officer
-              (VSO), can help you fill out your claim.{' '}
-              <a href="/disability-benefits/apply/help/index.html">
-                Get help filing your claim
-              </a>
-            </p>
-          </li>
-          <li>
-            <h3>Apply</h3>
-            <p>Complete this CHAMPVA benefits form.</p>
-            <p>
-              After submitting the form, you’ll get a confirmation message. You
-              can print this for your records.
-            </p>
-          </li>
-          <li>
-            <h3>VA Review</h3>
-            <p>
-              We process claims within a week. If more than a week has passed
-              since you submitted your application and you haven’t heard back,
-              please don’t apply again. Call us at.
-            </p>
-          </li>
-          <li>
-            <h3>Decision</h3>
-            <p>
-              Once we’ve processed your claim, you’ll get a notice in the mail
-              with our decision.
-            </p>
-          </li>
+          <h3>What to know before you fill out this form</h3>
+          <ul>
+            <li>
+              You'll need your Social Security number or your VA file number.
+            </li>
+            <li>
+              After you register, we'll send you a benefits authorization
+              letter. This letter will list your service-connected conditions
+              that we'll cover. Then you can file FMP claims for care related to
+              the covered conditions.
+            </li>
+          </ul>
         </va-process-list>
         <VaAlert status="info" visible uswds>
           <h2>Sign in now to save time and save your work in progress</h2>
@@ -98,21 +62,10 @@ class IntroductionPage extends React.Component {
             prefillEnabled={formConfig.prefillEnabled}
             messages={formConfig.savedFormMessages}
             pageList={pageList}
-            startText="Start the Application"
+            startText="Sign in to start your application"
           />
         </VaAlert>
         <p />
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          What if I need help filling out my application?
-        </h2>
-        <p>
-          An accredited representative, like a Veterans Service Officer (VSO),
-          can help you fill out your application.
-          <a href="https://www.va.gov/COMMUNITYCARE/programs/dependents/champva/CITI.asp">
-            Find out if you can get care at a local VA medical center when
-            you’re covered under CHAMPVA
-          </a>
-        </p>
       </article>
     );
   }
