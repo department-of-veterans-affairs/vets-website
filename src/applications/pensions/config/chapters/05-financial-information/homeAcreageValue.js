@@ -6,6 +6,8 @@ export default {
   title: 'Home acreage value',
   path: 'financial/home-ownership/acres/value',
   depends: isHomeAcreageMoreThanTwo,
+  CustomPage: HomeAcreageValueInput,
+  CustomPageReview: HomeAcreageValueReview,
   uiSchema: {},
   schema: {
     type: 'object',
@@ -15,6 +17,4 @@ export default {
       },
     },
   },
-  CustomPage: HomeAcreageValueInput,
-  CustomPageReview: HomeAcreageValueReview,
 };
