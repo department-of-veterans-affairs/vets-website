@@ -75,13 +75,13 @@ const WebChat = ({
   const [speechPonyfill, setBotPonyfill] = useState();
   const [isRXSkill, setIsRXSkill] = useState();
 
-  validateParameters(
+  validateParameters({
     csrfToken,
     apiSession,
     userFirstName,
     userUuid,
     setParamLoadingStatus,
-  );
+  });
 
   const store = useWebChatStore({
     createStore,

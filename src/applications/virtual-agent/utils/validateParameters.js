@@ -17,13 +17,13 @@ function getSanitizedVariable(variable, variableName) {
   return variable;
 }
 
-export default function validateParameters(
+export default function validateParameters({
   csrfToken,
   apiSession,
   userFirstName,
   userUuid,
   setParamLoadingStatusFn,
-) {
+}) {
   if (hasAllParams(csrfToken, apiSession, userFirstName, userUuid)) {
     return;
   }

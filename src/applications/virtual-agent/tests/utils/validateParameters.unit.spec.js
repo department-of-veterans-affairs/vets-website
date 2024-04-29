@@ -25,13 +25,13 @@ describe('validateParameters', () => {
     it('should not call setParamLoadingStatusFn if all parameters are valid', () => {
       const setParamLoadingStatusFn = sandbox.spy();
 
-      validateParameters(
+      validateParameters({
         csrfToken,
         apiSession,
         userFirstName,
         userUuid,
         setParamLoadingStatusFn,
-      );
+      });
 
       expect(setParamLoadingStatusFn.notCalled).to.be.true;
     });
@@ -39,13 +39,13 @@ describe('validateParameters', () => {
     it('should call setParamLoadingStatusFn with ERROR if any parameter is missing', () => {
       const setParamLoadingStatusFn = sandbox.spy();
 
-      validateParameters(
-        null,
+      validateParameters({
+        csrfToken: null,
         apiSession,
         userFirstName,
         userUuid,
         setParamLoadingStatusFn,
-      );
+      });
 
       expect(setParamLoadingStatusFn.calledOnce).to.be.true;
       expect(setParamLoadingStatusFn.calledWithExactly(ERROR));
@@ -58,13 +58,13 @@ describe('validateParameters', () => {
         Sentry.captureException.name,
       );
 
-      validateParameters(
-        null,
+      validateParameters({
+        csrfToken: null,
         apiSession,
         userFirstName,
         userUuid,
         setParamLoadingStatusFn,
-      );
+      });
 
       expect(captureExceptionStub.calledOnce).to.be.true;
       expect(
@@ -82,13 +82,13 @@ describe('validateParameters', () => {
         Sentry.captureException.name,
       );
 
-      validateParameters(
+      validateParameters({
         csrfToken,
-        null,
+        apiSession: null,
         userFirstName,
         userUuid,
         setParamLoadingStatusFn,
-      );
+      });
 
       expect(captureExceptionStub.calledOnce).to.be.true;
       expect(
@@ -106,13 +106,13 @@ describe('validateParameters', () => {
         Sentry.captureException.name,
       );
 
-      validateParameters(
+      validateParameters({
         csrfToken,
         apiSession,
-        1,
+        userFirstName: 1,
         userUuid,
         setParamLoadingStatusFn,
-      );
+      });
 
       expect(captureExceptionStub.calledOnce).to.be.true;
       expect(
@@ -130,13 +130,13 @@ describe('validateParameters', () => {
         Sentry.captureException.name,
       );
 
-      validateParameters(
+      validateParameters({
         csrfToken,
         apiSession,
         userFirstName,
-        1,
+        userUuid: 1,
         setParamLoadingStatusFn,
-      );
+      });
 
       expect(captureExceptionStub.calledOnce).to.be.true;
       expect(
