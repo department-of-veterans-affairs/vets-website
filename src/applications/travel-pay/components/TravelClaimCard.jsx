@@ -15,7 +15,7 @@ const CLAIM_STATUS = {
   CLOSED: 'Closed',
 };
 
-function parseDatetime(datetimeString) {
+function formatDateTime(datetimeString) {
   const dateTime = new Date(datetimeString);
   const formattedDate = format(dateTime, 'eeee, MMMM d, yyyy');
   const formattedTime = format(dateTime, 'h:mm a');
@@ -28,24 +28,24 @@ export default function TravelClaimCard(props) {
     id,
     createdOn,
     claimStatus,
-    // claimName,
     claimNumber,
-    // appointmentName,
     appointmentDate: appointmentDateTime,
     appointmentLocation,
     modifiedOn,
   } = props;
 
-  const [appointmentDate, appointmentTime] = parseDatetime(appointmentDateTime);
-  const [createDate, createTime] = parseDatetime(createdOn);
-  const [updateDate, updateTime] = parseDatetime(modifiedOn);
+  const [appointmentDate, appointmentTime] = formatDateTime(
+    appointmentDateTime,
+  );
+  const [createDate, createTime] = formatDateTime(createdOn);
+  const [updateDate, updateTime] = formatDateTime(modifiedOn);
 
   return (
     <va-card key={id} class="travel-claim-card vads-u-margin-bottom--2">
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--h3 ">
+        {/* TODO: validate if appending "appointment" is always correct */}
         {appointmentDate} at {appointmentTime} appointment
       </h2>
-      {/* <p className="vads-u-margin-top--0">Received on {createdOn}</p> */}
       <h3 className="vads-u-margin-bottom--1">Where</h3>
       <p className="vads-u-margin-top--0">{appointmentLocation}</p>
 
@@ -56,7 +56,6 @@ export default function TravelClaimCard(props) {
         Submitted on {createDate} at {createTime} <br />
         Updated on {updateDate} at {updateTime}
       </p>
-      {/* <va-link href="" text="View details" /> */}
     </va-card>
   );
 }
