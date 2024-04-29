@@ -31,18 +31,6 @@ const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(
     fs.existsSync(specPath),
 );
 
-console.log('CHANGED_FILES', CHANGED_FILES?.length, CHANGED_FILES);
-console.log('ALLOW_LIST', ALLOW_LIST?.length, ALLOW_LIST);
-console.log('ALL_SPECS', ALL_SPECS?.length, ALL_SPECS);
-console.log('DISALLOWED_SPECS', DISALLOWED_SPECS?.length, DISALLOWED_SPECS);
-console.log('CHANGED_APPS', CHANGED_APPS?.length, CHANGED_APPS);
-console.log('CHANGED_APPS_UNIQUE', CHANGED_APPS_UNIQUE);
-console.log(
-  'TESTS_TO_STRESS_TEST',
-  TESTS_TO_STRESS_TEST?.length,
-  TESTS_TO_STRESS_TEST,
-);
-
 core.exportVariable('APPS_TO_STRESS_TEST', CHANGED_APPS_UNIQUE);
 core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', TESTS_TO_STRESS_TEST);
 core.exportVariable('DISALLOWED_TESTS', DISALLOWED_SPECS);
