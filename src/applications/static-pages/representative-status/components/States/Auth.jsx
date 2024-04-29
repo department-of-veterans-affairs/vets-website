@@ -142,7 +142,7 @@ export const Auth = ({
                 />
               </div>
               <va-link
-                href="https://va.gov/va-accredited-representative-faqs"
+                href="https://www.va.gov/resources/va-accredited-representative-faqs/"
                 text="Learn about accredited representatives"
               />
             </div>
