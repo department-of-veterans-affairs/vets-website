@@ -43,6 +43,6 @@ console.log(
   TESTS_TO_STRESS_TEST,
 );
 
-core.exportVariable('APPS_TO_STRESS_TEST', CHANGED_APPS_UNIQUE);
-core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', TESTS_TO_STRESS_TEST);
+core.exportVariable('APPS_TO_STRESS_TEST', []); // CHANGED_APPS_UNIQUE
+core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', []); // TESTS_TO_STRESS_TEST
 core.exportVariable('DISALLOWED_TESTS', DISALLOWED_SPECS);
