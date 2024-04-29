@@ -5,7 +5,7 @@ const travelClaims = require('./travel-claims.json');
 
 const responses = {
   ...commonResponses,
-  'GET /v0/travel-claims': travelClaims,
+  'GET /travel_pay/claims': travelClaims,
 };
 
 module.exports = delay(responses, 2000);
