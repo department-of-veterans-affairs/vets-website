@@ -275,12 +275,11 @@ export default function ApplicantRelationshipPage({
           required
           error={checkError}
           onVaValueChange={handlers.radioUpdate}
-          name={`root_${keyname}`}
         >
           {options.map(option => (
             <va-radio-option
               key={option.value}
-              name={`root_${keyname}`}
+              name="describes-you"
               label={option.label}
               value={option.value}
               checked={checkValue[primary] === option.value}

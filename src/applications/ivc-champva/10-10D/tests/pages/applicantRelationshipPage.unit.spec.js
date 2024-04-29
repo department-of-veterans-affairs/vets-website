@@ -7,11 +7,11 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import {
   testComponentRender,
   getProps,
-} from '../../../../shared/tests/pages/pageTests.spec';
+} from '../../../shared/tests/pages/pageTests.spec';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
-} from '../../../../shared/components/applicantLists/ApplicantRelationshipPage';
-import mockData from '../../e2e/fixtures/data/test-data.json';
+} from '../../../shared/components/applicantLists/ApplicantRelationshipPage';
+import mockData from '../fixtures/data/test-data.json';
 
 testComponentRender(
   'ApplicantRelationshipReviewPage',

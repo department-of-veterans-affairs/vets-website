@@ -4,6 +4,7 @@
     "applicants": [
       {
         "applicantRelationshipOrigin": { "relationshipToVeteran": "blood" },
+        "applicantGender": { "gender": "male" },
         "applicantEmailAddress": "johnny@alvin.gov",
         "applicantAddress": {
           "country": "USA",
@@ -15,12 +16,10 @@
         "applicantSSN": {
           "ssn": "345345345"
         },
-        "applicantPhone": "555-555-1234",
-        "applicantGender": { "gender": "male" },
         "applicantRelationshipToSponsor": {
           "relationshipToVeteran": "child"
         },
-        "applicantDependentStatus": { "status": "enrolled" },
+        "applicantEnrolledInMedicare": false,
         "applicantEnrolledInOHI": false,
         "applicantDOB": "2003-01-04",
         "applicantName": {
@@ -32,8 +31,8 @@
         "applicantMedicareStatus": {
           "eligibility": "enrolled"
         },
-        "applicantMedicarePartD": { "enrollment": "enrolled" },
-        "applicantHasOhi": { "hasOhi": "yes" }
+        "applicantMedicarePart": "partA, partD",
+        "applicantHasOhi": "yes"
       }
     ],
     "sponsorPhone": "5555555555",
@@ -57,8 +56,7 @@
     "sponsorIsDeceased": true,
     "sponsorDOD": "2001-01-01",
     "sponsorDeathConditions": false,
-    "statementOfTruthSignature": "Johnny T Alvin",
-    "statementOfTruthCertified": true,
-    "consentToMailMissingRequiredFiles": true
+    "statementOfTruthSignature": "Joe Johnson",
+    "statementOfTruthCertified": true
   }
 }
