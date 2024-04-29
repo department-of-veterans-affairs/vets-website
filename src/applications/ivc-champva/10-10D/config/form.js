@@ -129,7 +129,7 @@ import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import { fileWithMetadataSchema } from '../../shared/components/fileUploads/attachments';
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 
 /** @type {FormConfig} */
@@ -1295,7 +1295,13 @@ const formConfig = {
           CustomPage: ApplicantOhiStatusPage,
           CustomPageReview: ApplicantOhiStatusReviewPage,
           schema: applicantListSchema([], {
-            applicantHasOhi: { type: 'string' },
+            applicantHasOhi: {
+              type: 'object',
+              properties: {
+                hasOhi: { type: 'string' },
+                _unused: { type: 'string' },
+              },
+            },
           }),
           uiSchema: {
             applicants: {
