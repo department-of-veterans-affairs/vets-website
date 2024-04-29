@@ -10,6 +10,7 @@ import {
   SUBTITLE,
   STATEMENT_TYPES,
   DECISION_REVIEW_TYPES,
+  LIVING_SITUATIONS,
 } from './constants';
 import { statementTypePage } from '../pages/statementType';
 import { layOrWitnessHandoffPage } from '../pages/layOrWitnessHandoff';
@@ -26,6 +27,7 @@ import {
 import {
   priorityProcessingIntroPage,
   priorityProcessingLivingSituationPage,
+  priorityProcessingOtherHousingRisksPage,
 } from '../pages/priorityProcessing';
 import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
 import { identificationInformationPage } from '../pages/identificationInfo';
@@ -181,6 +183,16 @@ const formConfig = {
           uiSchema: priorityProcessingLivingSituationPage.uiSchema,
           schema: priorityProcessingLivingSituationPage.schema,
           pageClass: 'priority-processing-living-situation',
+        },
+        priorityProcessingOtherHousingRiskPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
+            formData.livingSituation === LIVING_SITUATIONS.OTHER_RISK,
+          path: 'priority-processing-other-housing-risks',
+          title: 'Other housing risks',
+          uiSchema: priorityProcessingOtherHousingRisksPage.uiSchema,
+          schema: priorityProcessingOtherHousingRisksPage.schema,
+          pageClass: 'priority-processing-other-housing-risks',
         },
       },
     },

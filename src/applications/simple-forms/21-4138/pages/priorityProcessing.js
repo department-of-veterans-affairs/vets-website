@@ -4,7 +4,11 @@ import {
   checkboxGroupUI,
   checkboxGroupSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { LIVING_SITUATIONS } from '../config/constants';
+import VaTextareaField from '~/platform/forms-system/src/js/web-component-fields/VaTextareaField';
+import {
+  LIVING_SITUATIONS,
+  ADDITIONAL_INFO_OTHER_HOUSING_RISKS,
+} from '../config/constants';
 import { validateLivingSituation } from '../helpers';
 
 /** @type {PageSchema} */
@@ -64,5 +68,39 @@ export const priorityProcessingLivingSituationPage = {
       livingSituation: checkboxGroupSchema(Object.keys(LIVING_SITUATIONS)),
     },
     required: ['livingSituation'],
+  },
+};
+
+/** @type {PageSchema} */
+export const priorityProcessingOtherHousingRisksPage = {
+  uiSchema: {
+    ...titleUI('Other housing risks', undefined, 1, 'vads-u-color--black'),
+    'view:additionalInfo': {
+      'ui:description': ADDITIONAL_INFO_OTHER_HOUSING_RISKS,
+    },
+    otherHousingRisks: {
+      'ui:title': 'Tell us about other housing risks you are experiencing',
+      'ui:webComponentField': VaTextareaField,
+      'ui:errorMessages': {
+        required: 'List other housing risks you are experiencing',
+      },
+      'ui:options': {
+        charcount: true,
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:additionalInfo': {
+        type: 'object',
+        properties: {},
+      },
+      otherHousingRisks: {
+        type: 'string',
+        maxLength: 100,
+      },
+    },
+    required: ['otherHousingRisks'],
   },
 };

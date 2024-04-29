@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const TITLE = 'Submit a statement to support a claim';
 export const SUBTITLE = 'Statement in Support of Claim (VA Form 21-4138)';
 
@@ -68,3 +70,26 @@ export const LIVING_SITUATIONS = Object.freeze({
   OTHER_RISK: 'I have another housing risk not listed here.',
   NONE: 'None of these situations apply to me.',
 });
+
+export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
+  <va-additional-info
+    trigger="What to know before sharing details about other housing risks"
+    data-testid="otherHousingRisksAdditionalInfo"
+  >
+    <div>
+      <p>
+        We understand that you may have other housing risks not listed here. If
+        you feel comfortable sharing more about your situation, you can do that
+        here. Or you can simply check this option and not include any details.
+        We’ll use this information only to prioritize your request.
+      </p>
+      <p>
+        <b>Note:</b> If you need help because of domestic violence, call the
+        National Domestic Violence hotline <va-telephone contact="8007997233" />{' '}
+        (TTY: <va-telephone contact="8007873224" />) or text "START" to 88788.
+        Staff are there to help 24 hours a day, 7 days a week. All conversations
+        are private and confidential.
+      </p>
+    </div>
+  </va-additional-info>,
+);
