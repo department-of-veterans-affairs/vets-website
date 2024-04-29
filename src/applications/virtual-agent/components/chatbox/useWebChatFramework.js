@@ -7,7 +7,7 @@ import { COMPLETE, ERROR, LOADING } from './loadingStatus';
 function checkForWebchat(setLoadingStatus, MAX_INTERVAL_CALL_COUNT, timeout) {
   let intervalCallCount = 0;
   const intervalId = setInterval(() => {
-    intervalCallCount++;
+    intervalCallCount += 1;
     if (window.WebChat) {
       setLoadingStatus(COMPLETE);
       clearInterval(intervalId);

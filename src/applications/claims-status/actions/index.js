@@ -460,7 +460,7 @@ export function submitFiles(claimId, trackedItem, files) {
               });
             },
             onComplete: () => {
-              filesComplete++;
+              filesComplete += 1;
               dispatch({
                 type: SET_PROGRESS,
                 progress: calcProgress(
@@ -615,7 +615,7 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
               });
             },
             onComplete: () => {
-              filesComplete++;
+              filesComplete += 1;
               dispatch({
                 type: SET_PROGRESS,
                 progress: calcProgress(

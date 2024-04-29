@@ -112,7 +112,7 @@ export function convertRatingToStars(rating) {
   let half = false;
 
   if (firstDecimal > 7) {
-    full++;
+    full += 1;
   } else if (firstDecimal >= 3) {
     half = true;
   }
