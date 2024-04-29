@@ -12,6 +12,10 @@ export default function BreadCrumbs() {
           label: 'VA.gov home',
         },
         {
+          href: '/my-health',
+          label: 'My HealtheVet',
+        },
+        {
           href: '/health-care/file-travel-claim',
           label: 'Check your travel reimbursement claim status',
         },

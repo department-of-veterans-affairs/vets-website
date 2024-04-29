@@ -16,6 +16,11 @@
 }
 
 .btsss-claims-order-container {
+  min-width: fit-content;
+  max-width: 67%;
+}
+
+.btsss-claims-order-select-container {
   display: flex;
   align-items: flex-end;
   column-gap: 20px;

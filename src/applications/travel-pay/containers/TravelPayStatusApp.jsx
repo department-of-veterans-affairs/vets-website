@@ -80,7 +80,7 @@ export default function App({ children }) {
   return (
     <div>
       <main>
-        <article className="row">
+        <article className="row vads-u-padding-bottom--0">
           <div className="vads-l-row vads-u-margin-x--neg2p5">
             <div className="vads-u-padding-x--2p5">
               <BreadCrumbs />
@@ -96,43 +96,47 @@ export default function App({ children }) {
                 />
               ) : (
                 <>
-                  <p className="vads-u-margin-bottom--0">
-                    Show appointments in this order
-                  </p>
-                  <div className="btsss-claims-order-container">
-                    <select
-                      hint={null}
-                      label="Show appointments in this order"
-                      name="claimsOrder"
-                      value={selectedClaimsOrder}
-                      onChange={e => setSelectedClaimsOrder(e.target.value)}
-                    >
-                      <option value="mostRecent" selected>
-                        Most Recent
-                      </option>
-                      <option value="oldest">Oldest</option>
-                    </select>
-                    <va-button
-                      onClick={() => setOrderClaimsBy(selectedClaimsOrder)}
-                      text="Sort"
-                    />
-                  </div>
-
                   <p id="pagination-info">
                     Showing 1 ‒ {travelClaims.length} of {travelClaims.length}{' '}
                     events
                   </p>
+                  <div className="btsss-claims-order-container">
+                    <p className="vads-u-margin-bottom--0">
+                      Show appointments in this order
+                    </p>
+                    <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
+                      <select
+                        className="vads-u-margin-bottom--0 vads-u-padding-bottom--0"
+                        hint={null}
+                        name="claimsOrder"
+                        value={selectedClaimsOrder}
+                        onChange={e => setSelectedClaimsOrder(e.target.value)}
+                      >
+                        <option value="mostRecent" selected>
+                          Most Recent
+                        </option>
+                        <option value="oldest">Oldest</option>
+                      </select>
+                      <va-button
+                        onClick={() => setOrderClaimsBy(selectedClaimsOrder)}
+                        text="Sort"
+                      />
+                    </div>
+                  </div>
                   {travelClaims.map(travelClaim =>
                     TravelClaimCard(travelClaim),
                   )}
                 </>
               )}
-            </div>
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 vads-u-margin-top--5 medium-screen:vads-l-col--4">
               <HelpText />
             </div>
           </div>
         </article>
+        <div className="row vads-u-margin-bottom--3">
+          <hr />
+          {/* TODO: determine functionality of this button */}
+          <va-button class="float-right" text="Feedback" />
+        </div>
       </main>
 
       {children}
