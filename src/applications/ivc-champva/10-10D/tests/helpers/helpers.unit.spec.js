@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import React from 'react';
-import { applicantWording, getAgeInYears } from '../../../../shared/utilities';
-import { isInRange } from '../../../helpers/utilities';
-import ApplicantField from '../../../../shared/components/applicantLists/ApplicantField';
-import { testComponentRender } from '../../../../shared/tests/pages/pageTests.spec';
-import mockData from '../../e2e/fixtures/data/test-data.json';
+import { applicantWording, getAgeInYears } from '../../../shared/utilities';
+import { isInRange } from '../../helpers/utilities';
+import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
+import { testComponentRender } from '../../../shared/tests/pages/pageTests.spec';
+import mockData from '../fixtures/data/test-data.json';
 
 describe('applicantWording helper', () => {
   it('should concatenate first and last names', () => {
