@@ -164,11 +164,9 @@ function Content() {
         {!canceled && (
           <>
             <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3 vaos-hide-for-print">
-              <va-icon
-                size={4}
-                icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+              <i
                 aria-hidden="true"
-                className="vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1"
+                className="fas fa-times vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1"
               />
               <button
                 type="button"
