@@ -1,14 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
-import SupportingDocumentsPage from '../../../pages/SupportingDocumentsPage';
-import { testComponentRender } from '../../../../shared/tests/pages/pageTests.spec';
+import SupportingDocumentsPage from '../../../../pages/SupportingDocumentsPage';
+import { testComponentRender } from '../../../../../shared/tests/pages/pageTests.spec';
 import {
   hasReq,
   checkFlags,
-} from '../../../../shared/components/fileUploads/MissingFileOverview';
+} from '../../../../../shared/components/fileUploads/MissingFileOverview';
 
-import formConfig from '../../../config/form';
-import mockData from '../../fixtures/data/test-data.json';
+import formConfig from '../../../../config/form';
+import mockData from '../../../e2e/fixtures/data/test-data.json';
 
 describe('hasReq', () => {
   const data = {
