@@ -58,7 +58,6 @@ const SearchPage = props => {
     const { location, currentQuery } = props;
 
     const queryParams = {
-      ...location.query,
       address: currentQuery.locationInputString,
       lat: currentQuery.position?.latitude,
       long: currentQuery.position?.longitude,
@@ -88,12 +87,17 @@ const SearchPage = props => {
   };
 
   const handleSearchViaUrl = () => {
-    // Check for scenario when results are in the store
-    if (!!props.location.search && props.results && props.results.length > 0) {
+    const { location } = props;
+
+    // Don't initialize search when results are in the store
+    if (location?.search && props?.results?.length > 0) {
       return;
     }
 
-    const { location } = props;
+    // Don't initialize search when arriving from login modal redirect
+    if (location?.search?.includes('postLogin=true')) {
+      return;
+    }
 
     if (!isEmpty(location.query)) {
       setIsSearching(true);

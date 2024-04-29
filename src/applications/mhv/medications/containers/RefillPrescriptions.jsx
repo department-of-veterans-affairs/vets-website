@@ -8,6 +8,7 @@ import {
 import PropTypes from 'prop-types';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { dateFormat } from '../util/helpers';
 import { getRefillablePrescriptionList, fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
@@ -22,6 +23,9 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
 
   // State
   const [isLoading, updateLoadingStatus] = useState(isLoadingList);
+  const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
+    false,
+  );
   const [selectedRefillList, setSelectedRefillList] = useState([]);
   const [fullRefillList, setFullRefillList] = useState(refillList);
   const [fullRenewList, setFullRenewList] = useState(refillList);
@@ -61,8 +65,18 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
         failedMeds,
         successfulMeds,
       });
-      setSelectedRefillList([]);
+      if (hasNoOptionSelectedError) setHasNoOptionSelectedError(false);
+    } else {
+      setHasNoOptionSelectedError(true);
+      focusElement(
+        document.getElementById(
+          fullRefillList?.length > 1
+            ? 'select-all-checkbox'
+            : `checkbox-${fullRefillList[0].prescriptionId}`,
+        ),
+      );
     }
+    setSelectedRefillList([]);
   };
   const onSelectPrescription = id => {
     if (!selectedRefillList.includes(id)) {
@@ -150,7 +164,9 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
               Ready to refill
             </h2>
             <p
-              className="vads-u-margin-y--3"
+              className={`vads-u-margin-top--3 vads-u-margin-bottom--${
+                !hasNoOptionSelectedError ? '3' : '2'
+              }`}
               data-testid="refill-page-list-count"
               id="refill-page-list-count"
             >
@@ -158,8 +174,25 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
               {`prescription${fullRefillList.length !== 1 ? 's' : ''}`} ready to
               refill.
             </p>
+            <p
+              id="select-one-rx-error"
+              data-testid="select-one-rx-error"
+              className={`vads-u-color--secondary vads-u-font-weight--bold rx-refill-submit-error-${
+                !hasNoOptionSelectedError ? 'hidden' : 'visible'
+              }`}
+              role="alert"
+            >
+              <span className="usa-sr-only">Error</span>
+              <span
+                className="usa-error-message"
+                data-testid="select-rx-error-message"
+              >
+                Select at least one prescription to refill
+              </span>
+            </p>
             {fullRefillList?.length > 1 && (
               <VaCheckbox
+                id="select-all-checkbox"
                 data-testid="select-all-checkbox"
                 label={`Select all ${fullRefillList.length} refills`}
                 name="select-all-checkbox"

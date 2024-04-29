@@ -308,7 +308,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
     // Then it should display request is canceled
     const modal = await screen.findByTestId('cancel-request-SuccessModal');
-    expect(modal.getAttribute('primaryButtonText')).to.eq('Continue');
+    expect(modal.getAttribute('primary-button-text')).to.eq('Continue');
     const continueBtn = screen.queryByTestId('cancel-request-SuccessModal')
       .__events.primaryButtonClick;
     await continueBtn();
