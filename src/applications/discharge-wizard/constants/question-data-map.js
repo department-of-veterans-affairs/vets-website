@@ -32,6 +32,7 @@ export const SHORT_NAME_MAP = Object.freeze({
   PRIOR_SERVICE: 'PRIOR_SERVICE',
   FAILURE_TO_EXHAUST: 'FAILURE_TO_EXHAUST',
   REVIEW: 'REVIEW',
+  RESULTS: 'RESULTS',
 });
 
 export const RESPONSES = Object.freeze({
