@@ -1,22 +1,5 @@
 /* eslint-disable cypress/unsafe-to-chain-command */
-export const acceptPrivacyAgreement = () => {
-  cy.get('va-checkbox[name="privacyAgreementAccepted"]')
-    .scrollIntoView()
-    .shadow()
-    .find('label')
-    .click();
-};
-
-export const goToNextPage = pagePath => {
-  // Clicks Continue button, and optionally checks destination path.
-  cy.findAllByText(/continue|confirm/i, { selector: 'button' })
-    .first()
-    .scrollIntoView()
-    .click();
-  if (pagePath) {
-    cy.location('pathname').should('include', pagePath);
-  }
-};
+import { format } from 'date-fns';
 
 // Keyboard-only pattern helpers
 export const fillAddressWithKeyboard = (fieldName, value) => {
@@ -33,15 +16,16 @@ export const fillAddressWithKeyboard = (fieldName, value) => {
 };
 
 export const fillDateWithKeyboard = (fieldName, value) => {
-  const [year, month, day] = value
+  const [year, , day] = value
     .split('-')
     .map(num => parseInt(num, 10).toString());
+  const month = format(new Date(value), 'MMM');
   cy.tabToElement(`va-memorable-date[name="root_${fieldName}"]`)
     .shadow()
     .find('va-select.usa-form-group--month-select')
     .shadow()
     .find('select')
-    .chooseSelectOptionUsingValue(month)
+    .realType(month)
     .realPress('Tab')
     .realType(day)
     .realPress('Tab')
@@ -67,4 +51,13 @@ export const selectRadioWithKeyboard = (fieldName, value) => {
   cy.tabToElement(`[name="root_${fieldName}"]`);
   cy.findOption(value);
   cy.realPress('Space');
+};
+
+export const selectCheckboxWithKeyboard = selector => {
+  cy.tabToElement(`va-checkbox${selector}`);
+  cy.get(':focus').then($el => {
+    if ($el[0].checked !== true) {
+      cy.realPress('Space');
+    }
+  });
 };

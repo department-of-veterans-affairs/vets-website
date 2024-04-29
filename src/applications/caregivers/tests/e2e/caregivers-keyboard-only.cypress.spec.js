@@ -7,6 +7,7 @@ import {
   fillNameWithKeyboard,
   selectRadioWithKeyboard,
   selectDropdownWithKeyboard,
+  selectCheckboxWithKeyboard,
 } from './utils';
 
 describe('Caregivers-Keyboard-Only', () => {
@@ -89,7 +90,7 @@ describe('Caregivers-Keyboard-Only', () => {
       cy.tabToContinueForm();
 
       // Primary caregiver contact information
-      cy.tabToElementAndPressSpace('#root_primaryAddress_autofill');
+      selectCheckboxWithKeyboard('[name="root_primaryAddress_autofill"]');
       cy.typeInIfDataExists(
         '[name="root_primaryPrimaryPhoneNumber"]',
         data.primaryPrimaryPhoneNumber,
