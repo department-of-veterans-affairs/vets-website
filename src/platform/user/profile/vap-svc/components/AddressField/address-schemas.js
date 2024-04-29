@@ -121,6 +121,7 @@ const uiSchema = {
     'ui:title': 'Country',
     'ui:autocomplete': 'country',
     'ui:webComponentField': VaSelectField,
+    'ui:required': formData => !formData[MILITARY_BASE_DATA],
     'ui:options': {
       updateSchema: (formData, _schema, _uiSchema) => {
         const data = formData || {};
