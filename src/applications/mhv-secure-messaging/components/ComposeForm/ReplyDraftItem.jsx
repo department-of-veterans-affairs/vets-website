@@ -441,15 +441,14 @@ const ReplyDraftItem = props => {
       {editMode ? (
         <>
           <span
-            className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
+            className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bol"
             data-testid="draft-reply-to"
             style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
             data-dd-privacy="mask"
           >
-            <i
-              className="fas fa-reply vads-u-margin-right--0p5 vads-u-margin-top--0p25"
-              aria-hidden="true"
-            />
+            <div className="vads-u-margin-right--0p5 vads-u-margin-top--0p25">
+              <va-icon icon="undo" aria-hidden="true" />
+            </div>
             <span className="thread-list-draft reply-draft-label vads-u-padding-right--0p5">
               {`(Draft) `}
             </span>
