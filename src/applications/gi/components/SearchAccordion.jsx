@@ -87,7 +87,7 @@ export default function SearchAccordion({
           </button>
           {isProductionOrTestProdEnv() && (
             <ClearFiltersBtn isCleared={isCleared} setIsCleared={setIsCleared}>
-              Clear filters
+              Reset search
             </ClearFiltersBtn>
           )}
         </div>

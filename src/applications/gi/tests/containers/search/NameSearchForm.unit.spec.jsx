@@ -394,7 +394,7 @@ describe('<NameSearchForm>', () => {
       const { newValue, expectedBaseUrl } = setupRTL(
         'new jersey',
         null,
-        'Clear filters',
+        'Reset search',
       );
 
       const fetchUrl = fetchStub.firstCall.args[0];

@@ -523,7 +523,7 @@ export function FilterYourResults({
                 // isCleared={isCleared}
                 // setIsCleared={setIsCleared}
               >
-                Clear filters
+                Reset search
               </ClearFiltersBtn>
             )}
           </div>

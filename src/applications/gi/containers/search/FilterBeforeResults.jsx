@@ -598,7 +598,7 @@ export function FilterBeforeResults({
                 // setIsCleared={setIsCleared}
                 onClick={onApplyFilterClick}
               >
-                Clear filters
+                Reset search
               </ClearFiltersBtn>
             ) : (
               <button
@@ -609,7 +609,7 @@ export function FilterBeforeResults({
                     : 'clear-filters-button'
                 }
               >
-                Clear filters
+                Reset search
               </button>
             )}
           </div>

@@ -97,6 +97,9 @@ export function LocationSearchForm({
       inputRef.current.focus();
     }
   };
+  const onResetSearchClick = () => {
+    inputRef.current.focus();
+  };
   const doSearch = event => {
     if (event) {
       event.preventDefault();
@@ -235,10 +238,10 @@ export function LocationSearchForm({
                 <span className="use-my-location-container">
                   {search.geolocationInProgress ? (
                     <div className="use-my-location-link">
-                      <i
-                        className="fa fa-spinner fa-spin"
+                      <va-icon
+                        size={4}
+                        icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
                         aria-hidden="true"
-                        role="presentation"
                       />
                       <span aria-live="assertive">
                         Finding your location...
@@ -261,10 +264,11 @@ export function LocationSearchForm({
                       }}
                       className="use-my-location-link"
                     >
-                      <i
+                      <va-icon
+                        size={4}
+                        icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
                         className="use-my-location-button"
                         aria-hidden="true"
-                        role="presentation"
                       />
                       Use my location
                     </button>
@@ -310,7 +314,11 @@ export function LocationSearchForm({
                 className="usa-button location-search-button"
               >
                 Search
-                <i aria-hidden="true" className="fa fa-search" />
+                <va-icon
+                  size={4}
+                  icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                  aria-hidden="true"
+                />
               </button>
             </div>
           </div>
@@ -323,7 +331,7 @@ export function LocationSearchForm({
             <FilterBeforeResults
               nameVal={location}
               searchType="location"
-              onApplyFilterClick={onApplyFilterClick}
+              onApplyFilterClick={onResetSearchClick}
             />
           </div>
         )}
