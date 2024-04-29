@@ -14,18 +14,27 @@ const UserNav = ({ isMobile, isLoading = false, profile = testProfile }) => {
 
   const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
 
-  const handleClickOutside = event => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setDropdownOpen(false);
-    }
-  };
+  useEffect(
+    () => {
+      const handleClickOutside = event => {
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(event.target)
+        ) {
+          setDropdownOpen(false);
+        }
+      };
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+      if (isDropdownOpen) {
+        document.addEventListener('mousedown', handleClickOutside);
+      }
+
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    },
+    [isDropdownOpen],
+  );
 
   if (isLoading) {
     content = (
