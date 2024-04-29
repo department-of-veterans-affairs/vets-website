@@ -140,8 +140,7 @@ const ch3Pages = {
     title: CHAPTER_3.ADDRESS_CONFIRM.TITLE,
     uiSchema: addressConfirmationPage.uiSchema,
     schema: addressConfirmationPage.schema,
-    depends: form =>
-      !form.onBaseOutsideUS && form.contactPreference === 'US_MAIL',
+    depends: form => form.contactPreference === 'US_MAIL',
   },
   aboutYourFamilyMember: {
     title: CHAPTER_3.ABOUT_YOUR_FAM_MEM.TITLE,
