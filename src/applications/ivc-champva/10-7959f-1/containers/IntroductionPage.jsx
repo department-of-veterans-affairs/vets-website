@@ -66,6 +66,11 @@ class IntroductionPage extends React.Component {
           />
         </VaAlert>
         <p />
+        <va-omb-info
+          res-burden={4}
+          omb-number="2900-0648"
+          exp-date="03/31/2027"
+        />
       </article>
     );
   }
