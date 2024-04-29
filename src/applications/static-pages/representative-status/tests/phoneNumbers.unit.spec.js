@@ -25,6 +25,14 @@ describe('parsePhoneNumber', () => {
     expect(contact).to.equal('2345678901');
   });
 
+  it('should handle no phonenumber', () => {
+    const phone = null;
+    const { extension, contact } = parsePhoneNumber(phone);
+
+    expect(extension).to.equal(null);
+    expect(contact).to.equal(null);
+  });
+
   it('should handle valid numbers with unnecessary spaces', () => {
     const phone = '213  456 7890 Extension 123';
     const { extension, contact } = parsePhoneNumber(phone);
