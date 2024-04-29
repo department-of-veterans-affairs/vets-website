@@ -1,5 +1,20 @@
 {
   "data": {
+    "applicantSsn": "234234234",
+    "applicantName": {
+      "first": "Jimmy",
+      "last": "Alvin"
+    },
+    "applicantDOB": "2001-01-01",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "456 Street Circle",
+      "city": "Anyburg",
+      "state": "AK",
+      "postalCode": "12323"
+    },
+    "applicantPhone": "3331233456",
+    "applicantMedicareStatus": true,
     "applicants": [
       {
         "applicantEnrolledMedicareAB": true,
