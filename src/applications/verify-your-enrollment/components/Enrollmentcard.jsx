@@ -7,11 +7,7 @@ import {
   getPeriodsToVerify,
 } from '../helpers';
 
-const EnrollmentCard = ({
-  enrollmentPeriods,
-  confirmationPage = false,
-  confirmedEnrollment = false,
-}) => {
+const EnrollmentCard = ({ enrollmentPeriods, confirmationPage = false }) => {
   const getCards = () => {
     const combinedEnrollmentsObj = combineEnrollmentsWithStartMonth(
       enrollmentPeriods,
@@ -37,19 +33,6 @@ const EnrollmentCard = ({
                 `This is the enrollment information we have on file for you for ${translateDateIntoMonthYearFormat(
                   enrollment[0].awardBeginDate,
                 )}.`}
-              {confirmationPage &&
-                confirmedEnrollment && (
-                  <>
-                    <va-icon
-                      size={4}
-                      icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                      className="vads-u-color--green "
-                      aria-hidden="true"
-                    />{' '}
-                    You are verifying that this month’s enrollment information
-                    is correct
-                  </>
-                )}
               {enrollment.map(nestedEnrollment => {
                 {
                   /* sending true as second argument turns on left border */
@@ -72,19 +55,6 @@ const EnrollmentCard = ({
               `This is the enrollment information we have on file for you for ${translateDateIntoMonthYearFormat(
                 enrollment[0].awardBeginDate,
               )}.`}
-            {confirmationPage &&
-              confirmedEnrollment && (
-                <>
-                  <va-icon
-                    size={4}
-                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                    className="vads-u-color--green "
-                    aria-hidden="true"
-                  />{' '}
-                  You are verifying that this month’s enrollment information is
-                  correct
-                </>
-              )}
             {/* sending true as second argument turns on left border */}
             {getPeriodsToVerify(enrollment, true)}
           </div>

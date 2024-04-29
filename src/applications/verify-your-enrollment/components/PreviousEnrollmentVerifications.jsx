@@ -16,9 +16,6 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   const [pageCount, setPageCount] = useState(0);
   const [subsetStart, setSubsetStart] = useState(0);
   const [subsetEnd, setSubsetEnd] = useState(0);
-  // --------------------------------------------------------------------------------
-
-  // --------------------------------------------------------------------------------
 
   const totalEnrollmentVerificationsCount = Object.keys(
     combineEnrollmentsWithStartMonth(
@@ -253,8 +250,6 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
         </p>
       )}
       {totalEnrollmentCount > 0 && getPreviouslyVerified()}
-      {/* {totalEnrollmentCount > 0 && pastAndCurrentAwards.length > 0 &&
-        <EnrollmentCard enrollmentPeriods={pastAndCurrentAwards}/>} */}
       {totalEnrollmentCount === undefined && (
         <p className="vads-u-margin-bottom--6">
           <strong>You currently have no enrollments.</strong>
