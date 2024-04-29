@@ -43,7 +43,6 @@ import {
 
 import AutoSSO from './user-nav/containers/AutoSSO';
 import PageNotFound from './user-nav/components/PageNotFound';
-import MhvSecondaryNav from './user-nav/components/MhvSecondaryNav';
 
 import userNavReducer from './user-nav/reducers';
 
@@ -92,7 +91,6 @@ export {
   toggleSearchHelpUserMenu,
   AutoSSO,
   PageNotFound,
-  MhvSecondaryNav,
   userNavReducer,
   restartShouldRedirect,
   addFocusBehaviorToCrisisLineModal,

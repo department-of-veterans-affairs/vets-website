@@ -104,7 +104,7 @@
   "medicalCopaysHtmlMedicalStatementsViewEnabled": "medical_copays_html_medical_statements_view_enabled",
   "mhvLandingPageEnabled": "mhv_landing_page_enabled",
   "mhvLandingPagePersonalization": "mhv_landing_page_personalization",
-  "mhvSecondaryNav": "mhv_secondary_navigation",
+  "mhvSecondaryNavEnabled": "mhv_secondary_navigation_enabled",
   "mhvLandingPageEnableVaGovHealthToolsLinks": "mhv_landing_page_enable_va_gov_health_tools_links",
   "mhvSecureMessagingToVaGovRelease": "mhv_secure_messaging_to_va_gov_release",
   "mhvSecureMessagingToPhase1": "mhv_secure_messaging_to_phase_1",

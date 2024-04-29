@@ -2,33 +2,61 @@ import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import MhvSecondaryNav, {
-  mhvSecNavItems,
-} from '../../components/MhvSecondaryNav';
+import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
 
 const mockStore = ({ isFeatureEnabled = false } = {}) => ({
   getState: () => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
-      mhv_secondary_navigation: isFeatureEnabled,
+      mhv_secondary_navigation_enabled: isFeatureEnabled,
     },
   }),
   subscribe: () => {},
   dispatch: () => {},
 });
 
+const testSecNavItems = [
+  {
+    title: 'My HealtheVet',
+    iconClass: 'fas fa-home',
+    href: '/my-health',
+  },
+  {
+    title: 'Appointments',
+    abbreviation: 'Appts',
+    iconClass: 'fas fa-calendar',
+    href: `/my-health/appointments`,
+  },
+  {
+    title: 'Messages',
+    iconClass: 'fas fa-comments',
+    href: `/my-health/secure-messages`,
+  },
+  {
+    title: 'Medications',
+    abbreviation: 'Meds',
+    iconClass: 'fas fa-prescription-bottle',
+    href: `/my-health/medications`,
+  },
+  {
+    title: 'Records',
+    iconClass: 'fas fa-file-medical',
+    href: `/my-health/medical-records`,
+  },
+];
+
 describe('MHV Secondary Navigation Component', () => {
   it('renders when the toggle is on', () => {
     const mock = mockStore({ isFeatureEnabled: true });
     const { getAllByRole } = render(
       <Provider store={mock}>
-        <MhvSecondaryNav />
+        <MhvSecondaryNavMenu items={testSecNavItems} />
       </Provider>,
     );
-    expect(mhvSecNavItems).to.not.be.empty;
+    expect(testSecNavItems).to.not.be.empty;
     const links = getAllByRole('link');
-    expect(links.length).to.eql(mhvSecNavItems.length);
-    mhvSecNavItems.forEach((navItem, i) => {
+    expect(links.length).to.eql(testSecNavItems.length);
+    testSecNavItems.forEach((navItem, i) => {
       expect(links[i].pathname).to.be.eql(navItem.href);
     });
   });
@@ -37,23 +65,23 @@ describe('MHV Secondary Navigation Component', () => {
     const mock = mockStore();
     const { getAllByRole } = render(
       <Provider store={mock}>
-        <MhvSecondaryNav />
+        <MhvSecondaryNavMenu items={testSecNavItems} />
       </Provider>,
     );
-    expect(mhvSecNavItems).to.not.be.empty;
+    expect(testSecNavItems).to.not.be.empty;
     expect(() => getAllByRole('link')).to.throw();
   });
 
   it('sets the proper item to active based on URL pathname', () => {
     const activeClassString = 'active';
     const mock = mockStore({ isFeatureEnabled: true });
-    expect(mhvSecNavItems).to.not.be.empty;
-    mhvSecNavItems.forEach((item, itemIndex) => {
+    expect(testSecNavItems).to.not.be.empty;
+    testSecNavItems.forEach((item, itemIndex) => {
       delete window.location;
       window.location = new URL(`https://www.va.gov${item.href}`);
       const { getAllByTestId } = render(
         <Provider store={mock}>
-          <MhvSecondaryNav />
+          <MhvSecondaryNavMenu items={testSecNavItems} />
         </Provider>,
       );
       const links = getAllByTestId('mhv-sec-nav-item');
@@ -68,7 +96,7 @@ describe('MHV Secondary Navigation Component', () => {
   });
 
   it('abbreviations render when provided', () => {
-    const testSecNavItems = [
+    const testItems = [
       {
         title: 'My HealtheVet',
         iconClass: 'fas fa-home',
@@ -85,21 +113,20 @@ describe('MHV Secondary Navigation Component', () => {
     const mock = mockStore({ isFeatureEnabled: true });
     const { getAllByRole } = render(
       <Provider store={mock}>
-        <MhvSecondaryNav items={testSecNavItems} />
+        <MhvSecondaryNavMenu items={testItems} />
       </Provider>,
     );
     const links = getAllByRole('link');
-    expect(links.length).to.eql(testSecNavItems.length);
+    expect(links.length).to.eql(testItems.length);
     // The title and abbreviation are always part of the link.
     expect(
-      links[0].text.match(new RegExp(testSecNavItems[0].title, 'g'))?.length,
+      links[0].text.match(new RegExp(testItems[0].title, 'g'))?.length,
     ).to.eql(2);
     expect(
-      links[1].text.match(new RegExp(testSecNavItems[1].title, 'g'))?.length,
+      links[1].text.match(new RegExp(testItems[1].title, 'g'))?.length,
     ).to.eql(1);
     expect(
-      links[1].text.match(new RegExp(testSecNavItems[1].abbreviation, 'g'))
-        ?.length,
+      links[1].text.match(new RegExp(testItems[1].abbreviation, 'g'))?.length,
     ).to.eql(1);
   });
 });

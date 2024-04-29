@@ -18,7 +18,7 @@ const responses = {
     mhvLandingPageEnabled: true,
     mhvLandingPagePersonalization: false,
     mhvLandingPageEnableVaGovHealthToolsLinks: true,
-    mhvSecondaryNav: true,
+    mhvSecondaryNavEnabled: true,
   }),
   'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,
   'GET /v0/profile/personal_information': personalInformation,
