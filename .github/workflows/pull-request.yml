@@ -285,11 +285,11 @@ jobs:
         run: node ./script/github-actions/filter-files-changed.js ${{ steps.get-files-changed.outputs.files }}
 
       - name: Annotate ESLint results for all files if eslint config has been modified
-        if: contains(steps.get-files-changes.outputs.files, '.eslintrc.js')
+        if: contains(steps.get-files-changed.outputs.files, '.eslintrc.js')
         run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js
 
       - name: Annotate ESLint results for modified files
-        if: "!contains(steps.get-files-changes.outputs.files, '.eslintrc.js')"
+        if: "!contains(steps.get-files-changed.outputs.files, '.eslintrc.js')"
         run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
 
       - name: Run Stylelint
