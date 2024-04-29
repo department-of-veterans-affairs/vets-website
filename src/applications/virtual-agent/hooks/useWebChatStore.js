@@ -29,8 +29,8 @@ export default function useWebChatStore({
         StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
           csrfToken,
           apiSession,
-          apiUrl: getApiUrl(environment),
-          baseUrl: environment.BASE_URL,
+          apiURL: getApiUrl(environment),
+          baseURL: environment.BASE_URL,
           userFirstName: getUserFirstName(userFirstName),
           userUuid: getUserUuid(userUuid),
           isMobile,
