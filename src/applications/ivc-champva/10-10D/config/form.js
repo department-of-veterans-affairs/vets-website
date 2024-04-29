@@ -514,9 +514,8 @@ const formConfig = {
       title: 'Applicant information',
       pages: {
         page13: {
+          title: 'Applicant information',
           path: 'applicant-information',
-          arrayPath: 'applicants',
-          title: 'Applicants',
           uiSchema: {
             ...titleUI('Applicant name and date of birth', () => (
               <>
@@ -537,10 +536,6 @@ const formConfig = {
                 itemName: 'Applicant',
                 customTitle: ' ', // prevent <dl> around the schemaform-field-container
                 confirmRemove: true,
-              },
-              'ui:errorMessages': {
-                minItems: 'Must have at least one applicant listed.',
-                maxItems: `You can add up to ${MAX_APPLICANTS} in a single application. If you need to add more than ${MAX_APPLICANTS} applicants, you need to submit a separate application for them.`,
               },
               items: {
                 applicantName: fullNameUI(),
