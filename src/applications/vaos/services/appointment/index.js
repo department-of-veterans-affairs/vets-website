@@ -374,41 +374,6 @@ export function isUpcomingAppointment(appt) {
 }
 
 /**
- * Returns true if the given Appointment is a canceled confirmed appointment
- *
- * @export
- * @param {Appointment} appt The FHIR Appointment to check
- * @returns {boolean} Whether or not the appointment is a canceled
- *  appointment
- */
-export function isCanceledConfirmed(appt) {
-  const today = moment();
-
-  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos?.appointmentType)) {
-    const apptDateTime = moment(appt.start);
-
-    return (
-      appt.status === APPOINTMENT_STATUS.cancelled &&
-      apptDateTime.isValid() &&
-      apptDateTime.isAfter(
-        today
-          .clone()
-          .startOf('day')
-          .subtract(30, 'days'),
-      ) &&
-      apptDateTime.isBefore(
-        today
-          .clone()
-          .endOf('day')
-          .add(395, 'days'),
-      )
-    );
-  }
-
-  return false;
-}
-
-/**
  * Sort method for past appointments
  * @param {Appointment} a A FHIR appointment resource
  * @param {Appointment} b A FHIR appointment resource
