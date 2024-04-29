@@ -14,8 +14,8 @@ export const tabToElement = (
   reverse = false,
   attempt = 0,
 ) => {
-  if (attempt > 5) {
-    throw new Error(`Unable to find ${selector} after 5 full searches`);
+  if (attempt > 6) {
+    throw new Error(`Unable to find ${selector} after 6 full searches`);
   }
   if (checkInDom) {
     cy.get(selector).should('exist');
@@ -77,17 +77,17 @@ export const typeEachChar = str => {
   return cy.realType(str);
 };
 
-export const fillSelectByTyping = (str, debug = [], attempt = 0) => {
+export const fillSelectByTyping = (str, attempt = 0) => {
   if (typeof str !== 'string') {
-    return fillSelectByTyping(`${str}`, debug);
+    return fillSelectByTyping(`${str}`, attempt);
   }
 
-  if (attempt > 4) {
+  if (attempt > 3) {
     cy.document().then(doc => {
       throw new Error(
         `Unable to enter ${str} in ${
           doc?.activeElement?.tagName
-        } after 4 tries after ${debug.join(', ')}`,
+        } after 3 tries`,
       );
     });
   }
@@ -97,17 +97,17 @@ export const fillSelectByTyping = (str, debug = [], attempt = 0) => {
     .should(Cypress._.noop)
     .then($el => {
       const text = $el.text();
-      debug.push($el.tagName, text);
       if (text === str || text === `${str}${str}`) return;
+
       cy.realType(str);
-      debug.push(str);
+
       // Sometimes the select doesn't pick up the first character,
       // causing the wrong option to be selected. Waiting before
       // re-typing the selection mimics user behavior and allows
       // the select to reset the selection process.
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
-      fillSelectByTyping(str, debug, attempt + 1);
+      fillSelectByTyping(str, attempt + 1);
     });
 };
 
@@ -117,7 +117,7 @@ export const fillDate = fieldData => {
     month: 'long',
     timeZone: 'UTC',
   });
-  fillSelectByTyping(monthString, ['fillDate']);
+  fillSelectByTyping(monthString);
   cy.realPress('Tab', { pressDelay: 0 });
   typeEachChar(parseInt(dateSegments[2], 10));
   cy.realPress('Tab', { pressDelay: 0 });
@@ -168,9 +168,9 @@ export const fillField = ({
       month: 'long',
       timeZone: 'UTC',
     });
-    fillSelectByTyping(monthString, ['type.date']);
+    fillSelectByTyping(monthString);
     cy.tabToElement(`#${name}Day`);
-    fillSelectByTyping(date[2], 'type.date.date');
+    fillSelectByTyping(date[2]);
     cy.tabToElement(`input[name="${name}Year"]`);
     typeEachChar(date[0]);
     return;
@@ -189,7 +189,7 @@ export const fillField = ({
             elementSchema.enum.findIndex(value => value === fieldData)
           ]
         : fieldData;
-    fillSelectByTyping(enumName, ['type.VaSelectField']);
+    fillSelectByTyping(enumName);
   } else if (type === 'VaMemorableDateField') {
     fillDate(fieldData);
   } else if (type === 'YesNoField' || type === 'yesNo') {
@@ -234,7 +234,7 @@ export const fillStateField = (path, schema, uiSchema, data) => {
   cy.document().then(doc => {
     const tagName = doc.activeElement?.tagName?.toLowerCase();
     if (tagName === 'select' || tagName === 'va-select') {
-      fillSelectByTyping(enumName, [`tag:${tagName}`]);
+      fillSelectByTyping(enumName);
     } else {
       fillInput(fieldData);
     }
