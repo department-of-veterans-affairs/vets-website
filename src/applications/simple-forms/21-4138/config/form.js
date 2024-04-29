@@ -13,14 +13,20 @@ import {
 } from './constants';
 import { statementTypePage } from '../pages/statementType';
 import { layOrWitnessHandoffPage } from '../pages/layOrWitnessHandoff';
-import { decisionReviewPage } from '../pages/decisionReview';
-import { decisionReviewTypePage } from '../pages/decisionReviewType';
+import {
+  decisionReviewPage,
+  decisionReviewTypePage,
+} from '../pages/decisionReview';
 import {
   nodOldHandoffPage,
   nodSupplementalHandoffPage,
   nodHLRHandoffPage,
   nodBAHandoffPage,
 } from '../pages/noticeOfDisagreementHandoff';
+import {
+  priorityProcessingIntroPage,
+  priorityProcessingLivingSituationPage,
+} from '../pages/priorityProcessing';
 import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
 import { identificationInformationPage } from '../pages/identificationInfo';
 import { mailingAddressPage } from '../pages/mailingAddress';
@@ -156,6 +162,25 @@ const formConfig = {
           uiSchema: nodBAHandoffPage.uiSchema,
           schema: nodBAHandoffPage.schema,
           pageClass: 'notice-of-disagreement-ba-handoff',
+        },
+        priorityProcessingIntroPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING,
+          path: 'priority-processing-intro',
+          title: 'What to know before you request priority processing',
+          uiSchema: priorityProcessingIntroPage.uiSchema,
+          schema: priorityProcessingIntroPage.schema,
+          pageClass: 'priority-processing-intro',
+        },
+        priorityProcessingLivingSituationPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING,
+          path: 'priority-processing-living-situation',
+          title:
+            'Which of these statements best describes your living situation?',
+          uiSchema: priorityProcessingLivingSituationPage.uiSchema,
+          schema: priorityProcessingLivingSituationPage.schema,
+          pageClass: 'priority-processing-living-situation',
         },
       },
     },

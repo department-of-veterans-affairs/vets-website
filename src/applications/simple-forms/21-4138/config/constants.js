@@ -11,7 +11,7 @@ export const workInProgressContent = {
 export const STATEMENT_TYPES = Object.freeze({
   BUDDY_STATEMENT: 'buddy-statement',
   DECISION_REVIEW: 'decision-review',
-  EXPEDITED_CLAIM: 'expedited-claim',
+  PRIORITY_PROCESSING: 'priority-processing',
   PERSONAL_RECORDS: 'personal-records',
   NEW_EVIDENCE: 'new-evidence',
   VRE_REQUEST: 'vre-request',
@@ -23,7 +23,7 @@ export const STATEMENT_TYPE_LABELS = Object.freeze({
     'I want to sumbit a formal statement to support my claim or someone else\'s claim. This is also known as a "buddy statement."',
   [STATEMENT_TYPES.DECISION_REVIEW]:
     'I want to request a decision review for my claim.',
-  [STATEMENT_TYPES.EXPEDITED_CLAIM]:
+  [STATEMENT_TYPES.PRIORITY_PROCESSING]:
     'I want to request that VA process my claim faster due to certain qualifying situations.',
   [STATEMENT_TYPES.PERSONAL_RECORDS]: 'I want to request my personal records.',
   [STATEMENT_TYPES.NEW_EVIDENCE]: 'I have new evidence to submit.',
@@ -52,4 +52,19 @@ export const DECISION_REVIEW_TYPE_DESCRIPTIONS = Object.freeze({
     "Don't select this option if you have new evidence to submit",
   [DECISION_REVIEW_TYPES.BVA_REQUEST]:
     'You can also submit new evidence with certain types of Board Appeals.',
+});
+
+export const LIVING_SITUATIONS = Object.freeze({
+  OVERNIGHT:
+    'I live or sleep overnight in a place that isn’t meant for regular sleeping. This includes a car, park, abandoned building, bus station, train station, airport, or camping ground.',
+  SHELTER:
+    'I live in a shelter (including a hotel or motel) that’s meant for temporary stays.',
+  FRIEND_OR_FAMILY:
+    'I’m staying with a friend or family member, because I can’t get my own home right now.',
+  LEAVING_SHELTER:
+    'In the next 30 days, I will have to leave a facility, like a homeless shelter.',
+  LOSING_HOME:
+    'In the next 30 days, I will lose my home. (Note: This could include a house, apartment, trailer, or other living space that you own, rent, or live in without paying rent. Or it could include a living space that you share with others. It could also include rooms in hotels or motels.)',
+  OTHER_RISK: 'I have another housing risk not listed here.',
+  NONE: 'None of these situations apply to me.',
 });
