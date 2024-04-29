@@ -37,7 +37,7 @@ const MhvSecondaryNavMenu = ({ items }) => {
     });
 
     return (
-      <nav id="mhv-sec-nav-bar">
+      <nav id="mhv-sec-nav-bar" aria-label="My HealtheVet">
         <div className="mhv-sec-nav-container vads-u-font-family--sans vads-font-weight-regular">
           <div className="mhv-sec-nav-item-row">{navContent}</div>
         </div>
