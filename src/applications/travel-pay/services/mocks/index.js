@@ -15,5 +15,4 @@ const responses = {
   'GET /travel_pay/claims': travelClaims,
 };
 
-// module.exports = delay(responses, 2000);
-module.exports = delay(responses, 500);
+module.exports = delay(responses, 1000);
