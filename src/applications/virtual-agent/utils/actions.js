@@ -62,22 +62,12 @@ function isEventRxSkill(eventValue) {
   return eventValue === 'RX_Skill';
 }
 
-function handleSkillIfTriggered(action) {
-  const eventName = getEventName(action);
+function handleSkillEvent(action, eventName, isRxSkillState) {
+  const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
 
-  if (eventName === 'Skill_Entry' && isEventRxSkill(eventValue)) {
-    setIsRxSkill(true);
-    sendWindowEventWithActionPayload('rxSkill', action);
-  }
-}
-
-function handleSkillIfExited(action) {
-  const eventName = getEventName(action);
-  const eventValue = getEventValue(action);
-
-  if (eventName === 'Skill_Exit' && isEventRxSkill(eventValue)) {
-    setIsRxSkill(false);
+  if (actionEventName === eventName && isEventRxSkill(eventValue)) {
+    setIsRxSkill(isRxSkillState);
     sendWindowEventWithActionPayload('rxSkill', action);
   }
 }
@@ -152,8 +142,8 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     sendWindowEventWithActionPayload('webchat-message-activity', action);
   }
 
-  handleSkillIfTriggered(action);
-  handleSkillIfExited(action);
+  handleSkillEvent(action, 'Skill_Entry', true);
+  handleSkillEvent(action, 'Skill_Exit', false);
 };
 
 export const processMicrophoneActivity = ({ action }) => () => {
