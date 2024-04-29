@@ -10,6 +10,8 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import {
@@ -753,13 +755,147 @@ export const VAClaimNumberAdditionalInfo = (
 export const veteranUI = {
   militaryServiceNumber: {
     'ui:title': 'Military Service number',
-    'ui:hint': "If you don't have a VA claim number, leave this blank.",
+    'ui:webComponentField': VaTextInputField,
+    'ui:options': {
+      enableAnalytics: false,
+      hint: 'If it’s different than your Social Security number',
+    },
     'ui:errorMessages': {
       pattern: 'Your Military Service number must be between 4 to 9 characters',
     },
   },
   vaClaimNumber: {
-    'ui:title': 'VA claim number (if known)',
+    'ui:title': 'VA claim number',
+    'ui:webComponentField': VaTextInputField,
+    'ui:options': {
+      enableAnalytics: false,
+      hint: "If you don't have a VA claim number, leave this blank.",
+    },
+    'ui:errorMessages': {
+      pattern: 'Your VA claim number must be between 8 to 9 digits',
+    },
+  },
+  placeOfBirth: {
+    'ui:title': 'Place of birth (City, State, or Territory)',
+  },
+  gender: {
+    'ui:title': 'What’s your sex?',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        female: 'Female',
+        male: 'Male',
+        na: 'Prefer not to answer',
+      },
+    },
+  },
+  maritalStatus: {
+    'ui:title': 'What’s your marital status?',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        single: 'Single',
+        separated: 'Separated',
+        married: 'Married',
+        divorced: 'Divorced',
+        widowed: 'Widowed',
+        na: 'Prefer not to answer',
+      },
+    },
+  },
+  ethnicity: {
+    // 'ui:field': RaceEthnicityReviewField,
+    'ui:title': 'What’s your ethnicity?',
+    'ui:widget': 'radio',
+    'ui:options': {
+      labels: {
+        isSpanishHispanicLatino: 'Hispanic or Latino',
+        notSpanishHispanicLatino: 'Not Hispanic or Latino',
+        unknown: 'Unknown',
+        na: 'Prefer not to answer',
+      },
+      showFieldLabel: true,
+    },
+  },
+  race: {
+    'ui:field': RaceEthnicityReviewField,
+    'ui:title': 'What’s your race?',
+    'ui:webComponentField': VaCheckboxGroupField,
+    isAmericanIndianOrAlaskanNative: {
+      'ui:title': 'American Indian or Alaskan Native',
+    },
+    isAsian: {
+      'ui:title': 'Asian',
+    },
+    isBlackOrAfricanAmerican: {
+      'ui:title': 'Black or African American',
+    },
+    isNativeHawaiianOrOtherPacificIslander: {
+      'ui:title': 'Native Hawaiian or other Pacific Islander',
+    },
+    isWhite: {
+      'ui:title': 'White',
+    },
+    isOther: {
+      'ui:title': 'Other',
+    },
+    na: {
+      'ui:title': 'Prefer not to answer',
+    },
+    'ui:validations': [
+      // require at least one value to be true/checked
+      (errors, fields) => {
+        if (!Object.values(fields).some(val => val === true)) {
+          errors.addError('Please provide a response');
+        }
+      },
+    ],
+    'ui:options': {
+      hint: 'You can select more than one option. It think this is BS.',
+      showFieldLabel: true,
+    },
+  },
+  militaryStatus: {
+    'ui:title': 'Current military status',
+    'ui:webComponentField': VaSelectField,
+    'ui:options': {
+      hint:
+        'You can add more service history information later in this application.',
+      labels: {
+        A: 'Active duty',
+        I: 'Death Related to Inactive Duty Training',
+        D: 'Died on Active Duty',
+        S: 'Reserve/National Guard',
+        R: 'Retired',
+        E: 'Retired active duty',
+        O: 'Retired Reserve/National Guard',
+        V: 'Veteran',
+        X: 'Other',
+      },
+    },
+  },
+};
+
+export const preparerVeteranUI = {
+  militaryServiceNumber: {
+    'ui:title': 'Applicant’s Military Service number',
+    'ui:webComponentField': VaTextInputField,
+    'ui:options': {
+      enableAnalytics: false,
+      hint: 'If it’s different than their Social Security number',
+    },
+    'ui:errorMessages': {
+      pattern:
+        'Their Military Service number must be between 4 to 9 characters',
+    },
+  },
+  vaClaimNumber: {
+    'ui:title': 'Applicant’s VA claim number',
+    'ui:webComponentField': VaTextInputField,
+    'ui:options': {
+      enableAnalytics: false,
+      hint: "If they don't have a VA claim number, leave this blank.",
+    },
     'ui:errorMessages': {
       pattern: 'Your VA claim number must be between 8 to 9 digits',
     },
@@ -845,14 +981,13 @@ export const veteranUI = {
     },
   },
   militaryStatus: {
-    'ui:title': 'Current military status',
-    'ui:descrption':
-      'You can add more service history information later in this application.',
+    'ui:title': 'Applicant’s current military status',
+    'ui:webComponentField': VaSelectField,
     'ui:options': {
+      hint:
+        'You can add more service history information later in this application.',
       labels: {
         A: 'Active duty',
-        I: 'Death Related to Inactive Duty Training',
-        D: 'Died on Active Duty',
         S: 'Reserve/National Guard',
         R: 'Retired',
         E: 'Retired active duty',
@@ -864,8 +999,8 @@ export const veteranUI = {
   },
 };
 
-export const serviceRecordsUI = {
-  'ui:title': 'Service period(s)',
+export const selfServiceRecordsUI = {
+  'ui:title': 'Your service period(s)',
   'ui:options': {
     viewField: ServicePeriodView,
     itemName: 'Service period',
@@ -891,6 +1026,64 @@ export const serviceRecordsUI = {
     dateRange: dateRangeUI(
       'Service start date',
       'Service end date',
+      'Service start date must be after end date',
+    ),
+    dischargeType: {
+      'ui:title': 'Discharge character of service',
+      'ui:options': {
+        labels: {
+          1: 'Honorable',
+          2: 'General',
+          3: 'Entry Level Separation/Uncharacterized',
+          4: 'Other Than Honorable',
+          5: 'Bad Conduct',
+          6: 'Dishonorable',
+          7: 'Other',
+        },
+      },
+    },
+    highestRank: {
+      'ui:title': 'Highest rank attained',
+    },
+    nationalGuardState: {
+      'ui:title': 'State (for National Guard Service only)',
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !['AG', 'NG'].includes(
+            formData.application.veteran.serviceRecords[index].serviceBranch,
+          ),
+      },
+    },
+  },
+};
+
+export const preparerServiceRecordsUI = {
+  'ui:title': "Applicant's service period(s)",
+  'ui:options': {
+    viewField: ServicePeriodView,
+    itemName: 'Service period',
+    keepInPageOnReview: true,
+    useDlWrap: true,
+  },
+  items: {
+    'ui:order': [
+      'serviceBranch',
+      'highestRank',
+      'dateRange',
+      'dischargeType',
+      'nationalGuardState',
+    ],
+    'ui:options': {
+      itemName: 'Service Period',
+    },
+    serviceBranch: autosuggest.uiSchema('Applicant’s branch of service', null, {
+      'ui:options': {
+        labels: serviceLabels,
+      },
+    }),
+    dateRange: dateRangeUI(
+      'Applicant’s service start date',
+      'Applicant’s service end date',
       'Service start date must be after end date',
     ),
     dischargeType: {

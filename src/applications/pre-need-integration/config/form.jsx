@@ -8,9 +8,11 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import { useSelector } from 'react-redux';
 
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import * as applicantMilitaryHistory from './pages/applicantMilitaryHistory';
+import * as applicantMilitaryHistorySelf from './pages/applicantMilitaryHistorySelf';
+import * as applicantMilitaryHistoryPreparer from './pages/applicantMilitaryHistoryPreparer';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
 import * as applicantMilitaryNameInformation from './pages/applicantMilitaryNameInformation';
+import * as applicantMilitaryNameInformationPreparer from './pages/applicantMilitaryNameInformationPreparer';
 import * as sponsorMilitaryHistory from './pages/sponsorMilitaryHistory';
 import * as sponsorMilitaryName from './pages/sponsorMilitaryName';
 import * as sponsorMilitaryNameInformation from './pages/sponsorMilitaryNameInformation';
@@ -33,7 +35,8 @@ import * as preparerDetails from './pages/preparerDetails';
 import * as preparerContactDetails from './pages/preparerContactDetails';
 import * as applicantDemographics from './pages/applicantDemographics';
 import * as applicantDemographics2 from './pages/applicantDemographics2';
-import * as militaryDetails from './pages/militaryDetails';
+import * as militaryDetailsSelf from './pages/militaryDetailsSelf';
+import * as militaryDetailsPreparer from './pages/militaryDetailsPreparer';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 import * as burialCemetery from './pages/burialCemetery';
 
@@ -468,35 +471,75 @@ const formConfig = {
     militaryHistory: {
       title: 'Military history',
       pages: {
-        militaryDetails: {
-          path: 'applicant-military-details',
+        militaryDetailsSelf: {
+          path: 'military-details-self',
           title: 'Military details',
-          depends: isVeteran,
-          uiSchema: militaryDetails.uiSchema,
-          schema: militaryDetails.schema,
+          depends: formData =>
+            isVeteran(formData) && !isAuthorizedAgent(formData),
+          uiSchema: militaryDetailsSelf.uiSchema,
+          schema: militaryDetailsSelf.schema,
+        },
+        militaryDetailsPreparer: {
+          path: 'military-details-preparer',
+          title: 'Military details',
+          depends: formData =>
+            isVeteran(formData) && isAuthorizedAgent(formData),
+          uiSchema: militaryDetailsPreparer.uiSchema,
+          schema: militaryDetailsPreparer.schema,
         },
         // Two sets of military history pages dependent on
         // whether the applicant is the veteran or not.
         // If not, "Sponsor’s" precedes all the field labels.
-        applicantMilitaryHistory: {
+        applicantMilitaryHistorySelf: {
           title: 'Service period(s)',
           path: 'applicant-military-history',
-          depends: isVeteran,
-          uiSchema: applicantMilitaryHistory.uiSchema,
-          schema: applicantMilitaryHistory.schema,
+          depends: formData =>
+            isVeteran(formData) && !isAuthorizedAgent(formData),
+          uiSchema: applicantMilitaryHistorySelf.uiSchema,
+          schema: applicantMilitaryHistorySelf.schema,
         },
-        applicantMilitaryName: {
+        applicantMilitaryHistoryPreparer: {
+          title: 'Service period(s)',
+          path: 'applicant-military-history-preparer',
+          depends: formData =>
+            isVeteran(formData) && isAuthorizedAgent(formData),
+          uiSchema: applicantMilitaryHistoryPreparer.uiSchema,
+          schema: applicantMilitaryHistoryPreparer.schema,
+        },
+        applicantMilitaryNameSelf: {
           path: 'applicant-military-name',
-          depends: isVeteran,
-          uiSchema: applicantMilitaryName.uiSchema,
+          depends: formData =>
+            isVeteran(formData) && !isAuthorizedAgent(formData),
+          uiSchema: applicantMilitaryName.uiSchema(
+            'Did you serve under another name?',
+          ),
+          schema: applicantMilitaryName.schema,
+        },
+        applicantMilitaryNamePreparer: {
+          path: 'applicant-military-name-preparer',
+          depends: formData =>
+            isVeteran(formData) && isAuthorizedAgent(formData),
+          uiSchema: applicantMilitaryName.uiSchema(
+            'Did the applicant serve under another name?',
+          ),
           schema: applicantMilitaryName.schema,
         },
         applicantMilitaryNameInformation: {
           title: 'Previous name',
           path: 'applicant-military-name-information',
-          depends: formData => isVeteranAndHasServiceName(formData),
+          depends: formData =>
+            isVeteranAndHasServiceName(formData) &&
+            !isAuthorizedAgent(formData),
           uiSchema: applicantMilitaryNameInformation.uiSchema,
           schema: applicantMilitaryNameInformation.schema,
+        },
+        applicantMilitaryNameInformationPreparer: {
+          title: 'Previous name',
+          path: 'applicant-military-name-information-preparer',
+          depends: formData =>
+            isVeteranAndHasServiceName(formData) && isAuthorizedAgent(formData),
+          uiSchema: applicantMilitaryNameInformationPreparer.uiSchema,
+          schema: applicantMilitaryNameInformationPreparer.schema,
         },
         sponsorMilitaryHistory: {
           path: 'sponsor-military-history',

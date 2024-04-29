@@ -17,24 +17,24 @@ export const uiSchema = {
   application: {
     veteran: {
       'ui:description': (
-        <h3 className="vads-u-font-size--h5">Your Previous name</h3>
+        <h3 className="vads-u-font-size--h5">Applicant’s previous name</h3>
       ),
       serviceName: merge({}, nonRequiredFullNameUI, {
         first: {
-          'ui:title': 'Your previous first name',
+          'ui:title': 'Applicant’s previous first name',
           'ui:required': form =>
             get('application.veteran.view:hasServiceName', form) === true,
         },
         last: {
-          'ui:title': 'Your previous last name',
+          'ui:title': 'Applicant’s previous last name',
           'ui:required': form =>
             get('application.veteran.view:hasServiceName', form) === true,
         },
         middle: {
-          'ui:title': 'Your previous middle name',
+          'ui:title': 'Applicant’s previous middle name',
         },
         suffix: {
-          'ui:title': 'Your previous suffix',
+          'ui:title': 'Applicant’s previous suffix',
         },
       }),
     },

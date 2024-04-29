@@ -39,9 +39,9 @@ export const schema = {
               opt => !['I', 'D'].includes(opt),
             ),
             pick(veteran.properties, [
+              'militaryStatus',
               'militaryServiceNumber',
               'vaClaimNumber',
-              'militaryStatus',
             ]),
           ),
         },
