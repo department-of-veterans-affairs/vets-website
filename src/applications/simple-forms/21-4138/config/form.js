@@ -5,12 +5,22 @@ import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { TITLE, SUBTITLE, STATEMENT_TYPES } from './constants';
+import {
+  TITLE,
+  SUBTITLE,
+  STATEMENT_TYPES,
+  DECISION_REVIEW_TYPES,
+} from './constants';
 import { statementTypePage } from '../pages/statementType';
 import { layOrWitnessHandoffPage } from '../pages/layOrWitnessHandoff';
 import { decisionReviewPage } from '../pages/decisionReview';
 import { decisionReviewTypePage } from '../pages/decisionReviewType';
-import { noticeOfDisagreementHandoffPage } from '../pages/noticeOfDisagreementHandoff';
+import {
+  nodOldHandoffPage,
+  nodSupplementalHandoffPage,
+  nodHLRHandoffPage,
+  nodBAHandoffPage,
+} from '../pages/noticeOfDisagreementHandoff';
 import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
 import { identificationInformationPage } from '../pages/identificationInfo';
 import { mailingAddressPage } from '../pages/mailingAddress';
@@ -43,15 +53,15 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-4138',
-  saveInProgress: {
-    messages: {
-      inProgress:
-        'Your statement in support of a claim application (21-4138) is in progress.',
-      expired:
-        'Your saved statement in support of a claim application (21-4138) has expired. If you want to apply for statement in support of a claim, please start a new application.',
-      saved: 'Your statement in support of a claim application has been saved.',
-    },
-  },
+  // saveInProgress: {
+  //   messages: {
+  //     inProgress:
+  //       'Your statement in support of a claim application (21-4138) is in progress.',
+  //     expired:
+  //       'Your saved statement in support of a claim application (21-4138) has expired. If you want to apply for statement in support of a claim, please start a new application.',
+  //     saved: 'Your statement in support of a claim application has been saved.',
+  //   },
+  // },
   version: 0,
   prefillEnabled: true,
   hideUnauthedStartLink: true,
@@ -96,6 +106,15 @@ const formConfig = {
           schema: decisionReviewPage.schema,
           pageClass: 'decision-review',
         },
+        noticeOfDisagreementOldHandoffPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.DECISION_REVIEW, // && formData.decisionDate > 1.year.ago,
+          path: 'notice-of-disagreement-old-handoff',
+          title: 'What to know before you request a decision review',
+          uiSchema: nodOldHandoffPage.uiSchema,
+          schema: nodOldHandoffPage.schema,
+          pageClass: 'notice-of-disagreement-old-handoff',
+        },
         decisionReviewTypePage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW, // && formData.decisionDate <= 1.year.ago,
@@ -105,14 +124,38 @@ const formConfig = {
           schema: decisionReviewTypePage.schema,
           pageClass: 'decision-review-type',
         },
-        noticeOfDisagreementHandoffPage: {
+        noticeOfDisagreementSupplementalHandoffPage: {
           depends: formData =>
-            formData.statementType === STATEMENT_TYPES.DECISION_REVIEW, // && formData.decisionDate > 1.year.ago,
-          path: 'notice-of-disagreement-handoff',
+            formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
+            // && formData.decisionDate <= 1.year.ago,
+            formData.decisionReviewType === DECISION_REVIEW_TYPES.NEW_EVIDENCE,
+          path: 'notice-of-disagreement-supplemental-handoff',
           title: 'What to know before you request a decision review',
-          uiSchema: noticeOfDisagreementHandoffPage.uiSchema,
-          schema: noticeOfDisagreementHandoffPage.schema,
-          pageClass: 'notice-of-disagreement-handoff',
+          uiSchema: nodSupplementalHandoffPage.uiSchema,
+          schema: nodSupplementalHandoffPage.schema,
+          pageClass: 'notice-of-disagreement-supplemental-handoff',
+        },
+        noticeOfDisagreementHLRHandoffPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
+            // && formData.decisionDate <= 1.year.ago,
+            formData.decisionReviewType === DECISION_REVIEW_TYPES.ERROR_MADE,
+          path: 'notice-of-disagreement-hlr-handoff',
+          title: "There's a better way for you to ask for a decision review",
+          uiSchema: nodHLRHandoffPage.uiSchema,
+          schema: nodHLRHandoffPage.schema,
+          pageClass: 'notice-of-disagreement-hlr-handoff',
+        },
+        noticeOfDisagreementBAHandoffPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
+            // && formData.decisionDate <= 1.year.ago,
+            formData.decisionReviewType === DECISION_REVIEW_TYPES.BVA_REQUEST,
+          path: 'notice-of-disagreement-ba-handoff',
+          title: "There's a better way for you to ask for a decision review",
+          uiSchema: nodBAHandoffPage.uiSchema,
+          schema: nodBAHandoffPage.schema,
+          pageClass: 'notice-of-disagreement-ba-handoff',
         },
       },
     },
