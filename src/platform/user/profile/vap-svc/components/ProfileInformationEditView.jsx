@@ -340,14 +340,13 @@ export class ProfileInformationEditView extends Component {
                   </LoadingButton>
 
                   {!isLoading && (
-                    <button
+                    <va-button
                       data-testid="cancel-edit-button"
-                      type="button"
-                      className="usa-button-secondary small-screen:vads-u-margin-top--0 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--4 "
+                      secondary
+                      class="small-screen:vads-u-margin-top--0 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--4"
                       onClick={onCancel}
-                    >
-                      {cancelButtonText || 'Cancel'}
-                    </button>
+                      text={cancelButtonText || 'Cancel'}
+                    />
                   )}
                 </div>
               </ProfileInformationActionButtons>
