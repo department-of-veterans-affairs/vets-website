@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-import SecondaryNavItem from './MhvSecondaryNavItem';
+import MhvSecondaryNavItem from './MhvSecondaryNavItem';
 
 /**
  * MHV secondary navigation bar.
@@ -25,7 +25,7 @@ const MhvSecondaryNavMenu = ({ items }) => {
     const navContent = items.map(item => {
       const key = item.title.toLowerCase().replaceAll(' ', '_');
       return (
-        <SecondaryNavItem
+        <MhvSecondaryNavItem
           title={item.title}
           href={item.href}
           iconClass={item.iconClass}
@@ -48,7 +48,7 @@ const MhvSecondaryNavMenu = ({ items }) => {
 };
 
 MhvSecondaryNavMenu.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape(SecondaryNavItem.propTypes)),
+  items: PropTypes.arrayOf(PropTypes.shape(MhvSecondaryNavItem.propTypes)),
 };
 
 export default MhvSecondaryNavMenu;

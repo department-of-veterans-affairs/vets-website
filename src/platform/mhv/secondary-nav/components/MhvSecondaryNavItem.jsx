@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
  * @param isActive true if the nav item is to be shown as active
  * @returns a secondary nav item
  */
-const SecondaryNavItem = ({
+const MhvSecondaryNavItem = ({
   iconClass,
   href,
   title,
@@ -38,7 +38,7 @@ const SecondaryNavItem = ({
   );
 };
 
-SecondaryNavItem.propTypes = {
+MhvSecondaryNavItem.propTypes = {
   href: PropTypes.string.isRequired,
   iconClass: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
@@ -46,4 +46,4 @@ SecondaryNavItem.propTypes = {
   isActive: PropTypes.bool,
 };
 
-export default SecondaryNavItem;
+export default MhvSecondaryNavItem;
