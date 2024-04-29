@@ -42,6 +42,9 @@ const {
   PREV_APPLICATION_YEAR_2C,
   PREV_APPLICATION_TYPE_3A,
   PREV_APPLICATION_TYPE_3B,
+  PREV_APPLICATION_TYPE_1,
+  PREV_APPLICATION_TYPE_2,
+  PREV_APPLICATION_TYPE_4,
 } = RESPONSES;
 
 export const DISPLAY_CONDITIONS = Object.freeze({
@@ -152,19 +155,18 @@ export const DISPLAY_CONDITIONS = Object.freeze({
   },
   PRIOR_SERVICE: {
     FORK: {
+      //   0: {
+      //     SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+      //     DISCHARGE_YEAR: yearResponses,
+      //     DISCHARGE_MONTH: [],
+      //     REASON: [REASON_1, REASON_2, REASON_4, REASON_6, REASON_7, REASON_8],
+      //     PREV_APPLICATION: [PREV_APPLICATION_2],
+      //   },
       0: {
         SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
-        REASON: [
-          REASON_1,
-          REASON_2,
-          REASON_3,
-          REASON_4,
-          REASON_6,
-          REASON_7,
-          REASON_8,
-        ],
+        REASON: [REASON_3],
         DISCHARGE_TYPE: [DISCHARGE_TYPE_2],
         PREV_APPLICATION: [PREV_APPLICATION_2],
       },
@@ -172,28 +174,68 @@ export const DISPLAY_CONDITIONS = Object.freeze({
         SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
-        REASON: [
-          REASON_1,
-          REASON_2,
-          REASON_3,
-          REASON_4,
-          REASON_6,
-          REASON_7,
-          REASON_8,
-        ],
+        REASON: [REASON_1, REASON_2, REASON_4, REASON_6, REASON_7, REASON_8],
+        PREV_APPLICATION: [PREV_APPLICATION_2],
+      },
+      2: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
+        REASON: [REASON_3],
         DISCHARGE_TYPE: [DISCHARGE_TYPE_2],
+        PREV_APPLICATION: [PREV_APPLICATION_1],
         PREV_APPLICATION_YEAR: [
           PREV_APPLICATION_YEAR_1A,
           PREV_APPLICATION_YEAR_1B,
           PREV_APPLICATION_YEAR_1C,
         ],
       },
-      2: {
+      3: {
         SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
-        REASON: [REASON_1, REASON_2, REASON_3, REASON_4, REASON_6, REASON_7],
+        REASON: [REASON_1, REASON_2, REASON_4, REASON_6, REASON_7, REASON_8],
+        PREV_APPLICATION: [PREV_APPLICATION_1],
+        PREV_APPLICATION_YEAR: [
+          PREV_APPLICATION_YEAR_1A,
+          PREV_APPLICATION_YEAR_1B,
+          PREV_APPLICATION_YEAR_1C,
+        ],
+      },
+      4: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
+        REASON: [REASON_1, REASON_2, REASON_4, REASON_6, REASON_7],
+        PREV_APPLICATION: [PREV_APPLICATION_1],
+        PREV_APPLICATION_YEAR: [
+          PREV_APPLICATION_YEAR_1A,
+          PREV_APPLICATION_YEAR_1B,
+          PREV_APPLICATION_YEAR_1C,
+        ],
+        PREV_APPLICATION_TYPE: [
+          PREV_APPLICATION_TYPE_1,
+          PREV_APPLICATION_TYPE_2,
+          PREV_APPLICATION_TYPE_4,
+        ],
+      },
+      5: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
+        REASON: [REASON_3],
         DISCHARGE_TYPE: [DISCHARGE_TYPE_2],
+        PREV_APPLICATION: [PREV_APPLICATION_1],
+        PREV_APPLICATION_YEAR: [
+          PREV_APPLICATION_YEAR_1A,
+          PREV_APPLICATION_YEAR_1B,
+          PREV_APPLICATION_YEAR_1C,
+        ],
+        PREV_APPLICATION_TYPE: [
+          PREV_APPLICATION_TYPE_1,
+          PREV_APPLICATION_TYPE_2,
+          PREV_APPLICATION_TYPE_4,
+        ],
       },
     },
   },
@@ -203,5 +245,20 @@ export const DISPLAY_CONDITIONS = Object.freeze({
     INTENTION: [INTENTION_2],
     PREV_APPLICATION_TYPE: [PREV_APPLICATION_TYPE_3A, PREV_APPLICATION_TYPE_3B],
   },
-  REVIEW: [],
+  REVIEW: {
+    FORK: {
+      0: {
+        PREV_APPLICATION: [PREV_APPLICATION_2],
+        REASON: [
+          REASON_1,
+          REASON_2,
+          REASON_3,
+          REASON_4,
+          REASON_6,
+          REASON_7,
+          REASON_8,
+        ],
+      },
+    },
+  },
 });
