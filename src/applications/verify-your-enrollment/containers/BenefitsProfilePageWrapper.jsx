@@ -79,7 +79,7 @@ const BenefitsProfileWrapper = ({ children }) => {
             {children}
             <MoreInfoCard
               marginTop="7"
-              linkText="Mongomery GI Bill Enrollment Verification"
+              linkText="Montgomery GI Bill Enrollment Verification"
               relativeURL={VERIFICATION_RELATIVE_URL}
               URL={VERIFICATION_PROFILE_URL}
               className="vads-u-font-family--sans vads-u-font-weight--bold"

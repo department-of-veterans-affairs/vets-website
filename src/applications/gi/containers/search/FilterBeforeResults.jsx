@@ -18,10 +18,15 @@ import {
   addAllOption,
   createId,
   specializedMissionDefinitions,
+  sortedSpecializedMissionDefinitions,
   validateSearchTerm,
 } from '../../utils/helpers';
 import { showModal, filterChange, setError } from '../../actions';
-import { TABS, INSTITUTION_TYPES } from '../../constants';
+import {
+  TABS,
+  INSTITUTION_TYPES,
+  INSTITUTION_TYPES_DICTIONARY,
+} from '../../constants';
 import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
@@ -80,7 +85,7 @@ export function FilterBeforeResults({
   const [smfAccordionExpanded, setSmfAccordionExpanded] = useState(false);
   const [jumpLinkToggle, setJumpLinkToggle] = useState(0);
 
-  const smfDefinitions = specializedMissionDefinitions.map(smf => {
+  const smfDefinitions = sortedSpecializedMissionDefinitions().map(smf => {
     return (
       <div key={smf.key}>
         <h3>{smf.title}</h3>
@@ -205,7 +210,7 @@ export function FilterBeforeResults({
       return {
         name: type.toUpperCase(),
         checked: excludedSchoolTypes.includes(type.toUpperCase()),
-        optionLabel: type,
+        optionLabel: INSTITUTION_TYPES_DICTIONARY[type],
         dataTestId: `school-type-${type}`,
       };
     });
@@ -417,7 +422,7 @@ export function FilterBeforeResults({
         dataTestId: 'special-mission-relaffil',
         checked: specialMissionRelaffil,
         optionLabel: isProductionOrTestProdEnv()
-          ? 'Religiously affiliated institutions'
+          ? 'Religiously-affiliated institutions'
           : 'Religious affiliation',
       },
       {
@@ -470,6 +475,10 @@ export function FilterBeforeResults({
       },
     ];
 
+    const sortedOptions = options.sort((a, b) =>
+      a.optionLabel.localeCompare(b.optionLabel),
+    );
+
     return (
       <div className="community-focus-container">
         <h3
@@ -504,7 +513,7 @@ export function FilterBeforeResults({
               </h3>
             }
             onChange={onChangeCheckbox}
-            options={options}
+            options={sortedOptions}
             setIsCleared={setIsCleared}
             row={!smallScreen}
             colNum="4"

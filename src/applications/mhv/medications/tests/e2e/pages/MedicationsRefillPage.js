@@ -288,11 +288,51 @@ class MedicationsRefillPage {
     });
   };
 
+  clickRequestRefillButtonforSuccessfulRequests = (prescriptionId, success) => {
+    cy.intercept(
+      'PATCH',
+      `/my_health/v1/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`,
+      success,
+    );
+    cy.get('[data-testid="request-refill-button"]').should('exist');
+    cy.get('[data-testid="request-refill-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
   verifyFailedRequestMessageAlertOnRefillPage = () => {
     cy.get('[data-testid="failed-message-title"]').should('exist');
     cy.get('[data-testid="failed-message-title"]').should(
       'contain',
       'Request not submitted',
+    );
+  };
+
+  verifyErrorMessageWhenRefillRequestWithoutSelectingPrescription = () => {
+    cy.get('[data-testid="select-rx-error-message"]').should(
+      'contain',
+      'Select at least one prescription',
+    );
+  };
+
+  verifyRefillRequestSuccessConfirmationMessage = () => {
+    cy.get('[data-testid="success-message-title"]').should(
+      'contain',
+      'Refills requested',
+    );
+  };
+
+  verifyMedicationRefillRequested = refillName => {
+    cy.get('[data-testid="medication-requested"]').should(
+      'contain',
+      refillName,
+    );
+  };
+
+  verifyNoMedicationsAvailableMessageOnRefillPage = () => {
+    cy.get('[data-testid="no-refills-message"]').should(
+      'contain',
+      'You don’t have any VA prescriptions with refills',
     );
   };
 }

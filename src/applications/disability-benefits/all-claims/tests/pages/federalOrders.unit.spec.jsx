@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
+import { add, format } from 'date-fns';
 import sinon from 'sinon';
 import {
   DefinitionTester,
@@ -9,6 +10,9 @@ import {
 } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
+
+const formatDate = date => format(date, 'yyyy-MM-dd');
+const daysFromToday = days => formatDate(add(new Date(), { days }));
 
 describe('Federal orders info', () => {
   const {
@@ -113,6 +117,45 @@ describe('Federal orders info', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
+  it('should fail to submit when activation date is in the future', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        appStateData={{
+          servicePeriods: [
+            { serviceBranch: 'Reserves', dateRange: { from: '2008-03-12' } },
+          ],
+        }}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    selectRadio(
+      form,
+      'root_serviceInformation_reservesNationalGuardService_view:isTitle10Activated',
+      'Y',
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_reservesNationalGuardService_title10Activation_title10ActivationDate',
+      daysFromToday(10),
+    );
+    fillDate(
+      form,
+      'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
+      daysFromToday(20),
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
   it('should fail to submit when separation date is before activation', () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -139,16 +182,12 @@ describe('Federal orders info', () => {
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_title10ActivationDate',
-      moment()
-        .add(100, 'days')
-        .format('YYYY-MM-DD'),
+      daysFromToday(-10),
     );
     fillDate(
       form,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
-      moment()
-        .add(90, 'days')
-        .format('YYYY-MM-DD'),
+      daysFromToday(-20),
     );
 
     form.find('form').simulate('submit');

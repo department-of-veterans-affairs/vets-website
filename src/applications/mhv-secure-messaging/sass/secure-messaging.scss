@@ -198,7 +198,7 @@ va-modal va-radio {
       padding-left: 12px;
       span {
         margin: auto;
-        .attachment-name-text{
+        .attachment-name-text {
           overflow-wrap: anywhere;
         }
       }
@@ -307,4 +307,10 @@ va-loading-indicator {
       width: auto;
     }
   }
+}
+
+.continue-button {
+  max-width: 242px;
+  border-radius: 4px;
+  font-size: 16.96px;
 }

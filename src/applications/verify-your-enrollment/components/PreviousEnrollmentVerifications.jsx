@@ -135,6 +135,10 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
     <div>
       <>
         <h2>Your monthly enrollment verifications</h2>
+        <p>
+          Verifications are processed on the business day after submission.
+          Payment is projected to be deposited within 3-5 business days.
+        </p>
         <va-additional-info
           trigger="What if I notice an error with my enrollment information?"
           class="vads-u-margin-bottom--2"
