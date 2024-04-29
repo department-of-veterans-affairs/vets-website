@@ -1,17 +1,29 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .arp-header {
-  .user-nav {
+  .va-header-logo-wrapper {
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 36px;
-    width: 88px;
-    margin-left: 1rem;
+  }
 
-    .sign-in-link {
+  .user-nav {
+    .loading-icon-container {
+      color: var(--vads-color-white);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+    }
+
+    .icon {
+      width: 26px;
+      height: 24px;
+    }
+
+    .user-dropdown-email {
+      margin-left: 4px;
       display: block;
-      width: 88px;
+      max-width: 120px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -31,6 +43,14 @@
       width: 320px;
     }
 
+    .user-nav {
+      margin-left: 1rem;
+
+      .user-dropdown-email {
+        max-width: 64px;
+      }
+    }
+
     @media (min-width: $medium-screen) {
       display: none !important;
     }
@@ -43,12 +63,21 @@
       display: block;
 
       .arp-logo {
-        width: 496px;
+        width: 480px;
       }
 
       .vet-toolbar {
         display: flex;
-        flex-basis: 198px;
+        justify-content: flex-end;
+        flex: 0 1 30rem;
+
+        .user-nav {
+          margin-inline: 1rem;
+
+          .loading-icon-container {
+            width: 88px;
+          }
+        }
       }
 
       .va-header-logo-menu {
