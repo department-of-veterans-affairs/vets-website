@@ -124,7 +124,7 @@ export function includeTeraInformation(formData) {
  */
 export function includeGulfWarServiceDates(formData) {
   const { gulfWarService } = formData;
-  return teraInformationEnabled(formData) && gulfWarService;
+  return includeTeraInformation(formData) && gulfWarService;
 }
 
 /**
@@ -137,7 +137,7 @@ export function includeGulfWarServiceDates(formData) {
 export function includeOtherExposureDates(formData) {
   const { 'view:otherToxicExposures': otherToxicExposures = {} } = formData;
   const exposures = Object.values(otherToxicExposures);
-  return teraInformationEnabled(formData) && exposures.some(o => o);
+  return includeTeraInformation(formData) && exposures.some(o => o);
 }
 
 /**
@@ -149,7 +149,7 @@ export function includeOtherExposureDates(formData) {
  */
 export function includeOtherExposureDetails(formData) {
   return (
-    teraInformationEnabled(formData) &&
+    includeTeraInformation(formData) &&
     formData['view:otherToxicExposures']?.exposureToOther
   );
 }
