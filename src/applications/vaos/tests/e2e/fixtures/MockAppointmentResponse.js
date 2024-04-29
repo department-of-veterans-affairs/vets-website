@@ -45,15 +45,14 @@ export default class MockAppointmentResponse {
   } = {}) {
     const requestedPeriods = [];
     let timestamp = moment();
-    // let timestamp = moment().utc();
 
     if (localStartTime && localStartTime instanceof moment)
       timestamp = localStartTime;
 
     if (status === APPOINTMENT_STATUS.proposed) {
       requestedPeriods.push({
-        start: timestamp.utc().format('YYYY-MM-DDTHH:mm:ss.000Z'),
-        end: timestamp.utc().format('YYYY-MM-DDTHH:mm:ss.000Z'),
+        start: timestamp.format('YYYY-MM-DDTHH:mm:ss.000Z'),
+        end: timestamp.format('YYYY-MM-DDTHH:mm:ss.000Z'),
       });
     }
 
