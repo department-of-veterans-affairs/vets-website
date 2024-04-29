@@ -1,0 +1,118 @@
+name: Build and Tag main branch
+
+on:
+  workflow_run:
+    workflows: [Continuous Integration]
+    types: [completed]
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false 
+
+env:
+  BUILD_ENV: vagovprod
+  COMMIT_SHA: ${{ github.event.workflow_run.head_sha }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          ref: ${{ env.COMMIT_SHA }}
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Build
+        run: yarn build --verbose --buildtype=${{ env.BUILD_ENV }}
+        timeout-minutes: 30
+
+      - name: Generate build details
+        run: |
+          cat > build/${{ env.BUILD_ENV }}/BUILD.txt << EOF
+          BUILDTYPE=${{ env.BUILD_ENV }}
+          NODE_ENV=production
+          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          CHANGE_TARGET=null
+          RUN_ID=${{ github.run_id }}
+          RUN_NUMBER=${{ github.run_number }}
+          REF=${{ env.COMMIT_SHA }}
+          BUILDTIME=$(date +%s)
+          EOF
+
+      - name: Compress and archive build
+        run: tar -C build/${{ env.BUILD_ENV }} -cjf ${{ env.BUILD_ENV }}.tar.bz2 .
+
+
+      - name: Configure AWS credentials (1)
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get AWS IAM role
+        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+
+      - name: Upload build
+        run: aws s3 cp ${{ env.BUILD_ENV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2 --acl public-read --region us-gov-west-1
+  
+  tag-commit:
+      name: Tag Commit
+      needs: [build]
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+          with:
+            fetch-depth: 0
+  
+        - name: Configure AWS Credentials
+          uses: ./.github/workflows/configure-aws-credentials
+          with:
+            aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws_region: us-gov-west-1
+  
+        - name: Get bot token from Parameter Store
+          uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+          with:
+            ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+            env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+  
+        - name: Get latest tag
+          id: get-latest-tag
+          run: echo LATEST_TAG_VERSION=$(git describe --tags --abbrev=0) >> $GITHUB_OUTPUT
+  
+        - name: Get next tag version
+          id: bump-tag-version
+          uses: WyriHaximus/github-action-next-semvers@v1
+          with:
+            version: ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}
+  
+        - name: Create tag
+          run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ github.sha }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }} 

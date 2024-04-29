@@ -101,7 +101,7 @@ const responses = {
             profileShowProofOfVeteranStatus: true,
             profileShowQuickSubmitNotificationSetting: true,
             profileUseExperimental: true,
-            profileShowDirectDepositSingleForm: false,
+            profileShowDirectDepositSingleForm: true,
             profileShowDirectDepositSingleFormUAT: false,
             profileShowDirectDepositSingleFormAlert: true,
             profileShowDirectDepositSingleFormEduDowntime: true,
