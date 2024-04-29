@@ -29,6 +29,12 @@ const ALLOW_LIST =
       )
     : [];
 
+console.log('CHANGED_FILE_PATHS', CHANGED_FILE_PATHS);
+console.log('IS_CHANGED_APPS_BUILD', IS_CHANGED_APPS_BUILD);
+console.log('RUN_FULL_SUITE', RUN_FULL_SUITE);
+console.log('APPS_HAVE_URLS', APPS_HAVE_URLS);
+console.log('ALLOW_LIST', ALLOW_LIST);
+
 function getImports(filePath) {
   return findImports(filePath, {
     absoluteImports: true,
