@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import UserNav from '../../../../../components/common/Header/common/UserNav';
@@ -22,16 +22,18 @@ describe('UserNav mobile', () => {
     expect(signInLink.getAttribute('href')).to.eq(SIGN_IN_URL.toString());
   });
 
-  it('renders with first and last name when has profile', () => {
+  it('renders with first name when has profile', () => {
     const profile = { firstName: 'First', lastName: 'Last' };
     const { getByTestId } = getUserNavMobile(false, profile);
-    const signOutLink = getByTestId('user-nav-sign-out-link');
 
-    expect(signOutLink.textContent).to.eq(
-      `${profile.firstName} ${profile.lastName}`,
+    expect(getByTestId('user-nav-user-name').textContent).to.eq(
+      profile.firstName,
       expect,
     );
-    expect(signOutLink.getAttribute('href')).to.eq(SIGN_OUT_URL.toString());
+    fireEvent.click(getByTestId('user-nav-dropdown-panel-button'));
+    expect(getByTestId('user-nav-sign-out-link').getAttribute('href')).to.eq(
+      SIGN_OUT_URL.toString(),
+    );
   });
 });
 
@@ -55,12 +57,14 @@ describe('UserNav wider than mobile', () => {
   it('renders with first and last name when has profile', () => {
     const profile = { firstName: 'First', lastName: 'Last' };
     const { getByTestId } = getUserNavWider(false, profile);
-    const signOutLink = getByTestId('user-nav-sign-out-link');
 
-    expect(signOutLink.textContent).to.eq(
+    expect(getByTestId('user-nav-user-name').textContent).to.eq(
       `${profile.firstName} ${profile.lastName}`,
       expect,
     );
-    expect(signOutLink.getAttribute('href')).to.eq(SIGN_OUT_URL.toString());
+    fireEvent.click(getByTestId('user-nav-dropdown-panel-button'));
+    expect(getByTestId('user-nav-sign-out-link').getAttribute('href')).to.eq(
+      SIGN_OUT_URL.toString(),
+    );
   });
 });
