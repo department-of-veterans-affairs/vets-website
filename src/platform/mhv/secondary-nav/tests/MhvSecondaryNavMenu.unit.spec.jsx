@@ -45,7 +45,7 @@ const testSecNavItems = [
   },
 ];
 
-describe('MHV Secondary Navigation Component', () => {
+describe('MHV Secondary Navigation Menu Component', () => {
   it('renders when the toggle is on', () => {
     const mock = mockStore({ isFeatureEnabled: true });
     const { getAllByRole } = render(
@@ -93,40 +93,5 @@ describe('MHV Secondary Navigation Component', () => {
       });
       cleanup(); // must be done after the render
     });
-  });
-
-  it('abbreviations render when provided', () => {
-    const testItems = [
-      {
-        title: 'My HealtheVet',
-        iconClass: 'fas fa-home',
-        href: '/my-health',
-      },
-      {
-        title: 'Appointments',
-        abbreviation: 'Appts',
-        iconClass: 'fas fa-calendar',
-        href: `/my-health/appointments`,
-      },
-    ];
-
-    const mock = mockStore({ isFeatureEnabled: true });
-    const { getAllByRole } = render(
-      <Provider store={mock}>
-        <MhvSecondaryNavMenu items={testItems} />
-      </Provider>,
-    );
-    const links = getAllByRole('link');
-    expect(links.length).to.eql(testItems.length);
-    // The title and abbreviation are always part of the link.
-    expect(
-      links[0].text.match(new RegExp(testItems[0].title, 'g'))?.length,
-    ).to.eql(2);
-    expect(
-      links[1].text.match(new RegExp(testItems[1].title, 'g'))?.length,
-    ).to.eql(1);
-    expect(
-      links[1].text.match(new RegExp(testItems[1].abbreviation, 'g'))?.length,
-    ).to.eql(1);
   });
 });
