@@ -10,6 +10,7 @@ import {
   validateField,
   createNoDescriptionText,
   createVAPharmacyText,
+  fromToNumbs,
 } from '../../util/helpers';
 
 describe('Date Format function', () => {
@@ -148,5 +149,19 @@ describe('createNoDescriptionText', () => {
     it('should create a string even if no phone number provided', () => {
       expect(createVAPharmacyText()).to.eq('your VA pharmacy');
     });
+  });
+});
+
+describe('fromToNumbs', () => {
+  it('should return [0, 0]', () => {
+    const numbers = fromToNumbs(1, 0, [], 1);
+    expect(numbers[0]).to.eq(0);
+    expect(numbers[1]).to.eq(0);
+  });
+
+  it('should return [1, 2]', () => {
+    const numbers = fromToNumbs(1, 2, [1, 2], 2);
+    expect(numbers[0]).to.eq(1);
+    expect(numbers[1]).to.eq(2);
   });
 });
