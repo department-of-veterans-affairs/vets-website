@@ -4,16 +4,13 @@ import { useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import manifest from '../manifest.json';
-import { getFacilityPageV2Info } from '../new-appointment/redux/selectors';
 import { getUrlLabel } from '../new-appointment/newAppointmentFlow';
 import { getCovidUrlLabel } from '../covid-19-vaccine/flow';
 
 export default function VAOSBreadcrumbs({ children }) {
   const location = useLocation();
   // get boolean if single va location
-  const { singleValidVALocation } = useSelector(state =>
-    getFacilityPageV2Info(state),
-  );
+
   const [breadcrumb, setBreadcrumb] = useState([]);
 
   const label = useSelector(state => getUrlLabel(state, location));
@@ -70,12 +67,7 @@ export default function VAOSBreadcrumbs({ children }) {
         },
       ];
     }
-    if (singleValidVALocation && breadcrumb === 'Choose a VA location') {
-      return [
-        ...BREADCRUMB_BASE,
-        { href: window.location.href, label: 'Your appointment location' },
-      ];
-    }
+
     return [
       ...BREADCRUMB_BASE,
       {
