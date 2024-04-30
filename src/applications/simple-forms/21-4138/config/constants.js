@@ -715,3 +715,64 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
     </div>
   </div>,
 );
+
+export const VRE_REQUEST_HANDOFF = Object.freeze(
+  <div>
+    <p>
+      Based on your answer, you should request support with VA Form 28-10212.
+    </p>
+    <h2 className="vads-u-font-size--h3">What kind of requests can I make?</h2>
+    <p>
+      Use VA Form 28-10212 to make requests like these related to VR&E (Chapter
+      31):
+    </p>
+    <ul>
+      <li>Request supplies or equipment to support your training</li>
+      <li>Request a revolving fund loan</li>
+      <li>Explain an issue or concern about your training</li>
+      <li>Withdraw your application for VR&E (Chapter 31) benefits</li>
+      <li>Reduce or withdraw from training</li>
+      <li>Discontinue your participation in the program and close your case</li>
+      <li>Submit another type of request not listed herec</li>
+    </ul>
+    <div className="vads-u-margin-left--1">
+      <a
+        href="https://www.vba.va.gov/pubs/forms/vba-28-10212-are.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="vads-u-display--flex vads-u-align-items--baseline"
+      >
+        <va-icon
+          size={4}
+          icon="file_download"
+          className="vads-u-margin-right--1"
+        />
+        Download VA Form 28-10212
+      </a>
+    </div>
+    <div className="vads-u-margin-y--4">
+      <a
+        href="/careers-employment/vocational-rehabilitation"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Learn more about the VR&E program (Chapter 31) (opens in a new tab)
+      </a>
+    </div>
+    <va-omb-info
+      res-burden={10}
+      omb-number="2900-0882"
+      exp-date="02/29/2024"
+      style={{
+        margin: '10px 0',
+      }}
+    />
+    <div className="vads-u-margin-y--4">
+      If you’d like to use VA Form 21-4138 for your statement without selecting
+      an answer here, you can{' '}
+      <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
+        go to VA Form 21-4138 now.
+      </a>
+    </div>
+  </div>,
+);
