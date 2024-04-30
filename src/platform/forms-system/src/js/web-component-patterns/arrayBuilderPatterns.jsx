@@ -175,7 +175,9 @@ export const arrayBuilderYesNoUI = (
       updateUiSchema: formData => {
         return formData?.[arrayPath]?.length
           ? {
-              'ui:title': `Do you have another ${nounSingular} to add?`,
+              'ui:title':
+                yesNoOptionsMore?.title ||
+                `Do you have another ${nounSingular} to add?`,
               'ui:options': {
                 labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
                 hint:

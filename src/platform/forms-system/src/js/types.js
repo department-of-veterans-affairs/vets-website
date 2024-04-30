@@ -370,6 +370,7 @@
 /**
  * @typedef {{
  *   alertItemUpdated?: (props: ArrayBuilderTextProps) => string,
+ *   alertItemRemoved?: (props: ArrayBuilderTextProps) => string,
  *   alertMaxItems?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddDescription?: (props: ArrayBuilderTextProps) => string,
@@ -393,6 +394,7 @@
  *   removeYes?: (props: ArrayBuilderTextProps) => string,
  *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
+ *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
  * }} ArrayBuilderText
  */
 
