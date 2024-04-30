@@ -7,6 +7,7 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
 import {
   createTransaction,
   refreshTransaction,
@@ -250,9 +251,7 @@ export class ProfileInformationEditView extends Component {
       return;
     }
 
-    const focusableElement = this.editForm?.querySelector(
-      'button, input, select, a, textarea',
-    );
+    const focusableElement = getFocusableElements(this.editForm)?.[0];
 
     if (focusableElement) {
       setTimeout(() => focusElement(focusableElement), 100);
