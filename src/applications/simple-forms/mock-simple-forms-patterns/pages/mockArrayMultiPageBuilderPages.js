@@ -4,13 +4,11 @@ import {
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-} from '../arrayBuilder/components/arrayBuilderPatterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
 /** @type {ArrayBuilderOptions} */
 export const employersOptions = {

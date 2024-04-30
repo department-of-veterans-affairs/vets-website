@@ -7,10 +7,12 @@ import { goBackLink, noDatesEntered } from '../../content/toxicExposure';
 describe('toxicExposureSummary', () => {
   it('renders when a location has no dates', () => {
     const formData = {
-      gulfWar1990: {
-        afghanistan: true,
+      toxicExposure: {
+        gulfWar1990: {
+          afghanistan: true,
+        },
+        gulfWar1990Details: {},
       },
-      gulfWar1990Locations: {},
     };
 
     const tree = render(
@@ -18,7 +20,7 @@ describe('toxicExposureSummary', () => {
         { formData },
         'gulfWar1990',
         GULF_WAR_1990_LOCATIONS,
-        'gulfWar1990Locations',
+        'gulfWar1990Details',
         'go back and edit locations and dates for service after August 2, 1990',
         `${TE_URL_PREFIX}/gulf-war-hazard-1990`,
       ),
@@ -37,13 +39,15 @@ describe('toxicExposureSummary', () => {
 
   it('renders when a location has both dates', () => {
     const formData = {
-      gulfWar1990: {
-        waters: true,
-      },
-      gulfWar1990Locations: {
-        waters: {
-          startDate: '2000-01-01',
-          endDate: '2004-01-01',
+      toxicExposure: {
+        gulfWar1990: {
+          waters: true,
+        },
+        gulfWar1990Details: {
+          waters: {
+            startDate: '2000-01-01',
+            endDate: '2004-01-01',
+          },
         },
       },
     };
@@ -53,7 +57,7 @@ describe('toxicExposureSummary', () => {
         { formData },
         'gulfWar1990',
         GULF_WAR_1990_LOCATIONS,
-        'gulfWar1990Locations',
+        'gulfWar1990Details',
         'go back and edit locations and dates for service after August 2, 1990',
         `${TE_URL_PREFIX}/gulf-war-hazard-1990`,
       ),
@@ -66,23 +70,25 @@ describe('toxicExposureSummary', () => {
 
   it('renders when multiple locations with various date range situations', () => {
     const formData = {
-      gulfWar1990: {
-        afghanistan: true,
-        airspace: true,
-        qatar: true,
-        waters: true,
-      },
-      gulfWar1990Locations: {
-        airspace: {
-          startDate: '2023-10-01',
+      toxicExposure: {
+        gulfWar1990: {
+          afghanistan: true,
+          airspace: true,
+          qatar: true,
+          waters: true,
         },
-        afghanistan: {},
-        qatar: {
-          endDate: '2023-09-05',
-        },
-        waters: {
-          startDate: '2000-01-01',
-          endDate: '2004-01-01',
+        gulfWar1990Details: {
+          airspace: {
+            startDate: '2023-10-01',
+          },
+          afghanistan: {},
+          qatar: {
+            endDate: '2023-09-05',
+          },
+          waters: {
+            startDate: '2000-01-01',
+            endDate: '2004-01-01',
+          },
         },
       },
     };
@@ -92,7 +98,7 @@ describe('toxicExposureSummary', () => {
         { formData },
         'gulfWar1990',
         GULF_WAR_1990_LOCATIONS,
-        'gulfWar1990Locations',
+        'gulfWar1990Details',
         'go back and edit locations and dates for service after August 2, 1990',
         `${TE_URL_PREFIX}/gulf-war-hazard-1990`,
       ),
@@ -114,17 +120,19 @@ describe('toxicExposureSummary', () => {
 
   it('does not render a location if not checked', () => {
     const formData = {
-      gulfWar1990: {
-        airspace: false,
-        waters: true,
-      },
-      gulfWar1990Locations: {
-        airspace: {
-          startDate: '2023-10-01',
+      toxicExposure: {
+        gulfWar1990: {
+          airspace: false,
+          waters: true,
         },
-        waters: {
-          startDate: '2000-01-01',
-          endDate: '2004-01-01',
+        gulfWar1990Details: {
+          airspace: {
+            startDate: '2023-10-01',
+          },
+          waters: {
+            startDate: '2000-01-01',
+            endDate: '2004-01-01',
+          },
         },
       },
     };
@@ -134,7 +142,7 @@ describe('toxicExposureSummary', () => {
         { formData },
         'gulfWar1990',
         GULF_WAR_1990_LOCATIONS,
-        'gulfWar1990Locations',
+        'gulfWar1990Details',
         'go back and edit locations and dates for service after August 2, 1990',
         `${TE_URL_PREFIX}/gulf-war-hazard-1990`,
       ),

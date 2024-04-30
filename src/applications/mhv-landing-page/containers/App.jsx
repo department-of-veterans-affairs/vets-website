@@ -14,7 +14,6 @@ import {
   isAuthenticatedWithSSOe,
   isLoggedIn,
   selectProfile,
-  selectVamcEhrData,
   signInServiceEnabled,
   hasHealthData,
   selectHasMHVAccountState,
@@ -25,7 +24,6 @@ const App = () => {
   const { featureToggles, user } = useSelector(state => state);
   const [unreadMessageCount, setUnreadMessageCount] = useState();
   const loggedIn = useSelector(isLoggedIn);
-  const vamcEhrData = useSelector(selectVamcEhrData);
   const profile = useSelector(selectProfile);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
@@ -69,8 +67,7 @@ const App = () => {
   };
   useDatadogRum(datadogRumConfig);
 
-  const loading =
-    vamcEhrData.loading || featureToggles.loading || profile.loading;
+  const loading = featureToggles.loading || profile.loading;
 
   useEffect(
     () => {

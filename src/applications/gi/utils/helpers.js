@@ -262,9 +262,6 @@ export const isSmallScreen = () => {
   const portrait = isPortrait();
   const smallScreen = isSmallScreenLogic();
   const browserZoomLevel = Math.round(window.devicePixelRatio * 100);
-  if (environment.isProduction()) {
-    return smallScreen && browserZoomLevel <= 150;
-  }
   return (smallScreen && portrait) || (smallScreen && browserZoomLevel <= 150);
 };
 
