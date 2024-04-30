@@ -7,15 +7,14 @@ import formConfig from '../../config/form';
 import {
   gaBankInfoHelpText,
   validateRoutingNumber,
-} from '../../content/directDeposit';
+} from '../../content/directDepositUpdate';
 
-describe('Edu 5490 personalInformation directDeposit', () => {
+describe('Edu 5490 personalInformation directDepositUpdate', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.personalInformation.pages.directDeposit;
   it('should render', () => {
-    global.window.buildType = true;
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
     );
@@ -26,9 +25,8 @@ describe('Edu 5490 personalInformation directDeposit', () => {
   });
 });
 
-describe('Edu 5490 directDeposit', () => {
+describe('Edu 5490 directDepositUpdate', () => {
   it('should execute validateRoutingNumber', () => {
-    global.window.buildType = true;
     const errors = {
       addError: (pattern = undefined) => {
         let result;
@@ -63,7 +61,6 @@ describe('Edu 5490 directDeposit', () => {
     );
   });
   it('should execute gaBankInfoHelpText', () => {
-    global.window.buildType = true;
     gaBankInfoHelpText();
   });
 });
