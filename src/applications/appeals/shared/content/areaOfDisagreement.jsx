@@ -11,7 +11,7 @@ import { parseDate } from '../utils/dates';
 
 export const errorMessages = {
   maxOtherEntry: max => `This field should be less than ${max} characters`,
-  missingDisagreement: 'You must choose or enter a reason for disagreement',
+  missingDisagreement: 'You must select or enter a reason for disagreement',
 };
 
 export const content = {
