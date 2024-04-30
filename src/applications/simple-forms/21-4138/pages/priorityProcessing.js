@@ -8,7 +8,8 @@ import VaTextareaField from '~/platform/forms-system/src/js/web-component-fields
 import {
   LIVING_SITUATIONS,
   ADDITIONAL_INFO_OTHER_HOUSING_RISKS,
-  PRIORITY_PROCESSING_OTHER_REASONS,
+  OTHER_REASONS_REQUIRED,
+  OTHER_REASONS_OPTIONAL,
   PRIORITY_PROCESSING_NOT_QUALIFIED,
   PRIORITY_PROCESSING_QUALIFIED,
 } from '../config/constants';
@@ -115,7 +116,7 @@ export const ppOtherReasonsOptionalPage = {
       title: 'Are any of these descriptions true for you?',
       hint: 'If not, select continue',
       required: false,
-      labels: PRIORITY_PROCESSING_OTHER_REASONS,
+      labels: OTHER_REASONS_OPTIONAL,
       labelHeaderLevel: '1',
       tile: false,
     }),
@@ -123,9 +124,7 @@ export const ppOtherReasonsOptionalPage = {
   schema: {
     type: 'object',
     properties: {
-      otherReasons: checkboxGroupSchema(
-        Object.keys(PRIORITY_PROCESSING_OTHER_REASONS),
-      ),
+      otherReasons: checkboxGroupSchema(Object.keys(OTHER_REASONS_OPTIONAL)),
     },
   },
 };
@@ -137,7 +136,7 @@ export const ppOtherReasonsRequiredPage = {
       title: 'Which of these descriptions is true for you?',
       hint: 'Select all that apply.',
       required: true,
-      labels: PRIORITY_PROCESSING_OTHER_REASONS,
+      labels: OTHER_REASONS_REQUIRED,
       labelHeaderLevel: '1',
       tile: false,
       errorMessages: {
@@ -148,9 +147,7 @@ export const ppOtherReasonsRequiredPage = {
   schema: {
     type: 'object',
     properties: {
-      otherReasons: checkboxGroupSchema(
-        Object.keys(PRIORITY_PROCESSING_OTHER_REASONS),
-      ),
+      otherReasons: checkboxGroupSchema(Object.keys(OTHER_REASONS_REQUIRED)),
     },
     required: ['otherReasons'],
   },

@@ -11,6 +11,7 @@ import {
   STATEMENT_TYPES,
   DECISION_REVIEW_TYPES,
   LIVING_SITUATIONS,
+  OTHER_REASONS_REQUIRED,
 } from './constants';
 import { statementTypePage } from '../pages/statementType';
 import { layOrWitnessHandoffPage } from '../pages/layOrWitnessHandoff';
@@ -23,7 +24,7 @@ import {
   nodSupplementalHandoffPage,
   nodHLRHandoffPage,
   nodBAHandoffPage,
-} from '../pages/noticeOfDisagreementHandoff';
+} from '../pages/noticeOfDisagreement';
 import {
   ppIntroPage,
   ppLivingSituationPage,
@@ -33,6 +34,7 @@ import {
   ppNotQualifiedPage,
   ppQualifiedHandoffPage,
 } from '../pages/priorityProcessing';
+import { recordsRequestHandoffPage } from '../pages/recordsRequest';
 import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
 import { identificationInformationPage } from '../pages/identificationInfo';
 import { mailingAddressPage } from '../pages/mailingAddress';
@@ -220,7 +222,9 @@ const formConfig = {
         },
         priorityProcessingNotQualifiedPage: {
           depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING, // &&
+            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
+            (formData.livingSituation === LIVING_SITUATIONS.NONE &&
+              formData.otherReasons === OTHER_REASONS_REQUIRED.NONE),
           path: 'priority-processing-not-qualified',
           title: 'You may not qualify for priority processing',
           uiSchema: ppNotQualifiedPage.uiSchema,
@@ -229,12 +233,24 @@ const formConfig = {
         },
         priorityProcessingQualifiedHandoffPage: {
           depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING, // &&
+            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
+            (formData.livingSituation !== LIVING_SITUATIONS.NONE ||
+              (formData.livingSituation === LIVING_SITUATIONS.NONE &&
+                formData.otherReasons !== OTHER_REASONS_REQUIRED.NONE)),
           path: 'priority-processing-qualified-handoff',
           title: "There's a better way to request priority processing",
           uiSchema: ppQualifiedHandoffPage.uiSchema,
           schema: ppQualifiedHandoffPage.schema,
           pageClass: 'priority-processing-qualified-handoff',
+        },
+        recordsRequestHandoffPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.PERSONAL_RECORDS,
+          path: 'records-request-handoff',
+          title: "There's a better way to request your personal records",
+          uiSchema: recordsRequestHandoffPage.uiSchema,
+          schema: recordsRequestHandoffPage.schema,
+          pageClass: 'records-request-handoff',
         },
       },
     },

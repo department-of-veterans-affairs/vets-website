@@ -300,7 +300,7 @@ export const nodBAHandoffPage = {
           >
             <a
               className="vads-c-action-link--white"
-              href="/decision-reviews/supplemental-claim/file-supplemental-claim-form-20-0995/start"
+              href="/decision-reviews/board-appeal/request-board-appeal-form-10182/introduction"
             >
               Request a Board Appeal online
             </a>
@@ -311,7 +311,7 @@ export const nodBAHandoffPage = {
             }}
           >
             <a
-              href="/decision-reviews/higher-level-review/"
+              href="/decision-reviews/board-appeal/"
               target="_blank"
               rel="noopener noreferrer"
             >

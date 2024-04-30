@@ -94,7 +94,21 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
   </va-additional-info>,
 );
 
-export const PRIORITY_PROCESSING_OTHER_REASONS = Object.freeze({
+export const OTHER_REASONS_REQUIRED = Object.freeze({
+  FINANCIAL_HARDSHIP:
+    'I’m experiencing extreme financial hardship (such as loss of your job or sudden decrease in income).',
+  ALS:
+    'I have ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
+  TERMINAL_ILLNESS: 'I have a terminal illness.',
+  VSI_SI:
+    'I have a status from the Defense Department of Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI).',
+  OVER_85: 'I’m age 85 or older.',
+  FORMER_POW: 'I’m a former prisoner of war (POW).',
+  MEDAL_AWARD: 'I’m a Medal of Honor or Purple Heart award recipient.',
+  NONE: 'None of these situations apply to me.',
+});
+
+export const OTHER_REASONS_OPTIONAL = Object.freeze({
   FINANCIAL_HARDSHIP:
     'I’m experiencing extreme financial hardship (such as loss of your job or sudden decrease in income).',
   ALS:
@@ -126,7 +140,7 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
       Based on your responses, you may qualify for priority processing. The next
       step is for you to complete a priority processing request.
     </va-alert>
-    <h2>How to request priority processing</h2>
+    <h2 className="vads-u-font-size--h3">How to request priority processing</h2>
     <p>
       We may need supporting documents based on the situation. If you don’t have
       supporting documents, you can still submit your request. But we’ll process
@@ -147,19 +161,21 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
         Start your request
       </a>
     </div>
-    <h2>Types of evidence to submit</h2>
+    <h2 className="vads-u-font-size--h3">Types of evidence to submit</h2>
     <p>You can submit any of these types of evidence.</p>
     <p>
       <strong>Note:</strong> Please don’t send original documents. Send copies
       instead.
     </p>
-    <h3>For extreme financial hardship</h3>
+    <h3 className="vads-u-font-size--h4">For extreme financial hardship</h3>
     <ul>
       <li>Eviction or foreclosure notice</li>
       <li>Notices of past-due utility bills</li>
       <li>Collection notices from creditors</li>
     </ul>
-    <h3>For ALS or other terminal illnesses</h3>
+    <h3 className="vads-u-font-size--h4">
+      For ALS or other terminal illnesses
+    </h3>
     <ul>
       <li>Medical evidence and diagnosis</li>
     </ul>
@@ -176,28 +192,30 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
       Submit an authorization online to release non-VA medical information to us
       (opens in new tab)
     </a>
-    <h3>
+    <h3 className="vads-u-font-size--h4">
       For Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI)
     </h3>
     <ul>
       <li>Military personnel records, such as a determination from the DOD</li>
       <li>Medical evidence showing severe disability or injury</li>
     </ul>
-    <h3>For former prisoners or war</h3>
+    <h3 className="vads-u-font-size--h4">For former prisoners or war</h3>
     <ul>
       <li>Military personnel records, such as DD214</li>
       <li>Service number and branch and dates of service</li>
       <li>Dates and location of internment</li>
       <li>Detaining power or other relevant information</li>
     </ul>
-    <h3>For Medal of Honor or Purple Heart award recipients</h3>
+    <h3 className="vads-u-font-size--h4">
+      For Medal of Honor or Purple Heart award recipients
+    </h3>
     <ul>
       <li>Military personnel records, such as DD214</li>
       <li>
         Information showing receipt of Medal of Honor or Purple Heart award
       </li>
     </ul>
-    <h2>How to submit supporting evidence</h2>
+    <h2 className="vads-u-font-size--h3">How to submit supporting evidence</h2>
     <ul>
       <li>
         You can upload your documents online as you complete this form. This
@@ -260,5 +278,98 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
         margin: '10px 0',
       }}
     />
+  </div>,
+);
+
+export const RECORDS_REQUEST_HANDOFF = Object.freeze(
+  <div>
+    <p>
+      Based on your answer, you should request your personal records with VA
+      Form 20-10206, Freedom of Information Act (FOIA) or Privacy Act (PA)
+      Request.
+    </p>
+    <h2 className="vads-u-font-size--h3">
+      What to know before you request your personal records
+    </h2>
+    <p>
+      You must be a U.S. citizen or a legal permanent resident to access your
+      records under the Privacy Act (PA).
+    </p>
+    <p>
+      You can only use this online form to request only your own personal
+      records. If you’re a third-party representative or power of attorney
+      requesting records for someone else, you can’t submit this online form.
+      You’ll need to submit a FOIA request online using the Public Access Link
+      (PAL).
+    </p>
+    <p>
+      <a href="https://vapal.efoia-host.com/app/RequestsandFees.aspx">
+        Request records online through a FOIA request.
+      </a>{' '}
+      You’ll need to have proper authorization on record for your request to be
+      processed.
+    </p>
+    <h2 className="vads-u-font-size--h3">
+      Types of information you can request
+    </h2>
+    <p>You can request any of these kinds of personal records:</p>
+    <p>
+      <strong>Your compensation and pension records</strong>
+    </p>
+    <ul>
+      <li>
+        Certificate of Release or Discharge from Active Duty (DD Form 214)
+      </li>
+      <li>Claims file (C-file)</li>
+      <li>Disability examinations (C&P exams)</li>
+      <li>Official military personnel file (OMPF)</li>
+      <li>Pension benefit documents</li>
+      <li>Service or military treatment</li>
+      <li>Other compensation and pension records</li>
+    </ul>
+    <p>
+      <strong>Your benefit records</strong>
+    </p>
+    <ul>
+      <li>Education benefit</li>
+      <li>Fiduciary services</li>
+      <li>Financial records</li>
+      <li>Home loan benefit</li>
+      <li>Life insurance benefit</li>
+      <li>Vocational rehabilitation and employment</li>
+      <li>Other benefit record</li>
+    </ul>
+    <div
+      className="usa-button-primary"
+      style={{
+        padding: '10px',
+      }}
+    >
+      <a
+        className="vads-c-action-link--white"
+        href="/records/request-personal-records-form-20-10206/introduction"
+      >
+        Start your request
+      </a>
+    </div>
+    <va-omb-info
+      res-burden={5}
+      omb-number="2900-0736"
+      exp-date="02/28/2026"
+      style={{
+        margin: '10px 0',
+      }}
+    />
+    <div
+      style={{
+        margin: '10px 0',
+      }}
+    >
+      If you’d like to use VA Form 21-4138 for your statement without selecting
+      an answer here, you can{' '}
+      <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
+        go to VA Form 21-4138 now.
+      </a>
+    </div>
   </div>,
 );
