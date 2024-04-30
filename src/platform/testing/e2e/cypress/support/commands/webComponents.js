@@ -14,6 +14,8 @@ Cypress.Commands.add('fillVaTextInput', (field, value) => {
       .find('input')
       .as('currentElement');
 
+    cy.get('@currentElement').click();
+
     cy.get('@currentElement').clear(DELAY_OPTION);
 
     cy.get('@currentElement').type(strValue, FORCE_OPTION);
