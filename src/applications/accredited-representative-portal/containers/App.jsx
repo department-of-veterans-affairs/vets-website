@@ -19,6 +19,10 @@ function App() {
     TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
   );
 
+  const isInPilot = useToggleValue(
+    TOGGLE_NAMES.accreditedRepresentativePortalPilot,
+  );
+
   const toggleIsLoading = useToggleLoadingValue();
 
   if (toggleIsLoading) {
@@ -31,6 +35,17 @@ function App() {
 
   if (!appEnabled && environment.isProduction()) {
     return document.location.replace('/');
+  }
+
+  if (!isInPilot && environment.isProduction()) {
+    return (
+      <div className="vads-u-margin-x--3">
+        <h1>
+          Accredited Representative Portal is currently in pilot and not
+          available to all users.
+        </h1>
+      </div>
+    );
   }
 
   return (
