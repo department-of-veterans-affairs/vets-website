@@ -163,13 +163,6 @@ export const DISPLAY_CONDITIONS = Object.freeze({
   },
   PRIOR_SERVICE: {
     FORK: {
-      //   0: {
-      //     SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
-      //     DISCHARGE_YEAR: yearResponses,
-      //     DISCHARGE_MONTH: [],
-      //     REASON: [REASON_1, REASON_2, REASON_4, REASON_6, REASON_7, REASON_8],
-      //     PREV_APPLICATION: [PREV_APPLICATION_2],
-      //   },
       0: {
         SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
         DISCHARGE_YEAR: yearResponses,
