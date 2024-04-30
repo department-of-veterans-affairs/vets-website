@@ -1,4 +1,6 @@
 import React from 'react';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+
 import {
   BASE_URL,
   REVIEW_ENROLLMENTS_URL,
@@ -9,16 +11,19 @@ import {
 } from '../constants';
 
 export default function EnrollmentVerificationBreadcrumbs() {
-  const breadcrumbs = [
-    <a href="/" key="home">
-      Home
-    </a>,
-    <a href="/education/" key="education-and-training">
-      Education and training
-    </a>,
-    <a href={BASE_URL} key="enrollment-history">
-      Verify your school enrollments for GI Bill benefits
-    </a>,
+  const breadcrumbsArray = [
+    {
+      href: '/',
+      label: 'Home',
+    },
+    {
+      href: '/education/',
+      label: 'Education and Training',
+    },
+    {
+      href: `${BASE_URL}`,
+      label: 'Verify your school enrollments for GI Bill benefits',
+    },
   ];
 
   // Get the last non-empty segment of the URL.
@@ -32,11 +37,10 @@ export default function EnrollmentVerificationBreadcrumbs() {
       page,
     )
   ) {
-    breadcrumbs.push(
-      <a href={REVIEW_ENROLLMENTS_URL} key="review-enrollments">
-        Post-9/11 GI Bill enrollment verifications
-      </a>,
-    );
+    breadcrumbsArray.push({
+      href: `${REVIEW_ENROLLMENTS_URL}`,
+      label: 'Post-9/11 GI Bill enrollment verifications',
+    });
   }
 
   if (
@@ -45,12 +49,19 @@ export default function EnrollmentVerificationBreadcrumbs() {
       VERIFY_ENROLLMENTS_ERROR_URL_SEGMENT,
     ].includes(page)
   ) {
-    breadcrumbs.push(
-      <a href={VERIFY_ENROLLMENTS_RELATIVE_URL} key="verify-enrollments">
-        Verify your enrollments
-      </a>,
-    );
+    breadcrumbsArray.push({
+      href: `${VERIFY_ENROLLMENTS_RELATIVE_URL}`,
+      label: 'Verify your enrollments',
+    });
   }
 
-  return <va-breadcrumbs uswds="false">{breadcrumbs}</va-breadcrumbs>;
+  return (
+    <>
+      <VaBreadcrumbs
+        class="bread-crumb-margin"
+        breadcrumbList={[...breadcrumbsArray]}
+        label="Breadcrumb"
+      />
+    </>
+  );
 }
