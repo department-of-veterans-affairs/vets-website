@@ -35,6 +35,7 @@ import {
   ppQualifiedHandoffPage,
 } from '../pages/priorityProcessing';
 import { recordsRequestHandoffPage } from '../pages/recordsRequest';
+import { newEvidenceHandoffPage } from '../pages/newEvidence';
 import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
 import { identificationInformationPage } from '../pages/identificationInfo';
 import { mailingAddressPage } from '../pages/mailingAddress';
@@ -251,6 +252,15 @@ const formConfig = {
           uiSchema: recordsRequestHandoffPage.uiSchema,
           schema: recordsRequestHandoffPage.schema,
           pageClass: 'records-request-handoff',
+        },
+        newEvidenceHandoffPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.NEW_EVIDENCE,
+          path: 'new-evidence-handoff',
+          title: "There's a better way to submit new evidence",
+          uiSchema: newEvidenceHandoffPage.uiSchema,
+          schema: newEvidenceHandoffPage.schema,
+          pageClass: 'new-evidence-handoff',
         },
       },
     },
