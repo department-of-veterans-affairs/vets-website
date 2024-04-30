@@ -18,7 +18,6 @@ import {
   benefitsDisclaimerSpouse,
   relationshipAndChildTypeLabels,
   transform,
-  isProductionOfTestProdEnv,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
@@ -29,7 +28,7 @@ import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 
 import contactInformationPage from '../../pages/contactInformation';
-import createDirectDepositPage5490 from '../content/directDeposit';
+// import createDirectDepositPage5490 from '../content/directDeposit';
 import applicantInformationUpdate from '../components/applicantInformationUpdate';
 import GuardianInformation from '../components/GuardianInformation';
 import applicantServicePage from '../../pages/applicantService';
@@ -646,6 +645,7 @@ const formConfig = {
           fullSchema5490,
           'relativeAddress',
         ),
+        directDeposit: createDirectDepositPageUpdate(),
       },
     },
     GuardianInformation: {
@@ -656,10 +656,10 @@ const formConfig = {
     },
   },
 };
-if (isProductionOfTestProdEnv()) {
-  formConfig.chapters.personalInformation.pages.directDeposit = createDirectDepositPage5490();
-} else {
-  formConfig.chapters.personalInformation.pages.directDeposit = createDirectDepositPageUpdate();
-}
+// if (isProductionOfTestProdEnv()) {
+//   formConfig.chapters.personalInformation.pages.directDeposit = createDirectDepositPage5490();
+// } else {
+//   formConfig.chapters.personalInformation.pages.directDeposit = createDirectDepositPageUpdate();
+// }
 
 export default formConfig;
