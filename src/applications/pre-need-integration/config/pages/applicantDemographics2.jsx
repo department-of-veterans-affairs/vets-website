@@ -1,4 +1,5 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 import { merge, pick } from 'lodash';
 
@@ -29,6 +30,29 @@ export function uiSchema(
       veteran: merge({}, veteranUI, {
         ethnicity: { 'ui:title': ethnicityTitle },
         race: { 'ui:title': raceTitle },
+        raceComment: {
+          'ui:title': 'Additional Information on Race',
+          'ui:webComponentField': VaTextInputField,
+          'ui:options': {
+            expandUnder: 'race',
+            expandUnderCondition: false,
+            // expandedContentFocus: false,
+          },
+          'ui:errorMessages': {
+            required: "This field is required when 'Other' is selected.",
+          },
+        },
+        'ui:options': {
+          updateSchema: (formData, formSchema) => {
+            if (formSchema.properties.raceComment['ui:collapsed']) {
+              return { ...formSchema, required: ['race'] };
+            }
+            return {
+              ...formSchema,
+              required: ['race', 'raceComment'],
+            };
+          },
+        },
       }),
     },
   };
@@ -47,7 +71,16 @@ export const schema = {
         veteran: {
           type: 'object',
           required: ['ethnicity', 'race'],
-          properties: pick(veteran.properties, ['ethnicity', 'race']),
+          properties: merge(
+            {},
+            pick(veteran.properties, ['ethnicity', 'race']),
+            {
+              raceComment: {
+                type: 'string',
+                maxLength: 100,
+              },
+            },
+          ),
         },
       },
     },
