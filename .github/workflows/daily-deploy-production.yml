@@ -64,8 +64,7 @@ jobs:
         run: echo 'RELEASE_WAIT=${{ github.event.inputs.release_wait }}' >> $GITHUB_ENV
 
       - name: Get commit sha (latest commit)
-        # if: ${{ github.event.schedule != '' || (github.event_name == 'workflow_dispatch' && github.event.inputs.commit_sha == '') }}
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event.schedule != '' || (github.event_name == 'workflow_dispatch' && github.event.inputs.commit_sha == '') }}
         run: echo 'COMMIT_SHA=$(git rev-list -n 1 ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }})' >> $GITHUB_ENV
 
       - name: Get commit sha (workflow_dispatch)
