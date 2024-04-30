@@ -113,12 +113,6 @@ export default function createDirectDepositPage() {
               pattern: 'Please enter a valid 9 digit routing number',
             },
           },
-          'view:bankInfoHelpText': {
-            'ui:description': bankInfoHelpText,
-            'ui:options': {
-              hideOnReview: true,
-            },
-          },
         },
       ),
     },
