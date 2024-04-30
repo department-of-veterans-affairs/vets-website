@@ -1,5 +1,6 @@
 // Relative imports.
 import backendServices from '~/platform/user/profile/constants/backendServices';
+import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { getAppUrl } from '~/platform/utilities/registry-helpers';
 import { MHV_ACCOUNT_TYPES } from './constants';
@@ -152,7 +153,7 @@ export const ctaWidgetsLookup = {
     mhvToolName: null,
     requiredServices: null,
     serviceDescription: 'order hearing aid batteries and accessories online',
-    featureToggle: 'haCpapSuppliesCta',
+    featureToggle: featureFlagNames.haCpapSuppliesCta,
   },
   [CTA_WIDGET_TYPES.HEALTH_RECORDS]: {
     id: CTA_WIDGET_TYPES.HEALTH_RECORDS,

@@ -861,7 +861,6 @@ describe('<CallToActionWidget>', () => {
     });
 
     it('renders nothing when feature disabled', () => {
-      const originalContent = <div id="og-content" />;
       const tree = mount(
         <CallToActionWidget
           appId={CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES}
@@ -878,7 +877,6 @@ describe('<CallToActionWidget>', () => {
             loading: false,
             haCpapSuppliesCta: false,
           }}
-          originalContent={originalContent}
         />,
       );
 
