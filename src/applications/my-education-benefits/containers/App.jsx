@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
@@ -404,13 +404,27 @@ export const App = ({
 
   return (
     <>
-      <va-breadcrumbs uswds="false">
-        <a href="/">Home</a>
-        <a href="/education">Education and training</a>
-        <a href="/education/apply-for-benefits-form-22-1990">
-          Apply for education benefits
-        </a>
-      </va-breadcrumbs>
+      <VaBreadcrumbs
+        class="bread-crumb-margin"
+        label="Breadcrumbs"
+        wrapping
+        uswds
+        breadcrumbList={[
+          {
+            href: '/',
+            label: 'Home',
+          },
+          {
+            href: '/education',
+            label: 'Education and training',
+          },
+          {
+            href: '/education/apply-for-benefits-form-22-1990',
+            label: 'Apply for education benefits',
+          },
+        ]}
+      />
+
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
