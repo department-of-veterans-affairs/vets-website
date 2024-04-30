@@ -11,7 +11,7 @@ import {
   makeTEConditionsSchema,
   makeTEConditionsUISchema,
   showCheckboxLoopDetailsPage,
-  showGulfWar1990SummaryPage,
+  showSummaryPage,
   showToxicExposurePages,
   validateTEConditions,
 } from '../../content/toxicExposure';
@@ -557,7 +557,7 @@ describe('toxicExposure', () => {
     });
   });
 
-  describe('showGulfWar1990SummaryPage', () => {
+  describe('showSummaryPage', () => {
     describe('toggle disabled', () => {
       it('should return false when toggle not enabled', () => {
         const formData = {
@@ -581,7 +581,7 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
       });
     });
 
@@ -595,7 +595,7 @@ describe('toxicExposure', () => {
           newDisabilities: [],
         };
 
-        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
       });
 
       it('should return false when toggle enabled, claiming new disability, but no selected locations', () => {
@@ -619,7 +619,7 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
       });
 
       it('should return true when all criteria met', () => {
@@ -644,7 +644,7 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(showGulfWar1990SummaryPage(formData)).to.be.true;
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.true;
       });
     });
   });

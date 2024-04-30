@@ -323,17 +323,18 @@ export function showCheckboxLoopDetailsPage(
 }
 
 /**
- * Checks if the 1990 summary page should display. It should display if all the following are true
+ * Checks if the a checkbox and loop's summary page should display. It should display if all the following
+ * are true
  * 1. TE pages should be showing at all
- * 2. at least one 1990 location was selected
+ * 2. at least one checkbox item was selected
  * @param {object} formData - full form data
  * @returns {boolean} true if the page should display, false otherwise
  */
-export function showGulfWar1990SummaryPage(formData) {
+export function showSummaryPage(formData, checkboxObjectName) {
   return (
     isClaimingTECondition(formData) &&
-    formData?.toxicExposure?.gulfWar1990 &&
-    Object.values(formData?.toxicExposure?.gulfWar1990).filter(
+    formData?.toxicExposure[checkboxObjectName] &&
+    Object.values(formData.toxicExposure[checkboxObjectName]).filter(
       value => value === true,
     ).length > 0
   );
