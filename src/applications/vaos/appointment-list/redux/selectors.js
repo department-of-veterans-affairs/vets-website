@@ -734,11 +734,11 @@ export function selectModalityIcon(appointment) {
 
   let icon = 'fa-blank';
 
-  if (isInPerson || isVideoAtlas || isVideoClinic) icon = 'fa-building';
-  if (isVideoHome || isVideoVADevice) icon = 'fa-video';
+  if (isInPerson || isVideoAtlas || isVideoClinic) icon = 'location_city';
+  if (isVideoHome || isVideoVADevice) icon = 'videocam';
 
-  if (isPhone) icon = 'fa-phone-alt';
-  if (isCommunityCare) icon = 'fa-blank';
+  if (isPhone) icon = 'phone';
+  if (isCommunityCare) icon = '';
 
   return icon;
 }
