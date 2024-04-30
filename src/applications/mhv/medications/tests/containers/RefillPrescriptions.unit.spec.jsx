@@ -186,6 +186,29 @@ describe('Refill Prescriptions Component', () => {
     button.click();
   });
 
+  it('Checks for error message when refilling with 0 meds selected and 1 available', async () => {
+    const screen = setup(initialState, [prescriptions[0]]);
+    const button = await screen.findByTestId('request-refill-button');
+    button.click();
+    const error = await screen.findByTestId('select-one-rx-error');
+    expect(error).to.exist;
+    const focusEl = document.activeElement;
+    expect(focusEl).to.have.property(
+      'id',
+      `checkbox-${prescriptions[0].prescriptionId}`,
+    );
+  });
+
+  it('Checks for error message when refilling with 0 meds selected and many available', async () => {
+    const screen = setup();
+    const button = await screen.findByTestId('request-refill-button');
+    button.click();
+    const error = await screen.findByTestId('select-one-rx-error');
+    expect(error).to.exist;
+    const focusEl = document.activeElement;
+    expect(focusEl).to.have.property('id', 'select-all-checkbox');
+  });
+
   it('Shows h1 and note if no prescriptions are refillable', async () => {
     const screen = setup(initialState, []);
     const title = await screen.findByTestId('refill-page-title');
