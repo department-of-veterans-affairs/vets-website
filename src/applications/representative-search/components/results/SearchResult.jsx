@@ -177,7 +177,7 @@ const SearchResult = ({
                     <>
                       <p>{org}</p>
                       {index < associatedOrgs.length - 1 ? (
-                        <br style={{ lineHeight: '1rem' }} />
+                        <br style={{ lineHeight: '0.625rem' }} />
                       ) : null}
                     </>
                   );

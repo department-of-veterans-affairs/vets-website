@@ -1572,7 +1572,11 @@ const formConfig = {
             'view:activeDutyNotice': {
               'ui:description': (
                 <div className="meb-alert meb-alert--mini meb-alert--warning">
-                  <i aria-hidden="true" role="img" />
+                  <va-icon
+                    size={4}
+                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                    aria-hidden="true"
+                  />
                   <p className="meb-alert_body">
                     <span className="sr-only">Alert:</span> If you give up the
                     Montgomery GI Bill Active Duty, you’ll get Post-9/11 GI Bill
@@ -1750,7 +1754,7 @@ const formConfig = {
                 <>
                   <img
                     key="check-image-src"
-                    style={{ marginTop: '1rem' }}
+                    style={{ marginTop: '0.625rem' }}
                     src={checkImageSrc}
                     alt="Example of a check showing where the account and routing numbers are"
                   />
@@ -1858,7 +1862,7 @@ const formConfig = {
                 >
                   <img
                     key="check-image-src"
-                    style={{ marginTop: '1rem' }}
+                    style={{ marginTop: '0.625rem' }}
                     src={checkImageSrc}
                     alt="Example of a check showing where the account and routing numbers are"
                   />
