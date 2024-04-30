@@ -3,6 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
 import { replaceRefSchemas } from 'platform/forms-system/src/js/state/helpers';
 
+import { fillDateWebComponentPattern } from './index';
 import formConfig from '../../../config/form';
 
 export const shouldIncludePage = (page, data, index) =>
@@ -106,14 +107,20 @@ export const fillSelectByTyping = (str, handleFailure, attempt = 0) => {
     });
 };
 
-export const fillDate = fieldData => {
+export const fillDate = (fieldData, path) => {
   const dateSegments = fieldData.split('-').map(e => e.trim());
   const monthString = new Date(fieldData).toLocaleString('en-US', {
     month: 'long',
     timeZone: 'UTC',
   });
   fillSelectByTyping(monthString, str => {
-    throw new Error(`Failed to enter ${str} in 'fillDate'`);
+    // Sometimes CI can take over a minute to press each key,
+    // which causes the <select /> to timeout between keypresses,
+    // resulting in the selection failing.
+    // We must fall back to fillDateWebComponentPattern,
+    // which doesn't use the keyboard for selects.
+    cy.log(`Failed to enter ${str} in 'fillDate'. Using fallback.`);
+    return fillDateWebComponentPattern(path, fieldData);
   });
   cy.realPress('Tab', { pressDelay: 0 });
   typeEachChar(parseInt(dateSegments[2], 10));
@@ -153,7 +160,7 @@ export const fillField = ({
 
   if (path.includes('dateOfMarriage') || path.includes('dateOfSeparation')) {
     tabToElementByPath(path, 'Month');
-    fillDate(fieldData);
+    fillDate(fieldData, path.join('_'));
     return;
   }
 
@@ -194,7 +201,7 @@ export const fillField = ({
       throw new Error(`Failed to enter ${str} in 'VaSelectField'`);
     });
   } else if (type === 'VaMemorableDateField') {
-    fillDate(fieldData);
+    fillDate(fieldData, path.join('_'));
   } else if (type === 'YesNoField' || type === 'yesNo') {
     cy.chooseRadio(fieldData ? 'Y' : 'N');
   } else if (type === 'YesNoField-reverse' || type === 'yesNo-reverse') {
