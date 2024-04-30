@@ -18,7 +18,6 @@ import {
   sortByDateAscending,
   sortUpcoming,
   groupAppointmentsByMonth,
-  isCanceledConfirmed,
   isUpcomingAppointment,
   sortByCreatedDateDescending,
   isPendingOrCancelledRequest,
@@ -143,24 +142,6 @@ export const selectPastAppointments = createSelector(
   },
 );
 
-export const selectCanceledAppointments = createSelector(
-  // Selecting pending here to pull in EC requests
-  state => state.appointments.pending,
-  state => state.appointments.confirmed,
-  (pending, confirmed) => {
-    if (!confirmed || !pending) {
-      return null;
-    }
-
-    const sortedAppointments = confirmed
-      .concat(pending)
-      .filter(isCanceledConfirmed)
-      .sort(sortByDateDescending);
-
-    return groupAppointmentsByMonth(sortedAppointments);
-  },
-);
-
 /*
  * V2 Past appointments state selectors
  */
@@ -262,6 +243,10 @@ export function selectRequestedAppointmentDetails(state, id) {
   const typeOfCareName = typeOfCare?.name;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const typeOfVisit = appointment?.requestVisitType;
+  const facilityPhone =
+    appointment?.vaos.apiData.extension?.clinic?.phoneNumber ||
+    facility?.telecom?.find(tele => tele.system === 'covid')?.value ||
+    facility?.telecom?.find(tele => tele.system === 'phone')?.value;
 
   return {
     appointment,
@@ -272,6 +257,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     email,
     facility,
     facilityData,
+    facilityPhone,
     isCC,
     isCCRequest,
     isCanceled,
@@ -284,16 +270,6 @@ export function selectRequestedAppointmentDetails(state, id) {
     typeOfCareName,
     typeOfCareText,
     typeOfVisit,
-  };
-}
-
-export function getCanceledAppointmentListInfo(state) {
-  return {
-    appointmentsByMonth: selectCanceledAppointments(state),
-    facilityData: state.appointments.facilityData,
-    futureStatus: selectFutureStatus(state),
-    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showScheduleButton: selectFeatureRequests(state),
   };
 }
 
@@ -317,17 +293,107 @@ export function getUpcomingAppointmentListInfo(state) {
   };
 }
 
+export function selectComment(appointment) {
+  if (!appointment) return '';
+
+  if (appointment.version === 2) {
+    return appointment.comment ? appointment.comment : 'none';
+  }
+
+  const { comment } = appointment;
+  if (appointment.vaos.isCommunityCare) {
+    return comment || 'none';
+  }
+  return appointment.reason && comment
+    ? `${appointment.reason}: ${comment}`
+    : comment || (appointment.reason ? appointment.reason : null);
+}
+
+export function selectProviderTelecom(appointment, system) {
+  return appointment?.communityCareProvider?.telecom.find(
+    t => t.system === system,
+  )?.value;
+}
+export function selectProvider(appointment) {
+  const { address, providerName, treatmentSpecialty } =
+    appointment?.communityCareProvider || {};
+  const phone = selectProviderTelecom(appointment, 'phone');
+
+  return {
+    address,
+    phone,
+    providerName,
+    treatmentSpecialty,
+  };
+}
+
+export function selectTypeOfCareName(appointment) {
+  if (!appointment) return '';
+
+  const { name } =
+    getTypeOfCareById(appointment.vaos.apiData?.serviceType) || '';
+  const serviceCategoryName =
+    appointment.vaos.apiData?.serviceCategory?.[0]?.text || {};
+  if (serviceCategoryName === COMP_AND_PEN) {
+    const { displayName } = getTypeOfCareById(serviceCategoryName);
+    return displayName;
+  }
+  return name;
+}
+
 export function getConfirmedAppointmentDetailsInfo(state, id) {
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
+  const appointment = selectAppointmentById(state, id);
   const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
     state,
   );
+
+  const comment = selectComment(appointment);
+  const isCommunityCare = appointment?.vaos?.isCommunityCare;
+  const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
+
+  const isVideo = appointment?.vaos?.isVideo;
+  const isVA = !isVideo && !isCommunityCare;
+
+  const locationId = getVAAppointmentLocationId(appointment);
+
+  const { appointmentDetailsStatus, facilityData } = state.appointments;
+  const facility = facilityData?.[locationId];
+
+  const phone = getPatientTelecom(appointment, 'phone');
+  const provider = selectProvider(appointment);
+  const startDate = moment.parseZone(appointment?.start);
+  const status = appointment?.status;
+  const typeOfCareName = selectTypeOfCareName(appointment);
+  const clinicName = appointment?.location?.clinicName;
+  const facilityPhone =
+    appointment?.vaos?.apiData?.extension?.clinic?.phoneNumber ||
+    facility?.telecom?.find(tele => tele.system === 'covid')?.value ||
+    facility?.telecom?.find(tele => tele.system === 'phone')?.value;
+
+  const clinicPhysicalLocation = appointment?.location?.clinicPhysicalLocation;
+  const duration = appointment?.minutesDuration;
+
   return {
-    appointment: selectAppointmentById(state, id),
+    appointment,
     appointmentDetailsStatus,
+    appointmentTypePrefix,
     cancelInfo: getCancelInfo(state),
+    clinicName,
+    clinicPhysicalLocation,
+    comment,
+    duration,
+    facility,
     facilityData,
+    facilityPhone,
+    isCommunityCare,
+    isVA,
+    isVideo,
+    phone,
+    provider,
     showCancelButton: selectFeatureCancel(state),
+    startDate,
+    status,
+    typeOfCareName,
     useV2: featureVAOSServiceVAAppointments,
   };
 }
@@ -391,18 +457,6 @@ export function selectIsPhone(appointment) {
 
 export function selectIsVideo(appointment) {
   return appointment.vaos.isVideo;
-}
-
-export function selectTypeOfCareName(appointment) {
-  const { name } =
-    getTypeOfCareById(appointment.vaos.apiData?.serviceType) || {};
-  const serviceCategoryName =
-    appointment.vaos.apiData?.serviceCategory?.[0]?.text || {};
-  if (serviceCategoryName === COMP_AND_PEN) {
-    const { displayName } = getTypeOfCareById(serviceCategoryName);
-    return displayName;
-  }
-  return name;
 }
 
 export function selectIsInPerson(appointment) {
@@ -658,4 +712,8 @@ export function selectModalityIcon(appointment) {
   if (isCommunityCare) icon = 'fa-blank';
 
   return icon;
+}
+
+export function selectAppointmentType(appointment) {
+  return appointment?.vaos.appointmentType;
 }

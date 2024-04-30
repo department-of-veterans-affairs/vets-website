@@ -14,11 +14,26 @@ export const VeteranCrisisLine = props => (
         recordEvent({ event: 'nav-jumplink-click' });
       }}
     >
-      Talk to the <strong>Veterans Crisis Line</strong> now
-      <i
+      <span>
+        Talk to the <strong>Veterans Crisis Line</strong> now
+      </span>
+      {/* right caret icon */}
+      {/* Convert to va-icon when injected header/footer split is in prod: https://github.com/department-of-veterans-affairs/vets-website/pull/27590 */}
+      <svg
         aria-hidden="true"
-        className="fa fa-chevron-right vads-u-margin-left--1"
-      />
+        className="vads-u-margin-left--1"
+        focusable="false"
+        width="16"
+        viewBox="7 1 17 17"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fill="#fff"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M9.99997 6L8.58997 7.41L13.17 12L8.58997 16.59L9.99997 18L16 12L9.99997 6Z"
+        />
+      </svg>
     </button>
   </div>
 );
