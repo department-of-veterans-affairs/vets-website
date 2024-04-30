@@ -1,6 +1,7 @@
 import React from 'react';
 
-export const missingHearingTypeErrorMessage = 'Choose a conference type';
+export const missingHearingTypeErrorMessage =
+  'You must choose a conference type';
 
 export const hearingTypeTitle =
   'What type of hearing would you like to request?';
