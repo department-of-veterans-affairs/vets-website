@@ -999,6 +999,28 @@ export const preparerVeteranUI = {
   },
 };
 
+// Placeholder hints for the current dateRange, delete this and .scss code
+// If date is converted to Memorable Date field. It has a built in hint prop.
+const startDateHeaderSelf = (
+  <div>
+    <p className="dateRangeLabel">Service start date</p>
+    <p className="dateRangeHint">
+      Enter 2 digits for the month and day and 4 digits for the year.
+    </p>
+  </div>
+);
+
+// Placeholder hints for the current dateRange, delete this and .scss code
+// If date is converted to Memorable Date field. It has a built in hint prop.
+const endDateHeaderSelf = (
+  <div>
+    <p className="dateRangeLabel">Service end date</p>
+    <p className="dateRangeHint">
+      Enter 2 digits for the month and day and 4 digits for the year.
+    </p>
+  </div>
+);
+
 export const selfServiceRecordsUI = {
   'ui:title': 'Your service period(s)',
   'ui:options': {
@@ -1024,8 +1046,8 @@ export const selfServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      'Service start date',
-      'Service end date',
+      startDateHeaderSelf,
+      endDateHeaderSelf,
       'Service start date must be after end date',
     ),
     dischargeType: {
@@ -1057,6 +1079,27 @@ export const selfServiceRecordsUI = {
   },
 };
 
+// Placeholder hints for the current dateRange, delete this and .scss code
+// If date is converted to Memorable Date field. It has a built in hint prop.
+const startDateHeaderPreparer = (
+  <div>
+    <p className="dateRangeLabel">Applicant’s service start date</p>
+    <p className="dateRangeHint">
+      Enter 2 digits for the month and day and 4 digits for the year.
+    </p>
+  </div>
+);
+
+// Placeholder hints for the current dateRange, delete this and .scss code
+// If date is converted to Memorable Date field. It has a built in hint prop.
+const endDateHeaderPreparer = (
+  <div>
+    <p className="dateRangeLabel">Applicant’s service end date</p>
+    <p className="dateRangeHint">
+      Enter 2 digits for the month and day and 4 digits for the year.
+    </p>
+  </div>
+);
 export const preparerServiceRecordsUI = {
   'ui:title': "Applicant's service period(s)",
   'ui:options': {
@@ -1082,12 +1125,12 @@ export const preparerServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      'Applicant’s service start date',
-      'Applicant’s service end date',
+      startDateHeaderPreparer,
+      endDateHeaderPreparer,
       'Service start date must be after end date',
     ),
     dischargeType: {
-      'ui:title': 'Discharge character of service',
+      'ui:title': 'Applicant’s discharge character of service',
       'ui:options': {
         labels: {
           1: 'Honorable',

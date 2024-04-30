@@ -469,7 +469,7 @@ const formConfig = {
       },
     },
     militaryHistory: {
-      title: 'Military history',
+      title: 'Applicant military history',
       pages: {
         militaryDetailsSelf: {
           path: 'military-details-self',
