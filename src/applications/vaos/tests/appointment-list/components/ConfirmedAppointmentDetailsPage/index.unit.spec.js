@@ -59,11 +59,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         .tz('America/Denver')
         .format('dddd, MMMM D, YYYY')}`,
     );
-    console.log(
-      `moment.now(): ${moment()
-        .now()
-        .format('YYYY-MM-DDTHH:mm:ss.000Z')}`,
-    );
+
+    console.log(`moment.now(): ${moment().format('YYYY-MM-DDTHH:mm:ss.000Z')}`);
   });
 
   it('should show confirmed appointments detail page', async () => {
