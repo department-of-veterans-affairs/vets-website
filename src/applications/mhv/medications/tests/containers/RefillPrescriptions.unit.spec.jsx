@@ -211,7 +211,7 @@ describe('Refill Prescriptions Component', () => {
   });
 
   it('Shows h1 and note if no prescriptions are refillable', async () => {
-    const screen = setup(initialState, []);
+    const screen = setup(initialState, [], false);
     const title = await screen.findByTestId('refill-page-title');
     expect(title).to.exist;
     expect(title).to.have.text('Refill prescriptions');
