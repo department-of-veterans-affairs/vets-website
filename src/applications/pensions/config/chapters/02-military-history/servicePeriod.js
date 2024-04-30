@@ -1,7 +1,5 @@
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-
 import { createSelector } from 'reselect';
-
 import { isFullDate } from 'platform/forms/validations';
 import {
   currentOrPastDateRangeUI,
@@ -13,19 +11,18 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-
-const { placeOfSeparation } = fullSchemaPensions.properties;
-
 import { serviceBranchLabels } from '../../../labels';
 import { WartimeWarningAlert } from '../../../components/FormAlerts';
 import { servedDuringWartime } from '../../../helpers';
 import { validateServiceBirthDates } from '../../../validation';
 import ServicePeriodReview from '../../../components/ServicePeriodReview';
 
+const { placeOfSeparation } = fullSchemaPensions.properties;
+
 /** @type {PageSchema} */
 export default {
-  path: 'military/history',
   title: 'Service period',
+  path: 'military/history',
   CustomPageReview: ServicePeriodReview,
   uiSchema: {
     ...titleUI('Service period'),
