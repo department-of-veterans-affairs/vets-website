@@ -168,7 +168,11 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
       records, you’ll need to submit an authorization to release non-VA medical
       information to us (VA Forms 21-4142 and 21-4142a).
     </p>
-    <a target="_blank" rel="noopener noreferrer" href="/">
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
+    >
       Submit an authorization online to release non-VA medical information to us
       (opens in new tab)
     </a>
