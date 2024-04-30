@@ -28,8 +28,8 @@ class SearchComponent {
   prepareDropdownSearch = term => {
     cy.visit('/');
     cy.get('button.sitewide-search-drop-down-panel-button').click();
-    cy.get('#search-header-dropdown-input-field').click();
-    cy.get('#search-header-dropdown-input-field')
+    cy.get('.search-dropdown-input-field').click();
+    cy.get('.search-dropdown-input-field')
       .should('exist')
       .should('not.be.disabled')
       .type(term, { force: true });
@@ -56,44 +56,44 @@ class SearchComponent {
 
   /** Opens the dropdown and checks its length is 5 */
   confirmDropDown = () => {
-    cy.get('#search-header-dropdown-listbox').should('be.visible');
-    cy.get('#search-header-dropdown-listbox')
+    cy.get('.search-dropdown-options').should('be.visible');
+    cy.get('.search-dropdown-options')
       .children()
       .should('have.length', 5);
   };
 
   /** Gets the input field dropdown, moves down three items, and presses Enter */
   navigateSearchSuggestions = () => {
-    cy.get('#search-header-dropdown-input-field').type('{downarrow}');
-    cy.get('#search-header-dropdown-input-field').type('{downarrow}');
-    cy.get('#search-header-dropdown-input-field').type('{downarrow}');
-    cy.get('#search-header-dropdown-input-field').type('{enter}');
+    cy.get('.search-dropdown-input-field').type('{downarrow}');
+    cy.get('.search-dropdown-input-field').type('{downarrow}');
+    cy.get('.search-dropdown-input-field').type('{downarrow}');
+    cy.get('.search-dropdown-input-field').type('{enter}');
   };
 
   /** Focuses on the Search button and checks that the listbox disappears */
   confirmSearchFocusHidesInput = () => {
-    cy.get('[data-e2e-id="search-header-dropdown-submit-button"]').focus();
-    cy.get('#search-header-dropdown-listbox').should('not.exist');
+    cy.get('button[type="submit"]').focus();
+    cy.get('#va-search-listbox').should('not.exist');
   };
 
   /** Presses enter in the Search input field */
   clickEnterInInputField = () => {
-    cy.get('#search-header-dropdown-input-field').type('{enter}');
+    cy.get('.search-dropdown-input-field').type('{enter}');
   };
 
   /** Click the Search submit button */
   clickSubmitButton = () => {
-    cy.get('[data-e2e-id="search-header-dropdown-submit-button"]').click();
+    cy.get('button[type="submit"]').click();
   };
 
   /** Focuses on the Search input field */
   focusOnInputField = () => {
-    cy.get('#search-header-dropdown-input-field').focus();
+    cy.get('.search-dropdown-input-field').focus();
   };
 
   /** Focuses on the Search submit button */
   focusOnSubmitButton = () => {
-    cy.get('[data-e2e-id="search-header-dropdown-submit-button"]').focus();
+    cy.get('button[type="submit"]').focus();
   };
 
   /** Checks the current URL for the queryString */
