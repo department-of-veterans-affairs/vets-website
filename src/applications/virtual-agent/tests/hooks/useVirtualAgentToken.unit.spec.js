@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/browser';
 import { act } from 'react-dom/test-utils';
 import { renderHook } from '@testing-library/react-hooks';
 import * as ApiModule from '@department-of-veterans-affairs/platform-utilities/api';
-import * as RetryOnce from '../../components/chatbox/retryOnce';
+import * as RetryOnce from '../../utils/retryOnce';
 import useVirtualAgentToken, {
   callVirtualAgentTokenApi,
 } from '../../hooks/useVirtualAgentToken';
