@@ -67,12 +67,7 @@ export const NOD_OLD_HANDOFF = Object.freeze(
       records) to support your claim.
     </p>
     <p>A reviewer will decide if this new evidence changes the decision.</p>
-    <div
-      className="usa-button-primary"
-      style={{
-        padding: '12px',
-      }}
-    >
+    <div className="usa-button-primary vads-u-padding--1">
       <a
         className="vads-c-action-link--white"
         href="/decision-reviews/supplemental-claim/file-supplemental-claim-form-20-0995/start"
@@ -80,11 +75,7 @@ export const NOD_OLD_HANDOFF = Object.freeze(
         File a Supplemental Claim online
       </a>
     </div>
-    <div
-      style={{
-        margin: '10px 0',
-      }}
-    >
+    <div className="vads-u-margin-y--4">
       <a
         href="/decision-reviews/supplemental-claim/"
         target="_blank"
@@ -93,11 +84,7 @@ export const NOD_OLD_HANDOFF = Object.freeze(
         Learn more about supplemental claims (opens in new tab)
       </a>
     </div>
-    <div
-      style={{
-        margin: '10px 0',
-      }}
-    >
+    <div className="vads-u-margin-y--4">
       If you’d like to use VA Form 21-4138 for your statement without selecting
       an answer here, you can{' '}
       <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
@@ -118,12 +105,7 @@ export const NOD_SUPPLEMENTAL_HANDOFF = Object.freeze(
       records) to support your claim.
     </p>
     <p>A reviewer will decide if this new evidence changes the decision.</p>
-    <div
-      className="usa-button-primary"
-      style={{
-        padding: '12px',
-      }}
-    >
+    <div className="usa-button-primary vads-u-padding--1">
       <a
         className="vads-c-action-link--white"
         href="/decision-reviews/supplemental-claim/file-supplemental-claim-form-20-0995/start"
@@ -131,11 +113,7 @@ export const NOD_SUPPLEMENTAL_HANDOFF = Object.freeze(
         File a Supplemental Claim online
       </a>
     </div>
-    <div
-      style={{
-        margin: '10px 0',
-      }}
-    >
+    <div className="vads-u-margin-y--4">
       <a
         href="/decision-reviews/supplemental-claim/"
         target="_blank"
@@ -144,11 +122,7 @@ export const NOD_SUPPLEMENTAL_HANDOFF = Object.freeze(
         Learn more about supplemental claims (opens in new tab)
       </a>
     </div>
-    <div
-      style={{
-        margin: '10px 0',
-      }}
-    >
+    <div className="vads-u-margin-y--4">
       If you’d like to use VA Form 21-4138 for your statement without selecting
       an answer here, you can{' '}
       <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
@@ -174,12 +148,7 @@ export const NOD_HLR_HANDOFF = Object.freeze(
       For disability compensation claims, you can request a Higher-Level Review
       online.
     </p>
-    <div
-      className="usa-button-primary"
-      style={{
-        padding: '12px',
-      }}
-    >
+    <div className="usa-button-primary vads-u-padding--1">
       <a
         className="vads-c-action-link--white"
         href="/decision-reviews/supplemental-claim/file-supplemental-claim-form-20-0995/start"
@@ -211,11 +180,7 @@ export const NOD_HLR_HANDOFF = Object.freeze(
       />
       Get VA Form 20-0996 to download
     </a>
-    <div
-      style={{
-        margin: '10px 0',
-      }}
-    >
+    <div className="vads-u-margin-y--4">
       <a
         href="/decision-reviews/higher-level-review/"
         target="_blank"
@@ -225,11 +190,7 @@ export const NOD_HLR_HANDOFF = Object.freeze(
         new tab)
       </a>
     </div>
-    <div
-      style={{
-        margin: '10px 0',
-      }}
-    >
+    <div className="vads-u-margin-y--4">
       If you’d like to use VA Form 21-4138 for your statement without selecting
       an answer here, you can{' '}
       <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
@@ -264,12 +225,7 @@ export const NOD_BA_HANDOFF = Object.freeze(
         Law Judge (with or without new evidence)
       </li>
     </ul>
-    <div
-      className="usa-button-primary"
-      style={{
-        padding: '12px',
-      }}
-    >
+    <div className="usa-button-primary vads-u-padding--1">
       <a
         className="vads-c-action-link--white"
         href="/decision-reviews/board-appeal/request-board-appeal-form-10182/introduction"
@@ -277,11 +233,7 @@ export const NOD_BA_HANDOFF = Object.freeze(
         Request a Board Appeal online
       </a>
     </div>
-    <div
-      style={{
-        margin: '10px 0',
-      }}
-    >
+    <div className="vads-u-margin-y--4">
       <a
         href="/decision-reviews/board-appeal/"
         target="_blank"
@@ -290,11 +242,7 @@ export const NOD_BA_HANDOFF = Object.freeze(
         Learn more about Board Appeals and how to request one (opens in new tab)
       </a>
     </div>
-    <div
-      style={{
-        margin: '10px 0',
-      }}
-    >
+    <div className="vads-u-margin-y--4">
       If you’d like to use VA Form 21-4138 for your statement without selecting
       an answer here, you can{' '}
       <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
@@ -396,12 +344,7 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
       available. You can start your request now, or you can keep reading to
       learn what types of evidence to submit.
     </p>
-    <div
-      className="usa-button-primary"
-      style={{
-        padding: '10px',
-      }}
-    >
+    <div className="usa-button-primary vads-u-padding--1">
       <a
         className="vads-c-action-link--white"
         href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction"
@@ -587,12 +530,7 @@ export const RECORDS_REQUEST_HANDOFF = Object.freeze(
       <li>Vocational rehabilitation and employment</li>
       <li>Other benefit record</li>
     </ul>
-    <div
-      className="usa-button-primary"
-      style={{
-        padding: '10px',
-      }}
-    >
+    <div className="usa-button-primary vads-u-padding--1">
       <a
         className="vads-c-action-link--white"
         href="/records/request-personal-records-form-20-10206/introduction"
@@ -608,11 +546,7 @@ export const RECORDS_REQUEST_HANDOFF = Object.freeze(
         margin: '10px 0',
       }}
     />
-    <div
-      style={{
-        margin: '10px 0',
-      }}
-    >
+    <div className="vads-u-margin-y--4">
       If you’d like to use VA Form 21-4138 for your statement without selecting
       an answer here, you can{' '}
       <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
@@ -628,12 +562,7 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
       If you have an open claim, you can add evidence to support it. Evidence
       may include documents like court papers or service treatment records.
     </p>
-    <div
-      className="usa-button-primary"
-      style={{
-        padding: '12px',
-      }}
-    >
+    <div className="usa-button-primary vads-u-padding--1">
       <a className="vads-c-action-link--white" href="/track-claims/your-claims">
         Upload evidence using our claim status tool
       </a>
@@ -643,11 +572,7 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
       and including VA Form 20-10208 (Document Evidence Submission) along with
       the evidence.
     </p>
-    <div
-      style={{
-        margin: '10px 0',
-      }}
-    >
+    <div className="vads-u-margin-y--4">
       <a
         href="https://www.vba.va.gov/pubs/forms/VBA-20-10208-ARE.pdf"
         target="_blank"
@@ -702,11 +627,7 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
     <a className="vads-u-font-weight--bold" href="/track-claims/your-claims">
       Check the status of your claim
     </a>
-    <div
-      style={{
-        margin: '2rem 0',
-      }}
-    >
+    <div className="vads-u-margin-y--4">
       If you’d like to use VA Form 21-4138 for your statement without selecting
       an answer here, you can{' '}
       <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
