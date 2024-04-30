@@ -119,3 +119,142 @@ export const PRIORITY_PROCESSING_NOT_QUALIFIED = Object.freeze(
     </p>
   </div>,
 );
+
+export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
+  <div>
+    <va-alert status="success" uswds>
+      Based on your responses, you may qualify for priority processing. The next
+      step is for you to complete a priority processing request.
+    </va-alert>
+    <h2>How to request priority processing</h2>
+    <p>
+      We may need supporting documents based on the situation. If you don’t have
+      supporting documents, you can still submit your request. But we’ll process
+      your request faster if you submit all of the documents that you have
+      available. You can start your request now, or you can keep reading to
+      learn what types of evidence to submit.
+    </p>
+    <div
+      className="usa-button-primary"
+      style={{
+        padding: '10px',
+      }}
+    >
+      <a
+        className="vads-c-action-link--white"
+        href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction"
+      >
+        Start your request
+      </a>
+    </div>
+    <h2>Types of evidence to submit</h2>
+    <p>You can submit any of these types of evidence.</p>
+    <p>
+      <strong>Note:</strong> Please don’t send original documents. Send copies
+      instead.
+    </p>
+    <h3>For extreme financial hardship</h3>
+    <ul>
+      <li>Eviction or foreclosure notice</li>
+      <li>Notices of past-due utility bills</li>
+      <li>Collection notices from creditors</li>
+    </ul>
+    <h3>For ALS or other terminal illnesses</h3>
+    <ul>
+      <li>Medical evidence and diagnosis</li>
+    </ul>
+    <p>
+      <strong>Note:</strong> If you want us to get your private treatment
+      records, you’ll need to submit an authorization to release non-VA medical
+      information to us (VA Forms 21-4142 and 21-4142a).
+    </p>
+    <a target="_blank" rel="noopener noreferrer" href="/">
+      Submit an authorization online to release non-VA medical information to us
+      (opens in new tab)
+    </a>
+    <h3>
+      For Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI)
+    </h3>
+    <ul>
+      <li>Military personnel records, such as a determination from the DOD</li>
+      <li>Medical evidence showing severe disability or injury</li>
+    </ul>
+    <h3>For former prisoners or war</h3>
+    <ul>
+      <li>Military personnel records, such as DD214</li>
+      <li>Service number and branch and dates of service</li>
+      <li>Dates and location of internment</li>
+      <li>Detaining power or other relevant information</li>
+    </ul>
+    <h3>For Medal of Honor or Purple Heart award recipients</h3>
+    <ul>
+      <li>Military personnel records, such as DD214</li>
+      <li>
+        Information showing receipt of Medal of Honor or Purple Heart award
+      </li>
+    </ul>
+    <h2>How to submit supporting evidence</h2>
+    <ul>
+      <li>
+        You can upload your documents online as you complete this form. This
+        will help us process your request faster.
+      </li>
+      <li>You can also send copies of your documents by mail.</li>
+    </ul>
+    <va-additional-info
+      trigger="Where can I send documents by mail?"
+      data-testid="ppQualifiedMailingAdditionalInfo"
+    >
+      <div>
+        <p>
+          Find the benefit type you’re requesting priority processing for. Then
+          use the corresponding mailing address.
+        </p>
+        <p>
+          <strong>Compensation claims</strong>
+          <br />
+          Department of Veterans Affairs Compensation Intake Center
+          <br />
+          PO Box 4444
+          <br />
+          Janesville, WI 53547-4444
+        </p>
+        <p>
+          <strong>Pension and survivors benefit claims</strong>
+          <br />
+          Department of Veterans Affairs Pension Intake Center
+          <br />
+          PO Box 5365
+          <br />
+          Janesville, WI 53547-5365
+        </p>
+        <p>
+          <strong>Board of Veterans' Appeals</strong>
+          <br />
+          Department of Veterans Affairs Board of Veterans' Appeals
+          <br />
+          PO Box 27063
+          <br />
+          Washington, DC 20038
+        </p>
+        <p>
+          <strong>Fiduciary</strong>
+          <br />
+          Department of Veterans Affairs Fiduciary Intake Center
+          <br />
+          PO Box 5211
+          <br />
+          Janesville, WI 53547-5211
+        </p>
+      </div>
+    </va-additional-info>
+    <va-omb-info
+      res-burden={5}
+      omb-number="2900-0736"
+      exp-date="02/28/2026"
+      style={{
+        margin: '10px 0',
+      }}
+    />
+  </div>,
+);

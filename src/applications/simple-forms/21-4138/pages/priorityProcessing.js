@@ -10,6 +10,7 @@ import {
   ADDITIONAL_INFO_OTHER_HOUSING_RISKS,
   PRIORITY_PROCESSING_OTHER_REASONS,
   PRIORITY_PROCESSING_NOT_QUALIFIED,
+  PRIORITY_PROCESSING_QUALIFIED,
 } from '../config/constants';
 import { validateLivingSituation } from '../helpers';
 
@@ -172,6 +173,30 @@ export const ppNotQualifiedPage = {
     type: 'object',
     properties: {
       'view:notQualified': {
+        type: 'object',
+        properties: {},
+      },
+    },
+  },
+};
+
+/** @type {PageSchema} */
+export const ppQualifiedHandoffPage = {
+  uiSchema: {
+    ...titleUI(
+      "There's a better way to request priority processing",
+      undefined,
+      1,
+      'vads-u-color--black',
+    ),
+    'view:priorityProcessingQualified': {
+      'ui:description': PRIORITY_PROCESSING_QUALIFIED,
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:priorityProcessingQualified': {
         type: 'object',
         properties: {},
       },

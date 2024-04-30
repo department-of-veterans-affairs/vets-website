@@ -31,6 +31,7 @@ import {
   ppOtherReasonsOptionalPage,
   ppOtherReasonsRequiredPage,
   ppNotQualifiedPage,
+  ppQualifiedHandoffPage,
 } from '../pages/priorityProcessing';
 import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
 import { identificationInformationPage } from '../pages/identificationInfo';
@@ -225,6 +226,15 @@ const formConfig = {
           uiSchema: ppNotQualifiedPage.uiSchema,
           schema: ppNotQualifiedPage.schema,
           pageClass: 'priority-processing-not-qualified',
+        },
+        priorityProcessingQualifiedHandoffPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING, // &&
+          path: 'priority-processing-qualified-handoff',
+          title: "There's a better way to request priority processing",
+          uiSchema: ppQualifiedHandoffPage.uiSchema,
+          schema: ppQualifiedHandoffPage.schema,
+          pageClass: 'priority-processing-qualified-handoff',
         },
       },
     },
