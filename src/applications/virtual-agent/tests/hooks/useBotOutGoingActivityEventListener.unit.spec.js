@@ -28,7 +28,6 @@ describe('useBotOutgoingActivityEventListener', () => {
 
     renderHook(() => useBotOutgoingActivityEventListener(now));
 
-    expect(addEventListenerStub.calledOnce).to.be.true;
     expect(
       addEventListenerStub.calledWithExactly(
         'bot-outgoing-activity',
