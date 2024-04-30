@@ -129,6 +129,7 @@ const PrimaryAddressWithAutofill = props => {
 
       <VaCheckbox
         id="root_primaryAddress_autofill"
+        name="root_primaryAddress_autofill"
         checked={formData['view:autofill']}
         label="Use the same address as the Veteran"
         onVaChange={handleCheck}
