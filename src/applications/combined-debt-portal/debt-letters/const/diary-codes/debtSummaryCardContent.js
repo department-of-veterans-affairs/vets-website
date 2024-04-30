@@ -1,6 +1,5 @@
 import React from 'react';
-import { addDays } from 'date-fns';
-import { formatDate } from '../../../combined/utils/helpers';
+import { endDate } from '../../utils/helpers';
 
 const TriangleIcon = () => (
   <>
@@ -16,7 +15,8 @@ const CircleIcon = () => (
 );
 
 export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
-  const endDate = (date, days) => formatDate(addDays(new Date(date), days));
+  const daysToAdd = diaryCode === '117' || diaryCode === '123' ? 60 : 30;
+  const endDateText = endDate(dateOfLetter, daysToAdd);
 
   switch (diaryCode) {
     case '71':
@@ -70,8 +70,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
         <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
           <TriangleIcon />
           <p className="vads-u-margin-y--0">
-            Pay your {balance} balance now or request help by{' '}
-            {dateOfLetter && endDate(dateOfLetter, 30)}
+            Pay your {balance} balance now or request help by {endDateText}
           </p>
         </div>
       );
@@ -80,8 +79,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
         <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
           <TriangleIcon />
           <p className="vads-u-margin-y--0">
-            Pay your {balance} balance now or request help by{' '}
-            {dateOfLetter && endDate(dateOfLetter, 30)}
+            Pay your {balance} balance now or request help by {endDateText}
             to avoid more interest charges
           </p>
         </div>
@@ -94,8 +92,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
         <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
           <TriangleIcon />
           <p className="vads-u-margin-y--0">
-            Pay your {balance} balance now or request help by{' '}
-            {dateOfLetter && endDate(dateOfLetter, 30)}.
+            Pay your {balance} balance now or request help by {endDateText}.
           </p>
         </div>
       );
@@ -105,7 +102,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
           <TriangleIcon />
           <p className="vads-u-margin-y--0">
             Pay your {balance} past due balance in full or request help before{' '}
-            {dateOfLetter && endDate(dateOfLetter, 60)}
+            {endDateText}
           </p>
         </div>
       );
@@ -115,7 +112,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
           <TriangleIcon />
           <p className="vads-u-margin-y--0">
             Pay your {balance} past due balance now or request help by{' '}
-            {dateOfLetter && endDate(dateOfLetter, 60)}
+            {endDateText}
           </p>
         </div>
       );
@@ -187,7 +184,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
           <TriangleIcon />
           <p className="vads-u-margin-y--0">
             Make a payment on your {balance} balance or request help by{' '}
-            {dateOfLetter && endDate(dateOfLetter, 30)}
+            {endDateText}
           </p>
         </div>
       );
@@ -221,7 +218,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
           <TriangleIcon />
           <p className="vads-u-margin-y--0">
             Pay your one time payment as part of your compromise agreement by{' '}
-            {dateOfLetter && endDate(dateOfLetter, 30)}
+            {endDateText}
           </p>
         </div>
       );
