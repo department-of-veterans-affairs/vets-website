@@ -4,12 +4,7 @@ import { VRE_REQUEST_HANDOFF } from '../config/constants';
 /** @type {PageSchema} */
 export const vreRequestHandoffPage = {
   uiSchema: {
-    ...titleUI(
-      "There's a better way to request Chapter 31 support",
-      undefined,
-      1,
-      'vads-u-color--black',
-    ),
+    ...titleUI("There's a better way to request Chapter 31 support"),
     'view:vreRequestHandoffContent': {
       'ui:description': VRE_REQUEST_HANDOFF,
     },

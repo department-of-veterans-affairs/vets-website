@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  titleUI,
+  largeTitleUI,
   checkboxGroupUI,
   checkboxGroupSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
@@ -18,12 +18,7 @@ import { validateLivingSituation } from '../helpers';
 /** @type {PageSchema} */
 export const ppIntroPage = {
   uiSchema: {
-    ...titleUI(
-      'What to know before you request priority processing',
-      undefined,
-      1,
-      'vads-u-color--black',
-    ),
+    ...largeTitleUI('What to know before you request priority processing'),
     'view:priorityProcessingIntroContent': {
       'ui:description': (
         <div>
@@ -78,7 +73,7 @@ export const ppLivingSituationPage = {
 /** @type {PageSchema} */
 export const ppOtherHousingRisksPage = {
   uiSchema: {
-    ...titleUI('Other housing risks', undefined, 1, 'vads-u-color--black'),
+    ...largeTitleUI('Other housing risks'),
     'view:additionalInfo': {
       'ui:description': ADDITIONAL_INFO_OTHER_HOUSING_RISKS,
     },
@@ -156,12 +151,7 @@ export const ppOtherReasonsRequiredPage = {
 /** @type {PageSchema} */
 export const ppNotQualifiedPage = {
   uiSchema: {
-    ...titleUI(
-      'You may not qualify for priority processing',
-      undefined,
-      1,
-      'vads-u-color--black',
-    ),
+    ...largeTitleUI('You may not qualify for priority processing'),
     'view:notQualified': {
       'ui:description': PRIORITY_PROCESSING_NOT_QUALIFIED,
     },
@@ -180,12 +170,7 @@ export const ppNotQualifiedPage = {
 /** @type {PageSchema} */
 export const ppQualifiedHandoffPage = {
   uiSchema: {
-    ...titleUI(
-      "There's a better way to request priority processing",
-      undefined,
-      1,
-      'vads-u-color--black',
-    ),
+    ...largeTitleUI("There's a better way to request priority processing"),
     'view:priorityProcessingQualified': {
       'ui:description': PRIORITY_PROCESSING_QUALIFIED,
     },

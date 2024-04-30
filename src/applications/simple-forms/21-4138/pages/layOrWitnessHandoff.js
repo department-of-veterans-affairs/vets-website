@@ -1,15 +1,10 @@
 import React from 'react';
-import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns';
+import { largeTitleUI } from '~/platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export const layOrWitnessHandoffPage = {
   uiSchema: {
-    ...titleUI(
-      "There's a better way to submit your statement to us",
-      undefined,
-      1,
-      'vads-u-color--black',
-    ),
+    ...largeTitleUI("There's a better way to submit your statement to us"),
     'view:layOrWitnessContent': {
       'ui:description': (
         <div>

@@ -1,17 +1,15 @@
 import {
   addressSchema,
   addressUI,
-  titleUI,
+  largeTitleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export const mailingAddressPage = {
   uiSchema: {
-    ...titleUI(
+    ...largeTitleUI(
       'Mailing address',
       'We’ll send any important information about your application to this address.',
-      1,
-      'vads-u-color--black',
     ),
     mailingAddress: addressUI({
       labels: {
