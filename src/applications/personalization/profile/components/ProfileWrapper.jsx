@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
 import { useLocation } from 'react-router-dom';
+import NameTag from '~/applications/personalization/components/NameTag';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 
-import NameTag from '~/applications/personalization/components/NameTag';
 import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
 import { PROFILE_PATHS } from '../constants';
@@ -14,7 +15,6 @@ import { ProfileFullWidthContainer } from './ProfileFullWidthContainer';
 import { getRoutesForNav } from '../routesForNav';
 import { normalizePath } from '../../common/helpers';
 import { ProfileBreadcrumbs } from './ProfileBreadcrumbs';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const LAYOUTS = {
   SIDEBAR: 'sidebar',
