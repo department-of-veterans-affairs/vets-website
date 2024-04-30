@@ -8,6 +8,7 @@ import {
   updatePageTitle,
   reportGeneratedBy,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
   getPrescriptionsPaginatedSortedList,
   getAllergiesList,
@@ -28,6 +29,7 @@ import {
   SESSION_SELECTED_SORT_OPTION,
   defaultSelectedSortOption,
   medicationsUrls,
+  DD_ACTIONS_PAGE_TYPE,
 } from '../util/constants';
 import PrintDownload, {
   DOWNLOAD_FORMAT,
@@ -35,7 +37,6 @@ import PrintDownload, {
 } from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import AllergiesErrorModal from '../components/shared/AllergiesErrorModal';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
   buildPrescriptionsPDFList,
   buildAllergiesPDFList,
@@ -522,7 +523,7 @@ const Prescriptions = () => {
                   }
                   list
                 />
-                <BeforeYouDownloadDropdown />
+                <BeforeYouDownloadDropdown page={DD_ACTIONS_PAGE_TYPE.LIST} />
                 <MedicationsListSort
                   value={selectedSortOption}
                   sortRxList={sortRxList}

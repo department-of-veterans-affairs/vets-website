@@ -114,6 +114,9 @@ const PrintDownload = props => {
         onFocus={handleFocus}
       >
         <button
+          data-dd-action-name={`Print Or Download Button - ${
+            list ? 'List' : 'Details'
+          } Page`}
           type="button"
           className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -121,11 +124,19 @@ const PrintDownload = props => {
           aria-expanded={menuOpen}
         >
           <span>Print or download</span>
-          <i className={menuIconClasses} aria-hidden="true" />
+          <va-icon
+            className={menuIconClasses}
+            size={4}
+            icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+            aria-hidden="true"
+          />
         </button>
         <ul className={menuOptionsClasses} data-testid="print-download-list">
           <li>
             <button
+              data-dd-action-name={`Print This ${
+                list ? 'page of the list' : 'page'
+              } Option- ${list ? 'List' : 'Details'} Page`}
               className="vads-u-padding-x--2"
               id="printButton-0"
               type="button"
@@ -138,6 +149,7 @@ const PrintDownload = props => {
           {list && (
             <li>
               <button
+                data-dd-action-name="Print All Medications Option - List Page"
                 className="vads-u-padding-x--2"
                 id="printButton-1"
                 type="button"
@@ -150,6 +162,9 @@ const PrintDownload = props => {
           )}
           <li>
             <button
+              data-dd-action-name={`Download A PDF Of This ${
+                list ? 'List' : 'Page'
+              } Option - ${list ? 'List' : 'Details'} Page`}
               className="vads-u-padding-x--2"
               id="printButton-2"
               type="button"
@@ -162,6 +177,9 @@ const PrintDownload = props => {
           <li>
             <button
               type="button"
+              data-dd-action-name={`Download A Text File Of This ${
+                list ? 'List' : 'Page'
+              } Option - ${list ? 'List' : 'Details'} Page`}
               className="vads-u-padding-x--2"
               id="printButton-3"
               data-testid="download-txt-button"

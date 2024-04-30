@@ -48,6 +48,7 @@ const MedicationsListCard = ({ rx }) => {
           id={`card-header-${rx.prescriptionId}`}
         >
           <Link
+            data-dd-action-name="Medication Name Link In Card - List Page"
             data-testid="medications-history-details-link"
             className="vads-u-margin-y--0p5 vads-u-font-size--h4"
             to={`/prescription/${rx.prescriptionId}`}

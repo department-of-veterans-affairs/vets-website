@@ -25,6 +25,7 @@ const MedicationsListSort = props => {
           data-testid="sort-dropdown"
           label="Show medications in this order"
           name="sort-order"
+          data-dd-action-name="Show Medications In This Order Select - List Page"
           value={sortListOption}
           onVaSelect={e => {
             setSortListOption(e.detail.value);
@@ -32,8 +33,17 @@ const MedicationsListSort = props => {
           uswds
         >
           {rxSortingOptions.map(option => {
+            const capitalizedOption = option
+              .split(' ')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ');
             return (
-              <option key={option} value={option} data-testid="sort-option">
+              <option
+                key={option}
+                value={option}
+                data-testid="sort-option"
+                data-dd-action-name={`${capitalizedOption} Option - List Page`}
+              >
                 {rxListSortingOptions[option].LABEL}
               </option>
             );
@@ -42,6 +52,7 @@ const MedicationsListSort = props => {
       </div>
       <div className="sort-button">
         <VaButton
+          data-dd-action-name="Sort Medications Button - Medications List Page"
           uswds
           className="va-button"
           secondary={showRefillContent}

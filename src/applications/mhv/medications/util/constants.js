@@ -185,3 +185,9 @@ export const allergyTypes = {
 };
 
 export const EMPTY_FIELD = 'None noted';
+
+export const DD_ACTIONS_PAGE_TYPE = {
+  LIST: 'List Page',
+  DETAILS: 'Details Page',
+  REFILL: 'Refill Page',
+};

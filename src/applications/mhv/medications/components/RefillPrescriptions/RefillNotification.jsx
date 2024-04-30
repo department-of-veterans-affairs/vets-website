@@ -128,6 +128,7 @@ const RefillNotification = ({ refillResult = {} }) => {
                   data-testid="back-to-medications-page-link"
                   to="/"
                   className="hide-visited-link"
+                  data-dd-action-name="Go To Your Medications List Action Link - Refill Page"
                 >
                   Go to your medications list
                 </Link>

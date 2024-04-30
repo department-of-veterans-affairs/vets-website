@@ -7,9 +7,9 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { getPrescriptionsPaginatedSortedList } from '../actions/prescriptions';
 import {
   medicationsUrls,
@@ -114,6 +114,7 @@ const LandingPage = () => {
                       Manage your medications
                     </h2>
                     <Link
+                      data-dd-action-name="Refill Prescriptions Action Link - Landing Page"
                       className="vads-u-display--block vads-c-action-link--blue vads-u-margin-bottom--1"
                       to={refillUrl}
                       data-testid="refill-nav-link"
@@ -124,6 +125,7 @@ const LandingPage = () => {
                       className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
                       to={medicationsUrl}
                       data-testid="prescriptions-nav-link"
+                      data-dd-action-name="Go To Your Medications List Action Link - Landing Page"
                     >
                       Go to your medications list
                     </Link>
@@ -141,6 +143,7 @@ const LandingPage = () => {
                       className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
                       to={medicationsUrl}
                       data-testid="prescriptions-nav-link"
+                      data-dd-action-name="Go To Your Medications List Action Link - Landing Page"
                     >
                       Go to your medications list
                     </Link>
@@ -191,7 +194,12 @@ const LandingPage = () => {
           <section>
             <h2>Questions about this tool</h2>
             <section>
-              <va-accordion bordered data-testid="accordion-dropdown" uswds>
+              <va-accordion
+                bordered
+                data-testid="accordion-dropdown"
+                data-dd-action-name="Questions About This Tool Accordion - Landing Page"
+                uswds
+              >
                 <va-accordion-item bordered="true">
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     Does this tool list all my medications and supplies?
@@ -236,6 +244,7 @@ const LandingPage = () => {
                           'self-entered-medications-supplements',
                         )}
                         rel="noreferrer"
+                        data-dd-action-name="Go To Your Self Entered Medications Link - Landing Page"
                       >
                         Go to your self-entered medications on the My HealtheVet
                         website
@@ -345,6 +354,7 @@ const LandingPage = () => {
                         'secure-messaging',
                       )}
                       rel="noreferrer"
+                      data-dd-action-name="Compose A Message Link - Landing Page"
                     >
                       Compose a message on the My HealtheVet website
                     </a>
@@ -368,7 +378,12 @@ const LandingPage = () => {
               records.
             </p>
             <section>
-              <va-accordion uswds bordered data-testid="more-ways-to-manage">
+              <va-accordion
+                uswds
+                bordered
+                data-testid="more-ways-to-manage"
+                data-dd-action-name="More Ways To Manage Accordion - Landing Page"
+              >
                 <va-accordion-item
                   open={isRxRenewAccordionOpen}
                   bordered="true"
@@ -416,6 +431,7 @@ const LandingPage = () => {
                       'secure-messaging',
                     )}
                     rel="noreferrer"
+                    data-dd-action-name="Compose A Message Link - Landing Page"
                   >
                     Compose a message on the My HealtheVet website
                   </a>
@@ -461,7 +477,10 @@ const LandingPage = () => {
                     To confirm or update your mailing address for prescription
                     shipments, contact your VA health facility.
                   </p>
-                  <a href="/find-locations/?page=1&facilityType=health">
+                  <a
+                    href="/find-locations/?page=1&facilityType=health"
+                    data-dd-action-name="Find Your VA Health Facility Link - Landing Page"
+                  >
                     Find your VA health facility
                   </a>
                 </va-accordion-item>
@@ -487,6 +506,7 @@ const LandingPage = () => {
                       'profiles',
                     )}
                     rel="noreferrer"
+                    data-dd-action-name="Go To Your Profile Link - Landing Page"
                   >
                     Go to your profile on the My HealtheVet website
                   </a>
@@ -512,6 +532,7 @@ const LandingPage = () => {
                       'health-history',
                     )}
                     rel="noreferrer"
+                    data-dd-action-name="Go To Your Allergy And Reaction Records Link - Landing Page"
                   >
                     Go to your allergy and reaction records on the My HealtheVet
                     website

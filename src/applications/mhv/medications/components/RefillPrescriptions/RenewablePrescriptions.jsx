@@ -65,6 +65,7 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
             href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
             text="Learn how to renew prescriptions"
             data-testid="learn-to-renew-prescriptions-link"
+            data-dd-action-name="Learn How To Renew Prescriptions Action Link - Refill Page"
           />
         </p>
       </div>
@@ -74,7 +75,11 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
           in your medications list.{' '}
         </p>
         <p className="vads-u-margin-y--0">
-          <Link data-testid="medications-page-link" to="/">
+          <Link
+            data-testid="medications-page-link"
+            to="/"
+            data-dd-action-name="Go To Your Medications List Action Link - Refill Page - Renew Section"
+          >
             Go to your medications list
           </Link>
         </p>
@@ -119,7 +124,11 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
                 <>
                   <br />
                   <span data-testid={`medications-last-shipped-${idx}`}>
-                    <i className="fas fa-truck vads-u-margin-right--1p5" />
+                    <va-icon
+                      size={4}
+                      icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                      className="vads-u-margin-right--1p5"
+                    />
                     Last refill shipped on{' '}
                     {dateFormat(
                       prescription.trackingList[0].completeDateTime,
