@@ -394,13 +394,13 @@ describe('<NameSearchForm>', () => {
       const { newValue, expectedBaseUrl } = setupRTL(
         'new jersey',
         null,
-        'Clear filters',
+        'Reset search',
       );
 
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
-        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_schools=true&exclude_employers=true&exclude_vettec=true`,
+        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_schools=true`,
       );
     });
     it('should add special-mission-hbcuall when button is clicked ', async () => {
