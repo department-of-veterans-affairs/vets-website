@@ -41,7 +41,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   );
   const claimLetterHeader = iscstIncludeDdlBoaLettersEnabled
     ? 'Your VA claim and appeal letters'
-    : 'Your Va claim letters';
+    : 'Your VA claim letters';
 
   useEffect(() => {
     getClaimLetters()
