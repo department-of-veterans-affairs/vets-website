@@ -7,6 +7,7 @@ import {
 
 const fullyDevelopedClaimsLinkText =
   'Learn more about fully developed claims (opens in new tab)';
+
 const Description = (
   <>
     <p>

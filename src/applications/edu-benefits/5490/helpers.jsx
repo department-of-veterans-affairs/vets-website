@@ -1,6 +1,7 @@
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import moment from 'moment';
 import React from 'react';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export function transform(formConfig, form) {
@@ -23,6 +24,13 @@ export function transform(formConfig, form) {
     },
   });
 }
+export const isProductionOfTestProdEnv = automatedTest => {
+  return (
+    environment.isProduction() ||
+    automatedTest ||
+    (global && global?.window && global?.window?.buildType)
+  );
+};
 
 export const relationshipLabels = {
   child: 'Child, stepchild, adopted child',
@@ -128,7 +136,10 @@ export const ageWarning = (
     aria-live="polite"
   >
     <div className="vads-u-flex--1 vads-u-margin-top--2p5 vads-u-margin-x--2 ">
-      <i className="fas fa-info-circle" />
+      <va-icon
+        size={4}
+        icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+      />
     </div>
     <div className="vads-u-flex--5">
       <p className="vads-u-font-size--base">

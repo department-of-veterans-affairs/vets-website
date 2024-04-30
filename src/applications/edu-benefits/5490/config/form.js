@@ -18,6 +18,7 @@ import {
   benefitsDisclaimerSpouse,
   relationshipAndChildTypeLabels,
   transform,
+  isProductionOfTestProdEnv,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
@@ -38,6 +39,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import benefitSelectionWarning from '../components/BenefitSelectionWarning';
 
 import manifest from '../manifest.json';
+import createDirectDepositPageUpdate from '../content/directDepositUpdate';
 
 const {
   benefit,
@@ -644,8 +646,6 @@ const formConfig = {
           fullSchema5490,
           'relativeAddress',
         ),
-
-        directDeposit: createDirectDepositPage5490(),
       },
     },
     GuardianInformation: {
@@ -656,5 +656,10 @@ const formConfig = {
     },
   },
 };
+if (isProductionOfTestProdEnv()) {
+  formConfig.chapters.personalInformation.pages.directDeposit = createDirectDepositPage5490();
+} else {
+  formConfig.chapters.personalInformation.pages.directDeposit = createDirectDepositPageUpdate();
+}
 
 export default formConfig;
