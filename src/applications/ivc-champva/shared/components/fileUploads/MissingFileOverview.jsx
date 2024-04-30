@@ -130,6 +130,7 @@ export default function MissingFileOverview({
   allPages,
   fileNameMap,
   requiredFiles,
+  nonListNameKey,
 }) {
   const [error, setError] = useState(undefined);
   const [isChecked, setIsChecked] = useState(
@@ -180,7 +181,7 @@ export default function MissingFileOverview({
 
   // Update sponsor to identify missing uploads
   const sponsorMiss = {
-    name: data.veteransFullName,
+    name: data?.[nonListNameKey || 'veteransFullName'],
     missingUploads: checkFlags(
       pages,
       data,
@@ -251,7 +252,7 @@ export default function MissingFileOverview({
             <MissingFileList
               data={sponsorMiss}
               nameKey="name"
-              title="Required documents (Sponsor)"
+              title="Required documents"
               subset="required"
               description={requiredDescription}
               disableLinks={disableLinks}
@@ -273,7 +274,7 @@ export default function MissingFileOverview({
             <MissingFileList
               data={sponsorMiss}
               nameKey="name"
-              title="Optional documents (Sponsor)"
+              title="Optional documents"
               subset="optional"
               description={optionalDescription}
               disableLinks={disableLinks}
@@ -328,6 +329,7 @@ MissingFileOverview.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   heading: PropTypes.node,
+  nonListNameKey: PropTypes.string,
   optionalWarningHeading: PropTypes.node,
   requiredFiles: PropTypes.any,
   requiredWarningHeading: PropTypes.node,
