@@ -18,7 +18,6 @@ import {
   sortByDateAscending,
   sortUpcoming,
   groupAppointmentsByMonth,
-  isCanceledConfirmed,
   isUpcomingAppointment,
   sortByCreatedDateDescending,
   isPendingOrCancelledRequest,
@@ -140,24 +139,6 @@ export const selectPastAppointments = createSelector(
   state => state.appointments.past,
   past => {
     return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
-  },
-);
-
-export const selectCanceledAppointments = createSelector(
-  // Selecting pending here to pull in EC requests
-  state => state.appointments.pending,
-  state => state.appointments.confirmed,
-  (pending, confirmed) => {
-    if (!confirmed || !pending) {
-      return null;
-    }
-
-    const sortedAppointments = confirmed
-      .concat(pending)
-      .filter(isCanceledConfirmed)
-      .sort(sortByDateDescending);
-
-    return groupAppointmentsByMonth(sortedAppointments);
   },
 );
 
@@ -289,16 +270,6 @@ export function selectRequestedAppointmentDetails(state, id) {
     typeOfCareName,
     typeOfCareText,
     typeOfVisit,
-  };
-}
-
-export function getCanceledAppointmentListInfo(state) {
-  return {
-    appointmentsByMonth: selectCanceledAppointments(state),
-    facilityData: state.appointments.facilityData,
-    futureStatus: selectFutureStatus(state),
-    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showScheduleButton: selectFeatureRequests(state),
   };
 }
 
