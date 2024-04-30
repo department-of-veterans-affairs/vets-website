@@ -58,7 +58,6 @@ export const withEditTitle = title => {
  *   ...arrayBuilderItemFirstPageTitleUI({
  *     title: 'Name and address of employer',
  *     nounSingular: 'employer',
- *     isFirstPage: true,
  *   }),
  *   ...
  * }
