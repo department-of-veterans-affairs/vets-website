@@ -24,12 +24,8 @@ import {
   wait,
 } from '../../unit-test-helpers';
 
-// the list of number fields that we need to test
-const numbers = [
-  FIELD_NAMES.HOME_PHONE,
-  FIELD_NAMES.MOBILE_PHONE,
-  FIELD_NAMES.WORK_PHONE,
-];
+// change this is more types of phone numbers are added
+const numberOfPhoneNumbersSupported = 3;
 
 const defaultAreaCode = '415';
 const defaultPhoneNumber = '555-0055';
@@ -97,7 +93,9 @@ async function testQuickSuccess(numberName) {
   ).to.exist;
   // and the new number should exist in the DOM
   // TODO: make better assertions for this?
-  expect(view.getAllByTestId('phoneNumber').length).to.eql(numbers.length);
+  expect(view.getAllByTestId('phoneNumber').length).to.eql(
+    numberOfPhoneNumbersSupported,
+  );
   // and the 'add' button should be gone
   expect(
     view.queryByText(new RegExp(`new.*${numberName}`, 'i'), {
@@ -134,7 +132,9 @@ async function testSlowSuccess(numberName) {
   ).to.exist;
   // and the updated phone numbers should be in the DOM
   // TODO: make better assertions for this?
-  expect(view.getAllByTestId('phoneNumber').length).to.eql(numbers.length);
+  expect(view.getAllByTestId('phoneNumber').length).to.eql(
+    numberOfPhoneNumbersSupported,
+  );
   // and the 'add' button should be gone
   expect(
     view.queryByText(new RegExp(`new.*${numberName}`, 'i'), {
@@ -208,6 +208,26 @@ async function testSlowFailure(numberName) {
   expect(getEditButton(numberName)).to.exist;
 }
 
+const testBase = async numberName => {
+  describe(numberName, () => {
+    it('should handle a transaction that succeeds quickly', async () => {
+      await testQuickSuccess(numberName);
+    });
+    it('should handle a transaction that does not succeed until after the edit view exits', async () => {
+      await testSlowSuccess(numberName);
+    });
+    it('should show an error and not auto-exit edit mode if the transaction cannot be created', async () => {
+      await testTransactionCreationFails(numberName);
+    });
+    it('should show an error and not auto-exit edit mode if the transaction fails quickly', async () => {
+      await testQuickFailure(numberName);
+    });
+    it('should show an error if the transaction fails after the edit view exits', async () => {
+      await testSlowFailure(numberName);
+    });
+  });
+};
+
 describe('Editing', () => {
   before(() => {
     server = setupServer(
@@ -232,26 +252,9 @@ describe('Editing', () => {
     server.close();
   });
 
-  numbers.forEach(number => {
-    const numberName = FIELD_TITLES[number];
-    describe(numberName, () => {
-      it('should handle a transaction that succeeds quickly', async () => {
-        await testQuickSuccess(numberName);
-      });
-      it('should handle a transaction that does not succeed until after the edit view exits', async () => {
-        await testSlowSuccess(numberName);
-      });
-      it('should show an error and not auto-exit edit mode if the transaction cannot be created', async () => {
-        await testTransactionCreationFails(numberName);
-      });
-      it('should show an error and not auto-exit edit mode if the transaction fails quickly', async () => {
-        await testQuickFailure(numberName);
-      });
-      it('should show an error if the transaction fails after the edit view exits', async () => {
-        await testSlowFailure(numberName);
-      });
-    });
-  });
+  testBase(FIELD_TITLES[FIELD_NAMES.HOME_PHONE]);
+  testBase(FIELD_TITLES[FIELD_NAMES.MOBILE_PHONE]);
+  testBase(FIELD_TITLES[FIELD_NAMES.WORK_PHONE]);
 
   it('validates a phone number that is too short', async () => {
     server.use(...mocks.transactionSucceeded);

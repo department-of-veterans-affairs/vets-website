@@ -343,7 +343,7 @@ describe('Compose form component', () => {
 
     expect(modal).to.exist;
     expect(modal).to.have.attribute(
-      'modaltitle',
+      'modal-title',
       "We can't save attachments in a draft message",
     );
 
