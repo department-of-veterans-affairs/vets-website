@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -20,7 +19,7 @@ describe('MobileHeader', () => {
     },
   };
   const getMobileHeader = () =>
-  renderInReduxProvider(
+    renderInReduxProvider(
       <MemoryRouter>
         <MobileHeader />
       </MemoryRouter>,
