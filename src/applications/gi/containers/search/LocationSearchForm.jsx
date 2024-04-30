@@ -265,7 +265,7 @@ export function LocationSearchForm({
                       className="use-my-location-link vads-u-display--flex vads-u-align-items--center"
                     >
                       <va-icon
-                        size={4}
+                        size={3}
                         icon="near_me"
                         // className="use-my-location-button"
                         aria-hidden="true"
@@ -311,13 +311,14 @@ export function LocationSearchForm({
               />
               <button
                 type="submit"
-                className="usa-button location-search-button"
+                className="usa-button location-search-button vads-u-display--flex vads-u-align-items--center vads-u-font-weight--bold"
               >
                 Search
                 <va-icon
-                  size={4}
-                  icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                  size={2}
+                  icon="search"
                   aria-hidden="true"
+                  class="vads-u-margin-left--1"
                 />
               </button>
             </div>
