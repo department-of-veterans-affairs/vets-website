@@ -2,13 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 
-const Layout = ({ children, clsName = '', breadCrumbs = {} }) => {
-  const renderBreadCrumbs = () => {
-    const { text, href } = breadCrumbs;
-    if (text) return { href, label: text };
-    return false;
-  };
-
+const Layout = ({ children, clsName = '' }) => {
   return (
     <>
       <VaBreadcrumbs
@@ -22,7 +16,10 @@ const Layout = ({ children, clsName = '', breadCrumbs = {} }) => {
             href: '/education/',
             label: 'Education and training',
           },
-          renderBreadCrumbs(),
+          {
+            href: '/education/download-letters/letters',
+            label: 'Your VA education letter',
+          },
         ]}
         label="Breadcrumb"
       />
