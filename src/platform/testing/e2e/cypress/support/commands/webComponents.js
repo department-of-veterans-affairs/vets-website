@@ -1,4 +1,5 @@
 const FORCE_OPTION = { force: true };
+const DELAY_OPTION = { force: true, delay: 100 };
 
 Cypress.Commands.add('fillVaTextInput', (field, value) => {
   if (value) {
@@ -12,8 +13,8 @@ Cypress.Commands.add('fillVaTextInput', (field, value) => {
       .shadow()
       .find('input')
       .as('currentElement')
-      .clear({ force: true })
-      .type(strValue, { force: true });
+      .clear(DELAY_OPTION)
+      .type(strValue, FORCE_OPTION);
 
     cy.get('@currentElement').should('have.value', strValue);
   }
@@ -31,8 +32,8 @@ Cypress.Commands.add('fillVaTextarea', (field, value) => {
       .shadow()
       .find('textarea')
       .as('currentElement')
-      .clear({ force: true })
-      .type(strValue, { force: true });
+      .clear(DELAY_OPTION)
+      .type(strValue, FORCE_OPTION);
 
     cy.get('@currentElement').should('have.value', strValue);
   }

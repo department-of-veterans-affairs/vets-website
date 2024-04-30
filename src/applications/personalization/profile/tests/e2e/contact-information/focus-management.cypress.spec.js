@@ -39,9 +39,11 @@ describe('Contact info fields', () => {
     cy.injectAxe();
 
     cy.findByRole('button', { name: /edit mailing address/i }).click();
-    cy.findByLabelText(/I live on a.*military base/i).should('be.focused');
+    cy.get('va-checkbox[name="root_view:livesOnMilitaryBase"]').should(
+      'be.focused',
+    );
     cy.axeCheck();
-    cy.findByRole('button', { name: /cancel/i }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.findByRole('button', { name: /edit mailing address/i }).should(
       'be.focused',
     );
@@ -51,7 +53,7 @@ describe('Contact info fields', () => {
       'be.focused',
     );
     cy.axeCheck();
-    cy.findByRole('button', { name: /cancel/i }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.findByRole('button', { name: /edit home address/i }).should(
       'be.focused',
     );
@@ -59,7 +61,7 @@ describe('Contact info fields', () => {
     cy.findByRole('button', { name: /edit home.*number/i }).click();
     cy.findByLabelText(/home.*number/i).should('be.focused');
     cy.axeCheck();
-    cy.findByRole('button', { name: /cancel/i }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.findByRole('button', { name: /edit home.*number/i }).should(
       'be.focused',
     );
@@ -67,7 +69,7 @@ describe('Contact info fields', () => {
     cy.findByRole('button', { name: /edit work.*number/i }).click();
     cy.findByLabelText(/work.*number/i).should('be.focused');
     cy.axeCheck();
-    cy.findByRole('button', { name: /cancel/i }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.findByRole('button', { name: /edit work.*number/i }).should(
       'be.focused',
     );
@@ -75,7 +77,7 @@ describe('Contact info fields', () => {
     cy.findByRole('button', { name: /edit mobile.*number/i }).click();
     cy.findByLabelText(/mobile.*number/i).should('be.focused');
     cy.axeCheck();
-    cy.findByRole('button', { name: /cancel/i }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.findByRole('button', { name: /edit mobile.*number/i }).should(
       'be.focused',
     );
@@ -83,7 +85,7 @@ describe('Contact info fields', () => {
     cy.findByRole('button', { name: /edit contact email/i }).click();
     cy.findByLabelText(/email address/i).should('be.focused');
     cy.axeCheck();
-    cy.findByRole('button', { name: /cancel/i }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.findByRole('button', { name: /edit contact email/i }).should(
       'be.focused',
     );
