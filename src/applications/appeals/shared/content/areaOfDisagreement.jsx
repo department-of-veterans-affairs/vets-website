@@ -44,7 +44,10 @@ export const getIssueTitle = (data = {}, { plainText } = {}) => {
   ) : (
     <>
       {prefix}
-      <span className="dd-privacy-hidden" data-dd-action-name="issue name">
+      <span
+        className="dd-privacy-hidden word-break-all"
+        data-dd-action-name="issue name"
+      >
         {name}
       </span>
       {joiner}
