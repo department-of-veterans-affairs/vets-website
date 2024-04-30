@@ -6,6 +6,7 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 // Relative imports.
 
+import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import sessionStorage from '~/platform/utilities/storage/sessionStorage';
 import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
 import { CallToActionWidget } from '../index';
@@ -811,7 +812,10 @@ describe('<CallToActionWidget>', () => {
         <Provider store={mockStore}>
           <CallToActionWidget
             {...props}
-            featureToggles={{ loading: false, haCpapSuppliesCta: true }}
+            featureToggles={{
+              loading: false,
+              [featureFlagNames.haCpapSuppliesCta]: true,
+            }}
             ariaLabel="test aria-label"
             ariaDescribedby="test-id"
           />
@@ -842,7 +846,7 @@ describe('<CallToActionWidget>', () => {
           mviStatus={{}}
           featureToggles={{
             loading: false,
-            haCpapSuppliesCta: true,
+            [featureFlagNames.haCpapSuppliesCta]: true,
           }}
         />,
       );
@@ -875,7 +879,7 @@ describe('<CallToActionWidget>', () => {
           mviStatus={{}}
           featureToggles={{
             loading: false,
-            haCpapSuppliesCta: false,
+            [featureFlagNames.haCpapSuppliesCta]: false,
           }}
         />,
       );
