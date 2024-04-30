@@ -8,7 +8,8 @@ import VaTextareaField from '~/platform/forms-system/src/js/web-component-fields
 import {
   LIVING_SITUATIONS,
   ADDITIONAL_INFO_OTHER_HOUSING_RISKS,
-  OTHER_REASONS,
+  PRIORITY_PROCESSING_OTHER_REASONS,
+  PRIORITY_PROCESSING_NOT_QUALIFIED,
 } from '../config/constants';
 import { validateLivingSituation } from '../helpers';
 
@@ -113,7 +114,7 @@ export const ppOtherReasonsOptionalPage = {
       title: 'Are any of these descriptions true for you?',
       hint: 'If not, select continue',
       required: false,
-      labels: OTHER_REASONS,
+      labels: PRIORITY_PROCESSING_OTHER_REASONS,
       labelHeaderLevel: '1',
       tile: false,
     }),
@@ -121,7 +122,9 @@ export const ppOtherReasonsOptionalPage = {
   schema: {
     type: 'object',
     properties: {
-      otherReasons: checkboxGroupSchema(Object.keys(OTHER_REASONS)),
+      otherReasons: checkboxGroupSchema(
+        Object.keys(PRIORITY_PROCESSING_OTHER_REASONS),
+      ),
     },
   },
 };
@@ -133,7 +136,7 @@ export const ppOtherReasonsRequiredPage = {
       title: 'Which of these descriptions is true for you?',
       hint: 'Select all that apply.',
       required: true,
-      labels: OTHER_REASONS,
+      labels: PRIORITY_PROCESSING_OTHER_REASONS,
       labelHeaderLevel: '1',
       tile: false,
       errorMessages: {
@@ -144,8 +147,34 @@ export const ppOtherReasonsRequiredPage = {
   schema: {
     type: 'object',
     properties: {
-      otherReasons: checkboxGroupSchema(Object.keys(OTHER_REASONS)),
+      otherReasons: checkboxGroupSchema(
+        Object.keys(PRIORITY_PROCESSING_OTHER_REASONS),
+      ),
     },
     required: ['otherReasons'],
+  },
+};
+
+/** @type {PageSchema} */
+export const ppNotQualifiedPage = {
+  uiSchema: {
+    ...titleUI(
+      'You may not qualify for priority processing',
+      undefined,
+      1,
+      'vads-u-color--black',
+    ),
+    'view:notQualified': {
+      'ui:description': PRIORITY_PROCESSING_NOT_QUALIFIED,
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:notQualified': {
+        type: 'object',
+        properties: {},
+      },
+    },
   },
 };

@@ -30,6 +30,7 @@ import {
   ppOtherHousingRisksPage,
   ppOtherReasonsOptionalPage,
   ppOtherReasonsRequiredPage,
+  ppNotQualifiedPage,
 } from '../pages/priorityProcessing';
 import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
 import { identificationInformationPage } from '../pages/identificationInfo';
@@ -215,6 +216,15 @@ const formConfig = {
           uiSchema: ppOtherReasonsRequiredPage.uiSchema,
           schema: ppOtherReasonsRequiredPage.schema,
           pageClass: 'priority-processing-other-reasons',
+        },
+        priorityProcessingNotQualifiedPage: {
+          depends: formData =>
+            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING, // &&
+          path: 'priority-processing-not-qualified',
+          title: 'You may not qualify for priority processing',
+          uiSchema: ppNotQualifiedPage.uiSchema,
+          schema: ppNotQualifiedPage.schema,
+          pageClass: 'priority-processing-not-qualified',
         },
       },
     },

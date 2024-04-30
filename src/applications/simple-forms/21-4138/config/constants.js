@@ -94,7 +94,7 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
   </va-additional-info>,
 );
 
-export const OTHER_REASONS = Object.freeze({
+export const PRIORITY_PROCESSING_OTHER_REASONS = Object.freeze({
   FINANCIAL_HARDSHIP:
     'I’m experiencing extreme financial hardship (such as loss of your job or sudden decrease in income).',
   ALS:
@@ -106,3 +106,16 @@ export const OTHER_REASONS = Object.freeze({
   FORMER_POW: 'I’m a former prisoner of war (POW).',
   MEDAL_AWARD: 'I’m a Medal of Honor or Purple Heart award recipient.',
 });
+
+export const PRIORITY_PROCESSING_NOT_QUALIFIED = Object.freeze(
+  <div>
+    <va-alert>
+      Based on your responses, you may not qualify for priority processing.
+    </va-alert>
+    <p>
+      It’s possible we don’t have enough information about your situation yet.
+      You may use this form (VA Form 21-4138) to submit a detailed explanation
+      about your circumstances.
+    </p>
+  </div>,
+);
