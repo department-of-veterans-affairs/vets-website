@@ -443,13 +443,15 @@ describe('VAFacilityInfoSection', () => {
     const wrapper = mount(
       <VAFacilityInfoSection mainPhone={mainPhone} vaFacility={vaFacility} />,
     );
+    // not a Vet Center CAP so mainPhone is not used
     expect(wrapper.find('h3').exists()).to.be.true;
     expect(wrapper.find('strong').exists()).to.be.true;
     const telephone = wrapper.find('va-telephone');
     const telephoneProps = telephone.props();
     expect(telephoneProps).to.deep.equal({
-      contact: '2163910264',
+      contact: '216-391-0264',
       extension: '',
+      'message-aria-describedby': 'Main number',
     });
 
     wrapper.unmount();
@@ -458,14 +460,15 @@ describe('VAFacilityInfoSection', () => {
 describe('VAFacilityPhone', () => {
   it('should render VAFacilityPhone with a phone number title', () => {
     const wrapper = mount(
-      <VAFacilityPhone phoneNumber="301-000-0000" phoneTitle="Main phone" />,
+      <VAFacilityPhone phoneNumber="301-000-0000" phoneTitle="Main number" />,
     );
     expect(wrapper.find('strong').exists()).to.be.true;
     const telephone = wrapper.find('va-telephone');
     const telephoneProps = telephone.props();
     expect(telephoneProps).to.deep.equal({
-      contact: '3010000000',
+      contact: '301-000-0000',
       extension: '',
+      'message-aria-describedby': 'Main number',
     });
     wrapper.unmount();
   });
@@ -475,8 +478,9 @@ describe('VAFacilityPhone', () => {
     const telephone = wrapper.find('va-telephone');
     const telephoneProps = telephone.props();
     expect(telephoneProps).to.deep.equal({
-      contact: '3010000000',
+      contact: '301-000-0000',
       extension: '',
+      'message-aria-describedby': 'Phone',
     });
     wrapper.unmount();
   });
@@ -484,14 +488,12 @@ describe('VAFacilityPhone', () => {
 describe('processPhoneNumber', () => {
   it('should process phone number strings into phone and extension', () => {
     const phoneNumber = '800-827-1000';
-    const phoneNumberNoDashes = '8008271000';
     const extension = '123';
     const phoneConditions = [
       '',
       'x',
       ' ext ',
       ' ext. ',
-      ' extension ',
       ' x. ',
       ', x',
       ', ext',
@@ -504,13 +506,15 @@ describe('processPhoneNumber', () => {
       const processed = processPhoneNumber(phoneConditions[i]);
       if (i === 0) {
         expect(processed).to.deep.equal({
-          phone: phoneNumberNoDashes,
+          phone: phoneNumber,
           ext: '',
+          processed: true,
         });
       } else {
         expect(processed).to.deep.equal({
-          phone: phoneNumberNoDashes,
+          phone: phoneNumber,
           ext: extension,
+          processed: true,
         });
       }
     }
