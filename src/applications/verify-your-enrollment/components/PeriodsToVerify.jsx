@@ -27,25 +27,13 @@ const PeriodsToVerify = ({
   useEffect(
     () => {
       if (
-        userEnrollmentData?.['vye::UserInfo']?.awards &&
+        userEnrollmentData?.['vye::UserInfo']?.verifications &&
         userEnrollmentData?.['vye::UserInfo']?.pendingVerifications
       ) {
-        const { awards, pendingVerifications } = userEnrollmentData?.[
-          'vye::UserInfo'
-        ];
-        // add all previouslyVerified data into single array
-        const { awardIds } = pendingVerifications;
-        const toBeVerifiedEnrollmentsArray = [];
-        awardIds.forEach(id => {
-          // check for each id inside award_ids array
-          if (awards.some(award => award.id === id)) {
-            toBeVerifiedEnrollmentsArray.push(
-              awards.find(award => award.id === id),
-            );
-          }
-        });
+        const { pendingVerifications } = userEnrollmentData?.['vye::UserInfo'];
 
-        setPendingEnrollments(toBeVerifiedEnrollmentsArray);
+        // add all data to be verified into single array
+        setPendingEnrollments(pendingVerifications);
       }
     },
     [userEnrollmentData],
@@ -53,8 +41,8 @@ const PeriodsToVerify = ({
 
   return (
     <div id="verifications-pending-alert">
-      {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
-        .length > 0 && (
+      {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.length >
+        0 && (
         <va-alert
           close-btn-aria-label="Close notification"
           status="info"
@@ -79,15 +67,15 @@ const PeriodsToVerify = ({
                 as it would always show the verified success statement if there are no pending
                 enrollments even if the user didn't just verify
             */}
-      {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
-        .length === 0 &&
+      {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.length ===
+        0 &&
         justVerified && (
           <div>
             <VerifiedSuccessStatement />
           </div>
         )}
-      {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.awardIds
-        .length === 0 &&
+      {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.length ===
+        0 &&
         !justVerified && (
           <div className="vads-u-margin-top--2">
             <UpToDateVerificationStatement />
