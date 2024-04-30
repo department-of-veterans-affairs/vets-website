@@ -20,11 +20,6 @@ export const breadcrumbsReducer = (state = initialState, action) => {
         list: newCrumbList,
       };
     }
-    case Actions.Breadcrumbs.CLEAR_BREAD_CRUMB: {
-      return {
-        list: [],
-      };
-    }
     default:
       return state;
   }

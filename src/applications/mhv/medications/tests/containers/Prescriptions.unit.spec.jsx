@@ -95,6 +95,29 @@ describe('Medications Prescriptions container', () => {
     expect(await screen.findByTestId('list-page-title')).to.exist;
   });
 
+  it('displays api error alert', () => {
+    const screen = renderWithStoreAndRouter(<Prescriptions />, {
+      initialState: {
+        rx: {
+          prescriptions: {
+            apiError: true,
+          },
+          breadcrumbs: {
+            list: [
+              { url: medicationsUrls.MEDICATIONS_ABOUT },
+              { label: 'About medications' },
+            ],
+          },
+          allergies: { error: true },
+        },
+      },
+      reducers: reducer,
+      path: '/',
+    });
+    expect(screen.getByText('We can’t access your medications right now')).to
+      .exist;
+  });
+
   it('displays empty list alert', () => {
     const mockData = [];
     resetFetch();

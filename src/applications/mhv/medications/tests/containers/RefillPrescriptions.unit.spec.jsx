@@ -18,6 +18,7 @@ describe('Refill Prescriptions Component', () => {
     rx: {
       prescriptions: {
         selectedSortOption: 'alphabeticallyByStatus',
+        apiError: false,
       },
       breadcrumbs: {
         list: [

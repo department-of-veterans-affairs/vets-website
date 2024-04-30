@@ -2,11 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 import { Link, useLocation } from 'react-router-dom';
-import {
-  removeBreadcrumbs,
-  setBreadcrumbs,
-  clearBreadcrumbs,
-} from '../actions/breadcrumbs';
+import { removeBreadcrumbs, setBreadcrumbs } from '../actions/breadcrumbs';
 import { medicationsUrls } from '../util/constants';
 
 const RxBreadcrumbs = () => {
@@ -24,8 +20,6 @@ const RxBreadcrumbs = () => {
             label: 'About medications',
           }),
         );
-      } else if (crumbs?.length && location.pathname.includes('/about')) {
-        dispatch(clearBreadcrumbs());
       }
     },
     [dispatch, crumbs, location.pathname],
