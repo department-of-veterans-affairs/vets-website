@@ -97,6 +97,23 @@ const analyticsEvents = {
         },
       },
     },
+    {
+      action: 'load',
+      event: 'nav-alert-box-load',
+      prefix: 'alert-box',
+      ga4: {
+        event: 'interaction',
+        component_name: 'va-alert',
+        custom_string_1: 'component-library',
+        /* Component to GA4 parameters */
+        mapping: {
+          'alert-box-clickLabel': 'custom_string_2',
+          'alert-box-headline': 'heading_1',
+          'alert-box-status': 'status',
+          version: 'component_version',
+        },
+      },
+    },
   ],
   'va-alert-expandable': [
     {

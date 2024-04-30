@@ -61,4 +61,32 @@ describe('Site-wide component library analytics', () => {
 
     expect(recordEvent.calledWith(dataLayerEvent)).to.be.true;
   });
+
+  it('should push events to the analytics dataLayer for va-alert web component', () => {
+    const recordEvent = sinon.spy();
+    const event = {
+      detail: {
+        componentName: 'va-alert',
+        action: 'load',
+        details: {
+          clickLabel: 'Click label',
+          headline: 'Headline text',
+          status: 'continue',
+        },
+      },
+    };
+
+    const dataLayerEvent = {
+      event: 'nav-alert-box-load',
+      'event-source': 'component-library',
+      'component-library-version': undefined,
+      'alert-box-clickLabel': 'Click label',
+      'alert-box-headline': 'Headline text',
+      'alert-box-status': 'continue',
+    };
+
+    subscribeComponentAnalyticsEvents(event, recordEvent);
+
+    expect(recordEvent.calledWith(dataLayerEvent)).to.be.true;
+  });
 });
