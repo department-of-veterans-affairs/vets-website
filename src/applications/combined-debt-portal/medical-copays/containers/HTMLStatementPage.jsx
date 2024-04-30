@@ -50,10 +50,6 @@ const HTMLStatementPage = ({ match }) => {
             label: 'Home',
           },
           {
-            href: '/manage-va-debt',
-            label: 'Manage your VA debt',
-          },
-          {
             href: '/manage-va-debt/summary',
             label: 'Your VA debt and bills',
           },
@@ -85,6 +81,7 @@ const HTMLStatementPage = ({ match }) => {
           paymentsReceived={selectedCopay.pHTotCredits}
           previousBalance={selectedCopay.pHPrevBal}
           statementDate={statementDate}
+          acctNum={statementsByUniqueFacility[0].pHAccountNumber}
         />
         <StatementCharges
           data-testid="statement-charges"
@@ -102,15 +99,6 @@ const HTMLStatementPage = ({ match }) => {
           data-testid="statement-addresses"
           copay={selectedCopay}
         />
-        <h2 id="what-do-questions">
-          What to do if you have questions about your statement
-        </h2>
-        <p>
-          Contact the VA Health Resource Center at{' '}
-          <va-telephone contact="8664001238" /> (
-          <va-telephone tty contact="711" />
-          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-        </p>
         <HowToPay
           acctNum={statementsByUniqueFacility[0].pHAccountNumber}
           facility={statementsByUniqueFacility[0].station}

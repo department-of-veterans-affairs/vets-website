@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
 import { SIGN_IN_URL } from '../../../../constants';
 
@@ -45,6 +45,7 @@ export const MobileLogoRow = () => {
             type="button"
           >
             Menu
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-icon-component */}
             <i
               aria-hidden="true"
               className="fa fa-bars vads-u-margin-left--1 vads-u-font-size--sm"

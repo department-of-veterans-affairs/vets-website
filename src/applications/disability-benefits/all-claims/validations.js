@@ -270,10 +270,10 @@ export const isLessThan180DaysInFuture = (errors, fieldData) => {
   const in180Days = moment().add(180, 'days');
   if (enteredDate.isValid()) {
     if (enteredDate.isBefore()) {
-      errors.addError('Please enter a future separation date');
+      errors.addError('Enter a future separation date');
     } else if (enteredDate.isSameOrAfter(in180Days)) {
       errors.addError(
-        'Please enter a separation date less than 180 days in the future',
+        'Enter a separation date less than 180 days in the future',
       );
     }
   }
@@ -295,7 +295,7 @@ export const title10BeforeRad = (errors, pageData) => {
 
   if (rad.isValid() && activation.isValid() && rad.isBefore(activation)) {
     errors.reservesNationalGuardService.title10Activation.anticipatedSeparationDate.addError(
-      'Please enter an expected separation date that is after your activation date',
+      'Enter an expected separation date that is after your activation date',
     );
   }
 };
@@ -589,7 +589,8 @@ export const validateAge = (
   _currentIndex,
   appStateData,
 ) => {
-  if (moment(dateString).isBefore(moment(appStateData.dob).add(13, 'years'))) {
+  const dob = moment(appStateData.dob).add(13, 'years');
+  if (moment(dateString).isSameOrBefore(dob)) {
     errors.addError('Your start date must be after your 13th birthday');
   }
 };
@@ -673,7 +674,9 @@ export const validateTitle10StartDate = (
       }
       return b > a ? -1 : 1;
     });
-  if (!startTimes[0] || dateString < startTimes[0]) {
+  if (moment(dateString).isAfter()) {
+    errors.addError('Enter an activation date in the past');
+  } else if (!startTimes[0] || dateString < startTimes[0]) {
     errors.addError(
       'Your activation date must be after your earliest service start date for the Reserve or the National Guard',
     );

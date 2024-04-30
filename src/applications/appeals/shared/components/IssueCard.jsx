@@ -140,6 +140,7 @@ export const IssueCard = ({
     'vads-u-font-size--h4',
     'vads-u-margin--0',
     'capitalize',
+    'overflow-wrap-word',
   ].join(' ');
 
   const removeButtonClass = [

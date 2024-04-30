@@ -62,6 +62,16 @@ export const INSTITUTION_TYPES = [
   'High school',
 ];
 
+export const INSTITUTION_TYPES_DICTIONARY = {
+  Public: 'Public',
+  'For profit': 'For-profit',
+  Private: 'Private',
+  Foreign: 'Foreign',
+  Flight: 'Flight',
+  Correspondence: 'Correspondence',
+  'High school': 'High School',
+};
+
 export const ariaLabels = Object.freeze({
   learnMore: {
     accreditation:

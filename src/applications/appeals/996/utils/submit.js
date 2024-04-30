@@ -5,11 +5,16 @@ import '../../shared/definitions';
 import { replaceSubmittedData } from '../../shared/utils/replace';
 import { removeEmptyEntries } from '../../shared/utils/submit';
 
+const nonDigitRegex = /[^\d]/g;
+
 export const getRep = formData => {
   if (formData.informalConference !== 'rep') {
     return null;
   }
-  const phoneNumber = formData?.informalConferenceRep?.phone;
+  const phoneNumber = (formData?.informalConferenceRep?.phone || '').replace(
+    nonDigitRegex,
+    '',
+  );
   const phone = {
     countryCode: '1',
     areaCode: phoneNumber.substring(0, 3),

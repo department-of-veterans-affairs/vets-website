@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   isAuthenticatedWithSSOe,
   isAuthenticatedWithOAuth,
 } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
-
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { Auth } from '../States/Auth';
 import { Unauth } from '../States/Unauth';
 
 export const App = ({
   baseHeader,
+  showIntroCopy,
   toggleLoginModal,
   authenticatedWithSSOe,
   authenticatedWithOAuth,
@@ -21,23 +23,60 @@ export const App = ({
 
   const loggedIn = authenticatedWithSSOe || authenticatedWithOAuth;
 
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+  const togglesLoading = useToggleLoadingValue();
+
+  const appEnabled = useToggleValue(TOGGLE_NAMES.representativeStatusEnabled);
+
+  useEffect(
+    () => {
+      if (loggedIn) {
+        focusElement('.representative-status-widget');
+      }
+    },
+    [loggedIn],
+  );
+
+  if (togglesLoading || !appEnabled) {
+    return null;
+  }
+
   return (
     <>
-      {loggedIn ? (
+      {showIntroCopy && (
         <>
-          <Auth
-            DynamicHeader={DynamicHeader}
-            DynamicSubheader={DynamicSubheader}
-          />
-        </>
-      ) : (
-        <>
-          <Unauth
-            toggleLoginModal={toggleLoginModal}
-            DynamicHeader={DynamicHeader}
-          />
+          <h2>Check if you already have an accredited representative</h2>
+          <p>
+            We don’t automatically assign you an accredited representative, but
+            you may have appointed one in the past.
+          </p>
+          <p>
+            If you appoint a new accredited representative, they will replace
+            your current one.
+          </p>
         </>
       )}
+      <div className="representative-status-widget">
+        {loggedIn ? (
+          <>
+            <Auth
+              DynamicHeader={DynamicHeader}
+              DynamicSubheader={DynamicSubheader}
+            />
+          </>
+        ) : (
+          <>
+            <Unauth
+              toggleLoginModal={toggleLoginModal}
+              DynamicHeader={DynamicHeader}
+            />
+          </>
+        )}
+      </div>
     </>
   );
 };
@@ -48,6 +87,7 @@ App.propTypes = {
   authenticatedWithSSOe: PropTypes.bool,
   baseHeader: PropTypes.number,
   hasRepresentative: PropTypes.bool,
+  showIntroCopy: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
