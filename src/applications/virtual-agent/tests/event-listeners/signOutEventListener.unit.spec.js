@@ -7,6 +7,7 @@ import signOutEventListener from '../../event-listeners/signOutEventListener';
 
 describe('signOutEventListener', () => {
   let sandbox;
+
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
   });

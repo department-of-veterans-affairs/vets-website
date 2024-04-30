@@ -6,29 +6,29 @@ import { isMobile } from 'react-device-detect'; // Adding this library for acces
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 // Hooks
-import useBotPonyFill from '../../hooks/useBotPonyfill';
-import useDirectLine from '../../hooks/useDirectline';
-import useRecordRxSession from '../../hooks/useRecordRxSession';
-import useRxSkillEventListener from '../../hooks/useRxSkillEventListener';
-import useSetSendBoxMessage from '../../hooks/useSetSendBoxMessage';
-import useWebChatStore from '../../hooks/useWebChatStore';
+import useBotPonyFill from '../hooks/useBotPonyfill';
+import useDirectLine from '../hooks/useDirectline';
+import useRecordRxSession from '../hooks/useRecordRxSession';
+import useRxSkillEventListener from '../hooks/useRxSkillEventListener';
+import useSetSendBoxMessage from '../hooks/useSetSendBoxMessage';
+import useWebChatStore from '../hooks/useWebChatStore';
 
 // Event Listeners
-import clearBotSessionStorageEventListener from '../../event-listeners/clearBotSessionStorageEventListener';
-import signOutEventListener from '../../event-listeners/signOutEventListener';
+import clearBotSessionStorageEventListener from '../event-listeners/clearBotSessionStorageEventListener';
+import signOutEventListener from '../event-listeners/signOutEventListener';
 
 // Middleware
-import { cardActionMiddleware } from '../../middleware/cardActionMiddleware';
+import { cardActionMiddleware } from '../middleware/cardActionMiddleware';
 
 // Selectors
-import selectUserFirstName from '../../selectors/selectUserFirstName';
-import selectAccountUuid from '../../selectors/selectAccountUuid';
-import selectUserCurrentlyLoggedIn from '../../selectors/selectUserCurrentlyLoggedIn';
+import selectUserFirstName from '../selectors/selectUserFirstName';
+import selectAccountUuid from '../selectors/selectAccountUuid';
+import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedIn';
 
 // Utils and Helpers
-import MarkdownRenderer from './markdownRenderer';
-import handleTelemetry from '../../utils/telemetry';
-import validateParameters from '../../utils/validateParameters';
+import MarkdownRenderer from '../utils/markdownRenderer';
+import handleTelemetry from '../utils/telemetry';
+import validateParameters from '../utils/validateParameters';
 
 const styleOptions = {
   hideUploadButton: true,

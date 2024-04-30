@@ -5,7 +5,7 @@ import MarkdownRenderer, {
   recordChatbotEvents,
   getRenderToken,
   getDefaultRenderer,
-} from '../../../components/webchat/markdownRenderer';
+} from '../../utils/markdownRenderer';
 
 describe('markdownRenderer', () => {
   let sandbox;

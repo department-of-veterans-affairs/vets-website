@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import StartConvoAndTrackUtterances from '../components/webchat/startConvoAndTrackUtterances';
+import StartConvoAndTrackUtterances from '../utils/startConvoAndTrackUtterances';
 
 export function getApiUrl(environment) {
   return process.env.VIRTUAL_AGENT_BACKEND_URL || environment.API_URL;

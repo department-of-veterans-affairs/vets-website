@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import retryOnce from '../../../components/chatbox/retryOnce';
+import retryOnce from '../../utils/retryOnce';
 
 describe('retryOnce', () => {
   it('should return the result of the retryable function if it succeeds', async () => {

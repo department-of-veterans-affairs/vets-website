@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import StartConvoAndTrackUtterances from '../../../components/webchat/startConvoAndTrackUtterances';
-import * as ActionHelpersModule from '../../../utils/actions';
+import StartConvoAndTrackUtterances from '../../utils/startConvoAndTrackUtterances';
+import * as ActionHelpersModule from '../../utils/actions';
 
 describe('startConvoAndTrackUtterances', () => {
   let sandbox;

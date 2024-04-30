@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import piiReplace from '../components/webchat/piiReplace';
+import piiReplace from './piiReplace';
 import {
   getConversationIdKey,
   getInAuthExp,

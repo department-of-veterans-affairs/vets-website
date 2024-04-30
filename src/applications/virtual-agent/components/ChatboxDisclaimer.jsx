@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import recordEvent from 'platform/monitoring/record-event';
-import { clearBotSessionStorage } from '../../utils/sessionStorage';
-import { ACCEPTED } from '../../reducers';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { clearBotSessionStorage } from '../utils/sessionStorage';
+import { ACCEPTED } from '../reducers';
 
 export const ChatboxDisclaimer = () => {
   const dispatch = useDispatch();
@@ -27,10 +27,11 @@ export const ChatboxDisclaimer = () => {
             address, or anything else that can be used to identify you.
           </li>
         </ul>
-        <button
+        <va-button
           id="btnAcceptDisclaimer"
           data-testid="btnAcceptDisclaimer"
           className="usa-button-primary"
+          text="Start chat"
           onClick={() => {
             recordEvent({
               action: 'click',
@@ -43,9 +44,7 @@ export const ChatboxDisclaimer = () => {
             clearBotSessionStorage(true);
             dispatch({ type: ACCEPTED });
           }}
-        >
-          Start chat
-        </button>
+        />
       </div>
     </va-alert>
   );

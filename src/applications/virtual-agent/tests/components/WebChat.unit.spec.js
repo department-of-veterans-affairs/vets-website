@@ -8,29 +8,29 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import * as ApiModule from '@department-of-veterans-affairs/platform-utilities/api';
-import WebChat, { renderMarkdown } from '../../../components/webchat/WebChat';
-import MarkdownRenderer from '../../../components/webchat/markdownRenderer';
+import WebChat, { renderMarkdown } from '../../components/WebChat';
+import MarkdownRenderer from '../../utils/markdownRenderer';
 
 // Event Listeners
-import * as signOutEventListenerModule from '../../../event-listeners/signOutEventListener';
-import * as ClearBotSessionStorageEventListenerModule from '../../../event-listeners/clearBotSessionStorageEventListener';
+import * as signOutEventListenerModule from '../../event-listeners/signOutEventListener';
+import * as ClearBotSessionStorageEventListenerModule from '../../event-listeners/clearBotSessionStorageEventListener';
 
 // Selectors
-import * as SelectAccountUuidModule from '../../../selectors/selectAccountUuid';
-import * as SelectUserCurrentlyLoggedInModule from '../../../selectors/selectUserCurrentlyLoggedIn';
-import * as SelectUserFirstNameModule from '../../../selectors/selectUserFirstName';
+import * as SelectAccountUuidModule from '../../selectors/selectAccountUuid';
+import * as SelectUserCurrentlyLoggedInModule from '../../selectors/selectUserCurrentlyLoggedIn';
+import * as SelectUserFirstNameModule from '../../selectors/selectUserFirstName';
 
 // Hooks
-import * as UseBotPonyfillModule from '../../../hooks/useBotPonyfill';
-import * as UseDirectLineModule from '../../../hooks/useDirectline';
-import * as UseRecordRxSessionModule from '../../../hooks/useRecordRxSession';
-import * as UseRxSkillEventListenerModule from '../../../hooks/useRxSkillEventListener';
-import * as UseSetSendBoxMessageModule from '../../../hooks/useSetSendBoxMessage';
-import * as UseWebChatStoreModule from '../../../hooks/useWebChatStore';
+import * as UseBotPonyfillModule from '../../hooks/useBotPonyfill';
+import * as UseDirectLineModule from '../../hooks/useDirectline';
+import * as UseRecordRxSessionModule from '../../hooks/useRecordRxSession';
+import * as UseRxSkillEventListenerModule from '../../hooks/useRxSkillEventListener';
+import * as UseSetSendBoxMessageModule from '../../hooks/useSetSendBoxMessage';
+import * as UseWebChatStoreModule from '../../hooks/useWebChatStore';
 
 // Utils and Helpers
-import * as SessionStorageModule from '../../../utils/sessionStorage';
-import * as ValidateParametersModule from '../../../utils/validateParameters';
+import * as SessionStorageModule from '../../utils/sessionStorage';
+import * as ValidateParametersModule from '../../utils/validateParameters';
 
 describe('WebChat', () => {
   let sandbox;

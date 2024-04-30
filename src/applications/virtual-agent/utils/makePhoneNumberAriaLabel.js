@@ -16,16 +16,11 @@ function chunksOf3(string) {
 }
 
 function sanitizePhoneNumber(unsanitizedPhoneNumber) {
-  return unsanitizedPhoneNumber
-    .replaceAll('-', '')
-    .replaceAll('+', '')
-    .replaceAll('(', '')
-    .replaceAll(')', '');
+  return unsanitizedPhoneNumber.replace(/[^\d]/g, '');
 }
 
 function breakIntoChunks(unsanitizedPhoneNumber) {
   const phoneNumber = sanitizePhoneNumber(unsanitizedPhoneNumber);
-
   const [unchunkedPart, lastChunk] = splitOffLastNCharacters(phoneNumber, 4);
 
   const firstChunks = chunksOf3(unchunkedPart);

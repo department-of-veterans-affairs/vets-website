@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import * as Sentry from '@sentry/browser';
-import retryOnce from '../components/chatbox/retryOnce';
+import retryOnce from '../utils/retryOnce';
 import { COMPLETE, ERROR, LOADING } from '../utils/loadingStatus';
 import { useWaitForCsrfToken } from './useWaitForCsrfToken';
 import {

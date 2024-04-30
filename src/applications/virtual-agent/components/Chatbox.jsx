@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import SignInModal from '@department-of-veterans-affairs/platform-user/SignInModal';
-import ChatbotError from '../chatbot-error/ChatbotError';
-import WebChat from '../webchat/WebChat';
+import ChatbotError from './ChatbotError';
+import WebChat from './WebChat';
 import ChatboxDisclaimer from './ChatboxDisclaimer';
-import { COMPLETE, ERROR, LOADING } from '../../utils/loadingStatus';
-import useWebChat from '../../hooks/useWebChat';
+import { COMPLETE, ERROR, LOADING } from '../utils/loadingStatus';
+import useWebChat from '../hooks/useWebChat';
 import {
   getInAuthExp,
   getLoggedInFlow,
   setInAuthExp,
   setLoggedInFlow,
-  storeUtterances,
-} from '../../utils/sessionStorage';
-
-// const ONE_MINUTE_IN_MS = 60_000;
+} from '../utils/sessionStorage';
+import useBotOutgoingActivityEventListener from '../hooks/useBotOutgoingActivityEventListener';
+import useWebMessageActivityEventListener from '../hooks/useWebMessageActivityEventListener';
+import webAuthActivityEventListener from '../event-listeners/webAuthActivityEventListener';
 
 function showBot(
   loggedIn,
@@ -59,45 +59,13 @@ function Chatbox(props) {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
   const isAccepted = useSelector(state => state.virtualAgentData.termsAccepted);
   const [isAuthTopic, setIsAuthTopic] = useState(false);
-  const [lastMessageTime, setLastMessageTime] = useState(0);
   const [chatBotLoadTime] = useState(Date.now());
-  const ONE_SEC_IN_MILLISECONDS = 1000;
-  const ONE_MIN = ONE_SEC_IN_MILLISECONDS * 60;
 
-  window.addEventListener('webchat-auth-activity', () => {
-    setTimeout(function() {
-      if (!isLoggedIn) {
-        setLoggedInFlow('true');
-        setIsAuthTopic(true);
-      }
-    }, 2000);
-  });
+  webAuthActivityEventListener(isLoggedIn, setIsAuthTopic);
 
-  useEffect(() => {
-    window.addEventListener('bot-outgoing-activity', () => {
-      const currentTime = Date.now();
+  useBotOutgoingActivityEventListener(chatBotLoadTime);
 
-      if (lastMessageTime && currentTime - lastMessageTime > 30 * ONE_MIN) {
-        window.location.reload();
-      } else {
-        setLastMessageTime(currentTime);
-      }
-
-      if (currentTime - chatBotLoadTime > 60 * ONE_MIN) {
-        window.location.reload();
-      }
-    });
-  });
-
-  useEffect(() => {
-    // initiate the event handler
-    window.addEventListener('webchat-message-activity', storeUtterances);
-
-    // this will clean up the event every time the component is re-rendered
-    return function cleanup() {
-      window.removeEventListener('webchat-message-activity', storeUtterances);
-    };
-  });
+  useWebMessageActivityEventListener();
 
   const loggedInFlow = getLoggedInFlow();
   if (loggedInFlow === 'true' && isLoggedIn) {

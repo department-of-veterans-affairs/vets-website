@@ -1,5 +1,5 @@
-import piiReplace from '../components/webchat/piiReplace';
 import { expect } from 'chai';
+import piiReplace from '../../utils/piiReplace';
 
 describe('replacing a message that includes pii with ****', () => {
   it("should replace ssn's with ****", () => {

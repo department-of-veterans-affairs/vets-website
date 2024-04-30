@@ -3,7 +3,7 @@ import {
   processSendMessageActivity,
   processIncomingActivity,
   processMicrophoneActivity,
-} from '../../utils/actions';
+} from './actions';
 
 const StartConvoAndTrackUtterances = {
   makeBotStartConvoAndTrackUtterances: event => ({
