@@ -174,11 +174,7 @@ function DocumentsFiled({ claim }) {
                   {item.text && (
                     <div className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                       {reviewed(item.text) && (
-                        <va-icon
-                          size={4}
-                          icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                          className="docs-filed-icon"
-                        />
+                        <i className="fa fa-check-circle docs-filed-icon" />
                       )}
                       <span className="docs-filed-text">{item.text}</span>
                     </div>
