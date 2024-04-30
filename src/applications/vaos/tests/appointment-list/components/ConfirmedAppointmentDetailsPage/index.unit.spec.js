@@ -60,7 +60,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         .format('dddd, MMMM D, YYYY')}`,
     );
     console.log(
-      `moment.now(): ${moment.now().format('YYYY-MM-DDTHH:mm:ss.000Z')}`,
+      `moment.now(): ${moment()
+        .now()
+        .format('YYYY-MM-DDTHH:mm:ss.000Z')}`,
     );
   });
 
