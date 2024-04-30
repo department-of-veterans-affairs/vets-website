@@ -37,7 +37,7 @@ describe('<ClaimLetterListItem>', () => {
   it('should have the correct description', () => {
     const screen = render(<ClaimLetterListItem letter={mockLetter} />);
 
-    expect(screen.getByText(/Notification Letter/i)).to.exist;
+    expect(screen.getByText(/Notification letter/i)).to.exist;
   });
 
   it('should use the default description when no `docType` is provided', () => {
@@ -45,7 +45,7 @@ describe('<ClaimLetterListItem>', () => {
       <ClaimLetterListItem letter={mockLetterWithoutDocType} />,
     );
 
-    expect(screen.getByText(/Notification Letter/i)).to.exist;
+    expect(screen.getByText(/Notification letter/i)).to.exist;
   });
 
   it(' when click Download Letter link, should call record event', () => {

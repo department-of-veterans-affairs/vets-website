@@ -4,6 +4,7 @@ import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { getClaimLetters } from '../../actions';
 import ClaimsBreadcrumbs from '../../components/ClaimsBreadcrumbs';
 import ClaimLetterList from '../../components/ClaimLetterList';
@@ -29,6 +30,18 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   const totalPages = useRef(0);
   const paginatedItems = useRef([]);
   const requestStatus = useRef(200);
+  const {
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
+  const isLoadingFeatureFlags = useToggleLoadingValue();
+  const iscstIncludeDdlBoaLettersEnabled = useToggleValue(
+    TOGGLE_NAMES.cstIncludeDdlBoaLetters,
+  );
+  const claimLetterHeader = iscstIncludeDdlBoaLettersEnabled
+    ? 'Your VA claim and appeal letters'
+    : 'Your Va claim letters';
 
   useEffect(() => {
     getClaimLetters()
@@ -99,7 +112,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
     );
   };
 
-  if (isLoading) {
+  if (isLoading || isLoadingFeatureFlags) {
     return <va-loading-indicator message="Loading application..." />;
   }
 
@@ -108,7 +121,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   if (showClaimLetters) {
     content = (
       <>
-        <h1>Your VA claim letters</h1>
+        <h1>{claimLetterHeader}</h1>
         <div className="vads-u-font-size--lg vads-u-padding-bottom--1">
           You can download your claim letters. We also mail you these letters.
         </div>
@@ -125,7 +138,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
 
   const crumb = {
     href: `../your-claim-letters`,
-    label: 'Your VA claim letters',
+    label: `${claimLetterHeader}`,
     isRouterLink: true,
   };
 

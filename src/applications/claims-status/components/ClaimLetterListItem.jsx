@@ -12,11 +12,11 @@ const getDownloadUrl = (id, docType) =>
 const formatDate = buildDateFormatter();
 
 const docTypeToDescription = {
-  27: 'Board Of Appeals Decision Letter',
-  704: '5103 Notice',
-  706: '5103 Notice',
-  858: '5103 Notice',
-  184: 'Notification Letter',
+  27: 'Appeals decision letter',
+  704: '5103 notice',
+  706: '5103 notice',
+  858: '5103 notice',
+  184: 'Notification letter',
 };
 
 const getDescription = docType => {
