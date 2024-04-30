@@ -165,7 +165,7 @@ function DocumentsFiled({ claim }) {
                         {doc.uploadDate === null &&
                           item.date !== null && (
                             <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--1">
-                              {`Received on ${formatDate(item.date)}`}
+                              {`Received on test ${formatDate(item.date)}`}
                             </p>
                           )}
                       </div>
@@ -174,7 +174,11 @@ function DocumentsFiled({ claim }) {
                   {item.text && (
                     <div className="vads-u-margin-top--0 vads-u-margin-bottom--1">
                       {reviewed(item.text) && (
-                        <i className="fa fa-check-circle docs-filed-icon" />
+                        <va-icon
+                          size={4}
+                          icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                          className="docs-filed-icon"
+                        />
                       )}
                       <span className="docs-filed-text">{item.text}</span>
                     </div>
