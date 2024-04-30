@@ -77,19 +77,14 @@ export const typeEachChar = str => {
   return cy.realType(str);
 };
 
-export const fillSelectByTyping = (str, attempt = 0) => {
+export const fillSelectByTyping = (str, handleFailure, attempt = 0) => {
   if (typeof str !== 'string') {
-    return fillSelectByTyping(`${str}`, attempt);
+    return fillSelectByTyping(`${str}`, handleFailure, attempt);
   }
 
   if (attempt > 3) {
-    cy.document().then(doc => {
-      throw new Error(
-        `Unable to enter ${str} in ${
-          doc?.activeElement?.tagName
-        } after 3 tries`,
-      );
-    });
+    cy.log(`Unable to enter ${str} in select after 3 tries.`);
+    handleFailure(str);
   }
 
   return cy
@@ -107,7 +102,7 @@ export const fillSelectByTyping = (str, attempt = 0) => {
       // the select to reset the selection process.
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
-      fillSelectByTyping(str, attempt + 1);
+      fillSelectByTyping(str, handleFailure, attempt + 1);
     });
 };
 
@@ -117,7 +112,9 @@ export const fillDate = fieldData => {
     month: 'long',
     timeZone: 'UTC',
   });
-  fillSelectByTyping(monthString);
+  fillSelectByTyping(monthString, str => {
+    throw new Error(`Failed to enter ${str} in 'fillDate'`);
+  });
   cy.realPress('Tab', { pressDelay: 0 });
   typeEachChar(parseInt(dateSegments[2], 10));
   cy.realPress('Tab', { pressDelay: 0 });
@@ -168,9 +165,13 @@ export const fillField = ({
       month: 'long',
       timeZone: 'UTC',
     });
-    fillSelectByTyping(monthString);
+    fillSelectByTyping(monthString, str => {
+      throw new Error(`Failed to enter ${str} in 'date'`);
+    });
     cy.tabToElement(`#${name}Day`);
-    fillSelectByTyping(date[2]);
+    fillSelectByTyping(date[2], str => {
+      throw new Error(`Failed to enter ${str} in 'date'`);
+    });
     cy.tabToElement(`input[name="${name}Year"]`);
     typeEachChar(date[0]);
     return;
@@ -189,7 +190,9 @@ export const fillField = ({
             elementSchema.enum.findIndex(value => value === fieldData)
           ]
         : fieldData;
-    fillSelectByTyping(enumName);
+    fillSelectByTyping(enumName, str => {
+      throw new Error(`Failed to enter ${str} in 'VaSelectField'`);
+    });
   } else if (type === 'VaMemorableDateField') {
     fillDate(fieldData);
   } else if (type === 'YesNoField' || type === 'yesNo') {
@@ -234,7 +237,9 @@ export const fillStateField = (path, schema, uiSchema, data) => {
   cy.document().then(doc => {
     const tagName = doc.activeElement?.tagName?.toLowerCase();
     if (tagName === 'select' || tagName === 'va-select') {
-      fillSelectByTyping(enumName);
+      fillSelectByTyping(enumName, str => {
+        throw new Error(`Failed to enter ${str} in 'select' or 'va-select`);
+      });
     } else {
       fillInput(fieldData);
     }
