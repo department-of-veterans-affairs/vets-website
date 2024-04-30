@@ -49,8 +49,18 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   beforeEach(() => {
     mockFetch();
     mockFacilitiesFetchByVersion();
+
     console.log(
       `TZ: ${new Date().toLocaleString('en', { timeZoneName: 'long' })}`,
+    );
+
+    console.log(
+      `expect: ${moment()
+        .tz('America/Denver')
+        .format('dddd, MMMM D, YYYY')}`,
+    );
+    console.log(
+      `moment.now(): ${moment.now().format('YYYY-MM-DDTHH:mm:ss.000Z')}`,
     );
   });
 
