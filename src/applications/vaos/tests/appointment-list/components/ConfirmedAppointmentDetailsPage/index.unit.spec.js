@@ -49,6 +49,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   beforeEach(() => {
     mockFetch();
     mockFacilitiesFetchByVersion();
+    console.log(
+      `TZ: ${new Date().toLocaleString('en', { timeZoneName: 'long' })}`,
+    );
   });
 
   it('should show confirmed appointments detail page', async () => {
