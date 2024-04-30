@@ -12,9 +12,11 @@ Cypress.Commands.add('fillVaTextInput', (field, value) => {
     element
       .shadow()
       .find('input')
-      .as('currentElement')
-      .clear(DELAY_OPTION)
-      .type(strValue, FORCE_OPTION);
+      .as('currentElement');
+
+    cy.get('@currentElement').clear(DELAY_OPTION);
+
+    cy.get('@currentElement').type(strValue, FORCE_OPTION);
 
     cy.get('@currentElement').should('have.value', strValue);
   }
