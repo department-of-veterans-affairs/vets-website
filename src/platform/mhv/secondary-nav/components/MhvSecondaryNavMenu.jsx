@@ -14,7 +14,9 @@ import MhvSecondaryNavItem from './MhvSecondaryNavItem';
  */
 const MhvSecondaryNavMenu = ({ items }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const secNavEnabled = useToggleValue(TOGGLE_NAMES.mhvSecondaryNavEnabled);
+  const secNavEnabled = useToggleValue(
+    TOGGLE_NAMES.mhvSecondaryNavigationEnabled,
+  );
 
   if (secNavEnabled) {
     // Perform a reverse find to match which nav link we are on, so we match on the home page last

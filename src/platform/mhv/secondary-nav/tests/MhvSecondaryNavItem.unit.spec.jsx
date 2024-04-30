@@ -8,7 +8,7 @@ describe('MHV Secondary Navigation Item Component', () => {
     it('when provided', () => {
       const title = 'a title';
       const abbr = 'an abbr';
-      const { getByRole } = render(
+      const { getAllByText } = render(
         <MhvSecondaryNavItem
           title={title}
           abbreviation={abbr}
@@ -16,23 +16,21 @@ describe('MHV Secondary Navigation Item Component', () => {
           href="/my-health"
         />,
       );
-      const link = getByRole('link');
-      expect(link.text.match(new RegExp(title, 'g'))?.length).to.eql(1);
-      expect(link.text.match(new RegExp(abbr, 'g'))?.length).to.eql(1);
+      expect(getAllByText(title)?.length).to.eql(1);
+      expect(getAllByText(abbr)?.length).to.eql(1);
     });
 
     it('when not provided', () => {
       const title = 'a title';
-      const { getByRole } = render(
+      const { getAllByText } = render(
         <MhvSecondaryNavItem
           title={title}
           iconClass="fas fa-home"
           href="/my-health"
         />,
       );
-      const link = getByRole('link');
-      // The title and abbreviation are always part of the link.
-      expect(link.text.match(new RegExp(title, 'g'))?.length).to.eql(2);
+      // The title and abbreviation are the same
+      expect(getAllByText(title)?.length).to.eql(2);
     });
   });
 

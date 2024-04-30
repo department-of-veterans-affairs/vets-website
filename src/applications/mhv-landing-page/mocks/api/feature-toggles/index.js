@@ -3,7 +3,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvLandingPageEnabled = true,
     mhvLandingPagePersonalization = true,
     mhvLandingPageEnableVaGovHealthToolsLinks = true,
-    mhvSecondaryNavEnabled = true,
+    mhvSecondaryNavigationEnabled = true,
   } = toggles;
 
   return {
@@ -24,7 +24,7 @@ const generateFeatureToggles = (toggles = {}) => {
         },
         {
           name: 'mhv_secondary_navigation_enabled',
-          value: mhvSecondaryNavEnabled,
+          value: mhvSecondaryNavigationEnabled,
         },
       ],
     },
