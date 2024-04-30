@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import Disclaimer from '../components/page/Disclaimer';
+import Disclaimer from '../components/Disclaimer';
 
 describe('Disclaimer', () => {
   let wrapper;

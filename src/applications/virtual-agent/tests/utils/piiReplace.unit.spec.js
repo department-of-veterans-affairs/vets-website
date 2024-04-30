@@ -6,8 +6,8 @@ describe('replacing a message that includes pii with ****', () => {
     const ssns = ['123-45-6789', '856-45-6789'];
     const replacedMessage = '****';
 
-    for (let j = 0; j < ssns.length; j++) {
-      expect(piiReplace(ssns[j])).to.equal(replacedMessage);
+    for (const ssn of ssns) {
+      expect(piiReplace(ssn)).to.equal(replacedMessage);
     }
   });
 
@@ -20,8 +20,8 @@ describe('replacing a message that includes pii with ****', () => {
     ];
     const replacedMessage = '****';
 
-    for (let j = 0; j < phoneNumbers.length; j++) {
-      expect(piiReplace(phoneNumbers[j])).to.equal(replacedMessage);
+    for (const phoneNumber of phoneNumbers) {
+      expect(piiReplace(phoneNumber)).to.equal(replacedMessage);
     }
   });
 
@@ -34,8 +34,8 @@ describe('replacing a message that includes pii with ****', () => {
     ];
     const replacedMessage = '****';
 
-    for (let j = 0; j < emails.length; j++) {
-      expect(piiReplace(emails[j])).to.equal(replacedMessage);
+    for (const email of emails) {
+      expect(piiReplace(email)).to.equal(replacedMessage);
     }
   });
 
@@ -51,8 +51,8 @@ describe('replacing a message that includes pii with ****', () => {
 describe('does not replace invalid pii', () => {
   it('should not replace an invalid ssn', () => {
     const invalidSsns = ['000-45-6789', '8561-45-6789', '856-45-0000'];
-    for (let i = 0; i < invalidSsns.length; i++) {
-      expect(piiReplace(invalidSsns[i])).to.equal(invalidSsns[i]);
+    for (const invalidSsn of invalidSsns) {
+      expect(piiReplace(invalidSsn)).to.equal(invalidSsn);
     }
   });
 
@@ -62,8 +62,8 @@ describe('does not replace invalid pii', () => {
       '1123 456 78901',
       '1123.456.78901',
     ];
-    for (let i = 0; i < invalidPhones.length; i++) {
-      expect(piiReplace(invalidPhones[i])).to.equal(invalidPhones[i]);
+    for (const invalidPhone of invalidPhones) {
+      expect(piiReplace(invalidPhone)).to.equal(invalidPhone);
     }
   });
 });
