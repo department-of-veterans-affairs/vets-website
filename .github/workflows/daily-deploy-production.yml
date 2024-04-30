@@ -6,7 +6,7 @@ on:
       release_wait:
         description: Minutes to wait before creating release
         required: false
-        default: '5'
+        default: '0'
       commit_sha:
         description: Deploy specific commit
         required: false
@@ -138,15 +138,6 @@ jobs:
         uses: whatnick/wait-action@master
         with:
           time: ${{ needs.set-env.outputs.RELEASE_WAIT }}m
-
-      - name: Get next tag version
-        id: bump-tag-version
-        uses: WyriHaximus/github-action-next-semvers@v1
-        with:
-          version: ${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
-
-      - name: Create tag
-        run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ needs.set-env.outputs.COMMIT_SHA }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }}
 
       - name: Create release
         uses: actions/create-release@v1
