@@ -69,7 +69,10 @@ const AppointmentsPage = props => {
     );
   }
   return (
-    <Wrapper pageTitle="Your Appointments" withBackButton>
+    <Wrapper
+      pageTitle={t('#-util-capitalize', { value: t('appointments') })}
+      withBackButton
+    >
       <ActionItemDisplay router={router} />
       <UpcomingAppointments router={router} />
     </Wrapper>
