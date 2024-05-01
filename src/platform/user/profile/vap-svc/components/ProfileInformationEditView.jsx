@@ -251,10 +251,14 @@ export class ProfileInformationEditView extends Component {
       return;
     }
 
-    const focusableElement = getFocusableElements(this.editForm)?.[0];
+    if (this.editForm) {
+      setTimeout(() => {
+        const focusableElement = getFocusableElements(this.editForm)?.[0];
 
-    if (focusableElement) {
-      setTimeout(() => focusElement(focusableElement), 100);
+        if (focusableElement) {
+          focusElement(focusableElement);
+        }
+      }, 100);
     }
   }
 
