@@ -405,11 +405,10 @@ export const App = ({
   return (
     <>
       <div className="row">
-        <div className="usa-width-two-thirds medium-8 columns vads-u-margin-bottom--4">
+        <div className="vads-u-margin-bottom--4">
           <VaBreadcrumbs
             label="Breadcrumbs"
             wrapping
-            uswds
             breadcrumbList={[
               {
                 href: '/',
