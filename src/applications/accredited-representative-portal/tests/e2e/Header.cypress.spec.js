@@ -6,7 +6,7 @@ const featureIsEnabled = value => {
   });
 };
 
-const isInPilot = value => {
+const hasPilotEnabled = value => {
   cy.intercept('GET', '/v0/feature_toggles*', {
     data: {
       features: [{ name: 'accredited_representative_portal_pilot', value }],
@@ -18,7 +18,7 @@ describe('Header on mobile', () => {
   beforeEach(() => {
     cy.viewport(760, 1024);
 
-    isInPilot(true);
+    hasPilotEnabled(true);
     featureIsEnabled(true);
     cy.visit('/representative');
 
@@ -61,7 +61,7 @@ describe('Header on mobile', () => {
 
 describe('Header on screens wider than mobile', () => {
   beforeEach(() => {
-    isInPilot(true);
+    hasPilotEnabled(true);
     featureIsEnabled(true);
     cy.visit('/representative');
 
