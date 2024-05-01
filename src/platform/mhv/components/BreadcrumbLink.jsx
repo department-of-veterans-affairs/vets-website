@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../sass/breadcrumb-link.scss';
 
-const BreadcrumbLink = ({ to, label, onClick, className }) => {
+const BreadcrumbLink = ({ to, label, onClick, datadogActionName }) => {
   return (
     <Link
       to={to}
       onClick={onClick}
-      className={`include-back-arrow ${className}`}
+      data-dd-action-name={datadogActionName}
+      className="include-back-arrow"
     >
       {label}
     </Link>
@@ -18,7 +19,7 @@ const BreadcrumbLink = ({ to, label, onClick, className }) => {
 BreadcrumbLink.propTypes = {
   label: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
-  className: PropTypes.string,
+  datadogActionName: PropTypes.string,
   onClick: PropTypes.func,
 };
 
