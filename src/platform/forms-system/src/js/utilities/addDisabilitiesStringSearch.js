@@ -96,17 +96,18 @@ function lcsSingleVsMulti(
     .map(option => {
       const label = option.toUpperCase();
       const val = userInput.toUpperCase().replace(/[^a-zA-Z ]/g, '');
-      let score;
+      let simScore = 0;
       if (val.split(splitreg).length < 2) {
-        score = nodeLcs(stripCommonWords(val), stripCommonWords(label)).length;
+        simScore = nodeLcs(stripCommonWords(val), stripCommonWords(label))
+          .length;
       } else {
-        score = lcsScoreByWordSum(
+        simScore = lcsScoreByWordSum(
           stripCommonWords(val),
           stripCommonWords(label),
         );
       }
       return {
-        score,
+        score: simScore,
         original: option,
       };
     })

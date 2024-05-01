@@ -3,7 +3,7 @@ import { getDisabilityLabels } from 'applications/disability-benefits/all-claims
 import {
   exportForTesting,
   fullStringSimilaritySearch,
-} from '../../../src/js/utilities/cc-string-matching';
+} from '../../../src/js/utilities/addDisabilitiesStringSearch';
 
 const testDisabilityLabels = Object.values(getDisabilityLabels());
 
