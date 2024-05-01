@@ -13,70 +13,62 @@ export default function TestComponent({ window, app, token, travelPay }) {
   return (
     <div>
       <h1>Test component for the useStorage hook</h1>
-
-      <button
-        onClick={useCallback(
-          () => {
-            clearCurrentStorage(window);
-          },
-          [clearCurrentStorage, window],
-        )}
+      <va-button
+        uswds
+        onClick={useCallback(() => clearCurrentStorage(window), [
+          clearCurrentStorage,
+          window,
+        ])}
+        text="Clear"
         data-testid="clear-button"
-        type="button"
-      >
-        clear
-      </button>
-      <button
+      />
+      <va-button
+        uswds
         onClick={useCallback(
           () => {
             setFromSession(getCurrentToken(window));
           },
           [setFromSession, getCurrentToken, window],
         )}
+        text="get"
         data-testid="get-button"
-        type="button"
-      >
-        get
-      </button>
-      <button
+      />
+      <va-button
+        uswds
         onClick={useCallback(
           () => {
             setCurrentToken(window, token);
           },
           [setCurrentToken, window, token],
         )}
+        text="set"
         data-testid="set-button"
-        type="button"
-      >
-        set
-      </button>
+      />
       <div data-testid="from-session">
         {fromSession && JSON.stringify(fromSession)}
       </div>
-      <button
+      <va-button
+        uswds
         onClick={useCallback(
           () => {
             setFromLocal(getTravelPaySent(window));
           },
           [setFromLocal, getTravelPaySent, window],
         )}
+        text="get local"
         data-testid="get-local-button"
-        type="button"
-      >
-        get local
-      </button>
-      <button
+      />
+      <va-button
+        uswds
         onClick={useCallback(
           () => {
             setTravelPaySent(window, travelPay);
           },
           [setTravelPaySent, window, travelPay],
         )}
+        text="set local"
         data-testid="set-local-button"
-        type="button"
-      >
-        set local
-      </button>
+      />
       <div data-testid="from-local">
         {fromLocal && JSON.stringify(fromLocal)}
       </div>
