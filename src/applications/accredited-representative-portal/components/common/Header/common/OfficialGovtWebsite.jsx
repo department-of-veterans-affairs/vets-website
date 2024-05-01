@@ -28,10 +28,12 @@ const OfficialGovtWebsite = ({ isMobile }) => {
                   aria-controls="gov-banner"
                   onClick={toggleExpansion}
                 >
-                  An official website of the United States government
-                  <i
+                  An official website of the United States governmentxxx
+                  <va-icon
+                    size={4}
+                    icon="see name mappings here https://design.va.gov/foundation/icons"
                     aria-hidden="true"
-                    className="fa fa-chevron-down vads-u-margin-left--0p5"
+                    className="vads-u-margin-left--0p5"
                   />
                 </button>
               </>
