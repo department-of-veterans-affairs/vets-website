@@ -240,11 +240,9 @@ const AppointmentDetails = props => {
                 <div data-testid="appointment-details--phone">
                   <h2 className="vads-u-font-size--sm">{t('phone')}</h2>
                   <div data-testid="appointment-details--phone-value">
-                    <va-icon
-                      size={4}
-                      icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                      srtext="phone"
-                      className="vads-u-margin-right--1"
+                    <i
+                      aria-label="phone"
+                      className="fas fa-phone vads-u-color--link-default vads-u-margin-right--1"
                       aria-hidden="true"
                     />
                     <va-telephone
