@@ -1,24 +1,10 @@
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-
 import React from 'react';
 import { addDays, format, parse } from 'date-fns';
 import { debtSummaryText } from '../const/diary-codes/debtSummaryCardContent';
 import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardContent';
 import mocks from './e2e/fixtures/mocks/debts.json';
-
-// jest.mock('@department-of-veterans-affairs/component-library/contacts', () => ({
-//   CONTACTS: {
-//     DMC: '8008270648',
-//     DMC_OVERSEAS: '6127136415',
-//   },
-// }));
-
-// jest.mock('va-telephone', () => ({ contact, international }) => (
-//   <span>
-//     {contact} {international ? 'International' : 'Domestic'}
-//   </span>
-// ));
 
 function extractVisibleText(wrapper) {
   const textArray = wrapper
@@ -104,7 +90,6 @@ describe('getDebtDetailsCardContent function', () => {
     const debtEntry = mocks.debts.find(debt => debt.diaryCode === diaryCode);
     const dateOfLetter = debtEntry?.debtHistory?.[0]?.date;
     const result = getDebtDetailsCardContent(debtEntry, dateOfLetter, balance);
-    // console.log('Result:', JSON.stringify(result, null, 2));
     expect(result.headerText).to.include(
       'Pay your 100.00 balance now or request help by October 18, 2012',
     );
@@ -120,7 +105,6 @@ describe('getDebtDetailsCardContent function', () => {
       'MMMM d, yyyy',
     );
     const result = getDebtDetailsCardContent(debtEntry, dateOfLetter, balance);
-    // console.log('Result:', JSON.stringify(result, null, 2));
     expect(result.headerText).to.include(
       `Pay your ${balance} balance in full or request help by ${expectedDate}`,
     );
@@ -136,7 +120,6 @@ describe('getDebtDetailsCardContent function', () => {
       'MMMM d, yyyy',
     );
     const result = getDebtDetailsCardContent(debtEntry, dateOfLetter, balance);
-    // console.log('Result:', JSON.stringify(result, null, 2));
     expect(result.headerText).to.include(
       `Pay your ${balance} balance now or request help by ${expectedDate}`,
     );
@@ -146,7 +129,6 @@ describe('getDebtDetailsCardContent function', () => {
     const diaryCode = '100';
     const balance = '100.00';
     const result = getDebtDetailsCardContent(diaryCode, null, balance);
-    // console.log('Result:', JSON.stringify(result, null, 2));
     expect(result.headerText).to.include("We're reviewing your account");
   });
 });

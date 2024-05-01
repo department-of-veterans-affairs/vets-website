@@ -3,7 +3,7 @@ import head from 'lodash/head';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import recordEvent from '~/platform/monitoring/record-event';
-import Sentry from '~/platform/monitoring/sentry';
+// import * as Sentry from '@sentry/browser';
 import { deductionCodes } from '../const/deduction-codes';
 import { setActiveDebt } from '../../combined/actions/debts';
 import { currency } from '../utils/page';
@@ -22,24 +22,24 @@ const DebtSummaryCard = ({ debt }) => {
     debtCardTotal,
   );
   // Sentry logging for missing or invalid data
-  if (!debt?.debtHistory || debt.debtHistory.length === 0) {
-    Sentry.captureMessage('Debt history is missing', {
-      level: 'warning',
-      extra: {
-        debt,
-      },
-    });
-  }
+  // if (!debt?.debtHistory || debt.debtHistory.length === 0) {
+  //   Sentry.captureMessage('Debt history is missing', {
+  //     level: 'warning',
+  //     extra: {
+  //       debt,
+  //     },
+  //   });
+  // }
 
-  if (!mostRecentHistory?.date) {
-    Sentry.captureMessage('Most recent history date is missing', {
-      level: 'warning',
-      extra: {
-        debt,
-        mostRecentHistory,
-      },
-    });
-  }
+  // if (!mostRecentHistory?.date) {
+  //   Sentry.captureMessage('Most recent history date is missing', {
+  //     level: 'warning',
+  //     extra: {
+  //       debt,
+  //       mostRecentHistory,
+  //     },
+  //   });
+  // }
   return (
     <li>
       <va-card

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 // import { setActiveDebt } from '../../combined/actions/debts';
 import { format, isValid } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
-import Sentry from '~/platform/monitoring/sentry';
+// import * as Sentry from '@sentry/browser';
 import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardContent';
 import { currency } from '../utils/page';
 
@@ -19,24 +19,23 @@ const DebtDetailsCard = ({ debt }) => {
   const convertedAr = currency.format(parseFloat(debt.currentAr));
 
   // Sentry logging for missing or invalid data
-  if (!debt?.debtHistory || debt.debtHistory.length === 0) {
-    Sentry.captureMessage('Debt history is missing', {
-      level: 'warning',
-      extra: {
-        debt,
-      },
-    });
-  }
+  // if (!debt?.debtHistory || debt.debtHistory.length === 0) {
+  //   Sentry.captureMessage('Debt history is missing', {
+  //     level: 'warning',
+  //     extra: {
+  //       debtHistory: debt?.debtHistory ?? 'debtHistory is missing',
+  //     },
+  //   });
+  // }
 
-  if (!mostRecentDate) {
-    Sentry.captureMessage('Most recent date is invalid', {
-      level: 'warning',
-      extra: {
-        debt,
-        debtHistory: debt?.debtHistory,
-      },
-    });
-  }
+  // if (!mostRecentDate) {
+  //   Sentry.captureMessage('Most recent date is invalid', {
+  //     level: 'warning',
+  //     extra: {
+  //       debtHistory: debt?.debtHistory?.date ?? 'debtHistory date is missing',
+  //     },
+  //   });
+  // }
 
   const debtCardContent = getDebtDetailsCardContent(
     debt,
