@@ -8,17 +8,19 @@ import { STATEMENT_TYPES, STATEMENT_TYPE_LABELS } from '../config/constants';
 /** @type {PageSchema} */
 export const statementTypePage = {
   uiSchema: {
-    statementType: radioUI({
-      title: 'What kind of statement do you want to submit?',
-      description:
-        'We want to make sure this is the right form for you. Before you continue with VA Form 21-4138, select one statement that best describes the action you want to take.',
-      labels: STATEMENT_TYPE_LABELS,
-      tile: true,
-      errorMessages: {
-        required: "Select the kind of statement you'd like to submit",
-      },
-      labelHeaderLevel: '1',
-    }),
+    statementType: {
+      ...radioUI({
+        title: 'What kind of statement do you want to submit?',
+        hint:
+          'We want to make sure this is the right form for you. Before you continue with VA Form 21-4138, select one statement that best describes the action you want to take.',
+        labels: STATEMENT_TYPE_LABELS,
+        tile: true,
+        errorMessages: {
+          required: "Select the kind of statement you'd like to submit",
+        },
+        labelHeaderLevel: '1',
+      }),
+    },
     'view:additionalInfoStatementType': {
       'ui:description': (
         <>

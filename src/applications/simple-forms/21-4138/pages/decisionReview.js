@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   largeTitleUI,
   currentOrPastDateUI,
@@ -16,11 +17,24 @@ export const decisionReviewPage = {
   uiSchema: {
     ...largeTitleUI(
       'What to know before you request a decision review',
-      'Depending on the date of the decision, you may be able to choose from 3 decision review options to continue your case: a Supplemental Claim, a Higher-Level Review, or a Board Appeal. ',
+      <>
+        <p>
+          Depending on the date of the decision, you may be able to choose from
+          3 decision review options to continue your case: a Supplemental Claim,
+          a Higher-Level Review, or a Board Appeal.
+        </p>
+        <p>
+          First we’ll ask you a few questions to help you decide what your
+          decision review options are.
+        </p>
+      </>,
     ),
     decisionDate: currentOrPastDateUI({
       title: 'When was your decision dated',
       required: true,
+      errorMessages: {
+        required: 'Enter the decision date',
+      },
     }),
   },
   schema: {

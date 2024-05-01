@@ -13,7 +13,7 @@ import {
   OTHER_REASONS_REQUIRED,
 } from './constants';
 import { statementTypePage } from '../pages/statementType';
-import { layOrWitnessHandoffPage } from '../pages/layOrWitnessHandoff';
+import { layOrWitnessHandoffPage } from '../pages/layOrWitness';
 import {
   decisionReviewPage,
   decisionReviewTypePage,
