@@ -6,12 +6,21 @@ const featureIsEnabled = value => {
   });
 };
 
+const hasPilotEnabled = value => {
+  cy.intercept('GET', '/v0/feature_toggles*', {
+    data: {
+      features: [{ name: 'accredited_representative_portal_frontend', value }],
+    },
+  });
+};
+
 describe('Accredited Representative Portal', () => {
   describe('Feature toggle not enabled', () => {
     beforeEach(function skipOutsideCI() {
       if (!Cypress.env('CI')) {
         this.skip();
       }
+      hasPilotEnabled(false);
       featureIsEnabled(false);
     });
 
@@ -30,6 +39,7 @@ describe('Accredited Representative Portal', () => {
 
   describe('Feature toggle enabled - Navigation from Landing Page to pages and back', () => {
     beforeEach(() => {
+      hasPilotEnabled(true);
       featureIsEnabled(true);
       cy.visit('/representative');
 
