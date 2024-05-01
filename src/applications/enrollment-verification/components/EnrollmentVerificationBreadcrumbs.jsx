@@ -2,7 +2,6 @@ import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 import {
-  BASE_URL,
   REVIEW_ENROLLMENTS_URL,
   REVIEW_ENROLLMENTS_URL_SEGMENT,
   VERIFY_ENROLLMENTS_ERROR_URL_SEGMENT,
@@ -21,7 +20,7 @@ export default function EnrollmentVerificationBreadcrumbs() {
       label: 'Education and Training',
     },
     {
-      href: `${BASE_URL}`,
+      href: '/education/verify-school-enrollment/',
       label: 'Verify your school enrollments for GI Bill benefits',
     },
   ];
