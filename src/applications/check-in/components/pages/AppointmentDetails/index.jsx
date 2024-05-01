@@ -292,14 +292,14 @@ const AppointmentDetails = props => {
                 )}
               {showReviewButton && (
                 <div className="vads-u-margin-top--2">
-                  <button
-                    type="button"
-                    className="usa-button usa-button-big vads-u-font-size--md"
+                  <va-button
+                    uswds
+                    big
                     onClick={handleReviewClick}
+                    text={t('review-your-information-now')}
                     data-testid="review-information-button"
-                  >
-                    {t('review-your-information-now')}
-                  </button>
+                    value="yes"
+                  />
                 </div>
               )}
             </div>
