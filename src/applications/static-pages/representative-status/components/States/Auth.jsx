@@ -128,6 +128,7 @@ export const Auth = ({
                   <va-link
                     download
                     filetype="VCF"
+                    filename="accredited_representative_contact"
                     href={vcard}
                     text="Download your accredited representative's contact information"
                   />
