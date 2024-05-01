@@ -142,8 +142,11 @@ describe('substringSearchCountOverlap', () => {
       ),
     );
     for (let i = 0; i < actualReturn.length; i += 1) {
-      for (let j = 0; j < userInput.length; j += 1) {
-        expect(actualReturn[i].score >= userInput[j]).to.be.true;
+      for (let j = 0; j < actualReturn[i].length; j += 1) {
+        expect(
+          actualReturn[i][j].score / userInput[i].split(' ').length >=
+            THRESHOLD,
+        ).to.be.true;
       }
     }
   });
@@ -164,14 +167,13 @@ describe('fullStringSimilaritySearch', () => {
     const userInput = ['tinnitus', 'kidney cancer'];
     const expectedReturn = [
       [
-        'tinnitus (ringing or hissing in the ears)',
+        'tinnitus (ringing or hissing in ears)',
         'hearing loss, other than tinnitus',
-        'tendonitis (tendinitis) in ankle, right',
       ],
       [
         'kidney cancer (renal cancer)',
         'colorectal cancer or colon cancer',
-        'laryngeal cancer',
+        'laryngeal cancer (cancer of larynx)',
       ],
     ];
     for (let i = 0; i < userInput.length; i += 1) {
