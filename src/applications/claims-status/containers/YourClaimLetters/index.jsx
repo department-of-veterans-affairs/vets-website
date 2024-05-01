@@ -30,12 +30,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
   const totalPages = useRef(0);
   const paginatedItems = useRef([]);
   const requestStatus = useRef(200);
-  const {
-    TOGGLE_NAMES,
-    useToggleValue,
-    useToggleLoadingValue,
-  } = useFeatureToggle();
-  const isLoadingFeatureFlags = useToggleLoadingValue();
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const iscstIncludeDdlBoaLettersEnabled = useToggleValue(
     TOGGLE_NAMES.cstIncludeDdlBoaLetters,
   );
@@ -112,7 +107,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
     );
   };
 
-  if (isLoading || isLoadingFeatureFlags) {
+  if (isLoading) {
     return <va-loading-indicator message="Loading application..." />;
   }
 

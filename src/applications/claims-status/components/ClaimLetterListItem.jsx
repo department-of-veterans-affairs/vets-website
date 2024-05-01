@@ -12,7 +12,7 @@ const getDownloadUrl = (id, docType) =>
 const formatDate = buildDateFormatter();
 
 const docTypeToDescription = {
-  27: 'Appeals decision letter',
+  27: 'Appeal decision letter',
   704: '5103 notice',
   706: '5103 notice',
   858: '5103 notice',
