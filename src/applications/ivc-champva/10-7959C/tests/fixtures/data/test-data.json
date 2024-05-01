@@ -1,5 +1,20 @@
 {
   "data": {
+    "applicantSsn": "234234234",
+    "applicantName": {
+      "first": "Jimmy",
+      "last": "Alvin"
+    },
+    "applicantDOB": "2001-01-01",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "456 Street Circle",
+      "city": "Anyburg",
+      "state": "AK",
+      "postalCode": "12323"
+    },
+    "applicantPhone": "3331233456",
+    "applicantMedicareStatus": true,
     "applicants": [
       {
         "applicantEnrolledMedicareAB": true,
@@ -54,12 +69,10 @@
       }
     ],
     "certifierRelationship": {
-      "relationshipToApplicants": {
-        "spouse": true,
-        "other": true
-      },
+      "relationshipToApplicants": "other",
       "otherRelationshipToApplicants": "Another relationship"
     },
+    "certifierName": { "first": "Certifier", "last": "Jones" },
     "certifierPhone": "5551231234",
     "certifierEmail": "certifier@email.gov",
     "certifierAddress": {
@@ -69,6 +82,9 @@
       "state": "AL",
       "postalCode": "12345"
     },
-    "certifierRole": "other"
+    "certifierRole": "other",
+    "consentToMailMissingRequiredFiles": true,
+    "statementOfTruthCertified": true,
+    "statementOfTruthSignature": "Jimmy Alvin"
   }
 }

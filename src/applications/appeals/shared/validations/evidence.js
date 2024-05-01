@@ -5,6 +5,7 @@ import { getIssueName, getSelected } from '../utils/issues';
 
 import { errorMessages, REGEX_COMMA } from '../../995/constants';
 import { validateDate } from '../../995/validations/date';
+import sharedErrorMessages from '../content/errorMessages';
 
 export const validateIssues = (
   errors,
@@ -34,7 +35,7 @@ export const validateToDate = (errors, data, evidenceOrTreatmentDates) => {
   const toDate = convertToDateField(dates?.to);
 
   if (!isValidDateRange(fromDate, toDate, true)) {
-    errors.addError(errorMessages.endDateBeforeStart);
+    errors.addError(sharedErrorMessages.endDateBeforeStart);
     errors.addError('other'); // invalid inputs
   }
 };
@@ -67,6 +68,6 @@ export const validateAddressParts = (errors, data, addressPart) => {
   const addressData = data.providerFacilityAddress || {};
   const addPart = addressData[addressPart];
   if (!addPart) {
-    errors.addError(errorMessages.evidence[addressPart]);
+    errors.addError(sharedErrorMessages[addressPart]);
   }
 };

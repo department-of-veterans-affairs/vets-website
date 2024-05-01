@@ -33,7 +33,7 @@ const IssueSummary = ({ formData }) => {
           issues.map((issue, index) => (
             <li key={index} className={listClassNames}>
               <h4
-                className="capitalize vads-u-margin-top--0 vads-u-padding-right--2 dd-privacy-hidden"
+                className="capitalize word-break-all vads-u-margin-top--0 vads-u-padding-right--2 dd-privacy-hidden"
                 data-dd-action-name="rated issue name"
               >
                 {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}

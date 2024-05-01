@@ -23,7 +23,7 @@ describe('form validation', () => {
 
       h.checkFormAlertText(
         h.DEPINPUT,
-        'ErrorPlease enter a number between 0 and 100.',
+        'ErrorEnter a number between 0 and 100.',
       );
     });
   });
@@ -41,7 +41,7 @@ describe('form validation', () => {
       h.verifyElement(h.YEARINPUT);
       h.clickContinue();
 
-      h.checkFormAlertText(h.YEARINPUT, 'ErrorPlease select a year.');
+      h.checkFormAlertText(h.YEARINPUT, 'ErrorSelect a year.');
     });
   });
 
@@ -60,20 +60,14 @@ describe('form validation', () => {
       h.typeInInput(h.ZIPINPUT, '00');
       h.clickContinue();
 
-      h.checkFormAlertText(
-        h.ZIPINPUT,
-        'ErrorPlease enter a valid 5 digit zip code.',
-      );
+      h.checkFormAlertText(h.ZIPINPUT, 'ErrorEnter a valid 5 digit zip code.');
 
       h.clearInput(h.ZIPINPUT);
       h.typeInInput(h.ZIPINPUT, '00000');
       h.verifyFormErrorNotShown(h.ZIPINPUT);
       h.clickContinue();
 
-      h.checkFormAlertText(
-        h.ZIPINPUT,
-        'ErrorPlease enter a valid 5 digit zip code.',
-      );
+      h.checkFormAlertText(h.ZIPINPUT, 'ErrorEnter a valid 5 digit zip code.');
 
       h.clearInput(h.ZIPINPUT);
       h.typeInInput(h.ZIPINPUT, '78258');

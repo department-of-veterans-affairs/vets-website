@@ -77,7 +77,7 @@ const Error = () => {
       <div className="vads-u-margin-top--2">{t('video-error-help-text')}</div>
       <div className="vads-u-margin-top--2">
         <ExternalLink
-          href="https://www.va.gov/resources/signing-in-to-vagov/"
+          href="https://www.va.gov/health-care/schedule-view-va-appointments/"
           hrefLang="en"
           eventId="sign-in-to-find--link-clicked"
           eventPrefix="nav"

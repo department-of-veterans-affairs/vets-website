@@ -12,7 +12,7 @@ import ApplicantRelationshipPage from '../../../shared/components/applicantLists
 import formConfig from '../../config/form';
 import { getFileSize } from '../../helpers/utilities';
 
-import FileFieldCustom from '../../components/File/FileUpload';
+import FileFieldCustom from '../../../shared/components/fileUploads/FileUpload';
 
 import mockData from '../fixtures/data/test-data.json';
 
