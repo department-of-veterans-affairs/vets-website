@@ -93,7 +93,7 @@ export const regionOptions = {
 
 // Contact options
 export const contactOptions = {
-  PHONE: 'Phone',
+  PHONE: 'Phone call',
   EMAIL: 'Email',
   US_MAIL: 'U.S. mail',
 };
@@ -307,10 +307,10 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
-  PHONE_EMAIL: {
-    TITLE: 'Your phone number and email',
+  CONTACT_INFORMATION: {
+    TITLE: 'Your contact information',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Mobile phone number',
+    QUESTION_1: 'Phone number',
     QUESTION_2: 'Email address',
     QUESTION_3: 'How should we contact you?',
   },

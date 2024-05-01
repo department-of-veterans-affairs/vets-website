@@ -116,10 +116,10 @@
       "exposureToWarfareAgents": true,
       "exposureToOther": true
     },
-    "otherToxicExposure": "sometoxinname",
+    "otherToxicExposure": "some toxin name",
     "view:toxicExposureDates": {
       "toxicExposureStartDate": "1990-09-XX",
-      "toxicExposureEndDate": "1991-01-XX"
+      "toxicExposureEndDate": "1990-09-XX"
     },
     "email": "test@test.com",
     "homePhone": "5555555555",
