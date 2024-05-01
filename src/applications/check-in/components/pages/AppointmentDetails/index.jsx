@@ -240,9 +240,11 @@ const AppointmentDetails = props => {
                 <div data-testid="appointment-details--phone">
                   <h2 className="vads-u-font-size--sm">{t('phone')}</h2>
                   <div data-testid="appointment-details--phone-value">
-                    <i
-                      aria-label="phone"
-                      className="fas fa-phone vads-u-color--link-default vads-u-margin-right--1"
+                    <va-icon
+                      size={4}
+                      icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                      srtext="phone"
+                      className="vads-u-margin-right--1"
                       aria-hidden="true"
                     />
                     <va-telephone
@@ -264,14 +266,14 @@ const AppointmentDetails = props => {
                 )}
               {showReviewButton && (
                 <div className="vads-u-margin-top--2">
-                  <button
-                    type="button"
-                    className="usa-button usa-button-big vads-u-font-size--md"
+                  <va-button
+                    uswds
+                    big
                     onClick={handleReviewClick}
+                    text={t('review-your-information-now')}
                     data-testid="review-information-button"
-                  >
-                    {t('review-your-information-now')}
-                  </button>
+                    value="yes"
+                  />
                 </div>
               )}
             </div>
