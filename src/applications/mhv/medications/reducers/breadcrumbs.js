@@ -11,7 +11,6 @@ export const breadcrumbsReducer = (state = initialState, action) => {
       newCrumbList.push(action.payload.crumbs);
       return {
         list: newCrumbList,
-        crumbBackFocus: false,
       };
     }
     case Actions.Breadcrumbs.REMOVE_BREAD_CRUMB: {
@@ -19,7 +18,6 @@ export const breadcrumbsReducer = (state = initialState, action) => {
       newCrumbList.pop();
       return {
         list: newCrumbList,
-        crumbBackFocus: true,
       };
     }
     default:

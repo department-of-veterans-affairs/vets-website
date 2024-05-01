@@ -26,7 +26,6 @@ describe('Refill Prescriptions Component', () => {
             label: 'About medications',
           },
         ],
-        crumbBackFocus: true,
       },
       allergies: {},
     },

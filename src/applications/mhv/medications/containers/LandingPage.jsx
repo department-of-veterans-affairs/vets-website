@@ -37,9 +37,6 @@ const LandingPage = () => {
     state => state.featureToggles,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
-  const backLinkFocus = useSelector(
-    state => state.rx.breadcrumbs?.crumbBackFocus,
-  );
 
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
@@ -54,6 +51,7 @@ const LandingPage = () => {
 
   useEffect(
     () => {
+      focusElement(document.querySelector('h1'));
       updatePageTitle('About medications | Veterans Affairs');
       if (
         location.pathname.includes('/accordion-renew-rx') &&
@@ -74,12 +72,6 @@ const LandingPage = () => {
       isPrescriptionsLoading,
     ],
   );
-
-  useEffect(() => {
-    if (backLinkFocus) {
-      focusElement(document.querySelector('h1'));
-    }
-  });
 
   useEffect(
     () => {

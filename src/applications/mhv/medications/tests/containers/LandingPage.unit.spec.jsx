@@ -86,7 +86,6 @@ describe('Medicaitons Landing page container', () => {
               { url: medicationsUrls.MEDICATIONS_ABOUT },
               { label: 'About medications' },
             ],
-            crumbBackFocus: true,
           },
         },
         featureToggles: {

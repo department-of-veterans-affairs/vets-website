@@ -23,13 +23,15 @@ describe('Medications Prescriptions container', () => {
           totalPages: 7,
           totalEntries: 122,
         },
+        prescriptionDetails: {
+          prescriptionId: 1234567890,
+        },
       },
       breadcrumbs: {
         list: [
           { url: medicationsUrls.MEDICATIONS_ABOUT },
           { label: 'About medications' },
         ],
-        crumbBackFocus: true,
       },
       allergies: { error: true },
     },
