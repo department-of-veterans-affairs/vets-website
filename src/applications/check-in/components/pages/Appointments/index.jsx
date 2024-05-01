@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import Wrapper from '../../layout/Wrapper';
@@ -19,7 +19,9 @@ const AppointmentsPage = props => {
   const { updateError } = useUpdateError();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
+  const [loadedAppointments, setLoadedAppointments] = useState(appointments);
   const [isLoading, setIsLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   const {
     isComplete,
@@ -31,17 +33,16 @@ const AppointmentsPage = props => {
     router,
     app,
   });
-
   useEffect(
     () => {
       setIsLoading(!isComplete);
-      if (!appointments.length && !isComplete && !isDataLoading) {
+      if (!loadedAppointments.length && !isComplete && !isDataLoading) {
         refreshCheckInData();
-      } else if (appointments.length) {
+      } else if (loadedAppointments.length) {
         setIsLoading(false);
       }
     },
-    [isComplete, isDataLoading, refreshCheckInData, appointments],
+    [isComplete, isDataLoading, refreshCheckInData, loadedAppointments],
   );
 
   useEffect(
@@ -55,6 +56,17 @@ const AppointmentsPage = props => {
       }
     },
     [checkInDataError, updateError, app],
+  );
+
+  useEffect(
+    () => {
+      if (refresh) {
+        refreshCheckInData();
+        setLoadedAppointments([]);
+        setRefresh(false);
+      }
+    },
+    [refresh, refreshCheckInData],
   );
 
   if (isLoading) {
@@ -74,7 +86,23 @@ const AppointmentsPage = props => {
       withBackButton
     >
       <ActionItemDisplay router={router} />
-      <UpcomingAppointments router={router} />
+      <UpcomingAppointments router={router} refresh={refresh} />
+      <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column vads-u-border-top--1px vads-u-padding-top--1p5">
+        <p data-testid="update-text">
+          <Trans
+            i18nKey="latest-update"
+            components={{ bold: <strong /> }}
+            values={{ date: new Date() }}
+          />
+        </p>
+        <va-button
+          uswds
+          text={t('refresh')}
+          big
+          onClick={() => setRefresh(true)}
+          secondary
+        />
+      </div>
     </Wrapper>
   );
 };
