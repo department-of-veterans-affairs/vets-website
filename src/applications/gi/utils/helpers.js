@@ -37,6 +37,19 @@ export const isReviewInstance = () => {
   return globalRegex.test(hostname);
 };
 
+export const isV3TestProdEnv = (automatedTest = false) => {
+  const isTest = global && global?.window && global?.window?.buildType;
+  if (isTest || automatedTest) {
+    return false;
+  }
+  return (
+    environment.isStaging() ||
+    environment.isDev() ||
+    isReviewInstance() ||
+    environment.isLocalhost()
+  );
+};
+
 export const isProductionOrTestProdEnv = (automatedTest = false) => {
   const isTest = global && global?.window && global?.window?.buildType;
   if (isTest || automatedTest) {
