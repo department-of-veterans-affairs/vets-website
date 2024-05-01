@@ -73,5 +73,9 @@ export function showRevisedNewDisabilitiesPage(formData) {
 }
 
 export function showLegacyAddDisabilitiesPage(formData) {
-  return !showRevisedNewDisabilitiesPage(formData);
+  return (
+    DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData) &&
+    window.sessionStorage.getItem(SHOW_REVISED_ADD_DISABILITIES_PAGE) ===
+      'false'
+  );
 }
