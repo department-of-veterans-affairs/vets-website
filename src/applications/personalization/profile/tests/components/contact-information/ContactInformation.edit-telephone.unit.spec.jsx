@@ -5,9 +5,11 @@ import {
   waitForElementToBeRemoved,
   within,
 } from '@testing-library/react';
-import user from '@testing-library/user-event';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
+
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import {
   FIELD_TITLES,
   FIELD_NAMES,
@@ -60,17 +62,16 @@ function editPhoneNumber(
   const editButton = getEditButton(numberName);
   editButton.click();
 
-  const phoneNumberInput = view.getByLabelText(
-    `${numberName} (U.S. numbers only)`,
-    { exact: false },
+  const phoneNumberInput = $(
+    `va-text-input[label^="${numberName}"]`,
+    view.container,
   );
-  const extensionInput = view.getByLabelText('Extension (6 digits maximum)');
+  const extensionInput = $('va-text-input[label^="Extension"]', view.container);
   expect(phoneNumberInput).to.exist;
 
   // enter a new phone number in the form
-  user.clear(phoneNumberInput);
-  user.type(phoneNumberInput, `${options.areaCode} ${options.phoneNumber}`);
-  user.clear(extensionInput);
+  phoneNumberInput.value = `${options.areaCode} ${options.phoneNumber}`;
+  extensionInput.value = '';
 
   // save
   view.getByText('Save', { selector: 'button' }).click();
