@@ -695,7 +695,6 @@ export function selectModalityAriaText(appointment) {
 }
 
 export function selectModalityIcon(appointment) {
-  const isCommunityCare = selectIsCommunityCare(appointment);
   const isInPerson = selectIsInPerson(appointment);
   const isPhone = selectIsPhone(appointment);
   const isVideoAtlas = selectIsAtlasVideo(appointment);
@@ -703,13 +702,11 @@ export function selectModalityIcon(appointment) {
   const isVideoHome = selectIsHomeVideo(appointment);
   const isVideoVADevice = selectIsGFEVideo(appointment);
 
-  let icon = 'fa-blank';
+  let icon = '';
 
   if (isInPerson || isVideoAtlas || isVideoClinic) icon = 'location_city';
   if (isVideoHome || isVideoVADevice) icon = 'videocam';
-
   if (isPhone) icon = 'phone';
-  if (isCommunityCare) icon = '';
 
   return icon;
 }
