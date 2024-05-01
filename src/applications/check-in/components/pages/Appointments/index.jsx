@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
@@ -10,6 +10,8 @@ import { makeSelectApp, makeSelectVeteranData } from '../../../selectors';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import UpcomingAppointments from '../../UpcomingAppointments';
 import ActionItemDisplay from '../../ActionItemDisplay';
+
+import { intervalUntilNextAppointmentIneligibleForCheckin } from '../../../utils/appointment';
 
 const AppointmentsPage = props => {
   const { router } = props;
@@ -33,6 +35,9 @@ const AppointmentsPage = props => {
     router,
     app,
   });
+
+  const refreshTimer = useRef(null);
+
   useEffect(
     () => {
       setIsLoading(!isComplete);
@@ -67,6 +72,33 @@ const AppointmentsPage = props => {
       }
     },
     [refresh, refreshCheckInData],
+  );
+
+  useEffect(
+    () => {
+      if (app === APP_NAMES.CHECK_IN) {
+        const refreshInterval = intervalUntilNextAppointmentIneligibleForCheckin(
+          appointments,
+        );
+
+        // Refresh the page 5 seconds before the checkIn window expires.
+        if (refreshInterval > 5000) {
+          if (refreshTimer.current !== null) {
+            clearTimeout(refreshTimer.current);
+          }
+
+          refreshTimer.current = setTimeout(
+            () => refreshCheckInData(),
+            refreshInterval - 5000,
+          );
+        }
+
+        if (checkInDataError) {
+          updateError('cant-retrieve-check-in-data');
+        }
+      }
+    },
+    [appointments, checkInDataError, updateError, refreshCheckInData, app],
   );
 
   if (isLoading) {
