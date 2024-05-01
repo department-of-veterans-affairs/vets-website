@@ -46,7 +46,7 @@
 #va-power-tools {
   background-color: var(--vads-color-white);
   position: fixed;
-  right: 1vw;
+  right: 0;
   top: 1vw;
   overflow: scroll;
   max-height: 100vh;
@@ -57,3 +57,5 @@
   resize: both;
   box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
+
+
