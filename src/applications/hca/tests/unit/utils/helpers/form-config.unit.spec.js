@@ -222,7 +222,9 @@ describe('hca form config helpers', () => {
   });
 
   context('when `includeGulfWarServiceDates` executes', () => {
-    const getData = ({ response = null }) => ({
+    const getData = ({ response = null, included = true }) => ({
+      'view:isTeraEnabled': true,
+      hasTeraResponse: included,
       gulfWarService: response,
     });
 
@@ -235,15 +237,28 @@ describe('hca form config helpers', () => {
       const formData = getData({ response: false });
       expect(includeGulfWarServiceDates(formData)).to.be.false;
     });
+
+    it('should return `false` when TERA response is `false`', () => {
+      const formData = getData({ included: false });
+      expect(includeGulfWarServiceDates(formData)).to.be.false;
+    });
   });
 
   context('when `includeOtherExposureDates` executes', () => {
-    const getData = ({ exposures = {} }) => ({
+    const getData = ({ exposures = {}, included = true }) => ({
+      'view:isTeraEnabled': true,
+      hasTeraResponse: included,
       'view:otherToxicExposures': exposures,
     });
 
+    it('should return `false` when TERA response is `false`', () => {
+      const formData = getData({ included: false });
+      expect(includeOtherExposureDates(formData)).to.be.false;
+    });
+
     it('should return `false` when form data does not include the data object', () => {
-      expect(includeOtherExposureDates({})).to.be.false;
+      const formData = { 'view:isTeraEnabled': true, hasTeraResponse: true };
+      expect(includeOtherExposureDates(formData)).to.be.false;
     });
 
     it('should return `false` when the form data object is empty', () => {
@@ -263,8 +278,15 @@ describe('hca form config helpers', () => {
   });
 
   context('when `includeOtherExposureDetails` executes', () => {
-    const getData = ({ exposures = {} }) => ({
+    const getData = ({ exposures = {}, included = true }) => ({
+      'view:isTeraEnabled': true,
+      hasTeraResponse: included,
       'view:otherToxicExposures': exposures,
+    });
+
+    it('should return `false` when TERA response is `false`', () => {
+      const formData = getData({ included: false });
+      expect(includeOtherExposureDetails(formData)).to.be.false;
     });
 
     it('should return `false` when the `exposureToOther` key is `false`', () => {
