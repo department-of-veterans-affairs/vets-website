@@ -150,7 +150,7 @@ export default function MissingFileOverview({
   // eslint-disable-next-line no-unused-vars
   const apps =
     // Filter out any conditional pages that don't apply to this applicant
-    data.applicants.map(app => {
+    data?.applicants?.map(app => {
       const tmpData = { ...data, applicants: [app] };
       const conditionalPages = getConditionalPages(pages, tmpData, 0);
 
@@ -162,8 +162,8 @@ export default function MissingFileOverview({
       );
     });
 
-  const applicantsWithMissingFiles = data.applicants
-    .map(applicant => {
+  const applicantsWithMissingFiles = data?.applicants
+    ?.map(applicant => {
       const missing = verifier.identifyMissingUploads(
         getConditionalPages(pages, { ...data, applicants: [applicant] }, 0),
         applicant,
