@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import Disclaimer from './Disclaimer';
 import ChatBox from './Chatbox';
+import useChosenBot from '../hooks/useChosenBot';
 
 function updateElementById(id, classListAdd, classListRemove) {
   document.getElementById(id).classList.add(classListAdd);
@@ -103,22 +104,7 @@ function Page({ virtualAgentShowFloatingChatbot = null }) {
   const [isLoading, setIsLoading] = useState(true);
   let bot = '';
 
-  useEffect(
-    () => {
-      // if (virtualAgentShowFloatingChatbot) {
-      setIsLoading(false);
-      if (virtualAgentShowFloatingChatbot) {
-        setChosenBot('sticky');
-      } else {
-        setChosenBot('default');
-      }
-      // }
-      // else {
-      //   setIsLoading(true);
-      // }
-    },
-    [virtualAgentShowFloatingChatbot],
-  );
+  useChosenBot(virtualAgentShowFloatingChatbot, setIsLoading, setChosenBot);
 
   if (chosenBot === 'sticky') {
     bot = renderStickyBot();

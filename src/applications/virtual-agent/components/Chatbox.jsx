@@ -62,9 +62,7 @@ function Chatbox(props) {
   const [chatBotLoadTime] = useState(Date.now());
 
   webAuthActivityEventListener(isLoggedIn, setIsAuthTopic);
-
   useBotOutgoingActivityEventListener(chatBotLoadTime);
-
   useWebMessageActivityEventListener();
 
   const loggedInFlow = getLoggedInFlow();
