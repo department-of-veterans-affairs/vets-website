@@ -28,15 +28,15 @@ export const HEALTH_TOOL_LINKS = freeze({
   ]),
   MESSAGES: freeze([
     {
-      href: '/my-health/secure-messages/inbox',
+      href: '/my-health/secure-messages/inbox/',
       text: 'Inbox',
     },
     {
-      href: '/my-health/secure-messages/new-message',
+      href: '/my-health/secure-messages/new-message/',
       text: 'Send a new message',
     },
     {
-      href: '/my-health/secure-messages/folders',
+      href: '/my-health/secure-messages/folders/',
       text: 'Manage folders',
     },
   ]),

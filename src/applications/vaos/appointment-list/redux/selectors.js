@@ -18,7 +18,6 @@ import {
   sortByDateAscending,
   sortUpcoming,
   groupAppointmentsByMonth,
-  isCanceledConfirmed,
   isUpcomingAppointment,
   sortByCreatedDateDescending,
   isPendingOrCancelledRequest,
@@ -140,24 +139,6 @@ export const selectPastAppointments = createSelector(
   state => state.appointments.past,
   past => {
     return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
-  },
-);
-
-export const selectCanceledAppointments = createSelector(
-  // Selecting pending here to pull in EC requests
-  state => state.appointments.pending,
-  state => state.appointments.confirmed,
-  (pending, confirmed) => {
-    if (!confirmed || !pending) {
-      return null;
-    }
-
-    const sortedAppointments = confirmed
-      .concat(pending)
-      .filter(isCanceledConfirmed)
-      .sort(sortByDateDescending);
-
-    return groupAppointmentsByMonth(sortedAppointments);
   },
 );
 
@@ -292,16 +273,6 @@ export function selectRequestedAppointmentDetails(state, id) {
   };
 }
 
-export function getCanceledAppointmentListInfo(state) {
-  return {
-    appointmentsByMonth: selectCanceledAppointments(state),
-    facilityData: state.appointments.facilityData,
-    futureStatus: selectFutureStatus(state),
-    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showScheduleButton: selectFeatureRequests(state),
-  };
-}
-
 export function getRequestedAppointmentListInfo(state) {
   return {
     facilityData: state.appointments.facilityData,
@@ -370,6 +341,15 @@ export function selectTypeOfCareName(appointment) {
   return name;
 }
 
+export function selectIsPhone(appointment) {
+  return appointment?.vaos?.isPhoneAppointment;
+}
+
+export function selectTimeZoneAbbr(appointment) {
+  const { abbreviation } = getAppointmentTimezone(appointment);
+  return abbreviation;
+}
+
 export function getConfirmedAppointmentDetailsInfo(state, id) {
   const appointment = selectAppointmentById(state, id);
   const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
@@ -394,20 +374,26 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
   const status = appointment?.status;
   const typeOfCareName = selectTypeOfCareName(appointment);
   const clinicName = appointment?.location?.clinicName;
+  const clinicPhone =
+    appointment?.vaos?.apiData?.extension?.clinic?.phoneNumber;
   const facilityPhone =
-    appointment?.vaos?.apiData?.extension?.clinic?.phoneNumber ||
     facility?.telecom?.find(tele => tele.system === 'covid')?.value ||
     facility?.telecom?.find(tele => tele.system === 'phone')?.value;
 
   const clinicPhysicalLocation = appointment?.location?.clinicPhysicalLocation;
   const duration = appointment?.minutesDuration;
+  const bookingNotes = selectAppointmentDetails(appointment);
+  const isPhone = selectIsPhone(appointment);
+  const timeZoneAbbr = selectTimeZoneAbbr(appointment);
 
   return {
     appointment,
     appointmentDetailsStatus,
     appointmentTypePrefix,
+    bookingNotes,
     cancelInfo: getCancelInfo(state),
     clinicName,
+    clinicPhone,
     clinicPhysicalLocation,
     comment,
     duration,
@@ -417,11 +403,13 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
     isCommunityCare,
     isVA,
     isVideo,
+    isPhone,
     phone,
     provider,
     showCancelButton: selectFeatureCancel(state),
     startDate,
     status,
+    timeZoneAbbr,
     typeOfCareName,
     useV2: featureVAOSServiceVAAppointments,
   };
@@ -478,10 +466,6 @@ export function selectIsCanceled(appointment) {
 
 export function selectIsCommunityCare(appointment) {
   return appointment.vaos.isCommunityCare;
-}
-
-export function selectIsPhone(appointment) {
-  return appointment.vaos.isPhoneAppointment;
 }
 
 export function selectIsVideo(appointment) {
@@ -611,11 +595,6 @@ export function selectIsHomeVideo(appointment) {
       !selectIsAtlasVideo(appointment) &&
       !selectIsGFEVideo(appointment))
   );
-}
-
-export function selectTimeZoneAbbr(appointment) {
-  const { abbreviation } = getAppointmentTimezone(appointment);
-  return abbreviation;
 }
 
 export function selectModalityText(appointment, isPendingAppointment = false) {
