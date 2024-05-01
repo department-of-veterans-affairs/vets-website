@@ -25,7 +25,8 @@ function isTitleObject(obj) {
     obj !== null &&
     !Array.isArray(obj) &&
     !(obj instanceof Function) &&
-    isReactComponent(obj)
+    obj.$$typeof !== Symbol.for('react.element') &&
+    !isReactComponent(obj)
   );
 }
 
@@ -61,7 +62,7 @@ function isTitleObject(obj) {
           </AdditionalInfo>
       </p>))
  * ```
- * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element | TitleObject} [titleOption] 'ui:title'
+ * @param {string | JSX.Element | TitleObject | ({ formData, formContext }) => (string | JSX.Element)} [titleOption] 'ui:title'
  * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [descriptionOption] 'ui:description'
  *
  * @returns {UISchemaOptions}
