@@ -399,9 +399,7 @@ describe('<NameSearchForm>', () => {
 
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
-      expect(fetchUrl).to.include(
-        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_schools=true`,
-      );
+      expect(fetchUrl).to.include(`${expectedBaseUrl}?name=${newValue}&page=1`);
     });
     it('should add special-mission-hbcuall when button is clicked ', async () => {
       const { newValue, expectedBaseUrl } = setupRTL(

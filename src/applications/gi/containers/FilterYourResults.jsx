@@ -17,7 +17,7 @@ import {
   createId,
   validateSearchTerm,
 } from '../utils/helpers';
-import { showModal, filterChange, setError } from '../actions';
+import { showModal, filterChange, setError, focusSearch } from '../actions';
 import { TABS, INSTITUTION_TYPES } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
@@ -36,6 +36,7 @@ export function FilterYourResults({
   smallScreen,
   errorReducer,
   searchType,
+  dispatchFocusSearch,
 }) {
   const history = useHistory();
   const { version } = preview;
@@ -484,8 +485,7 @@ export function FilterYourResults({
           buttonOnClick={() => updateResults()}
           expanded={expanded}
           onClick={onAccordionChange}
-          // isCleared={isCleared}
-          // setIsCleared={setIsCleared}
+          dispatchFocusSearch={dispatchFocusSearch}
         >
           {search.inProgress && (
             <VaLoadingIndicator
@@ -544,6 +544,7 @@ const mapDispatchToProps = {
   dispatchShowModal: showModal,
   dispatchFilterChange: filterChange,
   dispatchError: setError,
+  dispatchFocusSearch: focusSearch,
 };
 
 export default connect(

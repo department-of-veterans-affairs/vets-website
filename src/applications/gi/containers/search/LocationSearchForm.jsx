@@ -3,7 +3,7 @@
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, createRef } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
@@ -45,6 +45,7 @@ export function LocationSearchForm({
   dispatchClearGeocodeError,
   dispatchMapChanged,
   smallScreen,
+  focusSearchReducer,
 }) {
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
@@ -54,6 +55,8 @@ export function LocationSearchForm({
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
   const [showFiltersBeforeSearch, setShowFiltersBeforeSearch] = useState(true);
   const { version } = preview;
+  const { focusOnSearch } = focusSearchReducer;
+  const dispatch = useDispatch();
   const history = useHistory();
   const distanceDropdownOptions = [
     { optionValue: '5', optionLabel: 'within 5 miles' },
@@ -175,6 +178,16 @@ export function LocationSearchForm({
 
     [autocompleteSelection],
   );
+  // This effect runs to focus on search when Reset Search button is clicked.
+  useEffect(
+    () => {
+      if (focusOnSearch) {
+        inputRef.current.focus();
+        dispatch({ type: 'RESET_FOCUS' });
+      }
+    },
+    [focusOnSearch, inputRef, dispatch],
+  );
 
   const doAutocompleteSuggestionsSearch = value => {
     dispatchFetchLocationAutocompleteSuggestions(value);
@@ -237,12 +250,8 @@ export function LocationSearchForm({
               labelAdditional={
                 <span className="use-my-location-container">
                   {search.geolocationInProgress ? (
-                    <div className="use-my-location-link">
-                      <va-icon
-                        size={4}
-                        icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                        aria-hidden="true"
-                      />
+                    <div className="use-my-location-link vads-u-display--flex vads-u-align-items--center ">
+                      <va-icon size={4} icon="loop" aria-hidden="true" />
                       <span aria-live="assertive">
                         Finding your location...
                       </span>
@@ -346,6 +355,7 @@ const mapStateToProps = state => ({
   search: state.search,
   preview: state.preview,
   errorReducer: state.errorReducer,
+  focusSearchReducer: state.focusSearchReducer,
 });
 
 const mapDispatchToProps = {

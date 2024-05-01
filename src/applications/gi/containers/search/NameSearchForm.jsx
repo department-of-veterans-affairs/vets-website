@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createRef } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 // import environment from 'platform/utilities/environment';
@@ -33,6 +33,7 @@ export function NameSearchForm({
   errorReducer,
   filterBeforeResultsReducer,
   dispatchShowFiltersBeforeResult,
+  focusSearchReducer,
 }) {
   const { version } = preview;
   const [name, setName] = useState(search.query.name);
@@ -41,6 +42,8 @@ export function NameSearchForm({
   const [isClearButtonClicked, setIsButtonClicked] = useState(false);
   // const [error, setError] = useState(null);
   const { error } = errorReducer;
+  const { focusOnSearch } = focusSearchReducer;
+  const dispatch = useDispatch();
   const history = useHistory();
   const inputRef = createRef();
   const doSearch = value => {
@@ -67,6 +70,7 @@ export function NameSearchForm({
    * Triggers a search for search form when the "Update results" button in "Filter your results"
    * is clicked
    */
+
   useEffect(
     () => {
       if (!search.loadFromUrl && filters.search && search.tab === TABS.name) {
@@ -88,6 +92,16 @@ export function NameSearchForm({
       }
     },
     [search.loadFromUrl],
+  );
+  // This effect runs to focus on search when Reset Search button is clicked.
+  useEffect(
+    () => {
+      if (focusOnSearch) {
+        inputRef.current.focus();
+        dispatch({ type: 'RESET_FOCUS' });
+      }
+    },
+    [focusOnSearch, inputRef, dispatch],
   );
 
   useEffect(
@@ -201,6 +215,7 @@ const mapStateToProps = state => ({
   search: state.search,
   errorReducer: state.errorReducer,
   filterBeforeResultsReducer: state.filterBeforeResultsReducer,
+  focusSearchReducer: state.focusSearchReducer,
 });
 
 const mapDispatchToProps = {
