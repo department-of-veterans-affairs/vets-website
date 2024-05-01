@@ -5,9 +5,10 @@ import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 import {
-  gaBankInfoHelpText,
+  // gaBankInfoHelpText,
   validateRoutingNumber,
 } from '../../content/directDepositUpdate';
+import { gaBankInfoHelpText } from '../../content/directDeposit';
 
 describe('Edu 5490 personalInformation directDepositUpdate', () => {
   const {
