@@ -28,7 +28,7 @@ describe('WiderThanMobileLogoRow', () => {
   it('renders sign in link', () => {
     const { getByTestId } = getWiderThanMobileLogoRow();
     expect(
-      getByTestId('wider-than-mobile-logo-row-sign-in-link').textContent,
+      getByTestId('user-nav-wider-than-mobile-sign-in-link').textContent,
     ).to.eq('Sign in');
   });
 });

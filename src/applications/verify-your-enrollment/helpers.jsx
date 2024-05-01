@@ -504,9 +504,7 @@ export const getSignlePreviousEnrollments = awards => {
               </p>
               <div className="vads-u-font-style--italic">
                 You verified on{' '}
-                {translateDateIntoMonthDayYearFormat(
-                  awards.PendingVerificationSubmitted,
-                )}
+                {translateDateIntoMonthDayYearFormat(awards.verifiedDate)}
               </div>
             </va-additional-info>
           </>
