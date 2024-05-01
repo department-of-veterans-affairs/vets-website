@@ -6,6 +6,7 @@ import {
   UPDATE_AUTOCOMPLETE_NAME,
   UPDATE_AUTOCOMPLETE_LOCATION,
   LOCATION_AUTOCOMPLETE_SUCCEEDED,
+  LOCATION_AUTOCOMPLETE_RESET,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -65,6 +66,11 @@ export default function(state = INITIAL_STATE, action) {
           state.location,
         ),
         inProgress: false,
+      };
+    case LOCATION_AUTOCOMPLETE_RESET:
+      return {
+        ...state,
+        locationSuggestions: [],
       };
     case UPDATE_AUTOCOMPLETE_LOCATION:
       return {

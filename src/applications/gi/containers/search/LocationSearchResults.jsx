@@ -640,15 +640,15 @@ function LocationSearchResults({
                 id="search-area-control-container"
                 className="mapboxgl-ctrl-top-center"
               >
-                <button
+                <va-button
                   type="button"
                   id="search-area-control"
-                  className="usa-button"
+                  className="usa-button gi-map-z-index"
                   onClick={searchArea}
                   disabled={!areaSearchWithinBounds}
-                >
-                  {areaSearchLabel}
-                </button>
+                  text={areaSearchLabel}
+                  uswds
+                />
               </div>
             )}
         </map>
