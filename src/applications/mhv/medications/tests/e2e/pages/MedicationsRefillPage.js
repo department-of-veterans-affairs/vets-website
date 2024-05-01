@@ -10,6 +10,7 @@ class MedicationsRefillPage {
       'my_health/v1/prescriptions/list_refillable_prescriptions',
       prescriptions,
     ).as('refillList');
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
   };
 
   verifyRefillPageTitle = () => {
@@ -308,6 +309,13 @@ class MedicationsRefillPage {
     );
   };
 
+  verifyErrorMessageWhenRefillRequestWithoutSelectingPrescription = () => {
+    cy.get('[data-testid="select-rx-error-message"]').should(
+      'contain',
+      'Select at least one prescription',
+    );
+  };
+
   verifyRefillRequestSuccessConfirmationMessage = () => {
     cy.get('[data-testid="success-message-title"]').should(
       'contain',
@@ -326,6 +334,17 @@ class MedicationsRefillPage {
     cy.get('[data-testid="no-refills-message"]').should(
       'contain',
       'You don’t have any VA prescriptions with refills',
+    );
+  };
+
+  verifyRenewListCountonRefillPage = (
+    displayedStartNumber,
+    displayedEndNumber,
+    listLength,
+  ) => {
+    cy.get('[data-testid="renew-page-list-count"]').should(
+      'contain',
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} prescriptions`,
     );
   };
 }

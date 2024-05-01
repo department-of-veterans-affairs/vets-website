@@ -146,7 +146,7 @@ const AppointmentListItem = props => {
             ? ` ${t('with')} ${appointment.doctorName}`
             : ''}
         </div>
-        <div className="vads-u-display--flex vads-u-align-items--baseline">
+        <div className="vads-u-display--flex">
           <div
             data-testid="appointment-kind-icon"
             className="vads-u-margin-right--1 check-in--label"

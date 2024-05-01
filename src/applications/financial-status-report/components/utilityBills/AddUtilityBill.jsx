@@ -116,7 +116,6 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
             type="text"
             value={utilityName || ''}
             charcount
-            uswds
           />
           <VaNumberInput
             width="md"
@@ -130,7 +129,6 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={utilityAmount || ''}
-            uswds
           />
 
           <ButtonGroup

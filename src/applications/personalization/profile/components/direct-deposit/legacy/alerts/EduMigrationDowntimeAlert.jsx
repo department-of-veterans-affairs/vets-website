@@ -20,14 +20,23 @@ export const EduMigrationDowntimeAlert = () => {
         data-testid="edu-migration-downtime-alert"
       >
         <div>
+          <h2
+            slot="headline"
+            className="vads-u-margin-top--0 vads-u-font-size--lg"
+          >
+            You can’t manage your direct deposit information right now
+          </h2>
           <p className="vads-u-margin-y--0">
-            We’re updating our systems for online direct deposit management.
+            We’re updating our systems for online direct deposit management. You
+            can still manage your information by phone.
           </p>
+
           <p className="vads-u-margin-bottom--0">
             If you need to manage your direct deposit information for education
-            benefits, call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />{' '}
-            (<va-telephone contact={CONTACTS['711']} tty />
-            ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+            benefits during this time, call us at{' '}
+            <va-telephone contact={CONTACTS.GI_BILL} /> (
+            <va-telephone contact={CONTACTS['711']} tty />
+            ). We’re here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET.
           </p>
         </div>
       </va-alert>
