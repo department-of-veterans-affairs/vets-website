@@ -656,10 +656,5 @@ const formConfig = {
     },
   },
 };
-// if (isProductionOfTestProdEnv()) {
-//   formConfig.chapters.personalInformation.pages.directDeposit = createDirectDepositPage5490();
-// } else {
-//   formConfig.chapters.personalInformation.pages.directDeposit = createDirectDepositPageUpdate();
-// }
 
 export default formConfig;
