@@ -222,7 +222,7 @@ describe('<AreaOfDisagreement>', () => {
       expect(goSpy.called).to.be.false;
       expect(
         $('va-checkbox-group[error]', container)?.getAttribute('error'),
-      ).to.contain('Choose or enter a reason for disagreement');
+      ).to.contain('You must select or enter a reason for disagreement');
     });
   });
 
