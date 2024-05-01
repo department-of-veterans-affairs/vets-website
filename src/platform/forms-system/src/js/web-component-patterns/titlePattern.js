@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { isReactComponent } from '~/platform/utilities/ui';
 
-export const Title = ({ title, description, headerLevel, classNames }) => {
+export const Title = ({ title, description, headerLevel = 3, classNames }) => {
   const CustomHeader = `h${headerLevel}`;
   const color = headerLevel === 3 ? 'gray-dark' : 'black';
   const className = classNames || `vads-u-color--${color} vads-u-margin-top--0`;
@@ -18,15 +19,24 @@ export const Title = ({ title, description, headerLevel, classNames }) => {
   );
 };
 
-function isPlainObject(obj) {
+function isTitleObject(obj) {
   return (
     typeof obj === 'object' &&
     obj !== null &&
     !Array.isArray(obj) &&
     !(obj instanceof Function) &&
-    obj.$$typeof !== Symbol.for('react.element')
+    isReactComponent(obj)
   );
 }
+
+/**
+ * @typedef {{
+ *   title?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element,
+ *   description?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element,
+ *   headerLevel?: number,
+ *   classNames?: string,
+ * }} TitleObject
+ */
 
 /**
  * Title for the top of a form page
@@ -51,13 +61,13 @@ function isPlainObject(obj) {
           </AdditionalInfo>
       </p>))
  * ```
- * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [title] 'ui:title'
- * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [description] 'ui:description'
+ * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element | TitleObject} [titleOption] 'ui:title'
+ * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [descriptionOption] 'ui:description'
  *
  * @returns {UISchemaOptions}
  */
 export const titleUI = (titleOption, descriptionOption) => {
-  const { title, description, headerLevel, classNames } = isPlainObject(
+  const { title, description, headerLevel, classNames } = isTitleObject(
     titleOption,
   )
     ? titleOption
