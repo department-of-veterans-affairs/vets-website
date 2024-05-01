@@ -251,7 +251,7 @@ export function LocationSearchForm({
                 <span className="use-my-location-container">
                   {search.geolocationInProgress ? (
                     <div className="use-my-location-link vads-u-display--flex vads-u-align-items--center ">
-                      <va-icon size={4} icon="loop" aria-hidden="true" />
+                      <va-icon size={4} icon="autorenew" aria-hidden="true" />
                       <span aria-live="assertive">
                         Finding your location...
                       </span>
