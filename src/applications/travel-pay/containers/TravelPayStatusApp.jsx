@@ -6,7 +6,8 @@ import {
 } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import PropTypes from 'prop-types';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import HelpText from '../components/HelpText';
@@ -89,12 +90,13 @@ export default function App({ children }) {
               </h1>
             </div>
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-              {isLoading ? (
+              {isLoading && (
                 <va-loading-indicator
                   label="Loading"
                   message="Loading Travel Claims..."
                 />
-              ) : (
+              )}
+              {userLoggedIn ? (
                 <>
                   <p id="pagination-info">
                     Showing 1 ‒ {travelClaims.length} of {travelClaims.length}{' '}
@@ -106,15 +108,13 @@ export default function App({ children }) {
                     </p>
                     <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
                       <select
-                        className="vads-u-margin-bottom--0 vads-u-padding-bottom--0"
+                        className="vads-u-margin-bottom--0"
                         hint={null}
                         name="claimsOrder"
                         value={selectedClaimsOrder}
                         onChange={e => setSelectedClaimsOrder(e.target.value)}
                       >
-                        <option value="mostRecent" selected>
-                          Most Recent
-                        </option>
+                        <option value="mostRecent">Most Recent</option>
                         <option value="oldest">Oldest</option>
                       </select>
                       <va-button
@@ -126,9 +126,18 @@ export default function App({ children }) {
                   {travelClaims.map(travelClaim =>
                     TravelClaimCard(travelClaim),
                   )}
+
+                  <HelpText />
+                </>
+              ) : (
+                <>
+                  <p>Log in to view your travel claims</p>
+                  <va-button
+                    text="Sign in"
+                    onClick={() => dispatch(toggleLoginModal(true))}
+                  />
                 </>
               )}
-              <HelpText />
             </div>
           </div>
         </article>
