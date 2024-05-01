@@ -1,7 +1,6 @@
 import React from 'react';
-import { addDays, isValid } from 'date-fns';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { formatDate } from '../../../combined/utils/helpers';
+import { endDate } from '../../utils/helpers';
 
 const ContactDMC = () => (
   <span className="vads-u-margin-x--0p5">
@@ -15,11 +14,9 @@ const ContactDMC = () => (
 );
 
 export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
-  const endDate = (date, days) => {
-    return isValid(new Date(date))
-      ? formatDate(addDays(new Date(date), days))
-      : '';
-  };
+  const daysToAdd =
+    debt.diaryCode === '117' || debt.diaryCode === '123' ? 60 : 30;
+  const endDateText = endDate(dateOfLetter, daysToAdd);
 
   switch (debt.diaryCode) {
     case '71':
@@ -38,10 +35,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       };
     case '109':
       return {
-        headerText: `Pay your balance now or request help by ${endDate(
-          dateOfLetter,
-          30,
-        )} to avoid more interest charges`,
+        headerText: `Pay your balance now or request help by ${endDateText} to avoid more interest charges`,
         status: 'info',
         showIcon: false,
         showLinks: true,
@@ -51,18 +45,14 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           <p>
             We’ve added interest to your balance. To avoid more interest charges
             or further collection action, you must pay your full balance or
-            request financial help before ${endDate(dateOfLetter, 30)}. If you
-            don’t this debt may be referred to the U.S. Department of the
-            Treasury.
+            request financial help before {endDateText}. If you don’t this debt
+            may be referred to the U.S. Department of the Treasury.
           </p>
         ),
       };
     case '117':
       return {
-        headerText: `Pay your ${amountDue} balance in full or request help by ${endDate(
-          dateOfLetter,
-          60,
-        )}`,
+        headerText: `Pay your ${amountDue} balance in full or request help by ${endDateText}`,
         status: 'info',
         showIcon: false,
         showLinks: true,
@@ -71,18 +61,15 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         bodyText: (
           <p>
             To avoid further collection action on your bill, you must pay your
-            full balance or request financial help before{' '}
-            {endDate(dateOfLetter, 60)}. If you don’t, this debt may be referred
-            to the U.S. Department of the Treasury.
+            full balance or request financial help before {endDateText}. If you
+            don’t, this debt may be referred to the U.S. Department of the
+            Treasury.
           </p>
         ),
       };
     case '123':
       return {
-        headerText: `Pay your ${amountDue} balance now or request help by ${endDate(
-          dateOfLetter,
-          60,
-        )}`,
+        headerText: `Pay your ${amountDue} balance now or request help by ${endDateText}`,
         status: 'info',
         showIcon: false,
         showLinks: true,
@@ -92,7 +79,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           <p>
             To avoid your debt being referred to the U.S. Department of the
             Treasury, you must pay your full balance or request financial help
-            before {endDate(dateOfLetter, 60)}.
+            before {endDateText}.
           </p>
         ),
       };
@@ -112,10 +99,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       };
     case '815':
       return {
-        headerText: `Pay your one time payment as part of your compromise agreement by ${endDate(
-          dateOfLetter,
-          30,
-        )}`,
+        headerText: `Pay your one time payment as part of your compromise agreement by ${endDateText}`,
         status: 'info',
         showIcon: false,
         showLinks: true,
@@ -160,9 +144,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
             <br />
-            <strong>
-              Your next payment is due by {endDate(dateOfLetter, 30)}.
-            </strong>
+            <strong>Your next payment is due by {endDateText}.</strong>
           </p>
         ),
       };
@@ -280,10 +262,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '130':
     case '140':
       return {
-        headerText: `Pay your ${amountDue} balance now or request help by ${endDate(
-          dateOfLetter,
-          30,
-        )}`,
+        headerText: `Pay your ${amountDue} balance now or request help by ${endDateText}`,
         status: 'info',
         showIcon: false,
         showLinks: true,
@@ -292,9 +271,9 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         bodyText: (
           <p>
             To avoid collection actions on your bill, you must pay your full
-            balance or request financial help before {endDate(dateOfLetter, 30)}
-            . If you don’t, this debt may be referred to the U.S. Department of
-            the Treasury.
+            balance or request financial help before {endDateText}. If you
+            don’t, this debt may be referred to the U.S. Department of the
+            Treasury.
           </p>
         ),
       };
@@ -358,10 +337,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       };
     case '449':
       return {
-        headerText: `Pay your balance now or request help by ${endDate(
-          dateOfLetter,
-          30,
-        )}`,
+        headerText: `Pay your balance now or request help by ${endDateText}`,
         status: 'info',
         showIcon: false,
         showLinks: true,
@@ -371,17 +347,14 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           <p>
             To avoid late fees or further collection action on your bill, you
             must pay your full balance or request financial help before{' '}
-            {endDate(dateOfLetter, 30)}.
+            {endDateText}.
           </p>
         ),
       };
     case '439':
     case '459':
       return {
-        headerText: `Pay your balance now or request help by ${endDate(
-          dateOfLetter,
-          30,
-        )}`,
+        headerText: `Pay your balance now or request help by ${endDateText}`,
         status: 'info',
         showIcon: false,
         showLinks: true,
@@ -391,8 +364,8 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           <p>
             To avoid late fees or further collection action on your bill, you
             must pay your full balance or request financial help before{' '}
-            {endDate(dateOfLetter, 30)}. If you don’t, this debt may be referred
-            to the U.S. Department of the Treasury.
+            {endDateText}. If you don’t, this debt may be referred to the U.S.
+            Department of the Treasury.
           </p>
         ),
       };
@@ -406,17 +379,12 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: true,
-        bodyText: (
-          <p>Your next payment is due by {endDate(dateOfLetter, 30)}.</p>
-        ),
+        bodyText: <p>Your next payment is due by {endDateText}.</p>,
       };
     case '603':
     case '613':
       return {
-        headerText: `Make a payment on your ${amountDue} balance now or request help by ${endDate(
-          dateOfLetter,
-          30,
-        )}`,
+        headerText: `Make a payment on your ${amountDue} balance now or request help by ${endDateText}`,
         status: 'info',
         showIcon: false,
         showLinks: true,
@@ -426,7 +394,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           <p>
             To avoid late fees or collection action on your bill, you must make
             a payment on your balance or request financial help before{' '}
-            {endDate(dateOfLetter, 30)}.
+            {endDateText}.
           </p>
         ),
       };
@@ -504,9 +472,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
             <br />
-            <strong>
-              Your next payment is due by {endDate(dateOfLetter, 30)}.
-            </strong>
+            <strong>Your next payment is due by {endDateText}.</strong>
           </p>
         ),
       };
@@ -523,9 +489,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
             <br />
-            <strong>
-              Your next payment is due by {endDate(dateOfLetter, 30)}.
-            </strong>
+            <strong>Your next payment is due by {endDateText}.</strong>
           </p>
         ),
       };
@@ -542,9 +506,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
             <br />
-            <strong>
-              Your next payment is due by {endDate(dateOfLetter, 30)}.
-            </strong>
+            <strong>Your next payment is due by {endDateText}.</strong>
           </p>
         ),
       };
@@ -561,9 +523,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
             <br />
-            <strong>
-              Your next payment is due by {endDate(dateOfLetter, 30)}.
-            </strong>
+            <strong>Your next payment is due by {endDateText}.</strong>
           </p>
         ),
       };
