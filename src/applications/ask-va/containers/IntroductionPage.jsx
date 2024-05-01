@@ -148,6 +148,18 @@ const IntroductionPage = props => {
               buttonOnly
               headingLevel={2}
               prefillEnabled={formConfig.prefillEnabled}
+              verifiedPrefillAlert={
+                <div>
+                  <div className="usa-alert usa-alert-info schemaform-sip-alert">
+                    <div className="usa-alert-body">
+                      We’ve prefilled some of your information from your
+                      account. If you need to correct anything, you can edit the
+                      form fields below.
+                    </div>
+                  </div>
+                  <br />
+                </div>
+              }
               messages={formConfig.savedFormMessages}
               pageList={pageList}
               startText="Start the Application"
