@@ -1,9 +1,5 @@
 import React from 'react';
-import * as Sentry from '@sentry/browser';
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import Scroll from 'react-scroll';
 
 const { scroller } = Scroll;
@@ -15,178 +11,7 @@ export const scrollToTop = () => {
   });
 };
 
-// Includes obsolete 'dayPhone' and 'nightPhone' for stale forms
-const usaPhoneKeys = ['phone', 'mobilePhone', 'dayPhone', 'nightPhone'];
-
-export function replacer(key, value) {
-  if (usaPhoneKeys.includes(key) && value?.length) {
-    // Strip spaces, dashes, and parens from phone numbers
-    return value.replace(/[^\d]/g, '');
-  }
-
-  // clean up empty objects, which we have no reason to send
-  if (typeof value === 'object') {
-    const fields = Object.keys(value);
-    if (
-      fields.length === 0 ||
-      fields.every(field => value[field] === undefined)
-    ) {
-      return undefined;
-    }
-  }
-
-  return value;
-}
-
-function checkStatus(guid) {
-  return apiRequest(`${environment.API_URL}/v0/pension_claims/${guid}`, {
-    mode: 'cors',
-  }).catch(res => {
-    if (res instanceof Error) {
-      Sentry.captureException(res);
-      Sentry.captureMessage('vets_pension_poll_client_error');
-
-      // keep polling because we know they submitted earlier
-      // and this is likely a network error
-      return Promise.resolve();
-    }
-
-    // if we get here, it's likely that we hit a server error
-    return Promise.reject(res);
-  });
-}
-
-const POLLING_INTERVAL = 1000;
-
-function pollStatus(
-  { guid, confirmationNumber, regionalOffice },
-  onDone,
-  onError,
-) {
-  setTimeout(() => {
-    checkStatus(guid)
-      .then(res => {
-        if (!res || res.data.attributes.state === 'pending') {
-          pollStatus(
-            { guid, confirmationNumber, regionalOffice },
-            onDone,
-            onError,
-          );
-        } else if (res.data.attributes.state === 'success') {
-          const response = res.data.attributes.response || {
-            confirmationNumber,
-            regionalOffice,
-          };
-          onDone(response);
-        } else {
-          // needs to start with this string to get the right message on the form
-          throw new Error(
-            `vets_server_error_pensions: status ${res.data.attributes.state}`,
-          );
-        }
-      })
-      .catch(onError);
-  }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
-}
-
-export function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form, replacer);
-  return JSON.stringify({
-    pensionClaim: {
-      form: formData,
-    },
-    // can’t use toISOString because we need the offset
-    localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ'),
-  });
-}
-
-export function submit(form, formConfig) {
-  const headers = { 'Content-Type': 'application/json' };
-  const body = transform(formConfig, form);
-
-  return apiRequest(`${environment.API_URL}/v0/pension_claims`, {
-    body,
-    headers,
-    method: 'POST',
-    mode: 'cors',
-  })
-    .then(resp => {
-      const { guid, confirmationNumber, regionalOffice } = resp.data.attributes;
-      return new Promise((resolve, reject) => {
-        pollStatus(
-          { guid, confirmationNumber, regionalOffice },
-          response => {
-            window.dataLayer.push({
-              event: `${formConfig.trackingPrefix}-submission-successful`,
-            });
-            return resolve(response);
-          },
-          error => reject(error),
-        );
-      });
-    })
-    .catch(respOrError => {
-      if (respOrError instanceof Response && respOrError.status === 429) {
-        const error = new Error('vets_throttled_error_pensions');
-        error.extra = parseInt(
-          respOrError.headers.get('x-ratelimit-reset'),
-          10,
-        );
-
-        return Promise.reject(error);
-      }
-      return Promise.reject(respOrError);
-    });
-}
-
 export const formatCurrency = num => `$${num.toLocaleString()}`;
-
-export const DirectDepositOtherOptions = (
-  <div>
-    <h4>Option 1: Get your payment through Direct Express Debit MasterCard</h4>
-    <p>
-      To request a Direct Express Debit MasterCard, call{' '}
-      <va-telephone contact="8003331795" />.
-    </p>
-    <p>
-      <a
-        href="https://www.usdirectexpress.com/how_it_works.html"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Go to the Direct Express Debit Mastercard website to learn more (opens
-        in new tab)
-      </a>
-    </p>
-    <p>
-      <strong>Note:</strong> If you choose to get payments through a Direct
-      Express Debit MasterCard, you’ll need to call{' '}
-      <va-telephone contact="8882242950" /> to request a waiver from the
-      Department of Treasury.
-    </p>
-    <h4>Option 2: Open a bank account</h4>
-    <p>
-      If you want to use direct deposit, the Veterans Benefits Banking Program
-      (VBBP) can help you open a bank account. VBBP provides a list of
-      Veteran-friendly banks and credit unions that will work with you to set up
-      an account, or help you qualify for an account.
-    </p>
-    <p>
-      To get started, call one of the participating banks or credit unions
-      listed on the VBBP website. Be sure to mention the Veterans Benefits
-      Banking Program.
-    </p>
-    <p>
-      <a
-        href="https://veteransbenefitsbanking.org/find-bank-credit-union/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Go to the VBBP website (opens in new tab)
-      </a>
-    </p>
-  </div>
-);
 
 const warDates = [
   ['1916-05-09', '1917-04-05'], // Mexican Border Period (May 9, 1916 - April 5, 1917)
@@ -282,4 +107,26 @@ export const getJobTitleOrType = item => {
 export const obfuscateAccountNumber = accountNumber => {
   // Replace all digits except the last 4 with asterisks (*)
   return accountNumber.replace(/\d(?=\d{4})/g, '*');
+};
+
+// TODO: Remove when removing TOGGLE_NAMES.pensionMultiresponseStyles
+const MULTIRESPONSE_STYLES = 'multiresponse_styles';
+
+export const setSessionMultiresponseStyles = () =>
+  sessionStorage.setItem(MULTIRESPONSE_STYLES, true);
+
+export const removeSessionMultiresponseStyles = () =>
+  sessionStorage.removeItem(MULTIRESPONSE_STYLES);
+
+// TODO: when removing TOGGLE_NAMES.pensionMultiresponseStyles, replace occurences of this helper with 'true'
+export const multiresponseStyles = () =>
+  sessionStorage.getItem(MULTIRESPONSE_STYLES) === 'true';
+
+// TODO: when removing TOGGLE_NAMES.pensionMultiresponseStyles, remove this, and
+// update the ui:options of any schema where it appears to have showSave: true and reviewMode: true
+export const updateMultiresponseUiOptions = (_formData, schema, uiSchema) => {
+  const currentUiOptions = uiSchema['ui:options'];
+  currentUiOptions.showSave = multiresponseStyles();
+  currentUiOptions.reviewMode = multiresponseStyles();
+  return schema;
 };

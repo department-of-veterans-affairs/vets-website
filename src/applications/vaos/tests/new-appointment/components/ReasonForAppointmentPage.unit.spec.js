@@ -36,11 +36,14 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
         store,
       });
 
-      expect(screen.container.querySelector('va-radio')).to.exist;
-      expect(screen.container.querySelector('va-radio')).to.have.attribute(
-        'label',
-        'What’s the reason for this appointment?',
-      );
+      const radioSelector = screen.container.querySelector('va-radio');
+      await waitFor(() => {
+        expect(radioSelector).to.exist;
+        expect(radioSelector).to.have.attribute(
+          'label',
+          'What’s the reason for this appointment?',
+        );
+      });
 
       const radioOptions = screen.container.querySelectorAll('va-radio-option');
       await waitFor(() => {
@@ -63,8 +66,14 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
       });
-      expect(screen.container.querySelector('va-radio')).to.exist;
       const radioSelector = screen.container.querySelector('va-radio');
+      await waitFor(() => {
+        expect(radioSelector).to.exist;
+        expect(radioSelector).to.have.attribute(
+          'label',
+          'What’s the reason for this appointment?',
+        );
+      });
 
       const radioOptions = screen.container.querySelectorAll('va-radio-option');
       await waitFor(() => {
@@ -77,11 +86,11 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       // click continue without selecting from radio button
       fireEvent.click(screen.getByText(/Continue/));
       expect(radioSelector.error).to.exist;
-      // select a radio button
+
       const changeEvent = new CustomEvent('selected', {
         detail: { value: 'routine-follow-up' },
       });
-
+      // select a radio option routine followup
       radioSelector.__events.vaValueChange(changeEvent);
       fireEvent.click(screen.getByText(/Continue/));
       expect(radioSelector.error).to.not.exist;

@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import MedicationsListCard from './MedicationsListCard';
 import { rxListSortingOptions } from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
+import { fromToNumbs } from '../../util/helpers';
 
 const MAX_PAGE_LIST_LENGTH = 6;
 const perPage = 20;
@@ -33,18 +34,11 @@ const MedicationsList = props => {
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
 
-  const fromToNumbs = (page, total) => {
-    if (rxList?.length < 1) {
-      return [0, 0];
-    }
-    const from = (page - 1) * perPage + 1;
-    const to = Math.min(page * perPage, total);
-    return [from, to];
-  };
-
   const displayNums = fromToNumbs(
     pagination.currentPage,
     pagination.totalEntries,
+    rxList?.length,
+    perPage,
   );
 
   return (

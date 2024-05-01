@@ -60,7 +60,7 @@ describe('Refill Notification Component', () => {
     );
     expect(screen.getByText('Only part of your request was submitted')).to
       .exist;
-    expect(screen.getByText('Refill prescriptions')).to.exist;
+    expect(screen.getByText('Refills requested')).to.exist;
   });
   it('should render items', () => {
     const wrapper = shallow(

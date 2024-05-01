@@ -19,7 +19,7 @@ const getLastUpdated = claim => {
     claim.attributes.claimPhaseDates?.phaseChangeDate,
   );
 
-  return `Last updated: ${updatedOn}`;
+  return `Moved to this step on ${updatedOn}`;
 };
 
 const showPreDecisionCommunications = claim => {
@@ -61,7 +61,7 @@ export default function ClaimsListItem({ claim }) {
   const humanStatus = getStatusDescription(status);
   const showAlert = showPrecomms && documentsNeeded;
 
-  const ariaLabel = `View details for claim submitted on ${formattedReceiptDate}`;
+  const ariaLabel = `Details for claim submitted on ${formattedReceiptDate}`;
   const href = `/your-claims/${claim.id}/status`;
 
   return (
