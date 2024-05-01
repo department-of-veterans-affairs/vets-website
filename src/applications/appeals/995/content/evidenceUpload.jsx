@@ -43,6 +43,7 @@ export const UploadDescription = () => {
       <ul className="vads-u-margin-top--0">
         <li>{`File types you can upload: ${list}`}</li>
         <li>{`Maximum file size: ${MAX_FILE_SIZE_MB}MB`}</li>
+        <li>Maximum file width and height: 78 inches by 101 inches</li>
       </ul>
       <p>
         <em>
