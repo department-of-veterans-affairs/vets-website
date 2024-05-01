@@ -165,29 +165,32 @@ function ToeApp({
 
   return (
     <>
-      <VaBreadcrumbs
-        class="bread-crumb-margin"
-        breadcrumbList={[
-          {
-            href: '/',
-            label: 'Home',
-          },
-          {
-            href: '/education',
-            label: 'Education and training',
-          },
-          {
-            href: '/education/survivor-dependent-benefits/',
-            label: 'VA education benefits for survivors and dependents',
-          },
-          {
-            href:
-              '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e',
-            label: 'Apply to use transferred education benefits',
-          },
-        ]}
-      />
-
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 columns vads-u-margin-bottom--4">
+          <VaBreadcrumbs
+            wrapping
+            breadcrumbList={[
+              {
+                href: '/',
+                label: 'Home',
+              },
+              {
+                href: '/education',
+                label: 'Education and training',
+              },
+              {
+                href: '/education/survivor-dependent-benefits/',
+                label: 'VA education benefits for survivors and dependents',
+              },
+              {
+                href:
+                  '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e',
+                label: 'Apply to use transferred education benefits',
+              },
+            ]}
+          />
+        </div>
+      </div>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>

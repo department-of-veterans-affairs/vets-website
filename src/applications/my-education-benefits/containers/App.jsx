@@ -404,26 +404,29 @@ export const App = ({
 
   return (
     <>
-      <VaBreadcrumbs
-        class="bread-crumb-margin"
-        label="Breadcrumbs"
-        wrapping
-        uswds
-        breadcrumbList={[
-          {
-            href: '/',
-            label: 'Home',
-          },
-          {
-            href: '/education',
-            label: 'Education and training',
-          },
-          {
-            href: '/education/apply-for-benefits-form-22-1990',
-            label: 'Apply for education benefits',
-          },
-        ]}
-      />
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 columns vads-u-margin-bottom--4">
+          <VaBreadcrumbs
+            label="Breadcrumbs"
+            wrapping
+            uswds
+            breadcrumbList={[
+              {
+                href: '/',
+                label: 'Home',
+              },
+              {
+                href: '/education',
+                label: 'Education and training',
+              },
+              {
+                href: '/education/apply-for-benefits-form-22-1990',
+                label: 'Apply for education benefits',
+              },
+            ]}
+          />
+        </div>
+      </div>
 
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}

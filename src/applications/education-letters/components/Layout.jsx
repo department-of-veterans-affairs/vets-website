@@ -5,24 +5,28 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 const Layout = ({ children, clsName = '' }) => {
   return (
     <>
-      <VaBreadcrumbs
-        class="bread-crumb-margin"
-        breadcrumbList={[
-          {
-            href: '/',
-            label: 'Home',
-          },
-          {
-            href: '/education/',
-            label: 'Education and training',
-          },
-          {
-            href: '/education/download-letters/letters',
-            label: 'Your VA education letter',
-          },
-        ]}
-        label="Breadcrumb"
-      />
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 columns vads-u-margin-bottom--4">
+          <VaBreadcrumbs
+            breadcrumbList={[
+              {
+                href: '/',
+                label: 'Home',
+              },
+              {
+                href: '/education/',
+                label: 'Education and training',
+              },
+              {
+                href: '/education/download-letters/letters',
+                label: 'Your VA education letter',
+              },
+            ]}
+            label="Breadcrumb"
+            wrapping
+          />
+        </div>
+      </div>
 
       <section id={`education-letters-${clsName}`} className={clsName}>
         <div className="usa-grid usa-grid-full">

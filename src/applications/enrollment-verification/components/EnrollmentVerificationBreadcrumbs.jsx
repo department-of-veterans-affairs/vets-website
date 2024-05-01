@@ -57,11 +57,15 @@ export default function EnrollmentVerificationBreadcrumbs() {
 
   return (
     <>
-      <VaBreadcrumbs
-        class="bread-crumb-margin"
-        breadcrumbList={[...breadcrumbsArray]}
-        label="Breadcrumb"
-      />
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 columns vads-u-margin-bottom--4">
+          <VaBreadcrumbs
+            breadcrumbList={[...breadcrumbsArray]}
+            label="Breadcrumb"
+            wrapping
+          />
+        </div>
+      </div>
     </>
   );
 }
