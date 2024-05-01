@@ -1,13 +1,11 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-
 import { files } from '../../definitions';
 
 const Description = (
-  <div>
+  <div className="vads-u-color--gray-dark">
     <p>
       You can submit your supporting documents using any of the options listed
       on this page.
@@ -20,7 +18,7 @@ const Description = (
       available to us.
     </p>
 
-    <h3>Option 1: Upload your documents online </h3>
+    <h4>Option 1: Upload your documents online </h4>
 
     <p>You can upload your documents now.</p>
 
@@ -29,8 +27,8 @@ const Description = (
 );
 
 const UploadMessage = (
-  <div>
-    <h3>Option 2: Submit your documents online through AccessVA</h3>
+  <div className="vads-u-color--gray-dark">
+    <h4>Option 2: Submit your documents online through AccessVA</h4>
 
     <p>
       You can use the QuickSubmit tool through AccessVA to submit your documents
@@ -47,7 +45,7 @@ const UploadMessage = (
       </a>
     </p>
 
-    <h3>Option 3: Mail your documents</h3>
+    <h4>Option 3: Mail your documents</h4>
 
     <p>You can mail your documents to us at this address:</p>
 

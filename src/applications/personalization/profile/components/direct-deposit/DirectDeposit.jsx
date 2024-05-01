@@ -27,19 +27,25 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 const cardHeadingId = 'bank-account-information';
 
 // layout wrapper for common styling
-const Wrapper = ({ children }) => {
+const Wrapper = ({ children, withPaymentHistory }) => {
   return (
     <div className="vads-u-margin-y--2">
       <Headline dataTestId="unified-direct-deposit">
         Direct deposit information
       </Headline>
       {children}
+      {withPaymentHistory && <PaymentHistoryCard />}
     </div>
   );
 };
 
 Wrapper.propTypes = {
   children: PropTypes.node.isRequired,
+  withPaymentHistory: PropTypes.bool,
+};
+
+Wrapper.defaultProps = {
+  withPaymentHistory: true,
 };
 
 export const DirectDeposit = () => {
@@ -82,7 +88,7 @@ export const DirectDeposit = () => {
 
   if (togglesLoading) {
     return (
-      <Wrapper>
+      <Wrapper withPaymentHistory={false}>
         <va-loading-indicator />
       </Wrapper>
     );
@@ -91,7 +97,8 @@ export const DirectDeposit = () => {
   if (hideDirectDeposit && !profileShowDirectDepositSingleFormUAT) {
     return (
       <Wrapper>
-        <TemporaryOutage />
+        <TemporaryOutage customMessaging />
+        <FraudVictimSummary />
       </Wrapper>
     );
   }
@@ -100,14 +107,13 @@ export const DirectDeposit = () => {
     return (
       <Wrapper>
         <LoadFail />
-        <PaymentHistoryCard />
       </Wrapper>
     );
   }
 
   if (isBlocked) {
     return (
-      <Wrapper>
+      <Wrapper withPaymentHistory={false}>
         <DirectDepositBlocked />
       </Wrapper>
     );
@@ -125,7 +131,6 @@ export const DirectDeposit = () => {
     return (
       <Wrapper>
         <Ineligible />
-        <PaymentHistoryCard />
       </Wrapper>
     );
   }
@@ -181,8 +186,6 @@ export const DirectDeposit = () => {
         />
 
         <FraudVictimSummary />
-
-        <PaymentHistoryCard />
       </Wrapper>
     </div>
   );

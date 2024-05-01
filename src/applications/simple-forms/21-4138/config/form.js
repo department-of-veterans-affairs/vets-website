@@ -1,7 +1,10 @@
+import footerContent from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 
+import getHelp from '../../shared/components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { TITLE, SUBTITLE } from './constants';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -15,21 +18,24 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: '21-4138',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your statement in support of a claim application (21-4138) is in progress.',
-    //   expired: 'Your saved statement in support of a claim application (21-4138) has expired. If you want to apply for statement in support of a claim, please start a new application.',
-    //   saved: 'Your statement in support of a claim application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your statement in support of a claim application (21-4138) is in progress.',
+      expired:
+        'Your saved statement in support of a claim application (21-4138) has expired. If you want to apply for statement in support of a claim, please start a new application.',
+      saved: 'Your statement in support of a claim application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
+  hideUnauthedStartLink: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for statement in support of a claim.',
     noAuth:
       'Please sign in again to continue your application for statement in support of a claim.',
   },
-  title: 'Provide a statement in support of a claim',
-  subTitle: 'Statement in Support of a Claim (VA form 21-4138)',
+  title: TITLE,
+  subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
     chapter1: {
@@ -41,12 +47,18 @@ const formConfig = {
           uiSchema: {},
           schema: {
             type: 'object',
-            properties: {},
+            properties: {
+              firstField: {
+                type: 'string',
+              },
+            },
           },
         },
       },
     },
   },
+  footerContent,
+  getHelp,
 };
 
 export default formConfig;
