@@ -19,6 +19,19 @@ export const autoSuggestTitle = (
   </>
 );
 
+export const revisedAutoSuggestTitle = (
+  <>
+    <p>
+      Enter the name of your condition. Then, select your condition from the
+      list of possible matches.
+    </p>
+    <p className="new-condition-description">
+      Or, if your condition isn’t listed, enter your condition, diagnosis, or a
+      short description of your symptoms.
+    </p>
+  </>
+);
+
 export const newOnlyAlert = ({ formContext }) => {
   // Display only after the user tries to submit with no disabilities
   if (!formContext.submitted) return null;

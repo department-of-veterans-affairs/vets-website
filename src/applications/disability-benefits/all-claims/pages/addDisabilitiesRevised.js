@@ -5,9 +5,9 @@ import omit from 'platform/utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { getDisabilityLabels } from '../content/disabilityLabels';
 import {
-  autoSuggestTitle,
   newOnlyAlert,
   increaseAndNewAlert,
+  revisedAutoSuggestTitle,
 } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
@@ -45,7 +45,7 @@ export const uiSchema = {
     'ui:validations': [requireDisability],
     items: {
       condition: autosuggest.uiSchema(
-        autoSuggestTitle,
+        revisedAutoSuggestTitle,
         () =>
           Promise.resolve(
             Object.entries(getDisabilityLabels()).map(([key, value]) => ({
