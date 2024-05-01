@@ -120,10 +120,20 @@ describe('hca `validateGulfWarDates` form validation', () => {
   });
 
   context('when form data is valid', () => {
-    const spy = sinon.spy();
-    const { errors, fieldData } = getData({ spy });
+    it('should not set error message when date range is valid', () => {
+      const spy = sinon.spy();
+      const { errors, fieldData } = getData({ spy });
+      validateGulfWarDates(errors, fieldData);
+      expect(spy.called).to.be.false;
+    });
 
-    it('should not set error message', () => {
+    it('should not set error message when date range is equal', () => {
+      const spy = sinon.spy();
+      const { errors, fieldData } = getData({
+        startDate: '1990-09-XX',
+        endDate: '1990-09-XX',
+        spy,
+      });
       validateGulfWarDates(errors, fieldData);
       expect(spy.called).to.be.false;
     });
@@ -189,10 +199,20 @@ describe('hca `validateExposureDates` form validation', () => {
   });
 
   context('when form data is valid', () => {
-    const spy = sinon.spy();
-    const { errors, fieldData } = getData({ spy });
+    it('should not set error message when date range is valid', () => {
+      const spy = sinon.spy();
+      const { errors, fieldData } = getData({ spy });
+      validateExposureDates(errors, fieldData);
+      expect(spy.called).to.be.false;
+    });
 
-    it('should not set error message', () => {
+    it('should not set error message when date range is equal', () => {
+      const spy = sinon.spy();
+      const { errors, fieldData } = getData({
+        startDate: '1990-09-XX',
+        endDate: '1990-09-XX',
+        spy,
+      });
       validateExposureDates(errors, fieldData);
       expect(spy.called).to.be.false;
     });

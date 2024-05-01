@@ -130,7 +130,8 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
 
       expect(
         getByRole('heading', {
-          name: 'You can’t manage your direct deposit information right now',
+          name:
+            'You can’t manage your direct deposit information online right now',
         }),
       ).to.exist;
     });
