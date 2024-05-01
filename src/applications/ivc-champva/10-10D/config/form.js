@@ -1322,7 +1322,8 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantHasOhi', formData?.applicants?.[index]) === 'yes'
+              get('applicantHasOhi.hasOhi', formData?.applicants?.[index]) ===
+              'yes'
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1345,7 +1346,8 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantHasOhi', formData?.applicants?.[index]) === 'yes' ||
+              get('applicantHasOhi.hasOhi', formData?.applicants?.[index]) ===
+                'yes' ||
               get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
