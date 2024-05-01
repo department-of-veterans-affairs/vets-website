@@ -19,3 +19,4 @@ export {
   reportGeneratedBy,
 } from './util/constants';
 export { trapFocus } from './util/ui/index';
+export { default as BreadcrumbLink } from './components/BreadcrumbLink';

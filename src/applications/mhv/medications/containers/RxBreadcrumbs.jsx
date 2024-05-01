@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { BreadcrumbLink } from '@department-of-veterans-affairs/mhv/exports';
 import { removeBreadcrumbs, setBreadcrumbs } from '../actions/breadcrumbs';
 import { medicationsUrls } from '../util/constants';
 
@@ -38,12 +39,11 @@ const RxBreadcrumbs = () => {
               label="Breadcrumb"
               data-testid="rx-breadcrumb"
             >
-              <span className="breadcrumb-angle vads-u-padding-right--1">
-                {'\u2039'}{' '}
-              </span>
-              <Link to={crumbs[oneLevelDeepCrumb]?.url} onClick={backLink}>
-                Back to {crumbs[oneLevelDeepCrumb]?.label}
-              </Link>
+              <BreadcrumbLink
+                to={crumbs[oneLevelDeepCrumb]?.url}
+                onClick={backLink}
+                label={`Back to ${crumbs[oneLevelDeepCrumb]?.label}`}
+              />
             </div>
           </div>
         )}

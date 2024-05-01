@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { BreadcrumbLink } from '@department-of-veterans-affairs/mhv/exports';
 
 const MrBreadcrumbs = () => {
   const crumbs = useSelector(state => state.mr.breadcrumbs.list);
@@ -13,12 +13,10 @@ const MrBreadcrumbs = () => {
           label="Breadcrumb"
           data-testid="breadcrumbs"
         >
-          <span className="breadcrumb-angle vads-u-padding-right--1">
-            {'\u2039'}{' '}
-          </span>
-          <Link to={crumbs[0].url?.toLowerCase()}>
-            Back to {crumbs[0].label?.toLowerCase()}
-          </Link>
+          <BreadcrumbLink
+            to={crumbs[0].url?.toLowerCase()}
+            label={`Back to ${crumbs[0].label?.toLowerCase()}`}
+          />
         </div>
       ) : (
         <div

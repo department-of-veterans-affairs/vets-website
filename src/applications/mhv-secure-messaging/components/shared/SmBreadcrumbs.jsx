@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import { BreadcrumbLink } from '@department-of-veterans-affairs/mhv/exports';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 import { retrieveFolder } from '../../actions/folders';
@@ -137,7 +138,10 @@ const SmBreadcrumbs = () => {
         <nav aria-label="Breadcrumb">
           <ul className={breadcrumbSize()}>
             <li className="sm-breadcrumb-list-item">
-              <Link to={crumbs.path?.toLowerCase()}>{crumbs.label}</Link>
+              <BreadcrumbLink
+                to={crumbs.path?.toLowerCase()}
+                label={crumbs.label}
+              />
             </li>
           </ul>
         </nav>
