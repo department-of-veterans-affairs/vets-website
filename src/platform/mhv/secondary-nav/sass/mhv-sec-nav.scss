@@ -1,0 +1,116 @@
+$nav-background-color: var(--vads-color-primary);
+$nav-item-color: var(--vads-color-white);
+$nav-width-bar-max-width: 696px;
+$nav-mobile-breakpoint: 650px;
+$nav-abbr-breakpoint: 415px;
+$nav-item-gap: 10px;
+$nav-item-height: 60px;
+
+#mhv-sec-nav-bar {
+  background-color: $nav-background-color;
+  color: $nav-item-color;
+
+  .mhv-sec-nav-container {
+    display: flex;
+    max-width: $nav-width-bar-max-width;
+  }
+
+  .mhv-sec-nav-item-row {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: $nav-item-gap;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  .mhv-sec-nav-item {
+    height: $nav-item-height;
+    text-align: left;
+    align-content: center;
+
+    a {
+      text-decoration: none;
+      color: $nav-item-color;
+    }
+
+    a:visited, a:active {
+      color: $nav-item-color;
+    }
+
+    a:hover {
+      color: $nav-background-color;
+      background-color: rgba(255, 255, 255, 0.6);
+      border-radius: 5px;
+    }
+
+    i {
+      height: 17px;
+      padding-right: 0.7rem;
+    }
+
+    .sec-nav-item-short-title {
+      display: none;
+    }
+
+    &.sec-nav-item-active a {
+      color: $nav-background-color;
+      background-color: $nav-item-color;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+  }
+
+  .mhv-sec-nav-item:first-child {
+    a {
+      font-size: 20px;
+      padding: 11px 7px 11px 7px;
+    }
+  }
+
+  .mhv-sec-nav-item:not(:first-child) a {
+    font-size: 16px;
+    padding: 13px 7px 13px 7px;
+  }
+
+  // Mobile view
+  @media (max-width: $nav-mobile-breakpoint) {
+    .mhv-sec-nav-item:first-child {
+      flex: 0 0 100%;
+
+      // Show the home item as a white bar when active
+      &.sec-nav-item-active {
+        color: $nav-background-color;
+        background-color: $nav-item-color;
+      }
+    }
+
+    .mhv-sec-nav-item:not(:first-child) a {
+      // Make the icon appear on top
+      display: grid;
+      justify-items: center;
+      padding: 7px 7px 1px 7px;
+    }
+
+    // Show the abbreviation instead
+    @media (max-width: $nav-abbr-breakpoint) {
+      .mhv-sec-nav-item {
+        .sec-nav-item-title {
+          display: none;
+        }
+
+        .sec-nav-item-short-title {
+          display: inherit;
+        }
+      }
+    }
+  }
+
+  // Desktop view
+  @media (min-width: $nav-mobile-breakpoint) {
+    .mhv-sec-nav-item {
+      .sec-nav-item-title {
+        display: inherit;
+      }
+    }
+  }
+}
