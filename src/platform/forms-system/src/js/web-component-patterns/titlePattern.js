@@ -18,12 +18,28 @@ export const Title = ({ title, description, headerLevel }) => {
   );
 };
 
+function isPlainObject(obj) {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    !Array.isArray(obj) &&
+    !(obj instanceof Function) &&
+    obj.$$typeof !== Symbol.for('react.element')
+  );
+}
+
 /**
  * Title for the top of a form page
  *
  * ```js
  * uiSchema: {
  *   ...titleUI('Your contact information')
+ *   ...titleUI({
+ *     title: 'Your contact information',
+ *     description: 'We’ll send any important information to this address.'
+ *     headerLevel: 1,
+ *     classNames: 'vads-u-margin-top--0',
+ *   })
  *   ...titleUI(({ formData, formContext }) => `Your contact information ${formData.firstName}`)
  *   ...titleUI('Your contact information', 'We’ll send any important information to this address.')
  *   ...titleUI('Previous deductible expenses', (<p>
@@ -40,7 +56,10 @@ export const Title = ({ title, description, headerLevel }) => {
  *
  * @returns {UISchemaOptions}
  */
-export const titleUI = (title, description) => {
+export const titleUI = (titleOption, descriptionOption) => {
+  const { title, description } = isPlainObject(titleOption)
+    ? titleOption
+    : { title: titleOption, description: descriptionOption };
   const isTitleFn = typeof title === 'function';
   const isDescriptionFn = typeof description === 'function';
 
