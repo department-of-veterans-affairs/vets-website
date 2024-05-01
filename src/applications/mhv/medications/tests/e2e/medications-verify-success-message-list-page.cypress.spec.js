@@ -1,18 +1,26 @@
 import MedicationsSite from './med_site/MedicationsSite';
-import MedicationsLandingPage from './pages/MedicationsLandingPage';
-import MedicationsListPage from './pages/MedicationsListPage';
+import MedicationsRefillPage from './pages/MedicationsRefillPage';
+import prescription from './fixtures/active-prescriptions-with-refills.json';
+import prescriptions from './fixtures/listOfPrescriptions.json';
+import successRequest from './fixtures/refill-success.json';
 
-describe.skip('Medications Refill Submit Success Message List Page', () => {
-  it('visits Success Message on list page', () => {
+describe('Medications Refill Submit Success Message Refill Page', () => {
+  it('visits Success Message on Refill page', () => {
     const site = new MedicationsSite();
-    const listPage = new MedicationsListPage();
-    const landingPage = new MedicationsLandingPage();
+    const refillPage = new MedicationsRefillPage();
     site.login();
-    landingPage.visitLandingPageURL();
+    refillPage.loadRefillPage(prescriptions);
     cy.injectAxe();
     cy.axeCheck('main');
-    listPage.clickGotoMedicationsLink();
-    listPage.clickRefillButton();
-    listPage.verifySuccessMessageAfterRefillRequest();
+    refillPage.verifyRefillPageTitle();
+    refillPage.clickPrescriptionRefillCheckbox(prescription);
+    refillPage.clickRequestRefillButtonforSuccessfulRequests(
+      prescription.data.attributes.prescriptionId,
+      successRequest,
+    );
+    refillPage.verifyRefillRequestSuccessConfirmationMessage();
+    refillPage.verifyMedicationRefillRequested(
+      prescription.data.attributes.prescriptionName,
+    );
   });
 });

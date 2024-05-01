@@ -123,7 +123,9 @@ export const Locators = {
     PRINT: '[data-testid="print-button"]',
     SORT: '[data-testid="sort-button"]',
     ATTACH_FILE: '[data-testid="attach-file-button"]',
-    REMOVE_ATTACHMENT: '.remove-attachment-button',
+    REMOVE_ATTACHMENT: '[data-testid="remove-attachment-button"]',
+    CONFIRM_REMOVE_ATTACHMENT:
+      '[data-testid="confirm-remove-attachment-button"]',
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
     CREATE_FOLDER: '[data-testid="create-folder-button"]',
     REMOVE_FOLDER: 'button[data-testid="remove-folder-button"]',
@@ -200,6 +202,11 @@ export const Locators = {
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
     MESSAGE: '@message',
+    ATTACH_INFO: '[class="additional-info-title"]',
+    ATTACH_OPT: '[class="how-to-attach-files"] li',
+  },
+  BLOCKS: {
+    ATTACHMENTS: '.attachments-list',
   },
 };
 
@@ -229,6 +236,8 @@ export const Data = {
   TEST_MESSAGE_SUBJECT: 'Test Message Subject',
   SAMPLE_DOC: 'sample_docx.docx',
   SAMPLE_PDF: 'sample_pdf.pdf',
+  SAMPLE_XLS: 'sample_XLS.xls',
+  SAMPLE_IMG: 'test_image.gif',
   START_NEW_MSG: 'Start a new message',
   GO_YOUR_INBOX: 'Go to your inbox',
   BACK_TO_MSG: 'Back to messages',
@@ -262,6 +271,12 @@ export const Data = {
     "You can't send messages to your care teams right now",
   REMOVE_FOLDER: 'Remove folder',
   CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
+  ATTACH_INFO: [
+    'You may attach up to 4 files to each message',
+    'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',
+    'The maximum size for each file is 6 MB',
+    'The maximum total size for all files attached to 1 message is 10 MB',
+  ],
 };
 export const Assertions = {
   MESSAGES: 'Messages',

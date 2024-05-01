@@ -8,6 +8,10 @@ const yearResponses = range(currentYear - 1992).map(i => {
   return year.toString();
 });
 
+const validYearsForNonOldDischarge = yearResponses.filter(year => {
+  return currentYear - year <= 15;
+});
+
 const {
   ARMY,
   NAVY,
@@ -25,7 +29,7 @@ const {
   COURT_MARTIAL_1,
   COURT_MARTIAL_2,
   COURT_MARTIAL_3,
-  //   INTENTION_2,
+  INTENTION_2,
   PREV_APPLICATION_1,
   PREV_APPLICATION_2,
   //   DISCHARGE_TYPE_1,
@@ -36,8 +40,8 @@ const {
   PREV_APPLICATION_YEAR_2A,
   PREV_APPLICATION_YEAR_2B,
   PREV_APPLICATION_YEAR_2C,
-  //   PREV_APPLICATION_TYPE_3A,
-  //   PREV_APPLICATION_TYPE_3B,
+  PREV_APPLICATION_TYPE_3A,
+  PREV_APPLICATION_TYPE_3B,
 } = RESPONSES;
 
 export const DISPLAY_CONDITIONS = Object.freeze({
@@ -193,4 +197,11 @@ export const DISPLAY_CONDITIONS = Object.freeze({
       },
     },
   },
+  FAILURE_TO_EXHAUST: {
+    DISCHARGE_YEAR: [...validYearsForNonOldDischarge],
+    COURT_MARTIAL: [COURT_MARTIAL_2, COURT_MARTIAL_3],
+    INTENTION: [INTENTION_2],
+    PREV_APPLICATION_TYPE: [PREV_APPLICATION_TYPE_3A, PREV_APPLICATION_TYPE_3B],
+  },
+  REVIEW: [],
 });

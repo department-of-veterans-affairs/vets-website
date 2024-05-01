@@ -6,6 +6,7 @@ import {
 } from '@department-of-veterans-affairs/platform-user/selectors';
 
 import PropTypes from 'prop-types';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import { getTravelClaims, getUnauthPing } from '../redux/actions';
@@ -26,6 +27,15 @@ export default function App({ children }) {
     unauthPingResponse,
   } = useSelector(state => state.travelPay);
 
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+
+  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
+  const toggleIsLoading = useToggleLoadingValue();
+
   async function handleUnauthButtonClick() {
     dispatch(getUnauthPing());
   }
@@ -39,15 +49,21 @@ export default function App({ children }) {
     [dispatch, userLoggedIn],
   );
 
-  if (profileLoading && !userLoggedIn) {
+  if ((profileLoading && !userLoggedIn) || toggleIsLoading) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
           label="Loading"
           message="Please wait while we load the application for you."
+          data-testid="travel-pay-loading-indicator"
         />
       </div>
     );
+  }
+
+  if (!appEnabled) {
+    window.location.replace('/');
+    return null;
   }
 
   return (
