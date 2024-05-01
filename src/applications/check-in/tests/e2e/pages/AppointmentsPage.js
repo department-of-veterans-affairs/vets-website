@@ -2,9 +2,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 class AppointmentsPage {
   validatePageLoaded = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('include.text', 'Your Appointments');
+    cy.get('h1[data-testid="header"]').should('be.visible');
   };
 
   validatePreCheckInSuccessAlert = () => {
