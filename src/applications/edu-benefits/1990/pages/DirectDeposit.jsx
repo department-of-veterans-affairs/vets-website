@@ -1,6 +1,6 @@
 import { isValidRoutingNumber } from 'platform/forms/validations';
 import merge from 'lodash/merge';
-import DirectDepositDescription from '../components/ShowbankInfoHelptext';
+import DirectDepositDescription from '../components/ShowDirectDepositDropdown';
 
 function validateRoutingNumber(
   errors,

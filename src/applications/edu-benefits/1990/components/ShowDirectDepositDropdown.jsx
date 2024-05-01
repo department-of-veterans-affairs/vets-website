@@ -10,22 +10,20 @@ const useCheckPath = () => {
   const [isEligibleForDirectDeposit, setIsEligibleForDirectDeposit] = useState(
     false,
   );
+  const currentPath = window.location.href;
+  useEffect(
+    () => {
+      const checkPath = () => {
+        const containsReviewAndSubmit = currentPath.includes(
+          'review-and-submit',
+        );
+        setIsEligibleForDirectDeposit(!containsReviewAndSubmit);
+      };
 
-  useEffect(() => {
-    const checkPath = () => {
-      const currentPath = window.location.href;
-      const containsReviewAndSubmit = currentPath.includes('review-and-submit');
-      setIsEligibleForDirectDeposit(!containsReviewAndSubmit);
-    };
-
-    checkPath();
-    const interval = setInterval(checkPath, 500);
-    window.addEventListener('popstate', checkPath);
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener('popstate', checkPath);
-    };
-  }, []);
+      checkPath();
+    },
+    [currentPath],
+  );
 
   return isEligibleForDirectDeposit;
 };
