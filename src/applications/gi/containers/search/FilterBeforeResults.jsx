@@ -124,6 +124,14 @@ export function FilterBeforeResults({
     });
   };
 
+  const recordCheckboxHomeEvent = e => {
+    recordEvent({
+      event: 'gibct-home-form-change',
+      'gibct-home-form-field': e.target.name,
+      'gibct-home-form-value': e.target.checked,
+    });
+  };
+
   const handleVetTechPreferredProviderChange = e => {
     const { checked, name } = e.target;
     if (checked && name === 'vettec') {
@@ -133,6 +141,7 @@ export function FilterBeforeResults({
         preferredProvider: true,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
     if (!checked && name === 'vettec') {
       dispatchFilterChange({
@@ -141,6 +150,7 @@ export function FilterBeforeResults({
         preferredProvider: false,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
 
     if (checked && name === 'employers') {
@@ -149,6 +159,7 @@ export function FilterBeforeResults({
         employers: true,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
 
     if (!checked && name === 'employers') {
@@ -157,6 +168,7 @@ export function FilterBeforeResults({
         employers: false,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
   };
 
@@ -176,6 +188,7 @@ export function FilterBeforeResults({
 
   const onChangeCheckbox = e => {
     recordCheckboxEvent(e);
+    recordCheckboxHomeEvent(e);
     updateInstitutionFilters(e.target.name, e.target.checked);
   };
 
