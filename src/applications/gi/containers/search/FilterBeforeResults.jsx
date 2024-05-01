@@ -514,11 +514,6 @@ export function FilterBeforeResults({
           <CheckboxGroup
             class="vads-u-margin-y--4"
             className={isProductionOrTestProdEnv() ? 'my-filters-margin' : ''}
-            label={
-              <h3 className="visually-hidden" aria-level={2}>
-                Community focus
-              </h3>
-            }
             onChange={onChangeCheckbox}
             options={sortedOptions}
             // setIsCleared={setIsCleared}
