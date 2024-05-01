@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import { Link } from 'react-router';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { answerReviewLabel } from '../../helpers';
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
-import { pushToRoute } from '../../utilities/shared';
 import { pageSetup } from '../../utilities/page-setup';
 import { ROUTES } from '../../constants';
+import { navigateBackward } from '../../utilities/page-navigation';
 
 const ReviewPage = ({ formResponses, router, viewedIntroPage }) => {
   const H1 = 'Review your answers';
+
   useEffect(
     () => {
       pageSetup(H1);
@@ -38,17 +38,18 @@ const ReviewPage = ({ formResponses, router, viewedIntroPage }) => {
 
       return (
         reviewLabel && (
-          <div key={shortName} className="answer-review">
-            <p className="vads-u-padding-right--2">{reviewLabel}</p>
-            <va-link
-              disable-analytics
-              href="#"
-              onClick={() => pushToRoute(shortName, router)}
-              name={shortName}
-              text="Edit"
+          <li key={shortName} className="answer-review">
+            {reviewLabel}
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            <a
               aria-label={reviewLabel}
-            />
-          </div>
+              className="vads-u-padding-left--2"
+              href="#"
+              name={shortName}
+            >
+              Edit
+            </a>
+          </li>
         )
       );
     });
@@ -63,12 +64,15 @@ const ReviewPage = ({ formResponses, router, viewedIntroPage }) => {
           This will help us give you the most accurate instructions.
         </p>
       </div>
-      <div className="answers vads-u-margin-bottom--2">
+      <ul className="answers vads-u-margin-bottom--2 vads-u-padding--0">
         {renderReviewAnswers()}
-      </div>
-      <Link to="/results" className="vads-c-action-link--green">
-        Get my results
-      </Link>
+      </ul>
+      <VaButtonPair
+        data-testid="duw-buttonPair"
+        onPrimaryClick={() => router.push('/results')}
+        onSecondaryClick={() => navigateBackward(router)}
+        continue
+      />
     </div>
   );
 };
@@ -77,7 +81,7 @@ ReviewPage.propTypes = {
   formResponses: PropTypes.object.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
-  }),
+  }).isRequired,
   viewedIntroPage: PropTypes.bool.isRequired,
 };
 
