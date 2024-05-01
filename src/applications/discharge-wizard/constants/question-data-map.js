@@ -14,6 +14,7 @@ export const QUESTION_MAP = Object.freeze({
   PREV_APPLICATION_YEAR: 'What year did you apply for a discharge upgrade?',
   PRIOR_SERVICE:
     'Did you complete a period of service in which your character of service was Honorable or General Under Honorable Conditions?',
+  FAILURE_TO_EXHAUST: `Did the board deny your application due to "failure to exhaust other remedies"?`,
 });
 
 export const SHORT_NAME_MAP = Object.freeze({
@@ -30,6 +31,7 @@ export const SHORT_NAME_MAP = Object.freeze({
   PREV_APPLICATION_TYPE: 'PREV_APPLICATION_TYPE',
   PRIOR_SERVICE: 'PRIOR_SERVICE',
   FAILURE_TO_EXHAUST: 'FAILURE_TO_EXHAUST',
+  REVIEW: 'REVIEW',
 });
 
 export const RESPONSES = Object.freeze({
@@ -86,4 +88,8 @@ export const RESPONSES = Object.freeze({
   PRIOR_SERVICE_2:
     'Yes, I completed an earlier period of service. But I didn’t receive discharge paperwork from that period.',
   PRIOR_SERVICE_3: 'No, I didn’t complete an earlier period of service.',
+  FAILURE_TO_EXHAUST_1A: `Yes, the BCMR denied my application due to "failure to exhaust other remedies."`,
+  FAILURE_TO_EXHAUST_2A: `No, the BCMR denied my application for other reasons, such as not agreeing with the evidence in my application.`,
+  FAILURE_TO_EXHAUST_1B: `Yes, the BCNR denied my application due to "failure to exhaust other remedies."`,
+  FAILURE_TO_EXHAUST_2B: `No, the BCNR denied my application for other reasons, such as not agreeing with the evidence in my application.`,
 });

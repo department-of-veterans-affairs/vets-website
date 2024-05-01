@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from '~/platform/utilities/ui/scrollToTop';
+import { focusElement } from '~/platform/utilities/ui';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -54,12 +54,10 @@ export class ConfirmationPage extends React.Component {
             </p>
           ) : null}
           <va-button
-            type="button"
             className="usa-button screen-only"
             onClick={window.print}
-          >
-            Print this for your records
-          </va-button>
+            text="Print this for your records"
+          />
         </div>
       </div>
     );
