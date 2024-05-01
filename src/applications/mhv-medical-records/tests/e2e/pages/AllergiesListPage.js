@@ -46,7 +46,7 @@ class AllergiesListPage extends BaseListPage {
   verifyBreadcrumbs = breadcrumbsText => {
     cy.get('[data-testid="breadcrumbs"]').should(
       'contain',
-      `‹ ${breadcrumbsText}`,
+      `${breadcrumbsText}`,
     );
   };
 }
