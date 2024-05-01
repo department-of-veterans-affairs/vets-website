@@ -9,7 +9,7 @@ const featureIsEnabled = value => {
 const hasPilotEnabled = value => {
   cy.intercept('GET', '/v0/feature_toggles*', {
     data: {
-      features: [{ name: 'accredited_representative_portal_frontend', value }],
+      features: [{ name: 'accredited_representative_portal_pilot', value }],
     },
   });
 };
