@@ -2,11 +2,12 @@ import React from 'react';
 import head from 'lodash/head';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import recordEvent from '~/platform/monitoring/record-event';
+import Sentry from '~/platform/monitoring/sentry';
 import { deductionCodes } from '../const/deduction-codes';
 import { setActiveDebt } from '../../combined/actions/debts';
 import { currency } from '../utils/page';
 import { debtSummaryText } from '../const/diary-codes/debtSummaryCardContent';
-import recordEvent from '~/platform/monitoring/record-event';
 
 const DebtSummaryCard = ({ debt }) => {
   // TODO: currently we do not have a debtID so we need to make one by combining fileNumber and diaryCode
@@ -20,7 +21,25 @@ const DebtSummaryCard = ({ debt }) => {
     mostRecentHistory?.date,
     debtCardTotal,
   );
+  // Sentry logging for missing or invalid data
+  if (!debt?.debtHistory || debt.debtHistory.length === 0) {
+    Sentry.captureMessage('Debt history is missing', {
+      level: 'warning',
+      extra: {
+        debt,
+      },
+    });
+  }
 
+  if (!mostRecentHistory?.date) {
+    Sentry.captureMessage('Most recent history date is missing', {
+      level: 'warning',
+      extra: {
+        debt,
+        mostRecentHistory,
+      },
+    });
+  }
   return (
     <li>
       <va-card
