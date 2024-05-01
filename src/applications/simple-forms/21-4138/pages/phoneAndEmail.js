@@ -3,13 +3,13 @@ import {
   emailUI,
   phoneSchema,
   phoneUI,
-  largeTitleUI,
+  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export const phoneAndEmailPage = {
   uiSchema: {
-    ...largeTitleUI('Phone and email address'),
+    ...titleUI({ title: 'Phone and email address', headerLevel: 1 }),
     phone: phoneUI('Home phone number', { required: true }),
     emailAddress: emailUI('Email'),
   },

@@ -1,10 +1,13 @@
-import { largeTitleUI } from '~/platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns';
 import { RECORDS_REQUEST_HANDOFF } from '../config/constants';
 
 /** @type {PageSchema} */
 export const recordsRequestHandoffPage = {
   uiSchema: {
-    ...largeTitleUI("There's a better way to request your personal records"),
+    ...titleUI({
+      title: "There's a better way to request your personal records",
+      headerLevel: 1,
+    }),
     'view:recordsRequestHandoffContent': {
       'ui:description': RECORDS_REQUEST_HANDOFF,
     },

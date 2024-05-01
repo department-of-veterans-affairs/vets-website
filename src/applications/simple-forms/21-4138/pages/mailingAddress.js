@@ -1,16 +1,18 @@
 import {
   addressSchema,
   addressUI,
-  largeTitleUI,
+  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export const mailingAddressPage = {
   uiSchema: {
-    ...largeTitleUI(
-      'Mailing address',
-      'We’ll send any important information about your application to this address.',
-    ),
+    ...titleUI({
+      title: 'Mailing address',
+      description:
+        'We’ll send any important information about your application to this address.',
+      headerLevel: 1,
+    }),
     mailingAddress: addressUI({
       labels: {
         street2: 'Apartment or unit number',

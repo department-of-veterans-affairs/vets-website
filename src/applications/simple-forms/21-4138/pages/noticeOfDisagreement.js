@@ -1,4 +1,4 @@
-import { largeTitleUI } from '~/platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns';
 import {
   NOD_OLD_HANDOFF,
   NOD_SUPPLEMENTAL_HANDOFF,
@@ -9,9 +9,10 @@ import {
 /** @type {PageSchema} */
 export const nodOldHandoffPage = {
   uiSchema: {
-    ...largeTitleUI(
-      "There's a better way for you to ask for a decision review",
-    ),
+    ...titleUI({
+      title: "There's a better way for you to ask for a decision review",
+      headerLevel: 1,
+    }),
     'view:noticeOfDisagreementContent': {
       'ui:description': NOD_OLD_HANDOFF,
     },
@@ -30,9 +31,10 @@ export const nodOldHandoffPage = {
 /** @type {PageSchema} */
 export const nodSupplementalHandoffPage = {
   uiSchema: {
-    ...largeTitleUI(
-      "There's a better way for you to ask for a decision review",
-    ),
+    ...titleUI({
+      title: "There's a better way for you to ask for a decision review",
+      headerLevel: 1,
+    }),
     'view:noticeOfDisagreementContent': {
       'ui:description': NOD_SUPPLEMENTAL_HANDOFF,
     },
@@ -51,9 +53,10 @@ export const nodSupplementalHandoffPage = {
 /** @type {PageSchema} */
 export const nodHLRHandoffPage = {
   uiSchema: {
-    ...largeTitleUI(
-      "There's a better way for you to ask for a decision review",
-    ),
+    ...titleUI({
+      title: "There's a better way for you to ask for a decision review",
+      headerLevel: 1,
+    }),
     'view:noticeOfDisagreementContent': {
       'ui:description': NOD_HLR_HANDOFF,
     },
@@ -72,9 +75,10 @@ export const nodHLRHandoffPage = {
 /** @type {PageSchema} */
 export const nodBAHandoffPage = {
   uiSchema: {
-    ...largeTitleUI(
-      "There's a better way for you to ask for a decision review",
-    ),
+    ...titleUI({
+      title: "There's a better way for you to ask for a decision review",
+      headerLevel: 1,
+    }),
     'view:noticeOfDisagreementContent': {
       'ui:description': NOD_BA_HANDOFF,
     },

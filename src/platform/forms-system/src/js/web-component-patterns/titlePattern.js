@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-export const Title = ({ title, description, headerLevel }) => {
+export const Title = ({ title, description, headerLevel, classNames }) => {
   const CustomHeader = `h${headerLevel}`;
   const color = headerLevel === 3 ? 'gray-dark' : 'black';
-  const className = `vads-u-color--${color} vads-u-margin-top--0`;
+  const className = classNames || `vads-u-color--${color} vads-u-margin-top--0`;
 
   return (
     <>
@@ -57,9 +57,14 @@ function isPlainObject(obj) {
  * @returns {UISchemaOptions}
  */
 export const titleUI = (titleOption, descriptionOption) => {
-  const { title, description } = isPlainObject(titleOption)
+  const { title, description, headerLevel, classNames } = isPlainObject(
+    titleOption,
+  )
     ? titleOption
-    : { title: titleOption, description: descriptionOption };
+    : {
+        title: titleOption,
+        description: descriptionOption,
+      };
   const isTitleFn = typeof title === 'function';
   const isDescriptionFn = typeof description === 'function';
 
@@ -71,56 +76,13 @@ export const titleUI = (titleOption, descriptionOption) => {
             <Title
               title={isTitleFn ? title(props) : title}
               description={isDescriptionFn ? description(props) : description}
-              headerLevel={3}
+              headerLevel={headerLevel}
+              classNames={classNames}
             />
           </legend>
         )
       ) : (
         <Title title={title} description={description} headerLevel={3} />
-      ),
-  };
-};
-
-/**
- * Title for the top of a form page, displays title as an h1 instead of h3
- *
- * ```js
- * uiSchema: {
- *   ...titleUI('Your contact information')
- *   ...titleUI(({ formData, formContext }) => `Your contact information ${formData.firstName}`)
- *   ...titleUI('Your contact information', 'We’ll send any important information to this address.')
- *   ...titleUI('Previous deductible expenses', (<p>
-      Tell us more.
-          <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
-            We understand in some cases your expenses might be higher than your
-            income. If your expenses exceed your income, we’ll adjust them to be
-            equal to your income. This won’t affect your application or benefits.
-          </AdditionalInfo>
-      </p>))
- * ```
- * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [title] 'ui:title'
- * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [description] 'ui:description'
- *
- * @returns {UISchemaOptions}
- */
-export const largeTitleUI = (title, description) => {
-  const isTitleFn = typeof title === 'function';
-  const isDescriptionFn = typeof description === 'function';
-
-  return {
-    'ui:title':
-      isTitleFn || isDescriptionFn ? (
-        props => (
-          <legend className="schemaform-block-title">
-            <Title
-              title={isTitleFn ? title(props) : title}
-              description={isDescriptionFn ? description(props) : description}
-              headerLevel={1}
-            />
-          </legend>
-        )
-      ) : (
-        <Title title={title} description={description} headerLevel={1} />
       ),
   };
 };
