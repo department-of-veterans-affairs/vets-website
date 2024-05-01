@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import Disclaimer from './Disclaimer';
 import ChatBox from './Chatbox';
 
+function updateElementById(id, classListAdd, classListRemove) {
+  document.getElementById(id).classList.add(classListAdd);
+  document.getElementById(id).classList.remove(classListRemove);
+}
+
 const showBot = botPosition => {
   if (botPosition === 'corner') {
-    document.getElementById('chatbot-icon').classList.add('hide');
-    document.getElementById('chatbot-icon').classList.remove('unhide');
-    document.getElementById('corner-bot').classList.add('unhide');
-    document.getElementById('corner-bot').classList.remove('hide');
+    updateElementById('chatbot-icon', 'hide', 'unhide');
+    updateElementById('corner-bot', 'unhide', 'hide');
   } else {
-    document.getElementById('chatbot-icon').classList.add('unhide');
-    document.getElementById('chatbot-icon').classList.remove('hide');
-    document.getElementById('corner-bot').classList.add('hide');
-    document.getElementById('corner-bot').classList.remove('unhide');
+    updateElementById('chatbot-icon', 'unhide', 'hide');
+    updateElementById('corner-bot', 'hide', 'unhide');
   }
 };
 
