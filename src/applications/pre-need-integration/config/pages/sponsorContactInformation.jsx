@@ -10,6 +10,8 @@ import {
   sponsorContactInfoDescription,
 } from '../../utils/helpers';
 
+const { veteran } = fullSchemaPreNeed.properties.application.properties;
+
 export const sponsorMailingAddressStateTitleWrapper = (
   <MailingAddressStateTitle elementPath="application.veteran.address.country" />
 );
@@ -35,7 +37,7 @@ export const uiSchema = {
           },
         },
       }),
-      'view:sponsorContactInfoSubheader': {
+      'view:contactInfoSubheader': {
         'ui:description': sponsorContactInfoSubheader,
         'ui:options': {
           displayEmptyObjectOnReview: true,
@@ -63,6 +65,16 @@ export const schema = {
           type: 'object',
           properties: {
             address: address.schema(fullSchemaPreNeed),
+            'view:contactInfoSubheader': {
+              type: 'object',
+              properties: {},
+            },
+            phoneNumber: veteran.properties.phoneNumber,
+            email: veteran.properties.email,
+            'view:contactInfoDescription': {
+              type: 'object',
+              properties: {},
+            },
           },
         },
       },
