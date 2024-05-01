@@ -144,8 +144,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.bump-tag-version.outputs.v_patch }}
-          release_name: vets-website/${{ steps.bump-tag-version.outputs.v_patch }}
+          tag_name: ${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
+          release_name: vets-website/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
 
   deploy:
     name: Deploy
