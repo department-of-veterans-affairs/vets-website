@@ -39,8 +39,10 @@ function stripCommonWords(inputStr) {
  */
 function lcsScoreByWordSum(inputWord, disabilityWord, splitReg = REGEX_SPLIT) {
   const tempScoreList = [];
-  const splitInput = stripCommonWords(inputWord).split(splitReg);
-  const disWordSplit = stripCommonWords(disabilityWord).split(splitReg);
+  const splitInput = stripCommonWords(inputWord.toLowerCase()).split(splitReg);
+  const disWordSplit = stripCommonWords(disabilityWord.toLowerCase()).split(
+    splitReg,
+  );
   for (let i = 0; i < splitInput.length; i += 1) {
     disWordSplit.forEach(
       t =>

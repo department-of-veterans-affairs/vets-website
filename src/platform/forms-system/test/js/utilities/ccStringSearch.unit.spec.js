@@ -34,7 +34,7 @@ describe('lcsScoreByWordSum', () => {
   it('should return integer score for similarity', () => {
     const inputString = 'right acl tear in knee';
     const disabilityWord = 'ACL tear (anterior cruciate ligament tear), right';
-    const expectedScore = 8;
+    const expectedScore = 11;
     const actualScore = lcsScoreByWordSum(inputString, disabilityWord);
     expect(actualScore).to.eql(expectedScore);
     expect(actualScore).to.be.a('number');
