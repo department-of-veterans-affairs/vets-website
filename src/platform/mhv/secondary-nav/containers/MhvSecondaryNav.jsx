@@ -1,6 +1,6 @@
 import React from 'react';
 import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
-import '../sass/mhv-sec-nav.scss';
+// import '../sass/mhv-sec-nav.scss';
 
 /**
  * MHV secondary navigation items. Note the first item is the home link.
