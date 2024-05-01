@@ -179,7 +179,8 @@ function ToeApp({
                 label: 'Education and training',
               },
               {
-                href: '/education/survivor-dependent-benefits/',
+                href:
+                  '/education/survivor-dependent-benefits/transferred-benefits/',
                 label: 'VA education benefits for survivors and dependents',
               },
               {
