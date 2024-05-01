@@ -215,10 +215,6 @@ describe('Refill Prescriptions Component', () => {
     const title = await screen.findByTestId('refill-page-title');
     expect(title).to.exist;
     expect(title).to.have.text('Refill prescriptions');
-    expect(
-      screen.getByText(
-        'You don’t have any VA prescriptions with refills available. If you need a prescription, contact your care team.',
-      ),
-    ).to.exist;
+    expect(screen.findByTestId('no-refills-message')).to.exist;
   });
 });
