@@ -104,10 +104,10 @@
   display: inline-block;
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
     "Arial", sans-serif;
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1;
-  padding: 1rem 2rem;
+  padding: 0.625rem 1.25rem;
   text-align: center;
   text-decoration: none;
   width: 80%;
@@ -137,7 +137,7 @@
   display: inline-block;
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
     "Arial", sans-serif;
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1;
   text-decoration: underline;
@@ -179,7 +179,7 @@
   text-decoration: underline;
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
-  font-size: 1.6rem;
+  font-size: 1rem;
   position: relative;
   z-index: 1;
   display: inline !important;
@@ -250,7 +250,7 @@
     padding: 12px 0px 8px 0px;
 
     button {
-      width: 23rem;
+      width: 14.375rem;
     }
 
     .cancel {

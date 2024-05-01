@@ -25,7 +25,7 @@ article[data-location="contact-information"] {
   }
   /* address modal is very tall and won't scroll without this fix */
   .va-modal-body {
-    max-height: calc(100vh - 4rem);
+    max-height: calc(100vh - 2.5rem);
     overflow-y: auto;
   }
 }
@@ -57,7 +57,7 @@ ul.issues,
 }
 
 .eligible-issues-error h3 {
-  font-size: 1.7rem /* vads-u-font-size--md */
+  font-size: 1.0625rem; /* vads-u-font-size--md */
 }
 
 /* Contested issue page specific definitions */
@@ -112,7 +112,7 @@ article[data-location="add-issue"] {
 }
 
 #root_otherEntry-label {
-  margin-top: 2rem;
+  margin-top: 1.25rem;
 }
 .usa-input-error > label {
   margin-top: 0;
@@ -137,7 +137,7 @@ label > .opt-in-title {
 }
 
 .schemaform-block-header > p + p {
-  margin-top: 1rem;
+  margin-top: 0.625rem;
 }
 
 /* page specific */
@@ -151,7 +151,7 @@ article[data-location="informal-conference/representative-information"] {
 /* Step 4 Review Application */
 article[data-location="review-and-submit"] {
   dl.review .widget-wrapper-v2.checkbox-hidden {
-    margin-top: 1rem;
+    margin-top: 0.625rem;
 
     dt.widget-checkbox-wrap {
       width: 0;
@@ -166,7 +166,7 @@ article[data-location="review-and-submit"] {
     .review-row {
       display: flex;
       flex-direction: column;
-      padding: 1rem;
+      padding: 0.625rem;
     }
 
     .review-row > dd {
@@ -181,7 +181,7 @@ article[data-location="review-and-submit"] {
 
     .checkbox-hidden {
       .widget-content {
-        margin: 2rem 0 0 0;
+        margin: 1.25rem 0 0 0;
       }
     }
   }

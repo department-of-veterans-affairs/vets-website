@@ -124,7 +124,7 @@
 /* override to constrain modal width  */
 #liveForm .kpl_builder[style] {
   width: auto !important;
-  max-width: 28rem !important;
+  max-width: 17.5rem !important;
 }
 
 /* helper text under textarea */
@@ -277,7 +277,7 @@
 // a11y fix to overwrite in-line style width to make content viewable beyond 300% zoom
 #survey-wrapper[style] {
   width: auto !important;
-  max-width: 28rem !important;
+  max-width: 17.5rem !important;
   overflow: auto !important;
 }
 
@@ -482,7 +482,7 @@ button:not([disabled]):focus {
   font-size: 16px;
   font-weight: 700;
   line-height: 48px;
-  padding: 1rem 2rem;
+  padding: 0.625rem 1.25rem;
   text-align: center;
   text-decoration: none;
   align-items: center;
@@ -493,7 +493,7 @@ button:not([disabled]):focus {
   font-size: 14px;
   justify-content: center;
   margin: 0.5em 0.5em 0.5em 0px;
-  font-size: 0.875rem;
+  font-size: 0.546875rem;
   line-height: 1.42857143;
   padding: 6px 12px;
   color: var(--vads-color-white);
@@ -512,7 +512,7 @@ button:not([disabled]):focus {
   font-family: "Source Sans Pro", sans-serif !important;
   font-size: 16px;
   font-weight: 700;
-  padding: 1rem 2rem;
+  padding: 0.625rem 1.25rem;
   text-align: center;
   text-decoration: none;
   align-items: center;

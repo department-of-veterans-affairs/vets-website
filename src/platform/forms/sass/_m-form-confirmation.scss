@@ -9,9 +9,9 @@
 }
 
 .inset {
-  margin: 2rem 0rem;
-  padding: 2rem 3rem;
-  line-height: 2.2rem;
+  margin: 1.25rem 0rem;
+  padding: 1.25rem 1.875rem;
+  line-height: 1.375rem;
   background-color: var(--vads-color-inset-bg);
   &.secondary {
     background-color: var(--vads-color-gray-light-alt);
@@ -36,7 +36,7 @@ ul.claim-list{
   list-style: none;
   padding-left: 0;
   li {
-    margin-bottom: 1rem;
+    margin-bottom: 0.625rem;
   }
 }
 
@@ -57,7 +57,7 @@ ul.claim-list{
   }
 
   .schemaform-title {
-    margin-bottom: 1rem;
+    margin-bottom: 0.625rem;
     justify-content: center;
   }
 
@@ -66,7 +66,7 @@ ul.claim-list{
   }
 
   .inset {
-    margin: 1rem 0rem;
+    margin: 0.625rem 0rem;
     padding: 0px;
   }
 }

@@ -41,22 +41,22 @@
       // background-image: none;
       text-align: center;
       font-family: $font-sans;
-      font-size: 1.36rem;
-      line-height: 4rem;
-      margin-right: 2.5rem;
-      margin-bottom: 2rem;
+      font-size: 0.850rem;
+      line-height: 2.5rem;
+      margin-right: 1.5625rem;
+      margin-bottom: 0.75rem;
 
       @include media-maxwidth($small-screen) {
-        font-size: 1.2rem;
+        font-size: 0.75rem;
         text-align: left;
         margin: 0;
-        line-height: 1.2rem;
+        line-height: 0.75rem;
       }
 
       a.link {
         @include media-maxwidth($small-screen) {
-          margin-left: 1rem;
-          padding: 0.5rem;
+          margin-left: 0.625rem;
+          padding: 0.3125rem;
         }
       }
     }
@@ -98,7 +98,7 @@
   h2:focus,
   h3:focus,
   nav {
-    margin-left: 0.5rem;
+    margin-left: 0.3125rem;
   }
 
   @media (max-width: 481px) {
@@ -108,13 +108,13 @@
   }
 
   .gibct-legend {
-    margin-top: 1rem;
+    margin-top: 0.625rem;
     display: block;
     font-weight: inherit;
     font-size: inherit;
     color: inherit;
     line-height: inherit;
-    max-width: 46rem;
+    max-width: 28.75rem;
     padding-bottom: 0;
   }
 
@@ -131,14 +131,14 @@
     @include media($small-screen) {
       display: flex;
     }
-    padding-left: 0.5rem;
+    padding-left: 0.3125rem;
   }
 
   .program-description {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
     label {
-      margin-left: 1.7rem;
+      margin-left: 1.0625rem;
     }
   }
 
@@ -156,7 +156,7 @@
     }
 
     .section-button-span {
-      padding-right: 2rem;
+      padding-right: 1.25rem;
     }
 
     .section-content {
