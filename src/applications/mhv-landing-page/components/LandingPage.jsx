@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  renderMHVDowntime,
+  MhvSecondaryNav,
+} from '@department-of-veterans-affairs/mhv/exports';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -61,27 +64,30 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div
-      className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--5"
-      data-testid="landing-page-container"
-    >
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-        <DowntimeNotification
-          dependencies={[externalServices.mhvPlatform]}
-          render={renderMHVDowntime}
-        />
-        {!showPersonalization && <HeaderLayoutV1 />}
-        {showPersonalization && (
-          <>
-            <HeaderLayout />
-            <WelcomeContainer />
-          </>
-        )}
-        {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
+    <>
+      {!isUnverified && <MhvSecondaryNav />}
+      <div
+        className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--5"
+        data-testid="landing-page-container"
+      >
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <DowntimeNotification
+            dependencies={[externalServices.mhvPlatform]}
+            render={renderMHVDowntime}
+          />
+          {!showPersonalization && <HeaderLayoutV1 />}
+          {showPersonalization && (
+            <>
+              <HeaderLayout />
+              <WelcomeContainer />
+            </>
+          )}
+          {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
+        </div>
+        <HubLinks hubs={hubs} />
+        <NewsletterSignup />
       </div>
-      <HubLinks hubs={hubs} />
-      <NewsletterSignup />
-    </div>
+    </>
   );
 };
 
