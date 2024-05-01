@@ -118,7 +118,8 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
       <>
         <h1>{claimLetterHeader}</h1>
         <div className="vads-u-font-size--lg vads-u-padding-bottom--1">
-          You can download your claim letters. We also mail you these letters.
+          You can download your claim and appeal letters. We also mail you these
+          letters.
         </div>
         {lettersLoading ? (
           <va-loading-indicator message="Loading your claim letters..." />
