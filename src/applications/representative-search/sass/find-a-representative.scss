@@ -44,12 +44,11 @@
 
               .use-my-location-button-container {
                 align-self: flex-end;
-                min-width: 10em;
-                margin-left: 3em;
+                min-width: 16rem;
+                margin-left: 4.8rem;
                 margin-bottom: 1.3rem;
               }
             }
-
             .search-area-dropdown {
               width: 48rem;
             }
@@ -79,12 +78,12 @@
         }
 
         .usa-input-error {
-          margin-top: 0em;
+          margin-top: 0rem;
         }
 
         .use-my-location-button-container-error {
           @media (min-width: $large-screen) {
-            top: 4em;
+            top: 6.4rem;
           }
         }
 
@@ -102,19 +101,19 @@
         }
 
         .use-my-location-button {
-          width: 18px;
-          height: 18px;
+          width: 1.8rem;
+          height: 1.8rem;
           background-image: url("/img/location-arrow-solid.svg");
           background-repeat: no-repeat;
           background-color: transparent;
-          padding: 0 1.5em 0 0;
+          padding: 0 2.4rem 0 0;
         }
 
         .finding-your-location-loading {
-          min-width: 14em;
+          min-width: 22.4rem;
           text-decoration: none;
           background-color: transparent;
-          margin-top: 0.3em;
+          margin-top: 0.5rem;
           color: var(--vads-color-link);
           font-weight: normal;
           background-repeat: no-repeat;
@@ -122,13 +121,13 @@
         }
 
         #representative-search {
-          max-width: 8em;
-          margin: 2em 0 2em 0 !important;
+          max-width: 12.8rem;
+          margin: 3.2rem 0 3.2rem 0 !important;
         }
 
         .rep-type-selector {
           p:last-child {
-            margin-bottom: -1em !important;
+            margin-bottom: -1.6rem !important;
           }
         }
       }
@@ -157,11 +156,11 @@
     }
 
     #search-results-title {
-      margin-bottom: 2em;
+      margin-bottom: 3.2rem;
     }
 
     h3 {
-      margin: 0.5em 0 0.5em 0;
+      margin: 0.8rem 0 0.8rem 0;
     }
 
     .sort-dropdown {
@@ -185,7 +184,7 @@
           align-items: flex-start;
 
           .sort-apply-button {
-            margin: 0;
+            margin: 1.5rem 0 0 0;
           }
         }
       }
@@ -218,7 +217,6 @@
             .report-thank-you-alert {
               grid-column: 1 / -1;
               grid-row: 1;
-              // margin-bottom: 1rem;
             }
 
             .representative-info-heading {
