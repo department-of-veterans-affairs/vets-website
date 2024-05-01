@@ -128,7 +128,6 @@ const ResolutionAmount = ({ formContext }) => {
         currency
         type="text"
         value={resolutionAmount || ''}
-        uswds
       />
     </div>
   );

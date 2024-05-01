@@ -83,7 +83,7 @@ describe('Enrollment Verification Page Tests', () => {
       'Your benefits profile',
     );
   });
-  it("should go back to 'enrollment verification' when 'Mongomery GI Bill Enrollment Verification' link is clicked ", () => {
+  it("should go back to 'enrollment verification' when 'Montgomery GI Bill Enrollment Verification' link is clicked ", () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       'a[href="/education/verify-your-enrollment/benefits-profile/"]',
@@ -104,7 +104,7 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it("should  have focus around 'Showing x-y of z monthly enrollments listed by most recent' when pagination button is clicked", () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('a[class="usa-pagination__button usa-current"]').click();
-    cy.get('[id="vye-pagination-page-status-text"]').focused();
+    cy.get('a[aria-label="page 1, first page"]').click();
+    cy.get('[id="vye-pagination-page-status-text"]').should('be.focused');
   });
 });
