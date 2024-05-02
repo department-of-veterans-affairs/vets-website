@@ -385,6 +385,7 @@ const formConfig = {
             applicantDemographicsEthnicityTitle,
             applicantDemographicsRaceTitle,
           ),
+          // RaceCommentBox,    This is my custom React component
           schema: applicantDemographics2.schema,
         },
         applicantDemographics2Preparer: {

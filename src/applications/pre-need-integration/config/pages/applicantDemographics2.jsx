@@ -31,28 +31,28 @@ export function uiSchema(
         ethnicity: { 'ui:title': ethnicityTitle },
         race: { 'ui:title': raceTitle },
         raceComment: {
-          'ui:title': 'Additional Information on Race',
+          'ui:title': 'Enter the race that best describes you',
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
+            // maxLength: 100,
             expandUnder: 'race',
-            expandUnderCondition: false,
-            // expandedContentFocus: false,
-          },
-          'ui:errorMessages': {
-            required: "This field is required when 'Other' is selected.",
+            required: 'Yes',
+            expandUnderCondition: 'na',
+            expandedContentFocus: true,
           },
         },
-        'ui:options': {
-          updateSchema: (formData, formSchema) => {
-            if (formSchema.properties.raceComment['ui:collapsed']) {
-              return { ...formSchema, required: ['race'] };
-            }
-            return {
-              ...formSchema,
-              required: ['race', 'raceComment'],
-            };
-          },
-        },
+        // This is attempted fuctionality from src/platform/forms-system/src/js/web-component-patterns/relationshipToVeteranPattern.jsx
+        // 'ui:options': {
+        //   updateSchema: (formData, formSchema) => {
+        //     if (formSchema.properties.raceComment['ui:collapsed']) {
+        //       return { ...formSchema, required: ['race'] };
+        //     }
+        //     return {
+        //       ...formSchema,
+        //       required: ['race', 'raceComment'],
+        //     };
+        //   },
+        // },
       }),
     },
   };
@@ -70,7 +70,7 @@ export const schema = {
         },
         veteran: {
           type: 'object',
-          required: ['ethnicity', 'race'],
+          required: ['ethnicity', 'race', 'raceComment'],
           properties: merge(
             {},
             pick(veteran.properties, ['ethnicity', 'race']),

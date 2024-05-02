@@ -824,11 +824,11 @@ export const veteranUI = {
     isWhite: {
       'ui:title': 'White',
     },
-    isOther: {
-      'ui:title': 'Other',
-    },
     na: {
       'ui:title': 'Prefer not to answer',
+    },
+    isOther: {
+      'ui:title': 'Other',
     },
     'ui:validations': [
       // require at least one value to be true/checked
@@ -843,7 +843,6 @@ export const veteranUI = {
       showFieldLabel: true,
     },
   },
-  raceComment: {},
   militaryStatus: {
     'ui:title':
       'Current military status (You can add more service history information later in this application.)',
