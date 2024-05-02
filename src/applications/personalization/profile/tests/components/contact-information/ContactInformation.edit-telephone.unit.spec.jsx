@@ -1,10 +1,6 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import {
-  fireEvent,
-  waitForElementToBeRemoved,
-  within,
-} from '@testing-library/react';
+import { fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
@@ -71,7 +67,10 @@ function editPhoneNumber(
 
   // enter a new phone number in the form
   phoneNumberInput.value = `${options.areaCode} ${options.phoneNumber}`;
+  fireEvent.input(phoneNumberInput, { target: {} });
+
   extensionInput.value = '';
+  fireEvent.input(extensionInput, { target: {} });
 
   // save
   view.getByText('Save', { selector: 'button' }).click();
@@ -267,12 +266,8 @@ describe('Editing', () => {
 
     fireEvent.click(await view.findByText(/Save/i));
 
-    const alert = await view.findByRole('alert');
-    expect(alert).to.exist;
-
-    within(alert).getByText('This field should be at least 10', {
-      exact: false,
-    });
+    const homePhoneInput = $('va-text-input[label^="Home phone"]');
+    expect(homePhoneInput.error).to.contain('This field should be at least 10');
   });
 
   it('validates a phone number that has letters in the field', async () => {
@@ -285,11 +280,7 @@ describe('Editing', () => {
 
     fireEvent.click(await view.findByText(/Save/i));
 
-    const alert = await view.findByRole('alert');
-    expect(alert).to.exist;
-
-    within(alert).getByText('Enter a 10 digit phone number', {
-      exact: false,
-    });
+    const homePhoneInput = $('va-text-input[label^="Home phone"]');
+    expect(homePhoneInput.error).to.eq('Enter a 10 digit phone number');
   });
 });
