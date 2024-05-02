@@ -1,30 +1,16 @@
-const featureIsEnabled = value => {
-  cy.intercept('GET', '/v0/feature_toggles*', {
-    data: {
-      features: [{ name: 'accredited_representative_portal_frontend', value }],
-    },
-  });
-};
-
-const hasPilotEnabled = value => {
-  cy.intercept('GET', '/v0/feature_toggles*', {
-    data: {
-      features: [{ name: 'accredited_representative_portal_pilot', value }],
-    },
-  });
-};
 
 describe('Accredited Representative Portal', () => {
   describe('Feature toggle not enabled', () => {
-    beforeEach(function skipOutsideCI() {
-      if (!Cypress.env('CI')) {
-        this.skip();
-      }
-      hasPilotEnabled(false);
-      featureIsEnabled(false);
-    });
+
 
     it('does not allow navigation to the Portal when feature is not enabled', () => {
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            { name: 'accredited_representative_portal_pilot', value: false },
+          ],
+        },
+      });
       // During CI, the environment is production, so we can test our global
       // feature toggling behavior there. But when running this test locally, the
       // environment is localhost, so we can't test our global feature toggling
@@ -33,14 +19,21 @@ describe('Accredited Representative Portal', () => {
       cy.injectAxe();
       cy.axeCheck();
 
-      cy.location('pathname').should('equal', '/');
+      cy.get('[data-testid=not-in-pilot-heading]').should('have.text',
+      'Accredited Representative Portal is currently in pilot and not available to all users.');
     });
   });
 
   describe('Feature toggle enabled - Navigation from Landing Page to pages and back', () => {
     beforeEach(() => {
-      hasPilotEnabled(true);
-      featureIsEnabled(true);
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            { name: 'accredited_representative_portal_pilot', value: true },
+          ],
+        },
+      });
+
       cy.visit('/representative');
 
       cy.injectAxe();

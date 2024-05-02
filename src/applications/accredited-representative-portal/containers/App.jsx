@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Outlet } from 'react-router-dom-v5-compat';
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import Footer from '../components/common/Footer/Footer';
@@ -15,9 +14,6 @@ function App() {
     TOGGLE_NAMES,
   } = useFeatureToggle();
 
-  const appEnabled = useToggleValue(
-    TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
-  );
 
   const isInPilot = useToggleValue(
     TOGGLE_NAMES.accreditedRepresentativePortalPilot,
@@ -33,14 +29,11 @@ function App() {
     );
   }
 
-  if (!appEnabled && environment.isProduction()) {
-    return document.location.replace('/');
-  }
 
-  if (!isInPilot && environment.isProduction()) {
+  if (!isInPilot) {
     return (
-      <div className="vads-u-margin-x--3">
-        <h1>
+      <div className="vads-u-margin--9">
+        <h1 data-testid="not-in-pilot-heading">
           Accredited Representative Portal is currently in pilot and not
           available to all users.
         </h1>
