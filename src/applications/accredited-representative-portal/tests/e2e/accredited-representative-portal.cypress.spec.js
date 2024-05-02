@@ -1,8 +1,5 @@
-
 describe('Accredited Representative Portal', () => {
   describe('Feature toggle not enabled', () => {
-
-
     it('does not allow navigation to the Portal when feature is not enabled', () => {
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
@@ -19,8 +16,10 @@ describe('Accredited Representative Portal', () => {
       cy.injectAxe();
       cy.axeCheck();
 
-      cy.get('[data-testid=not-in-pilot-heading]').should('have.text',
-      'Accredited Representative Portal is currently in pilot and not available to all users.');
+      cy.get('[data-testid=not-in-pilot-heading]').should(
+        'have.text',
+        'Accredited Representative Portal is currently in pilot and not available to all users.',
+      );
     });
   });
 
