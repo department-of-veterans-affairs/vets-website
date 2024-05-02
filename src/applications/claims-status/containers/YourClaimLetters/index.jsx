@@ -4,7 +4,6 @@ import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import { getClaimLetters } from '../../actions';
 import ClaimsBreadcrumbs from '../../components/ClaimsBreadcrumbs';
 import ClaimLetterList from '../../components/claim-letters/ClaimLetterList';
@@ -15,7 +14,7 @@ import NoLettersContent from './errorComponents/NoLettersContent';
 import ServerErrorContent from './errorComponents/ServerErrorContent';
 import UnauthenticatedContent from './errorComponents/UnauthenticatedContent';
 import { setDocumentTitle } from '../../utils/helpers';
-import { setFocus } from '../../utils/page';
+import { setPageFocus } from '../../utils/page';
 
 const paginateItems = items => {
   return items?.length ? chunk(items, ITEMS_PER_PAGE) : [[]];
@@ -54,9 +53,16 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
       });
 
     setDocumentTitle('Your VA Claim Letters');
-    scrollToTop();
-    setFocus('h1');
   }, []);
+
+  useEffect(
+    () => {
+      if (!lettersLoading) {
+        setPageFocus();
+      }
+    },
+    [lettersLoading],
+  );
 
   /**
    * This commented code was deemed likely to be needed.

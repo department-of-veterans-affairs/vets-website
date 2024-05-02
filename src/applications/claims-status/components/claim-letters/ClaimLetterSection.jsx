@@ -9,8 +9,8 @@ export default function ClaimLetterSection() {
         Download your VA claim letters
         <i aria-hidden="true" />
       </Link>
-      <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0p5">
-        You can download your decision letter online. You can also get other
+      <p className="vads-u-margin-y--0p5">
+        You can download your decision letter(s) online. You can also get other
         letters related to your claims and appeals.
       </p>
     </div>
