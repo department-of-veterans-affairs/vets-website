@@ -99,7 +99,9 @@ const renderStickyBot = () => {
   );
 };
 
-function Page({ virtualAgentShowFloatingChatbot = null }) {
+const Page = props => {
+  const { virtualAgentShowFloatingChatbot } = props;
+  // function Page({ virtualAgentShowFloatingChatbot = null }) {
   const [chosenBot, setChosenBot] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   let bot = '';
@@ -118,7 +120,7 @@ function Page({ virtualAgentShowFloatingChatbot = null }) {
     return <va-loading-indicator />;
   }
   return bot;
-}
+};
 
 Page.propTypes = {
   virtualAgentShowFloatingChatbot: PropTypes.bool,

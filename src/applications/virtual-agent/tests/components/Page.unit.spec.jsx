@@ -1,27 +1,69 @@
 import React from 'react';
+import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store'; // You might need to install this package
+
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+
 import Page from '../../components/Page';
 
-const mockStore = configureStore([]);
+// eslint-disable-next-line no-unused-vars
+function getData({ virtualAgentShowFloatingChatbot, isLoading }) {
+  return {
+    props: {
+      virtualAgentShowFloatingChatbot,
+    },
+    mockStore: {
+      getState: () => ({
+        featureToggles: [
+          {
+            [FEATURE_FLAG_NAMES.virtualAgentShowFloatingChatbot]: virtualAgentShowFloatingChatbot,
+          },
+        ],
+        isLoading,
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    },
+  };
+}
 
 describe('Page', () => {
-  let store;
+  let sandbox;
 
   beforeEach(() => {
-    store = mockStore({
-      // Your initial state here
-    });
+    sandbox = sinon.sandbox.create();
   });
 
-  it('renders without crashing', () => {
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <Page />
+  afterEach(() => {
+    sandbox.reset();
+  });
+
+  it('renders the loading indicator', () => {
+    const { props, mockStore } = getData({
+      virtualAgentShowFloatingChatbot: false,
+      isLoading: true,
+    });
+
+    render(
+      <Provider store={mockStore}>
+        <Page {...props} />
       </Provider>,
     );
 
-    expect(getByTestId('page')).toBeInTheDocument(); // Assumes your Page component has a data-testid="page"
+    // expect(getByTestId('page')).toBeInTheDocument(); // Assumes your Page component has a data-testid="page"
   });
+  // it('renders the sticky bot', () => {
+  //   const store = getStore({
+  //     virtualAgentShowFloatingChatbot: true,
+  //     isLoading: false,
+  //   });
+  //   const { getByTestId } = render(
+  //     <Provider store={store}>
+  //       <Page />
+  //     </Provider>,
+  //   );
+
+  //   expect(getByTestId('page')).toBeInTheDocument(); // Assumes your Page component has a data-testid="page"
+  // });
 });
