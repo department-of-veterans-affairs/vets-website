@@ -14,7 +14,6 @@ function App() {
     TOGGLE_NAMES,
   } = useFeatureToggle();
 
-
   const isInPilot = useToggleValue(
     TOGGLE_NAMES.accreditedRepresentativePortalPilot,
   );
@@ -28,7 +27,6 @@ function App() {
       </div>
     );
   }
-
 
   if (!isInPilot) {
     return (
