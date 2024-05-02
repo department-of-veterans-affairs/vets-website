@@ -2,9 +2,9 @@ import React from 'react';
 
 const WIP = () => (
   <va-alert status="warning">
-    <h1 slot="headline">
+    <h2 slot="headline">
       Decision letters aren’t available to download right now.
-    </h1>
+    </h2>
     <p className="vads-u-margin-y--0">
       We’re fixing some problems with this tool. Check back later. If you need
       information about your decision letters now, call us at{' '}
