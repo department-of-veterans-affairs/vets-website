@@ -444,7 +444,7 @@ export function transformVAOSAppointment(appt) {
       isPhoneAppointment: appt.kind === 'phone',
       isCOVIDVaccine: appt.serviceType === COVID_VACCINE_ID,
       apiData: appt,
-      timeZone: appointmentTZ,
+      timeZone: null,
       facilityData,
     },
     version: 2,
