@@ -18,41 +18,42 @@ const MhvSecondaryNavMenu = ({ items }) => {
     TOGGLE_NAMES.mhvSecondaryNavigationEnabled,
   );
 
-  if (secNavEnabled) {
-    // Perform a reverse find to match which nav link we are on, so we match on the home page last
-    const activeItem = [...items] // Clone the array, so the original stays the same
-      .reverse()
-      .find(item => window.location.pathname.startsWith(item.href));
-
-    const navContent = items.map((item, index) => {
-      const key = item.title.toLowerCase().replaceAll(' ', '_');
-      return (
-        <MhvSecondaryNavItem
-          title={item.title}
-          href={item.href}
-          iconClass={item.iconClass}
-          abbreviation={item.abbreviation}
-          isActive={activeItem === item}
-          key={key}
-          isHeader={index === 0}
-        />
-      );
-    });
-
-    return (
-      <nav
-        className="vads-u-background-color--primary vads-u-color--white"
-        aria-label="My HealtheVet"
-      >
-        <div className="mhv-c-sec-nav-bar vads-u-display--flex vads-u-font-family--sans vads-font-weight-regular">
-          <div className="mhv-c-sec-nav-bar-row vads-u-display--flex vads-u-flex-wrap--wrap vads-u-text-align--left vads-u-width--full">
-            {navContent}
-          </div>
-        </div>
-      </nav>
-    );
+  if (!secNavEnabled) {
+    return null;
   }
-  return null;
+
+  // Perform a reverse find to match which nav link we are on, so we match on the home page last
+  const activeItem = [...items] // Clone the array, so the original stays the same
+    .reverse()
+    .find(item => window.location.pathname.startsWith(item.href));
+
+  const navContent = items.map((item, index) => {
+    const key = item.title.toLowerCase().replaceAll(' ', '_');
+    return (
+      <MhvSecondaryNavItem
+        title={item.title}
+        href={item.href}
+        iconClass={item.iconClass}
+        abbreviation={item.abbreviation}
+        isActive={activeItem === item}
+        key={key}
+        isHeader={index === 0}
+      />
+    );
+  });
+
+  return (
+    <nav
+      className="vads-u-background-color--primary vads-u-color--white"
+      aria-label="My HealtheVet"
+    >
+      <div className="mhv-c-sec-nav-bar vads-u-display--flex vads-u-font-family--sans vads-font-weight-regular">
+        <div className="mhv-c-sec-nav-bar-row vads-u-display--flex vads-u-flex-wrap--wrap vads-u-text-align--left vads-u-width--full">
+          {navContent}
+        </div>
+      </div>
+    </nav>
+  );
 };
 
 MhvSecondaryNavMenu.propTypes = {
