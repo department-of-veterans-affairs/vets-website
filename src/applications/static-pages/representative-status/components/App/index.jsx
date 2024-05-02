@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   isAuthenticatedWithSSOe,
   isAuthenticatedWithOAuth,
 } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { Auth } from '../States/Auth';
@@ -14,7 +13,6 @@ import { useRepresentativeStatus } from '../../hooks/useRepresentativeStatus';
 
 export const App = ({
   baseHeader,
-  showIntroCopy,
   toggleLoginModal,
   authenticatedWithSSOe,
   authenticatedWithOAuth,
@@ -40,20 +38,6 @@ export const App = ({
 
   return (
     <>
-      {showIntroCopy && (
-        <>
-          <h2>Check if you already have an accredited representative</h2>
-          <p>
-            We don’t automatically assign you an accredited representative, but
-            you may have appointed one in the past.
-          </p>
-          <p>
-            If you appoint a new accredited representative, they will replace
-            your current one.
-          </p>
-        </>
-      )}
-
       {loggedIn ? (
         <>
           <Auth
@@ -80,7 +64,6 @@ App.propTypes = {
   authenticatedWithSSOe: PropTypes.bool,
   baseHeader: PropTypes.number,
   hasRepresentative: PropTypes.bool,
-  showIntroCopy: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
