@@ -340,8 +340,7 @@ const formConfig = {
         applicantDemographics: {
           title: 'Your demographics',
           path: 'applicant-demographics',
-          depends: formData =>
-            !isAuthorizedAgent(formData) && isVeteran(formData),
+          depends: formData => !isAuthorizedAgent(formData),
           uiSchema: applicantDemographics.uiSchema(
             applicantDemographicsSubHeader,
             applicantDemographicsGenderTitle,
@@ -363,8 +362,7 @@ const formConfig = {
         },
         applicantDemographics2: {
           path: 'applicant-demographics-2',
-          depends: formData =>
-            !isAuthorizedAgent(formData) && isVeteran(formData),
+          depends: formData => !isAuthorizedAgent(formData),
           uiSchema: applicantDemographics2.uiSchema(
             applicantDemographicsSubHeader,
             applicantDemographicsEthnicityTitle,
@@ -397,25 +395,21 @@ const formConfig = {
       pages: {
         isSponsor: {
           path: 'is-sponsor',
-          depends: formData =>
-            !isVeteran(formData) && isAuthorizedAgent(formData),
+          depends: formData => !isVeteran(formData),
           uiSchema: isSponsor.uiSchema,
           schema: isSponsor.schema,
         },
         sponsorDetails: {
           title: 'Sponsor details',
           path: 'sponsor-details',
-          depends: formData =>
-            !isVeteran(formData) && isAuthorizedAgent(formData),
+          depends: formData => !isVeteran(formData),
           uiSchema: sponsorDetails.uiSchema,
           schema: sponsorDetails.schema,
         },
         sponsorDeceased: {
           path: 'sponsor-deceased',
           depends: formData =>
-            !isVeteran(formData) &&
-            !isApplicantTheSponsor(formData) &&
-            isAuthorizedAgent(formData),
+            !isVeteran(formData) && !isApplicantTheSponsor(formData),
           uiSchema: sponsorDeceased.uiSchema,
           schema: sponsorDeceased.schema,
         },
@@ -424,8 +418,7 @@ const formConfig = {
           depends: formData =>
             !isVeteran(formData) &&
             !isApplicantTheSponsor(formData) &&
-            isSponsorDeceased(formData) &&
-            isAuthorizedAgent(formData),
+            isSponsorDeceased(formData),
           uiSchema: sponsorDateOfDeath.uiSchema,
           schema: sponsorDateOfDeath.schema,
         },
@@ -435,31 +428,27 @@ const formConfig = {
             !isVeteran(formData) &&
             ((!isApplicantTheSponsor(formData) &&
               !isSponsorDeceased(formData)) ||
-              isApplicantTheSponsor(formData)) &&
-            isAuthorizedAgent(formData),
+              isApplicantTheSponsor(formData)),
           uiSchema: sponsorContactInformation.uiSchema,
           schema: sponsorContactInformation.schema,
         },
         sponsorDemographics: {
           title: 'Sponsor demographics',
           path: 'sponsor-demographics',
-          depends: formData =>
-            !isVeteran(formData) && isAuthorizedAgent(formData),
+          depends: formData => !isVeteran(formData),
           uiSchema: sponsorDemographics.uiSchema,
           schema: sponsorDemographics.schema,
         },
         sponsorRace: {
           path: 'sponsor-race',
-          depends: formData =>
-            !isVeteran(formData) && isAuthorizedAgent(formData),
+          depends: formData => !isVeteran(formData),
           uiSchema: sponsorRace.uiSchema,
           schema: sponsorRace.schema,
         },
         sponsorMilitaryDetails: {
           title: "Sponsor's military details",
           path: 'sponsor-military-details',
-          depends: formData =>
-            !isVeteran(formData) && isAuthorizedAgent(formData),
+          depends: formData => !isVeteran(formData),
           uiSchema: sponsorMilitaryDetails.uiSchema,
           schema: sponsorMilitaryDetails.schema,
         },
@@ -586,130 +575,6 @@ const formConfig = {
         },
       },
     },
-    // NOTE: Commented until section is moved
-    //       After this section is moved and uncommented, make sure to uncomment const applicantContactInfoSubheader at the top of this form
-    //       Also, after this section is moved and uncommented, make sure to uncomment the section at the end of the return statement of ../definitions/address.js
-    /* contactInformation: {
-      title: 'Contact information',
-      pages: {
-        applicantContactInformation: {
-          title: 'Applicant’s contact information',
-          path: 'applicant-contact-information',
-          uiSchema: {
-            application: {
-              claimant: {
-                address: merge(
-                  {},
-                  address.uiSchema('Your mailing address'),
-                  {
-                    street: {
-                      'ui:title': 'Street address',
-                    },
-                    street2: {
-                      'ui:title': 'Street address line 2',
-                    },
-                    state: {
-                      'ui:title': applicantMailingAddressStateTitleWrapper,
-                      'ui:options': {
-                        hideIf: formData =>
-                          !applicantsMailingAddressHasState(formData),
-                      },
-                    },
-                  },
-                ),
-                'view:applicantContactInfoSubheader': {
-                  'ui:description': applicantContactInfoSubheader,
-                  'ui:options': {
-                    displayEmptyObjectOnReview: true,
-                  },
-                },
-                phoneNumber: phoneUI('Phone number'),
-                email: emailUI(),
-                'view:contactInfoDescription': {
-                  'ui:description': applicantContactInfoWrapper,
-                  'ui:options': {
-                    displayEmptyObjectOnReview: true,
-                  },
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
-                type: 'object',
-                properties: {
-                  claimant: {
-                    type: 'object',
-                    required: ['email', 'phoneNumber'],
-                    properties: {
-                      address: address.schema(fullSchemaPreNeed, true),
-                      'view:applicantContactInfoSubheader': {
-                        type: 'object',
-                        properties: {},
-                      },
-                      phoneNumber: claimant.properties.phoneNumber,
-                      email: claimant.properties.email,
-                      'view:contactInfoDescription': {
-                        type: 'object',
-                        properties: {},
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-        sponsorMailingAddress: {
-          title: 'Sponsor’s mailing address',
-          path: 'sponsor-mailing-address',
-          depends: formData => !isVeteran(formData),
-          uiSchema: {
-            application: {
-              veteran: {
-                address: merge(
-                  {},
-                  address.uiSchema('Sponsor’s mailing address'),
-                  {
-                    street: {
-                      'ui:title': 'Street address',
-                    },
-                    street2: {
-                      'ui:title': 'Street address line 2',
-                    },
-                    state: {
-                      'ui:title': sponsorMailingAddressStateTitleWrapper,
-                      'ui:options': {
-                        hideIf: formData =>
-                          !sponsorMailingAddressHasState(formData),
-                      },
-                    },
-                  },
-                ),
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              application: {
-                type: 'object',
-                properties: {
-                  veteran: {
-                    type: 'object',
-                    properties: {
-                      address: address.schema(fullSchemaPreNeed),
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    }, */
   },
 };
 
