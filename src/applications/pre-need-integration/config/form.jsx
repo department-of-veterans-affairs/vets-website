@@ -491,7 +491,7 @@ const formConfig = {
         // whether the applicant is the veteran or not.
         // If not, "Sponsor’s" precedes all the field labels.
         applicantMilitaryHistorySelf: {
-          title: 'Service period(s)',
+          title: 'Your service period(s)',
           path: 'applicant-military-history',
           depends: formData =>
             isVeteran(formData) && !isAuthorizedAgent(formData),
@@ -499,7 +499,7 @@ const formConfig = {
           schema: applicantMilitaryHistorySelf.schema,
         },
         applicantMilitaryHistoryPreparer: {
-          title: 'Service period(s)',
+          title: "Applicant's service period(s)",
           path: 'applicant-military-history-preparer',
           depends: formData =>
             isVeteran(formData) && isAuthorizedAgent(formData),
