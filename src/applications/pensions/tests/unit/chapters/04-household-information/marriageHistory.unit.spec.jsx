@@ -128,6 +128,7 @@ describe('Pensions marriage history', async () => {
         schema={schema}
         data={marriagesData}
         uiSchema={uiSchema}
+        onSubmit={onSubmit}
       />,
     );
 
@@ -149,6 +150,7 @@ describe('Pensions marriage history', async () => {
         schema={schema}
         data={marriagesData}
         uiSchema={uiSchema}
+        onSubmit={onSubmit}
       />,
     );
 

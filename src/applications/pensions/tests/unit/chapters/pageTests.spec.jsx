@@ -148,3 +148,12 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
     });
   });
 };
+
+export const getWebComponentErrors = container => {
+  const nodes = Array.from(
+    container.querySelectorAll(
+      `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
+    ),
+  );
+  return nodes.filter(node => node.error);
+};

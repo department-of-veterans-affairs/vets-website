@@ -12,6 +12,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import getFixtureData from '../../../fixtures/vets-json-api/getFixtureData';
 import getData from '../../../fixtures/mocks/mockStore';
 
 import formConfig from '../../../../config/form';
@@ -19,6 +20,7 @@ import applicantInformation, {
   isOver65,
   setDefaultIsOver65,
 } from '../../../../config/chapters/01-applicant-information/applicantInformation';
+import { getWebComponentErrors } from '../pageTests.spec';
 
 const definitions = formConfig.defaultDefinitions;
 
@@ -44,10 +46,11 @@ describe('pension applicant information page', () => {
       </Provider>,
     );
 
-    waitFor(() => {
+    await waitFor(() => {
       expect($$('va-alert', container).length).to.equal(1);
-      expect($$('input', container).length).to.equal(7);
-      expect($$('select', container).length).to.equal(2);
+      expect($$('va-text-input', container).length).to.equal(5);
+      expect($$('va-memorable-date', container).length).to.equal(1);
+      expect($$('va-select', container).length).to.equal(1);
       expect($('button[type="submit"]', container)).to.exist;
     });
   });
@@ -70,50 +73,31 @@ describe('pension applicant information page', () => {
     );
 
     fireEvent.submit($('form', container));
-    waitFor(() => {
-      expect($('.usa-input-error', container).length).to.equal(4);
+    await waitFor(() => {
+      expect(getWebComponentErrors(container).length).to.equal(4);
       expect(onSubmit.called).to.be.false;
     });
   });
-  it('should submit with no errors with all required fields filled in', async () => {
+  it('should submit with no errors with all valid data', async () => {
     const { data } = getData({ loggedIn: false });
-    const { queryByText, queryByRole, container } = render(
+    const onSubmit = sinon.spy();
+    const { queryByText, container } = render(
       <Provider store={mockStore(data)}>
         <DefinitionTester
           schema={schema}
-          data={{}}
+          data={getFixtureData('overflow')}
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
+          onSubmit={onSubmit}
         />
       </Provider>,
     );
     const submitBtn = queryByText('Submit');
-    const firstName = queryByRole('textbox', {
-      name: /First name/i,
-    });
-    const lastName = queryByRole('textbox', {
-      name: /Last name/i,
-    });
-    const ssnInput = queryByRole('textbox', {
-      name: /Social Security Number/i,
-    });
-    const birthMonth = container.querySelector('#root_veteranDateOfBirthMonth');
-    const birthDay = container.querySelector('#root_veteranDateOfBirthDay');
-    const birthYear = container.querySelector('#root_veteranDateOfBirthYear');
-
-    fireEvent.click(submitBtn);
-    waitFor(() => {
-      expect($$('.usa-input-error-message', container)).not.to.be.empty;
-
-      fireEvent.change(firstName, { target: { value: 'Jon' } });
-      fireEvent.change(lastName, { target: { value: 'Snow' } });
-      fireEvent.change(ssnInput, { target: { value: '134445555' } });
-      fireEvent.change(birthMonth, { target: { value: '2' } });
-      fireEvent.change(birthDay, { target: { value: '15' } });
-      fireEvent.change(birthYear, { target: { value: '1960' } });
+    await waitFor(() => {
       fireEvent.click(submitBtn);
 
-      expect($$('.usa-input-error-message', container)).to.be.empty;
+      expect(getWebComponentErrors(container)).to.be.empty;
+      expect(onSubmit.called).to.be.true;
     });
   });
 
