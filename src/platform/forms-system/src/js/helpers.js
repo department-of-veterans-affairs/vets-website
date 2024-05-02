@@ -134,6 +134,13 @@ export function createPageList(formConfig, formPages) {
     );
 }
 
+export function hideFormTitle(formConfig, pathName) {
+  const formPages = createFormPageList(formConfig);
+  const pageList = createPageList(formConfig, formPages);
+  const page = pageList.filter(p => p.path === pathName)[0];
+  return formConfig?.chapters[page.chapterKey]?.hideFormTitle;
+}
+
 function formatDayMonth(val) {
   if (val) {
     const dayOrMonth = val.toString();
