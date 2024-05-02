@@ -2956,10 +2956,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@7.0.2":
-  version "7.0.2"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-7.0.2.tgz#d9f8ab221b55a096e42224d718a3711809ffebb7"
-  integrity sha512-Go24fe8q9lKXuPhhqrUJFvlPa+/Gs5sdqHXRpCJ4xf5U5RbhRjwgPSKVFnj5vC9nd/8nMYEilimA47+Va6Rzpg==
+"@department-of-veterans-affairs/web-components@8.0.1":
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-8.0.1.tgz#2fda27f00ffe6db148ea6e927a2e942e5000ea21"
+  integrity sha512-5B/qZORqbJqO+Pv93YrFy0BDtIfNU9hLb/TaYcKDOrBSGLIzFj0civn4YxF0oT5/pmOf5VAABC8s1j2ljDmH3Q==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.5.1"
     "@stencil/core" "^2.19.2"
