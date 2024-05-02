@@ -133,6 +133,7 @@ const AppointmentsPage = props => {
           big
           onClick={() => setRefresh(true)}
           secondary
+          data-testid="refresh-appointments-button"
         />
       </div>
     </Wrapper>

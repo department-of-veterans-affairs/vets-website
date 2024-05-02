@@ -2,6 +2,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import format from 'date-fns/format';
 import { render } from '@testing-library/react';
 import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import AppointmentsPage from './index';
@@ -54,6 +55,20 @@ describe('unified check-in experience', () => {
       expect(screen.getByTestId('loading-indicator')).to.exist;
       // restore the hook
       useGetCheckInDataStub.restore();
+    });
+    it('shows the date & time the appointments were loaded & a refresh link', () => {
+      const checkIn = render(
+        <CheckInProvider>
+          <AppointmentsPage />
+        </CheckInProvider>,
+      );
+      expect(checkIn.getByTestId('update-text')).to.have.text(
+        `Latest update: ${format(new Date(), "MMMM d, yyyy 'at' h:mm aaaa")}`,
+      );
+      const refreshButton = checkIn.queryByTestId(
+        'refresh-appointments-button',
+      );
+      expect(refreshButton).to.exist;
     });
   });
 });
