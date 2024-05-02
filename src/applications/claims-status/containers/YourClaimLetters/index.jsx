@@ -38,6 +38,10 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
     ? 'Your VA claim and appeal letters'
     : 'Your VA claim letters';
 
+  const claimLetterSubText = iscstIncludeDdlBoaLettersEnabled
+    ? 'You can download your claim letters and appeal decisions. We also mail these to you.'
+    : 'You can download your claim letters. We also mail you these letters.';
+
   useEffect(() => {
     getClaimLetters()
       .then(data => {
@@ -118,8 +122,7 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
       <>
         <h1>{claimLetterHeader}</h1>
         <div className="vads-u-font-size--lg vads-u-padding-bottom--1">
-          You can download your claim and appeal letters. We also mail you these
-          letters.
+          {claimLetterSubText}
         </div>
         {lettersLoading ? (
           <va-loading-indicator message="Loading your claim letters..." />
