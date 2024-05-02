@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import OMBInfo from '../../components/IntroductionPage/OMBInfo';
+import SectionCompleteAlert from '../../../components/SectionCompleteAlert';
 
 const mockStore = {
   getState: () => {},
@@ -11,13 +11,23 @@ const mockStore = {
   dispatch: () => {},
 };
 
-describe('OMB Info component', () => {
+describe('Section Complete alert', () => {
   it('should render', () => {
     const { container } = render(
       <Provider store={mockStore}>
-        <OMBInfo />
+        <SectionCompleteAlert />
       </Provider>,
     );
     expect(container).to.exist;
+  });
+
+  it('should display section complete message', () => {
+    const { getByText } = render(
+      <Provider store={mockStore}>
+        <SectionCompleteAlert />
+      </Provider>,
+    );
+
+    expect(getByText(/Section Complete/)).to.exist;
   });
 });
