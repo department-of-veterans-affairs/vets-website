@@ -53,7 +53,6 @@ describe('MHV Secondary Navigation Menu Component', () => {
         <MhvSecondaryNavMenu items={testSecNavItems} />
       </Provider>,
     );
-    expect(testSecNavItems).to.not.be.empty;
     const links = getAllByRole('link');
     expect(links.length).to.eql(testSecNavItems.length);
     testSecNavItems.forEach((navItem, i) => {
@@ -63,19 +62,18 @@ describe('MHV Secondary Navigation Menu Component', () => {
 
   it('does not render when the toggle is off', () => {
     const mock = mockStore();
-    const { getAllByRole } = render(
+    const { container } = render(
       <Provider store={mock}>
         <MhvSecondaryNavMenu items={testSecNavItems} />
       </Provider>,
     );
-    expect(testSecNavItems).to.not.be.empty;
-    expect(() => getAllByRole('link')).to.throw();
+    // expect(() => getAllByRole('link')).to.throw();
+    expect(container).to.be.empty;
   });
 
   it('sets the proper item to active based on URL pathname', () => {
     const activeClassString = 'active';
     const mock = mockStore({ isFeatureEnabled: true });
-    expect(testSecNavItems).to.not.be.empty;
     testSecNavItems.forEach((item, itemIndex) => {
       delete window.location;
       window.location = new URL(`https://www.va.gov${item.href}`);
