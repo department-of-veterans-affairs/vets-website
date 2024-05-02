@@ -29,18 +29,10 @@ export const App = ({
     useToggleLoadingValue,
     TOGGLE_NAMES,
   } = useFeatureToggle();
+
   const togglesLoading = useToggleLoadingValue();
 
   const appEnabled = useToggleValue(TOGGLE_NAMES.representativeStatusEnabled);
-
-  useEffect(
-    () => {
-      if (loggedIn) {
-        focusElement('.representative-status-widget');
-      }
-    },
-    [loggedIn],
-  );
 
   if (togglesLoading || !appEnabled) {
     return null;
@@ -61,24 +53,23 @@ export const App = ({
           </p>
         </>
       )}
-      <div className="representative-status-widget">
-        {loggedIn ? (
-          <>
-            <Auth
-              DynamicHeader={DynamicHeader}
-              DynamicSubheader={DynamicSubheader}
-              useRepresentativeStatus={useRepresentativeStatus}
-            />
-          </>
-        ) : (
-          <>
-            <Unauth
-              toggleLoginModal={toggleLoginModal}
-              DynamicHeader={DynamicHeader}
-            />
-          </>
-        )}
-      </div>
+
+      {loggedIn ? (
+        <>
+          <Auth
+            DynamicHeader={DynamicHeader}
+            DynamicSubheader={DynamicSubheader}
+            useRepresentativeStatus={useRepresentativeStatus}
+          />
+        </>
+      ) : (
+        <>
+          <Unauth
+            toggleLoginModal={toggleLoginModal}
+            DynamicHeader={DynamicHeader}
+          />
+        </>
+      )}
     </>
   );
 };
