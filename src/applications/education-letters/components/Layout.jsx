@@ -6,7 +6,7 @@ const Layout = ({ children, clsName = '' }) => {
   return (
     <>
       <div className="row">
-        <div className="vads-u-margin-bottommm--4">
+        <div className="vads-u-margin-bottom--4">
           <VaBreadcrumbs
             breadcrumbList={[
               {
