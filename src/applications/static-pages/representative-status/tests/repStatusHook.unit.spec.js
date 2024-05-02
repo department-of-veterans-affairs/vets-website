@@ -3,9 +3,10 @@ import sinon from 'sinon';
 import { renderHook } from '@testing-library/react-hooks';
 import RepresentativeStatusApi from '../api/RepresentativeStatusApi';
 import { useRepresentativeStatus } from '../hooks/useRepresentativeStatus';
+import * as utilities from '../utilities/formatContactInfo';
 
 describe('Hook', () => {
-  let stub;
+  let stub, stubFormat;
 
   beforeEach(() => {
     stub = sinon
@@ -33,10 +34,25 @@ describe('Hook', () => {
           },
         },
       });
+
+    stubFormat = sinon.stub(utilities, 'formatContactInfo').returns({
+      concatAddress: '1608 K St NW, Washington, DC, 20006',
+      contact: '202-861-2700',
+      extension: '2801',
+      vcfUrl: 'http://example.com/contact.vcf',
+    });
   });
 
   afterEach(() => {
     stub.restore();
+    stubFormat.restore();
+  });
+
+  it('should start with isLoading true and null for error and representative', async () => {
+    const { result } = renderHook(() => useRepresentativeStatus());
+    expect(result.current.isLoading).to.be.true;
+    expect(result.current.error).to.be.null;
+    expect(result.current.representative).to.be.null;
   });
 
   it('testing hook state after successful api call', async () => {
