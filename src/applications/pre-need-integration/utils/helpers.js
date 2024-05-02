@@ -999,28 +999,6 @@ export const preparerVeteranUI = {
   },
 };
 
-// Placeholder hints for the current dateRange, delete this and .scss code
-// If date is converted to Memorable Date field. It has a built in hint prop.
-const startDateHeaderSelf = (
-  <div>
-    <p className="dateRangeLabel">Service start date</p>
-    <p className="dateRangeHint">
-      Enter 2 digits for the month and day and 4 digits for the year.
-    </p>
-  </div>
-);
-
-// Placeholder hints for the current dateRange, delete this and .scss code
-// If date is converted to Memorable Date field. It has a built in hint prop.
-const endDateHeaderSelf = (
-  <div>
-    <p className="dateRangeLabel">Service end date</p>
-    <p className="dateRangeHint">
-      Enter 2 digits for the month and day and 4 digits for the year.
-    </p>
-  </div>
-);
-
 export const selfServiceRecordsUI = {
   'ui:title': 'Your service period(s)',
   'ui:options': {
@@ -1046,8 +1024,8 @@ export const selfServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      startDateHeaderSelf,
-      endDateHeaderSelf,
+      'Service start date',
+      'Service end date',
       'Service start date must be after end date',
     ),
     dischargeType: {
@@ -1056,11 +1034,12 @@ export const selfServiceRecordsUI = {
         labels: {
           1: 'Honorable',
           2: 'General',
-          3: 'Entry Level Separation/Uncharacterized',
-          4: 'Other Than Honorable',
-          5: 'Bad Conduct',
-          6: 'Dishonorable',
-          7: 'Other',
+          3: 'Entry Level Separation',
+          4: 'Uncharacterized',
+          5: 'Other Than Honorable',
+          6: 'Bad Conduct',
+          7: 'Dishonorable',
+          8: 'Other',
         },
       },
     },
@@ -1079,27 +1058,6 @@ export const selfServiceRecordsUI = {
   },
 };
 
-// Placeholder hints for the current dateRange, delete this and .scss code
-// If date is converted to Memorable Date field. It has a built in hint prop.
-const startDateHeaderPreparer = (
-  <div>
-    <p className="dateRangeLabel">Applicant’s service start date</p>
-    <p className="dateRangeHint">
-      Enter 2 digits for the month and day and 4 digits for the year.
-    </p>
-  </div>
-);
-
-// Placeholder hints for the current dateRange, delete this and .scss code
-// If date is converted to Memorable Date field. It has a built in hint prop.
-const endDateHeaderPreparer = (
-  <div>
-    <p className="dateRangeLabel">Applicant’s service end date</p>
-    <p className="dateRangeHint">
-      Enter 2 digits for the month and day and 4 digits for the year.
-    </p>
-  </div>
-);
 export const preparerServiceRecordsUI = {
   'ui:title': "Applicant's service period(s)",
   'ui:options': {
@@ -1125,8 +1083,8 @@ export const preparerServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      startDateHeaderPreparer,
-      endDateHeaderPreparer,
+      'Applicant’s service start date',
+      'Applicant’s service end date',
       'Service start date must be after end date',
     ),
     dischargeType: {
@@ -1135,16 +1093,17 @@ export const preparerServiceRecordsUI = {
         labels: {
           1: 'Honorable',
           2: 'General',
-          3: 'Entry Level Separation/Uncharacterized',
-          4: 'Other Than Honorable',
-          5: 'Bad Conduct',
-          6: 'Dishonorable',
-          7: 'Other',
+          3: 'Entry Level Separation',
+          4: 'Uncharacterized',
+          5: 'Other Than Honorable',
+          6: 'Bad Conduct',
+          7: 'Dishonorable',
+          8: 'Other',
         },
       },
     },
     highestRank: {
-      'ui:title': 'Highest rank attained',
+      'ui:title': 'Applicant’s highest rank attained',
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
