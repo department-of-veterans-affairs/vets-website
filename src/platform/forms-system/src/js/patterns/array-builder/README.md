@@ -1,6 +1,6 @@
 # Array Builder Pattern
 
-Array builder pattern features an intro page, a yes/no question if they have items to add, a loop of page(s) to fill out data for an item, and cards displayed for each item to review/edit/remove items. The user can add items until `maxItems` is reached.
+Array builder pattern features an intro page (for required flow), a yes/no question if they have items to add, a loop of page(s) to fill out data for an item, and cards displayed for each item to review/edit/remove items. The user can add items until `maxItems` is reached.
 
 ## Table of Contents
 - [Array Builder Pattern](#array-builder-pattern)
@@ -9,6 +9,7 @@ Array builder pattern features an intro page, a yes/no question if they have ite
   - [Terminology](#terminology)
   - [Example Code Required Flow](#example-code-required-flow)
   - [Example Code Optional Flow](#example-code-optional-flow)
+  - [Example `config/form.js`](#example-configformjs)
   - [Web Component Patterns](#web-component-patterns)
     - [Example `arrayBuilderYesNoUI` Text Overrides:](#example-arraybuilderyesnoui-text-overrides)
   - [General Pattern Text Overrides](#general-pattern-text-overrides)
@@ -30,19 +31,20 @@ Array builder pattern features an intro page, a yes/no question if they have ite
 | `summaryPage` | The page that shows cards of all the items the user has entered so far + yes/no question if they have more to add. The user is return to this page after every loop, until they select "no" that they don't have any more to add. |
 
 ## Example Code Required Flow
-You can copy this to a new file as a starting point, and then import the export to your `config/form.js`
+You can copy this to a new file `pages/nounPlural.jsx` as a starting point, and then import to `config/form.js`
 ```js
 import {
   arrayBuilderItemFirstPageTitleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateSchema,
   currentOrPastDateUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from '~/platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
+/** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'nounPlural',
   nounSingular: '[noun singular]',
@@ -114,7 +116,7 @@ const namePage = {
 /** @returns {PageSchema} */
 const datePage = {
   uiSchema: {
-    ...titleUI(
+    ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => (formData?.name ? `Date at ${formData.name}` : 'Date'),
     ),
     date: currentOrPastDateUI(),
@@ -128,7 +130,7 @@ const datePage = {
   },
 };
 
-export const arrayBuilderRequiredPages = arrayBuilderPages(
+export const nounSingularArrayPages = arrayBuilderPages(
   options,
   pageBuilder => ({
     nounPlural: pageBuilder.introPage({
@@ -160,24 +162,25 @@ export const arrayBuilderRequiredPages = arrayBuilderPages(
 ```
 
 ## Example Code Optional Flow
-You can copy this to a new file as a starting point, and then import the export to your `config/form.js`
+You can copy this to a new file `pages/nounPlural.jsx` as a starting point, and then import to `config/form.js`
 ```js
 import {
   arrayBuilderItemFirstPageTitleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateSchema,
   currentOrPastDateUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from '~/platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
+/** @type {ArrayBuilderOptions} */
 const options = {
-  arrayPath: 'nounPluralOptional',
+  arrayPath: 'nounPlural',
   nounSingular: '[noun singular]',
   nounPlural: '[noun plural]',
-  required: true,
+  required: false,
   isItemIncomplete: item => !item?.name,
   maxItems: 5,
   text: {
@@ -189,14 +192,14 @@ const options = {
 /** @returns {PageSchema} */
 const summaryPage = {
   uiSchema: {
-    'view:hasNounPluralOptional': arrayBuilderYesNoUI(options),
+    'view:hasNounPlural': arrayBuilderYesNoUI(options),
   },
   schema: {
     type: 'object',
     properties: {
-      'view:hasNounPluralOptional': arrayBuilderYesNoSchema,
+      'view:hasNounPlural': arrayBuilderYesNoSchema,
     },
-    required: ['view:hasNounPluralOptional'],
+    required: ['view:hasNounPlural'],
   },
 };
 
@@ -226,7 +229,7 @@ const namePage = {
 /** @returns {PageSchema} */
 const datePage = {
   uiSchema: {
-    ...titleUI(
+    ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => (formData?.name ? `Date at ${formData.name}` : 'Date'),
     ),
     date: currentOrPastDateUI(),
@@ -240,24 +243,23 @@ const datePage = {
   },
 };
 
-export const arrayBuilderOptionalPages = arrayBuilderPages(
-  options,
+export const nounSingularArrayPages = arrayBuilderPages( options,
   pageBuilder => ({
-    nounPluralOptionalSummary: pageBuilder.summaryPage({
+    nounPluralSummary: pageBuilder.summaryPage({
       title: 'Your [noun plural]',
-      path: 'noun-plural-optional',
+      path: 'noun-plural',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    nounSingularNameOptionalPage: pageBuilder.itemPage({
+    nounSingularNamePage: pageBuilder.itemPage({
       title: 'Name',
-      path: 'noun-plural-optional/:index/name',
+      path: 'noun-plural/:index/name',
       uiSchema: namePage.uiSchema,
       schema: namePage.schema,
     }),
-    nounSingularDateOptionalPage: pageBuilder.itemPage({
+    nounSingularDatePage: pageBuilder.itemPage({
       title: 'Date',
-      path: 'noun-plural-optional/:index/date',
+      path: 'noun-plural/:index/date',
       uiSchema: datePage.uiSchema,
       schema: datePage.schema,
     }),
@@ -265,10 +267,27 @@ export const arrayBuilderOptionalPages = arrayBuilderPages(
 );
 ```
 
+## Example `config/form.js`
+```js
+import { nounSingularArrayPages } from '../pages/nounPlural';
+
+const formConfig = {
+  ...
+  chapters: {
+    nounPluralChapter: {
+      title: 'Noun Plural',
+      pages: nounSingularArrayPages
+    },
+  }
+}
+```
+
 ## Web Component Patterns
 | Pattern | Description |
 |---------|-------------|
 | `arrayBuilderItemFirstPageTitleUI` | Should be used instead of `titleUI` for the first item page. Includes adding "Edit" before the title if in edit mode, and showing a `va-alert` warning if an item is required when removing all. |
+| `arrayBuilderItemSubsequentPageTitleUI` | Can be used instead of `titleUI` for subsequent item pages. Includes adding "Edit" before the title if in edit mode. If you need to use a custom title instead, you can try passing `withEditTitle` into your implementation. |
+| `withEditTitle` | Used with `arrayBuilderItemFirstPageTitleUI` and `arrayBuilderItemSubsequentPageTitleUI` to show "Edit" before the title, provided as an export for custom use. |
 | `arrayBuilderYesNoUI` | Should be used instead of `yesNoUI` for the summary page. Has dynamic text for if the user has 0 items, or more 1+ items, and validation for max items. You can override all text values. |
 
 ### Example `arrayBuilderYesNoUI` Text Overrides:

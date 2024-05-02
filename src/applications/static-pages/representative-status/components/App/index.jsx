@@ -10,6 +10,7 @@ import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veter
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { Auth } from '../States/Auth';
 import { Unauth } from '../States/Unauth';
+import { useRepresentativeStatus } from '../../hooks/useRepresentativeStatus';
 
 export const App = ({
   baseHeader,
@@ -66,6 +67,7 @@ export const App = ({
             <Auth
               DynamicHeader={DynamicHeader}
               DynamicSubheader={DynamicSubheader}
+              useRepresentativeStatus={useRepresentativeStatus}
             />
           </>
         ) : (

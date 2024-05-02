@@ -12,19 +12,20 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
+import { focusElement } from 'platform/utilities/ui';
 import { createArrayBuilderItemEditPath } from './helpers';
 
-const EditLink = ({ to, itemName }) => (
+const EditLink = ({ to, srText }) => (
   <Link to={to} data-action="edit">
     <span className="vads-u-display--flex vads-u-align-items--center">
       Edit
       <va-icon size={3} icon="chevron_right" aria-hidden="true" />
-      <span className="sr-only">{itemName}</span>
+      <span className="sr-only">{srText}</span>
     </span>
   </Link>
 );
 
-const RemoveButton = ({ onClick, itemName }) => (
+const RemoveButton = ({ onClick, srText }) => (
   <button
     type="button"
     className="va-button-link vads-u-color--secondary-dark vads-u-font-weight--bold vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center"
@@ -38,7 +39,7 @@ const RemoveButton = ({ onClick, itemName }) => (
       className="vads-u-margin-right--1 vads-u-font-size--md"
     />
     Remove
-    <span className="sr-only">{itemName}</span>
+    <span className="sr-only">{srText}</span>
   </button>
 );
 
@@ -80,13 +81,14 @@ const ArrayBuilderCards = ({
   titleHeaderLevel = '3',
   getText,
   onRemoveAll,
+  onRemove,
   required,
+  isReview,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const arrayData = get(arrayPath, formData);
   const currentItem = arrayData?.[currentIndex];
-  const isReview = window.location?.pathname?.includes('review-and-submit');
 
   if (!arrayData?.length) {
     return null;
@@ -97,19 +99,32 @@ const ArrayBuilderCards = ({
     setIsModalVisible(true);
   }
 
-  function hideRemoveConfirmationModal() {
+  function hideRemoveConfirmationModal({ focusRemoveButton }) {
+    const lastIndex = currentIndex;
     setCurrentIndex(null);
     setIsModalVisible(false);
+    if (focusRemoveButton) {
+      requestAnimationFrame(() => {
+        focusElement(
+          `va-card[name="${nounSingular}_${lastIndex}"] [data-action="remove"]`,
+        );
+      });
+    }
   }
 
   function removeAction() {
+    const removedIndex = currentIndex;
+    const removedItem = currentItem;
+
     const arrayWithRemovedItem = arrayData.filter(
       (_, index) => index !== currentIndex,
     );
     const newData = set(arrayPath, arrayWithRemovedItem, formData);
-
     setFormData(newData);
-    hideRemoveConfirmationModal();
+    hideRemoveConfirmationModal({
+      focusRemoveButton: false,
+    });
+    onRemove(removedIndex, removedItem);
     if (arrayWithRemovedItem.length === 0) {
       onRemoveAll();
     }
@@ -158,11 +173,17 @@ const ArrayBuilderCards = ({
                           index,
                           isReview,
                         })}
-                        itemName={itemName}
+                        srText={`${itemName}. ${getText(
+                          'cardDescription',
+                          itemData,
+                        )}`}
                       />
                       <RemoveButton
                         onClick={() => showRemoveConfirmationModal(index)}
-                        itemName={itemName}
+                        srText={`${itemName}. ${getText(
+                          'cardDescription',
+                          itemData,
+                        )}`}
                       />
                     </span>
                   </Card>
@@ -178,9 +199,17 @@ const ArrayBuilderCards = ({
         modalTitle={getText('removeTitle', currentItem)}
         primaryButtonText={getText('removeYes', currentItem)}
         secondaryButtonText={getText('removeNo', currentItem)}
-        onCloseEvent={hideRemoveConfirmationModal}
+        onCloseEvent={() =>
+          hideRemoveConfirmationModal({
+            focusRemoveButton: true,
+          })
+        }
         onPrimaryButtonClick={removeAction}
-        onSecondaryButtonClick={hideRemoveConfirmationModal}
+        onSecondaryButtonClick={() =>
+          hideRemoveConfirmationModal({
+            focusRemoveButton: true,
+          })
+        }
         visible={isModalVisible}
         uswds
       >
@@ -212,9 +241,11 @@ ArrayBuilderCards.propTypes = {
   formData: PropTypes.object.isRequired,
   getText: PropTypes.func.isRequired,
   isIncomplete: PropTypes.func.isRequired,
+  isReview: PropTypes.bool.isRequired,
   nounSingular: PropTypes.string.isRequired,
   required: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
   titleHeaderLevel: PropTypes.func,
 };
