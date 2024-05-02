@@ -10,6 +10,8 @@ import {
 import ApplicantRelationshipPage from '../../../../shared/components/applicantLists/ApplicantRelationshipPage';
 import formConfig from '../../../config/form';
 import { getFileSize } from '../../../helpers/utilities';
+import { isRequiredFile } from '../../../components/Applicant/applicantFileUpload';
+import { requiredFiles } from '../../../config/requiredUploads';
 
 import FileFieldCustom from '../../../../shared/components/fileUploads/FileUpload';
 
@@ -121,6 +123,15 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
+  formConfig.chapters.applicantInformation.pages.page18b2.schema,
+  formConfig.chapters.applicantInformation.pages.page18b2.uiSchema,
+  0,
+  'Applicant - helpless child documentation',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
   formConfig.chapters.applicantInformation.pages.page18c.schema,
   formConfig.chapters.applicantInformation.pages.page18c.uiSchema,
   0,
@@ -157,6 +168,24 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
+  formConfig.chapters.applicantInformation.pages.page18f7.schema,
+  formConfig.chapters.applicantInformation.pages.page18f7.uiSchema,
+  0,
+  'Applicant - second marriage documents',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page18f8.schema,
+  formConfig.chapters.applicantInformation.pages.page18f8.uiSchema,
+  0,
+  'Applicant - second marriage divorce documents',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
   formConfig.chapters.applicantInformation.pages.page20a.schema,
   formConfig.chapters.applicantInformation.pages.page20a.uiSchema,
   0,
@@ -170,6 +199,15 @@ testNumberOfWebComponentFields(
   formConfig.chapters.applicantInformation.pages.page20b.uiSchema,
   0,
   'Applicant - medicare part D upload',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page20c.schema,
+  formConfig.chapters.applicantInformation.pages.page20c.uiSchema,
+  0,
+  'Applicant - over 65 ineligible',
   { ...mockData.data },
 );
 
@@ -282,3 +320,14 @@ describe('submit property of formConfig', () => {
   });
 });
 */
+
+describe('isRequiredFile', () => {
+  it("should return '(Required)' if required file in formContext", () => {
+    // Grab whatever the first required file key is and toss into this
+    // mocked context object:
+    const context = {
+      schema: { properties: { [Object.keys(requiredFiles)[0]]: '' } },
+    };
+    expect(isRequiredFile(context)).to.equal('(Required)');
+  });
+});
