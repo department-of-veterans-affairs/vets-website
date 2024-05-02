@@ -90,6 +90,7 @@ jobs:
           uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
           with:
             fetch-depth: 0
+            fetch-tags: true
   
         - name: Configure AWS Credentials
           uses: ./.github/workflows/configure-aws-credentials
