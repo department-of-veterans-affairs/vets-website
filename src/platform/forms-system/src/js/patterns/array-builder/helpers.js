@@ -39,13 +39,16 @@ export function initGetText({
    * @returns {string}
    */
   return (key, itemData) => {
+    const keyVal = getTextValues?.[key];
     if (key === 'getItemName' || key === 'cardDescription') {
-      return getTextValues?.[key](itemData);
+      return typeof keyVal === 'function' ? keyVal(itemData) : keyVal;
     }
-    return getTextValues?.[key]({
-      ...getTextProps,
-      itemData,
-    });
+    return typeof keyVal === 'function'
+      ? getTextValues?.[key]({
+          ...getTextProps,
+          itemData,
+        })
+      : keyVal;
   };
 }
 

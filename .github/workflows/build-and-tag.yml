@@ -17,7 +17,7 @@ env:
 jobs:
   build:
     name: Build
-    runs-on: self-hosted
+    runs-on: ubuntu-16-cores-latest
 
     steps:
       - name: Checkout
@@ -106,7 +106,7 @@ jobs:
   
         - name: Get latest tag
           id: get-latest-tag
-          run: echo LATEST_TAG_VERSION=$(git describe --tags --abbrev=0) >> $GITHUB_OUTPUT
+          run: echo LATEST_TAG_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`) >> $GITHUB_OUTPUT
   
         - name: Get next tag version
           id: bump-tag-version
@@ -115,4 +115,4 @@ jobs:
             version: ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}
   
         - name: Create tag
-          run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ github.sha }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }} 
+          run: git tag -a ${{ steps.bump-tag-version.outputs.v_patch }} -m "vets-website tag ${{ steps.bump-tag-version.outputs.v_patch }}" ${{ env.COMMIT_SHA }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }} 
