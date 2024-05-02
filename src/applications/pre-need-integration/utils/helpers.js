@@ -851,7 +851,7 @@ export const veteranUI = {
       },
     ],
     'ui:options': {
-      hint: 'You can select more than one option. It think this is BS.',
+      hint: 'You can select more than one option.',
       showFieldLabel: true,
     },
   },
