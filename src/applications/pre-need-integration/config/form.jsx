@@ -397,21 +397,25 @@ const formConfig = {
       pages: {
         isSponsor: {
           path: 'is-sponsor',
-          depends: formData => !isVeteran(formData),
+          depends: formData =>
+            !isVeteran(formData) && isAuthorizedAgent(formData),
           uiSchema: isSponsor.uiSchema,
           schema: isSponsor.schema,
         },
         sponsorDetails: {
           title: 'Sponsor details',
           path: 'sponsor-details',
-          depends: formData => !isVeteran(formData),
+          depends: formData =>
+            !isVeteran(formData) && isAuthorizedAgent(formData),
           uiSchema: sponsorDetails.uiSchema,
           schema: sponsorDetails.schema,
         },
         sponsorDeceased: {
           path: 'sponsor-deceased',
           depends: formData =>
-            !isVeteran(formData) && !isApplicantTheSponsor(formData),
+            !isVeteran(formData) &&
+            !isApplicantTheSponsor(formData) &&
+            isAuthorizedAgent(formData),
           uiSchema: sponsorDeceased.uiSchema,
           schema: sponsorDeceased.schema,
         },
@@ -420,7 +424,8 @@ const formConfig = {
           depends: formData =>
             !isVeteran(formData) &&
             !isApplicantTheSponsor(formData) &&
-            isSponsorDeceased(formData),
+            isSponsorDeceased(formData) &&
+            isAuthorizedAgent(formData),
           uiSchema: sponsorDateOfDeath.uiSchema,
           schema: sponsorDateOfDeath.schema,
         },
@@ -430,27 +435,31 @@ const formConfig = {
             !isVeteran(formData) &&
             ((!isApplicantTheSponsor(formData) &&
               !isSponsorDeceased(formData)) ||
-              isApplicantTheSponsor(formData)),
+              isApplicantTheSponsor(formData)) &&
+            isAuthorizedAgent(formData),
           uiSchema: sponsorContactInformation.uiSchema,
           schema: sponsorContactInformation.schema,
         },
         sponsorDemographics: {
           title: 'Sponsor demographics',
           path: 'sponsor-demographics',
-          depends: formData => !isVeteran(formData),
+          depends: formData =>
+            !isVeteran(formData) && isAuthorizedAgent(formData),
           uiSchema: sponsorDemographics.uiSchema,
           schema: sponsorDemographics.schema,
         },
         sponsorRace: {
           path: 'sponsor-race',
-          depends: formData => !isVeteran(formData),
+          depends: formData =>
+            !isVeteran(formData) && isAuthorizedAgent(formData),
           uiSchema: sponsorRace.uiSchema,
           schema: sponsorRace.schema,
         },
         sponsorMilitaryDetails: {
           title: "Sponsor's military details",
           path: 'sponsor-military-details',
-          depends: formData => !isVeteran(formData),
+          depends: formData =>
+            !isVeteran(formData) && isAuthorizedAgent(formData),
           uiSchema: sponsorMilitaryDetails.uiSchema,
           schema: sponsorMilitaryDetails.schema,
         },
