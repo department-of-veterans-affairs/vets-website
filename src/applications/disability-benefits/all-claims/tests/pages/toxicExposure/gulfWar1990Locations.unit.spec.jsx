@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import {
   $,
@@ -10,6 +11,7 @@ import formConfig from '../../../config/form';
 import {
   gulfWar1990PageTitle,
   gulfWar1990Question,
+  noneAndLocationError,
 } from '../../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS } from '../../../constants';
 
@@ -43,5 +45,28 @@ describe('Gulf War 1990 Locations', () => {
         expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
       });
     });
+  });
+
+  it('should display error when condition and "none"', async () => {
+    const formData = {};
+    const { container, getByText } = render(
+      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+    );
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    await checkboxGroup.__events.vaChange({
+      target: { checked: true, dataset: { key: 'afghanistan' } },
+      detail: { checked: true },
+    });
+    await checkboxGroup.__events.vaChange({
+      target: {
+        checked: true,
+        dataset: { key: 'none' },
+      },
+      detail: { checked: true },
+    });
+
+    await userEvent.click(getByText('Submit'));
+    expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
   });
 });
