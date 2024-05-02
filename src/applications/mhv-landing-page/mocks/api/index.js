@@ -6,8 +6,8 @@ const commonResponses = require('../../../../platform/testing/local-dev-mock-api
 const featureToggles = require('./feature-toggles/index');
 const user = require('./user/index');
 // const user = require('../../tests/fixtures/user.json');
-// const userLoa1 = require('../../tests/fixtures/user.loa1.json');
-// const userWithNoFacilities = require('../../tests/fixtures/user.no-facilities.json');
+// const loa1User = require('../../tests/fixtures/user.loa1.json');
+// const nonVaPatient = require('../../tests/fixtures/user.no-facilities.json');
 const folders = require('./mhv-api/messaging/folders/index');
 const personalInformation = require('../../tests/fixtures/personal-information.json');
 
