@@ -520,6 +520,49 @@ describe('toxicExposure', () => {
         expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
           .true;
       });
+
+      it('should return false when `none` location is selected', () => {
+        const formData = {
+          gulfWar1990: {
+            none: true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
+        };
+
+        expect(showGulfWar1990LocationDatesPage(formData)).to.be.false;
+      });
+
+      it('should return false when `none` and another location is selected', () => {
+        const formData = {
+          gulfWar1990: {
+            afghanistan: true,
+            none: true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
+        };
+
+        expect(showGulfWar1990LocationDatesPage(formData)).to.be.false;
+      });
     });
   });
 
@@ -605,6 +648,49 @@ describe('toxicExposure', () => {
         };
 
         expect(showGulfWar1990SummaryPage(formData)).to.be.true;
+      });
+
+      it('should return false when `none` location is selected', () => {
+        const formData = {
+          gulfWar1990: {
+            none: true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
+        };
+
+        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+      });
+
+      it('should return false when `none` and another location is selected', () => {
+        const formData = {
+          gulfWar1990: {
+            afghanistan: true,
+            none: true,
+          },
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposureConditions: {
+            anemia: true,
+          },
+        };
+
+        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
       });
     });
   });
