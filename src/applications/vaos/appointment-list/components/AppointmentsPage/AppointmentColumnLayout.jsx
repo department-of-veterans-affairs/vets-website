@@ -133,7 +133,7 @@ export default function AppointmentColumnLayout({
           <AppointmentColumn
             size="1"
             canceled={isCanceled}
-            style={{ minWidth: '95px', maxWidth: '95px' }}
+            style={{ minWidth: '100px', maxWidth: '100px' }}
           >
             <span aria-hidden="true">
               {`${parsedDate.format('h:mm')} ${parsedDate.format(
@@ -174,7 +174,7 @@ export default function AppointmentColumnLayout({
                 canceled={isCanceled}
                 aria-label={modalityAriaLabel}
               >
-                <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--top">
+                <span className="vaos-appts__display--table-cell vads-u-display--flex small-screen: vads-u-align-items--top small-desktop-screen:vads-u-align-items--center">
                   {!isCommunityCare && (
                     <span
                       className={classNames(
