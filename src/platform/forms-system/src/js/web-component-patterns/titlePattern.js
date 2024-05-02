@@ -26,7 +26,8 @@ function isTitleObject(obj) {
     !Array.isArray(obj) &&
     !(obj instanceof Function) &&
     obj.$$typeof !== Symbol.for('react.element') &&
-    !isReactComponent(obj)
+    !isReactComponent(obj) &&
+    obj.title
   );
 }
 

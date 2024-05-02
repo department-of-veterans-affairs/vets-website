@@ -44,6 +44,7 @@ class FormApp extends React.Component {
         : formConfig.title;
     const { noTitle, noTopNav, fullWidth } = formConfig?.formOptions || {};
     const notProd = !environment.isProduction();
+
     const formPages = createFormPageList(formConfig);
     const pageList = createPageList(formConfig, formPages);
     const page = pageList.filter(p => p.path === trimmedPathname)[0];
