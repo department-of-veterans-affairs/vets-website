@@ -19,29 +19,6 @@ import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
  * @property {function(FormConfigPage): FormConfigPage} [itemPage] A repeated page corresponding to an item
  */
 
-/**
- * @typedef {Object} ArrayBuilderOptions
- * @property {string} arrayPath the formData key for the array e.g. `"employers"` for `formData.employers`
- * @property {string} nounSingular Used for text in cancel, remove, and modals. Used with nounPlural
- * ```
- * // Example:
- * nounSingular: "employer"
- * nounPlural: "employers"
- * ```
- * @property {string} nounPlural Used for text in cancel, remove, and modals. Used with nounSingular
- * ```
- * // Example:
- * nounSingular: "employer"
- * nounPlural: "employers"
- * ```
- * @property {(item) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. e.g. `item => !item?.name`
- * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
- * @property {{
- *   getItemName?: (item) => string | JSX.Element,
- *   cardDescription?: (item) => string,
- * }} [text] optional text overrides
- */
-
 function throwErrorPage(pageType, option) {
   throw new Error(
     `arrayBuilderPages \`pageBuilder.${pageType}()\` must include \`${option}\` property like this: ` +
@@ -388,6 +365,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         isReviewPage: false,
         ...summaryPageProps,
       }),
+      scrollAndFocusTarget: 'h3',
       onNavForward: navForwardSummary,
       ...pageConfig,
     };
@@ -412,6 +390,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       }),
       CustomPageReview: () => null,
       customPageUsesPagePerItemData: true,
+      scrollAndFocusTarget: 'h3',
       onNavBack,
       onNavForward,
       ...pageConfig,
