@@ -15,6 +15,13 @@ const COMMON_WORDS = [
   'my',
 ];
 
+// Wrapper to use for testing
+const lcsWrapper = {
+  nodeLcsFunction: (str1, str2) => {
+    return nodeLcs(str1, str2).length;
+  },
+};
+
 /**
  * Removes common words from the input string to avoid matching on words
  * that are in many suggestions
@@ -46,14 +53,18 @@ function lcsScoreByWordSum(inputWord, disabilityWord, splitReg = REGEX_SPLIT) {
   for (let i = 0; i < splitInput.length; i += 1) {
     disWordSplit.forEach(
       t =>
-        nodeLcs(t, splitInput[i]).length >= 3
-          ? tempScoreList.push(nodeLcs(t, splitInput[i]).length)
+        lcsWrapper.nodeLcsFunction(t, splitInput[i]) >= 3
+          ? tempScoreList.push(lcsWrapper.nodeLcsFunction(t, splitInput[i]))
           : null,
     );
   }
   return tempScoreList.reduce((acc, current) => acc + current, 0);
 }
 
+// Adds lcsScoreByWordSum to the lcsWrapper object
+lcsWrapper.lcsByWord = (str1, str2) => {
+  return lcsScoreByWordSum(str1, str2);
+};
 /**
  * Counts the number of overlapping words between the user input and the dropdown terms
  * @param {string} userInput
@@ -98,10 +109,13 @@ function lcsSingleVsMulti(
       const val = userInput.toUpperCase().replace(/[^a-zA-Z ]/g, '');
       let simScore = 0;
       if (val.split(splitreg).length < 2) {
-        simScore = nodeLcs(stripCommonWords(val), stripCommonWords(label))
-          .length;
+        simScore = lcsWrapper.nodeLcsFunction(
+          stripCommonWords(val),
+          stripCommonWords(label),
+        );
+        // simScore = 0;
       } else {
-        simScore = lcsScoreByWordSum(
+        simScore = lcsWrapper.lcsByWord(
           stripCommonWords(val),
           stripCommonWords(label),
         );
@@ -189,6 +203,7 @@ export function fullStringSimilaritySearch(
 }
 
 export const exportForTesting = {
+  lcsWrapper,
   THRESHOLD,
   stripCommonWords,
   lcsScoreByWordSum,

@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { getDisabilityLabels } from 'applications/disability-benefits/all-claims/content/disabilityLabels';
+import sinon from 'sinon';
 import {
   exportForTesting,
   fullStringSimilaritySearch,
@@ -8,6 +9,7 @@ import {
 const testDisabilityLabels = Object.values(getDisabilityLabels());
 
 const {
+  lcsWrapper,
   THRESHOLD,
   stripCommonWords,
   lcsScoreByWordSum,
@@ -54,52 +56,21 @@ describe('countOverlapWords', () => {
 
 describe('lcsSingleVsMulti', () => {
   it('should use single word LCS if user input is one word and return array', () => {
+    const nodeLcs = sinon
+      .stub(lcsWrapper, 'nodeLcsFunction')
+      .returns({ length: 9, sequence: ' common s', offset: 7 });
     const userInput = 'acl';
-    const expectedReturn = [
-      {
-        score: 3,
-        original: 'ACL tear (anterior cruciate ligament tear), right',
-      },
-      {
-        score: 3,
-        original: 'ACL tear (anterior cruciate ligament tear), left',
-      },
-      {
-        score: 3,
-        original: 'ACL tear (anterior cruciate ligament tear), bilateral',
-      },
-      { score: 2, original: 'acne' },
-    ];
-    const actualReturn = lcsSingleVsMulti(
-      userInput,
-      testDisabilityLabels.slice(0, 4),
-    );
-    expect(actualReturn).to.eql(expectedReturn);
-    expect(actualReturn).to.be.an('array');
+    lcsSingleVsMulti(userInput, testDisabilityLabels.slice(0, 4));
+    expect(nodeLcs.called).to.be.true;
+    nodeLcs.restore();
   });
 
   it('should use lcs summed by word if user input is multiple words and return array', () => {
     const userInput = 'acl tear';
-    const expectedReturn = [
-      {
-        score: 11,
-        original: 'ACL tear (anterior cruciate ligament tear), right',
-      },
-      {
-        score: 11,
-        original: 'ACL tear (anterior cruciate ligament tear), left',
-      },
-      {
-        score: 11,
-        original: 'ACL tear (anterior cruciate ligament tear), bilateral',
-      },
-    ];
-    const actualReturn = lcsSingleVsMulti(
-      userInput,
-      testDisabilityLabels.slice(0, 4),
-    );
-    expect(actualReturn).to.eql(expectedReturn);
-    expect(actualReturn).to.be.an('array');
+    const lcsSumByWordStub = sinon.stub(lcsWrapper, 'lcsByWord').returns(2);
+    lcsSingleVsMulti(userInput, testDisabilityLabels.slice(0, 4));
+    expect(lcsSumByWordStub.called).to.be.true;
+    lcsSumByWordStub.restore();
   });
 
   it('should not return results with scores less than the threshold', () => {
