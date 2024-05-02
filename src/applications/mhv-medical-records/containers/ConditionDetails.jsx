@@ -120,13 +120,11 @@ ${record.name} \n
 ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Entered on: ${record.date} \n
-${txtLine} \n
-Provider: ${record.provider} \n
-Provider Notes: ${processList(record.note)} \n
-Status of health condition: ${record.active} \n
-Location: ${record.facility} \n
-SNOMED Clinical term: ${record.name} \n`;
+Entered on: ${record.date}\n
+${txtLine}\n
+Provider: ${record.provider}\n
+Location: ${record.facility}\n
+Provider Notes: ${processList(record.comments)}\n`;
 
     const fileName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
 
