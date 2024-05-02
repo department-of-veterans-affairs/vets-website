@@ -43,6 +43,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       vaOnlineSchedulingStatusImprovement: true,
       vaOnlineSchedulingVAOSServiceRequests: true,
       vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      vaOnlineSchedulingAppointmentDetailsRedesign: false,
     },
   };
 
@@ -58,7 +59,10 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       .setLocationId('983')
       .setClinicId('1')
       .setReasonCode({ text: 'I have a headache' });
-    const clinicResponse = new MockClinicResponse({ id: 1, locationId: '983' });
+    const clinicResponse = new MockClinicResponse({
+      id: 1,
+      locationId: '983',
+    });
     const facilityResponse = new MockFacilityResponse({ id: '983' });
 
     mockAppointmentApi({ response });

@@ -11,7 +11,7 @@ import { parseDate } from '../utils/dates';
 
 export const errorMessages = {
   maxOtherEntry: max => `This field should be less than ${max} characters`,
-  missingDisagreement: 'Choose or enter a reason for disagreement',
+  missingDisagreement: 'You must select or enter a reason for disagreement',
 };
 
 export const content = {
@@ -44,7 +44,10 @@ export const getIssueTitle = (data = {}, { plainText } = {}) => {
   ) : (
     <>
       {prefix}
-      <span className="dd-privacy-hidden" data-dd-action-name="issue name">
+      <span
+        className="dd-privacy-hidden word-break-all"
+        data-dd-action-name="issue name"
+      >
         {name}
       </span>
       {joiner}

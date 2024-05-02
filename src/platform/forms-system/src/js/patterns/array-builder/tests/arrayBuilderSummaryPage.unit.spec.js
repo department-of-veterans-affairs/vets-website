@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
@@ -84,6 +84,7 @@ describe('ArrayBuilderSummaryPage', () => {
     title = 'Name and address of employer',
     required = () => false,
     maxItems = 5,
+    isReviewPage = false,
   }) {
     const setFormData = sinon.spy();
     const goToPath = sinon.spy();
@@ -125,7 +126,7 @@ describe('ArrayBuilderSummaryPage', () => {
       firstItemPagePath: '/first-item/:index',
       hasItemsKey: 'view:hasOption',
       isItemIncomplete: item => !item?.name,
-      isReviewPage: false,
+      isReviewPage,
       maxItems,
       nounPlural: 'employers',
       nounSingular: 'employer',
@@ -197,5 +198,65 @@ describe('ArrayBuilderSummaryPage', () => {
 
     expect(container.querySelector('va-radio')).to.not.exist;
     expect(container.querySelector('va-card')).to.exist;
+  });
+
+  it('should remove all appropriately', () => {
+    const {
+      getText,
+      container,
+      goToPath,
+      getByText,
+      setFormData,
+    } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      arrayData: [{ name: 'Test' }],
+      urlParams: '',
+      maxItems: 5,
+      required: () => true,
+    });
+
+    fireEvent.click(container.querySelector('button[data-action="remove"]'));
+    const $modal = container.querySelector('va-modal');
+    expect($modal.getAttribute('visible')).to.eq('true');
+    $modal.__events.primaryButtonClick();
+    expect(setFormData.called).to.be.true;
+    expect(setFormData.args[0][0].employers).to.eql([]);
+    expect(goToPath.args[0][0]).to.eql(
+      '/first-item/0?add=true&removedAllWarn=true',
+    );
+  });
+
+  it('should show an add button on the review page', () => {
+    const { container, goToPath } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      arrayData: [{ name: 'Test' }],
+      urlParams: '',
+      isReviewPage: true,
+      maxItems: 5,
+    });
+
+    const $addButton = container.querySelector('va-button[data-action="add"]');
+    expect($addButton).to.exist;
+    fireEvent.click($addButton);
+    expect(goToPath.args[0][0]).to.eql('/first-item/1?add=true&review=true');
+  });
+
+  it('should not show an add button on the review page if max items', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      arrayData: [
+        { name: 'Test' },
+        { name: 'Test 2' },
+        { name: 'Test 3' },
+        { name: 'Test 4' },
+        { name: 'Test 5' },
+      ],
+      urlParams: '',
+      isReviewPage: true,
+      maxItems: 5,
+    });
+
+    const $addButton = container.querySelector('va-button[data-action="add"]');
+    expect($addButton).to.not.exist;
   });
 });

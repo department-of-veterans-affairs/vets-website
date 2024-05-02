@@ -59,7 +59,7 @@ export default function FacilityAddress({
           <br />
         </>
       )}
-      <div className={extraInfoClasses}>
+      <div className={extraInfoClasses} data-dd-privacy="mask">
         {!!clinicName && (
           <>
             <HeadingSub className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
