@@ -1,9 +1,10 @@
-
 describe('Header on mobile', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
-        features: [{ name: 'accredited_representative_portal_pilot', value: true }],
+        features: [
+          { name: 'accredited_representative_portal_pilot', value: true },
+        ],
       },
     });
     cy.viewport(760, 1024);
@@ -51,7 +52,9 @@ describe('Header on screens wider than mobile', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
-        features: [{ name: 'accredited_representative_portal_pilot', value: true }],
+        features: [
+          { name: 'accredited_representative_portal_pilot', value: true },
+        ],
       },
     });
     cy.visit('/representative');
