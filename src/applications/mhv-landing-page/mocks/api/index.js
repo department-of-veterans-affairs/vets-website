@@ -14,10 +14,11 @@ const personalInformation = require('../../tests/fixtures/personal-information.j
 const responses = {
   ...commonResponses,
   'GET /v0/user': user.defaultUser,
+  // Please, keep these feature toggle settings up-to-date with production's feature toggles settings.
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvLandingPageEnabled: true,
     mhvLandingPagePersonalization: false,
-    mhvLandingPageEnableVaGovHealthToolsLinks: true,
+    mhvLandingPageEnableVaGovHealthToolsLinks: false,
   }),
   'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,
   'GET /v0/profile/personal_information': personalInformation,
