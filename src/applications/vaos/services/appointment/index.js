@@ -28,7 +28,6 @@ import { resetDataLayer } from '../../utils/events';
 import {
   getTimezoneAbbrByFacilityId,
   getTimezoneByFacilityId,
-  getTimezoneAbbrFromApi,
   getTimezoneNameFromAbbr,
   getUserTimezone,
   getUserTimezoneAbbr,
@@ -733,18 +732,8 @@ export function getCalendarData({ appointment, facility }) {
  *   - description: The written out description (e.g. Eastern time)
  */
 export function getAppointmentTimezone(appointment) {
-  // Appointments with timezone included in api
-  if (appointment?.timezone) {
-    const abbreviation = getTimezoneAbbrFromApi(appointment);
-
-    return {
-      identifier: appointment.timezone,
-      abbreviation,
-      description: getTimezoneNameFromAbbr(abbreviation),
-    };
-  }
-  // Fallback to getting Timezone from facility Id and hardcoded timezone Json.
-  if (appointment?.location?.vistaId) {
+  // Most VA appointments will use this, since they're associated with a facility
+  if (appointment?.location.vistaId) {
     const locationId =
       appointment?.location.stationId || appointment?.location.vistaId;
     const abbreviation = getTimezoneAbbrByFacilityId(locationId);
@@ -753,6 +742,20 @@ export function getAppointmentTimezone(appointment) {
       identifier: moment.tz
         .zone(getTimezoneByFacilityId(locationId))
         ?.abbr(appointment?.start),
+      abbreviation,
+      description: getTimezoneNameFromAbbr(abbreviation),
+    };
+  }
+
+  // Community Care appointments with timezone included
+  if (appointment?.vaos.timeZone) {
+    const abbreviation = stripDST(
+      appointment?.vaos?.timeZone?.split(' ')?.[1] ||
+        appointment?.vaos?.timeZone,
+    );
+
+    return {
+      identifier: null,
       abbreviation,
       description: getTimezoneNameFromAbbr(abbreviation),
     };
