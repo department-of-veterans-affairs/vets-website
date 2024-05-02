@@ -81,7 +81,8 @@ function Content({ appointment, facilityData }) {
     );
   };
 
-  if (featureAppointmentDetailsRedesign) return <InPersonLayout />;
+  if (featureAppointmentDetailsRedesign && !isPhoneAppointment)
+    return <InPersonLayout />;
 
   return (
     <>
