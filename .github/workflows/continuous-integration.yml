@@ -215,10 +215,17 @@ jobs:
         id: disallowed-tests
         run: echo "tests=$DISALLOWED_TESTS" >> $GITHUB_OUTPUT
 
-      # - name: Set output of UNIT_TESTS_TO_STRESS_TEST
-      #   if: ${{ always() }}
-      #   id: unit-tests-to-stress-test
-      #   run: echo "tests=$UNIT_TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
+      - name: Set output of UNIT_TESTS_TO_STRESS_TEST
+        if: ${{ always() }}
+        id: unit-tests-to-stress-test
+        run: echo "tests=$UNIT_TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
+
+      - name: Upload artifact of Unit Tests to Stress Test
+        if: ${{ steps.unit-tests-to-stress-test.outputs.tests == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-tests-to-stress-test
+          path: unit_tests_to_stress_test.json
 
       - name: Set output of APPS_TO_STRESS_TEST
         if: ${{ always() }}
@@ -354,11 +361,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [fetch-allow-lists, tests-prep]
-    if: ${{ always() && needs.tests-prep.outputs.unit-tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' && needs.fetch-allow-lists.result == 'success' && needs.tests-prep.result == 'success' }}
+    if: ${{ always() && needs.tests-prep.outputs.unit-tests-to-stress-test == 'true' && github.ref != 'refs/heads/main' && needs.fetch-allow-lists.result == 'success' && needs.tests-prep.result == 'success' }}
 
     env:
       APPS_TO_VERIFY: ${{ needs.tests-prep.outputs.apps-to-stress-test }}
-      TESTS_TO_VERIFY: ${{ needs.tests-prep.outputs.unit-tests-to-stress-test }}
+      # TESTS_TO_VERIFY: ${{ needs.tests-prep.outputs.unit-tests-to-stress-test }}
       DISALLOWED_TESTS: '[]'
 
     strategy:
@@ -390,6 +397,12 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-allow-list
+          path: .
+
+      - name: Download Tests to verify
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: unit-tests-to-stress-test
           path: .
 
       - name: Run unit tests
