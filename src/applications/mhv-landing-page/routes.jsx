@@ -4,16 +4,14 @@ import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/Pag
 import App from './containers/App';
 
 const routes = (
-  <>
-    <Switch>
-      <Route exact path="/" key="mhvLandingPage">
-        <App />
-      </Route>
-      <Route>
-        <PageNotFound />
-      </Route>
-    </Switch>
-  </>
+  <Switch>
+    <Route exact path="/" key="mhvLandingPage">
+      <App />
+    </Route>
+    <Route>
+      <PageNotFound />
+    </Route>
+  </Switch>
 );
 
 export default routes;
