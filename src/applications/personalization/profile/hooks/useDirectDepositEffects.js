@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { DIRECT_DEPOSIT_ALERT_SETTINGS } from '../constants';
 import { focusElement } from '~/platform/utilities/ui';
+import { DIRECT_DEPOSIT_ALERT_SETTINGS } from '../constants';
 import { toggleDirectDepositEdit } from '../actions/directDeposit';
 
 export const useDirectDepositEffects = ({
@@ -79,8 +79,8 @@ export const useDirectDepositEffects = ({
   // focus on the edit button after leaving the update view
   useEffect(
     () => {
-      if (wasEditing && !ui.isEditing && editButtonRef.current) {
-        focusElement('button', {}, editButtonRef.current);
+      if (wasEditing && !ui.isEditing) {
+        focusElement('button', {}, '#edit-bank-info-button');
       }
     },
     [wasEditing, ui.isEditing, editButtonRef],

@@ -14,6 +14,7 @@ import {
   DUW_UPDATE_PREV_APPLICATION_TYPE,
   DUW_UPDATE_PREV_APPLICATION_YEAR,
   DUW_UPDATE_PRIOR_SERVICE,
+  DUW_UPDATE_FAILURE_TO_EXHAUST,
 } from '../constants';
 
 export const updateField = (key, value) => {
@@ -111,6 +112,13 @@ export const updatePrevApplicationYear = value => {
 export const updatePriorService = value => {
   return {
     type: DUW_UPDATE_PRIOR_SERVICE,
+    payload: value,
+  };
+};
+
+export const updateFailureToExhaust = value => {
+  return {
+    type: DUW_UPDATE_FAILURE_TO_EXHAUST,
     payload: value,
   };
 };

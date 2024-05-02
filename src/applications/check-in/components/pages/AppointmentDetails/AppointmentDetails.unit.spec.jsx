@@ -144,7 +144,7 @@ describe('check-in experience', () => {
           );
           expect(getByTestId('phone-appointment-subtitle')).to.exist;
         });
-        it('renders clinic instead of where to attend', () => {
+        it('renders need to make changes instead of where to attend', () => {
           const { getByRole } = render(
             <CheckInProvider
               store={preCheckInStore}
@@ -153,7 +153,20 @@ describe('check-in experience', () => {
               <AppointmentDetails />
             </CheckInProvider>,
           );
-          expect(getByRole('heading', { name: 'Clinic', level: 2 })).to.exist;
+          expect(
+            getByRole('heading', { name: 'Need to make changes?', level: 2 }),
+          ).to.exist;
+        });
+        it('renders facility information', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={appointmentOneRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('appointment-details--facility-info')).to.exist;
         });
       });
       describe('In person pre-check-in appointment', () => {
@@ -179,7 +192,7 @@ describe('check-in experience', () => {
           );
           expect(getByTestId('in-person-appointment-subtitle')).to.exist;
         });
-        it('renders where to attend instead of clinic', () => {
+        it('renders where to attend instead of need to make changes', () => {
           const { getByRole } = render(
             <CheckInProvider
               store={preCheckInStore}
@@ -217,6 +230,18 @@ describe('check-in experience', () => {
           );
           expect(getByTestId('cvt-appointment-subtitle')).to.exist;
         });
+        it('renders where to attend instead of need to make changes', () => {
+          const { getByRole } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={appointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByRole('heading', { name: 'Where to attend', level: 2 })).to
+            .exist;
+        });
       });
       describe('VVC pre-check-in appointment', () => {
         it('renders correct heading for appointment type', () => {
@@ -240,6 +265,30 @@ describe('check-in experience', () => {
             </CheckInProvider>,
           );
           expect(getByTestId('vvc-appointment-subtitle')).to.exist;
+        });
+        it('renders need to make changes instead of where to attend', () => {
+          const { getByRole } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={appointmentSixRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(
+            getByRole('heading', { name: 'Need to make changes?', level: 2 }),
+          ).to.exist;
+        });
+        it('renders facility information', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={appointmentSixRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('appointment-details--facility-info')).to.exist;
         });
       });
       describe('All appointments - data exists', () => {

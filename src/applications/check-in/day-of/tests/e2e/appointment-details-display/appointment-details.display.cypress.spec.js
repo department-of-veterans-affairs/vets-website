@@ -64,7 +64,7 @@ describe('Check In Experience', () => {
       AppointmentDetails.validateProvider();
       AppointmentDetails.validateWhere();
       AppointmentDetails.validateFacilityAddress(true);
-      AppointmentDetails.validateDirectionsLink(false);
+      AppointmentDetails.validateDirectionsLink(true);
       AppointmentDetails.validatePhone();
       AppointmentDetails.validateCheckInButton();
       AppointmentDetails.validateReturnToAppointmentsPageButton();

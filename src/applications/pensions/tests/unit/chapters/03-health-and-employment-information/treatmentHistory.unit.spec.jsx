@@ -4,7 +4,7 @@ import {
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import treatmentHistory from '../../../../config/chapters/03-health-and-employment-information/vaTreatmentHistory';
-import generateMedicalCentersSchemas from '../../../../config/chapters/03-health-and-employment-information/medicalCenters';
+import { generateMedicalCentersSchemas } from '../../../../config/chapters/03-health-and-employment-information/helpers';
 
 describe('pension treatment history page', () => {
   const pageTitle = 'treatment history';

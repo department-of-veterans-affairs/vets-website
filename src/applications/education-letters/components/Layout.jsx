@@ -1,20 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 
-const Layout = ({ children, clsName = '', breadCrumbs = {} }) => {
-  const renderBreadCrumbs = () => {
-    const { text, href } = breadCrumbs;
-    if (text) return <a href={href}>{text}</a>;
-    return false;
-  };
-
+const Layout = ({ children, clsName = '' }) => {
   return (
     <>
-      <va-breadcrumbs uswds="false">
-        <a href="/">Home</a>
-        <a href="/education/">Education and training</a>
-        {renderBreadCrumbs()}
-      </va-breadcrumbs>
+      <div className="row">
+        <div className="vads-u-margin-bottom--4">
+          <VaBreadcrumbs
+            breadcrumbList={[
+              {
+                href: '/',
+                label: 'Home',
+              },
+              {
+                href: '/education/',
+                label: 'Education and training',
+              },
+              {
+                href: '/education/download-letters/letters',
+                label: 'Your VA education letter',
+              },
+            ]}
+            label="Breadcrumb"
+            wrapping
+          />
+        </div>
+      </div>
+
       <section id={`education-letters-${clsName}`} className={clsName}>
         <div className="usa-grid usa-grid-full">
           <div className="usa-width-three-fourths">

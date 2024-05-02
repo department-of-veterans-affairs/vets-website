@@ -188,6 +188,7 @@ class ProfileInformationFieldController extends React.Component {
       'profile-section': this.props.analyticsSectionName,
     });
     this.onDelete();
+    this.closeModal();
   };
 
   clearErrors = () => {
