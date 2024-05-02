@@ -37,6 +37,9 @@ const confirmedV2 = require('./v2/confirmed.json');
 // Uncomment to produce backend service errors
 // const meta = require('./v2/meta_failures.json');
 
+// CC Direct Scheduling mocks
+const wellHiveAppointments = require('./wellHive/appointments.json');
+
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 const momentTz = require('../../lib/moment-tz');
@@ -46,6 +49,8 @@ const features = require('../../utils/featureFlags');
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
 let currentMockId = 1;
+const mockWellHiveAppts = [];
+let currentMockId_wellhive = 1;
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -439,6 +444,93 @@ const responses = {
       data: [],
     });
   },
+
+  // WellHive api
+  'GET /vaos/v2/wellhive/appointments': wellHiveAppointments.appointments.concat(
+    mockWellHiveAppts,
+  ),
+  'POST /vaos/v2/wellhive/appointments': (req, res) => {
+    const { patientId, referral } = req.body;
+    const createdAppt = {
+      createdBy: {
+        byPatient: true,
+      },
+      id: `mock${currentMockId_wellhive}`,
+      patientId,
+      referral: { id: referral.id },
+      state: 'draft',
+    };
+    currentMockId_wellhive += 1;
+    mockWellHiveAppts.push(createdAppt);
+    return res.json({ data: createdAppt });
+  },
+  'GET /vaos/v2/wellhive/appointments/:appointmentId': (req, res) => {
+    const wellHiveAppts = {
+      data: wellHiveAppointments.appointments.concat(mockWellHiveAppts.data),
+    };
+    return res.json({
+      data: wellHiveAppts.appointments.find(
+        appointment => appointment.id === req.params.id,
+      ),
+    });
+  },
+  'POST /vaos/v2/wellhive/appointments/:appointmentId/cancel': (req, res) => {
+    const { cancelReasonId } = req.body;
+    return res.json({
+      data: wellHiveAppointments.appointments.find(
+        appointment =>
+          appointment.appointmentDetails.cancelReason.id === cancelReasonId,
+      ),
+    });
+  },
+  'POST /vaos/v2/wellhive/appointments/:appointmentId/submit': (req, res) => {
+    const {
+      referral,
+      additionalPatientAttributes,
+      networkId,
+      providerServiceId,
+      slotIds,
+    } = req.body;
+    const submittedAppt = {
+      appointmentDetails: {
+        cancelReason: {
+          id: '930c8a9f-ce78-449c-8dda-d5428d183ec8',
+          name: 'Patient',
+        },
+        isLastest: true,
+        lastRetrieved: '2015-08-03T07:02:53Z',
+        phone: additionalPatientAttributes.phone.value,
+        start: '2026-01-01T17:00:00Z',
+        status: 'booked',
+      },
+      createdBy: {
+        byPatient: false,
+        system: {
+          id: '45604d54-7c49-4d9b-b669-53cbaf2a5189',
+          name: 'The ACME Healthcare WellHive Client',
+          type: 'external',
+        },
+        user: {
+          id: 'a1b6673e-d409-4876-a0ff-a77bb4840aca',
+        },
+      },
+      error: 'conflict',
+      id: 'b79e46ba-1b09-4195-ae0a-ea42baedea6e',
+      networkId,
+      patientId: 'b6cc1875-5313-4ca8-af8b-74adac0c5d0c',
+      providerServiceId,
+      referral: {
+        id: referral.id,
+        referralNumber: referral.referralNumber,
+      },
+      slotIds,
+      state: 'submitted',
+    };
+    currentMockId_wellhive += 1;
+    mockWellHiveAppts.push(submittedAppt);
+    return res.json({ data: submittedAppt });
+  },
+
   'GET /v0/user': {
     data: {
       attributes: {
