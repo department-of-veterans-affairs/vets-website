@@ -2,19 +2,20 @@ import {
   checkboxGroupUI,
   checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import {
-  gulfWar1990PageTitle,
-  gulfWar1990Question,
-} from '../../content/toxicExposure';
+
 import { formTitle } from '../../utils';
-import { GULF_WAR_1990_LOCATIONS } from '../../constants';
+import { GULF_WAR_2001_LOCATIONS } from '../../constants';
+import {
+  gulfWar2001PageTitle,
+  gulfWar2001Question,
+} from '../../content/toxicExposure';
 
 export const uiSchema = {
-  'ui:title': formTitle(gulfWar1990PageTitle),
+  'ui:title': formTitle(gulfWar2001PageTitle),
   toxicExposure: {
-    gulfWar1990: checkboxGroupUI({
-      title: gulfWar1990Question,
-      labels: GULF_WAR_1990_LOCATIONS,
+    gulfWar2001: checkboxGroupUI({
+      title: gulfWar2001Question,
+      labels: GULF_WAR_2001_LOCATIONS,
       required: false,
     }),
   },
@@ -26,7 +27,7 @@ export const schema = {
     toxicExposure: {
       type: 'object',
       properties: {
-        gulfWar1990: checkboxGroupSchema(Object.keys(GULF_WAR_1990_LOCATIONS)),
+        gulfWar2001: checkboxGroupSchema(Object.keys(GULF_WAR_2001_LOCATIONS)),
       },
     },
   },
