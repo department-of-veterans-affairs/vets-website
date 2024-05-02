@@ -16,9 +16,9 @@ export default function DischargeWizardApp({ children }) {
     );
   }
   return (
-    <div className="usa-grid usa-grid-full discharge-wizard-v2 vads-u-padding-bottom--8">
+    <div className="vads-l-grid-container discharge-wizard-v2">
       <BreadcrumbsV2 />
-      <article className="usa-width-two-thirds">{children}</article>
+      <article>{children}</article>
     </div>
   );
 }

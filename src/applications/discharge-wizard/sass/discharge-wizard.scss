@@ -115,6 +115,9 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 }
 
 .discharge-wizard-v2 {
+  article {
+    padding: 0 0 3rem;
+  }
 
   //v2 styles
   .answer-review {
