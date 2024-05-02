@@ -65,7 +65,9 @@ jobs:
 
       - name: Get commit sha (latest commit)
         if: ${{ github.event.schedule != '' || (github.event_name == 'workflow_dispatch' && github.event.inputs.commit_sha == '') }}
-        run: echo 'COMMIT_SHA=$(git rev-list -n 1 ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }})' >> $GITHUB_ENV
+        run: |
+          COMMIT_SHA=$(git rev-list -n 1 ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }})
+          echo "COMMIT_SHA=$COMMIT_SHA" >> $GITHUB_ENV
 
       - name: Get commit sha (workflow_dispatch)
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.commit_sha != '' }}
@@ -144,8 +146,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.bump-tag-version.outputs.v_patch }}
-          release_name: vets-website/${{ steps.bump-tag-version.outputs.v_patch }}
+          tag_name: ${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
+          release_name: vets-website/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
 
   deploy:
     name: Deploy
