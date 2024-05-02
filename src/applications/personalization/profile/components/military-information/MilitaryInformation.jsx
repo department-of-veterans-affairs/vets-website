@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { some } from 'lodash';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { connect, useSelector } from 'react-redux';
-import { selectProfileShowProofOfVeteranStatusToggle } from '@@profile/selectors';
+import { connect } from 'react-redux';
 import ProofOfVeteranStatus from '../proof-of-veteran-status/ProofOfVeteranStatus';
 
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
@@ -211,10 +210,6 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
     document.title = `Military Information | Veterans Affairs`;
   }, []);
 
-  const profileShowProofOfVeteranStatus = useSelector(
-    selectProfileShowProofOfVeteranStatusToggle,
-  );
-
   return (
     <div>
       <Headline>Military information</Headline>
@@ -238,12 +233,11 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
         />
       </va-summary-box>
 
-      {profileShowProofOfVeteranStatus &&
-        militaryInformation?.serviceHistory?.serviceHistory && (
-          <div className="vads-u-margin-y--4">
-            <ProofOfVeteranStatus />
-          </div>
-        )}
+      {militaryInformation?.serviceHistory?.serviceHistory && (
+        <div className="vads-u-margin-y--4">
+          <ProofOfVeteranStatus />
+        </div>
+      )}
       <DevTools devToolsData={{ militaryInformation, veteranStatus }} panel>
         <p>Profile devtools test, please ignore.</p>
       </DevTools>

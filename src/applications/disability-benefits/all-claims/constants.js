@@ -366,3 +366,11 @@ export const GULF_WAR_1990_LOCATIONS = Object.freeze({
   airspace: 'The airspace above any of these locations',
   none: 'None of these locations',
 });
+
+export const GULF_WAR_2001_LOCATIONS = Object.freeze({
+  djibouti: 'Djibouti',
+  lebanon: 'Lebanon',
+  uzbekistan: 'Uzbekistan',
+  yemen: 'Yemen',
+  airspace: 'The airspace above any of these locations',
+});
