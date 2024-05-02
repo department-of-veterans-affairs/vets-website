@@ -39,13 +39,7 @@ const MhvSecondaryNavItem = ({
       data-testid="mhv-sec-nav-item"
     >
       <a href={href} className="vads-u-text-decoration--none">
-        {!!iconClass && (
-          <va-icon
-            size={4}
-            icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-            aria-hidden="true"
-          />
-        )}
+        {!!iconClass && <i className={iconClass} aria-hidden="true" />}
         <span className="mhv-u-sec-nav-item-title">{title}</span>
         <span className="mhv-u-sec-nav-short-title">{mobileTitle}</span>
       </a>
