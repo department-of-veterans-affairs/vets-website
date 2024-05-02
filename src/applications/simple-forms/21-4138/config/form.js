@@ -70,15 +70,15 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-4138',
-  // saveInProgress: {
-  //   messages: {
-  //     inProgress:
-  //       'Your statement in support of a claim application (21-4138) is in progress.',
-  //     expired:
-  //       'Your saved statement in support of a claim application (21-4138) has expired. If you want to apply for statement in support of a claim, please start a new application.',
-  //     saved: 'Your statement in support of a claim application has been saved.',
-  //   },
-  // },
+  saveInProgress: {
+    messages: {
+      inProgress:
+        'Your statement in support of a claim application (21-4138) is in progress.',
+      expired:
+        'Your saved statement in support of a claim application (21-4138) has expired. If you want to apply for statement in support of a claim, please start a new application.',
+      saved: 'Your statement in support of a claim application has been saved.',
+    },
+  },
   version: 0,
   prefillEnabled: true,
   hideUnauthedStartLink: true,
