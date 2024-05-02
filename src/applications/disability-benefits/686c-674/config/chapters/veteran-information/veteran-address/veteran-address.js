@@ -52,6 +52,24 @@ export const uiSchema = {
         required: 'Enter a phone number',
       },
     },
+    intPhoneNumber: {
+      'ui:title': 'International phone number',
+      'ui:errorMessages': {
+        required:
+          'Please enter an international phone number (with or without dashes)',
+        pattern:
+          'Please enter a valid international phone number (with or without dashes)',
+      },
+      'ui:options': {
+        widgetClassNames: 'usa-input-medium',
+        replaceSchema: () => {
+          return {
+            type: 'string',
+            pattern: '^\\+?[0-9](?:-?[0-9]){6,14}$',
+          };
+        },
+      },
+    },
     emailAddress: emailUI(),
     'view:confirmEmail': {
       'ui:required': formData =>
@@ -75,6 +93,10 @@ export const uiSchema = {
           return emailAddress;
         },
       },
+    },
+    electronicCorrespondence: {
+      'ui:title':
+        'I agree to receive electronic correspondence from VA in regards to my claim.',
     },
   },
 };
