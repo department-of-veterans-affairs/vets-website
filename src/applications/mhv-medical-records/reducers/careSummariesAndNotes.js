@@ -171,6 +171,7 @@ export const convertAdmissionAndDischargeDetails = record => {
     type: getType(record),
     admissionDate: admissionDate ? formatDateLong(admissionDate) : EMPTY_FIELD,
     dischargeDate: dischargeDate ? formatDateLong(dischargeDate) : EMPTY_FIELD,
+    dateEntered: dateEntered ? formatDateLong(dateEntered) : EMPTY_FIELD,
     admittedBy: getAttending(summary) || EMPTY_FIELD,
     dischargedBy: extractAuthor(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
