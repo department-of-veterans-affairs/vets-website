@@ -24,7 +24,7 @@ const VAFacilityPhone = ({ phoneTitle, phoneNumber }) => {
       <va-telephone
         contact={phone}
         extension={ext || ''}
-        message-aria-describedby={phoneTitle || 'Phone'}
+        message-aria-describedby={phoneTitle}
       />
     </div>
   );
