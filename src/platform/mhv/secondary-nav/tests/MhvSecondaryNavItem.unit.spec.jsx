@@ -16,8 +16,8 @@ describe('MHV Secondary Navigation Item Component', () => {
           href="/my-health"
         />,
       );
-      expect(getAllByText(title)?.length).to.eql(1);
-      expect(getAllByText(abbr)?.length).to.eql(1);
+      expect(getAllByText(title).length).to.eql(1);
+      expect(getAllByText(abbr).length).to.eql(1);
     });
 
     it('when not provided', () => {
@@ -30,7 +30,7 @@ describe('MHV Secondary Navigation Item Component', () => {
         />,
       );
       // The title and abbreviation are the same
-      expect(getAllByText(title)?.length).to.eql(2);
+      expect(getAllByText(title).length).to.eql(2);
     });
   });
 
