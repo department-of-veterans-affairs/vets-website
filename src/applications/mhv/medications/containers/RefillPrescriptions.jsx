@@ -236,7 +236,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                     </span>
                     <div
                       id={`details-${prescription.prescriptionId}`}
-                      className="vads-u-margin-left--4 vads-u-margin-top--0"
+                      className="vads-u-margin-top--0"
                       data-testid={`refill-prescription-details-${
                         prescription.prescriptionNumber
                       }`}
