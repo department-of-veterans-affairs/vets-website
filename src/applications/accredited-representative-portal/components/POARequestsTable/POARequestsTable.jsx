@@ -48,7 +48,7 @@ const POARequestsTable = ({ poaRequests }) => {
       <va-table-row slot="headers">
         <span data-testid="poa-requests-table-headers-status">Status</span>
         <span data-testid="poa-requests-table-headers-name">
-          Veteran or claimant
+          Veteran/Claimant
         </span>
         <span data-testid="poa-requests-table-headers-limitations">
           Limitations of consent

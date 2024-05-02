@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { getPOARequestsByCodes } from '../actions/poaRequests';
 import POARequestsTable from '../components/POARequestsTable/POARequestsTable';
-import { mockPOARequestsResponse } from '../mocks/mockPOARequestsResponse';
+import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
 
 const POARequests = () => {
   const [poaRequests, setPOARequests] = useState(
@@ -44,7 +44,7 @@ const POARequests = () => {
         </div>
       </va-alert>
     );
-  } else if (!poaRequests.length) {
+  } else if (!poaRequests?.length) {
     content = <p>No POA Requests found</p>;
   } else {
     content = <POARequestsTable poaRequests={poaRequests} />;
