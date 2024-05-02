@@ -3,9 +3,11 @@ import get from 'platform/utilities/data/get';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import transformForSubmit from './submitTransformer';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
+import { nameWording } from '../helpers/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
+import { prefillTransformer } from './prefillTransformer';
+import transformForSubmit from './submitTransformer';
 
 import {
   certifierRole,
@@ -17,9 +19,7 @@ import {
 
 import {
   applicantNameDobSchema,
-  applicantStartSchema,
   applicantSsnSchema,
-  applicantPreAddressSchema,
   applicantAddressInfoSchema,
   applicantContactInfoSchema,
   blankSchema,
@@ -81,7 +81,6 @@ import {
   applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
-import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import {
   hasMedicareAB,
   hasMedicareD,
@@ -130,8 +129,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  showReviewErrors: !environment.isProduction(),
   formId: '10-7959C',
-  transformForSubmit,
   dev: {
     showNavLinks: false,
     collapsibleNavLinks: true,
@@ -160,6 +159,8 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
+  transformForSubmit,
   savedFormMessages: {
     notFound:
       'Please start over to apply for CHAMPVA other health insurance certification.',
@@ -213,53 +214,36 @@ const formConfig = {
       pages: {
         applicantNameDob: {
           path: 'applicant-information',
-          title: 'Applicant name and date of birth',
-          arrayPath: 'applicants',
+          title: formData =>
+            `${
+              formData.certifierRole === 'applicant' ? 'Your' : 'Applicant'
+            } name and date of birth`,
           uiSchema: applicantNameDobSchema.uiSchema,
           schema: applicantNameDobSchema.schema,
         },
-        applicantStart: {
-          path: 'applicant-information/:index/start',
-          arrayPath: 'applicants',
-          title: item => `${applicantWording(item)} information`,
-          showPagePerItem: true,
-          depends: () => !window.location.href.includes('review-and-submit'),
-          uiSchema: applicantStartSchema.uiSchema,
-          schema: applicantStartSchema.schema,
-        },
         applicantIdentity: {
-          path: 'applicant-information/:index/ssn',
-          arrayPath: 'applicants',
-          title: item => `${applicantWording(item)} identification information`,
-          showPagePerItem: true,
+          path: 'applicant-information/ssn',
+          title: formData =>
+            `${nameWording(formData)} identification information`,
           uiSchema: applicantSsnSchema.uiSchema,
           schema: applicantSsnSchema.schema,
         },
-        applicantAddressScreener: {
-          path: 'applicant-information/:index/pre-address',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          keepInPageOnReview: false,
-          depends: (formData, index) => index > 0,
-          title: item => `${applicantWording(item)} mailing address`,
-          CustomPage: ApplicantAddressCopyPage,
-          CustomPageReview: null,
-          uiSchema: applicantPreAddressSchema.uiSchema,
-          schema: applicantPreAddressSchema.schema,
-        },
         applicantAddressInfo: {
-          path: 'applicant-information/:index/address',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} mailing address`,
+          path: 'applicant-information/address',
+          title: formData => `${nameWording(formData)} mailing address`,
           uiSchema: applicantAddressInfoSchema.uiSchema,
           schema: applicantAddressInfoSchema.schema,
         },
+
+        //
+        // TODO: add prefill address page if user authenticated
+        //
+
+        // TODO: have conditional logic to check if third party and app
+        // is under age 18 (contact page)
         applicantContactInfo: {
-          path: 'applicant-information/:index/contact',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} contact information`,
+          path: 'applicant-information/contact',
+          title: formData => `${nameWording(formData)} contact information`,
           uiSchema: applicantContactInfoSchema.uiSchema,
           schema: applicantContactInfoSchema.schema,
         },
