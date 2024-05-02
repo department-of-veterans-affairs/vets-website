@@ -45,6 +45,9 @@ export const summaryOfGulfWar1990PageTitle =
 export const noneAndConditionError =
   'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.';
 
+export const noneAndLocationError =
+  'You selected a location, and you also selected "none of these locations." You’ll need to uncheck one of these options to continue.';
+
 export const gulfWar1990LocationsAdditionalInfo = (
   <va-additional-info trigger="What if I have more than one date range?">
     <p>
@@ -220,6 +223,25 @@ export function validateTEConditions(errors, formData) {
       .length > 1
   ) {
     errors.toxicExposureConditions.addError(noneAndConditionError);
+  }
+}
+
+/**
+ * Validates selected Gulf War 1990 locations.
+ * If the 'none' checkbox is selected
+ * along with another location adds an error.
+ *
+ * @param {object} errors - Errors object from rjsf
+ * @param {object} formData
+ */
+export function validateGulfWar1990Locations(errors, formData) {
+  const { gulfWar1990 = {} } = formData;
+
+  if (
+    gulfWar1990.none === true &&
+    Object.values(gulfWar1990).filter(value => value === true).length > 1
+  ) {
+    errors.gulfWar1990.addError(noneAndLocationError);
   }
 }
 
