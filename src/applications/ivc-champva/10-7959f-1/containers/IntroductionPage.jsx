@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import '../sass/10-7959f-1-FMP.scss';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
