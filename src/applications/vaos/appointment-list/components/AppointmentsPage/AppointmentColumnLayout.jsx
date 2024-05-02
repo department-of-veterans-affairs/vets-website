@@ -133,7 +133,7 @@ export default function AppointmentColumnLayout({
           <AppointmentColumn
             size="1"
             canceled={isCanceled}
-            style={{ minWidth: '95px', maxWidth: '95px' }}
+            style={{ minWidth: '100px', maxWidth: '100px' }}
           >
             <span aria-hidden="true">
               {`${parsedDate.format('h:mm')} ${parsedDate.format(
