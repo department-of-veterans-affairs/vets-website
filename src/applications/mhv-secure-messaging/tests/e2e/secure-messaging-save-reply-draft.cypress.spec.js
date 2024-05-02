@@ -1,68 +1,61 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
-import PatientInterstitialPage from './pages/PatientInterstitialPage';
+import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 import mockMessages from './fixtures/messages-response.json';
-import { AXE_CONTEXT } from './utils/constants';
+import mockSingleThread from './fixtures/thread-response.json';
+import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
+    // declare pages & constants
     const landingPage = new PatientInboxPage();
-    const messageDetailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();
-    site.login();
-    const messageDetails = landingPage.getNewMessageDetails();
-    const messageDetailsBody = messageDetails.data.attributes.body;
+    const draftPage = new PatientMessageDraftsPage();
+    const messageDetailsPage = new PatientMessageDetailsPage();
 
-    landingPage.loadInboxMessages(mockMessages, messageDetails);
-    messageDetailsPage.loadMessageDetails(messageDetails);
-    messageDetailsPage.loadReplyPageDetails(messageDetails);
-    PatientInterstitialPage.getContinueButton().click();
-    const testMessageBody = 'Test message body';
-    PatientReplyPage.getMessageBodyField().type(testMessageBody, {
+    const bodyText = ' Updated body text';
+    const singleMessage = { data: mockSingleThread.data[0] };
+    singleMessage.data.attributes.body = bodyText;
+
+    // load single thread
+    site.login();
+    landingPage.loadInboxMessages(mockMessages);
+    landingPage.loadSingleThread(mockSingleThread);
+
+    // click reply btn
+    messageDetailsPage.clickReplyButton(mockSingleThread);
+
+    // change message
+    PatientReplyPage.getMessageBodyField().type(bodyText, {
       force: true,
     });
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
 
-    PatientReplyPage.clickSaveReplyDraftButton(messageDetails, testMessageBody);
-    cy.log(
-      `the message details after clickSaveReplyDraftButton ${JSON.stringify(
-        messageDetails,
-      )}`,
-    );
-    cy.log(
-      `the message details before assert${JSON.stringify(messageDetails)}`,
-    );
-    cy.log(`message details  Body${messageDetailsBody}`);
-    cy.log(
-      `messageDetails.data.attributes.body = ${
-        messageDetails.data.attributes.body
-      }`,
+    // save changed message as a draft
+    draftPage.saveNewDraftMessage(mockSingleThread, singleMessage);
+
+    // assert message saved
+    cy.get(Locators.ALERTS.SAVE_DRAFT).should(
+      'include.text',
+      Data.MESSAGE_WAS_SAVED,
     );
 
-    messageDetailsPage.replyToMessageTo(messageDetails);
-    // messageDetailsPage.ReplyToMessagesenderName(messageDetails); // TODO skipped for flakiness
-    messageDetailsPage.replyToMessageRecipientName(messageDetails);
-    messageDetailsPage.replyToMessageDate(messageDetails);
-    messageDetailsPage.replyToMessageId(messageDetails);
+    // verify reply topic
+    messageDetailsPage.replyToMessageTo(singleMessage);
 
-    messageDetails.data.attributes.body = messageDetailsBody;
-    // messageDetailsPage.ReplyToMessageBody(messageDetailsBody); // TODO skipped for flakiness
+    // verify saved draft details
+    messageDetailsPage.replyToMessageSenderName(singleMessage);
 
-    // Possibly move this to another test
-    PatientReplyPage.clickSendReplyDraftButton(
-      messageDetails.data.attributes.messageId,
-      messageDetails.data.attributes.senderId,
-      messageDetails.data.attributes.category,
-      messageDetails.data.attributes.subject,
-      `\n\n\nName\nTitleTest${testMessageBody}`,
-    );
-    PatientReplyPage.verifySendMessageConfirmationMessageText();
-    PatientReplyPage.verifySendMessageConfirmationHasFocus();
+    messageDetailsPage.replyToMessageRecipientName(singleMessage);
+
+    messageDetailsPage.replyToMessageDate(singleMessage);
+
+    messageDetailsPage.replyToMessageId(singleMessage);
+
+    messageDetailsPage.replyToMessageBody(singleMessage);
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

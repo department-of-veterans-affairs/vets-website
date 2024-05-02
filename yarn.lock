@@ -2863,13 +2863,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^39.1.0-beta":
-  version "39.1.0-beta"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-39.1.0-beta.tgz#a566a7f5ec52fa58ef3f8d40d9f4cc07b9e33a9c"
-  integrity sha512-5aFKpYM0Idpff0ZdnANeIxGXVJRE1/CbI9J7O1ow+Qq9M077ArzL3CyhmsliIUbWTjZzm09M0azwKv8HFQCLrg==
+"@department-of-veterans-affairs/component-library@^41.0.0":
+  version "41.0.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-41.0.0.tgz#0bde05346dc8d40fea556bee08b227a3a4845a41"
+  integrity sha512-yTYoAnKaDaqIQZfFZGjzNCysjm1zAn5uW/o+uptTxn1o3SuM90BBQJwpD1+Lvkccm9zOijp4QPLw5C25XiHReQ==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "workspace:*"
-    "@department-of-veterans-affairs/web-components" "workspace:*"
+    "@department-of-veterans-affairs/react-components" "28.0.0"
+    "@department-of-veterans-affairs/web-components" "8.0.1"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2889,10 +2889,10 @@
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
 
-"@department-of-veterans-affairs/eslint-plugin@^1.17.0":
-  version "1.17.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.17.0.tgz#068fe827b953c32f0bdf61f7dfc6cad7fcf6b1e8"
-  integrity sha512-aLeYTaoLN2aqmL1PTGyJ2sLVjPmr6qYBVdIaWE1Fkq7yuThkZlAAX0LqPCleSqPuy6c0PUiuKqZNwKR1YHtr4Q==
+"@department-of-veterans-affairs/eslint-plugin@^1.18.0":
+  version "1.18.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.18.0.tgz#4a013cfc06f50ee6abddec2ba87244e3ea0c8dc0"
+  integrity sha512-91QoWawCGm7REpUjShx1I4xwwYdJehCyjccokafVg/YczNSvEf28VVHYWvovhmCF5eCRRTZic+9adwbqdi0fkg==
   dependencies:
     jsx-ast-utils "^3.3.3"
 
@@ -2915,9 +2915,9 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@workspace:*":
+"@department-of-veterans-affairs/react-components@28.0.0":
   version "28.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-28.0.0.tgz#8ff7bbc1303a68e7ad2806e743a8ee72416aa284"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/react-components/-/react-components-28.0.0.tgz#8ff7bbc1303a68e7ad2806e743a8ee72416aa284"
   integrity sha512-FJW/z+Tpr1SiOnxOLhdDtgjF0rtGqSc00yvMhItY+P29AL8UPRo6SiR6C3Ephi6MpeCzC6L3x0HhrdcYL6omMA==
   dependencies:
     classnames "^2.2.6"
@@ -2956,10 +2956,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@workspace:*":
-  version "7.1.0-beta"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-7.1.0-beta.tgz#862e3464eddc2f777d5a10decca20b7ae5155594"
-  integrity sha512-dM9BZajQPn21Un8zCtZUAfwQo3IsXpN/A0ArVI+HHXMI/bxmzQYPNu42iSfxdW6Gpavg4hc5VItRNUSEutX7sw==
+"@department-of-veterans-affairs/web-components@8.0.1":
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-8.0.1.tgz#2fda27f00ffe6db148ea6e927a2e942e5000ea21"
+  integrity sha512-5B/qZORqbJqO+Pv93YrFy0BDtIfNU9hLb/TaYcKDOrBSGLIzFj0civn4YxF0oT5/pmOf5VAABC8s1j2ljDmH3Q==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.5.1"
     "@stencil/core" "^2.19.2"

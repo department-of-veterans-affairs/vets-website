@@ -388,7 +388,19 @@ class PatientMessageDraftsPage {
       .type(text);
   };
 
-  saveDraftMessage = mockResponse => {
+  saveNewDraftMessage = (singleThreadData, singleMessageData) => {
+    cy.intercept(
+      'POST',
+      `${Paths.SM_API_BASE}/message_drafts/${
+        singleThreadData.data[0].id
+      }/replydraft`,
+      singleMessageData,
+    ).as('replyThread');
+
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ force: true });
+  };
+
+  saveExistingDraftMessage = mockResponse => {
     cy.intercept(
       'PUT',
       `/my_health/v1/messaging/message_drafts/3163320/replydraft/3163906`,

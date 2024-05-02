@@ -99,6 +99,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_10_10EZR,
   version: 0,
   trackingPrefix: 'ezr-',
+  v3SegmentedProgressBar: true,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/form1010_ezrs`,
