@@ -20,12 +20,18 @@ const VAFacilityPhone = ({ phoneTitle, phoneNumber }) => {
   const { phone, ext } = processPhoneNumber(phoneNumber);
   return (
     <div className="main-phone">
-      {phoneTitle && <strong>{phoneTitle}: </strong>}
-      <va-telephone
-        contact={phone}
-        extension={ext || ''}
-        message-aria-describedby={phoneTitle}
-      />
+      {phoneTitle ? (
+        <>
+          <strong>{phoneTitle}: </strong>
+          <va-telephone
+            contact={phone}
+            extension={ext || ''}
+            message-aria-describedby={phoneTitle}
+          />
+        </>
+      ) : (
+        <va-telephone contact={phone} extension={ext || ''} />
+      )}
     </div>
   );
 };

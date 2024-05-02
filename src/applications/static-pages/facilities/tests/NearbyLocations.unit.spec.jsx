@@ -480,7 +480,6 @@ describe('VAFacilityPhone', () => {
     expect(telephoneProps).to.deep.equal({
       contact: '301-000-0000',
       extension: '',
-      'message-aria-describedby': 'Phone',
     });
     wrapper.unmount();
   });
