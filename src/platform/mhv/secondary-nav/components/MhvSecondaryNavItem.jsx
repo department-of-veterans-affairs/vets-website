@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 /**
  * A secondary nav item.
@@ -25,19 +26,21 @@ const MhvSecondaryNavItem = ({
     title
   );
 
-  const activeItemClasses = isActive
-    ? 'mhv-u-sec-nav-active-style vads-u-font-weight--bold'
-    : '';
-  const itemTypeClasses = isHeader
-    ? 'mhv-u-sec-nav-header-style vads-u-font-size--lg'
-    : 'mhv-u-sec-nav-item-style';
+  const itemClass = classNames(
+    'mhv-c-sec-nav-item',
+    'vads-u-text-align--left',
+    'vads-u-align-content--center',
+    {
+      'mhv-u-sec-nav-active-style': isActive,
+      'vads-u-font-weight--bold': isActive,
+      'mhv-u-sec-nav-header-style': isHeader,
+      'vads-u-font-size--lg': isHeader,
+      'mhv-u-sec-nav-item-style': !isHeader,
+    },
+  );
 
   return (
-    <div
-      key={key}
-      className={`mhv-c-sec-nav-item vads-u-text-align--left vads-u-align-content--center ${activeItemClasses} ${itemTypeClasses}`}
-      data-testid="mhv-sec-nav-item"
-    >
+    <div key={key} className={itemClass} data-testid="mhv-sec-nav-item">
       <a href={href} className="vads-u-text-decoration--none">
         {!!iconClass && <i className={iconClass} aria-hidden="true" />}
         <span className="mhv-u-sec-nav-item-title">{title}</span>
