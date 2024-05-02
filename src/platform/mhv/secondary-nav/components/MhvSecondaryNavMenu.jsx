@@ -24,7 +24,7 @@ const MhvSecondaryNavMenu = ({ items }) => {
       .reverse()
       .find(item => window.location.pathname.startsWith(item.href));
 
-    const navContent = items.map(item => {
+    const navContent = items.map((item, index) => {
       const key = item.title.toLowerCase().replaceAll(' ', '_');
       return (
         <MhvSecondaryNavItem
@@ -34,14 +34,20 @@ const MhvSecondaryNavMenu = ({ items }) => {
           abbreviation={item.abbreviation}
           isActive={activeItem === item}
           key={key}
+          isHeader={index === 0}
         />
       );
     });
 
     return (
-      <nav id="mhv-sec-nav-bar" aria-label="My HealtheVet">
-        <div className="mhv-sec-nav-container vads-u-font-family--sans vads-font-weight-regular">
-          <div className="mhv-sec-nav-item-row">{navContent}</div>
+      <nav
+        className="vads-u-background-color--primary vads-u-color--white"
+        aria-label="My HealtheVet"
+      >
+        <div className="mhv-c-sec-nav-bar vads-u-display--flex vads-u-font-family--sans vads-font-weight-regular">
+          <div className="mhv-c-sec-nav-bar-row vads-u-display--flex vads-u-flex-wrap--wrap vads-u-text-align--left vads-u-width--full">
+            {navContent}
+          </div>
         </div>
       </nav>
     );

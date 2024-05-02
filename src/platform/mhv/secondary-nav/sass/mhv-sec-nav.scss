@@ -1,116 +1,97 @@
-$nav-background-color: var(--vads-color-primary);
-$nav-item-color: var(--vads-color-white);
 $nav-width-bar-max-width: 696px;
 $nav-mobile-breakpoint: 650px;
 $nav-abbr-breakpoint: 415px;
-$nav-item-gap: 10px;
-$nav-item-height: 60px;
 
-#mhv-sec-nav-bar {
-  background-color: $nav-background-color;
-  color: $nav-item-color;
+.mhv-c-sec-nav-bar {
+  max-width: $nav-width-bar-max-width;
+}
 
-  .mhv-sec-nav-container {
-    display: flex;
-    max-width: $nav-width-bar-max-width;
+.mhv-c-sec-nav-bar-row {
+  justify-content: space-evenly;
+}
+
+.mhv-c-sec-nav-item {
+  height: 60px;
+
+  a, a:visited, a:active, abbr {
+    color: var(--vads-color-white);
   }
 
-  .mhv-sec-nav-item-row {
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: $nav-item-gap;
-    justify-content: space-evenly;
-    width: 100%;
+  a:hover {
+    color: var(--vads-color-primary);
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
   }
 
-  .mhv-sec-nav-item {
-    height: $nav-item-height;
-    text-align: left;
-    align-content: center;
-
-    a {
-      text-decoration: none;
-      color: $nav-item-color;
-    }
-
-    a:visited, a:active {
-      color: $nav-item-color;
-    }
-
-    a:hover {
-      color: $nav-background-color;
-      background-color: rgba(255, 255, 255, 0.6);
-      border-radius: 5px;
-    }
-
-    i {
-      height: 17px;
-      padding-right: 0.7rem;
-    }
-
-    .sec-nav-item-short-title {
-      display: none;
-    }
-
-    &.sec-nav-item-active a {
-      color: $nav-background-color;
-      background-color: $nav-item-color;
-      border-radius: 5px;
-      font-weight: bold;
-    }
+  i {
+    height: 17px;
+    padding-right: 0.7rem;
   }
+}
 
-  .mhv-sec-nav-item:first-child {
-    a {
-      font-size: 20px;
-      padding: 11px 7px 11px 7px;
-    }
-  }
+.mhv-u-sec-nav-header-style a {
+    padding: 11px 7px 11px 7px;
+}
 
-  .mhv-sec-nav-item:not(:first-child) a {
-    font-size: 16px;
+.mhv-u-sec-nav-item-style a {
     padding: 13px 7px 13px 7px;
+}
+
+.mhv-u-sec-nav-active-style {
+  a {
+    background-color: var(--vads-color-white);
+    border-radius: 5px;
   }
 
-  // Mobile view
-  @media (max-width: $nav-mobile-breakpoint) {
-    .mhv-sec-nav-item:first-child {
-      flex: 0 0 100%;
+  a, a:visited, a:active, abbr {
+    color: var(--vads-color-primary);
+  }
+}
 
-      // Show the home item as a white bar when active
-      &.sec-nav-item-active {
-        color: $nav-background-color;
-        background-color: $nav-item-color;
-      }
+// Mobile view
+@media (max-width: $nav-mobile-breakpoint) {
+  .mhv-u-sec-nav-header-style {
+    flex: 0 0 100%;
+
+    // Show the header item as a white bar when active
+    &.mhv-u-sec-nav-active-style {
+      color: var(--vads-color-primary);
+      background-color: var(--vads-color-white);
     }
+  }
 
-    .mhv-sec-nav-item:not(:first-child) a {
-      // Make the icon appear on top
+  .mhv-u-sec-nav-item-style {
+    a {
+      // Make the icon appear on top of the text
       display: grid;
       justify-items: center;
       padding: 7px 7px 1px 7px;
     }
 
-    // Show the abbreviation instead
-    @media (max-width: $nav-abbr-breakpoint) {
-      .mhv-sec-nav-item {
-        .sec-nav-item-title {
-          display: none;
-        }
-
-        .sec-nav-item-short-title {
-          display: inherit;
-        }
-      }
+    i {
+      display: contents;
     }
   }
+}
 
-  // Desktop view
-  @media (min-width: $nav-mobile-breakpoint) {
-    .mhv-sec-nav-item {
-      .sec-nav-item-title {
-        display: inherit;
-      }
-    }
+// Show the abbreviation instead of the long title
+@media (max-width: $nav-abbr-breakpoint) {
+  .mhv-u-sec-nav-item-title {
+    display: none;
+  }
+
+  // .mhv-u-sec-nav-short-title {
+  //   display: inherit;
+  // }
+}
+
+// Show the title instead of the abbreviation
+@media (min-width: $nav-abbr-breakpoint) {
+  .mhv-u-sec-nav-short-title {
+    display: none;
+  }
+
+  .mhv-u-sec-nav-item-title {
+    display: inherit;
   }
 }

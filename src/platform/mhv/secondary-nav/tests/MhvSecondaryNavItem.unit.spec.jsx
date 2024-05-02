@@ -34,6 +34,33 @@ describe('MHV Secondary Navigation Item Component', () => {
     });
   });
 
+  describe('handle headers', () => {
+    it('set an item to be a header', () => {
+      const { getByTestId } = render(
+        <MhvSecondaryNavItem
+          title="a title"
+          iconClass="fas fa-home"
+          href="/my-health"
+          isHeader
+        />,
+      );
+      const item = getByTestId('mhv-sec-nav-item');
+      expect(item.className).to.include('header');
+    });
+
+    it('set an item to not be a header', () => {
+      const { getByTestId } = render(
+        <MhvSecondaryNavItem
+          title="a title"
+          iconClass="fas fa-home"
+          href="/my-health"
+        />,
+      );
+      const item = getByTestId('mhv-sec-nav-item');
+      expect(item.className).to.not.include('header');
+    });
+  });
+
   describe('set item to active', () => {
     it('when not set to active', () => {
       const { getByTestId } = render(
@@ -43,8 +70,8 @@ describe('MHV Secondary Navigation Item Component', () => {
           href="/my-health"
         />,
       );
-      const link = getByTestId('mhv-sec-nav-item');
-      expect(link.className).to.not.include('active');
+      const item = getByTestId('mhv-sec-nav-item');
+      expect(item.className).to.not.include('active');
     });
 
     it('when set to active', () => {
@@ -56,8 +83,8 @@ describe('MHV Secondary Navigation Item Component', () => {
           isActive
         />,
       );
-      const link = getByTestId('mhv-sec-nav-item');
-      expect(link.className).to.include('active');
+      const item = getByTestId('mhv-sec-nav-item');
+      expect(item.className).to.include('active');
     });
   });
 });

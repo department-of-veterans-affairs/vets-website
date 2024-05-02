@@ -16,6 +16,7 @@ const MhvSecondaryNavItem = ({
   title,
   abbreviation,
   isActive = false,
+  isHeader = false,
 }) => {
   const key = title.toLowerCase().replaceAll(' ', '_');
   const mobileTitle = abbreviation ? (
@@ -23,16 +24,30 @@ const MhvSecondaryNavItem = ({
   ) : (
     title
   );
+
+  const activeItemClasses = isActive
+    ? 'mhv-u-sec-nav-active-style vads-u-font-weight--bold'
+    : '';
+  const itemTypeClasses = isHeader
+    ? 'mhv-u-sec-nav-header-style vads-u-font-size--lg'
+    : 'mhv-u-sec-nav-item-style';
+
   return (
     <div
       key={key}
-      className={`mhv-sec-nav-item ${isActive ? 'sec-nav-item-active' : ''}`}
+      className={`mhv-c-sec-nav-item vads-u-text-align--left vads-u-align-content--center ${activeItemClasses} ${itemTypeClasses}`}
       data-testid="mhv-sec-nav-item"
     >
-      <a href={href}>
-        {!!iconClass && <i className={iconClass} aria-hidden="true" />}
-        <span className="sec-nav-item-title">{title}</span>
-        <span className="sec-nav-item-short-title">{mobileTitle}</span>
+      <a href={href} className="vads-u-text-decoration--none">
+        {!!iconClass && (
+          <va-icon
+            size={4}
+            icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+            aria-hidden="true"
+          />
+        )}
+        <span className="mhv-u-sec-nav-item-title">{title}</span>
+        <span className="mhv-u-sec-nav-short-title">{mobileTitle}</span>
       </a>
     </div>
   );
@@ -44,6 +59,7 @@ MhvSecondaryNavItem.propTypes = {
   title: PropTypes.string.isRequired,
   abbreviation: PropTypes.string,
   isActive: PropTypes.bool,
+  isHeader: PropTypes.bool,
 };
 
 export default MhvSecondaryNavItem;
