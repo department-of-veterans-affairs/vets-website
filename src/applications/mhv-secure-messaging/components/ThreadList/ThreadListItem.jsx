@@ -92,6 +92,7 @@ const ThreadListItem = props => {
             <span>
               <span
                 aria-hidden="true"
+                role="img"
                 className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker unread-bubble"
                 data-testid="thread-list-unread-icon"
               />

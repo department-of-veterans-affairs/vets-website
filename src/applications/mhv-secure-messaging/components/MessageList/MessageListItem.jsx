@@ -71,6 +71,7 @@ const MessageListItem = props => {
           (readReceipt !== 'READ' && (
             <span
               aria-label="Unread message"
+              role="img"
               className="unread-icon vads-u-margin-right--1 unread-bubble"
               alt="Unread message icon"
             />

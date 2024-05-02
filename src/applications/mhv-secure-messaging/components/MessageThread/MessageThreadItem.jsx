@@ -106,6 +106,7 @@ const MessageThreadItem = props => {
         <span
           aria-hidden
           data-testid="unread-icon"
+          role="img"
           className="vads-u-color--primary vads-u-padding--0p25 vads-u-margin-right--1 unread-bubble"
           slot="icon"
           alt="Unread message icon"
