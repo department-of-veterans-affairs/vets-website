@@ -20,7 +20,7 @@ const docTypeToDescription = {
 };
 
 const getDescription = docType => {
-  const defaultDescription = 'Notification Letter';
+  const defaultDescription = 'Notification letter';
 
   return docTypeToDescription[docType] || defaultDescription;
 };
