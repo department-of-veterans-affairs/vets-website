@@ -305,6 +305,7 @@ export default function MissingFileOverview({
                       label="I understand that my application is not complete until VA receives my remaining required file(s) in the mail or by fax."
                       onBlur={function noRefCheck() {}}
                       checked={isChecked}
+                      name="consent-checkbox"
                       tile
                       uswds
                     />

@@ -7,6 +7,7 @@ import transformForSubmit from './submitTransformer';
 import { getAgeInYears } from '../../shared/utilities';
 import { nameWording } from '../helpers/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
+import { prefillTransformer } from './prefillTransformer';
 
 import {
   certifierRole,
@@ -65,8 +66,8 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  showReviewErrors: !environment.isProduction(),
   formId: '10-7959C',
-  transformForSubmit,
   dev: {
     showNavLinks: false,
     collapsibleNavLinks: true,
@@ -95,6 +96,8 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
+  transformForSubmit,
   savedFormMessages: {
     notFound:
       'Please start over to apply for CHAMPVA other health insurance certification.',

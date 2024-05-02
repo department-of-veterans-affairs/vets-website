@@ -17,7 +17,7 @@ env:
 jobs:
   build:
     name: Build
-    runs-on: self-hosted
+    runs-on: ubuntu-16-cores-latest
 
     steps:
       - name: Checkout
@@ -104,15 +104,11 @@ jobs:
             ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
             env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
   
-        - name: Get latest tag
-          id: get-latest-tag
-          run: echo LATEST_TAG_VERSION=$(git describe --tags --abbrev=0) >> $GITHUB_OUTPUT
-  
-        - name: Get next tag version
-          id: bump-tag-version
-          uses: WyriHaximus/github-action-next-semvers@v1
+        - name: Generate Version
+          id: version
+          uses: paulhatch/semantic-version@v5.4.0
           with:
-            version: ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}
+            tag_prefix: "v"
   
         - name: Create tag
-          run: git tag ${{ steps.bump-tag-version.outputs.v_patch }} ${{ github.sha }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }} 
+          run: git tag ${{ steps.version.outputs.version_tag }} ${{ env.COMMIT_SHA }} && git push origin ${{ steps.version.outputs.version_tag }} 
