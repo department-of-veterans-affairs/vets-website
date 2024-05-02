@@ -297,6 +297,7 @@ export function getSelectedCount(objectName, { formData } = {}) {
  * the following is true
  * 1. TE pages should be showing at all
  * 2. gulfWar1990 checkbox location data is present with a true value
+ * 3. the 'none' location checkbox is not true
  *
  * @param {object} formData - full form data
  * @param {string} locationId - unique id for the location
@@ -306,6 +307,7 @@ export function showGulfWar1990LocationDatesPage(formData, locationId) {
   return (
     isClaimingTECondition(formData) &&
     formData?.gulfWar1990 &&
+    formData?.gulfWar1990?.none !== true &&
     formData?.gulfWar1990?.[locationId] === true
   );
 }
@@ -314,6 +316,7 @@ export function showGulfWar1990LocationDatesPage(formData, locationId) {
  * Checks if the 1990 summary page should display. It should display if all the following are true
  * 1. TE pages should be showing at all
  * 2. at least one 1990 location was selected
+ * 3. the 'none' location checkbox is not true
  * @param {object} formData - full form data
  * @returns {boolean} true if the page should display, false otherwise
  */
@@ -321,6 +324,7 @@ export function showGulfWar1990SummaryPage(formData) {
   return (
     isClaimingTECondition(formData) &&
     formData?.gulfWar1990 &&
+    formData?.gulfWar1990?.none !== true &&
     Object.values(formData?.gulfWar1990).filter(value => value === true)
       .length > 0
   );
