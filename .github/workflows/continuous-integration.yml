@@ -365,7 +365,6 @@ jobs:
 
     env:
       APPS_TO_VERIFY: ${{ needs.tests-prep.outputs.apps-to-stress-test }}
-      # TESTS_TO_VERIFY: ${{ needs.tests-prep.outputs.unit-tests-to-stress-test }}
       DISALLOWED_TESTS: '[]'
 
     strategy:
