@@ -1,10 +1,11 @@
 name: Build and Tag main branch
 
 on:
-  workflow_run:
-    workflows: [Continuous Integration]
-    types: [completed]
-    branches: [main]
+  # workflow_run:
+  #   workflows: [Continuous Integration]
+  #   types: [completed]
+  #   branches: [main]
+  push
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
