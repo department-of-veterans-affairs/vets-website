@@ -3,10 +3,14 @@
  * Cancel adding button which includes a modal on click
  */
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { setData } from '~/platform/forms-system/src/js/actions';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButton,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '~/platform/utilities/ui';
 import get from '~/platform/utilities/data/get';
 import set from '~/platform/utilities/data/set';
 import { getArrayIndexFromPathName, getArrayUrlSearchParams } from './helpers';
@@ -42,10 +46,13 @@ const ArrayBuilderCancelButton = ({
   required,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const cancelButtonRef = useRef(null);
   const urlParams = getArrayUrlSearchParams();
+  const arrayIndex = getArrayIndexFromPathName();
   const isEdit = urlParams?.has('edit');
   const isAdd = urlParams?.has('add');
   const isReview = urlParams?.has('review');
+  const currentItem = get(arrayPath, formData)?.[arrayIndex];
 
   let modalDescriptionKey = isEdit
     ? 'cancelEditDescription'
@@ -67,10 +74,12 @@ const ArrayBuilderCancelButton = ({
 
   function hideCancelConfirmationModal() {
     setIsModalVisible(false);
+    if (cancelButtonRef.current) {
+      focusElement(cancelButtonRef.current);
+    }
   }
 
   function removeCurrentItem() {
-    const arrayIndex = getArrayIndexFromPathName();
     const newArrayData = arrayData.filter((_, i) => i !== arrayIndex);
     const newData = set(arrayPath, newArrayData, formData);
     setFormData(newData);
@@ -111,17 +120,21 @@ const ArrayBuilderCancelButton = ({
     <div
       className={className || 'vads-u-margin-top--3 vads-u-margin-bottom--4'}
     >
-      <va-button
+      <VaButton
         text={getText(isEdit ? 'cancelEditButtonText' : 'cancelAddButtonText')}
         data-action="cancel"
         onClick={showCancelConfirmationModal}
+        ref={cancelButtonRef}
         secondary
         uswds
       />
       <VaModal
         clickToClose
         status="warning"
-        modalTitle={getText(isEdit ? 'cancelEditTitle' : 'cancelAddTitle')}
+        modalTitle={getText(
+          isEdit ? 'cancelEditTitle' : 'cancelAddTitle',
+          currentItem,
+        )}
         primaryButtonText={getText('cancelYes')}
         secondaryButtonText={getText(isEdit ? 'cancelEditNo' : 'cancelAddNo')}
         onCloseEvent={hideCancelConfirmationModal}
