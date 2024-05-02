@@ -1,8 +1,9 @@
 import React from 'react';
 import { apiRequest } from 'platform/utilities/api';
 import FacilityApiAlert from './FacilityApiAlert';
-import { cleanPhoneNumber, sortFacilitiesByName } from './facilityUtilities';
+import { sortFacilitiesByName } from './facilityUtilities';
 import FacilityAddress from './FacilityAddress';
+import { processPhoneNumber } from './vet-center/components/VAFacilityPhone';
 
 export default class OtherFacilityListWidget extends React.Component {
   constructor(props) {
@@ -45,6 +46,18 @@ export default class OtherFacilityListWidget extends React.Component {
 
     const facilitiesList = sortFacilitiesByName(this.state.facilities).map(
       facility => {
+        const processed = processPhoneNumber(facility.attributes.phone.main);
+        const phone = processed.processed ? (
+          <va-telephone
+            contact={processed.phone}
+            message-aria-describedby="Main phone"
+            extension={processed.ext}
+          />
+        ) : (
+          <a href={facility.attributes.phone.main}>
+            {facility.attributes.phone.main}
+          </a>
+        );
         return (
           <div
             key={facility.id}
@@ -61,10 +74,7 @@ export default class OtherFacilityListWidget extends React.Component {
                 {facility.attributes.phone.main && (
                   <div className="main-phone vads-u-margin-bottom--1">
                     <strong>Main phone: </strong>
-                    {facility.attributes.phone.main}
-                    <va-telephone
-                      contact={cleanPhoneNumber(facility.attributes.phone.main)}
-                    />
+                    {phone}
                   </div>
                 )}
                 {facility.attributes.classification && (
