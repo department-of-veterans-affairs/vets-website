@@ -7,6 +7,7 @@ import { getDisabilityLabels } from '../content/disabilityLabels';
 import {
   newOnlyAlert,
   increaseAndNewAlert,
+  revisedAutoSuggestDescription,
   revisedAutoSuggestTitle,
 } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
@@ -31,14 +32,17 @@ const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 export const uiSchema = {
   newDisabilitiesRevised: {
     'ui:title': 'Tell us the new conditions you want to claim REVISED VERSION!',
+    'ui:description': revisedAutoSuggestDescription,
     'ui:field': ArrayField,
     'ui:options': {
+      itemName: 'another condition',
       viewField: NewDisability,
       reviewTitle: 'Conditions',
       duplicateKey: 'condition',
-      itemName: 'Condition',
       itemAriaLabel: data => data.condition,
-      includeRequiredLabelInTitle: true,
+      // includeRequiredLabelInTitle: true,
+      showFieldLabel: false,
+      hideLabelText: true,
     },
     // Ideally, this would show the validation on the array itself (or the name
     // field in an array item), but that's not working.
@@ -73,6 +77,8 @@ export const uiSchema = {
               input => input.trim(),
               input => input.replace(/\s{2,}/g, ' '),
             ],
+            // showFieldLabel: false,
+            // hideLabelText: true,
           },
           // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
           'ui:validations': [validateDisabilityName, limitNewDisabilities],

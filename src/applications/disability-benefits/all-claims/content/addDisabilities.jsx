@@ -20,6 +20,9 @@ export const autoSuggestTitle = (
 );
 
 export const revisedAutoSuggestTitle = (
+  <>What new condition do you want to claim?</>
+);
+export const revisedAutoSuggestDescription = (
   <>
     <p>
       Enter the name of your condition. Then, select your condition from the
@@ -29,6 +32,19 @@ export const revisedAutoSuggestTitle = (
       Or, if your condition isn’t listed, enter your condition, diagnosis, or a
       short description of your symptoms.
     </p>
+
+    <va-additional-info trigger="Commonly claimed conditions">
+      <div>These are common conditions you can claim:</div>
+      <ul>
+        <li>Tinnitus (ringing or hissing in ears)</li>
+        <li>PTSD (post-traumatic stress disorder), combat-related</li>
+        <li>Hearing loss, other than tinnitus</li>
+        <li>Neck strain (cervical strain)</li>
+        <li>Ankylosis in knee, right</li>
+        <li>Hypertension (high blood pressure)</li>
+        <li>Migraines (headaches)</li>
+      </ul>
+    </va-additional-info>
   </>
 );
 
