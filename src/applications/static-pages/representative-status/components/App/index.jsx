@@ -32,13 +32,19 @@ export const App = ({
 
   const appEnabled = useToggleValue(TOGGLE_NAMES.representativeStatusEnabled);
 
-  if (togglesLoading || !appEnabled) {
-    return null;
-  }
+  // if (togglesLoading || !appEnabled) {
+  //   return null;
+  // }
 
   return (
     <>
-      {loggedIn ? (
+      <Auth
+        DynamicHeader={DynamicHeader}
+        DynamicSubheader={DynamicSubheader}
+        useRepresentativeStatus={useRepresentativeStatus}
+      />
+
+      {/* {loggedIn ? (
         <>
           <Auth
             DynamicHeader={DynamicHeader}
@@ -53,7 +59,7 @@ export const App = ({
             DynamicHeader={DynamicHeader}
           />
         </>
-      )}
+      )} */}
     </>
   );
 };
