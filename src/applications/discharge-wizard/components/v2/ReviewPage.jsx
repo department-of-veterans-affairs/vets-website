@@ -38,7 +38,10 @@ const ReviewPage = ({ formResponses, router, viewedIntroPage }) => {
 
       return (
         reviewLabel && (
-          <li key={shortName} className="answer-review">
+          <li
+            key={shortName}
+            className="vads-u-margin-bottom--0 vads-u-padding-y--3 vads-u-padding-x--1p5 answer-review"
+          >
             {reviewLabel}
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a
@@ -56,24 +59,23 @@ const ReviewPage = ({ formResponses, router, viewedIntroPage }) => {
   };
 
   return (
-    <div>
+    <>
       <h1>{H1}</h1>
-      <div className="va-introtext">
-        <p>
-          If any information here is wrong, you can change your answers now.
-          This will help us give you the most accurate instructions.
-        </p>
-      </div>
+      <p className="vads-u-margin-bottom--4 vads-u-margin-top--0">
+        If any information here is wrong, you can change your answers now. This
+        will help us give you the most accurate instructions.
+      </p>
       <ul className="answers vads-u-margin-bottom--2 vads-u-padding--0">
         {renderReviewAnswers()}
       </ul>
       <VaButtonPair
         data-testid="duw-buttonPair"
+        class="small-screen:vads-u-margin-x--0p5"
         onPrimaryClick={() => router.push('/results')}
         onSecondaryClick={() => navigateBackward(router)}
         continue
       />
-    </div>
+    </>
   );
 };
 

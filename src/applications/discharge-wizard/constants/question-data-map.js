@@ -68,13 +68,13 @@ export const RESPONSES = Object.freeze({
     'My discharge is honorable or general under honorable conditions. I want to change only my narrative reason for discharge, separation code, or re-enlistment code.',
   DISCHARGE_TYPE_2: `My discharge isn't honorable or under honorable conditions.`,
   PREV_APPLICATION_TYPE_1:
-    'I applied to a Discharge Review Board (DRB) for a Documentary Review',
+    'I applied to a Discharge Review Board (DRB) for a Documentary Review.',
   PREV_APPLICATION_TYPE_2:
-    'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review',
+    'I applied to a Discharge Review Board (DRB) for a Personal Appearance Review.',
   PREV_APPLICATION_TYPE_3A:
-    'I applied to a Board for Correction of Military Records (BCMR)',
+    'I applied to a Board for Correction of Military Records (BCMR).',
   PREV_APPLICATION_TYPE_3B:
-    'I applied to the Board for Correction of Naval Records (BCNR)',
+    'I applied to the Board for Correction of Naval Records (BCNR).',
   PREV_APPLICATION_TYPE_4: "I'm not sure",
   PREV_APPLICATION_1: 'Yes',
   PREV_APPLICATION_2: 'No',
