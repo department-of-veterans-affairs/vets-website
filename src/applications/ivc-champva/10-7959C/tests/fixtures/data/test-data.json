@@ -5,7 +5,7 @@
       "first": "Jimmy",
       "last": "Alvin"
     },
-    "applicantDOB": "2001-01-01",
+    "applicantDOB": "1958-01-01",
     "applicantAddress": {
       "country": "USA",
       "street": "456 Street Circle",
@@ -15,6 +15,15 @@
     },
     "applicantPhone": "3331233456",
     "applicantMedicareStatus": true,
+    "applicantMedicarePartACarrier": "Test A Carrier",
+    "applicantMedicarePartBCarrier": "Test B Carrier",
+    "applicantMedicarePartAEffectiveDate": "2010-01-01",
+    "applicantMedicarePartBEffectiveDate": "2010-01-01",
+    "applicantMedicarePharmacyBenefits": true,
+    "applicantMedicareAdvantage": true,
+    "applicantMedicareStatusD": true,
+    "applicantMedicarePartDCarrier": "Test D Carrier",
+    "applicantMedicarePartDEffectiveDate": "2010-01-01",
     "applicants": [
       {
         "applicantEnrolledMedicareAB": true,

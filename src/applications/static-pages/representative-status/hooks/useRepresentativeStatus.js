@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import RepresentativeStatusApi from '../api/RepresentativeStatusApi';
-import { convertKeysToCamelCase } from '../utilities/camelCase';
 import { formatContactInfo } from '../utilities/formatContactInfo';
 
 export function useRepresentativeStatus() {
@@ -17,9 +16,7 @@ export function useRepresentativeStatus() {
         const response = await RepresentativeStatusApi.getRepresentativeStatus();
 
         if (response?.data?.id) {
-          const camelResponse = convertKeysToCamelCase(response);
-
-          const poaData = camelResponse.data;
+          const poaData = response.data;
 
           const {
             concatAddress,

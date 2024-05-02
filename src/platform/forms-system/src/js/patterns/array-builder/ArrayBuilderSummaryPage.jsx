@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/sort-prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import { focusElement, scrollAndFocus } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import get from '~/platform/utilities/data/get';
@@ -21,23 +22,26 @@ function getUpdatedItemIndexFromPath() {
   return updatedValue?.split('-')?.pop();
 }
 
-const SuccessAlert = ({ children, nounSingular, index, onDismiss }) => (
-  <div className="vads-u-margin-top--2">
-    <VaAlert
-      onCloseEvent={onDismiss}
-      closeable
-      name={`${nounSingular}_${index}`}
-      status="success"
-      uswds
-    >
-      {children}
-    </VaAlert>
-  </div>
+const SuccessAlert = forwardRef(
+  ({ nounSingular, index, onDismiss, text }, ref) => (
+    <div className="vads-u-margin-top--2" ref={ref}>
+      <VaAlert
+        onCloseEvent={onDismiss}
+        closeable
+        name={`${nounSingular}_${index}`}
+        status="success"
+        closeBtnAriaLabel="Close notification"
+        uswds
+      >
+        {text}
+      </VaAlert>
+    </div>
+  ),
 );
 
 const MaxItemsAlert = ({ children }) => (
   <div className="vads-u-margin-top--4">
-    <va-alert status="warning" visible>
+    <va-alert status="warning" tabIndex={-1} visible>
       <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
         {children}
       </p>
@@ -83,6 +87,11 @@ export default function ArrayBuilderSummaryPage({
   /** @type {CustomPageType} */
   function CustomPage(props) {
     const [showUpdatedAlert, setShowUpdatedAlert] = useState(false);
+    const [showRemovedAlert, setShowRemovedAlert] = useState(false);
+    const [removedItemText, setRemovedItemText] = useState('');
+    const [removedItemIndex, setRemovedItemIndex] = useState(null);
+    const updatedAlertRef = useRef();
+    const removedAlertRef = useRef();
     const { uiSchema, schema } = props;
     const arrayData = get(arrayPath, props.data);
     const updateItemIndex = getUpdatedItemIndexFromPath();
@@ -108,6 +117,11 @@ export default function ArrayBuilderSummaryPage({
     useEffect(
       () => {
         setShowUpdatedAlert(updateItemIndex != null);
+        if (updateItemIndex != null) {
+          setTimeout(() => {
+            scrollAndFocus(updatedAlertRef.current);
+          }, 300);
+        }
       },
       [updateItemIndex],
     );
@@ -146,6 +160,36 @@ export default function ArrayBuilderSummaryPage({
       });
     }
 
+    function onDismissUpdatedAlert() {
+      setShowUpdatedAlert(false);
+      requestAnimationFrame(() => {
+        focusElement(document.querySelector('h3'));
+      });
+    }
+
+    function onDismissRemovedAlert() {
+      setShowRemovedAlert(false);
+      setRemovedItemText('');
+      setRemovedItemIndex(null);
+      requestAnimationFrame(() => {
+        focusElement(document.querySelector('h3'));
+      });
+    }
+
+    function onRemoveItem(index, item) {
+      // updated alert may be from initial state (URL path)
+      // so we can go ahead and remove it if there is a new
+      // alert
+      setShowUpdatedAlert(false);
+
+      setRemovedItemText(getText('alertItemRemoved', item));
+      setRemovedItemIndex(index);
+      setShowRemovedAlert(true);
+      requestAnimationFrame(() => {
+        focusElement(removedAlertRef.current);
+      });
+    }
+
     function onRemoveAllItems() {
       if (required(props.data)) {
         const path = createArrayBuilderItemAddPath({
@@ -161,10 +205,6 @@ export default function ArrayBuilderSummaryPage({
       }
     }
 
-    function onDismissUpdatedAlert() {
-      setShowUpdatedAlert(false);
-    }
-
     const Title = (
       <>
         <Heading className="vads-u-color--gray-dark vads-u-margin-top--0">
@@ -173,18 +213,30 @@ export default function ArrayBuilderSummaryPage({
       </>
     );
 
+    const UpdatedAlert = (
+      <SuccessAlert
+        onDismiss={onDismissUpdatedAlert}
+        nounSingular={nounSingular}
+        index={updateItemIndex}
+        ref={updatedAlertRef}
+        text={getText('alertItemUpdated', updatedItemData)}
+      />
+    );
+
+    const RemovedAlert = (
+      <SuccessAlert
+        onDismiss={onDismissRemovedAlert}
+        nounSingular={nounSingular}
+        index={removedItemIndex}
+        ref={removedAlertRef}
+        text={removedItemText}
+      />
+    );
+
     const Cards = (
       <>
-        {updatedItemData &&
-          showUpdatedAlert && (
-            <SuccessAlert
-              onDismiss={onDismissUpdatedAlert}
-              nounSingular={nounSingular}
-              index={updateItemIndex}
-            >
-              {getText('alertItemUpdated', updatedItemData)}
-            </SuccessAlert>
-          )}
+        {showRemovedAlert && RemovedAlert}
+        {showUpdatedAlert && UpdatedAlert}
         <ArrayBuilderCards
           cardDescription={getText('cardDescription', updatedItemData)}
           arrayPath={arrayPath}
@@ -195,6 +247,8 @@ export default function ArrayBuilderSummaryPage({
           getText={getText}
           required={required}
           onRemoveAll={onRemoveAllItems}
+          onRemove={onRemoveItem}
+          isReview={isReviewPage}
         />
       </>
     );
@@ -230,6 +284,7 @@ export default function ArrayBuilderSummaryPage({
           {!isMaxItemsReached && (
             <div className="vads-u-margin-top--2">
               <va-button
+                data-action="add"
                 text={getText('reviewAddButtonText', updatedItemData)}
                 onClick={addAnotherItemButtonClick}
                 primary
