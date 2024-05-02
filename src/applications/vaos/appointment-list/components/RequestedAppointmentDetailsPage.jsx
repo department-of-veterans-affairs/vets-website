@@ -294,22 +294,26 @@ export default function RequestedAppointmentDetailsPage() {
       cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading
     ) {
       return (
-        <CancelWarningPage
-          {...{
-            appointment,
-            cancelInfo,
-          }}
-        />
+        <PageLayout showNeedHelp>
+          <CancelWarningPage
+            {...{
+              appointment,
+              cancelInfo,
+            }}
+          />
+        </PageLayout>
       );
     }
     if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
       return (
-        <CancelConfirmationPage
-          {...{
-            appointment,
-            cancelInfo,
-          }}
-        />
+        <PageLayout showNeedHelp>
+          <CancelConfirmationPage
+            {...{
+              appointment,
+              cancelInfo,
+            }}
+          />
+        </PageLayout>
       );
     }
     if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.failed) {
