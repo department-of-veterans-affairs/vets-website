@@ -3,8 +3,8 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
-import formConfig from '../../config/form';
-import IntroductionPage from '../../containers/IntroductionPage';
+import formConfig from '../../../config/form';
+import IntroductionPage from '../../../containers/IntroductionPage';
 
 const props = {
   route: {

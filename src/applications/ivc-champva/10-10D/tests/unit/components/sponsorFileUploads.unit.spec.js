@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { uploadWithInfoComponent } from '../../components/Sponsor/sponsorFileUploads';
+import { uploadWithInfoComponent } from '../../../components/Sponsor/sponsorFileUploads';
 
 describe('uploadWithInfoComponent', () => {
   it('should accept resource links', async () => {
