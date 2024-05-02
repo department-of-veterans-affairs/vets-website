@@ -143,10 +143,23 @@ ${record.summary}`;
           Location
         </h3>
         <p data-testid="note-record-location"> {record.location}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Discharge date
-        </h3>
-        <p data-testid="note-discharge-date">{record.dischargeDate}</p>
+        {record.sortByField !== dischargeSummarySortFields.ADMISSION_DATE &&
+          record.sortByField !== null && (
+            <>
+              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                Admitted on
+              </h3>
+              <p data-testid="note-admission-date">{record.admissionDate}</p>
+            </>
+          )}
+        {record.sortByField !== dischargeSummarySortFields.DISCHARGE_DATE && (
+          <>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Discharged on
+            </h3>
+            <p data-testid="note-discharge-date">{record.dischargeDate}</p>
+          </>
+        )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharged by
         </h3>

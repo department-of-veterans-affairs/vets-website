@@ -100,6 +100,8 @@ describe('Admission and discharge summary details component header date', () => 
     const headerDate = screen.queryByTestId('ds-note-date-heading');
     expect(headerDate.innerHTML).to.contain('Admitted on');
     expect(headerDate.innerHTML).to.contain('May 29, 2022');
+    expect(screen.queryByTestId('note-admission-date')).to.not.exist;
+    expect(screen.queryByTestId('note-discharge-date')).to.exist;
   });
 
   it('should display discharge date second priority', () => {
@@ -115,6 +117,8 @@ describe('Admission and discharge summary details component header date', () => 
     const headerDate = screen.queryByTestId('ds-note-date-heading');
     expect(headerDate.innerHTML).to.contain('Discharged on');
     expect(headerDate.innerHTML).to.contain('June 11, 2022');
+    expect(screen.queryByTestId('note-admission-date')).to.exist;
+    expect(screen.queryByTestId('note-discharge-date')).to.not.exist;
   });
 
   it('should display date entered third priority', () => {
@@ -127,6 +131,8 @@ describe('Admission and discharge summary details component header date', () => 
     const headerDate = screen.queryByTestId('ds-note-date-heading');
     expect(headerDate.innerHTML).to.contain('Entered on');
     expect(headerDate.innerHTML).to.contain('August 8, 2022');
+    expect(screen.queryByTestId('note-admission-date')).to.exist;
+    expect(screen.queryByTestId('note-discharge-date')).to.exist;
   });
 
   it('should display "None noted" if no date is found', () => {
@@ -136,5 +142,7 @@ describe('Admission and discharge summary details component header date', () => 
     const headerDate = screen.queryByTestId('ds-note-date-heading');
     expect(headerDate.innerHTML).to.contain('Admitted on');
     expect(headerDate.innerHTML).to.contain(EMPTY_FIELD);
+    expect(screen.queryByTestId('note-admission-date')).to.not.exist;
+    expect(screen.queryByTestId('note-discharge-date')).to.exist;
   });
 });

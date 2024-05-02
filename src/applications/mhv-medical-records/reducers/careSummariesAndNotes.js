@@ -265,7 +265,6 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
             })
             .filter(record => record.type !== noteTypes.OTHER)
             .sort((a, b) => {
-              console.log(a.id, a.sortByDate, b.id, b.sortByDate);
               if (!a.sortByDate) return 1; // Push nulls to the end
               if (!b.sortByDate) return -1; // Keep non-nulls at the front
               return b.sortByDate.getTime() - a.sortByDate.getTime();
