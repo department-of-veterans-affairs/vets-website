@@ -10,7 +10,7 @@ describe('<ClaimLetterSection>', () => {
     screen.getByText('Your claim letters');
     screen.getByText('Download your VA claim letters');
     screen.getByText(
-      'You can download your decision letter online. You can also get other letters related to your claims and appeals.',
+      'You can download your decision letter(s) online. You can also get other letters related to your claims and appeals.',
     );
   });
 });
