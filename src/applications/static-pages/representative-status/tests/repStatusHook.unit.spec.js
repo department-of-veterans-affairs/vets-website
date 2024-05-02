@@ -6,7 +6,8 @@ import { useRepresentativeStatus } from '../hooks/useRepresentativeStatus';
 import * as utilities from '../utilities/formatContactInfo';
 
 describe('Hook', () => {
-  let stub, stubFormat;
+  let stub;
+  let stubFormat;
 
   beforeEach(() => {
     stub = sinon
