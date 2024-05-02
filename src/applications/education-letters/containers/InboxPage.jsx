@@ -93,13 +93,7 @@ const InboxPage = ({
     return false;
   };
   return (
-    <Layout
-      clsName="inbox-page"
-      breadCrumbs={{
-        href: '/education/download-letters/letters',
-        text: 'Your VA education letter',
-      }}
-    >
+    <Layout clsName="inbox-page">
       <article>{renderInbox()}</article>
     </Layout>
   );
