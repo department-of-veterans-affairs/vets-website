@@ -33,6 +33,19 @@ const applicants = [
 
 testNumberOfWebComponentFields(
   formConfig,
+  formConfig.chapters.certifierInformation.pages.page5.schema,
+  formConfig.chapters.certifierInformation.pages.page5.uiSchema,
+  6,
+  'Signer relationship',
+  {
+    certifierRelationship: {
+      relationshipToVeteran: { other: true },
+    },
+  },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
   formConfig.chapters.sponsorInformation.pages.page6.schema,
   formConfig.chapters.sponsorInformation.pages.page6.uiSchema,
   5,
@@ -65,6 +78,34 @@ testNumberOfWebComponentFields(
   1,
   "Sponsor's phone number",
   { sponsorIsDeceased: false },
+);
+
+// certifierRole: 'sponsor' triggers the 'your' custom wording branch
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.sponsorInformation.pages.page11.schema,
+  formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
+  1,
+  "Sponsor's phone number",
+  { sponsorIsDeceased: false, certifierRole: 'sponsor' },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page13.schema,
+  formConfig.chapters.applicantInformation.pages.page13.uiSchema,
+  5,
+  'Applicant - Name DOB',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page13a.schema,
+  formConfig.chapters.applicantInformation.pages.page13a.uiSchema,
+  0,
+  'Applicant - Start screen',
+  { ...mockData.data },
 );
 
 testNumberOfWebComponentFields(
