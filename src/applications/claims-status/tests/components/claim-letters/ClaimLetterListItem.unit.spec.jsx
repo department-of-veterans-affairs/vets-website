@@ -28,24 +28,24 @@ describe('<ClaimLetterListItem>', () => {
   });
 
   it('should have the correct title', () => {
-    const screen = render(<ClaimLetterListItem letter={mockLetter} />);
+    const { getByRole } = render(<ClaimLetterListItem letter={mockLetter} />);
 
-    const title = screen.getByRole('heading', { level: 2 });
+    const title = getByRole('heading', { level: 2 });
     expect(title.textContent).to.eq('September 22, 2022 letter');
   });
 
   it('should have the correct description', () => {
-    const screen = render(<ClaimLetterListItem letter={mockLetter} />);
+    const { getByText } = render(<ClaimLetterListItem letter={mockLetter} />);
 
-    expect(screen.getByText(/Notification Letter/i)).to.exist;
+    getByText('Notification letter');
   });
 
   it('should use the default description when no `docType` is provided', () => {
-    const screen = render(
+    const { getByText } = render(
       <ClaimLetterListItem letter={mockLetterWithoutDocType} />,
     );
 
-    expect(screen.getByText(/Notification Letter/i)).to.exist;
+    getByText('Notification letter');
   });
 
   it(' when click Download Letter link, should call record event', () => {
