@@ -29,38 +29,15 @@ import {
   applicantHasMedicareABSchema,
   applicantMedicareABContextSchema,
   applicantMedicarePartACarrierSchema,
-  applicantMedicarePartAEffectiveDateSchema,
   applicantMedicarePartBCarrierSchema,
-  applicantMedicarePartBEffectiveDateSchema,
   applicantMedicarePharmacySchema,
   applicantMedicareAdvantageSchema,
   applicantHasMedicareDSchema,
   applicantMedicarePartDCarrierSchema,
-  applicantMedicarePartDEffectiveDateSchema,
   appMedicareOver65IneligibleUploadSchema,
   applicantMedicareABUploadSchema,
   applicantMedicareDUploadSchema,
 } from '../chapters/medicareInformation';
-import {
-  ApplicantMedicareStatusPage,
-  ApplicantMedicareStatusReviewPage,
-} from '../components/ApplicantMedicareStatusPage';
-import {
-  ApplicantMedicareStatusContinuedPage,
-  ApplicantMedicareStatusContinuedReviewPage,
-} from '../components/ApplicantMedicareStatusContinuedPage';
-import {
-  ApplicantMedicarePharmacyPage,
-  ApplicantMedicarePharmacyReviewPage,
-} from '../components/ApplicantMedicarePharmacyPage';
-import {
-  ApplicantMedicareAdvantagePage,
-  ApplicantMedicareAdvantageReviewPage,
-} from '../components/ApplicantMedicareAdvantagePage';
-import {
-  ApplicantMedicareStatusDPage,
-  ApplicantMedicareStatusDReviewPage,
-} from '../components/ApplicantMedicareStatusDPage';
 import {
   ApplicantHasPrimaryPage,
   ApplicantHasPrimaryReviewPage,
@@ -81,14 +58,7 @@ import {
   applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
-import {
-  hasMedicareAB,
-  hasMedicareD,
-  noMedicareAB,
-  hasPrimaryProvider,
-  hasSecondaryProvider,
-} from './conditionalPaths';
-// import mockdata from '../tests/fixtures/data/test-data.json';
+import { hasPrimaryProvider, hasSecondaryProvider } from './conditionalPaths';
 import {
   ApplicantPrimaryThroughEmployerPage,
   ApplicantPrimaryThroughEmployerReviewPage,
@@ -253,157 +223,94 @@ const formConfig = {
       title: 'Medicare information',
       pages: {
         hasMedicareAB: {
-          path: ':index/medicare-ab',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare status`,
-          CustomPage: ApplicantMedicareStatusPage,
-          CustomPageReview: ApplicantMedicareStatusReviewPage,
+          path: 'medicare-ab',
+          title: formData => `${nameWording(formData)} Medicare status`,
           uiSchema: applicantHasMedicareABSchema.uiSchema,
           schema: applicantHasMedicareABSchema.schema,
         },
         // If 'no' to previous question:
         medicareABContext: {
-          path: ':index/no-medicare-ab',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare status`,
-          depends: (formData, index) => noMedicareAB(formData, index),
-          CustomPage: ApplicantMedicareStatusContinuedPage,
-          CustomPageReview: ApplicantMedicareStatusContinuedReviewPage,
+          path: 'no-medicare-ab',
+          title: formData => `${nameWording(formData)} Medicare status`,
+          depends: formData =>
+            get('applicantMedicareStatus', formData) === false,
           uiSchema: applicantMedicareABContextSchema.uiSchema,
           schema: applicantMedicareABContextSchema.schema,
         },
         // If 'yes' to previous question:
         partACarrier: {
-          path: ':index/carrier-a',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare Part A carrier`,
-          depends: (formData, index) => hasMedicareAB(formData, index),
+          path: 'carrier-a',
+          title: formData => `${nameWording(formData)} Medicare Part A carrier`,
+          depends: formData => get('applicantMedicareStatus', formData),
           uiSchema: applicantMedicarePartACarrierSchema.uiSchema,
           schema: applicantMedicarePartACarrierSchema.schema,
         },
         // If ineligible and over 65, require user to upload proof of ineligibility
         medicareIneligible: {
-          path: ':index/ineligible',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} over 65 and ineligible for Medicare`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
+          path: 'ineligible',
+          title: 'Over 65 and ineligible for Medicare',
+          depends: formData => {
             return (
-              get(
-                'applicantMedicareStatusContinued.medicareContext',
-                formData?.applicants?.[index],
-              ) === 'ineligible' &&
-              getAgeInYears(formData.applicants[index]?.applicantDOB) >= 65
+              get('applicantMedicareStatusContinued', formData) ===
+                'ineligible' && getAgeInYears(formData?.applicantDOB) >= 65
             );
           },
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
-          customPageUsesPagePerItemData: true,
           ...appMedicareOver65IneligibleUploadSchema,
         },
-        partAEffective: {
-          path: ':index/effective-a',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} coverage information`,
-          depends: (formData, index) => hasMedicareAB(formData, index),
-          uiSchema: applicantMedicarePartAEffectiveDateSchema.uiSchema,
-          schema: applicantMedicarePartAEffectiveDateSchema.schema,
-        },
         partBCarrier: {
-          path: ':index/carrier-b',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare Part B carrier`,
-          depends: (formData, index) => hasMedicareAB(formData, index),
+          path: 'carrier-b',
+          title: formData => `${nameWording(formData)} Medicare Part B carrier`,
+          depends: formData => get('applicantMedicareStatus', formData),
           uiSchema: applicantMedicarePartBCarrierSchema.uiSchema,
           schema: applicantMedicarePartBCarrierSchema.schema,
         },
-        partBEffective: {
-          path: ':index/effective-b',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} coverage information`,
-          depends: (formData, index) => hasMedicareAB(formData, index),
-          uiSchema: applicantMedicarePartBEffectiveDateSchema.uiSchema,
-          schema: applicantMedicarePartBEffectiveDateSchema.schema,
-        },
         pharmacyBenefits: {
-          path: ':index/pharmacy',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare pharmacy benefits`,
-          depends: (formData, index) => hasMedicareAB(formData, index),
-          CustomPage: ApplicantMedicarePharmacyPage,
-          CustomPageReview: ApplicantMedicarePharmacyReviewPage,
+          path: 'pharmacy',
+          title: formData =>
+            `${nameWording(formData)} Medicare pharmacy benefits`,
+          depends: formData => get('applicantMedicareStatus', formData),
           uiSchema: applicantMedicarePharmacySchema.uiSchema,
           schema: applicantMedicarePharmacySchema.schema,
         },
         advantagePlan: {
-          path: ':index/advantage',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare coverage`,
-          depends: (formData, index) => hasMedicareAB(formData, index),
-          CustomPage: ApplicantMedicareAdvantagePage,
-          CustomPageReview: ApplicantMedicareAdvantageReviewPage,
+          path: 'advantage',
+          title: formData => `${nameWording(formData)} Medicare coverage`,
+          depends: formData => get('applicantMedicareStatus', formData),
           uiSchema: applicantMedicareAdvantageSchema.uiSchema,
           schema: applicantMedicareAdvantageSchema.schema,
         },
         medicareABCards: {
-          path: ':index/ab-upload',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare card (A/B)`,
-          depends: (formData, index) => hasMedicareAB(formData, index),
+          path: 'ab-upload',
+          title: formData => `${nameWording(formData)} Medicare card (A/B)`,
+          depends: formData => get('applicantMedicareStatus', formData),
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
-          customPageUsesPagePerItemData: true,
           ...applicantMedicareABUploadSchema,
         },
         hasMedicareD: {
-          path: ':index/medicare-d',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare status`,
-          depends: (formData, index) => hasMedicareAB(formData, index),
-          CustomPage: ApplicantMedicareStatusDPage,
-          CustomPageReview: ApplicantMedicareStatusDReviewPage,
+          path: 'medicare-d',
+          title: formData => `${nameWording(formData)} Medicare status`,
+          depends: formData => get('applicantMedicareStatus', formData),
           uiSchema: applicantHasMedicareDSchema.uiSchema,
           schema: applicantHasMedicareDSchema.schema,
         },
         partDCarrier: {
-          path: ':index/carrier-d',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare Part D carrier`,
-          depends: (formData, index) =>
-            hasMedicareAB(formData, index) && hasMedicareD(formData, index),
+          path: 'carrier-d',
+          title: formData => `${nameWording(formData)} Medicare Part D carrier`,
+          depends: formData =>
+            get('applicantMedicareStatus', formData) &&
+            get('applicantMedicareStatusD', formData),
           uiSchema: applicantMedicarePartDCarrierSchema.uiSchema,
           schema: applicantMedicarePartDCarrierSchema.schema,
         },
-        partDEffective: {
-          path: ':index/effective-d',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} coverage information`,
-          depends: (formData, index) =>
-            hasMedicareAB(formData, index) && hasMedicareD(formData, index),
-          uiSchema: applicantMedicarePartDEffectiveDateSchema.uiSchema,
-          schema: applicantMedicarePartDEffectiveDateSchema.schema,
-        },
         medicareDCards: {
-          path: ':index/d-upload',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} Medicare card (D)`,
-          depends: (formData, index) =>
-            hasMedicareAB(formData, index) && hasMedicareD(formData, index),
+          path: 'd-upload',
+          title: formData => `${nameWording(formData)} Medicare card (D)`,
+          depends: formData =>
+            get('applicantMedicareStatus', formData) &&
+            get('applicantMedicareStatusD', formData),
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
