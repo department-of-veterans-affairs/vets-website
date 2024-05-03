@@ -361,7 +361,7 @@
   "start-checking-in-for-your-appointment": "Start checking in for your appointment",
   "we-need-your-last-name-and-birth": "First, we need your last name and date of birth to make sure it’s you.",
   "check-if-your-info-is-up-to-date": "Check if your information is up to date",
-  "upcoming-appointments": "Upcoming Appointments",
+  "upcoming-appointments": "Upcoming appointments",
   "loading-your-appointment-information": "Loading your appointment information…",
   "loading-your-upcoming-appointment-information": "Loading your upcoming appointment information…",
   "error-retrieving-upcoming-appointments": "There was an error retreiving upcoming appointments",
@@ -382,5 +382,9 @@
   "appointment-on-date-at-time": "Appointment on {{dateTime, date}} at {{ dateTime, time}}",
   "you-successfully-reviewed-your-contact-information": "You successfully reviewed your contact information",
   "submit-claim": "Submit claim",
-  "review-body-text-unified": "You can submit your claim now or choose to file later. Either way, you can still complete the check-in process."
+  "review-body-text-unified": "You can submit your claim now or choose to file later. Either way, you can still complete the check-in process.",
+  "we-cant-find-any-upcoming-appointments": "We can't find any upcoming VA medical appointments for you",
+  "our-online-check-in-tool-doesnt-include-all": "Our online check-in tool doesn’t include all appointment types at this time. To find all your appointments, you can use our appointments tool on VA.gov or call your VA or community care health facility.",
+  "go-to-all-your-va-appointments": "Go to all your VA appointments",
+  "find-your-health-facilities-phone-number": "Find your health facility’s phone number"
 }
