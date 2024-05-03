@@ -7,9 +7,9 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { getPrescriptionsPaginatedSortedList } from '../actions/prescriptions';
 import {
   medicationsUrls,
@@ -51,6 +51,7 @@ const LandingPage = () => {
 
   useEffect(
     () => {
+      focusElement(document.querySelector('h1'));
       updatePageTitle('About medications | Veterans Affairs');
       if (
         location.pathname.includes('/accordion-renew-rx') &&
