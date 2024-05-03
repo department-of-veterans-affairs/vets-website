@@ -2,6 +2,8 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import AppointmentsPage from './components/AppointmentsPage/index';
+import AppointmentNotificationPage from '../referral-appointments/AppointmentNotificationsPage';
+import ReviewApproved from '../referral-appointments/ReviewApproved';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
@@ -19,6 +21,15 @@ function AppointmentListSection() {
       {!featureBreadcrumbUrlUpdate && (
         <Switch>
           <Route
+            path="/appointment-notifications"
+            component={AppointmentNotificationPage}
+          />
+          <Route path="/appointment-notifications" component={ReviewApproved} />
+          <Route
+            path="/review-approved"
+            component={AppointmentNotificationPage}
+          />
+          <Route
             path="/:pastOrPending?/cc/:id"
             component={ConfirmedAppointmentDetailsPage}
           />
@@ -35,6 +46,11 @@ function AppointmentListSection() {
       )}
       {featureBreadcrumbUrlUpdate && (
         <Switch>
+          <Route
+            path="/appointment-notifications"
+            component={AppointmentNotificationPage}
+          />
+          <Route path="/review-approved" component={ReviewApproved} />
           <Route
             path="/pending/:id"
             component={RequestedAppointmentDetailsPage}

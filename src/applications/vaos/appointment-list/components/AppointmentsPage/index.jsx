@@ -26,6 +26,7 @@ import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 import CernerAlert from '../../../components/CernerAlert';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
+import ReferralAppLink from '../../../referral-appointments/components/ReferralAppLink';
 
 function renderWarningNotification() {
   return (props, childContent) => {
@@ -144,6 +145,12 @@ export default function AppointmentsPage() {
       />
       {/* {!hideScheduleLink() && <ScheduleNewAppointment />} */}
       <ScheduleNewAppointment />
+      <div>
+        <ReferralAppLink
+          linkText="Review and manage your appointment notifications"
+          linkPath="/appointment-notifications"
+        />
+      </div>
       <AppointmentListNavigation count={count} callback={setHasTypeChanged} />
       <Switch>
         <Route exact path="/">
