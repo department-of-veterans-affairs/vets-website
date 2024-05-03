@@ -1,6 +1,7 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import treatmentHistory from '../../../../config/chapters/03-health-and-employment-information/vaTreatmentHistory';
@@ -25,6 +26,13 @@ describe('pension treatment history page', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  testSubmitsWithoutErrors(
+    formConfig,
+    treatmentHistory.schema,
+    treatmentHistory.uiSchema,
+    pageTitle,
+  );
 });
 
 describe('pension add medical centers page', () => {
@@ -46,5 +54,15 @@ describe('pension add medical centers page', () => {
     medicalCenters.uiSchema,
     expectedNumberOfErrors,
     pageTitle,
+  );
+
+  testSubmitsWithoutErrors(
+    formConfig,
+    medicalCenters.schema,
+    medicalCenters.uiSchema,
+    pageTitle,
+    {
+      medicalCenters: [{ medicalCenter: 'Generic Medical Center' }],
+    },
   );
 });

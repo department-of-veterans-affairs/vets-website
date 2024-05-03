@@ -1,6 +1,7 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import contactInformation from '../../../../config/chapters/01-applicant-information/contactInformation';
@@ -26,4 +27,6 @@ describe('pension contact information page', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
 });

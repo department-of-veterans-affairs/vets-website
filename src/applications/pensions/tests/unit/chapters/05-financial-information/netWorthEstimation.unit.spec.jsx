@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import totalNetWorth from '../../../../config/chapters/05-financial-information/totalNetWorth';
@@ -28,6 +29,8 @@ describe('Financial information net worth estimation pension page', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
 
   describe('hideIfUnder25000', () => {
     it('should return true if under 25000', () => {

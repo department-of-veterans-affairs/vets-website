@@ -1,6 +1,7 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import totalNetWorth from '../../../../config/chapters/05-financial-information/totalNetWorth';
@@ -26,4 +27,6 @@ describe('Financial information total net worth pension page', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
 });

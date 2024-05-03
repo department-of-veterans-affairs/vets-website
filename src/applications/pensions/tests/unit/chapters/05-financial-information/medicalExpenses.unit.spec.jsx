@@ -3,6 +3,7 @@ import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import medicalExpenses from '../../../../config/chapters/05-financial-information/medicalExpenses';
@@ -46,4 +47,6 @@ describe('Unreimbursed care expenses pension page', () => {
     expectedNumberOfErrorsForWebComponents,
     pageTitle,
   );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
 });

@@ -3,6 +3,7 @@ import {
   testNumberOfErrorsOnSubmit,
   testNumberOfWebComponentFields,
   testNumberOfFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import incomeSources from '../../../../config/chapters/05-financial-information/incomeSources';
@@ -10,8 +11,8 @@ import incomeSources from '../../../../config/chapters/05-financial-information/
 const { schema, uiSchema } = incomeSources;
 
 describe('Pension: Financial information, income sources page', () => {
+  const pageTitle = 'Gross monthly income';
   describe('should not require type of income additional field', () => {
-    const pageTitle = 'Gross monthly income';
     const expectedNumberOfWebComponentFields = 3;
     const data = { incomeSources: [{}] };
     testNumberOfWebComponentFields(
@@ -54,7 +55,6 @@ describe('Pension: Financial information, income sources page', () => {
     );
   });
   describe('should include a type of income additional field', async () => {
-    const pageTitle = 'Gross monthly income';
     const expectedNumberOfWebComponentFields = 4;
     const data = {
       incomeSources: [
@@ -83,7 +83,6 @@ describe('Pension: Financial information, income sources page', () => {
     );
   });
   describe('with multiple sources', () => {
-    const pageTitle = 'Gross monthly income';
     const expectedNumberOfWebComponentFields = 3;
     const data = {
       incomeSources: [
@@ -135,4 +134,6 @@ describe('Pension: Financial information, income sources page', () => {
       data,
     );
   });
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
 });

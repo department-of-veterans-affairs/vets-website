@@ -6,6 +6,7 @@ import {
   FakeProvider,
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import previousNames, {
@@ -53,4 +54,6 @@ describe('pensions military history', () => {
       expect(text.innerHTML).to.equal('Jamie Andrew Doe');
     });
   });
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
 });

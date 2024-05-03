@@ -6,6 +6,7 @@ import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
+  testSubmitsWithoutErrors,
   FakeProvider,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
@@ -52,6 +53,8 @@ describe('Unreimbursed care expenses pension page', () => {
     expectedNumberOfErrorsForWebComponents,
     pageTitle,
   );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
 
   describe('CareExpenseView', () => {
     it('should render a list view', () => {

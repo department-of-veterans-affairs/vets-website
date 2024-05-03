@@ -1,8 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import sinon from 'sinon';
+import configureStore from 'redux-mock-store';
+
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+
+import getFixtureData from '../../fixtures/vets-json-api/getFixtureData';
+import getData from '../../fixtures/mocks/mockStore';
 
 const expectedFieldTypes = 'input, select, textarea';
 
@@ -11,21 +17,11 @@ const expectedFieldTypesWebComponents =
 
 const wrapperWebComponents = 'va-checkbox-group, va-memorable-date';
 
-const createFakeStore = fakeState => {
-  return (state = {}) => ({
-    getState: () => ({
-      ...state,
-      fakeState,
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  });
-};
-
 export const FakeProvider = ({ children, state }) => {
-  const store = createFakeStore(state);
-  const mockStore = store(state);
-  return <Provider store={mockStore}>{children}</Provider>;
+  const middleware = [];
+  const mockStore = configureStore(middleware);
+  const { data } = getData(state);
+  return <Provider store={mockStore(data)}>{children}</Provider>;
 };
 
 export const testNumberOfFields = (
@@ -156,4 +152,40 @@ export const getWebComponentErrors = container => {
     ),
   );
   return nodes.filter(node => node.error);
+};
+
+export const testSubmitsWithoutErrors = (
+  formConfig,
+  schema,
+  uiSchema,
+  pageTitle,
+  data = getFixtureData('overflow'),
+  stateData = {},
+) => {
+  describe(`${pageTitle} page`, () => {
+    it('should submit with no errors with all valid data', () => {
+      const state = getData({
+        ...stateData,
+        formData: data,
+      });
+      const onSubmit = sinon.spy();
+      const { queryByText, container } = render(
+        <FakeProvider state={state.data}>
+          <DefinitionTester
+            schema={schema}
+            data={data}
+            definitions={formConfig.defaultDefinitions}
+            uiSchema={uiSchema}
+            onSubmit={onSubmit}
+          />
+        </FakeProvider>,
+      );
+      const submitBtn = queryByText('Submit');
+
+      fireEvent.click(submitBtn);
+
+      expect(getWebComponentErrors(container)).to.be.empty;
+      expect(onSubmit.called).to.be.true;
+    });
+  });
 };

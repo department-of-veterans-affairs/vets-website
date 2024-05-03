@@ -1,6 +1,7 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import currentSpouseMaritalHistory from '../../../../config/chapters/04-household-information/currentSpouseMaritalHistory';
@@ -23,5 +24,12 @@ describe('current spouse marital history', () => {
     currentSpouseMaritalHistory.uiSchema,
     expectedNumberOfErrors,
     pageTitle,
+  );
+
+  testSubmitsWithoutErrors(
+    formConfig,
+    currentSpouseMaritalHistory.schema,
+    currentSpouseMaritalHistory.uiSchema,
+    'spouse marriage history',
   );
 });

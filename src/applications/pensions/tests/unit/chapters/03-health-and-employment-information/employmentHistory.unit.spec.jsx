@@ -5,6 +5,7 @@ import {
   FakeProvider,
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import {
@@ -35,6 +36,22 @@ describe('pensions employment history', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle, {
+    currentEmployment: false,
+    employers: [
+      {
+        jobTitle: 'Cashier',
+        jobType: 'Customer service',
+        jobHoursWeek: '20',
+      },
+      {
+        jobTitle: 'Customer Service Representative',
+        jobType: 'Customer service',
+        jobHoursWeek: '20',
+      },
+    ],
+  });
 
   describe('EmployerView', () => {
     it('should render a list view', () => {

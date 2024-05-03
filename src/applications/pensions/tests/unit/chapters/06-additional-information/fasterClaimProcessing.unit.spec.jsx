@@ -12,6 +12,7 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import {
   testNumberOfWebComponentFields,
   testNumberOfErrorsOnSubmitForWebComponents,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import getData from '../../../fixtures/mocks/mockStore';
 import formConfig from '../../../../config/form';
@@ -38,6 +39,8 @@ describe('web component tests', () => {
     expectedNumberOfErrorsOnSubmitForWebComponents,
     pageTitle,
   );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
 });
 
 describe('Faster claim processing page', () => {

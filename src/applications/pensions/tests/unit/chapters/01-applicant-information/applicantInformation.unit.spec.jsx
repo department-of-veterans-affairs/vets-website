@@ -20,7 +20,10 @@ import applicantInformation, {
   isOver65,
   setDefaultIsOver65,
 } from '../../../../config/chapters/01-applicant-information/applicantInformation';
-import { getWebComponentErrors } from '../pageTests.spec';
+import {
+  getWebComponentErrors,
+  testSubmitsWithoutErrors,
+} from '../pageTests.spec';
 
 const definitions = formConfig.defaultDefinitions;
 
@@ -78,28 +81,15 @@ describe('pension applicant information page', () => {
       expect(onSubmit.called).to.be.false;
     });
   });
-  it('should submit with no errors with all valid data', async () => {
-    const { data } = getData({ loggedIn: false });
-    const onSubmit = sinon.spy();
-    const { queryByText, container } = render(
-      <Provider store={mockStore(data)}>
-        <DefinitionTester
-          schema={schema}
-          data={getFixtureData('overflow')}
-          definitions={formConfig.defaultDefinitions}
-          uiSchema={uiSchema}
-          onSubmit={onSubmit}
-        />
-      </Provider>,
-    );
-    const submitBtn = queryByText('Submit');
-    await waitFor(() => {
-      fireEvent.click(submitBtn);
 
-      expect(getWebComponentErrors(container)).to.be.empty;
-      expect(onSubmit.called).to.be.true;
-    });
-  });
+  testSubmitsWithoutErrors(
+    formConfig,
+    schema,
+    uiSchema,
+    'applicant information',
+    getFixtureData('overflow'),
+    { loggedIn: false },
+  );
 
   describe('isOver65', () => {
     it('should return true if veteranDateOfBirth is over 65 years ago', () => {

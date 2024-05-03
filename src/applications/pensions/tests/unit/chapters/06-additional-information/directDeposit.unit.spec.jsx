@@ -3,6 +3,7 @@ import fullSchemaPensions from '../../../../config/form';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
 describe('Pensions directDeposit', () => {
@@ -29,4 +30,6 @@ describe('Pensions directDeposit', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  testSubmitsWithoutErrors(fullSchemaPensions, schema, uiSchema, pageTitle);
 });

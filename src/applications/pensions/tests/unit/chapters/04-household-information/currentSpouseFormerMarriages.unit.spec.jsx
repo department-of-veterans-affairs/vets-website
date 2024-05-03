@@ -15,6 +15,7 @@ import getData from '../../../fixtures/mocks/mockStore';
 
 import formConfig from '../../../../config/form';
 import spouseMarriageHistory from '../../../../config/chapters/04-household-information/currentSpouseFormerMarriages';
+import { testSubmitsWithoutErrors } from '../pageTests.spec';
 
 const definitions = formConfig.defaultDefinitions;
 
@@ -70,4 +71,11 @@ describe('pension spouse marriage history page', () => {
       expect(onSubmit.called).to.be.false;
     });
   });
+
+  testSubmitsWithoutErrors(
+    formConfig,
+    schema,
+    uiSchema,
+    'spouse marriage history',
+  );
 });
