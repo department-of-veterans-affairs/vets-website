@@ -19,6 +19,7 @@ const useGetUpcomingAppointmentsData = ({ refreshNeeded }) => {
 
   const refreshUpcomingData = () => {
     setIsStale(true);
+    setIsComplete(false);
   };
 
   const dispatch = useDispatch();
