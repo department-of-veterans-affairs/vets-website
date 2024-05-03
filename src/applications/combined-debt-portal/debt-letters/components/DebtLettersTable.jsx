@@ -87,7 +87,6 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
           <button
             type="button"
             className="debt-older-letters usa-button-secondary"
-            aria-controls="older-letters-button"
             aria-expanded={showOlder}
             onClick={() => toggleShowOlderLetters(!showOlder)}
           >
