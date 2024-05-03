@@ -9,7 +9,7 @@ const routes = (
     <Route exact path="/" key="mhvLandingPage">
       <App />
     </Route>
-    <Route exact path="/records" key="medicalRecordsInterstitialLandingPage">
+    <Route exact path="/records" key="mhvMedicalRecordsPage">
       <MedicalRecords />
     </Route>
     <Route>

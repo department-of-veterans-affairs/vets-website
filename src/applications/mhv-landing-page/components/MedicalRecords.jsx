@@ -22,7 +22,7 @@ const MedicalRecords = () => (
       'large-screen:vads-u-padding-x--0',
       'vads-u-margin-bottom--5',
     )}
-    data-testid="mhv-medicalRecordsLandingPage"
+    data-testid="mhvMedicalRecords"
   >
     <a className="vads-u-display--block vads-u-margin-y--3" href="/my-health">
       &lt; Back to My HealtheVet home
