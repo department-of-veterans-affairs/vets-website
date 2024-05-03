@@ -58,6 +58,7 @@ const useGetCheckInData = ({
 
   const refreshCheckInData = () => {
     setIsStale(true);
+    setIsComplete(false);
   };
 
   const setDayOfData = useCallback(
