@@ -71,7 +71,7 @@ export default function RequestAppointmentLayout({ appointment }) {
                     className="vaos-appts__display--table"
                     canceled={isCanceled}
                   >
-                    <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--top">
+                    <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
                       {!isCommunityCare && (
                         <span
                           className={classNames(
