@@ -8,7 +8,7 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import * as recordEventModule from '~/platform/monitoring/record-event';
 
-import ClaimLetterListItem from '../../../components/ClaimLetterListItem';
+import ClaimLetterListItem from '../../../components/claim-letters/ClaimLetterListItem';
 
 const mockLetter = {
   documentId: '{27832B64-2D88-4DEE-9F6F-DF80E4CAAA87}',

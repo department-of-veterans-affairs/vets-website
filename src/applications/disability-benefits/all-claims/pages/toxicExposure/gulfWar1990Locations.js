@@ -16,7 +16,6 @@ export const uiSchema = {
       title: gulfWar1990Question,
       labels: GULF_WAR_1990_LOCATIONS,
       required: false,
-      uswds: false,
     }),
   },
 };

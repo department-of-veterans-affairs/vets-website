@@ -29,6 +29,8 @@ describe('Claim Letters Page', () => {
 
       it('Displays a list of letters', () => {
         cy.visit('track-claims/your-claim-letters');
+        cy.get('va-breadcrumbs').should('be.visible');
+        cy.get('.usa-breadcrumb__list-item').should('have.length', 3);
         cy.get('h1').should('have.text', 'Your VA claim and appeal letters');
         cy.get('ol#claim-letter-list').should('exist');
         cy.get('ol#claim-letter-list > li').should('have.length', 10);

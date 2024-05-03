@@ -9,7 +9,7 @@ import {
 /** @type {PageSchema} */
 export const phoneAndEmailPage = {
   uiSchema: {
-    ...titleUI('Phone and email address', undefined, 1, 'vads-u-color--black'),
+    ...titleUI({ title: 'Phone and email address', headerLevel: 1 }),
     phone: phoneUI('Home phone number', { required: true }),
     emailAddress: emailUI('Email'),
   },

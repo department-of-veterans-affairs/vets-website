@@ -7,12 +7,12 @@ import {
 /** @type {PageSchema} */
 export const mailingAddressPage = {
   uiSchema: {
-    ...titleUI(
-      'Mailing address',
-      'We’ll send any important information about your application to this address.',
-      1,
-      'vads-u-color--black',
-    ),
+    ...titleUI({
+      title: 'Mailing address',
+      description:
+        'We’ll send any important information about your application to this address.',
+      headerLevel: 1,
+    }),
     mailingAddress: addressUI({
       labels: {
         street2: 'Apartment or unit number',
