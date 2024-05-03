@@ -12,6 +12,7 @@ export const statementPage = {
       'ui:options': {
         maxLength: 5000,
         charcount: true,
+        labelHeaderLevel: '1',
       },
     },
   },
