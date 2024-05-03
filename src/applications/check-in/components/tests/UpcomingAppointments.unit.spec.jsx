@@ -36,7 +36,7 @@ describe('unified check-in experience', () => {
       );
 
       expect(getByTestId('upcoming-appointments-header')).to.have.text(
-        'Upcoming Appointments',
+        'Upcoming appointments',
       );
 
       // Restore the hook
@@ -83,7 +83,7 @@ describe('unified check-in experience', () => {
       );
 
       expect(screen.getByTestId('upcoming-appointments-header')).to.have.text(
-        'Upcoming Appointments',
+        'Upcoming appointments',
       );
       expect(
         screen.getByTestId('upcoming-appointments-error-message'),
@@ -102,7 +102,7 @@ describe('unified check-in experience', () => {
         </CheckInProvider>,
       );
       expect(screen.getByTestId('upcoming-appointments-header')).to.have.text(
-        'Upcoming Appointments',
+        'Upcoming appointments',
       );
       sandbox.assert.calledOnce(v2.getUpcomingAppointmentsData);
       sandbox.restore();
@@ -117,7 +117,7 @@ describe('unified check-in experience', () => {
         </CheckInProvider>,
       );
       expect(screen.getByTestId('upcoming-appointments-header')).to.have.text(
-        'Upcoming Appointments',
+        'Upcoming appointments',
       );
       sandbox.assert.notCalled(v2.getUpcomingAppointmentsData);
       sandbox.restore();
