@@ -4,7 +4,6 @@ import '../sass/change-of-address-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import {
   compareObjectsIgnoringExtraKeys,
@@ -21,6 +20,7 @@ import { handleSuggestedAddressPicked, validateAddress } from '../actions';
 import Alert from '../components/Alert';
 import Loader from '../components/Loader';
 import SuggestedAddress from '../components/SuggestedAddress';
+import AlertModal from '../components/AlertModal';
 
 const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const { loading: isLoading, error, data: response } = useSelector(
@@ -186,22 +186,21 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     dispatch({ type: 'RESET_ERROR' });
     setGoBackToEdit(false);
   };
-  const yesCancleEditClick = () => {
+  const cancelEditClick = () => {
     setShowModal(false);
     setEditFormData({});
     dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
     handleCloseForm();
-    setGoBackToEdit(false);
   };
   const onCancleButtonClicked = () => {
     if (
-      (hasFormChanged(formData) && !goBackToEdit) ||
+      (hasFormChanged(formData, applicantName) && !goBackToEdit) ||
       (goBackToEdit &&
         compareObjectsIgnoringExtraKeys(editFormData, editFormData1))
     ) {
       setShowModal(true);
     } else {
-      yesCancleEditClick();
+      cancelEditClick();
     }
   };
 
@@ -298,25 +297,12 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             {(isLoadingValidateAddress || isLoading) && (
               <Loader className="loader" message="updating..." />
             )}
-            <VaModal
-              visible={showModal}
-              modalTitle="Are you sure?"
-              onCloseEvent={() => {
-                setShowModal(false);
-              }}
-              onPrimaryButtonClick={yesCancleEditClick}
-              onSecondaryButtonClick={() => {
-                setShowModal(false);
-              }}
-              primaryButtonText="Yes, cancel my changes"
-              secondaryButtonText="No, go back to editing"
-              status="warning"
-            >
-              <p>
-                You haven’t finished editing and saving the changes to your
-                mailing address. If you cancel now, we won’t save your changes.
-              </p>
-            </VaModal>
+            <AlertModal
+              showModal={showModal}
+              setShowModal={setShowModal}
+              cancelEditClick={cancelEditClick}
+              formType=" mailing address"
+            />
 
             <ChangeOfAddressForm
               applicantName={applicantName}

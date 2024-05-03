@@ -681,11 +681,14 @@ export const addressLabel = address => {
   );
 };
 
-export const hasFormChanged = obj => {
+export const hasFormChanged = (obj, applicantName) => {
   const keys = Object.keys(obj);
 
   for (const key of keys) {
-    if (key !== 'fullName' && obj[key] !== undefined) {
+    if (
+      (!key.includes('fullName') && obj[key] !== undefined) ||
+      (key.includes('fullName') && obj[key] !== applicantName)
+    ) {
       return true;
     }
   }
