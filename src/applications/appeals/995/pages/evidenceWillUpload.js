@@ -8,7 +8,8 @@ import {
   evidenceWillUploadInfo,
 } from '../content/evidenceWillUpload';
 
-import { EVIDENCE_OTHER, errorMessages } from '../constants';
+import { EVIDENCE_OTHER } from '../constants';
+import errorMessages from '../../shared/content/errorMessages';
 
 export default {
   uiSchema: {

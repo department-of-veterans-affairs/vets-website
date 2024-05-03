@@ -3,7 +3,11 @@ import { utcToZonedTime, format } from 'date-fns-tz';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
-import { scrollToTop, formatFullName } from '../helpers';
+import {
+  formatFullName,
+  obfuscateAccountNumber,
+  scrollToTop,
+} from '../helpers';
 
 const centralTz = 'America/Chicago';
 
@@ -20,6 +24,10 @@ class ConfirmationPage extends React.Component {
     const response = submission?.response ?? {};
     const fullName = formatFullName(data?.veteranFullName ?? {});
 
+    // Determine usingDirectDeposit based on whether bankAccount exists and is not empty
+    const usingDirectDeposit =
+      !!data.bankAccount && Object.keys(data.bankAccount).length > 0;
+
     const zonedDate = utcToZonedTime(submission?.timestamp, centralTz);
     const submittedAt = format(zonedDate, 'LLL d, yyyy h:mm a zzz', {
       timeZone: centralTz,
@@ -27,8 +35,9 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div className="vads-u-margin-bottom--9">
-        <h2>Your Veterans Pension application</h2>
-
+        <h2 className="vads-u-margin-bottom--3">
+          Your Veterans Pension application
+        </h2>
         <va-alert uswds status="success">
           <h3>Thank you for submitting your Veterans Pension application.</h3>
           <p className="vads-u-margin-y--0">
@@ -37,27 +46,21 @@ class ConfirmationPage extends React.Component {
             letter with the details of our decision.
           </p>
         </va-alert>
-
         <br />
-
         <va-summary-box uswds>
           <h3 slot="headline" className="vads-u-margin-top--0">
             Your information for this application
           </h3>
-
           <h4>Your name</h4>
           <span>{fullName}</span>
-
           <h4>Date you submitted your application</h4>
           <span>{submittedAt}</span>
-
           {response?.confirmationNumber && (
             <div id="pension_527ez_submission_confirmation">
               <h4>Confirmation number</h4>
               <span>{response?.confirmationNumber}</span>
             </div>
           )}
-
           <va-button
             uswds
             class="screen-only vads-u-margin-top--2"
@@ -67,11 +70,9 @@ class ConfirmationPage extends React.Component {
             }}
           />
         </va-summary-box>
-
         <section>
           <h3>If you need to submit supporting documents</h3>
           <span>You can submit supporting documents in one of 2 ways:</span>
-
           <h4>Submit your documents online through AccessVA</h4>
           <div>
             <p>
@@ -83,7 +84,6 @@ class ConfirmationPage extends React.Component {
               text="Go to AccessVA to use QuickSubmit"
             />
           </div>
-
           <h4>Mail copies of your documents</h4>
           <div>
             <p>
@@ -112,7 +112,6 @@ class ConfirmationPage extends React.Component {
             </p>
           </div>
         </section>
-
         <section>
           <h3>What to expect next</h3>
           <p>
@@ -138,7 +137,52 @@ class ConfirmationPage extends React.Component {
             your pension claim to appear online.
           </p>
         </section>
-
+        {usingDirectDeposit && (
+          <section>
+            <h3 className="vads-u-margin-bottom--3">
+              Direct deposit account information
+            </h3>
+            <va-alert uswds>
+              <h4 slot="headline" className="vads-u-font-size--h4">
+                If we approve your application for pension benefits, we'll use
+                the account you provided for all your VA benefit payments
+              </h4>
+              <p>
+                That means we'll update your direct deposit information for all
+                your VA benefit payments. We'll deposit any payments you may
+                receive for pension or education benefits directly into the bank
+                account you provided in this application.
+              </p>
+              <p>
+                We use a single account for benefits direct deposits to help
+                protect you from fraud, and to make sure we can pay you on time,
+                every time, without error.
+              </p>
+            </va-alert>
+            <h4>Bank account you provided in your VA pension application</h4>
+            <p className="va-address-block">
+              {data.bankAccount.bankName && (
+                <>
+                  {data.bankAccount.bankName}
+                  <br />
+                </>
+              )}
+              {obfuscateAccountNumber(data.bankAccount.accountNumber)}
+              <br />
+              {data.bankAccount.accountType.charAt(0).toUpperCase() +
+                data.bankAccount.accountType.slice(1)}{' '}
+              Account
+            </p>
+            <p>
+              If you currently receive VA benefit payments through direct
+              deposit, you can review your direct deposit information.
+            </p>
+            <va-link
+              href="https://www.va.gov/change-direct-deposit/"
+              text="Review your direct deposit information"
+            />
+          </section>
+        )}
         <section>
           <h3>How to contact us if you have questions</h3>
           <p>

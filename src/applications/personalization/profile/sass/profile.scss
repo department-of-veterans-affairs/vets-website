@@ -23,13 +23,13 @@
 }
 
 .button-link {
-  background: $color-white;
+  background: var(--vads-color-white);
   box-shadow: none !important;
 }
 
 .vet360-profile-field-transaction-pending {
-  color: $color-primary;
-  border-left: 4px solid $color-primary;
+  color: var(--vads-color-primary);
+  border-left: 4px solid var(--vads-color-primary);
   padding-left: 1.5rem;
   position: relative;
   right: 1.9rem;
@@ -37,7 +37,7 @@
 }
 
 .copy-mailing-address-to-residential-address {
-  background-color: $color-primary-alt-lightest;
+  background-color: var(--vads-color-primary-alt-lightest);
   padding: 1em;
   label {
     margin: 0;
@@ -98,7 +98,7 @@
     position: relative;
     display: list-item;
     text-align: -webkit-match-parent;
-    border-left: units(1) solid $color-gray-light;
+    border-left: units(1) solid var(--vads-color-base-light);
     margin: 0px !important;
     padding: 0 0 3.2rem 3.2rem;
 
@@ -109,7 +109,7 @@
     }
 
     &:before {
-      color: $color-white;
+      color: var(--vads-color-white);
       content: counter(listCounter);
       float: left;
       font-size: 2.08rem;
@@ -119,8 +119,8 @@
       top: -0.4rem;
       margin-left: -5.6rem;
       display: block;
-      border: 4px solid $color-white;
-      background: $color-primary;
+      border: 4px solid var(--vads-color-white);
+      background: var(--vads-color-primary);
       border-radius: 4rem;
       position: relative;
       box-sizing: border-box !important;
@@ -131,12 +131,16 @@
   .item-complete::before {
     content: "\f00c";
     font-family: "Font Awesome 5 Free";
-    background: $color-green;
+    background: var(--vads-color-success-dark);
   }
 
   .item-heading {
     clear: inherit;
   }
+}
+
+.text-balance {
+  text-wrap: balance;
 }
 
 // hides the extension field on the single field editing page

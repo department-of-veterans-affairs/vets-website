@@ -8,7 +8,6 @@ export const ADDRESS_TYPES = {
 
 export function formatAddress(address) {
   /* eslint-disable prefer-template */
-
   const {
     country,
     postalCode,
@@ -18,60 +17,50 @@ export function formatAddress(address) {
     addressLine1,
     addressLine2,
     addressLine3,
-    addressMetaData,
+    addressType,
     city,
-    internationalPostalCode,
-    stateProvince,
-    zipCode5,
+    stateCode,
+    zipCode,
+    militaryAddress,
   } = address || {};
+
+  const { militaryPostOffice, militaryState } = militaryAddress || {};
 
   let cityStateZip = '';
 
   const displayCountry = countries.find(
     countryCode =>
-      countryCode.countryCodeISO3 === country?.iso3Code ||
+      countryCode.countryCodeISO3 === countryCode ||
       countryCode.countryCodeISO3 === country,
   );
 
   const displayCountryName = displayCountry?.countryName;
-  const zip = postalCode || zipCode5;
+  const zip = postalCode || zipCode;
 
   // Only show country when ADDRESS_TYPES.international
   const addressCountry =
-    addressMetaData?.addressType === ADDRESS_TYPES.international
-      ? country.name || displayCountryName
-      : '';
+    addressType === ADDRESS_TYPES.international ? displayCountryName : '';
 
   const addressStreet = street
-    ? `${street} ${street2}`
-    : `${addressLine1} ${addressLine2} ${addressLine3}`;
+    ? `${street} ${street2 || ''}`
+    : `${addressLine1} ${addressLine2 || ''} ${addressLine3 || ''}`;
 
   // only use the full state name for military addresses, otherwise just show
   // the two-letter state code
-  let stateName = state || stateProvince?.code;
-  if (addressMetaData?.addressType === ADDRESS_TYPES.military) {
-    stateName = stateProvince.name;
-  }
+  const stateName = state || stateCode || militaryState;
 
-  switch (addressMetaData?.addressType) {
+  switch (addressType) {
     case ADDRESS_TYPES.domestic:
     case ADDRESS_TYPES.military:
-      cityStateZip = city || '';
-      if (city && stateProvince?.code) cityStateZip += ', ';
-      if (stateProvince?.code) cityStateZip += stateName;
-      if (zipCode5) cityStateZip += ' ' + zipCode5;
-      break;
-
-    // For international addresses we add a comma after the province
-    case ADDRESS_TYPES.international:
-      cityStateZip =
-        [city, stateProvince.name, internationalPostalCode]
-          .filter(item => item)
-          .join(', ') || '';
+      cityStateZip = city || militaryPostOffice;
+      if ((city || militaryPostOffice) && (stateCode || militaryState))
+        cityStateZip += ', ';
+      if (stateCode || militaryState) cityStateZip += stateName;
+      if (zipCode) cityStateZip += ' ' + (zipCode || postalCode);
       break;
 
     default:
-      cityStateZip = `${city} ${stateName} ${zip}` || '';
+      cityStateZip = `${city || militaryPostOffice} ${stateName} ${zip}` || '';
   }
 
   return { addressStreet, cityStateZip, addressCountry };
@@ -86,3 +75,12 @@ export function getFileSize(num) {
   }
   return `${num} B`;
 }
+
+export const setFocus = (selector, tabIndexInclude = true) => {
+  const el =
+    typeof selector === 'string' ? document.querySelector(selector) : selector;
+  if (el) {
+    if (tabIndexInclude) el.setAttribute('tabIndex', -1);
+    el.focus();
+  }
+};

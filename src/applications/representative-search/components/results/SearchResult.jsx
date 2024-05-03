@@ -26,6 +26,7 @@ const SearchResult = ({
   associatedOrgs,
   submitRepresentativeReport,
   initializeRepresentativeReport,
+  cancelRepresentativeReport,
   reportSubmissionStatus,
   reports,
   representativeId,
@@ -113,7 +114,6 @@ const SearchResult = ({
   return (
     <div className="report-outdated-information-modal">
       {/* Trigger methods for unit testing - temporary workaround for shadow root issues */}
-
       {setReportModalTester ? (
         <button
           id="open-modal-test-button"
@@ -125,7 +125,6 @@ const SearchResult = ({
           }}
         />
       ) : null}
-
       {reportModalIsShowing && (
         <ReportModal
           representativeName={officer}
@@ -136,10 +135,10 @@ const SearchResult = ({
           existingReports={reports}
           onCloseReportModal={onCloseReportModal}
           submitRepresentativeReport={submitRepresentativeReport}
+          cancelRepresentativeReport={cancelRepresentativeReport}
         />
       )}
-
-      <div className="vads-u-padding--4 representative-result-card">
+      <va-card class="representative-result-card vads-u-padding--4">
         <div className="representative-result-card-content">
           <div className="representative-info-heading">
             {distance && (
@@ -218,6 +217,7 @@ const SearchResult = ({
                   contact={contact}
                   extension={extension}
                   onClick={() => recordContactLinkClick()}
+                  disable-analytics
                 />
               </div>
             )}
@@ -232,42 +232,43 @@ const SearchResult = ({
               </div>
             )}
           </div>
-          {reports && (
-            <div className="report-thank-you-alert">
-              <va-alert
-                class="thank-you-alert vads-u-margin-bottom--2"
-                id={`thank-you-alert-${representativeId}`}
-                close-btn-aria-label="Close notification"
-                disable-analytics="false"
-                tabIndex={-1}
-                full-width="false"
-                slim
-                status="info"
+          <div className="experimental-parent">
+            {reports && (
+              <div className="report-thank-you-alert">
+                <va-alert
+                  class="thank-you-alert vads-u-margin-bottom--2"
+                  id={`thank-you-alert-${representativeId}`}
+                  close-btn-aria-label="Close notification"
+                  disable-analytics="false"
+                  full-width="false"
+                  slim
+                  status="info"
+                  uswds
+                  visible="true"
+                >
+                  <p className="vads-u-margin-y--0">
+                    Thanks for reporting outdated information.
+                  </p>
+                </va-alert>
+              </div>
+            )}
+            <div className="report-outdated-information-button">
+              <va-button
+                onClick={() => {
+                  recordReportButtonClick();
+                  setReportModalIsShowing(true);
+                }}
+                id={`report-button-${representativeId}`}
+                secondary
+                text="Report outdated information"
+                label={`Report outdated information for ${officer}`}
                 uswds
-                visible="true"
-              >
-                <p className="vads-u-margin-y--0">
-                  Thanks for reporting outdated information.
-                </p>
-              </va-alert>
+                disable-analytics
+              />
             </div>
-          )}
-          <div className="report-outdated-information-button">
-            <va-button
-              onClick={() => {
-                recordReportButtonClick();
-                setReportModalIsShowing(true);
-              }}
-              tabIndex={-1}
-              id={`report-button-${representativeId}`}
-              secondary
-              text="Report outdated information"
-              label={`Report outdated information for ${officer}`}
-              uswds
-            />
           </div>
         </div>
-      </div>
+      </va-card>
     </div>
   );
 };

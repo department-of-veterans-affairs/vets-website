@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import {
+  currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
   radioUI,
   radioSchema,
   numberUI,
@@ -15,11 +16,10 @@ import {
   VaCheckboxField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import { updateMultiresponseUiOptions } from '../../../helpers';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
-
-const { dateRange } = fullSchemaPensions.definitions;
+import { doesHaveCareExpenses } from './helpers';
 
 const careOptions = {
   CARE_FACILITY: 'Care facility',
@@ -43,6 +43,9 @@ CareExpenseView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Unreimbursed care expenses',
+  path: 'financial/care-expenses/add',
+  depends: doesHaveCareExpenses,
   uiSchema: {
     ...titleUI('Add an unreimbursed care expense'),
     careExpenses: {
@@ -55,6 +58,8 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
+        updateSchema: updateMultiresponseUiOptions,
       },
       items: {
         recipients: radioUI({
@@ -98,7 +103,7 @@ export default {
           min: 1,
           max: 168,
         }),
-        careDateRange: dateRangeUI(
+        careDateRange: currentOrPastDateRangeUI(
           'Care start date',
           'Care end date',
           'End of care must be after start of care',
@@ -142,7 +147,7 @@ export default {
             ratePerHour: { type: 'number' },
             hoursPerWeek: numberSchema,
             careDateRange: {
-              ...dateRange,
+              ...currentOrPastDateRangeSchema,
               required: ['from'],
             },
             noCareEndDate: { type: 'boolean' },

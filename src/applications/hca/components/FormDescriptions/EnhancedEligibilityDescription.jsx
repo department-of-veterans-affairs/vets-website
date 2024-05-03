@@ -7,8 +7,9 @@ const EnhancedEligibilityDescription = () => (
     uswds
   >
     <p className="vads-u-font-weight--bold">
-      You may qualify for enhanced eligibility status if you receive any of
-      these benefits:
+      You may qualify for enhanced eligibility status if you meet the minimum
+      active-duty service and discharge requirements and you receive at least
+      one of these benefits:
     </p>
     <ul>
       <li>VA pension</li>
@@ -20,6 +21,25 @@ const EnhancedEligibilityDescription = () => (
       these descriptions:
     </p>
     <ul>
+      <li>
+        You were discharged for a disability resulting from something that
+        happened to you in the line of duty.
+      </li>
+      <li>
+        You were discharged for a disability that got worse in the line of duty.
+      </li>
+      <li>
+        You’re a combat Veteran discharged or released on or after September 11,
+        2001.{' '}
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://www.va.gov/health-care/eligibility/active-duty/"
+        >
+          Learn more about eligibility for transitioning active-duty service
+          members and returning combat Veterans (opens in new tab)
+        </a>
+      </li>
       <li>You’re a former Prisoner of War (POW).</li>
       <li>You received a Purple Heart.</li>
       <li>You received a Medal of Honor.</li>

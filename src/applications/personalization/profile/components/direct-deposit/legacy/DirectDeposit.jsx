@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import {
   cnpDirectDepositUiState,
   eduDirectDepositUiState,
-  selectHideDirectDepositCompAndPen,
+  selectHideDirectDeposit,
 } from '@@profile/selectors';
 import { Prompt } from 'react-router-dom';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
@@ -24,26 +24,26 @@ import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
 import { handleDowntimeForSection } from '../../alerts/DowntimeBanner';
-import VerifyIdentity from './alerts/VerifyIdentity';
+import VerifyIdentity from '../alerts/VerifyIdentity';
 
 import Headline from '../../ProfileSectionHeadline';
 
-import FraudVictimAlert from './alerts/FraudVictimAlert';
-import PaymentHistory from './PaymentHistory';
+import { FraudVictimSummary } from '../FraudVictimSummary';
+import { PaymentHistoryCard } from '../PaymentHistoryCard';
 import BankInfo from './BankInfo';
 import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import DirectDepositWrapper from './DirectDepositWrapper';
 import TemporaryOutageCnp from './alerts/TemporaryOutageCnp';
 
-import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../../constants';
+import { DIRECT_DEPOSIT_ALERT_SETTINGS } from '../../../constants';
 import { EduMigrationAlert } from './alerts/EduMigrationAlert';
 
 const DirectDeposit = ({
   cnpUiState,
   eduUiState,
   isVerifiedUser,
-  hideDirectDepositCompAndPen,
+  hideDirectDeposit,
   useOAuth,
 }) => {
   const [showCNPSuccessMessage, setShowCNPSuccessMessage] = useState(false);
@@ -73,7 +73,7 @@ const DirectDeposit = ({
     setTimeout(() => {
       setShowCNPSuccessMessage(false);
       setShowEDUSuccessMessage(false);
-    }, BANK_INFO_UPDATED_ALERT_SETTINGS.TIMEOUT);
+    }, DIRECT_DEPOSIT_ALERT_SETTINGS.TIMEOUT);
   }, []);
 
   useEffect(() => {
@@ -117,11 +117,11 @@ const DirectDeposit = ({
   // prevents alert from showing when navigating away from DD page and no edits have been made
   useEffect(
     () => {
-      if (hideDirectDepositCompAndPen) {
+      if (hideDirectDeposit) {
         setCnpFormIsDirty(true);
       }
     },
-    [hideDirectDepositCompAndPen, setCnpFormIsDirty],
+    [hideDirectDeposit, setCnpFormIsDirty],
   );
 
   useEffect(
@@ -138,7 +138,9 @@ const DirectDeposit = ({
 
   return (
     <>
-      <Headline>Direct deposit information</Headline>
+      <Headline dataTestId="legacy-direct-deposit">
+        Direct deposit information
+      </Headline>
 
       <DirectDepositWrapper setViewingIsRestricted={setViewingIsRestricted}>
         <Prompt
@@ -153,7 +155,7 @@ const DirectDeposit = ({
             )}
             dependencies={[externalServices.evss]}
           >
-            {hideDirectDepositCompAndPen ? (
+            {hideDirectDeposit ? (
               <TemporaryOutageCnp />
             ) : (
               <>
@@ -170,7 +172,7 @@ const DirectDeposit = ({
         ) : (
           <VerifyIdentity useOAuth={useOAuth} />
         )}
-        <FraudVictimAlert />
+        <FraudVictimSummary />
         {showBankInformation ? (
           <>
             <BankInfo
@@ -180,7 +182,7 @@ const DirectDeposit = ({
               showSuccessMessage={showEDUSuccessMessage}
             />
             {(viewingPayments[benefitTypes.CNP] ||
-              viewingPayments[benefitTypes.EDU]) && <PaymentHistory />}
+              viewingPayments[benefitTypes.EDU]) && <PaymentHistoryCard />}
           </>
         ) : null}
       </DirectDepositWrapper>
@@ -197,7 +199,7 @@ DirectDeposit.propTypes = {
     isSaving: PropTypes.bool.isRequired,
     responseError: PropTypes.object,
   }).isRequired,
-  hideDirectDepositCompAndPen: PropTypes.bool.isRequired,
+  hideDirectDeposit: PropTypes.bool.isRequired,
   isVerifiedUser: PropTypes.bool.isRequired,
   useOAuth: PropTypes.bool.isRequired,
 };
@@ -214,7 +216,7 @@ const mapStateToProps = state => {
     isVerifiedUser: isLOA3 && isUsingEligibleSignInService && is2faEnabled,
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
-    hideDirectDepositCompAndPen: selectHideDirectDepositCompAndPen(state),
+    hideDirectDeposit: selectHideDirectDeposit(state),
     useOAuth: isAuthenticatedWithOAuth(state),
   };
 };

@@ -35,6 +35,7 @@ const Covid19PhoneLink = ({
         contact={contact}
         extension={extension || parsedExtension}
         aria-describedby={labelId}
+        message-aria-describedby={labelText}
       />
     </div>
   );

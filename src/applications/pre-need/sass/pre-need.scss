@@ -47,7 +47,7 @@ h3.name-of-deceased-text {
 }
 
 .mail-fax-address {
-  border-left: 3px solid $color-primary;
+  border-left: 3px solid var(--vads-color-primary);
   padding-left: 1rem;
 }
 
@@ -83,6 +83,18 @@ article#pre-need[data-location="sponsor-date-of-death"] {
 article#pre-need[data-location="review-and-submit"] {
   .schemaform-widget-wrapper > fieldset {
     margin-top: 0em !important;
+  }
+  fieldset.schemaform-field-template.schemaform-first-field {
+    margin-top: 0.8em;
+    margin-bottom: 0em;
+  }
+  .applicantDemographicsDescription,
+  .sponsorDemographicsDescription {
+    p {
+      margin-bottom: -3em;
+    }
+    margin-bottom: 1em;
+    padding-bottom: 2em;
   }
 }
 

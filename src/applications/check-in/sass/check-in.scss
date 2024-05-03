@@ -11,9 +11,6 @@ dt{
   a {
     display: inline-block;
     padding: 0.5em 0.5em 0.5em .25em;
-    i {
-      font-size: 10px;
-    }
   }
 }
 
@@ -70,12 +67,12 @@ va-text-input[error]:not([error=""])::part(span)  {
 .appointment-details--icon {
   height: 40px;
   width: 40px;
-  background: $color-primary-darkest;
+  background: var(--vads-color-primary-darker);
   border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $color-white;
+  color: var(--vads-color-white);
   font-size: 20px;
   position: absolute;
   top: -20px;

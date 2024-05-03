@@ -1,38 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { Outlet, useNavigate, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
 import { getClaim as getClaimAction } from '../actions';
 
-class ClaimPage extends React.Component {
-  componentDidMount() {
-    const { getClaim, params, router } = this.props;
+export function ClaimPage({ getClaim }) {
+  const navigate = useNavigate();
+  const params = useParams();
 
-    getClaim(params.id, router);
-  }
+  useEffect(() => {
+    getClaim(params.id, navigate);
+  }, []);
 
-  render() {
-    return this.props.children;
-  }
+  return <Outlet />;
 }
 
 const mapDispatchToProps = {
   getClaim: getClaimAction,
 };
 
-export default withRouter(
-  connect(
-    null,
-    mapDispatchToProps,
-  )(ClaimPage),
-);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ClaimPage);
 
 ClaimPage.propTypes = {
-  children: PropTypes.node,
   getClaim: PropTypes.func,
-  params: PropTypes.object,
-  router: PropTypes.object,
 };
-
-export { ClaimPage };

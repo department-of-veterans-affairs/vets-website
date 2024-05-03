@@ -1,10 +1,8 @@
 import React from 'react';
+import YesNoField from 'platform/forms-system/src/js/web-component-fields/YesNoField';
 
 const Explainer = (
-  <va-additional-info
-    trigger="Why do I need to provide this information?"
-    uswds
-  >
+  <va-additional-info trigger="Why do I need to provide this information?">
     <p>
       We want to make sure we fully understand your financial situation. We ask
       for details about your real estate assets because it allows us to make a
@@ -39,7 +37,7 @@ export const uiSchema = {
     hasRealEstate: {
       'ui:title': 'Do you currently own any property?',
       'ui:description': RealEstateDescription,
-      'ui:widget': 'yesNo',
+      'ui:webComponentField': YesNoField,
       'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Please enter your real estate information.',

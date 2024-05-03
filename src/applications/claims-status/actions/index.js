@@ -3,21 +3,14 @@ import * as Sentry from '@sentry/browser';
 
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 
 import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
-import {
-  // START lighthouse_migration
-  getTrackedItemId,
-  // END lighthouse_migration
-  makeAuthRequest,
-  roundToNearest,
-} from '../utils/helpers';
+import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
-
+import { canUseMocks } from '../constants';
 import {
   ADD_FILE,
   BACKEND_SERVICE_ERROR,
@@ -56,12 +49,6 @@ import {
   USER_FORBIDDEN_ERROR,
   VALIDATION_ERROR,
 } from './types';
-
-// This should make it a bit easier to turn mocks on and off manually
-const SHOULD_USE_MOCKS = true;
-// NOTE: This should only be TRUE when developing locally
-const CAN_USE_MOCKS = environment.isLocalhost() && !window.Cypress;
-const USE_MOCKS = CAN_USE_MOCKS && SHOULD_USE_MOCKS;
 
 export const getClaimLetters = async () => {
   return apiRequest('/claim_letters');
@@ -123,60 +110,11 @@ export function getAppealsV2() {
   };
 }
 
-// START lighthouse_migration
-function fetchClaimsSuccessEVSS(response) {
-  return {
-    type: FETCH_CLAIMS_SUCCESS,
-    claims: response.data,
-  };
-}
-// END lighthouse_migration
-
 function fetchClaimsSuccess(claims) {
   return {
     type: FETCH_CLAIMS_SUCCESS,
     claims,
   };
-}
-
-export function pollRequest(options) {
-  const {
-    onError,
-    onSuccess,
-    pollingExpiration,
-    pollingInterval,
-    request = apiRequest,
-    shouldFail,
-    shouldSucceed,
-    target,
-  } = options;
-  return request(
-    target,
-    null,
-    response => {
-      if (shouldSucceed(response)) {
-        onSuccess(response);
-        return;
-      }
-
-      if (shouldFail(response)) {
-        onError(response);
-        return;
-      }
-
-      if (pollingExpiration && Date.now() > pollingExpiration) {
-        onError(null);
-        return;
-      }
-
-      setTimeout(pollRequest, pollingInterval, options);
-    },
-    error => onError(error),
-  );
-}
-
-function getSyncStatus(claimsAsyncResponse) {
-  return get('meta.syncStatus', claimsAsyncResponse, null);
 }
 
 const recordClaimsAPIEvent = ({ startTime, success, error }) => {
@@ -215,77 +153,6 @@ const recordClaimsAPIEvent = ({ startTime, success, error }) => {
     });
   }
 };
-
-// START lighthouse_migration
-export function getClaimsV2(options = {}) {
-  // Throw an error if an unsupported value is on the `options` object
-  const recognizedOptions = ['poll', 'pollingExpiration'];
-  Object.keys(options).forEach(option => {
-    if (!recognizedOptions.includes(option)) {
-      throw new TypeError(
-        `Unrecognized option "${option}" passed to "getClaimsV2"\nOnly the following options are supported:\n${recognizedOptions.join(
-          '\n',
-        )}`,
-      );
-    }
-  });
-  const { poll = pollRequest, pollingExpiration } = options;
-  const startTimestampMs = Date.now();
-  return dispatch => {
-    dispatch({ type: FETCH_CLAIMS_PENDING });
-
-    if (USE_MOCKS) {
-      return mockApi
-        .getClaimList()
-        .then(mockClaimsList =>
-          dispatch(fetchClaimsSuccessEVSS(mockClaimsList)),
-        );
-    }
-
-    return poll({
-      onError: response => {
-        const errorCode = getErrorStatus(response);
-        if (errorCode && errorCode !== UNKNOWN_STATUS) {
-          Sentry.withScope(scope => {
-            scope.setFingerprint(['{{default}}', errorCode]);
-            Sentry.captureException(
-              `vets_claims_v2_err_get_claims ${errorCode}`,
-            );
-          });
-        }
-        // This onError callback will be called with a null response arg when
-        // the API takes too long to return data
-        if (response === null) {
-          recordClaimsAPIEvent({
-            startTime: startTimestampMs,
-            success: false,
-            error: '504 Timed out - API took too long',
-          });
-        } else {
-          recordClaimsAPIEvent({
-            startTime: startTimestampMs,
-            success: false,
-            error: errorCode,
-          });
-        }
-
-        return dispatch({ type: FETCH_CLAIMS_ERROR });
-      },
-      onSuccess: response => {
-        recordClaimsAPIEvent({
-          startTime: startTimestampMs,
-          success: true,
-        });
-        dispatch(fetchClaimsSuccessEVSS(response));
-      },
-      pollingExpiration,
-      pollingInterval: window.VetsGov.pollTimeout || 5000,
-      shouldFail: response => getSyncStatus(response) === 'FAILED',
-      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
-      target: '/evss_claims_async',
-    });
-  };
-}
 
 export const getClaims = () => {
   return dispatch => {
@@ -326,48 +193,8 @@ export const getClaims = () => {
       });
   };
 };
-// END lighthouse_migration
 
-// START lighthouse_migration
-export function getClaimDetail(id, router, poll = pollRequest) {
-  return dispatch => {
-    dispatch({
-      type: GET_CLAIM_DETAIL,
-    });
-
-    if (USE_MOCKS) {
-      return mockApi.getClaimDetails(id).then(mockDetails =>
-        dispatch({
-          type: SET_CLAIM_DETAIL,
-          claim: mockDetails.data,
-          meta: mockDetails.meta,
-        }),
-      );
-    }
-
-    return poll({
-      onError: response => {
-        if (response.status !== 404 || !router) {
-          return dispatch({ type: SET_CLAIMS_UNAVAILABLE });
-        }
-
-        return router.replace('your-claims');
-      },
-      onSuccess: response =>
-        dispatch({
-          type: SET_CLAIM_DETAIL,
-          claim: response.data,
-          meta: response.meta,
-        }),
-      pollingInterval: window.VetsGov.pollTimeout || 5000,
-      shouldFail: response => getSyncStatus(response) === 'FAILED',
-      shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',
-      target: `/evss_claims_async/${id}`,
-    });
-  };
-}
-
-export const getClaim = (id, router) => {
+export const getClaim = (id, navigate) => {
   return dispatch => {
     dispatch({ type: GET_CLAIM_DETAIL });
 
@@ -376,18 +203,17 @@ export const getClaim = (id, router) => {
         dispatch({
           type: SET_CLAIM_DETAIL,
           claim: res.data,
-          meta: { syncStatus: 'SUCCESS' },
         });
       })
       .catch(error => {
-        if (error.status !== 404 || !router) {
+        if (error.status !== 404 || !navigate) {
           return dispatch({
             type: SET_CLAIMS_UNAVAILABLE,
             error: error.message,
           });
         }
 
-        return router.replace('your-claims');
+        return navigate('/your-claims', { replace: true });
       });
   };
 };
@@ -398,7 +224,7 @@ export function submitRequest(id) {
       type: SUBMIT_DECISION_REQUEST,
     });
 
-    if (USE_MOCKS) {
+    if (canUseMocks()) {
       dispatch({ type: SET_DECISION_REQUESTED });
       dispatch(
         setNotification({
@@ -407,10 +233,10 @@ export function submitRequest(id) {
             'Thank you. We have your claim request and will make a decision.',
         }),
       );
-      return;
+      return Promise.resolve();
     }
 
-    makeAuthRequest(
+    return makeAuthRequest(
       `/v0/evss_claims/${id}/request_decision`,
       { method: 'POST' },
       dispatch,
@@ -508,9 +334,8 @@ export function submitFiles(claimId, trackedItem, files) {
   let hasError = false;
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
-  // START lighthouse_migration
-  const trackedItemId = trackedItem ? getTrackedItemId(trackedItem) : null;
-  // END lighthouse_migration
+  const trackedItemId = trackedItem ? trackedItem.id : null;
+
   recordEvent({
     event: 'claims-upload-start',
   });
@@ -550,7 +375,7 @@ export function submitFiles(claimId, trackedItem, files) {
           multiple: false,
           callbacks: {
             onAllComplete: () => {
-              if (USE_MOCKS) {
+              if (canUseMocks()) {
                 dispatch({ type: DONE_UPLOADING });
                 dispatch(
                   setNotification({
@@ -690,9 +515,8 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
   let hasError = false;
   const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
   const totalFiles = files.length;
-  // START lighthouse_migration
-  const trackedItemId = trackedItem ? getTrackedItemId(trackedItem) : null;
-  // END lighthouse_migration
+  const trackedItemId = trackedItem ? trackedItem.id : null;
+
   recordEvent({
     event: 'claims-upload-start',
   });
@@ -906,7 +730,7 @@ export function getStemClaims() {
   return dispatch => {
     dispatch({ type: FETCH_STEM_CLAIMS_PENDING });
 
-    if (USE_MOCKS) {
+    if (canUseMocks()) {
       return getStemClaimsMock(dispatch);
     }
 

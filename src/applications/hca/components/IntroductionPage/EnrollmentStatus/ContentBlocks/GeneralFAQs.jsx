@@ -39,7 +39,7 @@ const faqBlock1 = (
     </p>
     <p>
       <va-link
-        href="/profile/contact-information/"
+        href={`${APP_URLS.profile}/contact-information/`}
         text="Go to your VA.gov profile to update your contact information"
       />
       .

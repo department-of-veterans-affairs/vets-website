@@ -37,6 +37,80 @@ export function hasDifferentHomeAddress(formData) {
 }
 
 /**
+ * Helper that determines if the form data contains values that enable the
+ * toxic exposure questions in the Military Service chapter
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user is not short form eligible and the
+ * TERA feature flag is set to true
+ */
+export function teraInformationEnabled(formData) {
+  const { 'view:isTeraEnabled': isTeraEnabled } = formData;
+  return isTeraEnabled;
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user wants to fill out information related to toxic exposure
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the toxic exposure quesions are enabled and
+ * the user indicated they wanted to fill out questions related to exposure
+ */
+export function includeTeraInformation(formData) {
+  const { hasTeraResponse } = formData;
+  return teraInformationEnabled(formData) && hasTeraResponse;
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user served in specific gulf war locations
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they served in the specified
+ * Gulf War locations
+ */
+export function includeGulfWarServiceDates(formData) {
+  const { gulfWarService } = formData;
+  return gulfWarService && includeTeraInformation(formData);
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user served in specific gulf war locations
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they served in the specified
+ * Gulf War locations
+ */
+export function includeAgentOrangeExposureDates(formData) {
+  const { exposedToAgentOrange } = formData;
+  return exposedToAgentOrange && includeTeraInformation(formData);
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user has a specified other toxic exposure
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they have a specified
+ * toxic exposure
+ */
+export function includeOtherExposureDates(formData) {
+  const { 'view:otherToxicExposures': otherToxicExposures = {} } = formData;
+  const exposures = Object.values(otherToxicExposures);
+  return exposures.some(o => o) && includeTeraInformation(formData);
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user has a specified other toxic exposure
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they had a toxic exposure
+ * that was not on the specified list
+ */
+export function includeOtherExposureDetails(formData) {
+  return (
+    formData['view:otherToxicExposures']?.exposureToOther &&
+    includeTeraInformation(formData)
+  );
+}
+/**
  * Helper that determines if the form data contains values that allow users to fill
  * in their household financial information
  * @param {Object} formData - the current data object passed from the form

@@ -4,10 +4,10 @@ import { selectRumUser } from '../../../../utils/selectors/datadog-rum';
 describe('hca DatadogRUM selector', () => {
   const state = {
     hcaEnrollmentStatus: {
-      enrollmentStatus: 'noneOfTheAbove',
+      statusCode: 'noneOfTheAbove',
     },
-    totalRating: {
-      totalDisabilityRating: 0,
+    disabilityRating: {
+      totalRating: 0,
     },
     user: {
       profile: {

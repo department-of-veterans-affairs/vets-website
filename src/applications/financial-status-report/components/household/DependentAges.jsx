@@ -178,14 +178,13 @@ const DependentAges = ({
         name={`dependentAge-${i}`}
         onInput={({ target }) => handlers.updateDependents(target, i)}
         value={dependent.dependentAge}
-        className="input-size-2 no-wrap"
+        width="md"
         onBlur={event => handlers.handleBlur(event, i)}
         error={errors[i]}
         inputMode="numeric"
         required
         min={0}
         max={MAXIMUM_DEPENDENT_AGE}
-        uswds
       />
     </div>
   );

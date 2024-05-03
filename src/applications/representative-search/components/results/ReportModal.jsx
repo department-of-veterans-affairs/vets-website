@@ -16,6 +16,7 @@ const ReportModal = ({
   existingReports,
   onCloseReportModal,
   submitRepresentativeReport,
+  cancelRepresentativeReport,
   handleOtherInputChangeTestId,
   testReportObject,
 }) => {
@@ -114,12 +115,16 @@ const ReportModal = ({
     onCloseReportModal();
   };
 
+  const onCancelOrClose = () => {
+    cancelRepresentativeReport();
+    onCloseReportModal();
+  };
   return (
     <>
       <VaModal
-        onCloseEvent={onCloseReportModal}
+        onCloseEvent={onCancelOrClose}
         onPrimaryButtonClick={onSubmitModal}
-        onSecondaryButtonClick={onCloseReportModal}
+        onSecondaryButtonClick={onCancelOrClose}
         primaryButtonText="Submit"
         secondaryButtonText="Cancel"
         visible
@@ -236,6 +241,7 @@ const ReportModal = ({
               <va-textarea
                 hint={null}
                 label="Describe the other information we need to update"
+                required
                 error={otherIsBlankError ? 'This field is required' : null}
                 value={reportObject.other}
                 name="Other comment input"
@@ -256,6 +262,7 @@ export default ReportModal;
 
 ReportModal.propTypes = {
   address: PropTypes.string,
+  cancelRepresentativeReport: PropTypes.func,
   email: PropTypes.string,
   existingReports: PropTypes.shape({
     address: PropTypes.string,

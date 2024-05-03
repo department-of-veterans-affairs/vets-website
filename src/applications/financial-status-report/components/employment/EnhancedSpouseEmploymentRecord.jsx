@@ -166,7 +166,7 @@ const EmploymentRecord = props => {
             information if it’s a current job.
           </p>
         </legend>
-        <div className="input-size-5">
+        <div className="input-size-7">
           <VaSelect
             id="type"
             name="type"
@@ -176,18 +176,15 @@ const EmploymentRecord = props => {
             onVaSelect={handlers.onChange}
             error={typeError}
             class="advanced-search-field"
-            uswds
           >
-            <option value=""> </option>
             <option value="Full time">Full time</option>
             <option value="Part time">Part time</option>
             <option value="Seasonal">Seasonal</option>
             <option value="Temporary">Temporary</option>
           </VaSelect>
         </div>
-        <div className="input-size-7 vads-u-margin-bottom--2">
+        <div className="vads-u-margin-bottom--2">
           <VaTextInput
-            className="no-wrap"
             error={employerNameError ? 'Please enter your employer name.' : ''}
             id="employer-name"
             label="Employer name"
@@ -196,7 +193,7 @@ const EmploymentRecord = props => {
             required
             type="text"
             value={employmentRecord.employerName}
-            uswds
+            width="xl"
           />
         </div>
         <VaRadio
@@ -204,14 +201,12 @@ const EmploymentRecord = props => {
           label="Does your spouse currently work at this job?"
           onVaValueChange={handlers.onRadioSelect}
           required
-          uswds
         >
           <va-radio-option
             id="works-here"
             label="Yes"
             value="true"
             checked={currentlyWorksHere}
-            uswds
           />
           <va-radio-option
             id="does-not-work-here"
@@ -219,7 +214,6 @@ const EmploymentRecord = props => {
             value="false"
             name="primary"
             checked={!currentlyWorksHere}
-            uswds
           />
         </VaRadio>
 

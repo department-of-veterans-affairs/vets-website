@@ -6,14 +6,12 @@ import {
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { formatCurrency, isHomeAcreageMoreThanTwo } from '../../helpers';
 import {
-  formatCurrency,
-  submit,
-  replacer,
-  isMarried,
   getMarriageTitleWithCurrent,
-  isHomeAcreageMoreThanTwo,
-} from '../../helpers';
+  isMarried,
+} from '../../config/chapters/04-household-information/helpers';
+import { replacer, submit } from '../../config/submit';
 
 describe('Pensions helpers', () => {
   describe('submit', () => {

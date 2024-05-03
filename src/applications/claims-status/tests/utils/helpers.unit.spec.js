@@ -10,7 +10,6 @@ import {
   hasBeenReviewed,
   getDocTypeDescription,
   displayFileSize,
-  getTrackedItemId,
   getFilesNeeded,
   getFilesOptional,
   getUserPhase,
@@ -29,13 +28,13 @@ import {
   mockData,
   roundToNearest,
   groupClaimsByDocsNeeded,
+  claimAvailable,
 } from '../../utils/helpers';
 
 import {
   getAlertContent,
   getStatusContents,
   getNextEvents,
-  makeDurationText,
   makeDecisionReviewContent,
   addStatusToIssues,
   isolateAppeal,
@@ -384,49 +383,6 @@ describe('Disability benefits helpers: ', () => {
       expect(size).to.equal('2MB');
     });
   });
-
-  // START lighthouse_migration
-  describe('getTrackedItemId', () => {
-    it('should return the value of the id key for Lighthouse claims', () => {
-      const trackedItem = {
-        id: 1,
-        documents: [],
-      };
-
-      const id = getTrackedItemId(trackedItem);
-      expect(id).to.equal(1);
-    });
-
-    it('should return the value of the trackedItemId key for EVSS claims', () => {
-      const trackedItem = {
-        trackedItemId: 1,
-        documents: [],
-      };
-
-      const id = getTrackedItemId(trackedItem);
-      expect(id).to.equal(1);
-    });
-
-    it('should return null if both the id and trackedItemId keys are not present', () => {
-      const trackedItem = {
-        documents: [],
-      };
-
-      const id = getTrackedItemId(trackedItem);
-      expect(id).to.equal(undefined);
-    });
-
-    it('should return null if either the id or trackedItemId keys are null', () => {
-      const trackedItem = {
-        trackedItemId: null,
-        documents: [],
-      };
-
-      const id = getTrackedItemId(trackedItem);
-      expect(id).to.equal(undefined);
-    });
-  });
-  // END lighthouse_migration
 
   describe('getFilesNeeded', () => {
     context('when useLighthouse is true', () => {
@@ -833,7 +789,7 @@ describe('Disability benefits helpers: ', () => {
           .find('Link');
 
         expect(linkToDDL.length).to.equal(1);
-        expect(linkToDDL.props().to).to.equal('your-claim-letters');
+        expect(linkToDDL.props().to).to.equal('/your-claim-letters');
 
         descText.unmount();
       });
@@ -858,61 +814,10 @@ describe('Disability benefits helpers: ', () => {
           .find('Link');
 
         expect(linkToDDL.length).to.equal(1);
-        expect(linkToDDL.props().to).to.equal('your-claim-letters');
+        expect(linkToDDL.props().to).to.equal('/your-claim-letters');
 
         descText.unmount();
       });
-    });
-  });
-
-  describe('makeDurationText', () => {
-    const inputs = {
-      exactSingular: [1, 1],
-      exactPlural: [2, 2],
-      range: [1, 8],
-      empty: [],
-      nonsense: 'danger, danger',
-    };
-
-    it('should return an object with header and description properties', () => {
-      const testText = makeDurationText(inputs.exactSingular);
-      expect(!!testText.header && !!testText.description).to.be.true;
-    });
-
-    it('should return an object with header and description properties with nonsense input', () => {
-      const testText = makeDurationText(inputs.nonsense);
-      expect(testText.header).to.equal('');
-      expect(testText.description).to.equal('');
-    });
-
-    it('should return an object with header and description properties with empty array input', () => {
-      const testText = makeDurationText(inputs.empty);
-      expect(testText.header).to.equal('');
-      expect(testText.description).to.equal('');
-    });
-
-    it('should return an object with header and description properties with no input', () => {
-      const testText = makeDurationText();
-      expect(testText.header).to.equal('');
-      expect(testText.description).to.equal('');
-    });
-
-    it('should format exact singular time estimates', () => {
-      const testText = makeDurationText(inputs.exactSingular);
-      expect(testText.header).to.equal('1 month');
-      expect(testText.description).to.equal('about 1 month');
-    });
-
-    it('should format exact plural time estimates', () => {
-      const testText = makeDurationText(inputs.exactPlural);
-      expect(testText.header).to.equal('2 months');
-      expect(testText.description).to.equal('about 2 months');
-    });
-
-    it('should format range time estimates', () => {
-      const testText = makeDurationText(inputs.range);
-      expect(testText.header).to.equal('1–8 months');
-      expect(testText.description).to.equal('between 1 and 8 months');
     });
   });
 
@@ -945,9 +850,9 @@ describe('Disability benefits helpers: ', () => {
       expect(events.length).to.equal(2);
       const firstEvent = events[0];
       const secondEvent = events[1];
-      // each of the 2 'remandSsoc' nextEvents has 4 properties
-      expect(Object.keys(firstEvent).length).to.equal(4);
-      expect(Object.keys(secondEvent).length).to.equal(4);
+      // each of the 2 'remandSsoc' nextEvents has 2 properties
+      expect(Object.keys(firstEvent).length).to.equal(2);
+      expect(Object.keys(secondEvent).length).to.equal(2);
     });
   });
 
@@ -1075,6 +980,53 @@ describe('Disability benefits helpers: ', () => {
       expect(getPageRange(2, 22)).to.deep.equal({ start: 11, end: 20 });
       expect(getPageRange(2, 25)).to.deep.equal({ start: 11, end: 20 });
       expect(getPageRange(3, 25)).to.deep.equal({ start: 21, end: 25 });
+    });
+  });
+
+  describe('claimAvaliable', () => {
+    it('should return false when claim is empty', () => {
+      const isClaimAvaliable = claimAvailable({});
+
+      expect(isClaimAvaliable).to.be.false;
+    });
+
+    it('should return false when claim is null', () => {
+      const isClaimAvaliable = claimAvailable(null);
+
+      expect(isClaimAvaliable).to.be.false;
+    });
+
+    it('should return false when claim attributes are empty', () => {
+      const claim = {
+        id: 1,
+        attributes: {},
+      };
+      const isClaimAvaliable = claimAvailable(claim);
+
+      expect(isClaimAvaliable).to.be.false;
+    });
+
+    it('should return false when claim attributes are null', () => {
+      const claim = {
+        id: 1,
+        attributes: null,
+      };
+      const isClaimAvaliable = claimAvailable(claim);
+
+      expect(isClaimAvaliable).to.be.false;
+    });
+
+    it('should return true when claim attributes exist', () => {
+      const claim = {
+        id: 1,
+        attributes: {
+          claimType: 'Compensation',
+          claimDate: '2024-04-05',
+        },
+      };
+      const isClaimAvaliable = claimAvailable(claim);
+
+      expect(isClaimAvaliable).to.be.true;
     });
   });
 });

@@ -1,28 +1,33 @@
 import moment from 'moment';
 import { expect } from 'chai';
 
-import formConfig, {
-  currentSpouseHasFormerMarriages,
-  isSeparated,
-  isUnder65,
-  showSpouseAddress,
-  hasNoSocialSecurityDisability,
-  isInNursingHome,
-  medicaidDoesNotCoverNursingHome,
-  ownsHome,
-  hasVaTreatmentHistory,
+import formConfig from '../../../config/form';
+
+import { transform } from '../../../config/submit';
+import overflowForm from '../../e2e/fixtures/data/overflow-test.json';
+import {
   hasFederalTreatmentHistory,
+  hasNoSocialSecurityDisability,
+  hasVaTreatmentHistory,
   isEmployedUnder65,
+  isInNursingHome,
+  isUnder65,
   isUnemployedUnder65,
-  doesReceiveIncome,
+  medicaidDoesNotCoverNursingHome,
+} from '../../../config/chapters/03-health-and-employment-information/helpers';
+import {
+  currentSpouseHasFormerMarriages,
+  dependentIsOutsideHousehold,
+  doesHaveDependents,
+  isSeparated,
+  showSpouseAddress,
+} from '../../../config/chapters/04-household-information/helpers';
+import {
   doesHaveCareExpenses,
   doesHaveMedicalExpenses,
-  doesHaveDependents,
-  dependentIsOutsideHousehold,
-} from '../../../config/form';
-
-import { transform } from '../../../helpers';
-import overflowForm from '../../e2e/fixtures/data/overflow-test.json';
+  doesReceiveIncome,
+  ownsHome,
+} from '../../../config/chapters/05-financial-information/helpers';
 
 describe('Pensions isUnder65', () => {
   it('should return false if date of birth and isOver65 indicate veteran is over 65', () => {

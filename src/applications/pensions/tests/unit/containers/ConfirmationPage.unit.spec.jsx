@@ -10,6 +10,7 @@ import { scrollToTop } from '../../../helpers';
 const generateForm = ({
   hasResponse = true,
   hasRegionalOffice = true,
+  hasBankAccount = true,
   timestamp = new Date('12/29/2014'),
 } = {}) => {
   return {
@@ -29,7 +30,17 @@ const generateForm = ({
       }),
       timestamp,
     },
-    data: { veteranFullName: { first: 'Jane', last: 'Doe' } },
+    data: {
+      veteranFullName: { first: 'Jane', last: 'Doe' },
+      ...(hasBankAccount && {
+        bankAccount: {
+          accountType: 'checking',
+          bankName: 'Best Bank',
+          accountNumber: '001122334455',
+          routingNumber: '123123123',
+        },
+      }),
+    },
   };
 };
 
@@ -55,7 +66,7 @@ describe('scrollToTop function', () => {
   });
 });
 
-describe('<ConfirmationPage>', () => {
+describe('Pension benefits confirmation page', () => {
   it('should render', () => {
     const form = generateForm();
     const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
@@ -74,17 +85,17 @@ describe('<ConfirmationPage>', () => {
     );
 
     const sections = tree.everySubTree('section');
-    expect(sections.length).to.eql(3);
+    expect(sections.length).to.eql(4);
     expect(sections[0].subTree('h3').text()).to.equal(
       'If you need to submit supporting documents',
     );
     expect(sections[1].subTree('h3').text()).to.equal('What to expect next');
-    expect(sections[2].subTree('h3').text()).to.equal(
+    expect(sections[3].subTree('h3').text()).to.equal(
       'How to contact us if you have questions',
     );
 
-    const address = tree.everySubTree('p', { className: 'va-address-block' });
-    expect(address.length).to.eql(1);
+    const blocks = tree.everySubTree('p', { className: 'va-address-block' });
+    expect(blocks.length).to.eql(2);
 
     const phoneNums = tree.everySubTree('va-telephone');
     expect(phoneNums.length).to.eql(2);
@@ -99,5 +110,13 @@ describe('<ConfirmationPage>', () => {
     const confirmation = tree.find('#pension_527ez_submission_confirmation');
     expect(confirmation.length).to.eql(0);
     tree.unmount();
+  });
+
+  it('should not include bank account section', () => {
+    const form = generateForm({ hasBankAccount: false });
+    const tree = SkinDeep.shallowRender(<ConfirmationPage form={form} />);
+
+    const sections = tree.everySubTree('section');
+    expect(sections.length).to.eql(3);
   });
 });

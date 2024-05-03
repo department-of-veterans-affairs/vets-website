@@ -1,6 +1,8 @@
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
 import { genderLabels } from '../../utils/labels';
+import { ageWarning, eighteenOrOver } from '../helpers';
 
 export const uiSchema = {
   veteranFullName: {
@@ -30,9 +32,6 @@ export const uiSchema = {
     ...ssnUI,
     'ui:title': 'Social Security number',
     'ui:required': formData => !formData['view:noSSN'],
-    'ui:errorMessages': {
-      required: 'Please enter a Social Security number',
-    },
   },
   'view:noSSN': {
     'ui:title': 'I don’t have a Social Security number',
@@ -52,6 +51,51 @@ export const uiSchema = {
   },
   dateOfBirth: {
     ...currentOrPastDateUI('Your date of birth'),
+  },
+  minorHighSchoolQuestions: {
+    'ui:description': ageWarning,
+    'ui:options': {
+      // expandUnder: ['dateOfBirth'],
+      hideIf: formData => eighteenOrOver(formData.dateOfBirth),
+    },
+    minorHighSchoolQuestion: {
+      'ui:title': 'Applicant has graduated high school or received GED?',
+      'ui:widget': 'yesNo',
+      'ui:required': formData => !eighteenOrOver(formData.dateOfBirth),
+    },
+    highSchoolGedGradDate: {
+      ...currentOrPastDateUI('Date graduated'),
+      'ui:options': {
+        expandUnder: 'minorHighSchoolQuestion',
+      },
+      'ui:required': formData => {
+        let isRequired = false;
+        if (!eighteenOrOver(formData.dateOfBirth)) {
+          const yesNoResults =
+            formData.minorHighSchoolQuestions.minorHighSchoolQuestion;
+          if (yesNoResults) {
+            isRequired = true;
+          }
+          if (!yesNoResults) {
+            isRequired = false;
+          }
+        }
+        return isRequired;
+      },
+    },
+    highSchoolGedExpectedGradDate: {
+      'ui:title': 'Date expected to graduate',
+      'ui:widget': 'date',
+      'ui:options': {
+        expandUnder: 'minorHighSchoolQuestion',
+        expandUnderCondition: false,
+      },
+      'ui:validations': [validateCurrentOrFutureDate],
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid current or future date',
+        required: 'Please enter a date',
+      },
+    },
   },
   applicantGender: {
     'ui:widget': 'radio',

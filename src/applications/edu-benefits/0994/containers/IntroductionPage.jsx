@@ -1,8 +1,8 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import CallToActionWidget from 'applications/static-pages/cta-widget';
+// import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+// import CallToActionWidget from 'applications/static-pages/cta-widget';
 import { connect } from 'react-redux';
 import {
   WIZARD_STATUS,
@@ -36,8 +36,8 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-0994 Application for Veteran Employment Through
           Technology Education Courses (VET TEC).
         </p>
-        <div className="subway-map">
-          <CallToActionWidget appId="vet-tec">
+        {/* <div className="subway-map">
+           <CallToActionWidget appId="vet-tec">
             <SaveInProgressIntro
               startMessageOnly
               verifyRequiredPrefill={
@@ -47,8 +47,28 @@ export class IntroductionPage extends React.Component {
               messages={this.props.route.formConfig.savedFormMessages}
               pageList={this.props.route.pageList}
             />
-          </CallToActionWidget>
-          <h4>Follow the steps below to apply for VET TEC.</h4>
+          </CallToActionWidget> */}
+        <div className="vads-u-margin-top--4 vads-u-margin-bottom--9">
+          <va-alert
+            close-btn-aria-label="Close notification"
+            status="warning"
+            visible
+          >
+            <h2 slot="headline">
+              The Veteran Employment Through Technology Education Courses (VET
+              TEC) has closed.
+            </h2>
+            <React.Fragment key=".1">
+              <p className="vads-u-margin-y--0">
+                This program has stopped accepting applications and new
+                enrollments as of April 1, 2024. If you are currently enrolled
+                in a VET TEC program, your training will continue to be funded,
+                including your monthly housing allowance.
+              </p>
+            </React.Fragment>
+          </va-alert>
+        </div>
+        {/* <h4>Follow the steps below to apply for VET TEC.</h4>
           <div className="process schemaform-process">
             <ol>
               <li className="process-step list-one">
@@ -171,7 +191,7 @@ export class IntroductionPage extends React.Component {
               exp-date="08/31/2025"
             />
           </div>
-        </div>
+          </div> */}
       </div>
     );
   }

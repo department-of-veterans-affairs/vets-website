@@ -3,12 +3,12 @@ import { expect } from 'chai';
 import {
   receivedTravelDataHandler,
   setFilteredAppointmentsHandler,
-  setFacilityToFileHandler,
+  setFormDataHandler,
 } from './index';
 import {
   receivedTravelData,
   setFilteredAppointments,
-  setFacilityToFile,
+  setFormData,
 } from '../../actions/travel-claim';
 
 import appReducer from '../index';
@@ -108,15 +108,15 @@ describe('check in', () => {
         });
       });
     });
-    describe('setFacilityToFile', () => {
+    describe('setFormData', () => {
       it('should create basic structure', () => {
-        const action = setFacilityToFile(facilityToFile);
-        const state = setFacilityToFileHandler({ form: {} }, action);
+        const action = setFormData(facilityToFile);
+        const state = setFormDataHandler({ form: {} }, action);
         expect(state.form.data.facilitiesToFile).to.be.an('array');
       });
       it('should set the correct values', () => {
-        const action = setFacilityToFile(facilityToFile);
-        const state = setFacilityToFileHandler({ form: {} }, action);
+        const action = setFormData(facilityToFile);
+        const state = setFormDataHandler({ form: {} }, action);
         expect(state.form.data.facilitiesToFile[0].stationNo).to.equal('555');
         expect(state.form.data.facilitiesToFile[0].startTime).to.equal(
           '2021-08-19T13:56:31',
@@ -126,7 +126,7 @@ describe('check in', () => {
       });
       describe('reducer is called;', () => {
         it('finds the correct handler', () => {
-          const action = setFacilityToFile(facilityToFile);
+          const action = setFormData(facilityToFile);
           const state = appReducer.checkInData(undefined, action);
           expect(state.form.data.facilitiesToFile[0].stationNo).to.equal('555');
           expect(state.form.data.facilitiesToFile[0].startTime).to.equal(

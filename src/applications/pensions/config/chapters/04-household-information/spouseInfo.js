@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
@@ -11,12 +10,14 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-import { createSpouseLabelSelector } from '../../../helpers';
+import { createSpouseLabelSelector, isMarried } from './helpers';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 
 /** @type {PageSchema} */
 export default {
+  title: 'Spouse information',
+  path: 'household/spouse-info',
+  depends: isMarried,
   uiSchema: {
     ...titleUI(createHouseholdMemberTitle('spouseFullName', 'information')),
     spouseDateOfBirth: merge({}, dateOfBirthUI(), {

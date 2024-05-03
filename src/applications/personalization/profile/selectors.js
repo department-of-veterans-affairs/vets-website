@@ -13,6 +13,7 @@ import {
 
 import { PROFILE_TOGGLES } from './constants';
 
+// START OF TODO: remove this once the direct deposit form is updated to use single form
 export const cnpDirectDepositInformation = state =>
   state.vaProfile?.cnpPaymentInformation;
 
@@ -58,15 +59,13 @@ export const eduDirectDepositLoadError = state => {
 export const cnpDirectDepositIsEligible = state =>
   !!cnpDirectDepositInformation(state)?.controlInformation
     ?.canUpdateDirectDeposit;
+// END OF TODO: remove this once the direct deposit form is updated to use single form
 
-export const cnpDirectDepositIsBlocked = state => {
-  const controlInfo = cnpDirectDepositInformation(state)?.controlInformation;
+// used specifically for direct deposit control information
+export const getIsBlocked = controlInformation => {
+  if (!controlInformation) return false;
 
-  if (!controlInfo) return false;
-
-  // control information flags that are used to determine if the user is blocked from
-  // setting up direct deposit. These will also cause the whole profile to be blocked
-  const controlInfoFlags = [
+  const propertiesToCheck = [
     'isCompetent',
     'hasNoFiduciaryAssigned',
     'isNotDeceased',
@@ -74,8 +73,8 @@ export const cnpDirectDepositIsBlocked = state => {
 
   // if any flag is false, the user is blocked
   // but first we have to determine if that particular flag property exists
-  return controlInfoFlags.some(
-    flag => has(controlInfo, flag) && !controlInfo[flag],
+  return propertiesToCheck.some(
+    flag => has(controlInformation, flag) && !controlInformation[flag],
   );
 };
 
@@ -117,10 +116,19 @@ export const selectProfileToggles = createSelector(toggleValues, values => {
   );
 });
 
-export const selectHideDirectDepositCompAndPen = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileHideDirectDepositCompAndPen];
+export const selectHideDirectDeposit = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileHideDirectDeposit];
 
-export const selectIsBlocked = state => cnpDirectDepositIsBlocked(state);
+export const selectIsBlocked = state => {
+  // TODO: remove this once the direct deposit form is updated to use single form
+  const showDirectDepositSingleForm = toggleValues(state)?.[
+    FEATURE_FLAG_NAMES.profileShowDirectDepositSingleForm
+  ];
+
+  return showDirectDepositSingleForm
+    ? getIsBlocked(state.directDeposit.controlInformation)
+    : getIsBlocked(cnpDirectDepositInformation(state)?.controlInformation);
+};
 
 export const selectProfileContactsToggle = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileContacts] || false;

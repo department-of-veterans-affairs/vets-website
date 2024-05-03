@@ -10,7 +10,7 @@ const { schema, uiSchema } = careExpenses;
 
 describe('Add dependent children page', () => {
   const pageTitle = 'Add dependent children';
-  const expectedNumberOfFields = 5;
+  const expectedNumberOfFields = 4;
   testNumberOfWebComponentFields(
     formConfig,
     schema,

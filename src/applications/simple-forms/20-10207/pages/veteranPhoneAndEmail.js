@@ -20,6 +20,5 @@ export default {
       veteranPhone: phoneSchema,
       veteranEmailAddress: emailSchema,
     },
-    required: ['veteranPhone'],
   },
 };

@@ -1,37 +1,36 @@
+import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import React from 'react';
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 
 import LandingPage from '../../containers/LandingPage';
 
-describe('Landing Page', () => {
-  it('renders', () => {
-    render(<LandingPage />);
+describe('LandingPage', () => {
+  const getLandingPage = () =>
+    render(
+      <MemoryRouter>
+        <LandingPage />
+      </MemoryRouter>,
+    );
+
+  it('renders main heading', () => {
+    const { getByTestId } = getLandingPage();
+    expect(getByTestId('landing-page-heading').textContent).to.eq(
+      'Welcome to the Accredited Representative Portal',
+    );
   });
 
-  it('should render welcome headline', () => {
-    const { getByText } = render(<LandingPage />);
-    expect(getByText('Welcome to the Accredited Representative Portal')).to
-      .exist;
+  it('renders the link to bypass signing in', () => {
+    const { getByTestId } = getLandingPage();
+    expect(getByTestId('landing-page-bypass-sign-in-link').textContent).to.eq(
+      'Until sign in is added use this to see dashboard',
+    );
   });
 
-  it('should render subheading', () => {
-    const { getByText } = render(<LandingPage />);
-    expect(getByText('Manage power of attorney requests')).to.exist;
-  });
-
-  it('should render description', () => {
-    const { getByText } = render(<LandingPage />);
-    expect(
-      getByText(
-        'A system to help you get power of attorney and then support Veterans by acting on their behalf.',
-      ),
-    ).to.exist;
-  });
-
-  it('should render link to dashboard', () => {
-    const { getByText } = render(<LandingPage />);
-    expect(getByText('Until sign in is added use this to see dashboard')).to
-      .exist;
+  it('renders the link to sign in', () => {
+    const { getByTestId } = getLandingPage();
+    expect(getByTestId('landing-page-sign-in-link').textContent).to.eq(
+      'Sign in or create account',
+    );
   });
 });

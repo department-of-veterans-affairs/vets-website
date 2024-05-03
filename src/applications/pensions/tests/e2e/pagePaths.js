@@ -9,7 +9,8 @@ export default {
     formChapters.applicantInformation.pages.contactInformation.path,
 
   servicePeriod: formChapters.militaryHistory.pages.servicePeriod.path,
-  general: formChapters.militaryHistory.pages.general.path,
+  generalHistory: formChapters.militaryHistory.pages.generalHistory.path,
+  previousNames: formChapters.militaryHistory.pages.previousNames.path,
   pow: formChapters.militaryHistory.pages.pow.path,
 
   age: formChapters.healthAndEmploymentInformation.pages.age.path,
@@ -58,9 +59,11 @@ export default {
     formChapters.householdInformation.pages.currentSpouseMonthlySupport.path,
   currentSpouseMaritalHistory:
     formChapters.householdInformation.pages.currentSpouseMaritalHistory.path,
-  spouseMarriageHistory:
-    formChapters.householdInformation.pages.spouseMarriageHistory.path,
-  dependents: formChapters.householdInformation.pages.dependents.path,
+  currentSpouseFormerMarriages:
+    formChapters.householdInformation.pages.currentSpouseFormerMarriages.path,
+  hasDependents: formChapters.householdInformation.pages.hasDependents.path,
+  dependentChildren:
+    formChapters.householdInformation.pages.dependentChildren.path,
   dependentChildInformation:
     formChapters.householdInformation.pages.dependentChildInformation.path,
   dependentChildAddress:
@@ -84,9 +87,6 @@ export default {
   hasMedicalExpenses:
     formChapters.financialInformation.pages.hasMedicalExpenses.path,
   medicalExpenses: formChapters.financialInformation.pages.medicalExpenses.path,
-
   directDeposit: formChapters.additionalInformation.pages.directDeposit.path,
-  aidAttendance: formChapters.additionalInformation.pages.aidAttendance.path,
   documentUpload: formChapters.additionalInformation.pages.documentUpload.path,
-  expedited: formChapters.additionalInformation.pages.expedited.path,
 };

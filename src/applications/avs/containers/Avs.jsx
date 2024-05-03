@@ -103,7 +103,7 @@ const Avs = props => {
         serviceRequired={[backendServices.USER_PROFILE]}
       >
         <BreadCrumb />
-        <h1>After-visit summary</h1>
+        <h1 className="vads-u-padding-top--2">After-visit summary</h1>
         <DowntimeNotification
           appTitle="My HealtheVet"
           dependencies={[externalServices.avs]}
