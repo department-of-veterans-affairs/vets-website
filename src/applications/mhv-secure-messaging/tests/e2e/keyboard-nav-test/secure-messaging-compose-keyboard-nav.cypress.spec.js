@@ -6,14 +6,13 @@ import PatientComposePage from '../pages/PatientComposePage';
 describe('Secure Messaging Compose Form Keyboard Nav', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
-  const composePage = new PatientComposePage();
   beforeEach(() => {
     site.login();
     landingPage.loadInboxMessages();
   });
   it('Tab to Message Body', () => {
     landingPage.navigateToComposePage();
-    composePage.keyboardNavToMessageBodyField().should('exist');
+    PatientComposePage.keyboardNavToMessageBodyField().should('exist');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
       rules: {
@@ -33,6 +32,6 @@ describe('Secure Messaging Compose Form Keyboard Nav', () => {
         },
       },
     });
-    composePage.keyboardNavToMessageSubjectField().should('exist');
+    PatientComposePage.keyboardNavToMessageSubjectField().should('exist');
   });
 });
