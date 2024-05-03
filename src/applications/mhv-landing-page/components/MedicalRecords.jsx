@@ -41,17 +41,18 @@ const MedicalRecords = () => (
         'vads-u-font-size--lg',
         'vads-u-margin-top--1',
         'vads-u-margin-bottom--4',
+        'vads-u-measure--2',
       )}
     >
       Soon, you’ll be able to find, print, and download your medical records on
       VA.gov
     </p>
 
-    <div className="vads-u-background-color--gray-lightest vads-u-padding--3">
+    <div className="vads-u-background-color--gray-lightest vads-u-padding-x--4 vads-u-padding-y--3">
       <h2 className="vads-u-margin-top--0">
         Medical records on VA.gov isn’t ready to use yet
       </h2>
-      <p>
+      <p className="vads-u-measure--5">
         You still have access to your medical records on the previous version of
         My HealtheVet. You can go back to that site at any time to download your
         VA health records (Blue Button) or view your lab and test results.
@@ -66,7 +67,7 @@ const MedicalRecords = () => (
 
     <h2>What’s coming soon</h2>
 
-    <p className="vads-u-font-size--md">
+    <p className="vads-u-font-size--md vads-u-measure--4">
       We’re working on bringing all your medical records together under one roof
       here on VA.gov. When it’s ready, you’ll be able to quickly find, print, or
       download each type of record according to your needs.
