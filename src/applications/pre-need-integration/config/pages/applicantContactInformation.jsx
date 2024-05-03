@@ -10,6 +10,7 @@ import {
   applicantContactInfoAddressTitle,
   applicantContactInfoSubheader,
   applicantContactInfoDescription,
+  bottomPadding,
 } from '../../utils/helpers';
 
 const { claimant } = fullSchemaPreNeed.properties.application.properties;
@@ -54,6 +55,12 @@ export function uiSchema(
             displayEmptyObjectOnReview: true,
           },
         },
+        'view:bottomPadding': {
+          'ui:description': bottomPadding,
+          'ui:options': {
+            displayEmptyObjectOnReview: true,
+          },
+        },
       },
     },
   };
@@ -76,6 +83,10 @@ export const schema = {
             phoneNumber: claimant.properties.phoneNumber,
             email: claimant.properties.email,
             'view:contactInfoDescription': {
+              type: 'object',
+              properties: {},
+            },
+            'view:bottomPadding': {
               type: 'object',
               properties: {},
             },

@@ -7,17 +7,15 @@ import * as address from '../../definitions/address';
 import {
   MailingAddressStateTitle,
   sponsorMailingAddressHasState,
+  sponsorContactInfoSubheader,
   sponsorContactInfoDescription,
+  bottomPadding,
 } from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const sponsorMailingAddressStateTitleWrapper = (
   <MailingAddressStateTitle elementPath="application.veteran.address.country" />
-);
-
-const sponsorContactInfoSubheader = (
-  <h3 className="vads-u-font-size--h5">Sponsor’s contact details</h3>
 );
 
 export const uiSchema = {
@@ -51,6 +49,12 @@ export const uiSchema = {
           displayEmptyObjectOnReview: true,
         },
       },
+      'view:bottomPadding': {
+        'ui:description': bottomPadding,
+        'ui:options': {
+          displayEmptyObjectOnReview: true,
+        },
+      },
     },
   },
 };
@@ -72,6 +76,10 @@ export const schema = {
             phoneNumber: veteran.properties.phoneNumber,
             email: veteran.properties.email,
             'view:contactInfoDescription': {
+              type: 'object',
+              properties: {},
+            },
+            'view:bottomPadding': {
               type: 'object',
               properties: {},
             },

@@ -228,12 +228,24 @@ export const applicantContactInfoPreparerAddressTitle =
   'Applicant’s mailing address';
 
 export const applicantContactInfoSubheader = (
-  <h3 className="vads-u-font-size--h5">Your contact details</h3>
+  <div className="applicantContactInfoSubheader">
+    <h3 className="vads-u-font-size--h5">Your contact details</h3>
+  </div>
 );
 
 export const applicantContactInfoPreparerSubheader = (
-  <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>
+  <div className="applicantContactInfoPreparerSubheader">
+    <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>
+  </div>
 );
+
+export const sponsorContactInfoSubheader = (
+  <div className="sponsorContactInfoSubheader">
+    <h3 className="vads-u-font-size--h5">Sponsor’s contact details</h3>
+  </div>
+);
+
+export const bottomPadding = <div className="bottomPadding" />;
 
 export const applicantContactInfoDescription = (
   <va-additional-info trigger="Why we ask for your contact details">
