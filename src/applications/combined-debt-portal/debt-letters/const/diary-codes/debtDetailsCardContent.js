@@ -14,9 +14,7 @@ const ContactDMC = () => (
 );
 
 export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
-  const daysToAdd =
-    debt.diaryCode === '117' || debt.diaryCode === '123' ? 60 : 30;
-  const endDateText = endDate(dateOfLetter, daysToAdd);
+  const endDateText = endDate(dateOfLetter, debt.diaryCode);
 
   switch (debt.diaryCode) {
     case '71':

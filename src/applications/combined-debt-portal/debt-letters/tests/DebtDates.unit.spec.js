@@ -71,13 +71,22 @@ describe('DebtSummaryText function', () => {
     );
     wrapper.unmount();
   });
+  it('renders the alternative message when dateOfLetter is missing for diaryCode 117', () => {
+    const diaryCode = '117';
+    const balance = '100.00';
+    wrapper = shallow(<div>{debtSummaryText(diaryCode, null, balance)}</div>);
+    expect(extractVisibleText(wrapper)).to.include(
+      'Pay your 100.00 past due balance in full or request help before or within 60 days from the date you received this notice',
+    );
+    wrapper.unmount();
+  });
 
-  it('renders the alternative message when dateOfLetter is missing', () => {
+  it('renders the alternative message when dateOfLetter is missing for diaryCode 100', () => {
     const diaryCode = '100';
     const balance = '100.00';
     wrapper = shallow(<div>{debtSummaryText(diaryCode, null, balance)}</div>);
     expect(extractVisibleText(wrapper)).to.include(
-      'Pay your 100.00 balance now or request help by a future date (date not available)',
+      'Pay your 100.00 balance now or request help by or within 30 days from the date you received this notice.',
     );
     wrapper.unmount();
   });

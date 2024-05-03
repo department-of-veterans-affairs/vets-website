@@ -15,8 +15,7 @@ const CircleIcon = () => (
 );
 
 export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
-  const daysToAdd = diaryCode === '117' || diaryCode === '123' ? 60 : 30;
-  const endDateText = endDate(dateOfLetter, daysToAdd);
+  const endDateText = endDate(dateOfLetter, diaryCode);
 
   switch (diaryCode) {
     case '71':
