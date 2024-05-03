@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
@@ -11,7 +10,6 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
 import { createSpouseLabelSelector, isMarried } from './helpers';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 

@@ -1,14 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
-import { useSelector } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { ProfileLink } from '../../../ProfileLink';
-import {
-  cnpDirectDepositIsEligible,
-  eduDirectDepositIsSetUp,
-} from '../../../../selectors';
 import { useSessionStorage } from '../../../../../common/hooks/useSessionStorage';
 import HelpDeskContact from '../../../HelpDeskContact';
 
@@ -17,11 +13,6 @@ export const EduMigrationAlert = ({ className }) => {
 
   const path = useLocation().pathname;
   const includeExtraLinkAndDismiss = path !== directDepositPath;
-
-  const hasBothDirectDeposits = useSelector(
-    state =>
-      eduDirectDepositIsSetUp(state) && cnpDirectDepositIsEligible(state),
-  );
 
   const [dismissed, setDismissed] = useSessionStorage(
     'dismissedDirectDepositSingleFormAlert',
@@ -32,11 +23,7 @@ export const EduMigrationAlert = ({ className }) => {
     TOGGLE_NAMES.profileShowDirectDepositSingleFormAlert,
   );
 
-  if (
-    !isAlertToggleEnabled ||
-    !hasBothDirectDeposits ||
-    (dismissed && includeExtraLinkAndDismiss)
-  ) {
+  if (!isAlertToggleEnabled || (dismissed && includeExtraLinkAndDismiss)) {
     return null;
   }
 
@@ -55,15 +42,32 @@ export const EduMigrationAlert = ({ className }) => {
       <h2 slot="headline">Upcoming site maintenance for direct deposit</h2>
       <p>
         We’ll soon be doing some work to update our systems for online direct
-        deposit management. We expect the maintenance period will last for 5
+        deposit management. We expect the maintenance period will last for 6
         days.
       </p>
       <p>
         During this time, you won’t be able to manage your direct deposit
-        information online. You’ll still be able to manage your information for
-        disability compensation, pension, or education benefits by phone. Call
+        information online. You’ll still be able to manage your information by
+        phone.
+      </p>
+
+      <p>
+        <strong>For disability compensation and pension benefits,</strong> call
         us at <HelpDeskContact />. We’re here Monday through Friday, 8:00 a.m.
-        to 9:00 p.m. ET.
+        to 7:00 p.m. ET.
+      </p>
+      <p className="vads-u-margin-top--0">
+        <strong>For Post 9/11-GI Bill benefits,</strong> call us at{' '}
+        <va-telephone contact={CONTACTS.GI_BILL} /> (
+        <va-telephone contact={CONTACTS['711']} tty />
+        ). We’re here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET.
+      </p>
+
+      <p className="vads-u-margin-bottom--0">
+        <strong>Start:</strong> Friday, April 26, 2024, at 8:00 p.m. ET
+      </p>
+      <p className="vads-u-margin-top--0">
+        <strong>End:</strong> Thursday, May 2, 2024, at 8:00 p.m. ET
       </p>
 
       {includeExtraLinkAndDismiss && (

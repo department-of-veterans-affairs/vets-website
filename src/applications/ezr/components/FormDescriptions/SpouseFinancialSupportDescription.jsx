@@ -3,7 +3,7 @@ import React from 'react';
 const SpouseFinancialSupportDescription = (
   <va-additional-info
     trigger="What we consider financial support for a spouse"
-    class="vads-u-margin-bottom--4"
+    class="vads-u-margin-bottom--4 hydrated"
     uswds
   >
     <div>

@@ -192,14 +192,12 @@ const SpousePayrollDeductionInputList = props => {
                   : null
               }
               width="md"
-              uswds
             />
           </div>
         ))}
         <va-additional-info
           trigger="How to calculate your spouse's monthly deductions"
           class="vads-u-margin-top--2"
-          uswds
         >
           <p>
             First, find the total deduction amount on your spouse’s pay stub.

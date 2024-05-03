@@ -1,0 +1,10 @@
+{
+  "formData": {
+    "preparerType": "sponsor"
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/your-information/description"
+  }
+}

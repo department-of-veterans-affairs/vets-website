@@ -19,9 +19,9 @@ const PrintOnlyPage = props => {
       >
         {title}
       </h1>
-      <div className="print-only vads-u-margin-top--neg1 vads-l-col--12 medium-screen:vads-l-col--6">
-        <p data-testid="print-only-preface">{preface}</p>
-      </div>
+      <p className="vads-u-margin-top--neg1" data-testid="print-only-preface">
+        {preface}
+      </p>
       {subtitle && (
         <h2 className="print-only vads-u-margin-top--neg0p5 ">{subtitle}</h2>
       )}

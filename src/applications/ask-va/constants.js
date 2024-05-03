@@ -5,8 +5,7 @@ export const URL = {
   GET_CATEGORIESTOPICS: `${baseURL}/categories`,
   GET_TOPICS: `/topics?user_mock_data=true`,
   GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
-  // TODO: Add address validation endpoint
-  ADDRESS_VALIDATION: '',
+  ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
@@ -65,8 +64,14 @@ export const yesNoOptions = {
   NO: 'No',
 };
 
-// Relationship options
-export const relationshipOptions = {
+// Relationship options for Myself
+export const relationshipOptionsMyself = {
+  VETERAN: "I'm the Veteran",
+  FAMILY_MEMBER: "I'm a family member of a Veteran",
+};
+
+// Relationship options for SomeoneElse
+export const relationshipOptionsSomeoneElse = {
   VETERAN: "I'm the Veteran",
   FAMILY_MEMBER: "I'm a family member of a Veteran",
   WORK:
@@ -75,20 +80,20 @@ export const relationshipOptions = {
 
 // Military base options
 export const postOfficeOptions = {
-  ARMY_POST_OFFICE: 'Army post office',
-  FLEET_POST_OFFICE: 'Fleet post office',
-  DIPLOMATIC_POST_OFFICE: 'Diplomatic post office',
+  APO: 'Army post office',
+  FPO: 'Fleet post office',
+  DPO: 'Diplomatic post office',
 };
 
 export const regionOptions = {
-  AMERICA_AA: 'Armed Forces America (AA)',
-  EUROPE_AE: 'Armed Forces Europe (AE)',
-  PACIFIC_AP: 'Armed Forces Pacific (AP)',
+  AA: 'Armed Forces America (AA)',
+  AE: 'Armed Forces Europe (AE)',
+  AP: 'Armed Forces Pacific (AP)',
 };
 
 // Contact options
 export const contactOptions = {
-  PHONE: 'Phone',
+  PHONE: 'Phone call',
   EMAIL: 'Email',
   US_MAIL: 'U.S. mail',
 };
@@ -237,10 +242,9 @@ export const CHAPTER_3 = {
   CHAPTER_TITLE: 'Personal Information',
   RELATIONSHIP_TO_VET: {
     PATH: 'relationship-to-veteran',
-    TITLE: 'Your relationship to the Veteran',
-    PAGE_DESCRIPTION:
-      "Now we'll ask for some personal information. We use this information to help us understand your question and find the answers you need.",
-    QUESTION_1: 'Select your relationship to the Veteran:',
+    TITLE: 'What is your relationship to the Veteran?',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
   },
   ABOUT_YOUR_RELATIONSHIP: {
     TITLE: 'Tell us more about your relationship to the Veteran',
@@ -303,10 +307,10 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
-  PHONE_EMAIL: {
-    TITLE: 'Your phone number and email',
+  CONTACT_INFORMATION: {
+    TITLE: 'Your contact information',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Mobile phone number',
+    QUESTION_1: 'Phone number',
     QUESTION_2: 'Email address',
     QUESTION_3: 'How should we contact you?',
   },
