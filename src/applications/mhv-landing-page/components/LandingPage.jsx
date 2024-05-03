@@ -32,7 +32,6 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
   const noCardsDisplay = isUnverified ? (
     <IdentityNotVerified
-      disableAnalytics
       headline={unVerifiedHeadline}
       showHelpContent={false}
       showVerifyIdenityHelpInfo
