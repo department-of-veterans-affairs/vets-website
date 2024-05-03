@@ -65,12 +65,12 @@ describe('<PersonalizationDropdown>', () => {
       </Provider>,
     );
     wrapper
-      .find({ children: 'My HealtheVet' })
+      .find({ children: 'My Health' })
       .at(0)
       .simulate('click');
     const recordedEvent = global.window.dataLayer[0];
     expect(recordedEvent.event).to.equal('nav-user');
-    expect(recordedEvent['nav-user-section']).to.equal('my-healthevet');
+    expect(recordedEvent['nav-user-section']).to.equal('my-health');
     wrapper.unmount();
   });
 
