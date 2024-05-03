@@ -664,7 +664,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     ).to.be.ok;
   });
 
-  it.skip('should show info standard of care alert when there is a wait for a mental health appointments', async () => {
+  it('should show info standard of care alert when there is a wait for a mental health appointments', async () => {
     const slot308Date = moment().add(22, 'days');
     const preferredDate = moment().add(6, 'days');
 
@@ -695,7 +695,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     expect(screen.queryByText(/request an earlier appointment/i)).not.to.exist;
   });
 
-  it.skip('should show info standard of care alert when there is a wait for non mental health appointments', async () => {
+  it('should show info standard of care alert when there is a wait for non mental health appointments', async () => {
     const slot308Date = moment().add(30, 'days');
     const preferredDate = moment().add(6, 'days');
 

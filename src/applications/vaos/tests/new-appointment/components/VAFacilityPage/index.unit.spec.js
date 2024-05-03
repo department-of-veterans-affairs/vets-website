@@ -206,7 +206,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       expect(screen.baseElement).not.to.contain.text('more location');
     });
 
-    it.skip('should display previous user choices when returning to page', async () => {
+    it('should display previous user choices when returning to page', async () => {
       mockFacilitiesFetchByVersion({
         children: true,
         ids: ['983', '984'],
@@ -1060,7 +1060,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       expect(firstRadio).to.contain.text('Closest facility');
     });
 
-    it.skip('should fire variant shown and default sort method events when variant shown', async () => {
+    it('should fire variant shown and default sort method events when variant shown', async () => {
       const store = createTestStore({
         ...initialState,
         newAppointment: {

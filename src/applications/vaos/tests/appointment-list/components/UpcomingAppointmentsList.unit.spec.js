@@ -131,7 +131,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     expect(screen.baseElement).to.contain.text('Community care');
   });
 
-  it.skip('should show at home video appointment text', async () => {
+  it('should show at home video appointment text', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {

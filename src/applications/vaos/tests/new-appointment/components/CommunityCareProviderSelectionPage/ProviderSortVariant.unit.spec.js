@@ -50,7 +50,7 @@ const initialState = {
   },
 };
 
-describe.skip('VAOS Page: CommunityCareProviderSelectionPage', () => {
+describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
   beforeEach(() => {
     mockFetch();
 

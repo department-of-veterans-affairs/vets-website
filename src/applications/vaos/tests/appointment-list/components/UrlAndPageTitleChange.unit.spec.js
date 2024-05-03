@@ -239,7 +239,7 @@ describe('VAOS Page: AppointmentsPage', () => {
     });
 
     // WIP
-    it.skip('should show confirmed appointment detail page with new URL', async () => {
+    it('should show confirmed appointment detail page with new URL', async () => {
       const myInitialState = {
         ...initialState,
         featureToggles: {
@@ -343,16 +343,16 @@ describe('VAOS Page: AppointmentsPage', () => {
     });
 
     // WIP
-    it.skip('should show past appointment detail page with new URL', async () => {
+    it('should show past appointment detail page with new URL', async () => {
       return true;
     });
 
     // WIP
-    it.skip('should show pending appointment detail page with new URL', async () => {
+    it('should show pending appointment detail page with new URL', async () => {
       return true;
     });
 
-    it.skip('should show requested appointment detail page with new URL', async () => {
+    it('should show requested appointment detail page with new URL', async () => {
       return true;
     });
   });

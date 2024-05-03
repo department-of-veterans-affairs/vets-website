@@ -35,7 +35,7 @@ const initialState = {
 };
 
 // NOTE: The CommunityCarePreferencesPage is no longer used. The CommunityCareProviderSelectionPage is used instead.
-describe.skip('VAOS Page: CommunityCarePreferencesPage', () => {
+describe('VAOS Page: CommunityCarePreferencesPage', () => {
   beforeEach(() => mockFetch());
   it('should render the page with appropriate inputs and prevent submission without required fields', async () => {
     mockParentSites(

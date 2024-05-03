@@ -39,7 +39,7 @@ describe('VAOS Component: TextareaWidget', () => {
     );
   });
 
-  it.skip('should call onChange', () => {
+  it('should call onChange', () => {
     const onChange = sinon.spy();
     const screen = render(<TextareaWidget onChange={onChange} schema={{}} />);
 

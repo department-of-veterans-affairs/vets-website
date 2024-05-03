@@ -282,7 +282,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     });
   });
 
-  it.skip('should show alternate textbox char length if navigated via direct schedule flow', async () => {
+  it('should show alternate textbox char length if navigated via direct schedule flow', async () => {
     const store = createTestStore(initialState);
     store.dispatch(startDirectScheduleFlow());
 
