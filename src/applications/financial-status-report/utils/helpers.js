@@ -315,12 +315,6 @@ export const isValidToDate = (fromDate, toDate) => {
   return false;
 };
 
-export const getDiffInDays = date => {
-  const dateDischarge = moment(date, dateTemplate);
-  const dateToday = moment();
-  return dateDischarge.diff(dateToday, 'days');
-};
-
 /**
  * Generates a unique key based on the given data fields and an optional index.
  * @example
