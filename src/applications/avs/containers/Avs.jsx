@@ -3,10 +3,16 @@ import { useParams } from 'react-router-dom';
 import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
+
+import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
 
 import { getAvs } from '../api/v0';
 import { getFormattedAppointmentDate } from '../utils';
@@ -98,36 +104,42 @@ const Avs = props => {
       >
         <BreadCrumb />
         <h1>After-visit summary</h1>
-        {avs.meta?.pageHeader && (
-          <p>
-            <AvsPageHeader text={avs.meta.pageHeader} />
-          </p>
-        )}
+        <DowntimeNotification
+          appTitle="My HealtheVet"
+          dependencies={[externalServices.avs]}
+          render={renderMHVDowntime}
+        >
+          {avs.meta?.pageHeader && (
+            <p>
+              <AvsPageHeader text={avs.meta.pageHeader} />
+            </p>
+          )}
 
-        <va-accordion uswds>
-          <va-accordion-item
-            header={generateAppointmentHeader(avs)}
-            open="true"
-            uswds
-          >
-            <YourAppointment avs={avs} />
-          </va-accordion-item>
-          <va-accordion-item
-            header="Your treatment plan from this appointment"
-            uswds
-          >
-            <YourTreatmentPlan avs={avs} />
-          </va-accordion-item>
-          <va-accordion-item
-            header="Your health information as of this appointment"
-            uswds
-          >
-            <YourHealthInformation avs={avs} />
-          </va-accordion-item>
-          <va-accordion-item header="More information" uswds>
-            <MoreInformation avs={avs} />
-          </va-accordion-item>
-        </va-accordion>
+          <va-accordion uswds>
+            <va-accordion-item
+              header={generateAppointmentHeader(avs)}
+              open="true"
+              uswds
+            >
+              <YourAppointment avs={avs} />
+            </va-accordion-item>
+            <va-accordion-item
+              header="Your treatment plan from this appointment"
+              uswds
+            >
+              <YourTreatmentPlan avs={avs} />
+            </va-accordion-item>
+            <va-accordion-item
+              header="Your health information as of this appointment"
+              uswds
+            >
+              <YourHealthInformation avs={avs} />
+            </va-accordion-item>
+            <va-accordion-item header="More information" uswds>
+              <MoreInformation avs={avs} />
+            </va-accordion-item>
+          </va-accordion>
+        </DowntimeNotification>
       </RequiredLoginView>
     </div>
   );
