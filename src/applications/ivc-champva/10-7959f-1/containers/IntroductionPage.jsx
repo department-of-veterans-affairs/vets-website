@@ -5,17 +5,9 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Link } from 'react-router';
 import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-
-// class IntroductionPage extends React.Component {
-//   componentDidMount() {
-//     focusElement('.va-nav-breadcrumbs-list');
-//   }
+import recordEvent from 'platform/monitoring/record-event';
 
 const IntroductionPage = props => {
-  // componentDidMount() {
-  //   focusElement('.va-nav-breadcrumbs-list');
-  // }
   const { route } = props;
   const { formConfig, pageList, formData, pathname } = route;
 
@@ -35,10 +27,6 @@ const IntroductionPage = props => {
     },
     [props],
   );
-
-  // render() {
-  //   const { route } = this.props;
-  //   const { formConfig, pageList } = route;
 
   return (
     <article className="schemaform-intro">
