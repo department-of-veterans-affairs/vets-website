@@ -1,8 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-
-const BLUE_BUTTON_URL =
-  'https://mhv-syst.myhealth.va.gov/mhv-portal-web/download-my-data';
+import PropTypes from 'prop-types';
 
 const recordTypes = [
   'Lab and test results',
@@ -15,7 +13,7 @@ const recordTypes = [
 
 const toKebabCase = (phrase = '') => phrase.toLowerCase().replace(/\s+/g, '-');
 
-const MedicalRecords = () => (
+const MedicalRecords = ({ blueButtonUrl }) => (
   <div
     className={classnames(
       'vads-l-grid-container',
@@ -65,7 +63,7 @@ const MedicalRecords = () => (
       </p>
       <a
         className="vads-c-action-link--green vads-u-margin-y--2"
-        href={BLUE_BUTTON_URL}
+        href={blueButtonUrl}
       >
         Download health records (Blue Button®)
       </a>
@@ -90,5 +88,9 @@ const MedicalRecords = () => (
     </ul>
   </div>
 );
+
+MedicalRecords.propTypes = {
+  blueButtonUrl: PropTypes.string.isRequired,
+};
 
 export default MedicalRecords;
