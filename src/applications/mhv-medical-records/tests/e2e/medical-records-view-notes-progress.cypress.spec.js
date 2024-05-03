@@ -14,7 +14,7 @@ describe('Medical Records Care Summary Page ', () => {
   });
 
   it('Progress Note Details', () => {
-    NotesDetailsPage.clickProgressNoteLink(0);
+    NotesDetailsPage.clickProgressNoteLink(3);
 
     NotesDetailsPage.verifyProgressNoteTitle(
       notes.entry[0].resource.content[0].attachment.title,
