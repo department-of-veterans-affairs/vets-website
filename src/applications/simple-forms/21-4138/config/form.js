@@ -359,7 +359,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      // fullNamePath: formData => statementOfTruthFullNamePath({ formData }),
+      fullNamePath: 'fullName',
       checkboxLabel:
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
     },
