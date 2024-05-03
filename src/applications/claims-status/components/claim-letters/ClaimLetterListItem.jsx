@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { buildDateFormatter } from '../utils/helpers';
+import { buildDateFormatter } from '../../utils/helpers';
 
 const getDownloadUrl = (id, docType) =>
   `${environment.API_URL}/v0/claim_letters/${id}?document_type=${docType}`;
