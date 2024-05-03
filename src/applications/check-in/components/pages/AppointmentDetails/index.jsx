@@ -15,6 +15,7 @@ import {
   appointmentIcon,
   clinicName,
   findAppointment,
+  findUpcomingAppointment,
 } from '../../../utils/appointment';
 import { APP_NAMES } from '../../../utils/appConstants';
 
@@ -59,7 +60,7 @@ const AppointmentDetails = props => {
           setAppointment(activeAppointmentDetails);
           return;
         }
-        const activeUpcomingAppointmentDetails = findAppointment(
+        const activeUpcomingAppointmentDetails = findUpcomingAppointment(
           appointmentId,
           upcomingAppointments,
         );

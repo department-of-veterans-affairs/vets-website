@@ -305,13 +305,16 @@ const clinicName = appointment => {
 };
 
 /**
- * Return a unique ID of ien and station.
+ * Return a unique ID of ien and station or the id from VAOS appointments.
  *
  * @param {Appointment} appointment
  * @returns {string}
  */
 
 const getAppointmentId = appointment => {
+  if (appointment.id) {
+    return appointment.id;
+  }
   return `${appointment.appointmentIen}-${appointment.stationNo}`;
 };
 
@@ -330,6 +333,19 @@ const findAppointment = (appointmentId, appointments) => {
       String(appointmentItem.appointmentIen) ===
         String(appointmentIdParts[0]) &&
       String(appointmentItem.stationNo) === String(appointmentIdParts[1]),
+  );
+};
+
+/**
+ * Find upcoming appointment by ID.
+ *
+ * @param {string} appointmentId
+ * @param {Array<Appointment>} appointments
+ * @returns {object}
+ */
+const findUpcomingAppointment = (appointmentId, appointments) => {
+  return appointments.find(
+    appointmentItem => appointmentItem.id === appointmentId,
   );
 };
 
@@ -399,6 +415,7 @@ export {
   clinicName,
   getAppointmentId,
   findAppointment,
+  findUpcomingAppointment,
   hasMultipleFacilities,
   getUniqueFacilies,
   utcToFacilityTimeZone,
