@@ -5,9 +5,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import MyHealthLink from '../../components/MyHealthLink';
 import MY_HEALTH_LINK from '~/platform/site-wide/mega-menu/constants/MY_HEALTH_LINK';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import MyHealthLink from '../../components/MyHealthLink';
 
 const store = ({ featureToggleOn = false } = {}) => ({
   getState: () => ({
