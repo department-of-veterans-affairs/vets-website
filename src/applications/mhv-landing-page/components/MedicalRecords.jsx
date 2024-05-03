@@ -48,7 +48,13 @@ const MedicalRecords = () => (
       VA.gov
     </p>
 
-    <div className="vads-u-background-color--gray-lightest vads-u-padding-x--4 vads-u-padding-y--3">
+    <div
+      className={classnames(
+        'vads-u-background-color--gray-lightest',
+        'vads-u-padding-x--4',
+        'vads-u-padding-y--3',
+      )}
+    >
       <h2 className="vads-u-margin-top--0">
         Medical records on VA.gov isn’t ready to use yet
       </h2>
