@@ -49,7 +49,7 @@ export default function AppointmentColumnLayout({
         className={classNames(
           'vads-u-flex--auto',
           'xsmall-screen:vads-u-padding-top--1',
-          'medium-screen:vads-u-padding-y--0',
+          'medium-screen:vads-u-padding-top--0',
         )}
         aria-label={dateAriaLabel}
       >
@@ -60,7 +60,6 @@ export default function AppointmentColumnLayout({
             'xsmall-screen:vads-u-text-align--center',
             'small-screen:vads-u-flex-direction--row',
             'medium-screen:vads-u-padding-y--2',
-            'small-desktop-screen:vads-u-padding-y--0',
           )}
         >
           <AppointmentColumn
@@ -126,8 +125,8 @@ export default function AppointmentColumnLayout({
             'vaos-appts__column--alignItems',
             'small-screen:vads-u-flex-direction--row',
             'small-screen:vaos-appts__column-gap--3',
+            // padding below determines the appointment row height
             'medium-screen:vads-u-padding-y--2',
-            'small-desktop-screen:vads-u-padding-y--0',
           )}
         >
           <AppointmentColumn

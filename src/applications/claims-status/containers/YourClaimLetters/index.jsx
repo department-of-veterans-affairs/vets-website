@@ -6,7 +6,7 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 
 import { getClaimLetters } from '../../actions';
 import ClaimsBreadcrumbs from '../../components/ClaimsBreadcrumbs';
-import ClaimLetterList from '../../components/ClaimLetterList';
+import ClaimLetterList from '../../components/claim-letters/ClaimLetterList';
 import WIP from '../../components/WIP';
 import { ITEMS_PER_PAGE } from '../../constants';
 import { isLoadingFeatures, showClaimLettersFeature } from '../../selectors';
@@ -14,6 +14,7 @@ import NoLettersContent from './errorComponents/NoLettersContent';
 import ServerErrorContent from './errorComponents/ServerErrorContent';
 import UnauthenticatedContent from './errorComponents/UnauthenticatedContent';
 import { setDocumentTitle } from '../../utils/helpers';
+import { setPageFocus } from '../../utils/page';
 
 const paginateItems = items => {
   return items?.length ? chunk(items, ITEMS_PER_PAGE) : [[]];
@@ -53,6 +54,15 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
 
     setDocumentTitle('Your VA Claim Letters');
   }, []);
+
+  useEffect(
+    () => {
+      if (!lettersLoading) {
+        setPageFocus();
+      }
+    },
+    [lettersLoading],
+  );
 
   /**
    * This commented code was deemed likely to be needed.

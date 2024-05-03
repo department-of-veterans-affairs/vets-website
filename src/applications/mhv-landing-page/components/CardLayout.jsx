@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 import NavCard from './NavCard';
 
 const layoutData = data => {
@@ -15,14 +16,25 @@ const CardLayout = ({ data }) => {
   return rowCols.map((row, x) => {
     return (
       <div
+        className={classnames(
+          'vads-l-row',
+          'vads-u-justify-content--space-between',
+          'vads-u-margin-bottom--0',
+          'medium-screen:vads-u-margin-bottom--2',
+        )}
         key={`row-${x}`}
-        className="vads-l-row vads-u-justify-content--space-between vads-u-margin-bottom--0 medium-screen:vads-u-margin-bottom--2"
       >
         {row.map((col, y) => (
           <div
-            key={`col-${y}`}
-            className="vads-l-col--12 medium-screen:vads-l-col mhv-u-grid-gap vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0"
+            className={classnames(
+              'vads-l-col--12',
+              'medium-screen:vads-l-col',
+              'mhv-u-grid-gap',
+              'vads-u-margin-bottom--2',
+              'medium-screen:vads-u-margin-bottom--0',
+            )}
             data-testid={`mhv-link-group-card-${x * rowCols.length + y}`}
+            key={`col-${y}`}
           >
             <NavCard title={col.title} icon={col.icon} links={col.links} />
           </div>
