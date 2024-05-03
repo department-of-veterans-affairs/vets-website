@@ -260,6 +260,7 @@ but was still getting silent validation failures on review page.
 export const marriageDatesSchema = {
   noRemarriageUiSchema: {
     applicants: {
+      'ui:options': { viewField: ApplicantField },
       items: {
         'ui:options': marriageTitle(
           ' date of marriage to sponsor',
@@ -271,6 +272,7 @@ export const marriageDatesSchema = {
   },
   separatedUiSchema: {
     applicants: {
+      'ui:options': { viewField: ApplicantField },
       items: {
         'ui:options': marriageTitle(' marriage and legal separation dates', ''),
         dateOfMarriageToSponsor,
@@ -280,6 +282,7 @@ export const marriageDatesSchema = {
   },
   remarriageUiSchema: {
     applicants: {
+      'ui:options': { viewField: ApplicantField },
       items: {
         'ui:options': marriageTitle(' marriage dates', ''),
         dateOfMarriageToSponsor,
@@ -289,6 +292,7 @@ export const marriageDatesSchema = {
   },
   remarriageSeparatedUiSchema: {
     applicants: {
+      'ui:options': { viewField: ApplicantField },
       items: {
         'ui:options': marriageTitle(' marriage and legal separation dates', ''),
         dateOfMarriageToSponsor,
