@@ -1,4 +1,5 @@
 {
+  "#-util-capitalize": "{{value, capitalize}}",
   "add": "Añadir",
   "address": "Dirección",
   "and-select-0-were-here-24-7": "y seleccione 0. Estamos aquí 24 horas al día, siete días a la semana.",

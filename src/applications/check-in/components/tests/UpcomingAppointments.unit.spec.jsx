@@ -3,6 +3,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
+import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
 import UpcomingAppointments from '../UpcomingAppointments';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 import * as useGetUpcomingAppointmentsDataModule from '../../hooks/useGetUpcomingAppointmentsData';
@@ -11,6 +12,12 @@ import { api } from '../../api';
 
 describe('unified check-in experience', () => {
   describe('UpcomingAppointments', () => {
+    beforeEach(() => {
+      setupI18n();
+    });
+    afterEach(() => {
+      teardownI18n();
+    });
     it('displays the upcoming appointments list component', () => {
       // Mock the return value for the useGetUpcomingAppointmentsData hook
       const useGetUpcomingAppointmentsDataStub = sinon
@@ -91,7 +98,7 @@ describe('unified check-in experience', () => {
       sandbox.stub(v2, 'getUpcomingAppointmentsData').resolves({});
       const screen = render(
         <CheckInProvider store={{ upcomingAppointments: [] }}>
-          <UpcomingAppointments />
+          <UpcomingAppointments refresh={false} />
         </CheckInProvider>,
       );
       expect(screen.getByTestId('upcoming-appointments-header')).to.have.text(
@@ -106,13 +113,28 @@ describe('unified check-in experience', () => {
       sandbox.stub(v2, 'getUpcomingAppointmentsData').resolves({});
       const screen = render(
         <CheckInProvider store={{ upcomingAppointments: multipleAppointments }}>
-          <UpcomingAppointments />
+          <UpcomingAppointments refresh={false} />
         </CheckInProvider>,
       );
       expect(screen.getByTestId('upcoming-appointments-header')).to.have.text(
         'Upcoming Appointments',
       );
       sandbox.assert.notCalled(v2.getUpcomingAppointmentsData);
+      sandbox.restore();
+    });
+    it('well fetch data again if refresh set to true', () => {
+      const sandbox = sinon.createSandbox();
+      const { v2 } = api;
+      sandbox.stub(v2, 'getUpcomingAppointmentsData').resolves({});
+      const screen = render(
+        <CheckInProvider store={{ upcomingAppointments: multipleAppointments }}>
+          <UpcomingAppointments refresh />
+        </CheckInProvider>,
+      );
+      expect(screen.getByTestId('upcoming-appointments-header')).to.have.text(
+        'Upcoming Appointments',
+      );
+      sandbox.assert.calledOnce(v2.getUpcomingAppointmentsData);
       sandbox.restore();
     });
   });
