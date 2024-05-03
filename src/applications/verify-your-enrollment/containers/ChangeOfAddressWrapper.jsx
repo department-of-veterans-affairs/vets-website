@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import '../sass/change-of-address-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import {
+  compareObjectsIgnoringExtraKeys,
+  hasFormChanged,
   objectHasNoUndefinedValues,
   prepareAddressData,
   scrollToElement,
@@ -36,8 +39,11 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
   const [editFormData, setEditFormData] = useState({});
+  const [editFormData1, setEditFormData1] = useState({});
   const [suggestedAddressPicked, setSuggestedAddressPicked] = useState(false);
   const [newAddress, setNewAddress] = useState({});
+  const [goBackToEdit, setGoBackToEdit] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const PREFIX = 'GI-Bill-Chapters-';
   const location = useLocation();
@@ -76,6 +82,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
 
   // called when submitting form
   const saveAddressInfo = async () => {
+    setEditFormData1(formData);
     if (Object.keys(formData).length === 0) {
       Object.assign(formData, editFormData);
     }
@@ -177,12 +184,27 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     setToggleAddressForm(true);
     scrollToTopOfForm();
     dispatch({ type: 'RESET_ERROR' });
+    setGoBackToEdit(false);
   };
-  const onCancleButtonClicked = () => {
+  const yesCancleEditClick = () => {
+    setShowModal(false);
     setEditFormData({});
     dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
     handleCloseForm();
+    setGoBackToEdit(false);
   };
+  const onCancleButtonClicked = () => {
+    if (
+      (hasFormChanged(formData) && !goBackToEdit) ||
+      (goBackToEdit &&
+        compareObjectsIgnoringExtraKeys(editFormData, editFormData1))
+    ) {
+      setShowModal(true);
+    } else {
+      yesCancleEditClick();
+    }
+  };
+
   const updateAddressData = data => {
     const tempData = { ...data };
     if (tempData?.['view:livesOnMilitaryBase']) {
@@ -236,6 +258,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 setAddressToUI={setAddressToUI}
                 setSuggestedAddressPicked={setSuggestedAddressPicked}
                 suggestedAddressPicked={suggestedAddressPicked}
+                setGoBackToEdit={setGoBackToEdit}
               />
             ) : (
               <>
@@ -275,6 +298,26 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             {(isLoadingValidateAddress || isLoading) && (
               <Loader className="loader" message="updating..." />
             )}
+            <VaModal
+              visible={showModal}
+              modalTitle="Are you sure?"
+              onCloseEvent={() => {
+                setShowModal(false);
+              }}
+              onPrimaryButtonClick={yesCancleEditClick}
+              onSecondaryButtonClick={() => {
+                setShowModal(false);
+              }}
+              primaryButtonText="Yes, cancel my changes"
+              secondaryButtonText="No, go back to editing"
+              status="warning"
+            >
+              <p>
+                You haven’t finished editing and saving the changes to your
+                mailing address. If you cancel now, we won’t save your changes.
+              </p>
+            </VaModal>
+
             <ChangeOfAddressForm
               applicantName={applicantName}
               addressFormData={formData}

@@ -680,3 +680,46 @@ export const addressLabel = address => {
     </span>
   );
 };
+
+export const hasFormChanged = obj => {
+  const keys = Object.keys(obj);
+
+  for (const key of keys) {
+    if (key !== 'fullName' && obj[key] !== undefined) {
+      return true;
+    }
+  }
+  return false;
+};
+
+export function compareObjectsIgnoringExtraKeys(obj1, obj2) {
+  const { hasOwnProperty } = Object.prototype;
+
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  if (keys1.length === 0 && keys2.length === 0) {
+    return false;
+  }
+  for (const key of keys1) {
+    if (
+      hasOwnProperty.call(obj1, key) &&
+      hasOwnProperty.call(obj2, key) &&
+      obj1[key] !== obj2[key]
+    ) {
+      return true;
+    }
+  }
+
+  for (const key of keys2) {
+    if (
+      hasOwnProperty.call(obj2, key) &&
+      hasOwnProperty.call(obj1, key) &&
+      obj2[key] !== obj1[key]
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
