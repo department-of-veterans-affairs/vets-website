@@ -1,4 +1,5 @@
 {
+  "#-util-capitalize": "{{value, capitalize}}",
   "add": "Añadir",
   "address": "Dirección",
   "agree-to-these-terms": "Aceptar estas condiciones",
