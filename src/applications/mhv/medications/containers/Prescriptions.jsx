@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -65,6 +71,9 @@ const Prescriptions = () => {
     state => state.rx.prescriptions?.selectedSortOption,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const prescriptionId = useSelector(
+    state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
+  );
   const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
   const [printedList, setPrintedList] = useState([]);
   const [hasFullListDownloadError, setHasFullListDownloadError] = useState(
@@ -79,7 +88,7 @@ const Prescriptions = () => {
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
   });
-
+  const scrollLocation = useRef();
   const page = useMemo(
     () => {
       const query = new URLSearchParams(search);
@@ -118,6 +127,23 @@ const Prescriptions = () => {
       window.print();
       setPrintedList(paginatedPrescriptionsList);
     }, 1);
+
+  const goToPrevious = () => {
+    scrollLocation?.current?.scrollIntoView();
+  };
+
+  useEffect(
+    () => {
+      if (!isLoading) {
+        if (prescriptionId) {
+          goToPrevious();
+        } else {
+          focusElement(document.querySelector('h1'));
+        }
+      }
+    },
+    [isLoading, prescriptionId],
+  );
 
   useEffect(
     () => {
@@ -529,8 +555,9 @@ const Prescriptions = () => {
                 />
                 <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
                 <MedicationsList
-                  rxList={paginatedPrescriptionsList}
                   pagination={pagination}
+                  rxList={paginatedPrescriptionsList}
+                  scrollLocation={scrollLocation}
                   selectedSortOption={selectedSortOption}
                   updateLoadingStatus={updateLoadingStatus}
                 />
