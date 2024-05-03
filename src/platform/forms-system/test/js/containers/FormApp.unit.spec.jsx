@@ -81,7 +81,7 @@ describe('Schemaform <FormApp>', () => {
 
   describe('hiding and displaying form title', () => {
     const mockPage = path => ({
-      page1: { path, schema: { type: 'object', properties: {} } },
+      firstPage: { path, schema: { type: 'object', properties: {} } },
     });
     const formConfig = {
       title: 'Form Title',
@@ -90,22 +90,22 @@ describe('Schemaform <FormApp>', () => {
         formTitleHiddenChapter: {
           title: 'Form Title Hidden',
           hideFormTitle: true,
-          pages: mockPage('form-title-hidden'),
+          pages: mockPage('/form-title-hidden'),
         },
         formTitleExplicitlyDisplayedChapter: {
           title: 'Form Title Explicitly Displayed',
           hideFormTitle: false,
-          pages: mockPage('form-title-explicitly-displayed'),
+          pages: mockPage('/form-title-explicitly-displayed'),
         },
         formTitleImplictlyDisplayedChapter: {
           title: 'Form Title Implicitly Displayed',
-          pages: mockPage('form-title-implicitly-displayed'),
+          pages: mockPage('/form-title-implicitly-displayed'),
         },
       },
     };
 
     describe('when on a page where form title is hidden', () => {
-      it('should hide the form title', () => {
+      it('hides the form title', () => {
         const currentLocation = {
           pathname: '/form-title-hidden',
           search: '',
@@ -117,7 +117,7 @@ describe('Schemaform <FormApp>', () => {
     });
 
     describe('when on a page where form title is explicitly displayed', () => {
-      it('should display the form title', () => {
+      it('displays the form title', () => {
         const currentLocation = {
           pathname: '/form-title-explicitly-displayed',
           search: '',
@@ -129,7 +129,7 @@ describe('Schemaform <FormApp>', () => {
     });
 
     describe('when on a page where form title is implicitly displayed', () => {
-      it('should display the form title', () => {
+      it('displays the form title', () => {
         const currentLocation = {
           pathname: '/form-title-implicitly-displayed',
           search: '',
