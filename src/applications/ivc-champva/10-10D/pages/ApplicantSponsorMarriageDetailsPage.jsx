@@ -35,13 +35,9 @@ function generateOptions({ data, pagePerItemIndex }) {
     relativePossessive,
   } = appRelBoilerplate({ data, pagePerItemIndex });
 
-  const customTitle = `${
-    useFirstPerson ? `Your` : `${applicant}’s`
-  } marriage to the ${personTitle}`;
+  const customTitle = `${applicant}’s marriage to the ${personTitle}`;
 
-  const description = `Which of these best describes ${
-    useFirstPerson ? `your` : `${applicant}’s`
-  } marriage to ${useFirstPerson ? `your` : 'their'} ${personTitle}?`;
+  const description = `Which of these best describes ${applicant}’s marriage to their ${personTitle}?`;
 
   const options = [
     {
@@ -53,9 +49,7 @@ function generateOptions({ data, pagePerItemIndex }) {
       value: 'marriageDissolved',
     },
     {
-      label: `${relative} was married to the ${personTitle} at the time of their death and remarried someone else on or after ${
-        useFirstPerson ? 'my' : relativePossessive
-      } 55th birthday`,
+      label: `${relative} was married to the ${personTitle} at the time of their death and remarried someone else on or after ${relativePossessive} 55th birthday`,
       value: 'marriedTillDeathRemarriedAfter55',
     },
     {
