@@ -10,6 +10,7 @@ const profileToggles = {
   profileShowPaymentsNotificationSetting: false,
   profileShowMhvNotificationSettings: false,
   profileUseExperimental: false,
+  profileUsePowerTools: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowCredentialRetirementMessaging: false,
   profileShowDirectDepositSingleForm: false,

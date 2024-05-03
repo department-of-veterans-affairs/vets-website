@@ -55,7 +55,8 @@ import { PROFILE_PATHS } from '../constants';
 import ProfileWrapper from './ProfileWrapper';
 import { canAccess } from '../../common/selectors';
 import { fetchDirectDeposit as fetchDirectDepositAction } from '../actions/directDeposit';
-import { PowerTools } from '../../common/components/devtools/powertools/PowerTools';
+
+import { PowerToolsLoader } from '../../common/components/devtools/powertools/PowerToolsLoader';
 
 class Profile extends Component {
   componentDidMount() {
@@ -236,7 +237,7 @@ class Profile extends Component {
                 <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
               </Route>
             </Switch>
-            <PowerTools />
+            <PowerToolsLoader />
           </ProfileWrapper>
         </LastLocationProvider>
       </BrowserRouter>

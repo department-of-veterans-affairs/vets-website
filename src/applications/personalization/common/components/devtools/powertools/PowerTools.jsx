@@ -3,31 +3,23 @@ import {
   VaCheckbox,
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { debounce, isEqual } from 'lodash';
 import environment from '~/platform/utilities/environment';
 import { setPowerToolsToggles } from './powertools.state';
-import useLocalStorage from '../../../hooks/useLocalStorage';
 import { LoadingButton } from '../../LoadingButton/LoadingButton';
 
-export const PowerTools = () => {
-  const [isDevLoading, setIsDevLoading] = useState(false);
-
-  const [localToggles, setLocalToggles, clearLocalToggles] = useLocalStorage(
-    'va-power-tools',
-    {},
-  );
-
-  const [showPowerTools, setShowPowerTools] = useLocalStorage(
-    'va-power-tools-display',
-    false,
-  );
-
-  const [searchQuery, setSearchQuery] = useLocalStorage(
-    'va-power-tools-search',
-    '',
-  );
+export const PowerTools = ({ powerToolsApi }) => {
+  const {
+    isDevLoading,
+    setIsDevLoading,
+    localToggles,
+    setLocalToggles,
+    clearLocalToggles,
+    searchQuery,
+    setSearchQuery,
+  } = powerToolsApi;
 
   const debouncedSetSearchQuery = useMemo(() => debounce(setSearchQuery, 300), [
     setSearchQuery,
@@ -102,89 +94,68 @@ export const PowerTools = () => {
 
   return (
     <>
-      {showPowerTools ? (
-        <div id="va-power-tools">
-          <VaSearchInput
-            buttonText="Search"
-            label="Search Toggles"
-            onInput={e => debouncedSetSearchQuery(e.target.value)}
-            onSubmit={e => debouncedSetSearchQuery(e.target.value)}
-            small
-            value={searchQuery}
+      <VaSearchInput
+        buttonText="Search"
+        label="Search Toggles"
+        onInput={e => debouncedSetSearchQuery(e.target.value)}
+        onSubmit={e => debouncedSetSearchQuery(e.target.value)}
+        small
+        value={searchQuery}
+      />
+      <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
+        <VaButton
+          onClick={() => {
+            clearLocalToggles();
+            window.location.reload();
+          }}
+          text="Reset Toggles"
+          primary
+        />
+
+        {isDevLoading ? (
+          <LoadingButton text="Loading..." />
+        ) : (
+          <VaButton
+            onClick={fetchDevToggles}
+            text="Fetch Dev Toggles"
+            secondary
           />
-          <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
-            <VaButton
-              onClick={() => {
-                clearLocalToggles();
-                window.location.reload();
-              }}
-              text="Reset Toggles"
-              primary
-            />
+        )}
+        <span className="vads-u-font-size--sm vads-u-margin-top--1 vads-u--padding-top--1">
+          {filteredToggles?.length} toggles
+        </span>
+      </div>
 
-            {isDevLoading ? (
-              <LoadingButton text="Loading..." />
-            ) : (
-              <VaButton
-                onClick={fetchDevToggles}
-                text="Fetch Dev Toggles"
-                secondary
-              />
-            )}
-            <span className="vads-u-font-size--sm vads-u-margin-top--1 vads-u--padding-top--1">
-              {filteredToggles?.length} toggles
-            </span>
-          </div>
-
-          {Object.keys(toggles).length < 2 && (
-            <div className="vads-u-margin-top--1">
-              <p className="vads-u-display--flex vads-u-align-items--center vads-u-margin--0">
-                <va-icon icon="error_outline" size={4} />
-                No toggles found.
-              </p>
-              <p className="vads-u-margin--0">
-                Is your api running at {environment.API_URL}?
-              </p>
-            </div>
-          )}
-
-          {filteredToggles.map(toggle => {
-            return (
-              <span key={toggle}>
-                <VaCheckbox
-                  label={toggle}
-                  checked={!!toggles[toggle]}
-                  enable-analytics={false}
-                  onVaChange={e => {
-                    const updatedToggles = {
-                      ...toggles,
-                      [toggle]: e.target.checked,
-                    };
-                    setLocalToggles(updatedToggles);
-                  }}
-                />
-              </span>
-            );
-          })}
-
-          {/* <LoadingButton /> */}
-          <button
-            onClick={() => setShowPowerTools(false)}
-            className="power-tools-show-hide"
-            type="button"
-          >
-            <va-icon icon="build" size={3} />
-          </button>
+      {Object.keys(toggles).length < 2 && (
+        <div className="vads-u-margin-top--1">
+          <p className="vads-u-display--flex vads-u-align-items--center vads-u-margin--0">
+            <va-icon icon="error_outline" size={4} />
+            No toggles found.
+          </p>
+          <p className="vads-u-margin--0">
+            Is your api running at {environment.API_URL}?
+          </p>
         </div>
-      ) : (
-        <button
-          onClick={() => setShowPowerTools(true)}
-          className="power-tools-show-hide"
-          type="button"
-        >
-          <va-icon icon="build" size={3} />
-        </button>
       )}
+
+      {filteredToggles.map(toggle => {
+        return (
+          <span key={toggle}>
+            <VaCheckbox
+              label={toggle}
+              checked={!!toggles[toggle]}
+              enable-analytics={false}
+              onVaChange={e => {
+                const updatedToggles = {
+                  ...toggles,
+                  [toggle]: e.target.checked,
+                };
+                setLocalToggles(updatedToggles);
+              }}
+            />
+          </span>
+        );
+      })}
     </>
   );
 };

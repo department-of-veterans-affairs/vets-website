@@ -9,7 +9,6 @@ export const POWERTOOLS_TOGGLES_DEFAULT = 'POWERTOOLS_TOGGLES_DEFAULT';
 export const setPowerToolsToggles = toggles => async dispatch => {
   dispatch({
     type: POWERTOOLS_TOGGLES_OVERRIDDEN,
-    payload: toggles,
   });
   dispatch({
     type: TOGGLE_VALUES_SET,
@@ -22,7 +21,6 @@ export const restoreDefaultPowerToolsToggles = () => async dispatch => {
 
   dispatch({
     type: POWERTOOLS_TOGGLES_DEFAULT,
-    payload: toggles,
   });
   dispatch({
     type: TOGGLE_VALUES_SET,
