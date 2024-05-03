@@ -62,10 +62,6 @@ describe('Check In Experience', () => {
       );
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--Next-of-kin');
-      NextOfKin.openAdditionalInfo();
-      cy.createScreenshots(
-        'Day-of-check-in--Next-of-kin--additional-info-open',
-      );
       NextOfKin.attemptToGoToNextPage();
 
       Appointments.validatePageLoaded();

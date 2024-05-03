@@ -18,6 +18,7 @@ export default function FacilityAddress({
   level = 4,
   showCovidPhone,
   isPhone,
+  phoneHeading,
 }) {
   const featurePhysicalLocation = useSelector(state =>
     selectFeaturePhysicalLocation(state),
@@ -58,7 +59,7 @@ export default function FacilityAddress({
           <br />
         </>
       )}
-      <div className={extraInfoClasses}>
+      <div className={extraInfoClasses} data-dd-privacy="mask">
         {!!clinicName && (
           <>
             <HeadingSub className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
@@ -82,7 +83,11 @@ export default function FacilityAddress({
           !!phone && (
             <>
               {!!clinicName && <br />}
-              <FacilityPhone contact={phone} level={level + 1} />
+              <FacilityPhone
+                contact={phone}
+                level={level + 1}
+                heading={phoneHeading}
+              />
             </>
           )}
       </div>
@@ -97,6 +102,7 @@ FacilityAddress.propTypes = {
   isPhone: PropTypes.bool,
   level: PropTypes.number,
   name: PropTypes.string,
+  phoneHeading: PropTypes.string,
   showCovidPhone: PropTypes.bool,
   showDirectionsLink: PropTypes.bool,
   showPhone: PropTypes.bool,

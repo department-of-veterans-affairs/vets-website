@@ -8,6 +8,7 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatur
 
 import { fetchUser } from '../actions/user';
 import Header from '../components/common/Header/Header';
+import Footer from '../components/common/Footer/Footer';
 
 function App() {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ function App() {
     <>
       <Header />
       <Outlet />
+      <Footer />
     </>
   );
 }

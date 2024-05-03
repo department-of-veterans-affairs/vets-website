@@ -56,29 +56,27 @@ const mailingAddressUpdateNoChangeDetected = {
 };
 
 const homeAddressUpdateReceived = {
-  route: 'v0/profile/addresses',
-  method: 'PUT',
-  payload: {
-    id: 312003,
-    addressLine1: '345 Home Address St.',
-    addressType: 'DOMESTIC',
-    city: 'San Francisco',
-    countryCodeIso3: 'USA',
-    stateCode: 'CA',
-    zipCode: '94114',
-    addressPou: 'RESIDENCE/CHOICE',
-    validationKey: -1010623878,
+  data: {
+    id: '',
+    type: 'async_transaction_va_profile_address_transactions',
+    attributes: {
+      transactionId: '94725087-d546-47e1-a247-f57ab0ed599c',
+      transactionStatus: 'RECEIVED',
+      type: 'AsyncTransaction::VAProfile::AddressTransaction',
+      metadata: [],
+    },
   },
-  response: {
-    data: {
-      id: '',
-      type: 'async_transaction_va_profile_address_transactions',
-      attributes: {
-        transactionId: '94725087-d546-47e1-a247-f57ab0ed599c',
-        transactionStatus: 'RECEIVED',
-        type: 'AsyncTransaction::VAProfile::AddressTransaction',
-        metadata: [],
-      },
+};
+
+const homeAddressDeleteReceived = {
+  data: {
+    id: '',
+    type: 'async_transaction_va_profile_address_transactions',
+    attributes: {
+      transactionId: 'mock-delete-home-address-transaction-id',
+      transactionStatus: 'RECEIVED',
+      type: 'AsyncTransaction::VAProfile::AddressTransaction',
+      metadata: [],
     },
   },
 };
@@ -124,5 +122,6 @@ module.exports = {
   mailingAddressStatusSuccess,
   homeAddressUpdateReceived,
   homeAddressUpdateSuccess,
+  homeAddressDeleteReceived,
   addressValidation,
 };

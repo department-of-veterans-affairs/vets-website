@@ -1,7 +1,5 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router-dom-v5-compat';
-
+import { Link, useLocation } from 'react-router-dom-v5-compat';
 import upperFirst from 'lodash/upperFirst';
 import lowerCase from 'lodash/lowerCase';
 import kebabCase from 'lodash/kebabCase';
@@ -23,7 +21,8 @@ const formatSegment = segment => {
   return upperFirst(acronymsFixed.join(' '));
 };
 
-const Breadcrumbs = ({ pathname }) => {
+const Breadcrumbs = () => {
+  const { pathname } = useLocation();
   const pathSegments = pathname.split('/').filter(Boolean);
   let pathAccumulator = '';
   const breadcrumbs = pathSegments.map(segment => {
@@ -40,9 +39,11 @@ const Breadcrumbs = ({ pathname }) => {
       home-veterans-affairs={false}
       uswds="false"
     >
-      <Link data-testid="breadcrumbs-home" to="/">
-        Home
-      </Link>
+      <li>
+        <Link data-testid="breadcrumbs-home" to="/">
+          Home
+        </Link>
+      </li>
       {breadcrumbs.map(({ link, label }) => (
         <li key={label}>
           <Link data-testid={`breadcrumbs-${kebabCase(label)}`} to={link}>
@@ -52,10 +53,6 @@ const Breadcrumbs = ({ pathname }) => {
       ))}
     </va-breadcrumbs>
   );
-};
-
-Breadcrumbs.propTypes = {
-  pathname: PropTypes.string.isRequired,
 };
 
 export default Breadcrumbs;

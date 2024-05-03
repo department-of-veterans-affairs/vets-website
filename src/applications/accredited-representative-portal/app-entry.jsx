@@ -1,13 +1,13 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-
 import '@department-of-veterans-affairs/platform-polyfills';
-import startReactApp from '@department-of-veterans-affairs/platform-startup/react';
-
-import reducer from './reducers';
-import routes from './routes';
-import createReduxStore from './store';
+import startApp from '@department-of-veterans-affairs/platform-startup/router';
 
 import './sass/accredited-representative-portal.scss';
+import routes from './routes';
+import reducer from './reducers';
+import manifest from './manifest.json';
 
-startReactApp(<Provider store={createReduxStore(reducer)}>{routes}</Provider>);
+startApp({
+  url: manifest.rootUrl,
+  reducer,
+  routes,
+});

@@ -5,7 +5,6 @@ import mockPaymentInfoNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-i
 import personalInformation from '@@profile/tests/fixtures/personal-information-success.json';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 
-import { generateFeatureToggles } from '@@profile/mocks/endpoints/feature-toggles';
 import user from '@@profile/mocks/endpoints/user';
 
 import error500 from '@@profile/tests/fixtures/500.json';
@@ -96,9 +95,11 @@ export function nameTagRendersWithoutDisabilityRating() {
   cy.findByText(/service connected/i).should('not.exist');
 }
 
-// Mock Profile-related APIs so the Notification Settings section will load.
-// This does _not_ mock the APIs used by the Notification Setting section. It
-// only mocks the other APIs that are required by the Profile
+/**
+ * Mock Profile-related APIs so the Notification Settings section will load.
+ * This does _not_ mock the APIs used by the Notification Setting section. It
+ * only mocks the other APIs that are required by the Profile
+ */
 export function mockNotificationSettingsAPIs() {
   mockGETEndpoints(['/v0/mhv_account']);
   cy.intercept(
@@ -113,24 +114,23 @@ export function mockNotificationSettingsAPIs() {
   mockFeatureToggles();
 }
 
-// Mock happy path for loa3 user
-// all the required APIs are mocked for the profile to load in general
-// all feature toggles are mocked to be true
-export function mockProfileLOA3() {
+/**
+ * Mock happy path for loa3 user where all the required APIs are mocked for the profile to load.
+ * Specific feature toggles should be passed in as an object, otherwise the default toggles will be used with false values
+ * @param {*} toggles
+ */
+export function mockProfileLOA3(toggles) {
   mockGETEndpoints(['/v0/mhv_account']);
   cy.intercept(
     '/v0/disability_compensation_form/rating_info',
     disabilityRating,
   );
+  cy.intercept('/v0/user', user.loa3User72);
   cy.intercept('/v0/profile/full_name', fullName);
   cy.intercept('/v0/profile/personal_information', personalInformation);
   cy.intercept('/v0/profile/service_history', serviceHistory);
-  cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
-  cy.intercept('/v0/ppiu/payment_information', mockPaymentInfoNotEligible);
-  cy.intercept('/v0/user', user.loa3User72);
 
-  const togglesAllOn = true;
-  mockFeatureToggles(() => generateFeatureToggles({}, togglesAllOn));
+  mockFeatureToggles(toggles ? () => toggles : null);
 }
 
 export function registerCypressHelpers() {

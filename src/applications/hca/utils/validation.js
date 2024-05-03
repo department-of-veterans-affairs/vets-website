@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash';
 import moment from 'moment';
 import {
   convertToDateField,
@@ -57,7 +58,7 @@ export function validateGulfWarDates(
     errors.gulfWarEndDate.addError(messages.format);
   }
 
-  if (!isValidDateRange(fromDate, toDate)) {
+  if (!isValidDateRange(fromDate, toDate) && !isEqual(fromDate, toDate)) {
     errors.gulfWarEndDate.addError(messages.range);
   }
 }
@@ -81,7 +82,7 @@ export function validateExposureDates(
     errors.toxicExposureEndDate.addError(messages.format);
   }
 
-  if (!isValidDateRange(fromDate, toDate)) {
+  if (!isValidDateRange(fromDate, toDate) && !isEqual(fromDate, toDate)) {
     errors.toxicExposureEndDate.addError(messages.range);
   }
 }

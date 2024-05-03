@@ -1,12 +1,9 @@
-import React from 'react';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import {
-  $,
-  $$,
-} from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 import formConfig from '../../../config/form';
 import { getData } from '../../fixtures/data/mock-form-data';
@@ -31,6 +28,8 @@ describe('relationshipToVeteranPage', () => {
       </Provider>,
     );
 
+    // screen.debug();
+
     const radioLabels = $$('.form-radio-buttons > label', container);
     const radioLabelList = [
       "I'm the Veteran",
@@ -38,9 +37,11 @@ describe('relationshipToVeteranPage', () => {
       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
     ];
 
-    expect($('h3', container).textContent).to.eq(
-      'Your relationship to the Veteran',
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio.getAttribute('label')).to.equal(
+      'What is your relationship to the Veteran?',
     );
+
     radioLabels.forEach(
       radio => expect(radioLabelList.includes(radio.textContent)).to.be.true,
     );
