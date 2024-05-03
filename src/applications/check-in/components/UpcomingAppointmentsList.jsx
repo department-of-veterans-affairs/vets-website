@@ -59,10 +59,10 @@ const UpcomingAppointmentsList = props => {
                   <div className="vads-l-row">
                     <div className="vads-l-col--2 vads-u-border-top--1px">
                       <h4
-                        className="vads-u-text-align--center vads-u-line-height--2 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--2"
+                        className="vads-u-text-align--center vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--1p5"
                         data-testid="day-label"
                       >
-                        <span className="vads-u-font-size--md vads-u-font-weight--bold">
+                        <span className="vads-u-font-size--lg vads-u-font-family--serif vads-u-font-weight--bold vads-u-line-height--3">
                           {`${t('date-day-of-month', { date: dayStartTime })} `}
                         </span>
                         <br />
