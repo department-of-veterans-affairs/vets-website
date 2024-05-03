@@ -1,14 +1,10 @@
-import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+// import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { getDisabilityLabels } from '../content/disabilityLabels';
-import {
-  autoSuggestTitle,
-  newOnlyAlert,
-  increaseAndNewAlert,
-} from '../content/addDisabilities';
+import * as combobox from '../definitions/combobox';
+import { newOnlyAlert, increaseAndNewAlert } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
 import ConditionReviewField from '../components/ConditionReviewField';
@@ -44,15 +40,8 @@ export const uiSchema = {
     // field in an array item), but that's not working.
     'ui:validations': [requireDisability],
     items: {
-      condition: autosuggest.uiSchema(
-        autoSuggestTitle,
-        () =>
-          Promise.resolve(
-            Object.entries(getDisabilityLabels()).map(([key, value]) => ({
-              id: key,
-              label: value,
-            })),
-          ),
+      condition: combobox.uiSchema(
+        'Tell us the new conditions you want to claim',
         {
           'ui:reviewField': ({ children }) => children,
           'ui:options': {
@@ -136,7 +125,7 @@ export const schema = {
 };
 
 const indexOfFirstChange = (oldArr, newArr) => {
-  for (let i = 0; i < newArr.length; i++) {
+  for (let i = 0; i < newArr.length; i += 1) {
     if (oldArr[i] !== newArr[i]) return i;
   }
 
