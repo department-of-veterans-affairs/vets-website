@@ -22,6 +22,7 @@ import {
 
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
+import prefillTransformer from './prefillTransformer';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -65,6 +66,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for CHAMPVA benefits.',
     noAuth:
