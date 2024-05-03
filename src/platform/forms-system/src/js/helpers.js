@@ -143,7 +143,7 @@ export function createPageList(formConfig, formPages) {
 export function hideFormTitle(formConfig, pathName) {
   if (
     !formConfig?.chapters ||
-    !Array.isArray(formConfig.chapters) ||
+    typeof formConfig.chapters !== 'object' ||
     formConfig.chapters.length === 0
   )
     return false;
