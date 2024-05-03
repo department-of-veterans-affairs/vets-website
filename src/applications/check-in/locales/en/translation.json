@@ -1,4 +1,5 @@
 {
+  "#-util-capitalize": "{{value, capitalize}}",
   "add": "Add",
   "address": "Address",
   "agree-to-these-terms": "Agree to these terms",

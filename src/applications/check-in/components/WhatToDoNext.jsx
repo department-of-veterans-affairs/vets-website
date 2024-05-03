@@ -57,58 +57,60 @@ const WhatToDoNext = props => {
   return (
     <>
       <h2 data-testid="what-next-header">{t('what-to-do-next')}</h2>
-      {appointmentCards.map((appointment, index) => {
-        const cardTitleId = `what-next-card-title-${index}`;
-        let cardTitle = t('its-time-to-check-in-for-your-time-appointment', {
-          time: new Date(appointment.startTime),
-        });
-        if (app === APP_NAMES.PRE_CHECK_IN) {
-          cardTitle = getPreCheckinCardTitle();
-        }
-        return (
-          <div
-            className="vads-u-margin-bottom--2"
-            key={appointment.appointmentIen}
-            data-testid="what-next-card"
-          >
-            <va-card show-shadow={checkInableAppointments.length > 1}>
-              <h4
-                className="vads-u-margin-top--0"
-                data-testid="what-next-card-title"
-                id={cardTitleId}
-              >
-                {cardTitle}
-              </h4>
-              {showDetailsLink && (
-                <p>
-                  <a
-                    data-testid={`details-link-${index}`}
-                    href={`${
-                      router.location.basename
-                    }/appointment-details/${getAppointmentId(appointment)}`}
-                    onClick={e => goToDetails(e, appointment)}
-                    aria-label={t('details-for-appointment', {
-                      time: new Date(appointment.startTime),
-                      type: appointment.clinicStopCodeName
-                        ? appointment.clinicStopCodeName
-                        : 'VA',
-                    })}
-                  >
-                    {t('details')}
-                  </a>
-                </p>
-              )}
-              <ActionLink
-                app={app}
-                action={action}
-                cardTitleId={cardTitleId}
-                startTime={appointment.startTime}
-                appointmentId={getAppointmentId(appointment)}
-              />
-            </va-card>
-          </div>
-        );
-      })}
+      <div data-testid="appointments">
+        {appointmentCards.map((appointment, index) => {
+          const cardTitleId = `what-next-card-title-${index}`;
+          let cardTitle = t('its-time-to-check-in-for-your-time-appointment', {
+            time: new Date(appointment.startTime),
+          });
+          if (app === APP_NAMES.PRE_CHECK_IN) {
+            cardTitle = getPreCheckinCardTitle();
+          }
+          return (
+            <div
+              className="vads-u-margin-bottom--2"
+              key={appointment.appointmentIen}
+              data-testid="what-next-card"
+            >
+              <va-card show-shadow={checkInableAppointments.length > 1}>
+                <h4
+                  className="vads-u-margin-top--0"
+                  data-testid="what-next-card-title"
+                  id={cardTitleId}
+                >
+                  {cardTitle}
+                </h4>
+                {showDetailsLink && (
+                  <p>
+                    <a
+                      data-testid={`details-link-${index}`}
+                      href={`${
+                        router.location.basename
+                      }/appointment-details/${getAppointmentId(appointment)}`}
+                      onClick={e => goToDetails(e, appointment)}
+                      aria-label={t('details-for-appointment', {
+                        time: new Date(appointment.startTime),
+                        type: appointment.clinicStopCodeName
+                          ? appointment.clinicStopCodeName
+                          : 'VA',
+                      })}
+                    >
+                      {t('details')}
+                    </a>
+                  </p>
+                )}
+                <ActionLink
+                  app={app}
+                  action={action}
+                  cardTitleId={cardTitleId}
+                  startTime={appointment.startTime}
+                  appointmentId={getAppointmentId(appointment)}
+                />
+              </va-card>
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 };
