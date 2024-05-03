@@ -1,11 +1,11 @@
 /* The brightest duo-tone color */
 .darken::before {
-  background-color: $color-primary-darkest;
+  background-color: var(--vads-color-primary-darker);
 }
 
 /* The darkest duo-tone color */
 .lighten::after {
-  background-color: $color-black;
+  background-color: var(--vads-color-black);
 }
 
 /* Duo-tone effect */
@@ -202,20 +202,20 @@
 }
 
 .expand-image-button {
-  background-color: $color-primary;
+  background-color: var(--vads-color-primary);
   border-radius: 5px;
-  color: $color-white;
+  color: var(--vads-color-white);
   height: 32px;
   width: 32px;
 
   &:visited {
-    background-color: $color-primary;
-    color: $color-white;
+    background-color: var(--vads-color-primary);
+    color: var(--vads-color-white);
   }
 
   &:hover {
-    background-color: $color-primary-darker;
-    color: $color-white;
+    background-color: var(--vads-color-primary-dark);
+    color: var(--vads-color-white);
   }
 }
 
@@ -272,14 +272,6 @@
 }
 
 .facilities_health_service {
-  h3 {
-    margin-top: 1em;
-  }
-
-  h4 {
-    margin-top: 1em;
-  }
-
   .usa-button {
     margin-bottom: 0;
   }

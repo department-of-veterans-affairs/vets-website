@@ -132,7 +132,7 @@
 /**
  * @typedef {Object} FormConfigChapter
  * @property {Record<string, FormConfigPage>} [pages]
- * @property {string | ({ formData }: { formData?: Object }) => string} [title]
+ * @property {string | ({ formData, formConfig }) => string} [title]
  * @property {boolean} [hideFormNavProgress]
  * @property {React.ReactNode} [reviewDescription]
  */
@@ -156,7 +156,7 @@
  * @property {SchemaOptions} [schema]
  * @property {string | Function} [scrollAndFocusTarget]
  * @property {boolean} [showPagePerItem] if true, will show an additional page for each item in the array at `'name-of-path/:index'`
- * @property {string | ({ formData }) => string} [title] Will show on review page (may require more than one word to show)
+ * @property {string | (formData) => string} [title] Will show on review page (may require more than one word to show)
  * @property {UISchemaOptions} [uiSchema]
  * @property {(item, index) => void} [updateFormData]
  */
@@ -356,4 +356,66 @@
  *  [key: string]: any
  * }} childrenProps
  * @property {any} DescriptionField
+ */
+
+/**
+ * @typedef {{
+ *   getItemName: (itemData: any) => string,
+ *   itemData: any,
+ *   nounPlural: string,
+ *   nounSingular: string,
+ * }} ArrayBuilderTextProps
+ */
+
+/**
+ * @typedef {{
+ *   alertItemUpdated?: (props: ArrayBuilderTextProps) => string,
+ *   alertItemRemoved?: (props: ArrayBuilderTextProps) => string,
+ *   alertMaxItems?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddNo?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddTitle?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditNo?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditTitle?: (props: ArrayBuilderTextProps) => string,
+ *   cancelYes?: (props: ArrayBuilderTextProps) => string,
+ *   cardDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cardItemMissingInformation?: (itemData: any) => string,
+ *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   getItemName?: (itemData: any) => string,
+ *   removeDescription?: (props: ArrayBuilderTextProps) => string,
+ *   removeNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
+ *   removeNo?: (props: ArrayBuilderTextProps) => string,
+ *   removeTitle?: (props: ArrayBuilderTextProps) => string,
+ *   removeYes?: (props: ArrayBuilderTextProps) => string,
+ *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
+ *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
+ * }} ArrayBuilderText
+ */
+
+/**
+ * @typedef {Object} ArrayBuilderOptions
+ * @property {string} arrayPath the formData key for the array e.g. `"employers"` for `formData.employers`
+ * @property {string} nounSingular Used for text in cancel, remove, and modals. Used with nounPlural
+ * ```
+ * // Example:
+ * nounSingular: "employer"
+ * nounPlural: "employers"
+ * ```
+ * @property {string} nounPlural Used for text in cancel, remove, and modals. Used with nounSingular
+ * ```
+ * // Example:
+ * nounSingular: "employer"
+ * nounPlural: "employers"
+ * ```
+ * @property {(item) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. You should include all of your required fields here. e.g. `item => !item?.name`
+ * @property {number} [maxItems] The maximum number of items allowed in the array. Omit to allow unlimited items.
+ * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
+ * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
+ * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  */

@@ -38,7 +38,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
@@ -76,7 +76,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
@@ -95,15 +95,14 @@ jobs:
       #     sed -i -e 's/\"lodash\",/\"lodash\", \"istanbul\",/g' babel.config.json
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
       - name: Get Mapbox Token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
           env_variable_name: MAPBOX_TOKEN
@@ -116,7 +115,7 @@ jobs:
         run: tar -C build/${{ env.BUILDTYPE }} -cjf ${{ env.BUILDTYPE }}.tar.bz2 .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         with:
           name: ${{ env.BUILDTYPE }}.tar.bz2
           path: ${{ env.BUILDTYPE }}.tar.bz2
@@ -131,7 +130,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
@@ -177,21 +176,27 @@ jobs:
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
       - name: Download production build artifact
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
           name: ${{ env.BUILDTYPE }}.tar.bz2
 
@@ -234,31 +239,31 @@ jobs:
 
       # Temporarily disabled due to apparent memory issues caused by code coverage tools
       # - name: Create coverage artifact
-      #   uses: actions/upload-artifact@v3
+      #   uses: ./.github/workflows/upload-artifact
       #   if: ${{ always() }}
       #   with:
       #     name: code-coverage-artifacts
       #     path: coverage/coverage-summary.json
 
       - name: Archive test videos
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         if: ${{ failure() }}
         with:
-          name: cypress-video-artifacts
+          name: cypress-video-artifacts-${{ matrix.ci_node_index }}
           path: cypress/videos
 
       - name: Archive test screenshots
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         if: ${{ failure() }}
         with:
-          name: cypress-screenshot-artifacts
+          name: cypress-screenshot-artifacts-${{ matrix.ci_node_index }}
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
-        uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/upload-artifact
         if: ${{ always() }}
         with:
-          name: cypress-mochawesome-test-results
+          name: cypress-mochawesome-test-results-${{ matrix.ci_node_index }}
           path: cypress/results
           retention-days: 1
 
@@ -272,7 +277,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
@@ -289,15 +294,14 @@ jobs:
         run: yarn generate-app-list
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -325,7 +329,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
@@ -334,15 +338,14 @@ jobs:
       # ------------------------
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
       - name: Get va-vsp-bot token
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -354,41 +357,42 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
         with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+            ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+            env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
       - name: Set UUID for Mochawesome reports
         run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-          mask-aws-account-id: true
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
 
       # --------------------------------------
       # | Publish Cypress E2E Testing Report |
       # --------------------------------------
 
       - name: Download Cypress E2E Mochawesome test results
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-mochawesome-test-results
+          pattern: cypress-mochawesome-test-results-*
           path: qa-standards-dashboard-data/src/testing-reports/data
+          merge-multiple: true
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v3
+        uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-video-artifacts
+          pattern: cypress-video-artifacts-*
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
+          merge-multiple: true
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
@@ -414,7 +418,7 @@ jobs:
 
       - name: Publish Cypress test results
         if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.2.0
+        uses: ./.github/workflows/checks-action
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Cypress Tests Summary
@@ -435,7 +439,7 @@ jobs:
 
   #   steps:
   #     - name: Checkout
-  #       uses: actions/checkout@v4
+  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
   #       with:
   #         ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
@@ -483,7 +487,7 @@ jobs:
   #     # --------------------------------------
 
   #     - name: Download Code Coverage test results
-  #       uses: actions/download-artifact@v3
+  #       uses: ./.github/workflows/download-artifact
   #       with:
   #         name: code-coverage-artifacts
   #         path: qa-standards-dashboard-data/src/testing-reports/data
@@ -502,7 +506,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 

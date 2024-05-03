@@ -35,7 +35,12 @@ function AppContent({ children, isDataAvailable }) {
     view = children;
   }
 
-  return <div>{view}</div>;
+  return (
+    <div className="row">
+      <h1>Your Post-9/11 GI Bill Statement of Benefits</h1>
+      {view}
+    </div>
+  );
 }
 
 AppContent.propTypes = {
@@ -44,10 +49,20 @@ AppContent.propTypes = {
 };
 
 function Post911GIBStatusApp({ user, children }) {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
   const toggleValue = useToggleValue(
     TOGGLE_NAMES.benefitsEducationUseLighthouse,
   );
+
+  const togglesLoading = useToggleLoadingValue();
+  if (togglesLoading) {
+    return null;
+  }
+
   const apiVersion = { apiVersion: toggleValue ? 'v1' : 'v0' };
 
   return (

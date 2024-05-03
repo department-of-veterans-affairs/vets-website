@@ -1,22 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
-import FeedbackEmail from '../components/shared/FeedbackEmail';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { medicationsUrls } from '../util/constants';
-import { updatePageTitle } from '../../shared/util/helpers';
+import FeedbackEmail from '../components/shared/FeedbackEmail';
+import { getPrescriptionsPaginatedSortedList } from '../actions/prescriptions';
+import {
+  medicationsUrls,
+  rxListSortingOptions,
+  defaultSelectedSortOption,
+} from '../util/constants';
 import { selectRefillContentFlag } from '../util/selectors';
 
 const LandingPage = () => {
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const location = useLocation();
   const fullState = useSelector(state => state);
+  const paginatedPrescriptionsList = useSelector(
+    state => state.rx.prescriptions?.prescriptionsList,
+  );
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
       return {
@@ -32,29 +41,53 @@ const LandingPage = () => {
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
   const [isRxRenewAccordionOpen, setIsRxRenewAccordionOpen] = useState(false);
+  const [isPrescriptionsLoading, setIsPrescriptionsLoading] = useState(false);
   const medicationsUrl = fullState.user.login.currentlyLoggedIn
-    ? medicationsUrls.MEDICATIONS_URL
+    ? medicationsUrls.subdirectories.BASE
     : medicationsUrls.MEDICATIONS_LOGIN;
   const refillUrl = fullState.user.login.currentlyLoggedIn
-    ? medicationsUrls.MEDICATIONS_REFILL
+    ? medicationsUrls.subdirectories.REFILL
     : medicationsUrls.MEDICATIONS_LOGIN;
-
-  const focusAndOpenAccordionRxRenew = () => {
-    setIsRxRenewAccordionOpen(true);
-    focusElement(manageMedicationsHeader.current);
-    if (!featureTogglesLoading && appEnabled) {
-      manageMedicationsAccordionSection.current?.scrollIntoView();
-    }
-  };
 
   useEffect(
     () => {
+      focusElement(document.querySelector('h1'));
       updatePageTitle('About medications | Veterans Affairs');
-      if (location.pathname.includes('/accordion-renew-rx')) {
-        focusAndOpenAccordionRxRenew();
+      if (
+        location.pathname.includes('/accordion-renew-rx') &&
+        !featureTogglesLoading &&
+        !isPrescriptionsLoading
+      ) {
+        setIsRxRenewAccordionOpen(true);
+        focusElement(manageMedicationsHeader.current);
+        if (!featureTogglesLoading && appEnabled) {
+          manageMedicationsAccordionSection.current?.scrollIntoView();
+        }
       }
     },
-    [location.pathname, featureTogglesLoading, appEnabled],
+    [
+      location.pathname,
+      featureTogglesLoading,
+      appEnabled,
+      isPrescriptionsLoading,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (!paginatedPrescriptionsList) {
+        setIsPrescriptionsLoading(true);
+        dispatch(
+          getPrescriptionsPaginatedSortedList(
+            1,
+            rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
+          ),
+        )
+          .then(() => setIsPrescriptionsLoading(false))
+          .catch(() => setIsPrescriptionsLoading(false));
+      }
+    },
+    [dispatch, paginatedPrescriptionsList],
   );
 
   const content = () => {
@@ -73,48 +106,66 @@ const LandingPage = () => {
               medications list.
             </p>
           </section>
-          <section>
-            <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-              {showRefillContent ? (
-                <>
-                  <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1.5 vads-u-font-size--h3">
-                    Manage your medications
-                  </h2>
-                  <a
-                    className="vads-u-display--block vads-c-action-link--blue vads-u-margin-bottom--1"
-                    href={refillUrl}
-                    data-testid="refill-nav-link"
-                  >
-                    Refill prescriptions
-                  </a>
-                  <a
-                    className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
-                    href={medicationsUrl}
-                    data-testid="prescriptions-nav-link"
-                  >
-                    Go to your medications list
-                  </a>
-                </>
-              ) : (
-                <>
-                  <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                    Go to your medications now
-                  </h2>
-                  <p className="vads-u-margin-y--3">
-                    Refill and track your VA prescriptions. And review your
-                    medications list.
-                  </p>
-                  <a
-                    className="vads-c-action-link--green vads-u-margin--0"
-                    href={medicationsUrl}
-                    data-testid="prescriptions-nav-link"
-                  >
-                    Go to your medications
-                  </a>
-                </>
-              )}
-            </div>
-          </section>
+          {paginatedPrescriptionsList?.length ? (
+            <section>
+              <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
+                {showRefillContent ? (
+                  <>
+                    <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1.5 vads-u-font-size--h3">
+                      Manage your medications
+                    </h2>
+                    <Link
+                      className="vads-u-display--block vads-c-action-link--blue vads-u-margin-bottom--1"
+                      to={refillUrl}
+                      data-testid="refill-nav-link"
+                    >
+                      Refill prescriptions
+                    </Link>
+                    <Link
+                      className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
+                      to={medicationsUrl}
+                      data-testid="prescriptions-nav-link"
+                    >
+                      Go to your medications list
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+                      Go to your medications now
+                    </h2>
+                    <p className="vads-u-margin-y--3">
+                      Refill and track your VA prescriptions. And review your
+                      medications list.
+                    </p>
+                    <Link
+                      className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
+                      to={medicationsUrl}
+                      data-testid="prescriptions-nav-link"
+                    >
+                      Go to your medications list
+                    </Link>
+                  </>
+                )}
+              </div>
+            </section>
+          ) : (
+            <section>
+              <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
+                <h2
+                  className="vads-u-margin--0"
+                  data-testid="empty-medications-list"
+                >
+                  You don’t have any VA prescriptions or medication records
+                </h2>
+                <p className="vads-u-margin-y--3">
+                  If you need a prescription or you want to tell us about a
+                  medication you’re taking, tell your care team at your next
+                  appointment.
+                </p>
+              </div>
+            </section>
+          )}
           <hr className="vads-u-margin-top--6" />
           <section>
             <h2>What to know as you try out this tool</h2>
@@ -142,7 +193,7 @@ const LandingPage = () => {
             <h2>Questions about this tool</h2>
             <section>
               <va-accordion bordered data-testid="accordion-dropdown" uswds>
-                <va-accordion-item>
+                <va-accordion-item bordered="true">
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     Does this tool list all my medications and supplies?
                   </h3>
@@ -201,7 +252,7 @@ const LandingPage = () => {
                     </li>
                   </ul>
                 </va-accordion-item>
-                <va-accordion-item>
+                <va-accordion-item bordered="true">
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     What types of prescriptions can I refill and track in this
                     tool?
@@ -223,11 +274,11 @@ const LandingPage = () => {
                     And if you have prescriptions that are too old to refill or
                     have no refills left, you’ll need to renew them to get more.
                   </p>
-                  <a href="/my-health/medications/about/accordion-renew-rx">
+                  <a href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}>
                     Learn how to renew prescriptions
                   </a>
                 </va-accordion-item>
-                <va-accordion-item>
+                <va-accordion-item bordered="true">
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     How long will it take to get my prescriptions?
                   </h3>
@@ -251,7 +302,7 @@ const LandingPage = () => {
                     <strong>at least 15 days</strong> before you need more.
                   </p>
                 </va-accordion-item>
-                <va-accordion-item>
+                <va-accordion-item bordered="true">
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     Will VA protect my personal health information?
                   </h3>
@@ -275,7 +326,7 @@ const LandingPage = () => {
                     public computer.
                   </p>
                 </va-accordion-item>
-                <va-accordion-item>
+                <va-accordion-item bordered="true">
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     What if I have more questions?
                   </h3>
@@ -319,7 +370,10 @@ const LandingPage = () => {
             </p>
             <section>
               <va-accordion uswds bordered data-testid="more-ways-to-manage">
-                <va-accordion-item open={isRxRenewAccordionOpen}>
+                <va-accordion-item
+                  open={isRxRenewAccordionOpen}
+                  bordered="true"
+                >
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     How to renew prescriptions
                   </h3>
@@ -391,7 +445,7 @@ const LandingPage = () => {
                     message with all of your requests.
                   </p>
                 </va-accordion-item>
-                <va-accordion-item>
+                <va-accordion-item bordered="true">
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     How to confirm or update your mailing address
                   </h3>
@@ -412,7 +466,7 @@ const LandingPage = () => {
                     Find your VA health facility
                   </a>
                 </va-accordion-item>
-                <va-accordion-item>
+                <va-accordion-item bordered="true">
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     How to manage notifications for prescription shipments
                   </h3>
@@ -438,7 +492,7 @@ const LandingPage = () => {
                     Go to your profile on the My HealtheVet website
                   </a>
                 </va-accordion-item>
-                <va-accordion-item>
+                <va-accordion-item bordered="true">
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     How to review your allergies and reactions
                   </h3>
@@ -473,7 +527,7 @@ const LandingPage = () => {
     );
   };
 
-  if (featureTogglesLoading) {
+  if (featureTogglesLoading || isPrescriptionsLoading) {
     return (
       <div className="vads-l-grid-container">
         <va-loading-indicator

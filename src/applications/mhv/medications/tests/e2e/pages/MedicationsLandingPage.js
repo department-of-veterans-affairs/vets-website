@@ -1,3 +1,6 @@
+import { medicationsUrls } from '../../../util/constants';
+import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
+
 class MedicationsLandingPage {
   clickExpandAllAccordionButton = () => {
     cy.contains('Expand all').click({ force: true });
@@ -20,7 +23,7 @@ class MedicationsLandingPage {
   };
 
   visitLandingPageURL = () => {
-    cy.visit('my-health/medications/about');
+    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
   };
 
   verifyPrescriptionRefillRequestInformationAccordionDropDown = () => {
@@ -84,10 +87,14 @@ class MedicationsLandingPage {
   };
 
   verifyEmptyMedicationsListMessageAlertOnLandingPage = () => {
-    // cy.get('[data-testid="empty-list-alert"] >div ').should(
-    cy.get('[data-testid="alert-message"]').should(
-      'contain.text',
-      'You don’t have any medications in your medications list',
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      emptyPrescriptionsList,
+    ).as('emptyPrescriptionsList');
+    cy.get('[data-testid="empty-medications-list"]').should(
+      'contain',
+      'You don’t have any VA prescriptions',
     );
   };
 }

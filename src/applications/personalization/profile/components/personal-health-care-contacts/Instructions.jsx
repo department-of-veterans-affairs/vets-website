@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import HelpDeskContact from './HelpDeskContact';
+import HelpDeskContact from '../HelpDeskContact';
 
 const Instructions = ({ testId }) => (
   <div data-testid={testId}>

@@ -95,22 +95,34 @@ describe('Renew Prescriptions Component', () => {
     );
   });
 
+  it('Shows the correct "last refill shipped on" date (w/trackingList) for refill', async () => {
+    const screen = setup();
+    const lastRefillEl = await screen.findByTestId(
+      'medications-last-shipped-0',
+    );
+    expect(lastRefillEl).to.exist;
+    const rx = prescriptions.find(
+      ({ prescriptionId }) => prescriptionId === 22217089,
+    );
+    expect(lastRefillEl).to.have.text(
+      `Last refill shipped on ${dateFormat(
+        rx.trackingList[0]?.completeDateTime,
+      )}`,
+    );
+  });
+
   it('Shows the correct text for 1 prescription', async () => {
     const screen = setup(initialState, [prescriptions[1]]);
     const countEl = await screen.findByTestId('renew-page-list-count');
     expect(countEl).to.exist;
-    expect(countEl).to.have.text(
-      'Showing 1 prescription you may need to renew',
-    );
+    expect(countEl).to.have.text('Showing 1 - 1 of 1 prescriptions');
   });
 
   it('Shows the correct text for 2 prescriptions', async () => {
     const screen = setup(initialState, [prescriptions[1], prescriptions[1]]);
     const countEl = await screen.findByTestId('renew-page-list-count');
     expect(countEl).to.exist;
-    expect(countEl).to.have.text(
-      'Showing 2 prescriptions you may need to renew',
-    );
+    expect(countEl).to.have.text('Showing 1 - 2 of 2 prescriptions');
   });
 
   it('Simulates page change in VaPagination to page 2', async () => {

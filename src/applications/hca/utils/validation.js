@@ -1,9 +1,10 @@
+import { isEqual } from 'lodash';
 import moment from 'moment';
 import {
   convertToDateField,
   validateCurrentOrPastDate,
-} from 'platform/forms-system/src/js/validation';
-import { isValidDateRange } from 'platform/forms/validations';
+} from '~/platform/forms-system/src/js/validation';
+import { isValidDateRange } from '~/platform/forms/validations';
 
 export function validateServiceDates(
   errors,
@@ -57,7 +58,7 @@ export function validateGulfWarDates(
     errors.gulfWarEndDate.addError(messages.format);
   }
 
-  if (!isValidDateRange(fromDate, toDate)) {
+  if (!isValidDateRange(fromDate, toDate) && !isEqual(fromDate, toDate)) {
     errors.gulfWarEndDate.addError(messages.range);
   }
 }
@@ -77,11 +78,11 @@ export function validateExposureDates(
     errors.toxicExposureStartDate.addError(messages.format);
   }
 
-  if (toDate.month && !toDate.year) {
+  if (toDate.month.value && !toDate.year.value) {
     errors.toxicExposureEndDate.addError(messages.format);
   }
 
-  if (!isValidDateRange(fromDate, toDate)) {
+  if (!isValidDateRange(fromDate, toDate) && !isEqual(fromDate, toDate)) {
     errors.toxicExposureEndDate.addError(messages.range);
   }
 }

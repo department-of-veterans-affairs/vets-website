@@ -12,7 +12,7 @@ import { MedicalTreatmentViewField } from '../components/MedicalTreatmentViewFie
 export default {
   uiSchema: {
     ...titleUI(
-      'Where the claimant receive medical treatment?',
+      'Where did the claimant receive medical treatment?',
       'List VA medical centers, Defense Department military treatment facilities, or private medical facilities where the claimant was treated. Provide the approximate date that the treatment started. You may add up to 5 facilities.',
     ),
     medicalTreatments: {
@@ -31,6 +31,10 @@ export default {
         facilityName: {
           'ui:title': 'Name of treatment facility',
           'ui:webComponentField': VaTextInputField,
+          'ui:errorMessages': {
+            required:
+              'Enter the name of the facility where the claimant received treatment',
+          },
           'ui:options': {
             charcount: 40,
           },
@@ -38,7 +42,12 @@ export default {
         facilityAddress: addressNoMilitaryUI({
           omit: ['street2', 'street3'],
         }),
-        startDate: currentOrPastDateUI('Approximate start date of treatment'),
+        startDate: currentOrPastDateUI({
+          title: 'Approximate start date of treatment',
+          errorMessages: {
+            required: 'Enter the approximate date of when treatment began',
+          },
+        }),
       },
     },
   },
@@ -48,7 +57,7 @@ export default {
       medicalTreatments: {
         type: 'array',
         minItems: 1,
-        maxItems: 5,
+        maxItems: 4,
         items: {
           type: 'object',
           properties: {
@@ -61,6 +70,7 @@ export default {
             }),
             startDate: currentOrPastDateSchema,
           },
+          required: ['facilityName', 'facilityAddress', 'startDate'],
         },
       },
     },

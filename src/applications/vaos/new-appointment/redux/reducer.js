@@ -71,6 +71,8 @@ export const REASON_ADDITIONAL_INFO_TITLES = {
   request: 'Add any details you’d like to share with your provider.',
   direct:
     'Please provide any additional details you’d like to share with your provider about this appointment.',
+  ccRequest:
+    'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
 };
 
 export const REASON_MAX_CHARS = {
@@ -264,7 +266,12 @@ export default function formReducer(state = initialState, action) {
     case FORM_UPDATE_FACILITY_TYPE: {
       return {
         ...state,
-        data: { ...state.data, facilityType: action.facilityType },
+        data: {
+          ...state.data,
+          facilityType: action.facilityType,
+          isSingleVaFacility:
+            action.facilityType !== FACILITY_TYPES.COMMUNITY_CARE,
+        },
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN: {
@@ -311,12 +318,14 @@ export default function formReducer(state = initialState, action) {
         isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
 
-      if (typeOfCareFacilities.length === 1) {
-        newData = {
-          ...newData,
-          vaFacility: typeOfCareFacilities[0]?.id,
-        };
-      }
+      newData = {
+        ...newData,
+        vaFacility:
+          typeOfCareFacilities.length === 1
+            ? typeOfCareFacilities[0]?.id
+            : null,
+        isSingleVaFacility: typeOfCareFacilities.length === 1,
+      };
 
       newSchema = set(
         'properties.vaFacility',
@@ -617,6 +626,16 @@ export default function formReducer(state = initialState, action) {
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
       const formData = state.data;
       const reasonMaxChars = 250;
+      let additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.ccRequest;
+
+      if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE) {
+        additionalInfoTitle =
+          state.flowType === FLOW_TYPES.DIRECT
+            ? REASON_ADDITIONAL_INFO_TITLES.direct
+            : REASON_ADDITIONAL_INFO_TITLES.request;
+      } else {
+        delete formData.reasonForAppointment;
+      }
 
       let reasonSchema = set(
         'properties.reasonAdditionalInfo.maxLength',
@@ -624,20 +643,11 @@ export default function formReducer(state = initialState, action) {
         action.schema,
       );
 
-      if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE) {
-        const additionalInfoTitle =
-          state.flowType === FLOW_TYPES.DIRECT
-            ? REASON_ADDITIONAL_INFO_TITLES.direct
-            : REASON_ADDITIONAL_INFO_TITLES.request;
-
-        reasonSchema = set(
-          'properties.reasonAdditionalInfo.title',
-          additionalInfoTitle,
-          reasonSchema,
-        );
-      } else {
-        delete formData.reasonForAppointment;
-      }
+      reasonSchema = set(
+        'properties.reasonAdditionalInfo.title',
+        additionalInfoTitle,
+        reasonSchema,
+      );
 
       const { data, schema } = setupFormData(
         formData,

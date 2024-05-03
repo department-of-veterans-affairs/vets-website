@@ -108,7 +108,7 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
 
 .consolidated {
   font-family: $font-stack;
-
+  @import '~@department-of-veterans-affairs/component-library/dist/main.css';
   @import "~@department-of-veterans-affairs/formation/sass/core";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-alert";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-table";
@@ -136,6 +136,7 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   @import "m-vet-nav-px";
   @import "../../../platform/site-wide/sass/shame";
   @import "consolidated-patches";
+
 }
 
 // A specificity issue snuck into teamsites that switched some divs to use Arial

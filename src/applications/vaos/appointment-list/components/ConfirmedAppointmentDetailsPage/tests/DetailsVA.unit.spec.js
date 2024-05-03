@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import DetailsVA from '../DetailsVA';
 import { Facility } from '../../../../tests/mocks/unit-test-helpers';
+import { createTestStore } from '../../../../tests/mocks/setup';
 
 const appointmentData = {
   start: '2024-07-19T08:00:00-07:00',
@@ -28,9 +29,14 @@ const appointmentData = {
 const facilityData = new Facility();
 
 describe('VAOS Component: DetailsVA', () => {
-  const initialState = {};
+  const initialState = {
+    featureToggles: {
+      vaOnlineSchedulingAppointmentDetailsRedesign: false,
+    },
+  };
 
   it('should not display type of care header for upcoming C&P appointments', async () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -43,13 +49,14 @@ describe('VAOS Component: DetailsVA', () => {
     const props = { appointment, facilityData };
 
     const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      initialState,
+      store,
     });
 
     expect(wrapper.queryByText(/Type of care:/i)).not.to.exist;
   });
 
   it('should display type of care for past C&P appointments', async () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -63,7 +70,7 @@ describe('VAOS Component: DetailsVA', () => {
     const props = { appointment, facilityData };
 
     const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      initialState,
+      store,
     });
 
     expect(
@@ -75,6 +82,7 @@ describe('VAOS Component: DetailsVA', () => {
   });
 
   it('should render StatusAlert', async () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -86,7 +94,7 @@ describe('VAOS Component: DetailsVA', () => {
     const props = { appointment, facilityData };
 
     const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      initialState,
+      store,
     });
 
     // StatusAlert with past appointment
@@ -95,6 +103,7 @@ describe('VAOS Component: DetailsVA', () => {
   });
 
   it('should render VAFacilityLocation', async () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
     };
@@ -102,7 +111,7 @@ describe('VAOS Component: DetailsVA', () => {
     const props = { appointment, facilityData };
 
     const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      initialState,
+      store,
     });
 
     // VAFacilityLocation with upcoming appointment
@@ -110,6 +119,7 @@ describe('VAOS Component: DetailsVA', () => {
   });
 
   it('should render VAInstructions', async () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
       comment: 'Follow-up/Routine: I have a headache',
@@ -118,7 +128,7 @@ describe('VAOS Component: DetailsVA', () => {
     const props = { appointment, facilityData };
 
     const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      initialState,
+      store,
     });
 
     // VAInstructions with upcoming appointment
@@ -127,6 +137,7 @@ describe('VAOS Component: DetailsVA', () => {
   });
 
   it('should render CalendarLink', async () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
     };
@@ -134,7 +145,7 @@ describe('VAOS Component: DetailsVA', () => {
     const props = { appointment, facilityData };
 
     const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      initialState,
+      store,
     });
 
     // CalendarLink with upcoming appointment, it's a va-link web component
@@ -143,6 +154,7 @@ describe('VAOS Component: DetailsVA', () => {
   });
 
   it('should render NoOnlineCancelAlert', async () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
       vaos: {
@@ -154,7 +166,7 @@ describe('VAOS Component: DetailsVA', () => {
     const props = { appointment, facilityData };
 
     const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      initialState,
+      store,
     });
 
     // NoOnlineCancelAlert with upcoming appointment
@@ -166,6 +178,7 @@ describe('VAOS Component: DetailsVA', () => {
   });
 
   it('should render PrintLink', async () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
     };
@@ -173,7 +186,7 @@ describe('VAOS Component: DetailsVA', () => {
     const props = { appointment, facilityData };
 
     const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      initialState,
+      store,
     });
 
     // PrintLink with upcoming appointment

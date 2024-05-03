@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { renderMHVDowntime } from '@department-of-veterans-affairs/mhv/exports';
@@ -9,21 +9,22 @@ import { isLOA1 } from '~/platform/user/selectors';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
+// eslint-disable-next-line import/no-named-default
+import { default as recordEventFn } from '~/platform/monitoring/record-event';
+
 import CardLayout from './CardLayout';
-import NoHealthAlert from './NoHealthAlert';
-import HeaderLayoutV1 from './HeaderLayoutV1';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
-import WelcomeContainer from '../containers/WelcomeContainer';
 import { hasHealthData, personalizationEnabled } from '../selectors';
+import UnregisteredAlert from './UnregisteredAlert';
 
-const LandingPage = ({ data = {} }) => {
+const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;
   const isUnverified = useSelector(isLOA1);
   const hasHealth = useSelector(hasHealthData);
   const signInService = useSelector(signInServiceName);
-  const showPersonalization = useSelector(personalizationEnabled);
+  const showWelcomeMessage = useSelector(personalizationEnabled);
   const showCards = hasHealth && !isUnverified;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
@@ -35,8 +36,19 @@ const LandingPage = ({ data = {} }) => {
       signInService={signInService}
     />
   ) : (
-    <NoHealthAlert />
+    <UnregisteredAlert />
   );
+
+  useEffect(() => {
+    if (isUnverified) {
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': unVerifiedHeadline,
+        'alert-box-status': 'continue',
+      });
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div
@@ -48,13 +60,7 @@ const LandingPage = ({ data = {} }) => {
           dependencies={[externalServices.mhvPlatform]}
           render={renderMHVDowntime}
         />
-        {!showPersonalization && <HeaderLayoutV1 />}
-        {showPersonalization && (
-          <>
-            <HeaderLayout />
-            <WelcomeContainer />
-          </>
-        )}
+        <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
         {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
       </div>
       <HubLinks hubs={hubs} />
@@ -65,6 +71,7 @@ const LandingPage = ({ data = {} }) => {
 
 LandingPage.propTypes = {
   data: PropTypes.object,
+  recordEvent: PropTypes.func,
 };
 
 export default LandingPage;

@@ -1,12 +1,10 @@
 import { appName, rootUrl } from '../../../manifest.json';
 import { generateFeatureToggles } from '../../../mocks/api/feature-toggles';
 import user from '../../fixtures/user.json';
-import vamcEhr from '../../fixtures/vamc-ehr.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 
 describe(`${appName} -- Welcome message`, () => {
   beforeEach(() => {
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
     ApiInitializer.initializeMessageData.withUnreadMessages();
   });
 
@@ -24,7 +22,7 @@ describe(`${appName} -- Welcome message`, () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('personalization enabled', () => {
+  it('personalization disabled', () => {
     cy.intercept(
       'GET',
       '/v0/feature_toggles*',

@@ -15,6 +15,12 @@ import {
   isMissingVeteranGender,
   isSigiEnabled,
   hasDifferentHomeAddress,
+  teraInformationEnabled,
+  includeTeraInformation,
+  includeGulfWarServiceDates,
+  includeAgentOrangeExposureDates,
+  includeOtherExposureDates,
+  includeOtherExposureDetails,
   showFinancialStatusAlert,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
@@ -56,7 +62,19 @@ import DependentInformationPage from '../components/FormPages/DependentInformati
 import DependentsReviewPage from '../components/FormReview/DependentsReviewPage';
 import FinancialConfirmationPage from '../components/FormPages/FinancialStatusConfirmation';
 
-// chapter 3 - Insurance Information
+// chapter 3 Military Service
+import toxicExposure from './chapters/militaryService/toxicExposure';
+import radiationCleanup from './chapters/militaryService/radiationCleanup';
+import gulfWarService from './chapters/militaryService/gulfWarService';
+import gulfWarServiceDates from './chapters/militaryService/gulfWarServiceDates';
+import combatOperationService from './chapters/militaryService/combatOperationService';
+import agentOrangeExposure from './chapters/militaryService/agentOrangeExposure';
+import agentOrangeExposureDates from './chapters/militaryService/agentOrangeExposureDates';
+import otherToxicExposure from './chapters/militaryService/otherToxicExposure';
+import otherToxicExposureDetails from './chapters/militaryService/otherToxicExposureDetails';
+import otherToxicExposureDates from './chapters/militaryService/otherToxicExposureDates';
+
+// chapter 4 - Insurance Information
 import medicaidEligibility from './chapters/insuranceInformation/medicaid';
 import medicarePartAEnrollment from './chapters/insuranceInformation/medicare';
 import partAEffectiveDate from './chapters/insuranceInformation/partAEffectiveDate';
@@ -81,6 +99,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_10_10EZR,
   version: 0,
   trackingPrefix: 'ezr-',
+  v3SegmentedProgressBar: true,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/form1010_ezrs`,
@@ -193,6 +212,81 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
+        },
+      },
+    },
+    militaryService: {
+      title: 'Military service',
+      pages: {
+        toxicExposure: {
+          path: 'military-service/toxic-exposure',
+          title: 'Toxic exposure',
+          depends: teraInformationEnabled,
+          uiSchema: toxicExposure.uiSchema,
+          schema: toxicExposure.schema,
+        },
+        radiationCleanup: {
+          path: 'military-service/radiation-cleanup-efforts',
+          title: 'Radiation cleanup or response efforts',
+          depends: includeTeraInformation,
+          uiSchema: radiationCleanup.uiSchema,
+          schema: radiationCleanup.schema,
+        },
+        gulfWarService: {
+          path: 'military-service/gulf-war-service',
+          title: 'Gulf War service locations',
+          depends: includeTeraInformation,
+          uiSchema: gulfWarService.uiSchema,
+          schema: gulfWarService.schema,
+        },
+        gulfWarServiceDates: {
+          path: 'military-service/gulf-war-service-dates',
+          title: 'Gulf War service dates',
+          depends: includeGulfWarServiceDates,
+          uiSchema: gulfWarServiceDates.uiSchema,
+          schema: gulfWarServiceDates.schema,
+        },
+        combatOperationService: {
+          path: 'military-service/operation-support',
+          title: 'Operations',
+          depends: includeTeraInformation,
+          uiSchema: combatOperationService.uiSchema,
+          schema: combatOperationService.schema,
+        },
+        agentOrangeExposure: {
+          path: 'military-service/agent-orange-exposure',
+          title: 'Agent Orange exposure',
+          depends: includeTeraInformation,
+          uiSchema: agentOrangeExposure.uiSchema,
+          schema: agentOrangeExposure.schema,
+        },
+        agentOrangeExposureDates: {
+          path: 'military-service/agent-orange-exposure-dates',
+          title: 'Agent Orange exposure dates',
+          depends: includeAgentOrangeExposureDates,
+          uiSchema: agentOrangeExposureDates.uiSchema,
+          schema: agentOrangeExposureDates.schema,
+        },
+        otherToxicExposure: {
+          path: 'military-service/other-toxic-exposure',
+          title: 'Other toxic exposures',
+          depends: includeTeraInformation,
+          uiSchema: otherToxicExposure.uiSchema,
+          schema: otherToxicExposure.schema,
+        },
+        otherToxicExposureDetails: {
+          path: 'military-service/other-toxins-or-hazards',
+          title: 'Other toxin or hazard exposure',
+          depends: includeOtherExposureDetails,
+          uiSchema: otherToxicExposureDetails.uiSchema,
+          schema: otherToxicExposureDetails.schema,
+        },
+        otherToxicExposureDates: {
+          path: 'military-service/other-toxic-exposure-dates',
+          title: 'Other toxic exposure dates',
+          depends: includeOtherExposureDates,
+          uiSchema: otherToxicExposureDates.uiSchema,
+          schema: otherToxicExposureDates.schema,
         },
       },
     },

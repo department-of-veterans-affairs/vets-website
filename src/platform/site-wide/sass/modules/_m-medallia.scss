@@ -1,4 +1,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/component-library/dist/main.css";
 
 /* Fonts */
 #liveForm .ng-binding,
@@ -13,7 +14,7 @@
 
 /* Radio buttons background color */
 .neb-content md-radio-group div.radio md-radio-button ._md-on {
-  background-color: $color-blue !important;
+  background-color: var(--vads-color-primary) !important;
 }
 
 /* 150px-wide container div for "Very Dissatisfied" and "Very Satisfied" spans */
@@ -21,7 +22,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  color: $color-gray-dark !important;
+  color: var(--vads-color-base-darker) !important;
 }
 
 /* "Very Dissatisfied" label below "1 of 5" rating element */
@@ -35,7 +36,7 @@
 .ng-scope #rightEdge {
   text-align: right;
   width: 50px;
-  color: $color-gray-dark !important;
+  color: var(--vads-color-base-darker) !important;
 }
 
 /* CSS Overrides for the 3-question survey on /find-locations */
@@ -117,7 +118,7 @@
   top: 40px !important;
   right: 12px !important;
   z-index: 9999999;
-  color: $color-gray-light !important;
+  color: var(--vads-color-base-light) !important;
 }
 
 /* override to constrain modal width  */
@@ -128,19 +129,19 @@
 
 /* helper text under textarea */
 #liveForm .kpl_builder.neb-form-wcag .description.help-block {
-  color: $color-gray-dark !important;
+  color: var(--vads-color-base-darker) !important;
   font-size: 16px !important;
 }
 
 /* yes or no option label*/
 .neb-component .neb-content .neb-native-radio .neb-native-radio-option-label {
-  color: $color-gray-dark !important;
+  color: var(--vads-color-base-darker) !important;
   font-size: 16px !important;
 }
 
 /* labels for all questions */
 .control-label {
-  color: $color-gray-dark !important;
+  color: var(--vads-color-base-darker) !important;
   font-size: 16px !important;
   font-weight: bold !important;
 }
@@ -200,7 +201,7 @@
 
 /* checkboxes labels */
 ._md-label {
-  color: $color-gray-dark !important;
+  color: var(--vads-color-base-darker) !important;
   font-size: 16px !important;
   font-family: "Source Sans Pro", sans-serif !important;
 }
@@ -212,13 +213,13 @@
 
 /*  next button on VAMC muli-page surveys in-line style override*/
 .form-next-btn[style] {
-  background-color: $color-blue !important;
+  background-color: var(--vads-color-primary) !important;
   margin-right: 10px !important
 }
 
 .modal-live-form a {
   cursor: pointer;
-  color: $color-link-default!important;
+  color: var(--vads-color-link)!important;
   text-decoration: underline !important;
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
@@ -226,11 +227,11 @@
 }
 
 .modal-live-form {
-  color: $color-gray-dark !important;
+  color: var(--vads-color-base-darker) !important;
 }
 
 .omb_heading h2 {
-  color: $color-gray-dark !important;
+  color: var(--vads-color-base-darker) !important;
   font-weight: 700 !important;
 }
 
@@ -264,7 +265,7 @@
 /* end temp styles */
 
 .powered-by-link {
-  color: $color-gray-dark !important;
+  color: var(--vads-color-base-darker) !important;
   text-decoration: none !important;
 }
 /************************************/
@@ -290,7 +291,7 @@
 }
 
 .smallSurvey input:not([disabled]):focus, select:not([disabled]):focus, textarea:not([disabled]):focus, button:not([disabled]):focus, a:focus {
-  outline: 2px solid $color-gold-light !important;
+  outline: 2px solid var(--vads-color-action-focus-on-light) !important;
   outline-offset: 2px;
   box-shadow: 0 0 0 0 !important;
 }
@@ -305,7 +306,7 @@
 ._2x6S50Ozibu2fOMgF5qDzt > p > span {
   line-height: 1.5;
   font-weight: 400;
-  color: $color-gray-dark !important;
+  color: var(--vads-color-base-darker) !important;
   box-sizing: inherit;
   font-family: "Source Sans Pro", sans-serif !important;
   font-size: 16px;
@@ -332,7 +333,7 @@
 ._2x6S50Ozibu2fOMgF5qDzt > p,
 .smallSurvey input {
   font-family: "Source Sans Pro", sans-serif !important;
-  color: $color-gray-dark !important;
+  color: var(--vads-color-base-darker) !important;
   line-height: 1.5;
   font-size: 16px;
 }
@@ -384,7 +385,7 @@
 ._2BCbSBZTAy3NNEkchW4JAl:focus, .d2_RCwrIYw0j7I65dMyHx {
   z-index: 1;
   box-shadow: 0 0 0 0 !important;
-  outline: 2px solid $color-gold-light !important;
+  outline: 2px solid var(--vads-color-action-focus-on-light) !important;
   outline-offset: 2px;
 }
 
@@ -393,18 +394,18 @@
 select:not([disabled]):focus,
 textarea:not([disabled]):focus,
 button:not([disabled]):focus {
-  outline: 2px solid $color-gold-light !important;
+  outline: 2px solid var(--vads-color-action-focus-on-light) !important;
   outline-offset: 2px !important;
-  box-shadow: 0 0 0 2px $color-white, 0 0 0 4px $color-blue !important;
+  box-shadow: 0 0 0 2px var(--vads-color-white), 0 0 0 4px var(--vads-color-primary) !important;
 }
 /* coloring input checkboxes*/
 ._2BCbSBZTAy3NNEkchW4JAl input:checked + label ._3gm0DTvejOVCp2Ui6X30hr:before {
-  background-color: $color-blue;
-  box-shadow: 0 0 0 2px  $color-white, 0 0 0 4px $color-blue;
+  background-color: var(--vads-color-primary);
+  box-shadow: 0 0 0 2px  var(--vads-color-white), 0 0 0 4px var(--vads-color-primary);
 }
 
 ._2BCbSBZTAy3NNEkchW4JAl input:checked + label ._3vIIqCsHxivLQpx8AfcIkO:after {
-  background-color: $color-blue !important;
+  background-color: var(--vads-color-primary) !important;
 }
 
 /* rating scale*/
@@ -414,22 +415,22 @@ button:not([disabled]):focus {
   font-weight: 400 !important;
   display: flex;
   justify-content: space-between;
-  color: $color-gray-dark !important;
+  color: var(--vads-color-base-darker) !important;
 }
 
 ._1_7PScJ_jiqe-TBSrlCh24 ._1YsDAuTgzg-TJThBFYa0LN:focus, ._1_7PScJ_jiqe-TBSrlCh24 ._1YsDAuTgzg-TJThBFYa0LN:hover {
-  outline: 2px solid $color-gold-light !important;
+  outline: 2px solid var(--vads-color-action-focus-on-light) !important;
   outline-offset: 2px;
   box-shadow: 0 0 0 0 !important;
 }
 
 ._1_7PScJ_jiqe-TBSrlCh24 ._3_foUkwcSeMY2vBraukrvR:hover{
-  outline: 2px solid $color-gold-light !important;
+  outline: 2px solid var(--vads-color-action-focus-on-light) !important;
   border-color: transparent;
 }
 
 ._1_7PScJ_jiqe-TBSrlCh24 ._1YsDAuTgzg-TJThBFYa0LN {
-  background-color: $color-blue;
+  background-color: var(--vads-color-primary);
 }
 
 /* Rating Label */
@@ -474,7 +475,7 @@ button:not([disabled]):focus {
   appearance: none;
   border: 0px;
   border-radius: 5px;
-  color: $color-white;
+  color: var(--vads-color-white);
   cursor: pointer;
   display: inline-block;
   font-family: "Source Sans Pro", sans-serif !important;
@@ -485,9 +486,9 @@ button:not([disabled]):focus {
   text-align: center;
   text-decoration: none;
   align-items: center;
-  background-color: $color-blue;
+  background-color: var(--vads-color-primary);
   border-radius: 5px;
-  color: $color-white;
+  color: var(--vads-color-white);
   display: flex;
   font-size: 14px;
   justify-content: center;
@@ -495,7 +496,7 @@ button:not([disabled]):focus {
   font-size: 0.875rem;
   line-height: 1.42857143;
   padding: 6px 12px;
-  color: $color-white;
+  color: var(--vads-color-white);
 }
 
 ._1De-hWu2XrYnO5hnFIWYwJ {
@@ -505,7 +506,7 @@ button:not([disabled]):focus {
   appearance: none;
   border: 0px;
   border-radius: 5px;
-  color: $color-white;
+  color: var(--vads-color-white);
   cursor: pointer;
   display: inline-block;
   font-family: "Source Sans Pro", sans-serif !important;
@@ -515,16 +516,16 @@ button:not([disabled]):focus {
   text-align: center;
   text-decoration: none;
   align-items: center;
-  background-color: $color-blue !important;
+  background-color: var(--vads-color-primary) !important;
   border-radius: 5px;
-  color: $color-white;
+  color: var(--vads-color-white);
   display: flex;
   font-size: 14px;
   justify-content: center;
   margin: 0.5em 0.5em 0.5em 0px;
   line-height: 1 !important;
   padding: 6px 12px;
-  color: $color-white;
+  color: var(--vads-color-white);
   width: 139px !important;
 }
 

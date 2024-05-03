@@ -16,7 +16,7 @@
 }
 
 .fry-dea-form-featured-content {
-	background-color: $color-gray-lightest;
+	background-color: var(--vads-color-base-lightest);
 	padding: 24px;
 }
 
@@ -43,7 +43,7 @@ legend.legend-label.fry-dea-veterans-checkboxes_legend + .form-radio-buttons {
 .fry-dea-content-break {
   display: block;
   border: 0;
-  border-top: 1px solid $color-gray;
+  border-top: 1px solid var(--vads-color-base-dark);
 }
 .fry-dea-benefits-list {
   list-style-type: none;
@@ -76,10 +76,10 @@ $border-width: 4px;
 $error-left-padding-width: 1.5rem;
 #root_benefitSelection-label,
 #root_benefitSelection-label + .schemaform-widget-wrapper {
-  border-left: $border-width solid $color-primary-alt-dark;
+  border-left: $border-width solid var(--vads-color-primary-alt-dark);
 }
 .usa-input-error #root_benefitSelection-label {
-  border-color: $color-secondary-dark;
+  border-color: var(--vads-color-secondary-dark);
   margin-left: calc(-#{$error-left-padding-width} - #{$border-width});
 }
 #root_benefitSelection-label {
@@ -125,7 +125,7 @@ $error-left-padding-width: 1.5rem;
   padding-bottom: .65em;
 }
 .fa-check-circle {
-  color: $color-green;
+  color: var(--vads-color-success-dark);
 }
 // END - Benefit Selection Page
 

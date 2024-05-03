@@ -3,6 +3,7 @@ import React from 'react';
 import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import { CSP_IDS } from '../../authentication/constants';
 
 export const HowToVerifyLink = () => (
   <p className="vads-u-margin-y--4">
@@ -21,7 +22,7 @@ const VerifyIdentityInfo = () => (
   >
     <a
       href="https://www.va.gov/resources/verifying-your-identity-on-vagov/"
-      clasName="vads-u-padding-bottom--2"
+      className="vads-u-padding-bottom--2"
     >
       Get answers to common questions about verifying your identity
     </a>
@@ -36,6 +37,7 @@ const VerifyIdentityInfo = () => (
 );
 
 const IdentityNotVerified = ({
+  disableAnalytics = false,
   headline = 'Verify your identity to access your complete profile',
   showHelpContent = true,
   showVerifyIdenityHelpInfo = false,
@@ -43,39 +45,41 @@ const IdentityNotVerified = ({
 }) => {
   let serviceName;
   switch (signInService) {
-    case 'mhv':
-    case 'dslogon':
+    case CSP_IDS.MHV:
+    case CSP_IDS.MHV_VERBOSE:
+    case CSP_IDS.DS_LOGON:
       serviceName = 'Login.gov or ID.me';
       break;
-    case 'idme':
+    case CSP_IDS.ID_ME:
       serviceName = 'ID.me';
       break;
-    case 'logingov':
+    case CSP_IDS.LOGIN_GOV:
       serviceName = 'Login.gov';
       break;
     default:
-      serviceName = 'your account';
+      serviceName = '';
   }
   return (
     <>
       <va-alert
         status="continue"
         class="vads-u-margin-top--3 vads-u-margin-bottom--3"
+        disable-analytics={disableAnalytics}
       >
         <h2 slot="headline" data-testid="verify-identity-alert-headline">
           {headline}
         </h2>
         <div className="vads-u-margin-bottom--1">
           <p>
-            Our records show that you haven’t verified your identity for your
-            &nbsp;
-            {serviceName} account. We need you to verify your identity for this
+            {`Our records show that you haven’t verified your identity for your
+            ${serviceName} account. We need you to verify your identity for this
             account to help us keep your information safe and prevent fraud and
-            identity theft.
+            identity theft.`}
           </p>
           <p>
-            {serviceName} will ask you for certain personal information and
-            identification. This process often takes about 10 minutes.
+            {serviceName || 'Your account'} will ask you for certain personal
+            information and identification. This process often takes about 10
+            minutes.
           </p>
           <a
             className="vads-c-action-link--green"
@@ -94,11 +98,12 @@ const IdentityNotVerified = ({
 };
 
 IdentityNotVerified.propTypes = {
+  signInService: PropTypes.string.isRequired,
   additionalInfoClickHandler: PropTypes.func,
+  disableAnalytics: PropTypes.bool,
   headline: PropTypes.string,
   showHelpContent: PropTypes.bool,
   showVerifyIdenityHelpInfo: PropTypes.bool,
-  signInService: PropTypes.string,
 };
 
 export { IdentityNotVerified as default };

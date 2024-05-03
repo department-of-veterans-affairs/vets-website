@@ -83,9 +83,13 @@ describe('Travel claim validation', () => {
 
       TravelPages.validatePageWrapper('travel-claim-review-page');
       cy.injectAxeThenAxeCheck();
-      TravelPages.clickBackButton();
+      TravelPages.attemptToGoToNextPage('no');
 
-      TravelPages.validatePageWrapper('travel-claim-address-page');
+      TravelPages.validatePageWrapper('travel-mileage-page');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.clickContinueButton('yes');
+
+      TravelPages.validatePageWrapper('travel-claim-vehicle-page');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage('no');
 

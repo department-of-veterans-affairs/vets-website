@@ -2,15 +2,15 @@
 
   .suggestions-list {
     z-index: 9999;
-    background: $color-white;
-    border: 1px solid $color-gray;
+    background: var(--vads-color-white);
+    border: 1px solid var(--vads-color-base-dark);
     // Box shadow only sides and bottom of suggestion list.
-    box-shadow: 0px 3px 3px -3px $color-focus,
-                3px 0 3px -3px $color-focus,
-                -3px 0 3px -3px $color-focus,
-                0 7px 7px -7px $color-focus,
-                7px 0 7px -7px $color-focus,
-                -7px 0 7px -7px $color-focus;
+    box-shadow: 0px 3px 3px -3px var(--vads-color-action-focus-on-light),
+                3px 0 3px -3px var(--vads-color-action-focus-on-light),
+                -3px 0 3px -3px var(--vads-color-action-focus-on-light),
+                0 7px 7px -7px var(--vads-color-action-focus-on-light),
+                7px 0 7px -7px var(--vads-color-action-focus-on-light),
+                -7px 0 7px -7px var(--vads-color-action-focus-on-light);
     list-style: none;
     margin-top: -.5rem;
     max-width: 46rem;
@@ -26,7 +26,7 @@
     padding: .5rem 1rem;
 
     &-highlighted {
-      background-color: $color-primary-alt-light;
+      background-color: var(--vads-color-primary-alt-light);
       cursor: pointer;
     }
   }

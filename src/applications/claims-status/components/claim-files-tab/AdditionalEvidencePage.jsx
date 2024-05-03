@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 
 import { getScrollOptions } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -34,6 +33,7 @@ import {
   getFilesOptional,
   isClaimOpen,
 } from '../../utils/helpers';
+import withRouter from '../../utils/withRouter';
 
 const scrollToError = () => {
   const options = getScrollOptions({ offset: -25 });
@@ -46,10 +46,11 @@ const scrollToError = () => {
 
 const { Element } = Scroll;
 
+const filesPath = `../files`;
+
 class AdditionalEvidencePage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
-    document.title = 'Additional Evidence';
     if (!this.props.loading) {
       setUpPage();
     } else {
@@ -81,16 +82,16 @@ class AdditionalEvidencePage extends React.Component {
 
   goToFilesPage() {
     this.props.getClaim(this.props.claim.id);
-    this.props.router.push(`your-claims/${this.props.claim.id}/files`);
+    this.props.navigate(filesPath);
   }
 
   render() {
-    const filesPath = `your-claims/${this.props.params.id}/additional-evidence`;
+    const { claim, lastPage } = this.props;
     let content;
 
     const isOpen = isClaimOpen(
-      this.props.claim.attributes.status,
-      this.props.claim.attributes.closeDate,
+      claim.attributes.status,
+      claim.attributes.closeDate,
     );
 
     if (this.props.loading) {
@@ -98,7 +99,6 @@ class AdditionalEvidencePage extends React.Component {
         <va-loading-indicator
           set-focus
           message="Loading your claim information..."
-          uswds="false"
         />
       );
     } else {
@@ -120,39 +120,27 @@ class AdditionalEvidencePage extends React.Component {
           {isOpen ? (
             <>
               {this.props.filesNeeded.map(item => (
-                <FilesNeeded
-                  key={item.id}
-                  id={this.props.claim.id}
-                  item={item}
-                />
+                <FilesNeeded key={item.id} id={claim.id} item={item} />
               ))}
               {this.props.filesOptional.map(item => (
-                <FilesOptional
-                  key={item.id}
-                  id={this.props.claim.id}
-                  item={item}
-                />
+                <FilesOptional key={item.id} id={claim.id} item={item} />
               ))}
               <AddFilesForm
                 field={this.props.uploadField}
                 progress={this.props.progress}
                 uploading={this.props.uploading}
                 files={this.props.files}
-                backUrl={this.props.lastPage || filesPath}
+                backUrl={lastPage ? `/${lastPage}` : filesPath}
                 onSubmit={() => {
                   // START lighthouse_migration
                   if (this.props.documentsUseLighthouse) {
                     this.props.submitFilesLighthouse(
-                      this.props.claim.id,
+                      claim.id,
                       null,
                       this.props.files,
                     );
                   } else {
-                    this.props.submitFiles(
-                      this.props.claim.id,
-                      null,
-                      this.props.files,
-                    );
+                    this.props.submitFiles(claim.id, null, this.props.files);
                   }
                   // END lighthouse_migration
                 }}
@@ -234,11 +222,11 @@ AdditionalEvidencePage.propTypes = {
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
   message: PropTypes.object,
+  navigate: PropTypes.func,
   params: PropTypes.object,
   progress: PropTypes.number,
   removeFile: PropTypes.func,
   resetUploads: PropTypes.func,
-  router: PropTypes.object,
   setFieldsDirty: PropTypes.func,
   submitFiles: PropTypes.func,
   // START lighthouse_migration

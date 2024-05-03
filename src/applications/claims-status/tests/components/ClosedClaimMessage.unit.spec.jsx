@@ -2,9 +2,15 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { format, formatISO, subDays } from 'date-fns';
+import { fireEvent } from '@testing-library/dom';
+import sinon from 'sinon';
+
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import * as recordEventModule from '~/platform/monitoring/record-event';
 
 import ClosedClaimMessage from '../../components/ClosedClaimMessage';
 import { DATE_FORMATS } from '../../constants';
+import { renderWithRouter } from '../utils';
 
 // HELPERS
 const formatString = DATE_FORMATS.LONG_DATE;
@@ -35,7 +41,7 @@ describe('<ClosedClaimMessage>', () => {
         },
       ];
 
-      const screen = render(<ClosedClaimMessage claims={claims} />);
+      const screen = renderWithRouter(<ClosedClaimMessage claims={claims} />);
 
       // Check that the component was rendered
       expect(screen.getByText('Recently closed:')).to.exist;
@@ -77,6 +83,41 @@ describe('<ClosedClaimMessage>', () => {
       // Check that the component was rendered
       expect(screen.queryByText('Recently closed:')).to.not.exist;
     });
+
+    it('when click Compensation Appeal link, should call record event', () => {
+      const recordEventStub = sinon.stub(recordEventModule, 'default');
+      const closeDate = subDays(new Date(), 59);
+      const claims = [
+        {
+          id: 1,
+          type: 'appeal',
+          attributes: {
+            active: false,
+            events: [
+              {
+                type: 'claim_decision',
+                date: '2020-01-01',
+              },
+              {
+                type: 'bva_decision',
+                date: getISOString(closeDate),
+              },
+            ],
+          },
+        },
+      ];
+      const { container } = renderWithRouter(
+        <ClosedClaimMessage claims={claims} />,
+      );
+      const compAppealLink = $('a', container);
+      fireEvent.click(compAppealLink);
+      expect(
+        recordEventStub.calledWith({
+          event: 'claims-closed-alert-clicked',
+        }),
+      ).to.be.true;
+      recordEventStub.restore();
+    });
   });
 
   context('Benefits claims', () => {
@@ -94,7 +135,7 @@ describe('<ClosedClaimMessage>', () => {
         },
       ];
 
-      const screen = render(<ClosedClaimMessage claims={claims} />);
+      const screen = renderWithRouter(<ClosedClaimMessage claims={claims} />);
 
       // Check that the component rendered
       expect(screen.getByText('Recently closed:')).to.exist;

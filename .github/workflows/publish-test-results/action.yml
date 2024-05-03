@@ -22,7 +22,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: mikepenz/action-junit-report@v2.8.4
+    - uses: mikepenz/action-junit-report@9379f0ccddcab154835d4e2487555ee79614fe95
       with:
         check_name: ${{ inputs.check_name }}
         github_token: ${{ inputs.token }}

@@ -92,7 +92,7 @@ const EmploymentHistorySummaryCard = ({
   );
 
   const cardBody = (
-    <div className="vads-u-margin-y--1">
+    <div className="vads-u-margin-y--1" data-testid="mini-summary-card-content">
       {/* Render date information */}
       <EmploymentCardBody
         label="Dates"
@@ -142,7 +142,12 @@ const EmploymentHistorySummaryCard = ({
         uswds
       >
         <div className="vads-u-display--flex vads-u-flex-direction--column">
-          <h4 className="vads-u-margin-y--0">{employmentCardHeading}</h4>
+          <h4
+            className="vads-u-margin-y--0"
+            data-testid="mini-summary-card-header"
+          >
+            {employmentCardHeading}
+          </h4>
           {cardBody}
         </div>
         <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-bottom--neg1">

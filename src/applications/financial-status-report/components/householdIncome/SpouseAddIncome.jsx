@@ -115,7 +115,7 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             </h3>
           </legend>
           <VaTextInput
-            className="no-wrap input-size-3"
+            width="md"
             error={(submitted && nameError) || null}
             id="add-other-income-name"
             label="What is the income source?"
@@ -125,11 +125,10 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetName || ''}
-            uswds
             charcount
           />
           <VaNumberInput
-            className="no-wrap input-size-3"
+            width="md"
             error={otherAssetIncomeError}
             id="add-other-asset-amount"
             inputmode="decimal"
@@ -141,7 +140,6 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetAmount || ''}
-            uswds
           />
           <br />
 

@@ -5,6 +5,7 @@ import {
   AssetInformationAlert,
   TotalNetWorthOverTwentyFiveThousandAlert,
 } from '../../../components/FormAlerts';
+import { netWorthEstimation } from '../../definitions';
 
 export const hideIfUnder25000 = formData =>
   formData.netWorthEstimation === undefined ||
@@ -12,6 +13,9 @@ export const hideIfUnder25000 = formData =>
 
 /** @type {PageSchema} */
 export default {
+  title: 'Net worth estimation',
+  path: 'financial/net-worth-estimation',
+  depends: formData => formData.totalNetWorth === false,
   uiSchema: {
     ...titleUI(
       'Income and assets',
@@ -40,9 +44,7 @@ export default {
     type: 'object',
     required: ['netWorthEstimation'],
     properties: {
-      netWorthEstimation: {
-        type: 'number',
-      },
+      netWorthEstimation,
       'view:warningAlertOnHighValue': {
         type: 'object',
         properties: {},

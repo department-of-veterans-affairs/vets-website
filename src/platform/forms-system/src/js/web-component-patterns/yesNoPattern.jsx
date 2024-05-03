@@ -20,7 +20,7 @@ import YesNoField from '../web-component-fields/YesNoField';
  *
  * if `yesNoReverse` is set to true, selecting `yes` will result in `false` instead of `true`
  *
- * @param {string | UIOptions & {
+ * @param {UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   description?: UISchemaOptions['ui:description'],
  *   labels?: {Y?: string, N?: string},

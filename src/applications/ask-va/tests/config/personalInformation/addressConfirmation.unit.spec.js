@@ -1,9 +1,12 @@
-import React from 'react';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 import formConfig from '../../../config/form';
 
@@ -61,9 +64,15 @@ describe('addressConfirmationPage', () => {
       </Provider>,
     );
 
-    expect($('h3', container).textContent).to.eq(
+    const spans = $$('span', container);
+    const spanList = ['You entered:', 'Suggested Addresses:'];
+
+    expect($('h2', container).textContent).to.eq(
       'Veteran Address Confirmation',
     );
-    expect($('span', container).textContent).to.eq('You entered:');
+
+    spans.forEach(
+      span => expect(spanList.includes(span.textContent.trim())).to.be.true,
+    );
   });
 });

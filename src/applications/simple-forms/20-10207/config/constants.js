@@ -438,7 +438,8 @@ export const VSI_DESCRIPTION = Object.freeze(
     >
       <ul>
         <li className="vads-u-margin-bottom--2">
-          Copy of medical evidence showing ALS, <strong>and</strong>
+          Copy of military personnel records, such as a determination from the
+          Defense Department (DOD), <strong>and</strong>
         </li>
         <li className="vads-u-margin-bottom--2">
           Medical evidence showing severe disability or injury
@@ -541,3 +542,72 @@ export const workInProgressContent = {
   redirectLink: '/',
   redirectText: 'Return to VA home page',
 };
+
+const HAS_RECEIVED_MEDICAL_TREATMENT_TITLES = {
+  [PREPARER_TYPES.VETERAN]:
+    'Have you received medical treatment for any medical issues related to this request?',
+  [PREPARER_TYPES.NON_VETERAN]:
+    'Have you received medical treatment for any medical issues related to this request?',
+  [PREPARER_TYPES.THIRD_PARTY_VETERAN]:
+    'Has the Veteran received medical treatment for any medical issues related to this request?',
+  [PREPARER_TYPES.THIRD_PARTY_NON_VETERAN]:
+    'Has the claimant received medical treatment for any medical issues related to this request?',
+};
+
+export function hasMedicalTreatmentTitle(formData) {
+  if (!formData?.preparerType) {
+    return HAS_RECEIVED_MEDICAL_TREATMENT_TITLES[PREPARER_TYPES.VETERAN];
+  }
+  return HAS_RECEIVED_MEDICAL_TREATMENT_TITLES[formData.preparerType];
+}
+
+const HAS_RECEIVED_MEDICAL_TREATMENT_YES_LABELS = {
+  [PREPARER_TYPES.VETERAN]: 'Yes, I have received medical treatment',
+  [PREPARER_TYPES.NON_VETERAN]: 'Yes, I have received medical treatment',
+  [PREPARER_TYPES.THIRD_PARTY_VETERAN]:
+    'Yes, the Veteran has received medical treatment',
+  [PREPARER_TYPES.THIRD_PARTY_NON_VETERAN]:
+    'Yes, the claimant has received medical treatment',
+};
+
+export function hasMedicalTreatmentTitleYesLabel(formData) {
+  if (!formData?.preparerType) {
+    return HAS_RECEIVED_MEDICAL_TREATMENT_YES_LABELS[PREPARER_TYPES.VETERAN];
+  }
+  return HAS_RECEIVED_MEDICAL_TREATMENT_YES_LABELS[formData.preparerType];
+}
+
+const HAS_RECEIVED_MEDICAL_TREATMENT_NO_LABELS = {
+  [PREPARER_TYPES.VETERAN]: 'No, I have not received medical treatment',
+  [PREPARER_TYPES.NON_VETERAN]: 'No, I have not received medical treatment',
+  [PREPARER_TYPES.THIRD_PARTY_VETERAN]:
+    'No, the Veteran has not received medical treatment',
+  [PREPARER_TYPES.THIRD_PARTY_NON_VETERAN]:
+    'No, the claimant has not received medical treatment',
+};
+
+export function hasMedicalTreatmentTitleNoLabel(formData) {
+  if (!formData?.preparerType) {
+    return HAS_RECEIVED_MEDICAL_TREATMENT_NO_LABELS[PREPARER_TYPES.VETERAN];
+  }
+  return HAS_RECEIVED_MEDICAL_TREATMENT_NO_LABELS[formData.preparerType];
+}
+
+const HAS_RECEIVED_MEDICAL_TREATMENT_ERROR_MESSAGES = {
+  [PREPARER_TYPES.VETERAN]: 'Select yes if you have received medical treatment',
+  [PREPARER_TYPES.NON_VETERAN]:
+    'Select yes if you have received medical treatment',
+  [PREPARER_TYPES.THIRD_PARTY_VETERAN]:
+    'Select yes if the Veteran has received medical treatment',
+  [PREPARER_TYPES.THIRD_PARTY_NON_VETERAN]:
+    'Select yes if the claimant has received medical treatment',
+};
+
+export function hasMedicalTreatmentTitleErrorMessage(formData) {
+  if (!formData?.preparerType) {
+    return HAS_RECEIVED_MEDICAL_TREATMENT_ERROR_MESSAGES[
+      PREPARER_TYPES.VETERAN
+    ];
+  }
+  return HAS_RECEIVED_MEDICAL_TREATMENT_ERROR_MESSAGES[formData.preparerType];
+}

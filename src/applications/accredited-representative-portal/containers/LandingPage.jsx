@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
 import { SIGN_IN_URL } from '../constants';
 
@@ -14,7 +14,10 @@ const LandingPage = () => {
             vads-u-padding-bottom--3
             small-desktop-screen:vads-u-padding-bottom--8"
             >
-              <h1 className="homepage-hero__welcome-headline vads-u-color--white vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-y--1 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-font-size--lg vads-u-font-family--serif">
+              <h1
+                data-testid="landing-page-heading"
+                className="homepage-hero__welcome-headline vads-u-color--white vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-y--1 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-font-size--lg vads-u-font-family--serif"
+              >
                 Welcome to the Accredited Representative Portal
               </h1>
               <h2 className="vads-u-color--white vads-u-margin-top--3 vads-u-font-size--xl small-desktop-screen:vads-u-font-size--2xl">
@@ -24,7 +27,11 @@ const LandingPage = () => {
                 A system to help you get power of attorney and then support
                 Veterans by acting on their behalf.
               </p>
-              <Link to="/dashboard" className="vads-c-action-link--white">
+              <Link
+                data-testid="landing-page-bypass-sign-in-link"
+                to="/dashboard"
+                className="vads-c-action-link--white"
+              >
                 Until sign in is added use this to see dashboard
               </Link>
             </div>
@@ -35,8 +42,12 @@ const LandingPage = () => {
                 <h2 className="vads-u-font-size--md vads-u-line-height--5 vads-u-color--gray vads-u-margin-top--0 vads-u-padding-right--2 vads-u-font-family--sans vads-u-font-weight--normal">
                   Create an account to start managing power of attorney.
                 </h2>
-                <a className="usa-button usa-button-primary" href={SIGN_IN_URL}>
-                  Sign in or create an account
+                <a
+                  data-testid="landing-page-sign-in-link"
+                  className="usa-button usa-button-primary"
+                  href={SIGN_IN_URL}
+                >
+                  Sign in or create account
                 </a>
               </div>
             </div>
