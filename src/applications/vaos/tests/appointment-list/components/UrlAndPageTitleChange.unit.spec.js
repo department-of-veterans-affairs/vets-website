@@ -11,19 +11,9 @@ import {
   mockAppointmentInfo,
   mockPastAppointmentInfo,
 } from '../../mocks/helpers';
-import {
-  createMockAppointmentByVersion,
-  createMockFacilityByVersion,
-} from '../../mocks/data';
-import {
-  mockVAOSAppointmentsFetch,
-  mockSingleVAOSAppointmentFetch,
-} from '../../mocks/helpers.v2';
-import { getVAOSRequestMock, getVAOSAppointmentMock } from '../../mocks/v2';
-import {
-  mockFacilityFetchByVersion,
-  mockSingleClinicFetchByVersion,
-} from '../../mocks/fetch';
+import { createMockAppointmentByVersion } from '../../mocks/data';
+import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
+import { getVAOSRequestMock } from '../../mocks/v2';
 
 const initialState = {
   featureToggles: {
@@ -236,124 +226,6 @@ describe('VAOS Page: AppointmentsPage', () => {
           e => e === `vaos-status-past-link-clicked`,
         ),
       );
-    });
-
-    // WIP
-    it('should show confirmed appointment detail page with new URL', async () => {
-      const myInitialState = {
-        ...initialState,
-        featureToggles: {
-          ...initialState.featureToggles,
-          vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        },
-      };
-
-      const url = '1234';
-      const futureDate = moment.utc();
-
-      const appointment = getVAOSAppointmentMock();
-      appointment.id = '1234';
-      appointment.attributes = {
-        ...appointment.attributes,
-        kind: 'clinic',
-        clinic: '455',
-        locationId: '983GC',
-        id: '1234',
-        preferredTimesForPhoneCall: ['Morning'],
-        reasonCode: {
-          coding: [{ code: 'New Problem' }],
-          text: 'I have a headache',
-        },
-        comment: 'New issue: I have a headache',
-        serviceType: 'primaryCare',
-        start: futureDate.format(),
-        status: 'booked',
-      };
-
-      mockSingleClinicFetchByVersion({
-        clinicId: '455',
-        locationId: '983GC',
-        clinicName: 'Some fancy clinic name',
-        version: 2,
-      });
-      mockSingleVAOSAppointmentFetch({ appointment });
-
-      mockFacilityFetchByVersion({
-        facility: createMockFacilityByVersion({
-          id: '983GC',
-          name: 'Cheyenne VA Medical Center',
-          phone: '970-224-1550',
-          address: {
-            postalCode: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            line: ['2360 East Pershing Boulevard'],
-          },
-        }),
-      });
-
-      const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-        initialState: myInitialState,
-        path: url,
-      });
-
-      // Verify document title and content...
-      await waitFor(() => {
-        expect(document.activeElement).to.have.tagName('h1');
-      });
-
-      expect(
-        screen.getByRole('heading', {
-          level: 1,
-          name: new RegExp(
-            futureDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-            'i',
-          ),
-        }),
-      ).to.be.ok;
-      //
-      //       expect(screen.getByText('Primary care')).to.be.ok;
-      //       // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-      //       expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
-      //       expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
-      //       expect(screen.getByTestId('facility-telephone')).to.exist;
-      //       expect(
-      //         screen.getByRole('heading', {
-      //           level: 2,
-      //           name: 'You shared these details about your concern',
-      //         }),
-      //       ).to.be.ok;
-      //       expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
-      //       expect(
-      //         screen.getByTestId('add-to-calendar-link', {
-      //           name: new RegExp(
-      //             futureDate
-      //               .tz('America/Denver')
-      //               .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
-      //             'i',
-      //           ),
-      //         }),
-      //       ).to.be.ok;
-      //       expect(screen.getByText(/Print/)).to.be.ok;
-      //       expect(screen.getByText(/Cancel appointment/)).to.be.ok;
-      //
-      //       expect(screen.baseElement).not.to.contain.text(
-      //         'This appointment occurred in the past.',
-      //       );
-    });
-
-    // WIP
-    it('should show past appointment detail page with new URL', async () => {
-      return true;
-    });
-
-    // WIP
-    it('should show pending appointment detail page with new URL', async () => {
-      return true;
-    });
-
-    it('should show requested appointment detail page with new URL', async () => {
-      return true;
     });
   });
 });
