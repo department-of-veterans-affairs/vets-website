@@ -3,24 +3,29 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 import React from 'react';
 
 export class ComboBox extends React.Component {
-  //   constructor(props) {
-  //     super(props);
-  //     // this.state = {
-  //     //     bump: false,
-  //     //     //searchTerm: '',
-  //     //     //value: value || '',
-  //     // };
-  //     //this.inputRef = React.createRef();
-  //   }
+  constructor(props) {
+    super(props);
+    this.state = {
+      // bump: false,
+      // searchTerm: '',
+      // value: value || '',
+      input: '',
+    };
+    //     //this.inputRef = React.createRef();
+  }
 
-  //   handleSearchChange = (e) => {
-  //     const {bump} = this.state;
-  //     const updatedTerm = e.target.value;
-  //     this.setState({
-  //         searchTerm: updatedTerm,
-  //         bump: !bump,
-  //     });
-  //   }
+  handleSearchChange = e => {
+    // const { bump } = this.state;
+    // const updatedTerm = e.target.value;
+    const newTextValue = e.target.value;
+    this.setState({
+      // searchTerm: updatedTerm,
+      // bump: !bump,
+      input: newTextValue,
+    });
+    this.props.onChange(newTextValue);
+  };
+
   render() {
     // const { searchTerm } = this.state;
     return (
