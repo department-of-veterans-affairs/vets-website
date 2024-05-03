@@ -8,6 +8,10 @@ $teamsite-large-screen: 1008px;
   }
 }
 
+.hidden-header > a {
+  font-size: 16px;
+}
+
 @media (max-width: 480px) {
   .usa-banner-header-expanded {
     .usa-banner-button-text {
