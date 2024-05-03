@@ -365,3 +365,11 @@ export const GULF_WAR_1990_LOCATIONS = Object.freeze({
     'The waters of the Arabian Sea, Gulf of Aden, Gulf of Oman, Persian Gulf, and Red Sea',
   airspace: 'The airspace above any of these locations',
 });
+
+export const GULF_WAR_2001_LOCATIONS = Object.freeze({
+  djibouti: 'Djibouti',
+  lebanon: 'Lebanon',
+  uzbekistan: 'Uzbekistan',
+  yemen: 'Yemen',
+  airspace: 'The airspace above any of these locations',
+});

@@ -12,7 +12,10 @@ import {
 import { startNewAppointmentFlow } from '../appointment-list/redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
-import { selectFeatureAfterVisitSummary } from '../redux/selectors';
+import {
+  selectFeatureAfterVisitSummary,
+  selectFeatureAppointmentDetailsRedesign,
+} from '../redux/selectors';
 
 function handleClick(history, dispatch, typeOfCare) {
   return () => {
@@ -32,6 +35,9 @@ export default function StatusAlert({ appointment, facility }) {
   const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
   const featureAfterVisitSummary = useSelector(state =>
     selectFeatureAfterVisitSummary(state),
+  );
+  const featureAppointmentDetailsRedesign = useSelector(
+    selectFeatureAppointmentDetailsRedesign,
   );
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
@@ -95,6 +101,17 @@ export default function StatusAlert({ appointment, facility }) {
           <strong>{who} canceled your appointment. </strong>
           If you want to reschedule, call us or schedule a new appointment
           online.
+          {featureAppointmentDetailsRedesign && (
+            <>
+              <br />
+              <br />
+              <va-link
+                text="Schedule a new appointment"
+                data-testid="schedule-appointment-link"
+                onClick={handleClick(history, dispatch, typeOfCare)}
+              />
+            </>
+          )}
         </InfoAlert>
       </>
     );

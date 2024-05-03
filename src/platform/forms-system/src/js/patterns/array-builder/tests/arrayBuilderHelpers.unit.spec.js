@@ -255,6 +255,8 @@ describe('arrayBuilderText', () => {
     getItemName: item => item?.name,
     nounPlural: 'employers',
     nounSingular: 'employer',
+    cancelEditDescription: 'cancelEditDescription',
+    cancelAddDescription: props => props.nounPlural,
   });
   Object.keys(DEFAULT_ARRAY_BUILDER_TEXT).forEach(key => {
     if (key === 'getItemName') {

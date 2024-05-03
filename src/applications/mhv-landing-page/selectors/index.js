@@ -19,9 +19,6 @@ import {
   selectPersonalInformation,
 } from './personalInformation';
 
-const selectVamcEhrData = state =>
-  selectDrupalStaticData(state)?.vamcEhrData || {};
-
 export {
   hasHealthData,
   isAuthenticatedWithSSOe,
@@ -35,7 +32,6 @@ export {
   selectGreetingName,
   selectPersonalInformation,
   selectProfile,
-  selectVamcEhrData,
   signInServiceEnabled,
   selectHasMHVAccountState,
 };
