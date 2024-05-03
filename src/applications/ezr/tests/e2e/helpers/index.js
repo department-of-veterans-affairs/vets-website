@@ -1,3 +1,7 @@
+import maxTestData from '../fixtures/data/maximal-test.json';
+
+const { data: testData } = maxTestData;
+
 // navigation helpers
 export const goToNextPage = pagePath => {
   // clicks Continue button, and optionally checks destination path.
@@ -125,4 +129,28 @@ export const fillDateWebComponentPattern = (fieldName, value) => {
         });
     }
   }
+};
+
+export const fillGulfWarDateRange = () => {
+  const { gulfWarStartDate, gulfWarEndDate } = testData[
+    'view:gulfWarServiceDates'
+  ];
+  const [startYear, startMonth] = gulfWarStartDate
+    .split('-')
+    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  const [endYear, endMonth] = gulfWarEndDate
+    .split('-')
+    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  cy.get('[name="root_view:gulfWarServiceDates_gulfWarStartDateMonth"]').select(
+    startMonth,
+  );
+  cy.get('[name="root_view:gulfWarServiceDates_gulfWarStartDateYear"]').type(
+    startYear,
+  );
+  cy.get('[name="root_view:gulfWarServiceDates_gulfWarEndDateMonth"]').select(
+    endMonth,
+  );
+  cy.get('[name="root_view:gulfWarServiceDates_gulfWarEndDateYear"]').type(
+    endYear,
+  );
 };

@@ -2,10 +2,13 @@ import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
-import { goToNextPage, goToPreviousPage } from './helpers';
+import {
+  goToNextPage,
+  goToPreviousPage,
+  fillGulfWarDateRange,
+} from './helpers';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 import { advanceToHouseholdSection } from './helpers/household';
-import { fillGulfWarDateRange } from '../../../hca/tests/e2e/utils';
 
 const ezrTeraToggleIndex = featureToggles.data.features.findIndex(
   ft => ft.name === 'ezrTeraEnabled',
