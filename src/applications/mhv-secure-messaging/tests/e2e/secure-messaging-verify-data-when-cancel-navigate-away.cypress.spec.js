@@ -6,7 +6,7 @@ import { AXE_CONTEXT } from './utils/constants';
 describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
-  const composePage = new PatientComposePage();
+  // const composePage = new PatientComposePage();
 
   it('Verify Data When Cancel Navigate Away', () => {
     site.login();
@@ -14,17 +14,17 @@ describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () =>
     landingPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    composePage.selectRecipient();
-    composePage.selectCategory();
-    composePage.enterDataToMessageSubject();
-    composePage.enterDataToMessageBody();
-    composePage.selectSideBarMenuOption('Inbox');
-    composePage.verifyAlertModal();
-    composePage.clickOnContinueEditingButton();
+    PatientComposePage.selectRecipient();
+    PatientComposePage.selectCategory();
+    PatientComposePage.enterDataToMessageSubject();
+    PatientComposePage.enterDataToMessageBody();
+    PatientComposePage.selectSideBarMenuOption('Inbox');
+    PatientComposePage.verifyAlertModal();
+    PatientComposePage.clickOnContinueEditingButton();
 
-    composePage.verifyComposePageValuesRetainedAfterContinueEditing();
+    PatientComposePage.verifyComposePageValuesRetainedAfterContinueEditing();
 
-    composePage.verifyRecipientNameText();
-    composePage.verifySubjectFieldText('testSubject');
+    PatientComposePage.verifyRecipientNameText();
+    PatientComposePage.verifySubjectFieldText('testSubject');
   });
 });
