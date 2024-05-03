@@ -76,7 +76,7 @@ describe('DebtSummaryText function', () => {
     const balance = '100.00';
     wrapper = shallow(<div>{debtSummaryText(diaryCode, null, balance)}</div>);
     expect(extractVisibleText(wrapper)).to.include(
-      'Pay your 100.00 past due balance in full or request help before or within 60 days from the date you received this notice',
+      'Pay your 100.00 past due balance in full or request help before 60 days from when you received this notice',
     );
     wrapper.unmount();
   });
@@ -86,7 +86,7 @@ describe('DebtSummaryText function', () => {
     const balance = '100.00';
     wrapper = shallow(<div>{debtSummaryText(diaryCode, null, balance)}</div>);
     expect(extractVisibleText(wrapper)).to.include(
-      'Pay your 100.00 balance now or request help by or within 30 days from the date you received this notice.',
+      'Pay your 100.00 balance now or request help by 30 days from when you received this notice.',
     );
     wrapper.unmount();
   });

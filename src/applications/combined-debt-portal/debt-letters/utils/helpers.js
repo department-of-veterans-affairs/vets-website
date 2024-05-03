@@ -3,7 +3,7 @@ import { parse, addDays, format, isValid } from 'date-fns';
 export const endDate = (date, diaryCode) => {
   const formatString = 'MM/dd/yyyy';
   const daysToAdd = diaryCode === '117' || diaryCode === '123' ? 60 : 30;
-  const fallbackMessage = `${daysToAdd} days from the date you received this notice`;
+  const fallbackMessage = `${daysToAdd} days from when you received this notice`;
 
   if (!date) {
     return `${fallbackMessage}`;
