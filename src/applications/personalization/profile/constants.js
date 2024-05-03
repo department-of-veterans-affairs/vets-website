@@ -9,6 +9,7 @@ export const PROFILE_TOGGLES = {
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowEmailNotificationSettings: false,
+  profileShowProofOfVeteranStatus: false,
   profileShowDirectDepositSingleForm: false,
   profileShowDirectDepositSingleFormUAT: false,
   profileShowDirectDepositSingleFormAlert: false,
