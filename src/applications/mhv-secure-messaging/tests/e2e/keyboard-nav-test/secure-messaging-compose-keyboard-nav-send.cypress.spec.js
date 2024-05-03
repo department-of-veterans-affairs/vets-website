@@ -6,7 +6,6 @@ import { AXE_CONTEXT, Data } from '../utils/constants';
 describe('Secure Messaging Compose', () => {
   it('verify user can send message with keyboard', () => {
     const landingPage = new PatientInboxPage();
-    const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
@@ -19,18 +18,18 @@ describe('Secure Messaging Compose', () => {
         },
       },
     });
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    composePage.selectCategory();
-    composePage.attachMessageFromFile(Data.TEST_IMAGE);
-    composePage.getMessageSubjectField().click();
-    composePage
-      .getMessageSubjectField()
-      .type(Data.TEST_SUBJECT, { force: true });
-    composePage
-      .getMessageBodyField()
-      .type(Data.TEST_MESSAGE_BODY, { force: true });
-    composePage.pushSendMessageWithKeyboardPress();
-    composePage.verifySendMessageConfirmationMessageText();
-    composePage.verifySendMessageConfirmationMessageHasFocus();
+    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.selectCategory();
+    PatientComposePage.attachMessageFromFile(Data.TEST_IMAGE);
+    PatientComposePage.getMessageSubjectField().click();
+    PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT, {
+      force: true,
+    });
+    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
+      force: true,
+    });
+    PatientComposePage.pushSendMessageWithKeyboardPress();
+    PatientComposePage.verifySendMessageConfirmationMessageText();
+    PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

@@ -429,4 +429,4 @@ class PatientComposePage {
   };
 }
 
-export default PatientComposePage;
+export default new PatientComposePage();

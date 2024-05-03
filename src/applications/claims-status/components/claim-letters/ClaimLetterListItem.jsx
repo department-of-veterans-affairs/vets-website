@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { buildDateFormatter } from '../utils/helpers';
+import { buildDateFormatter } from '../../utils/helpers';
 
 const getDownloadUrl = (id, docType) =>
   `${environment.API_URL}/v0/claim_letters/${id}?document_type=${docType}`;
@@ -12,15 +12,15 @@ const getDownloadUrl = (id, docType) =>
 const formatDate = buildDateFormatter();
 
 const docTypeToDescription = {
-  27: 'Board Of Appeals Decision Letter',
-  704: '5103 Notice',
-  706: '5103 Notice',
-  858: '5103 Notice',
-  184: 'Notification Letter',
+  27: 'Board decision',
+  704: '5103 notice',
+  706: '5103 notice',
+  858: '5103 notice',
+  184: 'Notification letter',
 };
 
 const getDescription = docType => {
-  const defaultDescription = 'Notification Letter';
+  const defaultDescription = 'Notification letter';
 
   return docTypeToDescription[docType] || defaultDescription;
 };
