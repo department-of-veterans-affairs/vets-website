@@ -13,20 +13,18 @@ import IdentityNotVerified from '~/platform/user/authorization/components/Identi
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
 import CardLayout from './CardLayout';
-import NoHealthAlert from './NoHealthAlert';
-import HeaderLayoutV1 from './HeaderLayoutV1';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
-import WelcomeContainer from '../containers/WelcomeContainer';
 import { hasHealthData, personalizationEnabled } from '../selectors';
+import UnregisteredAlert from './UnregisteredAlert';
 
 const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;
   const isUnverified = useSelector(isLOA1);
   const hasHealth = useSelector(hasHealthData);
   const signInService = useSelector(signInServiceName);
-  const showPersonalization = useSelector(personalizationEnabled);
+  const showWelcomeMessage = useSelector(personalizationEnabled);
   const showCards = hasHealth && !isUnverified;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
@@ -38,24 +36,16 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
       signInService={signInService}
     />
   ) : (
-    <NoHealthAlert />
+    <UnregisteredAlert />
   );
 
   useEffect(() => {
-    if (showCards) return;
-    const event = {
-      event: 'nav-alert-box-load',
-      action: 'load',
-      'alert-box-headline': unVerifiedHeadline,
-      'alert-box-status': 'continue',
-    };
     if (isUnverified) {
-      recordEvent(event);
-    } else {
       recordEvent({
-        ...event,
-        'alert-box-headline': NoHealthAlert.defaultProps.headline,
-        'alert-box-status': 'warning',
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': unVerifiedHeadline,
+        'alert-box-status': 'continue',
       });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -70,13 +60,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
           dependencies={[externalServices.mhvPlatform]}
           render={renderMHVDowntime}
         />
-        {!showPersonalization && <HeaderLayoutV1 />}
-        {showPersonalization && (
-          <>
-            <HeaderLayout />
-            <WelcomeContainer />
-          </>
-        )}
+        <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
         {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
       </div>
       <HubLinks hubs={hubs} />
