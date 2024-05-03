@@ -318,6 +318,7 @@ const formConfig = {
           schema: nonVeteranApplicantDetails.schema,
         },
         applicantContactInformation: {
+          title: applicantContactInfoAddressTitle,
           path: 'applicant-contact-information',
           depends: formData => !isAuthorizedAgent(formData),
           uiSchema: applicantContactInformation.uiSchema(
@@ -328,6 +329,7 @@ const formConfig = {
           schema: applicantContactInformation.schema,
         },
         applicantContactInformationPreparer: {
+          title: applicantContactInfoPreparerAddressTitle,
           path: 'applicant-contact-information-preparer',
           depends: formData => isAuthorizedAgent(formData),
           uiSchema: applicantContactInformation.uiSchema(
@@ -423,6 +425,7 @@ const formConfig = {
           schema: sponsorDateOfDeath.schema,
         },
         sponsorContactInformation: {
+          title: 'Sponsor’s mailing address',
           path: 'sponsor-contact-information',
           depends: formData =>
             !isVeteran(formData) &&
