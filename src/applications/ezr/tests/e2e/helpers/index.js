@@ -7,6 +7,15 @@ export const goToNextPage = pagePath => {
   }
 };
 
+export const goToPreviousPage = pagePath => {
+  // clicks Back button, and optionally checks destination path.
+  cy.findAllByText(/back/i, { selector: 'button' }).click();
+
+  if (pagePath) {
+    cy.location('pathname').should('include', pagePath);
+  }
+};
+
 // single field fill helpers
 export const fillTextWebComponent = (fieldName, value) => {
   if (typeof value !== 'undefined') {
