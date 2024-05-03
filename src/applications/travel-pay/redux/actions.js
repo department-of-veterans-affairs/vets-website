@@ -34,7 +34,8 @@ export function getTravelClaims() {
     dispatch(fetchTravelClaimsStart());
 
     try {
-      const response = await apiRequest('/travel-claims');
+      const claimsUrl = `${environment.API_URL}/travel_pay/claims`;
+      const response = await apiRequest(claimsUrl);
 
       dispatch(fetchTravelClaimsSuccess(response.data));
     } catch (error) {
