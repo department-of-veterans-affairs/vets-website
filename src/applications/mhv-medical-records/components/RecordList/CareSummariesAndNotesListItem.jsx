@@ -18,9 +18,6 @@ const CareSummariesAndNotesListItem = props => {
 
   const dsDisplayDate = note => {
     const field = fieldMappings[note.sortByField] || fieldMappings[admDate];
-    console.log(note.id, field);
-    // console.log();
-
     return note[field.dateProperty];
   };
 
@@ -50,7 +47,7 @@ const CareSummariesAndNotesListItem = props => {
         <Link to={`/summaries-and-notes/${record.id}`} data-dd-privacy="mask">
           <span>
             {record.name}
-            <span className="sr-only">
+            <span className="sr-only" data-testid="sr-note-date">
               on{' '}
               {isDischargeSummary ? dsDisplayDate(record) : record.dateSigned}
             </span>
@@ -66,7 +63,7 @@ const CareSummariesAndNotesListItem = props => {
         {record.name}
       </h3>
 
-      <div>
+      <div data-testid="note-item-date">
         {isDischargeSummary && dischargeSummaryDateField(record)}
         {!isDischargeSummary && (
           <span className="vads-u-display--inline" data-dd-privacy="mask">
