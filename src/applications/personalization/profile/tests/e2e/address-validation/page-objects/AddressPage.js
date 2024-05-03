@@ -289,7 +289,7 @@ class AddressPage {
 
   confirmAddressFields = (labels, fields) => {
     labels.forEach((label, i) => {
-      cy.get(`[label=${label}"]`).should('have.value', fields[i]);
+      cy.get(`[label^="${label}"]`).should('have.value', fields[i]);
     });
   };
 

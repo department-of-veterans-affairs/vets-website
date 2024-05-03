@@ -11,10 +11,10 @@ export default function LoadingButton({
 }) {
   const contents = isLoading ? (
     <>
-      <va-icon
-        size={4}
-        icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+      <i
+        className="fa fa-spinner fa-spin"
         aria-hidden="true"
+        role="presentation"
       />
       {!!loadingText && <span className="sr-only">{loadingText}</span>}
     </>
