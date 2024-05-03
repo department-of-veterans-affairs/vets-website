@@ -114,9 +114,8 @@
           "city": "Ugandan City"
         },
         "treatedDisabilityNames": {
-          "asthma": true,
-          "heartattackmyocardialinfarction": true,
-          "ankylosisinkneebilateral": true
+          "diabetesmellitus0": true,
+          "diabetesmellitus1": true
         }
       }
     ],
