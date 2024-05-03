@@ -1,10 +1,9 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
+import format from 'date-fns/format';
 
 class AppointmentsPage {
   validatePageLoaded = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('include.text', 'Your Appointments');
+    cy.get('h1[data-testid="header"]').should('be.visible');
   };
 
   validatePreCheckInSuccessAlert = () => {
@@ -114,6 +113,33 @@ class AppointmentsPage {
     cy.get('button[data-testid="action-link"]').click({
       waitForAnimations: true,
     });
+  };
+
+  validateAppointmentTime = (
+    appointmentNumber = 1,
+    appointmentmentTime = '3:00 a.m.',
+  ) => {
+    cy.get(
+      `[data-testid="appointments"] [data-testid="what-next-card"]:nth-child(${appointmentNumber})`,
+      { timeout: Timeouts.slow },
+    )
+      .should('be.visible')
+      .and('contain', appointmentmentTime);
+  };
+
+  validateUpdateDate = () => {
+    cy.get('[data-testid=update-text]')
+      .should('be.visible')
+      .and(
+        'contain',
+        `Latest update: ${format(new Date(), "MMMM d, yyyy 'at' h:mm aaaa")}`,
+      );
+  };
+
+  refreshAppointments = () => {
+    cy.get('[data-testid=refresh-appointments-button]')
+      .should('be.visible')
+      .click();
   };
 }
 
