@@ -95,6 +95,7 @@ const formConfig = {
       title: 'What kind of statement do you want to submit?',
       hideFormNavProgress: true,
       hideFormTitle: true,
+      hideOnReviewPage: true,
       pages: {
         statementTypePage: {
           path: 'statement-type',
