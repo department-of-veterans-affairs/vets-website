@@ -46,7 +46,7 @@ const IntroductionPage = props => {
     formTitle: TITLE,
     formSubTitle: SUBTITLE,
     authStartFormText: 'Start your statement',
-    unauthStartText: 'Sign in to start filling out your form',
+    unauthStartText: 'Sign in to start your statement',
     displayNonVeteranMessaging: true,
     hideSipIntro: userLoggedIn && !userIdVerified,
   };
