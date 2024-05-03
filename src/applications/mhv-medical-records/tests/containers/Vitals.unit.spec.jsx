@@ -46,7 +46,7 @@ describe('Vitals list container', () => {
   it('displays seven types of records', async () => {
     await waitFor(() => {
       // count doubled due to print view
-      expect(screen.getAllByTestId('record-list-item').length).to.eq(14);
+      expect(screen.getAllByTestId('record-list-item').length).to.eq(12);
     });
   });
 
@@ -73,10 +73,10 @@ describe('Vitals list container', () => {
     });
   });
 
-  it('displays Blood oxygen level (pulse oximetry) vitals', async () => {
+  it('displays Blood oxygen level vitals', async () => {
     await waitFor(() => {
       expect(
-        screen.getAllByText('Blood oxygen level (pulse oximetry)', {
+        screen.getAllByText('Blood oxygen level', {
           selector: 'h2',
           exact: true,
         }),
@@ -187,10 +187,10 @@ describe('Vitals list container', () => {
         selector: 'h2',
         exact: true,
       });
-      [bloodOxygen] = screen.getAllByText(
-        'Blood oxygen level (pulse oximetry)',
-        { selector: 'h2', exact: true },
-      );
+      [bloodOxygen] = screen.getAllByText('Blood oxygen level', {
+        selector: 'h2',
+        exact: true,
+      });
       [temperature] = screen.getAllByText('Temperature', {
         selector: 'h2',
         exact: true,
