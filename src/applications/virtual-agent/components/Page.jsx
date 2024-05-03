@@ -104,6 +104,7 @@ const Page = props => {
   // function Page({ virtualAgentShowFloatingChatbot = null }) {
   const [chosenBot, setChosenBot] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
   let bot = '';
 
   useChosenBot(virtualAgentShowFloatingChatbot, setIsLoading, setChosenBot);

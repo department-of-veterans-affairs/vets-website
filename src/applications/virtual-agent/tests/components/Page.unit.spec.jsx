@@ -1,14 +1,21 @@
 import React from 'react';
 import sinon from 'sinon';
+import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import * as Disclaimer from '../../components/Disclaimer';
+import * as Chatbox from '../../components/Chatbox';
+import * as useChosenBot from '../../hooks/useChosenBot';
 
 import Page from '../../components/Page';
 
-// eslint-disable-next-line no-unused-vars
-function getData({ virtualAgentShowFloatingChatbot, isLoading }) {
+const getData = ({
+  virtualAgentShowFloatingChatbot = null,
+  chosenBot = '',
+} = {}) => {
   return {
     props: {
       virtualAgentShowFloatingChatbot,
@@ -17,16 +24,17 @@ function getData({ virtualAgentShowFloatingChatbot, isLoading }) {
       getState: () => ({
         featureToggles: [
           {
+            // eslint-disable-next-line camelcase
             [FEATURE_FLAG_NAMES.virtualAgentShowFloatingChatbot]: virtualAgentShowFloatingChatbot,
           },
         ],
-        isLoading,
+        chosenBot,
       }),
       subscribe: () => {},
-      dispatch: () => {},
+      dispatch: () => ({}),
     },
   };
-}
+};
 
 describe('Page', () => {
   let sandbox;
@@ -36,34 +44,42 @@ describe('Page', () => {
   });
 
   afterEach(() => {
-    sandbox.reset();
+    sandbox.restore();
   });
 
   it('renders the loading indicator', () => {
-    const { props, mockStore } = getData({
-      virtualAgentShowFloatingChatbot: false,
-      isLoading: true,
-    });
+    sandbox.stub(Chatbox, 'default').returns(<div className="chatbox" />);
+    sandbox.stub(Disclaimer, 'default').returns(<div className="disclaimer" />);
+    sandbox.stub(useChosenBot, 'default');
 
-    render(
+    const { props, mockStore } = getData();
+
+    const { container } = render(
       <Provider store={mockStore}>
         <Page {...props} />
       </Provider>,
     );
 
-    // expect(getByTestId('page')).toBeInTheDocument(); // Assumes your Page component has a data-testid="page"
+    expect($('va-loading-indicator', container)).to.exist;
+    expect($('chatbox', container)).to.not.exist;
+    expect($('disclaimer', container)).to.not.exist;
+    expect($('show-on-focus', container)).to.not.exist;
   });
-  // it('renders the sticky bot', () => {
-  //   const store = getStore({
-  //     virtualAgentShowFloatingChatbot: true,
-  //     isLoading: false,
-  //   });
-  //   const { getByTestId } = render(
-  //     <Provider store={store}>
-  //       <Page />
-  //     </Provider>,
-  //   );
+  it('renders the sticky bot', () => {
+    sandbox.stub(Chatbox, 'default').returns(<div className="chatbox" />);
+    sandbox.stub(Disclaimer, 'default').returns(<div className="disclaimer" />);
 
-  //   expect(getByTestId('page')).toBeInTheDocument(); // Assumes your Page component has a data-testid="page"
-  // });
+    const { props, mockStore } = getData();
+
+    const { container } = render(
+      <Provider store={mockStore}>
+        <Page {...props} />
+      </Provider>,
+    );
+
+    expect($('va-loading-indicator', container)).to.not.exist;
+    expect($('chatbox', container)).to.exist;
+    expect($('disclaimer', container)).to.exist;
+    expect($('show-on-focus', container)).to.not.exist;
+  });
 });
