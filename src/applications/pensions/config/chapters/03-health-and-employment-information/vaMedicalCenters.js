@@ -1,5 +1,7 @@
-import generateMedicalCentersSchemas from './medicalCenters';
-import { hasVaTreatmentHistory } from './helpers';
+import {
+  generateMedicalCentersSchemas,
+  hasVaTreatmentHistory,
+} from './helpers';
 
 export default {
   title: 'VA medical centers',

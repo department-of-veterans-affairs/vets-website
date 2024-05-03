@@ -30,6 +30,21 @@ export function getTimezoneByFacilityId(id) {
   return timezones[id.substr(0, 3)];
 }
 
+export function getTimezoneAbbrFromApi(appointment) {
+  const appointmentTZ = appointment?.timezone;
+  let timeZoneAbbr = appointmentTZ
+    ? moment(appointment.start)
+        .tz(appointmentTZ)
+        .format('z')
+    : null;
+
+  // Strip out middle char in abbreviation so we can ignore DST
+  if (appointmentTZ?.includes('America')) {
+    timeZoneAbbr = stripDST(timeZoneAbbr);
+  }
+  return timeZoneAbbr;
+}
+
 export function getTimezoneAbbrByFacilityId(id) {
   const matchingZone = getTimezoneByFacilityId(id);
 

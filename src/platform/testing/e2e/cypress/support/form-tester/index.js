@@ -561,7 +561,7 @@ const testForm = testConfig => {
     _13647Exception = false,
     // whether or not to auto fill web component fields
     // (using RJSF naming convention #root_field_subField)
-    useWebComponentFields = false,
+    useWebComponentFields = true,
   } = testConfig;
 
   const skippedTests = Array.isArray(skip) && new Set(skip);

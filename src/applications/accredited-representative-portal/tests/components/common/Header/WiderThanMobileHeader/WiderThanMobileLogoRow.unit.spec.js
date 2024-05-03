@@ -1,11 +1,17 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 
 import WiderThanMobileLogoRow from '../../../../../components/common/Header/WiderThanMobileHeader/WiderThanMobileLogoRow';
 
 describe('WiderThanMobileLogoRow', () => {
-  const getWiderThanMobileLogoRow = () => render(<WiderThanMobileLogoRow />);
+  const getWiderThanMobileLogoRow = () =>
+    render(
+      <MemoryRouter>
+        <WiderThanMobileLogoRow />
+      </MemoryRouter>,
+    );
 
   it('renders logo', () => {
     const { getByTestId } = getWiderThanMobileLogoRow();
@@ -22,7 +28,7 @@ describe('WiderThanMobileLogoRow', () => {
   it('renders sign in link', () => {
     const { getByTestId } = getWiderThanMobileLogoRow();
     expect(
-      getByTestId('wider-than-mobile-logo-row-sign-in-link').textContent,
+      getByTestId('user-nav-wider-than-mobile-sign-in-link').textContent,
     ).to.eq('Sign in');
   });
 });

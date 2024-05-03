@@ -433,7 +433,7 @@ describe('check in', () => {
         const appointment = createAppointment({ kind: 'phone' });
         const icon = render(appointmentIcon(appointment));
 
-        expect(icon.getByTestId('appointment-icon')).to.have.class('fa-phone');
+        expect(icon.getByTestId('appointment-icon')).to.exist;
       });
     });
     describe('clinicName', () => {

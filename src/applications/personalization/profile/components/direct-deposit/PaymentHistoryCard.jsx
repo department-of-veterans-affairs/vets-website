@@ -12,7 +12,7 @@ export const PaymentHistoryCard = ({ recordEventImpl }) => {
         <>
           <p className="vads-u-margin-top--0">
             Check your payment history for your VA disability compensation,
-            pension, and education benefits
+            pension, and education benefits.
           </p>
           <a
             href="/va-payment-history/payments/"

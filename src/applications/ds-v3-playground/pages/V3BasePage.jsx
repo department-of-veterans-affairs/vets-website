@@ -24,6 +24,7 @@ import {
   VaProcessList,
   VaProcessListItem,
   VaPagination,
+  VaIcon,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export default function V3BasePage() {
@@ -125,6 +126,14 @@ export default function V3BasePage() {
             pages={6}
             showLastPage
             uswds
+          />
+        </div>
+        <div>
+          <h2 className="vads-grid-col font-ui-md">VA-Icon Component</h2>
+          <VaIcon
+            icon="alarm"
+            size={4}
+            srtext="add some text for a screen reader to describe the icon's semantic meaning"
           />
         </div>
         {/* Text Input */}

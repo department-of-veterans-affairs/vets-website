@@ -31,7 +31,7 @@ import {
 // START lighthouse_migration
 import { benefitsDocumentsUseLighthouse } from '../selectors';
 // END lighthouse_migration
-import { scrubDescription } from '../utils/helpers';
+import { scrubDescription, setDocumentTitle } from '../utils/helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
 
@@ -47,9 +47,9 @@ class DocumentRequestPage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
     if (this.props.trackedItem) {
-      document.title = `Request for ${this.props.trackedItem.displayName}`;
+      setDocumentTitle(`Request for ${this.props.trackedItem.displayName}`);
     } else {
-      document.title = 'Document Request';
+      setDocumentTitle('Document Request');
     }
     if (!this.props.loading) {
       setUpPage();
@@ -196,7 +196,7 @@ class DocumentRequestPage extends React.Component {
             </div>
           </div>
           <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+            <div className="vads-l-col--12 vads-u-padding-x--2p5 vads-u-padding-bottom--4 medium-screen:vads-l-col--8">
               {content}
             </div>
           </div>

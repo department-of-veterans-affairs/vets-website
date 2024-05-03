@@ -86,9 +86,10 @@ const MonetaryCheckList = ({
       gmtData?.isEligibleForStreamlined &&
       gmtData?.incomeBelowOneFiftyGmt);
 
-  const adjustedAssetList = adjustForStreamlined
-    ? streamlinedList
-    : monetaryAssetList;
+  const adjustedAssetList =
+    adjustForStreamlined || showReviewNavigation
+      ? streamlinedList
+      : monetaryAssetList;
 
   // reviewDepends - only show/handle review alert and navigation if
   //  feature flag is on, user is in review mode, and they have not seen the cash pages

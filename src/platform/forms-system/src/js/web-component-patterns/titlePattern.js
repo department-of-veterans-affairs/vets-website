@@ -1,16 +1,21 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-export const Title = ({ title, description }) => (
-  <>
-    <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">{title}</h3>
-    {description && (
-      <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
-        {description}
-      </span>
-    )}
-  </>
-);
+export const Title = ({ title, description, headerLevel, classes }) => {
+  const CustomHeader = `h${headerLevel}`;
+  const className = `${classes} vads-u-margin-top--0`;
+
+  return (
+    <>
+      <CustomHeader className={className}>{title}</CustomHeader>
+      {description && (
+        <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
+          {description}
+        </span>
+      )}
+    </>
+  );
+};
 
 /**
  * Title for the top of a form page
@@ -34,7 +39,12 @@ export const Title = ({ title, description }) => (
  *
  * @returns {UISchemaOptions}
  */
-export const titleUI = (title, description) => {
+export const titleUI = (
+  title,
+  description,
+  headerLevel = 3,
+  classes = 'vads-u-color--gray-dark',
+) => {
   const isTitleFn = typeof title === 'function';
   const isDescriptionFn = typeof description === 'function';
 
@@ -46,11 +56,18 @@ export const titleUI = (title, description) => {
             <Title
               title={isTitleFn ? title(props) : title}
               description={isDescriptionFn ? description(props) : description}
+              headerLevel={headerLevel}
+              classes={classes}
             />
           </legend>
         )
       ) : (
-        <Title title={title} description={description} />
+        <Title
+          title={title}
+          description={description}
+          headerLevel={headerLevel}
+          classes={classes}
+        />
       ),
   };
 };

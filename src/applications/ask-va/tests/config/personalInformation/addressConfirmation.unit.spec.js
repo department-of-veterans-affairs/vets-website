@@ -1,4 +1,7 @@
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
@@ -61,9 +64,15 @@ describe('addressConfirmationPage', () => {
       </Provider>,
     );
 
+    const spans = $$('span', container);
+    const spanList = ['You entered:', 'Suggested Addresses:'];
+
     expect($('h2', container).textContent).to.eq(
       'Veteran Address Confirmation',
     );
-    expect($('span', container).textContent).to.eq('You entered:');
+
+    spans.forEach(
+      span => expect(spanList.includes(span.textContent.trim())).to.be.true,
+    );
   });
 });

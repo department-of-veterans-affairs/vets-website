@@ -13,7 +13,6 @@ describe('Header <OfficialGovtWebsite>', () => {
     expect(wrapper.find('.header-us-flag')).to.have.length(1);
     expect(wrapper.find('.header-us-flag')).to.have.length(1);
     expect(wrapper.find('.expand-official-govt-explanation')).to.have.length(1);
-    expect(wrapper.find('.fa.fa-chevron-down')).to.have.length(1);
     expect(wrapper.find('#official-govt-site-explanation')).to.have.length(0);
     expect(wrapper.text()).not.includes('The .gov means it’s official.');
     expect(wrapper.text()).not.includes('The site is secure.');

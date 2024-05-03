@@ -1,10 +1,12 @@
 // import _ from 'lodash';
-import { USER_MOCK_DATA } from '../constants/mockData';
+// import { USER_MOCK_DATA } from '../constants/mockData';
+import { UPDATED_USER_MOCK_DATA } from '../constants/mockData';
 
 import { UPDATE_PENDING_VERIFICATIONS, UPDATE_VERIFICATIONS } from '../actions';
 
 const INITIAL_STATE = {
-  mockData: USER_MOCK_DATA,
+  // mockData: USER_MOCK_DATA,
+  mockData: UPDATED_USER_MOCK_DATA,
 };
 
 const mockData = (state = INITIAL_STATE, action) => {

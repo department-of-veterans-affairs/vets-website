@@ -183,7 +183,6 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           type="text"
           value={vehicleRecord.make || ''}
           width="lg"
-          uswds
         />
         <VaTextInput
           error={(vehicleRecordIsDirty && modelIsDirty && modelError) || null}
@@ -196,7 +195,6 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           type="text"
           value={vehicleRecord.model || ''}
           width="lg"
-          uswds
         />
         <va-number-input
           error={(vehicleRecordIsDirty && yearIsDirty && yearError) || null}
@@ -208,7 +206,6 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           onInput={handleVehicleYearChange}
           value={vehicleRecord.year || ''}
           width="md"
-          uswds
         />
         <va-number-input
           error={
@@ -227,12 +224,10 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
           min={0}
           max={MAXIMUM_RESALE_VALUE}
           width="md"
-          uswds
         />
         <va-additional-info
           class="vads-u-margin-top--4"
           trigger="Why do I need to provide this information?"
-          uswds
         >
           We ask for vehicle details such as type, make, model, year, and
           estimated value because this allows us to make a more informed
@@ -244,7 +239,6 @@ const EnhancedVehicleRecord = ({ data, goToPath, setFormData }) => {
         <va-additional-info
           class="vads-u-margin-y--2"
           trigger="What if I don’t know the estimated value of car or other vehicle?"
-          uswds
         >
           Include the amount of money you think you would get if you sold the
           vehicle in your local community. To get an idea of prices, you can

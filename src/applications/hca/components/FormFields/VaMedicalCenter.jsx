@@ -11,7 +11,7 @@ import ServerErrorAlert from '../FormAlerts/ServerErrorAlert';
 
 const apiRequestWithUrl = `${
   environment.API_URL
-}/v1/facilities/va?type=health&per_page=100`;
+}/v0/health_care_applications/facilities?type=health&per_page=1000`;
 
 const VaMedicalCenter = props => {
   const { formContext, id, onChange, required, value, facilityState } = props;
@@ -57,9 +57,9 @@ const VaMedicalCenter = props => {
         isLoading(true);
         apiRequest(`${apiRequestWithUrl}&state=${facilityState}`, {})
           .then(res => {
-            return res.data.map(location => ({
+            return res.map(location => ({
               id: location.id,
-              name: location.attributes.name,
+              name: location.name,
             }));
           })
           .then(data => {

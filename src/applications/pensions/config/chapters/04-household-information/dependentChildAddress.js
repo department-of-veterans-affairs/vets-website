@@ -12,8 +12,8 @@ import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 
 /** @type {PageSchema} */
 export default {
-  path: 'household/dependents/children/address/:index',
   title: item => getDependentChildTitle(item, 'address'),
+  path: 'household/dependents/children/address/:index',
   depends: dependentIsOutsideHousehold,
   showPagePerItem: true,
   arrayPath: 'dependents',

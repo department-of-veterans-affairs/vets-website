@@ -1,13 +1,18 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 
 import POARequestsWidget from '../../components/POARequestsWidget/POARequestsWidget';
 import { mockPOARequests } from '../../mocks/mockPOARequests';
 
 describe('POARequestsWidget', () => {
   const getPOARequestsWidget = () =>
-    render(<POARequestsWidget poaRequests={mockPOARequests} />);
+    render(
+      <MemoryRouter>
+        <POARequestsWidget poaRequests={mockPOARequests} />
+      </MemoryRouter>,
+    );
 
   it('renders View all link', () => {
     const { getByTestId } = getPOARequestsWidget();

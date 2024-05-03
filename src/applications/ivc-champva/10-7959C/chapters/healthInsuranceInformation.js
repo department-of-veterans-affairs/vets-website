@@ -1,3 +1,4 @@
+import React from 'react';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
   titleUI,
@@ -7,9 +8,16 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { applicantListSchema } from '../config/constants';
+import { applicantListSchema, requiredFiles } from '../config/constants';
 import { applicantWording } from '../../shared/utilities';
 import ApplicantField from '../../shared/components/applicantLists/ApplicantField';
+import { isRequiredFile } from '../helpers/utilities';
+import {
+  fileWithMetadataSchema,
+  fileUploadBlurb,
+} from '../../shared/components/fileUploads/attachments';
+import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+import { blankSchema } from './applicantInformation';
 
 const MEDIGAP = {
   medigapPlanA: 'Medigap Plan A',
@@ -275,6 +283,55 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
     schema: applicantListSchema([], {
       titleSchema,
       [keyname]: { type: 'string' },
+    }),
+  };
+}
+
+export function applicantInsuranceCardSchema(isPrimary) {
+  const val = isPrimary ? 'primary' : 'secondary';
+  const keyname = isPrimary ? 'primaryInsuranceCard' : 'secondaryInsuranceCard';
+  return {
+    uiSchema: {
+      applicants: {
+        'ui:options': { viewField: ApplicantField },
+        items: {
+          ...titleUI(
+            ({ formData, formContext }) =>
+              `Upload ${
+                isPrimary
+                  ? formData?.applicantPrimaryProvider
+                  : formData?.applicantSecondaryProvider
+              } ${val} health insurance cards ${isRequiredFile(
+                formContext,
+                requiredFiles,
+              )}`,
+            ({ formData }) => {
+              const appName = applicantWording(formData);
+              return (
+                <>
+                  You’ll need to submit a copy of the front and back of{' '}
+                  {appName} Medicare Part A & B card.
+                  <br />
+                  If you don’t have a copy to upload now, you can send it by
+                  mail or fax
+                </>
+              );
+            },
+          ),
+          ...fileUploadBlurb,
+          [keyname]: fileUploadUI({
+            label: 'Upload other health insurance cards',
+          }),
+        },
+      },
+    },
+    schema: applicantListSchema([], {
+      titleSchema,
+      'view:fileUploadBlurb': blankSchema,
+      [keyname]: fileWithMetadataSchema([
+        `Front of ${val} insurance card`,
+        `Back of ${val} insurance card`,
+      ]),
     }),
   };
 }

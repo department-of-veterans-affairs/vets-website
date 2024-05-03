@@ -1,6 +1,5 @@
 /* eslint-disable react/sort-prop-types */
 /* eslint-disable react/static-property-placement */
-/* eslint-disable @department-of-veterans-affairs/use-workspace-imports */
 // Dependencies.
 import React, { Component } from 'react';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';

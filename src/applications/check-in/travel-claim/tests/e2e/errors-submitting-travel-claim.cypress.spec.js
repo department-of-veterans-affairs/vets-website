@@ -109,6 +109,5 @@ describe('A Patient that encounters an error and a success when submitting multi
     Error.validatePageLoaded();
     Error.validateErrorAlert('completing-travel-submission');
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots('Travel-claim--error-completing-travel-submission');
   });
 });

@@ -2,8 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
 // import { Navigate, Outlet, useLocation } from 'react-router-dom-v5-compat';
-import { Outlet, useLocation } from 'react-router-dom-v5-compat';
-
+import { Outlet } from 'react-router-dom-v5-compat';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import Sidenav from '../components/common/Sidenav';
@@ -13,9 +12,6 @@ import { selectUser } from '../selectors/user';
 const SignedInViewLayout = ({ poaPermissions = true }) => {
   // const { isLoading, profile } = useSelector(selectUser);
   const { isLoading } = useSelector(selectUser);
-  let content = null;
-
-  const { pathname } = useLocation();
 
   if (isLoading) {
     return (
@@ -28,6 +24,8 @@ const SignedInViewLayout = ({ poaPermissions = true }) => {
   // if (!profile) {
   //   return <Navigate to="/" />;
   // }
+
+  let content = null;
 
   // If the VSO does not have permission to be Power of Attorney ( this will eventually be pulled from Redux state)
   if (!poaPermissions) {
@@ -63,12 +61,14 @@ const SignedInViewLayout = ({ poaPermissions = true }) => {
   }
 
   return (
-    <div className="vads-u-margin-bottom--3">
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-        <Breadcrumbs pathname={pathname} />
-        {content}
+    <>
+      <div className="vads-u-margin-bottom--3">
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <Breadcrumbs />
+          {content}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

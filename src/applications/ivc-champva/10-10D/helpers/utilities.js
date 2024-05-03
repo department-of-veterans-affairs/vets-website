@@ -8,22 +8,8 @@ export const getFileSize = num => {
   return `${num} B`;
 };
 
-// Expects a date as a string in YYYY-MM-DD format
-export function getAgeInYears(date) {
-  const difference = Date.now() - Date.parse(date);
-  return Math.abs(new Date(difference).getUTCFullYear() - 1970);
-}
-
 export function isInRange(val, lower, upper) {
   return val >= lower && val <= upper;
-}
-
-// Turn camelCase into capitalized words ("camelCase" => "Camel Case")
-export function makeHumanReadable(inputStr) {
-  return inputStr
-    .match(/^[a-z]+|[A-Z][a-z]*/g)
-    .map(word => word[0].toUpperCase() + word.substr(1).toLowerCase())
-    .join(' ');
 }
 
 // Helper to detect if we're on review page when we don't have access

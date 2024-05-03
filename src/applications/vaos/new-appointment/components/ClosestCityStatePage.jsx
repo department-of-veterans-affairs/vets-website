@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { useHistory } from 'react-router-dom';
 import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
@@ -16,31 +15,29 @@ import {
 } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import useFormState from '../../hooks/useFormState';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
-
-const pageTitle = 'What’s the nearest city to you?';
-const uiSchema = {
-  communityCareSystemId: {
-    'ui:title': pageTitle,
-    'ui:widget': 'radio', // Required
-    'ui:webComponentField': VaRadioField,
-    'ui:errorMessages': {
-      required: 'Select a city',
-    },
-    'ui:options': {
-      classNames: 'vads-u-margin-top--neg2',
-      showFieldLabel: false,
-      labelHeaderLevel: '1',
-    },
-  },
-};
+import { getPageTitle } from '../newAppointmentFlow';
 
 const pageKey = 'ccClosestCity';
 
-export default function ClosestCityStatePage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function ClosestCityStatePage() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+
+  const uiSchema = {
+    communityCareSystemId: {
+      'ui:title': pageTitle,
+      'ui:widget': 'radio', // Required
+      'ui:webComponentField': VaRadioField,
+      'ui:errorMessages': {
+        required: 'Select a city',
+      },
+      'ui:options': {
+        classNames: 'vads-u-margin-top--neg2',
+        showFieldLabel: false,
+        labelHeaderLevel: '1',
+      },
+    },
+  };
+
   const history = useHistory();
   const dispatch = useDispatch();
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
@@ -50,9 +47,6 @@ export default function ClosestCityStatePage({ changeCrumb }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
   }, []);
 
   const { data, schema, setData } = useFormState({
@@ -112,7 +106,3 @@ export default function ClosestCityStatePage({ changeCrumb }) {
     </div>
   );
 }
-
-ClosestCityStatePage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

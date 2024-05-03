@@ -12,6 +12,7 @@ import {
   SERVICE_AVAILABILITY_STATES,
   SET_SERVICE_AVAILABILITY,
   SET_SERVICE_UPTIME_REMAINING,
+  SERVICE_DOWNTIME_ERROR,
 } from '../utils/constants';
 
 export function getEnrollmentData(apiVersion) {
@@ -31,7 +32,11 @@ export function getEnrollmentData(apiVersion) {
         const error =
           response.errors.length > 0 ? response.errors[0] : undefined;
         if (error) {
-          if (error.status === '503' || error.status === '504') {
+          if (error.status === '503') {
+            // LTS Service Downtime Error
+            return dispatch({ type: SERVICE_DOWNTIME_ERROR });
+          }
+          if (error.status === '504') {
             // Either EVSS or a partner service is down or EVSS times out
             return dispatch({ type: BACKEND_SERVICE_ERROR });
           }

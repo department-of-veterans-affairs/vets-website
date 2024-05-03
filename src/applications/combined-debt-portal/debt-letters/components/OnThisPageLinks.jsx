@@ -18,9 +18,10 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
               data-testid="debts-jumplink"
               className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
             >
-              <i
+              <va-icon
+                icon="arrow_downward"
                 aria-hidden="true"
-                className="fas fa-arrow-down vads-u-margin-right--1"
+                class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
               />
               Current debts
             </a>
@@ -31,9 +32,10 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
               data-testid="history-jumplink"
               className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
             >
-              <i
+              <va-icon
+                icon="arrow_downward"
                 aria-hidden="true"
-                className="fas fa-arrow-down vads-u-margin-right--1"
+                class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
               />
               Debt letter history
             </a>
@@ -44,9 +46,10 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
               data-testid="download-jumplink"
               className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
             >
-              <i
+              <va-icon
+                icon="arrow_downward"
                 aria-hidden="true"
-                className="fas fa-arrow-down vads-u-margin-right--1"
+                class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
               />
               Download debt letters
             </a>
@@ -56,9 +59,10 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
             data-testid="howto-pay-jumplink"
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
-            <i
+            <va-icon
+              icon="arrow_downward"
               aria-hidden="true"
-              className="fas fa-arrow-down vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             How do I pay my VA debt?
           </a>
@@ -67,9 +71,10 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
             data-testid="howto-help-jumplink"
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
-            <i
+            <va-icon
+              icon="arrow_downward"
               aria-hidden="true"
-              className="fas fa-arrow-down vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             How do I get financial help?
           </a>
@@ -78,9 +83,10 @@ const OnThisPageLinks = ({ isDetailsPage, hasHistory }) => (
             data-testid="howto-dispute-jumplink"
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
-            <i
+            <va-icon
+              icon="arrow_downward"
               aria-hidden="true"
-              className="fas fa-arrow-down vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             How do I dispute a debt?
           </a>

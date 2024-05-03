@@ -259,7 +259,6 @@ const InstallmentContract = props => {
           required
           type="text"
           value={purpose || ''}
-          uswds
         />
 
         <VaTextInput
@@ -270,7 +269,6 @@ const InstallmentContract = props => {
           onInput={handleCreditorNameChange}
           type="text"
           value={creditorName || ''}
-          uswds
         />
 
         <va-number-input
@@ -283,7 +281,6 @@ const InstallmentContract = props => {
           onInput={handleOriginalLoanAmountChange}
           value={contractRecord.originalAmount}
           width="md"
-          uswds
         />
 
         <va-number-input
@@ -298,7 +295,6 @@ const InstallmentContract = props => {
           onInput={handleUnpaidBalanceChange}
           value={contractRecord.unpaidBalance}
           width="md"
-          uswds
         />
 
         <va-number-input
@@ -315,7 +311,6 @@ const InstallmentContract = props => {
           onInput={handleAmountDueMonthlyChange}
           value={contractRecord.amountDueMonthly}
           width="md"
-          uswds
         />
 
         <VaDate
@@ -348,7 +343,6 @@ const InstallmentContract = props => {
           id="amountPastDue"
           onInput={handleAmountOverdueChange}
           value={contractRecord.amountPastDue}
-          uswds
           width="md"
         />
       </fieldset>

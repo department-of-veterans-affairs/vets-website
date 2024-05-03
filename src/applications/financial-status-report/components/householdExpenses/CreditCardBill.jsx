@@ -225,7 +225,6 @@ const CreditCardBill = props => {
           onInput={handleUnpaidBalanceChange}
           value={creditCardBillRecord.unpaidBalance}
           width="md"
-          uswds
         />
 
         <va-number-input
@@ -242,7 +241,6 @@ const CreditCardBill = props => {
           onInput={handleMinMonthlyPaymentChange}
           value={creditCardBillRecord.amountDueMonthly}
           width="md"
-          uswds
         />
 
         <va-number-input
@@ -257,7 +255,6 @@ const CreditCardBill = props => {
           value={creditCardBillRecord.amountPastDue}
           width="md"
           class="vads-u-margin-bottom--4"
-          uswds
         />
 
         <p>

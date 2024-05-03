@@ -127,7 +127,7 @@ describe('Refill Prescriptions Component', () => {
     const screen = setup();
     const checkbox = await screen.findByTestId('select-all-checkbox');
     expect(checkbox).to.exist;
-    expect(checkbox).to.have.property('label', 'Select all');
+    expect(checkbox).to.have.property('label', `Select all 8 refills`);
     checkbox.click();
   });
 
@@ -184,5 +184,40 @@ describe('Refill Prescriptions Component', () => {
     checkbox.click();
     const button = await screen.findByTestId('request-refill-button');
     button.click();
+  });
+
+  it('Checks for error message when refilling with 0 meds selected and 1 available', async () => {
+    const screen = setup(initialState, [prescriptions[0]]);
+    const button = await screen.findByTestId('request-refill-button');
+    button.click();
+    const error = await screen.findByTestId('select-one-rx-error');
+    expect(error).to.exist;
+    const focusEl = document.activeElement;
+    expect(focusEl).to.have.property(
+      'id',
+      `checkbox-${prescriptions[0].prescriptionId}`,
+    );
+  });
+
+  it('Checks for error message when refilling with 0 meds selected and many available', async () => {
+    const screen = setup();
+    const button = await screen.findByTestId('request-refill-button');
+    button.click();
+    const error = await screen.findByTestId('select-one-rx-error');
+    expect(error).to.exist;
+    const focusEl = document.activeElement;
+    expect(focusEl).to.have.property('id', 'select-all-checkbox');
+  });
+
+  it('Shows h1 and note if no prescriptions are refillable', async () => {
+    const screen = setup(initialState, []);
+    const title = await screen.findByTestId('refill-page-title');
+    expect(title).to.exist;
+    expect(title).to.have.text('Refill prescriptions');
+    expect(
+      screen.getByText(
+        'You don’t have any VA prescriptions with refills available. If you need a prescription, contact your care team.',
+      ),
+    ).to.exist;
   });
 });

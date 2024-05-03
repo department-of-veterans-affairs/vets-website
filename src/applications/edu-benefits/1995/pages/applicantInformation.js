@@ -31,9 +31,6 @@ export const uiSchema = {
     ...ssnUI,
     'ui:title': 'Social Security number',
     'ui:required': formData => !formData['view:noSSN'],
-    'ui:errorMessages': {
-      required: 'Please enter a Social Security number',
-    },
   },
   'view:noSSN': {
     'ui:title': 'I don’t have a Social Security number',

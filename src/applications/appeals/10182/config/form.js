@@ -197,7 +197,7 @@ const formConfig = {
       title: 'Board review option',
       pages: {
         boardReviewOption: {
-          title: 'Board review option',
+          title: 'Board review option ',
           path: 'board-review-option',
           uiSchema: boardReview.uiSchema,
           schema: boardReview.schema,

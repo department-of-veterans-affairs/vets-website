@@ -1,5 +1,7 @@
-import generateMedicalCentersSchemas from './medicalCenters';
-import { hasFederalTreatmentHistory } from './helpers';
+import {
+  generateMedicalCentersSchemas,
+  hasFederalTreatmentHistory,
+} from './helpers';
 
 export default {
   title: 'Federal medical facilities',

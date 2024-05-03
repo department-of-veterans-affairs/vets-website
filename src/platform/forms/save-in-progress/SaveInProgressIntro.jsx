@@ -301,16 +301,13 @@ class SaveInProgressIntro extends React.Component {
               You can save this {appType} in progress, and come back later to
               finish filling it out.
               <br />
-              {/* button that looks like a link - needs design review */}
-              <button
+              <va-button
                 className="va-button-link"
                 onClick={this.openLoginModal}
                 aria-label={ariaLabel}
                 aria-describedby={ariaDescribedby}
-                type="button"
-              >
-                Sign in to your account.
-              </button>
+                text="Sign in to your account."
+              />
             </div>
           </va-alert>
           <br />

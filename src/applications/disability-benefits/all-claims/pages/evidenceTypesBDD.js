@@ -1,4 +1,5 @@
 import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import _ from 'platform/utilities/data';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { validateIfHasEvidence } from '../validations';
@@ -49,9 +50,11 @@ export const uiSchema = {
       },
       'ui:required': formData => get('view:hasEvidence', formData, false),
       'view:hasPrivateMedicalRecords': {
+        'ui:webComponentField': VaCheckboxField,
         'ui:title': privateMedicalRecords,
       },
       'view:hasOtherEvidence': {
+        'ui:webComponentField': VaCheckboxField,
         'ui:title': bddShaOtherEvidence,
       },
     },

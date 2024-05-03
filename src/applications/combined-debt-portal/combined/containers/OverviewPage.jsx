@@ -37,14 +37,11 @@ const OverviewPage = () => {
   return (
     <>
       <VaBreadcrumbs
+        class="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8"
         breadcrumbList={[
           {
             href: '/',
             label: 'Home',
-          },
-          {
-            href: '/manage-va-debt',
-            label: 'Manage your VA debt',
           },
           {
             href: '/manage-va-debt/summary',
@@ -53,6 +50,7 @@ const OverviewPage = () => {
         ]}
         label="Breadcrumb"
       />
+      <br />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="overview-page-title">{title}</h1>
         <p className="va-introtext">

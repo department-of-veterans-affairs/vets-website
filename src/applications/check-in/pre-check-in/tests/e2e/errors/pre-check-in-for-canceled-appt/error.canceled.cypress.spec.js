@@ -3,7 +3,6 @@ import '../../../../../tests/e2e/commands';
 import ApiInitializer from '../../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
 import Error from '../../pages/Error';
-import Confirmation from '../../pages/Confirmation';
 
 describe('Pre-Check In Experience ', () => {
   let apiData;
@@ -37,13 +36,7 @@ describe('Pre-Check In Experience ', () => {
     // UUID with canceled appointments should navigate to the error page.
     Error.validateCanceledPageLoaded();
     cy.injectAxeThenAxeCheck();
-    cy.createScreenshots(
-      'Pre-check-in--canceled-appointment--default-accordions',
-    );
-    Confirmation.expandAllAccordions();
-    cy.createScreenshots(
-      'Pre-check-in--canceled-appointment--expanded-accordions',
-    );
+    cy.createScreenshots('Pre-check-in--canceled-appointment');
   });
   it('Not every appointment is cancelled should result in a generic Error Page', () => {
     apiData.payload.appointments[1].status = '';

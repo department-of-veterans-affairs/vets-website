@@ -20,7 +20,7 @@ const initializeDatadogRum = () => {
       service: 'va.gov-appointments',
       env: environment.vspEnvironment(),
       sessionSampleRate: 100,
-      sessionReplaySampleRate: 100,
+      sessionReplaySampleRate: 10,
       trackInteractions: true,
       trackFrustrations: true,
       trackResources: true,

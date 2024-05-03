@@ -182,7 +182,7 @@ export function fetchEDUPaymentInformation(
     try {
       const response = await getData('/profile/ch33_bank_accounts');
       // .errors is returned from the API, .error is returned from getData
-      if (response.errors || response.error) {
+      if (response.errors || response.error || response instanceof Error) {
         recordEvent({ event: 'profile-get-edu-direct-deposit-failed' });
 
         captureEDUError(response, {

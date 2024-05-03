@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { focusElement } from '~/platform/utilities/ui';
 import Results from '../Results';
 import Search from '../Search';
 import {
@@ -82,6 +83,7 @@ export const Events = ({ rawEvents }) => {
   };
 
   const onPageSelect = newPage => {
+    focusElement('[data-events-focus]');
     setPage(newPage);
     setResults(deriveResults(events, newPage, perPage));
     scrollToTop();

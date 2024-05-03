@@ -1,8 +1,6 @@
 import {
   addressUI,
   addressSchema,
-  checkboxGroupUI,
-  checkboxGroupSchema,
   emailUI,
   emailSchema,
   fullNameUI,
@@ -21,8 +19,6 @@ import {
   thirdPartyInfoUiSchema,
 } from '../../shared/components/ThirdPartyInfo';
 
-import { MAX_APPLICANTS } from '../config/constants';
-
 export const certifierRole = {
   uiSchema: {
     ...titleUI('Your information'),
@@ -30,11 +26,10 @@ export const certifierRole = {
       title: 'Which of these best describes you?',
       required: () => true,
       labels: {
-        applicant: 'I’m applying for benefits for myself',
-        sponsor:
-          'I’m a Veteran applying for benefits for my spouse or dependents',
+        applicant: 'I’m filling out this form for myself',
+        sponsor: 'I’m filling out this form for my spouse or child',
         other:
-          'I’m a representative applying for benefits on behalf of someone else',
+          'I’m a representative filling out this form on behalf of someone else',
       },
     }),
     ...thirdPartyInfoUiSchema,
@@ -50,12 +45,24 @@ export const certifierRole = {
   },
 };
 
+export const certifierNameSchema = {
+  uiSchema: {
+    ...titleUI('Your name'),
+    certifierName: fullNameUI(),
+  },
+  schema: {
+    type: 'object',
+    required: ['certifierName'],
+    properties: {
+      titleSchema,
+      certifierName: fullNameSchema,
+    },
+  },
+};
+
 export const certifierAddress = {
   uiSchema: {
-    ...titleUI(
-      'Your mailing address',
-      'We’ll send any important information about this application to your address',
-    ),
+    ...titleUI('Your mailing address'),
     certifierAddress: addressUI(),
   },
   schema: {
@@ -105,22 +112,18 @@ export const certifierPhoneEmail = {
 
 export const certifierRelationship = {
   uiSchema: {
-    ...titleUI(
-      'Your relationship to the applicant',
-      `You can add up to ${MAX_APPLICANTS} applicants on a single application. If you need to add more than ${MAX_APPLICANTS}, you’ll need to fill out another form for them.`,
-    ),
+    ...titleUI('Your information'),
     certifierRelationship: {
-      relationshipToApplicants: checkboxGroupUI({
+      relationshipToApplicants: radioUI({
         title: 'Which of these best describes you?',
-        hint: 'Select all that apply',
         required: () => true,
         labels: {
-          spouse: 'I’m an applicant’s spouse',
-          child: 'I’m an applicant’s child',
-          parent: 'I’m an applicant’s parent',
+          spouse: 'The applicant is my spouse',
+          parent: 'The applicant is my child',
+          child: 'The applicant is my parent',
           thirdParty:
             'I’m a third-party representative who isn’t a family member',
-          other: 'My relationship is not listed',
+          other: 'Relationship not listed',
         },
       }),
       otherRelationshipToApplicants: {
@@ -139,8 +142,6 @@ export const certifierRelationship = {
       'ui:options': {
         updateSchema: (formData, formSchema) => {
           const fs = formSchema;
-          if (formData.certifierRelationship.relationshipToApplicants.other)
-            fs.properties.otherRelationshipToApplicants['ui:collapsed'] = false;
           if (fs.properties.otherRelationshipToApplicants['ui:collapsed']) {
             return {
               ...fs,
@@ -166,7 +167,7 @@ export const certifierRelationship = {
       certifierRelationship: {
         type: 'object',
         properties: {
-          relationshipToApplicants: checkboxGroupSchema([
+          relationshipToApplicants: radioSchema([
             'spouse',
             'child',
             'parent',

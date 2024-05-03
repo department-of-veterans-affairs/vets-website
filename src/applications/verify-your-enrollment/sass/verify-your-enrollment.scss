@@ -83,3 +83,10 @@
 .vye-max-width-480px{
     max-width: 480px;
 }
+.icon-color{
+    color: hsl(130, 100%, 27%) !important;
+    margin-inline: 2px !important;
+}
+.icon-color svg use {
+    width: 20px !important;
+}

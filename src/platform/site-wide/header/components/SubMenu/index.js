@@ -28,10 +28,22 @@ export const SubMenu = ({ subMenu, updateSubMenu }) => {
             onClick={onBack}
             type="button"
           >
-            <i
+            {/* left caret icon */}
+            {/* Convert to va-icon when injected header/footer split is in prod: https://github.com/department-of-veterans-affairs/vets-website/pull/27590 */}
+            <svg
               aria-hidden="true"
-              className="fa fa-chevron-left vads-u-margin-right--1 vads-u-font-size--lg"
-            />
+              focusable="false"
+              viewBox="8 5 13 13"
+              width="17"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill="#005ea2"
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M14 6L15.41 7.41L10.83 12L15.41 16.59L14 18L8.00003 12L14 6Z"
+              />
+            </svg>
             Back to menu
           </button>
         </li>

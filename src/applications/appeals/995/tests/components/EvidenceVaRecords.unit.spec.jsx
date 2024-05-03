@@ -15,14 +15,15 @@ import {
   NO_ISSUES_SELECTED,
 } from '../../constants';
 
+import { clickAddAnother, clickBack, clickContinue } from './helpers';
+
 import { parseDateWithOffset } from '../../../shared/utils/dates';
 import {
   MAX_LENGTH,
   MAX_YEARS_PAST,
   SELECTED,
 } from '../../../shared/constants';
-
-import { clickAddAnother, clickBack, clickContinue } from './helpers';
+import sharedErrorMessage from '../../../shared/content/errorMessages';
 
 /*
 | Data     | Forward     | Back               | Add another      |
@@ -642,7 +643,7 @@ describe('<EvidenceVaRecords>', () => {
       $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
       await waitFor(() => {
-        expect(dateTo.error).to.contain(errorMessages.endDateBeforeStart);
+        expect(dateTo.error).to.contain(sharedErrorMessage.endDateBeforeStart);
       });
     });
 

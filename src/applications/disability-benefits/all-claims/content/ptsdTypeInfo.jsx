@@ -9,7 +9,8 @@ const mstPtsdType = 'Sexual trauma';
 
 const assaultPtsdType = 'Personal assault';
 
-const nonCombatPtsdType = 'Non-combat PTSD';
+const nonCombatPtsdType =
+  'Non-combat PTSD other than sexual trauma or personal assault';
 
 export const ptsdTypeEnum = {
   combatPtsdType,
@@ -17,13 +18,6 @@ export const ptsdTypeEnum = {
   assaultPtsdType,
   nonCombatPtsdType,
 };
-
-export const nonCombatPtsdTypeLong = (
-  <span>
-    {nonCombatPtsdType} <strong>other than</strong> sexual trauma or personal
-    assault
-  </span>
-);
 
 export const ptsdTypeHelp = (
   <VaAdditionalInfo

@@ -393,12 +393,14 @@ export default [
   {
     header: `Acceptance of terms`,
     content: (
-      <p>
-        When you accept these terms, you confirm that the personally
-        identifiable information you provide to sign in to VA.gov or another VA
-        online service is your information or the information of a person you
-        legally represent or are legally authorized to act on behalf of.
-      </p>
+      <>
+        <p>
+          When you accept these terms, you confirm that the personally
+          identifiable information you provide to sign in to VA.gov or another
+          VA online service is your information or the information of a person
+          you legally represent or are legally authorized to act on behalf of.
+        </p>
+      </>
     ),
   },
 ];

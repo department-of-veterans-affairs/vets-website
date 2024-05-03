@@ -22,7 +22,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['sameAddress'],
+    required: ['sameAddress', 'cohabitedLastYear'],
     properties: {
       cohabitedLastYear: yesNoSchema,
       sameAddress: yesNoSchema,

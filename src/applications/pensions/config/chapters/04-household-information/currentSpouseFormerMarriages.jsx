@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'platform/utilities/data/get';
-
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-
 import {
   currentOrPastDateUI,
   fullNameUI,
@@ -13,7 +11,6 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-
 import {
   ContactWarningAlert,
   ContactWarningMultiAlert,
@@ -22,7 +19,6 @@ import { formatFullName } from '../../../helpers';
 import ListItemView from '../../../components/ListItemView';
 import SpouseMarriageTitle from '../../../components/SpouseMarriageTitle';
 import { separationTypeLabels } from '../../../labels';
-
 import {
   validateAfterMarriageDates,
   validateUniqueMarriageDates,

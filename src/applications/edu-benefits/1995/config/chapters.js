@@ -3,8 +3,7 @@ import createApplicantInformationPage from 'platform/forms/pages/applicantInform
 import createContactInformationPage from '../../pages/contactInformation';
 import createOldSchoolPage from '../../pages/oldSchool';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
-// import createDirectDepositChangePageUpdate from '../../pages/directDepositChangeUpdate';
-import createDirectDepositChangePageUpdate from '../../pages/directDepositUltra';
+import createDirectDepositChangePageUpdate from '../../pages/directDepositChangeUpdate';
 
 import {
   applicantInformationUpdate,

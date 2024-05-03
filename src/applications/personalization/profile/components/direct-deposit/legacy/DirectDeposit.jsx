@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import {
   cnpDirectDepositUiState,
   eduDirectDepositUiState,
-  selectHideDirectDepositCompAndPen,
+  selectHideDirectDeposit,
 } from '@@profile/selectors';
 import { Prompt } from 'react-router-dom';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
@@ -43,7 +43,7 @@ const DirectDeposit = ({
   cnpUiState,
   eduUiState,
   isVerifiedUser,
-  hideDirectDepositCompAndPen,
+  hideDirectDeposit,
   useOAuth,
 }) => {
   const [showCNPSuccessMessage, setShowCNPSuccessMessage] = useState(false);
@@ -117,11 +117,11 @@ const DirectDeposit = ({
   // prevents alert from showing when navigating away from DD page and no edits have been made
   useEffect(
     () => {
-      if (hideDirectDepositCompAndPen) {
+      if (hideDirectDeposit) {
         setCnpFormIsDirty(true);
       }
     },
-    [hideDirectDepositCompAndPen, setCnpFormIsDirty],
+    [hideDirectDeposit, setCnpFormIsDirty],
   );
 
   useEffect(
@@ -155,7 +155,7 @@ const DirectDeposit = ({
             )}
             dependencies={[externalServices.evss]}
           >
-            {hideDirectDepositCompAndPen ? (
+            {hideDirectDeposit ? (
               <TemporaryOutageCnp />
             ) : (
               <>
@@ -199,7 +199,7 @@ DirectDeposit.propTypes = {
     isSaving: PropTypes.bool.isRequired,
     responseError: PropTypes.object,
   }).isRequired,
-  hideDirectDepositCompAndPen: PropTypes.bool.isRequired,
+  hideDirectDeposit: PropTypes.bool.isRequired,
   isVerifiedUser: PropTypes.bool.isRequired,
   useOAuth: PropTypes.bool.isRequired,
 };
@@ -216,7 +216,7 @@ const mapStateToProps = state => {
     isVerifiedUser: isLOA3 && isUsingEligibleSignInService && is2faEnabled,
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
-    hideDirectDepositCompAndPen: selectHideDirectDepositCompAndPen(state),
+    hideDirectDeposit: selectHideDirectDeposit(state),
     useOAuth: isAuthenticatedWithOAuth(state),
   };
 };

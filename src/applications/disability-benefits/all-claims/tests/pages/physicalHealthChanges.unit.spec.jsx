@@ -26,7 +26,7 @@ describe('Physical Changes 781a', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('va-checkbox').length).to.equal(7);
     form.unmount();
   });
 

@@ -23,7 +23,6 @@ const ReviewPageNavigationAlert = ({ data, title }) => {
       data-testid="review-page-navigation-alert"
       role="alertdialog"
       status="info"
-      uswds
     >
       <h4
         id="alertHeader"

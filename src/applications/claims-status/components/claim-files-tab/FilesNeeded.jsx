@@ -17,12 +17,12 @@ function FilesNeeded({ item }) {
       </p>
       <div className="link-action-container">
         <Link
-          aria-label={`View details for ${item.displayName}`}
-          title={`View details for ${item.displayName}`}
+          aria-label={`Details for ${item.displayName}`}
+          title={`Details for ${item.displayName}`}
           className="vads-c-action-link--blue"
           to={`../document-request/${item.id}`}
         >
-          View details
+          Details
         </Link>
       </div>
     </va-alert>

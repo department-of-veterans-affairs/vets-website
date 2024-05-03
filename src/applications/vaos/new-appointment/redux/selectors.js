@@ -172,17 +172,6 @@ export function getDateTimeSelect(state, pageKey) {
   };
 }
 
-export function hasSingleValidVALocation(state) {
-  const formInfo = getFormPageInfo(state, 'vaFacility');
-
-  return (
-    !formInfo.schema?.properties.vaParent &&
-    !formInfo.schema?.properties.vaFacility &&
-    !!formInfo.data.vaParent &&
-    !!formInfo.data.vaFacility
-  );
-}
-
 export function selectProviderSelectionInfo(state) {
   const {
     communityCareProviders,
@@ -241,6 +230,9 @@ export function selectSingleValidVALocation(state) {
   const validFacilities = formInfo.schema?.properties.vaFacility.enum;
 
   return validFacilities?.length === 1 && !!data.vaFacility;
+}
+export function selectSingleSupportedVALocation(state) {
+  return getNewAppointment(state)?.data?.isSingleVaFacility;
 }
 
 export function getFacilityPageV2Info(state) {

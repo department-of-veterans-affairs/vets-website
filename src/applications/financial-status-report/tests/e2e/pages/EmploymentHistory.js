@@ -20,7 +20,7 @@ const fillEmploymentInformation = employer => {
 
     // employment-work-dates
     // spouse-employment-work-dates
-    cy.fillDate('from', employer.from);
+    cy.fillVaDate('from', employer.from, true);
     customButtonGroupContinue();
 
     // gross-monthly-income
@@ -62,8 +62,8 @@ const fillEmploymentInformation = employer => {
 
     // employment-work-dates
     // spouse-employment-work-dates
-    cy.fillDate('from', employer.from);
-    cy.fillDate('to', employer.to);
+    cy.fillVaDate('from', employer.from, true);
+    cy.fillVaDate('to', employer.to, true);
     customButtonGroupContinue('Add employment record');
   }
 };

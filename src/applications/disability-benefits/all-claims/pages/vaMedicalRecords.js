@@ -1,5 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import { treatmentView } from '../content/vaMedicalRecords';
 import { hasVAEvidence } from '../utils';
 import { makeSchemaForAllDisabilities } from '../utils/schemas';
@@ -47,6 +48,7 @@ export const uiSchema = {
       treatedDisabilityNames: {
         'ui:title':
           'Choose the conditions you got treatment for at this facility.',
+        'ui:webComponentField': VaCheckboxGroupField,
         'ui:options': {
           updateSchema: makeSchemaForAllDisabilities,
           itemAriaLabel: data => data.treatmentCenterName,

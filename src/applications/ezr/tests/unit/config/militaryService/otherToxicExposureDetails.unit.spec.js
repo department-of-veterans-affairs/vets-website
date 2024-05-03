@@ -26,7 +26,7 @@ describe('hca Other Toxic Exposure Details config', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input').length).to.equal(1);
+    expect(formDOM.querySelectorAll('va-text-input').length).to.equal(1);
   });
 
   it('should submit empty form', () => {

@@ -3,7 +3,6 @@ import React from 'react';
 export const MaintenanceAlert = () => {
   return (
     <va-alert
-      uswds
       class="row vads-u-margin-top--3 vads-u-margin-left--1"
       status="info"
     >
@@ -34,7 +33,7 @@ export const MaintenanceAlert = () => {
 };
 
 export const SubmissionAlert = () => (
-  <va-alert status="error" uswds>
+  <va-alert status="error">
     <h3 slot="headline">We’re sorry. Your request wasn’t submitted.</h3>
 
     <p className="vads-u-font-size--base vads-u-font-family--sans">

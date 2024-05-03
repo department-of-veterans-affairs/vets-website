@@ -142,4 +142,22 @@ describe('IdentityNotVerified component', () => {
       ).not.to.exist;
     });
   });
+
+  describe('disableAnalytics prop', () => {
+    it('sets <va-alert disable-analyitcs="false" /> (default behavior)', () => {
+      const { container } = render(<IdentityNotVerified />);
+      const result = container
+        .querySelector('va-alert')
+        .getAttribute('disable-analytics');
+      expect(result).to.eq('false');
+    });
+
+    it('sets <va-alert disable-analyitcs="true" />', () => {
+      const { container } = render(<IdentityNotVerified disableAnalytics />);
+      const result = container
+        .querySelector('va-alert')
+        .getAttribute('disable-analytics');
+      expect(result).to.eq('true');
+    });
+  });
 });

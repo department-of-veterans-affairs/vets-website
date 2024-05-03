@@ -33,7 +33,7 @@ describe('howToContactPage', () => {
     );
 
     const radioLabels = $$('.form-radio-buttons > label', container);
-    const radioLabelList = ['Phone', 'Email', 'U.S. mail'];
+    const radioLabelList = ['Phone call', 'Email', 'U.S. mail'];
     const radioQuestion = removeReqFromLabel(
       $('#root_contactPreference-label', container).textContent,
     );

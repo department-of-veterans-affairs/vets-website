@@ -4,7 +4,6 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
 import {
   IncomeAssetStatementFormAlert,
   LandMarketableAlert,

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 const ConfirmationPrintView = ({ name, timestamp }) => {
   return (
@@ -44,7 +44,7 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
               Date you applied
             </dt>
             <dd data-testid="cg-timestamp">
-              {moment(timestamp).format('MMM D, YYYY')}
+              {format(new Date(timestamp), 'MMM. d, yyyy')}
             </dd>
           </div>
         )}

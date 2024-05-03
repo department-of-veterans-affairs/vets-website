@@ -5,14 +5,14 @@ import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { mount, shallow } from 'enzyme';
 import { waitFor } from '@testing-library/react';
-import { USER_MOCK_DATA } from '../../constants/mockData';
+import { UPDATED_USER_MOCK_DATA } from '../../constants/mockData';
 import PeriodsToVerify from '../../components/PeriodsToVerify';
 
 const mockStore = configureMockStore();
 const initialState = {
   getDataReducer: {
     data: {
-      ...USER_MOCK_DATA,
+      ...UPDATED_USER_MOCK_DATA,
     },
   },
   personalInfo: {
@@ -105,13 +105,11 @@ describe('<PeriodsToVerify />', () => {
     expect(alert).to.have.lengthOf(0);
     wrapper.unmount();
   });
-  it('should renders VerifiedSuccessStatement when there is no awardIds', () => {
+  it('should render VerifiedSuccessStatement when there are no pending verifications', () => {
     const props = {
       enrollmentData: {
         'vye::UserInfo': {
-          pendingVerifications: {
-            awardIds: [],
-          },
+          pendingVerifications: [],
         },
       },
       isUserLoggedIn: false,
@@ -134,9 +132,7 @@ describe('<PeriodsToVerify />', () => {
     const props = {
       enrollmentData: {
         'vye::UserInfo': {
-          pendingVerifications: {
-            awardIds: [],
-          },
+          pendingVerifications: [],
         },
       },
       isUserLoggedIn: false,
@@ -180,14 +176,7 @@ describe('<PeriodsToVerify />', () => {
   });
   it('renders the pending enrollments when there are awards and pending verifications', () => {
     const props = {
-      enrollmentData: {
-        'vye::UserInfo': {
-          awards: [{ id: '1', name: 'Award1' }],
-          pendingVerifications: {
-            awardIds: [28, 29, 30],
-          },
-        },
-      },
+      enrollmentData: UPDATED_USER_MOCK_DATA,
       isUserLoggedIn: false,
       link: () => {},
       toggleEnrollmentSuccess: false,

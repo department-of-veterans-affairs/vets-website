@@ -188,14 +188,12 @@ const PayrollDeductionInputList = props => {
                   ? 'Please enter a valid dollar amount below $40,000'
                   : null
               }
-              uswds
             />
           </div>
         ))}
         <va-additional-info
           trigger="How to calculate your monthly deductions"
           class="vads-u-margin-top--2"
-          uswds
         >
           <p>
             First, find the total deduction amount on your pay stub. Then follow

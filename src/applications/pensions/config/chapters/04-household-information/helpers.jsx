@@ -8,9 +8,11 @@ import React from 'react';
 export function isSeparated(formData) {
   return formData.maritalStatus === 'SEPARATED';
 }
+
 export function isMarried(form = {}) {
   return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
 }
+
 export function doesHaveDependents(formData) {
   return get(['view:hasDependents'], formData) === true;
 }
@@ -60,7 +62,7 @@ export function getDependentChildTitle(item, description) {
     return `${item.fullName.first || ''} ${item.fullName.last ||
       ''} ${description}`;
   }
-  return 'description';
+  return description;
 }
 
 export function createSpouseLabelSelector(nameTemplate) {

@@ -16,6 +16,8 @@ import {
   phoneSchema,
   emailUI,
   emailSchema,
+  // checkboxGroupUI,
+  // checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import transformForSubmit from './submitTransformer';
@@ -25,10 +27,9 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
 
-import mockdata from '../tests/fixtures/data/test-data.json';
+// import mockdata from '../tests/fixtures/data/test-data.json';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
-
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
 
 /** @type {FormConfig} */
@@ -77,7 +78,7 @@ const formConfig = {
       title: 'Name and date of birth',
       pages: {
         page1: {
-          initialData: mockdata.data,
+          // initialData: mockdata.data,
           path: 'veteran-information',
           title: 'Personal Information',
           uiSchema: {
@@ -111,10 +112,10 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               `Identification information`,
-              `You must enter either a Social Security number of VA File number.`,
+              `You must enter either a Social Security number or VA file number.`,
             ),
             messageAriaDescribedby:
-              'You must enter either a Social Security number of VA File number.',
+              'You must enter either a Social Security number or VA file number.',
             ssn: ssnOrVaFileNumberNoHintUI(),
           },
           schema: {
@@ -128,46 +129,10 @@ const formConfig = {
         },
       },
     },
-    physicalAddress: {
-      title: 'Home Address',
-      pages: {
-        page3: {
-          path: 'home-address',
-          title: "Veteran's Home address",
-          uiSchema: {
-            ...titleUI(
-              'Home Address',
-              'This is your current location, outside the United States.',
-            ),
-            messageAriaDescribedby:
-              'This is your current location, outside the United States.',
-            physicalAddress: addressUI({
-              labels: {
-                street2: 'Apartment or unit number',
-              },
-              omit: ['street3', 'isMilitary'],
-              required: {
-                state: () => true,
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            required: ['physicalAddress'],
-            properties: {
-              titleSchema,
-              physicalAddress: addressSchema({
-                omit: ['street3', 'isMilitary'],
-              }),
-            },
-          },
-        },
-      },
-    },
     mailingAddress: {
       title: 'Mailing Address',
       pages: {
-        page4: {
+        page: {
           path: 'mailing-address',
           title: "Veteran's Mailing address",
           uiSchema: {
@@ -181,7 +146,7 @@ const formConfig = {
               labels: {
                 street2: 'Apartment or unit number',
               },
-              omit: ['street3', 'isMilitary'],
+              omit: ['street3'],
               required: {
                 state: () => true,
               },
@@ -193,7 +158,51 @@ const formConfig = {
             properties: {
               titleSchema,
               mailingAddress: addressSchema({
-                omit: ['street3', 'isMilitary'],
+                omit: ['street3'],
+              }),
+            },
+          },
+        },
+      },
+    },
+    physicalAddress: {
+      title: 'Home Address',
+      pages: {
+        page4: {
+          path: 'home-address',
+          title: "Veteran's Home address",
+          uiSchema: {
+            ...titleUI(
+              'Home Address',
+              'This is your current location, outside the United States.',
+            ),
+            messageAriaDescribedby:
+              'This is your current location, outside the United States.',
+            // matchAddress: checkboxGroupUI({
+            //   title: ' ',
+            //   required: () => false,
+            //   labels: {
+            //     yes: 'Same as Mailing Address',
+            //   },
+            // }),
+            physicalAddress: addressUI({
+              labels: {
+                street2: 'Apartment or unit number',
+              },
+              omit: ['street3'],
+              required: {
+                state: () => true,
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['physicalAddress'],
+            properties: {
+              titleSchema,
+              // matchAddress: checkboxGroupSchema(['yes']),
+              physicalAddress: addressSchema({
+                omit: ['street3'],
               }),
             },
           },

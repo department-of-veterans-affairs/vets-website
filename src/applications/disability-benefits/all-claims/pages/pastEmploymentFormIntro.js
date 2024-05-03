@@ -1,3 +1,4 @@
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 
@@ -7,6 +8,7 @@ export const uiSchema = {
   'ui:title': unemployabilityTitle,
   'ui:description': pastEmploymentHistory,
   'view:upload4192Choice': {
+    'ui:webComponentField': VaCheckboxGroupField,
     'ui:title': 'Please tell us what you’d like to do.',
     'ui:options': { showFieldLabel: true },
     'ui:validations': [

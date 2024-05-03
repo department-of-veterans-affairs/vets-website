@@ -7,8 +7,8 @@ import ContactInfoPage from '../../../new-appointment/components/ContactInfoPage
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../../utils/constants';
 
-describe.skip('VAOS Page: ContactInfoPage', () => {
-  it('should accept email, phone, and preferred time and continue', async () => {
+describe('VAOS Page: ContactInfoPage', () => {
+  it.skip('should accept email, phone, and preferred time and continue', async () => {
     const store = createTestStore({
       user: {
         profile: {

@@ -8,8 +8,8 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  path: 'military/pow',
   title: 'POW status',
+  path: 'military/pow',
   uiSchema: {
     ...titleUI('Prisoner of war status'),
     powStatus: yesNoUI({

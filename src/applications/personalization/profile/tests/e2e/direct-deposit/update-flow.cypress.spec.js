@@ -35,6 +35,16 @@ function dismissUnsavedChangesModal() {
     .click();
 }
 
+function cancelChangesViaModal() {
+  cy.axeCheck();
+  cy.get('va-modal')
+    .shadow()
+    .find('.usa-button-group__item')
+    .first()
+    .find('va-button')
+    .click();
+}
+
 function exitBankInfoForm() {
   cy.findByTestId('cancel-direct-deposit')
     .shadow()
@@ -162,6 +172,54 @@ describe('Direct Deposit - CNP using Lighthouse endpoint', () => {
       saveSuccessAlertShown();
 
       saveSuccessAlertRemoved();
+
+      cy.axeCheck();
+    });
+
+    it('should focus on edit button after successful update', () => {
+      mockSaveSuccess();
+
+      cy.findByTestId('edit-bank-info-button')
+        .shadow()
+        .find('button')
+        .click({
+          force: true,
+        });
+
+      fillInBankInfoForm();
+
+      saveNewBankInfo();
+
+      cy.wait('@saveSuccess');
+
+      cy.findByTestId('edit-bank-info-button')
+        .shadow()
+        .find('button')
+        .should('be.focused');
+
+      cy.axeCheck();
+    });
+
+    it('should focus on edit button after cancelling update view with pending changes', () => {
+      mockSaveSuccess();
+
+      cy.findByTestId('edit-bank-info-button')
+        .shadow()
+        .find('button')
+        .click({
+          force: true,
+        });
+
+      fillInBankInfoForm();
+
+      exitBankInfoForm();
+
+      cancelChangesViaModal();
+
+      cy.findByTestId('edit-bank-info-button')
+        .shadow()
+        .find('button')
+        .should('be.focused');
 
       cy.axeCheck();
     });

@@ -16,6 +16,7 @@ import {
   VaCheckboxField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { updateMultiresponseUiOptions } from '../../../helpers';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
 import { doesHaveCareExpenses } from './helpers';
@@ -42,8 +43,8 @@ CareExpenseView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
-  path: 'financial/care-expenses/add',
   title: 'Unreimbursed care expenses',
+  path: 'financial/care-expenses/add',
   depends: doesHaveCareExpenses,
   uiSchema: {
     ...titleUI('Add an unreimbursed care expense'),
@@ -58,6 +59,7 @@ export default {
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
+        updateSchema: updateMultiresponseUiOptions,
       },
       items: {
         recipients: radioUI({

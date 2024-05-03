@@ -45,6 +45,7 @@ const AccountTransitionModal = ({
       status="info"
       title="Prepare for sign in changes at VA"
     >
+      {/* React Modal Component used in Injected Header DO NOT MIGRATE to Modal web component */}
       <div className="container">
         <div className="row">
           <div className="columns">

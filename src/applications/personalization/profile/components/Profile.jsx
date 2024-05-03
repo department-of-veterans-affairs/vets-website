@@ -313,12 +313,13 @@ const mapStateToProps = state => {
   const isEligibleForDD =
     signInServicesEligibleForDD.has(signInService) && isInMVI && is2faEnabled;
   const shouldFetchCNPDirectDepositInformation =
-    isEligibleForDD && isLighthouseAvailable;
+    isEligibleForDD &&
+    isLighthouseAvailable &&
+    !profileToggles?.profileShowDirectDepositSingleForm;
   const shouldFetchEDUDirectDepositInformation = isEligibleForDD;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
-
   const shouldFetchDirectDeposit =
     isEligibleForDD &&
     isLighthouseAvailable &&
@@ -350,6 +351,11 @@ const mapStateToProps = state => {
   const hasLoadedCNPPaymentInformation =
     !isInMVI || cnpDirectDepositInformation(state);
 
+  const hasLoadedDirectDeposit =
+    !isInMVI ||
+    state.directDeposit?.paymentAccount ||
+    state.directDeposit?.loadError;
+
   const hasLoadedTotalDisabilityRating =
     !isInMVI || (state.totalRating && !state.totalRating.loading);
 
@@ -363,7 +369,8 @@ const mapStateToProps = state => {
         : true) &&
       (shouldFetchCNPDirectDepositInformation
         ? hasLoadedCNPPaymentInformation
-        : true));
+        : true) &&
+      (shouldFetchDirectDeposit ? hasLoadedDirectDeposit : true));
 
   const showLoader =
     !hasLoadedAllData || (!isLOA3 && !isLOA1 && currentlyLoggedIn);

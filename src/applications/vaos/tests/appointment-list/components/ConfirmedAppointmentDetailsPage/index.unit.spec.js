@@ -43,6 +43,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       vaOnlineSchedulingStatusImprovement: true,
       vaOnlineSchedulingVAOSServiceRequests: true,
       vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      vaOnlineSchedulingAppointmentDetailsRedesign: false,
     },
   };
 
@@ -58,7 +59,10 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       .setLocationId('983')
       .setClinicId('1')
       .setReasonCode({ text: 'I have a headache' });
-    const clinicResponse = new MockClinicResponse({ id: 1, locationId: '983' });
+    const clinicResponse = new MockClinicResponse({
+      id: 1,
+      locationId: '983',
+    });
     const facilityResponse = new MockFacilityResponse({ id: '983' });
 
     mockAppointmentApi({ response });
@@ -691,7 +695,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     // with the canceled appointment status having 1st priority. So, the canceled
     // appointment alert should display even when the appointment is a past
     // appointment.
-    expect(screen.queryByText(/Facility canceled your appointment/i));
+    expect(screen.queryByText(/Facility canceled this appointment/i));
     expect(screen.queryByText('This appointment occurred in the past.')).not.to
       .exist;
   });
@@ -720,7 +724,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     // with the canceled appointment status having 1st priority. So, the canceled
     // appointment alert should display even when the appointment is a past
     // appointment.
-    expect(screen.queryByText(/Facility canceled your appointment/i));
+    expect(screen.queryByText(/Facility canceled this appointment/i));
     expect(screen.queryByText('This appointment occurred in the past.')).not.to
       .exist;
   });

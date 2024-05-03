@@ -9,6 +9,8 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { ShowPdfPassword } from '../../components/ShowPdfPassword';
 
+import errorMessages from '../../content/errorMessages';
+
 describe('ShowPdfPassword', () => {
   const buttonClick = new MouseEvent('click', {
     bubbles: true,
@@ -45,7 +47,7 @@ describe('ShowPdfPassword', () => {
 
     expect($('va-text-input', container)).to.have.attr(
       'error',
-      'Please provide a password to decrypt this file',
+      errorMessages.upload,
     );
   });
   it('should call cancel', () => {

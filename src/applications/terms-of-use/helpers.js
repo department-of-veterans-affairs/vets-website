@@ -71,3 +71,5 @@ export const declineAndLogout = ({
     IAMLogout({ queryParams: { [`agreements_declined`]: true } });
   }
 };
+
+export const touUpdatedDate = `March 2024`;

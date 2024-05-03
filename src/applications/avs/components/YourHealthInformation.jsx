@@ -318,7 +318,9 @@ const renderVaMedication = medication => {
         {renderFieldWithBreak(medication.orderingProvider, 'Ordering Provider')}
         <br />
         {renderFieldWithBreak(medication.status, 'Status')}
-        {renderFieldWithBreak(medication.quantity, 'Quantity')}
+        Quantity: {String(medication.quantity)} for{' '}
+        {String(medication.daysSupply)} days
+        <br />
         {renderFieldWithBreak(medication.refillsRemaining, 'Refills remaining')}
         {renderFieldWithBreak(medication.dateExpires, 'Expires')}
         {renderFieldWithBreak(getDateLastFilled(medication), 'Last filled')}

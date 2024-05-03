@@ -8,7 +8,8 @@ import {
   requestVaRecordsInfo,
 } from '../content/evidenceVaRecordsRequest';
 
-import { EVIDENCE_VA, errorMessages } from '../constants';
+import { EVIDENCE_VA } from '../constants';
+import errorMessages from '../../shared/content/errorMessages';
 
 export default {
   uiSchema: {

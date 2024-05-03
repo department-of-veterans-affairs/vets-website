@@ -383,7 +383,7 @@ export function makeAuthRequest(
     userOptions,
   );
 
-  apiRequest(`${environment.API_URL}${url}`, options)
+  return apiRequest(`${environment.API_URL}${url}`, options)
     .then(onSuccess)
     .catch(resp => {
       if (resp.status === 401) {

@@ -1,5 +1,4 @@
 // breaks unit tests if we use the workspace import
-// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
 import { selectDrupalStaticData } from 'platform/site-wide/drupal-static-data/selectors';
 
 export const selectVamcSystemData = state =>

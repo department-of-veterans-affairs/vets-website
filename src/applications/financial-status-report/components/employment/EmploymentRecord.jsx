@@ -133,9 +133,7 @@ const EmploymentRecord = ({
           value={employment[index].type || []}
           onVaSelect={e => handleChange('type', e.detail.value)}
           error={showError() || null}
-          uswds
         >
-          <option value=""> </option>
           <option value="Full time">Full time</option>
           <option value="Part time">Part time</option>
           <option value="Seasonal">Seasonal</option>
@@ -181,7 +179,6 @@ const EmploymentRecord = ({
         onVaChange={event =>
           handleCheckboxChange('isCurrent', event.detail.checked)
         }
-        uswds
       />
       <div className="vads-u-margin-bottom--2">
         <VaTextInput
@@ -193,7 +190,6 @@ const EmploymentRecord = ({
           type="text"
           value={employerName || ''}
           width="xl"
-          uswds
         />
       </div>
     </>

@@ -18,8 +18,8 @@ export const description = (
 
 /** @type {PageSchema} */
 export default {
-  path: 'financial/care-expenses',
   title: 'Care expenses',
+  path: 'financial/care-expenses',
   uiSchema: {
     ...titleUI('Care expenses', description),
     hasCareExpenses: yesNoUI({

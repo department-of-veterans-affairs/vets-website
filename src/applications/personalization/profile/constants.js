@@ -2,15 +2,15 @@
 export const PROFILE_TOGGLES = {
   profileContacts: false,
   profileShowPronounsAndSexualOrientation: false,
-  profileHideDirectDepositCompAndPen: false,
+  profileHideDirectDeposit: false,
   profileShowPaymentsNotificationSetting: false,
   profileShowMhvNotificationSettings: false,
   profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowEmailNotificationSettings: false,
-  profileShowProofOfVeteranStatus: false,
   profileShowDirectDepositSingleForm: false,
+  profileShowDirectDepositSingleFormUAT: false,
   profileShowDirectDepositSingleFormAlert: false,
   profileShowDirectDepositSingleFormEduDowntime: false,
 };

@@ -14,5 +14,6 @@ describe('<FilesNeeded>', () => {
     const screen = renderWithRouter(<FilesNeeded item={item} />);
     screen.getByText(item.displayName);
     screen.getByText(item.description);
+    screen.getByText('Details');
   });
 });

@@ -20,7 +20,7 @@ describe('Toxic Exposure Conditions', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.toxicExposureConditions;
 
-  it('should render conditions page', async () => {
+  it('should render conditions page with multiple conditions', async () => {
     const formData = {
       newDisabilities: [
         {
@@ -69,7 +69,7 @@ describe('Toxic Exposure Conditions', () => {
     });
   });
 
-  it('should display error when condition and "none"', async () => {
+  it('should display error when condition and "none" selected', async () => {
     const formData = {
       newDisabilities: [
         {

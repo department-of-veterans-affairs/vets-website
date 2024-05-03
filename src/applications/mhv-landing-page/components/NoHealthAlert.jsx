@@ -1,14 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const NoHealthAlert = () => {
+const NoHealthAlert = ({ headline }) => {
   return (
-    <va-alert
-      status="warning"
-      visible
-      data-testid="no-health-message"
-      role="alert"
-    >
-      <h2 slot="headline">You don’t have access to My HealtheVet</h2>
+    <VaAlert status="warning" data-testid="no-health-message">
+      <h2 slot="headline">{headline}</h2>
       <div>
         <p className="vads-u-margin-y--0">
           To access My HealtheVet, <b>one</b> of these descriptions must be
@@ -38,8 +35,16 @@ const NoHealthAlert = () => {
           </a>
         </p>
       </div>
-    </va-alert>
+    </VaAlert>
   );
+};
+
+NoHealthAlert.defaultProps = {
+  headline: 'You don’t have access to My HealtheVet',
+};
+
+NoHealthAlert.propTypes = {
+  headline: PropTypes.string,
 };
 
 export default NoHealthAlert;

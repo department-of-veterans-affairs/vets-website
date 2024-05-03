@@ -266,7 +266,12 @@ export default function formReducer(state = initialState, action) {
     case FORM_UPDATE_FACILITY_TYPE: {
       return {
         ...state,
-        data: { ...state.data, facilityType: action.facilityType },
+        data: {
+          ...state.data,
+          facilityType: action.facilityType,
+          isSingleVaFacility:
+            action.facilityType !== FACILITY_TYPES.COMMUNITY_CARE,
+        },
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN: {
@@ -313,12 +318,14 @@ export default function formReducer(state = initialState, action) {
         isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
 
-      if (typeOfCareFacilities.length === 1) {
-        newData = {
-          ...newData,
-          vaFacility: typeOfCareFacilities[0]?.id,
-        };
-      }
+      newData = {
+        ...newData,
+        vaFacility:
+          typeOfCareFacilities.length === 1
+            ? typeOfCareFacilities[0]?.id
+            : null,
+        isSingleVaFacility: typeOfCareFacilities.length === 1,
+      };
 
       newSchema = set(
         'properties.vaFacility',

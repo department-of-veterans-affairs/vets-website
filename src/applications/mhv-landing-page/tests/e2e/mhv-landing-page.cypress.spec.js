@@ -1,7 +1,5 @@
 import { appName, rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
-import vamcEhr from '../fixtures/vamc-ehr.json';
-import { generateFeatureToggles } from '../../mocks/api/feature-toggles';
 import ApiInitializer from './utilities/ApiInitializer';
 
 /*
@@ -9,27 +7,24 @@ import ApiInitializer from './utilities/ApiInitializer';
  * of the landing page as it is in production.
  * As of 2/14/2024, the landing page is enabled, but the personalization is not.
  */
-describe(`${appName} - landing page`, () => {
+describe(`${appName} -- landing page`, () => {
   beforeEach(() => {
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        mhvLandingPageEnabled: true,
-        mhvLandingPagePersonalization: false,
-      }),
-    ).as('featureToggles');
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
-  });
-
-  it('display the landing page', () => {
+    ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
     ApiInitializer.initializeMessageData.withNoUnreadMessages();
     cy.login(user);
     cy.visit(rootUrl);
+  });
+
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+  it('displays an h1', () => {
+    const heading = {
+      level: 1,
+      name: /^My HealtheVet$/,
+    };
+    cy.findByRole('heading', heading).should.exist;
+  });
+
+  it('passes automated accessibility (a11y) checks', () => {
     cy.injectAxeThenAxeCheck();
-    cy.findByRole('heading', { name: /^My HealtheVet$/i }).should.exist;
-    cy.findByRole('heading', { level: 2, name: /^Welcome/ }).should(
-      'not.exist',
-    );
   });
 });

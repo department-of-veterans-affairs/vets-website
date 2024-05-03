@@ -9,7 +9,14 @@ import { genderLabels } from 'platform/static-data/labels';
 import { maskSSN, normalizeFullName } from '../../utils/helpers/general';
 import { APP_URLS } from '../../utils/constants';
 
-const VeteranProfileInformation = ({ goBack, goForward, profile, veteran }) => {
+const VeteranProfileInformation = ({
+  goBack,
+  goForward,
+  profile,
+  veteran,
+  contentBeforeButtons,
+  contentAfterButtons,
+}) => {
   const { userFullName, dob, gender } = profile;
   const { veteranSocialSecurityNumber } = veteran;
 
@@ -93,12 +100,16 @@ const VeteranProfileInformation = ({ goBack, goForward, profile, veteran }) => {
           />
         </p>
       </div>
+      {contentBeforeButtons}
       <FormNavButtons goBack={goBack} goForward={goForward} />
+      {contentAfterButtons}
     </>
   );
 };
 
 VeteranProfileInformation.propTypes = {
+  contentAfterButtons: PropTypes.element,
+  contentBeforeButtons: PropTypes.element,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   profile: PropTypes.object,

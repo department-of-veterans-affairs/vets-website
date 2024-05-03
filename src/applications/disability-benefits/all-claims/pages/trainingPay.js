@@ -1,19 +1,18 @@
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-
-const { hasTrainingPay } = fullSchema.properties;
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 export const uiSchema = {
-  hasTrainingPay: {
-    'ui:title':
-      'Do you expect to receive active or inactive duty training pay?',
-    'ui:widget': 'yesNo',
-  },
+  hasTrainingPay: yesNoUI({
+    title: 'Do you expect to receive active or inactive duty training pay?',
+  }),
 };
 
 export const schema = {
   type: 'object',
   required: ['hasTrainingPay'],
   properties: {
-    hasTrainingPay,
+    hasTrainingPay: yesNoSchema,
   },
 };

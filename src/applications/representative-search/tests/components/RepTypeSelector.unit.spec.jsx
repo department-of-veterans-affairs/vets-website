@@ -29,27 +29,9 @@ describe('RepTypeSelector component', () => {
     );
 
     const radioOption = container.querySelector(
-      'va-radio-option[label="Accredited Veterans Service Officer (VSO)"]',
+      'va-radio-option[label="Accredited VSO representative"]',
     );
 
-    expect(radioOption).to.exist;
-    expect(radioOption).to.have.attr('checked', 'true');
-  });
-
-  it('should update representative type', () => {
-    const { container } = render(
-      <RepTypeSelector
-        onChange={() => {}}
-        representativeType="veteran_service_officer"
-      />,
-    );
-
-    // Select the first va-radio-option
-    const radioOption = container.querySelector(
-      'va-radio-option[label="Accredited Veterans Service Officer (VSO)"]',
-    );
-
-    // Assert that the first va-radio-option is present and checked
     expect(radioOption).to.exist;
     expect(radioOption).to.have.attr('checked', 'true');
   });

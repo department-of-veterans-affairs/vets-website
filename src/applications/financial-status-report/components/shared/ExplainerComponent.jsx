@@ -18,7 +18,6 @@ const ExplainerComponent = ({
           close-btn-aria-label="Close notification"
           full-width
           status="info"
-          uswds
           visible
         >
           <h3 slot="headline">{headline}</h3>

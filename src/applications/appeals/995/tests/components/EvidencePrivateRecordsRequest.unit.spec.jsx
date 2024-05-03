@@ -11,11 +11,11 @@ import {
 import EvidencePrivateRecordsRequest from '../../components/EvidencePrivateRecordsRequest';
 import { privateRecordsRequestTitle } from '../../content/evidencePrivateRecordsRequest';
 import {
-  errorMessages,
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
   EVIDENCE_VA_PATH,
 } from '../../constants';
+import errorMessages from '../../../shared/content/errorMessages';
 
 describe('<EvidencePrivateRecordsRequest>', () => {
   it('should render', () => {

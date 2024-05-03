@@ -1010,16 +1010,16 @@ describe('formConfig', () => {
           ).to.be.false;
         });
 
-        it('returns TRUE if livingSituation.OTHER_RISK is TRUE and preparerType is veteran or non-veteran', () => {
+        it('returns TRUE if livingSituation.NONE is TRUE and preparerType is veteran or non-veteran', () => {
           expect(
             depends({
-              livingSituation: { OTHER_RISK: true },
+              livingSituation: { NONE: true },
               preparerType: PREPARER_TYPES.VETERAN,
             }),
           ).to.be.true;
           expect(
             depends({
-              livingSituation: { OTHER_RISK: true },
+              livingSituation: { NONE: true },
               preparerType: PREPARER_TYPES.NON_VETERAN,
             }),
           ).to.be.true;
@@ -1075,10 +1075,10 @@ describe('formConfig', () => {
           ).to.be.false;
         });
 
-        it('returns TRUE if livingSituation.OTHER_RISK is TRUE and preparerType is third-party-veteran', () => {
+        it('returns TRUE if livingSituation.NONE is TRUE and preparerType is third-party-veteran', () => {
           expect(
             depends({
-              livingSituation: { OTHER_RISK: true },
+              livingSituation: { NONE: true },
               preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
             }),
           ).to.be.true;
@@ -1119,10 +1119,10 @@ describe('formConfig', () => {
           ).to.be.false;
         });
 
-        it('returns TRUE if livingSituation.OTHER_RISK is TRUE and preparerType is third-party-non-veteran', () => {
+        it('returns TRUE if livingSituation.NONE is TRUE and preparerType is third-party-non-veteran', () => {
           expect(
             depends({
-              livingSituation: { OTHER_RISK: true },
+              livingSituation: { NONE: true },
               preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
             }),
           ).to.be.true;

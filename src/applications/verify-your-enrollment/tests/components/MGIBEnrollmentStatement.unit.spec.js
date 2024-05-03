@@ -16,7 +16,7 @@ describe('<MGIBEnrollmentStatement />', () => {
 
     // Using React Testing Library to check elements
     expect(getByText('Montgomery GI Bill® enrollment verification')).to.exist;
-    expect(getByText(/If you have an active benefit award/)).to.exist;
+    expect(getByText(/If you are receiving Montgomery GI/)).to.exist;
 
     // Using Enzyme for additional checks
     const wrapper = shallow(<MGIBEnrollmentStatement />);
@@ -24,7 +24,7 @@ describe('<MGIBEnrollmentStatement />', () => {
       'Montgomery GI Bill® enrollment verification',
     );
     expect(wrapper.find('.va-introtext').text()).to.include(
-      'If you have an active benefit award',
+      'If you are receiving Montgomery GI Bill® benefits',
     );
 
     wrapper.unmount();

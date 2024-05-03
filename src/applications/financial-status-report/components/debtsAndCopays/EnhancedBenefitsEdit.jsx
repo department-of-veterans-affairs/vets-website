@@ -103,7 +103,6 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
           value={inputValue}
           width="md"
           required
-          uswds
         />
       </fieldset>
       <ButtonGroup

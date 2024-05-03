@@ -12,7 +12,6 @@ import {
 } from '../../../redux/selectors';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsList from '../PastAppointmentsList';
-import CanceledAppointmentsList from '../CanceledAppointmentsList';
 import WarningNotification from '../../../components/WarningNotification';
 import ScheduleNewAppointment from '../ScheduleNewAppointment';
 import PageLayout from '../PageLayout';
@@ -27,32 +26,6 @@ import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 import CernerAlert from '../../../components/CernerAlert';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
-
-const SUBPAGE_TITLES = {
-  upcoming: 'Your appointments',
-  requested: 'Requested',
-  past: 'Past appointments',
-  canceled: 'Canceled appointments',
-};
-
-function getSubPageTitleFromLocation(pathname) {
-  if (pathname.endsWith(SUBPAGE_TITLES.requested)) {
-    return SUBPAGE_TITLES.requested;
-  }
-
-  if (pathname.endsWith(SUBPAGE_TITLES.past)) {
-    return SUBPAGE_TITLES.past;
-  }
-  if (pathname.endsWith(SUBPAGE_TITLES.canceled)) {
-    return SUBPAGE_TITLES.canceled;
-  }
-
-  if (pathname.endsWith(SUBPAGE_TITLES.requested)) {
-    return SUBPAGE_TITLES.requested;
-  }
-
-  return SUBPAGE_TITLES.upcoming;
-}
 
 function renderWarningNotification() {
   return (props, childContent) => {
@@ -83,8 +56,6 @@ export default function AppointmentsPage() {
   // const featureBookingExclusion = useSelector(state =>
   //   selectFeatureBookingExclusion(state),
   // );
-
-  const subPageTitle = getSubPageTitleFromLocation(location.pathname);
 
   let prefix = 'Your';
   const isPending = location.pathname.endsWith('/pending');
@@ -125,13 +96,7 @@ export default function AppointmentsPage() {
         scrollAndFocus('h1');
       }
     },
-    [
-      subPageTitle,
-      location.pathname,
-      prefix,
-      pageTitle,
-      featureBreadcrumbUrlUpdate,
-    ],
+    [location.pathname, prefix, pageTitle, featureBreadcrumbUrlUpdate],
   );
 
   const [count, setCount] = useState(0);
@@ -189,9 +154,6 @@ export default function AppointmentsPage() {
         </Route>
         <Route path="/past">
           <PastAppointmentsList hasTypeChanged={hasTypeChanged} />
-        </Route>
-        <Route path="/canceled">
-          <CanceledAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
       </Switch>
     </PageLayout>

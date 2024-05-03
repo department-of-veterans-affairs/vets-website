@@ -141,6 +141,7 @@ const formConfig = {
   },
   transformForSubmit: transform,
   introduction: IntroductionPage,
+  v3SegmentedProgressBar: true,
   additionalRoutes: [
     {
       path: 'id-form',

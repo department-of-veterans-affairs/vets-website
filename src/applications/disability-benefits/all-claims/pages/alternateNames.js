@@ -1,6 +1,10 @@
 import FullNameField from 'platform/forms-system/src/js/fields/FullNameField';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import get from 'platform/utilities/data/get';
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const { alternateNames: alternateNamesSchema } = fullSchema.properties;
 
@@ -8,10 +12,9 @@ const hasAlternateName = formData =>
   get('view:hasAlternateName', formData, true);
 
 export const uiSchema = {
-  'view:hasAlternateName': {
-    'ui:title': 'Have you served under a different name?',
-    'ui:widget': 'yesNo',
-  },
+  'view:hasAlternateName': yesNoUI({
+    title: 'Have you served under a different name?',
+  }),
   alternateNames: {
     'ui:description': 'What name did you serve under?',
     'ui:options': {
@@ -42,10 +45,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:hasAlternateName': {
-      type: 'boolean',
-      properties: {},
-    },
+    'view:hasAlternateName': yesNoSchema,
     alternateNames: alternateNamesSchema,
   },
 };

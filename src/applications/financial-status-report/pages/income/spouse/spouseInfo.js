@@ -2,7 +2,7 @@ import React from 'react';
 import YesNoField from 'platform/forms-system/src/js/web-component-fields/YesNoField';
 
 const MaritalStatusInfo = (
-  <va-additional-info trigger="Why does my marital status matter?" uswds>
+  <va-additional-info trigger="Why does my marital status matter?">
     <p>
       We want to make sure we understand your household’s financial situation.
     </p>

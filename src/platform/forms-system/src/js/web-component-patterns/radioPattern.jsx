@@ -20,6 +20,18 @@ import VaRadioField from '../web-component-fields/VaRadioField';
  * })
  * ```
  *
+ * Advanced labels:
+ * ```js
+ * labels: {
+ *    dog: 'Dog',
+ *    cat: 'Cat',
+ * },
+ * descriptions: {
+ *    dog: 'This is a dog',
+ *    cat: 'This is a cat',
+ * }
+ * ```
+ *
  * Usage schema:
  * ```js
  * exampleRadio: radioSchema(['cat', 'dog', 'octopus'])

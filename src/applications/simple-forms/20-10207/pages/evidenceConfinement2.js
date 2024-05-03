@@ -4,7 +4,10 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { powConfinement2DateRangeValidation } from '../helpers';
+import {
+  evidenceConfinementHintUpdateUiSchema,
+  powConfinement2DateRangeValidation,
+} from '../helpers';
 
 /** @type {PageSchema} */
 export default {
@@ -17,6 +20,11 @@ export default {
       errorMessages: {
         required: 'Provide the start date of confinement',
       },
+      updateUiSchema: formData =>
+        evidenceConfinementHintUpdateUiSchema({
+          formData,
+          beganEndedString: 'began',
+        }),
     }),
     powConfinement2EndDate: currentOrPastDateUI({
       title: 'End of confinement',
@@ -25,6 +33,11 @@ export default {
       errorMessages: {
         required: 'Provide the end date of confinement',
       },
+      updateUiSchema: formData =>
+        evidenceConfinementHintUpdateUiSchema({
+          formData,
+          beganEndedString: 'ended',
+        }),
     }),
     'ui:validations': [powConfinement2DateRangeValidation],
   },

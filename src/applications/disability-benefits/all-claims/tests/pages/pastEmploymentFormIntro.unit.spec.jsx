@@ -5,7 +5,6 @@ import { mount } from 'enzyme';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
-import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('Disability benefits 4192', () => {
   const {
@@ -29,9 +28,10 @@ describe('Disability benefits 4192', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('va-checkbox').length).to.equal(4);
     form.unmount();
   });
+
   it('should require an option to be selected', () => {
     const onSubmit = sinon.spy();
     const form = mount(
@@ -48,7 +48,11 @@ describe('Disability benefits 4192', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+    expect(
+      form.find(
+        'va-checkbox-group[error=" Please select at least one option (or all that apply)."]',
+      ).length,
+    ).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

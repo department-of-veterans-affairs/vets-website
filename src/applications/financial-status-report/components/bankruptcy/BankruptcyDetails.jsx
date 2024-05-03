@@ -155,7 +155,6 @@ const BankruptcyDetails = ({
           required
           type="text"
           width="xl"
-          uswds
           value={courtLocation}
         />
         <VaTextInput
@@ -178,7 +177,6 @@ const BankruptcyDetails = ({
           required
           type="text"
           width="xl"
-          uswds
           value={docketNumber}
         />
       </fieldset>

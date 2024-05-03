@@ -7,7 +7,8 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-import { errorMessages, EVIDENCE_VA } from '../../constants';
+import { EVIDENCE_VA } from '../../constants';
+import errorMessages from '../../../shared/content/errorMessages';
 
 describe('Supplemental Claims VA evidence request page', () => {
   const {

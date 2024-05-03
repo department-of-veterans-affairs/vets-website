@@ -52,7 +52,7 @@ describe('Pre-Check In Experience', () => {
       AppointmentDetails.validateWhen();
       AppointmentDetails.validateWhat();
       AppointmentDetails.validateProvider();
-      AppointmentDetails.validateWhere('in-person');
+      AppointmentDetails.validateWhere();
       AppointmentDetails.validateFacilityAddress(true);
       AppointmentDetails.validateDirectionsLink(true);
       AppointmentDetails.validatePhone();
@@ -152,7 +152,7 @@ describe('Pre-Check In Experience', () => {
       AppointmentDetails.validateWhen();
       AppointmentDetails.validateWhat();
       AppointmentDetails.validateProvider();
-      AppointmentDetails.validateWhere('phone');
+      AppointmentDetails.validateNeedToMakeChanges();
       AppointmentDetails.validatePhone();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots(

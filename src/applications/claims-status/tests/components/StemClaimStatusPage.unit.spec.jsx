@@ -8,6 +8,9 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { StemClaimStatusPage } from '../../containers/StemClaimStatusPage';
 import { renderWithRouter } from '../utils';
 
+const documentTitle =
+  'Your Edith Nourse Rogers STEM Scholarship application | Veterans Affairs';
+
 const store = createStore(() => ({}));
 
 const props = {
@@ -29,9 +32,7 @@ describe('<StemClaimStatusPage>', () => {
         'You didn’t meet the following criteria for the Rogers STEM Scholarship:',
       ),
     ).to.not.exist;
-    expect(document.title).to.equal(
-      'Your Edith Nourse Rogers STEM Scholarship application',
-    );
+    expect(document.title).to.equal(documentTitle);
     getByText('Claim status is unavailable');
   });
 
@@ -46,9 +47,7 @@ describe('<StemClaimStatusPage>', () => {
         'You didn’t meet the following criteria for the Rogers STEM Scholarship:',
       ),
     ).to.not.exist;
-    expect(document.title).to.equal(
-      'Your Edith Nourse Rogers STEM Scholarship application',
-    );
+    expect(document.title).to.equal(documentTitle);
     getByText('Claim status is unavailable');
   });
 
@@ -63,9 +62,7 @@ describe('<StemClaimStatusPage>', () => {
         'You didn’t meet the following criteria for the Rogers STEM Scholarship:',
       ),
     ).to.not.exist;
-    expect(document.title).to.equal(
-      'Your Edith Nourse Rogers STEM Scholarship application',
-    );
+    expect(document.title).to.equal(documentTitle);
     expect($('va-loading-indicator', container)).to.exist;
   });
 
@@ -95,8 +92,6 @@ describe('<StemClaimStatusPage>', () => {
         'You didn’t meet the following criteria for the Rogers STEM Scholarship:',
       ),
     ).to.exist;
-    expect(document.title).to.equal(
-      'Your Edith Nourse Rogers STEM Scholarship application',
-    );
+    expect(document.title).to.equal(documentTitle);
   });
 });

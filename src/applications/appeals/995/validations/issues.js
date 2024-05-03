@@ -1,6 +1,6 @@
-import { errorMessages } from '../constants';
 import { validateDate } from './date';
 
+import errorMessages from '../../shared/content/errorMessages';
 import { MAX_LENGTH } from '../../shared/constants';
 import {
   getIssueDate,
@@ -11,7 +11,7 @@ import { missingIssueName } from '../../shared/validations/issues';
 
 export const maxNameLength = (errors, data) => {
   if (data.length > MAX_LENGTH.ISSUE_NAME) {
-    errors.addError(errorMessages.maxLength);
+    errors.addError(errorMessages.maxLength(MAX_LENGTH.ISSUE_NAME));
   }
 };
 

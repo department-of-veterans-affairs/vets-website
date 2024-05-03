@@ -32,7 +32,7 @@ describe('Accessibility', () => {
     cy.get('#representative-search-controls').trigger('mousedown');
     cy.tab();
     cy.get(
-      'va-additional-info[trigger="What does an accredited VSO do?"]',
+      'va-additional-info[trigger="What does an accredited VSO representative do?"]',
     ).focused();
     cy.tab();
     cy.get(

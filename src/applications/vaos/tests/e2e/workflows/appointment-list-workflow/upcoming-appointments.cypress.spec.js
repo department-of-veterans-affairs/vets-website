@@ -22,7 +22,9 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles();
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentDetailsRedesign: false,
+      });
       mockVamcEhrApi();
     });
 
@@ -189,7 +191,9 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles();
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentDetailsRedesign: false,
+      });
       mockVamcEhrApi();
     });
 
@@ -569,7 +573,9 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles();
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentDetailsRedesign: false,
+      });
       mockVamcEhrApi();
     });
 
@@ -621,7 +627,9 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles();
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentDetailsRedesign: false,
+      });
       mockVamcEhrApi();
     });
 
@@ -677,7 +685,9 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles();
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentDetailsRedesign: false,
+      });
       mockVamcEhrApi();
     });
 

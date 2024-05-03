@@ -25,6 +25,11 @@
   word-break: break-word;
 }
 
+/* Fix long labels on VA & private evidence pages */
+va-checkbox[name="issues"]::part(label) {
+  word-break: break-all;
+}
+
 ul.issues-summary,
 ul.evidence-summary,
 .usa-accordion-bordered ul li ul.evidence-summary,

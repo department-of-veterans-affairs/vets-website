@@ -46,9 +46,61 @@ const IntroductionPage = props => {
 
       {loggedIn ? (
         <>
-          <Link className="vads-c-action-link--blue" to={getStartPage}>
-            Create new question
+          <Link className="vads-c-action-link--green" to={getStartPage}>
+            Ask a new question
           </Link>
+          <div className="vads-u-margin-top--5 vads-u-margin-bottom--5">
+            <va-accordion
+              disable-analytics={{
+                value: 'false',
+              }}
+              open-single
+              section-heading={{
+                value: 'null',
+              }}
+              uswds={{
+                value: 'true',
+              }}
+            >
+              <va-accordion-item
+                header="Only use Ask VA for non-urgent questions"
+                id="first"
+              >
+                <p>
+                  It can take up to
+                  <strong>7 business days</strong> to get a response.
+                </p>
+                <p>
+                  If you need help now, use one of these urgent communication
+                  options:
+                </p>
+                <ul>
+                  <li>
+                    <strong>
+                      If you’re in crisis or having thoughts of suicide,
+                    </strong>{' '}
+                    connect with our Veterans Crisis Line. We offer confidential
+                    support anytime, day or night.{' '}
+                    <a href="https://www.veteranscrisisline.net">
+                      Connect with Veterans Crisis Line
+                    </a>
+                  </li>
+                  <li>
+                    <strong>
+                      If you think your life or health is in danger,
+                    </strong>{' '}
+                    call{' '}
+                    <va-telephone
+                      contact="911"
+                      message-aria-describedby="Emergency care contact number"
+                    />
+                    , or go to the nearest emergency room.
+                  </li>
+                </ul>
+              </va-accordion-item>
+            </va-accordion>
+          </div>
+
           <DashboardCards />
         </>
       ) : (
@@ -96,6 +148,18 @@ const IntroductionPage = props => {
               buttonOnly
               headingLevel={2}
               prefillEnabled={formConfig.prefillEnabled}
+              verifiedPrefillAlert={
+                <div>
+                  <div className="usa-alert usa-alert-info schemaform-sip-alert">
+                    <div className="usa-alert-body">
+                      We’ve prefilled some of your information from your
+                      account. If you need to correct anything, you can edit the
+                      form fields below.
+                    </div>
+                  </div>
+                  <br />
+                </div>
+              }
               messages={formConfig.savedFormMessages}
               pageList={pageList}
               startText="Start the Application"
@@ -109,19 +173,12 @@ const IntroductionPage = props => {
                 Continue without signing in
               </Link>
             </p>
+            <h2>Check the status of your question</h2>
+            <p className="vads-u-margin--0">Reference number</p>
+            <VaSearchInput label="Reference number" />
           </div>
         </>
       )}
-
-      <h2>Check the status of your question</h2>
-      <p className="vads-u-margin--0">Reference number</p>
-      <VaSearchInput label="Reference number" />
-      <Link
-        className="vads-c-action-link--blue vads-u-margin-top--2"
-        to="/user/profile-test"
-      >
-        User Profile Test
-      </Link>
     </div>
   );
 };

@@ -21,7 +21,7 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
-import manifest from '../main/manifest.json';
+import manifest from '../manifest.json';
 import { Actions } from '../util/actionTypes';
 import { downtimeNotificationParams } from '../util/constants';
 

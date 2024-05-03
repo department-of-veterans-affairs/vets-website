@@ -1,11 +1,17 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 
 import Sidenav from '../../../components/common/Sidenav';
 
 describe('Sidenav', () => {
-  const getSidenav = () => render(<Sidenav />);
+  const getSidenav = () =>
+    render(
+      <MemoryRouter>
+        <Sidenav />
+      </MemoryRouter>,
+    );
 
   it('renders Sidenav heading', () => {
     const { getByTestId } = getSidenav();

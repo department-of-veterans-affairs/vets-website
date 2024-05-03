@@ -510,7 +510,7 @@ legend.schemaform-label.schemaform-file-label {
   .form-review-panel-page-header-row {
     padding: 1em 0.5em;
     margin: -1em -1.2em 0 -1.2em;
-    background-color: var(--vads-color-secondary-lightest);
+    background-color: var(--vads-color-error-lighter);
     &:before {
       display: block;
       content: " ";
@@ -538,10 +538,10 @@ legend.schemaform-label.schemaform-file-label {
 /* Highlight accordion item with content that needs attention */
 va-accordion-item[data-unviewed-pages="true"] {
   &::part(accordion-header) {
-    background-color: #{var(--vads-color-secondary-lightest)};
+    background-color: #{var(--vads-color-error-lighter)};
   }
   &::part(accordion-content) {
-    border-color: #{var(--vads-color-secondary-lightest)};
+    border-color: #{var(--vads-color-error-lighter)};
   }
 }
 

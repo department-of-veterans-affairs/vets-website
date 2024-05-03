@@ -64,7 +64,7 @@ const ConditionDetails = props => {
         setBreadcrumbs([
           {
             url: '/my-health/medical-records/conditions',
-            label: 'Conditions',
+            label: 'Health conditions',
           },
         ]),
       );

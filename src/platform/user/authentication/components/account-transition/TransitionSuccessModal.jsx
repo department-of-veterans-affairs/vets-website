@@ -38,6 +38,7 @@ export default function TransitionSuccessModal({ visible, onClose }) {
       status="success"
       title="Account transfer is complete"
     >
+      {/* React Modal Component used in Injected Header DO NOT MIGRATE to Modal web component */}
       <div className="container">
         <div className="row">
           <p>

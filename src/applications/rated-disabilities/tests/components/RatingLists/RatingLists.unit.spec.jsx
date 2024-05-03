@@ -13,6 +13,8 @@ const nonServiceConnectedSectionTitle =
   'Conditions VA determined aren’t service-connected';
 const serviceConnectedSectionTitle = 'Service-connected ratings';
 
+// The possible decision values that we can get from vets-api currently are:
+//   1151 Denied, 1151 Granted, Not Service Connected, and Service Connected
 const ratings = [
   {
     decision: 'Service Connected',
@@ -29,7 +31,7 @@ const ratings = [
     ratingPercentage: 100,
   },
   {
-    decision: 'Service Connected',
+    decision: '1151 Granted',
     diagnosticText: 'Sarcoma Soft-Tissue',
     diagnosticTypeName: 'Soft tissue sarcoma (neurogenic origin)',
     effectiveDate: '2018-08-01',
@@ -43,7 +45,7 @@ const ratings = [
     ratingPercentage: null,
   },
   {
-    decision: 'Not Service Connected',
+    decision: '1151 Denied',
     diagnosticText: 'Diabetes',
     diagnosticTypeName: 'Diabetes mellitus',
     effectiveDate: null,

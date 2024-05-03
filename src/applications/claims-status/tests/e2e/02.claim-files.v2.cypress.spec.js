@@ -14,7 +14,7 @@ describe('Claim Files Test', () => {
   });
 });
 
-// If there's a primary alert, a user can see that alert on the files tab and click "view details"
+// If there's a primary alert, a user can see that alert on the files tab and click "details"
 describe('Primary Alert Test', () => {
   it('Shows primary alert details', () => {
     const trackClaimsPage = new TrackClaimsPageV2();

@@ -1,6 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/dom';
+import sinon from 'sinon';
+
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import * as recordEventModule from '~/platform/monitoring/record-event';
 
 import ClaimLetterListItem from '../../../components/ClaimLetterListItem';
 
@@ -40,5 +46,23 @@ describe('<ClaimLetterListItem>', () => {
     );
 
     expect(screen.getByText(/Notification Letter/i)).to.exist;
+  });
+
+  it(' when click Download Letter link, should call record event', () => {
+    const recordEventStub = sinon.stub(recordEventModule, 'default');
+
+    const { container } = render(<ClaimLetterListItem letter={mockLetter} />);
+    const downloadLetterLink = $('va-link', container);
+    fireEvent.click(downloadLetterLink);
+    expect(
+      recordEventStub.calledWith({
+        event: 'claim-letters-download',
+        'gtm.element.textContent': 'Download Claim Letter (PDF)',
+        'gtm.elementUrl': `${environment.API_URL}/v0/claim_letters/[${
+          mockLetter.docType
+        }]:id.pdf`,
+      }),
+    ).to.be.true;
+    recordEventStub.restore();
   });
 });

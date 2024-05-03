@@ -319,6 +319,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
             <a href="/manage-va-debt/request-debt-help-form-5655">
               request help with your debt
             </a>
+            .
           </p>
         ),
       };
@@ -351,6 +352,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
             <a href="/manage-va-debt/request-debt-help-form-5655">
               request help with your debt
             </a>
+            .
           </p>
         ),
       };

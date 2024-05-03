@@ -277,6 +277,26 @@ const testConfig = createTestConfig(
       // ============================================================
       // ================== householdAssetsChapter ==================
       // ============================================================
+      'cash-on-hand': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('125');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'cash-in-bank': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('329.12');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'monetary-asset-checklist': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type=checkbox]')
@@ -293,6 +313,7 @@ const testConfig = createTestConfig(
       },
       'monetary-asset-values': ({ afterHook }) => {
         afterHook(() => {
+          // do U.S. Savings Bonds, and Retirement
           cy.get('va-number-input')
             .as('numberInputs')
             .should('have.length', 2);

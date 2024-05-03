@@ -63,6 +63,7 @@
           "@department-of-veterans-affairs/platform-startup/router": "./src/platform/startup/router.js",
           "@department-of-veterans-affairs/platform-startup/analytics-middleware": "./src/platform/startup/analytics-middleware.js",
 
+          "@department-of-veterans-affairs/platform-utilities/date": "./src/platform/utilities/date/index.js",
           "@department-of-veterans-affairs/platform-utilities/exports": "./src/platform/utilities/exportsFile.js",
           "@department-of-veterans-affairs/platform-utilities/environment": "./src/platform/utilities/environment/index.js",
           "@department-of-veterans-affairs/platform-utilities/stagingDomains": "./src/platform/utilities/environment/stagingDomains.js",

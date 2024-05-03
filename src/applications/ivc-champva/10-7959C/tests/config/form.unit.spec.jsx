@@ -34,7 +34,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.certifierInformation.pages.relationship.schema,
   formConfig.chapters.certifierInformation.pages.relationship.uiSchema,
-  6,
+  2,
   'Certifier relationship',
   { ...mockData.data },
 );

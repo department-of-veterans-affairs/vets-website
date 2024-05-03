@@ -1,7 +1,6 @@
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 
 import { PROFILE_PATHS } from '@@profile/constants';
-import { generateFeatureToggles } from '../../../mocks/endpoints/feature-toggles';
 import { loa3User72 } from '../../../mocks/endpoints/user';
 import {
   airForce,
@@ -13,13 +12,6 @@ import MilitaryInformation from '../military-information/MilitaryInformation';
 
 describe('Proof of Veteran status', () => {
   beforeEach(() => {
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        profileShowProofOfVeteranStatus: true,
-      }),
-    );
     cy.login(loa3User72);
     cy.intercept('GET', '/v0/user', loa3User72);
     cy.intercept('GET', '/v0/profile/full_name', fullName.success);
@@ -36,13 +28,6 @@ describe('Proof of Veteran status', () => {
 
 describe('Veteran is not eligible', () => {
   const login = ({ dischargeCode }) => {
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        profileShowProofOfVeteranStatus: true,
-      }),
-    );
     cy.login(loa3User72);
     cy.intercept('GET', '/v0/user', loa3User72);
     cy.intercept('GET', '/v0/profile/full_name', fullName.success);

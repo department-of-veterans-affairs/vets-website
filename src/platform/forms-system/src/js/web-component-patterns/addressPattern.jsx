@@ -31,6 +31,11 @@ const POSTAL_CODE_PATTERN_ERROR_MESSAGES = {
   USA: 'Enter a valid 5-digit ZIP code',
 };
 
+const CITY_ERROR_MESSAGES = {
+  default: 'City is required',
+  military: 'Select a post office type: APO, FPO, or DPO',
+};
+
 const MILITARY_CITY_TITLE = 'APO/FPO/DPO';
 const MILITARY_CITY_VALUES = constants.militaryCities.map(city => city.value);
 const MILITARY_CITY_NAMES = constants.militaryCities.map(city => city.label);
@@ -385,7 +390,7 @@ export function addressUI(options) {
       'ui:required': requiredFunc('city', true),
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
-        required: 'City is required',
+        required: CITY_ERROR_MESSAGES.default,
       },
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
@@ -407,6 +412,7 @@ export function addressUI(options) {
           const { isMilitary } = addressFormData;
           if (isMilitary) {
             ui['ui:webComponentField'] = VaSelectField;
+            ui['ui:errorMessages'].required = CITY_ERROR_MESSAGES.military;
             return {
               type: 'string',
               title: MILITARY_CITY_TITLE,
@@ -416,6 +422,7 @@ export function addressUI(options) {
           }
 
           ui['ui:webComponentField'] = VaTextInputField;
+          ui['ui:errorMessages'].required = CITY_ERROR_MESSAGES.default;
           return {
             type: 'string',
             title: 'City',

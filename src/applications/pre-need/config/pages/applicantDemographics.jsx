@@ -13,12 +13,7 @@ const { veteran } = fullSchemaPreNeed.properties.application.properties;
 export const uiSchema = {
   application: {
     'ui:title': applicantDemographicsSubHeader,
-    'view:applicantDemographicsDescription': {
-      'ui:description': applicantDemographicsDescription,
-      'ui:options': {
-        displayEmptyObjectOnReview: true,
-      },
-    },
+    'ui:description': applicantDemographicsDescription,
     veteran: veteranUI,
   },
 };
@@ -28,10 +23,6 @@ export const schema = {
     application: {
       type: 'object',
       properties: {
-        'view:applicantDemographicsDescription': {
-          type: 'object',
-          properties: {},
-        },
         veteran: {
           type: 'object',
           required: ['gender', 'race', 'maritalStatus'],

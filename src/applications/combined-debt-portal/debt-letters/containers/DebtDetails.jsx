@@ -60,10 +60,6 @@ const DebtDetails = () => {
             label: 'Home',
           },
           {
-            href: '/manage-va-debt',
-            label: 'Manage your VA debt',
-          },
-          {
             href: '/manage-va-debt/summary',
             label: 'Your VA debt and bills',
           },

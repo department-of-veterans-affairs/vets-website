@@ -1,48 +1,44 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo, getNewAppointment } from '../redux/selectors';
 import { FLOW_TYPES, TYPE_OF_VISIT } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import {
   openFormPage,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   updateFormData,
 } from '../redux/actions';
-
-const uiSchema = {
-  visitType: {
-    'ui:widget': 'radio', // Required
-    'ui:webComponentField': VaRadioField,
-    'ui:title': 'How do you want to attend this appointment?',
-    'ui:errorMessages': {
-      required: 'Select an option',
-    },
-    'ui:options': {
-      labelHeaderLevel: '1',
-    },
-  },
-};
+import { getPageTitle } from '../newAppointmentFlow';
 
 const pageKey = 'visitType';
-const pageTitle = 'How do you want to attend this appointment?';
 
-export default function TypeOfVisitPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function TypeOfVisitPage() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const { schema, data, pageChangeInProgress } = useSelector(
     state => getFormPageInfo(state, pageKey),
     shallowEqual,
   );
   const { flowType } = useSelector(getNewAppointment);
+
+  const uiSchema = {
+    visitType: {
+      'ui:widget': 'radio', // Required
+      'ui:webComponentField': VaRadioField,
+      'ui:title': pageTitle,
+      'ui:errorMessages': {
+        required: 'Select an option',
+      },
+      'ui:options': {
+        labelHeaderLevel: '1',
+      },
+    },
+  };
 
   const initialSchema = {
     type: 'object',
@@ -67,9 +63,6 @@ export default function TypeOfVisitPage({ changeCrumb }) {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
   }, []);
 
   return (
@@ -100,7 +93,3 @@ export default function TypeOfVisitPage({ changeCrumb }) {
     </div>
   );
 }
-
-TypeOfVisitPage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

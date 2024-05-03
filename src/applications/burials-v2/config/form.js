@@ -2,10 +2,10 @@ import React from 'react';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import GetFormHelp from '@department-of-veterans-affairs/platform-forms/GetPensionOrBurialFormHelp';
 import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+import GetFormHelp from '../components/GetFormHelp';
 
 import ErrorText from '../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
