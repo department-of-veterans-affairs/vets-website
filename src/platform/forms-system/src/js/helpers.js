@@ -82,13 +82,19 @@ export function getInactivePages(pages, data) {
 }
 
 export function createFormPageList(formConfig) {
-  return Object.keys(formConfig.chapters).reduce((pageList, chapter) => {
-    const chapterTitle = formConfig.chapters[chapter].title;
-    const pages = Object.keys(formConfig.chapters[chapter].pages).map(page => ({
-      ...formConfig.chapters[chapter].pages[page],
+  if (!formConfig?.chapters) return [];
+
+  return Object.keys(formConfig.chapters).reduce((pageList, chapterKey) => {
+    const chapter = formConfig.chapters[chapterKey];
+
+    if (!chapter?.pages) return pageList;
+
+    const chapterTitle = chapter?.title ?? formConfig.title;
+    const pages = Object.keys(chapter.pages).map(pageKey => ({
+      ...chapter.pages[pageKey],
       chapterTitle,
-      chapterKey: chapter,
-      pageKey: page,
+      chapterKey,
+      pageKey,
     }));
     return pageList.concat(pages);
   }, []);
@@ -135,10 +141,20 @@ export function createPageList(formConfig, formPages) {
 }
 
 export function hideFormTitle(formConfig, pathName) {
+  if (
+    !formConfig?.chapters ||
+    !Array.isArray(formConfig.chapters) ||
+    formConfig.chapters.length === 0
+  )
+    return false;
+
   const formPages = createFormPageList(formConfig);
   const pageList = createPageList(formConfig, formPages);
-  const page = pageList.filter(p => p.path === pathName)[0];
-  return formConfig?.chapters[page.chapterKey]?.hideFormTitle;
+  const page = pageList.find(p => p.path === pathName);
+
+  if (!page || !page.chapterKey) return false;
+
+  return formConfig.chapters[page.chapterKey]?.hideFormTitle ?? false;
 }
 
 function formatDayMonth(val) {
