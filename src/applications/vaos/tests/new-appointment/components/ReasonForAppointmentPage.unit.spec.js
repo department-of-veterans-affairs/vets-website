@@ -282,27 +282,26 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
     });
   });
 
-  it('should show alternate textbox char length if navigated via direct schedule flow', async () => {
+  it('should show alternate title if navigated via direct schedule flow', async () => {
     const store = createTestStore(initialState);
+    await setTypeOfFacility(store, /Community Care/i);
     store.dispatch(startDirectScheduleFlow());
-
-    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
-      store,
-    });
-
-    fireEvent.click(
-      await screen.findByLabelText(/Routine or follow-up visit/i),
+    const screen = renderWithStoreAndRouter(
+      <Route component={ReasonForAppointmentPage} />,
+      {
+        store,
+      },
     );
 
-    const textBox = screen.getByRole('textbox');
-    expect(textBox).to.exist;
-    expect(textBox)
-      .to.have.attribute('maxlength')
-      .to.equal('250');
+    expect(await screen.findByTestId('reason-comment-field')).to.have.attribute(
+      'label',
+      'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
+    );
 
     expect(
-      screen.getByRole('heading', {
-        name: /If you have an urgent medical need, please:/i,
+      await screen.getByRole('heading', {
+        level: 1,
+        name: /Tell us the reason for this appointment/i,
       }),
     );
   });
