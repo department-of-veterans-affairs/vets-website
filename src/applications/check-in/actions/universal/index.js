@@ -37,7 +37,34 @@ export const setForm = form => {
 export const RECEIVED_UPCOMING_APPOINTMENTS = 'RECEIVED_UPCOMING_APPOINTMENTS';
 
 export const recievedUpcomingAppointments = payload => {
-  const data = { upcomingAppointments: [...payload] };
+  const convertAppointments = appointments => {
+    return appointments.map(appointment => ({
+      id: appointment.id,
+      facility: appointment.attributes.location,
+      clinicPhoneNumber: null,
+      clinicFriendlyName: appointment.attributes.friendlyName,
+      clinicName: appointment.attributes.clinic,
+      clinicStopCodeName: null,
+      clinicLocation: appointment.attributes.physicalLocation,
+      doctorName: null,
+      appointmentIen: null,
+      startTime: appointment.attributes.start,
+      stationNo: null,
+      eligibility: null,
+      kind: appointment.attributes.kind,
+      clinicIen: null,
+      checkInWindowStart: null,
+      checkInWindowEnd: null,
+      checkInSteps: null,
+      checkedInTime: null,
+      status: appointment.attributes.status,
+      facilityAddress: null,
+    }));
+  };
+
+  const data = {
+    upcomingAppointments: convertAppointments(payload),
+  };
 
   return {
     type: RECEIVED_UPCOMING_APPOINTMENTS,
