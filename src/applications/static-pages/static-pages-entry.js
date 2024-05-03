@@ -92,6 +92,7 @@ import create214142Access from './simple-forms/21-4142/entry';
 import create21P0847Access from './simple-forms/21P-0847/entry';
 import create264555Access from './simple-forms/26-4555/entry';
 import create400247Access from './simple-forms/40-0247/entry';
+import createFormUploadAccess from './simple-forms/form-upload/entry';
 import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 import createBurialsV2HowDoIApplyWidget from './burials-v2-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
@@ -233,6 +234,7 @@ create214142Access(store, widgetTypes.FORM_214142_CTA);
 create21P0847Access(store, widgetTypes.FORM_21P0847_CTA);
 create264555Access(store, widgetTypes.FORM_264555_CTA);
 create400247Access(store, widgetTypes.FORM_400247_CTA);
+createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
 createBurialHowDoIApplyWidget(store, widgetTypes.BURIAL_HOW_DO_I_APPLY_WIDGET);
 createBurialsV2HowDoIApplyWidget(
   store,

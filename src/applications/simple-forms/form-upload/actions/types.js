@@ -1,0 +1,7 @@
+export const SET_LAST_PAGE = 'SET_LAST_PAGE';
+export const SET_UPLOADING = 'SET_UPLOADING';
+export const SET_PROGRESS = 'SET_PROGRESS';
+export const DONE_UPLOADING = 'DONE_UPLOADING';
+export const SET_UPLOADER = 'SET_UPLOADER';
+export const SET_UNAUTHORIZED = 'SET_UNAUTHORIZED';
+export const ADD_FILE = 'ADD_FILE';
