@@ -114,6 +114,7 @@ const formConfig = {
           uiSchema: layOrWitnessHandoffPage.uiSchema,
           schema: layOrWitnessHandoffPage.schema,
           pageClass: 'lay-or-witness-handoff',
+          hideNavButtons: true,
         },
         decisionReviewPage: {
           depends: formData =>
@@ -133,6 +134,7 @@ const formConfig = {
           uiSchema: nodOldHandoffPage.uiSchema,
           schema: nodOldHandoffPage.schema,
           pageClass: 'notice-of-disagreement-old-handoff',
+          hideNavButtons: true,
         },
         decisionReviewTypePage: {
           depends: formData =>
@@ -154,6 +156,7 @@ const formConfig = {
           uiSchema: nodSupplementalHandoffPage.uiSchema,
           schema: nodSupplementalHandoffPage.schema,
           pageClass: 'notice-of-disagreement-supplemental-handoff',
+          hideNavButtons: true,
         },
         noticeOfDisagreementHLRHandoffPage: {
           depends: formData =>
@@ -165,6 +168,7 @@ const formConfig = {
           uiSchema: nodHLRHandoffPage.uiSchema,
           schema: nodHLRHandoffPage.schema,
           pageClass: 'notice-of-disagreement-hlr-handoff',
+          hideNavButtons: true,
         },
         noticeOfDisagreementBAHandoffPage: {
           depends: formData =>
@@ -176,6 +180,7 @@ const formConfig = {
           uiSchema: nodBAHandoffPage.uiSchema,
           schema: nodBAHandoffPage.schema,
           pageClass: 'notice-of-disagreement-ba-handoff',
+          hideNavButtons: true,
         },
         priorityProcessingIntroPage: {
           depends: formData =>
@@ -248,6 +253,7 @@ const formConfig = {
           uiSchema: ppQualifiedHandoffPage.uiSchema,
           schema: ppQualifiedHandoffPage.schema,
           pageClass: 'priority-processing-qualified-handoff',
+          hideNavButtons: true,
         },
         recordsRequestHandoffPage: {
           depends: formData =>
@@ -257,6 +263,7 @@ const formConfig = {
           uiSchema: recordsRequestHandoffPage.uiSchema,
           schema: recordsRequestHandoffPage.schema,
           pageClass: 'records-request-handoff',
+          hideNavButtons: true,
         },
         newEvidenceHandoffPage: {
           depends: formData =>
@@ -266,6 +273,7 @@ const formConfig = {
           uiSchema: newEvidenceHandoffPage.uiSchema,
           schema: newEvidenceHandoffPage.schema,
           pageClass: 'new-evidence-handoff',
+          hideNavButtons: true,
         },
         vreRequestHandoffPage: {
           depends: formData =>
@@ -275,6 +283,7 @@ const formConfig = {
           uiSchema: vreRequestHandoffPage.uiSchema,
           schema: vreRequestHandoffPage.schema,
           pageClass: 'vre-request-handoff',
+          hideNavButtons: true,
         },
       },
     },
