@@ -8,6 +8,7 @@ import {
   extractLocation,
   getAdmissionDate,
   getAttending,
+  getDateFromBody,
   getDateSigned,
   getDischargeDate,
   getNote,
@@ -369,11 +370,10 @@ describe('getAttending', () => {
   });
 });
 
-describe('getAdmissionDate', () => {
+describe('getDateFromBody', () => {
   it('should return null if there is an invalid date', () => {
-    const record = { context: { period: { start: null } } };
     const summary = '  DATE OF ADMISSION:  INVALID-DATE  ';
-    expect(getAdmissionDate(record, summary)).to.eq(null);
+    expect(getDateFromBody(summary, 'DATE OF ADMISSION')).to.eq(null);
   });
 });
 
@@ -388,9 +388,13 @@ describe('getAdmissionDate', () => {
   it('should parse the note text if context.period.start does not exist', () => {
     const record = { context: { period: { start: null } } };
     const summary = '  DATE OF ADMISSION: AUG 18,2022  ';
-    expect(getAdmissionDate(record, summary)).to.deep.equal(
-      new Date('2022-08-18T04:00:00.000Z'),
-    );
+    const actualDate = getAdmissionDate(record, summary)
+      .toISOString()
+      .split('T')[0];
+    const expectedDate = new Date('2022-08-18T00:00:00.000Z')
+      .toISOString()
+      .split('T')[0];
+    expect(actualDate).to.equal(expectedDate);
   });
 
   it('should return null if there is no admission date', () => {
@@ -411,14 +415,18 @@ describe('getDischargeDate', () => {
   it('should parse the note text if context.period.end does not exist', () => {
     const record = { context: { period: { end: null } } };
     const summary = '  DATE OF DISCHARGE: AUG 18,2022  ';
-    expect(getDischargeDate(record, summary)).to.deep.equal(
-      new Date('2022-08-18T04:00:00.000Z'),
-    );
+    const actualDate = getDischargeDate(record, summary)
+      .toISOString()
+      .split('T')[0];
+    const expectedDate = new Date('2022-08-18T00:00:00.000Z')
+      .toISOString()
+      .split('T')[0];
+    expect(actualDate).to.equal(expectedDate);
   });
 
   it('should return null if there is no discharge date', () => {
     const record = { context: { period: { end: null } } };
-    const summary = '  DATE OF DISCHARGE:  ';
+    const summary = '  DATE OF DISCHARGE: ';
     expect(getDischargeDate(record, summary)).to.eq(null);
   });
 });

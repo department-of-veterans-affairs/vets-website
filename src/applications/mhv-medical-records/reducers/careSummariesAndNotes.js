@@ -124,7 +124,7 @@ export const getDateFromBody = (noteSummary, label) => {
       ?.split(label)[1]
       ?.split('\n')[0]
       ?.trim() || null;
-  const date = dateStr ? new Date(formatDateLong(dateStr)) : null;
+  const date = dateStr ? new Date(dateStr) : null;
   return isValidDate(date) ? date : null;
 };
 
