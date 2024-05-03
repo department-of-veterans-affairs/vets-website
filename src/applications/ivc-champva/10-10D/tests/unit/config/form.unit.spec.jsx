@@ -45,8 +45,8 @@ testNumberOfWebComponentFields(
   formConfig.chapters.sponsorInformation.pages.page7.schema,
   formConfig.chapters.sponsorInformation.pages.page7.uiSchema,
   2,
-  'Sponsor - identification information',
-  { ...mockData.data },
+  'Sponsor - SSN (with VA File Number)',
+  { ssn: { vaFileNumber: '123123123' } },
 );
 
 testNumberOfWebComponentFields(
@@ -329,5 +329,14 @@ describe('isRequiredFile', () => {
       schema: { properties: { [Object.keys(requiredFiles)[0]]: '' } },
     };
     expect(isRequiredFile(context)).to.equal('(Required)');
+  });
+});
+
+import FileFieldWrapped from '../../../components/FileUploadWrapper';
+
+describe('FileFieldWrapped', () => {
+  it('should be called', () => {
+    const ffw = FileFieldWrapped({});
+    expect(ffw).to.not.be.undefined;
   });
 });
