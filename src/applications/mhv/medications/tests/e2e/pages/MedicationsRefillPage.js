@@ -347,6 +347,13 @@ class MedicationsRefillPage {
       `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} prescriptions`,
     );
   };
+
+  verifyRenewableSectionHeaderOnRefillPage = () => {
+    cy.get('[data-testid="renewable-rx"]').should(
+      'contain',
+      'Prescriptions you may need to renew',
+    );
+  };
 }
 
 export default MedicationsRefillPage;
