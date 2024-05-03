@@ -10,7 +10,7 @@ import { APP_NAMES } from '../utils/appConstants';
 import UpcomingAppointmentsList from './UpcomingAppointmentsList';
 
 const UpcomingAppointments = props => {
-  const { router } = props;
+  const { router, refresh } = props;
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
   const { t } = useTranslation();
@@ -50,6 +50,14 @@ const UpcomingAppointments = props => {
     [upcomingAppointmentsDataError, updateError, app],
   );
 
+  useEffect(
+    () => {
+      if (refresh) {
+        refreshUpcomingData();
+      }
+    },
+    [refresh, refreshUpcomingData],
+  );
   let body = '';
 
   if (isLoading) {
@@ -90,7 +98,8 @@ const UpcomingAppointments = props => {
 };
 
 UpcomingAppointments.propTypes = {
-  router: PropTypes.object,
+  refresh: PropTypes.bool.isRequired,
+  router: PropTypes.object.isRequired,
 };
 
 export default UpcomingAppointments;
