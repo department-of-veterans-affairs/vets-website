@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, within } from '@testing-library/react';
 
-import ClaimLetterList from '../../../components/ClaimLetterList';
+import ClaimLetterList from '../../../components/claim-letters/ClaimLetterList';
 
 const fakeLetters = [
   {
