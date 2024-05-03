@@ -80,25 +80,26 @@ describe('Schemaform <FormApp>', () => {
   });
 
   describe('hiding and displaying form title', () => {
+    const mockPage = path => ({
+      page1: { path, schema: { type: 'object', properties: {} } },
+    });
     const formConfig = {
-      formOptions: {
-        title: 'Form Title',
-        subTitle: 'Form Subtitle',
-        chapters: {
-          formTitleHiddenChapter: {
-            title: 'Form Title Hidden',
-            hideFormTitle: true,
-            pages: { page1: { path: 'form-title-hidden' } },
-          },
-          formTitleExplicitlyDisplayedChapter: {
-            title: 'Form Title Explicitly Displayed',
-            hideFormTitle: false,
-            pages: { page1: { path: 'form-title-explicitly-displayed' } },
-          },
-          formTitleImplictlyDisplayedChapter: {
-            title: 'Form Title Implicitly Displayed',
-            pages: { page1: { path: 'form-title-implicitly-displayed' } },
-          },
+      title: 'Form Title',
+      subTitle: 'Form Subtitle',
+      chapters: {
+        formTitleHiddenChapter: {
+          title: 'Form Title Hidden',
+          hideFormTitle: true,
+          pages: mockPage('form-title-hidden'),
+        },
+        formTitleExplicitlyDisplayedChapter: {
+          title: 'Form Title Explicitly Displayed',
+          hideFormTitle: false,
+          pages: mockPage('form-title-explicitly-displayed'),
+        },
+        formTitleImplictlyDisplayedChapter: {
+          title: 'Form Title Implicitly Displayed',
+          pages: mockPage('form-title-implicitly-displayed'),
         },
       },
     };
@@ -111,8 +112,7 @@ describe('Schemaform <FormApp>', () => {
         };
         const tree = shallowFormApp({ formConfig, currentLocation });
 
-        expect(tree.everySubTree('.schemaform-title')).to.have.lengthOf(0);
-        expect(tree.everySubTree('.schemaform-subtitle')).to.have.lengthOf(0);
+        expect(tree.everySubTree('FormTitle')).to.be.empty;
       });
     });
 
@@ -124,8 +124,7 @@ describe('Schemaform <FormApp>', () => {
         };
         const tree = shallowFormApp({ formConfig, currentLocation });
 
-        expect(tree.everySubTree('.schemaform-title')).to.have.lengthOf(1);
-        expect(tree.everySubTree('.schemaform-subtitle')).to.have.lengthOf(1);
+        expect(tree.everySubTree('FormTitle')).not.to.be.empty;
       });
     });
 
@@ -137,8 +136,7 @@ describe('Schemaform <FormApp>', () => {
         };
         const tree = shallowFormApp({ formConfig, currentLocation });
 
-        expect(tree.everySubTree('.schemaform-title')).to.have.lengthOf(1);
-        expect(tree.everySubTree('.schemaform-subtitle')).to.have.lengthOf(1);
+        expect(tree.everySubTree('FormTitle')).not.to.be.empty;
       });
     });
   });
