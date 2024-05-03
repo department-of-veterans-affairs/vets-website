@@ -174,7 +174,7 @@ export default function AppointmentColumnLayout({
                 canceled={isCanceled}
                 aria-label={modalityAriaLabel}
               >
-                <span className="vaos-appts__display--table-cell vads-u-display--flex small-screen: vads-u-align-items--top small-desktop-screen:vads-u-align-items--center">
+                <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
                   {!isCommunityCare && (
                     <span
                       className={classNames(
