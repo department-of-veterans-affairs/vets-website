@@ -39,7 +39,6 @@ const UserNav = ({ isMobile, isLoading = false, profile = testProfile }) => {
   if (isLoading) {
     content = (
       <div className="loading-icon-container">
-        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-icon-component */}
         <i
           data-testid="user-nav-loading-icon"
           className="fa fa-spinner fa-spin fa-lg"

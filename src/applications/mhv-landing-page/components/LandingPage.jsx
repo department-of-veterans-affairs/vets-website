@@ -16,11 +16,9 @@ import IdentityNotVerified from '~/platform/user/authorization/components/Identi
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
 import CardLayout from './CardLayout';
-import HeaderLayoutV1 from './HeaderLayoutV1';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
-import WelcomeContainer from '../containers/WelcomeContainer';
 import { hasHealthData, personalizationEnabled } from '../selectors';
 import UnregisteredAlert from './UnregisteredAlert';
 
@@ -29,13 +27,12 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const isUnverified = useSelector(isLOA1);
   const hasHealth = useSelector(hasHealthData);
   const signInService = useSelector(signInServiceName);
-  const showPersonalization = useSelector(personalizationEnabled);
+  const showWelcomeMessage = useSelector(personalizationEnabled);
   const showCards = hasHealth && !isUnverified;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
   const noCardsDisplay = isUnverified ? (
     <IdentityNotVerified
-      disableAnalytics
       headline={unVerifiedHeadline}
       showHelpContent={false}
       showVerifyIdenityHelpInfo
@@ -68,13 +65,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
             dependencies={[externalServices.mhvPlatform]}
             render={renderMHVDowntime}
           />
-          {!showPersonalization && <HeaderLayoutV1 />}
-          {showPersonalization && (
-            <>
-              <HeaderLayout />
-              <WelcomeContainer />
-            </>
-          )}
+          <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
           {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
         </div>
         <HubLinks hubs={hubs} />
