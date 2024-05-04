@@ -29,6 +29,8 @@ describe('VAOS Page: TypeOfVisitPage ', () => {
       store,
     });
 
+    expect(await screen.findByText(/Continue/i)).to.exist;
+
     const radioSelector = screen.container.querySelector('va-radio');
     await waitFor(() => {
       expect(radioSelector).to.exist;
