@@ -563,41 +563,6 @@ describe('VAOS Component: AppointmentCard', () => {
 
     expect(await wrapper.findAllByText(/Friday, July 19/i)).to.exist;
     expect(await wrapper.findAllByText(/12:00 p.m/i)).to.exist;
-  });
-  it('should display dates correctly', async () => {
-    const appointment = {
-      ...appointmentData,
-      vaos: {
-        isVideo: false,
-        isCommunityCare: false,
-      },
-      status: 'cancelled',
-      videoData: {
-        isAtlas: false,
-        kind: 'MOBILE_ANY',
-        extension: {
-          patientHasMobileGfe: false,
-        },
-      },
-    };
-
-    const handleClick = sinon.spy();
-    const handleKeyDown = sinon.spy();
-
-    const wrapper = renderWithStoreAndRouter(
-      <AppointmentCard
-        appointment={appointment}
-        facility={facilityData}
-        handleClick={handleClick}
-        handleKeyDown={handleKeyDown}
-      />,
-      {
-        initialState,
-      },
-    );
-
-    expect(await wrapper.findAllByText(/Friday, July 19/i)).to.exist;
-    expect(await wrapper.findAllByText(/12:00 p.m/i)).to.exist;
     expect(await wrapper.findAllByText(/MT/i)).to.exist;
     expect(await wrapper.findAllByText(/Mountain time/i)).to.exist;
   });
