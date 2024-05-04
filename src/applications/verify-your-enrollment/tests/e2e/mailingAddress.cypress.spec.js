@@ -2,7 +2,7 @@ import './login';
 
 describe('Contact information', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/vye/v1/*', { statusCode: 200 });
+    cy.intercept('GET', '/vye/v1', { statusCode: 200 });
     cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
     cy.visit('/education/verify-your-enrollment/', {
@@ -12,6 +12,16 @@ describe('Contact information', () => {
       },
     });
   });
+  const fillForm = () => {
+    cy.get('[id="VYE-mailing-address-button"]').click();
+    cy.get('input[id="root_fullName"]').type('Jhon Doe');
+    cy.get('[id="root_countryCodeIso3"]').select('United States');
+    cy.get('input[id="root_addressLine1"]').type('322 26th ave apt 1');
+    cy.get('input[id="root_city"]').type('San Francisco');
+    cy.get('[id="root_stateCode"]').select('California');
+    cy.get('input[id="root_zipCode"]').type('94121');
+  };
+
   it('should navigate to benefits-profile when Manage your benefits profile link is clicked', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
@@ -77,7 +87,18 @@ describe('Contact information', () => {
       'State is required',
     );
   });
-  it('should close address form when cancle button is clicked', () => {
+  it('should send address after save button is clicked', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.login();
+    cy.get(
+      '[href="/education/verify-your-enrollment/benefits-profile/"]',
+    ).click();
+    fillForm();
+    cy.get(
+      '[aria-label="save your Mailing address for GI Bill benefits"]',
+    ).click();
+  });
+  it('should close address form when cancle button is clicked without editing the form', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       '[href="/education/verify-your-enrollment/benefits-profile/"]',
@@ -91,21 +112,41 @@ describe('Contact information', () => {
       'Mailing address',
     );
   });
-  it('should send address after save button is clicked', () => {
+  it('should show warning alert if user hits cancel after editing form', () => {
     cy.injectAxeThenAxeCheck();
     cy.login();
     cy.get(
       '[href="/education/verify-your-enrollment/benefits-profile/"]',
     ).click();
-    cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('input[id="root_fullName"]').type('Jhon Doe');
-    cy.get('[id="root_countryCodeIso3"]').select('United States');
-    cy.get('input[id="root_addressLine1"]').type('322 26th ave apt 1');
-    cy.get('input[id="root_city"]').type('San Francisco');
-    cy.get('[id="root_stateCode"]').select('California');
-    cy.get('input[id="root_zipCode"]').type('94121');
+    fillForm();
     cy.get(
-      '[aria-label="save your Mailing address for GI Bill benefits"]',
+      '[label="cancel updating your bank information for GI Bill benefits"]',
     ).click();
+    cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
+      'contain',
+      'Are you sure?',
+    );
+  });
+  it('should show warning alert if user hits cancel after editing form and it should close alert and form when user clicks Yes, cancel my changes', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.login();
+    cy.get(
+      '[href="/education/verify-your-enrollment/benefits-profile/"]',
+    ).click();
+    fillForm();
+    cy.get(
+      '[label="cancel updating your bank information for GI Bill benefits"]',
+    ).click();
+    cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
+      'contain',
+      'Are you sure?',
+    );
+    cy.get('va-button[uswds]')
+      .first()
+      .click();
+    cy.get('[class="vads-u-margin-top--0 vads-u-font-weight--bold"]').should(
+      'contain',
+      'Mailing address',
+    );
   });
 });
