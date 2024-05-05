@@ -53,6 +53,19 @@ const POARequests = () => {
   return (
     <>
       <h1 data-testid="poa-requests-heading">Power of attorney requests</h1>
+      <va-alert status="info" visible>
+        <h2 slot="headline">
+          Veterans can now digitally submit form 21-22 from VA.gov
+        </h2>
+        <div>
+          <p className="vads-u-margin-y--0">
+            Veterans can now find a VSO and sign and submit a digital version of
+            form 21-22. Digital submissions will immediately populate in the
+            table below.
+          </p>
+        </div>
+      </va-alert>
+      <h2 data-testid="poa-requests-table-heading">Requests</h2>
       {content}
     </>
   );
