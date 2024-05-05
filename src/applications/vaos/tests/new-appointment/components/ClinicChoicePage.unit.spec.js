@@ -29,6 +29,59 @@ const initialState = {
 
 describe('VAOS Page: ClinicChoicePage', () => {
   beforeEach(() => mockFetch());
+
+  it('should show the correct clinic name when filtered to matching', async () => {
+    // Given two available clinics
+    const clinics = [
+      getV2ClinicMock({
+        id: '309',
+        serviceName: 'Filtered out clinic',
+        stationId: '983',
+      }),
+      getV2ClinicMock({
+        id: '308',
+        serviceName: 'Green team clinic',
+        stationId: '983',
+      }),
+    ];
+    const facilityData = createMockCheyenneFacilityByVersion();
+    facilityData.id = '983';
+
+    // And the second clinic matches a past appointment
+    mockEligibilityFetchesByVersion({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: 'amputation',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+      matchingClinics: clinics.slice(1),
+      clinics,
+      pastClinics: true,
+    });
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /amputation/i);
+    await setVAFacility(store, '983', 'amputation', { facilityData });
+
+    // When the page is displayed
+    const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
+      store,
+    });
+    await screen.findByText(/last amputation care appointment/i);
+
+    // Then the page says the last appointment was at the matching clinic
+    expect(screen.baseElement).to.contain.text(
+      'Your last amputation care appointment was at Green team clinic:',
+    );
+
+    // And the user is asked if they want an appt at matching clinic
+    expect(screen.baseElement).to.contain.text(
+      'Would you like to make an appointment at Green team clinic',
+    );
+  });
+
   it('should display multiple clinics and require one to be chosen', async () => {
     const clinics = [
       getV2ClinicMock({
@@ -87,6 +140,8 @@ describe('VAOS Page: ClinicChoicePage', () => {
       'Please provide a response',
     );
     expect(screen.history.push.called).not.to.be.true;
+
+    await cleanup();
   });
 
   it('should go to direct schedule flow when choosing a clinic, request flow when not', async () => {
@@ -155,6 +210,8 @@ describe('VAOS Page: ClinicChoicePage', () => {
         '/new-appointment/request-date',
       ),
     );
+
+    await cleanup();
   });
 
   it('should show a yes/no choice when a single clinic is available', async () => {
@@ -232,59 +289,8 @@ describe('VAOS Page: ClinicChoicePage', () => {
         '/new-appointment/request-date',
       ),
     );
-  });
 
-  // This test times out when run together with other tests.
-  it.skip('should show the correct clinic name when filtered to matching', async () => {
-    // Given two available clinics
-    const clinics = [
-      getV2ClinicMock({
-        id: '309',
-        serviceName: 'Filtered out clinic',
-        stationId: '983',
-      }),
-      getV2ClinicMock({
-        id: '308',
-        serviceName: 'Green team clinic',
-        stationId: '983',
-      }),
-    ];
-    const facilityData = createMockCheyenneFacilityByVersion();
-    facilityData.id = '983';
-
-    // And the second clinic matches a past appointment
-    mockEligibilityFetchesByVersion({
-      siteId: '983',
-      facilityId: '983',
-      typeOfCareId: 'amputation',
-      limit: true,
-      requestPastVisits: true,
-      directPastVisits: true,
-      matchingClinics: clinics.slice(1),
-      clinics,
-      pastClinics: true,
-    });
-
-    const store = createTestStore(initialState);
-
-    await setTypeOfCare(store, /amputation/i);
-    await setVAFacility(store, '983', 'amputation', { facilityData });
-
-    // When the page is displayed
-    const screen = renderWithStoreAndRouter(<ClinicChoicePage />, {
-      store,
-    });
-    await screen.findByText(/last amputation care appointment/i);
-
-    // Then the page says the last appointment was at the matching clinic
-    expect(screen.baseElement).to.contain.text(
-      'Your last amputation care appointment was at Green team clinic:',
-    );
-
-    // And the user is asked if they want an appt at matching clinic
-    expect(screen.baseElement).to.contain.text(
-      'Would you like to make an appointment at Green team clinic',
-    );
+    await cleanup();
   });
 
   it('should retain form data after page changes', async () => {
@@ -336,5 +342,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     await waitFor(
       () => expect(screen.getByLabelText(/red team/i).checked).to.be.true,
     );
+
+    await cleanup();
   });
 });
