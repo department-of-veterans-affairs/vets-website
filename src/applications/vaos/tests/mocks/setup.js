@@ -508,20 +508,21 @@ export async function setCommunityCareFlow({
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {MomentDate} label The name of the city to select
+ * @param {MomentDate} cityValue The value of the city to select
  * @returns {string} The url path that was routed to after clicking Continue
  */
-export async function setClosestCity(store, label) {
-  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
-    <ClosestCityStatePage />,
-    { store },
-  );
+export async function setClosestCity(store, cityValue) {
+  const screen = renderWithStoreAndRouter(<ClosestCityStatePage />, { store });
 
-  const radioButton = await findByLabelText(label);
-  fireEvent.click(radioButton);
-  fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(history.push.called).to.be.true);
+  const radioSelector = screen.container.querySelector('va-radio');
+  const changeEvent = new CustomEvent('selected', {
+    detail: { value: cityValue },
+  });
+  radioSelector.__events.vaValueChange(changeEvent);
+
+  fireEvent.click(screen.getByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
