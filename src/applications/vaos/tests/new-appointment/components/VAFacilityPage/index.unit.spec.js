@@ -264,6 +264,14 @@ describe('VAOS Page: VAFacilityPage', () => {
         store,
       });
 
+      // Radio buttons only show up after all the data is loaded, which
+      // should mean all page rendering is finished
+      await screen.findAllByRole('radio');
+
+      // This functionality is not possible given current implementation of
+      // FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED in the reducer.js. On lines
+      // 324-326, vaFacility is cleared when multiple facilities offers the
+      // requested type of care.
       expect(
         await screen.findByLabelText(/Fake facility name 1/i),
       ).to.have.attribute('checked');
