@@ -255,6 +255,7 @@ export async function setTypeOfEyeCare(store, label) {
 export async function setVAFacility(
   store,
   facilityId,
+  typeOfCareId = 'primaryCare',
   { facilityData = null } = {},
 ) {
   // TODO: Make sure this works in staging before removal
@@ -271,23 +272,20 @@ export async function setVAFacility(
   mockSchedulingConfigurations([
     getSchedulingConfigurationMock({
       id: '983',
-      typeOfCareId: 'primaryCare',
+      typeOfCareId,
       directEnabled: true,
       requestEnabled: true,
     }),
   ]);
 
-  const { findByText, history } = renderWithStoreAndRouter(
-    <VAFacilityPageV2 />,
-    { store },
-  );
+  const screen = renderWithStoreAndRouter(<VAFacilityPageV2 />, { store });
 
-  const continueButton = await findByText(/Continue/);
+  const continueButton = await screen.findByText(/Continue/);
   fireEvent.click(continueButton);
-  await waitFor(() => expect(history.push.called).to.be.true);
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
 
 /**
