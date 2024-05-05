@@ -32,24 +32,20 @@ describe('VAOS Page: TypeOfVisitPage ', () => {
     expect(await screen.findByText(/Continue/i)).to.exist;
 
     const radioSelector = screen.container.querySelector('va-radio');
-    await waitFor(() => {
-      expect(radioSelector).to.exist;
-      expect(radioSelector).to.have.attribute(
-        'label',
-        'How do you want to attend this appointment?',
-      );
-    });
+    expect(radioSelector).to.exist;
+    expect(radioSelector).to.have.attribute(
+      'label',
+      'How do you want to attend this appointment?',
+    );
 
     const radioOptions = screen.container.querySelectorAll('va-radio-option');
-    await waitFor(() => {
-      expect(radioOptions).to.have.lengthOf(3);
-      expect(radioOptions[0]).to.have.attribute('label', 'In person');
-      expect(radioOptions[1]).to.have.attribute('label', 'By phone');
-      expect(radioOptions[2]).to.have.attribute(
-        'label',
-        'Through VA Video Connect (telehealth)',
-      );
-    });
+    expect(radioOptions).to.have.lengthOf(3);
+    expect(radioOptions[0]).to.have.attribute('label', 'In person');
+    expect(radioOptions[1]).to.have.attribute('label', 'By phone');
+    expect(radioOptions[2]).to.have.attribute(
+      'label',
+      'Through VA Video Connect (telehealth)',
+    );
   });
 
   it('should not submit empty form', async () => {
@@ -79,6 +75,9 @@ describe('VAOS Page: TypeOfVisitPage ', () => {
       },
     );
 
+    // Wait for page to render completely
+    expect(await screen.findByText(/Continue/i)).to.exist;
+
     const radioSelector = screen.container.querySelector('va-radio');
     const changeEvent = new CustomEvent('selected', {
       detail: { value: 'clinic' },
@@ -106,6 +105,9 @@ describe('VAOS Page: TypeOfVisitPage ', () => {
         store,
       },
     );
+
+    // Wait for page to render completely
+    expect(await screen.findByText(/Continue/i)).to.exist;
 
     const radioSelector = screen.container.querySelector('va-radio');
     const changeEvent = new CustomEvent('selected', {
