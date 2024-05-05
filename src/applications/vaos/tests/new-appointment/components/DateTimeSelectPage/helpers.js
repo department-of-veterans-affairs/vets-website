@@ -1,11 +1,12 @@
 import moment from 'moment';
 
-import { mockAppointmentSlotFetch } from '../../../mocks/helpers';
-import { getAppointmentSlotMock } from '../../../mocks/v0';
+import { mockAppointmentSlotFetch } from '../../../mocks/helpers.v2';
+import { getAppointmentSlotMock } from '../../../mocks/v2';
 import { mockEligibilityFetchesByVersion } from '../../../mocks/fetch';
 import { createMockClinicByVersion } from '../../../mocks/data';
 
 export function setDateTimeSelectMockFetches({
+  typeOfCareId = 'primaryCare',
   preferredDate = moment(),
   slotError = false,
   slotDatesByClinicId = {},
@@ -25,7 +26,7 @@ export function setDateTimeSelectMockFetches({
 
   mockEligibilityFetchesByVersion({
     facilityId: '983',
-    typeOfCareId: 'primaryCare',
+    typeOfCareId,
     limit: true,
     requestPastVisits: true,
     clinics: clinicIds.length === 2 ? clinics : [clinics[0]],
@@ -33,7 +34,7 @@ export function setDateTimeSelectMockFetches({
   });
   mockEligibilityFetchesByVersion({
     facilityId: '983',
-    typeOfCareId: 'primaryCare',
+    typeOfCareId,
     limit: true,
     directPastVisits: true,
     clinics: clinicIds.length === 2 ? clinics : [clinics[0]],
@@ -45,19 +46,20 @@ export function setDateTimeSelectMockFetches({
       const slots = slotDatesByClinicId[id].map(date => {
         return {
           ...getAppointmentSlotMock(),
-          startDateTime: date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
-          endDateTime: date
-            .clone()
-            .minute(20)
-            .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          attributes: {
+            start: date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+            end: date
+              .clone()
+              .minute(20)
+              .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+          },
         };
       });
       mockAppointmentSlotFetch({
-        siteId: '983',
-        clinicId: id,
-        typeOfCareId: '323',
-        slots,
+        facilityId: '983',
         preferredDate,
+        clinicId: id,
+        response: slots,
       });
     });
   }
