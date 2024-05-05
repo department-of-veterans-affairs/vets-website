@@ -9,7 +9,7 @@ import {
 } from '../../actions/poaRequests';
 import mockResponseData from '../../mocks/mockPOARequestsResponse.json';
 
-const prefix = `${environment.API_URL}/accredited_representative_portal/v0`;
+const API_PREFIX = `${environment.API_URL}/accredited_representative_portal/v0`;
 const server = setupServer();
 
 beforeEach(() => server.listen());
@@ -22,7 +22,7 @@ describe('POA Request Handling', () => {
   it('handles acceptPOARequest successfully', async () => {
     server.use(
       rest.post(
-        `${prefix}/power_of_attorney_requests/:procId/accept`,
+        `${API_PREFIX}/power_of_attorney_requests/:procId/accept`,
         (_, res, ctx) => {
           return res(ctx.json({ status: 'success' }), ctx.status(200));
         },
@@ -36,7 +36,7 @@ describe('POA Request Handling', () => {
   it('handles declinePOARequest successfully', async () => {
     server.use(
       rest.post(
-        `${prefix}/power_of_attorney_requests/:procId/decline`,
+        `${API_PREFIX}/power_of_attorney_requests/:procId/decline`,
         (_, res, ctx) => {
           return res(ctx.json({ status: 'success' }), ctx.status(200));
         },
@@ -50,7 +50,7 @@ describe('POA Request Handling', () => {
   it('returns an error status when the server responds with an error for accept', async () => {
     server.use(
       rest.post(
-        `${prefix}/power_of_attorney_requests/:procId/accept`,
+        `${API_PREFIX}/power_of_attorney_requests/:procId/accept`,
         (_, res, ctx) => {
           return res(ctx.status(500));
         },
@@ -68,7 +68,7 @@ describe('POA Request Handling', () => {
   it('returns an error status when the server responds with an error for decline', async () => {
     server.use(
       rest.post(
-        `${prefix}/power_of_attorney_requests/:procId/decline`,
+        `${API_PREFIX}/power_of_attorney_requests/:procId/decline`,
         (_, res, ctx) => {
           return res(ctx.status(500));
         },
@@ -86,7 +86,7 @@ describe('POA Request Handling', () => {
   it('handles network errors gracefully for accept', async () => {
     server.use(
       rest.post(
-        `${prefix}/power_of_attorney_requests/:procId/accept`,
+        `${API_PREFIX}/power_of_attorney_requests/:procId/accept`,
         (_, res, ctx) => {
           return res(ctx.status(503));
         },
@@ -104,7 +104,7 @@ describe('POA Request Handling', () => {
   it('handles network errors gracefully for decline', async () => {
     server.use(
       rest.post(
-        `${prefix}/power_of_attorney_requests/:procId/decline`,
+        `${API_PREFIX}/power_of_attorney_requests/:procId/decline`,
         (_, res, ctx) => {
           return res(ctx.status(503));
         },
@@ -124,7 +124,7 @@ describe('POA Requests Retrieval', () => {
   it('retrieves POA requests successfully for multiple codes', async () => {
     const testPoaCodes = 'AB123,CD456';
     server.use(
-      rest.get(`${prefix}/power_of_attorney_requests`, (req, res, ctx) => {
+      rest.get(`${API_PREFIX}/power_of_attorney_requests`, (req, res, ctx) => {
         const queryPoaCodes = req.url.searchParams.get('poa_codes');
         if (queryPoaCodes === testPoaCodes) {
           return res(ctx.json(mockResponseData), ctx.status(200));
@@ -142,7 +142,7 @@ describe('POA Requests Retrieval', () => {
 
   it('returns an error status when the server responds with an error', async () => {
     server.use(
-      rest.get(`${prefix}/power_of_attorney_requests`, (_, res, ctx) => {
+      rest.get(`${API_PREFIX}/power_of_attorney_requests`, (_, res, ctx) => {
         return res(ctx.status(500));
       }),
     );
@@ -157,7 +157,7 @@ describe('POA Requests Retrieval', () => {
 
   it('handles network errors gracefully', async () => {
     server.use(
-      rest.get(`${prefix}/power_of_attorney_requests`, (_, res, ctx) => {
+      rest.get(`${API_PREFIX}/power_of_attorney_requests`, (_, res, ctx) => {
         return res(ctx.status(503));
       }),
     );
