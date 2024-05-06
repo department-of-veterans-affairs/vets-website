@@ -5,7 +5,6 @@ import { AXE_CONTEXT, Data } from './utils/constants';
 
 describe('Secure Messaging Compose Errors', () => {
   const landingPage = new PatientInboxPage();
-  const composePage = new PatientComposePage();
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
@@ -14,47 +13,49 @@ describe('Secure Messaging Compose Errors', () => {
   });
 
   it('error message for no recipient', () => {
-    composePage.selectCategory();
-    composePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
-    composePage
-      .getMessageBodyField()
-      .type(Data.TEST_MESSAGE_BODY, { force: true });
-    composePage.clickSaveDraftButton();
+    PatientComposePage.selectCategory();
+    PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
+    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
+      force: true,
+    });
+    PatientComposePage.clickSaveDraftButton();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    composePage.verifyFocusOnErrorMessage(Data.PLEASE_SELECT_RECIPIENT);
+    PatientComposePage.verifyFocusOnErrorMessage(Data.PLEASE_SELECT_RECIPIENT);
   });
 
   it('focus on error message for empty category', () => {
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    composePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
-    composePage.getMessageBodyField();
-    composePage.clickSaveDraftButton();
-    composePage.verifyFocusOnErrorMessage(Data.PLEASE_SELECT_CATEGORY);
+    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
+    PatientComposePage.getMessageBodyField();
+    PatientComposePage.clickSaveDraftButton();
+    PatientComposePage.verifyFocusOnErrorMessage(Data.PLEASE_SELECT_CATEGORY);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('focus on error message for empty message subject', () => {
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    composePage.selectCategory();
-    composePage
-      .getMessageBodyField()
-      .type(Data.TEST_MESSAGE_BODY, { force: true });
-    composePage.clickSaveDraftButton();
-    composePage.verifyFocusOnErrorMessage(Data.SUBJECT_CANNOT_BLANK);
+    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.selectCategory();
+    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
+      force: true,
+    });
+    PatientComposePage.clickSaveDraftButton();
+    PatientComposePage.verifyFocusOnErrorMessage(Data.SUBJECT_CANNOT_BLANK);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('focus on error message for empty message body', () => {
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    composePage.selectCategory();
-    composePage
-      .getMessageSubjectField()
-      .type(Data.TEST_SUBJECT, { force: true });
-    composePage.clickSaveDraftButton();
-    composePage.verifyFocusOnErrorMessage('Message body cannot be blank.');
+    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.selectCategory();
+    PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT, {
+      force: true,
+    });
+    PatientComposePage.clickSaveDraftButton();
+    PatientComposePage.verifyFocusOnErrorMessage(
+      'Message body cannot be blank.',
+    );
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
