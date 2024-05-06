@@ -1,6 +1,5 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns';
-import { teraInformationEnabled } from '../../../utils/helpers/form-config';
 
 const {
   campLejeune,
@@ -35,33 +34,6 @@ export default {
       swAsiaCombat: {
         'ui:title':
           'Served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998',
-      },
-      vietnamService: {
-        'ui:title':
-          'Served in Vietnam between January 9, 1962, and May 7, 1975',
-        'ui:options': {
-          hideIf: teraInformationEnabled,
-        },
-      },
-      exposedToRadiation: {
-        'ui:title': 'Exposed to radiation while in the military',
-        'ui:options': {
-          hideIf: teraInformationEnabled,
-        },
-      },
-      radiumTreatments: {
-        'ui:title':
-          'Received nose/throat radium treatments while in the military',
-        'ui:options': {
-          hideIf: teraInformationEnabled,
-        },
-      },
-      campLejeune: {
-        'ui:title':
-          'Served on active duty at least 30 days at Camp Lejeune from January 1, 1953, through December 31, 1987',
-        'ui:options': {
-          hideIf: teraInformationEnabled,
-        },
       },
     },
   },
