@@ -150,7 +150,7 @@ function ToeApp({
       setFormData,
       showMebEnhancements08,
       toeLightHouseDgiDirectDeposit,
-      toeHighSchoolInfoChange
+      toeHighSchoolInfoChange,
     ],
   );
 
@@ -224,7 +224,7 @@ ToeApp.propTypes = {
 const mapStateToProps = state => {
   return {
     ...getAppData(state),
-    dob: state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
+    dob: state?.user?.profile?.dob,
     formData: state.form?.data || {},
     claimant: state.data?.formData?.data?.attributes?.claimant,
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
