@@ -1,7 +1,8 @@
 import React from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { PowerTools } from './PowerTools';
+import { TogglesTab } from './tabs/TogglesTab';
 import { PowerToolsFloatingButton } from './PowerToolsFloatingButton';
+import { UserTab } from './tabs/UserTab';
 
 export const PowerToolsTabs = ({ powerToolsApi }) => {
   const {
@@ -14,9 +15,9 @@ export const PowerToolsTabs = ({ powerToolsApi }) => {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'toggles':
-        return <PowerTools powerToolsApi={powerToolsApi} />;
+        return <TogglesTab powerToolsApi={powerToolsApi} />;
       case 'user':
-        return <div>User tab content</div>;
+        return <UserTab />;
       case 'other':
         return <div>Other tab content</div>;
       default:

@@ -47,14 +47,14 @@
 #va-power-tools {
   background-color: var(--vads-color-white);
   position: fixed;
-  right: 0;
+  left: 0;
   top: 1vw;
   border-radius: 1rem;
   overflow: scroll;
   max-height: 100vh;
   min-height: 25vh;
   max-width: 100vw;
-  min-width: 22vw;
+  width: 22vw;
   height: 90vh;
   resize: both;
   box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
@@ -64,7 +64,7 @@
 
 .power-tools-show-hide {
   position: fixed;
-  right: 1vw;
+  left: 1vw;
   bottom: 1vw;
   cursor: pointer;
   border-radius: 50%;
@@ -135,4 +135,11 @@
 .switch-container.focus span.container,
 .switch-container:hover span.container {
   background-color: var(--vads-color-white);
+}
+
+.tab-save-button {
+  position: sticky;
+  text-align: right;
+  right: 0px;
+  bottom: 5px;
 }
