@@ -13,7 +13,6 @@ import {
   checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { requiredFiles } from '../config/constants';
-import { applicantWording } from '../../shared/utilities';
 import { isRequiredFile, nameWording } from '../helpers/utilities';
 import {
   fileWithMetadataSchema,
@@ -260,7 +259,7 @@ export function applicantInsuranceTypeSchema(isPrimary) {
           labels: {
             hmo: 'Health Maintenance Organization (HMO) program',
             ppo: 'Preferred Provider Organization (PPO) program',
-            medicaidOrStateAssistance: 'Medicaid or a State Assistance program',
+            medicaid: 'Medicaid or a State Assistance program',
             rxDiscount: 'PrescriptionDiscount',
             other:
               'Other (specialty, limited coverage, or exclusively CHAMPVA supplemental) insurance',
@@ -288,7 +287,7 @@ export function applicantInsuranceTypeSchema(isPrimary) {
         [keyname]: checkboxGroupSchema([
           'hmo',
           'ppo',
-          'medicaidOrStateAssistance',
+          'medicaid',
           'rxDiscount',
           'other',
           'medigap',
@@ -348,7 +347,7 @@ export function applicantInsuranceCommentsSchema(isPrimary) {
     uiSchema: {
       ...titleUI(
         ({ formData }) =>
-          `${applicantWording(formData)} ${
+          `${nameWording(formData)} ${
             isPrimary
               ? formData?.applicantPrimaryProvider
               : formData?.applicantSecondaryProvider
@@ -386,7 +385,7 @@ export function applicantInsuranceCardSchema(isPrimary) {
             requiredFiles,
           )}`,
         ({ formData }) => {
-          const appName = applicantWording(formData);
+          const appName = nameWording(formData);
           return (
             <>
               You’ll need to submit a copy of the front and back of {appName}{' '}
