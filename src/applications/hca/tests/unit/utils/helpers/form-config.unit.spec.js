@@ -196,11 +196,6 @@ describe('hca form config helpers', () => {
       const formData = getData({ response: false });
       expect(includeTeraInformation(formData)).to.be.false;
     });
-
-    it('should return `false` when feature flag is disabled', () => {
-      const formData = getData({ enabled: false });
-      expect(includeTeraInformation(formData)).to.be.false;
-    });
   });
 
   context('when `includeGulfWarServiceDates` executes', () => {
