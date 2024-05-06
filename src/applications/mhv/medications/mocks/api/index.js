@@ -20,6 +20,7 @@ const responses = {
   'GET /v0/user': user.defaultUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvMedicationsToVaGovRelease: true,
+    mhvMedicationsDisplayRefillContent: true,
     mhvMedicationsBreadcrumbs: true,
   }),
   // VAMC facility data that apps query for on startup
