@@ -65,7 +65,7 @@ const BenefitsProfileWrapper = ({ children }) => {
               applicantChapter={applicantChapter}
               applicantName={applicantName}
             />
-            {toggleValue ? (
+            {toggleValue || window.isProduction ? (
               <>
                 <ChangeOfAddressWrapper
                   loading={loading}

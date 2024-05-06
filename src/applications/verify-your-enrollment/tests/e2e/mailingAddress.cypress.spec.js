@@ -127,6 +127,28 @@ describe('Contact information', () => {
       'Are you sure?',
     );
   });
+  it('should show warning alert if user hits cancel after editing form and it should go back to thr form when user clicks "No, go back to editing" button', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.login();
+    cy.get(
+      '[href="/education/verify-your-enrollment/benefits-profile/"]',
+    ).click();
+    fillForm();
+    cy.get(
+      '[label="cancel updating your bank information for GI Bill benefits"]',
+    ).click();
+    cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
+      'contain',
+      'Are you sure?',
+    );
+    cy.get('va-button[uswds]')
+      .last()
+      .click({ force: true });
+    cy.get('[id="root_fullName-label"]').should(
+      'contain',
+      "Veteran's Full Name",
+    );
+  });
   it('should show warning alert if user hits cancel after editing form and it should close alert and form when user clicks Yes, cancel my changes', () => {
     cy.injectAxeThenAxeCheck();
     cy.login();
