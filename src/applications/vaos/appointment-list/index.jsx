@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import AppointmentsPage from './components/AppointmentsPage/index';
 import AppointmentNotificationPage from '../referral-appointments/AppointmentNotificationsPage';
 import ReviewApproved from '../referral-appointments/ReviewApproved';
+import ChooseCommunityCare from '../referral-appointments/ChooseCommunityCare';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
@@ -20,6 +21,10 @@ function AppointmentListSection() {
     <>
       {!featureBreadcrumbUrlUpdate && (
         <Switch>
+          <Route
+            path="/choose-community-care-appointment"
+            component={ChooseCommunityCare}
+          />
           <Route
             path="/appointment-notifications"
             component={AppointmentNotificationPage}
@@ -46,6 +51,10 @@ function AppointmentListSection() {
       )}
       {featureBreadcrumbUrlUpdate && (
         <Switch>
+          <Route
+            path="/choose-community-care-appointment"
+            component={ChooseCommunityCare}
+          />
           <Route
             path="/appointment-notifications"
             component={AppointmentNotificationPage}
