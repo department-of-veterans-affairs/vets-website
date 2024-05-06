@@ -21,6 +21,9 @@ export const uiSchema = {
     veteran: merge({}, veteranUI, {
       ethnicity: { 'ui:title': 'What’s the sponsor’s ethnicity?' },
       race: { 'ui:title': 'What’s the sponsor’s race?' },
+      raceComment: {
+        'ui:title': 'Enter the race that best describes the sponsor',
+      },
     }),
   },
 };
@@ -37,10 +40,16 @@ export const schema = {
         },
         veteran: {
           type: 'object',
-          required: ['ethnicity', 'race'],
+          required: ['ethnicity', 'race', 'raceComment'],
           properties: merge(
             {},
             pick(veteran.properties, ['ethnicity', 'race']),
+            {
+              raceComment: {
+                type: 'string',
+                maxLength: 100,
+              },
+            },
           ),
         },
       },
