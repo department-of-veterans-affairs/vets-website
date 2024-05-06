@@ -61,11 +61,13 @@ const SELECTORS = {
 
 const checkMilitaryAddress = () => {
   cy.get(SELECTORS.INFO).should('exist');
-  cy.get(`[name="${SELECTORS.COUNTRY}"][inert]`).should('not.exist');
+  cy.get(`va-select[name="${SELECTORS.COUNTRY}"]`).should('exist');
 
   cy.selectVaCheckbox(SELECTORS.BASE, true);
 
-  cy.get(`[name="${SELECTORS.COUNTRY}"][inert]`).should('exist');
+  cy.get(`va-select[name="${SELECTORS.COUNTRY}"]`)
+    .should('exist')
+    .should('have.attr', 'inert');
 
   // reset things back to the way they were when this function started
   cy.selectVaCheckbox(SELECTORS.BASE, false);
