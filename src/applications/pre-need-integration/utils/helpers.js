@@ -231,30 +231,48 @@ export const nonVeteranApplicantDetailsDescription =
 export const nonVeteranApplicantDetailsDescriptionPreparer =
   'Provide the details for the person you are filling out the application for (called the applicant). Then we’ll ask for the details for the Veteran or service member the applicant is connected to.';
 
-// do not render with a prod flag
-export const applicantContactInfoDescriptionVet = (
-  <va-additional-info trigger="Why do we need your contact details?">
+export const applicantContactInfoAddressTitle = 'Your mailing address';
+
+export const applicantContactInfoPreparerAddressTitle =
+  'Applicant’s mailing address';
+
+export const applicantContactInfoSubheader = (
+  <div className="applicantContactInfoSubheader">
+    <h3 className="vads-u-font-size--h5">Your contact details</h3>
+  </div>
+);
+
+export const applicantContactInfoPreparerSubheader = (
+  <div className="applicantContactInfoPreparerSubheader">
+    <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>
+  </div>
+);
+
+export const sponsorContactInfoSubheader = (
+  <div className="sponsorContactInfoSubheader">
+    <h3 className="vads-u-font-size--h5">Sponsor’s contact details</h3>
+  </div>
+);
+
+export const bottomPadding = <div className="bottomPadding" />;
+
+export const applicantContactInfoDescription = (
+  <va-additional-info trigger="Why we ask for your contact details">
     <p>
-      We may reach out by phone if we need more information about your
-      application.
-    </p>
-    <p>
-      Your email address will be used to send a confirmation message once you’ve
-      submitted your application.
+      Once you’ve submitted this application, we’ll send you an email
+      confirmation. We may contact you by phone or mail if we need more
+      information about this application.
     </p>
   </va-additional-info>
 );
 
-// do not render with a prod flag
-export const applicantContactInfoDescriptionNonVet = (
-  <va-additional-info trigger="Why do we need the applicant’s contact details?">
+export const applicantContactInfoPreparerDescription = <p />;
+
+export const sponsorContactInfoDescription = (
+  <va-additional-info trigger="Why we ask for contact details">
     <p>
-      We may reach out by phone if we need more information about the
-      application.
-    </p>
-    <p>
-      Their email address will be used to send a confirmation message once the
-      application is submitted.
+      We may contact the sponsor by phone or mail if we need more information
+      about this application.
     </p>
   </va-additional-info>
 );

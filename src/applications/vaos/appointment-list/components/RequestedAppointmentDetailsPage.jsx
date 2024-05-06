@@ -28,6 +28,7 @@ import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import FacilityAddress from '../../components/FacilityAddress';
 import FacilityPhone from '../../components/FacilityPhone';
+import { VARequestLayout } from '../../components/layout/VARequestLayout';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -285,29 +286,33 @@ export default function RequestedAppointmentDetailsPage() {
 
   if (featureAppointmentDetailsRedesign) {
     if (cancelInfo.showCancelModal === false) {
-      return <Content />;
+      return <VARequestLayout />;
     }
     if (
       cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted ||
       cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading
     ) {
       return (
-        <CancelWarningPage
-          {...{
-            appointment,
-            cancelInfo,
-          }}
-        />
+        <PageLayout showNeedHelp>
+          <CancelWarningPage
+            {...{
+              appointment,
+              cancelInfo,
+            }}
+          />
+        </PageLayout>
       );
     }
     if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
       return (
-        <CancelConfirmationPage
-          {...{
-            appointment,
-            cancelInfo,
-          }}
-        />
+        <PageLayout showNeedHelp>
+          <CancelConfirmationPage
+            {...{
+              appointment,
+              cancelInfo,
+            }}
+          />
+        </PageLayout>
       );
     }
     if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.failed) {
