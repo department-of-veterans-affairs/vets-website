@@ -244,7 +244,6 @@ export function LocationSearchForm({
               inputRef={inputRef}
               className="location-search"
               type="location"
-              required
               inputValue={location}
               label="City, state, or postal code"
               labelAdditional={
