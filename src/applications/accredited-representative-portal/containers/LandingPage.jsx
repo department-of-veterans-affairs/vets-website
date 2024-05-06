@@ -32,7 +32,7 @@ const LandingPage = () => {
                 to="/poa-requests"
                 className="vads-c-action-link--white"
               >
-                Until sign in is added use this to see dashboard
+                Until sign in is added use this to simulate sign in
               </Link>
             </div>
           </div>
