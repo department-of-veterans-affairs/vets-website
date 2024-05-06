@@ -29,7 +29,7 @@ const LandingPage = () => {
               </p>
               <Link
                 data-testid="landing-page-bypass-sign-in-link"
-                to="/dashboard"
+                to="/poa-requests"
                 className="vads-c-action-link--white"
               >
                 Until sign in is added use this to see dashboard
