@@ -173,7 +173,7 @@ export function militaryDetailsSubHeader(formData) {
     <div className="militaryDetailsSubHeader">
       {get('applicant.applicantRelationshipToClaimant', formData.formData) ===
       'Authorized Agent/Rep' ? (
-        <h3 className="vads-u-font-size--h5">Applicant's military details</h3>
+        <h3 className="vads-u-font-size--h5">Applicant’s military details</h3>
       ) : (
         <h3 className="vads-u-font-size--h5">Your military details</h3>
       )}
@@ -743,7 +743,7 @@ export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
 });
 
 export const VAClaimNumberAdditionalInfo = (
-  <va-additional-info trigger="What is a ”VA claim number&quot;?">
+  <va-additional-info trigger="What is a “VA claim number”?">
     <p>
       We used to give a VA claim number to every person who applied for VA
       benefits or services. We no longer give people these numbers. But if you
@@ -1059,7 +1059,7 @@ export const selfServiceRecordsUI = {
 };
 
 export const preparerServiceRecordsUI = {
-  'ui:title': "Applicant's service period(s)",
+  'ui:title': 'Applicant’s service period(s)',
   'ui:options': {
     viewField: ServicePeriodView,
     itemName: 'Service period',
