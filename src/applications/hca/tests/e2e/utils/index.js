@@ -93,6 +93,8 @@ export const advanceToHousehold = () => {
   cy.get('[name="root_vaPensionType"]').check('No');
   goToNextPage('/military-service/service-information');
   goToNextPage('/military-service/additional-information');
+  goToNextPage('/military-service/toxic-exposure');
+  cy.get('[name="root_hasTeraResponse"]').check('N');
   goToNextPage('/household-information/financial-information-use');
 };
 
@@ -201,6 +203,9 @@ export const shortFormSelfDisclosureToSubmit = () => {
   cy.findAllByText(/confirm/i, { selector: 'button' })
     .first()
     .click();
+
+  cy.get('[name="root_hasTeraResponse"]').check('N');
+  goToNextPage('/insurance-information/medicaid');
 
   // medicaid page with short form message
   shortFormAdditionalHelpAssertion();
