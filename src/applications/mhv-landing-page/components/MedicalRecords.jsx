@@ -72,13 +72,9 @@ const MedicalRecords = ({ blueButtonUrl }) => (
     <h2>What’s coming soon</h2>
 
     <p className="vads-u-font-size--md vads-u-measure--4">
-      We’re working on bringing all your medical records together under one roof
-      here on VA.gov. When it’s ready, you’ll be able to quickly find, print, or
-      download each type of record according to your needs.
-    </p>
-
-    <p className="vads-u-font-size--md">
-      Types of records coming soon include:
+      We’re working on bringing all your VA medical records together in a single
+      tool here on VA.gov. When it’s ready, you’ll be able to quickly find,
+      print, or download these types of records:
     </p>
 
     <ul className="vads-u-font-size--md">
