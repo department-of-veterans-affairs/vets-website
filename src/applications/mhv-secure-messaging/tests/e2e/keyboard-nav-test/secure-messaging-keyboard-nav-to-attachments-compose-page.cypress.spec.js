@@ -7,33 +7,33 @@ import requestBody from '../fixtures/message-compose-request-body.json';
 describe('Secure Messaging Keyboard Nav to Attachment', () => {
   it('Keyboard Nav to Focus on Attachment', () => {
     const landingPage = new PatientInboxPage();
-    const composePage = new PatientComposePage();
+    // const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
     site.login();
     landingPage.loadInboxMessages();
     landingPage.navigateToComposePage();
-    composePage.selectRecipient(requestBody.recipientId);
-    composePage.selectCategory(`${requestBody.category}`);
+    PatientComposePage.selectRecipient(requestBody.recipientId);
+    PatientComposePage.selectCategory(`${requestBody.category}`);
     // cy.tabToElement('#OTHEROTHERinput');
     // cy.realPress(['Enter']);
-    composePage
-      .getMessageSubjectField()
-      .type(`${requestBody.subject}`, { force: true });
-    composePage
-      .getMessageBodyField()
-      .type(`${requestBody.body}`, { force: true });
+    PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`, {
+      force: true,
+    });
+    PatientComposePage.getMessageBodyField().type(`${requestBody.body}`, {
+      force: true,
+    });
     // verify attachments button has "Attach file" with no attachments
-    composePage.verifyAttachmentButtonText(0);
-    composePage.attachMessageFromFile(Data.TEST_IMAGE);
-    composePage.verifyFocusOnMessageAttachment();
+    PatientComposePage.verifyAttachmentButtonText(0);
+    PatientComposePage.attachMessageFromFile(Data.TEST_IMAGE);
+    PatientComposePage.verifyFocusOnMessageAttachment();
     // verify attachments button has "Attach additional file" with one or more attachments
-    composePage.verifyAttachmentButtonText(1);
-    composePage.attachMessageFromFile(Data.SAMPLE_DOC);
-    composePage.verifyFocusOnMessageAttachment();
+    PatientComposePage.verifyAttachmentButtonText(1);
+    PatientComposePage.attachMessageFromFile(Data.SAMPLE_DOC);
+    PatientComposePage.verifyFocusOnMessageAttachment();
     //
     cy.realPress('Enter');
     // After closing the attachment banner, first attachment remove button has focus
-    composePage.verifyRemoveAttachmentButtonHasFocus(0);
+    PatientComposePage.verifyRemoveAttachmentButtonHasFocus(0);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -43,8 +43,8 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
         },
       },
     });
-    composePage.sendMessage();
-    composePage.verifySendMessageConfirmationMessageText();
-    composePage.verifySendMessageConfirmationMessageHasFocus();
+    PatientComposePage.sendMessage();
+    PatientComposePage.verifySendMessageConfirmationMessageText();
+    PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });
