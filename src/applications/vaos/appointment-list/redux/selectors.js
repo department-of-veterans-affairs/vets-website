@@ -212,6 +212,11 @@ export function selectAppointmentDetails(appointment) {
     : comment || (appointment.reason ? appointment.reason : null);
 }
 
+export function selectProviderAddress(appointment) {
+  const practitioners = appointment?.practitioners || [];
+  return practitioners.length > 0 ? practitioners[0].address : null;
+}
+
 export function selectRequestedAppointmentDetails(state, id) {
   const { appointmentDetailsStatus, facilityData } = state.appointments;
   const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
@@ -222,6 +227,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     APPOINTMENT_TYPES.ccRequest,
   ]);
 
+  const providerAddress = selectProviderAddress(appointment);
   const bookingNotes = selectAppointmentDetails(appointment);
   const cancelInfo = getCancelInfo(state);
   const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
@@ -238,7 +244,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     ? appointment?.preferredProviderName
     : appointment?.preferredCommunityCareProviders?.[0];
   const preferredLanguage = appointment?.vaos.apiData.preferredLanguage;
-  const requestedPeriod = appointment?.requestedPeriod;
+  const requestedPeriod = appointment?.requestedPeriod || [];
   const typeOfCare = getTypeOfCareById(appointment?.vaos.apiData.serviceType);
   const typeOfCareName = typeOfCare?.name;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
@@ -266,6 +272,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     preferredLanguage,
     preferredTimesForPhoneCall,
     provider,
+    providerAddress,
     typeOfCare,
     typeOfCareName,
     typeOfCareText,
