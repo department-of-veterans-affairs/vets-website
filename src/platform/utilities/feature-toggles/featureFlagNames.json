@@ -119,6 +119,7 @@
   "mhvMedicalRecordsDisplayVitals": "mhv_medical_records_display_vitals",
   "mhvMedicalRecordsToVaGovRelease": "mhv_medical_records_to_va_gov_release",
   "mhvMedicationsToVaGovRelease": "mhv_medications_to_va_gov_release",
+  "mhvMedicationsBreadcrumbs": "mhv_medications_breadcrumbs",
   "mhvMedicationsDisplayRefillContent": "mhv_medications_display_refill_content",
   "myVaEnableNotificationComponent": "my_va_notification_component",
   "myVaUseExperimental": "my_va_experimental",
