@@ -69,13 +69,13 @@ function parseCertifier(transformedData) {
     date: new Date().toJSON().slice(0, 10),
     firstName: transformedData.veteransFullName.first || '',
     lastName: transformedData.veteransFullName.last || '',
-    middleInitial: transformedData?.veteransFullName.middle || '',
+    middleInitial: transformedData?.veteransFullName?.middle || '',
     phone_number: transformedData?.sponsorPhone || '',
     relationship: '',
-    streetAddress: transformedData.sponsorAddress.street || '',
-    city: transformedData.sponsorAddress.city || '',
-    state: transformedData.sponsorAddress.state || '',
-    postal_code: transformedData.sponsorAddress.postal_code || '',
+    streetAddress: transformedData?.sponsorAddress?.street || '',
+    city: transformedData?.sponsorAddress?.city || '',
+    state: transformedData?.sponsorAddress?.state || '',
+    postal_code: transformedData?.sponsorAddress?.postal_code || '',
   };
 }
 
