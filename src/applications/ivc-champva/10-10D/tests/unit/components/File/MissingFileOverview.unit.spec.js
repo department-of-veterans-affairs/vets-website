@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import SupportingDocumentsPage from '../../../../pages/SupportingDocumentsPage';
+import { MissingFileConsentPage } from '../../../../pages/MissingFileConsentPage';
 import { testComponentRender } from '../../../../../shared/tests/pages/pageTests.spec';
 import {
   hasReq,
@@ -123,6 +124,21 @@ describe('checkFlags', () => {
 testComponentRender(
   'SupportingDocumentsPage',
   <SupportingDocumentsPage
+    data={mockData.data}
+    contentAfterButtons={{ props: { formConfig } }}
+    goBack={() => {}}
+    goForward={() => {}}
+    setFormData={() => {}}
+    disableLinks={false}
+    heading={<>test heading</>}
+    showMail={false}
+    showConsent={false}
+  />,
+);
+
+testComponentRender(
+  'MissingFileConsentPage',
+  <MissingFileConsentPage
     data={mockData.data}
     contentAfterButtons={{ props: { formConfig } }}
     goBack={() => {}}
