@@ -10,7 +10,6 @@ import { AXE_CONTEXT } from './utils/constants';
 describe('Secure Messaging Save Draft', () => {
   it('Axe Check Save Draft', () => {
     const landingPage = new PatientInboxPage();
-    const composePage = new PatientComposePage();
     const draftsPage = new PatientMessageDraftsPage();
     const site = new SecureMessagingSite();
     site.login();
@@ -21,9 +20,9 @@ describe('Secure Messaging Save Draft', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     // composePage.getMessageSubjectField().type('message Test');
-    composePage
-      .getMessageBodyField()
-      .type('Test message body', { force: true });
+    PatientComposePage.getMessageBodyField().type('Test message body', {
+      force: true,
+    });
     cy.realPress(['Enter']);
 
     const mockDraftResponseUpdated = {
@@ -36,9 +35,9 @@ describe('Secure Messaging Save Draft', () => {
         },
       },
     };
-    composePage.saveDraft(mockDraftResponseUpdated);
-    composePage.sendDraft(mockDraftResponseUpdated);
-    composePage.verifySendMessageConfirmationMessageText();
-    composePage.verifySendMessageConfirmationMessageHasFocus();
+    PatientComposePage.saveDraft(mockDraftResponseUpdated);
+    PatientComposePage.sendDraft(mockDraftResponseUpdated);
+    PatientComposePage.verifySendMessageConfirmationMessageText();
+    PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
   });
 });

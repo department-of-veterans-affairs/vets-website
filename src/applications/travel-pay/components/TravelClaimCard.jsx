@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { format } from 'date-fns';
 
 const CLAIM_STATUS = {
   SAVED: 'Saved',
@@ -14,44 +15,54 @@ const CLAIM_STATUS = {
   CLOSED: 'Closed',
 };
 
+function formatDateTime(datetimeString) {
+  const dateTime = new Date(datetimeString);
+  const formattedDate = format(dateTime, 'eeee, MMMM d, yyyy');
+  const formattedTime = format(dateTime, 'h:mm a');
+
+  return [formattedDate, formattedTime];
+}
+
 export default function TravelClaimCard(props) {
   const {
     id,
     createdOn,
     claimStatus,
-    claimName,
     claimNumber,
-    appointmentName,
-    appointmentDate,
+    appointmentDate: appointmentDateTime,
+    appointmentLocation,
     modifiedOn,
   } = props;
 
+  const [appointmentDate, appointmentTime] = formatDateTime(
+    appointmentDateTime,
+  );
+  const [createDate, createTime] = formatDateTime(createdOn);
+  const [updateDate, updateTime] = formatDateTime(modifiedOn);
+
   return (
     <va-card key={id} class="travel-claim-card vads-u-margin-bottom--2">
-      {claimStatus === 'IN_PROCESS' && (
-        <span className="usa-label uswds-system-color-gold-20v">
-          In Progress
-        </span>
-      )}
-      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-        Travel claim
+      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--h3 ">
+        {/* TODO: validate if appending "appointment" is always correct */}
+        {appointmentDate} at {appointmentTime} appointment
       </h2>
-      <p className="vads-u-margin-top--0">Received on {createdOn}</p>
-      <p>
-        Status: {CLAIM_STATUS[claimStatus]} <br />
-        Claim name: {claimName} <br />
+      <h3 className="vads-u-margin-bottom--1">Where</h3>
+      <p className="vads-u-margin-top--0">{appointmentLocation}</p>
+
+      <h3 className="vads-u-margin-bottom--1">Claim Details</h3>
+      <p className="vads-u-margin-top--0">
+        <strong>Claim status: {CLAIM_STATUS[claimStatus]}</strong> <br />
         Claim number: {claimNumber} <br />
-        Appointment name: {appointmentName} <br />
-        Appointment date: {appointmentDate} <br />
-        Last updated: {modifiedOn}
+        Submitted on {createDate} at {createTime} <br />
+        Updated on {updateDate} at {updateTime}
       </p>
-      <va-link href="" text="View details" />
     </va-card>
   );
 }
 
 TravelClaimCard.propTypes = {
   appointmentDate: PropTypes.string,
+  appointmentLocation: PropTypes.string,
   appointmentName: PropTypes.string,
   claimName: PropTypes.string,
   claimNumber: PropTypes.string,
