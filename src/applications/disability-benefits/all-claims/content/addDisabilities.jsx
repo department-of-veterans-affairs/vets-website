@@ -71,11 +71,3 @@ export function showRevisedNewDisabilitiesPage(formData) {
     window.sessionStorage.getItem(SHOW_REVISED_ADD_DISABILITIES_PAGE) === 'true'
   );
 }
-
-export function showLegacyAddDisabilitiesPage(formData) {
-  return (
-    DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData) &&
-    window.sessionStorage.getItem(SHOW_REVISED_ADD_DISABILITIES_PAGE) ===
-      'false'
-  );
-}
