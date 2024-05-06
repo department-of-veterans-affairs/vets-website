@@ -33,7 +33,6 @@ export default function FacilityPhone({
         typeof level === 'undefined' &&
         `${heading} `}
       {!!icon === true && (
-        // eslint-disable-next-line @department-of-veterans-affairs/prefer-icon-component
         <i
           aria-hidden="true"
           className={classNames(
