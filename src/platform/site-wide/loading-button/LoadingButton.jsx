@@ -25,7 +25,6 @@ export default function LoadingButton({
   // Switch to va-button-icon once the loading icon is added
   return (
     <button
-      type="submit"
       className="usa-button"
       {...props}
       disabled={isLoading || disabled}
