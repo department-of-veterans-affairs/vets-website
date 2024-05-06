@@ -9,8 +9,8 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { getPrescriptionsPaginatedSortedList } from '../actions/prescriptions';
+import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   medicationsUrls,
   rxListSortingOptions,
@@ -48,6 +48,18 @@ const LandingPage = () => {
   const refillUrl = fullState.user.login.currentlyLoggedIn
     ? medicationsUrls.subdirectories.REFILL
     : medicationsUrls.MEDICATIONS_LOGIN;
+
+  useEffect(
+    () => {
+      dispatch(
+        setBreadcrumbs({
+          url: `/../../my-health`,
+          label: 'My HealtheVet home',
+        }),
+      );
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -97,7 +109,7 @@ const LandingPage = () => {
           <section>
             <h1
               data-testid="landing-page-heading"
-              className="vads-u-margin-top--4 vads-u-margin-bottom--0"
+              className="vads-u-margin-bottom--0"
             >
               About medications
             </h1>
@@ -171,11 +183,13 @@ const LandingPage = () => {
             <h2>What to know as you try out this tool</h2>
             <p>
               We’re giving the trusted My HealtheVet pharmacy tool a new home
-              here on VA.gov. And we need your feedback to help us keep making
-              this tool better for you and all Veterans.
+              here on VA.gov. In this new tool, you can find all your medication
+              records in a single list.
             </p>
             <p>
-              Email your feedback and questions to us at <FeedbackEmail />.
+              We need your feedback to keep making this tool better for you and
+              all Veterans. Send us your feedback and questions using the
+              feedback button on this page.
             </p>
             <p>
               <strong>Note:</strong> You still have access to the pharmacy tool
@@ -244,6 +258,14 @@ const LandingPage = () => {
                     </li>
                     <li>
                       <strong>
+                        Medications your provider gives you during an inpatient
+                        visit
+                      </strong>{' '}
+                      (when you stay overnight at a hospital or other health
+                      facility).
+                    </li>
+                    <li>
+                      <strong>
                         Certain supplies you order through our Denver Logistics
                         Center,
                       </strong>{' '}
@@ -266,9 +288,10 @@ const LandingPage = () => {
                     prescription supplies, like diabetic supplies.
                   </p>
                   <p>
-                    You can’t refill some medications. For example, certain pain
-                    medications don’t allow refills. You’ll need to ask your VA
-                    provider to renew your prescription each time you need more.
+                    You can’t refill certain prescriptions. For example, certain
+                    prescriptions for pain medications don’t allow refills.
+                    You’ll need to ask your provider for a new prescription each
+                    time you need more.
                   </p>
                   <p>
                     And if you have prescriptions that are too old to refill or
@@ -341,18 +364,19 @@ const LandingPage = () => {
                   </p>
                   <p>
                     <a
-                      href={mhvUrl(
-                        isAuthenticatedWithSSOe(fullState),
-                        'secure-messaging',
-                      )}
+                      href="/my-health/secure-messages/new-message/"
                       rel="noreferrer"
                     >
-                      Compose a message on the My HealtheVet website
+                      Start a new message
                     </a>
                   </p>
                   <p className="vads-u-margin-bottom--0">
                     <strong>For questions about how to use this tool,</strong>{' '}
-                    email us at <FeedbackEmail />.
+                    call us at
+                    <va-telephone contact="8773270022" /> (
+                    <va-telephone tty contact="711" />
+                    ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
+                    ET.
                   </p>
                 </va-accordion-item>
               </va-accordion>
@@ -404,23 +428,17 @@ const LandingPage = () => {
                     system will direct your call to a pharmacy representative
                     for help.
                   </p>
-                  <h4 className="vads-u-margin-top--2 vads-u-margin-bottom--1">
-                    By secure messsage
-                  </h4>
-                  <p className="vads-u-margin-y--1">
+                  <h4 className="vads-u-margin-y--2">By secure messsage</h4>
+                  <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
                     Send a secure message to your VA care team.
                   </p>
                   <a
-                    className="vads-u-margin-bottom--1 vads-u-display--block"
-                    href={mhvUrl(
-                      isAuthenticatedWithSSOe(fullState),
-                      'secure-messaging',
-                    )}
+                    href="/my-health/secure-messages/new-message/"
                     rel="noreferrer"
                   >
-                    Compose a message on the My HealtheVet website
+                    Start a new message
                   </a>
-                  <section className="vads-u-margin-bottom--0">
+                  <section className="vads-u-margin-bottom--0 vads-u-margin-top--3">
                     <strong>
                       Include as much of this information as you can:
                     </strong>
@@ -517,6 +535,25 @@ const LandingPage = () => {
                     Go to your allergy and reaction records on the My HealtheVet
                     website
                   </a>
+                  <h4 className="vads-u-margin-top--2">
+                    If you use Meds by Mail
+                  </h4>
+                  <p>
+                    We may not have your allergy records in our My HealtheVet
+                    tools. But your Meds by Mail servicing center keeps a record
+                    of your allergies and reactions to medications.
+                  </p>
+                  <p>
+                    If you have a new allergy or reaction, tell your provider.
+                    Or you can call your Meds by Mail servicing center and ask
+                    them to update your records.{' '}
+                    <a
+                      href="https://www.va.gov/COMMUNITYCARE/programs/dependents/pharmacy/meds-by-mail.asp"
+                      rel="noreferrer"
+                    >
+                      Find your Meds by Mail servicing center
+                    </a>
+                  </p>
                 </va-accordion-item>
               </va-accordion>
             </section>
