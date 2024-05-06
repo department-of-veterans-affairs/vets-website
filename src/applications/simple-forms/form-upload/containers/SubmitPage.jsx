@@ -41,18 +41,24 @@ function SubmitPage() {
       'Request for Nursing Home Information in Connection with Claim for Aid and Attendance';
   }
 
-  const submitHandler = async () => {
-    await apiRequest(
+  const submitHandler = () => {
+    apiRequest(
       `${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`,
       {
         method: 'POST',
-        body: JSON.stringify({ confirmationCode: state.confirmationCode }),
+        body: JSON.stringify({
+          confirmationCode: state?.confirmationCode,
+          formNumber: params.id,
+        }),
         headers: {
           'Content-Type': 'application/json',
         },
       },
-    );
-    redirect(`/form-upload/${params.id}/confirmation`);
+    ).then(response => {
+      navigate(`/${params.id}/confirmation`, {
+        state: { confirmationNumber: response.confirmationNumber },
+      });
+    });
   };
 
   return (
