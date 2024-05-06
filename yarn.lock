@@ -15188,6 +15188,11 @@ node-gyp@^8.2.0:
     tar "^6.1.2"
     which "^2.0.2"
 
+node-lcs@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/node-lcs/-/node-lcs-1.0.4.tgz#2f47a72ac9ffcc740a762f7eee2df6dc4b968fdd"
+  integrity sha512-aNEp6PcffC4T9UBY1ddQZvY3rj5vx1+ahOB0R9O7zHn+Dpbzk94V0zxYXquTISo3XHsthKkWa4NLeSh7iHLkSw==
+
 node-match-path@^0.6.3:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/node-match-path/-/node-match-path-0.6.3.tgz#55dd8443d547f066937a0752dce462ea7dc27551"

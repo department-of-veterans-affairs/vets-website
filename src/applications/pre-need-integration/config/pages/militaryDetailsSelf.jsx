@@ -2,14 +2,24 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema
 
 import { pick } from 'lodash';
 import set from 'platform/utilities/data/set';
-import { militaryDetailsSubHeader, veteranUI } from '../../utils/helpers';
+import {
+  VAClaimNumberAdditionalInfo,
+  militaryDetailsSubHeader,
+  veteranUI,
+} from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
   application: {
-    'ui:title': militaryDetailsSubHeader,
+    'ui:title': formData => militaryDetailsSubHeader(formData),
     veteran: veteranUI,
+    'view:contactInfoDescription': {
+      'ui:description': VAClaimNumberAdditionalInfo,
+      'ui:options': {
+        displayEmptyObjectOnReview: true,
+      },
+    },
   },
 };
 export const schema = {
@@ -29,11 +39,15 @@ export const schema = {
               opt => !['I', 'D'].includes(opt),
             ),
             pick(veteran.properties, [
+              'militaryStatus',
               'militaryServiceNumber',
               'vaClaimNumber',
-              'militaryStatus',
             ]),
           ),
+        },
+        'view:contactInfoDescription': {
+          type: 'object',
+          properties: {},
         },
       },
     },
