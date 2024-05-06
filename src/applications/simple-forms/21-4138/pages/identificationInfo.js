@@ -7,12 +7,12 @@ import {
 /** @type {PageSchema} */
 export const identificationInformationPage = {
   uiSchema: {
-    ...titleUI(
-      'Identification information',
-      'You must enter either a Social Security number or VA File number',
-      1,
-      'vads-u-color--black',
-    ),
+    ...titleUI({
+      title: 'Identification information',
+      description:
+        'You must enter either a Social Security number or VA File number',
+      headerLevel: 1,
+    }),
     idNumber: ssnOrVaFileNumberNoHintUI(),
   },
   schema: {

@@ -18,6 +18,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-16-cores-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
 
     steps:
       - name: Checkout
@@ -79,12 +81,14 @@ jobs:
           session_name: vsp-frontendteam-githubaction
 
       - name: Upload build
-        run: aws s3 cp ${{ env.BUILD_ENV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2 --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{ env.BUILD_ENV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ env.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2 --acl public-read --region us-gov-west-1
   
   tag-commit:
       name: Tag Commit
       needs: [build]
       runs-on: ubuntu-latest
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
+      
       steps:
         - name: Checkout
           uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
