@@ -125,3 +125,49 @@ describe('Medicare ineligibility screen depends function', () => {
     expect(depRes).to.be.true;
   });
 });
+
+describe('Medicare part D screen depends function', () => {
+  it('should return true if applicant has Medicare parts A, B, and D', () => {
+    const depRes = formConfig.chapters.medicareInformation.pages.partDCarrier.depends(
+      {
+        applicantMedicareStatus: true,
+        applicantMedicareStatusD: true,
+      },
+    );
+    expect(depRes).to.be.true;
+  });
+});
+
+describe('Medicare part D upload screen depends function', () => {
+  it('should return true if applicant has Medicare parts A, B, and D', () => {
+    const depRes = formConfig.chapters.medicareInformation.pages.medicareDCards.depends(
+      {
+        applicantMedicareStatus: true,
+        applicantMedicareStatusD: true,
+      },
+    );
+    expect(depRes).to.be.true;
+  });
+});
+
+describe('Healthcare Medigap screens depends functions', () => {
+  it('should return true if applicant has primary insurance and Medigap', () => {
+    const depRes = formConfig.chapters.healthcareInformation.pages.primaryMedigap.depends(
+      {
+        applicantHasPrimary: true,
+        applicantPrimaryInsuranceType: { medigap: true },
+      },
+    );
+    expect(depRes).to.be.true;
+  });
+
+  it('should return true if applicant has secondary insurance and Medigap', () => {
+    const depRes = formConfig.chapters.healthcareInformation.pages.secondaryMedigap.depends(
+      {
+        applicantHasSecondary: true,
+        applicantSecondaryInsuranceType: { medigap: true },
+      },
+    );
+    expect(depRes).to.be.true;
+  });
+});
