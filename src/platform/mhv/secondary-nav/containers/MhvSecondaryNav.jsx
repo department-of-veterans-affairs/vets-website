@@ -1,5 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
+
+const medicalRecordsLink = {
+  title: 'Records',
+  iconClass: 'fas fa-file-medical',
+  href: `/my-health/medical-records`,
+};
+
+const transitionalMedicalRecordsLink = {
+  ...medicalRecordsLink,
+  href: '/my-health/records',
+};
 
 /**
  * MHV secondary navigation items. Note the first item is the home link.
@@ -27,11 +39,7 @@ export const mhvSecNavItems = [
     iconClass: 'fas fa-prescription-bottle',
     href: `/my-health/medications`,
   },
-  {
-    title: 'Records',
-    iconClass: 'fas fa-file-medical',
-    href: `/my-health/medical-records`,
-  },
+  medicalRecordsLink,
 ];
 
 /**
@@ -39,7 +47,19 @@ export const mhvSecNavItems = [
  * @returns the navigation bar
  */
 const MhvSecondaryNav = () => {
-  return <MhvSecondaryNavMenu items={mhvSecNavItems} />;
+  const items = [...mhvSecNavItems];
+  const { loading, mhvTransitionalMedicalRecordsLandingPage } = useSelector(
+    state => state.featureToggles,
+  );
+
+  if (loading) return <></>;
+
+  if (mhvTransitionalMedicalRecordsLandingPage) {
+    items.pop();
+    items.push(transitionalMedicalRecordsLink);
+  }
+
+  return <MhvSecondaryNavMenu items={items} />;
 };
 
 export default MhvSecondaryNav;
