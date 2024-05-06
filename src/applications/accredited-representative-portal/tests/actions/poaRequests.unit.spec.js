@@ -1,7 +1,8 @@
+import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { expect } from 'chai';
 import environment from '~/platform/utilities/environment';
+
 import {
   acceptPOARequest,
   declinePOARequest,

@@ -1,9 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import {
-  formatDate,
   createRelationshipCell,
+  formatDate,
 } from '../POARequestsTable/POARequestsTable';
 
 const POARequestsWidget = ({ poaRequests }) => (
@@ -19,6 +19,7 @@ const POARequestsWidget = ({ poaRequests }) => (
       data-testid="poa-requests-widget-table"
       sort-column={1}
       table-title="POA requests"
+      descending
     >
       <va-table-row slot="headers">
         <span data-testid="poa-requests-widget-table-headers-name">

@@ -40,7 +40,9 @@ describe('POARequestsTableFetcher', () => {
     const { getByTestId } = render(
       <POARequestsTableFetcher usePOARequests={usePOARequestsMock} />,
     );
-    expect(getByTestId('poa-requests-table-fetcher-no-poa-requests')).to.exist;
+    expect(
+      getByTestId('poa-requests-table-fetcher-no-poa-requests').textContent,
+    ).to.eq('No POA requests found');
   });
 
   it('renders with the POA Requests Table when its not loading, there is no error, and there are POA Requests', () => {
