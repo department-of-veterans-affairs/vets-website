@@ -88,7 +88,7 @@ class RatingRow extends React.Component {
                   disabled={!this.props.isDeletable}
                   data-e2e="delete"
                 >
-                  <i className="fas fa-trash-alt vads-u-padding-right--0p5" />
+                  <va-icon icon="delete" size={3} />
                   <span className="vads-u-display--none medium-screen:vads-u-display--inline">
                     Delete
                   </span>
