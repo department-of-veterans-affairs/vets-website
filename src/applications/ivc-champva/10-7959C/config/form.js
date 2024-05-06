@@ -80,7 +80,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: formData =>
         formData.certifierRole === 'applicant'
-          ? 'applicants[0].applicantName'
+          ? 'applicantName'
           : 'certifierName',
     },
   },
