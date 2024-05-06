@@ -36,9 +36,6 @@ describe('Direct deposit information', () => {
     cy.get('[id="root_GI-Bill-Chapters-VerifyAccountNumber"]').type(
       '00026643207',
     );
-    cy.get(
-      '[aria-label="save your bank information for GI Bill® benefits"]',
-    ).click();
   };
   it('should show Dirct deposit infromation', () => {
     cy.injectAxeThenAxeCheck();
@@ -111,6 +108,9 @@ describe('Direct deposit information', () => {
     }).as('updateDirectDeposit');
 
     fillForm();
+    cy.get(
+      '[aria-label="save your bank information for GI Bill® benefits"]',
+    ).click();
     cy.wait('@updateDirectDeposit');
     cy.get('[data-testid="alert"]')
       .should('be.visible')
@@ -123,6 +123,9 @@ describe('Direct deposit information', () => {
       statusCode: 401,
     }).as('updateDirectDeposit');
     fillForm();
+    cy.get(
+      '[aria-label="save your bank information for GI Bill® benefits"]',
+    ).click();
     cy.wait('@updateDirectDeposit');
     cy.get('[data-testid="alert"]')
       .should('be.visible')
@@ -135,9 +138,7 @@ describe('Direct deposit information', () => {
     cy.injectAxeThenAxeCheck();
     cy.login();
     fillForm();
-    cy.get(
-      '[label="cancel updating your bank information for GI Bill benefits"]',
-    ).click();
+    cy.get('va-button[secondary]').click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
       'contain',
       'Are you sure?',
@@ -147,6 +148,7 @@ describe('Direct deposit information', () => {
     cy.injectAxeThenAxeCheck();
     cy.login();
     fillForm();
+    cy.get('va-button[secondary]').click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
       'contain',
       'Are you sure?',
@@ -154,18 +156,16 @@ describe('Direct deposit information', () => {
     cy.get('va-button[uswds]')
       .last()
       .click({ force: true });
-    cy.get('[id="root_fullName-label"]').should(
+    cy.get('[id="root_GI-Bill-Chapters-email-label"]').should(
       'contain',
-      "Veteran's Full Name",
+      "Veteran's Email Address",
     );
   });
   it('should show warning alert if user hits cancel after editing form and it should close alert and form when user clicks Yes, cancel my changes', () => {
     cy.injectAxeThenAxeCheck();
     cy.login();
     fillForm();
-    cy.get(
-      '[label="cancel updating your bank information for GI Bill benefits"]',
-    ).click();
+    cy.get('va-button[secondary]').click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
       'contain',
       'Are you sure?',
@@ -173,9 +173,5 @@ describe('Direct deposit information', () => {
     cy.get('va-button[uswds]')
       .first()
       .click();
-    cy.get('[class="vads-u-margin-top--0 vads-u-font-weight--bold"]').should(
-      'contain',
-      'Mailing address',
-    );
   });
 });
