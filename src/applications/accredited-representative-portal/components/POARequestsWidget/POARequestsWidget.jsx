@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
+import {
+  formatDate,
+  createRelationshipCell,
+} from '../POARequestsTable/POARequestsTable';
 
 const POARequestsWidget = ({ poaRequests }) => (
   <div className="vads-u-background-color--white vads-u-padding--2p5 rounded-corners">
@@ -17,31 +21,35 @@ const POARequestsWidget = ({ poaRequests }) => (
       table-title="POA requests"
     >
       <va-table-row slot="headers">
-        <span data-testid="poa-requests-widget-table-headers-claimant">
-          Claimant
+        <span data-testid="poa-requests-widget-table-headers-name">
+          Veteran/Claimant
         </span>
-        <span data-testid="poa-requests-widget-table-headers-submitted">
-          Submitted
-        </span>
-        <span data-testid="poa-requests-widget-table-headers-actions">
-          Actions
+        <span data-testid="poa-requests-widget-table-headers-received">
+          POA received date
         </span>
       </va-table-row>
-      {poaRequests.map(({ id, name, date }) => {
+      {poaRequests.map(({ procId, attributes }) => {
         return (
-          <va-table-row key={id}>
+          <va-table-row key={procId}>
             <span>
               <Link
-                data-testid={`poa-requests-widget-table-${id}-claimant`}
-                to={`/poa-requests/${id}`}
+                data-testid={`poa-requests-widget-table-${procId}-name`}
+                to={`/poa-requests/${procId}`}
               >
-                {name}
+                {`${attributes.claimant.lastName}, ${
+                  attributes.claimant.firstName
+                }`}
               </Link>
+              <span
+                data-testid={`poa-requests-widget-table-${procId}-relationship`}
+                className="relationship-row"
+              >
+                {createRelationshipCell(attributes)}
+              </span>
             </span>
-            <span data-testid={`poa-requests-widget-table-${id}-submitted`}>
-              {date}
+            <span data-testid={`poa-requests-widget-table-${procId}-received`}>
+              {formatDate(attributes.dateRequestReceived)}
             </span>
-            <span />
           </va-table-row>
         );
       })}
@@ -50,13 +58,7 @@ const POARequestsWidget = ({ poaRequests }) => (
 );
 
 POARequestsWidget.propTypes = {
-  poaRequests: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      id: PropTypes.number,
-      date: PropTypes.string,
-    }),
-  ).isRequired,
+  poaRequests: PropTypes.array.isRequired,
 };
 
 export default POARequestsWidget;
