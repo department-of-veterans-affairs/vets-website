@@ -32,7 +32,8 @@ export class ComboBox extends React.Component {
       <div className="autosuggest-container">
         <VaTextInput
           hint={null}
-          label="What new condition do you want to claim?"
+          // label="What new condition do you want to claim?"
+          label=""
           message-aria-describedby="What new condition do you want to claim?"
           name="combobox-input"
           onInput={this.handleSearchChange}
