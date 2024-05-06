@@ -36,62 +36,29 @@ describe('IdentityNotVerified component', () => {
   });
 
   describe('when passed a signInService prop', () => {
-    // testing the 3 services that are being deprecated in favor of login.gov and ID.me
-    const deprecatingServices = [
-      CSP_IDS.DS_LOGON,
-      CSP_IDS.MHV_VERBOSE,
-      CSP_IDS.MHV,
-    ];
-    deprecatingServices.forEach(service => {
-      it(`renders the correct content for deprecating ${service} based accounts`, () => {
-        view = render(
-          <IdentityNotVerified {...{ signInService: CSP_IDS.MHV }} />,
+    const credentialServices = {
+      [CSP_IDS.DS_LOGON]: 'Login.gov or ID.me',
+      [CSP_IDS.MHV]: 'Login.gov or ID.me',
+      [CSP_IDS.LOGIN_GOV]: 'Login.gov',
+      [CSP_IDS.ID_ME]: 'ID.me',
+    };
+
+    Object.entries(credentialServices).forEach(([signInService, content]) => {
+      it(`renders the correct content for deprecating ${signInService} based accounts`, () => {
+        view = render(<IdentityNotVerified signInService={signInService} />);
+
+        const firstRegex = new RegExp(
+          `haven’t verified your identity for your ${content} account`,
+          'i',
+        );
+        const secondRegex = new RegExp(
+          `${content} will ask you for certain personal information`,
+          'i',
         );
 
-        expect(
-          view.getByText(
-            /haven’t verified your identity for your Login.gov or ID.me account/i,
-          ),
-        ).to.exist;
-
-        expect(
-          view.getByText(
-            /Login.gov or ID.me will ask you for certain personal information/i,
-          ),
-        ).to.exist;
+        expect(view.getByText(firstRegex)).to.exist;
+        expect(view.getByText(secondRegex)).to.exist;
       });
-    });
-
-    it('renders the correct content for ID.me based accounts', () => {
-      view = render(
-        <IdentityNotVerified {...{ signInService: CSP_IDS.ID_ME }} />,
-      );
-      expect(
-        view.getByText(
-          /haven’t verified your identity for your ID.me account/i,
-        ),
-      ).to.exist;
-
-      expect(
-        view.getByText(/ID.me will ask you for certain personal information/i),
-      ).to.exist;
-    });
-
-    it('renders the correct content for Login.gov based accounts', () => {
-      view = render(
-        <IdentityNotVerified {...{ signInService: CSP_IDS.LOGIN_GOV }} />,
-      );
-      expect(
-        view.getByText(
-          /haven’t verified your identity for your Login.gov account/i,
-        ),
-      ).to.exist;
-
-      expect(
-        view.getByText(
-          /Login.gov will ask you for certain personal information/i,
-        ),
-      ).to.exist;
     });
 
     it('renders the correct content for unknown service based accounts', () => {

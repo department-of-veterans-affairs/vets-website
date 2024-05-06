@@ -1,9 +1,6 @@
 import React from 'react';
-
-import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import PropTypes from 'prop-types';
-import recordEvent from '~/platform/monitoring/record-event';
-import { CSP_IDS } from '../../authentication/constants';
+import { CSP_IDS, SERVICE_PROVIDERS } from '../../authentication/constants';
 
 export const HowToVerifyLink = () => (
   <p className="vads-u-margin-y--4">
@@ -36,29 +33,17 @@ const VerifyIdentityInfo = () => (
   </va-additional-info>
 );
 
-const IdentityNotVerified = ({
+export default function IdentityNotVerified({
   disableAnalytics = false,
   headline = 'Verify your identity to access your complete profile',
   showHelpContent = true,
   showVerifyIdenityHelpInfo = false,
-  signInService,
-}) => {
-  let serviceName;
-  switch (signInService) {
-    case CSP_IDS.MHV:
-    case CSP_IDS.MHV_VERBOSE:
-    case CSP_IDS.DS_LOGON:
-      serviceName = 'Login.gov or ID.me';
-      break;
-    case CSP_IDS.ID_ME:
-      serviceName = 'ID.me';
-      break;
-    case CSP_IDS.LOGIN_GOV:
-      serviceName = 'Login.gov';
-      break;
-    default:
-      serviceName = '';
-  }
+  signInService = '',
+}) {
+  const serviceName = [CSP_IDS.MHV, CSP_IDS.DS_LOGON].includes(signInService)
+    ? 'Login.gov or ID.me'
+    : SERVICE_PROVIDERS[signInService]?.label;
+
   return (
     <>
       <va-alert
@@ -71,31 +56,26 @@ const IdentityNotVerified = ({
         </h2>
         <div className="vads-u-margin-bottom--1">
           <p>
-            {`Our records show that you haven’t verified your identity for your
-            ${serviceName} account. We need you to verify your identity for this
+            Our records show that you haven’t verified your identity for your{' '}
+            {serviceName} account. We need you to verify your identity for this
             account to help us keep your information safe and prevent fraud and
-            identity theft.`}
+            identity theft.
           </p>
           <p>
             {serviceName || 'Your account'} will ask you for certain personal
             information and identification. This process often takes about 10
             minutes.
           </p>
-          <a
-            className="vads-c-action-link--green"
-            href="/verify"
-            onClick={() => recordEvent({ event: AUTH_EVENTS.VERIFY })}
-          >
+          <a className="vads-c-action-link--green" href="/verify">
             Verify your identity
           </a>
         </div>
       </va-alert>
-
       {showHelpContent && <HowToVerifyLink />}
       {showVerifyIdenityHelpInfo && <VerifyIdentityInfo />}
     </>
   );
-};
+}
 
 IdentityNotVerified.propTypes = {
   signInService: PropTypes.string.isRequired,
@@ -105,5 +85,3 @@ IdentityNotVerified.propTypes = {
   showHelpContent: PropTypes.bool,
   showVerifyIdenityHelpInfo: PropTypes.bool,
 };
-
-export { IdentityNotVerified as default };
