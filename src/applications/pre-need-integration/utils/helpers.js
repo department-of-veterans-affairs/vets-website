@@ -166,6 +166,22 @@ export const applicantDemographicsDescription = (
   </div>
 );
 
+// export const raceCommentBox = (
+//   <div>
+//     <va-textarea
+//       hint={null}
+//       label="Enter the race that best describes you"
+//       maxlength="100"
+//       message-aria-describedby="Optional description text for screen readers"
+//       name="my-input"
+//       onBlur={function noRefCheck() {}}
+//       onInput={function noRefCheck() {}}
+//       placeholder=""
+//       required
+//     />
+//   </div>
+// );
+
 export const militaryDetailsSubHeader = (
   <div className="militaryDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Military details</h3>
@@ -808,11 +824,11 @@ export const veteranUI = {
     isWhite: {
       'ui:title': 'White',
     },
-    isOther: {
-      'ui:title': 'Other',
-    },
     na: {
       'ui:title': 'Prefer not to answer',
+    },
+    isOther: {
+      'ui:title': 'Other',
     },
     'ui:validations': [
       // require at least one value to be true/checked
@@ -827,6 +843,19 @@ export const veteranUI = {
       showFieldLabel: true,
     },
   },
+  raceComment: {
+    'ui:title': 'Please describe',
+    'ui:widget': 'textarea',
+    'ui:options': {
+      rows: 5,
+      maxLength: 32000,
+      expandUnder: 'race',
+      hideIf: form => {
+        return !form?.application?.veteran?.race?.isOther; // Safely return the value of isOther
+      },
+    },
+  },
+
   militaryStatus: {
     'ui:title':
       'Current military status (You can add more service history information later in this application.)',

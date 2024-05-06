@@ -83,10 +83,10 @@ import {
   applicantDemographicsMaritalStatusTitle,
   applicantDemographicsPreparerGenderTitle,
   applicantDemographicsPreparerMaritalStatusTitle,
-  applicantDemographicsEthnicityTitle,
-  applicantDemographicsRaceTitle,
-  applicantDemographicsPreparerEthnicityTitle,
-  applicantDemographicsPreparerRaceTitle,
+  // applicantDemographicsEthnicityTitle,
+  // applicantDemographicsRaceTitle,
+  // applicantDemographicsPreparerEthnicityTitle,
+  // applicantDemographicsPreparerRaceTitle,
   isSponsorDeceased,
   nonVeteranApplicantDetailsSubHeader,
   nonVeteranApplicantDetailsDescription,
@@ -143,7 +143,7 @@ function ApplicantContactInfoDescription() {
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
-    showNavLinks: false,
+    showNavLinks: true,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -378,24 +378,16 @@ const formConfig = {
         },
         applicantDemographics2: {
           path: 'applicant-demographics-2',
-          depends: formData =>
-            !isAuthorizedAgent(formData) && isVeteran(formData),
-          uiSchema: applicantDemographics2.uiSchema(
-            applicantDemographicsSubHeader,
-            applicantDemographicsEthnicityTitle,
-            applicantDemographicsRaceTitle,
-          ),
+          uiSchema: applicantDemographics2.uiSchema,
+          // RaceCommentBox,    This is my custom React component
           schema: applicantDemographics2.schema,
         },
         applicantDemographics2Preparer: {
           path: 'applicant-demographics-2-preparer',
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
-          uiSchema: applicantDemographics2.uiSchema(
-            applicantDemographicsPreparerSubHeader,
-            applicantDemographicsPreparerEthnicityTitle,
-            applicantDemographicsPreparerRaceTitle,
-          ),
+          uiSchema: applicantDemographics2.uiSchema,
+          // RaceCommentBox,    This is my custom React component
           schema: applicantDemographics2.schema,
         },
         militaryDetails: {
