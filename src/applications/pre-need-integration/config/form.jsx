@@ -378,8 +378,8 @@ const formConfig = {
         },
         applicantDemographics2: {
           path: 'applicant-demographics-2',
+          depends: formData => !isAuthorizedAgent(formData),
           uiSchema: applicantDemographics2.uiSchema,
-          // RaceCommentBox,    This is my custom React component
           schema: applicantDemographics2.schema,
         },
         applicantDemographics2Preparer: {
@@ -387,7 +387,6 @@ const formConfig = {
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics2.uiSchema,
-          // RaceCommentBox,    This is my custom React component
           schema: applicantDemographics2.schema,
         },
         militaryDetails: {

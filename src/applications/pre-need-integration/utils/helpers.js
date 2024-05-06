@@ -844,12 +844,11 @@ export const veteranUI = {
     },
   },
   raceComment: {
-    'ui:title': 'Please describe',
+    'ui:title': 'Enter the race that best describes you',
     'ui:widget': 'textarea',
     'ui:options': {
-      rows: 5,
-      maxLength: 32000,
       expandUnder: 'race',
+      maxLength: 100,
       hideIf: form => {
         return !form?.application?.veteran?.race?.isOther; // Safely return the value of isOther
       },

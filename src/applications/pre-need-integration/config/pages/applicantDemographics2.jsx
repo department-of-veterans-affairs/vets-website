@@ -6,8 +6,6 @@ import {
   applicantDemographicsDescription,
   applicantDemographicsSubHeader,
   veteranUI,
-  // applicantDemographicsEthnicityTitle,
-  // applicantDemographicsRaceTitle,
 } from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
