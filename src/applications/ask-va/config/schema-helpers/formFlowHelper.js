@@ -20,8 +20,8 @@ import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility
 import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
 import veteransAddressZipPage from '../chapters/personalInformation/veteranAddressZip';
 import yourAddressPage from '../chapters/personalInformation/yourAddress';
+import yourContactInformationPage from '../chapters/personalInformation/yourContactInformation';
 import yourCountryPage from '../chapters/personalInformation/yourCountry';
-import yourPhoneAndEmailPage from '../chapters/personalInformation/yourPhoneAndEmail';
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
 import yourRolePage from '../chapters/personalInformation/yourRole';
 import yourRoleEducationPage from '../chapters/personalInformation/yourRoleEducation';
@@ -114,10 +114,10 @@ const ch3Pages = {
     uiSchema: useThisSchoolPage.uiSchema,
     schema: useThisSchoolPage.schema,
   },
-  yourPhoneAndEmail: {
-    title: CHAPTER_3.PHONE_EMAIL.TITLE,
-    uiSchema: yourPhoneAndEmailPage.uiSchema,
-    schema: yourPhoneAndEmailPage.schema,
+  yourContactInformation: {
+    title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
+    uiSchema: yourContactInformationPage.uiSchema,
+    schema: yourContactInformationPage.schema,
   },
   howToContact: {
     title: CHAPTER_3.CONTACT_PREF.TITLE,
@@ -193,7 +193,7 @@ const myOwnBenVet = [
   'stateOrFacility',
   'stateOfSchool',
   'useThisSchool',
-  'yourPhoneAndEmail',
+  'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
@@ -214,7 +214,7 @@ const myOwnBenFam = [
   'veteransAddressZip',
   'aboutYourself',
   'searchVAMedicalCenter',
-  'yourPhoneAndEmail',
+  'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
@@ -228,7 +228,7 @@ export const myOwnBenFamPages = flowPages(
 
 const someoneElseBenVet = [
   'aboutYourself',
-  'yourPhoneAndEmail',
+  'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
@@ -254,10 +254,10 @@ const someoneElseBenFam = [
   'searchVAMedicalCenter',
   'aboutYourFamilyMember',
   'aboutYourRelationshipToFamilyMember',
-  'yourPhoneAndEmail',
+  'yourContactInformation',
   'searchVAMedicalCenter',
   'aboutYourself',
-  'yourPhoneAndEmail',
+  'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
@@ -288,7 +288,7 @@ const someoneElseBen3rdParty = [
   'veteransAddressZip',
   'searchVAMedicalCenter',
   'aboutYourself',
-  'yourPhoneAndEmail',
+  'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
@@ -308,7 +308,7 @@ const someoneElseBen3rdPartyEducation = [
   'veteransAddressZip',
   'searchVAMedicalCenter',
   'aboutYourself',
-  'yourPhoneAndEmail',
+  'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
@@ -323,7 +323,7 @@ export const someoneElseBen3rdPartyEducationPages = flowPages(
 const generalQuestion = [
   'aboutYourself',
   'searchVAMedicalCenter',
-  'yourPhoneAndEmail',
+  'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',

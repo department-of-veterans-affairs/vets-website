@@ -2862,13 +2862,14 @@
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
-"@department-of-veterans-affairs/component-library@^39.0.1":
-  version "39.0.1"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-39.0.1.tgz#06a1fdcae4d0623b00003f7ebf6d19e1519ae603"
-  integrity sha512-jJsgy6KcC0el15JQJe71NOt9TZy5/XfUg+rESskpMsL1UJt4l2dJc83Evlu/wqw6E6/FwuHXgnUwKIA38S+Ksg==
+
+"@department-of-veterans-affairs/component-library@^41.0.0":
+  version "41.0.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-41.0.0.tgz#0bde05346dc8d40fea556bee08b227a3a4845a41"
+  integrity sha512-yTYoAnKaDaqIQZfFZGjzNCysjm1zAn5uW/o+uptTxn1o3SuM90BBQJwpD1+Lvkccm9zOijp4QPLw5C25XiHReQ==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.0.0"
-    "@department-of-veterans-affairs/web-components" "7.0.2"
+    "@department-of-veterans-affairs/web-components" "8.0.1"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2888,10 +2889,10 @@
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
 
-"@department-of-veterans-affairs/eslint-plugin@^1.17.0":
-  version "1.17.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.17.0.tgz#068fe827b953c32f0bdf61f7dfc6cad7fcf6b1e8"
-  integrity sha512-aLeYTaoLN2aqmL1PTGyJ2sLVjPmr6qYBVdIaWE1Fkq7yuThkZlAAX0LqPCleSqPuy6c0PUiuKqZNwKR1YHtr4Q==
+"@department-of-veterans-affairs/eslint-plugin@^1.18.0":
+  version "1.18.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.18.0.tgz#4a013cfc06f50ee6abddec2ba87244e3ea0c8dc0"
+  integrity sha512-91QoWawCGm7REpUjShx1I4xwwYdJehCyjccokafVg/YczNSvEf28VVHYWvovhmCF5eCRRTZic+9adwbqdi0fkg==
   dependencies:
     jsx-ast-utils "^3.3.3"
 
@@ -2955,12 +2956,10 @@
   dependencies:
     minimist "^1.2.6"
 
-
-
-"@department-of-veterans-affairs/web-components@7.0.2":
-  version "7.0.2"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-7.0.2.tgz#d9f8ab221b55a096e42224d718a3711809ffebb7"
-  integrity sha512-Go24fe8q9lKXuPhhqrUJFvlPa+/Gs5sdqHXRpCJ4xf5U5RbhRjwgPSKVFnj5vC9nd/8nMYEilimA47+Va6Rzpg==
+"@department-of-veterans-affairs/web-components@8.0.1":
+  version "8.0.1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-8.0.1.tgz#2fda27f00ffe6db148ea6e927a2e942e5000ea21"
+  integrity sha512-5B/qZORqbJqO+Pv93YrFy0BDtIfNU9hLb/TaYcKDOrBSGLIzFj0civn4YxF0oT5/pmOf5VAABC8s1j2ljDmH3Q==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.5.1"
     "@stencil/core" "^2.19.2"
@@ -15189,6 +15188,11 @@ node-gyp@^8.2.0:
     tar "^6.1.2"
     which "^2.0.2"
 
+node-lcs@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/node-lcs/-/node-lcs-1.0.4.tgz#2f47a72ac9ffcc740a762f7eee2df6dc4b968fdd"
+  integrity sha512-aNEp6PcffC4T9UBY1ddQZvY3rj5vx1+ahOB0R9O7zHn+Dpbzk94V0zxYXquTISo3XHsthKkWa4NLeSh7iHLkSw==
+
 node-match-path@^0.6.3:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/node-match-path/-/node-match-path-0.6.3.tgz#55dd8443d547f066937a0752dce462ea7dc27551"
@@ -21100,9 +21104,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#7176cb057f11f66f16889005a1873a084bad188c":
-  version "22.1.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7176cb057f11f66f16889005a1873a084bad188c"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#8147f9b8a49c2dc5491118f37ec8dc267036af20":
+  version "22.2.5"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8147f9b8a49c2dc5491118f37ec8dc267036af20"
   dependencies:
     minimist "^1.2.3"
 
