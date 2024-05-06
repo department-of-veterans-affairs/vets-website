@@ -573,7 +573,7 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(showGulfWar1990LocationDatesPage(formData)).to.be.false;
+        expect(showCheckboxLoopDetailsPage(formData)).to.be.false;
       });
 
       it('should return false when `none` and another location is selected', () => {
@@ -595,7 +595,7 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(showGulfWar1990LocationDatesPage(formData)).to.be.false;
+        expect(showCheckboxLoopDetailsPage(formData)).to.be.false;
       });
     });
   });
@@ -708,7 +708,7 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
       });
 
       it('should return false when `none` and another location is selected', () => {
@@ -730,7 +730,7 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
       });
     });
   });
