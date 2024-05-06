@@ -25,7 +25,7 @@ describe('Header on mobile', () => {
     cy.location('pathname').should('equal', '/sign-in/');
   });
 
-  it('allows navigation from the Landing Page to the Dashboard Page then use the logo link to navigate back to the Landing Page', () => {
+  it('allows navigation from the Landing Page to the POA Requests Page then use the logo link to navigate back to the Landing Page', () => {
     cy.axeCheck();
 
     cy.get('[data-testid=landing-page-heading]').should(
@@ -34,12 +34,12 @@ describe('Header on mobile', () => {
     );
     cy.get('[data-testid=landing-page-bypass-sign-in-link]').click();
 
-    cy.location('pathname').should('equal', '/representative/dashboard');
+    cy.location('pathname').should('equal', '/representative/poa-requests');
     cy.axeCheck();
 
-    cy.get('[data-testid=dashboard-heading]').should(
+    cy.get('[data-testid=poa-requests-heading]').should(
       'have.text',
-      'Accredited Representative Portal',
+      'Power of attorney requests',
     );
 
     cy.get('[data-testid=mobile-logo-row-logo-link]').click();
@@ -67,7 +67,7 @@ describe('Header on screens wider than mobile', () => {
     cy.location('pathname').should('equal', '/sign-in/');
   });
 
-  it('allows navigation from the Landing Page to the Dashboard Page and then use the logo link to navigate back to the Landing Page', () => {
+  it('allows navigation from the Landing Page to the POA Requests Page and then use the logo link to navigate back to the Landing Page', () => {
     cy.axeCheck();
 
     cy.get('[data-testid=landing-page-heading]').should(
@@ -76,12 +76,12 @@ describe('Header on screens wider than mobile', () => {
     );
     cy.get('[data-testid=landing-page-bypass-sign-in-link]').click();
 
-    cy.location('pathname').should('equal', '/representative/dashboard');
+    cy.location('pathname').should('equal', '/representative/poa-requests');
     cy.axeCheck();
 
-    cy.get('[data-testid=dashboard-heading]').should(
+    cy.get('[data-testid=poa-requests-heading]').should(
       'have.text',
-      'Accredited Representative Portal',
+      'Power of attorney requests',
     );
 
     cy.get('[data-testid=wider-than-mobile-logo-row-logo-link]').click();
@@ -94,11 +94,9 @@ describe('Header on screens wider than mobile', () => {
   it('allows navigation from the Dashboard to the POA Requests Page via the Header Menu', () => {
     cy.axeCheck();
 
-    cy.get('[data-testid=landing-page-bypass-sign-in-link]').click();
-
-    cy.get('[data-testid=dashboard-heading]').should(
+    cy.get('[data-testid=landing-page-heading]').should(
       'have.text',
-      'Accredited Representative Portal',
+      'Welcome to the Accredited Representative Portal',
     );
     cy.get('[data-testid=wider-than-mobile-menu-poa-link]').click();
 
