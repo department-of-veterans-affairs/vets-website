@@ -118,8 +118,10 @@ export function KeywordSearch({
             htmlFor="institution-search"
           >
             {label}
+            {required && (
+              <span className="form-required-span">(*Required)</span>
+            )}
           </label>
-          {required && <span className="form-required-span">(*Required)</span>}
         </div>
       )}
       {error && (

@@ -170,7 +170,7 @@ export function NameSearchForm({
               onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               suggestions={[...autocomplete.nameSuggestions]}
               type="name"
-              // validateSearchTerm={validateSearchTerm}
+              required
               filters={filters}
               version={version}
             />
