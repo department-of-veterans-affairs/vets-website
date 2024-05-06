@@ -163,11 +163,7 @@ function Content() {
       <div className="vaos-u-word-break--break-word">
         {!canceled && (
           <>
-            <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3 vaos-hide-for-print">
-              <i
-                aria-hidden="true"
-                className="fas fa-times vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1"
-              />
+            <div className="vads-u-margin-top--3 vaos-hide-for-print">
               <button
                 type="button"
                 aria-label="Cancel request"
@@ -179,6 +175,9 @@ function Content() {
                   dispatch(startAppointmentCancel(appointment));
                 }}
               >
+                <span className="vads-u-margin-right--0p5">
+                  <va-icon icon="cancel" size="3" aria-hidden="true" />
+                </span>
                 Cancel Request
               </button>
             </div>

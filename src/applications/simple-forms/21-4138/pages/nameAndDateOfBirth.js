@@ -1,3 +1,4 @@
+// import React from 'react';
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
@@ -10,7 +11,7 @@ import { getFullNameLabels } from '../helpers';
 /** @type {PageSchema} */
 export const nameAndDateOfBirthPage = {
   uiSchema: {
-    ...titleUI('Name and date of birth', undefined, 1, 'vads-u-color--black'),
+    ...titleUI({ title: 'Name and date of birth', headerLevel: 1 }),
     fullName: fullNameNoSuffixUI(label => getFullNameLabels(label, false)),
     dateOfBirth: dateOfBirthUI({ required: true }),
   },

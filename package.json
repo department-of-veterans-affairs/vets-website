@@ -298,6 +298,7 @@
     "markdown-it-link-attributes": "^4.0.0",
     "moment": "~2.29.4",
     "moment-timezone": "^0.5.35",
+    "node-lcs": "^1.0.4",
     "octokit": "^2.1.0",
     "octokit-plugin-create-pull-request": "^3.11.0",
     "prop-types": "^15.6.1",
@@ -329,7 +330,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7b73a193fd43f1f23b41962dc3da221e37e391d2"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8147f9b8a49c2dc5491118f37ec8dc267036af20"
   },
   "resolutions": {
     "**/lodash": "4.17.21",
