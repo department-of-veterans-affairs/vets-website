@@ -204,6 +204,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       .minute(0)
       .second(0);
     const preferredDate = moment();
+
     mockAppointmentSlotFetch({
       clinicId: '308',
       facilityId: '983',
@@ -265,7 +266,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     userEvent.click(button);
 
     userEvent.click(
-      await screen.findByRole('radio', { name: '5:00 AM option selected' }),
+      await screen.findByRole('radio', { name: '9:00 AM option selected' }),
     );
     expect(button.getAttribute('aria-label')).to.contain(', selected');
 
