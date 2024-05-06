@@ -87,10 +87,6 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     }
   }
 
-  .answers {
-    border-bottom: 1px solid var(--vads-color-base-light);
-  }
-
   .answer-review {
     border-top: 1px solid var(--vads-color-base-light);
     display: flex;
@@ -116,6 +112,17 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     font-size: 1.0625rem;
   }
 }
+
 .discharge-wizard-v2 {
+  article {
+    padding: 0 0 3rem;
+  }
+
   //v2 styles
+  .answer-review {
+    border-top: 1px solid var(--vads-color-base-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
