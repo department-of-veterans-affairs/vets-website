@@ -322,7 +322,9 @@ const formConfig = {
         addDisabilities: {
           title: 'Add a new disability',
           path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
-          depends: !showRevisedNewDisabilitiesPage,
+          depends: formData =>
+            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData) &&
+            !showRevisedNewDisabilitiesPage(),
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
           updateFormData: addDisabilities.updateFormData,
@@ -337,7 +339,9 @@ const formConfig = {
         addDisabilitiesRevised: {
           title: 'Add a new disability REVISED!',
           path: 'new-disabilities-revised/add',
-          depends: showRevisedNewDisabilitiesPage,
+          depends: formData =>
+            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData) &&
+            showRevisedNewDisabilitiesPage(),
           uiSchema: addDisabilitiesRevised.uiSchema,
           schema: addDisabilitiesRevised.schema,
           updateFormData: addDisabilitiesRevised.updateFormData,
