@@ -47,11 +47,11 @@ export function setDateTimeSelectMockFetches({
         return {
           ...getAppointmentSlotMock(),
           attributes: {
-            start: date.format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+            start: date.format('YYYY-MM-DDTHH:mm:ss'),
             end: date
               .clone()
               .minute(20)
-              .format('YYYY-MM-DDTHH:mm:ss[+00:00]'),
+              .format('YYYY-MM-DDTHH:mm:ss'),
           },
         };
       });
