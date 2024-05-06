@@ -7,7 +7,6 @@ import {
   serviceNumberUI,
   serviceNumberSchema,
   checkboxGroupUI,
-  checkboxGroupSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
@@ -17,7 +16,7 @@ import { servedDuringWartime } from '../../../helpers';
 import { validateServiceBirthDates } from '../../../validation';
 import ServicePeriodReview from '../../../components/ServicePeriodReview';
 
-const { placeOfSeparation } = fullSchemaPensions.properties;
+const { serviceBranch, placeOfSeparation } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -74,7 +73,7 @@ export default {
     type: 'object',
     required: ['serviceBranch', 'activeServiceDateRange'],
     properties: {
-      serviceBranch: checkboxGroupSchema(Object.keys(serviceBranchLabels)),
+      serviceBranch,
       activeServiceDateRange: currentOrPastDateRangeSchema,
       serviceNumber: serviceNumberSchema,
       placeOfSeparation,

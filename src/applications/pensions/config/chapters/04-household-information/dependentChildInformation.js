@@ -1,12 +1,10 @@
 import merge from 'lodash/merge';
 import moment from 'moment';
 import {
-  radioSchema,
   radioUI,
   ssnSchema,
   ssnUI,
   titleUI,
-  yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
@@ -14,6 +12,7 @@ import {
   VaTextInputField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import get from 'platform/utilities/data/get';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
 import { DependentSeriouslyDisabledDescription } from '../../../helpers';
 import {
@@ -22,6 +21,15 @@ import {
   AdoptionEvidenceAlert,
 } from '../../../components/FormAlerts';
 import { doesHaveDependents, getDependentChildTitle } from './helpers';
+
+const {
+  childPlaceOfBirth,
+  childRelationship,
+  attendingCollege,
+  disabled,
+  previouslyMarried,
+  married,
+} = fullSchemaPensions.properties.dependents.items.properties;
 
 const childRelationshipOptions = {
   BIOLOGICAL: "They're my biological child",
@@ -130,20 +138,18 @@ export default {
             'previouslyMarried',
           ],
           properties: {
-            childPlaceOfBirth: { type: 'string' },
+            childPlaceOfBirth,
             childSocialSecurityNumber: ssnSchema,
             'view:noSSN': { type: 'boolean' },
-            childRelationship: radioSchema(
-              Object.keys(childRelationshipOptions),
-            ),
+            childRelationship,
             'view:adoptionDocs': { type: 'object', properties: {} },
-            attendingCollege: yesNoSchema,
+            attendingCollege,
             'view:schoolWarning': { type: 'object', properties: {} },
-            disabled: yesNoSchema,
+            disabled,
             'view:disabilityDocs': { type: 'object', properties: {} },
             'view:disabilityInformation': { type: 'object', properties: {} },
-            previouslyMarried: yesNoSchema,
-            married: yesNoSchema,
+            previouslyMarried,
+            married,
           },
         },
       },
