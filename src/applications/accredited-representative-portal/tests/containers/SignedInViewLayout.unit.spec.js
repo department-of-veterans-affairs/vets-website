@@ -8,8 +8,13 @@ describe('SignedInViewLayout', () => {
   const getSignedInViewLayout = poaPermissions =>
     render(<SignedInViewLayout poaPermissions={poaPermissions} />);
 
-  it('renders alert when no POA Permissions', () => {
-    const { getByTestId } = getSignedInViewLayout(false);
-    expect(getByTestId('signed-in-view-layout-permissions-alert')).to.exist;
+  it('renders error when no POA Permissions', () => {
+    const { getByTestId } = getSignedInViewLayout(null);
+    expect(getByTestId('poa-permissions-error')).to.exist;
+  });
+
+  it('renders content when has POA Permissions', () => {
+    const { getByTestId } = getSignedInViewLayout(true);
+    expect(getByTestId('signed-in-view-layout-content')).to.exist;
   });
 });

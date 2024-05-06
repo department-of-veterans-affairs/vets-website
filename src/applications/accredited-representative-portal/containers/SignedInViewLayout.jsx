@@ -8,7 +8,13 @@ const SignedInViewLayout = ({ poaPermissions = true }) => {
   return (
     <div className="vads-u-margin-y--5 vads-l-grid-container large-screen:vads-u-padding-x--0">
       <div className="vads-l-row">
-        {!poaPermissions ? <POAPermissionsError /> : <Outlet />}
+        {!poaPermissions ? (
+          <POAPermissionsError />
+        ) : (
+          <div data-testid="signed-in-view-layout-content">
+            <Outlet />
+          </div>
+        )}
       </div>
     </div>
   );
