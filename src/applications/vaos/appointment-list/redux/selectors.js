@@ -217,6 +217,22 @@ export function selectProviderAddress(appointment) {
   return practitioners.length > 0 ? practitioners[0].address : null;
 }
 
+export function selectComment(appointment) {
+  if (!appointment) return '';
+
+  if (appointment.version === 2) {
+    return appointment.comment ? appointment.comment : 'none';
+  }
+
+  const { comment } = appointment;
+  if (appointment.vaos.isCommunityCare) {
+    return comment || 'none';
+  }
+  return appointment.reason && comment
+    ? `${appointment.reason}: ${comment}`
+    : comment || (appointment.reason ? appointment.reason : null);
+}
+
 export function selectRequestedAppointmentDetails(state, id) {
   const { appointmentDetailsStatus, facilityData } = state.appointments;
   const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
@@ -253,6 +269,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     appointment?.vaos.apiData.extension?.clinic?.phoneNumber ||
     facility?.telecom?.find(tele => tele.system === 'covid')?.value ||
     facility?.telecom?.find(tele => tele.system === 'phone')?.value;
+  const comment = selectComment(appointment);
 
   return {
     appointment,
@@ -260,6 +277,7 @@ export function selectRequestedAppointmentDetails(state, id) {
     bookingNotes,
     cancelInfo,
     canceled,
+    comment,
     email,
     facility,
     facilityData,
@@ -298,22 +316,6 @@ export function getUpcomingAppointmentListInfo(state) {
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
   };
-}
-
-export function selectComment(appointment) {
-  if (!appointment) return '';
-
-  if (appointment.version === 2) {
-    return appointment.comment ? appointment.comment : 'none';
-  }
-
-  const { comment } = appointment;
-  if (appointment.vaos.isCommunityCare) {
-    return comment || 'none';
-  }
-  return appointment.reason && comment
-    ? `${appointment.reason}: ${comment}`
-    : comment || (appointment.reason ? appointment.reason : null);
 }
 
 export function selectProviderTelecom(appointment, system) {

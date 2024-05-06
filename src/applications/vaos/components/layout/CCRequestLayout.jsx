@@ -95,10 +95,10 @@ export function CCRequestLayout() {
           {typeOfCareName || 'Type of care not noted'}
         </Section>
         <Section heading="Scheduling facility">
-          <p>
+          <span>
             This facility will contact you if we need more information about
             your request.
-          </p>
+          </span>
         </Section>
         <Section heading="Preferred community care provider">
           <span>{`${providerName || 'Provider name not noted'}`}</span>
