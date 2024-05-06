@@ -3,6 +3,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvLandingPageEnabled = true,
     mhvLandingPagePersonalization = true,
     mhvLandingPageEnableVaGovHealthToolsLinks = true,
+    mhvTransitionalMedicalRecordsLandingPage = true,
   } = toggles;
 
   return {
@@ -20,6 +21,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_landing_page_enable_va_gov_health_tools_links',
           value: mhvLandingPageEnableVaGovHealthToolsLinks,
+        },
+        {
+          name: 'mhv_transitional_medical_records_landing_page',
+          value: mhvTransitionalMedicalRecordsLandingPage,
         },
       ],
     },

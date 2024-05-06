@@ -24,6 +24,7 @@ class ApiInitializer {
           mhvLandingPageEnabled: true,
           mhvLandingPagePersonalization: false,
           mhvLandingPageEnableVaGovHealthToolsLinks: false,
+          mhvTransitionalMedicalRecordsLandingPage: false,
         }),
       );
     },
@@ -35,6 +36,7 @@ class ApiInitializer {
           mhvLandingPageEnabled: true,
           mhvLandingPagePersonalization: true,
           mhvLandingPageEnableVaGovHealthToolsLinks: true,
+          mhvTransitionalMedicalRecordsLandingPage: true,
         }),
       );
     },
