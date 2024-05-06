@@ -118,8 +118,8 @@ export function KeywordSearch({
             htmlFor="institution-search"
           >
             {label}
+            <span className="form-required-span">(*Required)</span>
           </label>
-          {required && <span className="form-required-span">(*Required)</span>}
         </div>
       )}
       {error && (
@@ -154,7 +154,7 @@ export function KeywordSearch({
           selectedItem,
         }) => (
           <div>
-            <div className="input-container">
+            <div className="input-container input-container-width">
               <input
                 aria-controls="ctKeywordSearch"
                 className={classNames('input-box-margin', className)}
