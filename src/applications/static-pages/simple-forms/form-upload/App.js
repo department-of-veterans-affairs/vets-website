@@ -9,7 +9,7 @@ import {
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
 export const App = ({
-  shouldDisplayQuickSubmit,
+  shouldDisplayFormUpload,
   toggleLoginModal,
   formNumber,
   hasOnlineTool,
@@ -21,11 +21,11 @@ export const App = ({
     toggleLoginModal,
   ]);
 
-  if (shouldDisplayQuickSubmit === undefined || hasOnlineTool === undefined) {
+  if (shouldDisplayFormUpload === undefined || hasOnlineTool === undefined) {
     return <va-loading-indicator message="Loading..." />;
   }
 
-  if (shouldDisplayQuickSubmit && !hasOnlineTool) {
+  if (shouldDisplayFormUpload && !hasOnlineTool) {
     return (
       <>
         <h3>Submit completed form</h3>
@@ -40,7 +40,7 @@ export const App = ({
             Start uploading your form
           </a>
         ) : (
-          <VaAlert status="info" data-testid="quick-submit-sign-in-alert" uswds>
+          <VaAlert status="info" data-testid="form-upload-sign-in-alert" uswds>
             <h2 slot="headline">Sign in now to submit a completed form</h2>
             <p>By signing in you will be able to submit a completed PDF form</p>
             <VaButton
@@ -59,22 +59,17 @@ export const App = ({
 };
 
 App.propTypes = {
+  hasOnlineTool: PropTypes.bool.isRequired,
+  shouldDisplayFormUpload: PropTypes.bool.isRequired,
   toggleLoginModal: PropTypes.func.isRequired,
   formNumber: PropTypes.string,
-  hasOnlineTool: PropTypes.bool,
-  shouldDisplayQuickSubmit: PropTypes.bool,
 };
 
 const mapDispatchToProps = dispatch => ({
   toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
 });
 
-const mapStateToProps = _ => ({
-  // TODO: Handle this boolean correctly.
-  shouldDisplayQuickSubmit: false,
-});
-
 export default connect(
-  mapStateToProps,
+  () => ({}),
   mapDispatchToProps,
 )(App);
