@@ -69,73 +69,12 @@
   cursor: pointer;
   border-radius: 50%;
   padding: .4rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  z-index: 301;
 }
 
 
-// switch ui styles
-.switch-container input[role="switch"] {
-  opacity: 0;
-}
-
-.switch-container input[role="switch"] ~ .state {
-  display: inline-block;
-  user-select: none;
-}
-
-.switch-container input[role="switch"] ~ .state > .container {
-  position: relative;
-  top: 2px;
-  display: inline-block;
-  border: 2px solid var(--vads-color-black);
-  width: 40px;
-  height: 20px;
-  border-radius: 11px;
-}
-
-.switch-container input[role="switch"] ~ .state > .container > .position {
-  position: relative;
-  top: 1px;
-  left: 2px;
-  display: inline-block;
-  border: 2px solid var(--vads-color-success-dark);
-  border-radius: 9px;
-  width: 14px;
-  height: 14px;
-  background: var(--vads-color-success-dark);
-  opacity: 0.8;
-}
-
-.on, .off, .switch-container .label {
-  padding: 0px .5rem;
-}
-
-.switch-container input[role="switch"]:not(:checked) ~ .state span.on {
-  display: none;
-}
-
-.switch-container input[role="switch"]:checked ~ .state > span.off {
-  display: none;
-}
-
-.switch-container input[role="switch"]:checked ~ .state > .container > .position {
-  left: 20px;
-  border-color: var(--vads-color-primary);
-  background: var(--vads-color-primary);
-  opacity: 1;
-}
-
-.switch-container.focus,
-.switch-container:hover {
-  border-width: 2px;
-  outline: none;
-  background-color: var(--vads-color-base-lightest);
-  cursor: pointer;
-}
-
-.switch-container.focus span.container,
-.switch-container:hover span.container {
-  background-color: var(--vads-color-white);
-}
 
 .tab-save-button {
   position: sticky;
