@@ -141,6 +141,15 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     [dispatch, location.pathname, selectedSortOption, refillResult],
   );
 
+  useEffect(
+    () => {
+      if (!isLoading) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [isLoading],
+  );
+
   const content = () => {
     if (!showRefillContent) {
       return <PageNotFound />;

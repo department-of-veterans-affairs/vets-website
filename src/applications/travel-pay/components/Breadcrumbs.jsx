@@ -12,12 +12,12 @@ export default function BreadCrumbs() {
           label: 'VA.gov home',
         },
         {
-          href: '/health-care',
-          label: 'Health Care',
+          href: '/my-health',
+          label: 'My HealtheVet',
         },
         {
           href: '/health-care/file-travel-claim',
-          label: 'Travel Claims',
+          label: 'Check your travel reimbursement claim status',
         },
       ]}
       label="Breadcrumb"
