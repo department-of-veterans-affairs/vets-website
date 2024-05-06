@@ -3,9 +3,9 @@ import { getPOARequestsByCodes } from '../actions/poaRequests';
 import { mockPOARequests } from '../mocks/mockPOARequests';
 
 const usePOARequests = () => {
-  const [poaRequests, setPOARequests] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [poaRequests, setPOARequests] = useState(null);
 
   useEffect(() => {
     setIsLoading(true);
@@ -27,7 +27,7 @@ const usePOARequests = () => {
     fetchPOARequests();
   }, []);
 
-  return { poaRequests, isLoading, error };
+  return { isLoading, error, poaRequests };
 };
 
 export default usePOARequests;

@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 
-import './POARequestsTable.scss';
-
-const formatDate = date => {
+export const formatDate = date => {
   const [year, month, day] = date.split('-');
   return `${month}-${day}-${year}`;
 };
 
-const createLimitationsCell = (healthInfo, changeAddress) => {
+export const createLimitationsCell = (healthInfo, changeAddress) => {
   let text = null;
   if (healthInfo === 'Y' && changeAddress === 'Y') {
     text = 'Health, Address';
@@ -21,7 +19,7 @@ const createLimitationsCell = (healthInfo, changeAddress) => {
   }
 
   return text ? (
-    <div className="limitations-row">
+    <span className="limitations-row">
       <va-icon
         class="limitations-row__warning-icon"
         icon="warning"
@@ -29,13 +27,13 @@ const createLimitationsCell = (healthInfo, changeAddress) => {
         srtext="warning"
       />
       {text}
-    </div>
+    </span>
   ) : (
     'None'
   );
 };
 
-const createRelationshipCell = attributes => {
+export const createRelationshipCell = attributes => {
   if ('veteran' in attributes) {
     return attributes?.claimant.relationship;
   }
@@ -65,13 +63,19 @@ const POARequestsTable = ({ poaRequests }) => {
           <span data-testid={`poa-requests-table-${procId}-status`}>
             {upperFirst(attributes.secondaryStatus)}
           </span>
-          <span data-testid={`poa-requests-table-${procId}-name`}>
-            <Link to={`/poa-requests/${procId}`}>
+          <span>
+            <Link
+              data-testid={`poa-requests-table-${procId}-name`}
+              to={`/poa-requests/${procId}`}
+            >
               {`${attributes.claimant.lastName}, ${
                 attributes.claimant.firstName
               }`}
             </Link>
-            <span className="relationship-row">
+            <span
+              data-testid={`poa-requests-table-${procId}-relationship`}
+              className="relationship-row"
+            >
               {createRelationshipCell(attributes)}
             </span>
           </span>

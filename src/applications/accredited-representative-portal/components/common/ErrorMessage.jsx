@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ErrorMessage = () => (
-  <va-alert status="error" visible>
+  <va-alert data-testid="error-message" status="error" visible>
     <h2 slot="headline">We’re sorry. Something went wrong.</h2>
     <div>
       <p className="vads-u-margin-y--0">
