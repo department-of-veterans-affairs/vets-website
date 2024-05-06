@@ -2,15 +2,11 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns';
 
 const {
-  campLejeune,
   disabledInLineOfDuty,
-  exposedToRadiation,
   isFormerPow,
   postNov111998Combat,
   purpleHeartRecipient,
-  radiumTreatments,
   swAsiaCombat,
-  vietnamService,
 } = fullSchemaHca.properties;
 
 export default {
@@ -48,10 +44,6 @@ export default {
           postNov111998Combat,
           disabledInLineOfDuty,
           swAsiaCombat,
-          vietnamService,
-          exposedToRadiation,
-          radiumTreatments,
-          campLejeune,
         },
       },
     },
