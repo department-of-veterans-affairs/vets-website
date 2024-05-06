@@ -35,7 +35,8 @@ describe('Check In Experience | Pre-check-in', () => {
         AppointmentsPage.validatePageLoaded();
         AppointmentsPage.clickUpcomingAppointmentDetails();
         AppointmentDetails.validatePageLoadedInPerson();
-        AppointmentDetails.validateSubtitleInPerson();
+        // TODO: Commenting out until we can link upcoming appointments to their vista counterparts
+        // AppointmentDetails.validateSubtitleInPerson();
         AppointmentDetails.validateWhen();
         AppointmentDetails.validateWhat();
         AppointmentDetails.validateProvider();
