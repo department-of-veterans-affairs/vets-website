@@ -121,7 +121,7 @@ Cypress.Commands.add(
         if ($el && !$el.is(selector)) {
           cy.tabToElement(
             selector,
-            // reverse direction if we get into the footer
+            // reverse direction if we get into the header or footer
             $el.is('#footerNav a, header a') ? !forward : forward,
             false,
           );
