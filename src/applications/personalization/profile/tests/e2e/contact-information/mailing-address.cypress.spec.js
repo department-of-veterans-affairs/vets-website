@@ -94,7 +94,7 @@ const confirmWebAddressesAreBlocked = () => {
 
   cy.get(`[name="${SELECTORS.STREET2}"][error*="valid street address"]`);
 
-  cy.fillVaTextInput(SELECTORS.STREET2, ' ');
+  cy.fillVaTextInput(SELECTORS.STREET2, '');
 
   cy.get('[error]').should('not.exist');
 
@@ -106,7 +106,7 @@ const confirmWebAddressesAreBlocked = () => {
 
   cy.get(`[name="${SELECTORS.STREET3}"][error*="valid street address"]`);
 
-  cy.fillVaTextInput(SELECTORS.STREET3, ' ');
+  cy.fillVaTextInput(SELECTORS.STREET3, '');
 
   cy.get('[error]').should('not.exist');
 
