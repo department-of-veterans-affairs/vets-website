@@ -1,0 +1,93 @@
+$nav-width-bar-max-width: 696px;
+$nav-mobile-breakpoint: 650px;
+$nav-abbr-breakpoint: 415px;
+
+.mhv-c-sec-nav-bar {
+  max-width: $nav-width-bar-max-width;
+}
+
+.mhv-c-sec-nav-bar-row {
+  justify-content: space-evenly;
+}
+
+.mhv-c-sec-nav-item {
+  height: 60px;
+
+  a, a:visited, a:active, abbr {
+    color: var(--vads-color-white);
+  }
+
+  a:hover {
+    color: var(--vads-color-primary);
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
+  }
+
+  i {
+    height: 17px;
+    padding-right: 0.7rem;
+  }
+}
+
+.mhv-u-sec-nav-header-style a {
+    padding: 11px 7px 11px 7px;
+}
+
+.mhv-u-sec-nav-item-style a {
+    padding: 13px 7px 13px 7px;
+}
+
+.mhv-u-sec-nav-active-style {
+  a {
+    background-color: var(--vads-color-white);
+    border-radius: 5px;
+  }
+
+  a, a:visited, a:active, abbr {
+    color: var(--vads-color-primary);
+  }
+}
+
+// Mobile view
+@media (max-width: $nav-mobile-breakpoint) {
+  .mhv-u-sec-nav-header-style {
+    flex: 0 0 100%;
+
+    // Show the header item as a white bar when active
+    &.mhv-u-sec-nav-active-style {
+      color: var(--vads-color-primary);
+      background-color: var(--vads-color-white);
+    }
+  }
+
+  .mhv-u-sec-nav-item-style {
+    a {
+      // Make the icon appear on top of the text
+      display: grid;
+      justify-items: center;
+      padding: 7px 7px 1px 7px;
+    }
+
+    i {
+      display: contents;
+    }
+  }
+}
+
+// Show the abbreviation instead of the long title
+@media (max-width: $nav-abbr-breakpoint) {
+  .mhv-u-sec-nav-item-title {
+    display: none;
+  }
+}
+
+// Show the title instead of the abbreviation
+@media (min-width: $nav-abbr-breakpoint) {
+  .mhv-u-sec-nav-short-title {
+    display: none;
+  }
+
+  .mhv-u-sec-nav-item-title {
+    display: inherit;
+  }
+}
