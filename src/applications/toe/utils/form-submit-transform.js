@@ -374,9 +374,7 @@ export function transformTOEForm(_formConfig, form) {
     ? form?.data?.highSchoolDiplomaLegacy === 'Yes'
     : form?.data?.highSchoolDiploma === 'Yes';
 
-  const highSchoolDiplomaDate = form.data?.toeHighSchoolInfoChange
-    ? form?.data?.highSchoolDiplomaDateLegacy
-    : form?.data?.highSchoolDiplomaDate;
+  const highSchoolDiplomaDate = form?.data?.highSchoolDiplomaDate;
 
   const payload = {
     formId: form?.formId,
