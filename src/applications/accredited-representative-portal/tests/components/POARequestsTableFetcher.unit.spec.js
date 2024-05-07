@@ -4,7 +4,9 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 
 import POARequestsTableFetcher from '../../components/POARequestsTableFetcher/POARequestsTableFetcher';
-import { mockPOARequests } from '../../mocks/mockPOARequests';
+import mockPOARequestsResponse from '../../mocks/mockPOARequestsResponse.json';
+
+const mockPOARequests = mockPOARequestsResponse.data;
 
 describe('POARequestsTableFetcher', () => {
   it('renders loading indicator when its loading', () => {
