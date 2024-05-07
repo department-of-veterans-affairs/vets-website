@@ -470,6 +470,7 @@ module.exports = {
   createAppointments,
   createAppointmentsOH,
   createAppointment,
+  createUpcomingAppointment,
   createUpcomingAppointments,
   createMockFailedResponse,
   createMockNotFoundResponse,

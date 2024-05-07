@@ -305,7 +305,7 @@ const clinicName = appointment => {
 };
 
 /**
- * Return a unique ID of ien and station or the id from VAOS appointments.
+ * Return a unique ID of ien and station for vista appointments.
  *
  * @param {Appointment} appointment
  * @returns {string}
@@ -313,7 +313,7 @@ const clinicName = appointment => {
 
 const getAppointmentId = appointment => {
   if (appointment.id) {
-    return appointment.id;
+    return `${appointment.id}-${appointment.stationNo}`;
   }
   return `${appointment.appointmentIen}-${appointment.stationNo}`;
 };
@@ -344,8 +344,11 @@ const findAppointment = (appointmentId, appointments) => {
  * @returns {object}
  */
 const findUpcomingAppointment = (appointmentId, appointments) => {
+  const appointementIdParts = appointmentId.split('-');
   return appointments.find(
-    appointmentItem => appointmentItem.id === appointmentId,
+    appointmentItem =>
+      appointmentItem.id === appointementIdParts[0] &&
+      appointmentItem.stationNo === appointementIdParts[1],
   );
 };
 
@@ -397,6 +400,36 @@ const getCheckinableAppointments = appointments => {
   return appointments.filter(a => a.eligibility === ELIGIBILITY.ELIGIBLE);
 };
 
+/**
+ * Convert the appointments from the API to the format needed for the UI.
+ * @param {Array} appointments
+ * @returns {Array}
+ */
+const convertAppointments = appointments => {
+  return appointments.map(appointment => ({
+    id: appointment.id,
+    facility: appointment.attributes.location,
+    clinicPhoneNumber: null,
+    clinicFriendlyName: appointment.attributes.friendlyName,
+    clinicName: appointment.attributes.clinic,
+    clinicStopCodeName: null,
+    clinicLocation: appointment.attributes.physicalLocation,
+    doctorName: null,
+    appointmentIen: null,
+    startTime: appointment.attributes.start,
+    stationNo: appointment.attributes.locationId,
+    eligibility: null,
+    kind: appointment.attributes.kind,
+    clinicIen: null,
+    checkInWindowStart: null,
+    checkInWindowEnd: null,
+    checkInSteps: null,
+    checkedInTime: null,
+    status: appointment.attributes.status,
+    facilityAddress: null,
+  }));
+};
+
 export {
   appointmentStartTimePast15,
   appointmentWasCanceled,
@@ -420,4 +453,5 @@ export {
   getUniqueFacilies,
   utcToFacilityTimeZone,
   getCheckinableAppointments,
+  convertAppointments,
 };

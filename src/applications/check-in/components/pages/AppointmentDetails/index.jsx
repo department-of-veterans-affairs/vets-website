@@ -52,7 +52,7 @@ const AppointmentDetails = props => {
   useLayoutEffect(
     () => {
       if (appointmentId) {
-        // It's not going to find upcoming appoinments in the list of vista appointments until we can figure out which data to use to link the two.
+        // TODO: It's not going to find upcoming appoinments in the list of vista appointments until we can figure out which data to use to link the two.
         const activeAppointmentDetails = findAppointment(
           appointmentId,
           appointments,
