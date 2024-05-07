@@ -1,9 +1,11 @@
 import {
   radioUI,
-  radioSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { isMarried } from './helpers';
+
+const { currentSpouseMaritalHistory } = fullSchemaPensions.properties;
 
 const radioOptions = {
   YES: 'Yes',
@@ -27,7 +29,7 @@ export default {
     type: 'object',
     required: ['currentSpouseMaritalHistory'],
     properties: {
-      currentSpouseMaritalHistory: radioSchema(Object.keys(radioOptions)),
+      currentSpouseMaritalHistory,
     },
   },
 };

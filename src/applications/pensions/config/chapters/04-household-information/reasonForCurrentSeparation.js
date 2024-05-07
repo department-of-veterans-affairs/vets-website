@@ -1,11 +1,16 @@
 import get from 'platform/utilities/data/get';
 import {
   radioUI,
-  radioSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { isSeparated } from './helpers';
+
+const {
+  reasonForCurrentSeparation,
+  otherExplanation,
+} = fullSchemaPensions.properties;
 
 const reasonForCurrentSeparationOptions = {
   MEDICAL_CARE: 'One of us needs medical care in a dedicated facility',
@@ -42,10 +47,8 @@ export default {
     type: 'object',
     required: ['reasonForCurrentSeparation'],
     properties: {
-      reasonForCurrentSeparation: radioSchema(
-        Object.keys(reasonForCurrentSeparationOptions),
-      ),
-      otherExplanation: { type: 'string' },
+      reasonForCurrentSeparation,
+      otherExplanation,
     },
   },
 };

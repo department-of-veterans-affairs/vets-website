@@ -6,7 +6,6 @@ import {
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
   radioUI,
-  radioSchema,
   numberUI,
   numberSchema,
   titleUI,
@@ -16,10 +15,22 @@ import {
   VaCheckboxField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { updateMultiresponseUiOptions } from '../../../helpers';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
 import { doesHaveCareExpenses } from './helpers';
+
+const {
+  recipients,
+  childName,
+  provider,
+  careType,
+  ratePerHour,
+  noCareEndDate,
+  paymentFrequency,
+  paymentAmount,
+} = fullSchemaPensions.definitions.careExpenses.items.properties;
 
 const careOptions = {
   CARE_FACILITY: 'Care facility',
@@ -140,19 +151,22 @@ export default {
             'paymentAmount',
           ],
           properties: {
-            recipients: radioSchema(Object.keys(recipientTypeLabels)),
-            childName: { type: 'string' },
-            provider: { type: 'string' },
-            careType: radioSchema(Object.keys(careOptions)),
-            ratePerHour: { type: 'number' },
+            /* radioSchema(Object.keys(recipientTypeLabels)) */
+            recipients,
+            childName,
+            provider,
+            /* radioSchema(Object.keys(careOptions)) */
+            careType,
+            ratePerHour,
             hoursPerWeek: numberSchema,
             careDateRange: {
               ...currentOrPastDateRangeSchema,
               required: ['from'],
             },
-            noCareEndDate: { type: 'boolean' },
-            paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
-            paymentAmount: { type: 'number' },
+            noCareEndDate,
+            /* radioSchema(Object.keys(frequencyOptions)) */
+            paymentFrequency,
+            paymentAmount,
           },
         },
       },
