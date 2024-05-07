@@ -237,34 +237,37 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                 <label
                   htmlFor={`checkbox-${prescription.prescriptionId}`}
                   id={`label-${prescription.prescriptionId}`}
+                  className="refillable-prescription-item"
                 >
-                  <span className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-font-family--serif vads-u-font-weight--bold">
-                    {prescription.prescriptionName}
-                  </span>
-                  <div
-                    id={`details-${prescription.prescriptionId}`}
-                    className="vads-u-margin-left--4 vads-u-margin-top--0"
-                    data-testid={`refill-prescription-details-${
-                      prescription.prescriptionNumber
-                    }`}
-                  >
-                    <p className="vads-u-margin--0">
-                      Prescription number: {prescription.prescriptionNumber}
-                    </p>
-                    <p
-                      className="vads-u-margin--0"
-                      data-testid={`refill-last-filled-${idx}`}
+                  <div>
+                    <span className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-font-family--serif vads-u-font-weight--bold">
+                      {prescription.prescriptionName}
+                    </span>
+                    <div
+                      id={`details-${prescription.prescriptionId}`}
+                      className="vads-u-margin-top--0"
+                      data-testid={`refill-prescription-details-${
+                        prescription.prescriptionNumber
+                      }`}
                     >
-                      Last filled on{' '}
-                      {dateFormat(
-                        prescription.sortedDispensedDate ||
-                          prescription.dispensedDate,
-                        'MMMM D, YYYY',
-                      )}
-                    </p>
-                    <p className="vads-u-margin--0">
-                      {prescription.refillRemaining} refills left
-                    </p>
+                      <p className="vads-u-margin--0">
+                        Prescription number: {prescription.prescriptionNumber}
+                      </p>
+                      <p
+                        className="vads-u-margin--0"
+                        data-testid={`refill-last-filled-${idx}`}
+                      >
+                        Last filled on{' '}
+                        {dateFormat(
+                          prescription.sortedDispensedDate ||
+                            prescription.dispensedDate,
+                          'MMMM D, YYYY',
+                        )}
+                      </p>
+                      <p className="vads-u-margin--0">
+                        {prescription.refillRemaining} refills left
+                      </p>
+                    </div>
                   </div>
                 </label>
               </div>
