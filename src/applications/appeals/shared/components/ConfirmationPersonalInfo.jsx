@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-redundant-roles */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -14,6 +13,9 @@ const ConfirmationPersonalInfo = ({ profile, data }) => {
   return (
     <>
       <h3 className="vads-u-margin-top--2">Personal Information</h3>
+      {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+          a problem with Safari not treating the `ul` as a list. */}
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="remove-bullets" role="list">
         <li>
           <div className="page-title vads-u-color--gray">Name</div>

@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-redundant-roles */
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
@@ -132,6 +131,9 @@ export const ConfirmationPageV2 = () => {
       <ConfirmationIssues data={data} />
 
       <h3 className="vads-u-margin-top--2">Board Review Options</h3>
+      {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+          a problem with Safari not treating the `ul` as a list. */}
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="remove-bullets" role="list">
         <li>
           <div className="page-title vads-u-color--gray">

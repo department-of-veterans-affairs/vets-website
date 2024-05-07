@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-redundant-roles */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -9,6 +8,9 @@ import { disagreeWith } from '../utils/areaOfDisagreement';
 const ConfirmationIssues = ({ data }) => (
   <>
     <h3 className="vads-u-margin-top--2">Issues for review</h3>
+    {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+        a problem with Safari not treating the `ul` as a list. */}
+    {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
     <ul className="remove-bullets" role="list">
       {/* Specific items for NOD; will generalize for other forms in the future */}
       <li>
@@ -51,6 +53,9 @@ const ConfirmationIssues = ({ data }) => (
         <div className="page-title vads-u-color--gray vads-u-margin-top--2">
           The issues you’re asking the board to review:
         </div>
+        {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+            a problem with Safari not treating the `ul` as a list. */}
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ul className="remove-bullets" role="list">
           {data.areaOfDisagreement?.map((issue, index) => (
             <li
