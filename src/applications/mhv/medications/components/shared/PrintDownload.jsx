@@ -152,7 +152,9 @@ const PrintDownload = props => {
           {list && (
             <li>
               <button
-                data-dd-action-name="Print All Medications Option - List Page"
+                data-dd-action-name={`Print All Medications Option - ${
+                  DD_ACTIONS_PAGE_TYPE.LIST
+                }`}
                 className="vads-u-padding-x--2"
                 id="printButton-1"
                 type="button"
