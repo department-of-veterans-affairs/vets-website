@@ -1,7 +1,12 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-import dateUI from 'platform/forms-system/src/js/definitions/date';
-import { validateDate } from 'platform/forms-system/src/js/validation';
+import dateUI from '@department-of-veterans-affairs/platform-forms-system/date';
+import { validateDate } from '@department-of-veterans-affairs/platform-forms/validations';
+
+import {
+  yesNoUI,
+  yesNoSchema,
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
 
 import { title10DatesRequired } from '../utils';
 import {
@@ -21,11 +26,10 @@ export const uiSchema = {
   serviceInformation: {
     'ui:validations': [title10BeforeRad],
     reservesNationalGuardService: {
-      'view:isTitle10Activated': {
-        'ui:title':
+      'view:isTitle10Activated': yesNoUI({
+        title:
           'Are you currently activated on federal orders in the Reserve or the National Guard?',
-        'ui:widget': 'yesNo',
-      },
+      }),
       title10Activation: {
         'ui:options': {
           expandUnder: 'view:isTitle10Activated',
@@ -55,9 +59,7 @@ export const schema = {
           type: 'object',
           required: ['view:isTitle10Activated'],
           properties: {
-            'view:isTitle10Activated': {
-              type: 'boolean',
-            },
+            'view:isTitle10Activated': yesNoSchema,
             title10Activation,
           },
         },
