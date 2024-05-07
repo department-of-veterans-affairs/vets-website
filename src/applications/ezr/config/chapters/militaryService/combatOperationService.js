@@ -1,22 +1,29 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
+import {
+  radioUI,
+  radioSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import CombatOperationServiceDescription from '../../../components/FormDescriptions/CombatOperationServiceDescription';
 import content from '../../../locales/en/content.json';
-
-const { combatOperationService } = ezrSchema.properties;
 
 export default {
   uiSchema: {
     'ui:title': content['military-service-operations-title'],
-    combatOperationService: {
-      'ui:title': content['military-service-operations-description'],
-      'ui:description': CombatOperationServiceDescription,
-      'ui:widget': 'yesNo',
-    },
+    combatOperationService: radioUI({
+      classNames: 'custom-hide-label',
+      useFormsPattern: 'single',
+      formHeading: content['military-service-operations-description'],
+      formDescription: CombatOperationServiceDescription,
+      formHeadingLevel: 5,
+      labels: {
+        '1': 'Yes',
+        '2': 'No',
+      },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      combatOperationService,
+      combatOperationService: radioSchema(['1', '2']),
     },
   },
 };
