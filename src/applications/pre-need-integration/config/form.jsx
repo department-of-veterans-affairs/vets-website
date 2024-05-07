@@ -23,7 +23,8 @@ import * as sponsorDemographics from './pages/sponsorDemographics';
 import * as sponsorDeceased from './pages/sponsorDeceased';
 import * as sponsorDateOfDeath from './pages/sponsorDateOfDeath';
 import * as sponsorRace from './pages/sponsorRace';
-import * as sponsorMilitaryDetails from './pages/sponsorMilitaryDetails';
+import * as sponsorMilitaryDetailsSelf from './pages/sponsorMilitaryDetailsSelf';
+import * as sponsorMilitaryDetailsPreparer from './pages/sponsorMilitaryDetailsPreparer';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
 import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
@@ -444,17 +445,13 @@ const formConfig = {
           uiSchema: sponsorRace.uiSchema,
           schema: sponsorRace.schema,
         },
-        sponsorMilitaryDetails: {
-          title: "Sponsor's military details",
-          path: 'sponsor-military-details',
-          depends: formData => !isVeteran(formData),
-          uiSchema: sponsorMilitaryDetails.uiSchema,
-          schema: sponsorMilitaryDetails.schema,
-        },
       },
     },
     militaryHistory: {
-      title: 'Applicant military history',
+      title: formData =>
+        isVeteran(formData)
+          ? 'Applicant military history'
+          : 'Sponsor military history',
       pages: {
         militaryDetailsSelf: {
           path: 'military-details-self',
@@ -471,6 +468,22 @@ const formConfig = {
             isVeteran(formData) && isAuthorizedAgent(formData),
           uiSchema: militaryDetailsPreparer.uiSchema,
           schema: militaryDetailsPreparer.schema,
+        },
+        sponsorMilitaryDetailsSelf: {
+          title: "Sponsor's military details",
+          path: 'sponsor-military-details',
+          depends: formData =>
+            !isVeteran(formData) && !isAuthorizedAgent(formData),
+          uiSchema: sponsorMilitaryDetailsSelf.uiSchema,
+          schema: sponsorMilitaryDetailsSelf.schema,
+        },
+        sponsorMilitaryDetailsPreparer: {
+          title: "Sponsor's military details",
+          path: 'sponsor-military-details-preparer',
+          depends: formData =>
+            !isVeteran(formData) && isAuthorizedAgent(formData),
+          uiSchema: sponsorMilitaryDetailsPreparer.uiSchema,
+          schema: sponsorMilitaryDetailsPreparer.schema,
         },
         // Two sets of military history pages dependent on
         // whether the applicant is the veteran or not.
