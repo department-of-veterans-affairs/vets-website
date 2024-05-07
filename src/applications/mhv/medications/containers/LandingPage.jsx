@@ -372,8 +372,7 @@ const LandingPage = () => {
                   </p>
                   <p className="vads-u-margin-bottom--0">
                     <strong>For questions about how to use this tool,</strong>{' '}
-                    call us at
-                    <va-telephone contact="8773270022" /> (
+                    call us at <va-telephone contact="8773270022" /> (
                     <va-telephone tty contact="711" />
                     ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
                     ET.
@@ -543,11 +542,12 @@ const LandingPage = () => {
                     tools. But your Meds by Mail servicing center keeps a record
                     of your allergies and reactions to medications.
                   </p>
-                  <p>
+                  <p className="vads-u-margin-bottom--0">
                     If you have a new allergy or reaction, tell your provider.
                     Or you can call your Meds by Mail servicing center and ask
                     them to update your records.{' '}
                     <a
+                      className="vads-u-display--block vads-u-margin-top--2"
                       href="https://www.va.gov/COMMUNITYCARE/programs/dependents/pharmacy/meds-by-mail.asp"
                       rel="noreferrer"
                     >
@@ -589,7 +589,7 @@ const LandingPage = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6">
+      <div className="landing-page vads-u-margin-top--neg2 vads-u-margin-bottom--6">
         {content()}
       </div>
     </RequiredLoginView>
