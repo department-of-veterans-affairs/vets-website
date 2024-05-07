@@ -7,11 +7,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import Avs from './containers/Avs';
 
 const ErrorBoundaryWrapper = props => {
-  const accessGuard = useMyHealthAccessGuard();
-
-  if (accessGuard) {
-    return accessGuard;
-  }
+  useMyHealthAccessGuard();
 
   return (
     <ErrorBoundary>
