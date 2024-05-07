@@ -1,9 +1,5 @@
 import { validateDate } from 'platform/forms-system/src/js/validation';
-import {
-  isChapterFieldRequired,
-  // classesPerWeekUiSchema,
-  // hoursPerWeekUiSchema,
-} from '../../../helpers';
+import { isChapterFieldRequired } from '../../../helpers';
 import { report674 } from '../../../utilities';
 
 export const schema = report674.properties.studentTermDates;
