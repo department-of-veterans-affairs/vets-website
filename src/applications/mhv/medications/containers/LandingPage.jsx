@@ -97,11 +97,11 @@ const LandingPage = () => {
           <section>
             <h1
               data-testid="landing-page-heading"
-              className="vads-u-margin-top--4 vads-u-margin-bottom--0"
+              className="medium-screen:vads-u-margin-top--4 medium-screen:vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-margin-bottom--1"
             >
               About medications
             </h1>
-            <p className="vads-u-font-family--serif">
+            <p className="vads-u-font-family--serif vads-u-margin-top--1">
               Learn how to manage your VA prescriptions and review your
               medications list.
             </p>
@@ -166,7 +166,7 @@ const LandingPage = () => {
               </div>
             </section>
           )}
-          <hr className="vads-u-margin-top--6" />
+          <hr className="vads-u-margin-y--3 small-screen:vads-u-margin-top--6" />
           <section>
             <h2>What to know as you try out this tool</h2>
             <p>
@@ -552,7 +552,7 @@ const LandingPage = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6">
+      <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6 small-screen:vads-u-margin-x--1">
         {content()}
       </div>
     </RequiredLoginView>
