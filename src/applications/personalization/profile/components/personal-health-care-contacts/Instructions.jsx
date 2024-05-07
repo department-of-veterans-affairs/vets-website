@@ -9,7 +9,7 @@ const Instructions = ({ testId, contactType }) => {
     <div data-testid={testId}>
       To add {isEmergency ? 'an' : 'a'} {contactType}, call your VA health
       facility.{' '}
-      <Link to="https://www.va.gov/find-locations/">
+      <Link testId={testId} to="https://www.va.gov/find-locations/">
         Find your health facility’s phone number
       </Link>
       .

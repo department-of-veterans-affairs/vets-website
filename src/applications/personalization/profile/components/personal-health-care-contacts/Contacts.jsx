@@ -55,7 +55,10 @@ const Contacts = ({ data }) => {
             <li>Ask a staff member at your next appointment, or</li>
             <li>
               Call your VA health facility.{' '}
-              <Link to="https://www.va.gov/find-locations/">
+              <Link
+                testId="find-locations-additional-info-link"
+                to="https://www.va.gov/find-locations/"
+              >
                 Find your health facility’s phone number
               </Link>
             </li>
