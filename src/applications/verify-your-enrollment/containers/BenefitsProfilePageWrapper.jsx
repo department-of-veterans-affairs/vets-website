@@ -104,7 +104,8 @@ const BenefitsProfileWrapper = ({ children }) => {
                     zipCode: addressLine6,
                   }}
                 />
-                {signIn?.serviceName === 'idme' ? (
+                {signIn?.serviceName === 'idme' ||
+                signIn?.serviceName === 'logingov' ? (
                   <ChangeOfDirectDepositWrapper applicantName={applicantName} />
                 ) : (
                   <LoginAlert />
