@@ -49,7 +49,7 @@ const BenefitsProfileWrapper = ({ children }) => {
           data: {
             attributes: { profile },
           },
-        } = await apiRequest('http://localhost:8080/v0/user', {
+        } = await apiRequest('/user', {
           method: 'GET',
           credentials: 'include',
           headers: {
