@@ -4,21 +4,10 @@ import 'cypress-plugin-tab';
 import 'cypress-real-events/support';
 import '@cypress/code-coverage/support';
 import addContext from 'mochawesome/addContext';
-import { configure } from '@testing-library/cypress';
 import './commands';
 
 // workaround for 'AssertionError: Timed out retrying after 4000ms: Invalid string length'
 // https://github.com/testing-library/cypress-testing-library/issues/241
-configure({
-  getElementError(message, container) {
-    const error = new Error(
-      [message, container.tagName].filter(Boolean).join('\n\n'),
-    );
-    error.name = 'TestingLibraryElementError';
-    return error;
-  },
-});
-
 before(() => {
   cy.configureCypressTestingLibrary({
     getElementError(message, container) {
