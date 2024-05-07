@@ -1,13 +1,13 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
-import { serviceRecordsUI } from '../../utils/helpers';
+import { preparerServiceRecordsUI } from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
   application: {
     veteran: {
-      serviceRecords: serviceRecordsUI,
+      serviceRecords: preparerServiceRecordsUI,
     },
     'ui:options': {
       customTitle: ' ',

@@ -93,16 +93,16 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'We use this information to verify other details.',
-            fullName: veteranFullNameUI,
-            veteranDOB: dateOfBirthUI(),
+            veteranFullName: veteranFullNameUI,
+            veteranDateOfBirth: dateOfBirthUI(),
           },
           schema: {
             type: 'object',
             required: ['fullName', 'veteranDOB'],
             properties: {
               titleSchema,
-              fullName: fullNameSchema,
-              veteranDOB: dateOfBirthSchema,
+              veteranFullName: fullNameSchema,
+              veteranDateOfBirth: dateOfBirthSchema,
             },
           },
         },
@@ -121,14 +121,14 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'You must enter either a Social Security number or VA file number.',
-            ssn: ssnOrVaFileNumberNoHintUI(),
+            veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintUI(),
           },
           schema: {
             type: 'object',
             required: ['ssn'],
             properties: {
               titleSchema,
-              ssn: ssnOrVaFileNumberSchema,
+              veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
             },
           },
         },
@@ -147,7 +147,7 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               "We'll send any important information about your application to this address.",
-            mailingAddress: addressUI({
+            veteranAddress: addressUI({
               labels: {
                 street2: 'Apartment or unit number',
               },
@@ -162,7 +162,7 @@ const formConfig = {
             required: ['mailingAddress'],
             properties: {
               titleSchema,
-              mailingAddress: addressSchema({
+              veteranAddress: addressSchema({
                 omit: ['street3'],
               }),
             },
@@ -227,15 +227,15 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
-            phoneNumber: phoneUI(),
-            emailAddress: emailUI(),
+            veteranPhoneNumber: phoneUI(),
+            veteranEmailAddress: emailUI(),
           },
           schema: {
             type: 'object',
             properties: {
               titleSchema,
-              phoneNumber: phoneSchema,
-              emailAddress: emailSchema,
+              veteranPhoneNumber: phoneSchema,
+              veteranEmailAddress: emailSchema,
             },
           },
         },
