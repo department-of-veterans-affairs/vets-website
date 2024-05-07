@@ -1,7 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import dateUI from '@department-of-veterans-affairs/platform-forms-system/date';
-import { validateDate } from '@department-of-veterans-affairs/platform-forms/validations';
+import { validateDate } from '@department-of-veterans-affairs/platform-forms-system/validation';
 
 import {
   yesNoUI,
