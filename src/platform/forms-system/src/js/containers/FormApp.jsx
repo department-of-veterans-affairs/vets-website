@@ -7,7 +7,7 @@ import { isLoggedIn } from 'platform/user/selectors';
 
 import FormNav from '../components/FormNav';
 import FormTitle from '../components/FormTitle';
-import { isInProgress } from '../helpers';
+import { isInProgress, hideFormTitle } from '../helpers';
 import { setGlobalScroll } from '../utilities/ui';
 
 const { Element } = Scroll;
@@ -44,6 +44,7 @@ class FormApp extends React.Component {
         : formConfig.title;
     const { noTitle, noTopNav, fullWidth } = formConfig?.formOptions || {};
     const notProd = !environment.isProduction();
+    const hasHiddenFormTitle = hideFormTitle(formConfig, trimmedPathname);
 
     let formTitle;
     let formNav;
@@ -52,7 +53,7 @@ class FormApp extends React.Component {
     // 1. we're not on the intro page *or* one of the additionalRoutes
     //    specified in the form config
     // 2. there is a title specified in the form config
-    if (!isIntroductionPage && !isNonFormPage && title) {
+    if (!isIntroductionPage && !isNonFormPage && !hasHiddenFormTitle && title) {
       formTitle = <FormTitle title={title} subTitle={formConfig.subTitle} />;
     }
 
