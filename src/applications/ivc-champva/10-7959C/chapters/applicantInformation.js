@@ -21,7 +21,7 @@ export const blankSchema = { type: 'object', properties: {} };
 export const applicantNameDobSchema = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) =>
+      formData =>
         `${
           formData.certifierRole === 'applicant' ? 'Your' : 'Applicant'
         } name and date of birth`,

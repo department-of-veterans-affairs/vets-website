@@ -108,7 +108,159 @@ describe('Applicant Name/DOB page title', () => {
     const res = title({ ...mockData.data, certifierRole: 'applicant' });
     expect(res.startsWith('Your')).to.be.true;
   });
+  testNumberOfWebComponentFields(
+    formConfig,
+    formConfig.chapters.applicantInformation.pages.applicantNameDob.schema,
+    formConfig.chapters.applicantInformation.pages.applicantNameDob.uiSchema,
+    5,
+    'Applicant name/DOB',
+    { ...mockData.data },
+  );
 });
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.applicantIdentity.schema,
+  formConfig.chapters.applicantInformation.pages.applicantIdentity.uiSchema,
+  1,
+  'Applicant identification',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.applicantAddressInfo.schema,
+  formConfig.chapters.applicantInformation.pages.applicantAddressInfo.uiSchema,
+  8,
+  'Applicant address info',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.applicantContactInfo.schema,
+  formConfig.chapters.applicantInformation.pages.applicantContactInfo.uiSchema,
+  2,
+  'Applicant contact info',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.hasMedicareAB.schema,
+  formConfig.chapters.medicareInformation.pages.hasMedicareAB.uiSchema,
+  1,
+  'Applicant has medicare AB',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.hasMedicareAB.schema,
+  formConfig.chapters.medicareInformation.pages.hasMedicareAB.uiSchema,
+  1,
+  'Applicant has medicare AB (certifier role: applicant)',
+  { ...mockData.data, certifierRole: 'applicant' },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.medicareABContext.schema,
+  formConfig.chapters.medicareInformation.pages.medicareABContext.uiSchema,
+  1,
+  'Applicant medicare AB context (certifier role: applicant)',
+  { ...mockData.data, certifierRole: 'applicant' },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.medicareABContext.schema,
+  formConfig.chapters.medicareInformation.pages.medicareABContext.uiSchema,
+  1,
+  'Applicant medicare AB context',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.partACarrier.schema,
+  formConfig.chapters.medicareInformation.pages.partACarrier.uiSchema,
+  2,
+  'Applicant medicare A carrier',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.medicareIneligible.schema,
+  formConfig.chapters.medicareInformation.pages.medicareIneligible.uiSchema,
+  0,
+  'Applicant medicare ineligible',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.medicareABCards.schema,
+  formConfig.chapters.medicareInformation.pages.medicareABCards.uiSchema,
+  0,
+  'Applicant medicare AB cards',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.partBCarrier.schema,
+  formConfig.chapters.medicareInformation.pages.partBCarrier.uiSchema,
+  2,
+  'Applicant medicare B carrier',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.pharmacyBenefits.schema,
+  formConfig.chapters.medicareInformation.pages.pharmacyBenefits.uiSchema,
+  1,
+  'Applicant medicare pharmacy benefits',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.advantagePlan.schema,
+  formConfig.chapters.medicareInformation.pages.advantagePlan.uiSchema,
+  1,
+  'Applicant medicare advantage benefits',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.hasMedicareD.schema,
+  formConfig.chapters.medicareInformation.pages.hasMedicareD.uiSchema,
+  1,
+  'Applicant has medicare D',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.partDCarrier.schema,
+  formConfig.chapters.medicareInformation.pages.partDCarrier.uiSchema,
+  2,
+  'Applicant medicare D carrier',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.medicareDCards.schema,
+  formConfig.chapters.medicareInformation.pages.medicareDCards.uiSchema,
+  0,
+  'Applicant medicare D cards',
+  { ...mockData.data },
+);
 
 describe('Medicare ineligibility screen depends function', () => {
   // Get date 65 yrs ago in format MM-DD-YYYY (to match what form would produce)
@@ -172,6 +324,90 @@ describe('Healthcare Medigap screens depends functions', () => {
     expect(depRes).to.be.true;
   });
 });
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.healthcareInformation.pages.hasPrimaryHealthInsurance
+    .schema,
+  formConfig.chapters.healthcareInformation.pages.hasPrimaryHealthInsurance
+    .uiSchema,
+  1,
+  'Applicant has primary healthcare',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.healthcareInformation.pages.primaryProvider.schema,
+  formConfig.chapters.healthcareInformation.pages.primaryProvider.uiSchema,
+  3,
+  'Applicant has primary provider',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.healthcareInformation.pages.primaryThroughEmployer.schema,
+  formConfig.chapters.healthcareInformation.pages.primaryThroughEmployer
+    .uiSchema,
+  1,
+  'Applicant primary through employer',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.healthcareInformation.pages.primaryPrescription.schema,
+  formConfig.chapters.healthcareInformation.pages.primaryPrescription.uiSchema,
+  1,
+  'Applicant primary prescription coverage',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.healthcareInformation.pages.primaryEOB.schema,
+  formConfig.chapters.healthcareInformation.pages.primaryEOB.uiSchema,
+  1,
+  'Applicant primary provides EOB',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.healthcareInformation.pages.primaryType.schema,
+  formConfig.chapters.healthcareInformation.pages.primaryType.uiSchema,
+  6,
+  'Applicant primary insurance type',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.healthcareInformation.pages.primaryMedigap.schema,
+  formConfig.chapters.healthcareInformation.pages.primaryMedigap.uiSchema,
+  1,
+  'Applicant primary Medigap type',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.healthcareInformation.pages.primaryComments.schema,
+  formConfig.chapters.healthcareInformation.pages.primaryComments.uiSchema,
+  1,
+  'Applicant primary comments',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.healthcareInformation.pages.primaryCard.schema,
+  formConfig.chapters.healthcareInformation.pages.primaryCard.uiSchema,
+  0,
+  'Applicant primary card',
+  { ...mockData.data },
+);
 
 describe('FileFieldWrapped', () => {
   it('should be called', () => {
