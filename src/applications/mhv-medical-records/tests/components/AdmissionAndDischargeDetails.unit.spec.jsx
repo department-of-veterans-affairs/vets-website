@@ -2,12 +2,12 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { fireEvent } from '@testing-library/dom';
 import reducer from '../../reducers';
 import AdmissionAndDischargeDetails from '../../components/CareSummaries/AdmissionAndDischargeDetails';
 import dischargeSummary from '../fixtures/dischargeSummary.json';
-import dischargeSummaryWithDatesMissing from '../fixtures/dischargeSummaryWithDatesMissing.json';
 import { convertCareSummariesAndNotesRecord } from '../../reducers/careSummariesAndNotes';
+import { EMPTY_FIELD } from '../../util/constants';
 
 describe('Admission and discharge summary details component', () => {
   const initialState = {
@@ -70,35 +70,79 @@ describe('Admission and discharge summary details component', () => {
   });
 });
 
-describe('Admission and discharge summary details component with no dates', () => {
-  const initialState = {
-    mr: {
-      careSummariesAndNotes: {
-        careSummariesAndNotesDetails: convertCareSummariesAndNotesRecord(
-          dischargeSummaryWithDatesMissing,
-        ),
+describe('Admission and discharge summary details component header date', () => {
+  const renderScreen = jsonRecord => {
+    return renderWithStoreAndRouter(
+      <AdmissionAndDischargeDetails
+        record={convertCareSummariesAndNotesRecord(jsonRecord)}
+      />,
+      {
+        initialState: {},
+        reducers: reducer,
+        path: '/summaries-and-notes/954',
       },
-    },
+    );
   };
 
-  const screen = renderWithStoreAndRouter(
-    <AdmissionAndDischargeDetails
-      record={convertCareSummariesAndNotesRecord(
-        dischargeSummaryWithDatesMissing,
-      )}
-    />,
-    {
-      initialState,
-      reducers: reducer,
-      path: '/summaries-and-notes/954',
-    },
-  );
+  it('should display admission date by default', () => {
+    const jsonRecord = {
+      type: { coding: [{ code: '18842-5' }] },
+      context: {
+        period: {
+          start: '2022-05-29T13:41:23Z',
+          end: '2022-06-11T13:41:23Z',
+        },
+      },
+      date: '2022-08-08T13:41:23Z',
+    };
 
-  it('should not display the formatted date if admissionDate or dischargeDate is missing', () => {
-    waitFor(() => {
-      expect(screen.queryByTestId('header-time').innerHTML).to.contain(
-        'None noted',
-      );
-    });
+    const screen = renderScreen(jsonRecord);
+    const headerDate = screen.queryByTestId('ds-note-date-heading');
+    expect(headerDate.innerHTML).to.contain('Admitted on');
+    expect(headerDate.innerHTML).to.contain('May 29, 2022');
+    expect(screen.queryByTestId('note-admission-date')).to.not.exist;
+    expect(screen.queryByTestId('note-discharge-date')).to.exist;
+  });
+
+  it('should display discharge date second priority', () => {
+    const jsonRecord = {
+      type: { coding: [{ code: '18842-5' }] },
+      context: {
+        period: { end: '2022-06-11T13:41:23Z' },
+      },
+      date: '2022-08-08T13:41:23Z',
+    };
+
+    const screen = renderScreen(jsonRecord);
+    const headerDate = screen.queryByTestId('ds-note-date-heading');
+    expect(headerDate.innerHTML).to.contain('Discharged on');
+    expect(headerDate.innerHTML).to.contain('June 11, 2022');
+    expect(screen.queryByTestId('note-admission-date')).to.exist;
+    expect(screen.queryByTestId('note-discharge-date')).to.not.exist;
+  });
+
+  it('should display date entered third priority', () => {
+    const jsonRecord = {
+      type: { coding: [{ code: '18842-5' }] },
+      date: '2022-08-08T13:41:23Z',
+    };
+
+    const screen = renderScreen(jsonRecord);
+    const headerDate = screen.queryByTestId('ds-note-date-heading');
+    expect(headerDate.innerHTML).to.contain('Entered on');
+    expect(headerDate.innerHTML).to.contain('August 8, 2022');
+    expect(screen.queryByTestId('note-admission-date')).to.exist;
+    expect(screen.queryByTestId('note-discharge-date')).to.exist;
+  });
+
+  it('should display "None noted" if no date is found', () => {
+    const jsonRecord = { type: { coding: [{ code: '18842-5' }] } };
+
+    const screen = renderScreen(jsonRecord);
+    const headerDate = screen.queryByTestId('ds-note-date-heading');
+    expect(headerDate.innerHTML).to.contain('Admitted on');
+    expect(headerDate.innerHTML).to.contain(EMPTY_FIELD);
+    expect(screen.queryByTestId('note-admission-date')).to.not.exist;
+    expect(screen.queryByTestId('note-discharge-date')).to.exist;
   });
 });
