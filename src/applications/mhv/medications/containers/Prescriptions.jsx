@@ -20,7 +20,6 @@ import {
   getAllergiesList,
   clearAllergiesError,
 } from '../actions/prescriptions';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
 import {
@@ -471,22 +470,11 @@ const Prescriptions = () => {
     dispatch(clearAllergiesError());
   };
 
-  const handletoRefillLink = () => {
-    dispatch(
-      setBreadcrumbs({
-        url: medicationsUrls.subdirectories.BASE,
-        label: 'Medications',
-      }),
-    );
-  };
-
   const content = () => {
     if (!isLoading) {
       return (
         <div className="landing-page no-print">
-          <h1 className="vads-u-margin-top--neg3" data-testid="list-page-title">
-            Medications
-          </h1>
+          <h1 data-testid="list-page-title">Medications</h1>
           <div
             className="vads-u-margin-top--1 vads-u-margin-bottom--neg3 vads-u-font-family--serif"
             data-testid="Title-Notes"
@@ -510,7 +498,6 @@ const Prescriptions = () => {
                     className="vads-c-action-link--green vads-u-margin--0"
                     to={medicationsUrls.subdirectories.REFILL}
                     data-testid="prescriptions-nav-link-to-refill"
-                    onClick={handletoRefillLink}
                   >
                     Refill prescriptions
                   </Link>

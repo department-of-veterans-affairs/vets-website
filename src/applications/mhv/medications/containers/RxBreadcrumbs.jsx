@@ -1,50 +1,46 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-// import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
-import { Link, useLocation } from 'react-router-dom';
-import { removeBreadcrumbs, setBreadcrumbs } from '../actions/breadcrumbs';
+import { useSelector } from 'react-redux';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { useLocation } from 'react-router-dom';
 import { medicationsUrls } from '../util/constants';
+import { createBreadcrumbs } from '../util/helpers';
+
+const alignToLeft = `va-nav-breadcrumbs xsmall-screen:vads-u-margin-left--neg1
+small-screen:vads-u-margin-left--neg1
+medium-screen:vads-u-margin-left--neg2
+small-desktop-screen:vads-u-margin-left--neg2
+large-screen:vads-u-margin-left--0 `;
 
 const RxBreadcrumbs = () => {
   const location = useLocation();
-  const dispatch = useDispatch();
-  const crumbs = useSelector(state => state.rx.breadcrumbs?.list);
-  const oneLevelDeepCrumb = crumbs?.length - 1;
-
+  const prescription = useSelector(
+    state => state.rx.prescriptions?.prescriptionDetails,
+  );
+  const pagination = useSelector(
+    state => state.rx.prescriptions?.prescriptionsPagination,
+  );
+  const [breadcrumbs, setBreadcrumbs] = React.useState([]);
   useEffect(
     () => {
-      if (!crumbs?.length && !location.pathname.includes('/about')) {
-        dispatch(
-          setBreadcrumbs({
-            url: medicationsUrls.subdirectories.ABOUT,
-            label: 'About medications',
-          }),
-        );
-      }
+      setBreadcrumbs(
+        createBreadcrumbs(location, prescription, pagination?.currentPage),
+      );
     },
-    [dispatch, crumbs, location.pathname],
+    [location, prescription, pagination?.currentPage],
   );
-
-  const backLink = () => {
-    dispatch(removeBreadcrumbs());
-  };
   return (
     <>
-      {crumbs.length > 0 &&
-        crumbs[0]?.url && (
-          <div className="no-print rx-breadcrumbs">
-            <div
-              className="vads-l-row vads-u-padding-y--3"
+      {!medicationsUrls.MEDICATIONS_ABOUT.endsWith(location.pathname) &&
+        breadcrumbs.length > 0 && (
+          <div className="no-print">
+            <VaBreadcrumbs
+              uswds
               label="Breadcrumb"
               data-testid="rx-breadcrumb"
-            >
-              <span className="breadcrumb-angle vads-u-padding-right--1">
-                {'\u2039'}{' '}
-              </span>
-              <Link to={crumbs[oneLevelDeepCrumb]?.url} onClick={backLink}>
-                Back to {crumbs[oneLevelDeepCrumb]?.label}
-              </Link>
-            </div>
+              home-veterans-affairs="false"
+              breadcrumbList={breadcrumbs}
+              className={`${alignToLeft} va-breadcrumbs-li vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
+            />
           </div>
         )}
     </>

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 import { dateFormat, fromToNumbs } from '../../util/helpers';
 import { medicationsUrls } from '../../util/constants';
@@ -50,12 +49,6 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
 
   // Functions
   const onRxLinkClick = rx => {
-    dispatch(
-      setBreadcrumbs({
-        url: medicationsUrls.subdirectories.REFILL,
-        label: 'Refill prescriptions',
-      }),
-    );
     dispatch(setPrescriptionDetails(rx));
   };
 

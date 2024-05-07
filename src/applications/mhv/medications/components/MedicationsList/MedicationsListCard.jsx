@@ -6,15 +6,11 @@ import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dispStatusForRefillsLeft } from '../../util/constants';
-import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 import { selectRefillContentFlag } from '../../util/selectors';
 
 const MedicationsListCard = ({ rx }) => {
   const dispatch = useDispatch();
-  const pagination = useSelector(
-    state => state.rx.prescriptions?.prescriptionsPagination,
-  );
   const showRefillContent = useSelector(selectRefillContentFlag);
   let showRefillRemaining = false;
 
@@ -28,12 +24,6 @@ const MedicationsListCard = ({ rx }) => {
     return <p>{rx.refillRemaining} refills left</p>;
   };
   const handleLinkClick = () => {
-    dispatch(
-      setBreadcrumbs({
-        url: `/?page=${pagination?.currentPage || 1}`,
-        label: 'Medications',
-      }),
-    );
     dispatch(setPrescriptionDetails(rx));
   };
   return (
