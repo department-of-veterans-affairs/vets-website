@@ -4,6 +4,7 @@ import { add, format } from 'date-fns';
 import sinon from 'sinon';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { render, fireEvent } from '@testing-library/react';
+import { within } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import {
   $,
@@ -14,7 +15,9 @@ import formConfig from '../../config/form';
 const formatDate = date => format(date, 'yyyy-MM-dd');
 const daysFromToday = days => formatDate(add(new Date(), { days }));
 const fillDate = (container, target, date) => {
-  const [year, month, day] = date.split('-');
+  const [year, month, day] = date
+    .split('-')
+    .map(field => field.replace(/^0+/, ''));
   const monthSelector = `select[name="${target}Month"]`;
   const daySelector = `select[name="${target}Day"]`;
   const yearSelector = `input[name="${target}Year"]`;
@@ -22,7 +25,6 @@ const fillDate = (container, target, date) => {
   fireEvent.change($(yearSelector, container), {
     target: { value: year },
   });
-
   fireEvent.change($(monthSelector, container), {
     target: { value: month },
   });
@@ -134,12 +136,12 @@ describe('Federal orders info', () => {
     const submitButton = getByText(/submit/i);
     userEvent.click(submitButton);
     expect(onSubmit.calledOnce).to.be.true;
-    expect($('va-radio').error).to.not.include('Please provide a response');
+    expect($('va-radio').error).to.be.null;
   });
 
   it('should fail to submit when activation date is in the future', () => {
     const onSubmit = sinon.spy();
-    const { getByText, container } = render(
+    const { getByText, container, getByRole } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -172,11 +174,16 @@ describe('Federal orders info', () => {
     const submitButton = getByText(/submit/i);
     userEvent.click(submitButton);
     expect(onSubmit.calledOnce).to.be.false;
-    // TODO: FIX ME expect($('va-radio').error).to.include('Please enter a date');
+    expect(
+      within(getByRole('alert')).getByText(
+        'Enter an activation date in the past',
+      ),
+    ).to.exist;
   });
+
   it('should fail to submit when separation date is before activation', () => {
     const onSubmit = sinon.spy();
-    const { getByText, container } = render(
+    const { getByText, container, getByRole } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -208,11 +215,13 @@ describe('Federal orders info', () => {
     const submitButton = getByText(/submit/i);
     userEvent.click(submitButton);
     expect(onSubmit.calledOnce).to.be.false;
-    // TODO: FIX ME expect($('va-radio').error).to.include('Please enter a date');
+    expect(
+      within(getByRole('alert')).getByText('Enter a future separation date'),
+    ).to.exist;
   });
   it('should fail to submit when separation date is > 180 days in the future', () => {
     const onSubmit = sinon.spy();
-    const { getByText, container } = render(
+    const { getByText, container, getByRole } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -245,6 +254,10 @@ describe('Federal orders info', () => {
     const submitButton = getByText(/submit/i);
     userEvent.click(submitButton);
     expect(onSubmit.calledOnce).to.be.false;
-    // TODO: FIX ME expect($('va-radio').error).to.include('Please enter a date');
+    expect(
+      within(getByRole('alert')).getByText(
+        'Enter a separation date less than 180 days in the future',
+      ),
+    ).to.exist;
   });
 });
