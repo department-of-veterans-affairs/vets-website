@@ -84,7 +84,7 @@ const ConfirmationPdfMessages = ({ pdfApi, delayTimer = ONE_MINUTE }) => {
   }
 };
 
-ConfirmationPdfMessages.propType = {
+ConfirmationPdfMessages.propTypes = {
   delayTimer: PropTypes.number,
   pdfApi: PropTypes.string,
 };
