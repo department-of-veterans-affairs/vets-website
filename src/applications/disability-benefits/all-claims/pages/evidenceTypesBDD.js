@@ -1,6 +1,10 @@
 import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import _ from 'platform/utilities/data';
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { validateIfHasEvidence } from '../validations';
 
@@ -9,29 +13,20 @@ import {
   privateMedicalRecords,
   evidenceTypeError,
   evidenceTypeHelp,
-  HasEvidenceLabel,
   bddShaOtherEvidence,
 } from '../content/evidenceTypesBDD';
 
 import { BddEvidenceSubmitLater } from '../content/bddEvidenceSubmitLater';
 
 export const uiSchema = {
-  'view:hasEvidence': {
-    'ui:title': ' ',
-    'ui:description': HasEvidenceLabel,
-    'ui:widget': 'yesNo',
-    'ui:options': {
-      labels: {
-        Y: 'Yes',
-        N: 'No, I will submit more information later',
-      },
-      widgetProps: {
-        N: {
-          'aria-describedby': 'submit-evidence-later',
-        },
-      },
+  'view:hasEvidence': yesNoUI({
+    title:
+      'Do you want to upload any other documents or evidence at this time?',
+    labels: {
+      Y: 'Yes',
+      N: 'No, I will submit more information later',
     },
-  },
+  }),
   'view:hasEvidenceFollowUp': {
     'ui:options': {
       expandUnder: 'view:hasEvidence',
@@ -79,10 +74,7 @@ export const schema = {
   type: 'object',
   required: ['view:hasEvidence'],
   properties: {
-    'view:hasEvidence': {
-      type: 'boolean',
-      default: true,
-    },
+    'view:hasEvidence': yesNoSchema,
     'view:hasEvidenceFollowUp': {
       type: 'object',
       properties: {
