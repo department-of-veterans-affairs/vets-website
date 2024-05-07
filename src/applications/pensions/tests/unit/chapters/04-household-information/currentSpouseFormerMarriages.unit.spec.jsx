@@ -15,7 +15,7 @@ import getData from '../../../fixtures/mocks/mockStore';
 
 import formConfig from '../../../../config/form';
 import spouseMarriageHistory from '../../../../config/chapters/04-household-information/currentSpouseFormerMarriages';
-import { testSubmitsWithoutErrors } from '../pageTests.spec';
+import { testSubmitsWithoutErrors, FakeProvider } from '../pageTests.spec';
 
 const definitions = formConfig.defaultDefinitions;
 
@@ -78,4 +78,36 @@ describe('pension spouse marriage history page', () => {
     uiSchema,
     'spouse marriage history',
   );
+
+  it('should show warning for one spouse', async () => {
+    const { container } = render(
+      <FakeProvider>
+        <DefinitionTester
+          schema={schema}
+          data={{ spouseMarriages: [{}] }}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </FakeProvider>,
+    );
+
+    expect($$('va-alert', container).length).to.equal(1);
+    expect($('va-alert', container).textContent.includes('person')).to.be.true;
+  });
+
+  it('should show warning for multiple spouses', async () => {
+    const { container } = render(
+      <FakeProvider>
+        <DefinitionTester
+          schema={schema}
+          data={{ spouseMarriages: [{}, {}] }}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </FakeProvider>,
+    );
+
+    expect($$('va-alert', container).length).to.equal(1);
+    expect($('va-alert', container).textContent.includes('people')).to.be.true;
+  });
 });

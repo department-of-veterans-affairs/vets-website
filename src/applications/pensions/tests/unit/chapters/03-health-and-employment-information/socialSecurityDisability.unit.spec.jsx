@@ -1,10 +1,15 @@
+import { expect } from 'chai';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
+  testShowAlert,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import socialSecurityDisability from '../../../../config/chapters/03-health-and-employment-information/socialSecurityDisability';
+import { fillRadio } from '../../testHelpers/webComponents';
 
 const { schema, uiSchema } = socialSecurityDisability;
 
@@ -29,4 +34,17 @@ describe('pension social security disability page', () => {
   );
 
   testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
+
+  testShowAlert(
+    formConfig,
+    schema,
+    uiSchema,
+    pageTitle,
+    { socialSecurityDisability: true },
+    async container => {
+      const radio = $('va-radio', container);
+      expect(radio).to.exist;
+      await fillRadio(radio, 'N');
+    },
+  );
 });

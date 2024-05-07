@@ -1,10 +1,14 @@
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { expect } from 'chai';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfWebComponentFields,
+  testShowAlert,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import transferredAssets from '../../../../config/chapters/05-financial-information/transferredAssets';
+import { fillRadio } from '../../testHelpers/webComponents';
 
 const { schema, uiSchema } = transferredAssets;
 
@@ -29,4 +33,17 @@ describe('Pensions: Financial information transferred assets page', () => {
   );
 
   testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
+
+  testShowAlert(
+    formConfig,
+    schema,
+    uiSchema,
+    pageTitle,
+    { totalNetWorth: false },
+    async container => {
+      const radio = $('va-radio', container);
+      expect(radio).to.exist;
+      await fillRadio(radio, 'Y');
+    },
+  );
 });

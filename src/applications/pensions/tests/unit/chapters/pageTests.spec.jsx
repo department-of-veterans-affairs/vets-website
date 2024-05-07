@@ -4,7 +4,7 @@ import { render, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
-
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 
 import getFixtureData from '../../fixtures/vets-json-api/getFixtureData';
@@ -186,6 +186,35 @@ export const testSubmitsWithoutErrors = (
 
       expect(getWebComponentErrors(container)).to.be.empty;
       expect(onSubmit.called).to.be.true;
+    });
+  });
+};
+
+export const testShowAlert = (
+  formConfig,
+  schema,
+  uiSchema,
+  pageTitle,
+  data = {},
+  setToShowAlert,
+) => {
+  describe(`${pageTitle} page`, () => {
+    it('should show warning', async () => {
+      const { container } = render(
+        <FakeProvider>
+          <DefinitionTester
+            schema={schema}
+            data={data}
+            definitions={formConfig.defaultDefinitions}
+            uiSchema={uiSchema}
+          />
+        </FakeProvider>,
+      );
+
+      expect($$('va-alert', container).length).to.equal(0);
+
+      await setToShowAlert(container);
+      expect($$('va-alert', container).length).to.equal(1);
     });
   });
 };

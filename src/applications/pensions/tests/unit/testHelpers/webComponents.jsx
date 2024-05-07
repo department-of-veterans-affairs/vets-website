@@ -11,6 +11,12 @@ export const changeCheckboxInGroup = async (
     detail: { checked: value },
   });
 
+export const changeCheckbox = async (checkbox, value) => {
+  await checkbox.__events.vaChange({
+    detail: { checked: value },
+  });
+};
+
 export const fillTextInput = (container, name, value) => {
   const input = container.querySelector(`va-text-input[name="${name}"]`);
   input.value = value;
@@ -25,4 +31,10 @@ export const fillDateInput = async (container, name, value) => {
   const dateEvent = { target: { value } };
   dateInput.__events.dateChange(dateEvent);
   return dateInput.__events.dateBlur(dateEvent);
+};
+
+export const fillRadio = async (radio, value) => {
+  await radio.__events.vaValueChange({
+    detail: { value },
+  });
 };
