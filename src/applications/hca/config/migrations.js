@@ -1,7 +1,7 @@
-import get from 'platform/utilities/data/get';
-import omit from 'platform/utilities/data/omit';
-import set from 'platform/utilities/data/set';
-import unset from 'platform/utilities/data/unset';
+import get from '~/platform/utilities/data/get';
+import omit from '~/platform/utilities/data/omit';
+import set from '~/platform/utilities/data/set';
+import unset from '~/platform/utilities/data/unset';
 
 export default [
   // 0 -> 1, we had a bug where isSpanishHispanicLatino was defaulted in the wrong place
@@ -245,9 +245,10 @@ export default [
   // 7 -> 8, with the addition of the Toxic Exposure questions, we need to ensure all
   // users go through these, so we will send users back to the start of the form
   ({ formData, metadata }) => {
-    const returnUrl = '/veteran-information/personal-information';
-    let newMetadata = metadata;
-    newMetadata = set('returnUrl', returnUrl, newMetadata);
-    return { formData, metadata: newMetadata };
+    /**
+     * This original migration was reverted due to only needing to update the return
+     * URL for a 60-day window while current SIP forms were allowed to expire.
+     */
+    return { formData, metadata };
   },
 ];
