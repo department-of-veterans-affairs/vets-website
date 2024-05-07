@@ -575,9 +575,8 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(
-          showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'afghanistan'),
-        ).to.be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'none')).to
+          .be.false;
       });
 
       it('should return false when `none` and another location is selected', () => {
