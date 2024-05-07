@@ -6,6 +6,7 @@ import {
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
   testShowAlert,
+  testNumberOfFieldsByType,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import medicalCondition from '../../../../config/chapters/03-health-and-employment-information/medicalCondition';
@@ -46,5 +47,15 @@ describe('pension medical condition page', () => {
       expect(radio).to.exist;
       await fillRadio(radio, 'Y');
     },
+  );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-radio': 1,
+    },
+    pageTitle,
   );
 });

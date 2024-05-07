@@ -11,6 +11,7 @@ import {
   FakeProvider,
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
+  testNumberOfFieldsByType,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import netWorthEstimation, {
@@ -41,6 +42,16 @@ describe('Financial information net worth estimation pension page', () => {
   );
 
   testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      input: 1,
+    },
+    pageTitle,
+  );
 
   it('should show warning', async () => {
     const { container } = render(

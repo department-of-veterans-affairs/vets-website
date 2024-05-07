@@ -8,7 +8,10 @@ import {
   $$, // get all
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import { testSubmitsWithoutErrors } from '../pageTests.spec';
+import {
+  testNumberOfFieldsByType,
+  testSubmitsWithoutErrors,
+} from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 
 const errors =
@@ -93,6 +96,18 @@ describe('Pensions spouse info', () => {
   });
 
   testSubmitsWithoutErrors(formConfig, schema, uiSchema, 'spouse info');
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-radio': 2,
+      'va-text-input': 1,
+      'va-memorable-date': 1,
+    },
+    'spouse info',
+  );
 
   it('depends should return true if married', () => {
     const result = depends({ maritalStatus: 'MARRIED' });

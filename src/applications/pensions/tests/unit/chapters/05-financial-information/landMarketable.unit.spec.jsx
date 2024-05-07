@@ -12,6 +12,7 @@ import {
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
   FakeProvider,
+  testNumberOfFieldsByType,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import landMarketable from '../../../../config/chapters/05-financial-information/landMarketable';
@@ -40,6 +41,17 @@ describe('Pension: Financial information, land marketable page', () => {
   );
 
   testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-alert': 1,
+      'va-radio': 1,
+    },
+    pageTitle,
+  );
 
   it('should show warning', async () => {
     const { container } = render(

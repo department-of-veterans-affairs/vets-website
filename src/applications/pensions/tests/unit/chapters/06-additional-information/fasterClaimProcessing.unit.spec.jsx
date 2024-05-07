@@ -13,6 +13,7 @@ import {
   testNumberOfWebComponentFields,
   testNumberOfErrorsOnSubmitForWebComponents,
   testSubmitsWithoutErrors,
+  testNumberOfFieldsByType,
 } from '../pageTests.spec';
 import getData from '../../../fixtures/mocks/mockStore';
 import formConfig from '../../../../config/form';
@@ -41,6 +42,16 @@ describe('web component tests', () => {
   );
 
   testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-radio': 1,
+    },
+    pageTitle,
+  );
 });
 
 describe('Faster claim processing page', () => {

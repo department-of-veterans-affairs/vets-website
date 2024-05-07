@@ -1,5 +1,6 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -30,6 +31,16 @@ describe('current spouse marital history', () => {
     formConfig,
     currentSpouseMaritalHistory.schema,
     currentSpouseMaritalHistory.uiSchema,
-    'spouse marriage history',
+    pageTitle,
+  );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    currentSpouseMaritalHistory.schema,
+    currentSpouseMaritalHistory.uiSchema,
+    {
+      'va-radio': 1,
+    },
+    pageTitle,
   );
 });

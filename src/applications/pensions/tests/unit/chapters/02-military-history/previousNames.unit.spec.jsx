@@ -5,6 +5,7 @@ import { render } from '@testing-library/react';
 import {
   FakeProvider,
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -32,6 +33,17 @@ describe('pensions military history', () => {
     schema,
     uiSchema,
     expectedNumberOfErrors,
+    pageTitle,
+  );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 3,
+      'va-select': 1,
+    },
     pageTitle,
   );
 

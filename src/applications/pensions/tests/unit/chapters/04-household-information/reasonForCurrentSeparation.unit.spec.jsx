@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -36,6 +37,16 @@ describe('reason for current separation page', () => {
     formConfig,
     reasonForCurrentSeparation.schema,
     reasonForCurrentSeparation.uiSchema,
+    pageTitle,
+  );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    reasonForCurrentSeparation.schema,
+    reasonForCurrentSeparation.uiSchema,
+    {
+      'va-radio': 1,
+    },
     pageTitle,
   );
 

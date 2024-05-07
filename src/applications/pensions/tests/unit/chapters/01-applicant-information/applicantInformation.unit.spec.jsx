@@ -22,6 +22,7 @@ import applicantInformation, {
 } from '../../../../config/chapters/01-applicant-information/applicantInformation';
 import {
   getWebComponentErrors,
+  testNumberOfFieldsByType,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
@@ -54,9 +55,22 @@ describe('pension applicant information page', () => {
       expect($$('va-text-input', container).length).to.equal(5);
       expect($$('va-memorable-date', container).length).to.equal(1);
       expect($$('va-select', container).length).to.equal(1);
+      expect($$('va-radio', container).length).to.equal(1);
       expect($('button[type="submit"]', container)).to.exist;
     });
   });
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 5,
+      'va-memorable-date': 1,
+      'va-select': 1,
+      'va-radio': 1,
+    },
+    'applicant information',
+  );
   it('should not allow submit with errors', async () => {
     const onSubmit = sinon.spy();
     const { data } = getData({ loggedIn: false });

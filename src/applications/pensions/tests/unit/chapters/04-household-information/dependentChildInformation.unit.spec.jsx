@@ -11,7 +11,7 @@ import {
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../../config/form';
-import { FakeProvider } from '../pageTests.spec';
+import { FakeProvider, testNumberOfFieldsByType } from '../pageTests.spec';
 import { fillRadio } from '../../testHelpers/webComponents';
 
 const definitions = formConfig.defaultDefinitions;
@@ -306,4 +306,22 @@ describe('Child information page', () => {
     );
     expect($('va-radio[name="root_married"]', container).length).not.to.be.null;
   });
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-alert': 1,
+      'va-text-input': 2,
+      'va-checkbox': 1,
+      'va-radio': 4,
+    },
+    'dependent information',
+    dependentData,
+    {
+      arrayPath,
+      pagePerItemIndex: 0,
+    },
+  );
 });

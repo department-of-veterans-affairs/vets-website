@@ -1,5 +1,6 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -16,6 +17,16 @@ describe('pension contact information page', () => {
     schema,
     uiSchema,
     expectedNumberOfFields,
+    pageTitle,
+  );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 4,
+    },
     pageTitle,
   );
 

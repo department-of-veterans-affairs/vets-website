@@ -2,6 +2,7 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { expect } from 'chai';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testShowAlert,
   testSubmitsWithoutErrors,
@@ -33,6 +34,16 @@ describe('Pensions: Financial information transferred assets page', () => {
   );
 
   testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-radio': 1,
+    },
+    pageTitle,
+  );
 
   testShowAlert(
     formConfig,

@@ -8,6 +8,7 @@ import {
   testNumberOfFields,
   testSubmitsWithoutErrors,
   FakeProvider,
+  testNumberOfFieldsByType,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import careExpenses, {
@@ -55,6 +56,20 @@ describe('Unreimbursed care expenses pension page', () => {
   );
 
   testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 2,
+      'va-memorable-date': 2,
+      'va-checkbox': 1,
+      'va-radio': 3,
+      input: 2,
+    },
+    pageTitle,
+  );
 
   describe('CareExpenseView', () => {
     it('should render a list view', () => {

@@ -1,5 +1,6 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -30,6 +31,16 @@ describe('marital status page', () => {
     formConfig,
     maritalStatus.schema,
     maritalStatus.uiSchema,
+    pageTitle,
+  );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    maritalStatus.schema,
+    maritalStatus.uiSchema,
+    {
+      'va-radio': 1,
+    },
     pageTitle,
   );
 });

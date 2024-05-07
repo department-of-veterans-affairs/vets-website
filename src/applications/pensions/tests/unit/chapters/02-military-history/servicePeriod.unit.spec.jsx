@@ -14,6 +14,7 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import {
   getWebComponentErrors,
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import getData from '../../../fixtures/mocks/mockStore';
@@ -51,6 +52,18 @@ describe('pensions service periods page', () => {
     schema,
     uiSchema,
     expectedNumberOfErrors,
+    pageTitle,
+  );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 2,
+      'va-memorable-date': 2,
+      'va-checkbox': 8,
+    },
     pageTitle,
   );
 

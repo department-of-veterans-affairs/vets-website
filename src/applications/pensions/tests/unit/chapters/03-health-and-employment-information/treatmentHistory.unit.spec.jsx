@@ -1,5 +1,6 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -33,6 +34,16 @@ describe('pension treatment history page', () => {
     treatmentHistory.uiSchema,
     pageTitle,
   );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    treatmentHistory.schema,
+    treatmentHistory.uiSchema,
+    {
+      'va-radio': 1,
+    },
+    pageTitle,
+  );
 });
 
 describe('pension add medical centers page', () => {
@@ -64,5 +75,15 @@ describe('pension add medical centers page', () => {
     {
       medicalCenters: [{ medicalCenter: 'Generic Medical Center' }],
     },
+  );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    medicalCenters.schema,
+    medicalCenters.uiSchema,
+    {
+      'va-text-input': 1,
+    },
+    pageTitle,
   );
 });

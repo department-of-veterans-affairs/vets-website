@@ -6,6 +6,7 @@ import {
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
   testShowAlert,
+  testNumberOfFieldsByType,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import socialSecurityDisability from '../../../../config/chapters/03-health-and-employment-information/socialSecurityDisability';
@@ -46,5 +47,15 @@ describe('pension social security disability page', () => {
       expect(radio).to.exist;
       await fillRadio(radio, 'N');
     },
+  );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-radio': 1,
+    },
+    pageTitle,
   );
 });

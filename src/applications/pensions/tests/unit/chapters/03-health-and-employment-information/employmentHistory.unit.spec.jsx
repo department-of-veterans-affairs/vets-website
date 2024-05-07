@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import {
   FakeProvider,
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -52,6 +53,16 @@ describe('pensions employment history', () => {
       },
     ],
   });
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 3,
+    },
+    pageTitle,
+  );
 
   describe('EmployerView', () => {
     it('should render a list view', () => {

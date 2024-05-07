@@ -1,5 +1,6 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
@@ -30,6 +31,17 @@ describe('current spouse address page', () => {
     formConfig,
     currentSpouseAddress.schema,
     currentSpouseAddress.uiSchema,
+    pageTitle,
+  );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    currentSpouseAddress.schema,
+    currentSpouseAddress.uiSchema,
+    {
+      'va-text-input': 5,
+      'va-select': 1,
+    },
     pageTitle,
   );
 });

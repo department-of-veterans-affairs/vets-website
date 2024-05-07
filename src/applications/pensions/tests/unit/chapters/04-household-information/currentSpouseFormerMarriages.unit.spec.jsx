@@ -15,7 +15,11 @@ import getData from '../../../fixtures/mocks/mockStore';
 
 import formConfig from '../../../../config/form';
 import spouseMarriageHistory from '../../../../config/chapters/04-household-information/currentSpouseFormerMarriages';
-import { testSubmitsWithoutErrors, FakeProvider } from '../pageTests.spec';
+import {
+  testSubmitsWithoutErrors,
+  FakeProvider,
+  testNumberOfFieldsByType,
+} from '../pageTests.spec';
 
 const definitions = formConfig.defaultDefinitions;
 
@@ -72,11 +76,21 @@ describe('pension spouse marriage history page', () => {
     });
   });
 
-  testSubmitsWithoutErrors(
+  const pageTitle = 'spouse marriage history';
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
+
+  testNumberOfFieldsByType(
     formConfig,
     schema,
     uiSchema,
-    'spouse marriage history',
+    {
+      'va-radio': 1,
+      'va-alert': 1,
+      'va-text-input': 5,
+      'va-memorable-date': 2,
+      'va-select': 1,
+    },
+    pageTitle,
   );
 
   it('should show warning for one spouse', async () => {

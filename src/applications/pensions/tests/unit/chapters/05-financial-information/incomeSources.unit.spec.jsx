@@ -4,6 +4,7 @@ import {
   testNumberOfWebComponentFields,
   testNumberOfFields,
   testSubmitsWithoutErrors,
+  testNumberOfFieldsByType,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import incomeSources from '../../../../config/chapters/05-financial-information/incomeSources';
@@ -136,4 +137,16 @@ describe('Pension: Financial information, income sources page', () => {
   });
 
   testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-radio': 2,
+      'va-text-input': 1,
+      input: 1,
+    },
+    pageTitle,
+  );
 });
