@@ -110,7 +110,7 @@ export const Auth = ({
                 {poaType === 'representative' &&
                   email && (
                     <div className="vads-u-display--flex vads-u-margin-top--1p5">
-                      <div className="vads-u-margin-right--1 vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                      <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
                         <va-icon
                           icon="mail"
                           size={2}
@@ -122,7 +122,7 @@ export const Auth = ({
                   )}
                 {contact && (
                   <div className="vads-u-display--flex vads-u-margin-top--1p5">
-                    <div className="vads-u-margin-right--1 vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                    <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
                       <va-icon
                         icon="phone"
                         size={2}
@@ -139,7 +139,7 @@ export const Auth = ({
                 {poaType === 'representative' &&
                   (contact || email) && (
                     <div className="vads-u-display--flex vads-u-margin-top--1p5">
-                      <div className="vads-u-margin-right--1 vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                      <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
                         <va-icon
                           icon="file_download"
                           size={2}
@@ -155,7 +155,7 @@ export const Auth = ({
                     </div>
                   )}
                 <div className="vads-u-display--flex vads-u-margin-top--1p5">
-                  <div className="vads-u-margin-right--1 vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                  <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
                     <va-icon
                       icon="search"
                       size={2}
