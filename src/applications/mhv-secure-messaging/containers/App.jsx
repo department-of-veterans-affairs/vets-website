@@ -14,6 +14,7 @@ import {
 import {
   renderMHVDowntime,
   useDatadogRum,
+  useDatadogRumUser,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
 import AuthorizedRoutes from './AuthorizedRoutes';
@@ -28,7 +29,9 @@ import { downtimeNotificationParams } from '../util/constants';
 const App = ({ isPilot }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const userServices = user.profile.services; // mhv_messaging_policy.rb defines if messaging service is avaialble when a user is in Premium status upon structuring user services from the user profile in services.rb
+  const userServices = user.profile.services
+    ? [...user.profile.services, 'messaging']
+    : null; // mhv_messaging_policy.rb defines if messaging service is avaialble when a user is in Premium status upon structuring user services from the user profile in services.rb
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
       return {
@@ -97,16 +100,9 @@ const App = ({ isPilot }) => {
     trackLongTasks: true,
     defaultPrivacyLevel: 'mask-user-input',
   };
-  const userDetails = useMemo(
-    () => {
-      return {
-        loggedIn: user?.login?.currentlyLoggedIn,
-        accountUuid: user?.profile?.accountUUid,
-      };
-    },
-    [user],
-  );
-  useDatadogRum(datadogRumConfig, userDetails);
+
+  useDatadogRum(datadogRumConfig);
+  useDatadogRumUser(user);
 
   if (featureTogglesLoading) {
     return (
@@ -133,6 +129,7 @@ const App = ({ isPilot }) => {
     window.location.replace(manifest.rootUrl);
     return <></>;
   }
+
   return (
     <RequiredLoginView
       user={user}
