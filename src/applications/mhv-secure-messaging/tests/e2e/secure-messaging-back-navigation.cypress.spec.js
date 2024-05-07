@@ -16,15 +16,14 @@ describe('SM back navigation', () => {
     landingPage.loadInboxMessages();
   });
   it('user navigate to inbox folder after message sent', () => {
-    const composePage = new PatientComposePage();
     landingPage.navigateToComposePage();
-    composePage.selectRecipient(requestBody.recipientId);
-    composePage.selectCategory(requestBody.category);
-    composePage.getMessageSubjectField().type(`${requestBody.subject}`);
-    composePage
-      .getMessageBodyField()
-      .type(`${requestBody.body}`, { force: true });
-    composePage.sendMessage(requestBody);
+    PatientComposePage.selectRecipient(requestBody.recipientId);
+    PatientComposePage.selectCategory(requestBody.category);
+    PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`);
+    PatientComposePage.getMessageBodyField().type(`${requestBody.body}`, {
+      force: true,
+    });
+    PatientComposePage.sendMessage(requestBody);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
 
