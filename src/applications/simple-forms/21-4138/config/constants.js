@@ -22,7 +22,7 @@ export const STATEMENT_TYPES = Object.freeze({
 
 export const STATEMENT_TYPE_LABELS = Object.freeze({
   [STATEMENT_TYPES.BUDDY_STATEMENT]:
-    'I want to sumbit a formal statement to support my claim or someone else\'s claim. This is also known as a "buddy statement."',
+    'I want to submit a formal statement to support my claim or someone else’s claim. This is also known as a “buddy statement.”',
   [STATEMENT_TYPES.DECISION_REVIEW]:
     'I want to request a decision review for my claim.',
   [STATEMENT_TYPES.PRIORITY_PROCESSING]:
