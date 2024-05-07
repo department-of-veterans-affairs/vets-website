@@ -33,7 +33,7 @@ export default class ITFBanner extends React.Component {
         message = itfMessage(
           'We’re sorry. Something went wrong on our end.',
           itfError,
-          'error',
+          'success', // setting as success so we do not block 526 form creation
         );
         break;
       case 'itf-found':
