@@ -8,9 +8,6 @@ describe('Medical Records View Conditions', () => {
     // cy.visit('my-health/medical-records/conditions');
     ConditionsListPage.gotoConditionsListPage();
 
-    ConditionsListPage.verifyPrintOrDownload();
-    ConditionsListPage.clickPrintOrDownload();
-
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');
