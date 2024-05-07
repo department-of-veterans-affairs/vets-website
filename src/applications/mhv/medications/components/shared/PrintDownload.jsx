@@ -135,8 +135,8 @@ const PrintDownload = props => {
           <li>
             <button
               data-dd-action-name={`Print This ${
-                list ? 'page of the list' : 'page'
-              } Option- ${list ? 'List' : 'Details'} Page`}
+                list ? 'Page Of The List' : 'Page'
+              } Option - ${list ? 'List' : 'Details'} Page`}
               className="vads-u-padding-x--2"
               id="printButton-0"
               type="button"
