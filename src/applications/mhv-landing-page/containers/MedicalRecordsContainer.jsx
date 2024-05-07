@@ -6,6 +6,8 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe, isProfileLoading } from '../selectors';
 import MedicalRecords from '../components/MedicalRecords';
 
+const Placeholder = () => <div style={{ height: '555px' }} />;
+
 const MedicalRecordsContainer = () => {
   const {
     loading: featureTogglesLoading,
@@ -15,12 +17,12 @@ const MedicalRecordsContainer = () => {
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const blueButtonUrl = mhvUrl(ssoe, 'download-my-data');
 
-  if (featureTogglesLoading) return <></>;
+  if (featureTogglesLoading) return <Placeholder />;
 
   if (!mhvTransitionalMedicalRecordsLandingPage) return <PageNotFound />;
 
   return profileLoading ? (
-    <va-loading-indicator />
+    <Placeholder />
   ) : (
     <>
       <MhvSecondaryNav />

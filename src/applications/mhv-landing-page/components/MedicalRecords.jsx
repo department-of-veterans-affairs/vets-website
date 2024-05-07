@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-const recordTypes = [
+export const recordTypes = [
   'Lab and test results',
   'Care summaries and notes',
   'Vaccines',
@@ -22,9 +22,9 @@ const MedicalRecords = ({ blueButtonUrl }) => (
     )}
     data-testid="mhvMedicalRecords"
   >
-    <a className="vads-u-display--block vads-u-margin-y--3" href="/my-health">
-      &lt; Back to My HealtheVet home
-    </a>
+    <div className="vads-u-margin-y--3">
+      <a href="/my-health">&lt; Back to My HealtheVet home</a>
+    </div>
 
     <span className="usa-label vads-u-background-color--primary">
       Coming soon

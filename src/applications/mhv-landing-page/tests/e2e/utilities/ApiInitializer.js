@@ -13,6 +13,9 @@ class ApiInitializer {
         '/v0/feature_toggles*',
         featureToggles.generateFeatureToggles({
           mhvLandingPageEnabled: false,
+          mhvLandingPagePersonalization: false,
+          mhvLandingPageEnableVaGovHealthToolsLinks: false,
+          mhvTransitionalMedicalRecordsLandingPage: false,
         }),
       );
     },
