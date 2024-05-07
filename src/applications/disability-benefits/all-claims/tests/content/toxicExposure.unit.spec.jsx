@@ -557,9 +557,6 @@ describe('toxicExposure', () => {
 
       it('should return false when `none` location is selected', () => {
         const formData = {
-          gulfWar1990: {
-            none: true,
-          },
           newDisabilities: [
             {
               cause: 'NEW',
@@ -568,20 +565,23 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
-          toxicExposureConditions: {
-            anemia: true,
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              none: true,
+            },
           },
         };
 
-        expect(showCheckboxLoopDetailsPage(formData)).to.be.false;
+        expect(
+          showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'afghanistan'),
+        ).to.be.false;
       });
 
       it('should return false when `none` and another location is selected', () => {
         const formData = {
-          gulfWar1990: {
-            afghanistan: true,
-            none: true,
-          },
           newDisabilities: [
             {
               cause: 'NEW',
@@ -590,12 +590,20 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
-          toxicExposureConditions: {
-            anemia: true,
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              afghanistan: true,
+              none: true,
+            },
           },
         };
 
-        expect(showCheckboxLoopDetailsPage(formData)).to.be.false;
+        expect(
+          showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'afghanistan'),
+        ).to.be.false;
       });
     });
   });
@@ -692,9 +700,6 @@ describe('toxicExposure', () => {
 
       it('should return false when `none` location is selected', () => {
         const formData = {
-          gulfWar1990: {
-            none: true,
-          },
           newDisabilities: [
             {
               cause: 'NEW',
@@ -703,8 +708,13 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
-          toxicExposureConditions: {
-            anemia: true,
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              none: true,
+            },
           },
         };
 
@@ -713,10 +723,6 @@ describe('toxicExposure', () => {
 
       it('should return false when `none` and another location is selected', () => {
         const formData = {
-          gulfWar1990: {
-            afghanistan: true,
-            none: true,
-          },
           newDisabilities: [
             {
               cause: 'NEW',
@@ -725,8 +731,14 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
-          toxicExposureConditions: {
-            anemia: true,
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              afghanistan: true,
+              none: true,
+            },
           },
         };
 
