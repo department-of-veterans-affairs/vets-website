@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { testNumberOfWebComponentFields } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 import mockData from '../fixtures/data/test-data.json';
+import FileFieldWrapped from '../../components/FileUploadWrapper';
 
 // Call the depends() function for any page that relies on it
 describe('dependent page logic', () => {
@@ -169,5 +170,12 @@ describe('Healthcare Medigap screens depends functions', () => {
       },
     );
     expect(depRes).to.be.true;
+  });
+});
+
+describe('FileFieldWrapped', () => {
+  it('should be called', () => {
+    const ffw = FileFieldWrapped({});
+    expect(ffw).to.not.be.undefined;
   });
 });
