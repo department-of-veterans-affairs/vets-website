@@ -251,13 +251,13 @@ export function validateTEConditions(errors, formData) {
  * @param {object} formData
  */
 export function validateGulfWar1990Locations(errors, formData) {
-  const { gulfWar1990 = {} } = formData;
+  const { gulfWar1990 = {} } = formData?.toxicExposure;
 
   if (
-    gulfWar1990.none === true &&
+    gulfWar1990?.none === true &&
     Object.values(gulfWar1990).filter(value => value === true).length > 1
   ) {
-    errors.gulfWar1990.addError(noneAndLocationError);
+    errors.toxicExposure.gulfWar1990.addError(noneAndLocationError);
   }
 }
 
