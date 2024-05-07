@@ -126,7 +126,7 @@ const formConfig = {
         noticeOfDisagreementOldHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) > oneYearAgo,
+            new Date(formData.decisionDate) >= oneYearAgo,
           path: 'notice-of-disagreement-old-handoff',
           title: 'What to know before you request a decision review',
           uiSchema: nodOldHandoffPage.uiSchema,
@@ -136,7 +136,7 @@ const formConfig = {
         decisionReviewTypePage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) <= oneYearAgo,
+            new Date(formData.decisionDate) < oneYearAgo,
           path: 'decision-review-type',
           title: 'Which description is true for you?',
           uiSchema: decisionReviewTypePage.uiSchema,
@@ -146,7 +146,7 @@ const formConfig = {
         noticeOfDisagreementSupplementalHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) <= oneYearAgo &&
+            new Date(formData.decisionDate) < oneYearAgo &&
             formData.decisionReviewType === DECISION_REVIEW_TYPES.NEW_EVIDENCE,
           path: 'notice-of-disagreement-supplemental-handoff',
           title: 'What to know before you request a decision review',
@@ -157,7 +157,7 @@ const formConfig = {
         noticeOfDisagreementHLRHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) <= oneYearAgo &&
+            new Date(formData.decisionDate) < oneYearAgo &&
             formData.decisionReviewType === DECISION_REVIEW_TYPES.ERROR_MADE,
           path: 'notice-of-disagreement-hlr-handoff',
           title: "There's a better way for you to ask for a decision review",
@@ -168,7 +168,7 @@ const formConfig = {
         noticeOfDisagreementBAHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) <= oneYearAgo &&
+            new Date(formData.decisionDate) < oneYearAgo &&
             formData.decisionReviewType === DECISION_REVIEW_TYPES.BVA_REQUEST,
           path: 'notice-of-disagreement-ba-handoff',
           title: "There's a better way for you to ask for a decision review",
