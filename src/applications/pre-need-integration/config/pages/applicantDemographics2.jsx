@@ -35,7 +35,7 @@ export const schema = {
         },
         veteran: {
           type: 'object',
-          required: ['ethnicity', 'race', 'raceComment'],
+          required: ['ethnicity', 'race'],
           properties: merge(
             {},
             pick(veteran.properties, ['ethnicity', 'race']),

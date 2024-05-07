@@ -143,7 +143,7 @@ function ApplicantContactInfoDescription() {
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
-    showNavLinks: false,
+    showNavLinks: true,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -377,8 +377,9 @@ const formConfig = {
           schema: applicantDemographics.schema,
         },
         applicantDemographics2: {
-          path: 'applicant-demographics-2',
-          depends: formData => !isAuthorizedAgent(formData),
+          path: 'applicant-demographics-2-self',
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics2.uiSchema,
           schema: applicantDemographics2.schema,
         },

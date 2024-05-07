@@ -846,6 +846,7 @@ export const veteranUI = {
   raceComment: {
     'ui:title': 'Enter the race that best describes you',
     'ui:widget': 'textarea',
+    'ui:required': () => true,
     'ui:options': {
       expandUnder: 'race',
       maxLength: 100,
