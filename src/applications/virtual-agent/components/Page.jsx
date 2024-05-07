@@ -3,125 +3,32 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import Disclaimer from './Disclaimer';
-import ChatBox from './Chatbox';
+import StickyBot from './StickyBot';
+import FloatingBot from './FloatingBot';
 import useChosenBot from '../hooks/useChosenBot';
 
-function updateElementById(id, classListAdd, classListRemove) {
-  document.getElementById(id).classList.add(classListAdd);
-  document.getElementById(id).classList.remove(classListRemove);
-}
-
-const showBot = botPosition => {
-  if (botPosition === 'corner') {
-    updateElementById('chatbot-icon', 'hide', 'unhide');
-    updateElementById('corner-bot', 'unhide', 'hide');
-  } else {
-    updateElementById('chatbot-icon', 'unhide', 'hide');
-    updateElementById('corner-bot', 'hide', 'unhide');
-  }
-};
-
-const renderChatBox = () => {
-  return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <div className="vads-l-row vads-u-margin-x--neg2p5 vads-u-margin-y--4">
-        <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--5 small-desktop-screen:vads-l-col--7">
-          <Disclaimer />
-        </div>
-        <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--7 small-desktop-screen:vads-l-col--5">
-          <ChatBox />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const renderStickyBot = () => {
-  return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <div className="jumplink unhide vads-l-col--12 vads-u-display--block medium-screen:vads-u-display--none">
-        <a href="#chatbot">Scroll to Chatbot</a>
-      </div>
-      <a
-        className="show-on-focus"
-        href="#chatbot"
-        onClick={() => {
-          showBot('corner');
-        }}
-      >
-        Go to Chatbot
-      </a>
-      <div className="vads-l-row vads-u-margin-x--neg2p5 vads-u-margin-y--4 medium-screen:vads-u-display-none">
-        <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--7">
-          <Disclaimer />
-        </div>
-
-        <div
-          id="chatbot"
-          className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--5 vads-u-display--block medium-screen:vads-u-display--none"
-        >
-          <ChatBox />
-        </div>
-
-        <div
-          id="chatbot-icon"
-          tabIndex="-1"
-          role="button"
-          className="chatbot-icon unhide vads-l-col--12 vads-u-display--none medium-screen:vads-u-display--block"
-          onClick={() => {
-            showBot('corner');
-          }}
-          aria-hidden="true"
-        >
-          <a href="#chatbot-icon">
-            <img src="/img/va-chat.png" alt="openchatbot" />
-          </a>
-        </div>
-        <div id="corner-bot" className="fixed-header-chatbot hide">
-          <div
-            className="close-chatbot-button"
-            role="button"
-            tabIndex="-1"
-            onClick={() => {
-              showBot('bottom');
-            }}
-            aria-hidden="true"
-          >
-            <a href="#corner-bot">
-              <img src="/img/va-x.svg" alt="escape-chatbot" tabIndex="-1" />
-            </a>
-          </div>
-          <ChatBox />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const Page = props => {
-  const { virtualAgentShowFloatingChatbot } = props;
-  // function Page({ virtualAgentShowFloatingChatbot = null }) {
-  const [chosenBot, setChosenBot] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  let bot = '';
-
-  useChosenBot(virtualAgentShowFloatingChatbot, setIsLoading, setChosenBot);
-
-  if (chosenBot === 'sticky') {
-    bot = renderStickyBot();
-  } else if (chosenBot === 'default') {
-    bot = renderChatBox();
-  } else {
-    bot = '';
-  }
-
+export const renderPageContent = (chosenBot, isLoading) => {
   if (isLoading) {
     return <va-loading-indicator />;
   }
-  return bot;
+  if (chosenBot === 'sticky') {
+    return <StickyBot />;
+  }
+  if (chosenBot === 'default') {
+    return <FloatingBot />;
+  }
+
+  return '';
 };
+
+function Page({ virtualAgentShowFloatingChatbot = null }) {
+  const [chosenBot, setChosenBot] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useChosenBot(virtualAgentShowFloatingChatbot, setIsLoading, setChosenBot);
+
+  return renderPageContent(isLoading, chosenBot);
+}
 
 Page.propTypes = {
   virtualAgentShowFloatingChatbot: PropTypes.bool,

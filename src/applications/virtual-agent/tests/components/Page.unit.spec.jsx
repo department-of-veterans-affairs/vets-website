@@ -6,11 +6,14 @@ import { Provider } from 'react-redux';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import * as Disclaimer from '../../components/Disclaimer';
-import * as Chatbox from '../../components/Chatbox';
-import * as useChosenBot from '../../hooks/useChosenBot';
+import * as UseChosenBotModule from '../../hooks/useChosenBot';
 
-import Page from '../../components/Page';
+import Page, { renderPageContent } from '../../components/Page';
+import StickyBot from '../../components/StickyBot';
+import FloatingBot from '../../components/FloatingBot';
+
+import * as StickyBotModule from '../../components/StickyBot';
+import * as FloatingBotModule from '../../components/FloatingBot';
 
 const getData = ({
   virtualAgentShowFloatingChatbot = null,
@@ -46,40 +49,46 @@ describe('Page', () => {
   afterEach(() => {
     sandbox.restore();
   });
+  describe('Page', () => {
+    it('should set up the chosen bot hook', () => {
+      const { props, mockStore } = getData();
+      const useChosenBotStub = sandbox
+        .stub(UseChosenBotModule, 'default')
+        .returns(<div />);
+      sandbox.stub(StickyBotModule, 'default');
+      sandbox.stub(FloatingBotModule, 'default');
 
-  it('renders the loading indicator', () => {
-    sandbox.stub(Chatbox, 'default').returns(<div className="chatbox" />);
-    sandbox.stub(Disclaimer, 'default').returns(<div className="disclaimer" />);
-    sandbox.stub(useChosenBot, 'default');
+      render(
+        <Provider store={mockStore}>
+          <Page {...props} />
+        </Provider>,
+      );
 
-    const { props, mockStore } = getData();
-
-    const { container } = render(
-      <Provider store={mockStore}>
-        <Page {...props} />
-      </Provider>,
-    );
-
-    expect($('va-loading-indicator', container)).to.exist;
-    expect($('chatbox', container)).to.not.exist;
-    expect($('disclaimer', container)).to.not.exist;
-    expect($('show-on-focus', container)).to.not.exist;
+      expect(useChosenBotStub.calledOnce).to.be.true;
+    });
   });
-  it('renders the sticky bot', () => {
-    sandbox.stub(Chatbox, 'default').returns(<div className="chatbox" />);
-    sandbox.stub(Disclaimer, 'default').returns(<div className="disclaimer" />);
+  describe('renderPageContent', () => {
+    it('renders loading indicator when isLoading is true', () => {
+      const { container } = render(renderPageContent('sticky', true));
+      expect($('va-loading-indicator', container)).to.exist;
+    });
 
-    const { props, mockStore } = getData();
+    it('returns StickyBot when chosenBot is "sticky" and isLoading is false', () => {
+      const result = renderPageContent('sticky', false);
 
-    const { container } = render(
-      <Provider store={mockStore}>
-        <Page {...props} />
-      </Provider>,
-    );
+      expect(result).to.deep.equal(<StickyBot />);
+    });
 
-    expect($('va-loading-indicator', container)).to.not.exist;
-    expect($('chatbox', container)).to.exist;
-    expect($('disclaimer', container)).to.exist;
-    expect($('show-on-focus', container)).to.not.exist;
+    it('returns FloatingBot when chosenBot is "default" and isLoading is false', () => {
+      const result = renderPageContent('default', false);
+
+      expect(result).to.deep.equal(<FloatingBot />);
+    });
+
+    it('renders empty string when chosenBot is neither "sticky" nor "default" and isLoading is false', () => {
+      const result = renderPageContent('other', false);
+
+      expect(result).to.equal('');
+    });
   });
 });
