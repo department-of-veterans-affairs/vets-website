@@ -42,15 +42,7 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs(
-          [{ url: '/my-health/medical-records', label: 'Medical records' }],
-          {
-            url: '/my-health/medical-records/download-all',
-            label: 'Download all medical records',
-          },
-        ),
-      );
+      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
     },

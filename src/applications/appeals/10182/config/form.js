@@ -197,6 +197,9 @@ const formConfig = {
       title: 'Board review option',
       pages: {
         boardReviewOption: {
+          // Adding trailing space so this title and chapter title are different
+          // then the page header renders on the review & submit page, see:
+          // https://github.com/department-of-veterans-affairs/vets-website/pull/29514#discussion_r1586347078
           title: 'Board review option ',
           path: 'board-review-option',
           uiSchema: boardReview.uiSchema,

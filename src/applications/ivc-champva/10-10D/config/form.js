@@ -967,7 +967,7 @@ const formConfig = {
           path: 'applicant-marriage/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} marriage documents`,
+          title: item => `${applicantWording(item)} marriage details`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -992,6 +992,7 @@ const formConfig = {
           }),
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {},
             },
           },

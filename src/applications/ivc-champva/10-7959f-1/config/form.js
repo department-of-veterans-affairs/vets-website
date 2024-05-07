@@ -22,6 +22,7 @@ import {
 
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
+import prefillTransformer from './prefillTransformer';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -45,6 +46,9 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  customText: {
+    appType: 'form',
+  },
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -57,21 +61,22 @@ const formConfig = {
   formId: '10-7959F-1',
   saveInProgress: {
     messages: {
-      inProgress: 'Your CHAMPVA application (10-7959F-1) is in progress.',
+      inProgress: 'Your FMP registration (10-7959F-1) is in progress.',
       expired:
-        'Your saved CHAMPVA benefits application (10-7959F-1) has expired. If you want to apply for Foriegn Medical Program benefits, please start a new application.',
-      saved: 'Your CHAMPVA benefits application has been saved.',
+        'Your saved FMP benefits registration (10-7959F-1) has expired. If you want to register for Foriegn Medical Program benefits, please start a new application.',
+      saved: 'Your FMP benefits registration has been saved.',
     },
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
-    notFound: 'Please start over to apply for CHAMPVA benefits.',
+    notFound: 'Please start over to register for FMP benefits.',
     noAuth:
-      'Please sign in again to continue your application for CHAMPVA benefits.',
+      'Please sign in again to continue your registration for FMP benefits.',
   },
   title: 'Register for the Foreign Medical Program (FMP)',
-  subTitle: 'Form 10-7959f-1',
+  subTitle: 'FMP Registration Form (VA Form 10-7959f-1)',
   defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
