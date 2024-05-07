@@ -273,8 +273,16 @@ const Prescriptions = () => {
                   'There are no allergies or reactions in your VA medical records. If you have allergies or reactions that are missing from your records, tell your care team at your next appointment.',
               }),
             ...(!allergiesList && {
-              preface:
-                'We couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later. If it still doesn’t work, email us at vamhvfeedback@va.gov.',
+              preface: [
+                {
+                  value:
+                    'We couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later.',
+                },
+                {
+                  value:
+                    'If it still doesn’t work, call us at 877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
+                },
+              ],
             }),
           },
         ],
@@ -473,7 +481,9 @@ const Prescriptions = () => {
       });
       printRxList();
     }
-    dispatch(clearAllergiesError());
+    setTimeout(() => {
+      dispatch(clearAllergiesError());
+    }, 1);
   };
 
   const handletoRefillLink = () => {
