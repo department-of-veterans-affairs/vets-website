@@ -13,7 +13,7 @@ import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/select
 import { setLastPage } from '../actions';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import { isLoadingFeatures } from '../selectors';
-import { useBrowserMonitoring } from '../utils/useDatadogRum';
+import { useBrowserMonitoring } from '../utils/datadog-rum/useBrowserMonitoring';
 
 // This needs to be a React component for RequiredLoginView to pass down
 // the isDataAvailable prop, which is only passed on failure.

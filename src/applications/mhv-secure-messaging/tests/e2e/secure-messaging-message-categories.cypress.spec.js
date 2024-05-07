@@ -7,7 +7,6 @@ import categories from './fixtures/categories-response.json';
 describe('Secure Messaging Compose Categories', () => {
   const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
-  const composePage = new PatientComposePage();
   const listOfCategories = categories.data.attributes.messageCategoryType;
 
   beforeEach(() => {
@@ -18,14 +17,16 @@ describe('Secure Messaging Compose Categories', () => {
     for (let i = 0; i < listOfCategories.length; i += 1) {
       landingPage.loadInboxMessages();
       landingPage.navigateToComposePage();
-      composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+      PatientComposePage.selectRecipient(
+        'CAMRY_PCMM RELATIONSHIP_05092022_SLC4',
+      );
 
-      composePage.selectCategory(listOfCategories[i]);
+      PatientComposePage.selectCategory(listOfCategories[i]);
 
-      composePage.enterDataToMessageSubject();
-      composePage.enterDataToMessageBody();
-      composePage.sendMessage();
-      composePage.verifySendMessageConfirmationMessageText();
+      PatientComposePage.enterDataToMessageSubject();
+      PatientComposePage.enterDataToMessageBody();
+      PatientComposePage.sendMessage();
+      PatientComposePage.verifySendMessageConfirmationMessageText();
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT, {

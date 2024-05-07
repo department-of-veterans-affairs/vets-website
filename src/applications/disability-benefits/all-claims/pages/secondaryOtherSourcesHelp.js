@@ -1,4 +1,5 @@
 import React from 'react';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 
 import { PtsdNameTitle } from '../content/ptsdClassification';
 
@@ -17,10 +18,12 @@ export const uiSchema = index => ({
   [`secondaryIncident${index}`]: {
     otherSourcesHelp: {
       'view:helpPrivateMedicalTreatment': {
+        'ui:webComponentField': VaCheckboxField,
         'ui:title':
           'I’d like help getting my private medical treatment or counseling records.',
       },
       'view:helpRequestingStatements': {
+        'ui:webComponentField': VaCheckboxField,
         'ui:title':
           'I’d like help requesting statements I made to military or civilian authorities.',
       },

@@ -7,6 +7,12 @@ export const DISCHARGE_MONTH_INPUT = 'duw-discharge_month';
 export const REASON_INPUT = 'duw-reason';
 export const INTENTION_INPUT = 'duw-intention';
 export const COURT_MARTIAL_INPUT = 'duw-court_martial';
+export const DISCHARGE_TYPE_INPUT = 'duw-discharge_type';
+export const PREV_APPLICATION_INPUT = 'duw-prev_application';
+export const PREV_APPLICATION_YEAR_INPUT = 'duw-prev_application_year';
+export const PREV_APPLICATION_TYPE_INPUT = 'duw-prev_application_type';
+export const FAILURE_TO_EXHAUST_INPUT = 'duw-failure_to_exhaust';
+export const PRIOR_SERVICE_INPUT = 'duw-prior_service';
 
 export const clickStart = () =>
   cy

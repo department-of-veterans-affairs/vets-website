@@ -11,13 +11,13 @@ import {
 } from '../../actions/post-911-gib-status';
 import {
   BACKEND_AUTHENTICATION_ERROR,
-  BACKEND_SERVICE_ERROR,
   GET_ENROLLMENT_DATA_FAILURE,
   GET_ENROLLMENT_DATA_SUCCESS,
   NO_CHAPTER33_RECORD_AVAILABLE,
   SET_SERVICE_AVAILABILITY,
   SERVICE_AVAILABILITY_STATES,
   SET_SERVICE_UPTIME_REMAINING,
+  SERVICE_DOWNTIME_ERROR,
 } from '../../utils/constants';
 
 let oldWindow;
@@ -168,7 +168,7 @@ describe('getEnrollmentData', () => {
     thunk(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(BACKEND_SERVICE_ERROR);
+        expect(action.type).to.equal(SERVICE_DOWNTIME_ERROR);
       })
       .then(done, done);
   });

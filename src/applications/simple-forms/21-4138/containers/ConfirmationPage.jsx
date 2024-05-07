@@ -1,84 +1,58 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format, isValid } from 'date-fns';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+const content = {
+  headlineText: "You've submitted your statement to support your claim",
+  nextStepsText: (
+    <>
+      <p>
+        We’ll review your statement. If we have any questions or need additional
+        information from you, we’ll contact you.",
+      </p>
+    </>
+  ),
+};
+const childContent = <div />;
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
-  }
+export const ConfirmationPage = () => {
+  const form = useSelector(state => state.form || {});
+  const { submission } = form;
+  const submitDate = submission.timestamp;
+  const confirmationNumber = submission.response?.confirmationNumber;
+  const submitterFullName = form.data.fullName;
 
-  render() {
-    const { form } = this.props;
-    const { submission, formId, data } = form;
-    const submitDate = submission.timestamp;
-
-    const { fullName } = data;
-
-    return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            21-4138 Statement in Support of a Claim Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
-
-          {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null}
-          <va-button
-            type="button"
-            className="usa-button screen-only"
-            onClick={window.print}
-          >
-            Print this for your records
-          </va-button>
-        </div>
-      </div>
-    );
-  }
-}
+  return (
+    <ConfirmationPageView
+      formType="submission"
+      submitterHeader="Who submitted this form"
+      submitterName={submitterFullName}
+      submitDate={submitDate}
+      confirmationNumber={confirmationNumber}
+      content={content}
+      childContent={childContent}
+    />
+  );
+};
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
       fullName: {
-        first: PropTypes.string,
+        first: PropTypes.string.isRequired,
         middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
+        last: PropTypes.string.isRequired,
       },
     }),
     formId: PropTypes.string,
     submission: PropTypes.shape({
-      timestamp: PropTypes.string,
+      response: PropTypes.shape({
+        attributes: PropTypes.shape({
+          confirmationNumber: PropTypes.string.isRequired,
+        }).isRequired,
+      }).isRequired,
+      timestamp: PropTypes.string.isRequired,
     }),
   }),
   name: PropTypes.string,
