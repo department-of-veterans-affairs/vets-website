@@ -18,7 +18,7 @@ const App = ({ formEnabled }) => {
           className="vads-c-action-link--blue"
           href="/supporting-forms-for-claims/support-statement-21-4138"
         >
-          Submit a request online for priority processing for an existing claim
+          Submit a request online for your statement in support of a claim
         </a>
       </>
     );
