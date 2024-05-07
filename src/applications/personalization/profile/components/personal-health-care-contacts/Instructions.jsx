@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Instructions = ({ testId, contactType }) => {
@@ -9,9 +8,9 @@ const Instructions = ({ testId, contactType }) => {
     <div data-testid={testId}>
       To add {isEmergency ? 'an' : 'a'} {contactType}, call your VA health
       facility.{' '}
-      <Link testId={testId} to="https://www.va.gov/find-locations/">
+      <href testId={testId} to="https://www.va.gov/find-locations/">
         Find your health facility’s phone number
-      </Link>
+      </href>
       .
     </div>
   );

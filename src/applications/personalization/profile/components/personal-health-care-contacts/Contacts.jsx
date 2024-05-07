@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
 import Contact from './Contact';
 import Instructions from './Instructions';
@@ -55,12 +54,12 @@ const Contacts = ({ data }) => {
             <li>Ask a staff member at your next appointment, or</li>
             <li>
               Call your VA health facility.{' '}
-              <Link
+              <href
                 testId="find-locations-additional-info-link"
                 to="https://www.va.gov/find-locations/"
               >
                 Find your health facility’s phone number
-              </Link>
+              </href>
             </li>
           </ul>
         </va-additional-info>
