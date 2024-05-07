@@ -240,5 +240,6 @@
   "virtualAgentUpgradeWebchat14158": "virtual_agent_upgrade_webchat_14_15_8",
   "virtualAgentEnableMsftPvaTesting": "virtual_agent_enable_msft_pva_testing",
   "virtualAgentEnableNluPvaTesting": "virtual_agent_enable_nlu_pva_testing",
-  "yellowRibbonAutomatedDateOnSchoolSearch": "yellow_ribbon_automated_date_on_school_search"
+  "yellowRibbonAutomatedDateOnSchoolSearch": "yellow_ribbon_automated_date_on_school_search",
+  "toggleVyeAdressDirectDepositForms": "toggle_vye_adress_direct_deposit_forms"
 }
