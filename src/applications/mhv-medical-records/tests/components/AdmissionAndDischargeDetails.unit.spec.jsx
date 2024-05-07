@@ -59,6 +59,24 @@ describe('Admission and discharge summary details component', () => {
     expect(formattedDate).to.exist;
   });
 
+  it('should display admitted on field', () => {
+    expect(
+      screen.getByText('Admitted on', {
+        exact: false,
+        selector: 'p',
+      }),
+    ).to.exist;
+  });
+
+  it('should display discharged on field', () => {
+    expect(
+      screen.getByText('Discharged on', {
+        exact: true,
+        selector: 'h3',
+      }),
+    ).to.exist;
+  });
+
   it('should display a download started message when the download pdf button is clicked', () => {
     fireEvent.click(screen.getByTestId('printButton-1'));
     expect(screen.getByTestId('download-success-alert-message')).to.exist;
