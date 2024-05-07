@@ -706,7 +706,7 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.highSchoolDiploma]: {
+            [formFields.highSchoolDiplomaLegacy]: {
               'ui:title':
                 'Did you earn a high school diploma or equivalency certificate?',
               'ui:widget': 'radio',
@@ -714,13 +714,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [formFields.highSchoolDiploma],
+            required: [formFields.highSchoolDiplomaLegacy],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [formFields.highSchoolDiploma]: {
+              [formFields.highSchoolDiplomaLegacy]: {
                 type: 'string',
                 enum: ['Yes', 'No'],
               },
@@ -732,7 +732,7 @@ const formConfig = {
           path: 'high-school-completion',
           depends: formData =>
             applicantIsChildOfSponsor(formData) &&
-            formData[formFields.highSchoolDiploma] === 'Yes' &&
+            formData[formFields.highSchoolDiplomaLegacy] === 'Yes' &&
             !formData.toeHighSchoolInfoChange,
           uiSchema: {
             'view:subHeadings': {

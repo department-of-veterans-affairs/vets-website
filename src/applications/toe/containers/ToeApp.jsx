@@ -224,7 +224,9 @@ ToeApp.propTypes = {
 const mapStateToProps = state => {
   return {
     ...getAppData(state),
-    dob: state?.user?.profile?.dob,
+    dob:
+      state?.user?.profile?.dob ||
+      state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
     formData: state.form?.data || {},
     claimant: state.data?.formData?.data?.attributes?.claimant,
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,

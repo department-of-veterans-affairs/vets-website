@@ -44,6 +44,7 @@ export const formFields = {
   email: 'email',
   firstSponsor: 'firstSponsor',
   highSchoolDiploma: 'highSchoolDiploma',
+  highSchoolDiplomaLegacy: 'highSchoolDiplomaLegacy',
   highSchoolDiplomaDate: 'highSchoolDiplomaDate',
   mobilePhoneNumber: 'mobilePhoneNumber',
   mobilePhoneNumberInternational: 'mobilePhoneNumberInternational',
