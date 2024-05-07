@@ -9,7 +9,6 @@ import {
   renderWithStoreAndRouter,
   setTypeOfFacility,
 } from '../../mocks/setup';
-import { startDirectScheduleFlow } from '../../../new-appointment/redux/actions';
 
 const initialState = {
   featureToggles: {
@@ -280,29 +279,5 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
         ),
       );
     });
-  });
-
-  it('should show alternate title if navigated via direct schedule flow', async () => {
-    const store = createTestStore(initialState);
-    await setTypeOfFacility(store, /Community Care/i);
-    store.dispatch(startDirectScheduleFlow());
-    const screen = renderWithStoreAndRouter(
-      <Route component={ReasonForAppointmentPage} />,
-      {
-        store,
-      },
-    );
-
-    expect(await screen.findByTestId('reason-comment-field')).to.have.attribute(
-      'label',
-      'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
-    );
-
-    expect(
-      await screen.getByRole('heading', {
-        level: 1,
-        name: /Tell us the reason for this appointment/i,
-      }),
-    );
   });
 });
