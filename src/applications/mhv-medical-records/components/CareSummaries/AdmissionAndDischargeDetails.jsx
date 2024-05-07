@@ -21,7 +21,7 @@ import {
   getNameDateAndTime,
   makePdf,
 } from '../../util/helpers';
-import { pageTitles, EMPTY_FIELD } from '../../util/constants';
+import { pageTitles, dischargeSummarySortFields } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
   generateNotesIntro,
@@ -91,6 +91,26 @@ ${record.summary}`;
     );
   };
 
+  const displayHeaderDate = note => {
+    let dateLabel = 'Admitted on';
+    let displayDate = note.admissionDate;
+    if (note.sortByField === dischargeSummarySortFields.DISCHARGE_DATE) {
+      dateLabel = 'Discharged on';
+      displayDate = note.dischargeDate;
+    } else if (note.sortByField === dischargeSummarySortFields.DATE_ENTERED) {
+      dateLabel = 'Entered on';
+      displayDate = note.dateEntered;
+    }
+    return (
+      <DateSubheading
+        date={displayDate}
+        label={dateLabel}
+        id="admission-discharge-date"
+        testId="ds-note-date-heading"
+      />
+    );
+  };
+
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
@@ -102,19 +122,7 @@ ${record.summary}`;
         {record.name}
       </h1>
 
-      {record.admissionDate !== EMPTY_FIELD ? (
-        <div>
-          <p id="admission-discharge-date">
-            Admitted on {record.admissionDate}
-          </p>
-        </div>
-      ) : (
-        <DateSubheading
-          date={record.admissionDate}
-          label="Admitted on"
-          id="admission-discharge-date"
-        />
-      )}
+      {displayHeaderDate(record)}
 
       <p className="vads-u-margin-bottom--0">
         Review a summary of your stay at a hospital or other health facility
@@ -135,10 +143,23 @@ ${record.summary}`;
           Location
         </h3>
         <p data-testid="note-record-location"> {record.location}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Discharged on
-        </h3>
-        <p data-testid="note-discharge-date">{record.dischargeDate}</p>
+        {record.sortByField !== dischargeSummarySortFields.ADMISSION_DATE &&
+          record.sortByField !== null && (
+            <>
+              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                Admitted on
+              </h3>
+              <p data-testid="note-admission-date">{record.admissionDate}</p>
+            </>
+          )}
+        {record.sortByField !== dischargeSummarySortFields.DISCHARGE_DATE && (
+          <>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Discharged on
+            </h3>
+            <p data-testid="note-discharge-date">{record.dischargeDate}</p>
+          </>
+        )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharged by
         </h3>
