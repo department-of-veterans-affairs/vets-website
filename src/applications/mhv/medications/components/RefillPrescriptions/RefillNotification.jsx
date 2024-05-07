@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { DD_ACTIONS_PAGE_TYPE } from '../../util/constants';
 
 const RefillNotification = ({ refillResult = {} }) => {
   useEffect(
@@ -128,7 +129,9 @@ const RefillNotification = ({ refillResult = {} }) => {
                   data-testid="back-to-medications-page-link"
                   to="/"
                   className="hide-visited-link"
-                  data-dd-action-name="Go To Your Medications List Action Link - Refill Page"
+                  data-dd-action-name={`Go To Your Medications List Action Link - ${
+                    DD_ACTIONS_PAGE_TYPE.REFILL
+                  }`}
                 >
                   Go to your medications list
                 </Link>

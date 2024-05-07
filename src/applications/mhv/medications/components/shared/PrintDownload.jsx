@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import FeedbackEmail from './FeedbackEmail';
+import { DD_ACTIONS_PAGE_TYPE } from '../../util/constants';
 
 export const DOWNLOAD_FORMAT = {
   PDF: 'PDF',
@@ -115,8 +116,8 @@ const PrintDownload = props => {
       >
         <button
           data-dd-action-name={`Print Or Download Button - ${
-            list ? 'List' : 'Details'
-          } Page`}
+            list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
+          }`}
           type="button"
           className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -136,7 +137,9 @@ const PrintDownload = props => {
             <button
               data-dd-action-name={`Print This ${
                 list ? 'Page Of The List' : 'Page'
-              } Option - ${list ? 'List' : 'Details'} Page`}
+              } Option - ${
+                list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
+              }`}
               className="vads-u-padding-x--2"
               id="printButton-0"
               type="button"
@@ -164,7 +167,9 @@ const PrintDownload = props => {
             <button
               data-dd-action-name={`Download A PDF Of This ${
                 list ? 'List' : 'Page'
-              } Option - ${list ? 'List' : 'Details'} Page`}
+              } Option - ${
+                list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
+              }`}
               className="vads-u-padding-x--2"
               id="printButton-2"
               type="button"
@@ -179,7 +184,9 @@ const PrintDownload = props => {
               type="button"
               data-dd-action-name={`Download A Text File Of This ${
                 list ? 'List' : 'Page'
-              } Option - ${list ? 'List' : 'Details'} Page`}
+              } Option - ${
+                list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
+              }`}
               className="vads-u-padding-x--2"
               id="printButton-3"
               data-testid="download-txt-button"

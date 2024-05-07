@@ -6,9 +6,9 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
+import { DD_ACTIONS_PAGE_TYPE, medicationsUrls } from '../../util/constants';
 
 import { dateFormat } from '../../util/helpers';
-import { medicationsUrls } from '../../util/constants';
 
 const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   // Hooks
@@ -65,7 +65,9 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
             href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
             text="Learn how to renew prescriptions"
             data-testid="learn-to-renew-prescriptions-link"
-            data-dd-action-name="Learn How To Renew Prescriptions Action Link - Refill Page"
+            data-dd-action-name={`Learn How To Renew Prescriptions Action Link - ${
+              DD_ACTIONS_PAGE_TYPE.REFILL
+            } - Renew Section`}
           />
         </p>
       </div>
@@ -78,7 +80,9 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
           <Link
             data-testid="medications-page-link"
             to="/"
-            data-dd-action-name="Go To Your Medications List Action Link - Refill Page - Renew Section"
+            data-dd-action-name={`Go To Your Medications List Action Link - ${
+              DD_ACTIONS_PAGE_TYPE.REFILL
+            } - Renew Section`}
           >
             Go to your medications list
           </Link>

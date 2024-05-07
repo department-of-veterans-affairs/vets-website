@@ -7,7 +7,10 @@ import PropTypes from 'prop-types';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { rxListSortingOptions } from '../../util/constants';
+import {
+  rxListSortingOptions,
+  DD_ACTIONS_PAGE_TYPE,
+} from '../../util/constants';
 import { selectRefillContentFlag } from '../../util/selectors';
 
 const MedicationsListSort = props => {
@@ -25,7 +28,9 @@ const MedicationsListSort = props => {
           data-testid="sort-dropdown"
           label="Show medications in this order"
           name="sort-order"
-          data-dd-action-name="Show Medications In This Order Select - List Page"
+          data-dd-action-name={`Show Medications In This Order Select - ${
+            DD_ACTIONS_PAGE_TYPE.LIST
+          }`}
           value={sortListOption}
           onVaSelect={e => {
             setSortListOption(e.detail.value);
@@ -42,7 +47,9 @@ const MedicationsListSort = props => {
                 key={option}
                 value={option}
                 data-testid="sort-option"
-                data-dd-action-name={`${capitalizedOption} Option - List Page`}
+                data-dd-action-name={`${capitalizedOption} Option - ${
+                  DD_ACTIONS_PAGE_TYPE.LIST
+                }`}
               >
                 {rxListSortingOptions[option].LABEL}
               </option>
@@ -52,7 +59,9 @@ const MedicationsListSort = props => {
       </div>
       <div className="sort-button">
         <VaButton
-          data-dd-action-name="Sort Medications Button - Medications List Page"
+          data-dd-action-name={`Sort Medications Button - ${
+            DD_ACTIONS_PAGE_TYPE.LIST
+          }`}
           uswds
           className="va-button"
           secondary={showRefillContent}

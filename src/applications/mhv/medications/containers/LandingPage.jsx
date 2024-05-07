@@ -15,6 +15,7 @@ import {
   medicationsUrls,
   rxListSortingOptions,
   defaultSelectedSortOption,
+  DD_ACTIONS_PAGE_TYPE,
 } from '../util/constants';
 import { selectRefillContentFlag } from '../util/selectors';
 
@@ -114,7 +115,9 @@ const LandingPage = () => {
                       Manage your medications
                     </h2>
                     <Link
-                      data-dd-action-name="Refill Prescriptions Action Link - Landing Page"
+                      data-dd-action-name={`Refill Prescriptions Action Link - ${
+                        DD_ACTIONS_PAGE_TYPE.ABOUT
+                      }`}
                       className="vads-u-display--block vads-c-action-link--blue vads-u-margin-bottom--1"
                       to={refillUrl}
                       data-testid="refill-nav-link"
@@ -125,7 +128,9 @@ const LandingPage = () => {
                       className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
                       to={medicationsUrl}
                       data-testid="prescriptions-nav-link"
-                      data-dd-action-name="Go To Your Medications List Action Link - Landing Page"
+                      data-dd-action-name={`Go To Your Medications List Action Link - ${
+                        DD_ACTIONS_PAGE_TYPE.ABOUT
+                      }`}
                     >
                       Go to your medications list
                     </Link>
@@ -143,7 +148,9 @@ const LandingPage = () => {
                       className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
                       to={medicationsUrl}
                       data-testid="prescriptions-nav-link"
-                      data-dd-action-name="Go To Your Medications List Action Link - Landing Page"
+                      data-dd-action-name={`Go To Your Medications List Action Link - ${
+                        DD_ACTIONS_PAGE_TYPE.ABOUT
+                      }`}
                     >
                       Go to your medications list
                     </Link>
@@ -197,7 +204,9 @@ const LandingPage = () => {
               <va-accordion
                 bordered
                 data-testid="accordion-dropdown"
-                data-dd-action-name="Questions About This Tool Accordion - Landing Page"
+                data-dd-action-name={`Questions About This Tool Accordion - ${
+                  DD_ACTIONS_PAGE_TYPE.ABOUT
+                }`}
                 uswds
               >
                 <va-accordion-item bordered="true">
@@ -244,7 +253,9 @@ const LandingPage = () => {
                           'self-entered-medications-supplements',
                         )}
                         rel="noreferrer"
-                        data-dd-action-name="Go To Your Self Entered Medications Link - Landing Page"
+                        data-dd-action-name={`Go To Your Self Entered Medications Link - ${
+                          DD_ACTIONS_PAGE_TYPE.ABOUT
+                        }`}
                       >
                         Go to your self-entered medications on the My HealtheVet
                         website
@@ -354,7 +365,9 @@ const LandingPage = () => {
                         'secure-messaging',
                       )}
                       rel="noreferrer"
-                      data-dd-action-name="Compose A Message Link - Landing Page"
+                      data-dd-action-name={`Compose A Message Link - ${
+                        DD_ACTIONS_PAGE_TYPE.ABOUT
+                      }`}
                     >
                       Compose a message on the My HealtheVet website
                     </a>
@@ -382,7 +395,9 @@ const LandingPage = () => {
                 uswds
                 bordered
                 data-testid="more-ways-to-manage"
-                data-dd-action-name="More Ways To Manage Accordion - Landing Page"
+                data-dd-action-name={`More Ways To Manage Accordion - ${
+                  DD_ACTIONS_PAGE_TYPE.ABOUT
+                }`}
               >
                 <va-accordion-item
                   open={isRxRenewAccordionOpen}
@@ -431,7 +446,9 @@ const LandingPage = () => {
                       'secure-messaging',
                     )}
                     rel="noreferrer"
-                    data-dd-action-name="Compose A Message Link - Landing Page"
+                    data-dd-action-name={`Compose A Message Link - ${
+                      DD_ACTIONS_PAGE_TYPE.ABOUT
+                    }`}
                   >
                     Compose a message on the My HealtheVet website
                   </a>
@@ -479,7 +496,9 @@ const LandingPage = () => {
                   </p>
                   <a
                     href="/find-locations/?page=1&facilityType=health"
-                    data-dd-action-name="Find Your VA Health Facility Link - Landing Page"
+                    data-dd-action-name={`Find Your VA Health Facility Link - ${
+                      DD_ACTIONS_PAGE_TYPE.ABOUT
+                    }`}
                   >
                     Find your VA health facility
                   </a>
@@ -506,7 +525,9 @@ const LandingPage = () => {
                       'profiles',
                     )}
                     rel="noreferrer"
-                    data-dd-action-name="Go To Your Profile Link - Landing Page"
+                    data-dd-action-name={`Go To Your Profile Link - ${
+                      DD_ACTIONS_PAGE_TYPE.ABOUT
+                    }`}
                   >
                     Go to your profile on the My HealtheVet website
                   </a>
@@ -532,7 +553,9 @@ const LandingPage = () => {
                       'health-history',
                     )}
                     rel="noreferrer"
-                    data-dd-action-name="Go To Your Allergy And Reaction Records Link - Landing Page"
+                    data-dd-action-name={`Go To Your Allergy And Reaction Records Link - ${
+                      DD_ACTIONS_PAGE_TYPE.ABOUT
+                    }`}
                   >
                     Go to your allergy and reaction records on the My HealtheVet
                     website

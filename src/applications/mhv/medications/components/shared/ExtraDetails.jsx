@@ -75,7 +75,9 @@ const ExtraDetails = rx => {
             href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
             text="Learn how to renew prescriptions"
             data-testid="learn-to-renew-precsriptions-link"
-            data-dd-action-name="Learn How To Renew Prescriptions Action Link - Details Page"
+            data-dd-action-name={`Learn How To Renew Prescriptions Action Link - ${
+              DD_ACTIONS_PAGE_TYPE.DETAILS
+            }`}
           />
         </div>
       )}
@@ -89,7 +91,9 @@ const ExtraDetails = rx => {
             href={mhvUrl(ssoe, 'secure-messaging')}
             text="Compose a message on the My HealtheVet website"
             data-testid="discontinued-compose-message-link"
-            data-dd-action-name="Compose A Message Link - Details Page"
+            data-dd-action-name={`Compose A Message Link - ${
+              DD_ACTIONS_PAGE_TYPE.DETAILS
+            }`}
           />
         </div>
       )}
