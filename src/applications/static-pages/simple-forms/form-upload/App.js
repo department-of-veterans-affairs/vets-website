@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { connect, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isLoggedIn } from 'platform/user/selectors';
 import {
@@ -8,18 +8,12 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
-export const App = ({
-  shouldDisplayFormUpload,
-  toggleLoginModal,
-  formNumber,
-  hasOnlineTool,
-}) => {
+export const App = ({ shouldDisplayFormUpload, formNumber, hasOnlineTool }) => {
+  const dispatch = useDispatch();
+
   // TODO: Confirm this accurately detects if the user is logged in.
   const userLoggedIn = useSelector(state => isLoggedIn(state));
-
-  const onSignInClicked = useCallback(() => toggleLoginModal(true), [
-    toggleLoginModal,
-  ]);
+  const onSignInClicked = () => dispatch(toggleLoginModalAction(true));
 
   if (shouldDisplayFormUpload === undefined || hasOnlineTool === undefined) {
     return <va-loading-indicator message="Loading..." />;
@@ -65,11 +59,4 @@ App.propTypes = {
   formNumber: PropTypes.string,
 };
 
-const mapDispatchToProps = dispatch => ({
-  toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
-});
-
-export default connect(
-  () => ({}),
-  mapDispatchToProps,
-)(App);
+export default App;
