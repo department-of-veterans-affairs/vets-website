@@ -51,7 +51,7 @@ export const DECISION_REVIEW_TYPE_LABELS = Object.freeze({
 
 export const DECISION_REVIEW_TYPE_DESCRIPTIONS = Object.freeze({
   [DECISION_REVIEW_TYPES.ERROR_MADE]:
-    "Don't select this option if you have new evidence to submit",
+    "Don't select this option if you have new evidence to submit.",
   [DECISION_REVIEW_TYPES.BVA_REQUEST]:
     'You can also submit new evidence with certain types of Board Appeals.',
 });
