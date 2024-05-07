@@ -9,7 +9,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 /**
  * ATTENTION!!! Are you looking for the SIP form variables like formBenefits, formLinks, or trackingPrefixes?
  * if so, those variables have been moved to src/platform/forms/constants.js
- * they have also been changed to be CONST_CASE, so they are now FORM_BENEFITS, FORM_LINKS, and TRACKING_PREFIXES
+ * they have also been changed to be consolidated into an array of objects: MY_VA_SIP_FORMS
  */
 
 const idArray = MY_VA_SIP_FORMS.map(item => item.id);
@@ -41,6 +41,7 @@ export function isSIPEnabledForm(savedForm) {
     const { prefix } = foundForm;
     throw new Error(`Could not find form ${prefix} in list of sipEnabledForms`);
   }
+
   return true;
 }
 

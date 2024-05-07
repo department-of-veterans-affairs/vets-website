@@ -11,7 +11,7 @@ import {
   sipFormSorter,
 } from '~/applications/personalization/dashboard/helpers';
 
-import { FORM_BENEFITS } from '~/platform/forms/constants';
+import { MY_VA_SIP_FORMS } from '~/platform/forms/constants';
 import { getFormLink } from '~/platform/forms/helpers';
 
 import ApplicationInProgress from './ApplicationInProgress';
@@ -47,7 +47,9 @@ const ApplicationsInProgress = ({ savedForms, hideH3, isLOA1 }) => {
         <div className="vads-l-row">
           {verifiedSavedForms.map(form => {
             const formId = form.form;
-            const formTitle = `application for ${FORM_BENEFITS[formId]}`;
+            const formTitle = `application for ${
+              MY_VA_SIP_FORMS.find(e => e.id === formId).description
+            }`;
             const presentableFormId = presentableFormIDs[formId];
             const { lastUpdated, expiresAt } = form.metadata || {};
             const lastSavedDate = format(
