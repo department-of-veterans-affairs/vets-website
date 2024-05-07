@@ -2,13 +2,7 @@ import React from 'react';
 import * as Sentry from '@sentry/browser';
 import { isPlainObject } from 'lodash';
 import { isAfter, parse } from 'date-fns';
-import {
-  VA_FORM_IDS,
-  FORM_BENEFITS,
-  FORM_TITLES,
-  SIP_ENABLED_FORMS,
-  TRACKING_PREFIXES,
-} from '~/platform/forms/constants';
+import { VA_FORM_IDS, MY_VA_SIP_FORMS } from '~/platform/forms/constants';
 import { getFormLink } from '~/platform/forms/helpers';
 import recordEvent from '~/platform/monitoring/record-event';
 
@@ -18,31 +12,33 @@ import recordEvent from '~/platform/monitoring/record-event';
  * they have also been changed to be CONST_CASE, so they are now FORM_BENEFITS, FORM_LINKS, and TRACKING_PREFIXES
  */
 
+const idArray = MY_VA_SIP_FORMS.map(item => item.id);
+
 // A dict of presentable form IDs. Generally this is just the form ID itself
 // prefixed with `FORM` for display purposes (ex: 'FORM 21-526EZ'). The only
 // exception to this rule right now is the FEEDBACK-TOOL.
-export const presentableFormIDs = Object.keys(FORM_BENEFITS).reduce(
-  (prefixedIDs, formID) => {
-    if (formID === VA_FORM_IDS.FEEDBACK_TOOL) {
-      prefixedIDs[formID] = 'FEEDBACK TOOL'; // eslint-disable-line no-param-reassign
-    } else if (formID === VA_FORM_IDS.FORM_10_10EZ) {
-      prefixedIDs[formID] = `FORM 10-10EZ`; // eslint-disable-line no-param-reassign
-    } else {
-      prefixedIDs[formID] = `FORM ${formID}`; // eslint-disable-line no-param-reassign
-    }
-    return prefixedIDs;
-  },
-  {},
-);
+export const presentableFormIDs = idArray.reduce((prefixedIDs, formID) => {
+  if (formID === VA_FORM_IDS.FEEDBACK_TOOL) {
+    prefixedIDs[formID] = 'FEEDBACK TOOL'; // eslint-disable-line no-param-reassign
+  } else if (formID === VA_FORM_IDS.FORM_10_10EZ) {
+    prefixedIDs[formID] = `FORM 10-10EZ`; // eslint-disable-line no-param-reassign
+  } else {
+    prefixedIDs[formID] = `FORM ${formID}`; // eslint-disable-line no-param-reassign
+  }
+  return prefixedIDs;
+}, {});
 
 export function isSIPEnabledForm(savedForm) {
   const formNumber = savedForm.form;
-  if (!FORM_TITLES[formNumber] || !getFormLink(formNumber)) {
+  const foundForm = MY_VA_SIP_FORMS.find(form => form.id === formNumber);
+
+  if (!foundForm.title || !getFormLink(formNumber)) {
     Sentry.captureMessage('vets_sip_list_item_missing_info');
     return false;
   }
-  if (!SIP_ENABLED_FORMS.has(formNumber)) {
-    const prefix = TRACKING_PREFIXES[formNumber];
+
+  if (!MY_VA_SIP_FORMS.some(form => form.id === formNumber)) {
+    const { prefix } = foundForm;
     throw new Error(`Could not find form ${prefix} in list of sipEnabledForms`);
   }
   return true;
