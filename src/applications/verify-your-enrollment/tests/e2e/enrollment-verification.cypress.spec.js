@@ -69,7 +69,9 @@ describe('Enrollment Verification Page Tests', () => {
     cy.get(
       '[class=" vads-u-font-size--h2 vads-u-font-weight--bold vye-h2-style-as-h3 "]',
     ).should('contain', 'You have successfully verified your enrollment');
-    cy.get('[class="vads-u-font-size--h4"]').should('contain', 'Verified');
+    cy.get(
+      '[class="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center"]',
+    ).should('contain', 'Verified');
   });
   it("should go to  'Your benefits profile when' when 'Manage your benefits profile' link is clicked ", () => {
     cy.injectAxeThenAxeCheck();
@@ -81,7 +83,7 @@ describe('Enrollment Verification Page Tests', () => {
       'Your benefits profile',
     );
   });
-  it("should go back to 'enrollment verification' when 'Mongomery GI Bill Enrollment Verification' link is clicked ", () => {
+  it("should go back to 'enrollment verification' when 'Montgomery GI Bill Enrollment Verification' link is clicked ", () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       'a[href="/education/verify-your-enrollment/benefits-profile/"]',
@@ -102,7 +104,7 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it("should  have focus around 'Showing x-y of z monthly enrollments listed by most recent' when pagination button is clicked", () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('a[class="usa-pagination__button usa-current"]').click();
-    cy.get('[id="vye-pagination-page-status-text"]').focused();
+    cy.get('a[aria-label="page 1, first page"]').click();
+    cy.get('[id="vye-pagination-page-status-text"]').should('be.focused');
   });
 });

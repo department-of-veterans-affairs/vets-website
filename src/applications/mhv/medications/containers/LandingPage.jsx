@@ -52,6 +52,7 @@ const LandingPage = () => {
 
   useEffect(
     () => {
+      focusElement(document.querySelector('h1'));
       updatePageTitle('About medications | Veterans Affairs');
       if (
         location.pathname.includes('/accordion-renew-rx') &&

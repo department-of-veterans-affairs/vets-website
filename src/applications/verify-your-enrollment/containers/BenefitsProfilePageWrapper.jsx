@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import ChangeOfAddressWrapper from './ChangeOfAddressWrapper';
 import ChangeOfDirectDepositWrapper from './ChangeOfDirectDepositWrapper';
@@ -34,7 +35,10 @@ const BenefitsProfileWrapper = ({ children }) => {
     fullName: applicantName,
     pendingDocuments,
   } = useData();
-
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const toggleValue = useToggleValue(
+    TOGGLE_NAMES.toggleVyeAdressDirectDepositForms,
+  );
   return (
     <>
       <div name="topScrollElement" />
@@ -61,17 +65,21 @@ const BenefitsProfileWrapper = ({ children }) => {
               applicantChapter={applicantChapter}
               applicantName={applicantName}
             />
-            <ChangeOfAddressWrapper
-              loading={loading}
-              applicantName={applicantName}
-              mailingAddress={{
-                street: `${addressLine3} ${addressLine2}`,
-                city: addressLine4,
-                stateCode: addressLine5,
-                zipCode: addressLine6,
-              }}
-            />
-            <ChangeOfDirectDepositWrapper applicantName={applicantName} />
+            {toggleValue || window.isProduction ? (
+              <>
+                <ChangeOfAddressWrapper
+                  loading={loading}
+                  applicantName={applicantName}
+                  mailingAddress={{
+                    street: `${addressLine3} ${addressLine2}`,
+                    city: addressLine4,
+                    stateCode: addressLine5,
+                    zipCode: addressLine6,
+                  }}
+                />
+                <ChangeOfDirectDepositWrapper applicantName={applicantName} />
+              </>
+            ) : null}
             <PendingDocuments
               loading={loading}
               pendingDocuments={pendingDocuments}
@@ -79,7 +87,7 @@ const BenefitsProfileWrapper = ({ children }) => {
             {children}
             <MoreInfoCard
               marginTop="7"
-              linkText="Mongomery GI Bill Enrollment Verification"
+              linkText="Montgomery GI Bill Enrollment Verification"
               relativeURL={VERIFICATION_RELATIVE_URL}
               URL={VERIFICATION_PROFILE_URL}
               className="vads-u-font-family--sans vads-u-font-weight--bold"

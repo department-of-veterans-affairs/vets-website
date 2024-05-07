@@ -21,7 +21,7 @@ const HowDoIPay = ({ userData }) => (
         value: 'null',
       }}
     >
-      <va-accordion-item id="first" header="Option 1: Pay online">
+      <va-accordion-item id="first" header="Option 1: Pay online" open="true">
         <p>
           You can pay directly from your bank account or by debit or credit card
           on the secure{' '}

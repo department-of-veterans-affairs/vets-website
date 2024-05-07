@@ -7,8 +7,7 @@ import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 import { DD_ACTIONS_PAGE_TYPE, medicationsUrls } from '../../util/constants';
-
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, fromToNumbs } from '../../util/helpers';
 
 const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   // Hooks
@@ -40,6 +39,13 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
   const paginatedRenewablePrescriptions = renewablePrescriptionsList.slice(
     startIdx,
     endIdx,
+  );
+
+  const displayRange = fromToNumbs(
+    pagination.currentPage,
+    renewablePrescriptionsList?.length,
+    renewablePrescriptionsList.length,
+    MAX_PAGE_LIST_LENGTH,
   );
 
   // Functions
@@ -91,9 +97,9 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
       {renewablePrescriptionsList.length > 0 && (
         <>
           <p data-testid="renew-page-list-count">
-            Showing {renewablePrescriptionsList.length} prescription
-            {renewablePrescriptionsList.length !== 1 ? 's' : ''} you may need to
-            renew
+            Showing
+            <span>{` ${displayRange[0]} - ${displayRange[1]} of`}</span>
+            {` ${renewablePrescriptionsList.length} prescriptions`}
           </p>
           <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
         </>

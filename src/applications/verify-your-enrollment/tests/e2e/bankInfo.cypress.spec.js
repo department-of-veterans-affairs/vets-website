@@ -1,7 +1,7 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 import { mockUser } from './login';
 
-describe('Enrollment Verification Page Tests', () => {
+describe('Direct deposit information', () => {
   /**
    *
    * @param {object} win
@@ -17,6 +17,26 @@ describe('Enrollment Verification Page Tests', () => {
       },
     });
   });
+  const fillForm = () => {
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+      timeout: Timeouts.slow,
+    }).click();
+    cy.get('[id="VYE-add-new-account-button"]').click();
+    cy.get('[id="root_GI-Bill-Chapters-fullName"]').type('John Smith');
+    cy.get('input[id="root_GI-Bill-Chapters-phone"]').type('4082037901');
+    cy.get('[id="root_GI-Bill-Chapters-email"]').type('uer01@mail.com');
+    cy.get(
+      'label[for="root_GI-Bill-Chapters-AccountTypeCheckinginput"]',
+    ).click();
+    cy.get('[for="root_GI-Bill-Chapters-AccountTypeCheckinginput"]').click();
+    cy.get('[id="root_GI-Bill-Chapters-BankName"]').type('Bank Of America');
+    cy.get('[id="root_GI-Bill-Chapters-BankPhone"]').type('3155682345');
+    cy.get('[id="root_GI-Bill-Chapters-RoutingNumber"]').type('938235879');
+    cy.get('[id="root_GI-Bill-Chapters-AccountNumber"]').type('00026643207');
+    cy.get('[id="root_GI-Bill-Chapters-VerifyAccountNumber"]').type(
+      '00026643207',
+    );
+  };
   it('should show Dirct deposit infromation', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
@@ -86,24 +106,8 @@ describe('Enrollment Verification Page Tests', () => {
       statusCode: 200,
       ok: true,
     }).as('updateDirectDeposit');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
-    cy.get('[id="VYE-add-new-account-button"]').click();
-    cy.get('[id="root_GI-Bill-Chapters-fullName"]').type('John Smith');
-    cy.get('input[id="root_GI-Bill-Chapters-phone"]').type('4082037901');
-    cy.get('[id="root_GI-Bill-Chapters-email"]').type('uer01@mail.com');
-    cy.get(
-      'label[for="root_GI-Bill-Chapters-AccountTypeCheckinginput"]',
-    ).click();
-    cy.get('[for="root_GI-Bill-Chapters-AccountTypeCheckinginput"]').click();
-    cy.get('[id="root_GI-Bill-Chapters-BankName"]').type('Bank Of America');
-    cy.get('[id="root_GI-Bill-Chapters-BankPhone"]').type('3155682345');
-    cy.get('[id="root_GI-Bill-Chapters-RoutingNumber"]').type('938235879');
-    cy.get('[id="root_GI-Bill-Chapters-AccountNumber"]').type('00026643207');
-    cy.get('[id="root_GI-Bill-Chapters-VerifyAccountNumber"]').type(
-      '00026643207',
-    );
+
+    fillForm();
     cy.get(
       '[aria-label="save your bank information for GI Bill® benefits"]',
     ).click();
@@ -118,24 +122,7 @@ describe('Enrollment Verification Page Tests', () => {
     cy.intercept('POST', `/vye/v1/bank_info`, {
       statusCode: 401,
     }).as('updateDirectDeposit');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
-    cy.get('[id="VYE-add-new-account-button"]').click();
-    cy.get('[id="root_GI-Bill-Chapters-fullName"]').type('John Smith');
-    cy.get('input[id="root_GI-Bill-Chapters-phone"]').type('4082037901');
-    cy.get('[id="root_GI-Bill-Chapters-email"]').type('uer01@mail.com');
-    cy.get(
-      'label[for="root_GI-Bill-Chapters-AccountTypeCheckinginput"]',
-    ).click();
-    cy.get('[for="root_GI-Bill-Chapters-AccountTypeCheckinginput"]').click();
-    cy.get('[id="root_GI-Bill-Chapters-BankName"]').type('Bank Of America');
-    cy.get('[id="root_GI-Bill-Chapters-BankPhone"]').type('3155682345');
-    cy.get('[id="root_GI-Bill-Chapters-RoutingNumber"]').type('938235879');
-    cy.get('[id="root_GI-Bill-Chapters-AccountNumber"]').type('00026643207');
-    cy.get('[id="root_GI-Bill-Chapters-VerifyAccountNumber"]').type(
-      '00026643207',
-    );
+    fillForm();
     cy.get(
       '[aria-label="save your bank information for GI Bill® benefits"]',
     ).click();
@@ -146,5 +133,45 @@ describe('Enrollment Verification Page Tests', () => {
         'contain.text',
         'Sorry, something went wrong. Please try again Later',
       );
+  });
+  it('should show warning alert if user hits cancel after editing form', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.login();
+    fillForm();
+    cy.get('va-button[secondary]').click();
+    cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
+      'contain',
+      'Are you sure?',
+    );
+  });
+  it('should show warning alert if user hits cancel after editing form and it should go back to thr form when user clicks "No, go back to editing" button', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.login();
+    fillForm();
+    cy.get('va-button[secondary]').click();
+    cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
+      'contain',
+      'Are you sure?',
+    );
+    cy.get('va-button[uswds]')
+      .last()
+      .click({ force: true });
+    cy.get('[id="root_GI-Bill-Chapters-email-label"]').should(
+      'contain',
+      "Veteran's Email Address",
+    );
+  });
+  it('should show warning alert if user hits cancel after editing form and it should close alert and form when user clicks Yes, cancel my changes', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.login();
+    fillForm();
+    cy.get('va-button[secondary]').click();
+    cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
+      'contain',
+      'Are you sure?',
+    );
+    cy.get('va-button[uswds]')
+      .first()
+      .click();
   });
 });
