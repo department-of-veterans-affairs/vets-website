@@ -34,7 +34,6 @@ const {
 const vaMedalliaStylesFilename = 'va-medallia-styles';
 
 const generateWebpackDevConfig = require('./webpack.dev.config.js');
-const GenerateFormDocs = require('./generate-form-docs');
 
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
@@ -503,8 +502,6 @@ module.exports = async (env = {}) => {
       }),
 
       new WebpackBar(),
-
-      new GenerateFormDocs(apps),
     ],
     devServer: generateWebpackDevConfig(buildOptions),
   };
