@@ -41,10 +41,9 @@ function NextSteps() {
         <strong>If you’re not enrolled in VA health care</strong>, you can apply
         now.
         <br />
-        <va-link
-          href="/health-care/apply-for-health-care-form-10-10ez/"
-          text="Apply for VA health care benefits"
-        />
+        <a href="/health-care/apply-for-health-care-form-10-10ez/">
+          Apply for VA health care benefits
+        </a>
       </p>
     </div>
   );
