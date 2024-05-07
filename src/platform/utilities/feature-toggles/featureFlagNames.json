@@ -73,6 +73,7 @@
   "facilityLocatorShowOperationalHoursSpecialInstructions": "facility_locator_show_operational_hours_special_instructions",
   "fileUploadShortWorkflowEnabled": "file_upload_short_workflow_enabled",
   "financialStatusReportDebtsApiModule": "financial_status_report_debts_api_module",
+  "financialStatusReportExpensesUpdate": "financial_status_report_expenses_update",
   "financialStatusReportStreamlinedWaiver": "financial_status_report_streamlined_waiver",
   "financialStatusReportStreamlinedWaiverAssets": "financial_status_report_streamlined_waiver_assets",
   "financialStatusReportReviewPageNavigation": "financial_status_report_review_page_navigation",
