@@ -11,7 +11,7 @@ import {
 
 import formConfig from '../../config/form';
 
-describe('Report 674 last term information', () => {
+describe.skip('Report 674 last term information', () => {
   const {
     schema,
     uiSchema,

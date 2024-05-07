@@ -46,7 +46,7 @@ describe('Report 674 term information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(5);
+    expect(form.find('input').length).to.equal(7);
     expect(form.find('select').length).to.equal(6);
     form.unmount();
   });
@@ -63,7 +63,7 @@ describe('Report 674 term information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -79,6 +79,7 @@ describe('Report 674 term information', () => {
         onSubmit={onSubmit}
       />,
     );
+    selectRadio(form, 'root_currentTermDates_isSchoolAccredited', 'Y');
     changeDropdown(
       form,
       'select#root_currentTermDates_officialSchoolStartDateMonth',
@@ -142,6 +143,7 @@ describe('Report 674 term information', () => {
         onSubmit={onSubmit}
       />,
     );
+    selectRadio(form, 'root_currentTermDates_isSchoolAccredited', 'Y');
     changeDropdown(
       form,
       'select#root_currentTermDates_officialSchoolStartDateMonth',
@@ -195,6 +197,7 @@ describe('Report 674 term information', () => {
     );
     fillData(form, 'input#root_programInformation_classesPerWeek', 2);
     fillData(form, 'input#root_programInformation_hoursPerWeek', 2);
+    // console.log(form.debug());
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;

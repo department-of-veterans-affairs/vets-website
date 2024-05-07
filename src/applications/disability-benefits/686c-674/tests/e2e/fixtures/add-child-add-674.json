@@ -17,6 +17,7 @@
       "hoursPerWeek": 5
     },
     "currentTermDates": {
+      "isSchoolAccredited": true,
       "officialSchoolStartDate": "2010-06-04",
       "expectedStudentStartDate": "2011-04-06",
       "expectedGraduationDate": "2013-05-04"
