@@ -5,7 +5,11 @@ import moment from 'moment';
 import { expect } from 'chai';
 
 import formConfig from '../config/form';
-import { CHAR_LIMITS, SHOW_TOXIC_EXPOSURE } from '../constants';
+import {
+  CHAR_LIMITS,
+  SHOW_REVISED_ADD_DISABILITIES_PAGE,
+  SHOW_TOXIC_EXPOSURE,
+} from '../constants';
 
 import { transform } from '../submit-transformer';
 
@@ -14,6 +18,10 @@ import maximalData from './fixtures/data/maximal-test.json';
 describe('transform', () => {
   beforeEach(() => {
     sessionStorage.removeItem(SHOW_TOXIC_EXPOSURE);
+    sessionStorage.setItem(SHOW_REVISED_ADD_DISABILITIES_PAGE, false);
+  });
+  afterEach(() => {
+    sessionStorage.removeItem(SHOW_REVISED_ADD_DISABILITIES_PAGE);
   });
 
   const servicePeriodsBDD = [
