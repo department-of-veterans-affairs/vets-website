@@ -9,16 +9,16 @@ export default function DischargeWizardApp({ children }) {
 
   if (isProd) {
     return (
-      <div className="row discharge-wizard vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
+      <div className="discharge-wizard vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
         <Breadcrumbs />
         {children}
       </div>
     );
   }
   return (
-    <div className="row discharge-wizard-v2 vads-u-padding-x--1 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--8">
+    <div className="vads-l-grid-container row discharge-wizard-v2">
       <BreadcrumbsV2 />
-      <div className="usa-width-two-thirds medium-8 columns">{children}</div>
+      <article className="usa-width-two-thirds">{children}</article>
     </div>
   );
 }

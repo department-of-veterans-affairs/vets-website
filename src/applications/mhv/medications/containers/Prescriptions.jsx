@@ -488,7 +488,7 @@ const Prescriptions = () => {
             Medications
           </h1>
           <div
-            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3"
+            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3 vads-u-font-family--serif"
             data-testid="Title-Notes"
           >
             Refill and track your VA prescriptions. And review all medications
