@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 export const Auth = ({
   DynamicHeader,
@@ -25,14 +26,25 @@ export const Auth = ({
     vcfUrl,
   } = representative ?? {};
 
+  const isPostLogin = document.location.search?.includes('postLogin=true');
+
+  useEffect(
+    () => {
+      if (isPostLogin) {
+        focusElement('.poa-display');
+      }
+    },
+    [id, isPostLogin],
+  );
+
   if (isLoading) {
     return (
-      <div>
+      <va-card show-shadow>
         <va-loading-indicator
           label="Loading"
           message="Loading your accredited representative information..."
         />
-      </div>
+      </va-card>
     );
   }
 
