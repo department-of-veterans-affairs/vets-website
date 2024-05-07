@@ -1,8 +1,8 @@
 import { validateDate } from 'platform/forms-system/src/js/validation';
 import {
   isChapterFieldRequired,
-  classesPerWeekUiSchema,
-  hoursPerWeekUiSchema,
+  // classesPerWeekUiSchema,
+  // hoursPerWeekUiSchema,
 } from '../../../helpers';
 import { report674 } from '../../../utilities';
 
@@ -11,6 +11,12 @@ export const schema = report674.properties.studentTermDates;
 export const uiSchema = {
   currentTermDates: {
     'ui:title': 'Term or course dates',
+    isSchoolAccredited: {
+      'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
+      'ui:widget': 'yesNo',
+      'ui:title': 'Is the school accredited?',
+      'ui:errorMessages': { required: 'Select an option' },
+    },
     officialSchoolStartDate: {
       'ui:title': 'Official start date',
       'ui:widget': 'date',
@@ -52,35 +58,35 @@ export const uiSchema = {
         'Complete this section if the student is enrolled in an education/training program other than high school or college, or if the student will attend high school or college less than full-time.',
       'ui:errorMessages': { required: 'Select an option' },
     },
-    courseOfStudy: {
-      'ui:required': formData =>
-        !formData?.programInformation?.studentIsEnrolledFullTime,
-      'ui:options': {
-        expandUnder: 'studentIsEnrolledFullTime',
-        expandUnderCondition: false,
-      },
-      'ui:title': 'Subject or educational/training program',
-      'ui:errorMessages': { required: 'Enter a course or program name' },
-    },
-    classesPerWeek: {
-      ...classesPerWeekUiSchema,
-      'ui:required': formData =>
-        !formData?.programInformation?.studentIsEnrolledFullTime,
-      'ui:options': {
-        expandUnder: 'studentIsEnrolledFullTime',
-        expandUnderCondition: false,
-        widgetClassNames: 'form-select-medium',
-      },
-    },
-    hoursPerWeek: {
-      ...hoursPerWeekUiSchema,
-      'ui:required': formData =>
-        !formData?.programInformation?.studentIsEnrolledFullTime,
-      'ui:options': {
-        expandUnder: 'studentIsEnrolledFullTime',
-        expandUnderCondition: false,
-        widgetClassNames: 'form-select-medium',
-      },
-    },
+    // courseOfStudy: {
+    //   'ui:required': formData =>
+    //     !formData?.programInformation?.studentIsEnrolledFullTime,
+    //   'ui:options': {
+    //     expandUnder: 'studentIsEnrolledFullTime',
+    //     expandUnderCondition: false,
+    //   },
+    //   'ui:title': 'Subject or educational/training program',
+    //   'ui:errorMessages': { required: 'Enter a course or program name' },
+    // },
+    // classesPerWeek: {
+    //   ...classesPerWeekUiSchema,
+    //   'ui:required': formData =>
+    //     !formData?.programInformation?.studentIsEnrolledFullTime,
+    //   'ui:options': {
+    //     expandUnder: 'studentIsEnrolledFullTime',
+    //     expandUnderCondition: false,
+    //     widgetClassNames: 'form-select-medium',
+    //   },
+    // },
+    // hoursPerWeek: {
+    //   ...hoursPerWeekUiSchema,
+    //   'ui:required': formData =>
+    //     !formData?.programInformation?.studentIsEnrolledFullTime,
+    //   'ui:options': {
+    //     expandUnder: 'studentIsEnrolledFullTime',
+    //     expandUnderCondition: false,
+    //     widgetClassNames: 'form-select-medium',
+    //   },
+    // },
   },
 };

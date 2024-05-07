@@ -1,22 +1,22 @@
 import React from 'react';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
+// import cloneDeep from 'platform/utilities/data/cloneDeep';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { TASK_KEYS } from '../../../constants';
 import {
   isChapterFieldRequired,
-  classesPerWeekUiSchema,
-  hoursPerWeekUiSchema,
+  // classesPerWeekUiSchema,
+  // hoursPerWeekUiSchema,
 } from '../../../helpers';
-import { buildAddressSchema, addressUISchema } from '../../../address-schema';
+// import { buildAddressSchema, addressUISchema } from '../../../address-schema';
 import { report674 } from '../../../utilities';
 
-const addressSchema = buildAddressSchema(false);
+// const addressSchema = buildAddressSchema(false);
 
-const lastTermSchema = cloneDeep(report674.properties.studentLastTerm);
+// const lastTermSchema = cloneDeep(report674.properties.studentLastTerm);
 
-lastTermSchema.properties.lastTermSchoolInformation.properties.address = addressSchema;
+// lastTermSchema.properties.lastTermSchoolInformation.properties.address = addressSchema;
 
-export const schema = lastTermSchema;
+export const schema = report674.properties.studentLastTerm;
 
 export const uiSchema = {
   studentDidAttendSchoolLastTerm: {
@@ -36,24 +36,24 @@ export const uiSchema = {
       expandUnderCondition: true,
     },
     'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
-    name: {
-      'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
-      'ui:title': 'Last term school’s name',
-    },
-    address: {
-      'ui:title': 'Last term school’s address',
-      'ui:options': {
-        updateSchema: (formData, formSchema) =>
-          !formData.studentDidAttendSchoolLastTerm
-            ? { required: [] }
-            : formSchema,
-      },
-      ...addressUISchema(
-        false,
-        'lastTermSchoolInformation.address',
-        formData => formData.studentDidAttendSchoolLastTerm,
-      ),
-    },
+    // name: {
+    //   'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
+    //   'ui:title': 'Last term school’s name',
+    // },
+    // address: {
+    //   'ui:title': 'Last term school’s address',
+    //   'ui:options': {
+    //     updateSchema: (formData, formSchema) =>
+    //       !formData.studentDidAttendSchoolLastTerm
+    //         ? { required: [] }
+    //         : formSchema,
+    //   },
+    //   ...addressUISchema(
+    //     false,
+    //     'lastTermSchoolInformation.address',
+    //     formData => formData.studentDidAttendSchoolLastTerm,
+    //   ),
+    // },
     termBegin: {
       ...currentOrPastDateUI('Date term began'),
       ...{
@@ -66,13 +66,13 @@ export const uiSchema = {
         'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
       },
     },
-    classesPerWeek: {
-      ...classesPerWeekUiSchema,
-      'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
-    },
-    hoursPerWeek: {
-      ...hoursPerWeekUiSchema,
-      'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
-    },
+    // classesPerWeek: {
+    //   ...classesPerWeekUiSchema,
+    //   'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
+    // },
+    // hoursPerWeek: {
+    //   ...hoursPerWeekUiSchema,
+    //   'ui:required': formData => formData.studentDidAttendSchoolLastTerm,
+    // },
   },
 };
