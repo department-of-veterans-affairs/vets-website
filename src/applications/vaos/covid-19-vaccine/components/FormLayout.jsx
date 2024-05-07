@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import WarningNotification from '../../components/WarningNotification';
@@ -13,6 +14,7 @@ export default function FormLayout({ children, pageTitle }) {
   const match = useRouteMatch();
   return (
     <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--8">
+      <MhvSecondaryNav />
       <Breadcrumbs>
         <a href={`/my-health/appointments/${match.url}`}>{pageTitle}</a>
       </Breadcrumbs>
