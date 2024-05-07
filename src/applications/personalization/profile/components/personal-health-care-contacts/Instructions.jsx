@@ -1,15 +1,24 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import HelpDeskContact from '../HelpDeskContact';
+const Instructions = ({ testId, contactType }) => {
+  const isEmergency = contactType === 'emergency contact';
 
-const Instructions = ({ testId }) => (
-  <div data-testid={testId}>
-    To add a contact, call us at <HelpDeskContact testId={testId} />.
-  </div>
-);
+  return (
+    <div data-testid={testId}>
+      To add {isEmergency ? 'an' : 'a'} {contactType}, call your VA health
+      facility.{' '}
+      <Link to="https://www.va.gov/find-locations/">
+        Find your health facility’s phone number
+      </Link>
+      .
+    </div>
+  );
+};
 
 Instructions.propTypes = {
+  contactType: PropTypes.string,
   testId: PropTypes.string,
 };
 

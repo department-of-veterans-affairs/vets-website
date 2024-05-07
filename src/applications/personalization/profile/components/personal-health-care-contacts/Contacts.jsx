@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { Link } from 'react-router-dom';
 import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
-
 import Contact from './Contact';
-import HelpDeskContact from '../HelpDeskContact';
 import Instructions from './Instructions';
 
 const Contacts = ({ data }) => {
@@ -24,7 +22,7 @@ const Contacts = ({ data }) => {
       ),
     }))
   ) : (
-    <Instructions testId="phcc-no-ecs" />
+    <Instructions testId="phcc-no-ecs" contactType="emergency contact" />
   );
 
   const renderNextOfKin = noks?.length ? (
@@ -40,7 +38,7 @@ const Contacts = ({ data }) => {
       ),
     }))
   ) : (
-    <Instructions testId="phcc-no-nok" />
+    <Instructions testId="phcc-no-nok" contactType="next of kin" />
   );
 
   return (
@@ -56,8 +54,10 @@ const Contacts = ({ data }) => {
           <ul className="vads-u-margin-y--0">
             <li>Ask a staff member at your next appointment, or</li>
             <li>
-              Call us at <HelpDeskContact testId="help-desk" />. We’re here
-              Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+              Call your VA health facility.{' '}
+              <Link to="https://www.va.gov/find-locations/">
+                Find your health facility’s phone number
+              </Link>
             </li>
           </ul>
         </va-additional-info>
