@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import formConfig from '../../../config/form';
 import transformForSubmit from '../../../config/submitTransformer';
+import mockData from '../../e2e/fixtures/data/test-data.json';
 
 describe('transform for submit', () => {
   it('should adjust zip code keyname', () => {
@@ -60,5 +61,25 @@ describe('transform for submit', () => {
       transformForSubmit(formConfig, { data: {} }),
     );
     expect(transformed.veteran.ssn_or_tin).to.equal('');
+  });
+  it('should format certifier information', () => {
+    const modified = JSON.parse(JSON.stringify(mockData));
+    modified.data.certifierRole = 'sponsor';
+    const transformed = JSON.parse(transformForSubmit(formConfig, modified));
+    expect(transformed.certification.firstName).equals(
+      modified.data.veteransFullName.first,
+    );
+  });
+  it('should attach applicant name to each uploaded file', () => {
+    const modified = JSON.parse(JSON.stringify(mockData));
+    modified.data.applicants[0].applicantMedicareCardFront = [
+      {
+        name: 'file.png',
+      },
+    ];
+    const transformed = JSON.parse(transformForSubmit(formConfig, modified));
+    expect(transformed.supporting_docs[0].applicantName.first).to.equal(
+      transformed.applicants[0].full_name.first,
+    );
   });
 });
