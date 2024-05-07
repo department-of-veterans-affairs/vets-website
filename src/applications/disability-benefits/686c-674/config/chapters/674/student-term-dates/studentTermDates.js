@@ -54,35 +54,5 @@ export const uiSchema = {
         'Complete this section if the student is enrolled in an education/training program other than high school or college, or if the student will attend high school or college less than full-time.',
       'ui:errorMessages': { required: 'Select an option' },
     },
-    // courseOfStudy: {
-    //   'ui:required': formData =>
-    //     !formData?.programInformation?.studentIsEnrolledFullTime,
-    //   'ui:options': {
-    //     expandUnder: 'studentIsEnrolledFullTime',
-    //     expandUnderCondition: false,
-    //   },
-    //   'ui:title': 'Subject or educational/training program',
-    //   'ui:errorMessages': { required: 'Enter a course or program name' },
-    // },
-    // classesPerWeek: {
-    //   ...classesPerWeekUiSchema,
-    //   'ui:required': formData =>
-    //     !formData?.programInformation?.studentIsEnrolledFullTime,
-    //   'ui:options': {
-    //     expandUnder: 'studentIsEnrolledFullTime',
-    //     expandUnderCondition: false,
-    //     widgetClassNames: 'form-select-medium',
-    //   },
-    // },
-    // hoursPerWeek: {
-    //   ...hoursPerWeekUiSchema,
-    //   'ui:required': formData =>
-    //     !formData?.programInformation?.studentIsEnrolledFullTime,
-    //   'ui:options': {
-    //     expandUnder: 'studentIsEnrolledFullTime',
-    //     expandUnderCondition: false,
-    //     widgetClassNames: 'form-select-medium',
-    //   },
-    // },
   },
 };
