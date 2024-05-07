@@ -15188,6 +15188,11 @@ node-gyp@^8.2.0:
     tar "^6.1.2"
     which "^2.0.2"
 
+node-lcs@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/node-lcs/-/node-lcs-1.0.4.tgz#2f47a72ac9ffcc740a762f7eee2df6dc4b968fdd"
+  integrity sha512-aNEp6PcffC4T9UBY1ddQZvY3rj5vx1+ahOB0R9O7zHn+Dpbzk94V0zxYXquTISo3XHsthKkWa4NLeSh7iHLkSw==
+
 node-match-path@^0.6.3:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/node-match-path/-/node-match-path-0.6.3.tgz#55dd8443d547f066937a0752dce462ea7dc27551"
@@ -21099,9 +21104,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#7176cb057f11f66f16889005a1873a084bad188c":
-  version "22.1.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7176cb057f11f66f16889005a1873a084bad188c"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#8147f9b8a49c2dc5491118f37ec8dc267036af20":
+  version "22.2.5"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#8147f9b8a49c2dc5491118f37ec8dc267036af20"
   dependencies:
     minimist "^1.2.3"
 
