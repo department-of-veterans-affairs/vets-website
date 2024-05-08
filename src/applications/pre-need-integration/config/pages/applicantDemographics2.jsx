@@ -19,7 +19,15 @@ export const uiSchema = {
         displayEmptyObjectOnReview: true,
       },
     },
-    veteran: veteranUI,
+    veteran: merge({}, veteranUI, {
+      raceComment: {
+        'ui:title': 'Enter the race that best describes the applicant',
+        'ui:errorMessages': {
+          pattern:
+            'Your message can only have letters, numbers, the @ symbol and a period, with no spaces.',
+        },
+      },
+    }),
   },
 };
 
@@ -43,6 +51,7 @@ export const schema = {
               raceComment: {
                 type: 'string',
                 maxLength: 100,
+                pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
               },
             },
           ),

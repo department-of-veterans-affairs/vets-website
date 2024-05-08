@@ -23,6 +23,10 @@ export const uiSchema = {
       race: { 'ui:title': 'What’s the sponsor’s race?' },
       raceComment: {
         'ui:title': 'Enter the race that best describes the sponsor',
+        'ui:errorMessages': {
+          pattern:
+            'Your message can only have letters, numbers, the @ symbol and a period, with no spaces.',
+        },
       },
     }),
   },
@@ -40,7 +44,7 @@ export const schema = {
         },
         veteran: {
           type: 'object',
-          required: ['ethnicity', 'race', 'raceComment'],
+          required: ['ethnicity', 'race'],
           properties: merge(
             {},
             pick(veteran.properties, ['ethnicity', 'race']),
@@ -48,6 +52,7 @@ export const schema = {
               raceComment: {
                 type: 'string',
                 maxLength: 100,
+                pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
               },
             },
           ),

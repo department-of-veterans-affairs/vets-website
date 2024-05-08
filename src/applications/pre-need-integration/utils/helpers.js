@@ -850,6 +850,7 @@ export const veteranUI = {
     'ui:options': {
       expandUnder: 'race',
       maxLength: 100,
+      pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
       hideIf: form => {
         return !form?.application?.veteran?.race?.isOther; // Safely return the value of isOther
       },
