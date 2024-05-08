@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { isArray } from 'lodash';
 import PropTypes from 'prop-types';
-
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
@@ -186,16 +186,33 @@ function ToeApp({
   );
   return (
     <>
-      <va-breadcrumbs uswds="false">
-        <a href="/">Home</a>
-        <a href="/education">Education and training</a>
-        <a href="/education/survivor-dependent-benefits/transferred-benefits/">
-          VA education benefits for survivors and dependents
-        </a>
-        <a href="/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e">
-          Apply to use transferred education benefits
-        </a>
-      </va-breadcrumbs>
+      <div className="row">
+        <div className="vads-u-margin-bottom--4">
+          <VaBreadcrumbs
+            wrapping
+            breadcrumbList={[
+              {
+                href: '/',
+                label: 'Home',
+              },
+              {
+                href: '/education',
+                label: 'Education and training',
+              },
+              {
+                href:
+                  '/education/survivor-dependent-benefits/transferred-benefits/',
+                label: 'VA education benefits for survivors and dependents',
+              },
+              {
+                href:
+                  '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e',
+                label: 'Apply to use transferred education benefits',
+              },
+            ]}
+          />
+        </div>
+      </div>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>

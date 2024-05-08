@@ -7,6 +7,11 @@ const yearResponses = range(currentYear - 1992).map(i => {
   const year = currentYear - i;
   return year.toString();
 });
+
+const validYearsForNonOldDischarge = yearResponses.filter(year => {
+  return currentYear - year <= 15;
+});
+
 const {
   ARMY,
   NAVY,
@@ -24,6 +29,7 @@ const {
   COURT_MARTIAL_1,
   COURT_MARTIAL_2,
   COURT_MARTIAL_3,
+  INTENTION_2,
   PREV_APPLICATION_1,
   PREV_APPLICATION_2,
   //   DISCHARGE_TYPE_1,
@@ -34,6 +40,13 @@ const {
   PREV_APPLICATION_YEAR_2A,
   PREV_APPLICATION_YEAR_2B,
   PREV_APPLICATION_YEAR_2C,
+  PREV_APPLICATION_TYPE_3A,
+  PREV_APPLICATION_TYPE_3B,
+  PREV_APPLICATION_TYPE_1,
+  PREV_APPLICATION_TYPE_2,
+  PREV_APPLICATION_TYPE_4,
+  FAILURE_TO_EXHAUST_1,
+  FAILURE_TO_EXHAUST_2,
 } = RESPONSES;
 
 export const DISPLAY_CONDITIONS = Object.freeze({
@@ -111,6 +124,13 @@ export const DISPLAY_CONDITIONS = Object.freeze({
         SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
+        REASON: [REASON_5, REASON_6, REASON_7],
+        PREV_APPLICATION: [PREV_APPLICATION_1],
+      },
+      2: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
         REASON: [
           REASON_1,
           REASON_2,
@@ -119,8 +139,14 @@ export const DISPLAY_CONDITIONS = Object.freeze({
           REASON_5,
           REASON_6,
           REASON_7,
-          REASON_8,
         ],
+        PREV_APPLICATION_YEAR: [
+          PREV_APPLICATION_YEAR_2A,
+          PREV_APPLICATION_YEAR_2B,
+          PREV_APPLICATION_YEAR_2C,
+        ],
+      },
+      3: {
         PREV_APPLICATION_YEAR: [
           PREV_APPLICATION_YEAR_2A,
           PREV_APPLICATION_YEAR_2B,
@@ -129,21 +155,19 @@ export const DISPLAY_CONDITIONS = Object.freeze({
       },
     },
   },
+  FAILURE_TO_EXHAUST: {
+    DISCHARGE_YEAR: [...validYearsForNonOldDischarge],
+    COURT_MARTIAL: [COURT_MARTIAL_2, COURT_MARTIAL_3],
+    INTENTION: [INTENTION_2],
+    PREV_APPLICATION_TYPE: [PREV_APPLICATION_TYPE_3A, PREV_APPLICATION_TYPE_3B],
+  },
   PRIOR_SERVICE: {
     FORK: {
       0: {
         SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
-        REASON: [
-          REASON_1,
-          REASON_2,
-          REASON_3,
-          REASON_4,
-          REASON_6,
-          REASON_7,
-          REASON_8,
-        ],
+        REASON: [REASON_3],
         DISCHARGE_TYPE: [DISCHARGE_TYPE_2],
         PREV_APPLICATION: [PREV_APPLICATION_2],
       },
@@ -151,22 +175,103 @@ export const DISPLAY_CONDITIONS = Object.freeze({
         SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
         DISCHARGE_YEAR: yearResponses,
         DISCHARGE_MONTH: [],
-        REASON: [
-          REASON_1,
-          REASON_2,
-          REASON_3,
-          REASON_4,
-          REASON_6,
-          REASON_7,
-          REASON_8,
-        ],
+        REASON: [REASON_1, REASON_2, REASON_4, REASON_6, REASON_7, REASON_8],
+        PREV_APPLICATION: [PREV_APPLICATION_2],
+      },
+      2: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
+        REASON: [REASON_3],
         DISCHARGE_TYPE: [DISCHARGE_TYPE_2],
+        PREV_APPLICATION: [PREV_APPLICATION_1],
         PREV_APPLICATION_YEAR: [
           PREV_APPLICATION_YEAR_1A,
           PREV_APPLICATION_YEAR_1B,
           PREV_APPLICATION_YEAR_1C,
         ],
       },
+      3: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
+        REASON: [REASON_1, REASON_2, REASON_4, REASON_6, REASON_7, REASON_8],
+        PREV_APPLICATION: [PREV_APPLICATION_1],
+        PREV_APPLICATION_YEAR: [
+          PREV_APPLICATION_YEAR_1A,
+          PREV_APPLICATION_YEAR_1B,
+          PREV_APPLICATION_YEAR_1C,
+        ],
+      },
+      4: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
+        REASON: [REASON_1, REASON_2, REASON_4, REASON_6, REASON_7],
+        PREV_APPLICATION: [PREV_APPLICATION_1],
+        PREV_APPLICATION_YEAR: [
+          PREV_APPLICATION_YEAR_1A,
+          PREV_APPLICATION_YEAR_1B,
+          PREV_APPLICATION_YEAR_1C,
+        ],
+        PREV_APPLICATION_TYPE: [
+          PREV_APPLICATION_TYPE_1,
+          PREV_APPLICATION_TYPE_2,
+          PREV_APPLICATION_TYPE_4,
+        ],
+      },
+      5: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
+        REASON: [REASON_3],
+        DISCHARGE_TYPE: [DISCHARGE_TYPE_2],
+        PREV_APPLICATION: [PREV_APPLICATION_1],
+        PREV_APPLICATION_YEAR: [
+          PREV_APPLICATION_YEAR_1A,
+          PREV_APPLICATION_YEAR_1B,
+          PREV_APPLICATION_YEAR_1C,
+        ],
+        PREV_APPLICATION_TYPE: [
+          PREV_APPLICATION_TYPE_1,
+          PREV_APPLICATION_TYPE_2,
+          PREV_APPLICATION_TYPE_4,
+        ],
+      },
+      6: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
+        REASON: [REASON_3],
+        DISCHARGE_TYPE: [DISCHARGE_TYPE_2],
+        INTENTION: [INTENTION_2],
+        COURT_MARTIAL: [COURT_MARTIAL_2, COURT_MARTIAL_3],
+        PREV_APPLICATION: [PREV_APPLICATION_1],
+        PREV_APPLICATION_YEAR: [
+          PREV_APPLICATION_YEAR_2A,
+          PREV_APPLICATION_YEAR_2B,
+          PREV_APPLICATION_YEAR_2C,
+        ],
+        PREV_APPLICATION_TYPE: [
+          PREV_APPLICATION_TYPE_3A,
+          PREV_APPLICATION_TYPE_3B,
+        ],
+        FAILURE_TO_EXHAUST: [FAILURE_TO_EXHAUST_1, FAILURE_TO_EXHAUST_2],
+      },
     },
+  },
+  REVIEW: {
+    DISCHARGE_YEAR: yearResponses,
+    SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+    REASON: [
+      REASON_1,
+      REASON_2,
+      REASON_3,
+      REASON_4,
+      REASON_5,
+      REASON_6,
+      REASON_7,
+      REASON_8,
+    ],
   },
 });

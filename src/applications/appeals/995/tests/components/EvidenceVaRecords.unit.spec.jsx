@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import { addYears, sub } from 'date-fns';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
@@ -16,10 +15,15 @@ import {
   NO_ISSUES_SELECTED,
 } from '../../constants';
 
-import { parseDate } from '../../../shared/utils/dates';
-import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
-
 import { clickAddAnother, clickBack, clickContinue } from './helpers';
+
+import { parseDateWithOffset } from '../../../shared/utils/dates';
+import {
+  MAX_LENGTH,
+  MAX_YEARS_PAST,
+  SELECTED,
+} from '../../../shared/constants';
+import sharedErrorMessage from '../../../shared/content/errorMessages';
 
 /*
 | Data     | Forward     | Back               | Add another      |
@@ -29,7 +33,7 @@ import { clickAddAnother, clickBack, clickContinue } from './helpers';
 | Partial  | Focus error | Modal & Prev page  | Focus error      |
  */
 describe('<EvidenceVaRecords>', () => {
-  const validDate = parseDate(sub(new Date(), { months: 2 }));
+  const validDate = parseDateWithOffset({ months: -2 });
   const mockData = {
     contestedIssues: [
       {
@@ -541,7 +545,7 @@ describe('<EvidenceVaRecords>', () => {
     });
 
     it('should show error when start treatment date is in the future', async () => {
-      const from = parseDate(addYears(new Date(), 1));
+      const from = parseDateWithOffset({ years: 1 });
       const data = {
         ...mockData,
         locations: [{ evidenceDates: { from } }],
@@ -562,7 +566,7 @@ describe('<EvidenceVaRecords>', () => {
     });
 
     it('should show error when last treatment date is in the future', async () => {
-      const to = parseDate(addYears(new Date(), 1));
+      const to = parseDateWithOffset({ years: 1 });
       const data = {
         ...mockData,
         locations: [{ evidenceDates: { to } }],
@@ -583,7 +587,7 @@ describe('<EvidenceVaRecords>', () => {
     });
 
     it('should show an error when the start treament date is too far in the past', async () => {
-      const from = parseDate(sub(new Date(), { years: 101 }));
+      const from = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });
       const data = {
         ...mockData,
         locations: [{ evidenceDates: { from } }],
@@ -604,7 +608,7 @@ describe('<EvidenceVaRecords>', () => {
     });
 
     it('should show an error when the last treatment date is too far in the past', async () => {
-      const to = parseDate(sub(new Date(), { years: 101 }));
+      const to = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });
       const data = {
         ...mockData,
         locations: [{ evidenceDates: { to } }],
@@ -625,8 +629,8 @@ describe('<EvidenceVaRecords>', () => {
     });
 
     it('should show an error when the last treatment date is before the start', async () => {
-      const from = parseDate(sub(new Date(), { years: 5 }));
-      const to = parseDate(sub(new Date(), { years: 10 }));
+      const from = parseDateWithOffset({ years: -5 });
+      const to = parseDateWithOffset({ years: -10 });
       const data = {
         ...mockData,
         locations: [{ evidenceDates: { from, to } }],
@@ -639,7 +643,7 @@ describe('<EvidenceVaRecords>', () => {
       $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
       await waitFor(() => {
-        expect(dateTo.error).to.contain(errorMessages.endDateBeforeStart);
+        expect(dateTo.error).to.contain(sharedErrorMessage.endDateBeforeStart);
       });
     });
 

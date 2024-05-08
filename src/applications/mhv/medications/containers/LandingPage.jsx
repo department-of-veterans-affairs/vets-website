@@ -7,9 +7,9 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { getPrescriptionsPaginatedSortedList } from '../actions/prescriptions';
 import {
   medicationsUrls,
@@ -49,37 +49,43 @@ const LandingPage = () => {
     ? medicationsUrls.subdirectories.REFILL
     : medicationsUrls.MEDICATIONS_LOGIN;
 
-  const focusAndOpenAccordionRxRenew = () => {
-    setIsRxRenewAccordionOpen(true);
-    focusElement(manageMedicationsHeader.current);
-    if (!featureTogglesLoading && appEnabled) {
-      manageMedicationsAccordionSection.current?.scrollIntoView();
-    }
-  };
-
   useEffect(
     () => {
+      focusElement(document.querySelector('h1'));
       updatePageTitle('About medications | Veterans Affairs');
-      if (location.pathname.includes('/accordion-renew-rx')) {
-        focusAndOpenAccordionRxRenew();
+      if (
+        location.pathname.includes('/accordion-renew-rx') &&
+        !featureTogglesLoading &&
+        !isPrescriptionsLoading
+      ) {
+        setIsRxRenewAccordionOpen(true);
+        focusElement(manageMedicationsHeader.current);
+        if (!featureTogglesLoading && appEnabled) {
+          manageMedicationsAccordionSection.current?.scrollIntoView();
+        }
       }
     },
-    [location.pathname, featureTogglesLoading, appEnabled],
+    [
+      location.pathname,
+      featureTogglesLoading,
+      appEnabled,
+      isPrescriptionsLoading,
+    ],
   );
 
   useEffect(
     () => {
       if (!paginatedPrescriptionsList) {
         setIsPrescriptionsLoading(true);
+        dispatch(
+          getPrescriptionsPaginatedSortedList(
+            1,
+            rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
+          ),
+        )
+          .then(() => setIsPrescriptionsLoading(false))
+          .catch(() => setIsPrescriptionsLoading(false));
       }
-      dispatch(
-        getPrescriptionsPaginatedSortedList(
-          1,
-          rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
-        ),
-      )
-        .then(() => setIsPrescriptionsLoading(false))
-        .catch(() => setIsPrescriptionsLoading(false));
     },
     [dispatch, paginatedPrescriptionsList],
   );

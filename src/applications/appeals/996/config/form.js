@@ -37,6 +37,7 @@ import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
 import reviewErrors from '../../shared/content/reviewErrors';
+import { focusRadioH3 } from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -188,9 +189,12 @@ const formConfig = {
       pages: {
         requestConference: {
           path: 'informal-conference',
-          title: 'Request an informal conference',
+          // Adding trailing space so this title and chapter title are different
+          // then the page header renders on the review & submit page
+          title: 'Request an informal conference ',
           uiSchema: informalConference.uiSchema,
           schema: informalConference.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
         representativeInfoV2: {
           // changing path from v1, but this shouldn't matter since the

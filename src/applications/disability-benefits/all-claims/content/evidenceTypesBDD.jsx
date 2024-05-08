@@ -19,15 +19,8 @@ export const evidenceTypeTitle = (
 
 export const privateMedicalRecords = 'Private medical records';
 
-export const bddShaOtherEvidence = (
-  <>
-    <strong>
-      Required Separation Health Assessment - Part A Self-Assessment
-    </strong>{' '}
-    or other documents like your DD Form 214, supporting (lay) statements, or
-    other evidence
-  </>
-);
+export const bddShaOtherEvidence =
+  'Required Separation Health Assessment - Part A Self-Assessment or other documents like your DD Form 214, supporting (lay) statements, or other evidence';
 
 export const defaultOtherEvidence = (
   <>

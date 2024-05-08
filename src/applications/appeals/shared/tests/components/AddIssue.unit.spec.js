@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import { addMonths, addYears, sub } from 'date-fns';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
@@ -10,7 +9,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import AddIssue from '../../components/AddIssue';
-import { parseDate } from '../../utils/dates';
+import { parseDateWithOffset } from '../../utils/dates';
 
 import {
   CONTESTABLE_ISSUES_PATH,
@@ -20,14 +19,13 @@ import {
   MAX_LENGTH,
   MAX_YEARS_PAST,
 } from '../../constants';
-import sharedErrorMessages from '../../content/errorMessages';
+import errorMessages from '../../content/errorMessages';
 
-import { errorMessages } from '../../../995/constants';
 import { maxNameLength } from '../../../995/validations/issues';
 import { validateDate } from '../../../995/validations/date';
 
 describe('<AddIssue>', () => {
-  const validDate = parseDate(sub(new Date(), { months: 2 }));
+  const validDate = parseDateWithOffset({ months: -2 });
   const contestedIssues = [
     {
       type: 'contestableIssue',
@@ -137,10 +135,12 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const textInput = $('va-text-input', container);
-    expect(textInput.error).to.contain(errorMessages.maxLength);
+    expect(textInput.error).to.contain(
+      errorMessages.maxLength(MAX_LENGTH.ISSUE_NAME),
+    );
   });
   it('should show error when issue date is not in range', () => {
-    const decisionDate = parseDate(addYears(new Date(), 200));
+    const decisionDate = parseDateWithOffset({ years: MAX_YEARS_PAST * 2 });
     const { container } = render(
       setup({
         data: {
@@ -159,7 +159,7 @@ describe('<AddIssue>', () => {
     expect(date.invalidYear).to.be.true;
   });
   it('should show an error when the issue date is > 1 year in the future', () => {
-    const decisionDate = parseDate(addMonths(new Date(), 13));
+    const decisionDate = parseDateWithOffset({ months: 13 });
     const { container } = render(
       setup({
         data: {
@@ -178,9 +178,7 @@ describe('<AddIssue>', () => {
     expect(date.invalidYear).to.be.true;
   });
   it('should show an error when the issue date is > 100 years in the past', () => {
-    const decisionDate = parseDate(
-      sub(new Date(), { years: MAX_YEARS_PAST + 1 }),
-    );
+    const decisionDate = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });
     const { container } = render(
       setup({
         data: { contestedIssues, additionalIssues: [{ decisionDate }] },
@@ -209,7 +207,7 @@ describe('<AddIssue>', () => {
     fireEvent.click($('#submit', container));
 
     const textInput = $('va-text-input', container);
-    expect(textInput.error).to.contain(sharedErrorMessages.uniqueIssue);
+    expect(textInput.error).to.contain(errorMessages.uniqueIssue);
   });
 
   it('should submit when everything is valid', () => {
@@ -217,7 +215,7 @@ describe('<AddIssue>', () => {
     const additionalIssues = [
       {
         issue: 'test',
-        decisionDate: parseDate(sub(new Date(), { months: 3 })),
+        decisionDate: parseDateWithOffset({ months: -3 }),
       },
     ];
     const { container } = render(
@@ -239,7 +237,7 @@ describe('<AddIssue>', () => {
     const additionalIssues = [
       {
         issue: 'test',
-        decisionDate: parseDate(sub(new Date(), { months: 3 })),
+        decisionDate: parseDateWithOffset({ months: -3 }),
       },
     ];
     const { container } = render(

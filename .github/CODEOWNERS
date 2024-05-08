@@ -118,7 +118,6 @@ src/applications/static-pages/events @department-of-veterans-affairs/vfs-public-
 src/applications/static-pages/homepage @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/homepage-veteran-banner @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/i18select @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/shifted-vets-banner @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/resources-and-support @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pact-act @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
@@ -210,7 +209,6 @@ src/applications/static-pages/view-modify-dependents @department-of-veterans-aff
 
 # Flagship Mobile Reviewers
 src/applications/static-pages/subscription-creators @department-of-veterans-affairs/flagship-mobile-reviewers @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/widget-creators @department-of-veterans-affairs/flagship-mobile-reviewers @department-of-veterans-affairs/va-platform-cop-frontend
 
 # VAOS
 
@@ -226,6 +224,7 @@ src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-h
 src/applications/virtual-agent @department-of-veterans-affairs/orchid @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pre-need @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pre-need-integration @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/widget-creators @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Need more specific owners
 
