@@ -25,7 +25,7 @@ describe('check-in experience', () => {
     upcomingAppointments[0] = {
       ...upcomingAppointments[0],
       kind: 'clinic',
-      appointmentIen: 2222,
+      id: '2222',
       doctorName: 'test doc',
       stationNo: '0001',
       clinicIen: '0001',
@@ -33,7 +33,7 @@ describe('check-in experience', () => {
     upcomingAppointments[1] = {
       ...upcomingAppointments[1],
       kind: 'clinic',
-      appointmentIen: 9999,
+      id: '9999',
       doctorName: 'test doc',
       stationNo: '9999',
       clinicIen: '9999',
@@ -41,7 +41,7 @@ describe('check-in experience', () => {
     upcomingAppointments[2] = {
       ...upcomingAppointments[2],
       kind: 'clinic',
-      appointmentIen: 6767,
+      id: '6767',
       doctorName: 'test doc',
       stationNo: '6767',
       clinicIen: '6767',
@@ -49,8 +49,8 @@ describe('check-in experience', () => {
     };
     upcomingAppointments[3] = {
       ...upcomingAppointments[3],
-      kind: 'cvt',
-      appointmentIen: 6768,
+      kind: 'clinic',
+      id: '6768',
       doctorName: 'test doc',
       stationNo: '6768',
       clinicIen: '6768',
@@ -59,7 +59,7 @@ describe('check-in experience', () => {
     upcomingAppointments[4] = {
       ...upcomingAppointments[4],
       kind: 'phone',
-      appointmentIen: 6769,
+      id: '6769',
       doctorName: 'test doc',
       stationNo: '6769',
       clinicIen: '6769',
