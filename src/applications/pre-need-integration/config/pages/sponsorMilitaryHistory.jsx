@@ -4,14 +4,14 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 
-import { serviceRecordsUI } from '../../utils/helpers';
+import { selfServiceRecordsUI } from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
   application: {
     veteran: {
-      serviceRecords: merge({}, serviceRecordsUI, {
+      serviceRecords: merge({}, selfServiceRecordsUI, {
         'ui:title': 'Sponsor’s service period(s)',
         items: {
           'ui:order': [

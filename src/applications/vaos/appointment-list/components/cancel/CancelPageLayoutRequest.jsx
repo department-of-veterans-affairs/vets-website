@@ -8,12 +8,7 @@ import FacilityPhone from '../../../components/FacilityPhone';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { selectRequestedAppointmentDetails } from '../../redux/selectors';
 import ListBestTimeToCall from '../ListBestTimeToCall';
-
-const TIME_TEXT = {
-  AM: 'in the morning',
-  PM: 'in the afternoon',
-  'No Time Selected': '',
-};
+import { TIME_TEXT } from '../../../utils/appointment';
 
 export default function CancelPageLayoutRequest() {
   const { id } = useParams();
@@ -27,15 +22,19 @@ export default function CancelPageLayoutRequest() {
     phone,
     preferredDates,
     preferredLanguage,
-    preferredProvider,
     preferredTimesForPhoneCall,
+    provider: preferredProvider,
     typeOfCareName,
     typeOfVisit,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
   );
-  const [reason, otherDetails] = bookingNotes.split(':');
+  let [reason, otherDetails] = bookingNotes.split(':');
+  if (isCC) {
+    reason = null;
+    otherDetails = bookingNotes;
+  }
 
   return (
     <>
@@ -62,15 +61,12 @@ export default function CancelPageLayoutRequest() {
           <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
             Scheduling facility
           </h3>
-          <p className="vads-u-margin-top--0">
-            This facility will contact you if we need more information about
-            your request.
-          </p>
           <span>{facility?.name}</span>
           <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
             Preferred community care provider
           </h3>
-          {preferredProvider?.name || 'Provider information not available'}
+          {preferredProvider?.providerName ||
+            'Provider information not available'}
           <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
             Language you’d prefer the provider speak
           </h3>

@@ -130,6 +130,7 @@ export default function MissingFileOverview({
   allPages,
   fileNameMap,
   requiredFiles,
+  nonListNameKey,
 }) {
   const [error, setError] = useState(undefined);
   const [isChecked, setIsChecked] = useState(
@@ -149,7 +150,7 @@ export default function MissingFileOverview({
   // eslint-disable-next-line no-unused-vars
   const apps =
     // Filter out any conditional pages that don't apply to this applicant
-    data.applicants.map(app => {
+    data?.applicants?.map(app => {
       const tmpData = { ...data, applicants: [app] };
       const conditionalPages = getConditionalPages(pages, tmpData, 0);
 
@@ -161,8 +162,8 @@ export default function MissingFileOverview({
       );
     });
 
-  const applicantsWithMissingFiles = data.applicants
-    .map(applicant => {
+  const applicantsWithMissingFiles = data?.applicants
+    ?.map(applicant => {
       const missing = verifier.identifyMissingUploads(
         getConditionalPages(pages, { ...data, applicants: [applicant] }, 0),
         applicant,
@@ -180,7 +181,7 @@ export default function MissingFileOverview({
 
   // Update sponsor to identify missing uploads
   const sponsorMiss = {
-    name: data.veteransFullName,
+    name: data?.[nonListNameKey || 'veteransFullName'],
     missingUploads: checkFlags(
       pages,
       data,
@@ -251,7 +252,7 @@ export default function MissingFileOverview({
             <MissingFileList
               data={sponsorMiss}
               nameKey="name"
-              title="Required documents (Sponsor)"
+              title="Required documents"
               subset="required"
               description={requiredDescription}
               disableLinks={disableLinks}
@@ -273,7 +274,7 @@ export default function MissingFileOverview({
             <MissingFileList
               data={sponsorMiss}
               nameKey="name"
-              title="Optional documents (Sponsor)"
+              title="Optional documents"
               subset="optional"
               description={optionalDescription}
               disableLinks={disableLinks}
@@ -304,6 +305,7 @@ export default function MissingFileOverview({
                       label="I understand that my application is not complete until VA receives my remaining required file(s) in the mail or by fax."
                       onBlur={function noRefCheck() {}}
                       checked={isChecked}
+                      name="consent-checkbox"
                       tile
                       uswds
                     />
@@ -328,6 +330,7 @@ MissingFileOverview.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   heading: PropTypes.node,
+  nonListNameKey: PropTypes.string,
   optionalWarningHeading: PropTypes.node,
   requiredFiles: PropTypes.any,
   requiredWarningHeading: PropTypes.node,

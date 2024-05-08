@@ -22,7 +22,7 @@ Mission: Make it easier for Veterans to apply for enrollment in VA health-relate
 ### Project URLS
 
 ``` markdown
-/health-care/apply/application/introduction
+/health-care/apply-for-health-care-form-10-10ez/
 ```
 
 ### How to run locally

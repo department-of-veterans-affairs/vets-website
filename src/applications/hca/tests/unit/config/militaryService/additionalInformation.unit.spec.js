@@ -26,7 +26,7 @@ describe('hca Military Service History config', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input').length).to.equal(9);
+    expect(formDOM.querySelectorAll('input').length).to.equal(5);
   });
 
   it('should submit empty form', () => {
