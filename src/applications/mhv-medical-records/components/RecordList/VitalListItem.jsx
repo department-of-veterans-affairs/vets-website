@@ -56,10 +56,9 @@ const VitalListItem = props => {
             data-testid="vital-li-review-over-time"
           >
             <strong>Review {displayName.toLowerCase()} over time</strong>
-            <i
-              className="fas fa-angle-right details-link-icon"
-              aria-hidden="true"
-            />
+            <span aria-hidden="true">
+              <va-icon icon="navigate_next" size={2} />
+            </span>
           </Link>
         </>
       )}

@@ -42,7 +42,15 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
 
   useEffect(
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
+      dispatch(
+        setBreadcrumbs(
+          [{ url: '/my-health/medical-records', label: 'Medical records' }],
+          {
+            url: '/my-health/medical-records/download-all',
+            label: 'Download all medical records',
+          },
+        ),
+      );
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
     },
@@ -245,10 +253,9 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           onClick={generatePdf}
           data-testid="download-blue-button-pdf"
         >
-          <i
-            className="fas fa-download vads-u-margin-right--0p5"
-            aria-hidden="true"
-          />
+          <span className="vads-u-margin-right--0p5" aria-hidden="true">
+            <va-icon icon="file_download" size={2} />
+          </span>
           Download PDF document
         </button>
         <br />
@@ -258,10 +265,9 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           onClick={generateTxt}
           data-testid="download-blue-button-txt"
         >
-          <i
-            className="fas fa-download vads-u-margin-right--0p5"
-            aria-hidden="true"
-          />
+          <span className="vads-u-margin-right--0p5" aria-hidden="true">
+            <va-icon icon="file_download" size={2} />
+          </span>
           Download Text file
         </button>
         <h3 className="vads-u-margin-top--2">
