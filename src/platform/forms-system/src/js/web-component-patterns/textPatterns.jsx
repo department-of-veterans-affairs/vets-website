@@ -46,11 +46,11 @@ import { VaTextInputField, VaTextareaField } from '../web-component-fields';
  *  description?: UISchemaOptions['ui:description'],
  *  hint?: UIOptions['hint'],
  *  charcount?: UIOptions['charcount'],
- *  autocomplete?: UISchemaOptions['ui:autocomplete'],
- *  inputType?: UIOptions['inputType'],
  *  width?: UIOptions['width'],
  *  errorMessages?: UISchemaOptions['ui:errorMessages'],
  *  messageAriaDescribedby?: UIOptions['messageAriaDescribedby'],
+ *  inputType?: UIOptions['inputType'],
+ *  autocomplete?: UISchemaOptions['ui:autocomplete'],
  * }} stringOrOptions
  * @returns {UISchemaOptions}
  */

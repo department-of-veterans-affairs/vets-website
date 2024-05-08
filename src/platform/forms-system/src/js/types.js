@@ -276,7 +276,7 @@
  * @property {string} [hint] The hint text for the field. For web components.
  * @property {boolean} [includeRequiredLabelInTitle]
  * @property {Array<(input) => string>} [inputTransformers]
- * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] HTML input 'type' attribute. May result in different keyboard for mobile users.
+ * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] Keyboard type for mobile users. Equivalent to HTML input 'type' attribute.
  * @property {(item: any) => string} [itemAriaLabel] for arrays
  * @property {string} [itemName] The name of the item - for arrays. For example a value of 'Child' will result in 'Add another child', 'New child', and if 'using confirmRemove', 'Are you sure you want to remove this child item?', 'Yes, remove this child item'.
  * @property {boolean} [invalid] For web components. Whether or not aria-invalid will be set on the inner input. Useful when composing the component into something larger, like a date component.
