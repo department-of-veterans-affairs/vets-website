@@ -35,6 +35,7 @@ import {
   SESSION_SELECTED_SORT_OPTION,
   defaultSelectedSortOption,
   medicationsUrls,
+  DD_ACTIONS_PAGE_TYPE,
 } from '../util/constants';
 import PrintDownload, {
   DOWNLOAD_FORMAT,
@@ -548,7 +549,7 @@ const Prescriptions = () => {
                   }
                   list
                 />
-                <BeforeYouDownloadDropdown />
+                <BeforeYouDownloadDropdown page={DD_ACTIONS_PAGE_TYPE.LIST} />
                 <MedicationsListSort
                   value={selectedSortOption}
                   sortRxList={sortRxList}
