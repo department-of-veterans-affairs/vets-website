@@ -95,8 +95,12 @@ const i18nOptions = {
         );
         return interpolator(value, format, lng, locale);
       }
-      if (format === 'capitalize')
+      if (format === 'capitalize') {
         return `${value.substr(0, 1).toUpperCase()}${value.substr(1)}`;
+      }
+      if (format === 'uncapitalize') {
+        return `${value.substr(0, 1).toLowerCase()}${value.substr(1)}`;
+      }
       return value;
     },
   },
