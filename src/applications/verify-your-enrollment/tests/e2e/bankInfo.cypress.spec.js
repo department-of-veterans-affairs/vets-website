@@ -21,7 +21,7 @@ describe('Direct deposit information', () => {
   const fillForm = () => {
     cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
       timeout: Timeouts.slow,
-    }).click();
+    }).click({ multiple: true });
     cy.get('[id="VYE-add-new-account-button"]').click();
     cy.get('[id="root_GI-Bill-Chapters-fullName"]').type('John Smith');
     cy.get('input[id="root_GI-Bill-Chapters-phone"]').type('4082037901');
@@ -42,7 +42,7 @@ describe('Direct deposit information', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
       timeout: Timeouts.slow,
-    }).click();
+    }).click({ multiple: true });
     cy.get(
       '[class="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold"]',
     ).should('contain', 'Direct deposit information');
@@ -51,7 +51,7 @@ describe('Direct deposit information', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
       timeout: Timeouts.slow,
-    }).click();
+    }).click({ multiple: true });
     cy.get('[id="VYE-add-new-account-button"]').click();
     cy.get(
       '[alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."]',
@@ -65,7 +65,7 @@ describe('Direct deposit information', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
       timeout: Timeouts.slow,
-    }).click();
+    }).click({ multiple: true });
     cy.get('[id="VYE-add-new-account-button"]').click();
     cy.get(
       '[aria-label="cancel updating your bank information for GI Bill® benefits"]',
@@ -78,7 +78,7 @@ describe('Direct deposit information', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
       timeout: Timeouts.slow,
-    }).click();
+    }).click({ multiple: true });
     cy.get('[id="VYE-add-new-account-button"]').click();
     cy.get('input[id="root_GI-Bill-Chapters-phone"]').type('4082037901');
     cy.get(
@@ -176,7 +176,7 @@ describe('Direct deposit information', () => {
     cy.login(mockUserWithOutIDME);
     cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
       timeout: Timeouts.slow,
-    }).click();
+    }).click({ multiple: true });
     cy.get('[data-testid="direct-deposit-mfa-message"]').should(
       'contain',
       'Before we give you access to change your direct deposit information, we need to make sure you’re you—and not someone pretending to be you. This helps us protect your bank account and prevent fraud.',
