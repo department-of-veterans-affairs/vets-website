@@ -64,14 +64,42 @@ export const itfError = (
   <div>
     <div className="vads-u-margin-bottom--2">
       <p className="vads-u-font-size--base">
-        We’re sorry. Your Intent to File request didn’t go through because
-        something went wrong on our end. For help creating an Intent to File a
-        Claim for Compensation, please call Veterans Benefits Assistance at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-        8:00 a.m. to 9:00 p.m. ET. Or, you can fill out VA Form 21-0966 and
-        submit it to:
+        <strong>What an intent to file means: </strong>
+        <p>
+          An intent to file sets a potential start date (or effective date) for
+          your benefits. You then have up to 1 year to complete and file your
+          claim. And you may be able to get retroactive payments (payments for
+          the time between when you submitted your intent to file and when we
+          your claim).
+        </p>
       </p>
-      {claimsIntakeAddress}
+      <p className="vads-u-font-size--base">
+        <strong>What you can do next:</strong>
+        <p>
+          <ul>
+            <li>
+              You can continue and submit your claim online today—or when you’re
+              ready. If we don’t have a intent to file on record for this claim
+              that’s that’s within the past year, we’ll use the date you submit
+              your claim as a potential start date for your benefits.
+            </li>
+            <li>
+              Or you can call us confirm if you have an intent to file for this
+              claim or create a new one today. Call us at{' '}
+              <va-telephone contact="8008271000" /> (
+              <va-telephone contact={CONTACTS['711']} tty />
+              ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+            </li>
+          </ul>
+        </p>
+      </p>
+      <a
+        href="/resources/your-intent-to-file-a-va-claim/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Learn more about the intent to file process (opens in a new tab)
+      </a>
     </div>
   </div>
 );
