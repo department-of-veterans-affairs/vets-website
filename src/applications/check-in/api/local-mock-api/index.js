@@ -112,7 +112,7 @@ const responses = {
     }
     return res.status(202).json(btsss.post.createMockSuccessResponse({}));
   },
-  'GET /check_in/v2/upcoming_appointments/:uuid': (req, res) => {
+  'GET /check_in/v2/sessions/:uuid/appointments': (req, res) => {
     const { uuid } = req.params;
     if (hasBeenValidated) {
       hasBeenValidated = false;
