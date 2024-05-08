@@ -80,36 +80,6 @@ describe('Report 674 last term information', () => {
       />,
     );
     selectRadio(form, 'root_studentDidAttendSchoolLastTerm', 'Y');
-    fillData(
-      form,
-      'input#root_lastTermSchoolInformation_name',
-      'Phoenix Online',
-    );
-    changeDropdown(
-      form,
-      'select#root_lastTermSchoolInformation_address_countryName',
-      'USA',
-    );
-    fillData(
-      form,
-      'input#root_lastTermSchoolInformation_address_addressLine1',
-      '1600',
-    );
-    fillData(
-      form,
-      'input#root_lastTermSchoolInformation_address_city',
-      'Washington',
-    );
-    changeDropdown(
-      form,
-      'select#root_lastTermSchoolInformation_address_stateCode',
-      'AL',
-    );
-    fillData(
-      form,
-      'input#root_lastTermSchoolInformation_address_zipCode',
-      '20500',
-    );
     changeDropdown(
       form,
       'select#root_lastTermSchoolInformation_termBeginMonth',
@@ -136,8 +106,6 @@ describe('Report 674 last term information', () => {
       'input#root_lastTermSchoolInformation_dateTermEndedYear',
       2009,
     );
-    fillData(form, 'input#root_lastTermSchoolInformation_classesPerWeek', 2);
-    fillData(form, 'input#root_lastTermSchoolInformation_hoursPerWeek', 2);
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -156,31 +124,6 @@ describe('Report 674 last term information', () => {
       />,
     );
     selectRadio(form, 'root_studentDidAttendSchoolLastTerm', 'Y');
-    fillData(
-      form,
-      'input#root_lastTermSchoolInformation_name',
-      'Phoenix Online',
-    );
-    changeDropdown(
-      form,
-      'select#root_lastTermSchoolInformation_address_countryName',
-      'ALB',
-    );
-    fillData(
-      form,
-      'input#root_lastTermSchoolInformation_address_addressLine1',
-      '1600',
-    );
-    fillData(
-      form,
-      'input#root_lastTermSchoolInformation_address_city',
-      'Albany',
-    );
-    fillData(
-      form,
-      'input#root_lastTermSchoolInformation_address_internationalPostalCode',
-      '20500',
-    );
     changeDropdown(
       form,
       'select#root_lastTermSchoolInformation_termBeginMonth',
@@ -207,8 +150,6 @@ describe('Report 674 last term information', () => {
       'input#root_lastTermSchoolInformation_dateTermEndedYear',
       2009,
     );
-    fillData(form, 'input#root_lastTermSchoolInformation_classesPerWeek', 2);
-    fillData(form, 'input#root_lastTermSchoolInformation_hoursPerWeek', 2);
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
