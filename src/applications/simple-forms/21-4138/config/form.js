@@ -1,6 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
-import { startOfDay, subYears } from 'date-fns';
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -42,7 +41,7 @@ import { identificationInformationPage } from '../pages/identificationInfo';
 import { mailingAddressPage } from '../pages/mailingAddress';
 import { phoneAndEmailPage } from '../pages/phoneAndEmail';
 import { statementPage } from '../pages/statement';
-import { getMockData } from '../helpers';
+import { getMockData, isEligibleForDecisionReview } from '../helpers';
 
 // export isLocalhost() to facilitate unit-testing
 export function isLocalhost() {
@@ -53,7 +52,6 @@ export function isLocalhost() {
 import testData from '../tests/e2e/fixtures/data/user.json';
 
 const mockData = testData.data;
-const oneYearAgo = startOfDay(subYears(new Date(), 1));
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -128,7 +126,7 @@ const formConfig = {
         noticeOfDisagreementOldHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) > oneYearAgo,
+            !isEligibleForDecisionReview(formData.decisionDate),
           path: 'notice-of-disagreement-old-handoff',
           title: 'What to know before you request a decision review',
           uiSchema: nodOldHandoffPage.uiSchema,
@@ -139,7 +137,7 @@ const formConfig = {
         decisionReviewTypePage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) <= oneYearAgo,
+            isEligibleForDecisionReview(formData.decisionDate),
           path: 'decision-review-type',
           title: 'Which description is true for you?',
           uiSchema: decisionReviewTypePage.uiSchema,
@@ -149,7 +147,7 @@ const formConfig = {
         noticeOfDisagreementSupplementalHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) <= oneYearAgo &&
+            isEligibleForDecisionReview(formData.decisionDate) &&
             formData.decisionReviewType === DECISION_REVIEW_TYPES.NEW_EVIDENCE,
           path: 'notice-of-disagreement-supplemental-handoff',
           title: 'What to know before you request a decision review',
@@ -161,7 +159,7 @@ const formConfig = {
         noticeOfDisagreementHLRHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) <= oneYearAgo &&
+            isEligibleForDecisionReview(formData.decisionDate) &&
             formData.decisionReviewType === DECISION_REVIEW_TYPES.ERROR_MADE,
           path: 'notice-of-disagreement-hlr-handoff',
           title: "There's a better way for you to ask for a decision review",
@@ -173,7 +171,7 @@ const formConfig = {
         noticeOfDisagreementBAHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) <= oneYearAgo &&
+            isEligibleForDecisionReview(formData.decisionDate) &&
             formData.decisionReviewType === DECISION_REVIEW_TYPES.BVA_REQUEST,
           path: 'notice-of-disagreement-ba-handoff',
           title: "There's a better way for you to ask for a decision review",
