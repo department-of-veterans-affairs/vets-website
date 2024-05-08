@@ -176,9 +176,11 @@ const LandingPage = () => {
               </div>
             </section>
           )}
-          <hr className="vads-u-margin-y--3 small-screen:vads-u-margin-top--6" />
+          <hr className="vads-u-margin-y--3 small-screen:vads-u-margin-y--6" />
           <section>
-            <h2>What to know as you try out this tool</h2>
+            <h2 className="vads-u-margin-top--0">
+              What to know as you try out this tool
+            </h2>
             <p>
               We’re giving the trusted My HealtheVet pharmacy tool a new home
               here on VA.gov. And we need your feedback to help us keep making
