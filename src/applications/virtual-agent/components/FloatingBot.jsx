@@ -1,6 +1,6 @@
 import React from 'react';
 import Disclaimer from './Disclaimer';
-import ChatBox from './Chatbox';
+import { Chatbox } from './Chatbox';
 
 function updateElementById(id, classListAdd, classListRemove) {
   document.getElementById(id).classList.add(classListAdd);
@@ -41,7 +41,7 @@ export default function FloatingBot() {
           id="chatbot"
           className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--5 vads-u-display--block medium-screen:vads-u-display--none"
         >
-          <ChatBox />
+          <Chatbox />
         </div>
 
         <div
@@ -72,7 +72,7 @@ export default function FloatingBot() {
               <img src="/img/va-x.svg" alt="escape-chatbot" tabIndex="-1" />
             </a>
           </div>
-          <ChatBox />
+          <Chatbox />
         </div>
       </div>
     </div>

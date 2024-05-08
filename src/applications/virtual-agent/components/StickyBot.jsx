@@ -1,6 +1,6 @@
 import React from 'react';
 import Disclaimer from './Disclaimer';
-import ChatBox from './Chatbox';
+import { Chatbox } from './Chatbox';
 
 export default function StickyBot() {
   return (
@@ -10,7 +10,7 @@ export default function StickyBot() {
           <Disclaimer />
         </div>
         <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--7 small-desktop-screen:vads-l-col--5">
-          <ChatBox />
+          <Chatbox />
         </div>
       </div>
     </div>
