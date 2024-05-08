@@ -14,6 +14,7 @@ import { getAppData } from '../selectors';
 
 function ToeApp({
   children,
+  dob,
   formData,
   getDirectDeposit,
   getPersonalInformation,
@@ -28,6 +29,7 @@ function ToeApp({
   showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
+  toeHighSchoolInfoChange,
   toeLightHouseDgiDirectDeposit,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
@@ -163,6 +165,29 @@ function ToeApp({
     ],
   );
 
+  useEffect(
+    () => {
+      if (toeHighSchoolInfoChange !== formData.toeHighSchoolInfoChange) {
+        setFormData({
+          ...formData,
+          toeHighSchoolInfoChange,
+        });
+      }
+    },
+    [toeHighSchoolInfoChange],
+  );
+
+  useEffect(
+    () => {
+      if (dob !== formData?.dob) {
+        setFormData({
+          ...formData,
+          dob,
+        });
+      }
+    },
+    [dob],
+  );
   return (
     <>
       <div className="row">
@@ -217,16 +242,21 @@ ToeApp.propTypes = {
   user: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  ...getAppData(state),
-  formData: state.form?.data || {},
-  claimant: state.data?.formData?.data?.attributes?.claimant,
-  fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
-  sponsors: state.form?.data?.sponsors,
-  sponsorsInitial: state?.data?.sponsors,
-  sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
-  user: state.user,
-});
+const mapStateToProps = state => {
+  return {
+    ...getAppData(state),
+    dob:
+      state?.user?.profile?.dob ||
+      state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
+    formData: state.form?.data || {},
+    claimant: state.data?.formData?.data?.attributes?.claimant,
+    fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
+    sponsors: state.form?.data?.sponsors,
+    sponsorsInitial: state?.data?.sponsors,
+    sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
+    user: state.user,
+  };
+};
 
 const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,

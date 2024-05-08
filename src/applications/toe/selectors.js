@@ -29,5 +29,6 @@ export const getAppData = state => ({
   showMebEnhancements08: state.featureToggles.showMebEnhancements08,
   toeLightHouseDgiDirectDeposit:
     state?.featureToggles?.toeLightHouseDGIDirectDeposit,
+  toeHighSchoolInfoChange: state?.featureToggles?.toeHighSchoolInfoChange,
   user: state.user || {},
 });
