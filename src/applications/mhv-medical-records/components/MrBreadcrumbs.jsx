@@ -13,11 +13,11 @@ const MrBreadcrumbs = () => {
           label="Breadcrumb"
           data-testid="breadcrumbs"
         >
-          <span className="breadcrumb-angle vads-u-padding-right--1">
-            {'\u2039'}{' '}
+          <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
+            <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
           </span>
           <Link to={crumbs[0].url?.toLowerCase()}>
-            Back to {crumbs[0].label?.toLowerCase()}
+            Back to {crumbs[0].label}
           </Link>
         </div>
       ) : (
