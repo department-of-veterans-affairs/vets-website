@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, Provider } from 'react-redux';
 import { Outlet } from 'react-router-dom-v5-compat';
-
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-
 import { fetchUser } from '../actions/user';
+import createReduxStore from '../store';
 import Header from '../components/common/Header/Header';
 import Footer from '../components/common/Footer/Footer';
 
-function App() {
+const store = createReduxStore();
+
+function App({ user }) {
   const dispatch = useDispatch();
 
   useEffect(
@@ -25,11 +26,9 @@ function App() {
     useToggleLoadingValue,
     TOGGLE_NAMES,
   } = useFeatureToggle();
-
   const appEnabled = useToggleValue(
     TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
   );
-
   const toggleIsLoading = useToggleLoadingValue();
 
   if (toggleIsLoading) {
@@ -45,11 +44,13 @@ function App() {
   }
 
   return (
-    <>
-      <Header />
-      <Outlet />
-      <Footer />
-    </>
+    <Provider store={store}>
+      <>
+        <Header isSignedIn={!!user} />
+        <Outlet />
+        <Footer />
+      </>
+    </Provider>
   );
 }
 
