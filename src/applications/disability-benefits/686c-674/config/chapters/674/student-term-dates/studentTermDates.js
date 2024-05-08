@@ -1,3 +1,4 @@
+import merge from 'lodash/merge';
 import { validateDate } from 'platform/forms-system/src/js/validation';
 import {
   isChapterFieldRequired,
@@ -6,11 +7,32 @@ import {
 } from '../../../helpers';
 import { report674 } from '../../../utilities';
 
+merge(report674.properties.studentTermDates.properties.currentTermDates, {
+  type: 'object',
+  properties: {
+    isSchoolAccredited: {
+      type: 'boolean',
+    },
+  },
+});
+
 export const schema = report674.properties.studentTermDates;
 
 export const uiSchema = {
   currentTermDates: {
     'ui:title': 'Term or course dates',
+    'ui:order': [
+      'isSchoolAccredited',
+      'officialSchoolStartDate',
+      'expectedStudentStartDate',
+      'expectedGraduationDate',
+    ],
+    isSchoolAccredited: {
+      'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
+      'ui:widget': 'yesNo',
+      'ui:title': 'Is the school accredited?',
+      'ui:errorMessages': { required: 'Select an option' },
+    },
     officialSchoolStartDate: {
       'ui:title': 'Official start date',
       'ui:widget': 'date',

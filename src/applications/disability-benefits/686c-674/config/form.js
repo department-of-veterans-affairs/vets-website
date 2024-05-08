@@ -47,7 +47,7 @@ import {
 import {
   studentNameAndSsn,
   studentAddressMarriageTuition,
-  studentSchoolAddress,
+  // studentSchoolAddress,
   studentTermDates,
   studentLastTerm,
   studentIncomeInformation,
@@ -285,15 +285,15 @@ const formConfig = {
           schema: studentAddressMarriageTuition.schema,
           updateFormData: studentAddressMarriageTuition.updateFormData,
         },
-        studentSchoolAddress: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old: School addresses',
-          path: 'report-674-student-school-address',
-          uiSchema: studentSchoolAddress.uiSchema,
-          schema: studentSchoolAddress.schema,
-        },
+        // studentSchoolAddress: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title:
+        //     'Information needed to add a student 18 to 23 years old: School addresses',
+        //   path: 'report-674-student-school-address',
+        //   uiSchema: studentSchoolAddress.uiSchema,
+        //   schema: studentSchoolAddress.schema,
+        // },
         studentTermDates: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
