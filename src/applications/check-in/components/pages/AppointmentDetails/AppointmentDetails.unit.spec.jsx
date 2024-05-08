@@ -25,7 +25,7 @@ describe('check-in experience', () => {
     upcomingAppointments[0] = {
       ...upcomingAppointments[0],
       kind: 'clinic',
-      appointmentIen: 2222,
+      id: '2222',
       doctorName: 'test doc',
       stationNo: '0001',
       clinicIen: '0001',
@@ -33,10 +33,37 @@ describe('check-in experience', () => {
     upcomingAppointments[1] = {
       ...upcomingAppointments[1],
       kind: 'clinic',
-      appointmentIen: 9999,
+      id: '9999',
       doctorName: 'test doc',
       stationNo: '9999',
       clinicIen: '9999',
+    };
+    upcomingAppointments[2] = {
+      ...upcomingAppointments[2],
+      kind: 'clinic',
+      id: '6767',
+      doctorName: 'test doc',
+      stationNo: '6767',
+      clinicIen: '6767',
+      status: 'CANCELLED BY PATIENT',
+    };
+    upcomingAppointments[3] = {
+      ...upcomingAppointments[3],
+      kind: 'clinic',
+      id: '6768',
+      doctorName: 'test doc',
+      stationNo: '6768',
+      clinicIen: '6768',
+      status: 'CANCELLED BY CLINIC',
+    };
+    upcomingAppointments[4] = {
+      ...upcomingAppointments[4],
+      kind: 'phone',
+      id: '6769',
+      doctorName: 'test doc',
+      stationNo: '6769',
+      clinicIen: '6769',
+      status: 'CANCELLED',
     };
     const initAppointments = [...multipleAppointments, ...singleAppointment];
     const now = format(new Date(), "yyyy-LL-dd'T'HH:mm:ss");
@@ -165,6 +192,24 @@ describe('check-in experience', () => {
       currentPage: '/appointment',
       params: {
         appointmentId: '9999-9999',
+      },
+    };
+    const upcomingAppointmentThreeRoute = {
+      currentPage: '/appointment',
+      params: {
+        appointmentId: '6767-6767',
+      },
+    };
+    const upcomingAppointmentFourRoute = {
+      currentPage: '/appointment',
+      params: {
+        appointmentId: '6768-6768',
+      },
+    };
+    const upcomingAppointmentFiveRoute = {
+      currentPage: '/appointment',
+      params: {
+        appointmentId: '6769-6769',
       },
     };
     describe('AppointmentDetails', () => {
@@ -496,6 +541,54 @@ describe('check-in experience', () => {
           );
           expect(queryByTestId('appointment-action-message')).to.not.exist;
           expect(queryByTestId('check-in-button')).to.not.exist;
+        });
+        describe('Canceled appointments', () => {
+          it('Renders the canceled alert', () => {
+            const { getByTestId } = render(
+              <CheckInProvider
+                store={dayOfCheckInStore}
+                router={upcomingAppointmentThreeRoute}
+              >
+                <AppointmentDetails />
+              </CheckInProvider>,
+            );
+            expect(getByTestId('canceled-message')).to.exist;
+          });
+          it('Renders the correct messege for patient cancelled', () => {
+            const { getByTestId } = render(
+              <CheckInProvider
+                store={dayOfCheckInStore}
+                router={upcomingAppointmentThreeRoute}
+              >
+                <AppointmentDetails />
+              </CheckInProvider>,
+            );
+            expect(getByTestId('canceled-by-patient')).to.exist;
+            expect(getByTestId('header')).to.contain.text('Canceled');
+          });
+          it('Renders the correct messege for facility canceld', () => {
+            const { getByTestId } = render(
+              <CheckInProvider
+                store={dayOfCheckInStore}
+                router={upcomingAppointmentFourRoute}
+              >
+                <AppointmentDetails />
+              </CheckInProvider>,
+            );
+            expect(getByTestId('canceled-by-faciity')).to.exist;
+          });
+          it('Renders the correct messege when canceller unknown', () => {
+            const { queryByTestId } = render(
+              <CheckInProvider
+                store={dayOfCheckInStore}
+                router={upcomingAppointmentFiveRoute}
+              >
+                <AppointmentDetails />
+              </CheckInProvider>,
+            );
+            expect(queryByTestId('canceled-by-patient')).to.not.exist;
+            expect(queryByTestId('canceled-by-faciity')).to.not.exist;
+          });
         });
       });
     });

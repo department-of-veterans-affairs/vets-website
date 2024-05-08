@@ -1,5 +1,6 @@
 {
   "#-util-capitalize": "{{value, capitalize}}",
+  "#-util-uncapitalize": "{{value, uncapitalize}}",
   "add": "Add",
   "address": "Address",
   "agree-to-these-terms": "Agree to these terms",
@@ -386,5 +387,11 @@
   "we-cant-find-any-upcoming-appointments": "We can't find any upcoming VA medical appointments for you",
   "our-online-check-in-tool-doesnt-include-all": "Our online check-in tool doesn’t include all appointment types at this time. To find all your appointments, you can use our appointments tool on VA.gov or call your VA or community care health facility.",
   "go-to-all-your-va-appointments": "Go to all your VA appointments",
-  "find-your-health-facilities-phone-number": "Find your health facility’s phone number"
+  "find-your-health-facilities-phone-number": "Find your health facility’s phone number",
+  "canceled": "Canceled",
+  "you-canceled": "You canceled this appointment.",
+  "facility-canceled": "Facility canceled this appointment.",
+  "if-you-want-to-reschedule": "If you want to reschedule, call us at <0></0> (<1></1>) or schedule a new appointment online.",
+  "sign-in-to-schedule": "Sign in to schedule a new appointment",
+  "or-talk-staff-if-at-facility": "Or talk to a staff member if you’re at a VA facility."
 }
