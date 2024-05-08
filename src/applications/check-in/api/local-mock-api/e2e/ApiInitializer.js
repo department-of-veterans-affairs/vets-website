@@ -525,7 +525,7 @@ class ApiInitializer {
 
   initializeUpcomingAppointmentsDataGet = {
     withSuccess: ({ uuid = sharedData.get.defaultUUID } = {}) => {
-      cy.intercept('GET', '/check_in/v2/upcoming_appointments/*', req => {
+      cy.intercept('GET', '/check_in/v2/sessions/*/appointments', req => {
         req.reply(sharedData.get.createUpcomingAppointments(uuid));
       });
       return sharedData.get.createUpcomingAppointments(uuid);

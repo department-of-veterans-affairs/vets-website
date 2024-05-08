@@ -17,19 +17,48 @@ import {
   clinicName,
   getAppointmentId,
   findAppointment,
+  findUpcomingAppointment,
   hasMultipleFacilities,
   utcToFacilityTimeZone,
+  convertAppointments,
 } from './index';
 
 import { get } from '../../api/local-mock-api/mocks/v2/shared';
 import { ELIGIBILITY } from './eligibility';
+
+const convertedAppointment = {
+  id: '000000',
+  facility: 'LOMA LINDA VA CLINIC',
+  clinicPhoneNumber: null,
+  clinicFriendlyName: 'TEST CLINIC',
+  clinicName: 'TEST CLINIC',
+  clinicStopCodeName: null,
+  clinicLocation: 'SECOND FLOOR ROOM 2',
+  doctorName: null,
+  appointmentIen: null,
+  startTime: '2023-09-26T14:00:00',
+  stationNo: '983',
+  eligibility: null,
+  kind: 'clinic',
+  clinicIen: null,
+  checkInWindowStart: null,
+  checkInWindowEnd: null,
+  checkInSteps: null,
+  checkedInTime: null,
+  status: 'booked',
+  facilityAddress: null,
+};
 
 describe('check in', () => {
   afterEach(() => {
     MockDate.reset();
   });
 
-  const { createAppointment, createAppointments } = get;
+  const {
+    createAppointment,
+    createAppointments,
+    createUpcomingAppointment,
+  } = get;
 
   describe('appointment navigation utils', () => {
     describe('hasMoreAppointmentsToCheckInto', () => {
@@ -517,13 +546,22 @@ describe('check in', () => {
         expect(clinicName(appointment)).to.equal('LOM ACC CLINIC TEST');
       });
     });
-    describe('getAppointmentId', () => {
+    describe('getAppointmentId for vista appointments', () => {
       it('returns unique appointment ID of ien and station', () => {
         const appointment = createAppointment({
           appointmentIen: 24354,
           stationNo: '4343',
         });
         expect(getAppointmentId(appointment)).to.equal('24354-4343');
+      });
+    });
+    describe('getAppointmentId for VAOS appointments', () => {
+      it('returns unique appointment ID of id and station', () => {
+        const appointment = {
+          id: 123456,
+          stationNo: '4343',
+        };
+        expect(getAppointmentId(appointment)).to.equal('123456-4343');
       });
     });
     describe('findAppointment', () => {
@@ -543,6 +581,22 @@ describe('check in', () => {
           appointments[1],
         );
       });
+    });
+    describe('findUpcomingAppointment', () => {
+      const appointments = [
+        {
+          id: '000001',
+          stationNo: '983',
+        },
+        {
+          id: '000002',
+          stationNo: '982',
+        },
+      ];
+      const appointmentId = '000002-982';
+      expect(
+        findUpcomingAppointment(appointmentId, appointments),
+      ).to.deep.equal(appointments[1]);
     });
     describe('hasMultipleFacilities', () => {
       it('returns true if more than one unique stationNo values', () => {
@@ -575,6 +629,18 @@ describe('check in', () => {
         expect(utcToFacilityTimeZone(time, timezone)).to.equal(
           '2020-01-23T16:20:00.000-08:00',
         );
+      });
+    });
+    describe('convertAppointments', () => {
+      it('returns the correct structure', () => {
+        const appointments = [
+          createUpcomingAppointment({}),
+          createUpcomingAppointment({}),
+        ];
+        expect(convertAppointments(appointments)).to.deep.equal([
+          convertedAppointment,
+          convertedAppointment,
+        ]);
       });
     });
   });
