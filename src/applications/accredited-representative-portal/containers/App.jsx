@@ -30,12 +30,16 @@ function App() {
 
   if (!isInPilot) {
     return (
-      <div className="vads-u-margin--9">
-        <h1 data-testid="not-in-pilot-heading">
-          Accredited Representative Portal is currently in pilot and not
-          available to all users.
-        </h1>
-      </div>
+      <>
+        <Header />
+        <div className="vads-u-margin--9">
+          <h1 data-testid="not-in-pilot-heading">
+            Accredited Representative Portal is currently in pilot and not
+            available to all users.
+          </h1>
+        </div>
+        <Footer />
+      </>
     );
   }
 
