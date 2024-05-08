@@ -95,9 +95,12 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.certifierInformation.pages.relationship.schema,
   formConfig.chapters.certifierInformation.pages.relationship.uiSchema,
-  2,
+  1,
   'Certifier relationship',
-  { ...mockData.data },
+  {
+    ...mockData.data,
+    certifierRelationship: { relationshipToApplicants: 'applicant' },
+  },
 );
 
 describe('Applicant Name/DOB page title', () => {
