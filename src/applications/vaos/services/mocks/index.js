@@ -446,9 +446,11 @@ const responses = {
   },
 
   // WellHive api
-  'GET /vaos/v2/wellhive/appointments': wellHiveAppointments.appointments.concat(
-    mockWellHiveAppts,
-  ),
+  'GET /vaos/v2/wellhive/appointments': (req, res) => {
+    return res.json({
+      data: wellHiveAppointments.appointments.concat(mockWellHiveAppts),
+    });
+  },
   'POST /vaos/v2/wellhive/appointments': (req, res) => {
     const { patientId, referral } = req.body;
     const createdAppt = {
@@ -465,22 +467,31 @@ const responses = {
     return res.json({ data: createdAppt });
   },
   'GET /vaos/v2/wellhive/appointments/:appointmentId': (req, res) => {
-    const wellHiveAppts = {
-      data: wellHiveAppointments.appointments.concat(mockWellHiveAppts.data),
-    };
+    const wellHiveAppts = wellHiveAppointments.appointments.concat(
+      mockWellHiveAppts.data,
+    );
     return res.json({
-      data: wellHiveAppts.appointments.find(
-        appointment => appointment.id === req.params.id,
+      data: wellHiveAppts.find(
+        appointment => appointment?.id === req.params.appointmentId,
       ),
     });
   },
   'POST /vaos/v2/wellhive/appointments/:appointmentId/cancel': (req, res) => {
     const { cancelReasonId } = req.body;
+    const findApptToCancel = wellHiveAppointments.appointments.find(
+      appointment => appointment?.id === req.params.appointmentId,
+    );
+    const confirmCanceledAppts = {
+      ...findApptToCancel,
+      appointmentDetails: {
+        cancelReason: {
+          id: cancelReasonId,
+          name: 'Patient',
+        },
+      },
+    };
     return res.json({
-      data: wellHiveAppointments.appointments.find(
-        appointment =>
-          appointment.appointmentDetails.cancelReason.id === cancelReasonId,
-      ),
+      data: confirmCanceledAppts,
     });
   },
   'POST /vaos/v2/wellhive/appointments/:appointmentId/submit': (req, res) => {
