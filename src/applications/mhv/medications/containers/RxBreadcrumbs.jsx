@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useLocation } from 'react-router-dom';
-import { medicationsUrls } from '../util/constants';
 import { createBreadcrumbs } from '../util/helpers';
 
 const alignToLeft = `va-nav-breadcrumbs xsmall-screen:vads-u-margin-left--neg1
@@ -31,20 +30,17 @@ const RxBreadcrumbs = () => {
 
   return (
     <>
-      {!medicationsUrls.MEDICATIONS_ABOUT.endsWith(location.pathname) &&
-        breadcrumbs.length > 0 && (
-          <div className="no-print">
-            <VaBreadcrumbs
-              uswds
-              wrapping
-              label="Breadcrumb"
-              data-testid="rx-breadcrumb"
-              home-veterans-affairs="false"
-              breadcrumbList={breadcrumbs}
-              className={`${alignToLeft} va-breadcrumbs-li vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
-            />
-          </div>
-        )}
+      {breadcrumbs.length > 0 && (
+        <VaBreadcrumbs
+          uswds
+          wrapping
+          label="Breadcrumb"
+          data-testid="rx-breadcrumb"
+          home-veterans-affairs="false"
+          breadcrumbList={breadcrumbs}
+          className={`${alignToLeft} no-print va-breadcrumbs-li vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
+        />
+      )}
     </>
   );
 };

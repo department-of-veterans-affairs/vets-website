@@ -231,8 +231,11 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
     MEDICATIONS_REFILL,
   } = medicationsUrls;
 
-  if (pathname === subdirectories.ABOUT) {
-    return defaultBreadcrumbs;
+  if (pathname.includes(subdirectories.ABOUT)) {
+    return [
+      ...defaultBreadcrumbs,
+      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+    ];
   }
   if (pathname === subdirectories.BASE) {
     return defaultBreadcrumbs.concat([
