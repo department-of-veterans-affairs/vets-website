@@ -1,5 +1,6 @@
 {
   "#-util-capitalize": "{{value, capitalize}}",
+  "#-util-uncapitalize": "{{value, uncapitalize}}",
   "a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-login-to-your-va-account-to-update-your-contact-information-online": "Tutulungan ka ng isang staff member sa araw ng iyong appointment. O maaari kang mag-login sa iyong VA account para i-update ang iyong impormasyon sa pakikipag-ugnayan online.",
   "a-staff-member-will-help-you-on-the-day-of-your-appointment-to-update-your-information": "Tutulungan ka ng isang staff member sa araw ng iyong appointment para i-update ang iyong impormasyon.",
   "add": "Magdagdag",
