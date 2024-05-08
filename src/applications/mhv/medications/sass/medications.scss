@@ -280,6 +280,10 @@
   height: unset;
 }
 
+.refillable-prescription-item {
+  display: flex !important;
+}
+
 va-checkbox.select-all-checkbox::part(label) {
   font-weight: bold;
 

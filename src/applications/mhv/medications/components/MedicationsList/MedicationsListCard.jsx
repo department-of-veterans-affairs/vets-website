@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
-import { dispStatusForRefillsLeft } from '../../util/constants';
+import {
+  dispStatusForRefillsLeft,
+  DD_ACTIONS_PAGE_TYPE,
+} from '../../util/constants';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 import { selectRefillContentFlag } from '../../util/selectors';
 
@@ -38,6 +41,9 @@ const MedicationsListCard = ({ rx }) => {
           id={`card-header-${rx.prescriptionId}`}
         >
           <Link
+            data-dd-action-name={`Medication Name Link In Card - ${
+              DD_ACTIONS_PAGE_TYPE.LIST
+            }`}
             data-testid="medications-history-details-link"
             className="vads-u-margin-y--0p5 vads-u-font-size--h4"
             to={`/prescription/${rx.prescriptionId}`}
