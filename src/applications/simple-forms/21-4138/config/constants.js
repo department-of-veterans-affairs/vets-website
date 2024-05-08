@@ -56,6 +56,16 @@ export const DECISION_REVIEW_TYPE_DESCRIPTIONS = Object.freeze({
     'You can also submit new evidence with certain types of Board Appeals.',
 });
 
+const PrimaryActionLink = ({ href, children }) => (
+  <div className="arrow" style={{ maxWidth: '75%' }}>
+    <div className="vads-u-background-color--primary vads-u-padding--1">
+      <a className="vads-c-action-link--white" href={href}>
+        {children}
+      </a>
+    </div>
+  </div>
+);
+
 export const ESCAPE_HATCH = Object.freeze(
   <div className="vads-u-margin-y--4">
     If you’d like to use VA Form 21-4138 for your statement without selecting an
@@ -90,16 +100,9 @@ export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
         statement, use a new form for each statement.
       </li>
     </ul>
-    <div className="arrow" style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1">
-        <a
-          className="vads-c-action-link--white"
-          href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction"
-        >
-          Start your statement
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction">
+      Start your statement
+    </PrimaryActionLink>
     <va-omb-info
       res-burden={10}
       omb-number="2900-0881"
@@ -121,16 +124,9 @@ export const NOD_OLD_HANDOFF = Object.freeze(
       records) to support your claim.
     </p>
     <p>A reviewer will decide if this new evidence changes the decision.</p>
-    <div className="arrow" style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1">
-        <a
-          className="vads-c-action-link--white"
-          href="/decision-reviews/supplemental-claim/file-supplemental-claim-form-20-0995/start"
-        >
-          File a Supplemental Claim online
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/decision-reviews/supplemental-claim/file-supplemental-claim-form-20-0995/start">
+      File a Supplemental Claim online
+    </PrimaryActionLink>
     <div className="vads-u-margin-y--4">
       <a
         href="/decision-reviews/supplemental-claim/"
@@ -155,16 +151,9 @@ export const NOD_SUPPLEMENTAL_HANDOFF = Object.freeze(
       records) to support your claim.
     </p>
     <p>A reviewer will decide if this new evidence changes the decision.</p>
-    <div className="arrow" style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1">
-        <a
-          className="vads-c-action-link--white"
-          href="/decision-reviews/supplemental-claim/file-supplemental-claim-form-20-0995/start"
-        >
-          File a Supplemental Claim online
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/decision-reviews/supplemental-claim/file-supplemental-claim-form-20-0995/start">
+      File a Supplemental Claim online
+    </PrimaryActionLink>
     <div className="vads-u-margin-y--4">
       <a
         href="/decision-reviews/supplemental-claim/"
@@ -194,16 +183,9 @@ export const NOD_HLR_HANDOFF = Object.freeze(
       For disability compensation claims, you can request a Higher-Level Review
       online.
     </p>
-    <div className="arrow" style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1">
-        <a
-          className="vads-c-action-link--white"
-          href="/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996/"
-        >
-          Request a High-Level Review online
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996/">
+      Request a High-Level Review online
+    </PrimaryActionLink>
     <p>
       <strong>Note:</strong> At this time, you can use our online Higher-Level
       Review form for only disability compensation claims. For other types of
@@ -377,16 +359,9 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
         application in progress and come back later to finish filling it out.
       </va-alert>
     </div>
-    <div className="arrow" style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1">
-        <a
-          className="vads-c-action-link--white"
-          href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction"
-        >
-          Start your request
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction">
+      Start your request
+    </PrimaryActionLink>
     <h2 className="vads-u-font-size--h3">Types of evidence to submit</h2>
     <p>You can submit any of these types of evidence.</p>
     <p>
@@ -569,16 +544,9 @@ export const RECORDS_REQUEST_HANDOFF = Object.freeze(
         application in progress and come back later to finish filling it out.
       </va-alert>
     </div>
-    <div className="arrow" style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1">
-        <a
-          className="vads-c-action-link--white"
-          href="/records/request-personal-records-form-20-10206/introduction"
-        >
-          Start your request
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/records/request-personal-records-form-20-10206/introduction">
+      Start your request
+    </PrimaryActionLink>
     <va-omb-info
       res-burden={5}
       omb-number="2900-0736"
@@ -595,16 +563,9 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
       If you have an open claim, you can add evidence to support it. Evidence
       may include documents like court papers or service treatment records.
     </p>
-    <div className="arrow" style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1">
-        <a
-          className="vads-c-action-link--white"
-          href="/track-claims/your-claims"
-        >
-          Upload evidence using our claim status tool
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/track-claims/your-claims">
+      Upload evidence using our claim status tool
+    </PrimaryActionLink>
     <p>
       If you prefer to mail copies of your documents, we recommend filling out
       and including VA Form 20-10208 (Document Evidence Submission) along with
