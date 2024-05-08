@@ -20,11 +20,11 @@ printf "\n\n##### Installing vets-website #####\n"
 set -e
 cd ../vets-website && yarn cache clean && yarn install --production=false --prefer-offline && yarn build -- --host="${CODESPACE_NAME}-3001.githubpreview.dev/" --env api=${CODESPACE_NAME}-3000.githubpreview.dev/
 
-if [[ "${VETS_WEBSITE_BUILD_CONTENT}" != "NO" ]]
-then
+# if [[ "${VETS_WEBSITE_BUILD_CONTENT}" != "NO" ]]
+# then
   # Build content-build and serve site
   printf "\n\n##### Installing content-build #####\n"
   cd ../content-build && cp .env.example .env && yarn cache clean && yarn install --production=false --prefer-offline && yarn fetch-drupal-cache && yarn build -- --host="${CODESPACE_NAME}-3002.githubpreview.dev/" --apps-directory-name=vets-website && npx http-server ./build/localhost --port 3002
-fi
+# fi
 
 printf "\n\n##### Your codespace has been created! #####\n"
