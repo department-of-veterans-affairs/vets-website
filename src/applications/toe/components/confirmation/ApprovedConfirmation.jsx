@@ -28,10 +28,8 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
               download
               href={LETTER_ENDPOINT}
             >
-              <va-icon
-                size={4}
-                icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                className="vads-u-display--inline-block vads-u-margin-right--1"
+              <i
+                className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
                 aria-hidden="true"
               />
               Download your decision letter (PDF).
