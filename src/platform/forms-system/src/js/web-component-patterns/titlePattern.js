@@ -94,7 +94,12 @@ export const titleUI = (titleOption, descriptionOption) => {
           </legend>
         )
       ) : (
-        <Title title={title} description={description} headerLevel={3} />
+        <Title
+          title={title}
+          description={description}
+          headerLevel={headerLevel}
+          classNames={classNames}
+        />
       ),
   };
 };
