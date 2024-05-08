@@ -15,6 +15,17 @@ import externalServiceStatus from '../config/externalServiceStatus';
 import { getSoonestDowntime } from '../util/helpers';
 import { APP_TYPE_DEFAULT } from '../../../forms-system/src/js/constants';
 
+/**
+ * React component used to conditionally render children components based on the status (down, down-approaching, or ok) of VA.gov services.
+ * @param {Object} props
+ * @param {string} props.appTitle - The title of the application or tool.
+ * @param {Node} props.children - The children to render if the service is up.
+ * @param {Node} props.content - The content to render if the service is up.
+ * @param {Array<string>} props.dependencies - The list of dependencies to check for downtime.
+ * @param {Node} props.loadingIndicator - The loading indicator to render while the downtime status is being checked.
+ * @param {Function} props.render - The render function to use if custom rendering is needed.
+ */
+
 const DowntimeNotification = ({
   appTitle,
   children,
