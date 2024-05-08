@@ -72,7 +72,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: CustomPreSubmitInfo,
-  formId: VA_FORM_IDS.FORM_21_686C,
+  formId: VA_FORM_IDS.FORM_21_686CV2,
   saveInProgress: {
     messages: {
       inProgress: 'Your dependent status application (21-686c) is in progress.',
