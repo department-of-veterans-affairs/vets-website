@@ -32,7 +32,6 @@ export default function FormLayout({ children, isReviewPage, pageTitle }) {
   const location = useLocation();
   return (
     <>
-      {/* Temporary placement for testing */}
       <MhvSecondaryNav />
       <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
         <Breadcrumbs>
