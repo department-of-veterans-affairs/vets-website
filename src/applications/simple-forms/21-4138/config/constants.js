@@ -238,16 +238,9 @@ export const NOD_BA_HANDOFF = Object.freeze(
         Law Judge (with or without new evidence)
       </li>
     </ul>
-    <div className="arrow" style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1 vads-u-margin-top--4">
-        <a
-          className="vads-c-action-link--white"
-          href="/decision-reviews/board-appeal/request-board-appeal-form-10182/introduction"
-        >
-          Request a Board Appeal online
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/decision-reviews/board-appeal/request-board-appeal-form-10182/introduction">
+      Request a Board Appeal online
+    </PrimaryActionLink>
     <div className="vads-u-margin-y--4">
       <a
         href="/decision-reviews/board-appeal/"
