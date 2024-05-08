@@ -211,12 +211,18 @@ const AppointmentDetails = props => {
                   <div>
                     <p className="vads-u-margin-top--0">
                       {appointment.status === 'CANCELLED BY PATIENT' && (
-                        <span className="vads-u-font-weight--bold">
+                        <span
+                          className="vads-u-font-weight--bold"
+                          data-testid="canceled-by-patient"
+                        >
                           {`${t('you-canceled')} `}
                         </span>
                       )}
                       {appointment.status === 'CANCELLED BY CLINIC' && (
-                        <span className="vads-u-font-weight--bold">
+                        <span
+                          className="vads-u-font-weight--bold"
+                          data-testid="canceled-by-faciity"
+                        >
                           {`${t('facility-canceled')} `}
                         </span>
                       )}
