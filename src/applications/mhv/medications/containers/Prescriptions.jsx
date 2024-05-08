@@ -51,6 +51,7 @@ import Alert from '../components/shared/Alert';
 import { selectRefillContentFlag } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
+import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -69,6 +70,9 @@ const Prescriptions = () => {
   );
   const selectedSortOption = useSelector(
     state => state.rx.prescriptions?.selectedSortOption,
+  );
+  const prescriptionsApiError = useSelector(
+    state => state.rx.prescriptions?.apiError,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
   const prescriptionId = useSelector(
@@ -203,7 +207,7 @@ const Prescriptions = () => {
         setAlertVisible('false');
       }
     },
-    [isLoading, paginatedPrescriptionsList],
+    [isLoading, paginatedPrescriptionsList, isAlertVisible],
   );
 
   const pdfData = useCallback(
@@ -485,83 +489,97 @@ const Prescriptions = () => {
           </div>
           <br />
           <br />
-          {paginatedPrescriptionsList?.length ? (
+          {prescriptionsApiError ? (
+            <ApiErrorNotification />
+          ) : (
             <>
-              {showRefillContent && (
+              {paginatedPrescriptionsList &&
+              paginatedPrescriptionsList.length === 0 ? (
                 <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                  <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                    Refill your prescriptions
+                  <h2 className="vads-u-margin--0">
+                    You don’t have any VA prescriptions or medication records
                   </h2>
                   <p className="vads-u-margin-y--3">
-                    Find a list of prescriptions you can refill online.
+                    If you need a prescription or you want to tell us about a
+                    medication you’re taking, tell your care team at your next
+                    appointment.
                   </p>
-                  <Link
-                    className="vads-c-action-link--green vads-u-margin--0"
-                    to={medicationsUrls.subdirectories.REFILL}
-                    data-testid="prescriptions-nav-link-to-refill"
-                  >
-                    Refill prescriptions
-                  </Link>
                 </div>
+              ) : (
+                <>
+                  {showRefillContent && (
+                    <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
+                      <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+                        Refill your prescriptions
+                      </h2>
+                      <p className="vads-u-margin-y--3">
+                        Find a list of prescriptions you can refill online.
+                      </p>
+                      <Link
+                        className="vads-c-action-link--green vads-u-margin--0"
+                        to={medicationsUrls.subdirectories.REFILL}
+                        data-testid="prescriptions-nav-link-to-refill"
+                        onClick={handletoRefillLink}
+                      >
+                        Refill prescriptions
+                      </Link>
+                    </div>
+                  )}
+                  <Alert
+                    isAlertVisible={isAlertVisible}
+                    paginatedPrescriptionsList={paginatedPrescriptionsList}
+                    ssoe={ssoe}
+                  />
+                  <AllergiesErrorModal
+                    onCloseButtonClick={handleModalClose}
+                    onDownloadButtonClick={handleModalDownloadButton}
+                    onCancelButtonClick={handleModalClose}
+                    isPrint={Boolean(
+                      pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT ||
+                        pdfTxtGenerateStatus.format ===
+                          PRINT_FORMAT.PRINT_FULL_LIST,
+                    )}
+                    visible={Boolean(
+                      ((prescriptionsFullList?.length &&
+                        pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
+                        paginatedPrescriptionsList) &&
+                        pdfTxtGenerateStatus.status ===
+                          PDF_TXT_GENERATE_STATUS.InProgress &&
+                        allergiesError,
+                    )}
+                  />
+                  {paginatedPrescriptionsList?.length ? (
+                    <div className="landing-page-content">
+                      <PrintDownload
+                        download={handleFullListDownload}
+                        isSuccess={
+                          pdfTxtGenerateStatus.status ===
+                          PDF_TXT_GENERATE_STATUS.Success
+                        }
+                        list
+                      />
+                      <BeforeYouDownloadDropdown
+                        page={DD_ACTIONS_PAGE_TYPE.LIST}
+                      />
+                      <MedicationsListSort
+                        value={selectedSortOption}
+                        sortRxList={sortRxList}
+                      />
+                      <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
+                      <MedicationsList
+                        pagination={pagination}
+                        rxList={paginatedPrescriptionsList}
+                        scrollLocation={scrollLocation}
+                        selectedSortOption={selectedSortOption}
+                        updateLoadingStatus={updateLoadingStatus}
+                      />
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </>
               )}
-              <Alert
-                isAlertVisible={isAlertVisible}
-                paginatedPrescriptionsList={paginatedPrescriptionsList}
-                ssoe={ssoe}
-              />
-              <AllergiesErrorModal
-                onCloseButtonClick={handleModalClose}
-                onDownloadButtonClick={handleModalDownloadButton}
-                onCancelButtonClick={handleModalClose}
-                isPrint={Boolean(
-                  pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT ||
-                    pdfTxtGenerateStatus.format ===
-                      PRINT_FORMAT.PRINT_FULL_LIST,
-                )}
-                visible={Boolean(
-                  ((prescriptionsFullList?.length &&
-                    pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
-                    paginatedPrescriptionsList) &&
-                    pdfTxtGenerateStatus.status ===
-                      PDF_TXT_GENERATE_STATUS.InProgress &&
-                    allergiesError,
-                )}
-              />
-              <div className="landing-page-content">
-                <PrintDownload
-                  download={handleFullListDownload}
-                  isSuccess={
-                    pdfTxtGenerateStatus.status ===
-                    PDF_TXT_GENERATE_STATUS.Success
-                  }
-                  list
-                />
-                <BeforeYouDownloadDropdown page={DD_ACTIONS_PAGE_TYPE.LIST} />
-                <MedicationsListSort
-                  value={selectedSortOption}
-                  sortRxList={sortRxList}
-                />
-                <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
-                <MedicationsList
-                  pagination={pagination}
-                  rxList={paginatedPrescriptionsList}
-                  scrollLocation={scrollLocation}
-                  selectedSortOption={selectedSortOption}
-                  updateLoadingStatus={updateLoadingStatus}
-                />
-              </div>
             </>
-          ) : (
-            <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-              <h2 className="vads-u-margin--0">
-                You don’t have any VA prescriptions or medication records
-              </h2>
-              <p className="vads-u-margin-y--3">
-                If you need a prescription or you want to tell us about a
-                medication you’re taking, tell your care team at your next
-                appointment.
-              </p>
-            </div>
           )}
         </div>
       );
