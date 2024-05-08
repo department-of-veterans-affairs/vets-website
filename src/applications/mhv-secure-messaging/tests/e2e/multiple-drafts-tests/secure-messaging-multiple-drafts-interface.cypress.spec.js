@@ -50,13 +50,7 @@ describe('handle multiple drafts in one thread', () => {
     ).length;
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
 
     cy.get(Locators.REPLY_FORM)
       .find('h2')
@@ -76,13 +70,7 @@ describe('handle multiple drafts in one thread', () => {
 
   it('verify drafts detailed vew', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
 
     draftPage.verifyMessagesBodyText(
       updatedMultiDraftResponse.data[0].attributes.body,
