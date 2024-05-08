@@ -15,6 +15,7 @@ import {
   appointmentIcon,
   clinicName,
   findAppointment,
+  findUpcomingAppointment,
 } from '../../../utils/appointment';
 import { APP_NAMES } from '../../../utils/appConstants';
 
@@ -51,6 +52,7 @@ const AppointmentDetails = props => {
   useLayoutEffect(
     () => {
       if (appointmentId) {
+        // TODO: It's not going to find upcoming appoinments in the list of vista appointments until we can figure out which data to use to link the two.
         const activeAppointmentDetails = findAppointment(
           appointmentId,
           appointments,
@@ -59,7 +61,7 @@ const AppointmentDetails = props => {
           setAppointment(activeAppointmentDetails);
           return;
         }
-        const activeUpcomingAppointmentDetails = findAppointment(
+        const activeUpcomingAppointmentDetails = findUpcomingAppointment(
           appointmentId,
           upcomingAppointments,
         );
