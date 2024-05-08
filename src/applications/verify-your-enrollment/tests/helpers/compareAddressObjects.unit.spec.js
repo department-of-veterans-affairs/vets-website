@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { compareAddressObjects } from '../../helpers';
 
-describe('compareObjectsIgnoringExtraKeys', () => {
+describe('compareAddressObjects', () => {
   it('should return true if objects have the same keys with different values', () => {
     const obj1 = { a: 1, b: 2 };
     const obj2 = { a: 1, b: 3 };
