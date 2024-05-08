@@ -95,16 +95,6 @@ const ITFWrapper = ({
     );
   }
 
-  if (itf.fetchCallState === requestStates.failed) {
-    // We'll get here after the fetchITF promise is fulfilled
-    // render children to allow testing in non-production environment
-    return (
-      <ITFBanner status="error" router={router}>
-        {children}
-      </ITFBanner>
-    );
-  }
-
   if (itf?.currentITF?.status === ITF_STATUSES.active) {
     const status =
       itf.creationCallState === 'succeeded' ? 'itf-created' : 'itf-found';
@@ -149,8 +139,13 @@ const ITFWrapper = ({
   }
 
   // We'll get here after the createITF promise is fulfilled and we have no
-  // active ITF because of a failed creation call
-  return <ITFBanner status="error" router={router} />;
+  // active ITF because of a failed creation call. Render children after alerting
+  // next steps to the Veteran
+  return (
+    <ITFBanner status="error" router={router}>
+      {children}
+    </ITFBanner>
+  );
 };
 
 const requestStateEnum = Object.values(requestStates);

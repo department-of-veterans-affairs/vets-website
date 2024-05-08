@@ -35,9 +35,9 @@ const ITFBanner = props => {
   switch (props.status) {
     case 'error':
       message = itfMessage(
-        'We’re sorry. Something went wrong on our end.',
+        'We can’t confirm if we have an intent to file on record for you right now',
         itfError,
-        'success', // setting as success so we do not block form 995 creation
+        'info',
       );
       break;
     case 'itf-found':
