@@ -119,7 +119,8 @@ const resolveLandingPageLinks = (
         text: 'Community care',
       },
       {
-        href: '/health-care/update-health-information/',
+        href:
+          '/my-health/update-benefits-information-form-10-10ezr/introduction',
         text: 'Update health benefits info (10-10EZR)',
       },
       {

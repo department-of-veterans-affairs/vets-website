@@ -35,7 +35,10 @@ import {
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
 } from '../util/txtConfigs';
-import { PDF_TXT_GENERATE_STATUS } from '../util/constants';
+import {
+  PDF_TXT_GENERATE_STATUS,
+  DD_ACTIONS_PAGE_TYPE,
+} from '../util/constants';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { Actions } from '../util/actionTypes';
@@ -191,7 +194,7 @@ const PrescriptionDetails = () => {
     setPdfTxtGenerateStatus({
       status: PDF_TXT_GENERATE_STATUS.InProgress,
       format,
-      message: 'Downloading your file...',
+      message: 'Loading...',
     });
     await Promise.allSettled([!allergies && dispatch(getAllergiesList())]);
   };
@@ -368,7 +371,7 @@ const PrescriptionDetails = () => {
                   PDF_TXT_GENERATE_STATUS.Success
                 }
               />
-              <BeforeYouDownloadDropdown />
+              <BeforeYouDownloadDropdown page={DD_ACTIONS_PAGE_TYPE.DETAILS} />
             </div>
             {nonVaPrescription ? (
               <NonVaPrescription {...prescription} />
