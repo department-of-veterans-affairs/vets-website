@@ -24,7 +24,7 @@ const HealthCareCTA = ({
         <IconCTALink
           text="Apply for VA health care"
           icon="file-medical"
-          href="/health-care/apply/application/introduction"
+          href="/health-care/apply-for-health-care-form-10-10ez/"
           testId="apply-va-healthcare-link-from-cta"
           onClick={() =>
             recordEvent({

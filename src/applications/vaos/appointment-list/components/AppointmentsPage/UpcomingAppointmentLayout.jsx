@@ -21,14 +21,10 @@ export default function UpcomingAppointmentLayout({
       return (
         <li
           key={key}
-          className={classNames(
-            'small-screen:vads-u-border-top--0',
-            'vaos-appts__listItem',
-            {
-              'vads-u-border-bottom--1px': !isLastInMonth,
-              'vads-u-border-color--gray-medium': !isLastInMonth,
-            },
-          )}
+          className={classNames('small-screen:vads-u-border-top--0', {
+            'vads-u-border-bottom--1px': !isLastInMonth,
+            'vads-u-border-color--gray-medium': !isLastInMonth,
+          })}
         >
           <ul
             className="usa-unstyled-list vaos-appts__list"
@@ -68,7 +64,6 @@ export default function UpcomingAppointmentLayout({
 
                         'small-desktop-screen:vads-u-margin-x--1',
                         'small-desktop-screen:vads-u-margin-y--0',
-                        'small-desktop-screen:vads-u-padding-y--0',
                         {
                           'xsmall-screen:vads-u-margin-y--1': !isFirstInDay,
                           // 'medium-screen:vads-u-padding-y--2': isFirstInDay,
@@ -105,7 +100,6 @@ export default function UpcomingAppointmentLayout({
           id={appt.id}
           className={classNames(
             'small-screen:vads-u-border-top--0',
-            'vaos-appts__listItem',
             'vaos-appts__listItem--clickable',
             {
               'vads-u-border-bottom--1px': !isLastInMonth,
@@ -122,7 +116,7 @@ export default function UpcomingAppointmentLayout({
                 'xsmall-screen:vaos-appts__column-gap--2',
 
                 'small-screen:vads-u-padding-x--1',
-                'small-screen:vads-u-padding-y--2p5',
+                'small-screen:vads-u-padding-y--2',
 
                 'medium-screen:vads-u-margin-x--1p5',
                 'medium-screen:vads-u-margin-y--0',
@@ -130,7 +124,6 @@ export default function UpcomingAppointmentLayout({
 
                 'small-desktop-screen:vads-u-margin-x--1',
                 'small-desktop-screen:vads-u-margin-y--0',
-                'small-desktop-screen:vads-u-padding--0',
               )}
             >
               <AppointmentColumnLayout first data={appt} link={link} />

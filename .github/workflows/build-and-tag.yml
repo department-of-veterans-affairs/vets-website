@@ -18,6 +18,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-16-cores-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
 
     steps:
       - name: Checkout
@@ -79,12 +81,14 @@ jobs:
           session_name: vsp-frontendteam-githubaction
 
       - name: Upload build
-        run: aws s3 cp ${{ env.BUILD_ENV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2 --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{ env.BUILD_ENV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ env.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2 --acl public-read --region us-gov-west-1
   
   tag-commit:
       name: Tag Commit
       needs: [build]
       runs-on: ubuntu-latest
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
+      
       steps:
         - name: Checkout
           uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -104,15 +108,11 @@ jobs:
             ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
             env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
   
-        - name: Get latest tag
-          id: get-latest-tag
-          run: echo LATEST_TAG_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`) >> $GITHUB_OUTPUT
-  
-        - name: Get next tag version
-          id: bump-tag-version
-          uses: WyriHaximus/github-action-next-semvers@v1
+        - name: Generate Version
+          id: version
+          uses: paulhatch/semantic-version@v5.4.0
           with:
-            version: ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}
+            tag_prefix: "v"
   
         - name: Create tag
-          run: git tag -a ${{ steps.bump-tag-version.outputs.v_patch }} -m "vets-website tag ${{ steps.bump-tag-version.outputs.v_patch }}" ${{ env.COMMIT_SHA }} && git push origin ${{ steps.bump-tag-version.outputs.v_patch }} 
+          run: git tag ${{ steps.version.outputs.version_tag }} ${{ env.COMMIT_SHA }} && git push origin ${{ steps.version.outputs.version_tag }} 

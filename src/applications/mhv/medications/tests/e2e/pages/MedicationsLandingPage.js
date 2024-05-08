@@ -97,5 +97,12 @@ class MedicationsLandingPage {
       'You don’t have any VA prescriptions',
     );
   };
+
+  verifyErroMessageforFailedAPICallListPage = () => {
+    cy.get('[data-testid="no-medications-list"]').should(
+      'contain',
+      'We can’t access your medications ',
+    );
+  };
 }
 export default MedicationsLandingPage;
