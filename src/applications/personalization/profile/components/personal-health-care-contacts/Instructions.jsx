@@ -8,7 +8,7 @@ const Instructions = ({ testId, contactType }) => {
       To add {isEmergency ? 'an' : 'a'} {contactType}, call your VA health
       facility.{' '}
       <a
-        href="https://www.va.gov/find-locations/"
+        href="/find-locations/"
         aria-label={`Find your health facility's phone number to add ${
           isEmergency ? 'an' : 'a'
         } ${contactType}`}
