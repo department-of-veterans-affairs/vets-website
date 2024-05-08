@@ -22,30 +22,20 @@ export function generateOptions({ data, pagePerItemIndex }) {
 
   const options = [
     {
-      label: `Yes, ${
-        useFirstPerson ? 'I‘m' : `${applicant} is `
-      } enrolled in Medicare`,
+      label: `Yes, ${applicant} is enrolled in Medicare`,
       value: 'enrolled',
     },
     {
-      label: `No, ${
-        useFirstPerson ? "I'm" : `${applicant} is `
-      } not eligible for Medicare`,
+      label: `No, ${applicant} is not eligible for Medicare`,
       value: 'ineligible',
     },
     {
-      label: `No, ${
-        useFirstPerson ? "I'm" : `${applicant} is `
-      } eligible for Medicare but ${
-        useFirstPerson ? 'have' : 'has'
-      } not been signed up for it yet`,
+      label: `No, ${applicant} is eligible for Medicare but has not been signed up for it yet`,
       value: 'eligibleNotSignedUp',
     },
   ];
 
-  const prompt = `${
-    useFirstPerson ? 'Are you' : `Is ${applicant}`
-  } enrolled in Medicare Parts A & B?`;
+  const prompt = `Is ${applicant} enrolled in Medicare Parts A & B?`;
 
   return {
     options,
@@ -58,9 +48,7 @@ export function generateOptions({ data, pagePerItemIndex }) {
     keyname: KEYNAME,
     primary: PRIMARY,
     secondary: SECONDARY,
-    customTitle: `${
-      useFirstPerson ? `Your` : `${applicant}'s`
-    } Medicare status`,
+    customTitle: `${applicant}'s Medicare status`,
     description: prompt,
   };
 }
@@ -100,7 +88,7 @@ ApplicantMedicareStatusPage.propTypes = {
   data: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  pagePerItemIndex: PropTypes.string || PropTypes.number,
+  pagePerItemIndex: PropTypes.string,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,

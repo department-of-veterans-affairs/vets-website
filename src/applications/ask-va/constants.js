@@ -9,7 +9,7 @@ export const URL = {
   GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
-  GET_SCHOOL: `v0/gi/institutions/search?name=`,
+  GET_SCHOOL: `/v0/gi/institutions/search?name=`,
   SEND_REPLY: `/reply/new`,
 };
 
