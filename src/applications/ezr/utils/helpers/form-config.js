@@ -69,7 +69,7 @@ export function includeTeraInformation(formData) {
  */
 export function includeGulfWarServiceDates(formData) {
   const { gulfWarService } = formData;
-  return gulfWarService;
+  return gulfWarService && includeTeraInformation(formData);
 }
 
 /**
@@ -81,7 +81,7 @@ export function includeGulfWarServiceDates(formData) {
  */
 export function includeAgentOrangeExposureDates(formData) {
   const { exposedToAgentOrange } = formData;
-  return exposedToAgentOrange;
+  return exposedToAgentOrange && includeTeraInformation(formData);
 }
 
 /**
@@ -94,7 +94,7 @@ export function includeAgentOrangeExposureDates(formData) {
 export function includeOtherExposureDates(formData) {
   const { 'view:otherToxicExposures': otherToxicExposures = {} } = formData;
   const exposures = Object.values(otherToxicExposures);
-  return exposures.some(o => o);
+  return exposures.some(o => o) && includeTeraInformation(formData);
 }
 
 /**
@@ -105,7 +105,10 @@ export function includeOtherExposureDates(formData) {
  * that was not on the specified list
  */
 export function includeOtherExposureDetails(formData) {
-  return formData['view:otherToxicExposures']?.exposureToOther;
+  return (
+    formData['view:otherToxicExposures']?.exposureToOther &&
+    includeTeraInformation(formData)
+  );
 }
 /**
  * Helper that determines if the form data contains values that allow users to fill

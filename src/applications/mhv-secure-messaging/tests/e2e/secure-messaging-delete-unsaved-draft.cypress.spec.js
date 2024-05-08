@@ -5,7 +5,6 @@ import { AXE_CONTEXT, Data, Locators, Assertions } from './utils/constants';
 
 describe('Secure Messaging Delete Unsaved Compose Draft', () => {
   const landingPage = new PatientInboxPage();
-  const composePage = new PatientComposePage();
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
@@ -14,12 +13,12 @@ describe('Secure Messaging Delete Unsaved Compose Draft', () => {
   });
 
   it('verify delete could be canceled', () => {
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    composePage.selectCategory();
-    composePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
-    composePage
-      .getMessageBodyField()
-      .type(Data.TEST_MESSAGE_BODY, { force: true });
+    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.selectCategory();
+    PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
+    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
+      force: true,
+    });
 
     cy.get(Locators.BUTTONS.DELETE_DRAFT).click({ force: true });
     cy.get(Locators.BUTTONS.DELETE_CANCEL).click({ force: true });
@@ -31,12 +30,12 @@ describe('Secure Messaging Delete Unsaved Compose Draft', () => {
   });
 
   it('verify confirm delete', () => {
-    composePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    composePage.selectCategory();
-    composePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
-    composePage
-      .getMessageBodyField()
-      .type(Data.TEST_MESSAGE_BODY, { force: true });
+    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.selectCategory();
+    PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
+    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
+      force: true,
+    });
 
     cy.get(Locators.BUTTONS.DELETE_DRAFT).click({ force: true });
     cy.get(Locators.BUTTONS.DELETE_CONFIRM).click({ force: true });
