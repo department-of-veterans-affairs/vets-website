@@ -94,9 +94,7 @@ const UpcomingAppointmentsList = props => {
                         {appointments.map(appointment => {
                           return (
                             <UpcomingAppointmentsListItem
-                              key={`${appointment.appointmentIen}-${
-                                appointment.stationNo
-                              }`}
+                              key={getAppointmentId(appointment)}
                               appointment={appointment}
                               goToDetails={handleDetailClick}
                               router={router}
