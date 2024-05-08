@@ -570,7 +570,9 @@ const Prescriptions = () => {
                         }
                         list
                       />
-                      <BeforeYouDownloadDropdown page={DD_ACTIONS_PAGE_TYPE.LIST} />
+                      <BeforeYouDownloadDropdown
+                        page={DD_ACTIONS_PAGE_TYPE.LIST}
+                      />
                       <MedicationsListSort
                         value={selectedSortOption}
                         sortRxList={sortRxList}

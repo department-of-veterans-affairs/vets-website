@@ -379,7 +379,9 @@ const PrescriptionDetails = () => {
                       PDF_TXT_GENERATE_STATUS.Success
                     }
                   />
-                  <BeforeYouDownloadDropdown page={DD_ACTIONS_PAGE_TYPE.DETAILS} />
+                  <BeforeYouDownloadDropdown
+                    page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+                  />
                 </div>
                 {nonVaPrescription ? (
                   <NonVaPrescription {...prescription} />

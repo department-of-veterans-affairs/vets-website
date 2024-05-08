@@ -126,9 +126,9 @@ const LandingPage = () => {
                           Manage your medications
                         </h2>
                         <Link
-                      	  data-dd-action-name={`Refill Prescriptions Action Link - ${
+                          data-dd-action-name={`Refill Prescriptions Action Link - ${
                             DD_ACTIONS_PAGE_TYPE.ABOUT
-                      	  }`}
+                          }`}
                           className="vads-u-display--block vads-c-action-link--blue vads-u-margin-bottom--1"
                           to={refillUrl}
                           data-testid="refill-nav-link"
@@ -214,7 +214,8 @@ const LandingPage = () => {
           <section>
             <h2>Questions about this tool</h2>
             <section>
-              <va-accordion bordered
+              <va-accordion
+                bordered
                 data-testid="accordion-dropdown"
                 data-dd-action-name={`Questions About This Tool Accordion - ${
                   DD_ACTIONS_PAGE_TYPE.ABOUT
