@@ -11,18 +11,20 @@ export default function PageLayout({
   showNeedHelp,
 }) {
   return (
-    <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+    <>
       <MhvSecondaryNav />
-      {showBreadcrumbs && <Breadcrumbs />}
-      <div className="vads-l-row">
-        <div
-          className={classNames('vads-l-col--12', 'vads-u-margin-bottom--2')}
-        >
-          {children}
-          {showNeedHelp && <NeedHelp />}
+      <div className="vads-l-grid-container vads-u-padding-x--2p5 large-screen:vads-u-padding-x--0 vads-u-padding-bottom--2p5">
+        {showBreadcrumbs && <Breadcrumbs />}
+        <div className="vads-l-row">
+          <div
+            className={classNames('vads-l-col--12', 'vads-u-margin-bottom--2')}
+          >
+            {children}
+            {showNeedHelp && <NeedHelp />}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
