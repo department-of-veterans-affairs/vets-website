@@ -4,7 +4,7 @@ import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
 
 const medicalRecordsLink = {
   title: 'Records',
-  iconClass: 'fas fa-file-medical',
+  icon: 'note_add',
   href: `/my-health/medical-records`,
 };
 
@@ -19,24 +19,24 @@ const transitionalMedicalRecordsLink = {
 export const mhvSecNavItems = [
   {
     title: 'My HealtheVet',
-    iconClass: 'fas fa-home',
+    icon: 'home',
     href: '/my-health',
   },
   {
     title: 'Appointments',
     abbreviation: 'Appts',
-    iconClass: 'fas fa-calendar',
+    icon: 'calendar_today',
     href: `/my-health/appointments`,
   },
   {
     title: 'Messages',
-    iconClass: 'fas fa-comments',
+    icon: 'forum',
     href: `/my-health/secure-messages`,
   },
   {
     title: 'Medications',
     abbreviation: 'Meds',
-    iconClass: 'fas fa-prescription-bottle',
+    icon: 'medication',
     href: `/my-health/medications`,
   },
   medicalRecordsLink,
