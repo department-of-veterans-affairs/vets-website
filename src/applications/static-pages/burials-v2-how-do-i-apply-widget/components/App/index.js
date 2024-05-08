@@ -199,9 +199,10 @@ export const App = () => {
           If you don’t have their DD214 or other separation documents, you can
           request these documents now.
         </p>
-        <a href="https://www.va.gov/records/get-military-service-records/">
-          Learn more about requesting military service records
-        </a>
+        <va-link
+          href="https://www.va.gov/records/get-military-service-records/"
+          text="Learn more about requesting military service records"
+        />
 
         <h2>
           As a surviving spouse, do I need to file a claim for burial costs?
@@ -232,9 +233,10 @@ export const App = () => {
         <p>
           Fill out an Application for Burial Benefits (VA Form 21P-530EZ).
           <br />
-          <a href="https://www.va.gov/find-forms/about-form-21p-530ez/">
-            Get VA Form 21P-530EZ to download
-          </a>
+          <va-link
+            href="https://www.va.gov/find-forms/about-form-21p-530ez/"
+            text="Get VA Form 21P-530EZ to download"
+          />
         </p>
 
         <p>
@@ -461,18 +463,20 @@ export const App = () => {
       <p>
         Fill out an Application for Burial Benefits (VA Form 21P-530EZ).
         <br />
-        <a href="https://www.va.gov/find-forms/about-form-21p-530ez/">
-          Get VA Form 21P-530EZ to download
-        </a>
+        <va-link
+          href="https:www.va.gov/find-forms/about-form-21p-530ez/"
+          text="Get VA Form 21P-530EZ to download"
+        />
       </p>
 
       <p>
         Mail the application and copies of supporting documents to your nearest
         VA regional office.
         <br />
-        <a href="https:www.va.gov/find-locations/?facilityType=benefits">
-          Find your nearest VA regional office
-        </a>
+        <va-link
+          href="https:www.va.gov/find-locations/?facilityType=benefits"
+          text="Find your nearest VA regional office"
+        />
       </p>
     </>
   );
