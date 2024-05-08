@@ -129,7 +129,6 @@ const PrintDownload = props => {
             className={menuIconClasses}
             size={3}
             icon={!menuOpen ? 'expand_more' : 'expand_less'}
-            srtext="Print or download button icon"
             aria-hidden="true"
           />
         </button>
