@@ -95,7 +95,7 @@ export const FindVaForms = ({ showPdfWarningBanner = false }) => {
             aria-label="Apply online about applying for VA health care benefits"
             className="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none"
             disable-analytics
-            href="/health-care/apply/application/"
+            href="/health-care/apply-for-health-care-form-10-10ez/"
             onClick={onFeaturedContentClick(
               'Apply for VA health care benefits',
             )}
