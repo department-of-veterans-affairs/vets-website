@@ -16,6 +16,7 @@ import {
   useDatadogRum,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
+import MhvSecondaryNav from 'platform/mhv/secondary-nav/containers/MhvSecondaryNav';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
@@ -110,13 +111,16 @@ const App = ({ isPilot }) => {
 
   if (featureTogglesLoading) {
     return (
-      <div className="vads-l-grid-container">
-        <va-loading-indicator
-          message="Loading your secure messages..."
-          setFocus
-          data-testid="feature-flag-loading-indicator"
-        />
-      </div>
+      <>
+        <MhvSecondaryNav />
+        <div className="vads-l-grid-container">
+          <va-loading-indicator
+            message="Loading your secure messages..."
+            setFocus
+            data-testid="feature-flag-loading-indicator"
+          />
+        </div>
+      </>
     );
   }
 
@@ -142,40 +146,43 @@ const App = ({ isPilot }) => {
       !userServices.includes(backendServices.MESSAGING) ? (
         window.location.replace('/health-care/secure-messaging')
       ) : (
-        <div className="vads-l-grid-container">
-          <SmBreadcrumbs />
+        <>
+          <MhvSecondaryNav />
+          <div className="vads-l-grid-container">
+            <SmBreadcrumbs />
 
-          {mhvSMDown === externalServiceStatus.down ? (
-            <>
-              <h1>Messages</h1>
-              <DowntimeNotification
-                appTitle={downtimeNotificationParams.appTitle}
-                dependencies={[
-                  externalServices.mhvPlatform,
-                  externalServices.mhvSm,
-                ]}
-                render={renderMHVDowntime}
-              />
-            </>
-          ) : (
-            <div
-              className="secure-messaging-container
+            {mhvSMDown === externalServiceStatus.down ? (
+              <>
+                <h1>Messages</h1>
+                <DowntimeNotification
+                  appTitle={downtimeNotificationParams.appTitle}
+                  dependencies={[
+                    externalServices.mhvPlatform,
+                    externalServices.mhvSm,
+                  ]}
+                  render={renderMHVDowntime}
+                />
+              </>
+            ) : (
+              <div
+                className="secure-messaging-container
           vads-u-display--flex
           vads-u-flex-direction--column
           medium-screen:vads-u-flex-direction--row"
-            >
-              <Navigation />
-              <ScrollToTop />
-              <Switch>
-                <AuthorizedRoutes />
-              </Switch>
-            </div>
-          )}
+              >
+                <Navigation />
+                <ScrollToTop />
+                <Switch>
+                  <AuthorizedRoutes />
+                </Switch>
+              </div>
+            )}
 
-          <div className="bottom-container">
-            <va-back-to-top />
+            <div className="bottom-container">
+              <va-back-to-top />
+            </div>
           </div>
-        </div>
+        </>
       )}
     </RequiredLoginView>
   );
