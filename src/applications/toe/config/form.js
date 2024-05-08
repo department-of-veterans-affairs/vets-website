@@ -754,7 +754,7 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.highSchoolDiplomaDate]: {
+            [formFields.highSchoolDiplomaDateLegacy]: {
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency certificate?',
               ),
@@ -762,13 +762,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [formFields.highSchoolDiplomaDate],
+            required: [formFields.highSchoolDiplomaDateLegacy],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [formFields.highSchoolDiplomaDate]: date,
+              [formFields.highSchoolDiplomaDateLegacy]: date,
             },
           },
         },
