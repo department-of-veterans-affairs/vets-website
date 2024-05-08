@@ -282,7 +282,8 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
                           }`}
                         >
                           <p className="vads-u-margin--0">
-                            Prescription number: {prescription.prescriptionNumber}
+                            Prescription number:{' '}
+                            {prescription.prescriptionNumber}
                           </p>
                           <p
                             className="vads-u-margin--0"
