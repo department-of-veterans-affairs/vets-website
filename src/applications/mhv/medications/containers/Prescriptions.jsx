@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -8,6 +14,7 @@ import {
   updatePageTitle,
   reportGeneratedBy,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
   getPrescriptionsPaginatedSortedList,
   getAllergiesList,
@@ -28,6 +35,7 @@ import {
   SESSION_SELECTED_SORT_OPTION,
   defaultSelectedSortOption,
   medicationsUrls,
+  DD_ACTIONS_PAGE_TYPE,
 } from '../util/constants';
 import PrintDownload, {
   DOWNLOAD_FORMAT,
@@ -35,7 +43,6 @@ import PrintDownload, {
 } from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import AllergiesErrorModal from '../components/shared/AllergiesErrorModal';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import {
   buildPrescriptionsPDFList,
   buildAllergiesPDFList,
@@ -65,6 +72,9 @@ const Prescriptions = () => {
     state => state.rx.prescriptions?.selectedSortOption,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const prescriptionId = useSelector(
+    state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
+  );
   const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
   const [printedList, setPrintedList] = useState([]);
   const [hasFullListDownloadError, setHasFullListDownloadError] = useState(
@@ -79,7 +89,7 @@ const Prescriptions = () => {
     status: PDF_TXT_GENERATE_STATUS.NotStarted,
     format: undefined,
   });
-
+  const scrollLocation = useRef();
   const page = useMemo(
     () => {
       const query = new URLSearchParams(search);
@@ -118,6 +128,23 @@ const Prescriptions = () => {
       window.print();
       setPrintedList(paginatedPrescriptionsList);
     }, 1);
+
+  const goToPrevious = () => {
+    scrollLocation?.current?.scrollIntoView();
+  };
+
+  useEffect(
+    () => {
+      if (!isLoading) {
+        if (prescriptionId) {
+          goToPrevious();
+        } else {
+          focusElement(document.querySelector('h1'));
+        }
+      }
+    },
+    [isLoading, prescriptionId],
+  );
 
   useEffect(
     () => {
@@ -405,7 +432,7 @@ const Prescriptions = () => {
       (format === PRINT_FORMAT.PRINT_FULL_LIST && !prescriptionsFullList.length)
     ) {
       if (!prescriptionsFullList.length) setIsRetrievingFullList(true);
-      updateLoadingStatus(true, 'Downloading your file...');
+      updateLoadingStatus(true, 'Loading...');
     }
     setPdfTxtGenerateStatus({
       status: PDF_TXT_GENERATE_STATUS.InProgress,
@@ -462,7 +489,7 @@ const Prescriptions = () => {
             Medications
           </h1>
           <div
-            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3"
+            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3 vads-u-font-family--serif"
             data-testid="Title-Notes"
           >
             Refill and track your VA prescriptions. And review all medications
@@ -522,15 +549,16 @@ const Prescriptions = () => {
                   }
                   list
                 />
-                <BeforeYouDownloadDropdown />
+                <BeforeYouDownloadDropdown page={DD_ACTIONS_PAGE_TYPE.LIST} />
                 <MedicationsListSort
                   value={selectedSortOption}
                   sortRxList={sortRxList}
                 />
                 <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
                 <MedicationsList
-                  rxList={paginatedPrescriptionsList}
                   pagination={pagination}
+                  rxList={paginatedPrescriptionsList}
+                  scrollLocation={scrollLocation}
                   selectedSortOption={selectedSortOption}
                   updateLoadingStatus={updateLoadingStatus}
                 />

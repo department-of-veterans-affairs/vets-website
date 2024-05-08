@@ -11,13 +11,14 @@ import {
   DowntimeNotification,
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
-import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { setBreadcrumbs } from '../actions/breadcrumbs';
+import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { createSession } from '../api/MrApi';
 import {
+  selectConditionsFlag,
   selectNotesFlag,
   selectVaccinesFlag,
   selectVitalsFlag,
@@ -28,6 +29,7 @@ const LandingPage = () => {
   const fullState = useSelector(state => state);
   const displayNotes = useSelector(selectNotesFlag);
   const displayVaccines = useSelector(selectVaccinesFlag);
+  const displayConditions = useSelector(selectConditionsFlag);
   const displayVitals = useSelector(selectVitalsFlag);
 
   useEffect(
@@ -120,6 +122,24 @@ const LandingPage = () => {
           Go to your allergies and reactions
         </Link>
       </section>
+      {displayConditions && (
+        <section>
+          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+            Health conditions
+          </h2>
+          <p className="vads-u-margin-bottom--2">
+            Get a list of health conditions your VA providers are helping you
+            manage.
+          </p>
+          <Link
+            to="/conditions"
+            className="vads-c-action-link--blue"
+            data-testid="conditions-landing-page-link"
+          >
+            Go to your health conditions
+          </Link>
+        </section>
+      )}
       {displayVitals && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">

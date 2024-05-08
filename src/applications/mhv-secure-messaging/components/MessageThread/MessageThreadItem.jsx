@@ -57,6 +57,11 @@ const MessageThreadItem = props => {
           },
         );
         accordionItemRef.current.dispatchEvent(accordionItemToggledEvent);
+
+        // Checks if the screen less than full desktop size and prevents focus from shifting to bottom of the page whenever the accordion is opened
+        if (window.matchMedia('(max-width: 1024px)').matches) {
+          window.scrollTo(0, 0);
+        }
       }
     },
     [dispatch, isDraftThread, messageId, open, preloaded],

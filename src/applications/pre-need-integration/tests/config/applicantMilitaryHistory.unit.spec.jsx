@@ -9,7 +9,7 @@ describe('Pre-need applicant military history', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.militaryHistory.pages.applicantMilitaryHistory;
+  } = formConfig.chapters.militaryHistory.pages.applicantMilitaryHistorySelf;
 
   it('should render', () => {
     const form = mount(

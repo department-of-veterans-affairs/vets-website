@@ -17,7 +17,7 @@ describe('Header on mobile', () => {
   it('allows navigating from the Landing Page to unified sign-in page', () => {
     cy.axeCheck();
 
-    cy.get('[data-testid=mobile-logo-row-sign-in-link]')
+    cy.get('[data-testid=user-nav-mobile-sign-in-link]')
       .contains('Sign in')
       .click();
     cy.location('pathname').should('equal', '/sign-in/');
@@ -65,7 +65,7 @@ describe('Header on screens wider than mobile', () => {
   it('allows navigating from the Landing Page to unified sign-in page', () => {
     cy.axeCheck();
 
-    cy.get('[data-testid=wider-than-mobile-logo-row-sign-in-link]')
+    cy.get('[data-testid=user-nav-wider-than-mobile-sign-in-link]')
       .contains('Sign in')
       .click();
     cy.location('pathname').should('equal', '/sign-in/');

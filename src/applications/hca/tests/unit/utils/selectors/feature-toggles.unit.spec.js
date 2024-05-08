@@ -22,7 +22,6 @@ describe('hca FeatureToggles selector', () => {
         isESOverrideEnabled: false,
         isFacilitiesApiEnabled: false,
         isSigiEnabled: false,
-        isTeraEnabled: true,
       });
     });
   });

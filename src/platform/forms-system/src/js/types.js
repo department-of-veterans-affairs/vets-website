@@ -33,6 +33,7 @@
  * @property {string} [formId]
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
+ * @property {boolean} [hideNavButtons]
  * @property {boolean} [hideUnauthedStartLink]
  * @property {React.ReactNode | (props: any) => any} [introduction]
  * @property {Array<Function>} [migrations]
@@ -134,6 +135,8 @@
  * @property {Record<string, FormConfigPage>} [pages]
  * @property {string | ({ formData, formConfig }) => string} [title]
  * @property {boolean} [hideFormNavProgress]
+ * @property {boolean} [hideFormTitle]
+ * @property {boolean} [hideOnReviewPage]
  * @property {React.ReactNode} [reviewDescription]
  */
 
@@ -147,6 +150,7 @@
  * @property {((formData: Object) => boolean) | {}} [depends] optional condition when page should be shown or not
  * @property {Object} [initialData]
  * @property {boolean} [customPageUsesPagePerItemData] Used with `CustomPage` and arrays. If true, will treat `data` (`formData`) and `setFormData` at the array level instead of the entire `formData` level, which matches how default pages work.
+ * @property {boolean} [hideNavButtons] Used to hide the 'Continue' and 'Back' buttons
  * @property {(formData: any) => void} [onContinue] Called when user clicks continue button. For simple callbacks/events. If you instead want to navigate to a different page, use onNavForward.
  * @property {({ formData, goPath, goPreviousPath, pageList, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goPreviousPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
  * @property {({ formData, goPath, goNextPath, pageList, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goNextPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
@@ -356,4 +360,66 @@
  *  [key: string]: any
  * }} childrenProps
  * @property {any} DescriptionField
+ */
+
+/**
+ * @typedef {{
+ *   getItemName: (itemData: any) => string,
+ *   itemData: any,
+ *   nounPlural: string,
+ *   nounSingular: string,
+ * }} ArrayBuilderTextProps
+ */
+
+/**
+ * @typedef {{
+ *   alertItemUpdated?: (props: ArrayBuilderTextProps) => string,
+ *   alertItemRemoved?: (props: ArrayBuilderTextProps) => string,
+ *   alertMaxItems?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddNo?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddTitle?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditNo?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditTitle?: (props: ArrayBuilderTextProps) => string,
+ *   cancelYes?: (props: ArrayBuilderTextProps) => string,
+ *   cardDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cardItemMissingInformation?: (itemData: any) => string,
+ *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   getItemName?: (itemData: any) => string,
+ *   removeDescription?: (props: ArrayBuilderTextProps) => string,
+ *   removeNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
+ *   removeNo?: (props: ArrayBuilderTextProps) => string,
+ *   removeTitle?: (props: ArrayBuilderTextProps) => string,
+ *   removeYes?: (props: ArrayBuilderTextProps) => string,
+ *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
+ *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
+ * }} ArrayBuilderText
+ */
+
+/**
+ * @typedef {Object} ArrayBuilderOptions
+ * @property {string} arrayPath the formData key for the array e.g. `"employers"` for `formData.employers`
+ * @property {string} nounSingular Used for text in cancel, remove, and modals. Used with nounPlural
+ * ```
+ * // Example:
+ * nounSingular: "employer"
+ * nounPlural: "employers"
+ * ```
+ * @property {string} nounPlural Used for text in cancel, remove, and modals. Used with nounSingular
+ * ```
+ * // Example:
+ * nounSingular: "employer"
+ * nounPlural: "employers"
+ * ```
+ * @property {(item) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. You should include all of your required fields here. e.g. `item => !item?.name`
+ * @property {number} [maxItems] The maximum number of items allowed in the array. Omit to allow unlimited items.
+ * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
+ * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
+ * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  */
