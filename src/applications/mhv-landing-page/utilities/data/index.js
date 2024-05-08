@@ -119,7 +119,8 @@ const resolveLandingPageLinks = (
         text: 'Community care',
       },
       {
-        href: '/health-care/update-health-information/',
+        href:
+          '/my-health/update-benefits-information-form-10-10ezr/introduction',
         text: 'Update health benefits info (10-10EZR)',
       },
       {
@@ -171,18 +172,21 @@ const resolveLandingPageLinks = (
   const spotlightLinks = resolveLinks(
     [
       {
-        text: 'Try Messages on VA.gov',
-        href: mhvUrl(authdWithSSOe, 'ss20231205-try-messages-va'),
+        text: 'Make the Most of Your VA Appointment',
+        href: mhvUrl(authdWithSSOe, 'ss20240415-make-most-your-va-appointment'),
       },
       {
-        text: 'A Better Night’s Sleep',
-        href: mhvUrl(authdWithSSOe, 'ss20220516-tips-to-sleep-better'),
-      },
-      {
-        text: 'Take Charge with the DASH Diet',
+        text: 'VA Health Care Expands to Millions of Veterans',
         href: mhvUrl(
           authdWithSSOe,
-          'ss20210712-lower-blood-pressure-dash-diet',
+          'ss20240315-va-health-care-expands-millions',
+        ),
+      },
+      {
+        text: 'Hearing Aids Connect with Telehealth',
+        href: mhvUrl(
+          authdWithSSOe,
+          'ss20211015-fix-your-hearing-aid-over-video',
         ),
       },
     ],

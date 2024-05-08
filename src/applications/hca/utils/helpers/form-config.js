@@ -92,18 +92,6 @@ export function hasDifferentHomeAddress(formData) {
 }
 
 /**
- * Helper that determines if the form data contains values that enable the
- * toxic exposure questions in the Military Service chapter
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user is not short form eligible and the
- * TERA feature flag is set to true
- */
-export function teraInformationEnabled(formData) {
-  const { 'view:isTeraEnabled': isTeraEnabled } = formData;
-  return isTeraEnabled;
-}
-
-/**
  * Helper that determines if the form data contains values that indicate the
  * user wants to fill out information related to toxic exposure
  * @param {Object} formData - the current data object passed from the form
@@ -112,7 +100,7 @@ export function teraInformationEnabled(formData) {
  */
 export function includeTeraInformation(formData) {
   const { hasTeraResponse } = formData;
-  return teraInformationEnabled(formData) && hasTeraResponse;
+  return hasTeraResponse;
 }
 
 /**
@@ -124,7 +112,7 @@ export function includeTeraInformation(formData) {
  */
 export function includeGulfWarServiceDates(formData) {
   const { gulfWarService } = formData;
-  return gulfWarService;
+  return includeTeraInformation(formData) && gulfWarService;
 }
 
 /**
@@ -137,7 +125,7 @@ export function includeGulfWarServiceDates(formData) {
 export function includeOtherExposureDates(formData) {
   const { 'view:otherToxicExposures': otherToxicExposures = {} } = formData;
   const exposures = Object.values(otherToxicExposures);
-  return exposures.some(o => o);
+  return includeTeraInformation(formData) && exposures.some(o => o);
 }
 
 /**
@@ -148,7 +136,10 @@ export function includeOtherExposureDates(formData) {
  * that was not on the specified list
  */
 export function includeOtherExposureDetails(formData) {
-  return formData['view:otherToxicExposures']?.exposureToOther;
+  return (
+    includeTeraInformation(formData) &&
+    formData['view:otherToxicExposures']?.exposureToOther
+  );
 }
 
 /**

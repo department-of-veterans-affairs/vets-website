@@ -52,6 +52,12 @@ const SearchPage = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDisplayingResults, setIsDisplayingResults] = useState(false);
 
+  const isPostLogin = props.location?.search?.includes('postLogin=true');
+
+  const resultsArePresent =
+    (props.location?.search && props?.results?.length > 0) ||
+    isEmpty(props.location.query);
+
   const store = useStore();
 
   const updateUrlParams = params => {
@@ -89,39 +95,31 @@ const SearchPage = props => {
   const handleSearchViaUrl = () => {
     const { location } = props;
 
-    // Don't initialize search when results are in the store
-    if (location?.search && props?.results?.length > 0) {
+    if (resultsArePresent || isPostLogin) {
       return;
     }
 
-    // Don't initialize search when arriving from login modal redirect
-    if (location?.search?.includes('postLogin=true')) {
-      return;
-    }
+    setIsSearching(true);
 
-    if (!isEmpty(location.query)) {
-      setIsSearching(true);
-
-      props.updateSearchQuery({
-        id: Date.now(),
-        context: {
-          location: location.query.address,
-          repOrgName: location.query.name,
-        },
-        locationQueryString: location.query.address,
-        locationInputString: location.query.address,
-        position: {
-          latitude: location.query.lat,
-          longitude: location.query.long,
-        },
-        representativeQueryString: location.query.name,
-        representativeInputString: location.query.name,
-        representativeType: location.query.type,
-        page: location.query.page,
-        sortType: location.query.sort,
-        searchArea: location.query.distance,
-      });
-    }
+    props.updateSearchQuery({
+      id: Date.now(),
+      context: {
+        location: location.query.address,
+        repOrgName: location.query.name,
+      },
+      locationQueryString: location.query.address,
+      locationInputString: location.query.address,
+      position: {
+        latitude: location.query.lat,
+        longitude: location.query.long,
+      },
+      representativeQueryString: location.query.name,
+      representativeInputString: location.query.name,
+      representativeType: location.query.type,
+      page: location.query.page,
+      sortType: location.query.sort,
+      searchArea: location.query.distance,
+    });
   };
 
   const handleSearchOnQueryChange = () => {
@@ -313,7 +311,7 @@ const SearchPage = props => {
   useEffect(() => {
     handleSearchViaUrl();
     if (!environment.isProduction()) {
-      repStatusLoader(store, 'representative-status', 3, true);
+      repStatusLoader(store, 'representative-status', 3);
     }
   }, []);
 
@@ -358,7 +356,18 @@ const SearchPage = props => {
         </div>
 
         {!environment.isProduction() && (
-          <div data-widget-type="representative-status" />
+          <>
+            <h2>Check if you already have an accredited representative</h2>
+            <p>
+              We don’t automatically assign you an accredited representative,
+              but you may have appointed one in the past.
+            </p>
+            <p>
+              If you appoint a new accredited representative, they will replace
+              your current one.
+            </p>
+            <div data-widget-type="representative-status" />
+          </>
         )}
 
         <SearchControls

@@ -795,6 +795,20 @@ describe('526 All Claims validations', () => {
       expect(addError.called).to.be.false;
     });
 
+    it('should show an error for an activation date in the future', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const data = {
+        servicePeriods: [
+          { serviceBranch: 'Reserves', dateRange: { from: '2003-03-12' } },
+          { serviceBranch: 'Reserves', dateRange: { from: '2000-01-14' } },
+          { serviceBranch: 'Reserves', dateRange: { from: '2005-12-25' } },
+        ],
+      };
+      validateTitle10StartDate(errors, daysFromToday(1), _, _, _, _, data);
+      expect(addError.called).to.be.true;
+    });
+
     it('should show an error for an activation date before start date', () => {
       const addError = sinon.spy();
       const errors = { addError };

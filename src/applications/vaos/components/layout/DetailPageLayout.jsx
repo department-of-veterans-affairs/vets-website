@@ -6,6 +6,7 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import BackLink from '../BackLink';
+import AppointmentCard from '../AppointmentCard';
 import { getConfirmedAppointmentDetailsInfo } from '../../appointment-list/redux/selectors';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
 import { startAppointmentCancel } from '../../appointment-list/redux/actions';
@@ -58,13 +59,17 @@ function CancelButton({ appointment }) {
   const { status, vaos } = appointment;
   const { isCommunityCare } = vaos;
 
+  let event = `${GA_PREFIX}-cancel-booked-clicked`;
+  if (APPOINTMENT_STATUS.proposed === status)
+    event = `${GA_PREFIX}-cancel-request-clicked`;
+
   const button = (
     <VaButton
       text="Cancel appointment"
       secondary
       onClick={() => {
         recordEvent({
-          event: `${GA_PREFIX}-cancel-booked-clicked`,
+          event,
         });
         dispatch(startAppointmentCancel(appointment));
       }}
@@ -89,21 +94,23 @@ export default function DetailPageLayout({ children, header, instructions }) {
   return (
     <>
       <BackLink appointment={appointment} />
-      <h1>{header}</h1>
-      {!!instructions && <p>{instructions}</p>}
-      {children}
-      <div className="vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print">
-        <span className="vads-u-margin-right--2">
-          <VaButton
-            text="Print"
-            secondary
-            onClick={() => window.print()}
-            data-testid="print-button"
-            uswds
-          />
-        </span>
-        <CancelButton appointment={appointment} />
-      </div>
+      <AppointmentCard appointment={appointment}>
+        <h1>{header}</h1>
+        {!!instructions && <p>{instructions}</p>}
+        {children}
+        <div className="vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print">
+          <span className="vads-u-margin-right--2">
+            <VaButton
+              text="Print"
+              secondary
+              onClick={() => window.print()}
+              data-testid="print-button"
+              uswds
+            />
+          </span>
+          <CancelButton appointment={appointment} />
+        </div>
+      </AppointmentCard>
     </>
   );
 }

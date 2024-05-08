@@ -14,7 +14,7 @@ export default {
     nonVeteranMailingAddress: addressUI({
       labels: {
         militaryCheckbox:
-          'The Claimant lives on a United States military base outside of the U.S.',
+          'The claimant lives on a United States military base outside of the U.S.',
         street2: 'Apartment or unit number',
       },
       omit: ['street3'],
