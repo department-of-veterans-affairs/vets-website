@@ -3,7 +3,7 @@ import {
   radioSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import {
-  ESCAPE_HATCH,
+  EscapeHatch,
   STATEMENT_TYPES,
   STATEMENT_TYPE_LABELS,
 } from '../config/constants';
@@ -25,7 +25,7 @@ export const statementTypePage = {
       }),
     },
     'view:additionalInfoStatementType': {
-      'ui:description': ESCAPE_HATCH,
+      'ui:description': EscapeHatch,
     },
   },
   schema: {

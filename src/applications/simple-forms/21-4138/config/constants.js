@@ -66,15 +66,23 @@ const PrimaryActionLink = ({ href, children }) => (
   </div>
 );
 
-export const ESCAPE_HATCH = Object.freeze(
-  <div className="vads-u-margin-y--4">
-    If you’d like to use VA Form 21-4138 for your statement without selecting an
-    answer here, you can{' '}
-    <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
-      go to VA Form 21-4138 now.
-    </a>
-  </div>,
-);
+export const EscapeHatch = () => {
+  const handleLinkClick = _event => {
+    window.onbeforeunload = null;
+  };
+  return (
+    <div className="vads-u-margin-y--4">
+      If you’d like to use VA Form 21-4138 for your statement without selecting
+      an answer here, you can{' '}
+      <a
+        href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth"
+        onClick={handleLinkClick}
+      >
+        go to VA Form 21-4138 now.
+      </a>
+    </div>
+  );
+};
 
 export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
   <div>
@@ -109,7 +117,7 @@ export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
       exp-date="06/30/2024"
       class="vads-u-margin-y--4"
     />
-    {ESCAPE_HATCH}
+    {EscapeHatch}
   </div>,
 );
 
@@ -136,7 +144,7 @@ export const NOD_OLD_HANDOFF = Object.freeze(
         Learn more about supplemental claims (opens in new tab)
       </a>
     </div>
-    {ESCAPE_HATCH}
+    {EscapeHatch}
   </div>,
 );
 
@@ -163,7 +171,7 @@ export const NOD_SUPPLEMENTAL_HANDOFF = Object.freeze(
         Learn more about supplemental claims (opens in new tab)
       </a>
     </div>
-    {ESCAPE_HATCH}
+    {EscapeHatch}
   </div>,
 );
 
@@ -209,7 +217,7 @@ export const NOD_HLR_HANDOFF = Object.freeze(
         new tab)
       </a>
     </div>
-    {ESCAPE_HATCH}
+    {EscapeHatch}
   </div>,
 );
 
@@ -250,7 +258,7 @@ export const NOD_BA_HANDOFF = Object.freeze(
         Learn more about Board Appeals and how to request one (opens in new tab)
       </a>
     </div>
-    {ESCAPE_HATCH}
+    {EscapeHatch}
   </div>,
 );
 
@@ -546,7 +554,7 @@ export const RECORDS_REQUEST_HANDOFF = Object.freeze(
       exp-date="02/28/2026"
       class="vads-u-margin-y--4"
     />
-    {ESCAPE_HATCH}
+    {EscapeHatch}
   </div>,
 );
 
@@ -612,7 +620,7 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
     <a className="vads-u-font-weight--bold" href="/track-claims/your-claims">
       Check the status of your claim
     </a>
-    {ESCAPE_HATCH}
+    {EscapeHatch}
   </div>,
 );
 
@@ -658,6 +666,6 @@ export const VRE_REQUEST_HANDOFF = Object.freeze(
       exp-date="02/29/2024"
       class="vads-u-margin-y--4"
     />
-    {ESCAPE_HATCH}
+    {EscapeHatch}
   </div>,
 );
