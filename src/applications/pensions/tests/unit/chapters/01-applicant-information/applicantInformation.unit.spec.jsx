@@ -12,7 +12,9 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import getFixtureData from '../../../fixtures/vets-json-api/getFixtureData';
+import getFixtureData, {
+  FixtureDataType,
+} from '../../../fixtures/vets-json-api/getFixtureData';
 import getData from '../../../fixtures/mocks/mockStore';
 
 import formConfig from '../../../../config/form';
@@ -101,7 +103,7 @@ describe('pension applicant information page', () => {
     schema,
     uiSchema,
     'applicant information',
-    getFixtureData('overflow'),
+    getFixtureData(FixtureDataType.OVERFLOW),
     { loggedIn: false },
   );
 

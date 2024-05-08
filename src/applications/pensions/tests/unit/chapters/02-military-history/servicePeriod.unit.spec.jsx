@@ -73,7 +73,7 @@ describe('pensions service periods page', () => {
       <Provider store={mockStore(data)}>
         <DefinitionTester
           schema={schema}
-          data={getFixtureData('simple')}
+          data={getFixtureData()}
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
         />

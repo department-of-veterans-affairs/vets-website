@@ -17,7 +17,9 @@ import formConfig from '../../../../config/form';
 import netWorthEstimation, {
   hideIfUnder25000,
 } from '../../../../config/chapters/05-financial-information/netWorthEstimation';
-import getFixtureData from '../../../fixtures/vets-json-api/getFixtureData';
+import getFixtureData, {
+  FixtureDataType,
+} from '../../../fixtures/vets-json-api/getFixtureData';
 
 const { schema, uiSchema } = netWorthEstimation;
 
@@ -58,7 +60,7 @@ describe('Financial information net worth estimation pension page', () => {
       <FakeProvider>
         <DefinitionTester
           schema={schema}
-          data={getFixtureData('overflow')}
+          data={getFixtureData(FixtureDataType.OVERFLOW)}
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
         />

@@ -7,7 +7,9 @@ import configureStore from 'redux-mock-store';
 import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 
-import getFixtureData from '../../fixtures/vets-json-api/getFixtureData';
+import getFixtureData, {
+  FixtureDataType,
+} from '../../fixtures/vets-json-api/getFixtureData';
 import getData from '../../fixtures/mocks/mockStore';
 
 const expectedFieldTypes = 'input, select, textarea';
@@ -214,7 +216,7 @@ export const testSubmitsWithoutErrors = (
   schema,
   uiSchema,
   pageTitle,
-  data = getFixtureData('overflow'),
+  data = getFixtureData(FixtureDataType.OVERFLOW),
   stateData = {},
 ) => {
   describe(`${pageTitle} page`, () => {
