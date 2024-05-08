@@ -22,6 +22,7 @@ function IntroductionLoginV2({
   showMeb1990EZR6MaintenanceMessage,
 }) {
   const apiCallsComplete = isLOA3 === false || isClaimantCallComplete;
+
   const openLoginModal = () => {
     showHideLoginModal(true, 'cta-form');
   };
@@ -99,15 +100,13 @@ function IntroductionLoginV2({
                   your application, you won’t be able to save the information
                   you’ve already filled in.
                 </p>
-                <button
+                <va-button
                   className="usa-button-primary"
                   onClick={openLoginModal}
-                  // aria-label={ariaLabel}
-                  // aria-describedby={ariaDescribedby}
                   type="button"
                 >
                   {UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-                </button>
+                </va-button>
               </div>
             </va-alert>
             <p className="vads-u-margin-top--4">
@@ -181,7 +180,6 @@ IntroductionLoginV2.propTypes = {
   isPersonalInfoFetchFailed: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
-  showMeb1990EZR6MaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
   user: PropTypes.object,
 };

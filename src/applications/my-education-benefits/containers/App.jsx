@@ -20,11 +20,11 @@ import { getAppData } from '../selectors/selectors';
 import { duplicateArrays } from '../utils/validation';
 
 export const App = ({
+  benefitEffectiveDate,
   children,
   claimantInfo,
   eligibility,
   exclusionPeriods,
-  duplicateContactFetchComplete,
   featureTogglesLoaded,
   firstName,
   formData,
@@ -45,7 +45,6 @@ export const App = ({
   email,
   duplicateEmail,
   duplicatePhone,
-  benefitEffectiveDate,
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -214,7 +213,7 @@ export const App = ({
         formData?.email?.email &&
         !formData?.duplicateEmail &&
         !formData?.duplicatePhone &&
-        duplicateContactFetchComplete
+        formData?.showMebEnhancements08
       ) {
         getDuplicateContactInfo(
           [{ value: formData?.email?.email, dupe: '' }],
@@ -273,7 +272,6 @@ export const App = ({
     },
     [
       formData,
-      duplicateContactFetchComplete,
       isLOA3,
       setFormData,
       showDgiDirectDeposit1990EZ,
@@ -359,10 +357,8 @@ export const App = ({
 };
 
 App.propTypes = {
-  benefitEffectiveDate: PropTypes.string,
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
-  duplicateContactFetchComplete: PropTypes.bool,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
   eligibility: PropTypes.arrayOf(PropTypes.string),

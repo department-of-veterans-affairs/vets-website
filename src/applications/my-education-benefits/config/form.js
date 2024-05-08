@@ -669,9 +669,9 @@ const formConfig = {
                 country: {
                   'ui:title': 'Country',
                   'ui:required': formData =>
-                    !formData['view:mailingAddress'].livesOnMilitaryBase,
+                    !formData['view:mailingAddress']?.livesOnMilitaryBase,
                   'ui:disabled': formData =>
-                    formData['view:mailingAddress'].livesOnMilitaryBase,
+                    formData['view:mailingAddress']?.livesOnMilitaryBase,
                   'ui:options': {
                     updateSchema: (formData, schema, uiSchema) => {
                       const countryUI = uiSchema;
@@ -1368,7 +1368,11 @@ const formConfig = {
             'view:activeDutyNotice': {
               'ui:description': (
                 <div className="meb-alert meb-alert--mini meb-alert--warning">
-                  <i aria-hidden="true" role="img" />
+                  <va-icon
+                    size={4}
+                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+                    aria-hidden="true"
+                  />
                   <p className="meb-alert_body">
                     <span className="sr-only">Alert:</span> If you give up the
                     Montgomery GI Bill Active Duty, you’ll get Post-9/11 GI Bill
