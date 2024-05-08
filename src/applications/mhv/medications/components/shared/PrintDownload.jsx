@@ -125,12 +125,7 @@ const PrintDownload = props => {
           aria-expanded={menuOpen}
         >
           <span>Print or download</span>
-          <va-icon
-            className={menuIconClasses}
-            size={4}
-            icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-            aria-hidden="true"
-          />
+          <i className={menuIconClasses} aria-hidden="true" />
         </button>
         <ul className={menuOptionsClasses} data-testid="print-download-list">
           <li>

@@ -218,11 +218,10 @@ const SearchControls = props => {
                   className="finding-your-location-loading"
                   style={{ order: 2 }}
                 >
-                  <va-icon
-                    size={4}
-                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                    className="use-my-location-icon"
+                  <i
+                    className="fa fa-spinner fa-spin use-my-location-icon"
                     aria-hidden="true"
+                    role="presentation"
                   />
                   <span aria-live="assertive"> Finding your location...</span>
                 </div>
