@@ -4,6 +4,7 @@ import { waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import sinon from 'sinon';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducer from '../../redux/reducer';
 
 import App from '../../containers/TravelPayStatusApp';
@@ -38,6 +39,10 @@ describe('App', () => {
     global.window.location = {
       replace: sinon.spy(),
     };
+    const mockTravelClaims = {
+      data: [{ id: 'abc' }],
+    };
+    mockApiRequest(mockTravelClaims);
   });
 
   afterEach(() => {
