@@ -299,9 +299,7 @@ const SearchPage = props => {
   // jump to results
   useEffect(
     () => {
-      if (isPostLogin) {
-        focusElement('.representative-status-widget');
-      } else if (isDisplayingResults) {
+      if (isDisplayingResults) {
         window.scrollTo(0, 600);
         focusElement('#search-results-subheader');
       }
@@ -368,10 +366,7 @@ const SearchPage = props => {
               If you appoint a new accredited representative, they will replace
               your current one.
             </p>
-            <div
-              className="representative-status-widget"
-              data-widget-type="representative-status"
-            />
+            <div data-widget-type="representative-status" />
           </>
         )}
 
