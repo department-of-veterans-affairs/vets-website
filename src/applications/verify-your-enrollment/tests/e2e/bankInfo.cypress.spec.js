@@ -1,5 +1,5 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
-import { mockUser } from './login';
+import { mockUser, mockUserWithOutIDME } from './login';
 
 describe('Direct deposit information', () => {
   /**
@@ -7,6 +7,7 @@ describe('Direct deposit information', () => {
    * @param {object} win
    */
   beforeEach(() => {
+    cy.login(mockUser);
     cy.intercept('GET', '/vye/v1/*', { statusCode: 200 });
     cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
@@ -101,7 +102,6 @@ describe('Direct deposit information', () => {
   });
   it('Should submit without any errors if all required fields all not empty', () => {
     cy.injectAxeThenAxeCheck();
-    cy.login() || cy.login(mockUser);
     cy.intercept('POST', `/vye/v1/bank_info`, {
       statusCode: 200,
       ok: true,
@@ -136,7 +136,6 @@ describe('Direct deposit information', () => {
   });
   it('should show warning alert if user hits cancel after editing form', () => {
     cy.injectAxeThenAxeCheck();
-    cy.login();
     fillForm();
     cy.get('va-button[secondary]').click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
@@ -146,7 +145,6 @@ describe('Direct deposit information', () => {
   });
   it('should show warning alert if user hits cancel after editing form and it should go back to thr form when user clicks "No, go back to editing" button', () => {
     cy.injectAxeThenAxeCheck();
-    cy.login();
     fillForm();
     cy.get('va-button[secondary]').click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
@@ -163,7 +161,6 @@ describe('Direct deposit information', () => {
   });
   it('should show warning alert if user hits cancel after editing form and it should close alert and form when user clicks Yes, cancel my changes', () => {
     cy.injectAxeThenAxeCheck();
-    cy.login();
     fillForm();
     cy.get('va-button[secondary]').click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
@@ -173,5 +170,16 @@ describe('Direct deposit information', () => {
     cy.get('va-button[uswds]')
       .first()
       .click();
+  });
+  it('should not show Direct Dopist form if user loggedin without using ID.me', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.login(mockUserWithOutIDME);
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
+      timeout: Timeouts.slow,
+    }).click();
+    cy.get('[data-testid="direct-deposit-mfa-message"]').should(
+      'contain',
+      'Before we give you access to change your direct deposit information, we need to make sure you’re you—and not someone pretending to be you. This helps us protect your bank account and prevent fraud.',
+    );
   });
 });
