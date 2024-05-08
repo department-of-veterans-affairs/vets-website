@@ -33,5 +33,5 @@ module.exports = [
   { name: 'edu_section_103', value: true },
   { name: 'vaViewDependentsAccess', value: false },
   { name: 'gibctEybBottomSheet', value: true },
-  { name: 'mhvSecondaryNavigationEnabled', value: true },
+  { name: 'mhv_secondary_navigation_enabled', value: true },
 ];
