@@ -22,7 +22,7 @@ export const STATEMENT_TYPES = Object.freeze({
 
 export const STATEMENT_TYPE_LABELS = Object.freeze({
   [STATEMENT_TYPES.BUDDY_STATEMENT]:
-    'I want to sumbit a formal statement to support my claim or someone else\'s claim. This is also known as a "buddy statement."',
+    'I want to submit a formal statement to support my claim or someone else’s claim. This is also known as a “buddy statement.”',
   [STATEMENT_TYPES.DECISION_REVIEW]:
     'I want to request a decision review for my claim.',
   [STATEMENT_TYPES.PRIORITY_PROCESSING]:
@@ -51,10 +51,30 @@ export const DECISION_REVIEW_TYPE_LABELS = Object.freeze({
 
 export const DECISION_REVIEW_TYPE_DESCRIPTIONS = Object.freeze({
   [DECISION_REVIEW_TYPES.ERROR_MADE]:
-    "Don't select this option if you have new evidence to submit",
+    "Don't select this option if you have new evidence to submit.",
   [DECISION_REVIEW_TYPES.BVA_REQUEST]:
     'You can also submit new evidence with certain types of Board Appeals.',
 });
+
+const PrimaryActionLink = ({ href, children }) => (
+  <div className="arrow" style={{ maxWidth: '75%' }}>
+    <div className="vads-u-background-color--primary vads-u-padding--1">
+      <a className="vads-c-action-link--white" href={href}>
+        {children}
+      </a>
+    </div>
+  </div>
+);
+
+export const ESCAPE_HATCH = Object.freeze(
+  <div className="vads-u-margin-y--4">
+    If you’d like to use VA Form 21-4138 for your statement without selecting an
+    answer here, you can{' '}
+    <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
+      go to VA Form 21-4138 now.
+    </a>
+  </div>,
+);
 
 export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
   <div>
@@ -80,29 +100,16 @@ export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
         statement, use a new form for each statement.
       </li>
     </ul>
-    <div style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1">
-        <a
-          className="vads-c-action-link--white"
-          href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction"
-        >
-          Start your statement
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction">
+      Start your statement
+    </PrimaryActionLink>
     <va-omb-info
       res-burden={10}
       omb-number="2900-0881"
       exp-date="06/30/2024"
       class="vads-u-margin-y--4"
     />
-    <div className="vads-u-margin-y--4">
-      If you’d like to use VA Form 21-4138 for your statement without selecting
-      an answer here, you can{' '}
-      <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
-        go to VA Form 21-4138 now.
-      </a>
-    </div>
+    {ESCAPE_HATCH}
   </div>,
 );
 
@@ -117,16 +124,9 @@ export const NOD_OLD_HANDOFF = Object.freeze(
       records) to support your claim.
     </p>
     <p>A reviewer will decide if this new evidence changes the decision.</p>
-    <div style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1">
-        <a
-          className="vads-c-action-link--white"
-          href="/decision-reviews/supplemental-claim/file-supplemental-claim-form-20-0995/start"
-        >
-          File a Supplemental Claim online
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/decision-reviews/supplemental-claim/file-supplemental-claim-form-20-0995/start">
+      File a Supplemental Claim online
+    </PrimaryActionLink>
     <div className="vads-u-margin-y--4">
       <a
         href="/decision-reviews/supplemental-claim/"
@@ -136,13 +136,7 @@ export const NOD_OLD_HANDOFF = Object.freeze(
         Learn more about supplemental claims (opens in new tab)
       </a>
     </div>
-    <div className="vads-u-margin-y--4">
-      If you’d like to use VA Form 21-4138 for your statement without selecting
-      an answer here, you can{' '}
-      <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
-        go to VA Form 21-4138 now.
-      </a>
-    </div>
+    {ESCAPE_HATCH}
   </div>,
 );
 
@@ -157,16 +151,9 @@ export const NOD_SUPPLEMENTAL_HANDOFF = Object.freeze(
       records) to support your claim.
     </p>
     <p>A reviewer will decide if this new evidence changes the decision.</p>
-    <div style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1">
-        <a
-          className="vads-c-action-link--white"
-          href="/decision-reviews/supplemental-claim/file-supplemental-claim-form-20-0995/start"
-        >
-          File a Supplemental Claim online
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/decision-reviews/supplemental-claim/file-supplemental-claim-form-20-0995/start">
+      File a Supplemental Claim online
+    </PrimaryActionLink>
     <div className="vads-u-margin-y--4">
       <a
         href="/decision-reviews/supplemental-claim/"
@@ -176,13 +163,7 @@ export const NOD_SUPPLEMENTAL_HANDOFF = Object.freeze(
         Learn more about supplemental claims (opens in new tab)
       </a>
     </div>
-    <div className="vads-u-margin-y--4">
-      If you’d like to use VA Form 21-4138 for your statement without selecting
-      an answer here, you can{' '}
-      <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
-        go to VA Form 21-4138 now.
-      </a>
-    </div>
+    {ESCAPE_HATCH}
   </div>,
 );
 
@@ -202,16 +183,9 @@ export const NOD_HLR_HANDOFF = Object.freeze(
       For disability compensation claims, you can request a Higher-Level Review
       online.
     </p>
-    <div style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1">
-        <a
-          className="vads-c-action-link--white"
-          href="/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996/"
-        >
-          Request a High-Level Review online
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996/">
+      Request a High-Level Review online
+    </PrimaryActionLink>
     <p>
       <strong>Note:</strong> At this time, you can use our online Higher-Level
       Review form for only disability compensation claims. For other types of
@@ -235,13 +209,7 @@ export const NOD_HLR_HANDOFF = Object.freeze(
         new tab)
       </a>
     </div>
-    <div className="vads-u-margin-y--4">
-      If you’d like to use VA Form 21-4138 for your statement without selecting
-      an answer here, you can{' '}
-      <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
-        go to VA Form 21-4138 now.
-      </a>
-    </div>
+    {ESCAPE_HATCH}
   </div>,
 );
 
@@ -270,16 +238,9 @@ export const NOD_BA_HANDOFF = Object.freeze(
         Law Judge (with or without new evidence)
       </li>
     </ul>
-    <div style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1 vads-u-margin-top--4">
-        <a
-          className="vads-c-action-link--white"
-          href="/decision-reviews/board-appeal/request-board-appeal-form-10182/introduction"
-        >
-          Request a Board Appeal online
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/decision-reviews/board-appeal/request-board-appeal-form-10182/introduction">
+      Request a Board Appeal online
+    </PrimaryActionLink>
     <div className="vads-u-margin-y--4">
       <a
         href="/decision-reviews/board-appeal/"
@@ -289,13 +250,7 @@ export const NOD_BA_HANDOFF = Object.freeze(
         Learn more about Board Appeals and how to request one (opens in new tab)
       </a>
     </div>
-    <div className="vads-u-margin-y--4">
-      If you’d like to use VA Form 21-4138 for your statement without selecting
-      an answer here, you can{' '}
-      <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
-        go to VA Form 21-4138 now.
-      </a>
-    </div>
+    {ESCAPE_HATCH}
   </div>,
 );
 
@@ -397,16 +352,9 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
         application in progress and come back later to finish filling it out.
       </va-alert>
     </div>
-    <div style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1">
-        <a
-          className="vads-c-action-link--white"
-          href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction"
-        >
-          Start your request
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction">
+      Start your request
+    </PrimaryActionLink>
     <h2 className="vads-u-font-size--h3">Types of evidence to submit</h2>
     <p>You can submit any of these types of evidence.</p>
     <p>
@@ -589,29 +537,16 @@ export const RECORDS_REQUEST_HANDOFF = Object.freeze(
         application in progress and come back later to finish filling it out.
       </va-alert>
     </div>
-    <div style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1">
-        <a
-          className="vads-c-action-link--white"
-          href="/records/request-personal-records-form-20-10206/introduction"
-        >
-          Start your request
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/records/request-personal-records-form-20-10206/introduction">
+      Start your request
+    </PrimaryActionLink>
     <va-omb-info
       res-burden={5}
       omb-number="2900-0736"
       exp-date="02/28/2026"
       class="vads-u-margin-y--4"
     />
-    <div className="vads-u-margin-y--4">
-      If you’d like to use VA Form 21-4138 for your statement without selecting
-      an answer here, you can{' '}
-      <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
-        go to VA Form 21-4138 now.
-      </a>
-    </div>
+    {ESCAPE_HATCH}
   </div>,
 );
 
@@ -621,16 +556,9 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
       If you have an open claim, you can add evidence to support it. Evidence
       may include documents like court papers or service treatment records.
     </p>
-    <div style={{ maxWidth: '75%' }}>
-      <div className="vads-u-background-color--primary vads-u-padding--1">
-        <a
-          className="vads-c-action-link--white"
-          href="/track-claims/your-claims"
-        >
-          Upload evidence using our claim status tool
-        </a>
-      </div>
-    </div>
+    <PrimaryActionLink href="/track-claims/your-claims">
+      Upload evidence using our claim status tool
+    </PrimaryActionLink>
     <p>
       If you prefer to mail copies of your documents, we recommend filling out
       and including VA Form 20-10208 (Document Evidence Submission) along with
@@ -684,13 +612,7 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
     <a className="vads-u-font-weight--bold" href="/track-claims/your-claims">
       Check the status of your claim
     </a>
-    <div className="vads-u-margin-y--4">
-      If you’d like to use VA Form 21-4138 for your statement without selecting
-      an answer here, you can{' '}
-      <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
-        go to VA Form 21-4138 now.
-      </a>
-    </div>
+    {ESCAPE_HATCH}
   </div>,
 );
 
@@ -736,12 +658,6 @@ export const VRE_REQUEST_HANDOFF = Object.freeze(
       exp-date="02/29/2024"
       class="vads-u-margin-y--4"
     />
-    <div className="vads-u-margin-y--4">
-      If you’d like to use VA Form 21-4138 for your statement without selecting
-      an answer here, you can{' '}
-      <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
-        go to VA Form 21-4138 now.
-      </a>
-    </div>
+    {ESCAPE_HATCH}
   </div>,
 );

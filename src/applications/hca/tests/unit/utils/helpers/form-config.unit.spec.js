@@ -10,7 +10,6 @@ import {
   isMissingVeteranDob,
   isSigiEnabled,
   hasDifferentHomeAddress,
-  teraInformationEnabled,
   includeTeraInformation,
   includeGulfWarServiceDates,
   includeOtherExposureDates,
@@ -182,26 +181,9 @@ describe('hca form config helpers', () => {
     });
   });
 
-  context('when `teraInformationEnabled` executes', () => {
-    const getData = ({ enabled = false }) => ({
-      'view:isTeraEnabled': enabled,
-    });
-
-    it('should return `false` when feature flag is disabled', () => {
-      const formData = getData({});
-      expect(teraInformationEnabled(formData)).to.be.false;
-    });
-
-    it('should return `true` when feature flag is enabled', () => {
-      const formData = getData({ enabled: true });
-      expect(teraInformationEnabled(formData)).to.be.true;
-    });
-  });
-
   context('when `includeTeraInformation` executes', () => {
-    const getData = ({ response = null, enabled = true }) => ({
+    const getData = ({ response = null }) => ({
       'view:totalDisabilityRating': 0,
-      'view:isTeraEnabled': enabled,
       hasTeraResponse: response,
     });
 
@@ -214,16 +196,10 @@ describe('hca form config helpers', () => {
       const formData = getData({ response: false });
       expect(includeTeraInformation(formData)).to.be.false;
     });
-
-    it('should return `false` when feature flag is disabled', () => {
-      const formData = getData({ enabled: false });
-      expect(includeTeraInformation(formData)).to.be.false;
-    });
   });
 
   context('when `includeGulfWarServiceDates` executes', () => {
     const getData = ({ response = null, included = true }) => ({
-      'view:isTeraEnabled': true,
       hasTeraResponse: included,
       gulfWarService: response,
     });
@@ -246,7 +222,6 @@ describe('hca form config helpers', () => {
 
   context('when `includeOtherExposureDates` executes', () => {
     const getData = ({ exposures = {}, included = true }) => ({
-      'view:isTeraEnabled': true,
       hasTeraResponse: included,
       'view:otherToxicExposures': exposures,
     });
@@ -257,7 +232,7 @@ describe('hca form config helpers', () => {
     });
 
     it('should return `false` when form data does not include the data object', () => {
-      const formData = { 'view:isTeraEnabled': true, hasTeraResponse: true };
+      const formData = { hasTeraResponse: true };
       expect(includeOtherExposureDates(formData)).to.be.false;
     });
 
@@ -279,7 +254,6 @@ describe('hca form config helpers', () => {
 
   context('when `includeOtherExposureDetails` executes', () => {
     const getData = ({ exposures = {}, included = true }) => ({
-      'view:isTeraEnabled': true,
       hasTeraResponse: included,
       'view:otherToxicExposures': exposures,
     });

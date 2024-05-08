@@ -35,6 +35,7 @@ import {
   SESSION_SELECTED_SORT_OPTION,
   defaultSelectedSortOption,
   medicationsUrls,
+  DD_ACTIONS_PAGE_TYPE,
 } from '../util/constants';
 import PrintDownload, {
   DOWNLOAD_FORMAT,
@@ -431,7 +432,7 @@ const Prescriptions = () => {
       (format === PRINT_FORMAT.PRINT_FULL_LIST && !prescriptionsFullList.length)
     ) {
       if (!prescriptionsFullList.length) setIsRetrievingFullList(true);
-      updateLoadingStatus(true, 'Downloading your file...');
+      updateLoadingStatus(true, 'Loading...');
     }
     setPdfTxtGenerateStatus({
       status: PDF_TXT_GENERATE_STATUS.InProgress,
@@ -548,7 +549,7 @@ const Prescriptions = () => {
                   }
                   list
                 />
-                <BeforeYouDownloadDropdown />
+                <BeforeYouDownloadDropdown page={DD_ACTIONS_PAGE_TYPE.LIST} />
                 <MedicationsListSort
                   value={selectedSortOption}
                   sortRxList={sortRxList}

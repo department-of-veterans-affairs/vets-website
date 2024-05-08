@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import FeedbackEmail from './FeedbackEmail';
+import { DD_ACTIONS_PAGE_TYPE } from '../../util/constants';
 
 export const DOWNLOAD_FORMAT = {
   PDF: 'PDF',
@@ -114,6 +115,9 @@ const PrintDownload = props => {
         onFocus={handleFocus}
       >
         <button
+          data-dd-action-name={`Print Or Download Button - ${
+            list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
+          }`}
           type="button"
           className={`vads-u-padding-x--2 ${toggleMenuButtonClasses}`}
           onClick={() => setMenuOpen(!menuOpen)}
@@ -121,11 +125,21 @@ const PrintDownload = props => {
           aria-expanded={menuOpen}
         >
           <span>Print or download</span>
-          <i className={menuIconClasses} aria-hidden="true" />
+          <va-icon
+            className={menuIconClasses}
+            size={4}
+            icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
+            aria-hidden="true"
+          />
         </button>
         <ul className={menuOptionsClasses} data-testid="print-download-list">
           <li>
             <button
+              data-dd-action-name={`Print This ${
+                list ? 'Page Of The List' : 'Page'
+              } Option - ${
+                list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
+              }`}
               className="vads-u-padding-x--2"
               id="printButton-0"
               type="button"
@@ -138,6 +152,9 @@ const PrintDownload = props => {
           {list && (
             <li>
               <button
+                data-dd-action-name={`Print All Medications Option - ${
+                  DD_ACTIONS_PAGE_TYPE.LIST
+                }`}
                 className="vads-u-padding-x--2"
                 id="printButton-1"
                 type="button"
@@ -150,6 +167,11 @@ const PrintDownload = props => {
           )}
           <li>
             <button
+              data-dd-action-name={`Download A PDF Of This ${
+                list ? 'List' : 'Page'
+              } Option - ${
+                list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
+              }`}
               className="vads-u-padding-x--2"
               id="printButton-2"
               type="button"
@@ -162,6 +184,11 @@ const PrintDownload = props => {
           <li>
             <button
               type="button"
+              data-dd-action-name={`Download A Text File Of This ${
+                list ? 'List' : 'Page'
+              } Option - ${
+                list ? DD_ACTIONS_PAGE_TYPE.LIST : DD_ACTIONS_PAGE_TYPE.DETAILS
+              }`}
               className="vads-u-padding-x--2"
               id="printButton-3"
               data-testid="download-txt-button"
