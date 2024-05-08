@@ -9,9 +9,9 @@ export default function useChosenBot(
     () => {
       setIsLoading(false);
       if (virtualAgentShowFloatingChatbot) {
-        setChosenBot('sticky');
-      } else {
         setChosenBot('default');
+      } else {
+        setChosenBot('sticky');
       }
     },
     [virtualAgentShowFloatingChatbot],

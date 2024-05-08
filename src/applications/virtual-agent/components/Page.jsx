@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import StickyBot from './StickyBot';
 import FloatingBot from './FloatingBot';
+import StickyBot from './StickyBot';
 import useChosenBot from '../hooks/useChosenBot';
 
-export const renderPageContent = (chosenBot, isLoading) => {
+export const renderPageContent = (isLoading, chosenBot) => {
   if (isLoading) {
     return <va-loading-indicator />;
   }
