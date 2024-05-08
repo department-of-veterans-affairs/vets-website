@@ -2,7 +2,7 @@ import React from 'react';
 
 const ApiErrorNotification = () => {
   return (
-    <va-alert status="error" setFocus aria-live="polite" uswds>
+    <va-alert status="error" setFocus aria-live="polite" role="alert" uswds>
       <h2
         className="vads-u-margin--0 vads-u-font-size--h3"
         data-testid="no-medications-list"
