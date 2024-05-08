@@ -341,6 +341,7 @@ const createUpcomingAppointments = (token, number = 3) => {
       id: `123456`,
       friendlyName: `HEART CLINIC-E`,
       start: dateFns.addMonths(new Date('2023-09-26T14:00:00'), 2),
+      status: 'CANCELLED BY CLINIC',
     }),
   );
 
