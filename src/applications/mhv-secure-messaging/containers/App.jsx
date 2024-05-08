@@ -14,9 +14,9 @@ import {
 import {
   renderMHVDowntime,
   useDatadogRum,
+  MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
-import MhvSecondaryNav from 'platform/mhv/secondary-nav/containers/MhvSecondaryNav';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import Navigation from '../components/Navigation';
