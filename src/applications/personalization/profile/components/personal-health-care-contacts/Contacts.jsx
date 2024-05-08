@@ -54,12 +54,12 @@ const Contacts = ({ data }) => {
             <li>Ask a staff member at your next appointment, or</li>
             <li>
               Call your VA health facility.{' '}
-              <href
+              <a
                 data-testid="find-locations-additional-info-link"
                 to="https://www.va.gov/find-locations/"
               >
                 Find your health facility’s phone number
-              </href>
+              </a>
             </li>
           </ul>
         </va-additional-info>
