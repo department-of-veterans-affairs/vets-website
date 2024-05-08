@@ -3,6 +3,7 @@ const dateFns = require('date-fns');
 const { utcToZonedTime, zonedTimeToUtc, format } = require('date-fns-tz');
 const {
   singleAppointment,
+  singleUpcomingAppointment,
 } = require('../../../../../tests/unit/mocks/mock-appointments');
 
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
@@ -96,6 +97,41 @@ const getAppointmentStartTime = (
   }
 
   return startTime;
+};
+
+const createUpcomingAppointment = ({
+  id = singleUpcomingAppointment[0].id,
+  status = singleUpcomingAppointment[0].attributes.status,
+  serviceType = singleUpcomingAppointment[0].attributes.serviceType,
+  locationId = singleUpcomingAppointment[0].attributes.locationId,
+  clinic = singleUpcomingAppointment[0].attributes.clinic,
+  kind = singleUpcomingAppointment[0].attributes.kind,
+  start = singleUpcomingAppointment[0].attributes.start,
+  end = singleUpcomingAppointment[0].attributes.end,
+  minutesDuration = singleUpcomingAppointment[0].attributes.minutesDuration,
+  serviceName = singleUpcomingAppointment[0].attributes.serviceName,
+  physicalLocation = singleUpcomingAppointment[0].attributes.physicalLocation,
+  friendlyName = singleUpcomingAppointment[0].attributes.friendlyName,
+  location = singleUpcomingAppointment[0].attributes.location,
+}) => {
+  return {
+    id,
+    type: 'appointments',
+    attributes: {
+      status,
+      serviceType,
+      locationId,
+      clinic,
+      kind,
+      start,
+      end,
+      minutesDuration,
+      serviceName,
+      physicalLocation,
+      friendlyName,
+      location,
+    },
+  };
 };
 
 const createAppointment = ({
@@ -284,48 +320,32 @@ const createAppointments = (
 };
 
 const createUpcomingAppointments = (token, number = 3) => {
-  const timezone =
-    token === pacificTimezoneUUID ? 'America/Los_Angeles' : 'browser';
   const appointments = [
-    createAppointment({
-      eligibility: 'INELIGIBLE_TOO_LATE',
-      facilityId: 'ABC_123',
-      clinicIen: '0001',
-      appointmentIen: '0020',
-      clinicFriendlyName: `HEART CLINIC-1`,
-      startTime: dateFns.addDays(new Date('2023-09-26T14:00:00'), 1),
+    createUpcomingAppointment({
+      id: '123123',
+      friendlyName: `HEART CLINIC-1`,
+      start: dateFns.addDays(new Date('2023-09-26T14:00:00'), 1),
     }),
   ];
   for (let i = 0; i < number; i += 1) {
     appointments.push(
-      createAppointment({
-        eligibility: 'ELIGIBLE',
-        facilityId: 'ABC_123',
-        clinicIen: '0001',
-        appointmentIen: `000${i + 1}`,
-        clinicFriendlyName: `HEART CLINIC-${i}`,
-        uuid: token,
-        timezone,
-        startTime: dateFns.addHours(new Date('2023-09-26T14:00:00'), i),
+      createUpcomingAppointment({
+        id: `12300${i + 1}`,
+        friendlyName: `HEART CLINIC-${i}`,
+        start: dateFns.addHours(new Date('2023-09-26T14:00:00'), i),
       }),
     );
   }
   appointments.push(
-    createAppointment({
-      eligibility: 'INELIGIBLE_TOO_EARLY',
-      facilityId: 'ABC_123',
-      clinicIen: '0001',
-      appointmentIen: `0030`,
-      clinicFriendlyName: `HEART CLINIC-E`,
-      startTime: dateFns.addMonths(new Date('2023-09-26T14:00:00'), 2),
+    createUpcomingAppointment({
+      id: `123456`,
+      friendlyName: `HEART CLINIC-E`,
+      start: dateFns.addMonths(new Date('2023-09-26T14:00:00'), 2),
     }),
   );
 
   return {
-    id: token,
-    payload: {
-      appointments,
-    },
+    data: appointments,
   };
 };
 
@@ -416,6 +436,7 @@ module.exports = {
   createAppointments,
   createAppointmentsOH,
   createAppointment,
+  createUpcomingAppointment,
   createUpcomingAppointments,
   createMockFailedResponse,
   createMockNotFoundResponse,
