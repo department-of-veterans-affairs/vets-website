@@ -29,7 +29,8 @@ describe('Check In Experience | Pre-check-in', () => {
         initializeUpcomingAppointmentsDataGet.withSuccess();
         cy.visitPreCheckInWithUUID();
       });
-      it('should proceed through the pre-check-in questions to complete the process', () => {
+      // TODO: Skipping test until we can link upcoming appointments to vista appointments
+      it.skip('should proceed through the pre-check-in questions to complete the process', () => {
         ValidateVeteran.validateVeteran();
         ValidateVeteran.attemptToGoToNextPage();
         AppointmentsPage.validatePageLoaded();

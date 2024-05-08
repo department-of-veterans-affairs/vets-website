@@ -31,7 +31,7 @@ const useGetUpcomingAppointmentsData = ({ refreshNeeded }) => {
         api.v2
           .getUpcomingAppointmentsData(token)
           .then(json => {
-            const { appointments } = json.payload;
+            const appointments = json.data;
             dispatch(recievedUpcomingAppointments(appointments));
           })
           .catch(() => {

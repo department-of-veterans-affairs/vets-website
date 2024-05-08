@@ -122,7 +122,7 @@ describe('unified check-in experience', () => {
       sandbox.assert.notCalled(v2.getUpcomingAppointmentsData);
       sandbox.restore();
     });
-    it('well fetch data again if refresh set to true', () => {
+    it('should fetch data again if refresh set to true', () => {
       const sandbox = sinon.createSandbox();
       const { v2 } = api;
       sandbox.stub(v2, 'getUpcomingAppointmentsData').resolves({});
@@ -132,7 +132,7 @@ describe('unified check-in experience', () => {
         </CheckInProvider>,
       );
       expect(screen.getByTestId('upcoming-appointments-header')).to.have.text(
-        'Upcoming Appointments',
+        'Upcoming appointments',
       );
       sandbox.assert.calledOnce(v2.getUpcomingAppointmentsData);
       sandbox.restore();
