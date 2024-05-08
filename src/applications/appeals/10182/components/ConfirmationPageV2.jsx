@@ -22,7 +22,7 @@ export const ConfirmationPageV2 = () => {
   const alertRef = useRef(null);
 
   const form = useSelector(state => state.form || {});
-  const profile = useSelector(state => selectProfile(state) || {});
+  const profile = useSelector(state => selectProfile(state));
 
   useEffect(
     () => {
@@ -35,7 +35,7 @@ export const ConfirmationPageV2 = () => {
     [alertRef],
   );
 
-  const { submission, data } = form;
+  const { submission, data = {} } = form;
   const submitDate = getReadableDate(
     submission?.timestamp || new Date().toISOString(),
   );
@@ -130,7 +130,7 @@ export const ConfirmationPageV2 = () => {
 
       <ConfirmationIssues data={data} />
 
-      <h3 className="vads-u-margin-top--2">Board Review Options</h3>
+      <h3 className="vads-u-margin-top--2">Board review options</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
           a problem with Safari not treating the `ul` as a list. */}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}

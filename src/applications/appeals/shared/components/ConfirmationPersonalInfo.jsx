@@ -6,25 +6,21 @@ import { getPhoneString } from '~/platform/forms-system/src/js/utilities/data/pr
 import { renderFullName, maskVafn } from '../utils/data';
 import { getReadableDate } from '../utils/dates';
 
-const ConfirmationPersonalInfo = ({ profile, data }) => {
-  const { userFullName, dob } = profile;
-  const { veteran } = data;
+const ConfirmationPersonalInfo = ({ profile, data } = {}) => {
+  const { userFullName, dob } = profile || {};
+  const { veteran = {} } = data || {};
+  const { address = {} } = veteran;
 
   return (
     <>
-      <h3 className="vads-u-margin-top--2">Personal Information</h3>
+      <h3 className="vads-u-margin-top--2">Personal information</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
           a problem with Safari not treating the `ul` as a list. */}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="remove-bullets" role="list">
         <li>
           <div className="page-title vads-u-color--gray">Name</div>
-          <div
-            className="page-value dd-privacy-hidden"
-            data-dd-action-name="full name"
-          >
-            {renderFullName(userFullName)}
-          </div>
+          {renderFullName(userFullName)}
         </li>
         <li>
           <div className="page-title vads-u-color--gray">VA File Number</div>
@@ -52,7 +48,7 @@ const ConfirmationPersonalInfo = ({ profile, data }) => {
             className="page-value dd-privacy-hidden"
             data-dd-action-name="homeless"
           >
-            {data.homeless ? 'Yes' : 'No'}
+            {data?.homeless ? 'Yes' : 'No'}
           </div>
         </li>
         <li>
@@ -65,7 +61,7 @@ const ConfirmationPersonalInfo = ({ profile, data }) => {
           >
             <va-telephone
               contact={getPhoneString(veteran.phone)}
-              extension={veteran.phone.phoneNumberExt}
+              extension={veteran.phone?.phoneNumberExt}
               not-clickable
             />
           </div>
@@ -85,10 +81,13 @@ const ConfirmationPersonalInfo = ({ profile, data }) => {
             className="page-value dd-privacy-hidden"
             data-dd-action-name="mailing address"
           >
-            <div>{veteran.address?.addressLine1}</div>
+            <div>{address.addressLine1}</div>
             <div>
-              {veteran.address?.city}, {veteran.address?.stateCode}{' '}
-              {veteran.address?.zipCode}
+              {address.city}, {address.stateCode || address.province || ''}
+              {address.addressType === 'INTERNATIONAL'
+                ? `, ${address.countryName} `
+                : ' '}
+              {address.zipCode || address.internationalPostalCode || ''}
             </div>
           </div>
         </li>

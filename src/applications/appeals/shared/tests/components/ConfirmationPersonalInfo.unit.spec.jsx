@@ -1,0 +1,123 @@
+import React from 'react';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
+
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
+
+import ConfirmationPersonalInfo from '../../components/ConfirmationPersonalInfo';
+
+describe('ConfirmationPersonalInfo', () => {
+  const profile = {
+    userFullName: {
+      first: 'Mike',
+      middle: '',
+      last: 'Wazowski',
+      suffix: '',
+    },
+    dob: '2001-10-28',
+  };
+  const data = (US = true) => ({
+    veteran: {
+      vaFileLastFour: '8765',
+      address: {
+        addressType: US ? 'DOMESTIC' : 'INTERNATIONAL',
+        addressLine1: '123 Main St',
+        addressLine2: 'Suite #1200',
+        addressLine3: 'Box 4567890',
+        city: US ? 'New York' : 'Paris',
+        countryName: US ? 'United States' : 'France',
+        countryCodeIso2: US ? 'US' : 'FR',
+        stateCode: US ? 'NY' : null,
+        province: US ? null : 'Ile-de-France',
+        zipCode: US ? '30012' : null,
+        internationalPostalCode: US ? null : '75000',
+      },
+      phone: {
+        countryCode: '6',
+        areaCode: '555',
+        phoneNumber: '8001111',
+        phoneNumberExt: '2',
+      },
+      email: 'user@example.com',
+    },
+    homeless: true,
+  });
+
+  it('should render all fields', () => {
+    const { container } = render(
+      <ConfirmationPersonalInfo profile={profile} data={data()} />,
+    );
+
+    expect($('h3', container).textContent).to.eq('Personal information');
+    expect($$('ul[role="list"]', container).length).to.eq(1);
+
+    const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
+    expect(items.length).to.eq(7);
+    expect(
+      items.map(
+        (item, index) => item[index === 4 ? 'innerHTML' : 'textContent'],
+      ),
+    ).to.deep.equal([
+      'Mike Wazowski',
+      '●●●–●●–8765V A file number ending with 8 7 6 5',
+      'October 28, 2001',
+      'Yes',
+      '<va-telephone contact="5558001111" extension="2" not-clickable="true"></va-telephone>',
+      'user@example.com',
+      '123 Main StNew York, NY 30012',
+    ]);
+  });
+
+  it('should render all fields with international address', () => {
+    const { container } = render(
+      <ConfirmationPersonalInfo
+        profile={profile}
+        data={{ ...data(false), homeless: false }}
+      />,
+    );
+
+    expect($('h3', container).textContent).to.eq('Personal information');
+    expect($$('ul[role="list"]', container).length).to.eq(1);
+
+    const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
+    expect(items.length).to.eq(7);
+    expect(
+      items.map(
+        (item, index) => item[index === 4 ? 'innerHTML' : 'textContent'],
+      ),
+    ).to.deep.equal([
+      'Mike Wazowski',
+      '●●●–●●–8765V A file number ending with 8 7 6 5',
+      'October 28, 2001',
+      'No',
+      '<va-telephone contact="5558001111" extension="2" not-clickable="true"></va-telephone>',
+      'user@example.com',
+      '123 Main StParis, Ile-de-France, France 75000',
+    ]);
+  });
+
+  it('should render without any data', () => {
+    const { container } = render(<ConfirmationPersonalInfo />);
+
+    expect($('h3', container).textContent).to.eq('Personal information');
+    expect($$('ul[role="list"]', container).length).to.eq(1);
+
+    const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
+    expect(items.length).to.eq(6);
+    expect(
+      items.map(
+        (item, index) => item[index === 4 ? 'innerHTML' : 'textContent'],
+      ),
+    ).to.deep.equal([
+      '●●●–●●–V A file number ending with ',
+      '',
+      'No',
+      '',
+      '',
+      ',  ',
+    ]);
+  });
+});
