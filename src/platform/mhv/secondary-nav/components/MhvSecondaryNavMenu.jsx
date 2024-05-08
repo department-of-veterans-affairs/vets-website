@@ -35,6 +35,7 @@ const MhvSecondaryNavMenu = ({ items }) => {
         href={item.href}
         icon={item.icon}
         abbreviation={item.abbreviation}
+        actionName={item.actionName}
         isActive={activeItem === item}
         key={key}
         isHeader={index === 0}
