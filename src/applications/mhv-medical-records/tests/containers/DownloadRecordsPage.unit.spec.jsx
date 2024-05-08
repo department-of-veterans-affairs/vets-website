@@ -66,14 +66,14 @@ describe('DownloadRecordsPage with connection error', () => {
     });
   });
 
-  it('should display download an error message when the download pdf button is clicked', () => {
+  it('should display an error message when the download pdf button is clicked', () => {
     fireEvent.click(screen.getByTestId('download-blue-button-pdf'));
     waitFor(() => {
       expect(screen.getByTestId('expired-alert-message')).to.exist;
     });
   });
 
-  it('should display download an error when the download txt file button is clicked', () => {
+  it('should display an error when the download txt file button is clicked', () => {
     fireEvent.click(screen.getByTestId('download-blue-button-txt'));
     waitFor(() => {
       expect(screen.getByTestId('expired-alert-message')).to.exist;
