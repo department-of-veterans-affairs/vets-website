@@ -70,8 +70,8 @@ describe('VAOS Page: ClosestCityStatePage', () => {
     userEvent.click(screen.getByText(/Continue/i));
 
     // Then there should be a validation error
-    // Note: This assertion does not work since the page
-    // does not have hooks supporting alert updates
+    // Assertion currently disabled due to
+    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
     // expect(await screen.findByRole('alert')).to.contain.text('Select a city');
 
     // And the user should stay on the page

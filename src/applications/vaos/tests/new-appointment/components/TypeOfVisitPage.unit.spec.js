@@ -59,8 +59,8 @@ describe('VAOS Page: TypeOfVisitPage ', () => {
 
     expect(screen.history.push.called).to.not.be.true;
 
-    // Note: This assertion does not work since the page
-    // does not have hooks supporting alert updates
+    // Assertion currently disabled due to
+    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
     // expect(await screen.findByRole('alert')).to.contain.text(
     //   'Select an option',
     // );
