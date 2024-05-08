@@ -1,11 +1,12 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 import { merge, pick } from 'lodash';
+import set from 'platform/utilities/data/set';
 
 import {
   VAClaimNumberAdditionalInfo,
-  preparerVeteranUI,
   sponsorMilitaryDetailsSubHeader,
   sponsorMilitaryStatusDescription,
+  veteranUI,
 } from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
@@ -13,7 +14,7 @@ const { veteran } = fullSchemaPreNeed.properties.application.properties;
 export const uiSchema = {
   'ui:title': sponsorMilitaryDetailsSubHeader,
   application: {
-    veteran: merge({}, preparerVeteranUI, {
+    veteran: merge({}, veteranUI, {
       militaryServiceNumber: {
         'ui:title': 'Sponsor’s Military Service number',
         'ui:options': {
@@ -74,11 +75,19 @@ export const schema = {
         veteran: {
           type: 'object',
           required: ['militaryStatus'],
-          properties: pick(veteran.properties, [
-            'militaryStatus',
-            'militaryServiceNumber',
-            'vaClaimNumber',
-          ]),
+          properties: set(
+            'militaryStatus.enum',
+            veteran.properties.militaryStatus.enum.filter(
+              // Doesn't make sense to have options for the
+              // Veteran to say they're deceased
+              opt => !['I', 'D'].includes(opt),
+            ),
+            pick(veteran.properties, [
+              'militaryStatus',
+              'militaryServiceNumber',
+              'vaClaimNumber',
+            ]),
+          ),
         },
         'view:contactInfoDescription': {
           type: 'object',
