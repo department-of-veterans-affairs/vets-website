@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import isValid from 'date-fns/isValid';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-unresolved
@@ -26,6 +26,7 @@ import AppointmentMessage from '../../AppointmentDisplay/AppointmentMessage';
 import AddressBlock from '../../AddressBlock';
 
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+import ExternalLink from '../../ExternalLink';
 
 const AppointmentDetails = props => {
   const { router } = props;
@@ -138,20 +139,29 @@ const AppointmentDetails = props => {
       </p>
     );
   }
-
+  const isCanceled = isUpcoming && appointment.status.includes('CANCELLED');
   const appointmentTitle = () => {
+    let title = '';
     switch (appointment?.kind) {
       case 'phone':
-        return `${t('phone')} ${t('appointment')}`;
+        title = `${t('phone')} ${t('appointment')}`;
+        break;
       case 'cvt':
-        return t('video-appointment-at-facility', {
+        title = t('video-appointment-at-facility', {
           facility: appointment.facility,
         });
+        break;
       case 'vvc':
-        return t('video-appointment--title');
+        title = t('video-appointment--title');
+        break;
       default:
-        return t('in-person-appointment');
+        title = t('in-person-appointment');
+        break;
     }
+    if (isCanceled) {
+      return `${t('canceled')} ${t('#-util-uncapitalize', { value: title })}`;
+    }
+    return title;
   };
 
   const showReviewButton =
@@ -189,6 +199,61 @@ const AppointmentDetails = props => {
                     </div>
                   )}
                 </>
+              )}
+              {isCanceled && (
+                <va-alert
+                  uswds
+                  slim
+                  status="error"
+                  show-icon
+                  data-testid="canceled-message"
+                  class="vads-u-margin-top--2"
+                >
+                  <div>
+                    <p className="vads-u-margin-top--0">
+                      {appointment.status === 'CANCELLED BY PATIENT' && (
+                        <span
+                          className="vads-u-font-weight--bold"
+                          data-testid="canceled-by-patient"
+                        >
+                          {`${t('you-canceled')} `}
+                        </span>
+                      )}
+                      {appointment.status === 'CANCELLED BY CLINIC' && (
+                        <span
+                          className="vads-u-font-weight--bold"
+                          data-testid="canceled-by-faciity"
+                        >
+                          {`${t('facility-canceled')} `}
+                        </span>
+                      )}
+                      <Trans
+                        i18nKey="if-you-want-to-reschedule"
+                        components={[
+                          <va-telephone
+                            key={phoneNumbers.mainInfo}
+                            contact={phoneNumbers.mainInfo}
+                          />,
+                          <va-telephone
+                            key={phoneNumbers.tty}
+                            contact={phoneNumbers.tty}
+                            tty
+                            ariaLabel="7 1 1."
+                          />,
+                        ]}
+                      />
+                    </p>
+                    <p>
+                      <ExternalLink
+                        href="https://www.va.gov/health-care/schedule-view-va-appointments/"
+                        hrefLang="en"
+                      >
+                        {t('sign-in-to-schedule')}
+                      </ExternalLink>
+                    </p>
+                    <p>{t('or-talk-staff-if-at-facility')}</p>
+                  </div>
+                </va-alert>
               )}
               <div data-testid="appointment-details--when">
                 <h2 className="vads-u-font-size--sm">{t('when')}</h2>
