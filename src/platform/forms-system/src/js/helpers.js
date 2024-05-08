@@ -692,8 +692,10 @@ export function getActiveChapters(formConfig, formData) {
 
   return uniq(
     expandedPageList
-      .map(p => p.chapterKey)
-      .filter(key => !!key && key !== 'review'),
+      .filter(
+        p => !p.hideOnReviewPage && p.chapterKey && p.chapterKey !== 'review',
+      )
+      .map(p => p.chapterKey),
   );
 }
 
