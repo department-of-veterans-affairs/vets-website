@@ -234,12 +234,12 @@ create214142Access(store, widgetTypes.FORM_214142_CTA);
 create21P0847Access(store, widgetTypes.FORM_21P0847_CTA);
 create264555Access(store, widgetTypes.FORM_264555_CTA);
 create400247Access(store, widgetTypes.FORM_400247_CTA);
-createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
 createBurialHowDoIApplyWidget(store, widgetTypes.BURIAL_HOW_DO_I_APPLY_WIDGET);
 createBurialsV2HowDoIApplyWidget(
   store,
   widgetTypes.BURIALS_V2_HOW_DO_I_APPLY_WIDGET,
 );
+createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {
