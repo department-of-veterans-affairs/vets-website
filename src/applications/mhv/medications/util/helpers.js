@@ -218,6 +218,12 @@ export const fromToNumbs = (page, total, listLength, maxPerPage) => {
  */
 export const createBreadcrumbs = (location, prescription, currentPage) => {
   const { pathname } = location;
+  const defaultBreadcrumbs = [
+    {
+      href: medicationsUrls.MHV_HOME,
+      label: 'My HealtheVet home',
+    },
+  ];
   const {
     subdirectories,
     MEDICATIONS_ABOUT,
@@ -226,26 +232,26 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
   } = medicationsUrls;
 
   if (pathname === subdirectories.ABOUT) {
-    return [];
+    return defaultBreadcrumbs;
   }
   if (pathname === subdirectories.BASE) {
-    return [
-      { href: MEDICATIONS_ABOUT, label: 'About Medications' },
+    return defaultBreadcrumbs.concat([
+      { href: MEDICATIONS_ABOUT, label: 'About medications' },
       {
         href: `${MEDICATIONS_URL}?page=${currentPage || 1}`,
         label: 'Medications',
       },
-    ];
+    ]);
   }
   if (pathname === subdirectories.REFILL) {
-    return [
-      { href: MEDICATIONS_ABOUT, label: 'About Medications' },
-      { href: MEDICATIONS_REFILL, label: 'Refill Prescriptions' },
-    ];
+    return defaultBreadcrumbs.concat([
+      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+      { href: MEDICATIONS_REFILL, label: 'Refill prescriptions' },
+    ]);
   }
   if (prescription && pathname.includes(subdirectories.DETAILS)) {
-    return [
-      { href: MEDICATIONS_ABOUT, label: 'About Medications' },
+    return defaultBreadcrumbs.concat([
+      { href: MEDICATIONS_ABOUT, label: 'About medications' },
       {
         href: `${MEDICATIONS_URL}?page=${currentPage || 1}`,
         label: 'Medications',
@@ -254,7 +260,7 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
         href: `/${prescription.prescriptionId}`,
         label: prescription.prescriptionName,
       },
-    ];
+    ]);
   }
   return [];
 };

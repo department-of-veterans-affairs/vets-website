@@ -40,13 +40,14 @@
 }
 
 .rx-breadcrumbs {
-  .breadcrumb-angle {
-    color: var(--vads-color-link);
-  }
   a {
     &:visited {
       color: var(--vads-color-link);
     }
+  }
+  va-link {
+    padding-bottom: 16px;
+    padding-top: 48px;
   }
 }
 

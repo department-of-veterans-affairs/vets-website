@@ -15,6 +15,7 @@ export const rxListSortingOptions = {
 };
 
 export const medicationsUrls = {
+  MHV_HOME: '/../../my-health',
   MEDICATIONS_URL: '/my-health/medications',
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
   MEDICATIONS_ABOUT: '/my-health/medications/about',

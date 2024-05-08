@@ -32,14 +32,20 @@ const RxBreadcrumbs = () => {
     <>
       {!medicationsUrls.MEDICATIONS_ABOUT.endsWith(location.pathname) &&
         breadcrumbs.length > 0 && (
-          <div className="no-print">
+          <div className="no-print rx-breadcrumbs">
             <VaBreadcrumbs
               uswds
+              wrapping
               label="Breadcrumb"
               data-testid="rx-breadcrumb"
               home-veterans-affairs="false"
               breadcrumbList={breadcrumbs}
-              className={`${alignToLeft} va-breadcrumbs-li vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
+              className={`${alignToLeft} vads-u-display--none small-screen:vads-u-display--block va-breadcrumbs-li vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
+            />
+            <va-link
+              className="vads-u-display--block small-screen:vads-u-display--none"
+              href={breadcrumbs[breadcrumbs.length - 2].url}
+              text={breadcrumbs[breadcrumbs.length - 2].label}
             />
           </div>
         )}
