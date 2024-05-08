@@ -4,6 +4,23 @@ import { expect } from 'chai';
 import MhvSecondaryNavItem from '../components/MhvSecondaryNavItem';
 
 describe('MHV Secondary Navigation Item Component', () => {
+  describe('adds a data-dd-action-name', () => {
+    it('when provided', () => {
+      const title = 'a title';
+      const actionName = 'an action name';
+      const { getByRole } = render(
+        <MhvSecondaryNavItem
+          actionName={actionName}
+          title={title}
+          icon="home"
+          href="/my-health"
+        />,
+      );
+      const result = getByRole('link');
+      expect(result.getAttribute('data-dd-action-name')).to.equal(actionName);
+    });
+  });
+
   describe('handle abbreviations', () => {
     it('when provided', () => {
       const title = 'a title';
