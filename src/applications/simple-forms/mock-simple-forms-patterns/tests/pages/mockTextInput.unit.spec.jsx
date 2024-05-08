@@ -10,7 +10,7 @@ const { schema, uiSchema } = formConfig.chapters.textInput.pages.textInput;
 
 const pageTitle = 'mock text inputs';
 
-const expectedNumberOfWebComponentFields = 6;
+const expectedNumberOfWebComponentFields = 5;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
