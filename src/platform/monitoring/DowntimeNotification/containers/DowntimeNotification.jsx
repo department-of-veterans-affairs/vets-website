@@ -1,16 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { formatDowntime } from 'platform/utilities/date';
 
-import {
-  getGlobalDowntime,
-  getScheduledDowntime,
-  initializeDowntimeWarnings,
-  dismissDowntimeWarning,
-} from '../actions';
+import { getScheduledDowntime } from '../actions';
 
 import Down from '../components/Down';
 import DowntimeApproaching from '../components/DowntimeApproaching';
@@ -20,48 +15,45 @@ import externalServiceStatus from '../config/externalServiceStatus';
 import { getSoonestDowntime } from '../util/helpers';
 import { APP_TYPE_DEFAULT } from '../../../forms-system/src/js/constants';
 
-/**
- * React component used to conditionally render children components based on the status (down, down-approaching, or ok) of VA.gov services.
- * @property {string} [appTitle] - The name of the consuming application, which will be displayed in downtime messaging.
- * @property {node} [children] - React components to be rendered based on downtime.
- * @property {node} [content] - Alias for React.children.
- * @property {Array<string>} dependencies - An array of services that the consuming application requires in order to operate.
- * @property {function} getScheduledDowntime - [Provided by container] An action creator that retrieves the array of downtime from the API downtime endpoint.
- * @property {boolean} isReady - [Provided by container] A flag for indicating whether the downtime array has been retrieved from the API and if the component can render.
- * @property {Node} [loadingIndicator] - A React component that will be rendered while the request to the API for downtime information is pending.
- * @property {function} [render] - A function that may be supplied for custom rendering, useful for customizing how downtime/downtime approaching is handled. Receives the derived status, downtimeWindow, downtimeMap, children as arguments.
- * @module platform/monitoring/DowntimeNotification
- */
-class DowntimeNotification extends React.Component {
-  static propTypes = {
-    appTitle: PropTypes.string,
-    children: PropTypes.node,
-    content: PropTypes.node,
-    dependencies: PropTypes.arrayOf(
-      PropTypes.oneOf(Object.values(externalServices)),
-    ).isRequired,
-    getGlobalDowntime: PropTypes.func.isRequired,
-    getScheduledDowntime: PropTypes.func.isRequired,
-    isReady: PropTypes.bool,
-    loadingIndicator: PropTypes.node,
-    render: PropTypes.func,
-  };
+const DowntimeNotification = ({
+  appTitle,
+  children,
+  content,
+  dependencies = [],
+  loadingIndicator,
+  render,
+}) => {
+  const dispatch = useDispatch();
+  const {
+    // dismissedDowntimeWarnings,
+    globalDowntime,
+    isPending,
+    isReady,
+    serviceMap,
+  } = useSelector(state => state.scheduledDowntime);
 
-  static defaultProps = {
-    dependencies: [],
-  };
+  const shouldSendRequest = !isReady && !isPending;
+  // const isDowntimeWarningDismissed = dismissedDowntimeWarnings.includes(
+  //   appTitle,
+  // );
 
-  componentDidMount() {
-    // this.props.getGlobalDowntime();
-    if (this.props.shouldSendRequest) this.props.getScheduledDowntime();
-  }
+  const downtime = isReady
+    ? getSoonestDowntime(serviceMap, dependencies)
+    : null;
 
-  renderGlobalDowntimeOverride = appTypeContent => {
-    const appType = Object.values(VA_FORM_IDS).includes(this.props.appTitle)
+  useEffect(
+    () => {
+      if (shouldSendRequest) dispatch(getScheduledDowntime());
+    },
+    [dispatch, shouldSendRequest],
+  );
+
+  const renderGlobalDowntimeOverride = appTypeContent => {
+    const appType = Object.values(VA_FORM_IDS).includes(appTitle)
       ? appTypeContent
       : 'tool';
 
-    const endTime = formatDowntime(this.props.globalDowntime.endTIme);
+    const endTime = formatDowntime(globalDowntime.endTIme);
 
     return (
       <va-alert class="vads-u-margin-bottom--4" visible status="warning">
@@ -75,91 +67,55 @@ class DowntimeNotification extends React.Component {
     );
   };
 
-  render() {
-    const { customText } = this.props;
+  const { customText } = downtime;
+  const appType = customText?.appType || APP_TYPE_DEFAULT;
 
-    const appType = customText?.appType || APP_TYPE_DEFAULT;
-
-    if (this.props.globalDowntime) {
-      return this.renderGlobalDowntimeOverride(appType);
-    }
-
-    if (!this.props.isReady) {
-      return (
-        this.props.loadingIndicator || (
-          <va-loading-indicator
-            message={`Checking the ${this.props.appTitle} status...`}
-          />
-        )
-      );
-    }
-
-    const children = this.props.children || this.props.content;
-
-    if (this.props.render) {
-      return this.props.render(
-        {
-          appTitle: this.props.appTitle,
-          externalService: this.props.externalService,
-          status: this.props.status,
-          startTime: this.props.startTime,
-          endTime: this.props.endTime,
-          description: this.props.description,
-        },
-        children,
-      );
-    }
-
-    if (this.props.status === externalServiceStatus.downtimeApproaching) {
-      return <DowntimeApproaching {...this.props} />;
-    }
-
-    if (this.props.status === externalServiceStatus.down) {
-      return <Down {...this.props} />;
-    }
-
-    return children;
+  if (globalDowntime) {
+    return renderGlobalDowntimeOverride(appType);
   }
-}
 
-// exported for unit tests
-export const mapStateToProps = (state, ownProps) => {
-  const {
-    dismissedDowntimeWarnings,
-    globalDowntime,
-    isPending,
-    isReady,
-    serviceMap,
-  } = state.scheduledDowntime;
+  if (!isReady) {
+    return (
+      loadingIndicator || (
+        <va-loading-indicator message={`Checking the ${appTitle} status...`} />
+      )
+    );
+  }
 
-  const shouldSendRequest = !isReady && !isPending;
-  const isDowntimeWarningDismissed = dismissedDowntimeWarnings.includes(
-    ownProps.appTitle,
-  );
+  if (render) {
+    return render(
+      {
+        appTitle,
+        externalService: downtime.externalService,
+        status: downtime.status,
+        startTime: downtime.startTime,
+        endTime: downtime.endTime,
+        description: downtime.description,
+      },
+      children || content,
+    );
+  }
 
-  const downtime = isReady
-    ? getSoonestDowntime(serviceMap, ownProps.dependencies || [])
-    : null;
+  if (downtime.status === externalServiceStatus.downtimeApproaching) {
+    return <DowntimeApproaching {...downtime} />;
+  }
 
-  return {
-    globalDowntime,
-    isDowntimeWarningDismissed,
-    isPending,
-    isReady,
-    shouldSendRequest,
-    ...downtime,
-  };
+  if (downtime.status === externalServiceStatus.down) {
+    return <Down {...downtime} />;
+  }
+
+  return children || content;
 };
 
-const mapDispatchToProps = {
-  getGlobalDowntime,
-  getScheduledDowntime,
-  initializeDowntimeWarnings,
-  dismissDowntimeWarning,
+DowntimeNotification.propTypes = {
+  dependencies: PropTypes.arrayOf(
+    PropTypes.oneOf(Object.values(externalServices)),
+  ).isRequired,
+  appTitle: PropTypes.string,
+  children: PropTypes.node,
+  content: PropTypes.node,
+  loadingIndicator: PropTypes.node,
+  render: PropTypes.func,
 };
 
-export { DowntimeNotification };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DowntimeNotification);
+export default DowntimeNotification;
