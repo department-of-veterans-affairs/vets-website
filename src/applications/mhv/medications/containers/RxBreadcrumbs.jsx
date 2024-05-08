@@ -38,7 +38,7 @@ const RxBreadcrumbs = () => {
           data-testid="rx-breadcrumb"
           home-veterans-affairs="false"
           breadcrumbList={breadcrumbs}
-          className={`${alignToLeft} no-print va-breadcrumbs-li vads-u-padding-bottom--0 vads-u-padding-top--4 vads-u-margin-bottom--neg1p5`}
+          className={`${alignToLeft} no-print va-breadcrumbs-li vads-u-padding-bottom--2p5 vads-u-padding-top--0 vads-u-margin-bottom--neg1p5`}
         />
       )}
     </>
