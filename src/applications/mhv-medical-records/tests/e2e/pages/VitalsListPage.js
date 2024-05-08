@@ -60,6 +60,18 @@ class VitalsListPage extends BaseListPage {
       .eq(_VitalsIndex)
       .click();
   };
+
+  clickVitalsListNextButton = () => {
+    cy.get('[aria-label="Next page"]')
+      .find('a')
+      .click();
+  };
+
+  verifyBreadcrumbs = breadcrumbsText => {
+    cy.get('[data-testid="breadcrumbs"]').contains(`${breadcrumbsText}`, {
+      matchCase: false,
+    });
+  };
 }
 
 export default new VitalsListPage();
