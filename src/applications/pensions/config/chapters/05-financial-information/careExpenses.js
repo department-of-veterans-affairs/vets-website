@@ -6,6 +6,7 @@ import {
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
   radioUI,
+  radioSchema,
   numberUI,
   numberSchema,
   titleUI,
@@ -22,13 +23,10 @@ import { recipientTypeLabels } from '../../../labels';
 import { doesHaveCareExpenses } from './helpers';
 
 const {
-  recipients,
   childName,
   provider,
-  careType,
   ratePerHour,
   noCareEndDate,
-  paymentFrequency,
   paymentAmount,
 } = fullSchemaPensions.definitions.careExpenses.items.properties;
 
@@ -151,12 +149,10 @@ export default {
             'paymentAmount',
           ],
           properties: {
-            /* radioSchema(Object.keys(recipientTypeLabels)) */
-            recipients,
+            recipients: radioSchema(Object.keys(recipientTypeLabels)),
             childName,
             provider,
-            /* radioSchema(Object.keys(careOptions)) */
-            careType,
+            careType: radioSchema(Object.keys(careOptions)),
             ratePerHour,
             hoursPerWeek: numberSchema,
             careDateRange: {
@@ -164,8 +160,7 @@ export default {
               required: ['from'],
             },
             noCareEndDate,
-            /* radioSchema(Object.keys(frequencyOptions)) */
-            paymentFrequency,
+            paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
             paymentAmount,
           },
         },

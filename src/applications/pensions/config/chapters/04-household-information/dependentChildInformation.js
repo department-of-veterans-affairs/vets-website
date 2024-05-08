@@ -1,6 +1,7 @@
 import merge from 'lodash/merge';
 import moment from 'moment';
 import {
+  radioSchema,
   radioUI,
   ssnSchema,
   ssnUI,
@@ -24,7 +25,6 @@ import { doesHaveDependents, getDependentChildTitle } from './helpers';
 
 const {
   childPlaceOfBirth,
-  childRelationship,
   attendingCollege,
   disabled,
   previouslyMarried,
@@ -141,7 +141,9 @@ export default {
             childPlaceOfBirth,
             childSocialSecurityNumber: ssnSchema,
             'view:noSSN': { type: 'boolean' },
-            childRelationship,
+            childRelationship: radioSchema(
+              Object.keys(childRelationshipOptions),
+            ),
             'view:adoptionDocs': { type: 'object', properties: {} },
             attendingCollege,
             'view:schoolWarning': { type: 'object', properties: {} },

@@ -2,6 +2,7 @@ import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import {
   radioUI,
+  radioSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
@@ -17,9 +18,7 @@ import IncomeSourceView from '../../../components/IncomeSourceView';
 import { doesReceiveIncome } from './helpers';
 
 const {
-  typeOfIncome,
   otherTypeExplanation,
-  receiver,
   dependentName,
   payer,
   amount,
@@ -113,11 +112,9 @@ export default {
           type: 'object',
           required: ['typeOfIncome', 'receiver', 'payer', 'amount'],
           properties: {
-            /* radioSchema(Object.keys(typeOfIncomeLabels)) */
-            typeOfIncome,
+            typeOfIncome: radioSchema(Object.keys(typeOfIncomeLabels)),
             otherTypeExplanation,
-            /* radioSchema(Object.keys(recipientTypeLabels)) */
-            receiver,
+            receiver: radioSchema(Object.keys(recipientTypeLabels)),
             dependentName,
             payer,
             amount,

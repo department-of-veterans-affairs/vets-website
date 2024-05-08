@@ -6,6 +6,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
   radioUI,
+  radioSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
@@ -17,11 +18,9 @@ import { recipientTypeLabels } from '../../../labels';
 import { doesHaveMedicalExpenses } from './helpers';
 
 const {
-  recipients,
   childName,
   provider,
   purpose,
-  paymentFrequency,
   paymentAmount,
 } = fullSchemaPensions.definitions.medicalExpenses.items.properties;
 
@@ -118,14 +117,12 @@ export default {
             'paymentAmount',
           ],
           properties: {
-            /* radioSchema(Object.keys(recipientTypeLabels)) */
-            recipients,
+            recipients: radioSchema(Object.keys(recipientTypeLabels)),
             childName,
             provider,
             purpose,
             paymentDate: currentOrPastDateSchema,
-            /* radioSchema(Object.keys(frequencyOptions)) */
-            paymentFrequency,
+            paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
             paymentAmount,
           },
         },

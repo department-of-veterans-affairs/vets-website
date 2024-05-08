@@ -1,10 +1,8 @@
 import {
   radioUI,
+  radioSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-
-const { maritalStatus } = fullSchemaPensions.definitions;
 
 const maritalStatusOptions = {
   MARRIED: 'Married',
@@ -29,7 +27,7 @@ export default {
     type: 'object',
     required: ['maritalStatus'],
     properties: {
-      maritalStatus,
+      maritalStatus: radioSchema(Object.keys(maritalStatusOptions)),
     },
   },
 };
