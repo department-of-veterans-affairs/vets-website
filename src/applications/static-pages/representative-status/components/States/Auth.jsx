@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 export const Auth = ({
   DynamicHeader,
@@ -22,133 +23,154 @@ export const Auth = ({
     contact,
     extension,
     concatAddress,
-    vcard,
+    vcfUrl,
   } = representative ?? {};
+
+  const isPostLogin = document.location.search?.includes('postLogin=true');
+
+  useEffect(
+    () => {
+      if (isPostLogin) {
+        focusElement('.poa-display');
+      }
+    },
+    [id, isPostLogin],
+  );
 
   if (isLoading) {
     return (
-      <div>
+      <va-card show-shadow>
         <va-loading-indicator
           label="Loading"
           message="Loading your accredited representative information..."
         />
-      </div>
+      </va-card>
     );
   }
 
   if (id) {
     return (
       <>
-        <div className="auth-header-icon">
-          <va-icon
-            icon="account_circle"
-            size={4}
-            srtext="Your representative"
-          />{' '}
-        </div>
-        <div className="auth-rep-text">
-          <div className="auth-rep-header">
-            <DynamicHeader>
-              Your current accredited representative
-            </DynamicHeader>
-          </div>
-          <div className="auth-rep-subheader">
-            <DynamicSubheader>{name}</DynamicSubheader>
-            {poaType === 'organization' && (
-              <p className="vads-u-margin-top--0">
-                You can work with any accredited representative at this
-                organization
-              </p>
-            )}
-          </div>
-
-          <div className="auth-rep-body">
-            {concatAddress && (
-              <div className="contact-info vads-u-margin-top--1p5">
-                <div className="contact-icon">
-                  <va-icon
-                    icon="location_on"
-                    size={2}
-                    srtext="Representative address"
-                  />
-                </div>
-
-                <div className="address-link">
-                  <a
-                    href={`https://maps.google.com?daddr=${concatAddress}`}
-                    tabIndex="0"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`${concatAddress} (opens in a new tab)`}
-                  >
-                    {addressLine1}{' '}
-                    {addressLine2 ? (
-                      <>
-                        <br /> {addressLine2}
-                      </>
-                    ) : null}{' '}
-                    <br />
-                    {city}, {stateCode} {zipCode}
-                  </a>
-                </div>
+        <va-card show-shadow>
+          <div className="auth-card">
+            <div className="auth-header-icon">
+              <va-icon
+                icon="account_circle"
+                size={4}
+                srtext="Your representative"
+              />{' '}
+            </div>
+            <div className="auth-rep-text">
+              <div className="auth-rep-header">
+                <DynamicHeader>
+                  Your current accredited representative
+                </DynamicHeader>
               </div>
-            )}
-            {poaType === 'representative' &&
-              email && (
-                <div className="contact-info vads-u-margin-top--1p5">
-                  <div className="contact-icon">
-                    <va-icon
-                      icon="mail"
-                      size={2}
-                      srtext="Representative email"
+              <div className="auth-rep-subheader">
+                <DynamicSubheader>{name}</DynamicSubheader>
+                {poaType === 'organization' && (
+                  <p className="vads-u-margin-top--0">
+                    You can work with any accredited representative at this
+                    organization
+                  </p>
+                )}
+              </div>
+
+              <div className="auth-rep-body">
+                {concatAddress && (
+                  <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                    <div className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5 vads-u-margin-right--1">
+                      <va-icon
+                        icon="location_on"
+                        size={2}
+                        srtext="Representative address"
+                      />
+                    </div>
+
+                    <div className="address-link">
+                      <a
+                        href={`https://maps.google.com?daddr=${concatAddress}`}
+                        tabIndex="0"
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`${concatAddress} (opens in a new tab)`}
+                      >
+                        {addressLine1}{' '}
+                        {addressLine2 ? (
+                          <>
+                            <br /> {addressLine2}
+                          </>
+                        ) : null}{' '}
+                        <br />
+                        {city}, {stateCode} {zipCode}
+                      </a>
+                    </div>
+                  </div>
+                )}
+                {poaType === 'representative' &&
+                  email && (
+                    <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                      <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                        <va-icon
+                          icon="mail"
+                          size={2}
+                          srtext="Representative email"
+                        />
+                      </div>
+                      <a href={`mailto:${email}`}>{email}</a>
+                    </div>
+                  )}
+                {contact && (
+                  <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                    <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                      <va-icon
+                        icon="phone"
+                        size={2}
+                        srtext="Representative phone"
+                      />
+                    </div>
+                    <va-telephone
+                      contact={contact}
+                      extension={extension}
+                      disable-analytics
                     />
                   </div>
-                  <a href={`mailto:${email}`}>{email}</a>
-                </div>
-              )}
-            {contact && (
-              <div className="contact-info vads-u-margin-top--1p5">
-                <div className="contact-icon">
-                  <va-icon
-                    icon="phone"
-                    size={2}
-                    srtext="Representative phone"
-                  />
-                </div>
-                <va-telephone
-                  contact={contact}
-                  extension={extension}
-                  disable-analytics
-                />
-              </div>
-            )}
-            {poaType === 'representative' &&
-              (contact || email) && (
-                <div className="contact-info vads-u-margin-top--1p5">
+                )}
+                {poaType === 'representative' &&
+                  (contact || email) && (
+                    <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                      <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                        <va-icon
+                          icon="file_download"
+                          size={2}
+                          srtext="Download your accredited representative's contact information"
+                        />
+                      </div>
+                      <va-link
+                        filetype="VCF"
+                        filename="accredited_representative_contact"
+                        href={vcfUrl}
+                        text="Download your accredited representative's contact information"
+                      />
+                    </div>
+                  )}
+                <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                  <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                    <va-icon
+                      icon="search"
+                      size={2}
+                      srtext="Learn about accredited representatives"
+                    />
+                  </div>
                   <va-link
-                    download
-                    filetype="VCF"
-                    filename="accredited_representative_contact"
-                    href={vcard}
-                    text="Download your accredited representative's contact information"
+                    href="https://www.va.gov/resources/va-accredited-representative-faqs/"
+                    text="Learn about accredited representatives"
                   />
                 </div>
-              )}
-            <div className="contact-info vads-u-margin-top--1p5">
-              <div className="contact-icon">
-                <va-icon
-                  icon="search"
-                  size={2}
-                  srtext="Learn about accredited representatives"
-                />
               </div>
-              <va-link
-                href="https://www.va.gov/resources/va-accredited-representative-faqs/"
-                text="Learn about accredited representatives"
-              />
             </div>
           </div>
-        </div>
+        </va-card>
       </>
     );
   }

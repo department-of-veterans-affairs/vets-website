@@ -187,11 +187,7 @@ $gap-values: (
     }
   }
 }
-.vaos-appts__listItem--lineHeight {
-  @include media($small-desktop-screen) {
-    line-height: 3.5;
-  }
-}
+
 .medium-screen\:vaos-appts__minWidth,
 .medium-screen\:vaos-appts__maxWidth {
   min-width: 24px;
@@ -203,9 +199,6 @@ $gap-values: (
   @include media($small-desktop-screen) {
     align-items: center;
   }
-}
-.vaos-appts__column--1 {
-  //
 }
 
 div[id^="vaos-appts__detail-"] {

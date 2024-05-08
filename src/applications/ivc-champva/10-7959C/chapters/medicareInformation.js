@@ -326,7 +326,7 @@ export const applicantHasMedicareDSchema = {
 export const applicantMedicarePartDCarrierSchema = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) => `${nameWording(formData)} Medicare Part B carrier`,
+      ({ formData }) => `${nameWording(formData)} Medicare Part D carrier`,
     ),
     applicantMedicarePartDCarrier: {
       'ui:title': 'Carrier’s name',
