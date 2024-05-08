@@ -96,7 +96,7 @@ export const itfError = (
       <a
         href="/resources/your-intent-to-file-a-va-claim/"
         target="_blank"
-        rel="noreferrer"
+        rel="noreferrer noopener"
       >
         Learn more about the intent to file process (opens in a new tab)
       </a>
