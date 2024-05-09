@@ -43,7 +43,7 @@ export default function StatusAlert({ appointment, facility }) {
   const showConfirmMsg = queryParams.get('confirmMsg');
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const { isPastAppointment } = appointment.vaos;
+  const { isPastAppointment, isPendingAppointment } = appointment.vaos;
   const avsLink = appointment.avsPath;
   const avsError = avsLink?.includes('Error');
   const displayAvsLink = () => {
@@ -93,12 +93,86 @@ export default function StatusAlert({ appointment, facility }) {
     [CANCELLATION_REASONS.provider, `${facility?.name || 'Facility'}`],
   ]);
 
+  if (featureAfterVisitSummary) {
+    const { status } = appointment;
+    const who = canceler.get(appointment?.cancelationReason) || 'Facility';
+
+    if (APPOINTMENT_STATUS.booked === status && isPastAppointment) {
+      return (
+        <>
+          <h2 className="vads-u-margin-bottom--0">After visit summary</h2>
+          {displayAvsLink()}
+        </>
+      );
+    }
+
+    if (APPOINTMENT_STATUS.proposed === status) {
+      if (isPastAppointment) {
+        return (
+          <InfoAlert backgroundOnly status="info">
+            <p>
+              We’ll try to schedule your appointment in the next 2 business
+              days. Check back here or call your facility for updates. Review
+              your appointments Schedule a new appointment
+            </p>
+          </InfoAlert>
+        );
+      }
+      return (
+        <InfoAlert backgroundOnly status="success">
+          <p>
+            We’ll try to schedule your appointment in the next 2 business days.
+            Check back here or call your facility for updates. Review your
+            appointments Schedule a new appointment
+          </p>
+          <div className="vads-u-margin-y--1">
+            <va-link
+              text="Review your appointments"
+              data-testid="review-appointments-link"
+              href={root.url}
+              onClick={() =>
+                recordEvent({
+                  event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
+                })
+              }
+            />
+          </div>
+          <div>
+            <va-link
+              text="Schedule a new appointment"
+              data-testid="schedule-appointment-link"
+              onClick={handleClick(history, dispatch, typeOfCare)}
+            />
+          </div>
+        </InfoAlert>
+      );
+    }
+
+    if (APPOINTMENT_STATUS.cancelled === status) {
+      return (
+        <InfoAlert backgroundOnly status="error">
+          <strong>{`${who} canceled this appointment. `}</strong>
+          {isPendingAppointment
+            ? 'If you still need an appointment, call us or request a new appointment online.'
+            : 'If you want to reschedule, call us or schedule a new appointment online.'}
+          <br />
+          <br />
+          <va-link
+            text="Schedule a new appointment"
+            data-testid="schedule-appointment-link"
+            onClick={handleClick(history, dispatch, typeOfCare)}
+          />
+        </InfoAlert>
+      );
+    }
+  }
+
   if (canceled) {
     const who = canceler.get(appointment?.cancelationReason) || 'Facility';
     return (
       <>
         <InfoAlert status="error" backgroundOnly>
-          <strong>{who} canceled your appointment. </strong>
+          <strong>{who} canceled this appointment. </strong>
           If you want to reschedule, call us or schedule a new appointment
           online.
           {featureAppointmentDetailsRedesign && (
@@ -116,21 +190,11 @@ export default function StatusAlert({ appointment, facility }) {
       </>
     );
   }
-  if (isPastAppointment && !featureAfterVisitSummary) {
+  if (isPastAppointment) {
     return (
       <InfoAlert status="warning" backgroundOnly>
         This appointment occurred in the past.
       </InfoAlert>
-    );
-  }
-  if (isPastAppointment && !!featureAfterVisitSummary) {
-    return (
-      <>
-        <p className="vads-u-font-size--base vads-u-font-weight--bold vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin-bottom--0">
-          This appointment happened in the past.
-        </p>
-        {displayAvsLink()}
-      </>
     );
   }
   if (showConfirmMsg) {
@@ -171,6 +235,7 @@ StatusAlert.propTypes = {
     avsPath: PropTypes.string,
     vaos: PropTypes.shape({
       isPastAppointment: PropTypes.bool.isRequired,
+      isPendingAppointment: PropTypes.bool.isRequired,
     }),
   }),
   facility: PropTypes.shape({

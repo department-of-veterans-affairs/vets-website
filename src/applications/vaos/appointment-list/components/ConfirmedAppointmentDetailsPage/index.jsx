@@ -19,6 +19,8 @@ import {
 import DetailsVA from './DetailsVA';
 import DetailsCC from './DetailsCC';
 import DetailsVideo from './DetailsVideo';
+import PhoneLayout from '../../../components/layout/PhoneLayout';
+import VideoLayout from '../../../components/layout/VideoLayout';
 
 export default function ConfirmedAppointmentDetailsPage() {
   const dispatch = useDispatch();
@@ -46,6 +48,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   const isVideo = appointment?.vaos?.isVideo;
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const isVA = !isVideo && !isCommunityCare;
+  const isPhone = appointment?.vaos?.isPhoneAppointment;
 
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
@@ -104,6 +107,30 @@ export default function ConfirmedAppointmentDetailsPage() {
     );
   }
 
+  if (featureAppointmentDetailsRedesign) {
+    return (
+      <PageLayout showNeedHelp>
+        {isPhone && <PhoneLayout />}
+        {isVA &&
+          !isPhone && (
+            <DetailsVA
+              appointment={appointment}
+              facilityData={facilityData}
+              useV2={useV2}
+            />
+          )}
+        {isCommunityCare && (
+          <DetailsCC
+            appointment={appointment}
+            useV2={useV2}
+            featureVaosV2Next={featureVaosV2Next}
+          />
+        )}
+        {isVideo && <VideoLayout appointment={appointment} />}
+      </PageLayout>
+    );
+  }
+
   return (
     <PageLayout showNeedHelp={featureAppointmentDetailsRedesign}>
       {isVideo && (
@@ -123,7 +150,7 @@ export default function ConfirmedAppointmentDetailsPage() {
           featureVaosV2Next={featureVaosV2Next}
         />
       )}
-      {!featureAppointmentDetailsRedesign && <CancelAppointmentModal />}
+      <CancelAppointmentModal />
     </PageLayout>
   );
 }

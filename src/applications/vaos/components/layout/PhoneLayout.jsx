@@ -1,34 +1,25 @@
 import React from 'react';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { useParams } from 'react-router-dom';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
+import { getConfirmedAppointmentDetailsInfo } from '../../appointment-list/redux/selectors';
+import DetailPageLayout, { Section, What, When, Who } from './DetailPageLayout';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
+import StatusAlert from '../StatusAlert';
 import {
   AppointmentDate,
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
-import { getConfirmedAppointmentDetailsInfo } from '../../appointment-list/redux/selectors';
-import StatusAlert from '../StatusAlert';
-import DetailPageLayout, {
-  When,
-  What,
-  Where,
-  Section,
-  Who,
-} from './DetailPageLayout';
-import { APPOINTMENT_STATUS } from '../../utils/constants';
-import FacilityDirectionsLink from '../FacilityDirectionsLink';
-import Address from '../Address';
-import { selectFeaturePhysicalLocation } from '../../redux/selectors';
 import AddToCalendarButton from '../AddToCalendarButton';
+import Address from '../Address';
 import NewTabAnchor from '../NewTabAnchor';
 import FacilityPhone from '../FacilityPhone';
 
-export function InPersonLayout() {
+export default function PhoneLayout() {
   const { id } = useParams();
   const {
     appointment,
     clinicName,
-    clinicPhysicalLocation,
     comment,
     facility,
     facilityPhone,
@@ -40,16 +31,13 @@ export function InPersonLayout() {
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
   );
-  const featurePhysicalLocation = useSelector(state =>
-    selectFeaturePhysicalLocation(state),
-  );
   const [reason, otherDetails] = comment ? comment?.split(':') : [];
   const oracleHealthProviderName = null;
 
-  let heading = 'In-person appointment';
-  if (isPastAppointment) heading = 'Past in-person appointment';
+  let heading = 'Phone appointment';
+  if (isPastAppointment) heading = 'Past phone appointment';
   else if (APPOINTMENT_STATUS.cancelled === status)
-    heading = 'Canceled in-person appointment';
+    heading = 'Canceled phone appointment';
 
   return (
     <DetailPageLayout heading={heading}>
@@ -58,12 +46,10 @@ export function InPersonLayout() {
         facility={facility}
         showScheduleLink
       />
-      {isPastAppointment && (
-        <Section heading="After visit summary">
-          <va-link
-            href={`${appointment?.avsPath}`}
-            text="Go to after visit summary"
-          />
+      {!isPastAppointment && (
+        <Section heading="How to join">
+          We'll call you at the appointment time. But contact the facility you
+          scheduled through if you have questions or need to reschedule.
         </Section>
       )}
       <When>
@@ -83,7 +69,7 @@ export function InPersonLayout() {
       </When>
       <What>{typeOfCareName || 'Type of care not noted'}</What>
       {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
-      <Where isPastAppointment={isPastAppointment}>
+      <Section heading="Scheduling facility">
         {!!facility === false && (
           <>
             <span>Facility details not available</span>
@@ -100,25 +86,14 @@ export function InPersonLayout() {
             {facility.name}
             <br />
             <Address address={facility?.address} />
-            <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-              <FacilityDirectionsLink location={facility} />
-            </div>
-            <br />
           </>
         )}
         <span>Clinic: {clinicName || 'Not available'}</span> <br />
-        {featurePhysicalLocation && (
-          <>
-            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
-            <br />
-          </>
-        )}
         {facilityPhone && (
           <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
         )}
         {!facilityPhone && <>Not available</>}
-      </Where>
+      </Section>
       <Section heading="Details you shared with your provider">
         <span>
           Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}

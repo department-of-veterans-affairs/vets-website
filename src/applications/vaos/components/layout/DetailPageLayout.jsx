@@ -47,17 +47,19 @@ Who.propTypes = {
   children: PropTypes.node,
 };
 
-export function Where({ children }) {
+export function Where({ children, isPastAppointment }) {
+  if (isPastAppointment) return <Section heading="Where">{children}</Section>;
   return <Section heading="Where to attend">{children}</Section>;
 }
 Where.propTypes = {
   children: PropTypes.node,
+  isPastAppointment: PropTypes.bool,
 };
 
 function CancelButton({ appointment }) {
   const dispatch = useDispatch();
   const { status, vaos } = appointment;
-  const { isCommunityCare } = vaos;
+  const { isCommunityCare, isVideo, isPastAppointment } = vaos;
 
   let event = `${GA_PREFIX}-cancel-booked-clicked`;
   if (APPOINTMENT_STATUS.proposed === status)
@@ -76,15 +78,25 @@ function CancelButton({ appointment }) {
     />
   );
 
-  if (!isCommunityCare && APPOINTMENT_STATUS.cancelled !== status)
+  if (
+    APPOINTMENT_STATUS.cancelled !== status &&
+    !isCommunityCare &&
+    !isVideo &&
+    !isPastAppointment
+  )
     return button;
 
-  if (isCommunityCare && APPOINTMENT_STATUS.booked !== status) return button;
+  if (
+    isCommunityCare &&
+    APPOINTMENT_STATUS.cancelled !== status &&
+    !isPastAppointment
+  )
+    return button;
 
   return null;
 }
 
-export default function DetailPageLayout({ children, header, instructions }) {
+export default function DetailPageLayout({ children, heading, instructions }) {
   const { id } = useParams();
   const { appointment } = useSelector(
     state => getConfirmedAppointmentDetailsInfo(state, id),
@@ -95,7 +107,7 @@ export default function DetailPageLayout({ children, header, instructions }) {
     <>
       <BackLink appointment={appointment} />
       <AppointmentCard appointment={appointment}>
-        <h1>{header}</h1>
+        <h1>{heading}</h1>
         {!!instructions && <p>{instructions}</p>}
         {children}
         <div className="vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print">
@@ -116,6 +128,6 @@ export default function DetailPageLayout({ children, header, instructions }) {
 }
 DetailPageLayout.propTypes = {
   children: PropTypes.node,
-  header: PropTypes.string,
+  heading: PropTypes.string,
   instructions: PropTypes.string,
 };
