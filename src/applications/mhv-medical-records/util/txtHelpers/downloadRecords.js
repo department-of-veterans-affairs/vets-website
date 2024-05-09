@@ -22,9 +22,15 @@ export const getTxtContent = (data, { userFullName, dob }) => {
 
   const vitalNameParse = name => {
     let parsedName = name;
+    const excludeArray = [
+      'PAIN',
+      'CENTRAL_VENOUS_PRESSURE',
+      'CIRCUMFERENCE_GIRTH',
+    ];
     if (name === 'RESPIRATION') parsedName = 'Breathing rate';
     if (name === 'PULSE') parsedName = 'Heart rate';
     if (name === 'PULSE_OXIMETRY') parsedName = 'Blood oxygen level';
+    if (excludeArray.includes(name)) parsedName = '';
     return parsedName;
   };
 

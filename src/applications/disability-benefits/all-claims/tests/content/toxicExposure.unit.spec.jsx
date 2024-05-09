@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
-  dateHelp,
+  dateRangeDescription,
   dateRangePageDescription,
   datesDescription,
   getKeyIndex,
@@ -10,8 +10,8 @@ import {
   isClaimingTECondition,
   makeTEConditionsSchema,
   makeTEConditionsUISchema,
-  showGulfWar1990DetailsPage,
-  showGulfWar1990SummaryPage,
+  showCheckboxLoopDetailsPage,
+  showSummaryPage,
   showToxicExposurePages,
   validateTEConditions,
 } from '../../content/toxicExposure';
@@ -359,13 +359,13 @@ describe('toxicExposure', () => {
     it('displays description when counts specified', () => {
       const tree = render(dateRangePageDescription(1, 5, 'Egypt'));
       tree.getByText('1 of 5: Egypt', { exact: false });
-      tree.getByText(dateHelp);
+      tree.getByText(dateRangeDescription);
     });
 
     it('displays description when counts not specified', () => {
       const tree = render(dateRangePageDescription(0, 0, 'Egypt'));
       tree.getByText('Egypt');
-      tree.getByText(dateHelp);
+      tree.getByText(dateRangeDescription);
     });
   });
 
@@ -458,7 +458,7 @@ describe('toxicExposure', () => {
     });
   });
 
-  describe('showGulfWar1990DetailsPage', () => {
+  describe('showCheckboxLoopDetailsPage', () => {
     describe('toggle disabled', () => {
       it('should return false when toggle not enabled', () => {
         const formData = {
@@ -482,7 +482,8 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(showGulfWar1990DetailsPage(formData, 'bahrain')).to.be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'bahrain'))
+          .to.be.false;
       });
     });
 
@@ -496,7 +497,8 @@ describe('toxicExposure', () => {
           newDisabilities: [],
         };
 
-        expect(showGulfWar1990DetailsPage(formData, 'bahrain')).to.be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'bahrain'))
+          .to.be.false;
       });
 
       it('should return false when toggle enabled, claiming new disability, but no selected locations', () => {
@@ -520,9 +522,12 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(showGulfWar1990DetailsPage(formData, 'bahrain')).to.be.false;
-        expect(showGulfWar1990DetailsPage(formData, 'egypt')).to.be.false;
-        expect(showGulfWar1990DetailsPage(formData, 'airspace')).to.be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'bahrain'))
+          .to.be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'egypt')).to
+          .be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'airspace'))
+          .to.be.false;
       });
 
       it('should return true when all criteria met', () => {
@@ -546,12 +551,13 @@ describe('toxicExposure', () => {
             },
           },
         };
-        expect(showGulfWar1990DetailsPage(formData, 'bahrain')).to.be.true;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'bahrain'))
+          .to.be.true;
       });
     });
   });
 
-  describe('showGulfWar1990SummaryPage', () => {
+  describe('showSummaryPage', () => {
     describe('toggle disabled', () => {
       it('should return false when toggle not enabled', () => {
         const formData = {
@@ -575,7 +581,7 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
       });
     });
 
@@ -589,7 +595,7 @@ describe('toxicExposure', () => {
           newDisabilities: [],
         };
 
-        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
       });
 
       it('should return false when toggle enabled, claiming new disability, but no selected locations', () => {
@@ -613,7 +619,7 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(showGulfWar1990SummaryPage(formData)).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
       });
 
       it('should return true when all criteria met', () => {
@@ -638,7 +644,7 @@ describe('toxicExposure', () => {
           },
         };
 
-        expect(showGulfWar1990SummaryPage(formData)).to.be.true;
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.true;
       });
     });
   });

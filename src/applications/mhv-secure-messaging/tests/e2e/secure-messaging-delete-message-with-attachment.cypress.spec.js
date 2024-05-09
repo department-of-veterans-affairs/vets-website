@@ -12,7 +12,7 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
     const site = new SecureMessagingSite();
     const landingPage = new PatientInboxPage();
     const detailsPage = new PatientMessageDetailsPage();
-    const composePage = new PatientComposePage();
+    // const composePage = new PatientComposePage();
 
     site.login();
     mockMessagewithAttachment.data.id = '7192838';
@@ -39,10 +39,10 @@ describe('Secure Messaging - Delete Message with Attachment', () => {
       mockMessagewithAttachment,
       mockThreadwithAttachment,
     );
-    composePage.clickTrashButton();
+    PatientComposePage.clickTrashButton();
 
-    composePage.clickConfirmDeleteButton();
-    composePage.verifyDeleteDraftSuccessfulMessageText();
+    PatientComposePage.clickConfirmDeleteButton();
+    PatientComposePage.verifyDeleteDraftSuccessfulMessageText();
 
     cy.wait('@deleteMessagewithAttachment');
     cy.injectAxe();

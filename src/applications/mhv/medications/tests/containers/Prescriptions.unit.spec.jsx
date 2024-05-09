@@ -23,6 +23,10 @@ describe('Medications Prescriptions container', () => {
           totalPages: 7,
           totalEntries: 122,
         },
+        prescriptionDetails: {
+          prescriptionId: 1234567890,
+        },
+        apiError: false,
       },
       breadcrumbs: {
         list: [
