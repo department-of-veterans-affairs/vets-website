@@ -39,6 +39,7 @@ const confirmedV2 = require('./v2/confirmed.json');
 
 // CC Direct Scheduling mocks
 const wellHiveAppointments = require('./wellHive/appointments.json');
+const WHCancelReasons = require('./wellHive/cancelReasons.json');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -476,6 +477,12 @@ const responses = {
       ),
     });
   },
+  'GET /vaos/v2/wellhive/appointments/:appointmentId/cancel-reasons': (
+    req,
+    res,
+  ) => {
+    return res.json(WHCancelReasons);
+  },
   'POST /vaos/v2/wellhive/appointments/:appointmentId/cancel': (req, res) => {
     const { cancelReasonId } = req.body;
     const findApptToCancel = wellHiveAppointments.appointments.find(
@@ -495,46 +502,19 @@ const responses = {
     });
   },
   'POST /vaos/v2/wellhive/appointments/:appointmentId/submit': (req, res) => {
-    const {
-      referral,
-      additionalPatientAttributes,
-      networkId,
-      providerServiceId,
-      slotIds,
-    } = req.body;
+    const appointments = wellHiveAppointments.appointments.concat(
+      mockWellHiveAppts.data,
+    );
+
+    const { additionalPatientAttributes } = req.body;
+    const appt = appointments.find(
+      item => item.id === req.params.appointmentId,
+    );
     const submittedAppt = {
+      ...appt,
       appointmentDetails: {
-        cancelReason: {
-          id: '930c8a9f-ce78-449c-8dda-d5428d183ec8',
-          name: 'Patient',
-        },
-        isLastest: true,
-        lastRetrieved: '2015-08-03T07:02:53Z',
-        phone: additionalPatientAttributes.phone.value,
-        start: '2026-01-01T17:00:00Z',
-        status: 'booked',
+        ...additionalPatientAttributes,
       },
-      createdBy: {
-        byPatient: false,
-        system: {
-          id: '45604d54-7c49-4d9b-b669-53cbaf2a5189',
-          name: 'The ACME Healthcare WellHive Client',
-          type: 'external',
-        },
-        user: {
-          id: 'a1b6673e-d409-4876-a0ff-a77bb4840aca',
-        },
-      },
-      error: 'conflict',
-      id: 'b79e46ba-1b09-4195-ae0a-ea42baedea6e',
-      networkId,
-      patientId: 'b6cc1875-5313-4ca8-af8b-74adac0c5d0c',
-      providerServiceId,
-      referral: {
-        id: referral.id,
-        referralNumber: referral.referralNumber,
-      },
-      slotIds,
       state: 'submitted',
     };
     currentMockId_wellhive += 1;
