@@ -847,12 +847,12 @@ export const veteranUI = {
     'ui:title': 'Enter the race that best describes you',
     'ui:widget': 'textarea',
     'ui:required': form => {
-      return form?.application?.veteran?.race?.isOther;
+      return form?.application?.veteran?.race?.isOther; // Only triggers the required if the user clicks Other and submits from there
     },
     'ui:options': {
       expandUnder: 'race',
       maxLength: 100,
-      pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
+      pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/, // Checks to make sure the user doesn't input only spaces or any unusual characters
       hideIf: form => {
         return !form?.application?.veteran?.race?.isOther; // Safely return the value of isOther
       },
