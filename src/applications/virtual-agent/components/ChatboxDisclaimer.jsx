@@ -4,7 +4,7 @@ import recordEvent from '@department-of-veterans-affairs/platform-monitoring/rec
 import { clearBotSessionStorage } from '../utils/sessionStorage';
 import { ACCEPTED } from '../reducers';
 
-export const ChatboxDisclaimer = () => {
+export default function ChatboxDisclaimer() {
   const dispatch = useDispatch();
   return (
     <va-alert status="info">
@@ -48,6 +48,4 @@ export const ChatboxDisclaimer = () => {
       </div>
     </va-alert>
   );
-};
-
-export default ChatboxDisclaimer;
+}
