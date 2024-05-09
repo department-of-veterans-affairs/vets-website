@@ -695,7 +695,7 @@ export const hasFormChanged = (obj, applicantName) => {
   return false;
 };
 
-export function compareObjectsIgnoringExtraKeys(obj1, obj2) {
+export function compareAddressObjects(obj1, obj2) {
   const { hasOwnProperty } = Object.prototype;
 
   const keys1 = Object.keys(obj1);
