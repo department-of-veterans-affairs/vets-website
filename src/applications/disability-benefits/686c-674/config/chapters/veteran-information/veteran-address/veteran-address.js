@@ -59,10 +59,10 @@ export const uiSchema = {
       'ui:title': 'Phone Number',
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
-        replaceSchema: () => {
+        updateSchema: () => {
           return {
             type: 'string',
-            pattern: '^[0-9]{3}-[0-9]{3}-[0-9]{4}$',
+            pattern: '^[0-9]{3}-?[0-9]{3}-?[0-9]{4}$',
           };
         },
       },
