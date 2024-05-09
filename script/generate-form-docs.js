@@ -110,22 +110,23 @@ const generateFormDocs = application => {
   const formJsPath = `${appPath}/config/form.js`;
   const structureJsonPath = `${appPath}/structure.json`;
 
-  if (fs.existsSync(formJsPath)) {
-    // eslint-disable-next-line import/no-dynamic-require
-    const formConfig = require(formJsPath).default;
-
-    const manifestContent = parseFormConfig(formConfig);
-
-    fs.writeFileSync(
-      structureJsonPath,
-      `${JSON.stringify(manifestContent, null, 2)}\n`,
+  if (!fs.existsSync(formJsPath)) {
+    process.stderr.write(
+      `${appPath} does not contain a config/form.js file.\n`,
     );
-    process.stdout.write(`${structureJsonPath} has been written.\n`);
     return;
   }
-  process.stderr.write(
-    `${appPath} path does not exist, or does not contain a form.js\n`,
+
+  // eslint-disable-next-line import/no-dynamic-require
+  const formConfig = require(formJsPath).default;
+
+  const structureContent = parseFormConfig(formConfig);
+
+  fs.writeFileSync(
+    structureJsonPath,
+    `${JSON.stringify(structureContent, null, 2)}\n`,
   );
+  process.stdout.write(`${structureJsonPath} has been written.\n`);
 };
 
 /**
