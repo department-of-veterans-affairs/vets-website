@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import { selectProfileContacts } from '@@profile/selectors';
 import { fetchProfileContacts as fetchProfileContactsFn } from '@@profile/actions';
 import { focusElement } from '~/platform/utilities/ui';
-
+import { isVAPatient } from '~/platform/user/selectors';
 import Contacts from './Contacts';
 import Loading from './Loading';
 import LoadFail from '../alerts/LoadFail';
 import NonVAPatientMessage from './NonVAPatientMessage';
-import { isVAPatient } from '~/platform/user/selectors';
 
 const PAGE_TITLE = 'Personal Health Care Contacts | Veterans Affairs';
 
