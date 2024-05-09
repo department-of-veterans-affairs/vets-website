@@ -1,8 +1,9 @@
 name: E2E Test Stability Review
 
 on:
-  schedule:
-    - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  # schedule:
+  #   - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  push
 
 env:
   BUILDTYPE: vagovprod
@@ -199,7 +200,7 @@ jobs:
 
       - name: Set output of TESTS_TO_STRESS_TEST
         id: tests
-        run: echo selected=$TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
+        run: echo selected=$CYPRESS_TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
 
       - name: Set output of NUM_CONTAINERS
         id: containers
