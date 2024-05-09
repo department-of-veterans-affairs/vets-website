@@ -85,6 +85,15 @@ const ApplicantInformationReviewPage = ({
               </dt>
               <dd>{data?.highSchoolDiplomaDate}</dd>
             </div>
+
+            <button
+              aria-label={`Edit ${title}`}
+              className="edit-btn primary-outline"
+              onClick={editPage}
+              type="button"
+            >
+              Edit
+            </button>
           </dl>
         )}
       </div>
