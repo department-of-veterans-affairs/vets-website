@@ -14,6 +14,30 @@ const UpcomingAppointmentsListItem = props => {
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
 
+  const appointmentInfo = () => {
+    if (appointment?.kind === 'vvc') {
+      return <div data-testid="appointment-info-vvc">{t('video')}</div>;
+    }
+    if (appointment?.kind === 'cvt') {
+      return (
+        <div data-testid="appointment-info-cvt">
+          {`${t('video-at')} ${appointment.facility}`}
+          <br />
+          {`${t('clinic')}: ${clinic}`}
+        </div>
+      );
+    }
+    if (appointment?.kind === 'phone') {
+      return <div data-testid="appointment-info-phone">{t('phone')}</div>;
+    }
+    return (
+      <div data-testid="appointment-info-clinic">
+        {`${t('in-person-at')} ${appointment.facility}`} <br />
+        {`${t('clinic')}: ${clinic}`}
+      </div>
+    );
+  };
+
   return (
     <li
       className="check-in--appointment-item"
@@ -44,21 +68,8 @@ const UpcomingAppointmentsListItem = props => {
           data-testid="appointment-kind-and-location"
           className="vads-u-display--inline"
         >
-          {appointment?.kind === 'phone' ? (
-            t('phone')
-          ) : (
-            <>
-              {t('in-person-at')} {appointment.facility}
-            </>
-          )}
+          {appointmentInfo()}
         </div>
-      </div>
-      <div>
-        {appointment?.kind === 'clinic' && (
-          <>
-            {t('clinic')}: {clinic}
-          </>
-        )}
       </div>
       <div className="vads-u-margin-y--1p5">
         <a
