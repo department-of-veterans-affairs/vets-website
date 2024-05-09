@@ -69,6 +69,24 @@ const ApplicantInformationReviewPage = ({
             </div>
           </dl>
         )}
+
+        {data?.toeHighSchoolInfoChange && (
+          <dl className="review">
+            <div className="review-row">
+              <dt>
+                Did you earn a high school diploma or equivalency certificate?
+              </dt>
+              <dd>{data?.highSchoolDiploma}</dd>
+            </div>
+            <div className="review-row">
+              <dt>
+                When did you earn your high school diploma or equivalency
+                certificate?
+              </dt>
+              <dd>{data?.highSchoolDiplomaDate}</dd>
+            </div>
+          </dl>
+        )}
       </div>
     </>
   );
