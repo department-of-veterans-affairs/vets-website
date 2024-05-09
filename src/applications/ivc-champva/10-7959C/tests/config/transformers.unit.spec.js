@@ -96,4 +96,18 @@ describe('Submit transformer', () => {
       certifierCert.data.applicantEmailAddress,
     );
   });
+  it('should set missing primary contact values to false', () => {
+    const certifierCert = {
+      data: {
+        certifierRole: 'other',
+        applicantName: { middle: 'unused' }, // prevents unrelated error
+      },
+    };
+    const transformed = JSON.parse(
+      transformForSubmit(formConfig, certifierCert),
+    );
+    expect(transformed.primaryContactInfo.name).to.equal(false);
+    expect(transformed.primaryContactInfo.phone).to.equal(false);
+    expect(transformed.primaryContactInfo.email).to.equal(false);
+  });
 });

@@ -487,6 +487,21 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
+describe('fullNamePath', () => {
+  it('should be "applicantName" if certifierRole is "applicant"', () => {
+    const v = formConfig.preSubmitInfo.statementOfTruth.fullNamePath({
+      certifierRole: 'applicant',
+    });
+    expect(v).to.equal('applicantName');
+  });
+  it('should be "certifierName" if certifierRole is "applicant"', () => {
+    const v = formConfig.preSubmitInfo.statementOfTruth.fullNamePath({
+      certifierRole: 'other',
+    });
+    expect(v).to.equal('certifierName');
+  });
+});
+
 describe('FileFieldWrapped', () => {
   it('should be called', () => {
     const ffw = FileFieldWrapped({});
