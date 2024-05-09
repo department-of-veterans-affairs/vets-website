@@ -134,20 +134,18 @@ const generateFormDocs = application => {
  * @param applicationName The name of the application.
  * @returns The constructed application path.
  */
-const constructApplicationPath = applicationName => {
-  return path.resolve(__dirname, `../src/applications/${applicationName}`);
-};
+const constructApplicationPath = applicationName =>
+  path.resolve(__dirname, `../src/applications/${applicationName}`);
 
 /**
  * Processes the list of application paths.
  * @param applicationPaths The list of application paths.
  * @returns The processed list of application paths.
  */
-const processApplications = applicationPaths => {
-  return applicationPaths.map(applicationPath =>
+const processApplications = applicationPaths =>
+  applicationPaths.map(applicationPath =>
     constructApplicationPath(applicationPath.trim()),
   );
-};
 
 if (process.argv.length < 3) {
   process.stdout.write(
