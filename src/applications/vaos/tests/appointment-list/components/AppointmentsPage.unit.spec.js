@@ -15,10 +15,7 @@ import {
   getTestDate,
 } from '../../mocks/setup';
 import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';
-import {
-  mockAppointmentInfo,
-  mockPastAppointmentInfo,
-} from '../../mocks/helpers';
+import { mockPastAppointmentInfo } from '../../mocks/helpers';
 import { createMockAppointmentByVersion } from '../../mocks/data';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import { getVAOSRequestMock } from '../../mocks/v2';
@@ -39,7 +36,6 @@ describe('VAOS Page: AppointmentsPage', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
-    mockAppointmentInfo({});
   });
   afterEach(() => {
     MockDate.reset();

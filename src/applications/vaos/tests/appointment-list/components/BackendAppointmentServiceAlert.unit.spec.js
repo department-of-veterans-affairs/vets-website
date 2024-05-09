@@ -7,7 +7,6 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import { AppointmentList } from '../../../appointment-list';
 import PastAppointmentsList from '../../../appointment-list/components/PastAppointmentsList';
-import { mockAppointmentInfo } from '../../mocks/helpers';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import { createMockAppointmentByVersion } from '../../mocks/data';
 import { getVAOSAppointmentMock, getVAOSRequestMock } from '../../mocks/v2';
@@ -26,7 +25,6 @@ describe('VAOS Backend Service Alert', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
-    mockAppointmentInfo({});
   });
 
   afterEach(() => {

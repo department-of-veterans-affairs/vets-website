@@ -746,9 +746,6 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     // And the CC iterations toggle is on
     // And type of care is selected
     const store = await setCommunityCareFlow({
-      toggles: {
-        vaOnlineSchedulingFacilitiesServiceV2: true,
-      },
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },
         { id: '984', address: { city: 'Belgrade', state: 'MT' } },

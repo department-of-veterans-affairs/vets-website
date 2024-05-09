@@ -22,8 +22,6 @@ import moment from '../../lib/moment-tz';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
 import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
 import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
-import { getParentSiteMock } from './v0';
-import { mockCommunityCareEligibility, mockParentSites } from './helpers';
 
 import createRoutesWithStore from '../../routes';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
@@ -308,7 +306,7 @@ export async function setVaccineFacility(store, facilityId, facilityData = {}) {
     }),
   ];
 
-  mockFacilitiesFetchByVersion({ children: true, facilities, version: 2 });
+  mockFacilitiesFetchByVersion({ children: true, facilities });
   mockSchedulingConfigurations([
     getSchedulingConfigurationMock({
       id: '983',
@@ -433,7 +431,6 @@ export async function setPreferredDate(store, preferredDate) {
  * @returns {ReduxStore} Redux store with data set up
  */
 export async function setCommunityCareFlow({
-  toggles = {},
   parentSites,
   registeredSites,
   supportedSites,
@@ -441,7 +438,6 @@ export async function setCommunityCareFlow({
   residentialAddress = null,
 }) {
   const typeOfCare = TYPES_OF_CARE.find(care => care.idV2 === typeOfCareId);
-  const useV2 = toggles.vaOnlineSchedulingFacilitiesServiceV2;
   const registered =
     registeredSites ||
     parentSites.filter(data => data.id.length === 3).map(data => data.id);
@@ -449,7 +445,6 @@ export async function setCommunityCareFlow({
   const store = createTestStore({
     featureToggles: {
       vaOnlineSchedulingCommunityCare: true,
-      ...toggles,
     },
     user: {
       profile: {
@@ -464,36 +459,19 @@ export async function setCommunityCareFlow({
     },
   });
 
-  if (useV2) {
-    mockVAOSParentSites(
-      registered,
-      parentSites.map(data =>
-        createMockFacilityByVersion({ ...data, isParent: true }),
-      ),
-      true,
-    );
-    mockV2CommunityCareEligibility({
-      parentSites: parentSites.map(data => data.id),
-      supportedSites: supportedSites || parentSites.map(data => data.id),
-      careType: typeOfCare.cceType,
-    });
-  } else {
-    mockParentSites(
-      registered,
-      parentSites.map(data =>
-        getParentSiteMock({
-          ...data,
-          city: data.address?.city,
-          state: data.address?.state,
-        }),
-      ),
-    );
-    mockCommunityCareEligibility({
-      parentSites: parentSites.map(data => data.id),
-      supportedSites: supportedSites || parentSites.map(data => data.id),
-      careType: typeOfCare.cceType,
-    });
-  }
+  mockVAOSParentSites(
+    registered,
+    parentSites.map(data =>
+      createMockFacilityByVersion({ ...data, isParent: true }),
+    ),
+    true,
+  );
+  mockV2CommunityCareEligibility({
+    parentSites: parentSites.map(data => data.id),
+    supportedSites: supportedSites || parentSites.map(data => data.id),
+    careType: typeOfCare.cceType,
+  });
+
   await setTypeOfCare(store, new RegExp(typeOfCare.name));
   await setTypeOfFacility(store, /Community Care/i);
 

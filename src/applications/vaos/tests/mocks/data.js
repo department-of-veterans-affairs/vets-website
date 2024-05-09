@@ -5,6 +5,7 @@ import omit from 'platform/utilities/data/omit';
 import moment from '../../lib/moment-tz';
 import { VIDEO_TYPES, APPOINTMENT_STATUS } from '../../utils/constants';
 
+// Version 0 used
 /**
  * Creates a mock appointment record, based on the data and version number
  * provided.
@@ -287,54 +288,30 @@ export function createMockClinicByVersion({
   stationId = null,
   name = null,
   friendlyName = null,
-  version = 2,
 }) {
-  if (version === 2) {
-    return {
+  return {
+    id,
+    type: 'clinics',
+    attributes: {
+      vistaSite: stationId.substr(0, 3),
       id,
-      type: 'clinics',
-      attributes: {
-        vistaSite: stationId.substr(0, 3),
-        id,
-        serviceName: friendlyName || name,
-        physicalLocation: null,
-        phoneNumber: null,
-        stationId,
-        stationName: null,
-        primaryStopCode: null,
-        primaryStopCodeName: null,
-        secondaryStopCode: null,
-        secondaryStopCodeName: null,
-        patientDirectScheduling: null,
-        patientDisplay: null,
-        char4: null,
-      },
-    };
-  }
-  if (version === 0) {
-    return {
-      id,
-      type: 'clinic',
-      attributes: {
-        siteCode: stationId.substr(0, 3),
-        clinicId: id,
-        clinicName: name,
-        clinicFriendlyLocationName: friendlyName,
-        primaryStopCode: null,
-        secondaryStopCode: null,
-        directSchedulingFlag: 'Y',
-        displayToPatientFlag: 'Y',
-        institutionName: null,
-        institutionCode: stationId,
-        objectType: 'CdwClinic',
-        link: [],
-      },
-    };
-  }
-
-  throw new Error('Missing version specified');
+      serviceName: friendlyName || name,
+      physicalLocation: null,
+      phoneNumber: null,
+      stationId,
+      stationName: null,
+      primaryStopCode: null,
+      primaryStopCodeName: null,
+      secondaryStopCode: null,
+      secondaryStopCodeName: null,
+      patientDirectScheduling: null,
+      patientDisplay: null,
+      char4: null,
+    },
+  };
 }
 
+// Version 0 used
 /**
  * Creates a mock VA facility object, for the specified version
  *
@@ -409,6 +386,7 @@ export function createMockFacilityByVersion({
   };
 }
 
+// Version 0 used
 export function createMockCheyenneFacilityByVersion({ version = 2 } = {}) {
   return createMockFacilityByVersion({
     id: '442',
@@ -422,28 +400,4 @@ export function createMockCheyenneFacilityByVersion({ version = 2 } = {}) {
     phone: '307-778-7550',
     version,
   });
-}
-
-/**
- * Creates a mock Provider object, for the specified version
- *
- * @export
- * @param {Object} params
- * @param {string} params.id The providerNpi id
- * @param {string} params.name The provider name address, in the FHIR format
- * @param {number} [params.version = 2] The version of the facility object to create
- * @returns {Provider} The provider mock with specified data
- */
-export function createMockProviderByVersion({
-  id = '123',
-  name = 'Fake name',
-  version = 2,
-} = {}) {
-  if (version === 2) {
-    return {
-      id,
-      name,
-    };
-  }
-  return null;
 }

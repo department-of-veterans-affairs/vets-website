@@ -505,7 +505,6 @@ describe('VAOS Page: DateTimeRequestPage', () => {
       // Given the user has two or more supported parent sites
       // And the user is in the community care flow
       const store = await setCommunityCareFlow({
-        toggles: {},
         registeredSites: ['983', '984'],
         parentSites: [{ id: '983' }, { id: '983GC' }],
         supportedSites: ['983', '983GC'],
@@ -541,9 +540,6 @@ describe('VAOS Page: DateTimeRequestPage', () => {
       // Given the user has one supported parent site
       // And the user is in the community care flow
       const store = await setCommunityCareFlow({
-        toggles: {
-          vaOnlineSchedulingFacilitiesServiceV2: true,
-        },
         registeredSites: ['983'],
         parentSites: [{ id: '983' }, { id: '983GC' }],
         supportedSites: ['983'],

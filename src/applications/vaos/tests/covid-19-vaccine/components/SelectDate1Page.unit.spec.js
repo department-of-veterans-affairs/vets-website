@@ -13,7 +13,7 @@ import {
 } from '../../mocks/setup';
 
 import SelectDate1Page from '../../../covid-19-vaccine/components/SelectDate1Page';
-import { getAppointmentSlotMock } from '../../mocks/v0';
+import { getAppointmentSlotMock } from '../../mocks/v2';
 import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
 import { mockEligibilityFetchesByVersion } from '../../mocks/fetch';
 import { createMockClinicByVersion } from '../../mocks/data';

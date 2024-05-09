@@ -6,13 +6,11 @@ import { cleanup } from '@testing-library/react';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
-import { getParentSiteMock } from '../../mocks/v0';
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setTypeOfCare,
 } from '../../mocks/setup';
-import { mockParentSites } from '../../mocks/helpers';
 
 import TypeOfEyeCarePage from '../../../new-appointment/components/TypeOfEyeCarePage';
 import {
@@ -98,16 +96,6 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
   });
 
   it('should facility type page when CC eligible and optometry is chosen', async () => {
-    const parentSite983 = {
-      id: '983',
-      attributes: {
-        ...getParentSiteMock().attributes,
-        institutionCode: '983',
-        rootStationCode: '983',
-        parentStationCode: '983',
-      },
-    };
-    mockParentSites(['983'], [parentSite983]);
     mockV2CommunityCareEligibility({
       parentSites: ['983', '983GC'],
       supportedSites: ['983GC'],

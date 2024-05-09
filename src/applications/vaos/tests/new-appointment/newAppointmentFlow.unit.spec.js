@@ -13,9 +13,7 @@ import parentFacilities from '../../services/mocks/var/facilities.json';
 
 import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 import { FACILITY_TYPES } from '../../utils/constants';
-import { mockParentSites } from '../mocks/helpers';
 import { mockFacilitiesFetchByVersion } from '../mocks/fetch';
-import { getParentSiteMock } from '../mocks/v0';
 import {
   mockSchedulingConfigurations,
   mockV2CommunityCareEligibility,
@@ -55,7 +53,6 @@ describe('VAOS newAppointmentFlow', () => {
             }),
           ],
         });
-        mockParentSites(['983'], [getParentSiteMock({ id: '983' })]);
         mockSchedulingConfigurations(
           [
             getSchedulingConfigurationMock({
