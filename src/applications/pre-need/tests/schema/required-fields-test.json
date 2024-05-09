@@ -43,9 +43,15 @@
       "hasCurrentlyBuried": "1",
       "currentlyBuriedPersons": [
         {
-          "name": {
-            "first": "Terry",
-            "last": "Greene"
+        "name": {
+          "first": "Terry",
+          "last": "Greene"
+          }
+        },
+        {
+        "name": {
+          "first": "James",
+          "last": "Parsons"
           }
         }
       ],

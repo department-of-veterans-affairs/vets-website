@@ -14,6 +14,7 @@ function errorCheck(errorList) {
 }
 
 const { serviceRecords } = testData.data.application.veteran;
+const { currentlyBuriedPersons } = testData.data.application;
 
 describe('Pre-need form VA 40-10007 Required Fields', () => {
   it('triggers validation on all required fields then completes the form with minimal data', () => {
@@ -153,7 +154,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Benefit Selection Page 1
     preneedHelpers.validateProgressBar('4');
-    errorCheck(requiredHelpers.burialBenefitsErrors1);
+    errorCheck(requiredHelpers.burialBenefitsErrors);
     cy.selectRadio(
       'root_application_hasCurrentlyBuried',
       testData.data.application.hasCurrentlyBuried,
@@ -161,21 +162,24 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.clickContinue();
 
     // Benefit Selection Page 2
-    errorCheck(requiredHelpers.burialBenefitsErrors2);
-    if (testData.data.application.currentlyBuriedPersons.length) {
-      testData.data.application.currentlyBuriedPersons.forEach(
-        (person, index) => {
-          cy.fill(
-            `input[name=root_application_currentlyBuriedPersons_${index}_name_first]`,
-            person.name.first,
-          );
-          cy.fill(
-            `input[name=root_application_currentlyBuriedPersons_${index}_name_last]`,
-            person.name.last,
-          );
-        },
+    currentlyBuriedPersons.forEach((person, index) => {
+      errorCheck([
+        `currentlyBuriedPersons_${index}_name_first`,
+        `currentlyBuriedPersons_${index}_name_last`,
+      ]);
+      cy.fill(
+        `input[name=root_application_currentlyBuriedPersons_${index}_name_first]`,
+        person.name.first,
       );
-    }
+      cy.fill(
+        `input[name=root_application_currentlyBuriedPersons_${index}_name_last]`,
+        person.name.last,
+      );
+      if (index < currentlyBuriedPersons.length - 1) {
+        cy.get('.usa-button-secondary.va-growable-add-btn').click();
+      }
+    });
+
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/burial-benefits');
 
