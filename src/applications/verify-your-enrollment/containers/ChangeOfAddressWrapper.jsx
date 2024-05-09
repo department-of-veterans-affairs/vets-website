@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import {
-  compareObjectsIgnoringExtraKeys,
+  compareAddressObjects,
   hasFormChanged,
   objectHasNoUndefinedValues,
   prepareAddressData,
@@ -39,7 +39,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
   const [editFormData, setEditFormData] = useState({});
-  const [editFormData1, setEditFormData1] = useState({});
+  const [beforeDditFormData, setBeforeEditFormData] = useState({});
   const [suggestedAddressPicked, setSuggestedAddressPicked] = useState(false);
   const [newAddress, setNewAddress] = useState({});
   const [goBackToEdit, setGoBackToEdit] = useState(false);
@@ -82,7 +82,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
 
   // called when submitting form
   const saveAddressInfo = async () => {
-    setEditFormData1(formData);
+    setBeforeEditFormData(formData);
     if (Object.keys(formData).length === 0) {
       Object.assign(formData, editFormData);
     }
@@ -195,8 +195,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const onCancleButtonClicked = () => {
     if (
       (hasFormChanged(formData, applicantName) && !goBackToEdit) ||
-      (goBackToEdit &&
-        compareObjectsIgnoringExtraKeys(editFormData, editFormData1))
+      (goBackToEdit && compareAddressObjects(editFormData, beforeDditFormData))
     ) {
       setShowModal(true);
     } else {
@@ -312,22 +311,24 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               formSubmit={saveAddressInfo}
               formData={editFormData}
             >
-              <LoadingButton
-                aria-label="save your Mailing address for GI Bill benefits"
-                type="submit"
-                loadingText="saving Mailling address"
-                className="usa-button-primary vads-u-margin-top--0 address-submit-btn-auto-width"
-              >
-                Save
-              </LoadingButton>
-              <va-button
-                text="Cancel"
-                secondary
-                label="cancel updating your bank information for GI Bill benefits"
-                onClick={onCancleButtonClicked}
-                data-qa="cancel-button"
-                data-testid={`${PREFIX}form-cancel-button`}
-              />
+              <div className="button-container">
+                <LoadingButton
+                  aria-label="save your Mailing address for GI Bill benefits"
+                  type="submit"
+                  loadingText="saving Mailling address"
+                  className="usa-button-primary vads-u-margin-top--0 address-submit-btn-auto-width"
+                >
+                  Save
+                </LoadingButton>
+                <va-button
+                  text="Cancel"
+                  secondary
+                  label="cancel updating your bank information for GI Bill benefits"
+                  onClick={onCancleButtonClicked}
+                  data-qa="cancel-button"
+                  data-testid={`${PREFIX}form-cancel-button`}
+                />
+              </div>
             </ChangeOfAddressForm>
           </div>
         )}
