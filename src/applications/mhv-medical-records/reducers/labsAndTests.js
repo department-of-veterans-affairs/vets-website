@@ -43,13 +43,19 @@ const initialState = {
  */
 const convertChemHemObservation = results => {
   return results.filter(obs => obs.valueQuantity).map(result => {
+    let observationValueWithUnits = getObservationValueWithUnits(result);
+    const interpretation = concatObservationInterpretations(result);
+    if (observationValueWithUnits && interpretation) {
+      observationValueWithUnits += ` (${interpretation})`;
+    }
     return {
       name: result.code.text,
-      result: getObservationValueWithUnits(result) || EMPTY_FIELD,
+      result: observationValueWithUnits || EMPTY_FIELD,
       standardRange: result.referenceRange[0].text || EMPTY_FIELD,
       status: result.status || EMPTY_FIELD,
       labLocation: result.labLocation || EMPTY_FIELD,
-      interpretation: concatObservationInterpretations(result) || EMPTY_FIELD,
+      labComments:
+        (isArrayAndHasItems(result.note) && result.note[0].text) || EMPTY_FIELD,
     };
   });
 };

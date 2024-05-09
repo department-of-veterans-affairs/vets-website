@@ -99,7 +99,7 @@ Result: ${entry.result}
 Standard range: ${entry.standardRange}
 Status: ${entry.status}
 Lab location: ${entry.labLocation}
-Interpretation: ${entry.interpretation}\n`,
+Lab comments: ${entry.labComments}\n`,
       )
       .join('')}`;
 
@@ -119,7 +119,12 @@ Interpretation: ${entry.interpretation}\n`,
       >
         {record.name}
       </h1>
-      <DateSubheading date={record.date} id="chem-hem-date" />
+      <DateSubheading
+        date={record.date}
+        id="chem-hem-date"
+        label="Date and time collected"
+        labelClass="vads-u-font-weight--normal"
+      />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
@@ -137,19 +142,13 @@ Interpretation: ${entry.interpretation}\n`,
         </h3>
         <p data-testid="chem-hem-category">{record.category}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Sample tested
+          Site or sample tested
         </h3>
         <p data-testid="chem-hem-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordered by
         </h3>
         <p data-testid="chem-hem-ordered-by">{record.orderedBy}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Ordering location
-        </h3>
-        <p data-testid="chem-hem-ordering-location">
-          {record.orderingLocation}
-        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Collecting location
         </h3>
