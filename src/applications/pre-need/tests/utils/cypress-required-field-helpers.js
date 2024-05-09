@@ -15,11 +15,8 @@ const veteranDemographicsErrors = [
   'veteran_race',
   'veteran_maritalStatus',
 ];
-
 const veteranDeceasedErrors = ['veteran_isDeceased'];
-
 const veteranMilitaryDetailsErrors = ['veteran_militaryStatus'];
-const militaryHistoryErrors = ['veteran_serviceRecords_0_serviceBranch'];
 const previousNameErrors1 = ['veteran_view\\:hasServiceName'];
 const previousNameErrors2 = [
   'veteran_serviceName_first',
@@ -55,7 +52,6 @@ module.exports = {
   veteranDemographicsErrors,
   veteranDeceasedErrors,
   veteranMilitaryDetailsErrors,
-  militaryHistoryErrors,
   previousNameErrors1,
   previousNameErrors2,
   burialBenefitsErrors1,

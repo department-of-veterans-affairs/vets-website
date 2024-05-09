@@ -13,6 +13,8 @@ function errorCheck(errorList) {
   cy.axeCheck();
 }
 
+const { serviceRecords } = testData.data.application.veteran;
+
 describe('Pre-need form VA 40-10007 Required Fields', () => {
   it('triggers validation on all required fields then completes the form with minimal data', () => {
     preneedHelpers.interceptSetup();
@@ -99,30 +101,35 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Military History Page
     preneedHelpers.validateProgressBar('3');
-    errorCheck(requiredHelpers.militaryHistoryErrors);
-    testData.data.application.veteran.serviceRecords.forEach(
-      (branch, index) => {
-        cy.get(
-          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-        ).click();
-        cy.fill(
-          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-          branch.serviceBranch,
-        );
-        cy.get(
-          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-        ).trigger('keydown', { keyCode: 40 });
-        cy.get(
-          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-        ).trigger('keyup', { keyCode: 40 });
-        cy.get(
-          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-        ).trigger('keydown', { keyCode: 13 });
-        cy.get(
-          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-        ).trigger('keyup', { keyCode: 13 });
-      },
-    );
+    serviceRecords.forEach((branch, index) => {
+      errorCheck([`veteran_serviceRecords_${index}_serviceBranch`]);
+
+      cy.get(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+      ).click();
+      cy.fill(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+        branch.serviceBranch,
+      );
+      cy.get(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+      ).trigger('keydown', { keyCode: 40 });
+      cy.get(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+      ).trigger('keyup', { keyCode: 40 });
+      cy.get(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+      ).trigger('keydown', { keyCode: 13 });
+      cy.get(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+      ).trigger('keyup', { keyCode: 13 });
+
+      // Keep adding them until we're finished.
+      if (index < serviceRecords.length - 1) {
+        cy.get('.usa-button-secondary.va-growable-add-btn').click();
+      }
+    });
+
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-military-history');
 
