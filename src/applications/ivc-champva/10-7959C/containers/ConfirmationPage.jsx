@@ -49,6 +49,7 @@ export function ConfirmationPage(props) {
     allPages: form.pages,
     fileNameMap: { ...requiredFiles },
     requiredFiles,
+    nonListNameKey: 'applicantName',
   });
 
   useEffect(() => {
