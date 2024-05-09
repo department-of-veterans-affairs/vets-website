@@ -19,7 +19,7 @@
     "applicantMedicarePartBCarrier": "Test B Carrier",
     "applicantMedicarePartAEffectiveDate": "2010-01-01",
     "applicantMedicarePartBEffectiveDate": "2010-01-01",
-    "applicantMedicarePharmacyBenefits": true,
+    "applicantMedicarePharmacyBenefits": false,
     "applicantMedicareAdvantage": true,
     "applicantMedicareStatusD": true,
     "applicantMedicarePartDCarrier": "Test D Carrier",
@@ -28,9 +28,9 @@
     "applicantPrimaryProvider": "Primary Provider",
     "applicantPrimaryEffectiveDate": "2010-01-01",
     "applicantPrimaryExpirationDate": "2010-01-01",
-    "applicantPrimaryThroughEmployer": true,
+    "applicantPrimaryThroughEmployer": false,
     "applicantPrimaryHasPrescription": true,
-    "applicantPrimaryEOB": "hasEob",
+    "applicantPrimaryEOB": "noEob",
     "applicantPrimaryInsuranceType": { "hmo": true, "medigap": true },
     "primaryMedigapPlan": "medigapPlanA",
     "primaryAdditionalComments": "Additional primary comment",
@@ -61,6 +61,6 @@
     "certifierRole": "other",
     "consentToMailMissingRequiredFiles": true,
     "statementOfTruthCertified": true,
-    "statementOfTruthSignature": "Jimmy Alvin"
+    "statementOfTruthSignature": "Certifier Jones"
   }
 }

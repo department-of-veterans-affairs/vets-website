@@ -238,6 +238,8 @@ export const TRACKING_PREFIXES = {
   [VA_FORM_IDS.FORM_20_0996]: 'decision-reviews-va20-0996-',
   [VA_FORM_IDS.FORM_VA_2346A]: 'bam-2346a-',
   [VA_FORM_IDS.FORM_5655]: 'fsr-5655-',
+  [VA_FORM_IDS.FORM_28_8832]: '28-8832-',
+  [VA_FORM_IDS.FORM_26_1880]: '26-1880-',
 };
 
 export const SIP_ENABLED_FORMS = new Set([
