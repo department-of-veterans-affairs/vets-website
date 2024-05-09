@@ -119,6 +119,14 @@ describe('Applicant Name/DOB page title', () => {
     'Applicant name/DOB',
     { ...mockData.data },
   );
+  testNumberOfWebComponentFields(
+    formConfig,
+    formConfig.chapters.applicantInformation.pages.applicantNameDob.schema,
+    formConfig.chapters.applicantInformation.pages.applicantNameDob.uiSchema,
+    5,
+    'Applicant name/DOB',
+    { certifierRole: 'applicant' },
+  );
 });
 
 testNumberOfWebComponentFields(
@@ -229,6 +237,16 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
+// Hit the useFirstPerson conditional branch in title
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.pharmacyBenefits.schema,
+  formConfig.chapters.medicareInformation.pages.pharmacyBenefits.uiSchema,
+  1,
+  'Applicant medicare pharmacy benefits',
+  { ...mockData.data, certifierRole: 'applicant' },
+);
+
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.medicareInformation.pages.advantagePlan.schema,
@@ -245,6 +263,16 @@ testNumberOfWebComponentFields(
   1,
   'Applicant has medicare D',
   { ...mockData.data },
+);
+
+// Follow title else path
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.medicareInformation.pages.hasMedicareD.schema,
+  formConfig.chapters.medicareInformation.pages.hasMedicareD.uiSchema,
+  1,
+  'Applicant has medicare D',
+  { ...mockData.data, certifierRole: 'applicant' },
 );
 
 testNumberOfWebComponentFields(
@@ -341,6 +369,17 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
+  formConfig.chapters.healthcareInformation.pages.hasSecondaryHealthInsurance
+    .schema,
+  formConfig.chapters.healthcareInformation.pages.hasSecondaryHealthInsurance
+    .uiSchema,
+  1,
+  'Applicant has secondary healthcare',
+  { applicantHasSecondary: true, certifierRole: 'applicant' },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
   formConfig.chapters.healthcareInformation.pages.primaryProvider.schema,
   formConfig.chapters.healthcareInformation.pages.primaryProvider.uiSchema,
   3,
@@ -387,11 +426,29 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
+  formConfig.chapters.healthcareInformation.pages.secondaryType.schema,
+  formConfig.chapters.healthcareInformation.pages.secondaryType.uiSchema,
+  6,
+  'Applicant secondary insurance type',
+  { ...mockData.data, certifierRole: 'applicant' },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
   formConfig.chapters.healthcareInformation.pages.primaryMedigap.schema,
   formConfig.chapters.healthcareInformation.pages.primaryMedigap.uiSchema,
   1,
   'Applicant primary Medigap type',
   { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.healthcareInformation.pages.secondaryMedigap.schema,
+  formConfig.chapters.healthcareInformation.pages.secondaryMedigap.uiSchema,
+  1,
+  'Applicant secondary Medigap type',
+  { ...mockData.data, certifierRole: 'applicant' },
 );
 
 testNumberOfWebComponentFields(
@@ -405,10 +462,28 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
+  formConfig.chapters.healthcareInformation.pages.secondaryComments.schema,
+  formConfig.chapters.healthcareInformation.pages.secondaryComments.uiSchema,
+  1,
+  'Applicant secondary comments',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
   formConfig.chapters.healthcareInformation.pages.primaryCard.schema,
   formConfig.chapters.healthcareInformation.pages.primaryCard.uiSchema,
   0,
   'Applicant primary card',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.healthcareInformation.pages.secondaryCard.schema,
+  formConfig.chapters.healthcareInformation.pages.secondaryCard.uiSchema,
+  0,
+  'Applicant secondary card',
   { ...mockData.data },
 );
 

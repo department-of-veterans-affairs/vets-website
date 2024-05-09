@@ -92,10 +92,10 @@ export function ConfirmationPage(props) {
         )}
         <br />
         {data.statementOfTruthSignature && (
-          <span className="veterans-full-name">
+          <span className="confirmation-number">
             <strong>Confirmation number</strong>
             <br />
-            {form.submission?.response?.confirmationNumber || ''}
+            {form.submission?.response?.confirmationNumber}
           </span>
         )}
         {isValid(submitDate) && (
@@ -105,7 +105,7 @@ export function ConfirmationPage(props) {
             <span>{format(submitDate, 'MMMM d, yyyy')}</span>
           </p>
         )}
-        <span className="veterans-full-name">
+        <span className="print-message">
           <strong>Confirmation for your records</strong>
           <br />
           You can print this confirmation for page for your records.
