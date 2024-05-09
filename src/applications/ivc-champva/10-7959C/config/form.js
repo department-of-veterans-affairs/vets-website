@@ -50,7 +50,7 @@ import {
   applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
-// import mockdata from '../tests/fixtures/data/test-data.json';
+// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
