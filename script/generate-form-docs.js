@@ -155,13 +155,13 @@ Example: node ${__filename} pensions, burials\n`,
   process.exit(1);
 }
 
-const applicationPathsInput = process.argv
+const applicationInput = process.argv
   .slice(2)
   .join('')
   .split(',')
   .map(arg => arg.trim());
 
-const applicationPaths = processApplicationsInput(applicationPathsInput);
+const applicationPaths = processApplicationsInput(applicationInput);
 
 includePolyfillsAndLoaders();
 applicationPaths.forEach(applicationPath => generateFormDocs(applicationPath));
