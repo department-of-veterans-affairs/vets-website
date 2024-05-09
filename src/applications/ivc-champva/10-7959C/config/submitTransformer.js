@@ -1,6 +1,18 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 
+function getPrimaryContact(data) {
+  // For callback API we need to know what data in the form should be
+  // treated as the primary contact. Determined based on `certifierRole`:
+  const useCert = data.certifierRole !== 'applicant';
+  return {
+    name: (useCert ? data?.certifierName : data?.applicantName) ?? false,
+    email:
+      (useCert ? data?.certifierEmail : data?.applicantEmailAddress) ?? false,
+    phone: (useCert ? data?.certifierPhone : data?.applicantPhone) ?? false,
+  };
+}
+
 export default function transformForSubmit(formConfig, form) {
   const transformedData = JSON.parse(
     formsSystemTransformForSubmit(formConfig, form),
@@ -35,6 +47,10 @@ export default function transformForSubmit(formConfig, form) {
   copyOfData.certificationDate = new Date()
     .toLocaleDateString('es-pa')
     .replace(/\//g, '-');
+
+  // Set this for the callback API so it knows who to contact if there's
+  // a status event notification
+  copyOfData.primaryContactInfo = getPrimaryContact(copyOfData);
 
   return JSON.stringify({
     ...copyOfData,
