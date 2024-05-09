@@ -68,7 +68,7 @@ describe('handle multiple drafts in one thread', () => {
     });
   });
 
-  it('verify drafts detailed vew', () => {
+  it('verify drafts detailed view', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
