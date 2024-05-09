@@ -519,7 +519,6 @@ const Prescriptions = () => {
                         className="vads-c-action-link--green vads-u-margin--0"
                         to={medicationsUrls.subdirectories.REFILL}
                         data-testid="prescriptions-nav-link-to-refill"
-                        onClick={handletoRefillLink}
                       >
                         Refill prescriptions
                       </Link>
