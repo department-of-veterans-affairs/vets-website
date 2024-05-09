@@ -11,10 +11,7 @@ env:
 jobs:
   build:
     name: Build
-    runs-on: self-hosted
-
-    env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+    runs-on: ubuntu-16-cores-latest
 
     steps:
       - name: Checkout
@@ -212,7 +209,7 @@ jobs:
 
   stress-test-cypress-tests:
     name: E2E Test Stability Review
-    runs-on: self-hosted
+    runs-on: ubuntu-16-cores-latest
     timeout-minutes: 1200
     needs: [build, cypress-tests-prep]
     if: |
@@ -220,7 +217,6 @@ jobs:
       needs.cypress-tests-prep.result == 'success'
     container:
       image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
-      options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
       fail-fast: false
@@ -230,8 +226,6 @@ jobs:
           [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 
     env:
-      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
-      NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
       CI_NODE_INDEX: ${{ needs.cypress-tests-prep.outputs.ci_node_index }}
 
     steps:
