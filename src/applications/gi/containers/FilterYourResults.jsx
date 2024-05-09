@@ -183,6 +183,7 @@ export function FilterYourResults({
 
     return (
       <CheckboxGroup
+        label={<h3>School types</h3>}
         onChange={handleIncludedSchoolTypesChange}
         options={options}
         // setIsCleared={setIsCleared}
@@ -239,7 +240,13 @@ export function FilterYourResults({
       },
     ];
 
-    return <CheckboxGroup onChange={onChangeCheckbox} options={options} />;
+    return (
+      <CheckboxGroup
+        label={<h3>About the school</h3>}
+        onChange={onChangeCheckbox}
+        options={options}
+      />
+    );
   };
 
   const specializedMissionAttributes = () => {
@@ -305,6 +312,7 @@ export function FilterYourResults({
     return (
       <CheckboxGroup
         class="vads-u-margin-y--4"
+        label={<h3>Community focus</h3>}
         onChange={onChangeCheckbox}
         options={sortedOptions}
       />
@@ -315,9 +323,7 @@ export function FilterYourResults({
     const legendId = `${createId(name)}-legend`;
     return (
       <div className="vads-u-margin-bottom--4">
-        <h3>School types</h3>
         {excludedSchoolTypesGroup()}
-        <h3>About the school</h3>
         {schoolAttributes()}
         <h3>Other</h3>
         <Checkbox
@@ -348,7 +354,6 @@ export function FilterYourResults({
             />
           )}
         </div>    */}
-        <h3>Community Focus</h3>
         {specializedMissionAttributes()}
       </div>
     );
