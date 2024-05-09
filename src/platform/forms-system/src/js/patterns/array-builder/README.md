@@ -49,8 +49,8 @@ const formConfig = {
 ```
 
 ### Step 2. Create either "required" pages flow or "optional" pages flow
-  - [Example Pages Required Flow](#example-code-required-flow)
-  - [Example Pages Optional Flow](#example-code-optional-flow)
+  - [Example Pages "Required" Flow](#example-pages-required-flow)
+  - [Example Pages "Optional" Flow](#example-pages-optional-flow)
 
 ### Example Pages "Required" Flow
 You can copy this to a new file `pages/nounPluralReplaceMe.js` as a starting point, and then import to `config/form.js`
