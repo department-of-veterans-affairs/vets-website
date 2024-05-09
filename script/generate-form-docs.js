@@ -151,7 +151,7 @@ const processApplications = applicationPaths => {
 
 if (process.argv.length < 3) {
   process.stdout.write(
-    `Usage: node ${__filename} <applicationPath1(,applicationPathN)>`,
+    `Usage: node ${__filename} <applicationName1(,applicationNameN)>\n`,
   );
   process.exit(1);
 }
