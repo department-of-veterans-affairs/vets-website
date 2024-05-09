@@ -29,7 +29,7 @@ export const uiSchema = {
         'ui:title': 'Sponsor’s VA claim number',
         'ui:options': {
           enableAnalytics: false,
-          hint: 'If they don’t have a VA claim number, leave this blank',
+          hint: 'If they don’t have a VA claim number, leave this blank.',
         },
         'ui:errorMessages': {
           pattern: 'Sponsor’s VA claim number must be 8 or 9 digits',
@@ -46,8 +46,8 @@ export const uiSchema = {
             'You can add more service history information later in this application.',
           labels: {
             A: 'Active duty',
-            I: 'Death Related to Inactive Duty Training',
-            D: 'Died on Active Duty',
+            I: 'Death related to inactive duty training',
+            D: 'Died on active duty',
             S: 'Reserve/National Guard',
             R: 'Retired',
             E: 'Retired active duty',

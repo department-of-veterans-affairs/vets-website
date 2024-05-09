@@ -30,7 +30,7 @@ export const uiSchema = {
         'ui:title': 'Sponsor’s VA claim number',
         'ui:options': {
           enableAnalytics: false,
-          hint: 'If they don’t have a VA claim number, leave this blank',
+          hint: 'If they don’t have a VA claim number, leave this blank.',
         },
         'ui:errorMessages': {
           pattern: 'Sponsor’s VA claim number must be 8 or 9 digits',
