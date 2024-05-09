@@ -31,15 +31,30 @@ const RxBreadcrumbs = () => {
   return (
     <>
       {breadcrumbs.length > 0 && (
-        <VaBreadcrumbs
-          uswds
-          wrapping
-          label="Breadcrumb"
-          data-testid="rx-breadcrumb"
-          home-veterans-affairs="false"
-          breadcrumbList={breadcrumbs}
-          className={`${alignToLeft} no-print va-breadcrumbs-li vads-u-padding-bottom--2p5 vads-u-padding-top--0 vads-u-margin-bottom--neg1p5`}
-        />
+        <>
+          <VaBreadcrumbs
+            uswds
+            wrapping
+            label="Breadcrumb"
+            data-testid="rx-breadcrumb"
+            home-veterans-affairs="false"
+            breadcrumbList={breadcrumbs}
+            className={`${alignToLeft} no-print va-breadcrumbs-li vads-u-margin-bottom--neg1p5 vads-u-display--block 
+            ${
+              breadcrumbs.length > 3 ? 'small-screen:vads-u-display--none' : ''
+            }`}
+          />
+          <div
+            className={`include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3 vads-u-display--none ${
+              breadcrumbs.length > 3 ? 'small-screen:vads-u-display--block' : ''
+            }`}
+          >
+            <va-link
+              href={breadcrumbs[breadcrumbs.length - 2].href}
+              text={`Back to ${breadcrumbs[breadcrumbs.length - 2].label}`}
+            />
+          </div>
+        </>
       )}
     </>
   );
