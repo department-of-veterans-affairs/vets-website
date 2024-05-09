@@ -40,7 +40,9 @@ import {
   transcriptReleaseLabel,
   transform,
   validateMatch,
+  isProductionOfTestProdEnv,
 } from '../helpers';
+import { applicantRelationship } from '../pages/index';
 
 import migrations from './migrations';
 
@@ -143,6 +145,62 @@ function manualSchoolEntryIsCheckedAndIsUS(formData) {
   return manualSchoolEntryIsChecked(formData) && isUS(formData);
 }
 
+function applicantInformationUiSchema() {
+  if (isProductionOfTestProdEnv()) {
+    return {
+      'ui:description': recordApplicantRelationship,
+      onBehalfOf: {
+        'ui:widget': 'radio',
+        'ui:title': 'I’m submitting feedback on behalf of...',
+        'ui:options': {
+          nestedContent: {
+            [myself]: () => (
+              <div className="usa-alert usa-alert-info background-color-only">
+                We’ll only share your name with the school.
+              </div>
+            ),
+            [someoneElse]: () => (
+              <div className="usa-alert usa-alert-info background-color-only">
+                Your name is shared with the school, not the name of the person
+                person you’re submitting feedback for.
+              </div>
+            ),
+            [anonymous]: () => (
+              <div className="usa-alert usa-alert-info background-color-only">
+                Anonymous feedback is shared with the school. Your personal
+                personal information, however, isn’t shared with anyone outside
+                outside of VA.
+              </div>
+            ),
+          },
+          expandUnderClassNames: 'schemaform-expandUnder',
+        },
+      },
+      anonymousEmail: merge({}, emailUI('Email'), {
+        'ui:options': {
+          expandUnder: 'onBehalfOf',
+          expandUnderCondition: anonymous,
+        },
+      }),
+    };
+  }
+  return applicantRelationship.default.uiSchema;
+}
+
+function applicantInformationSchema() {
+  if (isProductionOfTestProdEnv) {
+    return {
+      type: 'object',
+      required: ['onBehalfOf'],
+      properties: {
+        onBehalfOf,
+        anonymousEmail,
+      },
+    };
+  }
+  return applicantRelationship.default.schema;
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -189,50 +247,8 @@ const formConfig = {
         applicantRelationship: {
           path: 'applicant-relationship',
           title: 'Applicant Relationship',
-          uiSchema: {
-            'ui:description': recordApplicantRelationship,
-            onBehalfOf: {
-              'ui:widget': 'radio',
-              'ui:title': 'I’m submitting feedback on behalf of...',
-              'ui:options': {
-                nestedContent: {
-                  [myself]: () => (
-                    <div className="usa-alert usa-alert-info background-color-only">
-                      We’ll only share your name with the school.
-                    </div>
-                  ),
-                  [someoneElse]: () => (
-                    <div className="usa-alert usa-alert-info background-color-only">
-                      Your name is shared with the school, not the name of the
-                      person you’re submitting feedback for.
-                    </div>
-                  ),
-                  [anonymous]: () => (
-                    <div className="usa-alert usa-alert-info background-color-only">
-                      Anonymous feedback is shared with the school. Your
-                      personal information, however, isn’t shared with anyone
-                      outside of VA.
-                    </div>
-                  ),
-                },
-                expandUnderClassNames: 'schemaform-expandUnder',
-              },
-            },
-            anonymousEmail: merge({}, emailUI('Email'), {
-              'ui:options': {
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: anonymous,
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            required: ['onBehalfOf'],
-            properties: {
-              onBehalfOf,
-              anonymousEmail,
-            },
-          },
+          uiSchema: applicantInformationUiSchema(),
+          schema: applicantInformationSchema(),
         },
         applicantInformation: {
           path: 'applicant-information',
