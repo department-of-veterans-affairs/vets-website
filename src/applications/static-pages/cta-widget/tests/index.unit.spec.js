@@ -890,5 +890,33 @@ describe('<CallToActionWidget>', () => {
       expect(tree.find('a').exists()).to.be.false;
       tree.unmount();
     });
+
+    it('renders SignIn component w/ h4 heading', () => {
+      const tree = mount(
+        <CallToActionWidget
+          appId={CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES}
+          profile={{
+            loading: false,
+            verified: false,
+            multifactor: false,
+          }}
+          mhvAccount={{
+            loading: false,
+          }}
+          mviStatus={{}}
+          featureToggles={{
+            loading: false,
+            [featureFlagNames.haCpapSuppliesCta]: true,
+          }}
+        />,
+      );
+
+      expect(tree.find('LoadingIndicator').exists()).to.be.false;
+      expect(tree.find('SignIn').exists()).to.be.true;
+      expect(tree.find('h4')).to.have.length(1);
+      expect(tree.find('Verify').exists()).to.be.false;
+      expect(tree.find('a').exists()).to.be.false;
+      tree.unmount();
+    });
   });
 });
