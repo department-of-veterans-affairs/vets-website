@@ -50,7 +50,7 @@ export const noneAndConditionError =
   'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.';
 
 export const noneAndLocationError =
-  'You selected a location, and you also selected "None of these locations". You’ll need to uncheck one of these options to continue.';
+  'You selected a location, and you also selected "None of these locations." You’ll need to uncheck one of these options to continue.';
 
 export const dateRangeAdditionalInfo = (
   <va-additional-info trigger="What if I have more than one date range?">
