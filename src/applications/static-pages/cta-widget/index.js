@@ -183,6 +183,7 @@ export class CallToActionWidget extends Component {
         <Verify
           serviceDescription={this._serviceDescription}
           primaryButtonHandler={this.verifyHandler}
+          headerLevel={this._headerLevel}
         />
       );
     }
