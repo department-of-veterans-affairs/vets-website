@@ -142,7 +142,7 @@ const constructApplicationPath = applicationName =>
  * @param applicationPaths The list of application paths.
  * @returns The processed list of application paths.
  */
-const processApplications = applicationPaths =>
+const processApplicationsInput = applicationPaths =>
   applicationPaths.map(applicationPath =>
     constructApplicationPath(applicationPath.trim()),
   );
@@ -161,7 +161,7 @@ const applicationPathsInput = process.argv
   .split(',')
   .map(arg => arg.trim());
 
-const applicationPaths = processApplications(applicationPathsInput);
+const applicationPaths = processApplicationsInput(applicationPathsInput);
 
 includePolyfillsAndLoaders();
 applicationPaths.forEach(applicationPath => generateFormDocs(applicationPath));
