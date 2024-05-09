@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import ClaimOverviewHeader from '../../components/ClaimOverviewHeader';
+import ClaimOverviewHeader from '../../../components/claim-overview-tab/ClaimOverviewHeader';
 
 describe('<ClaimOverviewHeader>', () => {
   it('should render a ClaimOverviewHeader section', () => {

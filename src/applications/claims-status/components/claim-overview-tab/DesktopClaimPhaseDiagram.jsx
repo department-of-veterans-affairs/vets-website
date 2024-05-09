@@ -107,5 +107,5 @@ export default function DesktopClaimPhaseDiagram({ currentPhase }) {
 }
 
 DesktopClaimPhaseDiagram.propTypes = {
-  currentPhase: PropTypes.number,
+  currentPhase: PropTypes.number.isRequired,
 };

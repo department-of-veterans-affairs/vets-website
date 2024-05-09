@@ -133,5 +133,5 @@ export default function MobileClaimPhaseDiagram({ currentPhase }) {
 }
 
 MobileClaimPhaseDiagram.propTypes = {
-  currentPhase: PropTypes.number,
+  currentPhase: PropTypes.number.isRequired,
 };

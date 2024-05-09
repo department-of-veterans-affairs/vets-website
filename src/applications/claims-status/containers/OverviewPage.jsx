@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { clearNotification } from '../actions';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
@@ -198,10 +199,14 @@ class OverviewPage extends React.Component {
     return (
       <div className="overview-container">
         <ClaimOverviewHeader />
-        <div className="claim-phase-diagram">
-          <MobileClaimPhaseDiagram currentPhase={currentPhase} />
-          <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
-        </div>
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+          <Toggler.Enabled>
+            <div className="claim-phase-diagram">
+              <MobileClaimPhaseDiagram currentPhase={currentPhase} />
+              <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
+            </div>
+          </Toggler.Enabled>
+        </Toggler>
         <ClaimTimeline
           id={claim.id}
           phase={currentPhase}
