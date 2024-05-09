@@ -4,18 +4,20 @@ import {
   mockFetch,
   setFetchJSONFailure,
   setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import {
   getEnrollmentData,
   getServiceAvailability,
 } from '../../actions/post-911-gib-status';
 import {
-  BACKEND_SERVICE_ERROR,
+  BACKEND_AUTHENTICATION_ERROR,
   GET_ENROLLMENT_DATA_FAILURE,
   GET_ENROLLMENT_DATA_SUCCESS,
+  NO_CHAPTER33_RECORD_AVAILABLE,
   SET_SERVICE_AVAILABILITY,
   SERVICE_AVAILABILITY_STATES,
   SET_SERVICE_UPTIME_REMAINING,
+  SERVICE_DOWNTIME_ERROR,
 } from '../../utils/constants';
 
 let oldWindow;
@@ -132,7 +134,7 @@ describe('getEnrollmentData', () => {
   });
 
   it('dispatches GET_ENROLLMENT_DATA_FAILURE on unexpected error without code', done => {
-    setFetchJSONFailure(global.fetch.onCall(0), Promise.reject({}));
+    setFetchJSONFailure(global.fetch.onCall(0), Promise.reject(new Error()));
     const thunk = getEnrollmentData();
     const dispatch = sinon.spy();
     thunk(dispatch)
@@ -166,7 +168,49 @@ describe('getEnrollmentData', () => {
     thunk(dispatch)
       .then(() => {
         const action = dispatch.firstCall.args[0];
-        expect(action.type).to.equal(BACKEND_SERVICE_ERROR);
+        expect(action.type).to.equal(SERVICE_DOWNTIME_ERROR);
+      })
+      .then(done, done);
+  });
+
+  it('dispatches BACKEND_AUTHENTICATION_ERROR on 403 error code', done => {
+    setFetchJSONFailure(global.fetch.onCall(0), {
+      errors: [{ status: '403' }],
+    });
+    const thunk = getEnrollmentData();
+    const dispatch = sinon.spy();
+    thunk(dispatch)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(BACKEND_AUTHENTICATION_ERROR);
+      })
+      .then(done, done);
+  });
+
+  it('dispatches BACKEND_AUTHENTICATION_ERROR on 404 error code', done => {
+    setFetchJSONFailure(global.fetch.onCall(0), {
+      errors: [{ status: '404' }],
+    });
+    const thunk = getEnrollmentData();
+    const dispatch = sinon.spy();
+    thunk(dispatch)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(NO_CHAPTER33_RECORD_AVAILABLE);
+      })
+      .then(done, done);
+  });
+
+  it('dispatches GET_ENROLLMENT_DATA_FAILURE when no error codes are received', done => {
+    setFetchJSONFailure(global.fetch.onCall(0), {
+      errors: [], // no errors received
+    });
+    const thunk = getEnrollmentData();
+    const dispatch = sinon.spy();
+    thunk(dispatch)
+      .then(() => {
+        const action = dispatch.firstCall.args[0];
+        expect(action.type).to.equal(GET_ENROLLMENT_DATA_FAILURE);
       })
       .then(done, done);
   });

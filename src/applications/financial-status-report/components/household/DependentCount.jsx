@@ -110,11 +110,10 @@ const DependentCount = ({
           onInput={handleInput}
           value={dependents.toString()} // Ensure value is always a string
           inputMode="numeric" // Use "numeric" for better mobile keyboard support
-          className="no-wrap input-size-2"
+          width="md"
           min={0}
           max={MAXIMUM_DEPENDENT_COUNT}
           required
-          uswds
         />
         <DependentExplainer />
       </fieldset>

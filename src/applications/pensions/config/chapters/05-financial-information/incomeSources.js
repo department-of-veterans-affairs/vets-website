@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-
 import get from 'platform/utilities/data/get';
 import {
   radioUI,
@@ -8,12 +7,14 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-
-import { validateCurrency } from '../../../validation';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
-import { IncomeSourceDescription } from '../../../helpers';
+import {
+  IncomeSourceDescription,
+  updateMultiresponseUiOptions,
+} from '../../../helpers';
 import { recipientTypeLabels, typeOfIncomeLabels } from '../../../labels';
 import IncomeSourceView from '../../../components/IncomeSourceView';
+import { doesReceiveIncome } from './helpers';
 
 export const otherExplanationRequired = (form, index) =>
   get(['incomeSources', index, 'typeOfIncome'], form) === 'OTHER';
@@ -23,6 +24,9 @@ export const dependentNameRequired = (form, index) =>
 
 /** @type {PageSchema} */
 export default {
+  title: 'Gross monthly income',
+  path: 'financial/income-sources',
+  depends: doesReceiveIncome,
   uiSchema: {
     ...titleUI('Gross monthly income', IncomeSourceDescription),
     'view:informationAlert': {
@@ -39,6 +43,8 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
+        updateSchema: updateMultiresponseUiOptions,
       },
       items: {
         typeOfIncome: radioUI({
@@ -46,7 +52,7 @@ export default {
           labels: typeOfIncomeLabels,
         }),
         otherTypeExplanation: {
-          'ui:title': 'Please specify',
+          'ui:title': 'Tell us the type of income',
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
             expandUnder: 'typeOfIncome',
@@ -77,7 +83,9 @@ export default {
           },
         },
         amount: merge({}, currencyUI('What’s the monthly amount of income?'), {
-          'ui:validations': [validateCurrency],
+          'ui:options': {
+            classNames: 'schemaform-currency-input-v3',
+          },
         }),
       },
     },

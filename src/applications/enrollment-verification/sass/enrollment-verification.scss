@@ -2,12 +2,12 @@
 
 // Highlighted Content Container
 .ev-highlighted-content-container_title {
-	background-color: $color-gray-lightest;
+	background-color: var(--vads-color-base-lightest);
 	margin: 0;
 	padding: 1em;
 }
 .ev-highlighted-content-container_content {
-	border: 1px solid $color-gray-lightest;
+	border: 1px solid var(--vads-color-base-lightest);
 	border-top: 0;
 	padding: 1em;
 }
@@ -21,7 +21,7 @@
 
 // Info Block
 .ev-info-block {
-	border-left: 7px solid $color-primary-alt-dark;
+	border-left: 7px solid var(--vads-color-primary-alt-dark);
 	padding-left: calc(2rem - 7px);
 }
 .ev-month-info-institutions {
@@ -29,7 +29,7 @@
 }
 
 .ev-enrollment-month {
-	border-top: 1px solid $color-gray-lighter;
+	border-top: 1px solid var(--vads-color-base-lighter);
 }
 .ev-enrollment-month_message {
 	margin-bottom: 0.5em;

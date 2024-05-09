@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
+import CTALink from '../CTALink';
 
 export const PaymentsCard = ({ lastPayment }) => {
   const paymentDate = new Date(lastPayment.payCheckDt);
 
   const content = (
     <>
-      <h3
-        className="vads-u-margin-top--0"
+      <p
+        className="vads-u-margin-top--0 vads-u-margin-bottom--1 vads-u-font-size--h3 vads-u-font-family--serif vads-u-font-weight--bold"
         data-testid="deposit-header"
         aria-describedby="paycheck-type"
       >
         +{lastPayment.payCheckAmount}
-      </h3>
+      </p>
       <p
         className="vads-u-margin-top--0 vads-u-font-size--h4 vads-u-font-family--serif vads-u-font-weight--bold"
         id="paycheck-type"

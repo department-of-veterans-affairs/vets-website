@@ -16,7 +16,7 @@ import {
 
 import AppealListItem from '../components/appeals-v2/AppealListItem';
 import AppealsUnavailable from '../components/AppealsUnavailable';
-import AskVAQuestions from '../components/AskVAQuestions';
+import NeedHelp from '../components/NeedHelp';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsListItem from '../components/ClaimsListItem';
@@ -39,7 +39,8 @@ import {
   sortByLastUpdated,
 } from '../utils/appeals-v2-helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
-import { groupClaimsByDocsNeeded } from '../utils/helpers';
+import { groupClaimsByDocsNeeded, setDocumentTitle } from '../utils/helpers';
+import ClaimLetterSection from '../components/claim-letters/ClaimLetterSection';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -58,8 +59,7 @@ class YourClaimsPageV2 extends React.Component {
   }
 
   componentDidMount() {
-    document.title =
-      'Check your claim, decision review, or appeal status | Veterans Affairs';
+    setDocumentTitle('Check your claim, decision review, or appeal status');
 
     const {
       appealsLoading,
@@ -173,10 +173,7 @@ class YourClaimsPageV2 extends React.Component {
     const emptyList = !(list && list.length);
     if (allRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = (
-        <va-loading-indicator
-          message="Loading your claims and appeals..."
-          uswds="false"
-        />
+        <va-loading-indicator message="Loading your claims and appeals..." />
       );
     } else if (!emptyList) {
       const listLen = list.length;
@@ -205,15 +202,11 @@ class YourClaimsPageV2 extends React.Component {
           {pageInfo}
           <div className="claim-list">
             {atLeastOneRequestLoading && (
-              <va-loading-indicator
-                message="Loading your claims and appeals..."
-                uswds="false"
-              />
+              <va-loading-indicator message="Loading your claims and appeals..." />
             )}
             {pageItems.map(claim => this.renderListItem(claim))}
             {shouldPaginate && (
               <VaPagination
-                uswds="false"
                 page={this.state.page}
                 pages={numPages}
                 onPageSelect={this.changePage}
@@ -235,7 +228,7 @@ class YourClaimsPageV2 extends React.Component {
             <h1 className="claims-container-title">
               Check your claim, decision review, or appeal status
             </h1>
-            <va-on-this-page uswds="false" />
+            <va-on-this-page />
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
               Your claims, decision reviews, or appeals
             </h2>
@@ -244,7 +237,6 @@ class YourClaimsPageV2 extends React.Component {
               id="claims-combined"
               class="claims-combined"
               trigger="Find out why we sometimes combine claims."
-              uswds="false"
             >
               <div>
                 If you turn in a new claim while we’re reviewing another one
@@ -253,6 +245,7 @@ class YourClaimsPageV2 extends React.Component {
               </div>
             </va-additional-info>
             {content}
+            <ClaimLetterSection />
             <FeaturesWarning />
             <h2 id="what-if-i-dont-see-my-appeal">
               What if I don’t see my appeal?
@@ -263,7 +256,7 @@ class YourClaimsPageV2 extends React.Component {
               information, contact your Veterans Service Organization or
               representative.
             </p>
-            <AskVAQuestions />
+            <NeedHelp />
           </div>
         </article>
       </>
@@ -322,7 +315,6 @@ function mapStateToProps(state) {
     fullName: state.user.profile.userFullName,
     list: groupClaimsByDocsNeeded(sortedList),
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
-    synced: claimsState.claimSync.synced,
   };
 }
 

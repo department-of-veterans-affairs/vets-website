@@ -44,11 +44,11 @@ import createEducationApplicationStatus from '../edu-benefits/components/createE
 import createEventsPage from './events';
 import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
 import createEZRSubmissionOptions from './ezr-submission-options';
-import createEZRTeraAlert from './ezr-tera-alert';
 import createFacilityPage from './facilities/createFacilityPage';
 import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
 import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
 import createFindARepLandingContent from './representative-search';
+import createRepresentativeStatus from './representative-status';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
@@ -58,13 +58,13 @@ import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
 import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
+import createNearByVALocations from './facilities/vet-center/createNearByVALocations';
 import createNodCTA from './nod-cta';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 import createResourcesAndSupportSearchWidget from './widget-creators/resources-and-support-search';
-import createShiftedVetsBanner from './shifted-vets-banner';
 import createSupplementalClaim from './supplemental-claim';
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
@@ -83,15 +83,19 @@ import create1095BDownloadCTA from './download-1095b';
 import createEnrollmentVerificationLoginWidget from './view-enrollment-verification-login/createEnrollmentVerificationLoginWidget';
 import createEducationLettersLoginWidget from './view-education-letters-login/createEducationLettersLoginWidget';
 import create2010206Access from './simple-forms/20-10206/entry';
+import create2010207Access from './simple-forms/20-10207/entry';
 import create210845Access from './simple-forms/21-0845/entry';
 import create210966Access from './simple-forms/21-0966/entry';
 import create210972Access from './simple-forms/21-0972/entry';
 import create2110210Access from './simple-forms/21-10210/entry';
+import create214138Access from './simple-forms/21-4138/entry';
 import create214142Access from './simple-forms/21-4142/entry';
 import create21P0847Access from './simple-forms/21P-0847/entry';
 import create264555Access from './simple-forms/26-4555/entry';
 import create400247Access from './simple-forms/40-0247/entry';
+import createFormUploadAccess from './simple-forms/form-upload/entry';
 import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
+import createBurialsV2HowDoIApplyWidget from './burials-v2-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -159,6 +163,7 @@ createVetCentersHours(store);
 createVetCentersSatelliteLocationHours(store);
 createExpandableOperatingStatus(store);
 createNearByVetCenters(store);
+createNearByVALocations(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
@@ -169,6 +174,7 @@ createScoEventsWidget();
 createScoAnnouncementsWidget();
 createThirdPartyApps(store, widgetTypes.THIRD_PARTY_APP_DIRECTORY);
 createFindARepLandingContent(store, widgetTypes.FIND_A_REP_LANDING_CONTENT);
+createRepresentativeStatus(store, widgetTypes.REPRESENTATIVE_STATUS);
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
 createFindVaFormsPDFDownloadHelper(
   store,
@@ -183,7 +189,6 @@ form686CTA(store, widgetTypes.FORM_686_CTA);
 createAskVAWidget(store, widgetTypes.ASK_VA);
 createEventsPage(store, widgetTypes.EVENTS);
 createEZRSubmissionOptions(store, widgetTypes.EZR_SUBMISSION_OPTIONS);
-createEZRTeraAlert(store, widgetTypes.EZR_TERA_ALERT);
 createMedicalCopaysCTA(store, widgetTypes.MEDICAL_COPAYS_CTA);
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
 createRefillTrackPrescriptionsPage(
@@ -210,7 +215,6 @@ createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
 createHomepageSearch(store, widgetTypes.HOMEPAGE_SEARCH);
 create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
-createShiftedVetsBanner(store);
 createNodCTA(store, widgetTypes.FORM_10182_CTA);
 createSupplementalClaim(store, widgetTypes.SUPPLEMENTAL_CLAIM);
 createEnrollmentVerificationLoginWidget(
@@ -222,15 +226,22 @@ createEducationLettersLoginWidget(
   widgetTypes.VIEW_EDUCATION_LETTERS_LOGIN,
 );
 create2010206Access(store, widgetTypes.FORM_2010206_CTA);
+create2010207Access(store, widgetTypes.FORM_2010207_CTA);
 create210845Access(store, widgetTypes.FORM_210845_CTA);
 create210966Access(store, widgetTypes.FORM_210966_CTA);
 create210972Access(store, widgetTypes.FORM_210972_CTA);
 create2110210Access(store, widgetTypes.FORM_2110210_CTA);
+create214138Access(store, widgetTypes.FORM_214138_CTA);
 create214142Access(store, widgetTypes.FORM_214142_CTA);
 create21P0847Access(store, widgetTypes.FORM_21P0847_CTA);
 create264555Access(store, widgetTypes.FORM_264555_CTA);
 create400247Access(store, widgetTypes.FORM_400247_CTA);
 createBurialHowDoIApplyWidget(store, widgetTypes.BURIAL_HOW_DO_I_APPLY_WIDGET);
+createBurialsV2HowDoIApplyWidget(
+  store,
+  widgetTypes.BURIALS_V2_HOW_DO_I_APPLY_WIDGET,
+);
+createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
 
 // Create the My VA Login widget only on the homepage.
 if (window.location.pathname === '/') {

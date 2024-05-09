@@ -3,7 +3,7 @@
 .va-growable-background {
   padding: 1em;
   margin-bottom: 1em;
-  background-color: $color-gray-lightest;
+  background-color: var(--vads-color-base-lightest);
 }
 
 .progress-box .va-growable button {
@@ -24,7 +24,7 @@
 }
 
 legend {
-  color: $color-gray-dark;
+  color: var(--vads-color-base-darker);
   font-size: 1.35em;
   font-weight: 700;
   line-height: 1.5;
@@ -82,7 +82,7 @@ dl.review {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    border-top: 1px solid $color-gray-light;
+    border-top: 1px solid var(--vads-color-base-light);
     padding: 1.5rem;
     padding-left: 0;
     > dd {
@@ -105,7 +105,7 @@ dl.review {
       }
     }
   }
-  border-bottom: 1px solid $color-gray-light;
+  border-bottom: 1px solid var(--vads-color-base-light);
 }
 // MBMS-51921 remove this and update dl.review when the prod flag removal story is ready
 dl.review-auto-margin {
@@ -114,7 +114,7 @@ dl.review-auto-margin {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    border-top: 1px solid $color-gray-light;
+    border-top: 1px solid var(--vads-color-base-light);
     padding: 1.5rem;
     padding-left: 0;
     > dd {
@@ -137,7 +137,7 @@ dl.review-auto-margin {
       }
     }
   }
-  border-bottom: 1px solid $color-gray-light;
+  border-bottom: 1px solid var(--vads-color-base-light);
 }
 
 form.rjsf {
@@ -224,7 +224,7 @@ label {
 }
 
 .schemaform-required-span {
-  color: $color-secondary-dark;
+  color: var(--vads-color-secondary-dark);
   margin: 0 0.35em;
 }
 
@@ -358,7 +358,7 @@ fieldset.schemaform-field-template {
 
 //duplicated/renamed from claims-status.scss
 .help-heading {
-  border-bottom: 3px solid $color-primary;
+  border-bottom: 3px solid var(--vads-color-primary);
   margin: 0.3em 0;
   font-size: 1.35em;
   line-height: 1.5;
@@ -486,10 +486,10 @@ legend.schemaform-label.schemaform-file-label {
 
 .schemaform-review-array-error {
   margin: -1em -0.8em 0;
-  border: 2px solid $color-gold-lightest;
+  border: 2px solid var(--vads-color-gold-lightest);
   > .form-review-panel-page-header-row {
     padding: 1em 0.8em;
-    background-color: $color-gold-lightest;
+    background-color: var(--vads-color-gold-lightest);
   }
   > .va-growable-review {
     padding: 0 1em 1em 1em;
@@ -510,7 +510,7 @@ legend.schemaform-label.schemaform-file-label {
   .form-review-panel-page-header-row {
     padding: 1em 0.5em;
     margin: -1em -1.2em 0 -1.2em;
-    background-color: var(--color-secondary-lightest);
+    background-color: var(--vads-color-error-lighter);
     &:before {
       display: block;
       content: " ";
@@ -535,18 +535,14 @@ legend.schemaform-label.schemaform-file-label {
   }
 }
 
+/* Highlight accordion item with content that needs attention */
 va-accordion-item[data-unviewed-pages="true"] {
-  --item-border: 3px solid var(--color-secondary-lightest) !important;
-
   &::part(accordion-header) {
-    background-color: var(--color-secondary-lightest);
-    border-color: var(--color-secondary-lightest);
+    background-color: #{var(--vads-color-error-lighter)};
   }
-}
-
-.form-review-panel .accordion-header > button.usa-button-unstyled {
-  padding: 2.5rem 4.5rem 2.5rem 2.5rem;
-  line-height: 2.2rem;
+  &::part(accordion-content) {
+    border-color: #{var(--vads-color-error-lighter)};
+  }
 }
 
 .usa-alert-no-color {
@@ -607,11 +603,11 @@ va-accordion-item[data-unviewed-pages="true"] {
 }
 
 .autosuggest-list {
-  background: $color-white;
-  border: 1px solid $color-gray;
+  background: var(--vads-color-white);
+  border: 1px solid var(--vads-color-base-dark);
   // Box shadow only sides and bottom of suggestion list.
-  box-shadow: 3px 3px 3px -3px $color-focus, -3px 3px 3px -3px $color-focus,
-    7px 7px 7px -7px $color-focus, -7px 7px 7px -7px $color-focus;
+  box-shadow: 3px 3px 3px -3px var(--vads-color-action-focus-on-light), -3px 3px 3px -3px var(--vads-color-action-focus-on-light),
+    7px 7px 7px -7px var(--vads-color-action-focus-on-light), -7px 7px 7px -7px var(--vads-color-action-focus-on-light);
   list-style: none;
   margin-top: -0.5rem;
   max-width: 46rem;
@@ -641,7 +637,7 @@ va-accordion-item[data-unviewed-pages="true"] {
   list-style-type: none;
 
   &-highlighted {
-    background-color: $color-primary-alt-light;
+    background-color: var(--vads-color-primary-alt-light);
     cursor: pointer;
   }
   &-selected {
@@ -666,7 +662,7 @@ va-accordion-item[data-unviewed-pages="true"] {
 }
 
 .schemaform-title-underline {
-  border-bottom: 3px solid $color-primary;
+  border-bottom: 3px solid var(--vads-color-primary);
 }
 
 .schemaform-downtime-after-steps {
@@ -680,7 +676,7 @@ button:focus,
 input:focus,
 select:focus,
 textarea:focus {
-  outline: 2px solid $color-gold-light;
+  outline: 2px solid var(--vads-color-action-focus-on-light);
   outline-offset: 2px;
 }
 
@@ -707,7 +703,7 @@ textarea:focus {
 }
 
 .blue-bar-block {
-  border-left: 7px solid $color-primary;
+  border-left: 7px solid var(--vads-color-primary);
   padding-left: 1em;
 
   p {
@@ -716,7 +712,7 @@ textarea:focus {
 }
 
 select:disabled {
-  background-color: $color-gray-lighter;
+  background-color: var(--vads-color-base-lighter);
 }
 
 // To be removed after SoT is added to DS
@@ -740,4 +736,8 @@ i.fa-angles-left::before {
 i.fa-angles-right::before {
   content: "\F101";
   margin-left: 8px;
+}
+
+va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
+  max-width: 100%;
 }

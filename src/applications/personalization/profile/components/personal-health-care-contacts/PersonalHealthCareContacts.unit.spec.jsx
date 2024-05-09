@@ -18,11 +18,17 @@ const stateFn = ({
   loading = false,
   error = false,
   data = contacts.data,
+  vaPatient = true,
 } = {}) => ({
   profileContacts: {
     data,
     loading,
     error,
+  },
+  user: {
+    profile: {
+      vaPatient,
+    },
   },
 });
 
@@ -57,6 +63,14 @@ describe('PersonalHealthCareContacts component', () => {
     });
   });
 
+  it('renders non-VA patient message when user is not a VA patient', async () => {
+    const initialState = stateFn({ vaPatient: false });
+    const { getByTestId } = setup({ initialState });
+    await waitFor(() => {
+      getByTestId('non-va-patient-message');
+    });
+  });
+
   it('calls dispatch(fetchProfileContacts()) once on render', async () => {
     setup();
     await waitFor(() => {
@@ -66,13 +80,12 @@ describe('PersonalHealthCareContacts component', () => {
     });
   });
 
-  it('displays help desk contact information', async () => {
+  it('displays find locations link', async () => {
     const { getByTestId } = setup();
     await waitFor(() => {
       const infoComponent = getByTestId('phcc-how-to-update');
       fireEvent.click(infoComponent);
-      getByTestId('help-desk-va-800-number');
-      getByTestId('help-desk-va-711-number');
+      getByTestId('find-locations-additional-info-link');
     });
   });
 

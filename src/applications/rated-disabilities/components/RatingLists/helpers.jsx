@@ -1,6 +1,6 @@
 import { buildDateFormatter } from '../../util';
 
-export const formatDate = buildDateFormatter('MMMM dd, yyyy');
+export const formatDate = buildDateFormatter();
 
 export const getHeadingText = rating => {
   const { diagnosticText, ratingPercentage } = rating;
@@ -12,7 +12,14 @@ export const getHeadingText = rating => {
   return headingParts.join(' ');
 };
 
-const isServiceConnected = item => item.decision === 'Service Connected';
+// Possible decision values:
+//   1151 Denied, 1151 Granted, Not Service Connected, Service Connected
+// Decisions that should be considered Service Connected:
+//   1151 Granted and Service Connected
+const serviceConnectedDecisions = ['1151 Granted', 'Service Connected'];
+
+const isServiceConnected = item =>
+  serviceConnectedDecisions.includes(item.decision);
 
 export const sortRatings = ratings => {
   return ratings.sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));

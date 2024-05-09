@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import withOnlyOnLocal from '../containers/withOnlyOnLocal';
 import { makeSelectApp } from '../selectors';
+import { APP_NAMES } from '../utils/appConstants';
 
 function BackToHome() {
   const selectApp = useMemo(makeSelectApp, []);
@@ -11,11 +12,11 @@ function BackToHome() {
   const { t } = useTranslation();
   let restartURL =
     '/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
-  if (app === 'checkIn') {
+  if (app === APP_NAMES.CHECK_IN) {
     restartURL =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
   }
-  if (app === 'travelClaim') {
+  if (app === APP_NAMES.TRAVEL_CLAIM) {
     restartURL =
       '/my-health/appointment-travel-claim/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
   }

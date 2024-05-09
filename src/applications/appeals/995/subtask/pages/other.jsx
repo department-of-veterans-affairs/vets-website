@@ -29,7 +29,7 @@ const DecisionReviewPage = () => {
   };
 
   return (
-    <div id={pageNames.other}>
+    <div id={pageNames.other} className="vads-u-padding-bottom--2">
       <h1 className="vads-u-margin-bottom--0">File a Supplemental Claim</h1>
       <div className="schemaform-subtitle vads-u-font-size--lg">
         VA Form 20-0995
@@ -50,7 +50,7 @@ const DecisionReviewPage = () => {
         Find the address for mailing your form
       </a>{' '}
       <p className="vads-u-margin-bottom--0">
-        <DownloadLink />
+        <DownloadLink subTaskEvent />
       </p>
       <p>
         If you don’t think this is the right form for you, find out about other

@@ -15,6 +15,7 @@ import getData from '../../../fixtures/mocks/mockStore';
 
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
@@ -41,6 +42,16 @@ describe('web component tests', () => {
     schema,
     uiSchema,
     expectedNumberOfErrors,
+    pageTitle,
+  );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-radio': 1,
+    },
     pageTitle,
   );
 });
@@ -91,7 +102,7 @@ describe('pension pow information page', () => {
     );
 
     // Verify fields not visible
-    expect($$('input,select', container).length).to.equal(0);
+    expect($$('va-memorable-date', container).length).to.equal(0);
 
     await waitFor(() => {
       const changeEvent = new CustomEvent('selected', {
@@ -100,8 +111,7 @@ describe('pension pow information page', () => {
       $('va-radio', container).__events.vaValueChange(changeEvent);
 
       // Verify fields are now visible
-      expect($$('select', container).length).to.equal(4);
-      expect($$('input', container).length).to.equal(2);
+      expect($$('va-memorable-date', container).length).to.equal(2);
     });
   });
 });

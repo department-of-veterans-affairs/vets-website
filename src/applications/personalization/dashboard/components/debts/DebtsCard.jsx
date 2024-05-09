@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
+import CTALink from '../CTALink';
 
 export const DebtsCard = ({ debts }) => {
   const debtHistory = debts.reduce(
@@ -50,7 +50,7 @@ export const DebtsCard = ({ debts }) => {
       </p>
       <CTALink
         text="Manage your VA debt"
-        href="/manage-va-debt/your-debt"
+        href="/manage-va-debt/summary/debt-balances"
         showArrow
         className="vads-u-font-weight--bold"
         onClick={() =>

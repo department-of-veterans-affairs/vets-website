@@ -13,7 +13,6 @@ import { onFormLoaded } from '../utils/redirect';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import GetFormHelp from '../content/GetFormHelp';
 import AddContestableIssue from '../components/AddContestableIssue';
 
 import {
@@ -51,6 +50,7 @@ import {
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+import GetFormHelp from '../../shared/content/GetFormHelp';
 import reviewErrors from '../../shared/content/reviewErrors';
 import { focusRadioH3 } from '../../shared/utils/focus';
 
@@ -102,6 +102,8 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+  // Fix double headers (only show v3)
+  v3SegmentedProgressBar: true,
 
   chapters: {
     infoPages: {
@@ -195,10 +197,14 @@ const formConfig = {
       title: 'Board review option',
       pages: {
         boardReviewOption: {
-          title: 'Board review option',
+          // Adding trailing space so this title and chapter title are different
+          // then the page header renders on the review & submit page, see:
+          // https://github.com/department-of-veterans-affairs/vets-website/pull/29514#discussion_r1586347078
+          title: 'Board review option ',
           path: 'board-review-option',
           uiSchema: boardReview.uiSchema,
           schema: boardReview.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceIntro: {
           title: 'Additional evidence',
@@ -220,6 +226,7 @@ const formConfig = {
           depends: needsHearingType,
           uiSchema: hearingType.uiSchema,
           schema: hearingType.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
       },
     },

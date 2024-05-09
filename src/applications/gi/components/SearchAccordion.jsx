@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
-import { createId, isProductionOfTestProdEnv } from '../utils/helpers';
+import { createId, isProductionOrTestProdEnv } from '../utils/helpers';
 import ClearFiltersBtn from './ClearFiltersBtn';
 
 export default function SearchAccordion({
@@ -12,8 +12,7 @@ export default function SearchAccordion({
   onClick,
   headerClass,
   ariaDescribedBy,
-  isCleared,
-  setIsCleared,
+  dispatchFocusSearch,
 }) {
   const [isExpanded, setExpanded] = useState(expanded || false);
   const [id] = useState(`${createId(button)}-accordion`);
@@ -72,7 +71,7 @@ export default function SearchAccordion({
       {expanded && (
         <div
           className={
-            isProductionOfTestProdEnv() ? 'update-results' : 'update-results-2'
+            isProductionOrTestProdEnv() ? 'update-results-2' : 'update-results'
           }
         >
           {' '}
@@ -85,9 +84,9 @@ export default function SearchAccordion({
           >
             {buttonLabel}
           </button>
-          {!isProductionOfTestProdEnv() && (
-            <ClearFiltersBtn isCleared={isCleared} setIsCleared={setIsCleared}>
-              Clear filters
+          {isProductionOrTestProdEnv() && (
+            <ClearFiltersBtn onClick={dispatchFocusSearch}>
+              Reset search
             </ClearFiltersBtn>
           )}
         </div>

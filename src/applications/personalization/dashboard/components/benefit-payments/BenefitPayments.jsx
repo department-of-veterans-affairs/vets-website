@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { subDays } from 'date-fns';
+import recordEvent from '~/platform/monitoring/record-event';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import PaymentsCard from './PaymentsCard';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
-import recordEvent from '~/platform/monitoring/record-event';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { canAccess } from '../../../common/selectors';
 import { API_NAMES } from '../../../common/constants';
 
@@ -24,7 +24,6 @@ const NoRecentPaymentText = () => {
 const PopularActionsForPayments = ({ showPaymentHistoryLink = false }) => {
   return (
     <>
-      <h3 className="sr-only">Popular actions for Benefit Payments</h3>
       {/* todo check for direct deposit first */}
       <IconCTALink
         href="/profile/direct-deposit"

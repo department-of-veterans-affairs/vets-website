@@ -3,7 +3,6 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
 import {
   IncomeAssetStatementFormAlert,
   AssetTransferInformationAlert,
@@ -11,6 +10,8 @@ import {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Transferred assets',
+  path: 'financial/transferred-assets',
   uiSchema: {
     ...titleUI('Income and assets'),
     'view:informationAlert': {

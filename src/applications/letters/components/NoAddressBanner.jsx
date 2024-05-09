@@ -3,11 +3,7 @@ import React from 'react';
 export default function NoAddressBanner() {
   return (
     <>
-      <va-alert
-        status="warning"
-        className="vads-u-margin-bottom--4"
-        uswds="false"
-      >
+      <va-alert status="warning" className="vads-u-margin-bottom--4">
         <h3 slot="headline">We don’t have a valid address on file for you</h3>
         <div>
           You’ll need to{' '}

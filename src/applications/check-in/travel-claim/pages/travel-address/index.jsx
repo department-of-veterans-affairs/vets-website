@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { useUpdateError } from '../../../hooks/useUpdateError';
 
 import { makeSelectVeteranAddress } from '../../../selectors';
 import TravelPage from '../../../components/pages/TravelPage';
@@ -9,6 +10,7 @@ import TravelPage from '../../../components/pages/TravelPage';
 const TravelAddress = props => {
   const { router } = props;
   const { t } = useTranslation();
+  const { updateError } = useUpdateError();
   const selectVeteranAddress = useMemo(makeSelectVeteranAddress, []);
   const address = useSelector(selectVeteranAddress);
 
@@ -36,14 +38,19 @@ const TravelAddress = props => {
     },
   ];
 
+  const noFunction = () => {
+    updateError('cant-file-claim-type');
+  };
+
   return (
     <TravelPage
       header={t('did-you-travel-from-your-home-address')}
-      eyebrow={t('check-in')}
       bodyText={bodyText}
       additionalInfoItems={additionalInfoItems}
       pageType="travel-address"
       router={router}
+      noFunction={noFunction}
+      testID="travel-claim-address-page"
     />
   );
 };

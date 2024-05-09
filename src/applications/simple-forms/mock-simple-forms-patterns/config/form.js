@@ -1,17 +1,17 @@
 import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
 // pages
 import chapterSelect from '../pages/chapterSelect';
 import textInput from '../pages/mockTextInput';
-import textInputWidgets1 from '../pages/mockTextInputWidgets1';
+import textEmailPhone from '../pages/mockTextEmailPhone';
 import numberInput from '../pages/mockNumberInput';
-import textInputFullName from '../pages/mockTextInputFullName';
-import textInputAddress from '../pages/mockTextInputAddress';
-import textInputSsn from '../pages/mockTextInputSsn';
+import fullName from '../pages/mockFullName';
+import address from '../pages/mockAddress';
+import ssn from '../pages/mockSsn';
 import checkboxAndTextInput from '../pages/mockCheckboxAndTextInput';
 import checkboxGroup from '../pages/mockCheckboxGroup';
 import radio from '../pages/mockRadio';
@@ -25,15 +25,17 @@ import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
-import arrayMultiPageBuilderSummary from '../pages/mockArrayMultiPageBuilderSummary';
-import arrayMultiPageBuilderItemPage1 from '../pages/mockArrayMultiPageBuilderItemPage1';
-import arrayMultiPageBuilderItemPage2 from '../pages/mockArrayMultiPageBuilderItemPage2';
-import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
+// import arrayAddresses from '../pages/mockArrayAddresses';
+
 import {
-  onNavBackKeepUrlParams,
-  onNavForwardKeepUrlParams,
-  onNavBackRemoveAddingItem,
-} from '../arrayBuilder/helpers';
+  employersDatesPage,
+  employersIntroPage,
+  employersOptions,
+  employersPageNameAndAddressPage,
+  employersSummaryPage,
+} from '../pages/mockArrayMultiPageBuilderPages';
+import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
+import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
 
 const chapterSelectInitialData = {
   chapterSelect: {
@@ -61,7 +63,7 @@ const formConfig = {
   urlPrefix: '/',
   dev: {
     showNavLinks: true,
-    collapsibleNavLinks: false,
+    collapsibleNavLinks: true,
   },
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'mock-simple-forms-patterns-',
@@ -101,34 +103,34 @@ const formConfig = {
           schema: textInput.schema,
           depends: includeChapter('textInput'),
         },
-        textInputWidgets1: {
+        textEmailPhone: {
           path: 'text-input-widgets1',
           title: 'Text Input Widgets 1', // for review page (has to be more than one word)
-          uiSchema: textInputWidgets1.uiSchema,
-          schema: textInputWidgets1.schema,
+          uiSchema: textEmailPhone.uiSchema,
+          schema: textEmailPhone.schema,
           depends: includeChapter('textInput'),
         },
-        textInputFullName: {
+        fullName: {
           path: 'text-input-full-name',
           title: 'Text Input Full Name', // for review page (has to be more than one word)
-          uiSchema: textInputFullName.uiSchema,
-          schema: textInputFullName.schema,
-          initialData: textInputFullName.initialData,
+          uiSchema: fullName.uiSchema,
+          schema: fullName.schema,
+          initialData: fullName.initialData,
           depends: includeChapter('textInput'),
         },
-        textInputAddress: {
+        address: {
           title: 'Text Input Address', // for review page (has to be more than one word)
           path: 'text-input-address',
-          uiSchema: textInputAddress.uiSchema,
-          schema: textInputAddress.schema,
-          initialData: textInputAddress.initialData,
+          uiSchema: address.uiSchema,
+          schema: address.schema,
+          initialData: address.initialData,
           depends: includeChapter('textInput'),
         },
-        textInputSsn: {
+        ssn: {
           title: 'SSN Pattern', // for review page (has to be more than one word)
           path: 'ssn-pattern',
-          uiSchema: textInputSsn.uiSchema,
-          schema: textInputSsn.schema,
+          uiSchema: ssn.uiSchema,
+          schema: ssn.schema,
           depends: includeChapter('textInput'),
         },
       },
@@ -263,6 +265,14 @@ const formConfig = {
           schema: arraySinglePage.schema,
           depends: includeChapter('arraySinglePage'),
         },
+        // hide until preexisting addressUI bugs are fixed
+        // arrayAddresses: {
+        //   title: 'Multiple Addresses', // for review page (has to be more than one word)
+        //   path: 'array-addresses',
+        //   uiSchema: arrayAddresses.uiSchema,
+        //   schema: arrayAddresses.schema,
+        //   depends: includeChapter('arraySinglePage'),
+        // },
       },
     },
     arrayMultiPageAggregate: {
@@ -289,62 +299,56 @@ const formConfig = {
     arrayMultiPageBuilder: {
       title: 'Array Multi-Page Builder (WIP)',
       pages: {
-        multiPageBuilderStart: {
-          title: 'Array with multiple page builder summary', // for review page (has to be more than one word)
-          path: 'array-multiple-page-builder-summary',
-          uiSchema: arrayMultiPageBuilderSummary.uiSchema,
-          schema: arrayMultiPageBuilderSummary.schema,
-          onNavForward: ({ formData, goPath }) => {
-            if (formData.hasEmployment) {
-              const index = formData.employers ? formData.employers.length : 0;
-              goPath(
-                `/array-multiple-page-builder-item-page-1/${index}?add=true`,
-              );
-            } else {
-              goPath('/review-and-submit');
-            }
-          },
+        // this page is not part of the pattern, but is needed
+        // to showcase the 2 different styles of array builder pattern
+        multiPageBuilderChooseFlow: {
+          title: 'Array builder pattern choose flow',
+          path: 'array-multiple-page-builder-choose-flow',
+          uiSchema: arrayBuilderPatternChooseFlow.uiSchema,
+          schema: arrayBuilderPatternChooseFlow.schema,
           depends: includeChapter('arrayMultiPageBuilder'),
-        },
-        multiPageBuilderStepOne: {
-          title: 'Multiple Page Item Title', // for review page (has to be more than one word)
-          path: 'array-multiple-page-builder-item-page-1/:index',
-          showPagePerItem: true,
-          allowPathWithNoItems: true,
-          arrayPath: 'employers',
-          uiSchema: arrayMultiPageBuilderItemPage1.uiSchema,
-          schema: arrayMultiPageBuilderItemPage1.schema,
-          CustomPage: arrayMultiPageBuilderItemPage1.CustomPage,
-          customPageUsesPagePerItemData: true,
-          onNavBack: onNavBackRemoveAddingItem({
-            arrayPath: 'employers',
-            summaryPathUrl: '/array-multiple-page-builder-summary',
-          }),
-          onNavForward: onNavForwardKeepUrlParams,
-          ContentBeforeButtons:
-            arrayMultiPageBuilderItemPage1.ContentBeforeButtons,
-          depends: formData =>
-            includeChapter('arrayMultiPageBuilder')(formData) &&
-            (formData.hasEmployment || formData.employers?.length > 0),
-        },
-        multiPageBuilderStepTwo: {
-          title: 'Multiple Page Item Title', // for review page (has to be more than one word)
-          path: 'array-multiple-page-builder-item-page-2/:index',
-          showPagePerItem: true,
-          allowPathWithNoItems: true,
-          arrayPath: 'employers',
-          CustomPage: arrayMultiPageBuilderItemPage1.CustomPage,
-          customPageUsesPagePerItemData: true,
-          uiSchema: arrayMultiPageBuilderItemPage2.uiSchema,
-          schema: arrayMultiPageBuilderItemPage2.schema,
-          onNavBack: onNavBackKeepUrlParams,
-          depends: formData =>
-            includeChapter('arrayMultiPageBuilder')(formData) &&
-            (formData.hasEmployment || formData.employers?.length > 0),
-          onNavForward: ({ goPath }) => {
-            goPath('/array-multiple-page-builder-summary');
+          initialData: {
+            arrayBuilderPatternFlowType: 'required',
           },
         },
+        ...arrayBuilderPages(employersOptions, pageBuilder => ({
+          // introPage needed for "required" flow
+          multiPageBuilderIntro: pageBuilder.introPage({
+            title: 'Your Employers',
+            path: 'array-multiple-page-builder',
+            uiSchema: employersIntroPage.uiSchema,
+            schema: employersIntroPage.schema,
+            depends: formData =>
+              includeChapter('arrayMultiPageBuilder')(formData) &&
+              // normally you don't need this kind of check,
+              // but this is so we can test the 2 different styles
+              // of array builder pattern - "required" and "optional".
+              // "introPage" is needed in the "required" flow,
+              // but unnecessary in the "optional" flow
+              formData?.arrayBuilderPatternFlowType === 'required',
+          }),
+          multiPageBuilderSummary: pageBuilder.summaryPage({
+            title: 'Array with multiple page builder summary',
+            path: 'array-multiple-page-builder-summary',
+            uiSchema: employersSummaryPage.uiSchema,
+            schema: employersSummaryPage.schema,
+            depends: includeChapter('arrayMultiPageBuilder'),
+          }),
+          multiPageBuilderStepOne: pageBuilder.itemPage({
+            title: 'Employer name and address',
+            path: 'array-multiple-page-builder/:index/name-and-address',
+            uiSchema: employersPageNameAndAddressPage.uiSchema,
+            schema: employersPageNameAndAddressPage.schema,
+            depends: includeChapter('arrayMultiPageBuilder'),
+          }),
+          multiPageBuilderStepTwo: pageBuilder.itemPage({
+            title: 'Employer dates',
+            path: 'array-multiple-page-builder/:index/dates',
+            uiSchema: employersDatesPage.uiSchema,
+            schema: employersDatesPage.schema,
+            depends: includeChapter('arrayMultiPageBuilder'),
+          }),
+        })),
       },
     },
   },

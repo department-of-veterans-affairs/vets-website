@@ -13,6 +13,7 @@ import {
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { AccountSecurityTables } from './AccountSecurityTables';
 import {
   selectIsBlocked,
@@ -22,13 +23,14 @@ import { AccountBlocked } from '../alerts/AccountBlocked';
 import { AccountSecurityLoa1CredAlert } from '../alerts/CredentialRetirementAlerts';
 
 const IdNotVerifiedContent = () => {
+  const signInService = useSelector(signInServiceName);
   const showCredRetirementMessaging = useSelector(
     selectShowCredRetirementMessaging,
   );
   return showCredRetirementMessaging ? (
     <AccountSecurityLoa1CredAlert />
   ) : (
-    <IdentityNotVerified />
+    <IdentityNotVerified signInService={signInService} />
   );
 };
 

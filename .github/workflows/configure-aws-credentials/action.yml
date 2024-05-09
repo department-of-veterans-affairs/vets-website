@@ -13,18 +13,29 @@ inputs:
     required: true
   role:
     description: Role to assume
-    required: true
+    required: false
+    default: ''
   session_name:
     description: Role Session Name
-    required: true
+    required: false
+    default: ''
   role_duration:
     description: Role Duration in Seconds
-    required: true
+    required: false
+    default: ''
+
+outputs:
+  ecr_user: 
+    description: Output of AWS stored ECR username credential
+    value: ${{ steps.login-ecr.outputs.docker_username_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
+  ecr_password:
+    description: Output of AWS stored ECR password credential 
+    value: ${{ steps.login-ecr.outputs.docker_password_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
 
 runs:
   using: composite
   steps:
-    - uses: aws-actions/configure-aws-credentials@v4
+    - uses: aws-actions/configure-aws-credentials@587276aa2b7ab3e81491bc89886f7805ee29494c
       with:
         aws-access-key-id: ${{ inputs.aws_id }}
         aws-secret-access-key: ${{ inputs.aws_key }}
@@ -33,3 +44,4 @@ runs:
         role-to-assume: ${{ inputs.role }}
         role-session-name: ${{ inputs.session_name }}
         role-duration-seconds: ${{ inputs.role_duration }}
+        output-credentials: true

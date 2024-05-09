@@ -117,6 +117,14 @@ class SaveInProgressIntro extends React.Component {
             savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
 
           const H = `h${this.props.headingLevel}`;
+          const ContinueMsg = (
+            <p>
+              You can continue {appAction} now
+              {appContinuing && ` ${appContinuing}`}, or come back later to
+              finish your {appType}.
+            </p>
+          );
+
           includesFormControls = true;
           alert = (
             <va-alert status="info" uswds visible>
@@ -128,9 +136,7 @@ class SaveInProgressIntro extends React.Component {
               </div>
               <div className="saved-form-metadata-container">
                 <div className="expires-container">
-                  You can continue {appAction} now
-                  {appContinuing && ` ${appContinuing}`}, or come back later to
-                  finish your {appType}.
+                  {this.props.continueMsg || ContinueMsg}
                   <p>
                     Your {appType}{' '}
                     <span className="expires">
@@ -295,16 +301,13 @@ class SaveInProgressIntro extends React.Component {
               You can save this {appType} in progress, and come back later to
               finish filling it out.
               <br />
-              {/* button that looks like a link - needs design review */}
-              <button
+              <va-button
                 className="va-button-link"
                 onClick={this.openLoginModal}
                 aria-label={ariaLabel}
                 aria-describedby={ariaDescribedby}
-                type="button"
-              >
-                Sign in to your account.
-              </button>
+                text="Sign in to your account."
+              />
             </div>
           </va-alert>
           <br />

@@ -17,6 +17,7 @@ import {
   getAppointmentId,
   findAppointment,
   hasMultipleFacilities,
+  utcToFacilityTimeZone,
 } from './index';
 
 import { get } from '../../api/local-mock-api/mocks/v2/shared';
@@ -432,7 +433,7 @@ describe('check in', () => {
         const appointment = createAppointment({ kind: 'phone' });
         const icon = render(appointmentIcon(appointment));
 
-        expect(icon.getByTestId('appointment-icon')).to.have.class('fa-phone');
+        expect(icon.getByTestId('appointment-icon')).to.exist;
       });
     });
     describe('clinicName', () => {
@@ -496,6 +497,15 @@ describe('check in', () => {
           },
         ];
         expect(hasMultipleFacilities(appointments)).to.be.false;
+      });
+    });
+    describe('utcToFacilityTimeZone', () => {
+      it('returns the timezone adjusted ISO srting', () => {
+        const time = '2020-01-24T00:20:00.000+00:00';
+        const timezone = 'America/Los_Angeles';
+        expect(utcToFacilityTimeZone(time, timezone)).to.equal(
+          '2020-01-23T16:20:00.000-08:00',
+        );
       });
     });
   });

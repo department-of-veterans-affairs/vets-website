@@ -7,6 +7,7 @@ import {
 
 const fullyDevelopedClaimsLinkText =
   'Learn more about fully developed claims (opens in new tab)';
+
 const Description = (
   <>
     <p>
@@ -49,6 +50,8 @@ export const NoFDCWarning = (
 );
 
 export default {
+  title: 'Faster claim processing',
+  path: 'additional-information/faster-claim-processing',
   uiSchema: {
     ...titleUI('Faster claim processing', Description),
     noRapidProcessing: yesNoUI({

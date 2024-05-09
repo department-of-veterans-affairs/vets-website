@@ -1,3 +1,4 @@
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import { PTSD_CHANGE_LABELS } from '../constants';
 import { changeDescription } from '../content/physicalHealthChanges';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
@@ -6,22 +7,29 @@ export const uiSchema = {
   'ui:title': ptsd781aNameTitle,
   'ui:description': changeDescription,
   physicalChanges: {
+    'ui:title': ' ',
     increasedVisits: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': PTSD_CHANGE_LABELS.increasedVisits,
     },
     pregnancyTests: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': PTSD_CHANGE_LABELS.pregnancyTests,
     },
     hivTests: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': PTSD_CHANGE_LABELS.hivTests,
     },
     weightChanges: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': PTSD_CHANGE_LABELS.weightChanges,
     },
     lethargy: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': PTSD_CHANGE_LABELS.lethargy,
     },
     other: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': 'Other',
     },
     otherExplanation: {
@@ -34,6 +42,7 @@ export const uiSchema = {
       },
     },
     noneApply: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': 'None of these apply to me',
     },
   },

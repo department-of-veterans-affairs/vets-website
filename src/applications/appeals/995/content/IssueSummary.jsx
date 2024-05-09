@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { getDate } from '../../shared/utils/dates';
 import { NO_ISSUES_SELECTED } from '../constants';
 
-import { FORMAT_READABLE, SELECTED } from '../../shared/constants';
-import { getSelected } from '../../shared/utils/issues';
+import { getSelected, getDecisionDate } from '../../shared/utils/issues';
+import { data995 } from '../../shared/props';
 
 const legendClassNames = [
   'vads-u-margin-top--0',
@@ -35,7 +33,7 @@ const IssueSummary = ({ formData }) => {
           issues.map((issue, index) => (
             <li key={index} className={listClassNames}>
               <h4
-                className="capitalize vads-u-margin-top--0 vads-u-padding-right--2 dd-privacy-hidden"
+                className="capitalize word-break-all vads-u-margin-top--0 vads-u-padding-right--2 dd-privacy-hidden"
                 data-dd-action-name="rated issue name"
               >
                 {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
@@ -46,13 +44,7 @@ const IssueSummary = ({ formData }) => {
                   className="dd-privacy-hidden"
                   data-dd-action-name="rated issue decision date"
                 >
-                  {getDate({
-                    date:
-                      issue.attributes?.approxDecisionDate ||
-                      issue.decisionDate ||
-                      '',
-                    pattern: FORMAT_READABLE,
-                  })}
+                  {getDecisionDate(issue)}
                 </span>
               </div>
             </li>
@@ -68,23 +60,7 @@ const IssueSummary = ({ formData }) => {
 };
 
 IssueSummary.propTypes = {
-  formData: PropTypes.shape({
-    contestedIssues: PropTypes.arrayOf(
-      PropTypes.shape({
-        attributes: PropTypes.shape({
-          ratingIssueSubjectText: PropTypes.string,
-        }),
-        [SELECTED]: PropTypes.bool,
-      }),
-    ),
-    additionalIssues: PropTypes.arrayOf(
-      PropTypes.shape({
-        issue: PropTypes.string,
-        decisionDate: PropTypes.string,
-        [SELECTED]: PropTypes.bool,
-      }),
-    ),
-  }),
+  formData: data995,
 };
 
 export default IssueSummary;

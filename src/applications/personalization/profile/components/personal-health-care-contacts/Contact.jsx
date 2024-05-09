@@ -12,13 +12,13 @@ const CONTACT_TYPES = [
 ];
 
 const DESCRIPTIONS = {
-  [CONTACT_TYPES[0]]: 'The person we’ll contact first in an emergency.',
+  [CONTACT_TYPES[0]]: 'The person we’ll contact in an emergency.',
   [CONTACT_TYPES[1]]:
     'The person we’ll contact if your primary contact isn’t available.',
   [CONTACT_TYPES[2]]:
     'The person you want to represent your health care wishes if needed.',
   [CONTACT_TYPES[3]]:
-    'The person you want to represent your health care wishes if needed.',
+    'The person you want to represent your health care wishes if your primary contact isn’t available.',
 };
 
 const Contact = ({

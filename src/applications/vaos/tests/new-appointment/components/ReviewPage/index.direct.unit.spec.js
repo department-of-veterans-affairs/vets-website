@@ -121,7 +121,7 @@ describe('VAOS Page: ReviewPage direct scheduling with v2 api', () => {
     });
 
     await screen.findByText(/scheduling a primary care appointment/i);
-    expect(screen.getByText('Primary care')).to.have.tagName('h2');
+    expect(screen.getByText('Primary care')).to.have.tagName('span');
     const [
       pageHeading,
       descHeading,
@@ -135,8 +135,8 @@ describe('VAOS Page: ReviewPage direct scheduling with v2 api', () => {
     expect(descHeading).to.contain.text(
       'scheduling a primary care appointment',
     );
-    expect(typeOfCareHeading).to.contain.text('Primary care');
-    expect(screen.baseElement).to.contain.text('VA Appointment');
+    expect(typeOfCareHeading).to.contain.text('VA Appointment');
+    expect(screen.baseElement).to.contain.text('Primary care');
 
     expect(dateHeading).to.contain.text(
       start.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm a'),

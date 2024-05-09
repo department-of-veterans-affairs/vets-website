@@ -1,7 +1,7 @@
-import moment from 'moment';
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
 
+import ClaimCard from '../ClaimCard';
 import {
   APPEAL_TYPES,
   EVENT_TYPES,
@@ -10,14 +10,13 @@ import {
   programAreaMap,
 } from '../../utils/appeals-v2-helpers';
 import { buildDateFormatter } from '../../utils/helpers';
-import ClaimCard from '../ClaimCard';
 
 const capitalizeWord = word => {
   const capFirstLetter = word[0].toUpperCase();
   return `${capFirstLetter}${word.slice(1)}`;
 };
 
-const formatDate = buildDateFormatter('MMMM d, yyyy');
+const formatDate = buildDateFormatter();
 
 export default function AppealListItem({ appeal, name }) {
   let requestEventType;
@@ -51,16 +50,6 @@ export default function AppealListItem({ appeal, name }) {
     appeal.attributes.events[appeal.attributes.events.length - 1].date;
   const programArea = programAreaMap[appeal.attributes.programArea];
 
-  // appealTitle is in the format:
-  // "Supplemental Claim for Disability Compensation Receieved March 6, 2019"
-  //
-  // If it's an appeal:
-  // "Disability Compensation Appeal Receieved March 6, 2019"
-  //
-  // programArea or requestEvent might be missing:
-  // "Appeal updated on March 6, 2019"
-  // "Disability Compensation Appeal"
-
   let appealTitle = getTypeName(appeal);
   let updatedOn = '';
 
@@ -75,16 +64,13 @@ export default function AppealListItem({ appeal, name }) {
   appealTitle = capitalizeWord(appealTitle);
   updatedOn = formatDate(updatedEventDateString);
 
-  const ariaLabel = `View details for ${appealTitle}`;
-  const href = `appeals/${appeal.id}/status`;
+  const ariaLabel = `Details for ${appealTitle}`;
+  const href = `/appeals/${appeal.id}/status`;
 
   return (
     <ClaimCard
       title={appealTitle}
-      subtitle={
-        requestEvent &&
-        `Received on ${moment(requestEvent.date).format('MMMM D, YYYY')}`
-      }
+      subtitle={requestEvent && `Received on ${formatDate(requestEvent.date)}`}
     >
       <div className="card-status">
         {appeal.attributes.description && (

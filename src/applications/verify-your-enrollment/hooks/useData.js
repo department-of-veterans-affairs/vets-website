@@ -21,7 +21,6 @@ export const useData = () => {
     [dispatch],
   );
   const isUserLoggedIn = localStorage.getItem('hasSession') !== null;
-
   const userInfo = isUserLoggedIn
     ? personalInfo && personalInfo['vye::UserInfo']
     : data && data['vye::UserInfo'];
@@ -29,11 +28,13 @@ export const useData = () => {
   const updated = getCurrentDateFormatted(userInfo?.dateLastCertified);
   const { month, day } = remainingBenefits(userInfo?.remEnt);
   return {
-    loading: loading || isLoading,
+    isUserLoggedIn,
+    loading: isUserLoggedIn ? isLoading : loading,
     expirationDate,
     updated,
     day,
     month,
+    enrollmentData: isUserLoggedIn ? personalInfo : data,
     ...userInfo,
   };
 };

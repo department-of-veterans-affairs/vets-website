@@ -2,6 +2,8 @@
 const commandLineArgs = require('command-line-args');
 const glob = require('glob');
 const path = require('path');
+const core = require('@actions/core');
+const fs = require('fs');
 const { runCommand } = require('../utils');
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
@@ -79,10 +81,11 @@ const coverageReporter = options['coverage-html']
 const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';
-let testsToVerify = null;
-if (process.env.TESTS_TO_VERIFY) {
-  testsToVerify = JSON.parse(process.env.TESTS_TO_VERIFY).join(' ');
-}
+const testsToVerify = fs.existsSync(
+  path.resolve(`unit_tests_to_stress_test.json`),
+)
+  ? JSON.parse(fs.readFileSync(path.resolve(`unit_tests_to_stress_test.json`)))
+  : null;
 
 const splitUnitTests = splitArray(
   allUnitTestDirs,
@@ -91,32 +94,61 @@ const splitUnitTests = splitArray(
 const appsToRun = options['app-folder']
   ? [options['app-folder']]
   : splitUnitTests[matrixStep];
+
 if (testsToVerify === null) {
-  for (const dir of appsToRun) {
-    const updatedPath = options['app-folder']
-      ? options.path.map(p => `'${p}'`).join(' ')
-      : options.path[0].replace(
-          `/${specDirs}/`,
-          `/${JSON.parse(dir).join('/')}/`,
-        );
-    const testsToRun = options['app-folder']
-      ? `--recursive ${updatedPath}`
-      : `--recursive ${glob.sync(updatedPath)}`;
-    const command = `LOG_LEVEL=${options[
-      'log-level'
-    ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
-      /,/g,
-      ' ',
-    )} `;
+  // Not a stress test as no tests need to be verified
+  if (appsToRun && appsToRun.length > 0) {
+    core.exportVariable('NO_APPS_TO_RUN', false);
+    for (const dir of appsToRun) {
+      const updatedPath = options['app-folder']
+        ? options.path.map(p => `'${p}'`).join(' ')
+        : options.path[0].replace(
+            `/${specDirs}/`,
+            `/${JSON.parse(dir).join('/')}/`,
+          );
+      const testsToRun = options['app-folder']
+        ? `--recursive ${updatedPath}`
+        : `--recursive ${glob.sync(updatedPath)}`;
+      const command = `LOG_LEVEL=${options[
+        'log-level'
+      ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
+        /,/g,
+        ' ',
+      )} `;
+      if (testsToRun !== '') {
+        // Case: Unit Tests are available for the selected app to run and will run here for the one app only.
+        runCommand(command);
+      } else {
+        // Case: Unit Tests are runnning, but the app with changed code in this case has no unit tests as a part of it.
+        console.log('This app has no tests to run');
+      }
+    }
+  } else {
+    // Case: The code changed has no associated unit tests
+    core.exportVariable('NO_APPS_TO_RUN', true);
+  }
+} else {
+  // Stress test
+  const appsToVerify = JSON.parse(process.env.APPS_TO_VERIFY)
+    .filter(app => app.startsWith('src/applications'))
+    .map(app => app.split('/')[2]);
+  for (const app of appsToVerify) {
+    const testsToRun = testsToVerify
+      .filter(test => test.includes(`src/applications/${app}`))
+      .join(' ');
     if (testsToRun !== '') {
+      const command = `LOG_LEVEL=${options[
+        'log-level'
+      ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
+        /,/g,
+        ' ',
+      )} `;
+      // Case: Unit Tests are available for the selected app to run and will run here for the one app only.
       runCommand(command);
     } else {
+      // Case: Unit Tests are runnning, but the app with changed code in this case has no unit tests as a part of it.
       console.log('This app has no tests to run');
     }
   }
-} else {
-  const command = `LOG_LEVEL=${options[
-    'log-level'
-  ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToVerify}`;
-  runCommand(command);
+  // Case: Unit Tests are needed to be Stress Tested. Selected tests are all run in one container so each container runs the full suite.
 }

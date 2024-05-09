@@ -3,6 +3,7 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const childAttendsCollege = child => child.attendingCollege;
 export const childIsDisabled = child => child.disabled;
+export const childIsAdopted = child => child.childRelationship === 'ADOPTED';
 
 const SupportingDocument = ({ formId, formName }) => {
   const linkText = `Get VA Form ${formId} to download (opens in new tab)`;
@@ -21,9 +22,10 @@ const SupportingDocument = ({ formId, formName }) => {
   );
 };
 
-function Description({ formData }) {
+function Documents({ formData }) {
   const hasDisabledChild = (formData.dependents || []).some(childIsDisabled);
   const hasSchoolChild = (formData.dependents || []).some(childAttendsCollege);
+  const hasAdoptedChild = (formData.dependents || []).some(childIsAdopted);
   const hasSpecialMonthlyPension = formData.specialMonthlyPension;
   const livesInNursingHome = formData.nursingHome;
   const assetsOverThreshold = formData.totalNetWorth; // over $25,000 in assets
@@ -36,18 +38,13 @@ function Description({ formData }) {
   const showDocumentsList =
     hasDisabledChild ||
     hasSchoolChild ||
+    hasAdoptedChild ||
     hasSpecialMonthlyPension ||
     livesInNursingHome ||
     needsIncomeAndAssetStatement;
 
   return (
     <>
-      <p>
-        On the next screen, we’ll ask you to submit supporting documents for
-        your claim. If you upload all of your supporting documents online now,
-        you may be able to get a faster decision on your claim.
-      </p>
-
       {showDocumentsList && (
         <>
           <p> You'll need to upload these documents: </p>
@@ -81,6 +78,10 @@ function Description({ formData }) {
                 Private medical records documenting your child's disability
                 before the age of 18
               </li>
+            )}
+
+            {hasAdoptedChild && (
+              <li>Adoption papers or amended birth certificate</li>
             )}
 
             {needsIncomeAndAssetStatement && (
@@ -160,9 +161,14 @@ function Description({ formData }) {
 }
 
 export default {
+  title: 'Supporting documents',
+  path: 'additional-information/supporting-documents',
   uiSchema: {
-    ...titleUI('Supporting documents'),
-    'ui:description': Description,
+    ...titleUI(
+      'Supporting documents',
+      'On the next screen, we’ll ask you to submit supporting documents for your claim. If you upload all of your supporting documents online now, you may be able to get a faster decision on your claim.',
+    ),
+    'ui:description': Documents,
   },
   schema: {
     type: 'object',

@@ -1,5 +1,6 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { APP_URLS } from '../../../utils/constants';
 
 const ProcessTimeline = () => (
   <>
@@ -67,10 +68,10 @@ const ProcessTimeline = () => (
             purposes only doesn’t count toward the service requirements.
           </p>
           <p>
-            <a href="/discharge-upgrade-instructions/">
-              Get instructions on how to apply for a discharge upgrade or
-              correction
-            </a>
+            <va-link
+              href={APP_URLS.dischargeWizard}
+              text="Get instructions on how to apply for a discharge upgrade or correction"
+            />
           </p>
         </va-additional-info>
       </va-process-list-item>

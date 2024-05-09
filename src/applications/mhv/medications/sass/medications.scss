@@ -6,7 +6,7 @@
 .link-button:hover,
 .link-button:active {
   background-color: transparent;
-  color: $color-link-default;
+  color: var(--vads-color-link);
   font-weight: normal;
   text-decoration: underline;
   border: none;
@@ -38,10 +38,29 @@
 .refill-loading-indicator {
   margin-top: 70px;
 }
+
+.rx-breadcrumbs {
+  .breadcrumb-angle {
+    color: var(--vads-color-link);
+  }
+  a {
+    &:visited {
+      color: var(--vads-color-link);
+    }
+  }
+}
+
 .renew-pagination-container {
   width: 100%;
   display: flex;
   justify-content: center;
+}
+.routes-container {
+  @media (max-width: $small-screen) {
+    // .vads-l-grid-container adds 15px on left and right, this overwrites that
+    padding-left: 8px;
+    padding-right: 8px;
+  }
 }
 .main-content {
   padding: 0;
@@ -65,7 +84,7 @@
 }
 .landing-page {
   h1 {
-    color: $color-gray-dark;
+    color: var(--vads-color-black);
   }
   .medications-list-sort {
     display: flex;
@@ -96,7 +115,7 @@
   .rx-card-container{
     max-width: 500px;
     padding-bottom: 5px;
-    color: $color-gray-dark;
+    color: var(--vads-color-base-darker);
     .rx-card-details{
       margin-left: 5px;
       h3 {
@@ -115,7 +134,7 @@
           margin: 10px;
           width: 20px;
           height: 20px;
-          border: 1px solid $color-base;
+          border: 1px solid var(--vads-color-base);
         }
       }
       .statusIcon {
@@ -147,7 +166,7 @@
   .rx-landing-page-footer {
     max-width: 500px;
     .footer-header {
-      color: $color-gray-dark;
+      color: var(--vads-color-base-darker);
     }
     .footer-links {
       margin: 10px 0;
@@ -159,6 +178,10 @@
         margin-bottom: 15px;
       }
     }
+  }
+  @media (max-width: $small-screen) {
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
 
@@ -263,4 +286,35 @@
     align-items: center;
     gap: 1.5rem;
   }
+}
+
+.rx-refill-submit-error-hidden {
+  visibility: hidden;
+  margin: 0;
+  padding: 0rem;
+  height: 0;
+}
+
+.rx-refill-submit-error-visible {
+  visibility: visible;
+  margin: 0 0 20px 0;
+  padding: unset;
+  height: unset;
+}
+
+.refillable-prescription-item {
+  display: flex !important;
+}
+
+va-checkbox.select-all-checkbox::part(label) {
+  font-weight: bold;
+
+  &::before {
+    box-shadow: var(--vads-color-base-dark) 0px 0px 0px 1px;
+    margin-left: 1px;
+  }
+}
+
+.hide-visited-link:visited {
+  color: var(--vads-color-link) !important;
 }

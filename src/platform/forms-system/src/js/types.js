@@ -33,6 +33,7 @@
  * @property {string} [formId]
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
+ * @property {boolean} [hideNavButtons]
  * @property {boolean} [hideUnauthedStartLink]
  * @property {React.ReactNode | (props: any) => any} [introduction]
  * @property {Array<Function>} [migrations]
@@ -132,8 +133,10 @@
 /**
  * @typedef {Object} FormConfigChapter
  * @property {Record<string, FormConfigPage>} [pages]
- * @property {string | ({ formData }: { formData?: Object }) => string} [title]
+ * @property {string | ({ formData, formConfig }) => string} [title]
  * @property {boolean} [hideFormNavProgress]
+ * @property {boolean} [hideFormTitle]
+ * @property {boolean} [hideOnReviewPage]
  * @property {React.ReactNode} [reviewDescription]
  */
 
@@ -147,16 +150,17 @@
  * @property {((formData: Object) => boolean) | {}} [depends] optional condition when page should be shown or not
  * @property {Object} [initialData]
  * @property {boolean} [customPageUsesPagePerItemData] Used with `CustomPage` and arrays. If true, will treat `data` (`formData`) and `setFormData` at the array level instead of the entire `formData` level, which matches how default pages work.
+ * @property {boolean} [hideNavButtons] Used to hide the 'Continue' and 'Back' buttons
  * @property {(formData: any) => void} [onContinue] Called when user clicks continue button. For simple callbacks/events. If you instead want to navigate to a different page, use onNavForward.
- * @property {({ formData, goPath, goPreviousPath, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goPreviousPath: (urlParams?: object) => void, pathname: string, setFormData, urlParams }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
- * @property {({ formData, goPath, goNextPath, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goNextPath: (urlParams?: object) => void, pathname: string, setFormData, urlParams }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
+ * @property {({ formData, goPath, goPreviousPath, pageList, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goPreviousPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
+ * @property {({ formData, goPath, goNextPath, pageList, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goNextPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
  * @property {(data: any) => boolean} [itemFilter]
  * @property {string} [path] url path for page e.g. `'name-of-path'`, or `'name-of-path/:index'` for an array item page. Results in `http://localhost:3001/my-form/name-of-path`
  * @property {string} [returnUrl]
  * @property {SchemaOptions} [schema]
  * @property {string | Function} [scrollAndFocusTarget]
  * @property {boolean} [showPagePerItem] if true, will show an additional page for each item in the array at `'name-of-path/:index'`
- * @property {string | ({ formData }) => string} [title] Will show on review page (may require more than one word to show)
+ * @property {string | (formData) => string} [title] Will show on review page (may require more than one word to show)
  * @property {UISchemaOptions} [uiSchema]
  * @property {(item, index) => void} [updateFormData]
  */
@@ -196,6 +200,15 @@
 /**
  * Autocomplete values
  * @typedef {'on' | 'off' | 'name' | 'honorific-prefix' | 'given-name' | 'additional-name' | 'family-name' | 'honorific-suffix' | 'nickname' | 'email' | 'username' | 'current-password' | 'organization-title' | 'organization' | 'street-address' | 'address-line1' | 'address-line2' | 'address-line3' | 'address-level4' | 'address-level3' | 'address-level2' | 'address-level1' | 'country' | 'country-name' | 'postal-code' | 'cc-name' | 'cc-given-name' | 'cc-additional-name' | 'cc-family-name' | 'cc-number' | 'cc-exp' | 'cc-exp-month' | 'cc-exp-year' | 'cc-csc' | 'cc-type' | 'transaction-currency' | 'transaction-amount' | 'language' | 'bday' | 'bday-day' | 'bday-month' | 'bday-year' | 'sex' | 'tel' | 'tel-country-code' | 'tel-national' | 'tel-area-code' | 'tel-local' | 'tel-extension' | 'impp' | 'url' | 'photo' | OrAnyString} AutocompleteValue
+ */
+
+/**
+ * @typedef {Array<{
+ *    pageKey: string,
+ *    path: string,
+ *    chapterKey?: string,
+ *    chapterTitle?: string,
+ * } & Partial<FormConfigPage>>} PageList
  */
 
 /**
@@ -240,7 +253,7 @@
 /**
  * @typedef {Object} UIOptions
  * @property {string} [ariaDescribedby] The id of the element that describes the field. Use `messageAriaDescribedby` for web components.
- * @property {boolean} [charcount] Whether a web-component should show a character count message. Has no effect without maxlength being set.
+ * @property {boolean} [charcount] Whether a web-component should show a character count message. Has no effect without `maxLength` being set in the schema.
  * @property {string} [classNames] additional CSS classes to add to the field
  * @property {boolean} [confirmRemove] For arrays. If true, will show a confirmation modal when removing an item.
  * @property {string} [confirmRemoveDescription] For arrays. Description for the confirmation modal when removing an item.
@@ -267,7 +280,7 @@
  * @property {string} [hint] The hint text for the field. For web components.
  * @property {boolean} [includeRequiredLabelInTitle]
  * @property {Array<(input) => string>} [inputTransformers]
- * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] HTML input 'type' attribute. May result in different keyboard for mobile users.
+ * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] Keyboard type for mobile users. Equivalent to HTML input 'type' attribute.
  * @property {(item: any) => string} [itemAriaLabel] for arrays
  * @property {string} [itemName] The name of the item - for arrays. For example a value of 'Child' will result in 'Add another child', 'New child', and if 'using confirmRemove', 'Are you sure you want to remove this child item?', 'Yes, remove this child item'.
  * @property {boolean} [invalid] For web components. Whether or not aria-invalid will be set on the inner input. Useful when composing the component into something larger, like a date component.
@@ -293,6 +306,7 @@
  * `updateUiSchema` does not work inside of an array, however a workaround for arrays is to use `updateSchema` which allows for a `title` attribute as long as `'ui:title'` is not defined.
  *
  * When using dynamic fields you need to consider accessibility and screen readers. For these reasons it is not recommended to change fields live, because the changes may not get read out. Instead, it is recommended to already have some previous `formData` set so that when you get to the dynamic fields, they are static while on that page.
+ * @property {boolean} [useVaCards] For arrays on a single page. If true, will use the `VaCard` component to wrap each item in the array. Has a white background with border instead of gray background.
  * @property {boolean} [reflectInputError] Whether or not to add usa-input--error as class if error message is outside of component.
  * @property {string} [reviewItemHeaderLevel] Optional level for the item-header on Review page - for arrays. Defaults to '5' for a <h5> header-tag.
  * @property {boolean} [useDlWrap] On the review page, moves \<dl\> tag to immediately surrounding the \<dt\> field instead of using a \<div\>. \<dt\> fields should be wrapped in \<dl\> fields, so this fixes that a11y issue. Formats fields horizontally.
@@ -346,4 +360,66 @@
  *  [key: string]: any
  * }} childrenProps
  * @property {any} DescriptionField
+ */
+
+/**
+ * @typedef {{
+ *   getItemName: (itemData: any) => string,
+ *   itemData: any,
+ *   nounPlural: string,
+ *   nounSingular: string,
+ * }} ArrayBuilderTextProps
+ */
+
+/**
+ * @typedef {{
+ *   alertItemUpdated?: (props: ArrayBuilderTextProps) => string,
+ *   alertItemRemoved?: (props: ArrayBuilderTextProps) => string,
+ *   alertMaxItems?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddNo?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddTitle?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditNo?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditTitle?: (props: ArrayBuilderTextProps) => string,
+ *   cancelYes?: (props: ArrayBuilderTextProps) => string,
+ *   cardDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cardItemMissingInformation?: (itemData: any) => string,
+ *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   getItemName?: (itemData: any) => string,
+ *   removeDescription?: (props: ArrayBuilderTextProps) => string,
+ *   removeNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
+ *   removeNo?: (props: ArrayBuilderTextProps) => string,
+ *   removeTitle?: (props: ArrayBuilderTextProps) => string,
+ *   removeYes?: (props: ArrayBuilderTextProps) => string,
+ *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
+ *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
+ * }} ArrayBuilderText
+ */
+
+/**
+ * @typedef {Object} ArrayBuilderOptions
+ * @property {string} arrayPath the formData key for the array e.g. `"employers"` for `formData.employers`
+ * @property {string} nounSingular Used for text in cancel, remove, and modals. Used with nounPlural
+ * ```
+ * // Example:
+ * nounSingular: "employer"
+ * nounPlural: "employers"
+ * ```
+ * @property {string} nounPlural Used for text in cancel, remove, and modals. Used with nounSingular
+ * ```
+ * // Example:
+ * nounSingular: "employer"
+ * nounPlural: "employers"
+ * ```
+ * @property {(item) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. You should include all of your required fields here. e.g. `item => !item?.name`
+ * @property {number} [maxItems] The maximum number of items allowed in the array. Omit to allow unlimited items.
+ * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
+ * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
+ * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  */

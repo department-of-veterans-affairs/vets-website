@@ -59,7 +59,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
       li.list-group-item {
         counter-increment: step-counter;
         border-left-width: 5px;
-        border-color: $color-gray-lighter;
+        border-color: var(--vads-color-base-lighter);
         padding-bottom: 3em;
 
         h4 {
@@ -72,7 +72,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
           line-height: 25px;
           margin-left: -35px;
           width: 25px;
-          color: $color-white;
+          color: var(--vads-color-white);
           font-weight: bold;
           border: none;
         }
@@ -88,12 +88,8 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     }
   }
 
-  .answers {
-    border-bottom: 1px solid $color-gray-light;
-  }
-
   .answer-review {
-    border-top: 1px solid $color-gray-light;
+    border-top: 1px solid var(--vads-color-base-light);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -115,5 +111,19 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 
   .converted-h4 {
     font-size: 1.7rem;
+  }
+}
+
+.discharge-wizard-v2 {
+  article {
+    padding: 0 0 3rem;
+  }
+
+  //v2 styles
+  .answer-review {
+    border-top: 1px solid var(--vads-color-base-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }

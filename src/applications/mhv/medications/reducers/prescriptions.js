@@ -11,10 +11,6 @@ export const initialState = {
    * The list of sorted prescriptions returned from the api
    * @type {array}
    */
-  prescriptionsFullList: [],
-  /**
-   * The prescription currently being displayed to the user
-   */
   prescriptionDetails: undefined,
   /**
    * Pagination received form meta object in prescriptionsList payload
@@ -24,6 +20,15 @@ export const initialState = {
    * Sort option used for sorting the prescriptions list
    */
   selectedSortOption: defaultSelectedSortOption,
+  /**
+   * Prescriptions API error
+   */
+  apiError: undefined,
+  /**
+   * The list of refillable prescriptions returned from the api
+   * @type {array}
+   */
+  refillablePrescriptionsList: undefined,
 };
 
 export const prescriptionsReducer = (state = initialState, action) => {
@@ -33,12 +38,14 @@ export const prescriptionsReducer = (state = initialState, action) => {
       return {
         ...state,
         prescriptionDetails: action.prescription,
+        apiError: false,
       };
     }
     case Actions.Prescriptions.CLEAR_DETAILS: {
       return {
         ...state,
         prescriptionDetails: undefined,
+        apiError: false,
       };
     }
     case Actions.Prescriptions.GET_PAGINATED_SORTED_LIST: {
@@ -48,14 +55,22 @@ export const prescriptionsReducer = (state = initialState, action) => {
           return { ...rx.attributes };
         }),
         prescriptionsPagination: action.response.meta.pagination,
+        apiError: false,
       };
     }
-    case Actions.Prescriptions.GET_SORTED_LIST: {
+    case Actions.Prescriptions.GET_REFILLABLE_LIST: {
       return {
         ...state,
-        prescriptionsFullList: action.response.data.map(rx => {
+        refillablePrescriptionsList: action.response.data.map(rx => {
           return { ...rx.attributes };
         }),
+        apiError: false,
+      };
+    }
+    case Actions.Prescriptions.GET_API_ERROR: {
+      return {
+        ...state,
+        apiError: true,
       };
     }
     case Actions.Prescriptions.UPDATE_SORT_OPTION: {

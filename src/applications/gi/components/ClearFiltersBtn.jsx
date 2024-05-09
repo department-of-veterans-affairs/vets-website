@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isProductionOfTestProdEnv } from '../utils/helpers';
+import { isProductionOrTestProdEnv } from '../utils/helpers';
 import { filterChange } from '../actions';
 
 function ClearFiltersBtn({
@@ -10,21 +10,28 @@ function ClearFiltersBtn({
   smallScreen,
   children,
   testId,
-  isCleared,
-  setIsCleared,
   onKeyDown,
+  onClick,
 }) {
   const clearAllFilters = () => {
     dispatchFilterChange({
       ...filters,
-      schools: false,
-      excludedSchoolTypes: [],
+      schools: true,
+      excludedSchoolTypes: [
+        'PUBLIC',
+        'FOR PROFIT',
+        'PRIVATE',
+        'FOREIGN',
+        'FLIGHT',
+        'CORRESPONDENCE',
+        'HIGH SCHOOL',
+      ],
       excludeCautionFlags: false,
       accredited: false,
       studentVeteran: false,
       yellowRibbonScholarship: false,
-      employers: false,
-      vettec: false,
+      employers: true,
+      vettec: true,
       preferredProvider: false,
       country: 'ALL',
       state: 'ALL',
@@ -39,12 +46,21 @@ function ClearFiltersBtn({
       specialMissionPBI: false,
       specialMissionTRIBAL: false,
     });
-    setIsCleared(true);
+    onClick();
   };
-
   return (
     <>
-      {isProductionOfTestProdEnv() ? (
+      {isProductionOrTestProdEnv() ? (
+        <button
+          className="clear-filters-btn"
+          onClick={clearAllFilters}
+          data-testid={testId}
+          onKeyDown={onKeyDown}
+        >
+          {' '}
+          {children}
+        </button>
+      ) : (
         <button
           onClick={clearAllFilters}
           className={
@@ -53,21 +69,6 @@ function ClearFiltersBtn({
               : 'clear-filters-button'
           }
         >
-          {children}
-        </button>
-      ) : (
-        <button
-          className="clear-filters-btn"
-          onClick={clearAllFilters}
-          data-testid={testId}
-          aria-label={
-            isCleared
-              ? 'All filters have been removed. Please select at least one filter.'
-              : ''
-          }
-          onKeyDown={onKeyDown}
-        >
-          {' '}
           {children}
         </button>
       )}

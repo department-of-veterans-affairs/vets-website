@@ -14,10 +14,10 @@ import VaCheckboxField from '../web-component-fields/VaCheckboxField';
 
 /**
  * PATTERNS
- * STREET_PATTERN - rejects white space only
+ * NONBLANK_PATTERN - rejects white space only
  * POSTAL_CODE_PATTERNS - Matches US/Mexican/Canadian codes
  */
-const STREET_PATTERN = '^.*\\S.*';
+const NONBLANK_PATTERN = '^.*\\S.*';
 const POSTAL_CODE_PATTERNS = {
   CAN:
     '^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$',
@@ -31,6 +31,12 @@ const POSTAL_CODE_PATTERN_ERROR_MESSAGES = {
   USA: 'Enter a valid 5-digit ZIP code',
 };
 
+const CITY_ERROR_MESSAGES = {
+  default: 'City is required',
+  military: 'Select a post office type: APO, FPO, or DPO',
+};
+
+const MILITARY_CITY_TITLE = 'APO/FPO/DPO';
 const MILITARY_CITY_VALUES = constants.militaryCities.map(city => city.value);
 const MILITARY_CITY_NAMES = constants.militaryCities.map(city => city.label);
 
@@ -49,6 +55,12 @@ const filteredStates = constants.states.USA.filter(
 
 const STATE_VALUES = filteredStates.map(state => state.value);
 const STATE_NAMES = filteredStates.map(state => state.label);
+
+const CAN_STATE_VALUES = constants.states.CAN.map(state => state.value);
+const CAN_STATE_NAMES = constants.states.CAN.map(state => state.label);
+
+const MEX_STATE_VALUES = constants.states.MEX.map(state => state.value);
+const MEX_STATE_NAMES = constants.states.MEX.map(state => state.label);
 
 const schemaCrossXRef = {
   isMilitary: 'isMilitary',
@@ -225,7 +237,26 @@ export function addressUI(options) {
   }
 
   /** @type {UISchemaOptions} */
-  const uiSchema = {};
+  const uiSchema = {
+    'ui:validations': [],
+  };
+
+  function validateMilitaryBaseZipCode(errors, addr) {
+    if (!(addr.isMilitary && addr.state)) return;
+
+    if (addr.isMilitary && MILITARY_STATE_VALUES.includes(addr.state)) {
+      const isAA = addr.state === 'AA' && /^340\d*/.test(addr.postalCode);
+      const isAE = addr.state === 'AE' && /^09[0-9]\d*/.test(addr.postalCode);
+      const isAP = addr.state === 'AP' && /^96[2-6]\d*/.test(addr.postalCode);
+      if (!(isAA || isAE || isAP)) {
+        errors.postalCode.addError(
+          `This postal code is within the United States. If your mailing address is in the United States, uncheck the checkbox "${
+            uiSchema.isMilitary['ui:title']
+          }". If your mailing address is an ${MILITARY_CITY_TITLE} address, enter the postal code for the military base.`,
+        );
+      }
+    }
+  }
 
   function requiredFunc(key, def) {
     return (formData, index) => {
@@ -239,6 +270,7 @@ export function addressUI(options) {
 
   if (!omit('isMilitary')) {
     uiSchema.isMilitary = {
+      'ui:required': requiredFunc('isMilitary', false),
       'ui:title':
         options?.labels?.militaryCheckbox ??
         'I live on a United States military base outside of the U.S.',
@@ -246,8 +278,9 @@ export function addressUI(options) {
       'ui:options': {
         hideEmptyValueInReview: true,
       },
-      'ui:required': requiredFunc('isMilitary', false),
     };
+
+    uiSchema['ui:validations'].push(validateMilitaryBaseZipCode);
   }
 
   if (!omit('isMilitary') && !omit('view:militaryBaseDescription')) {
@@ -317,6 +350,14 @@ export function addressUI(options) {
         pattern: 'Please fill in a valid street address',
       },
       'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        replaceSchema: (_, schema) => {
+          return {
+            ...schema,
+            pattern: NONBLANK_PATTERN,
+          };
+        },
+      },
     };
   }
 
@@ -349,7 +390,7 @@ export function addressUI(options) {
       'ui:required': requiredFunc('city', true),
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
-        required: 'City is required',
+        required: CITY_ERROR_MESSAGES.default,
       },
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
@@ -371,19 +412,22 @@ export function addressUI(options) {
           const { isMilitary } = addressFormData;
           if (isMilitary) {
             ui['ui:webComponentField'] = VaSelectField;
+            ui['ui:errorMessages'].required = CITY_ERROR_MESSAGES.military;
             return {
               type: 'string',
-              title: 'APO/FPO/DPO',
+              title: MILITARY_CITY_TITLE,
               enum: MILITARY_CITY_VALUES,
               enumNames: MILITARY_CITY_NAMES,
             };
           }
+
           ui['ui:webComponentField'] = VaTextInputField;
+          ui['ui:errorMessages'].required = CITY_ERROR_MESSAGES.default;
           return {
             type: 'string',
             title: 'City',
             maxLength: cityMaxLength,
-            pattern: STREET_PATTERN,
+            pattern: NONBLANK_PATTERN,
           };
         },
       },
@@ -419,7 +463,13 @@ export function addressUI(options) {
          * If the country value is USA and the military base checkbox is de-selected,
          * use the States dropdown.
          *
-         * If the country value is anything other than USA, change the title and default to string.
+         * If the country value is Canada and the military base checkbox is de-selected,
+         * use the Canadian "States" dropdown.
+         *
+         * If the country value is Mexico and the military base checkbox is de-selected,
+         * use the Mexican "States" dropdown.
+         *
+         * If the country value is anything other than USA, Canada, or Mexico, change the title and default to string.
          */
         replaceSchema: (formData, _schema, _uiSchema, index, path) => {
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
@@ -444,6 +494,24 @@ export function addressUI(options) {
               title: 'State',
               enum: STATE_VALUES,
               enumNames: STATE_NAMES,
+            };
+          }
+          if (!isMilitary && country === 'CAN') {
+            ui['ui:webComponentField'] = VaSelectField;
+            return {
+              type: 'string',
+              title: 'State/Province/Region',
+              enum: CAN_STATE_VALUES,
+              enumNames: CAN_STATE_NAMES,
+            };
+          }
+          if (!isMilitary && country === 'MEX') {
+            ui['ui:webComponentField'] = VaSelectField;
+            return {
+              type: 'string',
+              title: 'State/Province/Region',
+              enum: MEX_STATE_VALUES,
+              enumNames: MEX_STATE_NAMES,
             };
           }
           ui['ui:webComponentField'] = VaTextInputField;

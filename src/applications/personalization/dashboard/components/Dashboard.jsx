@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import {
@@ -39,6 +39,7 @@ import MPIConnectionError from '~/applications/personalization/components/MPICon
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import { useSessionStorage } from '~/applications/personalization/common/hooks/useSessionStorage';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
@@ -89,11 +90,15 @@ const DashboardHeader = ({ showNotifications }) => {
 };
 
 const LOA1Content = ({ isLOA1, isVAPatient }) => {
+  const signInService = useSelector(signInServiceName);
   return (
     <>
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-          <IdentityNotVerified headline="Verify your identity to access more VA.gov tools and features" />
+          <IdentityNotVerified
+            headline="Verify your identity to access more VA.gov tools and features"
+            signInService={signInService}
+          />
         </div>
       </div>
 

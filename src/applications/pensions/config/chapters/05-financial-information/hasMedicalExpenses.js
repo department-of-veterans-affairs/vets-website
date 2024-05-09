@@ -39,6 +39,8 @@ export const description = (
 
 /** @type {PageSchema} */
 export default {
+  title: 'Medical expenses and other unreimbursed expenses',
+  path: 'financial/medical-expenses',
   uiSchema: {
     ...titleUI('Medical expenses and other unreimbursed expenses', description),
     hasMedicalExpenses: yesNoUI({

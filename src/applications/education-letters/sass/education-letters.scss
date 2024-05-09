@@ -1,10 +1,11 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .edu-certi-eligibility {
-  background: $color-gray-lightest;
+  background: var(--vads-color-base-lightest);
   padding: 1em
 }
 
 #your-edu-benf-letter {
   margin-top: 1rem;
 }
+

@@ -13,6 +13,7 @@ import idInfoThirdPartyNonVetPg from '../pages/idInfoThirdPartyNonVeteran';
 // import nameAndDobPg from '../pages/nameAndDateofBirth';
 // import idInfoPg from '../pages/idInfo';
 import vetNameAndDobPg from '../pages/veteranNameAndDateofBirth';
+import vetNameAndDobPgB from '../pages/veteranNameAndDateofBirthB';
 import nonVetNameAndDobPg from '../pages/nonVeteranNameAndDateOfBirth';
 import vetIdInfoPg from '../pages/veteranIdInfo';
 import nonVetIdInfoPg from '../pages/nonVeteranIdInfo';
@@ -47,10 +48,20 @@ import powConfinementPg from '../pages/evidenceConfinement';
 import powConfinement2Pg from '../pages/evidenceConfinement2';
 import powDocsPg from '../pages/evidencePowDocuments';
 import medalAwardPg from '../pages/evidenceMedalAward';
+import hasReceivedMedicalTreatmentPg from '../pages/medicalTreatmentYesNo';
 import medTreatmentPg from '../pages/medicalTreatment';
 import medTreatment3rdPtyVetPg from '../pages/medicalTreatmentThirdPartyVeteran';
 import medTreatment3rdPtyNonVetPg from '../pages/medicalTreatmentThirdPartyNonVeteran';
-import { PREPARER_TYPES, SUBTITLE, TITLE } from './constants';
+import pointOfContactPg from '../pages/pointOfContact';
+import veteranPointOfContactPg from '../pages/veteranPointOfContact';
+import nonVeteranPointOfContactPg from '../pages/nonVeteranPointOfContact';
+
+import {
+  PREPARER_TYPES,
+  SUBTITLE,
+  TITLE,
+  hasMedicalTreatmentTitle,
+} from './constants';
 import {
   getMockData,
   getPersonalInformationChapterTitle,
@@ -93,7 +104,8 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: false,
+  prefillEnabled: true,
+  hideUnauthedStartLink: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for priority processing request.',
     noAuth:
@@ -251,7 +263,7 @@ const formConfig = {
       pages: {
         mailingAddressYesNoPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
+            !formData.livingSituation.NONE &&
             (formData.preparerType === PREPARER_TYPES.VETERAN ||
               formData.preparerType === PREPARER_TYPES.NON_VETERAN),
           path: 'mailing-address-yes-no',
@@ -262,7 +274,7 @@ const formConfig = {
         },
         mailingAddressYesNoThirdPartyVeteranPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
+            !formData.livingSituation.NONE &&
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
           path: 'mailing-address-yes-no-third-party-veteran',
           title: 'Mailing address yes/no',
@@ -272,7 +284,7 @@ const formConfig = {
         },
         mailingAddressYesNoThirdPartyNonVeteranPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
+            !formData.livingSituation.NONE &&
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
           path: 'mailing-address-yes-no-third-party-non-veteran',
           title: 'Mailing address yes/no',
@@ -282,8 +294,7 @@ const formConfig = {
         },
         veteranMailingAddressPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
-            formData.mailingAddressYesNo &&
+            (formData.mailingAddressYesNo || formData.livingSituation.NONE) &&
             formData.preparerType === PREPARER_TYPES.VETERAN,
           path: 'veteran-mailing-address',
           title: 'Mailing address',
@@ -293,8 +304,7 @@ const formConfig = {
         },
         nonVeteranMailingAddressPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
-            formData.mailingAddressYesNo &&
+            (formData.mailingAddressYesNo || formData.livingSituation.NONE) &&
             formData.preparerType === PREPARER_TYPES.NON_VETERAN,
           path: 'non-veteran-mailing-address',
           title: 'Mailing address',
@@ -304,8 +314,7 @@ const formConfig = {
         },
         veteranMailingAddressThirdPartyVeteranPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
-            formData.mailingAddressYesNo &&
+            (formData.mailingAddressYesNo || formData.livingSituation.NONE) &&
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
           path: 'veteran-mailing-address-third-party-veteran',
           title: 'Mailing address',
@@ -315,8 +324,7 @@ const formConfig = {
         },
         nonVeteranMailingAddressThirdPartyNonVeteranPage: {
           depends: formData =>
-            formData.livingSituation.NONE &&
-            formData.mailingAddressYesNo &&
+            (formData.mailingAddressYesNo || formData.livingSituation.NONE) &&
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
           path: 'non-veteran-mailing-address-third-party-non-veteran',
           title: 'Mailing address',
@@ -344,6 +352,38 @@ const formConfig = {
           schema: nonVeteranPhoneAndEmailPg.schema,
           pageClass: 'non-veteran-phone-and-email',
         },
+        pointOfContactPage: {
+          depends: formData =>
+            !(
+              formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN ||
+              formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN
+            ) && !formData.livingSituation.NONE,
+          path: 'point-of-contact',
+          title: 'Your point of contact',
+          uiSchema: pointOfContactPg.uiSchema,
+          schema: pointOfContactPg.schema,
+          pageClass: 'point-of-contact',
+        },
+        veteranPointOfContactPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN &&
+            !formData.livingSituation.NONE,
+          path: 'veteran-point-of-contact',
+          title: "Veteran's point of contact",
+          uiSchema: veteranPointOfContactPg.uiSchema,
+          schema: veteranPointOfContactPg.schema,
+          pageClass: 'veteran-point-of-contact',
+        },
+        nonVeteranPointOfContactPage: {
+          depends: formData =>
+            formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN &&
+            !formData.livingSituation.NONE,
+          path: 'non-veteran-point-of-contact',
+          title: "Claimant's point of contact",
+          uiSchema: nonVeteranPointOfContactPg.uiSchema,
+          schema: nonVeteranPointOfContactPg.schema,
+          pageClass: 'non-veteran-point-of-contact',
+        },
       },
     },
     veteranPersonalInformationChapter: {
@@ -355,8 +395,8 @@ const formConfig = {
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
           path: 'veteran-name-and-date-of-birth-b',
           title: 'Veteran’s name and date of birth',
-          uiSchema: vetNameAndDobPg.uiSchema,
-          schema: vetNameAndDobPg.schema,
+          uiSchema: vetNameAndDobPgB.uiSchema,
+          schema: vetNameAndDobPgB.schema,
           pageClass: 'veteran-name-and-date-of-birth',
         },
         veteranIdentificationInformationPageB: {
@@ -442,7 +482,7 @@ const formConfig = {
       title: 'Evidence',
       pages: {
         financialHardshipPage: {
-          depends: formData => formData.otherReasons.FINANCIAL_HARDSHIP,
+          depends: formData => formData.otherReasons?.FINANCIAL_HARDSHIP,
           path: 'evidence-financial-hardship',
           title: 'Upload evidence for extreme financial hardship',
           uiSchema: financialHardshipPg.uiSchema,
@@ -450,7 +490,7 @@ const formConfig = {
           pageClass: 'evidence-financial-hardship',
         },
         terminalIllnessPage: {
-          depends: formData => formData.otherReasons.TERMINAL_ILLNESS,
+          depends: formData => formData.otherReasons?.TERMINAL_ILLNESS,
           path: 'evidence-terminal-illness',
           title: 'Upload evidence for terminal illness',
           uiSchema: terminalIllnessPg.uiSchema,
@@ -458,7 +498,7 @@ const formConfig = {
           pageClass: 'evidence-terminal-illness',
         },
         alsPage: {
-          depends: formData => formData.otherReasons.ALS,
+          depends: formData => formData.otherReasons?.ALS,
           path: 'evidence-als',
           title:
             'Upload evidence for diagnosis of ALS (amyotrophic lateral sclerosis)',
@@ -467,7 +507,7 @@ const formConfig = {
           pageClass: 'evidence-als',
         },
         vsiPage: {
-          depends: formData => formData.otherReasons.VSI_SI,
+          depends: formData => formData.otherReasons?.VSI_SI,
           path: 'evidence-vsi',
           title:
             'Upload evidence for Seriously or Very Seriously Injured or Ill during military operations',
@@ -478,7 +518,7 @@ const formConfig = {
         powConfinementPage: {
           // TODO: Verify which stories this should be shown for.
           // Not sure about non-veteran & third-party-non-veteran stories.
-          depends: formData => formData.otherReasons.FORMER_POW,
+          depends: formData => formData.otherReasons?.FORMER_POW,
           path: 'evidence-pow-confinement',
           title: 'Former prisoner of war',
           uiSchema: powConfinementPg.uiSchema,
@@ -487,7 +527,7 @@ const formConfig = {
         },
         powConfinement2Page: {
           depends: formData =>
-            formData.otherReasons.FORMER_POW &&
+            formData.otherReasons?.FORMER_POW &&
             formData.powMultipleConfinements,
           path: 'evidence-pow-confinement-2',
           title: 'Former prisoner of war',
@@ -496,7 +536,7 @@ const formConfig = {
           pageClass: 'evidence-pow-confinement-2',
         },
         powDocumentsPage: {
-          depends: formData => formData.otherReasons.FORMER_POW,
+          depends: formData => formData.otherReasons?.FORMER_POW,
           path: 'evidence-pow-documents',
           title: 'Upload evidence for prisoner of war status',
           uiSchema: powDocsPg.uiSchema,
@@ -504,7 +544,7 @@ const formConfig = {
           pageClass: 'evidence-pow-documents',
         },
         medalAwardPage: {
-          depends: formData => formData.otherReasons.MEDAL_AWARD,
+          depends: formData => formData.otherReasons?.MEDAL_AWARD,
           path: 'evidence-medal-award',
           title:
             'Upload evidence for Medal of Honor or Purple Heart award recipient',
@@ -517,10 +557,17 @@ const formConfig = {
     medicalTreatmentChapter: {
       title: 'Medical treatment',
       pages: {
+        hasReceivedMedicalTreatmentPage: {
+          title: hasMedicalTreatmentTitle,
+          path: 'has-received-medical-treatment',
+          uiSchema: hasReceivedMedicalTreatmentPg.uiSchema,
+          schema: hasReceivedMedicalTreatmentPg.schema,
+        },
         medicalTreatmentPage: {
           depends: formData =>
-            formData.preparerType === PREPARER_TYPES.VETERAN ||
-            formData.preparerType === PREPARER_TYPES.NON_VETERAN,
+            formData['view:hasReceivedMedicalTreatment'] &&
+            (formData.preparerType === PREPARER_TYPES.VETERAN ||
+              formData.preparerType === PREPARER_TYPES.NON_VETERAN),
           title: 'Where did you receive medical treatment?', // for review page (has to be more than one word)
           path: 'medical-treatment',
           uiSchema: medTreatmentPg.uiSchema,
@@ -529,6 +576,7 @@ const formConfig = {
         },
         medicalTreatmentThirdPartyVeteranPage: {
           depends: formData =>
+            formData['view:hasReceivedMedicalTreatment'] &&
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
           title: 'Where did the veteran receive medical treatment?',
           path: 'medical-treatment-third-party-veteran',
@@ -538,6 +586,7 @@ const formConfig = {
         },
         medicalTreatmentThirdPartyNonVeteranPage: {
           depends: formData =>
+            formData['view:hasReceivedMedicalTreatment'] &&
             formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
           title: 'Where did the claimant receive medical treatment?',
           path: 'medical-treatment-third-party-non-veteran',

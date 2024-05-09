@@ -114,28 +114,14 @@ const logCoverage = coverageResults => {
 const applicationDir = path.join(__dirname, '../src/applications/');
 
 // Check if coverage-summary.json exists before generating coverage
-if (
-  fs.existsSync(
-    path.join(
-      __dirname,
-      '../qa-standards-dashboard-data/coverage/coverage-summary.json',
-    ),
-  )
-) {
+if (fs.existsSync(path.join(__dirname, '../merged-coverage-report.json'))) {
   const coverageSummaryJson = JSON.parse(
-    fs.readFileSync(
-      path.join(
-        __dirname,
-        '../qa-standards-dashboard-data/coverage/coverage-summary.json',
-      ),
-    ),
+    fs.readFileSync(path.join(__dirname, '../merged-coverage-report.json')),
   );
   // Generate and print coverage
   const appCoverages = generateCoverage(applicationDir, coverageSummaryJson);
   logCoverage(appCoverages);
   printCoverage(appCoverages);
 } else {
-  console.log(
-    './qa-standards-dashboard-data/coverage/coverage-summary.json not found.',
-  );
+  console.log('./merged-coverage-report.json not found.');
 }

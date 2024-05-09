@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { payrollDeductionOptions } from '../../constants/checkboxSelections';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { payrollDeductionOptions } from '../../constants/checkboxSelections';
 import { getJobIndex } from '../../utils/session';
 import Checklist from '../shared/CheckList';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
@@ -135,7 +135,7 @@ const PayrollDeductionChecklist = props => {
         onChange={event => onChange(event)}
         isBoxChecked={isBoxChecked}
       />
-      <va-additional-info trigger="How to find your monthly deductions" uswds>
+      <va-additional-info trigger="How to find your monthly deductions">
         <p className="vads-u-padding-bottom--1">
           On your most recent pay stub, find <strong>Deductions</strong>. Select
           the deductions that apply to you.

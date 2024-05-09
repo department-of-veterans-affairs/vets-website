@@ -36,7 +36,7 @@ export const TestNotification = ({ notification, dismissNotification }) => {
         headline="You have new debt."
         headline-level="3"
         date-time={createdAtFormatted}
-        href="/manage-va-debt/your-debt"
+        href="/manage-va-debt/summary/debt-balances"
         symbol="action-required"
         text="Manage your VA debt"
         visible={visible}

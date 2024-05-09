@@ -1,24 +1,22 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import LoadingButton from '@department-of-veterans-affairs/platform-site-wide/LoadingButton';
+import classNames from 'classnames';
 import { selectReviewPage } from '../../redux/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import ReviewDirectScheduleInfo from './ReviewDirectScheduleInfo';
+import ReviewDirectScheduleInfo from './ReviewRequestInfo/ReviewDirectScheduleInfo/ReviewDirectScheduleInfo';
 import ReviewRequestInfo from './ReviewRequestInfo';
 import { submitAppointmentOrRequest } from '../../redux/actions';
 import FacilityAddress from '../../../components/FacilityAddress';
 import InfoAlert from '../../../components/InfoAlert';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import { getPageTitle } from '../../newAppointmentFlow';
 
-const pageTitle = 'Review your appointment details';
+const pageKey = 'review';
 
-export default function ReviewPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function ReviewPage() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const dispatch = useDispatch();
   const {
@@ -34,12 +32,10 @@ export default function ReviewPage({ changeCrumb }) {
     vaCityState,
   } = useSelector(selectReviewPage, shallowEqual);
   const history = useHistory();
+
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
   }, []);
 
   useEffect(
@@ -64,7 +60,7 @@ export default function ReviewPage({ changeCrumb }) {
       {isDirectSchedule && (
         <ReviewDirectScheduleInfo
           data={data}
-          facility={facility}
+          facility={facilityDetails}
           systemId={systemId}
           clinic={clinic}
           pageTitle={pageTitle}
@@ -73,7 +69,7 @@ export default function ReviewPage({ changeCrumb }) {
       {!isDirectSchedule && (
         <ReviewRequestInfo
           data={data}
-          facility={facility}
+          facility={facilityDetails}
           vaCityState={vaCityState}
           pageTitle={pageTitle}
         />
@@ -87,9 +83,11 @@ export default function ReviewPage({ changeCrumb }) {
           isLoading={submitStatus === FETCH_STATUS.loading}
           loadingText="Submission in progress"
           onClick={() => dispatch(submitAppointmentOrRequest(history))}
-          className="usa-button usa-button-primary"
+          className={classNames('usa-button', 'usa-button-primary', {
+            'vads-u-margin-top--5': FLOW_TYPES.REQUEST === flowType,
+          })}
         >
-          {isDirectSchedule ? 'Confirm appointment' : 'Request appointment'}
+          {isDirectSchedule ? 'Confirm appointment' : 'Submit request'}
         </LoadingButton>
       </div>
       {submitStatus === FETCH_STATUS.failed && (
@@ -136,7 +134,3 @@ export default function ReviewPage({ changeCrumb }) {
     </div>
   );
 }
-
-ReviewPage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

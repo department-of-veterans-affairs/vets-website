@@ -5,7 +5,12 @@ const OMBInfo = () => {
   const ombNum = '2900-0091';
   const resBurden = '35';
   return (
-    <va-omb-info exp-date={expDate} omb-number={ombNum} res-burden={resBurden}>
+    <va-omb-info
+      class="vads-u-margin-top--4"
+      exp-date={expDate}
+      omb-number={ombNum}
+      res-burden={resBurden}
+    >
       <p>
         <strong>Public Burden Statement:</strong> An agency may not conduct or
         sponsor, and a person is not required to respond to, a collection of

@@ -34,11 +34,13 @@ const renderMedicalRecordInfo = formValues => {
             You can request your <strong>VA medical records</strong> by
             submitting VA Form 10-5345 to your local VA Medical Center.
             <br />
-            <va-link
+            {/* Intentionally not using <va-link> per Platform Analytics team */}
+            <a
               download
-              text="Download VA Form 10-5345"
               href="https://www.va.gov/find-forms/about-form-10-5345/"
-            />
+            >
+              Download VA Form 10-5345
+            </a>
           </li>
           <li>{requestQuestion}</li>
           <li>

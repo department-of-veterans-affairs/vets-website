@@ -11,7 +11,11 @@ import environment from 'platform/utilities/environment';
 import mapboxClient from '../components/MapboxClient';
 
 const mbxClient = mbxGeo(mapboxClient);
-import { SMALL_SCREEN_WIDTH, filterKeys } from '../constants';
+import {
+  SMALL_SCREEN_WIDTH,
+  PREVIOUS_URL_PUSHED_TO_HISTORY,
+  filterKeys,
+} from '../constants';
 
 /**
  * Snake-cases field names
@@ -26,12 +30,27 @@ export const rubyifyKeys = query =>
     }),
     {},
   );
-export const isProductionOfTestProdEnv = () => {
+
+export const isReviewInstance = () => {
+  const { hostname } = window.location;
+  const globalRegex = new RegExp('review.vetsgov-internal', 'g');
+  return globalRegex.test(hostname);
+};
+
+export const isProductionOrTestProdEnv = (automatedTest = false) => {
+  const isTest = global && global?.window && global?.window?.buildType;
+  if (isTest || automatedTest) {
+    return false;
+  }
   return (
-    environment.isProduction() ||
-    (global && global?.window && global?.window?.buildType)
+    environment.isProduction() || // Comment out to send to production
+    environment.isStaging() ||
+    environment.isDev() ||
+    isReviewInstance() ||
+    environment.isLocalhost()
   );
 };
+
 export const formatNumber = value => {
   const str = (+value).toString();
   return `${str.replace(/\d(?=(\d{3})+$)/g, '$&,')}`;
@@ -232,9 +251,18 @@ export const boolYesNo = field => {
   return field ? 'Yes' : 'No';
 };
 
+const isPortrait = () => {
+  return window.matchMedia('(orientation: portrait)').matches;
+};
+
+export const isSmallScreenLogic = () =>
+  matchMedia('(max-width: 480px)').matches;
+
 export const isSmallScreen = () => {
+  const portrait = isPortrait();
+  const smallScreen = isSmallScreenLogic();
   const browserZoomLevel = Math.round(window.devicePixelRatio * 100);
-  return matchMedia('(max-width: 480px)').matches && browserZoomLevel <= 150;
+  return (smallScreen && portrait) || (smallScreen && browserZoomLevel <= 150);
 };
 
 export const scrollToFocusedElement = () => {
@@ -299,7 +327,7 @@ export const specializedMissionDefinitions = [
     key: `${SMFKey}-NANTI`,
     title: 'Native American-Serving Nontribal Institutions',
     definition:
-      'A Native American-Serving Non-Tribal Institution is a postsecondary institution that is not affiliated with American Indian and Native Alaskan tribes and receives federal discretionary funding to improve and expand its capacity to serve Native American students. ',
+      'A Native American-Serving Nontribal Institution is a postsecondary institution that is not affiliated with American Indian and Native Alaskan tribes and receives federal discretionary funding to improve and expand its capacity to serve Native American students. ',
   },
   {
     key: `${SMFKey}-TRIBAL`,
@@ -327,6 +355,12 @@ export const specializedMissionDefinitions = [
       'An Alaska Native-Serving Institution (ANSI) is a college or university  that receives federal funding to help serve Alaska Native students. At least 20% of the school’s full-time undergraduate students identify as Alaska Native.',
   },
 ];
+
+export const sortedSpecializedMissionDefinitions = () => {
+  return specializedMissionDefinitions.sort((a, b) =>
+    a.title.localeCompare(b.title),
+  );
+};
 
 export const validateSearchTerm = (
   searchTerm,
@@ -401,4 +435,14 @@ export const giDocumentTitle = () => {
 
 export const setDocumentTitle = () => {
   document.title = `${giDocumentTitle()} | Veterans Affairs`;
+};
+
+export const managePushHistory = (history, url) => {
+  const previousUrl = window.sessionStorage.getItem(
+    PREVIOUS_URL_PUSHED_TO_HISTORY,
+  );
+  if (url !== previousUrl) {
+    window.sessionStorage.setItem(PREVIOUS_URL_PUSHED_TO_HISTORY, url);
+    history.push(url);
+  }
 };

@@ -1,5 +1,4 @@
 import moment from 'moment';
-
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
@@ -44,6 +43,8 @@ export function setDefaultIsOver65(oldData, newData, currentDate) {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Applicant information',
+  path: 'applicant/information',
   updateFormData: setDefaultIsOver65,
   uiSchema: {
     'ui:description': applicantDescription,

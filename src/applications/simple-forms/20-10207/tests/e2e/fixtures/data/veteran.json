@@ -12,7 +12,6 @@
     "livingSituation": {
       "NONE": true
     },
-    "mailingAddressYesNo": true,
     "veteranMailingAddress": {
       "country": "USA",
       "street": "123 Any St",
@@ -21,17 +20,10 @@
       "postalCode": "12345"
     },
     "veteranPhone": "1234567890",
-    "otherReasons": {
-      "OVER_85": true
-    },
-    "powConfinementStartDate": "2013-01-01",
-    "powConfinementEndDate": "2013-01-02",
-    "powMultipleConfinements": true,
-    "powConfinement2StartDate": "2013-01-03",
-    "powConfinement2EndDate": "2013-01-04",
+    "view:hasReceivedMedicalTreatment": true,
     "medicalTreatments": [
       {
-        "facilityName": "Guido’s Trailer",
+        "facilityName": "Facility Name",
         "facilityAddress": {
           "country": "USA",
           "street": "123 Any St",

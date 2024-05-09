@@ -2,6 +2,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+
+import { TITLE, SUBTITLE } from '../../../config/constants';
 import formConfig from '../../../config/form';
 import IntroductionPage from '../../../containers/IntroductionPage';
 
@@ -77,7 +79,7 @@ const mockStore = {
 };
 
 describe('IntroductionPage', () => {
-  it('should render', () => {
+  it('renders successfully', () => {
     const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
@@ -86,7 +88,17 @@ describe('IntroductionPage', () => {
     expect(container).to.exist;
   });
 
-  it('should render <LOA3 content if user is logged in and not id-verified', () => {
+  it('renders the correct title and subtitle', () => {
+    const { getByText } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    expect(getByText(TITLE)).to.exist;
+    expect(getByText(SUBTITLE)).to.exist;
+  });
+
+  it('renders <LOA3 content if user is logged in and not id-verified', () => {
     const userNotVerifiedMockStore = {
       ...mockStore,
       getState: () => ({
@@ -119,7 +131,7 @@ describe('IntroductionPage', () => {
     expect(sipAlert).to.not.exist;
   });
 
-  it('should render LOA3 content if user is logged-in and id-verified', () => {
+  it('renders LOA3 content if user is logged-in and id-verified', () => {
     const userVerifiedMockStore = {
       ...mockStore,
       getState: () => ({

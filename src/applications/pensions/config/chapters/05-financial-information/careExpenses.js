@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 import {
+  currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
   radioUI,
   radioSchema,
   numberUI,
@@ -14,11 +16,10 @@ import {
   VaCheckboxField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
+import { updateMultiresponseUiOptions } from '../../../helpers';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
-
-const { dateRange } = fullSchemaPensions.definitions;
+import { doesHaveCareExpenses } from './helpers';
 
 const careOptions = {
   CARE_FACILITY: 'Care facility',
@@ -42,6 +43,9 @@ CareExpenseView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
+  title: 'Unreimbursed care expenses',
+  path: 'financial/care-expenses/add',
+  depends: doesHaveCareExpenses,
   uiSchema: {
     ...titleUI('Add an unreimbursed care expense'),
     careExpenses: {
@@ -54,6 +58,8 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
+        updateSchema: updateMultiresponseUiOptions,
       },
       items: {
         recipients: radioUI({
@@ -80,8 +86,16 @@ export default {
           title: 'Choose the type of care:',
           labels: careOptions,
         }),
-        ratePerHour: currencyUI(
-          'If this is an in-home provider, what is the rate per hour?',
+        ratePerHour: merge(
+          {},
+          currencyUI(
+            'If this is an in-home provider, what is the rate per hour?',
+          ),
+          {
+            'ui:options': {
+              classNames: 'schemaform-currency-input-v3',
+            },
+          },
         ),
         hoursPerWeek: numberUI({
           title: 'How many hours per week does the care provider work?',
@@ -89,7 +103,7 @@ export default {
           min: 1,
           max: 168,
         }),
-        careDateRange: dateRangeUI(
+        careDateRange: currentOrPastDateRangeUI(
           'Care start date',
           'Care end date',
           'End of care must be after start of care',
@@ -102,7 +116,11 @@ export default {
           title: 'How often are the payments?',
           labels: frequencyOptions,
         }),
-        paymentAmount: currencyUI('How much is each payment?'),
+        paymentAmount: merge({}, currencyUI('How much is each payment?'), {
+          'ui:options': {
+            classNames: 'schemaform-currency-input-v3',
+          },
+        }),
       },
     },
   },
@@ -129,7 +147,7 @@ export default {
             ratePerHour: { type: 'number' },
             hoursPerWeek: numberSchema,
             careDateRange: {
-              ...dateRange,
+              ...currentOrPastDateRangeSchema,
               required: ['from'],
             },
             noCareEndDate: { type: 'boolean' },

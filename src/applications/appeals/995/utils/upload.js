@@ -1,6 +1,6 @@
-import environment from 'platform/utilities/environment';
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import { focusElement } from 'platform/utilities/ui';
+import environment from '~/platform/utilities/environment';
+import fileUiSchema from '~/platform/forms-system/src/js/definitions/file';
+import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
 
 import { EVIDENCE_UPLOAD_API } from '../constants';
 
@@ -9,53 +9,32 @@ import {
   MAX_FILE_SIZE_BYTES,
   SUPPORTED_UPLOAD_TYPES,
 } from '../../shared/constants';
-import { createPayload } from '../../shared/utils/upload';
 
-export const fileUploadUi = content => {
-  // a11y focus management. Move focus to select after upload
-  // see va.gov-team/issues/19688
-  const findAndFocusLastSelect = () => {
-    // focus on last document type select since all new uploads are appended
-    const lastSelect = [...document.querySelectorAll('select')].slice(-1);
-    if (lastSelect.length) {
-      focusElement(lastSelect[0]);
-    }
-  };
+import FileField from '../../shared/components/FileField';
+import { createPayload, parseResponse } from '../../shared/utils/upload';
 
-  const addAnotherLabel = 'Upload another file';
-
-  return fileUploadUI(content.label, {
+export const fileUploadUi = content => ({
+  ...fileUiSchema(content.label, {
     itemDescription: content.description,
-    hideLabelText: !content.label,
     fileUploadUrl: `${environment.API_URL}${EVIDENCE_UPLOAD_API}`,
-    addAnotherLabel,
-    buttonText: 'Upload file',
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
     maxSizeText: `${MAX_FILE_SIZE_MB}MB`,
     minSize: 1024,
     createPayload,
-    parseResponse: (response, file) => {
-      setTimeout(() => {
-        findAndFocusLastSelect();
-      });
-      return {
-        name: file.name,
-        confirmationCode: response.data.attributes.guid,
-        attachmentId: '',
-      };
-    },
-    attachmentSchema: ({ fileId }) => ({
+    parseResponse,
+    attachmentSchema: ({ fileName }) => ({
       'ui:title': 'Document type',
       'ui:disabled': false,
-      'ui:widget': 'select',
+      'ui:webComponentField': VaSelectField,
       'ui:options': {
-        widgetProps: {
-          'aria-describedby': fileId,
-        },
+        messageAriaDescribedby: `Choose a document type for ${fileName}`,
       },
     }),
+    hideLabelText: !content.label,
     hideOnReview: true,
     attachmentName: false,
-  });
-};
+  }),
+  'ui:field': FileField,
+  'ui:description': content.description,
+});

@@ -14,7 +14,6 @@ import {
   isAuthenticatedWithSSOe,
   isLandingPageEnabledForUser,
   selectProfile,
-  selectVamcEhrData,
   signInServiceEnabled,
   hasHealthData,
   selectHasMHVAccountState,
@@ -25,7 +24,6 @@ const App = () => {
   const { featureToggles, user } = useSelector(state => state);
   const [unreadMessageCount, setUnreadMessageCount] = useState();
   const enabled = useSelector(isLandingPageEnabledForUser);
-  const vamcEhrData = useSelector(selectVamcEhrData);
   const profile = useSelector(selectProfile);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
@@ -69,8 +67,7 @@ const App = () => {
   };
   useDatadogRum(datadogRumConfig);
 
-  const loading =
-    vamcEhrData.loading || featureToggles.loading || profile.loading;
+  const loading = featureToggles.loading || profile.loading;
 
   useEffect(
     () => {
@@ -92,7 +89,6 @@ const App = () => {
         <va-loading-indicator
           data-testid="mhv-landing-page-loading"
           message="Please wait..."
-          uswds
         />
       </div>
     );

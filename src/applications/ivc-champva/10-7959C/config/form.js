@@ -1,52 +1,89 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import {
-  fullNameNoSuffixUI,
-  fullNameNoSuffixSchema,
-  ssnUI,
-  ssnSchema,
-  addressUI,
-  addressSchema,
-  radioUI,
-  radioSchema,
-  checkboxGroupUI,
-  checkboxGroupSchema,
-  yesNoUI,
-  yesNoSchema,
-  currentOrPastDateUI,
-  currentOrPastDateSchema,
-  titleUI,
-  titleSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
-
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import get from 'platform/utilities/data/get';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-
-import CoverageField from '../components/coverages/CoverageField';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import {
-  fileTypes,
-  attachmentsSchema,
-} from '../../shared/components/attachments';
+import transformForSubmit from './submitTransformer';
+import { getAgeInYears } from '../../shared/utilities';
+import { nameWording } from '../helpers/utilities';
+import FileFieldWrapped from '../components/FileUploadWrapper';
+import { prefillTransformer } from './prefillTransformer';
 
-const uploadUrl = `${
-  environment.API_URL
-}/simple_forms_api/v1/simple_forms/submit_supporting_documents`;
+import {
+  certifierRole,
+  certifierAddress,
+  certifierPhoneEmail,
+  certifierRelationship,
+  certifierNameSchema,
+} from '../chapters/certifierInformation';
+
+import {
+  applicantNameDobSchema,
+  applicantSsnSchema,
+  applicantAddressInfoSchema,
+  applicantContactInfoSchema,
+  blankSchema,
+} from '../chapters/applicantInformation';
+
+import {
+  applicantHasMedicareABSchema,
+  applicantMedicareABContextSchema,
+  applicantMedicarePartACarrierSchema,
+  applicantMedicarePartBCarrierSchema,
+  applicantMedicarePharmacySchema,
+  applicantMedicareAdvantageSchema,
+  applicantHasMedicareDSchema,
+  applicantMedicarePartDCarrierSchema,
+  appMedicareOver65IneligibleUploadSchema,
+  applicantMedicareABUploadSchema,
+  applicantMedicareDUploadSchema,
+} from '../chapters/medicareInformation';
+import {
+  applicantHasInsuranceSchema,
+  applicantProviderSchema,
+  applicantInsuranceEOBSchema,
+  applicantInsuranceThroughEmployerSchema,
+  applicantInsurancePrescriptionSchema,
+  applicantInsuranceTypeSchema,
+  applicantMedigapSchema,
+  applicantInsuranceCommentsSchema,
+  applicantInsuranceCardSchema,
+} from '../chapters/healthInsuranceInformation';
+
+// import mockdata from '../tests/fixtures/data/test-data.json';
+import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
+import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
+import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
 
 /** @type {PageSchema} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959C-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  showReviewErrors: !environment.isProduction(),
   formId: '10-7959C',
+  dev: {
+    showNavLinks: false,
+    collapsibleNavLinks: true,
+  },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: formData =>
+        formData.certifierRole === 'applicant'
+          ? 'applicantName'
+          : 'certifierName',
+    },
+  },
   saveInProgress: {
     messages: {
       inProgress:
@@ -59,6 +96,8 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
+  transformForSubmit,
   savedFormMessages: {
     notFound:
       'Please start over to apply for CHAMPVA other health insurance certification.',
@@ -68,380 +107,383 @@ const formConfig = {
   title: '10-7959C CHAMPVA Other Health Insurance Certification form',
   defaultDefinitions: {},
   chapters: {
-    chapter1: {
-      title: 'Beneficiary Information',
+    certifierInformation: {
+      title: 'Signer information',
       pages: {
-        page1: {
-          path: 'beneficiary-name',
-          title: 'Beneficiary Name',
-          uiSchema: {
-            ...titleUI('Beneficiary name'),
-            beneficiaryFullName: fullNameNoSuffixUI(),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              titleSchema,
-              beneficiaryFullName: fullNameNoSuffixSchema,
-            },
-          },
+        role: {
+          path: 'your-information/description',
+          title: 'Which of these best describes you?',
+          // initialData: mockdata.data,
+          uiSchema: certifierRole.uiSchema,
+          schema: certifierRole.schema,
         },
-        page2: {
-          path: 'beneficiary-ssn',
-          title: 'Beneficiary SSN',
-          uiSchema: {
-            ...titleUI('Beneficiary SSN'),
-            beneficiarySSN: ssnUI(),
-          },
-          schema: {
-            type: 'object',
-            required: ['beneficiarySSN'],
-            properties: {
-              titleSchema,
-              beneficiarySSN: ssnSchema,
-            },
-          },
+        name: {
+          path: 'your-information/name',
+          title: 'Your name',
+          depends: formData => get('certifierRole', formData) !== 'applicant',
+          ...certifierNameSchema,
         },
-        page3: {
-          path: 'beneficiary-address',
-          title: 'Beneficiary Address',
-          uiSchema: {
-            ...titleUI('Beneficiary Address'),
-            beneficiaryAddress: addressUI(),
-            beneficiaryNewAddress: checkboxGroupUI({
-              title: 'Address Information',
-              required: () => false,
-              labels: {
-                addressIsNew: 'Check if this is a new address',
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              titleSchema,
-              beneficiaryAddress: addressSchema({
-                omit: [
-                  'isMilitary',
-                  'view:militaryBaseDescription',
-                  'country',
-                  'street2',
-                  'street3',
-                ],
-              }),
-              beneficiaryNewAddress: checkboxGroupSchema(['addressIsNew']),
-            },
-          },
+        address: {
+          path: 'your-information/address',
+          title: 'Your mailing address',
+          depends: formData => get('certifierRole', formData) !== 'applicant',
+          uiSchema: certifierAddress.uiSchema,
+          schema: certifierAddress.schema,
         },
-        page4: {
-          path: 'beneficiary-gender',
-          title: 'Beneficiary Gender',
-          uiSchema: {
-            ...titleUI('Beneficiary Gender'),
-            beneficiaryGender: radioUI({
-              title: 'Gender',
-              labels: {
-                male: 'Male',
-                female: 'Female',
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            required: ['beneficiaryGender'],
-            properties: {
-              titleSchema,
-              beneficiaryGender: radioSchema(['male', 'female']),
-            },
-          },
+        phoneEmail: {
+          path: 'your-information/phone-email',
+          title: 'Your phone number',
+          depends: formData => get('certifierRole', formData) !== 'applicant',
+          uiSchema: certifierPhoneEmail.uiSchema,
+          schema: certifierPhoneEmail.schema,
+        },
+        relationship: {
+          path: 'your-information/relationship',
+          title: 'Your relationship to the applicant',
+          depends: formData => get('certifierRole', formData) !== 'applicant',
+          uiSchema: certifierRelationship.uiSchema,
+          schema: certifierRelationship.schema,
         },
       },
     },
-    chapter2: {
-      title: 'Medicare Beneficiaries',
+    applicantInformation: {
+      title: 'Applicant information',
       pages: {
-        page5: {
-          path: 'medicare-part-a',
-          title: 'Medicare Part A Information',
-          uiSchema: {
-            ...titleUI('Medicare Part A Information'),
-            hasMedicarePartA: yesNoUI({
-              title: 'Do you have Medicare Part A?',
-            }),
-            partAEffectiveDate: {
-              ...currentOrPastDateUI(),
-              'ui:options': {
-                hideIf: formData => !get('hasMedicarePartA', formData),
-              },
-              'ui:required': formData => formData.hasMedicarePartA,
-            },
-            partACarrierName: {
-              'ui:title': 'Part A Carrier Name',
-              'ui:webComponentField': VaTextInputField,
-              'ui:options': {
-                hideIf: formData => !get('hasMedicarePartA', formData),
-              },
-              'ui:required': formData => formData.hasMedicarePartA,
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['hasMedicarePartA'],
-            properties: {
-              titleSchema,
-              hasMedicarePartA: yesNoSchema,
-              partAEffectiveDate: currentOrPastDateSchema,
-              partACarrierName: {
-                type: 'string',
-              },
-            },
-          },
+        applicantNameDob: {
+          path: 'applicant-information',
+          title: formData =>
+            `${
+              formData.certifierRole === 'applicant' ? 'Your' : 'Applicant'
+            } name and date of birth`,
+          uiSchema: applicantNameDobSchema.uiSchema,
+          schema: applicantNameDobSchema.schema,
         },
-        page6: {
-          path: 'medicare-part-b',
-          title: 'Medicare Part B Information',
-          uiSchema: {
-            ...titleUI('Medicare Part B Information'),
-            hasMedicarePartB: yesNoUI({
-              title: 'Do you have Medicare Part B?',
-            }),
-            partBEffectiveDate: {
-              ...currentOrPastDateUI(),
-              'ui:options': {
-                hideIf: formData => !get('hasMedicarePartB', formData),
-              },
-              'ui:required': formData => formData.hasMedicarePartB,
-            },
-            partBCarrierName: {
-              'ui:title': 'Part B Carrier Name',
-              'ui:webComponentField': VaTextInputField,
-              'ui:options': {
-                hideIf: formData => !get('hasMedicarePartB', formData),
-              },
-              'ui:required': formData => formData.hasMedicarePartB,
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['hasMedicarePartB'],
-            properties: {
-              titleSchema,
-              hasMedicarePartB: yesNoSchema,
-              partBEffectiveDate: currentOrPastDateSchema,
-              partBCarrierName: {
-                type: 'string',
-              },
-            },
-          },
+        applicantIdentity: {
+          path: 'applicant-information/ssn',
+          title: formData =>
+            `${nameWording(formData)} identification information`,
+          uiSchema: applicantSsnSchema.uiSchema,
+          schema: applicantSsnSchema.schema,
         },
-        page7: {
-          path: 'medicare-part-d',
-          title: 'Medicare Part D Information',
-          uiSchema: {
-            ...titleUI('Medicare Part D Information'),
-            hasMedicarePartD: yesNoUI({
-              title: 'Do you have Medicare Part D?',
-            }),
-            partDEffectiveDate: {
-              ...currentOrPastDateUI(),
-              'ui:options': {
-                hideIf: formData => !get('hasMedicarePartD', formData),
-              },
-              'ui:required': formData => formData.hasMedicarePartD,
-            },
-            partDCarrierName: {
-              'ui:title': 'Part D Carrier Name',
-              'ui:webComponentField': VaTextInputField,
-              'ui:options': {
-                hideIf: formData => !get('hasMedicarePartD', formData),
-              },
-              'ui:required': formData => formData.hasMedicarePartD,
-            },
-            hasOtherHealthInsurance: yesNoUI({
-              title: 'Do you have health insurance other than MEDICARE?',
-            }),
-          },
-          schema: {
-            type: 'object',
-            required: ['hasMedicarePartD', 'hasOtherHealthInsurance'],
-            properties: {
-              titleSchema,
-              hasMedicarePartD: yesNoSchema,
-              partDEffectiveDate: currentOrPastDateSchema,
-              partDCarrierName: {
-                type: 'string',
-              },
-              hasOtherHealthInsurance: yesNoSchema,
-            },
-          },
+        applicantAddressInfo: {
+          path: 'applicant-information/address',
+          title: formData => `${nameWording(formData)} mailing address`,
+          uiSchema: applicantAddressInfoSchema.uiSchema,
+          schema: applicantAddressInfoSchema.schema,
         },
-        // Conditional - only go here if they have pt A or B
-        page8: {
-          path: 'medicare-coverage-details',
-          title: 'Medicare Coverage Details',
-          depends: form =>
-            get('hasMedicarePartA', form) || get('hasMedicarePartB', form),
-          uiSchema: {
-            medicareProvidesPharmacy: yesNoUI({
-              title: 'Does your Medicare coverage provide pharmacy benefits?',
-            }),
-            hasMedicareAdvantagePlan: yesNoUI({
-              title:
-                'Did you choose a Medicare Advantage Plan for your Medicare Coverage?',
-            }),
-          },
-          schema: {
-            type: 'object',
-            required: ['medicareProvidesPharmacy', 'hasMedicareAdvantagePlan'],
-            properties: {
-              medicareProvidesPharmacy: yesNoSchema,
-              hasMedicareAdvantagePlan: yesNoSchema,
-            },
-          },
+
+        //
+        // TODO: add prefill address page if user authenticated
+        //
+
+        // TODO: have conditional logic to check if third party and app
+        // is under age 18 (contact page)
+        applicantContactInfo: {
+          path: 'applicant-information/contact',
+          title: formData => `${nameWording(formData)} contact information`,
+          uiSchema: applicantContactInfoSchema.uiSchema,
+          schema: applicantContactInfoSchema.schema,
         },
       },
     },
-    chapter3: {
-      title: 'Other Health Insurance',
+    medicareInformation: {
+      title: 'Medicare information',
       pages: {
-        // TODO: is pt D required to get to this state?
-        page9: {
-          path: 'other-health-insurance',
-          // Shows up on review page
-          title: 'Other Health Insurance (OHI)',
-          arrayPath: 'coverages',
-          depends: form => get('hasOtherHealthInsurance', form),
-          uiSchema: {
-            ...titleUI(
-              'Other Coverages',
-              'Provide all periods of OHI coverage since becoming CHAMPVA eligible and attach a copy of any active health insurance cards (front and back).',
-            ),
-            coverages: {
-              'ui:options': {
-                viewField: CoverageField,
-                keepInPageOnReview: true,
-                useDlWrap: false,
-              },
-              'ui:errorMessages': {
-                minItems: 'Must have at least one coverage listed.',
-              },
-              items: {
-                nameOfInsurance: {
-                  'ui:title': 'Name of Insurance',
-                  'ui:webComponentField': VaTextInputField,
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              coverages: {
-                type: 'array',
-                minItems: 1,
-                maxItems: 3,
-                items: {
-                  type: 'object',
-                  required: ['nameOfInsurance'],
-                  properties: {
-                    titleSchema,
-                    nameOfInsurance: { type: 'string' },
-                  },
-                },
-              },
-            },
-          },
+        hasMedicareAB: {
+          path: 'medicare-ab',
+          title: formData => `${nameWording(formData)} Medicare status`,
+          uiSchema: applicantHasMedicareABSchema.uiSchema,
+          schema: applicantHasMedicareABSchema.schema,
         },
-        page10: {
-          path: 'other-health-insurance/:index/effective-date',
-          arrayPath: 'coverages',
-          showPagePerItem: true,
-          title: 'OHI Effective Date',
-          depends: form => get('hasOtherHealthInsurance', form),
-          uiSchema: {
-            'ui:description': 'Provide date OHI coverage became effective.',
-            coverages: {
-              'ui:options': {
-                itemName: 'Coverage',
-                useDlWrap: false,
-                viewField: CoverageField,
-              },
-              items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${formData.nameOfInsurance} coverage effective date`,
-                ),
-                ohiEffectiveDate: {
-                  ...currentOrPastDateUI(),
-                  'ui:required': () => true,
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              coverages: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  properties: {
-                    titleSchema,
-                    ohiEffectiveDate: { type: 'string' },
-                  },
-                },
-              },
-            },
-          },
+        // If 'no' to previous question:
+        medicareABContext: {
+          path: 'no-medicare-ab',
+          title: formData => `${nameWording(formData)} Medicare status`,
+          depends: formData =>
+            get('applicantMedicareStatus', formData) === false,
+          uiSchema: applicantMedicareABContextSchema.uiSchema,
+          schema: applicantMedicareABContextSchema.schema,
         },
-        page11: {
-          path: 'other-health-insurance/:index/upload-proof',
-          depends: form => get('hasOtherHealthInsurance', form),
-          arrayPath: 'coverages',
-          showPagePerItem: true,
-          title: 'Active OHI Card',
+        // If 'yes' to previous question:
+        partACarrier: {
+          path: 'carrier-a',
+          title: formData => `${nameWording(formData)} Medicare Part A carrier`,
+          depends: formData => get('applicantMedicareStatus', formData),
+          uiSchema: applicantMedicarePartACarrierSchema.uiSchema,
+          schema: applicantMedicarePartACarrierSchema.schema,
+        },
+        // If ineligible and over 65, require user to upload proof of ineligibility
+        medicareIneligible: {
+          path: 'ineligible',
+          title: 'Over 65 and ineligible for Medicare',
+          depends: formData => {
+            return (
+              get('applicantMedicareStatusContinued', formData) ===
+                'ineligible' && getAgeInYears(formData?.applicantDOB) >= 65
+            );
+          },
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          ...appMedicareOver65IneligibleUploadSchema,
+        },
+        partBCarrier: {
+          path: 'carrier-b',
+          title: formData => `${nameWording(formData)} Medicare Part B carrier`,
+          depends: formData => get('applicantMedicareStatus', formData),
+          uiSchema: applicantMedicarePartBCarrierSchema.uiSchema,
+          schema: applicantMedicarePartBCarrierSchema.schema,
+        },
+        pharmacyBenefits: {
+          path: 'pharmacy',
+          title: formData =>
+            `${nameWording(formData)} Medicare pharmacy benefits`,
+          depends: formData => get('applicantMedicareStatus', formData),
+          uiSchema: applicantMedicarePharmacySchema.uiSchema,
+          schema: applicantMedicarePharmacySchema.schema,
+        },
+        advantagePlan: {
+          path: 'advantage',
+          title: formData => `${nameWording(formData)} Medicare coverage`,
+          depends: formData => get('applicantMedicareStatus', formData),
+          uiSchema: applicantMedicareAdvantageSchema.uiSchema,
+          schema: applicantMedicareAdvantageSchema.schema,
+        },
+        medicareABCards: {
+          path: 'ab-upload',
+          title: formData => `${nameWording(formData)} Medicare card (A/B)`,
+          depends: formData => get('applicantMedicareStatus', formData),
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          ...applicantMedicareABUploadSchema,
+        },
+        hasMedicareD: {
+          path: 'medicare-d',
+          title: formData => `${nameWording(formData)} Medicare status`,
+          depends: formData => get('applicantMedicareStatus', formData),
+          uiSchema: applicantHasMedicareDSchema.uiSchema,
+          schema: applicantHasMedicareDSchema.schema,
+        },
+        partDCarrier: {
+          path: 'carrier-d',
+          title: formData => `${nameWording(formData)} Medicare Part D carrier`,
+          depends: formData =>
+            get('applicantMedicareStatus', formData) &&
+            get('applicantMedicareStatusD', formData),
+          uiSchema: applicantMedicarePartDCarrierSchema.uiSchema,
+          schema: applicantMedicarePartDCarrierSchema.schema,
+        },
+        medicareDCards: {
+          path: 'd-upload',
+          title: formData => `${nameWording(formData)} Medicare card (D)`,
+          depends: formData =>
+            get('applicantMedicareStatus', formData) &&
+            get('applicantMedicareStatusD', formData),
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          customPageUsesPagePerItemData: true,
+          ...applicantMedicareDUploadSchema,
+        },
+      },
+    },
+    healthcareInformation: {
+      title: 'Healthcare information',
+      pages: {
+        hasPrimaryHealthInsurance: {
+          path: 'has-primary',
+          title: formData =>
+            `${nameWording(formData)} primary health insurance`,
+          ...applicantHasInsuranceSchema(true),
+        },
+        primaryProvider: {
+          path: 'primary-provider',
+          depends: formData => get('applicantHasPrimary', formData),
+          title: formData =>
+            `${nameWording(formData)} health insurance information`,
+          ...applicantProviderSchema(true),
+        },
+        primaryThroughEmployer: {
+          path: 'primary-through-employer',
+          depends: formData => get('applicantHasPrimary', formData),
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantPrimaryProvider
+            } type of insurance`,
+          ...applicantInsuranceThroughEmployerSchema(true),
+        },
+        primaryPrescription: {
+          path: 'primary-prescription',
+          depends: formData => get('applicantHasPrimary', formData),
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantPrimaryProvider
+            } prescription coverage`,
+          ...applicantInsurancePrescriptionSchema(true),
+        },
+        primaryEOB: {
+          path: 'primary-eob',
+          depends: formData => get('applicantHasPrimary', formData),
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantPrimaryProvider
+            } explanation of benefits`,
+          ...applicantInsuranceEOBSchema(true),
+        },
+        primaryType: {
+          path: 'primary-insurance-type',
+          depends: formData => get('applicantHasPrimary', formData),
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantPrimaryProvider
+            } insurance plan`,
+          ...applicantInsuranceTypeSchema(true),
+        },
+        primaryMedigap: {
+          path: 'primary-medigap',
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantPrimaryInsuranceType.medigap', formData),
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantPrimaryProvider
+            } Medigap information`,
+          ...applicantMedigapSchema(true),
+        },
+        primaryComments: {
+          path: 'primary-comments',
+          depends: formData => get('applicantHasPrimary', formData),
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantPrimaryProvider
+            } additional comments`,
+          ...applicantInsuranceCommentsSchema(true),
+        },
+        primaryCard: {
+          path: 'primary-card-upload',
+          depends: formData => get('applicantHasPrimary', formData),
+          title: formData =>
+            `${nameWording(formData)} primary health insurance card`,
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          ...applicantInsuranceCardSchema(true),
+        },
+        hasSecondaryHealthInsurance: {
+          path: 'has-secondary',
+          title: formData =>
+            `${nameWording(formData)} secondary health insurance`,
+          ...applicantHasInsuranceSchema(false),
+        },
+        secondaryProvider: {
+          path: 'secondary-provider',
+          depends: formData => get('applicantHasSecondary', formData),
+          title: formData =>
+            `${nameWording(formData)} secondary health insurance information`,
+          ...applicantProviderSchema(false),
+        },
+        secondaryThroughEmployer: {
+          path: 'secondary-through-employer',
+          depends: formData => get('applicantHasSecondary', formData),
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantSecondaryProvider
+            } secondary type of insurance`,
+          ...applicantInsuranceThroughEmployerSchema(false),
+        },
+        secondaryPrescription: {
+          path: 'secondary-prescription',
+          depends: formData => get('applicantHasSecondary', formData),
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantSecondaryProvider
+            } secondary prescription coverage`,
+          ...applicantInsurancePrescriptionSchema(false),
+        },
+        secondaryEOB: {
+          path: 'secondary-eob',
+          depends: formData => get('applicantHasSecondary', formData),
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantSecondaryProvider
+            } explanation of benefits`,
+          ...applicantInsuranceEOBSchema(false),
+        },
+        secondaryType: {
+          path: 'secondary-insurance-type',
+          depends: formData => get('applicantHasSecondary', formData),
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantSecondaryProvider
+            } insurance plan`,
+          ...applicantInsuranceTypeSchema(false),
+        },
+        secondaryMedigap: {
+          path: 'secondary-medigap',
+          depends: formData =>
+            get('applicantHasSecondary', formData) &&
+            get('applicantSecondaryInsuranceType.medigap', formData),
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantSecondaryProvider
+            } Medigap information`,
+          ...applicantMedigapSchema(false),
+        },
+        secondaryComments: {
+          path: 'secondary-comments',
+          depends: formData => get('applicantHasSecondary', formData),
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantSecondaryProvider
+            } additional comments`,
+          ...applicantInsuranceCommentsSchema(false),
+        },
+        secondaryCard: {
+          path: 'secondary-card-upload',
+          depends: formData => get('applicantHasSecondary', formData),
+          title: formData =>
+            `${nameWording(formData)} secondary health insurance card`,
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          ...applicantInsuranceCardSchema(false),
+        },
+      },
+    },
+    fileUpload: {
+      title: 'File Upload',
+      pages: {
+        supportingFilesReview: {
+          path: 'supporting-files',
+          title: 'Upload your supporting files',
+          CustomPage: SupportingDocumentsPage,
+          CustomPageReview: null,
           uiSchema: {
-            'ui:description': 'Upload a copy of your health insurance card.',
-            coverages: {
-              'ui:options': {
-                itemName: 'Coverage',
-                useDlWrap: false,
-                viewField: CoverageField,
-              },
-              items: {
-                ...titleUI(
-                  ({ formData }) =>
-                    `${formData.nameOfInsurance} insurance card`,
-                ),
-                attachmentFront: fileUploadUI('Upload insurance card (Front)', {
-                  fileTypes,
-                  fileUploadUrl: uploadUrl,
-                }),
-                attachmentBack: fileUploadUI('Upload insurance card (Back)', {
-                  fileTypes,
-                  fileUploadUrl: uploadUrl,
-                }),
-              },
+            'ui:options': {
+              keepInPageOnReview: false,
             },
           },
-          schema: {
-            type: 'object',
-            properties: {
-              coverages: {
-                type: 'array',
-                minItems: 1,
-                items: {
-                  type: 'object',
-                  properties: {
-                    titleSchema,
-                    attachmentFront: attachmentsSchema,
-                    attachmentBack: attachmentsSchema,
-                  },
-                },
-              },
+          schema: blankSchema,
+        },
+        missingFileConsent: {
+          path: 'consent-mail',
+          title: 'Upload your supporting files',
+          depends: formData => {
+            try {
+              return (
+                hasReq(formData.applicants, true) ||
+                hasReq(formData.applicants, false) ||
+                hasReq(formData, true) ||
+                hasReq(formData, false)
+              );
+            } catch {
+              return false;
+            }
+          },
+          CustomPage: MissingFileConsentPage,
+          CustomPageReview: null,
+          uiSchema: {
+            'ui:options': {
+              keepInPageOnReview: false,
             },
           },
+          schema: blankSchema,
         },
       },
     },

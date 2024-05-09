@@ -47,7 +47,7 @@ const GiBillBreadcrumbs = () => {
     );
   }
 
-  return <VaBreadcrumbs>{crumbs}</VaBreadcrumbs>;
+  return <VaBreadcrumbs uswds="false">{crumbs}</VaBreadcrumbs>;
 };
 
 export default GiBillBreadcrumbs;

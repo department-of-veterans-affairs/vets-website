@@ -56,9 +56,6 @@ export const uiSchemaEnhanced = {
         </p>
       ),
       'ui:widget': 'TextWidget',
-      'ui:options': {
-        widgetClassNames: 'input-size-2',
-      },
       'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Please enter your dependent(s) information.',

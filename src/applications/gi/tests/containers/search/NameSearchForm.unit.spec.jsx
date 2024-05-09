@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
+import { waitFor, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import NameSearchForm from '../../../containers/search/NameSearchForm';
@@ -12,6 +12,9 @@ import {
 } from '../../helpers';
 
 describe('<NameSearchForm>', () => {
+  beforeEach(() => {
+    cleanup();
+  });
   it('should render', async () => {
     const screen = renderWithStoreAndRouter(<NameSearchForm />, {
       initialState: {
@@ -68,7 +71,7 @@ describe('<NameSearchForm>', () => {
     );
 
     const input = screen.getByLabelText(
-      'School, employer, or training provider',
+      'School, employer, or training provider(*Required)',
     );
     userEvent.type(input, 'Test School');
     const btn = screen.getByRole('button', { name: 'Search' });
@@ -143,7 +146,7 @@ describe('<NameSearchForm>', () => {
       },
     );
     const input = screen.getByLabelText(
-      'School, employer, or training provider',
+      'School, employer, or training provider(*Required)',
     );
     userEvent.type(input, 'Test School');
     const submitButton = screen.getByRole('button', { name: 'Search' });
@@ -215,6 +218,7 @@ describe('<NameSearchForm>', () => {
     expect(doSearchSpy.calledWith('some name')).to.be.false;
   });
   it('should show Learn more about community focus filters when Go to community focus details button is Clicked', () => {
+    sessionStorage.setItem('show', JSON.stringify(true));
     const props = {
       autocomplete: { nameSuggestions: [] },
       filters: {
@@ -250,6 +254,7 @@ describe('<NameSearchForm>', () => {
     expect(heading).to.exist;
   });
   it('should expand when Learn more about community focus filters button is clicked', () => {
+    sessionStorage.setItem('show', JSON.stringify(true));
     const props = {
       autocomplete: { nameSuggestions: [] },
       filters: {
@@ -286,6 +291,7 @@ describe('<NameSearchForm>', () => {
     let fetchStub;
 
     beforeEach(() => {
+      sessionStorage.setItem('show', JSON.stringify(true));
       sandbox = sinon.createSandbox();
       fetchStub = sandbox.stub(global, 'fetch').callsFake(() => {
         return Promise.resolve({
@@ -388,14 +394,12 @@ describe('<NameSearchForm>', () => {
       const { newValue, expectedBaseUrl } = setupRTL(
         'new jersey',
         null,
-        'Clear filters',
+        'Reset search',
       );
 
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
-      expect(fetchUrl).to.include(
-        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_schools=true&exclude_employers=true&exclude_vettec=true`,
-      );
+      expect(fetchUrl).to.include(`${expectedBaseUrl}?name=${newValue}&page=1`);
     });
     it('should add special-mission-hbcuall when button is clicked ', async () => {
       const { newValue, expectedBaseUrl } = setupRTL(

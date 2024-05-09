@@ -2,12 +2,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import AppointmentBlock from './AppointmentBlock';
 import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
 import HowToLink from './HowToLink';
 import Wrapper from './layout/Wrapper';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const PreCheckinConfirmation = props => {
   const { appointments, isLoading, formData, router } = props;
@@ -32,7 +32,6 @@ const PreCheckinConfirmation = props => {
     return <></>;
   }
 
-  const apptType = appointments[0]?.kind ?? 'clinic';
   const renderLoadingMessage = () => {
     return (
       <div>
@@ -57,7 +56,7 @@ const PreCheckinConfirmation = props => {
           page="confirmation"
           router={router}
         />
-        <HowToLink apptType={apptType} />
+        <HowToLink />
         <p className="vads-u-margin-bottom--4">
           <ExternalLink href={apptLink} hrefLang="en">
             {t('sign-in-to-manage')}

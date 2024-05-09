@@ -41,8 +41,8 @@ class TrackClaimsPage {
     }
 
     cy.get('va-breadcrumbs').should('be.visible');
-    cy.get('.va-breadcrumbs-li').should('be.visible');
-    cy.get('a[aria-current="page"').should('be.visible');
+    cy.get('.usa-breadcrumb__list-item').should('have.length', 2);
+    cy.get('li[aria-current="page"').should('be.visible');
     cy.injectAxeThenAxeCheck();
   }
 
@@ -73,7 +73,7 @@ class TrackClaimsPage {
       .should('contain', `Claim for disability compensation`);
     cy.get('.card-status')
       .first()
-      .should('contain', `Last updated: October 31, 2016`);
+      .should('contain', `Moved to this step on October 31, 2016`);
     cy.get('.claim-list-item:first-child a.active-va-link')
       .click()
       .then(() => {
@@ -237,15 +237,14 @@ class TrackClaimsPage {
     cy.url().should('contain', 'ask-va-to-decide');
     cy.get('va-checkbox')
       .shadow()
-      .get('input')
-      .first()
-      .check()
+      .find('input[type="checkbox"]')
+      .check({ force: true })
       .then(() => {
         cy.get('.main .button-primary').click();
         cy.wait('@askVA');
       });
     cy.url().should('contain', 'status');
-    cy.get('.usa-alert-success').should('be.visible');
+    cy.get('va-alert').should('be.visible');
     cy.axeCheck();
   }
 

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fillPrescription } from '../../actions/prescriptions';
 import CallPharmacyPhone from './CallPharmacyPhone';
+import { DD_ACTIONS_PAGE_TYPE } from '../../util/constants';
 
 const FillRefillButton = rx => {
   const dispatch = useDispatch();
@@ -19,8 +20,7 @@ const FillRefillButton = rx => {
 
   const [isLoading, setIsLoading] = useState(false);
   const hasBeenDispensed =
-    dispensedDate ||
-    rx.rxRfRecords?.[0]?.[1].find(record => record.dispensedDate);
+    dispensedDate || rx.rxRfRecords?.find(record => record.dispensedDate);
 
   useEffect(
     () => {
@@ -59,7 +59,10 @@ const FillRefillButton = rx => {
               </va-alert>
               <p className="vads-u-margin-bottom--1 vads-u-margin-top--2">
                 If it still doesn’t work, call your VA pharmacy
-                <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
+                <CallPharmacyPhone
+                  cmopDivisionPhone={cmopDivisionPhone}
+                  page={DD_ACTIONS_PAGE_TYPE.LIST}
+                />
               </p>
             </>
           )}
@@ -76,6 +79,9 @@ const FillRefillButton = rx => {
           className="va-button vads-u-padding-y--0p5"
           id="fill-or-refill-button"
           aria-describedby={`card-header-${prescriptionId}`}
+          data-dd-action-name={`Fill Or Refill Button - ${
+            DD_ACTIONS_PAGE_TYPE.LIST
+          }`}
           data-testid="refill-request-button"
           hidden={success || isLoading}
           onClick={() => {

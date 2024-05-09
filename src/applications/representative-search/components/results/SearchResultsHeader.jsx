@@ -5,6 +5,7 @@ import { VaSelect } from '@department-of-veterans-affairs/component-library/dist
 import { sortOptions } from '../../config';
 
 /* eslint-disable camelcase */
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 
 export const SearchResultsHeader = props => {
   const { searchResults, pagination, query } = props;
@@ -74,6 +75,7 @@ export const SearchResultsHeader = props => {
       {props.onClickApplyButtonTester ? (
         <button
           id="test-button"
+          label="test-button"
           type="button"
           text-label="button"
           onClick={onClickApplyButton}
@@ -109,21 +111,19 @@ export const SearchResultsHeader = props => {
         >
           {handleNumberOfResults()} for
           {` `}
-          &quot;
           <b>{repFormat[representativeType]}</b>
-          &quot;
           {context.repOrgName && (
             <>
               {` `}
-              named &quot;
+              named
               <b>{context.repOrgName}</b>
-              &quot;
             </>
           )}
           {` `}
           {context.location && (
             <>
-              within &quot;
+              within
+              {` `}
               <b>
                 {searchArea === 'Show all' ? (
                   'Show all'
@@ -131,21 +131,22 @@ export const SearchResultsHeader = props => {
                   <>{searchArea} miles</>
                 )}
               </b>
-              &quot; of &quot;
-              <b>{context.location}</b>
-              &quot;{' '}
+              {` `}
+              of
+              {` `}
+              <b>{context.location}</b>{' '}
             </>
           )}
           <>
-            sorted by &quot;
-            <b>{sortOptions[selectedSortType]}</b>
-            &quot;
+            sorted by
+            {` `}
+            <b>{sortOptions[sortType]}</b>
           </>
         </p>
 
         {noResultsFound ? (
           <p className="vads-u-margin-bottom--8">
-            For better results, you can increase your <b>search area</b>.
+            For better results, try increasing your <b>search area</b>.
           </p>
         ) : (
           <div className="sort-dropdown">
@@ -186,10 +187,12 @@ SearchResultsHeader.propTypes = {
     }),
     inProgress: PropTypes.bool,
     representativeType: PropTypes.string,
+    searchArea: PropTypes.any,
     sortType: PropTypes.string,
   }),
   searchResults: PropTypes.array,
   updateSearchQuery: PropTypes.func,
+  onClickApplyButtonTester: PropTypes.func,
 };
 
 // Only re-render if results or inProgress props have changed
