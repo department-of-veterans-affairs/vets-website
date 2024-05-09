@@ -102,11 +102,11 @@ const LandingPage = () => {
           <section>
             <h1
               data-testid="landing-page-heading"
-              className="vads-u-margin-top--4 vads-u-margin-bottom--0"
+              className="small-screen:vads-u-margin-top--4 small-screen:vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-margin-bottom--1"
             >
               About medications
             </h1>
-            <p className="vads-u-font-family--serif">
+            <p className="vads-u-font-family--serif vads-u-margin-top--1">
               Learn how to manage your VA prescriptions and review your
               medications list.
             </p>
@@ -188,9 +188,11 @@ const LandingPage = () => {
               )}
             </>
           )}
-          <hr className="vads-u-margin-top--6" />
+          <hr className="vads-u-margin-y--3 small-screen:vads-u-margin-y--6" />
           <section>
-            <h2>What to know as you try out this tool</h2>
+            <h2 className="vads-u-margin-top--0">
+              What to know as you try out this tool
+            </h2>
             <p>
               We’re giving the trusted My HealtheVet pharmacy tool a new home
               here on VA.gov. And we need your feedback to help us keep making
@@ -608,7 +610,7 @@ const LandingPage = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6">
+      <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6 small-screen:vads-u-margin-x--1">
         {content()}
       </div>
     </RequiredLoginView>

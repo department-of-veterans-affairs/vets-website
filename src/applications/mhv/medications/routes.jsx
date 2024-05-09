@@ -28,7 +28,7 @@ AppRoute.propTypes = {
 };
 
 const routes = (
-  <div className="vads-l-grid-container">
+  <div className="routes-container vads-l-grid-container">
     <div className="main-content vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-margin-left--neg2 vads-u-max-width--100">
       <Switch>
         <AppRoute exact path={['/about', '/about/*']} key="LandingPage">
