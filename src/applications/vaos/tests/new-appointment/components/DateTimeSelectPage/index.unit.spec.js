@@ -21,8 +21,6 @@ import {
 import DateTimeSelectPage from '../../../../new-appointment/components/DateTimeSelectPage';
 import { FETCH_STATUS } from '../../../../utils/constants';
 import { setDateTimeSelectMockFetches } from './helpers';
-import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
-import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
 import { mockAppointmentSlotFetch } from '../../../mocks/helpers.v2';
 
 const initialState = {
@@ -40,12 +38,6 @@ describe('VAOS Page: DateTimeSelectPage', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
-    mockFacilityFetchByVersion({
-      facility: createMockCheyenneFacilityByVersion({
-        version: 0,
-      }),
-      version: 0,
-    });
   });
 
   afterEach(() => {

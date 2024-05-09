@@ -14,7 +14,6 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../mocks/setup';
-import { mockGetCurrentPosition } from '../../../mocks/helpers';
 import { TYPE_OF_CARE_ID } from '../../../../covid-19-vaccine/utils';
 import {
   createMockClinicByVersion,
@@ -24,7 +23,10 @@ import {
   mockEligibilityFetchesByVersion,
   mockFacilitiesFetchByVersion,
 } from '../../../mocks/fetch';
-import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
+import {
+  mockSchedulingConfigurations,
+  mockGetCurrentPosition,
+} from '../../../mocks/helpers.v2';
 import { getSchedulingConfigurationMock } from '../../../mocks/v2';
 
 const facilityIds = ['983', '983GB', '983GC', '983HK', '983QA', '984'];
@@ -640,7 +642,6 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
         facilityId: '983',
         typeOfCareId: TYPE_OF_CARE_ID,
         clinics: [],
-        version: 2,
       });
       mockSchedulingConfigurations([
         getSchedulingConfigurationMock({

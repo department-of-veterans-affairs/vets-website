@@ -13,11 +13,7 @@ import {
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../mocks/setup';
-import {
-  mockCommunityCareEligibility,
-  mockCCProviderFetch,
-  mockGetCurrentPosition,
-} from '../../../mocks/helpers';
+import { mockCCProviderFetch } from '../../../mocks/helpers';
 
 import CommunityCareProviderSelectionPage from '../../../../new-appointment/components/CommunityCareProviderSelectionPage';
 import { calculateBoundingBox } from '../../../../utils/address';
@@ -29,6 +25,7 @@ import { getSchedulingConfigurationMock } from '../../../mocks/v2';
 import {
   mockSchedulingConfigurations,
   mockV2CommunityCareEligibility,
+  mockGetCurrentPosition,
 } from '../../../mocks/helpers.v2';
 
 const initialState = {
@@ -630,12 +627,6 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     // remove the page and change the type of care
     await cleanup();
 
-    // Mock CC calls for Podiatry, now that we've switched
-    mockCommunityCareEligibility({
-      parentSites: ['983', '983GJ', '983GC'],
-      supportedSites: ['983', '983GJ'],
-      careType: 'Podiatry',
-    });
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
       ['213E00000X', '213EG0000X', '213EP1101X', '213ES0131X', '213ES0103X'],

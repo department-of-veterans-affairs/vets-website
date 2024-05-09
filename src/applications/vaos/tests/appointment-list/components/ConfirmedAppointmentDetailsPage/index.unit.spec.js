@@ -274,7 +274,6 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       clinicId: '455',
       locationId: '983GC',
       clinicName: 'Some fancy clinic name',
-      version: 2,
     });
     mockSingleVAOSAppointmentFetch({ appointment });
 
@@ -457,7 +456,6 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       clinicId: '455',
       locationId: '983GC',
       clinicName: 'Some fancy clinic name',
-      version: 2,
     });
     mockSingleVAOSAppointmentFetch({ appointment });
 

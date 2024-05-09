@@ -5,6 +5,7 @@ import {
   setFetchJSONResponse,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import moment from 'moment';
+import sinon from 'sinon';
 import metaWithFailures from '../../services/mocks/v2/meta_failures.json';
 import metaWithoutFailures from '../../services/mocks/v2/meta.json';
 
@@ -483,4 +484,35 @@ export function mockClinicsApi({
   }
 
   return baseUrl;
+}
+
+/**
+ * Mock the browser geolocation api with a given position
+ *
+ * @export
+ * @param {Object} [params]
+ * @param {number} [latitude=53.2734] Latitude value (defaulted to San Diego)
+ * @param {number} [longitude=-7.77832031] Longitude value (defaulted to San Diego)
+ * @param {boolean} [fail=false] Should the geolocation request fail
+ */
+export function mockGetCurrentPosition({
+  latitude = 53.2734, // San Diego, CA
+  longitude = -7.77832031,
+  fail = false,
+} = {}) {
+  global.navigator.geolocation = {
+    getCurrentPosition: sinon.stub().callsFake(
+      (successCallback, failureCallback) =>
+        fail
+          ? Promise.resolve(
+              failureCallback({
+                code: 1,
+                message: 'User denied Geolocation',
+              }),
+            )
+          : Promise.resolve(
+              successCallback({ coords: { latitude, longitude } }),
+            ),
+    ),
+  };
 }

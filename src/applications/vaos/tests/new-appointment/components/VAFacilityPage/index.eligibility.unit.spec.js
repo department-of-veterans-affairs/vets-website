@@ -269,7 +269,6 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
             serviceName: 'Clinic name',
           }),
         ],
-        version: 2,
       });
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /social work/i);

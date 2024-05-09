@@ -28,7 +28,18 @@ import {
   mockVAOSAppointmentsFetch,
 } from '../../mocks/helpers.v2';
 import { generateAppointmentUrl } from '../../../utils/appointment';
-import { setRequestedPeriod } from '../../mocks/helpers';
+
+function setRequestedPeriod(date, amOrPm) {
+  const isAM = amOrPm.toUpperCase() === 'AM';
+  return {
+    start: `${date.format('YYYY-MM-DD')}T${
+      isAM ? '00:00:00.000Z' : `12:00:00.000Z`
+    }`,
+    end: `${date.format('YYYY-MM-DD')}T${
+      isAM ? '11:59:59.999Z' : `23:59:59.999Z`
+    }`,
+  };
+}
 
 describe('VAOS Services: Appointment ', () => {
   describe('fetchBookedAppointment by id', () => {
@@ -51,7 +62,7 @@ describe('VAOS Services: Appointment ', () => {
 
       setFetchJSONResponse(
         global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointmentByVersion({ version: 2, ...data }) },
+        { data: createMockAppointmentByVersion({ ...data }) },
       );
 
       const v2Result = await fetchBookedAppointment({
@@ -77,7 +88,7 @@ describe('VAOS Services: Appointment ', () => {
 
       setFetchJSONResponse(
         global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointmentByVersion({ version: 2, ...data }) },
+        { data: createMockAppointmentByVersion({ ...data }) },
       );
 
       const v2Result = await fetchBookedAppointment({
@@ -103,7 +114,7 @@ describe('VAOS Services: Appointment ', () => {
 
       setFetchJSONResponse(
         global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointmentByVersion({ version: 2, ...data }) },
+        { data: createMockAppointmentByVersion({ ...data }) },
       );
 
       const v2Result = await fetchBookedAppointment({
@@ -129,7 +140,7 @@ describe('VAOS Services: Appointment ', () => {
 
       setFetchJSONResponse(
         global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointmentByVersion({ version: 2, ...data }) },
+        { data: createMockAppointmentByVersion({ ...data }) },
       );
 
       const v2Result = await fetchBookedAppointment({
@@ -156,7 +167,7 @@ describe('VAOS Services: Appointment ', () => {
 
       setFetchJSONResponse(
         global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointmentByVersion({ version: 2, ...data }) },
+        { data: createMockAppointmentByVersion({ ...data }) },
       );
 
       const v2Result = await fetchBookedAppointment({
@@ -194,7 +205,7 @@ describe('VAOS Services: Appointment ', () => {
 
       setFetchJSONResponse(
         global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointmentByVersion({ version: 2, ...data }) },
+        { data: createMockAppointmentByVersion({ ...data }) },
       );
 
       const v2Result = await fetchBookedAppointment({
@@ -245,7 +256,7 @@ describe('VAOS Services: Appointment ', () => {
 
       setFetchJSONResponse(
         global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointmentByVersion({ version: 2, ...data }) },
+        { data: createMockAppointmentByVersion({ ...data }) },
       );
 
       const v2Result = await fetchBookedAppointment({
@@ -275,7 +286,7 @@ describe('VAOS Services: Appointment ', () => {
 
       setFetchJSONResponse(
         global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointmentByVersion({ version: 2, ...data }) },
+        { data: createMockAppointmentByVersion({ ...data }) },
       );
 
       const v2Result = await fetchBookedAppointment({
@@ -305,7 +316,7 @@ describe('VAOS Services: Appointment ', () => {
 
       setFetchJSONResponse(
         global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointmentByVersion({ version: 2, ...data }) },
+        { data: createMockAppointmentByVersion({ ...data }) },
       );
 
       const v2Result = await fetchBookedAppointment({
@@ -333,7 +344,7 @@ describe('VAOS Services: Appointment ', () => {
 
       setFetchJSONResponse(
         global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointmentByVersion({ version: 2, ...data }) },
+        { data: createMockAppointmentByVersion({ ...data }) },
       );
 
       const v2Result = await fetchBookedAppointment({
@@ -361,7 +372,7 @@ describe('VAOS Services: Appointment ', () => {
 
       setFetchJSONResponse(
         global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointmentByVersion({ version: 2, ...data }) },
+        { data: createMockAppointmentByVersion({ ...data }) },
       );
 
       const v2Result = await fetchBookedAppointment({
@@ -401,7 +412,7 @@ describe('VAOS Services: Appointment ', () => {
 
       setFetchJSONResponse(
         global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointmentByVersion({ version: 2, ...data }) },
+        { data: createMockAppointmentByVersion({ ...data }) },
       );
 
       const v2Result = await fetchBookedAppointment({
@@ -481,7 +492,6 @@ describe('VAOS Services: Appointment ', () => {
       setFetchJSONResponse(global.fetch.withArgs(sinon.match(url)), {
         data: [
           createMockAppointmentByVersion({
-            version: 2,
             ...data,
             requestedPeriods: [
               {
@@ -539,7 +549,6 @@ describe('VAOS Services: Appointment ', () => {
         {
           data: [
             createMockAppointmentByVersion({
-              version: 2,
               ...data,
               requestedPeriods: [
                 {
@@ -601,7 +610,6 @@ describe('VAOS Services: Appointment ', () => {
         {
           data: [
             createMockAppointmentByVersion({
-              version: 2,
               ...data,
             }),
           ],

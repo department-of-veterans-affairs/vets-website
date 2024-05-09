@@ -1,5 +1,4 @@
 /** @module testing/mocks/fetch */
-import sinon from 'sinon';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import { getV2ClinicMock, getVAOSAppointmentMock } from './v2';
@@ -18,10 +17,9 @@ import { getDateRanges, mockVAOSAppointmentsFetch } from './helpers.v2';
  *    for requests
  * @param {boolean} [params.directPastVisits=false] Whether the mock should set the user as passing the past visits check
  *    for direct scheduling
- * @param {Array<VARClinic|VAOSClinic>} [params.clinics=[]] The clinics returned during the eligibility checks
+ * @param {Array<VAOSClinic>} [params.clinics=[]] The clinics returned during the eligibility checks
  * @param {boolean} [params.pastClinics=false] Whether or not the mock should also mock an appointments fetch with an
  *    past appointment with a clinic matching one passed in the clinics param, so that the user passes the past clinics check
- * @param {number} [version=2] The version of the calls to set up, defaulted to version 2
  * }
  */
 export function mockEligibilityFetchesByVersion({
@@ -166,78 +164,47 @@ export function mockSingleClinicFetchByVersion({
   );
 }
 
-// Version 0 used
 /**
- * Mocks the facilities fetch call using the api for the specified
- * vaos version
+ * Mocks the facilities fetch call using the api
  *
  * @export
  * @param {Object} params
  * @param {?Array<string>} params.ids An array of facility ids to use in the query params. Not necessary
  *   unless you are using the children param to return the child facilities of parents
- * @param {Array<MFSFacility|VAFacility>} [params.facilities=[]] An array of facility objects to return from the fetch
+ * @param {Array<VAFacility>} [params.facilities=[]] An array of facility objects to return from the fetch
  * @param {Boolean} [params.children=false] Sets the children query param, which is meant to include child
- *   facilities. Only relevant for version 2
- * @param {0|2} [params.version=2] The api version to use, defaulted to version 2,
+ *   facilities.
  */
 export function mockFacilitiesFetchByVersion({
   ids = null,
   facilities = [],
   children = false,
-  version = 2,
 } = {}) {
   const idList = ids || facilities.map(f => f.id);
 
-  if (version !== 2) {
-    setFetchJSONResponse(
-      global.fetch.withArgs(
-        sinon.match(
-          `/v1/facilities/va?ids=${idList
-            // We map test ids to real facility ids when using the VA.gov facility
-            // endpoint, but not for the MFSv2 ones, because MFSv2 has test data loaded
-            .map(id => id.replace('983', '442').replace('984', '552'))
-            .join(',')}`,
-        ),
-      ),
-      { data: facilities },
-    );
-  } else {
-    setFetchJSONResponse(
-      global.fetch.withArgs(
-        `${
-          environment.API_URL
-        }/vaos/v2/facilities?children=${children}&${idList
-          .map(id => `ids[]=${id}`)
-          .join('&')}`,
-      ),
-      { data: facilities },
-    );
-  }
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v2/facilities?children=${children}&${idList
+        .map(id => `ids[]=${id}`)
+        .join('&')}`,
+    ),
+    { data: facilities },
+  );
 }
 
-// Version 0 used
 /**
- * Mocks the single facility fetch call using the api for the specified
- * vaos version
+ * Mocks the single facility fetch call using the api
  *
  * @export
  * @param {Object} params
- * @param {MFSFacility|VAFacility} params.facility The facility object to return from the fetch
- * @param {0|2} [params.version=2] The api version to use, defaulted to version 2,
+ * @param {VAFacility} params.facility The facility object to return from the fetch
  */
-export function mockFacilityFetchByVersion({ facility, version = 2 } = {}) {
-  let baseUrl = '';
+export function mockFacilityFetchByVersion({ facility } = {}) {
+  const baseUrl = `${environment.API_URL}/vaos/v2/facilities/${facility.id}`;
 
-  if (version !== 2) {
-    setFetchJSONResponse(
-      global.fetch.withArgs(sinon.match(`/v1/facilities/va/${facility.id}`)),
-      { data: facility },
-    );
-  } else {
-    baseUrl = `${environment.API_URL}/vaos/v2/facilities/${facility.id}`;
-
-    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: facility });
-  }
+  setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: facility });
 
   return baseUrl;
 }

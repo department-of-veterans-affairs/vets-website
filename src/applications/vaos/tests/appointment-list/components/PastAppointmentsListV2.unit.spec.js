@@ -10,10 +10,7 @@ import PastAppointmentsList, {
 } from '../../../appointment-list/components/PastAppointmentsList';
 import { getVAOSAppointmentMock } from '../../mocks/v2';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
-import {
-  createMockAppointmentByVersion,
-  createMockFacilityByVersion,
-} from '../../mocks/data';
+import { createMockAppointmentByVersion } from '../../mocks/data';
 import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 import MockAppointmentResponse from '../../e2e/fixtures/MockAppointmentResponse';
 
@@ -45,7 +42,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
-    mockFacilitiesFetchByVersion({ version: 0 });
+    mockFacilitiesFetchByVersion();
   });
 
   afterEach(() => {
@@ -124,7 +121,6 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       status: 'booked',
     };
     const appointment = createMockAppointmentByVersion({
-      version: 2,
       ...data,
     });
 
@@ -209,7 +205,6 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       },
     };
     const appointment = createMockAppointmentByVersion({
-      version: 2,
       ...data,
     });
 
@@ -219,24 +214,6 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
-
-    // TODO: Figure out which to use, 'createMockFacilityByVersion' or
-    // 'getVAOSAppointmentMock' and update attributes to reflect current api.
-    // Ideally, the created mock appointment should contain the required attributes
-    // needed to display a page with other attributes added as needed.
-    const facility = createMockFacilityByVersion({
-      id: '442GC',
-      name: 'Cheyenne VA Medical Center',
-      address: {
-        postalCode: '82001-5356',
-        city: 'Cheyenne',
-        state: 'WY',
-        line: ['2360 East Pershing Boulevard'],
-      },
-      phone: '307-778-7550',
-      version: 0,
-    });
-    mockFacilitiesFetchByVersion({ facilities: [facility], version: 0 });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
       initialState,
@@ -273,7 +250,6 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       status: 'booked',
     };
     const appointment = createMockAppointmentByVersion({
-      version: 2,
       ...data,
     });
 

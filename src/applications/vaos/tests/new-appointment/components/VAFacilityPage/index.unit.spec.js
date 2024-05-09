@@ -13,8 +13,10 @@ import {
   renderWithStoreAndRouter,
   setTypeOfEyeCare,
 } from '../../../mocks/setup';
-import { mockGetCurrentPosition } from '../../../mocks/helpers';
-import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
+import {
+  mockSchedulingConfigurations,
+  mockGetCurrentPosition,
+} from '../../../mocks/helpers.v2';
 import { getSchedulingConfigurationMock } from '../../../mocks/v2';
 import { NewAppointment } from '../../../../new-appointment';
 import { FETCH_STATUS } from '../../../../utils/constants';
@@ -661,7 +663,6 @@ describe('VAOS Page: VAFacilityPage', () => {
             name: 'First cerner facility',
             lat: 39.1362562,
             long: -83.1804804,
-            version: 2,
           }),
           createMockFacilityByVersion({ id: '983GB' }),
           createMockFacilityByVersion({
@@ -669,7 +670,6 @@ describe('VAOS Page: VAFacilityPage', () => {
             name: 'Second Cerner facility',
             lat: 39.1362562,
             long: -83.1804804,
-            version: 2,
           }),
           createMockFacilityByVersion({ id: '984GB' }),
         ],
@@ -1317,17 +1317,14 @@ describe('VAOS Page: VAFacilityPage', () => {
             name: 'First cerner facility',
             lat: 39.1362562,
             long: -83.1804804,
-            version: 2,
           }),
           createMockFacilityByVersion({
             id: '984',
             name: 'Second Cerner facility',
             lat: 39.1362562,
             long: -83.1804804,
-            version: 2,
           }),
         ],
-        version: 2,
       });
 
       mockSchedulingConfigurations([

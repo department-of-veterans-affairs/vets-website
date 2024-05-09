@@ -8,7 +8,6 @@ import { getTestDate, renderWithStoreAndRouter } from '../../mocks/setup';
 import UpcomingAppointmentsList from '../../../appointment-list/components/UpcomingAppointmentsList';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 import { getVAOSAppointmentMock } from '../../mocks/v2';
-import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -75,7 +74,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -118,7 +116,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -162,7 +159,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -204,7 +200,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -249,7 +244,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,

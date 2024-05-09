@@ -11,22 +11,18 @@ import {
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../mocks/setup';
-import {
-  mockCCProviderFetch,
-  mockCommunityCareEligibility,
-  mockGetCurrentPosition,
-} from '../../../mocks/helpers';
+import { mockCCProviderFetch } from '../../../mocks/helpers';
 
 import CommunityCareProviderSelectionPage from '../../../../new-appointment/components/CommunityCareProviderSelectionPage';
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS } from '../../../../utils/constants';
 import { createMockFacilityByVersion } from '../../../mocks/data';
+import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
 import {
-  mockFacilitiesFetchByVersion,
-  mockFacilityFetchByVersion,
-} from '../../../mocks/fetch';
-import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
+  mockSchedulingConfigurations,
+  mockGetCurrentPosition,
+} from '../../../mocks/helpers.v2';
 import { getSchedulingConfigurationMock } from '../../../mocks/v2';
 
 const initialState = {
@@ -53,12 +49,6 @@ const initialState = {
 describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
   beforeEach(() => {
     mockFetch();
-
-    mockCommunityCareEligibility({
-      parentSites: ['983', '983GJ', '983GC'],
-      supportedSites: ['983', '983GJ'],
-      careType: 'PrimaryCare',
-    });
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
       ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
@@ -438,17 +428,6 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ),
       CC_PROVIDERS_DATA,
     );
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '442GJ',
-        name: 'Facility that is enabled',
-        lat: 39.1362562,
-        long: -83.1804804,
-        version: 0,
-      }),
-      version: 0,
-    });
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);

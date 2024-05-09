@@ -70,7 +70,6 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
     };
 
     const appointment = createMockAppointmentByVersion({
-      version: 2,
       ...data,
     });
 
@@ -183,7 +182,6 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
     };
 
     const appointment = createMockAppointmentByVersion({
-      version: 2,
       ...data,
     });
 
@@ -245,7 +243,6 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
     };
 
     const appointment = createMockAppointmentByVersion({
-      version: 2,
       ...data,
     });
 
@@ -309,7 +306,6 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
     };
 
     const appointment = createMockAppointmentByVersion({
-      version: 2,
       ...data,
     });
 
@@ -372,7 +368,6 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
     };
 
     const appointment = createMockAppointmentByVersion({
-      version: 2,
       ...data,
     });
 
@@ -435,7 +430,6 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
     };
 
     const appointment = createMockAppointmentByVersion({
-      version: 2,
       ...data,
     });
 
@@ -498,7 +492,6 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
     };
 
     const appointment = createMockAppointmentByVersion({
-      version: 2,
       ...data,
     });
 
@@ -557,7 +550,6 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
     };
 
     const appointment = createMockAppointmentByVersion({
-      version: 2,
       ...data,
     });
 
