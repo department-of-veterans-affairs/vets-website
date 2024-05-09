@@ -6,6 +6,11 @@ describe('index', () => {
   const state = { termsAccepted: false };
 
   describe('reducer', () => {
+    it('should return default state when state is not passed in', () => {
+      const result = reducers.virtualAgentData(undefined, { type: ACCEPTED });
+
+      expect(result).to.deep.equal({ termsAccepted: true });
+    });
     it('should return termsAccepted as true when action type is ACCEPTED', () => {
       const result = reducers.virtualAgentData(state, {
         type: ACCEPTED,

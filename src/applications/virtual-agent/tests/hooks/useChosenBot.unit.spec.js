@@ -14,7 +14,7 @@ describe('useChosenBot', () => {
     sandbox.restore();
   });
 
-  it('should set chosenBot to "sticky" when virtualAgentShowFloatingChatbot is true', () => {
+  it('should set chosenBot to "default" when virtualAgentShowFloatingChatbot is true', () => {
     const setIsLoading = sandbox.stub();
     const setChosenBot = sandbox.stub();
     const virtualAgentShowFloatingChatbot = true;
@@ -26,9 +26,9 @@ describe('useChosenBot', () => {
     expect(setIsLoading.calledOnce).to.be.true;
     expect(setIsLoading.calledWithExactly(false)).to.be.true;
     expect(setChosenBot.calledOnce).to.be.true;
-    expect(setChosenBot.calledWithExactly('sticky')).to.be.true;
+    expect(setChosenBot.calledWithExactly('default')).to.be.true;
   });
-  it('should set chosenBot to "default" when virtualAgentShowFloatingChatbot is false', () => {
+  it('should set chosenBot to "sticky" when virtualAgentShowFloatingChatbot is false', () => {
     const setIsLoading = sandbox.stub();
     const setChosenBot = sandbox.stub();
     const virtualAgentShowFloatingChatbot = false;
@@ -40,6 +40,6 @@ describe('useChosenBot', () => {
     expect(setIsLoading.calledOnce).to.be.true;
     expect(setIsLoading.calledWithExactly(false)).to.be.true;
     expect(setChosenBot.calledOnce).to.be.true;
-    expect(setChosenBot.calledWithExactly('default')).to.be.true;
+    expect(setChosenBot.calledWithExactly('sticky')).to.be.true;
   });
 });
