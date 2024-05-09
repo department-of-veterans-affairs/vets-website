@@ -26,6 +26,7 @@ function transformApplicants(applicants) {
       ssh_or_tin: app.applicantSSN ?? '',
       date_of_birth: app.applicantDOB ?? '',
       phone_number: app.applicantPhone ?? '',
+      email: app.applicantEmailAddress ?? '',
       vet_relationship: transformRelationship(
         app.applicantRelationshipToSponsor?.relationshipToVeteran || 'NA',
       ),
