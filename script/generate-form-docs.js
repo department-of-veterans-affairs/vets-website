@@ -1,7 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
+/**
+ * Includes polyfills and runtime loaders into the current executing context
+ * This is required because we are running browser code in node and need
+ * to have access to features that do not exist in the current runtime
+ */
 const includePolyfillsAndLoaders = () => {
+  // Babel loaders
   process.env.BABEL_ENV = process.env.BABEL_ENV || 'test';
   require('@babel/register');
   require('babel-polyfill');
@@ -12,6 +18,7 @@ const includePolyfillsAndLoaders = () => {
   global.__API__ = null;
   global.__MEGAMENU_CONFIG__ = null;
   global.__REGISTRY__ = [];
+  // Browser shims
   global.location = {
     pathname: '',
   };
@@ -28,12 +35,22 @@ const includePolyfillsAndLoaders = () => {
   };
 };
 
+/**
+ * Extract a return statement from a function string body
+ * @param funcStr
+ * @returns {*|null}
+ */
 const extractReturnStatement = funcStr => {
   const regex = /return.*?;/;
   const match = funcStr.match(regex);
   return match ? match[0] : null;
 };
 
+/**
+ * Converts a parsed form config to a markdown readable format
+ * @param formConfig
+ * @returns {string}
+ */
 // eslint-disable-next-line no-unused-vars
 const formConfigToMarkdown = formConfig =>
   Object.values(formConfig.chapters)
@@ -58,6 +75,11 @@ ${page.depends?.name ? `\nDepends: ${page.depends.name}\n` : ''}`,
     )
     .join('\n');
 
+/**
+ * Parses a form config and returns the essential data points.
+ * @param formConfig
+ * @returns {{pages: {path: *, depends: *|null, title: *}[], title: *}[]}
+ */
 const parseFormConfig = formConfig =>
   Object.values(formConfig.chapters).map(chapter => ({
     title: chapter.title,
@@ -79,6 +101,10 @@ const parseFormConfig = formConfig =>
     })),
   }));
 
+/**
+ * Generate form config documentation for a given application name.
+ * @param application
+ */
 const generateFormDocs = application => {
   const appPath = path.resolve(application);
   const formJsPath = `${appPath}/config/form.js`;
@@ -92,22 +118,50 @@ const generateFormDocs = application => {
 
     fs.writeFileSync(
       structureJsonPath,
-      JSON.stringify(manifestContent, null, 2),
+      `${JSON.stringify(manifestContent, null, 2)}\n`,
     );
-    process.stdout.write(`${structureJsonPath} has been written.`);
+    process.stdout.write(`${structureJsonPath} has been written.\n`);
     return;
   }
-  process.stdout.write(
-    `${appPath} path does not exist, or does not contain a form.js`,
+  process.stderr.write(
+    `${appPath} path does not exist, or does not contain a form.js\n`,
+  );
+};
+
+/**
+ * Constructs the application path based on the application name.
+ * @param applicationName The name of the application.
+ * @returns The constructed application path.
+ */
+const constructApplicationPath = applicationName => {
+  return path.resolve(__dirname, `../src/applications/${applicationName}`);
+};
+
+/**
+ * Processes the list of application paths.
+ * @param applicationPaths The list of application paths.
+ * @returns The processed list of application paths.
+ */
+const processApplications = applicationPaths => {
+  return applicationPaths.map(applicationPath =>
+    constructApplicationPath(applicationPath.trim()),
   );
 };
 
 if (process.argv.length < 3) {
-  process.stdout.write('Usage: node generate-form-docs.js <applicationPath>');
+  process.stdout.write(
+    `Usage: node ${__filename} <applicationPath1(,applicationPathN)>`,
+  );
   process.exit(1);
 }
 
-const applicationPath = process.argv[2];
+const applicationPathsInput = process.argv
+  .slice(2)
+  .join('')
+  .split(',')
+  .map(arg => arg.trim());
+
+const applicationPaths = processApplications(applicationPathsInput);
 
 includePolyfillsAndLoaders();
-generateFormDocs(applicationPath);
+applicationPaths.forEach(applicationPath => generateFormDocs(applicationPath));
