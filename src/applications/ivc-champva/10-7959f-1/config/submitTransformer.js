@@ -30,7 +30,7 @@ export default function transformForSubmit(formConfig, form) {
     },
     // statement_of_truth_signature: transformedData.fullName,
     current_date: new Date().toJSON().slice(0, 10),
-    primaryCustomer: {
+    primaryContactInfo: {
       name: {
         first: transformedData.firstName,
         last: transformedData.lastName,
