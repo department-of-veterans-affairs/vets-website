@@ -14,7 +14,7 @@ const ExplainerComponent = ({
 }) => {
   React.useEffect(() => {
     // focus on the h3  when the page loads for screen readers
-    waitForRenderThenFocus('h3', document.querySelector('va-alert').shadowRoot);
+    waitForRenderThenFocus('h3');
   }, []);
   return (
     <form>
