@@ -62,7 +62,7 @@ export const uiSchema = {
         updateSchema: () => {
           return {
             type: 'string',
-            pattern: '^[0-9]{3}-?[0-9]{3}-?[0-9]{4}$',
+            pattern: '[0-9]{3}-?[0-9]{3}-?[0-9]{4}$',
           };
         },
       },
@@ -100,9 +100,7 @@ export const uiSchema = {
       'ui:title': 'Confirm email address',
       'ui:options': {
         expandUnder: 'emailAddress',
-        expandUnderCondition: emailAddress => {
-          return emailAddress;
-        },
+        expandUnderCondition: emailAddress => emailAddress,
       },
     },
     electronicCorrespondence: {
@@ -110,9 +108,7 @@ export const uiSchema = {
         'I agree to receive electronic correspondence from VA in regards to my claim.',
       'ui:options': {
         expandUnder: 'emailAddress',
-        expandUnderCondition: emailAddress => {
-          return emailAddress;
-        },
+        expandUnderCondition: emailAddress => emailAddress,
       },
       'ui:required': formData =>
         formData.veteranContactInformation.emailAddress !== undefined,
