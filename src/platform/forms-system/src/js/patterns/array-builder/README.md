@@ -62,9 +62,10 @@ import {
   arrayBuilderYesNoUI,
   currentOrPastDateSchema,
   currentOrPastDateUI,
+  textUI,
+  textSchema,
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from '~/platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 
@@ -126,17 +127,12 @@ const namePage = {
       title: 'Name',
       nounSingular: options.nounSingular,
     }),
-    name: {
-      'ui:title': 'Name',
-      'ui:webComponentField': VaTextInputField,
-    },
+    name: textUI('Name'),
   },
   schema: {
     type: 'object',
     properties: {
-      name: {
-        type: 'string',
-      },
+      name: textSchema,
     },
     required: ['name'],
   },
@@ -200,8 +196,9 @@ import {
   arrayBuilderYesNoUI,
   currentOrPastDateSchema,
   currentOrPastDateUI,
+  textUI,
+  textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from '~/platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 
@@ -244,17 +241,12 @@ const namePage = {
       title: 'Name',
       nounSingular: options.nounSingular,
     }),
-    name: {
-      'ui:title': 'Name',
-      'ui:webComponentField': VaTextInputField,
-    },
+    name: textUI('Name'),
   },
   schema: {
     type: 'object',
     properties: {
-      name: {
-        type: 'string',
-      },
+      name: textSchema,
     },
     required: ['name'],
   },
