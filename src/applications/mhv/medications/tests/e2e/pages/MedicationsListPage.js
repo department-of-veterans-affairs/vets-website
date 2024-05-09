@@ -29,6 +29,16 @@ class MedicationsListPage {
     }
   };
 
+  clickGotoMedicationsLinkForListPageAPICallFail = () => {
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      prescriptions,
+    );
+  };
+
   verifyTextInsideDropDownOnListPage = () => {
     cy.get('[data-testid="dropdown-info"]').should(
       'contain',

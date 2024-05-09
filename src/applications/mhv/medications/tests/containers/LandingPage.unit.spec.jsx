@@ -17,6 +17,7 @@ describe('Medicaitons Landing page container', () => {
       prescriptions: {
         prescriptionsList: prescriptions,
         prescriptionDetails: prescriptions,
+        apiError: false,
       },
     },
     featureToggles: {
