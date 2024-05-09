@@ -7,7 +7,10 @@ import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scro
 import { clearNotification } from '../actions';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import ClaimTimeline from '../components/ClaimTimeline';
-import ClaimOverviewHeader from '../components/ClaimOverviewHeader';
+import ClaimOverviewHeader from '../components/claim-overview-tab/ClaimOverviewHeader';
+import DesktopClaimPhaseDiagram from '../components/claim-overview-tab/DesktopClaimPhaseDiagram';
+import MobileClaimPhaseDiagram from '../components/claim-overview-tab/MobileClaimPhaseDiagram';
+
 import {
   buildDateFormatter,
   claimAvailable,
@@ -188,13 +191,20 @@ class OverviewPage extends React.Component {
     }
 
     const { claimPhaseDates } = claim.attributes;
+    // TO DO: Add feature flag cst_claim_phases. When disabled we show the ClaimTimeline
+
+    const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
 
     return (
       <div className="overview-container">
         <ClaimOverviewHeader />
+        <div className="claim-phase-diagram">
+          <MobileClaimPhaseDiagram currentPhase={currentPhase} />
+          <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
+        </div>
         <ClaimTimeline
           id={claim.id}
-          phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
+          phase={currentPhase}
           currentPhaseBack={claimPhaseDates.currentPhaseBack}
           events={generateEventTimeline(claim)}
         />
