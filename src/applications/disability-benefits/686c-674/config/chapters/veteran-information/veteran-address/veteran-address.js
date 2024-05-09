@@ -108,6 +108,14 @@ export const uiSchema = {
     electronicCorrespondence: {
       'ui:title':
         'I agree to receive electronic correspondence from VA in regards to my claim.',
+      'ui:options': {
+        expandUnder: 'emailAddress',
+        expandUnderCondition: emailAddress => {
+          return emailAddress;
+        },
+      },
+      'ui:required': formData =>
+        formData.veteranContactInformation.emailAddress !== undefined,
     },
   },
 };
