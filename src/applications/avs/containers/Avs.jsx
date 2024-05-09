@@ -105,7 +105,7 @@ const Avs = props => {
         <BreadCrumb />
         <h1 className="vads-u-padding-top--2">After-visit summary</h1>
         <DowntimeNotification
-          appTitle="My HealtheVet"
+          appTitle="after-visit summaries"
           dependencies={[externalServices.avs]}
           render={renderMHVDowntime}
         >
