@@ -204,6 +204,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       .minute(0)
       .second(0);
     const preferredDate = moment();
+
     mockAppointmentSlotFetch({
       clinicId: '308',
       facilityId: '983',
@@ -222,8 +223,8 @@ describe('VAOS Page: DateTimeSelectPage', () => {
 
     setDateTimeSelectMockFetches({
       slotDatesByClinicId: {
-        308: [slot308Date],
-        309: [slot309Date],
+        '308': [slot308Date],
+        '309': [slot309Date],
       },
     });
 
@@ -664,20 +665,21 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     ).to.be.ok;
   });
 
-  it.skip('should show info standard of care alert when there is a wait for a mental health appointments', async () => {
-    const slot308Date = moment().add(22, 'days');
-    const preferredDate = moment().add(6, 'days');
+  it('should show info standard of care alert when there is a wait for a mental health appointments', async () => {
+    const preferredDate = moment();
+    const slot308Date = moment().add(6, 'days');
 
     setDateTimeSelectMockFetches({
+      typeOfCareId: 'outpatientMentalHealth',
       slotDatesByClinicId: {
-        308: [slot308Date],
+        '308': [slot308Date],
       },
     });
 
     const store = createTestStore(initialState);
 
     await setTypeOfCare(store, /mental health/i);
-    await setVAFacility(store, '983');
+    await setVAFacility(store, '983', 'outpatientMentalHealth');
     await setClinic(store, /yes/i);
     await setPreferredDate(store, preferredDate);
 
@@ -695,13 +697,13 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     expect(screen.queryByText(/request an earlier appointment/i)).not.to.exist;
   });
 
-  it.skip('should show info standard of care alert when there is a wait for non mental health appointments', async () => {
-    const slot308Date = moment().add(30, 'days');
-    const preferredDate = moment().add(6, 'days');
+  it('should show info standard of care alert when there is a wait for non mental health appointments', async () => {
+    const preferredDate = moment();
+    const slot308Date = moment().add(6, 'days');
 
     setDateTimeSelectMockFetches({
       slotDatesByClinicId: {
-        308: [slot308Date],
+        '308': [slot308Date],
       },
     });
 
@@ -724,7 +726,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     ).to.exist;
 
     // Go to the request flow if these dates don't work
-    userEvent.click(screen.getByText(/request an earlier appointment/i));
+    userEvent.click(screen.getByTestId('earlier-request-btn'));
 
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(

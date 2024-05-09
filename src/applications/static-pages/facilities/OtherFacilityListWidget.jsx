@@ -65,9 +65,10 @@ export default class OtherFacilityListWidget extends React.Component {
           >
             <section key={facility.id} className="usa-width-one-half">
               <h3 className="vads-u-margin-bottom--1 vads-u-font-size--md medium-screen:vads-u-font-size--lg">
-                <a href={`/find-locations/facility/${facility.id}`}>
-                  {facility.attributes.name}
-                </a>
+                <va-link
+                  href={`/find-locations/facility/${facility.id}`}
+                  text={facility.attributes.name}
+                />
               </h3>
               <FacilityAddress facility={facility} />
               <div className="vads-u-margin-bottom--0">

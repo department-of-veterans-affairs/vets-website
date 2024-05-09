@@ -255,6 +255,7 @@ export async function setTypeOfEyeCare(store, label) {
 export async function setVAFacility(
   store,
   facilityId,
+  typeOfCareId = 'primaryCare',
   { facilityData = null } = {},
 ) {
   // TODO: Make sure this works in staging before removal
@@ -271,23 +272,20 @@ export async function setVAFacility(
   mockSchedulingConfigurations([
     getSchedulingConfigurationMock({
       id: '983',
-      typeOfCareId: 'primaryCare',
+      typeOfCareId,
       directEnabled: true,
       requestEnabled: true,
     }),
   ]);
 
-  const { findByText, history } = renderWithStoreAndRouter(
-    <VAFacilityPageV2 />,
-    { store },
-  );
+  const screen = renderWithStoreAndRouter(<VAFacilityPageV2 />, { store });
 
-  const continueButton = await findByText(/Continue/);
+  const continueButton = await screen.findByText(/Continue/);
   fireEvent.click(continueButton);
-  await waitFor(() => expect(history.push.called).to.be.true);
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
 
 /**
@@ -508,20 +506,21 @@ export async function setCommunityCareFlow({
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {MomentDate} label The name of the city to select
+ * @param {MomentDate} cityValue The value of the city to select
  * @returns {string} The url path that was routed to after clicking Continue
  */
-export async function setClosestCity(store, label) {
-  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
-    <ClosestCityStatePage />,
-    { store },
-  );
+export async function setClosestCity(store, cityValue) {
+  const screen = renderWithStoreAndRouter(<ClosestCityStatePage />, { store });
 
-  const radioButton = await findByLabelText(label);
-  fireEvent.click(radioButton);
-  fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(history.push.called).to.be.true);
+  const radioSelector = screen.container.querySelector('va-radio');
+  const changeEvent = new CustomEvent('selected', {
+    detail: { value: cityValue },
+  });
+  radioSelector.__events.vaValueChange(changeEvent);
+
+  fireEvent.click(screen.getByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
