@@ -1,11 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const BeforeYouDownloadDropdown = () => {
+const BeforeYouDownloadDropdown = ({ page }) => {
   return (
     <div className="before-you-download-dropdown" data-testid="before-download">
       <va-additional-info
         trigger="What to know before you print or download"
         data-testid="dropdown-info"
+        data-dd-action-name={`What To Know Before You Print Or Download Button - ${page}`}
         uswds
       >
         <ul>
@@ -22,6 +24,10 @@ const BeforeYouDownloadDropdown = () => {
       </va-additional-info>
     </div>
   );
+};
+
+BeforeYouDownloadDropdown.propTypes = {
+  page: PropTypes.string.isRequired,
 };
 
 export default BeforeYouDownloadDropdown;

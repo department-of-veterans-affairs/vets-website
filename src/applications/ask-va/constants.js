@@ -9,7 +9,7 @@ export const URL = {
   GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
-  GET_SCHOOL: `v0/gi/institutions/search?name=`,
+  GET_SCHOOL: `/v0/gi/institutions/search?name=`,
   SEND_REPLY: `/reply/new`,
 };
 
@@ -261,9 +261,9 @@ export const CHAPTER_3 = {
     QUESTION_1: 'Selection',
   },
   DEATH_DATE: {
-    TITLE: 'When did the Veteran die?',
+    TITLE: "Date of Veteran's death",
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Date',
+    QUESTION_1: '',
   },
   VET_POSTAL_CODE: {
     TITLE: "Veteran's postal code",

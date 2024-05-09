@@ -28,6 +28,8 @@ import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import FacilityAddress from '../../components/FacilityAddress';
 import FacilityPhone from '../../components/FacilityPhone';
+import { VARequestLayout } from '../../components/layout/VARequestLayout';
+import { CCRequestLayout } from '../../components/layout/CCRequestLayout';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -163,11 +165,7 @@ function Content() {
       <div className="vaos-u-word-break--break-word">
         {!canceled && (
           <>
-            <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3 vaos-hide-for-print">
-              <i
-                aria-hidden="true"
-                className="fas fa-times vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1"
-              />
+            <div className="vads-u-margin-top--3 vaos-hide-for-print">
               <button
                 type="button"
                 aria-label="Cancel request"
@@ -179,6 +177,9 @@ function Content() {
                   dispatch(startAppointmentCancel(appointment));
                 }}
               >
+                <span className="vads-u-margin-right--0p5">
+                  <va-icon icon="cancel" size="3" aria-hidden="true" />
+                </span>
                 Cancel Request
               </button>
             </div>
@@ -285,30 +286,37 @@ export default function RequestedAppointmentDetailsPage() {
   }
 
   if (featureAppointmentDetailsRedesign) {
-    if (cancelInfo.showCancelModal === false) {
-      return <Content />;
+    if (isCC && cancelInfo.showCancelModal === false) {
+      return <CCRequestLayout />;
+    }
+    if (isCC === false && cancelInfo.showCancelModal === false) {
+      return <VARequestLayout />;
     }
     if (
       cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted ||
       cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading
     ) {
       return (
-        <CancelWarningPage
-          {...{
-            appointment,
-            cancelInfo,
-          }}
-        />
+        <PageLayout showNeedHelp>
+          <CancelWarningPage
+            {...{
+              appointment,
+              cancelInfo,
+            }}
+          />
+        </PageLayout>
       );
     }
     if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
       return (
-        <CancelConfirmationPage
-          {...{
-            appointment,
-            cancelInfo,
-          }}
-        />
+        <PageLayout showNeedHelp>
+          <CancelConfirmationPage
+            {...{
+              appointment,
+              cancelInfo,
+            }}
+          />
+        </PageLayout>
       );
     }
     if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.failed) {

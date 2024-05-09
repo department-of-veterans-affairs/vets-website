@@ -367,6 +367,10 @@ export const GULF_WAR_1990_LOCATIONS = Object.freeze({
   none: 'None of these locations',
 });
 
+// used to save feature flag in form in util function for 'depends' keyword of form config
+export const SHOW_REVISED_ADD_DISABILITIES_PAGE =
+  'showRevisedNewDisabilitiesPage';
+
 export const GULF_WAR_2001_LOCATIONS = Object.freeze({
   djibouti: 'Djibouti',
   lebanon: 'Lebanon',
