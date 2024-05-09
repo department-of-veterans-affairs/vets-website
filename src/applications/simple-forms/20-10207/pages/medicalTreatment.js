@@ -18,6 +18,7 @@ export default {
     medicalTreatments: {
       'ui:options': {
         itemName: 'Treatment facility',
+        itemAriaLabelDescriptorPath: 'facilityName',
         viewField: MedicalTreatmentViewField,
         keepInPageOnReview: true,
         useVaCards: true,

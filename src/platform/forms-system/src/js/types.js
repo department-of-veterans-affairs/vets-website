@@ -277,7 +277,8 @@
  * @property {boolean} [includeRequiredLabelInTitle]
  * @property {Array<(input) => string>} [inputTransformers]
  * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] HTML input 'type' attribute. May result in different keyboard for mobile users.
- * @property {(item: any) => string} [itemAriaLabel] for arrays
+ * @property {(item: any) => string} [itemAriaLabel] Sets a custom aria label for each item in an array - for arrays. The item's index or the value at the itemAriaLabelDescriptorPath will follow this string in the aria label. Without this property, the itemName will be used. For example, with this property set to 'treatment facility', the edit aria label would read 'Edit treatment facility 1'.
+ * @property {(item: any) => string} [itemAriaLabelDescriptorPath] Sets a custom descriptor for the aria label for each item in an array - for arrays. Without this property, the aria label will use the item's index to distinguish it. For example, with this property, the edit aria label would read 'Edit treatment facility Baptist Health' where itemAriaLabelDescriptorPath points to 'Baptist Health' in formData. Without, it would read 'Edit treatment facility 1'.
  * @property {string} [itemName] The name of the item - for arrays. For example a value of 'Child' will result in 'Add another child', 'New child', and if 'using confirmRemove', 'Are you sure you want to remove this child item?', 'Yes, remove this child item'.
  * @property {boolean} [invalid] For web components. Whether or not aria-invalid will be set on the inner input. Useful when composing the component into something larger, like a date component.
  * @property {boolean} [keepInPageOnReview] Used to keep a field on the review page. Often used with arrays or expandUnder fields. When used with arrays, removes the default editor box on the review page and shows view-only data with an edit button instead.
