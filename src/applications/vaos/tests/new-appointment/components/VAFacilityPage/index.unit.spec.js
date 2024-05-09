@@ -206,8 +206,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       expect(screen.baseElement).not.to.contain.text('more location');
     });
 
-    // The expected test behavior is different from production code.
-    it.skip('should display previous user choices when returning to page', async () => {
+    it('should display previous user choices when returning to page', async () => {
       mockFacilitiesFetchByVersion({
         children: true,
         ids: ['983', '984'],
@@ -269,10 +268,6 @@ describe('VAOS Page: VAFacilityPage', () => {
       // should mean all page rendering is finished
       await screen.findAllByRole('radio');
 
-      // This functionality is not possible given current implementation of
-      // FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED in the reducer.js. On lines
-      // 324-326, vaFacility is cleared when multiple facilities offers the
-      // requested type of care.
       expect(
         await screen.findByLabelText(/Fake facility name 1/i),
       ).to.have.attribute('checked');
