@@ -33,7 +33,6 @@ describe('submit transformer', () => {
       transformForSubmit(formConfig, formData),
     );
     // eslint-disable-next-line no-console
-    console.log('data', newTransformData);
     expect(newTransformData.veteran.date_of_birth).to.equal('2004-02-19');
   });
 });
