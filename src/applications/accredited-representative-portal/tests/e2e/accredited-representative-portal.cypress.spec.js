@@ -1,13 +1,24 @@
+const checkIfInPilot = isInPilot => {
+  cy.intercept('GET', '/v0/feature_toggles*', {
+    data: {
+      features: [
+        { name: 'accredited_representative_portal_pilot', value: isInPilot },
+      ],
+    },
+  });
+};
+
 describe('Accredited Representative Portal', () => {
   describe('Feature toggle not enabled', () => {
-    it('does not allow navigation to the Portal when feature is not enabled', () => {
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          features: [
-            { name: 'accredited_representative_portal_pilot', value: false },
-          ],
-        },
-      });
+    beforeEach(function skipOutsideCI() {
+      if (!Cypress.env('CI')) {
+        this.skip();
+      }
+
+      checkIfInPilot(false);
+    });
+
+    it('displays error as content if not in pilot', () => {
       // During CI, the environment is production, so we can test our global
       // feature toggling behavior there. But when running this test locally, the
       // environment is localhost, so we can't test our global feature toggling
@@ -16,6 +27,8 @@ describe('Accredited Representative Portal', () => {
       cy.injectAxe();
       cy.axeCheck();
 
+      cy.get('[data-testid=arp-header]').should('be.visible');
+      cy.get('[data-testid=arp-footer]').should('be.visible');
       cy.get('[data-testid=not-in-pilot-heading]').should(
         'have.text',
         'Accredited Representative Portal is currently in pilot and not available to all users.',
@@ -25,13 +38,7 @@ describe('Accredited Representative Portal', () => {
 
   describe('Feature toggle enabled - Navigation from Landing Page to pages and back', () => {
     beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          features: [
-            { name: 'accredited_representative_portal_pilot', value: true },
-          ],
-        },
-      });
+      checkIfInPilot(true);
 
       cy.visit('/representative');
 
