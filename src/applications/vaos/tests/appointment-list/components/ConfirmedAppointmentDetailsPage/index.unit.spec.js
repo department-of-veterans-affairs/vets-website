@@ -1,4 +1,5 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment-timezone';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
@@ -49,7 +50,12 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
   beforeEach(() => {
     mockFetch();
+    MockDate.set(getTestDate());
     mockFacilitiesFetchByVersion();
+  });
+
+  afterEach(() => {
+    MockDate.reset();
   });
 
   it('should show confirmed appointments detail page', async () => {
