@@ -124,14 +124,13 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       reducers,
     });
 
-    // await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
     await screen.findAllByLabelText(
       new RegExp(now.format('dddd, MMMM D'), 'i'),
     );
     expect(screen.baseElement).to.contain.text('Community care');
   });
 
-  it.skip('should show at home video appointment text', async () => {
+  it('should show at home video appointment text', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
@@ -168,8 +167,10 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       initialState: myInitialState,
       reducers,
     });
-    await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
-    expect(screen.baseElement).to.contain.text('VA Video Connect at home');
+    await screen.findAllByLabelText(
+      new RegExp(now.format('dddd, MMMM D'), 'i'),
+    );
+    expect(screen.baseElement).to.contain.text('Video');
   });
 
   it('should show phone appointment text', async () => {
