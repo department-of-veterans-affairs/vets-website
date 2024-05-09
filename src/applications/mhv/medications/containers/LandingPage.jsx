@@ -10,7 +10,6 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getPrescriptionsPaginatedSortedList } from '../actions/prescriptions';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   medicationsUrls,
   rxListSortingOptions,
@@ -48,18 +47,6 @@ const LandingPage = () => {
   const refillUrl = fullState.user.login.currentlyLoggedIn
     ? medicationsUrls.subdirectories.REFILL
     : medicationsUrls.MEDICATIONS_LOGIN;
-
-  useEffect(
-    () => {
-      dispatch(
-        setBreadcrumbs({
-          url: `/../../my-health`,
-          label: 'My HealtheVet home',
-        }),
-      );
-    },
-    [dispatch],
-  );
 
   useEffect(
     () => {
