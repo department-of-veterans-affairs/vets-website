@@ -71,7 +71,7 @@ export const itfError = (
         An intent to file sets a potential start date (or effective date) for
         your benefits. You then have up to 1 year to complete and file your
         claim. And you may be able to get retroactive payments (payments for the
-        time between when you submitted your intent to file and when we your
+        time between when you submitted your intent to file and when we approved
         your claim).
       </p>
       <br />
@@ -80,9 +80,9 @@ export const itfError = (
         <ul>
           <li>
             You can continue and submit your claim online today—or when you’re
-            ready. If we don’t have a intent to file on record for this claim
-            that’s that’s within the past year, we’ll use the date you submit
-            your claim as a potential start date for your benefits.
+            ready. If we don’t have an intent to file on record for this claim
+            that’s within the past year, we’ll use the date you submit your
+            claim as a potential start date for your benefits.
           </li>
           <li>
             Or you can call us confirm if you have an intent to file for this
