@@ -8,7 +8,10 @@ import {
   testComponentRender,
   // getProps,
 } from '../../../../shared/tests/pages/pageTests.spec';
-import { ApplicantMedicareStatusContinuedPage } from '../../../pages/ApplicantMedicareStatusContinuedPage';
+import {
+  ApplicantMedicareStatusContinuedPage,
+  ApplicantMedicareStatusContinuedReviewPage,
+} from '../../../pages/ApplicantMedicareStatusContinuedPage';
 import mockData from '../../e2e/fixtures/data/test-data.json';
 
 // The tests in here need to be re-worked. This medicare component was overhauled.
@@ -23,15 +26,24 @@ import mockData from '../../e2e/fixtures/data/test-data.json';
 //   <ApplicantMedicareStatusContinuedPage data={{}} />,
 // );
 
-// Causes 'useFirstPerson' to be true:
 testComponentRender(
-  'ApplicantMedicareStatusPage',
+  'ApplicantMedicareStatusContinuedPage',
   <ApplicantMedicareStatusContinuedPage
     data={{
       ...mockData.data,
-      certifierRole: 'applicant',
     }}
     pagePerItemIndex="0"
+  />,
+);
+
+testComponentRender(
+  'ApplicantMedicareStatusContinuedReviewPage',
+  <ApplicantMedicareStatusContinuedReviewPage
+    data={{
+      ...mockData.data,
+    }}
+    pagePerItemIndex="0"
+    title={() => {}}
   />,
 );
 
