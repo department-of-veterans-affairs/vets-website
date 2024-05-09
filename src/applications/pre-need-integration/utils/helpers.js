@@ -166,22 +166,6 @@ export const applicantDemographicsDescription = (
   </div>
 );
 
-// export const raceCommentBox = (
-//   <div>
-//     <va-textarea
-//       hint={null}
-//       label="Enter the race that best describes you"
-//       maxlength="100"
-//       message-aria-describedby="Optional description text for screen readers"
-//       name="my-input"
-//       onBlur={function noRefCheck() {}}
-//       onInput={function noRefCheck() {}}
-//       placeholder=""
-//       required
-//     />
-//   </div>
-// );
-
 export const militaryDetailsSubHeader = (
   <div className="militaryDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Military details</h3>
