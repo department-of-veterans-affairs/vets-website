@@ -21,6 +21,17 @@ function formatDateString(dateString) {
   return `${month} ${day}, ${year}`;
 }
 
+function formatDiplomaDate(dateString) {
+  const dateObj = new Date(dateString);
+  const year = dateObj.getUTCFullYear();
+  const month = dateObj.toLocaleString('en-US', {
+    month: 'long',
+    timeZone: 'UTC',
+  });
+  const day = dateObj.getUTCDate();
+  return `${month}/${day}/${year}`;
+}
+
 const ApplicantInformationReviewPage = ({
   data,
   dateOfBirth,
@@ -29,6 +40,7 @@ const ApplicantInformationReviewPage = ({
   userFullName,
 }) => {
   const formattedDateOfBirth = formatDateString(dateOfBirth);
+  const formattedDiplomaDate = formatDiplomaDate(data?.highSchoolDiplomaDate);
   return (
     <>
       <div className="form-review-panel-page">
@@ -83,7 +95,7 @@ const ApplicantInformationReviewPage = ({
                 When did you earn your high school diploma or equivalency
                 certificate?
               </dt>
-              <dd>{data?.highSchoolDiplomaDate}</dd>
+              <dd>{formattedDiplomaDate}</dd>
             </div>
 
             <button
