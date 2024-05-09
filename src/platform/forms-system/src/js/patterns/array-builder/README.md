@@ -7,9 +7,11 @@ Array builder pattern features an intro page (for required flow), a yes/no quest
   - [Table of Contents](#table-of-contents)
   - [Flows](#flows)
   - [Terminology](#terminology)
-  - [Example Code Required Flow](#example-code-required-flow)
-  - [Example Code Optional Flow](#example-code-optional-flow)
-  - [Example `config/form.js`](#example-configformjs)
+  - [Example code](#example-code)
+    - [Step 1. `config/form.js`](#step-1-configformjs)
+    - [Step 2. Create either "required" pages flow or "optional" pages flow](#step-2-create-either-required-pages-flow-or-optional-pages-flow)
+    - [Example Pages "Required" Flow](#example-pages-required-flow)
+    - [Example Pages "Optional" Flow](#example-pages-optional-flow)
   - [Web Component Patterns](#web-component-patterns)
     - [Example `arrayBuilderYesNoUI` Text Overrides:](#example-arraybuilderyesnoui-text-overrides)
   - [General Pattern Text Overrides](#general-pattern-text-overrides)
@@ -30,8 +32,28 @@ Array builder pattern features an intro page (for required flow), a yes/no quest
 | `itemPage` | One of the pages (there can be multiple) that has fields and allows the user to fill out information for the current item. |
 | `summaryPage` | The page that shows cards of all the items the user has entered so far + yes/no question if they have more to add. The user is return to this page after every loop, until they select "no" that they don't have any more to add. |
 
-## Example Code Required Flow
-You can copy this to a new file `pages/nounPluralReplaceMe.jsx` as a starting point, and then import to `config/form.js`
+## Example code
+### Step 1. `config/form.js`
+```js
+import { nounPluralReplaceMePages } from '../pages/nounPluralReplaceMe';
+
+const formConfig = {
+  ...
+  chapters: {
+    nounPluralReplaceMeChapter: {
+      title: 'Noun Plural',
+      pages: nounPluralReplaceMePages
+    },
+  }
+}
+```
+
+### Step 2. Create either "required" pages flow or "optional" pages flow
+  - [Example Pages Required Flow](#example-code-required-flow)
+  - [Example Pages Optional Flow](#example-code-optional-flow)
+
+### Example Pages "Required" Flow
+You can copy this to a new file `pages/nounPluralReplaceMe.js` as a starting point, and then import to `config/form.js`
 ```js
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -168,8 +190,8 @@ export const nounPluralReplaceMePages = arrayBuilderPages(
 );
 ```
 
-## Example Code Optional Flow
-You can copy this to a new file `pages/nounPluralReplaceMe.jsx` as a starting point, and then import to `config/form.js`
+### Example Pages "Optional" Flow
+You can copy this to a new file `pages/nounPluralReplaceMe.js` as a starting point, and then import to `config/form.js`
 ```js
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -277,21 +299,6 @@ export const nounPluralReplaceMePages = arrayBuilderPages( options,
     }),
   }),
 );
-```
-
-## Example `config/form.js`
-```js
-import { nounPluralReplaceMePages } from '../pages/nounPluralReplaceMe';
-
-const formConfig = {
-  ...
-  chapters: {
-    nounPluralReplaceMeChapter: {
-      title: 'Noun Plural',
-      pages: nounPluralReplaceMePages
-    },
-  }
-}
 ```
 
 ## Web Component Patterns
