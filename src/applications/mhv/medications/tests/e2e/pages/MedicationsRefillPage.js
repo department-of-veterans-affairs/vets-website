@@ -13,6 +13,10 @@ class MedicationsRefillPage {
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
   };
 
+  loadRefillPageForApiCallFailure = () => {
+    cy.visit(medicationsUrls.MEDICATIONS_REFILL);
+  };
+
   verifyRefillPageTitle = () => {
     cy.get('[data-testid="refill-page-title"]').should(
       'contain',
@@ -64,9 +68,16 @@ class MedicationsRefillPage {
 
   clickLearnHowToRenewPrescriptionsLink = () => {
     cy.get('[data-testid="learn-to-renew-prescriptions-link"]').should('exist');
-    cy.get('[data-testid="learn-to-renew-prescriptions-link"]').click({
-      waitForAnimations: true,
-    });
+    cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
+      .first()
+      .click({
+        waitForAnimations: true,
+      });
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      medicationsList,
+    ).as('medicationsList');
   };
 
   clickGoToMedicationsListPage = () => {
@@ -82,9 +93,11 @@ class MedicationsRefillPage {
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
     cy.get('[data-testid="medications-page-link"]').should('exist');
-    cy.get('[data-testid="medications-page-link"]').click({
-      waitForAnimations: true,
-    });
+    cy.get('[data-testid="medications-page-link"]')
+      .first()
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   clickBackToMedicationsBreadcrumbOnRefillPage = () => {
@@ -209,9 +222,11 @@ class MedicationsRefillPage {
     cy.get(`[data-testid="medication-details-page-link-${listNumber}"]`).should(
       'exist',
     );
-    cy.get(`[data-testid="medication-details-page-link-${listNumber}"]`).click({
-      waitForAnimations: true,
-    });
+    cy.get(`[data-testid="medication-details-page-link-${listNumber}"]`)
+      .first()
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   verifyExpiredRxOnRenewSection = rxStatus => {
