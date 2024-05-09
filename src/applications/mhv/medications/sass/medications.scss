@@ -312,7 +312,7 @@ va-checkbox.select-all-checkbox::part(label) {
   padding: 5px 0 !important;
 }
 
-@mixin arrow-before($arrow-svg) {
+.include-back-arrow {
   &::before {
     content: "";
     display: inline-block;
@@ -330,8 +330,4 @@ va-checkbox.select-all-checkbox::part(label) {
     color: rgb(27, 27, 27);
     background: var(--vads-color-gray-medium);
   }
-}
-
-.include-back-arrow {
-  @include arrow-before(url("data:image/svg+xml,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%2224%22 height%3D%2224%22 viewBox%3D%220 0 24 24%22%3E%3Cpath d%3D%22M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z%22%2F%3E%3C%2Fsvg%3E"));
 }
