@@ -18,22 +18,14 @@ export class ConfirmationPage extends React.Component {
     const { fullName } = data;
 
     return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
-        </div>
+      <div className="vads-u-margin-bottom--9">
         <h2 className="vads-u-font-size--h3">
           Your application has been submitted
         </h2>
         <p>We may contact you for more information or documents.</p>
         <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
+        <va-summary-box uswds>
+          <h3 slot="headline" className="vads-u-margin-top--0">
             21P-0969 Income and Asset Statement Form Claim{' '}
             <span className="vads-u-font-weight--normal">(Form {formId})</span>
           </h3>
@@ -44,14 +36,15 @@ export class ConfirmationPage extends React.Component {
             </span>
           ) : null}
 
-          <button
-            type="button"
-            className="usa-button screen-only"
-            onClick={window.print}
-          >
-            Print this for your records
-          </button>
-        </div>
+          <va-button
+            uswds
+            class="screen-only vads-u-margin-top--2"
+            text="Print this page for your records"
+            onClick={() => {
+              window.print();
+            }}
+          />
+        </va-summary-box>
       </div>
     );
   }

@@ -1,4 +1,5 @@
 // import fullSchema from 'vets-json-schema/dist/21P-0969-schema.json';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import manifest from '../manifest.json';
 
@@ -16,9 +17,10 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'income-and-asset-statement-',
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21P-0969',
+  formId: VA_FORM_IDS.FORM_21P_0969,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your benefits application (21P-0969) is in progress.',
