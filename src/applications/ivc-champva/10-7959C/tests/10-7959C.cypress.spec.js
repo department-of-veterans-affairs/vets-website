@@ -17,7 +17,11 @@ const testConfig = createTestConfig(
     dataDir: path.join(__dirname, 'e2e', 'fixtures', 'data'),
 
     // Rename and modify the test data as needed.
-    dataSets: ['test-data'],
+    /* 
+    1. test-data: standard run-through of the form
+    2. no-secondary: no secondary insurance, certifierRole === 'applicant'
+       (skips all certifier + secondary ins pages) */
+    dataSets: ['test-data', 'no-secondary.json'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -69,7 +73,11 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            reviewAndSubmitPageFlow(data.certifierName);
+            const name =
+              data.certifierRole === 'applicant'
+                ? data.applicantName
+                : data.certifierName;
+            reviewAndSubmitPageFlow(name);
           });
         });
       },
