@@ -7,14 +7,13 @@ const ReplyBtn = props => {
       <li>
         <button
           type="button"
-          className="usa-button-secondary"
+          className="usa-button-secondary vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center"
           data-testid="reply-button-top"
           onClick={props.onReply}
         >
-          <i
-            className="fas fa-reply vads-u-margin-right--0p5"
-            aria-hidden="true"
-          />
+          <div className="vads-u-margin-right--0p5">
+            <va-icon icon="undo" aria-hidden="true" />
+          </div>
           <span
             className="message-action-button-text"
             data-testid="reply-button-text"
