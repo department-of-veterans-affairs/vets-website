@@ -58,6 +58,27 @@ function ChatbotIcon() {
   );
 }
 
+function CornerBot() {
+  return (
+    <>
+      <div id="corner-bot" className="fixed-header-chatbot hide">
+        <div
+          className="close-chatbot-button"
+          role="button"
+          tabIndex="-1"
+          onClick={() => showBot('bottom')}
+          aria-hidden="true"
+        >
+          <a href="#corner-bot">
+            <img src="/img/va-x.svg" alt="escape-chatbot" tabIndex="-1" />
+          </a>
+        </div>
+        <Chatbox />
+      </div>
+    </>
+  );
+}
+
 export default function FloatingBot() {
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
@@ -76,22 +97,7 @@ export default function FloatingBot() {
         </div>
 
         <ChatbotIcon />
-        <div id="corner-bot" className="fixed-header-chatbot hide">
-          <div
-            className="close-chatbot-button"
-            role="button"
-            tabIndex="-1"
-            onClick={() => {
-              showBot('bottom');
-            }}
-            aria-hidden="true"
-          >
-            <a href="#corner-bot">
-              <img src="/img/va-x.svg" alt="escape-chatbot" tabIndex="-1" />
-            </a>
-          </div>
-          <Chatbox />
-        </div>
+        <CornerBot />
       </div>
     </div>
   );

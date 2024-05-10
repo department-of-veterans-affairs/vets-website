@@ -2,21 +2,47 @@ import React from 'react';
 
 function CantDo() {
   return (
-    <p>
-      <ul>
-        <li>Determine if you have a medical or mental health condition</li>
-        <li>
-          Provide medical or mental health advice, treatment, or counseling
-        </li>
-        <li>
-          Answer questions or take reports about your prescriptions or side
-          effects
-        </li>
-        <li>Help you with a personal, medical, or mental health emergency</li>
-        <li>Transfer you directly to one of our call center representatives</li>
-        <li>Help you sign in to VA.gov</li>
-      </ul>
-    </p>
+    <>
+      <p>
+        <b>Our chatbot can’t do any of these things:</b>
+      </p>
+      <p>
+        <ul>
+          <li>Determine if you have a medical or mental health condition</li>
+          <li>
+            Provide medical or mental health advice, treatment, or counseling
+          </li>
+          <li>
+            Answer questions or take reports about your prescriptions or side
+            effects
+          </li>
+          <li>Help you with a personal, medical, or mental health emergency</li>
+          <li>
+            Transfer you directly to one of our call center representatives
+          </li>
+          <li>Help you sign in to VA.gov</li>
+        </ul>
+      </p>
+    </>
+  );
+}
+
+function Links() {
+  return (
+    <>
+      <p>
+        &ensp;
+        <a href="/resources/helpful-va-phone-numbers/">
+          Call us at one of our helpful VA phone numbers to speak to a
+          representative
+        </a>
+        <br />
+        &ensp;
+        <a href="/resources/signing-in-to-vagov/">
+          Learn how to sign in to VA.gov
+        </a>
+      </p>
+    </>
   );
 }
 
@@ -32,22 +58,8 @@ export default function WhatToExpect() {
         or one of our representatives. You can also visit our resources and
         support section for more information.
       </p>
-      <p>
-        <b>Our chatbot can’t do any of these things:</b>
-      </p>
       <CantDo />
-      <p>
-        &ensp;
-        <a href="/resources/helpful-va-phone-numbers/">
-          Call us at one of our helpful VA phone numbers to speak to a
-          representative
-        </a>
-        <br />
-        &ensp;
-        <a href="/resources/signing-in-to-vagov/">
-          Learn how to sign in to VA.gov
-        </a>
-      </p>
+      <Links />
     </>
   );
 }

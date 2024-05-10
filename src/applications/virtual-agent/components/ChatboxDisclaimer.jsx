@@ -4,6 +4,19 @@ import recordEvent from '@department-of-veterans-affairs/platform-monitoring/rec
 import { clearBotSessionStorage } from '../utils/sessionStorage';
 import { ACCEPTED } from '../reducers';
 
+function onClick(dispatch) {
+  recordEvent({
+    action: 'click',
+    'button-type': 'default',
+    event: 'cta-button-click',
+    'button-click-label': 'Start Chat',
+    'button-background-color': 'blue',
+    time: new Date(),
+  });
+  clearBotSessionStorage(true);
+  dispatch({ type: ACCEPTED });
+}
+
 function Disclaimer() {
   return (
     <ul>
@@ -38,18 +51,7 @@ export default function ChatboxDisclaimer() {
           data-testid="btnAcceptDisclaimer"
           className="usa-button-primary"
           text="Start chat"
-          onClick={() => {
-            recordEvent({
-              action: 'click',
-              'button-type': 'default',
-              event: 'cta-button-click',
-              'button-click-label': 'Start Chat',
-              'button-background-color': 'blue',
-              time: new Date(),
-            });
-            clearBotSessionStorage(true);
-            dispatch({ type: ACCEPTED });
-          }}
+          onClick={() => onClick(dispatch)}
         />
       </div>
     </va-alert>

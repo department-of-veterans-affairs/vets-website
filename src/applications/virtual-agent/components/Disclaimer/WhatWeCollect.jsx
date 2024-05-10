@@ -3,14 +3,17 @@ import React from 'react';
 function WhatWeKeep() {
   return (
     <>
-      <ul>
-        <li>A record of what you typed</li>
-        <li>Your answers to our survey questions</li>
-        <li>
-          How long you used our chatbot, the links you clicked on, and other
-          data
-        </li>
-      </ul>
+      <p>
+        <b>We keep only this information when you use our chatbot:</b>
+        <ul>
+          <li>A record of what you typed</li>
+          <li>Your answers to our survey questions</li>
+          <li>
+            How long you used our chatbot, the links you clicked on, and other
+            data
+          </li>
+        </ul>
+      </p>
     </>
   );
 }
@@ -18,17 +21,22 @@ function WhatWeKeep() {
 function Privacy() {
   return (
     <>
-      <ul>
-        <li>
-          We don’t collect any information that can be used to identify you.
-        </li>
-        <li>We don’t use your information to contact you.</li>
-        <li>
-          We combine your information with others as a summary to study for
-          ideas to improve our chatbot tool.
-        </li>
-        <li>We don’t share any of the information we collect outside of VA.</li>
-      </ul>
+      <p>
+        <b>We protect your privacy in these ways:</b>
+        <ul>
+          <li>
+            We don’t collect any information that can be used to identify you.
+          </li>
+          <li>We don’t use your information to contact you.</li>
+          <li>
+            We combine your information with others as a summary to study for
+            ideas to improve our chatbot tool.
+          </li>
+          <li>
+            We don’t share any of the information we collect outside of VA.
+          </li>
+        </ul>
+      </p>
     </>
   );
 }
@@ -43,14 +51,8 @@ export default function WhatWeCollect() {
         We use certain information you’ve provided to build better tools for
         Veterans, service members, and their families.
       </p>
-      <p>
-        <b>We keep only this information when you use our chatbot:</b>
-        <WhatWeKeep />
-      </p>
-      <p>
-        <b>We protect your privacy in these ways:</b>
-        <Privacy />
-      </p>
+      <WhatWeKeep />
+      <Privacy />
       <p>
         <b>Note:</b> You can help us protect your privacy and security by not
         typing any personal information into our chatbot. This includes your

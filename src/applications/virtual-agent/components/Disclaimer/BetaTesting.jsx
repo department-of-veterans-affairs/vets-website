@@ -1,5 +1,23 @@
 import React from 'react';
 
+function Links() {
+  return (
+    <ul>
+      <li>
+        <a href="/resources/helpful-va-phone-numbers/">
+          Call us at one of our helpful VA phone numbers
+        </a>
+      </li>
+      <li>
+        <a href="https://ask.va.gov/">Contact us online through Ask VA</a>
+      </li>
+      <li>
+        <a href="/resources/">Explore our resources and support content</a>
+      </li>
+    </ul>
+  );
+}
+
 export default function BetaTesting() {
   return (
     <>
@@ -16,19 +34,7 @@ export default function BetaTesting() {
           can’t answer right now,{' '}
         </b>
         you can get the information in any of these ways:
-        <ul>
-          <li>
-            <a href="/resources/helpful-va-phone-numbers/">
-              Call us at one of our helpful VA phone numbers
-            </a>
-          </li>
-          <li>
-            <a href="https://ask.va.gov/">Contact us online through Ask VA</a>
-          </li>
-          <li>
-            <a href="/resources/">Explore our resources and support content</a>
-          </li>
-        </ul>
+        <Links />
       </p>
     </>
   );
