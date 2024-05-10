@@ -293,6 +293,7 @@ describe('showRevisedNewDisabilitiesPage', () => {
       />,
     );
     expect($('div.autosuggest-container', form)).to.exist;
+    expect($('va-text-input', form)).to.exist;
   });
 
   describe('toggle enabled', () => {
