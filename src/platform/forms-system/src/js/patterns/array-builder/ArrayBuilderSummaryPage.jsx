@@ -9,6 +9,7 @@ import get from '~/platform/utilities/data/get';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import environment from 'platform/utilities/environment';
 import ArrayBuilderCards from './ArrayBuilderCards';
 import {
   createArrayBuilderItemAddPath,
@@ -128,20 +129,36 @@ export default function ArrayBuilderSummaryPage({
           setShowUpdatedAlert(updateItemIndex != null);
         }
       },
-      [updatedNounSingular, updateItemIndex],
+      [updatedNounSingular, updateItemIndex, nounSingular],
     );
 
     useEffect(
       () => {
         let timeout;
-        if (showUpdatedAlert && updateItemIndex != null && updatedAlertRef) {
+
+        // remove me: temporary test to debug an issue with alerts
+        // not showing up on staging
+        if (!environment.isProduction) {
+          // eslint-disable-next-line no-console
+          console.log('Alert debugger: ', {
+            showUpdatedAlert,
+            updateItemIndex,
+            ref: updatedAlertRef.current,
+          });
+        }
+
+        if (
+          showUpdatedAlert &&
+          updateItemIndex != null &&
+          updatedAlertRef.current
+        ) {
           timeout = setTimeout(() => {
             scrollAndFocus(updatedAlertRef.current);
           }, 300);
         }
         return () => timeout && clearTimeout(timeout);
       },
-      [showUpdatedAlert],
+      [showUpdatedAlert, updateItemIndex, updatedAlertRef.current],
     );
 
     useEffect(
@@ -208,7 +225,7 @@ export default function ArrayBuilderSummaryPage({
       // alert
       setShowUpdatedAlert(false);
 
-      setRemovedItemText(getText('alertItemRemoved', item));
+      setRemovedItemText(getText('alertItemDeleted', item));
       setRemovedItemIndex(index);
       setShowRemovedAlert(true);
       requestAnimationFrame(() => {
