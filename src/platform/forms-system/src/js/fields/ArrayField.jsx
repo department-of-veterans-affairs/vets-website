@@ -394,11 +394,7 @@ export default class ArrayField extends React.Component {
             const isEditing = this.state.editing[index];
             const isRemoving = this.state.removing[index];
 
-            const ariaLabel = uiOptions.itemAriaLabel;
-            const ariaItemName =
-              (typeof ariaLabel === 'function' && ariaLabel(item || {})) ||
-              uiItemName;
-            let distinguishedAriaItemName = `${ariaItemName} ${index + 1}`;
+            let distinguishedAriaItemName = `${uiItemName} ${index + 1}`;
             if (
               uiOptions.itemAriaLabelDescriptorPath &&
               item[uiOptions.itemAriaLabelDescriptorPath]
@@ -406,6 +402,13 @@ export default class ArrayField extends React.Component {
               distinguishedAriaItemName += ` ${
                 item[uiOptions.itemAriaLabelDescriptorPath]
               }`;
+            }
+            // providing itemAriaLabel will replace the aria label logic above
+            if (
+              typeof uiOptions.itemAriaLabel === 'function' &&
+              uiOptions.itemAriaLabel(item || {})
+            ) {
+              distinguishedAriaItemName = uiOptions.itemAriaLabel(item || {});
             }
 
             const multipleRows = items.length > 1;
