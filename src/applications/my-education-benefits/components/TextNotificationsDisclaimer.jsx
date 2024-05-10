@@ -32,7 +32,7 @@ function TextNotificationsDisclaimer() {
       </p>
       <p>
         <strong>Note:</strong> At this time, we can only send text messages to
-        U.S. mobile phone numbers.
+        U.S. mobile phone numbers
       </p>
     </>
   );
