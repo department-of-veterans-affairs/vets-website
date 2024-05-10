@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/browser';
 
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import constants from 'vets-json-schema/dist/constants.json';
+import { usePrevious } from '~/platform/utilities/react-hooks';
 import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
 import { focusElement } from '~/platform/utilities/ui';
@@ -31,6 +32,7 @@ const VaMedicalCenter = props => {
   const [facilities, setFacilities] = useState([]);
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
+  const [localData, setLocalData] = useState(formData);
 
   // define our error message(s)
   const errorMessages = { required: 'Please provide a response' };
@@ -49,11 +51,10 @@ const VaMedicalCenter = props => {
   const handleChange = useCallback(
     event => {
       const fieldName = event.target.name.split('_').pop();
-      formData[fieldName] = event.target.value;
+      setLocalData({ ...localData, [fieldName]: event.target.value });
       addDirtyField(fieldName);
-      onChange(formData);
     },
-    [addDirtyField, formData, onChange],
+    [addDirtyField, localData, onChange],
   );
 
   // define our non-checkbox input blur event
@@ -72,8 +73,8 @@ const VaMedicalCenter = props => {
     const shouldValidate = (submitted || fieldIsDirty) && errorList.length;
 
     // validate only if field is dirty or form has been submitted
-    if (shouldValidate && reqFields.includes(field) && !formData[field]) {
-      return errorMessages[field].required;
+    if (shouldValidate && reqFields.includes(field) && !localData[field]) {
+      return errorMessages.required;
     }
 
     return false;
@@ -88,10 +89,25 @@ const VaMedicalCenter = props => {
     [facilities],
   );
 
+  useEffect(
+    () => {
+      // To prevent submissions with values missing, we need to manually blank this.
+      //   Unsetting the select's value sets it to '', but the form only blocks
+      //   submission if the value is null or undefined. Without this, the form allows
+      //   Continuing with both values set, going Back, unsetting the Facility, and then
+      //   Continuing again, resulting in a State but no Facility.
+      const vaMedicalFacility = localData.vaMedicalFacility || undefined;
+      onChange({ ...localData, vaMedicalFacility });
+    },
+    [localData],
+  );
+
+  const previousFacilityState = usePrevious(localData['view:facilityState']);
+
   // fetch, map and set our list of facilities based on the state selection
   useEffect(
     () => {
-      const { 'view:facilityState': facilityState } = formData;
+      const { 'view:facilityState': facilityState } = localData;
       if (facilityState) {
         isLoading(true);
         apiRequest(`${apiRequestWithUrl}&state=${facilityState}`, {})
@@ -102,6 +118,12 @@ const VaMedicalCenter = props => {
             }));
           })
           .then(data => {
+            if (
+              previousFacilityState &&
+              previousFacilityState !== facilityState
+            ) {
+              setLocalData({ ...localData, vaMedicalFacility: undefined });
+            }
             setFacilities(data);
             isLoading(false);
           })
@@ -120,15 +142,15 @@ const VaMedicalCenter = props => {
         isLoading(false);
       }
     },
-    [formData],
+    [localData['view:facilityState']],
   );
 
   // render the static facility name on review page
   if (reviewMode) {
     return (
       <VaMedicalCenterReviewField
-        facilityName={getFacilityName(formData.vaMedicalFacility)}
-        state={formData['view:facilityState']}
+        facilityName={getFacilityName(localData.vaMedicalFacility)}
+        stateCode={localData['view:facilityState']}
       />
     );
   }
@@ -156,7 +178,7 @@ const VaMedicalCenter = props => {
       <VaSelect
         id={idSchema['view:facilityState'].$id}
         name={idSchema['view:facilityState'].$id}
-        value={formData['view:facilityState']}
+        value={localData['view:facilityState']}
         label="State"
         error={showError('view:facilityState') || null}
         onVaSelect={handleChange}
@@ -164,10 +186,10 @@ const VaMedicalCenter = props => {
         required
         uswds
       >
-        {constants.states.USA.filter(state => {
-          return !STATES_WITHOUT_MEDICAL.includes(state.value) ? (
-            <option key={state.value} value={state.value}>
-              {state.label}
+        {constants.states.USA.map(s => {
+          return !STATES_WITHOUT_MEDICAL.includes(s.value) ? (
+            <option key={s.value} value={s.value}>
+              {s.label}
             </option>
           ) : null;
         })}
@@ -176,7 +198,7 @@ const VaMedicalCenter = props => {
       <VaSelect
         id={idSchema.vaMedicalFacility.$id}
         name={idSchema.vaMedicalFacility.$id}
-        value={formData.vaMedicalFacility}
+        value={localData.vaMedicalFacility}
         label="Center or clinic"
         error={showError('vaMedicalFacility') || null}
         onVaSelect={handleChange}
