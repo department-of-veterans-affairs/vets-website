@@ -12,7 +12,6 @@ import {
 } from 'applications/static-pages/wizard';
 import { connect } from 'react-redux';
 import VARadioButton from '../utils/VaRadioButton';
-import { showMebDgi40Feature } from '../selectors/educationWizard';
 
 const levels = [
   ['newBenefit'],
@@ -61,11 +60,7 @@ class EducationWizard extends React.Component {
         url = `/education/apply-for-benefits-form-22-1990`;
         break;
       case '1990E':
-        if (this?.props.showMebDgi40Feature) {
-          url = `/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e`;
-          break;
-        }
-        url = `/education/apply-for-education-benefits/application/${form}`;
+        url = `/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e`;
         break;
       default:
         url = `/education/apply-for-education-benefits/application/${form}`;
@@ -466,8 +461,4 @@ class EducationWizard extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  showMebDgi40Feature: showMebDgi40Feature(state),
-});
-
-export default connect(mapStateToProps)(EducationWizard);
+export default connect(EducationWizard);

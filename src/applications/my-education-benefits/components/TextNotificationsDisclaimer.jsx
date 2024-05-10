@@ -1,14 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-
 import { getAppData } from '../selectors/selectors';
 
-function TextNotificationsDisclaimer({ showMebDgi40Features }) {
-  if (!showMebDgi40Features) {
-    return <></>;
-  }
-
+function TextNotificationsDisclaimer() {
   return (
     <>
       <h4>What to know about text notifications</h4>
@@ -38,15 +32,11 @@ function TextNotificationsDisclaimer({ showMebDgi40Features }) {
       </p>
       <p>
         <strong>Note:</strong> At this time, we can only send text messages to
-        U.S. mobile phone numbers
+        U.S. mobile phone numbers.
       </p>
     </>
   );
 }
-
-TextNotificationsDisclaimer.propTypes = {
-  showMebDgi40Features: PropTypes.bool,
-};
 
 const mapStateToProps = state => getAppData(state);
 
