@@ -31,7 +31,7 @@ describe('526EZ keyboard only navigation', () => {
 
     // `mockItf` is not a fixture; it can't be loaded as a fixture
     // because fixtures don't evaluate JS.
-    cy.intercept('GET', '/v0/intent_to_file', mockItf);
+    cy.intercept('GET', '/v0/intent_to_file', mockItf());
 
     cy.intercept('PUT', `${MOCK_SIPS_API}*`, mockInProgress);
 
