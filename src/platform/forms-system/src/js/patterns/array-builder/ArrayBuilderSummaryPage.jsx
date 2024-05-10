@@ -303,7 +303,6 @@ export default function ArrayBuilderSummaryPage({
                 <h4
                   className="form-review-panel-page-header vads-u-font-size--h5"
                   data-title-for-noun-singular={`${nounSingular}`}
-                  f
                 >
                   {getText('summaryTitle', updatedItemData)}
                 </h4>
