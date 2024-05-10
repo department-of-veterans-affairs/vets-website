@@ -18,11 +18,17 @@ const props = {
 };
 
 describe('<OverviewPage>', () => {
-  const store = createStore(() => ({}));
+  const getStore = (cstClaimPhasesEnabled = true) =>
+    createStore(() => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        cst_claim_phases: cstClaimPhasesEnabled,
+      },
+    }));
 
   it('should render null when claim empty', () => {
     const { container, getByText } = renderWithRouter(
-      <Provider store={store}>
+      <Provider store={getStore()}>
         <OverviewPage {...props} />
       </Provider>,
     );
@@ -35,7 +41,7 @@ describe('<OverviewPage>', () => {
 
   it('should render null when claim is null', () => {
     const { container, getByText } = renderWithRouter(
-      <Provider store={store}>
+      <Provider store={getStore()}>
         <OverviewPage {...props} claim={null} />
       </Provider>,
     );
@@ -46,106 +52,228 @@ describe('<OverviewPage>', () => {
     getByText('Claim status is unavailable');
   });
 
-  context('when claim is closed', () => {
-    const claim = {
-      id: '1',
-      attributes: {
-        claimDate: '2023-01-01',
-        claimPhaseDates: {
-          currentPhaseBack: false,
-          phaseChangeDate: '2023-01-10',
-          latestPhaseType: 'Complete',
-          previousPhases: {
-            phase7CompleteDate: '2023-01-10',
+  context('cstClaimPhases feature flag enabled', () => {
+    context('when claim is closed', () => {
+      const claim = {
+        id: '1',
+        attributes: {
+          claimDate: '2023-01-01',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2023-01-10',
+            latestPhaseType: 'Complete',
+            previousPhases: {
+              phase7CompleteDate: '2023-01-10',
+            },
           },
+          closeDate: '2023-01-10',
+          decisionLetterSent: false,
+          status: 'COMPLETE',
+          supportingDocuments: [],
+          trackedItems: [],
         },
-        closeDate: '2023-01-10',
-        decisionLetterSent: false,
-        status: 'COMPLETE',
-        supportingDocuments: [],
-        trackedItems: [],
-      },
-    };
+      };
 
-    it('should render empty content when loading', () => {
-      const { container } = renderWithRouter(
-        <Provider store={store}>
-          <OverviewPage {...props} claim={claim} loading />
-        </Provider>,
-      );
-      const overviewSection = $('.overview-container', container);
-      expect(overviewSection).to.not.exist;
-      expect($('va-loading-indicator', container)).to.exist;
+      it('should render empty content when loading', () => {
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage {...props} claim={claim} loading />
+          </Provider>,
+        );
+        const overviewSection = $('.overview-container', container);
+        expect(overviewSection).to.not.exist;
+        expect($('va-loading-indicator', container)).to.exist;
+      });
+
+      it('should render overview header, claim phase diagram and timeline', () => {
+        const { container, getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage {...props} claim={claim} />
+          </Provider>,
+        );
+        const overviewPage = $('#tabPanelFiles', container);
+        expect(overviewPage).to.exist;
+        getByText('Overview of the claim process');
+        getByText(
+          'There are 8 steps in the claim process. It’s common for claims to repeat steps 3 to 6 if we need more information.',
+        );
+        expect($('.claim-phase-diagram', container)).to.exist;
+        expect($('.claim-timeline', container)).to.exist;
+      });
     });
+    context('when claim is open', () => {
+      const claim = {
+        id: '1',
+        attributes: {
+          claimDate: '2023-01-01',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2023-02-08',
+            latestPhaseType: 'UNDER_REVIEW',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+            },
+          },
+          closeDate: null,
+          decisionLetterSent: true,
+          status: 'UNDER_REVIEW',
+          supportingDocuments: [],
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2023-02-01',
+              status: 'INITIAL_REVIEW_COMPLETE',
+              displayName: 'Initial review complete Request',
+            },
+            {
+              id: 2,
+              requestedDate: '2023-02-01',
+              status: 'INITIAL_REVIEW_COMPLETE',
+              displayName: 'Initial review complete Request',
+            },
+          ],
+        },
+      };
 
-    it('should render overview header and timeline', () => {
-      const { container, getByText } = renderWithRouter(
-        <Provider store={store}>
-          <OverviewPage {...props} claim={claim} />
-        </Provider>,
-      );
-      const overviewPage = $('#tabPanelFiles', container);
-      expect(overviewPage).to.exist;
-      getByText('Overview of the claim process');
-      expect($('.claim-timeline', container)).to.exist;
+      it('should render empty content when loading', () => {
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage claim={claim} {...props} loading />
+          </Provider>,
+        );
+        const overviewSection = $('.overview-container', container);
+        expect(overviewSection).to.not.exist;
+        expect($('va-loading-indicator', container)).to.exist;
+      });
+
+      it('should render overview header, claim phase diagram and timeline', () => {
+        const { container, getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage {...props} claim={claim} />
+          </Provider>,
+        );
+        const overviewPage = $('#tabPanelFiles', container);
+        expect(overviewPage).to.exist;
+        getByText('Overview of the claim process');
+        getByText(
+          'There are 8 steps in the claim process. It’s common for claims to repeat steps 3 to 6 if we need more information.',
+        );
+        expect($('.claim-phase-diagram', container)).to.exist;
+        expect($('.claim-timeline', container)).to.exist;
+      });
     });
   });
 
-  context('when claim is open', () => {
-    const claim = {
-      id: '1',
-      attributes: {
-        claimDate: '2023-01-01',
-        claimPhaseDates: {
-          currentPhaseBack: false,
-          phaseChangeDate: '2023-02-08',
-          latestPhaseType: 'INITIAL_REVIEW',
-          previousPhases: {
-            phase1CompleteDate: '2023-02-08',
+  context('cstClaimPhases feature flag enabled', () => {
+    context('when claim is closed', () => {
+      const claim = {
+        id: '1',
+        attributes: {
+          claimDate: '2023-01-01',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2023-01-10',
+            latestPhaseType: 'Complete',
+            previousPhases: {
+              phase7CompleteDate: '2023-01-10',
+            },
           },
+          closeDate: '2023-01-10',
+          decisionLetterSent: false,
+          status: 'COMPLETE',
+          supportingDocuments: [],
+          trackedItems: [],
         },
-        closeDate: null,
-        decisionLetterSent: true,
-        status: 'INITIAL_REVIEW',
-        supportingDocuments: [],
-        trackedItems: [
-          {
-            id: 1,
-            requestedDate: '2023-02-01',
-            status: 'INITIAL_REVIEW_COMPLETE',
-            displayName: 'Initial review complete Request',
-          },
-          {
-            id: 2,
-            requestedDate: '2023-02-01',
-            status: 'INITIAL_REVIEW_COMPLETE',
-            displayName: 'Initial review complete Request',
-          },
-        ],
-      },
-    };
+      };
 
-    it('should render empty content when loading', () => {
-      const { container } = renderWithRouter(
-        <Provider store={store}>
-          <OverviewPage claim={claim} {...props} loading />
-        </Provider>,
-      );
-      const overviewSection = $('.overview-container', container);
-      expect(overviewSection).to.not.exist;
-      expect($('va-loading-indicator', container)).to.exist;
+      it('should render empty content when loading', () => {
+        const { container } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <OverviewPage {...props} claim={claim} loading />
+          </Provider>,
+        );
+        const overviewSection = $('.overview-container', container);
+        expect(overviewSection).to.not.exist;
+        expect($('va-loading-indicator', container)).to.exist;
+      });
+
+      it('should render overview header and timeline', () => {
+        const { container, getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <OverviewPage {...props} claim={claim} />
+          </Provider>,
+        );
+        const overviewPage = $('#tabPanelFiles', container);
+        expect(overviewPage).to.exist;
+        getByText('Overview of the claim process');
+        getByText(
+          'Learn about the VA claim process and what happens after you file your claim.',
+        );
+        expect($('.claim-phase-diagram', container)).to.not.exist;
+        expect($('.claim-timeline', container)).to.exist;
+      });
     });
 
-    it('should render overview header and timeline', () => {
-      const { container, getByText } = renderWithRouter(
-        <Provider store={store}>
-          <OverviewPage {...props} claim={claim} />
-        </Provider>,
-      );
-      const overviewPage = $('#tabPanelFiles', container);
-      expect(overviewPage).to.exist;
-      getByText('Overview of the claim process');
-      expect($('.claim-timeline', container)).to.exist;
+    context('when claim is open', () => {
+      const claim = {
+        id: '1',
+        attributes: {
+          claimDate: '2023-01-01',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2023-02-08',
+            latestPhaseType: 'UNDER_REVIEW',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+            },
+          },
+          closeDate: null,
+          decisionLetterSent: true,
+          status: 'UNDER_REVIEW',
+          supportingDocuments: [],
+          trackedItems: [
+            {
+              id: 1,
+              requestedDate: '2023-02-01',
+              status: 'INITIAL_REVIEW_COMPLETE',
+              displayName: 'Initial review complete Request',
+            },
+            {
+              id: 2,
+              requestedDate: '2023-02-01',
+              status: 'INITIAL_REVIEW_COMPLETE',
+              displayName: 'Initial review complete Request',
+            },
+          ],
+        },
+      };
+
+      it('should render empty content when loading', () => {
+        const { container } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <OverviewPage claim={claim} {...props} loading />
+          </Provider>,
+        );
+        const overviewSection = $('.overview-container', container);
+        expect(overviewSection).to.not.exist;
+        expect($('va-loading-indicator', container)).to.exist;
+      });
+
+      it('should render overview header and timeline', () => {
+        const { container, getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <OverviewPage {...props} claim={claim} />
+          </Provider>,
+        );
+        const overviewPage = $('#tabPanelFiles', container);
+        expect(overviewPage).to.exist;
+        getByText('Overview of the claim process');
+        getByText(
+          'Learn about the VA claim process and what happens after you file your claim.',
+        );
+        expect($('.claim-phase-diagram', container)).to.not.exist;
+        expect($('.claim-timeline', container)).to.exist;
+      });
     });
   });
 });

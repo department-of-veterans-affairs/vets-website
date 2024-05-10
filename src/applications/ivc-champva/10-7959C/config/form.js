@@ -127,22 +127,19 @@ const formConfig = {
           path: 'your-information/address',
           title: 'Your mailing address',
           depends: formData => get('certifierRole', formData) !== 'applicant',
-          uiSchema: certifierAddress.uiSchema,
-          schema: certifierAddress.schema,
+          ...certifierAddress,
         },
         phoneEmail: {
           path: 'your-information/phone-email',
           title: 'Your phone number',
           depends: formData => get('certifierRole', formData) !== 'applicant',
-          uiSchema: certifierPhoneEmail.uiSchema,
-          schema: certifierPhoneEmail.schema,
+          ...certifierPhoneEmail,
         },
         relationship: {
           path: 'your-information/relationship',
           title: 'Your relationship to the applicant',
           depends: formData => get('certifierRole', formData) !== 'applicant',
-          uiSchema: certifierRelationship.uiSchema,
-          schema: certifierRelationship.schema,
+          ...certifierRelationship,
         },
       },
     },
@@ -155,21 +152,18 @@ const formConfig = {
             `${
               formData.certifierRole === 'applicant' ? 'Your' : 'Applicant'
             } name and date of birth`,
-          uiSchema: applicantNameDobSchema.uiSchema,
-          schema: applicantNameDobSchema.schema,
+          ...applicantNameDobSchema,
         },
         applicantIdentity: {
           path: 'applicant-information/ssn',
           title: formData =>
             `${nameWording(formData)} identification information`,
-          uiSchema: applicantSsnSchema.uiSchema,
-          schema: applicantSsnSchema.schema,
+          ...applicantSsnSchema,
         },
         applicantAddressInfo: {
           path: 'applicant-information/address',
           title: formData => `${nameWording(formData)} mailing address`,
-          uiSchema: applicantAddressInfoSchema.uiSchema,
-          schema: applicantAddressInfoSchema.schema,
+          ...applicantAddressInfoSchema,
         },
 
         //
@@ -181,8 +175,7 @@ const formConfig = {
         applicantContactInfo: {
           path: 'applicant-information/contact',
           title: formData => `${nameWording(formData)} contact information`,
-          uiSchema: applicantContactInfoSchema.uiSchema,
-          schema: applicantContactInfoSchema.schema,
+          ...applicantContactInfoSchema,
         },
       },
     },
@@ -192,8 +185,7 @@ const formConfig = {
         hasMedicareAB: {
           path: 'medicare-ab',
           title: formData => `${nameWording(formData)} Medicare status`,
-          uiSchema: applicantHasMedicareABSchema.uiSchema,
-          schema: applicantHasMedicareABSchema.schema,
+          ...applicantHasMedicareABSchema,
         },
         // If 'no' to previous question:
         medicareABContext: {
@@ -201,16 +193,14 @@ const formConfig = {
           title: formData => `${nameWording(formData)} Medicare status`,
           depends: formData =>
             get('applicantMedicareStatus', formData) === false,
-          uiSchema: applicantMedicareABContextSchema.uiSchema,
-          schema: applicantMedicareABContextSchema.schema,
+          ...applicantMedicareABContextSchema,
         },
         // If 'yes' to previous question:
         partACarrier: {
           path: 'carrier-a',
           title: formData => `${nameWording(formData)} Medicare Part A carrier`,
           depends: formData => get('applicantMedicareStatus', formData),
-          uiSchema: applicantMedicarePartACarrierSchema.uiSchema,
-          schema: applicantMedicarePartACarrierSchema.schema,
+          ...applicantMedicarePartACarrierSchema,
         },
         // If ineligible and over 65, require user to upload proof of ineligibility
         medicareIneligible: {
@@ -230,23 +220,20 @@ const formConfig = {
           path: 'carrier-b',
           title: formData => `${nameWording(formData)} Medicare Part B carrier`,
           depends: formData => get('applicantMedicareStatus', formData),
-          uiSchema: applicantMedicarePartBCarrierSchema.uiSchema,
-          schema: applicantMedicarePartBCarrierSchema.schema,
+          ...applicantMedicarePartBCarrierSchema,
         },
         pharmacyBenefits: {
           path: 'pharmacy',
           title: formData =>
             `${nameWording(formData)} Medicare pharmacy benefits`,
           depends: formData => get('applicantMedicareStatus', formData),
-          uiSchema: applicantMedicarePharmacySchema.uiSchema,
-          schema: applicantMedicarePharmacySchema.schema,
+          ...applicantMedicarePharmacySchema,
         },
         advantagePlan: {
           path: 'advantage',
           title: formData => `${nameWording(formData)} Medicare coverage`,
           depends: formData => get('applicantMedicareStatus', formData),
-          uiSchema: applicantMedicareAdvantageSchema.uiSchema,
-          schema: applicantMedicareAdvantageSchema.schema,
+          ...applicantMedicareAdvantageSchema,
         },
         medicareABCards: {
           path: 'ab-upload',
@@ -260,8 +247,7 @@ const formConfig = {
           path: 'medicare-d',
           title: formData => `${nameWording(formData)} Medicare status`,
           depends: formData => get('applicantMedicareStatus', formData),
-          uiSchema: applicantHasMedicareDSchema.uiSchema,
-          schema: applicantHasMedicareDSchema.schema,
+          ...applicantHasMedicareDSchema,
         },
         partDCarrier: {
           path: 'carrier-d',
@@ -269,8 +255,7 @@ const formConfig = {
           depends: formData =>
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
-          uiSchema: applicantMedicarePartDCarrierSchema.uiSchema,
-          schema: applicantMedicarePartDCarrierSchema.schema,
+          ...applicantMedicarePartDCarrierSchema,
         },
         medicareDCards: {
           path: 'd-upload',
