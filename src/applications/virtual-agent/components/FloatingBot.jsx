@@ -17,21 +17,52 @@ const showBot = botPosition => {
   }
 };
 
+function ScrollToChatbot() {
+  return (
+    <div className="jumplink unhide vads-l-col--12 vads-u-display--block medium-screen:vads-u-display--none">
+      <a href="#chatbot">Scroll to Chatbot</a>
+    </div>
+  );
+}
+
+function GoToChatbot() {
+  return (
+    <a
+      className="show-on-focus"
+      href="#chatbot"
+      onClick={() => {
+        showBot('corner');
+      }}
+    >
+      Go to Chatbot
+    </a>
+  );
+}
+
+function ChatbotIcon() {
+  return (
+    <div
+      id="chatbot-icon"
+      tabIndex="-1"
+      role="button"
+      className="chatbot-icon unhide vads-l-col--12 vads-u-display--none medium-screen:vads-u-display--block"
+      onClick={() => {
+        showBot('corner');
+      }}
+      aria-hidden="true"
+    >
+      <a href="#chatbot-icon">
+        <img src="/img/va-chat.png" alt="openchatbot" />
+      </a>
+    </div>
+  );
+}
+
 export default function FloatingBot() {
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <div className="jumplink unhide vads-l-col--12 vads-u-display--block medium-screen:vads-u-display--none">
-        <a href="#chatbot">Scroll to Chatbot</a>
-      </div>
-      <a
-        className="show-on-focus"
-        href="#chatbot"
-        onClick={() => {
-          showBot('corner');
-        }}
-      >
-        Go to Chatbot
-      </a>
+      <ScrollToChatbot />
+      <GoToChatbot />
       <div className="vads-l-row vads-u-margin-x--neg2p5 vads-u-margin-y--4 medium-screen:vads-u-display-none">
         <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--7">
           <Disclaimer />
@@ -44,20 +75,7 @@ export default function FloatingBot() {
           <Chatbox />
         </div>
 
-        <div
-          id="chatbot-icon"
-          tabIndex="-1"
-          role="button"
-          className="chatbot-icon unhide vads-l-col--12 vads-u-display--none medium-screen:vads-u-display--block"
-          onClick={() => {
-            showBot('corner');
-          }}
-          aria-hidden="true"
-        >
-          <a href="#chatbot-icon">
-            <img src="/img/va-chat.png" alt="openchatbot" />
-          </a>
-        </div>
+        <ChatbotIcon />
         <div id="corner-bot" className="fixed-header-chatbot hide">
           <div
             className="close-chatbot-button"
