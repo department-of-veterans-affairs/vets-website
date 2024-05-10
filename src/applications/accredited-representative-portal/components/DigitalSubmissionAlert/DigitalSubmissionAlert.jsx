@@ -1,11 +1,14 @@
 import React from 'react';
 
-const DigitalSubmissionInfo = () => (
-  <va-alert status="info" visible>
-    <h2 slot="headline">
+const DigitalSubmissionAlert = () => (
+  <va-alert data-testid="digital-submission-alert" status="info" visible>
+    <h2 data-testid="digital-submission-alert-heading" slot="headline">
       Veterans can now digitally submit form 21-22 from VA.gov
     </h2>
-    <p className="vads-u-margin-y--0">
+    <p
+      data-testid="digital-submission-alert-description"
+      className="vads-u-margin-y--0"
+    >
       Veterans can now{' '}
       <a href="https://www.va.gov/get-help-from-accredited-representative/find-rep/">
         find a VSO
@@ -20,4 +23,4 @@ const DigitalSubmissionInfo = () => (
   </va-alert>
 );
 
-export default DigitalSubmissionInfo;
+export default DigitalSubmissionAlert;
