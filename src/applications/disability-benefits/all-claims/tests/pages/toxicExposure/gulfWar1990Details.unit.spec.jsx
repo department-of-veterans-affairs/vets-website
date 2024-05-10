@@ -31,59 +31,66 @@ describe('gulfWar1990Details', () => {
     },
   };
 
-  Object.keys(GULF_WAR_1990_LOCATIONS)
-    .filter(locationId => locationId !== 'none')
-    .forEach(locationId => {
-      it(`should render for ${locationId}`, () => {
-        const { container, getByText } = render(
-          <DefinitionTester
-            schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
-            uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
-            data={formData}
-          />,
+  Object.keys(GULF_WAR_1990_LOCATIONS).forEach(locationId => {
+    const pageSchema = schemas[`gulf-war-1990-location-${locationId}`];
+    it(`should render for ${locationId}`, () => {
+      const { container, getByText } = render(
+        <DefinitionTester
+          schema={pageSchema.schema}
+          uiSchema={pageSchema.uiSchema}
+          data={formData}
+        />,
+      );
+
+      getByText(gulfWar1990PageTitle);
+      getByText(dateRangeDescription);
+
+      const addlInfo = container.querySelector('va-additional-info');
+      expect(addlInfo).to.have.attribute(
+        'trigger',
+        'What if I have more than one date range?',
+      );
+
+      expect($(`va-memorable-date[label="${startDateApproximate}"]`, container))
+        .to.exist;
+      expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
+        .to.exist;
+
+      if (locationId === 'afghanistan') {
+        getByText(`Location 1 of 2: ${GULF_WAR_1990_LOCATIONS.afghanistan}`, {
+          exact: false,
+        });
+        expect(pageSchema.title(formData)).to.equal(
+          `Location 1 of 2: ${GULF_WAR_1990_LOCATIONS.afghanistan}`,
         );
-
-        getByText(gulfWar1990PageTitle);
-        getByText(dateRangeDescription);
-
-        const addlInfo = container.querySelector('va-additional-info');
-        expect(addlInfo).to.have.attribute(
-          'trigger',
-          'What if I have more than one date range?',
+      } else if (locationId === 'airspace') {
+        getByText(`Location 2 of 2: ${GULF_WAR_1990_LOCATIONS.airspace}`, {
+          exact: false,
+        });
+        expect(pageSchema.title(formData)).to.equal(
+          `Location 2 of 2: ${GULF_WAR_1990_LOCATIONS.airspace}`,
         );
-
-        expect(
-          $(`va-memorable-date[label="${startDateApproximate}"]`, container),
-        ).to.exist;
-        expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
-          .to.exist;
-
-        if (locationId === 'afghanistan') {
-          getByText(`1 of 2: ${GULF_WAR_1990_LOCATIONS.afghanistan}`, {
-            exact: false,
-          });
-        } else if (locationId === 'airspace') {
-          getByText(`2 of 2: ${GULF_WAR_1990_LOCATIONS.airspace}`, {
-            exact: false,
-          });
-        } else {
-          getByText(GULF_WAR_1990_LOCATIONS[locationId]);
-        }
-      });
-
-      it(`should submit without dates for ${locationId}`, () => {
-        const onSubmit = sinon.spy();
-        const { getByText } = render(
-          <DefinitionTester
-            schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
-            uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
-            data={formData}
-            onSubmit={onSubmit}
-          />,
+      } else {
+        getByText(GULF_WAR_1990_LOCATIONS[locationId]);
+        expect(pageSchema.title(formData)).to.equal(
+          `${GULF_WAR_1990_LOCATIONS[locationId]}`,
         );
-
-        userEvent.click(getByText('Submit'));
-        expect(onSubmit.calledOnce).to.be.true;
-      });
+      }
     });
+
+    it(`should submit without dates for ${locationId}`, () => {
+      const onSubmit = sinon.spy();
+      const { getByText } = render(
+        <DefinitionTester
+          schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
+          uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
+          data={formData}
+          onSubmit={onSubmit}
+        />,
+      );
+
+      userEvent.click(getByText('Submit'));
+      expect(onSubmit.calledOnce).to.be.true;
+    });
+  });
 });
