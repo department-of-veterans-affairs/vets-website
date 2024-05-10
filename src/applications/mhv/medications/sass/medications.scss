@@ -307,6 +307,11 @@
 
 .refillable-prescription-item {
   display: flex !important;
+  align-items: baseline;
+
+  &::before {
+    min-width: 2rem;
+  }
 }
 
 va-checkbox.select-all-checkbox::part(label) {
