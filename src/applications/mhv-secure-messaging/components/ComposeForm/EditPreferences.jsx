@@ -28,8 +28,12 @@ const EditPreferences = () => {
         onClick={() => setEditListModal(true)}
         type="button"
       >
-        <i className="fas fa-cog vads-u-padding-right--0p5" aria-hidden />
-        Edit preferences
+        <div className="vads-u-display--flex vads-u-flex-direction-row vads-u-justify-content--center">
+          <div className="vads-u-padding-right--0p5">
+            <va-icon icon="settings" aria-hidden />
+          </div>
+          Edit preferences
+        </div>
       </button>
     </div>
   );
