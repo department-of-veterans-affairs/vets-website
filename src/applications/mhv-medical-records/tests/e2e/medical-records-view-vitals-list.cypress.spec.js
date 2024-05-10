@@ -43,11 +43,9 @@ describe('Medical Records View Vitals', () => {
 
     VitalsListPage.verifyVitalOnListPage(4, 'Temperature', '99 °F', 'October');
 
-    VitalsListPage.clickVitalsListNextButton();
+    VitalsListPage.verifyVitalOnListPage(5, 'Weight', '185 pounds', 'October');
 
-    VitalsListPage.verifyVitalOnListPage(0, 'Weight', '185 pounds', 'October');
-
-    VitalsListPage.verifyVitalOnListPage(1, 'Height', '70 inches', 'October');
+    VitalsListPage.verifyVitalOnListPage(6, 'Height', '70 inches', 'October');
 
     // Axe check
     cy.injectAxe();
