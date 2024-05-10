@@ -15,8 +15,10 @@ import {
   medicationsUrls,
   rxListSortingOptions,
   defaultSelectedSortOption,
+  DD_ACTIONS_PAGE_TYPE,
 } from '../util/constants';
 import { selectRefillContentFlag } from '../util/selectors';
+import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 
 const LandingPage = () => {
   const user = useSelector(selectUser);
@@ -25,6 +27,9 @@ const LandingPage = () => {
   const fullState = useSelector(state => state);
   const paginatedPrescriptionsList = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
+  );
+  const prescriptionsApiError = useSelector(
+    state => state.rx.prescriptions?.apiError,
   );
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
@@ -97,78 +102,97 @@ const LandingPage = () => {
           <section>
             <h1
               data-testid="landing-page-heading"
-              className="vads-u-margin-top--4 vads-u-margin-bottom--0"
+              className="small-screen:vads-u-margin-top--4 small-screen:vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-margin-bottom--1"
             >
               About medications
             </h1>
-            <p className="vads-u-font-family--serif">
+            <p className="vads-u-font-family--serif vads-u-margin-top--1">
               Learn how to manage your VA prescriptions and review your
               medications list.
             </p>
           </section>
-          {paginatedPrescriptionsList?.length ? (
+          {prescriptionsApiError ? (
             <section>
-              <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                {showRefillContent ? (
-                  <>
-                    <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1.5 vads-u-font-size--h3">
-                      Manage your medications
-                    </h2>
-                    <Link
-                      className="vads-u-display--block vads-c-action-link--blue vads-u-margin-bottom--1"
-                      to={refillUrl}
-                      data-testid="refill-nav-link"
-                    >
-                      Refill prescriptions
-                    </Link>
-                    <Link
-                      className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
-                      to={medicationsUrl}
-                      data-testid="prescriptions-nav-link"
-                    >
-                      Go to your medications list
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                      Go to your medications now
-                    </h2>
-                    <p className="vads-u-margin-y--3">
-                      Refill and track your VA prescriptions. And review your
-                      medications list.
-                    </p>
-                    <Link
-                      className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
-                      to={medicationsUrl}
-                      data-testid="prescriptions-nav-link"
-                    >
-                      Go to your medications list
-                    </Link>
-                  </>
-                )}
-              </div>
+              <ApiErrorNotification />
             </section>
           ) : (
-            <section>
-              <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                <h2
-                  className="vads-u-margin--0"
-                  data-testid="empty-medications-list"
-                >
-                  You don’t have any VA prescriptions or medication records
-                </h2>
-                <p className="vads-u-margin-y--3">
-                  If you need a prescription or you want to tell us about a
-                  medication you’re taking, tell your care team at your next
-                  appointment.
-                </p>
-              </div>
-            </section>
+            <>
+              {paginatedPrescriptionsList?.length ? (
+                <section>
+                  <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
+                    {showRefillContent ? (
+                      <>
+                        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1.5 vads-u-font-size--h3">
+                          Manage your medications
+                        </h2>
+                        <Link
+                          data-dd-action-name={`Refill Prescriptions Action Link - ${
+                            DD_ACTIONS_PAGE_TYPE.ABOUT
+                          }`}
+                          className="vads-u-display--block vads-c-action-link--blue vads-u-margin-bottom--1"
+                          to={refillUrl}
+                          data-testid="refill-nav-link"
+                        >
+                          Refill prescriptions
+                        </Link>
+                        <Link
+                          className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
+                          to={medicationsUrl}
+                          data-testid="prescriptions-nav-link"
+                          data-dd-action-name={`Go To Your Medications List Action Link - ${
+                            DD_ACTIONS_PAGE_TYPE.ABOUT
+                          }`}
+                        >
+                          Go to your medications list
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+                          Go to your medications now
+                        </h2>
+                        <p className="vads-u-margin-y--3">
+                          Refill and track your VA prescriptions. And review
+                          your medications list.
+                        </p>
+                        <Link
+                          className="vads-u-display--block vads-c-action-link--blue vads-u-margin--0"
+                          to={medicationsUrl}
+                          data-testid="prescriptions-nav-link"
+                          data-dd-action-name={`Go To Your Medications List Action Link - ${
+                            DD_ACTIONS_PAGE_TYPE.ABOUT
+                          }`}
+                        >
+                          Go to your medications list
+                        </Link>
+                      </>
+                    )}
+                  </div>
+                </section>
+              ) : (
+                <section>
+                  <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
+                    <h2
+                      className="vads-u-margin--0"
+                      data-testid="empty-medications-list"
+                    >
+                      You don’t have any VA prescriptions or medication records
+                    </h2>
+                    <p className="vads-u-margin-y--3">
+                      If you need a prescription or you want to tell us about a
+                      medication you’re taking, tell your care team at your next
+                      appointment.
+                    </p>
+                  </div>
+                </section>
+              )}
+            </>
           )}
-          <hr className="vads-u-margin-top--6" />
+          <hr className="vads-u-margin-y--3 small-screen:vads-u-margin-y--6" />
           <section>
-            <h2>What to know as you try out this tool</h2>
+            <h2 className="vads-u-margin-top--0">
+              What to know as you try out this tool
+            </h2>
             <p>
               We’re giving the trusted My HealtheVet pharmacy tool a new home
               here on VA.gov. And we need your feedback to help us keep making
@@ -192,7 +216,14 @@ const LandingPage = () => {
           <section>
             <h2>Questions about this tool</h2>
             <section>
-              <va-accordion bordered data-testid="accordion-dropdown" uswds>
+              <va-accordion
+                bordered
+                data-testid="accordion-dropdown"
+                data-dd-action-name={`Questions About This Tool Accordion - ${
+                  DD_ACTIONS_PAGE_TYPE.ABOUT
+                }`}
+                uswds
+              >
                 <va-accordion-item bordered="true">
                   <h3 className="vads-u-font-size--h6" slot="headline">
                     Does this tool list all my medications and supplies?
@@ -237,6 +268,9 @@ const LandingPage = () => {
                           'self-entered-medications-supplements',
                         )}
                         rel="noreferrer"
+                        data-dd-action-name={`Go To Your Self Entered Medications Link - ${
+                          DD_ACTIONS_PAGE_TYPE.ABOUT
+                        }`}
                       >
                         Go to your self-entered medications on the My HealtheVet
                         website
@@ -346,6 +380,9 @@ const LandingPage = () => {
                         'secure-messaging',
                       )}
                       rel="noreferrer"
+                      data-dd-action-name={`Compose A Message Link - ${
+                        DD_ACTIONS_PAGE_TYPE.ABOUT
+                      }`}
                     >
                       Compose a message on the My HealtheVet website
                     </a>
@@ -369,7 +406,14 @@ const LandingPage = () => {
               records.
             </p>
             <section>
-              <va-accordion uswds bordered data-testid="more-ways-to-manage">
+              <va-accordion
+                uswds
+                bordered
+                data-testid="more-ways-to-manage"
+                data-dd-action-name={`More Ways To Manage Accordion - ${
+                  DD_ACTIONS_PAGE_TYPE.ABOUT
+                }`}
+              >
                 <va-accordion-item
                   open={isRxRenewAccordionOpen}
                   bordered="true"
@@ -417,6 +461,9 @@ const LandingPage = () => {
                       'secure-messaging',
                     )}
                     rel="noreferrer"
+                    data-dd-action-name={`Compose A Message Link - ${
+                      DD_ACTIONS_PAGE_TYPE.ABOUT
+                    }`}
                   >
                     Compose a message on the My HealtheVet website
                   </a>
@@ -462,7 +509,12 @@ const LandingPage = () => {
                     To confirm or update your mailing address for prescription
                     shipments, contact your VA health facility.
                   </p>
-                  <a href="/find-locations/?page=1&facilityType=health">
+                  <a
+                    href="/find-locations/?page=1&facilityType=health"
+                    data-dd-action-name={`Find Your VA Health Facility Link - ${
+                      DD_ACTIONS_PAGE_TYPE.ABOUT
+                    }`}
+                  >
                     Find your VA health facility
                   </a>
                 </va-accordion-item>
@@ -488,6 +540,9 @@ const LandingPage = () => {
                       'profiles',
                     )}
                     rel="noreferrer"
+                    data-dd-action-name={`Go To Your Profile Link - ${
+                      DD_ACTIONS_PAGE_TYPE.ABOUT
+                    }`}
                   >
                     Go to your profile on the My HealtheVet website
                   </a>
@@ -513,6 +568,9 @@ const LandingPage = () => {
                       'health-history',
                     )}
                     rel="noreferrer"
+                    data-dd-action-name={`Go To Your Allergy And Reaction Records Link - ${
+                      DD_ACTIONS_PAGE_TYPE.ABOUT
+                    }`}
                   >
                     Go to your allergy and reaction records on the My HealtheVet
                     website
@@ -552,7 +610,7 @@ const LandingPage = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6">
+      <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6 small-screen:vads-u-margin-x--1">
         {content()}
       </div>
     </RequiredLoginView>
