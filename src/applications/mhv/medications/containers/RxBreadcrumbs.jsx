@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { useLocation } from 'react-router-dom';
 import { createBreadcrumbs } from '../util/helpers';
+import { medicationsUrls } from '../util/constants';
 
 const alignToLeft = `va-nav-breadcrumbs xsmall-screen:vads-u-margin-left--neg1
 small-screen:vads-u-margin-left--neg1
@@ -32,28 +33,26 @@ const RxBreadcrumbs = () => {
     <>
       {breadcrumbs.length > 0 && (
         <>
-          <VaBreadcrumbs
-            uswds
-            wrapping
-            label="Breadcrumb"
-            data-testid="rx-breadcrumb"
-            home-veterans-affairs="false"
-            breadcrumbList={breadcrumbs}
-            className={`${alignToLeft} no-print va-breadcrumbs-li vads-u-margin-bottom--neg1p5 vads-u-display--block 
-            ${
-              breadcrumbs.length > 3 ? 'small-screen:vads-u-display--none' : ''
-            }`}
-          />
-          <div
-            className={`include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3 vads-u-display--none ${
-              breadcrumbs.length > 3 ? 'small-screen:vads-u-display--block' : ''
-            }`}
-          >
-            <va-link
-              href={breadcrumbs[breadcrumbs.length - 2].href}
-              text={`Back to ${breadcrumbs[breadcrumbs.length - 2].label}`}
+          {!location.pathname.includes(
+            medicationsUrls.subdirectories.DETAILS,
+          ) ? (
+            <VaBreadcrumbs
+              uswds
+              wrapping
+              label="Breadcrumb"
+              data-testid="rx-breadcrumb"
+              home-veterans-affairs="false"
+              breadcrumbList={breadcrumbs}
+              className={`${alignToLeft} no-print va-breadcrumbs-li vads-u-margin-bottom--neg1p5 vads-u-display--block`}
             />
-          </div>
+          ) : (
+            <div className="include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3">
+              <va-link
+                href={breadcrumbs[breadcrumbs.length - 2].href}
+                text={`Back to ${breadcrumbs[breadcrumbs.length - 2].label}`}
+              />
+            </div>
+          )}
         </>
       )}
     </>
