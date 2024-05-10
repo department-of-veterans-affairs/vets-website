@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { isReactComponent } from '~/platform/utilities/ui';
 
-export const Title = ({ title, description, headerLevel, classes }) => {
+export const Title = ({ title, description, headerLevel = 3, classNames }) => {
   const CustomHeader = `h${headerLevel}`;
-  const className = `${classes} vads-u-margin-top--0`;
+  const color = headerLevel === 3 ? 'gray-dark' : 'black';
+  const className = classNames || `vads-u-color--${color} vads-u-margin-top--0`;
 
   return (
     <>
@@ -17,12 +19,39 @@ export const Title = ({ title, description, headerLevel, classes }) => {
   );
 };
 
+function isTitleObject(obj) {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    !Array.isArray(obj) &&
+    !(obj instanceof Function) &&
+    obj.$$typeof !== Symbol.for('react.element') &&
+    !isReactComponent(obj) &&
+    obj.title
+  );
+}
+
+/**
+ * @typedef {{
+ *   title?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element,
+ *   description?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element,
+ *   headerLevel?: number,
+ *   classNames?: string,
+ * }} TitleObject
+ */
+
 /**
  * Title for the top of a form page
  *
  * ```js
  * uiSchema: {
  *   ...titleUI('Your contact information')
+ *   ...titleUI({
+ *     title: 'Your contact information',
+ *     description: 'We’ll send any important information to this address.'
+ *     headerLevel: 1,
+ *     classNames: 'vads-u-margin-top--0',
+ *   })
  *   ...titleUI(({ formData, formContext }) => `Your contact information ${formData.firstName}`)
  *   ...titleUI('Your contact information', 'We’ll send any important information to this address.')
  *   ...titleUI('Previous deductible expenses', (<p>
@@ -34,17 +63,20 @@ export const Title = ({ title, description, headerLevel, classes }) => {
           </AdditionalInfo>
       </p>))
  * ```
- * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [title] 'ui:title'
- * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [description] 'ui:description'
+ * @param {string | JSX.Element | TitleObject | ({ formData, formContext }) => (string | JSX.Element)} [titleOption] 'ui:title'
+ * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [descriptionOption] 'ui:description'
  *
  * @returns {UISchemaOptions}
  */
-export const titleUI = (
-  title,
-  description,
-  headerLevel = 3,
-  classes = 'vads-u-color--gray-dark',
-) => {
+export const titleUI = (titleOption, descriptionOption) => {
+  const { title, description, headerLevel, classNames } = isTitleObject(
+    titleOption,
+  )
+    ? titleOption
+    : {
+        title: titleOption,
+        description: descriptionOption,
+      };
   const isTitleFn = typeof title === 'function';
   const isDescriptionFn = typeof description === 'function';
 
@@ -57,7 +89,7 @@ export const titleUI = (
               title={isTitleFn ? title(props) : title}
               description={isDescriptionFn ? description(props) : description}
               headerLevel={headerLevel}
-              classes={classes}
+              classNames={classNames}
             />
           </legend>
         )
@@ -66,7 +98,7 @@ export const titleUI = (
           title={title}
           description={description}
           headerLevel={headerLevel}
-          classes={classes}
+          classNames={classNames}
         />
       ),
   };

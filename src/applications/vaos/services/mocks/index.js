@@ -256,15 +256,10 @@ const responses = {
       .concat(confirmedV2.data)
       .concat(mockAppts);
 
-    let appt = appointments.find(item => item.id === req.params.id);
+    const appt = appointments.find(item => item.id === req.params.id);
     if (req.body.status === 'cancelled') {
-      appt = {
-        ...appt,
-        attributes: {
-          ...appt.attributes,
-          cancelationReason: { coding: [{ code: 'pat' }] },
-        },
-      };
+      appt.attributes.status = 'cancelled';
+      appt.attributes.cancelationReason = { coding: [{ code: 'pat' }] };
     }
 
     return res.json({

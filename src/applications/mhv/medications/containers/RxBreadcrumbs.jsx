@@ -41,7 +41,11 @@ const RxBreadcrumbs = () => {
               <span className="breadcrumb-angle vads-u-padding-right--1">
                 {'\u2039'}{' '}
               </span>
-              <Link to={crumbs[oneLevelDeepCrumb]?.url} onClick={backLink}>
+              <Link
+                to={crumbs[oneLevelDeepCrumb]?.url}
+                onClick={backLink}
+                data-dd-action-name="Breadcrumb Link"
+              >
                 Back to {crumbs[oneLevelDeepCrumb]?.label}
               </Link>
             </div>
