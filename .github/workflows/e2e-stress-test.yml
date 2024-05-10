@@ -237,6 +237,9 @@ jobs:
       # requires the cypress-tests job to run was not satisfied. This update forces
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
       - name: Configure AWS credentials
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: ./.github/workflows/configure-aws-credentials
