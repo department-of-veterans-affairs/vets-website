@@ -346,7 +346,6 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        # uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
         uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
@@ -376,6 +375,7 @@ jobs:
         with:
           pattern: cypress-stress-test-results-*
           path: qa-standards-dashboard-data/src/allow-list/data
+          merge-multiple: true
 
       - name: Download E2E Test Stability Allow List
         uses: ./.github/workflows/download-artifact
@@ -392,6 +392,7 @@ jobs:
         with:
           pattern: cypress-stress-test-videos-*
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
+          merge-multiple: true
 
       - name: Update E2E Test Stability Allow List
         run: yarn update-allow-list

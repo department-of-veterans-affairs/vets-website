@@ -226,8 +226,9 @@ jobs:
       - name: Download Unit Test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: unit-test-stress-test-results
+          pattern: unit-test-stress-test-results-*
           path: qa-standards-dashboard-data/src/allow-list/data
+          merge-multiple: true
 
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
