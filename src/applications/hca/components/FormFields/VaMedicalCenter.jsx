@@ -145,7 +145,14 @@ const VaMedicalCenter = props => {
   }
 
   return !error ? (
-    <>
+    <fieldset className="rjsf-object-field vads-u-margin-y--2">
+      <legend
+        id="root_view:preferredFacility__title"
+        className="schemaform-block-title"
+      >
+        Select your preferred VA medical facility
+      </legend>
+
       <VaSelect
         id={idSchema['view:facilityState'].$id}
         name={idSchema['view:facilityState'].$id}
@@ -183,7 +190,7 @@ const VaMedicalCenter = props => {
           </option>
         ))}
       </VaSelect>
-    </>
+    </fieldset>
   ) : (
     <div className="server-error-message vads-u-margin-top--4">
       <ServerErrorAlert />

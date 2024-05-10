@@ -33,7 +33,6 @@ export default {
       'ui:description': EssentialCoverageDescription,
     },
     'view:preferredFacility': {
-      'ui:title': 'Select your preferred VA medical facility',
       'ui:field': VaMedicalCenter,
     },
     'view:locator': {
