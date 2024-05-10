@@ -14,7 +14,7 @@ describe('useChosenBot', () => {
     sandbox.restore();
   });
 
-  it('should set chosenBot to "default" when virtualAgentShowFloatingChatbot is true', () => {
+  it('should set loading to false if virtualAgentShowFloatingChatbot is not null', () => {
     const setIsLoading = sandbox.stub();
     const setChosenBot = sandbox.stub();
     const virtualAgentShowFloatingChatbot = true;
@@ -25,6 +25,27 @@ describe('useChosenBot', () => {
 
     expect(setIsLoading.calledOnce).to.be.true;
     expect(setIsLoading.calledWithExactly(false)).to.be.true;
+  });
+  it('should not set loading to false if virtualAgentShowFloatingChatbot is null', () => {
+    const setIsLoading = sandbox.stub();
+    const setChosenBot = sandbox.stub();
+    const virtualAgentShowFloatingChatbot = null;
+
+    renderHook(() =>
+      useChosenBot(virtualAgentShowFloatingChatbot, setIsLoading, setChosenBot),
+    );
+
+    expect(setIsLoading.notCalled).to.be.true;
+  });
+  it('should set chosenBot to "default" when virtualAgentShowFloatingChatbot is true', () => {
+    const setIsLoading = sandbox.stub();
+    const setChosenBot = sandbox.stub();
+    const virtualAgentShowFloatingChatbot = true;
+
+    renderHook(() =>
+      useChosenBot(virtualAgentShowFloatingChatbot, setIsLoading, setChosenBot),
+    );
+
     expect(setChosenBot.calledOnce).to.be.true;
     expect(setChosenBot.calledWithExactly('default')).to.be.true;
   });
@@ -37,8 +58,6 @@ describe('useChosenBot', () => {
       useChosenBot(virtualAgentShowFloatingChatbot, setIsLoading, setChosenBot),
     );
 
-    expect(setIsLoading.calledOnce).to.be.true;
-    expect(setIsLoading.calledWithExactly(false)).to.be.true;
     expect(setChosenBot.calledOnce).to.be.true;
     expect(setChosenBot.calledWithExactly('sticky')).to.be.true;
   });

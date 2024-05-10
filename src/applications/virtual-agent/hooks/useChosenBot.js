@@ -7,11 +7,9 @@ export default function useChosenBot(
 ) {
   useEffect(
     () => {
-      setIsLoading(false);
-      if (virtualAgentShowFloatingChatbot) {
-        setChosenBot('default');
-      } else {
-        setChosenBot('sticky');
+      if (virtualAgentShowFloatingChatbot !== null) {
+        setIsLoading(false);
+        setChosenBot(virtualAgentShowFloatingChatbot ? 'default' : 'sticky');
       }
     },
     [virtualAgentShowFloatingChatbot],
