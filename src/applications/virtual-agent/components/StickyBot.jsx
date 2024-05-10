@@ -1,5 +1,5 @@
 import React from 'react';
-import Disclaimer from './Disclaimer';
+import Disclaimer from './Disclaimer/Disclaimer';
 import Chatbox from './Chatbox';
 
 export default function StickyBot() {

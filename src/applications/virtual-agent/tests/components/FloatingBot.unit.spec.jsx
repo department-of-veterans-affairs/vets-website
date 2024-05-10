@@ -9,7 +9,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import FloatingBot from '../../components/FloatingBot';
-import * as Disclaimer from '../../components/Disclaimer';
+import * as Disclaimer from '../../components/Disclaimer/Disclaimer';
 import * as Chatbox from '../../components/Chatbox';
 
 describe('FloatingBot', () => {
