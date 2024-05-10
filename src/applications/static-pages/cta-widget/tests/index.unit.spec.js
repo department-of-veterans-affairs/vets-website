@@ -847,18 +847,21 @@ describe('<CallToActionWidget>', () => {
       });
 
       it('renders a CTA link when enabled and verified user signed in', () => {
+        const ctaWidget = ctaWidgetsLookup[CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES];
+        const { url } = ctaWidget.deriveToolUrlDetails();
+        const { serviceDescription: desc } = ctaWidget;
+        const text = `${desc[0].toUpperCase()}${desc.slice(1)}`;
+
         const tree = setup({
           haCpapSuppliesCta: true,
           isLoggedIn: true,
           verified: true,
         });
-        expect(tree.find('a').props().href).to.contain(
-          '/health-care/order-hearing-aid-or-CPAP-supplies-form',
-        );
-        expect(tree.find('a').props().target).to.equal('_self');
-        expect(tree.find('a').text()).to.contain(
-          'Order hearing aid batteries and accessories online',
-        );
+
+        const result = tree.find('a');
+        expect(result.props().href).to.contain(url);
+        expect(result.props().target).to.equal('_self');
+        expect(result.text()).to.contain(text);
       });
     });
 
