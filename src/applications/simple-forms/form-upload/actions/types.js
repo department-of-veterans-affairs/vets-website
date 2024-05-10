@@ -1,3 +1,0 @@
-export const SET_UPLOADING = 'SET_UPLOADING';
-export const DONE_UPLOADING = 'DONE_UPLOADING';
-export const SET_UPLOADER = 'SET_UPLOADER';
