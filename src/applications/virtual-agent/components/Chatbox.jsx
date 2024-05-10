@@ -3,7 +3,7 @@ import useBotOutgoingActivityEventListener from '../hooks/useBotOutgoingActivity
 import useWebMessageActivityEventListener from '../hooks/useWebMessageActivityEventListener';
 import Bot from './Bot';
 
-export const Chatbox = () => {
+export default function Chatbox() {
   const [chatBotLoadTime] = useState(Date.now());
 
   useBotOutgoingActivityEventListener(chatBotLoadTime);
@@ -19,4 +19,4 @@ export const Chatbox = () => {
       <Bot />
     </div>
   );
-};
+}
