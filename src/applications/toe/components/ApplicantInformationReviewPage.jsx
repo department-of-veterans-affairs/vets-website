@@ -24,10 +24,7 @@ function formatDateString(dateString) {
 function formatDiplomaDate(dateString) {
   const dateObj = new Date(dateString);
   const year = dateObj.getUTCFullYear();
-  const month = dateObj.toLocaleString('en-US', {
-    month: 'long',
-    timeZone: 'UTC',
-  });
+  const month = dateObj.getMonth() + 1;
   const day = dateObj.getUTCDate();
   return `${month}/${day}/${year}`;
 }
