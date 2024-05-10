@@ -18,17 +18,17 @@ function App() {
   const isAppEnabled = useToggleValue(
     TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
   );
-  const isToggleLoading = useToggleLoadingValue();
+  const isAppToggleLoading = useToggleLoadingValue();
 
-  if (isToggleLoading) {
+  if (isAppToggleLoading) {
     return (
       <div className="vads-u-margin-y--5">
-        <VaLoadingIndicator />
+        <VaLoadingIndicator message="Loading the Accredited Representative Portal..." />
       </div>
     );
   }
 
-  if (!isAppEnabled && environment.isProduction()) {
+  if (environment.isProduction() && !isAppEnabled) {
     return document.location.replace('/');
   }
 
