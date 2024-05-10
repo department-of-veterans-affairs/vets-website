@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { YesNoField } from '~/platform/forms-system/src/js/web-component-fields';
 import {
   createArrayBuilderItemAddPath,
   onNavForwardKeepUrlParams,
@@ -15,8 +14,9 @@ import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 /**
  * @typedef {Object} ArrayBuilderPages
+ * @property {function(FormConfigPage): FormConfigPage} [introPage] Intro page which should be used for required flow
  * @property {function(FormConfigPage): FormConfigPage} summaryPage Summary page which includes Cards with edit/remove, and the Yes/No field
- * @property {function(FormConfigPage): FormConfigPage} [itemPage] A repeated page corresponding to an item
+ * @property {function(FormConfigPage): FormConfigPage} itemPage A repeated page corresponding to an item
  */
 
 function throwErrorPage(pageType, option) {
@@ -349,6 +349,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       hasItemsKey,
       firstItemPagePath,
       getText,
+      introPath,
       isItemIncomplete,
       maxItems,
       nounPlural,
