@@ -1,7 +1,8 @@
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -60,10 +61,11 @@ describe('App', () => {
       sandbox
         .stub(UseWebChatModule, 'default')
         .returns({ loadingStatus: 'OTHER' });
-
-      await waitFor(() =>
-        expect(() => render(<App />).toThrow('Invalid loading status: OTHER')),
-      );
+      try {
+        renderHook(() => App());
+      } catch (error) {
+        expect(error.message).to.equal('Invalid loading status: OTHER');
+      }
     });
   });
 });
