@@ -1,4 +1,4 @@
-const prefillTransformer = (pages, metadata, formData) => {
+const prefillTransformer = (pages, formData, metadata) => {
   return {
     pages,
     formData: {

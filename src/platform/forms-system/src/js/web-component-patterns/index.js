@@ -12,5 +12,6 @@ export * from './radioPattern';
 export * from './arnPattern';
 export * from './selectPattern';
 export * from './ssnPattern';
+export * from './textPatterns';
 export * from './titlePattern';
 export * from './yesNoPattern';

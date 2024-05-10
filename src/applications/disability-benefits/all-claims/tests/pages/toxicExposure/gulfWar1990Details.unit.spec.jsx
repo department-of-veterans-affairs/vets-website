@@ -31,56 +31,59 @@ describe('gulfWar1990Details', () => {
     },
   };
 
-  Object.keys(GULF_WAR_1990_LOCATIONS).forEach(locationId => {
-    it(`should render for ${locationId}`, () => {
-      const { container, getByText } = render(
-        <DefinitionTester
-          schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
-          uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
-          data={formData}
-        />,
-      );
+  Object.keys(GULF_WAR_1990_LOCATIONS)
+    .filter(locationId => locationId !== 'none')
+    .forEach(locationId => {
+      it(`should render for ${locationId}`, () => {
+        const { container, getByText } = render(
+          <DefinitionTester
+            schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
+            uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
+            data={formData}
+          />,
+        );
 
-      getByText(gulfWar1990PageTitle);
-      getByText(dateRangeDescription);
+        getByText(gulfWar1990PageTitle);
+        getByText(dateRangeDescription);
 
-      const addlInfo = container.querySelector('va-additional-info');
-      expect(addlInfo).to.have.attribute(
-        'trigger',
-        'What if I have more than one date range?',
-      );
+        const addlInfo = container.querySelector('va-additional-info');
+        expect(addlInfo).to.have.attribute(
+          'trigger',
+          'What if I have more than one date range?',
+        );
 
-      expect($(`va-memorable-date[label="${startDateApproximate}"]`, container))
-        .to.exist;
-      expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
-        .to.exist;
+        expect(
+          $(`va-memorable-date[label="${startDateApproximate}"]`, container),
+        ).to.exist;
+        expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
+          .to.exist;
 
-      if (locationId === 'afghanistan') {
-        getByText(`1 of 2: ${GULF_WAR_1990_LOCATIONS.afghanistan}`, {
-          exact: false,
-        });
-      } else if (locationId === 'airspace') {
-        getByText(`2 of 2: ${GULF_WAR_1990_LOCATIONS.airspace}`, {
-          exact: false,
-        });
-      } else {
-        getByText(GULF_WAR_1990_LOCATIONS[locationId]);
-      }
+        if (locationId === 'afghanistan') {
+          getByText(`1 of 2: ${GULF_WAR_1990_LOCATIONS.afghanistan}`, {
+            exact: false,
+          });
+        } else if (locationId === 'airspace') {
+          getByText(`2 of 2: ${GULF_WAR_1990_LOCATIONS.airspace}`, {
+            exact: false,
+          });
+        } else {
+          getByText(GULF_WAR_1990_LOCATIONS[locationId]);
+        }
+      });
+
+      it(`should submit without dates for ${locationId}`, () => {
+        const onSubmit = sinon.spy();
+        const { getByText } = render(
+          <DefinitionTester
+            schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
+            uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
+            data={formData}
+            onSubmit={onSubmit}
+          />,
+        );
+
+        userEvent.click(getByText('Submit'));
+        expect(onSubmit.calledOnce).to.be.true;
+      });
     });
-
-    it(`should submit without dates for ${locationId}`, () => {
-      const onSubmit = sinon.spy();
-      const { getByText } = render(
-        <DefinitionTester
-          schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
-          uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
-          data={formData}
-          onSubmit={onSubmit}
-        />,
-      );
-
-      userEvent.click(getByText('Submit'));
-      expect(onSubmit.calledOnce).to.be.true;
-    });
-  });
 });

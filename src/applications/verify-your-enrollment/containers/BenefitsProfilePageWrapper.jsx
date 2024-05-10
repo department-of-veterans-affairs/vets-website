@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import ChangeOfAddressWrapper from './ChangeOfAddressWrapper';
@@ -17,6 +18,7 @@ import CurrentBenefitsStatus from '../components/CurrentBenefitsStatus';
 import MoreInfoCard from '../components/MoreInfoCard';
 import NeedHelp from '../components/NeedHelp';
 import Loader from '../components/Loader';
+import LoginAlert from '../components/LoginAlert';
 
 const BenefitsProfileWrapper = ({ children }) => {
   useScrollToTop();
@@ -39,6 +41,31 @@ const BenefitsProfileWrapper = ({ children }) => {
   const toggleValue = useToggleValue(
     TOGGLE_NAMES.toggleVyeAdressDirectDepositForms,
   );
+  const [userData, setUserData] = useState({});
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const {
+          data: {
+            attributes: { profile },
+          },
+        } = await apiRequest('/user', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        setUserData(profile);
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+    getUserData();
+  }, []);
+
+  const { signIn } = userData;
+
   return (
     <>
       <div name="topScrollElement" />
@@ -77,7 +104,12 @@ const BenefitsProfileWrapper = ({ children }) => {
                     zipCode: addressLine6,
                   }}
                 />
-                <ChangeOfDirectDepositWrapper applicantName={applicantName} />
+                {signIn?.serviceName === 'idme' ||
+                signIn?.serviceName === 'logingov' ? (
+                  <ChangeOfDirectDepositWrapper applicantName={applicantName} />
+                ) : (
+                  <LoginAlert />
+                )}
               </>
             ) : null}
             <PendingDocuments
