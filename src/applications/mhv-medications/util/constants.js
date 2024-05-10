@@ -15,13 +15,12 @@ export const rxListSortingOptions = {
 };
 
 export const medicationsUrls = {
-  MEDICATIONS_URL: '/my-health/medications',
-  MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
-  MEDICATIONS_ABOUT: '/my-health/medications/about',
-  MEDICATIONS_ABOUT_ACCORDION_RENEW:
-    '/my-health/medications/about/accordion-renew-rx',
-  MEDICATIONS_REFILL: '/my-health/medications/refill',
-  PRESCRIPTION_DETAILS: '/my-health/medications/prescription',
+  MEDICATIONS_URL: '/my-health/medications-new',
+  MEDICATIONS_LOGIN: '/my-health/medications-new?next=loginModal&oauth=true',
+  MEDICATIONS_ABOUT: '/my-health/medications-new/about',
+  MEDICATIONS_ABOUT_ACCORDION_RENEW: '/my-health-new/about/accordion-renew-rx',
+  MEDICATIONS_REFILL: '/my-health/medications-new/refill',
+  PRESCRIPTION_DETAILS: '/my-health/medications-new/prescription',
   subdirectories: {
     BASE: '/',
     ABOUT: '/about',

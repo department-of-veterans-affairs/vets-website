@@ -24,7 +24,7 @@ describe('Medications Breadcrumbs', () => {
     },
   };
   const setup = (
-    path = '/medications/prescription/000',
+    path = '/medications-new/prescription/000',
     state = initialState,
   ) => {
     return renderWithStoreAndRouter(<RxBreadcrumbs />, {

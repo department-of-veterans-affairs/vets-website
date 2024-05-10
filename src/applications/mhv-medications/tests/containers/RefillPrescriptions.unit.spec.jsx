@@ -23,7 +23,7 @@ describe('Refill Prescriptions Component', () => {
       breadcrumbs: {
         list: [
           {
-            url: '/my-health/medications/about',
+            url: '/my-health/medications-new/about',
             label: 'About medications',
           },
         ],

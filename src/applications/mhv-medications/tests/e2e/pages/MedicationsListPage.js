@@ -497,7 +497,7 @@ class MedicationsListPage {
   };
 
   verifyAboutMedicationsBreadcrumbTextOnListPage = () => {
-    cy.get('[href="/my-health/medications/about"]').should(
+    cy.get('[href="/my-health/medications-new/about"]').should(
       'contain',
       'About medications',
     );

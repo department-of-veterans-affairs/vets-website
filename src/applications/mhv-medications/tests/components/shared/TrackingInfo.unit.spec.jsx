@@ -36,7 +36,7 @@ describe('Medications Breadcrumbs', () => {
           },
         },
         reducers,
-        path: '/medications/prescription/000',
+        path: '/medications-new/prescription/000',
       },
     );
   };

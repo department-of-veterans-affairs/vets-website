@@ -1,7 +1,0 @@
-{
-  "appName": "MHV Medications",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "medications",
-  "rootUrl": "/my-health/medications",
-  "productId": "0203ca08-b7a2-4cd6-abb5-56d38c239cd3"
-}
