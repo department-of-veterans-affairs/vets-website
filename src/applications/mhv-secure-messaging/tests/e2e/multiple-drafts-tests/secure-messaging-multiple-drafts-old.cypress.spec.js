@@ -3,9 +3,8 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import { AXE_CONTEXT, Locators } from '../utils/constants';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
-import tripleDraftsResponse from '../fixtures/draftsResponse/triple-draft-response.json';
 
-describe('handle multiple drafts in one thread', () => {
+describe('handle multiple drafts older than 45 days', () => {
   const site = new SecureMessagingSite();
   const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
@@ -40,22 +39,5 @@ describe('handle multiple drafts in one thread', () => {
     cy.get(Locators.BUTTONS.SEND).should('not.exist');
     cy.get(Locators.ALERTS.EDIT_DRAFT).click();
     cy.get(Locators.BUTTONS.SEND).should('not.exist');
-  });
-});
-
-describe.skip('triple draft a11y error', () => {
-  const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
-  const draftPage = new PatientMessageDraftsPage();
-
-  beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
-    draftPage.loadMultiDraftThread(tripleDraftsResponse);
-  });
-
-  it('a11y verification', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
   });
 });
