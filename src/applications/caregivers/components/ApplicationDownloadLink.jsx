@@ -15,7 +15,6 @@ const apiURL = `${
 }/v0/caregivers_assistance_claims/download_pdf`;
 
 const ApplicationDownloadLink = ({ form }) => {
-  const [PDFLink, setPDFLink] = useState(null);
   const [loading, isLoading] = useState(false);
   const [errors, setErrors] = useState([]);
 
@@ -30,41 +29,44 @@ const ApplicationDownloadLink = ({ form }) => {
     return downloadErrorsByCode[code] || generic;
   };
 
+  function handlePdfDownload(blob) {
+    const url = URL.createObjectURL(blob);
+    const downloadLink = document.createElement('a');
+    downloadLink.className = 'cg-application-download-link';
+    downloadLink.href = 'url';
+    downloadLink.download = `10-10CG_${name.first}_${name.last}.pdf`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    URL.revokeObjectURL(url);
+  }
+
   // define our method of retrieving the link to download
-  const fetchDownloadUrl = body => {
+  const fetchPdf = () => {
     isLoading(true);
 
     // create the application link
     apiRequest(apiURL, {
       method: 'POST',
-      body,
+      body: formData,
       headers: {
         'Content-Type': 'application/json',
       },
     })
       .then(response => response.blob())
       .then(blob => {
-        const linkUrl = URL.createObjectURL(blob);
-        setPDFLink(linkUrl);
-        isLoading(false);
-        setErrors([]);
+        handlePdfDownload(blob);
         recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
       })
       .catch(response => {
-        isLoading(false);
         setErrors(response.errors);
         recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
         Sentry.withScope(scope => scope.setExtra('error', response));
+      })
+      .finally(() => {
+        isLoading(false);
       });
   };
-
-  // get application download link when form data is transformed
-  useEffect(
-    () => {
-      fetchDownloadUrl(formData);
-    },
-    [formData],
-  );
 
   // apply focus to the error alert if we have errors set
   useEffect(
@@ -101,13 +103,9 @@ const ApplicationDownloadLink = ({ form }) => {
   }
 
   return (
-    <va-link
-      href={PDFLink}
-      text="Download your completed application"
-      filename={`10-10CG_${name.first}_${name.last}`}
-      filetype="PDF"
-      download
-    />
+    <button className="va-button-link" type="button" onClick={() => fetchPdf()}>
+      Download your completed application
+    </button>
   );
 };
 
