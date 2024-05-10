@@ -7,7 +7,6 @@ import {
   VaSegmentedProgressBar,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
-import { redirect } from '@department-of-veterans-affairs/platform-user/authentication/utilities';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitToSimpleForms } from '../actions';
 
@@ -87,11 +86,7 @@ const UploadPage = () => {
         uswds
       />
       <span>
-        <VaButton
-          secondary
-          text="<< Back"
-          onClick={() => redirect(`/find-forms/about-form-${formNumber}`)}
-        />
+        <VaButton secondary text="<< Back" onClick={history.goBack} />
         <VaButton
           primary
           text="Continue >>"
