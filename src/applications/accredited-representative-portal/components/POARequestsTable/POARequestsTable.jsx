@@ -10,17 +10,14 @@ export const createRelationshipCell = attributes => {
   return 'Veteran';
 };
 
-export const createLimitationsCell = (healthInfo, changeAddress) => {
-  let text = null;
-  if (healthInfo === 'Y' && changeAddress === 'Y') {
-    text = 'Health, Address';
-  } else if (healthInfo === 'Y') {
-    text = 'Health';
-  } else if (changeAddress === 'Y') {
-    text = 'Address';
-  }
+export const createLimitationsCell = (healthInfoAuth, changeAddressAuth) => {
+  const limitations = [];
 
-  return text ? (
+  // If do not authorize sharing health info or authorize change of address then we label it as a limitation of consent
+  if (healthInfoAuth === 'N') limitations.push('Health');
+  if (changeAddressAuth === 'N') limitations.push('Address');
+
+  return limitations.length > 0 ? (
     <span className="limitations-row">
       <va-icon
         class="limitations-row__warning-icon"
@@ -28,7 +25,7 @@ export const createLimitationsCell = (healthInfo, changeAddress) => {
         size={3}
         srtext="warning"
       />
-      {text}
+      {limitations.join(', ')}
     </span>
   ) : (
     'None'

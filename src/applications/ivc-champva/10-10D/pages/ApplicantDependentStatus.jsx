@@ -18,7 +18,7 @@ function generateOptions({ data, pagePerItemIndex }) {
     relativePossessive,
   } = appRelBoilerplate({ data, pagePerItemIndex });
 
-  const customTitle = `${useFirstPerson ? `Your` : `${applicant}’s`} status`;
+  const customTitle = `${applicant}’s status`;
 
   const relativeBeingVerb = `${relative} ${beingVerbPresent}`;
 
@@ -49,9 +49,7 @@ function generateOptions({ data, pagePerItemIndex }) {
     secondary: SECONDARY,
     currentListItem,
     customTitle,
-    description: `Which of these best describes ${
-      useFirstPerson ? 'you' : applicant
-    }?`,
+    description: `Which of these best describes ${applicant}?`,
   };
 }
 

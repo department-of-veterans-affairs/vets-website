@@ -25,6 +25,7 @@ import yourCountryPage from '../chapters/personalInformation/yourCountry';
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
 import yourRolePage from '../chapters/personalInformation/yourRole';
 import yourRoleEducationPage from '../chapters/personalInformation/yourRoleEducation';
+import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
 
 const ch3Pages = {
   yourRole: {
@@ -152,6 +153,11 @@ const ch3Pages = {
     uiSchema: aboutYourRelationshipToFamilyMemberPage.uiSchema,
     schema: aboutYourRelationshipToFamilyMemberPage.schema,
   },
+  aboutTheirRelationshipToVeteran: {
+    title: CHAPTER_3.RELATIONSHIP_TO_FAM_MEM.TITLE,
+    uiSchema: theirRelationshipToVeteranPage.uiSchema,
+    schema: theirRelationshipToVeteranPage.schema,
+  },
 };
 
 export const flowPaths = {
@@ -236,6 +242,7 @@ const someoneElseBenVet = [
   'yourPostalCode',
   'aboutYourFamilyMember',
   'aboutYourRelationshipToFamilyMember',
+  'aboutTheirRelationshipToVeteran',
   'searchVAMedicalCenter',
 ];
 export const someoneElseBenVetPages = flowPages(

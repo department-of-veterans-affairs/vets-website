@@ -82,13 +82,21 @@ export function getInactivePages(pages, data) {
 }
 
 export function createFormPageList(formConfig) {
-  return Object.keys(formConfig.chapters).reduce((pageList, chapter) => {
-    const chapterTitle = formConfig.chapters[chapter].title;
-    const pages = Object.keys(formConfig.chapters[chapter].pages).map(page => ({
-      ...formConfig.chapters[chapter].pages[page],
+  if (!formConfig?.chapters) return [];
+
+  return Object.keys(formConfig.chapters).reduce((pageList, chapterKey) => {
+    const chapter = formConfig.chapters[chapterKey];
+
+    if (!chapter?.pages) return pageList;
+
+    const chapterTitle = chapter?.title ?? formConfig.title;
+    const hideOnReviewPage = chapter?.hideOnReviewPage || false;
+    const pages = Object.keys(chapter.pages).map(pageKey => ({
+      ...chapter.pages[pageKey],
       chapterTitle,
-      chapterKey: chapter,
-      pageKey: page,
+      chapterKey,
+      hideOnReviewPage,
+      pageKey,
     }));
     return pageList.concat(pages);
   }, []);
@@ -132,6 +140,23 @@ export function createPageList(formConfig, formPages) {
     .map(page =>
       set('path', `${formConfig.urlPrefix || ''}${page.path}`, page),
     );
+}
+
+export function hideFormTitle(formConfig, pathName) {
+  if (
+    !formConfig?.chapters ||
+    typeof formConfig.chapters !== 'object' ||
+    formConfig.chapters.length === 0
+  )
+    return false;
+
+  const formPages = createFormPageList(formConfig);
+  const pageList = createPageList(formConfig, formPages);
+  const page = pageList.find(p => p.path === pathName);
+
+  if (!page || !page.chapterKey) return false;
+
+  return formConfig.chapters[page.chapterKey]?.hideFormTitle ?? false;
 }
 
 function formatDayMonth(val) {
@@ -669,8 +694,10 @@ export function getActiveChapters(formConfig, formData) {
 
   return uniq(
     expandedPageList
-      .map(p => p.chapterKey)
-      .filter(key => !!key && key !== 'review'),
+      .filter(
+        p => !p.hideOnReviewPage && p.chapterKey && p.chapterKey !== 'review',
+      )
+      .map(p => p.chapterKey),
   );
 }
 
