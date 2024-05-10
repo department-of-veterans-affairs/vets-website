@@ -6,7 +6,6 @@ import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-import localStorage from 'platform/utilities/storage/localStorage';
 import { downloadErrorsByCode } from '../definitions/content';
 import { submitTransform } from '../utils/helpers';
 import formConfig from '../config/form';
@@ -31,7 +30,6 @@ const ApplicationDownloadLink = ({ form }) => {
     return downloadErrorsByCode[code] || generic;
   };
 
-  const csrfTokenStored = localStorage.getItem('csrfToken');
   // define our method of retrieving the link to download
   const fetchDownloadUrl = body => {
     isLoading(true);
@@ -42,8 +40,6 @@ const ApplicationDownloadLink = ({ form }) => {
       body,
       headers: {
         'Content-Type': 'application/json',
-        'Source-App-Name': window.appName,
-        'X-CSRF-Token': csrfTokenStored,
       },
     })
       .then(response => response.blob())
