@@ -24,8 +24,8 @@ function formatDateString(dateString) {
 function formatDiplomaDate(dateString) {
   const dateObj = new Date(dateString);
   const year = dateObj.getUTCFullYear();
-  const month = dateObj.getMonth() + 1;
-  const day = dateObj.getUTCDate();
+  const month = `0${dateObj.getMonth() + 1}`.slice(-2);
+  const day = `0${dateObj.getDate()}`.slice(-2);
   return `${month}/${day}/${year}`;
 }
 
