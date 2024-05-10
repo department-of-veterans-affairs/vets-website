@@ -81,8 +81,8 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
   deleteTitle: props => {
     const itemName = props.getItemName(props.itemData);
     return itemName
-      ? `Are you sure you want to delete ${itemName}?`
-      : `Are you sure you want to delete this ${props.nounSingular}?`;
+      ? `Delete ${itemName}’s information?`
+      : `Delete this ${props.nounSingular}?`;
   },
   deleteYes: props => `Yes, delete this ${props.nounSingular}`,
   reviewAddButtonText: props => `Add another ${props.nounSingular}`,
