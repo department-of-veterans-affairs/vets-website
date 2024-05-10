@@ -242,7 +242,7 @@ describe('526EZ keyboard only navigation', () => {
 
     // 5. Can begin providing a third alternate name but then cancel
     cy.tabToElementAndPressSpace('.va-growable-add-btn');
-    cy.tabToElementAndPressSpace('[aria-label="Remove name"]');
+    cy.tabToElementAndPressSpace('[aria-label="Remove name 3"]');
 
     // 6. Can update the second alternate name
     cy.tabToElementAndPressSpace('.edit', false);
