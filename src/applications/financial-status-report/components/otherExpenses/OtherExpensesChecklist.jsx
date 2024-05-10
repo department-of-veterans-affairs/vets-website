@@ -42,8 +42,8 @@ const OtherExpensesChecklist = ({
   useEffect(() => {
     if (!gmtData?.isEligibleForStreamlined) return;
 
-    getMonthlyExpensesAPI(data)
-      .then(({ calculatedMonthlyExpenses }) => {
+    getMonthlyExpensesAPI(data).then(({ calculatedMonthlyExpenses }) => {
+      try {
         const { totalMonthlyNetIncome } = getMonthlyIncome(data);
         const calculatedDiscretionaryIncome =
           totalMonthlyNetIncome - calculatedMonthlyExpenses;
@@ -57,15 +57,15 @@ const OtherExpensesChecklist = ({
               gmtData?.discretionaryIncomeThreshold,
           },
         });
-      })
-      .catch(error => {
+      } catch (error) {
         Sentry.withScope(scope => {
           scope.setExtra('error', error);
           Sentry.captureMessage(
             `calculate_monthly_expenses failed in OtherExpensesChecklist: ${error}`,
           );
         });
-      });
+      }
+    });
   }, []);
 
   const onSubmit = event => {

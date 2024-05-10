@@ -172,7 +172,9 @@ export const getMonthlyExpensesAPI = async formData => {
   } catch (error) {
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
-      Sentry.captureMessage(`calculate_monthly_expenses failed: ${error}`);
+      Sentry.captureMessage(
+        `calculate_monthly_expenses request handler failed: ${error}`,
+      );
     });
     return null;
   }

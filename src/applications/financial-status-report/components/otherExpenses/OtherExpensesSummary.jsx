@@ -43,11 +43,12 @@ const OtherExpensesSummary = ({
     ? 'Continue to review page'
     : 'Continue';
 
+  // Calculate Discretionary income as necessary
   useEffect(() => {
     if (!gmtData?.isEligibleForStreamlined) return;
 
-    getMonthlyExpensesAPI(data)
-      .then(({ calculatedMonthlyExpenses }) => {
+    getMonthlyExpensesAPI(data).then(({ calculatedMonthlyExpenses }) => {
+      try {
         const { totalMonthlyNetIncome } = getMonthlyIncome(data);
         const calculatedDiscretionaryIncome =
           totalMonthlyNetIncome - calculatedMonthlyExpenses;
@@ -61,15 +62,15 @@ const OtherExpensesSummary = ({
               gmtData?.discretionaryIncomeThreshold,
           },
         });
-      })
-      .catch(error => {
+      } catch (error) {
         Sentry.withScope(scope => {
           scope.setExtra('error', error);
           Sentry.captureMessage(
             `calculate_monthly_expenses failed in OtherExpensesSummary: ${error}`,
           );
         });
-      });
+      }
+    });
   }, []);
 
   const onDelete = deleteIndex => {
