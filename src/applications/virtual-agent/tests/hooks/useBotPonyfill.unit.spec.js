@@ -10,6 +10,7 @@ import useBotPonyFill from '../../hooks/useBotPonyfill';
 
 describe('useBotPonyfill', () => {
   let sandbox;
+  const originalWindow = global.window;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -17,6 +18,7 @@ describe('useBotPonyfill', () => {
 
   afterEach(() => {
     sandbox.restore();
+    global.window = originalWindow;
   });
 
   describe('createPonyFill', () => {
@@ -24,7 +26,7 @@ describe('useBotPonyfill', () => {
       const createCognitiveServicesSpeechServicesPonyfillFactoryStub = sandbox
         .stub()
         .resolves(true);
-      window.WebChat = {
+      global.window.WebChat = {
         createCognitiveServicesSpeechServicesPonyfillFactory: createCognitiveServicesSpeechServicesPonyfillFactoryStub,
       };
 
@@ -63,7 +65,7 @@ describe('useBotPonyfill', () => {
       const createCognitiveServicesSpeechServicesPonyfillFactoryStub = sandbox
         .stub()
         .resolves(true);
-      window.WebChat = {
+      global.window.WebChat = {
         createCognitiveServicesSpeechServicesPonyfillFactory: createCognitiveServicesSpeechServicesPonyfillFactoryStub,
       };
 
@@ -102,7 +104,7 @@ describe('useBotPonyfill', () => {
       const createCognitiveServicesSpeechServicesPonyfillFactoryStub = sandbox
         .stub()
         .resolves(true);
-      window.WebChat = {
+      global.window.WebChat = {
         createCognitiveServicesSpeechServicesPonyfillFactory: createCognitiveServicesSpeechServicesPonyfillFactoryStub,
       };
 

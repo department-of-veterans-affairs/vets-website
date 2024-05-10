@@ -10,6 +10,7 @@ import * as UseLoadWebChatModule from '../../hooks/useLoadWebChat';
 describe('useWebChatFramework', () => {
   let sandbox;
   let clock;
+  const originalWindow = global.window;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -21,6 +22,7 @@ describe('useWebChatFramework', () => {
   afterEach(() => {
     sandbox.restore();
     clock.restore();
+    global.window = originalWindow;
   });
 
   describe('useWebChatFramework', () => {
@@ -37,7 +39,7 @@ describe('useWebChatFramework', () => {
       );
 
       expect(result.current.loadingStatus).to.equal(LOADING);
-      expect(result.current.webChatFramework).to.equal(window.WebChat);
+      expect(result.current.webChatFramework).to.equal(global.window.WebChat);
     });
     it('should return loadingStatus=COMPLETE and correct webChatFramework when web chat loads', async () => {
       sandbox.stub(UseLoadWebChatModule, 'default');
@@ -46,12 +48,12 @@ describe('useWebChatFramework', () => {
         useWebChatFramework({ timeout: 1000 }),
       );
       act(() => {
-        window.WebChat = 'test';
+        global.window.WebChat = 'test';
         clock.tick(4000);
       });
 
       expect(result.current.loadingStatus).to.equal(COMPLETE);
-      expect(result.current.webChatFramework).to.equal(window.WebChat);
+      expect(result.current.webChatFramework).to.equal(global.window.WebChat);
     });
     it('should call Sentry and return loadingStatus=ERROR if webchat fails to load in time', async () => {
       sandbox.stub(UseLoadWebChatModule, 'default');
@@ -59,7 +61,7 @@ describe('useWebChatFramework', () => {
         SentryModule,
         'captureException',
       );
-      window.WebChat = null;
+      global.window.WebChat = null;
 
       const { result } = renderHook(() =>
         useWebChatFramework({ timeout: 1000 }),

@@ -9,6 +9,7 @@ describe('useBotOutgoingActivityEventListener', () => {
   let sandbox;
   let clock;
   const now = new Date();
+  const originalWindow = global.window;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -21,6 +22,7 @@ describe('useBotOutgoingActivityEventListener', () => {
   afterEach(() => {
     sandbox.restore();
     clock.restore();
+    global.window = originalWindow;
   });
 
   it('should call addEventListener', () => {
@@ -44,13 +46,13 @@ describe('useBotOutgoingActivityEventListener', () => {
       .stub(React, 'useState')
       .returns([lastMessageTime, setLastMessageTimeStub]);
     const reloadStub = sandbox.stub();
-    window.location = {
+    global.window.location = {
       reload: reloadStub,
     };
 
     renderHook(() => useBotOutgoingActivityEventListener(chatBotLoadTime));
     await act(async () => {
-      window.dispatchEvent(new Event('bot-outgoing-activity'));
+      global.window.dispatchEvent(new Event('bot-outgoing-activity'));
     });
 
     expect(reloadStub.calledOnce).to.be.true;
@@ -65,13 +67,13 @@ describe('useBotOutgoingActivityEventListener', () => {
       .stub(React, 'useState')
       .returns([lastMessageTime, setLastMessageTimeStub]);
     const reloadStub = sandbox.stub();
-    window.location = {
+    global.window.location = {
       reload: reloadStub,
     };
 
     renderHook(() => useBotOutgoingActivityEventListener(chatBotLoadTime));
     await act(async () => {
-      window.dispatchEvent(new Event('bot-outgoing-activity'));
+      global.window.dispatchEvent(new Event('bot-outgoing-activity'));
     });
 
     expect(reloadStub.notCalled).to.be.true;
@@ -86,13 +88,13 @@ describe('useBotOutgoingActivityEventListener', () => {
       .stub(React, 'useState')
       .returns([lastMessageTime, setLastMessageTimeStub]);
     const reloadStub = sandbox.stub();
-    window.location = {
+    global.window.location = {
       reload: reloadStub,
     };
 
     renderHook(() => useBotOutgoingActivityEventListener(chatBotLoadTime));
     await act(async () => {
-      window.dispatchEvent(new Event('bot-outgoing-activity'));
+      global.window.dispatchEvent(new Event('bot-outgoing-activity'));
     });
 
     expect(reloadStub.calledOnce).to.be.true;
@@ -107,13 +109,13 @@ describe('useBotOutgoingActivityEventListener', () => {
       .stub(React, 'useState')
       .returns([lastMessageTime, setLastMessageTimeStub]);
     const reloadStub = sandbox.stub();
-    window.location = {
+    global.window.location = {
       reload: reloadStub,
     };
 
     renderHook(() => useBotOutgoingActivityEventListener(chatBotLoadTime));
     await act(async () => {
-      window.dispatchEvent(new Event('bot-outgoing-activity'));
+      global.window.dispatchEvent(new Event('bot-outgoing-activity'));
     });
 
     expect(reloadStub.calledOnce).to.be.true;

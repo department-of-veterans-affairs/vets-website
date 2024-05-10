@@ -34,6 +34,7 @@ import * as ValidateParametersModule from '../../utils/validateParameters';
 
 describe('WebChat', () => {
   let sandbox;
+  const originalWindow = global.window;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -41,6 +42,7 @@ describe('WebChat', () => {
 
   afterEach(() => {
     sandbox.restore();
+    global.window = originalWindow;
   });
 
   const middleware = [thunk];
@@ -214,7 +216,7 @@ describe('WebChat', () => {
     });
     it('should render with webSpeechPonyfillFactory when in rx skill', async () => {
       // we should find a better way to do this since we shouldn't know about these in this functio
-      window.WebChat = {
+      global.window.WebChat = {
         createCognitiveServicesSpeechServicesPonyfillFactory: sandbox
           .stub()
           .resolves(true),
@@ -251,7 +253,7 @@ describe('WebChat', () => {
       );
 
       await act(async () => {
-        window.dispatchEvent(new Event('rxSkill'));
+        global.window.dispatchEvent(new Event('rxSkill'));
       });
 
       expect(reactWebChatStub.calledThrice).to.be.true;
