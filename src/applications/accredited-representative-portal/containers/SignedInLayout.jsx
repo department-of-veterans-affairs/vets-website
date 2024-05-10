@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom-v5-compat';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import NotInPilotError from '../components/NotInPilotError/NotInPilotError';
+import NotInPilotInfo from '../components/NotInPilotInfo/NotInPilotInfo';
 import NoPOAPermissionsError from '../components/NoPOAPermissionsError/NoPOAPermissionsError';
 import Breadcrumbs from '../components/common/Breadcrumbs';
 import Sidenav from '../components/common/Sidenav';
@@ -26,7 +26,7 @@ const SignedInLayout = ({
   }
 
   if (environment.isProduction() && !isInPilot) {
-    return <NotInPilotError />;
+    return <NotInPilotInfo />;
   }
 
   if (!hasPOAPermissions) {
