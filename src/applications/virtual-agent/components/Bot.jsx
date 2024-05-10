@@ -21,6 +21,10 @@ import {
 // Event Listeners
 import webAuthActivityEventListener from '../event-listeners/webAuthActivityEventListener';
 
+// Selectors
+import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedIn';
+import selectVirtualAgentDataTermsAccepted from '../selectors/selectVirtualAgentDataTermsAccepted';
+
 const MINUTE = 60 * 1000;
 
 function Bot({
@@ -28,8 +32,8 @@ function Bot({
   virtualAgentEnableMsftPvaTesting,
   virtualAgentEnableNluPvaTesting,
 }) {
-  const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
-  const isAccepted = useSelector(state => state.virtualAgentData.termsAccepted);
+  const isLoggedIn = useSelector(selectUserCurrentlyLoggedIn);
+  const isAccepted = useSelector(selectVirtualAgentDataTermsAccepted);
   const [isAuthTopic, setIsAuthTopic] = useState(false);
   const inAuthExp = getInAuthExp();
   const loggedInFlow = getLoggedInFlow();

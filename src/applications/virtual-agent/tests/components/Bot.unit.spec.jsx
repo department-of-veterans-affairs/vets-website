@@ -1,0 +1,155 @@
+import React from 'react';
+import sinon from 'sinon';
+import { expect } from 'chai';
+import { render } from '@testing-library/react';
+import * as ReactReduxModule from 'react-redux';
+import { Provider } from 'react-redux';
+import { act } from 'react-dom/test-utils';
+
+// import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import * as SignInModalModule from '@department-of-veterans-affairs/platform-user/SignInModal';
+
+import * as SessionStorageModule from '../../utils/sessionStorage';
+import * as WebAuthActivityEventListenerModule from '../../event-listeners/webAuthActivityEventListener';
+import * as ChatboxDisclaimerModule from '../../components/ChatboxDisclaimer';
+import * as AppModule from '../../components/App';
+import Bot from '../../components/Bot';
+
+const mockStore = {
+  getState: () => ({
+    featureToggles: [
+      {
+        // eslint-disable-next-line camelcase
+        [FEATURE_FLAG_NAMES.virtualAgentEnableParamErrorDetection]: false,
+        [FEATURE_FLAG_NAMES.virtualAgentEnableMsftPvaTesting]: false,
+        [FEATURE_FLAG_NAMES.virtualAgentEnableNluPvaTesting]: false,
+      },
+    ],
+  }),
+  subscribe: () => {},
+  dispatch: () => ({}),
+};
+
+describe('Bot', () => {
+  let sandbox;
+  let clock;
+
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+    clock = sinon.useFakeTimers({ toFake: ['setTimeout'] });
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+    clock.restore();
+  });
+
+  describe('Bot', () => {
+    it('should setup the webAuthActivityEventListener', () => {
+      sandbox.stub(ReactReduxModule, 'useSelector');
+      const webAuthActivityEventListenerStub = sandbox.stub(
+        WebAuthActivityEventListenerModule,
+        'default',
+      );
+
+      render(
+        <Provider store={mockStore}>
+          <Bot />
+        </Provider>,
+      );
+
+      expect(webAuthActivityEventListenerStub.calledOnce).to.be.true;
+    });
+    it('should set inAuthexp to true and loggedInFlow to false if user is logged in', () => {
+      sandbox
+        .stub(ReactReduxModule, 'useSelector')
+        .onCall(0)
+        .returns(true);
+      sandbox.stub(SessionStorageModule, 'getLoggedInFlow').returns('true');
+      const setInAuthExpStub = sandbox.stub(
+        SessionStorageModule,
+        'setInAuthExp',
+      );
+      const setLoggedInFlowStub = sandbox.stub(
+        SessionStorageModule,
+        'setLoggedInFlow',
+      );
+
+      render(
+        <Provider store={mockStore}>
+          <Bot />
+        </Provider>,
+      );
+
+      expect(setInAuthExpStub.calledOnce).to.be.true;
+      expect(setInAuthExpStub.calledWithExactly('true')).to.be.true;
+      expect(setLoggedInFlowStub.calledOnce).to.be.true;
+      expect(setLoggedInFlowStub.calledWithExactly('false')).to.be.true;
+    });
+    it('should return ChatboxDisclaimer if disclaimer use has not accepted disclaimer', () => {
+      sandbox
+        .stub(ReactReduxModule, 'useSelector')
+        .onCall(1)
+        .returns(false);
+      sandbox.stub(SessionStorageModule, 'getInAuthExp').returns(false);
+      sandbox
+        .stub(ChatboxDisclaimerModule, 'default')
+        .callsFake(() => <div data-testid="disclaimer" />);
+
+      const { getByTestId } = render(
+        <Provider store={mockStore}>
+          <Bot />
+        </Provider>,
+      );
+
+      expect(getByTestId('disclaimer')).to.exist;
+    });
+    it('should return the SignInModal if user is not logged in and is in an auth experience', async () => {
+      sandbox
+        .stub(ReactReduxModule, 'useSelector')
+        .onCall(0)
+        .returns(false)
+        .onCall(1)
+        .returns(true);
+      sandbox.stub(SessionStorageModule, 'getInAuthExp').returns(true);
+      sandbox
+        .stub(SignInModalModule, 'default')
+        .callsFake(() => <div data-testid="signInModal" />);
+
+      const { getByTestId } = render(
+        <Provider store={mockStore}>
+          <Bot />
+        </Provider>,
+      );
+      await act(async () => {
+        window.dispatchEvent(new Event('webchat-auth-activity'));
+        clock.tick(3000);
+      });
+
+      expect(getByTestId('signInModal')).to.exist;
+    });
+    it('should return the App if user accepts disclaimer and does not need to sign in', () => {
+      sandbox
+        .stub(ReactReduxModule, 'useSelector')
+        .onCall(0)
+        .returns(true)
+        .onCall(1)
+        .returns(true);
+      sandbox.stub(SessionStorageModule, 'getInAuthExp').returns(true);
+      sandbox.stub(SessionStorageModule, 'getLoggedInFlow').returns('false');
+      sandbox.stub(React, 'useState').returns([true, sandbox.stub()]);
+      sandbox
+        .stub(AppModule, 'default')
+        .callsFake(() => <div data-testid="app" />);
+
+      const { getByTestId } = render(
+        <Provider store={mockStore}>
+          <Bot />
+        </Provider>,
+      );
+
+      expect(getByTestId('app')).to.exist;
+    });
+  });
+});
