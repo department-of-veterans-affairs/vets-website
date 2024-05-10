@@ -76,7 +76,7 @@ describe('Vitals list container', () => {
   it('displays Blood oxygen level vitals', async () => {
     await waitFor(() => {
       expect(
-        screen.getAllByText('Blood oxygen level', {
+        screen.getAllByText('Blood oxygen level (pulse oximetry)', {
           selector: 'h2',
           exact: true,
         }),
@@ -187,10 +187,13 @@ describe('Vitals list container', () => {
         selector: 'h2',
         exact: true,
       });
-      [bloodOxygen] = screen.getAllByText('Blood oxygen level', {
-        selector: 'h2',
-        exact: true,
-      });
+      [bloodOxygen] = screen.getAllByText(
+        'Blood oxygen level (pulse oximetry)',
+        {
+          selector: 'h2',
+          exact: true,
+        },
+      );
       [temperature] = screen.getAllByText('Temperature', {
         selector: 'h2',
         exact: true,
