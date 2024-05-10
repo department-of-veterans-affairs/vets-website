@@ -338,9 +338,11 @@ const PrescriptionDetails = () => {
       setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.NotStarted });
       setTimeout(() => window.print(), 1);
     }
-    setTimeout(() => {
-      dispatch(clearAllergiesError());
-    }, 1);
+    if (allergiesError) {
+      setTimeout(() => {
+        dispatch(clearAllergiesError());
+      }, 1);
+    }
   };
 
   const content = () => {
