@@ -1,0 +1,24 @@
+{
+  "data": {
+    "attributes": {
+      "profile": {
+        "sign_in": {
+          "service_name": "idme"
+        },
+        "email": "john.preparer@example.com",
+        "loa": { "current": 3 },
+        "first_name": "John",
+        "middle_name": "",
+        "last_name": "Preparer",
+        "gender": "F",
+        "birth_date": "1985-01-01",
+        "verified": true,
+        "poa_codes": [],
+        "ogc_registration_number": "123456789"
+      },
+      "in_progress_forms": [],
+      "prefills_available": []
+    }
+  },
+  "meta": { "errors": null }
+}

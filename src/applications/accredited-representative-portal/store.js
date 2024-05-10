@@ -1,14 +1,14 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import rootReducer from './reducers';
 
-export default function createReduxStore(reducer) {
+export default function createReduxStore() {
   const useDevTools =
     !environment.isProduction() && window.__REDUX_DEVTOOLS_EXTENSION__;
 
   return createStore(
-    combineReducers(reducer),
+    rootReducer,
     compose(
       applyMiddleware(thunk),
       useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,

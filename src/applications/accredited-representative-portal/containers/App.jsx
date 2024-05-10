@@ -13,7 +13,6 @@ const store = createReduxStore();
 
 function App({ user }) {
   const dispatch = useDispatch();
-
   useEffect(
     () => {
       dispatch(fetchUser());

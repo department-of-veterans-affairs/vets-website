@@ -1,3 +1,5 @@
+import user from './fixtures/mocks/user.json';
+
 const featureIsEnabled = value => {
   cy.intercept('GET', '/v0/feature_toggles*', {
     data: {
@@ -5,6 +7,32 @@ const featureIsEnabled = value => {
     },
   });
 };
+
+const arpUserLOA3 = {
+  ...user,
+  data: {
+    ...user.data,
+    attributes: {
+      ...user.data.attributes,
+      login: {
+        currentlyLoggedIn: true,
+      },
+      profile: {
+        ...user.data.attributes.profile,
+        loa: {
+          current: 3,
+        },
+      },
+    },
+  },
+};
+
+Cypress.Commands.add('loginArpUser', (userData = arpUserLOA3) => {
+  window.localStorage.setItem('hasSession', true);
+  cy.intercept('GET', 'accredited_representative_portal/v0/user', userData).as(
+    'mockArpUser',
+  );
+});
 
 describe('Accredited Representative Portal', () => {
   describe('Feature toggle not enabled', () => {
@@ -31,8 +59,9 @@ describe('Accredited Representative Portal', () => {
   describe('Feature toggle enabled - Navigation from Landing Page to pages and back', () => {
     beforeEach(() => {
       featureIsEnabled(true);
+      cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
+      cy.loginArpUser(arpUserLOA3);
       cy.visit('/representative');
-
       cy.injectAxe();
     });
 
