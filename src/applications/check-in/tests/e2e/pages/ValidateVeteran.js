@@ -173,8 +173,8 @@ class ValidateVeteran {
 
   validateAutocorrectDisabled = () => {
     cy.get('[label="Your last name"]')
-      .should('have.attr', 'autocorrect', 'false')
-      .should('have.attr', 'spellcheck', 'false');
+      .should('have.attr', 'auto-correct', 'false')
+      .should('have.attr', 'spell-check', 'false');
   };
 
   getLastNameError = () => {

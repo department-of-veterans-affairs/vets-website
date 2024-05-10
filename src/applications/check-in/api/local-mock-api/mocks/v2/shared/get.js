@@ -286,10 +286,19 @@ const createAppointments = (
     }
     appointments.push(
       createAppointment({
+        eligibility: 'ELIGIBLE',
+        clinicIen: '0001',
+        appointmentIen: `0060`,
+        clinicFriendlyName: `HEART CLINIC-CVT`,
+        kind: 'cvt',
+      }),
+    );
+    appointments.push(
+      createAppointment({
         eligibility: 'INELIGIBLE_TOO_EARLY',
         clinicIen: '0001',
         appointmentIen: `0050`,
-        clinicFriendlyName: `HEART CLINIC-E`,
+        clinicFriendlyName: `HEART CLINIC`,
       }),
     );
   }
