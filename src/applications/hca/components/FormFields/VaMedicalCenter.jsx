@@ -1,44 +1,82 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
-import { focusElement } from 'platform/utilities/ui';
+import constants from 'vets-json-schema/dist/constants.json';
+import environment from '~/platform/utilities/environment';
+import { apiRequest } from '~/platform/utilities/api';
+import { focusElement } from '~/platform/utilities/ui';
+import { STATES_WITHOUT_MEDICAL } from '../../utils/constants';
 import ServerErrorAlert from '../FormAlerts/ServerErrorAlert';
+import { VaMedicalCenterReviewField } from '../FormReview/VaMedicalCenterReviewField';
 
 const apiRequestWithUrl = `${
   environment.API_URL
 }/v0/health_care_applications/facilities?type=health&per_page=1000`;
 
 const VaMedicalCenter = props => {
-  const { formContext, id, onChange, required, value, facilityState } = props;
+  const {
+    errorSchema,
+    formContext,
+    formData,
+    idSchema,
+    onChange,
+    schema,
+  } = props;
   const { reviewMode, submitted } = formContext;
+  const { required: reqFields } = schema;
 
+  const [dirtyFields, setDirtyFields] = useState([]);
   const [facilities, setFacilities] = useState([]);
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
-  const [dirty, setDirty] = useState(false);
 
   // define our error message(s)
   const errorMessages = { required: 'Please provide a response' };
 
-  // define our custom onchange event
-  const handleChange = event => {
-    setDirty(true);
-    onChange(event.detail.value);
-  };
+  // populate our dirty fields array on user interaction
+  const addDirtyField = useCallback(
+    field => {
+      if (!dirtyFields.includes(field)) {
+        setDirtyFields(prevState => [...prevState, field]);
+      }
+    },
+    [dirtyFields],
+  );
 
-  // define our custom onblur event
-  const handleBlur = () => {
-    setDirty(true);
-  };
+  // define our non-checkbox input change event
+  const handleChange = useCallback(
+    event => {
+      const fieldName = event.target.name.split('_').pop();
+      formData[fieldName] = event.target.value;
+      addDirtyField(fieldName);
+      onChange(formData);
+    },
+    [addDirtyField, formData, onChange],
+  );
 
-  // check field for validation errors only if field is dirty or form has been submitted
-  const showError = () => {
-    return (submitted || dirty) && !value ? errorMessages.required : false;
+  // define our non-checkbox input blur event
+  const handleBlur = useCallback(
+    event => {
+      const fieldName = event.target.name.split('_').pop();
+      addDirtyField(fieldName);
+    },
+    [addDirtyField],
+  );
+
+  // check field for validation errors
+  const showError = field => {
+    const errorList = errorSchema[field].__errors;
+    const fieldIsDirty = dirtyFields.includes(field);
+    const shouldValidate = (submitted || fieldIsDirty) && errorList.length;
+
+    // validate only if field is dirty or form has been submitted
+    if (shouldValidate && reqFields.includes(field) && !formData[field]) {
+      return errorMessages[field].required;
+    }
+
+    return false;
   };
 
   // grab the facility name based upon the selected value
@@ -53,6 +91,7 @@ const VaMedicalCenter = props => {
   // fetch, map and set our list of facilities based on the state selection
   useEffect(
     () => {
+      const { 'view:facilityState': facilityState } = formData;
       if (facilityState) {
         isLoading(true);
         apiRequest(`${apiRequestWithUrl}&state=${facilityState}`, {})
@@ -81,19 +120,16 @@ const VaMedicalCenter = props => {
         isLoading(false);
       }
     },
-    [facilityState],
+    [formData],
   );
 
   // render the static facility name on review page
   if (reviewMode) {
     return (
-      <span
-        className="dd-privacy-hidden"
-        data-testid="hca-facility-name"
-        data-dd-action-name="facility name"
-      >
-        {getFacilityName(value)}
-      </span>
+      <VaMedicalCenterReviewField
+        facilityName={getFacilityName(formData.vaMedicalFacility)}
+        state={formData['view:facilityState']}
+      />
     );
   }
 
@@ -109,23 +145,45 @@ const VaMedicalCenter = props => {
   }
 
   return !error ? (
-    <VaSelect
-      id={id}
-      name={id}
-      value={value}
-      label="Center or clinic"
-      error={showError() || null}
-      required={required}
-      onVaSelect={handleChange}
-      onBlur={handleBlur}
-      uswds
-    >
-      {facilities.map(f => (
-        <option key={f.id} value={f.id.split('_').pop()}>
-          {f.name}
-        </option>
-      ))}
-    </VaSelect>
+    <>
+      <VaSelect
+        id={idSchema['view:facilityState'].$id}
+        name={idSchema['view:facilityState'].$id}
+        value={formData['view:facilityState']}
+        label="State"
+        error={showError('view:facilityState') || null}
+        onVaSelect={handleChange}
+        onBlur={handleBlur}
+        required
+        uswds
+      >
+        {constants.states.USA.filter(state => {
+          return !STATES_WITHOUT_MEDICAL.includes(state.value) ? (
+            <option key={state.value} value={state.value}>
+              {state.label}
+            </option>
+          ) : null;
+        })}
+      </VaSelect>
+
+      <VaSelect
+        id={idSchema.vaMedicalFacility.$id}
+        name={idSchema.vaMedicalFacility.$id}
+        value={formData.vaMedicalFacility}
+        label="Center or clinic"
+        error={showError('vaMedicalFacility') || null}
+        onVaSelect={handleChange}
+        onBlur={handleBlur}
+        required
+        uswds
+      >
+        {facilities.map(f => (
+          <option key={f.id} value={f.id.split('_').pop()}>
+            {f.name}
+          </option>
+        ))}
+      </VaSelect>
+    </>
   ) : (
     <div className="server-error-message vads-u-margin-top--4">
       <ServerErrorAlert />
@@ -134,17 +192,12 @@ const VaMedicalCenter = props => {
 };
 
 VaMedicalCenter.propTypes = {
-  facilityState: PropTypes.string,
+  errorSchema: PropTypes.object,
   formContext: PropTypes.object,
-  id: PropTypes.string,
-  required: PropTypes.bool,
-  value: PropTypes.string,
+  formData: PropTypes.object,
+  idSchema: PropTypes.object,
+  schema: PropTypes.object,
   onChange: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  facilityState:
-    state.form.data['view:preferredFacility']['view:facilityState'],
-});
-
-export default connect(mapStateToProps)(VaMedicalCenter);
+export default VaMedicalCenter;
