@@ -3,6 +3,7 @@ import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
   concatObservationInterpretations,
+  dateFormat,
   getObservationValueWithUnits,
   isArrayAndHasItems,
 } from '../util/helpers';
@@ -43,15 +44,22 @@ const initialState = {
  */
 const convertChemHemObservation = results => {
   return results.filter(obs => obs.valueQuantity).map(result => {
-    let observationValueWithUnits = getObservationValueWithUnits(result);
+    const { observationValue, observationUnit } = getObservationValueWithUnits(
+      result,
+    );
+    let observationValueWithUnits = `${observationValue} ${observationUnit}`;
     const interpretation = concatObservationInterpretations(result);
     if (observationValueWithUnits && interpretation) {
       observationValueWithUnits += ` (${interpretation})`;
     }
+    let standardRange;
+    if (observationUnit) {
+      standardRange = `${result.referenceRange[0].text} ${observationUnit}`;
+    }
     return {
       name: result.code.text,
       result: observationValueWithUnits || EMPTY_FIELD,
-      standardRange: result.referenceRange[0].text || EMPTY_FIELD,
+      standardRange: standardRange || EMPTY_FIELD,
       status: result.status || EMPTY_FIELD,
       labLocation: result.labLocation || EMPTY_FIELD,
       labComments:
@@ -76,7 +84,7 @@ const convertChemHemRecord = record => {
     orderedBy: record.physician || EMPTY_FIELD,
     requestedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
-      ? formatDateLong(record.effectiveDateTime)
+      ? dateFormat(record.effectiveDateTime)
       : EMPTY_FIELD,
     orderingLocation: record.location || EMPTY_FIELD,
     collectingLocation: record.location || EMPTY_FIELD,

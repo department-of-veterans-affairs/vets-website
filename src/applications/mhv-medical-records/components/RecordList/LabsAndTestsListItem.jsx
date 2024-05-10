@@ -29,9 +29,6 @@ const LabsAndTestsListItem = props => {
         {record.type === labTypes.RADIOLOGY && (
           <div>Type of test: X-rays and imaging tests (Radiology)</div>
         )}
-        {record.type === labTypes.CHEM_HEM && (
-          <div>Type of test: Chemistry and hematology</div>
-        )}
         <div>Ordered by {record.orderedBy}</div>
       </div>
     </va-card>

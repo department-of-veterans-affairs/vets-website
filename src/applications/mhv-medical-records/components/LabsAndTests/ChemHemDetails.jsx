@@ -86,7 +86,7 @@ Sample tested: ${record.sampleTested} \n
 Ordered by: ${record.orderedBy} \n
 Order location: ${record.orderingLocation} \n
 Collecting location: ${record.collectingLocation} \n
-Provider notes: ${processList(record.comments)} \n
+Lab comments: ${processList(record.comments)} \n
 ${txtLine}\n\n
 Results:
 ${record.results
@@ -156,7 +156,7 @@ Lab comments: ${entry.labComments}\n`,
           {record.collectingLocation}
         </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Provider notes
+          Lab comments
         </h3>
         <ItemList list={record.comments} />
       </div>

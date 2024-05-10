@@ -37,7 +37,7 @@ export const generateChemHemContent = record => ({
         inline: true,
       },
       {
-        title: 'Provider notes',
+        title: 'Lab comments',
         value: record.comments,
         inline: !record.comments,
       },
