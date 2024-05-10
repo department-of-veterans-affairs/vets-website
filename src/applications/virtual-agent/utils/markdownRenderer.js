@@ -64,13 +64,13 @@ export function getDefaultRenderer(renderer) {
 export const defaultRender = getDefaultRenderer(markdownRenderer);
 
 const linkOpen = 'link_open';
-markdownRenderer.renderer.rules[linkOpen] = function(
+markdownRenderer.renderer.rules[linkOpen] = (
   tokens,
   idx,
   options,
   env,
   self,
-) {
+) => {
   const [, href] = tokens[idx].attrs.find(([key]) => key === 'href');
   const [scheme, phoneNumber] = href.split(':');
 
