@@ -52,6 +52,7 @@ function Bot({
   if (!isLoggedIn && isAuthTopic) {
     return (
       <SignInModal
+        data-testid="sign-in-modal"
         visible
         onClose={() => {
           setIsAuthTopic(false);

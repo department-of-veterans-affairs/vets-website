@@ -6,7 +6,6 @@ import * as ReactReduxModule from 'react-redux';
 import { Provider } from 'react-redux';
 import { act } from 'react-dom/test-utils';
 
-// import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import * as SignInModalModule from '@department-of-veterans-affairs/platform-user/SignInModal';
 
@@ -115,7 +114,7 @@ describe('Bot', () => {
       sandbox.stub(SessionStorageModule, 'getInAuthExp').returns(true);
       sandbox
         .stub(SignInModalModule, 'default')
-        .callsFake(() => <div data-testid="signInModal" />);
+        .callsFake(() => <div data-testid="sign-in-modal" />);
 
       const { getByTestId } = render(
         <Provider store={mockStore}>
@@ -124,10 +123,10 @@ describe('Bot', () => {
       );
       await act(async () => {
         window.dispatchEvent(new Event('webchat-auth-activity'));
-        clock.tick(3000);
+        clock.tick(2000);
       });
 
-      expect(getByTestId('signInModal')).to.exist;
+      expect(getByTestId('sign-in-modal')).to.exist;
     });
     it('should return the App if user accepts disclaimer and does not need to sign in', () => {
       sandbox
@@ -150,6 +149,40 @@ describe('Bot', () => {
       );
 
       expect(getByTestId('app')).to.exist;
+    });
+    it('should call setLoggedInFlow when signInModal is closed', async () => {
+      sandbox
+        .stub(ReactReduxModule, 'useSelector')
+        .onCall(0)
+        .returns(false)
+        .onCall(1)
+        .returns(true);
+      sandbox.stub(SessionStorageModule, 'getInAuthExp').returns(true);
+      const setLoggedInFlowStub = sandbox
+        .stub(SessionStorageModule, 'setLoggedInFlow')
+        .returns(true);
+      sandbox.stub(SignInModalModule, 'default').callsFake(({ onClose }) => (
+        <div data-testid="sign-in-modal">
+          <va-button data-testid="va-modal-close" onClick={onClose}>
+            Close
+          </va-button>
+        </div>
+      ));
+
+      const { getByTestId } = render(
+        <Provider store={mockStore}>
+          <Bot />
+        </Provider>,
+      );
+      await act(async () => {
+        window.dispatchEvent(new Event('webchat-auth-activity'));
+        clock.tick(2000);
+      });
+
+      getByTestId('va-modal-close').click();
+
+      expect(setLoggedInFlowStub.calledTwice).to.be.true;
+      expect(setLoggedInFlowStub.calledWithExactly('false')).to.be.true;
     });
   });
 });
