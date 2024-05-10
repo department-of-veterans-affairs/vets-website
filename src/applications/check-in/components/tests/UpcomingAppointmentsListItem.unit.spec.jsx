@@ -90,7 +90,7 @@ describe('unified check-in experience', () => {
         </CheckInProvider>,
       );
       expect(screen.getByTestId('appointment-type-and-provider')).to.have.text(
-        'VA Appointment',
+        'VA appointment',
       );
     });
   });
