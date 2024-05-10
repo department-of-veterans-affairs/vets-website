@@ -1,9 +1,9 @@
 name: E2E Test Stability Review
 
 on:
-  schedule:
-    - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
-
+  # schedule:
+  #   - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  push
 env:
   BUILDTYPE: vagovprod
 
@@ -371,7 +371,7 @@ jobs:
       - name: Download Cypress E2E Mochawesome test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-stress-test-results
+          pattern: cypress-stress-test-results-*
           path: qa-standards-dashboard-data/src/allow-list/data
 
       - name: Download E2E Test Stability Allow List
@@ -387,7 +387,7 @@ jobs:
         if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-stress-test-videos
+          pattern: cypress-stress-test-videos-*
           path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
       - name: Update E2E Test Stability Allow List
