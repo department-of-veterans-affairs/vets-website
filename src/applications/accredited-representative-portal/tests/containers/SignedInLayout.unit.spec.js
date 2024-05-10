@@ -42,4 +42,14 @@ describe('SignedInLayout', () => {
     });
     expect(getByTestId('no-poa-permissions-alert')).to.exist;
   });
+
+  it('renders content', () => {
+    const { getByTestId } = getSignedInLayout({
+      isPilotToggleLoading: false,
+      isProduction: true,
+      isInPilot: true,
+      hasPOAPermissions: true,
+    });
+    expect(getByTestId('signed-in-layout-content')).to.exist;
+  });
 });

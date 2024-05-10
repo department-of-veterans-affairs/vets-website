@@ -33,10 +33,8 @@ const SignedInLayout = ({
 
   return (
     <div className="vads-u-margin-y--5 vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <div className="vads-l-row">
-        <div data-testid="signed-in-view-layout-content">
-          <Outlet />
-        </div>
+      <div data-testid="signed-in-layout-content" className="vads-l-row">
+        <Outlet />
       </div>
     </div>
   );
