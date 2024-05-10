@@ -99,14 +99,16 @@ const ApplicantInformationReviewPage = ({
               </div>
             )}
 
-            <button
-              aria-label={`Edit ${title}`}
-              className="edit-btn primary-outline"
-              onClick={editPage}
-              type="button"
-            >
-              Edit
-            </button>
+            {data?.highSchoolDiploma && (
+              <button
+                aria-label={`Edit ${title}`}
+                className="edit-btn primary-outline"
+                onClick={editPage}
+                type="button"
+              >
+                Edit
+              </button>
+            )}
           </dl>
         )}
       </div>
