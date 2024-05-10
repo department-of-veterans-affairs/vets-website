@@ -50,6 +50,7 @@ const RxBreadcrumbs = () => {
               <va-link
                 href={breadcrumbs[breadcrumbs.length - 2].href}
                 text={`Back to ${breadcrumbs[breadcrumbs.length - 2].label}`}
+                data-testid="rx-breadcrumb-link"
               />
             </div>
           )}
