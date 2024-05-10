@@ -9,7 +9,7 @@ import { focusElement } from 'platform/utilities/ui';
 import extraData from '../tests/fixtures/data/extra-data.json';
 import testData from '../tests/fixtures/data/test-data.json';
 
-import { disagreeWith } from '../../testing/utils/areaOfDisagreement';
+import { disagreeWith } from '../../shared/utils/areaOfDisagreement';
 import { getIssueName, getIssueDate } from '../../shared/utils/issues';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 
