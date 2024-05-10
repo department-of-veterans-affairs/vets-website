@@ -26,7 +26,6 @@ const getData = ({
       getState: () => ({
         featureToggles: [
           {
-            // eslint-disable-next-line camelcase
             [FEATURE_FLAG_NAMES.virtualAgentShowFloatingChatbot]: virtualAgentShowFloatingChatbot,
           },
         ],

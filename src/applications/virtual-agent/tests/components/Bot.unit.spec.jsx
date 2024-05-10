@@ -19,7 +19,6 @@ const mockStore = {
   getState: () => ({
     featureToggles: [
       {
-        // eslint-disable-next-line camelcase
         [FEATURE_FLAG_NAMES.virtualAgentEnableParamErrorDetection]: false,
         [FEATURE_FLAG_NAMES.virtualAgentEnableMsftPvaTesting]: false,
         [FEATURE_FLAG_NAMES.virtualAgentEnableNluPvaTesting]: false,
@@ -98,31 +97,31 @@ describe('Bot', () => {
       );
       expect(getByTestId('disclaimer')).to.exist;
     });
-    // it('should return the SignInModal if user is not logged in and is in an auth experience', async () => {
-    //   sandbox
-    //     .stub(ReactReduxModule, 'useSelector')
-    //     .onCall(0)
-    //     .returns(false)
-    //     .onCall(1)
-    //     .returns(true);
-    //   sandbox.stub(SessionStorageModule, 'getInAuthExp').returns(true);
-    //   sandbox
-    //     .stub(SignInModalModule, 'default')
-    //     .callsFake(() => <div data-testid="sign-in-modal" />);
+    it('should return the SignInModal if user is not logged in and is in an auth experience', async () => {
+      sandbox
+        .stub(ReactReduxModule, 'useSelector')
+        .onCall(0)
+        .returns(false)
+        .onCall(1)
+        .returns(true);
+      sandbox.stub(SessionStorageModule, 'getInAuthExp').returns(true);
+      sandbox
+        .stub(SignInModalModule, 'default')
+        .callsFake(() => <div data-testid="sign-in-modal" />);
 
-    //   const { getByTestId } = render(
-    //     <Provider store={mockStore}>
-    //       <Bot />
-    //     </Provider>,
-    //   );
+      const { getByTestId } = render(
+        <Provider store={mockStore}>
+          <Bot />
+        </Provider>,
+      );
 
-    //   await act(async () => {
-    //     window.dispatchEvent(new Event('webchat-auth-activity'));
-    //     clock.tick(10000);
-    //   });
+      await act(async () => {
+        window.dispatchEvent(new Event('webchat-auth-activity'));
+        clock.tick(10000);
+      });
 
-    //   expect(getByTestId('sign-in-modal')).to.exist;
-    // });
+      expect(getByTestId('sign-in-modal')).to.exist;
+    });
     it('should return the App if user accepts disclaimer and does not need to sign in', () => {
       sandbox
         .stub(ReactReduxModule, 'useSelector')

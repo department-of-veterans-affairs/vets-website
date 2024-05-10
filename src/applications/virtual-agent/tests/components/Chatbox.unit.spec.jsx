@@ -23,7 +23,6 @@ const mockStore = {
     },
     featureToggles: [
       {
-        // eslint-disable-next-line camelcase
         [FEATURE_FLAG_NAMES.virtualAgentEnableParamErrorDetection]: false,
         [FEATURE_FLAG_NAMES.virtualAgentEnableMsftPvaTesting]: false,
         [FEATURE_FLAG_NAMES.virtualAgentEnableNluPvaTesting]: false,
