@@ -40,7 +40,6 @@ const VitalListItem = props => {
               {record.measurement}
             </span>
           </div>
-
           <div
             className="vads-u-line-height--4 vads-u-margin-bottom--1"
             data-dd-privacy="mask"
@@ -49,13 +48,22 @@ const VitalListItem = props => {
             <span className="vads-u-font-weight--bold">Date: </span>
             <span>{record.date}</span>
           </div>
-
           <Link
             to={`/vitals/${_.kebabCase(record.type)}-history`}
             className="vads-u-line-height--4"
             data-testid="vital-li-review-over-time"
           >
-            <strong>Review your {displayName.toLowerCase()} over time</strong>
+            <strong>
+              Review your{' '}
+              {displayName === 'Blood oxygen level (pulse oximetry)'
+                ? displayName
+                    .toLowerCase()
+                    .split(' ')
+                    .slice(0, 3)
+                    .join(' ')
+                : displayName.toLowerCase()}{' '}
+              over time
+            </strong>
             <i
               className="fas fa-angle-right details-link-icon"
               aria-hidden="true"

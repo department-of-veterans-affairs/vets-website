@@ -56,7 +56,7 @@ const VitalDetails = props => {
   const { vitalType } = useParams();
   const dispatch = useDispatch();
 
-  const perPage = 5;
+  const perPage = 10;
   const [currentVitals, setCurrentVitals] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);

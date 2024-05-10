@@ -116,7 +116,7 @@ const Vitals = () => {
         <RecordList
           records={cards}
           type={recordType.VITALS}
-          perPage={5}
+          perPage={7}
           hidePagination
         />
       );

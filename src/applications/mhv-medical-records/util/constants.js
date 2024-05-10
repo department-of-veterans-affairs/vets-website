@@ -131,7 +131,7 @@ export const vitalTypeDisplayNames = {
   BLOOD_PRESSURE: 'Blood pressure',
   PULSE: 'Heart rate',
   RESPIRATION: 'Breathing rate',
-  PULSE_OXIMETRY: 'Blood oxygen level',
+  PULSE_OXIMETRY: 'Blood oxygen level (pulse oximetry)',
   TEMPERATURE: 'Temperature',
   WEIGHT: 'Weight',
   HEIGHT: 'Height',
