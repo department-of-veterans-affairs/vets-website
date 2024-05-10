@@ -348,15 +348,6 @@ const AppointmentDetails = props => {
                     </div>
                   </div>
                 )}
-                {app === APP_NAMES.CHECK_IN && (
-                  <div className="vads-u-margin-top--2">
-                    <AppointmentAction
-                      appointment={appointment}
-                      router={router}
-                      event="check-in-clicked-VAOS-design"
-                    />
-                  </div>
-                )}
               </div>
               {appointment.clinicPhoneNumber && (
                 <div data-testid="appointment-details--phone">
