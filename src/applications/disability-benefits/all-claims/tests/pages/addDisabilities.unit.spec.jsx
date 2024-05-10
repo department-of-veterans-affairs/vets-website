@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import set from 'platform/utilities/data/set';
@@ -274,7 +273,7 @@ describe('showRevisedNewDisabilitiesPage', () => {
       uiSchema,
     } = formConfig.chapters.disabilities.pages.addDisabilitiesRevised;
     const onSubmit = sinon.spy();
-    const { form } = render(
+    const screen = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -292,8 +291,8 @@ describe('showRevisedNewDisabilitiesPage', () => {
         onSubmit={onSubmit}
       />,
     );
-    expect($('div.autosuggest-container', form)).to.exist;
-    expect($('va-text-input', form)).to.exist;
+    const labelStr = 'What new condition do you want to claim?';
+    expect(screen.getByText(labelStr)).to.exist;
   });
 
   describe('toggle enabled', () => {
