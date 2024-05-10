@@ -11,8 +11,6 @@ import {
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../mocks/setup';
-import { mockCCProviderFetch } from '../../../mocks/helpers';
-
 import CommunityCareProviderSelectionPage from '../../../../new-appointment/components/CommunityCareProviderSelectionPage';
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
@@ -20,6 +18,7 @@ import { FACILITY_SORT_METHODS } from '../../../../utils/constants';
 import { createMockFacilityByVersion } from '../../../mocks/data';
 import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
 import {
+  mockCCProviderFetch,
   mockSchedulingConfigurations,
   mockGetCurrentPosition,
 } from '../../../mocks/helpers.v2';

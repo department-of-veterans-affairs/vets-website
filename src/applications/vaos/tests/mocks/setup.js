@@ -23,7 +23,6 @@ import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage'
 import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
 import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
 
-import createRoutesWithStore from '../../routes';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
@@ -121,34 +120,6 @@ export function renderWithStoreAndRouter(
   );
 
   return { ...screen, history: historyObject };
-}
-
-/**
- * @deprecated Please use renderWithStoreAndRouter instead
- *
- * @export
- * @param {{ initialState: Object, store: ReduxStore, path: string }} params
- * @returns RTL render result plus history
- */
-export function renderFromRoutes({ initialState, store = null, path = '/' }) {
-  const testStore =
-    store ||
-    createStore(
-      combineReducers({ ...commonReducer, ...reducers }),
-      initialState,
-      applyMiddleware(thunk),
-    );
-  const history = createTestHistory(path);
-  const screen = renderInReduxProvider(
-    <Router history={history}>{createRoutesWithStore(testStore)}</Router>,
-    {
-      store: testStore,
-      initialState,
-      reducers,
-    },
-  );
-
-  return { ...screen, history };
 }
 
 /**
