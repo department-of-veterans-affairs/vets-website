@@ -48,6 +48,27 @@ describe('Accredited Representative Portal', () => {
       cy.location('pathname').should('equal', '/sign-in/');
     });
 
+    it('displays error as content if not in pilot', () => {
+      cy.axeCheck();
+
+      cy.get('[data-testid=not-in-pilot-error]').should('exist');
+      cy.get('[data-testid=not-in-pilot-error-heading]').should(
+        'have.text',
+        'Accredited Representative Portal is currently in pilot and not available to all users.',
+      );
+    });
+  });
+
+  describe('App feature toggle and Pilot feature toggle are enabled', () => {
+    beforeEach(() => {
+      setIsAppEnabled(true);
+      setIsInPilot(true);
+
+      cy.visit('/representative');
+
+      cy.injectAxe();
+    });
+
     it('allows navigation from the Landing Page to the POA Requests Page and back', () => {
       cy.axeCheck();
 
