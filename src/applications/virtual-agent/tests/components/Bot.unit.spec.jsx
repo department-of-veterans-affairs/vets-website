@@ -35,7 +35,11 @@ describe('Bot', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    clock = sinon.useFakeTimers({ toFake: ['setTimeout'] });
+    // Even though we don't use clearTimeout, setInterval, and clearInterval,
+    // if we don't fake them, the tests will hang after they're complete. -.-
+    clock = sinon.useFakeTimers({
+      toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval'],
+    });
   });
 
   afterEach(() => {
