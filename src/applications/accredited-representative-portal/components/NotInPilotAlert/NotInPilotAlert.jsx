@@ -1,20 +1,20 @@
 import React from 'react';
 
-const NotInPilotInfo = () => (
+const NotInPilotAlert = () => (
   <div className="vads-u-margin-y--5 vads-l-grid-container large-screen:vads-u-padding-x--0">
     <div className="vads-l-row">
       <va-alert
         class="arp-full-width-alert"
-        data-testid="not-in-pilot-Info"
+        data-testid="not-in-pilot-alert"
         status="info"
         visible
       >
-        <h2 data-testid="not-in-pilot-Info-heading" slot="headline">
+        <h2 data-testid="not-in-pilot-alert-heading" slot="headline">
           Accredited Representative Portal is currently in pilot
         </h2>
         <div>
           {/* TODO: Add email addresses */}
-          <ul data-testid="not-in-pilot-Info-description">
+          <ul data-testid="not-in-pilot-alert-description">
             <li>
               <span className="arp-full-width-alert__questions">
                 Would you like to join the pilot?{' '}
@@ -40,4 +40,4 @@ const NotInPilotInfo = () => (
   </div>
 );
 
-export default NotInPilotInfo;
+export default NotInPilotAlert;

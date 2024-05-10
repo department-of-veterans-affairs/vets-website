@@ -4,8 +4,8 @@ import { Outlet } from 'react-router-dom-v5-compat';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import NotInPilotInfo from '../components/NotInPilotInfo/NotInPilotInfo';
-import NoPOAPermissionsError from '../components/NoPOAPermissionsError/NoPOAPermissionsError';
+import NotInPilotAlert from '../components/NotInPilotAlert/NotInPilotAlert';
+import NoPOAPermissionsAlert from '../components/NoPOAPermissionsAlert/NoPOAPermissionsAlert';
 import Breadcrumbs from '../components/common/Breadcrumbs';
 import Sidenav from '../components/common/Sidenav';
 
@@ -26,11 +26,11 @@ const SignedInLayout = ({
   }
 
   if (environment.isProduction() && !isInPilot) {
-    return <NotInPilotInfo />;
+    return <NotInPilotAlert />;
   }
 
   if (!hasPOAPermissions) {
-    return <NoPOAPermissionsError />;
+    return <NoPOAPermissionsAlert />;
   }
 
   return (
@@ -51,9 +51,9 @@ const SignedInLayout = ({
 };
 
 SignedInLayout.propTypes = {
+  hasPOAPermissions: PropTypes.bool,
   isInPilot: PropTypes.bool,
   isPilotToggleLoading: PropTypes.bool,
-  poaPermissions: PropTypes.bool,
 };
 
 export default SignedInLayout;
