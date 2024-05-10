@@ -1,5 +1,6 @@
 {
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
+  "accreditedRepresentativePortalPilot": "accredited_representative_portal_pilot",
   "authExpVbaDowntimeMessage": "auth_exp_vba_downtime_message",
   "mebAutoPopulateRelinquishmentDate": "meb_auto_populate_relinquishment_date",
   "avsEnabled": "avs_enabled",

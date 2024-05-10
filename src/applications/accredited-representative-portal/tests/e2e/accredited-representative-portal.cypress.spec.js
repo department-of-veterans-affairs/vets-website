@@ -1,36 +1,39 @@
-const featureIsEnabled = value => {
-  cy.intercept('GET', '/v0/feature_toggles*', {
-    data: {
-      features: [{ name: 'accredited_representative_portal_frontend', value }],
-    },
-  });
-};
+import { setIsAppEnabled, setIsInPilot } from './intercepts/feature-toggles';
 
 describe('Accredited Representative Portal', () => {
-  describe('Feature toggle not enabled', () => {
+  describe('App feature toggle is not enabled', () => {
+    // During CI, the environment is production, so we can test our global
+    // feature toggling behavior there. But when running this test locally, the
+    // environment is localhost, so we can't test our global feature toggling
+    // behavior there without doing some more complex test setup.
     beforeEach(function skipOutsideCI() {
       if (!Cypress.env('CI')) {
         this.skip();
       }
-      featureIsEnabled(false);
+
+      setIsAppEnabled(false);
+
+      cy.visit('/representative');
+
+      cy.injectAxe();
     });
 
-    it('does not allow navigation to the Portal when feature is not enabled', () => {
-      // During CI, the environment is production, so we can test our global
-      // feature toggling behavior there. But when running this test locally, the
-      // environment is localhost, so we can't test our global feature toggling
-      // behavior there without doing some more complex test setup.
-      cy.visit('/representative');
-      cy.injectAxe();
+    it('re-routes to VA.gov homepage', () => {
       cy.axeCheck();
 
       cy.location('pathname').should('equal', '/');
     });
   });
 
-  describe('Feature toggle enabled - Navigation from Landing Page to pages and back', () => {
-    beforeEach(() => {
-      featureIsEnabled(true);
+  describe('App feature toggle is enabled, but Pilot feature toggle is not enabled', () => {
+    beforeEach(function skipOutsideCI() {
+      if (!Cypress.env('CI')) {
+        this.skip();
+      }
+
+      setIsAppEnabled(true);
+      setIsInPilot(false);
+
       cy.visit('/representative');
 
       cy.injectAxe();

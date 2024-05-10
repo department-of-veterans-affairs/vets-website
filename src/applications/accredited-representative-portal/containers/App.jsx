@@ -15,21 +15,20 @@ function App() {
     TOGGLE_NAMES,
   } = useFeatureToggle();
 
-  const appEnabled = useToggleValue(
+  const isAppEnabled = useToggleValue(
     TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
   );
+  const isAppToggleLoading = useToggleLoadingValue();
 
-  const toggleIsLoading = useToggleLoadingValue();
-
-  if (toggleIsLoading) {
+  if (isAppToggleLoading) {
     return (
-      <div className="vads-u-margin-x--3">
-        <VaLoadingIndicator />
+      <div className="vads-u-margin-y--5">
+        <VaLoadingIndicator message="Loading the Accredited Representative Portal..." />
       </div>
     );
   }
 
-  if (!appEnabled && environment.isProduction()) {
+  if (environment.isProduction() && !isAppEnabled) {
     return document.location.replace('/');
   }
 
