@@ -33,6 +33,7 @@
  * @property {string} [formId]
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
+ * @property {boolean} [hideNavButtons]
  * @property {boolean} [hideUnauthedStartLink]
  * @property {React.ReactNode | (props: any) => any} [introduction]
  * @property {Array<Function>} [migrations]
@@ -134,6 +135,8 @@
  * @property {Record<string, FormConfigPage>} [pages]
  * @property {string | ({ formData, formConfig }) => string} [title]
  * @property {boolean} [hideFormNavProgress]
+ * @property {boolean} [hideFormTitle]
+ * @property {boolean} [hideOnReviewPage]
  * @property {React.ReactNode} [reviewDescription]
  */
 
@@ -147,6 +150,7 @@
  * @property {((formData: Object) => boolean) | {}} [depends] optional condition when page should be shown or not
  * @property {Object} [initialData]
  * @property {boolean} [customPageUsesPagePerItemData] Used with `CustomPage` and arrays. If true, will treat `data` (`formData`) and `setFormData` at the array level instead of the entire `formData` level, which matches how default pages work.
+ * @property {boolean} [hideNavButtons] Used to hide the 'Continue' and 'Back' buttons
  * @property {(formData: any) => void} [onContinue] Called when user clicks continue button. For simple callbacks/events. If you instead want to navigate to a different page, use onNavForward.
  * @property {({ formData, goPath, goPreviousPath, pageList, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goPreviousPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
  * @property {({ formData, goPath, goNextPath, pageList, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goNextPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
@@ -249,7 +253,7 @@
 /**
  * @typedef {Object} UIOptions
  * @property {string} [ariaDescribedby] The id of the element that describes the field. Use `messageAriaDescribedby` for web components.
- * @property {boolean} [charcount] Whether a web-component should show a character count message. Has no effect without maxlength being set.
+ * @property {boolean} [charcount] Whether a web-component should show a character count message. Has no effect without `maxLength` being set in the schema.
  * @property {string} [classNames] additional CSS classes to add to the field
  * @property {boolean} [confirmRemove] For arrays. If true, will show a confirmation modal when removing an item.
  * @property {string} [confirmRemoveDescription] For arrays. Description for the confirmation modal when removing an item.
@@ -276,7 +280,7 @@
  * @property {string} [hint] The hint text for the field. For web components.
  * @property {boolean} [includeRequiredLabelInTitle]
  * @property {Array<(input) => string>} [inputTransformers]
- * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] HTML input 'type' attribute. May result in different keyboard for mobile users.
+ * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] Keyboard type for mobile users. Equivalent to HTML input 'type' attribute.
  * @property {(item: any) => string} [itemAriaLabel] for arrays
  * @property {string} [itemName] The name of the item - for arrays. For example a value of 'Child' will result in 'Add another child', 'New child', and if 'using confirmRemove', 'Are you sure you want to remove this child item?', 'Yes, remove this child item'.
  * @property {boolean} [invalid] For web components. Whether or not aria-invalid will be set on the inner input. Useful when composing the component into something larger, like a date component.
