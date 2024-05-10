@@ -6,37 +6,43 @@ import {
   VaFileInput,
   VaSegmentedProgressBar,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { redirect } from '@department-of-veterans-affairs/platform-user/authentication/utilities';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { submitToSimpleForms } from '../actions';
 
-function UploadPage({ confirmationCode, dispatchSubmitToSimpleForms }) {
-  const params = useParams();
-  const navigate = useNavigate();
+export const handleRouteChange = ({ detail }, history) => {
+  const { href } = detail;
+  history.push(href);
+};
+
+const UploadPage = () => {
+  const location = useLocation();
+  const path = location.pathname;
+  const regex = /\/(\d{2}-\d{4})/;
+  const formNumber = path.match(regex)[1];
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const confirmationCode = useSelector(
+    state => state?.formUpload?.uploads?.confirmationCode,
+  );
+
   const breadcrumbList = [
     { href: '/', label: 'VA.gov home' },
     {
-      href: `/find-forms/about-form-${params.id}`,
-      label: `About VA Form ${params.id}`,
+      href: `/find-forms/about-form-${formNumber}`,
+      label: `About VA Form ${formNumber}`,
       isRouterLink: true,
     },
     {
-      href: `/form-upload/${params.id}`,
-      label: `Upload VA Form ${params.id}`,
+      href: `/form-upload/${formNumber}`,
+      label: `Upload VA Form ${formNumber}`,
       isRouterLink: true,
     },
   ];
 
-  function handleRouteChange({ detail }) {
-    const { href } = detail;
-    navigate(href);
-  }
-
   let formUploadContent = '';
-  if (params.id === '21-0779') {
+  if (formNumber === '21-0779') {
     formUploadContent =
       'Request for Nursing Home Information in Connection with Claim for Aid and Attendance';
   }
@@ -45,9 +51,9 @@ function UploadPage({ confirmationCode, dispatchSubmitToSimpleForms }) {
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
       <VaBreadcrumbs
         breadcrumbList={breadcrumbList}
-        onRouteChange={handleRouteChange}
+        onRouteChange={({ detail }) => handleRouteChange({ detail }, history)}
       />
-      <h1>{`Upload VA Form ${params.id}`}</h1>
+      <h1>{`Upload VA Form ${formNumber}`}</h1>
       <p>{formUploadContent}</p>
       <div>
         <VaSegmentedProgressBar
@@ -73,10 +79,10 @@ function UploadPage({ confirmationCode, dispatchSubmitToSimpleForms }) {
         accept=".pdf,.jpeg,.png"
         error=""
         hint={null}
-        label={`Upload VA Form ${params.id}`}
+        label={`Upload VA Form ${formNumber}`}
         name="form-upload-file-input"
         onVaChange={e =>
-          dispatchSubmitToSimpleForms(params.id, e.detail.files[0])
+          dispatch(submitToSimpleForms(formNumber, e.detail.files[0]))
         }
         uswds
       />
@@ -84,13 +90,15 @@ function UploadPage({ confirmationCode, dispatchSubmitToSimpleForms }) {
         <VaButton
           secondary
           text="<< Back"
-          onClick={() => redirect(`/find-forms/about-form-${params.id}`)}
+          onClick={() => redirect(`/find-forms/about-form-${formNumber}`)}
         />
         <VaButton
           primary
           text="Continue >>"
           onClick={() =>
-            navigate(`/${params.id}/review`, { state: { confirmationCode } })
+            history.push(`/${formNumber}/review`, {
+              state: { confirmationCode },
+            })
           }
         />
       </span>
@@ -106,29 +114,6 @@ function UploadPage({ confirmationCode, dispatchSubmitToSimpleForms }) {
       </div>
     </div>
   );
-}
-
-UploadPage.propTypes = {
-  dispatchSubmitToSimpleForms: PropTypes.func.isRequired,
-  confirmationCode: PropTypes.string,
-  params: PropTypes.shape({ id: PropTypes.string.isRequired }),
 };
 
-function mapStateToProps(state) {
-  return {
-    confirmationCode: state?.formUpload?.uploads?.confirmationCode,
-  };
-}
-
-const mapDispatchToProps = {
-  dispatchSubmitToSimpleForms: submitToSimpleForms,
-};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(UploadPage),
-);
-
-export { UploadPage };
+export default UploadPage;

@@ -1,64 +1,45 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import manifest from '../manifest.json';
-import { DONE_UPLOADING, SET_UPLOADER, SET_UPLOADING } from './types';
+import { uploadFile } from 'platform/forms-system/src/js/actions';
 
-export function submitToSimpleForms(formId, file) {
-  let hasError = false;
+export const MAX_FILE_SIZE_MB = 25;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
+
+export const createPayload = (file, formId) => {
+  const payload = new FormData();
+  payload.set('form_id', formId);
+  payload.append('file', file);
+  return payload;
+};
+
+export const parseResponse = ({ data }) => {
+  const { confirmationCode, name } = data.attributes;
+
+  return { name, confirmationCode };
+};
+
+export function submitToSimpleForms(formNumber, fileToUpload) {
+  const uiOptions = {
+    fileUploadUrl: `${
+      environment.API_URL
+    }/simple_forms_api/v1/scanned_form_upload`,
+    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+    maxSize: MAX_FILE_SIZE_BYTES,
+    createPayload,
+    parseResponse,
+  };
 
   return dispatch => {
-    dispatch({
-      type: SET_UPLOADING,
-      uploading: true,
-    });
-    require.ensure(
-      [],
-      require => {
-        const csrfTokenStored = localStorage.getItem('csrfToken');
-        const { FineUploaderBasic } = require('fine-uploader/lib/core');
-        const uploader = new FineUploaderBasic({
-          request: {
-            endpoint: `${
-              environment.API_URL
-            }/simple_forms_api/v1/scanned_form_upload`,
-            inputName: 'file',
-            customHeaders: {
-              'Source-App-Name': manifest.entryName,
-              'X-Key-Inflection': 'camel',
-              'X-CSRF-Token': csrfTokenStored,
-            },
-            params: { formId },
-          },
-          cors: {
-            expected: true,
-            sendCredentials: true,
-          },
-          multiple: false,
-          callbacks: {
-            onComplete: (id, name, responseJSON) => {
-              if (!hasError) {
-                dispatch({
-                  type: DONE_UPLOADING,
-                  confirmationCode:
-                    responseJSON?.data?.attributes?.confirmationCode,
-                });
-              }
-            },
-            onError: (_id, fileName, _reason, { response, status }) => {
-              if (status < 200 || status > 299) {
-                hasError = JSON.parse(response || '{}');
-                hasError.fileName = fileName;
-              }
-            },
-          },
-        });
-        dispatch({
-          type: SET_UPLOADER,
-          uploader,
-        });
-
-        uploader.addFiles(file);
-      },
-      'form-uploader',
+    const uploadRequest = uploadFile(
+      fileToUpload,
+      uiOptions,
+      () => {}, // onProgress
+      () => {}, // onChange
+      () => {}, // onError
     );
+    uploadRequest(dispatch, () => ({
+      form: {
+        formId: formNumber,
+      },
+    }));
   };
 }
