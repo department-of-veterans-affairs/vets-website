@@ -4,6 +4,27 @@ import recordEvent from '@department-of-veterans-affairs/platform-monitoring/rec
 import { clearBotSessionStorage } from '../utils/sessionStorage';
 import { ACCEPTED } from '../reducers';
 
+function Disclaimer() {
+  return (
+    <ul>
+      <li>
+        Our chatbot can’t help you if you’re experiencing a personal, medical,
+        or mental health emergency. Go to the nearest emergency room, dial 988
+        and press 1 for mental health support, or call 911 to get medical care
+        right away.
+        <br />
+        <a href="/health-care/health-needs-conditions/mental-health/">
+          Learn more about VA mental health services
+        </a>
+      </li>
+      <li>
+        Please don’t type any personal information such as your name, address,
+        or anything else that can be used to identify you.
+      </li>
+    </ul>
+  );
+}
+
 export default function ChatboxDisclaimer() {
   const dispatch = useDispatch();
   return (
@@ -11,22 +32,7 @@ export default function ChatboxDisclaimer() {
       <h3 slot="headline">About this chatbot</h3>
 
       <div data-testid="disclaimer" style={{ width: '100%' }}>
-        <ul>
-          <li>
-            Our chatbot can’t help you if you’re experiencing a personal,
-            medical, or mental health emergency. Go to the nearest emergency
-            room, dial 988 and press 1 for mental health support, or call 911 to
-            get medical care right away.
-            <br />
-            <a href="/health-care/health-needs-conditions/mental-health/">
-              Learn more about VA mental health services
-            </a>
-          </li>
-          <li>
-            Please don’t type any personal information such as your name,
-            address, or anything else that can be used to identify you.
-          </li>
-        </ul>
+        <Disclaimer />
         <va-button
           id="btnAcceptDisclaimer"
           data-testid="btnAcceptDisclaimer"
