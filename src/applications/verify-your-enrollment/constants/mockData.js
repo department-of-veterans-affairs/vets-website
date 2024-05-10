@@ -14,7 +14,18 @@ export const UPDATED_USER_MOCK_DATA = {
     dateLastCertified: '2024-03-01',
     paymentAmt: '3989.36',
     indicator: 'B',
-
+    latestAddress: {
+      veteranName: 'wafi',
+      address1: '322 26th Ave Apt 4',
+      address2: null,
+      address3: null,
+      address4: null,
+      address5: null,
+      city: 'San Francisco',
+      state: 'CA',
+      zipCode: '94121',
+      origin: null,
+    },
     pendingDocuments: [
       {
         docType: '1990',
