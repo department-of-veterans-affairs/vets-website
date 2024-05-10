@@ -293,6 +293,7 @@
 
 .refillable-prescription-item {
   display: flex !important;
+  align-items: baseline;
 
   &::before {
     min-width: 2rem;
