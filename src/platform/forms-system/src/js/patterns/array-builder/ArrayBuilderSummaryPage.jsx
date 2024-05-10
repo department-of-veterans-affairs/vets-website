@@ -12,15 +12,9 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import ArrayBuilderCards from './ArrayBuilderCards';
 import {
   createArrayBuilderItemAddPath,
-  getArrayUrlSearchParams,
+  getUpdatedItemFromPath,
   isDeepEmpty,
 } from './helpers';
-
-function getUpdatedItemIndexFromPath() {
-  const urlParams = getArrayUrlSearchParams();
-  const updatedValue = urlParams.get('updated');
-  return updatedValue?.split('-')?.pop();
-}
 
 const SuccessAlert = forwardRef(
   ({ nounSingular, index, onDismiss, text }, ref) => (
@@ -61,6 +55,7 @@ function filterEmptyItems(arrayData) {
  *   firstItemPagePath: string,
  *   getText: import('./arrayBuilderText').ArrayBuilderGetText
  *   hasItemsKey: string,
+ *   introPath: string,
  *   isItemIncomplete: function,
  *   isReviewPage: boolean,
  *   maxItems: number,
@@ -76,6 +71,7 @@ export default function ArrayBuilderSummaryPage({
   firstItemPagePath,
   getText,
   hasItemsKey,
+  introPath,
   isItemIncomplete,
   isReviewPage,
   maxItems,
@@ -90,13 +86,19 @@ export default function ArrayBuilderSummaryPage({
     const [showRemovedAlert, setShowRemovedAlert] = useState(false);
     const [removedItemText, setRemovedItemText] = useState('');
     const [removedItemIndex, setRemovedItemIndex] = useState(null);
-    const updatedAlertRef = useRef();
-    const removedAlertRef = useRef();
+    const updatedAlertRef = useRef(null);
+    const removedAlertRef = useRef(null);
     const { uiSchema, schema } = props;
     const arrayData = get(arrayPath, props.data);
-    const updateItemIndex = getUpdatedItemIndexFromPath();
+    const {
+      index: updateItemIndex,
+      nounSingular: updatedNounSingular,
+    } = getUpdatedItemFromPath();
     const updatedItemData =
-      updateItemIndex != null ? arrayData?.[updateItemIndex] : null;
+      updatedNounSingular === nounSingular.toLowerCase() &&
+      updateItemIndex != null
+        ? arrayData?.[updateItemIndex]
+        : null;
     const Heading = `h${titleHeaderLevel}`;
     const isMaxItemsReached = arrayData?.length >= maxItems;
 
@@ -114,16 +116,28 @@ export default function ArrayBuilderSummaryPage({
       }
     }, []);
 
+    useEffect(() => {
+      if (!isReviewPage && !arrayData?.length && required(props.data)) {
+        // We shouldn't be on this page if there are no items and its required
+        // because the required flow goes intro -> item page with no items
+        props.goToPath(introPath);
+      }
+    }, []);
+
     useEffect(
       () => {
-        setShowUpdatedAlert(updateItemIndex != null);
-        if (updateItemIndex != null) {
-          setTimeout(() => {
-            scrollAndFocus(updatedAlertRef.current);
-          }, 300);
+        let timeout;
+        if (updatedNounSingular === nounSingular.toLowerCase()) {
+          setShowUpdatedAlert(updateItemIndex != null);
+          if (updateItemIndex != null && updatedAlertRef) {
+            timeout = setTimeout(() => {
+              scrollAndFocus(updatedAlertRef.current);
+            }, 300);
+          }
         }
+        return () => timeout && clearTimeout(timeout);
       },
-      [updateItemIndex],
+      [updatedNounSingular, updateItemIndex, updatedAlertRef],
     );
 
     useEffect(

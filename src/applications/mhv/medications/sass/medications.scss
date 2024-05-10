@@ -55,6 +55,13 @@
   display: flex;
   justify-content: center;
 }
+.routes-container {
+  @media (max-width: $small-screen) {
+    // .vads-l-grid-container adds 15px on left and right, this overwrites that
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
 .main-content {
   padding: 0;
   margin-bottom: 40px;
@@ -90,6 +97,9 @@
     .sort-button {
       margin-left: 8px;
       margin-top: 57px;
+    }
+    va-select::part(label) {
+      text-wrap: nowrap;
     }
   }
   .rx-page-total-info {
@@ -171,6 +181,10 @@
         margin-bottom: 15px;
       }
     }
+  }
+  @media (max-width: $small-screen) {
+    padding-left: 0px;
+    padding-right: 0px;
   }
 }
 

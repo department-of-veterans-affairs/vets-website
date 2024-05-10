@@ -215,7 +215,9 @@ describe('ArrayBuilderSummaryPage', () => {
       required: () => true,
     });
 
-    fireEvent.click(container.querySelector('button[data-action="remove"]'));
+    fireEvent.click(
+      container.querySelector('va-button-icon[data-action="remove"]'),
+    );
     const $modal = container.querySelector('va-modal');
     expect($modal.getAttribute('visible')).to.eq('true');
     $modal.__events.primaryButtonClick();
