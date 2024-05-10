@@ -4,6 +4,7 @@ import { waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import sinon from 'sinon';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import reducer from '../../redux/reducer';
 
 import App from '../../containers/TravelPayStatusApp';
@@ -38,6 +39,20 @@ describe('App', () => {
     global.window.location = {
       replace: sinon.spy(),
     };
+    const mockTravelClaims = {
+      data: [
+        { id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb' },
+        { claimNumber: 'TC0928098230498' },
+        { claimName: 'string' },
+        { claimStatus: 'IN_PROCESS' },
+        { appointmentDate: '2024-04-22T16:45:34.465Z' },
+        { appointmentName: 'check-up' },
+        { appointmentLocation: 'Cheyenne VA Medical Center' },
+        { createdOn: '2024-04-22T21:22:34.465Z' },
+        { modifiedOn: '2024-04-23T16:44:34.465Z' },
+      ],
+    };
+    mockApiRequest(mockTravelClaims);
   });
 
   afterEach(() => {
