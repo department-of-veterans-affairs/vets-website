@@ -9,7 +9,6 @@ import get from '~/platform/utilities/data/get';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import environment from 'platform/utilities/environment';
 import ArrayBuilderCards from './ArrayBuilderCards';
 import {
   createArrayBuilderItemAddPath,
@@ -135,17 +134,6 @@ export default function ArrayBuilderSummaryPage({
     useEffect(
       () => {
         let timeout;
-
-        // remove me: temporary test to debug an issue with alerts
-        // not showing up on staging
-        if (!environment.isProduction) {
-          // eslint-disable-next-line no-console
-          console.log('Alert debugger: ', {
-            showUpdatedAlert,
-            updateItemIndex,
-            ref: updatedAlertRef.current,
-          });
-        }
 
         if (
           showUpdatedAlert &&
