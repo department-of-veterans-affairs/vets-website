@@ -393,10 +393,21 @@ export default class ArrayField extends React.Component {
             const updateText = showSave && isLast ? 'Save' : 'Update';
             const isEditing = this.state.editing[index];
             const isRemoving = this.state.removing[index];
+
             const ariaLabel = uiOptions.itemAriaLabel;
             const ariaItemName =
               (typeof ariaLabel === 'function' && ariaLabel(item || {})) ||
               uiItemName;
+            let distinguishedAriaItemName = `${ariaItemName} ${index + 1}`;
+            if (
+              uiOptions.itemAriaLabelDescriptorPath &&
+              item[uiOptions.itemAriaLabelDescriptorPath]
+            ) {
+              distinguishedAriaItemName += ` ${
+                item[uiOptions.itemAriaLabelDescriptorPath]
+              }`;
+            }
+
             const multipleRows = items.length > 1;
             const notLastOrMultipleRows = showSave || !isLast || multipleRows;
             const useCardStyling = notLastOrMultipleRows;
@@ -458,7 +469,7 @@ export default class ArrayField extends React.Component {
                               <button
                                 type="button"
                                 className="float-left"
-                                aria-label={`${updateText} ${ariaItemName}`}
+                                aria-label={`${updateText} ${distinguishedAriaItemName}`}
                                 onClick={() => this.handleUpdate(index)}
                               >
                                 {updateText}
@@ -470,7 +481,7 @@ export default class ArrayField extends React.Component {
                               <button
                                 type="button"
                                 className="usa-button-secondary float-right"
-                                aria-label={`Remove ${ariaItemName}`}
+                                aria-label={`Remove ${distinguishedAriaItemName}`}
                                 onClick={() =>
                                   this.handleRemove(
                                     index,
@@ -529,11 +540,7 @@ export default class ArrayField extends React.Component {
                   <button
                     type="button"
                     className="usa-button-secondary edit vads-u-flex--auto"
-                    aria-label={`Edit ${ariaItemName} ${
-                      uiOptions.itemAriaLabelDescriptorPath
-                        ? item[uiOptions.itemAriaLabelDescriptorPath]
-                        : index + 1
-                    }`}
+                    aria-label={`Edit ${distinguishedAriaItemName}`}
                     onClick={() => this.handleEdit(index)}
                   >
                     Edit
