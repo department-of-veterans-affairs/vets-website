@@ -27,11 +27,6 @@ merge(veteranContactInformationSchema.properties, {
   },
 });
 
-// add confirm email field on the frontend only
-// veteranContactInformationSchema.properties['view:confirmEmail'] = {
-//   type: 'string',
-// };
-
 export const schema = {
   type: 'object',
   properties: {
