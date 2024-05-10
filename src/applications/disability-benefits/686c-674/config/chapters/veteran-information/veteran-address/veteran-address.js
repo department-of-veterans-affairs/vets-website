@@ -28,9 +28,9 @@ merge(veteranContactInformationSchema.properties, {
 });
 
 // add confirm email field on the frontend only
-veteranContactInformationSchema.properties['view:confirmEmail'] = {
-  type: 'string',
-};
+// veteranContactInformationSchema.properties['view:confirmEmail'] = {
+//   type: 'string',
+// };
 
 export const schema = {
   type: 'object',
@@ -46,7 +46,6 @@ export const uiSchema = {
       'phoneNumber',
       'internationalPhoneNumber',
       'emailAddress',
-      'view:confirmEmail',
       'electronicCorrespondence',
     ],
     veteranAddress: addressUISchema(
@@ -82,36 +81,9 @@ export const uiSchema = {
       },
     },
     emailAddress: emailUI(),
-    'view:confirmEmail': {
-      'ui:required': formData =>
-        formData.veteranContactInformation.emailAddress !== undefined,
-      'ui:validations': [
-        (errors, fieldData, formData) => {
-          if (
-            formData?.veteranContactInformation?.emailAddress.toLowerCase() !==
-            formData?.veteranContactInformation?.[
-              'view:confirmEmail'
-            ].toLowerCase()
-          ) {
-            errors.addError('Ensure your emails match');
-          }
-        },
-      ],
-      'ui:title': 'Confirm email address',
-      'ui:options': {
-        expandUnder: 'emailAddress',
-        expandUnderCondition: emailAddress => emailAddress,
-      },
-    },
     electronicCorrespondence: {
       'ui:title':
         'I agree to receive electronic correspondence from VA in regards to my claim.',
-      'ui:options': {
-        expandUnder: 'emailAddress',
-        expandUnderCondition: emailAddress => emailAddress,
-      },
-      'ui:required': formData =>
-        formData.veteranContactInformation.emailAddress !== undefined,
     },
   },
 };
