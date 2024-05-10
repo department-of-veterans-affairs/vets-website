@@ -192,14 +192,12 @@ class OverviewPage extends React.Component {
     }
 
     const { claimPhaseDates } = claim.attributes;
-    // TO DO: Add feature flag cst_claim_phases. When disabled we show the ClaimTimeline
-
     const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
 
     return (
       <div className="overview-container">
         <ClaimOverviewHeader />
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstClaimPhases}>
           <Toggler.Enabled>
             <div className="claim-phase-diagram">
               <MobileClaimPhaseDiagram currentPhase={currentPhase} />
