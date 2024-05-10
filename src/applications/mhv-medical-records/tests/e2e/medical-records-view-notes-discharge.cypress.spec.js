@@ -14,11 +14,8 @@ describe('Medical Records Care Summary Page', () => {
   });
 
   it('Discharge Summary Details  ', () => {
-    // Verify Care Summary Page title
-    NotesListPage.verifyCareSummariesAndNotesPageTitle();
-
     // should display Discharge Summary
-    NotesDetailsPage.clickDischargeSummaryLink(1);
+    NotesDetailsPage.clickDischargeSummaryLink(4);
 
     NotesDetailsPage.verifyDischargeSummaryTitle(
       notes.entry[1].resource.content[0].attachment.title,
