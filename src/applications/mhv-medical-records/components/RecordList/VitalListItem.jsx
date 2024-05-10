@@ -57,7 +57,7 @@ const VitalListItem = props => {
           >
             <strong>Review {displayName.toLowerCase()} over time</strong>
             <span aria-hidden="true">
-              <va-icon icon="navigate_next" size={2} />
+              <va-icon icon="navigate_next" size={1} />
             </span>
           </Link>
         </>
