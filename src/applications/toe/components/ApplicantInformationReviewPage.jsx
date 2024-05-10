@@ -90,13 +90,15 @@ const ApplicantInformationReviewPage = ({
               </dt>
               <dd>{data?.highSchoolDiploma}</dd>
             </div>
-            <div className="review-row">
-              <dt>
-                When did you earn your high school diploma or equivalency
-                certificate?
-              </dt>
-              <dd>{formattedDiplomaDate}</dd>
-            </div>
+            {data?.highSchoolDiplomaDate && (
+              <div className="review-row">
+                <dt>
+                  When did you earn your high school diploma or equivalency
+                  certificate?
+                </dt>
+                <dd>{formattedDiplomaDate}</dd>
+              </div>
+            )}
 
             <button
               aria-label={`Edit ${title}`}
