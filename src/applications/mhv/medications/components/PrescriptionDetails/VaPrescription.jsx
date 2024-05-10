@@ -125,6 +125,22 @@ const VaPrescription = prescription => {
             </h3>
             <p>{validateField(prescription.quantity)}</p>
           </div>
+
+          <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-bottom--3">
+            <h2 className="vads-u-margin-top--3" data-testid="refill-History">
+              Documentation
+            </h2>
+            <Link
+              to={`/prescription/${
+                prescription.prescriptionId
+              }/documentation?ndc=${prescription.cmopNdcNumber}`}
+              data-testid="va-prescription-documentation-link"
+              className="vads-u-margin-top--3 vads-u-display--block vads-c-action-link--green"
+              data-dd-action-name="Rx Documentation Link - Details Page"
+            >
+              Learn more about {prescription.prescriptionName}
+            </Link>
+          </div>
           <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
             <h2 className="vads-u-margin-top--3" data-testid="refill-History">
               Refill history

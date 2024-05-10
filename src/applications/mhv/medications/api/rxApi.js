@@ -110,6 +110,16 @@ export const fillRx = id => {
   });
 };
 
+export const getDocumentation = (id, ndcNumber) => {
+  return apiRequest(
+    `${apiBasePath}/prescriptions/${id}/documentation?ndc=${ndcNumber}`,
+    {
+      method: 'GET',
+      headers,
+    },
+  );
+};
+
 export const fillRxs = ids => {
   const idParams = ids.map(id => `ids[]=${id}`).join('&');
   const url = `${apiBasePath}/prescriptions/refill_prescriptions?${idParams}`;
