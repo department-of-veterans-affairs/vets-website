@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/sort-prop-types */
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { focusElement, scrollAndFocus } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
@@ -16,21 +16,19 @@ import {
   isDeepEmpty,
 } from './helpers';
 
-const SuccessAlert = forwardRef(
-  ({ nounSingular, index, onDismiss, text }, ref) => (
-    <div className="vads-u-margin-top--2" ref={ref}>
-      <VaAlert
-        onCloseEvent={onDismiss}
-        closeable
-        name={`${nounSingular}_${index}`}
-        status="success"
-        closeBtnAriaLabel="Close notification"
-        uswds
-      >
-        {text}
-      </VaAlert>
-    </div>
-  ),
+const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
+  <div className="vads-u-margin-top--2">
+    <VaAlert
+      onCloseEvent={onDismiss}
+      closeable
+      name={`${nounSingular}_${index}`}
+      status="success"
+      closeBtnAriaLabel="Close notification"
+      uswds
+    >
+      {text}
+    </VaAlert>
+  </div>
 );
 
 const MaxItemsAlert = ({ children }) => (
@@ -126,18 +124,24 @@ export default function ArrayBuilderSummaryPage({
 
     useEffect(
       () => {
-        let timeout;
         if (updatedNounSingular === nounSingular.toLowerCase()) {
           setShowUpdatedAlert(updateItemIndex != null);
-          if (updateItemIndex != null && updatedAlertRef) {
-            timeout = setTimeout(() => {
-              scrollAndFocus(updatedAlertRef.current);
-            }, 300);
-          }
+        }
+      },
+      [updatedNounSingular, updateItemIndex],
+    );
+
+    useEffect(
+      () => {
+        let timeout;
+        if (showUpdatedAlert && updateItemIndex != null && updatedAlertRef) {
+          timeout = setTimeout(() => {
+            scrollAndFocus(updatedAlertRef.current);
+          }, 300);
         }
         return () => timeout && clearTimeout(timeout);
       },
-      [updatedNounSingular, updateItemIndex, updatedAlertRef],
+      [showUpdatedAlert],
     );
 
     useEffect(
@@ -177,7 +181,11 @@ export default function ArrayBuilderSummaryPage({
     function onDismissUpdatedAlert() {
       setShowUpdatedAlert(false);
       requestAnimationFrame(() => {
-        focusElement(document.querySelector('h3'));
+        focusElement(
+          document.querySelector(
+            `[data-title-for-noun-singular="${nounSingular}"]`,
+          ),
+        );
       });
     }
 
@@ -186,7 +194,11 @@ export default function ArrayBuilderSummaryPage({
       setRemovedItemText('');
       setRemovedItemIndex(null);
       requestAnimationFrame(() => {
-        focusElement(document.querySelector('h3'));
+        focusElement(
+          document.querySelector(
+            `[data-title-for-noun-singular="${nounSingular}"]`,
+          ),
+        );
       });
     }
 
@@ -221,36 +233,49 @@ export default function ArrayBuilderSummaryPage({
 
     const Title = (
       <>
-        <Heading className="vads-u-color--gray-dark vads-u-margin-top--0">
+        <Heading
+          className="vads-u-color--gray-dark vads-u-margin-top--0"
+          data-title-for-noun-singular={`${nounSingular}`}
+        >
           {getText('summaryTitle', updatedItemData)}
         </Heading>
       </>
     );
 
-    const UpdatedAlert = (
-      <SuccessAlert
-        onDismiss={onDismissUpdatedAlert}
-        nounSingular={nounSingular}
-        index={updateItemIndex}
-        ref={updatedAlertRef}
-        text={getText('alertItemUpdated', updatedItemData)}
-      />
-    );
+    const UpdatedAlert = ({ show }) => {
+      return (
+        <div ref={updatedAlertRef}>
+          {show ? (
+            <SuccessAlert
+              onDismiss={onDismissUpdatedAlert}
+              nounSingular={nounSingular}
+              index={updateItemIndex}
+              text={getText('alertItemUpdated', updatedItemData)}
+            />
+          ) : null}
+        </div>
+      );
+    };
 
-    const RemovedAlert = (
-      <SuccessAlert
-        onDismiss={onDismissRemovedAlert}
-        nounSingular={nounSingular}
-        index={removedItemIndex}
-        ref={removedAlertRef}
-        text={removedItemText}
-      />
-    );
+    const RemovedAlert = ({ show }) => {
+      return (
+        <div ref={removedAlertRef}>
+          {show ? (
+            <SuccessAlert
+              onDismiss={onDismissRemovedAlert}
+              nounSingular={nounSingular}
+              index={removedItemIndex}
+              text={removedItemText}
+            />
+          ) : null}
+        </div>
+      );
+    };
 
     const Cards = (
       <>
-        {showRemovedAlert && RemovedAlert}
-        {showUpdatedAlert && UpdatedAlert}
+        <RemovedAlert show={showRemovedAlert} />
+        <UpdatedAlert show={showUpdatedAlert} />
         <ArrayBuilderCards
           cardDescription={getText('cardDescription', updatedItemData)}
           arrayPath={arrayPath}
@@ -275,7 +300,10 @@ export default function ArrayBuilderSummaryPage({
           ) : (
             <>
               <div className="form-review-panel-page-header-row">
-                <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+                <h4
+                  className="form-review-panel-page-header vads-u-font-size--h5"
+                  data-title-for-noun-singular={`${nounSingular}`}
+                >
                   {getText('summaryTitle', updatedItemData)}
                 </h4>
               </div>
