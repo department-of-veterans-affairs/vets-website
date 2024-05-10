@@ -34,7 +34,6 @@ import * as preparerContactDetails from './pages/preparerContactDetails';
 import * as applicantDemographics from './pages/applicantDemographics';
 import * as applicantDemographics2 from './pages/applicantDemographics2';
 import * as applicantDemographics2Preparer from './pages/applicantDemographics2Preparer';
-import * as militaryDetails from './pages/militaryDetails';
 import * as militaryDetailsSelf from './pages/militaryDetailsSelf';
 import * as militaryDetailsPreparer from './pages/militaryDetailsPreparer';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
