@@ -15,21 +15,20 @@ function App() {
     TOGGLE_NAMES,
   } = useFeatureToggle();
 
-  const appEnabled = useToggleValue(
+  const isAppEnabled = useToggleValue(
     TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
   );
+  const isToggleLoading = useToggleLoadingValue();
 
-  const toggleIsLoading = useToggleLoadingValue();
-
-  if (toggleIsLoading) {
+  if (isToggleLoading) {
     return (
-      <div className="vads-u-margin-x--3">
+      <div className="vads-u-margin-y--5">
         <VaLoadingIndicator />
       </div>
     );
   }
 
-  if (!appEnabled && environment.isProduction()) {
+  if (!isAppEnabled && environment.isProduction()) {
     return document.location.replace('/');
   }
 
