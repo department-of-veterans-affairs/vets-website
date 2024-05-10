@@ -3,19 +3,20 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 
-import SignedInViewLayout from '../../containers/SignedInLayout';
+import SignedInLayout from '../../containers/SignedInLayout';
 
-describe('SignedInViewLayout', () => {
-  const getSignedInViewLayout = props =>
+describe('SignedInLayout', () => {
+  const getSignedInLayout = props =>
     render(
       <MemoryRouter>
-        <SignedInViewLayout {...props} />
+        <SignedInLayout {...props} />
       </MemoryRouter>,
     );
 
   it('renders loading when pilot feature toggle is loading', () => {
-    const { getByTestId } = getSignedInViewLayout({
+    const { getByTestId } = getSignedInLayout({
       isPilotToggleLoading: true,
+      isProduction: true,
       isInPilot: true,
       hasPOAPermissions: true,
     });
@@ -23,26 +24,29 @@ describe('SignedInViewLayout', () => {
   });
 
   it('renders alert when user is not in pilot', () => {
-    const { getByTestId } = getSignedInViewLayout({
+    const { getByTestId } = getSignedInLayout({
       isPilotToggleLoading: false,
+      isProduction: true,
       isInPilot: false,
       hasPOAPermissions: true,
     });
-    expect(getByTestId('not-in-pilot-error')).to.exist;
+    expect(getByTestId('not-in-pilot-alert')).to.exist;
   });
 
   it('renders alert when user does not have the necessary permissions to manage POA Requests', () => {
-    const { getByTestId } = getSignedInViewLayout({
+    const { getByTestId } = getSignedInLayout({
       isPilotToggleLoading: false,
+      isProduction: true,
       isInPilot: true,
       hasPOAPermissions: false,
     });
-    expect(getByTestId('no-poa-permissions-error')).to.exist;
+    expect(getByTestId('no-poa-permissions-alert')).to.exist;
   });
 
   it('renders SideNav', () => {
-    const { getByTestId } = getSignedInViewLayout({
+    const { getByTestId } = getSignedInLayout({
       isPilotToggleLoading: false,
+      isProduction: true,
       isInPilot: true,
       hasPOAPermissions: true,
     });
@@ -50,8 +54,9 @@ describe('SignedInViewLayout', () => {
   });
 
   it('renders Breadcrumbs', () => {
-    const { getByTestId } = getSignedInViewLayout({
+    const { getByTestId } = getSignedInLayout({
       isPilotToggleLoading: false,
+      isProduction: true,
       isInPilot: true,
       hasPOAPermissions: true,
     });

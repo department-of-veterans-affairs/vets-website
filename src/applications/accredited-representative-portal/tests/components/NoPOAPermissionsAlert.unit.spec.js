@@ -9,18 +9,20 @@ describe('NoPOAPermissionsAlert', () => {
 
   it('renders alert', () => {
     const { getByTestId } = getNoPOAPermissionsAlert();
-    expect(getByTestId('not-in-pilot-alert')).to.exist;
+    expect(getByTestId('no-poa-permissions-alert')).to.exist;
   });
 
   it('renders heading', () => {
     const { getByTestId } = getNoPOAPermissionsAlert();
-    expect(getByTestId('not-in-pilot-alert-heading').textContent).to.equal(
-      'You do not have permission to manage POA Requests',
+    expect(
+      getByTestId('no-poa-permissions-alert-heading').textContent,
+    ).to.equal(
+      'You do not have permission to manage Power of Attorney Requests',
     );
   });
 
   it('renders description', () => {
     const { getByTestId } = getNoPOAPermissionsAlert();
-    expect(getByTestId('not-in-pilot-alert-description')).to.exist;
+    expect(getByTestId('no-poa-permissions-alert-description')).to.exist;
   });
 });

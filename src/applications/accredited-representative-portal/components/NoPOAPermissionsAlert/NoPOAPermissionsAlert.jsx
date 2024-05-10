@@ -6,7 +6,7 @@ const NoPOAPermissionsAlert = () => (
       <va-alert
         class="arp-full-width-alert"
         data-testid="no-poa-permissions-alert"
-        status="alert"
+        status="error"
         visible
       >
         <h2 data-testid="no-poa-permissions-alert-heading" slot="headline">

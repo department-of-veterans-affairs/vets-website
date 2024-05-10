@@ -3,7 +3,6 @@ import React from 'react';
 import { Outlet } from 'react-router-dom-v5-compat';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import NotInPilotAlert from '../components/NotInPilotAlert/NotInPilotAlert';
 import NoPOAPermissionsAlert from '../components/NoPOAPermissionsAlert/NoPOAPermissionsAlert';
 import Breadcrumbs from '../components/common/Breadcrumbs';
@@ -11,6 +10,7 @@ import Sidenav from '../components/common/Sidenav';
 
 const SignedInLayout = ({
   isPilotToggleLoading,
+  isProduction,
   isInPilot,
   hasPOAPermissions,
 }) => {
@@ -25,7 +25,7 @@ const SignedInLayout = ({
     );
   }
 
-  if (environment.isProduction() && !isInPilot) {
+  if (isProduction && !isInPilot) {
     return <NotInPilotAlert />;
   }
 
@@ -54,6 +54,7 @@ SignedInLayout.propTypes = {
   hasPOAPermissions: PropTypes.bool,
   isInPilot: PropTypes.bool,
   isPilotToggleLoading: PropTypes.bool,
+  isProduction: PropTypes.bool,
 };
 
 export default SignedInLayout;
