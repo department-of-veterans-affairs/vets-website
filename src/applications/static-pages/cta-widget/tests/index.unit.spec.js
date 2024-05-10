@@ -151,6 +151,7 @@ describe('<CallToActionWidget>', () => {
       </Provider>,
     );
     expect(tree.find('Unauthed').exists()).to.be.true;
+    expect(tree.find('h3').exists()).to.be.true;
 
     const authReturnUrl = sessionStorage.getItem('authReturnUrl');
     const derivedUrl = ctaWidgetsLookup[
@@ -423,6 +424,7 @@ describe('<CallToActionWidget>', () => {
       expect(
         tree.find('[data-testid="direct-deposit-id-me-sign-up-link"]').exists(),
       ).to.be.true;
+      expect(tree.find('h3').exists()).to.be.true;
       tree.unmount();
     });
 
