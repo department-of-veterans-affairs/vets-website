@@ -21,8 +21,10 @@ import Alert from '../components/Alert';
 import Loader from '../components/Loader';
 import SuggestedAddress from '../components/SuggestedAddress';
 import AlertModal from '../components/AlertModal';
+import { useData } from '../hooks/useData';
 
-const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
+const ChangeOfAddressWrapper = ({ loading, applicantName }) => {
+  const { latestAddress: mailingAddress } = useData();
   const { loading: isLoading, error, data: response } = useSelector(
     state => state.updateAddress,
   );

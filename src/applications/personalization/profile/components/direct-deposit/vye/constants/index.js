@@ -9,6 +9,7 @@ export const ADDRESS_BUTTON_TEXT = 'Edit';
 export const BAD_UNIT_NUMBER = 'STREET_NUMBER_VALIDATED_BUT_BAD_UNIT_NUMBER';
 export const MISSING_UNIT_NUMBER =
   'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER';
+export const SMALL_SCREEN = 481;
 
 export const howToChangeLegalNameInfoLink =
   'https://www.va.gov/resources/how-to-change-your-legal-name-on-file-with-va/';
