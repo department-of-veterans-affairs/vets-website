@@ -13,7 +13,7 @@ export function nameWording(formData, isPosessive = true, cap = true) {
     retVal = isPosessive ? 'your' : 'you';
   } else {
     // Concatenate all parts of applicant's name (first, middle, etc...)
-    retVal = Object.values(formData.applicantName)
+    retVal = Object.values(formData?.applicantName || {})
       .filter(el => el)
       .join(' ');
     retVal = isPosessive ? `${retVal}’s` : retVal;

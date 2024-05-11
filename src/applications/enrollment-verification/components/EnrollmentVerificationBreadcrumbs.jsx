@@ -21,7 +21,7 @@ export default function EnrollmentVerificationBreadcrumbs() {
     },
     {
       href: '/education/verify-school-enrollment/',
-      label: 'Verify your school enrollments for GI Bill benefits',
+      label: 'Verify your school enrollment',
     },
   ];
 

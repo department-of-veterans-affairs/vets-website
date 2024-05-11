@@ -9,7 +9,7 @@ export const URL = {
   GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
-  GET_SCHOOL: `v0/gi/institutions/search?name=`,
+  GET_SCHOOL: `/v0/gi/institutions/search?name=`,
   SEND_REPLY: `/reply/new`,
 };
 
@@ -125,6 +125,15 @@ export const aboutFamilyMemberRelationship = {
   STEPCHILD: "They're my step child",
   PARENT: "They're my parent",
   NOT_LISTED: "We have a relationship that's not listed",
+};
+
+// What is THEIR relationship to the family member
+export const aboutTheirRelationshipToVet = {
+  SPOUSE: "They're the Veteran's spouse",
+  CHILD: "They're the Veteran's child",
+  STEPCHILD: "They're the Veteran's step child",
+  PARENT: "They're the Veteran's parent",
+  NOT_LISTED: "They have a relationship that's not listed",
 };
 
 // Who your question is about
@@ -251,6 +260,11 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Select your relationship to the Veteran:',
   },
+  THEIR_RELATIONSHIP_TO_VET: {
+    TITLE: 'What is their relationship to the veteran?',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: 'Please describe their relationship to the veteran',
+  },
   ABOUT_THE_VET: {
     TITLE: 'Tell us about the Veteran',
     PAGE_DESCRIPTION: '',
@@ -261,9 +275,9 @@ export const CHAPTER_3 = {
     QUESTION_1: 'Selection',
   },
   DEATH_DATE: {
-    TITLE: 'When did the Veteran die?',
+    TITLE: "Date of Veteran's death",
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Date',
+    QUESTION_1: '',
   },
   VET_POSTAL_CODE: {
     TITLE: "Veteran's postal code",

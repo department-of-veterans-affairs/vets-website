@@ -52,6 +52,15 @@
           "startDate": "1991-02-01",
           "endDate": "1992-12-15"
         }
+      },
+      "gulfWar2001": {
+        "yemen": true,
+        "airspace": false
+      },
+      "gulfWar2001Details": {
+        "yemen": {
+          "startDate": "2002-01-01"
+        }
       }
     },
     "vaTreatmentFacilities": [
