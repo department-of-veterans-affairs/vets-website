@@ -11,9 +11,9 @@ import { getData } from '../../fixtures/data/mock-form-data';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.relationshipToVeteran;
+} = formConfig.chapters.personalInformation.pages.moreAboutYourRelationshipToVeteran_familymybenefits;
 
-describe('relationshipToVeteranPage', () => {
+describe('moreAboutYourRelationshipToVeteran', () => {
   it('should render', () => {
     const { container } = render(
       <Provider store={{ ...getData().mockStore }}>
@@ -30,14 +30,16 @@ describe('relationshipToVeteranPage', () => {
 
     const radioLabels = $$('.form-radio-buttons > label', container);
     const radioLabelList = [
-      "I'm the Veteran",
-      "I'm a family member of a Veteran",
-      "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
+      "I'm the Veteran's spouse",
+      "I'm the Veteran's child",
+      "I'm the Veteran's step child",
+      "I'm the Veteran's parent",
+      "We have a relationship that's not listed",
     ];
 
     const vaRadio = container.querySelector('va-radio');
     expect(vaRadio.getAttribute('label')).to.equal(
-      'What is your relationship to the Veteran?',
+      'Tell us more about your relationship?',
     );
 
     radioLabels.forEach(
