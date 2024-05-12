@@ -1,11 +1,10 @@
+import { setFeatureToggles } from './intercepts/feature-toggles';
+
 describe('Accessibility', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [
-          { name: 'accredited_representative_portal_frontend', value: true },
-        ],
-      },
+    setFeatureToggles({
+      isAppEnabled: true,
+      isInPilot: true,
     });
   });
 
