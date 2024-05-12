@@ -10,7 +10,6 @@ import Sidenav from '../components/common/Sidenav';
 
 const SignedInLayout = ({
   isPilotToggleLoading,
-  isProduction,
   isInPilot,
   hasPOAPermissions,
 }) => {
@@ -25,7 +24,7 @@ const SignedInLayout = ({
     );
   }
 
-  if (isProduction && !isInPilot) {
+  if (!isInPilot) {
     return <NotInPilotAlert />;
   }
 
@@ -54,7 +53,6 @@ SignedInLayout.propTypes = {
   hasPOAPermissions: PropTypes.bool,
   isInPilot: PropTypes.bool,
   isPilotToggleLoading: PropTypes.bool,
-  isProduction: PropTypes.bool,
 };
 
 export default SignedInLayout;

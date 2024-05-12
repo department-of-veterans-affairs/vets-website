@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import SignedInLayout from './SignedInLayout';
 
 const SignedInLayoutWrapper = () => {
@@ -11,12 +10,10 @@ const SignedInLayoutWrapper = () => {
     TOGGLE_NAMES,
   } = useFeatureToggle();
 
+  const isPilotToggleLoading = useToggleLoadingValue();
   const isInPilot = useToggleValue(
     TOGGLE_NAMES.accreditedRepresentativePortalPilot,
   );
-  const isPilotToggleLoading = useToggleLoadingValue();
-
-  const isProduction = environment.isProduction();
 
   // TODO: Update with permissions check
   const hasPOAPermissions = true;
@@ -24,7 +21,6 @@ const SignedInLayoutWrapper = () => {
   return (
     <SignedInLayout
       isPilotToggleLoading={isPilotToggleLoading}
-      isProduction={isProduction}
       isInPilot={isInPilot}
       hasPOAPermissions={hasPOAPermissions}
     />
