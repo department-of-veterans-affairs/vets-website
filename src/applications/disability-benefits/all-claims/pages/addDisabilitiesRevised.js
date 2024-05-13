@@ -25,7 +25,7 @@ import {
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 export const uiSchema = {
-  newDisabilitiesRevised: {
+  newDisabilities: {
     'ui:title': 'Tell us the new conditions you want to claim REVISED VERSION!',
     'ui:field': ArrayField,
     'ui:options': {
@@ -101,7 +101,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    newDisabilitiesRevised: {
+    newDisabilities: {
       type: 'array',
       minItems: 1,
       items: {
@@ -223,8 +223,8 @@ const changeDisabilityName = (oldData, newData, changedIndex) => {
 };
 
 export const updateFormData = (oldData, newData) => {
-  const oldArr = oldData.newDisabilitiesRevised;
-  const newArr = newData.newDisabilitiesRevised;
+  const oldArr = oldData.newDisabilities;
+  const newArr = newData.newDisabilities;
   // Sanity check
   if (!Array.isArray(oldArr) || !Array.isArray(newArr)) return newData;
 
