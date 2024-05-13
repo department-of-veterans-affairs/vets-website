@@ -66,12 +66,6 @@ export const dateFormatInterpolators = {
   dayOfWeek: (value, _format, _lng, locale) => {
     return formatDate(value, 'E', { locale });
   },
-  monthAndYear: (value, _format, _lng, locale) => {
-    formatDate(value, 'MMMM Y', { locale });
-  },
-  dayOfMonth: (value, _format, _lng, locale) => {
-    formatDate(value, 'd', { locale });
-  },
   default: (value, format, _lng, locale) => {
     return formatDate(value, format, { locale });
   },

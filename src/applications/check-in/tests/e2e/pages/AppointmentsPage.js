@@ -10,10 +10,6 @@ class AppointmentsPage {
     cy.get('[data-testid="pre-check-in-success-alert"]').should('be.visible');
   };
 
-  validatePreCheckInSuccessAlert = () => {
-    cy.get('[data-testid="pre-check-in-success-alert"]').should('be.visible');
-  };
-
   validateWhatNextHeader = () => {
     cy.get('[data-testid="what-next-header"]').should('be.visible');
   };
@@ -99,40 +95,6 @@ class AppointmentsPage {
     cy.get(
       `section[data-testid="upcoming-appointments"] li:nth-child(${appointment}) [data-testid="details-link"]`,
     )
-      .first()
-      .click({
-        waitForAnimations: true,
-      });
-  };
-
-  validateUpcomingAppointmentsHeader = () => {
-    cy.get('[data-testid="upcoming-appointments-header"]')
-      .should('be.visible')
-      .and('include.text', 'Upcoming Appointments');
-  };
-
-  validateUpcomingAppointmentsList = () => {
-    const expectedDaySeparators = ['Tue 26', 'Wed 27', 'Sun 26'];
-    const expectedTimeOrder = ['2:00', '3:00', '4:00', '2:00', '2:00'];
-    cy.get('[data-testid="appointments-list-monthyear-heading"]', {
-      timeout: Timeouts.slow,
-    })
-      .should('be.visible')
-      .and('include.text', 'September 2023');
-    cy.get('[data-testid="day-label"]').each((daySeparator, index) => {
-      cy.wrap(daySeparator).should('contain', expectedDaySeparators[index]);
-    });
-    cy.get('[data-testid="appointment-time"]').each((appointment, index) => {
-      cy.wrap(appointment).should('contain', expectedTimeOrder[index]);
-    });
-    cy.get('[data-testid="appointment-list"] > li')
-      .should('be.visible')
-      .its('length')
-      .should('eq', 5);
-  };
-
-  attemptCheckIn = () => {
-    cy.get('[data-testid="action-link"]')
       .first()
       .click({
         waitForAnimations: true,
