@@ -23,6 +23,7 @@ import {
   setDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab, setFocus } from '../utils/page';
+import ClaimPhaseStepper from '../components/claim-overview-tab/ClaimPhaseStepper';
 
 // HELPERS
 const STATUSES = getStatusMap();
@@ -203,14 +204,17 @@ class OverviewPage extends React.Component {
               <MobileClaimPhaseDiagram currentPhase={currentPhase} />
               <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
             </div>
+            <ClaimPhaseStepper currentPhase={currentPhase} />
           </Toggler.Enabled>
+          <Toggler.Disabled>
+            <ClaimTimeline
+              id={claim.id}
+              phase={currentPhase}
+              currentPhaseBack={claimPhaseDates.currentPhaseBack}
+              events={generateEventTimeline(claim)}
+            />
+          </Toggler.Disabled>
         </Toggler>
-        <ClaimTimeline
-          id={claim.id}
-          phase={currentPhase}
-          currentPhaseBack={claimPhaseDates.currentPhaseBack}
-          events={generateEventTimeline(claim)}
-        />
       </div>
     );
   }

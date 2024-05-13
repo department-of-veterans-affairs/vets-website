@@ -1257,4 +1257,12 @@ $marker-text-width: 9rem;
   }
 }
 
+va-icon.phase-complete {
+  color: $color-green; //vads-color-green
+}
+
+va-icon.phase-current {
+  color: $color-primary; //vads-color-primary
+}
+
 
