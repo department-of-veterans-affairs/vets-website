@@ -145,7 +145,7 @@ export class ComboBox extends React.Component {
         onMouseEnter={evt => {
           this.handleMouseEnter(evt, 0);
         }}
-        onKeyDown={e => console.log(e)}
+        onKeyDown={() => null}
         label="new-condition-option"
         role="option"
         aria-selected={searchTerm === option}
@@ -161,9 +161,6 @@ export class ComboBox extends React.Component {
     return (
       <div className="cc-combobox">
         <VaTextInput
-          hint={null}
-          label="What new condition do you want to claim?"
-          required
           message-aria-describedby="What new condition do you want to claim?"
           name="combobox-input"
           value={this.state.value}
@@ -201,7 +198,7 @@ export class ComboBox extends React.Component {
                   onMouseEnter={e => {
                     this.handleMouseEnter(e, optionIndex);
                   }}
-                  onKeyDown={e => console.log(e)}
+                  onKeyDown={() => null}
                   label={option}
                   role="option"
                   aria-selected={this.state.input === option}

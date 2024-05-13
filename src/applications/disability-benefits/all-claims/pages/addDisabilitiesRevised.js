@@ -41,7 +41,7 @@ export const uiSchema = {
     // field in an array item), but that's not working.
     'ui:validations': [requireDisability],
     items: {
-      condition: combobox.uiSchema(null, {
+      condition: combobox.uiSchema('What new condition do you want to claim?', {
         'ui:reviewField': ({ children }) => children,
         'ui:options': {
           debounceRate: 200,
@@ -66,7 +66,7 @@ export const uiSchema = {
         },
         // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
         'ui:validations': [validateDisabilityName, limitNewDisabilities],
-        // 'ui:required': () => true,
+        'ui:required': () => true,
         'ui:errorMessages': {
           required: missingConditionMessage,
         },
