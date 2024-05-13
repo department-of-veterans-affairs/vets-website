@@ -2,6 +2,23 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+export const breadcrumbList = [
+  {
+    href: '/',
+    label: 'VA.gov home',
+  },
+  {
+    href: '/my-health',
+    label: 'My HealtheVet',
+  },
+  {
+    href: '/my-health/records',
+    label: 'Medical records',
+  },
+];
+
 export const recordTypes = [
   'Lab and test results',
   'Care summaries and notes',
@@ -22,17 +39,17 @@ const MedicalRecords = ({ blueButtonUrl }) => (
     )}
     data-testid="mhvMedicalRecords"
   >
-    <div className="vads-u-margin-y--3">
-      <a href="/my-health">&lt; Back to My HealtheVet home</a>
+    <VaBreadcrumbs breadcrumbList={breadcrumbList} />
+
+    <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
+      <h1 className="vads-u-margin-bottom--0">Medical records</h1>
+
+      <div className="medium-screen:vads-u-margin--2">
+        <span className="usa-label vads-u-background-color--primary">
+          Coming soon
+        </span>
+      </div>
     </div>
-
-    <span className="usa-label vads-u-background-color--primary">
-      Coming soon
-    </span>
-
-    <h1 className="vads-u-margin-top--0p5 vads-u-margin-bottom--1">
-      Medical records
-    </h1>
 
     <p
       className={classnames(
@@ -49,8 +66,11 @@ const MedicalRecords = ({ blueButtonUrl }) => (
     <div
       className={classnames(
         'vads-u-background-color--gray-lightest',
-        'vads-u-padding-x--4',
-        'vads-u-padding-y--3',
+        'vads-u-display--inline-block',
+        'vads-u-padding-x--2',
+        'vads-u-padding-y',
+        'medium-screen:vads-u-padding-x--4',
+        'medium-screen:vads-u-padding-y--3',
       )}
     >
       <h2 className="vads-u-margin-top--0">
@@ -59,13 +79,10 @@ const MedicalRecords = ({ blueButtonUrl }) => (
       <p className="vads-u-measure--5">
         You still have access to your medical records on the previous version of
         My HealtheVet. You can go back to that site at any time to download your
-        VA health records (Blue Button) or view your lab and test results.
+        VA health records (Blue Button®).
       </p>
-      <a
-        className="vads-c-action-link--green vads-u-margin-y--2"
-        href={blueButtonUrl}
-      >
-        Download health records (Blue Button®)
+      <a className="vads-c-action-link--green" href={blueButtonUrl}>
+        Go back to the previous version of Medical Records
       </a>
     </div>
 
