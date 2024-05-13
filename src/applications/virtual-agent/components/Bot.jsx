@@ -35,7 +35,6 @@ function Bot({
   const isLoggedIn = useSelector(selectUserCurrentlyLoggedIn);
   const isAccepted = useSelector(selectVirtualAgentDataTermsAccepted);
   const [isAuthTopic, setIsAuthTopic] = useState(false);
-  const inAuthExp = getInAuthExp();
   const loggedInFlow = getLoggedInFlow();
 
   webAuthActivityEventListener(isLoggedIn, setIsAuthTopic);
@@ -45,6 +44,7 @@ function Bot({
     setLoggedInFlow('false');
   }
 
+  const inAuthExp = getInAuthExp();
   if (!isAccepted && !inAuthExp) {
     return <ChatboxDisclaimer />;
   }
