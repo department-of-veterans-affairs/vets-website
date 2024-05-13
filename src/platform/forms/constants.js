@@ -289,9 +289,7 @@ export const MY_VA_SIP_FORMS = [
     benefit: 'health care benefits',
     title: 'health care benefits (10-10EZ)',
     description: 'health care benefits application (10-10EZ)',
-    link: '/health-care/apply/application/',
     trackingPrefix: 'hca-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_10_10D,
@@ -299,7 +297,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'application for champva benefits (10-10D)',
     description: 'application for champva benefits application (10-10D)',
     trackingPrefix: '10-10D-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_20_10206,
@@ -307,7 +304,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'personal records request (20-10206)',
     description: 'personal records request application (20-10206)',
     trackingPrefix: 'pa-10206-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_21_0972,
@@ -315,7 +311,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'alternate signer (21-0972)',
     description: 'alternate signer application (21-0972)',
     trackingPrefix: '21-0972-alternate-signer-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_21_10210,
@@ -323,7 +318,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'lay/witness statement (21-10210)',
     description: 'lay/witness statement application (21-10210)',
     trackingPrefix: 'lay-witness-10210-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_21_4142,
@@ -332,16 +326,13 @@ export const MY_VA_SIP_FORMS = [
     description:
       'authorization to release medical information application (21-4142)',
     trackingPrefix: 'medical-release-4142-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_21_686C,
     benefit: 'dependent status',
     title: 'dependent status (686C-674)',
     description: 'dependent status application (686C-674)',
-    link: '/view-change-dependents/add-remove-form-21-686c/',
     trackingPrefix: '686-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_21_526EZ,
@@ -349,7 +340,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'disability compensation (21-526EZ)',
     description: 'disability compensation application (21-526EZ)',
     trackingPrefix: 'disability-526EZ-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_21P_0847,
@@ -357,7 +347,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'substitute claimant (21P-0847)',
     description: 'substitute claimant application (21P-0847)',
     trackingPrefix: '21P-0847-substitute-claimant-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_21P_527EZ,
@@ -365,7 +354,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'Veterans pension benefits (21P-527EZ)',
     description: 'Veterans pension benefits application (21P-527EZ)',
     trackingPrefix: 'pensions-527EZ-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_21P_530,
@@ -373,7 +361,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'burial benefits (21P-530)',
     description: 'burial benefits application (21P-530)',
     trackingPrefix: 'burials-530-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_22_0993,
@@ -381,7 +368,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'opt out (22-0993)',
     description: 'opt out application (22-0993)',
     trackingPrefix: 'edu-0993-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_22_0994,
@@ -389,7 +375,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'VET TEC (22-0994)',
     description: 'VET TEC application (22-0994)',
     trackingPrefix: 'edu-0994-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_22_1990,
@@ -397,7 +382,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'education benefits (22-1990)',
     description: 'education benefits application (22-1990)',
     trackingPrefix: 'edu-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_22_1990E,
@@ -405,16 +389,13 @@ export const MY_VA_SIP_FORMS = [
     title: 'education benefits (22-1990E)',
     description: 'education benefits application (22-1990E)',
     trackingPrefix: 'edu-1990e-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_22_1990EZ,
     benefit: 'education benefits',
     title: 'education benefits (22-1990EZ)',
     description: 'education benefits application (22-1990EZ)',
-    link: '/education/apply-for-benefits-form-22-1990/',
     trackingPrefix: 'edu-1990ez-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_22_1990N,
@@ -422,7 +403,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'education benefits (22-1990N)',
     description: 'education benefits application (22-1990N)',
     trackingPrefix: 'edu-1990n-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_22_1995,
@@ -430,7 +410,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'education benefits (22-1995)',
     description: 'education benefits application (22-1995)',
     trackingPrefix: 'edu-1995-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_22_5490,
@@ -438,7 +417,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'education benefits (22-5490)',
     description: 'education benefits application (22-5490)',
     trackingPrefix: 'edu-5490-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_22_5495,
@@ -446,7 +424,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'education benefits (22-5495)',
     description: 'education benefits application (22-5495)',
     trackingPrefix: 'edu-5495-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_22_10203,
@@ -454,7 +431,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'Rogers STEM Scholarship (22-10203)',
     description: 'Rogers STEM Scholarship application (22-10203)',
     trackingPrefix: 'edu-10203-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_26_1880,
@@ -463,7 +439,6 @@ export const MY_VA_SIP_FORMS = [
     description:
       'VA home loan certification of eligibility application (26-1880)',
     trackingPrefix: 'undefined',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_26_4555,
@@ -471,7 +446,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'specially adapted housing grant (26-4555)',
     description: 'specially adapted housing grant application (26-4555)',
     trackingPrefix: 'adapted-housing-4555-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_28_1900,
@@ -480,7 +454,6 @@ export const MY_VA_SIP_FORMS = [
     description:
       'Veteran Readiness and Employment Benefits application (28-1900)',
     trackingPrefix: '28-1900-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_28_8832,
@@ -489,7 +462,6 @@ export const MY_VA_SIP_FORMS = [
     description:
       'personalized career planning and guidance application (28-8832)',
     trackingPrefix: '28-8832-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_40_10007,
@@ -498,7 +470,6 @@ export const MY_VA_SIP_FORMS = [
     description:
       'pre-need determination of eligibility in a VA national cemetery application ',
     trackingPrefix: 'preneed-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FEEDBACK_TOOL,
@@ -506,7 +477,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'feedback (GI Bill School Feedback Tool)',
     description: 'feedback application (FEEDBACK-TOOL)',
     trackingPrefix: 'gi_bill_feedback',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_10182,
@@ -514,7 +484,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'Board Appeal (10182)',
     description: 'Board Appeal application (10182)',
     trackingPrefix: '10182-board-appeal-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_20_0995,
@@ -522,7 +491,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'Supplemental Claim (20-0995)',
     description: 'Supplemental Claim application (20-0995)',
     trackingPrefix: '995-supplemental-claim-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_20_0996,
@@ -530,7 +498,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'Higher-Level Review (20-0996)',
     description: 'Higher-Level Review application (20-0996)',
     trackingPrefix: 'decision-reviews-va20-0996-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_VA_2346A,
@@ -538,7 +505,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'hearing aid batteries and accessories (MDOT)',
     description: 'hearing aid batteries and accessories (MDOT)',
     trackingPrefix: 'bam-2346a-',
-    isSipEnabled: true,
   },
   {
     id: VA_FORM_IDS.FORM_5655,
@@ -546,6 +512,5 @@ export const MY_VA_SIP_FORMS = [
     title: 'financial status report (5655)',
     description: 'financial status report application (5655)',
     trackingPrefix: 'fsr-5655-',
-    isSipEnabled: true,
   },
 ];
