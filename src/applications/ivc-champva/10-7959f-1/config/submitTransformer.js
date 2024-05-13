@@ -7,8 +7,8 @@ export default function transformForSubmit(formConfig, form) {
   );
   const dataPostTransform = {
     veteran: {
-      date_of_birth: transformedData.veteranDateOfBirth || '',
-      full_name: transformedData?.veteranFullName || {},
+      date_of_birth: transformedData.veteranDOB,
+      full_name: transformedData?.fullName,
       physical_address: transformedData.physicalAddress || {
         country: 'NA',
         street: 'NA',
