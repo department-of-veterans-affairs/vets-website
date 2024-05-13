@@ -1,10 +1,13 @@
-import { setIsAppEnabled } from './intercepts/feature-toggles';
+import { setFeatureToggles } from './intercepts/feature-toggles';
 
 describe('Header on mobile', () => {
   beforeEach(() => {
     cy.viewport(760, 1024);
 
-    setIsAppEnabled(true);
+    setFeatureToggles({
+      isAppEnabled: true,
+      isInPilot: true,
+    });
     cy.visit('/representative');
 
     cy.injectAxe();
@@ -46,7 +49,10 @@ describe('Header on mobile', () => {
 
 describe('Header on screens wider than mobile', () => {
   beforeEach(() => {
-    setIsAppEnabled(true);
+    setFeatureToggles({
+      isAppEnabled: true,
+      isInPilot: true,
+    });
     cy.visit('/representative');
 
     cy.injectAxe();
