@@ -55,7 +55,7 @@ export const mhvSecNavItems = [
 const MhvSecondaryNav = () => {
   const items = [...mhvSecNavItems];
   const {
-    loading = true,
+    loading,
     mhvTransitionalMedicalRecordsLandingPage = false,
   } = useSelector(state => state.featureToggles);
 
