@@ -31,10 +31,7 @@ const MhvSecondaryNavMenu = ({ items }) => {
     const key = item.title.toLowerCase().replaceAll(' ', '_');
     return (
       <MhvSecondaryNavItem
-        title={item.title}
-        href={item.href}
-        icon={item.icon}
-        abbreviation={item.abbreviation}
+        {...item}
         isActive={activeItem === item}
         key={key}
         isHeader={index === 0}
