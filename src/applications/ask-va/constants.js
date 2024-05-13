@@ -340,7 +340,7 @@ export const CHAPTER_3 = {
       'I live on a United States military base outside of the country',
   },
   YOUR_ADDRESS: {
-    TITLE: 'Your address', // full address
+    TITLE: 'Your mailing address', // full address
     PAGE_DESCRIPTION: '',
   },
   ADDRESS_CONFIRM: {
