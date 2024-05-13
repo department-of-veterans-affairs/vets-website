@@ -26,10 +26,10 @@ const initialState = {
     },
   },
 };
-
 describe('VAOS Page: ClinicChoicePage', () => {
   beforeEach(() => mockFetch());
 
+  // This test needs to be isolated. It fails if run after any other ClinicChoicePage tests.
   it('should show the correct clinic name when filtered to matching', async () => {
     // Given two available clinics
     const clinics = [
@@ -81,7 +81,10 @@ describe('VAOS Page: ClinicChoicePage', () => {
       'Would you like to make an appointment at Green team clinic',
     );
   });
+});
 
+describe('VAOS Page: ClinicChoicePage', () => {
+  beforeEach(() => mockFetch());
   it('should display multiple clinics and require one to be chosen', async () => {
     const clinics = [
       getV2ClinicMock({
