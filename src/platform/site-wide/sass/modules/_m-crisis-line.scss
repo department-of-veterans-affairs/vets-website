@@ -4,7 +4,7 @@
   background-color: var(--vads-color-secondary-dark);
 
   @include media($small-desktop-screen) {
-    max-width: 62.5rem;
+    max-width: 975px;
     background-color: transparent;
   }
 }
@@ -95,6 +95,7 @@ button.va-crisis-line {
 
 .va-crisis-panel {
   color: var(--vads-color-base);
+  font-size: 16px;
 
   li:nth-child(odd) {
     border-bottom: none;
@@ -113,6 +114,7 @@ button.va-crisis-line {
     background-size: 32px auto;
     margin-top: 0;
     width: 90%;
+    font-size: 20px;
   }
 
   &-list {
