@@ -5,6 +5,7 @@ import { getDocumentation } from '../api/rxApi';
 
 const PrescriptionDetailsDocumentation = () => {
   const [htmlContent, setHtmlContent] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { prescriptionId } = useParams();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
@@ -12,18 +13,32 @@ const PrescriptionDetailsDocumentation = () => {
   useEffect(
     () => {
       if (prescriptionId && ndcNumber) {
-        getDocumentation(prescriptionId, ndcNumber).then(response => {
-          scrollToTop();
-          setHtmlContent(response.data);
-        });
+        setLoading(true);
+        getDocumentation(prescriptionId, ndcNumber)
+          .then(response => {
+            scrollToTop();
+            setHtmlContent(response.data);
+            setLoading(false);
+          })
+          .catch(() => {
+            setLoading(false);
+          });
       }
       return () => {};
     },
     [prescriptionId, ndcNumber],
   );
 
-  // eslint-disable-next-line react/no-danger
-  return <div dangerouslySetInnerHTML={{ __html: htmlContent ?? '' }} />;
+  return (
+    <>
+      {loading ? (
+        <va-loading-indicator message="Loading documentation..." set-focus />
+      ) : (
+        // eslint-disable-next-line react/no-danger
+        <div dangerouslySetInnerHTML={{ __html: htmlContent ?? '' }} />
+      )}
+    </>
+  );
 };
 
 export default PrescriptionDetailsDocumentation;
