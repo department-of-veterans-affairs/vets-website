@@ -90,10 +90,12 @@ export function createFormPageList(formConfig) {
     if (!chapter?.pages) return pageList;
 
     const chapterTitle = chapter?.title ?? formConfig.title;
+    const hideOnReviewPage = chapter?.hideOnReviewPage || false;
     const pages = Object.keys(chapter.pages).map(pageKey => ({
       ...chapter.pages[pageKey],
       chapterTitle,
       chapterKey,
+      hideOnReviewPage,
       pageKey,
     }));
     return pageList.concat(pages);
