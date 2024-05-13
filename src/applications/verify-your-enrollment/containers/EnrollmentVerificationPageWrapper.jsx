@@ -83,7 +83,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                 />
               </>
             )}
-            <PreviousEnrollmentVerifications enrollmentData={enrollmentData} />
+            <PreviousEnrollmentVerifications enrollmentData={mockData} />
             <MoreInfoCard
               marginTop="7"
               linkText="Manage your benefits profile"
