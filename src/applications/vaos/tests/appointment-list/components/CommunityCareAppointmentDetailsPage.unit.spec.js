@@ -586,16 +586,4 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
     // Then the 'Add to calendar' link should not be displayed
     expect(screen.queryByTestId('add-to-calendar-link')).not.to.exist;
   });
-
-  it('should fire a print request when print button clicked', async () => {});
-
-  it('should show an error when cc data fetch fails', async () => {});
-
-  it('should show an error when CC appointment not found in list', async () => {});
-
-  it('should show cc appointment from vista when directly opening page', async () => {});
-
-  it('should verify community care calendar ics file format', async () => {});
-
-  it('should verify community care calendar ics file format when there is no provider information', async () => {});
 });
