@@ -21,7 +21,8 @@ const {
   otherTypeExplanation,
   dependentName,
   payer,
-  amount,
+  // Need to investigate default value issue
+  // amount,
 } = fullSchemaPensions.definitions.incomeSources.items.properties;
 
 export const otherExplanationRequired = (form, index) =>
@@ -117,7 +118,9 @@ export default {
             receiver: radioSchema(Object.keys(recipientTypeLabels)),
             dependentName,
             payer,
-            amount,
+            amount: {
+              type: 'number',
+            },
           },
         },
       },
