@@ -30,7 +30,7 @@ const Verify = ({ headerLevel, primaryButtonHandler, serviceDescription }) => {
 Verify.propTypes = {
   primaryButtonHandler: PropTypes.func.isRequired,
   serviceDescription: PropTypes.string.isRequired,
-  headerLevel: PropTypes.number,
+  headerLevel: PropTypes.string,
 };
 
 export default Verify;
