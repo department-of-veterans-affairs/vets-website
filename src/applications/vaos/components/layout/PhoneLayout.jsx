@@ -1,8 +1,8 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
-import { getConfirmedAppointmentDetailsInfo } from '../../appointment-list/redux/selectors';
+import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import DetailPageLayout, { Section, What, When, Who } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import StatusAlert from '../StatusAlert';
@@ -15,10 +15,8 @@ import Address from '../Address';
 import NewTabAnchor from '../NewTabAnchor';
 import FacilityPhone from '../FacilityPhone';
 
-export default function PhoneLayout() {
-  const { id } = useParams();
+export default function PhoneLayout({ data: appointment }) {
   const {
-    appointment,
     clinicName,
     comment,
     facility,
@@ -28,7 +26,7 @@ export default function PhoneLayout() {
     status,
     typeOfCareName,
   } = useSelector(
-    state => getConfirmedAppointmentDetailsInfo(state, id),
+    state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
   );
   const [reason, otherDetails] = comment ? comment?.split(':') : [];
@@ -40,7 +38,7 @@ export default function PhoneLayout() {
     heading = 'Canceled phone appointment';
 
   return (
-    <DetailPageLayout heading={heading}>
+    <DetailPageLayout heading={heading} data={appointment}>
       <StatusAlert
         appointment={appointment}
         facility={facility}
@@ -50,6 +48,14 @@ export default function PhoneLayout() {
         <Section heading="How to join">
           We'll call you at the appointment time. But contact the facility you
           scheduled through if you have questions or need to reschedule.
+        </Section>
+      )}
+      {isPastAppointment && (
+        <Section heading="After visit summary">
+          <va-link
+            href={`${appointment?.avsPath}`}
+            text="Go to after visit summary"
+          />
         </Section>
       )}
       <When>
@@ -67,7 +73,7 @@ export default function PhoneLayout() {
             </div>
           )}
       </When>
-      <What>{typeOfCareName || 'Type of care not noted'}</What>
+      <What>{typeOfCareName || 'Type of care information not available'}</What>
       {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
       <Section heading="Scheduling facility">
         {!!facility === false && (
@@ -96,11 +102,14 @@ export default function PhoneLayout() {
       </Section>
       <Section heading="Details you shared with your provider">
         <span>
-          Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
+          Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
         </span>
         <br />
-        <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
+        <span>Other details: {`${otherDetails || 'Not available'}`}</span>
       </Section>
     </DetailPageLayout>
   );
 }
+PhoneLayout.propTypes = {
+  data: PropTypes.object.isRequired,
+};

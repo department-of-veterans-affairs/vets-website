@@ -1,12 +1,12 @@
 import React from 'react';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import {
   AppointmentDate,
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
-import { getConfirmedAppointmentDetailsInfo } from '../../appointment-list/redux/selectors';
+import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import StatusAlert from '../StatusAlert';
 import DetailPageLayout, {
   When,
@@ -23,10 +23,8 @@ import AddToCalendarButton from '../AddToCalendarButton';
 import NewTabAnchor from '../NewTabAnchor';
 import FacilityPhone from '../FacilityPhone';
 
-export function InPersonLayout() {
-  const { id } = useParams();
+export default function InPersonLayout({ data: appointment }) {
   const {
-    appointment,
     clinicName,
     clinicPhysicalLocation,
     comment,
@@ -37,12 +35,15 @@ export function InPersonLayout() {
     status,
     typeOfCareName,
   } = useSelector(
-    state => getConfirmedAppointmentDetailsInfo(state, id),
+    state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
   );
   const featurePhysicalLocation = useSelector(state =>
     selectFeaturePhysicalLocation(state),
   );
+
+  if (!appointment) return null;
+
   const [reason, otherDetails] = comment ? comment?.split(':') : [];
   const oracleHealthProviderName = null;
 
@@ -52,7 +53,7 @@ export function InPersonLayout() {
     heading = 'Canceled in-person appointment';
 
   return (
-    <DetailPageLayout heading={heading}>
+    <DetailPageLayout heading={heading} data={appointment}>
       <StatusAlert
         appointment={appointment}
         facility={facility}
@@ -81,9 +82,12 @@ export function InPersonLayout() {
             </div>
           )}
       </When>
-      <What>{typeOfCareName || 'Type of care not noted'}</What>
+      <What>{typeOfCareName || 'Type of care information not available'}</What>
       {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
-      <Where isPastAppointment={isPastAppointment}>
+      <Where
+        isPastAppointment={isPastAppointment}
+        isCancelled={APPOINTMENT_STATUS.cancelled === status}
+      >
         {!!facility === false && (
           <>
             <span>Facility details not available</span>
@@ -117,15 +121,17 @@ export function InPersonLayout() {
         {facilityPhone && (
           <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
         )}
-        {!facilityPhone && <>Not available</>}
       </Where>
       <Section heading="Details you shared with your provider">
         <span>
-          Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
+          Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
         </span>
         <br />
-        <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
+        <span>Other details: {`${otherDetails || 'Not available'}`}</span>
       </Section>
     </DetailPageLayout>
   );
 }
+InPersonLayout.propTypes = {
+  data: PropTypes.object,
+};

@@ -1,20 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import { shallowEqual } from 'recompose';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import BackLink from '../BackLink';
 import AppointmentCard from '../AppointmentCard';
-import { getConfirmedAppointmentDetailsInfo } from '../../appointment-list/redux/selectors';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
 import { startAppointmentCancel } from '../../appointment-list/redux/actions';
 
 export function Section({ children, heading }) {
   return (
     <>
-      <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
+      <h2 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
         {heading}
       </h2>
       {children}
@@ -47,12 +44,14 @@ Who.propTypes = {
   children: PropTypes.node,
 };
 
-export function Where({ children, isPastAppointment }) {
-  if (isPastAppointment) return <Section heading="Where">{children}</Section>;
+export function Where({ children, isPastAppointment, isCancelled }) {
+  if (isPastAppointment || isCancelled)
+    return <Section heading="Where">{children}</Section>;
   return <Section heading="Where to attend">{children}</Section>;
 }
 Where.propTypes = {
   children: PropTypes.node,
+  isCancelled: PropTypes.bool,
   isPastAppointment: PropTypes.bool,
 };
 
@@ -96,18 +95,19 @@ function CancelButton({ appointment }) {
   return null;
 }
 
-export default function DetailPageLayout({ children, heading, instructions }) {
-  const { id } = useParams();
-  const { appointment } = useSelector(
-    state => getConfirmedAppointmentDetailsInfo(state, id),
-    shallowEqual,
-  );
+export default function DetailPageLayout({
+  children,
+  data: appointment,
+  heading,
+  instructions,
+}) {
+  if (!appointment) return null;
 
   return (
     <>
       <BackLink appointment={appointment} />
       <AppointmentCard appointment={appointment}>
-        <h1>{heading}</h1>
+        <h1 className="vads-u-font-size--h2">{heading}</h1>
         {!!instructions && <p>{instructions}</p>}
         {children}
         <div className="vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print">
@@ -128,6 +128,7 @@ export default function DetailPageLayout({ children, heading, instructions }) {
 }
 DetailPageLayout.propTypes = {
   children: PropTypes.node,
+  data: PropTypes.object,
   heading: PropTypes.string,
   instructions: PropTypes.string,
 };

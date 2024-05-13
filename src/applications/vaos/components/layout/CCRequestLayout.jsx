@@ -1,10 +1,10 @@
 import React from 'react';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { selectRequestedAppointmentDetails } from '../../appointment-list/redux/selectors';
+import { selectRequestedAppointmentData } from '../../appointment-list/redux/selectors';
 import DetailPageLayout, { Section } from './DetailPageLayout';
 import ListBestTimeToCall from '../../appointment-list/components/ListBestTimeToCall';
 import { TIME_TEXT } from '../../utils/appointment';
@@ -12,10 +12,8 @@ import PageLayout from '../../appointment-list/components/PageLayout';
 import StatusAlert from '../StatusAlert';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 
-export function CCRequestLayout() {
-  const { id } = useParams();
+export default function CCRequestLayout({ data: appointment }) {
   const {
-    appointment,
     comment,
     email,
     facility,
@@ -29,7 +27,7 @@ export function CCRequestLayout() {
     status,
     typeOfCareName,
   } = useSelector(
-    state => selectRequestedAppointmentDetails(state, id),
+    state => selectRequestedAppointmentData(state, appointment),
     shallowEqual,
   );
   const { providerName, treatmentSpecialty } = provider || {};
@@ -46,12 +44,12 @@ export function CCRequestLayout() {
 
   return (
     <PageLayout showNeedHelp>
-      <DetailPageLayout heading={heading}>
+      <DetailPageLayout heading={heading} data={appointment}>
         <StatusAlert appointment={appointment} facility={facility} />
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
             {preferredDates.map((option, optionIndex) => (
-              <li key={`${id}-option-${optionIndex}`}>
+              <li key={`${appointment.id}-option-${optionIndex}`}>
                 {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
                 {moment(option.start).hour() < 12 ? TIME_TEXT.AM : TIME_TEXT.PM}
               </li>
@@ -86,7 +84,7 @@ export function CCRequestLayout() {
         <Section heading="Language you’d prefer the provider speak">
           {preferredLanguage}
         </Section>
-        <Section heading="Details you’d like to shared with your provider">
+        <Section heading="Details you’d like to share with your provider">
           <span>
             Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
           </span>
@@ -96,6 +94,7 @@ export function CCRequestLayout() {
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>
           <br />
+          Phone number:{' '}
           <VaTelephone
             data-dd-privacy="mask"
             notClickable
@@ -110,3 +109,6 @@ export function CCRequestLayout() {
     </PageLayout>
   );
 }
+CCRequestLayout.propTypes = {
+  data: PropTypes.object.isRequired,
+};

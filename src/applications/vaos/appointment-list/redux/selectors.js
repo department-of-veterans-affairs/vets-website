@@ -258,7 +258,7 @@ export function selectProviderTelecom(appointment, system) {
     t => t.system === system,
   )?.value;
 }
-export function selectProvider(appointment) {
+export function selectCCProvider(appointment) {
   const { address, providerName, treatmentSpecialty } =
     appointment?.communityCareProvider || {};
   const phone = selectProviderTelecom(appointment, 'phone');
@@ -466,6 +466,19 @@ export function selectIsClinicVideo(appointment) {
   return isClinicVideoAppointment(appointment);
 }
 
+export function selectVideoData(appointment) {
+  return appointment?.videoData || {};
+}
+export function selectVideoProviderName(appointment) {
+  const videoData = selectVideoData(appointment);
+  const [first] = videoData?.providers || [];
+  return first?.display;
+}
+export function selectVideoProviderAddress(appointment) {
+  const videoData = selectVideoData(appointment);
+  return videoData?.atlasLocation?.address;
+}
+
 export function selectIsAtlasVideo(appointment) {
   const { isAtlas } = appointment?.videoData || {};
   return isAtlas;
@@ -611,12 +624,11 @@ export function selectAppointmentType(appointment) {
   return appointment?.vaos.appointmentType;
 }
 
-export function getConfirmedAppointmentDetailsInfo(state, id) {
-  const appointment = selectAppointmentById(state, id);
-  const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-    state,
-  );
+export function selectAtlasConfirmationCode(appointment) {
+  return appointment?.videoData?.atlasConfirmationCode;
+}
 
+export function selectConfirmedAppointmentData(state, appointment) {
   const comment = selectComment(appointment);
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
@@ -630,7 +642,7 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
   const facility = facilityData?.[locationId];
 
   const phone = getPatientTelecom(appointment, 'phone');
-  const provider = selectProvider(appointment);
+  const ccProvider = selectCCProvider(appointment);
   const startDate = moment.parseZone(appointment?.start);
   const status = appointment?.status;
   const typeOfCareName = selectTypeOfCareName(appointment);
@@ -649,13 +661,18 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
   const providerAddress = selectProviderAddress(appointment);
   const isAtlasVideo = selectIsAtlasVideo(appointment);
   const isPastAppointment = selectIsPast(appointment);
+  const videoProviderName = selectVideoProviderName(appointment);
+  const videoProviderAddress = selectVideoProviderAddress(appointment);
+  const atlasConfirmationCode = selectAtlasConfirmationCode(appointment);
 
   return {
     appointment,
     appointmentDetailsStatus,
     appointmentTypePrefix,
+    atlasConfirmationCode,
     bookingNotes,
     cancelInfo: getCancelInfo(state),
+    ccProvider,
     clinicName,
     clinicPhone,
     clinicPhysicalLocation,
@@ -671,17 +688,87 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
     isVideo,
     isPhone,
     phone,
-    provider,
     providerAddress,
     showCancelButton: selectFeatureCancel(state),
     startDate,
     status,
     timeZoneAbbr,
     typeOfCareName,
+    videoProviderAddress,
+    videoProviderName,
+  };
+}
+export function getConfirmedAppointmentDetailsInfo(state, id) {
+  const appointment = selectAppointmentById(state, id);
+  const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+    state,
+  );
+  return {
+    ...selectConfirmedAppointmentData(state, appointment),
     useV2: featureVAOSServiceVAAppointments,
   };
 }
+export function selectRequestedAppointmentData(state, appointment) {
+  const { facilityData } = state?.appointments || [];
 
+  const bookingNotes = selectAppointmentDetails(appointment);
+  const cancelInfo = getCancelInfo(state);
+  const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
+  const comment = selectComment(appointment);
+  const email = getPatientTelecom(appointment, 'email');
+  const facilityId = getVAAppointmentLocationId(appointment);
+  const facility = facilityData?.[facilityId];
+  const facilityPhone =
+    appointment?.vaos.apiData.extension?.clinic?.phoneNumber ||
+    facility?.telecom?.find(tele => tele.system === 'covid')?.value ||
+    facility?.telecom?.find(tele => tele.system === 'phone')?.value;
+  const isCC = appointment?.vaos.isCommunityCare;
+  const isCCRequest =
+    appointment?.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
+  const isCanceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
+  const isPastAppointment = selectIsPast(appointment);
+  const phone = getPatientTelecom(appointment, 'phone');
+  const preferredLanguage = appointment?.vaos.apiData.preferredLanguage;
+  const preferredTimesForPhoneCall = appointment?.preferredTimesForPhoneCall;
+  // const provider = featureVAOSServiceCCAppointments
+  //   ? appointment?.preferredProviderName
+  //   : appointment?.preferredCommunityCareProviders?.[0];
+  const providerAddress = selectProviderAddress(appointment);
+  const requestedPeriod = appointment?.requestedPeriod || [];
+  const status = appointment?.status;
+  const typeOfCare = getTypeOfCareById(appointment?.vaos.apiData.serviceType);
+  const typeOfCareName = typeOfCare?.name;
+  const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
+  const typeOfVisit = appointment?.requestVisitType;
+
+  return {
+    appointment,
+    // appointmentDetailsStatus,
+    bookingNotes,
+    cancelInfo,
+    canceled,
+    comment,
+    email,
+    facility,
+    facilityData,
+    facilityPhone,
+    isCC,
+    isCCRequest,
+    isCanceled,
+    isPastAppointment,
+    phone,
+    preferredDates: requestedPeriod,
+    preferredLanguage,
+    preferredTimesForPhoneCall,
+    // provider,
+    providerAddress,
+    status,
+    typeOfCare,
+    typeOfCareName,
+    typeOfCareText,
+    typeOfVisit,
+  };
+}
 export function selectRequestedAppointmentDetails(state, id) {
   const { appointmentDetailsStatus, facilityData } = state.appointments;
   const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(

@@ -23,7 +23,7 @@ import {
 import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
 import { formatHeader } from './DetailsVA.util';
 import { selectFeatureAppointmentDetailsRedesign } from '../../../redux/selectors';
-import { InPersonLayout } from '../../../components/layout/InPersonLayout';
+import InPersonLayout from '../../../components/layout/InPersonLayout';
 import CancelWarningPage from '../cancel/CancelWarningPage';
 import CancelConfirmationPage from '../cancel/CancelConfirmationPage';
 import FacilityAddress from '../../../components/FacilityAddress';
@@ -82,7 +82,7 @@ function Content({ appointment, facilityData }) {
   };
 
   if (featureAppointmentDetailsRedesign && !isPhoneAppointment)
-    return <InPersonLayout />;
+    return <InPersonLayout data={appointment} />;
 
   return (
     <>

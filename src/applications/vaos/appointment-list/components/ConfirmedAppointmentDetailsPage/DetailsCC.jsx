@@ -56,7 +56,7 @@ export default function DetailsCC({ appointment, useV2, featureVaosV2Next }) {
   };
 
   if (featureAppointmentDetailsRedesign) {
-    return <CCLayout />;
+    return <CCLayout data={appointment} />;
   }
 
   return (

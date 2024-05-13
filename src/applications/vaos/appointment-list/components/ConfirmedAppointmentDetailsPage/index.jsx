@@ -110,7 +110,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   if (featureAppointmentDetailsRedesign) {
     return (
       <PageLayout showNeedHelp>
-        {isPhone && <PhoneLayout />}
+        {isPhone && <PhoneLayout data={appointment} />}
         {isVA &&
           !isPhone && (
             <DetailsVA

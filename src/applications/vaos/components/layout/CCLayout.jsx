@@ -1,10 +1,10 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import DetailPageLayout, { Section, What, When } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import { getConfirmedAppointmentDetailsInfo } from '../../appointment-list/redux/selectors';
+import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -12,24 +12,26 @@ import {
 import AddToCalendarButton from '../AddToCalendarButton';
 import StatusAlert from '../StatusAlert';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
+import FacilityPhone from '../FacilityPhone';
+import Address from '../Address';
 
-export default function CCLayout() {
-  const { id } = useParams();
+export default function CCLayout({ data: appointment }) {
   const {
-    appointment,
     comment,
     facility,
     isPastAppointment,
-    provider,
-    providerAddress,
+    ccProvider,
     startDate,
     status,
     typeOfCareName,
   } = useSelector(
-    state => getConfirmedAppointmentDetailsInfo(state, id),
+    state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
   );
-  const { providerName, treatmentSpecialty } = provider;
+
+  if (!appointment) return null;
+
+  const { address, providerName, treatmentSpecialty } = ccProvider;
   const [reason, otherDetails] = comment ? comment?.split(':') : [];
 
   let heading = 'Community care appointment';
@@ -40,8 +42,16 @@ export default function CCLayout() {
 
   return (
     <>
-      <DetailPageLayout heading={heading}>
+      <DetailPageLayout heading={heading} data={appointment}>
         <StatusAlert appointment={appointment} facility={facility} />
+        {isPastAppointment && (
+          <Section heading="After visit summary">
+            <va-link
+              href={`${appointment?.avsPath}`}
+              text="Go to after visit summary"
+            />
+          </Section>
+        )}
         <When>
           <AppointmentDate date={startDate} />
           <br />
@@ -65,16 +75,22 @@ export default function CCLayout() {
             {`${treatmentSpecialty || 'Treatment specialty not noted'}`}
           </span>
           <br />
-          {providerAddress && (
+          {address && (
             <>
-              <span>{providerAddress.line[0]}</span>
+              <Address address={address} />
               <div className="vads-u-margin-top--1 vads-u-color--link-default">
                 <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-                <FacilityDirectionsLink location={providerAddress} />
+                <FacilityDirectionsLink location={address} />
               </div>
             </>
           )}
-          {!providerAddress && <span>Address not noted</span>}
+          {!address && <span>Address not noted</span>}
+          {!!ccProvider && (
+            <>
+              <br />
+              <FacilityPhone heading="Phone:" contact={ccProvider.phone} />
+            </>
+          )}
         </Section>
         <Section heading="Details you shared with your provider">
           <span>
@@ -83,13 +99,19 @@ export default function CCLayout() {
           <br />
           <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
         </Section>
-        <Section heading="Need to make changes?">
-          <span>
-            Contact this provider if you need to reschedule or cancel your
-            appointment.
-          </span>
-        </Section>
+        {APPOINTMENT_STATUS.booked === status &&
+          !isPastAppointment && (
+            <Section heading="Need to make changes?">
+              <span>
+                Contact this provider if you need to reschedule or cancel your
+                appointment.
+              </span>
+            </Section>
+          )}
       </DetailPageLayout>
     </>
   );
 }
+CCLayout.propTypes = {
+  data: PropTypes.object.isRequired,
+};
