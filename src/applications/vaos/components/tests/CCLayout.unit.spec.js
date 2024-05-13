@@ -104,7 +104,7 @@ describe('VAOS Component: CCLayout', () => {
         .ok;
       expect(
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
-      ).to.be.ok;
+      ).not.to.exist;
     });
 
     it('should display default text for empty data', async () => {
