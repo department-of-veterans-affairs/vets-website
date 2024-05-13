@@ -10,13 +10,6 @@ const initialState = {
   error: null,
 };
 
-const defaultUserInfo = {
-  'vye::UserInfo': {
-    pendingVerifications: [],
-    verifications: [],
-  },
-};
-
 const personalInfo = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_PERSONAL_INFO:
@@ -30,25 +23,6 @@ const personalInfo = (state = initialState, action) => {
         ...state,
         personalInfo: action.response,
         isLoading: false,
-      };
-      if (!state.personalInfo) {
-        return {
-          ...state,
-          personalInfo: {
-            'vye::UserInfo': defaultUserInfo['vye::UserInfo'],
-          },
-        };
-      }
-      return {
-        ...state,
-        personalInfo: {
-          ...state.personalInfo,
-          'vye::UserInfo': {
-            ...(state.personalInfo['vye::UserInfo'] ||
-              defaultUserInfo['vye::UserInfo']),
-            verifications: action.payload,
-          },
-        },
       };
     case FETCH_PERSONAL_INFO_FAILED:
       return {
