@@ -1,63 +1,106 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
-import DowntimeBanners, {
-  mapStateToProps,
-} from 'platform/user/authentication/components/DowntimeBanner';
-import {
-  DOWNTIME_BANNER_CONFIG,
-  AUTH_DEPENDENCIES,
-} from 'platform/user/authentication/constants';
+import DowntimeBanners from 'platform/user/authentication/components/DowntimeBanner';
+import { DOWNTIME_BANNER_CONFIG } from 'platform/user/authentication/downtime';
+import { statuses, maintenanceWindows } from './fixtures/mock-downtime';
 
-const generateState = ({ serviceId = 'mvi', serviceDown = false }) => ({
-  externalServiceStatuses: {
-    loading: false,
-    shouldGetBackendStatuses: false,
-    statuses: AUTH_DEPENDENCIES.map(deps => ({
-      service: deps.toUpperCase(),
-      serviceId: deps,
-      status: serviceId === deps && serviceDown ? 'inactive' : 'active',
-    })),
-  },
-});
+const generateState = ({
+  serviceId = 'mvi',
+  serviceDown = false,
+  isApiDown = false,
+  isMultipleServices = false,
+}) => {
+  return isMultipleServices
+    ? {
+        externalServiceStatuses: {
+          loading: false,
+          statuses: statuses.reduce((acc, cv) => {
+            if (cv.serviceId === 'mvi' || cv.serviceId === 'idme') {
+              acc.push({ ...cv, status: 'nope' });
+            }
+            return acc;
+          }, []),
+          maintenance_windows: [],
+        },
+        subscribe: () => {},
+        dispatch: () => {},
+      }
+    : {
+        externalServiceStatuses: {
+          loading: false,
+          statuses: isApiDown
+            ? []
+            : statuses?.map(el => {
+                return {
+                  ...el,
+                  status:
+                    serviceDown && el.serviceId === serviceId
+                      ? 'nope'
+                      : 'active',
+                };
+              }),
+          maintenanceWindows: isApiDown ? [] : maintenanceWindows,
+        },
+        subscribe: () => {},
+        dispatch: () => {},
+      };
+};
 
-describe.skip('DowntimeBanner', () => {
-  it.skip('should not display banner if statuses are active', () => {
+describe('DowntimeBanner', () => {
+  const downtimeBannersWithoutMultipleOrMaint = Object.keys(
+    DOWNTIME_BANNER_CONFIG,
+  ).filter(dt => !['multipleServices', 'maintenance'].includes(dt));
+
+  it('should display banner if API is down', () => {
+    const { queryByText } = renderInReduxProvider(<DowntimeBanners />, {
+      initialState: generateState({ isApiDown: true }),
+    });
+
+    expect(
+      queryByText(
+        /You may have trouble signing in or using some tools or services/i,
+      ),
+    ).to.exist;
+  });
+
+  it('should NOT display banner if statuses are active', () => {
     const screen = renderInReduxProvider(<DowntimeBanners />, {
-      initialState: generateState({ serviceId: 'mvi', serviceDown: false }),
+      initialState: generateState({ serviceDown: false }),
     });
 
     expect(
       screen.queryByText(
         /You may have trouble signing in or using some tools or services/i,
       ),
-    ).to.be.null;
+    ).to.not.exist;
   });
 
-  AUTH_DEPENDENCIES.forEach(csp => {
-    it.skip(`should display ${csp} banner when status is inactive`, () => {
-      const screen = renderInReduxProvider(<DowntimeBanners />, {
-        initialState: generateState({ serviceId: csp, serviceDown: true }),
+  downtimeBannersWithoutMultipleOrMaint.forEach(key => {
+    it(`should display banner if ${key} service is down`, () => {
+      const { queryByText } = renderInReduxProvider(<DowntimeBanners />, {
+        initialState: generateState({
+          serviceDown: true,
+          serviceId: key,
+        }),
       });
 
-      const { headline } = DOWNTIME_BANNER_CONFIG[csp];
+      const expectedText = DOWNTIME_BANNER_CONFIG[key].headline;
 
-      expect(screen.queryByText(headline)).to.not.be.null;
+      expect(queryByText(expectedText)).to.exist;
     });
   });
-});
 
-describe.skip('mapStateToProps', () => {
-  describe.skip('externalServiceStatuses', () => {
-    it.skip('should display props', () => {
-      expect(
-        mapStateToProps({
-          externalServiceStatuses: {
-            shouldGetBackendStatuses: true,
-            statuses: null,
-          },
-        }).shouldGetBackendStatuses,
-      ).to.be.true;
+  it('should display banner if multipleServices are down', () => {
+    const { queryByText } = renderInReduxProvider(<DowntimeBanners />, {
+      initialState: generateState({
+        isMultipleServices: true,
+      }),
     });
+
+    const expectedText = DOWNTIME_BANNER_CONFIG.multipleServices.headline;
+
+    expect(queryByText(expectedText)).to.exist;
   });
 });

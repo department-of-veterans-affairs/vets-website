@@ -12,10 +12,11 @@ import classNames from 'classnames';
  * @returns a secondary nav item
  */
 const MhvSecondaryNavItem = ({
-  iconClass,
+  icon,
   href,
   title,
   abbreviation,
+  actionName,
   isActive = false,
   isHeader = false,
 }) => {
@@ -32,19 +33,30 @@ const MhvSecondaryNavItem = ({
     'vads-u-align-content--center',
     {
       'mhv-u-sec-nav-active-style': isActive,
-      'vads-u-font-weight--bold': isActive,
       'mhv-u-sec-nav-header-style': isHeader,
-      'vads-u-font-size--lg': isHeader,
       'mhv-u-sec-nav-item-style': !isHeader,
     },
   );
 
+  const titleClass = classNames({
+    'vads-u-font-weight--bold': isActive,
+    'vads-u-font-size--lg': isHeader,
+  });
+
   return (
     <div key={key} className={itemClass} data-testid="mhv-sec-nav-item">
-      <a href={href} className="vads-u-text-decoration--none">
-        {!!iconClass && <i className={iconClass} aria-hidden="true" />}
-        <span className="mhv-u-sec-nav-item-title">{title}</span>
-        <span className="mhv-u-sec-nav-short-title">{mobileTitle}</span>
+      <a
+        href={href}
+        data-dd-action-name={actionName}
+        className="vads-u-text-decoration--none"
+      >
+        {!!icon && <va-icon icon={icon} size={3} />}
+        <span className={`mhv-u-sec-nav-item-title ${titleClass}`}>
+          {title}
+        </span>
+        <span className={`mhv-u-sec-nav-short-title ${titleClass}`}>
+          {mobileTitle}
+        </span>
       </a>
     </div>
   );
@@ -52,9 +64,10 @@ const MhvSecondaryNavItem = ({
 
 MhvSecondaryNavItem.propTypes = {
   href: PropTypes.string.isRequired,
-  iconClass: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   abbreviation: PropTypes.string,
+  actionName: PropTypes.string,
   isActive: PropTypes.bool,
   isHeader: PropTypes.bool,
 };
