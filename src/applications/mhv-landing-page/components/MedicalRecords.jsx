@@ -68,7 +68,6 @@ const MedicalRecords = ({ blueButtonUrl }) => (
         'vads-u-background-color--gray-lightest',
         'vads-u-display--inline-block',
         'vads-u-padding-x--2',
-        'vads-u-padding-y',
         'medium-screen:vads-u-padding-x--4',
         'medium-screen:vads-u-padding-y--3',
       )}
