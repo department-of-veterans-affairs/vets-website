@@ -12,7 +12,7 @@ import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-str
 import extraData from '../tests/fixtures/data/extra-data.json';
 import testData from '../tests/fixtures/data/test-data.json';
 
-import { disagreeWith } from '../../testing/utils/areaOfDisagreement';
+import { disagreeWith } from '../../shared/utils/areaOfDisagreement';
 import { getIssueName, getIssueDate } from '../../shared/utils/issues';
 
 // separate each number so the screenreader reads "number ending with 1 2 3 4"
