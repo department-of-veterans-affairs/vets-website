@@ -1,7 +1,10 @@
 import React from 'react';
 import { titleUI } from './titlePattern';
 import { yesNoSchema, yesNoUI } from './yesNoPattern';
-import { getArrayUrlSearchParams } from '../patterns/array-builder/helpers';
+import {
+  getArrayUrlSearchParams,
+  maxItemsHint,
+} from '../patterns/array-builder/helpers';
 
 /**
  * Looks for URL param 'add' and 'removedAllWarn' and returns a warning alert if both are present
@@ -50,7 +53,7 @@ export const withEditTitle = title => {
  *
  * - Puts the title in the format "Edit {title}" when editing
  * - Displays a warning alert if all items have been removed and is required
- * - Display is additional message for edit
+ * - Displays an additional description message for edit
  *
  * Usage:
  * ```
@@ -72,6 +75,7 @@ export const withEditTitle = title => {
 export const arrayBuilderItemFirstPageTitleUI = ({ title, nounSingular }) => {
   return titleUI(
     withEditTitle(title),
+    // can refactor this to allow passing a description if necessary
     withAlertOrDescription({ nounSingular }),
   );
 };
@@ -161,18 +165,34 @@ export const arrayBuilderYesNoUI = (
   yesNoOptions,
   yesNoOptionsMore,
 ) => {
-  const { arrayPath, nounSingular, maxItems, required } = arrayBuilderOptions;
+  const {
+    arrayPath,
+    nounSingular,
+    nounPlural,
+    maxItems,
+    required,
+  } = arrayBuilderOptions;
   const defaultTitle =
     yesNoOptions?.title || `Do you have a ${nounSingular} to add?`;
 
   const requiredFn = typeof required === 'function' ? required : () => required;
+
+  const customHint =
+    typeof yesNoOptionsMore?.hint === 'function'
+      ? yesNoOptionsMore?.hint
+      : () => yesNoOptionsMore?.hint;
+  const customMoreHint =
+    typeof yesNoOptions?.hint === 'function'
+      ? yesNoOptions?.hint
+      : () => yesNoOptions?.hint;
 
   return {
     ...yesNoUI({
       title: defaultTitle,
       classNames: 'wc-pattern-array-builder-yes-no',
       updateUiSchema: formData => {
-        return formData?.[arrayPath]?.length
+        const arrayData = formData?.[arrayPath];
+        return arrayData?.length
           ? {
               'ui:title':
                 yesNoOptionsMore?.title ||
@@ -180,8 +200,18 @@ export const arrayBuilderYesNoUI = (
               'ui:options': {
                 labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
                 hint:
-                  yesNoOptionsMore?.hint ||
-                  (maxItems ? `You can add up to ${maxItems}.` : ''),
+                  customHint({
+                    arrayData,
+                    nounSingular,
+                    nounPlural,
+                    maxItems,
+                  }) ||
+                  maxItemsHint({
+                    arrayData,
+                    nounSingular,
+                    nounPlural,
+                    maxItems,
+                  }),
                 labels: {
                   Y: yesNoOptionsMore?.labels?.Y || 'Yes',
                   N: yesNoOptionsMore?.labels?.N || 'No',
@@ -198,8 +228,20 @@ export const arrayBuilderYesNoUI = (
               'ui:options': {
                 labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '3',
                 hint:
-                  yesNoOptions?.hint ||
-                  `You’ll need to add at least one ${nounSingular}. You can add up to ${maxItems}`,
+                  customMoreHint({
+                    arrayData,
+                    nounSingular,
+                    nounPlural,
+                    maxItems,
+                  }) ||
+                  `You’ll need to add at least one ${nounSingular}. ${maxItemsHint(
+                    {
+                      arrayData,
+                      nounSingular,
+                      nounPlural,
+                      maxItems,
+                    },
+                  )}`,
                 labels: {
                   Y: yesNoOptions?.labels?.Y || 'Yes',
                   N: yesNoOptions?.labels?.N || 'No',

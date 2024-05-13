@@ -2,6 +2,7 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 import { merge, pick } from 'lodash';
 
 import {
+  VAClaimNumberAdditionalInfo,
   sponsorMilitaryDetailsSubHeader,
   sponsorMilitaryStatusDescription,
   veteranUI,
@@ -14,29 +15,55 @@ export const uiSchema = {
   application: {
     veteran: merge({}, veteranUI, {
       militaryServiceNumber: {
-        'ui:title':
-          'Sponsor’s military Service number (if it’s different than their Social Security number)',
+        'ui:title': 'Sponsor’s Military Service number',
+        'ui:options': {
+          enableAnalytics: false,
+          hint: 'If it’s different than their Social Security number',
+        },
         'ui:errorMessages': {
           pattern:
             'Sponsor’s Military Service number must be between 4 to 9 characters',
         },
       },
       vaClaimNumber: {
-        'ui:title': 'Sponsor’s VA claim number (if known)',
+        'ui:title': 'Sponsor’s VA claim number',
+        'ui:options': {
+          enableAnalytics: false,
+          hint: 'If they don’t have a VA claim number, leave this blank.',
+        },
         'ui:errorMessages': {
           pattern: 'Sponsor’s VA claim number must be 8 or 9 digits',
         },
       },
       militaryStatus: {
-        'ui:title':
-          'Sponsor’s current military status (You can add more service history information later in this application.)',
+        'ui:title': 'Sponsor’s current military status',
         'ui:options': {
           nestedContent: {
             X: sponsorMilitaryStatusDescription,
           },
+          enableAnalytics: false,
+          hint:
+            'You can add more service history information later in this application.',
+          labels: {
+            A: 'Active duty',
+            I: 'Death related to inactive duty training',
+            D: 'Died on active duty',
+            S: 'Reserve/National Guard',
+            R: 'Retired',
+            E: 'Retired active duty',
+            O: 'Retired Reserve/National Guard',
+            V: 'Veteran',
+            X: 'Other',
+          },
         },
       },
     }),
+    'view:contactInfoDescription': {
+      'ui:description': VAClaimNumberAdditionalInfo,
+      'ui:options': {
+        displayEmptyObjectOnReview: true,
+      },
+    },
   },
 };
 
@@ -50,10 +77,14 @@ export const schema = {
           type: 'object',
           required: ['militaryStatus'],
           properties: pick(veteran.properties, [
+            'militaryStatus',
             'militaryServiceNumber',
             'vaClaimNumber',
-            'militaryStatus',
           ]),
+        },
+        'view:contactInfoDescription': {
+          type: 'object',
+          properties: {},
         },
       },
     },

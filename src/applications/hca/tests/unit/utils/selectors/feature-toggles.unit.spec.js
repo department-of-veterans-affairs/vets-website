@@ -6,7 +6,6 @@ describe('hca FeatureToggles selector', () => {
     featureToggles: {
       /* eslint-disable camelcase */
       hca_sigi_enabled: false,
-      hca_tera_enabled: true,
       hca_browser_monitoring_enabled: true,
       hca_enrollment_status_override_enabled: false,
       hca_use_facilities_API: false,
