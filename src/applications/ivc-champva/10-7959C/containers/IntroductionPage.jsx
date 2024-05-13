@@ -110,7 +110,7 @@ class IntroductionPage extends React.Component {
           </VaAlert>
         )}
         {loggedIn && (
-          <>
+          <div className="signed-in-sip">
             {/* <Link
               to="/your-information/description"
               className="auth-start-link vads-c-action-link--green"
@@ -126,7 +126,7 @@ class IntroductionPage extends React.Component {
               startText="Start the application"
               headingLevel={2}
             />
-          </>
+          </div>
         )}
         <br />
 
