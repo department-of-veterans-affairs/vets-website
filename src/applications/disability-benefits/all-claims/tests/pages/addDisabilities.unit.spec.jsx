@@ -283,7 +283,7 @@ describe('showRevisedNewDisabilitiesPage', () => {
             'view:claimingNew': true,
             'view:claimingIncrease': true,
           },
-          newDisabilities: [],
+          newDisabilities: ['test condition'],
           // no rated disability selected
           ratedDisabilities: [{}, {}],
         }}
