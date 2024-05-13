@@ -229,7 +229,7 @@ const formConfig = {
         priorityProcessingNotQualifiedPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            (formData.livingSituation.NONE && formData.otherReasons?.NONE),
+            (!formData.livingSituation.NONE && formData.otherReasons?.NONE),
           path: 'priority-processing-not-qualified',
           title: 'You may not qualify for priority processing',
           uiSchema: ppNotQualifiedPage.uiSchema,
@@ -240,7 +240,7 @@ const formConfig = {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
             (!formData.livingSituation.NONE ||
-              (formData.livingSituation.NONE && !formData.otherReasons?.NONE)),
+              (formData.livingSituation.NONE && formData.otherReasons?.NONE)),
           path: 'priority-processing-qualified-handoff',
           title: "There's a better way to request priority processing",
           uiSchema: ppQualifiedHandoffPage.uiSchema,
