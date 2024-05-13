@@ -8,6 +8,7 @@ import {
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
@@ -59,6 +60,12 @@ const SearchPage = props => {
     isEmpty(props.location.query);
 
   const store = useStore();
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const widgetEnabled = useToggleValue(
+    TOGGLE_NAMES.representativeStatusEnabled,
+  );
 
   const updateUrlParams = params => {
     const { location, currentQuery } = props;
@@ -299,9 +306,7 @@ const SearchPage = props => {
   // jump to results
   useEffect(
     () => {
-      if (isPostLogin) {
-        focusElement('.representative-status-widget');
-      } else if (isDisplayingResults) {
+      if (isDisplayingResults) {
         window.scrollTo(0, 600);
         focusElement('#search-results-subheader');
       }
@@ -357,7 +362,7 @@ const SearchPage = props => {
           </p>
         </div>
 
-        {!environment.isProduction() && (
+        {widgetEnabled && (
           <>
             <h2>Check if you already have an accredited representative</h2>
             <p>
@@ -368,10 +373,9 @@ const SearchPage = props => {
               If you appoint a new accredited representative, they will replace
               your current one.
             </p>
-            <div
-              className="representative-status-widget"
-              data-widget-type="representative-status"
-            />
+            <div tabIndex="-1">
+              <div data-widget-type="representative-status" />
+            </div>
           </>
         )}
 

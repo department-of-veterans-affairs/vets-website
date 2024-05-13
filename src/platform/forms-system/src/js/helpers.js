@@ -90,10 +90,12 @@ export function createFormPageList(formConfig) {
     if (!chapter?.pages) return pageList;
 
     const chapterTitle = chapter?.title ?? formConfig.title;
+    const hideOnReviewPage = chapter?.hideOnReviewPage || false;
     const pages = Object.keys(chapter.pages).map(pageKey => ({
       ...chapter.pages[pageKey],
       chapterTitle,
       chapterKey,
+      hideOnReviewPage,
       pageKey,
     }));
     return pageList.concat(pages);
@@ -692,8 +694,10 @@ export function getActiveChapters(formConfig, formData) {
 
   return uniq(
     expandedPageList
-      .map(p => p.chapterKey)
-      .filter(key => !!key && key !== 'review'),
+      .filter(
+        p => !p.hideOnReviewPage && p.chapterKey && p.chapterKey !== 'review',
+      )
+      .map(p => p.chapterKey),
   );
 }
 
