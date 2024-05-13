@@ -2,20 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 
-// TODO: REMOVE after serialization
-const CLAIM_STATUS = {
-  SAVED: 'Saved',
-  INCOMPLETE: 'Incomplete',
-  IN_PROCESS: 'In Process',
-  CLAIM_SUBMITTED: 'Claim Submitted',
-  MANUAL_REVIEW: 'In Manual Review',
-  ON_HOLD: 'On Hold',
-  APPEALED: 'Appealed',
-  // Closed has a bunch of variants.
-  // TBD if we need to be more specific.
-  CLOSED: 'Closed',
-};
-
 function formatDateTime(datetimeString) {
   const dateTime = new Date(datetimeString);
   const formattedDate = format(dateTime, 'eeee, MMMM d, yyyy');
@@ -52,7 +38,7 @@ export default function TravelClaimCard(props) {
 
       <h3 className="vads-u-margin-bottom--1">Claim Details</h3>
       <p className="vads-u-margin-top--0">
-        <strong>Claim status: {CLAIM_STATUS[claimStatus]}</strong> <br />
+        <strong>Claim status: {claimStatus}</strong> <br />
         Claim number: {claimNumber} <br />
         Submitted on {createDate} at {createTime} <br />
         Updated on {updateDate} at {updateTime}
