@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
-async function createPonyFill(webchat, environment) {
+async function fetchCredentials() {
   const region =
     environment.isDev() || environment.isLocalhost() ? 'eastus' : 'eastus2';
 
@@ -10,20 +11,27 @@ async function createPonyFill(webchat, environment) {
     method: 'POST',
   });
 
-  return webchat.createCognitiveServicesSpeechServicesPonyfillFactory({
-    credentials: {
-      region,
-      authorizationToken: speechToken.token,
-    },
-  });
+  return {
+    region,
+    authorizationToken: speechToken.token,
+  };
+  // return webchat.createCognitiveServicesSpeechServicesPonyfillFactory({
+  //   credentials: {
+  //     region,
+  //     authorizationToken: speechToken.token,
+  //   },
+  // });
 }
 
-export default function useBotPonyFill(setBotPonyfill, environment) {
+export default function useBotPonyFill(setBotPonyfill) {
   useEffect(
     () =>
-      createPonyFill(window.WebChat, environment).then(res =>
-        setBotPonyfill(() => res),
-      ),
+      window.WebChat.createDirectLineSpeechAdapters({
+        fetchCredentials,
+      }).then(res => setBotPonyfill(() => res)),
+    // createPonyFill(window.WebChat, environment).then(res =>
+    //   setBotPonyfill(() => res),
+    // ),
     [],
   );
 }

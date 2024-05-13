@@ -112,9 +112,10 @@ const WebChat = ({
         store={store}
         renderMarkdown={renderMarkdown}
         onTelemetry={handleTelemetry}
-        {...isRXSkill === 'true' && {
-          webSpeechPonyfillFactory: speechPonyfill,
-        }}
+        {...isRXSkill !== 'true' &&
+          speechPonyfill && {
+            webSpeechPonyfillFactory: speechPonyfill.webSpeechPonyfillFactory,
+          }}
       />
     </div>
   );
