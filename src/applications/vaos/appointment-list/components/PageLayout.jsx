@@ -29,7 +29,7 @@ export default function PageLayout({
 }
 
 PageLayout.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.node,
   showBreadcrumbs: PropTypes.bool,
   showNeedHelp: PropTypes.bool,
   style: PropTypes.object,
