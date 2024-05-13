@@ -21,7 +21,6 @@ const getScreenReaderResults = (searchTerm, value, numResults) => {
   return `${results} results available.`;
 };
 
-
 // This is a combobox component that is used in the revisedAddDisabilities page.
 // Originally, the addDisabilities page used the AutosuggestField component from the platform-forms-system package.
 // A new component was created to make suggestions to the veteran more understandable when selecting a new condition to claim.
@@ -36,6 +35,7 @@ export class ComboBox extends React.Component {
       bump: false,
       searchTerm: '',
       input: '',
+      value: '',
       highlightedIndex: 0,
       ariaLive1: '',
       ariaLive2: '',
@@ -61,11 +61,9 @@ export class ComboBox extends React.Component {
     this.props.onChange(newTextValue);
   };
 
-  handleMouseEnter(evt, optionIndex) {
-    const newFocusedElem = evt.target;
-    newFocusedElem.focus();
+  // update highlight class
+  handleMouseEnter(e, optionIndex) {
     this.setState({ highlightedIndex: optionIndex });
-    // this.filteredOptions // <-- find in array item === option
   }
 
   // Filters list of conditions based on free-text input
@@ -102,7 +100,6 @@ export class ComboBox extends React.Component {
 
   // Click handler for a list item
   selectOption(option) {
-    console.log('option', option);
     this.setState({
       value: option,
       searchTerm: option,
@@ -124,9 +121,14 @@ export class ComboBox extends React.Component {
     }
   }
 
-  // Creates the dynamic select element for free text user entry.
+  // Creates the dynamic element for free text user entry.
   drawFreeTextOption(option) {
-    const { highlightedIndex } = this.state;
+    const { highlightedIndex, searchTerm, value } = this.state;
+
+    if (option === value) {
+      return null;
+    }
+
     let classNameStr = 'usa-combo-box__list-option free-text-li-option';
     if (highlightedIndex === 0) {
       classNameStr += ' active-combobox-item';
@@ -139,14 +141,14 @@ export class ComboBox extends React.Component {
           this.selectOption(option);
         }}
         style={{ cursor: 'pointer' }}
-        tabIndex="-1"
+        tabIndex={0}
         onMouseEnter={evt => {
           this.handleMouseEnter(evt, 0);
         }}
         onKeyDown={e => console.log(e)}
         label="new-condition-option"
         role="option"
-        aria-selected={this.state.input === option}
+        aria-selected={searchTerm === option}
       >
         Enter your condition as "
         <span style={{ fontWeight: 'bold' }}>{option}</span>"
@@ -174,9 +176,7 @@ export class ComboBox extends React.Component {
           role="listbox"
           ref={this.listRef}
         >
-          {searchTerm.length && searchTerm !== this.state.input
-            ? this.drawFreeTextOption(searchTerm)
-            : null}
+          {this.drawFreeTextOption(searchTerm)}
           {filteredOptions &&
             filteredOptions.map((option, index) => {
               const optionIndex = index + 1;
@@ -192,9 +192,9 @@ export class ComboBox extends React.Component {
                     this.selectOption(option);
                   }}
                   style={{ cursor: 'pointer' }}
-                  tabIndex="-1"
-                  onMouseEnter={evt => {
-                    this.handleMouseEnter(evt, optionIndex);
+                  tabIndex={0}
+                  onMouseEnter={e => {
+                    this.handleMouseEnter(e, optionIndex);
                   }}
                   onKeyDown={e => console.log(e)}
                   label={option}
@@ -208,7 +208,7 @@ export class ComboBox extends React.Component {
         </div>
 
         <div
-          className="usa-combo-box__status sr-only-view"
+          className="usa-combo-box__status vads-u-visibility--screen-reader"
           role="alert"
           aria-live="polite"
           aria-atomic="true"
@@ -217,7 +217,7 @@ export class ComboBox extends React.Component {
           {ariaLive1}
         </div>
         <div
-          className="usa-combo-box__status sr-only-view"
+          className="usa-combo-box__status vads-u-visibility--screen-reader"
           role="alert"
           aria-live="polite"
           aria-atomic="true"
@@ -225,7 +225,7 @@ export class ComboBox extends React.Component {
         >
           {ariaLive2}
         </div>
-        <span className="sr-only-view">
+        <span className="vads-u-visibility--screen-reader">
           When autocomplete results are available use up and down arrows to
           review and enter to select. Touch device users, explore by touch or
           with swipe gestures.
@@ -237,5 +237,6 @@ export class ComboBox extends React.Component {
 
 // TODO: flesh this out
 ComboBox.propTypes = {
+  uiSchema: PropTypes.any,
   onChange: PropTypes.func,
 };
