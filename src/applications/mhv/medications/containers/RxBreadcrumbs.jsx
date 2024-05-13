@@ -5,12 +5,6 @@ import { useLocation } from 'react-router-dom';
 import { createBreadcrumbs } from '../util/helpers';
 import { medicationsUrls } from '../util/constants';
 
-const alignToLeft = `va-nav-breadcrumbs xsmall-screen:vads-u-margin-left--neg1
-small-screen:vads-u-margin-left--neg1
-medium-screen:vads-u-margin-left--neg2
-small-desktop-screen:vads-u-margin-left--neg2
-large-screen:vads-u-margin-left--0 `;
-
 const RxBreadcrumbs = () => {
   const location = useLocation();
   const prescription = useSelector(
@@ -43,7 +37,7 @@ const RxBreadcrumbs = () => {
               data-testid="rx-breadcrumb"
               home-veterans-affairs="false"
               breadcrumbList={breadcrumbs}
-              className={`${alignToLeft} no-print va-breadcrumbs-li vads-u-margin-bottom--neg1p5 vads-u-display--block`}
+              className="no-print va-breadcrumbs-li vads-u-margin-bottom--neg1p5 vads-u-display--block"
             />
           ) : (
             <div className="include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3">
