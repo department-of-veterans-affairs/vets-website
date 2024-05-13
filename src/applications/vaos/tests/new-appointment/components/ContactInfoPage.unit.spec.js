@@ -50,9 +50,7 @@ describe('VAOS Page: ContactInfoPage', () => {
     const button = await screen.findByText(/^Continue/);
 
     userEvent.click(button);
-    await waitFor(() => {
-      expect(screen.history.push.called).to.be.true;
-    });
+    expect(screen.history.push.called).to.be.true;
     expect(window.dataLayer).to.deep.include({
       event: 'vaos-contact-info-email-not-populated',
     });
