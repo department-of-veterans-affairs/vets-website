@@ -39,17 +39,6 @@
   margin-top: 70px;
 }
 
-.rx-breadcrumbs {
-  .breadcrumb-angle {
-    color: var(--vads-color-link);
-  }
-  a {
-    &:visited {
-      color: var(--vads-color-link);
-    }
-  }
-}
-
 .renew-pagination-container {
   width: 100%;
   display: flex;
@@ -97,6 +86,9 @@
     .sort-button {
       margin-left: 8px;
       margin-top: 57px;
+    }
+    va-select::part(label) {
+      text-wrap: nowrap;
     }
   }
   .rx-page-total-info {
@@ -304,6 +296,11 @@
 
 .refillable-prescription-item {
   display: flex !important;
+  align-items: baseline;
+
+  &::before {
+    min-width: 2rem;
+  }
 }
 
 va-checkbox.select-all-checkbox::part(label) {
@@ -317,4 +314,28 @@ va-checkbox.select-all-checkbox::part(label) {
 
 .hide-visited-link:visited {
   color: var(--vads-color-link) !important;
+}
+
+.va-breadcrumbs-li {
+  padding: 5px 0 !important;
+}
+
+.include-back-arrow {
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 2ex;
+    height: 2ex;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%2224%22 height%3D%2224%22 viewBox%3D%220 0 24 24%22%3E%3Cpath d%3D%22M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z%22%2F%3E%3C%2Fsvg%3E"), linear-gradient(transparent, transparent);
+    -webkit-mask-size: contain;
+    mask-size: 2ex 2ex;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    mask-position: center center;
+    bottom: -0.2em;
+    position: relative;
+    font-size: 16.96px;
+    color: rgb(27, 27, 27);
+    background: var(--vads-color-gray-medium);
+  }
 }
