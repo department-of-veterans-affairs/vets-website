@@ -26,7 +26,7 @@ export const UPDATED_USER_MOCK_DATA = {
     ],
     pendingVerifications: [
       {
-        awardId: '00001',
+        awardId: 1,
         actBegin: '2024-03-01',
         actEnd: '2024-03-24',
         numberHours: 10,
@@ -34,7 +34,7 @@ export const UPDATED_USER_MOCK_DATA = {
         caseTrace: 'CASE 1b',
       },
       {
-        awardId: '00002',
+        awardId: 2,
         actBegin: '2024-03-25',
         actEnd: '2024-03-31',
         numberHours: 12,
@@ -42,7 +42,7 @@ export const UPDATED_USER_MOCK_DATA = {
         caseTrace: 'CASE 7',
       },
       {
-        awardId: '00003',
+        awardId: 3,
         actBegin: '2024-02-05',
         actEnd: '2024-02-31',
         numberHours: 12,

@@ -10,7 +10,6 @@ import {
 import { ENROLLMETS_PER_PAGE } from '../constants';
 
 const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
-  console.log(enrollmentData, 'dataaa')
   const [userEnrollmentData, setUserEnrollmentData] = useState([]);
   const [pastAndCurrentAwards, setPastAndCurrentAwards] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -20,13 +19,13 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
 
   const totalEnrollmentVerificationsCount = Object.keys(
     combineEnrollmentsWithStartMonth(
-      enrollmentData?.['vye::UserInfo']?.verifications,
+      enrollmentData?.['vye::UserInfo']?.verifications ?? {},
     ),
   ).length;
 
   const totalEnrollmentPendingVerificationsCount = Object.keys(
     combineEnrollmentsWithStartMonth(
-      enrollmentData?.['vye::UserInfo']?.pendingVerifications,
+      enrollmentData?.['vye::UserInfo']?.pendingVerifications ?? {},
     ),
   ).length;
 
@@ -80,7 +79,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
      once we have this, we can sort the array based on month year with
      the latest date on top.
     */
-    enrollments.forEach(enrollment => {
+    enrollments?.forEach(enrollment => {
       const topLevelEnrollment = enrollment?.props?.children;
       const isAnArray = Array.isArray(topLevelEnrollment);
 
@@ -106,7 +105,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
           el => el !== undefined && el !== null && el !== false,
         );
         const firstChildProps =
-          firstNotUndefined.props?.children[0]?.props?.children;
+          firstNotUndefined?.props?.children[0]?.props?.children;
         const firstChildIsArray = Array.isArray(firstChildProps);
 
         if (firstChildIsArray) {
@@ -117,11 +116,11 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
 
         if (!firstChildIsArray) {
           const secondChildProps =
-            firstNotUndefined.props?.children[0]?.props?.children;
+            firstNotUndefined?.props?.children[0]?.props?.children;
           const secondChildPropsIsArray = Array.isArray(secondChildProps);
           if (!secondChildPropsIsArray) {
             tempEnrollmentArray.push({
-              [firstNotUndefined.props?.children[0]?.props
+              [firstNotUndefined?.props?.children[0]?.props
                 ?.children]: enrollment,
             });
           }
