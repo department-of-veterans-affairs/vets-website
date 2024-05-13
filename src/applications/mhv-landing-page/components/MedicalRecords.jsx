@@ -72,17 +72,19 @@ const MedicalRecords = ({ blueButtonUrl }) => (
         'medium-screen:vads-u-padding-y--3',
       )}
     >
-      <h2 className="vads-u-margin-top--0">
+      <h2 className="vads-u-margin-top--1 medium-screen:vads-u-margin-top--0">
         Medical records on VA.gov isn’t ready to use yet
       </h2>
-      <p className="vads-u-measure--5">
+      <p className="vads-u-measure--5 medium-screen:vads-u-margin-bottom--3">
         You still have access to your medical records on the previous version of
         My HealtheVet. You can go back to that site at any time to download your
         VA health records (Blue Button®).
       </p>
-      <a className="vads-c-action-link--green" href={blueButtonUrl}>
-        Go back to the previous version of Medical Records
-      </a>
+      <p>
+        <a className="vads-c-action-link--green" href={blueButtonUrl}>
+          Go back to the previous version of Medical Records
+        </a>
+      </p>
     </div>
 
     <h2>What’s coming soon</h2>
