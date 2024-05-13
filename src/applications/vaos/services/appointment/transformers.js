@@ -149,7 +149,9 @@ function getTypeOfVisit(id) {
 function getMomentConfirmedDate(appt) {
   const timezone = getTimezoneByFacilityId(appt.locationId);
 
-  return timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
+  return timezone
+    ? moment(appt.localStartTime).tz(timezone)
+    : moment(appt.localStartTime);
 }
 
 /**
