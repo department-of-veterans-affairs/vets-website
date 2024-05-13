@@ -1,10 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { fromUnixTime, isBefore } from 'date-fns';
 import { format } from 'date-fns-tz';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaButton,
+  VaLoadingIndicator,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
 import {
@@ -28,7 +32,7 @@ import {
 } from '../../forms-system/src/js/constants';
 
 const handleClick = () => recordEvent({ event: 'no-login-start-form' });
-const openLoginModal = () => toggleLoginModal(true, 'cta-form');
+const openLoginModal = dispatch => dispatch(toggleLoginModal(true, 'cta-form'));
 
 const getStartPage = ({ formData, pathname, pageList }) => {
   const data = formData || {};
@@ -44,7 +48,7 @@ const includesFormControls = (user, formId) => {
   return login.currentlyLoggedIn && savedForm;
 };
 
-const getFormControls = (savedForm, props) => {
+const FormControls = (savedForm, props) => {
   const {
     ariaDescribedby,
     ariaLabel,
@@ -58,6 +62,7 @@ const getFormControls = (savedForm, props) => {
     startText,
     user,
   } = props;
+  const dispatch = useDispatch();
   const { profile } = user;
   const startPage = getStartPage();
   const prefillAvailable = !!(
@@ -77,8 +82,8 @@ const getFormControls = (savedForm, props) => {
       returnUrl={returnUrl}
       migrations={migrations}
       prefillTransformer={prefillTransformer}
-      fetchInProgressForm={fetchInProgressForm}
-      removeInProgressForm={removeInProgressForm}
+      fetchInProgressForm={() => dispatch(fetchInProgressForm)}
+      removeInProgressForm={() => dispatch(removeInProgressForm)}
       prefillAvailable={prefillAvailable}
       formSaved={!!savedForm}
       gaStartEventName={gaStartEventName}
@@ -111,7 +116,7 @@ const SavedFormAlert = props => {
   const { metadata = {} } = savedForm;
   const lastUpdated = savedForm.lastUpdated || metadata.lastUpdated;
 
-  let savedAt = '';
+  let savedAt;
   if (lastSavedDate) {
     savedAt = new Date(lastSavedDate);
   } else if (lastUpdated) {
@@ -127,7 +132,7 @@ const SavedFormAlert = props => {
     const lastSavedDateTime =
       savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
 
-    const H = `h${headingLevel}`;
+    const CustomHeader = `h${headingLevel}`;
     const ContinueMsg = (
       <p>
         You can continue {appAction} now
@@ -137,12 +142,12 @@ const SavedFormAlert = props => {
     );
 
     return (
-      <va-alert status="info" uswds visible>
+      <VaAlert status="info" uswds visible>
         <div className="schemaform-sip-alert-title">
-          <H className="usa-alert-heading vads-u-font-size--h3">
+          <CustomHeader className="usa-alert-heading vads-u-font-size--h3">
             {inProgressMessage} {savedAt && 'and was last saved on '}
             {lastSavedDateTime}
-          </H>
+          </CustomHeader>
         </div>
         <div className="saved-form-metadata-container">
           <div className="expires-container">
@@ -154,14 +159,14 @@ const SavedFormAlert = props => {
           </div>
         </div>
         <div>{children}</div>
-        {getFormControls(savedForm)}
-      </va-alert>
+        <FormControls savedForm={savedForm} />
+      </VaAlert>
     );
   }
 
   return (
     <div>
-      <va-alert status="warning" uswds visible>
+      <VaAlert status="warning" uswds visible>
         <div className="schemaform-sip-alert-title">
           <strong>Your {appType} has expired</strong>
         </div>
@@ -171,7 +176,7 @@ const SavedFormAlert = props => {
           </span>
         </div>
         <div>{children}</div>
-      </va-alert>
+      </VaAlert>
       <br />
     </div>
   );
@@ -179,26 +184,26 @@ const SavedFormAlert = props => {
 
 const UnverifiedPrefillAlert = ({ appType }) => (
   <div>
-    <va-alert status="info" uswds visible>
+    <VaAlert status="info" uswds visible>
       <div className="usa-alert-body">
         <strong>Note:</strong> Since you’re signed in to your account, we can
         prefill part of your {appType} based on your account details. You can
         also save your {appType} in progress and come back later to finish
         filling it out.
       </div>
-    </va-alert>
+    </VaAlert>
     <br />
   </div>
 );
 
 const PrefillUnavailableAlert = ({ appType }) => (
   <div>
-    <va-alert status="info" uswds visible>
+    <VaAlert status="info" uswds visible>
       <div className="usa-alert-body">
         You can save this {appType} in progress, and come back later to finish
         filling it out.
       </div>
-    </va-alert>
+    </VaAlert>
     <br />
   </div>
 );
@@ -245,12 +250,12 @@ const LoggedOutAlert = props => {
     signInHelpList,
     unauthStartButton,
   } = props;
-  const H = `h${headingLevel}`;
+  const CustomHeader = `h${headingLevel}`;
 
   return (
-    <va-alert status="info" uswds visible>
+    <VaAlert status="info" uswds visible>
       <div className="usa-alert-body">
-        <H className="usa-alert-heading">{alertTitle}</H>
+        <CustomHeader className="usa-alert-heading">{alertTitle}</CustomHeader>
         <div className="usa-alert-text">
           {displayNonVeteranMessaging ? (
             <p>
@@ -303,7 +308,7 @@ const LoggedOutAlert = props => {
           )}
         </div>
       </div>
-    </va-alert>
+    </VaAlert>
   );
 };
 
@@ -364,9 +369,10 @@ const VerificationOptionalAlert = props => {
     signInHelpList,
     unauthStartText,
   } = props;
+  const dispatch = useDispatch();
   const unauthStartButton = (
     <VaButton
-      onClick={openLoginModal}
+      onClick={openLoginModal(dispatch)}
       label={ariaLabel}
       // aria-describedby={ariaDescribedby}
       uswds
@@ -403,12 +409,12 @@ const VerificationOptionalAlert = props => {
 const DefaultAlert = ({ appType, ariaLabel, ariaDescribedby }) => {
   return (
     <div>
-      <va-alert status="info" uswds visible>
+      <VaAlert status="info" uswds visible>
         <div className="usa-alert-body">
           You can save this {appType} in progress, and come back later to finish
           filling it out.
           <br />
-          <va-button
+          <VaButton
             className="va-button-link"
             onClick={openLoginModal}
             aria-label={ariaLabel}
@@ -416,7 +422,7 @@ const DefaultAlert = ({ appType, ariaLabel, ariaDescribedby }) => {
             text="Sign in to your account."
           />
         </div>
-      </va-alert>
+      </VaAlert>
       <br />
     </div>
   );
@@ -538,11 +544,8 @@ const SaveInProgressIntro = props => {
     displayNonVeteranMessaging,
     downtime,
     formConfig,
-    formId,
     headingLevel,
     hideUnauthedStartLink,
-    isLoggedIn,
-    lastSavedDate,
     prefillEnabled,
     renderSignInMessage,
     resumeOnly,
@@ -551,11 +554,13 @@ const SaveInProgressIntro = props => {
     startMessageOnly,
     unauthStartText,
     unverifiedPrefillAlert,
-    user,
     verifiedPrefillAlert,
     verifyRequiredPrefill,
   } = props;
 
+  const { formId, user, isLoggedIn, lastSavedDate } = useSelector(state =>
+    getIntroState(state),
+  );
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   const { profile, login } = user;
   const savedForm = profile && profile.savedForms.find(f => f.form === formId);
@@ -563,7 +568,7 @@ const SaveInProgressIntro = props => {
   if (profile.loading && !resumeOnly) {
     return (
       <div>
-        <va-loading-indicator
+        <VaLoadingIndicator
           message={`Checking to see if you have a saved version of this ${appType} ...`}
         />
         <br />
@@ -608,8 +613,7 @@ const SaveInProgressIntro = props => {
       {!buttonOnly && alert}
       {buttonOnly && !login.currentlyLoggedIn && alert}
       {!includesFormControls(user, formId) &&
-        login.currentlyLoggedIn &&
-        getFormControls(savedForm)}
+        login.currentlyLoggedIn && <FormControls savedForm={savedForm} />}
       {!buttonOnly && afterButtonContent}
       <br />
     </div>
@@ -657,6 +661,7 @@ SaveInProgressIntro.propTypes = {
   ariaLabel: PropTypes.string,
   buttonOnly: PropTypes.bool,
   children: PropTypes.any,
+  continueMsg: PropTypes.string,
   displayNonVeteranMessaging: PropTypes.bool,
   downtime: PropTypes.object,
   formConfig: PropTypes.shape({
@@ -705,22 +710,5 @@ SaveInProgressIntro.defaultProps = {
   ariaLabel: null,
   ariaDescribedby: null,
 };
-
-function mapStateToProps(state) {
-  return {
-    ...getIntroState(state),
-  };
-}
-
-const mapDispatchToProps = {
-  fetchInProgressForm,
-  removeInProgressForm,
-  toggleLoginModal,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SaveInProgressIntro);
 
 export { SaveInProgressIntro };
