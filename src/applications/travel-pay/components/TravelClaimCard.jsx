@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 
+// TODO: REMOVE after serialization
 const CLAIM_STATUS = {
   SAVED: 'Saved',
   INCOMPLETE: 'Incomplete',
@@ -29,8 +30,8 @@ export default function TravelClaimCard(props) {
     createdOn,
     claimStatus,
     claimNumber,
-    appointmentDate: appointmentDateTime,
-    appointmentLocation,
+    appointmentDateTime,
+    facilityName,
     modifiedOn,
   } = props;
 
@@ -47,7 +48,7 @@ export default function TravelClaimCard(props) {
         {appointmentDate} at {appointmentTime} appointment
       </h2>
       <h3 className="vads-u-margin-bottom--1">Where</h3>
-      <p className="vads-u-margin-top--0">{appointmentLocation}</p>
+      <p className="vads-u-margin-top--0">{facilityName}</p>
 
       <h3 className="vads-u-margin-bottom--1">Claim Details</h3>
       <p className="vads-u-margin-top--0">
@@ -62,7 +63,7 @@ export default function TravelClaimCard(props) {
 
 TravelClaimCard.propTypes = {
   appointmentDate: PropTypes.string,
-  appointmentLocation: PropTypes.string,
+  facilityName: PropTypes.string,
   appointmentName: PropTypes.string,
   claimName: PropTypes.string,
   claimNumber: PropTypes.string,
