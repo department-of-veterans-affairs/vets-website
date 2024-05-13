@@ -709,6 +709,9 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
   };
 }
 export function selectRequestedAppointmentData(state, appointment) {
+  const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
+    state,
+  );
   const { facilityData } = state?.appointments || [];
 
   const bookingNotes = selectAppointmentDetails(appointment);
@@ -730,9 +733,9 @@ export function selectRequestedAppointmentData(state, appointment) {
   const phone = getPatientTelecom(appointment, 'phone');
   const preferredLanguage = appointment?.vaos.apiData.preferredLanguage;
   const preferredTimesForPhoneCall = appointment?.preferredTimesForPhoneCall;
-  // const provider = featureVAOSServiceCCAppointments
-  //   ? appointment?.preferredProviderName
-  //   : appointment?.preferredCommunityCareProviders?.[0];
+  const provider = featureVAOSServiceCCAppointments
+    ? appointment?.preferredProviderName
+    : appointment?.preferredCommunityCareProviders?.[0];
   const providerAddress = selectProviderAddress(appointment);
   const requestedPeriod = appointment?.requestedPeriod || [];
   const status = appointment?.status;
@@ -760,7 +763,7 @@ export function selectRequestedAppointmentData(state, appointment) {
     preferredDates: requestedPeriod,
     preferredLanguage,
     preferredTimesForPhoneCall,
-    // provider,
+    provider,
     providerAddress,
     status,
     typeOfCare,

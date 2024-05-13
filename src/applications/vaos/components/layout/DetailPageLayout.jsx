@@ -85,11 +85,7 @@ function CancelButton({ appointment }) {
   )
     return button;
 
-  if (
-    isCommunityCare &&
-    APPOINTMENT_STATUS.cancelled !== status &&
-    !isPastAppointment
-  )
+  if (APPOINTMENT_STATUS.proposed === status && !isPastAppointment)
     return button;
 
   return null;
