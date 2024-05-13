@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
-function FormUploadApp({ user }) {
+const FormUploadApp = ({ user }) => {
   useEffect(() => {
     document.title = 'Form Upload | Veterans Affairs';
   }, []);
@@ -15,17 +15,17 @@ function FormUploadApp({ user }) {
       <Outlet />
     </RequiredLoginView>
   );
-}
+};
 
 FormUploadApp.propTypes = {
   user: PropTypes.object,
 };
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     user: state.user,
   };
-}
+};
 
 export default connect(mapStateToProps)(FormUploadApp);
 

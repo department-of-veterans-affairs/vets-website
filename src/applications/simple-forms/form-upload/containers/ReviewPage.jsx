@@ -3,12 +3,11 @@ import React from 'react';
 import {
   VaBreadcrumbs,
   VaButton,
-  VaFileInput,
   VaSegmentedProgressBar,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { submitToSimpleForms } from '../actions';
+import { useSelector } from 'react-redux';
+import { capitalize } from 'lodash';
 import {
   getBreadcrumbList,
   getFormNumber,
@@ -16,64 +15,57 @@ import {
   handleRouteChange,
 } from '../helpers';
 
-const UploadPage = () => {
+const ReviewPage = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const confirmationCode = useSelector(
-    state => state?.formUpload?.uploads?.confirmationCode,
-  );
+  const confirmationCode = useSelector(state => state?.confirmationCode);
 
   const location = useLocation();
   const formNumber = getFormNumber(location);
   const formUploadContent = getFormUploadContent(formNumber);
   const breadcrumbList = getBreadcrumbList(formNumber);
 
+  const fullName = useSelector(state => state?.user?.profile?.userFullName);
+
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
       <VaBreadcrumbs
         breadcrumbList={breadcrumbList}
-        onRouteChange={({ detail }) => handleRouteChange({ detail }, history)}
+        onRouteChange={handleRouteChange}
       />
       <h1>{`Upload VA Form ${formNumber}`}</h1>
       <p>{formUploadContent}</p>
       <div>
         <VaSegmentedProgressBar
-          current={1}
+          current={2}
           total={3}
           labels="Upload your file;Review your information;Submit your form"
         />
       </div>
-      <h3>Upload your file</h3>
+      <h3>Review your information</h3>
       <p>
-        You’ll need to scan your document onto the device you’re using to submit
-        this application, such as your computer, tablet, or mobile phone. You
-        can upload your document from there.
+        When you submit your form, we’ll include the following personal
+        information so that you can track your submission’s status.
       </p>
-      <div>
-        <p>Guidelines for uploading a file:</p>
-        <ul>
-          <li>You can upload a .pdf, .jpeg, or .png file</li>
-          <li>Your file should be no larger than 25MB</li>
-        </ul>
-      </div>
-      <VaFileInput
-        accept=".pdf,.jpeg,.png"
-        error=""
-        hint={null}
-        label={`Upload VA Form ${formNumber}`}
-        name="form-upload-file-input"
-        onVaChange={e =>
-          dispatch(submitToSimpleForms(formNumber, e.detail.files[0]))
-        }
-        uswds
-      />
+      <p>
+        <b>
+          {capitalize(fullName.first)} {capitalize(fullName.last)}
+        </b>
+      </p>
+      <p>Social Security number: ***-**-2139</p>
+      <p>VA file number: ***-**-8355</p>
+      <p>Zip code: 12590</p>
+      <p>
+        <b>Note:</b> If you need to update your personal information, please
+        call us at 800-827-1000. We’re here Monday through Friday, 8:00am to
+        9:00pm ET.
+      </p>
       <span>
         <VaButton secondary text="<< Back" onClick={history.goBack} />
         <VaButton
           primary
           text="Continue >>"
           onClick={() =>
-            history.push(`/${formNumber}/review`, {
+            history.push(`/${formNumber}/submit`, {
               state: { confirmationCode },
             })
           }
@@ -93,4 +85,4 @@ const UploadPage = () => {
   );
 };
 
-export default UploadPage;
+export default ReviewPage;
