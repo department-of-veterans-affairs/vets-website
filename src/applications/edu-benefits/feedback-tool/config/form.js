@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -18,7 +17,6 @@ const { get, omit, set } = dataUtils;
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../components/SchoolSelectField.jsx';
-// import GetFormHelp from '../../components/GetFormHelp';
 
 import {
   accreditationLabel,
@@ -31,7 +29,6 @@ import {
   PREFILL_FLAGS,
   prefillTransformer,
   qualityLabel,
-  recordApplicantRelationship,
   recruitingLabel,
   refundIssuesLabel,
   studentLoansLabel,
@@ -40,7 +37,6 @@ import {
   transcriptReleaseLabel,
   transform,
   validateMatch,
-  isProductionOfTestProdEnv,
 } from '../helpers';
 import { applicantRelationship } from '../pages/index';
 
@@ -51,7 +47,6 @@ import NeedHelp from '../components/NeedHelp';
 
 const {
   address: applicantAddress,
-  anonymousEmail,
   applicantEmail,
   educationDetails,
   fullName,
@@ -59,7 +54,6 @@ const {
   issueDescription,
   issueResolution,
   issueUIDescription,
-  onBehalfOf,
   phone,
   serviceAffiliation,
   serviceBranch,
@@ -145,62 +139,6 @@ function manualSchoolEntryIsCheckedAndIsUS(formData) {
   return manualSchoolEntryIsChecked(formData) && isUS(formData);
 }
 
-function applicantInformationUiSchema() {
-  if (isProductionOfTestProdEnv()) {
-    return {
-      'ui:description': recordApplicantRelationship,
-      onBehalfOf: {
-        'ui:widget': 'radio',
-        'ui:title': 'I’m submitting feedback on behalf of...',
-        'ui:options': {
-          nestedContent: {
-            [myself]: () => (
-              <div className="usa-alert usa-alert-info background-color-only">
-                We’ll only share your name with the school.
-              </div>
-            ),
-            [someoneElse]: () => (
-              <div className="usa-alert usa-alert-info background-color-only">
-                Your name is shared with the school, not the name of the person
-                person you’re submitting feedback for.
-              </div>
-            ),
-            [anonymous]: () => (
-              <div className="usa-alert usa-alert-info background-color-only">
-                Anonymous feedback is shared with the school. Your personal
-                personal information, however, isn’t shared with anyone outside
-                outside of VA.
-              </div>
-            ),
-          },
-          expandUnderClassNames: 'schemaform-expandUnder',
-        },
-      },
-      anonymousEmail: merge({}, emailUI('Email'), {
-        'ui:options': {
-          expandUnder: 'onBehalfOf',
-          expandUnderCondition: anonymous,
-        },
-      }),
-    };
-  }
-  return applicantRelationship.default.uiSchema;
-}
-
-function applicantInformationSchema() {
-  if (isProductionOfTestProdEnv) {
-    return {
-      type: 'object',
-      required: ['onBehalfOf'],
-      properties: {
-        onBehalfOf,
-        anonymousEmail,
-      },
-    };
-  }
-  return applicantRelationship.default.schema;
-}
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -247,8 +185,8 @@ const formConfig = {
         applicantRelationship: {
           path: 'applicant-relationship',
           title: 'Applicant Relationship',
-          uiSchema: applicantInformationUiSchema(),
-          schema: applicantInformationSchema(),
+          uiSchema: applicantRelationship.default.uiSchema,
+          schema: applicantRelationship.default.schema,
         },
         applicantInformation: {
           path: 'applicant-information',

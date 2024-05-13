@@ -14,7 +14,6 @@ import UserInteractionRecorder from '../components/UserInteractionRecorder';
 export const isProductionOfTestProdEnv = automatedTest => {
   return (
     environment.isProduction() ||
-    environment.isDev() ||
     automatedTest ||
     (global && global?.window && global?.window?.buildType)
   );
