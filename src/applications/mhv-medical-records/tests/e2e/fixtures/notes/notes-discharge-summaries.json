@@ -225,7 +225,7 @@
         "subject": {
           "reference": "Patient/ex-MHV-patient-1"
         },
-        "date": "2022-08-09T13:41:23Z",
+        "date": "",
         "author": [
           {
             "reference": "#ex-MHV-practitioner-36556"
@@ -476,7 +476,7 @@
         "subject": {
           "reference": "Patient/ex-MHV-patient-1"
         },
-        "date": "2022-08-09T13:41:23Z",
+        "date": "",
         "author": [
           {
             "reference": "#ex-MHV-practitioner-36556"
