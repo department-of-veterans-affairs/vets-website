@@ -356,11 +356,11 @@ const options = {
 | `cardItemMissingInformation` |
 | `editSaveButtonText` |
 | `getItemName` |
-| `removeDescription` |
-| `removeNeedAtLeastOneDescription` |
-| `removeNo` |
-| `removeTitle` |
-| `removeYes` |
+| `deleteDescription` |
+| `deleteNeedAtLeastOneDescription` |
+| `deleteNo` |
+| `deleteTitle` |
+| `deleteYes` |
 | `reviewAddButtonText` |
 | `summaryTitle` |
 | `yesNoBlankReviewQuestion` |
