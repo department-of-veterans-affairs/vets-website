@@ -332,17 +332,19 @@ const AppointmentDetails = props => {
                   )}
                 {appointment.clinicPhoneNumber && (
                   <div data-testid="appointment-details--phone">
-                    <h2 className="vads-u-font-size--sm">{t('phone')}</h2>
                     <div data-testid="appointment-details--phone-value">
-                      <i
-                        aria-label="phone"
-                        className="fas fa-phone vads-u-color--link-default vads-u-margin-right--1"
-                        aria-hidden="true"
-                      />
+                      {`${t('clinic-phone')}: `}
                       <va-telephone
                         onClick={handlePhoneNumberClick}
                         contact={appointment.clinicPhoneNumber}
                       />
+                      <br />(
+                      <va-telephone
+                        contact={phoneNumbers.tty}
+                        tty
+                        ariaLabel="7 1 1."
+                      />
+                      )
                     </div>
                   </div>
                 )}
