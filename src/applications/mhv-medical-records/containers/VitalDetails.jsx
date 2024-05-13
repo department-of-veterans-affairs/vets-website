@@ -40,6 +40,7 @@ import {
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import { setIsDetails } from '../actions/isDetails';
 
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
@@ -62,6 +63,16 @@ const VitalDetails = props => {
   const paginatedVitals = useRef([]);
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  useEffect(
+    () => {
+      dispatch(setIsDetails(true));
+      return () => {
+        dispatch(setIsDetails(false));
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {

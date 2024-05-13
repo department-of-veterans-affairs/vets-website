@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
@@ -33,6 +33,7 @@ import {
   generateChemHemContent,
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import { setIsDetails } from '../../actions/isDetails';
 
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -44,6 +45,17 @@ const ChemHemDetails = props => {
       ],
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+      dispatch(setIsDetails(true));
+      return () => {
+        dispatch(setIsDetails(false));
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
