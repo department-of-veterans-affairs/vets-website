@@ -54,19 +54,15 @@ describe('Personal and contact information', () => {
     it('should successfully update without zip', () => {
       const addressPage = new AddressPage();
       cy.injectAxeThenAxeCheck();
-      cy.get(
-        '#root_internationalPostalCode-label > .schemaform-required-span',
-      ).should('not.exist');
+      cy.get('va-text-input[label^="International postal"][required="false"]');
       addressPage.fillAddressForm({
         country: 'USA',
       });
-      cy.get('#root_zipCode-label > .schemaform-required-span').should('exist');
+      cy.get('va-text-input[label="Zip code"][required="true"]');
       addressPage.fillAddressForm({
         country: 'NLD',
       });
-      cy.get(
-        '#root_internationalPostalCode-label > .schemaform-required-span',
-      ).should('not.exist');
+      cy.get('va-text-input[label^="International postal"][required="false"]');
       const formFields = {
         country: 'NLD',
         address: 'Dam 1',
