@@ -25,6 +25,8 @@ const multiApptMultiFacilityUUID = '8379d4b5-b9bc-4f3f-84a2-9cb9983a1af0';
 // Minutes before start time that the window for check-in starts.
 const checkInStartWindowMinutes = 45;
 
+const kinds = ['clinic', 'phone', 'cvt', 'vvc'];
+
 const mockDemographics = {
   emergencyContact: {
     name: 'Star Garnet',
@@ -321,7 +323,7 @@ const createAppointments = (
   };
 };
 
-const createUpcomingAppointments = (token, number = 3) => {
+const createUpcomingAppointments = (token, number = 4) => {
   const appointments = [
     createUpcomingAppointment({
       id: '123123',
@@ -335,6 +337,7 @@ const createUpcomingAppointments = (token, number = 3) => {
         id: `12300${i + 1}`,
         friendlyName: `HEART CLINIC-${i}`,
         start: dateFns.addHours(new Date('2023-09-26T14:00:00'), i),
+        kind: kinds[i],
       }),
     );
   }

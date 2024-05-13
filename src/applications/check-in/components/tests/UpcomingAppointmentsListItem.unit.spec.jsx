@@ -51,17 +51,6 @@ const appointments = [
     clinicStopCodeName: '',
     kind: 'vvc',
   },
-  {
-    facility: 'LOMA LINDA VA CLINIC',
-    clinicPhoneNumber: '5551234567',
-    clinicFriendlyName: 'TEST CLINIC',
-    clinicName: 'LOM ACC CLINIC TEST',
-    appointmentIen: 'some-ien',
-    startTime: '2021-11-16T21:39:36',
-    doctorName: '',
-    clinicStopCodeName: '',
-    kind: 'not-a-kind',
-  },
 ];
 
 const mockRouter = {
