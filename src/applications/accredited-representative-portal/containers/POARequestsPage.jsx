@@ -1,8 +1,8 @@
 import React from 'react';
 
+import DigitalSubmissionAlert from '../components/DigitalSubmissionAlert/DigitalSubmissionAlert';
 import POARequestsTableFetcher from '../components/POARequestsTableFetcher/POARequestsTableFetcher';
 import usePOARequests from '../hooks/usePOARequests';
-import DigitalSubmissionAlert from '../components/DigitalSubmissionAlert/DigitalSubmissionAlert';
 
 const POARequestsPage = () => {
   return (
