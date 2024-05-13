@@ -78,7 +78,7 @@ describe('Medications detail page with PrintOnlyPage component wrapper', () => {
     expect(el).to.exist;
     expect(el.textContent).to.include(text);
   });
-  it('displays crisis line text', () => {
+  it('displays Crisis Line text', () => {
     const screen = setup();
     const el = screen.getByTestId('crisis-line-print-only');
     const text =

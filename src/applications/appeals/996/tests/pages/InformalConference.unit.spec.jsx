@@ -22,8 +22,11 @@ describe('Higher-Level Review 0996 informal conference', () => {
         uiSchema={uiSchema}
       />,
     );
-
-    expect($('va-radio[label-header-level="3"]')).to.exist;
+    /*
+    *  The attribute 'label-header-level' was failing in this PR: https://github.com/department-of-veterans-affairs/vets-website/pull/26606 
+    *  if it fails on the main branch after merge, please revert
+    */
+    expect($('va-radio[labelHeaderLevel="3"]')).to.exist;
     expect($$('va-radio-option', container).length).to.equal(3);
   });
 

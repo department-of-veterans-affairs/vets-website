@@ -66,12 +66,7 @@ export const ProfileLink = ({ href, active = true, className = '', text }) => {
       data-testid="profile-link-internal"
     >
       {text}
-      {active && (
-        <va-icon
-          size={4}
-          icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-        />
-      )}
+      {active && <i />}
     </StyledRouterLink>
   ) : (
     <StyledAnchor
@@ -80,12 +75,7 @@ export const ProfileLink = ({ href, active = true, className = '', text }) => {
       data-testid="profile-link-external"
     >
       {text}
-      {active && (
-        <va-icon
-          size={4}
-          icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-        />
-      )}
+      {active && <i />}
     </StyledAnchor>
   );
 };

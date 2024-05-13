@@ -1572,11 +1572,7 @@ const formConfig = {
             'view:activeDutyNotice': {
               'ui:description': (
                 <div className="meb-alert meb-alert--mini meb-alert--warning">
-                  <va-icon
-                    size={4}
-                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                    aria-hidden="true"
-                  />
+                  <i aria-hidden="true" role="img" />
                   <p className="meb-alert_body">
                     <span className="sr-only">Alert:</span> If you give up the
                     Montgomery GI Bill Active Duty, you’ll get Post-9/11 GI Bill

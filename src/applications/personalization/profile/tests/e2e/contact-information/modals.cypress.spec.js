@@ -76,7 +76,7 @@ const checkModals = options => {
 
   cy.findByTestId('confirm-cancel-modal')
     .shadow()
-    .findByText('Are you sure?')
+    .findByText('Cancel changes?')
     .should('exist');
 
   cy.findByTestId('confirm-cancel-modal')
