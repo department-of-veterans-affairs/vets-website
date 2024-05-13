@@ -112,11 +112,11 @@ class SaveInProgressIntro extends React.Component {
         const isExpired = isBefore(expiresAt, new Date());
         const inProgressMessage = getInProgressMessage(formConfig);
 
+        const Header = `h${this.props.headingLevel}`;
         if (!isExpired) {
           const lastSavedDateTime =
             savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
 
-          const H = `h${this.props.headingLevel}`;
           const ContinueMsg = (
             <p>
               You can continue {appAction} now
@@ -128,12 +128,10 @@ class SaveInProgressIntro extends React.Component {
           includesFormControls = true;
           alert = (
             <va-alert status="info" uswds visible>
-              <div className="schemaform-sip-alert-title">
-                <H className="usa-alert-heading vads-u-font-size--h3">
-                  {inProgressMessage} {savedAt && 'and was last saved on '}
-                  {lastSavedDateTime}
-                </H>
-              </div>
+              <Header slot="headline">
+                {inProgressMessage} {savedAt && 'and was last saved on '}
+                {lastSavedDateTime}
+              </Header>
               <div className="saved-form-metadata-container">
                 <div className="expires-container">
                   {this.props.continueMsg || ContinueMsg}
@@ -153,9 +151,7 @@ class SaveInProgressIntro extends React.Component {
           alert = (
             <div>
               <va-alert status="warning" uswds visible>
-                <div className="schemaform-sip-alert-title">
-                  <strong>Your {appType} has expired</strong>
-                </div>
+                <Header slot="headline">Your {appType} has expired</Header>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
                     {expiredMessage(formConfig)}
