@@ -1,9 +1,12 @@
-import React from 'react';
 import {
   radioUI,
   radioSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { STATEMENT_TYPES, STATEMENT_TYPE_LABELS } from '../config/constants';
+import {
+  ESCAPE_HATCH,
+  STATEMENT_TYPES,
+  STATEMENT_TYPE_LABELS,
+} from '../config/constants';
 
 /** @type {PageSchema} */
 export const statementTypePage = {
@@ -22,15 +25,7 @@ export const statementTypePage = {
       }),
     },
     'view:additionalInfoStatementType': {
-      'ui:description': (
-        <>
-          If you’d like to use VA Form 21-4138 for your statement without
-          selecting an answer here, you can{' '}
-          <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
-            go to VA Form 21-4138 now.
-          </a>
-        </>
-      ),
+      'ui:description': ESCAPE_HATCH,
     },
   },
   schema: {

@@ -39,13 +39,18 @@ export const App = ({
   return (
     <>
       {loggedIn ? (
-        <>
+        <div
+          aria-live="polite"
+          aria-atomic
+          tabIndex="-1"
+          className="poa-display"
+        >
           <Auth
             DynamicHeader={DynamicHeader}
             DynamicSubheader={DynamicSubheader}
             useRepresentativeStatus={useRepresentativeStatus}
           />
-        </>
+        </div>
       ) : (
         <>
           <Unauth

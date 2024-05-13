@@ -1,35 +1,42 @@
 import React from 'react';
 import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
 
+const actionPrefix = 'MHV Secondary Nav';
+
 /**
  * MHV secondary navigation items. Note the first item is the home link.
  */
 export const mhvSecNavItems = [
   {
     title: 'My HealtheVet',
-    iconClass: 'fas fa-home',
+    actionName: `${actionPrefix} - My HealtheVet`,
+    icon: 'home',
     href: '/my-health',
   },
   {
     title: 'Appointments',
+    actionName: `${actionPrefix} - Appointments`,
     abbreviation: 'Appts',
-    iconClass: 'fas fa-calendar',
+    icon: 'calendar_today',
     href: `/my-health/appointments`,
   },
   {
     title: 'Messages',
-    iconClass: 'fas fa-comments',
+    actionName: `${actionPrefix} - Messages`,
+    icon: 'forum',
     href: `/my-health/secure-messages`,
   },
   {
     title: 'Medications',
     abbreviation: 'Meds',
-    iconClass: 'fas fa-prescription-bottle',
+    actionName: `${actionPrefix} - Medications`,
+    icon: 'medication',
     href: `/my-health/medications`,
   },
   {
     title: 'Records',
-    iconClass: 'fas fa-file-medical',
+    actionName: `${actionPrefix} - Records`,
+    icon: 'note_add',
     href: `/my-health/medical-records`,
   },
 ];

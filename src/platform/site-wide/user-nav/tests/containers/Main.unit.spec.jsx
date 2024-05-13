@@ -303,7 +303,7 @@ describe('<Main>', () => {
   it('should not show the modal to confirm leaving an in-progress form if the user is on the standard form introduction page', () => {
     const oldLocation = global.window.location;
     global.window.location.pathname =
-      '/health-care/apply/application/introduction';
+      '/health-care/apply-for-health-care-form-10-10ez/';
     const wrapper = shallow(
       <Main {...props} formAutoSavedStatus="not-attempted" />,
     );
@@ -318,7 +318,8 @@ describe('<Main>', () => {
 
   it('should not show the modal to confirm leaving an in-progress form if the user is on a non-form page as defined in the form config', () => {
     const oldLocation = global.window.location;
-    global.window.location.pathname = '/health-care/apply/application/id-page';
+    global.window.location.pathname =
+      '/health-care/apply-for-health-care-form-10-10ez/id-page';
     const additionalRoutes = [{ path: 'id-page' }];
     const wrapper = shallow(
       <Main
@@ -383,7 +384,7 @@ describe('mapStateToProps', () => {
     });
     it('is true when the user is on a form page and the form has not saved', () => {
       global.window.location.pathname =
-        '/health-care/apply/application/veteran-info';
+        '/health-care/apply-for-health-care-form-10-10ez/veteran-info';
       const { shouldConfirmLeavingForm } = mapStateToProps({
         ...state,
         form: { autoSavedStatus: 'not-attempted' },
@@ -392,7 +393,7 @@ describe('mapStateToProps', () => {
     });
     it.skip('is false when the user is on a form page page the form has auto-saved', () => {
       global.window.location.pathname =
-        '/health-care/apply/application/veteran-info';
+        '/health-care/apply-for-health-care-form-10-10ez/veteran-info';
       const { shouldConfirmLeavingForm } = mapStateToProps({
         ...state,
         form: {
@@ -403,7 +404,7 @@ describe('mapStateToProps', () => {
     });
     it('is false when the user is on a standard non-form page', () => {
       global.window.location.pathname =
-        '/health-care/apply/application/introduction';
+        '/health-care/apply-for-health-care-form-10-10ez/introduction';
       const { shouldConfirmLeavingForm } = mapStateToProps({
         ...state,
         form: { autoSavedStatus: 'not-attempted' },
@@ -412,7 +413,7 @@ describe('mapStateToProps', () => {
     });
     it('is false when the user is on a non-standard non-form page', () => {
       global.window.location.pathname =
-        '/health-care/apply/application/id-page';
+        '/health-care/apply-for-health-care-form-10-10ez/id-page';
       const { shouldConfirmLeavingForm } = mapStateToProps({
         ...state,
         form: {

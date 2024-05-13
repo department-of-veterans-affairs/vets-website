@@ -6,7 +6,8 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 // Relative imports.
 
-import sessionStorage from 'platform/utilities/storage/sessionStorage';
+import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
+import sessionStorage from '~/platform/utilities/storage/sessionStorage';
 import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
 import { CallToActionWidget } from '../index';
 
@@ -800,6 +801,93 @@ describe('<CallToActionWidget>', () => {
 
       expect(fetchMHVAccount.called).to.be.true;
       expect(tree.find('NoMHVAccount').exists()).to.be.true;
+      tree.unmount();
+    });
+  });
+
+  describe('haCpapSuppliesCta feature', () => {
+    it('promps to sign in when feature enabled and user signed out', () => {
+      const { props, mockStore } = getData();
+      const tree = mount(
+        <Provider store={mockStore}>
+          <CallToActionWidget
+            {...props}
+            featureToggles={{
+              loading: false,
+              [featureFlagNames.haCpapSuppliesCta]: true,
+            }}
+            ariaLabel="test aria-label"
+            ariaDescribedby="test-id"
+          />
+        </Provider>,
+      );
+
+      const signIn = tree.find('SignIn');
+      expect(tree.find('LoadingIndicator').exists()).to.be.false;
+      expect(signIn.exists()).to.be.true;
+      expect(signIn.prop('ariaLabel')).to.eq('test aria-label');
+      expect(signIn.prop('ariaDescribedby')).to.eq('test-id');
+      tree.unmount();
+    });
+
+    it('renders a link when feature enabled and user signed in', () => {
+      const tree = mount(
+        <CallToActionWidget
+          appId={CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES}
+          isLoggedIn
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: false,
+          }}
+          mhvAccount={{
+            loading: false,
+          }}
+          mviStatus={{}}
+          featureToggles={{
+            loading: false,
+            [featureFlagNames.haCpapSuppliesCta]: true,
+          }}
+        />,
+      );
+
+      expect(tree.find('LoadingIndicator').exists()).to.be.false;
+      expect(tree.find('SignIn').exists()).to.be.false;
+      expect(tree.find('Verify').exists()).to.be.false;
+      expect(tree.find('a').props().href).to.contain(
+        '/health-care/order-hearing-aid-or-CPAP-supplies-form',
+      );
+      expect(tree.find('a').props().target).to.equal('_self');
+      expect(tree.find('a').text()).to.contain(
+        'Order hearing aid batteries and accessories online',
+      );
+      tree.unmount();
+    });
+
+    it('renders nothing when feature disabled', () => {
+      const tree = mount(
+        <CallToActionWidget
+          appId={CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES}
+          profile={{
+            loading: false,
+            verified: false,
+            multifactor: false,
+          }}
+          mhvAccount={{
+            loading: false,
+          }}
+          mviStatus={{}}
+          featureToggles={{
+            loading: false,
+            [featureFlagNames.haCpapSuppliesCta]: false,
+          }}
+        />,
+      );
+
+      expect(tree.find('LoadingIndicator').exists()).to.be.false;
+      expect(tree.find('SignIn').exists()).to.be.false;
+      expect(tree.find('Verify').exists()).to.be.false;
+      expect(tree.find('a').exists()).to.be.false;
       tree.unmount();
     });
   });
