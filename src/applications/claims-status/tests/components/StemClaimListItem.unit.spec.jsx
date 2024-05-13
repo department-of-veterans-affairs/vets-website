@@ -3,9 +3,8 @@ import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
 import sinon from 'sinon';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { renderWithRouter } from '../utils';
-
 import * as recordEventModule from '~/platform/monitoring/record-event';
+import { renderWithRouter } from '../utils';
 
 import StemClaimListItem from '../../components/StemClaimListItem';
 
@@ -34,7 +33,7 @@ describe('<StemClaimListItem>', () => {
     const { getByText, container } = renderWithRouter(
       <StemClaimListItem claim={defaultClaim} />,
     );
-    getByText('View details');
+    getByText('Details');
     const claimCardLink = $('a', container);
     fireEvent.click(claimCardLink);
 
@@ -42,7 +41,7 @@ describe('<StemClaimListItem>', () => {
       recordEventStub.calledWith({
         event: 'cta-action-link-click',
         'action-link-type': 'secondary',
-        'action-link-click-label': 'View details',
+        'action-link-click-label': 'Details',
         'action-link-icon-color': 'blue',
         'claim-type': 'STEM Scholarship',
         'claim-last-updated-date': 'March 2, 2021',

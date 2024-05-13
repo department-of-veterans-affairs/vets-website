@@ -17,6 +17,7 @@ describe('Medicaitons Landing page container', () => {
       prescriptions: {
         prescriptionsList: prescriptions,
         prescriptionDetails: prescriptions,
+        apiError: false,
       },
     },
     featureToggles: {
@@ -80,6 +81,12 @@ describe('Medicaitons Landing page container', () => {
         rx: {
           prescriptions: {
             prescriptionsList: prescriptions,
+          },
+          breadcrumbs: {
+            list: [
+              { url: medicationsUrls.MEDICATIONS_ABOUT },
+              { label: 'About medications' },
+            ],
           },
         },
         featureToggles: {
