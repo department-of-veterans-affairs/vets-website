@@ -12,7 +12,6 @@ import {
 import { useDatadogRum } from '../hooks/useDatadogRum';
 import {
   isAuthenticatedWithSSOe,
-  isLoggedIn,
   selectProfile,
   signInServiceEnabled,
   hasHealthData,
@@ -23,7 +22,6 @@ import { getFolderList } from '../utilities/api';
 const App = () => {
   const { featureToggles, user } = useSelector(state => state);
   const [unreadMessageCount, setUnreadMessageCount] = useState();
-  const loggedIn = useSelector(isLoggedIn);
   const profile = useSelector(selectProfile);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
@@ -76,11 +74,11 @@ const App = () => {
         const unreadMessages = countUnreadMessages(folders);
         setUnreadMessageCount(unreadMessages);
       }
-      if (loggedIn && hasMHVAccount) {
+      if (hasMHVAccount) {
         loadMessages();
       }
     },
-    [loggedIn, hasMHVAccount],
+    [hasMHVAccount],
   );
 
   if (loading)
