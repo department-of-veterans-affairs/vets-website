@@ -128,20 +128,25 @@ export default function ArrayBuilderSummaryPage({
           setShowUpdatedAlert(updateItemIndex != null);
         }
       },
-      [updatedNounSingular, updateItemIndex],
+      [updatedNounSingular, updateItemIndex, nounSingular],
     );
 
     useEffect(
       () => {
         let timeout;
-        if (showUpdatedAlert && updateItemIndex != null && updatedAlertRef) {
+
+        if (
+          showUpdatedAlert &&
+          updateItemIndex != null &&
+          updatedAlertRef.current
+        ) {
           timeout = setTimeout(() => {
             scrollAndFocus(updatedAlertRef.current);
           }, 300);
         }
         return () => timeout && clearTimeout(timeout);
       },
-      [showUpdatedAlert],
+      [showUpdatedAlert, updateItemIndex, updatedAlertRef.current],
     );
 
     useEffect(
@@ -208,7 +213,7 @@ export default function ArrayBuilderSummaryPage({
       // alert
       setShowUpdatedAlert(false);
 
-      setRemovedItemText(getText('alertItemRemoved', item));
+      setRemovedItemText(getText('alertItemDeleted', item));
       setRemovedItemIndex(index);
       setShowRemovedAlert(true);
       requestAnimationFrame(() => {
