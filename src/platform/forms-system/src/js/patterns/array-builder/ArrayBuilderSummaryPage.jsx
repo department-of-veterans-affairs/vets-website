@@ -146,7 +146,7 @@ export default function ArrayBuilderSummaryPage({
         }
         return () => timeout && clearTimeout(timeout);
       },
-      [showUpdatedAlert, updateItemIndex, updatedAlertRef.current],
+      [showUpdatedAlert, updateItemIndex, updatedAlertRef],
     );
 
     useEffect(
