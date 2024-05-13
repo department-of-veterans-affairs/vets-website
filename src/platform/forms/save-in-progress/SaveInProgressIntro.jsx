@@ -334,7 +334,11 @@ class SaveInProgressIntro extends React.Component {
       const Message = this.props.downtime.message || DowntimeMessage;
 
       return (
-        <Message isAfterSteps={this.props.buttonOnly} downtime={downtime} />
+        <Message
+          isAfterSteps={this.props.buttonOnly}
+          downtime={downtime}
+          headerLevel={2}
+        />
       );
     }
 

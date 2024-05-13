@@ -48,7 +48,7 @@ class RoutedSavableReviewPage extends React.Component {
     if (downtime.status === externalServiceStatus.down) {
       const Message = this.props.formConfig.downtime.message || DowntimeMessage;
 
-      return <Message downtime={downtime} />;
+      return <Message downtime={downtime} headerLevel={3} />;
     }
 
     return children;
@@ -129,7 +129,7 @@ RoutedSavableReviewPage.propTypes = {
       appType: PropTypes.string,
     }),
     downtime: PropTypes.shape({
-      message: PropTypes.string,
+      message: PropTypes.oneOf([PropTypes.string, PropTypes.element]),
     }),
   }).isRequired,
   formContext: PropTypes.object.isRequired,
@@ -145,7 +145,7 @@ RoutedSavableReviewPage.propTypes = {
         appType: PropTypes.string,
       }),
       downtime: PropTypes.shape({
-        message: PropTypes.string,
+        message: PropTypes.oneOf([PropTypes.string, PropTypes.element]),
       }),
     }),
     pageConfig: PropTypes.shape({
