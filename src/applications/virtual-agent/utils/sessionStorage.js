@@ -97,11 +97,11 @@ export function clearBotSessionStorage(forceClear) {
 
   if (forceClear || expectToClear || !!excludeClear.length) {
     botSessionKeys.forEach(sessionKey => {
-      // eslint-disable-next-line sonarjs/no-collapsible-if
-      if (sessionKey.includes(BOT_SESSION_PREFIX)) {
-        if (!excludeClear.includes(sessionKey)) {
-          sessionStorage.removeItem(sessionKey);
-        }
+      if (
+        sessionKey.includes(BOT_SESSION_PREFIX) &&
+        !excludeClear.includes(sessionKey)
+      ) {
+        sessionStorage.removeItem(sessionKey);
       }
     });
   }
