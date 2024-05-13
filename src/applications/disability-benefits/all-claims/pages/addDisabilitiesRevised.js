@@ -178,17 +178,10 @@ const removeDisability = (deletedElement, formData) => {
 
 // Find the old name -> change to new name
 const changeDisabilityName = (oldData, newData, changedIndex) => {
-  const oldId = sippableId(
-    oldData.newDisabilitiesRevised[changedIndex]?.condition,
-  );
-  const newId = sippableId(
-    newData.newDisabilitiesRevised[changedIndex]?.condition,
-  );
+  const oldId = sippableId(oldData.newDisabilities[changedIndex]?.condition);
+  const newId = sippableId(newData.newDisabilities[changedIndex]?.condition);
 
-  let result = removeDisability(
-    oldData.newDisabilitiesRevised[changedIndex],
-    newData,
-  );
+  let result = removeDisability(oldData.newDisabilities[changedIndex], newData);
 
   // Add in the new property with the old value
   const facilitiesPath = 'vaTreatmentFacilities';
