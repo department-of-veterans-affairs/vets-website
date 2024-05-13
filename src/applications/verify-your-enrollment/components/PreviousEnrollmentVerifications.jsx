@@ -10,6 +10,7 @@ import {
 import { ENROLLMETS_PER_PAGE } from '../constants';
 
 const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
+  console.log(enrollmentData, 'dataaa')
   const [userEnrollmentData, setUserEnrollmentData] = useState([]);
   const [pastAndCurrentAwards, setPastAndCurrentAwards] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);

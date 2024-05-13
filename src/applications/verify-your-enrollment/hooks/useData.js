@@ -24,11 +24,12 @@ export const useData = () => {
   const userInfo = isUserLoggedIn
     ? personalInfo && personalInfo['vye::UserInfo']
     : data && data['vye::UserInfo'];
-
+console.log(personalInfo, 'personalInfo')
   const expirationDate = translateDateIntoMonthDayYearFormat(userInfo?.delDate);
   const updated = getCurrentDateFormatted(userInfo?.dateLastCertified);
   const { month, day } = remainingBenefits(userInfo?.remEnt);
   return {
+    personalInfo,
     isUserLoggedIn,
     loading: isUserLoggedIn ? isLoading : loading,
     expirationDate,

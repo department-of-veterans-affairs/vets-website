@@ -24,8 +24,8 @@ import PeriodsToVerify from '../components/PeriodsToVerify';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
-  const mockData = useSelector(getMockData);
   const {
+    personalInfo,
     expirationDate,
     updated,
     month,
@@ -33,9 +33,10 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
     loading,
     isUserLoggedIn,
   } = useData();
-
+  console.log(isUserLoggedIn,'isUserLoggedIn')
+  const mockData = useSelector(getMockData);
   const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
-
+  const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
   return (
     <>
       <div name="topScrollElement" />

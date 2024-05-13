@@ -176,8 +176,8 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
   return pendingEnrollments
     .map(enrollmentToBeVerified => {
       const {
-        awardBeginDate,
-        awardEndDate,
+        actBegin,
+        actEnd,
         monthlyRate,
         numberHours,
       } = enrollmentToBeVerified;
@@ -198,7 +198,7 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
             }
           >
             <span className="vads-u-font-weight--bold">
-              {translateDatePeriod(awardBeginDate, awardEndDate)}
+              {translateDatePeriod(actBegin, actEnd)}
             </span>
           </p>
           <p
@@ -232,13 +232,7 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
 };
 
 export const getGroupedPreviousEnrollments = month => {
-  const {
-    verifiedDate,
-    awardBeginDate,
-    awardEndDate,
-    id,
-    paymentDate,
-  } = month[0];
+  const { verifiedDate, actBegin, actEnd, id, paymentDate } = month[0];
   const myUUID = uuidv4();
 
   return (
@@ -247,9 +241,9 @@ export const getGroupedPreviousEnrollments = month => {
         <>
           <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
             <span className="vads-u-display--inline-block ">
-              {awardBeginDate !== null
-                ? translateDateIntoMonthYearFormat(awardBeginDate)
-                : translateDateIntoMonthYearFormat(awardEndDate)}
+              {actBegin !== null
+                ? translateDateIntoMonthYearFormat(actBegin)
+                : translateDateIntoMonthYearFormat(actEnd)}
             </span>{' '}
             <va-icon
               icon="check_circle"
@@ -262,9 +256,9 @@ export const getGroupedPreviousEnrollments = month => {
           <va-additional-info
             trigger={`
               ${
-                awardBeginDate !== null
-                  ? translateDateIntoMonthYearFormat(awardBeginDate)
-                  : translateDateIntoMonthYearFormat(awardEndDate)
+                actBegin !== null
+                  ? translateDateIntoMonthYearFormat(actBegin)
+                  : translateDateIntoMonthYearFormat(actEnd)
               } verification details
             `}
             class="vads-u-margin-bottom--4"
@@ -275,8 +269,8 @@ export const getGroupedPreviousEnrollments = month => {
                 <div key={index}>
                   <p className="vads-u-font-weight--bold vads-u-margin--0">
                     {translateDatePeriod(
-                      monthAward.awardBeginDate,
-                      monthAward.awardEndDate,
+                      monthAward.actBegin,
+                      monthAward.actEnd,
                     )}
                   </p>
                   <p className="vads-u-margin--0">
@@ -315,9 +309,9 @@ export const getGroupedPreviousEnrollments = month => {
         <>
           <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
             <span className="vads-u-display--inline-block ">
-              {awardBeginDate !== null
-                ? translateDateIntoMonthYearFormat(awardBeginDate)
-                : translateDateIntoMonthYearFormat(awardEndDate)}
+              {actBegin !== null
+                ? translateDateIntoMonthYearFormat(actBegin)
+                : translateDateIntoMonthYearFormat(actEnd)}
             </span>{' '}
             <va-icon
               icon="check_circle"
@@ -328,7 +322,7 @@ export const getGroupedPreviousEnrollments = month => {
           </h3>
           <va-additional-info
             trigger={`${translateDateIntoMonthYearFormat(
-              awardBeginDate,
+              actBegin,
             )} verification details`}
             class="vads-u-margin-bottom--4"
           >
@@ -338,8 +332,8 @@ export const getGroupedPreviousEnrollments = month => {
                 <div key={index}>
                   <p className="vads-u-font-weight--bold vads-u-margin--0">
                     {translateDatePeriod(
-                      monthAward.awardBeginDate,
-                      monthAward.awardEndDate,
+                      monthAward.actBegin,
+                      monthAward.actEnd,
                     )}
                   </p>
                   <p className="vads-u-margin--0">
@@ -377,7 +371,7 @@ export const getGroupedPreviousEnrollments = month => {
       ) : (
         <>
           <h3 className="vads-u-font-size--h4">
-            {translateDateIntoMonthYearFormat(awardBeginDate)}
+            {translateDateIntoMonthYearFormat(actBegin)}
           </h3>
           <div>
             <va-alert
@@ -411,9 +405,9 @@ export const getSignlePreviousEnrollments = awards => {
           <>
             <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
               <span className="vads-u-display--inline-block ">
-                {awards.awardBeginDate !== null
-                  ? translateDateIntoMonthYearFormat(awards.awardBeginDate)
-                  : translateDateIntoMonthYearFormat(awards.awardEndDate)}
+                {awards.actBegin !== null
+                  ? translateDateIntoMonthYearFormat(awards.actBegin)
+                  : translateDateIntoMonthYearFormat(awards.actEnd)}
               </span>{' '}
               <va-icon
                 icon="check_circle"
@@ -426,18 +420,15 @@ export const getSignlePreviousEnrollments = awards => {
             <va-additional-info
               trigger={`
             ${
-              awards.awardBeginDate !== null
-                ? translateDateIntoMonthYearFormat(awards.awardBeginDate)
-                : translateDateIntoMonthYearFormat(awards.awardEndDate)
+              awards.actBegin !== null
+                ? translateDateIntoMonthYearFormat(awards.actBegin)
+                : translateDateIntoMonthYearFormat(awards.actEnd)
             } verification details
           `}
               class="vads-u-margin-bottom--4"
             >
               <p className="vads-u-font-weight--bold">
-                {translateDatePeriod(
-                  awards.awardBeginDate,
-                  awards.awardEndDate,
-                )}
+                {translateDatePeriod(awards.actBegin, awards.actEnd)}
               </p>
               <p>
                 <span className="vads-u-font-weight--bold">
@@ -465,9 +456,9 @@ export const getSignlePreviousEnrollments = awards => {
           <>
             <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
               <span className="vads-u-display--inline-block ">
-                {awards.awardBeginDate !== null
-                  ? translateDateIntoMonthYearFormat(awards.awardBeginDate)
-                  : translateDateIntoMonthYearFormat(awards.awardEndDate)}
+                {awards.actBegin !== null
+                  ? translateDateIntoMonthYearFormat(awards.actBegin)
+                  : translateDateIntoMonthYearFormat(awards.actEnd)}
               </span>{' '}
               <va-icon
                 icon="check_circle"
@@ -478,15 +469,12 @@ export const getSignlePreviousEnrollments = awards => {
             </h3>
             <va-additional-info
               trigger={`${translateDateIntoMonthYearFormat(
-                awards.awardBeginDate,
+                awards.actBegin,
               )} verification details`}
               class="vads-u-margin-bottom--4"
             >
               <p className="vads-u-font-weight--bold">
-                {translateDatePeriod(
-                  awards.awardBeginDate,
-                  awards.awardEndDate,
-                )}
+                {translateDatePeriod(awards.actBegin, awards.actEnd)}
               </p>
               <p>
                 <span className="vads-u-font-weight--bold">
@@ -513,7 +501,7 @@ export const getSignlePreviousEnrollments = awards => {
         !awards.paymentDate && (
           <>
             <h3 className="vads-u-font-size--h4">
-              {translateDateIntoMonthYearFormat(awards.awardBeginDate)}
+              {translateDateIntoMonthYearFormat(awards.actBegin)}
             </h3>
             <va-alert
               background-only
@@ -546,23 +534,23 @@ export const combineEnrollmentsWithStartMonth = enrollmentPeriods => {
     enrollmentPeriods.forEach(period => {
       // if award begin date is null, assign value as Date unavailable
       let tempMonthYear =
-        period.awardBeginDate !== null
-          ? translateDateIntoMonthYearFormat(period.awardBeginDate)
+        period.actBegin !== null
+          ? translateDateIntoMonthYearFormat(period.actBegin)
           : dateUnavailable;
 
       // if value is Date unavailable and there is an award end date, use the award end date instead
       if (tempMonthYear === dateUnavailable) {
         tempMonthYear =
-          period.awardEndDate !== null
-            ? translateDateIntoMonthYearFormat(period.awardEndDate)
+          period.actEnd !== null
+            ? translateDateIntoMonthYearFormat(period.actEnd)
             : dateUnavailable;
       }
 
       if (trackDate.includes(tempMonthYear)) {
         combineMonths[tempMonthYear].push({
           id: period.id,
-          awardBeginDate: period.awardBeginDate,
-          awardEndDate: period.awardEndDate,
+          actBegin: period.actBegin,
+          actEnd: period.actEnd,
           numberHours: period.numberHours,
           monthlyRate: period.monthlyRate,
           verifiedDate: period.verifiedDate,
@@ -574,8 +562,8 @@ export const combineEnrollmentsWithStartMonth = enrollmentPeriods => {
         combineMonths[tempMonthYear] = [
           {
             id: period.id,
-            awardBeginDate: period.awardBeginDate,
-            awardEndDate: period.awardEndDate,
+            actBegin: period.actBegin,
+            actEnd: period.actEnd,
             numberHours: period.numberHours,
             monthlyRate: period.monthlyRate,
             verifiedDate: period.verifiedDate,
