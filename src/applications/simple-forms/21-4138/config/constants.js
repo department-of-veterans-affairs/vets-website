@@ -1,3 +1,10 @@
+import {
+  VaAdditionalInfo,
+  VaAlert,
+  VaLink,
+  VaOmbInfo,
+  VaTelephone,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
 
 export const TITLE = 'Submit a statement to support a claim';
@@ -95,10 +102,14 @@ export const OTHER_REASONS_OPTIONAL = Object.freeze({
   MEDAL_AWARD: 'I’m a Medal of Honor or Purple Heart award recipient.',
 });
 
-const PrimaryActionLink = ({ href, children }) => (
+export const PrimaryActionLink = ({ href, onClick = null, children }) => (
   <div className="arrow" style={{ maxWidth: '75%' }}>
     <div className="vads-u-background-color--primary vads-u-padding--1">
-      <a className="vads-c-action-link--white" href={href}>
+      <a
+        className="vads-c-action-link--white"
+        href={href}
+        onClick={() => onClick}
+      >
         {children}
       </a>
     </div>
@@ -142,10 +153,10 @@ export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
     <PrimaryActionLink href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction">
       Start your statement
     </PrimaryActionLink>
-    <va-omb-info
-      res-burden={10}
-      omb-number="2900-0881"
-      exp-date="06/30/2024"
+    <VaOmbInfo
+      resBurden={10}
+      ombNumber="2900-0881"
+      expDate="06/30/2024"
       class="vads-u-margin-y--4"
     />
     {ESCAPE_HATCH}
@@ -232,7 +243,7 @@ export const NOD_HLR_HANDOFF = Object.freeze(
       person.
     </p>
     <div className="vads-u-margin-y--4">
-      <va-link
+      <VaLink
         download
         href="/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996"
         text="Get VA Form 20-0996 to download"
@@ -294,7 +305,7 @@ export const NOD_BA_HANDOFF = Object.freeze(
 );
 
 export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
-  <va-additional-info
+  <VaAdditionalInfo
     trigger="What to know before sharing details about other housing risks"
     data-testid="otherHousingRisksAdditionalInfo"
   >
@@ -307,20 +318,20 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
       </p>
       <p>
         <b>Note:</b> If you need help because of domestic violence, call the
-        National Domestic Violence hotline <va-telephone contact="8007997233" />{' '}
-        (TTY: <va-telephone contact="8007873224" />) or text "START" to 88788.
+        National Domestic Violence hotline <VaTelephone contact="8007997233" />{' '}
+        (TTY: <VaTelephone contact="8007873224" />) or text "START" to 88788.
         Staff are there to help 24 hours a day, 7 days a week. All conversations
         are private and confidential.
       </p>
     </div>
-  </va-additional-info>,
+  </VaAdditionalInfo>,
 );
 
 export const PRIORITY_PROCESSING_NOT_QUALIFIED = Object.freeze(
   <div>
-    <va-alert>
+    <VaAlert>
       Based on your responses, you may not qualify for priority processing.
-    </va-alert>
+    </VaAlert>
     <p>
       It’s possible we don’t have enough information about your situation yet.
       You may use this form (VA Form 21-4138) to submit a detailed explanation
@@ -331,10 +342,10 @@ export const PRIORITY_PROCESSING_NOT_QUALIFIED = Object.freeze(
 
 export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
   <div>
-    <va-alert status="success" uswds>
+    <VaAlert status="success" uswds>
       Based on your responses, you may qualify for priority processing. The next
       step is for you to complete a priority processing request.
-    </va-alert>
+    </VaAlert>
     <h2 className="vads-u-font-size--h3">How to request priority processing</h2>
     <p>
       We may need supporting documents based on the situation. If you don’t have
@@ -344,10 +355,10 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
       learn what types of evidence to submit.
     </p>
     <div className="vads-u-margin-y--3">
-      <va-alert>
+      <VaAlert>
         Note: Since you’re signed into your account, you can save your
         application in progress and come back later to finish filling it out.
-      </va-alert>
+      </VaAlert>
     </div>
     <PrimaryActionLink href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction">
       Start your request
@@ -414,7 +425,7 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
       </li>
       <li>You can also send copies of your documents by mail.</li>
     </ul>
-    <va-additional-info
+    <VaAdditionalInfo
       trigger="Where can I send documents by mail?"
       data-testid="ppQualifiedMailingAdditionalInfo"
     >
@@ -460,11 +471,11 @@ export const PRIORITY_PROCESSING_QUALIFIED = Object.freeze(
           Janesville, WI 53547-5211
         </p>
       </div>
-    </va-additional-info>
-    <va-omb-info
-      res-burden={5}
-      omb-number="2900-0736"
-      exp-date="02/28/2026"
+    </VaAdditionalInfo>
+    <VaOmbInfo
+      resBurden={5}
+      ombNumber="2900-0736"
+      expDate="02/28/2026"
       class="vads-u-margin-y--4"
     />
   </div>,
@@ -529,18 +540,18 @@ export const RECORDS_REQUEST_HANDOFF = Object.freeze(
       <li>Other benefit record</li>
     </ul>
     <div className="vads-u-margin-y--3">
-      <va-alert>
+      <VaAlert>
         Note: Since you’re signed into your account, you can save your
         application in progress and come back later to finish filling it out.
-      </va-alert>
+      </VaAlert>
     </div>
     <PrimaryActionLink href="/records/request-personal-records-form-20-10206/introduction">
       Start your request
     </PrimaryActionLink>
-    <va-omb-info
-      res-burden={5}
-      omb-number="2900-0736"
-      exp-date="02/28/2026"
+    <VaOmbInfo
+      resBurden={5}
+      ombNumber="2900-0736"
+      expDate="02/28/2026"
       class="vads-u-margin-y--4"
     />
     {ESCAPE_HATCH}
@@ -562,7 +573,7 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
       the evidence.
     </p>
     <div className="vads-u-margin-y--4">
-      <va-link
+      <VaLink
         download
         filetype="PDF"
         href="https://www.vba.va.gov/pubs/forms/VBA-20-10208-ARE.pdf"
