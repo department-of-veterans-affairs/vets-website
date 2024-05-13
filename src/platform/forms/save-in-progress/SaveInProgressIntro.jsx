@@ -337,6 +337,7 @@ class SaveInProgressIntro extends React.Component {
         <Message
           isAfterSteps={this.props.buttonOnly}
           downtime={downtime}
+          formConfig={this.props.formConfig}
           headerLevel={2}
         />
       );

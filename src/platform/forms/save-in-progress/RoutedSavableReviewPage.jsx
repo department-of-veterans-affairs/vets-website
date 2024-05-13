@@ -48,7 +48,13 @@ class RoutedSavableReviewPage extends React.Component {
     if (downtime.status === externalServiceStatus.down) {
       const Message = this.props.formConfig.downtime.message || DowntimeMessage;
 
-      return <Message downtime={downtime} headerLevel={3} />;
+      return (
+        <Message
+          downtime={downtime}
+          formConfig={this.props.formConfig}
+          headerLevel={3}
+        />
+      );
     }
 
     return children;
