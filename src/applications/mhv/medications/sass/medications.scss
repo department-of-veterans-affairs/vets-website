@@ -98,6 +98,9 @@
       margin-left: 8px;
       margin-top: 57px;
     }
+    va-select::part(label) {
+      text-wrap: nowrap;
+    }
   }
   .rx-page-total-info {
     margin-top: 15px;
@@ -304,6 +307,11 @@
 
 .refillable-prescription-item {
   display: flex !important;
+  align-items: baseline;
+
+  &::before {
+    min-width: 2rem;
+  }
 }
 
 va-checkbox.select-all-checkbox::part(label) {
