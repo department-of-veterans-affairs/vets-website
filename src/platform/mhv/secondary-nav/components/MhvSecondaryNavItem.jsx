@@ -16,6 +16,7 @@ const MhvSecondaryNavItem = ({
   href,
   title,
   abbreviation,
+  actionName,
   isActive = false,
   isHeader = false,
 }) => {
@@ -44,7 +45,11 @@ const MhvSecondaryNavItem = ({
 
   return (
     <div key={key} className={itemClass} data-testid="mhv-sec-nav-item">
-      <a href={href} className="vads-u-text-decoration--none">
+      <a
+        href={href}
+        data-dd-action-name={actionName}
+        className="vads-u-text-decoration--none"
+      >
         {!!icon && <va-icon icon={icon} size={3} />}
         <span className={`mhv-u-sec-nav-item-title ${titleClass}`}>
           {title}
@@ -62,6 +67,7 @@ MhvSecondaryNavItem.propTypes = {
   icon: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   abbreviation: PropTypes.string,
+  actionName: PropTypes.string,
   isActive: PropTypes.bool,
   isHeader: PropTypes.bool,
 };

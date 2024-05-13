@@ -31,6 +31,7 @@ const DeleteDraft = props => {
     setNavigationError,
     setUnsavedNavigationError,
     messageBody,
+    showIcon = true,
   } = props;
 
   const savedDraft = draftId;
@@ -96,7 +97,7 @@ const DeleteDraft = props => {
           cannotReply
             ? 'primary vads-u-padding-x--4'
             : 'secondary vads-u-flex--1'
-        } delete-draft-button vads-u-margin-top--0 vads-u-margin-right--0 vads-u-margin-bottom--0 vads-u-padding-x--0p5`}
+        } delete-draft-button vads-u-margin-top--0 vads-u-margin-right--0 vads-u-margin-bottom--0 vads-u-padding-x--0p5 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center`}
         data-testid="delete-draft-button"
         onClick={() => {
           if (
@@ -125,7 +126,7 @@ const DeleteDraft = props => {
           }
         }}
       >
-        <i className="fas fa-trash-alt" aria-hidden="true" />
+        {showIcon && <va-icon icon="delete" aria-hidden="true" />}
         Delete draft
       </button>
       <DeleteDraftModal
@@ -150,6 +151,7 @@ DeleteDraft.propTypes = {
   setDeleteButtonClicked: PropType.func,
   setNavigationError: PropType.func,
   setUnsavedNavigationError: PropType.func,
+  showIcon: PropType.bool,
 };
 
 export default DeleteDraft;

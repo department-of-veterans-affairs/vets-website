@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 import { DD_ACTIONS_PAGE_TYPE, medicationsUrls } from '../../util/constants';
 import { dateFormat, fromToNumbs } from '../../util/helpers';
@@ -50,12 +49,6 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
 
   // Functions
   const onRxLinkClick = rx => {
-    dispatch(
-      setBreadcrumbs({
-        url: medicationsUrls.subdirectories.REFILL,
-        label: 'Refill prescriptions',
-      }),
-    );
     dispatch(setPrescriptionDetails(rx));
   };
 
@@ -137,11 +130,11 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
                 <>
                   <br />
                   <span data-testid={`medications-last-shipped-${idx}`}>
-                    <va-icon
+                    {/* <va-icon
                       size={4}
                       icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
                       className="vads-u-margin-right--1p5"
-                    />
+                    /> */}
                     Last refill shipped on{' '}
                     {dateFormat(
                       prescription.trackingList[0].completeDateTime,
