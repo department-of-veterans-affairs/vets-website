@@ -199,9 +199,9 @@ const ArrayBuilderCards = ({
       <VaModal
         clickToClose
         status="warning"
-        modalTitle={getText('removeTitle', currentItem)}
-        primaryButtonText={getText('removeYes', currentItem)}
-        secondaryButtonText={getText('removeNo', currentItem)}
+        modalTitle={getText('deleteTitle', currentItem)}
+        primaryButtonText={getText('deleteYes', currentItem)}
+        secondaryButtonText={getText('deleteNo', currentItem)}
         onCloseEvent={() =>
           hideRemoveConfirmationModal({
             focusRemoveButton: true,
@@ -217,8 +217,8 @@ const ArrayBuilderCards = ({
         uswds
       >
         {required(formData) && arrayData?.length === 1
-          ? getText('removeNeedAtLeastOneDescription', currentItem)
-          : getText('removeDescription', currentItem)}
+          ? getText('deleteNeedAtLeastOneDescription', currentItem)
+          : getText('deleteDescription', currentItem)}
       </VaModal>
     </div>
   );

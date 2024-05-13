@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
-import { EMPTY_FIELD, imageRootUri } from './constants';
+import { EMPTY_FIELD, imageRootUri, medicationsUrls } from './constants';
 
 /**
  * @param {*} timestamp
@@ -204,4 +204,66 @@ export const fromToNumbs = (page, total, listLength, maxPerPage) => {
   const from = (page - 1) * maxPerPage + 1;
   const to = Math.min(page * maxPerPage, total);
   return [from, to];
+};
+
+/**
+ * Creates the breadcrumb state based on the current location path.
+ * This function returns an array of breadcrumb objects for rendering in UI component.
+ * It should be called whenever the route changes if breadcrumb updates are needed.
+ *
+ * @param {Object} location - The location object from React Router, containing the current pathname.
+ * @param {String} prescriptionId - A prescription object, used for the details page.
+ * @param {Object} pagination - The pagination object used for the prescription list page.
+ * @returns {Array<Object>} An array of breadcrumb objects with `url` and `label` properties.
+ */
+export const createBreadcrumbs = (location, prescription, currentPage) => {
+  const { pathname } = location;
+  const defaultBreadcrumbs = [
+    {
+      href: medicationsUrls.MHV_HOME,
+      label: 'My HealtheVet home',
+    },
+  ];
+  const {
+    subdirectories,
+    MEDICATIONS_ABOUT,
+    MEDICATIONS_URL,
+    MEDICATIONS_REFILL,
+  } = medicationsUrls;
+
+  if (pathname.includes(subdirectories.ABOUT)) {
+    return [
+      ...defaultBreadcrumbs,
+      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+    ];
+  }
+  if (pathname === subdirectories.BASE) {
+    return defaultBreadcrumbs.concat([
+      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+      {
+        href: `${MEDICATIONS_URL}?page=${currentPage || 1}`,
+        label: 'Medications',
+      },
+    ]);
+  }
+  if (pathname === subdirectories.REFILL) {
+    return defaultBreadcrumbs.concat([
+      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+      { href: MEDICATIONS_REFILL, label: 'Refill prescriptions' },
+    ]);
+  }
+  if (prescription && pathname.includes(subdirectories.DETAILS)) {
+    return defaultBreadcrumbs.concat([
+      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+      {
+        href: `${MEDICATIONS_URL}?page=${currentPage || 1}`,
+        label: 'Medications',
+      },
+      {
+        href: `/${prescription.prescriptionId}`,
+        label: prescription.prescriptionName,
+      },
+    ]);
+  }
+  return [];
 };
