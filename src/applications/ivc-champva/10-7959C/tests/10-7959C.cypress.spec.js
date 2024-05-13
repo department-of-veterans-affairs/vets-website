@@ -11,6 +11,15 @@ import {
   fillAddressWebComponentPattern,
 } from '../../shared/tests/helpers';
 
+// Put all page objects into an object where pagename maps to page data
+// E.g., {page1: {path: '/blah'}}
+const ALL_PAGES = {};
+Object.values(formConfig.chapters).forEach(ch =>
+  Object.keys(ch.pages).forEach(p => {
+    ALL_PAGES[p] = ch.pages[p];
+  }),
+);
+
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
@@ -31,7 +40,7 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'your-information/address': ({ afterHook }) => {
+      [ALL_PAGES.address.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -44,7 +53,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'applicant-information/address': ({ afterHook }) => {
+      [ALL_PAGES.applicantAddressInfo.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -57,7 +66,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'consent-mail': ({ afterHook }) => {
+      [ALL_PAGES.missingFileConsent.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
