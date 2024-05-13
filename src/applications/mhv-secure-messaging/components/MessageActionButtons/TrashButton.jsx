@@ -58,17 +58,16 @@ const TrashButton = props => {
       <>
         <button
           type="button"
-          className="usa-button-secondary small-screen:vads-u-flex--3"
+          className="usa-button-secondary small-screen:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center"
           style={{ minWidth: '100px' }}
           onClick={() => {
             setIsDeleteVisible(true);
           }}
           data-dd-action-name="Trash Button"
         >
-          <i
-            className="fas fa-trash-alt vads-u-margin-right--0p5"
-            aria-hidden
-          />
+          <div className="vads-u-margin-right--0p5">
+            <va-icon icon="delete" aria-hidden />
+          </div>
           <span
             className="message-action-button-text"
             data-testid="trash-button-text"

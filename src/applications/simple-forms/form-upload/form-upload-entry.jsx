@@ -5,12 +5,9 @@ import startApp from '@department-of-veterans-affairs/platform-startup/router';
 // import './sass/form-upload.scss';
 
 import routes from './routes';
-// TODO: Uncomment when we have reducers.
-// import reducer from './reducers';
 import manifest from './manifest.json';
 
 startApp({
   url: manifest.rootUrl,
-  // reducer,
   routes,
 });
