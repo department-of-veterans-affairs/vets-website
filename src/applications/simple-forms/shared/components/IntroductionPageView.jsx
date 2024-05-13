@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { focusElement } from '~/platform/utilities/ui';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
+import { VaOmbInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export const IntroductionPageView = ({
   route,
@@ -52,19 +53,19 @@ export const IntroductionPageView = ({
       {additionalChildContent || null}
       <p />
       {!customPrivacyActStmt ? (
-        <va-omb-info
-          res-burden={resBurden}
-          omb-number={ombNumber}
-          exp-date={expDate}
+        <VaOmbInfo
+          resBurden={resBurden}
+          ombNumber={ombNumber}
+          expDate={expDate}
         />
       ) : (
-        <va-omb-info
-          res-burden={resBurden}
-          omb-number={ombNumber}
-          exp-date={expDate}
+        <VaOmbInfo
+          resBurden={resBurden}
+          ombNumber={ombNumber}
+          expDate={expDate}
         >
           {customPrivacyActStmt}
-        </va-omb-info>
+        </VaOmbInfo>
       )}
     </article>
   );
@@ -80,7 +81,7 @@ IntroductionPageView.propTypes = {
     pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
   additionalChildContent: PropTypes.object,
-  childContent: PropTypes.shape(),
+  childContent: PropTypes.object,
   content: PropTypes.shape({
     formTitle: PropTypes.string.isRequired,
     formSubTitle: PropTypes.string.isRequired,
@@ -91,5 +92,5 @@ IntroductionPageView.propTypes = {
     displayNonVeteranMessaging: PropTypes.bool,
     verifiedPrefillAlert: PropTypes.object,
   }),
-  ombInfo: PropTypes.shape(),
+  ombInfo: PropTypes.object,
 };
