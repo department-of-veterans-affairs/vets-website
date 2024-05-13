@@ -24,6 +24,7 @@ import PeriodsToVerify from '../components/PeriodsToVerify';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
+  const mockData = useSelector(getMockData);
   const {
     personalInfo,
     expirationDate,
@@ -33,8 +34,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
     loading,
     isUserLoggedIn,
   } = useData();
-  console.log(isUserLoggedIn,'isUserLoggedIn')
-  const mockData = useSelector(getMockData);
+
   const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
   const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
   return (
@@ -83,7 +83,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                 />
               </>
             )}
-            <PreviousEnrollmentVerifications enrollmentData={mockData} />
+            <PreviousEnrollmentVerifications enrollmentData={enrollmentData} />
             <MoreInfoCard
               marginTop="7"
               linkText="Manage your benefits profile"
