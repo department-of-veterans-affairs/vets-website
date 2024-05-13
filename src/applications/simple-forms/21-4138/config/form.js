@@ -35,7 +35,6 @@ import {
 } from '../pages/priorityProcessing';
 import { recordsRequestHandoffPage } from '../pages/recordsRequest';
 import { newEvidenceHandoffPage } from '../pages/newEvidence';
-import { vreRequestHandoffPage } from '../pages/vreRequest';
 import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
 import { identificationInformationPage } from '../pages/identificationInfo';
 import { mailingAddressPage } from '../pages/mailingAddress';
@@ -271,16 +270,6 @@ const formConfig = {
           uiSchema: newEvidenceHandoffPage.uiSchema,
           schema: newEvidenceHandoffPage.schema,
           pageClass: 'new-evidence-handoff',
-          hideNavButtons: true,
-        },
-        vreRequestHandoffPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.VRE_REQUEST,
-          path: 'vre-request-handoff',
-          title: "There's a better way to request Chapter 31 support",
-          uiSchema: vreRequestHandoffPage.uiSchema,
-          schema: vreRequestHandoffPage.schema,
-          pageClass: 'vre-request-handoff',
           hideNavButtons: true,
         },
       },
