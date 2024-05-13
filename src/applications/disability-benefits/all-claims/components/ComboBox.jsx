@@ -129,9 +129,9 @@ export class ComboBox extends React.Component {
       return null;
     }
 
-    let classNameStr = 'usa-combo-box__list-option free-text-li-option';
+    let classNameStr = 'cc-combobox__option cc-combobox__option--free';
     if (highlightedIndex === 0) {
-      classNameStr += ' active-combobox-item';
+      classNameStr += ' cc-combobox__option--active';
     }
     return (
       <span
@@ -159,10 +159,11 @@ export class ComboBox extends React.Component {
   render() {
     const { searchTerm, ariaLive1, ariaLive2, filteredOptions } = this.state;
     return (
-      <div className="autosuggest-container">
+      <div className="cc-combobox">
         <VaTextInput
           hint={null}
-          // label="What new condition do you want to claim?"
+          label="What new condition do you want to claim?"
+          required
           message-aria-describedby="What new condition do you want to claim?"
           name="combobox-input"
           value={this.state.value}
@@ -171,7 +172,11 @@ export class ComboBox extends React.Component {
           ref={this.inputRef}
         />
         <div
-          className="usa-combo-box__list"
+          className={
+            filteredOptions.length > 0
+              ? 'cc-combobox__list cc-combobox__list--open'
+              : 'cc-combobox__list'
+          }
           style={{ maxHeight: COMBOBOX_LIST_MAX_HEIGHT }}
           role="listbox"
           ref={this.listRef}
@@ -180,9 +185,9 @@ export class ComboBox extends React.Component {
           {filteredOptions &&
             filteredOptions.map((option, index) => {
               const optionIndex = index + 1;
-              let classNameStr = 'usa-combo-box__list-option';
+              let classNameStr = 'cc-combobox__option';
               if (optionIndex === this.state.highlightedIndex) {
-                classNameStr += ' active-combobox-item';
+                classNameStr += ' cc-combobox__option--active';
               }
               return (
                 <span
@@ -208,7 +213,7 @@ export class ComboBox extends React.Component {
         </div>
 
         <div
-          className="usa-combo-box__status vads-u-visibility--screen-reader"
+          className="cc-combobox__status vads-u-visibility--screen-reader"
           role="alert"
           aria-live="polite"
           aria-atomic="true"
@@ -217,7 +222,7 @@ export class ComboBox extends React.Component {
           {ariaLive1}
         </div>
         <div
-          className="usa-combo-box__status vads-u-visibility--screen-reader"
+          className="cc-combobox__status vads-u-visibility--screen-reader"
           role="alert"
           aria-live="polite"
           aria-atomic="true"

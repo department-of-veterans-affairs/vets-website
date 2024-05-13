@@ -31,8 +31,6 @@ export function uiSchema(label, options = {}) {
     {},
     {
       'ui:title': label,
-      // eslint-disable-next-line react/react-in-jsx-scope
-      // 'ui:field': props => <ComboBox {...props} options={['foo', 'bar']} />,
       'ui:field': ComboBox,
       'ui:validations': validations,
       'ui:errorMessages': {
