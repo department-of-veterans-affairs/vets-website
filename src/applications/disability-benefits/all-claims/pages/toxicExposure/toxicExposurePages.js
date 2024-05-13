@@ -6,12 +6,14 @@ import {
   gulfWar2001Locations,
   gulfWar2001Details,
   gulfWar2001Summary,
+  herbicideLocations,
 } from '..';
 import { TE_URL_PREFIX } from '../../constants';
 import {
   conditionsPageTitle,
   gulfWar1990PageTitle,
   gulfWar2001PageTitle,
+  herbicidePageTitle,
   isClaimingTECondition,
   showSummaryPage,
   showToxicExposurePages,
@@ -54,5 +56,12 @@ export const toxicExposurePages = {
     depends: formData => showSummaryPage(formData, 'gulfWar2001'),
     uiSchema: gulfWar2001Summary.uiSchema,
     schema: gulfWar2001Summary.schema,
+  },
+  herbicideLocations: {
+    title: herbicidePageTitle,
+    path: 'herbicide-locations',
+    depends: formData => isClaimingTECondition(formData),
+    uiSchema: herbicideLocations.uiSchema,
+    schema: herbicideLocations.schema,
   },
 };

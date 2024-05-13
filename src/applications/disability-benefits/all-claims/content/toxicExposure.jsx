@@ -111,6 +111,10 @@ export function dateRangePageDescription(
   );
 }
 
+export const herbicidePageTitle = 'Agent Orange locations';
+export const herbicideQuestion =
+  'Did you serve in any of these locations where the military used the herbicide Agent Orange? Check any locations where you served.';
+
 /* ---------- utils ---------- */
 /**
  * Checks if the toxic exposure pages should be displayed using the following criteria
