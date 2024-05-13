@@ -1,5 +1,4 @@
-import Timeouts from 'platform/testing/e2e/timeouts';
-import { mockUser } from './login';
+import { mockUser, mockUserWithOutIDME } from './login';
 
 describe('Direct deposit information', () => {
   /**
@@ -7,6 +6,7 @@ describe('Direct deposit information', () => {
    * @param {object} win
    */
   beforeEach(() => {
+    cy.login(mockUser);
     cy.intercept('GET', '/vye/v1/*', { statusCode: 200 });
     cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
@@ -18,9 +18,9 @@ describe('Direct deposit information', () => {
     });
   });
   const fillForm = () => {
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+      .first()
+      .click();
     cy.get('[id="VYE-add-new-account-button"]').click();
     cy.get('[id="root_GI-Bill-Chapters-fullName"]').type('John Smith');
     cy.get('input[id="root_GI-Bill-Chapters-phone"]').type('4082037901');
@@ -39,18 +39,18 @@ describe('Direct deposit information', () => {
   };
   it('should show Dirct deposit infromation', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+      .first()
+      .click();
     cy.get(
       '[class="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold"]',
     ).should('contain', 'Direct deposit information');
   });
   it('should open bank info form when Add or update account buttton is clicked', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+      .first()
+      .click();
     cy.get('[id="VYE-add-new-account-button"]').click();
     cy.get(
       '[alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."]',
@@ -62,9 +62,9 @@ describe('Direct deposit information', () => {
   });
   it('should close the form when Cancel button is clicked ', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+      .first()
+      .click();
     cy.get('[id="VYE-add-new-account-button"]').click();
     cy.get(
       '[aria-label="cancel updating your bank information for GI Bill® benefits"]',
@@ -75,9 +75,9 @@ describe('Direct deposit information', () => {
   });
   it('should show show errors when save button is clicked and some or all of the required fields empty ', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+      .first()
+      .click();
     cy.get('[id="VYE-add-new-account-button"]').click();
     cy.get('input[id="root_GI-Bill-Chapters-phone"]').type('4082037901');
     cy.get(
@@ -101,7 +101,6 @@ describe('Direct deposit information', () => {
   });
   it('Should submit without any errors if all required fields all not empty', () => {
     cy.injectAxeThenAxeCheck();
-    cy.login() || cy.login(mockUser);
     cy.intercept('POST', `/vye/v1/bank_info`, {
       statusCode: 200,
       ok: true,
@@ -118,7 +117,6 @@ describe('Direct deposit information', () => {
   });
   it('Should submit error if all required fields all not empty but something was wrong with the API', () => {
     cy.injectAxeThenAxeCheck();
-    cy.login() || cy.login(mockUser);
     cy.intercept('POST', `/vye/v1/bank_info`, {
       statusCode: 401,
     }).as('updateDirectDeposit');
@@ -136,7 +134,6 @@ describe('Direct deposit information', () => {
   });
   it('should show warning alert if user hits cancel after editing form', () => {
     cy.injectAxeThenAxeCheck();
-    cy.login();
     fillForm();
     cy.get('va-button[secondary]').click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
@@ -146,7 +143,6 @@ describe('Direct deposit information', () => {
   });
   it('should show warning alert if user hits cancel after editing form and it should go back to thr form when user clicks "No, go back to editing" button', () => {
     cy.injectAxeThenAxeCheck();
-    cy.login();
     fillForm();
     cy.get('va-button[secondary]').click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
@@ -163,7 +159,6 @@ describe('Direct deposit information', () => {
   });
   it('should show warning alert if user hits cancel after editing form and it should close alert and form when user clicks Yes, cancel my changes', () => {
     cy.injectAxeThenAxeCheck();
-    cy.login();
     fillForm();
     cy.get('va-button[secondary]').click();
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
@@ -173,5 +168,16 @@ describe('Direct deposit information', () => {
     cy.get('va-button[uswds]')
       .first()
       .click();
+  });
+  it('should not show Direct Dopist form if user loggedin without using ID.me', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.login(mockUserWithOutIDME);
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+      .first()
+      .click();
+    cy.get('[data-testid="direct-deposit-mfa-message"]').should(
+      'contain',
+      'Before we give you access to change your direct deposit information, we need to make sure you’re you—and not someone pretending to be you. This helps us protect your bank account and prevent fraud.',
+    );
   });
 });

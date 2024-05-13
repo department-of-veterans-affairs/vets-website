@@ -94,8 +94,7 @@ describe('Compose container', () => {
     const body = waitFor(() => {
       screen.getByTestId('message-body-field');
     });
-    expect(screen.getByText('Edit preferences', { selector: 'button' })).to
-      .exist;
+    expect(screen.getByText('Edit preferences')).to.exist;
     expect(screen.getByTestId('edit-list')).to.have.attribute(
       'visible',
       'false',

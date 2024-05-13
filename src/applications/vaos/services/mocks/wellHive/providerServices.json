@@ -1,0 +1,139 @@
+{
+    "count": 2,
+    "nextToken": "YTI0NTM5NzUtNzA2My00NTU5LWJiYWYtZTg3MGY4ZWZlYzg5",
+    "providerServices": [
+      {
+        "appointmentTypes": [
+          {
+            "id": "40cca3e9-cbf2-48d0-b088-7f4a2713fcae",
+            "name": "Initial Consult"
+          }
+        ],
+        "contactDetails": [
+          {
+            "system": "phone",
+            "use": "for_patient",
+            "value": "555-555-0001"
+          },
+          {
+            "system": "phone",
+            "use": "for_coordinator",
+            "value": "555-555-1111"
+          },
+          {
+            "system": "fax",
+            "use": "for_coordinator",
+            "value": "555-555-0101"
+          }
+        ],
+        "features": {
+          "directBooking": {
+            "isEnabled": true,
+            "requiredFields": [
+              "name",
+              "birthdate",
+              "gender",
+              "phone",
+              "email"
+            ]
+          },
+          "isDigital": true
+        },
+        "id": "69cd9203-5e92-47a3-aa03-94b03752872a",
+        "individualProviders": [
+          {
+            "name": "Dr. Smith",
+            "npi": "1245319599"
+          }
+        ],
+        "isActive": true,
+        "location": {
+          "address": "123 Main Street, Suite 1, Anywhere USA 12345",
+          "latitue": 90,
+          "longitude": 180,
+          "name": "Acme Cardiology - Anywhere, USA",
+          "timezone": "America/New_York"
+        },
+        "name": "Dr. Smith @ Acme Cardiology - Anywhere, USA",
+        "networkIds": [
+          "69cd9203-5e92-47a3-aa03-94b03752872a",
+          "00eff3f3-ecfb-41ff-9ebc-78ed811e17f9"
+        ],
+        "providerOrganization": {
+          "name": "Acme Cardiology",
+          "npi": "1245319599",
+          "npiName": "The Smith Group"
+        },
+        "schedulingNotes": "Please inform the patient: - New patients should arrive 30 minutes prior to the appointment to complete new patient paperwork",
+        "specialties": [
+          {
+            "id": "207XX0004X",
+            "name": "Orthopaedic Surgery - Foot and Ankle Surgery"
+          }
+        ],
+        "visitMode": "in-person"
+      },
+      {
+        "appointmentTypes": [
+          {
+            "id": "40cca3e9-cbf2-48d0-b088-7f4a2713fcae",
+            "name": "MRI Scan"
+          }
+        ],
+        "contactDetails": [
+          {
+            "system": "phone",
+            "use": "for_patient",
+            "value": "555-555-0001"
+          },
+          {
+            "system": "phone",
+            "use": "for_coordinator",
+            "value": "555-555-1111"
+          },
+          {
+            "system": "fax",
+            "use": "for_coordinator",
+            "value": "555-555-0101"
+          }
+        ],
+        "features": {
+          "directBooking": {
+            "isEnabled": true,
+            "requiredFields": [
+              "name",
+              "birthdate",
+              "gender",
+              "phone"
+            ]
+          },
+          "isDigital": true
+        },
+        "id": "00eff3f3-ecfb-41ff-9ebc-78ed811e17f9",
+        "isActive": true,
+        "location": {
+          "address": "123 Main Street, Suite 100, Anywhere USA 12345",
+          "latitue": 90,
+          "longitude": 180,
+          "name": "Acme Imaging - Anywhere, USA",
+          "timezone": "America/New_York"
+        },
+        "name": "MRI @ Acme Imaging",
+        "networkIds": [
+          "69cd9203-5e92-47a3-aa03-94b03752872a"
+        ],
+        "providerOrganization": {
+          "name": "Acme Imaging",
+          "npi": "1245319588"
+        },
+        "specialties": [
+          {
+            "id": "261QM1200X",
+            "name": "Clinic/Center - Magnetic Resonance Imaging (MRI)"
+          }
+        ],
+        "visitMode": "in-person"
+      }
+    ],
+    "total": 5
+  }

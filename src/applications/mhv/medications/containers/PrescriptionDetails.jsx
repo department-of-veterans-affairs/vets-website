@@ -42,10 +42,14 @@ import {
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { Actions } from '../util/actionTypes';
+import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails,
+  );
+  const prescriptionsApiError = useSelector(
+    state => state.rx.prescriptions?.apiError,
   );
   const nonVaPrescription = prescription?.prescriptionSource === 'NV';
   const userName = useSelector(state => state.user.profile.userFullName);
@@ -333,7 +337,7 @@ const PrescriptionDetails = () => {
     if (
       (pdfTxtGenerateStatus.status !== PDF_TXT_GENERATE_STATUS.InProgress ||
         allergiesError) &&
-      prescription
+      (prescription || prescriptionsApiError)
     ) {
       return (
         <>
@@ -356,27 +360,35 @@ const PrescriptionDetails = () => {
             >
               {prescriptionHeader}
             </h1>
-            <p
-              id="last-filled"
-              className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--0p5"
-              data-testid="rx-last-filled-date"
-            >
-              {filledEnteredDate()}
-            </p>
-            <div className="no-print">
-              <PrintDownload
-                download={handleFileDownload}
-                isSuccess={
-                  pdfTxtGenerateStatus.status ===
-                  PDF_TXT_GENERATE_STATUS.Success
-                }
-              />
-              <BeforeYouDownloadDropdown page={DD_ACTIONS_PAGE_TYPE.DETAILS} />
-            </div>
-            {nonVaPrescription ? (
-              <NonVaPrescription {...prescription} />
+            {prescriptionsApiError ? (
+              <ApiErrorNotification />
             ) : (
-              <VaPrescription {...prescription} />
+              <>
+                <p
+                  id="last-filled"
+                  className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--0p5"
+                  data-testid="rx-last-filled-date"
+                >
+                  {filledEnteredDate()}
+                </p>
+                <div className="no-print">
+                  <PrintDownload
+                    download={handleFileDownload}
+                    isSuccess={
+                      pdfTxtGenerateStatus.status ===
+                      PDF_TXT_GENERATE_STATUS.Success
+                    }
+                  />
+                  <BeforeYouDownloadDropdown
+                    page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+                  />
+                </div>
+                {nonVaPrescription ? (
+                  <NonVaPrescription {...prescription} />
+                ) : (
+                  <VaPrescription {...prescription} />
+                )}
+              </>
             )}
           </div>
           <PrintOnlyPage
@@ -387,7 +399,7 @@ const PrescriptionDetails = () => {
                 : "We're sorry. There's a problem with our system. Check back later. If you need help now, call your VA pharmacy. You can find the pharmacy phone number on the prescription label."
             }
           >
-            {prescription && (
+            {prescription ? (
               <>
                 <PrescriptionPrintOnly
                   hideLineBreak
@@ -400,6 +412,8 @@ const PrescriptionDetails = () => {
                   allergiesError={allergiesError}
                 />
               </>
+            ) : (
+              <></>
             )}
           </PrintOnlyPage>
         </>
