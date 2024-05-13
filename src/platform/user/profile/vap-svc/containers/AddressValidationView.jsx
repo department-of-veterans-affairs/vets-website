@@ -303,13 +303,11 @@ class AddressValidationView extends React.Component {
           {this.renderPrimaryButton()}
 
           {!isLoading && (
-            <button
-              type="button"
-              className="usa-button-secondary"
+            <va-button
+              secondary
               onClick={this.onEditClick}
-            >
-              Go back to edit
-            </button>
+              text="Go back to edit"
+            />
           )}
         </form>
       </>

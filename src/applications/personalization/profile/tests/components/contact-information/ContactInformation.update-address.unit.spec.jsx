@@ -5,6 +5,8 @@ import { waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import {
   FIELD_TITLES,
   FIELD_NAMES,
@@ -44,25 +46,21 @@ function getEditButton(addressName) {
 
 function updateAddress(addressName) {
   userEvent.click(getEditButton(addressName));
+  const { container } = view;
 
-  const countryDropdown = view.getByLabelText(/country/i);
-  const line1Input = view.getByLabelText(/street address.*required/i);
-  const cityInput = view.getByLabelText(/city.*required/i);
-  const stateDropdown = view.getByLabelText(/state.*required/i);
-  const zipCodeInput = view.getByLabelText(/zip code/i);
+  const countryDropdown = $('va-select[label="Country"]', container);
+  const line1Input = $('va-text-input[label^="Street address"]', container);
+  const cityInput = $('va-text-input[label="City"]', container);
+  const stateDropdown = $('va-select[label="State"]', container);
+  const zipCodeInput = $('va-text-input[label="Zip code"]', container);
   const submitButton = view.getByText(/save/i, { selector: 'button' });
 
-  // clear the inputs
-  [line1Input, cityInput, zipCodeInput].forEach(input => {
-    userEvent.clear(input);
-  });
-
-  // input the address info
-  userEvent.selectOptions(countryDropdown, [view.getByText('United States')]);
-  userEvent.type(line1Input, '123 main st');
-  userEvent.type(cityInput, 'san francisco');
-  userEvent.selectOptions(stateDropdown, [view.getByText('California')]);
-  userEvent.type(zipCodeInput, '94105');
+  // input the address info (can't type into web components using RTL)
+  countryDropdown.__events.vaSelect({ target: { value: 'USA' } });
+  line1Input.value = '123 main st'; // va-text-input don't have exposed events
+  cityInput.value = 'san francisco';
+  stateDropdown.__events.vaSelect({ target: { value: 'CA' } });
+  zipCodeInput.value = '94105';
 
   userEvent.click(submitButton);
 
