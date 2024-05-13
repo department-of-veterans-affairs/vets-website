@@ -23,9 +23,6 @@ export const uiSchema = {
       race: { 'ui:title': 'What’s the sponsor’s race?' },
       raceComment: {
         'ui:title': 'Enter the race that best describes the sponsor',
-        'ui:errorMessages': {
-          pattern: 'Please provide a response',
-        },
       },
     }),
   },
@@ -51,7 +48,6 @@ export const schema = {
               raceComment: {
                 type: 'string',
                 maxLength: 100,
-                pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
               },
             },
           ),

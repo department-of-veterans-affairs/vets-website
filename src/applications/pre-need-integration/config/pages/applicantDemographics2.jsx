@@ -20,11 +20,7 @@ export const uiSchema = {
       },
     },
     veteran: merge({}, veteranUI, {
-      raceComment: {
-        'ui:errorMessages': {
-          pattern: 'Please provide a response',
-        },
-      },
+      raceComment: {},
     }),
   },
 };
@@ -49,7 +45,6 @@ export const schema = {
               raceComment: {
                 type: 'string',
                 maxLength: 100,
-                pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
               },
             },
           ),

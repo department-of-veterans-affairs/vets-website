@@ -24,9 +24,6 @@ export const uiSchema = {
       race: { 'ui:title': 'What’s the applicant’s race?' },
       raceComment: {
         'ui:title': 'Enter the race that best describes the applicant',
-        'ui:errorMessages': {
-          pattern: 'Please provide a response',
-        },
       },
     }),
   },
@@ -52,7 +49,6 @@ export const schema = {
               raceComment: {
                 type: 'string',
                 maxLength: 100,
-                pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
               },
             },
           ),
