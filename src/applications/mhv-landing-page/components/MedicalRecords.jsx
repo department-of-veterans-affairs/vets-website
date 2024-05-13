@@ -45,7 +45,7 @@ const MedicalRecords = ({ blueButtonUrl }) => (
       <h1 className="vads-u-margin-bottom--0">Medical records</h1>
 
       <div className="medium-screen:vads-u-margin--2">
-        <span className="usa-label vads-u-background-color--primary">
+        <span className="usa-label vads-u-background-color--hub-burials">
           Coming soon
         </span>
       </div>
