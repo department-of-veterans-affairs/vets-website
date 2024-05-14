@@ -119,9 +119,11 @@ export async function checkAutoSession(
   } else if (
     !loggedIn &&
     ttl > 0 &&
-    !getLoginAttempted() &&
+    (!getLoginAttempted() || verifySession()) &&
     queryParams.csp_type
   ) {
+    // Ensure we remove any redirect urls so users stay on VA.gov
+    sessionStorage.removeItem('authReturnUrl');
     /**
      * Create an auto-login when the following are true
      * 1. No active VA.gov session
