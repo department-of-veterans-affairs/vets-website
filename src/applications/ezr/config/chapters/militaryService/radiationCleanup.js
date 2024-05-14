@@ -9,11 +9,9 @@ export default {
   uiSchema: {
     'ui:title': content['military-service-radiation-exposure-title-2'],
     radiationCleanupEfforts: radioUI({
-      classNames: 'custom-hide-label',
+      title: content['military-service-radiation-exposure-description'],
       useFormsPattern: 'single',
-      formHeading: content['military-service-radiation-exposure-description'],
       formDescription: RadiationCleanupDescription,
-      formHeadingLevel: 5,
       labels: {
         '1': 'Yes',
         '2': 'No',

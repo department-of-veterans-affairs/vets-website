@@ -5,15 +5,13 @@ import {
 import ToxicExposureDescription from '../../../components/FormDescriptions/ToxicExposureDescription';
 import content from '../../../locales/en/content.json';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:title': content['military-service-toxic-exposure-title'],
     'ui:description': ToxicExposureDescription,
     hasTeraResponse: radioUI({
-      classNames: 'custom-hide-label',
-      useFormsPattern: 'single',
-      formHeading: content['military-service-toxic-exposure-description'],
-      formHeadingLevel: 5,
+      title: content['military-service-toxic-exposure-description'],
       labels: {
         '1': 'Yes',
         '2': 'No',

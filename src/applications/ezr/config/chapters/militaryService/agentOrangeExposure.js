@@ -5,15 +5,14 @@ import {
 import AgentOrangeExposureDescription from '../../../components/FormDescriptions/AgentOrangeExposureDescription';
 import content from '../../../locales/en/content.json';
 
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:title': content['military-service-agent-orange-locations-title'],
     exposedToAgentOrange: radioUI({
-      classNames: 'custom-hide-label',
       useFormsPattern: 'single',
-      formHeading: content['military-service-agent-orange-exposed-title'],
+      title: content['military-service-agent-orange-exposed-title'],
       formDescription: AgentOrangeExposureDescription,
-      formHeadingLevel: 5,
       labels: {
         '1': 'Yes',
         '2': 'No',
@@ -22,6 +21,7 @@ export default {
   },
   schema: {
     type: 'object',
+    // required: ['exposedToAgentOrange'],
     properties: {
       exposedToAgentOrange: radioSchema(['1', '2']),
     },

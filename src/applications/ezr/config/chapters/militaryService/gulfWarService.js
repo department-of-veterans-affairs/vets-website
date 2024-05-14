@@ -9,11 +9,9 @@ export default {
   uiSchema: {
     'ui:title': content['military-service-gulf-war-service-title'],
     gulfWarService: radioUI({
-      classNames: 'custom-hide-label',
       useFormsPattern: 'single',
-      formHeading: content['military-service-gulf-war-service-description'],
+      title: content['military-service-gulf-war-service-description'],
       formDescription: GulfWarServiceDescription,
-      formHeadingLevel: 5,
       labels: {
         '1': 'Yes',
         '2': 'No',

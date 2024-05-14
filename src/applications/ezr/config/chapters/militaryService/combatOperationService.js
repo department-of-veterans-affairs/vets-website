@@ -9,11 +9,9 @@ export default {
   uiSchema: {
     'ui:title': content['military-service-operations-title'],
     combatOperationService: radioUI({
-      classNames: 'custom-hide-label',
       useFormsPattern: 'single',
-      formHeading: content['military-service-operations-description'],
+      title: content['military-service-operations-description'],
       formDescription: CombatOperationServiceDescription,
-      formHeadingLevel: 5,
       labels: {
         '1': 'Yes',
         '2': 'No',

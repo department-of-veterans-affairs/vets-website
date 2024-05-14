@@ -1,3 +1,11 @@
 .custom-hide-label::part(legend) {
-    display: none;
+    // display: none;
+}
+
+.custom-hide-label::part(form-header) {
+    // font-size: 16.96px;
+    // font-style: normal;
+    // font-weight: 400;
+    // font-weight: normal;
+    // color: rgba(27, 27, 27, 0.9)
 }
