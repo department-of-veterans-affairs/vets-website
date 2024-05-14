@@ -60,10 +60,6 @@ const DebtDetails = () => {
             label: 'Home',
           },
           {
-            href: '/manage-va-debt',
-            label: 'Manage your VA debt',
-          },
-          {
             href: '/manage-va-debt/summary',
             label: 'Your VA debt and bills',
           },
@@ -78,7 +74,6 @@ const DebtDetails = () => {
           },
         ]}
         label="Breadcrumb"
-        uswds
         wrapping
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
@@ -98,7 +93,6 @@ const DebtDetails = () => {
         {whyContent && (
           <va-additional-info
             trigger="Why might I have this debt?"
-            uswds
             class="vads-u-margin-y--2"
           >
             {whyContent}

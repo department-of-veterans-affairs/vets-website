@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
-import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
-import { BankNumberFaq } from './BankNumberFaq';
 import {
   VaTextInputField,
   VaRadioField,
 } from '~/platform/forms-system/src/js/web-component-fields';
-import { UpdateErrorAlert } from './alerts/UpdateErrorAlert';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
+import { BankNumberFaq } from './BankNumberFaq';
+import { UpdateErrorAlert } from './alerts/UpdateErrorAlert';
 
 const schema = {
   type: 'object',
@@ -24,7 +25,7 @@ const schema = {
     },
     accountNumber: {
       type: 'string',
-      pattern: '^\\d{1,17}$',
+      pattern: '^\\d{4,17}$',
     },
     'view:directDepositInfo': {
       type: 'object',
@@ -36,29 +37,29 @@ const schema = {
 
 const uiSchema = {
   'ui:description':
-    'Please provide your bank’s routing number as well as your current account and type.',
+    'Provide your account type, routing number, and account number.',
 
   accountType: {
     'ui:webComponentField': VaRadioField,
     'ui:title': 'Account type',
     'ui:errorMessages': {
-      required: 'Please select the type that best describes your account',
+      required: 'Select your account type',
     },
   },
   routingNumber: {
     'ui:webComponentField': VaTextInputField,
     'ui:title': 'Routing number',
     'ui:errorMessages': {
-      pattern: 'Please enter your bank’s 9-digit routing number',
-      required: 'Please enter your bank’s 9-digit routing number',
+      pattern: 'Enter your bank’s 9-digit routing number',
+      required: 'Enter your bank’s 9-digit routing number',
     },
   },
   accountNumber: {
     'ui:webComponentField': VaTextInputField,
-    'ui:title': 'Account number (No more than 17 digits)',
+    'ui:title': 'Account number',
     'ui:errorMessages': {
-      pattern: 'Please enter your account number',
-      required: 'Please enter your account number',
+      pattern: 'Enter an account number between 4 and 17 digits',
+      required: 'Enter an account number',
     },
   },
   'view:directDepositInfo': {
@@ -112,7 +113,13 @@ export const AccountUpdateView = props => {
         >
           Save
         </LoadingButton>
-        <va-button onClick={onCancel} secondary text="Cancel" />
+        <VaButton
+          className="vads-u-width--full medium-screen:vads-u-width--auto"
+          data-testid="cancel-direct-deposit"
+          onClick={onCancel}
+          secondary
+          text="Cancel"
+        />
       </SchemaForm>
 
       <ConfirmCancelModal

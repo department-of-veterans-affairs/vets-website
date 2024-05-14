@@ -2,32 +2,34 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from 'platform/monitoring/record-event';
-import BackLink from '../../components/BackLink';
 import {
-  APPOINTMENT_STATUS,
-  APPOINTMENT_TYPES,
-  FETCH_STATUS,
-  GA_PREFIX,
-} from '../../utils/constants';
-import { lowerCase } from '../../utils/formatters';
+  VaAlert,
+  VaTelephone,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import BackLink from '../../components/BackLink';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import ListBestTimeToCall from './ListBestTimeToCall';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
-import CancelAppointmentModal from './cancel/CancelAppointmentModal';
-import {
-  getPatientTelecom,
-  getVAAppointmentLocationId,
-} from '../../services/appointment';
 import { selectRequestedAppointmentDetails } from '../redux/selectors';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
+import {
+  selectFeatureAppointmentDetailsRedesign,
+  selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureVAOSServiceCCAppointments,
+} from '../../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import { startAppointmentCancel, fetchRequestDetails } from '../redux/actions';
 import RequestedStatusAlert from './RequestedStatusAlert';
-import { getTypeOfCareById } from '../../utils/appointment';
+import CancelWarningPage from './cancel/CancelWarningPage';
+import CancelConfirmationPage from './cancel/CancelConfirmationPage';
+import CancelAppointmentModal from './cancel/CancelAppointmentModal';
+import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
+import FacilityAddress from '../../components/FacilityAddress';
+import FacilityPhone from '../../components/FacilityPhone';
+import { VARequestLayout } from '../../components/layout/VARequestLayout';
+import { CCRequestLayout } from '../../components/layout/CCRequestLayout';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -35,111 +37,35 @@ const TIME_TEXT = {
   'No Time Selected': '',
 };
 
-function getAppointmentDetails(appointment, message) {
-  if (appointment.version === 2) {
-    return appointment.comment ? appointment.comment : 'none';
-  }
-
-  const comment = message || appointment.comment;
-  if (appointment.vaos.isCommunityCare) {
-    return comment || 'none';
-  }
-  return appointment.reason && comment
-    ? `${appointment.reason}: ${comment}`
-    : comment || (appointment.reason ? appointment.reason : null);
-}
-
-export default function RequestedAppointmentDetailsPage() {
+function Content() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const {
-    appointmentDetailsStatus,
-    facilityData,
     appointment,
-    message,
-    useV2,
+    bookingNotes,
+    canceled,
+    email,
+    facility,
+    facilityId,
+    isCC,
+    isCCRequest,
+    phone,
+    preferredDates,
+    preferredTimesForPhoneCall,
+    provider,
+    typeOfCare,
+    typeOfCareText,
+    typeOfVisit,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
   );
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
+  const featureAppointmentDetailsRedesign = useSelector(
+    selectFeatureAppointmentDetailsRedesign,
   );
-  useEffect(
-    () => {
-      dispatch(fetchRequestDetails(id));
-    },
-    [dispatch, id],
+  const featureVAOSServiceCCAppointments = useSelector(
+    selectFeatureVAOSServiceCCAppointments,
   );
-  useEffect(
-    () => {
-      if (appointment) {
-        const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-        const isCC = appointment.vaos.isCommunityCare;
-        const typeOfCareText = lowerCase(
-          appointment?.type?.coding?.[0]?.display,
-        );
-        let title = `${isCanceled ? 'Canceled' : 'Pending'} ${
-          isCC ? 'Community care' : 'VA'
-        } ${typeOfCareText} appointment`;
-
-        if (featureBreadcrumbUrlUpdate) {
-          title = title.concat(` | Veterans Affairs`);
-        }
-
-        document.title = title;
-      }
-      scrollAndFocus();
-    },
-    [appointment, dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (
-        appointmentDetailsStatus === FETCH_STATUS.failed ||
-        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
-      ) {
-        scrollAndFocus();
-      }
-    },
-
-    [appointmentDetailsStatus, appointment],
-  );
-
-  if (
-    appointmentDetailsStatus === FETCH_STATUS.failed ||
-    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
-  ) {
-    return (
-      <FullWidthLayout>
-        <ErrorMessage level={1} />
-      </FullWidthLayout>
-    );
-  }
-  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
-    return (
-      <FullWidthLayout>
-        <va-loading-indicator
-          set-focus
-          message="Loading your appointment request..."
-        />
-      </FullWidthLayout>
-    );
-  }
-
-  const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const isCC = appointment.vaos.isCommunityCare;
-  const typeOfVisit = appointment.requestVisitType;
-  const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
-  const facilityId = getVAAppointmentLocationId(appointment);
-  const facility = facilityData?.[facilityId];
-  const isCCRequest =
-    appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const provider = useV2
-    ? appointment.preferredProviderName
-    : appointment.preferredCommunityCareProviders?.[0];
-  const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
 
   return (
     <PageLayout>
@@ -165,7 +91,7 @@ export default function RequestedAppointmentDetailsPage() {
 
       {isCCRequest ? (
         <>
-          {useV2 &&
+          {featureVAOSServiceCCAppointments &&
             typeOfCare && (
               <>
                 <h2
@@ -202,8 +128,8 @@ export default function RequestedAppointmentDetailsPage() {
       </h2>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="usa-unstyled-list" role="list">
-        {appointment.requestedPeriod.map((option, optionIndex) => (
-          <li key={`${appointment.id}-option-${optionIndex}`}>
+        {preferredDates.map((option, optionIndex) => (
+          <li key={`${id}-option-${optionIndex}`}>
             {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
             {moment(option.start).hour() < 12 ? TIME_TEXT.AM : TIME_TEXT.PM}
           </li>
@@ -213,7 +139,7 @@ export default function RequestedAppointmentDetailsPage() {
         <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
           You shared these details about your concern
         </h2>
-        {getAppointmentDetails(appointment, message)}
+        {bookingNotes}
       </div>
       <div>
         <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
@@ -222,9 +148,7 @@ export default function RequestedAppointmentDetailsPage() {
         <h3 className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
           Email:{' '}
         </h3>
-        <span data-dd-privacy="mask">
-          {getPatientTelecom(appointment, 'email')}
-        </span>
+        <span data-dd-privacy="mask">{email}</span>
         <br />
         <h3 className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
           Phone number:{' '}
@@ -232,22 +156,16 @@ export default function RequestedAppointmentDetailsPage() {
         <VaTelephone
           data-dd-privacy="mask"
           notClickable
-          contact={getPatientTelecom(appointment, 'phone')}
+          contact={phone}
           data-testid="patient-telephone"
         />
         <br />
-        <ListBestTimeToCall
-          timesToCall={appointment.preferredTimesForPhoneCall}
-        />
+        <ListBestTimeToCall timesToCall={preferredTimesForPhoneCall} />
       </div>
       <div className="vaos-u-word-break--break-word">
         {!canceled && (
           <>
-            <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3 vaos-hide-for-print">
-              <i
-                aria-hidden="true"
-                className="fas fa-times vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1"
-              />
+            <div className="vads-u-margin-top--3 vaos-hide-for-print">
               <button
                 type="button"
                 aria-label="Cancel request"
@@ -259,13 +177,190 @@ export default function RequestedAppointmentDetailsPage() {
                   dispatch(startAppointmentCancel(appointment));
                 }}
               >
+                <span className="vads-u-margin-right--0p5">
+                  <va-icon icon="cancel" size="3" aria-hidden="true" />
+                </span>
                 Cancel Request
               </button>
             </div>
           </>
         )}
       </div>
-      <CancelAppointmentModal />
+      {!featureAppointmentDetailsRedesign && <CancelAppointmentModal />}
     </PageLayout>
   );
+}
+
+export default function RequestedAppointmentDetailsPage() {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+      dispatch(fetchRequestDetails(id));
+    },
+    [dispatch, id],
+  );
+
+  const {
+    appointment,
+    appointmentDetailsStatus,
+    cancelInfo,
+    facility,
+    facilityPhone,
+    isCC,
+    isCanceled,
+    typeOfCareText,
+  } = useSelector(
+    state => selectRequestedAppointmentDetails(state, id),
+    shallowEqual,
+  );
+  const featureBreadcrumbUrlUpdate = useSelector(state =>
+    selectFeatureBreadcrumbUrlUpdate(state),
+  );
+  const featureAppointmentDetailsRedesign = useSelector(
+    selectFeatureAppointmentDetailsRedesign,
+  );
+
+  useEffect(
+    () => {
+      if (appointment) {
+        let title = `${isCanceled ? 'Canceled' : 'Pending'} ${
+          isCC ? 'Community care' : 'VA'
+        } ${typeOfCareText} appointment`;
+
+        if (featureBreadcrumbUrlUpdate) {
+          title = title.concat(` | Veterans Affairs`);
+        }
+
+        document.title = title;
+      }
+      scrollAndFocus();
+    },
+    [
+      dispatch,
+      typeOfCareText,
+      featureBreadcrumbUrlUpdate,
+      isCanceled,
+      isCC,
+      appointment,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (
+        appointmentDetailsStatus === FETCH_STATUS.failed ||
+        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+      ) {
+        scrollAndFocus();
+      }
+    },
+
+    [appointmentDetailsStatus, appointment],
+  );
+
+  if (
+    appointmentDetailsStatus === FETCH_STATUS.failed ||
+    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+  ) {
+    return (
+      <FullWidthLayout>
+        <ErrorMessage level={1} />
+      </FullWidthLayout>
+    );
+  }
+  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
+    return (
+      <FullWidthLayout>
+        <va-loading-indicator
+          set-focus
+          message="Loading your appointment request..."
+        />
+      </FullWidthLayout>
+    );
+  }
+
+  if (!featureAppointmentDetailsRedesign) {
+    return <Content />;
+  }
+
+  if (featureAppointmentDetailsRedesign) {
+    if (isCC && cancelInfo.showCancelModal === false) {
+      return <CCRequestLayout />;
+    }
+    if (isCC === false && cancelInfo.showCancelModal === false) {
+      return <VARequestLayout />;
+    }
+    if (
+      cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted ||
+      cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading
+    ) {
+      return (
+        <PageLayout showNeedHelp>
+          <CancelWarningPage
+            {...{
+              appointment,
+              cancelInfo,
+            }}
+          />
+        </PageLayout>
+      );
+    }
+    if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
+      return (
+        <PageLayout showNeedHelp>
+          <CancelConfirmationPage
+            {...{
+              appointment,
+              cancelInfo,
+            }}
+          />
+        </PageLayout>
+      );
+    }
+    if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.failed) {
+      return (
+        <PageLayout showNeedHelp>
+          <BackLink appointment={appointment} />
+          <div className="vads-u-margin-y--2p5">
+            <VaAlert status="error" visible>
+              <h2 slot="headline">We couldn’t cancel your request</h2>
+              <p>
+                Something went wrong when we tried to cancel this request.
+                Please contact your medical center to cancel:
+                <br />
+                <br />
+                {isCC && (
+                  <>
+                    <strong>{facility?.name}</strong>
+                    <br />
+                    <FacilityAddress
+                      facility={facility}
+                      showPhone
+                      phoneHeading="Scheduling facility phone:"
+                    />
+                  </>
+                )}
+                {!!facility &&
+                  !isCC && (
+                    <>
+                      <VAFacilityLocation
+                        facility={facility}
+                        facilityName={facility?.name}
+                        facilityId={facility?.id}
+                        showDirectionsLink={false}
+                        showPhone={false}
+                      />
+                      <br />
+                      <FacilityPhone contact={facilityPhone} level={3} />
+                    </>
+                  )}
+              </p>
+            </VaAlert>
+          </div>
+        </PageLayout>
+      );
+    }
+  }
 }

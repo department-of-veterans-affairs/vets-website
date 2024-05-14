@@ -70,9 +70,10 @@ const MonetaryInputList = props => {
       gmtData?.isEligibleForStreamlined &&
       gmtData?.incomeBelowOneFiftyGmt);
 
-  const adjustedAssetList = adjustForStreamlined
-    ? streamlinedList
-    : monetaryAssets;
+  const adjustedAssetList =
+    adjustForStreamlined || data['view:reviewPageNavigationToggle']
+      ? streamlinedList
+      : monetaryAssets;
 
   return (
     <InputList

@@ -19,6 +19,7 @@ const RadioGroup = ({
   formError,
   formResponses,
   formValue,
+  hint,
   H1,
   responses,
   router,
@@ -42,7 +43,7 @@ const RadioGroup = ({
       }
 
       setFormError(false);
-      navigateForward(shortName, formValue, router, formResponses);
+      navigateForward(shortName, formResponses, router);
     }
   };
 
@@ -76,30 +77,28 @@ const RadioGroup = ({
       );
     });
   };
-
   return (
     <>
       <VaRadio
-        class="vads-u-margin-top--6"
+        class="xsmall-screen:vads-u-margin-top--0"
         data-testid={testId}
         form-heading={H1}
         form-heading-level={1}
         error={formError ? determineErrorMessage(shortName) : null}
+        hint={hint}
         id="duw-radio"
         onVaValueChange={e => onValueChange(e.detail.value)}
         onLoad={applyFocus('duw-radio', headerHasFocused, setHeaderHasFocused)}
         use-forms-pattern="single"
-        uswds
       >
         {renderRadioOptions()}
       </VaRadio>
       <VaButtonPair
-        class="vads-u-margin-top--3"
+        class="vads-u-margin-top--3 small-screen:vads-u-margin-x--0p5"
         data-testid="duw-buttonPair"
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
-        uswds
       />
     </>
   );
@@ -117,6 +116,7 @@ RadioGroup.propTypes = {
   updateCleanedFormStore: PropTypes.func.isRequired,
   valueSetter: PropTypes.func.isRequired,
   formValue: PropTypes.string,
+  hint: PropTypes.string,
 };
 
 const mapDispatchToProps = {

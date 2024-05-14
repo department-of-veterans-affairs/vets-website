@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -21,12 +21,13 @@ import {
   getNameDateAndTime,
   makePdf,
 } from '../../util/helpers';
-import { pageTitles, EMPTY_FIELD } from '../../util/constants';
+import { pageTitles, dischargeSummarySortFields } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
   generateNotesIntro,
   generateDischargeSummaryContent,
 } from '../../util/pdfHelpers/notes';
+import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 
 const AdmissionAndDischargeDetails = props => {
   const { record, runningUnitTest } = props;
@@ -37,6 +38,7 @@ const AdmissionAndDischargeDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
@@ -56,6 +58,7 @@ const AdmissionAndDischargeDetails = props => {
   );
 
   const generateCareNotesPDF = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateNotesIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateDischargeSummaryContent(record) };
@@ -64,6 +67,7 @@ const AdmissionAndDischargeDetails = props => {
   };
 
   const generateCareNotesTxt = () => {
+    setDownloadStarted(true);
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
@@ -74,8 +78,8 @@ Review a summary of your stay at a hospital or other health facility (called an 
 ${txtLine}\n\n
 Details\n
 Location: ${record.location}\n
-Admission date: ${record.admissionDate}\n
-Discharge date: ${record.dischargeDate}\n
+Admitted on: ${record.admissionDate}\n
+Discharged on: ${record.dischargeDate}\n
 Discharged by: ${record.dischargedBy}\n
 ${txtLine}\n\n
 Summary\n
@@ -84,6 +88,26 @@ ${record.summary}`;
     generateTextFile(
       content,
       `VA-summaries-and-notes-details-${getNameDateAndTime(user)}`,
+    );
+  };
+
+  const displayHeaderDate = note => {
+    let dateLabel = 'Admitted on';
+    let displayDate = note.admissionDate;
+    if (note.sortByField === dischargeSummarySortFields.DISCHARGE_DATE) {
+      dateLabel = 'Discharged on';
+      displayDate = note.dischargeDate;
+    } else if (note.sortByField === dischargeSummarySortFields.DATE_ENTERED) {
+      dateLabel = 'Entered on';
+      displayDate = note.dateEntered;
+    }
+    return (
+      <DateSubheading
+        date={displayDate}
+        label={dateLabel}
+        id="admission-discharge-date"
+        testId="ds-note-date-heading"
+      />
     );
   };
 
@@ -98,32 +122,20 @@ ${record.summary}`;
         {record.name}
       </h1>
 
-      {record.admissionDate !== EMPTY_FIELD ? (
-        <div>
-          <p id="admission-discharge-date">
-            Admitted on {record.admissionDate}
-          </p>
-        </div>
-      ) : (
-        <DateSubheading
-          date={record.admissionDate}
-          label="Admission date"
-          id="admission-discharge-date"
-        />
-      )}
+      {displayHeaderDate(record)}
 
       <p className="vads-u-margin-bottom--0">
         Review a summary of your stay at a hospital or other health facility
         (called an admission and discharge summary).
       </p>
-      <div className="no-print">
-        <PrintDownload
-          download={generateCareNotesPDF}
-          downloadTxt={generateCareNotesTxt}
-          allowTxtDownloads={allowTxtDownloads}
-        />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-      </div>
+
+      {downloadStarted && <DownloadSuccessAlert />}
+      <PrintDownload
+        downloadPdf={generateCareNotesPDF}
+        downloadTxt={generateCareNotesTxt}
+        allowTxtDownloads={allowTxtDownloads}
+      />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
 
       <div className="test-details-container max-80">
         <h2>Details</h2>
@@ -131,10 +143,23 @@ ${record.summary}`;
           Location
         </h3>
         <p data-testid="note-record-location"> {record.location}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Discharge date
-        </h3>
-        <p data-testid="note-discharge-date">{record.dischargeDate}</p>
+        {record.sortByField !== dischargeSummarySortFields.ADMISSION_DATE &&
+          record.sortByField !== null && (
+            <>
+              <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                Admitted on
+              </h3>
+              <p data-testid="note-admission-date">{record.admissionDate}</p>
+            </>
+          )}
+        {record.sortByField !== dischargeSummarySortFields.DISCHARGE_DATE && (
+          <>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Discharged on
+            </h3>
+            <p data-testid="note-discharge-date">{record.dischargeDate}</p>
+          </>
+        )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Discharged by
         </h3>

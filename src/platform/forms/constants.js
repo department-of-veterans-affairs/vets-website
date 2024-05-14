@@ -5,11 +5,13 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_10182: '10182',
   FORM_10_10CG: '10-10CG',
   FORM_10_7959C: '10-7959C',
+  FORM_10_7959A: '10-7959A',
   FORM_10_10D: '10-10D',
   FORM_10_10EZ: '1010ez',
   FORM_10_10EZR: '10-10EZR',
   FORM_10_3542: '10-3542',
   FORM_10_7959F_1: '10-7959F-1',
+  FORM_10_7959F_2: '10-7959F-2',
   FORM_20_0995: '20-0995',
   FORM_20_0996: '20-0996',
   FORM_20_10206: '20-10206',
@@ -18,6 +20,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_0966: '21-0966',
   FORM_21_0972: '21-0972',
   FORM_21_10210: '21-10210',
+  FORM_21_4138: '21-4138',
   FORM_21_4142: '21-4142',
   FORM_21_526EZ: '21-526EZ',
   FORM_21_686C: '686C-674',
@@ -74,6 +77,8 @@ export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
 
 export const FORM_BENEFITS = {
   [VA_FORM_IDS.FORM_10_10D]: 'application for champva benefits',
+  [VA_FORM_IDS.FORM_10_7959F_1]:
+    'Foreign Medical Program (FMP) Registration Form',
   [VA_FORM_IDS.FORM_20_10206]: 'personal records request',
   [VA_FORM_IDS.FORM_21_0972]: 'alternate signer',
   [VA_FORM_IDS.FORM_21_10210]: 'lay/witness statement',
@@ -93,8 +98,10 @@ export const FORM_BENEFITS = {
   [VA_FORM_IDS.FORM_22_5490]: 'education benefits',
   [VA_FORM_IDS.FORM_22_5495]: 'education benefits',
   [VA_FORM_IDS.FORM_22_10203]: 'Rogers STEM Scholarship',
+  [VA_FORM_IDS.FORM_26_1880]: 'VA home loan certification of eligibility',
   [VA_FORM_IDS.FORM_26_4555]: 'specially adapted housing grant',
   [VA_FORM_IDS.FORM_28_1900]: 'Veteran Readiness and Employment Benefits',
+  [VA_FORM_IDS.FORM_28_8832]: 'personalized career planning and guidance',
   [VA_FORM_IDS.FORM_40_10007]:
     'pre-need determination of eligibility in a VA national cemetery',
   [VA_FORM_IDS.FEEDBACK_TOOL]: 'feedback',
@@ -141,6 +148,7 @@ export const FORM_DESCRIPTIONS = Object.keys(FORM_BENEFITS).reduce(
   {},
 );
 
+// Entries previously added to FORM_LINKS go in here:
 export const getAllFormLinks = getAppUrlImpl => {
   if (!getAppUrlImpl) {
     throw new Error(
@@ -151,6 +159,7 @@ export const getAllFormLinks = getAppUrlImpl => {
   return {
     [VA_FORM_IDS.FEEDBACK_TOOL]: `${getAppUrlImpl('feedback-tool')}/`,
     [VA_FORM_IDS.FORM_10_10D]: `${getAppUrlImpl('10-10D')}/`,
+    [VA_FORM_IDS.FORM_10_7959F_1]: `${getAppUrlImpl('10-7959f-1-FMP')}/`,
     [VA_FORM_IDS.FORM_10_10EZ]: `${getAppUrlImpl('hca')}/`,
     [VA_FORM_IDS.FORM_10182]: `${getAppUrlImpl('10182-board-appeal')}/`,
     [VA_FORM_IDS.FORM_20_0995]: `${getAppUrlImpl('995-supplemental-claim')}/`,
@@ -178,8 +187,12 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_5490]: `${getAppUrlImpl('5490-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_5495]: `${getAppUrlImpl('5495-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_10203]: `${getAppUrlImpl('10203-edu-benefits')}/`,
+    [VA_FORM_IDS.FORM_26_1880]: `${getAppUrlImpl('coe')}/`,
     [VA_FORM_IDS.FORM_26_4555]: `${getAppUrlImpl('4555-adapted-housing')}/`,
     [VA_FORM_IDS.FORM_28_1900]: `${getAppUrlImpl('28-1900-chapter-31')}/`,
+    [VA_FORM_IDS.FORM_28_8832]: `${getAppUrlImpl(
+      '25-8832-planning-and-career-guidance',
+    )}/`,
     [VA_FORM_IDS.FORM_40_10007]: `${getAppUrlImpl('pre-need')}/`,
     [VA_FORM_IDS.FORM_5655]: `${getAppUrlImpl('request-debt-help-form-5655')}/`,
     [VA_FORM_IDS.FORM_VA_2346A]: `${getAppUrlImpl('order-form-2346')}/`,
@@ -201,6 +214,7 @@ export const memoizedGetFormLink = (getAppUrlImpl = getAppUrl) => {
 
 export const TRACKING_PREFIXES = {
   [VA_FORM_IDS.FORM_10_10D]: '10-10D-',
+  [VA_FORM_IDS.FORM_10_7959F_1]: '10-7959f-1-FMP-',
   [VA_FORM_IDS.FORM_20_10206]: 'pa-10206-',
   [VA_FORM_IDS.FORM_21_0972]: '21-0972-alternate-signer-',
   [VA_FORM_IDS.FORM_21_10210]: 'lay-witness-10210-',
@@ -229,10 +243,13 @@ export const TRACKING_PREFIXES = {
   [VA_FORM_IDS.FORM_20_0996]: 'decision-reviews-va20-0996-',
   [VA_FORM_IDS.FORM_VA_2346A]: 'bam-2346a-',
   [VA_FORM_IDS.FORM_5655]: 'fsr-5655-',
+  [VA_FORM_IDS.FORM_28_8832]: '28-8832-',
+  [VA_FORM_IDS.FORM_26_1880]: '26-1880-',
 };
 
 export const SIP_ENABLED_FORMS = new Set([
   VA_FORM_IDS.FORM_10_10D,
+  VA_FORM_IDS.FORM_10_7959F_1,
   VA_FORM_IDS.FORM_10_10EZ,
   VA_FORM_IDS.FORM_20_10206,
   VA_FORM_IDS.FORM_21_0972,
@@ -253,8 +270,10 @@ export const SIP_ENABLED_FORMS = new Set([
   VA_FORM_IDS.FORM_22_5490,
   VA_FORM_IDS.FORM_22_5495,
   VA_FORM_IDS.FORM_22_10203,
+  VA_FORM_IDS.FORM_26_1880,
   VA_FORM_IDS.FORM_26_4555,
   VA_FORM_IDS.FORM_28_1900,
+  VA_FORM_IDS.FORM_28_8832,
   VA_FORM_IDS.FORM_40_10007,
   VA_FORM_IDS.FEEDBACK_TOOL,
   VA_FORM_IDS.FORM_10182,

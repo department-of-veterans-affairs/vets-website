@@ -27,19 +27,25 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 const cardHeadingId = 'bank-account-information';
 
 // layout wrapper for common styling
-const Wrapper = ({ children }) => {
+const Wrapper = ({ children, withPaymentHistory }) => {
   return (
     <div className="vads-u-margin-y--2">
       <Headline dataTestId="unified-direct-deposit">
         Direct deposit information
       </Headline>
       {children}
+      {withPaymentHistory && <PaymentHistoryCard />}
     </div>
   );
 };
 
 Wrapper.propTypes = {
   children: PropTypes.node.isRequired,
+  withPaymentHistory: PropTypes.bool,
+};
+
+Wrapper.defaultProps = {
+  withPaymentHistory: true,
 };
 
 export const DirectDeposit = () => {
@@ -59,6 +65,7 @@ export const DirectDeposit = () => {
     loadError,
     setFormData,
     hasUnsavedFormEdits,
+    isEligible,
   } = directDepositHookResult;
 
   useDirectDepositEffects({ ...directDepositHookResult, cardHeadingId });
@@ -69,25 +76,29 @@ export const DirectDeposit = () => {
     useToggleLoadingValue,
   } = useFeatureToggle();
 
-  // TODO: rename toggle to not include CompAndPen legacy naming
-  const hideDirectDepositViaToggle = useToggleValue(
-    TOGGLE_NAMES.profileHideDirectDepositCompAndPen,
+  const hideDirectDeposit = useToggleValue(
+    TOGGLE_NAMES.profileHideDirectDeposit,
+  );
+
+  const profileShowDirectDepositSingleFormUAT = useToggleValue(
+    TOGGLE_NAMES.profileShowDirectDepositSingleFormUAT,
   );
 
   const togglesLoading = useToggleLoadingValue();
 
   if (togglesLoading) {
     return (
-      <Wrapper>
+      <Wrapper withPaymentHistory={false}>
         <va-loading-indicator />
       </Wrapper>
     );
   }
 
-  if (hideDirectDepositViaToggle) {
+  if (hideDirectDeposit && !profileShowDirectDepositSingleFormUAT) {
     return (
       <Wrapper>
-        <TemporaryOutage />
+        <TemporaryOutage customMessaging />
+        <FraudVictimSummary />
       </Wrapper>
     );
   }
@@ -96,14 +107,13 @@ export const DirectDeposit = () => {
     return (
       <Wrapper>
         <LoadFail />
-        <PaymentHistoryCard />
       </Wrapper>
     );
   }
 
   if (isBlocked) {
     return (
-      <Wrapper>
+      <Wrapper withPaymentHistory={false}>
         <DirectDepositBlocked />
       </Wrapper>
     );
@@ -117,11 +127,10 @@ export const DirectDeposit = () => {
     );
   }
 
-  if (controlInformation?.canUpdateDirectDeposit === false) {
+  if (!isEligible) {
     return (
       <Wrapper>
         <Ineligible />
-        <PaymentHistoryCard />
       </Wrapper>
     );
   }
@@ -177,8 +186,6 @@ export const DirectDeposit = () => {
         />
 
         <FraudVictimSummary />
-
-        <PaymentHistoryCard />
       </Wrapper>
     </div>
   );

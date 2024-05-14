@@ -12,7 +12,6 @@
     "livingSituation": {
       "NONE": true
     },
-    "mailingAddressYesNo": true,
     "veteranMailingAddress": {
       "country": "USA",
       "street": "123 Any St",
@@ -21,9 +20,6 @@
       "postalCode": "12345"
     },
     "veteranPhone": "1234567890",
-    "otherReasons": {
-      "OVER_85": true
-    },
     "view:hasReceivedMedicalTreatment": true,
     "medicalTreatments": [
       {

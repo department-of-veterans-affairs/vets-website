@@ -297,7 +297,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     const link = tree.find('.va-button-link');
-    expect(link.text()).to.contain('Sign in to your account.');
+    expect(link.prop('text')).to.contain('Sign in to your account.');
     expect(link.prop('aria-label')).to.eq('test aria-label');
     expect(link.prop('aria-describedby')).to.eq('test-id');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;

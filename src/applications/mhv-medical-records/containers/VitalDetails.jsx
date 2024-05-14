@@ -39,6 +39,7 @@ import {
   generateVitalsContent,
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 
 const MAX_PAGE_LIST_LENGTH = 10;
 const VitalDetails = props => {
@@ -55,11 +56,12 @@ const VitalDetails = props => {
   const { vitalType } = useParams();
   const dispatch = useDispatch();
 
-  const perPage = 5;
+  const perPage = 10;
   const [currentVitals, setCurrentVitals] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
   const activeAlert = useAlerts(dispatch);
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
@@ -117,6 +119,7 @@ const VitalDetails = props => {
   useEffect(
     () => {
       if (records?.length) {
+        focusElement(document.querySelector('h2'));
         paginatedVitals.current = paginateData(records);
         setCurrentVitals(paginatedVitals.current[currentPage - 1]);
       }
@@ -137,7 +140,8 @@ const VitalDetails = props => {
   );
 
   const generateVitalsPdf = async () => {
-    const { title, subject, preface } = generateVitalsIntro();
+    setDownloadStarted(true);
+    const { title, subject, preface } = generateVitalsIntro(records);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVitalsContent(records) };
     const pdfName = `VA-vital-details-${getNameDateAndTime(user)}`;
@@ -145,6 +149,7 @@ const VitalDetails = props => {
   };
 
   const generateVitalsTxt = async () => {
+    setDownloadStarted(true);
     const content = `\n
 ${crisisLineHeader}\n\n
 ${vitalTypeDisplayNames[records[0].type]}\n
@@ -167,25 +172,36 @@ Provider notes: ${vital.notes}\n\n`,
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   if (accessAlert) {
-    return <AccessTroubleAlertBox alertType={accessAlertTypes.VITALS} />;
+    return (
+      <AccessTroubleAlertBox
+        alertType={accessAlertTypes.VITALS}
+        className="vads-u-margin-bottom--9"
+      />
+    );
   }
   if (records?.length) {
     const vitalDisplayName = vitalTypeDisplayNames[records[0].type];
     return (
       <>
         <PrintHeader />
-        <h1 className="vads-u-margin-bottom--3 no-print">{vitalDisplayName}</h1>
+        <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
+          {vitalDisplayName}
+        </h1>
+
+        {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload
-          download={generateVitalsPdf}
+          downloadPdf={generateVitalsPdf}
           downloadTxt={generateVitalsTxt}
           allowTxtDownloads={allowTxtDownloads}
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+
         <h2
           className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
-            vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print"
+            vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print 
+            vads-u-margin-top--3 small-screen:vads-u-margin-top--4"
         >
-          {`Displaying ${displayNums[0]}–${displayNums[1]} of ${
+          {`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
             records.length
           } records from newest to oldest`}
         </h2>
@@ -195,11 +211,11 @@ Provider notes: ${vital.notes}\n\n`,
             currentVitals?.map((vital, idx) => (
               <li
                 key={idx}
-                className="vads-u-margin--0 vads-u-padding-y--3 vads-u-border-bottom--1px vads-u-border-color--gray-lightest"
+                className="vads-u-margin--0 vads-u-padding-y--3 small-screen:vads-u-padding-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-light"
               >
                 <h3
                   data-testid="vital-date"
-                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2"
+                  className="vads-u-font-size--md vads-u-margin-top--0 vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--3"
                   data-dd-privacy="mask"
                 >
                   {vital.dateTime}
@@ -209,7 +225,7 @@ Provider notes: ${vital.notes}\n\n`,
                 </h4>
                 <p
                   data-testid="vital-result"
-                  className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
                   {vital.measurement}
@@ -219,7 +235,7 @@ Provider notes: ${vital.notes}\n\n`,
                 </h4>
                 <p
                   data-testid="vital-location"
-                  className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
                   data-dd-privacy="mask"
                 >
                   {vital.location}
@@ -240,15 +256,8 @@ Provider notes: ${vital.notes}\n\n`,
 
         {/* print view start */}
         <h1 className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only">
-          Vitals
+          Vitals: {vitalTypeDisplayNames[records[0].type]}
         </h1>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--2 print-only">
-          This list includes vitals and other basic health numbers your
-          providers check at your appointments.
-        </p>
-        <h2 className="vads-u-font-size--lg vads-u-margin--0 print-only">
-          {vitalTypeDisplayNames[records[0].type]}
-        </h2>
         <ul className="vital-records-list vads-u-margin--0 vads-u-padding--0 print-only">
           {records?.length > 0 &&
             records?.map((vital, idx) => (

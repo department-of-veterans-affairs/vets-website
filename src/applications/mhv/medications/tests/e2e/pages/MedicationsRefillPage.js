@@ -10,6 +10,11 @@ class MedicationsRefillPage {
       'my_health/v1/prescriptions/list_refillable_prescriptions',
       prescriptions,
     ).as('refillList');
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+  };
+
+  loadRefillPageForApiCallFailure = () => {
+    cy.visit(medicationsUrls.MEDICATIONS_REFILL);
   };
 
   verifyRefillPageTitle = () => {
@@ -63,9 +68,16 @@ class MedicationsRefillPage {
 
   clickLearnHowToRenewPrescriptionsLink = () => {
     cy.get('[data-testid="learn-to-renew-prescriptions-link"]').should('exist');
-    cy.get('[data-testid="learn-to-renew-prescriptions-link"]').click({
-      waitForAnimations: true,
-    });
+    cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
+      .first()
+      .click({
+        waitForAnimations: true,
+      });
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      medicationsList,
+    ).as('medicationsList');
   };
 
   clickGoToMedicationsListPage = () => {
@@ -81,9 +93,11 @@ class MedicationsRefillPage {
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
     cy.get('[data-testid="medications-page-link"]').should('exist');
-    cy.get('[data-testid="medications-page-link"]').click({
-      waitForAnimations: true,
-    });
+    cy.get('[data-testid="medications-page-link"]')
+      .first()
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   clickBackToMedicationsBreadcrumbOnRefillPage = () => {
@@ -98,8 +112,16 @@ class MedicationsRefillPage {
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
-    cy.get('[data-testid="back-to-medications-page-link"]').should('exist');
-    cy.get('[data-testid="back-to-medications-page-link"]').click({
+    cy.get('[data-testid="rx-breadcrumb"] > a').should('exist');
+    cy.get('[data-testid="rx-breadcrumb"] > a').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickMedicationsLandingPageBreadcrumbsOnRefillPage = () => {
+    cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
+
+    cy.get(`[href="${medicationsUrls.MEDICATIONS_ABOUT}"]`).click({
       waitForAnimations: true,
     });
   };
@@ -208,9 +230,11 @@ class MedicationsRefillPage {
     cy.get(`[data-testid="medication-details-page-link-${listNumber}"]`).should(
       'exist',
     );
-    cy.get(`[data-testid="medication-details-page-link-${listNumber}"]`).click({
-      waitForAnimations: true,
-    });
+    cy.get(`[data-testid="medication-details-page-link-${listNumber}"]`)
+      .first()
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   verifyExpiredRxOnRenewSection = rxStatus => {
@@ -288,11 +312,69 @@ class MedicationsRefillPage {
     });
   };
 
+  clickRequestRefillButtonforSuccessfulRequests = (prescriptionId, success) => {
+    cy.intercept(
+      'PATCH',
+      `/my_health/v1/prescriptions/refill_prescriptions?ids[]=${prescriptionId}`,
+      success,
+    );
+    cy.get('[data-testid="request-refill-button"]').should('exist');
+    cy.get('[data-testid="request-refill-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
   verifyFailedRequestMessageAlertOnRefillPage = () => {
     cy.get('[data-testid="failed-message-title"]').should('exist');
     cy.get('[data-testid="failed-message-title"]').should(
       'contain',
       'Request not submitted',
+    );
+  };
+
+  verifyErrorMessageWhenRefillRequestWithoutSelectingPrescription = () => {
+    cy.get('[data-testid="select-rx-error-message"]').should(
+      'contain',
+      'Select at least one prescription',
+    );
+  };
+
+  verifyRefillRequestSuccessConfirmationMessage = () => {
+    cy.get('[data-testid="success-message-title"]').should(
+      'contain',
+      'Refills requested',
+    );
+  };
+
+  verifyMedicationRefillRequested = refillName => {
+    cy.get('[data-testid="medication-requested"]').should(
+      'contain',
+      refillName,
+    );
+  };
+
+  verifyNoMedicationsAvailableMessageOnRefillPage = () => {
+    cy.get('[data-testid="no-refills-message"]').should(
+      'contain',
+      'You don’t have any VA prescriptions with refills',
+    );
+  };
+
+  verifyRenewListCountonRefillPage = (
+    displayedStartNumber,
+    displayedEndNumber,
+    listLength,
+  ) => {
+    cy.get('[data-testid="renew-page-list-count"]').should(
+      'contain',
+      `Showing ${displayedStartNumber} - ${displayedEndNumber} of ${listLength} prescriptions`,
+    );
+  };
+
+  verifyRenewableSectionHeaderOnRefillPage = () => {
+    cy.get('[data-testid="renewable-rx"]').should(
+      'contain',
+      'Prescriptions you may need to renew',
     );
   };
 }

@@ -14,6 +14,7 @@ export const accessAlertTypes = {
   VITALS: 'vitals',
   LABS_AND_TESTS: 'labs and tests',
   HEALTH_CONDITIONS: 'health conditions',
+  BLUE_BUTTON_REPORT: 'Blue Button report',
 };
 
 export const labTypes = {
@@ -157,6 +158,7 @@ export const vitalUnitDisplayText = {
 };
 
 export const ALERT_TYPE_ERROR = 'error';
+export const ALERT_TYPE_SUCCESS = 'success';
 
 export const pageTitles = {
   MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
@@ -217,4 +219,10 @@ export const loadStates = {
 
 export const downtimeNotificationParams = {
   appTitle: 'this medical records tool',
+};
+
+export const dischargeSummarySortFields = {
+  ADMISSION_DATE: 'admission date',
+  DISCHARGE_DATE: 'discharge date',
+  DATE_ENTERED: 'date entered',
 };

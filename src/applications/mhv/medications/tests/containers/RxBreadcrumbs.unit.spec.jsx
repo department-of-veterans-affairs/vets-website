@@ -40,7 +40,7 @@ describe('Medications Breadcrumbs', () => {
 
   it('Make sure breadcrumbs render', () => {
     const screen = setup();
-    const breadcrumbs = screen.getByTestId('rx-breadcrumb');
+    const breadcrumbs = screen.findByTestId('rx-breadcrumb');
     expect(breadcrumbs).to.exist;
   });
 });

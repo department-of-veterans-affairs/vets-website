@@ -17,13 +17,6 @@ export default {
           get a faster decision on your claim. We call this the Fully Developed
           Claims (FDC) program.
         </p>
-        <a
-          href="/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Learn more about fully developed claims (opens on new tab)
-        </a>
       </>
     ),
     processOption: {

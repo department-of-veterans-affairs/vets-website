@@ -17,6 +17,7 @@ const remapFormId = {
 // These form IDs have a config/form.js file but the formId is not found in vets-json-schema/dist/schemas
 const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_10_7959C,
+  VA_FORM_IDS.FORM_10_7959A,
   VA_FORM_IDS.FORM_HC_QSTNR,
   VA_FORM_IDS.FORM_21_0845,
   VA_FORM_IDS.FORM_21_22,
@@ -25,6 +26,7 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL_UPDATE,
   VA_FORM_IDS.FORM_21_0966,
   VA_FORM_IDS.FORM_21_0972,
+  VA_FORM_IDS.FORM_21_4138,
   VA_FORM_IDS.FORM_21_10210,
   VA_FORM_IDS.FORM_21P_0847,
   VA_FORM_IDS.FORM_XX_123,
@@ -40,6 +42,7 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_10_10D,
   VA_FORM_IDS.FORM_10_3542,
   VA_FORM_IDS.FORM_10_7959F_1,
+  VA_FORM_IDS.FORM_10_7959F_2,
 ];
 
 const root = path.join(__dirname, '../../../');

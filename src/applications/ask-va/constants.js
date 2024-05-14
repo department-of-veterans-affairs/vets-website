@@ -1,16 +1,16 @@
-const baseURL = '/ask_va_api/v0';
+export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
   GET_CATEGORIESTOPICS: `${baseURL}/categories`,
   GET_TOPICS: `/topics?user_mock_data=true`,
   GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
-  // TODO: Add address validation endpoint
-  ADDRESS_VALIDATION: '',
+  ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
-  GET_SCHOOL: `v0/gi/institutions/search?name=`,
+  GET_SCHOOL: `/v0/gi/institutions/search?name=`,
+  SEND_REPLY: `/reply/new`,
 };
 
 export const requireSignInCategories = [
@@ -64,8 +64,14 @@ export const yesNoOptions = {
   NO: 'No',
 };
 
-// Relationship options
-export const relationshipOptions = {
+// Relationship options for Myself
+export const relationshipOptionsMyself = {
+  VETERAN: "I'm the Veteran",
+  FAMILY_MEMBER: "I'm a family member of a Veteran",
+};
+
+// Relationship options for SomeoneElse
+export const relationshipOptionsSomeoneElse = {
   VETERAN: "I'm the Veteran",
   FAMILY_MEMBER: "I'm a family member of a Veteran",
   WORK:
@@ -74,20 +80,20 @@ export const relationshipOptions = {
 
 // Military base options
 export const postOfficeOptions = {
-  ARMY_POST_OFFICE: 'Army post office',
-  FLEET_POST_OFFICE: 'Fleet post office',
-  DIPLOMATIC_POST_OFFICE: 'Diplomatic post office',
+  APO: 'Army post office',
+  FPO: 'Fleet post office',
+  DPO: 'Diplomatic post office',
 };
 
 export const regionOptions = {
-  AMERICA_AA: 'Armed Forces America (AA)',
-  EUROPE_AE: 'Armed Forces Europe (AE)',
-  PACIFIC_AP: 'Armed Forces Pacific (AP)',
+  AA: 'Armed Forces America (AA)',
+  AE: 'Armed Forces Europe (AE)',
+  AP: 'Armed Forces Pacific (AP)',
 };
 
 // Contact options
 export const contactOptions = {
-  PHONE: 'Phone',
+  PHONE: 'Phone call',
   EMAIL: 'Email',
   US_MAIL: 'U.S. mail',
 };
@@ -107,9 +113,27 @@ export const addressFields = {
 export const aboutRelationship = {
   SPOUSE: "I'm the Veteran's spouse",
   CHILD: "I'm the Veteran's child",
-  STEPCHILD: "I'm the Veteran's stepchild",
+  STEPCHILD: "I'm the Veteran's step child",
   PARENT: "I'm the Veteran's parent",
-  NOT_LISTED: "I have a relationship to the Veteran that's not listed",
+  NOT_LISTED: "We have a relationship that's not listed",
+};
+
+// What is your relationship to the family member
+export const aboutFamilyMemberRelationship = {
+  SPOUSE: "They're my spouse",
+  CHILD: "They're my child",
+  STEPCHILD: "They're my step child",
+  PARENT: "They're my parent",
+  NOT_LISTED: "We have a relationship that's not listed",
+};
+
+// What is THEIR relationship to the family member
+export const aboutTheirRelationshipToVet = {
+  SPOUSE: "They're the Veteran's spouse",
+  CHILD: "They're the Veteran's child",
+  STEPCHILD: "They're the Veteran's step child",
+  PARENT: "They're the Veteran's parent",
+  NOT_LISTED: "They have a relationship that's not listed",
 };
 
 // Who your question is about
@@ -227,15 +251,19 @@ export const CHAPTER_3 = {
   CHAPTER_TITLE: 'Personal Information',
   RELATIONSHIP_TO_VET: {
     PATH: 'relationship-to-veteran',
-    TITLE: 'Your relationship to the Veteran',
-    PAGE_DESCRIPTION:
-      "Now we'll ask for some personal information. We use this information to help us understand your question and find the answers you need.",
-    QUESTION_1: 'Select your relationship to the Veteran:',
-  },
-  ABOUT_YOUR_RELATIONSHIP: {
-    TITLE: 'Tell us more about your relationship to the Veteran',
+    TITLE: 'What is your relationship to the Veteran?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select your relationship to the Veteran:',
+    QUESTION_1: '',
+  },
+  MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN: {
+    TITLE: 'Tell us more about your relationship?',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
+  },
+  THEIR_RELATIONSHIP_TO_VET: {
+    TITLE: 'What is their relationship to the veteran?',
+    PAGE_DESCRIPTION: '',
+    QUESTION_1: 'Please describe their relationship to the veteran',
   },
   ABOUT_THE_VET: {
     TITLE: 'Tell us about the Veteran',
@@ -247,9 +275,9 @@ export const CHAPTER_3 = {
     QUESTION_1: 'Selection',
   },
   DEATH_DATE: {
-    TITLE: 'When did the Veteran die?',
+    TITLE: "Date of Veteran's death",
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Date',
+    QUESTION_1: '',
   },
   VET_POSTAL_CODE: {
     TITLE: "Veteran's postal code",
@@ -293,10 +321,10 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
-  PHONE_EMAIL: {
-    TITLE: 'Your phone number and email',
+  CONTACT_INFORMATION: {
+    TITLE: 'Your contact information',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Mobile phone number',
+    QUESTION_1: 'Phone number',
     QUESTION_2: 'Email address',
     QUESTION_3: 'How should we contact you?',
   },
@@ -326,8 +354,9 @@ export const CHAPTER_3 = {
     QUESTION_1: 'Select your relationship to the family member',
   },
   RELATIONSHIP_TO_FAM_MEM: {
-    TITLE: 'Tell us about the family member',
+    TITLE: 'What is your relationship to the family member?',
     PAGE_DESCRIPTION: '',
+    QUESTION_1: '',
   },
   YOUR_ROLE: {
     TITLE: 'Your role',
@@ -357,7 +386,7 @@ export const noEditBtn = [
   CHAPTER_1.PAGE_1.TITLE,
   CHAPTER_1.PAGE_2.TITLE,
   CHAPTER_1.PAGE_3.TITLE,
-  CHAPTER_3.ABOUT_YOUR_RELATIONSHIP.TITLE,
+  CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
 ];
 
 export const homeBreadcrumbs = [{ href: '/', title: 'Home', key: 'home' }];

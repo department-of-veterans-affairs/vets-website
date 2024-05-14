@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import formConfig from '../../../config/form';
 
-import { transform } from '../../../helpers';
+import { transform } from '../../../config/submit';
 import overflowForm from '../../e2e/fixtures/data/overflow-test.json';
 import {
   hasFederalTreatmentHistory,

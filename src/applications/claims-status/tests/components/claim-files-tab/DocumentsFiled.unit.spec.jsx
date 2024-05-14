@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -361,7 +361,7 @@ describe('<DocumentsFiled>', () => {
     },
   );
 
-  context('when claim has a multiple trackedItem', () => {
+  context('when claim has a multiple trackedItems', () => {
     const claim = {
       type: 'claim',
       attributes: {
@@ -377,14 +377,14 @@ describe('<DocumentsFiled>', () => {
                 documentTypeLabel: 'Correspondence',
                 originalFileName: 'file1.pdf',
                 trackedItemId: 1,
-                uploadDate: null,
+                uploadDate: '2024-01-14',
               },
               {
                 documentId: '{2}',
                 documentTypeLabel: 'Correspondence',
                 originalFileName: 'file2.pdf',
                 trackedItemId: 1,
-                uploadDate: null,
+                uploadDate: '2024-01-11',
               },
             ],
           },
@@ -406,7 +406,7 @@ describe('<DocumentsFiled>', () => {
           },
           {
             id: 3,
-            date: '2024-01-04',
+            date: '2024-01-15',
             closedDate: '2024-01-03',
             status: 'NO_LONGER_REQUIRED',
             displayName: 'Request 3',
@@ -426,31 +426,42 @@ describe('<DocumentsFiled>', () => {
     };
 
     it('should render a DocumentsFiled section with multiple items in a request', () => {
-      const { container, getByText, getAllByText } = render(
+      const { container, getByText, getAllByText, getByRole } = render(
         <DocumentsFiled claim={claim} />,
       );
       expect($('.documents-filed-container', container)).to.exist;
+
+      // Check order of docsFiled
+      const list = getByRole('list');
+      const { getAllByRole } = within(list);
+      const items = getAllByRole('listitem');
+      const docsFiled = items.map(item => item.textContent);
+      expect(docsFiled[0]).to.contain('file4.pdfRequest');
+      expect(docsFiled[1]).to.contain('file1.pdfRequest');
+      expect(docsFiled[1]).to.contain('file2.pdfRequest');
+      expect(docsFiled[2]).to.contain('file3.pdfRequest');
+
       // Item 1
+      expect(getByText('file4.pdf')).to.exist;
+      expect(getAllByText('Request type: Request 3')).to.exist;
+      expect(getAllByText('Document type: Submit buddy statement(s)')).to.exist;
+      expect(getAllByText('Received on January 15, 2024')).to.exist;
+      expect(getByText('No longer needed')).to.exist;
+
+      // Item 2
       expect(getByText('file1.pdf')).to.exist;
       expect(getByText('file2.pdf')).to.exist;
       expect(getAllByText('Request type: Request 1').length).to.equal(2);
       expect(getAllByText('Document type: Correspondence').length).to.equal(2);
-      expect(getAllByText('Received on January 1, 2024').length).to.equal(2);
+      expect(getAllByText('Received on January 14, 2024').length).to.equal(1);
       expect(getByText('Pending review')).to.exist;
 
-      // Item 2
+      // Item 3
       expect(getByText('file3.pdf')).to.exist;
       expect(getAllByText('Request type: Request 2')).to.exist;
       expect(getAllByText('Document type: Military Personnel Record')).to.exist;
       expect(getAllByText('Received on January 8, 2024')).to.exist;
       expect(getByText('Reviewed by VA on January 9, 2024')).to.exist;
-
-      // Item 3
-      expect(getByText('file4.pdf')).to.exist;
-      expect(getAllByText('Request type: Request 3')).to.exist;
-      expect(getAllByText('Document type: Submit buddy statement(s)')).to.exist;
-      expect(getAllByText('Received on January 4, 2024')).to.exist;
-      expect(getByText('No longer needed')).to.exist;
     });
   });
 });

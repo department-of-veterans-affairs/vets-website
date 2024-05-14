@@ -16,7 +16,7 @@ function* stateSequence() {
   yield 'ADDING_ITEM_2';
   yield 'EDITING_ITEM_1';
   yield 'GO_TO_ITEM_2_PAGE_2';
-  yield 'BACK_TWICE_TO_SUMMARY';
+  yield 'EDIT_CANCEL_BACK_TO_SUMMARY';
   yield 'REMOVE_ITEM_1';
 }
 
@@ -69,44 +69,37 @@ function summaryEditItem2() {
 
 function editItemPage1() {
   cy.url().should('include', 'edit=true');
-  cy.get('va-button[data-action="cancel"]').should('not.exist');
+  cy.get('va-button[data-action="cancel"]').should('exist');
   cy.fillVaTextInput('root_name', 'Updated Name');
-  cy.findByText(/continue/i, { selector: 'button' }).click();
+  cy.get('va-button[continue]').click();
 }
 
 function editItemPage2() {
   cy.url().should('include', 'edit=true');
-  cy.findByText(/continue/i, { selector: 'button' }).click();
+  cy.get('va-button[continue]').click();
 }
 
 function editItemPage1Skip() {
   cy.url().should('include', 'edit=true');
-  cy.findByText(/continue/i, { selector: 'button' }).click();
+  cy.get('va-button[continue]').click();
 }
 
-function pressBackItemPage1() {
-  cy.findByText(/back/i, { selector: 'button' }).click();
-}
-
-function pressBackItemPage2() {
-  cy.findByText(/back/i, { selector: 'button' }).click();
-}
-
-function cancelItemPage1() {
-  cy.url().should('include', 'add=true');
+/**
+ * @param {'add' | 'edit'} type
+ */
+function cancelItemPage(type) {
+  cy.url().should('include', `${type}=true`);
   cy.get('va-button[data-action="cancel"]').click();
   cy.axeCheck();
   cy.get('va-modal[status="warning"]')
     .shadow()
     .get('h2')
-    .should('contain', 'Are you sure you want to cancel adding this employer?');
+    .should('include', /cancel/gi);
   cy.get('va-modal[status="warning"]')
     .shadow()
     .get('.va-modal-alert-body va-button')
     .first()
     .click();
-  cy.get('va-card').should('have.length', 0);
-  goNextState();
 }
 
 function removeItem1() {
@@ -116,7 +109,7 @@ function removeItem1() {
   cy.get('va-modal[status="warning"]')
     .shadow()
     .get('h2')
-    .should('contain', 'Are you sure you want to remove this employer?');
+    .should('contain', 'Delete');
   cy.get('va-modal[status="warning"]')
     .shadow()
     .get('.va-modal-alert-body va-button')
@@ -153,7 +146,7 @@ const testConfig = createTestConfig(
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
-      [pagePaths.arrayMultiPageBuilderStart]: ({ afterHook }) => {
+      [pagePaths.arrayMultiPageBuilderSummary]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(() => {
@@ -184,7 +177,9 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(() => {
             switch (nextState) {
               case 'ADD_THEN_CANCEL':
-                cancelItemPage1();
+                cancelItemPage('add');
+                cy.get('va-card').should('have.length', 0);
+                goNextState();
                 break;
               case 'ADDING_ITEM_1':
                 addItemPage1();
@@ -229,10 +224,6 @@ const testConfig = createTestConfig(
                 editItemPage1Skip();
                 goNextState();
                 break;
-              case 'BACK_TWICE_TO_SUMMARY':
-                pressBackItemPage1();
-                goNextState();
-                break;
               default:
                 throw new Error(`Unexpected nextState: ${nextState}`);
             }
@@ -248,8 +239,10 @@ const testConfig = createTestConfig(
                 addItemPage2();
                 goNextState();
                 break;
-              case 'BACK_TWICE_TO_SUMMARY':
-                pressBackItemPage2();
+              case 'EDIT_CANCEL_BACK_TO_SUMMARY':
+                cancelItemPage('edit');
+                cy.get('va-card').should('have.length', 2);
+                goNextState();
                 break;
               default:
                 throw new Error(`Unexpected nextState: ${nextState}`);

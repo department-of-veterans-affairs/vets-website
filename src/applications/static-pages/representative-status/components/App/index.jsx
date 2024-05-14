@@ -5,28 +5,59 @@ import {
   isAuthenticatedWithSSOe,
   isAuthenticatedWithOAuth,
 } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
-
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
-import { Auth } from './States/Auth';
-import { Unauth } from './States/Unauth';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+import { Auth } from '../States/Auth';
+import { Unauth } from '../States/Unauth';
+import { useRepresentativeStatus } from '../../hooks/useRepresentativeStatus';
 
-export const App = ({ hasRepresentative, toggleLoginModal }) => {
-  const DynamicHeader = 'h3';
+export const App = ({
+  baseHeader,
+  toggleLoginModal,
+  authenticatedWithSSOe,
+  authenticatedWithOAuth,
+}) => {
+  const DynamicHeader = `h${baseHeader}`;
+  const DynamicSubheader = `h${baseHeader + 1}`;
 
-  const loggedIn = isAuthenticatedWithSSOe || isAuthenticatedWithOAuth;
+  const loggedIn = authenticatedWithSSOe || authenticatedWithOAuth;
+
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+
+  const togglesLoading = useToggleLoadingValue();
+
+  const appEnabled = useToggleValue(TOGGLE_NAMES.representativeStatusEnabled);
+
+  if (togglesLoading || !appEnabled) {
+    return null;
+  }
 
   return (
     <>
       {loggedIn ? (
-        <Auth
-          hasRepresentative={hasRepresentative}
-          DynamicHeader={DynamicHeader}
-        />
+        <div
+          aria-live="polite"
+          aria-atomic
+          tabIndex="-1"
+          className="poa-display"
+        >
+          <Auth
+            DynamicHeader={DynamicHeader}
+            DynamicSubheader={DynamicSubheader}
+            useRepresentativeStatus={useRepresentativeStatus}
+          />
+        </div>
       ) : (
-        <Unauth
-          toggleLoginModal={toggleLoginModal}
-          DynamicHeader={DynamicHeader}
-        />
+        <>
+          <Unauth
+            toggleLoginModal={toggleLoginModal}
+            DynamicHeader={DynamicHeader}
+          />
+        </>
       )}
     </>
   );
@@ -34,12 +65,16 @@ export const App = ({ hasRepresentative, toggleLoginModal }) => {
 
 App.propTypes = {
   toggleLoginModal: PropTypes.func.isRequired,
+  authenticatedWithOAuth: PropTypes.bool,
+  authenticatedWithSSOe: PropTypes.bool,
   baseHeader: PropTypes.number,
   hasRepresentative: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   hasRepresentative: state?.user?.login?.hasRepresentative || null,
+  authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
+  authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
 });
 
 const mapDispatchToProps = dispatch => ({

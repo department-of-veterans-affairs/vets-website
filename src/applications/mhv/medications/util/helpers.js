@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
-import { EMPTY_FIELD, imageRootUri } from './constants';
+import { EMPTY_FIELD, imageRootUri, medicationsUrls } from './constants';
 
 /**
  * @param {*} timestamp
@@ -133,31 +133,6 @@ export const extractContainedResource = (resource, referenceId) => {
 };
 
 /**
- * Create a description of a medication from component descriptors
- * @param {Object} medicationInfo shape, color, frontImprint, backImprint
- * @returns {String|null} a description of the medication or null if a description can't be generated
- */
-export const createMedicationDescription = ({
-  shape = null,
-  color = null,
-  frontImprint = null,
-  backImprint = null,
-}) => {
-  let desc = null;
-  if (shape?.trim() && color?.trim() && frontImprint?.trim()) {
-    const firstWord = `${color[0].toUpperCase()}${color
-      .slice(1)
-      .toLowerCase()}`;
-    desc = `${firstWord}, ${shape.toLowerCase()} with ${frontImprint} on the front`;
-    if (backImprint && backImprint.trim()) {
-      desc = `${desc} and ${backImprint} on the back`;
-    }
-    desc = `${desc}.`;
-  }
-  return desc;
-};
-
-/**
  * Create a refill history item for the original fill, using the prescription
  * @param {Object} Prescription object
  * @returns {Object} Object similar to or marching an rxRefillHistory object
@@ -200,4 +175,95 @@ export const createNoDescriptionText = phone => {
     dialFragment = ` at ${phone}`;
   }
   return `No description available. Call your pharmacy${dialFragment} if you need help identifying this medication.`;
+};
+
+/**
+ * Create a plain text string to display the correct text for a VA pharmacy phone number
+ * @param {String} Phone number, as a string
+ */
+export const createVAPharmacyText = (phone = null) => {
+  let dialFragment = '';
+  if (phone) {
+    dialFragment = `at ${phone}`;
+  }
+  return `your VA pharmacy ${dialFragment}`.trim();
+};
+
+/**
+ * Create pagination numbers
+ * @param {Number} currentPage
+ * @param {Number} totalPages
+ * @param {Number} list
+ * @param {Number} maxPerPage
+ * @returns {Array} Array of numbers
+ */
+export const fromToNumbs = (page, total, listLength, maxPerPage) => {
+  if (listLength < 1) {
+    return [0, 0];
+  }
+  const from = (page - 1) * maxPerPage + 1;
+  const to = Math.min(page * maxPerPage, total);
+  return [from, to];
+};
+
+/**
+ * Creates the breadcrumb state based on the current location path.
+ * This function returns an array of breadcrumb objects for rendering in UI component.
+ * It should be called whenever the route changes if breadcrumb updates are needed.
+ *
+ * @param {Object} location - The location object from React Router, containing the current pathname.
+ * @param {String} prescriptionId - A prescription object, used for the details page.
+ * @param {Object} pagination - The pagination object used for the prescription list page.
+ * @returns {Array<Object>} An array of breadcrumb objects with `url` and `label` properties.
+ */
+export const createBreadcrumbs = (location, prescription, currentPage) => {
+  const { pathname } = location;
+  const defaultBreadcrumbs = [
+    {
+      href: medicationsUrls.MHV_HOME,
+      label: 'My HealtheVet home',
+    },
+  ];
+  const {
+    subdirectories,
+    MEDICATIONS_ABOUT,
+    MEDICATIONS_URL,
+    MEDICATIONS_REFILL,
+  } = medicationsUrls;
+
+  if (pathname.includes(subdirectories.ABOUT)) {
+    return [
+      ...defaultBreadcrumbs,
+      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+    ];
+  }
+  if (pathname === subdirectories.BASE) {
+    return defaultBreadcrumbs.concat([
+      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+      {
+        href: `${MEDICATIONS_URL}?page=${currentPage || 1}`,
+        label: 'Medications',
+      },
+    ]);
+  }
+  if (pathname === subdirectories.REFILL) {
+    return defaultBreadcrumbs.concat([
+      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+      { href: MEDICATIONS_REFILL, label: 'Refill prescriptions' },
+    ]);
+  }
+  if (prescription && pathname.includes(subdirectories.DETAILS)) {
+    return defaultBreadcrumbs.concat([
+      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+      {
+        href: `${MEDICATIONS_URL}?page=${currentPage || 1}`,
+        label: 'Medications',
+      },
+      {
+        href: `/${prescription.prescriptionId}`,
+        label: prescription.prescriptionName,
+      },
+    ]);
+  }
+  return [];
 };

@@ -218,7 +218,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     );
     expect(screen.queryByTestId('toc-modal')).to.exist;
     expect(
-      screen.queryByTestId('toc-modal').getAttribute('primaryButtonText'),
+      screen.queryByTestId('toc-modal').getAttribute('primary-button-text'),
     ).to.eq('Ok');
     expect(screen.queryByTestId('toc-modal')).to.have.attribute(
       'visible',
@@ -364,7 +364,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     ).to.not.exist;
   });
 
-  it.skip('should render warning message', async () => {
+  it('should render warning message', async () => {
     setFetchJSONResponse(
       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
       {

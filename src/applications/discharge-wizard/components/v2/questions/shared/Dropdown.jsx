@@ -61,7 +61,7 @@ const Dropdown = ({
       }
 
       setFormError(false);
-      navigateForward(shortName, formValue, router);
+      navigateForward(shortName, formResponses, router);
     }
   };
 
@@ -70,7 +70,7 @@ const Dropdown = ({
   };
 
   return (
-    <div>
+    <>
       <h1>{H1}</h1>
       <VaSelect
         autocomplete="false"
@@ -83,19 +83,17 @@ const Dropdown = ({
         name={`${shortName}_dropdown`}
         value={formValue}
         onVaSelect={e => onValueChange(e.detail.value)}
-        uswds
       >
         {options}
       </VaSelect>
       <VaButtonPair
-        class="vads-u-margin-top--3"
+        class="vads-u-margin-top--3 small-screen:vads-u-margin-x--0p5"
         data-testid="duw-buttonPair"
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
-        uswds
       />
-    </div>
+    </>
   );
 };
 

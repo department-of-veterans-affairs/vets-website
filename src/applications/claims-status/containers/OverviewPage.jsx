@@ -3,13 +3,18 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { clearNotification } from '../actions';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import ClaimTimeline from '../components/ClaimTimeline';
-import ClaimOverviewHeader from '../components/ClaimOverviewHeader';
+import ClaimOverviewHeader from '../components/claim-overview-tab/ClaimOverviewHeader';
+import DesktopClaimPhaseDiagram from '../components/claim-overview-tab/DesktopClaimPhaseDiagram';
+import MobileClaimPhaseDiagram from '../components/claim-overview-tab/MobileClaimPhaseDiagram';
+
 import {
   buildDateFormatter,
+  claimAvailable,
   getClaimType,
   getItemDate,
   getStatusMap,
@@ -180,17 +185,29 @@ class OverviewPage extends React.Component {
 
   getPageContent() {
     const { claim } = this.props;
-    // claim can be null
-    const attributes = (claim && claim.attributes) || {};
 
-    const { claimPhaseDates } = attributes;
+    // Return null if the claim/ claim.attributes dont exist
+    if (!claimAvailable(claim)) {
+      return null;
+    }
+
+    const { claimPhaseDates } = claim.attributes;
+    const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
 
     return (
       <div className="overview-container">
         <ClaimOverviewHeader />
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstClaimPhases}>
+          <Toggler.Enabled>
+            <div className="claim-phase-diagram">
+              <MobileClaimPhaseDiagram currentPhase={currentPhase} />
+              <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
+            </div>
+          </Toggler.Enabled>
+        </Toggler>
         <ClaimTimeline
           id={claim.id}
-          phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
+          phase={currentPhase}
           currentPhaseBack={claimPhaseDates.currentPhaseBack}
           events={generateEventTimeline(claim)}
         />
@@ -201,7 +218,7 @@ class OverviewPage extends React.Component {
   setTitle() {
     const { claim } = this.props;
 
-    if (claim) {
+    if (claimAvailable(claim)) {
       const claimDate = buildDateFormatter()(claim.attributes.claimDate);
       const claimType = getClaimType(claim);
       const title = `Overview Of ${claimDate} ${claimType} Claim`;
@@ -253,9 +270,8 @@ OverviewPage.propTypes = {
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
-  message: PropTypes.string,
+  message: PropTypes.object,
   params: PropTypes.object,
-  showClaimLettersLink: PropTypes.bool,
 };
 
 export default connect(

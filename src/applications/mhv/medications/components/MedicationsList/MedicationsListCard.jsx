@@ -7,17 +7,13 @@ import ExtraDetails from '../shared/ExtraDetails';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import {
   dispStatusForRefillsLeft,
-  medicationsUrls,
+  DD_ACTIONS_PAGE_TYPE,
 } from '../../util/constants';
-import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import { setPrescriptionDetails } from '../../actions/prescriptions';
 import { selectRefillContentFlag } from '../../util/selectors';
 
 const MedicationsListCard = ({ rx }) => {
   const dispatch = useDispatch();
-  const pagination = useSelector(
-    state => state.rx.prescriptions?.prescriptionsPagination,
-  );
   const showRefillContent = useSelector(selectRefillContentFlag);
   let showRefillRemaining = false;
 
@@ -31,28 +27,6 @@ const MedicationsListCard = ({ rx }) => {
     return <p>{rx.refillRemaining} refills left</p>;
   };
   const handleLinkClick = () => {
-    dispatch(
-      setBreadcrumbs(
-        [
-          {
-            url: medicationsUrls.MEDICATIONS_ABOUT,
-            label: 'About medications',
-          },
-          {
-            url: `${
-              medicationsUrls.MEDICATIONS_URL
-            }/?page=${pagination?.currentPage || 1}`,
-            label: 'Medications',
-          },
-        ],
-        {
-          url: `${medicationsUrls.PRESCRIPTION_DETAILS}/${rx.prescriptionId}`,
-          label:
-            rx?.prescriptionName ||
-            (rx?.dispStatus === 'Active: Non-VA' ? rx?.orderableItem : ''),
-        },
-      ),
-    );
     dispatch(setPrescriptionDetails(rx));
   };
   return (
@@ -67,6 +41,9 @@ const MedicationsListCard = ({ rx }) => {
           id={`card-header-${rx.prescriptionId}`}
         >
           <Link
+            data-dd-action-name={`Medication Name Link In Card - ${
+              DD_ACTIONS_PAGE_TYPE.LIST
+            }`}
             data-testid="medications-history-details-link"
             className="vads-u-margin-y--0p5 vads-u-font-size--h4"
             to={`/prescription/${rx.prescriptionId}`}

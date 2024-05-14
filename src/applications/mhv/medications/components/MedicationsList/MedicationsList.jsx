@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -7,27 +7,21 @@ import { useHistory } from 'react-router-dom';
 import MedicationsListCard from './MedicationsListCard';
 import { rxListSortingOptions } from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
+import { fromToNumbs } from '../../util/helpers';
 
 const MAX_PAGE_LIST_LENGTH = 6;
 const perPage = 20;
 const MedicationsList = props => {
   const history = useHistory();
-  const { rxList, pagination, selectedSortOption, updateLoadingStatus } = props;
+  const {
+    rxList,
+    pagination,
+    selectedSortOption,
+    updateLoadingStatus,
+    scrollLocation,
+  } = props;
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
-  );
-  const scrollLocation = useRef();
-  const goToPrevious = () => {
-    scrollLocation.current?.scrollIntoView();
-  };
-
-  useEffect(
-    () => {
-      if (prescriptionId) {
-        goToPrevious();
-      }
-    },
-    [prescriptionId],
   );
 
   const displaynumberOfPrescriptionsSelector =
@@ -40,18 +34,11 @@ const MedicationsList = props => {
     waitForRenderThenFocus(displaynumberOfPrescriptionsSelector, document, 500);
   };
 
-  const fromToNumbs = (page, total) => {
-    if (rxList?.length < 1) {
-      return [0, 0];
-    }
-    const from = (page - 1) * perPage + 1;
-    const to = Math.min(page * perPage, total);
-    return [from, to];
-  };
-
   const displayNums = fromToNumbs(
     pagination.currentPage,
     pagination.totalEntries,
+    rxList?.length,
+    perPage,
   );
 
   return (
@@ -114,6 +101,7 @@ export default MedicationsList;
 MedicationsList.propTypes = {
   pagination: PropTypes.object,
   rxList: PropTypes.array,
+  scrollLocation: PropTypes.object,
   selectedSortOption: PropTypes.string,
   setCurrentPage: PropTypes.func,
   updateLoadingStatus: PropTypes.func,

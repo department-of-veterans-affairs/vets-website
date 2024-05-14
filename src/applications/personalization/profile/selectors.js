@@ -116,9 +116,8 @@ export const selectProfileToggles = createSelector(toggleValues, values => {
   );
 });
 
-// TODO: update this to use a more universal toggle for single form direct deposit
-export const selectHideDirectDepositCompAndPen = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileHideDirectDepositCompAndPen];
+export const selectHideDirectDeposit = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileHideDirectDeposit];
 
 export const selectIsBlocked = state => {
   // TODO: remove this once the direct deposit form is updated to use single form

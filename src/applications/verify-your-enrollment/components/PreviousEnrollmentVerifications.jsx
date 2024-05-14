@@ -16,12 +16,51 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   const [pageCount, setPageCount] = useState(0);
   const [subsetStart, setSubsetStart] = useState(0);
   const [subsetEnd, setSubsetEnd] = useState(0);
-  const totalEnrollmentCount = Object.keys(
-    combineEnrollmentsWithStartMonth(enrollmentData?.['vye::UserInfo']?.awards),
+
+  const totalEnrollmentVerificationsCount = Object.keys(
+    combineEnrollmentsWithStartMonth(
+      enrollmentData?.['vye::UserInfo']?.verifications,
+    ),
   ).length;
+
+  const totalEnrollmentPendingVerificationsCount = Object.keys(
+    combineEnrollmentsWithStartMonth(
+      enrollmentData?.['vye::UserInfo']?.pendingVerifications,
+    ),
+  ).length;
+
+  // get count of verified and unverified enrollments (Grouped by start month)
+  const totalEnrollmentCount =
+    totalEnrollmentPendingVerificationsCount +
+    totalEnrollmentVerificationsCount;
+
+  const sortDatesByMonthYear = array => {
+    // Helper function to convert "Month YYYY" or "Date unavailable" to a Date object
+    function parseDate(dateStr) {
+      if (dateStr === 'Date unavailable') {
+        // Return a date far in the past to ensure it sorts last
+        return new Date(0); // January 1, 1970, or can use a specific older date to be explicit
+      }
+      const [month, year] = dateStr.split(' ');
+      return new Date(`${month} 1, ${year}`);
+    }
+
+    // Sorting the array of objects in descending order based on date keys
+    array.sort((a, b) => {
+      const keyA = Object.keys(a)[0];
+      const keyB = Object.keys(b)[0];
+      const dateA = parseDate(keyA);
+      const dateB = parseDate(keyB);
+      return dateB - dateA; // descending sorting | ascending would be dateA - dateB
+    });
+
+    // Extracting and returning the React components from the sorted array of objects
+    return array.map(obj => Object.values(obj)[0]);
+  };
 
   const getPreviouslyVerified = () => {
     let enrollments = [];
+
     Object.values(pastAndCurrentAwards).forEach(month => {
       if (month.length > 1) {
         const tempGroupEnrollment = getGroupedPreviousEnrollments(month);
@@ -32,11 +71,74 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
         enrollments.push(tempSingleEnrollment);
       }
     });
-    // Adjust based on subsetStart and subsetEnd to control the number of elements returned
-    enrollments = enrollments.reverse().slice(subsetStart, subsetEnd);
+    const tempEnrollmentArray = [];
+    /*
+     enrollments is an array of react components.
+     we want to go through each element in the enrollments array
+     and find the month/year each element is associated with.
+     once we have this, we can sort the array based on month year with
+     the latest date on top.
+    */
+    enrollments.forEach(enrollment => {
+      const topLevelEnrollment = enrollment?.props?.children;
+      const isAnArray = Array.isArray(topLevelEnrollment);
 
+      if (!isAnArray) {
+        const objectChildProps =
+          topLevelEnrollment.props?.children[0]?.props?.children;
+        const objectChildPropsIsArray = Array.isArray(objectChildProps);
+        if (!objectChildPropsIsArray) {
+          tempEnrollmentArray.push({
+            [objectChildProps]: enrollment,
+          });
+        }
+        if (objectChildPropsIsArray) {
+          tempEnrollmentArray.push({
+            [objectChildProps[0].props.children]: enrollment,
+          });
+        }
+      }
+
+      if (isAnArray) {
+        // find the first object within the array that is not undefined and is not null
+        const firstNotUndefined = topLevelEnrollment.find(
+          el => el !== undefined && el !== null && el !== false,
+        );
+        const firstChildProps =
+          firstNotUndefined.props?.children[0]?.props?.children;
+        const firstChildIsArray = Array.isArray(firstChildProps);
+
+        if (firstChildIsArray) {
+          tempEnrollmentArray.push({
+            [firstChildProps[0].props?.children]: enrollment,
+          });
+        }
+
+        if (!firstChildIsArray) {
+          const secondChildProps =
+            firstNotUndefined.props?.children[0]?.props?.children;
+          const secondChildPropsIsArray = Array.isArray(secondChildProps);
+          if (!secondChildPropsIsArray) {
+            tempEnrollmentArray.push({
+              [firstNotUndefined.props?.children[0]?.props
+                ?.children]: enrollment,
+            });
+          }
+        }
+      }
+    });
+
+    if (tempEnrollmentArray.length > 0) {
+      const sortedEnrollments = sortDatesByMonthYear(tempEnrollmentArray);
+      enrollments = sortedEnrollments;
+    }
+
+    // Adjust based on subsetStart and subsetEnd to control the number of elements returned
+
+    enrollments = enrollments.slice(subsetStart, subsetEnd);
     return enrollments;
   };
+
   const handlePageChange = useCallback(
     pageNumber => {
       setSubsetStart(pageNumber * ENROLLMETS_PER_PAGE - ENROLLMETS_PER_PAGE);
@@ -67,50 +169,23 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
 
   useEffect(
     () => {
+      const allEnrollments = [];
       if (
-        userEnrollmentData?.['vye::UserInfo']?.awards &&
-        userEnrollmentData?.['vye::UserInfo']?.verifications
+        userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.length > 0
       ) {
-        const { awards, verifications } = userEnrollmentData?.['vye::UserInfo'];
-        // add all awards data into single array, verified and non-verified
-        const allEnrollments = awards.flatMap((award, index) => {
-          // check each award that has been verified and add the
-          // verified date to the enrollment period being returned
-          if (index < verifications.length) {
-            const {
-              awardIds,
-              createdOn,
-              PendingVerificationSubmitted,
-            } = verifications[index];
-            // check if record has been verified
-            if (awardIds?.some(id => id === award.id)) {
-              const tempData = award;
-              let updatedTempData = {};
-              if (createdOn) {
-                // add key/value when enrollment was verified
-                updatedTempData = { ...tempData, verifiedDate: createdOn };
-              }
-              if (PendingVerificationSubmitted) {
-                // add key/value when enrollment was verified
-                updatedTempData = {
-                  ...tempData,
-                  PendingVerificationSubmitted,
-                };
-              }
-              return updatedTempData;
-            }
-          }
-          // add enrollment that has not been verified
-          return award;
+        const { pendingVerifications } = userEnrollmentData?.['vye::UserInfo'];
+        pendingVerifications.forEach(pendingAward => {
+          allEnrollments.push(pendingAward);
         });
-
-        // array of all enrollment periods with verifiedDate
-        // add to enrollments that have been verified
-        // setPastAndCurrentAwards(allEnrollments);
-        setPastAndCurrentAwards(
-          combineEnrollmentsWithStartMonth(allEnrollments),
-        );
       }
+      if (userEnrollmentData?.['vye::UserInfo']?.verifications?.length > 0) {
+        const { verifications } = userEnrollmentData?.['vye::UserInfo'];
+        verifications.forEach(award => {
+          allEnrollments.push(award);
+        });
+      }
+
+      setPastAndCurrentAwards(combineEnrollmentsWithStartMonth(allEnrollments));
     },
     [userEnrollmentData],
   );
@@ -135,6 +210,10 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
     <div>
       <>
         <h2>Your monthly enrollment verifications</h2>
+        <p>
+          Verifications are processed on the business day after submission.
+          Payment is projected to be deposited within 3-5 business days.
+        </p>
         <va-additional-info
           trigger="What if I notice an error with my enrollment information?"
           class="vads-u-margin-bottom--2"
@@ -164,14 +243,13 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
           className="focus-element-on-pagination"
           aria-label={`Showing ${subsetStart +
             1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
+          aria-hidden="false"
         >
           {`Showing ${subsetStart +
             1}-${subsetEnd} of ${totalEnrollmentCount} monthly enrollments listed by most recent`}
         </p>
       )}
       {totalEnrollmentCount > 0 && getPreviouslyVerified()}
-      {/* {totalEnrollmentCount > 0 && pastAndCurrentAwards.length > 0 &&
-        <EnrollmentCard enrollmentPeriods={pastAndCurrentAwards}/>} */}
       {totalEnrollmentCount === undefined && (
         <p className="vads-u-margin-bottom--6">
           <strong>You currently have no enrollments.</strong>

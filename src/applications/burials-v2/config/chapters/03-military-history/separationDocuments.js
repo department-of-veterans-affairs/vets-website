@@ -17,7 +17,10 @@ export default {
           </li>
           <li>Answer questions about the Veteran’s military history</li>
         </ul>
-        <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
+        <p
+          className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans"
+          aria-live="polite"
+        >
           Uploading a copy can help us process your application faster and
           you’ll skip certain questions about the deceased Veteran’s military
           service history.

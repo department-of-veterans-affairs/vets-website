@@ -1,4 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { cloneDeep } from 'lodash';
 
 import {
   ssnOrVaFileNumberSchema,
@@ -15,15 +16,26 @@ import {
   phoneSchema,
   emailUI,
   emailSchema,
+  // checkboxGroupUI,
+  // checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import {
+  getNextPagePath,
+  checkValidPagePath,
+} from '@department-of-veterans-affairs/platform-forms-system/routing';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
+import prefillTransformer from './prefillTransformer';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../../shared/components/GetFormHelp';
 
 // import mockdata from '../tests/fixtures/data/test-data.json';
+
+const veteranFullNameUI = cloneDeep(fullNameUI());
+veteranFullNameUI.middle['ui:title'] = 'Middle initial';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -31,12 +43,41 @@ const formConfig = {
   urlPrefix: '/',
   transformForSubmit,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  footerContent: GetFormHelp,
   // submit: () =>
   //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959f-1-FMP-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  customText: {
+    appType: 'form',
+  },
+  // This is here temporarily to allow us to log SIP/Prefill data on staging
+  onFormLoaded: props => {
+    // TODO: Remove all this when we've verified we're getting the right data.
+    const { formData, returnUrl } = props;
+    // Check valid return URL; copied from RoutedSavableApp
+    const isValidReturnUrl = checkValidPagePath(
+      props.routes[props.routes.length - 1].pageList,
+      formData,
+      returnUrl,
+    );
+    if (isValidReturnUrl) {
+      props.router.push(returnUrl);
+    } else {
+      const nextPagePath = getNextPagePath(
+        props.routes[props.routes.length - 1].pageList,
+        formData,
+        '/introduction',
+      );
+      props.router.push(nextPagePath);
+    }
+    // Show whatever formData we have at this time, which should include data
+    // produced by the prefill transformer
+    // eslint-disable-next-line no-console
+    console.log('Form loaded - data: ', formData);
+  },
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -49,20 +90,22 @@ const formConfig = {
   formId: '10-7959F-1',
   saveInProgress: {
     messages: {
-      inProgress: 'Your CHAMPVA application (10-7959F-1) is in progress.',
+      inProgress: 'Your FMP registration (10-7959F-1) is in progress.',
       expired:
-        'Your saved CHAMPVA benefits application (10-7959F-1) has expired. If you want to apply for Foriegn Medical Program benefits, please start a new application.',
-      saved: 'Your CHAMPVA benefits application has been saved.',
+        'Your saved FMP benefits registration (10-7959F-1) has expired. If you want to register for Foriegn Medical Program benefits, please start a new application.',
+      saved: 'Your FMP benefits registration has been saved.',
     },
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
-    notFound: 'Please start over to apply for CHAMPVA benefits.',
+    notFound: 'Please start over to register for FMP benefits.',
     noAuth:
-      'Please sign in again to continue your application for CHAMPVA benefits.',
+      'Please sign in again to continue your registration for FMP benefits.',
   },
-  title: 'Foreign Medical Program (FMP) Registration Form',
+  title: 'Register for the Foreign Medical Program (FMP)',
+  subTitle: 'FMP Registration Form (VA Form 10-7959f-1)',
   defaultDefinitions: {},
   chapters: {
     applicantInformationChapter: {
@@ -71,7 +114,7 @@ const formConfig = {
         page1: {
           // initialData: mockdata.data,
           path: 'veteran-information',
-          title: 'Name and date of birth',
+          title: 'Personal Information',
           uiSchema: {
             ...titleUI(
               'Name and date of birth',
@@ -79,16 +122,16 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'We use this information to verify other details.',
-            fullName: fullNameUI(),
-            veteranDOB: dateOfBirthUI(),
+            veteranFullName: veteranFullNameUI,
+            veteranDateOfBirth: dateOfBirthUI({ required: true }),
           },
           schema: {
             type: 'object',
-            required: ['fullName', 'veteranDOB'],
+            required: ['veteranFullName', 'veteranDateOfBirth'],
             properties: {
               titleSchema,
-              fullName: fullNameSchema,
-              veteranDOB: dateOfBirthSchema,
+              veteranFullName: fullNameSchema,
+              veteranDateOfBirth: dateOfBirthSchema,
             },
           },
         },
@@ -103,41 +146,84 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               `Identification information`,
-              `You must enter either a Social Security number of VA File number.`,
+              `You must enter either a Social Security number or VA file number.`,
             ),
             messageAriaDescribedby:
-              'You must enter either a Social Security number of VA File number.',
-            ssn: ssnOrVaFileNumberNoHintUI(),
+              'You must enter either a Social Security number or VA file number.',
+            veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintUI(),
           },
           schema: {
             type: 'object',
-            required: ['ssn'],
+            required: ['veteranSocialSecurityNumber'],
             properties: {
               titleSchema,
-              ssn: ssnOrVaFileNumberSchema,
+              veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
+            },
+          },
+        },
+      },
+    },
+    mailingAddress: {
+      title: 'Mailing Address',
+      pages: {
+        page: {
+          path: 'mailing-address',
+          title: "Veteran's Mailing address",
+          uiSchema: {
+            ...titleUI(
+              'Mailing address',
+              "We'll send any important information about your application to this address.",
+            ),
+            messageAriaDescribedby:
+              "We'll send any important information about your application to this address.",
+            veteranAddress: addressUI({
+              labels: {
+                street2: 'Apartment or unit number',
+              },
+              omit: ['street3'],
+              required: {
+                state: () => true,
+              },
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranAddress'],
+            properties: {
+              titleSchema,
+              veteranAddress: addressSchema({
+                omit: ['street3'],
+              }),
             },
           },
         },
       },
     },
     physicalAddress: {
-      title: 'Physical Address',
+      title: 'Home Address',
       pages: {
-        page3: {
+        page4: {
           path: 'home-address',
-          title: 'Physical Address',
+          title: "Veteran's Home address",
           uiSchema: {
             ...titleUI(
-              'Physical Address',
+              'Home Address',
               'This is your current location, outside the United States.',
             ),
             messageAriaDescribedby:
               'This is your current location, outside the United States.',
+            // matchAddress: checkboxGroupUI({
+            //   title: ' ',
+            //   required: () => false,
+            //   labels: {
+            //     yes: 'Same as Mailing Address',
+            //   },
+            // }),
             physicalAddress: addressUI({
               labels: {
                 street2: 'Apartment or unit number',
               },
-              omit: ['street3', 'isMilitary'],
+              omit: ['street3'],
               required: {
                 state: () => true,
               },
@@ -148,39 +234,9 @@ const formConfig = {
             required: ['physicalAddress'],
             properties: {
               titleSchema,
+              // matchAddress: checkboxGroupSchema(['yes']),
               physicalAddress: addressSchema({
-                omit: ['street3', 'isMilitary'],
-              }),
-            },
-          },
-        },
-        page4: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: {
-            ...titleUI(
-              'Mailing address',
-              "We'll send any important information about your application to this address.",
-            ),
-            messageAriaDescribedby:
-              "We'll send any important information about your application to this address.",
-            mailingAddress: addressUI({
-              labels: {
-                street2: 'Apartment or unit number',
-              },
-              omit: ['street3', 'isMilitary'],
-              required: {
-                state: () => true,
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            required: ['mailingAddress'],
-            properties: {
-              titleSchema,
-              mailingAddress: addressSchema({
-                omit: ['street3', 'isMilitary'],
+                omit: ['street3'],
               }),
             },
           },
@@ -200,15 +256,15 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
-            phoneNumber: phoneUI(),
-            emailAddress: emailUI(),
+            veteranPhoneNumber: phoneUI(),
+            veteranEmailAddress: emailUI(),
           },
           schema: {
             type: 'object',
             properties: {
               titleSchema,
-              phoneNumber: phoneSchema,
-              emailAddress: emailSchema,
+              veteranPhoneNumber: phoneSchema,
+              veteranEmailAddress: emailSchema,
             },
           },
         },

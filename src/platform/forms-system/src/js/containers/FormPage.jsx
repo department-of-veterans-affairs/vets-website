@@ -186,16 +186,17 @@ class FormPage extends React.Component {
     this.props.router.push(path);
   };
 
-  goToPath = customPath => {
+  goToPath = (customPath, options = {}) => {
     const {
       form,
       route: { pageList },
       location,
     } = this.props;
+    const { force } = options;
 
     const path =
       customPath &&
-      checkValidPagePath(pageList, this.props.form.data, customPath)
+      (force || checkValidPagePath(pageList, this.props.form.data, customPath))
         ? customPath
         : getPreviousPagePath(pageList, form.data, location.pathname);
 
@@ -253,7 +254,9 @@ class FormPage extends React.Component {
     const showNavLinks =
       environment.isLocalhost() && route.formConfig?.dev?.showNavLinks;
     const hideNavButtons =
-      !environment.isProduction() && route.formConfig?.formOptions?.noBottomNav;
+      !environment.isProduction() &&
+      (route.formConfig?.formOptions?.noBottomNav ||
+        route.pageConfig?.hideNavButtons);
 
     let pageContentBeforeButtons = route.pageConfig?.ContentBeforeButtons;
     if (
@@ -396,6 +399,7 @@ FormPage.propTypes = {
         PropTypes.func,
       ]),
       customPageUsesPagePerItemData: PropTypes.bool,
+      hideNavButtons: PropTypes.bool,
       onContinue: PropTypes.func,
       onNavBack: PropTypes.func,
       onNavForward: PropTypes.func,

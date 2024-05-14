@@ -264,6 +264,10 @@ describe('VAOS Page: VAFacilityPage', () => {
         store,
       });
 
+      // Radio buttons only show up after all the data is loaded, which
+      // should mean all page rendering is finished
+      await screen.findAllByRole('radio');
+
       expect(
         await screen.findByLabelText(/Fake facility name 1/i),
       ).to.have.attribute('checked');
@@ -1060,7 +1064,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       expect(firstRadio).to.contain.text('Closest facility');
     });
 
-    it.skip('should fire variant shown and default sort method events when variant shown', async () => {
+    it('should fire variant shown and default sort method events when variant shown', async () => {
       const store = createTestStore({
         ...initialState,
         newAppointment: {

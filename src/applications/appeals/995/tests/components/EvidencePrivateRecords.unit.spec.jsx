@@ -15,9 +15,10 @@ import {
   NO_ISSUES_SELECTED,
 } from '../../constants';
 
-import { getDate } from '../../../shared/utils/dates';
-import { SELECTED } from '../../../shared/constants';
 import { clickAddAnother, clickBack, clickContinue } from './helpers';
+import { parseDateWithOffset } from '../../../shared/utils/dates';
+import { SELECTED, MAX_YEARS_PAST } from '../../../shared/constants';
+import sharedErrorMessages from '../../../shared/content/errorMessages';
 
 /*
 | Data     | Forward     | Back               | Add another      |
@@ -27,7 +28,7 @@ import { clickAddAnother, clickBack, clickContinue } from './helpers';
 | Partial  | Focus error | Modal & Prev page  | Focus error      |
  */
 describe('<EvidencePrivateRecords>', () => {
-  const validDate = getDate({ offset: { months: -2 } });
+  const validDate = parseDateWithOffset({ months: -2 });
   const mockData = {
     contestedIssues: [
       {
@@ -273,11 +274,11 @@ describe('<EvidencePrivateRecords>', () => {
       const errorEls = getErrorElements(container);
       [
         errors.facilityMissing,
-        options.ignoreCountry ? null : errors.country, // default set to USA
-        errors.street,
-        errors.city,
-        errors.state,
-        errors.postal,
+        options.ignoreCountry ? null : sharedErrorMessages.country, // default set to USA
+        sharedErrorMessages.street,
+        sharedErrorMessages.city,
+        sharedErrorMessages.state,
+        sharedErrorMessages.postal,
         errors.issuesMissing,
         errors.blankDate,
         errors.blankDate,
@@ -558,7 +559,7 @@ describe('<EvidencePrivateRecords>', () => {
     const toBlurEvent = new CustomEvent('blur', { detail: 'to' });
 
     it('should show error when start treatment date is in the future', async () => {
-      const from = getDate({ offset: { years: +1 } });
+      const from = parseDateWithOffset({ years: 1 });
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { from } }],
@@ -579,7 +580,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
 
     it('should show error when last treatment date is in the future', async () => {
-      const to = getDate({ offset: { years: +1 } });
+      const to = parseDateWithOffset({ years: 1 });
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { to } }],
@@ -600,7 +601,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
 
     it('should show an error when the start treatment date is too far in the past', async () => {
-      const from = getDate({ offset: { years: -101 } });
+      const from = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { from } }],
@@ -621,7 +622,7 @@ describe('<EvidencePrivateRecords>', () => {
     });
 
     it('should show an error when the last treatment date is too far in the past', async () => {
-      const to = getDate({ offset: { years: -101 } });
+      const to = parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) });
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { to } }],
@@ -642,8 +643,8 @@ describe('<EvidencePrivateRecords>', () => {
     });
 
     it('should show an error when the last treatment date is before the start', async () => {
-      const from = getDate({ offset: { years: -5 } });
-      const to = getDate({ offset: { years: -10 } });
+      const from = parseDateWithOffset({ years: -5 });
+      const to = parseDateWithOffset({ years: -10 });
       const data = {
         ...mockData,
         providerFacility: [{ treatmentDateRange: { from, to } }],
@@ -656,7 +657,7 @@ describe('<EvidencePrivateRecords>', () => {
 
       await waitFor(() => {
         const dateTo = $$('va-memorable-date', container)[1];
-        expect(dateTo.error).to.contain(errorMessages.endDateBeforeStart);
+        expect(dateTo.error).to.contain(sharedErrorMessages.endDateBeforeStart);
         expect(dateTo.invalidMonth).to.be.true;
         expect(dateTo.invalidDay).to.be.true;
         expect(dateTo.invalidYear).to.be.true;

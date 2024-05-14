@@ -15,7 +15,9 @@ describe('Medicaitons Landing page container', () => {
   const initialState = {
     rx: {
       prescriptions: {
+        prescriptionsList: prescriptions,
         prescriptionDetails: prescriptions,
+        apiError: false,
       },
     },
     featureToggles: {
@@ -32,7 +34,6 @@ describe('Medicaitons Landing page container', () => {
       },
     },
   };
-
   const setup = (state = initialState, path = '/') => {
     return renderWithStoreAndRouter(<LandingPage />, {
       initialState: state,
@@ -77,7 +78,17 @@ describe('Medicaitons Landing page container', () => {
   it('opens accordion when url is "/about/accordion-renew-rx"', () => {
     const setupWithSpecificPathState = (
       state = {
-        ...initialState,
+        rx: {
+          prescriptions: {
+            prescriptionsList: prescriptions,
+          },
+          breadcrumbs: {
+            list: [
+              { url: medicationsUrls.MEDICATIONS_ABOUT },
+              { label: 'About medications' },
+            ],
+          },
+        },
         featureToggles: {
           loading: true,
           // eslint-disable-next-line camelcase
@@ -207,6 +218,7 @@ describe('App-level feature flag functionality', () => {
       initialState: {
         rx: {
           prescriptions: {
+            prescriptionsList: prescriptions,
             prescriptionDetails: prescriptions,
           },
         },
@@ -231,6 +243,38 @@ describe('App-level feature flag functionality', () => {
       screenFeatureToggle
         .getByTestId('prescriptions-nav-link')
         .getAttribute('href'),
-    ).to.equal(medicationsUrls.MEDICATIONS_URL);
+    ).to.equal(medicationsUrls.subdirectories.BASE);
+  });
+  it('The user doesn’t have any medications', () => {
+    const screenFeatureToggle = renderWithStoreAndRouter(<LandingPage />, {
+      initialState: {
+        rx: {
+          prescriptions: {
+            prescriptionsList: [],
+            prescriptionDetails: prescriptions,
+          },
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+          profile: {
+            services: [backendServices.USER_PROFILE],
+          },
+        },
+        featureToggles: {
+          loading: false,
+          // eslint-disable-next-line camelcase
+          mhv_medications_to_va_gov_release: true,
+        },
+      },
+      reducers: reducer,
+      path: '/',
+    });
+    expect(
+      screenFeatureToggle.getByText(
+        'You don’t have any VA prescriptions or medication records',
+      ),
+    ).to.exist;
   });
 });

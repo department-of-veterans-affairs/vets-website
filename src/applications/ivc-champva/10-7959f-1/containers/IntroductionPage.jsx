@@ -1,80 +1,60 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { Link } from 'react-router';
+import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
+import recordEvent from 'platform/monitoring/record-event';
 
-class IntroductionPage extends React.Component {
-  componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
-  }
+const IntroductionPage = props => {
+  const { route, isLoggedIn } = props;
+  const { formConfig, pageList, formData, pathname } = route;
 
-  render() {
-    const { route } = this.props;
-    const { formConfig, pageList } = route;
+  const getStartPage = () => {
+    const data = formData || {};
+    if (pathname) return getNextPagePath(pageList, data, pathname);
+    return pageList[1].path;
+  };
 
-    return (
-      <article className="schemaform-intro">
-        <FormTitle
-          title="Foreign Medical Program (FMP) Registration Form"
-          subtitle="Equal to VA Form 10-7959F-1 (Foreign Medical Program (FMP) Registration Form)"
-        />
-        <VaAlert status="info" visible uswds>
-          <h2>Have you applied for VA health care before?</h2>
-          <SaveInProgressIntro
-            buttonOnly
-            headingLevel={2}
-            prefillEnabled={formConfig.prefillEnabled}
-            messages={formConfig.savedFormMessages}
-            pageList={pageList}
-            unauthStartText="Sign in to check your application status"
-            hideUnauthedStartLink
-          />
-        </VaAlert>
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps below to apply for Foreign Medical Program benefits.
-        </h2>
-        <va-process-list uswds="false">
+  const handleClick = () => {
+    recordEvent({ event: 'no-login-start-form' });
+  };
+
+  useEffect(
+    () => {
+      focusElement('.va-nav-breadcrumbs-list');
+    },
+    [props],
+  );
+
+  return (
+    <article className="schemaform-intro">
+      <FormTitle
+        title="Register for the Foreign Medical Program (FMP)"
+        subTitle="FMP Registration Form (VA Form 10-7959f-1)"
+      />
+      <p>
+        If you’re a Veteran who gets medical care outside the U.S. for a
+        service-connected condition, we may cover the cost of your care. Use
+        this form to register for the Foreign Medical Program.
+      </p>
+      <va-process-list uswds="false" class="process-list">
+        <h3>What to know before you fill out this form</h3>
+        <ul>
           <li>
-            <h3>Prepare</h3>
-            <h4>To fill out this application, you’ll need your:</h4>
-            <ul>
-              <li>Social Security number (required)</li>
-            </ul>
-            <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
-              An accredited representative, like a Veterans Service Officer
-              (VSO), can help you fill out your claim.{' '}
-              <a href="/disability-benefits/apply/help/index.html">
-                Get help filing your claim
-              </a>
-            </p>
+            You’ll need your Social Security number or your VA file number.
           </li>
           <li>
-            <h3>Apply</h3>
-            <p>Complete this CHAMPVA benefits form.</p>
-            <p>
-              After submitting the form, you’ll get a confirmation message. You
-              can print this for your records.
-            </p>
+            After you register, we’ll send you a benefits authorization letter.
+            This letter will list your service-connected conditions that we’ll
+            cover. Then you can file FMP claims for care related to the covered
+            conditions.
           </li>
-          <li>
-            <h3>VA Review</h3>
-            <p>
-              We process claims within a week. If more than a week has passed
-              since you submitted your application and you haven’t heard back,
-              please don’t apply again. Call us at.
-            </p>
-          </li>
-          <li>
-            <h3>Decision</h3>
-            <p>
-              Once we’ve processed your claim, you’ll get a notice in the mail
-              with our decision.
-            </p>
-          </li>
-        </va-process-list>
+        </ul>
+      </va-process-list>
+      {!isLoggedIn ? (
         <VaAlert status="info" visible uswds>
           <h2>Sign in now to save time and save your work in progress</h2>
           <p>Here’s how signing in now helps you:</p>
@@ -84,27 +64,44 @@ class IntroductionPage extends React.Component {
             </li>
             <li>
               You can save your work in progress. You’ll have 60 days from when
-              you start or make updates to your application to come back and
-              finish it.
+              you start, or make updates, to come back and finish it.
             </li>
           </ul>
           <p>
             <strong>Note:</strong> You can sign in after you start your
-            application. But you’ll lose any information you already filled in.
+            registration form. But you’ll lose any information you already
+            filled in.
           </p>
-          <SaveInProgressIntro
-            buttonOnly
-            headingLevel={2}
-            prefillEnabled={formConfig.prefillEnabled}
-            messages={formConfig.savedFormMessages}
-            pageList={pageList}
-            startText="Start the Application"
-          />
+          <p className="vads-u-margin-top--2">
+            <Link onClick={handleClick} to={getStartPage}>
+              Start your form without signing in
+            </Link>
+          </p>
         </VaAlert>
-        <p />
-      </article>
-    );
-  }
-}
+      ) : (
+        <SaveInProgressIntro
+          formId={formConfig.formId}
+          headingLevel={2}
+          prefillEnabled={formConfig.prefillEnabled}
+          messages={formConfig.savedFormMessages}
+          pageList={pageList}
+          startText="Start"
+        />
+      )}
 
-export default IntroductionPage;
+      <va-omb-info
+        res-burden={4}
+        omb-number="2900-0648"
+        exp-date="03/31/2027"
+      />
+    </article>
+  );
+};
+
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.user.login.currentlyLoggedIn,
+  };
+};
+
+export default connect(mapStateToProps)(IntroductionPage);

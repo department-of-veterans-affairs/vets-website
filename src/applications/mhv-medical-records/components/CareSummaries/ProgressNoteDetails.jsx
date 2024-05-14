@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -27,6 +27,7 @@ import {
   generateNotesIntro,
   generateProgressNoteContent,
 } from '../../util/pdfHelpers/notes';
+import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 
 const ProgressNoteDetails = props => {
   const { record, runningUnitTest } = props;
@@ -37,6 +38,7 @@ const ProgressNoteDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(
     () => {
@@ -56,6 +58,7 @@ const ProgressNoteDetails = props => {
   );
 
   const generateCareNotesPDF = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateNotesIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateProgressNoteContent(record) };
@@ -64,6 +67,7 @@ const ProgressNoteDetails = props => {
   };
 
   const generateCareNotesTxt = () => {
+    setDownloadStarted(true);
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
@@ -76,7 +80,7 @@ Date: ${record.date}\n
 Location: ${record.location}\n
 Signed by: ${record.signedBy}\n
 ${record.coSignedBy !== EMPTY_FIELD && `Co-signed by: ${record.coSignedBy}\n`}
-Date signed: ${record.dateSigned}\n
+Signed on: ${record.dateSigned}\n
 ${txtLine}\n\n
 Note\n
 ${record.note}`;
@@ -84,10 +88,6 @@ ${record.note}`;
       content,
       `VA-summaries-and-notes-details-${getNameDateAndTime(user)}`,
     );
-  };
-
-  const download = () => {
-    generateCareNotesPDF();
   };
 
   return (
@@ -109,14 +109,13 @@ ${record.note}`;
         <DateSubheading date={record.date} id="progress-note-date" />
       )}
 
-      <div className="no-print">
-        <PrintDownload
-          download={download}
-          downloadTxt={generateCareNotesTxt}
-          allowTxtDownloads={allowTxtDownloads}
-        />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-      </div>
+      {downloadStarted && <DownloadSuccessAlert />}
+      <PrintDownload
+        downloadPdf={generateCareNotesPDF}
+        downloadTxt={generateCareNotesTxt}
+        allowTxtDownloads={allowTxtDownloads}
+      />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
 
       <div className="test-details-container max-80">
         <h2>Details</h2>
@@ -137,7 +136,7 @@ ${record.note}`;
           </>
         )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Date signed
+          Signed on
         </h3>
         <p data-testid="progress-signed-date">{record.dateSigned}</p>
       </div>

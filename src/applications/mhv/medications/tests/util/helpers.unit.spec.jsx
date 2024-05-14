@@ -1,5 +1,9 @@
 import { expect } from 'chai';
-import { EMPTY_FIELD, imageRootUri } from '../../util/constants';
+import {
+  EMPTY_FIELD,
+  imageRootUri,
+  medicationsUrls,
+} from '../../util/constants';
 import {
   dateFormat,
   extractContainedResource,
@@ -8,8 +12,10 @@ import {
   getReactions,
   processList,
   validateField,
-  createMedicationDescription,
   createNoDescriptionText,
+  createVAPharmacyText,
+  fromToNumbs,
+  createBreadcrumbs,
 } from '../../util/helpers';
 
 describe('Date Format function', () => {
@@ -125,96 +131,6 @@ describe('extractContainedResource', () => {
   });
 });
 
-describe('createMedicationDescription', () => {
-  it('should generate a description when all required fields are part of arg object', () => {
-    const args = {
-      color: 'AQUAMARINE',
-      shape: 'DONUT',
-      frontImprint: 'YuMMy',
-      backImprint: '3,4',
-    };
-    const result = createMedicationDescription(args);
-    expect(result).to.eq(
-      'Aquamarine, donut with YuMMy on the front and 3,4 on the back.',
-    );
-
-    expect(
-      createMedicationDescription({
-        color: 'Aquamarine',
-        shape: 'ORB',
-        frontImprint: 'HELLO there',
-        backImprint: null,
-      }),
-    ).to.eq('Aquamarine, orb with HELLO there on the front.');
-
-    // backImprint is a string of blank spaces
-    expect(
-      createMedicationDescription({
-        color: 'Aquamarine',
-        shape: 'ORB',
-        frontImprint: 'HELLO there',
-        backImprint: '            ',
-      }),
-    ).to.eq('Aquamarine, orb with HELLO there on the front.');
-  });
-
-  it('should return null when not any required field is null or a blank string', () => {
-    expect(
-      createMedicationDescription({
-        color: null,
-        shape: null,
-        frontImprint: null,
-        backImprint: null,
-      }),
-    ).to.be.null;
-
-    expect(
-      createMedicationDescription({
-        color: null,
-        shape: 'orb',
-        frontImprint: '1',
-        backImprint: '2',
-      }),
-    ).to.be.null;
-
-    expect(
-      createMedicationDescription({
-        color: 'Aquamarine',
-        shape: null,
-        frontImprint: '1',
-        backImprint: '2',
-      }),
-    ).to.be.null;
-
-    expect(
-      createMedicationDescription({
-        color: 'Aquamarine',
-        shape: 'orb',
-        frontImprint: null,
-        backImprint: '2',
-      }),
-    ).to.be.null;
-
-    expect(
-      createMedicationDescription({
-        color: ' ',
-        shape: 'orb',
-        frontImprint: null,
-        backImprint: '2',
-      }),
-    ).to.be.null;
-
-    expect(
-      createMedicationDescription({
-        color: 'Aquamarine',
-        shape: 'long',
-        frontImprint: ' ',
-        backImprint: '2',
-      }),
-    ).to.be.null;
-  });
-});
-
 describe('createNoDescriptionText', () => {
   it('should include a phone number if provided', () => {
     expect(createNoDescriptionText('555-111-5555')).to.eq(
@@ -226,5 +142,153 @@ describe('createNoDescriptionText', () => {
     expect(createNoDescriptionText()).to.eq(
       'No description available. Call your pharmacy if you need help identifying this medication.',
     );
+  });
+
+  describe('createVAPharmacyText', () => {
+    it('should include a phone number if provided', () => {
+      expect(createVAPharmacyText('555-111-5555')).to.eq(
+        'your VA pharmacy at 555-111-5555',
+      );
+    });
+
+    it('should create a string even if no phone number provided', () => {
+      expect(createVAPharmacyText()).to.eq('your VA pharmacy');
+    });
+  });
+});
+
+describe('fromToNumbs', () => {
+  it('should return [0, 0]', () => {
+    const numbers = fromToNumbs(1, 0, [], 1);
+    expect(numbers[0]).to.eq(0);
+    expect(numbers[1]).to.eq(0);
+  });
+
+  it('should return [1, 2]', () => {
+    const numbers = fromToNumbs(1, 2, [1, 2], 2);
+    expect(numbers[0]).to.eq(1);
+    expect(numbers[1]).to.eq(2);
+  });
+});
+
+describe('createBreadcrumbs', () => {
+  const locationMock = pathname => ({ pathname });
+  const prescriptionMock = {
+    prescriptionId: '123',
+    prescriptionName: 'Aspirin',
+  };
+
+  const defaultBreadcrumb = {
+    href: medicationsUrls.MHV_HOME,
+    label: 'My HealtheVet home',
+  };
+
+  it('should return empty array for an unknown path', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock('/unknown/path'),
+      null,
+      1,
+    );
+    expect(breadcrumbs).to.deep.equal([]);
+  });
+
+  it('should return breadcrumbs for the ABOUT path', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.ABOUT),
+      null,
+      1,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      defaultBreadcrumb,
+      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
+    ]);
+  });
+
+  it('should return breadcrumbs for the BASE path', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.BASE),
+      null,
+      2,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      defaultBreadcrumb,
+      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
+      {
+        href: `${medicationsUrls.MEDICATIONS_URL}?page=2`,
+        label: 'Medications',
+      },
+    ]);
+  });
+
+  it('should return breadcrumbs for the BASE path with empty currentPage', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.BASE),
+      null,
+      undefined,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      defaultBreadcrumb,
+      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
+      {
+        href: `${medicationsUrls.MEDICATIONS_URL}?page=1`,
+        label: 'Medications',
+      },
+    ]);
+  });
+
+  it('should return breadcrumbs for the REFILL path', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.REFILL),
+      null,
+      1,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      defaultBreadcrumb,
+      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
+      {
+        href: medicationsUrls.MEDICATIONS_REFILL,
+        label: 'Refill prescriptions',
+      },
+    ]);
+  });
+
+  it('should return breadcrumbs for the DETAILS path with a prescription', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.DETAILS),
+      prescriptionMock,
+      3,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      defaultBreadcrumb,
+      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
+      {
+        href: `${medicationsUrls.MEDICATIONS_URL}?page=3`,
+        label: 'Medications',
+      },
+      {
+        href: `/${prescriptionMock.prescriptionId}`,
+        label: prescriptionMock.prescriptionName,
+      },
+    ]);
+  });
+
+  it('should return breadcrumbs for the DETAILS path with a prescription and empty currentPage', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.DETAILS),
+      prescriptionMock,
+      undefined,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      defaultBreadcrumb,
+      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
+      {
+        href: `${medicationsUrls.MEDICATIONS_URL}?page=1`,
+        label: 'Medications',
+      },
+      {
+        href: `/${prescriptionMock.prescriptionId}`,
+        label: prescriptionMock.prescriptionName,
+      },
+    ]);
   });
 });

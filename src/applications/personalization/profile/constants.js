@@ -2,7 +2,7 @@
 export const PROFILE_TOGGLES = {
   profileContacts: false,
   profileShowPronounsAndSexualOrientation: false,
-  profileHideDirectDepositCompAndPen: false,
+  profileHideDirectDeposit: false,
   profileShowPaymentsNotificationSetting: false,
   profileShowMhvNotificationSettings: false,
   profileLighthouseDirectDeposit: false,
@@ -10,6 +10,7 @@ export const PROFILE_TOGGLES = {
   profileShowQuickSubmitNotificationSetting: false,
   profileShowEmailNotificationSettings: false,
   profileShowDirectDepositSingleForm: false,
+  profileShowDirectDepositSingleFormUAT: false,
   profileShowDirectDepositSingleFormAlert: false,
   profileShowDirectDepositSingleFormEduDowntime: false,
 };
