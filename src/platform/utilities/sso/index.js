@@ -34,8 +34,14 @@ export const verifySession = () => {
   const sessionExpiration = localStorage
     .getItem('sessionExpirationSSO')
     ?.toString();
+  const isValidPath = !window.location.pathname?.includes('terms-of-use');
 
-  return hasSessionSSO && loginAttempted && sessionExpiration?.length > 0;
+  return (
+    isValidPath &&
+    hasSessionSSO &&
+    loginAttempted &&
+    sessionExpiration?.length > 0
+  );
 };
 
 export async function ssoKeepAliveSession() {

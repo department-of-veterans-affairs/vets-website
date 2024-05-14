@@ -146,7 +146,7 @@ export default function ArrayBuilderSummaryPage({
         }
         return () => timeout && clearTimeout(timeout);
       },
-      [showUpdatedAlert, updateItemIndex, updatedAlertRef.current],
+      [showUpdatedAlert, updateItemIndex, updatedAlertRef],
     );
 
     useEffect(
@@ -277,7 +277,7 @@ export default function ArrayBuilderSummaryPage({
       );
     };
 
-    const Cards = (
+    const Cards = () => (
       <>
         <RemovedAlert show={showRemovedAlert} />
         <UpdatedAlert show={showUpdatedAlert} />
@@ -327,7 +327,7 @@ export default function ArrayBuilderSummaryPage({
               </dl>
             </>
           )}
-          {Cards}
+          <Cards />
           {!isMaxItemsReached && (
             <div className="vads-u-margin-top--2">
               <va-button
@@ -354,7 +354,7 @@ export default function ArrayBuilderSummaryPage({
           )}
         </>
       );
-      uiSchema['ui:description'] = Cards;
+      uiSchema['ui:description'] = <Cards />;
     } else {
       uiSchema['ui:title'] = undefined;
       uiSchema['ui:description'] = undefined;
