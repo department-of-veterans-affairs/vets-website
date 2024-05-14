@@ -397,7 +397,6 @@ export const getGroupedPreviousEnrollments = month => {
 
 export const getSignlePreviousEnrollments = awards => {
   const myUUID = uuidv4();
-
   return (
     <div className="vye-top-border" key={myUUID}>
       {awards.verifiedDate &&

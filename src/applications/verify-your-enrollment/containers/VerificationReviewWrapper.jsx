@@ -20,28 +20,31 @@ import {
   updatePendingVerifications,
   updateVerifications,
   verifyEnrollmentAction,
+  updateVerificationsData,
 } from '../actions';
 import { toLocalISOString } from '../helpers';
 
 const VerificationReviewWrapper = ({
   children,
-  enrollmentData,
+  mockData,
   // loggedIEnenrollmentData,
   dispatchUpdateToggleEnrollmentSuccess,
   dispatchUpdatePendingVerifications,
   dispatchUpdateVerifications,
   dispatchVerifyEnrollmentAction,
+  dispatchUpdateVerificationsData,
   // isUserLoggedIn,
   // dispatchupdateToggleEnrollmentCard,
 }) => {
   useScrollToTop();
+
   const [radioValue, setRadioValue] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
-  const { loading } = useData();
+  const { loading, personalInfo, isUserLoggedIn } = useData();
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
-
+  const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
   const history = useHistory();
 
   const handleBackClick = () => {
@@ -66,6 +69,12 @@ const VerificationReviewWrapper = ({
         paymentDate: null,
       };
     });
+    const awardIds = newVerifiedEnrollments.map(
+      enrollment => enrollment.awardId,
+    );
+    // eslint-disable-next-line no-console
+    console.log(awardIds, 'newVerifiedEnrollments');
+    dispatchUpdateVerificationsData(awardIds);
     dispatchUpdateVerifications(newVerifiedEnrollments);
     dispatchVerifyEnrollmentAction();
   };
@@ -185,7 +194,7 @@ const VerificationReviewWrapper = ({
 };
 
 const mapStateToProps = state => ({
-  enrollmentData: state.mockData.mockData,
+  mockData: state.mockData.mockData,
 });
 
 const mapDispatchToProps = {
@@ -193,6 +202,7 @@ const mapDispatchToProps = {
   dispatchUpdateToggleEnrollmentSuccess: updateToggleEnrollmentSuccess,
   dispatchUpdateVerifications: updateVerifications,
   dispatchVerifyEnrollmentAction: verifyEnrollmentAction,
+  dispatchUpdateVerificationsData: updateVerificationsData,
 };
 
 VerificationReviewWrapper.propTypes = {

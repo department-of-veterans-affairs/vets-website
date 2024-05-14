@@ -11,12 +11,13 @@ const PeriodsToVerify = ({
   isUserLoggedIn,
   link,
   toggleEnrollmentSuccess,
+  // verificationsResponse,
 }) => {
   const userData = isUserLoggedIn ? loggedInEnenrollmentData : enrollmentData;
   const [userEnrollmentData, setUserEnrollmentData] = useState(userData);
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const justVerified = !!toggleEnrollmentSuccess;
-
+  // console.log(verificationsResponse, 'verificationsResponse');
   useEffect(
     () => {
       setUserEnrollmentData(userData);
@@ -87,6 +88,7 @@ const PeriodsToVerify = ({
 
 const mapStateToProps = state => ({
   loggedInEnenrollmentData: state.personalInfo.personalInfo,
+  // verificationsResponse: state.verificationsReducer.verificationsReducer,
 });
 
 PeriodsToVerify.propTypes = {

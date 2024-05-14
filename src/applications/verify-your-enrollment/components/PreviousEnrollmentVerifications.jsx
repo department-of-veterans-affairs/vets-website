@@ -28,7 +28,6 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
       enrollmentData?.['vye::UserInfo']?.pendingVerifications ?? {},
     ),
   ).length;
-
   // get count of verified and unverified enrollments (Grouped by start month)
   const totalEnrollmentCount =
     totalEnrollmentPendingVerificationsCount +
