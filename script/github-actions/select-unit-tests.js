@@ -10,7 +10,7 @@ const ALLOW_LIST = fs.existsSync(path.resolve(`unit_test_allow_list.json`))
   : [];
 
 const ALL_SPECS = ALLOW_LIST.map(spec => spec.spec_path);
-const IS_STRESS_TEST = process.env.IS_STRESS_TEST || false;
+const IS_STRESS_TEST = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false).map(
   spec => spec.spec_path.substring(spec.spec_path.indexOf('src')),
 );
