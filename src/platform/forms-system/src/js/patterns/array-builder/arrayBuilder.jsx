@@ -176,7 +176,7 @@ export function validateMinItems(minItems) {
  *
  *
  * @param {ArrayBuilderOptions} options
- * @param {(pageBuilder: ArrayBuilderPages, helpers: ArrayBuilderHelpers) => FormConfigChapter} pageBuilderCallback
+ * @param {(pageBuilder: ArrayBuilderPages, helpers?: ArrayBuilderHelpers) => FormConfigChapter} pageBuilderCallback
  * @returns {FormConfigChapter}
  */
 export function arrayBuilderPages(options, pageBuilderCallback) {
