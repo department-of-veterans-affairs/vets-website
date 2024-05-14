@@ -283,6 +283,11 @@ export const SIP_ENABLED_FORMS = new Set([
   VA_FORM_IDS.FORM_5655,
 ]);
 
+/**
+ * The following MY_VA_SIP_FORMS array is a work-in-progress, maintained by the Authenticated Experience team.
+ * Platform documentation have NOT been updated to reflect this change
+ */
+
 export const MY_VA_SIP_FORMS = [
   {
     id: VA_FORM_IDS.FORM_10_10EZ,
