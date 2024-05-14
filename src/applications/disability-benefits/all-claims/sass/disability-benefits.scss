@@ -257,6 +257,7 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
 }
 .cc-combobox__list {
   background-color: var(--vads-color-white);
+  padding: 0;
   position: absolute;
   width: calc(100% - 18px); // to offset overflow scrollbar
   overflow-y: auto;
@@ -269,6 +270,7 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
 .cc-combobox__option {
   display: block;
   padding: units(2);
+  margin: 0;
 
   &--active {
     background-color: var(--vads-color-primary);
