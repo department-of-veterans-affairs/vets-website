@@ -1,5 +1,5 @@
 import { isEqual } from 'lodash';
-import moment from 'moment';
+import { add, endOfDay, format, isAfter } from 'date-fns';
 import {
   convertToDateField,
   validateCurrentOrPastDate,
@@ -13,25 +13,22 @@ export function validateServiceDates(
 ) {
   const fromDate = convertToDateField(lastEntryDate);
   const toDate = convertToDateField(lastDischargeDate);
-  const endDate = moment()
-    .endOf('day')
-    .add(1, 'years');
+  const yearFromToday = endOfDay(add(new Date(), { years: 1 }));
+  const endDate = format(yearFromToday, 'MMMM d, yyyy');
 
   if (
     !isValidDateRange(fromDate, toDate) ||
-    moment(lastDischargeDate, 'YYYY-MM-DD').isAfter(endDate)
+    isAfter(new Date(lastDischargeDate), yearFromToday)
   ) {
     errors.lastDischargeDate.addError(
-      `Discharge date must be after the service period start date and before ${endDate.format(
-        'MMMM D, YYYY',
-      )} (1 year from today)`,
+      `Discharge date must be after the service period start date and before ${endDate} (1 year from today)`,
     );
   }
 
   if (veteranDateOfBirth) {
-    const dateOfBirth = moment(veteranDateOfBirth);
+    const dateOfBirthPlus15 = add(new Date(veteranDateOfBirth), { years: 15 });
 
-    if (dateOfBirth.add(15, 'years').isAfter(moment(lastEntryDate))) {
+    if (isAfter(dateOfBirthPlus15, new Date(lastEntryDate))) {
       errors.lastEntryDate.addError(
         'You must have been at least 15 years old when you entered the service',
       );
@@ -88,10 +85,7 @@ export function validateExposureDates(
 }
 
 export function validateDependentDate(errors, fieldData, { dateOfBirth }) {
-  const dependentDate = moment(fieldData);
-  const birthDate = moment(dateOfBirth);
-
-  if (birthDate.isAfter(dependentDate)) {
+  if (isAfter(new Date(dateOfBirth), new Date(fieldData))) {
     errors.addError(
       'This date must come after the dependent\u2019s birth date',
     );

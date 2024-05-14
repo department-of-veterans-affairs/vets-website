@@ -12,6 +12,7 @@ describe('Medications Renew Section on Refill Page', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     refillPage.verifyRefillPageTitle();
+    refillPage.verifyRenewableSectionHeaderOnRefillPage();
     refillPage.verifyRenewListCountonRefillPage(1, 20, listLength);
   });
 });

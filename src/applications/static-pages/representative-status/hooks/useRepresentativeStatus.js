@@ -22,7 +22,7 @@ export function useRepresentativeStatus() {
             concatAddress,
             contact,
             extension,
-            vcard,
+            vcfUrl,
           } = formatContactInfo(poaData.attributes);
 
           setRepresentative({
@@ -32,7 +32,7 @@ export function useRepresentativeStatus() {
             concatAddress,
             contact,
             extension,
-            vcard,
+            vcfUrl,
           });
         }
       } catch (e) {
