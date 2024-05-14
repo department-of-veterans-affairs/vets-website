@@ -71,7 +71,8 @@ export default function ClinicChoicePage() {
     document.title = `${pageTitle} | Veterans Affairs`;
     dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
   }, []);
-
+  // eslint-disable-next-line no-console
+  console.log('length:', schema.properties.clinicId.enum.length);
   return (
     <div>
       {schema.properties.clinicId.enum.length === 2 && (
