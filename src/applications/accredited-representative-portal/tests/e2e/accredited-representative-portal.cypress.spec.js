@@ -1,36 +1,36 @@
-const featureIsEnabled = value => {
-  cy.intercept('GET', '/v0/feature_toggles*', {
-    data: {
-      features: [{ name: 'accredited_representative_portal_frontend', value }],
-    },
-  });
-};
+import { setFeatureToggles } from './intercepts/feature-toggles';
 
 describe('Accredited Representative Portal', () => {
-  describe('Feature toggle not enabled', () => {
-    beforeEach(function skipOutsideCI() {
-      if (!Cypress.env('CI')) {
-        this.skip();
-      }
-      featureIsEnabled(false);
+  describe('App feature toggle is not enabled', () => {
+    beforeEach(() => {
+      setFeatureToggles({
+        isAppEnabled: false,
+        isInPilot: false,
+      });
+
+      cy.visit('/representative');
+
+      cy.injectAxe();
     });
 
-    it('does not allow navigation to the Portal when feature is not enabled', () => {
-      // During CI, the environment is production, so we can test our global
-      // feature toggling behavior there. But when running this test locally, the
-      // environment is localhost, so we can't test our global feature toggling
-      // behavior there without doing some more complex test setup.
-      cy.visit('/representative');
-      cy.injectAxe();
+    it('displays an error if app is not enabled', () => {
       cy.axeCheck();
 
-      cy.location('pathname').should('equal', '/');
+      cy.get('[data-testid=app-not-enabled-alert]').should('exist');
+      cy.get('[data-testid=app-not-enabled-alert-heading]').should(
+        'have.text',
+        'The Accredited Representative Portal is not available yet',
+      );
     });
   });
 
-  describe('Feature toggle enabled - Navigation from Landing Page to pages and back', () => {
+  describe('App feature toggle is enabled, but Pilot feature toggle is not enabled', () => {
     beforeEach(() => {
-      featureIsEnabled(true);
+      setFeatureToggles({
+        isAppEnabled: true,
+        isInPilot: false,
+      });
+
       cy.visit('/representative');
 
       cy.injectAxe();
@@ -43,6 +43,30 @@ describe('Accredited Representative Portal', () => {
         .contains('Sign in or create account')
         .click();
       cy.location('pathname').should('equal', '/sign-in/');
+    });
+
+    it('displays an alert if user is not in pilot', () => {
+      cy.axeCheck();
+
+      cy.get('[data-testid=landing-page-bypass-sign-in-link]').click();
+      cy.get('[data-testid=not-in-pilot-alert]').should('exist');
+      cy.get('[data-testid=not-in-pilot-alert-heading]').should(
+        'have.text',
+        'Accredited Representative Portal is currently in pilot',
+      );
+    });
+  });
+
+  describe('App feature toggle and Pilot feature toggle are enabled', () => {
+    beforeEach(() => {
+      setFeatureToggles({
+        isAppEnabled: true,
+        isInPilot: true,
+      });
+
+      cy.visit('/representative');
+
+      cy.injectAxe();
     });
 
     it('allows navigation from the Landing Page to the Dashboard Page and back', () => {
