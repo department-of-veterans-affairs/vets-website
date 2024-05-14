@@ -128,20 +128,25 @@ export default function ArrayBuilderSummaryPage({
           setShowUpdatedAlert(updateItemIndex != null);
         }
       },
-      [updatedNounSingular, updateItemIndex],
+      [updatedNounSingular, updateItemIndex, nounSingular],
     );
 
     useEffect(
       () => {
         let timeout;
-        if (showUpdatedAlert && updateItemIndex != null && updatedAlertRef) {
+
+        if (
+          showUpdatedAlert &&
+          updateItemIndex != null &&
+          updatedAlertRef.current
+        ) {
           timeout = setTimeout(() => {
             scrollAndFocus(updatedAlertRef.current);
           }, 300);
         }
         return () => timeout && clearTimeout(timeout);
       },
-      [showUpdatedAlert],
+      [showUpdatedAlert, updateItemIndex, updatedAlertRef],
     );
 
     useEffect(
@@ -208,7 +213,7 @@ export default function ArrayBuilderSummaryPage({
       // alert
       setShowUpdatedAlert(false);
 
-      setRemovedItemText(getText('alertItemRemoved', item));
+      setRemovedItemText(getText('alertItemDeleted', item));
       setRemovedItemIndex(index);
       setShowRemovedAlert(true);
       requestAnimationFrame(() => {
@@ -272,7 +277,7 @@ export default function ArrayBuilderSummaryPage({
       );
     };
 
-    const Cards = (
+    const Cards = () => (
       <>
         <RemovedAlert show={showRemovedAlert} />
         <UpdatedAlert show={showUpdatedAlert} />
@@ -322,7 +327,7 @@ export default function ArrayBuilderSummaryPage({
               </dl>
             </>
           )}
-          {Cards}
+          <Cards />
           {!isMaxItemsReached && (
             <div className="vads-u-margin-top--2">
               <va-button
@@ -349,7 +354,7 @@ export default function ArrayBuilderSummaryPage({
           )}
         </>
       );
-      uiSchema['ui:description'] = Cards;
+      uiSchema['ui:description'] = <Cards />;
     } else {
       uiSchema['ui:title'] = undefined;
       uiSchema['ui:description'] = undefined;
