@@ -9,7 +9,7 @@ import {
 } from '../utils/appointment';
 
 const UpcomingAppointmentsListItem = props => {
-  const { appointment, goToDetails, router } = props;
+  const { appointment, goToDetails, router, border } = props;
   const { t } = useTranslation();
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
@@ -40,7 +40,8 @@ const UpcomingAppointmentsListItem = props => {
 
   return (
     <li
-      className="check-in--appointment-item"
+      className={`check-in--appointment-item ${border &&
+        'vads-u-border-bottom--1px vads-u-border-color--gray-light'}`}
       data-testid="appointment-list-item"
     >
       <div
@@ -97,6 +98,7 @@ const UpcomingAppointmentsListItem = props => {
 
 UpcomingAppointmentsListItem.propTypes = {
   appointment: PropTypes.object.isRequired,
+  border: PropTypes.object.isRequired,
   goToDetails: PropTypes.func,
   router: PropTypes.object,
 };

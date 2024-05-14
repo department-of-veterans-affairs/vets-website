@@ -74,7 +74,7 @@ const UpcomingAppointmentsList = props => {
                   key={index}
                 >
                   <div className="vads-l-row">
-                    <div className="vads-l-col--2 vads-u-border-top--1px vads-u-border-color--gray-light">
+                    <div className="vads-l-col--2 vads-u-border-top--1px">
                       <h4
                         className="vads-u-text-align--center vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--1p5"
                         data-testid="day-label"
@@ -86,28 +86,20 @@ const UpcomingAppointmentsList = props => {
                         {t('date-day-of-week', { date: dayStartTime })}
                       </h4>
                     </div>
-                    <div className="vads-l-col--10 vads-u-border-top--1px vads-u-border-color--gray-light">
+                    <div className="vads-l-col--10 vads-u-border-top--1px">
                       <ul
                         className="vads-u-margin-bottom--3 check-in--appointment-list appointment-list"
                         data-testid="appointment-list"
                       >
                         {appointments.map((appointment, number) => {
                           return (
-                            <div
-                              key={number}
-                              className={
-                                number !== appointments.length - 1
-                                  ? 'vads-u-border-bottom--1px vads-u-border-color--gray-light'
-                                  : ''
-                              }
-                            >
-                              <UpcomingAppointmentsListItem
-                                key={getAppointmentId(appointment)}
-                                appointment={appointment}
-                                goToDetails={handleDetailClick}
-                                router={router}
-                              />
-                            </div>
+                            <UpcomingAppointmentsListItem
+                              key={getAppointmentId(appointment)}
+                              appointment={appointment}
+                              goToDetails={handleDetailClick}
+                              router={router}
+                              border={number !== appointments.length - 1}
+                            />
                           );
                         })}
                       </ul>
