@@ -53,3 +53,11 @@
   font-size: 1.4rem;
   line-height: 1;
 }
+
+.arp-full-width-alert {
+  width: 100%;
+
+  &__questions {
+    font-weight: 700;
+  }
+}
