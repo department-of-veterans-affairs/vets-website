@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function LoadingButton({
   isLoading,
@@ -21,6 +22,7 @@ export default function LoadingButton({
     children
   );
 
+  // Switch to va-button-icon once the loading icon is added
   return (
     <button
       className="usa-button"
@@ -33,3 +35,11 @@ export default function LoadingButton({
     </button>
   );
 }
+
+LoadingButton.propTypes = {
+  children: PropTypes.any,
+  disabled: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  loadingText: PropTypes.string,
+  onClick: PropTypes.func,
+};

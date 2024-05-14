@@ -16,14 +16,10 @@ const CannotReplyAlert = props => {
           <p>{Alerts.Message.CANNOT_REPLY_BODY}</p>
           <p className="vads-u-margin-top--neg1 vads-u-margin-bottom--1 vads-u-font-weight--bold">
             <Link
-              className="alertbox-link"
+              className="alertbox-link vads-c-action-link--green"
               aria-label="Start a new message"
               to={Paths.COMPOSE}
             >
-              <i
-                aria-hidden
-                className="fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1"
-              />
               Start a new message
             </Link>
           </p>

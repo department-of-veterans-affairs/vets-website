@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import set from 'platform/utilities/data/set';
@@ -264,6 +265,34 @@ describe('showRevisedNewDisabilitiesPage', () => {
   it('should return false if the toggle is not enabled', () => {
     const formData = {};
     expect(showRevisedNewDisabilitiesPage(formData)).to.be.false;
+  });
+
+  it('should show new combobox container', () => {
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.disabilities.pages.addDisabilitiesRevised;
+    const onSubmit = sinon.spy();
+    const screen = render(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:claimType': {
+            'view:claimingNew': true,
+            'view:claimingIncrease': true,
+          },
+          newDisabilities: [],
+          // no rated disability selected
+          ratedDisabilities: [{}, {}],
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+    const labelStr = 'What new condition do you want to claim?';
+    expect(screen.getByText(labelStr)).to.exist;
   });
 
   describe('toggle enabled', () => {

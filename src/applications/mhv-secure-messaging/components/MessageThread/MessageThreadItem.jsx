@@ -108,20 +108,21 @@ const MessageThreadItem = props => {
         {isDraft ? 'DRAFT' : dateFormat(sentDate, 'MMMM D [at] h:mm a z')}
       </h3>
       {!isSentOrReadOrDraft && (
-        <i
-          role="img"
+        <span
           aria-hidden
           data-testid="unread-icon"
-          className="vads-u-color--primary vads-u-padding--0p25 vads-u-margin-right--1 fas fa-solid fa-circle fa-xs"
+          role="img"
+          className="vads-u-color--primary vads-u-padding--0p25 vads-u-margin-right--1 unread-bubble"
           slot="icon"
           alt="Unread message icon"
         />
       )}
       {(hasAttachments || attachment) && (
-        <i
+        <va-icon
+          icon="attach_file"
           role="img"
           data-testid="attachment-icon"
-          className="vads-u-margin-right--1p5 fas fa-paperclip vads-u-color--base"
+          className="vads-u-margin-right--1p5 vads-u-color--base"
           slot="subheader-icon"
           aria-hidden
           alt="Attachment icon"
