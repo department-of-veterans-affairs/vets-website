@@ -51,9 +51,9 @@ const ReviewPage = () => {
           {capitalize(fullName.first)} {capitalize(fullName.last)}
         </b>
       </p>
-      <p>Social Security number: ***-**-2139</p>
-      <p>VA file number: ***-**-8355</p>
-      <p>Zip code: 12590</p>
+      <p>Social Security number: TODO: Insert redacted SSN</p>
+      <p>VA file number: TODO: Insert redacted File Number</p>
+      <p>Zip code: TODO: Insert zip code</p>
       <p>
         <b>Note:</b> If you need to update your personal information, please
         call us at 800-827-1000. We’re here Monday through Friday, 8:00am to
