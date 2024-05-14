@@ -19,9 +19,9 @@ import {
 } from '../../../mocks/setup';
 
 import ReviewPage from '../../../../new-appointment/components/ReviewPage';
-import { mockAppointmentSubmitV2 } from '../../../mocks/helpers';
-import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
-import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
+import { mockAppointmentSubmit } from '../../../mocks/helpers';
+import { createMockCheyenneFacility } from '../../../mocks/data';
+import { mockFacilityFetch } from '../../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -80,7 +80,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
   it('should submit successfully', async () => {
     store = createTestStore(defaultState);
-    mockAppointmentSubmitV2({
+    mockAppointmentSubmit({
       id: 'fake_id',
       attributes: {
         reasonCode: {},
@@ -132,7 +132,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
         },
       },
     });
-    mockAppointmentSubmitV2({
+    mockAppointmentSubmit({
       id: 'fake_id',
       attributes: {
         reasonCode: {},
@@ -184,7 +184,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
         },
       },
     });
-    mockAppointmentSubmitV2({
+    mockAppointmentSubmit({
       id: 'fake_id',
       attributes: {
         reasonCode: {},
@@ -216,8 +216,8 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
   it('should show error message on failure', async () => {
     store = createTestStore(defaultState);
-    mockFacilityFetchByVersion({
-      facility: createMockCheyenneFacilityByVersion({}),
+    mockFacilityFetch({
+      facility: createMockCheyenneFacility({}),
     });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),

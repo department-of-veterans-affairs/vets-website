@@ -8,7 +8,7 @@ import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import { AppointmentList } from '../../../appointment-list';
 import PastAppointmentsList from '../../../appointment-list/components/PastAppointmentsList';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
-import { createMockAppointmentByVersion } from '../../mocks/data';
+import { createMockAppointment } from '../../mocks/data';
 import { getVAOSAppointmentMock, getVAOSRequestMock } from '../../mocks/mock';
 import RequestedAppointmentsListGroup from '../../../appointment-list/components/RequestedAppointmentsListGroup';
 
@@ -63,7 +63,7 @@ describe('VAOS Backend Service Alert', () => {
         text: 'test comment',
       },
     };
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -132,7 +132,7 @@ describe('VAOS Backend Service Alert', () => {
         text: 'test comment',
       },
     };
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 

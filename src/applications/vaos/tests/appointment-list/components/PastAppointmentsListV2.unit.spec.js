@@ -10,8 +10,8 @@ import PastAppointmentsList, {
 } from '../../../appointment-list/components/PastAppointmentsList';
 import { getVAOSAppointmentMock } from '../../mocks/mock';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
-import { createMockAppointmentByVersion } from '../../mocks/data';
-import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
+import { createMockAppointment } from '../../mocks/data';
+import { mockFacilitiesFetch } from '../../mocks/fetch';
 import MockAppointmentResponse from '../../e2e/fixtures/MockAppointmentResponse';
 
 const initialState = {
@@ -42,7 +42,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
-    mockFacilitiesFetchByVersion();
+    mockFacilitiesFetch();
   });
 
   afterEach(() => {
@@ -120,7 +120,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       locationId: '983GC',
       status: 'booked',
     };
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -204,7 +204,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
         },
       },
     };
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -249,7 +249,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       locationId: '983GC',
       status: 'booked',
     };
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 

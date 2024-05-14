@@ -13,8 +13,8 @@ import {
 
 import ClinicChoicePage from '../../../new-appointment/components/ClinicChoicePage';
 import { getV2ClinicMock } from '../../mocks/mock';
-import { createMockCheyenneFacilityByVersion } from '../../mocks/data';
-import { mockEligibilityFetchesByVersion } from '../../mocks/fetch';
+import { createMockCheyenneFacility } from '../../mocks/data';
+import { mockEligibilityFetches } from '../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -43,9 +43,9 @@ describe('VAOS Page: ClinicChoicePage', () => {
         stationId: '983',
       }),
     ];
-    const facilityData = createMockCheyenneFacilityByVersion();
+    const facilityData = createMockCheyenneFacility();
     facilityData.id = '983';
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
       typeOfCareId: 'primaryCare',
@@ -105,9 +105,9 @@ describe('VAOS Page: ClinicChoicePage', () => {
         stationId: '983',
       }),
     ];
-    const facilityData = createMockCheyenneFacilityByVersion();
+    const facilityData = createMockCheyenneFacility();
     facilityData.id = '983';
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
       typeOfCareId: 'amputation',
@@ -170,9 +170,9 @@ describe('VAOS Page: ClinicChoicePage', () => {
         stationId: '983',
       }),
     ];
-    const facilityData = createMockCheyenneFacilityByVersion();
+    const facilityData = createMockCheyenneFacility();
     facilityData.id = '983';
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
       typeOfCareId: 'amputation',
@@ -254,7 +254,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
         stationId: '983',
       }),
     ];
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
       typeOfCareId: 'primaryCare',
@@ -309,11 +309,11 @@ describe('VAOS Page: ClinicChoicePage', () => {
         stationId: '983',
       }),
     ];
-    const facilityData = createMockCheyenneFacilityByVersion();
+    const facilityData = createMockCheyenneFacility();
     facilityData.id = '983';
 
     // And the second clinic matches a past appointment
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       siteId: '983',
       facilityId: '983',
       typeOfCareId: 'amputation',

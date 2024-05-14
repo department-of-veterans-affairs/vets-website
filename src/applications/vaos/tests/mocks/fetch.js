@@ -22,7 +22,7 @@ import { getDateRanges, mockVAOSAppointmentsFetch } from './helpers';
  *    past appointment with a clinic matching one passed in the clinics param, so that the user passes the past clinics check
  * }
  */
-export function mockEligibilityFetchesByVersion({
+export function mockEligibilityFetches({
   facilityId,
   typeOfCareId,
   limit = false,
@@ -141,11 +141,7 @@ export function mockEligibilityFetchesByVersion({
  * @param {string} params.clinicName The name of the clinic to return,
  * }
  */
-export function mockSingleClinicFetchByVersion({
-  locationId,
-  clinicId,
-  clinicName,
-}) {
+export function mockSingleClinicFetch({ locationId, clinicId, clinicName }) {
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${
@@ -175,7 +171,7 @@ export function mockSingleClinicFetchByVersion({
  * @param {Boolean} [params.children=false] Sets the children query param, which is meant to include child
  *   facilities.
  */
-export function mockFacilitiesFetchByVersion({
+export function mockFacilitiesFetch({
   ids = null,
   facilities = [],
   children = false,
@@ -201,7 +197,7 @@ export function mockFacilitiesFetchByVersion({
  * @param {Object} params
  * @param {VAFacility} params.facility The facility object to return from the fetch
  */
-export function mockFacilityFetchByVersion({ facility } = {}) {
+export function mockFacilityFetch({ facility } = {}) {
   const baseUrl = `${environment.API_URL}/vaos/v2/facilities/${facility.id}`;
 
   setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: facility });

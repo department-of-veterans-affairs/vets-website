@@ -16,8 +16,8 @@ import {
 } from '../../../mocks/setup';
 import { mockSchedulingConfigurations } from '../../../mocks/helpers';
 import { getSchedulingConfigurationMock } from '../../../mocks/mock';
-import { createMockFacilityByVersion } from '../../../mocks/data';
-import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
+import { createMockFacility } from '../../../mocks/data';
+import { mockFacilitiesFetch } from '../../../mocks/fetch';
 
 async function chooseMorningRequestSlot(screen) {
   const currentMonth = moment()
@@ -473,14 +473,14 @@ describe('VAOS Page: DateTimeRequestPage', () => {
 
   describe('community care iterations flag is turned on', () => {
     beforeEach(() => {
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '984',
           }),
         ],

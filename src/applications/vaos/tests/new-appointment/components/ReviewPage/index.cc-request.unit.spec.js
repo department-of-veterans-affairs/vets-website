@@ -20,7 +20,7 @@ import {
 
 import ReviewPage from '../../../../new-appointment/components/ReviewPage';
 
-import { mockAppointmentSubmitV2 } from '../../../mocks/helpers';
+import { mockAppointmentSubmit } from '../../../mocks/helpers';
 
 const initialStateVAOSService = {
   featureToggles: {
@@ -123,7 +123,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
   it('should submit successfully', async () => {
     store = createTestStore(defaultState);
 
-    mockAppointmentSubmitV2({
+    mockAppointmentSubmit({
       id: 'fake_id',
       attributes: {
         reasonCode: {},
@@ -213,7 +213,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
       },
     });
 
-    mockAppointmentSubmitV2({
+    mockAppointmentSubmit({
       id: 'fake_id',
       attributes: {
         reasonCode: {},

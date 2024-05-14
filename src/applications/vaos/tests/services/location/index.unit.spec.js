@@ -15,8 +15,8 @@ import {
 import facilityDetails from '../../../services/mocks/v2/facilities.json';
 import ccProviders from '../../../services/mocks/var/cc_providers.json';
 import { VHA_FHIR_ID } from '../../../utils/constants';
-import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
-import { createMockFacilityByVersion } from '../../mocks/data';
+import { mockFacilitiesFetch } from '../../mocks/fetch';
+import { createMockFacility } from '../../mocks/data';
 import { mockSchedulingConfigurations } from '../../mocks/helpers';
 import { getSchedulingConfigurationMock } from '../../mocks/mock';
 
@@ -101,14 +101,14 @@ describe('VAOS Services: Location ', () => {
 
     it('should make 3 successful requests', async () => {
       mockFetch();
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
             name: 'Cheyenne VA Medical Center',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '984',
           }),
         ],

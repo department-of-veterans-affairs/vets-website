@@ -2,8 +2,8 @@ import moment from 'moment';
 
 import { mockAppointmentSlotFetch } from '../../../mocks/helpers';
 import { getAppointmentSlotMock } from '../../../mocks/mock';
-import { mockEligibilityFetchesByVersion } from '../../../mocks/fetch';
-import { createMockClinicByVersion } from '../../../mocks/data';
+import { mockEligibilityFetches } from '../../../mocks/fetch';
+import { createMockClinic } from '../../../mocks/data';
 
 export function setDateTimeSelectMockFetches({
   typeOfCareId = 'primaryCare',
@@ -12,19 +12,19 @@ export function setDateTimeSelectMockFetches({
   slotDatesByClinicId = {},
 } = {}) {
   const clinicIds = Object.keys(slotDatesByClinicId);
-  const clinic1 = createMockClinicByVersion({
+  const clinic1 = createMockClinic({
     id: '308',
     stationId: '983',
     friendlyName: 'Green team clinic',
   });
-  const clinic2 = createMockClinicByVersion({
+  const clinic2 = createMockClinic({
     id: '309',
     stationId: '983',
     friendlyName: 'Red team clinic',
   });
   const clinics = [clinic1, clinic2];
 
-  mockEligibilityFetchesByVersion({
+  mockEligibilityFetches({
     facilityId: '983',
     typeOfCareId,
     limit: true,
@@ -32,7 +32,7 @@ export function setDateTimeSelectMockFetches({
     clinics: clinicIds.length === 2 ? clinics : [clinics[0]],
     pastClinics: true,
   });
-  mockEligibilityFetchesByVersion({
+  mockEligibilityFetches({
     facilityId: '983',
     typeOfCareId,
     limit: true,

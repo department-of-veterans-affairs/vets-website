@@ -15,7 +15,7 @@ import metaWithoutFailures from '../../services/mocks/v2/meta.json';
  * @export
  * @param {VAOSAppointment} data The appointment data to return from the mock
  */
-export function mockAppointmentSubmitV2(data) {
+export function mockAppointmentSubmit(data) {
   setFetchJSONResponse(
     global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
     { data },
@@ -272,23 +272,17 @@ export function getDateRanges(nbrOfYears = 1) {
  * @param {Object} arguments - Function arguments.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockAppointmentUpdateApi({
   response: data,
   responseCode = 200,
-  version = 2,
 }) {
-  let baseUrl = '';
+  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${data.id}`;
 
-  if (version === 2) {
-    baseUrl = `${environment.API_URL}/vaos/v2/appointments/${data.id}`;
-
-    if (responseCode === 200) {
-      setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
-    } else {
-      setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
-    }
+  if (responseCode === 200) {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
   }
 
   return baseUrl;
@@ -303,25 +297,16 @@ export function mockAppointmentUpdateApi({
  * @param {Object} arguments - Function arguments.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
-export function mockAppointmentApi({
-  response: data,
-  responseCode = 200,
-  version = 2,
-}) {
-  let baseUrl = '';
+export function mockAppointmentApi({ response: data, responseCode = 200 }) {
+  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${
+    data.id
+  }?_include=facilities,clinics`;
 
-  if (version === 2) {
-    baseUrl = `${environment.API_URL}/vaos/v2/appointments/${
-      data.id
-    }?_include=facilities,clinics`;
-
-    if (responseCode === 200) {
-      setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
-    } else {
-      setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
-    }
+  if (responseCode === 200) {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data });
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
   }
 
   return baseUrl;
@@ -336,7 +321,6 @@ export function mockAppointmentApi({
  * @param {Object} arguments - Function arguments.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockAppointmentsApi({
   end,
@@ -345,31 +329,24 @@ export function mockAppointmentsApi({
   response: data,
   backendServiceFailures = false,
   responseCode = 200,
-  version = 2,
 }) {
-  let baseUrl = '';
+  const baseUrl = `${
+    environment.API_URL
+  }/vaos/v2/appointments?_include=facilities,clinics&start=${start}&end=${end}&${statuses
+    .map(status => `statuses[]=${status}`)
+    .join('&')}`;
 
-  if (version === 2) {
-    baseUrl = `${
-      environment.API_URL
-    }/vaos/v2/appointments?_include=facilities,clinics&start=${start}&end=${end}&${statuses
-      .map(status => `statuses[]=${status}`)
-      .join('&')}`;
+  const meta = backendServiceFailures ? metaWithFailures : metaWithoutFailures;
 
-    const meta = backendServiceFailures
-      ? metaWithFailures
-      : metaWithoutFailures;
-
-    if (responseCode === 200) {
-      // Returns a meta object within the response with or without any backendServiceFailures
-      setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
-        data,
-        meta,
-      });
-    } else {
-      // General fetching error, no appointments returned
-      setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
-    }
+  if (responseCode === 200) {
+    // Returns a meta object within the response with or without any backendServiceFailures
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+      data,
+      meta,
+    });
+  } else {
+    // General fetching error, no appointments returned
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
   }
 
   return baseUrl;
@@ -384,13 +361,11 @@ export function mockAppointmentsApi({
  * @param {Object} arguments - Function arguments.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockGetUpcomingAppointmentsApi({
   response: data,
   backendServiceFailures = false,
   responseCode = 200,
-  version = 2,
 }) {
   const end = moment()
     .add(395, 'days')
@@ -407,7 +382,6 @@ export function mockGetUpcomingAppointmentsApi({
     response: data,
     backendServiceFailures,
     responseCode,
-    version,
   });
 }
 
@@ -420,13 +394,11 @@ export function mockGetUpcomingAppointmentsApi({
  * @param {Object} arguments - Function arguments.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockGetPendingAppointmentsApi({
   response: data,
   backendServiceFailures = false,
   responseCode = 200,
-  version = 2,
 }) {
   const end = moment()
     .add(1, 'day')
@@ -443,7 +415,6 @@ export function mockGetPendingAppointmentsApi({
     response: data,
     backendServiceFailures,
     responseCode,
-    version,
   });
 }
 
@@ -458,29 +429,23 @@ export function mockGetPendingAppointmentsApi({
  * @param {String} arguments.locationId - Location id.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockClinicsApi({
   clinicId,
   locationId,
   response: data,
   responseCode = 200,
-  version = 2,
 }) {
-  let baseUrl = '';
+  const baseUrl = `${
+    environment.API_URL
+  }/vaos/v2/locations/${locationId}/clinics?clinic_ids%5B%5D=${clinicId}`;
 
-  if (version === 2) {
-    baseUrl = `${
-      environment.API_URL
-    }/vaos/v2/locations/${locationId}/clinics?clinic_ids%5B%5D=${clinicId}`;
-
-    if (responseCode === 200) {
-      setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
-        data,
-      });
-    } else {
-      setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
-    }
+  if (responseCode === 200) {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+      data,
+    });
+  } else {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
   }
 
   return baseUrl;

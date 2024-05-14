@@ -35,8 +35,8 @@ import {
 } from './helpers';
 import { TYPES_OF_CARE } from '../../utils/constants';
 import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
-import { createMockFacilityByVersion } from './data';
-import { mockFacilitiesFetchByVersion } from './fetch';
+import { createMockFacility } from './data';
+import { mockFacilitiesFetch } from './fetch';
 import { getSchedulingConfigurationMock } from './mock';
 
 /**
@@ -232,12 +232,12 @@ export async function setVAFacility(
 
   const facilities = [
     facilityData ||
-      createMockFacilityByVersion({
+      createMockFacility({
         id: facilityId,
       }),
   ];
 
-  mockFacilitiesFetchByVersion({ children: true, facilities });
+  mockFacilitiesFetch({ children: true, facilities });
   mockSchedulingConfigurations([
     getSchedulingConfigurationMock({
       id: '983',
@@ -271,13 +271,13 @@ export async function setVaccineFacility(store, facilityId, facilityData = {}) {
   // const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
   const facilities = [
-    createMockFacilityByVersion({
+    createMockFacility({
       id: facilityId,
       ...facilityData,
     }),
   ];
 
-  mockFacilitiesFetchByVersion({ children: true, facilities });
+  mockFacilitiesFetch({ children: true, facilities });
   mockSchedulingConfigurations([
     getSchedulingConfigurationMock({
       id: '983',
@@ -391,7 +391,7 @@ export async function setPreferredDate(store, preferredDate) {
  * @param {Object} params
  * @param {Object} toggles Any feature toggles to set. CC toggle is set by default
  * @param {Array<Object>} parentSites List of parent sites and data, in the format used
- *  by the createMockFacilityByVersion params, so you can pass name, id, and address
+ *  by the createMockFacility params, so you can pass name, id, and address
  * @param {?Array<string>} supportedSites List of site ids that support community care.
  *  Defaults to the parent site ids if not provided
  * @param {?Array<string>} registeredSites List of registered site ids. Will use ids
@@ -432,9 +432,7 @@ export async function setCommunityCareFlow({
 
   mockVAOSParentSites(
     registered,
-    parentSites.map(data =>
-      createMockFacilityByVersion({ ...data, isParent: true }),
-    ),
+    parentSites.map(data => createMockFacility({ ...data, isParent: true })),
     true,
   );
   mockV2CommunityCareEligibility({

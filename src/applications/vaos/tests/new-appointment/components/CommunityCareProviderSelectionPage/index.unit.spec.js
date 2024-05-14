@@ -24,8 +24,8 @@ import CommunityCareProviderSelectionPage from '../../../../new-appointment/comp
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../../utils/constants';
-import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
-import { createMockFacilityByVersion } from '../../../mocks/data';
+import { mockFacilitiesFetch } from '../../../mocks/fetch';
+import { createMockFacility } from '../../../mocks/data';
 import { getSchedulingConfigurationMock } from '../../../mocks/mock';
 
 const initialState = {
@@ -67,11 +67,11 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ),
       CC_PROVIDERS_DATA,
     );
-    mockFacilitiesFetchByVersion({
+    mockFacilitiesFetch({
       children: true,
       ids: ['983'],
       facilities: [
-        createMockFacilityByVersion({
+        createMockFacility({
           id: '983',
           address: {
             line: [],

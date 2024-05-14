@@ -9,7 +9,7 @@ import {
   mockVAOSAppointmentsFetch,
 } from '../../mocks/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
-import { createMockAppointmentByVersion } from '../../mocks/data';
+import { createMockAppointment } from '../../mocks/data';
 
 import { AppointmentList } from '../../../appointment-list';
 
@@ -69,7 +69,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       },
     };
 
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -181,7 +181,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       },
     };
 
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -242,7 +242,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       },
     };
 
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -305,7 +305,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       },
     };
 
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -367,7 +367,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       },
     };
 
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -429,7 +429,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       },
     };
 
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -491,7 +491,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       },
     };
 
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -549,7 +549,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       status: 'cancelled',
     };
 
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 

@@ -18,7 +18,7 @@ import {
 
 import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
 import { NewAppointment } from '../../../new-appointment';
-import { createMockFacilityByVersion } from '../../mocks/data';
+import { createMockFacility } from '../../mocks/data';
 import { FLOW_TYPES } from '../../../utils/constants';
 
 const initialState = {
@@ -45,8 +45,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
     mockVAOSParentSites(
       ['983'],
       [
-        createMockFacilityByVersion({ id: '983', isParent: true }),
-        createMockFacilityByVersion({ id: '983GC', isParent: true }),
+        createMockFacility({ id: '983', isParent: true }),
+        createMockFacility({ id: '983GC', isParent: true }),
       ],
       true,
     );
@@ -73,8 +73,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
     mockVAOSParentSites(
       ['983'],
       [
-        createMockFacilityByVersion({ id: '983', isParent: true }),
-        createMockFacilityByVersion({ id: '983GC', isParent: true }),
+        createMockFacility({ id: '983', isParent: true }),
+        createMockFacility({ id: '983GC', isParent: true }),
       ],
       true,
     );

@@ -17,7 +17,7 @@ import moment from '../../lib/moment-tz';
  *   on the version 0 output (kind, start, etc) and all are merged into the v2 output
  * @returns {VAOSAppointment} An appointment object in the specified format
  */
-export function createMockAppointmentByVersion({
+export function createMockAppointment({
   id = null,
   email = null,
   phone = null,
@@ -90,7 +90,7 @@ export function createMockAppointmentByVersion({
  *
  * @returns {VAOSClinic} A mock clinic object
  */
-export function createMockClinicByVersion({
+export function createMockClinic({
   id = null,
   stationId = null,
   name = null,
@@ -133,7 +133,7 @@ export function createMockClinicByVersion({
  *
  * @returns {VAFacility} The facility mock with specified data
  */
-export function createMockFacilityByVersion({
+export function createMockFacility({
   id = 'fake',
   name = 'Fake name',
   address,
@@ -163,8 +163,8 @@ export function createMockFacilityByVersion({
   };
 }
 
-export function createMockCheyenneFacilityByVersion() {
-  return createMockFacilityByVersion({
+export function createMockCheyenneFacility() {
+  return createMockFacility({
     id: '442',
     name: 'Cheyenne VA Medical Center',
     address: {
