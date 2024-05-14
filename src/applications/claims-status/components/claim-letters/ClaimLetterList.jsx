@@ -12,7 +12,7 @@ const ClaimLetterList = ({ letters }) => (
   <>
     {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
     <ol
-      id="claim-letter-listt"
+      id="claim-letter-list"
       className="usa-unstyled-list vads-u-margin--0"
       role="list"
     >
