@@ -23,10 +23,7 @@ import {
 } from '../../../utils/constants';
 import moment from '../../../lib/moment-tz';
 import { createMockAppointmentByVersion } from '../../mocks/data';
-import {
-  getDateRanges,
-  mockVAOSAppointmentsFetch,
-} from '../../mocks/helpers.v2';
+import { getDateRanges, mockVAOSAppointmentsFetch } from '../../mocks/helpers';
 import { generateAppointmentUrl } from '../../../utils/appointment';
 
 function setRequestedPeriod(date, amOrPm) {

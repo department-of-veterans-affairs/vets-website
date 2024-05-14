@@ -15,8 +15,8 @@ import {
   getTestDate,
 } from '../../mocks/setup';
 import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
-import { getVAOSRequestMock } from '../../mocks/v2';
+import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
+import { getVAOSRequestMock } from '../../mocks/mock';
 
 const initialState = {
   featureToggles: {

@@ -26,8 +26,8 @@ import {
 import {
   mockSchedulingConfigurations,
   mockGetCurrentPosition,
-} from '../../../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../../../mocks/v2';
+} from '../../../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../../mocks/mock';
 
 const facilityIds = ['983', '983GB', '983GC', '983HK', '983QA', '984'];
 

@@ -14,8 +14,8 @@ import {
   renderWithStoreAndRouter,
   setCommunityCareFlow,
 } from '../../../mocks/setup';
-import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../../../mocks/v2';
+import { mockSchedulingConfigurations } from '../../../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../../mocks/mock';
 import { createMockFacilityByVersion } from '../../../mocks/data';
 import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
 

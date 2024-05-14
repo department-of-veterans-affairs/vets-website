@@ -14,7 +14,7 @@ import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 
 import ReviewPage from '../../../covid-19-vaccine/components/ReviewPage';
 import { onCalendarChange } from '../../../covid-19-vaccine/redux/actions';
-import { mockAppointmentSubmitV2 } from '../../mocks/helpers.v2';
+import { mockAppointmentSubmitV2 } from '../../mocks/helpers';
 
 describe('VAOS vaccine flow: ReviewPage', () => {
   let store;

@@ -21,7 +21,7 @@ import {
 import DateTimeSelectPage from '../../../../new-appointment/components/DateTimeSelectPage';
 import { FETCH_STATUS } from '../../../../utils/constants';
 import { setDateTimeSelectMockFetches } from './helpers';
-import { mockAppointmentSlotFetch } from '../../../mocks/helpers.v2';
+import { mockAppointmentSlotFetch } from '../../../mocks/helpers';
 
 const initialState = {
   featureToggles: {

@@ -21,7 +21,7 @@ import {
   onCalendarChange,
   startDirectScheduleFlow,
 } from '../../../../new-appointment/redux/actions';
-import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
+import { mockAppointmentSubmitV2 } from '../../../mocks/helpers';
 import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
 import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
 

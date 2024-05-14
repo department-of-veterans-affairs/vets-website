@@ -6,8 +6,8 @@ import ContactFacilitiesPage from '../../../covid-19-vaccine/components/ContactF
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { createMockFacilityByVersion } from '../../mocks/data';
 import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
-import { mockSchedulingConfigurations } from '../../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../../mocks/v2';
+import { mockSchedulingConfigurations } from '../../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../mocks/mock';
 
 describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   const initialState = {

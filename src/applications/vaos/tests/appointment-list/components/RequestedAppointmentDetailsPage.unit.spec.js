@@ -13,7 +13,7 @@ import {
   mockAppointmentApi,
   mockAppointmentUpdateApi,
   mockAppointmentsApi,
-} from '../../mocks/helpers.v2';
+} from '../../mocks/helpers';
 import {
   createTestStore,
   getTestDate,

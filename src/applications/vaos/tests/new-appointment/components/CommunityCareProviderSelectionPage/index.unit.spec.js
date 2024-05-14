@@ -18,7 +18,7 @@ import {
   mockSchedulingConfigurations,
   mockV2CommunityCareEligibility,
   mockGetCurrentPosition,
-} from '../../../mocks/helpers.v2';
+} from '../../../mocks/helpers';
 
 import CommunityCareProviderSelectionPage from '../../../../new-appointment/components/CommunityCareProviderSelectionPage';
 import { calculateBoundingBox } from '../../../../utils/address';
@@ -26,7 +26,7 @@ import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../../utils/constants';
 import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
 import { createMockFacilityByVersion } from '../../../mocks/data';
-import { getSchedulingConfigurationMock } from '../../../mocks/v2';
+import { getSchedulingConfigurationMock } from '../../../mocks/mock';
 
 const initialState = {
   featureToggles: {

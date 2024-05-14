@@ -16,8 +16,8 @@ import {
 import {
   mockSchedulingConfigurations,
   mockGetCurrentPosition,
-} from '../../../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../../../mocks/v2';
+} from '../../../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../../mocks/mock';
 import { NewAppointment } from '../../../../new-appointment';
 import { FETCH_STATUS } from '../../../../utils/constants';
 import { createMockFacilityByVersion } from '../../../mocks/data';

@@ -13,11 +13,11 @@ import {
 } from '../../mocks/setup';
 
 import SelectDate1Page from '../../../covid-19-vaccine/components/SelectDate1Page';
-import { getAppointmentSlotMock } from '../../mocks/v2';
+import { getAppointmentSlotMock } from '../../mocks/mock';
 import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
 import { mockEligibilityFetchesByVersion } from '../../mocks/fetch';
 import { createMockClinicByVersion } from '../../mocks/data';
-import { mockAppointmentSlotFetch } from '../../mocks/helpers.v2';
+import { mockAppointmentSlotFetch } from '../../mocks/helpers';
 
 const initialState = {
   featureToggles: {

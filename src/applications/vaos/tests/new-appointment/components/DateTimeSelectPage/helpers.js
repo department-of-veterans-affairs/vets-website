@@ -1,7 +1,7 @@
 import moment from 'moment';
 
-import { mockAppointmentSlotFetch } from '../../../mocks/helpers.v2';
-import { getAppointmentSlotMock } from '../../../mocks/v2';
+import { mockAppointmentSlotFetch } from '../../../mocks/helpers';
+import { getAppointmentSlotMock } from '../../../mocks/mock';
 import { mockEligibilityFetchesByVersion } from '../../../mocks/fetch';
 import { createMockClinicByVersion } from '../../../mocks/data';
 

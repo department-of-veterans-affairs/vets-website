@@ -18,8 +18,8 @@ import {
   mockSchedulingConfigurations,
   mockV2CommunityCareEligibility,
   mockVAOSParentSites,
-} from '../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../mocks/v2';
+} from '../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../mocks/mock';
 import { createMockFacilityByVersion } from '../mocks/data';
 
 const userState = {

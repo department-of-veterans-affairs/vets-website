@@ -20,7 +20,7 @@ import {
 
 import ReviewPage from '../../../../new-appointment/components/ReviewPage';
 
-import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
+import { mockAppointmentSubmitV2 } from '../../../mocks/helpers';
 
 const initialStateVAOSService = {
   featureToggles: {

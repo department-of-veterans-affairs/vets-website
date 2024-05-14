@@ -19,8 +19,8 @@ import {
   mockGetPendingAppointmentsApi,
   mockGetUpcomingAppointmentsApi,
   mockSingleVAOSAppointmentFetch,
-} from '../../../mocks/helpers.v2';
-import { getVAOSAppointmentMock } from '../../../mocks/v2';
+} from '../../../mocks/helpers';
+import { getVAOSAppointmentMock } from '../../../mocks/mock';
 import {
   mockFacilitiesFetchByVersion,
   mockFacilityFetchByVersion,

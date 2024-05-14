@@ -32,12 +32,12 @@ import {
   mockSchedulingConfigurations,
   mockV2CommunityCareEligibility,
   mockVAOSParentSites,
-} from './helpers.v2';
+} from './helpers';
 import { TYPES_OF_CARE } from '../../utils/constants';
 import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
 import { createMockFacilityByVersion } from './data';
 import { mockFacilitiesFetchByVersion } from './fetch';
-import { getSchedulingConfigurationMock } from './v2';
+import { getSchedulingConfigurationMock } from './mock';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied

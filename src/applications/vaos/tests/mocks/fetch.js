@@ -1,8 +1,8 @@
 /** @module testing/mocks/fetch */
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
-import { getV2ClinicMock, getVAOSAppointmentMock } from './v2';
-import { getDateRanges, mockVAOSAppointmentsFetch } from './helpers.v2';
+import { getV2ClinicMock, getVAOSAppointmentMock } from './mock';
+import { getDateRanges, mockVAOSAppointmentsFetch } from './helpers';
 
 /**
  * Mocks the api calls for the various eligibility related fetches VAOS does in the new appointment flow

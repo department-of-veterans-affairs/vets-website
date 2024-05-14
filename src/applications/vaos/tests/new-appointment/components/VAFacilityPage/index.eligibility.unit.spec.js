@@ -16,11 +16,11 @@ import {
 import {
   getSchedulingConfigurationMock,
   getV2ClinicMock,
-} from '../../../mocks/v2';
+} from '../../../mocks/mock';
 import {
   mockSchedulingConfigurations,
   mockVAOSParentSites,
-} from '../../../mocks/helpers.v2';
+} from '../../../mocks/helpers';
 import {
   mockEligibilityFetchesByVersion,
   mockFacilitiesFetchByVersion,

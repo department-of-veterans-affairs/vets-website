@@ -14,7 +14,7 @@ import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import {
   mockVAOSParentSites,
   mockV2CommunityCareEligibility,
-} from '../../mocks/helpers.v2';
+} from '../../mocks/helpers';
 
 import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
 import { NewAppointment } from '../../../new-appointment';

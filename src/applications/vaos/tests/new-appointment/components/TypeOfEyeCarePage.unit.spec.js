@@ -16,8 +16,8 @@ import TypeOfEyeCarePage from '../../../new-appointment/components/TypeOfEyeCare
 import {
   mockSchedulingConfigurations,
   mockV2CommunityCareEligibility,
-} from '../../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../../mocks/v2';
+} from '../../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../mocks/mock';
 import { createMockFacilityByVersion } from '../../mocks/data';
 import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 

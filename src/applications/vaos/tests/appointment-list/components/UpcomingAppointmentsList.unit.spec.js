@@ -6,8 +6,8 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import reducers from '../../../redux/reducer';
 import { getTestDate, renderWithStoreAndRouter } from '../../mocks/setup';
 import UpcomingAppointmentsList from '../../../appointment-list/components/UpcomingAppointmentsList';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
-import { getVAOSAppointmentMock } from '../../mocks/v2';
+import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
+import { getVAOSAppointmentMock } from '../../mocks/mock';
 
 const initialState = {
   featureToggles: {

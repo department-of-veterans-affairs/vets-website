@@ -21,8 +21,8 @@ import {
   mockCCProviderFetch,
   mockSchedulingConfigurations,
   mockGetCurrentPosition,
-} from '../../../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../../../mocks/v2';
+} from '../../../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../../mocks/mock';
 
 const initialState = {
   featureToggles: {

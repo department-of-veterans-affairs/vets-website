@@ -12,7 +12,7 @@ import {
 } from '../../mocks/setup';
 
 import ClinicChoicePage from '../../../new-appointment/components/ClinicChoicePage';
-import { getV2ClinicMock } from '../../mocks/v2';
+import { getV2ClinicMock } from '../../mocks/mock';
 import { createMockCheyenneFacilityByVersion } from '../../mocks/data';
 import { mockEligibilityFetchesByVersion } from '../../mocks/fetch';
 

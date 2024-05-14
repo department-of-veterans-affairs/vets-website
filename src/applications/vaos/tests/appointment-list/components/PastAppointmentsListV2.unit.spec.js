@@ -8,8 +8,8 @@ import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import PastAppointmentsList, {
   getPastAppointmentDateRangeOptions,
 } from '../../../appointment-list/components/PastAppointmentsList';
-import { getVAOSAppointmentMock } from '../../mocks/v2';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
+import { getVAOSAppointmentMock } from '../../mocks/mock';
+import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
 import { createMockAppointmentByVersion } from '../../mocks/data';
 import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 import MockAppointmentResponse from '../../e2e/fixtures/MockAppointmentResponse';

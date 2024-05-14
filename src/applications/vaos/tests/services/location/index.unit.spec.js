@@ -17,8 +17,8 @@ import ccProviders from '../../../services/mocks/var/cc_providers.json';
 import { VHA_FHIR_ID } from '../../../utils/constants';
 import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
 import { createMockFacilityByVersion } from '../../mocks/data';
-import { mockSchedulingConfigurations } from '../../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../../mocks/v2';
+import { mockSchedulingConfigurations } from '../../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../mocks/mock';
 
 describe('VAOS Services: Location ', () => {
   describe('getLocations', () => {

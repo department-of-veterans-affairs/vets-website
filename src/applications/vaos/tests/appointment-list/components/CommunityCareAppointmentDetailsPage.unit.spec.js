@@ -7,7 +7,7 @@ import userEvent from '@testing-library/user-event';
 import {
   mockSingleVAOSAppointmentFetch,
   mockVAOSAppointmentsFetch,
-} from '../../mocks/helpers.v2';
+} from '../../mocks/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import { createMockAppointmentByVersion } from '../../mocks/data';
 
