@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom-v5-compat';
-import PropTypes from 'prop-types';
 
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 
-const FormUploadApp = ({ user }) => {
+const FormUploadApp = () => {
+  const user = useSelector(state => state?.user);
   useEffect(() => {
     document.title = 'Form Upload | Veterans Affairs';
   }, []);
@@ -17,16 +17,4 @@ const FormUploadApp = ({ user }) => {
   );
 };
 
-FormUploadApp.propTypes = {
-  user: PropTypes.object,
-};
-
-const mapStateToProps = state => {
-  return {
-    user: state.user,
-  };
-};
-
-export default connect(mapStateToProps)(FormUploadApp);
-
-export { FormUploadApp };
+export default FormUploadApp;

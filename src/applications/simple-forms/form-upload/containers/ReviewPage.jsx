@@ -46,14 +46,16 @@ const ReviewPage = () => {
         When you submit your form, we’ll include the following personal
         information so that you can track your submission’s status.
       </p>
-      <p>
-        <b>
-          {capitalize(fullName.first)} {capitalize(fullName.last)}
-        </b>
-      </p>
-      <p>Social Security number: TODO: Insert redacted SSN</p>
-      <p>VA file number: TODO: Insert redacted File Number</p>
-      <p>Zip code: TODO: Insert zip code</p>
+      <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-padding-left--1">
+        <p>
+          <b>
+            {capitalize(fullName.first)} {capitalize(fullName.last)}
+          </b>
+        </p>
+        <p>Social Security number: TODO: Insert redacted SSN</p>
+        <p>VA file number: TODO: Insert redacted File Number</p>
+        <p>Zip code: TODO: Insert zip code</p>
+      </div>
       <p>
         <b>Note:</b> If you need to update your personal information, please
         call us at 800-827-1000. We’re here Monday through Friday, 8:00am to
