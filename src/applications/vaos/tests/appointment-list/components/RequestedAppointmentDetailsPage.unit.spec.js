@@ -832,10 +832,11 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           ).to.equal(FETCH_STATUS.failed);
         });
 
-        expect(screen.getByText(/We couldn.t cancel your request/i)).to.be.ok;
+        expect(screen.getByText(/We couldn.t cancel your appointment/i)).to.be
+          .ok;
         expect(
           screen.getByText(
-            /Something went wrong when we tried to cancel this request. Please contact your medical center to cancel:/i,
+            /Something went wrong when we tried to cancel this appointment. Please contact your medical center to cancel:/i,
           ),
         ).to.be.ok;
       });
