@@ -77,6 +77,8 @@ export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
 
 export const FORM_BENEFITS = {
   [VA_FORM_IDS.FORM_10_10D]: 'application for champva benefits',
+  [VA_FORM_IDS.FORM_10_7959F_1]:
+    'Foreign Medical Program (FMP) Registration Form',
   [VA_FORM_IDS.FORM_20_10206]: 'personal records request',
   [VA_FORM_IDS.FORM_21_0972]: 'alternate signer',
   [VA_FORM_IDS.FORM_21_10210]: 'lay/witness statement',
@@ -146,6 +148,7 @@ export const FORM_DESCRIPTIONS = Object.keys(FORM_BENEFITS).reduce(
   {},
 );
 
+// Entries previously added to FORM_LINKS go in here:
 export const getAllFormLinks = getAppUrlImpl => {
   if (!getAppUrlImpl) {
     throw new Error(
@@ -156,6 +159,7 @@ export const getAllFormLinks = getAppUrlImpl => {
   return {
     [VA_FORM_IDS.FEEDBACK_TOOL]: `${getAppUrlImpl('feedback-tool')}/`,
     [VA_FORM_IDS.FORM_10_10D]: `${getAppUrlImpl('10-10D')}/`,
+    [VA_FORM_IDS.FORM_10_7959F_1]: `${getAppUrlImpl('10-7959f-1-FMP')}/`,
     [VA_FORM_IDS.FORM_10_10EZ]: `${getAppUrlImpl('hca')}/`,
     [VA_FORM_IDS.FORM_10182]: `${getAppUrlImpl('10182-board-appeal')}/`,
     [VA_FORM_IDS.FORM_20_0995]: `${getAppUrlImpl('995-supplemental-claim')}/`,
@@ -210,6 +214,7 @@ export const memoizedGetFormLink = (getAppUrlImpl = getAppUrl) => {
 
 export const TRACKING_PREFIXES = {
   [VA_FORM_IDS.FORM_10_10D]: '10-10D-',
+  [VA_FORM_IDS.FORM_10_7959F_1]: '10-7959f-1-FMP-',
   [VA_FORM_IDS.FORM_20_10206]: 'pa-10206-',
   [VA_FORM_IDS.FORM_21_0972]: '21-0972-alternate-signer-',
   [VA_FORM_IDS.FORM_21_10210]: 'lay-witness-10210-',
@@ -238,10 +243,13 @@ export const TRACKING_PREFIXES = {
   [VA_FORM_IDS.FORM_20_0996]: 'decision-reviews-va20-0996-',
   [VA_FORM_IDS.FORM_VA_2346A]: 'bam-2346a-',
   [VA_FORM_IDS.FORM_5655]: 'fsr-5655-',
+  [VA_FORM_IDS.FORM_28_8832]: '28-8832-',
+  [VA_FORM_IDS.FORM_26_1880]: '26-1880-',
 };
 
 export const SIP_ENABLED_FORMS = new Set([
   VA_FORM_IDS.FORM_10_10D,
+  VA_FORM_IDS.FORM_10_7959F_1,
   VA_FORM_IDS.FORM_10_10EZ,
   VA_FORM_IDS.FORM_20_10206,
   VA_FORM_IDS.FORM_21_0972,

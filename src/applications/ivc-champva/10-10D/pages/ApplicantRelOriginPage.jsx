@@ -16,9 +16,7 @@ function generateOptions({ data, pagePerItemIndex }) {
     relativePossessive,
   } = appRelBoilerplate({ data, pagePerItemIndex });
 
-  const customTitle = `${
-    useFirstPerson ? `Your` : `${applicant}’s`
-  } relationship to the ${personTitle}`;
+  const customTitle = `${applicant}’s relationship to the ${personTitle}`;
 
   const relativeBeingVerb = `${relative} ${beingVerbPresent}`;
   const surv = data.sponsorIsDeceased ? 'surviving' : '';

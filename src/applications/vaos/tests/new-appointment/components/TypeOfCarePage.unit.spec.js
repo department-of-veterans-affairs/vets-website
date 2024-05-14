@@ -364,7 +364,7 @@ describe('VAOS Page: TypeOfCarePage', () => {
     ).to.not.exist;
   });
 
-  it.skip('should render warning message', async () => {
+  it('should render warning message', async () => {
     setFetchJSONResponse(
       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
       {
