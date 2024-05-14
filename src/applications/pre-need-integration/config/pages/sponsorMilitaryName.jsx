@@ -1,13 +1,15 @@
-export const uiSchema = {
-  application: {
-    veteran: {
-      'view:hasServiceName': {
-        'ui:title': 'Did the sponsor serve under another name?',
-        'ui:widget': 'yesNo',
+export function uiSchema(title) {
+  return {
+    application: {
+      veteran: {
+        'view:hasServiceName': {
+          'ui:title': title,
+          'ui:widget': 'yesNo',
+        },
       },
     },
-  },
-};
+  };
+}
 export const schema = {
   type: 'object',
   properties: {

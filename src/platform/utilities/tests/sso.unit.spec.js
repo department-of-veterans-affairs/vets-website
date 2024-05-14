@@ -8,6 +8,7 @@ import * as keepAliveMod from 'platform/utilities/sso/keepAliveSSO';
 import {
   checkAutoSession,
   checkAndUpdateSSOeSession,
+  verifySession,
 } from 'platform/utilities/sso';
 import * as loginAttempted from 'platform/utilities/sso/loginAttempted';
 import {
@@ -76,6 +77,7 @@ describe('checkAutoSession', () => {
   afterEach(() => {
     sandbox.restore();
     global.window = oldWindow;
+    localStorage.clear();
   });
 
   it('should redirect user to cerner if logged in via SSOe and on the "/sign-in/?application=myvahealth" subroute', async () => {
@@ -256,11 +258,12 @@ describe('checkAutoSession', () => {
   it('should auto login if user is logged out, they have an MHV SSOe session, dont need to force auth', async () => {
     sandbox.stub(keepAliveMod, 'keepAlive').returns({
       ttl: 900,
-      authn: CSP_IDS.MHV_VERBOSE,
-      [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.MHV,
+      authn: CSP_IDS.ID_ME,
+      [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.IDME,
       transactionid: 'X',
     });
     sandbox.stub(loginAttempted, 'getLoginAttempted').returns(undefined);
+    sandbox.stub();
     const auto = sandbox.stub(authUtils, 'login');
     await checkAutoSession();
 
@@ -268,8 +271,8 @@ describe('checkAutoSession', () => {
     sinon.assert.calledWith(auto, {
       policy: 'custom',
       queryParams: {
-        authn: CSP_IDS.MHV_VERBOSE,
-        [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.MHV,
+        authn: CSP_IDS.ID_ME,
+        [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.IDME,
       },
       clickedEvent: AUTH_EVENTS.SSO_LOGIN,
     });
@@ -334,6 +337,32 @@ describe('checkAutoSession', () => {
     await checkAutoSession();
 
     sinon.assert.notCalled(auto);
+  });
+
+  it('should log a user in if they `loginAttempted` is true but the `loggedIn` is false', async () => {
+    localStorage.setItem('loginAttempted', true);
+    localStorage.setItem('hasSessionSSO', true);
+    localStorage.setItem('sessionExpirationSSO', 'some date value');
+    sandbox.stub(keepAliveMod, 'keepAlive').returns({
+      ttl: 900,
+      authn: 'logingov',
+      transactionid: 'X',
+      [AUTHN_KEYS.CSP_TYPE]: 'logingov',
+    });
+
+    const auto = sandbox.stub(authUtils, 'login');
+    await checkAutoSession(false);
+
+    sinon.assert.called(auto);
+    sinon.assert.calledWith(auto, {
+      policy: 'custom',
+      queryParams: {
+        authn: 'logingov',
+        [AUTHN_KEYS.CSP_TYPE]: 'logingov',
+      },
+      clickedEvent: AUTH_EVENTS.SSO_LOGIN,
+    });
+    localStorage.clear();
   });
 });
 
@@ -657,5 +686,24 @@ describe('generateAuthnContext', () => {
         });
       },
     );
+  });
+});
+
+describe('verifySession', () => {
+  afterEach(() => {
+    localStorage.clear();
+  });
+  it('should return true when conditions', () => {
+    localStorage.setItem('hasSessionSSO', true);
+    localStorage.setItem('loginAttempted', true);
+    localStorage.setItem('sessionExpirationSSO', new Date());
+    expect(verifySession()).to.eql(true);
+  });
+  it('should return false when conditions not met', () => {
+    localStorage.setItem('hasSessionSSO', false);
+    localStorage.setItem('loginAttempted', true);
+    expect(verifySession()).to.eql(false);
+    localStorage.clear();
+    expect(verifySession()).to.eql(false);
   });
 });

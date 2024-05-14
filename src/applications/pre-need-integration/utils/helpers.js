@@ -881,8 +881,8 @@ export const veteranUI = {
         'You can add more service history information later in this application.',
       labels: {
         A: 'Active duty',
-        I: 'Death Related to Inactive Duty Training',
-        D: 'Died on Active Duty',
+        I: 'Death related to inactive duty training',
+        D: 'Died on active duty',
         S: 'Reserve/National Guard',
         R: 'Retired',
         E: 'Retired active duty',
