@@ -10,7 +10,7 @@ const NoPOAPermissionsAlert = () => (
         visible
       >
         <h2 data-testid="no-poa-permissions-alert-heading" slot="headline">
-          You do not have permission to manage Power of Attorney Requests
+          You do not have permission to manage power of attorney requests
         </h2>
         <div>
           <ul data-testid="no-poa-permissions-alert-description">
