@@ -80,23 +80,24 @@ export default function ArrayBuilderSummaryPage({
 }) {
   /** @type {CustomPageType} */
   function CustomPage(props) {
-    const [showUpdatedAlert, setShowUpdatedAlert] = useState(false);
+    const {
+      index: updateItemIndex,
+      nounSingular: updatedNounSingular,
+    } = getUpdatedItemFromPath();
+    const arrayData = get(arrayPath, props.data);
+    const updatedItemData =
+      updatedNounSingular === nounSingular.toLowerCase() &&
+      updateItemIndex != null
+        ? arrayData?.[updateItemIndex]
+        : null;
+
+    const [showUpdatedAlert, setShowUpdatedAlert] = useState(!!updatedItemData);
     const [showRemovedAlert, setShowRemovedAlert] = useState(false);
     const [removedItemText, setRemovedItemText] = useState('');
     const [removedItemIndex, setRemovedItemIndex] = useState(null);
     const updatedAlertRef = useRef(null);
     const removedAlertRef = useRef(null);
     const { uiSchema, schema } = props;
-    const arrayData = get(arrayPath, props.data);
-    const {
-      index: updateItemIndex,
-      nounSingular: updatedNounSingular,
-    } = getUpdatedItemFromPath();
-    const updatedItemData =
-      updatedNounSingular === nounSingular.toLowerCase() &&
-      updateItemIndex != null
-        ? arrayData?.[updateItemIndex]
-        : null;
     const Heading = `h${titleHeaderLevel}`;
     const isMaxItemsReached = arrayData?.length >= maxItems;
 
