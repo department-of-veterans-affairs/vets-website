@@ -16,6 +16,6 @@ describe('Medications List Page DropDown -- discontinued SM Compose Link', () =>
     cy.get('[data-testid="discontinued-compose-message-link"]')
       .shadow()
       .first()
-      .should('have.text', 'Compose a message on the My HealtheVet website');
+      .should('have.text', 'Start a new message');
   });
 });
