@@ -393,5 +393,6 @@
   "facility-canceled": "Facility canceled this appointment.",
   "if-you-want-to-reschedule": "If you want to reschedule, call us at <0></0> (<1></1>) or schedule a new appointment online.",
   "sign-in-to-schedule": "Sign in to schedule a new appointment",
-  "or-talk-staff-if-at-facility": "Or talk to a staff member if you’re at a VA facility."
+  "or-talk-staff-if-at-facility": "Or talk to a staff member if you’re at a VA facility.",
+  "video": "Video"
 }
