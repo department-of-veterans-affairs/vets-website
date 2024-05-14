@@ -4,12 +4,12 @@ import { CHAPTER_3 } from '../../constants';
 // Personal Information
 import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
 import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran';
-import aboutYourRelationshipPage from '../chapters/personalInformation/aboutYourRelationship';
 import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
 import addressConfirmationPage from '../chapters/personalInformation/addressConfirmation';
 import deathDatePage from '../chapters/personalInformation/deathDate';
 import howToContactPage from '../chapters/personalInformation/howToContact';
 import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeteranDeceased';
+import moreAboutYourRelationshipToVeteranPage from '../chapters/personalInformation/moreAboutYourRelationshipToVeteran';
 import whoQuestionAboutPage from '../chapters/personalInformation/questionIsAbout';
 import aboutYourRelationshipToFamilyMemberPage from '../chapters/personalInformation/relationshipToFamilyMember';
 import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
@@ -38,10 +38,10 @@ const ch3Pages = {
     uiSchema: yourRoleEducationPage.uiSchema,
     schema: yourRoleEducationPage.schema,
   },
-  aboutYourRelationship: {
-    title: CHAPTER_3.ABOUT_YOUR_RELATIONSHIP.TITLE,
-    uiSchema: aboutYourRelationshipPage.uiSchema,
-    schema: aboutYourRelationshipPage.schema,
+  moreAboutYourRelationshipToVeteran: {
+    title: CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
+    uiSchema: moreAboutYourRelationshipToVeteranPage.uiSchema,
+    schema: moreAboutYourRelationshipToVeteranPage.schema,
     depends: form => form.personalRelationship !== 'VETERAN',
   },
   aboutTheVeteran: {
@@ -213,7 +213,7 @@ export const myOwnBenVetPages = flowPages(
 );
 
 const myOwnBenFam = [
-  'aboutYourRelationship',
+  'moreAboutYourRelationshipToVeteran',
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
@@ -236,7 +236,7 @@ const someoneElseBenVet = [
   'aboutYourself',
   'yourContactInformation',
   'howToContact',
-  'yourCountry',
+  // 'yourCountry',
   'yourAddress',
   'yourAddressConfirmation',
   'yourPostalCode',
@@ -252,7 +252,7 @@ export const someoneElseBenVetPages = flowPages(
 );
 
 const someoneElseBenFam = [
-  'aboutYourRelationship',
+  'moreAboutYourRelationshipToVeteran',
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',

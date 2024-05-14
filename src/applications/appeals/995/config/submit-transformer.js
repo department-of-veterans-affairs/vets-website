@@ -6,10 +6,9 @@ import {
   getEvidence,
   getForm4142,
   getPhone,
-  getTimeZone,
 } from '../utils/submit';
 
-import { addIncludedIssues } from '../../shared/utils/submit';
+import { addIncludedIssues, getTimeZone } from '../../shared/utils/submit';
 
 export function transform(formConfig, form) {
   // https://developer.va.gov/explore/appeals/docs/decision_reviews?version=current

@@ -113,9 +113,9 @@ export const addressFields = {
 export const aboutRelationship = {
   SPOUSE: "I'm the Veteran's spouse",
   CHILD: "I'm the Veteran's child",
-  STEPCHILD: "I'm the Veteran's stepchild",
+  STEPCHILD: "I'm the Veteran's step child",
   PARENT: "I'm the Veteran's parent",
-  NOT_LISTED: "I have a relationship to the Veteran that's not listed",
+  NOT_LISTED: "We have a relationship that's not listed",
 };
 
 // What is your relationship to the family member
@@ -255,10 +255,10 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
-  ABOUT_YOUR_RELATIONSHIP: {
-    TITLE: 'Tell us more about your relationship to the Veteran',
+  MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN: {
+    TITLE: 'Tell us more about your relationship?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select your relationship to the Veteran:',
+    QUESTION_1: '',
   },
   THEIR_RELATIONSHIP_TO_VET: {
     TITLE: 'What is their relationship to the veteran?',
@@ -340,7 +340,7 @@ export const CHAPTER_3 = {
       'I live on a United States military base outside of the country',
   },
   YOUR_ADDRESS: {
-    TITLE: 'Your address', // full address
+    TITLE: 'Your mailing address', // full address
     PAGE_DESCRIPTION: '',
   },
   ADDRESS_CONFIRM: {
@@ -386,7 +386,7 @@ export const noEditBtn = [
   CHAPTER_1.PAGE_1.TITLE,
   CHAPTER_1.PAGE_2.TITLE,
   CHAPTER_1.PAGE_3.TITLE,
-  CHAPTER_3.ABOUT_YOUR_RELATIONSHIP.TITLE,
+  CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
 ];
 
 export const homeBreadcrumbs = [{ href: '/', title: 'Home', key: 'home' }];
