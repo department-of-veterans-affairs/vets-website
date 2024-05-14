@@ -12,7 +12,7 @@ describe('Medications Refill Page Breadcrumb', () => {
     refillPage.loadRefillPage(refillPrescriptions);
     cy.injectAxe();
     cy.axeCheck('main');
-    refillPage.clickBackToMedicationsBreadcrumbOnRefillPage();
+    refillPage.clickMedicationsLandingPageBreadcrumbsOnRefillPage();
     landingPage.verifyNavigationToLandingPageAfterClickingBreadcrumb();
   });
 });

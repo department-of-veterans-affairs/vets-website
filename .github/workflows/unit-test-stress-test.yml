@@ -51,6 +51,7 @@ jobs:
       - name: Upload app list to BigQuery
         run: yarn generate-app-list
         working-directory: qa-standards-dashboard-data
+
   fetch-unit-tests-allow-list:
     name: Fetch Unit Test Stability Allow List
     runs-on: ubuntu-latest
@@ -91,14 +92,83 @@ jobs:
           name: unit-test-allow-list
           path: qa-standards-dashboard-data/unit_test_allow_list.json
 
+  tests-prep:
+    name: Tests Prep
+    needs: [fetch-unit-tests-allow-list]
+    runs-on: ubuntu-latest
+    outputs:
+      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
+      apps-to-stress-test: ${{ steps.apps-to-stress-test.outputs.apps_to_test }}
+      unit-tests-to-stress-test: ${{ steps.unit-tests-to-stress-test.outputs.tests }}
+      disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get changed applications
+        id: get-changed-apps
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, url'
+
+      - name: Download Unit Test Stability Allow List
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: unit-test-allow-list
+          path: .
+
+      - name: Run Unit Test Selection
+        run: node script/github-actions/select-unit-tests.js
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+          IS_STRESS_TEST: true
+
+      - name: Set output of DISALLOWED_TESTS
+        if: ${{ always() }}
+        id: disallowed-tests
+        run: echo "tests=$DISALLOWED_TESTS" >> $GITHUB_OUTPUT
+
+      - name: Set output of UNIT_TESTS_TO_STRESS_TEST
+        if: ${{ always() }}
+        id: unit-tests-to-stress-test
+        run: echo "tests=$UNIT_TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
+
+      - name: Upload artifact of Unit Tests to Stress Test
+        if: ${{ steps.unit-tests-to-stress-test.outputs.tests == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-tests-to-stress-test
+          path: unit_tests_to_stress_test.json
+
+      - name: Set output of APPS_TO_STRESS_TEST
+        if: ${{ always() }}
+        id: apps-to-stress-test
+        run: echo "apps_to_test=$APPS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
+
   unit-tests-stress-test:
     name: Unit Tests
-    runs-on: self-hosted
+    runs-on: ubuntu-16-cores-latest
+    needs: [tests-prep]
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
 
     env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+      APPS_TO_VERIFY: ${{ needs.tests-prep.outputs.apps-to-stress-test }}
+      DISALLOWED_TESTS: '[]'
 
     strategy:
       fail-fast: false
@@ -160,8 +230,14 @@ jobs:
           name: unit-test-allow-list
           path: .
 
+      - name: Download Tests to verify
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: unit-tests-to-stress-test
+          path: .
+
       - name: Run unit tests
-        run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
+        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
@@ -172,7 +248,7 @@ jobs:
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: unit-test-stress-test-results
+          name: unit-test-stress-test-results-${{ matrix.runs }}
           path: mocha/results
 
   update-unit-test-allow-list:
@@ -228,8 +304,9 @@ jobs:
       - name: Download Unit Test results
         uses: ./.github/workflows/download-artifact
         with:
-          name: unit-test-stress-test-results
+          pattern: unit-test-stress-test-results-*
           path: qa-standards-dashboard-data/src/allow-list/data
+          merge-multiple: true
 
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
