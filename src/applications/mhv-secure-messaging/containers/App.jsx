@@ -14,7 +14,7 @@ import {
 import {
   renderMHVDowntime,
   useDatadogRum,
-  useDatadogRumUser,
+  setDatadogRumUser,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
 import AuthorizedRoutes from './AuthorizedRoutes';
@@ -102,7 +102,12 @@ const App = ({ isPilot }) => {
   };
 
   useDatadogRum(datadogRumConfig);
-  useDatadogRumUser(user);
+  useEffect(
+    () => {
+      setDatadogRumUser(user);
+    },
+    [user],
+  );
 
   if (featureTogglesLoading) {
     return (

@@ -14,11 +14,9 @@ const initializeDatadogRum = config => {
 };
 
 const setRumUser = user => {
-  if (user.loggedIn) {
-    datadogRum.setUser({
-      id: user.id || 'no-id-found',
-    });
-  }
+  datadogRum.setUser({
+    id: user.id || 'no-id-found',
+  });
 };
 
 const useDatadogRum = config => {
@@ -26,7 +24,7 @@ const useDatadogRum = config => {
     () => {
       if (
         // Prevent RUM from running on local/CI environments.
-        // environment.BASE_URL.indexOf('localhost') < 0 &&
+        environment.BASE_URL.indexOf('localhost') < 0 &&
         // Prevent re-initializing the SDK.
         !window.DD_RUM?.getInitConfiguration() &&
         !window.Mocha
@@ -38,26 +36,22 @@ const useDatadogRum = config => {
   );
 };
 
-// REMINDER: Also be conscience of PII and Datadog
-const useDatadogRumUser = user => {
-  useEffect(
-    () => {
-      if (
-        // // Prevent RUM from running on local/CI environments.
-        // environment.BASE_URL.indexOf('localhost') < 0 &&
-        // Only run if DD is configured.
-        window.DD_RUM?.getInitConfiguration() &&
-        // Not during unit tests
-        !window.Mocha
-      ) {
-        const url = '/analytics/v0/user/hashes';
-        apiRequest(url).then(data => {
-          setRumUser({ ...user, data });
-        });
-      }
-    },
-    [user],
-  );
+// REMINDER: Always be conscience of PII and Datadog
+const setDatadogRumUser = user => {
+  if (
+    // // Prevent RUM from running on local/CI environments.
+    environment.BASE_URL.indexOf('localhost') < 0 &&
+    // Only run if DD is configured.
+    window.DD_RUM?.getInitConfiguration() &&
+    // Not during unit tests
+    !window.Mocha &&
+    user.login.currentlyLoggedIn
+  ) {
+    const url = `${environment.API_URL}/analytics/v0/user/hashes`;
+    apiRequest(url).then(data => {
+      setRumUser({ id: data.user.fingerprint });
+    });
+  }
 };
 
-export { useDatadogRum, useDatadogRumUser };
+export { useDatadogRum, setDatadogRumUser };
