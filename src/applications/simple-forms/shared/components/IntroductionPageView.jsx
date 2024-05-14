@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '~/platform/utilities/ui';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
+import SIPIntroOld from '~/platform/forms/save-in-progress/SaveInProgressIntro';
+import SIPIntroNew from '~/applications/simple-forms/21-4138/containers/saveInProgress/SaveInProgressIntro';
 import { VaOmbInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export const IntroductionPageView = ({
@@ -11,8 +12,10 @@ export const IntroductionPageView = ({
   ombInfo,
   childContent,
   additionalChildContent = null,
+  useNew = false,
 }) => {
   const breadcrumbsRef = useRef('.va-nav-breadcrumbs-list');
+  const SaveInProgressIntro = useNew ? SIPIntroNew : SIPIntroOld;
   const { formConfig, pageList } = route;
   const {
     formTitle,
@@ -93,4 +96,5 @@ IntroductionPageView.propTypes = {
     verifiedPrefillAlert: PropTypes.object,
   }),
   ombInfo: PropTypes.object,
+  useNew: PropTypes.bool,
 };
