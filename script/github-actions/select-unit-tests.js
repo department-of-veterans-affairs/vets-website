@@ -47,14 +47,14 @@ const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(
 core.exportVariable('DISALLOWED_TESTS', DISALLOWED_SPECS);
 
 console.log(IS_STRESS_TEST, typeof IS_STRESS_TEST);
-if (TESTS_TO_STRESS_TEST.length > 0 && IS_STRESS_TEST === false) {
+if (TESTS_TO_STRESS_TEST.length > 0 && IS_STRESS_TEST === 'false') {
   core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', 'true');
   core.exportVariable('APPS_TO_STRESS_TEST', CHANGED_APPS_UNIQUE);
   fs.writeFileSync(
     `unit_tests_to_stress_test.json`,
     JSON.stringify(TESTS_TO_STRESS_TEST),
   );
-} else if (IS_STRESS_TEST === true) {
+} else if (IS_STRESS_TEST === 'true') {
   core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', 'true');
   core.exportVariable('APPS_TO_STRESS_TEST', ALL_APPS);
   fs.writeFileSync(
