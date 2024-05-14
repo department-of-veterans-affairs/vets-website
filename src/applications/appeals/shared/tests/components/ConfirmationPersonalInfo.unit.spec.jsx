@@ -10,45 +10,45 @@ import {
 import ConfirmationPersonalInfo from '../../components/ConfirmationPersonalInfo';
 
 describe('ConfirmationPersonalInfo', () => {
-  const profile = {
-    userFullName: {
-      first: 'Mike',
-      middle: '',
-      last: 'Wazowski',
-      suffix: '',
-    },
-    dob: '2001-10-28',
+  const dob = '2001-10-28';
+  const userFullName = {
+    first: 'Mike',
+    middle: '',
+    last: 'Wazowski',
+    suffix: '',
   };
-  const data = (US = true) => ({
-    veteran: {
-      vaFileLastFour: '8765',
-      address: {
-        addressType: US ? 'DOMESTIC' : 'INTERNATIONAL',
-        addressLine1: '123 Main St',
-        addressLine2: 'Suite #1200',
-        addressLine3: 'Box 4567890',
-        city: US ? 'New York' : 'Paris',
-        countryName: US ? 'United States' : 'France',
-        countryCodeIso2: US ? 'US' : 'FR',
-        stateCode: US ? 'NY' : null,
-        province: US ? null : 'Ile-de-France',
-        zipCode: US ? '30012' : null,
-        internationalPostalCode: US ? null : '75000',
-      },
-      phone: {
-        countryCode: '6',
-        areaCode: '555',
-        phoneNumber: '8001111',
-        phoneNumberExt: '2',
-      },
-      email: 'user@example.com',
+  const veteran = (US = true) => ({
+    vaFileLastFour: '8765',
+    address: {
+      addressType: US ? 'DOMESTIC' : 'INTERNATIONAL',
+      addressLine1: '123 Main St',
+      addressLine2: 'Suite #1200',
+      addressLine3: 'Box 4567890',
+      city: US ? 'New York' : 'Paris',
+      countryName: US ? 'United States' : 'France',
+      countryCodeIso2: US ? 'US' : 'FR',
+      stateCode: US ? 'NY' : null,
+      province: US ? null : 'Ile-de-France',
+      zipCode: US ? '30012' : null,
+      internationalPostalCode: US ? null : '75000',
     },
-    homeless: true,
+    phone: {
+      countryCode: '6',
+      areaCode: '555',
+      phoneNumber: '8001111',
+      phoneNumberExt: '2',
+    },
+    email: 'user@example.com',
   });
 
   it('should render all fields', () => {
     const { container } = render(
-      <ConfirmationPersonalInfo profile={profile} data={data()} />,
+      <ConfirmationPersonalInfo
+        dob={dob}
+        homeless
+        userFullName={userFullName}
+        veteran={veteran()}
+      />,
     );
 
     expect($('h3', container).textContent).to.eq('Personal information');
@@ -74,8 +74,10 @@ describe('ConfirmationPersonalInfo', () => {
   it('should render all fields with international address', () => {
     const { container } = render(
       <ConfirmationPersonalInfo
-        profile={profile}
-        data={{ ...data(false), homeless: false }}
+        dob={dob}
+        homeless={false}
+        userFullName={userFullName}
+        veteran={veteran(false)}
       />,
     );
 

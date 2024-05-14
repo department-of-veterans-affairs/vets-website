@@ -6,11 +6,13 @@ import { getPhoneString } from '~/platform/forms-system/src/js/utilities/data/pr
 import { renderFullName, maskVafn } from '../utils/data';
 import { getReadableDate } from '../utils/dates';
 
-const ConfirmationPersonalInfo = ({ profile, data } = {}) => {
-  const { userFullName, dob } = profile || {};
-  const { veteran = {} } = data || {};
-  const { address = {} } = veteran;
-
+const ConfirmationPersonalInfo = ({
+  dob = '',
+  homeless,
+  userFullName = {},
+  veteran = {},
+} = {}) => {
+  const { address = {}, email = '', phone = {}, vaFileLastFour = '' } = veteran;
   return (
     <>
       <h3 className="vads-u-margin-top--2">Personal information</h3>
@@ -28,7 +30,7 @@ const ConfirmationPersonalInfo = ({ profile, data } = {}) => {
             className="page-value dd-privacy-hidden"
             data-dd-action-name="VA file number"
           >
-            {maskVafn(veteran.vaFileLastFour || '')}
+            {maskVafn(vaFileLastFour || '')}
           </div>
         </li>
         <li>
@@ -48,7 +50,7 @@ const ConfirmationPersonalInfo = ({ profile, data } = {}) => {
             className="page-value dd-privacy-hidden"
             data-dd-action-name="homeless"
           >
-            {data?.homeless ? 'Yes' : 'No'}
+            {homeless ? 'Yes' : 'No'}
           </div>
         </li>
         <li>
@@ -60,8 +62,8 @@ const ConfirmationPersonalInfo = ({ profile, data } = {}) => {
             data-dd-action-name="mobile phone number"
           >
             <va-telephone
-              contact={getPhoneString(veteran.phone)}
-              extension={veteran.phone?.phoneNumberExt}
+              contact={getPhoneString(phone)}
+              extension={phone?.phoneNumberExt}
               not-clickable
             />
           </div>
@@ -72,7 +74,7 @@ const ConfirmationPersonalInfo = ({ profile, data } = {}) => {
             className="page-value dd-privacy-hidden"
             data-dd-action-name="email address"
           >
-            {veteran.email}
+            {email}
           </div>
         </li>
         <li>
@@ -97,43 +99,30 @@ const ConfirmationPersonalInfo = ({ profile, data } = {}) => {
 };
 
 ConfirmationPersonalInfo.propTypes = {
-  data: PropTypes.shape({
-    veteran: PropTypes.shape({
-      // all DR forms
-      vaFileLastFour: PropTypes.string,
-      address: PropTypes.shape({
-        addressLine1: PropTypes.string,
-        addressLine2: PropTypes.string,
-        addressLine3: PropTypes.string,
-        addressType: PropTypes.string,
-        city: PropTypes.string,
-        countryName: PropTypes.string,
-        internationalPostalCode: PropTypes.string,
-        province: PropTypes.string,
-        stateCode: PropTypes.string,
-        zipCode: PropTypes.string,
-      }),
-      email: PropTypes.string,
-      phone: PropTypes.shape({
-        countryCode: PropTypes.string,
-        areaCode: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        phoneNumberExt: PropTypes.string,
-      }),
-      mobilePhone: PropTypes.shape({
-        countryCode: PropTypes.string,
-        areaCode: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        extension: PropTypes.string,
-      }),
+  dob: PropTypes.string,
+  homeless: PropTypes.bool,
+  userFullName: PropTypes.shape({}),
+  veteran: PropTypes.shape({
+    vaFileLastFour: PropTypes.string,
+    address: PropTypes.shape({
+      addressLine1: PropTypes.string,
+      addressLine2: PropTypes.string,
+      addressLine3: PropTypes.string,
+      addressType: PropTypes.string,
+      city: PropTypes.string,
+      countryName: PropTypes.string,
+      internationalPostalCode: PropTypes.string,
+      province: PropTypes.string,
+      stateCode: PropTypes.string,
+      zipCode: PropTypes.string,
     }),
-    homeless: PropTypes.bool,
-  }),
-  hasHomelessQuestion: PropTypes.bool,
-  hasPrimaryPhoneQuestion: PropTypes.bool,
-  profile: PropTypes.shape({
-    userFullName: PropTypes.shape({}),
-    dob: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.shape({
+      countryCode: PropTypes.string,
+      areaCode: PropTypes.string,
+      phoneNumber: PropTypes.string,
+      phoneNumberExt: PropTypes.string,
+    }),
   }),
 };
 

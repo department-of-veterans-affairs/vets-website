@@ -126,7 +126,12 @@ export const ConfirmationPageV2 = () => {
         You submitted the following information for the Board Appeal
       </h2>
 
-      <ConfirmationPersonalInfo profile={profile} data={data} />
+      <ConfirmationPersonalInfo
+        dob={profile.dob}
+        homeless={data.homeless}
+        userFullName={profile.userFullName}
+        veteran={data.veteran}
+      />
 
       <ConfirmationIssues data={data} />
 
