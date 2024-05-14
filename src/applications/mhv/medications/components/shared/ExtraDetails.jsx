@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { dateFormat } from '../../util/helpers';
 import {
   dispStatusObj,
@@ -12,7 +10,6 @@ import {
 import CallPharmacyPhone from './CallPharmacyPhone';
 
 const ExtraDetails = rx => {
-  const ssoe = useSelector(isAuthenticatedWithSSOe);
   const { dispStatus, cmopDivisionPhone, refillRemaining } = rx;
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
@@ -88,8 +85,10 @@ const ExtraDetails = rx => {
             to your care team.
           </p>
           <va-link
-            href={mhvUrl(ssoe, 'secure-messaging')}
-            text="Compose a message on the My HealtheVet website"
+            href={`${
+              environment.BASE_URL
+            }/my-health/secure-messages/new-message/`}
+            text="Start a new message"
             data-testid="discontinued-compose-message-link"
             data-dd-action-name={`Compose A Message Link - ${
               DD_ACTIONS_PAGE_TYPE.DETAILS
