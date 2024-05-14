@@ -26,7 +26,7 @@ import {
   generateEkgContent,
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import { setIsDetails } from '../../actions/isDetails';
+import { useIsDetails } from '../../hooks/useIsDetails';
 
 const EkgDetails = props => {
   const { record, runningUnitTest } = props;
@@ -40,16 +40,7 @@ const EkgDetails = props => {
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   const dispatch = useDispatch();
-
-  useEffect(
-    () => {
-      dispatch(setIsDetails(true));
-      return () => {
-        dispatch(setIsDetails(false));
-      };
-    },
-    [dispatch],
-  );
+  useIsDetails(dispatch);
 
   useEffect(
     () => {

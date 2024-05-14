@@ -19,14 +19,14 @@ const MrBreadcrumbs = () => {
             <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
           </span>
           {isDetails ? (
-            <button
-              className="link-button vads-u-margin-top--0p5"
-              type="button"
-              onClick={() => history.goBack()}
-              data-testid="download-blue-button-txt"
-            >
-              Back to {crumbs[0].label}
-            </button>
+            <va-link
+              href=""
+              text={`Back to ${crumbs[0].label}`}
+              onClick={e => {
+                e.preventDefault();
+                history.goBack();
+              }}
+            />
           ) : (
             <Link to={crumbs[0].url?.toLowerCase()}>
               Back to {crumbs[0].label}

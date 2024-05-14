@@ -15,7 +15,7 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import { setIsDetails } from '../actions/isDetails';
+import { useIsDetails } from '../hooks/useIsDetails';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
@@ -28,15 +28,7 @@ const CareSummariesDetails = () => {
   const { summaryId } = useParams();
   const activeAlert = useAlerts(dispatch);
 
-  useEffect(
-    () => {
-      dispatch(setIsDetails(true));
-      return () => {
-        dispatch(setIsDetails(false));
-      };
-    },
-    [dispatch],
-  );
+  useIsDetails(dispatch);
 
   useEffect(
     () => {

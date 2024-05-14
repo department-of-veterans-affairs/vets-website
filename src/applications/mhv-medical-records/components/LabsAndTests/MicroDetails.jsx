@@ -32,7 +32,7 @@ import {
   generateMicrobioContent,
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import { setIsDetails } from '../../actions/isDetails';
+import { useIsDetails } from '../../hooks/useIsDetails';
 
 const MicroDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -46,16 +46,7 @@ const MicroDetails = props => {
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   const dispatch = useDispatch();
-
-  useEffect(
-    () => {
-      dispatch(setIsDetails(true));
-      return () => {
-        dispatch(setIsDetails(false));
-      };
-    },
-    [dispatch],
-  );
+  useIsDetails(dispatch);
 
   useEffect(
     () => {

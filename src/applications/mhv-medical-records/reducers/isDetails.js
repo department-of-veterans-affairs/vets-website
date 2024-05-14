@@ -7,11 +7,11 @@ const initialState = {
   currentIsDetails: false,
 };
 
-export const isDetailsReducer = (state = initialState, action) => {
-  if (action.type === Actions.IsDetails.SET_IS_DETAILS) {
+export const isDetailsReducer = (state = initialState, { type, payload }) => {
+  if (type === Actions.IsDetails.SET_IS_DETAILS) {
     return {
       ...state,
-      currentIsDetails: action.payload,
+      currentIsDetails: payload,
     };
   }
   return state;

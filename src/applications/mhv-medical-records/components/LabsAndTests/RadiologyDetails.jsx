@@ -24,7 +24,7 @@ import { pageTitles } from '../../util/constants';
 import { generateTextFile, getNameDateAndTime } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import { setIsDetails } from '../../actions/isDetails';
+import { useIsDetails } from '../../hooks/useIsDetails';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -38,16 +38,7 @@ const RadiologyDetails = props => {
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   const dispatch = useDispatch();
-
-  useEffect(
-    () => {
-      dispatch(setIsDetails(true));
-      return () => {
-        dispatch(setIsDetails(false));
-      };
-    },
-    [dispatch],
-  );
+  useIsDetails(dispatch);
 
   useEffect(
     () => {
