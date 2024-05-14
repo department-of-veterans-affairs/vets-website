@@ -9,7 +9,6 @@ import {
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import sinon from 'sinon';
-// eslint-disable-next-line import/no-named-as-default-member
 import ApplicationDownloadLink from '../../components/ApplicationDownloadLink';
 
 describe('CG <ApplicationDownloadLink>', () => {
@@ -18,15 +17,23 @@ describe('CG <ApplicationDownloadLink>', () => {
   };
   const subject = () => render(<ApplicationDownloadLink form={form} />);
 
-  it('has a download file button', () => {
+  it('renders a download file button', () => {
     const { getByText } = subject();
     expect(getByText('Download your completed application')).to.exist;
   });
 
   context('clicking the download file button', () => {
-    const recordEventStub = sinon.stub(recordEventModule, 'default');
+    let recordEventStub;
 
-    it.skip('downloads the application pdf', async () => {
+    beforeEach(() => {
+      recordEventStub = sinon.stub(recordEventModule, 'default');
+    });
+
+    afterEach(() => {
+      recordEventStub.restore();
+    });
+
+    it('records pdf-download-success when button is clicked', async () => {
       const { queryByText, container } = subject();
       const loadingIndicator = container.querySelector('va-loading-indicator');
 
@@ -37,18 +44,10 @@ describe('CG <ApplicationDownloadLink>', () => {
         blob: () => new Blob(['my blob'], { type: 'application/pdf' }),
       });
 
-      const createElementStub = sinon.stub(document, 'createElement').returns({
-        click: sinon.stub(),
-        setAttribute: sinon.stub(),
-        href: '',
-        download: '',
-        revokeObjectURL: '',
-      });
-
-      const appendChildStub = sinon.stub(document.body, 'appendChild');
-      const removeChildStub = sinon.stub(document.body, 'removeChild');
-
-      sinon.stub(URL, 'createObjectURL').returns('my_stubbed_url.com');
+      const createObjectStub = sinon
+        .stub(URL, 'createObjectURL')
+        .returns('my_stubbed_url.com');
+      const revokeObjectStub = sinon.stub(URL, 'revokeObjectURL');
 
       fireEvent.click(queryByText('Download your completed application'));
 
@@ -57,33 +56,22 @@ describe('CG <ApplicationDownloadLink>', () => {
       });
 
       await waitFor(() => {
-        const downloadLink = container.querySelector(
-          '.cg-application-download-link',
-        );
-        expect(downloadLink).to.exist;
-        expect(downloadLink.url).to.equal('');
-        expect(downloadLink.download).to.equal('10-10CG_John_Smith.pdf');
-      });
-
-      await waitFor(() => {
         expect(
           recordEventStub.calledWith({
             event: 'caregivers-10-10cg-pdf-download--success',
           }),
         ).to.be.true;
-        recordEventStub.restore();
       });
 
       await waitFor(() => {
         expect(container.querySelector('va-loading-indicator')).to.not.exist;
       });
 
-      createElementStub.restore();
-      appendChildStub.restore();
-      removeChildStub.restore();
+      createObjectStub.restore();
+      revokeObjectStub.restore();
     });
 
-    it('handles errors', async () => {
+    it('displays error message and records error when request fails', async () => {
       const { queryByText, getByText, container } = subject();
 
       expect(queryByText('Download your completed application')).to.exist;
@@ -117,7 +105,6 @@ describe('CG <ApplicationDownloadLink>', () => {
             event: 'caregivers-10-10cg-pdf--failure',
           }),
         ).to.be.true;
-        recordEventStub.restore();
       });
 
       await waitFor(() => {
@@ -131,5 +118,3 @@ describe('CG <ApplicationDownloadLink>', () => {
     });
   });
 });
-
-// y test:unit src/applications/caregivers/tests/components/ApplicationDownloadLink.unit.spec.js --log-level trace
