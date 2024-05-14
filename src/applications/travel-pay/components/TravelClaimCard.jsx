@@ -48,13 +48,11 @@ export default function TravelClaimCard(props) {
 }
 
 TravelClaimCard.propTypes = {
-  appointmentDate: PropTypes.string,
-  facilityName: PropTypes.string,
-  appointmentName: PropTypes.string,
-  claimName: PropTypes.string,
+  appointmentDateTime: PropTypes.string,
   claimNumber: PropTypes.string,
   claimStatus: PropTypes.string,
   createdOn: PropTypes.string,
+  facilityName: PropTypes.string,
   id: PropTypes.string,
   modifiedOn: PropTypes.string,
 };
