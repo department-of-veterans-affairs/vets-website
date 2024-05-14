@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { some } from 'lodash';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { connect } from 'react-redux';
-import ProofOfVeteranStatus from '../proof-of-veteran-status/ProofOfVeteranStatus';
 
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
 
@@ -12,6 +11,7 @@ import DowntimeNotification, {
 } from '~/platform/monitoring/DowntimeNotification';
 import { focusElement } from '~/platform/utilities/ui';
 import { selectVeteranStatus } from '~/platform/user/selectors';
+import ProofOfVeteranStatus from '../proof-of-veteran-status/ProofOfVeteranStatus';
 
 import LoadFail from '../alerts/LoadFail';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
