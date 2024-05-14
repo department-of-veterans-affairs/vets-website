@@ -19,7 +19,7 @@ export const HEALTH_TOOL_LINKS = freeze({
     },
     {
       href: '/health-care/schedule-view-va-appointments/appointments',
-      text: 'Upcoming VA appointments',
+      text: 'Manage upcoming appointments',
     },
     {
       href: '/find-locations',
@@ -29,7 +29,7 @@ export const HEALTH_TOOL_LINKS = freeze({
   MESSAGES: freeze([
     {
       href: '/my-health/secure-messages/inbox/',
-      text: 'Inbox',
+      text: 'Go to inbox',
     },
     {
       href: '/my-health/secure-messages/new-message/',
@@ -63,7 +63,7 @@ export const HEALTH_TOOL_LINKS = freeze({
   PAYMENTS: freeze([
     {
       href: 'https://dvagov-btsss.dynamics365portals.us/signin',
-      text: 'File a claim for travel reimbursement',
+      text: 'File a claim for travel reimbursement (opens in new tab)',
     },
     {
       href: '/manage-va-debt/summary/copay-balances',
