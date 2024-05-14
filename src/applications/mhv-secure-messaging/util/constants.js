@@ -2,6 +2,7 @@
 export const draftAutoSaveTimeout = 10000;
 
 export const Paths = {
+  MYHEALTH: null,
   INBOX: '/inbox/',
   SENT: '/sent/',
   DRAFTS: '/drafts/',
@@ -215,6 +216,7 @@ export const Prompts = {
 };
 
 export const Breadcrumbs = {
+  MYHEALTH: { path: Paths.MYHEALTH, label: 'Back to My HealtheVet' },
   MESSAGES: { path: '/', label: 'Back to messages' },
   COMPOSE: {
     path: Paths.COMPOSE,
