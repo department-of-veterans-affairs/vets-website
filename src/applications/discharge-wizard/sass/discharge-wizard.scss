@@ -115,8 +115,8 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 }
 
 .discharge-wizard-v2 {
-  article {
-    padding: 0 0 3rem;
+  va-breadcrumbs {
+    padding-left: 0.9375rem;
   }
 
   //v2 styles
@@ -125,5 +125,10 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  va-button-pair {
+    margin-right: -4px;
+    margin-left: -4px;
   }
 }

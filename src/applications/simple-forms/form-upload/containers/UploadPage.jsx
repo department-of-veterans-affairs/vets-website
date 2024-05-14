@@ -9,42 +9,24 @@ import {
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitToSimpleForms } from '../actions';
-
-export const handleRouteChange = ({ detail }, history) => {
-  const { href } = detail;
-  history.push(href);
-};
+import {
+  getBreadcrumbList,
+  getFormNumber,
+  getFormUploadContent,
+  handleRouteChange,
+} from '../helpers';
 
 const UploadPage = () => {
-  const location = useLocation();
-  const path = location.pathname;
-  const regex = /\/(\d{2}-\d{4})/;
-  const formNumber = path.match(regex)[1];
   const history = useHistory();
   const dispatch = useDispatch();
   const confirmationCode = useSelector(
     state => state?.formUpload?.uploads?.confirmationCode,
   );
 
-  const breadcrumbList = [
-    { href: '/', label: 'VA.gov home' },
-    {
-      href: `/find-forms/about-form-${formNumber}`,
-      label: `About VA Form ${formNumber}`,
-      isRouterLink: true,
-    },
-    {
-      href: `/form-upload/${formNumber}`,
-      label: `Upload VA Form ${formNumber}`,
-      isRouterLink: true,
-    },
-  ];
-
-  let formUploadContent = '';
-  if (formNumber === '21-0779') {
-    formUploadContent =
-      'Request for Nursing Home Information in Connection with Claim for Aid and Attendance';
-  }
+  const location = useLocation();
+  const formNumber = getFormNumber(location);
+  const formUploadContent = getFormUploadContent(formNumber);
+  const breadcrumbList = getBreadcrumbList(formNumber);
 
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">

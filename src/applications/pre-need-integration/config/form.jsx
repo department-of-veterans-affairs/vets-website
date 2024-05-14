@@ -34,6 +34,7 @@ import * as preparerDetails from './pages/preparerDetails';
 import * as preparerContactDetails from './pages/preparerContactDetails';
 import * as applicantDemographics from './pages/applicantDemographics';
 import * as applicantDemographics2 from './pages/applicantDemographics2';
+import * as applicantDemographics2Preparer from './pages/applicantDemographics2Preparer';
 import * as militaryDetailsSelf from './pages/militaryDetailsSelf';
 import * as militaryDetailsPreparer from './pages/militaryDetailsPreparer';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
@@ -88,10 +89,6 @@ import {
   applicantDemographicsMaritalStatusTitle,
   applicantDemographicsPreparerGenderTitle,
   applicantDemographicsPreparerMaritalStatusTitle,
-  applicantDemographicsEthnicityTitle,
-  applicantDemographicsRaceTitle,
-  applicantDemographicsPreparerEthnicityTitle,
-  applicantDemographicsPreparerRaceTitle,
   isSponsorDeceased,
   nonVeteranApplicantDetailsSubHeader,
   nonVeteranApplicantDetailsDescription,
@@ -368,24 +365,17 @@ const formConfig = {
         },
         applicantDemographics2: {
           path: 'applicant-demographics-2',
-          depends: formData => !isAuthorizedAgent(formData),
-          uiSchema: applicantDemographics2.uiSchema(
-            applicantDemographicsSubHeader,
-            applicantDemographicsEthnicityTitle,
-            applicantDemographicsRaceTitle,
-          ),
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: applicantDemographics2.uiSchema,
           schema: applicantDemographics2.schema,
         },
         applicantDemographics2Preparer: {
           path: 'applicant-demographics-2-preparer',
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
-          uiSchema: applicantDemographics2.uiSchema(
-            applicantDemographicsPreparerSubHeader,
-            applicantDemographicsPreparerEthnicityTitle,
-            applicantDemographicsPreparerRaceTitle,
-          ),
-          schema: applicantDemographics2.schema,
+          uiSchema: applicantDemographics2Preparer.uiSchema,
+          schema: applicantDemographics2Preparer.schema,
         },
       },
     },
