@@ -3,6 +3,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom-v5-compat';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import NoPOAPermissionsAlert from '../components/NoPOAPermissionsAlert/NoPOAPermissionsAlert';
 import NotInPilotAlert from '../components/NotInPilotAlert/NotInPilotAlert';
 
@@ -22,7 +23,7 @@ const SignedInLayout = ({
     );
   }
 
-  if (!isInPilot) {
+  if (environment.isProduction() && !isInPilot) {
     return <NotInPilotAlert />;
   }
 
