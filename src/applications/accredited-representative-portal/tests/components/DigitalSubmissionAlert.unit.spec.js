@@ -14,9 +14,9 @@ describe('DigitalSubmissionAlert', () => {
 
   it('renders heading', () => {
     const { getByTestId } = getDigitalSubmissionAlert();
-    expect(
-      getByTestId('digital-submission-alert-heading').textContent,
-    ).to.equal('Veterans can now digitally submit form 21-22 from VA.gov');
+    expect(getByTestId('digital-submission-alert-heading').textContent).to.eq(
+      'Veterans can now digitally submit form 21-22 from VA.gov',
+    );
   });
 
   it('renders description', () => {

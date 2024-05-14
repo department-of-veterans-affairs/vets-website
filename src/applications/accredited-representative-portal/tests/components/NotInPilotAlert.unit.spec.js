@@ -14,7 +14,7 @@ describe('NotInPilotAlert', () => {
 
   it('renders heading', () => {
     const { getByTestId } = getNotInPilotAlert();
-    expect(getByTestId('not-in-pilot-alert-heading').textContent).to.equal(
+    expect(getByTestId('not-in-pilot-alert-heading').textContent).to.eq(
       'Accredited Representative Portal is currently in pilot',
     );
   });
