@@ -136,6 +136,7 @@
   "nodConfirmationUpdate": "nod_confirmation_update",
   "pdfWarningBanner": "pdf_warning_banner",
   "pensionFormEnabled": "pension_form_enabled",
+  "pensionsBrowserMonitoringEnabled": "pension_browser_monitoring_enabled",
   "pensionMultiresponseStyles": "pension_multiresponse_styles",
   "preEntryCovid19Screener": "pre_entry_covid19_screener",
   "profileContacts": "profile_contacts",
