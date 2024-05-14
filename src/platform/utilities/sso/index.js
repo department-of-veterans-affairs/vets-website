@@ -119,7 +119,7 @@ export async function checkAutoSession(
   } else if (
     !loggedIn &&
     ttl > 0 &&
-    (!getLoginAttempted() || verifySession()) &&
+    !getLoginAttempted() &&
     queryParams.csp_type
   ) {
     /**
