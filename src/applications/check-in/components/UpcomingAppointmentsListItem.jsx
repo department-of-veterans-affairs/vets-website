@@ -43,12 +43,15 @@ const UpcomingAppointmentsListItem = props => {
       className="check-in--appointment-item"
       data-testid="appointment-list-item"
     >
-      <div className="vads-u-margin-top--1p5" data-testid="appointment-time">
+      <div
+        className="vads-u-margin-top--1p5 vads-u-margin-bottom--1"
+        data-testid="appointment-time"
+      >
         {t('date-time', { date: appointmentDateTime })}
       </div>
       <div
         data-testid="appointment-type-and-provider"
-        className="vads-u-font-weight--bold"
+        className="vads-u-font-weight--bold vads-u-margin-bottom--1"
       >
         {appointment.clinicStopCodeName
           ? appointment.clinicStopCodeName
@@ -57,10 +60,10 @@ const UpcomingAppointmentsListItem = props => {
           ? ` ${t('with')} ${appointment.doctorName}`
           : ''}
       </div>
-      <div className="vads-u-display--flex vads-u-align-items--baseline">
+      <div className="vads-u-display--flex">
         <div
           data-testid="appointment-kind-icon"
-          className="vads-u-margin-right--1 check-in--label"
+          className="vads-u-margin-right--0p5 check-in--label"
         >
           {appointmentIcon(appointment)}
         </div>
@@ -71,7 +74,7 @@ const UpcomingAppointmentsListItem = props => {
           {appointmentInfo()}
         </div>
       </div>
-      <div className="vads-u-margin-y--1p5">
+      <div className="vads-u-margin-top--1p5 vads-u-margin-bottom--2">
         <a
           data-testid="details-link"
           href={`${
