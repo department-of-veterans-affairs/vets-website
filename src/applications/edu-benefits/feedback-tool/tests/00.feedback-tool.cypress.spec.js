@@ -19,8 +19,6 @@ describe('Feedback Tool Test', () => {
 
     cy.url().should('not.contain', '/introduction');
     // Applicant relationship
-    // cy.get('va-radio-option[value="Myself"]').click();
-    // Applicant relationship
     cy.get('va-radio-option[value="Myself"]').should('exist');
     cy.injectAxeThenAxeCheck();
     cy.get('va-radio-option[value="Myself"]').click();
