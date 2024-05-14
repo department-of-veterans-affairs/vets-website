@@ -118,6 +118,14 @@ class MedicationsRefillPage {
     });
   };
 
+  clickMedicationsLandingPageBreadcrumbsOnRefillPage = () => {
+    cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
+
+    cy.get(`[href="${medicationsUrls.MEDICATIONS_ABOUT}"]`).click({
+      waitForAnimations: true,
+    });
+  };
+
   verifyShippedMedicationOnRefillPage = () => {
     cy.get('[data-testid="medications-last-shipped-3"]').should(
       'contain',
