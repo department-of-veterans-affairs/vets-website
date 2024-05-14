@@ -16,7 +16,6 @@ export const STATEMENT_TYPES = Object.freeze({
   PRIORITY_PROCESSING: 'priority-processing',
   PERSONAL_RECORDS: 'personal-records',
   NEW_EVIDENCE: 'new-evidence',
-  VRE_REQUEST: 'vre-request',
   NOT_LISTED: 'not-listed',
 });
 
@@ -29,8 +28,6 @@ export const STATEMENT_TYPE_LABELS = Object.freeze({
     'I want to request that VA process my claim faster due to certain qualifying situations.',
   [STATEMENT_TYPES.PERSONAL_RECORDS]: 'I want to request my personal records.',
   [STATEMENT_TYPES.NEW_EVIDENCE]: 'I have new evidence to submit.',
-  [STATEMENT_TYPES.VRE_REQUEST]:
-    'I want to submit a request related to the Veteran Readiness and Employment (VR&E) program (Chapter 31).',
   [STATEMENT_TYPES.NOT_LISTED]:
     "The type of statement I want to submit isn't listed here.",
 });
@@ -612,52 +609,6 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
     <a className="vads-u-font-weight--bold" href="/track-claims/your-claims">
       Check the status of your claim
     </a>
-    {ESCAPE_HATCH}
-  </div>,
-);
-
-export const VRE_REQUEST_HANDOFF = Object.freeze(
-  <div>
-    <p>
-      Based on your answer, you should request support with VA Form 28-10212.
-    </p>
-    <h2 className="vads-u-font-size--h3">What kind of requests can I make?</h2>
-    <p>
-      Use VA Form 28-10212 to make requests like these related to VR&E (Chapter
-      31):
-    </p>
-    <ul>
-      <li>Request supplies or equipment to support your training</li>
-      <li>Request a revolving fund loan</li>
-      <li>Explain an issue or concern about your training</li>
-      <li>Withdraw your application for VR&E (Chapter 31) benefits</li>
-      <li>Reduce or withdraw from training</li>
-      <li>Discontinue your participation in the program and close your case</li>
-      <li>Submit another type of request not listed herec</li>
-    </ul>
-    <div className="vads-u-margin-left--1">
-      <va-link
-        download
-        filetype="PDF"
-        href="https://www.vba.va.gov/pubs/forms/vba-28-10212-are.pdf"
-        text="Download VA Form 28-10212"
-      />
-    </div>
-    <div className="vads-u-margin-y--4">
-      <a
-        href="/careers-employment/vocational-rehabilitation"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn more about the VR&E program (Chapter 31) (opens in a new tab)
-      </a>
-    </div>
-    <va-omb-info
-      res-burden={10}
-      omb-number="2900-0882"
-      exp-date="02/29/2024"
-      class="vads-u-margin-y--4"
-    />
     {ESCAPE_HATCH}
   </div>,
 );
