@@ -170,6 +170,7 @@ jobs:
   unit-tests-stress-test:
     name: Unit Tests
     runs-on: ubuntu-16-cores-latest
+    needs: [tests-prep]
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
 
