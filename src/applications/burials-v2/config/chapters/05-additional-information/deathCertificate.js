@@ -25,7 +25,7 @@ export default {
     ),
     deathCertificate: {
       ...burialUploadUI('Upload the Veteran’s death certificate'),
-      'ui:required': form => form?.burialAllowanceRequested.service,
+      'ui:required': form => form?.burialAllowanceRequested?.service,
     },
   },
   schema: {
