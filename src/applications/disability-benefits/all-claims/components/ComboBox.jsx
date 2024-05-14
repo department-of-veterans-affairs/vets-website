@@ -5,8 +5,6 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 
 const COMBOBOX_LIST_MAX_HEIGHT = '440px';
-const MAX_NUM_DISABILITY_SUGGESTIONS = 20;
-const THRESHOLD = 0.5;
 
 // helper function for results string. No `this.` so not in class.
 const getScreenReaderResults = (searchTerm, value, numResults) => {
@@ -70,12 +68,7 @@ export class ComboBox extends React.Component {
   filterOptions = () => {
     const { searchTerm, value, bump } = this.state;
     const options = this.disabilitiesArr;
-    const startsWith = options.filter(a =>
-      a.toLowerCase().startsWith(searchTerm.toLowerCase()),
-    );
-    let filtered = fullStringSimilaritySearch(searchTerm, options, THRESHOLD);
-    filtered = Array.from(new Set([...startsWith, ...filtered]));
-    filtered = filtered.splice(0, MAX_NUM_DISABILITY_SUGGESTIONS);
+    let filtered = fullStringSimilaritySearch(searchTerm, options);
     if (searchTerm.length === 0) {
       filtered = [];
     }
@@ -134,7 +127,7 @@ export class ComboBox extends React.Component {
       classNameStr += ' cc-combobox__option--active';
     }
     return (
-      <span
+      <li
         key={0}
         className={classNameStr}
         onClick={() => {
@@ -152,7 +145,7 @@ export class ComboBox extends React.Component {
       >
         Enter your condition as "
         <span style={{ fontWeight: 'bold' }}>{option}</span>"
-      </span>
+      </li>
     );
   }
 
@@ -168,7 +161,7 @@ export class ComboBox extends React.Component {
           onChange={this.handleSearchChange}
           ref={this.inputRef}
         />
-        <div
+        <ul
           className={
             filteredOptions.length > 0
               ? 'cc-combobox__list cc-combobox__list--open'
@@ -187,7 +180,7 @@ export class ComboBox extends React.Component {
                 classNameStr += ' cc-combobox__option--active';
               }
               return (
-                <span
+                <li
                   key={index}
                   className={classNameStr}
                   onClick={() => {
@@ -204,10 +197,10 @@ export class ComboBox extends React.Component {
                   aria-selected={this.state.input === option}
                 >
                   {option}
-                </span>
+                </li>
               );
             })}
-        </div>
+        </ul>
 
         <div
           className="cc-combobox__status vads-u-visibility--screen-reader"
