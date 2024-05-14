@@ -79,6 +79,7 @@ export class CallToActionWidget extends Component {
     this._toolUrl = null;
     this._gaPrefix = 'register-mhv';
     this._featureToggle = ctaWidget?.featureToggle;
+    this._headerLevel = ctaWidget?.headerLevel || props.headerLevel;
   }
 
   componentDidMount() {
@@ -155,7 +156,7 @@ export class CallToActionWidget extends Component {
         return (
           <DirectDepositUnAuthed
             primaryButtonHandler={this.openLoginModal}
-            headerLevel={this.props.headerLevel}
+            headerLevel={this._headerLevel}
             ariaLabel={this.props.ariaLabel}
             ariaDescribedby={this.props.ariaDescribedby}
           />
@@ -165,7 +166,7 @@ export class CallToActionWidget extends Component {
         <SignIn
           serviceDescription={this._serviceDescription}
           primaryButtonHandler={this.openLoginModal}
-          headerLevel={this.props.headerLevel}
+          headerLevel={this._headerLevel}
           ariaLabel={this.props.ariaLabel}
           ariaDescribedby={this.props.ariaDescribedby}
         />
@@ -182,6 +183,7 @@ export class CallToActionWidget extends Component {
         <Verify
           serviceDescription={this._serviceDescription}
           primaryButtonHandler={this.verifyHandler}
+          headerLevel={this._headerLevel}
         />
       );
     }
@@ -322,6 +324,7 @@ export class CallToActionWidget extends Component {
           <Verify
             serviceDescription={this._serviceDescription}
             primaryButtonHandler={this.verifyHandler}
+            headerLevel={this._headerLevel}
           />
         );
 

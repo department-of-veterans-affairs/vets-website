@@ -46,13 +46,7 @@ describe('re-save multiple drafts in one thread', () => {
 
   it('verify first draft could be re-saved', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
 
     cy.get('textarea').type('newText', { force: true });
     draftPage.saveMultiDraftMessage(
@@ -65,13 +59,7 @@ describe('re-save multiple drafts in one thread', () => {
 
   it('verify second draft could be re-saved', () => {
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
 
     cy.get('#edit-draft-button').click({ waitForAnimations: true });
     cy.get('textarea').type('newText', { force: true });

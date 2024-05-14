@@ -13,9 +13,9 @@ const MoreInfoCard = ({
   return (
     <div className={`vads-u-margin-top--${marginTop}`}>
       <va-card background>
-        <h6 className="vads-u-font-family--serif vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-top--0">
+        <h3 className="vads-u-font-family--serif vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-top--0">
           More Information
-        </h6>
+        </h3>
         <hr className="vads-u-margin-top--0" />
         <PageLink
           linkText={linkText}
