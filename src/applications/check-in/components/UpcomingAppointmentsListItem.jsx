@@ -9,22 +9,50 @@ import {
 } from '../utils/appointment';
 
 const UpcomingAppointmentsListItem = props => {
-  const { appointment, goToDetails, router } = props;
+  const { appointment, goToDetails, router, border } = props;
   const { t } = useTranslation();
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
 
+  const appointmentInfo = () => {
+    if (appointment?.kind === 'vvc') {
+      return <div data-testid="appointment-info-vvc">{t('video')}</div>;
+    }
+    if (appointment?.kind === 'cvt') {
+      return (
+        <div data-testid="appointment-info-cvt">
+          {`${t('video-at')} ${appointment.facility}`}
+          <br />
+          {`${t('clinic')}: ${clinic}`}
+        </div>
+      );
+    }
+    if (appointment?.kind === 'phone') {
+      return <div data-testid="appointment-info-phone">{t('phone')}</div>;
+    }
+    return (
+      <div data-testid="appointment-info-clinic">
+        {`${t('in-person-at')} ${appointment.facility}`} <br />
+        {`${t('clinic')}: ${clinic}`}
+      </div>
+    );
+  };
+
   return (
     <li
-      className="check-in--appointment-item"
+      className={`check-in--appointment-item ${border &&
+        'vads-u-border-bottom--1px vads-u-border-color--gray-light'}`}
       data-testid="appointment-list-item"
     >
-      <div className="vads-u-margin-top--1p5" data-testid="appointment-time">
+      <div
+        className="vads-u-margin-top--1p5 vads-u-margin-bottom--1"
+        data-testid="appointment-time"
+      >
         {t('date-time', { date: appointmentDateTime })}
       </div>
       <div
         data-testid="appointment-type-and-provider"
-        className="vads-u-font-weight--bold"
+        className="vads-u-font-weight--bold vads-u-margin-bottom--1"
       >
         {appointment.clinicStopCodeName
           ? appointment.clinicStopCodeName
@@ -33,10 +61,10 @@ const UpcomingAppointmentsListItem = props => {
           ? ` ${t('with')} ${appointment.doctorName}`
           : ''}
       </div>
-      <div className="vads-u-display--flex vads-u-align-items--baseline">
+      <div className="vads-u-display--flex">
         <div
           data-testid="appointment-kind-icon"
-          className="vads-u-margin-right--1 check-in--label"
+          className="vads-u-margin-right--0p5 check-in--label"
         >
           {appointmentIcon(appointment)}
         </div>
@@ -44,23 +72,10 @@ const UpcomingAppointmentsListItem = props => {
           data-testid="appointment-kind-and-location"
           className="vads-u-display--inline"
         >
-          {appointment?.kind === 'phone' ? (
-            t('phone')
-          ) : (
-            <>
-              {t('in-person-at')} {appointment.facility}
-            </>
-          )}
+          {appointmentInfo()}
         </div>
       </div>
-      <div>
-        {appointment?.kind === 'clinic' && (
-          <>
-            {t('clinic')}: {clinic}
-          </>
-        )}
-      </div>
-      <div className="vads-u-margin-y--1p5">
+      <div className="vads-u-margin-top--1p5 vads-u-margin-bottom--2">
         <a
           data-testid="details-link"
           href={`${
@@ -83,6 +98,7 @@ const UpcomingAppointmentsListItem = props => {
 
 UpcomingAppointmentsListItem.propTypes = {
   appointment: PropTypes.object.isRequired,
+  border: PropTypes.bool.isRequired,
   goToDetails: PropTypes.func,
   router: PropTypes.object,
 };
