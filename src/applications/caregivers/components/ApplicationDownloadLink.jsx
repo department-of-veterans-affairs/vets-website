@@ -29,17 +29,19 @@ const ApplicationDownloadLink = ({ form }) => {
     return downloadErrorsByCode[code] || generic;
   };
 
-  function handlePdfDownload(blob) {
-    const url = URL.createObjectURL(blob);
+  const handlePdfDownload = blob => {
+    const downloadUrl = URL.createObjectURL(blob);
     const downloadLink = document.createElement('a');
+
     downloadLink.className = 'cg-application-download-link';
-    downloadLink.href = 'url';
+    downloadLink.href = downloadUrl;
     downloadLink.download = `10-10CG_${name.first}_${name.last}.pdf`;
     document.body.appendChild(downloadLink);
+
     downloadLink.click();
     document.body.removeChild(downloadLink);
-    URL.revokeObjectURL(url);
-  }
+    URL.revokeObjectURL(downloadUrl);
+  };
 
   // define our method of retrieving the link to download
   const fetchPdf = () => {
