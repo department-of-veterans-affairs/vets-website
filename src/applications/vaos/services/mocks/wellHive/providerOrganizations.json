@@ -1,0 +1,31 @@
+{
+    "count": 4,
+    "nextToken": "YTI0NTM5NzUtNzA2My00NTU5LWJiYWYtZTg3MGY4ZWZlYzg5",
+    "providerOrganizations": [
+      {
+        "name": "Alpha Cardiology",
+        "networkIds": [
+          "69cd9203-5e92-47a3-aa03-94b03752872a"
+        ]
+      },
+      {
+        "name": "Beta Dental",
+        "networkIds": [
+          "69cd9203-5e92-47a3-aa03-94b03752872a"
+        ]
+      },
+      {
+        "name": "Acme Orthopaedic",
+        "networkIds": [
+          "00eff3f3-ecfb-41ff-9ebc-78ed811e17f9"
+        ]
+      },
+      {
+        "name": "Acme Urology",
+        "networkIds": [
+          "00eff3f3-ecfb-41ff-9ebc-78ed811e17f9"
+        ]
+      }
+    ],
+    "total": 11
+  }
