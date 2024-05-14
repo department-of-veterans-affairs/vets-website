@@ -39,7 +39,7 @@ const downtimeTesting = ({
       cy.intercept('GET', '/v0/intent_to_file', fetchItf()); // 995 only
 
       cy.visit(baseUrl);
-      cy.injectAxe();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('Shows the introduction page as normal', () => {
@@ -48,7 +48,7 @@ const downtimeTesting = ({
       cy.reload();
       cy.get('va-process-list');
       cy.get('.vads-c-action-link--green');
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('Does not display a downtime is approaching modal', () => {
@@ -77,7 +77,7 @@ const downtimeTesting = ({
       ).should('not.exist');
       cy.get('.vads-c-action-link--green');
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('Correctly shows that the application is down for maintenance', () => {
@@ -101,7 +101,7 @@ const downtimeTesting = ({
         .should('be.visible')
         .and('contain', 'is down for maintenance');
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
 
     it('Allows continuing application when submit services are down for maintenance', () => {
@@ -146,7 +146,7 @@ const downtimeTesting = ({
       cy.get('va-alert [slot="headline"]', { timeout: Timeouts.slow })
         .should('be.visible')
         .and('contain', 'is in progress');
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
 
       cy.get('va-button[data-testid="continue-your-application"]').click();
 
@@ -163,7 +163,7 @@ const downtimeTesting = ({
         .should('be.visible')
         .and('contain', 'is down for maintenance');
 
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
     });
   });
 };
