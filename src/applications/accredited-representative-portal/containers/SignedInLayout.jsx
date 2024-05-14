@@ -3,13 +3,13 @@ import React from 'react';
 import { Outlet } from 'react-router-dom-v5-compat';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import NoPOAPermissionsAlert from '../components/NoPOAPermissionsAlert/NoPOAPermissionsAlert';
 import NotInPilotAlert from '../components/NotInPilotAlert/NotInPilotAlert';
 
 const SignedInLayout = ({
   isPilotToggleLoading,
   isInPilot,
+  isProduction,
   hasPOAPermissions,
 }) => {
   if (isPilotToggleLoading) {
@@ -23,7 +23,7 @@ const SignedInLayout = ({
     );
   }
 
-  if (environment.isProduction() && !isInPilot) {
+  if (isProduction && !isInPilot) {
     return <NotInPilotAlert />;
   }
 
@@ -44,6 +44,7 @@ SignedInLayout.propTypes = {
   hasPOAPermissions: PropTypes.bool,
   isInPilot: PropTypes.bool,
   isPilotToggleLoading: PropTypes.bool,
+  isProduction: PropTypes.bool,
 };
 
 export default SignedInLayout;
