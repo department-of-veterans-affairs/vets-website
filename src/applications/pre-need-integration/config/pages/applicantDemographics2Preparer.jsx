@@ -1,9 +1,10 @@
-import { merge, pick } from 'lodash';
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
+import { merge, pick } from 'lodash';
+
 import {
-  sponsorDemographicsDescription,
-  sponsorDemographicsSubHeader,
+  applicantDemographicsDescription,
+  applicantDemographicsPreparerSubHeader,
   veteranUI,
 } from '../../utils/helpers';
 
@@ -11,18 +12,18 @@ const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
   application: {
-    'ui:title': sponsorDemographicsSubHeader,
-    'view:sponsorDemographicsDescription': {
-      'ui:description': sponsorDemographicsDescription,
+    'ui:title': applicantDemographicsPreparerSubHeader,
+    'view:applicantDemographicsDescription': {
+      'ui:description': applicantDemographicsDescription,
       'ui:options': {
         displayEmptyObjectOnReview: true,
       },
     },
     veteran: merge({}, veteranUI, {
-      ethnicity: { 'ui:title': 'What’s the sponsor’s ethnicity?' },
-      race: { 'ui:title': 'What’s the sponsor’s race?' },
+      ethnicity: { 'ui:title': 'What’s the applicant’s ethnicity?' },
+      race: { 'ui:title': 'What’s the applicant’s race?' },
       raceComment: {
-        'ui:title': 'Enter the race that best describes the sponsor',
+        'ui:title': 'Enter the race that best describes the applicant',
         'ui:errorMessages': {
           pattern: 'Please provide a response',
         },
@@ -37,7 +38,7 @@ export const schema = {
     application: {
       type: 'object',
       properties: {
-        'view:sponsorDemographicsDescription': {
+        'view:applicantDemographicsDescription': {
           type: 'object',
           properties: {},
         },
