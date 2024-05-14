@@ -4,7 +4,7 @@ export const HEALTH_TOOL_HEADINGS = freeze({
   APPOINTMENTS: 'Appointments',
   MESSAGES: 'Messages',
   MEDICATIONS: 'Medications',
-  MEDICAL_RECORDS: 'Health records',
+  MEDICAL_RECORDS: 'Medical records',
   PAYMENTS: 'Payments',
   MEDICAL_SUPPLIES: 'Medical supplies',
 });

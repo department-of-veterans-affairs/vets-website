@@ -1,6 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import classnames from 'classnames';
+
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '../selectors';
+
 import NavCard from './NavCard';
+import MedicalRecordsCard from './MedicalRecordsCard';
 
 const layoutData = data => {
   const offset = 2;
@@ -12,6 +18,12 @@ const layoutData = data => {
 };
 
 const CardLayout = ({ data }) => {
+  const { mhvTransitionalMedicalRecordsLandingPage = false } = useSelector(
+    state => state.featureToggles,
+  );
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
+  const blueButtonUrl = mhvUrl(ssoe, 'download-my-data');
+
   const rowCols = layoutData(data);
   return rowCols.map((row, x) => {
     return (
@@ -36,7 +48,12 @@ const CardLayout = ({ data }) => {
             data-testid={`mhv-link-group-card-${x * rowCols.length + y}`}
             key={`col-${y}`}
           >
-            <NavCard title={col.title} icon={col.icon} links={col.links} />
+            {col.title === 'Medical records' &&
+            mhvTransitionalMedicalRecordsLandingPage ? (
+              <MedicalRecordsCard href={blueButtonUrl} />
+            ) : (
+              <NavCard title={col.title} icon={col.icon} links={col.links} />
+            )}
           </div>
         ))}
       </div>
