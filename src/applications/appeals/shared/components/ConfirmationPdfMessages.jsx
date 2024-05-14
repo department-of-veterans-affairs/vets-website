@@ -18,9 +18,15 @@ const ConfirmationPdfMessages = ({ pdfApi, delayTimer = ONE_MINUTE }) => {
 
   useEffect(
     () => {
-      const timer = setTimeout(() => {
+      let timer;
+      if (delayTimer) {
+        timer = setTimeout(() => {
+          setApiState('delayed');
+        }, delayTimer);
+      } else {
+        // delayTimer set to zero for unit testing
         setApiState('delayed');
-      }, delayTimer);
+      }
 
       apiRequest(pdfApi)
         .then(response => {
