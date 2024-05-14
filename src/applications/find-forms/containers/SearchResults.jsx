@@ -279,10 +279,10 @@ export const SearchResults = ({
               rel="noreferrer noopener"
               target="_blank"
             >
-              <i
-                aria-hidden="true"
-                className="fas fa-download fa-lg vads-u-margin-right--1"
-                role="presentation"
+              <va-icon
+                className="vads-u-margin-right--1"
+                icon="file_download"
+                size="3"
               />
               <span className="vads-u-text-decoration--underline">
                 Download VA Form {pdfSelected}
