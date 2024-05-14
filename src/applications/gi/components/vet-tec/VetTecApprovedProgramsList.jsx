@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatCurrency, isPresent, createId } from '../../utils/helpers';
 import classNames from 'classnames';
 import { focusElement } from 'platform/utilities/ui';
+import { formatCurrency, isPresent, createId } from '../../utils/helpers';
 
 const DEFAULT_ROWS_VIEWABLE = 5;
 const MINIMUM_ROWS_FOR_PAGING = 10;
@@ -110,23 +110,11 @@ class VetTecApprovedProgramsList extends React.Component {
   renderProgramRows = () => {
     return this.programs().map((program, index) => {
       return (
-        <tr key={`${index}-table`}>
-          <th
-            tabIndex="-1"
-            scope="row"
-            className="vads-u-padding-left--0 vads-l-grid-container program-description-header"
-          >
-            <div className="program-description vads-l-row">
-              {this.programDescription(program, 'vads-l-col--10')}
-            </div>
-          </th>
-          <td className="program-length vads-u-padding-y--0">
-            {this.programLength(program)}
-          </td>
-          <td className="vads-u-padding-y--0">
-            {this.programTuition(program)}
-          </td>
-        </tr>
+        <va-table-row key={`${index}-table`}>
+          <span>{this.programDescription(program)}</span>
+          <span>{this.programLength(program)}</span>
+          <span>{this.programTuition(program)}</span>
+        </va-table-row>
       );
     });
   };
@@ -214,23 +202,14 @@ class VetTecApprovedProgramsList extends React.Component {
           <div className="vet-tec-programs-list vads-u-margin-top--4">
             {this.renderProgramList()}
           </div>
-          <table className="vet-tec-programs-table">
-            <colgroup>
-              <col className="name-col" />
-              <col className="hours-col" />
-              <col className="tuition-col" />
-            </colgroup>
-            <thead>
-              <tr>
-                <th scope="col" id="program-name-header">
-                  Program name
-                </th>
-                <th scope="col">Length</th>
-                <th scope="col">Tuition & Fees</th>
-              </tr>
-            </thead>
-            <tbody>{this.renderProgramRows()}</tbody>
-          </table>
+          <va-table>
+            <va-table-row slot="headers">
+              <span id="program-name-header">Program name</span>
+              <span>Length</span>
+              <span>Tuition & Fees</span>
+            </va-table-row>
+            {this.renderProgramRows()}
+          </va-table>
           <div className="vads-u-margin-top--4 vads-u-font-style--italic">
             Showing {this.programs().length} of {programs.length} programs
           </div>
@@ -243,9 +222,7 @@ class VetTecApprovedProgramsList extends React.Component {
         <p>
           Program data will be available for this provider soon.{' '}
           <a
-            href={
-              '/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/'
-            }
+            href="/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
             target="_blank"
             rel="noopener noreferrer"
           >

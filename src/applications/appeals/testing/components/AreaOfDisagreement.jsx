@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 
 import {
   VaCheckboxGroup,
@@ -21,6 +20,7 @@ import {
 import { calculateOtherMaxLength } from '../../shared/utils/areaOfDisagreement';
 
 import { hasAreaOfDisagreementChoice } from '../../shared/validations/areaOfDisagreement';
+import { customPageProps } from '../../shared/props';
 
 const AreaOfDisagreement = ({
   data = {},
@@ -104,7 +104,7 @@ const AreaOfDisagreement = ({
     },
     updatePage: () => {
       waitForRenderThenFocus(
-        `[name="areaOfDisagreementFollowUp${pagePerItemIndex}ScrollElement"] + form .edit-btn`,
+        `[name="areaOfDisagreementFollowUp${pagePerItemIndex}ScrollElement"] + form va-button[text="Edit"]`,
       );
       updatePage();
     },
@@ -148,6 +148,7 @@ const AreaOfDisagreement = ({
           value={disagreements.otherEntry}
           maxlength={maxLength}
           uswds
+          charcount
         />
       </VaCheckboxGroup>
 
@@ -162,20 +163,6 @@ const AreaOfDisagreement = ({
   );
 };
 
-AreaOfDisagreement.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({
-    limitedConsent: PropTypes.string,
-    providerFacility: PropTypes.array,
-  }),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  goToPath: PropTypes.func,
-  pagePerItemIndex: PropTypes.number,
-  setFormData: PropTypes.func,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
-};
+AreaOfDisagreement.propTypes = customPageProps;
 
 export default AreaOfDisagreement;

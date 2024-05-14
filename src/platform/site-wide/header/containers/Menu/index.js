@@ -1,20 +1,16 @@
-// Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// Relative imports.
 import MenuItemLevel1 from '../../components/MenuItemLevel1';
 import Search from '../../components/Search';
 import SubMenu from '../../components/SubMenu';
 import { deriveMenuItemID } from '../../helpers';
 
 export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
-  // Do not render if the menu is closed.
   if (!isMenuOpen) {
     return null;
   }
 
-  // Render the sub menu if it is in state.
   if (subMenu) {
     return <SubMenu />;
   }
@@ -26,10 +22,7 @@ export const Menu = ({ isMenuOpen, megaMenuData, showMegaMenu, subMenu }) => {
 
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0 vads-u-width--full">
-      {/* Search */}
       <Search />
-
-      {/* Menu items */}
       {showMegaMenu && (
         <ul
           id="header-nav-items"
@@ -50,7 +43,6 @@ Menu.propTypes = {
   isMenuOpen: PropTypes.bool.isRequired,
   showMegaMenu: PropTypes.bool.isRequired,
   megaMenuData: PropTypes.arrayOf(PropTypes.object),
-  // From mapStateToProps.
   subMenu: PropTypes.shape({
     id: PropTypes.string.isRequired,
     menuSections: PropTypes.arrayOf(PropTypes.object),

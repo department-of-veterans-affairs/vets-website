@@ -52,9 +52,6 @@ export const selectHasVAPResidentialAddress = state =>
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
 
-export const selectFeatureUnenrolledVaccine = state =>
-  toggleValues(state).vaOnlineSchedulingUnenrolledVaccine;
-
 export const selectFeatureVAOSServiceRequests = state =>
   toggleValues(state).vaOnlineSchedulingVAOSServiceRequests;
 
@@ -76,14 +73,8 @@ export const selectFeatureStatusImprovementCanceled = state =>
 export const selectFeatureVaosV2Next = state =>
   toggleValues(state).vaOnlineSchedulingVAOSV2Next;
 
-export const selectFeatureAppointmentList = state =>
-  toggleValues(state).vaOnlineSchedulingAppointmentList;
-
 export const selectFeatureClinicFilter = state =>
   toggleValues(state).vaOnlineSchedulingClinicFilter;
-
-export const selectFeatureAcheronService = state =>
-  toggleValues(state).vaOnlineSchedulingAcheronService;
 
 export const selectFeatureRequestFlowUpdate = state =>
   toggleValues(state).vaOnlineSchedulingRequestFlowUpdate;
@@ -97,12 +88,6 @@ export const selectFeatureConvertUtcToLocaL = state =>
 export const selectFeatureBreadcrumbUrlUpdate = state =>
   toggleValues(state).vaOnlineSchedulingBreadcrumbUrlUpdate;
 
-export const selectFeaturePrintList = state =>
-  toggleValues(state).vaOnlineSchedulingPrintList;
-
-export const selectFeatureDescriptiveBackLink = state =>
-  toggleValues(state).vaOnlineSchedulingDescriptiveBackLink;
-
 export const selectFeatureStaticLandingPage = state =>
   toggleValues(state).vaOnlineSchedulingStaticLandingPage;
 
@@ -114,3 +99,15 @@ export const selectFeatureAfterVisitSummary = state =>
 
 export const selectFeatureStartSchedulingLink = state =>
   toggleValues(state).vaOnlineSchedulingStartSchedulingLink;
+
+export const selectFeaturePhysicalLocation = state =>
+  toggleValues(state).vaOnlineSchedulingPhysicalLocation;
+
+export const selectFeatureBookingExclusion = state =>
+  toggleValues(state).vaOnlineSchedulingBookingExclusion;
+
+export const selectFeatureDatadogRum = state =>
+  toggleValues(state).vaOnlineSchedulingDatadogRum;
+
+export const selectFeatureAppointmentDetailsRedesign = state =>
+  toggleValues(state).vaOnlineSchedulingAppointmentDetailsRedesign;

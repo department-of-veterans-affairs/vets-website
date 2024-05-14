@@ -35,7 +35,7 @@ const FormTitle = ({ id, formUrl, title, lang, recordGAEvent, formName }) => (
         </p>
         <h3
           aria-describedby={id}
-          className="vads-u-font-family--serif vads-u-font-size--base vads-u-margin--0"
+          className="vads-u-font-family--serif vads-u-font-size--base vads-u-margin--0 vads-u-margin-top--1p5"
           lang={lang}
         >
           {title}
@@ -46,12 +46,13 @@ const FormTitle = ({ id, formUrl, title, lang, recordGAEvent, formName }) => (
 );
 
 FormTitle.propTypes = {
-  currentPosition: PropTypes.number,
   id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  currentPosition: PropTypes.number,
+  formName: PropTypes.string,
   formUrl: PropTypes.string,
   lang: PropTypes.string,
   recordGAEvent: PropTypes.func,
-  title: PropTypes.string.isRequired,
   showPDFInfoVersionTwo: PropTypes.bool,
 };
 

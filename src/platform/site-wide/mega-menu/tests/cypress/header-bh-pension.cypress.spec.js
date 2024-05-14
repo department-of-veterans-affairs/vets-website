@@ -1,5 +1,12 @@
+/* eslint-disable no-param-reassign */
 import features from '../../../../utilities/tests/header-footer/mocks/features';
 import * as h from '../../../../utilities/tests/header-footer/utilities/helpers';
+import * as mockHeaderFooterData from '~/platform/landing-pages/header-footer-data.json';
+
+const CATEGORY_NAME = 'Pension';
+const menuCategory = h.getMenuCategoryData(CATEGORY_NAME);
+const columnLinks = h.getColumnLinksForBHLinks(menuCategory);
+const columnHeadersForDesktop = h.getColumnHeadersForBH(menuCategory);
 
 describe('global header - benefit hubs - pension', () => {
   Cypress.config({
@@ -16,102 +23,58 @@ describe('global header - benefit hubs - pension', () => {
     cy.intercept('POST', 'https://www.google-analytics.com/*', {}).as(
       'analytics',
     );
+
+    // The header data is set in window.VetsGov.headerFooter with the data received
+    // from content-build. It's mocked here with header-footer-data.json
+    cy.visit('/', {
+      onBeforeLoad(win) {
+        win.VetsGov = {};
+        win.VetsGov.headerFooter = mockHeaderFooterData;
+      },
+    });
   });
 
-  const careersEmployment = '[data-e2e-id="vetnav-level2--pension"]';
-  const viewAll = {
-    id: 'view-all-in-pension',
-    href: '/pension',
-    text: 'View all in pension',
-  };
+  describe('desktop menu', () => {
+    it('should correctly load the elements', () => {
+      cy.injectAxeThenAxeCheck();
 
-  // Headings and links were pulled from production on October 16, 2023.
-  // It should stay up-to-date and match header-footer-data.json
-  const headings = [
-    {
-      id: '#vetnav-column-one-header',
-      text: 'Get pension benefits',
-    },
-    {
-      id: '#vetnav-column-two-header',
-      text: 'Manage your benefits',
-    },
-  ];
+      const header = () => cy.get('.header');
 
-  const links = [
-    {
-      id: 'veterans-pension-eligibility',
-      href: '/pension/eligibility',
-      text: 'Veterans Pension eligibility',
-    },
-    {
-      id: 'how-to-apply',
-      href: '/pension/how-to-apply',
-      text: 'How to apply',
-    },
-    {
-      id: 'aid-and-attendance-benefits-and-housebound-allowance',
-      href: '/pension/aid-attendance-housebound',
-      text: 'Aid and attendance benefits and housebound allowance',
-    },
-    {
-      id: 'survivors-pension',
-      href: '/pension/survivors-pension',
-      text: 'Survivors Pension',
-    },
-    {
-      id: 'apply-now-for-a-veterans-pension',
-      href: '/pension/application/527EZ',
-      text: 'Apply now for a Veterans Pension',
-    },
-    {
-      id: 'check-your-claim-or-appeal-status',
-      href: '/claim-or-appeal-status',
-      text: 'Check your claim or appeal status',
-    },
-    {
-      id: 'view-your-va-payment-history',
-      href: '/va-payment-history',
-      text: 'View your VA payment history',
-    },
-    {
-      id: 'change-your-address',
-      href: '/change-address',
-      text: 'Change your address',
-    },
-    {
-      id: 'change-your-direct-deposit-information',
-      href: '/change-direct-deposit',
-      text: 'Change your direct deposit information',
-    },
-  ];
+      header()
+        .scrollIntoView()
+        .within(() => {
+          h.clickBenefitsAndHealthcareButton();
 
-  it('should correctly load the elements', () => {
-    cy.visit('/');
-    cy.injectAxeThenAxeCheck();
+          const viewAllSelector = '[data-e2e-id="view-all-in-pension"]';
+          const burialsAndMemorialsButton =
+            '[data-e2e-id="vetnav-level2--pension"]';
 
-    h.verifyElement('.header');
+          h.verifyMenuItemsForDesktop(
+            burialsAndMemorialsButton,
+            viewAllSelector,
+            columnLinks,
+            columnHeadersForDesktop,
+          );
+        });
+    });
+  });
 
-    const header = () => cy.get('.header');
+  describe('mobile menu', () => {
+    it('should correctly load the elements', () => {
+      cy.viewport(400, 1000);
+      cy.injectAxeThenAxeCheck();
 
-    header()
-      .scrollIntoView()
-      .within(() => {
-        const vaBenefitsAndHealthCareButton =
-          '[data-e2e-id="va-benefits-and-health-care-0"]';
+      h.clickMenuButton();
 
-        // VA Benefits and Health Care
-        h.verifyElement(vaBenefitsAndHealthCareButton);
-        h.clickButton(vaBenefitsAndHealthCareButton);
+      const headerNav = () => cy.get('#header-nav-items');
 
-        // -> Pension
-        h.verifyMenuItems(
-          careersEmployment,
-          headings,
-          links,
-          viewAll,
-          'Pension',
-        );
+      headerNav().within(() => {
+        h.clickBenefitsAndHealthcareButtonMobile();
+
+        const pensionButton = () => cy.get('.header-menu-item-button').eq(5);
+
+        h.verifyMenuItemsForMobile(pensionButton, columnLinks);
       });
+    });
   });
 });

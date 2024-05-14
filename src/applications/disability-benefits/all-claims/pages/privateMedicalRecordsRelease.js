@@ -1,4 +1,5 @@
 import _ from 'platform/utilities/data';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { validateDate } from 'platform/forms-system/src/js/validation';
@@ -24,6 +25,7 @@ const { limitedConsent } = form4142.properties;
 export const uiSchema = {
   'ui:description': recordReleaseDescription,
   'view:limitedConsent': {
+    'ui:webComponentField': VaCheckboxField,
     'ui:title': limitedConsentTitle,
   },
   limitedConsent: {
@@ -49,8 +51,8 @@ export const uiSchema = {
       },
       'ui:validations': [validateDate],
       treatmentDateRange: dateRangeUI(
-        'First treatment date (You can provide an estimated date.)',
-        'Last treatment date (You can provide an estimated date.)',
+        'First treatment date (you can provide an estimated date)',
+        'Last treatment date (you can provide an estimated date)',
         'End of treatment must be after start of treatment',
       ),
       providerFacilityAddress: {

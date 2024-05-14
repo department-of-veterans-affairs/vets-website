@@ -7,6 +7,7 @@ import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
+import Arrived from '../pages/Arrived';
 
 describe('Check In Experience', () => {
   describe('happy path', () => {
@@ -36,7 +37,7 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('happy path', () => {
+    it('happy path, yes to arrived', () => {
       cy.visitWithUUID();
 
       ValidateVeteran.validatePage.dayOf();
@@ -44,7 +45,9 @@ describe('Check In Experience', () => {
       cy.createScreenshots('Day-of-check-in--Validate');
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-
+      Arrived.validateArrivedPage();
+      cy.createScreenshots('Day-of-check-in--Arrived');
+      Arrived.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--Contact-info');
@@ -60,10 +63,6 @@ describe('Check In Experience', () => {
       );
       cy.injectAxeThenAxeCheck();
       cy.createScreenshots('Day-of-check-in--Next-of-kin');
-      NextOfKin.openAdditionalInfo();
-      cy.createScreenshots(
-        'Day-of-check-in--Next-of-kin--additional-info-open',
-      );
       NextOfKin.attemptToGoToNextPage();
 
       Appointments.validatePageLoaded();
@@ -74,7 +73,22 @@ describe('Check In Experience', () => {
       Appointments.attemptCheckIn(2);
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
-      cy.createScreenshots('Day-of-check-in--Confirmation');
+      cy.createScreenshots('Day-of-check-in--Confirmation--yes-to-arrived');
+    });
+    it('happy path, no to arrived', () => {
+      cy.visitWithUUID();
+
+      ValidateVeteran.validatePage.dayOf();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      Arrived.attemptToGoToNextPage('no');
+      Demographics.attemptToGoToNextPage();
+      EmergencyContact.attemptToGoToNextPage();
+      NextOfKin.attemptToGoToNextPage();
+      Appointments.attemptCheckIn(2);
+      Confirmation.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--Confirmation--no-to-arrived');
     });
   });
 });

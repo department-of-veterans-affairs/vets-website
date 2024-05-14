@@ -77,7 +77,7 @@ const formConfig = {
     messages: {
       inProgress: 'Your dependent status application (21-686c) is in progress.',
       expired:
-        'Your saved dependent status application (21-686c) has expired. If you want to apply for dependent status, please start a new application.',
+        'Your saved dependent status application (21-686c) has expired. If you want to apply for dependent status, start a new application.',
       saved: 'Your dependent status application has been saved.',
     },
   },
@@ -96,9 +96,9 @@ const formConfig = {
     ],
   },
   savedFormMessages: {
-    notFound: 'Please start over to apply for declare or remove a dependent.',
+    notFound: 'Start over to apply for declare or remove a dependent.',
     noAuth:
-      'Please sign in again to continue your application for declare or remove a dependent.',
+      'Sign in again to continue your application for declare or remove a dependent.',
   },
   title: 'Add or remove a dependent on your VA disability benefits',
   subTitle: 'VA Form 21-686c (with 21P-527EZ and 21-674)',

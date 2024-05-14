@@ -1,6 +1,6 @@
 // This file was created to hold redundant or multi-use functions to be used elsewhere in the reducers
 
-const normalizeAddresses = attributes => {
+export const normalizeAddresses = attributes => {
   return {
     city: attributes.city?.toUpperCase(),
     state: attributes.state?.toUpperCase(),

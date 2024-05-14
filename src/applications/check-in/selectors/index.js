@@ -57,6 +57,20 @@ const selectError = createSelector(
 
 const makeSelectError = () => selectError;
 
+const selectTravelClaimData = createSelector(
+  state => state.checkInData,
+  data => data.appointments,
+);
+
+const makeSelectTravelClaimData = () => selectTravelClaimData;
+
+const selectVeteranAddress = createSelector(
+  state => state.checkInData,
+  data => data.veteranData.address,
+);
+
+const makeSelectVeteranAddress = () => selectVeteranAddress;
+
 export {
   makeSelectCurrentContext,
   makeSelectForm,
@@ -64,4 +78,6 @@ export {
   makeSelectSeeStaffMessage,
   makeSelectApp,
   makeSelectError,
+  makeSelectTravelClaimData,
+  makeSelectVeteranAddress,
 };

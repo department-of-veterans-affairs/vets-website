@@ -100,10 +100,11 @@ export default function ReviewPage({ changeCrumb }) {
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
             <h3 className="vaos-appts__block-label">Your contact details</h3>
-            <div>
+            <div data-dd-privacy="mask">
               {data.email}
               <br />
               <VaTelephone
+                data-dd-privacy="mask"
                 notClickable
                 contact={data.phoneNumber}
                 data-testid="patient-telephone"
@@ -171,6 +172,7 @@ export default function ReviewPage({ changeCrumb }) {
                     name={facilityDetails.name}
                     facility={facilityDetails}
                     showDirectionsLink
+                    level={3}
                   />
                 )}
               </>

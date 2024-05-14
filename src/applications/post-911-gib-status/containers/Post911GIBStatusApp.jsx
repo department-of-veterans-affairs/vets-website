@@ -1,12 +1,14 @@
 /* eslint-disable @department-of-veterans-affairs/prefer-telephone-component */
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import backendServices from 'platform/user/profile/constants/backendServices';
-import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
 import DowntimeNotification, {
   externalServices,
-} from 'platform/monitoring/DowntimeNotification';
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import Main from './Main';
 
@@ -33,10 +35,36 @@ function AppContent({ children, isDataAvailable }) {
     view = children;
   }
 
-  return <div>{view}</div>;
+  return (
+    <div className="row">
+      <h1>Your Post-9/11 GI Bill Statement of Benefits</h1>
+      {view}
+    </div>
+  );
 }
 
+AppContent.propTypes = {
+  children: PropTypes.node,
+  isDataAvailable: PropTypes.bool,
+};
+
 function Post911GIBStatusApp({ user, children }) {
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+  const toggleValue = useToggleValue(
+    TOGGLE_NAMES.benefitsEducationUseLighthouse,
+  );
+
+  const togglesLoading = useToggleLoadingValue();
+  if (togglesLoading) {
+    return null;
+  }
+
+  const apiVersion = { apiVersion: toggleValue ? 'v1' : 'v0' };
+
   return (
     <RequiredLoginView
       verify
@@ -48,12 +76,17 @@ function Post911GIBStatusApp({ user, children }) {
         dependencies={[externalServices.evss]}
       >
         <AppContent>
-          <Main>{children}</Main>
+          <Main apiVersion={apiVersion}>{children}</Main>
         </AppContent>
       </DowntimeNotification>
     </RequiredLoginView>
   );
 }
+
+Post911GIBStatusApp.propTypes = {
+  children: PropTypes.node,
+  user: PropTypes.object,
+};
 
 function mapStateToProps(state) {
   return { user: state.user };

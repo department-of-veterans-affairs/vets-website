@@ -1,17 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
 export default function ClaimCardLink({
   ariaLabel,
   href,
-  text = 'View details',
+  text = 'Details',
   onClick,
 }) {
   return (
     <Link
       aria-label={ariaLabel}
-      className="claim-card-link"
+      className="active-va-link"
       to={href}
       onClick={onClick}
     >

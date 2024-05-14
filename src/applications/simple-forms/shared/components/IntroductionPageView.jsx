@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-
-import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import PropTypes from 'prop-types';
+import { focusElement } from '~/platform/utilities/ui';
+import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
 
 export const IntroductionPageView = ({
   route,
@@ -44,6 +44,7 @@ export const IntroductionPageView = ({
           displayNonVeteranMessaging={displayNonVeteranMessaging}
           verifiedPrefillAlert={verifiedPrefillAlert}
           formConfig={formConfig}
+          hideUnauthedStartLink={formConfig.hideUnauthedStartLink ?? false}
         >
           {saveInProgressText}
         </SaveInProgressIntro>
@@ -67,4 +68,28 @@ export const IntroductionPageView = ({
       )}
     </article>
   );
+};
+
+IntroductionPageView.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool.isRequired,
+      savedFormMessages: PropTypes.object.isRequired,
+      hideUnauthedStartLink: PropTypes.bool,
+    }).isRequired,
+    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }).isRequired,
+  additionalChildContent: PropTypes.object,
+  childContent: PropTypes.shape(),
+  content: PropTypes.shape({
+    formTitle: PropTypes.string.isRequired,
+    formSubTitle: PropTypes.string.isRequired,
+    hideSipIntro: PropTypes.bool,
+    authStartFormText: PropTypes.string,
+    saveInProgressText: PropTypes.string,
+    unauthStartText: PropTypes.string,
+    displayNonVeteranMessaging: PropTypes.bool,
+    verifiedPrefillAlert: PropTypes.object,
+  }),
+  ombInfo: PropTypes.shape(),
 };

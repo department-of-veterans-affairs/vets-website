@@ -1,28 +1,28 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import TabItem from './TabItem';
 
-function TabNav({ id }) {
+const { cstUseClaimDetailsV2 } = Toggler.TOGGLE_NAMES;
+
+export default function TabNav() {
   return (
-    <ul className="va-tabs claims-status-tabs" role="tablist">
-      <TabItem
-        shortcut={1}
-        tabpath={`your-claims/${id}/status`}
-        title="Status"
-      />
-      <TabItem shortcut={2} tabpath={`your-claims/${id}/files`} title="Files" />
-      <TabItem
-        shortcut={3}
-        tabpath={`your-claims/${id}/details`}
-        title="Details"
-      />
-    </ul>
+    <nav aria-label="Claim">
+      <ul className="tabs">
+        <TabItem shortcut={1} tabpath="../status" title="Status" />
+        <TabItem shortcut={2} tabpath="../files" title="Files" />
+        <Toggler toggleName={cstUseClaimDetailsV2}>
+          <Toggler.Disabled>
+            <TabItem shortcut={3} tabpath="../details" title="Details" />
+          </Toggler.Disabled>
+          <Toggler.Enabled>
+            <TabItem shortcut={3} tabpath="../overview" title="Overview" />
+          </Toggler.Enabled>
+        </Toggler>
+      </ul>
+    </nav>
   );
 }
 
-TabNav.propTypes = {
-  id: PropTypes.string,
-};
-
-export default TabNav;
+TabNav.propTypes = {};

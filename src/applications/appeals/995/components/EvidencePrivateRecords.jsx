@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import {
-  VaCheckboxGroup,
-  VaMemorableDate,
-  VaModal,
-  VaTextInput,
-  VaSelect,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { countries, states } from 'platform/forms/address';
 import debounce from 'platform/utilities/data/debounce';
 
-import { EVIDENCE_PRIVATE_PATH, NO_ISSUES_SELECTED } from '../constants';
+import { EVIDENCE_PRIVATE_PATH } from '../constants';
 import { content } from '../content/evidencePrivateRecords';
 import { getIndex, hasErrors } from '../utils/evidence';
-import { checkValidations } from '../validations';
+
 import {
   validatePrivateName,
   validateCountry,
@@ -31,8 +21,16 @@ import {
   isEmptyPrivateEntry,
 } from '../validations/evidence';
 import { focusEvidence } from '../utils/focus';
+import {
+  HeaderAndModal,
+  FacilityAddress,
+  IssueAndDates,
+  PageNavigation,
+} from './EvidenceRecords';
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
+import { checkValidations } from '../../shared/validations';
+import { customPageProps995 } from '../../shared/props';
 
 const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_PATH}`;
 // const REVIEW_AND_SUBMIT = '/review-and-submit';
@@ -301,7 +299,7 @@ const EvidencePrivateRecords = ({
       focusEvidence();
     },
     onModalYes: () => {
-      // Yes, keep providerFacilit
+      // Yes, keep providerFacility
       updateState({ submitted: true, showModal: false });
       const prevIndex = currentIndex - 1;
       // index only passed here for testing purposes
@@ -338,34 +336,18 @@ const EvidencePrivateRecords = ({
     return message.includes(part) || message.includes('other');
   };
 
-  const hasStates =
-    states[(currentData.providerFacilityAddress?.country)] || [];
-
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
-        <legend
-          id="private-evidence-title"
-          className="vads-u-font-family--serif"
-        >
-          <h3 name="topPageElement" className="vads-u-margin--0">
-            {content.title(addOrEdit, currentIndex + 1)}
-          </h3>
-        </legend>
-        <p>{content.description}</p>
-        <VaModal
-          clickToClose
-          status="info"
-          modalTitle={content.modal.title(currentData)}
-          primaryButtonText={content.modal.yes}
-          secondaryButtonText={content.modal.no}
-          onCloseEvent={handlers.onModalClose}
-          onPrimaryButtonClick={handlers.onModalYes}
-          onSecondaryButtonClick={handlers.onModalNo}
-          visible={currentState.showModal}
-        >
-          <p>{content.modal.description}</p>
-        </VaModal>
+        <HeaderAndModal
+          currentData={currentData}
+          currentState={currentState}
+          currentIndex={currentIndex}
+          addOrEdit={addOrEdit}
+          content={content}
+          handlers={handlers}
+        />
+
         <VaTextInput
           id="add-facility-name"
           name="name"
@@ -378,209 +360,40 @@ const EvidencePrivateRecords = ({
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
           autocomplete="section-provider name"
+          uswds
         />
 
-        <VaSelect
-          id="country"
-          name="country"
-          label={content.addressLabels.country}
-          required
-          value={currentData.providerFacilityAddress?.country}
-          onVaSelect={handlers.onChange}
-          onBlur={handlers.onBlur}
-          error={showError('country')}
-        >
-          <option value=""> </option>
-          {countries.map(country => (
-            <option key={country.value} value={country.value}>
-              {country.label}
-            </option>
-          ))}
-        </VaSelect>
-        <VaTextInput
-          id="street"
-          name="street"
-          type="text"
-          label={content.addressLabels.street}
-          required
-          value={currentData.providerFacilityAddress?.street}
-          onInput={handlers.onChange}
-          onBlur={handlers.onBlur}
-          error={showError('street')}
-          autocomplete="section-provider address-line1"
-        />
-        <VaTextInput
-          id="street2"
-          name="street2"
-          type="text"
-          label={content.addressLabels.street2}
-          value={currentData.providerFacilityAddress?.street2}
-          onInput={handlers.onChange}
-          autocomplete="section-provider address-line2"
-        />
-        <VaTextInput
-          id="city"
-          name="city"
-          type="text"
-          label={content.addressLabels.city}
-          required
-          value={currentData.providerFacilityAddress?.city}
-          onInput={handlers.onChange}
-          onBlur={handlers.onBlur}
-          error={showError('city')}
-          autocomplete="section-provider address-level2"
-        />
-        {hasStates.length ? (
-          <VaSelect
-            id="state"
-            name="state"
-            label={content.addressLabels.state}
-            required
-            value={currentData.providerFacilityAddress?.state}
-            onVaSelect={handlers.onChange}
-            onBlur={handlers.onBlur}
-            error={showError('state')}
-          >
-            <option value=""> </option>
-            {hasStates.map(state => (
-              <option key={state.value} value={state.value}>
-                {state.label}
-              </option>
-            ))}
-          </VaSelect>
-        ) : (
-          <VaTextInput
-            id="state"
-            name="state"
-            type="text"
-            label={content.addressLabels.state}
-            required
-            value={currentData.providerFacilityAddress?.state}
-            onInput={handlers.onChange}
-            onBlur={handlers.onBlur}
-            error={showError('state')}
-            autocomplete="section-provider address-level1"
-          />
-        )}
-
-        <VaTextInput
-          id="postal"
-          name="postal"
-          type="text"
-          label={content.addressLabels.postal}
-          required
-          value={currentData.providerFacilityAddress?.postalCode}
-          onInput={handlers.onChange}
-          onBlur={handlers.onBlur}
-          error={showError('postal')}
-          inputmode="numeric"
-          autocomplete="section-provider postal-code"
+        <FacilityAddress
+          currentData={currentData}
+          content={content}
+          handlers={handlers}
+          showError={showError}
         />
 
-        <br role="presentation" />
-
-        <VaCheckboxGroup
-          label={content.issuesLabel}
-          name="issues"
-          onVaChange={handlers.onIssueChange}
-          onBlur={handlers.onBlur}
-          error={showError('issues')}
-          required
-        >
-          {availableIssues.length ? (
-            availableIssues.map((issue, index) => (
-              <va-checkbox
-                key={index}
-                name="issues"
-                class="dd-privacy-hidden"
-                data-dd-action-name="issue name"
-                label={issue}
-                value={issue}
-                checked={(currentData?.issues || []).includes(issue)}
-              />
-            ))
-          ) : (
-            <strong>{NO_ISSUES_SELECTED}</strong>
-          )}
-        </VaCheckboxGroup>
-
-        <VaMemorableDate
-          id="facility-from-date"
-          name="from"
-          label={content.fromLabel}
-          required
-          onDateChange={handlers.onChange}
-          onDateBlur={handlers.onBlur}
-          value={currentData.treatmentDateRange?.from}
-          error={showError('from')}
-          invalidMonth={isInvalid('from', 'month')}
-          invalidDay={isInvalid('from', 'day')}
-          invalidYear={isInvalid('from', 'year')}
+        <IssueAndDates
+          currentData={currentData}
+          availableIssues={availableIssues}
+          content={content}
+          handlers={handlers}
+          showError={showError}
+          isInvalid={isInvalid}
+          dateRangeKey="treatmentDateRange"
         />
-        <VaMemorableDate
-          id="facility-to-date"
-          name="to"
-          label={content.toLabel}
-          required
-          onDateChange={handlers.onChange}
-          onDateBlur={handlers.onBlur}
-          value={currentData.treatmentDateRange?.to}
-          error={showError('to')}
-          invalidMonth={isInvalid('to', 'month')}
-          invalidDay={isInvalid('to', 'day')}
-          invalidYear={isInvalid('to', 'year')}
-        />
-        <div className="vads-u-margin-top--2">
-          <Link
-            to={`${PRIVATE_PATH}?index=${currentIndex + 1}`}
-            onClick={handlers.onAddAnother}
-            className="vads-c-action-link--green"
-          >
-            {content.addAnotherLink}
-          </Link>
-        </div>
 
-        <div className="vads-u-margin-top--4">
-          {contentBeforeButtons}
-          <FormNavButtons
-            goBack={handlers.onGoBack}
-            goForward={handlers.onGoForward}
-          />
-          {contentAfterButtons}
-        </div>
+        <PageNavigation
+          path={`${PRIVATE_PATH}?index=${currentIndex + 1}`}
+          content={{
+            ...content,
+            contentBeforeButtons,
+            contentAfterButtons,
+          }}
+          handlers={handlers}
+        />
       </fieldset>
     </form>
   );
 };
 
-EvidencePrivateRecords.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({
-    providerFacility: PropTypes.arrayOf(
-      PropTypes.shape({
-        providerFacilityName: PropTypes.string,
-        providerFacilityAddress: PropTypes.shape({
-          country: PropTypes.string,
-          street: PropTypes.string,
-          street2: PropTypes.string,
-          city: PropTypes.string,
-          state: PropTypes.string,
-          postalCode: PropTypes.string,
-        }),
-        issues: PropTypes.arrayOf(PropTypes.string),
-        treatmentDateRange: PropTypes.shape({
-          from: PropTypes.string,
-          to: PropTypes.string,
-        }),
-      }),
-    ),
-  }),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  goToPath: PropTypes.func,
-  setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-};
+EvidencePrivateRecords.propTypes = customPageProps995;
 
 export default EvidencePrivateRecords;

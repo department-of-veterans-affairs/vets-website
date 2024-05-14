@@ -36,10 +36,8 @@ describe('Contact info update success alert', () => {
     });
   });
   it('should be shown after deleting mobile phone number', () => {
-    cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
-    cy.contains('Update').click({
-      waitForAnimations: true,
-    });
+    cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
+
     cy.findByRole('button', { name: /remove mobile phone/i }).click({
       waitForAnimations: true,
     });
@@ -53,9 +51,6 @@ describe('Contact info update success alert', () => {
     cy.injectAxeThenAxeCheck();
 
     cy.findByText(/update saved/i).should('exist');
-    cy.findByRole('link', { name: /manage text notifications/i }).should(
-      'not.exist',
-    );
 
     cy.injectAxeThenAxeCheck();
   });

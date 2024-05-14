@@ -1,0 +1,67 @@
+{
+  "data": [
+    {
+      "id": "049",
+      "type": "VSO",
+      "attributes": {
+        "name": "Texas Veterans Commission",
+        "addressLine1": "1700 Congress Ave Ste 800",
+        "addressLine2": null,
+        "addressLine3": null,
+        "addressType": "Domestic",
+        "city": "Austin",
+        "countryName": "United States",
+        "countryCodeIso3": "USA",
+        "province": "Texas",
+        "internationalPostalCode": null,
+        "stateCode": "TX",
+        "zipCode": "78701",
+        "zipSuffix": "1436",
+        "poaCode": "049",
+        "phone": "512-463-5538",
+        "lat": 30.279352,
+        "long": -97.739336,
+        "distance": "14.391069966806352"
+      }
+    },
+    {
+      "id": "003",
+      "type": "VSO",
+      "attributes": {
+        "name": "Polish Legion of American Veterans",
+        "addressLine1": "6410 Sunstrip Dr",
+        "addressLine2": null,
+        "addressLine3": null,
+        "addressType": "Domestic",
+        "city": "Austin",
+        "countryName": "United States",
+        "countryCodeIso3": "USA",
+        "province": "Texas",
+        "internationalPostalCode": null,
+        "stateCode": "TX",
+        "zipCode": "78745",
+        "zipSuffix": "4442",
+        "poaCode": "003",
+        "phone": "203-630-2677",
+        "lat": 30.197811,
+        "long": -97.782687,
+        "distance": "14.961965350813749"
+      }
+    }
+  ],
+  "links": {
+    "self": "https://staging-api.va.gov/services/veteran/v0/vso_accredited_representatives?address=78734&lat=30.343191&long=-97.96861&page=1&per_page=10&sort=distance_asc&type=officer",
+    "first": "https://staging-api.va.gov/services/veteran/v0/vso_accredited_representatives?address=78734&lat=30.343191&long=-97.96861&page=1&per_page=10&sort=distance_asc&type=officer",
+    "prev": null,
+    "next": null,
+    "last": "https://staging-api.va.gov/services/veteran/v0/vso_accredited_representatives?address=78734&lat=30.343191&long=-97.96861&page=1&per_page=10&sort=distance_asc&type=officer"
+  },
+  "meta": {
+    "pagination": {
+      "currentPage": 1,
+      "perPage": 10,
+      "totalPages": 1,
+      "totalEntries": 2
+    }
+  }
+}

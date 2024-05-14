@@ -24,7 +24,7 @@ const {
 // This file contains tests for the component's display as well as testing displayConditionsMet
 // for this question specifically
 
-const mockStoreStandard = {
+const mockStore = {
   getState: () => ({
     pactAct: {
       form: {},
@@ -49,7 +49,7 @@ const mockStoreNoIntroPage = {
 const setAgentOrangeStub = sinon.stub();
 const pushStub = sinon.stub();
 
-const propsStandard = {
+const props = {
   formResponses: {},
   setOrange221A: setAgentOrangeStub,
   router: {
@@ -73,10 +73,10 @@ describe('Agent Orange 2.2.1.A Page', () => {
     pushStub.resetHistory();
   });
 
-  it('should correctly load the agent orange page in the standard flow', () => {
+  it('should correctly load the agent orange page', () => {
     const screen = render(
-      <Provider store={mockStoreStandard}>
-        <Orange221A {...propsStandard} />
+      <Provider store={mockStore}>
+        <Orange221A {...props} />
       </Provider>,
     );
 

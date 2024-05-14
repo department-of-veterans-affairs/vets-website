@@ -1,0 +1,52 @@
+{
+    "data": {
+        "id": "22177891",
+        "type": "prescription_details",
+        "attributes": {
+            "prescriptionId": 22177891,
+            "prescriptionNumber": "9",
+            "prescriptionName": "CALAMINE",
+            "refillStatus": "active",
+            "refillSubmitDate": null,
+            "refillDate": "2023-05-26T04:00:00.000Z",
+            "refillRemaining": null,
+            "facilityName": "DAYT29",
+            "orderedDate": "2023-05-31T04:00:00.000Z",
+            "quantity": null,
+            "expirationDate": null,
+            "dispensedDate": null,
+            "stationNumber": "989",
+            "isRefillable": false,
+            "isTrackable": false,
+            "cmopNdcNumber": null,
+            "inCernerTransition": false,
+            "notRefillableDisplayMessage": "A refill request cannot be submitted at this time. Please review the prescription status and fill date. If you need more of this medication, please call the pharmacy phone number on your prescription label.",
+            "sig": "120 ML TOPICAL WEEKLY",
+            "cmopDivisionPhone": null,
+            "userId": 17621060,
+            "providerFirstName": "BHAVIN",
+            "providerLastName": "PATEL",
+            "remarks": "TEST COMMENTS 06052023",
+            "divisionName": null,
+            "modifiedDate": "2023-10-27T13:20:26.000Z",
+            "institutionId": null,
+            "dialCmopDivisionPhone": "",
+            "dispStatus": "Active: Non-VA",
+            "ndc": "0242-2127-65",
+            "reason": null,
+            "prescriptionNumberIndex": "NV",
+            "prescriptionSource": "NV",
+            "disclaimer": "TEST DISCLAIMER 06052023",
+            "indicationForUse": "TEST INDICATION NON-VA MEDS 06052023",
+            "indicationForUseFlag": null,
+            "category": "Documented by VA",
+            "trackingList": [],
+            "rxRfRecords": [],
+            "tracking": false,
+            "orderableItem": "CALAMINE"
+        },
+        "links": {
+            "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22177891"
+        }
+    }
+}

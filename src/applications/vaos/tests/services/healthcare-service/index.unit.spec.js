@@ -8,7 +8,7 @@ import {
 import { getAvailableHealthcareServices } from '../../../services/healthcare-service';
 import mockClinics from '../../../services/mocks/v2/clinics.json';
 
-describe('VAOS Healthcare service', () => {
+describe('VAOS Services: Healthcare ', () => {
   beforeEach(() => {
     mockFetch();
     setFetchJSONResponse(global.fetch, mockClinics);

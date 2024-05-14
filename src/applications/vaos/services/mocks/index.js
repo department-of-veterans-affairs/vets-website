@@ -37,13 +37,21 @@ const confirmedV2 = require('./v2/confirmed.json');
 // Uncomment to produce backend service errors
 // const meta = require('./v2/meta_failures.json');
 
+// CC Direct Scheduling mocks
+const wellHiveAppointments = require('./wellHive/appointments.json');
+const WHCancelReasons = require('./wellHive/cancelReasons.json');
+
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 const momentTz = require('../../lib/moment-tz');
 
+const features = require('../../utils/featureFlags');
+
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
 let currentMockId = 1;
+const mockWellHiveAppts = [];
+let currentMockId_wellhive = 1;
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -217,6 +225,9 @@ const responses = {
     const {
       practitioners = [{ identifier: [{ system: null, value: null }] }],
     } = req.body;
+    const selectedClinic = clinicsV2.data.filter(
+      clinic => clinic.id === req.body.clinic,
+    );
     const providerNpi = practitioners[0]?.identifier[0].value;
     const selectedTime = appointmentSlotsV2.data
       .filter(slot => slot.id === req.body.slot?.id)
@@ -231,6 +242,8 @@ const responses = {
         ...req.body,
         localStartTime: req.body.slot?.id ? localTime : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
+        physicalLocation:
+          selectedClinic[0]?.attributes.physicalLocation || null,
       },
     };
     currentMockId += 1;
@@ -243,15 +256,10 @@ const responses = {
       .concat(confirmedV2.data)
       .concat(mockAppts);
 
-    let appt = appointments.find(item => item.id === req.params.id);
+    const appt = appointments.find(item => item.id === req.params.id);
     if (req.body.status === 'cancelled') {
-      appt = {
-        ...appt,
-        attributes: {
-          ...appt.attributes,
-          cancelationReason: { coding: [{ code: 'pat' }] },
-        },
-      };
+      appt.attributes.status = 'cancelled';
+      appt.attributes.cancelationReason = { coding: [{ code: 'pat' }] };
     }
 
     return res.json({
@@ -432,6 +440,83 @@ const responses = {
       data: [],
     });
   },
+
+  // WellHive api
+  'GET /vaos/v2/wellhive/appointments': (req, res) => {
+    return res.json({
+      data: wellHiveAppointments.appointments.concat(mockWellHiveAppts),
+    });
+  },
+  'POST /vaos/v2/wellhive/appointments': (req, res) => {
+    const { patientId, referral } = req.body;
+    const createdAppt = {
+      createdBy: {
+        byPatient: true,
+      },
+      id: `mock${currentMockId_wellhive}`,
+      patientId,
+      referral: { id: referral.id },
+      state: 'draft',
+    };
+    currentMockId_wellhive += 1;
+    mockWellHiveAppts.push(createdAppt);
+    return res.json({ data: createdAppt });
+  },
+  'GET /vaos/v2/wellhive/appointments/:appointmentId': (req, res) => {
+    const wellHiveAppts = wellHiveAppointments.appointments.concat(
+      mockWellHiveAppts.data,
+    );
+    return res.json({
+      data: wellHiveAppts.find(
+        appointment => appointment?.id === req.params.appointmentId,
+      ),
+    });
+  },
+  'GET /vaos/v2/wellhive/appointments/:appointmentId/cancel-reasons': (
+    req,
+    res,
+  ) => {
+    return res.json(WHCancelReasons);
+  },
+  'POST /vaos/v2/wellhive/appointments/:appointmentId/cancel': (req, res) => {
+    const { cancelReasonId } = req.body;
+    const findApptToCancel = wellHiveAppointments.appointments.find(
+      appointment => appointment?.id === req.params.appointmentId,
+    );
+    const confirmCanceledAppts = {
+      ...findApptToCancel,
+      appointmentDetails: {
+        cancelReason: {
+          id: cancelReasonId,
+          name: 'Patient',
+        },
+      },
+    };
+    return res.json({
+      data: confirmCanceledAppts,
+    });
+  },
+  'POST /vaos/v2/wellhive/appointments/:appointmentId/submit': (req, res) => {
+    const appointments = wellHiveAppointments.appointments.concat(
+      mockWellHiveAppts.data,
+    );
+
+    const { additionalPatientAttributes } = req.body;
+    const appt = appointments.find(
+      item => item.id === req.params.appointmentId,
+    );
+    const submittedAppt = {
+      ...appt,
+      appointmentDetails: {
+        ...additionalPatientAttributes,
+      },
+      state: 'submitted',
+    };
+    currentMockId_wellhive += 1;
+    mockWellHiveAppts.push(submittedAppt);
+    return res.json({ data: submittedAppt });
+  },
+
   'GET /v0/user': {
     data: {
       attributes: {
@@ -475,11 +560,15 @@ const responses = {
           active_status: 'active',
           facilities: [
             {
-              facility_id: '983',
+              facility_id: '556',
               is_cerner: false,
             },
             {
               facility_id: '984',
+              is_cerner: false,
+            },
+            {
+              facility_id: '983',
               is_cerner: false,
             },
           ],
@@ -623,43 +712,7 @@ const responses = {
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
-      features: [
-        { name: 'facilityLocatorShowCommunityCares', value: true },
-        { name: 'profile_show_profile_2.0', value: false },
-        { name: 'vaOnlineScheduling', value: true },
-        { name: 'vaOnlineSchedulingCancel', value: true },
-        { name: 'vaOnlineSchedulingRequests', value: true },
-        { name: 'vaOnlineSchedulingCommunityCare', value: true },
-        { name: 'vaOnlineSchedulingDirect', value: true },
-        { name: 'vaOnlineSchedulingPast', value: true },
-        { name: 'vaOnlineSchedulingExpressCare', value: true },
-        { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
-        { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
-        { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
-        { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
-        { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
-        { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
-        { name: 'vaOnlineSchedulingStatusImprovement', value: true },
-        { name: 'vaOnlineSchedulingStatusImprovementCanceled', value: true },
-        { name: 'vaOnlineSchedulingVAOSV2Next', value: true },
-        { name: 'vaOnlineSchedulingAppointmentList', value: true },
-        { name: 'vaOnlineSchedulingClinicFilter', value: true },
-        { name: 'vaOnlineSchedulingAcheronService', value: true },
-        { name: 'vaOnlineSchedulingUseDsot', value: true },
-        { name: 'vaOnlineSchedulingRequestFlowUpdate', value: true },
-        { name: 'vaOnlineSchedulingConvertUtcToLocal', value: false },
-        { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: true },
-        { name: 'vaOnlineSchedulingPrintList', value: true },
-        { name: 'va_online_scheduling_descriptive_back_link', value: true },
-        { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
-        { name: 'vaOnlineSchedulingGA4Migration', value: true },
-        { name: 'vaOnlineSchedulingAfterVisitSummary', value: false },
-        { name: 'vaOnlineSchedulingStartSchedulingLink', value: false },
-        { name: 'selectFeaturePocTypeOfCare', value: true },
-        { name: 'edu_section_103', value: true },
-        { name: 'vaViewDependentsAccess', value: false },
-        { name: 'gibctEybBottomSheet', value: true },
-      ],
+      features,
     },
   },
 };

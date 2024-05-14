@@ -5,22 +5,23 @@ import { render } from '@testing-library/react';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
+
 import formConfig from '../../config/form';
 import authTypeNonVet from '../e2e/fixtures/data/authTypeNonVet.json';
 
+const { defaultDefinitions } = formConfig;
 const {
-  defaultDefinitions,
   schema,
   uiSchema,
 } = formConfig.chapters.authorizerAddressChapter.pages.authAddrPage;
 
-const pageTitle = 'Your address';
+const pageTitle = 'Authorizer’s address';
 
 const expectedNumberOfFields = 6;
-testNumberOfFields(
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
@@ -29,7 +30,7 @@ testNumberOfFields(
 );
 
 const expectedNumberOfErrors = 4;
-testNumberOfErrorsOnSubmit(
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
@@ -48,10 +49,11 @@ describe(`${pageTitle} - custom-street2-label`, () => {
         uiSchema={uiSchema}
       />,
     );
-
-    expect(screen.queryAllByText('Street address line 2')).to.have.lengthOf(0);
-    expect(screen.queryAllByText('Apartment or unit number')).to.have.lengthOf(
-      1,
+    const street2Input = screen.container.querySelector(
+      'va-text-input[name="root_authorizerAddress_street2"]',
     );
+    const street2InputLabel = street2Input.getAttribute('label');
+
+    expect(street2InputLabel).to.equal('Apartment or unit number');
   });
 });

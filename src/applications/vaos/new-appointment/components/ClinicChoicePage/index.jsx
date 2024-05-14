@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import FormButtons from '../../../components/FormButtons';
 import RequestEligibilityMessage from './RequestEligibilityMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
@@ -10,6 +9,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
+  startDirectScheduleFlow,
 } from '../../redux/actions';
 
 import {
@@ -20,10 +20,8 @@ import {
 } from '../../redux/selectors';
 import useClinicFormState from './useClinicFormState';
 import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
-import {
-  selectFeatureClinicFilter,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../../redux/selectors';
+import { selectFeatureClinicFilter } from '../../../redux/selectors';
+import { getPageTitle } from '../../newAppointmentFlow';
 
 function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
@@ -38,11 +36,8 @@ function vowelCheck(givenString) {
 }
 
 const pageKey = 'clinicChoice';
-const pageTitle = 'Choose a VA clinic';
-export default function ClinicChoicePage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function ClinicChoicePage() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const featureClinicFilter = useSelector(state =>
     selectFeatureClinicFilter(state),
@@ -74,9 +69,7 @@ export default function ClinicChoicePage({ changeCrumb }) {
   useEffect(() => {
     scrollAndFocus();
     document.title = `${pageTitle} | Veterans Affairs`;
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
+    dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
   }, []);
 
   return (
@@ -151,7 +144,3 @@ export default function ClinicChoicePage({ changeCrumb }) {
     </div>
   );
 }
-
-ClinicChoicePage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

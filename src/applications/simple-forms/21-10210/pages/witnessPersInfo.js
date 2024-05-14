@@ -1,4 +1,4 @@
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import { fullNameDeprecatedUI } from '../../shared/definitions/rjsfPatterns';
 import {
   RELATIONSHIP_TO_VETERAN_OPTIONS,
   RELATIONSHIP_TO_CLAIMANT_OPTIONS,
@@ -8,7 +8,7 @@ import GroupCheckboxWidget from '../../shared/components/GroupCheckboxWidget';
 
 /** @type {PageSchema} */
 const commonUiSchema = {
-  witnessFullName: fullNameUI,
+  witnessFullName: fullNameDeprecatedUI,
   witnessRelationshipToClaimant: {
     // different ui:title between uiSchemaA & uiSchemaB
     'ui:description': 'You can select more than one.',

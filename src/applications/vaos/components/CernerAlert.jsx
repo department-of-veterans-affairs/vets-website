@@ -21,7 +21,7 @@ export default function CernerAlert({ className, pageTitle, level = 2 }) {
     <>
       {shouldDisplay() && (
         <div className={className}>
-          <va-alert status="warning" background-only visible>
+          <va-alert status="warning" background-only visible uswds>
             <H className="vads-u-font-size--h4 vads-u-margin-top--0">
               {`To manage appointments at ${
                 cernerFacilities.length === 1
@@ -44,7 +44,10 @@ export default function CernerAlert({ className, pageTitle, level = 2 }) {
             >
               Go to My VA Health
             </a>
-            <va-additional-info trigger="Having trouble opening My VA Health?">
+            <va-additional-info
+              trigger="Having trouble opening My VA Health?"
+              uswds
+            >
               Try these steps:
               <ul className="vads-u-margin-left--1p5">
                 <li>Disable your browser's pop-up blocker</li>

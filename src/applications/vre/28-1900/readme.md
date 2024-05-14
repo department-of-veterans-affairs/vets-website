@@ -4,7 +4,7 @@
 
 CH31 is also called form 28-1900
 
-### Async and Error Handling for CH36
+### Async and Error Handling for CH31
 
 - VRE::Submit1900Job
   - Finds SavedClaim::VeteranReadinessEmploymentClaim by claim_id
@@ -29,3 +29,7 @@ CH31 is also called form 28-1900
 This is a brief overview of VRE::CreateCh31SubmissionsReportJob in terms of async calls, error handling, and possible red flags:
 
 - VRE::CreateCh31SubmissionsReportJob
+  - It looks like it used to be triggered via cron job, but has been commented out a little while back and is no longer being called.
+  - There is currently no error handling or triggering of sidekiq jobs (other than queuing up an email to be sent).
+  - We don’t seem to be guarding against when there are no submitted claims returned for the report. It doesn’t look like an empty result set would result in any errors based on how it is being used in the mailer template. But if this job was experiencing issues in the past, empty results could be a potential culprit.
+  - 

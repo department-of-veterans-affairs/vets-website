@@ -193,7 +193,7 @@ describe('686 add child - child additional information', () => {
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').text()).to.include(
-      'For DPO addresses, you must check the “They live on a United States military base outside of the U.S.” checkbox above',
+      'For DPO addresses, check the "They receive mail outside of the United States on a U.S. military base" checkbox. If you live on a military base in the United States, enter your city.',
     );
     expect(onSubmit.called).to.be.false;
     form.unmount();
@@ -244,7 +244,7 @@ describe('686 add child - child additional information', () => {
       'select#root_childAddressInfo_address_stateCode',
       'AP',
     );
-    fillData(form, 'input#root_childAddressInfo_address_zipCode', '12345');
+    fillData(form, 'input#root_childAddressInfo_address_zipCode', '96230');
 
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

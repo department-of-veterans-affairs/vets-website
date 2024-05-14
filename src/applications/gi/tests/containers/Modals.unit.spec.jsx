@@ -1,8 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
-
 import createCommonStore from 'platform/startup/store';
+import { mockModalProfileData } from '../helpers';
+
 import { Modals } from '../../containers/Modals';
 import reducer from '../../reducers';
 
@@ -236,7 +237,7 @@ describe('<Modals>', () => {
 
     it('should render', () => {
       const wrapper = shallow(<Modals {...props} />);
-      expect(wrapper.html()).to.contain('VA Complaints (all campuses):');
+      expect(wrapper.html()).to.contain('VA Complaints (all campuses)');
       wrapper.unmount();
     });
   });
@@ -428,9 +429,7 @@ describe('<Modals>', () => {
 
     it('should render', () => {
       const wrapper = shallow(<Modals {...props} />);
-      expect(wrapper.html()).to.contain(
-        'Accreditation types (regional vs. national vs. hybrid)',
-      );
+      expect(wrapper.html()).to.contain('Accreditation and why it matters');
       wrapper.unmount();
     });
   });
@@ -515,10 +514,12 @@ describe('<Modals>', () => {
 
     it('should track link click', () => {
       const wrapper = mount(<Modals {...props} />);
-      wrapper
-        .find('a')
-        .at(0)
-        .simulate('click');
+      const anchorText =
+        'Read our policy on protecting students from late VA payments';
+      const [anchor] = Array.from(wrapper.find('a')).filter(a =>
+        a.props.children.toString().startsWith(anchorText),
+      );
+      anchor.props.onClick();
       const recordedEvent = global.window.dataLayer[0];
       expect(recordedEvent.event).to.eq('gibct-modal-link-click');
       wrapper.unmount();
@@ -763,6 +764,7 @@ describe('<Modals>', () => {
       modals: {
         displaying: 'inStateWithLink',
       },
+      profile: { ...mockModalProfileData },
     };
 
     it('should render', () => {

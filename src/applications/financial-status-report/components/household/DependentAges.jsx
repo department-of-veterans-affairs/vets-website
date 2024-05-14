@@ -9,13 +9,23 @@ import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
 import ReviewControl from '../shared/ReviewControl';
 
-const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
+const DependentAges = ({
+  contentBeforeButtons,
+  contentAfterButtons,
+  goForward,
+  goToPath,
+  isReviewMode = false,
+}) => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
   const {
     questions: { hasDependents } = {},
     personalData: { dependents = [] } = {},
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
   } = formData;
+
+  const MAXIMUM_DEPENDENT_AGE = 150;
 
   const [stateDependents, setStateDependents] = useState(dependents);
   const [errors, setErrors] = useState(
@@ -23,6 +33,12 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
   );
   const [isEditing, setIsEditing] = useState(!isReviewMode);
   const [hasDependentsChanged, setHasDependentsChanged] = useState(false);
+
+  // notify user they are returning to review page if they are in review mode
+  const continueButtonText =
+    reviewNavigation && showReviewNavigation
+      ? 'Continue to review page'
+      : 'Continue';
 
   useEffect(
     () => {
@@ -108,6 +124,16 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
       return setIsEditing(false);
     }
 
+    if (reviewNavigation && showReviewNavigation) {
+      dispatch(
+        setData({
+          ...formData,
+          reviewNavigation: false,
+        }),
+      );
+      return goToPath('/review-and-submit');
+    }
+
     return formData['view:streamlinedWaiver']
       ? goForward(formData)
       : goToPath('/monetary-asset-checklist');
@@ -118,18 +144,16 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
     goToPath('/dependent-count');
   };
 
-  const toggleEditing = () => {
-    setIsEditing(!isEditing);
-  };
-
   const handleBlur = useCallback(
     (event, i) => {
       const { value } = event.target;
       const newErrors = [...errors];
       if (!value) {
-        newErrors[i] = 'Please enter your dependent(s) age.';
+        newErrors[i] = 'Please enter your dependent(s) age';
       } else if (!isNumber(value)) {
         newErrors[i] = 'Please enter only numerical values';
+      } else if (value < 0 || value > MAXIMUM_DEPENDENT_AGE) {
+        newErrors[i] = 'Please enter a value between 0 and 150';
       } else {
         newErrors[i] = null;
       }
@@ -142,7 +166,6 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
     onSubmit,
     onCancel,
     handleBlur,
-    toggleEditing,
     updateDependents,
   };
 
@@ -155,11 +178,13 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
         name={`dependentAge-${i}`}
         onInput={({ target }) => handlers.updateDependents(target, i)}
         value={dependent.dependentAge}
-        className="input-size-2 no-wrap"
+        width="md"
         onBlur={event => handlers.handleBlur(event, i)}
         error={errors[i]}
         inputMode="numeric"
         required
+        min={0}
+        max={MAXIMUM_DEPENDENT_AGE}
       />
     </div>
   );
@@ -202,17 +227,7 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
           }`}
         >
           <HeaderTag className={className}>Dependents ages</HeaderTag>
-          {isReviewMode &&
-            !isEditing && (
-              <ReviewControl
-                // readOnly
-                position="header"
-                isEditing={false}
-                onEditClick={handlers.toggleEditing}
-                ariaLabel={`Edit ${DEPENDENT_AGE_LABELS[1]}`}
-                buttonText="Edit"
-              />
-            )}
+
           {!isReviewMode ? (
             <>
               <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
@@ -227,6 +242,7 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
         </legend>
         {dependentAgeInputs}
         {!isReviewMode ? <DependentExplainer /> : null}
+        {contentBeforeButtons}
         {isReviewMode && isEditing ? (
           <div className="vads-u-margin-top--2">
             <ReviewControl
@@ -244,25 +260,27 @@ const DependentAges = ({ goForward, goToPath, isReviewMode = false }) => {
               buttons={[
                 {
                   label: 'Back',
-                  onClick: handlers.onCancel,
-                  secondary: true,
-                  iconLeft: '«',
+                  onClick: handlers.onCancel, // Define this function based on page-specific logic
+                  isSecondary: true,
                 },
                 {
-                  label: 'Continue',
-                  type: 'submit',
-                  iconRight: '»',
+                  label: continueButtonText,
+                  onClick: handlers.onSubmit,
+                  isSubmitting: true, // If this button submits a form
                 },
               ]}
             />
           )
         )}
+        {contentAfterButtons}
       </fieldset>
     </form>
   );
 };
 
 DependentAges.propTypes = {
+  contentAfterButtons: PropTypes.object,
+  contentBeforeButtons: PropTypes.object,
   goForward: PropTypes.func,
   goToPath: PropTypes.func,
   isReviewMode: PropTypes.bool,

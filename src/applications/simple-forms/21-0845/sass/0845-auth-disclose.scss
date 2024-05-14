@@ -28,7 +28,7 @@ $font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", "Helvetica",
 }
 
 .custom-required-span {
-  color: $color-secondary-dark;
+  color: var(--vads-color-secondary-dark);
   font-family: $font-family-sans-serif;
   font-size: 1.6rem;
   font-weight: normal;
@@ -59,6 +59,10 @@ $font-family-sans-serif: "Source Sans Pro", "Helvetica Neue", "Helvetica",
 #root_personFullName_middle,
 #root_veteranFullName_middle {
   max-width: 5rem;
+}
+
+#root_limitedInformationOther-label {
+  margin-top: 2rem;
 }
 
 .row div[id^="root_organizationRepresentatives_"] > .row.small-collapse,

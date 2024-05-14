@@ -3,7 +3,7 @@ import enzyme from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { ProfileInformationEditView } from '@@profile/components/ProfileInformationEditView';
+import { ProfileInformationEditView } from '@@vap-svc/components/ProfileInformationEditView';
 
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
@@ -140,7 +140,7 @@ describe('<ProfileInformationEditView/> - Email Address', () => {
     it('is visible when the transactionRequest is not pending', () => {
       props.transactionRequest = { isPending: false };
       component = enzyme.mount(<ProfileInformationEditView {...props} />);
-      expect(component.text()).to.include('Cancel');
+      expect(component.html()).to.include('Cancel');
       component.unmount();
     });
   });

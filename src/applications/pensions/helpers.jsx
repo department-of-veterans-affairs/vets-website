@@ -1,289 +1,17 @@
 import React from 'react';
-import * as Sentry from '@sentry/browser';
 import moment from 'moment';
-import environment from 'platform/utilities/environment';
-import { apiRequest } from 'platform/utilities/api';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
-import titleCase from 'platform/utilities/data/titleCase';
+import Scroll from 'react-scroll';
 
-function replacer(key, value) {
-  // if the containing object has a name, we’re in the national guard object
-  // and we want to keep addresses no matter what
-  if (
-    !this.name &&
-    typeof value !== 'undefined' &&
-    typeof value.country !== 'undefined' &&
-    (!value.street || !value.city || (!value.postalCode && !value.zipcode))
-  ) {
-    return undefined;
-  }
-
-  // clean up empty objects, which we have no reason to send
-  if (typeof value === 'object') {
-    const fields = Object.keys(value);
-    if (
-      fields.length === 0 ||
-      fields.every(field => value[field] === undefined)
-    ) {
-      return undefined;
-    }
-  }
-
-  return value;
-}
-
-function checkStatus(guid) {
-  return apiRequest(`${environment.API_URL}/v0/pension_claims/${guid}`, {
-    mode: 'cors',
-  }).catch(res => {
-    if (res instanceof Error) {
-      Sentry.captureException(res);
-      Sentry.captureMessage('vets_pension_poll_client_error');
-
-      // keep polling because we know they submitted earlier
-      // and this is likely a network error
-      return Promise.resolve();
-    }
-
-    // if we get here, it's likely that we hit a server error
-    return Promise.reject(res);
+const { scroller } = Scroll;
+export const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
   });
-}
+};
 
-const POLLING_INTERVAL = 1000;
-
-function pollStatus(
-  { guid, confirmationNumber, regionalOffice },
-  onDone,
-  onError,
-) {
-  setTimeout(() => {
-    checkStatus(guid)
-      .then(res => {
-        if (!res || res.data.attributes.state === 'pending') {
-          pollStatus(
-            { guid, confirmationNumber, regionalOffice },
-            onDone,
-            onError,
-          );
-        } else if (res.data.attributes.state === 'success') {
-          const response = res.data.attributes.response || {
-            confirmationNumber,
-            regionalOffice,
-          };
-          onDone(response);
-        } else {
-          // needs to start with this string to get the right message on the form
-          throw new Error(
-            `vets_server_error_pensions: status ${res.data.attributes.state}`,
-          );
-        }
-      })
-      .catch(onError);
-  }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
-}
-
-function transform(formConfig, form) {
-  const formData = transformForSubmit(formConfig, form, replacer);
-  return JSON.stringify({
-    pensionClaim: {
-      form: formData,
-    },
-    // can’t use toISOString because we need the offset
-    localTime: moment().format('Y-MM-DD[T]kk:mm:ssZZ'),
-  });
-}
-
-export function submit(form, formConfig) {
-  const headers = { 'Content-Type': 'application/json' };
-  const body = transform(formConfig, form);
-
-  return apiRequest(`${environment.API_URL}/v0/pension_claims`, {
-    body,
-    headers,
-    method: 'POST',
-    mode: 'cors',
-  })
-    .then(resp => {
-      const { guid, confirmationNumber, regionalOffice } = resp.data.attributes;
-      return new Promise((resolve, reject) => {
-        pollStatus(
-          { guid, confirmationNumber, regionalOffice },
-          response => {
-            window.dataLayer.push({
-              event: `${formConfig.trackingPrefix}-submission-successful`,
-            });
-            return resolve(response);
-          },
-          error => reject(error),
-        );
-      });
-    })
-    .catch(respOrError => {
-      if (respOrError instanceof Response && respOrError.status === 429) {
-        const error = new Error('vets_throttled_error_pensions');
-        error.extra = parseInt(
-          respOrError.headers.get('x-ratelimit-reset'),
-          10,
-        );
-
-        return Promise.reject(error);
-      }
-      return Promise.reject(respOrError);
-    });
-}
-
-export const employmentDescription = (
-  <p className="pension-employment-desc">
-    Please tell us about all of your employment, including self-employment,{' '}
-    <strong>from one year before you became disabled</strong> to the present.
-  </p>
-);
-
-export function isMarried(form = {}) {
-  return ['Married', 'Separated'].includes(form.maritalStatus);
-}
-
-export function getMarriageTitle(index) {
-  const desc = numberToWords(index + 1);
-  return `${titleCase(desc)} marriage`;
-}
-
-export function getSpouseMarriageTitle(index) {
-  const desc = numberToWords(index + 1);
-  return `Spouse’s ${desc} marriage`;
-}
-
-export function getMarriageTitleWithCurrent(form, index) {
-  if (isMarried(form) && form.marriages.length - 1 === index) {
-    return 'Current marriage';
-  }
-
-  return getMarriageTitle(index);
-}
-
-export const spouseContribution = (
-  <span>
-    How much do you <strong>contribute monthly</strong> to your spouse’s
-    support?
-  </span>
-);
-
-export function fileHelp({ formData }) {
-  const hasSchoolChild = (formData.dependents || []).some(
-    child => child.attendingCollege,
-  );
-
-  const hasDisabledChild = (formData.dependents || []).some(
-    child => child.disabled,
-  );
-
-  return (
-    <div>
-      <p>
-        Please upload all documentation to support your claim.{' '}
-        {(hasSchoolChild || hasDisabledChild) && 'This includes:'}
-      </p>
-      <ul>
-        {hasSchoolChild && (
-          <li>
-            A completed Request for Approval of School Attendance (
-            <a
-              href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              VA Form 21-674
-            </a>
-            )
-          </li>
-        )}
-        {hasDisabledChild && (
-          <li>
-            Private medical records documenting your child’s disability before
-            the age of 18
-          </li>
-        )}
-      </ul>
-      <p>
-        If you’re claiming for Aid and Attendance or Housebound benefits, this
-        includes:
-      </p>
-      <ul>
-        <li>
-          A completed Examination for Housebound Status or Permanent Need for
-          Regular Aid and Attendance (
-          <a
-            href="https://www.vba.va.gov/pubs/forms/VBA-21-2680-ARE.pdf"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            VA Form 21-2680
-          </a>
-          )
-        </li>
-        <li>
-          A completed Request for Nursing Home Information in Connection with
-          Claim for Aid and Attendance (
-          <a
-            href="https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            VA Form 21-0779
-          </a>
-          )
-        </li>
-      </ul>
-      <p>File types you can upload: PDF, JPG, PNG</p>
-    </div>
-  );
-}
-
-export const directDepositWarning = (
-  <div className="pension-dd-warning">
-    The Department of Treasury requires all federal benefit payments be made by
-    electronic funds transfer (EFT), also called direct deposit. If you don’t
-    have a bank account, you must get your payment through Direct Express Debit
-    MasterCard. To request a Direct Express Debit MasterCard you must apply at{' '}
-    <a
-      href="http://www.usdirectexpress.com"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      www.usdirectexpress.com
-    </a>{' '}
-    or by telephone at <va-telephone contact="8003331795" />. If you chose not
-    to enroll, you must contact representatives handling waiver requests for the
-    Department of Treasury at <va-telephone contact="8882242950" />. They will
-    address any questions or concerns you may have and encourage your
-    participation in EFT.
-  </div>
-);
-
-export const wartimeWarning = (
-  <div className="usa-alert usa-alert-warning background-color-only">
-    <div className="usa-alert-text">
-      <p>
-        <strong>Note:</strong> You have indicated that you did not serve during
-        an{' '}
-        <a
-          href="http://www.benefits.va.gov/pension/wartimeperiod.asp"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          {' '}
-          eligible wartime period
-        </a>
-        . Find out if you still qualify.{' '}
-        <a href="/pension/eligibility/" target="_blank">
-          Check your eligibility
-        </a>
-      </p>
-    </div>
-  </div>
-);
+export const formatCurrency = num => `$${num.toLocaleString()}`;
 
 const warDates = [
   ['1916-05-09', '1917-04-05'], // Mexican Border Period (May 9, 1916 - April 5, 1917)
@@ -308,208 +36,97 @@ export function servedDuringWartime(period) {
   });
 }
 
-export const uploadMessage = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        <p>If you have many documents to upload you can mail them to us.</p>
-        <p>
-          <em>We’ll provide an address after you finish the application.</em>
-        </p>
-      </div>
-    </div>
-  </div>
-);
-
-export const aidAttendanceEvidence = (
-  <div>
-    <div className="usa-alert usa-alert-info background-color-only">
-      <div className="usa-alert-body">
-        <div className="usa-alert-text">
-          <p>
-            <strong>
-              If you’re claiming non-service-connected pension benefits with Aid
-              and Attendance benefits
-            </strong>
-            , your supporting documents must show that you:
-          </p>
-          <ul>
-            <li>
-              Have corrected vision of 5/200 or less in both eyes,{' '}
-              <strong>or</strong>
-            </li>
-            <li>
-              Have contraction of the concentric visual field to 5 degrees or
-              less, <strong>or</strong>
-            </li>
-            <li>
-              Are a patient in a nursing home due to the loss of mental or
-              physical abilities, <strong>or</strong>
-            </li>
-            <li>
-              Need another person to help you with daily activities like
-              bathing, eating, dressing, adjusting prosthetic devices, or
-              protecting you from the hazards of your environment,{' '}
-              <strong>or</strong>
-            </li>
-            <li>
-              Are bedridden and have to spend most of the day in bed because of
-              your disability
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div className="usa-alert usa-alert-info background-color-only">
-      <div className="usa-alert-body">
-        <div className="usa-alert-text">
-          <p>
-            <strong>
-              If you’re claiming for increased disability pension benefits based
-              on being housebound
-            </strong>
-            , your supporting documents must show that you:
-          </p>
-          <ul>
-            <li>
-              Have a single permanent disability that’s 100% disabling, and
-              you’re confined to your home, <strong>or</strong>
-            </li>
-            <li>
-              Have a disability (rated 60% or higher) in addition to the
-              disability that qualifies you for a pension
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-export const disabilityDocs = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        You’ll need to provide all private medical records for your child’s
-        disability.
-      </div>
-    </div>
-  </div>
-);
-
-export const schoolAttendanceWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Since your child is between 18 and 23 years old, you’ll need to fill out
-        a Request for Approval of School Attendance (
-        <a
-          href="https://www.vba.va.gov/pubs/forms/VBA-21-674-ARE.pdf"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          VA Form 21-674
-        </a>
-        ). <strong>You can send us this form later.</strong>
-      </div>
-    </div>
-  </div>
-);
-
-export const marriageWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <h4 className="usa-alert-heading">Recognition of marriages</h4>
-      <div className="usa-alert-text">
-        <p>
-          If you’re certifying you are married for VA benefits, your marriage
-          must be recognized by the place you and your spouse lived at the time
-          of your marriage, or where you and your spouse lived at the time you
-          filed your claim (or a later date when you qualified for benefits).
-        </p>
-        <p>
-          Additional information on VA-recognized marriage is at{' '}
-          <a href="http://www.va.gov/opa/marriage">www.va.gov/opa/marriage</a>.
-        </p>
-      </div>
-    </div>
-  </div>
-);
-
-export const fdcWarning = (
-  <div className="usa-alert usa-alert-info background-color-only">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Your application will be submitted as a fully developed claim.
-      </div>
-    </div>
-  </div>
-);
-
-export const noFDCWarning = (
-  <div className="usa-alert usa-alert-info background-color-only">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Your application doesn’t qualify for the Fully Developed Claim (FDC)
-        program. We’ll review your claim through the standard claim process.
-        Please turn in any information to support your claim as soon as you can
-        to the address provided after you finish the application.
-      </div>
-    </div>
-  </div>
-);
-
-export const expeditedProcessDescription = (
-  <div>
-    <h5>Fully developed claim program</h5>
-    <p>
-      If you have uploaded all the supporting documentation you have and any
-      forms for additional benefits, you can apply using the Fully Developed
-      Claim (FDC) program.
-    </p>
-    <a href="/pension/how-to-apply/fully-developed-claim/" target="_blank">
-      Learn more about the FDC program
-    </a>
-    .
-  </div>
-);
-
-export const dependentWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Your child won’t qualify as a dependent unless they’re in school or
-        disabled.
-      </div>
-    </div>
-  </div>
-);
-
-export const dependentsMinItem = (
+export const DependentsMinItem = (
   <span>
     If you are claiming child dependents,{' '}
     <strong>you must add at least one</strong> here.
   </span>
 );
 
-export const expectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that you expect to receive
-    in the next 12 months
-  </span>
+export const DependentSeriouslyDisabledDescription = (
+  <div className="vads-u-padding-y--1">
+    <va-additional-info trigger="What do we mean by seriously disabled?">
+      <span>
+        A child is seriously disabled if they developed a permanent physical or
+        mental disability before they turned 18 years old. A seriously disabled
+        child can’t support or care for themselves.
+      </span>
+    </va-additional-info>
+  </div>
 );
 
-export const spouseExpectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that your spouse expects
-    to receive in the next 12 months
-  </span>
+export const IncomeSourceDescription = (
+  <>
+    <p>
+      We want to know more about the gross monthly income you, your spouse, and
+      your dependents receive.
+    </p>
+    <p>List the sources of income for you, your spouse, and your dependents.</p>
+  </>
 );
 
-export const dependentExpectedIncomeDescription = (
-  <span>
-    Any income you didn’t already report in this form that your dependent
-    expects to receive in the next 12 months
-  </span>
-);
+/**
+ * Formats a full name from the given first, middle, last, and suffix
+ *
+ * @export
+ * @param {*} {
+ *   first = '',
+ *   middle = '',
+ *   last = '',
+ *   suffix = '',
+ * }
+ * @return {string} The full name formatted with spaces
+ */
+export const formatFullName = ({
+  first = '',
+  middle = '',
+  last = '',
+  suffix = '',
+}) => {
+  // ensure that any middle initials are capitalized
+  const formattedMiddle = middle
+    ? middle.replaceAll(/\b\w\b/g, c => c.toUpperCase())
+    : '';
+  return [first, formattedMiddle, last, suffix]
+    .filter(name => !!name)
+    .join(' ');
+};
+
+export function isHomeAcreageMoreThanTwo(formData) {
+  return (
+    formData.homeOwnership === true && formData.homeAcreageMoreThanTwo === true
+  );
+}
+
+export const getJobTitleOrType = item => {
+  if (item?.jobTitle) return item.jobTitle;
+  if (item?.jobType) return item.jobType;
+  return '';
+};
+
+export const obfuscateAccountNumber = accountNumber => {
+  // Replace all digits except the last 4 with asterisks (*)
+  return accountNumber.replace(/\d(?=\d{4})/g, '*');
+};
+
+// TODO: Remove when removing TOGGLE_NAMES.pensionMultiresponseStyles
+const MULTIRESPONSE_STYLES = 'multiresponse_styles';
+
+export const setSessionMultiresponseStyles = () =>
+  sessionStorage.setItem(MULTIRESPONSE_STYLES, true);
+
+export const removeSessionMultiresponseStyles = () =>
+  sessionStorage.removeItem(MULTIRESPONSE_STYLES);
+
+// TODO: when removing TOGGLE_NAMES.pensionMultiresponseStyles, replace occurences of this helper with 'true'
+export const multiresponseStyles = () =>
+  sessionStorage.getItem(MULTIRESPONSE_STYLES) === 'true';
+
+// TODO: when removing TOGGLE_NAMES.pensionMultiresponseStyles, remove this, and
+// update the ui:options of any schema where it appears to have showSave: true and reviewMode: true
+export const updateMultiresponseUiOptions = (_formData, schema, uiSchema) => {
+  const currentUiOptions = uiSchema['ui:options'];
+  currentUiOptions.showSave = multiresponseStyles();
+  currentUiOptions.reviewMode = multiresponseStyles();
+  return schema;
+};

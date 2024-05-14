@@ -3,9 +3,16 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import Error from '../Error';
 
 describe('check-in', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('Error component', () => {
     it('renders without the phone number', () => {
       const component = render(
@@ -48,6 +55,7 @@ describe('check-in', () => {
         <Error />
       </CheckInProvider>,
     );
+    expect(component.queryAllByTestId('message-subheading').length).to.eq(2);
     expect(component.getByTestId('error-message-0')).to.exist;
     expect(component.getByTestId('error-message-0')).to.have.text(
       'We’re sorry. Something went wrong on our end. Check in with a staff member.',
@@ -71,11 +79,11 @@ describe('check-in', () => {
         <Error />
       </CheckInProvider>,
     );
+    expect(component.queryAllByTestId('message-subheading').length).to.eq(2);
     expect(component.getByTestId('error-message-0')).to.exist;
     expect(component.getByTestId('error-message-0')).to.have.text(
       'We’re sorry. Something went wrong on our end. Check in with a staff member.',
     );
-    // get second va alert and check for status attribute of warning
     expect(component.getByTestId('error-message-1')).to.contain.text(
       'We’re sorry. We can’t file a travel reimbursement claim for you now. But you can still file within 30 days of the appointment.',
     );
@@ -95,11 +103,11 @@ describe('check-in', () => {
         <Error />
       </CheckInProvider>,
     );
+    expect(component.queryAllByTestId('message-subheading').length).to.eq(2);
     expect(component.getByTestId('error-message-0')).to.exist;
     expect(component.getByTestId('error-message-0')).to.have.text(
       'We’re sorry. Something went wrong on our end. Check in with a staff member.',
     );
-    // get second va alert and check for status attribute of warning
     expect(component.getByTestId('error-message-1')).to.contain.text(
       'VA travel pay reimbursement pays eligible Veterans and caregivers back for mileage and other travel expenses to and from approved health care appointments.Find out if you’re eligible and how to file for travel reimbursement',
     );
@@ -121,11 +129,11 @@ describe('check-in', () => {
         <Error />
       </CheckInProvider>,
     );
+    expect(component.queryAllByTestId('message-subheading').length).to.eq(2);
     expect(component.getByTestId('error-message-0')).to.exist;
     expect(component.getByTestId('error-message-0')).to.have.text(
       'We’re sorry. Something went wrong on our end. Check in with a staff member.',
     );
-    // get second va alert and check for status attribute of warning
     expect(component.getByTestId('error-message-1')).to.contain.text(
       'We’re sorry. We can’t file this type of travel reimbursement claim for you now. But you can still file within 30 days of the appointment.Find out how to file for travel reimbursement',
     );

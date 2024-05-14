@@ -9,6 +9,9 @@ export const uiSchema = {
     veteran: {
       serviceRecords: serviceRecordsUI,
     },
+    'ui:options': {
+      customTitle: ' ',
+    },
   },
 };
 export const schema = {

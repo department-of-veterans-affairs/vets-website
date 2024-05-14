@@ -31,8 +31,7 @@ const IntroductionPage = props => {
         headingLevel={2}
       >
         <p>
-          Please complete the 25-8832 form to apply for Planning and career
-          guidance.
+          Complete the 25-8832 form to apply for Planning and career guidance.
         </p>
       </SaveInProgressIntro>
       <h2>Follow the steps below to apply for career planning and guidance.</h2>
@@ -117,7 +116,7 @@ const IntroductionPage = props => {
           exp-date="12/31/2021"
         />
       </div>
-      <va-alert status="info" background-only>
+      <va-alert status="info" background-only uswds="false">
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Do you have a service-connected disability or pre-discharge disability
           rating?

@@ -12,6 +12,9 @@ const CheckboxGroup = ({
   row = false,
   colNum = null,
   labelMargin = '1p5',
+  className,
+  // focusOnFirstInput,
+  // setIsCleared,
 }) => {
   const inputId = _.uniqueId('checkbox-group-');
 
@@ -27,16 +30,23 @@ const CheckboxGroup = ({
   const renderOptions = () => {
     const displayOptions = Array.isArray(options) ? options : [];
     return displayOptions.map((option, index) => {
-      const { checked, optionLabel, name, learnMore } = option;
+      const { checked, optionLabel, name, learnMore, dataTestId } = option;
       return (
-        <div key={index} className={checkBoxStyleCol}>
+        <div key={index} className={`${checkBoxStyleCol} ${className}`}>
           <input
             checked={checked}
+            // ref={e => focusOnFirstInput && focusOnFirstInput(optionLabel, e)}
             id={`${inputId}-${index}`}
             name={name}
+            data-testid={dataTestId}
             type="checkbox"
             onFocus={() => onFocus(`${inputId}-${index}`)}
-            onChange={onChange}
+            onChange={e => {
+              onChange(e);
+              // if (setIsCleared) {
+              //   setIsCleared(false);
+              // }
+            }}
             aria-labelledby={`${inputId}-legend ${createId(
               name,
             )}-${index}-label`}

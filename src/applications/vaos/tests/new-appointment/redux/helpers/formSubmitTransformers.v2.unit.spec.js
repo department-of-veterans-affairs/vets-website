@@ -8,10 +8,9 @@ import { FLOW_TYPES, VHA_FHIR_ID } from '../../../../utils/constants';
 import { getReasonCode } from '../../../../new-appointment/redux/helpers/getReasonCode';
 
 describe('VAOS V2 data transformation', () => {
-  describe('VA booked and Acheron feature toggle is on', () => {
+  describe('VA booked', () => {
     it('remove slot.start and slot.end from new appointment object', () => {
       const state = {
-        featureToggles: { vaOnlineSchedulingAcheronService: true },
         user: {
           profile: {
             vapContactInfo: {},
@@ -97,7 +96,6 @@ describe('VAOS V2 data transformation', () => {
       const reasonTextTransformed = getReasonCode({
         data: state.newAppointment.data,
         isCC: false,
-        isAcheron: true,
         isDS: true,
       });
 
@@ -128,91 +126,11 @@ describe('VAOS V2 data transformation', () => {
   });
 
   describe('VA request', () => {
-    it('request body is valid when Acheron is off', () => {
-      const state = {
-        featureToggles: { vaOnlineSchedulingAcheronService: false },
-        newAppointment: {
-          data: {
-            phoneNumber: '5035551234',
-            bestTimeToCall: {
-              morning: true,
-            },
-            email: 'test@va.gov',
-            visitType: 'clinic',
-            reasonForAppointment: 'routine-follow-up',
-            reasonAdditionalInfo: 'Testing',
-            selectedDates: ['2019-11-20T12:00:00.000'],
-            vaParent: '983',
-            vaFacility: '983GB',
-            facilityType: 'vamc',
-            typeOfCareId: 'SLEEP',
-            typeOfSleepCareId: '349',
-          },
-          parentFacilities: [
-            {
-              id: '983',
-              identifier: [
-                {
-                  system: VHA_FHIR_ID,
-                  value: '983',
-                },
-              ],
-            },
-          ],
-          facilities: {
-            '349': [
-              {
-                id: '983GB',
-                identifier: [
-                  {
-                    system: VHA_FHIR_ID,
-                    value: '983GB',
-                  },
-                ],
-                name: 'Cheyenne VA Medical Center',
-                address: {
-                  city: 'Cheyenne',
-                  state: 'WY',
-                },
-                legacyVAR: {
-                  institutionTimezone: 'America/Denver',
-                },
-              },
-            ],
-          },
-          flowType: FLOW_TYPES.REQUEST,
-        },
-      };
-
-      const data = transformFormToVAOSVARequest(state);
-      expect(data).to.deep.equal({
-        kind: 'clinic',
-        status: 'proposed',
-        locationId: '983GB',
-        serviceType: 'cpap',
-        reasonCode: {
-          coding: [{ code: 'Routine/Follow-up' }],
-          text: 'Testing',
-        },
-        contact: {
-          telecom: [
-            { type: 'phone', value: '5035551234' },
-            { type: 'email', value: 'test@va.gov' },
-          ],
-        },
-        requestedPeriods: [
-          { start: '2019-11-20T12:00:00Z', end: '2019-11-20T23:59:00Z' },
-        ],
-        preferredTimesForPhoneCall: ['Morning'],
-      });
-    });
-
-    it('request body is valid when Acheron is on', () => {
+    it('request body is valid', () => {
       const superLongText =
         'The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.';
-      // Given the VA request is submitted and Acheron service toggle is on
+      // Given the VA request is submitted
       const state = {
-        featureToggles: { vaOnlineSchedulingAcheronService: true },
         newAppointment: {
           data: {
             phoneNumber: '5035551234',
@@ -269,7 +187,6 @@ describe('VAOS V2 data transformation', () => {
       const reasonTextTransformed = getReasonCode({
         data: state.newAppointment.data,
         isCC: false,
-        isAcheron: true,
         isDS: false,
       });
 

@@ -3,18 +3,21 @@ const { snakeCase } = require('lodash');
 // add and remove feature toggles here by name, but generally keep all values as false
 // instead use generateFeatureToggles in server.js to set the toggle values
 const profileToggles = {
+  authExpVbaDowntimeMessage: false,
+  profileContacts: false,
   profileShowPronounsAndSexualOrientation: false,
-  profileHideDirectDepositCompAndPen: false,
+  profileHideDirectDeposit: false,
   profileShowPaymentsNotificationSetting: false,
-  profileUseFieldEditingPage: false,
-  profileUseHubPage: false,
   profileShowMhvNotificationSettings: false,
-  profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
-  profileUseNotificationSettingsCheckboxes: false,
+  profileShowCredentialRetirementMessaging: false,
+  profileShowDirectDepositSingleForm: false,
+  profileShowDirectDepositSingleFormUAT: false,
+  profileShowDirectDepositSingleFormAlert: false,
+  profileShowDirectDepositSingleFormEduDowntime: false,
   profileShowEmailNotificationSettings: false,
-  showAuthenticatedMenuEnhancements: false,
+  profileShowProofOfVeteranStatus: false,
 };
 
 const makeAllTogglesTrue = toggles => {
@@ -25,6 +28,13 @@ const makeAllTogglesTrue = toggles => {
   return result;
 };
 
+/**
+ * Generates feature toggles mock api response object for profile app
+ *
+ * @param {*} values - set specific values to true or false
+ * @param {*} allOn - set all values to true
+ * @returns
+ */
 const generateFeatureToggles = (values = profileToggles, allOn = false) => {
   const toggles = allOn
     ? makeAllTogglesTrue(profileToggles)
@@ -52,4 +62,19 @@ const generateFeatureToggles = (values = profileToggles, allOn = false) => {
   };
 };
 
-module.exports = { generateFeatureToggles };
+const generateFeatureTogglesState = (
+  values = profileToggles,
+  allOn = false,
+) => {
+  return {
+    featureToggles: generateFeatureToggles(values, allOn).data.features.reduce(
+      (acc, cur) => {
+        acc[cur.name] = cur.value;
+        return acc;
+      },
+      { loading: false },
+    ),
+  };
+};
+
+module.exports = { generateFeatureToggles, generateFeatureTogglesState };

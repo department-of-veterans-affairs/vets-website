@@ -26,9 +26,17 @@ const seeStaffMessageUpdatedHandler = (state, action) => {
   return { ...state, ...action.payload };
 };
 
+const additionalContextHandler = (state, action) => {
+  return {
+    ...state,
+    context: { ...state.context, ...action.payload.context },
+  };
+};
+
 export {
   triggerRefreshHandler,
   receivedAppointmentDetailsHandler,
   receivedDemographicsDataHandler,
   seeStaffMessageUpdatedHandler,
+  additionalContextHandler,
 };

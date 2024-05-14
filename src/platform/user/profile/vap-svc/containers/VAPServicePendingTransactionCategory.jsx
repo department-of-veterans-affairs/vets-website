@@ -41,7 +41,7 @@ function VAPServicePendingTransactionCategory({
 
   return (
     <VAPServiceTransactionPending refreshTransaction={refreshAllTransactions}>
-      <va-alert visible status="warning">
+      <va-alert visible status="warning" uswds>
         <h4 slot="headline">We’re updating your {plural}</h4>
         <p>
           We’re in the process of saving your changes. We'll show your updated

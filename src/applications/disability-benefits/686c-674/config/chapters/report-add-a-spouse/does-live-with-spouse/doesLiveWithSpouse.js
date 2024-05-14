@@ -24,7 +24,7 @@ export const uiSchema = {
       'ui:required': () => true,
       'ui:title': liveWithYouTitle,
       'ui:widget': 'yesNo',
-      'ui:errorMessages': { required: 'Please select an option' },
+      'ui:errorMessages': { required: 'Select an option' },
     },
     currentSpouseReasonForSeparation: {
       'ui:required': doesLiveTogether,
@@ -33,7 +33,7 @@ export const uiSchema = {
         expandUnder: 'spouseDoesLiveWithVeteran',
         expandUnderCondition: false,
       },
-      'ui:errorMessages': { required: 'Please give a brief explanation' },
+      'ui:errorMessages': { required: 'Give a brief explanation' },
     },
     address: {
       ...addressUISchema(true, 'doesLiveWithSpouse.address', doesLiveTogether),

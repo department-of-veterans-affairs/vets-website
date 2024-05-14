@@ -6,9 +6,11 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { MAX_OTHER_LIVING_NAME_LENGTH } from '../../constants/checkboxSelections';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const SUMMARY_PATH = '/other-expenses-summary';
 const CHECKLIST_PATH = '/other-expenses-checklist';
+const MAXIMUM_EXPENSE_AMOUNT = 12000;
 
 const AddOtherExpense = ({ data, goToPath, setFormData }) => {
   const { otherExpenses = [] } = data;
@@ -25,6 +27,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
 
   // Expense name data/flags
   const [expenseName, setExpenseName] = useState(currentExpense.name || null);
+  const [otherExpenseAmountError, setOtherExpenseAmountError] = useState(null);
   const nameError = !expenseName ? 'Enter valid text' : null;
 
   // Expense amount data/flags
@@ -45,7 +48,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
       // or data updates won't be reflected when page navigation occurs
       event.preventDefault();
 
-      if (!nameError && !amountError) {
+      if (!nameError && !amountError && !otherExpenseAmountError) {
         goToPath(SUMMARY_PATH);
       }
     },
@@ -54,6 +57,12 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
     },
     onExpenseAmountChange: event => {
       setExpenseAmount(event.target.value);
+
+      if (event.target.value >= MAXIMUM_EXPENSE_AMOUNT) {
+        setOtherExpenseAmountError('Amount must be less than $12,000');
+      } else {
+        setOtherExpenseAmountError(null);
+      }
     },
     onCancel: event => {
       event.preventDefault();
@@ -69,7 +78,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
       setSubmitted(true);
 
       // Check for errors
-      if (!nameError && !amountError) {
+      if (!nameError && !amountError && !otherExpenseAmountError) {
         // Update form data
         const newExpenses = [...otherExpenses];
         // update new or existing index
@@ -83,6 +92,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
           otherExpenses: newExpenses,
         });
       }
+      handlers.onSubmit(event);
     },
   };
 
@@ -90,6 +100,8 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
     otherExpenses.length === index
       ? 'Add your additional living expense'
       : 'Update your living expense';
+
+  const labelText = otherExpenses.length === index ? 'Add' : 'Update';
 
   return (
     <>
@@ -103,7 +115,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             {headerText}
           </legend>
           <VaTextInput
-            className="no-wrap input-size-3"
+            width="md"
             error={(submitted && nameError) || null}
             id="add-other-living-expense-name"
             label="What is the name of the living expense?"
@@ -113,14 +125,16 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={expenseName || ''}
+            charcount
           />
           <VaNumberInput
-            className="no-wrap input-size-3"
-            error={(submitted && amountError) || null}
+            width="md"
+            error={otherExpenseAmountError}
             id="add-other-living-expense-amount"
             inputmode="decimal"
             label="How much do you pay for this expense every month?"
             min={0}
+            max={MAXIMUM_EXPENSE_AMOUNT}
             name="add-other-living-expense-amount"
             onInput={handlers.onExpenseAmountChange}
             required
@@ -128,22 +142,20 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             value={expenseAmount || ''}
           />
           <div className="vads-u-margin-top--2">
-            <button
-              type="button"
-              id="cancel"
-              className="usa-button-secondary vads-u-width--auto"
-              onClick={handlers.onCancel}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              id="submit"
-              className="vads-u-width--auto"
-              onClick={handlers.onUpdate}
-            >
-              {`${otherExpenses.length === index ? 'Add' : 'Update'} expense`}
-            </button>
+            <ButtonGroup
+              buttons={[
+                {
+                  label: 'Cancel',
+                  onClick: handlers.onCancel, // Define this function based on page-specific logic
+                  isSecondary: true,
+                },
+                {
+                  label: `${labelText} expense`,
+                  onClick: handlers.onUpdate,
+                  isSubmitting: true, // If this button submits a form
+                },
+              ]}
+            />
           </div>
         </fieldset>
       </form>

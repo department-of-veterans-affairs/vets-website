@@ -1,5 +1,11 @@
-import { processList } from '../../medical-records/util/helpers';
-import { dateFormat, validateField } from './helpers';
+import {
+  createNoDescriptionText,
+  createOriginalFillRecord,
+  dateFormat,
+  processList,
+  validateField,
+  createVAPharmacyText,
+} from './helpers';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
@@ -7,12 +13,88 @@ import {
 } from './constants';
 
 /**
+ * Return Non-VA prescription PDF list
+ */
+export const buildNonVAPrescriptionPDFList = prescription => {
+  return [
+    {
+      sections: [
+        {
+          items: [
+            {
+              title: 'Instructions',
+              value: validateField(prescription.sig),
+              inline: true,
+            },
+            {
+              title: 'Reason for use',
+              value: validateField(prescription.indicationForUse),
+              inline: true,
+            },
+            {
+              title: 'Status',
+              value: validateField(prescription.dispStatus?.toString()),
+              inline: true,
+            },
+            {
+              value:
+                'A VA provider added this medication record in your VA medical records. But this isn’t a prescription you filled through a VA pharmacy. You can’t request refills or manage this medication through this online tool.',
+            },
+            {
+              title: 'Non-VA medications include these types:',
+              value: nonVAMedicationTypes,
+              inline: false,
+            },
+            {
+              title: 'When you started taking this medication',
+              value: dateFormat(prescription.dispensedDate, 'MMMM D, YYYY'),
+              inline: true,
+            },
+            {
+              title: 'Documented by',
+              value: prescription.providerLastName
+                ? `${
+                    prescription.providerLastName
+                  }, ${prescription.providerFirstName || ''}`
+                : 'None noted',
+              inline: true,
+            },
+            {
+              title: 'Documented at this facility',
+              value: validateField(prescription.facilityName),
+              inline: true,
+            },
+            {
+              title: 'Provider notes',
+              value: validateField(
+                (prescription.remarks ?? '') +
+                  (prescription.disclaimer
+                    ? ` ${prescription.disclaimer}`
+                    : ''),
+              ),
+              inline: true,
+            },
+          ],
+        },
+      ],
+    },
+  ];
+};
+
+/**
  * Return prescriptions PDF list
  */
 export const buildPrescriptionsPDFList = prescriptions => {
   return prescriptions?.map(rx => {
-    // Image (to be added later)
-    // const cmopNdcNumber = rx.rxRfRecords.length && rx.rxRfRecords[0][1]?.[0]?.cmopNdcNumber || rx.cmopNdcNumber;
+    if (rx?.prescriptionSource === 'NV') {
+      return {
+        ...buildNonVAPrescriptionPDFList(rx)[0],
+        header:
+          rx.prescriptionName ||
+          (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : ''),
+      };
+    }
+
     return {
       header: rx.prescriptionName,
       sections: [
@@ -30,6 +112,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
               inline: true,
             },
             {
+              isRich: true,
               value:
                 pdfStatusDefinitions[rx.refillStatus] ||
                 pdfDefaultStatusDefinition,
@@ -90,16 +173,6 @@ export const buildPrescriptionsPDFList = prescriptions => {
               value: validateField(rx.quantity),
               inline: true,
             },
-            // {
-            //   title: 'Image of the medication or supply',
-            //   value: !!cmopNdcNumber ? { type: 'image', value: getImageUri(cmopNdcNumber) } : 'Image not available',
-            //   inline: false,
-            // },
-            // {
-            //   title: 'Note',
-            //   value: 'This image is from your last refill of this medication.',
-            //   inline: true,
-            // }
           ],
         },
       ],
@@ -118,7 +191,12 @@ export const buildAllergiesPDFList = allergies => {
         {
           items: [
             {
-              title: 'Reaction',
+              title: 'Date entered',
+              value: validateField(item.date),
+              inline: true,
+            },
+            {
+              title: 'Signs and symptoms',
               value: processList(item.reaction),
               inline: true,
             },
@@ -128,17 +206,12 @@ export const buildAllergiesPDFList = allergies => {
               inline: true,
             },
             {
-              title: 'Date entered',
-              value: validateField(item.date),
-              inline: true,
-            },
-            {
               title: 'Location',
               value: validateField(item.location),
               inline: true,
             },
             {
-              title: 'Observed or reported',
+              title: 'Observed or historical',
               value: validateField(item.observedOrReported),
               inline: true,
             },
@@ -158,6 +231,10 @@ export const buildAllergiesPDFList = allergies => {
  * Return VA prescription PDF list
  */
 export const buildVAPrescriptionPDFList = prescription => {
+  const refillHistory = [...(prescription?.rxRfRecords || [])];
+  const originalFill = createOriginalFillRecord(prescription);
+  refillHistory.push(originalFill);
+
   return [
     {
       header: 'About your prescription',
@@ -169,7 +246,7 @@ export const buildVAPrescriptionPDFList = prescription => {
               title: 'Last filled on',
               value: dateFormat(
                 (prescription.rxRfRecords?.length &&
-                  prescription.rxRfRecords?.[0]?.[1].dispensedDate) ||
+                  prescription.rxRfRecords[0].dispensedDate) ||
                   prescription.dispensedDate,
                 'MMMM D, YYYY',
               ),
@@ -181,6 +258,7 @@ export const buildVAPrescriptionPDFList = prescription => {
               inline: true,
             },
             {
+              isRich: true,
               value:
                 pdfStatusDefinitions[prescription.refillStatus] ||
                 pdfDefaultStatusDefinition,
@@ -230,6 +308,7 @@ export const buildVAPrescriptionPDFList = prescription => {
     },
     {
       header: 'About this medication or supply',
+      sectionSeparators: false,
       sections: [
         {
           items: [
@@ -252,67 +331,87 @@ export const buildVAPrescriptionPDFList = prescription => {
         },
       ],
     },
-  ];
-};
-
-/**
- * Return Non-VA prescription PDF list
- */
-export const buildNonVAPrescriptionPDFList = prescription => {
-  return [
     {
+      header: 'Refill history',
+      sectionSeparators: true,
+      sectionSeperatorOptions: {
+        spaceFromEdge: 16,
+        linesAbove: 0,
+        linesBelow: 1,
+      },
       sections: [
         {
-          items: [
-            {
-              title: 'Instructions',
-              value: validateField(prescription.sig),
-              inline: true,
-            },
-            {
-              title: 'Reason for use',
-              value: validateField(prescription.indicationForUse),
-              inline: true,
-            },
-            {
-              title: 'Status',
-              value: validateField(prescription.dispStatus?.toString()),
-              inline: true,
-            },
-            {
-              value:
-                'A VA provider added this medication record in your VA medical records. But this isn’t a prescription you filled through a VA pharmacy. You can’t request refills or manage this medication through this online tool.',
-            },
-            {
-              title: 'Non-VA medications include these types:',
-              value: nonVAMedicationTypes,
-              inline: false,
-            },
-            {
-              title: 'When you started taking this medication',
-              value: dateFormat(prescription.dispensedDate, 'MMMM D, YYYY'),
-              inline: true,
-            },
-            {
-              title: 'Documented by',
-              value: prescription.providerLastName
-                ? `${
-                    prescription.providerLastName
-                  }, ${prescription.providerFirstName || ''}`
-                : 'None noted',
-              inline: true,
-            },
-            {
-              title: 'Documented at this facility',
-              value: validateField(prescription.facilityName),
-              inline: true,
-            },
-            {
-              title: 'Provider notes',
-              value: validateField(prescription.remarks),
-              inline: true,
-            },
-          ],
+          items: refillHistory
+            .map((entry, i) => {
+              const { shape, color, backImprint, frontImprint } = entry;
+              const index = refillHistory.length - i - 1;
+              const phone =
+                entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+              const hasValidDesc =
+                shape?.trim() && color?.trim() && frontImprint?.trim();
+              const description = hasValidDesc
+                ? `* Shape: ${shape[0].toUpperCase()}${shape
+                    .slice(1)
+                    .toLowerCase()}
+* Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
+* Front marking: ${frontImprint}
+${backImprint ? `* Back marking: ${backImprint}` : ''}`
+                : createNoDescriptionText(phone);
+              return [
+                {
+                  value: [
+                    {
+                      value: `${
+                        index === 0 ? 'First fill' : `Refill ${index}`
+                      }`,
+                      weight: 'bold',
+                      itemSeperator: index !== refillHistory.length - 1,
+                      itemSeperatorOptions: {
+                        spaceFromEdge: 16,
+                        linesAbove: 0.5,
+                        linesBelow: 0.7,
+                      },
+                      font: 'Bitter-Bold',
+                      paragraphGap: 4.75,
+                    },
+                  ],
+                  isRich: true,
+                },
+                {
+                  title: 'Medication description',
+                  inline: false,
+                },
+                ...(hasValidDesc
+                  ? [
+                      {
+                        title: 'Note',
+                        value: `If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
+                          phone,
+                        )}.`,
+                        inline: true,
+                      },
+                    ]
+                  : []),
+                {
+                  value: description,
+                },
+                {
+                  title: `Filled by pharmacy on`,
+                  value: entry?.dispensedDate
+                    ? dateFormat(entry.dispensedDate)
+                    : 'None noted',
+                  inline: true,
+                },
+                {
+                  title: `Shipped on`,
+                  value: entry?.trackingList?.[0]?.completeDateTime
+                    ? dateFormat(entry.trackingList[0].completeDateTime)
+                    : 'None noted',
+                  inline: true,
+                },
+              ];
+            })
+            .flat(),
         },
       ],
     },

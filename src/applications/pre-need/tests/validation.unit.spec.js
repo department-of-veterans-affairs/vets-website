@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { validateSponsorDeathDate } from '../validation';
+import { validateSponsorDeathDate, validateEmailParts } from '../validation';
 
 describe('Pre-need validation', () => {
   describe('validateSponsorDeathDate', () => {
@@ -94,6 +94,87 @@ describe('Pre-need validation', () => {
       });
 
       expect(errors.dateOfDeath.addError.called).to.be.false;
+    });
+  });
+
+  describe('validateLocalPart', () => {
+    it('should return error if local part contains ampersand', () => {
+      const errors = {
+        addError: sinon.spy(),
+      };
+
+      validateEmailParts(errors, 'te&st@test.com');
+
+      expect(errors.addError.called).to.be.true;
+    });
+
+    it('should not return error if local part is valid', () => {
+      const errors = {
+        addError: sinon.spy(),
+      };
+
+      validateEmailParts(errors, 'test@test.com');
+
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should return if email is empty', () => {
+      const errors = {
+        addError: sinon.spy(),
+      };
+
+      validateEmailParts(errors, '');
+      expect(errors.addError.called).to.be.false;
+    });
+  });
+
+  describe('validateTopLevelDomain', () => {
+    it('should return error if top level domain name contains digit', () => {
+      const errors = {
+        addError: sinon.spy(),
+      };
+
+      validateEmailParts(errors, 'test@test.c0m');
+
+      expect(errors.addError.called).to.be.true;
+    });
+
+    it('should not return error if top level domain is valid', () => {
+      const errors = {
+        addError: sinon.spy(),
+      };
+
+      validateEmailParts(errors, 'test@test.com');
+
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should return error if top level domain name contains digit', () => {
+      const errors = {
+        addError: sinon.spy(),
+      };
+
+      validateEmailParts(errors, 'test@test.c0m');
+
+      expect(errors.addError.called).to.be.true;
+    });
+
+    it('should return error if top level domain name contains digit', () => {
+      const errors = {
+        addError: sinon.spy(),
+      };
+
+      validateEmailParts(errors, '');
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should return if email is empty', () => {
+      const errors = {
+        addError: sinon.spy(),
+      };
+
+      validateEmailParts(errors, '');
+      expect(errors.addError.called).to.be.false;
     });
   });
 });

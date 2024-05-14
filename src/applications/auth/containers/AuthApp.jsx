@@ -9,7 +9,6 @@ import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
-  CSP_IDS,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
   FORCE_NEEDED,
@@ -20,10 +19,7 @@ import {
   SENTRY_TAGS,
   getAuthError,
 } from 'platform/user/authentication/errors';
-import {
-  hasSession,
-  setupProfileSession,
-} from 'platform/user/profile/utilities';
+import { setupProfileSession } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import { requestToken } from 'platform/utilities/oauth/utilities';
 import { generateReturnURL } from 'platform/user/authentication/utilities';
@@ -76,7 +72,7 @@ export class AuthApp extends React.Component {
   componentDidMount() {
     if (this.state.hasError) {
       this.handleAuthError();
-    } else if (!this.state.hasError || hasSession()) {
+    } else if (!this.state.hasError) {
       this.validateSession();
     }
   }
@@ -110,59 +106,35 @@ export class AuthApp extends React.Component {
     });
   };
 
-  handleAuthSuccess = payload => {
+  handleAuthSuccess = ({ response = {}, skipToRedirect = false } = {}) => {
     sessionStorage.setItem('shouldRedirectExpiredSession', true);
     const { loginType, requestId, code } = this.state;
-    const authMetrics = new AuthMetrics(loginType, payload, requestId, code);
+    const authMetrics = new AuthMetrics(loginType, response, requestId, code);
     authMetrics.run();
-    setupProfileSession(authMetrics.userProfile);
-    this.redirect(authMetrics.userProfile);
+    if (!skipToRedirect) {
+      setupProfileSession(authMetrics.userProfile);
+    }
+    this.redirect();
   };
 
-  redirect = (userProfile = {}) => {
+  redirect = () => {
     const { returnUrl } = this.state;
 
-    const handleRedirect = () => {
-      sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
+    // remove from session storage
+    sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
-      const updatedUrl = generateReturnURL(returnUrl);
+    // redirect to my-va if necessary
+    const updatedUrl = generateReturnURL(returnUrl);
 
-      const postAuthUrl = updatedUrl
-        ? appendQuery(updatedUrl, 'postLogin=true')
-        : updatedUrl;
+    // check if usip client
+    const postAuthUrl = this.checkReturnUrl(updatedUrl)
+      ? updatedUrl
+      : appendQuery(updatedUrl, 'postLogin=true');
 
-      const redirectUrl =
-        (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';
+    const redirectUrl =
+      (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';
 
-      window.location.replace(redirectUrl);
-    };
-
-    // Enforce LOA3 for external redirects to My VA Health
-    if (
-      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH]) &&
-      !userProfile.verified
-    ) {
-      window.location.replace('/verify');
-      return;
-    }
-
-    if (
-      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) ||
-      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
-    ) {
-      const app = returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV])
-        ? CSP_IDS.MHV
-        : EXTERNAL_APPS.MY_VA_HEALTH;
-
-      recordEvent({
-        event: `login-inbound-redirect-to-${app}`,
-        eventCallback: handleRedirect,
-        eventTimeout: 2000,
-      });
-      return;
-    }
-
-    handleRedirect();
+    window.location.replace(redirectUrl);
   };
 
   handleTokenRequest = async ({ code, state, csp }) => {
@@ -193,7 +165,7 @@ export class AuthApp extends React.Component {
 
   // Fetch the user to get the login policy and validate the session.
   validateSession = async () => {
-    const { code, state, auth } = this.state;
+    const { code, state, auth, hasError, returnUrl } = this.state;
 
     if (code && state) {
       await this.handleTokenRequest({ code, state, csp: this.state.loginType });
@@ -201,14 +173,26 @@ export class AuthApp extends React.Component {
 
     if (auth === FORCE_NEEDED) {
       this.handleAuthForceNeeded();
+    } else if (!hasError && this.checkReturnUrl(returnUrl)) {
+      this.handleAuthSuccess({ skipToRedirect: true });
     } else {
       try {
         const response = await apiRequest('/user');
-        this.handleAuthSuccess(response);
+        this.handleAuthSuccess({ response });
       } catch (error) {
         this.handleAuthError(error);
       }
     }
+  };
+
+  checkReturnUrl = passedUrl => {
+    return (
+      passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) ||
+      passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH]) ||
+      passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.EBENEFITS]) ||
+      passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_OCC_MOBILE]) ||
+      passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP])
+    );
   };
 
   generateOAuthError = ({ code, event = OAUTH_EVENTS.ERROR_DEFAULT }) => {

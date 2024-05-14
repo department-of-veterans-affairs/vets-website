@@ -249,13 +249,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -313,7 +313,7 @@ const baseUserResponses = {
               isCerner: false,
             },
           ],
-          vaPatient: false,
+          vaPatient: true,
           mhvAccountState: 'NONE',
         },
         veteranStatus: {
@@ -472,13 +472,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -684,13 +684,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -896,13 +896,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -1104,13 +1104,13 @@ const baseUserResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -1319,13 +1319,13 @@ const mockErrorResponses = {
           'edu-benefits',
           'form-save-in-progress',
           'form-prefill',
-          'evss-claims',
           'form526',
           'user-profile',
           'appeals-status',
           'id-card',
           'identity-proofed',
           'vet360',
+          'lighthouse',
         ],
         account: {
           accountUuid: '7d9e2bfb-13ae-45c8-8764-ea3c87cd8af3',
@@ -1392,17 +1392,38 @@ const mockErrorResponses = {
     meta: {
       errors: [
         {
-          externalService: 'Vet360',
+          externalService: 'VAProfile',
           startTime: '2020-11-19T17:32:54Z',
           endTime: null,
           description:
             'VET360_502, 502, Bad Gateway, Received an an invalid response from the upstream server',
           status: 502,
         },
+        {
+          externalService: 'VAProfile',
+          startTime: '2020-11-19T17:32:54Z',
+          endTime: null,
+          description: 'Second error message',
+          status: 502,
+        },
       ],
     },
   },
 };
+
+// user that is loa1 but is a dslogon user
+const loa1UserDSLogon = set(
+  cloneDeep(baseUserResponses.loa1User),
+  'data.attributes.profile.signIn.serviceName',
+  'dslogon',
+);
+
+// user that is loa1 but is a mhv user
+const loa1UserMHV = set(
+  cloneDeep(baseUserResponses.loa1User),
+  'data.attributes.profile.signIn.serviceName',
+  'mhv',
+);
 
 // users with various contact info missing
 const loa3UserWithNoMobilePhone = set(
@@ -1443,9 +1464,25 @@ const loa3UserWithNoMilitaryHistoryClaim = set(
   false,
 );
 
+const loa3UserWithoutMailingAddress = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.vet360ContactInformation.mailingAddress',
+  null,
+);
+
+const loa3UserWithoutLighthouseServiceAvailable = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.services',
+  baseUserResponses.loa3User72.data.attributes.services.filter(
+    service => service !== 'lighthouse',
+  ),
+);
+
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
+  loa1UserDSLogon,
+  loa1UserMHV,
   loa3UserWithNoMobilePhone,
   loa3UserWithNoEmail,
   loa3UserWithNoEmailOrMobilePhone,
@@ -1459,6 +1496,8 @@ const responses = {
   loa3UserWithNoHomeAddress,
   loa3UserWithNoRatingInfoClaim,
   loa3UserWithNoMilitaryHistoryClaim,
+  loa3UserWithoutMailingAddress,
+  loa3UserWithoutLighthouseServiceAvailable,
 };
 
 // handler that can be used to customize the user data returned

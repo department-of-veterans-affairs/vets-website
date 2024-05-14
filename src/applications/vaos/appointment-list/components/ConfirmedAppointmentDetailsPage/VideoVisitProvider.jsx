@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function VideoVisitProvider({ appointment }) {
-  const providers = appointment.videoData.providers;
+  const { providers } = appointment.videoData;
 
   if (!providers?.length) {
     return null;
@@ -23,3 +24,27 @@ export default function VideoVisitProvider({ appointment }) {
     </div>
   );
 }
+
+VideoVisitProvider.propTypes = {
+  appointment: PropTypes.shape({
+    status: PropTypes.string.isRequired,
+    vaos: PropTypes.shape({
+      isPastAppointment: PropTypes.bool.isRequired,
+    }),
+    videoData: PropTypes.shape({
+      providers: PropTypes.arrayOf(PropTypes.object).isRequired,
+    }),
+  }),
+};
+
+VideoVisitProvider.defaultProps = {
+  appointment: {
+    status: '',
+    vaos: {
+      isPastAppointment: false,
+    },
+    videoData: {
+      providers: [],
+    },
+  },
+};

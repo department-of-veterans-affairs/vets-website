@@ -15,6 +15,7 @@ import TravelQuestion from './pages/TravelQuestion';
 import TravelVehicle from './pages/TravelVehicle';
 import TravelAddress from './pages/TravelAddress';
 import TravelMileage from './pages/TravelMileage';
+import TravelReview from './pages/TravelReview';
 import AppointmentDetails from '../components/pages/AppointmentDetails';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
@@ -23,9 +24,11 @@ import withAuthorization from '../containers/withAuthorization';
 import { withError } from '../containers/withError';
 import { withAppSet } from '../containers/withAppSet';
 import { URLS } from '../utils/navigation';
-
+import { APP_NAMES } from '../utils/appConstants';
 import ReloadWrapper from '../components/layout/ReloadWrapper';
 import ErrorBoundary from '../components/errors/ErrorBoundary';
+import ArrivedAtFacility from './pages/ArrivedAtFacility';
+import TravelAgreement from '../components/pages/travel-agreement';
 
 const routes = [
   {
@@ -139,6 +142,15 @@ const routes = [
     reloadable: true,
   },
   {
+    path: URLS.TRAVEL_REVIEW,
+    component: TravelReview,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+  },
+  {
     path: URLS.ERROR,
     component: Error,
   },
@@ -151,13 +163,30 @@ const routes = [
     },
     reloadable: true,
   },
+  {
+    path: URLS.ARRIVED,
+    component: ArrivedAtFacility,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+  },
+  {
+    path: URLS.TRAVEL_AGREEMENT,
+    component: TravelAgreement,
+    permissions: {
+      requireAuthorization: false,
+    },
+    reloadable: true,
+  },
 ];
 
 const createRoutesWithStore = () => {
   return (
     <Switch>
       {routes.map((route, i) => {
-        const options = { isPreCheckIn: false };
+        const options = { appName: APP_NAMES.CHECK_IN };
         let Component = props => (
           /* eslint-disable react/jsx-props-no-spreading */
           <ErrorBoundary {...props}>
@@ -186,7 +215,7 @@ const createRoutesWithStore = () => {
           if (route.reloadable) {
             // If the page is able to restore state on reload add the wrapper.
             return (
-              <ReloadWrapper isPreCheckIn={false} {...props}>
+              <ReloadWrapper app={APP_NAMES.CHECK_IN} {...props}>
                 <Component {...props} />
               </ReloadWrapper>
             );

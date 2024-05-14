@@ -5,6 +5,7 @@ const DisasterAlert = () => {
     <va-alert-expandable
       trigger="Need help with VA Debt after a natural disaster?"
       status="info"
+      uswds
     >
       <ul>
         <li>

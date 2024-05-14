@@ -1,7 +1,9 @@
-import React from 'react';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import {
+  testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFields,
+  testNumberOfWebComponentFields,
+} from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
 const {
@@ -9,34 +11,48 @@ const {
   uiSchema,
 } = formConfig.chapters.previousApplicationsChapter.pages.previousShaApplication1;
 
-describe('previous HI information page 1', () => {
-  it('should have appropriate number of fields', () => {
-    const { container } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-      />,
-    );
+const pageTitle = 'previous SHA information page 1';
 
-    expect(container.querySelectorAll('input, selected')).to.have.lengthOf(2);
-  });
+const data = {
+  previousSahApplication: {},
+};
 
-  it('should show the correct number of errors on submit', () => {
-    const { getByRole, queryAllByRole } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-      />,
-    );
+const expectedNumberOfWebComponentFields = 1;
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentFields,
+  pageTitle,
+  data,
+);
 
-    getByRole('button', { name: /submit/i }).click();
-    const errors = queryAllByRole('alert');
-    expect(errors).to.have.lengthOf(1);
-  });
-});
+const expectedNumberOfWebComponentErrors = 1;
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentErrors,
+  pageTitle,
+  data,
+);
+
+const expectedNumberOfFields = 0;
+testNumberOfFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfFields,
+  pageTitle,
+  data,
+);
+
+const expectedNumberOfErrors = 0;
+testNumberOfErrorsOnSubmit(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfErrors,
+  pageTitle,
+  data,
+);

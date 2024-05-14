@@ -2,6 +2,7 @@ const initialState = {
   appointments: [],
   veteranData: {
     demographics: {},
+    address: '',
   },
   context: {},
   form: {
@@ -25,6 +26,7 @@ import {
   TRIGGER_REFRESH,
   SEE_STAFF_MESSAGE_UPDATED,
   UPDATE_DAY_OF_CHECK_IN_FORM,
+  ADDITIONAL_CONTEXT,
 } from '../actions/day-of';
 
 import {
@@ -32,7 +34,20 @@ import {
   receivedDemographicsDataHandler,
   triggerRefreshHandler,
   seeStaffMessageUpdatedHandler,
+  additionalContextHandler,
 } from './day-of';
+
+import {
+  RECEIVED_TRAVEL_DATA,
+  SET_FILTERED_APPOINTMENTS,
+  SET_FORM_DATA,
+} from '../actions/travel-claim';
+
+import {
+  receivedTravelDataHandler,
+  setFilteredAppointmentsHandler,
+  setFormDataHandler,
+} from './travel-claim';
 
 import { setAppHandler, setErrorHandler, setFormHandler } from './universal';
 
@@ -65,6 +80,10 @@ const handler = Object.freeze({
   [SET_APP]: setAppHandler,
   [SET_ERROR]: setErrorHandler,
   [SET_FORM]: setFormHandler,
+  [ADDITIONAL_CONTEXT]: additionalContextHandler,
+  [RECEIVED_TRAVEL_DATA]: receivedTravelDataHandler,
+  [SET_FILTERED_APPOINTMENTS]: setFilteredAppointmentsHandler,
+  [SET_FORM_DATA]: setFormDataHandler,
 
   default: state => {
     return { ...state };

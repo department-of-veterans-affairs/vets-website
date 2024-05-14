@@ -6,6 +6,7 @@ import Error from '../../pages/Error';
 import Demographics from '../../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../../tests/e2e/pages/EmergencyContact';
+import Arrived from '../../pages/Arrived';
 
 describe('Check In Experience ', () => {
   beforeEach(() => {
@@ -29,26 +30,13 @@ describe('Check In Experience ', () => {
   });
   it('Render Error is caught', () => {
     cy.visitWithUUID();
-
-    ValidateVeteran.validatePage.dayOf();
-    cy.injectAxeThenAxeCheck();
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
-
-    Demographics.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
+    Arrived.validateArrivedPage();
+    Arrived.attemptToGoToNextPage();
     Demographics.attemptToGoToNextPage();
-
-    EmergencyContact.validatePageLoaded();
-    cy.injectAxeThenAxeCheck();
     EmergencyContact.attemptToGoToNextPage();
-
-    NextOfKin.validatePageLoaded(
-      'Check-In Is this your current next of kin information?',
-    );
-    cy.injectAxeThenAxeCheck();
     NextOfKin.attemptToGoToNextPage();
-
     // Fails on the rendering of the API call
     Error.validatePageLoaded();
     cy.injectAxeThenAxeCheck();

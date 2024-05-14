@@ -17,7 +17,6 @@ import { scrollToFocusedElement, useQueryParams } from '../utils/helpers';
 import ServiceError from '../components/ServiceError';
 import AboutThisTool from '../components/content/AboutThisTool';
 import Disclaimer from '../components/content/Disclaimer';
-import Covid19Banner from '../components/content/Covid19Banner';
 import CompareDrawer from './CompareDrawer';
 
 export function GiBillApp({
@@ -29,18 +28,18 @@ export function GiBillApp({
   dispatchExitPreviewMode,
   dispatchFetchConstants,
   dispatchUpdateQueryParams,
+  TESTVERSION = false, // used with unit testing for extended test coverage
+  TESTVALUE = false, // used with unit testing for extended test coverage
 }) {
   const queryParams = useQueryParams();
-  const version = queryParams.get('version');
+  const version = TESTVERSION ? TESTVALUE : queryParams.get('version');
   const versionChange = version && version !== preview.version?.id;
   const shouldExitPreviewMode = preview.display && !version;
   const shouldEnterPreviewMode = !preview.display && versionChange;
   const location = useLocation();
 
   useEffect(() => {
-    document.title = 'GI Bill® Comparison Tool | Veterans Affairs';
     document.addEventListener('focus', scrollToFocusedElement, true);
-
     return () => {
       document.removeEventListener('focus', scrollToFocusedElement);
     };
@@ -81,14 +80,12 @@ export function GiBillApp({
 
   return (
     <div className="gi-app" role="application">
-      {(location.pathname === '/' ||
-        location.pathname === '/education/gi-bill-comparison-tool-sandbox') && (
-        <Covid19Banner />
-      )}
       <div>
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}
-          <GiBillBreadcrumbs />
+          <div className="large-screen:vads-u-padding-left--0 vads-u-padding-left--2">
+            <GiBillBreadcrumbs />
+          </div>
           {constants.inProgress && (
             <VaLoadingIndicator
               data-testid="loading-indicator"

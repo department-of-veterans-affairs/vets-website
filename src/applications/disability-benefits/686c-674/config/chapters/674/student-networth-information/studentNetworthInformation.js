@@ -28,32 +28,32 @@ export const uiSchema = {
       'ui:title': 'Student’s savings',
       'ui:required': formData => formData.studentDoesHaveNetworth,
       'ui:errorMessages': {
-        required: 'Please enter a value',
-        pattern: 'Please enter a number',
+        required: 'Enter a value',
+        pattern: 'Enter a number',
       },
     },
     securities: {
       'ui:title': 'Student’s securities, bonds, etc.',
       'ui:required': formData => formData.studentDoesHaveNetworth,
       'ui:errorMessages': {
-        required: 'Please enter a value',
-        pattern: 'Please enter a number',
+        required: 'Enter a value',
+        pattern: 'Enter a number',
       },
     },
     realEstate: {
       'ui:title': 'Value of student’s real estate',
       'ui:required': formData => formData.studentDoesHaveNetworth,
       'ui:errorMessages': {
-        required: 'Please enter a value',
-        pattern: 'Please enter a number',
+        required: 'Enter a value',
+        pattern: 'Enter a number',
       },
     },
     otherAssets: {
       'ui:title': 'All of student’s other assets',
       'ui:required': formData => formData.studentDoesHaveNetworth,
       'ui:errorMessages': {
-        required: 'Please enter a value',
-        pattern: 'Please enter a number',
+        required: 'Enter a value',
+        pattern: 'Enter a number',
       },
     },
     remarks: {

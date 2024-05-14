@@ -5,10 +5,11 @@ import reducers from '../../../reducers';
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import ExtraDetails from '../../../components/shared/ExtraDetails';
 import { dateFormat } from '../../../util/helpers';
+import { dispStatusObj } from '../../../util/constants';
 
-describe('Medicaitons Medications List Card Extra Details', () => {
-  const rx = prescriptionsListItem;
-  const setup = () => {
+describe('Medications List Card Extra Details', () => {
+  const prescription = prescriptionsListItem;
+  const setup = (rx = prescription) => {
     return renderWithStoreAndRouter(<ExtraDetails {...rx} />, {
       path: '/',
       state: {},
@@ -21,6 +22,46 @@ describe('Medicaitons Medications List Card Extra Details', () => {
     expect(screen);
   });
 
+  it('when dispStatus is discontinued, dispalys matching element', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      dispStatus: dispStatusObj.discontinued,
+    });
+    expect(screen.findByTestId('discontinued'));
+  });
+
+  it('when dispStatus is transferred, dispalys matching element', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      dispStatus: dispStatusObj.transferred,
+    });
+    expect(screen.findByTestId('transferred'));
+  });
+
+  it('when dispStatus is onHold, dispalys matching element', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      dispStatus: dispStatusObj.onHold,
+    });
+    expect(screen.findByTestId('active-onHold'));
+  });
+
+  it('when dispStatus is submitted, dispalys matching element', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      dispStatus: dispStatusObj.submitted,
+    });
+    expect(screen.findByTestId('submitted-refill-request'));
+  });
+
+  it('when dispStatus is expired, dispalys matching element', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      dispStatus: dispStatusObj.expired,
+    });
+    expect(screen.findByTestId('expired'));
+  });
+
   it('displays the refillinprocess information', () => {
     const screen = setup();
 
@@ -29,8 +70,8 @@ describe('Medicaitons Medications List Card Extra Details', () => {
     );
 
     expect(screen.getByTestId('rx-refillinprocess-info')).to.have.text(
-      `Refill in process. We expect to fill it on ${dateFormat(
-        rx.refillDate,
+      `We expect to fill it on ${dateFormat(
+        prescription.refillDate,
         'MMMM D, YYYY',
       )}.`,
     );

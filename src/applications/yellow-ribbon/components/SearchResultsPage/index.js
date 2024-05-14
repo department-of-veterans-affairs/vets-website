@@ -8,7 +8,6 @@ import SearchForm from '../../containers/SearchForm';
 import SearchResults from '../../containers/SearchResults';
 import { toggleShowMobileFormAction } from '../../actions';
 import { getYellowRibbonAppState } from '../../helpers/selectors';
-import { CURRENT_SCHOOL_YEAR } from '../../constants';
 
 export const SearchResultsPage = ({
   hasFetchedOnce,
@@ -18,7 +17,7 @@ export const SearchResultsPage = ({
 }) => (
   <>
     {/* Title */}
-    <h1 className="vads-u-margin-bottom--0">
+    <h1>
       Yellow Ribbon school search results
       {/* Screen reader total results */}
       {hasFetchedOnce && (
@@ -30,17 +29,9 @@ export const SearchResultsPage = ({
 
     <div className="vads-l-row">
       {/* Search Form */}
-      <div className="vads-l-col--12">
-        {/* Pre-form content */}
-        <p className="vads-l-col--12 medium-screen:vads-l-col--9">
-          Information for participating schools is for the current academic
-          year, {CURRENT_SCHOOL_YEAR}.
-        </p>
-      </div>
-
-      {/* Search Form */}
       <div className="vads-l-col--12 medium-screen:vads-l-col--3">
         {/* Toggle Mobile Form */}
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
         <button
           className="usa-button-secondary usa-button-big medium-screen:vads-u-display--none vads-u-font-size--md"
           onClick={toggleShowMobileForm}
@@ -93,12 +84,10 @@ export const SearchResultsPage = ({
 );
 
 SearchResultsPage.propTypes = {
-  // From mapStateToProps.
   hasFetchedOnce: PropTypes.bool.isRequired,
   showMobileForm: PropTypes.bool.isRequired,
-  totalResults: PropTypes.number,
-  // From mapDispatchToProps.
   toggleShowMobileForm: PropTypes.func.isRequired,
+  totalResults: PropTypes.number,
 };
 
 const mapStateToProps = state => ({

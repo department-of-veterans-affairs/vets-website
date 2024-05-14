@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   APPEAL_TYPES,
   EVENT_TYPES,
   getTypeName,
   programAreaMap,
-} from '../../utils/appeals-v2-helpers';
+} from '../../utils/appeals-helpers';
+import { replaceDashesWithSlashes as replace } from '../../utils/date-formatting/helpers';
 
 import { getStatusContents } from '../../utils/getStatusContents';
 
@@ -16,6 +17,14 @@ import CTALink from '../CTALink';
 const capitalizeFirstLetter = input => {
   const capitalizedFirstLetter = input[0].toUpperCase();
   return `${capitalizedFirstLetter}${input.slice(1)}`;
+};
+
+const handleViewAppeal = () => {
+  recordEvent({
+    event: 'dashboard-navigation',
+    'dashboard-action': 'view-button',
+    'dashboard-product': 'view-appeal',
+  });
 };
 
 const Appeal = ({ appeal, name }) => {
@@ -69,17 +78,14 @@ const Appeal = ({ appeal, name }) => {
   }
 
   appealTitle += ` updated on ${format(
-    new Date(updatedEventDateString.replace(/-/g, '/')),
+    new Date(replace(updatedEventDateString)),
     'MMMM d, yyyy',
   )}`;
   appealTitle = capitalizeFirstLetter(appealTitle);
 
-  return (
-    <div className="vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-background-color--gray-lightest">
-      <h3 className="vads-u-margin-top--0">
-        {appealTitle}
-        {/* Claim for compensation received June 7, 1999 */}
-      </h3>
+  const content = (
+    <>
+      <h3 className="vads-u-margin-top--0">{appealTitle}</h3>
       <div className="vads-u-display--flex">
         <i
           aria-hidden="true"
@@ -112,9 +118,16 @@ const Appeal = ({ appeal, name }) => {
         className="vads-u-margin-top--2 vads-u-font-weight--bold"
         text="Review details"
         href={`/track-claims/appeals/${appeal.id}/status`}
+        onClick={handleViewAppeal}
         showArrow
       />
-    </div>
+    </>
+  );
+
+  return (
+    <va-card>
+      <div className="vads-u-padding--1">{content}</div>
+    </va-card>
   );
 };
 

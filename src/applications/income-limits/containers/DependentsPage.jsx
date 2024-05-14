@@ -107,10 +107,7 @@ const DependentsPage = ({
           className="vads-u-margin-bottom--1"
           data-testid="il-dependents"
           error={
-            (submitted &&
-              error &&
-              'Please enter a number between 0 and 100.') ||
-            null
+            (submitted && error && 'Enter a number between 0 and 100.') || null
           }
           hint={`Enter the total number of dependents for ${getPreviousYear(
             pastMode,
@@ -124,10 +121,10 @@ const DependentsPage = ({
           name="numberOfDependents"
           onBlur={onBlurInput}
           onInput={onDependentsInput}
-          required
+          uswds
           value={dependents || ''}
         />
-        <va-additional-info trigger="Who qualifies as a dependent">
+        <va-additional-info trigger="Who qualifies as a dependent" uswds>
           <div>
             <p className="vads-u-margin-top--0">
               Here&#8217;s who we consider dependents for health care
@@ -147,6 +144,7 @@ const DependentsPage = ({
           onPrimaryClick={onContinueClick}
           onSecondaryClick={onBackClick}
           continue
+          uswds
         />
       </form>
     </>

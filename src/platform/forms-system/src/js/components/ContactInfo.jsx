@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import { Element } from 'react-scroll';
 
 import {
   focusElement,
@@ -28,11 +29,13 @@ import FormNavButtons from './FormNavButtons';
 
 import readableList from '../utilities/data/readableList';
 import {
+  setReturnState,
   getReturnState,
   clearReturnState,
-  getPhoneString,
+  renderTelephone,
   getMissingInfo,
   REVIEW_CONTACT,
+  convertNullishObjectValuesToEmptyString,
   contactInfoPropTypes,
 } from '../utilities/data/profile';
 import { getValidationErrors } from '../utilities/validations';
@@ -68,6 +71,7 @@ const ContactInfo = ({
   requiredKeys,
   uiSchema,
   testContinueAlert = false,
+  contactInfoPageKey,
 }) => {
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
@@ -120,6 +124,7 @@ const ContactInfo = ({
       if (missingInfo.length || validationErrors.length) {
         scrollAndFocus(wrapRef.current);
       } else {
+        clearReturnState();
         goForward(data);
       }
     },
@@ -128,7 +133,7 @@ const ContactInfo = ({
       if (missingInfo.length || validationErrors.length) {
         scrollAndFocus(wrapRef.current);
       } else {
-        clearReturnState();
+        setReturnState('true');
         updatePage();
       }
     },
@@ -147,13 +152,19 @@ const ContactInfo = ({
       ) {
         const wrapper = { ...data[keys.wrapper] };
         if (keys.address) {
-          wrapper[keys.address] = contactInfo.mailingAddress;
+          wrapper[keys.address] = convertNullishObjectValuesToEmptyString(
+            contactInfo.mailingAddress,
+          );
         }
         if (keys.homePhone) {
-          wrapper[keys.homePhone] = contactInfo.homePhone;
+          wrapper[keys.homePhone] = convertNullishObjectValuesToEmptyString(
+            contactInfo.homePhone,
+          );
         }
         if (keys.mobilePhone) {
-          wrapper[keys.mobilePhone] = contactInfo.mobilePhone;
+          wrapper[keys.mobilePhone] = convertNullishObjectValuesToEmptyString(
+            contactInfo.mobilePhone,
+          );
         }
         if (keys.email) {
           wrapper[keys.email] = contactInfo.email?.emailAddress;
@@ -174,12 +185,16 @@ const ContactInfo = ({
             returnState === 'canceled'
               ? `#edit-${lastEdited}`
               : `#updated-${lastEdited}`;
-          scrollTo('topScrollElement');
-          focusElement(target);
+          scrollTo(
+            onReviewPage
+              ? `${contactInfoPageKey}ScrollElement`
+              : 'topScrollElement',
+          );
+          focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
         });
       }
     },
-    [editState],
+    [editState, onReviewPage],
   );
 
   useEffect(
@@ -216,8 +231,6 @@ const ContactInfo = ({
     </va-alert>
   );
 
-  const homePhoneString = getPhoneString(dataWrap[keys.homePhone]);
-  const mobilePhoneString = getPhoneString(dataWrap[keys.mobilePhone]);
   const editText = content.edit.toLowerCase();
 
   // Loop to separate pages when editing
@@ -230,7 +243,7 @@ const ContactInfo = ({
         </Headers>
         {showSuccessAlert('home-phone', content.homePhone)}
         <span className="dd-privacy-hidden" data-dd-action-name="home phone">
-          <va-telephone contact={homePhoneString} not-clickable />
+          {renderTelephone(dataWrap[keys.homePhone])}
         </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
@@ -251,7 +264,7 @@ const ContactInfo = ({
         <Headers className={headerClassNames}>{content.mobilePhone}</Headers>
         {showSuccessAlert('mobile-phone', content.mobilePhone)}
         <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
-          <va-telephone contact={mobilePhoneString} not-clickable />
+          {renderTelephone(dataWrap[keys.mobilePhone])}
         </span>
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
@@ -323,9 +336,10 @@ const ContactInfo = ({
 
   return (
     <div className="vads-u-margin-y--2">
+      <Element name={`${contactInfoPageKey}ScrollElement`} />
       <form onSubmit={handlers.onSubmit}>
         <MainHeader
-          id="confirmContactInformationHeader"
+          id={`${contactInfoPageKey}Header`}
           className="vads-u-margin-top--0"
         >
           {content.title}
@@ -399,6 +413,7 @@ const ContactInfo = ({
 };
 
 ContactInfo.propTypes = {
+  contactInfoPageKey: contactInfoPropTypes.contactInfoPageKey,
   contactPath: PropTypes.string,
   content: contactInfoPropTypes.content, // content passed in from profileContactInfo
   contentAfterButtons: PropTypes.element,

@@ -42,7 +42,7 @@ export const uiSchema = {
       'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
       'ui:title': 'Was the student ever married?',
       'ui:widget': 'yesNo',
-      'ui:errorMessages': { required: 'Please select an option' },
+      'ui:errorMessages': { required: 'Select an option' },
     },
     marriageDate: {
       ...currentOrPastDateUI('Date of marriage'),
@@ -60,7 +60,7 @@ export const uiSchema = {
       'ui:title':
         'Is student’s tuition or education allowance being paid by the Survivors’ and Dependents’ Educational Assisatnce (DEA), the Federal Compensation Act, or any U.S. government agency or program?',
       'ui:widget': 'yesNo',
-      'ui:errorMessages': { required: 'Please select an option' },
+      'ui:errorMessages': { required: 'Select an option' },
     },
     agencyName: {
       'ui:required': formData =>
@@ -72,7 +72,7 @@ export const uiSchema = {
       },
       'ui:errorMessages': {
         required:
-          'Please enter the goverment agency paying tuition or education allowance',
+          'Enter the goverment agency paying tuition or education allowance',
       },
     },
     datePaymentsBegan: {

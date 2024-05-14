@@ -1,6 +1,5 @@
 import constants from 'vets-json-schema/dist/constants.json';
 // import schema from './config/form-0995-schema.json';
-import { MAX_LENGTH } from '../shared/constants';
 
 export const APP_NAME = 'Supplemental Claim';
 
@@ -57,24 +56,6 @@ export const REGEX_COMMA = /[, ]/g;
 export const REGEX_EMPTY_DATE = /(--|-00-00)/;
 
 export const errorMessages = {
-  contestedIssue: 'You must select an eligible issue',
-  missingIssue: 'You must add an issue',
-  uniqueIssue: 'You must enter a condition you haven’t already entered',
-  maxLength: `You can enter a maximum of ${MAX_LENGTH.ISSUE_NAME} characters`,
-  requiredYesNo: 'You must answer yes or no',
-
-  invalidDate: 'You must provide a date that includes a month, day, and year',
-  // startDateInPast: 'The start date must be in the future',
-  // endDateInPast: 'The end date must be in the future',
-  endDateBeforeStart: 'The end date must be after the start date',
-  cardInvalidDate: 'Invalid decision date',
-
-  decisions: {
-    blankDate: 'You must enter a decision date',
-    pastDate: 'You must add a decision date that’s in the past',
-    newerDate:
-      'You must add an issue with a decision date that’s less than 100 years old',
-  },
   evidence: {
     // VA evidence
     pastDate: 'You must add a past treatment date',
@@ -89,21 +70,11 @@ export const errorMessages = {
 
     // private evidence
     facilityMissing: 'You must add a provider or facility name',
-    country: 'You must choose a country',
-    street: 'You must enter a street address',
-    city: 'You must enter a city name',
-    state: 'You must choose a state',
-    postal: 'You must enter a postal code',
-    overMaxLength: max => `You can enter a maximum of ${max} characters`,
     uniquePrivate:
       'You must enter a provider, address, condition and dates you haven’t already entered',
-
-    upload: 'You must provide a password to decrypt this file',
   },
 
   missingPrimaryPhone: 'You must choose a primary phone number',
-  invalidZip:
-    'You must enter a valid 5- or 9-digit postal code (dashes allowed)',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
@@ -153,11 +124,6 @@ export const CLAIMANT_TYPES = [
   // 'parent_of_veteran',
   // 'other',
 ];
-
-export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
-
-export const MAX_FILE_SIZE_MB = 100;
-export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
 export const ITF_STATUSES = {
   active: 'active',

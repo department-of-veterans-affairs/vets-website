@@ -35,9 +35,9 @@ const {
 } = SHORT_NAME_MAP;
 
 const initialState = {
+  currentPage: SHORT_NAME_MAP.HOME,
   form: createFormStore(SHORT_NAME_MAP),
   viewedIntroPage: false,
-  viewedResultsPage1: false,
 };
 
 const pactAct = (state = initialState, action) => {

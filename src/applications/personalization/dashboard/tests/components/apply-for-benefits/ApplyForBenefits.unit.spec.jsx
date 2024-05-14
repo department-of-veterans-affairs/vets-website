@@ -13,7 +13,7 @@ import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '~/applications/personalization/dashboard/reducers';
-import ApplyForBenefits from '../../../components/apply-for-benefits/ApplyForBenefits';
+import ApplyForBenefits from '../../../components/benefit-application-drafts/ApplyForBenefits';
 
 function noApplicationsInProgressShownLOA3(view, shown = true) {
   const regex = /you have no benefit application drafts to show/i;

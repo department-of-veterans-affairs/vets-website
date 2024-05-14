@@ -5,15 +5,15 @@ import {
   dsLogonUser,
   mvhUser,
 } from '../../../mocks/endpoints/user';
-import DirectDeposit from './DirectDeposit';
+import DirectDeposit from './page-objects/DirectDeposit';
 
-let getDD4CNPBankInfoStub;
-let getDD4EDUBankInfoStub;
+let getDirectDeposits;
+
+const directDeposit = new DirectDeposit();
 
 function directDepositAPIsNotCalled() {
   cy.should(() => {
-    expect(getDD4CNPBankInfoStub).not.to.be.called;
-    expect(getDD4EDUBankInfoStub).not.to.be.called;
+    expect(getDirectDeposits).not.to.be.called;
   });
 }
 
@@ -29,14 +29,12 @@ describe('Direct Deposit', () => {
       'v0/feature_toggles*',
       '/v0/disability_compensation_form/rating_info',
     ]);
-    getDD4CNPBankInfoStub = cy.stub();
-    getDD4EDUBankInfoStub = cy.stub();
-    cy.intercept('GET', 'v0/ppiu/payment_information', () => {
-      getDD4CNPBankInfoStub();
+    getDirectDeposits = cy.stub();
+
+    cy.intercept('GET', 'v0/profile/direct-deposits', () => {
+      getDirectDeposits();
     });
-    cy.intercept('GET', 'v0/profile/ch33_bank_accounts', () => {
-      getDD4EDUBankInfoStub();
-    });
+
     cy.login();
   });
   context('when user is a non-2FA ID.me user', () => {
@@ -44,13 +42,14 @@ describe('Direct Deposit', () => {
     must set up 2FA when you verify your ID with ID.me, so a user should never
     be LOA3 _without_ also having 2FA set up. */
     beforeEach(() => {
+      directDeposit.setup();
       loa3User72.data.attributes.profile.multifactor = false;
       cy.intercept('GET', 'v0/user', loa3User72);
     });
     it('should show a single "verify your account" alert and not call direct deposit APIs', () => {
-      DirectDeposit.visitPage();
+      directDeposit.visitPage();
 
-      DirectDeposit.checkVerifyMessageIsShowing();
+      directDeposit.checkVerifyMessageIsShowing();
 
       directDepositAPIsNotCalled();
       cy.injectAxeThenAxeCheck();
@@ -58,11 +57,12 @@ describe('Direct Deposit', () => {
   });
   context('when user has 2FA set up but signed in with DSLogon', () => {
     beforeEach(() => {
+      directDeposit.setup();
       cy.intercept('GET', 'v0/user', dsLogonUser);
     });
     it('should show a single "verify your account" alert and not call direct deposit APIs', () => {
-      DirectDeposit.visitPage();
-      DirectDeposit.checkVerifyMessageIsShowing();
+      directDeposit.visitPage();
+      directDeposit.checkVerifyMessageIsShowing();
       directDepositAPIsNotCalled();
       cy.injectAxeThenAxeCheck();
     });
@@ -71,11 +71,12 @@ describe('Direct Deposit', () => {
     'when user has 2FA set up but signed in with MHV/My HealtheVet',
     () => {
       beforeEach(() => {
+        directDeposit.setup();
         cy.intercept('GET', 'v0/user', mvhUser);
       });
       it('should show a single "verify your account" alert and not call direct deposit APIs', () => {
-        DirectDeposit.visitPage();
-        DirectDeposit.checkVerifyMessageIsShowing();
+        directDeposit.visitPage();
+        directDeposit.checkVerifyMessageIsShowing();
 
         directDepositAPIsNotCalled();
         cy.injectAxeThenAxeCheck();

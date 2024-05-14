@@ -1,7 +1,8 @@
 import React from 'react';
 import moment from 'moment';
-import { questionLabels, prevApplicationYearCutoff } from '../constants';
 import * as options from 'platform/static-data/options-for-select';
+import { questionLabels, prevApplicationYearCutoff } from '../constants';
+import { SHORT_NAME_MAP, RESPONSES } from '../constants/question-data-map';
 
 export const shouldShowQuestion = (currentKey, validQuestions) => {
   const lastQuestion = validQuestions[validQuestions.length - 1];
@@ -86,13 +87,11 @@ export const venueAddress = (formValues, noDRB) => {
       case 'airForce':
         return (
           <p className="va-address-block">
-            Air Force Review Boards Agency
+            Air Force Discharge Review Board
             <br />
-            SAF/MRBR
+            3351 Celmers Lane
             <br />
-            550-C Street West, Suite 40
-            <br />
-            Randolph AFB, TX 78150-4742
+            Joint Base Andrews, MD 20762-6435
             <br />
           </p>
         );
@@ -146,11 +145,9 @@ export const venueAddress = (formValues, noDRB) => {
           <p className="va-address-block">
             Air Force Board for Correction of Military Records
             <br />
-            SAF/MRBR
-            <br />
             3351 Celmers Lane
             <br />
-            Joint Base Andrews NAF Washington 20762-6604
+            Joint Base Andrews, MD 20762-6435
             <br />
           </p>
         );
@@ -247,3 +244,49 @@ export const deriveIsAirForceAFRBAPortal = formValues =>
   formValues['1_branchOfService'] === 'airForce' &&
   board(formValues).abbr === 'BCMR' &&
   formData(formValues).num === 149;
+
+export const answerReviewLabel = (key, formValues) => {
+  const answer = formValues[key];
+  const monthObj = options.months.find(
+    m => String(m.value) === formValues[SHORT_NAME_MAP.DISCHARGE_MONTH],
+  );
+
+  const dischargeMonth = monthObj && monthObj.label;
+
+  switch (key) {
+    case SHORT_NAME_MAP.SERVICE_BRANCH:
+      return `I served in the ${formValues[key]}.`;
+    case SHORT_NAME_MAP.DISCHARGE_YEAR:
+      if (answer === '1991' && !formValues[SHORT_NAME_MAP.DISCHARGE_MONTH]) {
+        return 'I was discharged before 1992.';
+      }
+
+      return `I was discharged in ${dischargeMonth || ''} ${formValues[key]}.`;
+    case SHORT_NAME_MAP.PREV_APPLICATION:
+      if (answer === RESPONSES.PREV_APPLICATION_1) {
+        return 'I have previously applied for a discharge upgrade for this period of service.';
+      }
+
+      return 'I have not previously applied for a discharge upgrade for this period of service.';
+    case SHORT_NAME_MAP.PREV_APPLICATION_YEAR:
+      // The .toLowerCase() corrects the casing of "After {year}" as it is
+      // at the end of the sentence
+      return `I made my previous application ${answer.toLowerCase()}.`;
+    case SHORT_NAME_MAP.COURT_MARTIAL:
+      if (answer === RESPONSES.COURT_MARTIAL_3) {
+        return `I'm not sure if my discharge was the outcome of a general court-martial.`;
+      }
+
+      return answer;
+    case SHORT_NAME_MAP.PREV_APPLICATION_TYPE:
+      if (answer === RESPONSES.PREV_APPLICATION_TYPE_4) {
+        return `I'm not sure what kind of discharge upgrade application I previously made.`;
+      }
+
+      return answer;
+    default: {
+      // With the question response map having all unique answers we only need to account for the questions that do not provide enough information.
+      return answer;
+    }
+  }
+};

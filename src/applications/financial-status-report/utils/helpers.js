@@ -1,6 +1,5 @@
 import moment from 'moment';
 import { addDays, format, isValid } from 'date-fns';
-import { get } from 'lodash';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import { deductionCodes } from '../constants/deduction-codes';
@@ -31,6 +30,12 @@ export const streamlinedWaiverFeatureToggle = state => {
 export const streamlinedWaiverAssetUpdateFeatureToggle = state => {
   return toggleValues(state)[
     FEATURE_FLAG_NAMES.financialStatusReportStreamlinedWaiverAssets
+  ];
+};
+
+export const reviewPageNavigationFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.financialStatusReportReviewPageNavigation
   ];
 };
 
@@ -134,6 +139,13 @@ export const nameStr = (socialSecurity, compensation, education, addlInc) => {
   return otherIncNames?.map(item => item).join(', ') ?? '';
 };
 
+// safeNumber will return 0 if input is null, undefined, or NaN
+export const safeNumber = input => {
+  if (!input) return 0;
+  const num = Number(input.replaceAll(/[^0-9.-]/g, ''));
+  return Number.isNaN(num) ? 0 : num;
+};
+
 export const fsrReasonDisplay = resolutionOption => {
   switch (resolutionOption) {
     case 'monthly':
@@ -180,82 +192,24 @@ export const mergeAdditionalComments = (additionalComments, expenses) => {
     : additionalComments;
 };
 
-export const getMonthlyExpenses = ({
-  expenses,
-  otherExpenses,
-  utilityRecords,
-  installmentContracts,
-  'view:enhancedFinancialStatusReport': enhancedFSRActive = false,
-}) => {
-  const utilities = enhancedFSRActive
-    ? sumValues(utilityRecords, 'amount')
-    : sumValues(utilityRecords, 'monthlyUtilityAmount');
-  const installments = sumValues(installmentContracts, 'amountDueMonthly');
-  const otherExp = sumValues(otherExpenses, 'amount');
-  const creditCardBills = sumValues(
-    expenses?.creditCardBills,
-    'amountDueMonthly',
-  );
-  // efsr note: food is included in otherExpenses
-  const food = Number(get(expenses, 'food', 0));
-  // efsr note: Rent & Mortgage is included in expenseRecords
-  const rentOrMortgage = Number(get(expenses, 'rentOrMortgage', 0));
-
-  const calculatedExpenseRecords =
-    expenses?.expenseRecords?.reduce(
-      (acc, expense) =>
-        acc + Number(expense.amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
-      0,
-    ) ?? 0;
-
-  return (
-    utilities +
-    installments +
-    otherExp +
-    calculatedExpenseRecords +
-    food +
-    rentOrMortgage +
-    creditCardBills
-  );
-};
-
-export const getTotalAssets = ({
-  assets,
-  realEstateRecords,
-  questions,
-  'view:enhancedFinancialStatusReport': enhancedFSRActive,
-}) => {
-  const formattedREValue = Number(
-    assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
-  );
+export const getTotalAssets = ({ assets, questions }) => {
   const totOtherAssets = sumValues(assets.otherAssets, 'amount');
-  const totRecVehicles = enhancedFSRActive
-    ? Number(assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0)
-    : 0;
+  const totRecVehicles = Number(
+    assets?.recVehicleAmount?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+  );
   const totVehicles = questions?.hasVehicle
     ? sumValues(assets.automobiles, 'resaleValue')
     : 0;
-  const realEstate = !enhancedFSRActive
-    ? sumValues(realEstateRecords, 'realEstateAmount')
-    : formattedREValue;
-  const totAssets = !enhancedFSRActive
-    ? Object.values(assets)
-        .filter(item => item && !Array.isArray(item))
-        .reduce(
-          (acc, amount) =>
-            acc + Number(amount?.replaceAll(/[^0-9.-]/g, '') ?? 0),
-          0,
-        )
-    : sumValues(assets.monetaryAssets, 'amount');
+  const realEstate = Number(
+    assets.realEstateValue?.replaceAll(/[^0-9.-]/g, '') ?? 0,
+  );
+
+  const totAssets = sumValues(assets.monetaryAssets, 'amount');
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };
 
-export const getEmploymentHistory = ({
-  questions,
-  personalData,
-  'view:enhancedFinancialStatusReport': enhancedFSRActive,
-}) => {
+export const getEmploymentHistory = ({ questions, personalData }) => {
   const { employmentHistory } = personalData;
   let history = [];
 
@@ -292,31 +246,17 @@ export const getEmploymentHistory = ({
   }
 
   if (questions.spouseIsEmployed) {
-    if (enhancedFSRActive) {
-      const { spEmploymentRecords } = employmentHistory.spouse;
-      const spouseEmploymentHistory = spEmploymentRecords.map(employment => ({
-        ...defaultObj,
-        veteranOrSpouse: 'SPOUSE',
-        occupationName: employment.type,
-        from: dateFormatter(employment.from),
-        to: employment.isCurrent ? '' : dateFormatter(employment.to),
-        present: employment.isCurrent ? employment.isCurrent : false,
-        employerName: employment.employerName,
-      }));
-      history = [...history, ...spouseEmploymentHistory];
-    } else {
-      const { employmentRecords } = employmentHistory.spouse;
-      const spouseEmploymentHistory = employmentRecords.map(employment => ({
-        ...defaultObj,
-        veteranOrSpouse: 'SPOUSE',
-        occupationName: employment.type,
-        from: dateFormatter(employment.from),
-        to: employment.isCurrent ? '' : dateFormatter(employment.to),
-        present: employment.isCurrent ? employment.isCurrent : false,
-        employerName: employment.employerName,
-      }));
-      history = [...history, ...spouseEmploymentHistory];
-    }
+    const { spEmploymentRecords } = employmentHistory.spouse;
+    const spouseEmploymentHistory = spEmploymentRecords.map(employment => ({
+      ...defaultObj,
+      veteranOrSpouse: 'SPOUSE',
+      occupationName: employment.type,
+      from: dateFormatter(employment.from),
+      to: employment.isCurrent ? '' : dateFormatter(employment.to),
+      present: employment.isCurrent ? employment.isCurrent : false,
+      employerName: employment.employerName,
+    }));
+    history = [...history, ...spouseEmploymentHistory];
   }
 
   return history;
@@ -340,30 +280,39 @@ export const getDebtName = debt => {
     : deductionCodes[debt.deductionCode] || debt.benefitType;
 };
 
-export const getCurrentEmploymentHistoryObject = () => {
-  return null;
-};
-
 export const dateTemplate = 'YYYY-MM-DD';
 
 export const maxDate = moment().add(100, 'year');
 export const getDate = date => moment(date, dateTemplate);
 export const isDateComplete = date => date?.length === dateTemplate.length;
 export const isDateInFuture = date => date?.diff(moment()) > 0;
-export const isDateLessThanMax = date => date?.isBefore(maxDate);
+export const isDateBeyondMax = date => moment(date).isAfter(maxDate);
 
-export const isValidPastDate = date => {
+export const isValidFromDate = date => {
   if (date && isDateComplete(date)) {
     const dateObj = getDate(date);
-    return !isDateInFuture(dateObj);
+    return !isDateInFuture(dateObj) && !isDateBeyondMax(dateObj);
   }
   return false;
 };
 
-export const getDiffInDays = date => {
-  const dateDischarge = moment(date, dateTemplate);
-  const dateToday = moment();
-  return dateDischarge.diff(dateToday, 'days');
+export const isValidToDate = (fromDate, toDate) => {
+  if (
+    fromDate &&
+    toDate &&
+    isDateComplete(fromDate) &&
+    isDateComplete(toDate)
+  ) {
+    const fromDateObj = getDate(fromDate);
+    const toDateObj = getDate(toDate);
+
+    return (
+      !isDateInFuture(toDateObj) &&
+      !moment(toDateObj).isBefore(fromDateObj) &&
+      !isDateBeyondMax(toDateObj)
+    );
+  }
+  return false;
 };
 
 /**

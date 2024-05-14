@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
-import CompleteDetails from './CompleteDetails';
+import Payments from './claim-status-tab/Payments';
 
 function ClaimComplete({ completedDate }) {
   return (
@@ -15,7 +15,13 @@ function ClaimComplete({ completedDate }) {
             : null}
         </h3>
       </div>
-      <CompleteDetails className="vads-u-margin--2" />
+      <div>
+        <p>
+          We mailed you a decision letter. It should arrive within 10 days after
+          the date we decided your claim. It can sometimes take longer.
+        </p>
+        <Payments />
+      </div>
     </>
   );
 }

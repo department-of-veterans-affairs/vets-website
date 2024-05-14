@@ -1,7 +1,7 @@
 {
   "preparerIdentification": "SURVIVING_DEPENDENT",
   "benefitSelection": {
-    "SURVIVORS": true
+    "survivor": true
   },
   "survivingDependentFullName": {
     "first": "Surviving",
@@ -10,7 +10,7 @@
   },
   "survivingDependentDateOfBirth": "1980-07-12",
   "survivingDependentID": {
-    "ssn": "123456789",
+    "ssn": "223456789",
     "vaFileNumber": "12345678"
   },
   "survivingDependentMailingAddress": {
@@ -21,7 +21,7 @@
     "street3": "PI is a lie",
     "city": "APO",
     "state": "AA",
-    "postalCode": "12345"
+    "postalCode": "34055"
   },
   "survivingDependentPhone": "1234567890",
   "survivingDependentInternationalPhone": "2345678901",

@@ -29,11 +29,14 @@ describe('Appeals page test', () => {
     cy.visit('/track-claims/appeals/12/status');
 
     cy.get('h1').should('contain', 'Appeal received August 2017');
-    cy.get('h2:first-of-type').should('contain', 'Reveal past events');
-    cy.get('#tabv2status[aria-selected="true"]').should('be.visible');
+    cy.get('#tabv2status[aria-current="page"]').should('be.visible');
 
-    //  expand past events
-    cy.get('.past-events-expander button').click();
+    cy.get('.view-events-button')
+      .shadow()
+      .find('button')
+      .should('contain', 'Reveal past events')
+      .click();
+
     cy.get('#appeal-timeline li:nth-of-type(4)').should(
       'contain',
       'sent you a Statement of the Case',
@@ -77,7 +80,7 @@ describe('Appeals page test', () => {
 
     cy.get('a.ddl-link').click();
 
-    cy.get('h1').should('contain', 'Your VA claim letters');
+    cy.get('h1').should('contain', 'Your VA claim and appeal letters');
   });
 
   it('should show DDL link for post-decided appeal ', () => {
@@ -92,6 +95,6 @@ describe('Appeals page test', () => {
 
     cy.get('a.ddl-link').click();
 
-    cy.get('h1').should('contain', 'Your VA claim letters');
+    cy.get('h1').should('contain', 'Your VA claim and appeal letters');
   });
 });

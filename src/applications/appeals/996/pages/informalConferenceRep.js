@@ -1,6 +1,10 @@
-import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
+import {
+  phoneUI,
+  phoneSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
+import { emailUI } from 'platform/forms-system/src/js/web-component-patterns/emailPattern';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
 import {
   ContactRepresentativeTitle,
@@ -26,6 +30,7 @@ export default {
       'ui:title': ContactRepresentativeTitle,
       firstName: {
         'ui:title': RepresentativeFirstNameTitle,
+        'ui:webComponentField': VaTextInputField,
         'ui:required': formData => formData?.informalConference === 'rep',
         'ui:errorMessages': {
           required: errorMessages.informalConferenceContactFirstName,
@@ -34,6 +39,7 @@ export default {
       },
       lastName: {
         'ui:title': RepresentativeLastNameTitle,
+        'ui:webComponentField': VaTextInputField,
         'ui:required': formData => formData?.informalConference === 'rep',
         'ui:errorMessages': {
           required: errorMessages.informalConferenceContactLastName,
@@ -41,8 +47,9 @@ export default {
         'ui:reviewWidget': RepresentativeReviewWidget,
       },
       phone: {
-        'ui:title': RepresentativePhoneTitle,
-        'ui:widget': PhoneNumberWidget,
+        ...phoneUI({
+          title: RepresentativePhoneTitle,
+        }),
         'ui:reviewWidget': PhoneNumberReviewWidget,
         'ui:required': formData => formData?.informalConference === 'rep',
         'ui:errorMessages': {
@@ -53,10 +60,11 @@ export default {
       },
       extension: {
         'ui:title': RepresentativePhoneExtensionTitle,
+        'ui:webComponentField': VaTextInputField,
         'ui:reviewWidget': RepresentativeReviewWidget,
       },
       email: {
-        ...emailUI(RepresentativeEmailTitle),
+        ...emailUI({ title: RepresentativeEmailTitle }),
         'ui:reviewWidget': RepresentativeReviewWidget,
       },
     },
@@ -82,14 +90,7 @@ export default {
             type: 'string',
             maxLength: MAX_LENGTH.HLR_REP_LAST_NAME,
           },
-          phone: {
-            type: 'string',
-            pattern: '^[0-9]{3,21}$',
-            maxLength:
-              MAX_LENGTH.PHONE_COUNTRY_CODE +
-              MAX_LENGTH.PHONE_AREA_CODE +
-              MAX_LENGTH.PHONE_NUMBER,
-          },
+          phone: phoneSchema,
           extension: {
             type: 'string',
             pattern: '^[a-zA-Z0-9]{1,10}$',

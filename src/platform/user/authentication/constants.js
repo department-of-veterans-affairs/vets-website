@@ -1,5 +1,4 @@
 import React from 'react';
-import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
 import IDMeSVG from 'platform/user/authentication/components/IDMeSVG';
 import environment from '../../utilities/environment';
@@ -85,6 +84,7 @@ export const EXTERNAL_APPS = {
   EBENEFITS: 'ebenefits',
   VA_FLAGSHIP_MOBILE: 'vamobile',
   VA_OCC_MOBILE: 'vaoccmobile',
+  ARP: 'arp',
 };
 
 export const SIGNOUT_TYPES = {
@@ -108,10 +108,9 @@ export const EXTERNAL_REDIRECTS = {
   }patientportal.myhealth.va.gov`,
   [EXTERNAL_APPS.MHV]: `${eAuthURL}/mhv-portal-web/eauth`,
   [EXTERNAL_APPS.EBENEFITS]: `${eAuthURL}/ebenefits`,
-  [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: `https://${
-    eauthEnvironmentPrefixes[environment.BUILDTYPE]
-  }fed.eauth.va.gov/oauthe/sps/oauth/oauth20/authorize`,
+  [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: '',
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
+  [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,
 };
 
 export const GA = {
@@ -175,62 +174,3 @@ export const OCC_MOBILE_DSLOGON_ONLY = [
   '/AHBurnPitRegistry/',
   '%2FAHBurnPitRegistry%2F',
 ];
-
-export const AUTH_DEPENDENCIES = [
-  EXTERNAL_SERVICES.idme,
-  EXTERNAL_SERVICES.ssoe,
-  EXTERNAL_SERVICES.dslogon,
-  EXTERNAL_SERVICES.mhv,
-  EXTERNAL_SERVICES.mvi,
-  EXTERNAL_SERVICES.logingov,
-];
-
-export const generateCSPBanner = ({ csp }) => {
-  return {
-    headline: `You may have trouble signing in with ${
-      SERVICE_PROVIDERS[csp].label
-    }`,
-    status: 'warning',
-    message: `We’re sorry. We’re working to fix some problems with our ${
-      SERVICE_PROVIDERS[csp].label
-    } sign in process. If you’d like to sign in to VA.gov with your ${
-      SERVICE_PROVIDERS[csp].label
-    } account, please check back later.`,
-  };
-};
-
-export const DOWNTIME_BANNER_CONFIG = {
-  ...Object.keys(SERVICE_PROVIDERS).reduce(
-    (acc, cv) => ({
-      ...acc,
-      [cv]: generateCSPBanner({ csp: cv }),
-    }),
-    {},
-  ),
-  ssoe: {
-    headline: 'Our sign in process isn’t working right now',
-    status: 'error',
-    message:
-      'We’re sorry. We’re working to fix some problems with our sign in process. If you’d like to sign in to VA.gov, please check back later.',
-  },
-  mvi: {
-    headline: 'You may have trouble signing in or using some tools or services',
-    status: 'warning',
-    message:
-      'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
-  },
-};
-
-export const getStatusFromStatuses = _status => {
-  const sorted = _status
-    .sort((a, b) => {
-      if (a.service < b.service) return 1;
-      if (a.service > b.service) return -1;
-      return 0;
-    })
-    .find(k => !['active'].includes(k.status));
-
-  return sorted && AUTH_DEPENDENCIES.some(id => id === sorted.serviceId)
-    ? DOWNTIME_BANNER_CONFIG[sorted.serviceId]
-    : {};
-};

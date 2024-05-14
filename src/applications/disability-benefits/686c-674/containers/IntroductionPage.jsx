@@ -43,14 +43,14 @@ class IntroductionPage extends React.Component {
       content = (
         <>
           <h1>{PAGE_TITLE}</h1>
-          <va-alert status="info">
+          <va-alert status="info" uswds="false">
             <h2 slot="headline" className="vads-u-font-size--h3">
               We’re still working on this feature
             </h2>
             <p className="vads-u-font-size--base">
               We’re rolling out the Form 21-686c (Application to add and/or
-              remove dependents) in stages. It’s not quite ready yet. Please
-              check back again soon.{' '}
+              remove dependents) in stages. It’s not quite ready yet. Check back
+              again soon.{' '}
             </p>
             <a
               href="/view-change-dependents/"
@@ -64,9 +64,13 @@ class IntroductionPage extends React.Component {
     } else if (user?.login?.currentlyLoggedIn && hasVaFileNumber?.errors) {
       const errCode = hasVaFileNumber.errors[0].code;
       ctaState = isServerError(errCode) ? (
-        <va-alert status="error">{ServerErrorAlert}</va-alert>
+        <va-alert status="error" uswds="false">
+          {ServerErrorAlert}
+        </va-alert>
       ) : (
-        <va-alert status="error">{VaFileNumberMissingAlert}</va-alert>
+        <va-alert status="error" uswds="false">
+          {VaFileNumberMissingAlert}
+        </va-alert>
       );
       content = (
         <div className="schemaform-intro">
@@ -82,7 +86,9 @@ class IntroductionPage extends React.Component {
       content = (
         <div className="schemaform-intro">
           <IntroductionPageHeader />
-          <va-alert status="error">{VaFileNumberMissingAlert}</va-alert>
+          <va-alert status="error" uswds="false">
+            {VaFileNumberMissingAlert}
+          </va-alert>
         </div>
       );
     } else if (user?.login?.currentlyLoggedIn && isLoading) {

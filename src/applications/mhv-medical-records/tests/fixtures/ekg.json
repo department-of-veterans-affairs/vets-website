@@ -1,0 +1,17 @@
+{
+  "name": "Electrocardiogram (EKG)",
+  "category": "",
+  "orderedBy": "Beth M. Smith",
+  "requestedBy": "John J. Lydon",
+  "id": 123,
+  "date": "April 13, 2022, 5:25 a.m. MDT",
+  "facility": "school parking lot",
+  "code": {
+    "coding": [
+      {
+        "system": "http://loinc.org",
+        "code": "11524-6"
+      }
+    ]
+  }
+}

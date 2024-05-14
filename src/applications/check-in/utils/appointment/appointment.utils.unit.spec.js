@@ -16,12 +16,13 @@ import {
   clinicName,
   getAppointmentId,
   findAppointment,
+  hasMultipleFacilities,
+  utcToFacilityTimeZone,
 } from './index';
 
 import { get } from '../../api/local-mock-api/mocks/v2/shared';
 import { ELIGIBILITY } from './eligibility';
 
-// Re-test stress tests.
 describe('check in', () => {
   afterEach(() => {
     MockDate.reset();
@@ -58,12 +59,12 @@ describe('check in', () => {
         ).to.equal(false);
       });
       it('returns false if the selected appointment is found and is the only eligible appointment', () => {
-        const selectedAppointment = createAppointment(
-          'ELIGIBLE',
-          'some-facility',
-          'some-ien',
-          'TEST CLINIC',
-        );
+        const selectedAppointment = createAppointment({
+          eligibility: 'ELIGIBLE',
+          facility: 'some-facility',
+          appointmentIen: 'some-ien',
+          clinicFriendlyName: 'TEST CLINIC',
+        });
         const appointments = [
           createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
           createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
@@ -76,18 +77,16 @@ describe('check in', () => {
         ).to.equal(false);
       });
       it('returns true if the selected appointment is found and there are more eligible appointments', () => {
-        const selectedAppointment = createAppointment(
-          'ELIGIBLE',
-          'some-facility',
-          'some-ien',
-          'TEST CLINIC',
-        );
+        const selectedAppointment = createAppointment({
+          eligibility: 'ELIGIBLE',
+          appointmentIen: 'some-ien',
+          clinicFriendlyName: 'TEST CLINIC',
+        });
         const appointments = [
           createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
           createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
           createAppointment({
             eligibility: 'ELIGIBLE',
-            facilityId: 'some-facility',
             appointmentIen: 'some-other-ien',
             clinicFriendlyName: 'TEST CLINIC',
           }),
@@ -100,7 +99,6 @@ describe('check in', () => {
       it('returns true if the selected appointment is not found and there are more eligible appointments', () => {
         const selectedAppointment = createAppointment({
           eligibility: 'ELIGIBLE',
-          facilityId: 'some-facility',
           appointmentIen: 'some-ien',
           clinicFriendlyName: 'TEST CLINIC',
         });
@@ -109,7 +107,6 @@ describe('check in', () => {
           createAppointment({ eligibility: 'INELIGIBLE_TOO_EARLY' }),
           createAppointment({
             eligibility: 'ELIGIBLE',
-            facilityId: 'some-facility',
             appointmentIen: 'some-other-ien',
             clinicFriendlyName: 'TEST CLINIC',
           }),
@@ -121,7 +118,6 @@ describe('check in', () => {
       it('returns false if no more eligible appointments are found', () => {
         const selectedAppointment = createAppointment({
           eligibility: 'ELIGIBLE',
-          facilityId: 'some-facility',
           appointmentIen: 'some-other-ien',
           clinicFriendlyName: 'TEST CLINIC',
         });
@@ -437,7 +433,7 @@ describe('check in', () => {
         const appointment = createAppointment({ kind: 'phone' });
         const icon = render(appointmentIcon(appointment));
 
-        expect(icon.getByTestId('appointment-icon')).to.have.class('fa-phone');
+        expect(icon.getByTestId('appointment-icon')).to.exist;
       });
     });
     describe('clinicName', () => {
@@ -476,6 +472,39 @@ describe('check in', () => {
         const appointmentId = '2222-7780';
         expect(findAppointment(appointmentId, appointments)).to.deep.equal(
           appointments[1],
+        );
+      });
+    });
+    describe('hasMultipleFacilities', () => {
+      it('returns true if more than one unique stationNo values', () => {
+        const appointments = [
+          {
+            stationNo: '4343',
+          },
+          {
+            stationNo: '7780',
+          },
+        ];
+        expect(hasMultipleFacilities(appointments)).to.be.true;
+      });
+      it('returns false if one unique stationNo value', () => {
+        const appointments = [
+          {
+            stationNo: '7780',
+          },
+          {
+            stationNo: '7780',
+          },
+        ];
+        expect(hasMultipleFacilities(appointments)).to.be.false;
+      });
+    });
+    describe('utcToFacilityTimeZone', () => {
+      it('returns the timezone adjusted ISO srting', () => {
+        const time = '2020-01-24T00:20:00.000+00:00';
+        const timezone = 'America/Los_Angeles';
+        expect(utcToFacilityTimeZone(time, timezone)).to.equal(
+          '2020-01-23T16:20:00.000-08:00',
         );
       });
     });

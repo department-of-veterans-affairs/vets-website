@@ -20,7 +20,7 @@ import { createMockFacilityByVersion } from '../../mocks/data';
 import { mockSchedulingConfigurations } from '../../mocks/helpers.v2';
 import { getSchedulingConfigurationMock } from '../../mocks/v2';
 
-describe('VAOS Location service', () => {
+describe('VAOS Services: Location ', () => {
   describe('getLocations', () => {
     let data;
 

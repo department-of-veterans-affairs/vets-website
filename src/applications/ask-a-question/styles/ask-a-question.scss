@@ -26,7 +26,7 @@ ul.claim-list {
 }
 
 .help-footer-box {
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     padding-top: 3.0rem;
   }
 }

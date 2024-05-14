@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { formatDate } from '../../utils/helpers/general';
 import { normalizeFullName } from '../../utils/helpers';
 
 const GuestVerifiedInformation = ({ user }) => {
@@ -12,15 +12,15 @@ const GuestVerifiedInformation = ({ user }) => {
   const veteranSSN = `xxx-xx-${veteranSocialSecurityNumber.substring(
     veteranSocialSecurityNumber.length - 4,
   )}`;
-  const veteranDOB = moment(veteranDateOfBirth).format('MMMM DD, YYYY');
+  const veteranDOB = formatDate(veteranDateOfBirth, 'MMMM dd, yyyy');
   const veteranName = normalizeFullName(veteranFullName, true);
   return (
     <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
       <p data-testid="hca-guest-confirm-intro">
         Confirm your information before you continue.
       </p>
-      <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-padding-y--1 vads-u-margin-bottom--3">
-        <dl className="vads-u-padding-left--1 vads-u-margin-y--0">
+      <div className="va-address-block vads-u-margin-y--3">
+        <dl>
           <div data-testid="hca-veteran-fullname">
             <dt className="vads-u-visibility--screen-reader">Full name:</dt>
             <dd

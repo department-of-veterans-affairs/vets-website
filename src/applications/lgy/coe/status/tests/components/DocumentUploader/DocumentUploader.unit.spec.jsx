@@ -20,7 +20,7 @@ describe('DocumentUploader', () => {
 
     const fileInput = document.querySelector('va-file-input');
     expect(fileInput.getAttribute('error')).to.equal(
-      'Please choose a file to upload.',
+      'Choose a file to upload.',
     );
   });
 

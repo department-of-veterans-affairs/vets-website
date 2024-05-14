@@ -13,7 +13,7 @@
       justify-content: space-between;
       margin-bottom: 0;
       padding: 12px 0;
-      border-top: 1px solid $color-gray-light;
+      border-top: 1px solid var(--vads-color-base-light);
     }
 
     .income-limits-edit {
@@ -37,6 +37,16 @@
   .income-limits-breadcrumbs {
     &:focus {
       outline: none;
+    }
+  }
+
+  va-button-pair {
+    margin-left: -4px;
+    margin-right: -4px;
+
+    @media screen and (min-width: 480px) {
+      margin-left: 4px;
+      margin-right: 4px;
     }
   }
 }

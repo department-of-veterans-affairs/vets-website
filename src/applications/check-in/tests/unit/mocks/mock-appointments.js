@@ -11,7 +11,6 @@ const singleAppointment = [
     startTime: '2022-01-03T14:56:04.788Z',
     stationNo: '0001',
     eligibility: 'ELIGIBLE',
-    facilityId: 'some-facility',
     kind: 'clinic',
     clinicIen: '0001',
     checkInWindowStart: '2022-01-03T14:56:04.788Z',
@@ -41,6 +40,14 @@ const multipleAppointments = [
   {
     ...singleAppointment[0],
     appointmentIen: 'some-other-ien',
+  },
+  {
+    ...singleAppointment[0],
+    appointmentIen: 'cvt-ien',
+  },
+  {
+    ...singleAppointment[0],
+    appointmentIen: 'vvc-ien',
   },
 ];
 

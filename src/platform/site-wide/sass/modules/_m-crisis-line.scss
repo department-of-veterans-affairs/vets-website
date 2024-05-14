@@ -1,7 +1,7 @@
 .va-crisis-line-container {
   position: relative;
   margin: auto;
-  background-color: $red-60v;
+  background-color: var(--vads-color-secondary-dark);
 
   @include media($small-desktop-screen) {
     max-width: 97.5rem;
@@ -10,10 +10,10 @@
 }
 
 button.va-crisis-line {
-  background-color: $red-60v;
+  background-color: var(--vads-color-secondary-dark);
   display: block;
   border-radius: 0;
-  color: $color-white;
+  color: var(--vads-color-white);
   font-size: 16px;
   font-weight: normal;
   text-decoration: none;
@@ -29,11 +29,13 @@ button.va-crisis-line {
     outline-offset: -2px;
   }
 
-  &:hover, &:active {
-    background-color: $red-70v;
+  &:hover,
+  &:active {
+    background-color: var(--vads-color-secondary-darkest);
+
     .va-crisis-line-icon {
       @include media($small-desktop-screen) {
-        background-color: $red-60v;
+        background-color: var(--vads-color-secondary-dark);
       }
     }
   }
@@ -44,7 +46,7 @@ button.va-crisis-line {
     right: 0;
     bottom: -12px;
     border-radius: 0 0 0.2em 0.2em;
-    box-shadow: 0 2px 5px $color-base;
+    box-shadow: 0 2px 5px var(--vads-color-base);
   }
 }
 
@@ -74,7 +76,7 @@ button.va-crisis-line {
   transition-property: background-color;
 
   @include media($small-desktop-screen) {
-    background-color: $red-70v;
+    background-color: var(--vads-color-secondary-darkest);
     background-position: 0.4em 0.5em;
     border-bottom-left-radius: 0.2em;
   }
@@ -92,55 +94,80 @@ button.va-crisis-line {
 }
 
 .va-crisis-panel {
-  color: $color-base;
+  color: var(--vads-color-base);
+
+  li:nth-child(odd) {
+    border-bottom: none;
+  }
+
   &-body {
     padding: 1.5em;
     max-height: 100%;
   }
+
   &-title {
-    color: $color-base;
+    color: var(--vads-color-base);
     padding-left: 41px;
     background: url(/img/vcl-logo.png) no-repeat left;
     background-position: left 5px;
     background-size: 32px auto;
+    margin-top: 0;
+    width: 90%;
   }
+
   &-list {
     list-style: none;
     padding: 0;
+
     > li {
       display: flex;
       min-height: 56px;
       margin-bottom: 0;
-      border-top: 1px solid $color-gray-light;
+      border-top: 1px solid var(--vads-color-base-light);
+
       &:last-child {
-        border-bottom: 1px solid $color-gray-light;
+        border-bottom: 1px solid var(--vads-color-base-light);
       }
+
       > a {
-        padding: 0.5em 0;
+        color: var(--vads-color-link);
+        text-decoration: underline;
         align-self: center;
+      }
+
+      > p {
+        color: var(--vads-color-link);
+        text-decoration: underline;
+        margin-bottom: 0;
+      }
+
+      > p > a {
+        color: var(--vads-color-link);
+        padding: 0;
       }
     }
   }
+
   &-icon {
-    color: $color-base !important;
+    color: var(--vads-color-base) !important;
     font-size: 26px;
     width: 46px;
     padding: 0.4em 0.3em;
     align-self: center;
     flex-shrink: 0;
     font-family: "Font Awesome 5 Free";
+
     &.fa-mobile {
       font-size: 38px;
       padding: 0.15em 0.3em;
     }
   }
+
   &-close.va-modal-close {
-    font-size: 4rem;
-    color: $color-link-default;
     padding-top: 0.1rem;
+
     &:hover {
-      color: $color-black;
-      background-color: transparent;
+      fill: var(--vads-color-black);
     }
   }
 }
@@ -148,4 +175,8 @@ button.va-crisis-line {
 .va-modal-large .va-crisis-panel.va-modal-inner {
   width: 90vw;
   max-width: 75rem;
+}
+
+.va-crisis-panel-close:hover svg path {
+  fill: var(--vads-color-black);
 }

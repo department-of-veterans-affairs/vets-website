@@ -1,5 +1,6 @@
 import { rest } from 'msw';
-import environment from 'platform/utilities/environment';
+import mockDisabilityCompensation from '@@profile/mocks/endpoints/disability-compensations';
+import environment from '~/platform/utilities/environment';
 
 import mockDD4CNPSuccess from './tests/fixtures/dd4cnp/dd4cnp-is-set-up.json';
 import mockDD4EDUSuccess from './tests/fixtures/dd4edu/dd4edu-enrolled.json';
@@ -35,53 +36,32 @@ const prefix = environment.API_URL;
 
 export const updateDD4CNPSuccess = [
   rest.put(
-    // I'd prefer to just set the route as `ppiu/payment_information` or at least `v0/ppiu/payment_information`
-    `${prefix}/v0/ppiu/payment_information`,
+    `${prefix}/v0/profile/direct_deposits/disability_compensations`,
     (req, res, ctx) => {
-      return res(
-        ctx.json({
-          data: {
-            attributes: {
-              responses: [
-                {
-                  paymentAccount: newPaymentAccount,
-                },
-              ],
-            },
-          },
-        }),
-      );
+      return res(ctx.json(mockDisabilityCompensation.updates.success));
     },
   ),
 ];
 
 export const updateDD4CNPFailure = [
-  rest.put(`${prefix}/v0/ppiu/payment_information`, (req, res, ctx) => {
-    return res(
-      ctx.status(422),
-      ctx.json({
-        errors: [
-          {
-            title: 'Unprocessable Entity',
-            detail: 'One or more unprocessable user payment properties',
-            code: '126',
-            source: 'EVSS::PPIU::Service',
-            status: '422',
-            meta: {
-              messages: [
-                {
-                  key: 'cnp.payment.generic.error.message',
-                  severity: 'ERROR',
-                  text:
-                    'Generic CnP payment update error. Update response: Update Failed: Night area number is invalid, must be 3 digits',
-                },
-              ],
-            },
-          },
-        ],
-      }),
-    );
-  }),
+  rest.put(
+    `${prefix}/v0/profile/direct_deposits/disability_compensations`,
+    (req, res, ctx) => {
+      return res(
+        ctx.status(422),
+        ctx.json(mockDisabilityCompensation.updates.errors.generic),
+      );
+    },
+  ),
+];
+
+export const apmTelemetry = [
+  rest.post(
+    `http://127.0.0.1:8126/telemetry/proxy/api/v2/apmtelemetry`,
+    (req, res, ctx) => {
+      return res(ctx.status(200));
+    },
+  ),
 ];
 
 // Response when successfully creating a transaction request. This body mentions
@@ -216,6 +196,18 @@ export const transactionSucceeded = [
             metadata: [],
           },
         },
+      }),
+    );
+  }),
+];
+
+// When the profile first loads, it will make a request to get the user's transaction status
+// This is the response when there are no transactions in progress
+export const rootTransactionStatus = [
+  rest.get(`${prefix}/v0/profile/status/`, (req, res, ctx) => {
+    return res(
+      ctx.json({
+        data: [],
       }),
     );
   }),
@@ -870,10 +862,6 @@ export const getServiceHistory500 = [
 
 export const getServiceHistory401 = [
   rest.get(`${prefix}/v0/profile/service_history`, errorResponseHandler401),
-];
-
-export const getDD4CNPFailure = [
-  rest.get(`${prefix}/v0/ppiu/payment_information`, errorResponseHandler401),
 ];
 
 export const getDD4EDUFailure = [

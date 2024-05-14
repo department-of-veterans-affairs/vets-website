@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import {
   setPageFocus,
   ALERT_TYPES,
@@ -10,7 +11,6 @@ import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import DebtCardsList from '../components/DebtCardsList';
 import OnThisPageLinks from '../components/OnThisPageLinks';
-import '../sass/debt-letters.scss';
 // TODO: OtherVA Update
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
@@ -89,12 +89,24 @@ const DebtLettersSummary = () => {
 
   return (
     <>
-      <va-breadcrumbs label="Breadcrumb">
-        <a href="/">Home</a>
-        <a href="/manage-va-debt/">Manage your VA debt</a>
-        <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
-        <Link to="/debt-balances">Current VA debt</Link>
-      </va-breadcrumbs>
+      <VaBreadcrumbs
+        breadcrumbList={[
+          {
+            href: '/',
+            label: 'Home',
+          },
+          {
+            href: '/manage-va-debt/summary',
+            label: 'Your VA debt and bills',
+          },
+          {
+            href: '/manage-va-debt/summary/debt-balances',
+            label: 'Current VA debt',
+          },
+        ]}
+        label="Breadcrumb"
+        wrapping
+      />
       <div
         className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8"
         data-testid="current-va-debt"
@@ -105,7 +117,7 @@ const DebtLettersSummary = () => {
         >
           Current VA debt
         </h1>
-        <p className="va-introtext vads-u-margin-top--0 vads-u-margin-bottom--2">
+        <p className="va-introtext">
           Check the details of VA debt you might have related to your education,
           disability compensation, or pension benefits. Find out how to pay your
           debt and what to do if you need financial assistance.

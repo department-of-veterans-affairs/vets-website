@@ -28,7 +28,7 @@ function AutoSSO(props) {
     removeLoginAttempted();
   }
 
-  const badPaths = ['auth/login/callback', 'logout', 'terms-of-use'];
+  const badPaths = ['auth/login/callback', 'logout'];
   const isValidPath = !badPaths.some(path =>
     window.location.pathname.includes(path),
   );

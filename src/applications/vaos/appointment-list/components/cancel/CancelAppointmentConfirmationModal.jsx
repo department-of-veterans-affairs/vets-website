@@ -1,7 +1,7 @@
 import React from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import LoadingButton from '@department-of-veterans-affairs/platform-site-wide/LoadingButton';
 import { FETCH_STATUS } from '../../../utils/constants';
 
 function getAlertText(isConfirmed) {
@@ -36,6 +36,7 @@ export default function CancelAppointmentConfirmationModal({
       hideCloseButton={status === FETCH_STATUS.loading}
       modalTitle={alertTitle}
       role="alertdialog"
+      uswds
     >
       {alertText}
       <p className="vads-u-margin-top--2">
@@ -46,14 +47,13 @@ export default function CancelAppointmentConfirmationModal({
         >
           Yes, cancel this {typeText}
         </LoadingButton>
-        <button
-          type="button"
-          className="usa-button-secondary"
+        <va-button
+          text="No, don't cancel"
+          secondary
           onClick={onClose}
           disabled={status === FETCH_STATUS.loading}
-        >
-          No, don’t cancel
-        </button>
+          uswds
+        />
       </p>
     </VaModal>
   );

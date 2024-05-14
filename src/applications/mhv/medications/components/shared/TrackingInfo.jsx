@@ -37,7 +37,7 @@ const TrackingInfo = ({
 
   return (
     <div className="clearfix tracking-info vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3 vads-u-border-left--7px vads-u-border-color--primary">
-      <h2 className="vads-u-margin-y--0">
+      <h2 className="vads-u-margin-y--0" data-testid="track-package">
         <i
           className="fa fa-info-circle vads-u-margin-right--1"
           aria-hidden="true"
@@ -66,7 +66,10 @@ const TrackingInfo = ({
         <h4 className="vads-u-font-size--base vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--0p5 vads-u-margin-bottom--0p5 vads-u-margin-right--0p5 left">
           Shipped on:
         </h4>
-        <span className="vads-u-line-height--4 vads-u-margin-top--0p5 vads-u-margin-bottom--0p5 left">
+        <span
+          data-testid="shipping-date"
+          className="vads-u-line-height--4 vads-u-margin-top--0p5 vads-u-margin-bottom--0p5 left"
+        >
           {dateFormat(completeDateTime, 'MMMM D, YYYY')}
         </span>
       </>
@@ -74,7 +77,10 @@ const TrackingInfo = ({
         <h4 className="vads-u-font-size--base vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-margin-right--0p5 left">
           Prescriptions in this package:
         </h4>
-        <span className="vads-u-line-height--4 vads-u-margin-top--0p5 vads-u-margin-bottom--0 left">
+        <span
+          className="vads-u-line-height--4 vads-u-margin-top--0p5 vads-u-margin-bottom--0 left"
+          data-testid="rx-name"
+        >
           {prescriptionName}
         </span>
       </>

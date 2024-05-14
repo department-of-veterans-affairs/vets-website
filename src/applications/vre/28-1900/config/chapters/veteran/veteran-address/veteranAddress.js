@@ -39,7 +39,7 @@ export const uiSchema = {
     },
     'ui:title': 'Main phone number',
     'ui:errorMessages': {
-      pattern: 'Please enter only numbers, no dashes or parentheses',
+      pattern: 'Enter only numbers, no dashes or parentheses',
     },
   },
   cellPhone: {
@@ -49,7 +49,7 @@ export const uiSchema = {
     },
     'ui:title': 'Cell phone number',
     'ui:errorMessages': {
-      pattern: 'Please enter only numbers, no dashes or parentheses',
+      pattern: 'Enter only numbers, no dashes or parentheses',
     },
   },
   email: emailUI(),

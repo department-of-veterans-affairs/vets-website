@@ -8,9 +8,9 @@ import migrations from '../migrations';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import GetFormHelp from '../content/GetFormHelp';
+import SubTaskContainer from '../subtask/SubTaskContainer';
 
-import AddIssue from '../components/AddIssue';
+import AddContestableIssue from '../components/AddContestableIssue';
 import PrimaryPhone from '../components/PrimaryPhone';
 import PrimaryPhoneReview from '../components/PrimaryPhoneReview';
 import EvidenceVaRecords from '../components/EvidenceVaRecords';
@@ -33,7 +33,9 @@ import optIn from '../pages/optIn';
 import notice5103 from '../pages/notice5103';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
+import evidenceVaRecords from '../pages/evidenceVaRecords';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
+import evidencePrivateRecords from '../pages/evidencePrivateRecords';
 import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
 import evidenceSummary from '../pages/evidenceSummary';
@@ -68,6 +70,7 @@ import fullSchema from './form-0995-schema.json';
 
 import { focusEvidence, focusUploads } from '../utils/focus';
 
+import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { focusAlertH3, focusRadioH3 } from '../../shared/utils/focus';
 import { appStateSelector } from '../../shared/utils/issues';
@@ -92,7 +95,12 @@ const formConfig = {
   // verifyRequiredPrefill: true,
   downtime: {
     requiredForPrefill: true,
-    dependencies: [services.vaProfile],
+    dependencies: [
+      services.vaProfile, // for contact info
+      services.bgs, // submission
+      services.mvi, // contestable issues
+      services.appeals, // LOA3 & SSN
+    ],
   },
   saveInProgress,
   savedFormMessages,
@@ -106,6 +114,18 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+  // Fix double headers (only show v3)
+  v3SegmentedProgressBar: true,
+
+  additionalRoutes: [
+    {
+      path: 'start',
+      component: SubTaskContainer,
+      pageKey: 'start',
+      depends: () => false,
+    },
+  ],
+
   chapters: {
     infoPages: {
       title: 'Veteran information',
@@ -146,7 +166,7 @@ const formConfig = {
           title: 'Add issues for review',
           path: ADD_ISSUE_PATH,
           depends: () => false, // accessed from contestable issues
-          CustomPage: AddIssue,
+          CustomPage: AddContestableIssue,
           CustomPageReview: null,
           uiSchema: {},
           schema: blankSchema,
@@ -188,7 +208,7 @@ const formConfig = {
           path: EVIDENCE_VA_REQUEST,
           uiSchema: evidenceVaRecordsRequest.uiSchema,
           schema: evidenceVaRecordsRequest.schema,
-          scrollAndFocusTarget: focusAlertH3,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceVaRecords: {
           title: 'VA medical records',
@@ -196,8 +216,8 @@ const formConfig = {
           depends: hasVAEvidence,
           CustomPage: EvidenceVaRecords,
           CustomPageReview: null,
-          uiSchema: blankUiSchema,
-          schema: blankSchema,
+          uiSchema: evidenceVaRecords.uiSchema,
+          schema: evidenceVaRecords.schema,
           hideHeaderRow: true,
           scrollAndFocusTarget: focusEvidence,
         },
@@ -225,8 +245,8 @@ const formConfig = {
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateRecords,
           CustomPageReview: null,
-          uiSchema: blankUiSchema,
-          schema: blankSchema,
+          uiSchema: evidencePrivateRecords.uiSchema,
+          schema: evidencePrivateRecords.schema,
           scrollAndFocusTarget: focusEvidence,
         },
         evidencePrivateLimitation: {
@@ -243,7 +263,7 @@ const formConfig = {
           path: EVIDENCE_ADDITIONAL_PATH,
           uiSchema: evidenceWillUpload.uiSchema,
           schema: evidenceWillUpload.schema,
-          scrollAndFocusTarget: focusAlertH3,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceUpload: {
           title: 'Uploaded evidence',

@@ -1,11 +1,11 @@
 import {
   defaultFocusSelector,
   focusElement,
+  focusByOrder,
   scrollTo,
-  scrollToTop,
   waitForRenderThenFocus,
-} from 'platform/utilities/ui';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+} from '~/platform/utilities/ui';
+import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
 
 import { LAST_ISSUE } from '../constants';
 
@@ -20,7 +20,7 @@ export const focusIssue = (_index, root, value) => {
       focusElement('.add-new-issue', null, root);
     } else if (id) {
       const card = $(`#issue-${id}`, root);
-      scrollTo(card);
+      scrollTo(`issue-${id}`);
       if (type === 'remove-cancel') {
         const remove = $('.remove-issue', card)?.shadowRoot;
         waitForRenderThenFocus('button', remove);
@@ -30,25 +30,73 @@ export const focusIssue = (_index, root, value) => {
         focusElement('.edit-issue-link', null, card);
       }
     } else {
-      scrollToTop('h3');
+      scrollTo('h3');
       focusElement('h3');
     }
   });
 };
 
+// Focus on upload file card instead of delete button
+export const focusFileCard = (name, root) => {
+  const target = $$('.schemaform-file-list li', root).find(entry =>
+    $('strong', entry)
+      .textContent?.trim()
+      .includes(name),
+  );
+  if (target) {
+    scrollTo(target.id);
+    const select = $('va-select', target);
+    if (select) {
+      focusElement('select', {}, select.shadowRoot);
+    } else {
+      focusElement(target);
+    }
+  }
+};
+
+// Focus on add another button after deleting & after removing all files
+export const focusAddAnotherButton = root => {
+  // Add a timeout to allow for the upload button to reappear in the DOM
+  // before trying to focus on it
+  setTimeout(() => {
+    scrollTo($('#upload-wrap', root));
+    // focus on upload button, not the label
+    focusElement(
+      // including `#upload-button` because RTL can't access the shadowRoot
+      'button, #upload-button',
+      {},
+      $(`#upload-button`, root)?.shadowRoot,
+    );
+  }, 100);
+};
+
+// Focus on the 'Cancel' button when a file is being uploaded
+export const focusCancelButton = root => {
+  setTimeout(() => {
+    const cancel = $('.schemaform-file-uploading .cancel-upload', root);
+    if (cancel) {
+      focusElement(
+        'button', // in shadow DOM
+        {},
+        cancel?.shadowRoot,
+      );
+    }
+  }, 100);
+};
+
 export const focusRadioH3 = () => {
-  scrollToTop();
+  scrollTo('topContentElement');
   const radio = $('va-radio');
   if (radio) {
     // va-radio content doesn't immediately render
     waitForRenderThenFocus('h3', radio.shadowRoot);
   } else {
-    focusElement(defaultFocusSelector);
+    focusByOrder(['#main h3', defaultFocusSelector]);
   }
 };
 
 export const focusAlertH3 = () => {
-  scrollTo('h3');
+  scrollTo('topContentElement');
   // va-alert header is not in the shadow DOM, but still the content doesn't
   // immediately render
   waitForRenderThenFocus('h3');

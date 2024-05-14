@@ -40,7 +40,7 @@ describe('ezr auth status selectors', () => {
     });
 
     context('when the user is logged in', () => {
-      context('when the user is not LOA3', () => {
+      context('when the user is LOA1', () => {
         it('should set the correct part of the state', () => {
           const state = {
             user: {
@@ -52,9 +52,12 @@ describe('ezr auth status selectors', () => {
               },
             },
           };
-          const { isLoggedOut, isUserLOA3 } = selectAuthStatus(state);
+          const { isLoggedOut, isUserLOA1, isUserLOA3 } = selectAuthStatus(
+            state,
+          );
           expect(isLoggedOut).to.be.false;
           expect(isUserLOA3).to.be.false;
+          expect(isUserLOA1).to.be.true;
         });
       });
 
@@ -71,9 +74,12 @@ describe('ezr auth status selectors', () => {
               },
             },
           };
-          const { isLoggedOut, isUserLOA3 } = selectAuthStatus(state);
+          const { isLoggedOut, isUserLOA1, isUserLOA3 } = selectAuthStatus(
+            state,
+          );
           expect(isLoggedOut).to.be.false;
           expect(isUserLOA3).to.be.true;
+          expect(isUserLOA1).to.be.false;
         });
       });
     });

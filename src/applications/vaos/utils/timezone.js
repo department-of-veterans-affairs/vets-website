@@ -11,7 +11,7 @@ const TIMEZONE_LABELS = {
 };
 
 export function stripDST(abbr) {
-  if (/^[PMCE][DS]T$/.test(abbr)) {
+  if (/^[PMCE][DS]T$|^AK[DS]T$/.test(abbr)) {
     return abbr?.replace('ST', 'T').replace('DT', 'T');
   }
 
@@ -28,6 +28,21 @@ export function getTimezoneByFacilityId(id) {
   }
 
   return timezones[id.substr(0, 3)];
+}
+
+export function getTimezoneAbbrFromApi(appointment) {
+  const appointmentTZ = appointment?.timezone;
+  let timeZoneAbbr = appointmentTZ
+    ? moment(appointment.start)
+        .tz(appointmentTZ)
+        .format('z')
+    : null;
+
+  // Strip out middle char in abbreviation so we can ignore DST
+  if (appointmentTZ?.includes('America')) {
+    timeZoneAbbr = stripDST(timeZoneAbbr);
+  }
+  return timeZoneAbbr;
 }
 
 export function getTimezoneAbbrByFacilityId(id) {

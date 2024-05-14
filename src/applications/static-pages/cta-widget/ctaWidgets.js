@@ -1,7 +1,8 @@
 // Relative imports.
-import backendServices from 'platform/user/profile/constants/backendServices';
-import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import { getAppUrl } from 'platform/utilities/registry-helpers';
+import backendServices from '~/platform/user/profile/constants/backendServices';
+import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { getAppUrl } from '~/platform/utilities/registry-helpers';
 import { MHV_ACCOUNT_TYPES } from './constants';
 
 const viewDependentsUrl = getAppUrl('dependents-view-dependents');
@@ -21,7 +22,10 @@ export const CTA_WIDGET_TYPES = {
   DIRECT_DEPOSIT: 'direct-deposit',
   DISABILITY_BENEFITS: 'disability-benefits',
   DISABILITY_RATINGS: 'disability-ratings',
+  EDUCATION_LETTERS: 'education-letters',
+  ENROLLMENT_VERIFICATION: 'enrollment-verification',
   GI_BILL_BENEFITS: 'gi-bill-benefits',
+  HA_CPAP_SUPPLIES: 'ha-cpap-supplies',
   HEALTH_RECORDS: 'health-records',
   HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
   HIGHER_LEVEL_REVIEW: 'higher-level-review',
@@ -32,14 +36,13 @@ export const CTA_WIDGET_TYPES = {
   MESSAGING: 'messaging',
   RX: 'rx',
   SCHEDULE_APPOINTMENTS: 'schedule-appointments',
+  UPDATE_HEALTH_BENEFITS_INFO: 'update-health-benefits-info',
   VETERAN_ID_CARD: 'vic',
   VET_TEC: 'vet-tec',
   VIEW_APPOINTMENTS: 'view-appointments',
   VIEW_DEPENDENTS: 'view-dependents',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
   VRRAP: 'vrrap',
-  EDUCATION_LETTERS: 'education-letters',
-  ENROLLMENT_VERIFICATION: 'enrollment-verification',
 };
 
 export const ctaWidgetsLookup = {
@@ -83,7 +86,7 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.COMBINED_DEBT_PORTAL,
     deriveToolUrlDetails: () => ({
       url: '/manage-va-debt/summary',
-      redirect: false,
+      redirect: true,
     }),
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
@@ -138,6 +141,19 @@ export const ctaWidgetsLookup = {
     mhvToolName: null,
     requiredServices: backendServices.EVSS_CLAIMS,
     serviceDescription: 'check your GI Bill Benefits',
+  },
+  [CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES]: {
+    id: CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES,
+    deriveToolUrlDetails: () => ({
+      url: '/health-care/order-hearing-aid-or-CPAP-supplies-form',
+      redirect: true,
+    }),
+    hasRequiredMhvAccount: () => false,
+    isHealthTool: false,
+    mhvToolName: null,
+    requiredServices: null,
+    serviceDescription: 'order hearing aid batteries and accessories online',
+    featureToggle: featureFlagNames.haCpapSuppliesCta,
   },
   [CTA_WIDGET_TYPES.HEALTH_RECORDS]: {
     id: CTA_WIDGET_TYPES.HEALTH_RECORDS,
@@ -215,7 +231,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.MANAGE_VA_DEBT]: {
     id: CTA_WIDGET_TYPES.MANAGE_VA_DEBT,
     deriveToolUrlDetails: () => ({
-      url: '/manage-va-debt/your-debt',
+      url: '/manage-va-debt/summary/debt-balances',
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
@@ -263,6 +279,18 @@ export const ctaWidgetsLookup = {
     mhvToolName: 'VA Appointments',
     requiredServices: null,
     serviceDescription: 'view, schedule, or cancel your appointment online',
+  },
+  [CTA_WIDGET_TYPES.UPDATE_HEALTH_BENEFITS_INFO]: {
+    id: CTA_WIDGET_TYPES.UPDATE_HEALTH_BENEFITS_INFO,
+    deriveToolUrlDetails: () => ({
+      url: '/my-health/update-benefits-information-form-10-10ezr',
+      redirect: true,
+    }),
+    hasRequiredMhvAccount: () => false,
+    isHealthTool: false,
+    mhvToolName: null,
+    requiredServices: null,
+    serviceDescription: 'update your health benefits information',
   },
   [CTA_WIDGET_TYPES.VETERAN_ID_CARD]: {
     id: CTA_WIDGET_TYPES.VETERAN_ID_CARD,

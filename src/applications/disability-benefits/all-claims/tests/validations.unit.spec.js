@@ -1,6 +1,7 @@
 import { add, format } from 'date-fns';
 import sinon from 'sinon';
 import { expect } from 'chai';
+import moment from 'moment';
 
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
 
@@ -9,7 +10,6 @@ import {
   isWithinServicePeriod,
   startedAfterServicePeriod,
   oneDisabilityRequired,
-  hasMonthYear,
   validateDisabilityName,
   validateBooleanGroup,
   validateAge,
@@ -18,6 +18,12 @@ import {
   isLessThan180DaysInFuture,
   title10BeforeRad,
   validateTitle10StartDate,
+  requireRatedDisability,
+  hasTrainingPay,
+  isValidZIP,
+  validateZIP,
+  limitNewDisabilities,
+  requireSeparationLocation,
 } from '../validations';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';
@@ -27,6 +33,57 @@ const formatDate = date => format(date, 'yyyy-MM-dd');
 const daysFromToday = days => formatDate(add(new Date(), { days }));
 
 describe('526 All Claims validations', () => {
+  describe('hasTrainingPay', () => {
+    it('returns true when form data has training pay', () => {
+      const formData = {
+        'view:hasTrainingPay': true,
+      };
+      expect(hasTrainingPay(formData)).to.be.true;
+    });
+
+    it('returns false when form data does not have training pay', () => {
+      expect(hasTrainingPay({})).to.be.false;
+    });
+  });
+
+  describe('isValidZIP', () => {
+    it('returns true for valid 5 digit zip', () => {
+      expect(isValidZIP(12345)).to.be.true;
+    });
+
+    it('returns true for valid 9 digit zip', () => {
+      expect(isValidZIP('12345-7890')).to.be.true;
+    });
+
+    it('returns false for invalid zip', () => {
+      expect(isValidZIP('test')).to.be.false;
+    });
+
+    it('returns true for null zip', () => {
+      expect(isValidZIP(null)).to.be.true;
+    });
+  });
+
+  describe('validateZIP', () => {
+    it('does not add error for valid zip', () => {
+      const err = {
+        addError: sinon.spy(),
+      };
+
+      validateZIP(err, '12345');
+      expect(err.addError.called).to.be.false;
+    });
+
+    it('adds error for invalid zip', () => {
+      const err = {
+        addError: sinon.spy(),
+      };
+
+      validateZIP(err, 'happy halloween!');
+      expect(err.addError.called).to.be.true;
+    });
+  });
+
   describe('isValidYear', () => {
     it('should add an error if the year is not a number', () => {
       const err = {
@@ -160,6 +217,31 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).to.be.false;
     });
 
+    it('should not add error if treatment start date year is the same as earliest active service start date year', () => {
+      const err = { addError: sinon.spy() };
+
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { from: '2003-03-12' }, serviceBranch: 'Army' },
+            {
+              dateRange: { from: '2000-01-14' },
+              serviceBranch: 'Coast Guard Reserves',
+            },
+            { dateRange: { from: '2011-12-25' }, serviceBranch: 'Coast Guard' },
+            // ignored
+            {
+              dateRange: { from: '1990-10-11' },
+              serviceBranch: '',
+            },
+          ],
+        },
+      };
+
+      startedAfterServicePeriod(err, '2000-XX-XX', formData);
+      expect(err.addError.called).to.be.false;
+    });
+
     it('should not add error if treatment start date is after earliest active service start date', () => {
       const err = { addError: sinon.spy() };
 
@@ -183,6 +265,31 @@ describe('526 All Claims validations', () => {
 
       startedAfterServicePeriod(err, '2000-02-XX', formData);
       expect(err.addError.called).to.be.false;
+    });
+
+    it('should add error if only treatment start date month is entered', () => {
+      const err = { addError: sinon.spy() };
+
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { from: '2003-03-12' }, serviceBranch: 'Army' },
+            {
+              dateRange: { from: '2000-01-14' },
+              serviceBranch: 'Army Reserves',
+            },
+            { dateRange: { from: '2011-12-25' }, serviceBranch: 'Army' },
+            // ignored
+            {
+              dateRange: { from: '1990-10-11' },
+              serviceBranch: '', // missing branch name
+            },
+          ],
+        },
+      };
+
+      startedAfterServicePeriod(err, 'XXXX-12-XX', formData);
+      expect(err.addError.calledOnce).to.be.true;
     });
 
     it('should not add error if serviceInformation is missing', () => {
@@ -224,31 +331,6 @@ describe('526 All Claims validations', () => {
       };
 
       startedAfterServicePeriod(err, '1999-12-XX', formData);
-    });
-  });
-
-  describe('hasMonthYear', () => {
-    it('should add an error if the year is missing', () => {
-      const err = {
-        addError: sinon.spy(),
-      };
-      hasMonthYear(err, 'XXXX-12-XX');
-      expect(err.addError.called).to.be.true;
-    });
-
-    it('should add an error if the month is missing', () => {
-      const err = {
-        addError: sinon.spy(),
-      };
-      hasMonthYear(err, '1980-XX-XX');
-      expect(err.addError.called).to.be.true;
-    });
-
-    it('should not add an error if the month and year are present', () => {
-      const err = {
-        addError: sinon.spy(),
-      };
-      hasMonthYear(err, '1980-12-XX');
       expect(err.addError.called).to.be.false;
     });
   });
@@ -280,6 +362,7 @@ describe('526 All Claims validations', () => {
       expect(err.from.addError.called).to.be.false;
       expect(err.to.addError.called).to.be.false;
     });
+
     it('should not add an error when with incomplete date ranges', () => {
       const err = {
         from: { addError: sinon.spy() },
@@ -297,6 +380,7 @@ describe('526 All Claims validations', () => {
       expect(err.from.addError.called).to.be.false;
       expect(err.to.addError.called).to.be.false;
     });
+
     it('should add an error when date range is within a service period', () => {
       const err = {
         from: { addError: sinon.spy() },
@@ -314,6 +398,7 @@ describe('526 All Claims validations', () => {
       expect(err.from.addError.called).to.be.true;
       expect(err.to.addError.called).to.be.true;
     });
+
     it('should add an error when date range is within a service period', () => {
       const err = {
         from: { addError: sinon.spy() },
@@ -344,14 +429,14 @@ describe('526 All Claims validations', () => {
     });
     it('should not add error when disability is in list', () => {
       const err = { addError: sinon.spy() };
-      validateDisabilityName(err, getDisabilityLabels()[7100]);
+      validateDisabilityName(err, getDisabilityLabels()[300]);
       expect(err.addError.called).to.be.false;
     });
     it('should not add error when disability is in list but capitalization is different', () => {
       const err = { addError: sinon.spy() };
       validateDisabilityName(
         err,
-        capitalizeEachWord(getDisabilityLabels()[7100]),
+        capitalizeEachWord(getDisabilityLabels()[300]),
       );
       expect(err.addError.called).to.be.false;
     });
@@ -435,21 +520,28 @@ describe('526 All Claims validations', () => {
 
       expect(errors.addError.firstCall.args[0]).to.equal('testing');
     });
+
+    it('should add error if user group and props missing', () => {
+      const errors = { addError: sinon.spy() };
+      validateBooleanGroup(errors, { tests: false }, null, {});
+
+      expect(errors.addError.called).to.be.true;
+    });
   });
 
   describe('validateAge', () => {
     const _ = null;
-    it('should not allow age < 13 years at start of service', () => {
+    it('should not allow age <= 13 years at start of service', () => {
       const errors = { addError: sinon.spy() };
       const dob = '2000-01-01';
       // 13th birthday (needs to be _after_ 13th birthday)
-      const age = formatDate(add(new Date(dob), { years: 13, days: -1 }));
+      const age = formatDate(add(new Date(dob), { years: 13, days: 0 }));
       validateAge(errors, age, _, _, _, _, { dob });
 
       expect(errors.addError.called).to.be.true;
       expect(errors.addError.args[0][0]).to.contain('after your 13th birthday');
     });
-    it('should allow age 13 years at start of service', () => {
+    it('should allow age > 13 years at start of service', () => {
       const errors = { addError: sinon.spy() };
       const dob = '2000-01-01';
       // Add 1 extra day to ensure we're after 13th birthday
@@ -477,6 +569,7 @@ describe('526 All Claims validations', () => {
 
       expect(errors.addError.called).to.be.false;
     });
+
     it('should not allow future end service dates for active service all-claims', () => {
       const errors = { addError: sinon.spy() };
       const index = 0;
@@ -485,6 +578,7 @@ describe('526 All Claims validations', () => {
       expect(errors.addError.called).to.be.true;
       expect(errors.addError.args[0][index]).to.contain('be in the past');
     });
+
     it('should allow future end service dates for all-claims when in the reserves', () => {
       const errors = { addError: sinon.spy() };
       validateSeparationDate(
@@ -568,6 +662,28 @@ describe('526 All Claims validations', () => {
 
       expect(errors.addError.called).to.be.false;
     });
+
+    it('should set error for reservist with separation date > 180 days', () => {
+      const errors = { addError: sinon.spy() };
+      const index = 0;
+      validateSeparationDate(
+        errors,
+        daysFromToday(181),
+        _,
+        _,
+        _,
+        index,
+        data({
+          bdd: false,
+          branch: 'Reserve',
+        }),
+      );
+
+      expect(errors.addError.called).to.be.true;
+      expect(errors.addError.args[0][index]).to.contain(
+        'you will need to wait',
+      );
+    });
   });
 
   describe('isInFuture', () => {
@@ -608,6 +724,15 @@ describe('526 All Claims validations', () => {
       isLessThan180DaysInFuture(errors, fieldData);
       expect(addError.callCount).to.equal(0);
     });
+
+    it('adds error when separation date is in the past', () => {
+      const errors = { addError: sinon.spy() };
+      const fieldData = daysFromToday(-10);
+
+      isLessThan180DaysInFuture(errors, fieldData);
+
+      expect(errors.addError.called).to.be.true;
+    });
   });
 
   describe('title10BeforeRad', () => {
@@ -645,6 +770,14 @@ describe('526 All Claims validations', () => {
       title10BeforeRad(errors, fieldData);
       expect(addError.callCount).to.equal(0);
     });
+
+    it('does not add errors for empty page data', () => {
+      const addError = sinon.spy();
+      const errors = getErrors(addError);
+
+      title10BeforeRad(errors);
+      expect(addError.callCount).to.equal(0);
+    });
   });
 
   describe('validateTitle10StartDate', () => {
@@ -661,6 +794,21 @@ describe('526 All Claims validations', () => {
       validateTitle10StartDate(errors, '2001-01-01', _, _, _, _, formData);
       expect(addError.called).to.be.false;
     });
+
+    it('should show an error for an activation date in the future', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const data = {
+        servicePeriods: [
+          { serviceBranch: 'Reserves', dateRange: { from: '2003-03-12' } },
+          { serviceBranch: 'Reserves', dateRange: { from: '2000-01-14' } },
+          { serviceBranch: 'Reserves', dateRange: { from: '2005-12-25' } },
+        ],
+      };
+      validateTitle10StartDate(errors, daysFromToday(1), _, _, _, _, data);
+      expect(addError.called).to.be.true;
+    });
+
     it('should show an error for an activation date before start date', () => {
       const addError = sinon.spy();
       const errors = { addError };
@@ -674,6 +822,7 @@ describe('526 All Claims validations', () => {
       validateTitle10StartDate(errors, '1999-12-31', _, _, _, _, data);
       expect(addError.called).to.be.true;
     });
+
     it('should show an error for an activation date before start date after filtering out active duty periods', () => {
       const addError = sinon.spy();
       const errors = { addError };
@@ -687,6 +836,7 @@ describe('526 All Claims validations', () => {
       validateTitle10StartDate(errors, '2001-12-31', _, _, _, _, data);
       expect(addError.called).to.be.true;
     });
+
     // should never happen since the page is only shown if a Veteran includes
     // a Reserve/National Guard period
     it('should show an error if there are no Reserve/National Guard periods', () => {
@@ -701,6 +851,65 @@ describe('526 All Claims validations', () => {
       };
       validateTitle10StartDate(errors, '2010-12-31', _, _, _, _, data);
       expect(addError.called).to.be.true;
+    });
+  });
+
+  describe('requireRatedDisability', () => {
+    it('should add error when claiming increase and a rated disability is not selected', () => {
+      const err = { addError: sinon.spy() };
+      const formData = {
+        'view:claimType': {
+          'view:claimingIncrease': true,
+        },
+        ratedDisabilities: [
+          {
+            unemployabilityDisability: false,
+          },
+        ],
+        newDisabilities: [
+          {
+            unemployabilityDisability: false,
+          },
+        ],
+      };
+
+      requireRatedDisability(err, {}, formData);
+      expect(err.addError.called).to.be.true;
+    });
+  });
+
+  describe('limitNewDisabilities', () => {
+    it('should add error when more than 100 disabilities', () => {
+      const err = { addError: sinon.spy() };
+      const newDisabilities = Array(101);
+      const formData = { newDisabilities };
+
+      limitNewDisabilities(err, null, formData);
+      expect(err.addError.called).to.be.true;
+    });
+  });
+
+  describe('requireSeparationLocation', () => {
+    const getDays = days =>
+      moment()
+        .add(days, 'days')
+        .format('YYYY-MM-DD');
+    const getFormData = (activeDate, reserveDate) => ({
+      serviceInformation: {
+        servicePeriods: [{ dateRange: { to: activeDate } }],
+        reservesNationalGuardService: {
+          title10Activation: {
+            anticipatedSeparationDate: reserveDate,
+          },
+        },
+      },
+    });
+
+    it('should add error when missing separation location selection', () => {
+      const err = { addError: sinon.spy() };
+
+      requireSeparationLocation(err, {}, getFormData('', getDays(1)));
+      expect(err.addError.called).to.be.true;
     });
   });
 });

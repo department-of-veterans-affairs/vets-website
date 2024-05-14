@@ -1,7 +1,4 @@
-// dependencies
 import moment from 'moment';
-
-// relative imports
 import { deriveLatestIssue } from '../components/SearchResult';
 import {
   FAF_SORT_OPTIONS,

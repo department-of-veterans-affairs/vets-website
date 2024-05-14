@@ -1,24 +1,17 @@
 import path from 'path';
 
-import testForm from 'platform/testing/e2e/cypress/support/form-tester';
-import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import { setStoredSubTask } from 'platform/forms/sub-task';
+import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
+import testForm from '~/platform/testing/e2e/cypress/support/form-tester';
+import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import {
-  mockContestableIssues,
-  mockContestableIssuesWithLegacyAppeals,
-  getPastItf,
-  fetchItf,
-  getRandomDate,
-} from './995.cypress.helpers';
+import { getPastItf, fetchItf } from './995.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
-import mockStatus from './fixtures/mocks/profile-status.json';
 import mockUpload from './fixtures/mocks/mockUpload.json';
-import mockUser from './fixtures/mocks/user.json';
+
 import {
   CONTESTABLE_ISSUES_API,
   EVIDENCE_UPLOAD_API,
@@ -32,6 +25,12 @@ import {
   EVIDENCE_UPLOAD_PATH,
 } from '../constants';
 
+import cypressSetup from '../../shared/tests/cypress.setup';
+import {
+  mockContestableIssues,
+  mockContestableIssuesWithLegacyAppeals,
+  getRandomDate,
+} from '../../shared/tests/cypress.helpers';
 import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
 
 const testConfig = createTestConfig(
@@ -41,7 +40,12 @@ const testConfig = createTestConfig(
     // dataDir: path.join(__dirname, 'data'),
 
     // Rename and modify the test data as needed.
-    dataSets: ['no-evidence-test', 'minimal-test', 'maximal-test'],
+    dataSets: [
+      'no-evidence-test',
+      'minimal-test',
+      'partial-evidence-test',
+      'maximal-test',
+    ],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -112,7 +116,7 @@ const testConfig = createTestConfig(
                 )
                   .closest('li')
                   .find('input[type="checkbox"]')
-                  .click();
+                  .click({ force: true });
               }
             });
             cy.findByText('Continue', { selector: 'button' }).click();
@@ -127,7 +131,7 @@ const testConfig = createTestConfig(
               cy.get('va-checkbox')
                 .shadow()
                 .find('input')
-                .click();
+                .click({ force: true });
             }
             cy.findByText('Continue', { selector: 'button' }).click();
           });
@@ -160,7 +164,7 @@ const testConfig = createTestConfig(
                   cy.get(`va-checkbox[value="${issue}"]`)
                     .shadow()
                     .find('input')
-                    .check();
+                    .check({ force: true });
                 });
                 cy.fillDate('from', location.evidenceDates?.from);
                 cy.fillDate('to', location.evidenceDates?.to);
@@ -172,10 +176,7 @@ const testConfig = createTestConfig(
                 }
               }
             });
-            cy.get('va-button-pair')
-              .shadow()
-              .find('va-button[continue]')
-              .click();
+            cy.findByText('Continue', { selector: 'button' }).click();
           });
         });
       },
@@ -201,7 +202,7 @@ const testConfig = createTestConfig(
               cy.get('va-checkbox')
                 .shadow()
                 .find('input')
-                .click();
+                .click({ force: true });
             }
             cy.findByText('Continue', { selector: 'button' }).click();
           });
@@ -216,6 +217,11 @@ const testConfig = createTestConfig(
                 if (index > 0) {
                   cy.url().should('include', `index=${index}`);
                 }
+                cy.get('#add-facility-name')
+                  .shadow()
+                  .find('input')
+                  .focus(); // Try focusing first
+
                 cy.get('#add-facility-name')
                   .shadow()
                   .find('input')
@@ -259,7 +265,7 @@ const testConfig = createTestConfig(
                   cy.get(`va-checkbox[value="${issue}"]`)
                     .shadow()
                     .find('input')
-                    .check();
+                    .check({ force: true });
                 });
                 cy.fillDate('from', facility.treatmentDateRange?.from);
                 cy.fillDate('to', facility.treatmentDateRange?.to);
@@ -290,23 +296,24 @@ const testConfig = createTestConfig(
         });
       },
       [EVIDENCE_UPLOAD_PATH]: () => {
-        cy.get('input[type="file"]')
-          .upload(
-            path.join(__dirname, 'fixtures/data/example-upload.pdf'),
-            'testing',
-          )
-          .get('.schemaform-file-uploading')
-          .should('not.exist');
-        cy.get('select').select('Buddy/Lay Statement');
+        cy.get('input[type="file"]').upload(
+          path.join(__dirname, 'fixtures/data/example-upload.pdf'),
+          'testing',
+        );
+
+        cy.get('.schemaform-file-uploading').should('not.exist');
+        cy.get('va-select')
+          .shadow()
+          .find('select')
+          .select('Buddy/Lay Statement', { force: true });
       },
     },
 
     setupPerTest: () => {
-      cy.login(mockUser);
+      cypressSetup();
+
       setStoredSubTask({ benefitType: 'compensation' });
 
-      cy.intercept('GET', '/v0/profile/status', mockStatus);
-      cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('POST', EVIDENCE_UPLOAD_API, mockUpload);
       cy.intercept('GET', '/v0/intent_to_file', fetchItf());
 
@@ -325,9 +332,6 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(() => {
         cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockPrefill);
         cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
-        cy.intercept('GET', '/v0/feature_toggles?*', {
-          data: { features: [{ name: 'supplemental_claim', value: true }] },
-        });
       });
     },
 

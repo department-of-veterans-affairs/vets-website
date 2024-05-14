@@ -2,17 +2,22 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
+import { buildDateFormatter } from '../utils/helpers';
+
 export default function DueDate({ date }) {
   const now = moment();
   const dueDate = moment(date);
-  const className = dueDate.isBefore(now) ? 'past-due' : 'due-file';
+  const pastDueDate = dueDate.isBefore(now);
+  const className = pastDueDate ? 'past-due' : 'due-file';
+
+  const formattedClaimDate = buildDateFormatter()(date);
+  const dueDateHeader = pastDueDate
+    ? `Needed from you by ${formattedClaimDate} - Due ${dueDate.fromNow()}`
+    : `Needed from you by ${formattedClaimDate}`;
+
   return (
-    <div className="tracked-item-due">
-      <strong className={className}>
-        <i className="fa fa-exclamation-triangle past-due-icon" /> Needed from
-        you
-      </strong>
-      <span className={className}> - due {dueDate.fromNow()}</span>
+    <div className="due-date-header">
+      <strong className={className}>{dueDateHeader}</strong>
     </div>
   );
 }

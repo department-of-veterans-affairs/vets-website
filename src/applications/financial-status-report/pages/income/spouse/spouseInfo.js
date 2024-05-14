@@ -1,4 +1,5 @@
 import React from 'react';
+import YesNoField from 'platform/forms-system/src/js/web-component-fields/YesNoField';
 
 const MaritalStatusInfo = (
   <va-additional-info trigger="Why does my marital status matter?">
@@ -25,7 +26,7 @@ export const uiSchema = {
   questions: {
     isMarried: {
       'ui:title': 'Are you married?',
-      'ui:widget': 'yesNo',
+      'ui:webComponentField': YesNoField,
       'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Please select your marital status.',

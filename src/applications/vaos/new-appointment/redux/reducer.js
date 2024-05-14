@@ -5,7 +5,7 @@ import set from 'platform/utilities/data/set';
 import unset from 'platform/utilities/data/unset';
 
 import {
-  updateSchemaAndData,
+  updateSchemasAndData,
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
@@ -68,10 +68,11 @@ import { distanceBetween } from '../../utils/address';
 import { isTypeOfCareSupported } from '../../services/location';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
-  request:
-    'Please provide any additional details you’d like to share with your provider about this appointment.',
+  request: 'Add any details you’d like to share with your provider.',
   direct:
     'Please provide any additional details you’d like to share with your provider about this appointment.',
+  ccRequest:
+    'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
 };
 
 export const REASON_MAX_CHARS = {
@@ -112,7 +113,7 @@ const initialState = {
 
 function setupFormData(data, schema, uiSchema) {
   const schemaWithItemsCorrected = updateItemsSchema(schema);
-  return updateSchemaAndData(
+  return updateSchemasAndData(
     schemaWithItemsCorrected,
     uiSchema,
     getDefaultFormState(schemaWithItemsCorrected, data, {}),
@@ -165,7 +166,7 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_DATA_UPDATED: {
-      const { data, schema } = updateSchemaAndData(
+      const { data, schema } = updateSchemasAndData(
         state.pages[action.page],
         action.uiSchema,
         action.data,
@@ -265,7 +266,12 @@ export default function formReducer(state = initialState, action) {
     case FORM_UPDATE_FACILITY_TYPE: {
       return {
         ...state,
-        data: { ...state.data, facilityType: action.facilityType },
+        data: {
+          ...state.data,
+          facilityType: action.facilityType,
+          isSingleVaFacility:
+            action.facilityType !== FACILITY_TYPES.COMMUNITY_CARE,
+        },
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN: {
@@ -330,7 +336,10 @@ export default function formReducer(state = initialState, action) {
       );
 
       const { data, schema } = setupFormData(
-        newData,
+        (newData = {
+          ...newData,
+          isSingleVaFacility: typeOfCareFacilities.length === 1,
+        }),
         newSchema,
         action.uiSchema,
       );
@@ -453,7 +462,7 @@ export default function formReducer(state = initialState, action) {
         newSchema,
       );
 
-      const { schema } = updateSchemaAndData(
+      const { schema } = updateSchemasAndData(
         newSchema,
         action.uiSchema,
         formData,
@@ -618,6 +627,16 @@ export default function formReducer(state = initialState, action) {
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
       const formData = state.data;
       const reasonMaxChars = 250;
+      let additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.ccRequest;
+
+      if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE) {
+        additionalInfoTitle =
+          state.flowType === FLOW_TYPES.DIRECT
+            ? REASON_ADDITIONAL_INFO_TITLES.direct
+            : REASON_ADDITIONAL_INFO_TITLES.request;
+      } else {
+        delete formData.reasonForAppointment;
+      }
 
       let reasonSchema = set(
         'properties.reasonAdditionalInfo.maxLength',
@@ -625,20 +644,11 @@ export default function formReducer(state = initialState, action) {
         action.schema,
       );
 
-      if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE) {
-        const additionalInfoTitle =
-          state.flowType === FLOW_TYPES.DIRECT
-            ? REASON_ADDITIONAL_INFO_TITLES.direct
-            : REASON_ADDITIONAL_INFO_TITLES.request;
-
-        reasonSchema = set(
-          'properties.reasonAdditionalInfo.title',
-          additionalInfoTitle,
-          reasonSchema,
-        );
-      } else {
-        delete formData.reasonForAppointment;
-      }
+      reasonSchema = set(
+        'properties.reasonAdditionalInfo.title',
+        additionalInfoTitle,
+        reasonSchema,
+      );
 
       const { data, schema } = setupFormData(
         formData,
@@ -658,7 +668,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_REASON_FOR_APPOINTMENT_CHANGED: {
       const newSchema = state.pages.reasonForAppointment;
 
-      const { data, schema } = updateSchemaAndData(
+      const { data, schema } = updateSchemasAndData(
         newSchema,
         action.uiSchema,
         action.data,

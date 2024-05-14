@@ -18,7 +18,30 @@ describe('<PreSubmitInfo>', () => {
     const tree = render(
       <Provider store={fakeStore}>
         <PreSubmitInfo
-          formData={{}}
+          formData={{
+            activeDuty: true,
+          }}
+          showError={() => {}}
+          onSectionComplete={() => {}}
+          setPreSubmit={() => {}}
+        />
+      </Provider>,
+    );
+
+    const privacyCheckbox = tree.container.querySelector(
+      'va-privacy-agreement',
+    );
+
+    expect(tree).to.not.be.undefined;
+    expect(privacyCheckbox).does.exist;
+  });
+  it('should render else option', () => {
+    const tree = render(
+      <Provider store={fakeStore}>
+        <PreSubmitInfo
+          formData={{
+            activeDuty: false,
+          }}
           showError={() => {}}
           onSectionComplete={() => {}}
           setPreSubmit={() => {}}

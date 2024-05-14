@@ -54,12 +54,12 @@ export const uiSchema = {
   appointmentTimePreferences: {
     'ui:title': (
       <p className="vads-u-margin--0 vads-u-margin-top-neg2 vads-u-display--inline-block vads-u-font-weight--normal vads-u-color--base vads-u-font-family--sans vads-u-font-size--base">
-        Please tell us the time you prefer to meet with your counselor. We’ll
-        make every effort to assign a counselor who is available to meet during
-        your preferred hours. When are the best times to meet with your
-        counselor?{' '}
+        Tell us the time you prefer to meet with your counselor. We’ll make
+        every effort to assign a counselor who is available to meet during your
+        preferred hours. When are the best times to meet with your counselor?
+        Select all that apply.{' '}
         <span className="schemaform-required-span vads-u-display--block">
-          (*Choose at least 1)
+          (*Required)
         </span>
       </p>
     ),

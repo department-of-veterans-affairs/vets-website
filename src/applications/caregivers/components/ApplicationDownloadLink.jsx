@@ -40,7 +40,6 @@ const ApplicationDownloadLink = ({ form }) => {
       body,
       headers: {
         'Content-Type': 'application/json',
-        'Source-App-Name': window.appName,
       },
     })
       .then(response => response.blob())
@@ -91,7 +90,7 @@ const ApplicationDownloadLink = ({ form }) => {
   if (errors?.length > 0) {
     return (
       <div className="caregiver-download-error">
-        <va-alert status="error">
+        <va-alert status="error" uswds>
           <h3 slot="headline" className="vads-u-font-size--h4">
             Something went wrong
           </h3>

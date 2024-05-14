@@ -1,17 +1,9 @@
 import {
-  expensesExplainer,
-  expenses,
   householdExpensesChecklist,
   householdExpensesInputList,
-  utilities,
-  utilityRecords,
   utilityBillPages,
-  repayments,
-  repaymentRecords,
   creditCardBills,
   installmentContracts,
-  otherExpenses,
-  otherExpenseRecords,
   otherExpensesPages,
 } from '../../pages';
 
@@ -30,6 +22,8 @@ import HouseholdExpensesSummaryReview from '../../components/householdExpenses/H
 import CreditCardBillsSummaryReview from '../../components/householdExpenses/CreditCardBillsSummaryReview';
 import InstallmentContractsSummaryReview from '../../components/householdExpenses/InstallmentContractsSummaryReview';
 import StreamlinedExplainer from '../../components/shared/StreamlinedExplainer';
+import HouseholdExpensesExplainerWidget from '../../components/householdExpenses/HouseholdExpensesExplainerWidget';
+import ExpenseExplainerReview from '../../components/householdExpenses/ExpenseExplainerReview';
 
 import {
   isStreamlinedLongForm,
@@ -44,19 +38,12 @@ export default {
       expensesExplainer: {
         path: 'expenses-explainer',
         title: 'Household expenses explainer',
-        uiSchema: expensesExplainer.uiSchema,
-        schema: expensesExplainer.schema,
+        uiSchema: {},
+        schema: { type: 'object', properties: {} },
+        CustomPage: HouseholdExpensesExplainerWidget,
+        CustomPageReview: ExpenseExplainerReview,
         depends: formData =>
           formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
-      },
-      expenses: {
-        path: 'expenses',
-        title: 'Expenses',
-        uiSchema: expenses.uiSchema,
-        schema: expenses.schema,
-        depends: formData =>
-          !formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
       },
       householdExpensesChecklist: {
@@ -64,9 +51,7 @@ export default {
         title: 'Household expenses checklist',
         uiSchema: householdExpensesChecklist.uiSchema,
         schema: householdExpensesChecklist.schema,
-        depends: formData =>
-          formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
+        depends: formData => !isStreamlinedShortForm(formData),
       },
       householdExpensesInputList: {
         path: 'household-expenses-values',
@@ -76,28 +61,7 @@ export default {
         CustomPageReview: HouseholdExpensesSummaryReview,
         depends: formData =>
           formData.expenses?.expenseRecords?.length > 0 &&
-          formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
-      },
-      utilities: {
-        path: 'utilities',
-        title: 'Utilities',
-        uiSchema: utilities.uiSchema,
-        schema: utilities.schema,
-        depends: formData =>
-          !formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
-      },
-      utilityRecords: {
-        path: 'utility-records',
-        title: 'Utilities',
-        uiSchema: utilityRecords.uiSchema,
-        schema: utilityRecords.schema,
-        depends: formData =>
-          formData.questions.hasUtilities &&
-          !formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
-        editModeOnReviewPage: true,
       },
       // Enhanced Utility Bills
       utilityBillChecklist: {
@@ -105,9 +69,7 @@ export default {
         title: 'Utility bill options',
         uiSchema: utilityBillPages.utilityBillChecklist.uiSchema,
         schema: utilityBillPages.utilityBillChecklist.schema,
-        depends: formData =>
-          formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
+        depends: formData => !isStreamlinedShortForm(formData),
       },
       utilityBillValues: {
         path: 'utility-bill-values',
@@ -116,7 +78,6 @@ export default {
         schema: utilityBillPages.utilityBillValues.schema,
         depends: formData =>
           !!formData.utilityRecords?.length &&
-          formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
       },
       utilityBillSummary: {
@@ -129,7 +90,6 @@ export default {
         schema: { type: 'object', properties: {} },
         depends: formData =>
           !!formData.utilityRecords?.length &&
-          formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
       },
       addUtilityBill: {
@@ -141,34 +101,12 @@ export default {
         schema: { type: 'object', properties: {} },
         depends: () => false, // accessed from utilityBillSummary
       },
-      repayments: {
-        path: 'repayments',
-        title: 'Repayments',
-        uiSchema: repayments.uiSchema,
-        schema: repayments.schema,
-        depends: formData =>
-          !formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
-      },
-      repaymentRecords: {
-        path: 'repayment-records',
-        title: 'Repayments',
-        uiSchema: repaymentRecords.uiSchema,
-        schema: repaymentRecords.schema,
-        depends: formData =>
-          formData.questions.hasRepayments &&
-          !formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
-        editModeOnReviewPage: true,
-      },
       creditCardBills: {
         path: 'credit-card-bills',
         title: 'Credit card bills',
         uiSchema: creditCardBills.uiSchema,
         schema: creditCardBills.schema,
-        depends: formData =>
-          formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
+        depends: formData => !isStreamlinedShortForm(formData),
       },
       addEditCreditCardBills: {
         path: 'your-credit-card-bills',
@@ -178,7 +116,6 @@ export default {
         depends: formData =>
           formData.questions.hasCreditCardBills &&
           !formData.expenses?.creditCardBills?.length &&
-          formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
         CustomPage: CreditCardBill,
@@ -191,7 +128,6 @@ export default {
         schema: { type: 'object', properties: {} },
         depends: formData =>
           formData.questions.hasCreditCardBills &&
-          formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
         CustomPage: CreditCardBillSummary,
@@ -202,9 +138,7 @@ export default {
         title: 'Installment Contracts',
         uiSchema: installmentContracts.uiSchema,
         schema: installmentContracts.schema,
-        depends: formData =>
-          formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
+        depends: formData => !isStreamlinedShortForm(formData),
       },
       addEditInstallmentContract: {
         path: 'your-installment-contracts',
@@ -214,7 +148,6 @@ export default {
         depends: formData =>
           formData.questions.hasRepayments &&
           !formData?.installmentContracts?.length &&
-          formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
         CustomPage: InstallmentContract,
@@ -226,32 +159,10 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          formData.questions.hasRepayments &&
-          formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
+          formData.questions.hasRepayments && !isStreamlinedShortForm(formData),
         editModeOnReviewPage: true,
         CustomPage: InstallmentContractSummary,
         CustomPageReview: InstallmentContractsSummaryReview,
-      },
-      otherExpenses: {
-        path: 'other-expenses',
-        title: 'Other expenses',
-        uiSchema: otherExpenses.uiSchema,
-        schema: otherExpenses.schema,
-        depends: formData =>
-          !formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
-      },
-      otherExpenseRecords: {
-        path: 'other-expense-records',
-        title: 'Other expenses',
-        uiSchema: otherExpenseRecords.uiSchema,
-        schema: otherExpenseRecords.schema,
-        depends: formData =>
-          formData.questions.hasOtherExpenses &&
-          !formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
-        editModeOnReviewPage: true,
       },
       // Start Other Living Expenses
       otherExpensesChecklist: {
@@ -261,9 +172,7 @@ export default {
         CustomPageReview: null,
         uiSchema: {},
         schema: { type: 'object', properties: {} },
-        depends: formData =>
-          formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
+        depends: formData => !isStreamlinedShortForm(formData),
       },
       otherExpensesValues: {
         path: 'other-expenses-values',
@@ -271,9 +180,7 @@ export default {
         uiSchema: otherExpensesPages.otherExpensesValues.uiSchema,
         schema: otherExpensesPages.otherExpensesValues.schema,
         depends: formData =>
-          !!formData.otherExpenses?.length &&
-          formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
+          !!formData.otherExpenses?.length && !isStreamlinedShortForm(formData),
       },
       otherExpensesSummary: {
         path: 'other-expenses-summary',
@@ -284,9 +191,7 @@ export default {
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
-          !!formData.otherExpenses?.length &&
-          formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData),
+          !!formData.otherExpenses?.length && !isStreamlinedShortForm(formData),
       },
       addOtherExpenses: {
         path: 'add-other-expense',

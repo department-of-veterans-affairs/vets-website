@@ -1,10 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { dateFormat } from '../../util/helpers';
-import { dispStatusObj } from '../../util/constants';
+import {
+  dispStatusObj,
+  medicationsUrls,
+  DD_ACTIONS_PAGE_TYPE,
+} from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 
 const ExtraDetails = rx => {
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
   const { dispStatus, cmopDivisionPhone, refillRemaining } = rx;
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
@@ -18,8 +26,11 @@ const ExtraDetails = rx => {
             We’re sorry. There’s a problem with our system. You can’t manage
             this prescription online right now.
             <p className="vads-u-margin-top--1">
-              Check back later. Or call your VA pharmacy
-              <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
+              Call your VA pharmacy
+              <CallPharmacyPhone
+                cmopDivisionPhone={cmopDivisionPhone}
+                page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+              />
             </p>
           </div>
         </div>
@@ -27,12 +38,14 @@ const ExtraDetails = rx => {
       {dispStatus === dispStatusObj.refillinprocess && (
         <div className="statusIcon refillProcessIcon">
           <p data-testid="rx-refillinprocess-info">
-            Refill in process. We expect to fill it on{' '}
-            {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
+            We expect to fill it on {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
           </p>
           <p className="vads-u-margin-top--1 vads-u-padding-right--2">
             If you need it sooner, call your VA pharmacy
-            <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
+            <CallPharmacyPhone
+              cmopDivisionPhone={cmopDivisionPhone}
+              page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+            />
           </p>
         </div>
       )}
@@ -46,16 +59,25 @@ const ExtraDetails = rx => {
           updates.
         </p>
       )}
+      {dispStatus === dispStatusObj.activeParked && (
+        <div>
+          <p className="vads-u-margin-y--0" data-testid="VA-prescription">
+            You can request this prescription when you need it.
+          </p>
+        </div>
+      )}
       {dispStatus === dispStatusObj.expired && (
         <div>
           <p className="vads-u-margin-y--0" data-testid="expired">
-            This prescription is too old to refill. If you need more, request a
-            renewal.
+            You have no refills left. If you need more, request a renewal.
           </p>
           <va-link
-            href="/my-health/about-medications/accordion-renew-rx"
+            href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
             text="Learn how to renew prescriptions"
             data-testid="learn-to-renew-precsriptions-link"
+            data-dd-action-name={`Learn How To Renew Prescriptions Action Link - ${
+              DD_ACTIONS_PAGE_TYPE.DETAILS
+            }`}
           />
         </div>
       )}
@@ -65,7 +87,14 @@ const ExtraDetails = rx => {
             You can’t refill this prescription. If you need more, send a message
             to your care team.
           </p>
-          <va-link href="/" text="Compose a message" />
+          <va-link
+            href={mhvUrl(ssoe, 'secure-messaging')}
+            text="Compose a message on the My HealtheVet website"
+            data-testid="discontinued-compose-message-link"
+            data-dd-action-name={`Compose A Message Link - ${
+              DD_ACTIONS_PAGE_TYPE.DETAILS
+            }`}
+          />
         </div>
       )}
       {dispStatus === dispStatusObj.transferred && (
@@ -93,7 +122,10 @@ const ExtraDetails = rx => {
           <p className="vads-u-margin-y--0" data-testid="active-onHold">
             We put a hold on this prescription. If you need it now, call your VA
             pharmacy
-            <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
+            <CallPharmacyPhone
+              cmopDivisionPhone={cmopDivisionPhone}
+              page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+            />
           </p>
         </div>
       )}
@@ -107,7 +139,7 @@ const ExtraDetails = rx => {
               You have no refills left. If you need more, request a renewal.
             </p>
             <va-link
-              href="/my-health/about-medications/accordion-renew-rx"
+              href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
               text="Learn how to renew prescriptions"
               data-testid="learn-to-renew-prescriptions-link"
             />

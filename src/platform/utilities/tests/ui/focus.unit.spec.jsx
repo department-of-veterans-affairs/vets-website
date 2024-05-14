@@ -69,6 +69,24 @@ describe('waitForRenderThenFocus', async () => {
       expect(document.activeElement).to.eq(h2);
     });
   });
+
+  it('should focus on checkbox inside group', async () => {
+    const { container } = await render(
+      <div>
+        <div id="nested">
+          <div id="nested-2">
+            <input id="input2" type="text" />
+          </div>
+        </div>
+      </div>,
+    );
+
+    waitForRenderThenFocus('#nested-2', container, 250, '#input2');
+
+    await waitFor(() => {
+      expect(document.activeElement.id).to.eq('input2');
+    });
+  });
 });
 
 describe('focusByOrder', () => {

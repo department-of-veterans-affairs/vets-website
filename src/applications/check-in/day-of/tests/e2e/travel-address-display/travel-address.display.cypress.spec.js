@@ -6,6 +6,7 @@ import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
 import TravelPages from '../../../../tests/e2e/pages/TravelPages';
+import Arrived from '../pages/Arrived';
 
 describe('Check In Experience', () => {
   describe('travel address display', () => {
@@ -31,6 +32,8 @@ describe('Check In Experience', () => {
       ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
+      Arrived.validateArrivedPage();
+      Arrived.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
       Demographics.attemptToGoToNextPage();
       EmergencyContact.validatePageLoaded();
@@ -42,6 +45,8 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded();
       TravelPages.validateContent();
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       TravelPages.attemptToGoToNextPage();
     });
@@ -50,7 +55,7 @@ describe('Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('renders the travel vehicle page with content', () => {
+    it('renders the travel address page with content', () => {
       TravelPages.validatePageLoaded('address');
       TravelPages.validateBackButton('address');
       TravelPages.validateHelpSection();

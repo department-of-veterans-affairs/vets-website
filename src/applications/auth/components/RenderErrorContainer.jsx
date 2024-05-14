@@ -396,6 +396,20 @@ export default function RenderErrorContainer({
       );
       break;
 
+    case AUTH_ERRORS.CERNER_PROVISIONING_FAILURE.errorCode:
+      alertContent = (
+        <p className="vads-u-margin-top--0">
+          We’re having trouble provisioning your My VA Health account right now.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h2>How can I fix this issue?</h2>
+          <Helpdesk startScentence />
+        </>
+      );
+      break;
+
     case AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">

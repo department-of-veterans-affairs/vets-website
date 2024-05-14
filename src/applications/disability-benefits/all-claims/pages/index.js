@@ -15,6 +15,12 @@ import * as evidenceTypes from './evidenceTypes';
 import * as evidenceTypesBDD from './evidenceTypesBDD';
 import * as federalOrders from './federalOrders';
 import * as finalIncident from './finalIncident';
+import * as gulfWar1990Locations from './toxicExposure/gulfWar1990Locations';
+import * as gulfWar1990Details from './toxicExposure/gulfWar1990Details';
+import * as gulfWar1990Summary from './toxicExposure/gulfWar1990Summary';
+import * as gulfWar2001Locations from './toxicExposure/gulfWar2001Locations';
+import * as gulfWar2001Details from './toxicExposure/gulfWar2001Details';
+import * as gulfWar2001Summary from './toxicExposure/gulfWar2001Summary';
 import * as homelessOrAtRisk from './homelessOrAtRisk';
 import * as hospitalizationHistory from './hospitalizationHistory';
 import * as incidentDate from './incidentDate';
@@ -80,8 +86,7 @@ import * as summaryOfDisabilities from './summaryOfDisabilities';
 import * as summaryOfEvidence from './summaryOfEvidence';
 import * as supplementalBenefits from './supplementalBenefits';
 import * as terminallyIll from './terminallyIll';
-import * as toxicExposureIntro from './toxicExposure/toxicExposureIntro';
-import * as toxicExposureConfirm from './toxicExposure/toxicExposureConfirm';
+import * as toxicExposureConditions from './toxicExposure/toxicExposureConditions';
 import * as trainingPay from './trainingPay';
 import * as trainingPayWaiver from './trainingPayWaiver';
 import * as unemployabilityAdditionalInformation from './unemployabilityAdditionalInformation';
@@ -99,10 +104,12 @@ import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
 import * as veteranInfo from './veteranInfo';
 import * as workBehaviorChanges from './workBehaviorChanges';
+import * as addDisabilitiesRevised from './addDisabilitiesRevised';
 
 export {
   adaptiveBenefits,
   addDisabilities,
+  addDisabilitiesRevised,
   additionalBehaviorChanges,
   additionalDocuments,
   additionalRemarks781,
@@ -118,6 +125,12 @@ export {
   evidenceTypesBDD,
   federalOrders,
   finalIncident,
+  gulfWar1990Locations,
+  gulfWar1990Details,
+  gulfWar1990Summary,
+  gulfWar2001Locations,
+  gulfWar2001Details,
+  gulfWar2001Summary,
   homelessOrAtRisk,
   hospitalizationHistory,
   incidentDate,
@@ -183,8 +196,7 @@ export {
   summaryOfEvidence,
   supplementalBenefits,
   terminallyIll,
-  toxicExposureConfirm,
-  toxicExposureIntro,
+  toxicExposureConditions,
   trainingPay,
   trainingPayWaiver,
   unemployabilityAdditionalInformation,

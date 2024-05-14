@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 const ConditionReviewField = props => {
@@ -13,6 +14,14 @@ const ConditionReviewField = props => {
       </div>
     </dl>
   );
+};
+
+ConditionReviewField.propTypes = {
+  defaultEditButton: PropTypes.any,
+  formData: PropTypes.shape({
+    condition: PropTypes.string,
+  }),
+  renderedProperties: PropTypes.any,
 };
 
 export default ConditionReviewField;

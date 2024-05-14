@@ -8,7 +8,9 @@ export const createFormStore = shortNameMap => {
   const storeObject = {};
 
   for (const question of Object.keys(shortNameMap)) {
-    storeObject[question] = null;
+    if (!question.includes('HOME') && !question.includes('RESULTS')) {
+      storeObject[question] = null;
+    }
   }
 
   return storeObject;
@@ -37,12 +39,7 @@ export const setShortNameValue = (SHORT_NAME, newFormContents, state) => {
 };
 
 // Make adjustments to form store and set the new value
-export const updateFormValue = (
-  SHORT_NAME,
-  checkbox = false,
-  state,
-  action,
-) => {
+export const updateFormValue = (SHORT_NAME, checkbox, state, action) => {
   // Multi-checkbox responses
   if (checkbox) {
     const currentFormContents = state.form?.[SHORT_NAME];

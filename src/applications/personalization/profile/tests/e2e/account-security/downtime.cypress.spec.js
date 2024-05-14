@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { checkForWebComponentLoadingIndicator } from '~/applications/personalization/common/e2eHelpers';
 
 import { PROFILE_PATHS } from '../../../constants';
 
@@ -35,7 +34,7 @@ context('downtime notification cases for Account Security', () => {
           id: '139',
           type: 'maintenance_windows',
           attributes: {
-            externalService: 'emis',
+            externalService: 'mvi',
             description: 'My description',
             startTime: withinHour,
             endTime,
@@ -44,8 +43,6 @@ context('downtime notification cases for Account Security', () => {
       ],
     });
     cy.visit(PROFILE_PATHS.ACCOUNT_SECURITY);
-
-    checkForWebComponentLoadingIndicator();
 
     cy.get('#downtime-approaching-modal').should('exist');
 
@@ -59,7 +56,7 @@ context('downtime notification cases for Account Security', () => {
           id: '139',
           type: 'maintenance_windows',
           attributes: {
-            externalService: 'emis',
+            externalService: 'mvi',
             description: 'My description',
             startTime: beforeNow,
             endTime,

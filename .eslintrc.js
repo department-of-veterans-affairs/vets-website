@@ -59,10 +59,6 @@ module.exports = {
         use: 'a custom solution',
       },
       {
-        name: '@department-of-veterans-affairs/component-library/Breadcrumbs',
-        use: '<va-breadcrumbs>',
-      },
-      {
         name: '@department-of-veterans-affairs/component-library/Modal',
         use: '<va-modal>',
       },
@@ -81,6 +77,13 @@ module.exports = {
       },
     ], // 40
     'jsx-a11y/no-static-element-interactions': 1, // 20
+    'jsx-a11y/aria-role': [
+      2,
+      {
+        allowedInvalidRoles: ['text'],
+        ignoreNonDOM: true,
+      },
+    ],
   },
   overrides: [
     {

@@ -3,11 +3,11 @@ description: Install dependencies
 
 inputs:
   key:
-    description: keys for actions/cache@v3
+    description: keys for actions/cache@v4
     required: false
     default: ''
   restore-keys:
-    description: restore-keys for actions/cache@v3
+    description: restore-keys for actions/cache@v4
     required: false
     default: ''
   yarn_cache_folder:
@@ -15,7 +15,7 @@ inputs:
     required: false
     default: ''
   path:
-    description: path for actions/cache@v3
+    description: path for actions/cache@v4
     required: false
     default: ''
 
@@ -28,7 +28,7 @@ runs:
       run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
 
     - name: Setup Node
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
@@ -38,16 +38,16 @@ runs:
 
     - name: Cache dependencies
       id: cache-dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ inputs.path }}
         key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.key }}
         # restore-keys: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ inputs.restore-keys }}
 
     - name: Install dependencies
-      uses: nick-invision/retry@v2
+      uses: nick-fields/retry@v3
       with:
-        command: yarn install --frozen-lockfile --prefer-offline --production=false
+        command: CYPRESS_INSTALL_BINARY=https://vetsgov-website-builds-s3-upload.s3.us-gov-west-1.amazonaws.com/artifacts/cypress/12.17.3.zip yarn install --frozen-lockfile --prefer-offline --production=false --network-timeout 1000000000
         max_attempts: 3
         timeout_minutes: 7
       env:

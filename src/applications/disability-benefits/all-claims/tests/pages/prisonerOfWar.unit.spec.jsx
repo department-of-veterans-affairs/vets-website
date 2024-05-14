@@ -124,17 +124,17 @@ describe('Prisoner of war info', () => {
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
-        data={Object.assign({}, formData, {
+        data={{
+          ...formData,
           newDisabilities: [{ condition: 'ASHD' }, { condition: 'scars' }],
-        })}
+        }}
       />,
     );
 
     selectRadio(form, 'root_view:powStatus', 'Y');
-    expect(form.find('input[type="checkbox"]').length).to.equal(2);
-    const output = form.render().text();
-    expect(output).to.contain('ASHD');
-    expect(output).to.contain('Scars');
+    expect(form.find('va-checkbox').length).to.equal(2);
+    expect(form.find('va-checkbox[label="ASHD"]')).to.exist;
+    expect(form.find('va-checkbox[label="Scars"]')).to.exist;
     form.unmount();
   });
 
@@ -152,7 +152,7 @@ describe('Prisoner of war info', () => {
     expect(form.find('input[type="checkbox"]').length).to.equal(0);
     const output = form.render().text();
     expect(output).to.not.contain(
-      'Which of your new conditions was caused or affected by your POW experience?',
+      'Which of your conditions is connected to your POW experience? ',
     );
     form.unmount();
   });

@@ -139,19 +139,19 @@ const formConfig = {
                 type: 'string',
                 minLength: 1,
                 maxLength: 100,
-                pattern: STREET_PATTERN, // from /definitions/profileAddress
+                pattern: REJECT_WHITESPACE_ONLY, // from /definitions/profileAddress
               },
               street2: {
                 type: 'string',
                 minLength: 1,
                 maxLength: 100,
-                pattern: STREET_PATTERN, // from /definitions/profileAddress
+                pattern: REJECT_WHITESPACE_ONLY, // from /definitions/profileAddress
               },
               street3: {
                 type: 'string',
                 minLength: 1,
                 maxLength: 100,
-                pattern: STREET_PATTERN, // from /definitions/profileAddress
+                pattern: REJECT_WHITESPACE_ONLY, // from /definitions/profileAddress
               },
               city: {
                 type: 'string',

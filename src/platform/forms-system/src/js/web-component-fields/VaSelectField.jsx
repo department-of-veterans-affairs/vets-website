@@ -39,8 +39,9 @@ export default function VaSelectField(props) {
   let addDefaultEntry = false;
   const mappedProps = vaSelectFieldMapping(props);
   const enumOptions =
-    Array.isArray(props.childrenProps.schema.enum) &&
-    optionsList(props.childrenProps.schema);
+    (Array.isArray(props.childrenProps.schema.enum) &&
+      optionsList(props.childrenProps.schema)) ||
+    [];
   const labels = props.uiOptions?.labels || {};
 
   if (!mappedProps?.uswds) {
@@ -55,7 +56,7 @@ export default function VaSelectField(props) {
       value={
         props.childrenProps.formData ??
         props.childrenProps.schema.default ??
-        null
+        undefined
       }
     >
       {addDefaultEntry &&

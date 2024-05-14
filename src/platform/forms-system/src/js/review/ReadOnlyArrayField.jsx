@@ -5,6 +5,7 @@ import {
   toIdSchema,
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import classNames from 'classnames';
 
 class ReadOnlyArrayField extends React.Component {
   shouldComponentUpdate = nextProps => !deepEquals(this.props, nextProps);
@@ -23,13 +24,19 @@ class ReadOnlyArrayField extends React.Component {
     } = this.props;
     const { definitions } = registry;
     const { SchemaField } = registry.fields;
+    const { onReviewPage } = registry.formContext;
     const uiOptions = uiSchema['ui:options'] || {};
 
     const items = formData || [];
     const Wrapper = uiSchema?.['ui:options']?.useDlWrap ? 'dl' : 'div';
+    const H =
+      uiOptions.reviewItemHeaderLevel && onReviewPage
+        ? `h${uiOptions.reviewItemHeaderLevel}`
+        : 'h5';
+    const useVaCardStyle = uiOptions?.useVaCards;
 
     return (
-      <div className="schemaform-field-container">
+      <div className="schemaform-field-container rjsf-array-field">
         {items.map((item, index) => {
           const itemSchema = this.getItemSchema(index);
           const itemIdPrefix = `${idSchema.$id}_${index}`;
@@ -42,13 +49,17 @@ class ReadOnlyArrayField extends React.Component {
           return (
             <div
               key={index}
-              className="va-growable-background vads-u-margin-top--1"
+              className={classNames({
+                'va-growable-background': !useVaCardStyle,
+                'vads-u-padding--2': useVaCardStyle,
+                'vads-u-margin-top--1': true,
+              })}
             >
               <div className="row small-collapse">
                 <div className="small-12 columns">
-                  <h5 className="schemaform-array-readonly-header">
+                  <H className="schemaform-array-readonly-header">
                     {uiOptions.itemName}
-                  </h5>
+                  </H>
                   {/* outer wrapper needs uiOptions.customTitle = ' ' to prevent
                     * rendering of a <dl> around the schemaform-field-container
                     */}

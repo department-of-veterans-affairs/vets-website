@@ -1,0 +1,100 @@
+{
+  "processOption": false,
+  "additionalEvidence": [
+    {
+      "name": "Screenshot from 2024-03-14 09-20-38.png",
+      "size": 172662,
+      "confirmationCode": "041cd572-8cc3-4fe8-ad95-2872b5054194",
+      "isEncrypted": false
+    }
+  ],
+  "deathCertificate": [
+    {
+      "name": "Screenshot from 2024-03-14 09-26-05.png",
+      "size": 95183,
+      "confirmationCode": "d56723cb-7de1-4ae6-b835-215061ac4e50",
+      "isEncrypted": false
+    }
+  ],
+  "transportationExpenses": false,
+  "view:claimedBenefits": {
+    "transportation": true
+  },
+  "view:servedUnderOtherNames": false,
+  "militarySeparationDocuments": [
+    {
+      "name": "Screenshot from 2024-03-07 09-28-35.png",
+      "size": 43149,
+      "confirmationCode": "920d72a5-1ccf-47fc-b316-cca4f9f53453",
+      "isEncrypted": false
+    }
+  ],
+  "view:separationDocuments": true,
+  "toursOfDuty": [
+    {
+      "serviceBranch": "Air Force",
+      "dateRange": {
+        "from": "2005-07-19",
+        "to": "2009-04-02"
+      },
+      "placeOfEntry": "Los Angeles, CA",
+      "placeOfSeparation": "Dallas, TX",
+      "rank": "Sergeant",
+      "unit": "Unit test AF"
+    },
+    {
+      "serviceBranch": "Coast Guard",
+      "dateRange": {
+        "from": "2011-03-05",
+        "to": "2016-04-15"
+      },
+      "placeOfEntry": "Dallas, TX",
+      "placeOfSeparation": "San Francisco, CA",
+      "rank": "Chief",
+      "unit": "Unit test CG"
+    }
+  ],
+  "locationOfDeath": {
+    "location": "stateVeteransHome",
+    "stateVeteransHome": {
+      "facilityName": "CA State facility",
+      "facilityLocation": "Modesto, CA"
+    }
+  },
+  "deathDate": "2023-01-19",
+  "burialDate": "2023-02-01",
+  "view:burialDateWarning": {},
+  "veteranFullName": {
+    "first": "Tom",
+    "last": "Riddle",
+    "suffix": "Sr."
+  },
+  "veteranSocialSecurityNumber": "333445556",
+  "veteranDateOfBirth": "1991-09-16",
+  "claimantAddress": {
+    "view:militaryBaseDescription": {},
+    "country": "USA",
+    "street": "123 Fake St.",
+    "street2": "Apt 1033",
+    "city": "Fakesville",
+    "state": "FL",
+    "postalCode": "12345"
+  },
+  "claimantFullName": {
+    "first": "Tom",
+    "last": "Riddle",
+    "suffix": "Jr."
+  },
+  "claimantSocialSecurityNumber": "333445555",
+  "claimantDateOfBirth": "1991-07-21",
+  "formV2": true,
+  "relationshipToVeteran": "otherFamily",
+  "burialAllowanceRequested": {},
+  "view:allowanceStatement": {
+    "confirmation": {}
+  },
+  "finalRestingPlace": {},
+  "cemeteryLocation": {},
+  "tribalLandLocation": {},
+  "nationalOrFederal": false
+}

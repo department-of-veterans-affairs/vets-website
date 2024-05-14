@@ -19,7 +19,7 @@ export const mockMessagesResponse = {
         readReceipt: null,
       },
       links: {
-        self: `${environment.API_URL}/v0/messaging/health/messages/1412070`,
+        self: `${environment.API_URL}/my_health/v1/messaging/messages/1412070`,
       },
     },
     {
@@ -39,7 +39,7 @@ export const mockMessagesResponse = {
         readReceipt: null,
       },
       links: {
-        self: `${environment.API_URL}/v0/messaging/health/messages/1412061`,
+        self: `${environment.API_URL}/my_health/v1/messaging/messages/1412061`,
       },
     },
     {
@@ -59,22 +59,22 @@ export const mockMessagesResponse = {
         readReceipt: null,
       },
       links: {
-        self: `${environment.API_URL}/v0/messaging/health/messages/1412052`,
+        self: `${environment.API_URL}/my_health/v1/messaging/messages/1412052`,
       },
     },
   ],
   links: {
     self: `${
       environment.API_URL
-    }/v0/messaging/health/folders/0/messages?page=1&sort=-sent_date`,
+    }/my_health/v1/messaging/folders/0/messages?page=1&sort=-sent_date`,
     first: `${
       environment.API_URL
-    }/v0/messaging/health/folders/0/messages?page=1&per_page=10&sort=-sent_date`,
+    }/my_health/v1/messaging/folders/0/messages?page=1&per_page=10&sort=-sent_date`,
     prev: null,
     next: null,
     last: `${
       environment.API_URL
-    }/v0/messaging/health/folders/0/messages?page=1&per_page=10&sort=-sent_date`,
+    }/my_health/v1/messaging/folders/0/messages?page=1&per_page=10&sort=-sent_date`,
   },
   meta: {
     sort: { sentDate: 'DESC' },

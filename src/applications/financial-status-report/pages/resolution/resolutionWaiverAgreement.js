@@ -1,7 +1,6 @@
 import React from 'react';
 import { CurrentDebtTitle } from '../../components/shared/CurrentDebtTitle';
 import ResolutionWaiverAgreement from '../../components/resolution/ResolutionWaiverAgreement';
-import CustomResolutionWaiverReview from '../../components/resolution/CustomResolutionWaiverReview';
 import { validateWaiverCheckbox } from '../../utils/validations';
 
 export const uiSchema = {
@@ -23,8 +22,10 @@ export const uiSchema = {
             </span>
           </div>
         ),
-        'ui:reviewField': CustomResolutionWaiverReview,
         'ui:widget': ResolutionWaiverAgreement,
+        'ui:options': {
+          hideOnReview: true,
+        },
       },
     },
   },

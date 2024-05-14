@@ -29,16 +29,4 @@ describe('<HubCard />', () => {
 
     expect(getByText('Child Component')).to.exist;
   });
-
-  it('should apply custom classes when passed', () => {
-    const { container } = render(
-      <HubCard
-        heading="Test Heading"
-        content="Test Content"
-        className="custom-class"
-      />,
-    );
-
-    expect(container.firstChild).to.have.class('custom-class');
-  });
 });

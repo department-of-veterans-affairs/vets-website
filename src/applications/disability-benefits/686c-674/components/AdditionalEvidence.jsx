@@ -3,7 +3,7 @@ import React from 'react';
 export const AdditionalEvidence = Component => (
   <div>
     {Component}
-    <p>When you upload evidence, please note:</p>
+    <p>When you upload evidence, note:</p>
     <ul>
       <li>
         We can only accept <strong>JPEG, JPG, PNG or PDF</strong> file types
@@ -14,7 +14,7 @@ export const AdditionalEvidence = Component => (
       </li>
     </ul>
     <p>
-      Choose the type of evidence you'll upload, then click the "Upload
+      Choose the type of evidence you’ll upload, then click the "Upload
       supporting documents" button to find the files on your computer or phone.
     </p>
   </div>

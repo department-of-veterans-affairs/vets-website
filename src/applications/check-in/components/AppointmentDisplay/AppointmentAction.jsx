@@ -5,7 +5,8 @@ import { parseISO } from 'date-fns';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { api } from '../../api';
-import { makeSelectCurrentContext } from '../../selectors';
+import { makeSelectCurrentContext, makeSelectApp } from '../../selectors';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 
 import { createAnalyticsSlug } from '../../utils/analytics';
 import { useFormRouting } from '../../hooks/useFormRouting';
@@ -15,14 +16,23 @@ import { CheckInButton } from './CheckInButton';
 import { useUpdateError } from '../../hooks/useUpdateError';
 import { useStorage } from '../../hooks/useStorage';
 import { getAppointmentId } from '../../utils/appointment';
+import { useTravelPayFlags } from '../../hooks/useTravelPayFlags';
 
 const AppointmentAction = props => {
   const { appointment, router, event } = props;
 
-  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
-  const { token } = useSelector(selectCurrentContext);
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const featureToggles = useSelector(selectFeatureToggles);
+  const { isTravelReimbursementEnabled } = featureToggles;
+  const { travelPayEligible } = useTravelPayFlags(appointment);
 
-  const { setCheckinComplete } = useStorage(false);
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token, setECheckinStartedCalled } = useSelector(selectCurrentContext);
+
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
+
+  const { setCheckinComplete } = useStorage(app);
 
   const { updateError } = useUpdateError();
 
@@ -38,7 +48,9 @@ const AppointmentAction = props => {
         const json = await api.v2.postCheckInData({
           uuid: token,
           appointmentIen: appointment.appointmentIen,
-          facilityId: appointment.facilityId,
+          setECheckinStartedCalled,
+          isTravelEnabled: isTravelReimbursementEnabled,
+          travelSubmitted: travelPayEligible,
         });
         const { status } = json;
         if (status === 200) {
@@ -51,7 +63,17 @@ const AppointmentAction = props => {
         updateError('error-completing-check-in');
       }
     },
-    [appointment, updateError, jumpToPage, token, event, setCheckinComplete],
+    [
+      appointment,
+      updateError,
+      jumpToPage,
+      token,
+      event,
+      setCheckinComplete,
+      setECheckinStartedCalled,
+      isTravelReimbursementEnabled,
+      travelPayEligible,
+    ],
   );
   if (
     appointment.eligibility &&

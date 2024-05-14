@@ -32,11 +32,9 @@ import evidenceUpload from '../pages/evidenceUpload';
 import review from '../pages/review';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import GetFormHelp from '../content/GetFormHelp';
-
 import AreaOfDisagreement from '../components/AreaOfDisagreement';
 import PrimaryPhone from '../components/PrimaryPhone';
-import AddIssue from '../components/AddIssue';
+import AddContestableIssue from '../components/AddContestableIssue';
 import TaskList from '../components/TaskList';
 import ReviewPage from '../components/ReviewPage';
 import ReviewPage2 from '../components/ReviewPage2';
@@ -52,6 +50,7 @@ import { scrollAndFocusTarget } from '../utils/focus';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
+import GetFormHelp from '../../shared/content/GetFormHelp';
 import { appStateSelector } from '../../shared/utils/issues';
 
 import mockData from '../tests/fixtures/data/test-data.json';
@@ -245,7 +244,7 @@ const formConfig = {
           depends: () => false, // accessed from contestableIssues page
           // showPagePerItem: true,
           // arrayPath: 'additionalIssues',
-          CustomPage: AddIssue,
+          CustomPage: AddContestableIssue,
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
@@ -383,7 +382,6 @@ const formConfig = {
       },
     },
   },
-
   footerContent: FormFooter,
   getHelp: GetFormHelp,
 };

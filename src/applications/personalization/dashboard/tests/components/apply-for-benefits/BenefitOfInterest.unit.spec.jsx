@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
-import BenefitOfInterest from '../../../components/apply-for-benefits/BenefitOfInterest';
+import BenefitOfInterest from '../../../components/benefit-application-drafts/BenefitOfInterest';
 
 describe('BenefitOfInterest component', () => {
   it('renders correctly', () => {

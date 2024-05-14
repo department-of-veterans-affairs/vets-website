@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
+import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon';
-import {
-  DefinitionTester,
-  selectRadio,
-} from 'platform/testing/unit/schemaform-utils';
-import { mount } from 'enzyme';
+
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
+
 import formConfig from '../../config/form';
 
 describe('evidence intro page', () => {
@@ -15,7 +15,7 @@ describe('evidence intro page', () => {
   } = formConfig.chapters.boardReview.pages.evidenceIntro;
 
   it('should render', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         schema={schema}
@@ -25,13 +25,12 @@ describe('evidence intro page', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    expect($('va-radio', container)).to.exist;
   });
 
   it('should allow submit', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={{}}
         schema={schema}
@@ -42,10 +41,9 @@ describe('evidence intro page', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:additionalEvidence', 'N');
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    $('va-radio', container).__events.vaValueChange({ detail: { value: 'N' } });
+    fireEvent.submit($('form', container));
+    expect($('[error]')).to.not.exist;
     expect(onSubmit.called).to.be.true;
-    form.unmount();
   });
 });

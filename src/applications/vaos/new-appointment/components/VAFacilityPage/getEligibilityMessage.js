@@ -9,7 +9,6 @@ export default function getEligibilityMessage({
   eligibility,
   facilityDetails,
   includeFacilityContactInfo = false,
-  featureStatusImprovement,
 }) {
   let content = null;
   let title = null;
@@ -95,11 +94,7 @@ export default function getEligibilityMessage({
           Call this facility to schedule or cancel an open appointment request.
           You can also cancel a request from{' '}
           <va-link
-            href={
-              featureStatusImprovement
-                ? '/my-health/appointments/pending'
-                : '/my-health/appointments/requested'
-            }
+            href="/my-health/appointments/pending"
             text="your appointment list"
             data-testid="appointment-list-link"
           />
@@ -110,6 +105,7 @@ export default function getEligibilityMessage({
             <FacilityAddress
               name={facilityDetails.name}
               facility={facilityDetails}
+              level={2}
             />
           )}
       </>

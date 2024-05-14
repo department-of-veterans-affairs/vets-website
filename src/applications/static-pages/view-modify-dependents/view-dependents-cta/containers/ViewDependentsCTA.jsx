@@ -15,7 +15,7 @@ const ViewDependentsCTA = props => {
     content = (
       <EbenefitsLink
         path="ebenefits/about/feature?feature=dependent-compensation"
-        className="usa-button-primary va-button-primary"
+        className="vads-c-action-link--blue"
       >
         Go to eBenefits to add or modify a dependent
       </EbenefitsLink>

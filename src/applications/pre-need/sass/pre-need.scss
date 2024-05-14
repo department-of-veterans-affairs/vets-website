@@ -47,19 +47,54 @@ h3.name-of-deceased-text {
 }
 
 .mail-fax-address {
-  border-left: 3px solid $color-primary;
+  border-left: 3px solid var(--vads-color-primary);
   padding-left: 1rem;
 }
 
-article#pre-need[data-location="applicant-demographics"] {
+article#pre-need[data-location="applicant-demographics"],
+article#pre-need[data-location="sponsor-demographics"] {
   .schemaform-widget-wrapper > fieldset {
-    margin-top: 0em !important;
+    margin-top: -1em !important;
+  }
+  .form-checkbox {
+    margin-bottom: -1em;
+  }
+  .schemaform-field-template {
+    margin-top: 1em;
+  }
+
+  .applicantDemographicsDescription,
+  .sponsorDemographicsDescription {
+    p {
+      margin-bottom: -2em;
+    }
+    margin-bottom: -2em;
+    padding-bottom: 2em;
+  }
+}
+
+article#pre-need[data-location="sponsor-deceased"],
+article#pre-need[data-location="sponsor-date-of-death"] {
+  .schemaform-first-field .schemaform-label  {
+    padding-top: 3em;
   }
 }
 
 article#pre-need[data-location="review-and-submit"] {
   .schemaform-widget-wrapper > fieldset {
     margin-top: 0em !important;
+  }
+  fieldset.schemaform-field-template.schemaform-first-field {
+    margin-top: 0.8em;
+    margin-bottom: 0em;
+  }
+  .applicantDemographicsDescription,
+  .sponsorDemographicsDescription {
+    p {
+      margin-bottom: -3em;
+    }
+    margin-bottom: 1em;
+    padding-bottom: 2em;
   }
 }
 
@@ -108,19 +143,44 @@ fieldset.schemaform-field-template.schemaform-first-field {
   font-weight: normal;
 }
 
-.applicantDetailsSubHeader {
+.applicantDetailsSubHeader,
+.sponsorDetailsSubHeader {
   margin-bottom: -1em;
 }
 
-.applicantDemographicsDescription {
-  padding-bottom: 1em;
+.sponsorMilitaryDetailsSubHeader {
+  margin-bottom: -2em;
+}
+
+.applicantDemographicsSubHeader,
+.sponsorDemographicsSubHeader {
+  margin-bottom: -1em;
+}
+
+
+.applicantDemographicsDescription,
+.sponsorDemographicsDescription {
+  p {
+    margin-bottom: -2em;
+  }
+  margin-bottom: 2em;
+  padding-bottom: 2em;
 }
 
 .ApplicantDescriptionWrapper {
   padding-bottom: 1em;
 }
 
+.sponsorDateOfDeathSubheader{
+  margin-top: -1em;
+}
 
 .militaryDetailsSubHeader {
   margin-bottom: -1em;
+}
+
+.phone {
+  @media screen and (min-width: ($small-screen+1px)) {
+    max-width: 18rem;
+  }
 }

@@ -1,37 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBackendStatuses as getBackendStatusAction } from 'platform/monitoring/external-services/actions';
 import environment from 'platform/utilities/environment';
-import { getStatusFromStatuses } from '../constants';
+import {
+  renderServiceDown,
+  renderDowntimeBanner,
+  renderMaintenanceWindow,
+} from '../downtime';
 
 export default function DowntimeBanners() {
-  const { loading, statuses = [] } = useSelector(
+  const { loading, statuses = [], maintenanceWindows = [] } = useSelector(
     state => state.externalServiceStatuses,
   );
   const dispatch = useDispatch();
+  const isLocalhost = useMemo(() => environment.isLocalhost(), []);
+
   useEffect(() => {
-    if (!loading && !environment.isLocalhost()) {
+    if (!loading && !isLocalhost) {
       dispatch(getBackendStatusAction());
     }
   }, []); // only on load
 
-  if (!statuses) return null;
-  const bannerStatus = getStatusFromStatuses(statuses);
-  if (!Object.keys(bannerStatus).length) return null;
-  const { headline, status: alertStatus, message } = bannerStatus;
+  // mimics the mvi service error if we don't get an OK response from vets-api
+  const isApiDown = () =>
+    !isLocalhost && !loading && (!statuses || statuses?.length === 0);
 
   return (
-    !loading && (
-      <div className="downtime-notification row">
-        <div className="columns small-12">
-          <div className="form-warning-banner fed-warning--v2">
-            <va-alert visible status={alertStatus}>
-              <h2 slot="headline">{headline}</h2>
-              {message}
-            </va-alert>
-          </div>
+    <div className="downtime-notification row">
+      <div className="columns small-12">
+        <div className="form-warning-banner fed-warning--v2">
+          {isApiDown() ? renderServiceDown('mvi') : null}
+          {renderMaintenanceWindow(maintenanceWindows)}
+          {renderDowntimeBanner(statuses)}
         </div>
       </div>
-    )
+    </div>
   );
 }

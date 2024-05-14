@@ -13,7 +13,7 @@ const VeteranInformationComponent = ({
   let dateOfBirthFormatted = '-';
   let genderFull = '-';
   if (dob) {
-    dateOfBirthFormatted = moment(dob).format('MMMM Do YYYY');
+    dateOfBirthFormatted = moment(dob).format('MMMM DD, YYYY');
   }
   if (gender === 'M') {
     genderFull = 'Male';
@@ -38,10 +38,12 @@ const VeteranInformationComponent = ({
   return (
     <div>
       <p>This is the personal information we have on file for you.</p>
-      <va-alert status="info">{alertContent}</va-alert>
+      <va-alert status="info" uswds="false">
+        {alertContent}
+      </va-alert>
       <p>
         <strong>Note:</strong> If you need to update your personal information,
-        please call Veterans Benefits Assistance at{' '}
+        call Veterans Benefits Assistance at{' '}
         <va-telephone contact={CONTACTS.VA_BENEFITS} /> between 8:00 a.m. and
         9:00 p.m. ET Monday through Friday.
       </p>

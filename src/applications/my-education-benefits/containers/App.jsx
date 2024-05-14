@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import PropTypes from 'prop-types';
-
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
@@ -9,11 +10,12 @@ import formConfig from '../config/form';
 import {
   fetchPersonalInformation,
   fetchEligibility,
+  fetchExclusionPeriods,
   fetchDuplicateContactInfo,
-  // fetchDirectDeposit, Commenting out until we update the component to handle astrisks see TOE app
+  fetchDirectDeposit,
 } from '../actions';
 import { formFields } from '../constants';
-import { prefillTransformer } from '../helpers';
+import { prefillTransformer, checkDate } from '../helpers';
 import { getAppData } from '../selectors/selectors';
 import { duplicateArrays } from '../utils/validation';
 
@@ -21,32 +23,41 @@ export const App = ({
   children,
   claimantInfo,
   eligibility,
+  exclusionPeriods,
   featureTogglesLoaded,
   firstName,
   formData,
-  // Commenting out until we update the component to handle astrisks
-  // getDirectDeposit,
+  getDirectDeposit,
   getEligibility,
+  getExclusionPeriods,
   getPersonalInfo,
   getDuplicateContactInfo,
   isLOA3,
   isLoggedIn,
   location,
+  mebExclusionPeriodEnabled,
   setFormData,
   showMeb1990EZMaintenanceAlert,
+  showMeb1990EZR6MaintenanceMessage,
+  showDgiDirectDeposit1990EZ,
   showMebDgi40Features,
   showMebDgi42Features,
   showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
   showMebEnhancements09,
+  showMebServiceHistoryCategorizeDisagreement,
+  mebAutoPopulateRelinquishmentDate,
   email,
   duplicateEmail,
   duplicatePhone,
+  benefitEffectiveDate,
 }) => {
-  const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
-  const [fetchedEligibility, setFetchedEligibility] = useState(false);
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
+  const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
+  const [fetchedEligibility, setFetchedEligibility] = useState(false);
+  const [fetchedExclusionPeriods, setFetchedExclusionPeriods] = useState(false);
+  const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
 
   // Prevent some browsers from changing the value when scrolling while hovering
   //  over an input[type="number"] with focus.
@@ -64,10 +75,6 @@ export const App = ({
     },
     { passive: false },
   );
-
-  // Commenting out next line until component can handle astrisks (See TOE app)
-  // const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
-
   useEffect(
     () => {
       if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
@@ -96,6 +103,7 @@ export const App = ({
       isLoggedIn,
       setFormData,
       showMeb1990EZMaintenanceAlert,
+      showMeb1990EZR6MaintenanceMessage,
       showMebEnhancements09,
     ],
   );
@@ -157,6 +165,40 @@ export const App = ({
 
   useEffect(
     () => {
+      if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
+        return;
+      }
+      // the firstName check ensures that exclusion periods only gets called after we have obtained claimant info
+      // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
+      if (mebExclusionPeriodEnabled && firstName && !fetchedExclusionPeriods) {
+        setFetchedExclusionPeriods(true);
+        getExclusionPeriods();
+      }
+      if (exclusionPeriods && !formData.exclusionPeriods) {
+        const updatedFormData = {
+          ...formData,
+          mebExclusionPeriodEnabled,
+          exclusionPeriods, // Update form data with fetched exclusion periods
+        };
+        setFormData(updatedFormData);
+      }
+    },
+    [
+      mebExclusionPeriodEnabled,
+      fetchedExclusionPeriods,
+      firstName,
+      getExclusionPeriods,
+      exclusionPeriods,
+      formData,
+      setFormData,
+      isLoggedIn,
+      featureTogglesLoaded,
+      isLOA3,
+    ],
+  );
+
+  useEffect(
+    () => {
       if (showMebDgi40Features !== formData.showMebDgi40Features) {
         setFormData({
           ...formData,
@@ -175,6 +217,15 @@ export const App = ({
         setFormData({
           ...formData,
           showMeb1990EZMaintenanceAlert,
+        });
+      }
+      if (
+        showMeb1990EZR6MaintenanceMessage !==
+        formData.showMeb1990EZR6MaintenanceMessage
+      ) {
+        setFormData({
+          ...formData,
+          showMeb1990EZR6MaintenanceMessage,
         });
       }
 
@@ -236,6 +287,16 @@ export const App = ({
         });
       }
 
+      if (
+        mebAutoPopulateRelinquishmentDate !==
+        formData.mebAutoPopulateRelinquishmentDate
+      ) {
+        setFormData({
+          ...formData,
+          mebAutoPopulateRelinquishmentDate,
+        });
+      }
+
       if (showMebEnhancements09 !== formData.showMebEnhancements09) {
         setFormData({
           ...formData,
@@ -243,10 +304,27 @@ export const App = ({
         });
       }
 
+      if (
+        showMebServiceHistoryCategorizeDisagreement !==
+        formData.showMebServiceHistoryCategorizeDisagreement
+      ) {
+        setFormData({
+          ...formData,
+          showMebServiceHistoryCategorizeDisagreement,
+        });
+      }
+
+      if (showDgiDirectDeposit1990EZ !== formData.showDgiDirectDeposit1990EZ) {
+        setFormData({
+          ...formData,
+          showDgiDirectDeposit1990EZ,
+        });
+      }
+
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
-          isLOA3, // ES6 Syntax
+          isLOA3,
         });
       }
     },
@@ -254,16 +332,20 @@ export const App = ({
       formData,
       isLOA3,
       setFormData,
+      showDgiDirectDeposit1990EZ,
       showMebDgi40Features,
       showMebDgi42Features,
       showMeb1990EZMaintenanceAlert,
+      showMeb1990EZR6MaintenanceMessage,
       showMebEnhancements,
       showMebEnhancements06,
       showMebEnhancements08,
       showMebEnhancements09,
+      showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
       duplicateEmail,
       duplicatePhone,
+      mebAutoPopulateRelinquishmentDate,
     ],
   );
 
@@ -282,26 +364,69 @@ export const App = ({
     [email, formData, setFormData],
   );
 
-  // Commenting out until Direct Deposit component is updated
-  // useEffect(
-  //   () => {
-  //     if (showMebDgi40Features && isLoggedIn && !fetchedDirectDeposit) {
-  //       setFetchedDirectDeposit(true);
-  //       getDirectDeposit();
-  //     }
-  //   },
-  //   [fetchedDirectDeposit, getDirectDeposit, isLoggedIn, showMebDgi40Features],
-  // );
+  useEffect(
+    () => {
+      const fetchAndUpdateDirectDepositInfo = async () => {
+        if (showDgiDirectDeposit1990EZ && isLoggedIn && !fetchedDirectDeposit) {
+          await getDirectDeposit();
+          setFetchedDirectDeposit(true);
+        }
+      };
+      fetchAndUpdateDirectDepositInfo();
+
+      const currentDate = moment();
+      const oneYearAgo = currentDate.subtract(1, 'y');
+      if (
+        !benefitEffectiveDate ||
+        (mebAutoPopulateRelinquishmentDate &&
+          moment(benefitEffectiveDate).isBefore(oneYearAgo))
+      ) {
+        setFormData({
+          ...formData,
+          benefitEffectiveDate: checkDate(
+            mebAutoPopulateRelinquishmentDate,
+            benefitEffectiveDate,
+          ),
+        });
+      }
+    },
+    [
+      isLoggedIn,
+      featureTogglesLoaded,
+      isLOA3,
+      showDgiDirectDeposit1990EZ,
+      fetchedDirectDeposit,
+      getDirectDeposit,
+      setFetchedDirectDeposit,
+      benefitEffectiveDate,
+    ],
+  );
 
   return (
     <>
-      <va-breadcrumbs>
-        <a href="/">Home</a>
-        <a href="/education">Education and training</a>
-        <a href="/education/apply-for-benefits-form-22-1990">
-          Apply for education benefits
-        </a>
-      </va-breadcrumbs>
+      <div className="row">
+        <div className="vads-u-margin-bottom--4">
+          <VaBreadcrumbs
+            label="Breadcrumbs"
+            wrapping
+            breadcrumbList={[
+              {
+                href: '/',
+                label: 'Home',
+              },
+              {
+                href: '/education',
+                label: 'Education and training',
+              },
+              {
+                href: '/education/apply-for-benefits-form-22-1990',
+                label: 'Apply for education benefits',
+              },
+            ]}
+          />
+        </div>
+      </div>
+
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
@@ -316,25 +441,32 @@ App.propTypes = {
   duplicatePhone: PropTypes.array,
   eligibility: PropTypes.arrayOf(PropTypes.string),
   email: PropTypes.string,
+  exclusionPeriods: PropTypes.arrayOf(PropTypes.string),
   featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
-  // getDirectDeposit: PropTypes.func,
+  getDirectDeposit: PropTypes.func,
   getDuplicateContactInfo: PropTypes.func,
   getEligibility: PropTypes.func,
+  getExclusionPeriods: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
+  mebExclusionPeriodEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
+  showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
+  showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
   showMebDgi40Features: PropTypes.bool,
   showMebDgi42Features: PropTypes.bool,
   showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
+  showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
+  mebAutoPopulateRelinquishmentDate: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
@@ -343,6 +475,7 @@ const mapStateToProps = state => {
   const transformedClaimantInfo = prefillTransformer(null, null, null, state);
   const claimantInfo = transformedClaimantInfo.formData;
   const email = state?.form?.data?.email?.email;
+  const exclusionPeriods = state?.data?.exclusionPeriods;
 
   return {
     ...getAppData(state),
@@ -350,12 +483,14 @@ const mapStateToProps = state => {
     firstName,
     claimantInfo,
     email,
+    exclusionPeriods,
   };
 };
 
 const mapDispatchToProps = {
-  // getDirectDeposit: fetchDirectDeposit,
+  getDirectDeposit: fetchDirectDeposit,
   getEligibility: fetchEligibility,
+  getExclusionPeriods: fetchExclusionPeriods,
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,
   getDuplicateContactInfo: fetchDuplicateContactInfo,

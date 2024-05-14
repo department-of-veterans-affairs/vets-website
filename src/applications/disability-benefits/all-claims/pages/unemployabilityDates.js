@@ -1,12 +1,12 @@
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import {
   dateFieldsDescription,
   dateDescription,
 } from '../content/unemployabilityDates';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const {
   disabilityAffectedEmploymentFullTimeDate,
@@ -25,7 +25,7 @@ export const uiSchema = {
       'When did you last work full-time?',
     ),
     becameTooDisabledToWorkDate: currentOrPastDateUI(
-      'When did your disability begin to affect your full-time job?',
+      'When did your condition or disability begin to affect your full-time job?',
     ),
     'view:unemployabilityDatesDesc': {
       'ui:description': dateFieldsDescription,

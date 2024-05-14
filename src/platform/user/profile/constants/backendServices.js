@@ -18,6 +18,7 @@ export default {
   // MHV services
   RX: 'rx',
   MESSAGING: 'messaging',
+  MEDICAL_RECORDS: 'medical-records',
   HEALTH_RECORDS: 'health-records',
   MHV_AC: 'mhv-accounts',
 

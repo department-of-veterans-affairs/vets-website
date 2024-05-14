@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { getFormattedPhone } from '../utils/contactInfo';
-import { checkValidations, missingPrimaryPhone } from '../validations';
+import { missingPrimaryPhone } from '../validations';
 import {
   PRIMARY_PHONE,
   PRIMARY_PHONE_TYPES,
   errorMessages,
 } from '../constants';
 import { content } from '../content/primaryPhone';
+import { checkValidations } from '../../shared/validations';
+import { customPageProps995 } from '../../shared/props';
 
 export const PrimaryPhone = ({
   data,
@@ -61,7 +62,7 @@ export const PrimaryPhone = ({
   };
 
   const navButtons = onReviewPage ? (
-    <va-button text={content.update} onClick={updatePage} />
+    <va-button text={content.update} onClick={updatePage} uswds />
   ) : (
     <>
       {contentBeforeButtons}
@@ -84,6 +85,7 @@ export const PrimaryPhone = ({
           error={hasError && errorMessages.missingPrimaryPhone}
           onVaValueChange={handlers.onSelection}
           required
+          uswds
         >
           {PRIMARY_PHONE_TYPES.map(type => (
             <va-radio-option
@@ -94,6 +96,7 @@ export const PrimaryPhone = ({
               name="primary"
               checked={primary === type}
               description={getFormattedPhone(veteran?.[`${type}Phone`])}
+              uswds
             />
           ))}
         </VaRadio>
@@ -103,30 +106,6 @@ export const PrimaryPhone = ({
   );
 };
 
-PrimaryPhone.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({
-    veteran: PropTypes.shape({
-      homePhone: PropTypes.shape({
-        countryCode: PropTypes.string,
-        areaCode: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        extension: PropTypes.string,
-      }),
-      mobilePhone: PropTypes.shape({
-        countryCode: PropTypes.string,
-        areaCode: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        extension: PropTypes.string,
-      }),
-    }).isRequired,
-  }),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  setFormData: PropTypes.func,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
-};
+PrimaryPhone.propTypes = customPageProps995;
 
 export default PrimaryPhone;

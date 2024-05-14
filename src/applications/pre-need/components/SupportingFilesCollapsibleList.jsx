@@ -111,9 +111,9 @@ const CollapsibleList = () => {
           data-chapter="applicantInformation"
         >
           <div name="chapterapplicantInformationScrollElement" />
-          <h3 className="vads-u-font-size--h5">
+          <h4 className="vads-u-font-size--h5">
             What kinds of files can I upload?
-          </h3>
+          </h4>
           <ul className="usa-unstyled-list">
             <li>
               <CollapsiblePanel

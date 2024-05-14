@@ -3,14 +3,33 @@ import { spy } from 'sinon';
 
 import {
   isBlank,
+  // isBlankDateField,
+  // isBlankMonthYear,
+  // isDirtyDate,
+  // isFullDate,
   isNotBlank,
+  // isNotBlankDateField,
+  // isValidBirthDate,
+  // isValidBirthYear,
   isValidDate,
   isValidDateRange,
-  isValidMonetaryValue,
+  // isValidEmail,
+  // isValidFullNameField,
+  // isValidField,
+  // isValidMonths,
   isValidName,
+  isValidMonetaryValue,
+  // isValidPhone,
+  // isValidRequiredField,
   isValidSSN,
+  // isValidValue,
+  isValidZipcode,
   validateCustomFormComponent,
+  // validateDateOfBirth,
+  // validateIfDirty,
+  // validateIfDirtyDate,
   validateLength,
+  // isValidRoutingNumber,
   validateWhiteSpace,
 } from '../validations';
 
@@ -172,7 +191,7 @@ describe('Validations unit tests', () => {
       };
       const toDate = {
         day: {
-          value: null,
+          value: '',
           dirty: true,
         },
         month: {
@@ -180,7 +199,7 @@ describe('Validations unit tests', () => {
           dirty: true,
         },
         year: {
-          value: '2008',
+          value: '',
           dirty: true,
         },
       };
@@ -233,6 +252,28 @@ describe('Validations unit tests', () => {
       expect(isValidMonetaryValue('1,000')).to.be.false;
       expect(isValidMonetaryValue('abc')).to.be.false;
       expect(isValidMonetaryValue('$100')).to.be.false;
+    });
+  });
+
+  describe('isValidZipcode', () => {
+    it('should return true for valid zipcodes', () => {
+      expect(isValidZipcode('12345')).to.be.true;
+      expect(isValidZipcode('  12345  ')).to.be.true;
+      // this is dumb; non-digits are stripped out, then check if zip is valid
+      expect(isValidZipcode('1a2b3c4d5e')).to.be.true;
+    });
+    it('should return false for invalid zipcodes', () => {
+      expect(isValidZipcode()).to.be.false;
+      expect(isValidZipcode(null)).to.be.false;
+      expect(isValidZipcode('12345-1234')).to.be.false; // no +4 support
+      expect(isValidZipcode('1')).to.be.false;
+      expect(isValidZipcode('12')).to.be.false;
+      expect(isValidZipcode('123')).to.be.false;
+      expect(isValidZipcode('1234')).to.be.false;
+      expect(isValidZipcode('123456')).to.be.false;
+      expect(isValidZipcode('abcdef')).to.be.false;
+      expect(isValidZipcode('1234a')).to.be.false;
+      expect(isValidZipcode('  123456  ')).to.be.false;
     });
   });
 

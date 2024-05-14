@@ -1,0 +1,150 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.arp-header {
+  .va-header-logo-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .user-nav {
+    white-space: nowrap;
+
+    .loading-icon-container {
+      color: var(--vads-color-white);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+    }
+
+    .icon {
+      width: 26px;
+      height: 24px;
+    }
+
+    .user-dropdown-email {
+      margin-left: 4px;
+      display: block;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .mobile {
+    .usa-banner-header {
+      display: flex;
+    }
+
+    .va-crisis-line-container {
+      margin: 0px;
+    }
+
+    .arp-logo {
+      width: 320px;
+    }
+
+    .user-nav {
+      margin-left: 1rem;
+
+      .user-dropdown-email {
+        max-width: 64px;
+      }
+    }
+
+    @media (min-width: $medium-screen) {
+      display: none !important;
+    }
+  }
+
+  .wider-than-mobile {
+    display: none;
+
+    @media (min-width: $medium-screen) {
+      display: block;
+
+      .arp-logo {
+        width: 480px;
+      }
+
+      .vet-toolbar {
+        display: flex;
+        justify-content: flex-end;
+        flex: 0 1 30rem;
+
+        .user-nav {
+          margin-inline: 1rem;
+
+          .loading-icon-container {
+            width: 88px;
+          }
+        }
+      }
+
+      .va-header-logo-menu {
+        padding-top: 1em;
+      }
+    }
+
+    .vetnav-menu {
+      height: auto;
+      list-style: none;
+      margin: 0;
+      padding-left: 0;
+
+      @include media($medium-screen) {
+        display: flex;
+        height: auto;
+        margin-bottom: 0;
+        overflow-y: visible;
+        position: relative;
+      }
+
+      > li {
+        margin-bottom: 6px;
+
+        @include media($medium-screen) {
+          margin-bottom: 0;
+        }
+
+        &:first-of-type {
+          @include media($medium-screen) {
+            display: none;
+          }
+        }
+      }
+
+      &::before {
+        display: block;
+        content: " ";
+      }
+
+      ul {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 0;
+      }
+
+      .usa-button-secondary {
+        padding: calc(1rem + 2px);
+        margin: 0.8rem 1.6rem;
+        width: auto;
+        background-color: var(--vads-color-base-lightest);
+
+        &:hover {
+          text-decoration: none;
+        }
+
+        @include media($medium-screen) {
+          display: inline-block;
+          background-color: transparent;
+
+          &.vetnav-level2-button-second {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+}

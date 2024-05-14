@@ -7,11 +7,11 @@ import { VaSelect } from '@department-of-veterans-affairs/component-library/dist
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
-import { ServerErrorAlert } from '../FormAlerts';
+import ServerErrorAlert from '../FormAlerts/ServerErrorAlert';
 
 const apiRequestWithUrl = `${
   environment.API_URL
-}/v1/facilities/va?type=health&per_page=100`;
+}/v0/health_care_applications/facilities?type=health&per_page=1000`;
 
 const VaMedicalCenter = props => {
   const { formContext, id, onChange, required, value, facilityState } = props;
@@ -57,9 +57,9 @@ const VaMedicalCenter = props => {
         isLoading(true);
         apiRequest(`${apiRequestWithUrl}&state=${facilityState}`, {})
           .then(res => {
-            return res.data.map(location => ({
+            return res.map(location => ({
               id: location.id,
-              name: location.attributes.name,
+              name: location.name,
             }));
           })
           .then(data => {
@@ -87,7 +87,13 @@ const VaMedicalCenter = props => {
   // render the static facility name on review page
   if (reviewMode) {
     return (
-      <span data-testid="hca-facility-name">{getFacilityName(value)}</span>
+      <span
+        className="dd-privacy-hidden"
+        data-testid="hca-facility-name"
+        data-dd-action-name="facility name"
+      >
+        {getFacilityName(value)}
+      </span>
     );
   }
 
@@ -112,8 +118,8 @@ const VaMedicalCenter = props => {
       required={required}
       onVaSelect={handleChange}
       onBlur={handleBlur}
+      uswds
     >
-      <option value="">&nbsp;</option>
       {facilities.map(f => (
         <option key={f.id} value={f.id.split('_').pop()}>
           {f.name}

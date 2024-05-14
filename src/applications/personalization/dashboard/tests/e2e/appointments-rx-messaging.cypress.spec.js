@@ -24,7 +24,7 @@ const userWithoutRxMessaging = makeUserObject({
   isPatient: true,
 });
 
-describe('MyVA Dashboard - Rx Messaging', () => {
+describe('My VA Dashboard - Rx Messaging', () => {
   beforeEach(() => {
     mockLocalStorage();
     cy.intercept('GET', '/vaos/v2/appointments*', req => {
@@ -36,7 +36,7 @@ describe('MyVA Dashboard - Rx Messaging', () => {
       '/v0/health_care_applications/enrollment_status',
       enrollmentStatusEnrolled,
     );
-    cy.intercept('GET', '/v0/messaging/health/folders/0', mockFolderResponse);
+    cy.intercept('GET', '/my_health/v1/messaging/folders', mockFolderResponse);
   });
 
   context('when user has messaging and rx features', () => {

@@ -1,36 +1,46 @@
-import { createUrlWithQuery } from '../utils/helpers';
+import {
+  createUrlWithQuery,
+  getFolderList,
+  countUnreadMessages,
+} from '../utils/helpers';
 import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
-import { mockFolderResponse } from '~/applications/personalization/dashboard/utils/mocks/messaging/folder';
-import { mockMessagesResponse } from '~/applications/personalization/dashboard/utils/mocks/messaging/messages';
-import { shouldMockApiRequest } from '~/applications/personalization/dashboard/tests/helpers';
-import {
-  FETCH_FOLDER_FAILURE,
-  FETCH_FOLDER_SUCCESS,
-  LOADING_FOLDER,
-  FETCH_RECIPIENTS_SUCCESS,
-  FETCH_RECIPIENTS_FAILURE,
-  LOADING_RECIPIENTS,
-  LOADING_UNREAD_MESSAGES_COUNT,
-  FETCH_UNREAD_MESSAGES_COUNT_SUCCESS,
-  FETCH_UNREAD_MESSAGES_COUNT_ERROR,
-} from '../utils/constants';
 
-const baseUrl = `${environment.API_URL}/v0/messaging/health`;
+// Loading action types
+export const LOADING_FOLDER = 'LOADING_FOLDER';
+export const LOADING_RECIPIENTS = 'LOADING_RECIPIENTS';
+export const LOADING_UNREAD_MESSAGES_COUNT = 'LOADING_UNREAD_MESSAGES_COUNT';
+
+// Compose action types
+export const FETCH_RECIPIENTS_FAILURE = 'FETCH_RECIPIENTS_FAILURE';
+export const FETCH_RECIPIENTS_SUCCESS = 'FETCH_RECIPIENTS_SUCCESS';
+
+// Folders action types
+export const FETCH_FOLDER_FAILURE = 'FETCH_FOLDER_FAILURE';
+export const FETCH_FOLDER_SUCCESS = 'FETCH_FOLDER_SUCCESS';
+
+// Unread messages actions
+export const FETCH_UNREAD_MESSAGES_COUNT_SUCCESS =
+  'FETCH_UNREAD_MESSAGES_COUNT_SUCCESS';
+export const FETCH_UNREAD_MESSAGES_COUNT_ERROR =
+  'FETCH_UNREAD_MESSAGES_COUNT_ERROR';
+
+export const ITEMS_PER_PAGE = 10;
+
+const baseUrl = `${environment.API_URL}/my_health/v1/messaging`;
 
 export const fetchUnreadMessagesCount = () => async dispatch => {
   dispatch({
     type: LOADING_UNREAD_MESSAGES_COUNT,
   });
 
-  const folderUrl = `/folders/0`;
-
   try {
-    const response = await apiRequest(`${baseUrl}${folderUrl}`);
+    const folders = await getFolderList();
 
+    const response = countUnreadMessages(folders);
     dispatch({
       type: FETCH_UNREAD_MESSAGES_COUNT_SUCCESS,
-      unreadMessagesCount: response.data.attributes.unreadCount,
+      unreadMessagesCount: response,
     });
   } catch (error) {
     const errors = error.errors ?? [error];
@@ -52,15 +62,6 @@ export const fetchFolder = (id, query = {}) => async dispatch => {
 
   const folderUrl = `/folders/${id}`;
   const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
-
-  if (shouldMockApiRequest()) {
-    dispatch({
-      type: FETCH_FOLDER_SUCCESS,
-      folder: mockFolderResponse,
-      messages: mockMessagesResponse,
-    });
-    return;
-  }
 
   try {
     const folderResponse = await apiRequest(`${baseUrl}${folderUrl}`);

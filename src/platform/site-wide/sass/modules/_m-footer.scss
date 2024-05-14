@@ -1,20 +1,20 @@
 // Footer
 .footer {
-  color: $color-white;
+  color: var(--vads-color-white);
   margin: 0 auto;
-  background: $color-primary-darkest;
+  background: var(--vads-color-primary-darker);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 50vh 0 50vh $color-primary-darkest;
+  box-shadow: 0 50vh 0 50vh var(--vads-color-primary-darker);
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     flex-wrap: nowrap;
   }
 
   .va-flex {
     flex-wrap: wrap;
     padding-left: 0.9375rem;
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
       flex-wrap: nowrap;
     }
   }
@@ -48,14 +48,14 @@ body.va-pad-promo-banner .footer-inner {
 
   a {
     background: none;
-    color: $color-white;
+    color: var(--vads-color-white);
     font-size: 1em;
     font-weight: 400;
     margin: 0.25em 0;
     text-decoration: underline;
 
     &:hover {
-      color: $color-gold;
+      color: var(--vads-color-warning);
     }
 
     @include no-sr-content;
@@ -72,7 +72,7 @@ body.va-pad-promo-banner .footer-inner {
     margin-top: 2em;
   }
 
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     flex: 0 1 33%;
     margin: 2em 1em 1.5em 0;
   }
@@ -82,16 +82,16 @@ body.va-pad-promo-banner .footer-inner {
   }
 
   .va-button-link {
-    color: $color-white !important;
+    color: var(--vads-color-white) !important;
     &:hover {
-      color: $color-gold !important;
+      color: var(--vads-color-warning) !important;
     }
   }
 }
 
 .va-footer-linkgroup-title {
   -webkit-font-smoothing: antialiased;
-  color: $color-white;
+  color: var(--vads-color-white);
   font-weight: 700;
   font-size: 1.1em;
   margin: 0;
@@ -113,13 +113,13 @@ body.va-pad-promo-banner .footer-inner {
       margin-bottom: 0.5em;
       > a {
         display: inline-block;
-        color: $color-white;
+        color: var(--vads-color-white);
         font-size: 1em;
         font-weight: 400;
         margin: 0.25em 0;
 
         &:hover {
-          color: $color-gold !important;
+          color: var(--vads-color-warning) !important;
         }
       }
     }
@@ -150,7 +150,7 @@ body.va-pad-promo-banner .footer-inner {
   font-weight: 400;
   border-top: 3px solid transparent;
   border-bottom: 3px solid transparent;
-  color: $color-white;
+  color: var(--vads-color-white);
   cursor: pointer;
   display: block;
   margin: 0;
@@ -158,11 +158,11 @@ body.va-pad-promo-banner .footer-inner {
   font-size: 1.6rem;
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
     "Arial", sans-serif;
-  color: $color-white;
-  background-color: $color-primary-darker;
+  color: var(--vads-color-white);
+  background-color: var(--vads-color-primary-dark);
   &:hover {
-    background-color: $color-primary-darker;
-    color: $color-white;
+    background-color: var(--vads-color-primary-dark);
+    color: var(--vads-color-white);
     border-top: 3px solid transparent;
     border-bottom: 3px solid transparent;
   }
@@ -188,15 +188,15 @@ body.va-pad-promo-banner .footer-inner {
       display: inline-block;
 
       a {
-        color: $color-white;
+        color: var(--vads-color-white);
         &:visited {
-          color: $color-white;
+          color: var(--vads-color-white);
         }
       }
       &:not(:last-child):after {
         content: "|";
         padding: 0 1rem;
-        color: $color-white;
+        color: var(--vads-color-white);
       }
     }
   }
@@ -207,6 +207,6 @@ body.va-pad-promo-banner .footer-inner {
 }
 
 .va-footer-link-text {
-  color: $color-white;
+  color: var(--vads-color-white);
 }
 

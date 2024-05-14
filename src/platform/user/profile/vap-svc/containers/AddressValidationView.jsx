@@ -6,9 +6,11 @@ import {
   isFailedTransaction,
   isPendingTransaction,
 } from 'platform/user/profile/vap-svc/util/transactions';
-import { selectAddressValidation } from 'platform/user/profile/vap-svc/selectors';
+import {
+  selectAddressValidation,
+  hasBadAddress,
+} from 'platform/user/profile/vap-svc/selectors';
 import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
-import { hasBadAddress } from 'applications/personalization/profile/selectors';
 import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
@@ -269,6 +271,7 @@ class AddressValidationView extends React.Component {
             className="vads-u-margin-bottom--1 vads-u-margin-top--0"
             status="warning"
             visible
+            uswds
           >
             <h4 id="address-validation-alert-heading" slot="headline">
               {addressValidationMessage.headline}
@@ -300,13 +303,11 @@ class AddressValidationView extends React.Component {
           {this.renderPrimaryButton()}
 
           {!isLoading && (
-            <button
-              type="button"
-              className="usa-button-secondary"
+            <va-button
+              secondary
               onClick={this.onEditClick}
-            >
-              Go back to edit
-            </button>
+              text="Go back to edit"
+            />
           )}
         </form>
       </>

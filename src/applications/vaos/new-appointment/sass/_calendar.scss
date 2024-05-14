@@ -43,12 +43,12 @@
 .vaos-calendar__day--current > button,
 .vaos-calendar__day--selected > button {
   position: relative;
-  background-color: $color-primary;
-  border-color: $color-primary;
-  color: $color-white;
+  background-color: var(--vads-color-primary);
+  border-color: var(--vads-color-primary);
+  color: var(--vads-color-white);
 
   &:hover {
-    border: 1px solid $color-primary-darker;
+    border: 1px solid var(--vads-color-primary-dark);
   }
 }
 
@@ -76,21 +76,21 @@
 
 .vaos-calendar__calendar-day-button {
   width: 100%;
-  color: $color-base;
-  background-color: $color-gray-lightest;
-  border: 1px solid $color-gray-medium;
+  color: var(--vads-color-base);
+  background-color: var(--vads-color-base-lightest);
+  border: 1px solid var(--vads-color-gray-medium);
   border-radius: 5px;
   padding: 11px 6px;
   margin: 0;
 
   &:hover {
-    border-color: $color-primary-darker;
+    border-color: var(--vads-color-primary-dark);
   }
 
   &:disabled {
-    background-color: $color-gray-lightest;
-    border-color: $color-gray-lightest;
-    color: $color-gray-light;
+    background-color: var(--vads-color-base-lightest);
+    border-color: var(--vads-color-base-lightest);
+    color: var(--vads-color-base-light);
   }
 
   @include media($small-screen) {
@@ -120,7 +120,7 @@
   align-items: center;
 
   &:disabled {
-    color: $color-gray-light !important;
+    color: var(--vads-color-base-light) !important;
     background: none;
   }
 
@@ -132,6 +132,14 @@
 .vaos-calendar__nav-links-button i {
   font-size: 22px;
   padding-top: 2px;
+}
+
+.vaos-calendar__nav-link-icon {
+  background: var(--vads-color-primary);
+  border-radius: 20px;
+  color: var(--vads-color-white);
+  font-size: 20px;
+  position: initial;
 }
 
 .vaos-calendar__options-container {
@@ -155,7 +163,7 @@
   padding: 0 8px 16px 8px;
   width: 50%;
   min-width: 120px;
-  background-color: $color-primary;
+  background-color: var(--vads-color-primary);
   position: relative;
 
   @include media($small-screen) {
@@ -190,7 +198,7 @@
 
 .vaos-calendar__option-cell--last:after {
   content: "";
-  background-color: $color-primary;
+  background-color: var(--vads-color-primary);
   width: 8px;
   height: 100%;
   border-bottom-right-radius: 5px;
@@ -201,7 +209,7 @@
 
 .vaos-calendar__option {
   display: flex;
-  border: 1px solid $color-primary;
+  border: 1px solid var(--vads-color-primary);
   border-radius: 5px;
   justify-content: center;
 
@@ -212,12 +220,12 @@
 
   input[type="radio"] + label::before {
     margin-top: 0;
-    box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-primary;
+    box-shadow: 0 0 0 2px var(--vads-color-white), 0 0 0 3px var(--vads-color-primary);
   }
 
   input[type="checkbox"] + label::before {
     margin-top: 0;
-    box-shadow: 0 0 0 1px $color-primary;
+    box-shadow: 0 0 0 1px var(--vads-color-primary);
   }
 
   &.disabled {
@@ -229,8 +237,8 @@
 
     input[type="checkbox"],
     input[type="checkbox"] + label::before {
-      box-shadow: 0 0 0 1px $color-gray-light;
-      background: $color-gray-lightest;
+      box-shadow: 0 0 0 1px var(--vads-color-base-light);
+      background: var(--vads-color-base-lightest);
       cursor: not-allowed;
     }
   }
@@ -246,7 +254,7 @@
 .vaos-calendar__option--radio {
   display: block;
   padding: 8px;
-  background-color: $color-white;
+  background-color: var(--vads-color-white);
 }
 
 .vaos-u-border-radius--top-left {

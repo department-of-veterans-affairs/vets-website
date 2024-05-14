@@ -13,17 +13,24 @@ $nav-item-padding: units-px(1) units-px(2) units-px(1) units-px(1.5);
 
     &:hover,
     &:focus {
-      background-color: $color-primary-alt-lightest;
-      border-color: $color-link-default;
+      background-color: var(--vads-color-primary-alt-lightest);
+      border-color: var(--vads-color-link);
       transition: background-color 0.1s ease-in-out,
         border-color 0.1s ease-in-out, padding 0.1s ease-in-out;
     }
     &.is-active {
-      background-color: $color-gray-lightest;
-      border-left: 4px solid $color-base;
-      color: $color-black;
+      background-color: var(--vads-color-base-lightest);
+      border-left: 4px solid var(--vads-color-base);
+      color: var(--vads-color-black);
       font-weight: bold;
       padding-left: units-px(1.5);
     }
   }
+}
+
+// util to make sure a focus ring is visible
+.focus-ring:focus {
+  outline: 2px solid !important;
+  outline-color: var(--vads-color-action-focus-on-light) !important;
+  outline-offset: 0;
 }

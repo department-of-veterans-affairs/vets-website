@@ -261,6 +261,16 @@
   },
   {
     "domain": "www.benefits.va.gov",
+    "src": "/FDC/walkthrough.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/FDC/checklist.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
     "src": "/compensation/effective_dates.asp",
     "dest": "/disability/about-disability-ratings/effective-date/"
   },
@@ -1312,5 +1322,15 @@
     "domain": "www.benefits.va.gov",
     "src": "/gibill/resources/benefits_resources/rate_tables.asp",
     "dest": "/education/benefit-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/COMPENSATION/dbq_fax_numbers.asp",
+    "dest": "/disability/how-to-file-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vso/index.asp",
+    "dest": "/resources/va-accredited-representative-faqs/"
   }
 ]

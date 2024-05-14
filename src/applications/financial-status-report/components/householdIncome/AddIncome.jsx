@@ -6,9 +6,11 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { MAX_ASSET_NAME_LENGTH } from '../../constants/checkboxSelections';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const SUMMARY_PATH = '/other-income-summary';
 const CHECKLIST_PATH = '/additional-income-checklist';
+const MAXIMUM_ASSET_AMOUNT = 12000;
 
 const AddIncome = ({ data, goToPath, setFormData }) => {
   const { additionalIncome } = data;
@@ -27,6 +29,7 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
   // Asset name data/flags
   const [assetName, setAssetName] = useState(currentAsset.name || null);
   const nameError = !assetName ? 'Enter valid text' : null;
+  const [otherAssetAmountError, setOtherAssetAmountError] = useState(null);
 
   // Asset amount data/flags
   const [assetAmount, setAssetAmount] = useState(currentAsset.amount || null);
@@ -43,7 +46,7 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
       // goToPath needs to be encapsulated separately from setFormData
       // or data updates won't be reflected when page navigation occurs
       event.preventDefault();
-      if (!nameError && !amountError) {
+      if (!nameError && !amountError && !otherAssetAmountError) {
         goToPath(SUMMARY_PATH);
       }
     },
@@ -52,6 +55,12 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
     },
     onAssetAmountChange: event => {
       setAssetAmount(event.target.value);
+
+      if (event.target.value >= MAXIMUM_ASSET_AMOUNT) {
+        setOtherAssetAmountError('Amount must be less than $12,000');
+      } else {
+        setOtherAssetAmountError(null);
+      }
     },
     onCancel: event => {
       event.preventDefault();
@@ -66,7 +75,7 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
       setSubmitted(true);
 
       // Check for errors
-      if (!nameError && !amountError) {
+      if (!nameError && !amountError && !otherAssetAmountError) {
         // Update form data
         const newAssets = [...addlIncRecords];
         // update new or existing index
@@ -83,8 +92,11 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
           },
         });
       }
+      handlers.onSubmit(event);
     },
   };
+
+  const labelText = addlIncRecords.length === index ? 'Add' : 'Update';
 
   return (
     <>
@@ -98,7 +110,7 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
             Add your additional sources of income
           </legend>
           <VaTextInput
-            className="no-wrap input-size-3"
+            width="md"
             error={(submitted && nameError) || null}
             id="add-other-income-name"
             label="What is the income source?"
@@ -108,14 +120,16 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetName || ''}
+            charcount
           />
           <VaNumberInput
-            className="no-wrap input-size-3"
-            error={(submitted && amountError) || null}
+            width="md"
+            error={otherAssetAmountError}
             id="add-other-asset-amount"
             inputmode="decimal"
             label="Other monthly income amount?"
             min={0}
+            max={MAXIMUM_ASSET_AMOUNT}
             name="add-other-income-amount"
             onInput={handlers.onAssetAmountChange}
             required
@@ -123,26 +137,20 @@ const AddIncome = ({ data, goToPath, setFormData }) => {
             value={assetAmount || ''}
           />
           <br />
-          <p>
-            <button
-              type="button"
-              id="cancel"
-              className="usa-button-secondary vads-u-width--auto"
-              onClick={handlers.onCancel}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              id="submit"
-              className="vads-u-width--auto"
-              onClick={handlers.onUpdate}
-            >
-              {`${
-                addlIncRecords.length === index ? 'Add' : 'Update'
-              } other income`}
-            </button>
-          </p>
+          <ButtonGroup
+            buttons={[
+              {
+                label: 'Cancel',
+                onClick: handlers.onCancel, // Define this function based on page-specific logic
+                isSecondary: true,
+              },
+              {
+                label: `${labelText} other income`,
+                onClick: handlers.onUpdate,
+                isSubmitting: true, // If this button submits a form
+              },
+            ]}
+          />
         </fieldset>
       </form>
     </>

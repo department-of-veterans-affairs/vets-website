@@ -5,54 +5,36 @@
  * @testrailinfo groupId 3256
  * @testrailinfo runName HLR-e2e-ContactLoop
  */
-
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
+import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import {
   BASE_URL,
-  WIZARD_STATUS,
   CONTESTABLE_ISSUES_API,
   CONTACT_INFO_PATH,
 } from '../constants';
 
-import mockUser from './fixtures/mocks/user.json';
-import mockStatus from './fixtures/mocks/profile-status.json';
 import mockV2Data from './fixtures/data/maximal-test-v2.json';
+import cypressSetup from '../../shared/tests/cypress.setup';
 
-// Telephone specific responses
-import mockTelephoneUpdate from './fixtures/mocks/telephone-update.json';
-import mockTelephoneUpdateSuccess from './fixtures/mocks/telephone-update-success.json';
-
-const checkOpt = {
-  waitForAnimations: true,
-};
+import mockTelephoneUpdate from '../../shared/tests/fixtures/mocks/profile-telephone-update.json';
+import mockTelephoneUpdateSuccess from '../../shared/tests/fixtures/mocks/profile-telephone-update-success.json';
 
 describe('HLR contact info loop', () => {
   Cypress.config({ requestTimeout: 10000 });
   const MAIN_CONTACT_PATH = `${BASE_URL}/${CONTACT_INFO_PATH}`;
 
   beforeEach(() => {
+    cypressSetup();
+
     window.dataLayer = [];
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [{ name: 'loop_pages', value: true }],
-      },
-    });
+    setStoredSubTask({ benefitType: 'compensation' });
 
     cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, []);
     cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockV2Data);
 
-    // telephone
     cy.intercept('PUT', '/v0/profile/telephones', mockTelephoneUpdate);
     cy.intercept('GET', '/v0/profile/status/*', mockTelephoneUpdateSuccess);
-
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-
-    cy.login(mockUser);
-    cy.intercept('GET', '/v0/user?*', mockUser);
-    cy.intercept('GET', '/v0/profile/status', mockStatus);
 
     cy.visit(BASE_URL);
     cy.injectAxe();
@@ -72,7 +54,7 @@ describe('HLR contact info loop', () => {
 
     // Homeless question
     cy.location('pathname').should('eq', `${BASE_URL}/homeless`);
-    cy.get('[type="radio"][value="N"]').check(checkOpt);
+    cy.get(`va-radio-option[value="N"]`).click();
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
       .click();
@@ -95,7 +77,7 @@ describe('HLR contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
 
     // Email
@@ -107,7 +89,7 @@ describe('HLR contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
 
     // Mailing address
@@ -119,7 +101,7 @@ describe('HLR contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
   });
 
@@ -135,8 +117,14 @@ describe('HLR contact info loop', () => {
       `${BASE_URL}/edit-contact-information-mobile-phone`,
     );
 
-    cy.findByLabelText(/mobile phone/i).clear();
-    cy.findByLabelText(/mobile phone/i).type('8885551212');
+    cy.get('va-text-input[label^="Mobile phone"]')
+      .shadow()
+      .find('input')
+      .clear();
+    cy.get('va-text-input[label^="Mobile phone"]')
+      .shadow()
+      .find('input')
+      .type('8885551212');
 
     cy.findAllByText(/save/i, { selector: 'button' })
       .first()

@@ -19,7 +19,7 @@ import { ROUTES } from '../../../../constants';
 describe('PACT Act', () => {
   describe('During both of these time periods -  "No" to all questions except 1 Burn Pit (Results Screen 1)', () => {
     it('navigates through the flow forward and backward successfully', () => {
-      cy.visit('/pact-act-wizard-test');
+      cy.visit(h.ROOT);
 
       // Home
       h.verifyUrl(ROUTES.HOME);
@@ -77,17 +77,17 @@ describe('PACT Act', () => {
       h.clickContinue();
 
       // RESULTS 1, P1
-      h.verifyUrl(ROUTES.RESULTS_1_P1);
-      h.verifyElement(h.RESULTS_1_P1_HEADER);
+      h.verifyUrl(ROUTES.RESULTS_1_1);
+      h.verifyElement(h.RESULTS_1_1_HEADER);
       h.clickResultsContinue();
 
       // RESULTS 1, P2
-      h.verifyUrl(ROUTES.RESULTS_1_P2);
-      h.verifyElement(h.RESULTS_1_P2_HEADER);
+      h.verifyUrl(ROUTES.RESULTS_1_2);
+      h.verifyElement(h.RESULTS_1_2_HEADER);
       h.clickResultsBack();
 
       // RESULTS 1, P1
-      h.verifyUrl(ROUTES.RESULTS_1_P1);
+      h.verifyUrl(ROUTES.RESULTS_1_1);
       h.clickResultsBack();
 
       // LEJEUNE_2_4

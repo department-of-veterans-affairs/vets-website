@@ -69,6 +69,7 @@ const PreSubmitNotice = props => {
       <va-additional-info
         trigger="Read more about the assignment of benefits"
         class="vads-u-margin-y--2"
+        uswds
       >
         <p>
           I understand that pursuant to 38 U.S.C. Section 1729 and 42 U.S.C.
@@ -109,9 +110,8 @@ const PreSubmitNotice = props => {
         name={field}
         error={error}
         onVaChange={event => setAccepted(event.target.checked)}
-        label={`I confirm that I agree to the statements listed here.
-          The information is true and correct to the best of my knowledge and belief.
-          I\u2019ve read and accept the privacy policy.`}
+        label="I confirm that I agree to the statements listed here. The information is true and correct to the best of my knowledge and belief. I’ve read and accept the privacy policy."
+        uswds
       />
     </>
   );

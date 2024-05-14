@@ -201,21 +201,22 @@ const CompareLayout = ({
       mapper: institution => schoolSize(institution.undergradEnrollment),
     },
     {
-      label: 'Specialized mission',
+      label: 'Community focus',
       className: 'capitalize-value',
       mapper: institution => {
         const specialMission = [];
         if (institution.hbcu) {
-          specialMission.push('Historically black college or university');
+          specialMission.push('Historically Black Colleges and Universities');
         }
         if (institution.relaffil) {
           specialMission.push(religiousAffiliations[institution.relaffil]);
         }
         if (institution.womenonly) {
-          specialMission.push('Women-only');
+          specialMission.push('Women’s colleges and universities');
+          // specialMission.push('Women-only');
         }
         if (institution.menonly) {
-          specialMission.push('Men-only');
+          specialMission.push('Men’s colleges and universities');
         }
         return specialMission.length > 0 ? specialMission.join(', ') : 'N/A';
       },

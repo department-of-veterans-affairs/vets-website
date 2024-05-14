@@ -1,14 +1,13 @@
-import recordAnalyticsEvent from '~/platform/monitoring/record-event';
-
+import { captureError } from '@@vap-svc/util/analytics';
 import {
-  createCNPDirectDepositAnalyticsDataObject,
   getData,
+  createCNPDirectDepositAnalyticsDataObject,
   isEligibleForCNPDirectDeposit,
   isSignedUpForCNPDirectDeposit,
   isSignedUpForEDUDirectDeposit,
-} from '../util';
+} from '@@profile/util';
+import recordAnalyticsEvent from '~/platform/monitoring/record-event';
 
-import { captureError } from '../util/analytics';
 import { DirectDepositClient } from '../util/direct-deposit';
 import { API_STATUS } from '../constants';
 
@@ -48,40 +47,24 @@ export const EDU_PAYMENT_INFORMATION_SAVE_FAILED =
 
 export function fetchCNPPaymentInformation({
   recordEvent = recordAnalyticsEvent,
-  useLighthouseDirectDepositEndpoint = false,
   captureCNPError = captureError,
 }) {
   return async dispatch => {
     const client = new DirectDepositClient({
-      useLighthouseDirectDepositEndpoint,
       recordEvent,
     });
 
     dispatch({ type: CNP_PAYMENT_INFORMATION_FETCH_STARTED });
 
-    client.recordCNPEvent({ status: API_STATUS.STARTED });
+    client.recordDirectDepositEvent({ status: API_STATUS.STARTED });
 
     const response = await getData(client.endpoint);
 
-    // sample error when getting payment information
-    // response = {
-    //   errors: [
-    //     {
-    //       title: 'Bad Gateway',
-    //       detail: 'Received an an invalid response from the upstream server',
-    //       code: 'EVSS502',
-    //       source: 'EVSS::PPIU::Service',
-    //       status: '502',
-    //     },
-    //   ],
-    // };
-
     if (response.error) {
-      client.recordCNPEvent({ status: API_STATUS.FAILED });
+      client.recordDirectDepositEvent({ status: API_STATUS.FAILED });
 
       captureCNPError(response, {
         eventName: 'cnp-get-direct-deposit-failed',
-        useLighthouseDirectDepositEndpoint,
       });
 
       dispatch({
@@ -89,11 +72,11 @@ export function fetchCNPPaymentInformation({
         response,
       });
     } else {
-      const formattedResponse = useLighthouseDirectDepositEndpoint
-        ? client.formatDirectDepositResponseFromLighthouse(response)
-        : response?.responses[0];
+      const formattedResponse = client.formatDirectDepositResponseFromLighthouse(
+        response,
+      );
 
-      client.recordCNPEvent({
+      client.recordDirectDepositEvent({
         status: API_STATUS.SUCCESSFUL,
         extraProperties: {
           // The API might report an empty payment address for some folks who are
@@ -121,13 +104,11 @@ export function fetchCNPPaymentInformation({
 export function saveCNPPaymentInformation({
   fields,
   isEnrollingInDirectDeposit = false,
-  useLighthouseDirectDepositEndpoint = false,
   recordEvent = recordAnalyticsEvent,
   captureCNPError = captureError,
 }) {
   return async dispatch => {
     const client = new DirectDepositClient({
-      useLighthouseDirectDepositEndpoint,
       recordEvent,
     });
 
@@ -135,37 +116,12 @@ export function saveCNPPaymentInformation({
 
     const apiRequestOptions = client.generateApiRequestOptions(fields);
 
-    client.recordCNPEvent({
+    client.recordDirectDepositEvent({
       status: API_STATUS.STARTED,
       method: apiRequestOptions.method,
     });
 
     const response = await getData(client.endpoint, apiRequestOptions);
-
-    // Leaving this here for the time being while we wrap up the error handling
-    // const response = {
-    //   error: {
-    //     errors: [
-    //       {
-    //         title: 'Unprocessable Entity',
-    //         detail: 'One or more unprocessable user payment properties',
-    //         code: '126',
-    //         source: 'EVSS::PPIU::Service',
-    //         status: '422',
-    //         meta: {
-    //           messages: [
-    //             {
-    //               key: 'cnp.payment.generic.error.message',
-    //               severity: 'ERROR',
-    //               text:
-    //                 'Generic CnP payment update error. Update response: Update Failed: Night area number is invalid, must be 3 digits',
-    //             },
-    //           ],
-    //         },
-    //       },
-    //     ],
-    //   },
-    // };
 
     if (response.error || response.errors) {
       // TODO: if there is a response.errors shouldn't we be using that instead of []?
@@ -173,10 +129,9 @@ export function saveCNPPaymentInformation({
       const analyticsData = createCNPDirectDepositAnalyticsDataObject({
         errors,
         isEnrolling: isEnrollingInDirectDeposit,
-        useLighthouseDirectDepositEndpoint,
       });
 
-      client.recordCNPEvent({
+      client.recordDirectDepositEvent({
         status: API_STATUS.FAILED,
         method: apiRequestOptions.method,
         extraProperties: analyticsData,
@@ -184,7 +139,6 @@ export function saveCNPPaymentInformation({
 
       captureCNPError(response, {
         eventName: 'cnp-put-direct-deposit-failed',
-        useLighthouseDirectDepositEndpoint,
       });
 
       dispatch({
@@ -192,7 +146,7 @@ export function saveCNPPaymentInformation({
         response,
       });
     } else {
-      client.recordCNPEvent({
+      client.recordDirectDepositEvent({
         status: API_STATUS.SUCCESSFUL,
         method: apiRequestOptions.method,
         extraProperties: {
@@ -201,9 +155,9 @@ export function saveCNPPaymentInformation({
         },
       });
 
-      const formattedResponse = useLighthouseDirectDepositEndpoint
-        ? client.formatDirectDepositResponseFromLighthouse(response)
-        : response?.responses[0];
+      const formattedResponse = client.formatDirectDepositResponseFromLighthouse(
+        response,
+      );
 
       dispatch({
         type: CNP_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
@@ -228,7 +182,7 @@ export function fetchEDUPaymentInformation(
     try {
       const response = await getData('/profile/ch33_bank_accounts');
       // .errors is returned from the API, .error is returned from getData
-      if (response.errors || response.error) {
+      if (response.errors || response.error || response instanceof Error) {
         recordEvent({ event: 'profile-get-edu-direct-deposit-failed' });
 
         captureEDUError(response, {

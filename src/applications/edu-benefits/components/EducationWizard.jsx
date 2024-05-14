@@ -75,8 +75,8 @@ class EducationWizard extends React.Component {
     return (
       <a
         id="apply-now-link"
+        className="vads-c-action-link--green"
         href={url}
-        className="usa-button va-button-primary"
         onClick={() => this.recordWizardValues()}
       >
         Apply now
@@ -165,9 +165,7 @@ class EducationWizard extends React.Component {
       applyForScholarship,
       post911GIBill,
     } = this.state;
-    const buttonClasses = classNames('usa-button-primary', 'wizard-button', {
-      'va-button-primary': !this.state.open,
-    });
+    const buttonClasses = classNames('usa-button-primary', 'wizard-button');
     const contentClasses = classNames(
       'form-expanding-group-open',
       'wizard-content',

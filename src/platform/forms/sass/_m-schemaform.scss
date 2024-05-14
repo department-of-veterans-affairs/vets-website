@@ -3,7 +3,7 @@
 .va-growable-background {
   padding: 1em;
   margin-bottom: 1em;
-  background-color: $color-gray-lightest;
+  background-color: var(--vads-color-base-lightest);
 }
 
 .progress-box .va-growable button {
@@ -24,7 +24,7 @@
 }
 
 legend {
-  color: $color-gray-dark;
+  color: var(--vads-color-base-darker);
   font-size: 1.35em;
   font-weight: 700;
   line-height: 1.5;
@@ -82,7 +82,7 @@ dl.review {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    border-top: 1px solid $color-gray-light;
+    border-top: 1px solid var(--vads-color-base-light);
     padding: 1.5rem;
     padding-left: 0;
     > dd {
@@ -105,7 +105,39 @@ dl.review {
       }
     }
   }
-  border-bottom: 1px solid $color-gray-light;
+  border-bottom: 1px solid var(--vads-color-base-light);
+}
+// MBMS-51921 remove this and update dl.review when the prod flag removal story is ready
+dl.review-auto-margin {
+  margin: 16px auto;
+  .review-row {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border-top: 1px solid var(--vads-color-base-light);
+    padding: 1.5rem;
+    padding-left: 0;
+    > dd {
+      font-weight: bold;
+      text-align: right;
+    }
+    > dt > p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    @media (min-width: $small-screen) {
+      flex-direction: row;
+      > dd {
+        padding-left: 5px;
+        min-width: 100px;
+      }
+      > dt {
+        max-width: 60%;
+        min-width: 40%;
+      }
+    }
+  }
+  border-bottom: 1px solid var(--vads-color-base-light);
 }
 
 form.rjsf {
@@ -192,7 +224,7 @@ label {
 }
 
 .schemaform-required-span {
-  color: $color-secondary-dark;
+  color: var(--vads-color-secondary-dark);
   margin: 0 0.35em;
 }
 
@@ -314,7 +346,7 @@ fieldset.schemaform-field-template {
 //duplicated/renamed from claims-status.scss
 .help-footer-box {
   padding: 2em 0;
-  @include media($medium-large-screen) {
+  @include media($medium-screen) {
     padding-top: 0.6em;
     // padding-left: inherit;
   }
@@ -326,7 +358,7 @@ fieldset.schemaform-field-template {
 
 //duplicated/renamed from claims-status.scss
 .help-heading {
-  border-bottom: 3px solid $color-primary;
+  border-bottom: 3px solid var(--vads-color-primary);
   margin: 0.3em 0;
   font-size: 1.35em;
   line-height: 1.5;
@@ -442,12 +474,22 @@ legend.schemaform-label.schemaform-file-label {
   outline: none;
 }
 
+.form-review-panel-page-header {
+  padding-right: 1rem;
+  padding-top: 1rem;
+  line-height: 2.5rem;
+}
+.form-review-panel-page-header-row {
+  align-items: flex-start;
+  justify-content: flex-end; /* ensures edit is on right side */
+}
+
 .schemaform-review-array-error {
   margin: -1em -0.8em 0;
-  border: 2px solid $color-gold-lightest;
+  border: 2px solid var(--vads-color-gold-lightest);
   > .form-review-panel-page-header-row {
     padding: 1em 0.8em;
-    background-color: $color-gold-lightest;
+    background-color: var(--vads-color-gold-lightest);
   }
   > .va-growable-review {
     padding: 0 1em 1em 1em;
@@ -464,10 +506,11 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .schemaform-review-page-error {
-  margin: -1em -1em 5rem;
+  margin-bottom: 5rem;
   .form-review-panel-page-header-row {
-    padding: 1em 1em;
-    background-color: var(--color-secondary-lightest);
+    padding: 1em 0.5em;
+    margin: -1em -1.2em 0 -1.2em;
+    background-color: var(--vads-color-error-lighter);
     &:before {
       display: block;
       content: " ";
@@ -477,6 +520,7 @@ legend.schemaform-label.schemaform-file-label {
       height: 1.3em;
       background-size: 2em;
       margin-right: 0.5em;
+      margin-top: 1rem;
     }
   }
   dl.review {
@@ -491,46 +535,14 @@ legend.schemaform-label.schemaform-file-label {
   }
 }
 
-.form-review-panel .accordion-header > button.usa-button-unstyled {
-  padding: 2.5rem 4.5rem 2.5rem 2.5rem;
-  line-height: 2.2rem;
-}
-
-.schemaform-review-chapter-error {
-  .schemaform-chapter-accordion-header {
-    position: relative;
-    margin-bottom: 0;
-    border-bottom: 0.5rem solid var(--color-secondary-lightest);
-    > button.usa-button-unstyled {
-      padding-left: 5rem;
-      background-color: $color-secondary-lightest;
-    }
-    .schemaform-review-chapter-error-icon {
-      position: absolute;
-      top: calc(50% - 0.6em);
-      left: 1.5rem;
-      display: block;
-      background-image: url("~uswds/dist/img/alerts/error.png");
-      background-image: url("~uswds/dist/img/alerts/error.svg");
-      width: 2em;
-      height: 1.2em;
-      background-size: 1.8em;
-      margin-right: 1em;
-    }
+/* Highlight accordion item with content that needs attention */
+va-accordion-item[data-unviewed-pages="true"] {
+  &::part(accordion-header) {
+    background-color: #{var(--vads-color-error-lighter)};
   }
-  .schemaform-chapter-accordion-content {
-    border-right-color: $color-secondary-lightest;
-    border-left-color: $color-secondary-lightest;
-    border-bottom-color: $color-secondary-lightest;
+  &::part(accordion-content) {
+    border-color: #{var(--vads-color-error-lighter)};
   }
-}
-
-#content .panel.saved-success-container {
-  background-color: $color-green-lightest;
-}
-
-.saved-success-icon {
-  margin: 0 0.5em 0 0;
 }
 
 .usa-alert-no-color {
@@ -591,11 +603,11 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .autosuggest-list {
-  background: $color-white;
-  border: 1px solid $color-gray;
+  background: var(--vads-color-white);
+  border: 1px solid var(--vads-color-base-dark);
   // Box shadow only sides and bottom of suggestion list.
-  box-shadow: 3px 3px 3px -3px $color-focus, -3px 3px 3px -3px $color-focus,
-    7px 7px 7px -7px $color-focus, -7px 7px 7px -7px $color-focus;
+  box-shadow: 3px 3px 3px -3px var(--vads-color-action-focus-on-light), -3px 3px 3px -3px var(--vads-color-action-focus-on-light),
+    7px 7px 7px -7px var(--vads-color-action-focus-on-light), -7px 7px 7px -7px var(--vads-color-action-focus-on-light);
   list-style: none;
   margin-top: -0.5rem;
   max-width: 46rem;
@@ -625,7 +637,7 @@ legend.schemaform-label.schemaform-file-label {
   list-style-type: none;
 
   &-highlighted {
-    background-color: $color-primary-alt-light;
+    background-color: var(--vads-color-primary-alt-light);
     cursor: pointer;
   }
   &-selected {
@@ -650,7 +662,7 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .schemaform-title-underline {
-  border-bottom: 3px solid $color-primary;
+  border-bottom: 3px solid var(--vads-color-primary);
 }
 
 .schemaform-downtime-after-steps {
@@ -664,7 +676,7 @@ button:focus,
 input:focus,
 select:focus,
 textarea:focus {
-  outline: 2px solid $color-gold-light;
+  outline: 2px solid var(--vads-color-action-focus-on-light);
   outline-offset: 2px;
 }
 
@@ -691,7 +703,7 @@ textarea:focus {
 }
 
 .blue-bar-block {
-  border-left: 7px solid $color-primary;
+  border-left: 7px solid var(--vads-color-primary);
   padding-left: 1em;
 
   p {
@@ -700,7 +712,7 @@ textarea:focus {
 }
 
 select:disabled {
-  background-color: $color-gray-lighter;
+  background-color: var(--vads-color-base-lighter);
 }
 
 // To be removed after SoT is added to DS
@@ -724,4 +736,8 @@ i.fa-angles-left::before {
 i.fa-angles-right::before {
   content: "\F101";
   margin-left: 8px;
+}
+
+va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
+  max-width: 100%;
 }

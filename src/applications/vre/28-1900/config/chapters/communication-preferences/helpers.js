@@ -21,14 +21,14 @@ export const VreCommunicationInformation = (
       </li>
     </ul>
     <p>
-      Please let us know which options work best for you and we’ll call or email
-      you with more details.
+      Let us know which options work best for you and we’ll call or email you
+      with more details.
     </p>
   </section>
 );
 
 export const validateAtLeastOneSelected = (errors, fieldData) => {
   if (!Object.values(fieldData).some(val => val === true)) {
-    errors.addError('Please select at least one option');
+    errors.addError('Select at least one option');
   }
 };

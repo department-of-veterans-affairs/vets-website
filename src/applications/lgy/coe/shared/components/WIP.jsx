@@ -9,7 +9,7 @@ export const WIP = () => (
         </h1>
         <p>
           We’re rolling out the VA home loan Certificate of Eligibility form in
-          stages. It’s not quite ready yet. Please check back again soon.
+          stages. It’s not quite ready yet. Check back again soon.
         </p>
         <p>
           <a href="/housing-assistance/home-loans/">

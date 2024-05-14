@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
-
+import { Outlet } from 'react-router-dom-v5-compat';
 import moment from 'moment';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import CallVBACenter from 'platform/static-data/CallVBACenter';
+import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 
 import { getAppealsV2 as getAppealsV2Action } from '../actions';
 import AppealNotFound from '../components/appeals-v2/AppealNotFound';
@@ -16,6 +15,7 @@ import AppealHelpSidebar from '../components/appeals-v2/AppealHelpSidebar';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import CopyOfExam from '../components/CopyOfExam';
 import { setUpPage } from '../utils/page';
+import withRouter from '../utils/withRouter';
 
 import {
   APPEAL_TYPES,
@@ -110,12 +110,10 @@ export class AppealInfo extends React.Component {
 
   render() {
     const {
-      params,
       appeal,
       fullName,
       appealsLoading,
       appealsAvailability,
-      children,
     } = this.props;
     let appealContent;
     let claimHeading;
@@ -135,11 +133,9 @@ export class AppealInfo extends React.Component {
       claimHeading = this.createHeading();
       appealContent = (
         <>
-          <AppealsV2TabNav appealId={params.id} />
-          <div className="va-tab-content va-appeals-content">
-            {React.Children.map(children, child =>
-              React.cloneElement(child, { appeal, fullName }),
-            )}
+          <AppealsV2TabNav />
+          <div className="tab-content va-appeals-content">
+            <Outlet context={[appeal, fullName]} />
           </div>
         </>
       );
@@ -157,16 +153,18 @@ export class AppealInfo extends React.Component {
       appealContent = appealsDownMessage;
     }
 
+    const crumb = {
+      href: `../status`,
+      label: 'Status details',
+      isRouterLink: true,
+    };
+
     return (
       <div>
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
           <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
             <div className="vads-l-col--12">
-              <ClaimsBreadcrumbs>
-                <Link to={`appeals/${params.id}`} key="claims-appeal">
-                  Status details
-                </Link>
-              </ClaimsBreadcrumbs>
+              <ClaimsBreadcrumbs crumbs={[crumb]} />
             </div>
           </div>
           <div className="vads-l-row vads-u-margin-x--neg2p5">
@@ -201,7 +199,6 @@ export class AppealInfo extends React.Component {
 
 AppealInfo.propTypes = {
   appealsLoading: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired,
   getAppealsV2: PropTypes.func.isRequired,
   params: PropTypes.shape({ id: PropTypes.string.isRequired }).isRequired,
   appeal: PropTypes.shape({
@@ -232,7 +229,9 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = { getAppealsV2: getAppealsV2Action };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AppealInfo);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(AppealInfo),
+);

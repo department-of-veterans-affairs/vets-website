@@ -1,8 +1,12 @@
-import recordEvent from 'platform/monitoring/record-event';
+import {
+  captureError,
+  createApiEvent,
+  ERROR_SOURCES,
+} from '@@vap-svc/util/analytics';
+import recordEvent from '~/platform/monitoring/record-event';
 import { getData } from '../util';
-import { captureError, createApiEvent, ERROR_SOURCES } from '../util/analytics';
 
-export * from './personalInformation';
+export { fetchProfileContacts } from './contacts';
 
 export const FETCH_HERO = 'FETCH_HERO';
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';

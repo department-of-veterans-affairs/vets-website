@@ -78,10 +78,6 @@ export const navigateBackward = (SHORT_NAME, formResponses, router) => {
 
       if (DISPLAY_CONDITIONS?.[previousShortName]) {
         // Found entry in DISPLAY_CONDITIONS for previous question
-        if (previousIndex < 0) {
-          router.push(ROUTES.HOME);
-        }
-
         if (displayConditionsMet(previousShortName, formResponses)) {
           pushToRoute(previousShortName, router);
           return;

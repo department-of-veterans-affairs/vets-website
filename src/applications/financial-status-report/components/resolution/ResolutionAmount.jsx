@@ -106,7 +106,7 @@ const ResolutionAmount = ({ formContext }) => {
         </span>
       </div>
       <VaNumberInput
-        className="no-wrap input-size-3"
+        width="md"
         data-testid="resolution-amount"
         error={errorMessage}
         id={currentDebt.id}
@@ -117,6 +117,11 @@ const ResolutionAmount = ({ formContext }) => {
             : content.debtCompromise.label
         }
         min={0}
+        max={
+          currentDebt.debtType === 'DEBT'
+            ? currentDebt?.currentAr
+            : currentDebt.pHAmtDue
+        }
         name="resolution-amount"
         onInput={onAmountChange}
         required

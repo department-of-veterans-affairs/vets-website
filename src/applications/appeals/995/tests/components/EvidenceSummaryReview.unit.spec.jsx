@@ -1,12 +1,17 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import EvidenceSummaryReview from '../../components/EvidenceSummaryReview';
-import { EVIDENCE_PRIVATE, EVIDENCE_VA, EVIDENCE_OTHER } from '../../constants';
+import {
+  EVIDENCE_PRIVATE,
+  EVIDENCE_VA,
+  EVIDENCE_OTHER,
+  SUMMARY_EDIT,
+} from '../../constants';
 import { content } from '../../content/evidenceSummary';
 
 const providerFacilityAddress = {
@@ -66,7 +71,8 @@ const setupSummary = ({
   vaMR = true,
   privateMR = true,
   other = true,
-  limit = 'Pizza addiction',
+  limit,
+  list = records(),
   editPage = () => {},
 } = {}) =>
   render(
@@ -77,7 +83,7 @@ const setupSummary = ({
           [EVIDENCE_PRIVATE]: privateMR,
           [EVIDENCE_OTHER]: other,
 
-          ...records(),
+          ...list,
           limitedConsent: limit,
         }}
         editPage={editPage}
@@ -87,7 +93,7 @@ const setupSummary = ({
 
 describe('<EvidenceSummaryReview>', () => {
   it('should render', () => {
-    const { container } = setupSummary();
+    const { container } = setupSummary({ limit: 'Pizza addiction' });
 
     expect($('va-button', container)).to.exist;
     // now includes limited consent
@@ -101,6 +107,7 @@ describe('<EvidenceSummaryReview>', () => {
     const { container } = setupSummary({
       privateMR: false,
       other: false,
+      limit: 'Pizza addiction',
     });
 
     expect($$('h4', container).length).to.eq(1);
@@ -113,6 +120,7 @@ describe('<EvidenceSummaryReview>', () => {
       vaMR: false,
       privateMR: false,
       other: false,
+      limit: 'Pizza addiction',
     });
 
     expect($$('h3', container).length).to.eq(0);
@@ -129,5 +137,14 @@ describe('<EvidenceSummaryReview>', () => {
     fireEvent.click($('va-button', container));
 
     expect(editPageSpy.called).to.be.true;
+  });
+
+  it('should focus on edit button after updating page', async () => {
+    global.window.sessionStorage.setItem(SUMMARY_EDIT, 'true');
+    setupSummary({ list: {}, limit: undefined });
+
+    await waitFor(() => {
+      expect(global.window.sessionStorage.getItem(SUMMARY_EDIT)).to.be.null;
+    });
   });
 });

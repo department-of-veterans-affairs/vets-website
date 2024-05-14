@@ -12,7 +12,10 @@ import {
 import { DEFAULT_ERROR_MESSAGE } from '../../constants';
 
 function hasError(codes, errors) {
-  return errors.some(error => codes.has(error.code));
+  if (Array.isArray(errors)) {
+    return errors.some(error => codes.has(error.code));
+  }
+  return false;
 }
 
 export default function VAPServiceEditModalErrorMessage({
@@ -72,7 +75,7 @@ export default function VAPServiceEditModalErrorMessage({
 
   return (
     <>
-      <va-alert background-only status="error" show-icon visible>
+      <va-alert background-only status="error" visible uswds>
         <div className="vads-u-display--flex vads-u-align-items--baseline">
           <span className="sr-only">Alert: </span>
           <div role="alert">{content}</div>

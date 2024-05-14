@@ -1,8 +1,12 @@
-import set from '@department-of-veterans-affairs/platform-forms-system/set';
+import { isEmpty } from 'lodash';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
+import { format } from 'date-fns';
+import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   preparerIdentifications,
-  benefitPhrases,
+  veteranBenefits,
+  survivingDependentBenefits,
 } from '../definitions/constants';
 import formConfig from './form';
 
@@ -40,17 +44,84 @@ export const preparerIsThirdParty = ({ formData } = {}) => {
   );
 };
 
+export const preparerIsSurvivingDependentOrThirdPartyToSurvivingDependent = ({
+  formData,
+}) => {
+  return (
+    preparerIsSurvivingDependent({ formData }) ||
+    preparerIsThirdPartyToASurvivingDependent({ formData })
+  );
+};
+
+export const hasActiveCompensationITF = ({ formData } = {}) => {
+  return !isEmpty(formData?.['view:activeCompensationITF']);
+};
+
+export const hasActivePensionITF = ({ formData } = {}) => {
+  return !isEmpty(formData?.['view:activePensionITF']);
+};
+
+export const noActiveITF = ({ formData } = {}) => {
+  return (
+    !hasActiveCompensationITF({ formData }) &&
+    !hasActivePensionITF({ formData })
+  );
+};
+
+export const shouldSeeVeteranBenefitSelection = ({ formData }) => {
+  return preparerIsVeteran({ formData }) && noActiveITF({ formData });
+};
+
+export const shouldSeeVeteranBenefitSelectionCompensation = ({ formData }) => {
+  return preparerIsVeteran({ formData }) && hasActivePensionITF({ formData });
+};
+
+export const shouldSeeVeteranBenefitSelectionPension = ({ formData }) => {
+  return (
+    preparerIsVeteran({ formData }) && hasActiveCompensationITF({ formData })
+  );
+};
+
+export const hasVeteranPrefill = ({ formData } = {}) => {
+  return (
+    !isEmpty(formData?.['view:veteranPrefillStore']?.fullName) &&
+    !isEmpty(formData?.['view:veteranPrefillStore']?.ssn) &&
+    !isEmpty(formData?.['view:veteranPrefillStore']?.dateOfBirth)
+  );
+};
+
+export const preparerIsVeteranAndHasPrefill = ({ formData }) => {
+  return preparerIsVeteran({ formData }) && hasVeteranPrefill({ formData });
+};
+
+export const shouldSeeVeteranPersonalInformation = ({ formData }) => {
+  return (
+    (preparerIsVeteran({ formData }) && !hasVeteranPrefill({ formData })) ||
+    preparerIsThirdPartyToTheVeteran({ formData })
+  );
+};
+
+export const shouldSeeVeteranIdentificationInformation = ({ formData }) => {
+  return (
+    !preparerIsVeteran({ formData }) ||
+    (preparerIsVeteran({ formData }) && !hasVeteranPrefill({ formData }))
+  );
+};
+
 export const statementOfTruthFullNamePath = ({ formData } = {}) => {
   if (preparerIsThirdParty({ formData })) {
     return 'thirdPartyPreparerFullName';
   }
   if (preparerIsVeteran({ formData })) {
+    if (hasVeteranPrefill({ formData })) {
+      return 'view:veteranPrefillStore.fullName';
+    }
     return 'veteranFullName';
   }
   return 'survivingDependentFullName';
 };
 
-export const benefitSelectionStepperTitle = ({ formData } = {}) => {
+export const benefitSelectionChapterTitle = ({ formData } = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
     case preparerIdentifications.survivingDependent:
@@ -64,21 +135,9 @@ export const benefitSelectionStepperTitle = ({ formData } = {}) => {
   }
 };
 
-export const benefitSelectionTitle = ({ formData } = {}) => {
-  switch (formData?.preparerIdentification) {
-    case preparerIdentifications.veteran:
-    case preparerIdentifications.survivingDependent:
-      return 'Select the benefits you intend to file a claim for. Select all that apply';
-    case preparerIdentifications.thirdPartyVeteran:
-      return 'Select the benefits the Veteran intends to file a claim for. Select all that apply';
-    case preparerIdentifications.thirdPartySurvivingDependent:
-      return 'Select the benefits the Claimant intends to file a claim for. Select all that apply';
-    default:
-      return 'Select the benefits you intend to file a claim for. Select all that apply';
-  }
-};
-
-export const personalInformationStepperTitle = ({ formData } = {}) => {
+export const survivingDependentPersonalInformationChapterTitle = ({
+  formData,
+} = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
     case preparerIdentifications.survivingDependent:
@@ -92,7 +151,9 @@ export const personalInformationStepperTitle = ({ formData } = {}) => {
   }
 };
 
-export const contactInformationStepperTitle = ({ formData } = {}) => {
+export const survivingDependentContactInformationChapterTitle = ({
+  formData,
+} = {}) => {
   switch (formData?.preparerIdentification) {
     case preparerIdentifications.veteran:
     case preparerIdentifications.survivingDependent:
@@ -106,204 +167,207 @@ export const contactInformationStepperTitle = ({ formData } = {}) => {
   }
 };
 
-export const initializeFormDataWithPreparerIdentification = preparerIdentification => {
-  return set(
-    'preparerIdentification',
+export const veteranPersonalInformationChapterTitle = ({ formData } = {}) => {
+  if (formData?.preparerIdentification === preparerIdentifications.veteran) {
+    return 'Your personal information';
+  }
+
+  return 'Veteran’s personal information';
+};
+
+export const veteranContactInformationChapterTitle = ({ formData } = {}) => {
+  if (formData?.preparerIdentification === preparerIdentifications.veteran) {
+    return 'Your contact information';
+  }
+
+  return 'Veteran’s contact information';
+};
+
+export const initializeFormDataWithPreparerIdentificationAndPrefill = (
+  preparerIdentification,
+  veteranPrefillStore,
+) => {
+  return {
+    ...createInitialState(formConfig).data,
     preparerIdentification,
-    createInitialState(formConfig).data,
-  );
+    'view:veteranPrefillStore': veteranPrefillStore,
+  };
 };
 
-// Confirmation Page
-const benefitSelections = data =>
-  Object.keys(data.benefitSelection).filter(key => data.benefitSelection[key]);
-
-const alreadySubmittedBenefitIntents = alreadySubmittedIntents =>
-  Object.keys(alreadySubmittedIntents).filter(
-    key => alreadySubmittedIntents[key],
-  );
-
-const benefitHasAlreadyBeenSubmitted = (
-  benefitSelection,
-  alreadySubmittedIntents,
+export const goPathAfterGettingITF = (
+  { compensationIntent, pensionIntent },
+  formData,
+  goPath,
+  goNextPath,
+  setFormData,
 ) => {
-  const intents = alreadySubmittedBenefitIntents(alreadySubmittedIntents);
-  if (intents.length === 0) return false;
+  const formDataToSet = {
+    ...formData,
+    'view:activeCompensationITF':
+      compensationIntent?.status === 'active' ? compensationIntent : {},
+    'view:activePensionITF':
+      pensionIntent?.status === 'active' ? pensionIntent : {},
+  };
 
-  return !intents.includes(benefitSelection);
-};
+  setFormData(formDataToSet);
 
-const isAlreadySubmitted = (data, alreadySubmittedIntents) => {
-  return benefitSelections(data).some(benefitSelection =>
-    benefitHasAlreadyBeenSubmitted(benefitSelection, alreadySubmittedIntents),
-  );
-};
-
-export const getAlertType = (data, alreadySubmittedIntents) => {
   if (
-    benefitSelections(data).some(
-      benefitSelection =>
-        !alreadySubmittedBenefitIntents(alreadySubmittedIntents).includes(
-          benefitSelection.toLowerCase(),
-        ),
-    )
+    hasActiveCompensationITF({ formData: formDataToSet }) &&
+    hasActivePensionITF({ formData: formDataToSet })
   ) {
-    return 'success';
-  }
-
-  return 'info';
-};
-
-export const getSuccessAlertTitle = (data, alreadySubmittedIntents) => {
-  const newlySelectedBenefit = benefitSelections(data).find(benefitSelection =>
-    benefitHasAlreadyBeenSubmitted(benefitSelection, alreadySubmittedIntents),
-  );
-
-  if (newlySelectedBenefit) {
-    return `You’ve submitted your intent to file request for ${
-      benefitPhrases[newlySelectedBenefit.toLowerCase()]
-    }`;
-  }
-
-  return 'You’ve submitted your intent to file request';
-};
-
-export const getSuccessAlertText = (
-  data,
-  alreadySubmittedIntents,
-  expirationDate,
-) => {
-  let benefitSelection = benefitSelections(data)[0].toLowerCase();
-  if (benefitSelections(data).length > 1) {
-    benefitSelection = 'compensationAndPension';
-  }
-
-  const benefitPhrase = benefitPhrases[benefitSelection];
-  if (Object.keys(alreadySubmittedIntents).length > 0) {
-    return `Your intent to file will expire on ${expirationDate}.`;
-  }
-
-  return `Your intent to file for ${benefitPhrase} will expire on ${expirationDate}.`;
-};
-
-export const getInfoAlertTitle = () =>
-  'You’ve already submitted an intent to file';
-
-export const getInfoAlertText = (data, alreadySubmittedIntents) => {
-  let benefitSelection = benefitSelections(data)[0].toLowerCase();
-  const dateOptions = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
-  const expirationDate = new Date(
-    alreadySubmittedIntents[benefitSelection].expirationDate,
-  ).toLocaleDateString('en-US', dateOptions);
-  if (benefitSelections(data).length > 1) {
-    benefitSelection = 'compensationAndPension';
-    return 'Our records show that you already have an intent to file for disability compensation and for pension claims.';
-  }
-
-  const benefitPhrase = benefitPhrases[benefitSelection];
-  return `Our records show that you already have an intent to file for ${benefitPhrase} and it will expire on ${expirationDate}.`;
-};
-
-export const getAlreadySubmittedTitle = (data, alreadySubmittedIntents) => {
-  if (!isAlreadySubmitted(data, alreadySubmittedIntents)) {
-    return null;
-  }
-
-  let alreadySubmittedIntent = alreadySubmittedBenefitIntents(
-    alreadySubmittedIntents,
-  )[0];
-  if (alreadySubmittedBenefitIntents(alreadySubmittedIntents).length > 1) {
-    alreadySubmittedIntent = 'compensationAndPension';
+    goPath('confirmation');
+  } else if (hasActiveCompensationITF({ formData: formDataToSet })) {
+    goPath('veteran-benefit-selection-pension');
+  } else if (hasActivePensionITF({ formData: formDataToSet })) {
+    goPath('veteran-benefit-selection-compensation');
   } else {
-    alreadySubmittedIntent = alreadySubmittedIntent.toLowerCase();
+    goNextPath();
   }
-
-  return `You’ve already submitted an intent to file for ${
-    benefitPhrases[alreadySubmittedIntent]
-  }`;
 };
 
-export const getAlreadySubmittedText = (data, alreadySubmittedIntents) => {
-  if (!isAlreadySubmitted(data, alreadySubmittedIntents)) {
-    return null;
-  }
+export const getIntentsToFile = ({
+  formData,
+  goPath,
+  goNextPath,
+  setFormData,
+}) => {
+  if (preparerIsVeteran({ formData })) {
+    goPath('get-itf-status');
 
-  const dateOptions = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
-  let expirationDate;
-  let alreadySubmittedIntent = alreadySubmittedBenefitIntents(
-    alreadySubmittedIntents,
-  )[0];
-  if (alreadySubmittedBenefitIntents(alreadySubmittedIntents).length > 1) {
-    expirationDate = new Date(
-      alreadySubmittedIntents.pension?.expirationDate,
-    ).toLocaleDateString('en-US', dateOptions);
-    alreadySubmittedIntent = 'compensationAndPension';
+    apiRequest(
+      `${
+        environment.API_URL
+      }/simple_forms_api/v1/simple_forms/get_intents_to_file`,
+    )
+      .then(({ compensationIntent, pensionIntent }) => {
+        goPathAfterGettingITF(
+          { compensationIntent, pensionIntent },
+          formData,
+          goPath,
+          goNextPath,
+          setFormData,
+        );
+      })
+      .catch(() => goNextPath());
   } else {
-    expirationDate = new Date(
-      alreadySubmittedIntents[alreadySubmittedIntent]?.expirationDate,
-    ).toLocaleDateString('en-US', dateOptions);
-    alreadySubmittedIntent = alreadySubmittedIntent.toLowerCase();
+    goNextPath();
   }
-
-  return `Our records show that you already have an Intent to File (ITF) for ${
-    benefitPhrases[alreadySubmittedIntent]
-  }. Your intent to file for ${
-    benefitPhrases[alreadySubmittedIntent]
-  } expires on ${expirationDate}. You’ll need to submit your claim by this date in order to receive payments starting from your effective date.`;
 };
 
-export const getNextStepsTextSecondParagraph = (
-  data,
-  alreadySubmittedIntents,
-  newExpirationDate,
-) => {
-  const benefitSelection = benefitSelections(data)[0].toLowerCase();
-  if (benefitSelections(data).length > 1) {
+export const bypassFormCheck = (type, { formData, goPath, goNextPath }) => {
+  if (formData?.[type]) {
+    goNextPath();
+  } else {
+    goPath('confirmation');
+  }
+};
+
+export const confirmationPageFormBypassed = formData => {
+  return Object.values(formData.benefitSelection).every(benefit => !benefit);
+};
+
+export const confirmationPageAlertStatus = formData => {
+  if (confirmationPageFormBypassed(formData)) {
+    return 'warning';
+  }
+
+  return 'success';
+};
+
+export const confirmationPageAlertHeadline = formData => {
+  if (confirmationPageFormBypassed(formData)) {
+    return 'You already have an intent to file on record';
+  }
+
+  return 'You’ve submitted your intent to file';
+};
+
+export const confirmationPageAlertParagraph = formData => {
+  if (confirmationPageFormBypassed(formData)) {
     if (
-      alreadySubmittedIntents?.compensation &&
-      alreadySubmittedIntents?.pension
+      hasActiveCompensationITF({ formData }) &&
+      hasActivePensionITF({ formData })
     ) {
-      return `Your intent to file for disability compensation expires on ${
-        alreadySubmittedIntents.compensation.expirationDate
-      } and your intent to file for pension claims expires on ${
-        alreadySubmittedIntents.pension.expirationDate
-      }. You’ll need to file your claims by these dates to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`;
+      return 'Our records show that you already have an intent to file for disability compensation and for pension claims.';
     }
-    return 'You’ll need to file your claims within 1 year to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).';
+    if (hasActiveCompensationITF({ formData })) {
+      return `Our records show that you already have an intent to file for disability compensation and it will expire on ${format(
+        new Date(formData['view:activeCompensationITF'].expirationDate),
+        'MMMM d, yyyy',
+      )}.`;
+    }
+    if (hasActivePensionITF({ formData })) {
+      return `Our records show that you already have an intent to file for pension claims and it will expire on ${format(
+        new Date(formData['view:activePensionITF'].expirationDate),
+        'MMMM d, yyyy',
+      )}.`;
+    }
   }
 
-  const dateOptions = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  };
-  let expirationDate = newExpirationDate;
-  const oldExpirationDate =
-    alreadySubmittedIntents[benefitSelection]?.expirationDate;
-  if (oldExpirationDate) {
-    expirationDate = new Date(
-      alreadySubmittedIntents[benefitSelection].expirationDate,
-    ).toLocaleDateString('en-US', dateOptions);
+  if (
+    formData.benefitSelection[veteranBenefits.COMPENSATION] &&
+    formData.benefitSelection[veteranBenefits.PENSION]
+  ) {
+    return 'It may take us a few days to process your intent to file for disability compensation and for pension claims. Then you’ll have 1 year to file your claim.';
+  }
+  if (formData.benefitSelection[veteranBenefits.COMPENSATION]) {
+    return 'It may take us a few days to process your intent to file for disability compensation. Then you’ll have 1 year to file your claim.';
+  }
+  if (formData.benefitSelection[veteranBenefits.PENSION]) {
+    return 'It may take us a few days to process your intent to file for pension claims. Then you’ll have 1 year to file your claim.';
+  }
+  if (formData.benefitSelection[survivingDependentBenefits.SURVIVOR]) {
+    return 'It may take us a few days to process your intent to file for pension claims for survivors. Then you’ll have 1 year to file your claim.';
   }
 
-  return `Your intent to file for ${
-    benefitPhrases[benefitSelection]
-  } expires on ${expirationDate}. You’ll need to file your claim by this date to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`;
+  return 'It may take us a few days to process your intent to file. Then you’ll have 1 year to file your claim.';
 };
 
-export const getNextStepsLinks = data => {
-  return Object.keys(data.benefitSelection).filter(
-    key => data.benefitSelection[key],
-  );
+export const confirmationPageNextStepsParagraph = formData => {
+  if (
+    hasActiveCompensationITF({ formData }) &&
+    hasActivePensionITF({ formData })
+  ) {
+    return `Your intent to file for disability compensation expires on ${format(
+      new Date(formData['view:activeCompensationITF'].expirationDate),
+      'MMMM d, yyyy',
+    )} and your intent to file for pension claims expires on ${format(
+      new Date(formData['view:activePensionITF'].expirationDate),
+      'MMMM d, yyyy',
+    )}. You’ll need to file your claims by these dates to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`;
+  }
+  if (confirmationPageFormBypassed(formData)) {
+    if (hasActiveCompensationITF({ formData })) {
+      return `Your intent to file for disability compensation expires on ${format(
+        new Date(formData['view:activeCompensationITF'].expirationDate),
+        'MMMM d, yyyy',
+      )}. If you complete and file your claim before that date and we approve your claim, you may be able to get retroactive payments. Retroactive payments are payments for the time between when we processed your intent to file and when we approved your claim.`;
+    }
+    if (hasActivePensionITF({ formData })) {
+      return `Your intent to file for pension claims expires on ${format(
+        new Date(formData['view:activePensionITF'].expirationDate),
+        'MMMM d, yyyy',
+      )}. If you complete and file your claim before that date and we approve your claim, you may be able to get retroactive payments. Retroactive payments are payments for the time between when we processed your intent to file and when we approved your claim.`;
+    }
+  }
+  if (
+    noActiveITF({ formData }) &&
+    Object.values(formData.benefitSelection).filter(Boolean).length === 1
+  ) {
+    let benefitType;
+
+    if (formData.benefitSelection[veteranBenefits.COMPENSATION]) {
+      benefitType = 'disability compensation';
+    }
+    if (formData.benefitSelection[veteranBenefits.PENSION]) {
+      benefitType = 'pension claims';
+    }
+    if (formData.benefitSelection[survivingDependentBenefits.SURVIVOR]) {
+      benefitType = 'pension claims for survivors';
+    }
+
+    return `Your intent to file for ${benefitType} expires one year from today. You’ll need to file your claim by this date to get retroactive payments (payments for the time between when you submit your intent to file and when we approve your claim).`;
+  }
+
+  return null;
 };

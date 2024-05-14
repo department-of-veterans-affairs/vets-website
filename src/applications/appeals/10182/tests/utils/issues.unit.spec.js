@@ -1,10 +1,11 @@
 import { expect } from 'chai';
-import moment from 'moment';
 import { SHOW_PART3 } from '../../constants';
 import { issuesNeedUpdating } from '../../utils/issues';
 
+import { parseDateWithOffset } from '../../../shared/utils/dates';
+
 describe('issuesNeedUpdating', () => {
-  const yesterday = moment().format('YYYY-MM-DD');
+  const yesterday = parseDateWithOffset({ days: -1 });
   const longAgo = '2000-01-01';
 
   const createEntry = (
@@ -15,6 +16,11 @@ describe('issuesNeedUpdating', () => {
       ratingIssueSubjectText,
       approxDecisionDate,
     },
+  });
+
+  it('returns false if nothing is passed in', () => {
+    expect(issuesNeedUpdating()).to.be.false;
+    expect(issuesNeedUpdating([{}], [{}])).to.be.false;
   });
 
   it('returns false if loadedIssues have a decision date older than a year and existingIssues is empty', () => {

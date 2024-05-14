@@ -1,24 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import { getUnixTime, isAfter, parseISO, startOfDay, subDays } from 'date-fns';
 import { orderBy } from 'lodash';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
-import { DATE_FORMATS } from '../constants';
 import { appealTypes } from '../utils/appeals-v2-helpers';
-import { buildDateFormatter, getClaimType } from '../utils/helpers';
+import {
+  buildDateFormatter,
+  getClaimType,
+  isClaimOpen,
+} from '../utils/helpers';
 
 // HELPERS
 const isAppeal = claim => appealTypes.includes(claim.type);
 const isBenefitsClaimOrAppeal = claim =>
   claim.type !== 'education_benefits_claims';
-
-// START lighthouse_migration
-const isEVSSClaim = claim => claim.type === 'evss_claims';
-// END lighthouse_migration
 
 const getRecentlyClosedClaims = claims => {
   return claims
@@ -39,17 +38,14 @@ const getRecentlyClosedClaims = claims => {
         return !claim.attributes.active && isAfter(lastEventDate, sixtyDaysAgo);
       }
 
-      // START lighthouse_migration
-      const { closeDate, open, phaseChangeDate } = claim.attributes;
+      const { closeDate, status } = claim.attributes;
 
-      const isClosed = isEVSSClaim(claim) ? !open : Boolean(closeDate);
-      const dateClosed = isEVSSClaim(claim) ? phaseChangeDate : closeDate;
-      // END lighthouse_migration
+      const isClosed = !isClaimOpen(status, closeDate);
 
       // If the claim is not an appeal, we want to filter it out
       // if it was closed more than 30 days ago
       const thirtyDaysAgo = startOfDay(subDays(new Date(), 30));
-      const startOfCloseDate = startOfDay(parseISO(dateClosed));
+      const startOfCloseDate = startOfDay(parseISO(closeDate));
 
       return isClosed && isAfter(startOfCloseDate, thirtyDaysAgo);
     })
@@ -74,27 +70,13 @@ const getRecentlyClosedClaims = claims => {
     });
 };
 
-// START ligthouse_migration
-const getCloseDate = claim => {
-  const { closeDate, phaseChangeDate } = claim.attributes;
-
-  return isEVSSClaim(claim) ? phaseChangeDate : closeDate;
-};
-
-const getClaimDate = claim => {
-  const { claimDate, dateFiled } = claim.attributes;
-
-  return isEVSSClaim(claim) ? dateFiled : claimDate;
-};
-// END lighthouse_migration
-
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
+const formatDate = buildDateFormatter();
 
 const getLinkText = claim => {
   const claimType = isAppeal(claim)
     ? 'Compensation Appeal'
     : getClaimType(claim).toLowerCase();
-  return `Your ${claimType} Received ${formatDate(getClaimDate(claim))}`;
+  return `Your ${claimType} Received ${formatDate(claim.attributes.claimDate)}`;
 };
 
 export default function ClosedClaimMessage({ claims, onClose }) {
@@ -115,8 +97,8 @@ export default function ClosedClaimMessage({ claims, onClose }) {
               <Link
                 to={
                   isAppeal(claim)
-                    ? `appeals/${claim.id}/status`
-                    : `your-claims/${claim.id}/status`
+                    ? `/appeals/${claim.id}/status`
+                    : `${claim.id}/status`
                 }
                 onClick={() => {
                   recordEvent({ event: 'claims-closed-alert-clicked' });
@@ -124,7 +106,7 @@ export default function ClosedClaimMessage({ claims, onClose }) {
               >
                 {getLinkText(claim)}
               </Link>{' '}
-              has been closed as of {formatDate(getCloseDate(claim))}
+              has been closed as of {formatDate(claim.attributes.closeDate)}
             </p>
           ))}
         </div>

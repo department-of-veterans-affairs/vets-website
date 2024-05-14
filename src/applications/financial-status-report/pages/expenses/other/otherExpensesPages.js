@@ -1,5 +1,8 @@
 import OtherExpensesInputList from '../../../components/otherExpenses/OtherExpensesInputList';
-import { validateCurrencyArray } from '../../../utils/validations';
+import {
+  validateCurrencyArray,
+  validateOtherExpensesArrayLimits,
+} from '../../../utils/validations';
 
 export const otherExpensesValues = {
   uiSchema: {
@@ -10,7 +13,10 @@ export const otherExpensesValues = {
     },
     otherExpenses: {
       'ui:title': 'otherExpensesValues',
-      'ui:validations': [validateCurrencyArray],
+      'ui:validations': [
+        validateCurrencyArray,
+        validateOtherExpensesArrayLimits,
+      ],
       items: {
         name: {
           'ui:title': 'Name of Expense',

@@ -2,204 +2,577 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { FilesPage } from '../../containers/FilesPage';
+import * as AdditionalEvidencePage from '../../components/claim-files-tab/AdditionalEvidencePage';
+import { renderWithRouter } from '../utils';
+
+const getStore = (cstUseClaimDetailsV2Enabled = true) =>
+  createStore(() => ({
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      cst_use_claim_details_v2: cstUseClaimDetailsV2Enabled,
+    },
+  }));
+
+const props = {
+  claim: {},
+  clearNotification: () => {},
+  lastPage: '',
+  loading: false,
+  message: {},
+};
 
 describe('<FilesPage>', () => {
-  it('should render notification', () => {
-    const claim = {};
+  context('cstUseClaimDetailsV2 feature flag enabled', () => {
+    let stub;
+    before(() => {
+      // Stubbing out AdditionalEvidencePage because we're not interested
+      // in setting up all of the redux state needed to test it
+      stub = sinon.stub(AdditionalEvidencePage, 'default');
+      stub.returns(<div data-testid="additional-evidence-page" />);
+    });
 
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        loading
-        message={{ title: 'Test', body: 'Body' }}
-        claim={claim}
-      />,
-    );
-    expect(tree.props.message).not.to.be.null;
-  });
+    after(() => {
+      stub.restore();
+    });
 
-  it('should not render children with null claim', () => {
-    const claim = null;
-
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        loading
-        message={{ title: 'Test', body: 'Body' }}
-        claim={claim}
-      />,
-    );
-    expect(tree.props.children).to.be.null;
-  });
-
-  it('should hide requested files when closed', () => {
-    const claim = {
-      attributes: {
-        open: false,
-        eventsTimeline: [],
-      },
-    };
-    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
-
-    expect(tree.subTree('RequestedFilesInfo')).to.be.false;
-  });
-
-  it('should show requested files when open', () => {
-    const claim = {
-      attributes: {
-        open: true,
-        eventsTimeline: [],
-      },
-    };
-    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
-    const content = tree.dive(['FilesPageContent']);
-    expect(content.subTree('RequestedFilesInfo')).not.to.be.false;
-  });
-
-  it('should render ask va to decide component', () => {
-    const claim = {
-      id: 1,
-      attributes: {
-        phase: 3,
-        documentsNeeded: false,
-        decisionLetterSent: false,
-        waiverSubmitted: false,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
+    context('when claim is open', () => {
+      it('should render files page, showing additional evidence section without alerts, and docs filed section', () => {
+        const claim = {
+          id: '1',
+          type: 'claim',
+          attributes: {
+            claimDate: '2023-01-01',
+            claimPhaseDates: {
+              currentPhaseBack: false,
+              phaseChangeDate: '2023-02-08',
+              latestPhaseType: 'INITIAL_REVIEW',
+              previousPhases: {
+                phase1CompleteDate: '2023-02-08',
+              },
+            },
+            closeDate: null,
+            documentsNeeded: false,
+            decisionLetterSent: false,
+            status: 'INITIAL_REVIEW',
+            supportingDocuments: [],
+            trackedItems: [],
           },
-        ],
-      },
-    };
+        };
 
-    const tree = SkinDeep.shallowRender(
-      <FilesPage params={{ id: 2 }} claim={claim} />,
-    );
-    const content = tree.dive(['FilesPageContent']);
-    expect(content.everySubTree('AskVAToDecide')).not.to.be.empty;
-  });
+        const { container, getByTestId } = renderWithRouter(
+          <Provider store={getStore()}>
+            <FilesPage
+              claim={claim}
+              message={{ title: 'Test', body: 'Body' }}
+              clearNotification={() => {}}
+            />
+            ,
+          </Provider>,
+        );
+        const filesPage = $('#tabPanelFiles', container);
 
-  it('should display turned in docs', () => {
-    const claim = {
-      attributes: {
-        eventsTimeline: [
-          {
-            type: 'received_from_you_list',
-            documents: [
+        expect(filesPage).to.exist;
+        expect($('.claim-file-header-container', container)).to.exist;
+        expect(getByTestId('additional-evidence-page')).to.exist;
+        expect($('.documents-filed-container', container)).to.exist;
+        expect($('.claims-requested-files-container', container)).not.to.exist;
+      });
+
+      it('should render files page, showing additional evidence section with alerts, and docs filed section when using lighthouse', () => {
+        const claim = {
+          id: '1',
+          type: 'claim',
+          attributes: {
+            claimDate: '2023-01-01',
+            claimPhaseDates: {
+              currentPhaseBack: false,
+              phaseChangeDate: '2023-02-08',
+              latestPhaseType: 'INITIAL_REVIEW',
+              previousPhases: {
+                phase1CompleteDate: '2023-02-08',
+              },
+            },
+            closeDate: null,
+            documentsNeeded: true,
+            decisionLetterSent: false,
+            status: 'INITIAL_REVIEW',
+            supportingDocuments: [],
+            trackedItems: [
               {
-                filename: 'Filename',
+                id: 1,
+                status: 'NEEDED_FROM_YOU',
+                displayName: 'Test',
+                description: 'Test',
+                suspenseDate: '2024-02-01',
+                date: '2023-01-01',
               },
             ],
-            trackedItemId: 2,
-            status: 'ACCEPTED',
           },
-        ],
-      },
-    };
+        };
+        const { container, getByTestId } = renderWithRouter(
+          <Provider store={getStore()}>
+            <FilesPage
+              claim={claim}
+              message={{ title: 'Test', body: 'Body' }}
+              clearNotification={() => {}}
+            />
+            ,
+          </Provider>,
+        );
+        const filesPage = $('#tabPanelFiles', container);
 
-    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
-    const content = tree.dive(['FilesPageContent']);
-    expect(content.everySubTree('SubmittedTrackedItem').length).to.equal(1);
-  });
+        expect(filesPage).to.exist;
+        expect($('.claim-file-header-container', container)).to.exist;
+        expect(getByTestId('additional-evidence-page')).to.exist;
+        expect($('.documents-filed-container', container)).to.exist;
+        expect($('.claims-requested-files-container', container)).to.not.exist;
+      });
+    });
 
-  it('should display additional evidence docs', () => {
-    const claim = {
-      attributes: {
-        eventsTimeline: [
-          {
-            filename: 'Filename',
-            fileType: 'Testing',
-            type: 'other_documents_list',
-          },
-        ],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
-    const content = tree.dive(['FilesPageContent']);
-    expect(content.everySubTree('AdditionalEvidenceItem').length).to.equal(1);
-  });
-
-  it('should show never received docs as tracked items', () => {
-    const claim = {
-      attributes: {
-        eventsTimeline: [
-          {
-            type: 'never_received_from_you_list',
-            documents: [
-              {
-                filename: 'Filename',
+    context('when claim is closed', () => {
+      it('should render files page, showing additional evidence section, and docs filed section', () => {
+        const claim = {
+          id: '1',
+          type: 'claim',
+          attributes: {
+            claimDate: '2023-01-01',
+            claimPhaseDates: {
+              currentPhaseBack: false,
+              phaseChangeDate: '2023-01-31',
+              latestPhaseType: 'COMPLETE',
+              previousPhases: {
+                phase7CompleteDate: '2023-02-08',
               },
-            ],
-            trackedItemId: 2,
-            status: 'ACCEPTED',
+            },
+            closeDate: '2023-01-31',
+            documentsNeeded: false,
+            decisionLetterSent: false,
+            status: 'COMPLETE',
+            supportingDocuments: [],
+            trackedItems: [],
           },
-          {
-            type: 'never_received_from_others_list',
-            documents: [
-              {
-                filename: 'Filename',
-              },
-            ],
-            trackedItemId: 3,
-            status: 'NEEDED',
-          },
-        ],
-      },
-    };
+        };
 
-    const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
-    const content = tree.dive(['FilesPageContent']);
-    expect(content.everySubTree('SubmittedTrackedItem').length).to.equal(2);
-    expect(content.everySubTree('AdditionalEvidenceItem')).to.be.empty;
+        const { container, getByTestId } = renderWithRouter(
+          <Provider store={getStore()}>
+            <FilesPage
+              claim={claim}
+              message={{ title: 'Test', body: 'Body' }}
+              clearNotification={() => {}}
+            />
+            ,
+          </Provider>,
+        );
+        const filesPage = $('#tabPanelFiles', container);
+
+        expect(filesPage).to.exist;
+        expect($('.claim-file-header-container', container)).to.exist;
+        expect(getByTestId('additional-evidence-page')).to.exist;
+        expect($('.documents-filed-container', container)).to.exist;
+        expect($('.claims-requested-files-container', container)).not.to.exist;
+      });
+    });
+
+    it('should render loading state', () => {
+      const { container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage
+            {...props}
+            loading
+            message={{ title: 'Test', body: 'Body' }}
+          />
+        </Provider>,
+      );
+      expect($('.claim-files', container)).to.not.exist;
+      expect($('va-loading-indicator', container)).to.exist;
+    });
+
+    it('should render null when claim null', () => {
+      const { container, getByText } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage
+            {...props}
+            claim={null}
+            message={{ title: 'Test', body: 'Body' }}
+          />
+        </Provider>,
+      );
+
+      expect($('.claim-files', container)).to.not.exist;
+      expect(document.title).to.equal(
+        'Files For Your Claim | Veterans Affairs',
+      );
+      getByText('Claim status is unavailable');
+    });
+
+    it('should render null when claim empty', () => {
+      const { container, getByText } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage {...props} message={{ title: 'Test', body: 'Body' }} />
+        </Provider>,
+      );
+
+      expect($('.claim-files', container)).to.not.exist;
+      expect(document.title).to.equal(
+        'Files For Your Claim | Veterans Affairs',
+      );
+      getByText('Claim status is unavailable');
+    });
   });
 
-  it('should clear alert', () => {
-    const claim = {
-      attributes: {
-        eventsTimeline: [],
-      },
-    };
-    const clearNotification = sinon.spy();
-    const message = {
-      title: 'Test',
-      body: 'Test',
-    };
+  context('cstUseClaimDetailsV2 feature flag disabled', () => {
+    it('should hide requested files when closed', () => {
+      const claim = {
+        id: '1',
+        type: 'claim',
+        attributes: {
+          claimDate: '2023-01-01',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2023-01-31',
+            latestPhaseType: 'COMPLETE',
+            previousPhases: {
+              phase7CompleteDate: '2023-02-08',
+            },
+          },
+          closeDate: '2023-01-31',
+          documentsNeeded: false,
+          decisionLetterSent: false,
+          status: 'COMPLETE',
+          supportingDocuments: [],
+          trackedItems: [],
+        },
+      };
 
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        clearNotification={clearNotification}
-        message={message}
-        claim={claim}
-      />,
-    );
-    expect(clearNotification.called).to.be.false;
-    tree.subTree('ClaimDetailLayout').props.clearNotification();
-    expect(clearNotification.called).to.be.true;
-  });
+      const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
 
-  it('should clear notification when leaving', () => {
-    const claim = {
-      attributes: {
-        eventsTimeline: [],
-      },
-    };
-    const clearNotification = sinon.spy();
-    const message = {
-      title: 'Test',
-      body: 'Test',
-    };
+      expect(tree.subTree('RequestedFilesInfo')).to.be.false;
+    });
 
-    const tree = SkinDeep.shallowRender(
-      <FilesPage
-        clearNotification={clearNotification}
-        message={message}
-        claim={claim}
-      />,
-    );
-    expect(clearNotification.called).to.be.false;
-    tree.getMountedInstance().componentWillUnmount();
-    expect(clearNotification.called).to.be.true;
+    it('should show requested files when open', () => {
+      const claim = {
+        id: '1',
+        type: 'claim',
+        attributes: {
+          claimDate: '2023-01-01',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2023-02-08',
+            latestPhaseType: 'INITIAL_REVIEW',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+            },
+          },
+          closeDate: null,
+          documentsNeeded: false,
+          decisionLetterSent: false,
+          status: 'INITIAL_REVIEW',
+          supportingDocuments: [],
+          trackedItems: [],
+        },
+      };
+
+      const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
+      expect(tree.subTree('RequestedFilesInfo')).not.to.be.false;
+    });
+
+    it('should render ask va to decide component', () => {
+      const claim = {
+        id: 1,
+        type: 'claim',
+        attributes: {
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2023-03-04',
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+              phase2CompleteDate: '2023-03-04',
+            },
+          },
+          documentsNeeded: false,
+          decisionLetterSent: false,
+          evidenceWaiverSubmitted5103: false,
+          status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          supportingDocuments: [],
+          trackedItems: [],
+        },
+      };
+
+      const tree = SkinDeep.shallowRender(
+        <FilesPage params={{ id: 2 }} claim={claim} />,
+      );
+
+      expect(tree.everySubTree('AskVAToDecide')).not.to.be.empty;
+    });
+
+    it('should display turned in docs', () => {
+      const claim = {
+        id: '1',
+        type: 'claim',
+        attributes: {
+          claimDate: '2023-01-01',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2023-02-08',
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+            },
+          },
+          closeDate: null,
+          documentsNeeded: false,
+          decisionLetterSent: false,
+          status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          supportingDocuments: [],
+          trackedItems: [
+            {
+              id: 1,
+              status: 'ACCEPTED',
+              displayName: 'Test',
+              description: 'Test',
+              suspenseDate: '2024-02-01',
+              date: '2023-01-01',
+            },
+          ],
+        },
+      };
+
+      const tree = SkinDeep.shallowRender(
+        <FilesPage claim={claim} params={{ id: 1 }} />,
+      );
+      expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(1);
+    });
+
+    it('should display additional evidence docs', () => {
+      const claim = {
+        id: '1',
+        type: 'claim',
+        attributes: {
+          claimDate: '2023-01-01',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2023-02-08',
+            latestPhaseType: 'GATHERING_OF_EVIDENCE',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+            },
+          },
+          closeDate: null,
+          documentsNeeded: false,
+          decisionLetterSent: false,
+          status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+          supportingDocuments: [
+            {
+              documentId: '1234',
+              trackedItemId: null,
+              originalFileName: 'test.pdf',
+              documentTypeLabel: 'Buddy / Lay Statement',
+              uploadDate: '2023-03-04',
+              date: '2023-03-04',
+            },
+            {
+              documentId: '4567',
+              trackedItemId: null,
+              originalFileName: 'test2.pdf',
+              documentTypeLabel: 'Buddy / Lay Statement',
+              uploadDate: '2023-03-05',
+              date: '2023-03-05',
+            },
+          ],
+          trackedItems: [],
+        },
+      };
+
+      const tree = SkinDeep.shallowRender(
+        <FilesPage claim={claim} params={{ id: 1 }} />,
+      );
+      expect(tree.everySubTree('AdditionalEvidenceItem').length).to.equal(2);
+    });
+
+    it('should show never received docs as tracked items', () => {
+      const claim = {
+        id: '1',
+        type: 'claim',
+        attributes: {
+          claimDate: '2023-01-01',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2023-02-08',
+            latestPhaseType: 'INITIAL_REVIEW',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+            },
+          },
+          closeDate: null,
+          documentsNeeded: false,
+          decisionLetterSent: false,
+          status: 'INITIAL_REVIEW',
+          supportingDocuments: [],
+          trackedItems: [
+            {
+              id: 1,
+              status: 'ACCEPTED',
+              displayName: 'Test',
+              description: 'Test',
+              suspenseDate: '2024-02-01',
+              date: '2023-01-01',
+            },
+            {
+              id: 2,
+              status: 'INITIAL_REVIEW_COMPLETE',
+              displayName: 'Test',
+              description: 'Test',
+              suspenseDate: '2024-02-01',
+              date: '2023-01-01',
+            },
+          ],
+        },
+      };
+
+      const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
+      expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(2);
+      expect(tree.everySubTree('AdditionalEvidenceItem')).to.be.empty;
+    });
+
+    it('should clear alert', () => {
+      const claim = {
+        id: '1',
+        type: 'claim',
+        attributes: {
+          claimDate: '2023-01-01',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2023-02-08',
+            latestPhaseType: 'INITIAL_REVIEW',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+            },
+          },
+          closeDate: null,
+          documentsNeeded: false,
+          decisionLetterSent: false,
+          status: 'INITIAL_REVIEW',
+          supportingDocuments: [],
+          trackedItems: [],
+        },
+      };
+      const clearNotification = sinon.spy();
+      const message = {
+        title: 'Test',
+        body: 'Test',
+      };
+
+      const tree = SkinDeep.shallowRender(
+        <FilesPage
+          clearNotification={clearNotification}
+          message={message}
+          claim={claim}
+        />,
+      );
+      expect(clearNotification.called).to.be.false;
+      tree.subTree('ClaimDetailLayout').props.clearNotification();
+      expect(clearNotification.called).to.be.true;
+    });
+
+    it('should clear notification when leaving', () => {
+      const claim = {
+        id: '1',
+        type: 'claim',
+        attributes: {
+          claimDate: '2023-01-01',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2023-02-08',
+            latestPhaseType: 'INITIAL_REVIEW',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+            },
+          },
+          closeDate: null,
+          documentsNeeded: false,
+          decisionLetterSent: false,
+          status: 'INITIAL_REVIEW',
+          supportingDocuments: [
+            {
+              id: '123456',
+              originalFileName: 'test.pdf',
+              documentTypeLabel: 'Buddy / Lay Statement',
+              uploadDate: '2023-03-04',
+            },
+          ],
+          trackedItems: [],
+        },
+      };
+
+      const clearNotification = sinon.spy();
+      const message = {
+        title: 'Test',
+        body: 'Test',
+      };
+
+      const tree = SkinDeep.shallowRender(
+        <FilesPage
+          clearNotification={clearNotification}
+          message={message}
+          claim={claim}
+        />,
+      );
+      expect(clearNotification.called).to.be.false;
+      tree.getMountedInstance().componentWillUnmount();
+      expect(clearNotification.called).to.be.true;
+    });
+
+    it('should render loading state', () => {
+      const { container } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <FilesPage
+            {...props}
+            loading
+            message={{ title: 'Test', body: 'Body' }}
+          />
+        </Provider>,
+      );
+      expect($('.claim-files', container)).to.not.exist;
+      expect($('va-loading-indicator', container)).to.exist;
+    });
+
+    it('should render null when claim null', () => {
+      const { container, getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <FilesPage
+            {...props}
+            claim={null}
+            message={{ title: 'Test', body: 'Body' }}
+          />
+        </Provider>,
+      );
+
+      expect($('.claim-files', container)).to.not.exist;
+      expect(document.title).to.equal(
+        'Files For Your Claim | Veterans Affairs',
+      );
+      getByText('Claim status is unavailable');
+    });
+
+    it('should render null when claim empty', () => {
+      const { container, getByText } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <FilesPage {...props} message={{ title: 'Test', body: 'Body' }} />
+        </Provider>,
+      );
+
+      expect($('.claim-files', container)).to.not.exist;
+      expect(document.title).to.equal(
+        'Files For Your Claim | Veterans Affairs',
+      );
+      getByText('Claim status is unavailable');
+    });
   });
 });

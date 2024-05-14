@@ -9,7 +9,7 @@ import {
 } from '@@vap-svc/constants';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 
-import { formatAddressTitle } from '@@profile/util/contact-information/addressUtils';
+import { formatAddressTitle } from '@@vap-svc/util/contact-information/addressUtils';
 
 import CopyAddressModalController from './CopyAddressModalController';
 

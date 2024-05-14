@@ -2,14 +2,24 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import ExternalLink from '../ExternalLink';
+import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
+import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 
 describe('check-in', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('ExternalLink component - en', () => {
     it('renders link component - en', () => {
       const screen = render(
-        <ExternalLink hrefLang="en" href="/">
-          LinkText
-        </ExternalLink>,
+        <CheckInProvider>
+          <ExternalLink hrefLang="en" href="/">
+            LinkText
+          </ExternalLink>
+        </CheckInProvider>,
       );
       const link = screen.getByText(/LinkText/i);
       expect(link.getAttribute('href')).to.equal('/');
@@ -20,9 +30,11 @@ describe('check-in', () => {
     });
     it('renders link component - es', () => {
       const screen = render(
-        <ExternalLink hrefLang="es" href="/">
-          LinkText
-        </ExternalLink>,
+        <CheckInProvider>
+          <ExternalLink hrefLang="es" href="/">
+            LinkText
+          </ExternalLink>
+        </CheckInProvider>,
       );
       const link = screen.getByRole('link');
       expect(link.textContent).to.equal('LinkText (in-es)');
@@ -31,14 +43,62 @@ describe('check-in', () => {
     });
     it('renders link component - tl', () => {
       const screen = render(
-        <ExternalLink hrefLang="tl" href="/">
-          LinkText
-        </ExternalLink>,
+        <CheckInProvider>
+          <ExternalLink hrefLang="tl" href="/">
+            LinkText
+          </ExternalLink>
+        </CheckInProvider>,
       );
       const link = screen.getByRole('link');
       expect(link.textContent).to.equal('LinkText (in-tl)');
       expect(link.getAttribute('href')).to.equal('/');
       expect(link.getAttribute('hrefLang')).to.equal('tl');
+    });
+    it('renders a test id', () => {
+      const screen = render(
+        <CheckInProvider>
+          <ExternalLink hrefLang="tl" href="/" dataTestId="test-id">
+            LinkText
+          </ExternalLink>
+        </CheckInProvider>,
+      );
+      const link = screen.getByRole('link');
+      expect(link.getAttribute('data-testid')).to.equal('test-id');
+    });
+    it('renders a target and rel', () => {
+      const screen = render(
+        <CheckInProvider>
+          <ExternalLink
+            hrefLang="tl"
+            href="/"
+            dataTestId="test-id"
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkText
+          </ExternalLink>
+        </CheckInProvider>,
+      );
+      const link = screen.getByRole('link');
+      expect(link.getAttribute('data-testid')).to.equal('test-id');
+      expect(link.getAttribute('target')).to.equal('_blank');
+      expect(link.getAttribute('rel')).to.equal('noreferrer');
+    });
+    it('renders className', () => {
+      const screen = render(
+        <CheckInProvider>
+          <ExternalLink
+            hrefLang="tl"
+            href="/"
+            dataTestId="test-id"
+            className="vads-c-action-link--blue"
+          >
+            LinkText
+          </ExternalLink>
+        </CheckInProvider>,
+      );
+      const link = screen.getByRole('link');
+      expect(link.getAttribute('class')).to.equal('vads-c-action-link--blue');
     });
   });
 });

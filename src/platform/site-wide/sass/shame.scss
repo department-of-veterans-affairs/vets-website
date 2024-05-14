@@ -1,6 +1,8 @@
 $medium-phone-screen: 375px;
+
 /* OVERRIDE */
 .merger {
+
   // Begin new-grid override
   // Overrides some default properties with a
   // class name that makes it more clear we remove
@@ -8,6 +10,7 @@ $medium-phone-screen: 375px;
   .va-sidebarnav.new-grid {
     width: 100% !important;
   }
+
   // End new-grid override
 
   .login {
@@ -23,12 +26,14 @@ $medium-phone-screen: 375px;
   .vet-toolbar {
     min-height: 50px;
   }
+
   .va-modal {
     font-size: 1.6rem;
   }
 
   #modal-crisisline {
     display: block;
+
     p {
       font-size: 100%;
     }
@@ -72,10 +77,12 @@ $medium-phone-screen: 375px;
       line-height: 1.2em;
       margin-bottom: 0.8em;
       margin-top: 0;
+
       &:last-child {
         margin-bottom: 0;
       }
     }
+
     a {
       text-decoration: none;
     }
@@ -83,7 +90,7 @@ $medium-phone-screen: 375px;
 
   .menu-rule,
   #menu-rule {
-    border-bottom: 1px solid $color-white;
+    border-bottom: 1px solid var(--vads-color-white);
     margin-left: -0.55em;
     padding-bottom: 1em;
     padding-right: 1.2em;
@@ -128,9 +135,11 @@ $medium-phone-screen: 375px;
   .merger-majorlinks {
     .link {
       margin-bottom: 1em;
+
       p {
         margin: 0;
       }
+
       a {
         text-decoration: none;
         padding-bottom: 0;
@@ -156,6 +165,7 @@ $medium-phone-screen: 375px;
       .hub-main-icon {
         vertical-align: top;
         margin-top: 8px;
+
         > .icon-large {
           margin-right: 10px;
         }
@@ -249,6 +259,7 @@ $medium-phone-screen: 375px;
 
     .vet-toolbar {
       margin-left: 0;
+
       .profile-nav-container {
         align-items: baseline;
         display: inherit;
@@ -338,6 +349,7 @@ $medium-phone-screen: 375px;
         width: 44%;
       }
     }
+
     .va-header-logo-wrapper {
       margin-bottom: 0;
       justify-content: space-between;
@@ -348,6 +360,7 @@ $medium-phone-screen: 375px;
 
       .profile-nav {
         width: 100%;
+
         .va-dropdown {
           .va-dropdown-trigger {
             background-position: right 0.8rem center;
@@ -380,11 +393,13 @@ $medium-phone-screen: 375px;
 
   va-accordion,
   .usa-accordion-bordered {
+
     &.social,
     &.links {
       a {
         text-decoration: underline;
       }
+
       .social-icon {
         text-decoration: none;
       }
@@ -413,6 +428,7 @@ $medium-phone-screen: 375px;
 
         ul > li {
           margin: 1em auto;
+
           &:last-child {
             margin: unset;
           }
@@ -440,8 +456,9 @@ $medium-phone-screen: 375px;
   .hub-links-container {
     flex: 1;
   }
+
   .white {
-    color: $color-white;
+    color: var(--vads-color-white);
   }
 
   .sidenav-previous-page {
@@ -470,24 +487,27 @@ $medium-phone-screen: 375px;
   .sign-in-link {
     margin: 0;
 
-    @include media($medium-large-screen) {
+    @include media($medium-screen) {
+
       &:hover,
       &:active {
-        background-color: $color-primary-darker;
+        background-color: var(--vads-color-primary-dark);
         color: inherit !important;
         text-decoration: none;
       }
+
       &:focus {
         outline-offset: 2px;
       }
     }
+
     // This is backwards from the mobile first approach we should be taking
     // but the amount of overrides we would need if we did that way would be
     // very tricky to write and maintain
-    @media (max-width: $medium-large-screen - 1) {
+    @media (max-width: $medium-screen - 1) {
       @include button-link;
       font-weight: 600;
-      color: $color-white !important;
+      color: var(--vads-color-white) !important;
       text-decoration: none;
       -webkit-font-smoothing: antialiased;
     }
@@ -555,7 +575,7 @@ $medium-phone-screen: 375px;
 }
 
 ._acs._acsbadge--default {
-  background-color: $color-black !important;
+  background-color: var(--vads-color-black) !important;
 }
 
 .media-list-images {
@@ -565,47 +585,43 @@ $medium-phone-screen: 375px;
 }
 
 .events {
-  form {
-    .form-left-error-bar {
-      background: $color-secondary;
-      height: 100%;
-      left: -24px;
-      top: 0;
-      position: absolute;
-      width: 5px;
-      @media (max-width: $medium-screen) {
-        left: -8px;
-        width: 3px;
-      }
-    }
+  .form-left-error-bar {
+    background: var(--vads-color-secondary);
+    height: 100%;
+    left: -24px;
+    top: 0;
+    position: absolute;
+    width: 5px;
 
-    .filter-by {
-      max-width: 100%;
-      @media (min-width: $medium-screen) {
-        max-width: 328px;
-      }
+    @media (max-width: $medium-screen) {
+      left: -8px;
+      width: 3px;
     }
+  }
 
-    .events-date-select {
-      max-width: unset;
-      @media (min-width: $medium-screen) {
-        max-width: 160px;
-      }
-    }
+  button[type="submit"] {
+    max-width: 100%;
 
-    button[type="submit"] {
-      max-width: 100%;
-      @media (min-width: $medium-screen) {
-        max-width: fit-content;
-      }
+    @media (min-width: $medium-screen) {
+      max-width: fit-content;
     }
   }
 }
 
+// This overrides some formation styles that make this button too large
+// Can be removed once we remove our dependence on formation
+div[data-widget-type="events"] {
+  #events-apply-filter-button {
+    margin-top: 8px !important;
+    width: fit-content !important;
+    padding: 0 !important;
+  }
+}
+
 @media print {
-  #mdFormButton{
-      &[aria-label="give feedback"]{
-          display: none;
-      }
+  #mdFormButton {
+    &[aria-label="give feedback"] {
+      display: none;
+    }
   }
 }

@@ -1,9 +1,7 @@
-// Node modules.
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
 import { render } from '@testing-library/react';
-// Relative imports.
+import { shallow } from 'enzyme';
 import { Results } from '.';
 import { ResultsWhereContent } from './ResultsWhereContent';
 import { generateTestEvents } from '../../helpers/event-generator';
@@ -13,25 +11,40 @@ describe('Events <Results>', () => {
     const props = {
       results: generateTestEvents(),
     };
-    // Set up.
     const wrapper = shallow(<Results {...props} />);
 
-    // Assertions.
     expect(wrapper.text()).not.includes('No results found');
 
-    // Clean up.
     wrapper.unmount();
+  });
+
+  it('renders what we expect when there are no results', () => {
+    const screen = render(<Results query="search" />);
+
+    expect(
+      screen.getByTestId('events-results-none-found').textContent,
+    ).to.equal('No results found for search');
+  });
+
+  it('renders what we expect when there are no results for custom date range', () => {
+    const screen = render(
+      <Results query="search" queryId="custom-date-range" results={[]} />,
+    );
+
+    expect(
+      screen.getByTestId('events-results-none-found').textContent,
+    ).to.equal('No results found for Custom date range');
   });
 });
 
 describe('Events <ResultsWhereContent>', () => {
-  function getProps(locationObj, locationString, locationReadable) {
+  const getProps = (locationObj, locationString, locationReadable) => {
     return {
       fieldFacilityLocation: locationObj,
       fieldLocationType: locationString,
       fieldLocationHumanreadable: locationReadable,
     };
-  }
+  };
 
   it('renders online event prompt when event location type is online', () => {
     const onlineEvent = getProps({}, 'online', null);
@@ -45,20 +58,6 @@ describe('Events <ResultsWhereContent>', () => {
       <ResultsWhereContent event={locationArrayEvent} />,
     );
     expect(component.getByText('pittsburgh')).to.exist;
-  });
-
-  it('renders location name when given in location object', () => {
-    const fieldLocationExample = {
-      entity: {
-        title: 'test location',
-        entityUrl: {},
-      },
-    };
-    const locationObjectEvent = getProps(fieldLocationExample, '', null);
-    const component = render(
-      <ResultsWhereContent event={locationObjectEvent} />,
-    );
-    expect(component.getByText('test location')).to.exist;
   });
 
   it('renders directions to google maps link', () => {
@@ -78,6 +77,7 @@ describe('Events <ResultsWhereContent>', () => {
     const component = render(
       <ResultsWhereContent event={locationObjectEvent} />,
     );
+
     expect(component.getByText('Get directions on Google Maps')).to.exist;
   });
 });

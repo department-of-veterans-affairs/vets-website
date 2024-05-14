@@ -271,6 +271,52 @@ describe('form submit transform', () => {
       expect(additionalConsiderations.reserveKicker).to.eql('N/A');
     });
   });
+
+  describe('createAdditionalConsiderations', () => {
+    it('should correctly transform and set considerations with exclusion messages', () => {
+      const ExclusionPeriodsFormSubmission = {
+        mebExclusionPeriodEnabled: true,
+        exclusionPeriods: ['Academy', 'ROTC', 'LRP'], // Make sure 'LRP' is included
+        federallySponsoredAcademy: 'yes',
+        seniorRotcCommission: 'no',
+        loanPayment: 'yes',
+        activeDutyKicker: 'no',
+        selectedReserveKicker: 'yes',
+      };
+      const transformed = createAdditionalConsiderations(
+        ExclusionPeriodsFormSubmission,
+      );
+      expect(transformed).to.deep.equal({
+        academyRotcScholarship:
+          'YES - Dept. of Defense data shows you have graduated from a Military Service Academy',
+        seniorRotcScholarship:
+          'NO - Dept. of Defense data shows you were commissioned as the result of a Senior ROTC.',
+        activeDutyDodRepayLoan:
+          'YES - Dept. of Defense data shows a period of active duty that the military considers as being used for purposes of repaying an Education Loan.',
+        activeDutyKicker: 'NO',
+        reserveKicker: 'YES',
+      });
+    });
+    it('should handle cases without mebExclusionPeriodEnabled', () => {
+      const NoExclusionPeriodsFormSubmission = {
+        federallySponsoredAcademy: 'no',
+        seniorRotcCommission: 'yes',
+        loanPayment: 'no',
+        activeDutyKicker: 'yes',
+        selectedReserveKicker: 'no',
+      };
+      const transformed = createAdditionalConsiderations(
+        NoExclusionPeriodsFormSubmission,
+      );
+      expect(transformed).to.deep.equal({
+        academyRotcScholarship: 'NO',
+        seniorRotcScholarship: 'YES',
+        activeDutyDodRepayLoan: 'NO',
+        activeDutyKicker: 'YES',
+        reserveKicker: 'NO',
+      });
+    });
+  });
   describe('has a createComments method', () => {
     it('should return full comments section if veteran disagrees with period data', () => {
       const comments = createComments(mockSubmissionForm);
@@ -310,6 +356,54 @@ describe('form submit transform', () => {
     it('should return with users bank savings account number, if they decide to enroll', () => {
       const bankAccount = createDirectDeposit(mockSubmissionForm);
       expect(bankAccount.directDepositAccountType).to.eql('Savings');
+    });
+    describe('createDirectDeposit function', () => {
+      it('extracts bank account info when available directly in submissionForm', () => {
+        mockSubmissionForm.bankAccount = {
+          accountType: 'Savings',
+          accountNumber: '123456',
+          routingNumber: '322271627',
+        };
+
+        const result = createDirectDeposit(mockSubmissionForm);
+
+        expect(result.directDepositAccountType).to.eql('Savings');
+        expect(result.directDepositAccountNumber).to.eql('123456');
+        expect(result.directDepositRoutingNumber).to.eql('322271627');
+      });
+      it('extracts bank account info from view:directDeposit in submissionForm', () => {
+        mockSubmissionForm['view:directDeposit'] = {
+          bankAccount: {
+            accountType: 'Checking',
+            accountNumber: '654321',
+            routingNumber: '123456789',
+          },
+        };
+        mockSubmissionForm.bankAccount = {}; // Ensuring direct bankAccount is empty
+
+        const result = createDirectDeposit(mockSubmissionForm);
+
+        expect(result.directDepositAccountType).to.eql('Checking');
+        expect(result.directDepositAccountNumber).to.eql('654321');
+        expect(result.directDepositRoutingNumber).to.eql('123456789');
+      });
+      it('returns empty object when bank account info is not available', () => {
+        mockSubmissionForm['view:directDeposit'] = {};
+        mockSubmissionForm.bankAccount = {};
+
+        const result = createDirectDeposit(mockSubmissionForm);
+
+        expect(result).to.eql({});
+      });
+      it('handles invalid or incomplete bank account info', () => {
+        // Setup with incomplete bank account info
+        mockSubmissionForm.bankAccount = {
+          accountType: 'Savings',
+          // Missing accountNumber and routingNumber
+        };
+        const result = createDirectDeposit(mockSubmissionForm);
+        expect(result).to.eql({});
+      });
     });
   });
 });

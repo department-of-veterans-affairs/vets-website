@@ -1,6 +1,6 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import DebtsCard from '../../../components/debts/DebtsCard';
 
@@ -63,20 +63,12 @@ describe('<DebtsCard />', () => {
       ],
     };
 
-    const wrapper = shallow(<DebtsCard {...defaultProps} />);
+    const tree = renderWithStoreAndRouter(<DebtsCard {...defaultProps} />, {
+      initialState: {},
+    });
 
-    const header = wrapper.find('h3').text();
-    expect(header).to.include(defaultProps.debts.length);
-    expect(header).to.include('overpayment debts');
-
-    const info = wrapper.find('p').text();
-
-    expect(info).to.include('Updated on');
-
-    const link = wrapper.find('CTALink');
-    expect(link.prop('text')).to.include('Manage your VA debt');
-    expect(link.prop('href')).to.equal('/manage-va-debt/your-debt');
-
-    wrapper.unmount();
+    expect(tree.getByText(/2 overpayment debts/)).to.exist;
+    expect(tree.getByText('updated on', { exact: false })).to.exist;
+    expect(tree.getByText('manage your va debt', { exact: false })).to.exist;
   });
 });

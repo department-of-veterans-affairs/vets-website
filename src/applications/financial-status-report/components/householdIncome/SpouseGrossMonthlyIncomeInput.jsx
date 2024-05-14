@@ -7,7 +7,7 @@ import { getJobIndex } from '../../utils/session';
 import { isValidCurrency } from '../../utils/validations';
 
 const SpouseGrossMonthlyIncomeInput = props => {
-  const { goToPath, goBack, onReviewPage = false, setFormData } = props;
+  const { goToPath, goBack, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -19,14 +19,14 @@ const SpouseGrossMonthlyIncomeInput = props => {
 
   const formData = useSelector(state => state.form.data);
 
-  const [submitted, setSubmitted] = useState(false);
+  const MAXIMUM_GROSS_MONTHLY_INCOME = 12000;
 
   const {
     personalData: {
       employmentHistory: {
+        spouse: { spEmploymentRecords = [] } = {},
         newRecord = {},
-        spouse: { spEmploymentRecords = [] },
-      },
+      } = {},
     },
   } = formData;
 
@@ -38,6 +38,8 @@ const SpouseGrossMonthlyIncomeInput = props => {
   } = employmentRecord;
 
   const [incomeError, setIncomeError] = useState(false);
+  const [error, setError] = useState(null);
+
   const [grossMonthlyIncome, setGrossMonthlyIncome] = useState({
     value: currentGrossMonthlyIncome,
     dirty: false,
@@ -73,10 +75,15 @@ const SpouseGrossMonthlyIncomeInput = props => {
 
   const updateFormData = e => {
     e.preventDefault();
-    setSubmitted(true);
 
     if (!isValidCurrency(grossMonthlyIncome.value)) {
       setIncomeError(true);
+      return;
+    }
+
+    if (grossMonthlyIncome.value > MAXIMUM_GROSS_MONTHLY_INCOME) {
+      setIncomeError(true);
+      setError('Please enter an amount less than $12,000');
       return;
     }
 
@@ -124,7 +131,6 @@ const SpouseGrossMonthlyIncomeInput = props => {
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
 
   return (
     <form onSubmit={updateFormData}>
@@ -143,17 +149,14 @@ const SpouseGrossMonthlyIncomeInput = props => {
         type="text"
         value={grossMonthlyIncome.value}
         required
+        min={0}
+        max={MAXIMUM_GROSS_MONTHLY_INCOME}
         width="md"
-        error={
-          incomeError && (submitted || grossMonthlyIncome.dirty)
-            ? `Please enter a valid number.`
-            : ''
-        }
+        error={error}
       />
       <va-additional-info
         trigger="How to calculate your spouse’s gross monthly income"
         class="vads-u-margin-top--2"
-        uswds
       >
         <p className="vads-u-padding-bottom--2">
           <strong>If your spouse is a salaried employee,</strong> divide your
@@ -172,7 +175,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
           <li>Divide that number by 12</li>
         </ol>
       </va-additional-info>
-      {onReviewPage ? updateButton : navButtons}
+      {navButtons}
     </form>
   );
 };

@@ -29,7 +29,7 @@ describe('validateDocumentDescription', () => {
     const spy = sinon.spy();
     validateDocumentDescription(errors(spy), fileList('Other', ''));
     expect(spy.called).to.be.true;
-    expect(spy.calledWith('Please provide a description'));
+    expect(spy.calledWith('Provide a description'));
   });
 });
 

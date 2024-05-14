@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import recordEvent from 'platform/monitoring/record-event';
 import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
 
-import recordEvent from 'platform/monitoring/record-event';
 import LocationDistance from './common/LocationDistance';
 
 const UrgentCareResult = ({ provider, query }) => {
@@ -27,28 +27,24 @@ const UrgentCareResult = ({ provider, query }) => {
         <LocationAddress location={provider} />
         <LocationDirectionsLink
           location={provider}
-          from={'SearchResult'}
+          from="SearchResult"
           query={query}
         />
         <LocationPhoneLink
           location={provider}
-          from={'SearchResult'}
+          from="SearchResult"
           query={query}
         />
         <p>Call to confirm services and hours</p>
-        <div
-          className={`usa-alert usa-alert-info background-color-only vads-u-padding--1  vads-u-font-weight--bold`}
-        >
+        <div className="usa-alert usa-alert-info background-color-only vads-u-padding--1  vads-u-font-weight--bold">
           <i
             aria-hidden="true"
-            className={`fa fa-info-circle vads-u-margin-top--1 icon-base`}
+            className="fa fa-info-circle vads-u-margin-top--1 icon-base"
           />
           <div className="usa-alert-body">
             <a
-              href={
-                'https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent_Care.asp'
-              }
-              target={'_/blank'}
+              href="https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent-Care.asp"
+              target="_/blank"
               onClick={() => {
                 // Record event
                 recordEvent({ event: 'cta-primary-button-click' });

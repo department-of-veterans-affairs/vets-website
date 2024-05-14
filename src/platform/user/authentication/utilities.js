@@ -79,8 +79,15 @@ export const sanitizePath = to => {
   return to.startsWith('/') ? to : `/${to}`;
 };
 
+export const sanitizeCernerParams = path => {
+  if (!path) return '/?authenticated=true';
+  const [updatedPath] = decodeURIComponent(path).split('?');
+  return `${updatedPath}?authenticated=true`;
+};
+
 export const generateReturnURL = returnUrl => {
   return [
+    ``, // create account links don't have a authReturnUrl
     `${environment.BASE_URL}/?next=loginModal`,
     `${environment.BASE_URL}`,
   ].includes(returnUrl)
@@ -98,6 +105,8 @@ export const createExternalApplicationUrl = () => {
 
   switch (application) {
     case EXTERNAL_APPS.VA_FLAGSHIP_MOBILE:
+      URL = externalRedirectUrl;
+      break;
     case EXTERNAL_APPS.VA_OCC_MOBILE:
       URL = sanitizeUrl(`${externalRedirectUrl}${window.location.search}`);
       break;
@@ -114,7 +123,10 @@ export const createExternalApplicationUrl = () => {
       );
       break;
     case EXTERNAL_APPS.MY_VA_HEALTH:
-      URL = sanitizeUrl(`${externalRedirectUrl}`, sanitizePath(to));
+      URL = sanitizeUrl(`${externalRedirectUrl}`, sanitizeCernerParams(to));
+      break;
+    case EXTERNAL_APPS.ARP:
+      URL = sanitizeUrl(`${externalRedirectUrl}`);
       break;
     default:
       break;

@@ -12,12 +12,12 @@ import { URLS } from '../utils/navigation';
 
 const withForm = (Component, options = {}) => {
   const WrappedComponent = props => {
-    const { isPreCheckIn } = options;
+    const { appName } = options;
     const { router } = props;
     const selectForm = useMemo(makeSelectForm, []);
     const form = useSelector(selectForm);
     const { jumpToPage } = useFormRouting(router);
-    const { getCurrentToken } = useStorage(isPreCheckIn);
+    const { getCurrentToken } = useStorage(appName);
     const { updateError } = useUpdateError();
 
     useEffect(

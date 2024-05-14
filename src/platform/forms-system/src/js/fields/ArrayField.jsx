@@ -8,7 +8,10 @@ import {
   getDefaultFormState,
   deepEquals,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaCard,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import set from 'platform/utilities/data/set';
@@ -288,7 +291,24 @@ export default class ArrayField extends React.Component {
       if (wrapper) {
         const focusableElements = getFocusableElements(wrapper);
         if (focusableElements.length) {
-          focusableElements[0].focus();
+          const firstElement = focusableElements[0];
+
+          if (firstElement.tagName === 'VA-RADIO-OPTION') {
+            const labelForRadio = firstElement.querySelector('label');
+
+            if (labelForRadio) {
+              const associatedRadioInputId = labelForRadio.getAttribute('for');
+              const associatedRadioInput = document.getElementById(
+                associatedRadioInputId,
+              );
+
+              if (associatedRadioInput) {
+                associatedRadioInput.focus();
+              }
+            }
+          } else {
+            firstElement.focus();
+          }
         }
       }
     }, 0);
@@ -322,18 +342,21 @@ export default class ArrayField extends React.Component {
       : null;
     const isReviewMode = uiOptions.reviewMode;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
+    const uiItemNameOriginal = uiOptions.itemName || 'item';
     const uiItemName = (uiOptions.itemName || 'item').toLowerCase();
+    const { generateIndividualItemHeaders, useVaCards } = uiOptions;
 
     // if we have form data, use that, otherwise use an array with a single default object
     const items =
       formData && formData.length
         ? formData
         : [getDefaultFormState(schema, undefined, registry.definitions)];
-    const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
+    const showAddAnotherButton = items.length < (schema.maxItems || Infinity);
 
     const containerClassNames = classNames({
       'schemaform-field-container': true,
       'schemaform-block': hasTitleOrDescription,
+      'rjsf-array-field': true,
     });
 
     return (
@@ -345,6 +368,7 @@ export default class ArrayField extends React.Component {
                 id={`${idSchema.$id}__title`}
                 title={title}
                 formContext={formContext}
+                useHeaderStyling={uiOptions.useHeaderStyling}
               />
             ) : null}
             {textDescription && <p>{textDescription}</p>}
@@ -364,8 +388,9 @@ export default class ArrayField extends React.Component {
               definitions,
             );
             const { showSave } = uiOptions;
-            const updateText = showSave && index === 0 ? 'Save' : 'Update';
             const isLast = items.length === index + 1;
+            // if showSave is true, all items show Update except the last item
+            const updateText = showSave && isLast ? 'Save' : 'Update';
             const isEditing = this.state.editing[index];
             const isRemoving = this.state.removing[index];
             const ariaLabel = uiOptions.itemAriaLabel;
@@ -374,22 +399,38 @@ export default class ArrayField extends React.Component {
               uiItemName;
             const multipleRows = items.length > 1;
             const notLastOrMultipleRows = showSave || !isLast || multipleRows;
+            const useCardStyling = notLastOrMultipleRows;
+            const CardOrDiv = useVaCards && useCardStyling ? VaCard : 'div';
 
             if (isReviewMode ? isEditing : isLast || isEditing) {
               return (
-                <div
+                <CardOrDiv
                   key={index}
                   id={`${this.props.idSchema.$id}_${index}`}
-                  className={
-                    notLastOrMultipleRows ? 'va-growable-background' : null
-                  }
+                  className={classNames({
+                    'va-growable-background': useCardStyling && !useVaCards,
+                    'vads-u-margin-bottom--2 vads-u-padding--2':
+                      useCardStyling && useVaCards,
+                  })}
                 >
                   <Element name={`table_${itemIdPrefix}`} />
-                  <div className="row small-collapse">
+                  <div
+                    className={classNames({
+                      'row small-collapse': true,
+                      'vads-u-margin--0': useVaCards,
+                    })}
+                  >
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && multipleRows ? (
                         <h3 className="vads-u-font-size--h5">
                           New {uiItemName}
+                        </h3>
+                      ) : null}
+                      {!isLast &&
+                      multipleRows &&
+                      generateIndividualItemHeaders ? (
+                        <h3 className="vads-u-font-size--h5">
+                          {uiItemNameOriginal}
                         </h3>
                       ) : null}
                       <div className="input-section">
@@ -458,20 +499,25 @@ export default class ArrayField extends React.Component {
                         this.closeRemoveModal(index)
                       }
                       visible={isRemoving}
+                      uswds
                     >
                       {uiOptions.confirmRemoveDescription && (
                         <p>{uiOptions.confirmRemoveDescription}</p>
                       )}
                     </VaModal>
                   )}
-                </div>
+                </CardOrDiv>
               );
             }
             return (
-              <div
+              <CardOrDiv
                 id={`${this.props.name}_${index}`}
                 key={index}
-                className="va-growable-background editable-row"
+                className={classNames({
+                  'va-growable-background': !useVaCards,
+                  'editable-row': true,
+                  'vads-u-margin-bottom--2 vads-u-padding--2': useVaCards,
+                })}
               >
                 <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
                   <div className="vads-u-flex--fill">
@@ -489,28 +535,32 @@ export default class ArrayField extends React.Component {
                     Edit
                   </button>
                 </div>
-              </div>
+              </CardOrDiv>
             );
           })}
-          <button
-            type="button"
-            className={classNames(
-              'usa-button-secondary',
-              'va-growable-add-btn',
-              {
-                'usa-button-disabled':
-                  !this.props.formData || addAnotherDisabled,
-              },
-            )}
-            disabled={!this.props.formData || addAnotherDisabled}
-            onClick={this.handleAdd}
-          >
-            Add another {uiItemName}
-          </button>
-          <p>
-            {addAnotherDisabled &&
-              `You’ve entered the maximum number of items allowed.`}
-          </p>
+          {/* Only show the 'Add another ..' button when another item can be added. This approach helps
+           improve accessibility by removing unnecessary elements from the DOM when they are not relevant
+           or interactable. */}
+          {showAddAnotherButton && (
+            <button
+              type="button"
+              className={classNames(
+                'usa-button-secondary',
+                'va-growable-add-btn',
+              )}
+              onClick={this.handleAdd}
+            >
+              Add another {uiItemName}
+            </button>
+          )}
+          {/* Show an alert when no more items can be added */}
+          {!showAddAnotherButton && (
+            <va-alert status="warning" uswds slim>
+              <p className="vads-u-margin-y--0">
+                You’ve entered the maximum number of items allowed.
+              </p>
+            </va-alert>
+          )}
         </div>
       </div>
     );

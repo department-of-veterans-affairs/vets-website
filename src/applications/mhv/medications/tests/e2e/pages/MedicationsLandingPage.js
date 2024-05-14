@@ -1,3 +1,6 @@
+import { medicationsUrls } from '../../../util/constants';
+import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
+
 class MedicationsLandingPage {
   clickExpandAllAccordionButton = () => {
     cy.contains('Expand all').click({ force: true });
@@ -19,6 +22,10 @@ class MedicationsLandingPage {
       .should('be.visible');
   };
 
+  visitLandingPageURL = () => {
+    cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
+  };
+
   verifyPrescriptionRefillRequestInformationAccordionDropDown = () => {
     cy.get('[data-testid="prescription-refill-info"]')
       .contains(
@@ -36,13 +43,17 @@ class MedicationsLandingPage {
   };
 
   clickExpandAccordionsOnMedicationsLandingPage = () => {
-    cy.expandAccordions();
+    // cy.expandAccordions();
+    cy.get('[data-testid="more-ways-to-manage"]')
+      .shadow()
+      .find('[aria-label="Expand all accordions"]')
+      .click({ waitForAnimations: true });
   };
 
   verifyHowtoRenewPrescriptionsAccordionDropDown = () => {
     cy.get('[data-testid="renew-information-button"]')
       .contains(
-        'If your prescription is too old to refill or has no refills left, you’ll need to request a renewal. The fastest way to renew is by calling the phone number on your prescription label. You can also send a secure message to your care team.',
+        'If your prescription is too old to refill or has no refills left, you’ll need to request a renewal.',
       )
       .should('be.visible');
   };
@@ -69,11 +80,28 @@ class MedicationsLandingPage {
       .and('contain', 'About medications');
   };
 
+  verifyHowToManageNotificationsAccordionDropDown = () => {
+    cy.get('[data-testid="notifications"]').contains(
+      'You can sign up to get email notifications when we ship your prescriptions.',
+    );
+  };
+
   verifyEmptyMedicationsListMessageAlertOnLandingPage = () => {
-    // cy.get('[data-testid="empty-list-alert"] >div ').should(
-    cy.get('[data-testid="alert-message"]').should(
-      'contain.text',
-      'You don’t have any medications in your medications list',
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      emptyPrescriptionsList,
+    ).as('emptyPrescriptionsList');
+    cy.get('[data-testid="empty-medications-list"]').should(
+      'contain',
+      'You don’t have any VA prescriptions',
+    );
+  };
+
+  verifyErroMessageforFailedAPICallListPage = () => {
+    cy.get('[data-testid="no-medications-list"]').should(
+      'contain',
+      'We can’t access your medications ',
     );
   };
 }

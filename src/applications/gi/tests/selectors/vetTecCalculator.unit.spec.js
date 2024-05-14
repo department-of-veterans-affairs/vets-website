@@ -111,4 +111,51 @@ describe('getCalculatedBenefits', () => {
       '$1,800',
     );
   });
+  it('should correctly calculate outOfPocketFees for a non-preferred provider with tuition fees exceeding tfCap', () => {
+    const customState = {
+      ...defaultState,
+      profile: {
+        ...defaultState.profile,
+        attributes: {
+          ...defaultState.profile.attributes,
+          preferredProvider: false,
+        },
+      },
+      calculator: {
+        ...defaultState.calculator,
+        vetTecTuitionFees: 5000,
+        vetTecScholarships: 300,
+      },
+      constants: {
+        ...defaultState.constants,
+        constants: {
+          ...defaultState.constants.constants,
+          TFCAP: 4000,
+        },
+      },
+    };
+
+    const calculatedBenefits = getCalculatedBenefits(customState);
+    expect(calculatedBenefits.outputs.outOfPocketTuitionFees).to.equal('$700'); // 5000 - 4000 - 300
+  });
+  it('should set outOfPocketFees to 0 for a preferred provider', () => {
+    const customState = {
+      ...defaultState,
+      profile: {
+        ...defaultState.profile,
+        attributes: {
+          ...defaultState.profile.attributes,
+          preferredProvider: true,
+        },
+      },
+      calculator: {
+        ...defaultState.calculator,
+        vetTecTuitionFees: 5000,
+        vetTecScholarships: 300,
+      },
+    };
+
+    const calculatedBenefits = getCalculatedBenefits(customState);
+    expect(calculatedBenefits.outputs.outOfPocketTuitionFees).to.equal('$0');
+  });
 });

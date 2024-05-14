@@ -1,5 +1,4 @@
 import { mockUser } from '@@profile/tests/fixtures/users/user';
-
 import ERROR_400 from '~/applications/personalization/dashboard/utils/mocks/ERROR_400';
 import vamcErc from '../fixtures/vamc-ehr.json';
 
@@ -7,7 +6,7 @@ describe('MyVA Dashboard - Messaging', () => {
   describe('when there is an error fetching the inbox data', () => {
     beforeEach(() => {
       cy.login(mockUser);
-      cy.intercept('GET', '/v0/messaging/health/folders/0', {
+      cy.intercept('GET', '/my_health/v1/messaging/folders', {
         statusCode: 400,
         body: ERROR_400,
       });

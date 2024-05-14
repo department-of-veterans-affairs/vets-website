@@ -1,23 +1,19 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
-import {
-  EVIDENCE_VA_PATH,
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
-  errorMessages,
-} from '../constants';
+import { EVIDENCE_VA_PATH, EVIDENCE_VA, EVIDENCE_PRIVATE } from '../constants';
 
 import {
   privateRecordsRequestTitle,
   privateRecordsRequestInfo,
 } from '../content/evidencePrivateRecordsRequest';
+
+import { customPageProps995 } from '../../shared/props';
+import errorMessages from '../../shared/content/errorMessages';
 
 /**
  * This page is needed to make the back button on this page to to the last
@@ -31,7 +27,7 @@ const EvidencePrivateRequest = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { locations = [] } = data || {};
+  const { locations = [] } = data;
   const [error, setError] = useState(null);
 
   const handlers = {
@@ -77,18 +73,21 @@ const EvidencePrivateRequest = ({
         onVaValueChange={handlers.onSelected}
         required
         error={error}
+        uswds
       >
         <va-radio-option
           label="Yes"
           name="private"
           value="y"
           checked={data[EVIDENCE_PRIVATE]}
+          uswds
         />
         <va-radio-option
           label="No"
           name="private"
           value="n"
           checked={data[EVIDENCE_PRIVATE] === false}
+          uswds
         />
       </VaRadio>
       {privateRecordsRequestInfo}
@@ -104,15 +103,6 @@ const EvidencePrivateRequest = ({
   );
 };
 
-EvidencePrivateRequest.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({}),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  goToPath: PropTypes.func,
-  setFormData: PropTypes.func,
-  testingIndex: PropTypes.number,
-};
+EvidencePrivateRequest.propTypes = customPageProps995;
 
 export default EvidencePrivateRequest;

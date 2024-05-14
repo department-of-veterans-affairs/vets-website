@@ -2,9 +2,17 @@ import maxTestData from '../fixtures/data/maximal-test.json';
 
 const { data: testData } = maxTestData;
 
+export const acceptPrivacyAgreement = () => {
+  cy.get('va-checkbox[name="privacyAgreementAccepted"]')
+    .scrollIntoView()
+    .shadow()
+    .find('label')
+    .click();
+};
+
 export const goToNextPage = pagePath => {
   // Clicks Continue button, and optionally checks destination path.
-  cy.findAllByText(/continue/i, { selector: 'button' })
+  cy.findAllByText(/continue|confirm/i, { selector: 'button' })
     .first()
     .scrollIntoView()
     .click();
@@ -13,7 +21,55 @@ export const goToNextPage = pagePath => {
   }
 };
 
-export const advanceToHouseholdV2 = () => {
+export const fillGulfWarDateRange = () => {
+  const { gulfWarStartDate, gulfWarEndDate } = testData[
+    'view:gulfWarServiceDates'
+  ];
+  const [startYear, startMonth] = gulfWarStartDate
+    .split('-')
+    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  const [endYear, endMonth] = gulfWarEndDate
+    .split('-')
+    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  cy.get('[name="root_view:gulfWarServiceDates_gulfWarStartDateMonth"]').select(
+    startMonth,
+  );
+  cy.get('[name="root_view:gulfWarServiceDates_gulfWarStartDateYear"]').type(
+    startYear,
+  );
+  cy.get('[name="root_view:gulfWarServiceDates_gulfWarEndDateMonth"]').select(
+    endMonth,
+  );
+  cy.get('[name="root_view:gulfWarServiceDates_gulfWarEndDateYear"]').type(
+    endYear,
+  );
+};
+
+export const fillToxicExposureDateRange = () => {
+  const { toxicExposureStartDate, toxicExposureEndDate } = testData[
+    'view:toxicExposureDates'
+  ];
+  const [startYear, startMonth] = toxicExposureStartDate
+    .split('-')
+    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  const [endYear, endMonth] = toxicExposureEndDate
+    .split('-')
+    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  cy.get(
+    '[name="root_view:toxicExposureDates_toxicExposureStartDateMonth"]',
+  ).select(startMonth);
+  cy.get(
+    '[name="root_view:toxicExposureDates_toxicExposureStartDateYear"]',
+  ).type(startYear);
+  cy.get(
+    '[name="root_view:toxicExposureDates_toxicExposureEndDateMonth"]',
+  ).select(endMonth);
+  cy.get('[name="root_view:toxicExposureDates_toxicExposureEndDateYear"]').type(
+    endYear,
+  );
+};
+
+export const advanceToHousehold = () => {
   cy.get('[href="#start"]')
     .first()
     .click();
@@ -37,10 +93,12 @@ export const advanceToHouseholdV2 = () => {
   cy.get('[name="root_vaPensionType"]').check('No');
   goToNextPage('/military-service/service-information');
   goToNextPage('/military-service/additional-information');
-  goToNextPage('/household-information-v2/financial-information-use');
+  goToNextPage('/military-service/toxic-exposure');
+  cy.get('[name="root_hasTeraResponse"]').check('N');
+  goToNextPage('/household-information/financial-information-use');
 };
 
-export const advanceFromHouseholdV2ToReview = () => {
+export const advanceFromHouseholdToReview = () => {
   goToNextPage('/insurance-information/medicaid');
   cy.get('[name="root_isMedicaidEligible"]').check('N');
 
@@ -146,6 +204,9 @@ export const shortFormSelfDisclosureToSubmit = () => {
     .first()
     .click();
 
+  cy.get('[name="root_hasTeraResponse"]').check('N');
+  goToNextPage('/insurance-information/medicaid');
+
   // medicaid page with short form message
   shortFormAdditionalHelpAssertion();
   cy.get('[name="root_isMedicaidEligible"]').check('N');
@@ -170,7 +231,7 @@ export const shortFormSelfDisclosureToSubmit = () => {
   goToNextPage('review-and-submit');
 
   // check review page for self disclosure of va compensation type
-  cy.get(`button.usa-button-unstyled`)
+  cy.get('va-accordion-item')
     .contains(/^VA benefits$/)
     .click();
   cy.findByText(/Do you receive VA disability compensation?/i, {
@@ -179,11 +240,8 @@ export const shortFormSelfDisclosureToSubmit = () => {
     .next('dd')
     .should('have.text', 'Yes (50% or higher rating)');
 
-  cy.get('[name="privacyAgreementAccepted"]')
-    .scrollIntoView()
-    .shadow()
-    .find('[type="checkbox"]')
-    .check();
+  acceptPrivacyAgreement();
+
   cy.findByText(/submit/i, { selector: 'button' }).click();
   cy.wait('@mockSubmit').then(interception => {
     // check submitted vaCompensationType value.
@@ -192,4 +250,53 @@ export const shortFormSelfDisclosureToSubmit = () => {
       .should('eq', 'highDisability');
   });
   cy.location('pathname').should('include', '/confirmation');
+};
+
+// Keyboard-only pattern helpers
+export const fillAddressWithKeyboard = (fieldName, value) => {
+  cy.typeInIfDataExists(`[name="root_${fieldName}_street"]`, value.street);
+  cy.typeInIfDataExists(`[name="root_${fieldName}_street2"]`, value.street2);
+  cy.typeInIfDataExists(`[name="root_${fieldName}_street3"]`, value.street3);
+  cy.typeInIfDataExists(`[name="root_${fieldName}_city"]`, value.city);
+  cy.tabToElement(`[name="root_${fieldName}_state"]`);
+  cy.chooseSelectOptionUsingValue(value.state);
+  cy.typeInIfDataExists(
+    `[name="root_${fieldName}_postalCode"]`,
+    value.postalCode,
+  );
+};
+
+export const fillDateWithKeyboard = (fieldName, value) => {
+  const [year, month, day] = value
+    .split('-')
+    .map(num => parseInt(num, 10).toString());
+  cy.tabToElement(`[name="root_${fieldName}Month"]`);
+  cy.chooseSelectOptionUsingValue(month);
+  // eslint-disable-next-line no-restricted-globals
+  if (!isNaN(day)) {
+    cy.tabToElement(`[name="root_${fieldName}Day"]`);
+    cy.chooseSelectOptionUsingValue(day);
+  }
+  cy.typeInIfDataExists(`[name="root_${fieldName}Year"]`, year);
+};
+
+export const fillNameWithKeyboard = (fieldName, value) => {
+  cy.typeInIfDataExists(`[name="root_${fieldName}_first"]`, value.first);
+  cy.typeInIfDataExists(`[name="root_${fieldName}_middle"]`, value.middle);
+  cy.typeInIfDataExists(`[name="root_${fieldName}_last"]`, value.last);
+  if (value.suffix) {
+    cy.tabToElement(`[name="root_${fieldName}_suffix"]`);
+    cy.chooseSelectOptionUsingValue(value.suffix);
+  }
+};
+
+export const selectDropdownWithKeyboard = (fieldName, value) => {
+  cy.tabToElement(`[name="root_${fieldName}"]`);
+  cy.chooseSelectOptionUsingValue(value);
+};
+
+export const selectRadioWithKeyboard = (fieldName, value) => {
+  cy.tabToElement(`[name="root_${fieldName}"]`);
+  cy.findOption(value);
+  cy.realPress('Space');
 };

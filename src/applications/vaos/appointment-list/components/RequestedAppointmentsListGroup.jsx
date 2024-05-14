@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-import recordEvent from 'platform/monitoring/record-event';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
 import {
   fetchPendingAppointments,
@@ -14,22 +14,14 @@ import {
   FETCH_STATUS,
   GA_PREFIX,
 } from '../../utils/constants';
-import { getVAAppointmentLocationId } from '../../services/appointment';
-import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
 import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import {
-  selectFeatureAppointmentList,
-  selectFeatureStatusImprovement,
-  selectFeaturePrintList,
-} from '../../redux/selectors';
-import RequestAppointmentLayout from './AppointmentsPageV2/RequestAppointmentLayout';
+import RequestAppointmentLayout from './AppointmentsPage/RequestAppointmentLayout';
 import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
 
 export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
   const {
-    facilityData,
     pendingAppointments,
     pendingStatus,
     showScheduleButton,
@@ -37,13 +29,6 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
     state => getRequestedAppointmentListInfo(state),
     shallowEqual,
   );
-  const featureAppointmentList = useSelector(state =>
-    selectFeatureAppointmentList(state),
-  );
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
-  );
-  const isPrintList = useSelector(state => selectFeaturePrintList(state));
 
   const dispatch = useDispatch();
 
@@ -109,15 +94,9 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
     if (a[0].toLowerCase() > b[0].toLowerCase()) return -1;
     return 0;
   });
-  let paragraphText =
-    'Below is your list of appointment requests that haven’t been scheduled yet.';
-  if (featureAppointmentList) {
-    paragraphText =
-      'Appointments that you request will show here until staff review and schedule them.';
-  } else if (featureStatusImprovement) {
-    paragraphText =
-      'Your appointment requests that haven’t been scheduled yet.';
-  }
+
+  const paragraphText =
+    'Appointments that you request will show here until staff review and schedule them.';
 
   return (
     <>
@@ -139,15 +118,15 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
                 });
                 startNewAppointmentFlow();
               }}
+              level={2}
             />
           </div>
         )}
-        {isPrintList &&
-          appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
-            <p className="vaos-hide-for-print xsmall-screen:vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--2">
-              {paragraphText}
-            </p>
-          )}
+        {appointmentsByStatus.flat().includes(APPOINTMENT_STATUS.proposed) && (
+          <p className="vaos-hide-for-print xsmall-screen:vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--2">
+            {paragraphText}
+          </p>
+        )}
         {appointmentsByStatus.map(statusBucket => {
           return (
             <React.Fragment key={statusBucket[0]}>
@@ -162,36 +141,15 @@ export default function RequestedAppointmentsListGroup({ hasTypeChanged }) {
               {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
               <ul
                 className={classNames(
-                  `vads-u-padding-left--0 ${
-                    isPrintList
-                      ? 'vads-u-margin-top--0'
-                      : 'vads-u-margin-top--4'
-                  } `,
+                  'vads-u-padding-left--0 vads-u-margin-top--0',
                 )}
                 data-cy="requested-appointment-list"
               >
-                {featureAppointmentList &&
-                  statusBucket[1].map((appt, index) => {
-                    return (
-                      <RequestAppointmentLayout
-                        key={index}
-                        appointment={appt}
-                      />
-                    );
-                  })}
-
-                {!featureAppointmentList &&
-                  statusBucket[1].map((appt, index) => {
-                    return (
-                      <RequestListItem
-                        key={index}
-                        appointment={appt}
-                        facility={
-                          facilityData[getVAAppointmentLocationId(appt)]
-                        }
-                      />
-                    );
-                  })}
+                {statusBucket[1].map((appt, index) => {
+                  return (
+                    <RequestAppointmentLayout key={index} appointment={appt} />
+                  );
+                })}
               </ul>
             </React.Fragment>
           );
