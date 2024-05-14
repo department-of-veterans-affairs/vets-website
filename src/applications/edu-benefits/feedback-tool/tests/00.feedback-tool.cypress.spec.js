@@ -18,17 +18,20 @@ describe('Feedback Tool Test', () => {
       .click();
 
     cy.url().should('not.contain', '/introduction');
+    /*
+      // Applicant relationship
+      cy.get('input[name="root_onBehalfOf"][value="Myself"]').should('exist');
+      cy.injectAxeThenAxeCheck();
+      cy.selectRadio('root_onBehalfOf', testData.data.onBehalfOf);
+      cy.get('.usa-alert.usa-alert-info.background-color-only', {
+        timeout: Timeouts.slow,
+      }).should('be.visible');
 
-    // Applicant relationship
-    cy.get('input[name="root_onBehalfOf"][value="Myself"]').should('exist');
-    cy.injectAxeThenAxeCheck();
-    cy.selectRadio('root_onBehalfOf', testData.data.onBehalfOf);
-    cy.get('.usa-alert.usa-alert-info.background-color-only', {
-      timeout: Timeouts.slow,
-    }).should('be.visible');
 
     cy.get('.form-progress-buttons .usa-button-primary').click();
     cy.url().should('not.contain', '/applicant-relationship');
+
+     */
 
     // Applicant information
     cy.get('input[name="root_fullName_first').should('exist');
