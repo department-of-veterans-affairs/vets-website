@@ -101,14 +101,7 @@ jobs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       apps-to-stress-test: ${{ steps.apps-to-stress-test.outputs.apps_to_test }}
       unit-tests-to-stress-test: ${{ steps.unit-tests-to-stress-test.outputs.tests }}
-      changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
       disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
-      cypress-tests: ${{ steps.cypress-tests.outputs.selected }}
-      cypress-tests-to-stress-test: ${{ steps.cypress-tests-to-stress-test.outputs.tests }}
-      app_urls: ${{ steps.get-changed-apps.outputs.urls }}
-      num_containers: ${{ steps.containers.outputs.num }}
-      ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
-      changed_file_paths: ${{ steps.get-changed-apps.outputs.changed_files }}
 
     steps:
       - name: Checkout

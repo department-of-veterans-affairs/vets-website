@@ -46,7 +46,6 @@ const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(
 
 core.exportVariable('DISALLOWED_TESTS', DISALLOWED_SPECS);
 
-console.log(IS_STRESS_TEST, typeof IS_STRESS_TEST);
 if (TESTS_TO_STRESS_TEST.length > 0 && IS_STRESS_TEST === 'false') {
   core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', 'true');
   core.exportVariable('APPS_TO_STRESS_TEST', CHANGED_APPS_UNIQUE);
