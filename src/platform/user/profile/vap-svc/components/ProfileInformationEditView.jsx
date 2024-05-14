@@ -7,6 +7,7 @@ import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
 import {
   createTransaction,
   refreshTransaction,
@@ -250,12 +251,14 @@ export class ProfileInformationEditView extends Component {
       return;
     }
 
-    const focusableElement = this.editForm?.querySelector(
-      'button, input, select, a, textarea',
-    );
+    if (this.editForm) {
+      setTimeout(() => {
+        const focusableElement = getFocusableElements(this.editForm)?.[0];
 
-    if (focusableElement) {
-      setTimeout(() => focusElement(focusableElement), 100);
+        if (focusableElement) {
+          focusElement(focusableElement);
+        }
+      }, 100);
     }
   }
 
@@ -327,27 +330,26 @@ export class ProfileInformationEditView extends Component {
                 analyticsSectionName={analyticsSectionName}
                 isLoading={isLoading}
               >
-                <div>
+                <div className="vads-u-display--block small-screen:vads-u-display--flex">
                   <LoadingButton
                     data-action="save-edit"
                     data-testid="save-edit-button"
                     isLoading={isLoading}
                     loadingText="Saving changes"
-                    className="vads-u-margin-top--0 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--4"
+                    className="vads-u-margin-top--0 small-screen:vads-u-width--auto vads-u-width--full"
                     onClick={onClickUpdateHandler}
                   >
                     {saveButtonText || 'Save'}
                   </LoadingButton>
 
                   {!isLoading && (
-                    <button
+                    <va-button
                       data-testid="cancel-edit-button"
-                      type="button"
-                      className="usa-button-secondary small-screen:vads-u-margin-top--0 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--4 "
+                      secondary
+                      class="vads-u-margin--0 vads-u-margin-top--0 vads-u-width--full small-screen:vads-u-width--auto"
                       onClick={onCancel}
-                    >
-                      {cancelButtonText || 'Cancel'}
-                    </button>
+                      text={cancelButtonText || 'Cancel'}
+                    />
                   )}
                 </div>
               </ProfileInformationActionButtons>

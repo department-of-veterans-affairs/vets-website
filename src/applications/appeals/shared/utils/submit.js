@@ -150,3 +150,19 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
     };
   });
 };
+
+/**
+ * Get timezone of user's computer
+ * @example 'America/Los_Angeles'
+ * @returns {String} Valid Lighthouse timezone string
+ */
+export const getTimeZone = () => {
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // See https://dsva.slack.com/archives/C05UPRR0HK3/p1715559455045739; DataDog
+  // event where a Veteran submitted an HLR with 'Etc/Unknown` as the timezone,
+  // but it was rejected by Lighthouse
+  return timezone.toLowerCase().includes('unknown')
+    ? 'America/New_York'
+    : timezone;
+};
