@@ -6,6 +6,7 @@ export const emailFormSchema = {
     emailAddress: {
       type: 'string',
       format: 'email',
+      maxLength: 255,
       // This regex was taken from the HCA but modified to allow leading and
       // trailing whitespace to reduce false errors. The `convertDataToPayload`
       // method will clean up the whitespace before submission
