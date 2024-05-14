@@ -21,6 +21,8 @@ function App() {
     TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
   );
 
+  const isProduction = environment.isProduction();
+
   if (isAppToggleLoading) {
     return (
       <div className="vads-u-margin-y--5">
@@ -29,7 +31,7 @@ function App() {
     );
   }
 
-  if (environment.isProduction() && !isAppEnabled) {
+  if (isProduction && !isAppEnabled) {
     return <AppNotEnabledAlert />;
   }
 

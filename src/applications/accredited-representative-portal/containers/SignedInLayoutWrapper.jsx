@@ -15,6 +15,7 @@ const SignedInLayoutWrapper = () => {
   const isInPilot = useToggleValue(
     TOGGLE_NAMES.accreditedRepresentativePortalPilot,
   );
+
   const isProduction = environment.isProduction();
 
   // TODO: Update with permissions check
