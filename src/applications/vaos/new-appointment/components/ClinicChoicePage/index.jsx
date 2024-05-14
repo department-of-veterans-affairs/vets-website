@@ -9,7 +9,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  // startDirectScheduleFlow,
+  startDirectScheduleFlow,
 } from '../../redux/actions';
 
 import {
@@ -69,10 +69,9 @@ export default function ClinicChoicePage() {
   useEffect(() => {
     scrollAndFocus();
     document.title = `${pageTitle} | Veterans Affairs`;
-    // dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
+    dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
   }, []);
-  // eslint-disable-next-line no-console
-  console.log('length:', schema.properties.clinicId.enum);
+
   return (
     <div>
       {schema.properties.clinicId.enum.length === 2 && (
