@@ -117,7 +117,7 @@ export const NOD_OLD_HANDOFF = Object.freeze(
   <div>
     <p>
       Since it’s been more than 1 year since we made a decision, you should file
-      a <strong>Supplemental claim.</strong>
+      a <strong>Supplemental Claim.</strong>
     </p>
     <p>
       We can help you gather any new evidence you identify (such as medical
@@ -144,7 +144,7 @@ export const NOD_SUPPLEMENTAL_HANDOFF = Object.freeze(
   <div>
     <p>
       Based on your answer, you may want to file a{' '}
-      <strong>Supplemental claim.</strong>
+      <strong>Supplemental Claim.</strong>
     </p>
     <p>
       We can help you gather any new evidence you identify (such as medical
