@@ -88,16 +88,17 @@ const UpcomingAppointmentsList = props => {
                     </div>
                     <div className="vads-l-col--10 vads-u-border-top--1px">
                       <ul
-                        className="vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
+                        className="vads-u-margin-bottom--3 check-in--appointment-list appointment-list"
                         data-testid="appointment-list"
                       >
-                        {appointments.map(appointment => {
+                        {appointments.map((appointment, number) => {
                           return (
                             <UpcomingAppointmentsListItem
                               key={getAppointmentId(appointment)}
                               appointment={appointment}
                               goToDetails={handleDetailClick}
                               router={router}
+                              border={number !== appointments.length - 1}
                             />
                           );
                         })}
