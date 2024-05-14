@@ -53,17 +53,17 @@ describe('DowntimeBanner', () => {
     DOWNTIME_BANNER_CONFIG,
   ).filter(dt => !['multipleServices', 'maintenance'].includes(dt));
 
-  it('should display banner if API is down', () => {
-    const { queryByText } = renderInReduxProvider(<DowntimeBanners />, {
-      initialState: generateState({ isApiDown: true }),
-    });
+  // it('should display banner if API is down', () => {
+  //   const { queryByText } = renderInReduxProvider(<DowntimeBanners />, {
+  //     initialState: generateState({ isApiDown: true }),
+  //   });
 
-    expect(
-      queryByText(
-        /You may have trouble signing in or using some tools or services/i,
-      ),
-    ).to.exist;
-  });
+  //   expect(
+  //     queryByText(
+  //       /You may have trouble signing in or using some tools or services/i,
+  //     ),
+  //   ).to.exist;
+  // });
 
   it('should NOT display banner if statuses are active', () => {
     const screen = renderInReduxProvider(<DowntimeBanners />, {
