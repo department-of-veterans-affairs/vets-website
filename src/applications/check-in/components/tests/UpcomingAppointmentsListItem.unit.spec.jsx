@@ -4,6 +4,7 @@ import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import UpcomingAppointmentsListItem from '../UpcomingAppointmentsListItem';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
+import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
 
 const appointments = [
   {
@@ -28,6 +29,28 @@ const appointments = [
     clinicStopCodeName: '',
     kind: 'phone',
   },
+  {
+    facility: 'LOMA LINDA VA CLINIC',
+    clinicPhoneNumber: '5551234567',
+    clinicFriendlyName: 'TEST CLINIC',
+    clinicName: 'LOM ACC CLINIC TEST',
+    appointmentIen: 'some-ien',
+    startTime: '2021-11-16T21:39:36',
+    doctorName: '',
+    clinicStopCodeName: '',
+    kind: 'cvt',
+  },
+  {
+    facility: 'LOMA LINDA VA CLINIC',
+    clinicPhoneNumber: '5551234567',
+    clinicFriendlyName: 'TEST CLINIC',
+    clinicName: 'LOM ACC CLINIC TEST',
+    appointmentIen: 'some-ien',
+    startTime: '2021-11-16T21:39:36',
+    doctorName: '',
+    clinicStopCodeName: '',
+    kind: 'vvc',
+  },
 ];
 
 const mockRouter = {
@@ -38,6 +61,12 @@ const mockRouter = {
 };
 
 describe('unified check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('UpcomingAppointmentsListItem', () => {
     const goToDetails = sinon.spy();
     it('should render an appointment list item with all the details provided', () => {
@@ -58,7 +87,7 @@ describe('unified check-in experience', () => {
       );
 
       expect(screen.getByTestId('appointment-kind-and-location')).to.have.text(
-        'In person at LOMA LINDA VA CLINIC',
+        'In person at LOMA LINDA VA CLINIC Clinic: TEST CLINIC',
       );
 
       fireEvent.click(screen.getByTestId('details-link'));
@@ -78,6 +107,32 @@ describe('unified check-in experience', () => {
       expect(screen.getByTestId('appointment-kind-and-location')).to.have.text(
         'Phone',
       );
+    });
+    it('should indicate that it is a cvt appointment', () => {
+      const screen = render(
+        <CheckInProvider>
+          <UpcomingAppointmentsListItem
+            appointment={appointments[2]}
+            goToDetails={goToDetails}
+            dayKey=""
+            router={mockRouter}
+          />
+        </CheckInProvider>,
+      );
+      expect(screen.getByTestId('appointment-info-cvt')).to.exist;
+    });
+    it('should indicate that it is a vvc appointment', () => {
+      const screen = render(
+        <CheckInProvider>
+          <UpcomingAppointmentsListItem
+            appointment={appointments[3]}
+            goToDetails={goToDetails}
+            dayKey=""
+            router={mockRouter}
+          />
+        </CheckInProvider>,
+      );
+      expect(screen.getByTestId('appointment-info-vvc')).to.exist;
     });
     it('should render details properly with no stopCodeName or provider', () => {
       const screen = render(
