@@ -98,7 +98,7 @@ const UpcomingAppointmentsListItem = props => {
 
 UpcomingAppointmentsListItem.propTypes = {
   appointment: PropTypes.object.isRequired,
-  border: PropTypes.object.isRequired,
+  border: PropTypes.bool.isRequired,
   goToDetails: PropTypes.func,
   router: PropTypes.object,
 };
