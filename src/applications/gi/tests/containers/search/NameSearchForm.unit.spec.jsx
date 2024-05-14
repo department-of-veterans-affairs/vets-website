@@ -71,7 +71,7 @@ describe('<NameSearchForm>', () => {
     );
 
     const input = screen.getByLabelText(
-      'School, employer, or training provider',
+      'School, employer, or training provider(*Required)',
     );
     userEvent.type(input, 'Test School');
     const btn = screen.getByRole('button', { name: 'Search' });
@@ -146,7 +146,7 @@ describe('<NameSearchForm>', () => {
       },
     );
     const input = screen.getByLabelText(
-      'School, employer, or training provider',
+      'School, employer, or training provider(*Required)',
     );
     userEvent.type(input, 'Test School');
     const submitButton = screen.getByRole('button', { name: 'Search' });

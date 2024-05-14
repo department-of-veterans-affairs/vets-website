@@ -94,7 +94,7 @@ describe('995 contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Mobile phone
@@ -106,7 +106,7 @@ describe('995 contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Email
@@ -118,7 +118,7 @@ describe('995 contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Mailing address
@@ -130,7 +130,7 @@ describe('995 contact info loop', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
   });
 
@@ -148,8 +148,14 @@ describe('995 contact info loop', () => {
       `${BASE_URL}/edit-contact-information-mobile-phone`,
     );
 
-    cy.findByLabelText(/mobile phone/i).clear();
-    cy.findByLabelText(/mobile phone/i).type('8885551212');
+    cy.get('va-text-input[label^="Mobile phone"]')
+      .shadow()
+      .find('input')
+      .clear();
+    cy.get('va-text-input[label^="Mobile phone"]')
+      .shadow()
+      .find('input')
+      .type('8885551212');
 
     cy.findAllByText(/save/i, { selector: 'button' })
       .first()

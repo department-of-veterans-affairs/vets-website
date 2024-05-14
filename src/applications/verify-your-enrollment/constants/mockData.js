@@ -2,7 +2,7 @@ export const UPDATED_USER_MOCK_DATA = {
   'vye::UserInfo': {
     suffix: 'CPA',
     fullName: 'Ben Simonis MD',
-    addressLine2: 'Apt. 116',
+    addressLine2: 'Apt 11',
     addressLine3: 'Park Crossing',
     addressLine4: 'Leanneside',
     addressLine5: 'Montana',
@@ -176,11 +176,11 @@ export const PAGINATION_USER_MOCK_DATA = {
   'vye::UserInfo': {
     suffix: 'CPA',
     fullName: 'Ben Simonis MD',
-    addressLine2: 'Apt. 116',
+    addressLine2: 'Apt 11',
     addressLine3: 'Park Crossing',
     addressLine4: 'Leanneside',
     addressLine5: 'Montana',
-    addressLine6: '03729-2762',
+    addressLine6: '03729',
     zip: '46786-3217',
     remEnt: '2854321', // 28(first 2 numbers) for months .54321 * 30 = res needs to be rounded
     certIssueDate: '2019-06-28T00:00:00.000Z',

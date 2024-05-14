@@ -32,6 +32,7 @@ export function mockEligibilityFetchesByVersion({
   limit = false,
   requestPastVisits = false,
   directPastVisits = false,
+  matchingClinics = null,
   clinics = [],
   pastClinics = false,
   version = 2,
@@ -113,7 +114,7 @@ export function mockEligibilityFetchesByVersion({
       },
     );
 
-    const pastAppointments = clinics.map(clinic => {
+    const pastAppointments = (matchingClinics || clinics).map(clinic => {
       const appt = getVAOSAppointmentMock();
       return {
         ...appt,

@@ -4,6 +4,7 @@
       "ssnLastFour": "9876",
       "vaFileLastFour": "8765",
       "address": {
+        "addressType": "DOMESTIC",
         "addressLine1": "123 Main St",
         "addressLine2": "Suite #1200",
         "addressLine3": "Box 4",

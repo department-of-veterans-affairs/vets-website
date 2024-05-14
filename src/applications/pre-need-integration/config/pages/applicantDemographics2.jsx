@@ -6,33 +6,28 @@ import {
   applicantDemographicsDescription,
   applicantDemographicsSubHeader,
   veteranUI,
-  applicantDemographicsEthnicityTitle,
-  applicantDemographicsRaceTitle,
 } from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
-export function uiSchema(
-  subHeader = applicantDemographicsSubHeader,
-  ethnicityTitle = applicantDemographicsEthnicityTitle,
-  raceTitle = applicantDemographicsRaceTitle,
-) {
-  return {
-    application: {
-      'ui:title': subHeader,
-      'view:applicantDemographicsDescription': {
-        'ui:description': applicantDemographicsDescription,
-        'ui:options': {
-          displayEmptyObjectOnReview: true,
+export const uiSchema = {
+  application: {
+    'ui:title': applicantDemographicsSubHeader,
+    'view:applicantDemographicsDescription': {
+      'ui:description': applicantDemographicsDescription,
+      'ui:options': {
+        displayEmptyObjectOnReview: true,
+      },
+    },
+    veteran: merge({}, veteranUI, {
+      raceComment: {
+        'ui:errorMessages': {
+          pattern: 'Please provide a response',
         },
       },
-      veteran: merge({}, veteranUI, {
-        ethnicity: { 'ui:title': ethnicityTitle },
-        race: { 'ui:title': raceTitle },
-      }),
-    },
-  };
-}
+    }),
+  },
+};
 
 export const schema = {
   type: 'object',
@@ -47,7 +42,17 @@ export const schema = {
         veteran: {
           type: 'object',
           required: ['ethnicity', 'race'],
-          properties: pick(veteran.properties, ['ethnicity', 'race']),
+          properties: merge(
+            {},
+            pick(veteran.properties, ['ethnicity', 'race']),
+            {
+              raceComment: {
+                type: 'string',
+                maxLength: 100,
+                pattern: /^(?!\s+$).*/,
+              },
+            },
+          ),
         },
       },
     },

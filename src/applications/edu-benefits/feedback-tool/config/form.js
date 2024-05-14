@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -18,7 +17,6 @@ const { get, omit, set } = dataUtils;
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../components/SchoolSelectField.jsx';
-// import GetFormHelp from '../../components/GetFormHelp';
 
 import {
   accreditationLabel,
@@ -31,7 +29,6 @@ import {
   PREFILL_FLAGS,
   prefillTransformer,
   qualityLabel,
-  recordApplicantRelationship,
   recruitingLabel,
   refundIssuesLabel,
   studentLoansLabel,
@@ -41,6 +38,7 @@ import {
   transform,
   validateMatch,
 } from '../helpers';
+import { applicantRelationship } from '../pages/index';
 
 import migrations from './migrations';
 
@@ -49,7 +47,6 @@ import NeedHelp from '../components/NeedHelp';
 
 const {
   address: applicantAddress,
-  anonymousEmail,
   applicantEmail,
   educationDetails,
   fullName,
@@ -57,7 +54,6 @@ const {
   issueDescription,
   issueResolution,
   issueUIDescription,
-  onBehalfOf,
   phone,
   serviceAffiliation,
   serviceBranch,
@@ -189,50 +185,8 @@ const formConfig = {
         applicantRelationship: {
           path: 'applicant-relationship',
           title: 'Applicant Relationship',
-          uiSchema: {
-            'ui:description': recordApplicantRelationship,
-            onBehalfOf: {
-              'ui:widget': 'radio',
-              'ui:title': 'I’m submitting feedback on behalf of...',
-              'ui:options': {
-                nestedContent: {
-                  [myself]: () => (
-                    <div className="usa-alert usa-alert-info background-color-only">
-                      We’ll only share your name with the school.
-                    </div>
-                  ),
-                  [someoneElse]: () => (
-                    <div className="usa-alert usa-alert-info background-color-only">
-                      Your name is shared with the school, not the name of the
-                      person you’re submitting feedback for.
-                    </div>
-                  ),
-                  [anonymous]: () => (
-                    <div className="usa-alert usa-alert-info background-color-only">
-                      Anonymous feedback is shared with the school. Your
-                      personal information, however, isn’t shared with anyone
-                      outside of VA.
-                    </div>
-                  ),
-                },
-                expandUnderClassNames: 'schemaform-expandUnder',
-              },
-            },
-            anonymousEmail: merge({}, emailUI('Email'), {
-              'ui:options': {
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: anonymous,
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            required: ['onBehalfOf'],
-            properties: {
-              onBehalfOf,
-              anonymousEmail,
-            },
-          },
+          uiSchema: applicantRelationship.default.uiSchema,
+          schema: applicantRelationship.default.schema,
         },
         applicantInformation: {
           path: 'applicant-information',

@@ -2,10 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import '../sass/change-of-direct-deposit-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import ChangeOfDirectDepositForm from '../components/ChangeOfDirectDepositForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import ChangeOfDirectDepositForm from '../components/ChangeOfDirectDepositForm';
 
-import { scrollToElement } from '../helpers';
+import { hasFormChanged, scrollToElement } from '../helpers';
 import {
   CHANGE_OF_DIRECT_DEPOSIT_TITLE,
   DIRECT_DEPOSIT_BUTTON_TEXT,
@@ -14,12 +14,14 @@ import {
 import { updateBankInfo } from '../actions';
 import Alert from '../components/Alert';
 import Loader from '../components/Loader';
+import AlertModal from '../components/AlertModal';
 
 const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
   const prefix = 'GI-Bill-Chapters-';
   const [toggleDirectDepositForm, setToggleDirectDepositForm] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [formData, setFormData] = useState();
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const { loading, error, data: response } = useSelector(
     state => state.bankInfo,
@@ -32,8 +34,16 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
   const handleCloseForm = useCallback(() => {
     setFormData({}); // clear form data
     setToggleDirectDepositForm(false);
+    setShowModal(false);
     scrollToTopOfForm();
   }, []);
+  const onCancelButtonClick = () => {
+    if (hasFormChanged(formData, applicantName)) {
+      setShowModal(true);
+    } else {
+      handleCloseForm();
+    }
+  };
   // called when submitting form
   const saveBankInfo = () => {
     // commented out until tied in with redu
@@ -196,24 +206,30 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
               formPrefix={prefix}
               formSubmit={saveBankInfo}
             >
-              <LoadingButton
-                aria-label="save your bank information for GI Bill® benefits"
-                type="submit"
-                loadingText="saving bank information"
-                className="usa-button-primary vads-u-margin-top--0 ach-submit-btn-auto-width"
-              >
-                Save
-              </LoadingButton>
-              <va-button
-                text="Cancel"
-                secondary
-                label="cancel updating your bank information for GI Bill® benefits"
-                onClick={() => {
-                  handleCloseForm();
-                }}
-                data-qa="cancel-button"
-                data-testid={`${prefix}form-cancel-button`}
+              <AlertModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+                cancelEditClick={handleCloseForm}
+                formType="direct deposit"
               />
+              <div className="button-container">
+                <LoadingButton
+                  aria-label="save your bank information for GI Bill® benefits"
+                  type="submit"
+                  loadingText="saving bank information"
+                  className="usa-button-primary vads-u-margin-top--0 ach-submit-btn-auto-width"
+                >
+                  Save
+                </LoadingButton>
+                <va-button
+                  text="Cancel"
+                  secondary
+                  label="cancel updating your bank information for GI Bill® benefits"
+                  onClick={onCancelButtonClick}
+                  data-qa="cancel-button"
+                  data-testid={`${prefix}form-cancel-button`}
+                />
+              </div>
             </ChangeOfDirectDepositForm>
           </div>
         )}

@@ -23,6 +23,7 @@ import {
   DOCUMENT_TITLE_SUFFIX,
   PAGE_TITLE_SUFFIX,
   SHOW_8940_4192,
+  SHOW_REVISED_ADD_DISABILITIES_PAGE,
   SHOW_TOXIC_EXPOSURE,
   WIZARD_STATUS,
 } from './constants';
@@ -103,6 +104,9 @@ export const Form526Entry = ({
   const showToxicExposurePages = useToggleValue(
     TOGGLE_NAMES.disability526ToxicExposure,
   );
+  const showRevisedNewDisabilitiesPage = useToggleValue(
+    TOGGLE_NAMES.disability526ImprovedAutosuggestionsAddDisabilitiesPage,
+  );
   const hasSavedForm = savedForms.some(
     form =>
       form.form === formConfig.formId && !isExpired(form.metaData?.expiresAt),
@@ -159,6 +163,16 @@ export const Form526Entry = ({
       showToxicExposurePages,
       wizardStatus,
     ],
+  );
+
+  useEffect(
+    () => {
+      window.sessionStorage.setItem(
+        SHOW_REVISED_ADD_DISABILITIES_PAGE,
+        showRevisedNewDisabilitiesPage,
+      );
+    },
+    [showRevisedNewDisabilitiesPage],
   );
 
   useEffect(

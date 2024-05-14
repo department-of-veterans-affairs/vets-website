@@ -57,7 +57,7 @@ ApplicantOhiStatusPage.propTypes = {
   data: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  pagePerItemIndex: PropTypes.string || PropTypes.number,
+  pagePerItemIndex: PropTypes.string,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,

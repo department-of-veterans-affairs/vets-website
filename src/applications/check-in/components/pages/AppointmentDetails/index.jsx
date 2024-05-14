@@ -164,12 +164,6 @@ const AppointmentDetails = props => {
                     t('appointment-day', { date: appointmentDay })}
                 </div>
               </div>
-              <div data-testid="appointment-details--what">
-                <h2 className="vads-u-font-size--sm">{t('what')}</h2>
-                <div data-testid="appointment-details--appointment-value">
-                  {t('VA-appointment')}
-                </div>
-              </div>
               {appointment.doctorName && (
                 <div data-testid="appointment-details--provider">
                   <h2 className="vads-u-font-size--sm">{t('provider')}</h2>

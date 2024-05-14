@@ -40,20 +40,18 @@ const ServiceBranch = ({
   );
 
   return (
-    <div>
-      <RadioGroup
-        formError={formError}
-        formResponses={formResponses}
-        formValue={serviceBranch}
-        H1={H1}
-        responses={[ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS]}
-        router={router}
-        setFormError={setFormError}
-        shortName={shortName}
-        testId="duw-service_branch"
-        valueSetter={setServiceBranch}
-      />
-    </div>
+    <RadioGroup
+      formError={formError}
+      formResponses={formResponses}
+      formValue={serviceBranch}
+      H1={H1}
+      responses={[ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS]}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="duw-service_branch"
+      valueSetter={setServiceBranch}
+    />
   );
 };
 

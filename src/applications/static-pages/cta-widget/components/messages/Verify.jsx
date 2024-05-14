@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CallToActionAlert from '../CallToActionAlert';
 
-const Verify = ({ serviceDescription, primaryButtonHandler }) => {
+const Verify = ({ headerLevel, primaryButtonHandler, serviceDescription }) => {
   const content = {
     heading: `Please verify your identity to ${serviceDescription}`,
+    headerLevel,
     alertText: (
       <>
         <p>
@@ -27,8 +28,9 @@ const Verify = ({ serviceDescription, primaryButtonHandler }) => {
 };
 
 Verify.propTypes = {
-  serviceDescription: PropTypes.string.isRequired,
   primaryButtonHandler: PropTypes.func.isRequired,
+  serviceDescription: PropTypes.string.isRequired,
+  headerLevel: PropTypes.string,
 };
 
 export default Verify;

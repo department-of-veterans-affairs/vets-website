@@ -1,3 +1,5 @@
+import { startOfDay, subYears, isBefore } from 'date-fns';
+
 export function getMockData(mockData, isLocalhost) {
   return !!mockData && isLocalhost() && !window.Cypress ? mockData : undefined;
 }
@@ -23,3 +25,10 @@ export function validateLivingSituation(errors, fields) {
     );
   }
 }
+
+export const isEligibleForDecisionReview = decisionDate => {
+  if (!decisionDate) return false;
+  const oneYearAgo = startOfDay(subYears(new Date(), 1));
+  const decisionDateTime = startOfDay(new Date(decisionDate.split('-')));
+  return isBefore(oneYearAgo, decisionDateTime);
+};

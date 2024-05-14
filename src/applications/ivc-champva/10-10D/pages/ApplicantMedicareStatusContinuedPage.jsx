@@ -31,9 +31,7 @@ export function generateOptions({ data, pagePerItemIndex }) {
     },
   ];
 
-  const prompt = `${
-    useFirstPerson ? 'Are you' : `Is ${applicant}`
-  } enrolled in Medicare Part D?`;
+  const prompt = `Is ${applicant} enrolled in Medicare Part D?`;
 
   return {
     options,
@@ -46,9 +44,7 @@ export function generateOptions({ data, pagePerItemIndex }) {
     keyname: KEYNAME,
     primary: PRIMARY,
     secondary: SECONDARY,
-    customTitle: `${
-      useFirstPerson ? `Your` : `${applicant}'s`
-    } Medicare status`,
+    customTitle: `${applicant}'s Medicare status`,
     description: prompt,
   };
 }
@@ -88,7 +84,7 @@ ApplicantMedicareStatusContinuedPage.propTypes = {
   data: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  pagePerItemIndex: PropTypes.string || PropTypes.number,
+  pagePerItemIndex: PropTypes.string,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,

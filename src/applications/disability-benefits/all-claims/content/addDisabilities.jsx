@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { SHOW_REVISED_ADD_DISABILITIES_PAGE } from '../constants';
 
 export const autoSuggestTitle = (
   <>
@@ -62,3 +63,9 @@ export const increaseAndNewAlert = ({ formContext }) => {
     </va-alert>
   );
 };
+
+export function showRevisedNewDisabilitiesPage() {
+  return (
+    window.sessionStorage.getItem(SHOW_REVISED_ADD_DISABILITIES_PAGE) === 'true'
+  );
+}

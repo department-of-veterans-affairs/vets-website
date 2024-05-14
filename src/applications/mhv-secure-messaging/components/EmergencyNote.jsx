@@ -57,8 +57,9 @@ const EmergencyNote = props => {
         >
           <p>
             {' '}
-            <i
-              className="fas fa-exclamation-triangle vads-u-margin-right--1p5"
+            <va-icon
+              icon="warning"
+              className="vads-u-margin-right--1p5"
               aria-hidden="true"
             />
             <strong className="vads-u-margin-left--0p25">

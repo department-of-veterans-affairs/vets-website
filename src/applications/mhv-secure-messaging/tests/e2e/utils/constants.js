@@ -170,7 +170,7 @@ export const Locators = {
     HIGHLIGHTED: '[data-testid="highlighted-text"]',
     SIDEBAR_NAV: '[class="sidebar-navigation-messages-list-header"]',
     INBOX_TEXT: '[text="Go to your inbox"]',
-    EDIT_DRAFT: '[text="Edit draft 1"]',
+    EDIT_DRAFT: '#edit-draft-button',
     WELCOME_MESSAGE: '.welcome-message',
     BACK_TOP: 'va-back-to-top',
     ACC_ITEM: '[data-testid="faq-accordion-item"]',
@@ -185,6 +185,7 @@ export const Locators = {
     ERROR_MODAL: '[data-testid="attach-file-error-modal"]',
     VA_ALERT_WARNING: 'va-alert[status="warning"]',
     CONFIRM: '[data-testid="alert-text"]',
+    EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
   },
   FIELDS: {
     RECIPIENT: '#select',

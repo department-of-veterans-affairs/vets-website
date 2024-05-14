@@ -1,10 +1,11 @@
-/* import React from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
-import ConfirmationPage from '../../containers/ConfirmationPage'; */
+// import ConfirmationPage from '../../containers/ConfirmationPage';
+import ConfirmationPage from '../../../containers/ConfirmationPage';
 import formConfig from '../../../config/form';
 
 import mockData from '../../e2e/fixtures/data/test-data.json';
@@ -36,15 +37,10 @@ const storeBase = {
   },
 };
 
-/* const fullName = `${mockData.data.veteransFullName.first} ${
-  mockData.data.veteransFullName.last
-}`; */
-
 // Prepare some alternate data for different tests
 const storeBaseNoSubmissionDate = JSON.parse(JSON.stringify(storeBase));
 storeBaseNoSubmissionDate.form.submission.timestamp = '';
 
-/*
 // TODO: These tests need rework. Commenting out until that can be tackled.
 describe('Confirmation page', () => {
   const middleware = [thunk];
@@ -60,34 +56,33 @@ describe('Confirmation page', () => {
     expect(container).to.exist;
   });
 
-  it('should display correct name of person', () => {
-    const { getByText } = render(
-      <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage />
-      </Provider>,
-    );
+  // it('should display correct name of person', () => {
+  //   const { getByText } = render(
+  //     <Provider store={mockStore(storeBase)}>
+  //       <ConfirmationPage />
+  //     </Provider>,
+  //   );
 
-    expect(getByText(fullName)).to.exist;
-  });
+  //   expect(getByText(fullName)).to.exist;
+  // });
 
-  it('should not display submission date if it is invalid', () => {
-    const { container } = render(
-      <Provider store={mockStore(storeBaseNoSubmissionDate)}>
-        <ConfirmationPage />
-      </Provider>,
-    );
+  // it('should not display submission date if it is invalid', () => {
+  //   const { container } = render(
+  //     <Provider store={mockStore(storeBaseNoSubmissionDate)}>
+  //       <ConfirmationPage />
+  //     </Provider>,
+  //   );
 
-    expect(container.querySelector('.date-submitted')).to.not.exist;
-  });
+  //   expect(container.querySelector('.date-submitted')).to.not.exist;
+  // });
 
-  it('should display submission date if it is valid', () => {
-    const { getByText } = render(
-      <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage />
-      </Provider>,
-    );
+  // it('should display submission date if it is valid', () => {
+  //   const { getByText } = render(
+  //     <Provider store={mockStore(storeBase)}>
+  //       <ConfirmationPage />
+  //     </Provider>,
+  //   );
 
-    expect(getByText(/November 13, 2023/)).to.exist;
-  });
+  //   expect(getByText(/November 13, 2023/)).to.exist;
+  // });
 });
-*/

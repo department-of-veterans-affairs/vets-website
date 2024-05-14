@@ -1,6 +1,8 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import currentEmployment from '../../../../config/chapters/03-health-and-employment-information/currentEmployment';
@@ -26,4 +28,16 @@ describe('pension current employment page', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-radio': 1,
+    },
+    pageTitle,
+  );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
 });

@@ -76,4 +76,86 @@ describe('Landing Page', () => {
       ),
     );
   });
+
+  it('displays features as h2s with links below when feature flags are true', () => {
+    const customState = {
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_display_conditions: true,
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_display_labs_and_tests: true,
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_display_notes: true,
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_display_vaccines: true,
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_display_vitals: true,
+      },
+      ...initialState,
+    };
+
+    const screen = renderWithStoreAndRouter(<LandingPage />, {
+      initialState: customState,
+      reducers: reducer,
+    });
+
+    // feature h2s
+    expect(
+      screen.getByText('Care summaries and notes', {
+        selector: 'h2',
+        exact: true,
+      }),
+    ).to.exist;
+    expect(
+      screen.getByText('Vaccines', {
+        selector: 'h2',
+        exact: true,
+      }),
+    ).to.exist;
+    expect(
+      screen.getByText('Allergies and reactions', {
+        selector: 'h2',
+        exact: true,
+      }),
+    ).to.exist;
+    expect(
+      screen.getByText('Health conditions', {
+        selector: 'h2',
+        exact: true,
+      }),
+    ).to.exist;
+    expect(
+      screen.getByText('Vitals', {
+        selector: 'h2',
+        exact: true,
+      }),
+    ).to.exist;
+
+    // links to features
+    expect(
+      screen.getByRole('link', {
+        name: 'Go to your care summaries and notes',
+      }),
+    ).to.exist;
+    expect(
+      screen.getByRole('link', {
+        name: 'Go to your vaccines',
+      }),
+    ).to.exist;
+    expect(
+      screen.getByRole('link', {
+        name: 'Go to your allergies and reactions',
+      }),
+    ).to.exist;
+    expect(
+      screen.getByRole('link', {
+        name: 'Go to your health conditions',
+      }),
+    ).to.exist;
+    expect(
+      screen.getByRole('link', {
+        name: 'Go to your vitals',
+      }),
+    ).to.exist;
+  });
 });

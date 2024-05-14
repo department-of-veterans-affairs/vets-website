@@ -18,6 +18,11 @@ fieldset.vads-u-margin-y--2 {
   margin-top: 0 !important;
 }
 
+.remove-bullets {
+  list-style: none;
+  padding-left: 0;
+}
+
 /* area of disagreement input error removes top margin */
 va-checkbox-group va-text-input[error]::part(label) {
   margin-top: 3rem;

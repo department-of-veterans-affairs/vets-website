@@ -7,6 +7,7 @@ import {
   selectProfile,
   isLOA3,
   isInMPI,
+  isProfileLoading,
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
@@ -27,6 +28,7 @@ export {
   isLandingPageEnabledForUser,
   isLOA3,
   isLoggedIn,
+  isProfileLoading,
   personalizationEnabled,
   selectDrupalStaticData,
   selectGreetingName,

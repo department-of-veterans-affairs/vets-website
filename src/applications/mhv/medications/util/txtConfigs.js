@@ -122,7 +122,7 @@ Quantity: ${validateField(rx.quantity)}
  */
 export const buildAllergiesTXT = allergies => {
   if (!allergies) {
-    return '\nWe couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later. If it still doesn’t work, email us at vamhvfeedback@va.gov.\n';
+    return '\nWe couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later. If it still doesn’t work, call us at 877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.\n';
   }
 
   if (allergies && allergies.length === 0) {

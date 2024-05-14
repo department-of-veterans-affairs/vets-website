@@ -2,6 +2,7 @@ import { Actions } from '../util/actionTypes';
 import {
   getPrescription,
   getPaginatedSortedList,
+  getRefillablePrescriptionList,
   fillRx,
   getAllergies,
 } from '../api/rxApi';
@@ -18,6 +19,9 @@ export const getPrescriptionsPaginatedSortedList = (
     });
     return null;
   } catch (error) {
+    dispatch({
+      type: Actions.Prescriptions.GET_API_ERROR,
+    });
     return error;
   }
 };
@@ -39,13 +43,37 @@ export const clearAllergiesError = () => async dispatch => {
 };
 
 export const getPrescriptionDetails = prescriptionId => async dispatch => {
-  const response = await getPrescription(prescriptionId);
-  const prescription = response.data.attributes;
-  dispatch({ type: Actions.Prescriptions.GET_DETAILS, prescription });
+  try {
+    const response = await getPrescription(prescriptionId);
+    const prescription = response.data.attributes;
+    dispatch({ type: Actions.Prescriptions.GET_DETAILS, prescription });
+    return null;
+  } catch (error) {
+    dispatch({
+      type: Actions.Prescriptions.GET_API_ERROR,
+    });
+    return error;
+  }
 };
 
 export const setPrescriptionDetails = prescription => async dispatch => {
   dispatch({ type: Actions.Prescriptions.SET_DETAILS, prescription });
+};
+
+export const getRefillablePrescriptionsList = () => async dispatch => {
+  try {
+    const response = await getRefillablePrescriptionList();
+    dispatch({
+      type: Actions.Prescriptions.GET_REFILLABLE_LIST,
+      response,
+    });
+    return null;
+  } catch (error) {
+    dispatch({
+      type: Actions.Prescriptions.GET_API_ERROR,
+    });
+    return error;
+  }
 };
 
 export const fillPrescription = prescriptionId => async dispatch => {

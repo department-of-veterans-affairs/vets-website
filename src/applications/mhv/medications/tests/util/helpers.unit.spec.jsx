@@ -1,5 +1,9 @@
 import { expect } from 'chai';
-import { EMPTY_FIELD, imageRootUri } from '../../util/constants';
+import {
+  EMPTY_FIELD,
+  imageRootUri,
+  medicationsUrls,
+} from '../../util/constants';
 import {
   dateFormat,
   extractContainedResource,
@@ -11,6 +15,7 @@ import {
   createNoDescriptionText,
   createVAPharmacyText,
   fromToNumbs,
+  createBreadcrumbs,
 } from '../../util/helpers';
 
 describe('Date Format function', () => {
@@ -163,5 +168,127 @@ describe('fromToNumbs', () => {
     const numbers = fromToNumbs(1, 2, [1, 2], 2);
     expect(numbers[0]).to.eq(1);
     expect(numbers[1]).to.eq(2);
+  });
+});
+
+describe('createBreadcrumbs', () => {
+  const locationMock = pathname => ({ pathname });
+  const prescriptionMock = {
+    prescriptionId: '123',
+    prescriptionName: 'Aspirin',
+  };
+
+  const defaultBreadcrumb = {
+    href: medicationsUrls.MHV_HOME,
+    label: 'My HealtheVet home',
+  };
+
+  it('should return empty array for an unknown path', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock('/unknown/path'),
+      null,
+      1,
+    );
+    expect(breadcrumbs).to.deep.equal([]);
+  });
+
+  it('should return breadcrumbs for the ABOUT path', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.ABOUT),
+      null,
+      1,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      defaultBreadcrumb,
+      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
+    ]);
+  });
+
+  it('should return breadcrumbs for the BASE path', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.BASE),
+      null,
+      2,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      defaultBreadcrumb,
+      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
+      {
+        href: `${medicationsUrls.MEDICATIONS_URL}?page=2`,
+        label: 'Medications',
+      },
+    ]);
+  });
+
+  it('should return breadcrumbs for the BASE path with empty currentPage', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.BASE),
+      null,
+      undefined,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      defaultBreadcrumb,
+      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
+      {
+        href: `${medicationsUrls.MEDICATIONS_URL}?page=1`,
+        label: 'Medications',
+      },
+    ]);
+  });
+
+  it('should return breadcrumbs for the REFILL path', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.REFILL),
+      null,
+      1,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      defaultBreadcrumb,
+      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
+      {
+        href: medicationsUrls.MEDICATIONS_REFILL,
+        label: 'Refill prescriptions',
+      },
+    ]);
+  });
+
+  it('should return breadcrumbs for the DETAILS path with a prescription', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.DETAILS),
+      prescriptionMock,
+      3,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      defaultBreadcrumb,
+      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
+      {
+        href: `${medicationsUrls.MEDICATIONS_URL}?page=3`,
+        label: 'Medications',
+      },
+      {
+        href: `/${prescriptionMock.prescriptionId}`,
+        label: prescriptionMock.prescriptionName,
+      },
+    ]);
+  });
+
+  it('should return breadcrumbs for the DETAILS path with a prescription and empty currentPage', () => {
+    const breadcrumbs = createBreadcrumbs(
+      locationMock(medicationsUrls.subdirectories.DETAILS),
+      prescriptionMock,
+      undefined,
+    );
+    expect(breadcrumbs).to.deep.equal([
+      defaultBreadcrumb,
+      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
+      {
+        href: `${medicationsUrls.MEDICATIONS_URL}?page=1`,
+        label: 'Medications',
+      },
+      {
+        href: `/${prescriptionMock.prescriptionId}`,
+        label: prescriptionMock.prescriptionName,
+      },
+    ]);
   });
 });

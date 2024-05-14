@@ -595,8 +595,6 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
     expect(screen.queryByTestId('add-to-calendar-link')).not.to.exist;
   });
 
-  it('should navigate to community care appointments detail page', async () => {});
-
   it('should fire a print request when print button clicked', async () => {});
 
   it('should show an error when cc data fetch fails', async () => {});

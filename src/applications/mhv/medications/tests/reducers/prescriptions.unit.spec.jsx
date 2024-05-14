@@ -28,9 +28,27 @@ describe('Prescriptions reducer', () => {
         return { ...rx.attributes };
       }),
       prescriptionsPagination: paginatedSortedListApiResponse.meta.pagination,
+      apiError: false,
     };
     const state = reduce({
       type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
+      response: paginatedSortedListApiResponse,
+    });
+    expect(state).to.deep.equal(rxState);
+  });
+
+  it('should change refillablePrescriptionsList when GET_REFILLABLE_LIST action is passed', () => {
+    const rxState = {
+      ...initialState,
+      refillablePrescriptionsList: paginatedSortedListApiResponse.data.map(
+        rx => {
+          return { ...rx.attributes };
+        },
+      ),
+      apiError: false,
+    };
+    const state = reduce({
+      type: Actions.Prescriptions.GET_REFILLABLE_LIST,
       response: paginatedSortedListApiResponse,
     });
     expect(state).to.deep.equal(rxState);
@@ -40,6 +58,7 @@ describe('Prescriptions reducer', () => {
     const rxState = {
       ...initialState,
       prescriptionDetails: prescriptionDetails.data.attributes,
+      apiError: false,
     };
     const state = reduce({
       type: Actions.Prescriptions.GET_DETAILS,
@@ -52,9 +71,10 @@ describe('Prescriptions reducer', () => {
     const rxState = {
       ...initialState,
       prescriptionDetails: prescriptionDetails.data.attributes,
+      apiError: false,
     };
     const state = reduce({
-      type: Actions.Prescriptions.GET_DETAILS,
+      type: Actions.Prescriptions.SET_DETAILS,
       prescription: prescriptionDetails.data.attributes,
     });
     expect(state).to.deep.equal(rxState);

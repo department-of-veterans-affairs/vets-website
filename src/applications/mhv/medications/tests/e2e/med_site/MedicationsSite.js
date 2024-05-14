@@ -89,16 +89,17 @@ class MedicationsSite {
       .shadow()
       .find('[aria-label="Next page"]')
       .click({ waitForAnimations: true });
+    cy.wait(`@Prescriptions${interceptedPage}`);
   };
 
   loadVAPaginationPreviousPrescriptions = (
     interceptedPage = 2,
     mockRx,
-    PerPage = 10,
+    PerPage = 20,
   ) => {
     cy.intercept(
       'POST',
-      `/my_health/v1/prescriptions?page=1&per_page=${PerPage}`,
+      `/my_health/v1/prescriptions?page=1&per_page=${PerPage}&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date`,
       mockRx,
     ).as(`Prescriptions${interceptedPage}`);
     cy.get('[id="pagination"]')

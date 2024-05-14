@@ -9,8 +9,8 @@ const InstructionsPage = () => {
       itemType="http://schema.org/FAQPage"
     >
       <h1 itemProp="name">How to Apply for a Discharge Upgrade</h1>
-      <div className="row">
-        <article className="usa-content columns">
+      <div className="row vads-u-margin--0">
+        <article className="usa-content columns xsmall-screen:vads-u-padding--0">
           <div className="va-introtext">
             <p itemProp="description">
               Answer a series of questions to get customized step-by-step

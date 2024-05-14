@@ -1,25 +1,5 @@
 import PropTypes from 'prop-types';
 
-export const MAX_APPLICANTS = 3;
-
-export const applicantListSchema = (requireds, propertyList) => {
-  return {
-    type: 'object',
-    properties: {
-      applicants: {
-        type: 'array',
-        minItems: 1,
-        maxItems: MAX_APPLICANTS,
-        items: {
-          type: 'object',
-          required: requireds,
-          properties: propertyList,
-        },
-      },
-    },
-  };
-};
-
 // These proptypes are used with the custom pages that use
 // ApplicantRelationshipPage
 export const pageProps = {
@@ -38,17 +18,6 @@ export const reviewPageProps = {
   props: PropTypes.object,
   title: PropTypes.func,
 };
-
-export const yesNoOptions = [
-  {
-    label: 'Yes',
-    value: 'yes',
-  },
-  {
-    label: 'No',
-    value: 'no',
-  },
-];
 
 /* List of required files - not enforced by the form because we want
 users to be able to opt into mailing these documents. This object 

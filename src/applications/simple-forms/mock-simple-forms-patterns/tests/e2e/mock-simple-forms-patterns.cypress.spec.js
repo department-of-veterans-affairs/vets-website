@@ -27,27 +27,13 @@ const testConfig = createTestConfig(
           introductionPageFlow();
         });
       },
-      [pagePaths.textInputAddress]: ({ afterHook }) => {
+      [pagePaths.address]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             // widgets
             cy.fillPage();
             // fillPage doesn't catch state select, so select state manually
-            cy.get('select#root_addressOld_state').select(
-              data.addressOld.state,
-            );
-            if (data.addressOld.city) {
-              if (data.addressOld.isMilitary) {
-                // there is a select dropdown instead when military is checked
-                cy.get('select#root_addressOld_city').select(
-                  data.addressOld.city,
-                );
-              } else {
-                cy.get('#root_addressOld_city').type(data.addressOld.city);
-              }
-            }
-
             selectDropdownWebComponent(
               `wcv3Address_state`,
               data.wcv3Address.state,

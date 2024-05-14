@@ -80,7 +80,7 @@ Date: ${record.date}\n
 Location: ${record.location}\n
 Signed by: ${record.signedBy}\n
 ${record.coSignedBy !== EMPTY_FIELD && `Co-signed by: ${record.coSignedBy}\n`}
-Date signed: ${record.dateSigned}\n
+Signed on: ${record.dateSigned}\n
 ${txtLine}\n\n
 Note\n
 ${record.note}`;
@@ -136,7 +136,7 @@ ${record.note}`;
           </>
         )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Date signed
+          Signed on
         </h3>
         <p data-testid="progress-signed-date">{record.dateSigned}</p>
       </div>

@@ -149,7 +149,9 @@ export const chapters = {
     },
   },
   schoolSelection: {
-    title: 'School selection',
+    title: isProductionOfTestProdEnv()
+      ? 'School selection'
+      : 'School/training facility selection',
     pages: {
       newSchool: {
         path: 'school-selection/new-school',

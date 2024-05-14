@@ -56,7 +56,7 @@ const VitalDetails = props => {
   const { vitalType } = useParams();
   const dispatch = useDispatch();
 
-  const perPage = 5;
+  const perPage = 10;
   const [currentVitals, setCurrentVitals] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const paginatedVitals = useRef([]);
@@ -141,7 +141,7 @@ const VitalDetails = props => {
 
   const generateVitalsPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateVitalsIntro();
+    const { title, subject, preface } = generateVitalsIntro(records);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVitalsContent(records) };
     const pdfName = `VA-vital-details-${getNameDateAndTime(user)}`;
@@ -201,7 +201,7 @@ Provider notes: ${vital.notes}\n\n`,
             vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print 
             vads-u-margin-top--3 small-screen:vads-u-margin-top--4"
         >
-          {`Displaying ${displayNums[0]}–${displayNums[1]} of ${
+          {`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
             records.length
           } records from newest to oldest`}
         </h2>
@@ -256,15 +256,8 @@ Provider notes: ${vital.notes}\n\n`,
 
         {/* print view start */}
         <h1 className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only">
-          Vitals
+          Vitals: {vitalTypeDisplayNames[records[0].type]}
         </h1>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--2 print-only">
-          This list includes vitals and other basic health numbers your
-          providers check at your appointments.
-        </p>
-        <h2 className="vads-u-font-size--lg vads-u-margin--0 print-only">
-          {vitalTypeDisplayNames[records[0].type]}
-        </h2>
         <ul className="vital-records-list vads-u-margin--0 vads-u-padding--0 print-only">
           {records?.length > 0 &&
             records?.map((vital, idx) => (

@@ -10,6 +10,8 @@ import {
 import ApplicantRelationshipPage from '../../../../shared/components/applicantLists/ApplicantRelationshipPage';
 import formConfig from '../../../config/form';
 import { getFileSize } from '../../../helpers/utilities';
+import { isRequiredFile } from '../../../components/Applicant/applicantFileUpload';
+import { requiredFiles } from '../../../config/requiredUploads';
 
 import FileFieldCustom from '../../../../shared/components/fileUploads/FileUpload';
 
@@ -31,6 +33,19 @@ const applicants = [
 
 testNumberOfWebComponentFields(
   formConfig,
+  formConfig.chapters.certifierInformation.pages.page5.schema,
+  formConfig.chapters.certifierInformation.pages.page5.uiSchema,
+  6,
+  'Signer relationship',
+  {
+    certifierRelationship: {
+      relationshipToVeteran: { other: true },
+    },
+  },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
   formConfig.chapters.sponsorInformation.pages.page6.schema,
   formConfig.chapters.sponsorInformation.pages.page6.uiSchema,
   5,
@@ -38,13 +53,33 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
+// Cover alternate path for when certifierRole == 'sponsor'
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.sponsorInformation.pages.page6.schema,
+  formConfig.chapters.sponsorInformation.pages.page6.uiSchema,
+  5,
+  'Sponsor - name and date of birth (alternate)',
+  { ...mockData.data, certifierRole: 'sponsor' },
+);
+
+// Cover when certifierRole !== sponsor or applicant
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.sponsorInformation.pages.page6.schema,
+  formConfig.chapters.sponsorInformation.pages.page6.uiSchema,
+  5,
+  'Sponsor - name and date of birth (alternate 2)',
+  { ...mockData.data, certifierRole: 'other' },
+);
+
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page7.schema,
   formConfig.chapters.sponsorInformation.pages.page7.uiSchema,
   2,
-  'Sponsor - identification information',
-  { ...mockData.data },
+  'Sponsor - SSN (with VA File Number)',
+  { ssn: { vaFileNumber: '123123123' } },
 );
 
 testNumberOfWebComponentFields(
@@ -63,6 +98,34 @@ testNumberOfWebComponentFields(
   1,
   "Sponsor's phone number",
   { sponsorIsDeceased: false },
+);
+
+// certifierRole: 'sponsor' triggers the 'your' custom wording branch
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.sponsorInformation.pages.page11.schema,
+  formConfig.chapters.sponsorInformation.pages.page11.uiSchema,
+  1,
+  "Sponsor's phone number",
+  { sponsorIsDeceased: false, certifierRole: 'sponsor' },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page13.schema,
+  formConfig.chapters.applicantInformation.pages.page13.uiSchema,
+  5,
+  'Applicant - Name DOB',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page13a.schema,
+  formConfig.chapters.applicantInformation.pages.page13a.uiSchema,
+  0,
+  'Applicant - Start screen',
+  { ...mockData.data },
 );
 
 testNumberOfWebComponentFields(
@@ -121,6 +184,15 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
+  formConfig.chapters.applicantInformation.pages.page18b2.schema,
+  formConfig.chapters.applicantInformation.pages.page18b2.uiSchema,
+  0,
+  'Applicant - helpless child documentation',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
   formConfig.chapters.applicantInformation.pages.page18c.schema,
   formConfig.chapters.applicantInformation.pages.page18c.uiSchema,
   0,
@@ -146,12 +218,90 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
+const marriageData = JSON.parse(JSON.stringify(mockData));
+marriageData.data.applicants[0].applicantRelationshipToSponsor.relationshipToVeteran =
+  'spouse';
+marriageData.data.sponsorIsDeceased = true;
+
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page18f.schema,
   formConfig.chapters.applicantInformation.pages.page18f.uiSchema,
   0,
   'Applicant - marriage documents',
+  { ...mockData.data },
+);
+
+// marriageData.data.sponsorIsDeceased = true;
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page18f1.schema,
+  formConfig.chapters.applicantInformation.pages.page18f1.uiSchema,
+  0,
+  'Applicant - marriage details',
+  { ...marriageData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page18f2.schema,
+  formConfig.chapters.applicantInformation.pages.page18f2.uiSchema,
+  1,
+  'Applicant - remarriage status',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page18f3.schema,
+  formConfig.chapters.applicantInformation.pages.page18f3.uiSchema,
+  1,
+  'Applicant - marriage dates (to sponsor)',
+  { ...marriageData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page18f4.schema,
+  formConfig.chapters.applicantInformation.pages.page18f4.uiSchema,
+  2,
+  'Applicant - marriage dates (remarriage after sponsor death)',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page18f5.schema,
+  formConfig.chapters.applicantInformation.pages.page18f5.uiSchema,
+  3,
+  'Applicant - marriage dates (remarriage after sponsor death, divorced 2nd)',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page18f6.schema,
+  formConfig.chapters.applicantInformation.pages.page18f6.uiSchema,
+  2,
+  'Applicant - marriage dates (divorced sponsor)',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page18f7.schema,
+  formConfig.chapters.applicantInformation.pages.page18f7.uiSchema,
+  0,
+  'Applicant - second marriage documents',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page18f8.schema,
+  formConfig.chapters.applicantInformation.pages.page18f8.uiSchema,
+  0,
+  'Applicant - second marriage divorce documents',
   { ...mockData.data },
 );
 
@@ -170,6 +320,15 @@ testNumberOfWebComponentFields(
   formConfig.chapters.applicantInformation.pages.page20b.uiSchema,
   0,
   'Applicant - medicare part D upload',
+  { ...mockData.data },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
+  formConfig.chapters.applicantInformation.pages.page20c.schema,
+  formConfig.chapters.applicantInformation.pages.page20c.uiSchema,
+  0,
+  'Applicant - over 65 ineligible',
   { ...mockData.data },
 );
 
@@ -282,3 +441,23 @@ describe('submit property of formConfig', () => {
   });
 });
 */
+
+describe('isRequiredFile', () => {
+  it("should return '(Required)' if required file in formContext", () => {
+    // Grab whatever the first required file key is and toss into this
+    // mocked context object:
+    const context = {
+      schema: { properties: { [Object.keys(requiredFiles)[0]]: '' } },
+    };
+    expect(isRequiredFile(context)).to.equal('(Required)');
+  });
+});
+
+import FileFieldWrapped from '../../../components/FileUploadWrapper';
+
+describe('FileFieldWrapped', () => {
+  it('should be called', () => {
+    const ffw = FileFieldWrapped({});
+    expect(ffw).to.not.be.undefined;
+  });
+});

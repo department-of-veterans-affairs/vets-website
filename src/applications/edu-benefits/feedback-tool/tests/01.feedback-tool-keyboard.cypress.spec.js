@@ -21,25 +21,7 @@ describe('Feedback Tool Keyboard Test', () => {
     cy.url().should('not.include', '/introduction');
 
     cy.realPress('Tab');
-    cy.allyEvaluateRadioButtons(
-      [
-        'input#root_onBehalfOf_0',
-        'input#root_onBehalfOf_1',
-        'input#root_onBehalfOf_2',
-      ],
-      'ArrowDown',
-    );
-    cy.allyEvaluateRadioButtons(
-      [
-        'input#root_onBehalfOf_0',
-        'input#root_onBehalfOf_1',
-        'input#root_onBehalfOf_2',
-      ],
-      'ArrowUp',
-      true,
-    );
-
-    cy.get('input#root_onBehalfOf_0').should('be.focused');
+    cy.get('va-radio-option[value="Myself"]').click();
     cy.get('input#root_anonymousEmail').should('not.exist');
 
     cy.repeatKey('Tab', 2);

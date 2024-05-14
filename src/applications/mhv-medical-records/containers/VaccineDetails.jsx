@@ -160,7 +160,7 @@ Provider notes: ${processList(record.notes)}\n`;
             downloadTxt={generateVaccineTxt}
           />
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          <div className="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-color--gray-light" />
+          <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
           <div>
             <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--base vads-u-font-family--sans">
               Location

@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DateSubheading = ({ date, label, id }) => {
+const DateSubheading = ({ date, label, id, testId }) => {
   return (
-    <div className="time-header vads-u-margin-top--1 vads-u-margin-bottom--4">
+    <div
+      className="time-header vads-u-margin-top--1 vads-u-margin-bottom--4"
+      data-testid={testId}
+    >
       <p className="vads-u-font-weight--bold" id={id}>
         {label || 'Date'}:{' '}
         <span
@@ -24,4 +27,5 @@ DateSubheading.propTypes = {
   date: PropTypes.string,
   id: PropTypes.string,
   label: PropTypes.any,
+  testId: PropTypes.string,
 };

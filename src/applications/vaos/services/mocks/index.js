@@ -37,6 +37,10 @@ const confirmedV2 = require('./v2/confirmed.json');
 // Uncomment to produce backend service errors
 // const meta = require('./v2/meta_failures.json');
 
+// CC Direct Scheduling mocks
+const wellHiveAppointments = require('./wellHive/appointments.json');
+const WHCancelReasons = require('./wellHive/cancelReasons.json');
+
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
 const momentTz = require('../../lib/moment-tz');
@@ -46,6 +50,8 @@ const features = require('../../utils/featureFlags');
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
 let currentMockId = 1;
+const mockWellHiveAppts = [];
+let currentMockId_wellhive = 1;
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -250,15 +256,10 @@ const responses = {
       .concat(confirmedV2.data)
       .concat(mockAppts);
 
-    let appt = appointments.find(item => item.id === req.params.id);
+    const appt = appointments.find(item => item.id === req.params.id);
     if (req.body.status === 'cancelled') {
-      appt = {
-        ...appt,
-        attributes: {
-          ...appt.attributes,
-          cancelationReason: { coding: [{ code: 'pat' }] },
-        },
-      };
+      appt.attributes.status = 'cancelled';
+      appt.attributes.cancelationReason = { coding: [{ code: 'pat' }] };
     }
 
     return res.json({
@@ -439,6 +440,83 @@ const responses = {
       data: [],
     });
   },
+
+  // WellHive api
+  'GET /vaos/v2/wellhive/appointments': (req, res) => {
+    return res.json({
+      data: wellHiveAppointments.appointments.concat(mockWellHiveAppts),
+    });
+  },
+  'POST /vaos/v2/wellhive/appointments': (req, res) => {
+    const { patientId, referral } = req.body;
+    const createdAppt = {
+      createdBy: {
+        byPatient: true,
+      },
+      id: `mock${currentMockId_wellhive}`,
+      patientId,
+      referral: { id: referral.id },
+      state: 'draft',
+    };
+    currentMockId_wellhive += 1;
+    mockWellHiveAppts.push(createdAppt);
+    return res.json({ data: createdAppt });
+  },
+  'GET /vaos/v2/wellhive/appointments/:appointmentId': (req, res) => {
+    const wellHiveAppts = wellHiveAppointments.appointments.concat(
+      mockWellHiveAppts.data,
+    );
+    return res.json({
+      data: wellHiveAppts.find(
+        appointment => appointment?.id === req.params.appointmentId,
+      ),
+    });
+  },
+  'GET /vaos/v2/wellhive/appointments/:appointmentId/cancel-reasons': (
+    req,
+    res,
+  ) => {
+    return res.json(WHCancelReasons);
+  },
+  'POST /vaos/v2/wellhive/appointments/:appointmentId/cancel': (req, res) => {
+    const { cancelReasonId } = req.body;
+    const findApptToCancel = wellHiveAppointments.appointments.find(
+      appointment => appointment?.id === req.params.appointmentId,
+    );
+    const confirmCanceledAppts = {
+      ...findApptToCancel,
+      appointmentDetails: {
+        cancelReason: {
+          id: cancelReasonId,
+          name: 'Patient',
+        },
+      },
+    };
+    return res.json({
+      data: confirmCanceledAppts,
+    });
+  },
+  'POST /vaos/v2/wellhive/appointments/:appointmentId/submit': (req, res) => {
+    const appointments = wellHiveAppointments.appointments.concat(
+      mockWellHiveAppts.data,
+    );
+
+    const { additionalPatientAttributes } = req.body;
+    const appt = appointments.find(
+      item => item.id === req.params.appointmentId,
+    );
+    const submittedAppt = {
+      ...appt,
+      appointmentDetails: {
+        ...additionalPatientAttributes,
+      },
+      state: 'submitted',
+    };
+    currentMockId_wellhive += 1;
+    mockWellHiveAppts.push(submittedAppt);
+    return res.json({ data: submittedAppt });
+  },
+
   'GET /v0/user': {
     data: {
       attributes: {

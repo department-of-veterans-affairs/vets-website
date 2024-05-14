@@ -5,13 +5,13 @@ import {
   getConferenceTime, // v2
   getContact,
   getRep,
-  getTimeZone,
 } from '../utils/submit';
 
 import {
   addAreaOfDisagreement,
   addIncludedIssues,
   getPhone,
+  getTimeZone,
 } from '../../shared/utils/submit';
 
 export function transform(formConfig, form) {

@@ -63,7 +63,7 @@ describe('Allergies List Config', () => {
   it('should show try again message when allergies is falsy', () => {
     const txt = buildAllergiesTXT(null);
     const msg =
-      'We couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later. If it still doesn’t work, email us at vamhvfeedback@va.gov.';
+      'We couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later. If it still doesn’t work, call us at 877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.';
     expect(txt).to.include(msg);
   });
 });

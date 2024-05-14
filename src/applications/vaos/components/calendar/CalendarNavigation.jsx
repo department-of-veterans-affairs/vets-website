@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 const CalendarNavigation = ({
   prevOnClick,
@@ -15,8 +16,19 @@ const CalendarNavigation = ({
       disabled={prevDisabled}
       type="button"
     >
-      <i className="fas fa-chevron-circle-left vads-u-margin-right--1" />
-      <span className="vads-u-display--none small-screen:vads-u-display--inline">
+      <span
+        className={classNames(
+          `vaos-calendar__nav-link-icon`,
+          `${
+            prevDisabled
+              ? 'vads-u-background-color--gray-light'
+              : 'vads-u-background-color--primary'
+          }`,
+        )}
+      >
+        <va-icon icon="navigate_before" size="3" aria-hidden="true" />
+      </span>
+      <span className="vads-u-display--none small-screen:vads-u-display--inline vads-u-padding-left--1">
         Previous
       </span>
     </button>
@@ -33,10 +45,21 @@ const CalendarNavigation = ({
       disabled={nextDisabled}
       type="button"
     >
-      <span className="vads-u-display--none small-screen:vads-u-display--inline">
+      <span className="vads-u-display--none small-screen:vads-u-display--inline vads-u-padding-right--1">
         Next
       </span>
-      <i className="fas fa-chevron-circle-right vads-u-margin-left--1" />
+      <span
+        className={classNames(
+          `vaos-calendar__nav-link-icon`,
+          `${
+            nextDisabled
+              ? 'vads-u-background-color--gray-light'
+              : 'vads-u-background-color--primary'
+          }`,
+        )}
+      >
+        <va-icon icon="navigate_next" size="3" aria-hidden="true" />
+      </span>
     </button>
     <div
       className="sr-only"

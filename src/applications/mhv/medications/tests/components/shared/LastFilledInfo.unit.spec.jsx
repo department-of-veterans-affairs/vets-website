@@ -48,9 +48,9 @@ describe('Medicaitons Medications List Card Last Filled Info', () => {
     ).to.exist;
   });
 
-  it('does not the last filled date when vets api sends 0000-01-01 as the value for sortedDispensedDate', () => {
+  it('does not the last filled date when vets api sends null as the value for sortedDispensedDate', () => {
     const vaRx = prescriptionsListItem;
-    vaRx.sortedDispensedDate = '0000-01-01';
+    vaRx.sortedDispensedDate = null;
     const screen = renderWithStoreAndRouter(<LastFilledInfo {...vaRx} />, {
       path: '/',
       state: {},

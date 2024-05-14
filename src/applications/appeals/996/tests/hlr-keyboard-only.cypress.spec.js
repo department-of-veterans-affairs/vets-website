@@ -110,8 +110,10 @@ describe('Higher-Level Review keyboard only navigation', () => {
         'include',
         chapters.informalConference.pages.requestConference.path,
       );
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(250); // wait for H3 focus before tabbing to radios
       cy.tabToElement('input[name="root_informalConference"]');
-      cy.chooseRadio(data.informalConference);
+      cy.chooseRadio('rep');
       cy.tabToContinueForm();
 
       // Rep name & contact info

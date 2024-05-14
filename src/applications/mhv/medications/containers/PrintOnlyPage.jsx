@@ -11,7 +11,7 @@ const PrintOnlyPage = props => {
         className="vads-u-padding--1 vads-u-border--1px vads-u-border-color--black print-only-crisis-line-header"
       >
         If you’re ever in crisis and need to talk to someone right away, call
-        the Veterans Crisis line at <strong>988</strong>. Then select 1.
+        the Veterans Crisis Line at <strong>988</strong>. Then select 1.
       </div>
       <h1
         className="vads-u-margin-top--neg3"

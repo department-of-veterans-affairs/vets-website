@@ -121,8 +121,6 @@ const SearchControls = props => {
     });
 
     onSubmit();
-
-    setSelectedServiceType(null);
   };
 
   const handleGeolocationButtonClick = e => {

@@ -292,19 +292,6 @@ describe('check-in experience', () => {
         });
       });
       describe('All appointments - data exists', () => {
-        it('does not render stopcode if exists', () => {
-          const { getByTestId } = render(
-            <CheckInProvider
-              store={preCheckInStore}
-              router={appointmentTwoRoute}
-            >
-              <AppointmentDetails />
-            </CheckInProvider>,
-          );
-          expect(
-            getByTestId('appointment-details--appointment-value'),
-          ).to.have.text('VA appointment');
-        });
         it('renders doctor name if exists', () => {
           const { getByTestId } = render(
             <CheckInProvider
@@ -329,32 +316,6 @@ describe('check-in experience', () => {
         });
       });
       describe("All appointments - data doesn't exist", () => {
-        it('renders VA appointment when no stopcode', () => {
-          const { getByTestId } = render(
-            <CheckInProvider
-              store={preCheckInStore}
-              router={appointmentOneRoute}
-            >
-              <AppointmentDetails />
-            </CheckInProvider>,
-          );
-          expect(
-            getByTestId('appointment-details--appointment-value'),
-          ).to.have.text('VA appointment');
-        });
-        it('renders generic appointment if stopCodeName is empty string', () => {
-          const { getByTestId } = render(
-            <CheckInProvider
-              store={preCheckInStore}
-              router={appointmentThreeRoute}
-            >
-              <AppointmentDetails />
-            </CheckInProvider>,
-          );
-          expect(
-            getByTestId('appointment-details--appointment-value'),
-          ).to.have.text('VA appointment');
-        });
         it('does not render doctor name if missing', () => {
           const { queryByTestId } = render(
             <CheckInProvider

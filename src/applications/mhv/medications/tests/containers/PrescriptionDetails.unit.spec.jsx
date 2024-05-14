@@ -18,6 +18,7 @@ describe('Prescription details container', () => {
     rx: {
       prescriptions: {
         prescriptionDetails: rxDetailsResponse.data.attributes,
+        apiError: false,
       },
     },
   };

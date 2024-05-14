@@ -202,14 +202,13 @@ const MoveMessageToFolderBtn = props => {
       <>
         <button
           type="button"
-          className="usa-button-secondary small-screen:vads-u-flex--3"
+          className="usa-button-secondary small-screen:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center"
           style={{ minWidth: '100px' }}
           onClick={openModal}
         >
-          <i
-            className="fas fa-folder vads-u-margin-right--0p5"
-            aria-hidden="true"
-          />
+          <div className="vads-u-margin-right--0p5">
+            <va-icon icon="folder" aria-hidden="true" />
+          </div>
           <span
             className="message-action-button-text"
             data-testid="move-button-text"

@@ -92,18 +92,6 @@ export function hasDifferentHomeAddress(formData) {
 }
 
 /**
- * Helper that determines if the form data contains values that enable the
- * toxic exposure questions in the Military Service chapter
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user is not short form eligible and the
- * TERA feature flag is set to true
- */
-export function teraInformationEnabled(formData) {
-  const { 'view:isTeraEnabled': isTeraEnabled } = formData;
-  return isTeraEnabled;
-}
-
-/**
  * Helper that determines if the form data contains values that indicate the
  * user wants to fill out information related to toxic exposure
  * @param {Object} formData - the current data object passed from the form
@@ -112,7 +100,7 @@ export function teraInformationEnabled(formData) {
  */
 export function includeTeraInformation(formData) {
   const { hasTeraResponse } = formData;
-  return teraInformationEnabled(formData) && hasTeraResponse;
+  return hasTeraResponse;
 }
 
 /**

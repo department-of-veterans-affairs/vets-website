@@ -24,6 +24,7 @@ const SuggestedAddress = ({
   setFormData,
   setSuggestedAddressPicked,
   suggestedAddressPicked,
+  setGoBackToEdit,
 }) => {
   const dispatch = useDispatch();
   const { isLoadingValidateAddress, addressValidationData } = useSelector(
@@ -39,6 +40,7 @@ const SuggestedAddress = ({
   // This get called when goBackToEdit buton is clicked
   const onBackToEditClick = event => {
     handleAddNewClick(event);
+    setGoBackToEdit(true);
   };
   const isUSA = chooseAddress
     ? formData.countryCodeIso3 === 'USA'
@@ -184,6 +186,7 @@ SuggestedAddress.propTypes = {
   handleAddNewClick: PropTypes.func.isRequired,
   setAddressToUI: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  setGoBackToEdit: PropTypes.func.isRequired,
   address: PropTypes.object,
   formData: PropTypes.object,
   setSuggestedAddressPicked: PropTypes.func,

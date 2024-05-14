@@ -220,3 +220,9 @@ export const loadStates = {
 export const downtimeNotificationParams = {
   appTitle: 'this medical records tool',
 };
+
+export const dischargeSummarySortFields = {
+  ADMISSION_DATE: 'admission date',
+  DISCHARGE_DATE: 'discharge date',
+  DATE_ENTERED: 'date entered',
+};

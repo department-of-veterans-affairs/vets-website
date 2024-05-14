@@ -50,7 +50,6 @@ describe('Pre-Check In Experience', () => {
       AppointmentDetails.validatePageLoadedInPerson();
       AppointmentDetails.validateSubtitleInPerson();
       AppointmentDetails.validateWhen();
-      AppointmentDetails.validateWhat();
       AppointmentDetails.validateProvider();
       AppointmentDetails.validateWhere();
       AppointmentDetails.validateFacilityAddress(true);
@@ -150,7 +149,6 @@ describe('Pre-Check In Experience', () => {
       AppointmentDetails.validatePageLoadedPhone();
       AppointmentDetails.validateSubtitlePhone();
       AppointmentDetails.validateWhen();
-      AppointmentDetails.validateWhat();
       AppointmentDetails.validateProvider();
       AppointmentDetails.validateNeedToMakeChanges();
       AppointmentDetails.validatePhone();

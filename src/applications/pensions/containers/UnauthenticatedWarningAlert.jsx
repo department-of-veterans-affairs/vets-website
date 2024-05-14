@@ -2,9 +2,11 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { toggleLoginModal as toggleLoginModalPlatform } from 'platform/site-wide/user-nav/actions';
 
-const UnauthenticatedWarningAlert = () => {
+const UnauthenticatedWarningAlert = ({
+  toggleLoginModal = toggleLoginModalPlatform,
+}) => {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
   const dispatch = useDispatch();
 

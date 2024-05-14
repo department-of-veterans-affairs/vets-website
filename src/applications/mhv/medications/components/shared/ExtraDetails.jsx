@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { dateFormat } from '../../util/helpers';
-import { dispStatusObj, medicationsUrls } from '../../util/constants';
+import {
+  dispStatusObj,
+  medicationsUrls,
+  DD_ACTIONS_PAGE_TYPE,
+} from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const ExtraDetails = rx => {
-  const ssoe = useSelector(isAuthenticatedWithSSOe);
   const { dispStatus, cmopDivisionPhone, refillRemaining } = rx;
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
@@ -23,7 +24,10 @@ const ExtraDetails = rx => {
             this prescription online right now.
             <p className="vads-u-margin-top--1">
               Call your VA pharmacy
-              <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
+              <CallPharmacyPhone
+                cmopDivisionPhone={cmopDivisionPhone}
+                page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+              />
             </p>
           </div>
         </div>
@@ -35,7 +39,10 @@ const ExtraDetails = rx => {
           </p>
           <p className="vads-u-margin-top--1 vads-u-padding-right--2">
             If you need it sooner, call your VA pharmacy
-            <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
+            <CallPharmacyPhone
+              cmopDivisionPhone={cmopDivisionPhone}
+              page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+            />
           </p>
         </div>
       )}
@@ -65,6 +72,9 @@ const ExtraDetails = rx => {
             href={medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}
             text="Learn how to renew prescriptions"
             data-testid="learn-to-renew-precsriptions-link"
+            data-dd-action-name={`Learn How To Renew Prescriptions Action Link - ${
+              DD_ACTIONS_PAGE_TYPE.DETAILS
+            }`}
           />
         </div>
       )}
@@ -75,9 +85,14 @@ const ExtraDetails = rx => {
             to your care team.
           </p>
           <va-link
-            href={mhvUrl(ssoe, 'secure-messaging')}
-            text="Compose a message on the My HealtheVet website"
+            href={`${
+              environment.BASE_URL
+            }/my-health/secure-messages/new-message/`}
+            text="Start a new message"
             data-testid="discontinued-compose-message-link"
+            data-dd-action-name={`Compose A Message Link - ${
+              DD_ACTIONS_PAGE_TYPE.DETAILS
+            }`}
           />
         </div>
       )}
@@ -106,7 +121,10 @@ const ExtraDetails = rx => {
           <p className="vads-u-margin-y--0" data-testid="active-onHold">
             We put a hold on this prescription. If you need it now, call your VA
             pharmacy
-            <CallPharmacyPhone cmopDivisionPhone={cmopDivisionPhone} />
+            <CallPharmacyPhone
+              cmopDivisionPhone={cmopDivisionPhone}
+              page={DD_ACTIONS_PAGE_TYPE.DETAILS}
+            />
           </p>
         </div>
       )}

@@ -22,6 +22,9 @@ export const SC_OTHER_WAYS_URL = `${SC_INFO_URL}#file-by-mail-in-person-or-with`
 export const SC_FORM_URL =
   'https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf';
 
+// TODO: placeholder while waiting for Lighthouse
+export const NOD_PDF_DOWNLOAD_URL = '';
+
 // session storage keys
 export const REVIEW_ISSUES = 'onReviewPageIssues';
 

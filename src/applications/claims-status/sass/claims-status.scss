@@ -1240,3 +1240,21 @@ $marker-text-width: 9rem;
     margin-right: 20px;
   }
 }
+
+.claim-phase-diagram {
+  text-align: center;
+  .desktop {
+    display: block;
+    @media (max-width: $medium-screen) {
+      display: none !important;
+    }
+  }
+  .mobile {
+    display: none;
+    @media (max-width: $medium-screen) {
+      display: block;
+    }
+  }
+}
+
+

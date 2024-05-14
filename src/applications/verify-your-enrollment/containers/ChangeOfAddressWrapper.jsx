@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import '../sass/change-of-address-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import {
+  compareAddressObjects,
+  hasFormChanged,
   objectHasNoUndefinedValues,
   prepareAddressData,
   scrollToElement,
@@ -18,6 +20,7 @@ import { handleSuggestedAddressPicked, validateAddress } from '../actions';
 import Alert from '../components/Alert';
 import Loader from '../components/Loader';
 import SuggestedAddress from '../components/SuggestedAddress';
+import AlertModal from '../components/AlertModal';
 
 const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const { loading: isLoading, error, data: response } = useSelector(
@@ -36,8 +39,11 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
   const [editFormData, setEditFormData] = useState({});
+  const [beforeDditFormData, setBeforeEditFormData] = useState({});
   const [suggestedAddressPicked, setSuggestedAddressPicked] = useState(false);
   const [newAddress, setNewAddress] = useState({});
+  const [goBackToEdit, setGoBackToEdit] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const PREFIX = 'GI-Bill-Chapters-';
   const location = useLocation();
@@ -76,6 +82,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
 
   // called when submitting form
   const saveAddressInfo = async () => {
+    setBeforeEditFormData(formData);
     if (Object.keys(formData).length === 0) {
       Object.assign(formData, editFormData);
     }
@@ -177,12 +184,25 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     setToggleAddressForm(true);
     scrollToTopOfForm();
     dispatch({ type: 'RESET_ERROR' });
+    setGoBackToEdit(false);
   };
-  const onCancleButtonClicked = () => {
+  const cancelEditClick = () => {
+    setShowModal(false);
     setEditFormData({});
     dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
     handleCloseForm();
   };
+  const onCancleButtonClicked = () => {
+    if (
+      (hasFormChanged(formData, applicantName) && !goBackToEdit) ||
+      (goBackToEdit && compareAddressObjects(editFormData, beforeDditFormData))
+    ) {
+      setShowModal(true);
+    } else {
+      cancelEditClick();
+    }
+  };
+
   const updateAddressData = data => {
     const tempData = { ...data };
     if (tempData?.['view:livesOnMilitaryBase']) {
@@ -236,6 +256,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 setAddressToUI={setAddressToUI}
                 setSuggestedAddressPicked={setSuggestedAddressPicked}
                 suggestedAddressPicked={suggestedAddressPicked}
+                setGoBackToEdit={setGoBackToEdit}
               />
             ) : (
               <>
@@ -275,6 +296,13 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             {(isLoadingValidateAddress || isLoading) && (
               <Loader className="loader" message="updating..." />
             )}
+            <AlertModal
+              showModal={showModal}
+              setShowModal={setShowModal}
+              cancelEditClick={cancelEditClick}
+              formType=" mailing address"
+            />
+
             <ChangeOfAddressForm
               applicantName={applicantName}
               addressFormData={formData}
@@ -283,22 +311,24 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               formSubmit={saveAddressInfo}
               formData={editFormData}
             >
-              <LoadingButton
-                aria-label="save your Mailing address for GI Bill benefits"
-                type="submit"
-                loadingText="saving Mailling address"
-                className="usa-button-primary vads-u-margin-top--0 address-submit-btn-auto-width"
-              >
-                Save
-              </LoadingButton>
-              <va-button
-                text="Cancel"
-                secondary
-                label="cancel updating your bank information for GI Bill benefits"
-                onClick={onCancleButtonClicked}
-                data-qa="cancel-button"
-                data-testid={`${PREFIX}form-cancel-button`}
-              />
+              <div className="button-container">
+                <LoadingButton
+                  aria-label="save your Mailing address for GI Bill benefits"
+                  type="submit"
+                  loadingText="saving Mailling address"
+                  className="usa-button-primary vads-u-margin-top--0 address-submit-btn-auto-width"
+                >
+                  Save
+                </LoadingButton>
+                <va-button
+                  text="Cancel"
+                  secondary
+                  label="cancel updating your bank information for GI Bill benefits"
+                  onClick={onCancleButtonClicked}
+                  data-qa="cancel-button"
+                  data-testid={`${PREFIX}form-cancel-button`}
+                />
+              </div>
             </ChangeOfAddressForm>
           </div>
         )}

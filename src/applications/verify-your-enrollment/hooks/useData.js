@@ -21,7 +21,6 @@ export const useData = () => {
     [dispatch],
   );
   const isUserLoggedIn = localStorage.getItem('hasSession') !== null;
-
   const userInfo = isUserLoggedIn
     ? personalInfo && personalInfo['vye::UserInfo']
     : data && data['vye::UserInfo'];

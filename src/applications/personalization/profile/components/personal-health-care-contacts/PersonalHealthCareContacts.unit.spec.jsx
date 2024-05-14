@@ -80,13 +80,12 @@ describe('PersonalHealthCareContacts component', () => {
     });
   });
 
-  it('displays help desk contact information', async () => {
+  it('displays find locations link', async () => {
     const { getByTestId } = setup();
     await waitFor(() => {
       const infoComponent = getByTestId('phcc-how-to-update');
       fireEvent.click(infoComponent);
-      getByTestId('help-desk-va-800-number');
-      getByTestId('help-desk-va-711-number');
+      getByTestId('find-locations-additional-info-link');
     });
   });
 

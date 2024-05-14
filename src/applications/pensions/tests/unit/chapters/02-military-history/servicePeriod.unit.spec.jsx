@@ -5,14 +5,25 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 
-import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
+  getWebComponentErrors,
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import getData from '../../../fixtures/mocks/mockStore';
+import getFixtureData from '../../../fixtures/vets-json-api/getFixtureData';
+import {
+  changeCheckboxInGroup,
+  fillDateInput,
+  fillTextInput,
+} from '../../testHelpers/webComponents';
 
 import formConfig from '../../../../config/form';
 import servicePeriod from '../../../../config/chapters/02-military-history/servicePeriod';
@@ -44,13 +55,25 @@ describe('pensions service periods page', () => {
     pageTitle,
   );
 
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 2,
+      'va-memorable-date': 2,
+      'va-checkbox': 8,
+    },
+    pageTitle,
+  );
+
   it('should submit with no errors with all required fields filled in', async () => {
     const { data } = getData({ loggedIn: false });
     const { queryByText, container } = render(
       <Provider store={mockStore(data)}>
         <DefinitionTester
           schema={schema}
-          data={{}}
+          data={getFixtureData()}
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
         />
@@ -58,46 +81,11 @@ describe('pensions service periods page', () => {
     );
 
     const submitBtn = queryByText('Submit');
-    const branchOfService = container.querySelector(
-      'va-checkbox[name="root_serviceBranch_army"]',
-    );
-    const startMonth = container.querySelector(
-      '#root_activeServiceDateRange_fromMonth',
-    );
-    const startDay = container.querySelector(
-      '#root_activeServiceDateRange_fromDay',
-    );
-    const startYear = container.querySelector(
-      '#root_activeServiceDateRange_fromYear',
-    );
-    const endMonth = container.querySelector(
-      '#root_activeServiceDateRange_toMonth',
-    );
-    const endDay = container.querySelector(
-      '#root_activeServiceDateRange_toDay',
-    );
-    const endYear = container.querySelector(
-      '#root_activeServiceDateRange_toYear',
-    );
-    const serviceNumber = container.querySelector(
-      'va-text-input[name="root_serviceNumber"]',
-    );
 
-    fireEvent.click(submitBtn);
-    waitFor(() => {
-      expect($$('.usa-input-error-message', container)).not.to.be.empty;
-
-      fireEvent.click(branchOfService);
-      fireEvent.change(serviceNumber, { value: '123456' });
-      fireEvent.change(startMonth, { target: { value: '2' } });
-      fireEvent.change(startDay, { target: { value: '15' } });
-      fireEvent.change(startYear, { target: { value: '1975' } });
-      fireEvent.change(endMonth, { target: { value: '2' } });
-      fireEvent.change(endDay, { target: { value: '15' } });
-      fireEvent.change(endYear, { target: { value: '1985' } });
+    await waitFor(() => {
       fireEvent.click(submitBtn);
 
-      expect($$('.usa-input-error-message', container)).to.be.empty;
+      expect(getWebComponentErrors(container)).to.be.empty;
     });
   });
   it('should display warning if the veteran did not serve during a wartime period', async () => {
@@ -118,42 +106,28 @@ describe('pensions service periods page', () => {
     );
 
     const submitBtn = queryByText('Submit');
-    const branchOfService = container.querySelector(
-      'va-checkbox[name="root_serviceBranch_army"]',
-    );
-    const startMonth = container.querySelector(
-      '#root_activeServiceDateRange_fromMonth',
-    );
-    const startDay = container.querySelector(
-      '#root_activeServiceDateRange_fromDay',
-    );
-    const startYear = container.querySelector(
-      '#root_activeServiceDateRange_fromYear',
-    );
-    const endMonth = container.querySelector(
-      '#root_activeServiceDateRange_toMonth',
-    );
-    const endDay = container.querySelector(
-      '#root_activeServiceDateRange_toDay',
-    );
-    const endYear = container.querySelector(
-      '#root_activeServiceDateRange_toYear',
-    );
-    const serviceNumber = container.querySelector(
-      'va-text-input[name="root_serviceNumber"]',
-    );
 
     fireEvent.click(submitBtn);
-    waitFor(() => {
-      expect($$('va-alert', container).length).to.equal(0);
-      fireEvent.click(branchOfService);
-      fireEvent.change(serviceNumber, { value: '123456' });
-      fireEvent.change(startMonth, { target: { value: '2' } });
-      fireEvent.change(startDay, { target: { value: '15' } });
-      fireEvent.change(startYear, { target: { value: '1983' } });
-      fireEvent.change(endMonth, { target: { value: '2' } });
-      fireEvent.change(endDay, { target: { value: '15' } });
-      fireEvent.change(endYear, { target: { value: '1984' } });
+    expect($$('va-alert', container).length).to.equal(0);
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    await changeCheckboxInGroup(checkboxGroup, 'Army', 'army', true);
+
+    fillTextInput(container, 'root_serviceNumber', '123456');
+
+    await fillDateInput(
+      container,
+      'root_activeServiceDateRange_from',
+      '1984-02-15',
+    );
+
+    await fillDateInput(
+      container,
+      'root_activeServiceDateRange_to',
+      '1983-02-15',
+    );
+
+    await waitFor(() => {
       fireEvent.click(submitBtn);
       expect($$('va-alert', container).length).to.equal(1);
     });

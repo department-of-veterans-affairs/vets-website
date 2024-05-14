@@ -85,7 +85,8 @@ export const checkboxGroupUI = ({
     throw new Error(
       `"required" property should be explicitly set for checkboxGroupUI for
       title: "${title}". Please set "required" to a boolean, or a function
-      that returns a boolean.`,
+      that returns a boolean. Also you will still need to set required in
+      the schema as well.`,
     );
   }
   if (!labels) {

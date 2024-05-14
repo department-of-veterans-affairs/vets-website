@@ -13,6 +13,9 @@ class ApiInitializer {
         '/v0/feature_toggles*',
         featureToggles.generateFeatureToggles({
           mhvLandingPageEnabled: false,
+          mhvLandingPagePersonalization: false,
+          mhvLandingPageEnableVaGovHealthToolsLinks: false,
+          mhvTransitionalMedicalRecordsLandingPage: false,
         }),
       );
     },
@@ -24,6 +27,7 @@ class ApiInitializer {
           mhvLandingPageEnabled: true,
           mhvLandingPagePersonalization: false,
           mhvLandingPageEnableVaGovHealthToolsLinks: false,
+          mhvTransitionalMedicalRecordsLandingPage: false,
         }),
       );
     },
@@ -35,6 +39,7 @@ class ApiInitializer {
           mhvLandingPageEnabled: true,
           mhvLandingPagePersonalization: true,
           mhvLandingPageEnableVaGovHealthToolsLinks: true,
+          mhvTransitionalMedicalRecordsLandingPage: true,
         }),
       );
     },

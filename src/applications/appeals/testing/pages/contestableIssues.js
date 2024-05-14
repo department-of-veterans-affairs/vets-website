@@ -2,8 +2,8 @@ import React from 'react';
 
 import ContestableIssuesWidget from '../components/ContestableIssuesWidget';
 import { ContestableIssuesAdditionalInfo } from '../content/contestableIssues';
-import { disagreeWith } from '../utils/areaOfDisagreement';
 
+import { disagreeWith } from '../../shared/utils/areaOfDisagreement';
 import {
   getIssueDate,
   getIssueName,

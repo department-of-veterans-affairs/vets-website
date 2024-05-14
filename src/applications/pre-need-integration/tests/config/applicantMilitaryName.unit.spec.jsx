@@ -13,7 +13,7 @@ describe('Pre-need applicant military name', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.militaryHistory.pages.applicantMilitaryName;
+  } = formConfig.chapters.militaryHistory.pages.applicantMilitaryNameSelf;
 
   it('should render', () => {
     const form = mount(

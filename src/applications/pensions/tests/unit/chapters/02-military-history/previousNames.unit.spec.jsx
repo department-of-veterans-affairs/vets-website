@@ -5,7 +5,9 @@ import { render } from '@testing-library/react';
 import {
   FakeProvider,
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import previousNames, {
@@ -34,6 +36,17 @@ describe('pensions military history', () => {
     pageTitle,
   );
 
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 3,
+      'va-select': 1,
+    },
+    pageTitle,
+  );
+
   describe('PreviousNameView', () => {
     it('should render a list view', () => {
       const { container } = render(
@@ -53,4 +66,6 @@ describe('pensions military history', () => {
       expect(text.innerHTML).to.equal('Jamie Andrew Doe');
     });
   });
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
 });

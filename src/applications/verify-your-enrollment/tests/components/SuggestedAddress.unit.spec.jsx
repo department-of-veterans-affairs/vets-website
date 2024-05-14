@@ -187,12 +187,14 @@ describe('<SuggestedAddress />', () => {
   });
   it('should calls handleAddNewClick when go back to edit button is clicked', async () => {
     const handleAddNewClick = sinon.spy();
+    const setGoBackToEdit = sinon.spy();
     const wrapper = mount(
       <Provider store={store}>
         <SuggestedAddress
           formData={{}}
           address={{}}
           handleAddNewClick={handleAddNewClick}
+          setGoBackToEdit={setGoBackToEdit}
         />
       </Provider>,
     );

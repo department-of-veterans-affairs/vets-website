@@ -1,6 +1,8 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import medicaidCoverage from '../../../../config/chapters/03-health-and-employment-information/medicaidCoverage';
@@ -26,4 +28,16 @@ describe('medicaid coverage pension page', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-radio': 1,
+    },
+    pageTitle,
+  );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
 });

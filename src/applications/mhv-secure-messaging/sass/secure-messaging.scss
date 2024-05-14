@@ -314,3 +314,26 @@ va-loading-indicator {
   border-radius: 4px;
   font-size: 16.96px;
 }
+
+.move-folder-modal-buttons {
+  va-button::part(button) {
+    width: 100%;
+
+    @media (min-width: $small-screen) {
+      width: auto;
+    }
+  }
+}
+
+.continue-button {
+  max-width: 242px;
+  border-radius: 4px;
+  font-size: 16.96px;
+}
+
+.unread-bubble {
+  height: 12px;
+  width: 12px;
+  background-color: var(--vads-color-primary-dark);
+  border-radius: 50%;
+}

@@ -7,6 +7,12 @@ import { isProductionOfTestProdEnv } from '../helpers';
  *
  * @param {Object} schema   The full schema for the form
  */
+const noSSNTitle = () => {
+  if (isProductionOfTestProdEnv()) {
+    return 'I don’t have a Social Security number';
+  }
+  return "I don't know my sponsor's Social Security number";
+};
 
 const showSponsorInfo = (formData, automatedTest = false) => {
   return (
@@ -72,7 +78,7 @@ export function sponsorInfo(schema) {
         'ui:required': formData => !formData['view:noSSN'],
       },
       'view:noSSN': {
-        'ui:title': 'I don’t have a Social Security number',
+        'ui:title': noSSNTitle(),
         'ui:options': {
           hideOnReview: true,
         },

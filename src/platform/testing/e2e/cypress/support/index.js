@@ -6,6 +6,20 @@ import '@cypress/code-coverage/support';
 import addContext from 'mochawesome/addContext';
 import './commands';
 
+// workaround for 'AssertionError: Timed out retrying after 4000ms: Invalid string length'
+// https://github.com/testing-library/cypress-testing-library/issues/241
+before(() => {
+  cy.configureCypressTestingLibrary({
+    getElementError(message, container) {
+      const error = new Error(
+        [message, container.tagName].filter(Boolean).join('\n\n'),
+      );
+      error.name = 'TestingLibraryElementError';
+      return error;
+    },
+  });
+});
+
 Cypress.on('window:before:load', window => {
   // Workaround to allow Cypress to intercept requests made with the Fetch API.
   // This forces fetch to fall back to the polyfill, which can get intercepted.

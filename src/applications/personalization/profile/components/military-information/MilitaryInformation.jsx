@@ -4,7 +4,6 @@ import { some } from 'lodash';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { connect, useSelector } from 'react-redux';
 import { selectProfileShowProofOfVeteranStatusToggle } from '@@profile/selectors';
-import ProofOfVeteranStatus from '../proof-of-veteran-status/ProofOfVeteranStatus';
 
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
 
@@ -13,6 +12,7 @@ import DowntimeNotification, {
 } from '~/platform/monitoring/DowntimeNotification';
 import { focusElement } from '~/platform/utilities/ui';
 import { selectVeteranStatus } from '~/platform/user/selectors';
+import ProofOfVeteranStatus from '../proof-of-veteran-status/ProofOfVeteranStatus';
 
 import LoadFail from '../alerts/LoadFail';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
@@ -169,7 +169,7 @@ const MilitaryInformationContent = ({ militaryInformation, veteranStatus }) => {
         asList
       />
 
-      <div className="vads-u-margin-y--4">
+      <div className="vads-u-margin-bottom--4 vads-u-margin-top--1">
         <va-additional-info
           trigger="What if I don't think my military service information is correct?"
           uswds
@@ -228,15 +228,21 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
           veteranStatus={veteranStatus}
         />
       </DowntimeNotification>
-      <va-summary-box uswds>
-        <h3 className="vads-u-margin-top--0" slot="headline">
-          Request your military records (DD214)
-        </h3>
-        <va-link
-          href="/records/get-military-service-records"
-          text="Learn how to request your DD214 and other military records"
-        />
-      </va-summary-box>
+
+      <h3 className="vads-u-margin--0 vads-u-font-size--h2">
+        Request your military service records
+      </h3>
+
+      <p className="vads-u-margin-y--1">
+        You can request a copy of your DD214 and other military service records
+        from the National Archives.
+      </p>
+
+      <va-link
+        href="/records/get-military-service-records"
+        text="Learn how to request your DD214 and other military records"
+        active
+      />
 
       {profileShowProofOfVeteranStatus &&
         militaryInformation?.serviceHistory?.serviceHistory && (

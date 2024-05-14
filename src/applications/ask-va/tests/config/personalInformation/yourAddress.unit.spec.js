@@ -15,7 +15,7 @@ import { getData } from '../../fixtures/data/mock-form-data';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.yourAddress_generalquestion;
+} = formConfig.chapters.personalInformation.pages.yourAddress_veteransomeonesbenefits;
 
 describe('yourAddressPage', () => {
   it('should render', () => {
@@ -34,14 +34,18 @@ describe('yourAddressPage', () => {
 
     const labels = $$('label', container);
     const labelList = [
+      'I live on a United States military base outside of the country',
+      'Country',
       'Street address',
+      'Apartment or unit number',
       'Street address 2',
+      'Street address 3',
       'City',
       'State/Province/Region',
       'Postal code',
     ];
 
-    expect($('h3', container).textContent).to.eq('Your address');
+    expect($('h3', container).textContent).to.eq('Your mailing address');
     labels.forEach(
       label =>
         expect(labelList.includes(removeReqFromLabel(label.textContent))).to.be

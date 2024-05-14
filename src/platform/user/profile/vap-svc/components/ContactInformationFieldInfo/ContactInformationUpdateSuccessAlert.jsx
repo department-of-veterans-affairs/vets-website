@@ -29,6 +29,7 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
         status="success"
         visible="true"
         full-width
+        slim
         uswds
       >
         <p

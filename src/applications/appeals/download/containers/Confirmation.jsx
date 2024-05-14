@@ -7,22 +7,13 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
 import extraData from '../tests/fixtures/data/extra-data.json';
 import testData from '../tests/fixtures/data/test-data.json';
 
-import { disagreeWith } from '../../testing/utils/areaOfDisagreement';
+import { disagreeWith } from '../../shared/utils/areaOfDisagreement';
 import { getIssueName, getIssueDate } from '../../shared/utils/issues';
-
-// separate each number so the screenreader reads "number ending with 1 2 3 4"
-// instead of "number ending with 1,234"
-const maskVafn = number => {
-  return srSubstitute(
-    `●●●–●●–${number}`,
-    `V A file number ending with ${number.split('').join(' ')}`,
-  );
-};
+import { maskVafn } from '../../shared/utils/data';
 
 const Confirmation = () => {
   useEffect(() => {

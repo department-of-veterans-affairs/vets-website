@@ -38,7 +38,7 @@ describe('unread message indicator', () => {
     const unreadMessageCount = 4;
     const { getByText } = renderCards(unreadMessageCount);
 
-    const inboxSpan = getByText('Inbox');
+    const inboxSpan = getByText('Go to inbox');
     const message = inboxSpan.parentNode.getAttribute('aria-label');
 
     expect(inboxSpan).to.exist;
@@ -52,7 +52,7 @@ describe('unread message indicator', () => {
 
     expect(indicator).not.to.exist;
 
-    const inboxSpan = getByText('Inbox');
+    const inboxSpan = getByText('Go to inbox');
     const message = inboxSpan.parentNode.getAttribute('aria-label');
 
     expect(message).to.not.exist;

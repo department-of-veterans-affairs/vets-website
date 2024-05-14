@@ -120,6 +120,10 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
 
     cy.wait('@mockSip');
 
+    // TERA response
+    goToNextPage('/military-service/toxic-exposure');
+    cy.get('[name="root_hasTeraResponse"]').check('N');
+
     // medicaid
     goToNextPage('/insurance-information/medicaid');
     shortFormAdditionalHelpAssertion();

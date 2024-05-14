@@ -45,151 +45,99 @@ const editMailingAddress = () => {
   });
 };
 
+const SELECTORS = {
+  BASE: 'root_view:livesOnMilitaryBase',
+  INFO: 'va-additional-info[trigger^="Learn more about military base address"]',
+  COUNTRY: 'root_countryCodeIso3',
+  STREET1: 'root_addressLine1',
+  STREET2: 'root_addressLine2',
+  STREET3: 'root_addressLine3',
+  CITY: 'root_city',
+  STATE: 'root_state',
+  PROVINCE: 'root_province',
+  ZIP: 'root_zipCode',
+  POSTAL: 'root_internationalPostalCode',
+};
+
 const checkMilitaryAddress = () => {
-  const militaryAddressCountry =
-    'U.S. military bases are considered a domestic address and a part of the United States.';
+  cy.get(SELECTORS.INFO).should('exist');
+  cy.get(`va-select[name="${SELECTORS.COUNTRY}"]`).should('exist');
 
-  cy.contains(militaryAddressCountry).should('not.exist');
-  cy.findByRole('combobox', { name: /country/i }).should(
-    'not.have.attr',
-    'disabled',
-  );
+  cy.selectVaCheckbox(SELECTORS.BASE, true);
 
-  cy.findByRole('checkbox', {
-    name: `I live on a United States military base outside of the United States.`,
-  }).click({
-    force: true,
-  });
-
-  cy.contains(militaryAddressCountry).should('exist');
-  cy.findByRole('combobox', { name: /country/i }).should(
-    'have.attr',
-    'disabled',
-  );
+  cy.get(`va-select[name="${SELECTORS.COUNTRY}"]`)
+    .should('exist')
+    .should('have.attr', 'inert');
 
   // reset things back to the way they were when this function started
-  cy.findByRole('checkbox', {
-    name: `I live on a United States military base outside of the United States.`,
-  }).click({
-    force: true,
-  });
+  cy.selectVaCheckbox(SELECTORS.BASE, false);
 };
 
 // Switches the address form to international address mode to allow for more
 // textbox inputs and confirms that each textbox flags URLs as invalid input
 const confirmWebAddressesAreBlocked = () => {
   // choose something other than USA for the country
-  cy.findByRole('combobox', { name: /country/i }).select('France');
+  cy.selectVaSelect(SELECTORS.COUNTRY, 'FRA');
 
-  cy.findByRole('textbox', { name: /street address.*required/i });
-
-  cy.findByRole('textbox', { name: /street address.*required/i }).clear();
-
-  cy.findByRole('textbox', { name: /street address.*required/i }).type(
-    'x.com',
-    { delay: 1 },
-  );
+  cy.fillVaTextInput(SELECTORS.STREET1, 'x.com');
 
   cy.findByRole('button', { name: 'Save' }).focus();
 
-  cy.findByRole('alert')
-    .should('exist')
-    .contains(/please enter a valid street address/i);
+  cy.get(`[name="${SELECTORS.STREET1}"][error*="valid street address"]`);
 
-  cy.findByRole('textbox', { name: /street address.*required/i }).clear();
+  cy.fillVaTextInput(SELECTORS.STREET1, '123 main');
 
-  cy.findByRole('textbox', { name: /street address.*required/i }).type(
-    '123 main',
-    { delay: 1 },
-  );
+  cy.get('[error]').should('not.exist');
 
-  cy.findByRole('alert').should('not.exist');
-
-  cy.findByLabelText(/^Street address line 2/i).clear();
-
-  cy.findByLabelText(/^Street address line 2/i).type('www.x.blah', {
-    delay: 1,
-  });
+  cy.fillVaTextInput(SELECTORS.STREET2, 'www.x.blah');
   cy.findByRole('button', { name: 'Save' }).focus();
 
-  cy.findByRole('alert')
-    .should('exist')
-    .contains(/please enter a valid street address/i);
+  cy.get(`[name="${SELECTORS.STREET2}"][error*="valid street address"]`);
 
-  cy.findByLabelText(/^Street address line 2/i).clear();
+  cy.fillVaTextInput(SELECTORS.STREET2, '');
 
-  cy.findByRole('alert').should('not.exist');
+  cy.get('[error]').should('not.exist');
 
   // NOTE: resorting to selecting via a fragile element ID since there are two
   // street lines on this form with identical labels :(
-  cy.findByLabelText(/^Street address line 3/i).clear();
-
-  cy.findByLabelText(/^Street address line 3/i).type('x.net', { delay: 1 });
+  cy.fillVaTextInput(SELECTORS.STREET3, 'x.net');
 
   cy.findByRole('button', { name: 'Save' }).focus();
 
-  cy.findByRole('alert')
-    .should('exist')
-    .contains(/please enter a valid street address/i);
+  cy.get(`[name="${SELECTORS.STREET3}"][error*="valid street address"]`);
 
-  cy.findByLabelText(/^Street address line 3/i).clear();
+  cy.fillVaTextInput(SELECTORS.STREET3, '');
 
-  cy.findByRole('alert').should('not.exist');
+  cy.get('[error]').should('not.exist');
 
-  cy.findByRole('textbox', { name: /city/i }).clear();
-
-  cy.findByRole('textbox', { name: /city/i }).type('http://', { delay: 1 });
+  cy.fillVaTextInput(SELECTORS.CITY, 'http://');
 
   cy.findByRole('button', { name: 'Save' }).focus();
 
-  cy.findByRole('alert')
-    .should('exist')
-    .contains(/please enter a valid city/i);
+  cy.get(`[name="${SELECTORS.CITY}"][error*="valid city"]`);
 
-  cy.findByRole('textbox', { name: /city/i }).clear();
+  cy.fillVaTextInput(SELECTORS.CITY, 'Paris');
 
-  cy.findByRole('textbox', { name: /city/i }).type('Paris', { delay: 1 });
+  cy.get('[error]').should('not.exist');
 
-  cy.findByRole('alert').should('not.exist');
-
-  cy.findByRole('textbox', { name: /state/i }).clear();
-
-  cy.findByRole('textbox', { name: /state/i }).type('x.gov', { delay: 1 });
+  cy.fillVaTextInput(SELECTORS.PROVINCE, 'Paris');
 
   cy.findByRole('button', { name: 'Save' }).focus();
 
-  cy.findByRole('alert')
-    .should('exist')
-    .contains(/please enter a valid state/i);
+  cy.get('[error]').should('not.exist');
 
-  cy.findByRole('textbox', { name: /state/i }).clear();
-
-  cy.findByRole('textbox', { name: /state/i }).type('Paris', { delay: 1 });
-
-  cy.findByRole('alert').should('not.exist');
-
-  cy.findByRole('textbox', { name: /postal code/i }).clear();
-
-  cy.findByRole('textbox', { name: /postal code/i }).type('x.edu', {
-    delay: 1,
-  });
+  cy.fillVaTextInput(SELECTORS.POSTAL, 'x.edu');
 
   cy.findByRole('button', { name: 'Save' }).focus();
 
-  cy.findByRole('alert')
-    .should('exist')
-    .contains(/please enter a valid postal code/i);
+  cy.get(`[name="${SELECTORS.POSTAL}"][error*="valid postal code"]`);
 
-  cy.findByRole('textbox', { name: /postal code/i }).clear();
+  cy.fillVaTextInput(SELECTORS.POSTAL, '12345-1234');
 
-  cy.findByRole('textbox', { name: /postal code/i }).type('12345-1234', {
-    delay: 1,
-  });
-
-  cy.findByRole('alert').should('not.exist');
+  cy.get('[error]').should('not.exist');
 
   // cancel out of edit mode and discard unsaved changes
-  cy.findByRole('button', { name: /cancel/i }).click();
+  cy.get('va-button[text="Cancel"]').click();
 
   cy.findByTestId('confirm-cancel-modal')
     .shadow()

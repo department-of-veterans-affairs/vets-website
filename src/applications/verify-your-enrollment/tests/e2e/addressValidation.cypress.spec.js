@@ -1,5 +1,3 @@
-import Timeouts from 'platform/testing/e2e/timeouts';
-
 import { mockUser } from './login';
 
 describe('Address Validations', () => {
@@ -35,6 +33,7 @@ describe('Address Validations', () => {
   };
 
   beforeEach(() => {
+    cy.login();
     cy.intercept('GET', '/vye/v1/*', { statusCode: 200 });
     cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
@@ -47,9 +46,9 @@ describe('Address Validations', () => {
   });
   it('should not show suggested address if address is correct', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+      .first()
+      .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
@@ -67,9 +66,9 @@ describe('Address Validations', () => {
       statusCode: 200,
       body: mockAddressResponse(92, 'CONFIRMED'),
     }).as('submitAddress');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+      .first()
+      .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
@@ -90,9 +89,9 @@ describe('Address Validations', () => {
       statusCode: 200,
       body: mockAddressResponse(),
     }).as('submitAddress');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+      .first()
+      .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
@@ -116,9 +115,9 @@ describe('Address Validations', () => {
       statusCode: 200,
       body: mockAddressResponse(92, 'MISSING_ZIP'),
     }).as('submitAddress');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+      .first()
+      .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
@@ -144,9 +143,9 @@ describe('Address Validations', () => {
         'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER',
       ),
     }).as('submitAddress');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+      .first()
+      .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
@@ -172,9 +171,9 @@ describe('Address Validations', () => {
         'STREET_NUMBER_VALIDATED_BUT_BAD_UNIT_NUMBER',
       ),
     }).as('submitAddress');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+      .first()
+      .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
@@ -197,9 +196,9 @@ describe('Address Validations', () => {
       statusCode: 200,
       body: mockAddressResponse(92, 'CONFIRMED'),
     }).as('submitAddress');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+      .first()
+      .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
@@ -228,9 +227,9 @@ describe('Address Validations', () => {
       statusCode: 200,
       body: mockAddressResponse(92, 'CONFIRMED'),
     }).as('submitAddress');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]', {
-      timeout: Timeouts.slow,
-    }).click();
+    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+      .first()
+      .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');

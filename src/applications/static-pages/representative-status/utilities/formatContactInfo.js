@@ -39,12 +39,13 @@ export function formatContactInfo(poaAttributes) {
     'END:VCARD',
   ].join('\n');
 
-  const vCard = `data:text/vcard;charset=utf-8,${encodeURIComponent(vcfData)}`;
+  const blob = new Blob([vcfData], { type: 'text/vcard' });
+  const vcfUrl = URL.createObjectURL(blob);
 
   return {
     concatAddress,
     contact,
     extension,
-    vCard,
+    vcfUrl,
   };
 }

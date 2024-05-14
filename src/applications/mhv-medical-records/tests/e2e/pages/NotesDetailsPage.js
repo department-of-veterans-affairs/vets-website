@@ -86,6 +86,10 @@ class NotesDetailsPage extends BaseDetailsPage {
   };
 
   // ..........Discharge Summary
+  verifyDischargeSummaryHeadingDate = date => {
+    cy.get('[data-testid="header-time"]').should('be.visible');
+    cy.get('[data-testid="header-time"]').contains(date);
+  };
 
   verifyDischargeSummaryLocation = summaryLocation => {
     // Discharge Summary Note Details Location
@@ -93,14 +97,12 @@ class NotesDetailsPage extends BaseDetailsPage {
     cy.get('[data-testid="note-record-location"]').contains(summaryLocation);
   };
 
-  // There may no longer be Addmission date on discharge page
-  /*
-  verifyDischargeSummaryAdmissionDate = addmissionDate => {
+  verifyDischargeSummaryAdmissionDate = admissionDate => {
     // Discharge Summary Details Admission Date
     cy.get('[data-testid="note-admission-date"]').should('be.visible');
-    cy.get('[data-testid="note-admission-date"]').contains(addmissionDate);
+    cy.get('[data-testid="note-admission-date"]').contains(admissionDate);
   };
-  */
+
   verifyDischargeSummaryDischargeDate = dischargeDate => {
     // Discharge Summary Details DischargeDate
     cy.get('[data-testid="note-discharge-date"]').should('be.visible');

@@ -15,6 +15,7 @@ const appointmentIcon = appointment => {
     isCommunityCare,
     isCompAndPenAppointment,
     isCOVIDVaccine,
+    isPendingAppointment,
   } = appointment.vaos;
 
   if (isPhone) {
@@ -26,7 +27,7 @@ const appointmentIcon = appointment => {
   }
 
   if (
-    isInPersonVAAppointment(appointment) ||
+    (isInPersonVAAppointment(appointment) && !isPendingAppointment) ||
     isCOVIDVaccine ||
     isCompAndPenAppointment ||
     isClinicVideoAppointment(appointment) ||

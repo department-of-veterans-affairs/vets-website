@@ -55,7 +55,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       });
     });
   });
-  context.skip('Kitchen sink', () => {
+  context('Kitchen sink', () => {
     it('keyboard navigates through the form', () => {
       cy.wrap(kitchenSinkFixture.data).as('testData');
       cypressSetup(cy);

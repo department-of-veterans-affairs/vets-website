@@ -30,13 +30,6 @@ class AppointmentDetails {
     );
   };
 
-  validateWhat = () => {
-    cy.get('div[data-testid="appointment-details--what"]').should('be.visible');
-    cy.get('div[data-testid="appointment-details--appointment-value"]').should(
-      'be.visible',
-    );
-  };
-
   validateProvider = () => {
     cy.get('div[data-testid="appointment-details--provider"]').should(
       'be.visible',

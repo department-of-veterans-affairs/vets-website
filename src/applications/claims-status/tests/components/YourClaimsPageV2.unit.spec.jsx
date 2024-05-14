@@ -5,14 +5,18 @@ import sinon from 'sinon';
 import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import cloneDeep from '~/platform/utilities/data/cloneDeep';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 import { YourClaimsPageV2 } from '../../containers/YourClaimsPageV2';
 
 import { claimsAvailability } from '../../utils/appeals-v2-helpers';
 import { renderWithRouter } from '../utils';
 
+const mockStore = createStore(() => ({}));
+
 const localStorageMock = (() => {
-  let store = {};
+  let store = createStore(() => ({}));
 
   return {
     getItem(key) {
@@ -71,7 +75,7 @@ describe('<YourClaimsPageV2>', () => {
       },
       {
         type: 'legacyAppeal',
-        id: '1122334455',
+        id: '1122334454',
         attributes: {
           updated: '2018-05-29T19:38:40-04:00',
           events: [{ date: '2018-06-01' }],
@@ -97,11 +101,13 @@ describe('<YourClaimsPageV2>', () => {
 
   it('should render <ClaimsAppealsUnavailable/>', () => {
     const { container } = renderWithRouter(
-      <YourClaimsPageV2
-        {...defaultProps}
-        appealsAvailable={claimsAvailability.UNAVAILABLE}
-        claimsAvailable={claimsAvailability.UNAVAILABLE}
-      />,
+      <Provider store={mockStore}>
+        <YourClaimsPageV2
+          {...defaultProps}
+          appealsAvailable={claimsAvailability.UNAVAILABLE}
+          claimsAvailable={claimsAvailability.UNAVAILABLE}
+        />
+      </Provider>,
     );
 
     expect($('.claims-unavailable', container)).to.exist;

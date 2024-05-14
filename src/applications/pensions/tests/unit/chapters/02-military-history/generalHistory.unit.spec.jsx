@@ -1,6 +1,8 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import generalHistory from '../../../../config/chapters/02-military-history/generalHistory';
@@ -26,4 +28,16 @@ describe('pensions military general history page', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-radio': 1,
+    },
+    pageTitle,
+  );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
 });

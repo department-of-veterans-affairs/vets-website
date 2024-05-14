@@ -1,16 +1,13 @@
-const featureIsEnabled = value => {
-  cy.intercept('GET', '/v0/feature_toggles*', {
-    data: {
-      features: [{ name: 'accredited_representative_portal_frontend', value }],
-    },
-  });
-};
+import { setFeatureToggles } from './intercepts/feature-toggles';
 
 describe('Header on mobile', () => {
   beforeEach(() => {
     cy.viewport(760, 1024);
 
-    featureIsEnabled(true);
+    setFeatureToggles({
+      isAppEnabled: true,
+      isInPilot: true,
+    });
     cy.visit('/representative');
 
     cy.injectAxe();
@@ -52,7 +49,10 @@ describe('Header on mobile', () => {
 
 describe('Header on screens wider than mobile', () => {
   beforeEach(() => {
-    featureIsEnabled(true);
+    setFeatureToggles({
+      isAppEnabled: true,
+      isInPilot: true,
+    });
     cy.visit('/representative');
 
     cy.injectAxe();

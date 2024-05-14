@@ -5,10 +5,12 @@ import {
   content,
   errorMessages,
 } from '../content/areaOfDisagreement';
-import { disagreeWith } from '../utils/areaOfDisagreement';
 
 import { areaOfDisagreementRequired } from '../../shared/validations/areaOfDisagreement';
-import { calculateOtherMaxLength } from '../../shared/utils/areaOfDisagreement';
+import {
+  calculateOtherMaxLength,
+  disagreeWith,
+} from '../../shared/utils/areaOfDisagreement';
 import {
   MAX_LENGTH,
   DISAGREEMENT_TYPES,
