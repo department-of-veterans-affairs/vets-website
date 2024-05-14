@@ -174,6 +174,10 @@ jobs:
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
 
+    env:
+      APPS_TO_VERIFY: ${{ needs.tests-prep.outputs.apps-to-stress-test }}
+      DISALLOWED_TESTS: '[]'
+
     strategy:
       fail-fast: false
       max-parallel: 20
