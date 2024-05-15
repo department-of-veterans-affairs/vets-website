@@ -49,17 +49,13 @@ const App = ({ children }) => {
 
   if (featureTogglesLoading) {
     return (
-      <div className="routes-container vads-l-grid-container">
-        <div className={`${contentClasses}`}>
-          <MhvSecondaryNav />
-          <div className="vads-l-grid-container">
-            <va-loading-indicator
-              message="Loading"
-              setFocus
-              data-testid="rx-feature-flag-loading-indicator"
-            />
-          </div>
-        </div>
+      <div className="main-content vads-u-max-width--100">
+        <MhvSecondaryNav />
+        <va-loading-indicator
+          message="Loading"
+          setFocus
+          data-testid="rx-feature-flag-loading-indicator"
+        />
       </div>
     );
   }

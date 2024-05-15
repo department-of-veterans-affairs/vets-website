@@ -25,30 +25,28 @@ const RxBreadcrumbs = () => {
 
   return (
     <>
-      {breadcrumbs.length > 0 && (
-        <>
-          {!location.pathname.includes(
-            medicationsUrls.subdirectories.DETAILS,
-          ) ? (
-            <VaBreadcrumbs
-              uswds
-              wrapping
-              label="Breadcrumb"
-              data-testid="rx-breadcrumb"
-              home-veterans-affairs="false"
-              breadcrumbList={breadcrumbs}
-              className="no-print va-breadcrumbs-li vads-u-margin-bottom--neg1p5 vads-u-display--block"
-            />
-          ) : (
-            <div className="include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3">
-              <va-link
-                href={breadcrumbs[breadcrumbs.length - 2].href}
-                text={`Back to ${breadcrumbs[breadcrumbs.length - 2].label}`}
-                data-testid="rx-breadcrumb-link"
-              />
-            </div>
-          )}
-        </>
+      {breadcrumbs.length > 0 &&
+        !location.pathname.includes(medicationsUrls.subdirectories.DETAILS) && (
+          <VaBreadcrumbs
+            uswds
+            wrapping
+            label="Breadcrumb"
+            data-testid="rx-breadcrumb"
+            home-veterans-affairs="false"
+            breadcrumbList={breadcrumbs}
+            className="no-print va-breadcrumbs-li vads-u-margin-bottom--neg1p5 vads-u-display--block"
+          />
+        )}
+      {location.pathname.includes(medicationsUrls.subdirectories.DETAILS) && (
+        <div className="include-back-arrow vads-u-margin-bottom--neg1p5 vads-u-padding-y--3">
+          <va-link
+            href={`${
+              medicationsUrls.MEDICATIONS_URL
+            }?page=${pagination?.currentPage || 1}`}
+            text="Back to Medications"
+            data-testid="rx-breadcrumb-link"
+          />
+        </div>
       )}
     </>
   );
