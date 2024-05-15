@@ -7,6 +7,7 @@ import ReviewApproved from '../referral-appointments/ReviewApproved';
 import ChooseCommunityCare from '../referral-appointments/ChooseCommunityCare';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
+import ConfirmApprovedPage from '../referral-appointments/ConfirmApprovedPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 
@@ -30,6 +31,7 @@ function AppointmentListSection() {
             component={AppointmentNotificationPage}
           />
           <Route path="/appointment-notifications" component={ReviewApproved} />
+          <Route path="/confirm-approved" component={ConfirmApprovedPage} />
           <Route
             path="/review-approved"
             component={AppointmentNotificationPage}
@@ -60,6 +62,7 @@ function AppointmentListSection() {
             component={AppointmentNotificationPage}
           />
           <Route path="/review-approved" component={ReviewApproved} />
+          <Route path="/confirm-approved" component={ConfirmApprovedPage} />
           <Route
             path="/pending/:id"
             component={RequestedAppointmentDetailsPage}

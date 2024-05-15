@@ -1,5 +1,6 @@
 import React from 'react';
 import PageLayout from '../appointment-list/components/PageLayout';
+import ReferralAppLink from './components/ReferralAppLink';
 
 export default function ChooseCommunityCare() {
   return (
@@ -25,6 +26,12 @@ export default function ChooseCommunityCare() {
       <div>
         <div>Monday, June 4</div>
         <div>1pm, 2pm, 4pm, etc.</div>
+      </div>
+      <div>
+        <ReferralAppLink
+          linkText="Confirm Approved Page"
+          linkPath="/confirm-approved"
+        />
       </div>
     </PageLayout>
   );
