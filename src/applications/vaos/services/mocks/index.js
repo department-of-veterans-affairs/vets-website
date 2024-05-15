@@ -45,6 +45,7 @@ const patients = require('./wellHive/patients.json');
 const WHNetworks = require('./wellHive/networks.json');
 const specialties = require('./wellHive/specialties.json');
 const specialtyGroups = require('./wellHive/specialtyGroups.json');
+const providerOrgs = require('./wellHive/providerOrganizations.json');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -571,6 +572,9 @@ const responses = {
         specialtyGroup => specialtyGroup?.id === req.params.specialtyGroupId,
       ),
     });
+  },
+  'GET /vaos/v2/wellhive/provider-organization': (req, res) => {
+    return res.json({ data: providerOrgs });
   },
   'GET /v0/user': {
     data: {
