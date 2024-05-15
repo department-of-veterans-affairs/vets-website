@@ -5,7 +5,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { CHAPTER_3 } from '../../../constants';
 
-const veteranLocationOfResidencePage = {
+const veteransLocationOfResidencePage = {
   uiSchema: {
     ...titleUI(CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.TITLE),
     locationOfResidence: selectUI({
@@ -27,4 +27,4 @@ const veteranLocationOfResidencePage = {
   },
 };
 
-export default veteranLocationOfResidencePage;
+export default veteransLocationOfResidencePage;

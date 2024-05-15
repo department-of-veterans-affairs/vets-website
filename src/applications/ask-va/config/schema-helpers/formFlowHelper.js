@@ -20,7 +20,7 @@ import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility
 import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
 import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
 import veteransAddressZipPage from '../chapters/personalInformation/veteranAddressZip';
-import veteranLocationOfResidencePage from '../chapters/personalInformation/veteranLocationOfResidence';
+import veteransLocationOfResidencePage from '../chapters/personalInformation/veteransLocationOfResidence';
 import yourAddressPage from '../chapters/personalInformation/yourAddress';
 import yourContactInformationPage from '../chapters/personalInformation/yourContactInformation';
 import yourCountryPage from '../chapters/personalInformation/yourCountry';
@@ -66,10 +66,10 @@ const ch3Pages = {
     uiSchema: veteransAddressZipPage.uiSchema,
     schema: veteransAddressZipPage.schema,
   },
-  veteranLocationOfResidence: {
+  veteransLocationOfResidence: {
     title: CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.TITLE,
-    uiSchema: veteranLocationOfResidencePage.uiSchema,
-    schema: veteranLocationOfResidencePage.schema,
+    uiSchema: veteransLocationOfResidencePage.uiSchema,
+    schema: veteransLocationOfResidencePage.schema,
   },
   yourPostalCode: {
     title: CHAPTER_3.YOUR_POSTAL_CODE.TITLE,
@@ -211,7 +211,7 @@ const myOwnBenVet = [
   'yourAddress',
   'yourAddressConfirmation',
   'yourPostalCode',
-  'veteranLocationOfResidence',
+  'veteransLocationOfResidence',
 ];
 export const myOwnBenVetPages = flowPages(
   ch3Pages,
