@@ -129,9 +129,12 @@ fieldset.schemaform-field-template.schemaform-first-field {
   padding-bottom: 0em;
 }
 
-.preparer-va-radio,
-.sponsor-va-radio {
+.preparer-va-radio {
   padding-top: 0em;
+}
+
+.sponsor-va-radio {
+  margin-top: -3em;
 }
 
 .desiredCemeteryNoteTitle {
