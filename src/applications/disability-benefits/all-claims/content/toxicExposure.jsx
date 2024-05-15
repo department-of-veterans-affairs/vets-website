@@ -283,7 +283,7 @@ export function validateLocations(errors, formData, objectName) {
  * @param {object} formData - full formData for the form
  * @returns {number} - index of the key within the list of selected items if found, 0 otherwise
  */
-export function getKeyIndex(key, objectName, { formData }) {
+export function getKeyIndex(key, objectName, formData) {
   if (
     !formData ||
     !formData?.toxicExposure ||
@@ -313,7 +313,7 @@ export function getKeyIndex(key, objectName, { formData }) {
  * @param {object} formData - full formData for the form
  * @returns {number} count of checkboxes with a value of true
  */
-export function getSelectedCount(objectName, { formData } = {}) {
+export function getSelectedCount(objectName, formData) {
   if (
     !formData ||
     !formData?.toxicExposure ||

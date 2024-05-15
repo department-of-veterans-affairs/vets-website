@@ -381,8 +381,8 @@ describe('toxicExposure', () => {
         },
       };
 
-      expect(getKeyIndex('bahrain', 'gulfWar1990', { formData })).to.equal(1);
-      expect(getKeyIndex('airspace', 'gulfWar1990', { formData })).to.equal(2);
+      expect(getKeyIndex('bahrain', 'gulfWar1990', formData)).to.equal(1);
+      expect(getKeyIndex('airspace', 'gulfWar1990', formData)).to.equal(2);
     });
 
     it('returns 0 when location data not available', () => {
@@ -403,8 +403,8 @@ describe('toxicExposure', () => {
         },
       };
 
-      expect(getKeyIndex('egypt', 'gulfWar1990', { formData })).to.equal(0);
-      expect(getKeyIndex('bahrain', 'gulfWar1990', { formData })).to.equal(0);
+      expect(getKeyIndex('egypt', 'gulfWar1990', formData)).to.equal(0);
+      expect(getKeyIndex('bahrain', 'gulfWar1990', formData)).to.equal(0);
     });
   });
 
@@ -420,7 +420,7 @@ describe('toxicExposure', () => {
         },
       };
 
-      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(2);
+      expect(getSelectedCount('gulfWar1990', formData)).to.be.equal(2);
     });
 
     it('gets 0 count when no items selected', () => {
@@ -434,7 +434,7 @@ describe('toxicExposure', () => {
         },
       };
 
-      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
+      expect(getSelectedCount('gulfWar1990', formData)).to.be.equal(0);
     });
 
     it('gets 0 count when no checkbox values', () => {
@@ -444,13 +444,13 @@ describe('toxicExposure', () => {
         },
       };
 
-      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
+      expect(getSelectedCount('gulfWar1990', formData)).to.be.equal(0);
     });
 
     it('gets 0 count when no checkbox object not found', () => {
       const formData = {};
 
-      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
+      expect(getSelectedCount('gulfWar1990', formData)).to.be.equal(0);
     });
 
     it('gets 0 count when no form data', () => {

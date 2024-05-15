@@ -7,6 +7,7 @@ import {
   gulfWar2001Details,
   gulfWar2001Summary,
   herbicideLocations,
+  herbicideDetails,
 } from '..';
 import { TE_URL_PREFIX } from '../../constants';
 import {
@@ -64,4 +65,5 @@ export const toxicExposurePages = {
     uiSchema: herbicideLocations.uiSchema,
     schema: herbicideLocations.schema,
   },
+  ...herbicideDetails.makePages(),
 };
