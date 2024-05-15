@@ -15,7 +15,7 @@ export const conditionsQuestion =
   'Are any of your new conditions related to toxic exposure during your military service? Check any that are related.';
 export const conditionsDescription = (
   <va-additional-info
-    class="vads-u-margin-top--2"
+    class="vads-u-margin-y--3"
     trigger="What is toxic exposure?"
   >
     <div>
@@ -42,10 +42,17 @@ export const gulfWar1990Question =
 export const summaryOfGulfWar1990PageTitle =
   'Summary of service after August 2, 1990';
 
+export const gulfWar2001PageTitle = 'Service post-9/11';
+export const gulfWar2001Question =
+  'Did you serve in any of these Gulf War locations on or after September 11, 2001? Check any locations where you served.';
+
 export const noneAndConditionError =
   'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.';
 
-export const gulfWar1990LocationsAdditionalInfo = (
+export const noneAndLocationError =
+  'You selected a location, and you also selected "None of these locations." You’ll need to uncheck one of these options to continue.';
+
+export const dateRangeAdditionalInfo = (
   <va-additional-info trigger="What if I have more than one date range?">
     <p>
       You only need to enter one date range. We’ll use this information to find
@@ -54,7 +61,7 @@ export const gulfWar1990LocationsAdditionalInfo = (
   </va-additional-info>
 );
 
-export const dateHelp =
+export const dateRangeDescription =
   'Enter any date range you served in this location. You don’t need to have exact dates.';
 export const startDateApproximate = 'Service start date (approximate)';
 export const endDateApproximate = 'Service end date (approximate)';
@@ -62,14 +69,31 @@ export const goBackLink = 'Edit locations and dates';
 export const noDatesEntered = 'No dates entered';
 
 /**
- * Create the markup for page description. If there are item counts, it will display
- * something like '1 of 3: Location'. If there are no counts yet, the prefix will
- * be dropped to only display Location.
+ * Generate the Toxic Exposure subtitle, which is used on Review and Submit and on the pages
+ * themselves. If there are item counts, it will display something like '1 of 3: Location Name'.
+ * If either count is invalid, the prefix will be dropped to only display 'Location Name'.
+ *
+ * @param {number} currentItem - this item's count out of the total selected items
+ * @param {number} totalItems - total number of selected items
+ * @param {string} locationName - Display name of the location
+ * @returns
+ */
+export function teSubtitle(currentItem, totalItems, locationName) {
+  return (
+    (currentItem > 0 &&
+      totalItems > 0 &&
+      `Location ${currentItem} of ${totalItems}: ${locationName}`) ||
+    locationName
+  );
+}
+
+/**
+ * Create the markup for page description including the subtitle and date range description text
  *
  * @param {number} currentItem - Current item being viewed
  * @param {number} totalItems - Total items for this location
  * @param {string} locationName - Display name of the location
- * @returns level 4 heading description
+ * @returns h4 subtitle and p description
  */
 export function dateRangePageDescription(
   currentItem,
@@ -77,15 +101,12 @@ export function dateRangePageDescription(
   locationName,
 ) {
   const subtitle = formSubtitle(
-    (currentItem > 0 &&
-      totalItems > 0 &&
-      `${currentItem} of ${totalItems}: ${locationName}`) ||
-      locationName,
+    teSubtitle(currentItem, totalItems, locationName),
   );
   return (
     <>
       {subtitle}
-      <p>{dateHelp}</p>
+      <p>{dateRangeDescription}</p>
     </>
   );
 }
@@ -130,7 +151,7 @@ export function isClaimingTECondition(formData) {
 
 /**
  * Builds the Schema based on user entered condition names
- * 
+ *
  * Example output:
 {
     type: 'object',
@@ -222,6 +243,25 @@ export function validateTEConditions(errors, formData) {
 }
 
 /**
+ * Validates selected Gulf War 1990 locations.
+ * If the 'none' checkbox is selected
+ * along with another location adds an error.
+ *
+ * @param {object} errors - Errors object from rjsf
+ * @param {object} formData
+ */
+export function validateGulfWar1990Locations(errors, formData) {
+  const { gulfWar1990 = {} } = formData?.toxicExposure;
+
+  if (
+    gulfWar1990?.none === true &&
+    Object.values(gulfWar1990).filter(value => value === true).length > 1
+  ) {
+    errors.toxicExposure.gulfWar1990.addError(noneAndLocationError);
+  }
+}
+
+/**
  * Given the key for a selected checkbox option, find the index within the selected items. In this
  * example, there are two selected locations. The key='bahrain' would give index of 1, and
  * key='airspace' would give index 2.
@@ -283,35 +323,45 @@ export function getSelectedCount(objectName, { formData } = {}) {
 }
 
 /**
- * Checks if a specific 1990 details page should display. It should display if all
+ * Checks if a specific details page should display. It should display if all
  * the following is true
  * 1. TE pages should be showing at all
- * 2. gulfWar1990 checkbox location data is present with a true value
+ * 2. the given checkbox data is present for the given itemId with a value of true
+ * 3. the 'none' location checkbox is not true
  *
  * @param {object} formData - full form data
  * @param {string} locationId - unique id for the location
  * @returns {boolean} true if the page should display, false otherwise
  */
-export function showGulfWar1990DetailsPage(formData, locationId) {
+export function showCheckboxLoopDetailsPage(
+  formData,
+  checkboxObjectName,
+  itemId,
+) {
   return (
     isClaimingTECondition(formData) &&
-    formData?.toxicExposure?.gulfWar1990 &&
-    formData?.toxicExposure?.gulfWar1990?.[locationId] === true
+    formData?.toxicExposure[checkboxObjectName] &&
+    formData?.toxicExposure[checkboxObjectName].none !== true &&
+    formData?.toxicExposure[checkboxObjectName][itemId] === true
   );
 }
 
 /**
- * Checks if the 1990 summary page should display. It should display if all the following are true
+ * Checks if the a checkbox and loop's summary page should display. It should display if all the following
+ * are true
  * 1. TE pages should be showing at all
- * 2. at least one 1990 location was selected
+ * 2. at least one checkbox item was selected
+ * 3. the 'none' location checkbox is not true
+ *
  * @param {object} formData - full form data
  * @returns {boolean} true if the page should display, false otherwise
  */
-export function showGulfWar1990SummaryPage(formData) {
+export function showSummaryPage(formData, checkboxObjectName) {
   return (
     isClaimingTECondition(formData) &&
-    formData?.toxicExposure?.gulfWar1990 &&
-    Object.values(formData?.toxicExposure?.gulfWar1990).filter(
+    formData?.toxicExposure[checkboxObjectName] &&
+    formData?.toxicExposure[checkboxObjectName].none !== true &&
+    Object.values(formData.toxicExposure[checkboxObjectName]).filter(
       value => value === true,
     ).length > 0
   );
@@ -335,5 +385,5 @@ export function datesDescription(dates) {
   const startDate =
     formatMonthYearDate(dates?.startDate) || 'No start date entered';
   const endDate = formatMonthYearDate(dates?.endDate) || 'No end date entered';
-  return !startDate && !endDate ? noDatesEntered : `${startDate} - ${endDate}`;
+  return `${startDate} - ${endDate}`;
 }

@@ -1,3 +1,30 @@
+/*
+OVERVIEW:
+The MissingFileOverview component is responsible for tracking file uploads
+within the form and displaying a message to the user indicating which files
+they have yet to upload before the application is considered complete. 
+
+MOTIVATION:
+We want to let a user fill out as much of the form as possible and submit it,
+even if it's technically incomplete due to a missing file (e.g., birth certificate).
+However, we still need to track what files are required to complete the form and
+inform the user of their necessity. 
+
+IMPLEMENTATION:
+Rather than setting the `required` property on file uploads (which would prevent
+a user from submitting the form if they're missing a file), we have a list of
+files that are "required", but not enforced by the form itself. This component
+then checks the form data and compares it against our list of required documents
+so that we can inform the user before submission that their application is not
+complete. We also provide the user with information on mailing or faxing these
+required documents after form submission so that they can kick off the process
+by submitting online and then complete it later through the mail.
+
+This component provides the user with details on what is missing, and
+(optionally) links to return back to the necessary upload screens so they
+can upload the files. Otherwise, it can provide a consent checkbox where the
+user acknowledges that they will have to mail or fax the missing documents.
+*/
 import React, { useState } from 'react';
 import {
   VaCheckboxGroup,
@@ -115,6 +142,26 @@ export function checkFlags(pages, person, newListOfMissingFiles) {
   return personUpdated;
 }
 
+/**
+ * Generates a page that displays any missing file the user could upload
+ * @param {object} param0
+ * @param {object} param0.contentAfterButtons - standard `contentAfterButtons` prop provided to a CustomPage (only used if `allPages` is not defined)
+ * @param {object} param0.data - form data entered by user
+ * @param {function} param0.goBack - standard `goBack` fn provided to a CustomPage
+ * @param {function} param0.goForward - standard `goForward` fn provided to a CustomPage
+ * @param {function} param0.setFormData - standard `setFormData` fn provided to a CustomPage
+ * @param {boolean} param0.disableLinks - control whether page renders links to go back and upload the particular missing file
+ * @param {JSX.Element} param0.heading - content to display when user has uploaded all files
+ * @param {JSX.Element} param0.optionalWarningHeading - content to display when user is missing optional file uploads
+ * @param {JSX.Element} param0.requiredWarningHeading - content to display when user is missing required file uploads
+ * @param {boolean} param0.showMail - control whether mail/fax markup is displayed on the page
+ * @param {boolean} param0.showConsent - control whether the "Consent to Mail Missing Documents" checkbox is added to the page
+ * @param {object} param0.allPages - all formConfig page objects (if not provided, we fall back to form page data stored in `contentAfterButtons`)
+ * @param {object} param0.fileNameMap - object with formConfig keys for all possible files (required and optional) mapped to a user-friendly string (e.g., `{schoolCert: 'School Certificate'}`). This should be a superset containing `requiredFiles`
+ * @param {object} param0.requiredFiles - object with required file's formConfig keys mapped to a user-friendly string (e.g., `{birthCert: 'Birth Certificate'}`)
+ * @param {string} param0.nonListNameKey - key in `data` that points to a name property to use in the page display (e.g., if nonListNameKey is `veteranFullName`, `data.veteranFullName` should be something like `{first: '', last: ''}`
+ * @returns {JSX.Element}
+ */
 export default function MissingFileOverview({
   contentAfterButtons,
   data,
@@ -130,6 +177,7 @@ export default function MissingFileOverview({
   allPages,
   fileNameMap,
   requiredFiles,
+  nonListNameKey,
 }) {
   const [error, setError] = useState(undefined);
   const [isChecked, setIsChecked] = useState(
@@ -149,7 +197,7 @@ export default function MissingFileOverview({
   // eslint-disable-next-line no-unused-vars
   const apps =
     // Filter out any conditional pages that don't apply to this applicant
-    data.applicants.map(app => {
+    data?.applicants?.map(app => {
       const tmpData = { ...data, applicants: [app] };
       const conditionalPages = getConditionalPages(pages, tmpData, 0);
 
@@ -161,8 +209,8 @@ export default function MissingFileOverview({
       );
     });
 
-  const applicantsWithMissingFiles = data.applicants
-    .map(applicant => {
+  const applicantsWithMissingFiles = data?.applicants
+    ?.map(applicant => {
       const missing = verifier.identifyMissingUploads(
         getConditionalPages(pages, { ...data, applicants: [applicant] }, 0),
         applicant,
@@ -180,7 +228,7 @@ export default function MissingFileOverview({
 
   // Update sponsor to identify missing uploads
   const sponsorMiss = {
-    name: data.veteransFullName,
+    name: data?.[nonListNameKey || 'veteransFullName'],
     missingUploads: checkFlags(
       pages,
       data,
@@ -251,7 +299,7 @@ export default function MissingFileOverview({
             <MissingFileList
               data={sponsorMiss}
               nameKey="name"
-              title="Required documents (Sponsor)"
+              title="Required documents"
               subset="required"
               description={requiredDescription}
               disableLinks={disableLinks}
@@ -273,7 +321,7 @@ export default function MissingFileOverview({
             <MissingFileList
               data={sponsorMiss}
               nameKey="name"
-              title="Optional documents (Sponsor)"
+              title="Optional documents"
               subset="optional"
               description={optionalDescription}
               disableLinks={disableLinks}
@@ -304,6 +352,7 @@ export default function MissingFileOverview({
                       label="I understand that my application is not complete until VA receives my remaining required file(s) in the mail or by fax."
                       onBlur={function noRefCheck() {}}
                       checked={isChecked}
+                      name="consent-checkbox"
                       tile
                       uswds
                     />
@@ -328,6 +377,7 @@ MissingFileOverview.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   heading: PropTypes.node,
+  nonListNameKey: PropTypes.string,
   optionalWarningHeading: PropTypes.node,
   requiredFiles: PropTypes.any,
   requiredWarningHeading: PropTypes.node,

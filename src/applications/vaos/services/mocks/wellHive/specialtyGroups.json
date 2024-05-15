@@ -1,0 +1,24 @@
+{
+    "count": 2,
+    "nextToken": "YTI0NTM5NzUtNzA2My00NTU5LWJiYWYtZTg3MGY4ZWZlYzg5",
+    "specialtyGroups": [
+      {
+        "id": "69cd9203-5e92-47a3-aa03-94b03752872a",
+        "name": "Orthopaedic Surgery",
+        "specialtyIds": [
+          "207XX0004X",
+          "208200000X"
+        ]
+      },
+      {
+        "id": "00eff3f3-ecfb-41ff-9ebc-78ed811e17f9",
+        "name": "Dermatology",
+        "specialtyIds": [
+          "207ND0900X",
+          "207NS0135X",
+          "207NI0002X"
+        ]
+      }
+    ],
+    "total": 5
+  }

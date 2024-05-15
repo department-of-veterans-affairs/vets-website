@@ -16,7 +16,7 @@ describe('Personal and contact information', () => {
       addressPage.saveForm();
       addressPage.validateSavedForm(formFields, false, 'Confirm your address');
       addressPage.editAddress(
-        [/^street address \(/i, /^street address line 2/i],
+        ['Street address (', 'Street address line 2'],
         [formFields.address, formFields.address2],
       );
       addressPage.validateSavedForm(formFields);

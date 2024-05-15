@@ -81,7 +81,8 @@ function Content({ appointment, facilityData }) {
     );
   };
 
-  if (featureAppointmentDetailsRedesign) return <InPersonLayout />;
+  if (featureAppointmentDetailsRedesign && !isPhoneAppointment)
+    return <InPersonLayout />;
 
   return (
     <>
@@ -162,9 +163,9 @@ export default function DetailsVA({ appointment, facilityData }) {
           <BackLink appointment={appointment} />
           <div className="vads-u-margin-y--2p5">
             <VaAlert status="error" visible>
-              <h2 slot="headline">We couldn’t cancel your request</h2>
+              <h2 slot="headline">We couldn’t cancel your appointment</h2>
               <p>
-                Something went wrong when we tried to cancel this request.
+                Something went wrong when we tried to cancel this appointment.
                 Please contact your medical center to cancel:
                 <br />
                 <br />

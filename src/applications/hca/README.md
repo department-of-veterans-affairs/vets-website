@@ -22,7 +22,7 @@ Mission: Make it easier for Veterans to apply for enrollment in VA health-relate
 ### Project URLS
 
 ``` markdown
-/health-care/apply/application/introduction
+/health-care/apply-for-health-care-form-10-10ez/
 ```
 
 ### How to run locally
@@ -46,7 +46,6 @@ We are using version 1 of the forms library, Formation. This is a straight forwa
 - identity declaration.
 - We have a feature toggle to enable an override of enrollment status, `hca_enrollment_status_override_enabled`, to allow multiple submissions with same user.
 - We have a feature toggle to enable DataDog's browser monitoring for the application, `hca_browser_monitoring_enabled`.
-- We have a feature toggle to enable questions related to Toxic Exposure during service, `hca_tera_enabled`.
 
 ### How to test new features?
 

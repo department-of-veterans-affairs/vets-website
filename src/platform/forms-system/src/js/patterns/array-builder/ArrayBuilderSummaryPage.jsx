@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/sort-prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import { focusElement, scrollAndFocus } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import get from '~/platform/utilities/data/get';
@@ -11,33 +12,28 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import ArrayBuilderCards from './ArrayBuilderCards';
 import {
   createArrayBuilderItemAddPath,
-  getArrayUrlSearchParams,
+  getUpdatedItemFromPath,
   isDeepEmpty,
 } from './helpers';
 
-function getUpdatedItemIndexFromPath() {
-  const urlParams = getArrayUrlSearchParams();
-  const updatedValue = urlParams.get('updated');
-  return updatedValue?.split('-')?.pop();
-}
-
-const SuccessAlert = ({ children, nounSingular, index, onDismiss }) => (
+const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
   <div className="vads-u-margin-top--2">
     <VaAlert
       onCloseEvent={onDismiss}
       closeable
       name={`${nounSingular}_${index}`}
       status="success"
+      closeBtnAriaLabel="Close notification"
       uswds
     >
-      {children}
+      {text}
     </VaAlert>
   </div>
 );
 
 const MaxItemsAlert = ({ children }) => (
   <div className="vads-u-margin-top--4">
-    <va-alert status="warning" visible>
+    <va-alert status="warning" tabIndex={-1} visible>
       <p className="vads-u-margin-y--0 vads-u-font-weight--normal">
         {children}
       </p>
@@ -57,6 +53,7 @@ function filterEmptyItems(arrayData) {
  *   firstItemPagePath: string,
  *   getText: import('./arrayBuilderText').ArrayBuilderGetText
  *   hasItemsKey: string,
+ *   introPath: string,
  *   isItemIncomplete: function,
  *   isReviewPage: boolean,
  *   maxItems: number,
@@ -72,6 +69,7 @@ export default function ArrayBuilderSummaryPage({
   firstItemPagePath,
   getText,
   hasItemsKey,
+  introPath,
   isItemIncomplete,
   isReviewPage,
   maxItems,
@@ -82,12 +80,24 @@ export default function ArrayBuilderSummaryPage({
 }) {
   /** @type {CustomPageType} */
   function CustomPage(props) {
-    const [showUpdatedAlert, setShowUpdatedAlert] = useState(false);
-    const { uiSchema, schema } = props;
+    const {
+      index: updateItemIndex,
+      nounSingular: updatedNounSingular,
+    } = getUpdatedItemFromPath();
     const arrayData = get(arrayPath, props.data);
-    const updateItemIndex = getUpdatedItemIndexFromPath();
     const updatedItemData =
-      updateItemIndex != null ? arrayData?.[updateItemIndex] : null;
+      updatedNounSingular === nounSingular.toLowerCase() &&
+      updateItemIndex != null
+        ? arrayData?.[updateItemIndex]
+        : null;
+
+    const [showUpdatedAlert, setShowUpdatedAlert] = useState(!!updatedItemData);
+    const [showRemovedAlert, setShowRemovedAlert] = useState(false);
+    const [removedItemText, setRemovedItemText] = useState('');
+    const [removedItemIndex, setRemovedItemIndex] = useState(null);
+    const updatedAlertRef = useRef(null);
+    const removedAlertRef = useRef(null);
+    const { uiSchema, schema } = props;
     const Heading = `h${titleHeaderLevel}`;
     const isMaxItemsReached = arrayData?.length >= maxItems;
 
@@ -105,11 +115,39 @@ export default function ArrayBuilderSummaryPage({
       }
     }, []);
 
+    useEffect(() => {
+      if (!isReviewPage && !arrayData?.length && required(props.data)) {
+        // We shouldn't be on this page if there are no items and its required
+        // because the required flow goes intro -> item page with no items
+        props.goToPath(introPath);
+      }
+    }, []);
+
     useEffect(
       () => {
-        setShowUpdatedAlert(updateItemIndex != null);
+        if (updatedNounSingular === nounSingular.toLowerCase()) {
+          setShowUpdatedAlert(updateItemIndex != null);
+        }
       },
-      [updateItemIndex],
+      [updatedNounSingular, updateItemIndex, nounSingular],
+    );
+
+    useEffect(
+      () => {
+        let timeout;
+
+        if (
+          showUpdatedAlert &&
+          updateItemIndex != null &&
+          updatedAlertRef.current
+        ) {
+          timeout = setTimeout(() => {
+            scrollAndFocus(updatedAlertRef.current);
+          }, 300);
+        }
+        return () => timeout && clearTimeout(timeout);
+      },
+      [showUpdatedAlert, updateItemIndex, updatedAlertRef],
     );
 
     useEffect(
@@ -146,6 +184,44 @@ export default function ArrayBuilderSummaryPage({
       });
     }
 
+    function onDismissUpdatedAlert() {
+      setShowUpdatedAlert(false);
+      requestAnimationFrame(() => {
+        focusElement(
+          document.querySelector(
+            `[data-title-for-noun-singular="${nounSingular}"]`,
+          ),
+        );
+      });
+    }
+
+    function onDismissRemovedAlert() {
+      setShowRemovedAlert(false);
+      setRemovedItemText('');
+      setRemovedItemIndex(null);
+      requestAnimationFrame(() => {
+        focusElement(
+          document.querySelector(
+            `[data-title-for-noun-singular="${nounSingular}"]`,
+          ),
+        );
+      });
+    }
+
+    function onRemoveItem(index, item) {
+      // updated alert may be from initial state (URL path)
+      // so we can go ahead and remove it if there is a new
+      // alert
+      setShowUpdatedAlert(false);
+
+      setRemovedItemText(getText('alertItemDeleted', item));
+      setRemovedItemIndex(index);
+      setShowRemovedAlert(true);
+      requestAnimationFrame(() => {
+        focusElement(removedAlertRef.current);
+      });
+    }
+
     function onRemoveAllItems() {
       if (required(props.data)) {
         const path = createArrayBuilderItemAddPath({
@@ -161,30 +237,51 @@ export default function ArrayBuilderSummaryPage({
       }
     }
 
-    function onDismissUpdatedAlert() {
-      setShowUpdatedAlert(false);
-    }
-
     const Title = (
       <>
-        <Heading className="vads-u-color--gray-dark vads-u-margin-top--0">
+        <Heading
+          className="vads-u-color--gray-dark vads-u-margin-top--0"
+          data-title-for-noun-singular={`${nounSingular}`}
+        >
           {getText('summaryTitle', updatedItemData)}
         </Heading>
       </>
     );
 
-    const Cards = (
-      <>
-        {updatedItemData &&
-          showUpdatedAlert && (
+    const UpdatedAlert = ({ show }) => {
+      return (
+        <div ref={updatedAlertRef}>
+          {show ? (
             <SuccessAlert
               onDismiss={onDismissUpdatedAlert}
               nounSingular={nounSingular}
               index={updateItemIndex}
-            >
-              {getText('alertItemUpdated', updatedItemData)}
-            </SuccessAlert>
-          )}
+              text={getText('alertItemUpdated', updatedItemData)}
+            />
+          ) : null}
+        </div>
+      );
+    };
+
+    const RemovedAlert = ({ show }) => {
+      return (
+        <div ref={removedAlertRef}>
+          {show ? (
+            <SuccessAlert
+              onDismiss={onDismissRemovedAlert}
+              nounSingular={nounSingular}
+              index={removedItemIndex}
+              text={removedItemText}
+            />
+          ) : null}
+        </div>
+      );
+    };
+
+    const Cards = () => (
+      <>
+        <RemovedAlert show={showRemovedAlert} />
+        <UpdatedAlert show={showUpdatedAlert} />
         <ArrayBuilderCards
           cardDescription={getText('cardDescription', updatedItemData)}
           arrayPath={arrayPath}
@@ -195,6 +292,8 @@ export default function ArrayBuilderSummaryPage({
           getText={getText}
           required={required}
           onRemoveAll={onRemoveAllItems}
+          onRemove={onRemoveItem}
+          isReview={isReviewPage}
         />
       </>
     );
@@ -207,7 +306,10 @@ export default function ArrayBuilderSummaryPage({
           ) : (
             <>
               <div className="form-review-panel-page-header-row">
-                <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+                <h4
+                  className="form-review-panel-page-header vads-u-font-size--h5"
+                  data-title-for-noun-singular={`${nounSingular}`}
+                >
                   {getText('summaryTitle', updatedItemData)}
                 </h4>
               </div>
@@ -226,10 +328,11 @@ export default function ArrayBuilderSummaryPage({
               </dl>
             </>
           )}
-          {Cards}
+          <Cards />
           {!isMaxItemsReached && (
             <div className="vads-u-margin-top--2">
               <va-button
+                data-action="add"
                 text={getText('reviewAddButtonText', updatedItemData)}
                 onClick={addAnotherItemButtonClick}
                 primary
@@ -252,7 +355,7 @@ export default function ArrayBuilderSummaryPage({
           )}
         </>
       );
-      uiSchema['ui:description'] = Cards;
+      uiSchema['ui:description'] = <Cards />;
     } else {
       uiSchema['ui:title'] = undefined;
       uiSchema['ui:description'] = undefined;

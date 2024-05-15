@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 const ExplainerComponent = ({
   headline,
@@ -11,6 +12,10 @@ const ExplainerComponent = ({
   goBack,
   goForward,
 }) => {
+  React.useEffect(() => {
+    // focus on the h3  when the page loads for screen readers
+    waitForRenderThenFocus('h3');
+  }, []);
   return (
     <form>
       <fieldset className="vads-u-margin-y--2">
