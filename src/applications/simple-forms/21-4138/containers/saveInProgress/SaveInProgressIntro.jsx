@@ -44,6 +44,7 @@ const determineAlert = props => {
     login,
     prefillEnabled,
     profile,
+    openLoginModal,
     renderSignInMessage,
     retentionPeriod,
     retentionPeriodStart,
@@ -55,17 +56,13 @@ const determineAlert = props => {
     verifyRequiredPrefill,
   } = props;
   const { signInHelpList } = formConfig;
-  const prefillAvailable = !!(
-    profile && profile.prefillsAvailable.includes(formId)
-  );
+  const prefillAvailable = !!profile?.prefillsAvailable?.includes(formId);
 
-  // e.g. appType = 'application'
-  const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
-  // e.g. appAction = 'applying'
-  const appAction = formConfig?.customText?.appAction || APP_ACTION_DEFAULT;
-  // e.g. appContinuing = 'for planning and career guidance' =>
-  // You can continue applying now for planning and career guidance, or...
-  const appContinuing = formConfig?.customText?.appContinuing || '';
+  const {
+    appType = APP_TYPE_DEFAULT,
+    appAction = APP_ACTION_DEFAULT,
+    appContinuing = '',
+  } = formConfig?.customText || {};
 
   if (login.currentlyLoggedIn) {
     return (
@@ -86,14 +83,10 @@ const determineAlert = props => {
     );
   }
 
-  if (renderSignInMessage) {
-    return renderSignInMessage(prefillEnabled);
-  }
+  if (renderSignInMessage) return renderSignInMessage(prefillEnabled);
 
   if (prefillEnabled && !verifyRequiredPrefill) {
     const handleLinkClick = () => recordEvent({ event: 'no-login-start-form' });
-    const openLoginModal = dispatch =>
-      dispatch(toggleLoginModal(true, 'cta-form'));
 
     return (
       <VerificationOptionalAlert
@@ -116,9 +109,7 @@ const determineAlert = props => {
     );
   }
 
-  if (prefillEnabled && unverifiedPrefillAlert) {
-    return unverifiedPrefillAlert;
-  }
+  if (prefillEnabled && unverifiedPrefillAlert) return unverifiedPrefillAlert;
 
   return (
     <DefaultAlert
@@ -139,24 +130,24 @@ const renderDowntime = ({ downtime, buttonOnly, children }) => {
   return children;
 };
 
-const SaveInProgressIntro = ({
-  afterButtonContent,
-  buttonOnly,
-  children,
-  downtime,
-  formConfig,
-  formData,
-  pageList,
-  pathname,
-  resumeOnly,
-  startMessageOnly,
-}) => {
+const SaveInProgressIntro = props => {
+  const {
+    afterButtonContent,
+    buttonOnly,
+    children,
+    downtime,
+    formConfig,
+    formData,
+    pageList,
+    pathname,
+    resumeOnly,
+    startMessageOnly,
+  } = props;
   const { formId, user, isLoggedIn, lastSavedDate } = useSelector(
     getIntroState,
   );
   const { profile, login } = user;
   const dispatch = useDispatch();
-
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
 
   if (profile.loading && !resumeOnly) {
@@ -171,27 +162,23 @@ const SaveInProgressIntro = ({
   }
 
   const savedForm = profile?.savedForms?.find(f => f.form === formId);
+
+  if (resumeOnly && !savedForm) return null;
+
   const startPage = pathname
     ? getNextPagePath(pageList, formData || {}, pathname)
     : pageList[1].path;
+
   const alert = determineAlert({
-    afterButtonContent,
-    buttonOnly,
-    children,
-    downtime,
-    formConfig,
-    formData,
-    pageList,
-    pathname,
-    resumeOnly,
-    startMessageOnly,
+    ...props,
+    formId,
     lastSavedDate,
     login,
+    openLoginModal: () => dispatch(toggleLoginModal(true, 'cta-form')),
     profile,
     startPage,
   });
 
-  if (resumeOnly && !savedForm) return null;
   if (startMessageOnly && !savedForm) return <div>{alert}</div>;
 
   const content = (
@@ -211,6 +198,12 @@ const SaveInProgressIntro = ({
       <br />
     </div>
   );
+
+  // If the dependencies aren't required for pre-fill (but are required for submit),
+  // only render the downtime notification if the user isn't logged in.
+  //   If the user is logged in, they can at least save their form.
+  // If the dependencies _are_ required for pre-fill, render the downtime notification
+  // _unless_ the user has a form saved (so they don't need pre-fill).
 
   if (
     downtime &&

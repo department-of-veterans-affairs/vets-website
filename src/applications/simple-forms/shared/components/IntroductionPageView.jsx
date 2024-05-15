@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '~/platform/utilities/ui';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
-import SIPIntroOld from '~/platform/forms/save-in-progress/SaveInProgressIntro';
-import SIPIntroNew from '~/applications/simple-forms/21-4138/containers/saveInProgress/SaveInProgressIntro';
+import { SaveInProgressIntro as SIPIntroOld } from '~/platform/forms/save-in-progress/SaveInProgressIntro';
+import { SaveInProgressIntro as SIPIntroNew } from '~/applications/simple-forms/21-4138/containers/saveInProgress/SaveInProgressIntro';
 import { VaOmbInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export const IntroductionPageView = ({

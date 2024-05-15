@@ -81,7 +81,7 @@ export const ButtonOnlyAlert = props => {
     ariaLabel,
     hideUnauthedStartLink,
     onClick,
-    to,
+    startPage,
     unauthStartButton,
   } = props;
   return (
@@ -91,7 +91,7 @@ export const ButtonOnlyAlert = props => {
         <p>
           <Link
             onClick={onClick}
-            to={to}
+            to={startPage}
             className="schemaform-start-button"
             aria-label={ariaLabel}
             aria-describedby={ariaDescribedby}
@@ -106,7 +106,7 @@ export const ButtonOnlyAlert = props => {
 
 ButtonOnlyAlert.propTypes = {
   appType: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired,
+  startPage: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   ariaDescribedby: PropTypes.string,
   ariaLabel: PropTypes.string,

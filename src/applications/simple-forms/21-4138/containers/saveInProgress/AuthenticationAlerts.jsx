@@ -26,7 +26,7 @@ export const LoggedOutAlert = props => {
     retentionPeriod,
     retentionPeriodStart,
     signInHelpList,
-    to,
+    startPage,
     unauthStartButton,
   } = props;
   const CustomHeader = `h${headingLevel}`;
@@ -76,7 +76,7 @@ export const LoggedOutAlert = props => {
             <p>
               <Link
                 onClick={onClick}
-                to={to}
+                to={startPage}
                 className="schemaform-start-button"
                 aria-label={ariaLabel}
                 aria-describedby={ariaDescribedby}
@@ -93,14 +93,14 @@ export const LoggedOutAlert = props => {
 
 LoggedOutAlert.propTypes = {
   alertTitle: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired,
+  startPage: PropTypes.string.isRequired,
   unauthStartButton: PropTypes.any.isRequired,
   onClick: PropTypes.func.isRequired,
   appType: PropTypes.string,
   ariaDescribedby: PropTypes.string,
   ariaLabel: PropTypes.string,
-  displayNonVeteranMessaging: PropTypes.string,
-  headingLevel: PropTypes.string,
+  displayNonVeteranMessaging: PropTypes.bool,
+  headingLevel: PropTypes.number,
   hideUnauthedStartLink: PropTypes.bool,
   retentionPeriod: PropTypes.any,
   retentionPeriodStart: PropTypes.any,
@@ -156,7 +156,7 @@ LoggedInAlert.propTypes = {
   children: PropTypes.any,
   continueMsg: PropTypes.any,
   formConfig: PropTypes.any,
-  headingLevel: PropTypes.any,
+  headingLevel: PropTypes.number,
   lastSavedDate: PropTypes.any,
   prefillAvailable: PropTypes.any,
   savedForm: PropTypes.any,
@@ -183,7 +183,7 @@ export const VerificationOptionalAlert = props => {
   } = props;
   const unauthStartButton = (
     <VaButton
-      onClick={onLinkClick}
+      onClick={onButtonClick}
       label={ariaLabel}
       // aria-describedby={ariaDescribedby}
       uswds
@@ -197,7 +197,7 @@ export const VerificationOptionalAlert = props => {
       ariaLabel={ariaLabel}
       hideUnauthedStartLink={hideUnauthedStartLink}
       onClick={onButtonClick}
-      to={startPage}
+      startPage={startPage}
       unauthStartButton={unauthStartButton}
     />
   ) : (
@@ -212,6 +212,8 @@ export const VerificationOptionalAlert = props => {
       retentionPeriod={retentionPeriod}
       retentionPeriodStart={retentionPeriodStart}
       signInHelpList={signInHelpList}
+      startPage={startPage}
+      onClick={onLinkClick}
       unauthStartButton={unauthStartButton}
     />
   );
@@ -225,7 +227,7 @@ VerificationOptionalAlert.propTypes = {
   ariaLabel: PropTypes.string,
   buttonOnly: PropTypes.bool,
   displayNonVeteranMessaging: PropTypes.bool,
-  headingLevel: PropTypes.string,
+  headingLevel: PropTypes.number,
   hideUnauthedStartLink: PropTypes.bool,
   retentionPeriod: PropTypes.any,
   retentionPeriodStart: PropTypes.any,
