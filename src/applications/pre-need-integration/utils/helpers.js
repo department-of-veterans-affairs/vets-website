@@ -1081,8 +1081,8 @@ export const preparerServiceRecordsUI = {
   'ui:options': {
     viewField: ServicePeriodView,
     itemName: 'Service period',
-    keepInPageOnReview: true,
     useDlWrap: true,
+    readOnly: false,
   },
   items: {
     'ui:order': [

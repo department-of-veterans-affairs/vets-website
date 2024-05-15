@@ -11,6 +11,9 @@ const { veteran } = fullSchemaPreNeed.properties.application.properties;
 export const uiSchema = {
   application: {
     veteran: {
+      exampleBoolean: {
+        'ui:title': 'This is an example boolean',
+      },
       serviceRecords: merge({}, selfServiceRecordsUI, {
         'ui:title': 'Sponsor’s service period(s)',
         items: {
@@ -41,9 +44,6 @@ export const uiSchema = {
         },
       }),
     },
-    'ui:options': {
-      customTitle: ' ',
-    },
   },
 };
 export const schema = {
@@ -55,6 +55,9 @@ export const schema = {
         veteran: {
           type: 'object',
           properties: {
+            exampleBoolean: {
+              type: 'boolean',
+            },
             serviceRecords: veteran.properties.serviceRecords,
           },
         },
