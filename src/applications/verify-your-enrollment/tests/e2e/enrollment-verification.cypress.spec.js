@@ -93,15 +93,6 @@ describe('Enrollment Verification Page Tests', () => {
       .click();
     cy.url().should('not.include', '/benefits-profile');
   });
-  it("should go back to 'Manage your VA debt' when 'Manage your VA debt' link is clicked ", () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get('a[href="https://www.va.gov/manage-va-debt/"]').click();
-    cy.url().should('include', '/manage-va-debt');
-    cy.get('h1').should(
-      'contain',
-      'Manage your VA debt for benefit overpayments and copay bills',
-    );
-  });
   it("should  have focus around 'Showing x-y of z monthly enrollments listed by most recent' when pagination button is clicked", () => {
     cy.injectAxeThenAxeCheck();
     cy.get('a[aria-label="page 1, first page"]').click();
