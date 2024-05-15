@@ -22,7 +22,7 @@ describe('Breadcrumbs', () => {
       reducers: reducer,
       path: `/`,
     });
-    const breadcrumb = await screen.findByText('Back to My HealtheVet', {
+    const breadcrumb = await screen.findByText('Back to My HealtheVet home', {
       exact: true,
     });
     expect(breadcrumb);
