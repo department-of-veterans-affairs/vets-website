@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { formatDate } from '../../utils/helpers/general';
 import { normalizeFullName } from '../../utils/helpers';
 import { APP_URLS } from '../../utils/constants';
 
 const AuthProfileInformation = ({ user }) => {
   const { userFullName, dob } = user;
-  const veteranDOB = dob ? moment(dob).format('MMMM DD, YYYY') : null;
+  const veteranDOB = dob ? formatDate(dob, 'MMMM dd, yyyy') : null;
   const veteranName = normalizeFullName(userFullName, true);
   return (
     <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">

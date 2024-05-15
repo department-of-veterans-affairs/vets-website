@@ -29,7 +29,11 @@ const appointmentData = {
 const facilityData = new Facility();
 
 describe('VAOS Component: DetailsVA', () => {
-  const initialState = {};
+  const initialState = {
+    featureToggles: {
+      vaOnlineSchedulingAppointmentDetailsRedesign: false,
+    },
+  };
 
   it('should not display type of care header for upcoming C&P appointments', async () => {
     const store = createTestStore(initialState);

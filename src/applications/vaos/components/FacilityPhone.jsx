@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import classNames from 'classnames';
 
 export default function FacilityPhone({
   contact,
@@ -33,23 +32,20 @@ export default function FacilityPhone({
         typeof level === 'undefined' &&
         `${heading} `}
       {!!icon === true && (
-        // eslint-disable-next-line @department-of-veterans-affairs/prefer-icon-component
-        <i
-          aria-hidden="true"
-          className={classNames(
-            'fas',
-            'fa-phone-alt',
-            'vads-u-margin-right--1',
-            'vads-u-color--gray',
-          )}
-        />
+        <span>
+          <va-icon icon="phone" size="3" srtext="Phone icon" />{' '}
+        </span>
       )}
-      <VaTelephone
-        contact={number}
-        extension={extension}
-        data-testid="facility-telephone"
-      />{' '}
-      (<VaTelephone contact="711" tty data-testid="tty-telephone" />)
+      <span>
+        <VaTelephone
+          contact={number}
+          extension={extension}
+          data-testid="facility-telephone"
+        />{' '}
+      </span>
+      <span>
+        (<VaTelephone contact="711" tty data-testid="tty-telephone" />)
+      </span>
     </>
   );
 }

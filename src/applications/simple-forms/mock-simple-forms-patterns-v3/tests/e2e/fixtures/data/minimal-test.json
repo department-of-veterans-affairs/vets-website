@@ -23,6 +23,26 @@
       "middle": "Middle",
       "last": "LastName"
     },
-    "dateOfBirth": "1995-01-09"
+    "dateOfBirth": "1995-01-09",
+    "view:hasEmployers": false,
+    "view:hasTreatmentRecords": false,
+    "treatmentRecords": [
+      {
+        "treatmentDates": {
+          "from": "1999-01-03",
+          "to": "1999-01-03"
+        },
+        "conditionsTreated": "Conditions",
+        "name": "Hospital",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "1234 Main St",
+          "city": "City",
+          "state": "HI",
+          "postalCode": "34343"
+        }
+      }
+    ]
   }
 }

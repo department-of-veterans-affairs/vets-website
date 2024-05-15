@@ -11,7 +11,6 @@ import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 describe('Secure Messaging Draft Save with Attachments', () => {
   it('Axe Check Draft Save with Attachments', () => {
     const landingPage = new PatientInboxPage();
-    const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
     const draftsPage = new PatientMessageDraftsPage();
 
@@ -27,8 +26,8 @@ describe('Secure Messaging Draft Save with Attachments', () => {
       }`,
       mockDraftResponse,
     ).as('autosaveResponse');
-    composePage.attachMessageFromFile(Data.SAMPLE_DOC);
-    composePage.saveDraftButton().click();
+    PatientComposePage.attachMessageFromFile(Data.SAMPLE_DOC);
+    PatientComposePage.saveDraftButton().click();
     cy.get(Locators.FIELDS.VISIBLE_P).should('contain', Data.SAVE_MEG_AS_DRAFT);
 
     cy.wait('@autosaveResponse');

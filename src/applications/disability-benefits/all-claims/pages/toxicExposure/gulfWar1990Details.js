@@ -8,10 +8,11 @@ import {
   endDateApproximate,
   getKeyIndex,
   getSelectedCount,
-  gulfWar1990LocationsAdditionalInfo,
+  dateRangeAdditionalInfo,
   gulfWar1990PageTitle,
-  showGulfWar1990DetailsPage,
+  showCheckboxLoopDetailsPage,
   startDateApproximate,
+  teSubtitle,
 } from '../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 
@@ -43,14 +44,14 @@ function makeUiSchema(locationId) {
         },
       },
       'view:gulfWar1990AdditionalInfo': {
-        'ui:description': gulfWar1990LocationsAdditionalInfo,
+        'ui:description': dateRangeAdditionalInfo,
       },
     },
   };
 }
 
 /**
- * Make the schema for each gulf war 1990 location with dates page
+ * Make the schema for each gulf war 1990 details page
  * @param {string} locationId - unique id for the location
  * @returns {object} - schema object
  */
@@ -101,20 +102,26 @@ function makeSchema(locationId) {
  * @returns an object with a page object for each details page
  */
 export function makePages() {
-  const gulfWar1990DetailPagesList = Object.keys(GULF_WAR_1990_LOCATIONS).map(
-    locationId => {
+  const gulfWar1990DetailPagesList = Object.keys(GULF_WAR_1990_LOCATIONS)
+    .filter(locationId => locationId !== 'none')
+    .map(locationId => {
       const pageName = `gulf-war-1990-location-${locationId}`;
       return {
         [pageName]: {
-          title: gulfWar1990PageTitle,
+          title: formData =>
+            teSubtitle(
+              getKeyIndex(locationId, 'gulfWar1990', { formData }),
+              getSelectedCount('gulfWar1990', { formData }),
+              GULF_WAR_1990_LOCATIONS[locationId],
+            ),
           path: `${TE_URL_PREFIX}/${pageName}`,
           uiSchema: makeUiSchema(locationId),
           schema: makeSchema(locationId),
-          depends: formData => showGulfWar1990DetailsPage(formData, locationId),
+          depends: formData =>
+            showCheckboxLoopDetailsPage(formData, 'gulfWar1990', locationId),
         },
       };
-    },
-  );
+    });
 
   return Object.assign({}, ...gulfWar1990DetailPagesList);
 }
