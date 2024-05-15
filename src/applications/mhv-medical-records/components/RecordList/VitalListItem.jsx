@@ -64,10 +64,9 @@ const VitalListItem = props => {
                 : displayName.toLowerCase()}{' '}
               over time
             </strong>
-            <i
-              className="fas fa-angle-right details-link-icon"
-              aria-hidden="true"
-            />
+            <span aria-hidden="true">
+              <va-icon icon="navigate_next" size={1} />
+            </span>
           </Link>
         </>
       )}

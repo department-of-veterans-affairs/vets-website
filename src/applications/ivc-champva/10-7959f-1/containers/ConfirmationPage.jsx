@@ -18,8 +18,6 @@ export class ConfirmationPage extends React.Component {
 
     const submitDate = new Date(submission?.timestamp);
 
-    const { fullName } = data;
-
     return (
       <div>
         <div className="print-only">
@@ -40,28 +38,28 @@ export class ConfirmationPage extends React.Component {
           <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
             Your submission information
           </h3>
-          {fullName ? (
+          {data.statementOfTruthSignature && (
             <p>
               <strong>Who submitted this form</strong>
               <br />
               {data.statementOfTruthSignature}
               <br />
             </p>
-          ) : null}
-          {data.statementOfTruthSignature ? (
+          )}
+          {data.statementOfTruthSignature && (
             <span className="veterans-full-name">
               <strong>Confirmation number</strong>
               <br />
               {form.submission?.response?.confirmationNumber || ''}
             </span>
-          ) : null}
-          {isValid(submitDate) ? (
+          )}
+          {isValid(submitDate) && (
             <p>
               <strong>Date submitted</strong>
               <br />
               <span>{format(submitDate, 'MMMM d, yyyy')}</span>
             </p>
-          ) : null}
+          )}
           <p className="screen-only">
             You can print this confirmation page for your records.
           </p>

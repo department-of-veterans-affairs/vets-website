@@ -73,6 +73,7 @@ class FacilityLocatorApp extends React.Component {
         </div>
         <DowntimeNotification
           appTitle="facility locator tool"
+          customText={{ appType: 'tool' }}
           dependencies={[externalServices.arcgis]}
         >
           <div className="facility-locator">{this.props.children}</div>
