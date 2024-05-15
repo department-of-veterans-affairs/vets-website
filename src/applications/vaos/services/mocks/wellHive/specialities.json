@@ -1,0 +1,15 @@
+{
+    "count": 2,
+    "nextToken": "YTI0NTM5NzUtNzA2My00NTU5LWJiYWYtZTg3MGY4ZWZlYzg5",
+    "specialties": [
+      {
+        "id": "207XX0004X",
+        "name": "Orthopaedic Surgery - Foot and Ankle Surgery"
+      },
+      {
+        "id": "208200000X",
+        "name": "Orthopaedic Surgery - Hand Surgery"
+      }
+    ],
+    "total": 5
+  }
