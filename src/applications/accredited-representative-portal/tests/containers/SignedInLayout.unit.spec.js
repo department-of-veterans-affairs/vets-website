@@ -43,23 +43,13 @@ describe('SignedInLayout', () => {
     expect(getByTestId('no-poa-permissions-alert')).to.exist;
   });
 
-  it('renders SideNav', () => {
+  it('renders content', () => {
     const { getByTestId } = getSignedInLayout({
       isPilotToggleLoading: false,
       isProduction: true,
       isInPilot: true,
       hasPOAPermissions: true,
     });
-    expect(getByTestId('sidenav-heading')).to.exist;
-  });
-
-  it('renders Breadcrumbs', () => {
-    const { getByTestId } = getSignedInLayout({
-      isPilotToggleLoading: false,
-      isProduction: true,
-      isInPilot: true,
-      hasPOAPermissions: true,
-    });
-    expect(getByTestId('breadcrumbs')).to.exist;
+    expect(getByTestId('signed-in-layout-content')).to.exist;
   });
 });
