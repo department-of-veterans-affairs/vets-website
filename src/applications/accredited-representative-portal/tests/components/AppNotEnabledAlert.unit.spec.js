@@ -14,7 +14,7 @@ describe('AppNotEnabledAlert', () => {
 
   it('renders heading', () => {
     const { getByTestId } = getAppNotEnabledAlert();
-    expect(getByTestId('app-not-enabled-alert-heading').textContent).to.equal(
+    expect(getByTestId('app-not-enabled-alert-heading').textContent).to.eq(
       'The Accredited Representative Portal is not available yet',
     );
   });
