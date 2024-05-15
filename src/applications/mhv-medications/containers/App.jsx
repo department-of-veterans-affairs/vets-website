@@ -52,7 +52,7 @@ const App = ({ children }) => {
       <div className="main-content vads-u-max-width--100">
         <MhvSecondaryNav />
         <va-loading-indicator
-          message="Loading"
+          message="Loading..."
           setFocus
           data-testid="rx-feature-flag-loading-indicator"
         />
