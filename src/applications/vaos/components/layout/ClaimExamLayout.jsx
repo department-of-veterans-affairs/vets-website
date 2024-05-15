@@ -120,6 +120,9 @@ export default function ClaimExamLayout({ data: appointment }) {
           <Section heading="Need to make changes?">
             Contact this facility if you need to reschedule or cancel your
             appointment.
+            <br />
+            <br />
+            <span>Phone:</span>
           </Section>
         )}
     </DetailPageLayout>
