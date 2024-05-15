@@ -40,7 +40,7 @@ const OtherExpensesChecklist = ({
 
   // Calculate Discretionary income as necessary
   useEffect(() => {
-    if (!gmtData?.isEligibleForStreamlined) return;
+    if (otherExpenses?.length || !gmtData?.isEligibleForStreamlined) return;
 
     getMonthlyExpensesAPI(data).then(({ calculatedMonthlyExpenses }) => {
       try {
