@@ -12,7 +12,6 @@ import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import {
   stringifyFormReplacer,
@@ -24,6 +23,7 @@ import { useSelector } from 'react-redux';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
+import MemorableDateField from '../components/MemorableDateField';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -714,11 +714,21 @@ export const preparerFullMaidenNameUI = merge({}, fullMaidenNameUI, {
   suffix: { 'ui:title': 'Applicant’s suffix' },
 });
 
-export const nonPreparerDateOfBirthUI = currentOrPastDateUI(
-  'Your date of birth',
-);
+export function memorableDateUI(title) {
+  return {
+    'ui:title': title,
+    'ui:webComponentField': MemorableDateField,
+    'ui:options': {
+      hint: 'Enter 2 digits for the month and day and 4 digits for the year.',
+      monthSelect: false,
+    },
+    // 'ui:validations': [validateMemorableDate],
+  };
+}
 
-export const preparerDateOfBirthUI = currentOrPastDateUI(
+export const nonPreparerDateOfBirthUI = memorableDateUI('Your date of birth');
+
+export const preparerDateOfBirthUI = memorableDateUI(
   'Applicant’s date of birth',
 );
 
