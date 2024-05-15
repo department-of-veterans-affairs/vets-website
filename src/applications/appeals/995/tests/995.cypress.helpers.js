@@ -11,7 +11,7 @@ export const fetchItf = (
     attributes: {
       intentToFile: [
         {
-          id: {},
+          id: '1',
           creationDate: '2022-07-28T19:53:45.810+00:00',
           // pattern null = ISO8601 format
           expirationDate: formatISO(add(new Date(), offset)),
@@ -21,7 +21,7 @@ export const fetchItf = (
           type,
         },
         {
-          id: '1',
+          id: '2',
           creationDate: '2014-07-28T19:53:45.810+00:00',
           expirationDate: '2015-08-28T19:47:52.788+00:00',
           participantId: 1,
@@ -30,7 +30,7 @@ export const fetchItf = (
           type: 'compensation',
         },
         {
-          id: '1',
+          id: '3',
           creationDate: '2014-07-28T19:53:45.810+00:00',
           expirationDate: '2015-08-28T19:47:52.789+00:00',
           participantId: 1,
@@ -39,7 +39,7 @@ export const fetchItf = (
           type: 'compensation',
         },
         {
-          id: '1',
+          id: '4',
           creationDate: '2014-07-28T19:53:45.810+00:00',
           expirationDate: '2015-08-28T19:47:52.789+00:00',
           participantId: 1,
@@ -48,7 +48,7 @@ export const fetchItf = (
           type: 'compensation',
         },
         {
-          id: '1',
+          id: '5',
           creationDate: '2014-07-28T19:53:45.810+00:00',
           expirationDate: '2015-08-28T19:47:52.790+00:00',
           participantId: 1,
