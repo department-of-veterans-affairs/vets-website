@@ -8,7 +8,7 @@ const loadWebChat = webchatUpdateEnabled => {
 
   if (webchatUpdateEnabled) {
     script.src =
-      'https://www.unpkg.com/botframework-webchat@4.16.1-main.20240405.6a623fb/dist/webchat.js';
+      'https://cdn.botframework.com/botframework-webchat/4.17.0/webchat.js';
   } else {
     script.src =
       'https://cdn.botframework.com/botframework-webchat/4.15.8/webchat.js';
