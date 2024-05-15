@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { capitalize } from 'lodash';
 import {
   getBreadcrumbList,
+  getFileSize,
   getFormNumber,
   getFormUploadContent,
   handleRouteChange,
@@ -25,6 +26,8 @@ const SubmitPage = () => {
 
   const fullName = useSelector(state => state?.user?.profile?.userFullName);
   const { state } = location;
+  const fileName = state?.file?.name;
+  const fileSize = state?.file?.size;
 
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
@@ -47,7 +50,7 @@ const SubmitPage = () => {
       </div>
       <div>
         <VaIcon icon="description" size={5} srtext="icon representing a file" />
-        <b>{state?.file?.name}</b>
+        <b>{fileName}</b> {getFileSize(fileSize)}
       </div>
       <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-padding-left--1">
         <p>
