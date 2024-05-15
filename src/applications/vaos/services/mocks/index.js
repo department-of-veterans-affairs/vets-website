@@ -42,6 +42,7 @@ const wellHiveAppointments = require('./wellHive/appointments.json');
 const WHCancelReasons = require('./wellHive/cancelReasons.json');
 const driveTimes = require('./wellHive/driveTime.json');
 const patients = require('./wellHive/patients.json');
+const WHNetworks = require('./wellHive/networks.json');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -537,6 +538,16 @@ const responses = {
     ).identifier.find(identifier => identifier.system === req.params.system);
     return res.json({
       data: patientSystem,
+    });
+  },
+  'GET /vaos/v2/wellhive/networks': (req, res) => {
+    return res.json({ data: WHNetworks });
+  },
+  'GET /vaos/v2/wellhive/networks/:networkId': (req, res) => {
+    return res.json({
+      data: WHNetworks.networks.find(
+        network => network?.id === req.params.networkId,
+      ),
     });
   },
   'GET /v0/user': {
