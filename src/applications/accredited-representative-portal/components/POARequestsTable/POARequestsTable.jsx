@@ -10,12 +10,15 @@ export const createRelationshipCell = attributes => {
   return 'Veteran';
 };
 
-export const createLimitationsCell = (healthInfoAuth, changeAddressAuth) => {
+export const createLimitationsCell = (
+  isTreatmentDisclosureAuthorized,
+  isAddressChangingAuthorized,
+) => {
   const limitations = [];
 
   // If do not authorize sharing health info or authorize change of address then we label it as a limitation of consent
-  if (healthInfoAuth === 'N') limitations.push('Health');
-  if (changeAddressAuth === 'N') limitations.push('Address');
+  if (isTreatmentDisclosureAuthorized) limitations.push('Health');
+  if (isAddressChangingAuthorized) limitations.push('Address');
 
   return limitations.length > 0 ? (
     <span className="limitations-row">

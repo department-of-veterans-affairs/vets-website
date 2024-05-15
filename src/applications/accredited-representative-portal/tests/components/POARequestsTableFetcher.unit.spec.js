@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router-dom-v5-compat';
 import POARequestsTableFetcher from '../../components/POARequestsTableFetcher/POARequestsTableFetcher';
 import mockPOARequestsResponse from '../../mocks/mockPOARequestsResponse.json';
 
-const mockPOARequests = mockPOARequestsResponse.data;
+const MOCK_POA_REQUESTS = mockPOARequestsResponse.data;
 
 describe('POARequestsTableFetcher', () => {
   it('renders loading indicator when its loading', () => {
@@ -51,7 +51,7 @@ describe('POARequestsTableFetcher', () => {
     const usePOARequestsMock = () => ({
       isLoading: false,
       error: null,
-      poaRequests: mockPOARequests,
+      poaRequests: MOCK_POA_REQUESTS,
     });
     const { getByTestId } = render(
       <MemoryRouter>
