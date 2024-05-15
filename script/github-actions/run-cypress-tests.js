@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const { runCommandSync } = require('../utils');
 
-let tests = fs.existsSync(path.resolve(`cypress_tests_to_test.json`))
-  ? JSON.parse(fs.readFileSync(path.resolve(`cypress_tests_to_test.json`)))
+let tests = fs.existsSync(path.resolve(`e2e_tests_to_test.json`))
+  ? JSON.parse(fs.readFileSync(path.resolve(`e2e_tests_to_test.json`)))
   : null;
 
 const step = Number(process.env.STEP);

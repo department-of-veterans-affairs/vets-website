@@ -3,9 +3,18 @@ const fs = require('fs');
 const path = require('path');
 const core = require('@actions/core');
 
+const TESTS_LIST = fs.existsSync(
+  path.resolve(`${process.env.TEST_TYPE}_tests_to_test.json`),
+)
+  ? JSON.parse(
+      fs.readFileSync(
+        path.resolve(`${process.env.TEST_TYPE}_tests_to_test.json`),
+      ),
+    )
+  : null;
+
 const TESTS =
-  JSON.parse(process.env.TESTS).map(test => test.slice(test.indexOf('src'))) ||
-  [];
+  JSON.parse(TESTS_LIST).map(test => test.slice(test.indexOf('src'))) || [];
 const TESTS_PROPERTY = process.env.TEST_PROPERTY || 'TESTS';
 
 const ALLOW_LIST =

@@ -258,7 +258,7 @@ function exportVariables(tests) {
     ]);
   }
   core.exportVariable('TESTS', 'true');
-  fs.writeFileSync(`cypress_tests_to_test.json`, JSON.stringify(tests));
+  fs.writeFileSync(`e2e_tests_to_test.json`, JSON.stringify(tests));
 }
 
 function main() {
@@ -307,15 +307,15 @@ function main() {
   exportVariables(testsToRunNormally);
 
   if (RUN_FULL_SUITE) {
-    core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', 'true');
+    core.exportVariable('e2e_tests_to_STRESS_TEST', 'true');
     fs.writeFileSync(
-      `cypress_tests_to_stress_test.json`,
+      `e2e_tests_to_stress_test.json`,
       JSON.stringify(allAllowListSpecs),
     );
   } else {
-    core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', 'true');
+    core.exportVariable('e2e_tests_to_STRESS_TEST', 'true');
     fs.writeFileSync(
-      `cypress_tests_to_stress_test.json`,
+      `e2e_tests_to_stress_test.json`,
       JSON.stringify(testsToStressTest),
     );
   }
