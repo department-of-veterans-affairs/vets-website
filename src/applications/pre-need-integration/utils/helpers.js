@@ -823,7 +823,7 @@ export const veteranUI = {
   },
   ethnicity: {
     // 'ui:field': RaceEthnicityReviewField,
-    'ui:title': 'What’s your ethnicity?',
+    'ui:title': applicantDemographicsEthnicityTitle,
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -837,7 +837,7 @@ export const veteranUI = {
   },
   race: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title': 'What’s your race?',
+    'ui:title': applicantDemographicsRaceTitle,
     'ui:webComponentField': VaCheckboxGroupField,
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',
@@ -854,11 +854,11 @@ export const veteranUI = {
     isWhite: {
       'ui:title': 'White',
     },
-    isOther: {
-      'ui:title': 'Other',
-    },
     na: {
       'ui:title': 'Prefer not to answer',
+    },
+    isOther: {
+      'ui:title': 'Other',
     },
     'ui:validations': [
       // require at least one value to be true/checked
@@ -873,6 +873,22 @@ export const veteranUI = {
       showFieldLabel: true,
     },
   },
+  raceComment: {
+    'ui:title': 'Enter the race that best describes you',
+    'ui:widget': 'textarea',
+    'ui:required': form => {
+      return form?.application?.veteran?.race?.isOther;
+    },
+    'ui:options': {
+      expandUnder: 'race',
+      maxLength: 100,
+      pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
+      hideIf: form => {
+        return !form?.application?.veteran?.race?.isOther;
+      },
+    },
+  },
+
   militaryStatus: {
     'ui:title': 'Current military status',
     'ui:webComponentField': VaSelectField,
@@ -881,8 +897,8 @@ export const veteranUI = {
         'You can add more service history information later in this application.',
       labels: {
         A: 'Active duty',
-        I: 'Death Related to Inactive Duty Training',
-        D: 'Died on Active Duty',
+        I: 'Death related to inactive duty training',
+        D: 'Died on active duty',
         S: 'Reserve/National Guard',
         R: 'Retired',
         E: 'Retired active duty',

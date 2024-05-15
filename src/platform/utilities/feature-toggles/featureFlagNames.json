@@ -1,5 +1,6 @@
 {
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
+  "accreditedRepresentativePortalPilot": "accredited_representative_portal_pilot",
   "authExpVbaDowntimeMessage": "auth_exp_vba_downtime_message",
   "mebAutoPopulateRelinquishmentDate": "meb_auto_populate_relinquishment_date",
   "avsEnabled": "avs_enabled",
@@ -43,6 +44,7 @@
   "covidVolunteerIntakeBackendEnabled": "covid_volunteer_intake_backend_enabled",
   "covidVolunteerIntakeEnabled": "covid_volunteer_intake_enabled",
   "covidVolunteerUpdateEnabled": "covid_volunteer_update_enabled",
+  "cstClaimPhases": "cst_claim_phases",
   "cstUseLighthouse#5103": "cst_use_lighthouse_5103",
   "cstUseLighthouse#index": "cst_use_lighthouse_index",
   "cstUseLighthouse#show": "cst_use_lighthouse_show",
@@ -108,6 +110,7 @@
   "mhvLandingPagePersonalization": "mhv_landing_page_personalization",
   "mhvSecondaryNavigationEnabled": "mhv_secondary_navigation_enabled",
   "mhvLandingPageEnableVaGovHealthToolsLinks": "mhv_landing_page_enable_va_gov_health_tools_links",
+  "mhvTransitionalMedicalRecordsLandingPage": "mhv_transitional_medical_records_landing_page",
   "mhvSecureMessagingToVaGovRelease": "mhv_secure_messaging_to_va_gov_release",
   "mhvSecureMessagingToPhase1": "mhv_secure_messaging_to_phase_1",
   "mhvSecureMessagingCernerPilot": "mhv_secure_messaging_cerner_pilot",

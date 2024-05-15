@@ -63,7 +63,9 @@ const ConfirmationIssues = ({ data }) => (
               className="page-value dd-privacy-hidden"
               data-dd-action-name="issue name"
             >
-              <strong className="capitalize">{getIssueName(issue)}</strong>
+              <strong className="capitalize overflow-wrap-word">
+                {getIssueName(issue)}
+              </strong>
               <div>Decision date: {getReadableDate(getIssueDate(issue))}</div>
               <div>{disagreeWith(issue)}</div>
             </li>
