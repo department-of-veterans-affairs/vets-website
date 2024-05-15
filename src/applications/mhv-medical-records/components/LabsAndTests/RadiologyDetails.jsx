@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -12,6 +12,8 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -21,9 +23,8 @@ import GenerateRadiologyPdf from './GenerateRadiologyPdf';
 import { pageTitles } from '../../util/constants';
 import { generateTextFile, getNameDateAndTime } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import { useIsDetails } from '../../hooks/useIsDetails';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -35,6 +36,9 @@ const RadiologyDetails = props => {
       ],
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const dispatch = useDispatch();
+  useIsDetails(dispatch);
 
   useEffect(
     () => {
