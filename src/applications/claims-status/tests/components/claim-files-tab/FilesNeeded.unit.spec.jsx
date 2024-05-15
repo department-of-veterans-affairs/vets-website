@@ -12,10 +12,8 @@ const item = {
 
 describe('<FilesNeeded>', () => {
   it('should render va-alert with item data and show DueDate', () => {
-    const { queryByText, getByText } = renderWithRouter(
-      <FilesNeeded item={item} />,
-    );
-    queryByText('December 1, 2024');
+    const { getByText } = renderWithRouter(<FilesNeeded item={item} />);
+    getByText('December 1, 2024', { exact: false });
     getByText(item.displayName);
     getByText(item.description);
     getByText('Details');
