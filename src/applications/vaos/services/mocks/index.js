@@ -434,6 +434,10 @@ const responses = {
       data: [],
     });
   },
+  'POST /vaos/v2/wellhive/drive-times': (req, res) => {
+    return res.json({});
+  },
+
   'GET /v0/user': {
     data: {
       attributes: {
