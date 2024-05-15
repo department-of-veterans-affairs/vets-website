@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 import formConfig from '../../config/form';
-import mockData from '../fixtures/data/test-data.json';
+import mockData from '../e2e/fixtures/data/test-data.json';
 
 const subDate = new Date('11/13/2023').toString();
 
