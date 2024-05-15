@@ -4,6 +4,7 @@ import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import * as combobox from '../definitions/combobox';
+import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
 import { newOnlyAlert, increaseAndNewAlert } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
@@ -60,6 +61,8 @@ export const uiSchema = {
             input => input.trim(),
             input => input.replace(/\s{2,}/g, ' '),
           ],
+          // options for the combobox dropdown
+          listItems: Object.values(disabilityLabelsRevised),
         },
         // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
         'ui:validations': [validateDisabilityName, limitNewDisabilities],
