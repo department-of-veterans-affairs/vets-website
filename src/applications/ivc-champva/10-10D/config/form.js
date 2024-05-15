@@ -1160,7 +1160,7 @@ const formConfig = {
               type: 'object',
               properties: {
                 eligibility: { type: 'string' },
-                otherIneligible: { type: 'string' },
+                _unused: { type: 'string' },
               },
             },
           }),
