@@ -13,11 +13,14 @@ import {
 import {
   MHVDowntime,
   useDatadogRum,
+  MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { medicationsUrls } from '../util/constants';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
+  const contentClasses =
+    'main-content vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-margin-left--neg2 vads-u-max-width--100';
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
       return {
@@ -46,9 +49,10 @@ const App = ({ children }) => {
 
   if (featureTogglesLoading) {
     return (
-      <div className="vads-l-grid-container">
+      <div className="main-content vads-u-max-width--100">
+        <MhvSecondaryNav />
         <va-loading-indicator
-          message="Loading..."
+          message="Loading"
           setFocus
           data-testid="rx-feature-flag-loading-indicator"
         />
@@ -69,24 +73,32 @@ const App = ({ children }) => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <DowntimeNotification
-        appTitle="Medications"
-        dependencies={[externalServices.mhvPlatform, externalServices.mhvMeds]}
-        render={(downtimeProps, downtimeChildren) => (
-          <>
-            {downtimeProps.status === externalServiceStatus.down && (
-              <h1 className="vads-u-margin-top--4">Medications</h1>
+      <MhvSecondaryNav />
+      <div className="routes-container vads-l-grid-container">
+        <div className={`${contentClasses}`}>
+          <DowntimeNotification
+            appTitle="Medications"
+            dependencies={[
+              externalServices.mhvPlatform,
+              externalServices.mhvMeds,
+            ]}
+            render={(downtimeProps, downtimeChildren) => (
+              <>
+                {downtimeProps.status === externalServiceStatus.down && (
+                  <h1 className="vads-u-margin-top--4">Medications</h1>
+                )}
+                {downtimeProps.status ===
+                  externalServiceStatus.downtimeApproaching && (
+                  <div className="vads-u-margin-top--4" />
+                )}
+                <MHVDowntime {...downtimeProps}>{downtimeChildren}</MHVDowntime>
+              </>
             )}
-            {downtimeProps.status ===
-              externalServiceStatus.downtimeApproaching && (
-              <div className="vads-u-margin-top--4" />
-            )}
-            <MHVDowntime {...downtimeProps}>{downtimeChildren}</MHVDowntime>
-          </>
-        )}
-      >
-        {children}
-      </DowntimeNotification>
+          >
+            {children}
+          </DowntimeNotification>
+        </div>
+      </div>
     </RequiredLoginView>
   );
 };
