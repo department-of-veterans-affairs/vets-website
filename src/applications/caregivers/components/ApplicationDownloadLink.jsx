@@ -43,11 +43,12 @@ const ApplicationDownloadLink = ({ form }) => {
     URL.revokeObjectURL(downloadUrl);
   };
 
-  // define our method of retrieving the link to download
-  const fetchPdf = () => {
+  const fetchPdf = event => {
+    // Prevents browser from navigating to top of page due to href='#'
+    event.preventDefault();
     isLoading(true);
 
-    // create the application link
+    // get pdf file to download
     apiRequest(apiURL, {
       method: 'POST',
       body: formData,
@@ -105,9 +106,13 @@ const ApplicationDownloadLink = ({ form }) => {
   }
 
   return (
-    <button className="va-button-link" type="button" onClick={() => fetchPdf()}>
-      Download your completed application
-    </button>
+    <va-link
+      onClick={e => fetchPdf(e)}
+      href="#"
+      download
+      filetype="PDF"
+      text="Download your completed application"
+    />
   );
 };
 

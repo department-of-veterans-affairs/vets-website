@@ -3,6 +3,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import * as recordEventModule from '~/platform/monitoring/record-event';
 import * as Sentry from '@sentry/browser';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import {
   mockApiRequest,
@@ -18,8 +19,12 @@ describe('CG <ApplicationDownloadLink>', () => {
   const subject = () => render(<ApplicationDownloadLink form={form} />);
 
   it('renders a download file button', () => {
-    const { getByText } = subject();
-    expect(getByText('Download your completed application')).to.exist;
+    const { container } = subject();
+    const link = $('va-link', container);
+    expect(link).to.exist;
+    expect(link.getAttribute('text')).to.eq(
+      'Download your completed application',
+    );
   });
 
   context('clicking the download file button', () => {
@@ -34,10 +39,11 @@ describe('CG <ApplicationDownloadLink>', () => {
     });
 
     it('records pdf-download-success when button is clicked', async () => {
-      const { queryByText, container } = subject();
+      const { container } = subject();
       const loadingIndicator = container.querySelector('va-loading-indicator');
 
-      expect(queryByText('Download your completed application')).to.exist;
+      const link = $('va-link', container);
+      expect(link).to.exist;
       expect(loadingIndicator).to.not.exist;
 
       mockApiRequest({
@@ -49,10 +55,11 @@ describe('CG <ApplicationDownloadLink>', () => {
         .returns('my_stubbed_url.com');
       const revokeObjectStub = sinon.stub(URL, 'revokeObjectURL');
 
-      fireEvent.click(queryByText('Download your completed application'));
+      fireEvent.click(link);
 
       await waitFor(() => {
         expect(container.querySelector('va-loading-indicator')).to.exist;
+        expect($('va-link', container)).to.not.exist;
       });
 
       await waitFor(() => {
@@ -65,6 +72,7 @@ describe('CG <ApplicationDownloadLink>', () => {
 
       await waitFor(() => {
         expect(container.querySelector('va-loading-indicator')).to.not.exist;
+        expect($('va-link', container)).to.exist;
       });
 
       createObjectStub.restore();
@@ -72,9 +80,9 @@ describe('CG <ApplicationDownloadLink>', () => {
     });
 
     it('displays error message and records error when request fails', async () => {
-      const { queryByText, getByText, container } = subject();
-
-      expect(queryByText('Download your completed application')).to.exist;
+      const { getByText, container } = subject();
+      const link = $('va-link', container);
+      expect(link).to.exist;
       expect(container.querySelector('va-loading-indicator')).to.not.exist;
 
       mockApiRequest({}, false);
@@ -85,7 +93,7 @@ describe('CG <ApplicationDownloadLink>', () => {
         Promise.reject({ errors: [{ status: '503' }] }),
       );
 
-      fireEvent.click(queryByText('Download your completed application'));
+      fireEvent.click(link);
 
       await waitFor(() => {
         expect(container.querySelector('va-loading-indicator')).to.exist;
@@ -113,7 +121,7 @@ describe('CG <ApplicationDownloadLink>', () => {
       });
 
       await waitFor(() => {
-        expect(queryByText('Download your completed application')).to.not.exist;
+        expect($('va-link', container)).to.not.exist;
       });
     });
   });
