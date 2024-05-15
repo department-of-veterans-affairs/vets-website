@@ -85,7 +85,7 @@ describe('<OverviewPage>', () => {
         expect($('va-loading-indicator', container)).to.exist;
       });
 
-      it('should render overview header, claim phase diagram and timeline', () => {
+      it('should render overview header, claim phase diagram and stepper', () => {
         const { container, getByText } = renderWithRouter(
           <Provider store={getStore()}>
             <OverviewPage {...props} claim={claim} />
@@ -98,7 +98,8 @@ describe('<OverviewPage>', () => {
           'There are 8 steps in the claim process. It’s common for claims to repeat steps 3 to 6 if we need more information.',
         );
         expect($('.claim-phase-diagram', container)).to.exist;
-        expect($('.claim-timeline', container)).to.exist;
+        expect($('.claim-phase-stepper', container)).to.exist;
+        expect($('.claim-timeline', container)).to.not.exist;
       });
     });
     context('when claim is open', () => {
@@ -146,7 +147,7 @@ describe('<OverviewPage>', () => {
         expect($('va-loading-indicator', container)).to.exist;
       });
 
-      it('should render overview header, claim phase diagram and timeline', () => {
+      it('should render overview header, claim phase diagram and stepper', () => {
         const { container, getByText } = renderWithRouter(
           <Provider store={getStore()}>
             <OverviewPage {...props} claim={claim} />
@@ -159,7 +160,8 @@ describe('<OverviewPage>', () => {
           'There are 8 steps in the claim process. It’s common for claims to repeat steps 3 to 6 if we need more information.',
         );
         expect($('.claim-phase-diagram', container)).to.exist;
-        expect($('.claim-timeline', container)).to.exist;
+        expect($('.claim-phase-stepper', container)).to.exist;
+        expect($('.claim-timeline', container)).to.not.exist;
       });
     });
   });
@@ -210,6 +212,7 @@ describe('<OverviewPage>', () => {
           'Learn about the VA claim process and what happens after you file your claim.',
         );
         expect($('.claim-phase-diagram', container)).to.not.exist;
+        expect($('.claim-phase-stepper', container)).to.not.exist;
         expect($('.claim-timeline', container)).to.exist;
       });
     });
@@ -272,6 +275,7 @@ describe('<OverviewPage>', () => {
           'Learn about the VA claim process and what happens after you file your claim.',
         );
         expect($('.claim-phase-diagram', container)).to.not.exist;
+        expect($('.claim-phase-stepper', container)).to.not.exist;
         expect($('.claim-timeline', container)).to.exist;
       });
     });

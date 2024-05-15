@@ -206,6 +206,7 @@ class OverviewPage extends React.Component {
             </div>
             <ClaimPhaseStepper
               claimDate={claim.attributes.claimDate}
+              currentClaimPhaseDate={claim.attributes.claimPhaseDates.cl}
               currentPhase={currentPhase}
             />
           </Toggler.Enabled>

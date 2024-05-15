@@ -1271,19 +1271,17 @@ va-icon.phase-current {
 }
 
 .repeat-phase {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   border: 1px solid var(--vads-color-base-light);
-  width: 439px;
   va-icon {
     float: left;
     align-content: center;
-    margin-left: 24px;
-    margin-right: 16px;
+    margin-left: 8px;
   }
   span {
     display: inline-block;
-    margin-block: 12px
+    margin: 16px;
   }
 }
 

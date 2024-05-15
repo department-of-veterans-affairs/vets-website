@@ -1,16 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Link } from 'react-router-dom-v5-compat';
 import { buildDateFormatter } from '../../utils/helpers';
 
-export default function ClaimPhaseStepper({ currentPhase, claimDate }) {
+export default function ClaimPhaseStepper({
+  claimDate,
+  currentClaimPhaseDate,
+  currentPhase,
+}) {
+  const formattedClaimDate = buildDateFormatter()(claimDate);
+  const formattedCurrentClaimPhaseDate = buildDateFormatter()(
+    currentClaimPhaseDate,
+  );
+
   const claimPhases = [
     {
       step: 1,
       header: 'Step 1: Claim received',
       description: (
         <>
-          <p>We started working on your claim on June 15, 2023</p>
+          <p>We started working on your claim on {formattedClaimDate}</p>
         </>
       ),
     },
@@ -43,7 +53,10 @@ export default function ClaimPhaseStepper({ currentPhase, claimDate }) {
           <ul>
             <li>Ask you to submit evidence </li>
             <li>
-              Ask you to have a claim exam Learn more about VA claim exams
+              Ask you to have a claim exam{' '}
+              <a href="/disability/va-claim-exam/">
+                Learn more about VA claim exams
+              </a>
             </li>
             <li>
               Request medical records from your private health care provider
@@ -56,7 +69,13 @@ export default function ClaimPhaseStepper({ currentPhase, claimDate }) {
             evidence after this step, your claim will go back to this step for
             review.
           </p>
-          <p>Submit evidence now</p>
+          <Link
+            aria-label="Submit evidence now"
+            title="Submit evidence now"
+            to="../files"
+          >
+            Submit evidence now
+          </Link>
         </>
       ),
     },
@@ -110,8 +129,6 @@ export default function ClaimPhaseStepper({ currentPhase, claimDate }) {
     return '';
   };
 
-  const formattedClaimDate = buildDateFormatter()(claimDate);
-
   return (
     <div className="claim-phase-stepper">
       <va-accordion>
@@ -128,7 +145,8 @@ export default function ClaimPhaseStepper({ currentPhase, claimDate }) {
             />
             {isCurrentPhase(phase.step) && (
               <strong className="current-phase">
-                Your claim is in this step as of {formattedClaimDate}.
+                Your claim is in this step as of{' '}
+                {formattedCurrentClaimPhaseDate}.
               </strong>
             )}
             {stepCanRepeat(phase.step) && (
@@ -147,5 +165,6 @@ export default function ClaimPhaseStepper({ currentPhase, claimDate }) {
 
 ClaimPhaseStepper.propTypes = {
   claimDate: PropTypes.string.isRequired,
+  currentClaimPhaseDate: PropTypes.number.isRequired,
   currentPhase: PropTypes.number.isRequired,
 };
