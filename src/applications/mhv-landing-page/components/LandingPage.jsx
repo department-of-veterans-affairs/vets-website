@@ -19,6 +19,7 @@ import CardLayout from './CardLayout';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
+import HelpdeskInfo from './HelpdeskInfo';
 import { hasHealthData, personalizationEnabled } from '../selectors';
 import UnregisteredAlert from './UnregisteredAlert';
 
@@ -67,6 +68,11 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
           />
           <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
           {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
+        </div>
+        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <div className="vads-l-row vads-u-margin-top--3">
+            {showCards && <HelpdeskInfo />}
+          </div>
         </div>
         <HubLinks hubs={hubs} />
         <NewsletterSignup />

@@ -38,7 +38,6 @@ const resolveLandingPageLinks = (
       {
         ...HEALTH_TOOL_LINKS.MESSAGES[0],
         oldHref: mhvUrl(authdWithSSOe, 'secure-messaging'),
-        oldText: 'Go to inbox',
         toggle: FEATURE_FLAG_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
         ariaLabel: unreadMessageAriaLabel,
       },
