@@ -1265,4 +1265,26 @@ va-icon.phase-current {
   color: $color-primary; //vads-color-primary
 }
 
+.current-phase {
+  padding-bottom: 16px;
+  display: inline-block;
+}
+
+.repeat-phase {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid var(--vads-color-base-light);
+  width: 439px;
+  va-icon {
+    float: left;
+    align-content: center;
+    margin-left: 24px;
+    margin-right: 16px;
+  }
+  span {
+    display: inline-block;
+    margin-block: 12px
+  }
+}
+
 

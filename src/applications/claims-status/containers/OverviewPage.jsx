@@ -204,7 +204,10 @@ class OverviewPage extends React.Component {
               <MobileClaimPhaseDiagram currentPhase={currentPhase} />
               <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
             </div>
-            <ClaimPhaseStepper currentPhase={currentPhase} />
+            <ClaimPhaseStepper
+              claimDate={claim.attributes.claimDate}
+              currentPhase={currentPhase}
+            />
           </Toggler.Enabled>
           <Toggler.Disabled>
             <ClaimTimeline
