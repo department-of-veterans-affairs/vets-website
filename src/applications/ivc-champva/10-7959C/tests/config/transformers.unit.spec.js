@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import formConfig from '../../config/form';
-import mockData from '../fixtures/data/test-data.json';
+import mockData from '../e2e/fixtures/data/test-data.json';
 
 import transformForSubmit from '../../config/submitTransformer';
 import { prefillTransformer } from '../../config/prefillTransformer';
