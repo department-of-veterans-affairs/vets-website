@@ -2,7 +2,7 @@ import React from 'react';
 
 const HelpdeskInfo = () => {
   return (
-    <va-need-help>
+    <va-need-help data-testid="mhv-helpdesk-info">
       <div slot="content">
         <p>
           Call the My HealtheVet help desk at{' '}

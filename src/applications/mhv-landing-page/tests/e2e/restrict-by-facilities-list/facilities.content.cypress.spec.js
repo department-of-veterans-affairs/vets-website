@@ -38,6 +38,8 @@ describe(appName, () => {
         pageLinks.cards.forEach(card => {
           cy.findByRole('heading', { name: card.title }).should('not.exist');
         });
+        // Test the helpdesk information is not visible
+        cy.findByTestId('mhv-helpdesk-info').should('not.exist');
         // Test the hubs are visible
         pageLinks.hubs.forEach(hub => {
           LandingPage.validateLinkGroup(hub.title, hub.links.length);
@@ -71,6 +73,8 @@ describe(appName, () => {
         pageLinks.hubs.forEach(hub => {
           LandingPage.validateLinkGroup(hub.title, hub.links.length);
         });
+        // Test the helpdesk information is visible
+        cy.findByTestId('mhv-helpdesk-info').should.exist;
 
         // Test for the conditional heading for VA health benefits
         cy.findByRole('heading', { name: /My VA health benefits/i }).should
