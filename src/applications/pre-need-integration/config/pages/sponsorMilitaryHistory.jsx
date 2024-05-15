@@ -13,9 +13,13 @@ export const uiSchema = {
     veteran: {
       exampleBoolean: {
         'ui:title': 'This is an example boolean',
+        'ui:widget': 'yesNo',
       },
       serviceRecords: merge({}, selfServiceRecordsUI, {
         'ui:title': 'Sponsor’s service period(s)',
+        'ui:options': {
+          expandUnder: 'exampleBoolean',
+        },
         items: {
           'ui:order': [
             'serviceBranch',
