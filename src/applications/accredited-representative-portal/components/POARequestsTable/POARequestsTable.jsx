@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom-v5-compat';
 
 export const createRelationshipCell = attributes => {
   if ('veteran' in attributes) {
-    return attributes?.claimant.relationship;
+    return attributes?.claimant.relationshipToVeteran;
   }
   return 'Veteran';
 };
@@ -17,8 +17,8 @@ export const createLimitationsCell = (
   const limitations = [];
 
   // If do not authorize sharing health info or authorize change of address then we label it as a limitation of consent
-  if (isTreatmentDisclosureAuthorized) limitations.push('Health');
-  if (isAddressChangingAuthorized) limitations.push('Address');
+  if (!isTreatmentDisclosureAuthorized) limitations.push('Health');
+  if (!isAddressChangingAuthorized) limitations.push('Address');
 
   return limitations.length > 0 ? (
     <span className="limitations-row">
