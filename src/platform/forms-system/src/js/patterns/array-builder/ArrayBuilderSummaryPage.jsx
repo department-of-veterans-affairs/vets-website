@@ -126,7 +126,7 @@ export default function ArrayBuilderSummaryPage({
     useEffect(
       () => {
         if (updatedNounSingular === nounSingular.toLowerCase()) {
-          setShowUpdatedAlert(updateItemIndex != null);
+          setShowUpdatedAlert(() => updateItemIndex != null);
         }
       },
       [updatedNounSingular, updateItemIndex, nounSingular],
@@ -185,7 +185,7 @@ export default function ArrayBuilderSummaryPage({
     }
 
     function onDismissUpdatedAlert() {
-      setShowUpdatedAlert(false);
+      setShowUpdatedAlert(() => false);
       requestAnimationFrame(() => {
         focusElement(
           document.querySelector(
@@ -196,9 +196,9 @@ export default function ArrayBuilderSummaryPage({
     }
 
     function onDismissRemovedAlert() {
-      setShowRemovedAlert(false);
-      setRemovedItemText('');
-      setRemovedItemIndex(null);
+      setShowRemovedAlert(() => false);
+      setRemovedItemText(() => '');
+      setRemovedItemIndex(() => null);
       requestAnimationFrame(() => {
         focusElement(
           document.querySelector(
@@ -212,11 +212,11 @@ export default function ArrayBuilderSummaryPage({
       // updated alert may be from initial state (URL path)
       // so we can go ahead and remove it if there is a new
       // alert
-      setShowUpdatedAlert(false);
+      setShowUpdatedAlert(() => false);
 
-      setRemovedItemText(getText('alertItemDeleted', item));
-      setRemovedItemIndex(index);
-      setShowRemovedAlert(true);
+      setRemovedItemText(() => getText('alertItemDeleted', item));
+      setRemovedItemIndex(() => index);
+      setShowRemovedAlert(() => true);
       requestAnimationFrame(() => {
         focusElement(removedAlertRef.current);
       });
