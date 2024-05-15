@@ -7,7 +7,7 @@ import { buildDateFormatter } from '../../utils/helpers';
 export default function ClaimPhaseStepper({
   claimDate,
   currentClaimPhaseDate,
-  currentPhase,
+  currentPhaseStep,
 }) {
   const formattedClaimDate = buildDateFormatter()(claimDate);
   const formattedCurrentClaimPhaseDate = buildDateFormatter()(
@@ -95,8 +95,8 @@ export default function ClaimPhaseStepper({
       ),
     },
   ];
-  const isCurrentPhase = phase => {
-    return phase === currentPhase;
+  const isCurrentPhase = step => {
+    return step === currentPhaseStep;
   };
 
   const stepCanRepeat = phase => {
@@ -108,7 +108,7 @@ export default function ClaimPhaseStepper({
       return 'flag';
     }
 
-    if (phase < currentPhase) {
+    if (phase < currentPhaseStep) {
       // return 'fa fa-check-circle vads-u-color--green';
       return 'check_circle';
     }
@@ -122,7 +122,7 @@ export default function ClaimPhaseStepper({
       // return 'vads-color-primary';
     }
 
-    if (phase < currentPhase) {
+    if (phase < currentPhaseStep) {
       return 'phase-complete';
 
       // return 'vads-u-color--green';
@@ -138,7 +138,7 @@ export default function ClaimPhaseStepper({
           <va-accordion-item
             key={phaseIndex}
             header={phase.header}
-            id={`phase + ${phase.step}`}
+            id={`phase${phase.step}`}
           >
             <va-icon
               icon={headerIcon(phase.step)}
@@ -157,7 +157,7 @@ export default function ClaimPhaseStepper({
                 <span>Step may repeat if we need more information</span>
               </div>
             )}
-            <p className="vads-u-margin-y--0">{phase.description}</p>
+            <span className="vads-u-margin-y--0">{phase.description}</span>
           </va-accordion-item>
         ))}
       </va-accordion>
@@ -168,5 +168,5 @@ export default function ClaimPhaseStepper({
 ClaimPhaseStepper.propTypes = {
   claimDate: PropTypes.string.isRequired,
   currentClaimPhaseDate: PropTypes.number.isRequired,
-  currentPhase: PropTypes.number.isRequired,
+  currentPhaseStep: PropTypes.number.isRequired,
 };

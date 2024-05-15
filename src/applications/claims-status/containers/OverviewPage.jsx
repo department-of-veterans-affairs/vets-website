@@ -193,7 +193,9 @@ class OverviewPage extends React.Component {
     }
 
     const { claimPhaseDates, claimDate } = claim.attributes;
-    const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
+    const currentPhaseStep = getPhaseFromStatus(
+      claimPhaseDates.latestPhaseType,
+    );
 
     return (
       <div className="overview-container">
@@ -201,19 +203,19 @@ class OverviewPage extends React.Component {
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstClaimPhases}>
           <Toggler.Enabled>
             <div className="claim-phase-diagram">
-              <MobileClaimPhaseDiagram currentPhase={currentPhase} />
-              <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
+              <MobileClaimPhaseDiagram currentPhase={currentPhaseStep} />
+              <DesktopClaimPhaseDiagram currentPhase={currentPhaseStep} />
             </div>
             <ClaimPhaseStepper
               claimDate={claimDate}
               currentClaimPhaseDate={claimPhaseDates.phaseChangeDate}
-              currentPhase={currentPhase}
+              currentPhaseStep={currentPhaseStep}
             />
           </Toggler.Enabled>
           <Toggler.Disabled>
             <ClaimTimeline
               id={claim.id}
-              phase={currentPhase}
+              phase={currentPhaseStep}
               currentPhaseBack={claimPhaseDates.currentPhaseBack}
               events={generateEventTimeline(claim)}
             />
