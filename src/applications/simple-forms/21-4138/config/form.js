@@ -9,8 +9,6 @@ import {
   SUBTITLE,
   STATEMENT_TYPES,
   DECISION_REVIEW_TYPES,
-  LIVING_SITUATIONS,
-  OTHER_REASONS_REQUIRED,
 } from './constants';
 import { statementTypePage } from '../pages/statementType';
 import { layOrWitnessHandoffPage } from '../pages/layOrWitness';
@@ -35,7 +33,6 @@ import {
 } from '../pages/priorityProcessing';
 import { recordsRequestHandoffPage } from '../pages/recordsRequest';
 import { newEvidenceHandoffPage } from '../pages/newEvidence';
-import { vreRequestHandoffPage } from '../pages/vreRequest';
 import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
 import { identificationInformationPage } from '../pages/identificationInfo';
 import { mailingAddressPage } from '../pages/mailingAddress';
@@ -202,7 +199,7 @@ const formConfig = {
         priorityProcessingOtherHousingRiskPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            formData.livingSituation === LIVING_SITUATIONS.OTHER_RISK,
+            formData.livingSituation.OTHER_RISK,
           path: 'priority-processing-other-housing-risks',
           title: 'Other housing risks',
           uiSchema: ppOtherHousingRisksPage.uiSchema,
@@ -212,7 +209,7 @@ const formConfig = {
         priorityProcessingOtherReasonsOptionalPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            formData.livingSituation !== LIVING_SITUATIONS.NONE,
+            formData.livingSituation.NONE,
           path: 'priority-processing-other-reasons-optional',
           title: 'Other reasons for request',
           uiSchema: ppOtherReasonsOptionalPage.uiSchema,
@@ -222,7 +219,7 @@ const formConfig = {
         priorityProcessingOtherReasonsRequiredPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            formData.livingSituation === LIVING_SITUATIONS.NONE,
+            !formData.livingSituation.NONE,
           path: 'priority-processing-other-reasons',
           title: 'Other reasons for request',
           uiSchema: ppOtherReasonsRequiredPage.uiSchema,
@@ -232,8 +229,7 @@ const formConfig = {
         priorityProcessingNotQualifiedPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            (formData.livingSituation === LIVING_SITUATIONS.NONE &&
-              formData.otherReasons === OTHER_REASONS_REQUIRED.NONE),
+            (formData.livingSituation.NONE && formData.otherReasons?.NONE),
           path: 'priority-processing-not-qualified',
           title: 'You may not qualify for priority processing',
           uiSchema: ppNotQualifiedPage.uiSchema,
@@ -243,9 +239,8 @@ const formConfig = {
         priorityProcessingQualifiedHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            (formData.livingSituation !== LIVING_SITUATIONS.NONE ||
-              (formData.livingSituation === LIVING_SITUATIONS.NONE &&
-                formData.otherReasons !== OTHER_REASONS_REQUIRED.NONE)),
+            (!formData.livingSituation.NONE ||
+              (formData.livingSituation.NONE && !formData.otherReasons?.NONE)),
           path: 'priority-processing-qualified-handoff',
           title: "There's a better way to request priority processing",
           uiSchema: ppQualifiedHandoffPage.uiSchema,
@@ -271,16 +266,6 @@ const formConfig = {
           uiSchema: newEvidenceHandoffPage.uiSchema,
           schema: newEvidenceHandoffPage.schema,
           pageClass: 'new-evidence-handoff',
-          hideNavButtons: true,
-        },
-        vreRequestHandoffPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.VRE_REQUEST,
-          path: 'vre-request-handoff',
-          title: "There's a better way to request Chapter 31 support",
-          uiSchema: vreRequestHandoffPage.uiSchema,
-          schema: vreRequestHandoffPage.schema,
-          pageClass: 'vre-request-handoff',
           hideNavButtons: true,
         },
       },

@@ -3,7 +3,8 @@ import { render } from '@testing-library/react';
 import { MemoryRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import UploadPage, { handleRouteChange } from '../../containers/UploadPage';
+import UploadPage from '../../containers/UploadPage';
+import { handleRouteChange } from '../../helpers';
 
 describe('UploadPage', () => {
   const getStore = () => ({
