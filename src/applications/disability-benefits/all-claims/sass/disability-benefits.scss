@@ -250,3 +250,36 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
     display: none
   }
 }
+
+/* addDisabilities combo-box styles */
+.cc-combobox {
+  position: relative
+}
+.cc-combobox__list {
+  background-color: var(--vads-color-white);
+  padding: 0;
+  position: absolute;
+  width: calc(100% - 18px); // to offset overflow scrollbar
+  overflow-y: auto;
+  z-index: 100;
+
+  &--open {
+    border: 1px solid var(--vads-color-black);
+  }
+}
+.cc-combobox__option {
+  display: block;
+  padding: units(2);
+  margin: 0;
+
+  &--active {
+    background-color: var(--vads-color-primary);
+    border-color: var(--vads-color-primary);
+    color: var(--vads-color-white);
+  }
+
+  // dynamic option inserted at beginning, for free text input
+  &--free {
+    border-bottom: 1px solid var(--vads-color-gray-warm-light);
+  }
+}
