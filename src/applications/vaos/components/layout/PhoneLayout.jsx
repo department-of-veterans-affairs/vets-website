@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import DetailPageLayout, { Section, What, When, Who } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import StatusAlert from '../StatusAlert';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -39,23 +38,10 @@ export default function PhoneLayout({ data: appointment }) {
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
-      <StatusAlert
-        appointment={appointment}
-        facility={facility}
-        showScheduleLink
-      />
-      {!isPastAppointment && (
+      {APPOINTMENT_STATUS.booked === status && (
         <Section heading="How to join">
           We'll call you at the appointment time. But contact the facility you
           scheduled through if you have questions or need to reschedule.
-        </Section>
-      )}
-      {isPastAppointment && (
-        <Section heading="After visit summary">
-          <va-link
-            href={`${appointment?.avsPath}`}
-            text="Go to after visit summary"
-          />
         </Section>
       )}
       <When>

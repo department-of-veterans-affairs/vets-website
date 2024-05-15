@@ -1,12 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { useParams } from 'react-router-dom';
 import BackLink from '../BackLink';
 import AppointmentCard from '../AppointmentCard';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
 import { startAppointmentCancel } from '../../appointment-list/redux/actions';
+import AfterVisitSummary from '../AfterVisitSummary';
+import {
+  selectFacility,
+  selectIsPast,
+} from '../../appointment-list/redux/selectors';
+import StatusAlert from '../StatusAlert';
 
 export function Section({ children, heading }) {
   return (
@@ -95,16 +102,25 @@ export default function DetailPageLayout({
   children,
   data: appointment,
   heading,
-  instructions,
 }) {
+  const { id } = useParams();
+  const { facility } = useSelector(state => selectFacility(state, id));
+
   if (!appointment) return null;
+
+  const isPastAppointment = selectIsPast(appointment);
 
   return (
     <>
       <BackLink appointment={appointment} />
       <AppointmentCard appointment={appointment}>
         <h1 className="vads-u-font-size--h2">{heading}</h1>
-        {!!instructions && <p>{instructions}</p>}
+        <StatusAlert appointment={appointment} facility={facility} />
+        {isPastAppointment && (
+          <Section heading="After visit summary">
+            <AfterVisitSummary data={appointment} />
+          </Section>
+        )}
         {children}
         <div className="vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print">
           <span className="vads-u-margin-right--2">
@@ -126,5 +142,4 @@ DetailPageLayout.propTypes = {
   children: PropTypes.node,
   data: PropTypes.object,
   heading: PropTypes.string,
-  instructions: PropTypes.string,
 };

@@ -4,7 +4,6 @@ import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import DetailPageLayout, { Section, What, When, Who } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import StatusAlert from '../StatusAlert';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
   AppointmentDate,
@@ -42,11 +41,6 @@ export default function VideoLayoutVA({ data: appointment }) {
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
-      <StatusAlert
-        appointment={appointment}
-        facility={facility}
-        showScheduleLink
-      />
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="How to join">

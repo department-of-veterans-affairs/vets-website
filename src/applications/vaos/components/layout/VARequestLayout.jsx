@@ -15,7 +15,6 @@ import Address from '../Address';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { TIME_TEXT } from '../../utils/appointment';
 import FacilityPhone from '../FacilityPhone';
-import StatusAlert from '../StatusAlert';
 
 export default function VARequestLayout({ data: appointment }) {
   const {
@@ -43,7 +42,6 @@ export default function VARequestLayout({ data: appointment }) {
   return (
     <PageLayout showNeedHelp>
       <DetailPageLayout heading={heading} data={appointment}>
-        <StatusAlert appointment={appointment} facility={facility} />
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
             {preferredDates.map((option, optionIndex) => (

@@ -10,7 +10,6 @@ import DetailPageLayout, {
   Who,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import StatusAlert from '../StatusAlert';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
   AppointmentDate,
@@ -46,11 +45,6 @@ export default function VideoLayoutAtlas({ data: appointment }) {
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
-      <StatusAlert
-        appointment={appointment}
-        facility={facility}
-        showScheduleLink
-      />
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="How to join">
@@ -58,6 +52,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
             the computer provided at the site:
             <br />
             {atlasConfirmationCode}
+            <br />
             <br />
             <va-additional-info trigger="How to prepare for your visit" uswds>
               <div>

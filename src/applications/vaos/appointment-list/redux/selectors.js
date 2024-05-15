@@ -184,6 +184,11 @@ export function selectAppointmentById(state, id, types = null) {
   return allAppointments.find(p => p.id === id);
 }
 
+export function selectFacility(state, id) {
+  const { facilityData } = state.appointments;
+  return facilityData?.[id] || {};
+}
+
 export function selectFacilitySettingsStatus(state) {
   return state.appointments.facilitySettingsStatus;
 }

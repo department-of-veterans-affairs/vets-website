@@ -9,7 +9,6 @@ import DetailPageLayout, { Section } from './DetailPageLayout';
 import ListBestTimeToCall from '../../appointment-list/components/ListBestTimeToCall';
 import { TIME_TEXT } from '../../utils/appointment';
 import PageLayout from '../../appointment-list/components/PageLayout';
-import StatusAlert from '../StatusAlert';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 
 export default function CCRequestLayout({ data: appointment }) {
@@ -45,7 +44,6 @@ export default function CCRequestLayout({ data: appointment }) {
   return (
     <PageLayout showNeedHelp>
       <DetailPageLayout heading={heading} data={appointment}>
-        <StatusAlert appointment={appointment} facility={facility} />
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
             {preferredDates.map((option, optionIndex) => (

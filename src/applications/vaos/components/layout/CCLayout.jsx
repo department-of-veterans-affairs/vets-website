@@ -10,7 +10,6 @@ import {
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
 import AddToCalendarButton from '../AddToCalendarButton';
-import StatusAlert from '../StatusAlert';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import FacilityPhone from '../FacilityPhone';
 import Address from '../Address';
@@ -43,15 +42,6 @@ export default function CCLayout({ data: appointment }) {
   return (
     <>
       <DetailPageLayout heading={heading} data={appointment}>
-        <StatusAlert appointment={appointment} facility={facility} />
-        {isPastAppointment && (
-          <Section heading="After visit summary">
-            <va-link
-              href={`${appointment?.avsPath}`}
-              text="Go to after visit summary"
-            />
-          </Section>
-        )}
         <When>
           <AppointmentDate date={startDate} />
           <br />

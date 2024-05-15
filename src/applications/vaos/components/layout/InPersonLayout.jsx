@@ -7,7 +7,6 @@ import {
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
-import StatusAlert from '../StatusAlert';
 import DetailPageLayout, {
   When,
   What,
@@ -54,19 +53,6 @@ export default function InPersonLayout({ data: appointment }) {
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
-      <StatusAlert
-        appointment={appointment}
-        facility={facility}
-        showScheduleLink
-      />
-      {isPastAppointment && (
-        <Section heading="After visit summary">
-          <va-link
-            href={`${appointment?.avsPath}`}
-            text="Go to after visit summary"
-          />
-        </Section>
-      )}
       <When>
         <AppointmentDate date={startDate} />
         <br />
