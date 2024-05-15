@@ -5,7 +5,6 @@ import { Outlet } from 'react-router-dom-v5-compat';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import AppNotEnabledAlert from '../components/AppNotEnabledAlert/AppNotEnabledAlert';
 import Footer from '../components/common/Footer/Footer';
 import Header from '../components/common/Header/Header';
 
@@ -32,7 +31,7 @@ function App() {
   }
 
   if (isProduction && !isAppEnabled) {
-    return <AppNotEnabledAlert />;
+    return document.location.replace('/');
   }
 
   return (
