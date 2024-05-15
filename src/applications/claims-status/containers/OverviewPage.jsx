@@ -192,7 +192,7 @@ class OverviewPage extends React.Component {
       return null;
     }
 
-    const { claimPhaseDates } = claim.attributes;
+    const { claimPhaseDates, claimDate } = claim.attributes;
     const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
 
     return (
@@ -205,8 +205,8 @@ class OverviewPage extends React.Component {
               <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
             </div>
             <ClaimPhaseStepper
-              claimDate={claim.attributes.claimDate}
-              currentClaimPhaseDate={claim.attributes.claimPhaseDates.cl}
+              claimDate={claimDate}
+              currentClaimPhaseDate={claimPhaseDates.phaseChangeDate}
               currentPhase={currentPhase}
             />
           </Toggler.Enabled>

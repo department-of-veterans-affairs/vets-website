@@ -20,7 +20,9 @@ export default function ClaimPhaseStepper({
       header: 'Step 1: Claim received',
       description: (
         <>
-          <p>We started working on your claim on {formattedClaimDate}</p>
+          <p className="vads-u-margin-y--0">
+            We started working on your claim on {formattedClaimDate}
+          </p>
         </>
       ),
     },
@@ -29,11 +31,11 @@ export default function ClaimPhaseStepper({
       header: 'Step 2: Initial review',
       description: (
         <>
-          <p>
+          <p className="vads-u-margin-top--0">
             We’ll check your claim for basic information we need, like your name
             and Social Security number.
           </p>
-          <p>
+          <p className="vads-u-margin-bottom--0">
             If basic information is missing, we’ll contact you to gather that
             information.
           </p>
@@ -155,7 +157,7 @@ export default function ClaimPhaseStepper({
                 <span>Step may repeat if we need more information</span>
               </div>
             )}
-            <p>{phase.description}</p>
+            <p className="vads-u-margin-y--0">{phase.description}</p>
           </va-accordion-item>
         ))}
       </va-accordion>
