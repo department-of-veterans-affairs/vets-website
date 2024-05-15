@@ -77,35 +77,28 @@ export function mockCCProvidersApi({
  * @param {Object} arguments - Function arguments.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
-export function mockAppointmentGetApi({
-  response: data,
-  responseCode = 200,
-  version = 2,
-}) {
-  if (version === 2) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: `/vaos/v2/appointments/${data.id}`,
-        query: {
-          _include: '*',
-        },
+export function mockAppointmentGetApi({ response: data, responseCode = 200 }) {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `/vaos/v2/appointments/${data.id}`,
+      query: {
+        _include: '*',
       },
-      req => {
-        if (responseCode !== 200) {
-          req.reply({
-            body: '404 Not Found',
-            statusCode: 404,
-          });
-          return;
-        }
+    },
+    req => {
+      if (responseCode !== 200) {
+        req.reply({
+          body: '404 Not Found',
+          statusCode: 404,
+        });
+        return;
+      }
 
-        req.reply({ data });
-      },
-    ).as('v2:get:appointment');
-  }
+      req.reply({ data });
+    },
+  ).as('v2:get:appointment');
 }
 
 /**
@@ -117,34 +110,30 @@ export function mockAppointmentGetApi({
  * @param {Object} arguments - Function arguments.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockAppointmentUpdateApi({
   response: data,
   responseCode = 200,
-  version = 2,
 }) {
-  if (version === 2) {
-    cy.intercept(
-      {
-        method: 'PUT',
-        url: '/vaos/v2/appointments/1',
-      },
-      req => {
-        if (responseCode !== 200) {
-          req.reply({
-            body: '404 Not Found',
-            statusCode: 404,
-          });
-          return;
-        }
-
+  cy.intercept(
+    {
+      method: 'PUT',
+      url: '/vaos/v2/appointments/1',
+    },
+    req => {
+      if (responseCode !== 200) {
         req.reply({
-          data,
+          body: '404 Not Found',
+          statusCode: 404,
         });
-      },
-    ).as('v2:update:appointment');
-  }
+        return;
+      }
+
+      req.reply({
+        data,
+      });
+    },
+  ).as('v2:update:appointment');
 }
 
 /**
@@ -156,34 +145,30 @@ export function mockAppointmentUpdateApi({
  * @param {Object} arguments
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockAppointmentCreateApi({
   response: data,
   responseCode = 200,
-  version = 2,
 }) {
-  if (version === 2) {
-    cy.intercept(
-      {
-        method: 'POST',
-        pathname: '/vaos/v2/appointments',
-      },
-      req => {
-        if (responseCode !== 200) {
-          req.reply({
-            body: '404 Not Found',
-            statusCode: 404,
-          });
-          return;
-        }
-
+  cy.intercept(
+    {
+      method: 'POST',
+      pathname: '/vaos/v2/appointments',
+    },
+    req => {
+      if (responseCode !== 200) {
         req.reply({
-          data,
+          body: '404 Not Found',
+          statusCode: 404,
         });
-      },
-    ).as('v2:create:appointment');
-  }
+        return;
+      }
+
+      req.reply({
+        data,
+      });
+    },
+  ).as('v2:create:appointment');
 }
 
 /**
@@ -195,41 +180,34 @@ export function mockAppointmentCreateApi({
  * @param {Object} arguments - Function arguments.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
-export function mockAppointmentsGetApi({
-  response: data,
-  responseCode = 200,
-  version = 2,
-}) {
-  if (version === 2) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: '/vaos/v2/appointments',
-        query: {
-          _include: '*',
-          start: '*',
-          end: '*',
-        },
+export function mockAppointmentsGetApi({ response: data, responseCode = 200 }) {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/vaos/v2/appointments',
+      query: {
+        _include: '*',
+        start: '*',
+        end: '*',
       },
-      req => {
-        if (responseCode !== 200) {
-          req.reply({
-            body: '404 Not Found',
-            statusCode: 404,
-          });
-          return;
-        }
+    },
+    req => {
+      if (responseCode !== 200) {
+        req.reply({
+          body: '404 Not Found',
+          statusCode: 404,
+        });
+        return;
+      }
 
-        if (data) {
-          req.reply({
-            data: data.flat().map((resp, index) => resp.setId(index + 1)),
-          });
-        }
-      },
-    ).as('v2:get:appointments');
-  }
+      if (data) {
+        req.reply({
+          data: data.flat().map((resp, index) => resp.setId(index + 1)),
+        });
+      }
+    },
+  ).as('v2:get:appointments');
 }
 
 /**
@@ -242,36 +220,28 @@ export function mockAppointmentsGetApi({
  * @param {String} arguments.id - The facility id.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
-export function mockFacilityApi({
-  id,
-  response: data,
-  responseCode = 200,
-  version = 2,
-}) {
-  if (version === 2) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: `/vaos/v2/facilities/${id}`,
-      },
-      req => {
-        if (responseCode !== 200) {
-          req.reply({
-            body: '404 Not Found',
-            statusCode: 404,
-          });
-
-          return;
-        }
-
+export function mockFacilityApi({ id, response: data, responseCode = 200 }) {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `/vaos/v2/facilities/${id}`,
+    },
+    req => {
+      if (responseCode !== 200) {
         req.reply({
-          data,
+          body: '404 Not Found',
+          statusCode: 404,
         });
-      },
-    ).as(`v2:get:facility`);
-  }
+
+        return;
+      }
+
+      req.reply({
+        data,
+      });
+    },
+  ).as(`v2:get:facility`);
 }
 
 /**
@@ -283,41 +253,34 @@ export function mockFacilityApi({
  * @param {Object} arguments - Function arguments.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
-export function mockFacilitiesApi({
-  response: data,
-  responseCode = 200,
-  version = 2,
-}) {
-  if (version === 2) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: '/vaos/v2/facilities',
-        query: {
-          children: '*',
-          'ids[]': '*',
-        },
+export function mockFacilitiesApi({ response: data, responseCode = 200 }) {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/vaos/v2/facilities',
+      query: {
+        children: '*',
+        'ids[]': '*',
       },
-      req => {
-        if (responseCode !== 200) {
-          req.reply({
-            body: '404 Not Found',
-            statusCode: 404,
-          });
+    },
+    req => {
+      if (responseCode !== 200) {
+        req.reply({
+          body: '404 Not Found',
+          statusCode: 404,
+        });
 
-          return;
-        }
+        return;
+      }
 
-        if (data) {
-          req.reply({
-            data,
-          });
-        }
-      },
-    ).as('v2:get:facilities');
-  }
+      if (data) {
+        req.reply({
+          data,
+        });
+      }
+    },
+  ).as('v2:get:facilities');
 }
 
 /**
@@ -397,42 +360,35 @@ export function mockSchedulingConfigurationApi({
  * @param {Object} arguments - Function arguments.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
-export function mockEligibilityApi({
-  response: data,
-  responseCode = 200,
-  version = 2,
-}) {
-  if (version === 2) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: '/vaos/v2/eligibility',
-        query: { facility_id: '*', clinical_service_id: '*', type: '*' },
-      },
-      req => {
-        if (responseCode !== 200) {
-          req.reply({
-            body: '404 Not Found',
-            statusCode: 404,
-          });
-
-          return;
-        }
-
+export function mockEligibilityApi({ response: data, responseCode = 200 }) {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/vaos/v2/eligibility',
+      query: { facility_id: '*', clinical_service_id: '*', type: '*' },
+    },
+    req => {
+      if (responseCode !== 200) {
         req.reply({
-          data: {
-            ...data,
-            attributes: {
-              ...data.attributes,
-              type: data.attributes?.type || req.query.type,
-            },
-          },
+          body: '404 Not Found',
+          statusCode: 404,
         });
-      },
-    ).as('v2:get:eligibility');
-  }
+
+        return;
+      }
+
+      req.reply({
+        data: {
+          ...data,
+          attributes: {
+            ...data.attributes,
+            type: data.attributes?.type || req.query.type,
+          },
+        },
+      });
+    },
+  ).as('v2:get:eligibility');
 }
 
 /**
@@ -444,36 +400,32 @@ export function mockEligibilityApi({
  * @param {Object} arguments - Function arguments.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockEligibilityDirectApi({
   response: data,
   responseCode = 200,
-  version = 2,
 }) {
-  if (version === 2) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: '/vaos/v2/eligibility',
-        query: { facility_id: '*', clinical_service_id: '*', type: 'direct' },
-      },
-      req => {
-        if (responseCode !== 200) {
-          req.reply({
-            body: '404 Not Found',
-            statusCode: 404,
-          });
-
-          return;
-        }
-
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/vaos/v2/eligibility',
+      query: { facility_id: '*', clinical_service_id: '*', type: 'direct' },
+    },
+    req => {
+      if (responseCode !== 200) {
         req.reply({
-          data,
+          body: '404 Not Found',
+          statusCode: 404,
         });
-      },
-    ).as('v2:get:eligibility:direct');
-  }
+
+        return;
+      }
+
+      req.reply({
+        data,
+      });
+    },
+  ).as('v2:get:eligibility:direct');
 }
 
 /**
@@ -485,36 +437,32 @@ export function mockEligibilityDirectApi({
  * @param {Object} arguments - Function arguments.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockEligibilityRequestApi({
   response: data,
   responseCode = 200,
-  version = 2,
 }) {
-  if (version === 2) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: '/vaos/v2/eligibility',
-        query: { facility_id: '*', clinical_service_id: '*', type: 'request' },
-      },
-      req => {
-        if (responseCode !== 200) {
-          req.reply({
-            body: '404 Not Found',
-            statusCode: 404,
-          });
-
-          return;
-        }
-
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/vaos/v2/eligibility',
+      query: { facility_id: '*', clinical_service_id: '*', type: 'request' },
+    },
+    req => {
+      if (responseCode !== 200) {
         req.reply({
-          data,
+          body: '404 Not Found',
+          statusCode: 404,
         });
-      },
-    ).as('v2:get:eligibility:request');
-  }
+
+        return;
+      }
+
+      req.reply({
+        data,
+      });
+    },
+  ).as('v2:get:eligibility:request');
 }
 
 /**
@@ -552,36 +500,32 @@ export function mockEligibilityCCApi({ cceType, isEligible: eligible = true }) {
  * @param {String} arguments.locationId - Location id.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode=200] - The response code to return from the mock api call.
- * @param {number} [arguments.version=2] - Api version number.
  */
 export function mockClinicsApi({
   locationId,
   response: data,
   responseCode = 200,
-  version = 2,
 }) {
-  if (version === 2) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: `/vaos/v2/locations/${locationId}/clinics`,
-      },
-      req => {
-        if (responseCode !== 200) {
-          req.reply({
-            body: '404 Not Found',
-            statusCode: 404,
-          });
-
-          return;
-        }
-
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `/vaos/v2/locations/${locationId}/clinics`,
+    },
+    req => {
+      if (responseCode !== 200) {
         req.reply({
-          data,
+          body: '404 Not Found',
+          statusCode: 404,
         });
-      },
-    ).as(`v2:get:clinics`);
-  }
+
+        return;
+      }
+
+      req.reply({
+        data,
+      });
+    },
+  ).as(`v2:get:clinics`);
 }
 
 /**
@@ -595,69 +539,37 @@ export function mockClinicsApi({
  * @param {string} arguments.clinicId - Clinic id. The mocked clinic id should be used.
  * @param {Object} [arguments.response] - The response to return from the mock api call.
  * @param {number} [arguments.responseCode = 200] - The response code to return from the mock api call.
- * @param {number} [arguments.version = 2] - Api version number.
  */
 export function mockSlotsApi({
   locationId,
   clinicId,
   response: data,
   responseCode = 200,
-  version = 2,
 }) {
-  if (version === 2) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: `/vaos/v2/locations/${locationId}/clinics/${clinicId}/slots`,
-        query: {
-          start: '*',
-          end: '*',
-        },
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: `/vaos/v2/locations/${locationId}/clinics/${clinicId}/slots`,
+      query: {
+        start: '*',
+        end: '*',
       },
-      req => {
-        if (responseCode !== 200) {
-          req.reply({
-            body: '404 Not Found',
-            statusCode: 404,
-          });
-
-          return;
-        }
-
+    },
+    req => {
+      if (responseCode !== 200) {
         req.reply({
-          data,
+          body: '404 Not Found',
+          statusCode: 404,
         });
-      },
-    ).as('v2:get:slots');
-  }
-}
 
-/**
- * Function to mock the 'GET' user transition availabilities endpoint.
- *
- * @example GET /v0/user_transition_availabilities
- *
- * @export
- * @param {Object} arguments - Function arguments.
- * @param {number} [arguments.version=0] - Api version number.
- */
-export function mockUserTransitionAvailabilities({ version = 0 } = {}) {
-  if (version === 0) {
-    cy.intercept(
-      {
-        method: 'GET',
-        pathname: `/v0/user_transition_availabilities`,
-      },
-      req => {
-        req.reply({
-          data: {
-            organicModal: false,
-            credentialType: 'idme',
-          },
-        });
-      },
-    ).as('v0:get:user_transition');
-  }
+        return;
+      }
+
+      req.reply({
+        data,
+      });
+    },
+  ).as('v2:get:slots');
 }
 
 /**

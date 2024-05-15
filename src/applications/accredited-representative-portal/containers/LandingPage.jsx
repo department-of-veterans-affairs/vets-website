@@ -26,8 +26,8 @@ const LandingPage = () => {
             <div className="vads-l-col--12 medium-screen:vads-l-col--6">
               <div
                 className="vads-u-padding-left--2 vads-u-padding-right--3 vads-u-padding-top--5
-            vads-u-padding-bottom--3
-            small-desktop-screen:vads-u-padding-bottom--8"
+              vads-u-padding-bottom--3
+              small-desktop-screen:vads-u-padding-bottom--8"
               >
                 <h1
                   data-testid="landing-page-heading"
@@ -44,10 +44,10 @@ const LandingPage = () => {
                 </p>
                 <Link
                   data-testid="landing-page-bypass-sign-in-link"
-                  to="/dashboard"
+                  to="/poa-requests"
                   className="vads-c-action-link--white"
                 >
-                  Until sign in is added use this to see dashboard
+                  Until sign in is added use this to simulate sign in
                 </Link>
               </div>
             </div>
@@ -73,7 +73,7 @@ const LandingPage = () => {
     );
   }
 
-  return <Link to="/dashboard">Dashboard</Link>;
+  return <Link to="/poa-requests">POA requests</Link>;
 };
 
 export default LandingPage;

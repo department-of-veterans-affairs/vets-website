@@ -1,8 +1,8 @@
+export const ACCEPTED = 'ACCEPTED';
+
 const initialState = {
   termsAccepted: false,
 };
-
-import { ACCEPTED } from '../actions';
 
 const virtualAgentReducer = (state = initialState, action) => {
   if (action.type === ACCEPTED) {
@@ -10,11 +10,10 @@ const virtualAgentReducer = (state = initialState, action) => {
       ...state,
       termsAccepted: true,
     };
-  } else {
-    return {
-      ...state,
-    };
   }
+  return {
+    ...state,
+  };
 };
 
 export default {
