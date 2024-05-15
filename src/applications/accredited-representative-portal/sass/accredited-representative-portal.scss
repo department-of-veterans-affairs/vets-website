@@ -48,24 +48,3 @@
     font-weight: 700;
   }
 }
-
-.limitations-row {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-
-  &__warning-icon {
-    color: var(--vads-color-action-focus-on-light);
-  }
-}
-
-.relationship-row {
-  display: block;
-  font-size: 1.4rem;
-  line-height: 1;
-}
-
-.poa-requests-page-table-container {
-  display: flex;
-  flex-direction: column;
-}
