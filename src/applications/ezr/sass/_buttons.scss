@@ -1,5 +1,6 @@
 .ezr-button-link, .ezr-button-remove {
   &:hover, &:focus, &:active { padding: 4px 8px !important; }
+  va-icon { vertical-align: middle; }
 }
 .ezr-button-remove { border-radius: 5px; color: var(--vads-color-secondary-dark) !important; font-weight: 700; text-decoration: none; text-transform: uppercase;
   &:hover, &:focus, &:active { background: var(--vads-color-secondary-lightest) !important; }
