@@ -27,6 +27,7 @@ import InPersonLayout from '../../../components/layout/InPersonLayout';
 import CancelWarningPage from '../cancel/CancelWarningPage';
 import CancelConfirmationPage from '../cancel/CancelConfirmationPage';
 import FacilityAddress from '../../../components/FacilityAddress';
+import ClaimExamLayout from '../../../components/layout/ClaimExamLayout';
 
 function Content({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
@@ -81,8 +82,10 @@ function Content({ appointment, facilityData }) {
     );
   };
 
-  if (featureAppointmentDetailsRedesign && !isPhoneAppointment)
+  if (featureAppointmentDetailsRedesign && !isPhoneAppointment) {
+    if (isCompAndPenAppointment) return <ClaimExamLayout data={appointment} />;
     return <InPersonLayout data={appointment} />;
+  }
 
   return (
     <>

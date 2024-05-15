@@ -121,7 +121,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
       <What>{typeOfCareName || 'Type of care not noted'}</What>
 
       <Who>{videoProviderName}</Who>
-      <Where isPastAppointment={isPastAppointment}>
+      <Where heading={isPastAppointment ? 'Where to attend' : undefined}>
         {!!facility && (
           <>
             <Address address={videoProviderAddress} />

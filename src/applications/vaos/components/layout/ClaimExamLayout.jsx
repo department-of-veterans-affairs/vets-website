@@ -12,7 +12,6 @@ import DetailPageLayout, {
   What,
   Where,
   Section,
-  Who,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
@@ -22,11 +21,10 @@ import AddToCalendarButton from '../AddToCalendarButton';
 import NewTabAnchor from '../NewTabAnchor';
 import FacilityPhone from '../FacilityPhone';
 
-export default function InPersonLayout({ data: appointment }) {
+export default function ClaimExamLayout({ data: appointment }) {
   const {
     clinicName,
     clinicPhysicalLocation,
-    comment,
     facility,
     facilityPhone,
     isPastAppointment,
@@ -43,22 +41,28 @@ export default function InPersonLayout({ data: appointment }) {
 
   if (!appointment) return null;
 
-  const [reason, otherDetails] = comment ? comment?.split(':') : [];
-  const oracleHealthProviderName = null;
-
-  let heading = 'In-person appointment';
-  if (isPastAppointment) heading = 'Past in-person appointment';
+  let heading = 'Claim exam';
+  if (isPastAppointment) heading = 'Past claim exam';
   else if (APPOINTMENT_STATUS.cancelled === status)
-    heading = 'Canceled in-person appointment';
+    heading = 'Canceled claim exam';
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
+      {APPOINTMENT_STATUS.booked === status && (
+        <Section heading="How to prepare for this exam">
+          <span>
+            This appointment is for disability rating purposes only. It doesn’t
+            include treatment. If you have medical evidence to support your
+            claim, bring copies to this appointment.
+          </span>
+        </Section>
+      )}
       <When>
         <AppointmentDate date={startDate} />
         <br />
         <AppointmentTime appointment={appointment} />
         <br />
-        {APPOINTMENT_STATUS.cancelled !== status &&
+        {APPOINTMENT_STATUS.booked === status &&
           !isPastAppointment && (
             <div className="vads-u-margin-top--2 vaos-hide-for-print">
               <AddToCalendarButton
@@ -69,7 +73,6 @@ export default function InPersonLayout({ data: appointment }) {
           )}
       </When>
       <What>{typeOfCareName || 'Type of care information not available'}</What>
-      {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
       <Where
         heading={
           APPOINTMENT_STATUS.booked === status ? 'Where to attend' : undefined
@@ -109,16 +112,19 @@ export default function InPersonLayout({ data: appointment }) {
           <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
         )}
       </Where>
-      <Section heading="Details you shared with your provider">
-        <span>
-          Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
-        </span>
-        <br />
-        <span>Other details: {`${otherDetails || 'Not available'}`}</span>
-      </Section>
+      {APPOINTMENT_STATUS.booked !== status && (
+        <Section heading="Scheduling facility" />
+      )}
+      {APPOINTMENT_STATUS.booked === status &&
+        !isPastAppointment && (
+          <Section heading="Need to make changes?">
+            Contact this facility if you need to reschedule or cancel your
+            appointment.
+          </Section>
+        )}
     </DetailPageLayout>
   );
 }
-InPersonLayout.propTypes = {
+ClaimExamLayout.propTypes = {
   data: PropTypes.object,
 };

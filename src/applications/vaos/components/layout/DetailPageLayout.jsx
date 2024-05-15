@@ -51,21 +51,23 @@ Who.propTypes = {
   children: PropTypes.node,
 };
 
-export function Where({ children, isPastAppointment, isCancelled }) {
-  if (isPastAppointment || isCancelled)
-    return <Section heading="Where">{children}</Section>;
-  return <Section heading="Where to attend">{children}</Section>;
+export function Where({ children, heading = 'Where' } = {}) {
+  return <Section heading={heading}>{children}</Section>;
 }
 Where.propTypes = {
   children: PropTypes.node,
-  isCancelled: PropTypes.bool,
-  isPastAppointment: PropTypes.bool,
+  heading: PropTypes.string,
 };
 
 function CancelButton({ appointment }) {
   const dispatch = useDispatch();
   const { status, vaos } = appointment;
-  const { isCommunityCare, isVideo, isPastAppointment } = vaos;
+  const {
+    isCommunityCare,
+    isCompAndPenAppointment,
+    isVideo,
+    isPastAppointment,
+  } = vaos;
 
   let event = `${GA_PREFIX}-cancel-booked-clicked`;
   if (APPOINTMENT_STATUS.proposed === status)
@@ -87,6 +89,7 @@ function CancelButton({ appointment }) {
   if (
     APPOINTMENT_STATUS.cancelled !== status &&
     !isCommunityCare &&
+    !isCompAndPenAppointment &&
     !isVideo &&
     !isPastAppointment
   )
