@@ -1,80 +1,78 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   VaBreadcrumbs,
   VaButton,
-  VaFileInput,
+  VaIcon,
   VaSegmentedProgressBar,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { submitToSimpleForms } from '../actions';
+import { useSelector } from 'react-redux';
+import { capitalize } from 'lodash';
 import {
   getBreadcrumbList,
+  getFileSize,
   getFormNumber,
   getFormUploadContent,
   handleRouteChange,
 } from '../helpers';
 
-const UploadPage = () => {
+const SubmitPage = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const [file, setFile] = useState({});
-
   const location = useLocation();
   const formNumber = getFormNumber(location);
   const formUploadContent = getFormUploadContent(formNumber);
   const breadcrumbList = getBreadcrumbList(formNumber);
 
-  const onFileUploaded = uploadedFile => setFile(uploadedFile);
+  const fullName = useSelector(state => state?.user?.profile?.userFullName);
+  const { state } = location;
+  const fileName = state?.file?.name;
+  const fileSize = state?.file?.size;
 
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
       <VaBreadcrumbs
         breadcrumbList={breadcrumbList}
-        onRouteChange={({ detail }) => handleRouteChange({ detail }, history)}
+        onRouteChange={handleRouteChange}
       />
       <h1>{`Upload VA Form ${formNumber}`}</h1>
       <p>{formUploadContent}</p>
       <div>
         <VaSegmentedProgressBar
-          current={1}
+          current={3}
           total={3}
           labels="Upload your file;Review your information;Submit your form"
         />
       </div>
-      <h3>Upload your file</h3>
-      <p>
-        You’ll need to scan your document onto the device you’re using to submit
-        this application, such as your computer, tablet, or mobile phone. You
-        can upload your document from there.
-      </p>
-      <div>
-        <p>Guidelines for uploading a file:</p>
-        <ul>
-          <li>You can upload a .pdf, .jpeg, or .png file</li>
-          <li>Your file should be no larger than 25MB</li>
-        </ul>
+      <div className="vads-u-display--flex vads-u-border-bottom--2px vads-u-justify-content--space-between vads-u-align-items--center">
+        <h3>Uploaded file</h3>
+        <a href={`/form-upload/${formNumber}/upload`}>Change file</a>
       </div>
-      <VaFileInput
-        accept=".pdf,.jpeg,.png"
-        error=""
-        hint={null}
-        label={`Upload VA Form ${formNumber}`}
-        name="form-upload-file-input"
-        onVaChange={e =>
-          dispatch(
-            submitToSimpleForms(formNumber, e.detail.files[0], onFileUploaded),
-          )
-        }
-        uswds
-      />
+      <div>
+        <VaIcon icon="description" size={5} srtext="icon representing a file" />
+        <b>{fileName}</b> {getFileSize(fileSize)}
+      </div>
+      <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-padding-left--1">
+        <p>
+          <b>
+            {capitalize(fullName.first)} {capitalize(fullName.last)}
+          </b>
+        </p>
+        <p>Social Security number: TODO: Insert redacted SSN</p>
+        <p>VA file number: TODO: Insert redacted File Number</p>
+        <p>Zip code: TODO: Insert zip code</p>
+      </div>
+      <p>
+        <b>Note:</b> If you need to update your personal information, please
+        call us at 800-827-1000. We’re here Monday through Friday, 8:00am to
+        9:00pm ET.
+      </p>
       <span>
         <VaButton secondary text="<< Back" onClick={history.goBack} />
         <VaButton
           primary
-          text="Continue >>"
-          onClick={() => history.push(`/${formNumber}/review`, { file })}
+          text="Submit form"
+          onClick={() => history.push(`/${formNumber}/submit`, state)}
         />
       </span>
       <div className="need-help-footer">
@@ -91,4 +89,4 @@ const UploadPage = () => {
   );
 };
 
-export default UploadPage;
+export default SubmitPage;

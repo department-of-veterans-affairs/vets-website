@@ -17,14 +17,14 @@ import {
 
 const ReviewPage = () => {
   const history = useHistory();
-  const confirmationCode = useSelector(state => state?.confirmationCode);
-
   const location = useLocation();
   const formNumber = getFormNumber(location);
   const formUploadContent = getFormUploadContent(formNumber);
   const breadcrumbList = getBreadcrumbList(formNumber);
 
   const fullName = useSelector(state => state?.user?.profile?.userFullName);
+
+  const { state } = location;
 
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
@@ -66,11 +66,7 @@ const ReviewPage = () => {
         <VaButton
           primary
           text="Continue >>"
-          onClick={() =>
-            history.push(`/${formNumber}/submit`, {
-              state: { confirmationCode },
-            })
-          }
+          onClick={() => history.push(`/${formNumber}/submit`, state)}
         />
       </span>
       <div className="need-help-footer">
