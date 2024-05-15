@@ -5,22 +5,12 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Link } from 'react-router';
-import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
-import recordEvent from 'platform/monitoring/record-event';
 
 const IntroductionPage = props => {
   const { route, isLoggedIn } = props;
-  const { formConfig, pageList, formData, pathname } = route;
+  const { formConfig, pageList } = route;
 
-  const getStartPage = () => {
-    const data = formData || {};
-    if (pathname) return getNextPagePath(pageList, data, pathname);
-    return pageList[1].path;
-  };
-
-  const handleClick = () => {
-    recordEvent({ event: 'no-login-start-form' });
-  };
+  const firstPage = pageList[1]?.path;
 
   useEffect(
     () => {
@@ -73,9 +63,7 @@ const IntroductionPage = props => {
             filled in.
           </p>
           <p className="vads-u-margin-top--2">
-            <Link onClick={handleClick} to={getStartPage}>
-              Start your form without signing in
-            </Link>
+            <Link to={firstPage}>Start your form without signing in</Link>
           </p>
         </VaAlert>
       ) : (
