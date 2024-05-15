@@ -4,7 +4,7 @@ import { testComponentRender } from 'applications/ivc-champva/shared/tests/pages
 import { MissingFileConsentPage } from '../../components/MissingFileConsentPage';
 import SupportingDocumentsPage from '../../components/SupportingDocumentsPage';
 import formConfig from '../../config/form';
-import mockData from '../fixtures/data/test-data.json';
+import mockData from '../e2e/fixtures/data/test-data.json';
 
 testComponentRender(
   'SupportingDocumentsPage',

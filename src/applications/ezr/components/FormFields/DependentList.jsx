@@ -127,9 +127,11 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
           >
             {content['button-edit']}{' '}
             <span className="sr-only dd-privacy-mask">{dependentName}</span>{' '}
-            <i
-              role="presentation"
-              className="fas fa-chevron-right vads-u-margin-left--0p5"
+            <va-icon
+              class="vads-u-margin-left--0p5"
+              icon="chevron_right"
+              size={3}
+              aria-hidden="true"
             />
           </Link>
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
@@ -140,9 +142,11 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
               handlers.showConfirm({ index, description: modalDescription })
             }
           >
-            <i
-              role="presentation"
-              className="fas fa-times vads-u-margin-right--0p5"
+            <va-icon
+              class="vads-u-margin-right--0p5"
+              icon="close"
+              size={3}
+              aria-hidden="true"
             />{' '}
             {content['button-remove']}{' '}
             <span className="sr-only dd-privacy-mask">{dependentName}</span>
