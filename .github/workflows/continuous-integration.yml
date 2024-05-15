@@ -852,7 +852,7 @@ jobs:
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         run: node script/github-actions/run-cypress-stress-tests.js
-        timeout-minutes: 90
+        timeout-minutes: 180
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}

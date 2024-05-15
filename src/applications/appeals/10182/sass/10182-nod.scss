@@ -46,7 +46,7 @@ article[data-location="contact-information"] {
   }
   /* address modal is very tall and won't scroll without this fix */
   .va-modal-body {
-    max-height: calc(100vh - 4rem);
+    max-height: calc(100vh - 2.5rem);
     overflow-y: auto;
   }
 }
@@ -65,10 +65,10 @@ article[data-location="add-issue"] {
 
 /* override formation to maintain margin between checkboxes */
 .usa-input-error label {
-  margin-top: 3rem;
+  margin-top: 1.875rem;
 }
 #root_otherEntry-label {
-  margin-top: 2rem;
+  margin-top: 1.25rem;
 }
 .usa-input-error > label {
   margin-top: 0;
@@ -98,5 +98,5 @@ article[data-location$="/upload"] {
 /* board review option & hearing type pages */
 #root_hearingTypePreference-label,
 #root_boardReviewOption-label {
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }

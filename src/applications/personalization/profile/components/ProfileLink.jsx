@@ -12,14 +12,14 @@ i {
   &:before {
     content: '\f105';
     display: inline-block;
-    margin-bottom: 0.1rem;
-    margin-left: 0.8rem;
+    margin-bottom: 0.0625rem;
+    margin-left: 0.5rem;
     margin-right: 0;
     vertical-align: middle;
     moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     font-family: 'Font Awesome 5 Free';
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-style: normal;
     font-variant: normal;
     font-weight: 900;
@@ -32,7 +32,7 @@ i {
 &:focus {
   i {
     &:before {
-      margin-left: 1.2rem;
+      margin-left: 0.75rem;
       transition-duration: 0.3s;
       transition-timing-function: ease-in-out;
       transition-property: margin;

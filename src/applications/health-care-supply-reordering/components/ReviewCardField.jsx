@@ -371,7 +371,7 @@ class ReviewCardField extends React.Component {
             'vads-u-padding-top--3 vads-u-padding-x--3':
               this.props.name !== this.props['view:currentAddress'],
           })}
-          style={{ minHeight: '5rem' }}
+          style={{ minHeight: '3.125rem' }}
         >
           <h4 className={titleClasses}>{title}</h4>
         </div>
@@ -390,7 +390,7 @@ class ReviewCardField extends React.Component {
               <button
                 className={`${editLink} va-button-link vads-u-display--block vads-u-margin-top--2`}
                 aria-label={`Edit ${title.toLowerCase()}`}
-                style={{ minWidth: '8rem' }}
+                style={{ minWidth: '5rem' }}
                 onClick={() => this.startEditing(this.props.name)}
                 type="button"
               >
@@ -403,7 +403,7 @@ class ReviewCardField extends React.Component {
               <button
                 className={`${editLink} va-button-link`}
                 aria-label={`Add a ${title.toLowerCase()}`}
-                style={{ minWidth: '8rem' }}
+                style={{ minWidth: '5rem' }}
                 onClick={() => this.startEditing(this.props.name)}
                 type="button"
               >
@@ -443,7 +443,7 @@ class ReviewCardField extends React.Component {
         {volatileData && (
           <button
             className={`usa-button-primary ${editButton}`}
-            style={{ minWidth: '8rem' }}
+            style={{ minWidth: '5rem' }}
             onClick={() => this.startEditing(this.props.name)}
           >
             {itemNameAction || 'New'} {itemName || title}

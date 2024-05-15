@@ -1,4 +1,3 @@
-// The distance from the top of the sceen that the mobile navigation menu should appear
 $height-offset-small: 131.16px;
 $height-offset-xsmall: 153.16px;
 
@@ -30,7 +29,7 @@ body.va-pos-fixed {
   // shouldn't affect anything. However, it's here to show how the height is offset by the
   // vertical positioning.
   // top: $height-offset;
-  left: -0.9rem;
+  left: -0.5625rem;
   overflow-y: scroll;
   position: absolute;
   width: 103%;
@@ -50,7 +49,7 @@ body.va-pos-fixed {
   }
 
   @include media($medium-screen) {
-    margin-top: 1rem;
+    margin-top: 0.625rem;
     overflow-y: visible;
     position: relative;
     width: auto;
@@ -67,7 +66,7 @@ body.va-pos-fixed {
   @include media($medium-screen) {
     display: flex;
     height: auto;
-    margin-top: 1rem;
+    margin-top: 0.625rem;
     margin-bottom: 0;
     overflow-y: visible;
     position: relative;
@@ -99,8 +98,8 @@ body.va-pos-fixed {
   }
 
   .usa-button-secondary {
-    padding: calc(1rem + 2px);
-    margin: 0.8rem 1.6rem;
+    padding: calc(0.625rem + 2px);
+    margin: 0.5rem 1rem;
     width: auto;
     background-color: var(--vads-color-base-lightest);
 
@@ -125,9 +124,9 @@ body.va-pos-fixed {
 
   svg {
     display: inline-block;
-    height: 1.6rem;
-    margin-right: 0.8rem;
-    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+    width: 0.625rem;
     vertical-align: 0;
   }
 
@@ -168,9 +167,9 @@ body.va-pos-fixed {
 .vetnav-level1 {
   -webkit-font-smoothing: antialiased;
   background-color: var(--vads-color-primary-dark);
-  background-position: right 3rem center;
+  background-position: right 1.875rem center;
   background-repeat: no-repeat;
-  background-size: 1.3rem auto;
+  background-size: 0.8125rem auto;
   border-radius: 0;
   border-top: 3px solid transparent;
   color: var(--vads-color-white);
@@ -179,7 +178,7 @@ body.va-pos-fixed {
   font-weight: bold;
   line-height: 1;
   margin: 0;
-  padding: 1.6rem;
+  padding: 1rem;
   text-align: left;
   text-decoration: none;
   width: 100%;
@@ -188,8 +187,8 @@ body.va-pos-fixed {
     background-image: url(/img/minus-white.svg);
 
     @include media($medium-screen) {
-      background-position: right 1.6rem center;
-      padding-right: 3.2rem;
+      background-position: right 1rem center;
+      padding-right: 2rem;
     }
   }
 
@@ -216,7 +215,7 @@ body.va-pos-fixed {
 
   @include media($medium-screen) {
     background-color: transparent;
-    background-size: 1rem auto;
+    background-size: 0.625rem auto;
   }
 
   &:active {
@@ -234,29 +233,29 @@ body.va-pos-fixed {
 }
 
 .vetnav-level2 {
-  background: var(--vads-color-primary-darker) url(/img/arrow-right-white.svg) right 2rem center no-repeat;
-  background-size: 1.4rem auto;
+  background: var(--vads-color-primary-darker) url(/img/arrow-right-white.svg) right 1.25rem center no-repeat;
+  background-size: 0.875rem auto;
   border-radius: 0;
   display: block;
   font-weight: normal;
   margin: 0;
-  padding: 1.6rem;
+  padding: 1rem;
   text-align: left;
   width: 100%;
   -webkit-font-smoothing: antialiased;
   line-height: 1;
 
   @include media($medium-screen) {
-    background: transparent url(/img/arrow-right.svg) right 1rem center no-repeat;
+    background: transparent url(/img/arrow-right.svg) right 0.625rem center no-repeat;
     border-color: transparent;
     border-style: solid;
     border-width: 1px 0;
     color: var(--vads-color-link);
-    background-size: 1rem auto;
-    margin-left: 0.8rem;
-    padding: 0.8rem 0 0.8rem 1.6rem;
+    background-size: 0.625rem auto;
+    margin-left: 0.5rem;
+    padding: 0.5rem 0 0.5rem 1rem;
     position: relative;
-    width: 25.3rem;
+    width: 15.8125rem;
 
     &:hover {
       background-color: transparent;
@@ -280,9 +279,9 @@ body.va-pos-fixed {
 
   &-heading {
     -webkit-font-smoothing: antialiased;
-    font-size: 2rem;
+    font-size: 1.25rem;
     font-weight: bold;
-    padding: 0.8rem 1.6rem;
+    padding: 0.5rem 1rem;
 
     @include media($medium-screen) {
       display: none;
@@ -291,11 +290,11 @@ body.va-pos-fixed {
 }
 
 #vetnav .back-button {
-  background: var(--vads-color-primary-dark) url(/img/arrow-left-white.svg) right 3rem center no-repeat;
-  background-position: left 1rem center;
-  background-size: 1.4rem auto;
+  background: var(--vads-color-primary-dark) url(/img/arrow-left-white.svg) right 1.875rem center no-repeat;
+  background-position: left 0.625rem center;
+  background-size: 0.875rem auto;
   border-radius: 0;
-  padding: 1.6rem 1.6rem 1.6rem 3rem;
+  padding: 1rem 1rem 1rem 1.875rem;
   text-align: left;
   width: 100%;
   margin: 0;
@@ -325,13 +324,13 @@ body.va-pos-fixed {
   }
 
   .mm-links {
-    padding: 0.8rem 1.6rem;
+    padding: 0.5rem 1rem;
   }
 
   @include media($medium-screen) {
     box-shadow: 0 5px 9px -5px var(--vads-color-base);
     background: var(--vads-color-white);
-    padding-bottom: 1.6rem;
+    padding-bottom: 1rem;
     position: absolute;
   }
 }
@@ -376,10 +375,10 @@ body.va-pos-fixed {
       border-left: 1px solid var(--vads-color-gray-warm-light);
       background-color: var(--vads-color-base-lightest);
       height: 100%;
-      margin-left: 23rem;
+      margin-left: 14.375rem;
       left: 30px;
-      padding: 0.5rem 0 1.6rem;
-      width: 31rem;
+      padding: 0.3125rem 0 1rem;
+      width: 19.375rem;
     }
   }
 }
@@ -387,7 +386,7 @@ body.va-pos-fixed {
 .vet-toolbar {
   align-items: center;
   flex: 1 1 100%;
-  margin-left: -2rem;
+  margin-left: -1.25rem;
   position: relative;
 
   > [data-reactroot],
@@ -397,7 +396,7 @@ body.va-pos-fixed {
   }
 
   @include media($medium-screen) {
-    flex: 0 1 32.5rem;
+    flex: 0 1 20.3125rem;
     margin-left: 0;
     margin-right: 0;
   }
@@ -409,7 +408,7 @@ body.va-pos-fixed {
   }
 
   .va-dropdown {
-    margin-left: 1rem;
+    margin-left: 0.625rem;
   }
 
   .va-dropdown-trigger {
@@ -418,20 +417,20 @@ body.va-pos-fixed {
 }
 
 [id="search"] {
-  width: 30rem;
+  width: 18.75rem;
 
   [type="text"] {
     margin: 0;
-    flex: 1 0 20rem;
+    flex: 1 0 12.5rem;
   }
 
   [type="submit"] {
-    border-radius: 0 0.3rem 0.3rem 0;
+    border-radius: 0 0.1875rem 0.1875rem 0;
     display: flex;
-    flex: 1 0 3rem;
+    flex: 1 0 1.875rem;
     justify-content: center;
     margin: 0;
-    padding: 1rem;
+    padding: 0.625rem;
   }
 
   > .va-flex {
@@ -484,7 +483,7 @@ body.va-pos-fixed {
       margin-top: 7px;
 
       svg {
-        margin-left: 0.8rem;
+        margin-left: 0.5rem;
       }
     }
 
@@ -509,9 +508,9 @@ body.va-pos-fixed {
 
     svg {
       display: inline-block;
-      height: 1.6rem;
-      margin-left: 0.8rem;
-      width: 1rem;
+      height: 1rem;
+      margin-left: 0.5rem;
+      width: 0.625rem;
       vertical-align: 0;
     }
 

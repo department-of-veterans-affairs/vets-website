@@ -13,7 +13,7 @@
 
   .va-flex {
     flex-wrap: wrap;
-    padding-left: 0.9375rem;
+    padding-left: 0.5859375rem;
     @include media($medium-screen) {
       flex-wrap: nowrap;
     }
@@ -25,18 +25,18 @@
 }
 
 .footer-inner {
-  padding: 0 0 2rem 0;
+  padding: 0 0 1.25rem 0;
 
   @include media($medium-screen) {
-    padding: 2rem 1rem 0;
+    padding: 1.25rem 0.625rem 0;
   }
 }
 
 body.va-pad-promo-banner .footer-inner {
-  padding-bottom: 5.75rem;
+  padding-bottom: 3.59375rem;
 
   @include media($medium-screen) {
-    padding-bottom: 3.75rem;
+    padding-bottom: 2.34375rem;
   }
 }
 
@@ -154,8 +154,8 @@ body.va-pad-promo-banner .footer-inner {
   cursor: pointer;
   display: block;
   margin: 0;
-  padding: 1.6rem 0.8rem;
-  font-size: 1.6rem;
+  padding: 16px 8px;
+  font-size: 16px;
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
     "Arial", sans-serif;
   color: var(--vads-color-white);
@@ -195,7 +195,7 @@ body.va-pad-promo-banner .footer-inner {
       }
       &:not(:last-child):after {
         content: "|";
-        padding: 0 1rem;
+        padding: 0 0.625rem;
         color: var(--vads-color-white);
       }
     }

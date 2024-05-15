@@ -4,7 +4,7 @@
   background-color: var(--vads-color-secondary-dark);
 
   @include media($small-desktop-screen) {
-    max-width: 97.5rem;
+    max-width: 975px;
     background-color: transparent;
   }
 }
@@ -95,6 +95,7 @@ button.va-crisis-line {
 
 .va-crisis-panel {
   color: var(--vads-color-base);
+  font-size: 16px;
 
   li:nth-child(odd) {
     border-bottom: none;
@@ -113,6 +114,7 @@ button.va-crisis-line {
     background-size: 32px auto;
     margin-top: 0;
     width: 90%;
+    font-size: 20px;
   }
 
   &-list {
@@ -164,8 +166,9 @@ button.va-crisis-line {
   }
 
   &-close.va-modal-close {
-    padding-top: 0.1rem;
-
+    font-size: 2.5rem;
+    color: var(--vads-color-link);
+    padding-top: 0.0625rem;
     &:hover {
       fill: var(--vads-color-black);
     }
@@ -174,7 +177,7 @@ button.va-crisis-line {
 
 .va-modal-large .va-crisis-panel.va-modal-inner {
   width: 90vw;
-  max-width: 75rem;
+  max-width: 46.875rem;
 }
 
 .va-crisis-panel-close:hover svg path {

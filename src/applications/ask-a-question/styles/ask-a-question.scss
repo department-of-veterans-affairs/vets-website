@@ -7,7 +7,7 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 
 .autosuggest-list {
-  max-height: 30rem;
+  max-height: 18.75rem;
 }
 
 .schemaform-title {
@@ -15,7 +15,7 @@
 }
 
 textarea#root_query {
-  height: 40rem;
+  height: 25rem;
 }
 
 ul.claim-list {
@@ -27,6 +27,6 @@ ul.claim-list {
 
 .help-footer-box {
   @include media($medium-screen) {
-    padding-top: 3.0rem;
+    padding-top: 1.875rem;
   }
 }
