@@ -23,7 +23,7 @@ describe('LandingPage', () => {
   it('renders the link to bypass signing in', () => {
     const { getByTestId } = getLandingPage();
     expect(getByTestId('landing-page-bypass-sign-in-link').textContent).to.eq(
-      'Until sign in is added use this to see dashboard',
+      'Until sign in is added use this to simulate sign in',
     );
   });
 

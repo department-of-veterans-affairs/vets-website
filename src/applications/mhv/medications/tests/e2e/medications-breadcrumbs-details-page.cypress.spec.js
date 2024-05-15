@@ -13,6 +13,7 @@ describe('Medications Details Page Breadcrumbs', () => {
     site.login();
     landingPage.visitLandingPageURL();
     listPage.clickGotoMedicationsLink();
+
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     detailsPage.clickMedicationsListPageBreadcrumbsOnDetailsPage();
     listPage.verifyNavigationToListPageAfterClickingBreadcrumbMedications();
