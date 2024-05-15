@@ -240,7 +240,7 @@ jobs:
         if: ${{ steps.cypress-tests.outputs.selected == 'true' }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: cypress-tests-to-test
+          name: e2e-tests-to-test
           path: e2e_tests_to_test.json
 
       - name: Set output of e2e_tests_to_STRESS_TEST
@@ -251,7 +251,7 @@ jobs:
         if: ${{ steps.cypress-tests-to-stress-test.outputs.tests == 'true' }}
         uses: ./.github/workflows/upload-artifact
         with:
-          name: cypress-tests-to-stress-test
+          name: e2e-tests-to-stress-test
           path: e2e_tests_to_stress_test.json
 
       - name: Set output of NUM_CONTAINERS
@@ -766,6 +766,12 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
+      - name: Download Tests to verify
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: e2e-tests-to-test
+          path: .
+
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
@@ -858,7 +864,7 @@ jobs:
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact
         with:
-          name: cypress-tests-to-stress-test
+          name: e2e-tests-to-stress-test
           path: .
 
       - name: Run Cypress tests
