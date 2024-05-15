@@ -43,6 +43,8 @@ const WHCancelReasons = require('./wellHive/cancelReasons.json');
 const driveTimes = require('./wellHive/driveTime.json');
 const patients = require('./wellHive/patients.json');
 const WHNetworks = require('./wellHive/networks.json');
+const specialties = require('./wellHive/specialties.json');
+const specialtyGroups = require('./wellHive/specialtyGroups.json');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -547,6 +549,26 @@ const responses = {
     return res.json({
       data: WHNetworks.networks.find(
         network => network?.id === req.params.networkId,
+      ),
+    });
+  },
+  'GET /vaos/v2/wellhive/specialties': (req, res) => {
+    return res.json({ data: specialties });
+  },
+  'GET /vaos/v2/wellhive/specialties/:specialtyId': (req, res) => {
+    return res.json({
+      data: specialties.specialties.find(
+        specialty => specialty?.id === req.params.specialtyId,
+      ),
+    });
+  },
+  'GET /vaos/v2/wellhive/specialty-groups': (req, res) => {
+    return res.json({ data: specialtyGroups });
+  },
+  'GET /vaos/v2/wellhive/specialty-groups/:specialtyGroupId': (req, res) => {
+    return res.json({
+      data: specialtyGroups.specialtyGroups.find(
+        specialtyGroup => specialtyGroup?.id === req.params.specialtyGroupId,
       ),
     });
   },
