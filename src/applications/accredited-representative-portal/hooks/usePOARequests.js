@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getPOARequestsByCodes } from '../actions/poaRequests';
-import mockPOARequestsResponse from '../mocks/mockPOARequestsResponse.json';
+import { mockPOARequests } from '../mocks/mockPOARequests';
 
 const usePOARequests = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,13 +12,13 @@ const usePOARequests = () => {
     const fetchPOARequests = async () => {
       try {
         const response = await getPOARequestsByCodes('A1Q');
-        setPOARequests(response.data);
+        setPOARequests(response.records);
       } catch (responseError) {
         setError(responseError);
       } finally {
         // TODO: Remove this mock poaRequests once the API is implemented
         setError(null);
-        setPOARequests(mockPOARequestsResponse.data);
+        setPOARequests(mockPOARequests);
 
         setIsLoading(false);
       }

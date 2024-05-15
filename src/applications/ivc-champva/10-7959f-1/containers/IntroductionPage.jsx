@@ -1,25 +1,16 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Link } from 'react-router';
-import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
-import recordEvent from 'platform/monitoring/record-event';
 
 const IntroductionPage = props => {
-  const { route } = props;
-  const { formConfig, pageList, formData, pathname } = route;
+  const { route, isLoggedIn } = props;
+  const { formConfig, pageList } = route;
 
-  const getStartPage = () => {
-    const data = formData || {};
-    if (pathname) return getNextPagePath(pageList, data, pathname);
-    return pageList[1].path;
-  };
-
-  const handleClick = () => {
-    recordEvent({ event: 'no-login-start-form' });
-  };
+  const firstPage = pageList[1]?.path;
 
   useEffect(
     () => {
@@ -53,39 +44,39 @@ const IntroductionPage = props => {
           </li>
         </ul>
       </va-process-list>
-      <VaAlert status="info" visible uswds>
-        <h2>Sign in now to save time and save your work in progress</h2>
-        <p>Here’s how signing in now helps you:</p>
-        <ul>
-          <li>
-            We can fill in some of your information for you to save you time.
-          </li>
-          <li>
-            You can save your work in progress. You’ll have 60 days from when
-            you start, or make updates, to come back and finish it.
-          </li>
-        </ul>
-        <p>
-          <strong>Note:</strong> You can sign in after you start your
-          registration form. But you’ll lose any information you already filled
-          in.
-        </p>
+      {!isLoggedIn ? (
+        <VaAlert status="info" visible uswds>
+          <h2>Sign in now to save time and save your work in progress</h2>
+          <p>Here’s how signing in now helps you:</p>
+          <ul>
+            <li>
+              We can fill in some of your information for you to save you time.
+            </li>
+            <li>
+              You can save your work in progress. You’ll have 60 days from when
+              you start, or make updates, to come back and finish it.
+            </li>
+          </ul>
+          <p>
+            <strong>Note:</strong> You can sign in after you start your
+            registration form. But you’ll lose any information you already
+            filled in.
+          </p>
+          <p className="vads-u-margin-top--2">
+            <Link to={firstPage}>Start your form without signing in</Link>
+          </p>
+        </VaAlert>
+      ) : (
         <SaveInProgressIntro
-          buttonOnly
+          formId={formConfig.formId}
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          unauthStartText="Sign in to start your form"
-          hideUnauthedStartLink
+          startText="Start"
         />
-        <p className="vads-u-margin-top--2">
-          <Link onClick={handleClick} to={getStartPage}>
-            Start your form without signing in
-          </Link>
-        </p>
-      </VaAlert>
-      <p />
+      )}
+
       <va-omb-info
         res-burden={4}
         omb-number="2900-0648"
@@ -95,4 +86,10 @@ const IntroductionPage = props => {
   );
 };
 
-export default IntroductionPage;
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.user.login.currentlyLoggedIn,
+  };
+};
+
+export default connect(mapStateToProps)(IntroductionPage);

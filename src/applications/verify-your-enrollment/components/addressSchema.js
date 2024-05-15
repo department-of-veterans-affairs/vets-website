@@ -154,7 +154,7 @@ export const getUiSchema = () => {
     },
     addressLine4: {
       'ui:title': `Street address line 4 (${STREET_LINE_MAX_LENGTH} characters maximum)`,
-      'ui:autocomplete': 'address-line4',
+      // 'ui:autocomplete': 'address-line4',
       'ui:errorMessages': {
         pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
       },

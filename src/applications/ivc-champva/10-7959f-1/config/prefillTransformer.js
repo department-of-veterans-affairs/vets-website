@@ -1,14 +1,18 @@
-const prefillTransformer = (pages, metadata, formData) => {
+const prefillTransformer = (pages, formData, metadata) => {
   return {
     pages,
     formData: {
       ...formData,
-      veteranFullName: formData.fullName,
-      veteranAddress: formData.mailingAddress,
-      veteranDateOfBirth: formData.veteranDOB,
-      veteranSocialSecurityNumber: formData.ssn,
-      veteranPhoneNumber: formData.phoneNumber,
-      veteranEmailAddress: formData.emailAddress,
+      veteranFullName: formData.veteranFullName,
+      veteranAddress: formData.veteranAddress,
+      veteranResidentialAddress: formData.veteranPhysicalAddress,
+      veteranDateOfBirth: formData.veteranDateOfBirth,
+      veteranSocialSecurityNumber: {
+        ssn: formData.veteranSocialSecurityNumber,
+        vaFileNumber: null,
+      },
+      veteranPhoneNumber: formData.veteranPhoneNumber,
+      veteranEmailAddress: formData.veteranEmailAddress,
     },
     metadata,
   };

@@ -5,22 +5,19 @@ import { Link } from 'react-router-dom-v5-compat';
 
 export const createRelationshipCell = attributes => {
   if ('veteran' in attributes) {
-    return attributes?.claimant.relationshipToVeteran;
+    return attributes?.claimant.relationship;
   }
   return 'Veteran';
 };
 
-export const createLimitationsCell = (isTreatmentAuth, isAddressAuth) => {
-  let text = null;
-  if (!isTreatmentAuth && !isAddressAuth) {
-    text = 'Health, Address';
-  } else if (!isTreatmentAuth) {
-    text = 'Health';
-  } else if (!isAddressAuth) {
-    text = 'Address';
-  }
+export const createLimitationsCell = (healthInfoAuth, changeAddressAuth) => {
+  const limitations = [];
 
-  return text ? (
+  // If do not authorize sharing health info or authorize change of address then we label it as a limitation of consent
+  if (healthInfoAuth === 'N') limitations.push('Health');
+  if (changeAddressAuth === 'N') limitations.push('Address');
+
+  return limitations.length > 0 ? (
     <span className="limitations-row">
       <va-icon
         class="limitations-row__warning-icon"
@@ -28,7 +25,7 @@ export const createLimitationsCell = (isTreatmentAuth, isAddressAuth) => {
         size={3}
         srtext="warning"
       />
-      {text}
+      {limitations.join(', ')}
     </span>
   ) : (
     'None'
@@ -61,7 +58,7 @@ const POARequestsTable = ({ poaRequests }) => {
         <span data-testid="poa-requests-table-headers-state">State</span>
         <span data-testid="poa-requests-table-headers-zip">Zip</span>
         <span data-testid="poa-requests-table-headers-received">
-          POA received date
+          Date received
         </span>
       </va-table-row>
       {poaRequests.map(({ id, attributes }) => (
