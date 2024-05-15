@@ -22,7 +22,7 @@ export const fetchItf = () => ({
 });
 
 export const getPastItf = cy => {
-  cy.get('.itf-inner')
+  cy.get('va-alert')
     .should('be.visible')
     .then(() => {
       // Click past the ITF message

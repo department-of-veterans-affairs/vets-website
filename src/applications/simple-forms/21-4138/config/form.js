@@ -1,6 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
-import { startOfDay, subYears } from 'date-fns';
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -10,8 +9,6 @@ import {
   SUBTITLE,
   STATEMENT_TYPES,
   DECISION_REVIEW_TYPES,
-  LIVING_SITUATIONS,
-  OTHER_REASONS_REQUIRED,
 } from './constants';
 import { statementTypePage } from '../pages/statementType';
 import { layOrWitnessHandoffPage } from '../pages/layOrWitness';
@@ -36,13 +33,12 @@ import {
 } from '../pages/priorityProcessing';
 import { recordsRequestHandoffPage } from '../pages/recordsRequest';
 import { newEvidenceHandoffPage } from '../pages/newEvidence';
-import { vreRequestHandoffPage } from '../pages/vreRequest';
 import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
 import { identificationInformationPage } from '../pages/identificationInfo';
 import { mailingAddressPage } from '../pages/mailingAddress';
 import { phoneAndEmailPage } from '../pages/phoneAndEmail';
 import { statementPage } from '../pages/statement';
-import { getMockData } from '../helpers';
+import { getMockData, isEligibleForDecisionReview } from '../helpers';
 
 // export isLocalhost() to facilitate unit-testing
 export function isLocalhost() {
@@ -53,7 +49,6 @@ export function isLocalhost() {
 import testData from '../tests/e2e/fixtures/data/user.json';
 
 const mockData = testData.data;
-const oneYearAgo = startOfDay(subYears(new Date(), 1));
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -95,6 +90,7 @@ const formConfig = {
       title: 'What kind of statement do you want to submit?',
       hideFormNavProgress: true,
       hideFormTitle: true,
+      hideOnReviewPage: true,
       pages: {
         statementTypePage: {
           path: 'statement-type',
@@ -113,6 +109,7 @@ const formConfig = {
           uiSchema: layOrWitnessHandoffPage.uiSchema,
           schema: layOrWitnessHandoffPage.schema,
           pageClass: 'lay-or-witness-handoff',
+          hideNavButtons: true,
         },
         decisionReviewPage: {
           depends: formData =>
@@ -126,17 +123,18 @@ const formConfig = {
         noticeOfDisagreementOldHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) > oneYearAgo,
+            !isEligibleForDecisionReview(formData.decisionDate),
           path: 'notice-of-disagreement-old-handoff',
           title: 'What to know before you request a decision review',
           uiSchema: nodOldHandoffPage.uiSchema,
           schema: nodOldHandoffPage.schema,
           pageClass: 'notice-of-disagreement-old-handoff',
+          hideNavButtons: true,
         },
         decisionReviewTypePage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) <= oneYearAgo,
+            isEligibleForDecisionReview(formData.decisionDate),
           path: 'decision-review-type',
           title: 'Which description is true for you?',
           uiSchema: decisionReviewTypePage.uiSchema,
@@ -146,35 +144,38 @@ const formConfig = {
         noticeOfDisagreementSupplementalHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) <= oneYearAgo &&
+            isEligibleForDecisionReview(formData.decisionDate) &&
             formData.decisionReviewType === DECISION_REVIEW_TYPES.NEW_EVIDENCE,
           path: 'notice-of-disagreement-supplemental-handoff',
           title: 'What to know before you request a decision review',
           uiSchema: nodSupplementalHandoffPage.uiSchema,
           schema: nodSupplementalHandoffPage.schema,
           pageClass: 'notice-of-disagreement-supplemental-handoff',
+          hideNavButtons: true,
         },
         noticeOfDisagreementHLRHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) <= oneYearAgo &&
+            isEligibleForDecisionReview(formData.decisionDate) &&
             formData.decisionReviewType === DECISION_REVIEW_TYPES.ERROR_MADE,
           path: 'notice-of-disagreement-hlr-handoff',
           title: "There's a better way for you to ask for a decision review",
           uiSchema: nodHLRHandoffPage.uiSchema,
           schema: nodHLRHandoffPage.schema,
           pageClass: 'notice-of-disagreement-hlr-handoff',
+          hideNavButtons: true,
         },
         noticeOfDisagreementBAHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            new Date(formData.decisionDate) <= oneYearAgo &&
+            isEligibleForDecisionReview(formData.decisionDate) &&
             formData.decisionReviewType === DECISION_REVIEW_TYPES.BVA_REQUEST,
           path: 'notice-of-disagreement-ba-handoff',
           title: "There's a better way for you to ask for a decision review",
           uiSchema: nodBAHandoffPage.uiSchema,
           schema: nodBAHandoffPage.schema,
           pageClass: 'notice-of-disagreement-ba-handoff',
+          hideNavButtons: true,
         },
         priorityProcessingIntroPage: {
           depends: formData =>
@@ -198,7 +199,7 @@ const formConfig = {
         priorityProcessingOtherHousingRiskPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            formData.livingSituation === LIVING_SITUATIONS.OTHER_RISK,
+            formData.livingSituation.OTHER_RISK,
           path: 'priority-processing-other-housing-risks',
           title: 'Other housing risks',
           uiSchema: ppOtherHousingRisksPage.uiSchema,
@@ -208,7 +209,7 @@ const formConfig = {
         priorityProcessingOtherReasonsOptionalPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            formData.livingSituation !== LIVING_SITUATIONS.NONE,
+            formData.livingSituation.NONE,
           path: 'priority-processing-other-reasons-optional',
           title: 'Other reasons for request',
           uiSchema: ppOtherReasonsOptionalPage.uiSchema,
@@ -218,7 +219,7 @@ const formConfig = {
         priorityProcessingOtherReasonsRequiredPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            formData.livingSituation === LIVING_SITUATIONS.NONE,
+            !formData.livingSituation.NONE,
           path: 'priority-processing-other-reasons',
           title: 'Other reasons for request',
           uiSchema: ppOtherReasonsRequiredPage.uiSchema,
@@ -228,8 +229,7 @@ const formConfig = {
         priorityProcessingNotQualifiedPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            (formData.livingSituation === LIVING_SITUATIONS.NONE &&
-              formData.otherReasons === OTHER_REASONS_REQUIRED.NONE),
+            (formData.livingSituation.NONE && formData.otherReasons?.NONE),
           path: 'priority-processing-not-qualified',
           title: 'You may not qualify for priority processing',
           uiSchema: ppNotQualifiedPage.uiSchema,
@@ -239,14 +239,14 @@ const formConfig = {
         priorityProcessingQualifiedHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            (formData.livingSituation !== LIVING_SITUATIONS.NONE ||
-              (formData.livingSituation === LIVING_SITUATIONS.NONE &&
-                formData.otherReasons !== OTHER_REASONS_REQUIRED.NONE)),
+            (!formData.livingSituation.NONE ||
+              (formData.livingSituation.NONE && !formData.otherReasons?.NONE)),
           path: 'priority-processing-qualified-handoff',
           title: "There's a better way to request priority processing",
           uiSchema: ppQualifiedHandoffPage.uiSchema,
           schema: ppQualifiedHandoffPage.schema,
           pageClass: 'priority-processing-qualified-handoff',
+          hideNavButtons: true,
         },
         recordsRequestHandoffPage: {
           depends: formData =>
@@ -256,6 +256,7 @@ const formConfig = {
           uiSchema: recordsRequestHandoffPage.uiSchema,
           schema: recordsRequestHandoffPage.schema,
           pageClass: 'records-request-handoff',
+          hideNavButtons: true,
         },
         newEvidenceHandoffPage: {
           depends: formData =>
@@ -265,15 +266,7 @@ const formConfig = {
           uiSchema: newEvidenceHandoffPage.uiSchema,
           schema: newEvidenceHandoffPage.schema,
           pageClass: 'new-evidence-handoff',
-        },
-        vreRequestHandoffPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.VRE_REQUEST,
-          path: 'vre-request-handoff',
-          title: "There's a better way to request Chapter 31 support",
-          uiSchema: vreRequestHandoffPage.uiSchema,
-          schema: vreRequestHandoffPage.schema,
-          pageClass: 'vre-request-handoff',
+          hideNavButtons: true,
         },
       },
     },
@@ -359,7 +352,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      // fullNamePath: formData => statementOfTruthFullNamePath({ formData }),
+      fullNamePath: 'fullName',
       checkboxLabel:
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
     },

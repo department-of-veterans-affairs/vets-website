@@ -51,7 +51,7 @@ class VitalsListPage extends BaseListPage {
       .contains(date);
     cy.get('[data-testid="vital-li-review-over-time"]')
       .eq(index)
-      .contains(`Review ${name} over time`, { matchCase: false });
+      .contains(`Review your ${name} over time`, { matchCase: false });
   };
 
   clickVitalsDetailsLink = (_VitalsIndex = 0) => {

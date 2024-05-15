@@ -212,22 +212,24 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
                 cancelEditClick={handleCloseForm}
                 formType="direct deposit"
               />
-              <LoadingButton
-                aria-label="save your bank information for GI Bill® benefits"
-                type="submit"
-                loadingText="saving bank information"
-                className="usa-button-primary vads-u-margin-top--0 ach-submit-btn-auto-width"
-              >
-                Save
-              </LoadingButton>
-              <va-button
-                text="Cancel"
-                secondary
-                label="cancel updating your bank information for GI Bill® benefits"
-                onClick={onCancelButtonClick}
-                data-qa="cancel-button"
-                data-testid={`${prefix}form-cancel-button`}
-              />
+              <div className="button-container">
+                <LoadingButton
+                  aria-label="save your bank information for GI Bill® benefits"
+                  type="submit"
+                  loadingText="saving bank information"
+                  className="usa-button-primary vads-u-margin-top--0 ach-submit-btn-auto-width"
+                >
+                  Save
+                </LoadingButton>
+                <va-button
+                  text="Cancel"
+                  secondary
+                  label="cancel updating your bank information for GI Bill® benefits"
+                  onClick={onCancelButtonClick}
+                  data-qa="cancel-button"
+                  data-testid={`${prefix}form-cancel-button`}
+                />
+              </div>
             </ChangeOfDirectDepositForm>
           </div>
         )}

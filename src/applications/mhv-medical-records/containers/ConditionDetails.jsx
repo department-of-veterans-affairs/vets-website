@@ -39,6 +39,7 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateConditionContent } from '../util/pdfHelpers/conditions';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import { useIsDetails } from '../hooks/useIsDetails';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -57,6 +58,8 @@ const ConditionDetails = props => {
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  useIsDetails(dispatch);
 
   useEffect(
     () => {
@@ -120,13 +123,11 @@ ${record.name} \n
 ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Date entered: ${record.date} \n
-${txtLine} \n
-Provider: ${record.provider} \n
-Provider Notes: ${processList(record.note)} \n
-Status of health condition: ${record.active} \n
-Location: ${record.facility} \n
-SNOMED Clinical term: ${record.name} \n`;
+Entered on: ${record.date}\n
+${txtLine}\n
+Provider: ${record.provider}\n
+Location: ${record.facility}\n
+Provider Notes: ${processList(record.comments)}\n`;
 
     const fileName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
 
@@ -158,7 +159,7 @@ SNOMED Clinical term: ${record.name} \n`;
           <DateSubheading
             date={record.date}
             id="condition-date"
-            label="Date entered"
+            label="Entered on"
           />
 
           {downloadStarted && <DownloadSuccessAlert />}
@@ -168,6 +169,7 @@ SNOMED Clinical term: ${record.name} \n`;
             downloadTxt={generateConditionTxt}
           />
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
 
           <div className="condition-details max-80">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -182,7 +184,9 @@ SNOMED Clinical term: ${record.name} \n`;
             <p data-dd-privacy="mask" data-testid="condition-location">
               {record.facility || 'There is no facility reported at this time'}
             </p>
-            <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
+            <h2 className="vads-u-margin-bottom--0 vads-u-font-family--sans">
+              Provider notes
+            </h2>
             <ItemList
               data-testid="condition-provider-notes"
               list={record.comments}

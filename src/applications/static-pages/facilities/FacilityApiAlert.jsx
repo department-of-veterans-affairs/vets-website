@@ -7,7 +7,7 @@ const FacilityApiAlert = () => (
       <p>
         Our location finder isn’t working right now. We’re sorry about that.
         Please check back a bit later. Or, if you need location details right
-        away, you can try searching for
+        away, you can try searching for&nbsp;&nbsp;
         <a
           href="https://www.google.com/maps/search/?api=1&query=VA+locations+near+me"
           target="_blank"

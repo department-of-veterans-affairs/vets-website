@@ -4,7 +4,7 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 
 import { loincCodes } from '../constants';
-
+// TODO: figure out a way to reduce complexity of the functions in this file
 /**
  * Helper function to parse consolidated downloads data for txt files.
  *
@@ -107,9 +107,7 @@ ${
   ${'result' in result ? `Result: ${result.result}` : ''}                      
   ${'standardRange' in result ? `Standard range: ${result.standardRange}` : ''}
   ${'status' in result ? `Staus: ${result.status}` : ''}
-  ${
-    'interpretation' in result ? `Interpretation: ${result.interpretation}` : ''
-  }`,
+  ${'labComments' in result ? `Lab comments: ${result.labComments}` : ''}`,
                             )
                             .join('')}\n`
                         : `${record.results}\n`
@@ -151,7 +149,7 @@ Details
   Location: ${record.location}
   Signed by: ${record.signedBy}
   Co-signed by: ${record.coSignedBy}
-  Date signed: ${record.dateSigned}
+  Signed on: ${record.dateSigned}
 
 Notes
   ${record.note}
@@ -163,8 +161,8 @@ ${txtLineDotted}
 
 Details
   Location: ${record.location}
-  Admission Date: ${record.admissionDate}
-  Discharge date: ${record.dischargeDate}
+  Admitted on: ${record.admissionDate}
+  Discharged on: ${record.dischargeDate}
   Discharged by: ${record.dischargedBy}
 
 Summary
@@ -294,7 +292,7 @@ What to know about your Blue Button report
 
 Need help?
 - If you have questions about this report or you need to add information to your records, send a secure message to your care team.
-- If you're ever in crisis and need to talk with someone right away, call the Veterans Crisis line at 988. Then select 1.
+- If you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.
 
 ${txtLine}
 The following records have been downloaded:
