@@ -21,13 +21,13 @@
           "ssn": "589631236"
       },
       "veteranFullName": {
-          "first": "Rachel",
+          "first": "Jane",
           "middle": "B",
-          "last": "Eiting",
+          "last": "Smith",
           "Suffix": "Jr."
       },
       "veteranDateOfBirth": "1999-02-05",
-      "statementOfTruthSignature": "Rachel Eiting",
+      "statementOfTruthSignature": "Jane B Smith",
       "statementOfTruthCertified": true
   }
 }

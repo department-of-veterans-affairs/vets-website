@@ -5,7 +5,11 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import { fillDateWebComponentPattern } from '../../shared/tests/helpers';
+import {
+  fillAddressWebComponentPattern,
+  fillDateWebComponentPattern,
+  fillTextWebComponent,
+} from '../../shared/tests/helpers';
 
 const testConfig = createTestConfig(
   {
@@ -24,7 +28,9 @@ const testConfig = createTestConfig(
       'applicant-information': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
-          cy.get('@testdata').then(data => {
+          cy.get('@testData').then(data => {
+            // eslint-disable-next-line no-console
+            console.log('data', data);
             fillDateWebComponentPattern(
               'veteransFullName',
               data.veteranFullName,
@@ -32,6 +38,59 @@ const testConfig = createTestConfig(
             fillDateWebComponentPattern(
               'veteranDateOfBirth',
               data.veteranDateOfBirth,
+            );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'identification-information': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillTextWebComponent(
+              'veteranSocialSecurityNumber_ssn',
+              data.veteranSocialSecurityNumber.ssn,
+            );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'mailing-address': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'veteranAddress',
+              data.veteranAddress,
+            );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'home-address': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'physicalAddress',
+              data.physicalAddress,
+            );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'contact-info': ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillTextWebComponent('veteranPhoneNumber', data.veteranPhoneNumber);
+            fillTextWebComponent(
+              'veteranEmailAddress',
+              data.veteranEmailAddress,
             );
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
