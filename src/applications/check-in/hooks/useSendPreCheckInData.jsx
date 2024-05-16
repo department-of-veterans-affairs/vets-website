@@ -7,6 +7,7 @@ import { isUUID } from '../utils/token-format-validator';
 
 import { useStorage } from './useStorage';
 import { useUpdateError } from './useUpdateError';
+import { APP_NAMES } from '../utils/appConstants';
 
 import { makeSelectCurrentContext, makeSelectForm } from '../selectors';
 
@@ -14,7 +15,9 @@ const useSendPreCheckInData = () => {
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
   const [isLoading, setIsLoading] = useState(true);
-  const { getPreCheckinComplete, setPreCheckinComplete } = useStorage();
+  const { getPreCheckinComplete, setPreCheckinComplete } = useStorage(
+    APP_NAMES.PRE_CHECK_IN,
+  );
 
   const { updateError } = useUpdateError();
 

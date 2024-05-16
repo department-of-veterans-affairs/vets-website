@@ -14,6 +14,7 @@ import { useStorage } from '../../../hooks/useStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useSendDemographicsFlags } from '../../../hooks/useSendDemographicsFlags';
 import { URLS } from '../../../utils/navigation';
+import { APP_NAMES } from '../../../utils/appConstants';
 import { findAppointment } from '../../../utils/appointment';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 
@@ -46,7 +47,9 @@ const Confirmation = props => {
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
 
-  const { setCheckinComplete, getCheckinComplete } = useStorage(false);
+  const { setCheckinComplete, getCheckinComplete } = useStorage(
+    APP_NAMES.CHECK_IN,
+  );
 
   useEffect(
     () => {
