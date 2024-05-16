@@ -45,5 +45,5 @@ const responses = (selectedMockType = MOCK_TYPES.VERIFIED_USER) => {
   };
 };
 
-// Change the mock type for different type of mock content.
+// Change the mock type for different type of mocked content.
 module.exports = delay(responses(MOCK_TYPES.VERIFIED_USER), 1000);
