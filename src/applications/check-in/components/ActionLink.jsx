@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { APP_NAMES } from '../utils/appConstants';
+import { useStorage } from '../hooks/useStorage';
 
 const ActionLink = props => {
   const { action, appointmentId, app, cardTitleId, startTime } = props;
   const { t } = useTranslation();
+  const { getPreCheckinComplete } = useStorage(app);
 
   const linkText =
     app === APP_NAMES.PRE_CHECK_IN
@@ -13,14 +15,19 @@ const ActionLink = props => {
       : t('check-in-now');
 
   const attrs = {};
-  if (app === APP_NAMES.PRE_CHECK_IN) {
+  if (app === APP_NAMES.PRE_CHECK_IN && cardTitleId) {
     attrs['aria-labelledby'] = cardTitleId;
-  } else {
+  } else if (startTime) {
     attrs['aria-label'] = t('check-in-now-for-your-date-time-appointment', {
       date: new Date(startTime),
     });
   }
-
+  if (
+    app === APP_NAMES.PRE_CHECK_IN &&
+    getPreCheckinComplete(window)?.complete
+  ) {
+    return <></>;
+  }
   return (
     <p className="vads-u-margin-bottom--0">
       <a
@@ -40,7 +47,7 @@ ActionLink.propTypes = {
   action: PropTypes.func.isRequired,
   app: PropTypes.string.isRequired,
   appointmentId: PropTypes.string.isRequired,
-  cardTitleId: PropTypes.string.isRequired,
+  cardTitleId: PropTypes.string,
   startTime: PropTypes.string,
 };
 
