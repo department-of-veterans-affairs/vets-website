@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import FeedbackEmail from './FeedbackEmail';
 import { DD_ACTIONS_PAGE_TYPE } from '../../util/constants';
 
 export const DOWNLOAD_FORMAT = {
@@ -82,11 +81,10 @@ const PrintDownload = props => {
     <>
       {isSuccess && (
         <div
-          aria-live="polite"
           className="vads-u-margin-bottom--3"
           data-testid="download-success-banner"
         >
-          <va-alert status="success" background-only uswds>
+          <va-alert role="alert" status="success" background-only uswds>
             <h2 slot="headline">Download started</h2>
             <p className="vads-u-margin--0">
               Check your device’s downloads location for your file.
@@ -96,13 +94,18 @@ const PrintDownload = props => {
       )}
       {isError && (
         <div className="vads-u-margin-bottom--3">
-          <va-alert status="error" uswds>
+          <va-alert role="alert" status="error" uswds>
             <h2 slot="headline">We can’t download your records right now</h2>
             <p>
               We’re sorry. There’s a problem with our system. Check back later.
             </p>
             <p className="vads-u-margin--0">
-              If it still doesn’t work, email us at <FeedbackEmail />
+              If it still doesn’t work, call us at{' '}
+              <va-telephone contact="8773270022" /> (
+              <va-telephone tty contact="711" />
+              ).
+              <br />
+              We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
           </va-alert>
         </div>
