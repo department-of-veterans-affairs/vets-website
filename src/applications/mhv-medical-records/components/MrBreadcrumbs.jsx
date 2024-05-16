@@ -5,7 +5,7 @@ import { Link, useHistory } from 'react-router-dom';
 const MrBreadcrumbs = () => {
   const crumbs = useSelector(state => state.mr.breadcrumbs.list);
   const isDetails = useSelector(state => state.mr.isDetails.currentIsDetails);
-
+  const crumb = crumbs[0]?.url?.toLowerCase();
   const history = useHistory();
   return (
     <>
@@ -28,7 +28,7 @@ const MrBreadcrumbs = () => {
               }}
             />
           ) : (
-            <Link to={crumbs[0].url?.toLowerCase()}>
+            <Link to={crumb === '/my-health/medical-records' ? '/' : crumb}>
               Back to {crumbs[0].label}
             </Link>
           )}
