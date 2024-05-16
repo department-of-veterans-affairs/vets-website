@@ -252,18 +252,5 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
       { href: MEDICATIONS_REFILL, label: 'Refill prescriptions' },
     ]);
   }
-  if (prescription && pathname.includes(subdirectories.DETAILS)) {
-    return defaultBreadcrumbs.concat([
-      { href: MEDICATIONS_ABOUT, label: 'About medications' },
-      {
-        href: `${MEDICATIONS_URL}?page=${currentPage || 1}`,
-        label: 'Medications',
-      },
-      {
-        href: `/${prescription.prescriptionId}`,
-        label: prescription.prescriptionName,
-      },
-    ]);
-  }
   return [];
 };

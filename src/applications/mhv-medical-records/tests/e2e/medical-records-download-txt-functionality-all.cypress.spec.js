@@ -1,5 +1,7 @@
 import moment from 'moment-timezone';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
+import DownloadAllPage from './pages/DownloadAllPage';
+import MedicalRecordsLandingPage from './pages/MedicalRecordsLandingPage';
 
 describe('Medical Records Download All TXT Functionality', () => {
   it('Medical Records Download All TXTX Functionality', () => {
@@ -15,6 +17,12 @@ describe('Medical Records Download All TXT Functionality', () => {
       moment(),
       '',
     );
+
+    DownloadAllPage.verifyBreadcrumbs('Back to Medical Records');
+
+    DownloadAllPage.clickBreadcrumbs();
+
+    MedicalRecordsLandingPage.verifyPageTitle();
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main', {

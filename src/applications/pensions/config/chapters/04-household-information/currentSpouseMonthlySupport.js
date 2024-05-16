@@ -1,7 +1,10 @@
 import merge from 'lodash/merge';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { isSeparated } from './helpers';
+
+const { currentSpouseMonthlySupport } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -26,7 +29,7 @@ export default {
     type: 'object',
     required: ['currentSpouseMonthlySupport'],
     properties: {
-      currentSpouseMonthlySupport: { type: 'number' },
+      currentSpouseMonthlySupport,
     },
   },
 };
