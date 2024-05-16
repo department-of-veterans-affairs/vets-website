@@ -27,11 +27,11 @@ const FormStartControls = props => {
     prefillTransformer,
     ariaLabel = null,
     ariaDescribedby = null,
+    customStartLink = null,
     startText,
     formSaved,
     isExpired,
     resumeOnly,
-    usePrimaryLink = false,
   } = props;
 
   // get access to the formConfig object through this route
@@ -130,22 +130,18 @@ const FormStartControls = props => {
     );
   }
 
-  if (usePrimaryLink) {
+  if (customStartLink) {
+    const CustomLink = customStartLink;
     return (
-      <div className="arrow" style={{ maxWidth: '75%' }}>
-        <div className="vads-u-background-color--primary vads-u-padding--1">
-          <a
-            className="vads-c-action-link--white"
-            href="#start"
-            onClick={event => {
-              event.preventDefault();
-              handleLoadPrefill();
-            }}
-          >
-            {startText}
-          </a>
-        </div>
-      </div>
+      <CustomLink
+        href="#start"
+        onClick={event => {
+          event.preventDefault();
+          handleLoadPrefill();
+        }}
+      >
+        {startText}
+      </CustomLink>
     );
   }
 
@@ -175,6 +171,7 @@ FormStartControls.propTypes = {
   startPage: PropTypes.string.isRequired,
   ariaDescribedby: PropTypes.string,
   ariaLabel: PropTypes.string,
+  customStartLink: PropTypes.any,
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       startNewAppButtonText: PropTypes.string,
@@ -191,7 +188,6 @@ FormStartControls.propTypes = {
   routes: PropTypes.array,
   startText: PropTypes.string,
   testActionLink: PropTypes.bool,
-  usePrimaryLink: PropTypes.bool,
 };
 
 FormStartControls.defaultProps = {

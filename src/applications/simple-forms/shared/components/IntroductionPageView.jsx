@@ -22,7 +22,7 @@ export const IntroductionPageView = ({
     unauthStartText,
     displayNonVeteranMessaging = false,
     verifiedPrefillAlert = null,
-    usePrimaryLink = false,
+    customLink = null,
   } = content;
   const { resBurden, ombNumber, expDate, customPrivacyActStmt } = ombInfo;
 
@@ -46,7 +46,7 @@ export const IntroductionPageView = ({
           verifiedPrefillAlert={verifiedPrefillAlert}
           formConfig={formConfig}
           hideUnauthedStartLink={formConfig.hideUnauthedStartLink ?? false}
-          usePrimaryLink={usePrimaryLink}
+          customLink={customLink}
         >
           {saveInProgressText}
         </SaveInProgressIntro>
@@ -92,7 +92,7 @@ IntroductionPageView.propTypes = {
     unauthStartText: PropTypes.string,
     displayNonVeteranMessaging: PropTypes.bool,
     verifiedPrefillAlert: PropTypes.object,
-    usePrimaryLink: PropTypes.bool,
+    customLink: PropTypes.any,
   }),
   ombInfo: PropTypes.shape(),
 };
