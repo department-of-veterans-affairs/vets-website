@@ -63,6 +63,12 @@ MedicalCenterView.propTypes = {
   }),
 };
 
+export const MedicalCenterDescription = ({ message }) => (
+  <span className="schemaform-block-title schemaform-block-subtitle vads-u-display--block vads-u-padding-top--6 vads-u-padding-bottom--0p5">
+    {message}
+  </span>
+);
+
 /**
  * Function to generate UI Schema and Schema for medical centers
  * @param {string} medicalCentersKey - Key for medical centers in the schema
@@ -75,15 +81,17 @@ MedicalCenterView.propTypes = {
 export const generateMedicalCentersSchemas = (
   medicalCentersKey = 'medicalCenters',
   medicalCentersTitle = 'Default Medical Centers Title',
-  medicalCenterMessage = 'Default Message',
+  medicalCenterMessage = 'Default Message', // THIS ONE
   medicalCenterFieldLabel = 'Default Field Label',
   medicalCentersReviewTitle = 'Default Review Title',
 ) => {
   return {
     uiSchema: {
-      ...titleUI(medicalCentersTitle),
+      ...titleUI(
+        medicalCentersTitle,
+        <MedicalCenterDescription message={medicalCenterMessage} />,
+      ),
       [medicalCentersKey]: {
-        'ui:title': medicalCenterMessage,
         'ui:options': {
           itemName: 'Medical center',
           itemAriaLabel: data => data.medicalCenter,
