@@ -136,15 +136,19 @@ export const appMedicareOver65IneligibleUploadSchema = {
         )}`,
       ({ formData }) => {
         const appName = nameWording(formData, false, true);
+        const nameWithBeingVerb =
+          appName === 'You' ? 'You are' : `${appName} is`;
         return (
           <>
-            <b>{appName}</b> is 65 years or older and you selected that they’re
-            not eligible for Medicare.
+            {nameWithBeingVerb} 65 years or older and you selected that{' '}
+            {nameWithBeingVerb === 'You' ? 'you' : nameWithBeingVerb} not
+            eligible for Medicare.
             <br />
             <br />
             You’ll need to submit a copy of a letter from the Social Security
-            Administration that confirms that <b>{appName}</b> doesn’t qualify
-            for Medicare benefits under anyone’s Social Security number.
+            Administration that confirms that{' '}
+            {appName === 'You' ? 'you don’t' : `${appName} doesn’t`} qualify for
+            Medicare benefits under anyone’s Social Security number.
             <br />
             If you don’t have a copy to upload now, you can send one by mail or
             fax
@@ -326,7 +330,7 @@ export const applicantHasMedicareDSchema = {
 export const applicantMedicarePartDCarrierSchema = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) => `${nameWording(formData)} Medicare Part B carrier`,
+      ({ formData }) => `${nameWording(formData)} Medicare Part D carrier`,
     ),
     applicantMedicarePartDCarrier: {
       'ui:title': 'Carrier’s name',

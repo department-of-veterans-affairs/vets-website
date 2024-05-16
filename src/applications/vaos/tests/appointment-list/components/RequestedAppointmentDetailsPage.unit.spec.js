@@ -8,12 +8,12 @@ import { AppointmentList } from '../../../appointment-list';
 import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
 import MockAppointmentResponse from '../../e2e/fixtures/MockAppointmentResponse';
 import MockFacilityResponse from '../../e2e/fixtures/MockFacilityResponse';
-import { mockFacilityFetchByVersion } from '../../mocks/fetch';
+import { mockFacilityFetch } from '../../mocks/fetch';
 import {
   mockAppointmentApi,
   mockAppointmentUpdateApi,
   mockAppointmentsApi,
-} from '../../mocks/helpers.v2';
+} from '../../mocks/helpers';
 import {
   createTestStore,
   getTestDate,
@@ -30,6 +30,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       vaOnlineSchedulingVAOSServiceCCAppointments: true,
       vaOnlineSchedulingVAOSServiceRequests: true,
       vaOnlineSchedulingBookingExclusion: false,
+      vaOnlineSchedulingAppointmentDetailsRedesign: false,
     },
   };
 
@@ -57,7 +58,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       .setPreferredTimesForPhoneCall({ morning: true });
 
     mockAppointmentApi({ response });
-    mockFacilityFetchByVersion({
+    mockFacilityFetch({
       facility: new MockFacilityResponse({ id: '983' }),
     });
 
@@ -276,7 +277,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
     mockAppointmentApi({ response });
     mockAppointmentUpdateApi({ response: canceledResponse });
-    mockFacilityFetchByVersion({
+    mockFacilityFetch({
       facility: new MockFacilityResponse({ id: '983' }),
     });
 
@@ -548,7 +549,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
       mockAppointmentApi({ response });
       mockAppointmentUpdateApi({ response: canceledResponse });
-      mockFacilityFetchByVersion({
+      mockFacilityFetch({
         facility: new MockFacilityResponse({ id: '983' }),
       });
 
@@ -559,12 +560,14 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       });
 
       // Assert
-      expect(await screen.findByText('Pending primary care appointment')).to.be
-        .ok;
+      expect(await screen.findByText('We have received your request')).to.be.ok;
       expect(screen.baseElement).not.to.contain.text('Canceled');
 
       // When user clicks on cancel request link
-      fireEvent.click(screen.getByText(/cancel request/i));
+      const button = document.querySelector(
+        'va-button[text="Cancel appointment"]',
+      );
+      button.click();
       await waitFor(() => {
         expect(store.getState().appointments.showCancelModal).to.equal(true);
       });
@@ -590,7 +593,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
       mockAppointmentApi({ response });
       mockAppointmentUpdateApi({ response: canceledResponse });
-      mockFacilityFetchByVersion({
+      mockFacilityFetch({
         facility: new MockFacilityResponse({ id: '983' }),
       });
 
@@ -601,11 +604,13 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       });
 
       // Assert
-      expect(await screen.findByText('Pending primary care appointment')).to.be
-        .ok;
+      expect(await screen.findByText('We have received your request')).to.be.ok;
       expect(screen.baseElement).not.to.contain.text('Canceled');
 
-      fireEvent.click(screen.getByText(/cancel request/i));
+      let button = document.querySelector(
+        'va-button[text="Cancel appointment"]',
+      );
+      button.click();
       await waitFor(() => {
         expect(store.getState().appointments.showCancelModal).to.equal(true);
       });
@@ -613,7 +618,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       expect(await screen.findByText('Would you like to cancel this request?'))
         .to.be.ok;
 
-      const button = screen.getByText(/Yes, cancel appointment/i);
+      button = screen.getByText(/Yes, cancel appointment/i);
       button.click();
 
       expect(window.dataLayer[0]).to.deep.equal({
@@ -643,7 +648,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
         mockAppointmentApi({ response });
         mockAppointmentUpdateApi({ response: canceledResponse });
-        mockFacilityFetchByVersion({
+        mockFacilityFetch({
           facility: new MockFacilityResponse({ id: '983' }),
         });
 
@@ -654,11 +659,14 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         });
 
         // Assert
-        expect(await screen.findByText('Pending primary care appointment')).to
-          .be.ok;
+        expect(await screen.findByText('We have received your request')).to.be
+          .ok;
         expect(screen.baseElement).not.to.contain.text('Canceled');
 
-        fireEvent.click(screen.getByText(/cancel request/i));
+        const button = document.querySelector(
+          'va-button[text="Cancel appointment"]',
+        );
+        button.click();
         await waitFor(() => {
           expect(store.getState().appointments.showCancelModal).to.equal(true);
         });
@@ -673,8 +681,8 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         fireEvent.click(link);
         await waitFor(
           () =>
-            expect(screen.queryByText(/Pending primary care appointment/i)).to
-              .be.ok,
+            expect(screen.queryByText(/We have received your request/i)).to.be
+              .ok,
         );
       });
     });
@@ -708,7 +716,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           response: [],
         });
         mockAppointmentUpdateApi({ response: canceledResponse });
-        mockFacilityFetchByVersion({
+        mockFacilityFetch({
           facility: new MockFacilityResponse({ id: '983' }),
         });
 
@@ -719,11 +727,15 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         });
 
         // Assert
-        expect(await screen.findByText('Pending primary care appointment')).to
-          .be.ok;
+        expect(await screen.findByText('We have received your request')).to.be
+          .ok;
         expect(screen.baseElement).not.to.contain.text('Canceled');
 
-        fireEvent.click(screen.getByText(/cancel request/i));
+        let button = document.querySelector(
+          'va-button[text="Cancel appointment"]',
+        );
+        button.click();
+
         await waitFor(() => {
           expect(store.getState().appointments.showCancelModal).to.equal(true);
         });
@@ -732,7 +744,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           await screen.findByText('Would you like to cancel this request?'),
         ).to.be.ok;
 
-        const button = screen.getByText(/Yes, cancel appointment/i);
+        button = screen.getByText(/Yes, cancel appointment/i);
         button.click();
 
         expect(window.dataLayer[0]).to.deep.equal({
@@ -783,7 +795,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           response: canceledResponse,
           responseCode: 500,
         });
-        mockFacilityFetchByVersion({
+        mockFacilityFetch({
           facility: new MockFacilityResponse({ id: '983' }),
         });
 
@@ -794,11 +806,15 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         });
 
         // Assert
-        expect(await screen.findByText('Pending primary care appointment')).to
-          .be.ok;
+        expect(await screen.findByText('We have received your request')).to.be
+          .ok;
         expect(screen.baseElement).not.to.contain.text('Canceled');
 
-        fireEvent.click(screen.getByText(/cancel request/i));
+        let button = document.querySelector(
+          'va-button[text="Cancel appointment"]',
+        );
+        button.click();
+
         await waitFor(() => {
           expect(store.getState().appointments.showCancelModal).to.equal(true);
         });
@@ -807,7 +823,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           await screen.findByText('Would you like to cancel this request?'),
         ).to.be.ok;
 
-        const button = screen.getByText(/Yes, cancel appointment/i);
+        button = screen.getByText(/Yes, cancel appointment/i);
         button.click();
 
         await waitFor(() => {
@@ -816,10 +832,11 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           ).to.equal(FETCH_STATUS.failed);
         });
 
-        expect(screen.getByText(/We couldn.t cancel your request/i)).to.be.ok;
+        expect(screen.getByText(/We couldn.t cancel your appointment/i)).to.be
+          .ok;
         expect(
           screen.getByText(
-            /Something went wrong when we tried to cancel this request. Please contact your medical center to cancel:/i,
+            /Something went wrong when we tried to cancel this appointment. Please contact your medical center to cancel:/i,
           ),
         ).to.be.ok;
       });
