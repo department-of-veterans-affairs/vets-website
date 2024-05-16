@@ -65,6 +65,7 @@ const IntroductionPage = props => {
       childContent={childContent}
       userIdVerified={userIdVerified}
       userLoggedIn={userLoggedIn}
+      useNew
     />
   );
 };
