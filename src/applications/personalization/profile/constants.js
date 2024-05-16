@@ -77,6 +77,7 @@ export const PROFILE_PATHS_WITH_NAMES = Object.entries(PROFILE_PATHS).map(
 
 export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '402', // VA Maine Healthcare System - Togus
+  '438', // Royal C. Johnson Veterans Memorial Medical Center
   '459', // VA Pacific Islands Health Care System
   '504', // Amarillo VA Health Care System
   '512', // Baltimore VA Medical Center - VA Maryland Health Care System
@@ -89,7 +90,6 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '548', // West Palm Beach VAMC
   '550', // VA Illiana
   '554', // VA Eastern Colorado Health Care System (ECHCS)
-  '556', // Captain James A. Lovell Federal Health Care Center
   '558', // Durham VA Health Care System
   '561', // East Orange Campus of the VA New Jersey Health Care System
   '570', // Central California VA Health Care System
@@ -116,6 +116,7 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '637', // Charles George VAMC
   '650', // Providence VA Medical Center
   '656', // St. Cloud VA Health Care System
+  '657', // VA St. Louis Health Care System
   '658', // Salem VA Health Care System
   '659', // Salisbury - W.G. (Bill) Hefner VA Medical Center
   '660', // VA Salt Lake City Health Care System
@@ -126,6 +127,7 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '676', // Tomah VA Medical Center
   '678', // Southern Arizona VA Health Care System
   '688', // Washington DC VA Medical Center
+  '693', // Wilkes-Barre VA Medical Center
   '695', // Clement J. Zablocki Veterans Affairs Medical Center
   '756', // El Paso VA Health Care System
   '983', // test-only facility ID, used by user 36 among others
