@@ -93,7 +93,7 @@ const Confirmation = props => {
         updateError('check-in-demographics-patch-error');
       } else if (
         appointment &&
-        !getCheckinComplete(window) &&
+        !getCheckinComplete(window)?.complete &&
         (isComplete || demographicsFlagsEmpty)
       ) {
         sendCheckInData();
