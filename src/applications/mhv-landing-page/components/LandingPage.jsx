@@ -20,7 +20,11 @@ import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
-import { hasHealthData, personalizationEnabled } from '../selectors';
+import {
+  hasHealthData,
+  personalizationEnabled,
+  helpdeskInfoEnabled,
+} from '../selectors';
 import UnregisteredAlert from './UnregisteredAlert';
 
 const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
@@ -29,6 +33,8 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const hasHealth = useSelector(hasHealthData);
   const signInService = useSelector(signInServiceName);
   const showWelcomeMessage = useSelector(personalizationEnabled);
+  const showHelpdeskInfo =
+    useSelector(helpdeskInfoEnabled) && hasHealth && !isUnverified;
   const showCards = hasHealth && !isUnverified;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
@@ -69,11 +75,13 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
           <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
           {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
         </div>
-        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-          <div className="vads-l-row vads-u-margin-top--3">
-            {showCards && <HelpdeskInfo />}
+        {showHelpdeskInfo && (
+          <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+            <div className="vads-l-row vads-u-margin-top--3">
+              <HelpdeskInfo />
+            </div>
           </div>
-        </div>
+        )}
         <HubLinks hubs={hubs} />
         <NewsletterSignup />
       </div>

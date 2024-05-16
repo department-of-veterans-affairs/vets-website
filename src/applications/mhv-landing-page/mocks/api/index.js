@@ -38,6 +38,7 @@ const responses = (selectedMockType = MOCK_TYPES.VERIFIED_USER) => {
       mhvLandingPageEnableVaGovHealthToolsLinks: false,
       mhvSecondaryNavigationEnabled: false,
       mhvTransitionalMedicalRecordsLandingPage: false,
+      mhvHelpdeskInformationEnabled: false,
     }),
     'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,
     'GET /v0/profile/personal_information': personalInformation,
@@ -45,4 +46,4 @@ const responses = (selectedMockType = MOCK_TYPES.VERIFIED_USER) => {
 };
 
 // Change the mock type for different type of mock content.
-module.exports = delay(responses(MOCK_TYPES.NON_VA_PATIENT_USER), 1000);
+module.exports = delay(responses(MOCK_TYPES.VERIFIED_USER), 1000);
