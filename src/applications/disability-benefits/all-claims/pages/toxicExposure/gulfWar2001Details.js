@@ -35,11 +35,9 @@ function makeUiSchema(locationId) {
         [locationId]: {
           startDate: currentOrPastDateUI({
             title: startDateApproximate,
-            monthYearOnly: true,
           }),
           endDate: currentOrPastDateUI({
             title: endDateApproximate,
-            monthYearOnly: true,
           }),
         },
       },

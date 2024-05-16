@@ -391,3 +391,15 @@ export function datesDescription(dates) {
   const endDate = formatMonthYearDate(dates?.endDate) || 'No end date entered';
   return `${startDate} - ${endDate}`;
 }
+
+/**
+ * Get the value for the other field's description
+ * @param {object} formData
+ * @param {*} objectName
+ * @returns {string} sanitized description value if present
+ */
+export function getOtherFieldDescription(formData, objectName) {
+  const description = formData?.toxicExposure?.[objectName]?.description;
+
+  return typeof description === 'string' ? description.trim() : '';
+}

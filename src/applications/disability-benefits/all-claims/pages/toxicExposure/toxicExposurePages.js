@@ -8,10 +8,12 @@ import {
   gulfWar2001Summary,
   herbicideLocations,
   herbicideDetails,
+  herbicideOtherLocations,
 } from '..';
 import { TE_URL_PREFIX } from '../../constants';
 import {
   conditionsPageTitle,
+  getOtherFieldDescription,
   gulfWar1990PageTitle,
   gulfWar2001PageTitle,
   herbicidePageTitle,
@@ -66,4 +68,12 @@ export const toxicExposurePages = {
     schema: herbicideLocations.schema,
   },
   ...herbicideDetails.makePages(),
+  herbicideOtherLocations: {
+    title: 'Hazard n of n: <fill in>', // TODO
+    path: `${TE_URL_PREFIX}/herbicide-location-other`,
+    depends: formData =>
+      getOtherFieldDescription(formData, 'otherHerbicideLocations'),
+    uiSchema: herbicideOtherLocations.uiSchema,
+    schema: herbicideOtherLocations.schema,
+  },
 };

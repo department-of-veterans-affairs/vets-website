@@ -18,10 +18,12 @@ export const uiSchema = {
       labels: HERBICIDE_LOCATIONS,
       required: false,
     }),
-    otherHerbicideLocation: textareaUI({
-      title: 'Other locations not listed here (250 characters maximum)',
-      // TODO: add LH regex
-    }),
+    otherHerbicideLocations: {
+      description: textareaUI({
+        title: 'Other locations not listed here (250 characters maximum)',
+        // TODO: add LH regex
+      }),
+    },
   },
 };
 
@@ -32,9 +34,14 @@ export const schema = {
       type: 'object',
       properties: {
         herbicide: checkboxGroupSchema(Object.keys(HERBICIDE_LOCATIONS)),
-        otherHerbicideLocation: {
-          type: 'string',
-          maxLength: 250,
+        otherHerbicideLocations: {
+          type: 'object',
+          properties: {
+            description: {
+              type: 'string',
+              maxLength: 250,
+            },
+          },
         },
       },
     },

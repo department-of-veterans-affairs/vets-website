@@ -4,9 +4,11 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { formTitle } from '../../utils';
 import {
+  dateRangeAdditionalInfo,
   dateRangePageDescription,
   endDateApproximate,
   getKeyIndex,
+  getOtherFieldDescription,
   getSelectedCount,
   herbicidePageTitle,
   showCheckboxLoopDetailsPage,
@@ -23,28 +25,29 @@ import { HERBICIDE_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 function makeUiSchema(locationId) {
   return {
     'ui:title': formTitle(herbicidePageTitle),
-    'ui:description': ({ formData }) => {
-      return dateRangePageDescription(
+    'ui:description': ({ formData }) =>
+      dateRangePageDescription(
         getKeyIndex(locationId, 'herbicide', formData),
         getSelectedCount('herbicide', formData) +
-          (formData.toxicExposure?.otherHerbicideLocation ? 1 : 0),
+          (getOtherFieldDescription(formData, 'otherHerbicideLocations')
+            ? 1
+            : 0),
         HERBICIDE_LOCATIONS[locationId],
-      );
-    },
-    herbicideDetails: {
-      [locationId]: {
-        startDate: currentOrPastDateUI({
-          title: startDateApproximate,
-          monthYearOnly: true,
-        }),
-        endDate: currentOrPastDateUI({
-          title: endDateApproximate,
-          monthYearOnly: true,
-        }),
+      ),
+    toxicExposure: {
+      herbicideDetails: {
+        [locationId]: {
+          startDate: currentOrPastDateUI({
+            title: startDateApproximate,
+          }),
+          endDate: currentOrPastDateUI({
+            title: endDateApproximate,
+          }),
+        },
       },
-    },
-    'view:herbicideAdditionalInfo': {
-      'ui:description': 'additional info',
+      'view:herbicideAdditionalInfo': {
+        'ui:description': dateRangeAdditionalInfo,
+      },
     },
   };
 }
@@ -58,21 +61,26 @@ function makeSchema(locationId) {
   return {
     type: 'object',
     properties: {
-      herbicideDetails: {
+      toxicExposure: {
         type: 'object',
         properties: {
-          [locationId]: {
+          herbicideDetails: {
             type: 'object',
             properties: {
-              startDate: currentOrPastDateSchema,
-              endDate: currentOrPastDateSchema,
+              [locationId]: {
+                type: 'object',
+                properties: {
+                  startDate: currentOrPastDateSchema,
+                  endDate: currentOrPastDateSchema,
+                },
+              },
             },
           },
         },
-      },
-      'view:herbicideAdditionalInfo': {
-        type: 'object',
-        properties: {},
+        'view:herbicideAdditionalInfo': {
+          type: 'object',
+          properties: {},
+        },
       },
     },
   };
@@ -89,7 +97,9 @@ export function makePages() {
             teSubtitle(
               getKeyIndex(locationId, 'herbicide', formData),
               getSelectedCount('herbicide', formData) +
-                (formData.toxicExposure?.otherHerbicideLocation ? 1 : 0),
+                (getOtherFieldDescription(formData, 'otherHerbicideLocations')
+                  ? 1
+                  : 0),
               HERBICIDE_LOCATIONS[locationId],
             ),
           path: `${TE_URL_PREFIX}/${pageName}`,
