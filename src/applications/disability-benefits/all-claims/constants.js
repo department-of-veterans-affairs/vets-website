@@ -377,4 +377,5 @@ export const GULF_WAR_2001_LOCATIONS = Object.freeze({
   uzbekistan: 'Uzbekistan',
   yemen: 'Yemen',
   airspace: 'The airspace above any of these locations',
+  none: 'None of these locations',
 });
