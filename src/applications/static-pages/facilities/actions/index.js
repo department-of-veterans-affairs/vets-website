@@ -118,17 +118,28 @@ export function fetchMultiFacility(id) {
     dispatch(fetchMultiFacilityStarted(id));
 
     // eslint-disable-next-line consistent-return
-    return apiRequest(`/facilities/va/${id}`, { apiVersion: 'v1' })
+    return apiRequest(`/va`, {
+      apiVersion: 'facilities_api/v2',
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      // eslint-disable-next-line camelcase
+      body: JSON.stringify({ ids: [id], page_number: 1, page: 1 }),
+    })
       .then(facility => dispatch(fetchMultiFacilitySuccess(facility.data, id)))
       .catch(() => dispatch(fetchMultiFacilityFailed(id)));
   };
 }
 
-export function multiTypeQuery(facilityType, queryString) {
+export function multiTypeQuery(facilityType, url, body) {
   return dispatch => {
     // With fetchMultiFacility started creates an empty object for the facility data
     dispatch(fetchMultiFacilityStarted(facilityType));
-    return apiRequest(queryString, { apiVersion: 'v1' })
+    return apiRequest(url, {
+      apiVersion: 'facilities_api/v2',
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json' },
+    })
       .then(res => {
         dispatch(
           // success action will populate the facility data object with data key/value
