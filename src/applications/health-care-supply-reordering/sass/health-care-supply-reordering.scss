@@ -14,6 +14,11 @@
   .schemaform-first-field .schemaform-label {
     margin-top: 3rem;
   }
+  /* Disable clicking label to select the "I live on a Military Base" checkbox */
+  label[for="root_permanentAddress_isMilitaryBase"], label[for="root_temporaryAddress_isMilitaryBase"] {
+    pointer-events: none;
+    cursor: default;
+  }
 }
 .battery-page, .accessory-page {
   [type=checkbox]:checked + label::before {
