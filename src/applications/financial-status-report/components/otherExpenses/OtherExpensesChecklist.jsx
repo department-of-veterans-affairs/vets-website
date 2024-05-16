@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { otherLivingExpensesOptions } from '../../constants/checkboxSelections';
+
+import {
+  otherLivingExpensesOptions,
+  otherLivingExpensesList,
+} from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
 import { isStreamlinedLongForm } from '../../utils/streamlinedDepends';
 import { getMonthlyIncome } from '../../utils/calculateIncome';
@@ -22,6 +26,7 @@ const OtherExpensesChecklist = ({
     otherExpenses = [],
     reviewNavigation = false,
     'view:reviewPageNavigationToggle': showReviewNavigation,
+    'view:showUpdatedExpensePages': showUpdatedExpensePages,
   } = data;
 
   const onChange = ({ target }) => {
@@ -106,13 +111,16 @@ const OtherExpensesChecklist = ({
 
   const title = 'Your other living expenses';
   const prompt = 'What other living expenses do you have?';
+  const otherExpensesDisplay = showUpdatedExpensePages
+    ? otherLivingExpensesList
+    : otherLivingExpensesOptions;
 
   return (
     <form onSubmit={onSubmit}>
       <fieldset>
         <div className="vads-l-grid-container--full">
           <Checklist
-            options={otherLivingExpensesOptions}
+            options={otherExpensesDisplay}
             onChange={onChange}
             title={title}
             prompt={prompt}
@@ -140,6 +148,7 @@ OtherExpensesChecklist.propTypes = {
     }),
     reviewNavigation: PropTypes.bool,
     'view:reviewPageNavigationToggle': PropTypes.bool,
+    'view:showUpdatedExpensePages': PropTypes.bool,
   }).isRequired,
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
