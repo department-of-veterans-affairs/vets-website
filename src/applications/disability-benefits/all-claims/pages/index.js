@@ -15,6 +15,7 @@ import * as evidenceTypes from './evidenceTypes';
 import * as evidenceTypesBDD from './evidenceTypesBDD';
 import * as federalOrders from './federalOrders';
 import * as finalIncident from './finalIncident';
+import * as fullyDevelopedClaim from './fullyDevelopedClaim';
 import * as gulfWar1990Locations from './toxicExposure/gulfWar1990Locations';
 import * as gulfWar1990Details from './toxicExposure/gulfWar1990Details';
 import * as gulfWar1990Summary from './toxicExposure/gulfWar1990Summary';
@@ -125,6 +126,7 @@ export {
   evidenceTypesBDD,
   federalOrders,
   finalIncident,
+  fullyDevelopedClaim,
   gulfWar1990Locations,
   gulfWar1990Details,
   gulfWar1990Summary,
