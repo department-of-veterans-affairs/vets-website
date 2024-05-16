@@ -119,7 +119,9 @@ export default function App({ children }) {
                       </select>
                       <va-button
                         onClick={() => setOrderClaimsBy(selectedClaimsOrder)}
+                        data-testid="Sort travel claims"
                         text="Sort"
+                        label="Sort"
                       />
                     </div>
                   </div>

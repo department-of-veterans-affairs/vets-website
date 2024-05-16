@@ -42,7 +42,10 @@ export default function TravelClaimCard(props) {
 
   return (
     <va-card key={id} class="travel-claim-card vads-u-margin-bottom--2">
-      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--h3 ">
+      <h2
+        className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--h3"
+        data-testid="travel-claim-details"
+      >
         {/* TODO: validate if appending "appointment" is always correct */}
         {appointmentDate} at {appointmentTime} appointment
       </h2>

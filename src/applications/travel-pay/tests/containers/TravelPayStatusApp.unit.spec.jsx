@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -43,15 +44,28 @@ describe('App', () => {
     };
     const mockTravelClaims = {
       data: [
-        { id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb' },
-        { claimNumber: 'TC0928098230498' },
-        { claimName: 'string' },
-        { claimStatus: 'IN_PROCESS' },
-        { appointmentDate: '2024-04-22T16:45:34.465Z' },
-        { appointmentName: 'check-up' },
-        { appointmentLocation: 'Cheyenne VA Medical Center' },
-        { createdOn: '2024-04-22T21:22:34.465Z' },
-        { modifiedOn: '2024-04-23T16:44:34.465Z' },
+        {
+          id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
+          claimNumber: 'TC0928098230498',
+          claimName: 'string',
+          claimStatus: 'IN_PROCESS',
+          appointmentDate: '2024-04-22T16:45:34.465Z',
+          appointmentName: 'more recent',
+          appointmentLocation: 'Cheyenne VA Medical Center',
+          createdOn: '2024-04-22T21:22:34.465Z',
+          modifiedOn: '2024-04-23T16:44:34.465Z',
+        },
+        {
+          id: '6ea23179-e87c-44ae-a20a-f31fb2c132ig',
+          claimNumber: 'TC0928098230498',
+          claimName: 'string',
+          claimStatus: 'IN_PROCESS',
+          appointmentDate: '2024-04-22T16:45:34.465Z',
+          appointmentName: 'older',
+          appointmentLocation: 'Cheyenne VA Medical Center',
+          createdOn: '2024-02-22T21:22:34.465Z',
+          modifiedOn: '2024-02-23T16:44:34.465Z',
+        },
       ],
     };
     mockApiRequest(mockTravelClaims);
@@ -100,29 +114,6 @@ describe('App', () => {
       .exist;
   });
 
-  // it.only('renders a loading state when loading claims for an authenticated user', async () => {
-  //   const middlewares = [thunk];
-  //   const mockStore = configureStore(middlewares);
-
-  //   const data = getData({
-  // areFeatureTogglesLoading: false,
-  // hasFeatureFlag: true,
-  // isLoggedIn: true,
-  //   });
-
-  //   const { container } = render(
-  //     <Provider store={mockStore(data)}>
-  //       <App />
-  //     </Provider>,
-  //   );
-
-  // const { container } = render(<App />);
-  // await waitFor(() => {
-  //   console.log($('va-loading-indicator', container)); // eslint-disable-line no-console
-  //   expect($('va-loading-indicator', container)).to.exist;
-  // });
-  // });
-
   it('shows the login modal when clicking the login prompt', async () => {
     const { container } = renderWithStoreAndRouter(<App />, {
       initialState: getData({
@@ -134,9 +125,6 @@ describe('App', () => {
       reducers: reducer,
     });
 
-    // console.log('find', $('va-button', container));
-
-    // fireEvent.click($('va-button', container));
     expect($('va-loading-indicator', container)).to.exist;
   });
 
@@ -155,5 +143,40 @@ describe('App', () => {
 
     fireEvent.click($('va-button', container));
     expect($('va-button', container)).to.exist;
+  });
+
+  it('sorts the claims correctly using the select-option', async () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+      }),
+      path: `/`,
+      reducers: reducer,
+    });
+
+    userEvent.selectOptions(screen.getByRole('combobox'), ['oldest']);
+    expect(screen.getByRole('option', { name: 'Oldest' }).selected).to.be.true;
+    fireEvent.click(document.querySelector('va-button[text="Sort"]'));
+
+    await waitFor(() => {
+      expect(screen.getAllByTestId('travel-claim-details').length).to.eq(2);
+      expect(
+        screen.getAllByTestId('travel-claim-details')[0].textContent,
+      ).to.eq('Thursday, February 22, 2024 at 11:45 AM appointment');
+    });
+
+    userEvent.selectOptions(screen.getByRole('combobox'), ['mostRecent']);
+    expect(screen.getByRole('option', { name: 'Most Recent' }).selected).to.be
+      .true;
+    fireEvent.click(document.querySelector('va-button[text="Sort"]'));
+
+    await waitFor(() => {
+      expect(screen.getAllByTestId('travel-claim-details').length).to.eq(2);
+      expect(
+        screen.getAllByTestId('travel-claim-details')[0].textContent,
+      ).to.eq('Monday, April 22, 2024 at 11:45 AM appointment');
+    });
   });
 });
