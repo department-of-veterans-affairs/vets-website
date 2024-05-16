@@ -205,6 +205,7 @@ const myOwnBenVet = [
   'yourAddress',
   'yourAddressConfirmation',
   'yourPostalCode',
+  'veteransLocationOfResidence',
 ];
 export const myOwnBenVetPages = flowPages(
   ch3Pages,
