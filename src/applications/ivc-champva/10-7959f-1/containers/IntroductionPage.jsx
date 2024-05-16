@@ -31,6 +31,7 @@ const IntroductionPage = props => {
         this form to register for the Foreign Medical Program.
       </p>
       <va-process-list uswds="false" class="process-list">
+        <va-process-list-item>Blah</va-process-list-item>
         <h3>What to know before you fill out this form</h3>
         <ul>
           <li>
