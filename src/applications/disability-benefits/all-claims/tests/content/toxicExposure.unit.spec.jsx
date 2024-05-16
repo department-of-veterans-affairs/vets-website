@@ -6,6 +6,7 @@ import {
   dateRangePageDescription,
   datesDescription,
   getKeyIndex,
+  getOtherFieldDescription,
   getSelectedCount,
   isClaimingTECondition,
   makeTEConditionsSchema,
@@ -456,6 +457,43 @@ describe('toxicExposure', () => {
     it('gets 0 count when no form data', () => {
       expect(getSelectedCount('gulfWar1990', undefined)).to.be.equal(0);
     });
+
+    it('gets the count with a mix of selected and deselected items and other description', () => {
+      const formData = {
+        toxicExposure: {
+          herbicide: {
+            cambodia: true,
+            koreandemilitarizedzone: true,
+            laos: true,
+            vietnam: false,
+          },
+          otherHerbicideLocations: {
+            startDate: '1968-01-01',
+            endDate: '1969-01-01',
+            description: 'location 1, location 2',
+          },
+        },
+      };
+
+      expect(
+        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+      ).to.be.equal(4);
+    });
+
+    it('gets the count with other description only', () => {
+      const formData = {
+        toxicExposure: {
+          herbicide: {},
+          otherHerbicideLocations: {
+            description: 'location 1, location 2',
+          },
+        },
+      };
+
+      expect(
+        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+      ).to.be.equal(1);
+    });
   });
 
   describe('showCheckboxLoopDetailsPage', () => {
@@ -807,6 +845,23 @@ describe('toxicExposure', () => {
       expect(datesDescription(dates)).to.equal(
         'January 2022 - No end date entered',
       );
+    });
+  });
+
+  describe('getOtherFieldDescription', () => {
+    it('gets the trimmed value', () => {
+      const formData = {
+        toxicExposure: {
+          otherHerbicideLocations: {
+            startDate: '1968-01-01',
+            endDate: '1969-01-01',
+            description: ' location 1, location 2   ',
+          },
+        },
+      };
+      expect(
+        getOtherFieldDescription(formData, 'otherHerbicideLocations'),
+      ).to.equal('location 1, location 2');
     });
   });
 });

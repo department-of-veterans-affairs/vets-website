@@ -16,7 +16,11 @@ import { formTitle } from '../../utils';
 export const uiSchema = {
   'ui:title': formTitle(herbicidePageTitle),
   'ui:description': ({ formData }) => {
-    const indexAndSelectedCount = getSelectedCount('herbicide', formData) + 1;
+    const indexAndSelectedCount = getSelectedCount(
+      'herbicide',
+      formData,
+      'otherHerbicideLocations',
+    );
     return dateRangePageDescription(
       indexAndSelectedCount,
       indexAndSelectedCount,

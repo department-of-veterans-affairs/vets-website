@@ -306,24 +306,43 @@ export function getKeyIndex(key, objectName, formData) {
 }
 
 /**
+ * Get the value for the 'other' field's description
+ * @param {object} formData - full form data
+ * @param {string} objectName - name of the object containing the 'other' field
+ * @returns {string} sanitized description value if present
+ */
+export function getOtherFieldDescription(formData, objectName) {
+  const description = formData?.toxicExposure?.[objectName]?.description;
+
+  return typeof description === 'string' ? description.trim() : '';
+}
+
+/**
  * Given an object storing checkbox values, get a count of how many values have been selected
  * by the Veteran
  *
- * @param {string} objectName - name of the object to look at in the form data
+ * @param {string} checkboxObjectName - name of the checkbox object to look at in the form data
+ * @param {string} otherFieldName - name of the 'other' field to look at in the form data
  * @param {object} formData - full formData for the form
  * @returns {number} count of checkboxes with a value of true
  */
-export function getSelectedCount(objectName, formData) {
-  if (
-    !formData ||
-    !formData?.toxicExposure ||
-    !formData?.toxicExposure[objectName]
-  )
+export function getSelectedCount(
+  checkboxObjectName,
+  formData,
+  otherFieldName = '',
+) {
+  const otherFieldDescription = getOtherFieldDescription(
+    formData,
+    otherFieldName,
+  );
+  if (!formData?.toxicExposure?.[checkboxObjectName] && !otherFieldDescription)
     return 0;
 
-  return Object.values(formData.toxicExposure[objectName]).filter(
-    value => value === true,
-  ).length;
+  return (
+    Object.values(formData.toxicExposure[checkboxObjectName]).filter(
+      value => value === true,
+    ).length + (otherFieldDescription ? 1 : 0)
+  );
 }
 
 /**
@@ -390,16 +409,4 @@ export function datesDescription(dates) {
     formatMonthYearDate(dates?.startDate) || 'No start date entered';
   const endDate = formatMonthYearDate(dates?.endDate) || 'No end date entered';
   return `${startDate} - ${endDate}`;
-}
-
-/**
- * Get the value for the other field's description
- * @param {object} formData
- * @param {*} objectName
- * @returns {string} sanitized description value if present
- */
-export function getOtherFieldDescription(formData, objectName) {
-  const description = formData?.toxicExposure?.[objectName]?.description;
-
-  return typeof description === 'string' ? description.trim() : '';
 }

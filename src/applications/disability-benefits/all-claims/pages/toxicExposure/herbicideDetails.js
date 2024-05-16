@@ -8,7 +8,6 @@ import {
   dateRangePageDescription,
   endDateApproximate,
   getKeyIndex,
-  getOtherFieldDescription,
   getSelectedCount,
   herbicidePageTitle,
   showCheckboxLoopDetailsPage,
@@ -28,10 +27,7 @@ function makeUiSchema(locationId) {
     'ui:description': ({ formData }) =>
       dateRangePageDescription(
         getKeyIndex(locationId, 'herbicide', formData),
-        getSelectedCount('herbicide', formData) +
-          (getOtherFieldDescription(formData, 'otherHerbicideLocations')
-            ? 1
-            : 0),
+        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
         HERBICIDE_LOCATIONS[locationId],
       ),
     toxicExposure: {
@@ -76,10 +72,10 @@ function makeSchema(locationId) {
               },
             },
           },
-        },
-        'view:herbicideAdditionalInfo': {
-          type: 'object',
-          properties: {},
+          'view:herbicideAdditionalInfo': {
+            type: 'object',
+            properties: {},
+          },
         },
       },
     },
@@ -96,10 +92,11 @@ export function makePages() {
           title: formData =>
             teSubtitle(
               getKeyIndex(locationId, 'herbicide', formData),
-              getSelectedCount('herbicide', formData) +
-                (getOtherFieldDescription(formData, 'otherHerbicideLocations')
-                  ? 1
-                  : 0),
+              getSelectedCount(
+                'herbicide',
+                formData,
+                'otherHerbicideLocations',
+              ),
               HERBICIDE_LOCATIONS[locationId],
             ),
           path: `${TE_URL_PREFIX}/${pageName}`,

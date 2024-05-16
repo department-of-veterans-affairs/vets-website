@@ -14,12 +14,14 @@ import { TE_URL_PREFIX } from '../../constants';
 import {
   conditionsPageTitle,
   getOtherFieldDescription,
+  getSelectedCount,
   gulfWar1990PageTitle,
   gulfWar2001PageTitle,
   herbicidePageTitle,
   isClaimingTECondition,
   showSummaryPage,
   showToxicExposurePages,
+  teSubtitle,
 } from '../../content/toxicExposure';
 
 export const toxicExposurePages = {
@@ -69,7 +71,12 @@ export const toxicExposurePages = {
   },
   ...herbicideDetails.makePages(),
   herbicideOtherLocations: {
-    title: 'Hazard n of n: <fill in>', // TODO
+    title: formData =>
+      teSubtitle(
+        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+        getOtherFieldDescription(formData, 'otherHerbicideLocations'),
+      ),
     path: `${TE_URL_PREFIX}/herbicide-location-other`,
     depends: formData =>
       getOtherFieldDescription(formData, 'otherHerbicideLocations'),
