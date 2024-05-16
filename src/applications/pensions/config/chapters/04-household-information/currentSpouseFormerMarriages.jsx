@@ -140,6 +140,7 @@ export default {
             'locationOfMarriage',
             'locationOfSeparation',
           ],
+          /* What should we do about this object? */
           properties: {
             spouseFullName: fullNameSchema,
             reasonForSeparation: radioSchema(Object.keys(separationTypeLabels)),
