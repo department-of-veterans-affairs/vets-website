@@ -7,9 +7,9 @@ import userEvent from '@testing-library/user-event';
 import {
   mockSingleVAOSAppointmentFetch,
   mockVAOSAppointmentsFetch,
-} from '../../mocks/helpers.v2';
+} from '../../mocks/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
-import { createMockAppointmentByVersion } from '../../mocks/data';
+import { createMockAppointment } from '../../mocks/data';
 
 import { AppointmentList } from '../../../appointment-list';
 
@@ -69,8 +69,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       },
     };
 
-    const appointment = createMockAppointmentByVersion({
-      version: 2,
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -182,8 +181,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       },
     };
 
-    const appointment = createMockAppointmentByVersion({
-      version: 2,
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -244,8 +242,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       },
     };
 
-    const appointment = createMockAppointmentByVersion({
-      version: 2,
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -308,8 +305,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       },
     };
 
-    const appointment = createMockAppointmentByVersion({
-      version: 2,
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -371,8 +367,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       },
     };
 
-    const appointment = createMockAppointmentByVersion({
-      version: 2,
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -434,8 +429,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       },
     };
 
-    const appointment = createMockAppointmentByVersion({
-      version: 2,
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -497,8 +491,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       },
     };
 
-    const appointment = createMockAppointmentByVersion({
-      version: 2,
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -556,8 +549,7 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
       status: 'cancelled',
     };
 
-    const appointment = createMockAppointmentByVersion({
-      version: 2,
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -594,18 +586,4 @@ describe('VAOS Page: CommunityCareAppointmentDetailsPage with VAOS service', () 
     // Then the 'Add to calendar' link should not be displayed
     expect(screen.queryByTestId('add-to-calendar-link')).not.to.exist;
   });
-
-  it('should navigate to community care appointments detail page', async () => {});
-
-  it('should fire a print request when print button clicked', async () => {});
-
-  it('should show an error when cc data fetch fails', async () => {});
-
-  it('should show an error when CC appointment not found in list', async () => {});
-
-  it('should show cc appointment from vista when directly opening page', async () => {});
-
-  it('should verify community care calendar ics file format', async () => {});
-
-  it('should verify community care calendar ics file format when there is no provider information', async () => {});
 });

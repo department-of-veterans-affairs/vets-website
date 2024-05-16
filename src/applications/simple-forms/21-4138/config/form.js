@@ -9,8 +9,6 @@ import {
   SUBTITLE,
   STATEMENT_TYPES,
   DECISION_REVIEW_TYPES,
-  LIVING_SITUATIONS,
-  OTHER_REASONS_REQUIRED,
 } from './constants';
 import { statementTypePage } from '../pages/statementType';
 import { layOrWitnessHandoffPage } from '../pages/layOrWitness';
@@ -35,13 +33,17 @@ import {
 } from '../pages/priorityProcessing';
 import { recordsRequestHandoffPage } from '../pages/recordsRequest';
 import { newEvidenceHandoffPage } from '../pages/newEvidence';
-import { vreRequestHandoffPage } from '../pages/vreRequest';
 import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
 import { identificationInformationPage } from '../pages/identificationInfo';
 import { mailingAddressPage } from '../pages/mailingAddress';
 import { phoneAndEmailPage } from '../pages/phoneAndEmail';
 import { statementPage } from '../pages/statement';
-import { getMockData, isEligibleForDecisionReview } from '../helpers';
+import {
+  getMockData,
+  isEligibleForDecisionReview,
+  isIneligibleForPriorityProcessing,
+  isEligibleToSubmitStatement,
+} from '../helpers';
 
 // export isLocalhost() to facilitate unit-testing
 export function isLocalhost() {
@@ -202,7 +204,7 @@ const formConfig = {
         priorityProcessingOtherHousingRiskPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            formData.livingSituation === LIVING_SITUATIONS.OTHER_RISK,
+            formData.livingSituation.OTHER_RISK,
           path: 'priority-processing-other-housing-risks',
           title: 'Other housing risks',
           uiSchema: ppOtherHousingRisksPage.uiSchema,
@@ -212,7 +214,7 @@ const formConfig = {
         priorityProcessingOtherReasonsOptionalPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            formData.livingSituation !== LIVING_SITUATIONS.NONE,
+            formData.livingSituation.NONE,
           path: 'priority-processing-other-reasons-optional',
           title: 'Other reasons for request',
           uiSchema: ppOtherReasonsOptionalPage.uiSchema,
@@ -222,7 +224,7 @@ const formConfig = {
         priorityProcessingOtherReasonsRequiredPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            formData.livingSituation === LIVING_SITUATIONS.NONE,
+            !formData.livingSituation.NONE,
           path: 'priority-processing-other-reasons',
           title: 'Other reasons for request',
           uiSchema: ppOtherReasonsRequiredPage.uiSchema,
@@ -230,10 +232,7 @@ const formConfig = {
           pageClass: 'priority-processing-other-reasons',
         },
         priorityProcessingNotQualifiedPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            (formData.livingSituation === LIVING_SITUATIONS.NONE &&
-              formData.otherReasons === OTHER_REASONS_REQUIRED.NONE),
+          depends: formData => isIneligibleForPriorityProcessing(formData),
           path: 'priority-processing-not-qualified',
           title: 'You may not qualify for priority processing',
           uiSchema: ppNotQualifiedPage.uiSchema,
@@ -243,9 +242,8 @@ const formConfig = {
         priorityProcessingQualifiedHandoffPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            (formData.livingSituation !== LIVING_SITUATIONS.NONE ||
-              (formData.livingSituation === LIVING_SITUATIONS.NONE &&
-                formData.otherReasons !== OTHER_REASONS_REQUIRED.NONE)),
+            (!formData.livingSituation.NONE ||
+              (formData.livingSituation.NONE && !formData.otherReasons?.NONE)),
           path: 'priority-processing-qualified-handoff',
           title: "There's a better way to request priority processing",
           uiSchema: ppQualifiedHandoffPage.uiSchema,
@@ -273,16 +271,6 @@ const formConfig = {
           pageClass: 'new-evidence-handoff',
           hideNavButtons: true,
         },
-        vreRequestHandoffPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.VRE_REQUEST,
-          path: 'vre-request-handoff',
-          title: "There's a better way to request Chapter 31 support",
-          uiSchema: vreRequestHandoffPage.uiSchema,
-          schema: vreRequestHandoffPage.schema,
-          pageClass: 'vre-request-handoff',
-          hideNavButtons: true,
-        },
       },
     },
     personalInformationChapter: {
@@ -290,8 +278,7 @@ const formConfig = {
       hideFormTitle: true,
       pages: {
         nameAndDateOfBirthPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.NOT_LISTED,
+          depends: formData => isEligibleToSubmitStatement(formData),
           path: 'name-and-date-of-birth',
           title: 'Name and date of birth',
           uiSchema: nameAndDateOfBirthPage.uiSchema,
@@ -305,8 +292,7 @@ const formConfig = {
       hideFormTitle: true,
       pages: {
         identificationInformationPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.NOT_LISTED,
+          depends: formData => isEligibleToSubmitStatement(formData),
           path: 'identification-information',
           title: 'Identification information',
           uiSchema: identificationInformationPage.uiSchema,
@@ -320,8 +306,7 @@ const formConfig = {
       hideFormTitle: true,
       pages: {
         mailingAddressPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.NOT_LISTED,
+          depends: formData => isEligibleToSubmitStatement(formData),
           path: 'mailing-address',
           title: 'Mailing address',
           uiSchema: mailingAddressPage.uiSchema,
@@ -335,8 +320,7 @@ const formConfig = {
       hideFormTitle: true,
       pages: {
         phoneAndEmailPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.NOT_LISTED,
+          depends: formData => isEligibleToSubmitStatement(formData),
           path: 'phone-and-email',
           title: 'Phone and email address',
           uiSchema: phoneAndEmailPage.uiSchema,
@@ -350,8 +334,7 @@ const formConfig = {
       hideFormTitle: true,
       pages: {
         statement: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.NOT_LISTED,
+          depends: formData => isEligibleToSubmitStatement(formData),
           path: 'statement',
           title: 'Your statement',
           uiSchema: statementPage.uiSchema,

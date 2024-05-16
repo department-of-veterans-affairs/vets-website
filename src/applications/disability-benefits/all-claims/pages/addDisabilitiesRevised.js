@@ -1,14 +1,11 @@
-import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
+// import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { getDisabilityLabels } from '../content/disabilityLabels';
-import {
-  autoSuggestTitle,
-  newOnlyAlert,
-  increaseAndNewAlert,
-} from '../content/addDisabilities';
+import * as combobox from '../definitions/combobox';
+import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
+import { newOnlyAlert, increaseAndNewAlert } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
 import ConditionReviewField from '../components/ConditionReviewField';
@@ -29,7 +26,7 @@ import {
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 export const uiSchema = {
-  newDisabilitiesRevised: {
+  newDisabilities: {
     'ui:title': 'Tell us the new conditions you want to claim REVISED VERSION!',
     'ui:field': ArrayField,
     'ui:options': {
@@ -44,44 +41,36 @@ export const uiSchema = {
     // field in an array item), but that's not working.
     'ui:validations': [requireDisability],
     items: {
-      condition: autosuggest.uiSchema(
-        autoSuggestTitle,
-        () =>
-          Promise.resolve(
-            Object.entries(getDisabilityLabels()).map(([key, value]) => ({
-              id: key,
-              label: value,
-            })),
-          ),
-        {
-          'ui:reviewField': ({ children }) => children,
-          'ui:options': {
-            debounceRate: 200,
-            freeInput: true,
-            inputTransformers: [
-              // Replace a bunch of things that aren't valid with valid equivalents
-              input => input.replace(/["”’]/g, `'`),
-              input => input.replace(/[;–]/g, ' -- '),
-              input => input.replace(/[&]/g, ' and '),
-              input => input.replace(/[\\]/g, '/'),
-              // TODO: Remove the period replacer once permanent fix in place
-              input => input.replace(/[.]/g, ' '),
-              // Strip out everything that's not valid and doesn't need to be replaced
-              // TODO: Add period back into allowed chars regex
-              input => input.replace(/([^a-zA-Z0-9\-',/() ]+)/g, ''),
-              // Get rid of extra whitespace characters
-              input => input.trim(),
-              input => input.replace(/\s{2,}/g, ' '),
-            ],
-          },
-          // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
-          'ui:validations': [validateDisabilityName, limitNewDisabilities],
-          'ui:required': () => true,
-          'ui:errorMessages': {
-            required: missingConditionMessage,
-          },
+      condition: combobox.uiSchema('What new condition do you want to claim?', {
+        'ui:reviewField': ({ children }) => children,
+        'ui:options': {
+          debounceRate: 200,
+          freeInput: true,
+          inputTransformers: [
+            // Replace a bunch of things that aren't valid with valid equivalents
+            input => input.replace(/["”’]/g, `'`),
+            input => input.replace(/[;–]/g, ' -- '),
+            input => input.replace(/[&]/g, ' and '),
+            input => input.replace(/[\\]/g, '/'),
+            // TODO: Remove the period replacer once permanent fix in place
+            input => input.replace(/[.]/g, ' '),
+            // Strip out everything that's not valid and doesn't need to be replaced
+            // TODO: Add period back into allowed chars regex
+            input => input.replace(/([^a-zA-Z0-9\-',/() ]+)/g, ''),
+            // Get rid of extra whitespace characters
+            input => input.trim(),
+            input => input.replace(/\s{2,}/g, ' '),
+          ],
+          // options for the combobox dropdown
+          listItems: Object.values(disabilityLabelsRevised),
         },
-      ),
+        // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
+        'ui:validations': [validateDisabilityName, limitNewDisabilities],
+        'ui:required': () => true,
+        'ui:errorMessages': {
+          required: missingConditionMessage,
+        },
+      }),
       // custom review & submit layout - see https://github.com/department-of-veterans-affairs/vets-website/pull/14091
       // disabled until design changes have been approved
       'ui:objectViewField': ConditionReviewField,
@@ -115,7 +104,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    newDisabilitiesRevised: {
+    newDisabilities: {
       type: 'array',
       minItems: 1,
       items: {
@@ -136,7 +125,7 @@ export const schema = {
 };
 
 const indexOfFirstChange = (oldArr, newArr) => {
-  for (let i = 0; i < newArr.length; i++) {
+  for (let i = 0; i < newArr.length; i += 1) {
     if (oldArr[i] !== newArr[i]) return i;
   }
 
@@ -192,17 +181,10 @@ const removeDisability = (deletedElement, formData) => {
 
 // Find the old name -> change to new name
 const changeDisabilityName = (oldData, newData, changedIndex) => {
-  const oldId = sippableId(
-    oldData.newDisabilitiesRevised[changedIndex]?.condition,
-  );
-  const newId = sippableId(
-    newData.newDisabilitiesRevised[changedIndex]?.condition,
-  );
+  const oldId = sippableId(oldData.newDisabilities[changedIndex]?.condition);
+  const newId = sippableId(newData.newDisabilities[changedIndex]?.condition);
 
-  let result = removeDisability(
-    oldData.newDisabilitiesRevised[changedIndex],
-    newData,
-  );
+  let result = removeDisability(oldData.newDisabilities[changedIndex], newData);
 
   // Add in the new property with the old value
   const facilitiesPath = 'vaTreatmentFacilities';
@@ -237,8 +219,8 @@ const changeDisabilityName = (oldData, newData, changedIndex) => {
 };
 
 export const updateFormData = (oldData, newData) => {
-  const oldArr = oldData.newDisabilitiesRevised;
-  const newArr = newData.newDisabilitiesRevised;
+  const oldArr = oldData.newDisabilities;
+  const newArr = newData.newDisabilities;
   // Sanity check
   if (!Array.isArray(oldArr) || !Array.isArray(newArr)) return newData;
 

@@ -4,6 +4,23 @@ import { expect } from 'chai';
 import MhvSecondaryNavItem from '../components/MhvSecondaryNavItem';
 
 describe('MHV Secondary Navigation Item Component', () => {
+  describe('adds a data-dd-action-name', () => {
+    it('when provided', () => {
+      const title = 'a title';
+      const actionName = 'an action name';
+      const { getByRole } = render(
+        <MhvSecondaryNavItem
+          actionName={actionName}
+          title={title}
+          icon="home"
+          href="/my-health"
+        />,
+      );
+      const result = getByRole('link');
+      expect(result.getAttribute('data-dd-action-name')).to.equal(actionName);
+    });
+  });
+
   describe('handle abbreviations', () => {
     it('when provided', () => {
       const title = 'a title';
@@ -12,7 +29,7 @@ describe('MHV Secondary Navigation Item Component', () => {
         <MhvSecondaryNavItem
           title={title}
           abbreviation={abbr}
-          iconClass="fas fa-home"
+          icon="home"
           href="/my-health"
         />,
       );
@@ -23,11 +40,7 @@ describe('MHV Secondary Navigation Item Component', () => {
     it('when not provided', () => {
       const title = 'a title';
       const { getAllByText } = render(
-        <MhvSecondaryNavItem
-          title={title}
-          iconClass="fas fa-home"
-          href="/my-health"
-        />,
+        <MhvSecondaryNavItem title={title} icon="home" href="/my-health" />,
       );
       // The title and abbreviation are the same
       expect(getAllByText(title).length).to.eql(2);
@@ -39,7 +52,7 @@ describe('MHV Secondary Navigation Item Component', () => {
       const { getByTestId } = render(
         <MhvSecondaryNavItem
           title="a title"
-          iconClass="fas fa-home"
+          icon="home"
           href="/my-health"
           isHeader
         />,
@@ -50,11 +63,7 @@ describe('MHV Secondary Navigation Item Component', () => {
 
     it('set an item to not be a header', () => {
       const { getByTestId } = render(
-        <MhvSecondaryNavItem
-          title="a title"
-          iconClass="fas fa-home"
-          href="/my-health"
-        />,
+        <MhvSecondaryNavItem title="a title" icon="home" href="/my-health" />,
       );
       const item = getByTestId('mhv-sec-nav-item');
       expect(item.className).to.not.include('header');
@@ -64,11 +73,7 @@ describe('MHV Secondary Navigation Item Component', () => {
   describe('set item to active', () => {
     it('when not set to active', () => {
       const { getByTestId } = render(
-        <MhvSecondaryNavItem
-          title="a title"
-          iconClass="fas fa-home"
-          href="/my-health"
-        />,
+        <MhvSecondaryNavItem title="a title" icon="home" href="/my-health" />,
       );
       const item = getByTestId('mhv-sec-nav-item');
       expect(item.className).to.not.include('active');
@@ -78,7 +83,7 @@ describe('MHV Secondary Navigation Item Component', () => {
       const { getByTestId } = render(
         <MhvSecondaryNavItem
           title="a title"
-          iconClass="fas fa-home"
+          icon="home"
           href="/my-health"
           isActive
         />,

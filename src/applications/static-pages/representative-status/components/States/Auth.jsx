@@ -54,11 +54,7 @@ export const Auth = ({
         <va-card show-shadow>
           <div className="auth-card">
             <div className="auth-header-icon">
-              <va-icon
-                icon="account_circle"
-                size={4}
-                srtext="Your representative"
-              />{' '}
+              <va-icon icon="account_circle" size={4} />{' '}
             </div>
             <div className="auth-rep-text">
               <div className="auth-rep-header">
@@ -140,11 +136,7 @@ export const Auth = ({
                   (contact || email) && (
                     <div className="vads-u-display--flex vads-u-margin-top--1p5">
                       <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
-                        <va-icon
-                          icon="file_download"
-                          size={2}
-                          srtext="Download your accredited representative's contact information"
-                        />
+                        <va-icon icon="file_download" size={2} />
                       </div>
                       <va-link
                         filetype="VCF"
@@ -156,11 +148,7 @@ export const Auth = ({
                   )}
                 <div className="vads-u-display--flex vads-u-margin-top--1p5">
                   <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
-                    <va-icon
-                      icon="search"
-                      size={2}
-                      srtext="Learn about accredited representatives"
-                    />
+                    <va-icon icon="search" size={2} />
                   </div>
                   <va-link
                     href="https://www.va.gov/resources/va-accredited-representative-faqs/"
@@ -211,7 +199,9 @@ export const Auth = ({
       uswds
       visible
     >
-      <h2 slot="headline">We don’t seem to have your records</h2>
+      <DynamicHeader slot="headline">
+        We don’t seem to have your records
+      </DynamicHeader>
       <React.Fragment key=".1">
         <p>We’re sorry. We can’t match your information to our records.</p>
 

@@ -23,16 +23,15 @@ const PrintBtn = props => {
           activeFolder?.folderId !== DefaultFolders.SENT.id
             ? 'vads-u-flex--3'
             : 'vads-l-row--3'
-        } `}
+        } vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center`}
         style={{ minWidth: '100px' }}
         onClick={() => {
           handleConfirmPrint();
         }}
       >
-        <i
-          className="fas fa-print vads-u-margin-right--0p5"
-          aria-hidden="true"
-        />
+        <div className="vads-u-margin-right--0p5">
+          <va-icon icon="print" aria-hidden="true" />
+        </div>
         <span className="message-action-button-text" data-testid="print-button">
           Print
         </span>
