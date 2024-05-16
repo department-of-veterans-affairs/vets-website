@@ -14,6 +14,7 @@ const PayeeInformationCard = ({
     A: 'Montgomery GI Bill (MGIB) – Selective Reserve (Chapter 1606)',
     B: 'Montgomery GI Bill (MGIB) – Active Duty (Chapter 30)',
     E: 'Reservist Educational Assistance Program (REAP) – (Chapter 1607)',
+    D: "Survivors' and Dependents' Educational Assistance (DEA) - (Chapter 35)",
   };
   return (
     <div
