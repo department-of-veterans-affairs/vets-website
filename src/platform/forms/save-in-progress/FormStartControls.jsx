@@ -5,12 +5,12 @@ import {
   VaButton,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from '../../monitoring/record-event';
-
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_RESTARTING,
 } from '~/platform/site-wide/wizard';
+import recordEvent from '../../monitoring/record-event';
+
 import {
   CONTINUE_APP_DEFAULT_MESSAGE,
   START_NEW_APP_DEFAULT_MESSAGE,
@@ -27,6 +27,7 @@ const FormStartControls = props => {
     prefillTransformer,
     ariaLabel = null,
     ariaDescribedby = null,
+    customStartLink = null,
     startText,
     formSaved,
     isExpired,
@@ -129,6 +130,21 @@ const FormStartControls = props => {
     );
   }
 
+  if (customStartLink) {
+    const CustomLink = customStartLink;
+    return (
+      <CustomLink
+        href="#start"
+        onClick={event => {
+          event.preventDefault();
+          handleLoadPrefill();
+        }}
+      >
+        {startText}
+      </CustomLink>
+    );
+  }
+
   return (
     <a
       href="#start"
@@ -155,6 +171,7 @@ FormStartControls.propTypes = {
   startPage: PropTypes.string.isRequired,
   ariaDescribedby: PropTypes.string,
   ariaLabel: PropTypes.string,
+  customStartLink: PropTypes.any,
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       startNewAppButtonText: PropTypes.string,
