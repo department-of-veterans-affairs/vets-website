@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -12,6 +12,8 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -21,8 +23,8 @@ import GenerateRadiologyPdf from './GenerateRadiologyPdf';
 import { pageTitles } from '../../util/constants';
 import { generateTextFile, getNameDateAndTime } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import { useIsDetails } from '../../hooks/useIsDetails';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -33,6 +35,10 @@ const RadiologyDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const dispatch = useDispatch();
+  useIsDetails(dispatch);
 
   useEffect(
     () => {
@@ -48,15 +54,16 @@ const RadiologyDetails = props => {
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
-  const download = () => {
+  const downloadPdf = () => {
+    setDownloadStarted(true);
     GenerateRadiologyPdf(record, user, runningUnitTest);
   };
 
   const generateRadioloyTxt = async () => {
+    setDownloadStarted(true);
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
@@ -92,14 +99,14 @@ ${record.results}`;
       </h1>
       <DateSubheading date={record.date} id="radiology-date" />
 
-      <div className="no-print">
-        <PrintDownload
-          download={download}
-          downloadTxt={generateRadioloyTxt}
-          allowTxtDownloads={allowTxtDownloads}
-        />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-      </div>
+      {downloadStarted && <DownloadSuccessAlert />}
+      <PrintDownload
+        downloadPdf={downloadPdf}
+        downloadTxt={generateRadioloyTxt}
+        allowTxtDownloads={allowTxtDownloads}
+      />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans no-print">

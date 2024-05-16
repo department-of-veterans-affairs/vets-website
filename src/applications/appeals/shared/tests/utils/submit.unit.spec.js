@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getDate } from '../../utils/dates';
+import { parseDateWithOffset } from '../../utils/dates';
 
 import { SELECTED } from '../../constants';
 
@@ -10,12 +10,13 @@ import {
   addIncludedIssues,
   getPhone,
   addAreaOfDisagreement,
+  getTimeZone,
 } from '../../utils/submit';
 
 const text =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, seddo eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
 
-const validDate1 = getDate({ offset: { months: -2 } });
+const validDate1 = parseDateWithOffset({ months: -2 });
 const issue1 = {
   raw: {
     type: 'contestableIssue',
@@ -41,7 +42,7 @@ const issue1 = {
   },
 };
 
-const validDate2 = getDate({ offset: { months: -4 } });
+const validDate2 = parseDateWithOffset({ months: -4 });
 const issue2 = {
   raw: {
     type: 'contestableIssue',
@@ -285,5 +286,12 @@ describe('addAreaOfDisagreement', () => {
     };
     const result = addAreaOfDisagreement([issue1.result], formData);
     expect(result[0].attributes.disagreementArea).to.equal('');
+  });
+});
+
+describe('getTimeZone', () => {
+  it('should return a string', () => {
+    // result will be a location string, not stubbing for this test
+    expect(getTimeZone().length).to.be.greaterThan(1);
   });
 });

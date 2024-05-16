@@ -8,8 +8,7 @@ import { dateFormat } from '../../util/helpers';
 
 const unreadMessageClassList = 'vads-u-font-weight--bold';
 const readMessageClassList = '';
-const attachmentClasses =
-  'vads-u-margin-right--1 vads-u-font-size--sm fas fa-paperclip';
+const attachmentClasses = 'vads-u-margin-right--1 vads-u-font-size--sm';
 
 const ThreadListItem = props => {
   const mhvSecureMessagingToPhase1 = useSelector(
@@ -91,47 +90,34 @@ const ThreadListItem = props => {
         {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
           (unreadMessages && (
             <span>
-              <i
-                role="img"
+              <span
                 aria-hidden="true"
-                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
+                role="img"
+                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker unread-bubble"
                 data-testid="thread-list-unread-icon"
-                alt="Unread message icon"
               />
             </span>
           ))}
       </div>
       <div className="vads-l-col vads-u-margin-left--1">
         <Link
-          aria-label={`${
-            unreadMessages ? 'Unread message. Subject:' : 'Message subject:'
-          } ${categoryLabel}: ${subject}, ${formattedDate()}. ${
-            hasAttachment ? ' Has attachment.' : ''
-          }`}
+          aria-describedby={`received-message-date-${messageId}`}
           className="message-subject-link vads-u-margin-y--0 vads-u-line-height--4 vads-u-font-size--lg"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
           data-dd-privacy="mask"
         >
-          {hasAttachment ? (
-            <span
-              id={`message-link-has-attachment-${messageId}`}
-              className={`vads-u-font-size--lg ${
-                unreadMessages ? 'vads-u-font-weight--bold' : ''
-              }`}
-            >
-              {categoryLabel}: {getHighlightedText(subject)}
-              <span className="sr-only">Has attachment</span>
-            </span>
-          ) : (
-            <span
-              id={`message-link-${messageId}`}
-              className={`vads-u-font-size--lg ${
-                unreadMessages ? 'vads-u-font-weight--bold' : ''
-              }`}
-            >
-              {categoryLabel}: {getHighlightedText(subject)}
-            </span>
-          )}
+          <span
+            id={`message-link${
+              hasAttachment ? '-has-attachment' : ''
+            }-${messageId}`}
+            className={`vads-u-font-size--lg ${
+              unreadMessages ? 'vads-u-font-weight--bold' : ''
+            }`}
+          >
+            {unreadMessages && <span className="sr-only">Unread message.</span>}
+            {categoryLabel}: {getHighlightedText(subject)}
+            {hasAttachment && <span className="sr-only">Has attachment.</span>}
+          </span>
         </Link>
         <div className={getClassNames()} data-dd-privacy="mask">
           {location.pathname !== Paths.SENT ? (
@@ -143,12 +129,14 @@ const ThreadListItem = props => {
         <div
           className="vads-u-font-weight--normal vads-u-color--gray-medium vads-u-margin-top--0p5"
           data-testid="received-date"
+          id={`received-message-date-${messageId}`}
         >
           {formattedDate()}
         </div>
         <div data-testid="message-info-row">
           {hasAttachment && (
-            <i
+            <va-icon
+              icon="attach_file"
               role="img"
               aria-labelledby={`message-link-has-attachment-${messageId}`}
               className={attachmentClasses}
@@ -186,10 +174,10 @@ const ThreadListItem = props => {
         {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
           (unreadMessages && (
             <span>
-              <i
+              <span
                 role="img"
                 aria-label="Unread message"
-                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
+                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker unread-bubble"
                 data-testid="thread-list-unread-icon"
                 alt="Unread message icon"
               />
@@ -207,7 +195,7 @@ const ThreadListItem = props => {
                     <span className="thread-list-draft">(Draft)</span> -{' '}
                   </>
                 )}
-              </span>{' '}
+              </span>
               {unreadMessages ? (
                 <span data-testid="triageGroupName">
                   {getHighlightedText(senderName)} (Team: {triageGroupName})
@@ -218,7 +206,7 @@ const ThreadListItem = props => {
                   {getHighlightedText(senderName)} (Team: {triageGroupName})
                 </span>
               )}
-              <span />{' '}
+              <span />
               {messageCount > 1 && (
                 <span className="message-count" data-testid="message-count">
                   ({messageCount} messages)
@@ -229,7 +217,7 @@ const ThreadListItem = props => {
             <div>
               <div>
                 To: {recipientName} (Team: {triageGroupName}){' '}
-              </div>{' '}
+              </div>
               {messageCount > 1 && (
                 <span className="message-count">({messageCount} messages)</span>
               )}
@@ -238,37 +226,37 @@ const ThreadListItem = props => {
         </div>
         <Link
           data-dd-action-name="Link to Message Subject Details"
-          aria-label={`${
-            unreadMessages ? 'Unread message.' : ''
-          } Message subject: ${categoryLabel}: ${subject}, ${formattedDate()}. ${
-            hasAttachment ? ' Has attachment.' : ''
-          }`}
+          aria-describedby={`thread-message-date-${messageId}`}
           className="message-subject-link vads-u-margin-y--0p5"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
           data-dd-privacy="mask"
         >
-          {hasAttachment ? (
-            <span id={`message-link-has-attachment-${messageId}`}>
-              {categoryLabel}: {getHighlightedText(subject)}
-              <span className="sr-only">Has attachment</span>
-            </span>
-          ) : (
-            <span id={`message-link-${messageId}`}>
-              {categoryLabel}: {getHighlightedText(subject)}
-            </span>
-          )}
+          <span
+            id={`message-link${
+              hasAttachment ? '-has-attachment' : ''
+            }-${messageId}`}
+          >
+            {unreadMessages && <span className="sr-only">Unread message.</span>}
+            {categoryLabel}: {getHighlightedText(subject)}
+            {hasAttachment && <span className="sr-only">Has attachment.</span>}
+          </span>
         </Link>
 
         <p className="received-date vads-u-margin-y--0p5">
           {hasAttachment && (
-            <i
+            <va-icon
+              icon="attach_file"
               role="img"
               aria-labelledby={`message-link-has-attachment-${messageId}`}
               className={attachmentClasses}
               alt="Attachment icon"
             />
           )}
-          <span data-testid="thread-date" data-dd-privacy="mask">
+          <span
+            data-testid="thread-date"
+            id={`thread-message-date-${messageId}`}
+            data-dd-privacy="mask"
+          >
             {formattedDate()}
           </span>
         </p>

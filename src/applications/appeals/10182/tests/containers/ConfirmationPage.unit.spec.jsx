@@ -4,22 +4,33 @@ import { render, waitFor } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
-import moment from 'moment';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import { SELECTED } from '../../../shared/constants';
 
-const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
+import { SELECTED } from '../../../shared/constants';
+import { getReadableDate } from '../../../shared/utils/dates';
+
+const getData = ({
+  renderName = true,
+  suffix = 'Esq.',
+  nodConfirmationUpdate = false,
+} = {}) => ({
   user: {
     profile: {
       userFullName: renderName
         ? { first: 'Foo', middle: 'Man', last: 'Choo', suffix }
         : {},
     },
+  },
+  featureToggles: {
+    loading: false,
+    nodConfirmationUpdate,
+    // eslint-disable-next-line camelcase
+    nod_confirmation_update: nodConfirmationUpdate,
   },
   form: {
     formId: formConfig.formId,
@@ -56,6 +67,7 @@ describe('Confirmation page', () => {
       </Provider>,
     );
     expect($('va-alert[status="success"]', container)).to.exist;
+    expect($$('ul', container).length).to.eq(1);
     expect($$('.dd-privacy-hidden[data-dd-action-name]').length).to.eq(2);
   });
   it('should render with no data', () => {
@@ -99,7 +111,7 @@ describe('Confirmation page', () => {
 
   it('should render the submit date', () => {
     const data = getData();
-    const date = moment(data.form.submission.response).format('MMMM D, YYYY');
+    const date = getReadableDate(data.form.submission.response);
     const { container } = render(
       <Provider store={mockStore(data)}>
         <ConfirmationPage />
@@ -128,5 +140,17 @@ describe('Confirmation page', () => {
     await waitFor(() => {
       expect(document.activeElement).to.eq(h2);
     });
+  });
+
+  it('should render confirmation page v2', () => {
+    const { container } = render(
+      <Provider store={mockStore(getData({ nodConfirmationUpdate: true }))}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+    expect($$('ul', container).length).to.eq(4);
+    expect(
+      $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
+    ).to.eq(10);
   });
 });

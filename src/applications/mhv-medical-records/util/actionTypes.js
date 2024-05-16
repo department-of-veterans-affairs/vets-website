@@ -59,8 +59,13 @@ export const Actions = {
   Refresh: {
     GET_STATUS: 'MR_REFRESH_GET_STATUS',
     UPDATE_PHASE: 'MR_REFRESH_UPDATE_PHASE',
+    SET_INITIAL_FHIR_LOAD: 'MR_REFRESH_SET_INITIAL_FHIR_LOAD',
   },
   BlueButtonReport: {
     GET: 'MR_BLUE_BUTTON_GET_DATA',
+  },
+  IsDetails: {
+    SET_IS_DETAILS: 'MR_SET_IS_DETAILS',
+    CLEAR_IS_DETAILS: 'MR_CLEAR_IS_DETAILS',
   },
 };

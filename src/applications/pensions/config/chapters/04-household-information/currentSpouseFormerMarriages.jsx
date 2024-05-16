@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'platform/utilities/data/get';
-
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-
 import {
   currentOrPastDateUI,
   fullNameUI,
@@ -13,16 +11,14 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-
 import {
   ContactWarningAlert,
   ContactWarningMultiAlert,
 } from '../../../components/FormAlerts';
-import { formatFullName } from '../../../helpers';
+import { formatFullName, updateMultiresponseUiOptions } from '../../../helpers';
 import ListItemView from '../../../components/ListItemView';
 import SpouseMarriageTitle from '../../../components/SpouseMarriageTitle';
 import { separationTypeLabels } from '../../../labels';
-
 import {
   validateAfterMarriageDates,
   validateUniqueMarriageDates,
@@ -82,6 +78,8 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
+        updateSchema: updateMultiresponseUiOptions,
       },
       items: {
         spouseFullName: fullNameUI(title => `Former spouse’s ${title}`),
@@ -91,7 +89,7 @@ export default {
           classNames: 'vads-u-margin-bottom--2',
         }),
         otherExplanation: {
-          'ui:title': 'Please specify',
+          'ui:title': 'Tell us how the marriage ended',
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
             expandUnder: 'reasonForSeparation',
@@ -142,6 +140,7 @@ export default {
             'locationOfMarriage',
             'locationOfSeparation',
           ],
+          /* What should we do about this object? */
           properties: {
             spouseFullName: fullNameSchema,
             reasonForSeparation: radioSchema(Object.keys(separationTypeLabels)),

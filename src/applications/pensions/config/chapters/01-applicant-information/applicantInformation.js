@@ -1,5 +1,4 @@
 import moment from 'moment';
-
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
@@ -10,10 +9,12 @@ import {
   vaFileNumberUI,
   vaFileNumberSchema,
   yesNoUI,
-  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import UnauthenticatedWarningAlert from '../../../containers/UnauthenticatedWarningAlert';
+
+const { vaClaimsHistory } = fullSchemaPensions.properties;
 
 export function isOver65(formData, currentDate) {
   const today = currentDate || moment();
@@ -44,8 +45,8 @@ export function setDefaultIsOver65(oldData, newData, currentDate) {
 
 /** @type {PageSchema} */
 export default {
-  path: 'applicant/information',
   title: 'Applicant information',
+  path: 'applicant/information',
   updateFormData: setDefaultIsOver65,
   uiSchema: {
     'ui:description': applicantDescription,
@@ -80,7 +81,8 @@ export default {
       },
       veteranFullName: fullNameSchema,
       veteranSocialSecurityNumber: ssnSchema,
-      vaClaimsHistory: yesNoSchema,
+      vaClaimsHistory,
+      /* Do $ref definitions work here? Would it make sense to pull the definition from the vets-json-schema file */
       vaFileNumber: vaFileNumberSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },

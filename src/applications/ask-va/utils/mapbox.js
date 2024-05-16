@@ -28,7 +28,15 @@ const convertLocation = async query => {
     .send()
     .then(res => {
       const feature = res.body.features[0];
-      return feature.place_name;
+      const zipCode = feature.context.filter(
+        item => item.id.split('.')[0] === 'postcode',
+      );
+
+      return {
+        /* eslint-disable camelcase */
+        place_name: feature.place_name,
+        zipCode,
+      };
     });
 };
 

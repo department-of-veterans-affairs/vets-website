@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
 import { SIGN_IN_URL } from '../constants';
 
@@ -29,10 +29,10 @@ const LandingPage = () => {
               </p>
               <Link
                 data-testid="landing-page-bypass-sign-in-link"
-                to="/dashboard"
+                to="/poa-requests"
                 className="vads-c-action-link--white"
               >
-                Until sign in is added use this to see dashboard
+                Until sign in is added use this to simulate sign in
               </Link>
             </div>
           </div>
@@ -47,7 +47,7 @@ const LandingPage = () => {
                   className="usa-button usa-button-primary"
                   href={SIGN_IN_URL}
                 >
-                  Sign in or create an account
+                  Sign in or create account
                 </a>
               </div>
             </div>

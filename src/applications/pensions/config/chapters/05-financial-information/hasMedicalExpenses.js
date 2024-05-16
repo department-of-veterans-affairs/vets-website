@@ -1,9 +1,11 @@
 import React from 'react';
 import {
   titleUI,
-  yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+
+const { hasMedicalExpenses } = fullSchemaPensions.properties;
 
 export const description = (
   <>
@@ -39,8 +41,8 @@ export const description = (
 
 /** @type {PageSchema} */
 export default {
-  path: 'financial/medical-expenses',
   title: 'Medical expenses and other unreimbursed expenses',
+  path: 'financial/medical-expenses',
   uiSchema: {
     ...titleUI('Medical expenses and other unreimbursed expenses', description),
     hasMedicalExpenses: yesNoUI({
@@ -52,7 +54,7 @@ export default {
     type: 'object',
     required: ['hasMedicalExpenses'],
     properties: {
-      hasMedicalExpenses: yesNoSchema,
+      hasMedicalExpenses,
       'view:warningAlert': {
         type: 'object',
         properties: {},

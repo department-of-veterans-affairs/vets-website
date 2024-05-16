@@ -15,21 +15,14 @@ const veteranDemographicsErrors = [
   'veteran_race',
   'veteran_maritalStatus',
 ];
-
 const veteranDeceasedErrors = ['veteran_isDeceased'];
-
 const veteranMilitaryDetailsErrors = ['veteran_militaryStatus'];
-const militaryHistoryErrors = ['veteran_serviceRecords_0_serviceBranch'];
 const previousNameErrors1 = ['veteran_view\\:hasServiceName'];
 const previousNameErrors2 = [
   'veteran_serviceName_first',
   'veteran_serviceName_last',
 ];
-const burialBenefitsErrors1 = ['hasCurrentlyBuried'];
-const burialBenefitsErrors2 = [
-  'currentlyBuriedPersons_0_name_first',
-  'currentlyBuriedPersons_0_name_last',
-];
+const burialBenefitsErrors = ['hasCurrentlyBuried'];
 const applicantContactInfoErrors = [
   'claimant_address_street',
   'claimant_address_city',
@@ -55,11 +48,9 @@ module.exports = {
   veteranDemographicsErrors,
   veteranDeceasedErrors,
   veteranMilitaryDetailsErrors,
-  militaryHistoryErrors,
   previousNameErrors1,
   previousNameErrors2,
-  burialBenefitsErrors1,
-  burialBenefitsErrors2,
+  burialBenefitsErrors,
   applicantContactInfoErrors,
   preparerInfoErrors1,
   preparerInfoErrors2,

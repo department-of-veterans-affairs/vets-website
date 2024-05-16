@@ -9,6 +9,7 @@ const ignoreList = {
   // propName: ['list', 'of', 'pages'],
   newDisabilities: [
     'addDisabilities',
+    'addDisabilitiesRevised',
     'newDisabilityFollowUp',
     'unemployabilityDisabilities',
   ],
@@ -20,6 +21,11 @@ const ignoreList = {
     'militaryHistory',
     'reservesNationalGuardService',
     'separationLocation',
+  ],
+  toxicExposure: [
+    'toxicExposureConditions',
+    'gulfWar1990Locations',
+    'gulfWar2001Locations',
   ],
   unemployability: [
     'medicalCare',

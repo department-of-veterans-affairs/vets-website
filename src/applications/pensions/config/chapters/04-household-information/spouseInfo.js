@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
@@ -11,9 +10,11 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { createSpouseLabelSelector, isMarried } from './helpers';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
+
+const { spouseIsVeteran } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -72,7 +73,7 @@ export default {
     properties: {
       spouseDateOfBirth: dateOfBirthSchema,
       spouseSocialSecurityNumber: ssnSchema,
-      spouseIsVeteran: yesNoSchema,
+      spouseIsVeteran,
       spouseVaFileNumber: vaFileNumberSchema,
       'view:liveWithSpouse': yesNoSchema,
     },

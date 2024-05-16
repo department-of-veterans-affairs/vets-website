@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
-  fullNameUI,
-  fullNameSchema,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
-import { DependentsMinItem, formatFullName } from '../../../helpers';
+import {
+  DependentsMinItem,
+  formatFullName,
+  updateMultiresponseUiOptions,
+} from '../../../helpers';
 import { doesHaveDependents } from './helpers';
 
 const DependentNameView = ({ formData }) => (
@@ -39,12 +42,14 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
+        updateSchema: updateMultiresponseUiOptions,
       },
       'ui:errorMessages': {
         minItems: DependentsMinItem,
       },
       items: {
-        fullName: fullNameUI(title => `Child’s ${title}`),
+        fullName: fullNameNoSuffixUI(title => `Child’s ${title}`),
         childDateOfBirth: dateOfBirthUI(),
       },
     },
@@ -59,7 +64,7 @@ export default {
           type: 'object',
           required: ['fullName', 'childDateOfBirth'],
           properties: {
-            fullName: fullNameSchema,
+            fullName: fullNameNoSuffixSchema,
             childDateOfBirth: dateOfBirthSchema,
           },
         },

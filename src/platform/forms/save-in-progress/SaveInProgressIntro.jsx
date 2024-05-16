@@ -55,6 +55,7 @@ class SaveInProgressIntro extends React.Component {
         gaStartEventName={this.props.gaStartEventName}
         ariaLabel={this.props.ariaLabel}
         ariaDescribedby={this.props.ariaDescribedby}
+        customStartLink={this.props.customLink}
       />
     );
   };
@@ -112,11 +113,11 @@ class SaveInProgressIntro extends React.Component {
         const isExpired = isBefore(expiresAt, new Date());
         const inProgressMessage = getInProgressMessage(formConfig);
 
+        const Header = `h${this.props.headingLevel}`;
         if (!isExpired) {
           const lastSavedDateTime =
             savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
 
-          const H = `h${this.props.headingLevel}`;
           const ContinueMsg = (
             <p>
               You can continue {appAction} now
@@ -128,12 +129,10 @@ class SaveInProgressIntro extends React.Component {
           includesFormControls = true;
           alert = (
             <va-alert status="info" uswds visible>
-              <div className="schemaform-sip-alert-title">
-                <H className="usa-alert-heading vads-u-font-size--h3">
-                  {inProgressMessage} {savedAt && 'and was last saved on '}
-                  {lastSavedDateTime}
-                </H>
-              </div>
+              <Header slot="headline">
+                {inProgressMessage} {savedAt && 'and was last saved on '}
+                {lastSavedDateTime}
+              </Header>
               <div className="saved-form-metadata-container">
                 <div className="expires-container">
                   {this.props.continueMsg || ContinueMsg}
@@ -153,9 +152,7 @@ class SaveInProgressIntro extends React.Component {
           alert = (
             <div>
               <va-alert status="warning" uswds visible>
-                <div className="schemaform-sip-alert-title">
-                  <strong>Your {appType} has expired</strong>
-                </div>
+                <Header slot="headline">Your {appType} has expired</Header>
                 <div className="saved-form-metadata-container">
                   <span className="saved-form-metadata">
                     {expiredMessage(formConfig)}
@@ -206,7 +203,18 @@ class SaveInProgressIntro extends React.Component {
         retentionPeriodStart,
         unauthStartText,
       } = this.props;
-      const unauthStartButton = (
+      const CustomLink = this.props.customLink;
+      const unauthStartButton = CustomLink ? (
+        <CustomLink
+          href="#start"
+          onClick={event => {
+            event.preventDefault();
+            this.openLoginModal();
+          }}
+        >
+          {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+        </CustomLink>
+      ) : (
         <VaButton
           onClick={this.openLoginModal}
           label={ariaLabel}
@@ -301,16 +309,13 @@ class SaveInProgressIntro extends React.Component {
               You can save this {appType} in progress, and come back later to
               finish filling it out.
               <br />
-              {/* button that looks like a link - needs design review */}
-              <button
+              <va-button
                 className="va-button-link"
                 onClick={this.openLoginModal}
                 aria-label={ariaLabel}
                 aria-describedby={ariaDescribedby}
-                type="button"
-              >
-                Sign in to your account.
-              </button>
+                text="Sign in to your account."
+              />
             </div>
           </va-alert>
           <br />
@@ -341,7 +346,12 @@ class SaveInProgressIntro extends React.Component {
       const Message = this.props.downtime.message || DowntimeMessage;
 
       return (
-        <Message isAfterSteps={this.props.buttonOnly} downtime={downtime} />
+        <Message
+          isAfterSteps={this.props.buttonOnly}
+          downtime={downtime}
+          formConfig={this.props.formConfig}
+          headerLevel={2}
+        />
       );
     }
 
@@ -428,6 +438,7 @@ SaveInProgressIntro.propTypes = {
   ariaLabel: PropTypes.string,
   buttonOnly: PropTypes.bool,
   children: PropTypes.any,
+  customLink: PropTypes.any,
   displayNonVeteranMessaging: PropTypes.bool,
   downtime: PropTypes.object,
   formConfig: PropTypes.shape({
@@ -475,6 +486,7 @@ SaveInProgressIntro.defaultProps = {
   headingLevel: 2,
   ariaLabel: null,
   ariaDescribedby: null,
+  customLink: null,
 };
 
 function mapStateToProps(state) {

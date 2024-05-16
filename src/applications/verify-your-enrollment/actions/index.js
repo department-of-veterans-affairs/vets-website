@@ -1,6 +1,6 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { USER_MOCK_DATA } from '../constants/mockData';
+import { UPDATED_USER_MOCK_DATA } from '../constants/mockData';
 // Action Types
 export const UPDATE_PENDING_VERIFICATIONS = 'UPDATE_PENDING_VERIFICATIONS';
 export const UPDATE_VERIFICATIONS = 'UPDATE_VERIFICATIONS';
@@ -27,6 +27,12 @@ export const UPDATE_TOGGLE_ENROLLMENT_ERROR = 'UPDATE_TOGGLE_ENROLLMENT_ERROR';
 export const ADDRESS_VALIDATION_START = 'ADDRESS_VALIDATION_START';
 export const ADDRESS_VALIDATION_SUCCESS = 'ADDRESS_VALIDATION_SUCCESS';
 export const ADDRESS_VALIDATION_FAIL = 'ADDRESS_VALIDATION_FAIL';
+export const SET_SUGGESTED_ADDRESS_PICKED = 'SET_SUGGESTED_ADDRESS_PICKED';
+
+export const handleSuggestedAddressPicked = value => ({
+  type: SET_SUGGESTED_ADDRESS_PICKED,
+  payload: value,
+});
 
 export const updateToggleEnrollmentSuccess = toggleEnrollmentSuccess => ({
   type: UPDATE_TOGGLE_ENROLLMENT_SUCCESS,
@@ -61,7 +67,7 @@ export const getData = () => {
     setTimeout(() => {
       disptach({
         type: GET_DATA_SUCCESS,
-        response: USER_MOCK_DATA,
+        response: UPDATED_USER_MOCK_DATA,
       });
     }, 1000);
   };
@@ -136,13 +142,13 @@ export const updateBankInfo = bankInfo => {
   };
 };
 
-export const verifyEnrollmentAction = () => {
+export const verifyEnrollmentAction = verifications => {
   return async dispatch => {
     dispatch({ type: VERIFY_ENROLLMENT });
     try {
       const response = await apiRequest(`${API_URL}/verify`, {
         method: 'POST',
-        // body: JSON.stringify(bankInfo),
+        body: JSON.stringify({ awardIds: verifications }),
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -159,7 +165,10 @@ export const verifyEnrollmentAction = () => {
   };
 };
 
-export const validateAddress = (formData, fullName) => async dispatch => {
+export const validateAddress = (formData, fullName) => async (
+  dispatch,
+  getState,
+) => {
   dispatch({ type: ADDRESS_VALIDATION_START });
   try {
     const validationResponse = await apiRequest('/profile/address_validation', {
@@ -170,8 +179,11 @@ export const validateAddress = (formData, fullName) => async dispatch => {
 
     const {
       address,
-      addressMetaData: { confidenceScore },
+      addressMetaData: { confidenceScore, addressType },
     } = validationResponse.addresses[0];
+    const {
+      suggestedAddress: { isSuggestedAddressPicked },
+    } = getState();
 
     let stateAndZip = {};
     if (address.countryCodeIso3 === 'USA') {
@@ -185,7 +197,11 @@ export const validateAddress = (formData, fullName) => async dispatch => {
         zipCode: address.internationalPostalCode,
       };
     }
-    if (confidenceScore === 100) {
+    if (
+      confidenceScore === 100 ||
+      isSuggestedAddressPicked ||
+      (addressType === 'International' && confidenceScore >= 96)
+    ) {
       const fields = {
         veteranName: fullName,
         address1: address.addressLine1,

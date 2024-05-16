@@ -20,30 +20,33 @@ import {
   updatePendingVerifications,
   updateVerifications,
   verifyEnrollmentAction,
+  // updateVerificationsData,
 } from '../actions';
+import { toLocalISOString } from '../helpers';
 
 const VerificationReviewWrapper = ({
   children,
-  enrollmentData,
+  mockData,
   // loggedIEnenrollmentData,
   dispatchUpdateToggleEnrollmentSuccess,
   dispatchUpdatePendingVerifications,
-  dispatchUpdateVerifications,
+  // dispatchUpdateVerifications,
   dispatchVerifyEnrollmentAction,
+  // dispatchUpdateVerificationsData,
   // isUserLoggedIn,
   // dispatchupdateToggleEnrollmentCard,
 }) => {
   useScrollToTop();
+
   const [radioValue, setRadioValue] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
-  const { loading } = useData();
+  const { loading, personalInfo, isUserLoggedIn } = useData();
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
-  const [currentPendingAwardIDs, setCurrentPendingAwardIDs] = useState([]);
-  // const userData = isUserLoggedIn ? loggedIEnenrollmentData : enrollmentData;
-  const history = useHistory();
 
+  const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
+  const history = useHistory();
   const handleBackClick = () => {
     history.push(VERIFICATION_RELATIVE_URL);
   };
@@ -56,17 +59,20 @@ const VerificationReviewWrapper = ({
   // used with mock data to mock what happens after
   // successfully verifying
   const handleVerification = () => {
-    const currentDateTime = new Date().toISOString();
-    // update awardIds to a blank array
-    dispatchUpdatePendingVerifications({ awardIds: [] });
-    const newVerifiedIDS = currentPendingAwardIDs?.map(id => {
+    const currentDateTime = toLocalISOString(new Date());
+    // update pendingVerifications to a blank array
+    dispatchUpdatePendingVerifications([]);
+    const newVerifiedEnrollments = enrollmentPeriodsToVerify.map(period => {
       return {
-        PendingVerificationSubmitted: currentDateTime,
-        awardIds: [id],
+        ...period,
+        transactDate: currentDateTime,
+        paymentDate: null,
       };
     });
-    dispatchUpdateVerifications(newVerifiedIDS);
-    dispatchVerifyEnrollmentAction();
+    const awardIds = newVerifiedEnrollments.map(
+      enrollment => enrollment.awardId,
+    );
+    dispatchVerifyEnrollmentAction(awardIds);
   };
 
   const handleSubmission = () => {
@@ -77,27 +83,9 @@ const VerificationReviewWrapper = ({
 
   useEffect(
     () => {
-      if (
-        enrollmentData?.['vye::UserInfo']?.awards &&
-        enrollmentData?.['vye::UserInfo']?.pendingVerifications
-      ) {
-        const { awards, pendingVerifications } = enrollmentData?.[
-          'vye::UserInfo'
-        ];
-        // add all previouslyVerified data into single array
-        const { awardIds } = pendingVerifications;
-        const toBeVerifiedEnrollmentsArray = [];
-        setCurrentPendingAwardIDs(awardIds);
-        awardIds.forEach(id => {
-          // check for each id inside award_ids array
-          if (awards.some(award => award.id === id)) {
-            toBeVerifiedEnrollmentsArray.push(
-              awards.find(award => award.id === id),
-            );
-          }
-        });
-
-        setEnrollmentPeriodsToVerify(toBeVerifiedEnrollmentsArray);
+      if (enrollmentData?.['vye::UserInfo']?.pendingVerifications) {
+        const { pendingVerifications } = enrollmentData?.['vye::UserInfo'];
+        setEnrollmentPeriodsToVerify(pendingVerifications);
       }
     },
     [enrollmentData],
@@ -137,16 +125,15 @@ const VerificationReviewWrapper = ({
                     </span>{' '}
                     please do not submit the form. Instead, work with your
                     School Certifying Official (SCO) to ensure your enrollment
-                    information is updated with the VA before submitting this
-                    form.
+                    information is updated with the VA.
                   </p>
                   <p className="vads-u-margin-top--3">
                     <span className="vads-u-font-weight--bold">Note:</span>{' '}
-                    Please note that providing false reports concerning your
-                    benefits may result in a fine, imprisonment or both.
+                    Providing false reports concerning your benefits may result
+                    in a fine, imprisonment or both.
                   </p>
                 </div>
-                <div className="vads-u-margin-top--3">
+                <div className="vads-u-margin-top--8">
                   <VaRadio
                     error={errorStatement}
                     hint=""
@@ -181,14 +168,7 @@ const VerificationReviewWrapper = ({
                       uswds
                     />
                   )}
-                  {!radioValue && (
-                    <va-button
-                      onClick={handleSubmission}
-                      text="Submit"
-                      disabled
-                      uswds
-                    />
-                  )}
+                  {!radioValue && <va-button text="Submit" disabled uswds />}
                 </div>
               </>
             )}
@@ -203,7 +183,7 @@ const VerificationReviewWrapper = ({
 };
 
 const mapStateToProps = state => ({
-  enrollmentData: state.mockData.mockData,
+  mockData: state.mockData.mockData,
 });
 
 const mapDispatchToProps = {
@@ -219,10 +199,10 @@ VerificationReviewWrapper.propTypes = {
   dispatchUpdateToggleEnrollmentSuccess: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,
   dispatchVerifyEnrollmentAction: PropTypes.func,
-  enrollmentData: PropTypes.object,
   isUserLoggedIn: PropTypes.bool,
   link: PropTypes.func,
   loggedIEnenrollmentData: PropTypes.object,
+  mockData: PropTypes.object,
 };
 export default connect(
   mapStateToProps,

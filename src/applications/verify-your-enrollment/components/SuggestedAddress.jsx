@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { postMailingAddress, validateAddress } from '../actions';
+import {
+  handleSuggestedAddressPicked,
+  postMailingAddress,
+  validateAddress,
+} from '../actions';
 import Loader from './Loader';
 import ButtonsGroup from './Buttons';
 import Alert from './Alert';
@@ -20,6 +24,7 @@ const SuggestedAddress = ({
   setFormData,
   setSuggestedAddressPicked,
   suggestedAddressPicked,
+  setGoBackToEdit,
 }) => {
   const dispatch = useDispatch();
   const { isLoadingValidateAddress, addressValidationData } = useSelector(
@@ -35,6 +40,7 @@ const SuggestedAddress = ({
   // This get called when goBackToEdit buton is clicked
   const onBackToEditClick = event => {
     handleAddNewClick(event);
+    setGoBackToEdit(true);
   };
   const isUSA = chooseAddress
     ? formData.countryCodeIso3 === 'USA'
@@ -61,6 +67,7 @@ const SuggestedAddress = ({
     };
     if (chooseAddress === 'suggested') {
       setSuggestedAddressPicked(true);
+      dispatch(handleSuggestedAddressPicked(true));
       try {
         dispatch(validateAddress(fields, formData?.fullName));
       } catch (err) {
@@ -179,6 +186,7 @@ SuggestedAddress.propTypes = {
   handleAddNewClick: PropTypes.func.isRequired,
   setAddressToUI: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  setGoBackToEdit: PropTypes.func.isRequired,
   address: PropTypes.object,
   formData: PropTypes.object,
   setSuggestedAddressPicked: PropTypes.func,

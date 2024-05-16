@@ -7,6 +7,7 @@ import {
   selectProfile,
   isLOA3,
   isInMPI,
+  isProfileLoading,
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
@@ -19,9 +20,6 @@ import {
   selectPersonalInformation,
 } from './personalInformation';
 
-const selectVamcEhrData = state =>
-  selectDrupalStaticData(state)?.vamcEhrData || {};
-
 export {
   hasHealthData,
   isAuthenticatedWithSSOe,
@@ -30,12 +28,12 @@ export {
   isLandingPageEnabledForUser,
   isLOA3,
   isLoggedIn,
+  isProfileLoading,
   personalizationEnabled,
   selectDrupalStaticData,
   selectGreetingName,
   selectPersonalInformation,
   selectProfile,
-  selectVamcEhrData,
   signInServiceEnabled,
   selectHasMHVAccountState,
 };

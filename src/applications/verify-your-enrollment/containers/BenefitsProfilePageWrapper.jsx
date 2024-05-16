@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import EnrollmentVerificationBreadcrumbs from '../components/EnrollmentVerificationBreadcrumbs';
 import ChangeOfAddressWrapper from './ChangeOfAddressWrapper';
 import ChangeOfDirectDepositWrapper from './ChangeOfDirectDepositWrapper';
@@ -16,6 +18,7 @@ import CurrentBenefitsStatus from '../components/CurrentBenefitsStatus';
 import MoreInfoCard from '../components/MoreInfoCard';
 import NeedHelp from '../components/NeedHelp';
 import Loader from '../components/Loader';
+import LoginAlert from '../components/LoginAlert';
 
 const BenefitsProfileWrapper = ({ children }) => {
   useScrollToTop();
@@ -25,15 +28,39 @@ const BenefitsProfileWrapper = ({ children }) => {
     updated,
     month,
     day,
-    addressLine2,
-    addressLine3,
-    addressLine4,
-    addressLine5,
-    addressLine6,
     indicator: applicantChapter,
-    fullName: applicantName,
     pendingDocuments,
+    latestAddress,
   } = useData();
+  const applicantName = latestAddress?.veteranName;
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const toggleValue = useToggleValue(
+    TOGGLE_NAMES.toggleVyeAdressDirectDepositForms,
+  );
+  const [userData, setUserData] = useState({});
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const {
+          data: {
+            attributes: { profile },
+          },
+        } = await apiRequest('/user', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        setUserData(profile);
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+    getUserData();
+  }, []);
+
+  const { signIn } = userData;
 
   return (
     <>
@@ -61,17 +88,26 @@ const BenefitsProfileWrapper = ({ children }) => {
               applicantChapter={applicantChapter}
               applicantName={applicantName}
             />
-            <ChangeOfAddressWrapper
-              loading={loading}
-              applicantName={applicantName}
-              mailingAddress={{
-                street: `${addressLine3} ${addressLine2}`,
-                city: addressLine4,
-                stateCode: addressLine5,
-                zipCode: addressLine6,
-              }}
-            />
-            <ChangeOfDirectDepositWrapper applicantName={applicantName} />
+            {toggleValue || window.isProduction ? (
+              <>
+                <ChangeOfAddressWrapper
+                  loading={loading}
+                  applicantName={applicantName}
+                  mailingAddress={{
+                    street: latestAddress?.address1,
+                    city: latestAddress?.city,
+                    stateCode: latestAddress?.state,
+                    zipCode: latestAddress?.zipCode,
+                  }}
+                />
+                {signIn?.serviceName === 'idme' ||
+                signIn?.serviceName === 'logingov' ? (
+                  <ChangeOfDirectDepositWrapper applicantName={applicantName} />
+                ) : (
+                  <LoginAlert />
+                )}
+              </>
+            ) : null}
             <PendingDocuments
               loading={loading}
               pendingDocuments={pendingDocuments}
@@ -79,7 +115,7 @@ const BenefitsProfileWrapper = ({ children }) => {
             {children}
             <MoreInfoCard
               marginTop="7"
-              linkText="Mongomery GI Bill Enrollment Verification"
+              linkText="Montgomery GI Bill Enrollment Verification"
               relativeURL={VERIFICATION_RELATIVE_URL}
               URL={VERIFICATION_PROFILE_URL}
               className="vads-u-font-family--sans vads-u-font-weight--bold"

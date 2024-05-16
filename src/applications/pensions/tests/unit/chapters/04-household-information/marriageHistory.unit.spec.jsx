@@ -11,6 +11,7 @@ import {
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../../../config/form';
 import marriageHistory from '../../../../config/chapters/04-household-information/marriageHistory';
+import { testNumberOfFieldsByType } from '../pageTests.spec';
 
 const { schema, uiSchema } = marriageHistory;
 const definitions = formConfig.defaultDefinitions;
@@ -38,7 +39,7 @@ describe('Pensions marriage history', async () => {
     );
 
     expect($$('va-text-input', container).length).to.equal(5);
-    expect($$('va-select', container).length).to.equal(1);
+    expect($$('va-select', container).length).to.equal(0);
     expect($$('va-radio', container).length).to.equal(1);
     expect($('button[type="submit"]', container)).to.exist;
   });
@@ -56,7 +57,7 @@ describe('Pensions marriage history', async () => {
     );
 
     expect($$('va-text-input', container).length).to.equal(4);
-    expect($$('va-select', container).length).to.equal(1);
+    expect($$('va-select', container).length).to.equal(0);
     expect($$('va-radio', container).length).to.equal(1);
     expect($('button[type="submit"]', container)).to.exist;
   });
@@ -128,6 +129,7 @@ describe('Pensions marriage history', async () => {
         schema={schema}
         data={marriagesData}
         uiSchema={uiSchema}
+        onSubmit={onSubmit}
       />,
     );
 
@@ -149,6 +151,7 @@ describe('Pensions marriage history', async () => {
         schema={schema}
         data={marriagesData}
         uiSchema={uiSchema}
+        onSubmit={onSubmit}
       />,
     );
 
@@ -225,4 +228,21 @@ describe('Pensions marriage history', async () => {
       expect(onSubmit.called).to.be.true;
     });
   });
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 5,
+      'va-radio': 1,
+      input: 2,
+    },
+    'marriage history',
+    marriagesData,
+    {
+      arrayPath,
+      pagePerItemIndex: 0,
+    },
+  );
 });

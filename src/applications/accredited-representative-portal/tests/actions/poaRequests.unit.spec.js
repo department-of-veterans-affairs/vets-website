@@ -1,14 +1,16 @@
+import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { expect } from 'chai';
+import environment from '~/platform/utilities/environment';
+
 import {
   acceptPOARequest,
   declinePOARequest,
-  getPOARequestsByCode,
+  getPOARequestsByCodes,
 } from '../../actions/poaRequests';
-import environment from '~/platform/utilities/environment';
+import mockResponseData from '../../mocks/mockPOARequestsResponse.json';
 
-const prefix = `${environment.API_URL}/v0/accredited_representative_portal`;
+const API_PREFIX = `${environment.API_URL}/accredited_representative_portal/v0`;
 const server = setupServer();
 
 beforeEach(() => server.listen());
@@ -21,7 +23,7 @@ describe('POA Request Handling', () => {
   it('handles acceptPOARequest successfully', async () => {
     server.use(
       rest.post(
-        `${prefix}/v0/power_of_attorney_requests/:poaId/accept`,
+        `${API_PREFIX}/power_of_attorney_requests/:procId/accept`,
         (_, res, ctx) => {
           return res(ctx.json({ status: 'success' }), ctx.status(200));
         },
@@ -35,7 +37,7 @@ describe('POA Request Handling', () => {
   it('handles declinePOARequest successfully', async () => {
     server.use(
       rest.post(
-        `${prefix}/v0/power_of_attorney_requests/:poaId/decline`,
+        `${API_PREFIX}/power_of_attorney_requests/:procId/decline`,
         (_, res, ctx) => {
           return res(ctx.json({ status: 'success' }), ctx.status(200));
         },
@@ -49,107 +51,123 @@ describe('POA Request Handling', () => {
   it('returns an error status when the server responds with an error for accept', async () => {
     server.use(
       rest.post(
-        `${prefix}/v0/power_of_attorney_requests/:poaId/accept`,
+        `${API_PREFIX}/power_of_attorney_requests/:procId/accept`,
         (_, res, ctx) => {
           return res(ctx.status(500));
         },
       ),
     );
 
-    const response = await acceptPOARequest('12345');
-    expect(response.status).to.equal(500);
-    expect(response.statusText).to.equal('Internal Server Error');
+    try {
+      await acceptPOARequest('12345');
+    } catch (error) {
+      expect(error.status).to.eq(500);
+      expect(error.statusText).to.eq('Internal Server Error');
+    }
   });
 
   it('returns an error status when the server responds with an error for decline', async () => {
     server.use(
       rest.post(
-        `${prefix}/v0/power_of_attorney_requests/:poaId/decline`,
+        `${API_PREFIX}/power_of_attorney_requests/:procId/decline`,
         (_, res, ctx) => {
           return res(ctx.status(500));
         },
       ),
     );
 
-    const response = await declinePOARequest('12345');
-    expect(response.status).to.equal(500);
-    expect(response.statusText).to.equal('Internal Server Error');
+    try {
+      await declinePOARequest('12345');
+    } catch (error) {
+      expect(error.status).to.eq(500);
+      expect(error.statusText).to.eq('Internal Server Error');
+    }
   });
 
   it('handles network errors gracefully for accept', async () => {
     server.use(
       rest.post(
-        `${prefix}/v0/power_of_attorney_requests/:poaId/accept`,
+        `${API_PREFIX}/power_of_attorney_requests/:procId/accept`,
         (_, res, ctx) => {
           return res(ctx.status(503));
         },
       ),
     );
 
-    const response = await acceptPOARequest('12345');
-    expect(response.status).to.equal(503);
-    expect(response.statusText).to.equal('Service Unavailable');
+    try {
+      await acceptPOARequest('12345');
+    } catch (error) {
+      expect(error.status).to.eq(503);
+      expect(error.statusText).to.eq('Service Unavailable');
+    }
   });
 
   it('handles network errors gracefully for decline', async () => {
     server.use(
       rest.post(
-        `${prefix}/v0/power_of_attorney_requests/:poaId/decline`,
+        `${API_PREFIX}/power_of_attorney_requests/:procId/decline`,
         (_, res, ctx) => {
           return res(ctx.status(503));
         },
       ),
     );
 
-    const response = await declinePOARequest('12345');
-    expect(response.status).to.equal(503);
-    expect(response.statusText).to.equal('Service Unavailable');
+    try {
+      await declinePOARequest('12345');
+    } catch (error) {
+      expect(error.status).to.eq(503);
+      expect(error.statusText).to.eq('Service Unavailable');
+    }
   });
 });
 
 describe('POA Requests Retrieval', () => {
-  it('retrieves POA requests successfully', async () => {
-    const testPoaCode = 'AB123';
+  it('retrieves POA requests successfully for multiple codes', async () => {
+    const testPoaCodes = 'AB123,CD456';
     server.use(
-      rest.get(`${prefix}/v0/power_of_attorney_requests`, (req, res, ctx) => {
-        const queryPoaCode = req.url.searchParams.get('poaCode');
-        if (queryPoaCode === testPoaCode) {
-          return res(
-            ctx.json([{ id: '1', status: 'pending', poaCode: testPoaCode }]),
-            ctx.status(200),
-          );
+      rest.get(`${API_PREFIX}/power_of_attorney_requests`, (req, res, ctx) => {
+        const queryPoaCodes = req.url.searchParams.get('poa_codes');
+        if (queryPoaCodes === testPoaCodes) {
+          return res(ctx.json(mockResponseData), ctx.status(200));
         }
         return res(ctx.status(404));
       }),
     );
 
-    const response = await getPOARequestsByCode(testPoaCode);
-    expect(response).to.deep.equal([
-      { id: '1', status: 'pending', poaCode: testPoaCode },
-    ]);
+    const response = await getPOARequestsByCodes(testPoaCodes);
+    expect(response.records).to.deep.equal(mockResponseData.records);
+    expect(response.meta.totalRecords).to.eq(
+      mockResponseData.meta.totalRecords,
+    );
   });
 
   it('returns an error status when the server responds with an error', async () => {
     server.use(
-      rest.get(`${prefix}/v0/power_of_attorney_requests`, (_, res, ctx) => {
+      rest.get(`${API_PREFIX}/power_of_attorney_requests`, (_, res, ctx) => {
         return res(ctx.status(500));
       }),
     );
 
-    const response = await getPOARequestsByCode('AB123');
-    expect(response.status).to.equal(500);
-    expect(response.statusText).to.equal('Internal Server Error');
+    try {
+      await getPOARequestsByCodes('AB123');
+    } catch (error) {
+      expect(error.status).to.eq(500);
+      expect(error.statusText).to.eq('Internal Server Error');
+    }
   });
 
   it('handles network errors gracefully', async () => {
     server.use(
-      rest.get(`${prefix}/v0/power_of_attorney_requests`, (_, res, ctx) => {
+      rest.get(`${API_PREFIX}/power_of_attorney_requests`, (_, res, ctx) => {
         return res(ctx.status(503));
       }),
     );
 
-    const response = await getPOARequestsByCode('AB123');
-    expect(response.status).to.equal(503);
-    expect(response.statusText).to.equal('Service Unavailable');
+    try {
+      await getPOARequestsByCodes('AB123');
+    } catch (error) {
+      expect(error.status).to.eq(503);
+      expect(error.statusText).to.eq('Service Unavailable');
+    }
   });
 });

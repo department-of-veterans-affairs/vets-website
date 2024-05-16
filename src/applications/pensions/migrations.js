@@ -4,6 +4,29 @@ import { isValidDateRange } from 'platform/forms/validations';
 import { convertToDateField } from 'platform/forms-system/src/js/validation';
 import { isValidCentralMailPostalCode } from 'platform/forms/address/validations';
 
+const deleteArrayValue = (array = [], path = []) => {
+  const key = path.pop();
+  array.forEach(item => {
+    const container = get(path.join('.'), item);
+    if (container) {
+      delete container[key];
+    }
+  });
+};
+
+const updateCanadianAddress = address => {
+  if (address?.country !== 'CAN') {
+    return address;
+  }
+  if (address?.state === 'NF') {
+    return { ...address, state: 'NL' };
+  }
+  if (address?.state === 'NV') {
+    return { ...address, state: 'NS' };
+  }
+  return address;
+};
+
 export default [
   // 0 -> 1, we've added some date validation and need to move users back to particular pages
   // if there are errors
@@ -286,6 +309,35 @@ export default [
     const newFormData = { ...formData };
     if (formData.gender) {
       delete newFormData.gender;
+    }
+    return { formData: newFormData, metadata };
+  },
+  // 7 > 8, remove jobTitle and suffix
+  ({ formData, metadata }) => {
+    const newFormData = { ...formData };
+    deleteArrayValue(newFormData.currentEmployers, ['jobTitle']);
+    deleteArrayValue(newFormData.marriages, ['spouseFullName', 'suffix']);
+    deleteArrayValue(newFormData.dependents, ['fullName', 'suffix']);
+    return { formData: newFormData, metadata };
+  },
+  // 8 > 9, update state field
+  ({ formData, metadata }) => {
+    const newFormData = { ...formData };
+    if (formData.veteranAddress) {
+      newFormData.veteranAddress = updateCanadianAddress(
+        formData.veteranAddress,
+      );
+    }
+    if (formData.spouseAddress) {
+      newFormData.spouseAddress = updateCanadianAddress(formData.spouseAddress);
+    }
+    if (formData.dependents) {
+      newFormData.dependents = formData.dependents.map(d => {
+        if (d.childAddress) {
+          return { ...d, childAddress: updateCanadianAddress(d.childAddress) };
+        }
+        return d;
+      });
     }
     return { formData: newFormData, metadata };
   },

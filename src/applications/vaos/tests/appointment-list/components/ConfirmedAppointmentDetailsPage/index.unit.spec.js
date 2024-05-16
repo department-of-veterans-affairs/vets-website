@@ -19,14 +19,14 @@ import {
   mockGetPendingAppointmentsApi,
   mockGetUpcomingAppointmentsApi,
   mockSingleVAOSAppointmentFetch,
-} from '../../../mocks/helpers.v2';
-import { getVAOSAppointmentMock } from '../../../mocks/v2';
+} from '../../../mocks/helpers';
+import { getVAOSAppointmentMock } from '../../../mocks/mock';
 import {
-  mockFacilitiesFetchByVersion,
-  mockFacilityFetchByVersion,
-  mockSingleClinicFetchByVersion,
+  mockFacilitiesFetch,
+  mockFacilityFetch,
+  mockSingleClinicFetch,
 } from '../../../mocks/fetch';
-import { createMockFacilityByVersion } from '../../../mocks/data';
+import { createMockFacility } from '../../../mocks/data';
 import MockAppointmentResponse from '../../../e2e/fixtures/MockAppointmentResponse';
 import MockFacilityResponse from '../../../e2e/fixtures/MockFacilityResponse';
 import MockClinicResponse from '../../../e2e/fixtures/MockClinicResponse';
@@ -43,22 +43,26 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       vaOnlineSchedulingStatusImprovement: true,
       vaOnlineSchedulingVAOSServiceRequests: true,
       vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      vaOnlineSchedulingAppointmentDetailsRedesign: false,
     },
   };
 
   beforeEach(() => {
     mockFetch();
-    mockFacilitiesFetchByVersion();
+    mockFacilitiesFetch();
   });
 
-  it.skip('should show confirmed appointments detail page', async () => {
+  it('should show confirmed appointments detail page', async () => {
     // Arrange
     const response = new MockAppointmentResponse();
     response
       .setLocationId('983')
       .setClinicId('1')
       .setReasonCode({ text: 'I have a headache' });
-    const clinicResponse = new MockClinicResponse({ id: 1, locationId: '983' });
+    const clinicResponse = new MockClinicResponse({
+      id: 1,
+      locationId: '983',
+    });
     const facilityResponse = new MockFacilityResponse({ id: '983' });
 
     mockAppointmentApi({ response });
@@ -67,7 +71,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       locationId: '983',
       response: [clinicResponse],
     });
-    mockFacilityFetchByVersion({ facility: facilityResponse });
+    mockFacilityFetch({ facility: facilityResponse });
 
     // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -123,7 +127,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     );
   });
 
-  it.skip('should show confirmed phone appointments detail page', async () => {
+  it('should show confirmed phone appointments detail page', async () => {
     // Arrange
     const response = new MockAppointmentResponse({
       kind: TYPE_OF_VISIT_ID.phone,
@@ -145,7 +149,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       locationId: '983GC',
       response: [clinicResponse],
     });
-    mockFacilityFetchByVersion({ facility: facilityResponse });
+    mockFacilityFetch({ facility: facilityResponse });
 
     // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -215,7 +219,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     );
   });
 
-  it.skip('should show who cancel phone appointments detail page', async () => {
+  it('should show who cancel phone appointments detail page', async () => {
     // Given a phone appointment
     const myInitialState = {
       ...initialState,
@@ -266,16 +270,15 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       },
     };
 
-    mockSingleClinicFetchByVersion({
+    mockSingleClinicFetch({
       clinicId: '455',
       locationId: '983GC',
       clinicName: 'Some fancy clinic name',
-      version: 2,
     });
     mockSingleVAOSAppointmentFetch({ appointment });
 
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
+    mockFacilityFetch({
+      facility: createMockFacility({
         id: '983GC',
         name: 'Cheyenne VA Medical Center',
         phone: '970-224-1550',
@@ -349,7 +352,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     );
   });
 
-  it.skip('should show details without clinic name when clinic call fails', async () => {
+  it('should show details without clinic name when clinic call fails', async () => {
     const myInitialState = {
       ...initialState,
       featureToggles: {
@@ -383,8 +386,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
     mockSingleVAOSAppointmentFetch({ appointment });
 
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
+    mockFacilityFetch({
+      facility: createMockFacility({
         id: '983GC',
         name: 'Cheyenne VA Medical Center',
         phone: '970-224-1550',
@@ -449,16 +452,15 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       cancellable: true,
     };
 
-    mockSingleClinicFetchByVersion({
+    mockSingleClinicFetch({
       clinicId: '455',
       locationId: '983GC',
       clinicName: 'Some fancy clinic name',
-      version: 2,
     });
     mockSingleVAOSAppointmentFetch({ appointment });
 
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
+    mockFacilityFetch({
+      facility: createMockFacility({
         id: '983GC',
         name: 'Cheyenne VA Medical Center',
         address: {
@@ -542,7 +544,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(screen.getByText(/Cancel appointment/)).to.be.ok;
   });
 
-  it.skip('should show past confirmed appointments detail page', async () => {
+  it('should show past confirmed appointments detail page', async () => {
     // Arrange
     const now = moment().tz('America/Denver');
     const yesterday = moment(now).subtract(1, 'day');
@@ -553,7 +555,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     response.setLocationId('983').setStart(yesterday);
 
     mockAppointmentApi({ response });
-    mockFacilityFetchByVersion({
+    mockFacilityFetch({
       facility: new MockFacilityResponse('983'),
     });
 
@@ -593,7 +595,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(screen.baseElement).not.to.contain.text('Cancel appointment');
   });
 
-  it.skip('should allow cancellation', async () => {
+  it('should allow cancellation', async () => {
     // Arrange
     // Given a veteran has VA appointments
     const response = new MockAppointmentResponse();
@@ -640,7 +642,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     );
   });
 
-  it.skip('should not allow cancellation of COVID-19 vaccine appointments', async () => {
+  it('should not allow cancellation of COVID-19 vaccine appointments', async () => {
     // Arrange
     const response = new MockAppointmentResponse({
       serviceType: 'covid',
@@ -649,7 +651,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     response.setLocationId('983');
 
     mockAppointmentApi({ response });
-    mockFacilityFetchByVersion({
+    mockFacilityFetch({
       facility: new MockFacilityResponse({ id: '983' }),
     });
 
@@ -670,7 +672,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     );
   });
 
-  it.skip('should display who canceled the appointment', async () => {
+  it('should display who canceled the appointment', async () => {
     // Arrange
     const response = new MockAppointmentResponse({
       status: APPOINTMENT_STATUS.cancelled,
@@ -691,12 +693,12 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     // with the canceled appointment status having 1st priority. So, the canceled
     // appointment alert should display even when the appointment is a past
     // appointment.
-    expect(screen.queryByText(/Facility canceled your appointment/i));
+    expect(screen.queryByText(/Facility canceled this appointment/i));
     expect(screen.queryByText('This appointment occurred in the past.')).not.to
       .exist;
   });
 
-  it.skip('should display who canceled the appointment for past appointments', async () => {
+  it('should display who canceled the appointment for past appointments', async () => {
     // Arrange
     const response = new MockAppointmentResponse({
       localStartTime: moment().subtract(1, 'day'),
@@ -720,12 +722,12 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     // with the canceled appointment status having 1st priority. So, the canceled
     // appointment alert should display even when the appointment is a past
     // appointment.
-    expect(screen.queryByText(/Facility canceled your appointment/i));
+    expect(screen.queryByText(/Facility canceled this appointment/i));
     expect(screen.queryByText('This appointment occurred in the past.')).not.to
       .exist;
   });
 
-  it.skip('should fire a print request when print button clicked', async () => {
+  it('should fire a print request when print button clicked', async () => {
     // Arrange
     const oldPrint = global.window.print;
     const printSpy = sinon.spy();
@@ -752,7 +754,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     global.window.print = oldPrint;
   });
 
-  it.skip('should show error message when single fetch errors', async () => {
+  it('should show error message when single fetch errors', async () => {
     // Arrange
     mockAppointmentApi({
       response: new MockAppointmentResponse(),
@@ -778,7 +780,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     });
   });
 
-  it.skip('should allow the user to close the cancel modal without canceling', async () => {
+  it('should allow the user to close the cancel modal without canceling', async () => {
     // Arrange
     const response = new MockAppointmentResponse();
     mockAppointmentApi({ response });
@@ -805,7 +807,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     );
   });
 
-  it.skip('should allow the user to go back to the appointment list', async () => {
+  it('should allow the user to go back to the appointment list', async () => {
     // Arrange
     const response = new MockAppointmentResponse();
 
@@ -840,7 +842,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
     mockAppointmentApi({ response });
     mockClinicsApi({ clinicId: '455', locationId: '983' });
-    mockFacilityFetchByVersion({
+    mockFacilityFetch({
       facility: new MockFacilityResponse({ id: 983 }),
     });
 

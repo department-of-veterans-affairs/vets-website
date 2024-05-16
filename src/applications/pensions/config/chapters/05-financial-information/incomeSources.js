@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-
 import get from 'platform/utilities/data/get';
 import {
   radioUI,
@@ -8,13 +7,23 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-
-import { validateCurrency } from '../../../validation';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
-import { IncomeSourceDescription } from '../../../helpers';
+import {
+  IncomeSourceDescription,
+  updateMultiresponseUiOptions,
+} from '../../../helpers';
 import { recipientTypeLabels, typeOfIncomeLabels } from '../../../labels';
 import IncomeSourceView from '../../../components/IncomeSourceView';
 import { doesReceiveIncome } from './helpers';
+
+const {
+  otherTypeExplanation,
+  dependentName,
+  payer,
+  // Need to investigate default value issue
+  // amount,
+} = fullSchemaPensions.definitions.incomeSources.items.properties;
 
 export const otherExplanationRequired = (form, index) =>
   get(['incomeSources', index, 'typeOfIncome'], form) === 'OTHER';
@@ -43,6 +52,8 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
+        updateSchema: updateMultiresponseUiOptions,
       },
       items: {
         typeOfIncome: radioUI({
@@ -50,7 +61,7 @@ export default {
           labels: typeOfIncomeLabels,
         }),
         otherTypeExplanation: {
-          'ui:title': 'Please specify',
+          'ui:title': 'Tell us the type of income',
           'ui:webComponentField': VaTextInputField,
           'ui:options': {
             expandUnder: 'typeOfIncome',
@@ -84,7 +95,6 @@ export default {
           'ui:options': {
             classNames: 'schemaform-currency-input-v3',
           },
-          'ui:validations': [validateCurrency],
         }),
       },
     },
@@ -104,11 +114,13 @@ export default {
           required: ['typeOfIncome', 'receiver', 'payer', 'amount'],
           properties: {
             typeOfIncome: radioSchema(Object.keys(typeOfIncomeLabels)),
-            otherTypeExplanation: { type: 'string' },
+            otherTypeExplanation,
             receiver: radioSchema(Object.keys(recipientTypeLabels)),
-            dependentName: { type: 'string' },
-            payer: { type: 'string' },
-            amount: { type: 'number' },
+            dependentName,
+            payer,
+            amount: {
+              type: 'number',
+            },
           },
         },
       },

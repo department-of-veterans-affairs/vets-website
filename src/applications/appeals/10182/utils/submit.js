@@ -1,8 +1,12 @@
-import moment from 'moment';
+import { isValid, startOfToday, addYears, isAfter } from 'date-fns';
 
 import { SHOW_PART3 } from '../constants';
 
-import { MAX_LENGTH, SELECTED } from '../../shared/constants';
+import {
+  FORMAT_YMD_DATE_FNS,
+  MAX_LENGTH,
+  SELECTED,
+} from '../../shared/constants';
 import '../../shared/definitions';
 import {
   processContestableIssues,
@@ -13,6 +17,7 @@ import {
   replaceSubmittedData,
 } from '../../shared/utils/replace';
 import { removeEmptyEntries } from '../../shared/utils/submit';
+import { parseDateToDateObj } from '../../shared/utils/dates';
 
 /** Filter out ineligible contestable issues:
  * - remove issues more than one year past their decision date
@@ -22,7 +27,7 @@ import { removeEmptyEntries } from '../../shared/utils/submit';
  * @return {ContestableIssues} - Array of eligible contestable issues
  */
 export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
-  const today = moment().startOf('day');
+  const today = startOfToday();
   const result = (issues || []).filter(issue => {
     const {
       approxDecisionDate = '',
@@ -33,11 +38,11 @@ export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
     const isDeferred = [ratingIssueSubjectText, description]
       .join(' ')
       .includes('deferred');
-    const date = moment(approxDecisionDate);
-    if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
+    const date = parseDateToDateObj(approxDecisionDate, FORMAT_YMD_DATE_FNS);
+    if (isDeferred || !isValid(date) || !ratingIssueSubjectText) {
       return false;
     }
-    return showPart3 || date.add(1, 'years').isAfter(today);
+    return showPart3 || isAfter(addYears(date, 1), today);
   });
   // This normalizes the contestable issues data. See function definition for
   // more detail.
@@ -209,16 +214,6 @@ export const getEmail = (formData = {}) => {
   const key = formData[SHOW_PART3] ? 'email' : 'emailAddressText';
   return { [key]: formData.veteran?.email || '' };
 };
-
-/**
- * Get user's current time zone
- * @returns {String}
- * @example 'America/Los_Angeles'
- */
-export const getTimeZone = () =>
-  // supports IE11
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
-  Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 /**
  *

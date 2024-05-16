@@ -217,6 +217,31 @@ describe('526 All Claims validations', () => {
       expect(err.addError.called).to.be.false;
     });
 
+    it('should not add error if treatment start date year is the same as earliest active service start date year', () => {
+      const err = { addError: sinon.spy() };
+
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { from: '2003-03-12' }, serviceBranch: 'Army' },
+            {
+              dateRange: { from: '2000-01-14' },
+              serviceBranch: 'Coast Guard Reserves',
+            },
+            { dateRange: { from: '2011-12-25' }, serviceBranch: 'Coast Guard' },
+            // ignored
+            {
+              dateRange: { from: '1990-10-11' },
+              serviceBranch: '',
+            },
+          ],
+        },
+      };
+
+      startedAfterServicePeriod(err, '2000-XX-XX', formData);
+      expect(err.addError.called).to.be.false;
+    });
+
     it('should not add error if treatment start date is after earliest active service start date', () => {
       const err = { addError: sinon.spy() };
 
@@ -240,6 +265,31 @@ describe('526 All Claims validations', () => {
 
       startedAfterServicePeriod(err, '2000-02-XX', formData);
       expect(err.addError.called).to.be.false;
+    });
+
+    it('should add error if only treatment start date month is entered', () => {
+      const err = { addError: sinon.spy() };
+
+      const formData = {
+        serviceInformation: {
+          servicePeriods: [
+            { dateRange: { from: '2003-03-12' }, serviceBranch: 'Army' },
+            {
+              dateRange: { from: '2000-01-14' },
+              serviceBranch: 'Army Reserves',
+            },
+            { dateRange: { from: '2011-12-25' }, serviceBranch: 'Army' },
+            // ignored
+            {
+              dateRange: { from: '1990-10-11' },
+              serviceBranch: '', // missing branch name
+            },
+          ],
+        },
+      };
+
+      startedAfterServicePeriod(err, 'XXXX-12-XX', formData);
+      expect(err.addError.calledOnce).to.be.true;
     });
 
     it('should not add error if serviceInformation is missing', () => {
@@ -481,17 +531,17 @@ describe('526 All Claims validations', () => {
 
   describe('validateAge', () => {
     const _ = null;
-    it('should not allow age < 13 years at start of service', () => {
+    it('should not allow age <= 13 years at start of service', () => {
       const errors = { addError: sinon.spy() };
       const dob = '2000-01-01';
       // 13th birthday (needs to be _after_ 13th birthday)
-      const age = formatDate(add(new Date(dob), { years: 13, days: -1 }));
+      const age = formatDate(add(new Date(dob), { years: 13, days: 0 }));
       validateAge(errors, age, _, _, _, _, { dob });
 
       expect(errors.addError.called).to.be.true;
       expect(errors.addError.args[0][0]).to.contain('after your 13th birthday');
     });
-    it('should allow age 13 years at start of service', () => {
+    it('should allow age > 13 years at start of service', () => {
       const errors = { addError: sinon.spy() };
       const dob = '2000-01-01';
       // Add 1 extra day to ensure we're after 13th birthday
@@ -743,6 +793,20 @@ describe('526 All Claims validations', () => {
       };
       validateTitle10StartDate(errors, '2001-01-01', _, _, _, _, formData);
       expect(addError.called).to.be.false;
+    });
+
+    it('should show an error for an activation date in the future', () => {
+      const addError = sinon.spy();
+      const errors = { addError };
+      const data = {
+        servicePeriods: [
+          { serviceBranch: 'Reserves', dateRange: { from: '2003-03-12' } },
+          { serviceBranch: 'Reserves', dateRange: { from: '2000-01-14' } },
+          { serviceBranch: 'Reserves', dateRange: { from: '2005-12-25' } },
+        ],
+      };
+      validateTitle10StartDate(errors, daysFromToday(1), _, _, _, _, data);
+      expect(addError.called).to.be.true;
     });
 
     it('should show an error for an activation date before start date', () => {

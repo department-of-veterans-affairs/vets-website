@@ -3,14 +3,14 @@ import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import { generateFeatureToggles } from '../../mocks/feature-toggles';
 
 const representativeTypeOptions = [
-  'Accredited Veterans Service Officer (VSO)',
+  'Accredited VSO representative',
   'Accredited attorney',
   'Accredited claims agent',
 ];
 
 Cypress.Commands.add('verifyOptions', () => {
   // Verify VSO is checked by default
-  cy.contains('va-radio-option', 'Accredited Veterans Service Officer (VSO)')
+  cy.contains('va-radio-option', 'Accredited VSO representative')
     .find('input')
     .should('be.checked');
 

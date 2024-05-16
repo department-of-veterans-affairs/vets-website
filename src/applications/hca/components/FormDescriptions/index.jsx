@@ -230,6 +230,13 @@ export const OtherToxicExposureDescription = (
   </div>
 );
 
+export const OtherToxicExposureHint = (
+  <div className="vads-u-color--gray-medium">
+    If you’re listing multiple toxins or hazards, list them without commas or
+    any other special characters
+  </div>
+);
+
 /** CHAPTER 4: Household Information */
 export const DeductibleExpensesDescription = () => (
   <legend className="schemaform-block-title">
@@ -278,6 +285,14 @@ export const DependentDescription = () => (
       </ul>
     </div>
   </va-additional-info>
+);
+
+export const DependentEducationExpensesDescription = (
+  <div className="vads-u-color--gray-medium">
+    Only enter an amount if they had gross income to report to the IRS in{' '}
+    {LAST_YEAR}. This income is the minimum amount of gross income the IRS
+    requires to file a federal income tax return.
+  </div>
 );
 
 export const DependentSupportDescription = (

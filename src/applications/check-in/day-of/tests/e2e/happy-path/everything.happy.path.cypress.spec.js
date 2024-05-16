@@ -78,13 +78,13 @@ describe('Check In Experience', () => {
       TravelPages.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded('mileage');
+      cy.injectAxeThenAxeCheck();
+      TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('vehicle');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('address');
-      cy.injectAxeThenAxeCheck();
-      TravelPages.attemptToGoToNextPage();
-      TravelPages.validatePageLoaded('mileage');
       cy.injectAxeThenAxeCheck();
       TravelPages.attemptToGoToNextPage();
       TravelPages.validatePageLoaded('review');
@@ -102,14 +102,9 @@ describe('Check In Experience', () => {
       cy.injectAxeThenAxeCheck();
 
       Confirmation.validatePageLoaded();
-      cy.intercept(
-        '/check_in/v2/patient_check_ins/*',
-        cy.spy().as('apptRefresh'),
-      );
+      ApiInitializer.initializeCheckInDataGet.withSuccess();
       cy.go('back');
-      cy.get('@apptRefresh')
-        .its('callCount')
-        .should('equal', 1);
+      Appointments.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
     });
   });

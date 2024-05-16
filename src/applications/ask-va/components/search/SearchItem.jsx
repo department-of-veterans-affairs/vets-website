@@ -29,15 +29,15 @@ const SearchItem = ({
     const facilityAddress = `${info.attributes.address.physical.city}, ${
       info.attributes.address.physical.state
     } ${facilityZip}`;
-    return `${facilityName}, ${facilityAddress}`;
+    return `${facilityName}
+    ${facilityAddress}`;
   };
-
   return (
     facilityData.data.length > 0 && (
       <>
         <p>
           {`Showing ${facilityData.data.length} results for`}
-          <strong>{`"${searchInput}"`}</strong>{' '}
+          <strong>{`"${searchInput.place_name || searchInput}"`}</strong>{' '}
         </p>
         <p>
           The results are listed from nearest to farthest from your location.
@@ -64,8 +64,8 @@ const SearchItem = ({
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
           page={facilityData.meta.pagination.currentPage}
-          pages={10}
-          maxPageListLength={10}
+          pages={5}
+          maxPageListLength={5}
           showLastPage
           uswds
         />

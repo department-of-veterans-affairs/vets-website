@@ -14,10 +14,9 @@ export function ConnectedAppDeleteModal({
     <VaModal
       clickToClose
       onCloseEvent={closeModal}
-      modalTitle="Are you sure?"
+      modalTitle="Disconnect app?"
       visible={modalOpen}
       status="warning"
-      uswds={false}
     >
       <p>
         After you disconnect this app, the app won’t have access to new
@@ -36,20 +35,22 @@ export function ConnectedAppDeleteModal({
             onClick={confirmDelete}
             data-testid={`confirm-disconnect-${title}`}
             text="Disconnect"
+            class="vads-u-width--full small-screen:vads-u-width--auto vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--0"
           />
           <va-button
             secondary
             onClick={closeModal}
             text="No, cancel this change"
+            class="vads-u-width--full small-screen:vads-u-width--auto"
           />
         </>
       )}
 
       {deleting && (
         <va-button
-          className="usa-button-primary"
           disabled
           text="Processing update..."
+          class="vads-u-width--full small-screen:vads-u-width--auto"
         />
       )}
     </VaModal>

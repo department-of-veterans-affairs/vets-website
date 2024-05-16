@@ -1,9 +1,9 @@
 import mapValues from 'lodash/mapValues';
-import moment from 'moment';
+import { endOfDay, isAfter, isValid, isWithinInterval } from 'date-fns';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
-import set from 'platform/utilities/data/set';
-import recordEvent from 'platform/monitoring/record-event';
+import set from '~/platform/utilities/data/set';
+import recordEvent from '~/platform/monitoring/record-event';
 import {
   stringifyFormReplacer,
   filterViewFields,
@@ -11,9 +11,9 @@ import {
   getActivePages,
   expandArrayPages,
   createFormPageList,
-} from 'platform/forms-system/src/js/helpers';
-import { getInactivePages } from 'platform/forms/helpers';
-import { isInMPI } from 'platform/user/selectors';
+} from '~/platform/forms-system/src/js/helpers';
+import { getInactivePages } from '~/platform/forms/helpers';
+import { isInMPI } from '~/platform/user/selectors';
 
 import { HIGH_DISABILITY_MINIMUM } from '../constants';
 
@@ -205,11 +205,10 @@ export function transform(formConfig, form) {
   }
 
   // use logging to track volume of forms submitted with future discharge dates
+  const { lastDischargeDate } = form.data;
   if (
-    form.data.lastDischargeDate &&
-    moment(form.data.lastDischargeDate, 'YYYY-MM-DD').isAfter(
-      moment().endOf('day'),
-    )
+    lastDischargeDate &&
+    isAfter(new Date(lastDischargeDate), endOfDay(new Date()))
   ) {
     recordEvent({
       event: 'hca-future-discharge-date-submission',
@@ -271,44 +270,6 @@ export function getInsuranceAriaLabel(formData) {
 }
 
 /**
- * Helper that determines if the a dependent is of the declared college
- * age of 18-23
- * @param {String} birthdate - the dependents date of birth
- * @param {String} testdate - an optional date to pass for testing purposes
- * @returns {Boolean} - true if the provided date puts the dependent of an
- * age between 18 and 23.
- */
-export function isOfCollegeAge(birthdate, testdate = new Date()) {
-  const age = Math.abs(moment(birthdate).diff(moment(testdate), 'years'));
-  return age >= 18 && age <= 23;
-}
-
-/**
- * Helper that builds the list of active pages for use in the dependent
- * information add/edit form
- * @param {Array} subpages - the list of all available pages
- * @param {Object} formData - the current data object for the dependent
- * @returns {Array} - the array of pages to map through
- */
-export function getDependentPageList(pages, formData = {}) {
-  return pages.reduce((acc, page) => {
-    if ('depends' in page) {
-      const { key, value } = page.depends;
-      if (value instanceof Function) {
-        if (value(formData[key])) {
-          acc.push(page);
-        }
-      } else if (formData[key] === value) {
-        acc.push(page);
-      }
-    } else {
-      acc.push(page);
-    }
-    return acc;
-  }, []);
-}
-
-/**
  * Helper that builds a full name string based on provided input values
  * @param {Object} name - the object that stores all the available input values
  * @param {Boolean} outputMiddle - optional param to declare whether to output
@@ -331,8 +292,14 @@ export function normalizeFullName(name = {}, outputMiddle = false) {
  */
 export function parseVeteranDob(birthdate) {
   if (!birthdate) return null;
-  if (!moment(birthdate).isValid()) return null;
-  if (!moment(birthdate).isBetween('1900-01-01', undefined)) return null;
+  if (!isValid(new Date(birthdate))) return null;
+  if (
+    !isWithinInterval(new Date(birthdate), {
+      start: new Date('1900-01-01'),
+      end: endOfDay(new Date()),
+    })
+  )
+    return null;
   return birthdate;
 }
 

@@ -1,23 +1,38 @@
-// import defaultConditions from '../fixtures/Conditions.json';
+import defaultConditions from '../fixtures/conditions.json';
+import BaseListPage from './BaseListPage';
 
-class ConditionsListPage {
-  /*
-  clickGotoConditionsLink = (
-   Conditions = defaultConditions,
+class ConditionsListPage extends BaseListPage {
+  // clickGotoConditionsLink = (
+  //   conditions = defaultConditions,
+  //   waitForConditions = false,
+  // ) => {
+  //   cy.intercept(
+  //     'GET',
+  //     '/my_health/v1/medical_records/conditions',
+  //     conditions,
+  //   ).as('ConditionsList');
+  //   // cy.get('[href="/my-health/medical-records/conditions"]').click();
+  //   cy.visit('my-health/medical-records/conditions');
+  //   if (waitForConditions) {
+  //     cy.wait('@ConditionsList');
+  //   }
+  // };
+
+  gotoConditionsListPage = (
+    conditions = defaultConditions,
     waitForConditions = false,
   ) => {
     cy.intercept(
       'GET',
-      '/my_health/v1/medical_records/Conditions',
-      Conditions,
+      '/my_health/v1/medical_records/conditions',
+      conditions,
     ).as('ConditionsList');
-    cy.get('[href="/my-health/medical-records/Conditions"]').click();
+    // cy.get('[href="/my-health/medical-records/conditions"]').click();
+    cy.visit('my-health/medical-records/conditions');
     if (waitForConditions) {
       cy.wait('@ConditionsList');
     }
   };
-
-*/
 
   verifyConditionsPageTitle = () => {
     // Verify Conditions Page Title
@@ -29,36 +44,6 @@ class ConditionsListPage {
       .find('a')
       .eq(_conditionIndex)
       .click();
-  };
-
-  verifyPrintOrDownload = () => {
-    // should display a toggle menu button
-    cy.get('[data-testid="print-records-button"]').should('be.visible');
-  };
-
-  clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').click({ force: true });
-  };
-
-  verifyPrintButton = () => {
-    // should display print button for a list "Print this list"
-    cy.get('[data-testid="printButton-0"]').should('be.visible');
-  };
-
-  verifyDownloadPDF = () => {
-    // should display a download pdf file button "Download PDF of this page"
-    cy.get('[data-testid="printButton-1"]').should('be.visible');
-  };
-
-  verifyDownloadTextFile = () => {
-    // should display a download text file button "Download list as a text file"
-    // cy.get('[data-testid="printButton-2"]').should('be.visible');
-    cy.get('[data-testid="printButton-2').click();
-  };
-
-  clickDownloadPDFFile = () => {
-    // should display a download pdf file button "Download list as a pdf file"
-    cy.get('[data-testid="printButton-1"]').click();
   };
 }
 export default new ConditionsListPage();

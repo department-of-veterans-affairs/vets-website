@@ -221,16 +221,21 @@ const hasPhoneAppointments = appointments => {
  */
 
 const appointmentIcon = appointment => {
-  return (
-    <i
-      aria-label="Appointment type"
-      className={`fas ${
-        appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'
-      }`}
-      aria-hidden="true"
-      data-testid="appointment-icon"
-    />
-  );
+  let iconName;
+  switch (appointment?.kind) {
+    case 'clinic':
+    case 'cvt':
+      iconName = 'location_city';
+      break;
+    case 'vvc':
+      iconName = 'videocam';
+      break;
+    default:
+      iconName = 'phone';
+      break;
+  }
+
+  return <va-icon icon={iconName} size={3} data-testid="appointment-icon" />;
 };
 
 /**

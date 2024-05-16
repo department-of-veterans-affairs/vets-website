@@ -26,7 +26,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
 
@@ -96,7 +96,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -150,6 +150,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
+      apps-to-stress-test: ${{ steps.apps-to-stress-test.outputs.apps_to_test }}
       unit-tests-to-stress-test: ${{ steps.unit-tests-to-stress-test.outputs.tests }}
       changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
       disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
@@ -162,7 +163,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
 
@@ -214,10 +215,22 @@ jobs:
         id: disallowed-tests
         run: echo "tests=$DISALLOWED_TESTS" >> $GITHUB_OUTPUT
 
-      - name: Set output of CYPRESS_TESTS_TO_STRESS_TEST
+      - name: Set output of UNIT_TESTS_TO_STRESS_TEST
         if: ${{ always() }}
         id: unit-tests-to-stress-test
         run: echo "tests=$UNIT_TESTS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
+
+      - name: Upload artifact of Unit Tests to Stress Test
+        if: ${{ steps.unit-tests-to-stress-test.outputs.tests == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-tests-to-stress-test
+          path: unit_tests_to_stress_test.json
+
+      - name: Set output of APPS_TO_STRESS_TEST
+        if: ${{ always() }}
+        id: apps-to-stress-test
+        run: echo "apps_to_test=$APPS_TO_STRESS_TEST" >> $GITHUB_OUTPUT
       
       - name: Set output of TESTS
         id: cypress-tests
@@ -254,7 +267,7 @@ jobs:
         ci_node_index: [0,1,2,3,4,5,6,7,8,9]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
 
@@ -348,10 +361,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [fetch-allow-lists, tests-prep]
-    if: ${{ always() && needs.tests-prep.outputs.unit-tests-to-stress-test != '[]' && github.ref != 'refs/heads/main' && needs.fetch-allow-lists.result == 'success' && needs.tests-prep.result == 'success' }}
+    if: ${{ always() && needs.tests-prep.outputs.unit-tests-to-stress-test == 'true' && github.ref != 'refs/heads/main' && needs.fetch-allow-lists.result == 'success' && needs.tests-prep.result == 'success' }}
 
     env:
-      TESTS_TO_VERIFY: ${{ needs.tests-prep.outputs.unit-tests-to-stress-test }}
+      APPS_TO_VERIFY: ${{ needs.tests-prep.outputs.apps-to-stress-test }}
       DISALLOWED_TESTS: '[]'
 
     strategy:
@@ -362,7 +375,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
 
@@ -383,6 +396,12 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           name: unit-test-allow-list
+          path: .
+
+      - name: Download Tests to verify
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: unit-tests-to-stress-test
           path: .
 
       - name: Run unit tests
@@ -410,7 +429,7 @@ jobs:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -480,7 +499,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
 
@@ -510,7 +529,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
 
@@ -538,6 +557,8 @@ jobs:
             yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js \
             ${{ steps.get-changed-apps.outputs.folders }}
           fi
+        env:
+          GITHUB_REF: ${{ github.ref }}
 
       - name: Run Stylelint
         if: ${{ always() }}
@@ -561,7 +582,7 @@ jobs:
       app_list: ${{ env.APPLICATION_LIST }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -607,14 +628,15 @@ jobs:
     needs: [build] 
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: ./.github/workflows/configure-aws-credentials
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          mask-aws-account-id: true
-          output-credentials: true
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -665,7 +687,7 @@ jobs:
 
       - name: Checkout vets-website
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -676,18 +698,22 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: Get va-vsp-bot token
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/inject-secrets
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: ./.github/workflows/configure-bigquery
 
       - name: Fetch E2E Test Stability Allow List
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
         env:
@@ -718,6 +744,7 @@ jobs:
             node_modules
 
       - name: Check for newly added disallowed tests
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node script/github-actions/double-check-allow-list.js
         env:
           TEST_TYPE: e2e
@@ -784,7 +811,7 @@ jobs:
     steps:
       - name: Checkout vets-website
         if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Configure AWS credentials
         if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
@@ -865,7 +892,7 @@ jobs:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -985,7 +1012,7 @@ jobs:
               echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
           fi
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       # ----------------
       # | Notify Slack |
@@ -1116,7 +1143,7 @@ jobs:
               echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
           fi
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       # ------------------------
       # | Upload BigQuery Data |
@@ -1208,7 +1235,7 @@ jobs:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -1279,6 +1306,11 @@ jobs:
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > qa-standards-dashboard-data/coverage/coverage_report.txt
+
+      - name: Copy merged coverage file to data directory
+        run: |
+          mkdir -p qa-standards-dashboard-data/src/testing-reports/data
+          cp qa-standards-dashboard-data/coverage/test-coverage-report.json qa-standards-dashboard-data/src/testing-reports/data
       
       - name: Archive coverage txt
         if: ${{ always() }}
@@ -1286,6 +1318,10 @@ jobs:
         with:
           name: unit-test-coverage-txt
           path: qa-standards-dashboard-data/coverage/coverage_report.txt
+
+      - name: Process Coverage Report and post results to BigQuery
+        run: yarn unit-coverage-to-bigquery
+        working-directory: qa-standards-dashboard-data
 
       - name: Upload coverage report to S3
         if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.outputs.app_folders == '' }}
@@ -1325,7 +1361,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Notify Slack about Cypress test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.cypress-tests.result == 'failure' }}
@@ -1448,7 +1484,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Notify Slack about Cypress test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.cypress-tests.result == 'failure' }}
@@ -1578,7 +1614,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
 
@@ -1706,7 +1742,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Download build artifact
         uses: ./.github/workflows/download-artifact
@@ -1818,7 +1854,7 @@ jobs:
       IS_ISOLATED_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
 
@@ -1891,7 +1927,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
 

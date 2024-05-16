@@ -1,9 +1,10 @@
 import moment from 'moment';
+import { isEqual } from 'lodash';
 import {
   convertToDateField,
   validateCurrentOrPastDate,
-} from 'platform/forms-system/src/js/validation';
-import { isValidDateRange } from 'platform/forms/validations';
+} from '~/platform/forms-system/src/js/validation';
+import { isValidDateRange } from '~/platform/forms/validations';
 import content from '../locales/en/content.json';
 
 /**
@@ -67,7 +68,8 @@ export function validateGulfWarDates(
     format: content['military-service-validation-toxic-exposure-format'],
   };
 
-  if (!isValidDateRange(fromDate, toDate)) {
+  // As of 4/2/2024, we are allowing users to enter the same month/date
+  if (!isValidDateRange(fromDate, toDate) && !isEqual(fromDate, toDate)) {
     errors.gulfWarEndDate.addError(messages.range);
   }
 
@@ -91,7 +93,8 @@ export function validateAgentOrangeExposureDates(
     format: content['military-service-validation-toxic-exposure-format'],
   };
 
-  if (!isValidDateRange(fromDate, toDate)) {
+  // As of 4/2/2024, we are allowing users to enter the same month/date
+  if (!isValidDateRange(fromDate, toDate) && !isEqual(fromDate, toDate)) {
     errors.agentOrangeEndDate.addError(messages.range);
   }
 
@@ -115,7 +118,8 @@ export function validateExposureDates(
     format: content['military-service-validation-toxic-exposure-format'],
   };
 
-  if (!isValidDateRange(fromDate, toDate)) {
+  // As of 4/2/2024, we are allowing users to enter the same month/date
+  if (!isValidDateRange(fromDate, toDate) && !isEqual(fromDate, toDate)) {
     errors.toxicExposureEndDate.addError(messages.range);
   }
 

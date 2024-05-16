@@ -5,7 +5,7 @@ import {
   numberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { CurrencyReviewRowView } from '../../../components/ReviewRowView';
-import { generateTitle } from '../../../utils/helpers';
+import { generateHelpText, generateTitle } from '../../../utils/helpers';
 
 const { govtContributions } = fullSchemaBurials.properties;
 
@@ -23,7 +23,15 @@ export default {
     amountGovtContribution: {
       ...numberUI({
         title: 'Amount the government or employer paid',
+        description: generateHelpText(
+          'Enter an amount with numbers only. Don\'t include symbols or special characters like "$," commas, or periods.',
+          'vads-u-color--gray vads-u-font-size--md vads-u-margin-top--2 vads-u-display--inline-block',
+        ),
         hideIf: form => !form?.govtContributions,
+        errorMessages: {
+          pattern:
+            'You entered a character we can\'t accept. Remove symbols or special characters like "$," commas, or periods.',
+        },
         min: 0,
       }),
       'ui:required': form => form?.govtContributions,

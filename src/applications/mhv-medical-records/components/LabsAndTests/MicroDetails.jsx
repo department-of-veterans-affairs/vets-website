@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -31,6 +31,8 @@ import {
   generateLabsIntro,
   generateMicrobioContent,
 } from '../../util/pdfHelpers/labsAndTests';
+import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import { useIsDetails } from '../../hooks/useIsDetails';
 
 const MicroDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -41,6 +43,10 @@ const MicroDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const dispatch = useDispatch();
+  useIsDetails(dispatch);
 
   useEffect(
     () => {
@@ -56,11 +62,11 @@ const MicroDetails = props => {
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
   const generateMicrobiologyPdf = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateLabsIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateMicrobioContent(record) };
@@ -69,6 +75,7 @@ const MicroDetails = props => {
   };
 
   const generateMicroTxt = async () => {
+    setDownloadStarted(true);
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
@@ -103,14 +110,14 @@ ${record.results}`;
       </h1>
       <DateSubheading date={record.date} id="microbio-date" />
 
-      <div className="no-print">
-        <PrintDownload
-          download={generateMicrobiologyPdf}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generateMicroTxt}
-        />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-      </div>
+      {downloadStarted && <DownloadSuccessAlert />}
+      <PrintDownload
+        downloadPdf={generateMicrobiologyPdf}
+        allowTxtDownloads={allowTxtDownloads}
+        downloadTxt={generateMicroTxt}
+      />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">

@@ -63,7 +63,7 @@ describe('Unauthenticated warning alert', () => {
     );
     const link = container.querySelector('a');
     fireEvent.click(link);
-    waitFor(() => {
+    await waitFor(() => {
       expect(toggleLoginModal.called).to.be.true;
     });
   });

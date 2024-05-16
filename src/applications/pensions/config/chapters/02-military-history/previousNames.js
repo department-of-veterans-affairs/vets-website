@@ -6,7 +6,7 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
-import { formatFullName } from '../../../helpers';
+import { formatFullName, updateMultiresponseUiOptions } from '../../../helpers';
 import { doesHavePreviousNames } from './helpers';
 
 export const PreviousNameView = ({ formData }) => (
@@ -21,8 +21,8 @@ PreviousNameView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
-  path: 'military/general/add',
   title: 'Previous names',
+  path: 'military/general/add',
   depends: doesHavePreviousNames,
   uiSchema: {
     ...titleUI('Add other service names'),
@@ -37,6 +37,8 @@ export default {
         customTitle: ' ',
         confirmRemove: true,
         useDlWrap: true,
+        useVaCards: true,
+        updateSchema: updateMultiresponseUiOptions,
       },
       items: {
         previousFullName: fullNameUI(),

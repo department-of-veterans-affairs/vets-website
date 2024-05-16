@@ -102,6 +102,8 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+  // Fix double headers (only show v3)
+  v3SegmentedProgressBar: true,
 
   chapters: {
     infoPages: {
@@ -195,7 +197,10 @@ const formConfig = {
       title: 'Board review option',
       pages: {
         boardReviewOption: {
-          title: 'Board review option',
+          // Adding trailing space so this title and chapter title are different
+          // then the page header renders on the review & submit page, see:
+          // https://github.com/department-of-veterans-affairs/vets-website/pull/29514#discussion_r1586347078
+          title: 'Board review option ',
           path: 'board-review-option',
           uiSchema: boardReview.uiSchema,
           schema: boardReview.schema,

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
@@ -32,6 +32,8 @@ import {
   generateLabsIntro,
   generateChemHemContent,
 } from '../../util/pdfHelpers/labsAndTests';
+import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import { useIsDetails } from '../../hooks/useIsDetails';
 
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -42,6 +44,10 @@ const ChemHemDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const dispatch = useDispatch();
+  useIsDetails(dispatch);
 
   useEffect(
     () => {
@@ -57,11 +63,11 @@ const ChemHemDetails = props => {
     pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE,
     user.userFullName,
     user.dob,
-    formatDateLong,
     updatePageTitle,
   );
 
   const generateChemHemPdf = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateLabsIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateChemHemContent(record) };
@@ -70,6 +76,7 @@ const ChemHemDetails = props => {
   };
 
   const generateChemHemTxt = async () => {
+    setDownloadStarted(true);
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
@@ -83,7 +90,7 @@ Sample tested: ${record.sampleTested} \n
 Ordered by: ${record.orderedBy} \n
 Order location: ${record.orderingLocation} \n
 Collecting location: ${record.collectingLocation} \n
-Provider notes: ${processList(record.comments)} \n
+Lab comments: ${processList(record.comments)} \n
 ${txtLine}\n\n
 Results:
 ${record.results
@@ -96,7 +103,7 @@ Result: ${entry.result}
 Standard range: ${entry.standardRange}
 Status: ${entry.status}
 Lab location: ${entry.labLocation}
-Interpretation: ${entry.interpretation}\n`,
+Lab comments: ${entry.labComments}\n`,
       )
       .join('')}`;
 
@@ -116,16 +123,21 @@ Interpretation: ${entry.interpretation}\n`,
       >
         {record.name}
       </h1>
-      <DateSubheading date={record.date} id="chem-hem-date" />
+      <DateSubheading
+        date={record.date}
+        id="chem-hem-date"
+        label="Date and time collected"
+        labelClass="vads-u-font-weight--normal"
+      />
 
-      <div className="no-print">
-        <PrintDownload
-          download={generateChemHemPdf}
-          downloadTxt={generateChemHemTxt}
-          allowTxtDownloads={allowTxtDownloads}
-        />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-      </div>
+      {downloadStarted && <DownloadSuccessAlert />}
+      <PrintDownload
+        downloadPdf={generateChemHemPdf}
+        downloadTxt={generateChemHemTxt}
+        allowTxtDownloads={allowTxtDownloads}
+      />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+
       {/*                   TEST DETAILS                          */}
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
@@ -134,7 +146,7 @@ Interpretation: ${entry.interpretation}\n`,
         </h3>
         <p data-testid="chem-hem-category">{record.category}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Sample tested
+          Site or sample tested
         </h3>
         <p data-testid="chem-hem-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -142,19 +154,13 @@ Interpretation: ${entry.interpretation}\n`,
         </h3>
         <p data-testid="chem-hem-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Ordering location
-        </h3>
-        <p data-testid="chem-hem-ordering-location">
-          {record.orderingLocation}
-        </p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Collecting location
         </h3>
         <p data-testid="chem-hem-collecting-location">
           {record.collectingLocation}
         </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Provider notes
+          Lab comments
         </h3>
         <ItemList list={record.comments} />
       </div>
