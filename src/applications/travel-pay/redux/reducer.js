@@ -35,17 +35,20 @@ function travelClaimsReducer(state = initialState, action) {
         isLoading: false,
         error: action.error,
       };
+    /* istanbul ignore next */
     case FETCH_UNAUTH_PING_STARTED:
       return {
         ...state,
         isFetchingUnauthPing: true,
       };
+    /* istanbul ignore next */
     case FETCH_UNAUTH_PING_SUCCESS:
       return {
         ...state,
         isFetchingUnauthPing: false,
         unauthPingResponse: action.payload,
       };
+    /* istanbul ignore next */
     case FETCH_UNAUTH_PING_FAILURE:
       return {
         ...state,

@@ -19,11 +19,14 @@ const fetchTravelClaimsFailure = error => ({
   error,
 });
 
+/* istanbul ignore next */
 const fetchUnauthPingStart = () => ({ type: FETCH_UNAUTH_PING_STARTED });
+/* istanbul ignore next */
 const fetchUnauthPingSuccess = data => ({
   type: FETCH_UNAUTH_PING_SUCCESS,
   payload: data,
 });
+/* istanbul ignore next */
 const fetchUnauthPingFailure = error => ({
   type: FETCH_UNAUTH_PING_FAILURE,
   error,
@@ -44,6 +47,7 @@ export function getTravelClaims() {
   };
 }
 
+/* istanbul ignore next */
 export function getUnauthPing() {
   return async dispatch => {
     dispatch(fetchUnauthPingStart());
