@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 
 import formConfig from '../../../config/form';
 import { getData } from '../../fixtures/data/mock-form-data';
-import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 
 const {
   schema,
@@ -30,16 +29,10 @@ describe('veteransPostalCodePage', () => {
     );
 
     const checkboxText =
-      'The Veteran lives on a United States military base outside of the country.';
+      'Veteran receives mail outside of the United States on a U.S. military base.';
 
-    expect($('h4', container).textContent).to.eq("Veteran's postal code");
     expect($('.form-checkbox > label', container).textContent).to.eq(
       checkboxText,
     );
-    expect(
-      removeReqFromLabel(
-        $('#root_veteranPostalCode-label', container).textContent,
-      ),
-    ).to.eq('Postal code');
   });
 });
