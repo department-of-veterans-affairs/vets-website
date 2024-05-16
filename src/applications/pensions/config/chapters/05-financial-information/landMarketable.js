@@ -1,14 +1,16 @@
 import React from 'react';
 import {
   titleUI,
-  yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import {
   IncomeAssetStatementFormAlert,
   LandMarketableAlert,
 } from '../../../components/FormAlerts';
 import { isHomeAcreageMoreThanTwo } from '../../../helpers';
+
+const { landMarketable } = fullSchemaPensions.properties;
 
 const LandMarketableDescription = () => (
   <div>
@@ -38,7 +40,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      landMarketable: yesNoSchema,
+      landMarketable,
       'view:warningAlert': {
         type: 'object',
         properties: {},
