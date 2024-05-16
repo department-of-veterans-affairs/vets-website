@@ -11,15 +11,14 @@ import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import moment from 'moment';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { mockParentSites } from '../../mocks/helpers';
 import {
   mockVAOSParentSites,
   mockV2CommunityCareEligibility,
-} from '../../mocks/helpers.v2';
+} from '../../mocks/helpers';
 
 import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
 import { NewAppointment } from '../../../new-appointment';
-import { createMockFacilityByVersion } from '../../mocks/data';
+import { createMockFacility } from '../../mocks/data';
 import { FLOW_TYPES } from '../../../utils/constants';
 
 const initialState = {
@@ -46,8 +45,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
     mockVAOSParentSites(
       ['983'],
       [
-        createMockFacilityByVersion({ id: '983', isParent: true }),
-        createMockFacilityByVersion({ id: '983GC', isParent: true }),
+        createMockFacility({ id: '983', isParent: true }),
+        createMockFacility({ id: '983GC', isParent: true }),
       ],
       true,
     );
@@ -74,8 +73,8 @@ describe('VAOS Page: TypeOfCarePage', () => {
     mockVAOSParentSites(
       ['983'],
       [
-        createMockFacilityByVersion({ id: '983', isParent: true }),
-        createMockFacilityByVersion({ id: '983GC', isParent: true }),
+        createMockFacility({ id: '983', isParent: true }),
+        createMockFacility({ id: '983GC', isParent: true }),
       ],
       true,
     );
@@ -100,7 +99,6 @@ describe('VAOS Page: TypeOfCarePage', () => {
 
   it('should show type of care page with all care types', async () => {
     const store = createTestStore(initialState);
-    mockParentSites(['983'], []);
     mockV2CommunityCareEligibility({
       parentSites: [],
       supportedSites: [],
@@ -155,7 +153,6 @@ describe('VAOS Page: TypeOfCarePage', () => {
 
   it('should save type of care choice on page change', async () => {
     const store = createTestStore(initialState);
-    mockParentSites(['983'], []);
     mockV2CommunityCareEligibility({
       parentSites: [],
       supportedSites: [],
@@ -202,7 +199,6 @@ describe('VAOS Page: TypeOfCarePage', () => {
   });
   it('should not allow users who are not CC eligible to use Podiatry', async () => {
     const store = createTestStore(initialState);
-    mockParentSites(['983'], []);
     mockV2CommunityCareEligibility({
       parentSites: [],
       supportedSites: [],

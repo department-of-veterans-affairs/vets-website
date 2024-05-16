@@ -1,11 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import * as actions from 'platform/forms-system/src/js/actions';
-import {
-  submitToSimpleForms,
-  createPayload,
-  parseResponse,
-} from '../../actions';
+import { submitToSimpleForms, createPayload } from '../../actions';
 
 describe('Actions', () => {
   describe('submitToSimpleForms', () => {
@@ -33,26 +29,6 @@ describe('Actions', () => {
 
         expect(payload.get('form_id')).to.equal(formId);
         expect(payload.get('file')).to.equal(file);
-      });
-    });
-
-    describe('parseResponse', () => {
-      it('returns the parsed response', () => {
-        const confirmationCode = 'test-confirmation-name';
-        const name = 'test-name';
-        const data = {
-          data: {
-            attributes: {
-              confirmationCode,
-              name,
-            },
-          },
-        };
-
-        const response = parseResponse(data);
-
-        expect(response.confirmationCode).to.equal(confirmationCode);
-        expect(response.name).to.equal(name);
       });
     });
   });
