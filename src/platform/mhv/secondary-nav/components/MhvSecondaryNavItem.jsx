@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import recordEvent from '~/platform/monitoring/record-event';
 
 /**
  * A secondary nav item.
@@ -49,6 +50,15 @@ const MhvSecondaryNavItem = ({
         href={href}
         data-dd-action-name={actionName}
         className="vads-u-text-decoration--none"
+        onClick={() => {
+          recordEvent({
+            event: 'nav-mhv-secondary',
+            action: 'click',
+            'nav-link-text': title,
+            'nav-link-url': href,
+            'nav-link-location': 'MHV secondary nav',
+          });
+        }}
       >
         {!!icon && <va-icon icon={icon} size={3} />}
         <span className={`mhv-u-sec-nav-item-title ${titleClass}`}>
