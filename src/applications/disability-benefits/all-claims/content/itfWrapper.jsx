@@ -85,8 +85,8 @@ export const itfError = (
             claim as a potential start date for your benefits.
           </li>
           <li>
-            Or you can call us confirm if you have an intent to file for this
-            claim or create a new one today. Call us at{' '}
+            Or you can call us to confirm if you have an intent to file for this
+            claim and what your next step should be. Call us at{' '}
             <va-telephone contact="8008271000" /> (
             <va-telephone contact={CONTACTS['711']} tty />
             ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.

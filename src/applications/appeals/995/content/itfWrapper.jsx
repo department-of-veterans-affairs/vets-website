@@ -51,11 +51,23 @@ export const itfError = (
       </p>
       <strong>What an intent to file means: </strong>
       <p className="vads-u-font-size--base">
-        An intent to file sets a potential start date (or effective date) for
-        your benefits. You then have up to 1 year to complete and file your
-        claim. And you may be able to get retroactive payments (payments for the
-        time between when you submitted your intent to file and when we approved
-        your claim).
+        <ul>
+          <li>
+            If you’re filing a Supplemental Claim to request a review of a claim
+            we decided longer than 1 year ago, an intent to file sets a
+            potential start date (or effective date) for your benefits. You then
+            have up to 1 year to complete and file your Supplemental Claim. And
+            you may be able to get payments for the time between when you
+            submitted your intent to file and when we approved your claim.
+          </li>
+          <li>
+            If you’re submitting a Supplemental Claim to request a review of a
+            claim we decided within the past year, an intent to file gives you 1
+            year to complete and file your Supplemental Claim. But we’ll use the
+            original date you filed the claim under review as the potential
+            start date for your benefits.
+          </li>
+        </ul>
       </p>
       <br />
       <strong>What you can do next:</strong>
@@ -68,8 +80,8 @@ export const itfError = (
             claim as a potential start date for your benefits.
           </li>
           <li>
-            Or you can call us confirm if you have an intent to file for this
-            claim or create a new one today. Call us at{' '}
+            Or you can call us to confirm if you have an intent to file for this
+            claim and what your next step should be. Call us at{' '}
             <va-telephone contact="8008271000" /> (
             <va-telephone contact={CONTACTS['711']} tty />
             ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
