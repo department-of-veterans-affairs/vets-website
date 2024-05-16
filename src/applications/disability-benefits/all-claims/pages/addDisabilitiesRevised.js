@@ -22,12 +22,13 @@ import {
   claimingNew,
   sippableId,
 } from '../utils';
+import { addDisabilitiesInstructions } from '../content/addDisabilitiesRevised';
 
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 export const uiSchema = {
   newDisabilities: {
-    'ui:title': 'Tell us the new conditions you want to claim REVISED VERSION!',
+    'ui:description': addDisabilitiesInstructions,
     'ui:field': ArrayField,
     'ui:options': {
       viewField: NewDisability,

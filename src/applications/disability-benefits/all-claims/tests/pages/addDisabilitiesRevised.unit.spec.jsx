@@ -43,6 +43,40 @@ describe('showRevisedNewDisabilitiesPage', () => {
     expect(screen.getByText(labelStr)).to.exist;
   });
 
+  it('should render updated content', () => {
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.disabilities.pages.addDisabilitiesRevised;
+    const onSubmit = sinon.spy();
+    const screen = render(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:claimType': {
+            'view:claimingNew': true,
+            'view:claimingIncrease': true,
+          },
+          newDisabilities: ['test condition'],
+          // no rated disability selected
+          ratedDisabilities: [{}, {}],
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+    const title = 'Tell us the new conditions you want to claim';
+    const exampleConditions = 'Examples of conditions';
+    const conditionInstructions = "What if my condition isn't listed?";
+    const listItem = 'Tinnitus (ringing or hissing in ears)';
+    expect(screen.getByText(title)).to.exist;
+    expect(screen.getByText(exampleConditions)).to.exist;
+    expect(screen.getByText(conditionInstructions)).to.exist;
+    expect(screen.getByText(listItem)).to.exist;
+  });
+
   it('should submit when form is completed', () => {
     const {
       schema,
