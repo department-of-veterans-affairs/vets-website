@@ -93,9 +93,9 @@ export default function ConfirmedAppointmentDetailsPage() {
     (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
   ) {
     return (
-      <FullWidthLayout>
+      <PageLayout showBreadcrumbs showNeedHelp>
         <ErrorMessage level={1} />
-      </FullWidthLayout>
+      </PageLayout>
     );
   }
 
