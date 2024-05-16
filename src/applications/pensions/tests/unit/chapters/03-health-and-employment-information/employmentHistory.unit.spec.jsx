@@ -94,14 +94,12 @@ describe('pensions employment history', () => {
     const cashierEditButton = container.querySelector(
       '[aria-label="Edit Cashier"]',
     );
-    const csrRemoveButton = container.querySelector(
-      '[aria-label="Remove Customer Service Representative"]',
+    const csrEditButton = container.querySelector(
+      '[aria-label="Edit Customer Service Representative"]',
     );
 
-    // The first item is closed, so it only has an edit button
     expect(cashierEditButton).to.exist;
-    // The second item is open, so it has a remove button instead
-    expect(csrRemoveButton).to.exist;
+    expect(csrEditButton).to.exist;
   });
 
   describe('EmployerView', () => {
