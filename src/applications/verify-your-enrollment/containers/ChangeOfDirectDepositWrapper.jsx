@@ -37,6 +37,7 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
     setShowModal(false);
     scrollToTopOfForm();
   }, []);
+
   const onCancelButtonClick = () => {
     if (hasFormChanged(formData, applicantName)) {
       setShowModal(true);
@@ -63,11 +64,13 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
 
   useEffect(
     () => {
-      if (!loading) {
+      if (!loading && response) {
         handleCloseForm();
+      } else {
+        window.scrollTo(0, 0);
       }
     },
-    [handleCloseForm, loading],
+    [handleCloseForm, loading, response],
   );
   const directDepositDescription = (
     <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">

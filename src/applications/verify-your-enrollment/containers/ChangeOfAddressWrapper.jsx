@@ -104,12 +104,24 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   // This Effcet to close form after loading is done
   useEffect(
     () => {
-      if (!isLoading && !isLoadingValidateAddress) {
+      if (
+        !isLoading &&
+        !isLoadingValidateAddress &&
+        (addressValidationData || validationError)
+      ) {
         handleCloseForm();
         setSuggestedAddressPicked(false);
+      } else {
+        window.scrollTo(0, 0);
       }
     },
-    [handleCloseForm, isLoading, isLoadingValidateAddress],
+    [
+      addressValidationData,
+      handleCloseForm,
+      isLoading,
+      isLoadingValidateAddress,
+      validationError,
+    ],
   );
   const setAddressToUI = value => {
     setNewAddress(value);
