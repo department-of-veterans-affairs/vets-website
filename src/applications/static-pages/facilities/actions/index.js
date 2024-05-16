@@ -123,7 +123,7 @@ export function fetchMultiFacility(id) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       // eslint-disable-next-line camelcase
-      body: JSON.stringify({ ids: [id], page_number: 1, page: 1 }),
+      body: JSON.stringify({ ids: [id], per_page: 1, page: 1 }),
     })
       .then(facility => dispatch(fetchMultiFacilitySuccess(facility.data, id)))
       .catch(() => dispatch(fetchMultiFacilityFailed(id)));
