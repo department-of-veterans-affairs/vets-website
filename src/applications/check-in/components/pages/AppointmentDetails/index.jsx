@@ -18,6 +18,7 @@ import {
   findUpcomingAppointment,
   getAppointmentId,
 } from '../../../utils/appointment';
+import { ELIGIBILITY } from '../../../utils/appointment/eligibility';
 import { APP_NAMES, phoneNumbers } from '../../../utils/appConstants';
 
 import Wrapper from '../../layout/Wrapper';
@@ -167,6 +168,10 @@ const AppointmentDetails = props => {
     }
     return title;
   };
+  let eligibleAppointment = true;
+  if (app === APP_NAMES.CHECK_IN) {
+    eligibleAppointment = appointment.eligibility === ELIGIBILITY.ELIGIBLE;
+  }
   return (
     <>
       {Object.keys(appointment).length && (
@@ -349,15 +354,16 @@ const AppointmentDetails = props => {
                   </div>
                 )}
               </div>
-              {!isUpcoming && (
-                <div className="vads-u-margin-top--2">
-                  <ActionLink
-                    app={app}
-                    action={action}
-                    appointmentId={getAppointmentId(appointment)}
-                  />
-                </div>
-              )}
+              {!isUpcoming &&
+                eligibleAppointment && (
+                  <div className="vads-u-margin-top--2">
+                    <ActionLink
+                      app={app}
+                      action={action}
+                      appointmentId={getAppointmentId(appointment)}
+                    />
+                  </div>
+                )}
             </div>
           </Wrapper>
         </>

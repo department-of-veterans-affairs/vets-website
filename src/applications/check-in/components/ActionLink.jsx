@@ -29,7 +29,14 @@ const ActionLink = props => {
     return <></>;
   }
   return (
-    <p className="vads-u-margin-bottom--0">
+    <p
+      className="vads-u-margin-bottom--0"
+      data-testid={
+        app === APP_NAMES.PRE_CHECK_IN
+          ? 'review-information-button'
+          : 'check-in-button'
+      }
+    >
       <a
         data-testid="action-link"
         className="vads-c-action-link--green"
