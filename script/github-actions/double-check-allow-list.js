@@ -15,7 +15,6 @@ const TESTS_LIST = fs.existsSync(
 
 const TESTS =
   JSON.parse(TESTS_LIST).map(test => test.slice(test.indexOf('src'))) || [];
-const TESTS_PROPERTY = process.env.TEST_PROPERTY || 'TESTS';
 
 const ALLOW_LIST =
   process.env.TEST_TYPE &&
@@ -44,9 +43,9 @@ if (process.env.TEST_TYPE === 'e2e' && disallowedTests.length > 0) {
     test =>
       !disallowedTests.some(disallowedTest => test.includes(disallowedTest)),
   );
-  core.exportVariable(TESTS_PROPERTY, newTests);
+  fs.writeFileSync(`e2e_tests_to_test.json`, JSON.stringify(newTests));
 }
 
 if (process.env.TEST_TYPE === 'unit_test') {
-  core.exportVariable(TESTS_PROPERTY, disallowedTests);
+  core.exportVariable(`unit_tests_to_test.json`, disallowedTests);
 }

@@ -320,12 +320,12 @@ jobs:
         env:
           TEST_TYPE: unit_test
       
-      # - name: Check for newly added disallowed tests
-      #   run: node script/github-actions/double-check-allow-list.js
-      #   env:
-      #     TEST_TYPE: unit_test
-      #     TESTS: ${{ env.DISALLOWED_TESTS }}
-      #     TESTS_PROPERTY: 'DISALLOWED_TESTS'
+      - name: Check for newly added disallowed tests
+        run: node script/github-actions/double-check-allow-list.js
+        env:
+          TEST_TYPE: unit_test
+          TESTS: ${{ env.DISALLOWED_TESTS }}
+          TESTS_PROPERTY: 'DISALLOWED_TESTS'
           
       - name: Create test results folder
         run: mkdir -p test-results
@@ -761,12 +761,12 @@ jobs:
           name: e2e-tests-to-test
           path: .
 
-      # - name: Check for newly added disallowed tests
-      #   if: needs.tests-prep.outputs.cypress-tests != '[]'
-      #   run: node script/github-actions/double-check-allow-list.js
-      #   env:
-      #     TEST_TYPE: e2e
-      #     TEST_PROPERTY: 'TESTS'
+      - name: Check for newly added disallowed tests
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: node script/github-actions/double-check-allow-list.js
+        env:
+          TEST_TYPE: e2e
+          TEST_PROPERTY: 'TESTS'
 
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
