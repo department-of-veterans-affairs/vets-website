@@ -21,12 +21,13 @@ const LabsAndTestsListItem = props => {
       </h3>
 
       <div>
-        <div>{record.date}</div>
+        <div>
+          {`${
+            record.type === labTypes.CHEM_HEM ? 'Date and time collected: ' : ''
+          }${record.date}`}
+        </div>
         {record.type === labTypes.RADIOLOGY && (
           <div>Type of test: X-rays and imaging tests (Radiology)</div>
-        )}
-        {record.type === labTypes.CHEM_HEM && (
-          <div>Type of test: Chemistry and hematology</div>
         )}
         <div>Ordered by {record.orderedBy}</div>
       </div>
