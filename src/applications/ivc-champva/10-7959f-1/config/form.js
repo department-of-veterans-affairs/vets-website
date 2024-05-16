@@ -166,7 +166,7 @@ const formConfig = {
     mailingAddress: {
       title: 'Mailing Address',
       pages: {
-        page: {
+        page3: {
           path: 'mailing-address',
           title: "Veteran's Mailing address",
           uiSchema: {

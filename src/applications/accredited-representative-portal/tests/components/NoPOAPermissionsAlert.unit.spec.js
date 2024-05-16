@@ -14,10 +14,8 @@ describe('NoPOAPermissionsAlert', () => {
 
   it('renders heading', () => {
     const { getByTestId } = getNoPOAPermissionsAlert();
-    expect(
-      getByTestId('no-poa-permissions-alert-heading').textContent,
-    ).to.equal(
-      'You do not have permission to manage Power of Attorney Requests',
+    expect(getByTestId('no-poa-permissions-alert-heading').textContent).to.eq(
+      'You do not have permission to manage power of attorney requests',
     );
   });
 

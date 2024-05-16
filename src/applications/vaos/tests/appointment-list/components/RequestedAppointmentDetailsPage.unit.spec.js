@@ -8,12 +8,12 @@ import { AppointmentList } from '../../../appointment-list';
 import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
 import MockAppointmentResponse from '../../e2e/fixtures/MockAppointmentResponse';
 import MockFacilityResponse from '../../e2e/fixtures/MockFacilityResponse';
-import { mockFacilityFetchByVersion } from '../../mocks/fetch';
+import { mockFacilityFetch } from '../../mocks/fetch';
 import {
   mockAppointmentApi,
   mockAppointmentUpdateApi,
   mockAppointmentsApi,
-} from '../../mocks/helpers.v2';
+} from '../../mocks/helpers';
 import {
   createTestStore,
   getTestDate,
@@ -58,7 +58,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       .setPreferredTimesForPhoneCall({ morning: true });
 
     mockAppointmentApi({ response });
-    mockFacilityFetchByVersion({
+    mockFacilityFetch({
       facility: new MockFacilityResponse({ id: '983' }),
     });
 
@@ -277,7 +277,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
     mockAppointmentApi({ response });
     mockAppointmentUpdateApi({ response: canceledResponse });
-    mockFacilityFetchByVersion({
+    mockFacilityFetch({
       facility: new MockFacilityResponse({ id: '983' }),
     });
 
@@ -549,7 +549,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
       mockAppointmentApi({ response });
       mockAppointmentUpdateApi({ response: canceledResponse });
-      mockFacilityFetchByVersion({
+      mockFacilityFetch({
         facility: new MockFacilityResponse({ id: '983' }),
       });
 
@@ -593,7 +593,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
       mockAppointmentApi({ response });
       mockAppointmentUpdateApi({ response: canceledResponse });
-      mockFacilityFetchByVersion({
+      mockFacilityFetch({
         facility: new MockFacilityResponse({ id: '983' }),
       });
 
@@ -648,7 +648,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
         mockAppointmentApi({ response });
         mockAppointmentUpdateApi({ response: canceledResponse });
-        mockFacilityFetchByVersion({
+        mockFacilityFetch({
           facility: new MockFacilityResponse({ id: '983' }),
         });
 
@@ -716,7 +716,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           response: [],
         });
         mockAppointmentUpdateApi({ response: canceledResponse });
-        mockFacilityFetchByVersion({
+        mockFacilityFetch({
           facility: new MockFacilityResponse({ id: '983' }),
         });
 
@@ -795,7 +795,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           response: canceledResponse,
           responseCode: 500,
         });
-        mockFacilityFetchByVersion({
+        mockFacilityFetch({
           facility: new MockFacilityResponse({ id: '983' }),
         });
 
