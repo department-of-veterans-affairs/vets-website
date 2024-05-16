@@ -7,7 +7,7 @@ describe('Direct deposit information', () => {
    */
   beforeEach(() => {
     cy.login(mockUser);
-    cy.intercept('GET', '/vye/v1/*', { statusCode: 200 });
+    cy.intercept('GET', '/vye/v1', { statusCode: 200 });
     cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
     cy.visit('/education/verify-your-enrollment/', {
