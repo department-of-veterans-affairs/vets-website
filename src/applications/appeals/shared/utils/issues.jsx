@@ -61,7 +61,7 @@ export const getSelected = formData => {
  */
 export const getIssuesListItems = data =>
   getSelected(data || []).map((issue, index) => (
-    <li key={index} className="vads-u-margin-bottom--0">
+    <li key={index} className="vads-u-margin-bottom--0 overflow-wrap-word">
       <span className="dd-privacy-hidden" data-dd-action-name="issue name">
         {getIssueName(issue)}
       </span>
