@@ -13,8 +13,7 @@ const TESTS_LIST = fs.existsSync(
     )
   : null;
 
-const TESTS =
-  JSON.parse(TESTS_LIST).map(test => test.slice(test.indexOf('src'))) || [];
+const TESTS = TESTS_LIST.map(test => test.slice(test.indexOf('src'))) || [];
 
 const ALLOW_LIST =
   process.env.TEST_TYPE &&

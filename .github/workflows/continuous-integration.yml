@@ -319,6 +319,12 @@ jobs:
         working-directory: qa-standards-dashboard-data
         env:
           TEST_TYPE: unit_test
+
+      - name: Download Tests to verify
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: unit-tests-to-test
+          path: .
       
       - name: Check for newly added disallowed tests
         run: node script/github-actions/double-check-allow-list.js
