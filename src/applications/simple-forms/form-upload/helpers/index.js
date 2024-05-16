@@ -95,6 +95,7 @@ export const submitForm = (formNumber, confirmationCode, history) => {
   }).then(response => {
     history.push(`/${formNumber}/confirmation`, {
       confirmationNumber: response.confirmationNumber,
+      submittedAt: Date.now(),
     });
   });
 };

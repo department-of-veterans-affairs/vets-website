@@ -3,9 +3,10 @@ import React from 'react';
 import {
   VaAlert,
   VaBreadcrumbs,
-  VaProcessList,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { format } from 'date-fns';
 import {
   getBreadcrumbList,
   getFormNumber,
@@ -16,6 +17,9 @@ import {
 const ConfirmationPage = () => {
   const history = useHistory();
   const location = useLocation();
+  const fullName = useSelector(state => state?.user?.profile?.userFullName);
+  const { state } = location;
+  const { confirmationNumber, submittedAt } = state;
   const formNumber = getFormNumber(location);
   const formUploadContent = getFormUploadContent(formNumber);
   const breadcrumbList = getBreadcrumbList(formNumber);
@@ -41,30 +45,28 @@ const ConfirmationPage = () => {
           submission and contact you if we have any questions.
         </p>
       </VaAlert>
-      <h2>What happens next</h2>
-      <VaProcessList>
-        <li>
-          <h3>We review your submission</h3>
-          <p>
-            First someone reviews your form and routes it to the team who will
-            process it.
-          </p>
-        </li>
-        <li>
-          <h3>Check the status of your submission</h3>
-          <p>
-            You can track the status while it’s being processed. If the status
-            doesn’t change in the next [2 weeks], contact us.
-          </p>
-        </li>
-        <li>
-          <h3>We’ll process your statement</h3>
-          <p>
-            After we review your submission, we’ll process it and reach out to
-            you if we need any additional information.
-          </p>
-        </li>
-      </VaProcessList>
+      <div className="inset">
+        <h3 className="vads-u-margin-top--0">Your submission information</h3>
+        <h4>Who submitted this form</h4>
+        <p>
+          {fullName.first} {fullName.last}
+        </p>
+        <h4>Confirmation number</h4>
+        <p>{confirmationNumber}</p>
+        <h4>Date submitted</h4>
+        <p>{format(submittedAt, 'MMMM d, yyyy')}</p>
+
+        <h4>Confirmation for your records</h4>
+        <p>You can print this confirmation page for your records</p>
+        <va-button
+          className="usa-button vads-u-margin-top--0 screen-only"
+          onClick={window.print}
+          text="Print this page"
+        />
+      </div>
+      <a className="vads-c-action-link--green vads-u-margin-y--2" href="/">
+        Go back to VA.gov
+      </a>
     </div>
   );
 };
