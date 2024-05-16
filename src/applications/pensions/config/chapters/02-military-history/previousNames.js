@@ -6,7 +6,7 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
-import { formatFullName, updateMultiresponseUiOptions } from '../../../helpers';
+import { formatFullName } from '../../../helpers';
 import { doesHavePreviousNames } from './helpers';
 
 export const PreviousNameView = ({ formData }) => (
@@ -38,7 +38,8 @@ export default {
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
-        updateSchema: updateMultiresponseUiOptions,
+        showSave: true,
+        reviewMode: true,
       },
       items: {
         previousFullName: fullNameUI(),

@@ -15,7 +15,7 @@ import {
   ContactWarningAlert,
   ContactWarningMultiAlert,
 } from '../../../components/FormAlerts';
-import { formatFullName, updateMultiresponseUiOptions } from '../../../helpers';
+import { formatFullName } from '../../../helpers';
 import ListItemView from '../../../components/ListItemView';
 import SpouseMarriageTitle from '../../../components/SpouseMarriageTitle';
 import { separationTypeLabels } from '../../../labels';
@@ -79,7 +79,8 @@ export default {
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
-        updateSchema: updateMultiresponseUiOptions,
+        showSave: true,
+        reviewMode: true,
       },
       items: {
         spouseFullName: fullNameUI(title => `Former spouse’s ${title}`),
