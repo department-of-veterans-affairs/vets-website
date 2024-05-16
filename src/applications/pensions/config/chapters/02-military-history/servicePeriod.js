@@ -7,8 +7,8 @@ import {
   serviceNumberUI,
   serviceNumberSchema,
   checkboxGroupUI,
-  checkboxGroupSchema,
   titleUI,
+  checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { serviceBranchLabels } from '../../../labels';

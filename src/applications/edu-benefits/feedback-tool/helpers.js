@@ -8,7 +8,16 @@ import dataUtils from 'platform/utilities/data/index';
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import UserInteractionRecorder from '../components/UserInteractionRecorder';
+
+export const isProductionOfTestProdEnv = automatedTest => {
+  return (
+    environment.isProduction() ||
+    automatedTest ||
+    (global && global?.window && global?.window?.buildType)
+  );
+};
 
 export const trackingPrefix = 'edu-feedback-tool-';
 
@@ -140,7 +149,7 @@ export function submit(form, formConfig) {
   };
 
   const onSuccess = json => {
-    const guid = json.data.attributes.guid;
+    const { guid } = json.data.attributes;
     return new Promise((resolve, reject) => {
       pollStatus(
         guid,

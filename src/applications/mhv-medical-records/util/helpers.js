@@ -80,9 +80,10 @@ export const concatObservationInterpretations = record => {
  */
 export const getObservationValueWithUnits = observation => {
   if (observation.valueQuantity) {
-    return `${observation.valueQuantity.value} ${
-      observation.valueQuantity.unit
-    }`;
+    return {
+      observationValue: observation.valueQuantity.value,
+      observationUnit: observation.valueQuantity.unit,
+    };
   }
   return null;
 };
