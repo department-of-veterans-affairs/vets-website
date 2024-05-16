@@ -19,7 +19,6 @@ const PeriodsToVerify = ({
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const justVerified = !!toggleEnrollmentSuccess;
   const { error } = verifyEnrollment;
-  // console.log(verificationsResponse, 'verificationsResponse');
   useEffect(
     () => {
       setUserEnrollmentData(userData);

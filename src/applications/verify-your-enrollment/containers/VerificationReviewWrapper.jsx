@@ -72,8 +72,6 @@ const VerificationReviewWrapper = ({
     const awardIds = newVerifiedEnrollments.map(
       enrollment => enrollment.awardId,
     );
-    // eslint-disable-next-line no-console
-    console.log(awardIds, 'newVerifiedEnrollments');
     dispatchVerifyEnrollmentAction(awardIds);
   };
 
