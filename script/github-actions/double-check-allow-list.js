@@ -14,6 +14,7 @@ const TESTS_LIST = fs.existsSync(
   : null;
 
 const TESTS = TESTS_LIST.map(test => test.slice(test.indexOf('src'))) || [];
+const TESTS_PROPERTY = process.env.TEST_PROPERTY || 'TESTS';
 
 const ALLOW_LIST =
   process.env.TEST_TYPE &&
@@ -46,5 +47,5 @@ if (process.env.TEST_TYPE === 'e2e' && disallowedTests.length > 0) {
 }
 
 if (process.env.TEST_TYPE === 'unit_test') {
-  core.exportVariable(`unit_tests_to_test.json`, disallowedTests);
+  core.exportVariable(TESTS_PROPERTY, disallowedTests);
 }
