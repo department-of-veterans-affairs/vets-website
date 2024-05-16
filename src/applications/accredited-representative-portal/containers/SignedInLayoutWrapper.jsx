@@ -1,5 +1,6 @@
 import React from 'react';
 
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import SignedInLayout from './SignedInLayout';
 
@@ -15,6 +16,8 @@ const SignedInLayoutWrapper = () => {
     TOGGLE_NAMES.accreditedRepresentativePortalPilot,
   );
 
+  const isProduction = environment.isProduction();
+
   // TODO: Update with permissions check
   const hasPOAPermissions = true;
 
@@ -22,6 +25,7 @@ const SignedInLayoutWrapper = () => {
     <SignedInLayout
       isPilotToggleLoading={isPilotToggleLoading}
       isInPilot={isInPilot}
+      isProduction={isProduction}
       hasPOAPermissions={hasPOAPermissions}
     />
   );
