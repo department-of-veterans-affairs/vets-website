@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   VaBreadcrumbs,
@@ -7,7 +7,7 @@ import {
   VaSegmentedProgressBar,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { submitToSimpleForms } from '../actions';
 import {
   getBreadcrumbList,
@@ -19,14 +19,14 @@ import {
 const UploadPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const confirmationCode = useSelector(
-    state => state?.formUpload?.uploads?.confirmationCode,
-  );
+  const [file, setFile] = useState({});
 
   const location = useLocation();
   const formNumber = getFormNumber(location);
   const formUploadContent = getFormUploadContent(formNumber);
   const breadcrumbList = getBreadcrumbList(formNumber);
+
+  const onFileUploaded = uploadedFile => setFile(uploadedFile);
 
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
@@ -63,7 +63,9 @@ const UploadPage = () => {
         label={`Upload VA Form ${formNumber}`}
         name="form-upload-file-input"
         onVaChange={e =>
-          dispatch(submitToSimpleForms(formNumber, e.detail.files[0]))
+          dispatch(
+            submitToSimpleForms(formNumber, e.detail.files[0], onFileUploaded),
+          )
         }
         uswds
       />
@@ -72,11 +74,7 @@ const UploadPage = () => {
         <VaButton
           primary
           text="Continue >>"
-          onClick={() =>
-            history.push(`/${formNumber}/review`, {
-              state: { confirmationCode },
-            })
-          }
+          onClick={() => history.push(`/${formNumber}/review`, { file })}
         />
       </span>
       <div className="need-help-footer">
