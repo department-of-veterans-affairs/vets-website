@@ -49,6 +49,7 @@ const IntroductionPage = props => {
     unauthStartText: 'Sign in to start your statement',
     displayNonVeteranMessaging: true,
     hideSipIntro: userLoggedIn && !userIdVerified,
+    usePrimaryLink: true,
   };
 
   const ombInfo = {

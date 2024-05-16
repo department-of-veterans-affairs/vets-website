@@ -5,12 +5,12 @@ import {
   VaButton,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from '../../monitoring/record-event';
-
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_RESTARTING,
 } from '~/platform/site-wide/wizard';
+import recordEvent from '../../monitoring/record-event';
+
 import {
   CONTINUE_APP_DEFAULT_MESSAGE,
   START_NEW_APP_DEFAULT_MESSAGE,
@@ -31,6 +31,7 @@ const FormStartControls = props => {
     formSaved,
     isExpired,
     resumeOnly,
+    usePrimaryLink = false,
   } = props;
 
   // get access to the formConfig object through this route
@@ -129,6 +130,25 @@ const FormStartControls = props => {
     );
   }
 
+  if (usePrimaryLink) {
+    return (
+      <div className="arrow" style={{ maxWidth: '75%' }}>
+        <div className="vads-u-background-color--primary vads-u-padding--1">
+          <a
+            className="vads-c-action-link--white"
+            href="#start"
+            onClick={event => {
+              event.preventDefault();
+              handleLoadPrefill();
+            }}
+          >
+            {startText}
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <a
       href="#start"
@@ -171,6 +191,7 @@ FormStartControls.propTypes = {
   routes: PropTypes.array,
   startText: PropTypes.string,
   testActionLink: PropTypes.bool,
+  usePrimaryLink: PropTypes.bool,
 };
 
 FormStartControls.defaultProps = {
