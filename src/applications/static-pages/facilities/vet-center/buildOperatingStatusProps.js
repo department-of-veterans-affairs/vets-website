@@ -11,8 +11,8 @@ export const buildOperatingStatusProps = attrs => {
   switch (opStatus) {
     case 'limited':
       statusLabel = 'Limited services and hours';
-      statusType = 'warning';
       iconType = 'info-circle';
+      statusType = 'warning';
       break;
     case 'closed':
       statusLabel = 'Facility closed';
