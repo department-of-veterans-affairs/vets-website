@@ -8,9 +8,11 @@ export default function DowntimeMessage({
   downtime,
   isAfterSteps,
   formConfig,
+  headerLevel = 3,
 }) {
   const { endTime } = downtime;
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+  const Header = `h${headerLevel}`;
   return (
     <va-alert
       class={classNames({
@@ -20,7 +22,9 @@ export default function DowntimeMessage({
       status="warning"
       uswds
     >
-      <h3 slot="headline">{`This ${appType} is down for maintenance.`}</h3>
+      <Header slot="headline">
+        {`This ${appType} is down for maintenance.`}
+      </Header>
       {endTime ? (
         <p>
           We’re making some updates to this {appType}. We’re sorry it’s not
@@ -39,12 +43,13 @@ export default function DowntimeMessage({
 
 DowntimeMessage.propTypes = {
   downtime: PropTypes.shape({
-    endTime: PropTypes.number,
+    endTime: PropTypes.object, // Moment.js object
   }),
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       appType: PropTypes.string,
     }),
   }),
+  headerLevel: PropTypes.number,
   isAfterSteps: PropTypes.bool,
 };
