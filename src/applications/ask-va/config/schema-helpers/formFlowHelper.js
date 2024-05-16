@@ -19,6 +19,7 @@ import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
 import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
 import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
 import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
+import veteransLocationOfResidencePage from '../chapters/personalInformation/veteransLocationOfResidence';
 import veteransPostalCode from '../chapters/personalInformation/veteransPostalCode';
 import yourAddressPage from '../chapters/personalInformation/yourAddress';
 import yourContactInformationPage from '../chapters/personalInformation/yourContactInformation';
@@ -64,6 +65,11 @@ const ch3Pages = {
     title: CHAPTER_3.VETERANS_POSTAL_CODE.TITLE,
     uiSchema: veteransPostalCode.uiSchema,
     schema: veteransPostalCode.schema,
+  },
+  veteransLocationOfResidence: {
+    title: CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.TITLE,
+    uiSchema: veteransLocationOfResidencePage.uiSchema,
+    schema: veteransLocationOfResidencePage.schema,
   },
   yourPostalCode: {
     title: CHAPTER_3.YOUR_POSTAL_CODE.TITLE,
@@ -214,18 +220,18 @@ export const myOwnBenVetPages = flowPages(
 );
 
 const myOwnBenFam = [
-  // 'moreAboutYourRelationshipToVeteran',
-  // 'aboutTheVeteran',
-  // 'veteranDeceased',
-  // 'dateOfDeath',
+  'moreAboutYourRelationshipToVeteran',
+  'aboutTheVeteran',
+  'veteranDeceased',
+  'dateOfDeath',
   'veteransPostalCode',
-  // 'aboutYourself',
-  // 'searchVAMedicalCenter',
-  // 'yourContactInformation',
-  // 'howToContact',
-  // 'yourCountry',
-  // 'yourAddress',
-  // 'yourAddressConfirmation',
+  'aboutYourself',
+  'searchVAMedicalCenter',
+  'yourContactInformation',
+  'howToContact',
+  'yourCountry',
+  'yourAddress',
+  'yourAddressConfirmation',
 ];
 export const myOwnBenFamPages = flowPages(
   ch3Pages,
