@@ -11,7 +11,6 @@ function VetCenterInfoSection(props) {
     opStatusExtra: props.vetCenter.fieldOperatingStatusMoreInfo,
   };
   const opStatusConfig = buildOperatingStatusProps(attrs);
-
   const renderPhone = phoneNumber => {
     if (!phoneNumber) return null;
     return (
@@ -31,6 +30,9 @@ function VetCenterInfoSection(props) {
         <div className="vads-u-margin-bottom--1">
           <va-alert-expandable
             id={`operating-status-alert-${
+              props.vetCenter.fieldFacilityLocatorApiId
+            }`}
+            data-testid={`operating-status-alert-${
               props.vetCenter.fieldFacilityLocatorApiId
             }`}
             status={opStatusConfig.statusType}
