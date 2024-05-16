@@ -9,6 +9,7 @@ export const PROFILE_TOGGLES = {
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowEmailNotificationSettings: false,
+  profileShowProofOfVeteranStatus: false,
   profileShowDirectDepositSingleForm: false,
   profileShowDirectDepositSingleFormUAT: false,
   profileShowDirectDepositSingleFormAlert: false,
@@ -99,6 +100,7 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '585', // Oscar G. Johnson VA Medical Center
   '589A6', // VA Eastern Kansas Health Care System - Dwight D. Eisenhower VA Medical Center
   '590', // Hampton VA Medical Center
+  '593', // VA Southern Nevada Healthcare System
   '596', // Lexington VA Medical Center
   '598', // Central Arkansas Veterans Healthcare System John L. McClellan Memorial Veterans Hospital
   '603', // Robley Rex VA Medical Center
@@ -110,6 +112,7 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '614', // VA Memphis Healthcare System
   '621', // Mountain Home VAMC/Johnson City
   '636', // Omaha VA Medical Center--VA Nebraska-Western Iowa HCS
+  '636A8', // Iowa City HCS
   '637', // Charles George VAMC
   '650', // Providence VA Medical Center
   '656', // St. Cloud VA Health Care System
@@ -121,6 +124,7 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '673', // James A. Haley Veterans' Hospital
   '675', // Orlando VA Medical Center
   '676', // Tomah VA Medical Center
+  '678', // Southern Arizona VA Health Care System
   '688', // Washington DC VA Medical Center
   '695', // Clement J. Zablocki Veterans Affairs Medical Center
   '756', // El Paso VA Health Care System
