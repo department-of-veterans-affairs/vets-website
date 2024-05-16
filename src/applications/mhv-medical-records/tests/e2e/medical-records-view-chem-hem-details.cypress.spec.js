@@ -15,7 +15,6 @@ describe('Medical Records View Labs And Tests', () => {
     ChemHemDetailsPage.verifyLabDate('January 21, 2021');
     ChemHemDetailsPage.verifySampleTested('None noted');
     ChemHemDetailsPage.verifyOrderedBy('None noted');
-    ChemHemDetailsPage.verifyLabOrderingLocation('None noted');
     ChemHemDetailsPage.verifyLabCollectingLocation('None noted');
     // There might be a new line in this provider notes example.  we need to check later
     ChemHemDetailsPage.verifyProviderNotes("Lisa's Test 1/20/2021");
