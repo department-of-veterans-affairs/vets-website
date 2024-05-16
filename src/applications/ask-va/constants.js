@@ -279,13 +279,13 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
-  VET_POSTAL_CODE: {
+  VETERANS_POSTAL_CODE: {
     TITLE: "Veteran's postal code",
     PAGE_DESCRIPTION: '',
     QUESTION_1:
-      'The Veteran lives on a United States military base outside of the country.',
+      'Veteran receives mail outside of the United States on a U.S. military base.',
     QUESTION_2: 'Post office',
-    QUESTION_3: 'Region',
+    QUESTION_3: 'State',
     QUESTION_4: 'Postal code',
   },
   YOUR_POSTAL_CODE: {
