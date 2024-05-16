@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fromUnixTime, isBefore } from 'date-fns';
 import { format } from 'date-fns-tz';
@@ -7,6 +8,10 @@ import {
   inProgressMessage as getInProgressMessage,
 } from '~/platform/forms-system/src/js/utilities/save-in-progress-messages';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  fetchInProgressForm,
+  removeInProgressForm,
+} from '~/platform/forms/save-in-progress/actions';
 import FormControls from './FormControls';
 
 const SavedFormAlert = props => {
@@ -25,9 +30,12 @@ const SavedFormAlert = props => {
     children,
     continueMsg,
     formConfig,
+    formId,
     headingLevel,
     lastSavedDate,
+    profile,
     savedForm,
+    startPage,
   } = props;
   const { metadata = {} } = savedForm;
   const lastUpdated = savedForm.lastUpdated || metadata.lastUpdated;
@@ -43,6 +51,7 @@ const SavedFormAlert = props => {
   const expirationDate = format(expiresAt, 'MMMM d, yyyy');
   const isExpired = isBefore(expiresAt, new Date());
   const inProgressMessage = getInProgressMessage(formConfig);
+  const dispatch = useDispatch();
 
   if (!isExpired) {
     const lastSavedDateTime =
@@ -75,7 +84,14 @@ const SavedFormAlert = props => {
           </div>
         </div>
         <div>{children}</div>
-        <FormControls savedForm={savedForm} />
+        <FormControls
+          formId={formId}
+          profile={profile}
+          savedForm={savedForm}
+          startPage={startPage}
+          fetchInProgressForm={() => dispatch(fetchInProgressForm())}
+          removeInProgressForm={() => dispatch(removeInProgressForm())}
+        />
       </VaAlert>
     );
   }
@@ -99,6 +115,9 @@ const SavedFormAlert = props => {
 };
 
 SavedFormAlert.propTypes = {
+  formId: PropTypes.string.isRequired,
+  profile: PropTypes.object.isRequired,
+  startPage: PropTypes.string.isRequired,
   appAction: PropTypes.any,
   appContinuing: PropTypes.any,
   appType: PropTypes.string,

@@ -115,10 +115,13 @@ export const LoggedInAlert = props => {
     children,
     continueMsg,
     formConfig,
+    formId,
     headingLevel,
     lastSavedDate,
     prefillAvailable,
+    profile,
     savedForm,
+    startPage,
     verifiedPrefillAlert,
   } = props;
   if (savedForm) {
@@ -129,9 +132,12 @@ export const LoggedInAlert = props => {
         appType={appType}
         continueMsg={continueMsg}
         formConfig={formConfig}
+        formId={formId}
         headingLevel={headingLevel}
         lastSavedDate={lastSavedDate}
+        profile={profile}
         savedForm={savedForm}
+        startPage={startPage}
       >
         {children}
       </SavedFormAlert>
@@ -150,12 +156,15 @@ export const LoggedInAlert = props => {
 };
 
 LoggedInAlert.propTypes = {
+  formId: PropTypes.string.isRequired,
+  profile: PropTypes.object.isRequired,
+  startPage: PropTypes.string.isRequired,
   appAction: PropTypes.string,
   appContinuing: PropTypes.any,
   appType: PropTypes.string,
   children: PropTypes.any,
   continueMsg: PropTypes.any,
-  formConfig: PropTypes.any,
+  formConfig: PropTypes.object,
   headingLevel: PropTypes.number,
   lastSavedDate: PropTypes.any,
   prefillAvailable: PropTypes.any,
@@ -190,17 +199,22 @@ export const VerificationOptionalAlert = props => {
       text={unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
     />
   );
-  return buttonOnly ? (
-    <ButtonOnlyAlert
-      appType={appType}
-      ariaDescribedby={ariaDescribedby}
-      ariaLabel={ariaLabel}
-      hideUnauthedStartLink={hideUnauthedStartLink}
-      onClick={onButtonClick}
-      startPage={startPage}
-      unauthStartButton={unauthStartButton}
-    />
-  ) : (
+
+  if (buttonOnly) {
+    return (
+      <ButtonOnlyAlert
+        appType={appType}
+        ariaDescribedby={ariaDescribedby}
+        ariaLabel={ariaLabel}
+        hideUnauthedStartLink={hideUnauthedStartLink}
+        onClick={onButtonClick}
+        startPage={startPage}
+        unauthStartButton={unauthStartButton}
+      />
+    );
+  }
+
+  return (
     <LoggedOutAlert
       alertTitle={alertTitle}
       appType={appType}

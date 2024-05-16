@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '~/platform/utilities/ui';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
-import { SaveInProgressIntro as SIPIntroOld } from '~/platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
 import { SaveInProgressIntro as SIPIntroNew } from '~/applications/simple-forms/21-4138/containers/saveInProgress/SaveInProgressIntro';
 import { VaOmbInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -15,7 +15,7 @@ export const IntroductionPageView = ({
   useNew = false,
 }) => {
   const breadcrumbsRef = useRef('.va-nav-breadcrumbs-list');
-  const SaveInProgressIntro = useNew ? SIPIntroNew : SIPIntroOld;
+  const SIPIntro = useNew ? SIPIntroNew : SaveInProgressIntro;
   const { formConfig, pageList } = route;
   const {
     formTitle,
@@ -38,7 +38,7 @@ export const IntroductionPageView = ({
       <FormTitle title={formTitle} subTitle={formSubTitle} />
       {childContent}
       {!hideSipIntro && (
-        <SaveInProgressIntro
+        <SIPIntro
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
@@ -51,7 +51,7 @@ export const IntroductionPageView = ({
           hideUnauthedStartLink={formConfig.hideUnauthedStartLink ?? false}
         >
           {saveInProgressText}
-        </SaveInProgressIntro>
+        </SIPIntro>
       )}
       {additionalChildContent || null}
       <p />

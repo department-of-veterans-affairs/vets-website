@@ -42,9 +42,9 @@ const determineAlert = props => {
     hideUnauthedStartLink,
     lastSavedDate,
     login,
+    openLoginModal,
     prefillEnabled,
     profile,
-    openLoginModal,
     renderSignInMessage,
     retentionPeriod,
     retentionPeriodStart,
@@ -72,10 +72,13 @@ const determineAlert = props => {
         appType={appType}
         continueMsg={continueMsg}
         formConfig={formConfig}
+        formId={formId}
         headingLevel={headingLevel}
         lastSavedDate={lastSavedDate}
         prefillAvailable={prefillAvailable}
+        profile={profile}
         savedForm={savedForm}
+        startPage={startPage}
         verifiedPrefillAlert={verifiedPrefillAlert}
       >
         {children}
@@ -176,7 +179,10 @@ const SaveInProgressIntro = props => {
     login,
     openLoginModal: () => dispatch(toggleLoginModal(true, 'cta-form')),
     profile,
+    savedForm,
     startPage,
+    fetchInProgressForm: () => dispatch(fetchInProgressForm()),
+    removeInProgressForm: () => dispatch(removeInProgressForm()),
   });
 
   if (startMessageOnly && !savedForm) return <div>{alert}</div>;
@@ -188,6 +194,8 @@ const SaveInProgressIntro = props => {
       {!savedForm &&
         login.currentlyLoggedIn && (
           <FormControls
+            formId={formId}
+            profile={profile}
             savedForm={savedForm}
             startPage={startPage}
             fetchInProgressForm={() => dispatch(fetchInProgressForm())}
