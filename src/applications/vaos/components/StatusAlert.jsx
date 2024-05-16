@@ -16,6 +16,7 @@ import {
   selectFeatureAfterVisitSummary,
   selectFeatureAppointmentDetailsRedesign,
 } from '../redux/selectors';
+import AfterVisitSummary from './AfterVisitSummary';
 
 function handleClick(history, dispatch, typeOfCare) {
   return () => {
@@ -44,49 +45,6 @@ export default function StatusAlert({ appointment, facility }) {
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const { isPastAppointment, isPendingAppointment } = appointment.vaos;
-  const avsLink = appointment.avsPath;
-  const avsError = avsLink?.includes('Error');
-  const displayAvsLink = () => {
-    if (avsError) {
-      return (
-        <div
-          aria-atomic="true"
-          aria-live="assertive"
-          className="vads-u-margin-top--2 vads-u-margin-bottom--0"
-        >
-          <InfoAlert
-            status="error"
-            level={1}
-            headline="We can't access after-visit summaries at this time."
-          >
-            We’re sorry. We’ve run into a problem.
-          </InfoAlert>
-        </div>
-      );
-    }
-    if (!avsLink) {
-      return (
-        <p className="vads-u-margin--0">
-          An after-visit summary is not available at this time.
-        </p>
-      );
-    }
-    return (
-      <>
-        <va-link
-          text="Go to after-visit summary"
-          href={appointment.avsPath}
-          data-testid="after-vist-summary-link"
-          onClick={() =>
-            recordEvent({
-              event: `${GA_PREFIX}-after-visit-summary-link-clicked`,
-            })
-          }
-        />
-        <br />
-      </>
-    );
-  };
 
   const canceler = new Map([
     [CANCELLATION_REASONS.patient, 'You'],
@@ -141,14 +99,13 @@ export default function StatusAlert({ appointment, facility }) {
   }
 
   if (featureAfterVisitSummary && !featureAppointmentDetailsRedesign) {
-    // const { status } = appointment;
     const who = canceler.get(appointment?.cancelationReason) || 'Facility';
 
     if (APPOINTMENT_STATUS.booked === status && isPastAppointment) {
       return (
         <>
           <h2 className="vads-u-margin-bottom--0">After visit summary</h2>
-          {displayAvsLink()}
+          <AfterVisitSummary data={appointment} />
         </>
       );
     }
