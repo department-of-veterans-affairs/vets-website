@@ -27,23 +27,42 @@ describe('LandingPage', () => {
   };
 
   it('renders main heading', () => {
-    const { getByTestId } = getLandingPage(false, null);
+    const { getByTestId } = getLandingPage();
     expect(getByTestId('landing-page-heading').textContent).to.eq(
       'Welcome to the Accredited Representative Portal',
     );
   });
 
-  it('renders the link to bypass signing in', () => {
-    const { getByTestId } = getLandingPage(false, null);
-    expect(getByTestId('landing-page-bypass-sign-in-link').textContent).to.eq(
-      'Until sign in is added use this to simulate sign in',
-    );
+  describe('when user is not signed in', () => {
+    it('renders the sign in or create account section', () => {
+      const { getByTestId } = getLandingPage();
+      expect(getByTestId('landing-page-create-account-text').textContent).to.eq(
+        'Create an account to start managing power of attorney.',
+      );
+    });
+
+    it('renders the link to sign in', () => {
+      const { getByTestId } = getLandingPage();
+      expect(getByTestId('landing-page-sign-in-link').textContent).to.eq(
+        'Sign in or create account',
+      );
+    });
   });
 
-  it('renders the link to sign in', () => {
-    const { getByTestId } = getLandingPage(false, null);
-    expect(getByTestId('landing-page-sign-in-link').textContent).to.eq(
-      'Sign in or create account',
-    );
+  describe('when user is signed in', () => {
+    const mockProfile = {
+      name: 'Test User',
+      email: 'test@example.com',
+    };
+
+    it('does not render the sign in or create account section', () => {
+      const { queryByTestId } = getLandingPage(false, mockProfile);
+      expect(queryByTestId('landing-page-create-account-text')).to.not.exist;
+    });
+
+    it('does not render the link to sign in', () => {
+      const { queryByTestId } = getLandingPage(false, mockProfile);
+      expect(queryByTestId('landing-page-sign-in-link')).to.not.exist;
+    });
   });
 });
