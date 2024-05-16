@@ -3,10 +3,6 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { UPDATED_USER_MOCK_DATA } from '../constants/mockData';
 // Action Types
 export const UPDATE_PENDING_VERIFICATIONS = 'UPDATE_PENDING_VERIFICATIONS';
-export const UPDATE_PENDING_VERIFICATIONS_SUCCESS =
-  'UPDATE_PENDING_VERIFICATIONS_SUCCESS';
-export const UPDATE_PENDING_VERIFICATIONS_FAIL =
-  'UPDATE_PENDING_VERIFICATIONS_FAIL';
 export const UPDATE_VERIFICATIONS = 'UPDATE_VERIFICATIONS';
 export const GET_DATA = 'GET_DATA';
 export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
@@ -64,28 +60,7 @@ export const updateVerifications = verifications => ({
   type: UPDATE_VERIFICATIONS,
   payload: verifications,
 });
-export const updateVerificationsData = verifications => {
-  return async dispatch => {
-    dispatch({ type: UPDATE_PENDING_VERIFICATIONS });
-    try {
-      const response = await apiRequest(`${API_URL}/verify`, {
-        method: 'POST',
-        body: JSON.stringify({ awardIds: verifications }),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      dispatch({
-        type: UPDATE_PENDING_VERIFICATIONS_SUCCESS,
-        response,
-      });
-    } catch (error) {
-      dispatch({
-        type: UPDATE_PENDING_VERIFICATIONS_FAIL,
-        errors: error.toString(),
-      });
-      throw new Error('something went wrong');
-    }
-  };
-};
+
 export const getData = () => {
   return disptach => {
     disptach({ type: GET_DATA }); // TODO: replace with real API call when is ready
@@ -167,13 +142,13 @@ export const updateBankInfo = bankInfo => {
   };
 };
 
-export const verifyEnrollmentAction = () => {
+export const verifyEnrollmentAction = verifications => {
   return async dispatch => {
     dispatch({ type: VERIFY_ENROLLMENT });
     try {
       const response = await apiRequest(`${API_URL}/verify`, {
         method: 'POST',
-        // body: JSON.stringify(bankInfo),
+        body: JSON.stringify({ awardIds: verifications }),
         headers: { 'Content-Type': 'application/json' },
       });
 

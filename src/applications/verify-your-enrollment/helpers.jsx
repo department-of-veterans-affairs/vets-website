@@ -232,12 +232,12 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
 };
 
 export const getGroupedPreviousEnrollments = month => {
-  const { verifiedDate, actBegin, actEnd, id, paymentDate } = month[0];
+  const { transactDate, actBegin, actEnd, id, paymentDate } = month[0];
   const myUUID = uuidv4();
 
   return (
     <div className="vye-top-border" key={id || myUUID}>
-      {verifiedDate && paymentDate ? (
+      {transactDate && paymentDate ? (
         <>
           <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
             <span className="vads-u-display--inline-block ">
@@ -290,7 +290,7 @@ export const getGroupedPreviousEnrollments = month => {
                   <div className="vads-u-font-style--italic vads-u-margin--0">
                     You verified on{' '}
                     {translateDateIntoMonthDayYearFormat(
-                      monthAward.verifiedDate,
+                      monthAward.transactDate,
                     )}
                   </div>
                   <div
@@ -305,7 +305,7 @@ export const getGroupedPreviousEnrollments = month => {
             })}
           </va-additional-info>
         </>
-      ) : verifiedDate && !paymentDate ? (
+      ) : transactDate && !paymentDate ? (
         <>
           <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
             <span className="vads-u-display--inline-block ">
@@ -353,7 +353,7 @@ export const getGroupedPreviousEnrollments = month => {
                   <div className="vads-u-font-style--italic vads-u-margin--0">
                     You verified on{' '}
                     {translateDateIntoMonthDayYearFormat(
-                      monthAward.verifiedDate,
+                      monthAward.transactDate,
                     )}
                   </div>
                   <div
@@ -399,7 +399,7 @@ export const getSignlePreviousEnrollments = awards => {
   const myUUID = uuidv4();
   return (
     <div className="vye-top-border" key={myUUID}>
-      {awards.verifiedDate &&
+      {awards.transactDate &&
         awards.paymentDate && (
           <>
             <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
@@ -445,12 +445,12 @@ export const getSignlePreviousEnrollments = awards => {
               </p>
               <div className="vads-u-font-style--italic">
                 You verified on{' '}
-                {translateDateIntoMonthDayYearFormat(awards.verifiedDate)}
+                {translateDateIntoMonthDayYearFormat(awards.transactDate)}
               </div>
             </va-additional-info>
           </>
         )}
-      {awards.verifiedDate &&
+      {awards.transactDate &&
         !awards.paymentDate && (
           <>
             <h3 className="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center">
@@ -491,12 +491,12 @@ export const getSignlePreviousEnrollments = awards => {
               </p>
               <div className="vads-u-font-style--italic">
                 You verified on{' '}
-                {translateDateIntoMonthDayYearFormat(awards.verifiedDate)}
+                {translateDateIntoMonthDayYearFormat(awards.transactDate)}
               </div>
             </va-additional-info>
           </>
         )}
-      {!awards.verifiedDate &&
+      {!awards.transactDate &&
         !awards.paymentDate && (
           <>
             <h3 className="vads-u-font-size--h4">
@@ -552,7 +552,7 @@ export const combineEnrollmentsWithStartMonth = enrollmentPeriods => {
           actEnd: period.actEnd,
           numberHours: period.numberHours,
           monthlyRate: period.monthlyRate,
-          verifiedDate: period.verifiedDate,
+          transactDate: period.transactDate,
           PendingVerificationSubmitted: period.PendingVerificationSubmitted,
           paymentDate: period.paymentDate,
         });
@@ -565,7 +565,7 @@ export const combineEnrollmentsWithStartMonth = enrollmentPeriods => {
             actEnd: period.actEnd,
             numberHours: period.numberHours,
             monthlyRate: period.monthlyRate,
-            verifiedDate: period.verifiedDate,
+            transactDate: period.transactDate,
             PendingVerificationSubmitted: period.PendingVerificationSubmitted,
             paymentDate: period.paymentDate,
           },

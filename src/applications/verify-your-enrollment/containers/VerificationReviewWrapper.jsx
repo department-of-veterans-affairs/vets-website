@@ -20,7 +20,7 @@ import {
   updatePendingVerifications,
   updateVerifications,
   verifyEnrollmentAction,
-  updateVerificationsData,
+  // updateVerificationsData,
 } from '../actions';
 import { toLocalISOString } from '../helpers';
 
@@ -30,9 +30,9 @@ const VerificationReviewWrapper = ({
   // loggedIEnenrollmentData,
   dispatchUpdateToggleEnrollmentSuccess,
   dispatchUpdatePendingVerifications,
-  dispatchUpdateVerifications,
+  // dispatchUpdateVerifications,
   dispatchVerifyEnrollmentAction,
-  dispatchUpdateVerificationsData,
+  // dispatchUpdateVerificationsData,
   // isUserLoggedIn,
   // dispatchupdateToggleEnrollmentCard,
 }) => {
@@ -44,9 +44,9 @@ const VerificationReviewWrapper = ({
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
+
   const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
   const history = useHistory();
-
   const handleBackClick = () => {
     history.push(VERIFICATION_RELATIVE_URL);
   };
@@ -65,7 +65,7 @@ const VerificationReviewWrapper = ({
     const newVerifiedEnrollments = enrollmentPeriodsToVerify.map(period => {
       return {
         ...period,
-        verifiedDate: currentDateTime,
+        transactDate: currentDateTime,
         paymentDate: null,
       };
     });
@@ -74,9 +74,7 @@ const VerificationReviewWrapper = ({
     );
     // eslint-disable-next-line no-console
     console.log(awardIds, 'newVerifiedEnrollments');
-    dispatchUpdateVerificationsData(awardIds);
-    dispatchUpdateVerifications(newVerifiedEnrollments);
-    dispatchVerifyEnrollmentAction();
+    dispatchVerifyEnrollmentAction(awardIds);
   };
 
   const handleSubmission = () => {
@@ -172,14 +170,7 @@ const VerificationReviewWrapper = ({
                       uswds
                     />
                   )}
-                  {!radioValue && (
-                    <va-button
-                      onClick={handleSubmission}
-                      text="Submit"
-                      disabled
-                      uswds
-                    />
-                  )}
+                  {!radioValue && <va-button text="Submit" disabled uswds />}
                 </div>
               </>
             )}
@@ -202,7 +193,6 @@ const mapDispatchToProps = {
   dispatchUpdateToggleEnrollmentSuccess: updateToggleEnrollmentSuccess,
   dispatchUpdateVerifications: updateVerifications,
   dispatchVerifyEnrollmentAction: verifyEnrollmentAction,
-  dispatchUpdateVerificationsData: updateVerificationsData,
 };
 
 VerificationReviewWrapper.propTypes = {
@@ -211,10 +201,10 @@ VerificationReviewWrapper.propTypes = {
   dispatchUpdateToggleEnrollmentSuccess: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,
   dispatchVerifyEnrollmentAction: PropTypes.func,
-  enrollmentData: PropTypes.object,
   isUserLoggedIn: PropTypes.bool,
   link: PropTypes.func,
   loggedIEnenrollmentData: PropTypes.object,
+  mockData: PropTypes.object,
 };
 export default connect(
   mapStateToProps,
