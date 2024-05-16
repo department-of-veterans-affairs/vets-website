@@ -28,15 +28,11 @@ const BenefitsProfileWrapper = ({ children }) => {
     updated,
     month,
     day,
-    addressLine2,
-    addressLine3,
-    addressLine4,
-    addressLine5,
-    addressLine6,
     indicator: applicantChapter,
-    fullName: applicantName,
     pendingDocuments,
+    latestAddress,
   } = useData();
+  const applicantName = latestAddress?.veteranName;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(
     TOGGLE_NAMES.toggleVyeAdressDirectDepositForms,
@@ -98,10 +94,10 @@ const BenefitsProfileWrapper = ({ children }) => {
                   loading={loading}
                   applicantName={applicantName}
                   mailingAddress={{
-                    street: `${addressLine3} ${addressLine2}`,
-                    city: addressLine4,
-                    stateCode: addressLine5,
-                    zipCode: addressLine6,
+                    street: latestAddress?.address1,
+                    city: latestAddress?.city,
+                    stateCode: latestAddress?.state,
+                    zipCode: latestAddress?.zipCode,
                   }}
                 />
                 {signIn?.serviceName === 'idme' ||

@@ -95,10 +95,10 @@ export const OTHER_REASONS_OPTIONAL = Object.freeze({
   MEDAL_AWARD: 'I’m a Medal of Honor or Purple Heart award recipient.',
 });
 
-const PrimaryActionLink = ({ href, children }) => (
+export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
   <div className="arrow" style={{ maxWidth: '75%' }}>
     <div className="vads-u-background-color--primary vads-u-padding--1">
-      <a className="vads-c-action-link--white" href={href}>
+      <a className="vads-c-action-link--white" href={href} onClick={onClick}>
         {children}
       </a>
     </div>
