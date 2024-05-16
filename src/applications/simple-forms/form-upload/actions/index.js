@@ -11,13 +11,7 @@ export const createPayload = (file, formId) => {
   return payload;
 };
 
-export const parseResponse = ({ data }) => {
-  const { confirmationCode, name } = data.attributes;
-
-  return { name, confirmationCode };
-};
-
-export function submitToSimpleForms(formNumber, fileToUpload) {
+export function submitToSimpleForms(formNumber, fileToUpload, onFileUploaded) {
   const uiOptions = {
     fileUploadUrl: `${
       environment.API_URL
@@ -25,7 +19,7 @@ export function submitToSimpleForms(formNumber, fileToUpload) {
     fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
     maxSize: MAX_FILE_SIZE_BYTES,
     createPayload,
-    parseResponse,
+    parseResponse: ({ data }) => data?.attributes,
   };
 
   return dispatch => {
@@ -33,7 +27,7 @@ export function submitToSimpleForms(formNumber, fileToUpload) {
       fileToUpload,
       uiOptions,
       () => {}, // onProgress
-      () => {}, // onChange
+      file => onFileUploaded(file),
       () => {}, // onError
     );
     uploadRequest(dispatch, () => ({
