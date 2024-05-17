@@ -11,17 +11,26 @@ import {
   getCheckinableAppointments,
   sortAppointmentsByStartTime,
 } from '../utils/appointment';
+import { useUpdateError } from '../hooks/useUpdateError';
 
 const WhatToDoNext = props => {
   const { router, appointments, action, goToDetails } = props;
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
   const { t } = useTranslation();
+  const { updateError } = useUpdateError();
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
   const checkInableAppointments = getCheckinableAppointments(
     sortedAppointments,
   );
+  if (!checkInableAppointments.length) {
+    updateError(
+      app === APP_NAMES.CHECK_IN
+        ? 'check-in-past-appointment'
+        : 'pre-check-in-expired',
+    );
+  }
   const appointmentCards =
     app === APP_NAMES.PRE_CHECK_IN
       ? [checkInableAppointments[0]]
