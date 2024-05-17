@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default function DeathCertificateUploadMessage({ form }) {
   const isAvailable =
     form?.burialAllowanceRequested?.service === true ||
-    form?.locationOfDeath?.location === 'vaMedicalCenter';
+    form?.locationOfDeath?.location !== 'vaMedicalCenter';
   return isAvailable ? (
     <>
       <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
