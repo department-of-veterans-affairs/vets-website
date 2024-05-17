@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
@@ -24,20 +25,42 @@ const OtherAssetsChecklist = ({
   const { otherAssets = [] } = assets;
 
   useEffect(() => {
-    if (!gmtData?.isEligibleForStreamlined || gmtData?.incomeBelowGmt) return;
+    const calculateAssets = async () => {
+      if (!gmtData?.isEligibleForStreamlined || gmtData?.incomeBelowGmt) return;
 
-    // liquid assets are caluclated in cash in bank with this ff
-    if (data['view:streamlinedWaiverAssetUpdate']) return;
+      // liquid assets are caluclated in cash in bank with this ff
+      if (data['view:streamlinedWaiverAssetUpdate']) return;
 
-    getTotalAssetsApi(data).then(calculatedAssets => {
-      setFormData({
-        ...data,
-        gmtData: {
-          ...gmtData,
-          assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
-        },
-      });
-    });
+      try {
+        const response = await getTotalAssetsApi(data);
+
+        if (!response) throw new Error('No response from getTotalAssetsApi');
+
+        const { calculatedAssets } = response;
+
+        if (!calculatedAssets)
+          throw new Error(
+            'No value destructured in response from getTotalAssetsApi',
+          );
+
+        setFormData({
+          ...data,
+          gmtData: {
+            ...gmtData,
+            assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
+          },
+        });
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(
+            `calculate_total_assets failed in OtherAssetsChecklist: ${error}`,
+          );
+        });
+      }
+    };
+
+    calculateAssets();
   }, []);
 
   const onChange = ({ target }) => {

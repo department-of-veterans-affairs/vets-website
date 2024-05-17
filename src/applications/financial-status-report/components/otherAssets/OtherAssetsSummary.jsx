@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import {
@@ -41,21 +42,42 @@ const OtherAssetsSummary = ({
 
   useEffect(
     () => {
-      if (!gmtData?.isEligibleForStreamlined) return;
-      // liquid assets are caluclated in cash in bank with this ff
-      if (data['view:streamlinedWaiverAssetUpdate']) return;
+      const calculateAssets = async () => {
+        if (!gmtData?.isEligibleForStreamlined) return;
+        // liquid assets are caluclated in cash in bank with this ff
+        if (data['view:streamlinedWaiverAssetUpdate']) return;
 
-      getTotalAssetsApi(data).then(calculatedAssets => {
-        setFormData({
-          ...data,
-          gmtData: {
-            ...gmtData,
-            assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
-          },
-        });
-      });
-    },
-    // avoiding use of data since it changes so often
+        try {
+          const response = await getTotalAssetsApi(data);
+
+          if (!response) throw new Error('No response from getTotalAssetsApi');
+
+          const { calculatedAssets } = response;
+
+          if (!calculatedAssets)
+            throw new Error(
+              'No value destructured in response from getTotalAssetsApi',
+            );
+
+          setFormData({
+            ...data,
+            gmtData: {
+              ...gmtData,
+              assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
+            },
+          });
+        } catch (error) {
+          Sentry.withScope(scope => {
+            scope.setExtra('error', error);
+            Sentry.captureMessage(
+              `calculate_total_assets failed in OtherAssetsSummary: ${error}`,
+            );
+          });
+        }
+      };
+
+      calculateAssets();
+    }, // avoiding use of data since it changes so often
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [otherAssets, gmtData?.isEligibleForStreamlined, gmtData?.assetThreshold],
   );
