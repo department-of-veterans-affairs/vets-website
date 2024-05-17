@@ -26,30 +26,33 @@ This page is displayed when the sponsor is deceased and the
 applicant indicated they were married to the sponsor at some point.
 */
 function generateOptions({ data, pagePerItemIndex }) {
-  const {
-    currentListItem,
-    personTitle,
-    applicant,
-    useFirstPerson,
-    relative,
-    relativePossessive,
-  } = appRelBoilerplate({ data, pagePerItemIndex });
+  const bp = appRelBoilerplate({ data, pagePerItemIndex });
 
-  const customTitle = `${applicant}’s marriage to the ${personTitle}`;
+  const customTitle = `${bp.applicant}’s marriage to the ${bp.personTitle}`;
 
-  const description = `Which of these best describes ${applicant}’s marriage to their ${personTitle}?`;
+  const description = `Which of these best describes ${
+    bp.applicant
+  }’s marriage to their ${bp.personTitle}?`;
 
   const options = [
     {
-      label: `${relative} was married to the ${personTitle} at the time of their death and didn’t remarry`,
+      label: `${bp.relative} was married to the ${
+        bp.personTitle
+      } at the time of their death and didn’t remarry`,
       value: 'marriedTillDeathNoRemarriage',
     },
     {
-      label: `${relative} was legally separated from ${personTitle} before their death`,
+      label: `${bp.relative} was legally separated from ${
+        bp.personTitle
+      } before their death`,
       value: 'marriageDissolved',
     },
     {
-      label: `${relative} was married to the ${personTitle} at the time of their death and remarried someone else on or after ${relativePossessive} 55th birthday`,
+      label: `${bp.relative} was married to the ${
+        bp.personTitle
+      } at the time of their death and remarried someone else on or after ${
+        bp.relativePossessive
+      } 55th birthday`,
       value: 'marriedTillDeathRemarriedAfter55',
     },
     {
@@ -60,12 +63,8 @@ function generateOptions({ data, pagePerItemIndex }) {
 
   return {
     options,
-    useFirstPerson,
-    relativePossessive,
-    applicant,
-    personTitle,
+    ...bp,
     keyname: KEYNAME,
-    currentListItem,
     customTitle,
     description,
   };
