@@ -7,6 +7,7 @@ import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran
 import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
 import addressConfirmationPage from '../chapters/personalInformation/addressConfirmation';
 import deathDatePage from '../chapters/personalInformation/deathDate';
+import familyMembersPostalCodePage from '../chapters/personalInformation/familyMembersPostalCode';
 import howToContactPage from '../chapters/personalInformation/howToContact';
 import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeteranDeceased';
 import moreAboutYourRelationshipToVeteranPage from '../chapters/personalInformation/moreAboutYourRelationshipToVeteran';
@@ -70,6 +71,11 @@ const ch3Pages = {
     title: CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: veteransLocationOfResidencePage.uiSchema,
     schema: veteransLocationOfResidencePage.schema,
+  },
+  familyMembersPostalCode: {
+    title: CHAPTER_3.FAMILY_MEMBERS_POSTAL_CODE.TITLE,
+    uiSchema: familyMembersPostalCodePage.uiSchema,
+    schema: familyMembersPostalCodePage.schema,
   },
   yourPostalCode: {
     title: CHAPTER_3.YOUR_POSTAL_CODE.TITLE,
@@ -270,13 +276,14 @@ const someoneElseBenFam = [
   'aboutYourRelationshipToFamilyMember',
   'yourContactInformation',
   'searchVAMedicalCenter',
-  'aboutYourself',
+  // 'aboutYourself',
   'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
   'yourAddressConfirmation',
   'aboutYourFamilyMember',
+  'familyMembersPostalCode',
 ];
 export const someoneElseBenFamPages = flowPages(
   ch3Pages,
