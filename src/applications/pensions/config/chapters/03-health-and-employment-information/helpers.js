@@ -14,6 +14,7 @@ import {
   getJobTitleOrType,
   updateMultiresponseUiOptions,
 } from '../../../helpers';
+import ArrayDescription from '../../../components/ArrayDescription';
 
 export function hasFederalTreatmentHistory(formData) {
   return formData.federalTreatmentHistory === true;
@@ -63,12 +64,6 @@ MedicalCenterView.propTypes = {
   }),
 };
 
-export const MedicalCenterDescription = ({ message }) => (
-  <span className="schemaform-block-title schemaform-block-subtitle vads-u-display--block vads-u-padding-top--6 vads-u-padding-bottom--0p5">
-    {message}
-  </span>
-);
-
 /**
  * Function to generate UI Schema and Schema for medical centers
  * @param {string} medicalCentersKey - Key for medical centers in the schema
@@ -89,7 +84,7 @@ export const generateMedicalCentersSchemas = (
     uiSchema: {
       ...titleUI(
         medicalCentersTitle,
-        <MedicalCenterDescription message={medicalCenterMessage} />,
+        <ArrayDescription message={medicalCenterMessage} />,
       ),
       [medicalCentersKey]: {
         'ui:options': {
@@ -154,9 +149,8 @@ const generateEmployersUISchema = ({
   showJobDateField,
   showJobTitleField,
 }) => ({
-  ...titleUI(employersTitle),
+  ...titleUI(employersTitle, <ArrayDescription message={employerMessage} />),
   [employersKey]: {
-    'ui:title': employerMessage,
     'ui:options': {
       itemName: 'Job',
       itemAriaLabel: data => getJobTitleOrType(data),
