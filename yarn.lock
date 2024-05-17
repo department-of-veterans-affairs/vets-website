@@ -2865,7 +2865,7 @@
 
 "@department-of-veterans-affairs/component-library@^42.0.0":
   version "42.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-42.0.0.tgz#a4da1305ac0cdf47b6efa80ebaae358eeb601b38"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-42.0.0.tgz#a4da1305ac0cdf47b6efa80ebaae358eeb601b38"
   integrity sha512-aOTjfIHgZm+paz6xCs30ByCL+9tof807aKJeqGVuDwvj83rw3WI5u6MD+xlp9TynPP1thVcN4x6luBGSj9fzGA==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
@@ -2877,11 +2877,10 @@
 
 "@department-of-veterans-affairs/css-library@^0.7.0":
   version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.7.0.tgz#cfa903ab54b1a1728cd0226f9b9a6b6fd1e0b2b1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.7.0.tgz#cfa903ab54b1a1728cd0226f9b9a6b6fd1e0b2b1"
   integrity sha512-OAksaHLHwPMynDxjbuhhkGK85Y1rsdI335dFkyhyp5iq8Fcvr9MaVS4nrOEZ89mOYNOyMrq4cxfqmWWzVy1/UQ==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
-    rimraf "^5.0.5"
     rimraf "^5.0.5"
 
 "@department-of-veterans-affairs/eslint-plugin@^1.18.0":
@@ -2912,7 +2911,7 @@
 
 "@department-of-veterans-affairs/react-components@28.1.0":
   version "28.1.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-28.1.0.tgz#dd7bd0d334ec80b9efb3debb08203431dfdc0d41"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/react-components/-/react-components-28.1.0.tgz#dd7bd0d334ec80b9efb3debb08203431dfdc0d41"
   integrity sha512-If25Cmvnt9R/9mG9MXKPLgmpkCI07mCRXZUilBJsIxty6k5Y5GKfEtyXESJgwsD+e2uSEJwFveHpzL7uD/wS7w==
   dependencies:
     classnames "^2.2.6"
@@ -2953,7 +2952,7 @@
 
 "@department-of-veterans-affairs/web-components@9.0.0":
   version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-9.0.0.tgz#cc3878182ed01184868d557cd983106729a96850"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-9.0.0.tgz#cc3878182ed01184868d557cd983106729a96850"
   integrity sha512-tTRR369ReUGSyqrk6GyGIBmB/fI88jIYUwKMDeowl41RJbTMx8Rhyt1kwPa1fO8qMTBa1S1cRZ1T9blq21IY6w==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.7.0"
@@ -19446,6 +19445,7 @@ string-length@^4.0.2:
     strip-ansi "^6.0.0"
 
 "string-width-cjs@npm:string-width@^4.2.0", "string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.0.0, string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.2, string-width@^4.2.3:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -19691,6 +19691,7 @@ stringify-object@^3.3.0:
     is-regexp "^1.0.0"
 
 "strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  name strip-ansi-cjs
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -21752,6 +21753,7 @@ workerpool@6.2.1:
   integrity sha512-ILEIE97kDZvF9Wb9f6h5aXK4swSlKGUcOEGiIYb2OOu/IrDU9iwj0fD//SsA6E5ibwJxpEvhullJY4Sl4GcpAw==
 
 "wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+  name wrap-ansi-cjs
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
