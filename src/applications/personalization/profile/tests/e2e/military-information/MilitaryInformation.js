@@ -34,6 +34,8 @@ class MilitaryInformationPage {
   };
 
   veteranStatusShouldNotExist = () => {
+    // make sure the page is loaded by checking for the heading
+    cy.findByRole('heading', { name: /Military information/i }).should('exist');
     cy.findByText(/Proof of Veteran status/).should('not.exist');
   };
 }
