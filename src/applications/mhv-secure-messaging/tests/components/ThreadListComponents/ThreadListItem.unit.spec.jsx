@@ -179,7 +179,7 @@ describe('Thread List component', () => {
     );
     expect(triageGroup).to.not.exist;
     const msgQty = screen.getByTestId('message-count');
-    expect(msgQty.parentNode.textContent).to.equal('3 messages, Draft');
+    expect(msgQty.parentNode.textContent).to.equal('3 messages, [Draft]');
   });
 
   it('displays 1 message if messageCount = 1 and phase1 is enabled', async () => {
@@ -198,7 +198,7 @@ describe('Thread List component', () => {
     );
     expect(triageGroup).to.not.exist;
     const msgQty = screen.getByTestId('message-count');
-    expect(msgQty.parentNode.textContent).to.equal('1 message, Draft');
+    expect(msgQty.parentNode.textContent).to.equal('1 message, [Draft]');
   });
 
   it('displays 1 message if messageCount = 1 and phase1 is enabled', async () => {
@@ -218,7 +218,7 @@ describe('Thread List component', () => {
     );
     expect(triageGroup).to.not.exist;
     const msgQty = screen.getByTestId('message-count');
-    expect(msgQty.parentNode.textContent).to.equal('1 message, Draft');
+    expect(msgQty.parentNode.textContent).to.equal('1 message, [Draft]');
     expect(screen.getByText('test')).to.have.attribute(
       'class',
       'keyword-highlight',
@@ -254,7 +254,7 @@ describe('Thread List component', () => {
       { ...testThread, draftDate: '2023-06-15T11:04:18.000Z' },
     );
     const messageInfoRow = screen.getByTestId('message-info-row');
-    expect(messageInfoRow.textContent).to.equal('Draft');
+    expect(messageInfoRow.textContent).to.equal('[Draft]');
     expect(screen.getByText('June 15, 2023')).to.exist;
   });
 });

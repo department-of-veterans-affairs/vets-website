@@ -92,7 +92,7 @@ describe('Thread Details container', () => {
     ).to.have.length(2);
 
     expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
-      '2 Messages in this conversation',
+      '2 messages in this conversation',
     );
   });
 
@@ -163,7 +163,7 @@ describe('Thread Details container', () => {
     ).to.contain(body);
 
     expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
-      '1 Message in this conversation',
+      '1 message in this conversation',
     );
     expect(document.querySelector('.older-messages')).to.not.be.null;
   });
@@ -272,12 +272,14 @@ describe('Thread Details container', () => {
 
     expect(document.querySelector('section.old-reply-message-body')).to.exist;
 
-    expect(document.querySelector('span').textContent).to.equal(
-      '(Draft) To: FREEMAN, GORDON\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
+    expect(
+      document.querySelector('span[data-testid=draft-reply-to]').textContent,
+    ).to.equal(
+      'Draft To: FREEMAN, GORDON\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
     );
 
     expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
-      '2 Messages in this conversation',
+      '2 messages in this conversation',
     );
 
     expect(
@@ -369,9 +371,9 @@ describe('Thread Details container', () => {
     expect(document.querySelector('section.old-reply-message-body')).to.not
       .exist;
 
-    expect(document.querySelector('span').textContent).to.equal(
-      `(Draft) To: FREEMAN, GORDON\n(Team: ${triageGroupName})`,
-    );
+    expect(
+      document.querySelector('span[data-testid=draft-reply-to]').textContent,
+    ).to.equal(`Draft To: FREEMAN, GORDON\n(Team: ${triageGroupName})`);
 
     expect(screen.getByTestId('message-body-field')).to.exist;
 

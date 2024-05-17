@@ -46,8 +46,8 @@ describe('ReplyDraftItem component', () => {
     expect(getByText('Attachments input')).to.exist;
     expect(getByTestId('attach-file-input')).to.exist;
     expect(getByTestId('Send-Button')).to.exist;
-    expect(getByText('Save draft', { selector: 'button' })).to.exist;
-    expect(getByText('Delete draft', { selector: 'button' })).to.exist;
+    expect(getByText('Save draft 1', { selector: 'button' })).to.exist;
+    expect(getByText('Delete draft 1', { selector: 'button' })).to.exist;
   });
 
   it('renders uneditable draft when cannotReply is true', async () => {
@@ -62,7 +62,7 @@ describe('ReplyDraftItem component', () => {
     expect(getByText('Message body.', { selector: 'h3' })).to.exist;
     expect(getByText(draft.body, { selector: 'pre' })).to.exist;
     expect(queryByTestId('message-body-field')).to.not.exist;
-    expect(getByText('Delete draft', { selector: 'button' })).to.exist;
+    expect(getByText('Delete draft 1', { selector: 'button' })).to.exist;
     expect(queryByTestId('attach-file-input')).to.not.exist;
     expect(queryByTestId('Send-Button')).to.not.exist;
   });
@@ -113,7 +113,7 @@ describe('ReplyDraftItem component', () => {
       draftsCount: 2,
     };
     const { getByText, findByTestId } = setup({ props: customProps });
-    fireEvent.click(getByText('Delete draft'));
+    fireEvent.click(getByText('Delete draft 1'));
     const deleteDraftModal = await findByTestId('delete-draft-modal');
     const deleteConfirmButton = deleteDraftModal.querySelector(
       'va-button[text="Delete draft"]',

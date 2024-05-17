@@ -107,13 +107,15 @@ describe('Reply form component', () => {
     const patientSafetyNotice = document.querySelector(
       "[trigger='Only use messages for non-urgent needs']",
     );
-    const draftToLabel = document.querySelector('span');
+    const draftToLabel = document.querySelector(
+      'span[data-testid=draft-reply-to]',
+    );
     const actionButtons = document.querySelector('.compose-form-actions');
 
     expect(patientSafetyNotice).to.exist;
 
     expect(draftToLabel.textContent).to.equal(
-      `(Draft) To: ${senderName}\n(Team: ${triageGroupName})`,
+      `Draft To: ${senderName}\n(Team: ${triageGroupName})`,
     );
 
     expect(getByText('Attachments'))
