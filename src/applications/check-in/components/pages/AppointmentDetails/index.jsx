@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useLayoutEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import isValid from 'date-fns/isValid';
 import PropTypes from 'prop-types';
@@ -8,7 +8,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import { useStorage } from '../../../hooks/useStorage';
+import { setForm } from '../../../actions/universal';
 import { makeSelectVeteranData, makeSelectApp } from '../../../selectors';
 
 import {
@@ -16,12 +16,14 @@ import {
   clinicName,
   findAppointment,
   findUpcomingAppointment,
+  getAppointmentId,
 } from '../../../utils/appointment';
+import { ELIGIBILITY } from '../../../utils/appointment/eligibility';
 import { APP_NAMES, phoneNumbers } from '../../../utils/appConstants';
 
 import Wrapper from '../../layout/Wrapper';
 import BackButton from '../../BackButton';
-import AppointmentAction from '../../AppointmentDisplay/AppointmentAction';
+import ActionLink from '../../ActionLink';
 import AppointmentMessage from '../../AppointmentDisplay/AppointmentMessage';
 import AddressBlock from '../../AddressBlock';
 
@@ -31,6 +33,7 @@ import ExternalLink from '../../ExternalLink';
 const AppointmentDetails = props => {
   const { router } = props;
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const { goToPreviousPage, jumpToPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments, upcomingAppointments } = useSelector(selectVeteranData);
@@ -38,16 +41,12 @@ const AppointmentDetails = props => {
   const { app } = useSelector(selectApp);
   const [appointment, setAppointment] = useState({});
   const [isUpcoming, setIsUpcoming] = useState(false);
-
   const appointmentDay = new Date(appointment?.startTime);
   const isPhoneAppointment = appointment?.kind === 'phone';
   const isCvtAppointment = appointment?.kind === 'cvt';
   const isVvcAppointment = appointment?.kind === 'vvc';
   const isInPersonAppointment = appointment?.kind === 'clinic';
   const { appointmentId } = router.params;
-  const isPreCheckIn = app === 'preCheckIn';
-  const { getPreCheckinComplete } = useStorage(isPreCheckIn);
-
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { is45MinuteReminderEnabled } = useSelector(selectFeatureToggles);
 
@@ -85,15 +84,21 @@ const AppointmentDetails = props => {
     });
   };
 
-  const handleReviewClick = () => {
-    recordEvent({
-      event: createAnalyticsSlug(
-        'details-review-information-button-clicked',
-        'nav',
-        app,
-      ),
-    });
-    jumpToPage('contact-information');
+  const action = e => {
+    e.preventDefault();
+    if (app === APP_NAMES.CHECK_IN) {
+      dispatch(
+        setForm({
+          data: {
+            activeAppointmentId: appointmentId,
+          },
+        }),
+      );
+      jumpToPage('arrived');
+    }
+    if (app === APP_NAMES.PRE_CHECK_IN) {
+      jumpToPage('contact-information');
+    }
   };
 
   const clinic = appointment && clinicName(appointment);
@@ -163,10 +168,10 @@ const AppointmentDetails = props => {
     }
     return title;
   };
-
-  const showReviewButton =
-    isPreCheckIn && !isUpcoming && !getPreCheckinComplete(window)?.complete;
-
+  let eligibleAppointment = true;
+  if (app === APP_NAMES.CHECK_IN) {
+    eligibleAppointment = appointment.eligibility === ELIGIBILITY.ELIGIBLE;
+  }
   return (
     <>
       {Object.keys(appointment).length && (
@@ -349,28 +354,16 @@ const AppointmentDetails = props => {
                   </div>
                 )}
               </div>
-              {app === APP_NAMES.CHECK_IN &&
-                !isUpcoming && (
+              {!isUpcoming &&
+                eligibleAppointment && (
                   <div className="vads-u-margin-top--2">
-                    <AppointmentAction
-                      appointment={appointment}
-                      router={router}
-                      event="check-in-clicked-VAOS-design"
+                    <ActionLink
+                      app={app}
+                      action={action}
+                      appointmentId={getAppointmentId(appointment)}
                     />
                   </div>
                 )}
-              {showReviewButton && (
-                <div className="vads-u-margin-top--2">
-                  <va-button
-                    uswds
-                    big
-                    onClick={handleReviewClick}
-                    text={t('review-your-information-now')}
-                    data-testid="review-information-button"
-                    value="yes"
-                  />
-                </div>
-              )}
             </div>
           </Wrapper>
         </>

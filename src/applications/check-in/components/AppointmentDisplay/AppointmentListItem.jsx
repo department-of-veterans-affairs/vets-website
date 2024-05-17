@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-import AppointmentMessage from './AppointmentMessage';
-import AppointmentAction from './AppointmentAction';
 import {
   appointmentIcon,
   clinicName,
@@ -174,17 +172,6 @@ const AppointmentListItem = props => {
             </a>
           </div>
         )}
-        {app === APP_NAMES.CHECK_IN &&
-          page !== 'confirmation' && (
-            <div data-testid="appointment-action">
-              <AppointmentMessage appointment={appointment} />
-              <AppointmentAction
-                appointment={appointment}
-                router={router}
-                event="check-in-clicked-VAOS-design"
-              />
-            </div>
-          )}
       </div>
       {app === APP_NAMES.PRE_CHECK_IN &&
         page === 'confirmation' && (
