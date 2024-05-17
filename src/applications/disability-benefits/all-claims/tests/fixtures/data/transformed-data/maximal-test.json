@@ -1,6 +1,6 @@
 {
   "form526": {
-    "standardClaim": false,
+    "standardClaim": true,
     "isVaEmployee": true,
     "isTerminallyIll": false,
     "homelessOrAtRisk": "homeless",
@@ -56,7 +56,11 @@
           "country": "Uganda",
           "city": "Ugandan City"
         },
-        "treatedDisabilityNames": ["asthma", "heart attack (myocardial infarction)", "ankylosis in knee, bilateral"]
+        "treatedDisabilityNames": [
+          "asthma",
+          "heart attack (myocardial infarction)",
+          "ankylosis in knee, bilateral"
+        ]
       }
     ],
     "confinements": [
