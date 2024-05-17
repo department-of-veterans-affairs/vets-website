@@ -12,8 +12,10 @@ const TESTS_LIST = fs.existsSync(
       ),
     )
   : null;
-
-const TESTS = TESTS_LIST.map(test => test.slice(test.indexOf('src'))) || [];
+let TESTS = [];
+if (TESTS_LIST) {
+  TESTS = TESTS_LIST.map(test => test.slice(test.indexOf('src')));
+}
 const TESTS_PROPERTY = process.env.TEST_PROPERTY || 'TESTS';
 
 const ALLOW_LIST =
