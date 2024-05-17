@@ -1022,8 +1022,7 @@ export const selfServiceRecordsUI = {
   'ui:options': {
     viewField: ServicePeriodView,
     itemName: 'Service period',
-    keepInPageOnReview: true,
-    useDlWrap: true,
+    keepInPageOnReview: false,
   },
   items: {
     'ui:order': [
