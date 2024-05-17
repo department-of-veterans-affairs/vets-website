@@ -69,12 +69,80 @@ describe('showRevisedNewDisabilitiesPage', () => {
     );
     const title = 'Tell us the new conditions you want to claim';
     const exampleConditions = 'Examples of conditions';
-    const conditionInstructions = "What if my condition isn't listed?";
+    const conditionInstructions = 'What if my condition isn’t listed?';
     const listItem = 'Tinnitus (ringing or hissing in ears)';
     expect(screen.getByText(title)).to.exist;
     expect(screen.getByText(exampleConditions)).to.exist;
     expect(screen.getByText(conditionInstructions)).to.exist;
     expect(screen.getByText(listItem)).to.exist;
+  });
+
+  it('should display newOnlyAlertRevised if no new conditions are added', () => {
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.disabilities.pages.addDisabilitiesRevised;
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:claimType': {
+            'view:claimingNew': true,
+            'view:claimingIncrease': false,
+          },
+          newDisabilities: [],
+          // no rated disability selected
+          ratedDisabilities: [{}, {}],
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+    form.find('form').simulate('submit');
+    const error = form.find('va-alert');
+    expect(error.length).to.equal(1);
+    expect(error.text()).to.contain(
+      'add a new condition in order to submit your claim',
+    );
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should display increaseAndNewAlertRevised if no new conditions or increase disabilities are added', () => {
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.disabilities.pages.addDisabilitiesRevised;
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:claimType': {
+            'view:claimingNew': true,
+            'view:claimingIncrease': true,
+          },
+          newDisabilities: [],
+          // no rated disability selected
+          ratedDisabilities: [{}, {}],
+        }}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+    form.find('form').simulate('submit');
+    const error = form.find('va-alert');
+    expect(error.length).to.equal(1);
+    expect(error.text()).to.contain(
+      'We can’t process your claim without a disability or new condition selected',
+    );
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
   });
 
   it('should submit when form is completed', () => {

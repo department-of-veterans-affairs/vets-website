@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 export const addDisabilitiesInstructions = (
   <>
@@ -28,3 +29,48 @@ export const addDisabilitiesInstructions = (
     </ul>
   </>
 );
+
+export const newOnlyAlertRevised = ({ formContext }) => {
+  // Display only after the user tries to submit with no disabilities
+  if (!formContext.submitted) return null;
+  return (
+    <va-alert status="error" uswds>
+      <h3 slot="headline">We need you to add a condition</h3>
+      <p className="vads-u-font-size--base">
+        You need to add a new condition in order to submit your claim.
+      </p>
+    </va-alert>
+  );
+};
+
+export const increaseAndNewAlertRevised = ({ formContext }) => {
+  // Display only after the user tries to submit with no disabilities
+  if (!formContext.submitted) return null;
+
+  const alertContent = (
+    <>
+      <p className="vads-u-font-size--base">
+        You’ll need to add a new condition or choose a rated disability to
+        claim. We can’t process your claim without a disability or new condition
+        selected. Please add a new condition or choose a rated disability for
+        increased compensation.
+      </p>
+      <Link
+        to={{
+          pathname: 'disabilities/rated-disabilities',
+          search: '?redirect',
+        }}
+        className="vads-u-font-size--base"
+      >
+        Choose a rated disability
+      </Link>
+    </>
+  );
+
+  return (
+    <va-alert status="error" uswds>
+      <h3 slot="headline">We need you to add a condition</h3>
+      {alertContent}
+    </va-alert>
+  );
+};
