@@ -5,8 +5,7 @@ import FormUploadApp from './containers/FormUploadApp';
 import UploadPage from './containers/UploadPage';
 import ReviewPage from './containers/ReviewPage';
 import SubmitPage from './containers/SubmitPage';
-// TODO: Uncomment as we implement.
-// import ConfirmationPage from './containers/ConfirmationPage';
+import ConfirmationPage from './containers/ConfirmationPage';
 
 const routes = (
   <Routes>
@@ -15,7 +14,7 @@ const routes = (
       <Route path="upload" element={<UploadPage />} />
       <Route path="review" element={<ReviewPage />} />
       <Route path="submit" element={<SubmitPage />} />
-      {/* <Route path="confirmation" element={<ConfirmationPage />} /> */}
+      <Route path="confirmation" element={<ConfirmationPage />} />
     </Route>
   </Routes>
 );
