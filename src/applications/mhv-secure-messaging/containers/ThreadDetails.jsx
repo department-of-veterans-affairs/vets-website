@@ -116,6 +116,9 @@ const ThreadDetails = props => {
             messages={messages}
             recipients={recipients}
             replyMessage={messages[0]}
+            isCreateNewModalVisible={isCreateNewModalVisible}
+            setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+            threadId={threadId}
           />
 
           <MessageThreadForPrint messageHistory={messages} />

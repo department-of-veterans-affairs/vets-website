@@ -2,7 +2,10 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  focusElement,
+  scrollTo,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import EmergencyNote from '../EmergencyNote';
@@ -10,6 +13,7 @@ import { updateTriageGroupRecipientStatus } from '../../util/helpers';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ReplyDrafts from './ReplyDrafts';
+import MessageActionButtons from '../MessageActionButtons';
 import {
   BlockedTriageAlertStyles,
   PageTitles,
@@ -21,9 +25,19 @@ import { clearThread } from '../../actions/threadDetails';
 import { getPatientSignature } from '../../actions/preferences';
 
 const ReplyForm = props => {
-  const { cannotReply, drafts, replyMessage, recipients, messages } = props;
+  const {
+    cannotReply,
+    drafts,
+    replyMessage,
+    recipients,
+    isCreateNewModalVisible,
+    setIsCreateNewModalVisible,
+    messages,
+    threadId,
+  } = props;
   const dispatch = useDispatch();
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const header = useRef();
 
@@ -147,6 +161,25 @@ const ReplyForm = props => {
           />
         )}
 
+        <MessageActionButtons
+          threadId={threadId}
+          hideReplyButton="true"
+          showEditDraftButton="true"
+          handleEditDraftButton={() => {
+            if (isEditing === false) {
+              setIsEditing(true);
+              scrollTo('draft-reply-header');
+              focusElement(document.getElementById('draft-reply-header'));
+            } else {
+              setIsEditing(false);
+            }
+          }}
+          hasMultipleDrafts={drafts?.length > 1}
+          handleReplyButton={() => {}}
+          isCreateNewModalVisible={isCreateNewModalVisible}
+          setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+        />
+
         <section>
           <form
             className="reply-form vads-u-padding-bottom--2"
@@ -154,6 +187,12 @@ const ReplyForm = props => {
           >
             {!cannotReply &&
               !showBlockedTriageGroupAlert && <EmergencyNote dropDownFlag />}
+
+            {drafts && drafts.length > 1 ? (
+              <h2 id="draft-reply-header">Drafts</h2>
+            ) : (
+              <h2>Draft</h2>
+            )}
 
             <ReplyDrafts
               drafts={drafts}
@@ -164,6 +203,7 @@ const ReplyForm = props => {
               setLastFocusableElement={setLastFocusableElement}
               signature={signature}
               showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
+              isEditing={isEditing}
             />
           </form>
         </section>

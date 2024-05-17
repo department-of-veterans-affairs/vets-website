@@ -32,6 +32,7 @@ const DeleteDraft = props => {
     setUnsavedNavigationError,
     messageBody,
     showIcon = true,
+    draftSequence,
   } = props;
 
   const savedDraft = draftId;
@@ -91,11 +92,11 @@ const DeleteDraft = props => {
       {/* TODO add GA event */}
       <button
         type="button"
-        id="delete-draft-button"
+        id={`delete-draft-button${draftSequence ? `-${draftSequence}` : ''}`}
         ref={deleteDraftButtonRef}
         className={`usa-button usa-button-${
           cannotReply
-            ? 'primary vads-u-padding-x--4'
+            ? 'secondary vads-u-padding-x--4'
             : 'secondary vads-u-flex--1'
         } delete-draft-button vads-u-margin-top--0 vads-u-margin-right--0 vads-u-margin-bottom--0 vads-u-padding-x--0p5 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center`}
         data-testid="delete-draft-button"
@@ -127,7 +128,7 @@ const DeleteDraft = props => {
         }}
       >
         {showIcon && <va-icon icon="delete" aria-hidden="true" />}
-        Delete draft
+        Delete draft {draftSequence && `${draftSequence}`}
       </button>
       <DeleteDraftModal
         unsavedNewDraft={unsavedNewDraft}

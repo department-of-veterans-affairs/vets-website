@@ -12,7 +12,6 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import HorizontalRule from '../shared/HorizontalRule';
 import {
-  dateFormat,
   messageSignatureFormatter,
   navigateToFolderByFolderId,
   resetUserSession,
@@ -42,7 +41,6 @@ const ReplyDraftItem = props => {
     replyMessage,
     replyToName,
     setLastFocusableElement,
-    toggleEditHandler,
     showBlockedTriageGroupAlert,
   } = props;
   const dispatch = useDispatch();
@@ -426,115 +424,98 @@ const ReplyDraftItem = props => {
         confirmButtonText={navigationError?.confirmButtonText}
         cancelButtonText={navigationError?.cancelButtonText}
       />
-      <HorizontalRule />
-      {draftsCount > 1 && (
+
+      {draftsCount > 0 && (
         <>
-          <h3 className="vads-u-margin-bottom--0p5">Draft {draftsequence}</h3>
-          <p
-            className="vads-u-margin-top--0 vads-u-margin-bottom--3"
-            data-testid="last-edit-date"
-          >
-            Last edited {dateFormat(draft.draftDate)}
-          </p>
+          <h3 className="vads-u-margin-bottom--0p5" slot="headline">
+            [Draft
+            {draftsequence ? ` ${draftsequence}]` : ']'}
+          </h3>
         </>
       )}
-      {editMode ? (
-        <>
-          <span
-            className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
-            data-testid="draft-reply-to"
-            style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
-            data-dd-privacy="mask"
-          >
-            <div className="vads-u-margin-right--0p5 vads-u-margin-top--0p25">
-              <va-icon icon="undo" aria-hidden="true" />
-            </div>
-            <span className="thread-list-draft reply-draft-label vads-u-padding-right--0p5">
-              {`(Draft) `}
-            </span>
-            {`To: ${replyToName}\n(Team: ${draft?.triageGroupName ||
-              replyMessage.triageGroupName})`}
-            <br />
-          </span>
-          {cannotReply ? (
-            <section
-              aria-label="Message body."
-              className="vads-u-margin-top--1 old-reply-message-body"
-            >
-              <h3 className="sr-only">Message body.</h3>
-              <MessageThreadBody text={draft.body} />
-            </section>
-          ) : (
-            <va-textarea
-              ref={textareaRef}
-              data-dd-privacy="mask"
-              label="Message"
-              required
-              id="reply-message-body"
-              name="reply-message-body"
-              className="message-body"
-              data-testid="message-body-field"
-              onInput={messageBodyHandler}
-              value={draft?.body || formattededSignature} // populate with the signature, unless there is a saved draft
-              error={bodyError}
-              onFocus={e => {
-                setCaretToPos(e.target.shadowRoot.querySelector('textarea'), 0);
-              }}
-            />
-          )}
 
-          {!cannotReply &&
-            !showBlockedTriageGroupAlert && (
-              <section className="attachments-section vads-u-margin-top--2">
-                <AttachmentsList
-                  attachments={attachments}
-                  reply
-                  setAttachments={setAttachments}
-                  setNavigationError={setNavigationError}
-                  editingEnabled
-                  attachFileSuccess={attachFileSuccess}
-                  setAttachFileSuccess={setAttachFileSuccess}
-                />
-
-                <FileInput
-                  attachments={attachments}
-                  setAttachments={setAttachments}
-                  setAttachFileSuccess={setAttachFileSuccess}
-                />
-              </section>
-            )}
-
-          <DraftSavedInfo />
-
-          <div ref={composeFormActionButtonsRef}>
-            <ComposeFormActionButtons
-              cannotReply={showBlockedTriageGroupAlert || cannotReply}
-              draftId={draft?.messageId}
-              draftsCount={draftsCount}
-              onSaveDraft={(type, e) => saveDraftHandler(type, e)}
-              onSend={sendMessageHandler}
-              refreshThreadCallback={refreshThreadHandler}
-              setDeleteButtonClicked={setDeleteButtonClicked}
-              setNavigationError={setNavigationError}
-            />
+      <>
+        <span
+          className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
+          data-testid="draft-reply-to"
+          style={{ whiteSpace: 'break-spaces', overflowWrap: 'anywhere' }}
+          data-dd-privacy="mask"
+        >
+          <div className="vads-u-margin-right--0p5 vads-u-margin-top--0p25">
+            <va-icon icon="undo" aria-hidden="true" />
           </div>
-        </>
-      ) : (
-        <>
-          <p className="vads-u-margin-top--2 message-body-draft-preview">
-            {draft.body}
-          </p>
-          <va-button
-            secondary
-            text={`Edit draft ${draftsequence}`}
-            id="edit-draft-button"
-            onClick={() => {
-              toggleEditHandler(draft.messageId);
-              setFocusToTextarea(true);
+          <span className="thread-list-draft reply-draft-label vads-u-padding-right--0p5">
+            {`Draft `}
+          </span>
+          {`To: ${replyToName}\n(Team: ${draft?.triageGroupName ||
+            replyMessage.triageGroupName})`}
+          <br />
+        </span>
+        <HorizontalRule />
+        {cannotReply ? (
+          <section
+            aria-label="Message body."
+            className="vads-u-margin-top--1 old-reply-message-body"
+          >
+            <h3 className="sr-only">Message body.</h3>
+            <MessageThreadBody text={draft.body} />
+          </section>
+        ) : (
+          <va-textarea
+            ref={textareaRef}
+            data-dd-privacy="mask"
+            label="Message"
+            required
+            id="reply-message-body"
+            name="reply-message-body"
+            className="message-body"
+            data-testid="message-body-field"
+            onInput={messageBodyHandler}
+            value={draft?.body || formattededSignature} // populate with the signature, unless there is a saved draft
+            error={bodyError}
+            onFocus={e => {
+              setCaretToPos(e.target.shadowRoot.querySelector('textarea'), 0);
             }}
           />
-        </>
-      )}
+        )}
+
+        {!cannotReply &&
+          !showBlockedTriageGroupAlert && (
+            <section className="attachments-section vads-u-margin-top--2">
+              <AttachmentsList
+                attachments={attachments}
+                reply
+                setAttachments={setAttachments}
+                setNavigationError={setNavigationError}
+                editingEnabled
+                attachFileSuccess={attachFileSuccess}
+                setAttachFileSuccess={setAttachFileSuccess}
+              />
+
+              <FileInput
+                attachments={attachments}
+                setAttachments={setAttachments}
+                setAttachFileSuccess={setAttachFileSuccess}
+              />
+            </section>
+          )}
+
+        <DraftSavedInfo />
+
+        <div ref={composeFormActionButtonsRef}>
+          <ComposeFormActionButtons
+            cannotReply={showBlockedTriageGroupAlert || cannotReply}
+            draftId={draft?.messageId}
+            draftsCount={draftsCount}
+            onSaveDraft={(type, e) => saveDraftHandler(type, e)}
+            onSend={sendMessageHandler}
+            refreshThreadCallback={refreshThreadHandler}
+            setDeleteButtonClicked={setDeleteButtonClicked}
+            setNavigationError={setNavigationError}
+            draftSequence={draftsequence}
+          />
+        </div>
+      </>
     </>
   );
 };

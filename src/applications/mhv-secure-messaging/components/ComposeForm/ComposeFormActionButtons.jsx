@@ -16,14 +16,15 @@ const ComposeFormActionButtons = ({
   setUnsavedNavigationError,
   savedForm,
   messageBody,
+  draftSequence,
 }) => {
   return (
     <div className="compose-form-actions vads-u-display--flex vads-u-flex--1">
       {!cannotReply && (
         <va-button
-          text="Send"
+          text={`Send${draftSequence ? ` draft ${draftSequence}` : ''}`}
           label="Send"
-          id="send-button"
+          id={`send-button${draftSequence ? `-${draftSequence}` : ''}`}
           class={`
             small-screen:vads-u-flex--1
             small-screen:vads-u-margin-bottom--0
@@ -42,7 +43,7 @@ const ComposeFormActionButtons = ({
       {!cannotReply && (
         <button
           type="button"
-          id="save-draft-button"
+          id={`save-draft-button${draftSequence ? `-${draftSequence}` : ''}`}
           className={`
             save-draft-button
             usa-button
@@ -59,7 +60,7 @@ const ComposeFormActionButtons = ({
           data-testid="Save-Draft-Button"
           onClick={e => onSaveDraft('manual', e)}
         >
-          Save draft
+          Save draft {draftSequence}
         </button>
       )}
       {/* UCD requested to keep button even when not saved as draft */}
@@ -75,7 +76,8 @@ const ComposeFormActionButtons = ({
         setDeleteButtonClicked={setDeleteButtonClicked}
         cannotReply={cannotReply}
         messageBody={messageBody}
-        showIcon={false}
+        showIcon={cannotReply}
+        draftSequence={draftSequence}
       />
     </div>
   );
