@@ -18,6 +18,7 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import { useIsDetails } from '../hooks/useIsDetails';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,8 @@ const LabAndTestDetails = () => {
   const fullState = useSelector(state => state);
   const { labId } = useParams();
   const activeAlert = useAlerts(dispatch);
+
+  useIsDetails(dispatch);
 
   useEffect(
     () => {

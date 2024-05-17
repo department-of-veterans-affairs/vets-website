@@ -142,7 +142,9 @@ describe('fullStringSimilaritySearch', () => {
         'hearing loss, other than tinnitus',
       ],
       [
-        'kidney cancer (renal cancer)',
+        'kidney cancer (renal cancer), right',
+        'kidney cancer (renal cancer), left',
+        'kidney cancer (renal cancer), bilateral',
         'colorectal cancer or colon cancer',
         'laryngeal cancer (cancer of larynx)',
       ],
@@ -151,7 +153,7 @@ describe('fullStringSimilaritySearch', () => {
       const actualReturn = fullStringSimilaritySearch(
         userInput[i],
         testDisabilityLabels,
-      ).slice(0, 3);
+      ).slice(0, 5);
       expect(actualReturn).to.eql(expectedReturn[i]);
     }
   });
