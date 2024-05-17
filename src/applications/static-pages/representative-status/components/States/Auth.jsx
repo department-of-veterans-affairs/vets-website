@@ -42,7 +42,7 @@ export const Auth = ({
       <va-card show-shadow>
         <va-loading-indicator
           label="Loading"
-          message="Loading your accredited representative information..."
+          message="Loading your information..."
         />
       </va-card>
     );
