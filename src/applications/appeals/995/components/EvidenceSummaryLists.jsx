@@ -131,7 +131,7 @@ export const VaContent = ({
                   </div>
                 )}
                 {!reviewMode && (
-                  <div>
+                  <div className="vads-u-margin-top--1p5">
                     <Link
                       key={`edit-va-${index}`}
                       id={`edit-va-${index}`}
@@ -251,7 +251,7 @@ export const PrivateContent = ({
                   </div>
                 )}
                 {!reviewMode && (
-                  <div>
+                  <div className="vads-u-margin-top--1p5">
                     <Link
                       id={`edit-private-${index}`}
                       className="edit-item"
@@ -279,9 +279,9 @@ export const PrivateContent = ({
         })}
         <li key={LIMITATION_KEY} className={listClassNames}>
           <Header6>{limitContent.title}</Header6>
-          <p>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</p>
+          <div>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</div>
           {!reviewMode && (
-            <div>
+            <div className="vads-u-margin-top--1p5">
               <Link
                 id="edit-limitation"
                 className="edit-item"
@@ -367,7 +367,7 @@ export const UploadContent = ({
                   ''}
               </div>
               {!reviewMode && (
-                <div>
+                <div className="vads-u-margin-top--1p5">
                   <Link
                     id={`edit-upload-${index}`}
                     className="edit-item"
@@ -382,8 +382,8 @@ export const UploadContent = ({
                     data-type="upload"
                     onClick={handlers.showModal}
                     class={removeButtonClass}
-                    label={`${content.remove} ${upload.name}`}
-                    text={content.remove}
+                    label={`${content.delete} ${upload.name}`}
+                    text={content.delete}
                     secondary
                     uswds
                   />
