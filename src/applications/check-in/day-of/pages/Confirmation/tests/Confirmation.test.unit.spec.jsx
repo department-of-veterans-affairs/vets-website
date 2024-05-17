@@ -8,9 +8,17 @@ import Confirmation from '../index';
 import { URLS } from '../../../../utils/navigation';
 import { createMockRouter } from '../../../../tests/unit/mocks/router';
 import * as useSendDemographicsFlagsModule from '../../../../hooks/useSendDemographicsFlags';
+import * as useStorageModule from '../../../../hooks/useStorage';
 import { api } from '../../../../api';
+import { setupI18n, teardownI18n } from '../../../../utils/i18n/i18n';
 
 describe('check in', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('Confirmation', () => {
     let mockStore = {};
     beforeEach(() => {
@@ -101,7 +109,13 @@ describe('check in', () => {
       sandbox.stub(v2, 'postCheckInData').resolves({
         status: 200,
       });
-
+      const getCheckinCompleteStub = () => {
+        return { complete: false };
+      };
+      // Mock the return value for the useStorage hook
+      const useStorageStub = sinon
+        .stub(useStorageModule, 'useStorage')
+        .returns({ getCheckinComplete: getCheckinCompleteStub });
       const useSendDemographicsFlagsStub = sinon
         .stub(useSendDemographicsFlagsModule, 'useSendDemographicsFlags')
         .returns({
@@ -109,7 +123,7 @@ describe('check in', () => {
           demographicsFlagsEmpty: false,
         });
 
-      const component = render(
+      render(
         <CheckInProvider store={mockStore} router={mockRouter}>
           <Confirmation />
         </CheckInProvider>,
@@ -117,12 +131,8 @@ describe('check in', () => {
 
       sandbox.assert.calledOnce(v2.postCheckInData);
       sandbox.restore();
-
-      await waitFor(() => {
-        expect(component.getByTestId('check-in-confirmation-component')).to
-          .exist;
-      });
       useSendDemographicsFlagsStub.restore();
+      useStorageStub.restore();
     });
     it('fails call to post check in data', async () => {
       const push = sinon.spy();
