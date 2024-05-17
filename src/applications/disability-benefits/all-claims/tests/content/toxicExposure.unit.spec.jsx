@@ -603,7 +603,7 @@ describe('toxicExposure', () => {
               none: true,
             },
             gulfWar2001: {
-              afghanistan: true,
+              yemen: true,
               none: true,
             },
           },
@@ -612,9 +612,8 @@ describe('toxicExposure', () => {
         expect(
           showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'afghanistan'),
         ).to.be.false;
-        expect(
-          showCheckboxLoopDetailsPage(formData, 'gulfWar2001', 'afghanistan'),
-        ).to.be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar2001', 'yemen')).to
+          .be.false;
       });
     });
   });
@@ -755,7 +754,7 @@ describe('toxicExposure', () => {
               none: true,
             },
             gulfWar2001: {
-              afghanistan: true,
+              yemen: true,
               none: true,
             },
           },
