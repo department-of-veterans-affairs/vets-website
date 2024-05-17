@@ -3,8 +3,10 @@ import {
   currentOrPastDateRangeSchema,
   titleUI,
   yesNoUI,
-  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+
+const { powStatus } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -32,7 +34,7 @@ export default {
     type: 'object',
     required: ['powStatus'],
     properties: {
-      powStatus: yesNoSchema,
+      powStatus,
       powDateRange: {
         ...currentOrPastDateRangeSchema,
         required: [],
