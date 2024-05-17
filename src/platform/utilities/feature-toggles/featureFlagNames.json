@@ -239,6 +239,7 @@
   "vaOnlineSchedulingPhysicalLocation": "va_online_scheduling_physical_location",
   "vaOnlineSchedulingDatadogRum": "va_online_scheduling_datadog_RUM",
   "vaOnlineSchedulingAppointmentDetailsRedesign": "va_online_scheduling_appointment_details_redesign",
+  "vaOnlineSchedulingCCDirectScheduling": "va_online_scheduling_cc_direct_scheduling",
   "vaViewDependentsAccess": "va_view_dependents_access",
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
   "virtualAgentEnableParamErrorDetection": "virtual_agent_enable_param_error_detection",
