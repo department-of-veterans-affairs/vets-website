@@ -572,10 +572,15 @@ describe('toxicExposure', () => {
             gulfWar1990: {
               none: true,
             },
+            gulfWar2001: {
+              none: true,
+            },
           },
         };
 
         expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'none')).to
+          .be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar2001', 'none')).to
           .be.false;
       });
 
@@ -597,11 +602,18 @@ describe('toxicExposure', () => {
               afghanistan: true,
               none: true,
             },
+            gulfWar2001: {
+              afghanistan: true,
+              none: true,
+            },
           },
         };
 
         expect(
           showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'afghanistan'),
+        ).to.be.false;
+        expect(
+          showCheckboxLoopDetailsPage(formData, 'gulfWar2001', 'afghanistan'),
         ).to.be.false;
       });
     });
@@ -714,10 +726,14 @@ describe('toxicExposure', () => {
             gulfWar1990: {
               none: true,
             },
+            gulfWar2001: {
+              none: true,
+            },
           },
         };
 
         expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar2001')).to.be.false;
       });
 
       it('should return false when `none` and another location is selected', () => {
@@ -738,10 +754,15 @@ describe('toxicExposure', () => {
               afghanistan: true,
               none: true,
             },
+            gulfWar2001: {
+              afghanistan: true,
+              none: true,
+            },
           },
         };
 
         expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar2001')).to.be.false;
       });
     });
   });
