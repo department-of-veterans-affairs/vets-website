@@ -5,10 +5,10 @@ import sinon from 'sinon';
 import { merge } from 'lodash';
 import moment from 'moment';
 
-import { ITFWrapper } from '../../containers/ITFWrapper';
-import { itfStatuses } from '../../constants';
 import { requestStates } from 'platform/utilities/constants';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import { ITFWrapper } from '../../containers/ITFWrapper';
+import { itfStatuses } from '../../constants';
 
 const fetchITF = sinon.spy();
 const createITF = sinon.spy();
@@ -188,6 +188,26 @@ describe('526 ITFWrapper', () => {
   });
 
   it('should render an error message if the ITF creation failed', () => {
+    const props = merge({}, defaultProps, {
+      itf: {
+        fetchCallState: requestStates.succeeded,
+        // But no ITF is found
+        creationCallState: requestStates.failed,
+      },
+    });
+    const tree = shallow(
+      <ITFWrapper {...props}>
+        <p>I'm a ninja; you can’t see me!</p>
+      </ITFWrapper>,
+    );
+    const banner = tree.find('ITFBanner');
+    expect(tree.dive().find('h1')).to.have.lengthOf(1);
+    expect(banner.length).to.equal(1);
+    expect(banner.props().status).to.equal('error');
+    tree.unmount();
+  });
+
+  it('should continue regardless of ITF creation failed', () => {
     const props = merge({}, defaultProps, {
       itf: {
         fetchCallState: requestStates.succeeded,
