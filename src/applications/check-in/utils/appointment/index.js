@@ -246,14 +246,6 @@ const preCheckinExpired = appointments => {
   });
 };
 
-const appointmentStartTimePast15 = appointments => {
-  return !Object.values(appointments).some(appt => {
-    const today = new Date();
-    const deadline = appt.checkInWindowEnd;
-    return today.getTime() < new Date(deadline).getTime();
-  });
-};
-
 const hasPhoneAppointments = appointments => {
   return Object.values(appointments).some(appt => {
     return appt?.kind === 'phone';
@@ -448,7 +440,6 @@ const convertAppointments = appointments => {
 };
 
 export {
-  appointmentStartTimePast15,
   appointmentWasCanceled,
   allAppointmentsCanceled,
   getFirstCanceledAppointment,

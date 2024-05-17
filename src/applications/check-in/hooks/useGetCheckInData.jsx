@@ -23,7 +23,6 @@ import {
   appointmentWasCanceled,
   allAppointmentsCanceled,
   preCheckinAlreadyCompleted,
-  appointmentStartTimePast15,
 } from '../utils/appointment';
 import { useFormRouting } from './useFormRouting';
 import { useStorage } from './useStorage';
@@ -134,15 +133,12 @@ const useGetCheckInData = ({
           const { payload } = json;
           setPreCheckInData(payload);
 
-          if (payload.appointments?.length > 0) {
-            if (appointmentStartTimePast15(payload.appointments)) {
-              updateError('pre-check-in-past-appointment');
-              return;
-            }
-            if (preCheckinExpired(payload.appointments)) {
-              updateError('pre-check-in-expired');
-              return;
-            }
+          if (
+            payload.appointments?.length > 0 &&
+            preCheckinExpired(payload.appointments)
+          ) {
+            updateError('pre-check-in-expired');
+            return;
           }
 
           if (appointmentWasCanceled(payload.appointments)) {
@@ -191,12 +187,6 @@ const useGetCheckInData = ({
           if (app === 'travelClaim') {
             setTravelData(json.payload);
           } else {
-            if (
-              json.payload.appointments?.length > 0 &&
-              appointmentStartTimePast15(json.payload.appointments)
-            ) {
-              updateError('check-in-past-appointment');
-            }
             setDayOfData(json.payload);
           }
         })
