@@ -1,12 +1,9 @@
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import get from 'platform/utilities/data/get';
 import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
 } from '../content/fullyDevelopedClaim';
-
-const { standardClaim } = fullSchema.properties;
 
 export const uiSchema = {
   'ui:description': FDCDescription,
@@ -39,7 +36,9 @@ export const schema = {
   type: 'object',
   required: ['standardClaim'],
   properties: {
-    standardClaim,
+    standardClaim: {
+      type: 'boolean',
+    },
     'view:fdcWarning': {
       type: 'object',
       properties: {},

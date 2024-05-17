@@ -1,10 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import { mount } from 'enzyme';
 import formConfig from '../../config/form';
-import { ERR_MSG_CSS_CLASS } from '../../constants';
+
+const yesLabel = 'Yes, I have uploaded all my supporting documents.';
+const noLabel =
+  'No, I have some extra information that I’ll submit to VA later.';
 
 describe('Fully Developed Claim', () => {
   const {
@@ -12,7 +16,7 @@ describe('Fully Developed Claim', () => {
     uiSchema,
   } = formConfig.chapters.additionalInformation.pages.fullyDevelopedClaim;
   it('should render', () => {
-    const form = mount(
+    const { getByText, getByLabelText } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
@@ -22,14 +26,27 @@ describe('Fully Developed Claim', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    // title
+    getByText('Fully developed claim program');
+
+    // paragraph/description content
+    getByText('You can apply using the Fully Developed Claim', {
+      exact: false,
+    });
+
+    // links
+    getByText('Learn more about the FDC program');
+    getByText('View the evidence requirements for disability claims');
+
+    // question with options
+    getByText('Do you want to apply using the Fully Developed Claim program?');
+    getByLabelText(yesLabel);
+    getByLabelText(noLabel);
   });
 
-  // Value should default `false`; form should submit without any user input
-  it('should submit with required data', () => {
+  it('should display error when missing required field', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
@@ -40,8 +57,53 @@ describe('Fully Developed Claim', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    form.unmount();
+    userEvent.click(getByText('Submit'));
+    getByText('Please provide a response');
+    expect(onSubmit.calledOnce).to.be.false;
+  });
+
+  it('should display alert when selecting yes', () => {
+    const onSubmit = sinon.spy();
+    const { getByText, getByLabelText } = render(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}
+        schema={schema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    userEvent.click(getByLabelText(yesLabel));
+    getByText(
+      'Since you’ve uploaded all your supporting documents, your claim will be submitted as a fully developed claim.',
+      { exact: false },
+    );
+
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
+  });
+
+  it('should display alert when selecting no', () => {
+    const onSubmit = sinon.spy();
+    const { getByText, getByLabelText } = render(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}
+        schema={schema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    userEvent.click(getByLabelText(noLabel));
+    getByText(
+      'Since you’ll be sending in additional documents later, your application doesn’t qualify for the Fully Developed Claim program. We’ll',
+      { exact: false },
+    );
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
   });
 });
