@@ -40,10 +40,22 @@ const OtherExpensesChecklist = ({
 
   // Calculate Discretionary income as necessary
   useEffect(() => {
-    if (otherExpenses?.length || !gmtData?.isEligibleForStreamlined) return;
+    const calculateExpenses = async () => {
+      if (!otherExpenses?.length || !gmtData?.isEligibleForStreamlined) return;
 
-    getMonthlyExpensesAPI(data).then(({ calculatedMonthlyExpenses }) => {
       try {
+        const response = await getMonthlyExpensesAPI(data);
+
+        if (!response)
+          throw new Error('No response from getMonthlyExpensesAPI');
+
+        const { calculatedMonthlyExpenses } = response;
+
+        if (!calculatedMonthlyExpenses)
+          throw new Error(
+            'No value destructured in response from getMonthlyExpensesAPI',
+          );
+
         const { totalMonthlyNetIncome } = getMonthlyIncome(data);
         const calculatedDiscretionaryIncome =
           totalMonthlyNetIncome - calculatedMonthlyExpenses;
@@ -65,7 +77,9 @@ const OtherExpensesChecklist = ({
           );
         });
       }
-    });
+    };
+
+    calculateExpenses();
   }, []);
 
   const onSubmit = event => {

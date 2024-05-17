@@ -43,12 +43,23 @@ const OtherExpensesSummary = ({
     ? 'Continue to review page'
     : 'Continue';
 
-  // Calculate Discretionary income as necessary
   useEffect(() => {
-    if (!gmtData?.isEligibleForStreamlined) return;
+    const calculateExpenses = async () => {
+      if (!gmtData?.isEligibleForStreamlined) return;
 
-    getMonthlyExpensesAPI(data).then(({ calculatedMonthlyExpenses }) => {
       try {
+        const response = await getMonthlyExpensesAPI(data);
+
+        if (!response)
+          throw new Error('No response from getMonthlyExpensesAPI');
+
+        const { calculatedMonthlyExpenses } = response;
+
+        if (!calculatedMonthlyExpenses)
+          throw new Error(
+            'No value destructured in response from getMonthlyExpensesAPI',
+          );
+
         const { totalMonthlyNetIncome } = getMonthlyIncome(data);
         const calculatedDiscretionaryIncome =
           totalMonthlyNetIncome - calculatedMonthlyExpenses;
@@ -70,7 +81,9 @@ const OtherExpensesSummary = ({
           );
         });
       }
-    });
+    };
+
+    calculateExpenses();
   }, []);
 
   const onDelete = deleteIndex => {
