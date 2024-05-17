@@ -19,11 +19,6 @@ import {
   // checkboxGroupUI,
   // checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-import {
-  getNextPagePath,
-  checkValidPagePath,
-} from '@department-of-veterans-affairs/platform-forms-system/routing';
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import prefillTransformer from './prefillTransformer';
@@ -52,31 +47,6 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   customText: {
     appType: 'form',
-  },
-  // This is here temporarily to allow us to log SIP/Prefill data on staging
-  onFormLoaded: props => {
-    // TODO: Remove all this when we've verified we're getting the right data.
-    const { formData, returnUrl } = props;
-    // Check valid return URL; copied from RoutedSavableApp
-    const isValidReturnUrl = checkValidPagePath(
-      props.routes[props.routes.length - 1].pageList,
-      formData,
-      returnUrl,
-    );
-    if (isValidReturnUrl) {
-      props.router.push(returnUrl);
-    } else {
-      const nextPagePath = getNextPagePath(
-        props.routes[props.routes.length - 1].pageList,
-        formData,
-        '/introduction',
-      );
-      props.router.push(nextPagePath);
-    }
-    // Show whatever formData we have at this time, which should include data
-    // produced by the prefill transformer
-    // eslint-disable-next-line no-console
-    console.log('Form loaded - data: ', formData);
   },
   preSubmitInfo: {
     statementOfTruth: {
