@@ -22,10 +22,6 @@ describe('pre-check-in', () => {
   };
   const featureStore = {
     app: 'preCheckIn',
-    features: {
-      // eslint-disable-next-line camelcase
-      check_in_experience_45_minute_reminder: true,
-    },
   };
 
   const mockRouter = {
