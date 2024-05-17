@@ -6,12 +6,11 @@ import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-resp
 
 describe('handle multiple drafts older than 45 days', () => {
   const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
 
   beforeEach(() => {
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     draftPage.loadMultiDraftThread(mockMultiDraftsResponse);
   });
 
