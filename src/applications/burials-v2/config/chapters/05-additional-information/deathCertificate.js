@@ -1,5 +1,6 @@
 import React from 'react';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
+import DeathCertificateUploadMessage from '../../../components/DeathCertificateUploadMessage';
 import { generateTitle } from '../../../utils/helpers';
 import { burialUploadUI } from '../../../utils/upload';
 
@@ -8,24 +9,14 @@ const { files } = fullSchemaBurials.definitions;
 export default {
   uiSchema: {
     'ui:title': generateTitle('Death certificate'),
-    'ui:description': (
-      <>
-        <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
-          Upload a copy of the Veteran’s death certificate including the cause
-          of death.
-        </p>
-        <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
-          <strong>How to upload files</strong>
-        </p>
-        <ul className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
-          <li>Format the file as a .jpg, .pdf, or .png file</li>
-          <li>Be sure that your file size is 20mb or less</li>
-        </ul>
-      </>
+    'ui:description': ({ formData }) => (
+      <DeathCertificateUploadMessage form={formData} />
     ),
     deathCertificate: {
       ...burialUploadUI('Upload the Veteran’s death certificate'),
-      'ui:required': form => form?.burialAllowanceRequested?.service,
+      'ui:required': form =>
+        form?.burialAllowanceRequested?.service === true ||
+        form?.locationOfDeath?.location === 'vaMedicalCenter',
     },
   },
   schema: {
