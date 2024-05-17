@@ -2,6 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import Scroll from 'react-scroll';
 
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 const { scroller } = Scroll;
 export const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
@@ -129,4 +131,13 @@ export const updateMultiresponseUiOptions = (_formData, schema, uiSchema) => {
   currentUiOptions.showSave = multiresponseStyles();
   currentUiOptions.reviewMode = multiresponseStyles();
   return schema;
+};
+
+// This is used in useBrowserMonitoring
+export const isProductionEnv = () => {
+  return (
+    !environment.BASE_URL.includes('localhost') &&
+    !window.DD_RUM?.getInitConfiguration() &&
+    !window.Mocha
+  );
 };
