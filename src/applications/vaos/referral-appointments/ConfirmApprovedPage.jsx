@@ -39,22 +39,66 @@ export default function ConfirmApproved() {
         any information, select edit to make any changes.
       </p>
       <hr className="vads-u-margin-y--2" />
-      <div className="vads-u-font-weight--bold">What</div>
+      <div className=" vads-l-grid-container vads-u-padding--0">
+        <div className="vads-l-row">
+          <div className="vads-l-col vads-u-font-weight--bold">What</div>
+          <div className="vads-l-col vads-u-text-align--right">
+            <va-link
+              aria-label="Edit what information"
+              text="Edit"
+              data-testid="edit-what-information-link"
+            />
+          </div>
+        </div>
+      </div>
       <div>{confirmedData.typeOfCare}</div>
       <hr className="vads-u-margin-y--2" />
-      <div className="vads-u-font-weight--bold">Provider [Edit link]</div>
+      <div className=" vads-l-grid-container vads-u-padding--0">
+        <div className="vads-l-row">
+          <div className="vads-l-col vads-u-font-weight--bold">Provider</div>
+          <div className="vads-l-col vads-u-text-align--right">
+            <va-link
+              aria-label="Edit provider information"
+              text="Edit"
+              data-testid="edit-provider-information-link"
+            />
+          </div>
+        </div>
+      </div>
       <div>{confirmedData.provider}</div>
       <div>{confirmedData.clinic}</div>
       <div>{confirmedData.address}</div>
       <div>{confirmedData.city}</div>
       <div>Phone: {confirmedData.phone}</div>
       <hr className="vads-u-margin-y--2" />
-      <div className="vads-u-font-weight--bold">When</div>
+      <div className=" vads-l-grid-container vads-u-padding--0">
+        <div className="vads-l-row">
+          <div className="vads-l-col vads-u-font-weight--bold">When</div>
+          <div className="vads-l-col vads-u-text-align--right">
+            <va-link
+              aria-label="Edit when information"
+              text="Edit"
+              data-testid="edit-when-information-link"
+            />
+          </div>
+        </div>
+      </div>
       <div>{confirmedData.date}</div>
       <div>{confirmedData.time}</div>
       <hr className="vads-u-margin-y--2" />
-      <div className="vads-u-font-weight--bold">
-        Details you shared with your provider
+      <div className=" vads-l-grid-container vads-u-padding--0">
+        <div className="vads-l-row">
+          <div className="vads-l-col vads-u-font-weight--bold">
+            Details you shared with your provider
+          </div>
+          <div className="vads-l-col vads-u-text-align--right">
+            <va-link
+              aria-label="Edit details share"
+              text="Edit"
+              data-testid="edit-details-shared-link"
+            />
+          </div>
+        </div>
       </div>
       <div>{confirmedData.details}</div>
       <hr className="vads-u-margin-y--2" />
