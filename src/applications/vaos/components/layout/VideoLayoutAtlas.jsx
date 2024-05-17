@@ -20,10 +20,12 @@ import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import NewTabAnchor from '../NewTabAnchor';
 import Address from '../Address';
 import FacilityPhone from '../FacilityPhone';
+import State from '../State';
 
 export default function VideoLayoutAtlas({ data: appointment }) {
   const {
     atlasConfirmationCode,
+    clinicName,
     facility,
     facilityPhone,
     isPastAppointment,
@@ -37,6 +39,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
     shallowEqual,
   );
 
+  const address = facility?.address;
   let heading = 'Video appointment at an Atlas location';
   if (isPastAppointment)
     heading = 'Past video appointment at an Atlas location';
@@ -121,7 +124,13 @@ export default function VideoLayoutAtlas({ data: appointment }) {
       <What>{typeOfCareName || 'Type of care not noted'}</What>
 
       <Who>{videoProviderName}</Who>
-      <Where heading={isPastAppointment ? 'Where to attend' : undefined}>
+      <Where
+        heading={
+          APPOINTMENT_STATUS.booked === status && !isPastAppointment
+            ? 'Where to attend'
+            : undefined
+        }
+      >
         {!!facility && (
           <>
             <Address address={videoProviderAddress} />
@@ -132,34 +141,53 @@ export default function VideoLayoutAtlas({ data: appointment }) {
           </>
         )}
       </Where>
-      <Section heading="Scheduling facility">
-        {!!facility === false && (
-          <>
-            <span>Facility details not available</span>
-            <br />
-            <NewTabAnchor href="/find-locations">
-              Find facility information
-            </NewTabAnchor>
-            <br />
-            <br />
-          </>
-        )}
-        {!!facility && (
-          <>
-            {facility.name}
-            <br />
-            {facilityPhone && (
-              <FacilityPhone heading="Phone:" contact={facilityPhone} />
-            )}
-            {!facilityPhone && <>Not available</>}
-          </>
-        )}
-      </Section>
+      {((APPOINTMENT_STATUS.booked === status && isPastAppointment) ||
+        APPOINTMENT_STATUS.cancelled === status) && (
+        <Section heading="Scheduling facility">
+          {!!facility === false && (
+            <>
+              <span>Facility details not available</span>
+              <br />
+              <NewTabAnchor href="/find-locations">
+                Find facility information
+              </NewTabAnchor>
+              <br />
+              <br />
+            </>
+          )}
+          {!!facility && (
+            <>
+              {facility.name}
+              <br />
+              {facilityPhone && (
+                <FacilityPhone heading="Phone:" contact={facilityPhone} />
+              )}
+              {!facilityPhone && <>Not available</>}
+            </>
+          )}
+        </Section>
+      )}
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="Need to make changes?">
             Contact this facility if you need to reschedule or cancel your
             appointment.
+            <br />
+            <br />
+            {!!facility && (
+              <>
+                {facility.name}
+                <br />
+                <span>
+                  {address.city}, <State state={address.state} />
+                </span>
+              </>
+            )}
+            <br />
+            <span>Clinic: {clinicName || 'Not available'}</span> <br />
+            {facilityPhone && (
+              <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
+            )}
           </Section>
         )}
     </DetailPageLayout>

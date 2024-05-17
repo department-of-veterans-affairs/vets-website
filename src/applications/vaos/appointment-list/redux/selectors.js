@@ -345,7 +345,7 @@ export function selectStartDate(appointment) {
 }
 
 export function selectIsCanceled(appointment) {
-  return appointment.status === APPOINTMENT_STATUS.cancelled;
+  return appointment?.status === APPOINTMENT_STATUS.cancelled;
 }
 
 export function selectIsCommunityCare(appointment) {
@@ -669,6 +669,8 @@ export function selectConfirmedAppointmentData(state, appointment) {
   const videoProviderName = selectVideoProviderName(appointment);
   const videoProviderAddress = selectVideoProviderAddress(appointment);
   const atlasConfirmationCode = selectAtlasConfirmationCode(appointment);
+  const isCanceledAppointment = selectIsCanceled(appointment);
+  const isUpcoming = appointment?.vaos?.isUpcomingAppointment;
 
   return {
     appointment,
@@ -686,9 +688,11 @@ export function selectConfirmedAppointmentData(state, appointment) {
     facility,
     facilityData,
     facilityPhone,
+    isCanceledAppointment,
     isCommunityCare,
     isAtlasVideo,
     isPastAppointment,
+    isUpcomingAppointment: isUpcoming,
     isVA,
     isVideo,
     isPhone,

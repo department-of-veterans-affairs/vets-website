@@ -126,7 +126,7 @@ export default function ConfirmedAppointmentDetailsPage() {
             featureVaosV2Next={featureVaosV2Next}
           />
         )}
-        {isVideo && <VideoLayout appointment={appointment} />}
+        {isVideo && <VideoLayout data={appointment} />}
       </PageLayout>
     );
   }
