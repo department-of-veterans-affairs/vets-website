@@ -86,4 +86,3 @@ You can also use an application called Charles Proxy to map the `proxy-rewrite` 
 2. **Footer injection requires specific markup.** Injection was configured with the expectation that we are injecting into the standard TeamSite template. In TeamSites, the footer is preceded by 2 `div`s: `sub-footer` and `small-print`. If those divs are not present in the template, footer will not inject.
 
 3. **Header may affect font size for the page** to 12px. Specifying font size via scaling may result in too large text loading, then abruptly adjusting to the correct size after the header completes injection.  Other teams have fixed this by resetting the default font size inside the first element which would appear under the header after injection via inline css. This seems to keep the app fonts consistent without the awkward large to small size change on page load.
-4. 
