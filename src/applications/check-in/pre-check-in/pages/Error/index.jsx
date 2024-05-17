@@ -163,7 +163,6 @@ const Error = () => {
       break;
     }
     case 'pre-check-in-expired':
-    case 'pre-check-in-past-appointment':
       alertType = 'warning';
       header = t('sorry-pre-check-in-is-no-longer-available');
       messageText = (
