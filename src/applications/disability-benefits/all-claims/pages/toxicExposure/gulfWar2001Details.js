@@ -102,8 +102,9 @@ function makeSchema(locationId) {
  * @returns an object with a page object for each details page
  */
 export function makePages() {
-  const gulfWar2001DetailPagesList = Object.keys(GULF_WAR_2001_LOCATIONS).map(
-    locationId => {
+  const gulfWar2001DetailPagesList = Object.keys(GULF_WAR_2001_LOCATIONS)
+    .filter(locationId => locationId !== 'none')
+    .map(locationId => {
       const pageName = `gulf-war-2001-location-${locationId}`;
 
       return {
@@ -121,8 +122,7 @@ export function makePages() {
             showCheckboxLoopDetailsPage(formData, 'gulfWar2001', locationId),
         },
       };
-    },
-  );
+    });
 
   return Object.assign({}, ...gulfWar2001DetailPagesList);
 }
