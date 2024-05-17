@@ -8,6 +8,7 @@ import { GULF_WAR_2001_LOCATIONS } from '../../constants';
 import {
   gulfWar2001PageTitle,
   gulfWar2001Question,
+  validateLocations,
 } from '../../content/toxicExposure';
 
 export const uiSchema = {
@@ -19,6 +20,13 @@ export const uiSchema = {
       required: false,
     }),
   },
+  'ui:validations': [
+    {
+      validator: (errors, formData) => {
+        validateLocations(errors, formData, 'gulfWar2001');
+      },
+    },
+  ],
 };
 
 export const schema = {

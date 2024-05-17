@@ -21,7 +21,7 @@ export const uiSchema = {
   },
   'ui:validations': [
     {
-      validator: (errors, fieldData, formData) => {
+      validator: (errors, formData) => {
         validateLocations(errors, formData, 'gulfWar1990');
       },
     },
