@@ -1,0 +1,30 @@
+{
+  "data": {
+    "applicantHasSecondary": false,
+    "applicantHasPrimary": false,
+    "applicantMedicareStatusContinued": "eligibleNotEnrolled",
+    "applicantMedicareStatus": false,
+    "applicantPhone": "1112221212",
+    "applicantEmailAddress": "email@email.ca",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "888 Street Lane",
+      "city": "Citydale",
+      "state": "CA",
+      "postalCode": "12312"
+    },
+    "applicantSsn": "123123123",
+    "applicantName": {
+      "first": "Applicant",
+      "middle": "Jerry",
+      "last": "Jones",
+      "suffix": "IV"
+    },
+    "applicantDOB": "2009-01-02",
+    "certifierRole": "applicant",
+    "preparerType": "sponsor",
+    "consentToMailMissingRequiredFiles": false,
+    "statementOfTruthSignature": "Applicant Jerry Jones",
+    "statementOfTruthCertified": true
+  }
+}

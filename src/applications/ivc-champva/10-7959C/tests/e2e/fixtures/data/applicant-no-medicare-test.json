@@ -1,0 +1,77 @@
+{
+  "data": {
+    "secondaryAdditionalComments": "Secondary comment",
+    "secondaryMedigapPlan": "medigapPlanD",
+    "applicantSecondaryInsuranceType": {
+      "hmo": true,
+      "ppo": true,
+      "other": true,
+      "medigap": true
+    },
+    "applicantSecondaryEOB": "hasEob",
+    "applicantSecondaryHasPrescription": true,
+    "applicantSecondaryThroughEmployer": true,
+    "applicantSecondaryProvider": "Secondary Provider Name",
+    "applicantSecondaryEffectiveDate": "2020-10-03",
+    "applicantSecondaryExpirationDate": "2023-06-02",
+    "applicantHasSecondary": true,
+    "primaryAdditionalComments": "Additional primary comment",
+    "primaryMedigapPlan": "medigapPlanB",
+    "applicantPrimaryInsuranceType": {
+      "hmo": true,
+      "ppo": true,
+      "medigap": true
+    },
+    "applicantPrimaryEOB": "noEob",
+    "applicantPrimaryHasPrescription": true,
+    "applicantPrimaryThroughEmployer": true,
+    "applicantPrimaryProvider": "Primary Provider Name",
+    "applicantPrimaryEffectiveDate": "2001-01-02",
+    "applicantPrimaryExpirationDate": "2020-03-03",
+    "applicantHasPrimary": true,
+    "applicantMedicareStatusContinued": "ineligible",
+    "applicantMedicareStatus": false,
+    "applicantPhone": "5551112222",
+    "applicantEmailAddress": "email@email.gov",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "456 Street Avenue",
+      "city": "Cityland",
+      "state": "CA",
+      "postalCode": "43212"
+    },
+    "applicantSsn": "333221111",
+    "applicantName": {
+      "first": "Applicant",
+      "middle": "Jerry",
+      "last": "Jones",
+      "suffix": "Sr."
+    },
+    "applicantDOB": "1950-02-03",
+    "certifierRole": "applicant",
+    "preparerType": "sponsor",
+    "missingUploads": [
+      {
+        "name": "applicantMedicareIneligibleProof",
+        "path": "medicare-ineligible-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "primaryInsuranceCard",
+        "path": "insurance-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "secondaryInsuranceCard",
+        "path": "secondary-insurance-card-upload",
+        "required": true,
+        "uploaded": false
+      }
+    ],
+    "consentToMailMissingRequiredFiles": true,
+    "statementOfTruthSignature": "Applicant Jerry Jones",
+    "statementOfTruthCertified": true
+  }
+}
