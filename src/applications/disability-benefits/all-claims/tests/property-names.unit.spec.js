@@ -54,6 +54,7 @@ describe('Root property names', () => {
     const duplicatedPropertiesToIgnore = [
       'view:hasEvidence',
       'view:hasEvidenceFollowUp',
+      'view:newDisabilityErrors',
     ];
 
     Object.keys(pages).forEach(pageName => {
