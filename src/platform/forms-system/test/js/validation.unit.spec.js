@@ -81,7 +81,7 @@ describe('Schemaform validations', () => {
       const newErrors = transformErrors(errors, uiSchema);
 
       expect(newErrors[0].message).to.equal(
-        'Please enter a valid email address',
+        'You must enter a valid email address',
       );
     });
     it('should transform required message to field level', () => {
@@ -98,7 +98,7 @@ describe('Schemaform validations', () => {
       const newErrors = transformErrors(errors, uiSchema);
 
       expect(newErrors[0].property).to.equal('instance.field');
-      expect(newErrors[0].message).to.equal('Please provide a response');
+      expect(newErrors[0].message).to.equal('You must provide a response');
     });
   });
   describe('uiSchemaValidate', () => {

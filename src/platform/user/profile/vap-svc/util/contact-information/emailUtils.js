@@ -23,9 +23,9 @@ export const emailUiSchema = {
     'ui:autocomplete': 'email',
     'ui:webComponentField': VaTextInputField,
     'ui:errorMessages': {
-      required: 'Please enter your email address, using this format: X@X.com',
+      required: 'You must enter your email address, using this format: X@X.com',
       pattern:
-        'Please enter your email address again, using this format: X@X.com',
+        'You must enter your email address again, using this format: X@X.com',
     },
     'ui:options': {
       inputType: 'email',

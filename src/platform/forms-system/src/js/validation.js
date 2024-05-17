@@ -30,16 +30,16 @@ import {
  * Override the default messages for these json schema error types
  */
 const defaultMessages = {
-  required: 'Please provide a response',
-  enum: 'Please select a valid option',
+  required: 'You must provide a response',
+  enum: 'You must select a valid option',
   maxLength: max => `This field should be less than ${max} characters`,
   minLength: min => `This field should be at least ${min} character(s)`,
   format: type => {
     if (type === 'email') {
-      return 'Please enter a valid email address';
+      return 'You must enter a valid email address';
     }
 
-    return 'Please enter a valid value';
+    return 'You must enter a valid value';
   },
 };
 
