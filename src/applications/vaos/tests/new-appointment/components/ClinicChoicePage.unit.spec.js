@@ -85,7 +85,7 @@ describe('VAOS Page: ClinicChoicePage', () => {
     userEvent.click(screen.getByText(/continue/i));
 
     expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
+      'You must provide a response',
     );
     expect(screen.history.push.called).not.to.be.true;
 

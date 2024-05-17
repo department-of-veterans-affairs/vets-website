@@ -42,7 +42,7 @@ describe('VAOS Page: TypeOfSleepCarePage', () => {
     expect((await screen.findAllByRole('radio')).length).to.equal(2);
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByText('Please provide a response')).to.exist;
+    expect(await screen.findByText('You must provide a response')).to.exist;
     expect(screen.history.push.called).to.not.be.true;
 
     fireEvent.click(await screen.findByLabelText(/cpap/i));

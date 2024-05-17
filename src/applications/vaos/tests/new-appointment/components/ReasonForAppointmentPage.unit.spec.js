@@ -243,7 +243,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       fireEvent.click(screen.getByText(/Continue/));
 
       expect(await screen.findByRole('alert')).to.contain.text(
-        'Please provide a response',
+        'You must provide a response',
       );
     });
 
