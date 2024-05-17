@@ -5,18 +5,6 @@ import { expect } from 'chai';
 import { AddressWithAutofillReviewField } from '../../../components/FormReview/AddressWithAutofillReviewField';
 
 describe('CG <AddressWithAutofillReviewField>', () => {
-  const defaultProps = {
-    canAutofillAddress: false,
-    formData: {
-      street: '1350 I St. NW',
-      street2: 'Suite 550',
-      city: 'Washington',
-      state: 'DC',
-      postalCode: '20005',
-      'view:autofill': false,
-    },
-    inputLabel: 'Primary Family Caregiver\u2019s',
-  };
   const getSelectors = view => ({
     street: view.container.querySelector('[data-testid="cg-address-street"]'),
     street2: view.container.querySelector('[data-testid="cg-address-street2"]'),
@@ -30,9 +18,26 @@ describe('CG <AddressWithAutofillReviewField>', () => {
     ),
   });
 
+  const defaultProps = {
+    canAutofillAddress: false,
+    formData: {
+      street: '1350 I St. NW',
+      street2: 'Suite 550',
+      city: 'Washington',
+      state: 'DC',
+      postalCode: '20005',
+      'view:autofill': false,
+    },
+    inputLabel: 'Primary Family Caregiver\u2019s',
+  };
+
+  const subject = (props = defaultProps) => {
+    const view = render(<AddressWithAutofillReviewField {...props} />);
+    return getSelectors(view);
+  };
+
   it('should render address, city, state and zip by default', () => {
-    const view = render(<AddressWithAutofillReviewField {...defaultProps} />);
-    const selectors = getSelectors(view);
+    const selectors = subject();
     expect(selectors.street).to.contain.text('1350 I St. NW');
     expect(selectors.street2).to.contain.text('Suite 550');
     expect(selectors.city).to.contain.text('Washington');
@@ -45,8 +50,7 @@ describe('CG <AddressWithAutofillReviewField>', () => {
       ...defaultProps,
       canAutofillAddress: true,
     };
-    const view = render(<AddressWithAutofillReviewField {...props} />);
-    const selectors = getSelectors(view);
+    const selectors = subject(props);
     expect(selectors.autofill).to.not.exist;
   });
 
@@ -59,8 +63,7 @@ describe('CG <AddressWithAutofillReviewField>', () => {
         'view:autofill': true,
       },
     };
-    const view = render(<AddressWithAutofillReviewField {...props} />);
-    const selectors = getSelectors(view);
+    const selectors = subject(props);
     expect(selectors.autofill).to.exist;
     expect(selectors.autofill.querySelector('dt')).to.contain.text(
       'Use the same address as the Veteran',
@@ -80,8 +83,7 @@ describe('CG <AddressWithAutofillReviewField>', () => {
         postalCode: '',
       },
     };
-    const view = render(<AddressWithAutofillReviewField {...props} />);
-    const selectors = getSelectors(view);
+    const selectors = subject(props);
     expect(selectors.street).to.contain.text('');
     expect(selectors.street2).to.contain.text('');
     expect(selectors.city).to.contain.text('');
