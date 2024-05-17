@@ -48,13 +48,13 @@ export default function MemorableDateField(props) {
     return isNaN(vals.month);
   };
 
-  const isDayInvalid = (vals = {}) => {
-    return Number(vals.month) < 1 || Number(vals.month) > 12;
-  };
+  // const isDayInvalid = (vals = {}) => {
+  //   return Number(vals.month) < 1 || Number(vals.month) > 12;
+  // };
 
-  const isDayNotNumbers = (vals = {}) => {
-    return isNaN(vals.day);
-  };
+  // const isDayNotNumbers = (vals = {}) => {
+  //   return isNaN(vals.day);
+  // };
 
   return (
     <VaMemorableDate
@@ -83,25 +83,32 @@ export default function MemorableDateField(props) {
           setErrorVal('Input numbers only');
         }
 
-        if (isDayInvalid(newValues)) {
-          setErrorVal('Enter a valid day');
-        }
+        // if (isDayInvalid(newValues)) {
+        //   setErrorVal('Enter a valid day');
+        // }
 
-        if (isDayNotNumbers(newValues)) {
-          setErrorVal('Input numbers only');
-        }
+        // if (isDayNotNumbers(newValues)) {
+        //   setErrorVal('Input numbers only');
+        // }
       }}
-      onDateBlur={event => {
+      onDateBlur={() => {
         const newValues = parseISODate(event.target.value);
 
         if (isIncomplete(newValues)) {
           props.childrenProps.onChange(formatISOPartialDate(newValues));
         }
 
-        props.childrenProps.onBlur(props.childrenProps.idSchema.$id);
+        // props.childrenProps.onBlur(props.childrenProps.idSchema.$id);
 
-        setErrorVal('');
+        if (isMonthInvalid(newValues)) {
+          setErrorVal('Enter a valid month');
+        }
+
+        if (isMonthNotNumbers(newValues)) {
+          setErrorVal('Input numbers only');
+        }
       }}
+      // onDateBlur={(e) => e.preventDefault()}
       value={formattedValue}
       error={errorVal}
     />
