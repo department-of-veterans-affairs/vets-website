@@ -6,7 +6,6 @@ import format from 'date-fns/format';
 import { render } from '@testing-library/react';
 import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import AppointmentsPage from './index';
-import UpcomingAppointments from '../../UpcomingAppointments';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import * as useGetCheckInDataModule from '../../../hooks/useGetCheckInData';
 
@@ -32,8 +31,9 @@ describe('unified check-in experience', () => {
         </CheckInProvider>,
       );
 
+      expect(getByTestId('what-to-do-next')).to.exist;
       expect(getByTestId('upcoming-appointments')).to.exist;
-      expect(UpcomingAppointments).to.exist;
+      expect(getByTestId('appointments-accordions')).to.exist;
 
       // Restore the hook
       useGetCheckInDataStub.restore();
