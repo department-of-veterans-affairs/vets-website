@@ -47,7 +47,7 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'name-and-date-of-birth': ({ afterHook }) => {
+      'personal-information': ({ afterHook }) => {
         afterHook(() => {});
       },
       'identification-information': ({ afterHook }) => {
@@ -56,7 +56,7 @@ const testConfig = createTestConfig(
       'mailing-address': ({ afterHook }) => {
         afterHook(() => {});
       },
-      'phone-and-email': ({ afterHook }) => {
+      'contact-information': ({ afterHook }) => {
         afterHook(() => {});
       },
       statement: ({ afterHook }) => {
