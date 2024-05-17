@@ -19,6 +19,7 @@ import signOutEventListener from '../event-listeners/signOutEventListener';
 
 // Middleware
 import { cardActionMiddleware } from '../middleware/cardActionMiddleware';
+import { attachmentMiddleware } from '../middleware/attachmentMiddleware';
 
 // Selectors
 import selectUserFirstName from '../selectors/selectUserFirstName';
@@ -107,6 +108,7 @@ const WebChat = ({
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
         cardActionMiddleware={cardActionMiddleware}
+        attachmentMiddleware={attachmentMiddleware}
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}
