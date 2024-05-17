@@ -174,7 +174,7 @@ describe('fromToNumbs', () => {
 describe('createBreadcrumbs', () => {
   const locationMock = pathname => ({ pathname });
 
-  const defaultBreadcrumb = [
+  const defaultBreadcrumbs = [
     {
       href: medicationsUrls.VA_HOME,
       label: 'VA.gov home',
@@ -201,7 +201,7 @@ describe('createBreadcrumbs', () => {
       1,
     );
     expect(breadcrumbs).to.deep.equal([
-      ...defaultBreadcrumb,
+      ...defaultBreadcrumbs,
       { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
     ]);
   });
@@ -213,7 +213,7 @@ describe('createBreadcrumbs', () => {
       2,
     );
     expect(breadcrumbs).to.deep.equal([
-      ...defaultBreadcrumb,
+      ...defaultBreadcrumbs,
       { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
       {
         href: `${medicationsUrls.MEDICATIONS_URL}?page=2`,
@@ -229,7 +229,7 @@ describe('createBreadcrumbs', () => {
       undefined,
     );
     expect(breadcrumbs).to.deep.equal([
-      ...defaultBreadcrumb,
+      ...defaultBreadcrumbs,
       { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
       {
         href: `${medicationsUrls.MEDICATIONS_URL}?page=1`,
@@ -245,7 +245,7 @@ describe('createBreadcrumbs', () => {
       1,
     );
     expect(breadcrumbs).to.deep.equal([
-      ...defaultBreadcrumb,
+      ...defaultBreadcrumbs,
       { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
       {
         href: medicationsUrls.MEDICATIONS_REFILL,
