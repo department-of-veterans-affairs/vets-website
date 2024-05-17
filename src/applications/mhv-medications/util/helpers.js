@@ -220,8 +220,12 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
   const { pathname } = location;
   const defaultBreadcrumbs = [
     {
+      href: medicationsUrls.VA_HOME,
+      label: 'VA.gov home',
+    },
+    {
       href: medicationsUrls.MHV_HOME,
-      label: 'My HealtheVet home',
+      label: 'My HealtheVet',
     },
   ];
   const {
