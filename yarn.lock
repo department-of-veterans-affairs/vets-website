@@ -2882,6 +2882,7 @@
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     rimraf "^5.0.5"
+    rimraf "^5.0.5"
 
 "@department-of-veterans-affairs/eslint-plugin@^1.18.0":
   version "1.18.0"
