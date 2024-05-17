@@ -57,7 +57,7 @@ describe('Direct deposit information', () => {
     ).should('exist');
     cy.get('[for="root_GI-Bill-Chapters-AccountTypeCheckinginput"]').should(
       'contain',
-      'checking',
+      'Checking',
     );
   });
   it('should close the form when Cancel button is clicked ', () => {
