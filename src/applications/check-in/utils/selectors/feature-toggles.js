@@ -24,9 +24,6 @@ const selectFeatureToggles = createSelector(
     isTravelLogicEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceTravelLogic
     ],
-    is45MinuteReminderEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperience45MinuteReminder
-    ],
     isBrowserMonitoringEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceBrowserMonitoring
     ],
