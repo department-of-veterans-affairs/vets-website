@@ -330,11 +330,6 @@ class ReviewCardField extends React.Component {
       'vads-u-border-color--gray-lightest',
       'vads-u-border--2px',
     ].join(' ');
-    const editLink = [
-      'vads-c-link',
-      'vads-u-margin-top--1',
-      'vads-u-width--auto',
-    ].join(' ');
     const editButton = [
       'edit-button',
       'vads-u-margin-top--1',
@@ -348,11 +343,6 @@ class ReviewCardField extends React.Component {
       'view:livesOnMilitaryBaseInfo': removed,
       ...temporaryAddress
     } = data.temporaryAddress;
-    /* eslint-enable no-unused-vars */
-    let isTempAddressValid = true;
-    if (this.props.name === 'temporaryAddress') {
-      isTempAddressValid = Boolean(street && city && country);
-    }
     const addressTypeWithSpace = this.props.name.replace('Address', ' address');
 
     return (
@@ -385,31 +375,6 @@ class ReviewCardField extends React.Component {
           })}
         >
           <ViewComponent formData={this.props.formData} />
-          {!volatileData &&
-            isTempAddressValid && (
-              <button
-                className={`${editLink} va-button-link vads-u-display--block vads-u-margin-top--2`}
-                aria-label={`Edit ${title.toLowerCase()}`}
-                style={{ minWidth: '8rem' }}
-                onClick={() => this.startEditing(this.props.name)}
-                type="button"
-              >
-                Edit {title.toLowerCase()}
-              </button>
-            )}
-
-          {!volatileData &&
-            !isTempAddressValid && (
-              <button
-                className={`${editLink} va-button-link`}
-                aria-label={`Add a ${title.toLowerCase()}`}
-                style={{ minWidth: '8rem' }}
-                onClick={() => this.startEditing(this.props.name)}
-                type="button"
-              >
-                Add a {title.toLowerCase()}
-              </button>
-            )}
           {street &&
             city &&
             country && (
@@ -594,9 +559,7 @@ class ReviewCardField extends React.Component {
       </>
     );
     const description = this.getDescription();
-    const viewOrEditCard = this.state.editing
-      ? this.getEditView()
-      : this.getReviewView();
+    const viewOrEditCard = this.getReviewView();
 
     return (
       <div className="address-page">

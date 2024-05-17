@@ -1,9 +1,9 @@
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import React from 'react';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import formConfig from '../config/form';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const IntroductionPage = props => {
   // Toggle from hearing aid supplies to hearing aid + CPAP supplies.
@@ -73,7 +73,7 @@ const IntroductionPage = props => {
               <p>These are the steps you can expect when placing an order:</p>
               <ul>
                 <li>Confirm your personal information</li>
-                <li>Confirm or edit your shipping address and email address</li>
+                <li>Confirm your shipping address and email address</li>
                 <li>Select any hearing aids that need batteries</li>
                 <li>Select any hearing aid accessories you need</li>
                 {isSupplyReorderingSleepApneaEnabled && (

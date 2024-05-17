@@ -104,6 +104,10 @@ div.review {
   }
 }
 
+va-accordion-item[data-chapter="veteranInformationChapter"] .form-review-panel-page-header-row {
+  display: none;
+}
+
 #root_vetEmail-label {
   font-family: "Bitter";
   font-size: 17px;
