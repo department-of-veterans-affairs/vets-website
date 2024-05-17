@@ -53,6 +53,12 @@ class AllergyDetailsPage extends BaseDetailsPage {
     });
   };
 
+  clickBreadcrumbs = () => {
+    cy.get('[data-testid="breadcrumbs"]')
+      .find('a')
+      .click();
+  };
+
   verifySidenavHighlightAllergies = () => {
     cy.get('.is-active').should('contain', 'Allergies and reactions');
   };
