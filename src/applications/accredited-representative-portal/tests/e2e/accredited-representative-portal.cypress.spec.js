@@ -13,14 +13,10 @@ describe('Accredited Representative Portal', () => {
       cy.injectAxe();
     });
 
-    it('displays an error if app is not enabled', () => {
+    it('redirects to VA.gov homepage when in production and app is not enabled', () => {
       cy.axeCheck();
 
-      cy.get('[data-testid=app-not-enabled-alert]').should('exist');
-      cy.get('[data-testid=app-not-enabled-alert-heading]').should(
-        'have.text',
-        'The Accredited Representative Portal is not available yet',
-      );
+      cy.location('pathname').should('equal', '/');
     });
   });
 
@@ -45,7 +41,7 @@ describe('Accredited Representative Portal', () => {
       cy.location('pathname').should('equal', '/sign-in/');
     });
 
-    it('displays an alert if user is not in pilot', () => {
+    it('displays an alert when in production and when user is not in pilot', () => {
       cy.axeCheck();
 
       cy.get('[data-testid=landing-page-bypass-sign-in-link]').click();

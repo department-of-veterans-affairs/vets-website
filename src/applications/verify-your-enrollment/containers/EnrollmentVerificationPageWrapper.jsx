@@ -26,6 +26,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
   const mockData = useSelector(getMockData);
   const {
+    personalInfo,
     expirationDate,
     updated,
     month,
@@ -35,7 +36,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
   } = useData();
 
   const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
-
+  const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
   return (
     <>
       <div name="topScrollElement" />
@@ -53,7 +54,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
             ) : (
               <>
                 <PeriodsToVerify
-                  enrollmentData={mockData}
+                  enrollmentData={enrollmentData}
                   isUserLoggedIn={isUserLoggedIn}
                   link={() => (
                     <PageLink
@@ -82,7 +83,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                 />
               </>
             )}
-            <PreviousEnrollmentVerifications enrollmentData={mockData} />
+            <PreviousEnrollmentVerifications enrollmentData={enrollmentData} />
             <MoreInfoCard
               marginTop="7"
               linkText="Manage your benefits profile"

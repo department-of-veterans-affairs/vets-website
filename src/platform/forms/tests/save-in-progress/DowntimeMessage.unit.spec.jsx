@@ -8,6 +8,9 @@ import DowntimeMessage from '../../save-in-progress/DowntimeMessage';
 describe('<DowntimeMessage>', () => {
   it('should render with generic message', () => {
     const { container } = render(<DowntimeMessage downtime={{}} />);
+    expect(container.querySelector('va-alert h3')).to.contain.text(
+      'This application is down for maintenance',
+    );
     expect(container.querySelector('va-alert p')).to.contain.text(
       'We’re sorry it’s not working right now.',
     );
