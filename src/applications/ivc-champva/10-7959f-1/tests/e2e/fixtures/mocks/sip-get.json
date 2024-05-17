@@ -3,6 +3,13 @@
     "veteranFullName": {
       "first": "John",
       "last": "Preparer"
+    },
+    "veteranPhysicalAddress": {
+      "country": "USA",
+      "street": "456 Street Circle",
+      "city": "Anyburg",
+      "state": "AK",
+      "postalCode": "12323"
     }
   },
   "metadata": {

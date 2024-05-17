@@ -5,7 +5,7 @@ const prefillTransformer = (pages, formData, metadata) => {
       ...formData,
       veteranFullName: formData.veteranFullName,
       veteranAddress: formData.veteranAddress,
-      veteranResidentialAddress: formData.veteranPhysicalAddress,
+      physicalAddress: formData.veteranPhysicalAddress,
       veteranDateOfBirth: formData.veteranDateOfBirth,
       veteranSocialSecurityNumber: {
         ssn: formData.veteranSocialSecurityNumber,
