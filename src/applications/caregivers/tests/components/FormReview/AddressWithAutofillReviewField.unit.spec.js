@@ -67,4 +67,25 @@ describe('CG <AddressWithAutofillReviewField>', () => {
     );
     expect(selectors.autofill.querySelector('dd')).to.contain.text('Selected');
   });
+
+  it('renders empty when no address form data is passed', () => {
+    const props = {
+      ...defaultProps,
+      formData: {
+        ...defaultProps.formData,
+        street: '',
+        street2: '',
+        city: '',
+        state: '',
+        postalCode: '',
+      },
+    };
+    const view = render(<AddressWithAutofillReviewField {...props} />);
+    const selectors = getSelectors(view);
+    expect(selectors.street).to.contain.text('');
+    expect(selectors.street2).to.contain.text('');
+    expect(selectors.city).to.contain.text('');
+    expect(selectors.state).to.contain.text('');
+    expect(selectors.postalCode).to.contain.text('');
+  });
 });
