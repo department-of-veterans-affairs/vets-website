@@ -1,0 +1,15 @@
+.arrow {
+  position: relative;
+}
+
+.arrow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -24px;
+  width: 0;
+  height: 0;
+  border-top: 24px solid transparent;
+  border-bottom: 24px solid transparent;
+  border-left: 24px solid var(--vads-color-primary);
+}

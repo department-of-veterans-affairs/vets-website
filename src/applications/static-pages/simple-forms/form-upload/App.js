@@ -7,19 +7,20 @@ import {
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
+import './stylesheet.scss';
 
-export const App = ({ shouldDisplayFormUpload, formNumber, hasOnlineTool }) => {
+export const App = ({ formNumber, hasOnlineTool }) => {
   const dispatch = useDispatch();
 
   // TODO: Confirm this accurately detects if the user is logged in.
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const onSignInClicked = () => dispatch(toggleLoginModalAction(true));
 
-  if (shouldDisplayFormUpload === undefined || hasOnlineTool === undefined) {
+  if (hasOnlineTool === undefined) {
     return <va-loading-indicator message="Loading..." />;
   }
 
-  if (shouldDisplayFormUpload && !hasOnlineTool) {
+  if (!hasOnlineTool) {
     return (
       <>
         <h3>Submit completed form</h3>
@@ -27,12 +28,16 @@ export const App = ({ shouldDisplayFormUpload, formNumber, hasOnlineTool }) => {
           Once you’ve completed the form you can return here to upload it to us.
         </p>
         {userLoggedIn ? (
-          <a
-            className="vads-c-action-link--blue"
-            href={`/form-upload/${formNumber}`}
-          >
-            Start uploading your form
-          </a>
+          <div className="arrow" style={{ maxWidth: '75%' }}>
+            <div className="vads-u-background-color--primary vads-u-padding--1">
+              <a
+                className="vads-c-action-link--white"
+                href={`/form-upload/${formNumber}`}
+              >
+                Start uploading your form
+              </a>
+            </div>
+          </div>
         ) : (
           <VaAlert status="info" data-testid="form-upload-sign-in-alert" uswds>
             <h2 slot="headline">Sign in now to submit a completed form</h2>
@@ -54,7 +59,6 @@ export const App = ({ shouldDisplayFormUpload, formNumber, hasOnlineTool }) => {
 
 App.propTypes = {
   hasOnlineTool: PropTypes.bool.isRequired,
-  shouldDisplayFormUpload: PropTypes.bool.isRequired,
   toggleLoginModal: PropTypes.func.isRequired,
   formNumber: PropTypes.string,
 };
