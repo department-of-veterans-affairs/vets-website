@@ -1,6 +1,5 @@
 import { DEBT_TYPES } from '../constants';
-import { getMonthlyIncome, safeNumber } from './calculateIncome';
-import { getTotalAssets } from './helpers';
+import { getMonthlyIncome } from './calculateIncome';
 import { getMonthlyExpenses } from './calculateExpenses';
 
 const VHA_LIMIT = 5000;
@@ -96,29 +95,6 @@ export const isStreamlinedLongForm = formData => {
 export const calculateTotalAnnualIncome = formData => {
   const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
   return totalMonthlyNetIncome * 12;
-};
-
-/**
- *  Long form only; short form uses cash on hand
- * @param {object} formData - all formData
- * @returns {number} Sum of liquid assets
- */
-export const calculateLiquidAssets = formData => {
-  const { monetaryAssets = [] } = formData?.assets;
-  // Assets considered for streamlined waiver include cash in bank and on hand
-  const liquidAssets = monetaryAssets.reduce((acc, asset) => {
-    if (
-      asset?.name === 'Cash in a bank (savings and checkings)' ||
-      asset?.name === 'Cash on hand (not in bank)'
-    ) {
-      return acc + safeNumber(asset.amount);
-    }
-    return acc;
-  }, 0);
-
-  return formData['view:streamlinedWaiverAssetUpdate']
-    ? liquidAssets
-    : getTotalAssets(formData);
 };
 
 /**

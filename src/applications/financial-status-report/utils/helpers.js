@@ -1,3 +1,6 @@
+import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 import { addDays, format, isValid } from 'date-fns';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
@@ -190,6 +193,34 @@ export const mergeAdditionalComments = (additionalComments, expenses) => {
         additionalComments !== undefined ? additionalComments : ''
       }\n${individualExpensesStr}`
     : additionalComments;
+};
+
+export const getTotalAssetsApi = async formData => {
+  const body = JSON.stringify(formData);
+
+  try {
+    const url = `${environment.API_URL}/debts_api/v0/calculate_total_assets`;
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+      },
+      body,
+      mode: 'cors',
+    };
+
+    return await apiRequest(url, options);
+  } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(
+        `calculate_total_assets request handler failed: ${error}`,
+      );
+    });
+    return null;
+  }
 };
 
 export const getTotalAssets = ({ assets, questions }) => {

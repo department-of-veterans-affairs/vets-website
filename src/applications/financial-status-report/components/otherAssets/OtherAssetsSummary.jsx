@@ -11,8 +11,8 @@ import {
   currency as currencyFormatter,
   firstLetterLowerCase,
   generateUniqueKey,
+  getTotalAssetsApi,
 } from '../../utils/helpers';
-import { calculateLiquidAssets } from '../../utils/streamlinedDepends';
 import ButtonGroup from '../shared/ButtonGroup';
 
 export const keyFieldsForOtherAssets = ['name', 'amount'];
@@ -45,13 +45,14 @@ const OtherAssetsSummary = ({
       // liquid assets are caluclated in cash in bank with this ff
       if (data['view:streamlinedWaiverAssetUpdate']) return;
 
-      const calculatedAssets = calculateLiquidAssets(data);
-      setFormData({
-        ...data,
-        gmtData: {
-          ...gmtData,
-          assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
-        },
+      getTotalAssetsApi(data).then(calculatedAssets => {
+        setFormData({
+          ...data,
+          gmtData: {
+            ...gmtData,
+            assetsBelowGmt: calculatedAssets < gmtData?.assetThreshold,
+          },
+        });
       });
     },
     // avoiding use of data since it changes so often
