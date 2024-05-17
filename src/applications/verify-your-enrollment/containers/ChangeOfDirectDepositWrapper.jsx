@@ -53,7 +53,7 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
       // phone2: formData[`${prefix}phone`],
       fullName: formData[`${prefix}fullName`],
       email: formData[`${prefix}email`],
-      acctType: formData[`${prefix}AccountType`],
+      acctType: formData[`${prefix}AccountType`].toLowerCase(),
       routingNo: formData[`${prefix}RoutingNumber`],
       acctNo: formData[`${prefix}AccountNumber`],
       bankName: formData[`${prefix}BankName`],
@@ -64,13 +64,13 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
 
   useEffect(
     () => {
-      if (!loading && response) {
+      if (!loading && (response || error)) {
         handleCloseForm();
       } else {
         window.scrollTo(0, 0);
       }
     },
-    [handleCloseForm, loading, response],
+    [error, handleCloseForm, loading, response],
   );
   const directDepositDescription = (
     <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">

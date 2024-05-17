@@ -99,6 +99,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     if (validationError) {
       setEditFormData({});
     }
+    scrollToTopOfForm();
   };
 
   // This Effcet to close form after loading is done
@@ -111,8 +112,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       ) {
         handleCloseForm();
         setSuggestedAddressPicked(false);
-      } else {
-        window.scrollTo(0, 0);
       }
     },
     [
@@ -269,6 +268,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 setSuggestedAddressPicked={setSuggestedAddressPicked}
                 suggestedAddressPicked={suggestedAddressPicked}
                 setGoBackToEdit={setGoBackToEdit}
+                scrollToTopOfForm={scrollToTopOfForm}
               />
             ) : (
               <>
