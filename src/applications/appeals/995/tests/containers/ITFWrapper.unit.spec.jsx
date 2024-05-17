@@ -221,7 +221,7 @@ describe('ITFWrapper', () => {
     });
   });
 
-  it('should render an error message if the ITF fetch failed', () => {
+  it('should render an info message if the ITF fetch failed', () => {
     mockApiRequest(null, false);
     const { props, mockStore } = getData({
       fetchCallState: requestStates.failed,
@@ -234,7 +234,7 @@ describe('ITFWrapper', () => {
       </Provider>,
     );
     expect($('va-alert h2', container).textContent).to.contain(
-      'We’re sorry. Something went wrong on our end.',
+      'We can’t confirm if we have an intent to file on record for you right now',
     );
   });
 
@@ -327,7 +327,7 @@ describe('ITFWrapper', () => {
     });
   });
 
-  it('should render an error message if the ITF creation failed', () => {
+  it('should render an info message if the ITF creation failed', () => {
     mockApiRequest(null, false);
     const data = getData({
       fetchCallState: requestStates.succeeded,
@@ -342,7 +342,7 @@ describe('ITFWrapper', () => {
       </Provider>,
     );
     expect($('va-alert h2', container).textContent).to.contain(
-      'We’re sorry. Something went wrong on our end.',
+      'We can’t confirm if we have an intent to file on record for you right now',
     );
   });
 

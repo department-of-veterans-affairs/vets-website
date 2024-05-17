@@ -1,6 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
+import sinon from 'sinon';
+
 import MhvSecondaryNavItem from '../components/MhvSecondaryNavItem';
 
 describe('MHV Secondary Navigation Item Component', () => {
@@ -90,6 +93,31 @@ describe('MHV Secondary Navigation Item Component', () => {
       );
       const item = getByTestId('mhv-sec-nav-item');
       expect(item.className).to.include('active');
+    });
+  });
+
+  describe('reports custom events to GA', async () => {
+    it('when a link is clicked', async () => {
+      const href = '/my-health/unit-test';
+      const title = 'MhvSecondaryNavItem GA Event test';
+
+      const event = {
+        event: 'nav-mhv-secondary',
+        action: 'click',
+        'nav-link-text': title,
+        'nav-link-url': href,
+        'nav-link-location': 'MHV secondary nav',
+      };
+
+      const recordEventSpy = sinon.spy();
+      const props = { href, title, recordEvent: recordEventSpy };
+
+      const { getByRole } = render(<MhvSecondaryNavItem {...props} />);
+      await userEvent.click(getByRole('link'));
+      await waitFor(() => {
+        expect(recordEventSpy.calledOnce).to.be.true;
+        expect(recordEventSpy.calledWith(event)).to.be.true;
+      });
     });
   });
 });

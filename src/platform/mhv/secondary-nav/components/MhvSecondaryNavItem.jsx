@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+// eslint-disable-next-line import/no-named-default
+import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
 /**
  * A secondary nav item.
@@ -19,6 +21,7 @@ const MhvSecondaryNavItem = ({
   actionName,
   isActive = false,
   isHeader = false,
+  recordEvent = recordEventFn,
 }) => {
   const key = title.toLowerCase().replaceAll(' ', '_');
   const mobileTitle = abbreviation ? (
@@ -49,6 +52,15 @@ const MhvSecondaryNavItem = ({
         href={href}
         data-dd-action-name={actionName}
         className="vads-u-text-decoration--none"
+        onClick={() => {
+          recordEvent({
+            event: 'nav-mhv-secondary',
+            action: 'click',
+            'nav-link-text': title,
+            'nav-link-url': href,
+            'nav-link-location': 'MHV secondary nav',
+          });
+        }}
       >
         {!!icon && <va-icon icon={icon} size={3} />}
         <span className={`mhv-u-sec-nav-item-title ${titleClass}`}>
@@ -70,6 +82,7 @@ MhvSecondaryNavItem.propTypes = {
   actionName: PropTypes.string,
   isActive: PropTypes.bool,
   isHeader: PropTypes.bool,
+  recordEvent: PropTypes.func,
 };
 
 export default MhvSecondaryNavItem;
