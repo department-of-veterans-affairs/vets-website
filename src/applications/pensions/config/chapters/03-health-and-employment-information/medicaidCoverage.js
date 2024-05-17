@@ -1,9 +1,11 @@
 import {
   titleUI,
-  yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { isInNursingHome } from './helpers';
+
+const { medicaidCoverage } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -19,7 +21,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      medicaidCoverage: yesNoSchema,
+      medicaidCoverage,
     },
   },
 };

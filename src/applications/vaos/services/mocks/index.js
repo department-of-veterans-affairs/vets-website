@@ -40,6 +40,8 @@ const confirmedV2 = require('./v2/confirmed.json');
 // CC Direct Scheduling mocks
 const wellHiveAppointments = require('./wellHive/appointments.json');
 const WHCancelReasons = require('./wellHive/cancelReasons.json');
+const driveTimes = require('./wellHive/driveTime.json');
+const patients = require('./wellHive/patients.json');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -516,7 +518,27 @@ const responses = {
     mockWellHiveAppts.push(submittedAppt);
     return res.json({ data: submittedAppt });
   },
-
+  'POST /vaos/v2/wellhive/drive-times': (req, res) => {
+    return res.json({ driveTimes });
+  },
+  'GET /vaos/v2/wellhive/patients/:patientId': (req, res) => {
+    const WHPatients = [patients];
+    return res.json({
+      data: WHPatients.find(patient => patient?.id === req.params.patientId),
+    });
+  },
+  'GET /vaos/v2/wellhive/patients/:patientId/identifier/:system': (
+    req,
+    res,
+  ) => {
+    const WHPatients = [patients];
+    const patientSystem = WHPatients.find(
+      patient => patient?.id === req.params.patientId,
+    ).identifier.find(identifier => identifier.system === req.params.system);
+    return res.json({
+      data: patientSystem,
+    });
+  },
   'GET /v0/user': {
     data: {
       attributes: {
