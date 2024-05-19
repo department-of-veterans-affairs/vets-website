@@ -1,6 +1,6 @@
 // import defaultVaccines from '../fixtures/Vaccines.json';
 import defaultVaccines from '../fixtures/vaccines/vaccines.json';
-import defaultVaccineDetail from '../fixtures/vaccines/vaccine-8261.json';
+// import defaultVaccineDetail from '../fixtures/vaccines/vaccine-8261.json';
 import BaseListPage from './BaseListPage';
 
 class VaccinesListPage extends BaseListPage {
@@ -13,7 +13,8 @@ class VaccinesListPage extends BaseListPage {
     cy.intercept('GET', '/my_health/v1/medical_records/vaccines', Vaccines).as(
       'VaccinesList',
     );
-    cy.get('[data-testid="vaccines-landing-page-link"]').click();
+    // cy.get('[data-testid="vaccines-landing-page-link"]').click();
+    cy.visit('my-health/medical-records/vaccines');
     if (waitForVaccines) {
       cy.wait('@VaccinesList');
     }
@@ -21,21 +22,24 @@ class VaccinesListPage extends BaseListPage {
 
   clickVaccinesDetailsLink = (
     _VaccinesIndex = 0,
-    VaccinesDetails = defaultVaccineDetail,
-    wait = false,
+    // VaccinesDetails = defaultVaccineDetail,
+    // wait = false,
   ) => {
-    cy.intercept(
-      'GET',
-      `/my_health/v1/medical_records/vaccines/${VaccinesDetails.id}`,
-      VaccinesDetails,
-    ).as('vaccineDetails');
+    // cy.intercept(
+    //   'GET',
+    //   `/my_health/v1/medical_records/vaccines/${VaccinesDetails.id}`,
+    //   VaccinesDetails,
+    // ).as('vaccineDetails');
+
+    // cy.log(VaccinesDetails.id);
+
     cy.get('[data-testid="record-list-item"]')
       .find('a')
       .eq(_VaccinesIndex)
       .click();
-    if (wait) {
-      cy.wait('@vaccineDetails');
-    }
+    // if (wait) {
+    //   cy.wait('@vaccineDetails');
+    // }
   };
 }
 

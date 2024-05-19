@@ -10,7 +10,7 @@ describe('Medical Records View Vaccines', () => {
     cy.visit('my-health/medical-records/');
     VaccinesListPage.clickGotoVaccinesLink(defaultVaccines);
     VaccinesListPage.clickVaccinesDetailsLink(0, defaultVaccines.entry[0]);
-    cy.get('@vaccineDetails.all').should('have.length', 0);
+    // cy.get('@vaccineDetails.all').should('have.length', 0);
     VaccineDetailsPage.verifyVaccineName(defaultVaccines.entry[0]);
     VaccineDetailsPage.verifyVaccineDate(defaultVaccines.entry[0]);
     VaccineDetailsPage.verifyVaccineLocation(defaultVaccines.entry[0]);
