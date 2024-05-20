@@ -10,7 +10,7 @@ import MhvSecondaryNavItem from './MhvSecondaryNavItem';
  * page is expected to be the first item in the item list. The first item in the list
  * is expected to be the header item.
  *
- * @param {Object[]} items the list of items to display in the navigation bar
+ * @property {Object[]} items the list of items to display in the navigation bar
  * @returns the navigation bar
  */
 const MhvSecondaryNavMenu = ({ items }) => {
