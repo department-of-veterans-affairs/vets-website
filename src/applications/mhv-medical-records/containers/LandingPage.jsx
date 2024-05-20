@@ -22,6 +22,7 @@ import {
   selectNotesFlag,
   selectVaccinesFlag,
   selectVitalsFlag,
+  selectLabsAndTestsFlag,
 } from '../util/selectors';
 
 const LandingPage = () => {
@@ -31,6 +32,7 @@ const LandingPage = () => {
   const displayVaccines = useSelector(selectVaccinesFlag);
   const displayConditions = useSelector(selectConditionsFlag);
   const displayVitals = useSelector(selectVitalsFlag);
+  const displayLabsAndTest = useSelector(selectLabsAndTestsFlag);
 
   useEffect(
     () => {
@@ -71,6 +73,24 @@ const LandingPage = () => {
           Review, print, and download your VA medical records.
         </p>
       </section>
+      {displayLabsAndTest && (
+        <section>
+          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+            Lab and Test results
+          </h2>
+          <p className="vads-u-margin-bottom--2">
+            Get results of your VA medical tests. This includes blood tests,
+            X-rays, and other <br /> imaging tests.
+          </p>
+          <Link
+            to="/labs-and-tests"
+            className="vads-c-action-link--blue"
+            data-testid="labs-and-tests-landing-page-link"
+          >
+            Go to your lab and test results
+          </Link>
+        </section>
+      )}
       {displayNotes && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
