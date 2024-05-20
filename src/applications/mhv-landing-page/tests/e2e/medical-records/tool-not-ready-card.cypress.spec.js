@@ -32,7 +32,7 @@ describe(`${appName} -- transitional Medical Records card **disabled**`, () => {
   });
 
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-  it('renders not found page', () => {
+  it('renders MHV NP links', () => {
     cy.findByRole('heading', { level: 2, name: heading });
     cy.findByRole('link', { name: 'Download medical record (Blue Button®)' });
     cy.findByRole('link', { name: 'Lab and test results' });
