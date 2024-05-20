@@ -1,5 +1,8 @@
 import React from 'react';
-import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  yesNoSchema,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import ContractsExplainer from '../../../components/householdExpenses/ContractsExplainer';
 
 export const uiSchema = {
@@ -18,6 +21,7 @@ export const uiSchema = {
         'Do you make monthly payments on any installment contracts or other debts you make monthly payments on?',
       enableAnalytics: true,
       uswds: true,
+      required: () => true,
       errorMessages: {
         required:
           'Please provide your installment contracts or other debts information.',
@@ -35,11 +39,8 @@ export const schema = {
   properties: {
     questions: {
       type: 'object',
-      required: ['hasRepayments'],
       properties: {
-        hasRepayments: {
-          type: 'boolean',
-        },
+        hasRepayments: yesNoSchema,
       },
     },
     'view:components': {

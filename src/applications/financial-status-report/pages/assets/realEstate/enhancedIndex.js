@@ -1,5 +1,8 @@
 import React from 'react';
-import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  yesNoSchema,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const Explainer = (
   <va-additional-info trigger="Why do I need to provide this information?">
@@ -41,6 +44,7 @@ export const uiSchema = {
       description: RealEstateDescription,
       enableAnalytics: true,
       uswds: true,
+      required: () => true,
       errorMessages: {
         required: 'Please enter your real estate information.',
       },
@@ -58,20 +62,15 @@ export const schema = {
   properties: {
     questions: {
       type: 'object',
-      required: ['hasRealEstate'],
-      properties: {
-        hasRealEstate: {
-          type: 'boolean',
-        },
-      },
+      properties: yesNoSchema,
     },
-    'view:components': {
-      type: 'object',
-      properties: {
-        'view:realEstateAdditionalInfo': {
-          type: 'object',
-          properties: {},
-        },
+  },
+  'view:components': {
+    type: 'object',
+    properties: {
+      'view:realEstateAdditionalInfo': {
+        type: 'object',
+        properties: {},
       },
     },
   },

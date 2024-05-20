@@ -1,5 +1,8 @@
 import React from 'react';
-import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  yesNoSchema,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const title = 'Do you have any past-due credit card bills?';
 export const uiSchema = {
@@ -15,6 +18,7 @@ export const uiSchema = {
       title,
       enableAnalytics: true,
       uswds: true,
+      required: () => true,
       errorMessages: {
         required: 'Please enter your credit card bill information.',
       },
@@ -27,11 +31,8 @@ export const schema = {
   properties: {
     questions: {
       type: 'object',
-      required: ['hasCreditCardBills'],
       properties: {
-        hasCreditCardBills: {
-          type: 'boolean',
-        },
+        hasCreditCardBills: yesNoSchema,
       },
     },
   },

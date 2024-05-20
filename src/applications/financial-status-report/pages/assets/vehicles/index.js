@@ -1,5 +1,8 @@
 import React from 'react';
-import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  yesNoSchema,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const title = 'Do you own any cars or other vehicles?';
 
@@ -16,6 +19,7 @@ export const uiSchema = {
       title,
       enableAnalytics: true,
       uswds: true,
+      required: () => true,
       errorMessages: {
         required: 'Please enter your vehicle information.',
       },
@@ -28,11 +32,8 @@ export const schema = {
   properties: {
     questions: {
       type: 'object',
-      required: ['hasVehicle'],
       properties: {
-        hasVehicle: {
-          type: 'boolean',
-        },
+        hasVehicle: yesNoSchema,
       },
     },
   },

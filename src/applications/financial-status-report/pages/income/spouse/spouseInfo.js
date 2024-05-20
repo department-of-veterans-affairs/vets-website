@@ -1,5 +1,8 @@
 import React from 'react';
-import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  yesNoSchema,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const MaritalStatusInfo = (
   <va-additional-info trigger="Why does my marital status matter?">
@@ -29,6 +32,7 @@ export const uiSchema = {
       title,
       enableAnalytics: true,
       uswds: true,
+      required: () => true,
       errorMessages: {
         required: 'Please select your marital status.',
       },
@@ -45,11 +49,8 @@ export const schema = {
   properties: {
     questions: {
       type: 'object',
-      required: ['isMarried'],
       properties: {
-        isMarried: {
-          type: 'boolean',
-        },
+        isMarried: yesNoSchema,
       },
     },
     'view:components': {
