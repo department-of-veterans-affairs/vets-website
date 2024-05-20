@@ -45,7 +45,7 @@ export const uiSchema = {
     // field in an array item), but that's not working.
     'ui:validations': [requireDisability],
     items: {
-      condition: combobox.uiSchema('What new condition do you want to claim?', {
+      condition: combobox.uiSchema('Enter your condition', {
         'ui:reviewField': ({ children }) => children,
         'ui:options': {
           debounceRate: 200,

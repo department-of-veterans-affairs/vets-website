@@ -39,7 +39,7 @@ describe('showRevisedNewDisabilitiesPage', () => {
         onSubmit={onSubmit}
       />,
     );
-    const labelStr = 'What new condition do you want to claim?';
+    const labelStr = 'Enter your condition';
     expect(screen.getByText(labelStr)).to.exist;
   });
 
