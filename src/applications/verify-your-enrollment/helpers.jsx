@@ -669,7 +669,7 @@ export const addressLabel = address => {
 };
 
 export const hasFormChanged = (obj, applicantName) => {
-  const keys = Object.keys(obj);
+  const keys = Object.keys(obj ?? {});
 
   for (const key of keys) {
     if (
