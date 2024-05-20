@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { getObjectsWithAttachmentId } from '../helpers/utilities';
 
 function getPrimaryContact(data) {
   // For callback API we need to know what data in the form should be
@@ -47,6 +48,8 @@ export default function transformForSubmit(formConfig, form) {
   copyOfData.certificationDate = new Date()
     .toLocaleDateString('es-pa')
     .replace(/\//g, '-');
+
+  copyOfData.supportingDocs = getObjectsWithAttachmentId(copyOfData);
 
   // Set this for the callback API so it knows who to contact if there's
   // a status event notification
