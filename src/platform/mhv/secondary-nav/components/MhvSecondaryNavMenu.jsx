@@ -15,6 +15,13 @@ import MhvSecondaryNavItem from './MhvSecondaryNavItem';
  */
 const MhvSecondaryNavMenu = ({ items }) => {
   /**
+   * Strip the trailing slash in a path if it exists.
+   * @param {String} path the path
+   * @returns the path without a trailing slash
+   */
+  const stripTrailingSlash = path => path.replace(/\/$/, '');
+
+  /**
    * Find which navigation item needs to be set to active, if any. An item should be active
    * when the URL pathname starts with the app's root URL, or the href matches the current
    * URL pathname.
@@ -26,12 +33,12 @@ const MhvSecondaryNavMenu = ({ items }) => {
     return [...secNavItems] // Clone the array, so the original stays the same
       .reverse()
       .find(item => {
-        const appRootUrl = item.appRootUrl || item.href;
+        const appRootUrl = stripTrailingSlash(item.appRootUrl || item.href);
         // Remove the trailing slash as they are optional.
-        const linkNoTrailing = item.href.replace(/\/$/, '');
-        const urlNoTrailing = window.location.pathname.replace(/\/$/, '');
+        const linkNoTrailing = stripTrailingSlash(item.href);
+        const urlNoTrailing = stripTrailingSlash(window.location.pathname);
         return (
-          window.location.pathname.startsWith(appRootUrl.replace(/\/$/, '')) ||
+          window.location.pathname.startsWith(appRootUrl) ||
           linkNoTrailing === urlNoTrailing
         );
       });
