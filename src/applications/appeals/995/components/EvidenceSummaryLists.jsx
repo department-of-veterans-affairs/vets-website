@@ -110,14 +110,14 @@ export const VaContent = ({
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
                   <Header6
-                    className="dd-privacy-hidden"
+                    className="dd-privacy-hidden overflow-wrap-word"
                     data-dd-action-name="VA location name"
                   >
                     {locationAndName}
                   </Header6>
                 )}
                 <div
-                  className="dd-privacy-hidden"
+                  className="dd-privacy-hidden overflow-wrap-word"
                   data-dd-action-name="VA location treated issues"
                 >
                   {errors.issues || readableList(issues)}
@@ -229,14 +229,14 @@ export const PrivateContent = ({
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
                   <Header6
-                    className="dd-privacy-hidden"
+                    className="dd-privacy-hidden overflow-wrap-word"
                     data-dd-action-name="Private facility name"
                   >
                     {providerFacilityName}
                   </Header6>
                 )}
                 <div
-                  className="dd-privacy-hidden"
+                  className="dd-privacy-hidden overflow-wrap-word"
                   data-dd-action-name="Private facility treated issues"
                 >
                   {errors.issues || readableList(issues)}
@@ -356,7 +356,7 @@ export const UploadContent = ({
               className={hasErrors ? errorClassNames : listClassNames}
             >
               <Header6
-                className="dd-privacy-hidden"
+                className="dd-privacy-hidden overflow-wrap-word"
                 data-dd-action-name="Uploaded document file name"
               >
                 {upload.name}

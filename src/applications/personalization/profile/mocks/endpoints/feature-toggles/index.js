@@ -17,7 +17,6 @@ const profileToggles = {
   profileShowDirectDepositSingleFormAlert: false,
   profileShowDirectDepositSingleFormEduDowntime: false,
   profileShowEmailNotificationSettings: false,
-  profileShowProofOfVeteranStatus: false,
 };
 
 const makeAllTogglesTrue = toggles => {

@@ -142,13 +142,13 @@ export const updateBankInfo = bankInfo => {
   };
 };
 
-export const verifyEnrollmentAction = () => {
+export const verifyEnrollmentAction = verifications => {
   return async dispatch => {
     dispatch({ type: VERIFY_ENROLLMENT });
     try {
       const response = await apiRequest(`${API_URL}/verify`, {
         method: 'POST',
-        // body: JSON.stringify(bankInfo),
+        body: JSON.stringify({ awardIds: verifications }),
         headers: { 'Content-Type': 'application/json' },
       });
 
