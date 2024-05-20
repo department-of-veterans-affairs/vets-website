@@ -25,39 +25,13 @@ export function nameWording(formData, isPosessive = true, cap = true) {
   return cap ? retVal.charAt(0).toUpperCase() + retVal.slice(1) : retVal;
 }
 
-/*
-For identifying all files the user has uploaded. Returns a list with
-each uploaded file object (for top-level objects only), e.g.
-for input:
-{
-    "applicantPartDCard": [
-        {
-            "name": "file1.png",
-            "attachmentId": "Front of Part D card",
-        }
-    ],
-    "applicantPartAPartBCard": [
-        {
-            "name": "file2.png",
-            "attachmentId": "Back of Parts A or B card",
-        }
-    ],
-    "someOtherKey": "other",
-}
-
-it would produce output:
-
-[
-  {
-      "name": "file1.png",
-      "attachmentId": "Front of Medicare Part D card",
-  },
-  {
-      "name": "file2.png",
-      "attachmentId": "Front of Medicare Parts A or B card",
-  },
-]
-*/
+/**
+ * Retrieves an array of objects containing the property 'attachmentId'
+ * from the given object.
+ *
+ * @param {Object} obj - The input object to search for objects with 'attachmentId'.
+ * @returns {Array} - An array containing objects with the 'attachmentId' property.
+ */
 export function getObjectsWithAttachmentId(obj) {
   const objectsWithAttachmentId = [];
   _.forEach(obj, value => {
