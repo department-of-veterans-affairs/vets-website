@@ -5,7 +5,7 @@ import constants from 'vets-json-schema/dist/constants.json';
 export const AddressWithAutofillReviewField = ({ formData, inputLabel }) => {
   const stateLabel = constants.states.USA.find(
     state => state.value === formData.state,
-  ).label;
+  )?.label;
 
   return (
     <>
