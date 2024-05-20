@@ -1,6 +1,7 @@
 import React from 'react';
-import YesNoField from 'platform/forms-system/src/js/web-component-fields/YesNoField';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 
+const title = 'Does your spouse get VA benefits?';
 export const uiSchema = {
   'ui:title': () => (
     <>
@@ -10,14 +11,14 @@ export const uiSchema = {
     </>
   ),
   questions: {
-    spouseHasBenefits: {
-      'ui:title': 'Does your spouse get VA benefits?',
-      'ui:webComponentField': YesNoField,
-      'ui:required': () => true,
-      'ui:errorMessages': {
+    spouseHasBenefits: yesNoUI({
+      title,
+      enableAnalytics: true,
+      uswds: true,
+      errorMessages: {
         required: 'Please enter your spouse’s VA benefits information.',
       },
-    },
+    }),
   },
 };
 
@@ -26,6 +27,7 @@ export const schema = {
   properties: {
     questions: {
       type: 'object',
+      required: ['spouseHasBenefits'],
       properties: {
         spouseHasBenefits: {
           type: 'boolean',

@@ -1,6 +1,7 @@
 import React from 'react';
-import YesNoField from 'platform/forms-system/src/js/web-component-fields/YesNoField';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 
+const title = 'Do you have any past-due credit card bills?';
 export const uiSchema = {
   'ui:title': () => (
     <>
@@ -10,15 +11,14 @@ export const uiSchema = {
     </>
   ),
   questions: {
-    hasCreditCardBills: {
-      'ui:title': 'Do you have any past-due credit card bills?',
-      'ui:webComponentField': YesNoField,
-
-      'ui:required': () => true,
-      'ui:errorMessages': {
+    hasCreditCardBills: yesNoUI({
+      title,
+      enableAnalytics: true,
+      uswds: true,
+      errorMessages: {
         required: 'Please enter your credit card bill information.',
       },
-    },
+    }),
   },
 };
 
@@ -27,6 +27,7 @@ export const schema = {
   properties: {
     questions: {
       type: 'object',
+      required: ['hasCreditCardBills'],
       properties: {
         hasCreditCardBills: {
           type: 'boolean',

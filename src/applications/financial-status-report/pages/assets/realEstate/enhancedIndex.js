@@ -1,5 +1,5 @@
 import React from 'react';
-import YesNoField from 'platform/forms-system/src/js/web-component-fields/YesNoField';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 const Explainer = (
   <va-additional-info trigger="Why do I need to provide this information?">
@@ -22,6 +22,8 @@ const RealEstateDescription = (
   </p>
 );
 
+const title = 'Do you currently own any property?';
+
 export const uiSchema = {
   'ui:title': () => (
     <>
@@ -34,15 +36,15 @@ export const uiSchema = {
     hideOnReview: true,
   },
   questions: {
-    hasRealEstate: {
-      'ui:title': 'Do you currently own any property?',
-      'ui:description': RealEstateDescription,
-      'ui:webComponentField': YesNoField,
-      'ui:required': () => true,
-      'ui:errorMessages': {
+    hasRealEstate: yesNoUI({
+      title,
+      description: RealEstateDescription,
+      enableAnalytics: true,
+      uswds: true,
+      errorMessages: {
         required: 'Please enter your real estate information.',
       },
-    },
+    }),
   },
   'view:components': {
     'view:realEstateAdditionalInfo': {
@@ -56,6 +58,7 @@ export const schema = {
   properties: {
     questions: {
       type: 'object',
+      required: ['hasRealEstate'],
       properties: {
         hasRealEstate: {
           type: 'boolean',

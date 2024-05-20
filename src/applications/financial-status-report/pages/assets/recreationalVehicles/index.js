@@ -1,6 +1,7 @@
 import React from 'react';
-import YesNoField from 'platform/forms-system/src/js/web-component-fields/YesNoField';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 
+export const title = 'Do you own any trailers, campers, or boats?';
 export const uiSchema = {
   'ui:title': () => (
     <>
@@ -10,14 +11,14 @@ export const uiSchema = {
     </>
   ),
   questions: {
-    hasRecreationalVehicle: {
-      'ui:title': 'Do you own any trailers, campers, or boats?',
-      'ui:webComponentField': YesNoField,
-      'ui:required': () => true,
-      'ui:errorMessages': {
-        required: 'Please enter your trailer, camper, or boat information.',
+    hasRecreationalVehicle: yesNoUI({
+      title,
+      enableAnalytics: true,
+      uswds: true,
+      errorMessages: {
+        required: 'Please enter your trailers, campers, and boats information.',
       },
-    },
+    }),
   },
 };
 
@@ -26,6 +27,7 @@ export const schema = {
   properties: {
     questions: {
       type: 'object',
+      required: ['hasRecreationalVehicle'],
       properties: {
         hasRecreationalVehicle: {
           type: 'boolean',

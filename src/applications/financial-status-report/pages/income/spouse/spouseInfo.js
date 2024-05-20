@@ -1,5 +1,5 @@
 import React from 'react';
-import YesNoField from 'platform/forms-system/src/js/web-component-fields/YesNoField';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 const MaritalStatusInfo = (
   <va-additional-info trigger="Why does my marital status matter?">
@@ -15,6 +15,7 @@ const MaritalStatusInfo = (
   </va-additional-info>
 );
 
+const title = 'Are you married?';
 export const uiSchema = {
   'ui:title': () => (
     <>
@@ -24,14 +25,14 @@ export const uiSchema = {
     </>
   ),
   questions: {
-    isMarried: {
-      'ui:title': 'Are you married?',
-      'ui:webComponentField': YesNoField,
-      'ui:required': () => true,
-      'ui:errorMessages': {
+    isMarried: yesNoUI({
+      title,
+      enableAnalytics: true,
+      uswds: true,
+      errorMessages: {
         required: 'Please select your marital status.',
       },
-    },
+    }),
   },
   'view:components': {
     'view:maritalStatus': {
@@ -44,6 +45,7 @@ export const schema = {
   properties: {
     questions: {
       type: 'object',
+      required: ['isMarried'],
       properties: {
         isMarried: {
           type: 'boolean',
