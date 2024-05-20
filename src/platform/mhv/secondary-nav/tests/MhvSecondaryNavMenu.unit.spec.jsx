@@ -78,7 +78,6 @@ describe('MHV Secondary Navigation Menu Component', () => {
           <MhvSecondaryNavMenu items={testSecNavItems} />
         </Provider>,
       );
-      // expect(() => getAllByRole('link')).to.throw();
       expect(container).to.be.empty;
     });
   });
@@ -86,15 +85,13 @@ describe('MHV Secondary Navigation Menu Component', () => {
   describe('set active item', () => {
     const activeClassString = 'active';
     const mock = mockStore({ isFeatureEnabled: true });
-    const medNavItems = [
-      {
-        title: 'Medications',
-        abbreviation: 'Meds',
-        icon: 'fas fa-prescription-bottle',
-        href: '/my-health/records',
-        appRootUrl: '/my-health/medications',
-      },
-    ];
+    const medNavItem = {
+      title: 'Medications',
+      abbreviation: 'Meds',
+      icon: 'fas fa-prescription-bottle',
+      href: '/my-health/records',
+      appRootUrl: '/my-health/medications',
+    };
 
     it('based on href', () => {
       testSecNavItems.forEach((item, itemIndex) => {
@@ -115,72 +112,52 @@ describe('MHV Secondary Navigation Menu Component', () => {
       });
     });
 
-    it('matches href with trailing slash in href', () => {
-      medNavItems[0].href = '/my-health/medications/';
-      setWindowUrl('/my-health/medications');
+    /**
+     * Gets the one sec nav item by rendering it with a given item.
+     * @param {Object} item the item to render
+     * @returns the link to the item
+     */
+    const getOneLink = item => {
       const { getByTestId } = render(
         <Provider store={mock}>
-          <MhvSecondaryNavMenu items={medNavItems} />
+          <MhvSecondaryNavMenu items={[item]} />
         </Provider>,
       );
-      const link = getByTestId('mhv-sec-nav-item');
-      expect(link.className).to.include(activeClassString);
+      return getByTestId('mhv-sec-nav-item');
+    };
+
+    it('matches href with trailing slash in href', () => {
+      medNavItem.href = '/my-health/medications/';
+      setWindowUrl('/my-health/medications');
+      expect(getOneLink(medNavItem).className).to.include(activeClassString);
     });
 
     it('matches href with trailing slash in URL', () => {
       setWindowUrl('/my-health/medications/');
-      const { getByTestId } = render(
-        <Provider store={mock}>
-          <MhvSecondaryNavMenu items={medNavItems} />
-        </Provider>,
-      );
-      const link = getByTestId('mhv-sec-nav-item');
-      expect(link.className).to.include(activeClassString);
+      expect(getOneLink(medNavItem).className).to.include(activeClassString);
     });
 
     it('matches app root URL', () => {
       setWindowUrl('/my-health/medications/some-page');
-      const { getByTestId } = render(
-        <Provider store={mock}>
-          <MhvSecondaryNavMenu items={medNavItems} />
-        </Provider>,
-      );
-      const link = getByTestId('mhv-sec-nav-item');
-      expect(link.className).to.include(activeClassString);
+      expect(getOneLink(medNavItem).className).to.include(activeClassString);
     });
 
     it('does not match app root URL', () => {
       setWindowUrl('/my-health/appointments/some-page');
-      const { getByTestId } = render(
-        <Provider store={mock}>
-          <MhvSecondaryNavMenu items={medNavItems} />
-        </Provider>,
+      expect(getOneLink(medNavItem).className).to.not.include(
+        activeClassString,
       );
-      const link = getByTestId('mhv-sec-nav-item');
-      expect(link.className).to.not.include(activeClassString);
     });
 
     it('matches app root URL with trailing slash in URL', () => {
       setWindowUrl('/my-health/medications/');
-      const { getByTestId } = render(
-        <Provider store={mock}>
-          <MhvSecondaryNavMenu items={medNavItems} />
-        </Provider>,
-      );
-      const link = getByTestId('mhv-sec-nav-item');
-      expect(link.className).to.include(activeClassString);
+      expect(getOneLink(medNavItem).className).to.include(activeClassString);
     });
 
     it('matches app root URL with trailing slash in app root URL', () => {
-      medNavItems[0].appRootUrl = '/my-health/medications/';
+      medNavItem.appRootUrl = '/my-health/medications/';
       setWindowUrl('/my-health/medications');
-      const { getByTestId } = render(
-        <Provider store={mock}>
-          <MhvSecondaryNavMenu items={medNavItems} />
-        </Provider>,
-      );
-      const link = getByTestId('mhv-sec-nav-item');
-      expect(link.className).to.include(activeClassString);
+      expect(getOneLink(medNavItem).className).to.include(activeClassString);
     });
   });
 });
