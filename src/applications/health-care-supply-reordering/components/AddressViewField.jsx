@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { valueToName } from '../utils/country-mapping';
+
 const getField = (formData, possibilities) =>
   possibilities.reduce((value, field) => {
     if (value === null && formData[field]) {
@@ -28,20 +30,14 @@ const AddressViewField = ({ formData }) => {
 
   const getAddressFormat = () => {
     if (country) {
-      return country === 'United States' ? 'domestic' : 'international';
+      return country === 'USA' ? 'domestic' : 'international';
     }
     return undefined;
   };
 
   const addressFormat = getAddressFormat();
 
-  /* eslint-disable no-unused-vars */
-  // using destructuring to remove view:livesOnMilitaryBaseInfo prop
-  const {
-    'view:livesOnMilitaryBaseInfo': removed,
-    ...alteredAddress
-  } = formData;
-  /* eslint-enable no-unused-vars */
+  const { ...alteredAddress } = formData;
 
   const isAddressMissing = Object.values(alteredAddress).every(prop => !prop);
   const isBaseAddressDataValid = street && country && city;
@@ -75,7 +71,9 @@ const AddressViewField = ({ formData }) => {
                 {isDomesticAddressValid && `${city}, ${state} ${postalString}`}
                 {isInternationalAddressValid &&
                   `${city}, ${province} ${internationalPostalCode}`}
-                <span className="vads-u-display--block">{country}</span>
+                <span className="vads-u-display--block">
+                  {valueToName(country)}
+                </span>
               </>
             )}
           </p>
