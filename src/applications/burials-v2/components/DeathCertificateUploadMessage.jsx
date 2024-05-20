@@ -5,7 +5,14 @@ export default function DeathCertificateUploadMessage({ form }) {
   const isAvailable =
     form?.burialAllowanceRequested?.service === true ||
     form?.locationOfDeath?.location !== 'vaMedicalCenter';
-  return isAvailable ? (
+
+  const isConnectedToMedicalCenter = Boolean(
+    form?.burialAllowanceRequested?.service === true &&
+    form?.locationOfDeath?.location === 'vaMedicalCenter'
+      ? 0
+      : 1,
+  );
+  return isAvailable && isConnectedToMedicalCenter ? (
     <>
       <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
         Upload a copy of the Veteran’s death certificate including the cause of

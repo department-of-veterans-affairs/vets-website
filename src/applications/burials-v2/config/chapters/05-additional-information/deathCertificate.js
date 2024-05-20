@@ -14,9 +14,20 @@ export default {
     ),
     deathCertificate: {
       ...burialUploadUI('Upload the Veteran’s death certificate'),
-      'ui:required': form =>
-        form?.burialAllowanceRequested?.service === true ||
-        form?.locationOfDeath?.location !== 'vaMedicalCenter',
+      'ui:required': form => {
+        const option1 = form?.burialAllowanceRequested?.service === true;
+        const option2 = form?.locationOfDeath?.location !== 'vaMedicalCenter';
+        const option3 = Boolean(
+          form?.burialAllowanceRequested?.service === true &&
+          form?.locationOfDeath?.location === 'vaMedicalCenter'
+            ? 0
+            : 1,
+        );
+        if (!option3) {
+          return false;
+        }
+        return option1 || option2;
+      },
     },
   },
   schema: {
