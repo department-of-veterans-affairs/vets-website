@@ -87,8 +87,21 @@ export function fetchFacility(id) {
     dispatch(fetchFacilityStarted());
 
     // eslint-disable-next-line consistent-return
-    return apiRequest(`/facilities/va/${id}`, { apiVersion: 'v1' })
-      .then(facility => dispatch(fetchFacilitySuccess(facility.data)))
+    return apiRequest(`/va/`, {
+      apiVersion: 'facilities_api/v2',
+      // eslint-disable-next-line camelcase
+      body: JSON.stringify({ ids: [id], per_page: 1, page: 1 }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(facility => {
+        if (facility.data?.length && facility.data.some(d => d.id === id)) {
+          return dispatch(fetchFacilitySuccess(facility.data));
+        }
+        return dispatch(fetchFacilityFailed());
+      })
       .catch(() => dispatch(fetchFacilityFailed()));
   };
 }
@@ -104,10 +117,19 @@ export function fetchMainSatelliteLocationFacility(id) {
     dispatch(fetchMainSatelliteLocationStarted());
 
     // eslint-disable-next-line consistent-return
-    return apiRequest(`/facilities/va/${id}`, { apiVersion: 'v1' })
-      .then(facility =>
-        dispatch(fetchMainSatelliteLocationSuccess(facility.data)),
-      )
+    return apiRequest(`/va`, {
+      apiVersion: 'facilities_api/v2',
+      // eslint-disable-next-line camelcase
+      body: JSON.stringify({ ids: [id], per_page: 1, page: 1 }),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(facility => {
+        if (facility.data?.length && facility.data.some(d => d.id === id)) {
+          return dispatch(fetchMainSatelliteLocationSuccess(facility.data));
+        }
+        return dispatch(fetchMainSatelliteLocationFailed());
+      })
       .catch(() => dispatch(fetchMainSatelliteLocationFailed()));
   };
 }
@@ -125,7 +147,13 @@ export function fetchMultiFacility(id) {
       // eslint-disable-next-line camelcase
       body: JSON.stringify({ ids: [id], per_page: 1, page: 1 }),
     })
-      .then(facility => dispatch(fetchMultiFacilitySuccess(facility.data, id)))
+      .then(facility => {
+        if (facility.data?.length && facility.data.some(d => d.id === id)) {
+          dispatch(fetchMultiFacilitySuccess(facility.data, id));
+        } else {
+          dispatch(fetchMultiFacilityFailed(id));
+        }
+      })
       .catch(() => dispatch(fetchMultiFacilityFailed(id)));
   };
 }
