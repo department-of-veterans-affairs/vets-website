@@ -52,7 +52,7 @@ const POARequestsTable = ({ poaRequests }) => {
         <span data-testid="poa-requests-table-headers-state">State</span>
         <span data-testid="poa-requests-table-headers-zip">Zip</span>
         <span data-testid="poa-requests-table-headers-received">
-          POA received date
+          Date received
         </span>
       </va-table-row>
       {poaRequests.map(({ procId, attributes }) => (

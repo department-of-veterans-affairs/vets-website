@@ -140,7 +140,7 @@ describe('<ProfileInformationEditView/> - Email Address', () => {
     it('is visible when the transactionRequest is not pending', () => {
       props.transactionRequest = { isPending: false };
       component = enzyme.mount(<ProfileInformationEditView {...props} />);
-      expect(component.text()).to.include('Cancel');
+      expect(component.html()).to.include('Cancel');
       component.unmount();
     });
   });

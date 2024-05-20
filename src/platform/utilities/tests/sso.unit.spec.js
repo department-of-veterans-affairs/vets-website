@@ -690,7 +690,11 @@ describe('generateAuthnContext', () => {
 });
 
 describe('verifySession', () => {
+  beforeEach(() => {
+    fakeWindow();
+  });
   afterEach(() => {
+    global.window = oldWindow;
     localStorage.clear();
   });
   it('should return true when conditions', () => {
@@ -704,6 +708,14 @@ describe('verifySession', () => {
     localStorage.setItem('loginAttempted', true);
     expect(verifySession()).to.eql(false);
     localStorage.clear();
+    expect(verifySession()).to.eql(false);
+  });
+  it('should return false if the pathname is terms-of-use', () => {
+    global.window.location.origin = 'http://localhost';
+    global.window.location.pathname = '/terms-of-use/';
+    localStorage.setItem('hasSessionSSO', true);
+    localStorage.setItem('loginAttempted', true);
+    localStorage.setItem('sessionExpirationSSO', new Date());
     expect(verifySession()).to.eql(false);
   });
 });

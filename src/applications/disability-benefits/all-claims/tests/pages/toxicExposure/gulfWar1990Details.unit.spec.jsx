@@ -34,11 +34,12 @@ describe('gulfWar1990Details', () => {
   Object.keys(GULF_WAR_1990_LOCATIONS)
     .filter(locationId => locationId !== 'none')
     .forEach(locationId => {
+      const pageSchema = schemas[`gulf-war-1990-location-${locationId}`];
       it(`should render for ${locationId}`, () => {
         const { container, getByText } = render(
           <DefinitionTester
-            schema={schemas[`gulf-war-1990-location-${locationId}`]?.schema}
-            uiSchema={schemas[`gulf-war-1990-location-${locationId}`]?.uiSchema}
+            schema={pageSchema.schema}
+            uiSchema={pageSchema.uiSchema}
             data={formData}
           />,
         );
@@ -59,15 +60,24 @@ describe('gulfWar1990Details', () => {
           .to.exist;
 
         if (locationId === 'afghanistan') {
-          getByText(`1 of 2: ${GULF_WAR_1990_LOCATIONS.afghanistan}`, {
+          getByText(`Location 1 of 2: ${GULF_WAR_1990_LOCATIONS.afghanistan}`, {
             exact: false,
           });
+          expect(pageSchema.title(formData)).to.equal(
+            `Location 1 of 2: ${GULF_WAR_1990_LOCATIONS.afghanistan}`,
+          );
         } else if (locationId === 'airspace') {
-          getByText(`2 of 2: ${GULF_WAR_1990_LOCATIONS.airspace}`, {
+          getByText(`Location 2 of 2: ${GULF_WAR_1990_LOCATIONS.airspace}`, {
             exact: false,
           });
+          expect(pageSchema.title(formData)).to.equal(
+            `Location 2 of 2: ${GULF_WAR_1990_LOCATIONS.airspace}`,
+          );
         } else {
           getByText(GULF_WAR_1990_LOCATIONS[locationId]);
+          expect(pageSchema.title(formData)).to.equal(
+            `${GULF_WAR_1990_LOCATIONS[locationId]}`,
+          );
         }
       });
 

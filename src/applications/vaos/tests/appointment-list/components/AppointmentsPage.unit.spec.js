@@ -15,13 +15,8 @@ import {
   getTestDate,
 } from '../../mocks/setup';
 import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';
-import {
-  mockAppointmentInfo,
-  mockPastAppointmentInfo,
-} from '../../mocks/helpers';
-import { createMockAppointmentByVersion } from '../../mocks/data';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
-import { getVAOSRequestMock } from '../../mocks/v2';
+import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
+import { getVAOSRequestMock } from '../../mocks/mock';
 
 const initialState = {
   featureToggles: {
@@ -39,7 +34,6 @@ describe('VAOS Page: AppointmentsPage', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
-    mockAppointmentInfo({});
   });
   afterEach(() => {
     MockDate.reset();
@@ -102,8 +96,6 @@ describe('VAOS Page: AppointmentsPage', () => {
 
   it('should display updated upcoming appointments page', async () => {
     // Given the veteran lands on the VAOS homepage
-    mockPastAppointmentInfo({});
-
     // When the page displays
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
@@ -251,21 +243,6 @@ describe('VAOS Page: AppointmentsPage', () => {
 
   it('should display updated past appointment page', async () => {
     // Given the veteran lands on the VAOS homepage
-    const pastDate = moment().subtract(3, 'months');
-    const data = {
-      id: '1234',
-      kind: 'clinic',
-      clinic: 'fake',
-      start: pastDate.format(),
-      locationId: '983GC',
-      status: 'booked',
-    };
-    const appointment = createMockAppointmentByVersion({
-      version: 0,
-      ...data,
-    });
-    mockPastAppointmentInfo({ va: [appointment] });
-
     // When the page displays
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
@@ -333,8 +310,6 @@ describe('VAOS Page: AppointmentsPage', () => {
     };
 
     // Given the veteran lands on the VAOS homepage
-    mockPastAppointmentInfo({});
-
     // When the page displays
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: defaultState,
@@ -358,8 +333,6 @@ describe('VAOS Page: AppointmentsPage', () => {
 
     it('should display updated title on upcoming appointments page', async () => {
       // Given the veteran lands on the VAOS homepage
-      mockPastAppointmentInfo({});
-
       // When the page displays
       const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,
@@ -480,21 +453,6 @@ describe('VAOS Page: AppointmentsPage', () => {
 
     it('should display updated past appointments page title', async () => {
       // Given the veteran lands on the VAOS homepage
-      const pastDate = moment().subtract(3, 'months');
-      const data = {
-        id: '1234',
-        kind: 'clinic',
-        clinic: 'fake',
-        start: pastDate.format(),
-        locationId: '983GC',
-        status: 'booked',
-      };
-      const appointment = createMockAppointmentByVersion({
-        version: 0,
-        ...data,
-      });
-      mockPastAppointmentInfo({ va: [appointment] });
-
       // When the page displays
       const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
         initialState: defaultState,

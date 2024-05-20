@@ -73,7 +73,7 @@ describe('NOD contact info loop', () => {
     cy.axeCheck();
 
     // cancel phone change
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', contactPageUrl);
 
     // update phone
@@ -99,7 +99,7 @@ describe('NOD contact info loop', () => {
     cy.axeCheck();
 
     // cancel email change
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', contactPageUrl);
 
     // update email
@@ -125,7 +125,7 @@ describe('NOD contact info loop', () => {
     cy.axeCheck();
 
     // cancel address change
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', contactPageUrl);
 
     // update address
