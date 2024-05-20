@@ -8,7 +8,7 @@ import DowntimeNotification, {
 import PropTypes from 'prop-types';
 import {
   selectFeatureBreadcrumbUrlUpdate,
-  selectFeatureAppointmentDetailsRedesign,
+  selectFeatureCCDirectScheduling,
   // selectFeatureBookingExclusion,
 } from '../../../redux/selectors';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
@@ -50,7 +50,7 @@ export default function AppointmentsPage() {
   let [pageTitle] = useState('VA online scheduling');
 
   const featureAppointmentDetailsRedesign = useSelector(state =>
-    selectFeatureAppointmentDetailsRedesign(state),
+    selectFeatureCCDirectScheduling(state),
   );
 
   const pendingAppointments = useSelector(state =>
