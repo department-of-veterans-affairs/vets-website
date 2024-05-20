@@ -26,10 +26,8 @@ export default function DeathCertificateUploadMessage({ form }) {
         including the cause of death.
       </p>
       <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
-        <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
-          It’s your choice whether you want to upload a death certificate. It
-          may help us determine the burial allowance amount.
-        </p>
+        It’s your choice whether you want to upload a death certificate. It may
+        help us determine the burial allowance amount.
       </p>
       <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
         <strong>How to upload files</strong>
