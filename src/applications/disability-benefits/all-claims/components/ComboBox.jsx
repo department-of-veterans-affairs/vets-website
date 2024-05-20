@@ -117,9 +117,9 @@ export class ComboBox extends React.Component {
         this.inputRef.current.focus();
         e.preventDefault();
         break;
-      // Space has one case where it is treated as user input, otherwise behaves similar to Enter.
+      // Space has one case where it is treated addDisabilities user input, otherwise behaves similar to Enter.
       case ' ':
-        if (index >= 0) {
+        if (index > 0) {
           this.selectOptionWithKeyboard(e, index, list, searchTerm);
           e.preventDefault();
         }
