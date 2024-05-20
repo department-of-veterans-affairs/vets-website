@@ -68,7 +68,7 @@ const VaMedicalCenter = props => {
 
   // check field for validation errors
   const showError = field => {
-    const errorList = errorSchema[field].__errors;
+    const errorList = errorSchema[field].__errors || [];
     const fieldIsDirty = dirtyFields.includes(field);
     const shouldValidate = (submitted || fieldIsDirty) && errorList.length;
 
@@ -96,8 +96,13 @@ const VaMedicalCenter = props => {
       //   submission if the value is null or undefined. Without this, the form allows
       //   Continuing with both values set, going Back, unsetting the Facility, and then
       //   Continuing again, resulting in a State but no Facility.
-      const vaMedicalFacility = localData.vaMedicalFacility || undefined;
-      onChange({ ...localData, vaMedicalFacility });
+      //   Similarly, selecting a State and Facility and then unselecting the State
+      //   allows Continuing without a State set, causing the entire Review Form
+      //   view to collapse to nothing.
+      onChange({
+        'view:facilityState': localData['view:facilityState'] || undefined,
+        vaMedicalFacility: localData.vaMedicalFacility || undefined,
+      });
     },
     [localData],
   );
