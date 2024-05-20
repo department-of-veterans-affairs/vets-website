@@ -343,7 +343,8 @@ const formConfig = {
         applicantDemographics: {
           title: 'Your demographics',
           path: 'applicant-demographics',
-          depends: formData => !isAuthorizedAgent(formData),
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics.uiSchema(
             applicantDemographicsSubHeader,
             applicantDemographicsGenderTitle,
@@ -384,7 +385,8 @@ const formConfig = {
       pages: {
         isSponsor: {
           path: 'is-sponsor',
-          depends: formData => !isVeteran(formData),
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: isSponsor.uiSchema,
           schema: isSponsor.schema,
         },

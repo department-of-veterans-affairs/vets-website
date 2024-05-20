@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { reviewPageProps, pageProps } from '../config/constants';
 
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
@@ -49,16 +49,5 @@ export function ApplicantOhiStatusReviewPage(props) {
   });
 }
 
-ApplicantOhiStatusReviewPage.propTypes = {
-  data: PropTypes.object,
-};
-
-ApplicantOhiStatusPage.propTypes = {
-  data: PropTypes.object,
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  pagePerItemIndex: PropTypes.string,
-  setFormData: PropTypes.func,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
-};
+ApplicantOhiStatusReviewPage.propTypes = reviewPageProps;
+ApplicantOhiStatusPage.propTypes = pageProps;

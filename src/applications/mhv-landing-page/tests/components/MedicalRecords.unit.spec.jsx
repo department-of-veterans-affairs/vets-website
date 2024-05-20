@@ -12,7 +12,7 @@ describe('MHV Landing Page -- temporary Medical Records page', () => {
     );
     getByTestId('mhvMedicalRecords');
     getByRole('heading', { level: 1, name: 'Medical records' });
-    const name = 'Go back to the previous version of Medical Records';
+    const name = 'Go back to the previous version of My HealtheVet';
     const link = getByRole('link', { name });
     expect(link.getAttribute('href')).to.eq(props.blueButtonUrl);
     recordTypes.forEach(type => getByText(type));

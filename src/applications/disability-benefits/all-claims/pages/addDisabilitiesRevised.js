@@ -26,7 +26,7 @@ import {
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 export const uiSchema = {
-  newDisabilitiesRevised: {
+  newDisabilities: {
     'ui:title': 'Tell us the new conditions you want to claim REVISED VERSION!',
     'ui:field': ArrayField,
     'ui:options': {
@@ -104,7 +104,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    newDisabilitiesRevised: {
+    newDisabilities: {
       type: 'array',
       minItems: 1,
       items: {
@@ -181,17 +181,10 @@ const removeDisability = (deletedElement, formData) => {
 
 // Find the old name -> change to new name
 const changeDisabilityName = (oldData, newData, changedIndex) => {
-  const oldId = sippableId(
-    oldData.newDisabilitiesRevised[changedIndex]?.condition,
-  );
-  const newId = sippableId(
-    newData.newDisabilitiesRevised[changedIndex]?.condition,
-  );
+  const oldId = sippableId(oldData.newDisabilities[changedIndex]?.condition);
+  const newId = sippableId(newData.newDisabilities[changedIndex]?.condition);
 
-  let result = removeDisability(
-    oldData.newDisabilitiesRevised[changedIndex],
-    newData,
-  );
+  let result = removeDisability(oldData.newDisabilities[changedIndex], newData);
 
   // Add in the new property with the old value
   const facilitiesPath = 'vaTreatmentFacilities';
@@ -226,8 +219,8 @@ const changeDisabilityName = (oldData, newData, changedIndex) => {
 };
 
 export const updateFormData = (oldData, newData) => {
-  const oldArr = oldData.newDisabilitiesRevised;
-  const newArr = newData.newDisabilitiesRevised;
+  const oldArr = oldData.newDisabilities;
+  const newArr = newData.newDisabilities;
   // Sanity check
   if (!Array.isArray(oldArr) || !Array.isArray(newArr)) return newData;
 
