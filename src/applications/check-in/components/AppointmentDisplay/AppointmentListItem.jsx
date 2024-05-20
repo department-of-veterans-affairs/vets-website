@@ -1,5 +1,4 @@
-import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
@@ -9,7 +8,6 @@ import {
   getAppointmentId,
 } from '../../utils/appointment';
 import { APP_NAMES } from '../../utils/appConstants';
-import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 
 const AppointmentListItem = props => {
   const { appointment, goToDetails, router, app, page } = props;
@@ -20,9 +18,6 @@ const AppointmentListItem = props => {
 
   const pagesToShowDetails = ['details', 'complete', 'confirmation'];
   const showDetailsLink = pagesToShowDetails.includes(page) && goToDetails;
-
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { is45MinuteReminderEnabled } = useSelector(selectFeatureToggles);
 
   const detailsAriaLabel = () => {
     let modality;
@@ -80,16 +75,9 @@ const AppointmentListItem = props => {
         </span>
       );
     }
-    if (is45MinuteReminderEnabled && appointment) {
-      return (
-        <span data-testid="in-person-msg-confirmation">
-          {t('remember-to-bring-your-insurance-cards-with-you')}
-        </span>
-      );
-    }
     return (
       <span data-testid="in-person-msg-confirmation">
-        {t('please-bring-your-insurance-cards-with-you-to-your-appointment')}
+        {t('remember-to-bring-your-insurance-cards-with-you')}
       </span>
     );
   };

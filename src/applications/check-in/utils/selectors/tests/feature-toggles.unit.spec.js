@@ -15,7 +15,7 @@ describe('check-in', () => {
         check_in_experience_translation_disclaimer_spanish_enabled: false,
         check_in_experience_translation_disclaimer_tagalog_enabled: false,
         check_in_experience_travel_reimbursement: false,
-        check_in_experience_45_minute_reminder: false,
+        check_in_experience_travel_logic: false,
         check_in_experience_browser_monitoring: false,
         check_in_experience_unified_landing_page: false,
         loading: false,
@@ -32,7 +32,7 @@ describe('check-in', () => {
           isTranslationDisclaimerSpanishEnabled: false,
           isTranslationDisclaimerTagalogEnabled: false,
           isTravelReimbursementEnabled: false,
-          is45MinuteReminderEnabled: false,
+          isTravelLogicEnabled: false,
           isBrowserMonitoringEnabled: false,
           isUnifiedLandingPageEnabled: false,
         });
