@@ -45,51 +45,46 @@ describe('handle multiple drafts in one thread', () => {
   });
 
   it('verify headers', () => {
-    const draftsCount = updatedMultiDraftResponse.data.filter(
-      el => el.attributes.draftDate !== null,
-    ).length;
-
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    cy.get(Locators.REPLY_FORM)
-      .find('h2')
-      .should('be.visible')
-      .and('contain.text', `${draftsCount} drafts`);
+    cy.get('.page-title').should(
+      'contain.text',
+      `${updatedMultiDraftResponse.data[0].attributes.subject}`,
+    );
+    cy.get('#draft-reply-header').should('have.text', 'Drafts');
 
     cy.get(Locators.REPLY_FORM)
       .find('h3')
       .each(el => {
         cy.wrap(el).should('include.text', 'Draft');
       });
-
-    cy.get(Locators.ALERTS.LAST_EDIT_DATE).each(el => {
-      cy.wrap(el).should('include.text', 'edited');
-    });
   });
 
   it('verify drafts detailed view', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    draftPage.verifyMessagesBodyText(
-      updatedMultiDraftResponse.data[0].attributes.body,
-    );
+    cy.get('[data-testid="edit-draft-button-body-text"]').click({
+      force: true,
+      waitForAnimations: true,
+    });
+    cy.get('[subheader*="draft"]')
+      .shadow()
+      .find('button')
+      .should('have.attr', 'aria-expanded', 'true');
+    cy.get('[data-testid="edit-draft-button-body-text"]').click({
+      force: true,
+      waitForAnimations: true,
+    });
+    cy.get('[subheader*="draft"]')
+      .shadow()
+      .find('button')
+      .should('have.attr', 'aria-expanded', 'false');
 
-    cy.get(Locators.ALERTS.EDIT_DRAFT).click();
-    draftPage.verifyMessagesBodyText(
-      updatedMultiDraftResponse.data[1].attributes.body,
-    );
-    draftPage.verifyDraftMessageBodyText(
-      updatedMultiDraftResponse.data[0].attributes.body,
-    );
-
-    cy.get('[text="Edit draft 2"]').click();
-    draftPage.verifyMessagesBodyText(
-      updatedMultiDraftResponse.data[0].attributes.body,
-    );
-    draftPage.verifyDraftMessageBodyText(
-      updatedMultiDraftResponse.data[1].attributes.body,
-    );
+    cy.get('[subheader="multi-draft #2..."]')
+      .shadow()
+      .find('button')
+      .click({ force: true, waitForAnimations: true });
   });
 });

@@ -530,24 +530,21 @@ class PatientMessageDraftsPage {
     cy.focused().should('contain.text', 'Draft was successfully deleted.');
   };
 
-  verifyMessagesBodyText = MessageBody => {
+  verifyMessagesBodyText = messageBody => {
     cy.get(Locators.MESSAGES_BODY)
-      .should('have.attr', 'value')
-      .and('eq', MessageBody);
+      .should('be.visible')
+      .and('have.attr', 'value', `${messageBody}`);
   };
 
-  verifyDraftMessageBodyText = MessagesBodyDraft => {
+  verifyDraftMessageBodyText = messagesBodyDraft => {
     cy.get(Locators.MESSAGES_BODY_DRAFT).should(
       'have.text',
-      `${MessagesBodyDraft}`,
+      `${messagesBodyDraft}`,
     );
   };
 
-  verifySavedMessageAlertText = MESSAGE_WAS_SAVED => {
-    cy.get(Locators.ALERTS.SAVE_DRAFT).should(
-      'include.text',
-      MESSAGE_WAS_SAVED,
-    );
+  verifySavedMessageAlertText = message => {
+    cy.get(Locators.ALERTS.SAVE_DRAFT).should('include.text', message);
   };
 }
 
