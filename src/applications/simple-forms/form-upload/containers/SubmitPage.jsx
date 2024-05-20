@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   VaBreadcrumbs,
@@ -9,6 +9,8 @@ import {
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { capitalize } from 'lodash';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { apiRequest } from '~/platform/utilities/api';
 import {
   getBreadcrumbList,
   getFileSize,
@@ -17,6 +19,11 @@ import {
   handleRouteChange,
   submitForm,
 } from '../helpers';
+
+const inProgressApi = formId => {
+  const apiUrl = '/v0/in_progress_forms/';
+  return `${environment.API_URL}${apiUrl}${formId}`;
+};
 
 const SubmitPage = () => {
   const history = useHistory();
@@ -31,6 +38,23 @@ const SubmitPage = () => {
   const fileSize = state?.file?.size;
   const confirmationCode = state?.file?.confirmationCode;
   const submitHandler = () => submitForm(formNumber, confirmationCode, history);
+
+  const [veteran, setVeteran] = useState();
+
+  useEffect(() => {
+    const fetchVeteran = async () => {
+      const apiUrl = inProgressApi('FORM-UPLOAD-FLOW');
+      const response = await apiRequest(apiUrl, { method: 'GET' });
+      return response?.formData.veteran;
+    };
+
+    const getVeteran = async () => {
+      const fetchedVeteran = await fetchVeteran();
+      setVeteran(fetchedVeteran);
+    };
+
+    getVeteran();
+  }, []);
 
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
@@ -61,9 +85,12 @@ const SubmitPage = () => {
             {capitalize(fullName.first)} {capitalize(fullName.last)}
           </b>
         </p>
-        <p>Social Security number: TODO: Insert redacted SSN</p>
-        <p>VA file number: TODO: Insert redacted File Number</p>
-        <p>Zip code: TODO: Insert zip code</p>
+        {veteran && (
+          <>
+            <p>Social Security number: {veteran.ssn}</p>
+            <p>Zip code: {veteran.address?.postalCode}</p>
+          </>
+        )}
       </div>
       <p>
         <b>Note:</b> If you need to update your personal information, please
