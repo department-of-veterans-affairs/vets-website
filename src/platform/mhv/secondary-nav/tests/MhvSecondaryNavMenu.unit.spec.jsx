@@ -93,6 +93,20 @@ describe('MHV Secondary Navigation Menu Component', () => {
       appRootUrl: '/my-health/medications',
     };
 
+    /**
+     * Gets the one sec nav item by rendering it with a given item.
+     * @param {Object} item the item to render
+     * @returns the link to the item
+     */
+    const getOneLink = item => {
+      const { getByTestId } = render(
+        <Provider store={mock}>
+          <MhvSecondaryNavMenu items={[item]} />
+        </Provider>,
+      );
+      return getByTestId('mhv-sec-nav-item');
+    };
+
     it('based on href', () => {
       testSecNavItems.forEach((item, itemIndex) => {
         setWindowUrl(item.href);
@@ -111,20 +125,6 @@ describe('MHV Secondary Navigation Menu Component', () => {
         cleanup(); // must be done after the render
       });
     });
-
-    /**
-     * Gets the one sec nav item by rendering it with a given item.
-     * @param {Object} item the item to render
-     * @returns the link to the item
-     */
-    const getOneLink = item => {
-      const { getByTestId } = render(
-        <Provider store={mock}>
-          <MhvSecondaryNavMenu items={[item]} />
-        </Provider>,
-      );
-      return getByTestId('mhv-sec-nav-item');
-    };
 
     it('matches href with trailing slash in href', () => {
       medNavItem.href = '/my-health/medications/';
