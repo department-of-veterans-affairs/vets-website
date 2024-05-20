@@ -899,7 +899,7 @@ const formConfig = {
                   'intendsToEnroll',
                   'over18HelplessChild',
                 ]),
-                otherStatus: { type: 'string' },
+                _unused: { type: 'string' },
               },
             },
           }),
@@ -1160,7 +1160,7 @@ const formConfig = {
               type: 'object',
               properties: {
                 eligibility: { type: 'string' },
-                otherIneligible: { type: 'string' },
+                _unused: { type: 'string' },
               },
             },
           }),

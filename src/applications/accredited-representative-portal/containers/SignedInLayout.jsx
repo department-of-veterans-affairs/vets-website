@@ -9,6 +9,7 @@ import NotInPilotAlert from '../components/NotInPilotAlert/NotInPilotAlert';
 const SignedInLayout = ({
   isPilotToggleLoading,
   isInPilot,
+  isProduction,
   hasPOAPermissions,
 }) => {
   if (isPilotToggleLoading) {
@@ -22,7 +23,7 @@ const SignedInLayout = ({
     );
   }
 
-  if (!isInPilot) {
+  if (isProduction && !isInPilot) {
     return <NotInPilotAlert />;
   }
 
@@ -43,6 +44,7 @@ SignedInLayout.propTypes = {
   hasPOAPermissions: PropTypes.bool,
   isInPilot: PropTypes.bool,
   isPilotToggleLoading: PropTypes.bool,
+  isProduction: PropTypes.bool,
 };
 
 export default SignedInLayout;
