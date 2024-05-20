@@ -21,7 +21,7 @@ const getData = (typeOfData = 'static') => {
   return typeOfData === 'static' ? staticData : dynamicData;
 };
 
-export default function ConfirmApproved() {
+export default function ConfirmApprovedPage() {
   const [confirmedData, setConfirmedData] = useState(0);
 
   // on react component mount, fetch data
