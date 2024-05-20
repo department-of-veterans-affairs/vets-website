@@ -1,5 +1,5 @@
 import { DEBT_TYPES } from '../constants';
-import { getMonthlyIncome, safeNumber } from './calculateIncome';
+import { getCalculatedMonthlyIncomeApi, safeNumber } from './calculateIncome';
 import { getTotalAssets } from './helpers';
 import { getMonthlyExpenses } from './calculateExpenses';
 
@@ -94,7 +94,7 @@ export const isStreamlinedLongForm = formData => {
  * @returns {number} Total yearly income
  */
 export const calculateTotalAnnualIncome = formData => {
-  const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
+  const { totalMonthlyNetIncome } = getCalculatedMonthlyIncomeApi(formData);
   return totalMonthlyNetIncome * 12;
 };
 
@@ -122,13 +122,13 @@ export const calculateLiquidAssets = formData => {
 };
 
 /**
- * Discresionary income total baseed on total income less expenses
- *  Long form only
+ * Discretionary income total baseed on total income less expenses
+ * Long form only
  * @param {object} formData - all formData
  * @returns {number} Discretionary income
  */
 export const calculateDiscretionaryIncome = formData => {
-  const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
+  const { totalMonthlyNetIncome } = getCalculatedMonthlyIncomeApi(formData);
   const expenses = getMonthlyExpenses(formData);
   return totalMonthlyNetIncome - expenses;
 };
