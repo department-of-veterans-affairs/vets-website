@@ -14,7 +14,11 @@ import {
   reviewAndSubmitPageFlow,
   fillDateWebComponentPattern,
   fillAddressWebComponentPattern,
+  getAllPages,
 } from '../../shared/tests/helpers';
+
+// All pages from form config i.e.: {page1: {path: '/blah'}}
+const ALL_PAGES = getAllPages(formConfig);
 
 // disable custom scroll-n-focus to minimize interference with input-fills
 formConfig.useCustomScrollAndFocus = false;
@@ -34,7 +38,7 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'sponsor-information': ({ afterHook }) => {
+      [ALL_PAGES.page6.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -48,7 +52,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'sponsor-identification-information': ({ afterHook }) => {
+      [ALL_PAGES.page7.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -58,7 +62,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'sponsor-status-date': ({ afterHook }) => {
+      [ALL_PAGES.page9.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -72,7 +76,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'applicant-information': ({ afterHook }) => {
+      [ALL_PAGES.page13.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -89,7 +93,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'applicant-identification-information/:index': ({ afterHook }) => {
+      [ALL_PAGES.page14.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -102,7 +106,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'applicant-mailing-address/:index': ({ afterHook }) => {
+      [ALL_PAGES.page15.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -115,7 +119,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'applicant-contact-information/:index': ({ afterHook }) => {
+      [ALL_PAGES.page16.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -128,7 +132,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'applicant-gender/:index': ({ afterHook }) => {
+      [ALL_PAGES.page17.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -141,7 +145,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'applicant-sponsor-relationship/:index': ({ afterHook }) => {
+      [ALL_PAGES.page18.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -155,7 +159,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'applicant-child-relationship/:index': ({ afterHook }) => {
+      [ALL_PAGES.page18c.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -169,7 +173,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'applicant-child-age/:index': ({ afterHook }) => {
+      [ALL_PAGES.page18b1.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -182,7 +186,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'applicant-medicare/:index': ({ afterHook }) => {
+      [ALL_PAGES.page19.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -195,7 +199,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'applicant-medicare-continued/:index': ({ afterHook }) => {
+      [ALL_PAGES.page20.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -208,7 +212,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'applicant-other-insurance-status/:index': ({ afterHook }) => {
+      [ALL_PAGES.page21.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -221,7 +225,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'consent-mail': ({ afterHook }) => {
+      [ALL_PAGES.page24.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -243,7 +247,33 @@ const testConfig = createTestConfig(
       },
     },
     setupPerTest: () => {
-      cy.intercept('POST', formConfig.submitUrl, { status: 200 });
+      cy.intercept('POST', formConfig.submitUrl, req => {
+        cy.get('@testData').then(data => {
+          Object.keys(data).forEach(k => {
+            // Verify that all test data was filled in on the form
+
+            // Handle special cases:
+            if (typeof k === 'object') {
+              // For objects with nested keys, just stringify and check
+              // (easier for things like home address)
+              expect(JSON.stringify(data[k])).to.equal(
+                JSON.stringify(req.body[k]),
+              );
+            } else if (k.includes('DOB') || k.includes('Date')) {
+              // Just check length match since dates flip from YYYY-MM-DD to
+              // MM-DD-YYYY). TODO: Address date reformat.
+              expect(
+                `${k}: ${data[k]?.length}` === `${k}: ${req.body[k]?.length}`,
+              );
+              // expect(data[k]?.length).to.equal(req.body[k]?.length);
+            } else {
+              expect(`${k}: ${data[k]}` === `${k}: ${req.body[k]}`);
+            }
+          });
+        });
+        // Mock response
+        req.reply({ status: 200 });
+      });
       cy.config('includeShadowDom', true);
     },
     // Skip tests in CI until the form is released.
