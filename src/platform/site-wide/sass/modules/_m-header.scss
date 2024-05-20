@@ -3,6 +3,16 @@
     min-height: 121px;
 }
 
+#header-minimal {
+    min-height: 129px;
+}
+
+@media screen and (min-width: 481px) {
+  #header-minimal {
+    min-height: 93.19px
+  }
+}
+
 #legacy-header {
     min-height: 189.19px;
 }
