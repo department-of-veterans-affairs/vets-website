@@ -111,6 +111,7 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   @import '~@department-of-veterans-affairs/component-library/dist/main.css';
   @import "~@department-of-veterans-affairs/formation/sass/core";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-alert";
+  .row { max-width: 1000px; }
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-breadcrumbs";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-button";
   @import "~@department-of-veterans-affairs/formation/sass/modules/m-form-elements";
