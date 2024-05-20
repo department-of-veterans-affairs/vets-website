@@ -118,3 +118,19 @@ export const reviewAndSubmitPageFlow = (
     selector: 'button',
   }).click();
 };
+
+/**
+ * Puts all page objects into an object where pagename maps to page data
+ * E.g., {page1: {path: '/blah'}}*
+ * @param {object} formConfig A standard config representing a form
+ * @returns object mapping page name to the matching page object: {page1: {path: '/blah'}}
+ */
+export function getAllPages(formConfig) {
+  const allPages = {};
+  Object.values(formConfig.chapters).forEach(ch =>
+    Object.keys(ch.pages).forEach(p => {
+      allPages[p] = ch.pages[p];
+    }),
+  );
+  return allPages;
+}
