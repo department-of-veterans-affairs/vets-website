@@ -70,8 +70,8 @@ export class ComboBox extends React.Component {
   // Keyboard handling for combobox list options
   handleKeyPress = e => {
     const { highlightedIndex, searchTerm } = this.state;
-    const index = highlightedIndex;
     const list = this.listRef.current;
+    let index = highlightedIndex;
 
     switch (e.key) {
       // On Tab, user input should remain as-is, list should close, focus goes to save button.
@@ -88,23 +88,21 @@ export class ComboBox extends React.Component {
         break;
       // Up and Down arrow keys should navigate to the respective next item in the list.
       case 'ArrowUp':
-        this.setState(prevState => ({
-          highlightedIndex: prevState.highlightedIndex - 1,
-        }));
-        this.scrollIntoView(index - 1);
+        index = this.decrementIndex(index);
+        this.scrollIntoView(index);
+        this.setState({ highlightedIndex: index });
         e.preventDefault();
         break;
       case 'ArrowDown':
-        this.setState(prevState => ({
-          highlightedIndex: prevState.highlightedIndex + 1,
-        }));
-        this.scrollIntoView(index + 1);
+        index = this.incrementIndex(index);
+        this.scrollIntoView(index);
+        this.setState({ highlightedIndex: index });
         e.preventDefault();
         break;
       // On Enter, select the highlighted option and close the list. Focus on text input.
       case 'Enter':
-        this.selectOptionWithKeyboard(e, index, list, searchTerm);
         e.preventDefault();
+        this.selectOptionWithKeyboard(e, index, list, searchTerm);
         break;
       // On Escape, user input should remain as-is, list should collapse. Focus on text input.
       case 'Escape':
@@ -178,6 +176,23 @@ export class ComboBox extends React.Component {
         });
       }
     }
+  };
+
+  // Helpers for arrow key navigation
+  decrementIndex = index => {
+    if (index > 0) {
+      return index - 1;
+    }
+    return index;
+  };
+
+  incrementIndex = index => {
+    const { filteredOptions } = this.state;
+    const maxIndex = filteredOptions.length;
+    if (index < maxIndex) {
+      return index + 1;
+    }
+    return index;
   };
 
   // Click handler for a list item
