@@ -164,7 +164,7 @@ const ReplyForm = props => {
         <MessageActionButtons
           threadId={threadId}
           hideReplyButton="true"
-          showEditDraftButton="true"
+          showEditDraftButton={!cannotReply}
           handleEditDraftButton={() => {
             if (isEditing === false) {
               setIsEditing(true);
