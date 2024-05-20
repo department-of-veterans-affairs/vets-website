@@ -8,10 +8,10 @@ import { parseRedirectUrl, touUpdatedDate, declineAndLogout } from '../helpers';
 import { touStyles, errorMessages } from '../constants';
 import touData from '../touData';
 
-const redirectToErrorPage = () => {
+const redirectToErrorPage = errorCode => {
   window.location = `${
     environment.BASE_URL
-  }/auth/login/callback/?auth=fail&code=110`;
+  }/auth/login/callback/?auth=fail&code=${errorCode}`;
 };
 
 const defaultMessage = {
@@ -42,18 +42,22 @@ export default function MyVAHealth() {
               window.location = parseRedirectUrl(
                 decodeURIComponent(ssoeTarget),
               );
+            } else {
+              redirectToErrorPage(111);
             }
           })
           .catch(err => {
             const message = err?.error;
             if (message === 'Agreement not accepted') {
               setDisplayTerms(true);
+            } else if (message === 'Account not provisioned') {
+              redirectToErrorPage(111);
             } else {
               setError({
                 isError: true,
                 message: errorMessages.network,
               });
-              redirectToErrorPage();
+              redirectToErrorPage(110);
             }
           });
       }
@@ -93,7 +97,7 @@ export default function MyVAHealth() {
     } catch (err) {
       setError({ isError: true, message: errorMessages.network });
       // fatal or network error redirect to 110 page
-      redirectToErrorPage();
+      redirectToErrorPage(110);
     }
   };
 
