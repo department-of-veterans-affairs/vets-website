@@ -14,7 +14,7 @@ describe('AddressViewField', () => {
       street: 's1',
       street2: 's2',
       postalCode: '12345',
-      country: 'United States',
+      country: 'USA',
       state: 'state',
     };
     const wrapper = shallow(<AddressViewField formData={formData} />);
