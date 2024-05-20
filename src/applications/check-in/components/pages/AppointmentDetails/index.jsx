@@ -27,7 +27,6 @@ import ActionLink from '../../ActionLink';
 import AppointmentMessage from '../../AppointmentDisplay/AppointmentMessage';
 import AddressBlock from '../../AddressBlock';
 
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import ExternalLink from '../../ExternalLink';
 
 const AppointmentDetails = props => {
@@ -47,8 +46,6 @@ const AppointmentDetails = props => {
   const isVvcAppointment = appointment?.kind === 'vvc';
   const isInPersonAppointment = appointment?.kind === 'clinic';
   const { appointmentId } = router.params;
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { is45MinuteReminderEnabled } = useSelector(selectFeatureToggles);
 
   useLayoutEffect(
     () => {
@@ -108,19 +105,9 @@ const AppointmentDetails = props => {
       data-testid="in-person-appointment-subtitle"
       className="vads-u-margin--0"
     >
-      {t('please-bring-your-insurance-cards-with-you-to-your-appointment')}
+      {t('remember-to-bring-your-insurance-cards-with-you')}
     </p>
   );
-  if (is45MinuteReminderEnabled) {
-    preCheckInSubTitle = (
-      <p
-        data-testid="in-person-appointment-subtitle"
-        className="vads-u-margin--0"
-      >
-        {t('remember-to-bring-your-insurance-cards-with-you')}
-      </p>
-    );
-  }
   if (isPhoneAppointment) {
     preCheckInSubTitle = (
       <p data-testid="phone-appointment-subtitle" className="vads-u-margin--0">
