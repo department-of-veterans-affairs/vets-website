@@ -122,7 +122,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="rx-breadcrumb"]')
       .shadow()
       .find('a')
-      .eq(1)
+      .eq(2)
       .click({
         waitForAnimations: true,
       });
