@@ -10,11 +10,11 @@ describe('Check In Experience | Pre-Check-In |', () => {
       const {
         initializeFeatureToggle,
         initializeSessionGet,
-        initializeCheckInDataGet,
+        initializePreCheckInDataGet,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
-      initializeCheckInDataGet.withSuccess();
+      initializePreCheckInDataGet.withSuccess();
       cy.visitPreCheckInWithUUID();
       ValidateVeteran.validatePage.preCheckIn();
       cy.injectAxeThenAxeCheck();
