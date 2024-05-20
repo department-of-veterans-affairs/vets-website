@@ -14,7 +14,7 @@ export const addDisabilitiesInstructions = (
       diagnosis, or short description of you symptoms.
     </p>
     <h3>Examples of conditions</h3>
-    <ul className="usa-list">
+    <ul>
       <li>Tinnitus (ringing or hissing in ears)</li>
       <li>PTSD (post-traumatic stress disorder), combat-related</li>
       <li>Hearing loss, other than tinnitus</li>
