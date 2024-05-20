@@ -380,6 +380,10 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: 'School or state of residency',
     QUESTION_1: 'Please provide one of the following',
   },
+  VETERAN_LOCATION_OF_RESIDENCE: {
+    TITLE: `Veteran's location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
 };
 
 export const noEditBtn = [

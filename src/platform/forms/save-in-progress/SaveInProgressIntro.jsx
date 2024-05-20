@@ -55,6 +55,7 @@ class SaveInProgressIntro extends React.Component {
         gaStartEventName={this.props.gaStartEventName}
         ariaLabel={this.props.ariaLabel}
         ariaDescribedby={this.props.ariaDescribedby}
+        customStartLink={this.props.customLink}
       />
     );
   };
@@ -202,7 +203,18 @@ class SaveInProgressIntro extends React.Component {
         retentionPeriodStart,
         unauthStartText,
       } = this.props;
-      const unauthStartButton = (
+      const CustomLink = this.props.customLink;
+      const unauthStartButton = CustomLink ? (
+        <CustomLink
+          href="#start"
+          onClick={event => {
+            event.preventDefault();
+            this.openLoginModal();
+          }}
+        >
+          {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+        </CustomLink>
+      ) : (
         <VaButton
           onClick={this.openLoginModal}
           label={ariaLabel}
@@ -426,6 +438,7 @@ SaveInProgressIntro.propTypes = {
   ariaLabel: PropTypes.string,
   buttonOnly: PropTypes.bool,
   children: PropTypes.any,
+  customLink: PropTypes.any,
   displayNonVeteranMessaging: PropTypes.bool,
   downtime: PropTypes.object,
   formConfig: PropTypes.shape({
@@ -473,6 +486,7 @@ SaveInProgressIntro.defaultProps = {
   headingLevel: 2,
   ariaLabel: null,
   ariaDescribedby: null,
+  customLink: null,
 };
 
 function mapStateToProps(state) {

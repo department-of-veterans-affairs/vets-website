@@ -53,7 +53,7 @@ export const phoneUiSchema = fieldName => {
       'ui:title': 'Extension (6 digits maximum)',
       'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
-        pattern: 'Please enter a valid extension up to 6 digits.',
+        pattern: 'You must enter a valid extension up to 6 digits.',
       },
     },
   };

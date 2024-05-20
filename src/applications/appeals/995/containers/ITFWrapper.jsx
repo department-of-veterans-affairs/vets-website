@@ -149,8 +149,13 @@ const ITFWrapper = ({
   }
 
   // We'll get here after the createITF promise is fulfilled and we have no
-  // active ITF because of a failed creation call
-  return <ITFBanner status="error" router={router} />;
+  // active ITF because of a failed creation call. Render children after alerting
+  // next steps to the Veteran
+  return (
+    <ITFBanner status="error" router={router}>
+      {children}
+    </ITFBanner>
+  );
 };
 
 const requestStateEnum = Object.values(requestStates);

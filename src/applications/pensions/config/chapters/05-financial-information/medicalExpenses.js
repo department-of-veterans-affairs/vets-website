@@ -11,10 +11,18 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { updateMultiresponseUiOptions } from '../../../helpers';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
 import { doesHaveMedicalExpenses } from './helpers';
+
+const {
+  childName,
+  provider,
+  purpose,
+  paymentAmount,
+} = fullSchemaPensions.definitions.medicalExpenses.items.properties;
 
 const frequencyOptions = {
   ONCE_MONTH: 'Once a month',
@@ -110,12 +118,12 @@ export default {
           ],
           properties: {
             recipients: radioSchema(Object.keys(recipientTypeLabels)),
-            childName: { type: 'string' },
-            provider: { type: 'string' },
-            purpose: { type: 'string' },
+            childName,
+            provider,
+            purpose,
             paymentDate: currentOrPastDateSchema,
             paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
-            paymentAmount: { type: 'number' },
+            paymentAmount,
           },
         },
       },
