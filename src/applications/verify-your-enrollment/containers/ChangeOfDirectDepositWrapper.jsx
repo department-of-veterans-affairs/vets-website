@@ -172,7 +172,8 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
             {response?.ok && (
               <Alert
                 status="success"
-                message="Your direct deposit information has been updated."
+                title="New account added"
+                message="We’ve updated your direct deposit information for Montgomery GI Bill benefits."
               />
             )}
             <va-alert

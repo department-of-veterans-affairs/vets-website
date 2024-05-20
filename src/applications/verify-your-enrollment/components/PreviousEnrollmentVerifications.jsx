@@ -210,8 +210,9 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
       <>
         <h2>Your monthly enrollment verifications</h2>
         <p>
-          Verifications are processed on the business day after submission.
-          Payment is projected to be processed within 4-6 business days.
+          We start to process your payment the business day after you verify
+          your enrollment. You should expect to receive the payment within 4 to
+          6 business days.
         </p>
         <va-additional-info
           trigger="What if I notice an error with my enrollment information?"

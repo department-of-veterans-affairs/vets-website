@@ -23,7 +23,7 @@ describe('Contact information', () => {
     cy.get('input[id="root_zipCode"]').type('94121');
   };
 
-  it('should navigate to benefits-profile when Manage your benefits profile link is clicked', () => {
+  it('should navigate to benefits-profile when "Manage your Montgomery GI Bill benefits information" link is clicked', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       '[href="/education/verify-your-enrollment/benefits-profile/"]',
@@ -49,7 +49,7 @@ describe('Contact information', () => {
     );
     cy.get('[id="root_fullName-label"]').should(
       'contain',
-      "Veteran's Full Name",
+      "Veteran's full name",
     );
   });
   it('Should shows error if one if requried field is missing', () => {
@@ -144,7 +144,7 @@ describe('Contact information', () => {
       .click({ force: true });
     cy.get('[id="root_fullName-label"]').should(
       'contain',
-      "Veteran's Full Name",
+      "Veteran's full name",
     );
   });
   it('should show warning alert if user hits cancel after editing form and it should close alert and form when user clicks Yes, cancel my changes', () => {

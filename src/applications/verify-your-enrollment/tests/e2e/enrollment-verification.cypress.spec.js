@@ -17,14 +17,14 @@ describe('Enrollment Verification Page Tests', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[id="vye-periods-to-verify-container"]').should('exist');
   });
-  it('should show VA Form 22-8979 STUDENT VERIFICATION OF ENROLLMENT', () => {
+  it('should show "Student Verification of Enrollment (VA Form 22-8979)"', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
     ).click();
     cy.get('.va-introtext').should(
       'contain',
-      'VA Form 22-8979 STUDENT VERIFICATION OF ENROLLMENT',
+      'Student Verification of Enrollment (VA Form 22-8979)',
     );
     cy.url().should('include', '/verification-review');
     cy.get('.vye-highlighted-content-container').should('exist');
@@ -73,7 +73,7 @@ describe('Enrollment Verification Page Tests', () => {
       '[class="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center"]',
     ).should('contain', 'Verified');
   });
-  it("should go to  'Your benefits profile when' when 'Manage your benefits profile' link is clicked ", () => {
+  it("should go to  'Your benefits profile when' when 'Manage your Montgomery GI Bill benefits information' link is clicked ", () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       'a[href="/education/verify-your-enrollment/benefits-profile/"]',

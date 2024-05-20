@@ -113,7 +113,10 @@ describe('Direct deposit information', () => {
     cy.wait('@updateDirectDeposit');
     cy.get('[data-testid="alert"]')
       .should('be.visible')
-      .and('contain.text', 'Your direct deposit information has been updated.');
+      .and(
+        'contain.text',
+        'We’ve updated your direct deposit information for Montgomery GI Bill benefits.',
+      );
   });
   it('Should submit error if all required fields all not empty but something was wrong with the API', () => {
     cy.injectAxeThenAxeCheck();
