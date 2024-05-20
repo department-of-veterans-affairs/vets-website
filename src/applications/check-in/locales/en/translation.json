@@ -394,5 +394,7 @@
   "if-you-want-to-reschedule": "If you want to reschedule, call us at <0></0> (<1></1>) or schedule a new appointment online.",
   "sign-in-to-schedule": "Sign in to schedule a new appointment",
   "or-talk-staff-if-at-facility": "Or talk to a staff member if you’re at a VA facility.",
-  "video": "Video"
+  "video": "Video",
+  "what-to-do-if-you-cant-find-your-appointments": "What to do if you can’t find your appointments in this list",
+  "our-online-check-in-tool-doesnt-include-all--accordion-item": "Our online check-in tool doesn’t include all appointment types at this time. To find appointments that aren’t in this list, you’ll need to go to our appointments tool on VA.gov."
 }
