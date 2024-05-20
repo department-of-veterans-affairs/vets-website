@@ -77,12 +77,13 @@ export class ComboBox extends React.Component {
       // On Tab, user input should remain as-is, list should close, focus goes to save button.
       case 'Tab':
         if (list.children.length) {
-          this.setState(prevState => ({
-            value: prevState.value,
-            searchTerm: prevState.searchTerm,
+          this.setState({
+            value: searchTerm,
+            searchTerm,
             filteredOptions: [],
             highlightedIndex: 0,
-          }));
+          });
+          this.inputRef.current.focus();
         }
         break;
       // Up and Down arrow keys should navigate to the respective next item in the list.
@@ -107,12 +108,12 @@ export class ComboBox extends React.Component {
         break;
       // On Escape, user input should remain as-is, list should collapse. Focus on text input.
       case 'Escape':
-        this.setState(prevState => ({
-          value: prevState.value,
+        this.setState({
+          value: searchTerm,
           searchTerm,
           filteredOptions: [],
           highlightedIndex: 0,
-        }));
+        });
         this.inputRef.current.focus();
         e.preventDefault();
         break;
