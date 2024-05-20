@@ -82,23 +82,33 @@ describe('ProofOfVeteranStatus', () => {
     });
   });
 
-  describe('eligibility rules', () => {
-    it('should not render if unknown discharge status', () => {
+  describe('discharge status problem message', () => {
+    it('should render if discharge status is unknown', () => {
       const initialState = createBasicInitialState('DVN');
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
 
-      expect(view.queryByText(/Proof of Veteran status/)).not.to.exist;
+      expect(
+        view.queryByText(
+          /We’re sorry. There’s a problem with your discharge status records./,
+        ),
+      ).to.exist;
     });
+  });
 
-    it('should not render if dishonorable discharge status', () => {
+  describe('ineligibility message', () => {
+    it('should render if discharge status is dishonorable', () => {
       const initialState = createBasicInitialState('F');
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
 
-      expect(view.queryByText(/Proof of Veteran status/)).not.to.exist;
+      expect(
+        view.queryByText(
+          /Our records show that you’re not eligible for a Veteran status card./,
+        ),
+      ).to.exist;
     });
   });
 });
