@@ -7,6 +7,7 @@ import { isAuthenticatedWithSSOe } from '../selectors';
 
 import NavCard from './NavCard';
 import MedicalRecordsCard from './MedicalRecordsCard';
+import { HEALTH_TOOL_HEADINGS } from '../constants';
 
 const layoutData = data => {
   const offset = 2;
@@ -48,7 +49,7 @@ const CardLayout = ({ data }) => {
             data-testid={`mhv-link-group-card-${x * rowCols.length + y}`}
             key={`col-${y}`}
           >
-            {col.title === 'Medical records' &&
+            {col.title === HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS &&
             mhvTransitionalMedicalRecordsLandingPage ? (
               <MedicalRecordsCard href={blueButtonUrl} />
             ) : (
