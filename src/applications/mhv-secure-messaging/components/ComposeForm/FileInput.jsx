@@ -7,7 +7,12 @@ import {
 } from '../../util/constants';
 
 const FileInput = props => {
-  const { attachments, setAttachments, setAttachFileSuccess } = props;
+  const {
+    attachments,
+    setAttachments,
+    setAttachFileSuccess,
+    draftSequence,
+  } = props;
 
   const [error, setError] = useState();
   const fileInputRef = useRef();
@@ -142,10 +147,14 @@ const FileInput = props => {
             onClick={useFileInput}
             secondary
             text={
-              attachments.length > 0 ? 'Attach additional file' : 'Attach file'
+              attachments.length > 0
+                ? `Attach additional file${draftSequence &&
+                    ` to draft ${draftSequence}`}`
+                : `Attach file${draftSequence && ` to draft ${draftSequence}`}`
             }
             class="attach-file-button"
-            data-testid="attach-file-button"
+            data-testid={`attach-file-button${draftSequence &&
+              `-${draftSequence}`}`}
             data-dd-action-name="Attach File Button"
           />
         </>
@@ -156,6 +165,7 @@ const FileInput = props => {
 
 FileInput.propTypes = {
   attachments: PropTypes.array,
+  draftSequence: PropTypes.number,
   setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,
 };

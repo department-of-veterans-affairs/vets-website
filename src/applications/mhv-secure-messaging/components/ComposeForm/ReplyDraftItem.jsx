@@ -496,6 +496,7 @@ const ReplyDraftItem = props => {
                 attachments={attachments}
                 setAttachments={setAttachments}
                 setAttachFileSuccess={setAttachFileSuccess}
+                draftSequence={draftsequence}
               />
             </section>
           )}
