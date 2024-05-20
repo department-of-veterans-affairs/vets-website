@@ -15,31 +15,37 @@ const ReplyDrafts = props => {
     signature,
     showBlockedTriageGroupAlert,
     isEditing,
+    setIsEditing,
   } = props;
   const dispatch = useDispatch();
   const toggleEditHandler = () => {
     dispatch({ type: Actions.Thread.RESET_LAST_SAVE_TIME });
+    setIsEditing(true);
   };
 
   return (
     <div>
       {!drafts?.length && (
-        <ReplyDraftItem
-          cannotReply={cannotReply}
-          editMode={isEditing}
-          replyMessage={replyMessage}
-          replyToName={replyToName}
-          setLastFocusableElement={setLastFocusableElement}
-          signature={signature}
-          toggleEditHandler={() => {
-            dispatch({ type: Actions.Thread.RESET_LAST_SAVE_TIME });
-          }}
-          showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
-        />
+        <va-accordion bordered open-single>
+          <va-accordion-item bordered="true" open>
+            <ReplyDraftItem
+              cannotReply={cannotReply}
+              editMode={isEditing}
+              replyMessage={replyMessage}
+              replyToName={replyToName}
+              setLastFocusableElement={setLastFocusableElement}
+              signature={signature}
+              toggleEditHandler={() => {
+                dispatch({ type: Actions.Thread.RESET_LAST_SAVE_TIME });
+              }}
+              showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
+            />
+          </va-accordion-item>
+        </va-accordion>
       )}
 
       {drafts?.length > 0 && (
-        <va-accordion bordered>
+        <va-accordion bordered open-single={drafts?.length === 1}>
           {drafts.map((draft, i) => {
             return (
               <va-accordion-item
@@ -79,6 +85,7 @@ ReplyDrafts.propTypes = {
   replyMessage: PropTypes.object,
   replyToName: PropTypes.string,
   saveDraftHandler: PropTypes.func,
+  setIsEditing: PropTypes.func,
   setLastFocusableElement: PropTypes.func,
   showBlockedTriageGroupAlert: PropTypes.bool,
   signature: PropTypes.object,

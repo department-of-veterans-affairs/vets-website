@@ -150,7 +150,9 @@ const FileInput = props => {
               attachments.length > 0
                 ? `Attach additional file${draftSequence &&
                     ` to draft ${draftSequence}`}`
-                : `Attach file${draftSequence && ` to draft ${draftSequence}`}`
+                : `Attach file${
+                    draftSequence ? ` to draft ${draftSequence}` : ''
+                  }`
             }
             class="attach-file-button"
             data-testid={`attach-file-button${draftSequence &&
