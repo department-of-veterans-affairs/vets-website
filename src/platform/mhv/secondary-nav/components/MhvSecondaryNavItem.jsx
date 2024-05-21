@@ -6,11 +6,13 @@ import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
 /**
  * A secondary nav item.
- * @param iconClass the classname(s) for a font awesome icon
- * @param href the link for the navigation item
- * @param title the title for the navigation item
- * @param abbreviation the abbreviation for the navigation item shown instead of the title when the width is less than 400px
- * @param isActive true if the nav item is to be shown as active
+ * @property {string} iconClass the classname(s) for a font awesome icon
+ * @property {string} href the link for the navigation item
+ * @property {string} title the title for the navigation item
+ * @property {string} abbreviation the abbreviation for the navigation item shown instead of the title when the width is less than 400px
+ * @property {string} actionName the name of the action to be provided for DD monitoring purposes
+ * @property {string} isActive true if the nav item is to be shown as active
+ * @property {string} isHeader true if the nav item is to be shown as the header
  * @returns a secondary nav item
  */
 const MhvSecondaryNavItem = ({
