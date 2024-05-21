@@ -108,7 +108,7 @@ const AppointmentListItem = props => {
 
   return (
     <li
-      className="vads-u-border-bottom--1px check-in--appointment-item"
+      className="vads-u-border-bottom--1px vads-u-border-color--gray-light check-in--appointment-item"
       data-testid="appointment-list-item"
     >
       <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2p5">

@@ -530,6 +530,11 @@ class ApiInitializer {
       });
       return sharedData.get.createUpcomingAppointments(uuid);
     },
+    withFailure: (errorCode = 400) => {
+      cy.intercept('GET', `/check_in/v2/sessions/*/appointments`, req => {
+        req.reply(errorCode, sharedData.get.createMockFailedResponse());
+      });
+    },
   };
 }
 

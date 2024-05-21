@@ -20,6 +20,7 @@ describe('Check In Experience | Day Of | API Errors', () => {
     initializeCheckInDataPost,
     initializeDemographicsPatch,
     initializeBtsssPost,
+    initializeUpcomingAppointmentsDataGet,
   } = ApiInitializer;
   beforeEach(() => {
     initializeFeatureToggle.withCurrentFeatures();
@@ -37,12 +38,29 @@ describe('Check In Experience | Day Of | API Errors', () => {
       Error.validatePageLoaded();
     });
   });
+  describe('Patient who encounters an error when getting upcoming appointments', () => {
+    it('should show error message on appointments page', () => {
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeCheckInDataGet.withSuccess();
+      initializeCheckInDataPost.withSuccess();
+      initializeUpcomingAppointmentsDataGet.withFailure();
+      cy.visitWithUUID();
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
+      ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.validatePageLoaded();
+      AppointmentsPage.validateErrorMessage();
+      cy.injectAxeThenAxeCheck();
+    });
+  });
   describe('Patient who encounters an error when checking in', () => {
     it('should redirect to the generic error page with check-in failed', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
       initializeCheckInDataGet.withSuccess();
+      initializeUpcomingAppointmentsDataGet.withSuccess();
       initializeCheckInDataPost.withFailure(200);
       cy.visitWithUUID();
       ValidateVeteran.validateVeteran();
@@ -84,6 +102,7 @@ describe('Check In Experience | Day Of | API Errors', () => {
       initializeSessionPost.withSuccess();
       initializeDemographicsPatch.withSuccess();
       initializeCheckInDataGet.withSuccess();
+      initializeUpcomingAppointmentsDataGet.withSuccess();
       initializeCheckInDataPost.withSuccess();
       initializeBtsssPost.withFailure();
       cy.visitWithUUID();
@@ -137,6 +156,7 @@ describe('Check In Experience | Day Of | API Errors', () => {
       initializeSessionPost.withSuccess();
       initializeDemographicsPatch.withFailure();
       initializeCheckInDataGet.withSuccess();
+      initializeUpcomingAppointmentsDataGet.withSuccess();
       initializeCheckInDataPost.withSuccess();
       cy.visitWithUUID();
       ValidateVeteran.validateVeteran();

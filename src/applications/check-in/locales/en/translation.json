@@ -364,7 +364,6 @@
   "upcoming-appointments": "Upcoming appointments",
   "loading-your-appointment-information": "Loading your appointment information…",
   "loading-your-upcoming-appointment-information": "Loading your upcoming appointment information…",
-  "error-retrieving-upcoming-appointments": "There was an error retreiving upcoming appointments",
   "what-to-do-next": "What to do next",
   "its-time-to-check-in-for-your-time-appointment": "It's time to check in for your {{time, time}} appointment",
   "review-your-contact-information-for-your-appointment": "Review your contact information for your {{ date, day }}, {{ date, monthDay }} {{ date, time }} appointment",
@@ -395,5 +394,7 @@
   "or-talk-staff-if-at-facility": "Or talk to a staff member if you’re at a VA facility.",
   "video": "Video",
   "what-to-do-if-you-cant-find-your-appointments": "What to do if you can’t find your appointments in this list",
-  "our-online-check-in-tool-doesnt-include-all--accordion-item": "Our online check-in tool doesn’t include all appointment types at this time. To find appointments that aren’t in this list, you’ll need to go to our appointments tool on VA.gov."
+  "our-online-check-in-tool-doesnt-include-all--accordion-item": "Our online check-in tool doesn’t include all appointment types at this time. To find appointments that aren’t in this list, you’ll need to go to our appointments tool on VA.gov.",
+  "were-sorry-weve-run-into-a-problem": "We’re sorry. We’ve run into a problem.",
+  "were-having-trouble-getting-your-upcoming-appointments": "We’re having trouble getting your upcoming appointments. Please try again later."
 }

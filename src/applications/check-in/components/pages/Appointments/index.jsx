@@ -173,7 +173,7 @@ const AppointmentsPage = props => {
     >
       <ActionItemDisplay router={router} />
       <UpcomingAppointments router={router} refresh={refresh} />
-      <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column vads-u-border-top--1px vads-u-padding-top--1p5 vads-u-padding-bottom--5 vads-u-border-color--gray-light">
+      <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column vads-u-padding-top--1p5 vads-u-padding-bottom--5">
         <p data-testid="update-text">
           <Trans
             i18nKey="latest-update"
