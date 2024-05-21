@@ -23,7 +23,7 @@ const MoreInfoCard = ({
           URL={URL}
           className={className}
         />
-        <p className="vads-u-color--base vads-u-margin-top--0">
+        <p className="vads-u-color--base vads-u-margin-top--0 vads-u-text-align--justify">
           {linkDescription}
         </p>
         <PageLink

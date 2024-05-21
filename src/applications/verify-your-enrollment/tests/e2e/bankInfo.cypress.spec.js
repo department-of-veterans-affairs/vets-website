@@ -42,9 +42,10 @@ describe('Direct deposit information', () => {
     cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
       .first()
       .click();
-    cy.get(
-      '[class="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold"]',
-    ).should('contain', 'Direct deposit information');
+    cy.get('[class="vads-u-font-family--serif vads-u-margin-y--4"]').should(
+      'contain',
+      'Direct deposit information',
+    );
   });
   it('should open bank info form when Add or update account buttton is clicked', () => {
     cy.injectAxeThenAxeCheck();
@@ -157,7 +158,7 @@ describe('Direct deposit information', () => {
       .click({ force: true });
     cy.get('[id="root_GI-Bill-Chapters-email-label"]').should(
       'contain',
-      "Veteran's Email Address",
+      "Veteran's email address",
     );
   });
   it('should show warning alert if user hits cancel after editing form and it should close alert and form when user clicks Yes, cancel my changes', () => {

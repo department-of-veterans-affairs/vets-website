@@ -218,7 +218,7 @@ describe('Address Validations', () => {
     cy.wait('@updateAddress');
     cy.get('p[data-testid="alert"]').should(
       'contain',
-      'Your Address has been successfully updated.',
+      'We’ve successfully updated your mailing address for Montgomery GI Bill benefits.',
     );
   });
   it('should not update the address if there is something went wrong ', () => {

@@ -32,10 +32,9 @@ describe('Contact information', () => {
       .first()
       .click();
     cy.url().should('include', '/benefits-profile');
-    cy.get('[class="vads-u-margin-top--0 vads-u-font-weight--bold"]').should(
-      'contain',
-      'Mailing address',
-    );
+    cy.get(
+      '[class="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif vads-u-margin-y--0"]',
+    ).should('contain', 'Mailing address');
   });
   it('Should expand the form when Edit button is clicked', () => {
     cy.injectAxeThenAxeCheck();
@@ -43,10 +42,9 @@ describe('Contact information', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('[class="vads-u-font-weight--bold"]').should(
-      'contain',
-      'Change mailing address',
-    );
+    cy.get(
+      '[class="vads-u-margin-y--2 vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif"]',
+    ).should('contain', 'Change mailing address');
     cy.get('[id="root_fullName-label"]').should(
       'contain',
       "Veteran's full name",
@@ -107,10 +105,9 @@ describe('Contact information', () => {
     cy.get(
       '[label="cancel updating your bank information for GI Bill benefits"]',
     ).click();
-    cy.get('[class="vads-u-margin-top--0 vads-u-font-weight--bold"]').should(
-      'contain',
-      'Mailing address',
-    );
+    cy.get(
+      '[class="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif vads-u-margin-y--0"]',
+    ).should('contain', 'Mailing address');
   });
   it('should show warning alert if user hits cancel after editing form', () => {
     cy.injectAxeThenAxeCheck();
@@ -163,9 +160,8 @@ describe('Contact information', () => {
     cy.get('va-button[uswds]')
       .first()
       .click();
-    cy.get('[class="vads-u-margin-top--0 vads-u-font-weight--bold"]').should(
-      'contain',
-      'Mailing address',
-    );
+    cy.get(
+      '[class="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif vads-u-margin-y--0"]',
+    ).should('contain', 'Mailing address');
   });
 });

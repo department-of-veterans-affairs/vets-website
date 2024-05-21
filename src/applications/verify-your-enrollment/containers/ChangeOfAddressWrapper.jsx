@@ -166,9 +166,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 message="We’ve successfully updated your mailing address for Montgomery GI Bill benefits."
               />
             )}
-            <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
+            <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif vads-u-margin-y--0">
               Mailing address
-            </p>
+            </h3>
             <p>
               {objectHasNoUndefinedValues(newAddress) && (
                 <>
@@ -242,9 +242,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
 
   return (
     <div id={CHANGE_OF_ADDRESS_TITLE}>
-      <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold">
+      <h2 className="vads-u-font-family--serif vads-u-margin-y--4">
         {CHANGE_OF_ADDRESS_TITLE}
-      </p>
+      </h2>
       <div
         className="vads-u-border-color--gray-lighter
             vads-u-color-gray-dark
@@ -306,7 +306,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
         )}
         {toggleAddressForm && (
           <div className="address-change-form-container">
-            <p className="vads-u-font-weight--bold">Change mailing address</p>
+            <h3 className="vads-u-margin-y--2 vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif">
+              Change mailing address
+            </h3>
             {(isLoadingValidateAddress || isLoading) && (
               <Loader className="loader" message="updating..." />
             )}

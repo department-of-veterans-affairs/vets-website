@@ -143,9 +143,9 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
 
   return (
     <div id={CHANGE_OF_DIRECT_DEPOSIT_TITLE}>
-      <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold">
+      <h2 className="vads-u-font-family--serif vads-u-margin-y--4">
         {CHANGE_OF_DIRECT_DEPOSIT_TITLE}
-      </p>
+      </h2>
       <div
         className="vads-u-border-color--gray-lighter
             vads-u-color-gray-dark
@@ -200,7 +200,9 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
         )}
         {toggleDirectDepositForm && (
           <div className="direct-deposit-form-container">
-            <p className="vads-u-font-weight--bold">Add new account</p>
+            <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif vads-u-margin-y--0">
+              Add new account
+            </h3>
             {directDepositDescription}
             {loading && <Loader className="loader" />}
             <ChangeOfDirectDepositForm
