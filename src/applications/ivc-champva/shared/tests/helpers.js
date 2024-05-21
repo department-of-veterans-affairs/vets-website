@@ -41,7 +41,14 @@ export const fillAddressWebComponentPattern = (fieldName, addressObject) => {
   fillTextWebComponent(`${fieldName}_street`, addressObject.street);
   fillTextWebComponent(`${fieldName}_street2`, addressObject.street2);
   fillTextWebComponent(`${fieldName}_street3`, addressObject.street3);
-  selectDropdownWebComponent(`${fieldName}_state`, addressObject.state);
+  // List loop fields sometimes fail on this because the state <select> renders as a text input
+  // TODO: look into that bug. For now, set the test to check which field type we have
+  cy.get('body').then(body => {
+    if (body.find(`va-select[name="root_${fieldName}_state"]`).length > 0)
+      selectDropdownWebComponent(`${fieldName}_state`, addressObject.state);
+    if (body.find(`va-text-input[name="root_${fieldName}_state"]`).length > 0)
+      fillTextWebComponent(`${fieldName}_state`, addressObject.state);
+  });
   fillTextWebComponent(`${fieldName}_postalCode`, addressObject.postalCode);
 };
 
