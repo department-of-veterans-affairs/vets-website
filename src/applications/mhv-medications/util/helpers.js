@@ -220,8 +220,12 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
   const { pathname } = location;
   const defaultBreadcrumbs = [
     {
+      href: medicationsUrls.VA_HOME,
+      label: 'VA.gov home',
+    },
+    {
       href: medicationsUrls.MHV_HOME,
-      label: 'My HealtheVet home',
+      label: 'My HealtheVet',
     },
   ];
   const {
@@ -250,19 +254,6 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
     return defaultBreadcrumbs.concat([
       { href: MEDICATIONS_ABOUT, label: 'About medications' },
       { href: MEDICATIONS_REFILL, label: 'Refill prescriptions' },
-    ]);
-  }
-  if (prescription && pathname.includes(subdirectories.DETAILS)) {
-    return defaultBreadcrumbs.concat([
-      { href: MEDICATIONS_ABOUT, label: 'About medications' },
-      {
-        href: `${MEDICATIONS_URL}?page=${currentPage || 1}`,
-        label: 'Medications',
-      },
-      {
-        href: `/${prescription.prescriptionId}`,
-        label: prescription.prescriptionName,
-      },
     ]);
   }
   return [];

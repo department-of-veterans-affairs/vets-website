@@ -13,7 +13,6 @@ import {
   VERIFICATION_PROFILE_URL,
 } from '../constants';
 import { useData } from '../hooks/useData';
-import { useScrollToTop } from '../hooks/useScrollToTop';
 import CurrentBenefitsStatus from '../components/CurrentBenefitsStatus';
 import MoreInfoCard from '../components/MoreInfoCard';
 import NeedHelp from '../components/NeedHelp';
@@ -21,22 +20,17 @@ import Loader from '../components/Loader';
 import LoginAlert from '../components/LoginAlert';
 
 const BenefitsProfileWrapper = ({ children }) => {
-  useScrollToTop();
   const {
     loading,
     expirationDate,
     updated,
     month,
     day,
-    addressLine2,
-    addressLine3,
-    addressLine4,
-    addressLine5,
-    addressLine6,
     indicator: applicantChapter,
-    fullName: applicantName,
     pendingDocuments,
+    latestAddress,
   } = useData();
+  const applicantName = latestAddress?.veteranName;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const toggleValue = useToggleValue(
     TOGGLE_NAMES.toggleVyeAdressDirectDepositForms,
@@ -68,7 +62,7 @@ const BenefitsProfileWrapper = ({ children }) => {
 
   return (
     <>
-      <div name="topScrollElement" />
+      <div />
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
@@ -98,10 +92,10 @@ const BenefitsProfileWrapper = ({ children }) => {
                   loading={loading}
                   applicantName={applicantName}
                   mailingAddress={{
-                    street: `${addressLine3} ${addressLine2}`,
-                    city: addressLine4,
-                    stateCode: addressLine5,
-                    zipCode: addressLine6,
+                    street: latestAddress?.address1,
+                    city: latestAddress?.city,
+                    stateCode: latestAddress?.state,
+                    zipCode: latestAddress?.zipCode,
                   }}
                 />
                 {signIn?.serviceName === 'idme' ||

@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import * as Sentry from '@sentry/browser';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-
 import { otherLivingExpensesOptions } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import {
-  calculateDiscretionaryIncome,
-  isStreamlinedLongForm,
-} from '../../utils/streamlinedDepends';
+import { isStreamlinedLongForm } from '../../utils/streamlinedDepends';
+import { getMonthlyIncome } from '../../utils/calculateIncome';
+import { getMonthlyExpensesAPI } from '../../utils/calculateExpenses';
 
 const OtherExpensesChecklist = ({
   data,
@@ -40,19 +39,48 @@ const OtherExpensesChecklist = ({
   };
 
   // Calculate Discretionary income as necessary
-  const updateStreamlinedValues = () => {
-    if (otherExpenses?.length || !gmtData?.isEligibleForStreamlined) return;
+  useEffect(() => {
+    const calculateExpenses = async () => {
+      if (!otherExpenses?.length || !gmtData?.isEligibleForStreamlined) return;
 
-    const calculatedDiscretionaryIncome = calculateDiscretionaryIncome(data);
-    setFormData({
-      ...data,
-      gmtData: {
-        ...gmtData,
-        discretionaryBelow:
-          calculatedDiscretionaryIncome < gmtData?.discretionaryIncomeThreshold,
-      },
-    });
-  };
+      try {
+        const response = await getMonthlyExpensesAPI(data);
+
+        if (!response)
+          throw new Error('No response from getMonthlyExpensesAPI');
+
+        const { calculatedMonthlyExpenses } = response;
+
+        if (!calculatedMonthlyExpenses)
+          throw new Error(
+            'No value destructured in response from getMonthlyExpensesAPI',
+          );
+
+        const { totalMonthlyNetIncome } = getMonthlyIncome(data);
+        const calculatedDiscretionaryIncome =
+          totalMonthlyNetIncome - calculatedMonthlyExpenses;
+
+        setFormData({
+          ...data,
+          gmtData: {
+            ...gmtData,
+            discretionaryBelow:
+              calculatedDiscretionaryIncome <
+              gmtData?.discretionaryIncomeThreshold,
+          },
+        });
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(
+            `calculate_monthly_expenses failed in OtherExpensesChecklist: ${error}`,
+          );
+        });
+      }
+    };
+
+    calculateExpenses();
+  }, []);
 
   const onSubmit = event => {
     event.preventDefault();
@@ -93,7 +121,7 @@ const OtherExpensesChecklist = ({
           {contentBeforeButtons}
           <FormNavButtons
             goBack={goBack}
-            goForward={updateStreamlinedValues}
+            goForward={goForward}
             submitToContinue
           />
           {contentAfterButtons}

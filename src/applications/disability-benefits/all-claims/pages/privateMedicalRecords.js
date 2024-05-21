@@ -1,5 +1,9 @@
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import {
   privateRecordsChoiceHelp,
   patientAcknowledgmentTitle,
   patientAcknowledgmentText,
@@ -15,22 +19,13 @@ export const uiSchema = {
       authorize their release.`,
   },
   'view:uploadPrivateRecordsQualifier': {
-    'view:hasPrivateRecordsToUpload': {
-      'ui:title': 'Do you want to upload your private medical records?',
-      'ui:widget': 'yesNo',
-      'ui:options': {
-        labels: {
-          Y: 'Yes',
-          N: 'No, please get my records from my doctor.',
-        },
-        widgetProps: {
-          N: {
-            'aria-describedby':
-              'root_view:patientAcknowledgement_view:acknowledgement',
-          },
-        },
+    'view:hasPrivateRecordsToUpload': yesNoUI({
+      title: 'Do you want to upload your private medical records?',
+      labels: {
+        Y: 'Yes',
+        N: 'No, please get my records from my doctor.',
       },
-    },
+    }),
     'view:privateRecordsChoiceHelp': {
       'ui:description': privateRecordsChoiceHelp,
     },
@@ -79,9 +74,7 @@ export const schema = {
           type: 'object',
           properties: {},
         },
-        'view:hasPrivateRecordsToUpload': {
-          type: 'boolean',
-        },
+        'view:hasPrivateRecordsToUpload': yesNoSchema,
         'view:privateRecordsChoiceHelp': {
           type: 'object',
           properties: {},

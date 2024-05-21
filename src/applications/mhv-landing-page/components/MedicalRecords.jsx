@@ -44,11 +44,31 @@ const MedicalRecords = ({ blueButtonUrl }) => (
     <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
       <h1 className="vads-u-margin-bottom--0">Medical records</h1>
 
-      <div className="medium-screen:vads-u-margin--2">
+      <div
+        className={classnames(
+          'vads-u-display--none',
+          'medium-screen:vads-u-display--block',
+          'medium-screen:vads-u-margin--2',
+        )}
+      >
         <span className="usa-label vads-u-background-color--hub-burials">
           Coming soon
         </span>
       </div>
+    </div>
+
+    <div
+      className={classnames(
+        'vads-u-display--block',
+        'vads-u-margin-top--0p5',
+        'vads-u-margin-x--0p5',
+        'vads-u-margin-bottom--2',
+        'medium-screen:vads-u-display--none',
+      )}
+    >
+      <span className="usa-label vads-u-background-color--hub-burials">
+        Coming soon
+      </span>
     </div>
 
     <p
@@ -82,7 +102,7 @@ const MedicalRecords = ({ blueButtonUrl }) => (
       </p>
       <p>
         <a className="vads-c-action-link--green" href={blueButtonUrl}>
-          Go back to the previous version of Medical Records
+          Go back to the previous version of My HealtheVet
         </a>
       </p>
     </div>
