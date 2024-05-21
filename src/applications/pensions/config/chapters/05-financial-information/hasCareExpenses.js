@@ -1,9 +1,11 @@
 import React from 'react';
 import {
   titleUI,
-  yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+
+const { hasCareExpenses } = fullSchemaPensions.properties;
 
 export const description = (
   <>
@@ -31,7 +33,7 @@ export default {
     type: 'object',
     required: ['hasCareExpenses'],
     properties: {
-      hasCareExpenses: yesNoSchema,
+      hasCareExpenses,
       'view:warningAlert': {
         type: 'object',
         properties: {},

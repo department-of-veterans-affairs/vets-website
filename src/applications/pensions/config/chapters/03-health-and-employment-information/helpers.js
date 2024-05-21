@@ -151,7 +151,7 @@ const generateEmployersUISchema = ({
     'ui:title': employerMessage,
     'ui:options': {
       itemName: 'Job',
-      itemAriaLabel: data => getJobTitleOrType(data.jobTitle),
+      itemAriaLabel: data => getJobTitleOrType(data),
       viewField: EmployerView,
       reviewTitle: employersReviewTitle,
       keepInPageOnReview: true,

@@ -1,0 +1,67 @@
+{
+  "data": {
+    "applicantHasSecondary": false,
+    "primaryAdditionalComments": "Additional comment",
+    "applicantPrimaryInsuranceType": {
+      "rxDiscount": true,
+      "other": true,
+      "medigap": false
+    },
+    "applicantPrimaryEOB": "noEob",
+    "applicantPrimaryHasPrescription": false,
+    "applicantPrimaryThroughEmployer": false,
+    "applicantPrimaryProvider": "Primary Provider",
+    "applicantPrimaryEffectiveDate": "1999-01-01",
+    "applicantPrimaryExpirationDate": "2001-05-02",
+    "applicantHasPrimary": true,
+    "applicantMedicareStatusContinued": "eligibleNotEnrolled",
+    "applicantMedicareStatus": false,
+    "applicantPhone": "1231231234",
+    "applicantEmailAddress": "email@email.com",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "123 Streetland",
+      "city": "Cityburg",
+      "state": "AK",
+      "postalCode": "12312"
+    },
+    "applicantSsn": "123123123",
+    "applicantName": {
+      "first": "Applicant",
+      "middle": "Child",
+      "last": "Jones"
+    },
+    "applicantDOB": "2001-03-02",
+    "certifierRelationship": {
+      "relationshipToApplicants": "parent"
+    },
+    "certifierPhone": "1231231234",
+    "certifierEmail": "123@email.gov",
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Streetname",
+      "city": "Cityland",
+      "state": "AL",
+      "postalCode": "12312"
+    },
+    "certifierName": {
+      "first": "Veteran",
+      "middle": "Quincy",
+      "last": "Jones",
+      "suffix": "II"
+    },
+    "certifierRole": "sponsor",
+    "preparerType": "sponsor",
+    "missingUploads": [
+      {
+        "name": "primaryInsuranceCard",
+        "path": "insurance-upload",
+        "required": true,
+        "uploaded": false
+      }
+    ],
+    "consentToMailMissingRequiredFiles": true,
+    "statementOfTruthSignature": "Veteran Quincy Jones",
+    "statementOfTruthCertified": true
+  }
+}

@@ -169,7 +169,6 @@ const NearByVetCenters = props => {
 
       centerDistance = vetCenterDistance.distance;
     }
-
     return buildFacility(vc, centerDistance);
   };
 

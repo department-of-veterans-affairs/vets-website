@@ -29,8 +29,22 @@ const testConfig = createTestConfig(
     /* 
     1. test-data: standard run-through of the form
     2. no-secondary: no secondary insurance, certifierRole === 'applicant'
-       (skips all certifier + secondary ins pages) */
-    dataSets: ['test-data', 'no-secondary.json'],
+       (skips all certifier + secondary ins pages) 
+    The rest of the tests are described by their filenames and are just
+    variations designed to trigger the conditionals in the form. 
+    */
+    dataSets: [
+      'test-data',
+      'no-secondary.json',
+      'applicant-maximal-test.json',
+      'applicant-no-medicare-no-primary-no-secondary-test.json',
+      'applicant-no-medicare-test.json',
+      'applicant-no-primary-yes-secondary-test.json',
+      'applicant-no-secondary-yes-primary-test.json',
+      'thirdparty-no-medicare-no-primary-yes-secondary-test.json',
+      'veteran-child-no-medicare-yes-primary-no-secondary-test.json',
+      'veteran-spouse-medicare-no-ohi-test.json',
+    ],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -92,7 +106,32 @@ const testConfig = createTestConfig(
       },
     },
     setupPerTest: () => {
-      cy.intercept('POST', formConfig.submitUrl, { status: 200 });
+      cy.intercept('POST', formConfig.submitUrl, req => {
+        cy.get('@testData').then(data => {
+          Object.keys(data).forEach(k => {
+            // Expect all original data used to populate the form
+            // to be present in the submission - this is how we
+            // know that pages we intended to fill didn't get skipped:
+
+            // handle special cases:
+            if (k.endsWith('MedigapPlan')) {
+              // Grab last letter from original data ('medigapPlanK' -> 'K')
+              expect(data[k].slice(-1)).to.equal(req.body[k]);
+            } else if (typeof k === 'object') {
+              // For objects with nested keys, just stringify and check
+              // (easier for things like home address)
+              expect(JSON.stringify(data[k])).to.equal(
+                JSON.stringify(req.body[k]),
+              );
+            } else if (k.includes('DOB') || k.includes('Date')) {
+              // Just check length match. There's a discrepancy in the
+              // format of dates (goes from YYYY-MM-DD to MM-DD-YYYY).
+              // TODO: Address discrepancy at some point.
+              expect(data[k]?.length).to.equal(req.body[k]?.length);
+            }
+          });
+        });
+      });
       cy.config('includeShadowDom', true);
     },
     // Skip tests in CI until the form is released.

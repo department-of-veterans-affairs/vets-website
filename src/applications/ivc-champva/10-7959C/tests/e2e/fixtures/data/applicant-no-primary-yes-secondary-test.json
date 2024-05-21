@@ -1,0 +1,50 @@
+{
+  "data": {
+    "secondaryAdditionalComments": "Secondary comments",
+    "secondaryMedigapPlan": "medigapPlanK",
+    "applicantSecondaryInsuranceType": {
+      "ppo": true,
+      "medigap": true
+    },
+    "applicantSecondaryEOB": "noEob",
+    "applicantSecondaryHasPrescription": false,
+    "applicantSecondaryThroughEmployer": true,
+    "applicantSecondaryProvider": "Secondary Provider Name",
+    "applicantSecondaryEffectiveDate": "2009-01-02",
+    "applicantSecondaryExpirationDate": "2010-09-03",
+    "applicantHasSecondary": true,
+    "applicantHasPrimary": false,
+    "applicantMedicareStatusContinued": "enrolledNoUpdates",
+    "applicantMedicareStatus": false,
+    "applicantPhone": "7771231234",
+    "applicantEmailAddress": "email@email.edu",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "811 Street Circle",
+      "city": "Cityburg",
+      "state": "AR",
+      "postalCode": "77722"
+    },
+    "applicantSsn": "444221234",
+    "applicantName": {
+      "first": "Applicant",
+      "middle": "Jerry",
+      "last": "Jones",
+      "suffix": "II"
+    },
+    "applicantDOB": "1950-08-02",
+    "certifierRole": "applicant",
+    "preparerType": "sponsor",
+    "missingUploads": [
+      {
+        "name": "secondaryInsuranceCard",
+        "path": "secondary-insurance-card-upload",
+        "required": true,
+        "uploaded": false
+      }
+    ],
+    "consentToMailMissingRequiredFiles": true,
+    "statementOfTruthSignature": "Applicant Jerry Jones",
+    "statementOfTruthCertified": true
+  }
+}

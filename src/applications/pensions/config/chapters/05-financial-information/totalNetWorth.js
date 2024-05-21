@@ -1,12 +1,14 @@
 import {
   titleUI,
-  yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import {
   AssetInformationAlert,
   RequestIncomeAndAssetInformationAlert,
 } from '../../../components/FormAlerts';
+
+const { totalNetWorth } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -38,7 +40,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      totalNetWorth: yesNoSchema,
+      totalNetWorth,
       'view:warningAlertOnYes': {
         type: 'object',
         properties: {},

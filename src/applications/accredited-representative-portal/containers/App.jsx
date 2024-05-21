@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Outlet } from 'react-router-dom-v5-compat';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import AppNotEnabledAlert from '../components/AppNotEnabledAlert/AppNotEnabledAlert';
 import Footer from '../components/common/Footer/Footer';
 import Header from '../components/common/Header/Header';
 
@@ -20,6 +20,8 @@ function App() {
     TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
   );
 
+  const isProduction = environment.isProduction();
+
   if (isAppToggleLoading) {
     return (
       <div className="vads-u-margin-y--5">
@@ -28,8 +30,8 @@ function App() {
     );
   }
 
-  if (!isAppEnabled) {
-    return <AppNotEnabledAlert />;
+  if (isProduction && !isAppEnabled) {
+    return document.location.replace('/');
   }
 
   return (
