@@ -1,0 +1,67 @@
+{
+  "data": {
+    "secondaryAdditionalComments": "Secondary comment - this applicant has no medicare, no primary, and does have secondary",
+    "applicantSecondaryInsuranceType": {
+      "hmo": true,
+      "ppo": true
+    },
+    "applicantSecondaryEOB": "hasEob",
+    "applicantSecondaryHasPrescription": false,
+    "applicantSecondaryThroughEmployer": true,
+    "applicantSecondaryProvider": "Secondary Provider",
+    "applicantSecondaryEffectiveDate": "2000-02-02",
+    "applicantSecondaryExpirationDate": "2023-05-02",
+    "applicantHasSecondary": true,
+    "applicantHasPrimary": false,
+    "applicantMedicareStatusContinued": "ineligible",
+    "applicantMedicareStatus": false,
+    "applicantPhone": "1231231234",
+    "applicantEmailAddress": "applicant@email.gov",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "123 Circle Street",
+      "city": "Cityburg",
+      "state": "CA",
+      "postalCode": "12312"
+    },
+    "applicantSsn": "123123123",
+    "applicantName": {
+      "first": "Applicant",
+      "middle": "Quincy",
+      "last": "Jones",
+      "suffix": "III"
+    },
+    "applicantDOB": "2000-02-01",
+    "certifierRelationship": {
+      "relationshipToApplicants": "other",
+      "otherRelationshipToApplicants": "Other relationship here"
+    },
+    "certifierPhone": "1231231234",
+    "certifierEmail": "test@email.com",
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Streettown",
+      "city": "Cityland",
+      "state": "DE",
+      "postalCode": "12312"
+    },
+    "certifierName": {
+      "first": "Certifier",
+      "middle": "Jerry",
+      "last": "Jones"
+    },
+    "certifierRole": "other",
+    "preparerType": "sponsor",
+    "missingUploads": [
+      {
+        "name": "secondaryInsuranceCard",
+        "path": "secondary-insurance-card-upload",
+        "required": true,
+        "uploaded": false
+      }
+    ],
+    "consentToMailMissingRequiredFiles": true,
+    "statementOfTruthSignature": "Certifier Jerry Jones",
+    "statementOfTruthCertified": true
+  }
+}
