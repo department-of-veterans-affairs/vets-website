@@ -4,11 +4,10 @@ import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Inbox Message Sort', () => {
   beforeEach(() => {
-    const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
     cy.reload(true);
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     cy.get(Locators.ALERTS.LIST_HEADER);
   });
   it('Sort Inbox Messages from Newest to Oldest', () => {

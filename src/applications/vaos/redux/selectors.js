@@ -111,3 +111,6 @@ export const selectFeatureDatadogRum = state =>
 
 export const selectFeatureAppointmentDetailsRedesign = state =>
   toggleValues(state).vaOnlineSchedulingAppointmentDetailsRedesign;
+
+export const selectFeatureCCDirectScheduling = state =>
+  toggleValues(state).vaOnlineSchedulingCCDirectScheduling;

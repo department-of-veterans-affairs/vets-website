@@ -1,9 +1,9 @@
 {
   "data": 
     {
-      "phoneNumber": "2058797651",
-      "emailAddress": "reiting@gmail.com",
-      "mailingAddress": {
+      "veteranPhoneNumber": "2058797651",
+      "veteranEmailAddress": "reiting@gmail.com",
+      "veteranAddress": {
           "country": "USA",
           "street": "6 main",
           "city": "canton",
@@ -17,16 +17,17 @@
           "state": "NE",
           "postalCode": "13617"
       },
-      "ssn": {
+      "veteranSocialSecurityNumber": {
           "ssn": "589631236"
       },
-      "fullName": {
-          "first": "Rachel",
-          "last": "Eiting"
+      "veteranFullName": {
+          "first": "Jane",
+          "middle": "B",
+          "last": "Smith",
+          "Suffix": "Jr."
       },
-      "veteranDOB": "1999-02-05",
-      "statementOfTruthSignature": "Rachel Eiting",
+      "veteranDateOfBirth": "1999-02-05",
+      "statementOfTruthSignature": "Jane B Smith",
       "statementOfTruthCertified": true
   }
-  
 }
