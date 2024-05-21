@@ -41,7 +41,7 @@ const testConfig = createTestConfig(
       // 'test-data',
       'maximal-test',
       'app-sa-cs-medab',
-      // 'app-sd-cb-ohi',
+      'app-sd-cb-ohi',
       // 'cert-sd-spoused',
       'vet-2a-spouse-child-medabd-ohi',
     ],
