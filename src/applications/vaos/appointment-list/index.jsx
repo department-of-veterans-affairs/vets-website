@@ -26,6 +26,10 @@ function AppointmentListSection() {
             path="/choose-community-care-appointment"
             component={ChooseCommunityCare}
           />
+          <Route
+            path="/appointment-notifications"
+            component={AppointmentNotificationPage}
+          />
           <Route path="/confirm-approved" component={ConfirmApprovedPage} />
           <Route path="/review-approved" component={ReviewApproved} />
           <Route
