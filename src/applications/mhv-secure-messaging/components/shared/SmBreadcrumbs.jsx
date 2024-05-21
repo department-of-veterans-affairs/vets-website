@@ -59,7 +59,7 @@ const SmBreadcrumbs = () => {
   useEffect(
     () => {
       if (!locationBasePath) {
-        dispatch(setBreadcrumbs({}, location));
+        dispatch(setBreadcrumbs(Constants.Breadcrumbs.MYHEALTH, null));
         return;
       }
 
@@ -137,7 +137,11 @@ const SmBreadcrumbs = () => {
         <nav aria-label="Breadcrumb">
           <ul className={breadcrumbSize()}>
             <li className="sm-breadcrumb-list-item">
-              <Link to={crumbs.path?.toLowerCase()}>{crumbs.label}</Link>
+              {!crumbs.path ? (
+                <a href="/my-health">{crumbs.label}</a>
+              ) : (
+                <Link to={crumbs.path?.toLowerCase()}>{crumbs.label}</Link>
+              )}
             </li>
           </ul>
         </nav>
