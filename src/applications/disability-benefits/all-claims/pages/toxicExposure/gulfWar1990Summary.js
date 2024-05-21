@@ -1,6 +1,6 @@
 import React from 'react';
 import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
-import { ToxicExposureSummary } from '../../content/toxicExposureSummary';
+import { ToxicExposureSummary } from '../../components/ToxicExposureSummary';
 import { gulfWar1990PageTitle } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
 

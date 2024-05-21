@@ -65,7 +65,7 @@ export const toxicExposurePages = {
   },
   herbicideLocations: {
     title: herbicidePageTitle,
-    path: 'herbicide',
+    path: `${TE_URL_PREFIX}/herbicide`,
     depends: formData => isClaimingTECondition(formData),
     uiSchema: herbicideLocations.uiSchema,
     schema: herbicideLocations.schema,

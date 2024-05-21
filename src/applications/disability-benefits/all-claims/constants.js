@@ -386,6 +386,7 @@ export const HERBICIDE_LOCATIONS = Object.freeze({
     'Somewhere you had contact with C-123 airplanes while serving in the Air Force or the Air Force Reserves',
   thailand: 'A U.S. or Royal Thai military base in Thailand',
   vietnam: 'Vietnam or the waters in or off of Vietnam',
+  none: 'None of these locations',
 });
 
 // used to save feature flag in form in util function for 'depends' keyword of form config

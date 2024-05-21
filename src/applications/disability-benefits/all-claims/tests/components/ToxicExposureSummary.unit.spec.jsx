@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { ToxicExposureSummary } from '../../content/toxicExposureSummary';
+import { ToxicExposureSummary } from '../../components/ToxicExposureSummary';
 import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 import { goBackLink, noDatesEntered } from '../../content/toxicExposure';
 

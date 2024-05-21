@@ -1,7 +1,7 @@
 import React from 'react';
 import { GULF_WAR_2001_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 import { gulfWar2001PageTitle } from '../../content/toxicExposure';
-import { ToxicExposureSummary } from '../../content/toxicExposureSummary';
+import { ToxicExposureSummary } from '../../components/ToxicExposureSummary';
 import { formTitle } from '../../utils';
 
 export const uiSchema = {

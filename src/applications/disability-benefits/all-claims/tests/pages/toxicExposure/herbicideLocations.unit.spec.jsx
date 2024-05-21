@@ -13,8 +13,10 @@ import formConfig from '../../../config/form';
 import {
   herbicidePageTitle,
   herbicideQuestion,
+  noneAndLocationError,
 } from '../../../content/toxicExposure';
 import { HERBICIDE_LOCATIONS } from '../../../constants';
+import { checkVaCheckbox, inputVaTextInput } from '../../testUtils';
 
 describe('Herbicide Location', () => {
   const {
@@ -68,17 +70,57 @@ describe('Herbicide Location', () => {
     );
 
     const checkboxGroup = $('va-checkbox-group', container);
-    await checkboxGroup.__events.vaChange({
-      target: { checked: true, dataset: { key: 'cambodia' } },
-      detail: { checked: true },
-    });
-
-    await checkboxGroup.__events.vaChange({
-      target: { checked: true, dataset: { key: 'laos' } },
-      detail: { checked: true },
-    });
+    checkVaCheckbox(checkboxGroup, 'cambodia');
+    checkVaCheckbox(checkboxGroup, 'laos');
 
     userEvent.click(getByText('Submit'));
     expect(onSubmit.calledOnce).to.be.true;
+  });
+
+  it('should display error when location and "none"', () => {
+    const formData = {};
+    const { container, getByText } = render(
+      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+    );
+    const checkboxGroup = $('va-checkbox-group', container);
+    checkVaCheckbox(checkboxGroup, 'guam');
+    checkVaCheckbox(checkboxGroup, 'none');
+
+    userEvent.click(getByText('Submit'));
+    expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
+  });
+
+  it('should display error when other location and "none"', () => {
+    const formData = {};
+    const { container, getByText } = render(
+      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+    );
+    const checkboxGroup = $('va-checkbox-group', container);
+
+    checkVaCheckbox(checkboxGroup, 'none');
+    inputVaTextInput(
+      container,
+      'Test location 1, Test location #2',
+      'va-textarea',
+    );
+
+    userEvent.click(getByText('Submit'));
+    expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
+  });
+
+  it('should display error when other location does not match pattern', () => {
+    const formData = {};
+    const { container, getByText } = render(
+      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+    );
+
+    inputVaTextInput(
+      container,
+      'Test location 1 + Test location 2',
+      'va-textarea',
+    );
+
+    userEvent.click(getByText('Submit'));
+    expect($('va-textarea').error.startsWith('does not match pattern'));
   });
 });

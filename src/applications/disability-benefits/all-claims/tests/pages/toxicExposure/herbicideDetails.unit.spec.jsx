@@ -31,66 +31,69 @@ describe('herbicideDetails', () => {
     },
   };
 
-  Object.keys(HERBICIDE_LOCATIONS).forEach(locationId => {
-    const pageSchema = schemas[`herbicide-location-${locationId}`];
-    it(`should render for ${locationId}`, () => {
-      const { container, getByText } = render(
-        <DefinitionTester
-          schema={pageSchema.schema}
-          uiSchema={pageSchema.uiSchema}
-          data={formData}
-        />,
-      );
-
-      getByText(herbicidePageTitle);
-      getByText(dateRangeDescription);
-
-      const addlInfo = container.querySelector('va-additional-info');
-      expect(addlInfo).to.have.attribute(
-        'trigger',
-        'What if I have more than one date range?',
-      );
-
-      expect($(`va-memorable-date[label="${startDateApproximate}"]`, container))
-        .to.exist;
-      expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
-        .to.exist;
-
-      if (locationId === 'cambodia') {
-        getByText(`Location 1 of 2: ${HERBICIDE_LOCATIONS.cambodia}`, {
-          exact: false,
-        });
-        expect(pageSchema.title(formData)).to.equal(
-          `Location 1 of 2: ${HERBICIDE_LOCATIONS.cambodia}`,
+  Object.keys(HERBICIDE_LOCATIONS)
+    .filter(locationId => locationId !== 'none')
+    .forEach(locationId => {
+      const pageSchema = schemas[`herbicide-location-${locationId}`];
+      it(`should render for ${locationId}`, () => {
+        const { container, getByText } = render(
+          <DefinitionTester
+            schema={pageSchema.schema}
+            uiSchema={pageSchema.uiSchema}
+            data={formData}
+          />,
         );
-      } else if (locationId === 'laos') {
-        getByText(`Location 2 of 2: ${HERBICIDE_LOCATIONS.laos}`, {
-          exact: false,
-        });
-        expect(pageSchema.title(formData)).to.equal(
-          `Location 2 of 2: ${HERBICIDE_LOCATIONS.laos}`,
+
+        getByText(herbicidePageTitle);
+        getByText(dateRangeDescription);
+
+        const addlInfo = container.querySelector('va-additional-info');
+        expect(addlInfo).to.have.attribute(
+          'trigger',
+          'What if I have more than one date range?',
         );
-      } else {
-        getByText(HERBICIDE_LOCATIONS[locationId]);
-        expect(pageSchema.title(formData)).to.equal(
-          `${HERBICIDE_LOCATIONS[locationId]}`,
+
+        expect(
+          $(`va-memorable-date[label="${startDateApproximate}"]`, container),
+        ).to.exist;
+        expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
+          .to.exist;
+
+        if (locationId === 'cambodia') {
+          getByText(`Location 1 of 2: ${HERBICIDE_LOCATIONS.cambodia}`, {
+            exact: false,
+          });
+          expect(pageSchema.title(formData)).to.equal(
+            `Location 1 of 2: ${HERBICIDE_LOCATIONS.cambodia}`,
+          );
+        } else if (locationId === 'laos') {
+          getByText(`Location 2 of 2: ${HERBICIDE_LOCATIONS.laos}`, {
+            exact: false,
+          });
+          expect(pageSchema.title(formData)).to.equal(
+            `Location 2 of 2: ${HERBICIDE_LOCATIONS.laos}`,
+          );
+        } else {
+          getByText(HERBICIDE_LOCATIONS[locationId]);
+          expect(pageSchema.title(formData)).to.equal(
+            `${HERBICIDE_LOCATIONS[locationId]}`,
+          );
+        }
+      });
+
+      it(`should submit without dates for ${locationId}`, () => {
+        const onSubmit = sinon.spy();
+        const { getByText } = render(
+          <DefinitionTester
+            schema={pageSchema.schema}
+            uiSchema={pageSchema.uiSchema}
+            data={formData}
+            onSubmit={onSubmit}
+          />,
         );
-      }
+
+        userEvent.click(getByText('Submit'));
+        expect(onSubmit.calledOnce).to.be.true;
+      });
     });
-
-    it(`should submit without dates for ${locationId}`, () => {
-      const onSubmit = sinon.spy();
-      const { getByText } = render(
-        <DefinitionTester
-          schema={pageSchema.schema}
-          uiSchema={pageSchema.uiSchema}
-          data={formData}
-          onSubmit={onSubmit}
-        />,
-      );
-
-      userEvent.click(getByText('Submit'));
-      expect(onSubmit.calledOnce).to.be.true;
-    });
-  });
 });

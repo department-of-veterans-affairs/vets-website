@@ -6,7 +6,7 @@ import {
   datesDescription,
   getOtherFieldDescription,
   goBackLink,
-} from './toxicExposure';
+} from '../content/toxicExposure';
 
 /**
  * Summary list used for the end of a Checkbox and Loop flow of the various Toxic Exposure pages

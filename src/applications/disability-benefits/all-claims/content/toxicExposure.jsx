@@ -247,19 +247,37 @@ export function validateTEConditions(errors, formData) {
 }
 
 /**
+ * Get the value for the 'other' field's description
+ * @param {object} formData - full form data
+ * @param {string} objectName - name of the object containing the 'other' field
+ * @returns {string} sanitized description value if present
+ */
+export function getOtherFieldDescription(formData, objectName) {
+  const description = formData?.toxicExposure?.[objectName]?.description;
+
+  return typeof description === 'string' ? description.trim() : '';
+}
+
+/**
  * Validates selected locations (e.g. gulfWar1990Locations, gulfWar2001Locations, etc.).
  * If the 'none' checkbox is selected along with another location, adds an error.
  *
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  * @param {string} objectName - Name of the object to look at in the form data
+ * @param {string} otherObjectName - Name of the object containing other location or other hazard data
  */
-export function validateLocations(errors, formData, objectName) {
+export function validateLocations(
+  errors,
+  formData,
+  objectName,
+  otherObjectName,
+) {
   const { [objectName]: locations = {} } = formData?.toxicExposure;
-
   if (
     locations?.none === true &&
-    Object.values(locations).filter(value => value === true).length > 1
+    (Object.values(locations).filter(value => value === true).length > 1 ||
+      getOtherFieldDescription(formData, otherObjectName))
   ) {
     errors.toxicExposure[objectName].addError(noneAndLocationError);
   }
@@ -303,18 +321,6 @@ export function getKeyIndex(key, objectName, formData) {
     }
   }
   return 0;
-}
-
-/**
- * Get the value for the 'other' field's description
- * @param {object} formData - full form data
- * @param {string} objectName - name of the object containing the 'other' field
- * @returns {string} sanitized description value if present
- */
-export function getOtherFieldDescription(formData, objectName) {
-  const description = formData?.toxicExposure?.[objectName]?.description;
-
-  return typeof description === 'string' ? description.trim() : '';
 }
 
 /**

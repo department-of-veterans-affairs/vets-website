@@ -1,6 +1,6 @@
 import React from 'react';
 import { HERBICIDE_LOCATIONS, TE_URL_PREFIX } from '../../constants';
-import { ToxicExposureSummary } from '../../content/toxicExposureSummary';
+import { ToxicExposureSummary } from '../../components/ToxicExposureSummary';
 import { herbicidePageTitle } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
 
