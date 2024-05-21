@@ -73,9 +73,17 @@ const UpcomingAppointments = props => {
   } else if (upcomingAppointmentsDataError) {
     window.scrollTo(0, 0);
     body = (
-      <p data-testid="upcoming-appointments-error-message">
-        {t('error-retrieving-upcoming-appointments')}
-      </p>
+      <va-alert
+        data-testid="upcoming-appointments-error-message"
+        status="error"
+      >
+        <h3 className="vads-u-margin-top--0">
+          {t('were-sorry-weve-run-into-a-problem')}
+        </h3>
+        <p className="vads-u-margin-bottom--0">
+          {t('were-having-trouble-getting-your-upcoming-appointments')}
+        </p>
+      </va-alert>
     );
   } else {
     body = (
