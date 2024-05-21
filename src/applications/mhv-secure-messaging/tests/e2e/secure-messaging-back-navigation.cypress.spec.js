@@ -10,13 +10,12 @@ import { Alerts, DefaultFolders } from '../../util/constants';
 
 describe('SM back navigation', () => {
   const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
   beforeEach(() => {
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
   });
   it('user navigate to inbox folder after message sent', () => {
-    landingPage.navigateToComposePage();
+    PatientInboxPage.navigateToComposePage();
     PatientComposePage.selectRecipient(requestBody.recipientId);
     PatientComposePage.selectCategory(requestBody.category);
     PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`);

@@ -5,11 +5,10 @@ import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Secure Messaging Inbox No Messages', () => {
   it('inbox no messages', () => {
-    const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
 
     site.login();
-    landingPage.loadInboxMessages(mockInboxNoMessages);
+    PatientInboxPage.loadInboxMessages(mockInboxNoMessages);
 
     cy.get('@inboxMessages')
       .its('response')

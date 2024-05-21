@@ -8,13 +8,12 @@ import mockCustomFolderMetaResponse from './fixtures/customResponse/custom-folde
 import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 
 describe('Secure Messaging Navigate Away From `Start a new message`', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
 
   it('Navigate Away From `Start a new message` To Inbox', () => {
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     PatientComposePage.selectRecipient();
@@ -33,8 +32,8 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
   it('Navigate Away From `Start a new message` To Draft', () => {
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     PatientComposePage.selectRecipient();
@@ -57,8 +56,8 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
   it('Navigate Away From `Start a new message` To Sent', () => {
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     PatientComposePage.selectRecipient();
@@ -81,8 +80,8 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
   it('Navigate Away From `Start a new message` To Trash', () => {
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     PatientComposePage.selectRecipient();
@@ -105,8 +104,8 @@ describe('Secure Messaging Navigate Away From `Start a new message`', () => {
 
   it('Navigate Away From `Start a new message` To MY Folders', () => {
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     PatientComposePage.selectRecipient();
