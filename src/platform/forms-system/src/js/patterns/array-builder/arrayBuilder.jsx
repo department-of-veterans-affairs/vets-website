@@ -302,7 +302,10 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       const nextPagePath = getNextPagePath(
         pageList,
         formData,
-        `/${lastItemPagePath.replace(':index', index - 1)}`,
+        `/${lastItemPagePath.replace(
+          ':index',
+          index === 0 ? index : index - 1,
+        )}`,
       );
       goPath(nextPagePath);
     }
