@@ -28,7 +28,7 @@ export const App = ({ formNumber, hasOnlineTool }) => {
           Once you’ve completed the form you can return here to upload it to us.
         </p>
         {userLoggedIn ? (
-          <div className="arrow" style={{ maxWidth: '75%' }}>
+          <div className="action-bar-arrow" style={{ maxWidth: '75%' }}>
             <div className="vads-u-background-color--primary vads-u-padding--1">
               <a
                 className="vads-c-action-link--white"

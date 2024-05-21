@@ -738,11 +738,11 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
   max-width: 100%;
 }
 
-.arrow {
+.action-bar-arrow {
   position: relative;
 }
 
-.arrow::after {
+.action-bar-arrow::after {
   content: "";
   position: absolute;
   top: 0;
