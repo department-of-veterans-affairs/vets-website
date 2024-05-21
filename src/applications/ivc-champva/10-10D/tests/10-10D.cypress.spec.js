@@ -40,7 +40,7 @@ const testConfig = createTestConfig(
     dataSets: [
       // 'test-data',
       'maximal-test',
-      // 'app-sa-cs-medab',
+      'app-sa-cs-medab',
       // 'app-sd-cb-ohi',
       // 'cert-sd-spoused',
       'vet-2a-spouse-child-medabd-ohi',
