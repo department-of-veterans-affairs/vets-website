@@ -87,11 +87,11 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
           </Link>
         </p>
       </div>
-      <h3 className="vads-u-margin-bottom--0" data-testid="renewable-rx">
-        Prescriptions you may need to renew
-      </h3>
       {renewablePrescriptionsList.length > 0 && (
         <>
+          <h3 className="vads-u-margin-bottom--0" data-testid="renewable-rx">
+            Prescriptions you may need to renew
+          </h3>
           <p data-testid="renew-page-list-count">
             Showing
             <span>{` ${displayRange[0]} - ${displayRange[1]} of`}</span>
