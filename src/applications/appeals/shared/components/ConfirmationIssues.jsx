@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { getReadableDate } from '../utils/dates';
 import { getIssueName, getIssueDate } from '../utils/issues';
-import { showBooleanValue } from '../utils/confirmation';
+import { showValueOrNotSelected } from '../utils/confirmation';
 import { disagreeWith } from '../utils/areaOfDisagreement';
 
 const ConfirmationIssues = ({ data }) => (
@@ -22,7 +22,7 @@ const ConfirmationIssues = ({ data }) => (
           className="page-value dd-privacy-hidden"
           data-dd-action-name="requesting an extension"
         >
-          {showBooleanValue(data.requestingExtension)}
+          {showValueOrNotSelected(data.requestingExtension)}
         </div>
       </li>
       {data.requestingExtension && (
@@ -46,7 +46,7 @@ const ConfirmationIssues = ({ data }) => (
           className="page-value dd-privacy-hidden"
           data-dd-action-name="is appealing VHA benefits"
         >
-          {showBooleanValue(data.appealingVHADenial)}
+          {showValueOrNotSelected(data.appealingVHADenial)}
         </div>
       </li>
       {/* List item that is common for all Decision Review forms */}

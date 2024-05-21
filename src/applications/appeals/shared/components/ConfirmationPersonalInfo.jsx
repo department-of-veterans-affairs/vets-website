@@ -5,7 +5,7 @@ import { getPhoneString } from '~/platform/forms-system/src/js/utilities/data/pr
 
 import { renderFullName, maskVafn } from '../utils/data';
 import { getReadableDate } from '../utils/dates';
-import { showBooleanValue } from '../utils/confirmation';
+import { showValueOrNotSelected } from '../utils/confirmation';
 
 const ConfirmationPersonalInfo = ({
   dob = '',
@@ -51,7 +51,7 @@ const ConfirmationPersonalInfo = ({
             className="page-value dd-privacy-hidden"
             data-dd-action-name="homeless"
           >
-            {showBooleanValue(homeless)}
+            {showValueOrNotSelected(homeless)}
           </div>
         </li>
         <li>
