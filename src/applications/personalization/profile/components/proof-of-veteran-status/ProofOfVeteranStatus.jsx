@@ -29,15 +29,14 @@ const ProofOfVeteranStatus = ({
     (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
     /android/i.test(userAgent);
 
-// Veteran is considered eligible if their most recent discharge code is allow-listed
+  // Veteran is considered eligible if their most recent discharge code is allow-listed
   const mostRecentDischargeCode =
     serviceHistory.length > 0
       ? serviceHistory.at(-1).characterOfDischargeCode
       : null;
   const eligibilityIndicator =
-    mostRecentDischargeCode === null || mostRecentDischargeCode === ''
-      ? null
-const eligibilityIndicator = mostRecentDischargeCode && DISCHARGE_CODE_MAP[mostRecentDischargeCode]?.indicator;
+    mostRecentDischargeCode &&
+    DISCHARGE_CODE_MAP[mostRecentDischargeCode]?.indicator;
 
   const pdfData = {
     title: `Veteran status card for ${formatFullName({
@@ -141,7 +140,7 @@ const eligibilityIndicator = mostRecentDischargeCode && DISCHARGE_CODE_MAP[mostR
           </va-alert>
         ) : null}
 
-        {eligibilityIndicator === 'Z' || eligibilityIndicator === null ? (
+        {serviceHistory.length === 0 || eligibilityIndicator === 'Z' ? (
           <va-alert
             close-btn-aria-label="Close notification"
             status="warning"
