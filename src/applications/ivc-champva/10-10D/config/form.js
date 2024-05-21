@@ -1272,7 +1272,7 @@ const formConfig = {
               get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
-              ) !== 'enrolled' &&
+              ) === 'ineligible' &&
               getAgeInYears(formData.applicants[index]?.applicantDOB) >= 65
             );
           },
