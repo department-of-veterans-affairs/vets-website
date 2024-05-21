@@ -63,7 +63,7 @@ export class IntroductionPage extends React.Component {
         ) : (
           <SaveInProgressIntro {...sipOptions} />
         )}
-        <h2 className="vads-u-margin--0">
+        <h2 className="vads-u-margin-top--2">
           Follow these steps to request a Board Appeal
         </h2>
         <va-process-list uswds>
@@ -118,7 +118,7 @@ export class IntroductionPage extends React.Component {
         ) : (
           <SaveInProgressIntro buttonOnly {...sipOptions} />
         )}
-        <h2 className="vads-u-margin--0">
+        <h2 className="vads-u-margin-top--2">
           What if I need help filling out my application?
         </h2>
         <p>

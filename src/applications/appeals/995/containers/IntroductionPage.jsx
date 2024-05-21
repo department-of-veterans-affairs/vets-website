@@ -64,7 +64,7 @@ class IntroductionPage extends React.Component {
         {loggedIn &&
           !showVerifyLink &&
           !showMissingInfo && <SaveInProgressIntro {...sipOptions} />}
-        <h2 className="vads-u-margin-y--0">
+        <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
           Follow these steps to get started
         </h2>
         <va-process-list uswds>
@@ -196,11 +196,7 @@ class IntroductionPage extends React.Component {
         </va-process-list>
         {!showVerifyLink &&
           !showMissingInfo && (
-            <div
-              className={`sip-wrapper ${
-                loggedIn ? '' : 'vads-u-margin-bottom--4'
-              }`}
-            >
+            <div className="sip-wrapper vads-u-margin-bottom--4">
               <SaveInProgressIntro {...sipOptions} buttonOnly={loggedIn} />
             </div>
           )}
