@@ -7,7 +7,7 @@ import { buildDateFormatter } from '../../utils/helpers';
 export default function ClaimPhaseStepper({
   claimDate,
   currentClaimPhaseDate,
-  currentPhaseStep,
+  currentPhase,
 }) {
   const formattedClaimDate = buildDateFormatter()(claimDate);
   const formattedCurrentClaimPhaseDate = buildDateFormatter()(
@@ -16,7 +16,7 @@ export default function ClaimPhaseStepper({
 
   const claimPhases = [
     {
-      step: 1,
+      phase: 1,
       header: 'Step 1: Claim received',
       description: (
         <>
@@ -27,7 +27,7 @@ export default function ClaimPhaseStepper({
       ),
     },
     {
-      step: 2,
+      phase: 2,
       header: 'Step 2: Initial review',
       description: (
         <>
@@ -43,7 +43,7 @@ export default function ClaimPhaseStepper({
       ),
     },
     {
-      step: 3,
+      phase: 3,
       header: 'Step 3: Evidence gathering',
       description: (
         <>
@@ -82,7 +82,7 @@ export default function ClaimPhaseStepper({
       ),
     },
     {
-      step: 4,
+      phase: 4,
       header: 'Step 4: Evidence review',
       description: (
         <>
@@ -95,11 +95,11 @@ export default function ClaimPhaseStepper({
       ),
     },
   ];
-  const isCurrentPhase = step => {
-    return step === currentPhaseStep;
+  const isCurrentPhase = phase => {
+    return phase === currentPhase;
   };
 
-  const stepCanRepeat = phase => {
+  const phaseCanRepeat = phase => {
     return [3, 4, 5, 6].includes(phase);
   };
 
@@ -108,7 +108,7 @@ export default function ClaimPhaseStepper({
       return 'flag';
     }
 
-    if (phase < currentPhaseStep) {
+    if (phase < currentPhase) {
       return 'check_circle';
     }
 
@@ -120,7 +120,7 @@ export default function ClaimPhaseStepper({
       return 'phase-current';
     }
 
-    if (phase < currentPhaseStep) {
+    if (phase < currentPhase) {
       return 'phase-complete';
     }
 
@@ -130,30 +130,30 @@ export default function ClaimPhaseStepper({
   return (
     <div className="claim-phase-stepper">
       <va-accordion>
-        {claimPhases.map((phase, phaseIndex) => (
+        {claimPhases.map((claimPhase, phaseIndex) => (
           <va-accordion-item
             key={phaseIndex}
-            header={phase.header}
-            id={`phase${phase.step}`}
+            header={claimPhase.header}
+            id={`phase${claimPhase.phase}`}
           >
             <va-icon
-              icon={headerIcon(phase.step)}
-              class={headerIconColor(phase.step)}
+              icon={headerIcon(claimPhase.phase)}
+              class={headerIconColor(claimPhase.phase)}
               slot="icon"
             />
-            {isCurrentPhase(phase.step) && (
+            {isCurrentPhase(claimPhase.phase) && (
               <strong className="current-phase">
                 Your claim is in this step as of{' '}
                 {formattedCurrentClaimPhaseDate}.
               </strong>
             )}
-            {stepCanRepeat(phase.step) && (
+            {phaseCanRepeat(claimPhase.phase) && (
               <div className="repeat-phase">
                 <va-icon icon="autorenew" size={3} />
                 <span>Step may repeat if we need more information</span>
               </div>
             )}
-            <span className="vads-u-margin-y--0">{phase.description}</span>
+            <span className="vads-u-margin-y--0">{claimPhase.description}</span>
           </va-accordion-item>
         ))}
       </va-accordion>
@@ -164,5 +164,5 @@ export default function ClaimPhaseStepper({
 ClaimPhaseStepper.propTypes = {
   claimDate: PropTypes.string.isRequired,
   currentClaimPhaseDate: PropTypes.number.isRequired,
-  currentPhaseStep: PropTypes.number.isRequired,
+  currentPhase: PropTypes.number.isRequired,
 };

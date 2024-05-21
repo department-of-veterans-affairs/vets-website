@@ -14,7 +14,7 @@ describe('<ClaimPhaseStepper>', () => {
       <ClaimPhaseStepper
         claimDate={claimDate}
         currentClaimPhaseDate={currentClaimPhaseDate}
-        currentPhaseStep={1}
+        currentPhase={1}
       />,
     );
     expect($('.claim-phase-stepper', container)).to.exist;
@@ -28,7 +28,7 @@ describe('<ClaimPhaseStepper>', () => {
       <ClaimPhaseStepper
         claimDate={claimDate}
         currentClaimPhaseDate={currentClaimPhaseDate}
-        currentPhaseStep={2}
+        currentPhase={2}
       />,
     );
     expect($('.claim-phase-stepper', container)).to.exist;
@@ -47,15 +47,15 @@ describe('<ClaimPhaseStepper>', () => {
       <ClaimPhaseStepper
         claimDate={claimDate}
         currentClaimPhaseDate={currentClaimPhaseDate}
-        currentPhaseStep={3}
+        currentPhase={3}
       />,
     );
     expect($('.claim-phase-stepper', container)).to.exist;
     const currentPhase = $('#phase3 .current-phase', container);
     expect(currentPhase).to.exist;
 
-    const stepRepeats = $('#phase3 .repeat-phase', container);
-    expect(stepRepeats).to.exist;
+    const phaseRepeats = $('#phase3 .repeat-phase', container);
+    expect(phaseRepeats).to.exist;
 
     getByText(
       'We’ll review your claim and make sure we have all the evidence and information we need. If we need more evidence to decide your claim, we may gather it in these ways:',
@@ -70,15 +70,15 @@ describe('<ClaimPhaseStepper>', () => {
       <ClaimPhaseStepper
         claimDate={claimDate}
         currentClaimPhaseDate={currentClaimPhaseDate}
-        currentPhaseStep={4}
+        currentPhase={4}
       />,
     );
     expect($('.claim-phase-stepper', container)).to.exist;
     const currentPhase = $('#phase4 .current-phase', container);
     expect(currentPhase).to.exist;
 
-    const stepRepeats = $('#phase4 .repeat-phase', container);
-    expect(stepRepeats).to.exist;
+    const phaseRepeats = $('#phase4 .repeat-phase', container);
+    expect(phaseRepeats).to.exist;
 
     getByText('We’ll review all the evidence for your claim.');
     getByText(
