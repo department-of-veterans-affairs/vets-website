@@ -101,6 +101,8 @@ const formConfig = {
             properties: {
               titleSchema,
               veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
+            },
+          },
         },
       },
     },
