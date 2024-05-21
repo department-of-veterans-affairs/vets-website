@@ -43,7 +43,7 @@ const testConfig = createTestConfig(
       // 'app-sa-cs-medab',
       // 'app-sd-cb-ohi',
       // 'cert-sd-spoused',
-      // 'vet-2a-spouse-child-medabd-ohi',
+      'vet-2a-spouse-child-medabd-ohi',
     ],
     arrayPages: [{ arrayPath: 'applicants', regex: /.*applicant.*/g }],
     pageHooks: {
