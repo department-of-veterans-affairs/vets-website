@@ -96,7 +96,7 @@ export const OTHER_REASONS_OPTIONAL = Object.freeze({
 });
 
 export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
-  <div className="arrow" style={{ maxWidth: '75%' }}>
+  <div className="action-bar-arrow" style={{ maxWidth: '75%' }}>
     <div className="vads-u-background-color--primary vads-u-padding--1">
       <a className="vads-c-action-link--white" href={href} onClick={onClick}>
         {children}
