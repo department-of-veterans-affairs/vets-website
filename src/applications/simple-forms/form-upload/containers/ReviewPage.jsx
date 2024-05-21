@@ -10,8 +10,8 @@ import { useSelector } from 'react-redux';
 import { capitalize } from 'lodash';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
-import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 import {
+  mask,
   getBreadcrumbList,
   getFormNumber,
   getFormUploadContent,
@@ -21,16 +21,6 @@ import {
 const inProgressApi = formId => {
   const apiUrl = '/v0/in_progress_forms/';
   return `${environment.API_URL}${apiUrl}${formId}`;
-};
-
-// separate each number so the screenreader reads "number ending with 1 2 3 4"
-// instead of "number ending with 1,234"
-const mask = value => {
-  const number = (value || '').toString().slice(-4);
-  return srSubstitute(
-    `●●●–●●–${number}`,
-    `ending with ${number.split('').join(' ')}`,
-  );
 };
 
 const ReviewPage = () => {

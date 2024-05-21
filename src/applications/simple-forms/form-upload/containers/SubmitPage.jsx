@@ -12,6 +12,7 @@ import { capitalize } from 'lodash';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
 import {
+  mask,
   getBreadcrumbList,
   getFileSize,
   getFormNumber,
@@ -87,7 +88,15 @@ const SubmitPage = () => {
         </p>
         {veteran && (
           <>
-            <p>Social Security number: {veteran.ssn}</p>
+            <p>
+              Social Security number:{' '}
+              <span
+                className="dd-privacy-mask"
+                data-dd-action-name="Veteran's SSN"
+              >
+                {mask(veteran.ssn)}
+              </span>
+            </p>
             <p>Zip code: {veteran.address?.postalCode}</p>
           </>
         )}
