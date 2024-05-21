@@ -425,15 +425,10 @@ const ReplyDraftItem = props => {
         cancelButtonText={navigationError?.cancelButtonText}
       />
 
-      {draftsCount > 0 && (
-        <>
-          <h3 className="vads-u-margin-bottom--0p5" slot="headline">
-            [Draft
-            {draftsequence ? ` ${draftsequence}]` : ']'}
-          </h3>
-        </>
-      )}
-
+      <h3 className="vads-u-margin-bottom--0p5" slot="headline">
+        [Draft
+        {draftsequence ? ` ${draftsequence}]` : ']'}
+      </h3>
       <>
         <span
           className="vads-u-display--flex vads-u-margin-top--3 vads-u-color--gray-dark vads-u-font-size--h4 vads-u-font-weight--bold"
@@ -445,7 +440,7 @@ const ReplyDraftItem = props => {
             <va-icon icon="undo" aria-hidden="true" />
           </div>
           <span className="thread-list-draft reply-draft-label vads-u-padding-right--0p5">
-            {`Draft `}
+            {`Draft ${draftsequence ? `${draftsequence} ` : ''}`}
           </span>
           {`To: ${replyToName}\n(Team: ${draft?.triageGroupName ||
             replyMessage.triageGroupName})`}

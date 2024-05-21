@@ -17,6 +17,7 @@ const MessageReply = () => {
   const replyMessage = messages?.length && messages[0];
   const [acknowledged, setAcknowledged] = useState(false);
   const recipients = useSelector(state => state.sm);
+  const [isEditing, setIsEditing] = useState(true);
 
   useEffect(
     () => {
@@ -58,6 +59,8 @@ const MessageReply = () => {
         replyMessage={replyMessage}
         recipients={recipients}
         messages={messages}
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
       />
     );
   };

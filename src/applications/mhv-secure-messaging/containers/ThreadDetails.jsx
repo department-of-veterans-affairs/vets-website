@@ -37,6 +37,7 @@ const ThreadDetails = props => {
   const message = messages?.length && messages[0];
   const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
+  const [isEditing, setIsEditing] = useState(false);
   const header = useRef();
 
   // necessary to update breadcrumb when there is no active folder in redux store, which happens when user lands on the threadDetails view from the url instead of the parent folder.
@@ -119,6 +120,8 @@ const ThreadDetails = props => {
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
             threadId={threadId}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
           />
 
           <MessageThreadForPrint messageHistory={messages} />

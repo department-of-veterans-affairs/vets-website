@@ -34,10 +34,12 @@ const ReplyForm = props => {
     setIsCreateNewModalVisible,
     messages,
     threadId,
+    isEditing,
+    setIsEditing,
   } = props;
   const dispatch = useDispatch();
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
+
   const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const header = useRef();
 
@@ -163,8 +165,8 @@ const ReplyForm = props => {
 
         <MessageActionButtons
           threadId={threadId}
-          hideReplyButton="true"
-          showEditDraftButton={!cannotReply}
+          hideReplyButton
+          showEditDraftButton={!cannotReply && !showBlockedTriageGroupAlert}
           handleEditDraftButton={() => {
             if (isEditing === false) {
               setIsEditing(true);
@@ -191,7 +193,7 @@ const ReplyForm = props => {
             {drafts && drafts.length > 1 ? (
               <h2 id="draft-reply-header">Drafts</h2>
             ) : (
-              <h2>Draft</h2>
+              <h2 id="draft-reply-header">Draft</h2>
             )}
 
             <ReplyDrafts
@@ -204,6 +206,7 @@ const ReplyForm = props => {
               signature={signature}
               showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
               isEditing={isEditing}
+              setIsEditing={setIsEditing}
             />
           </form>
         </section>
@@ -216,9 +219,11 @@ ReplyForm.propTypes = {
   cannotReply: PropTypes.bool,
   drafts: PropTypes.array,
   header: PropTypes.object,
+  isEditing: PropTypes.bool,
   messages: PropTypes.array,
   recipients: PropTypes.object,
   replyMessage: PropTypes.object,
+  setIsEditing: PropTypes.func,
 };
 
 export default ReplyForm;
