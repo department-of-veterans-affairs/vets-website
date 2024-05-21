@@ -109,7 +109,6 @@ export default function ClaimPhaseStepper({
     }
 
     if (phase < currentPhaseStep) {
-      // return 'fa fa-check-circle vads-u-color--green';
       return 'check_circle';
     }
 
@@ -119,13 +118,10 @@ export default function ClaimPhaseStepper({
   const headerIconColor = phase => {
     if (isCurrentPhase(phase)) {
       return 'phase-current';
-      // return 'vads-color-primary';
     }
 
     if (phase < currentPhaseStep) {
       return 'phase-complete';
-
-      // return 'vads-u-color--green';
     }
 
     return '';
