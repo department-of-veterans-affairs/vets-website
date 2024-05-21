@@ -6,6 +6,10 @@
 .capitalize {
   text-transform: capitalize;
 }
+
+.review-row > dd {
+  word-break: break-word;
+}
 .word-break-all {
   word-break: break-all;
 }
@@ -99,5 +103,11 @@ va-checkbox-group va-text-input[error]::part(label) {
 article[data-location="review-and-submit"] {
   dd {
     word-break: break-word;
+  }
+}
+
+@media screen and (max-width: $small-screen) {
+  dl.review .review-row > dd {
+    text-align: left;
   }
 }
