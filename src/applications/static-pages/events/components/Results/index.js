@@ -104,10 +104,11 @@ export const Results = ({
                     </p>
                     {event?.fieldDatetimeRangeTimezone?.length > 1 && (
                       <p className="vads-u-margin--0">
-                        <i
-                          className="fa fa-sync vads-u-font-size--sm vads-u-margin-right--0p5"
-                          aria-hidden="true"
-                        />{' '}
+                        <va-icon
+                          icon="autorenew"
+                          size="3"
+                          class="vads-u-margin-right--0p5"
+                        />
                         Repeats
                       </p>
                     )}

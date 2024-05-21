@@ -173,15 +173,17 @@ describe('fromToNumbs', () => {
 
 describe('createBreadcrumbs', () => {
   const locationMock = pathname => ({ pathname });
-  const prescriptionMock = {
-    prescriptionId: '123',
-    prescriptionName: 'Aspirin',
-  };
 
-  const defaultBreadcrumb = {
-    href: medicationsUrls.MHV_HOME,
-    label: 'My HealtheVet home',
-  };
+  const defaultBreadcrumbs = [
+    {
+      href: medicationsUrls.VA_HOME,
+      label: 'VA.gov home',
+    },
+    {
+      href: medicationsUrls.MHV_HOME,
+      label: 'My HealtheVet',
+    },
+  ];
 
   it('should return empty array for an unknown path', () => {
     const breadcrumbs = createBreadcrumbs(
@@ -199,7 +201,7 @@ describe('createBreadcrumbs', () => {
       1,
     );
     expect(breadcrumbs).to.deep.equal([
-      defaultBreadcrumb,
+      ...defaultBreadcrumbs,
       { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
     ]);
   });
@@ -211,7 +213,7 @@ describe('createBreadcrumbs', () => {
       2,
     );
     expect(breadcrumbs).to.deep.equal([
-      defaultBreadcrumb,
+      ...defaultBreadcrumbs,
       { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
       {
         href: `${medicationsUrls.MEDICATIONS_URL}?page=2`,
@@ -227,7 +229,7 @@ describe('createBreadcrumbs', () => {
       undefined,
     );
     expect(breadcrumbs).to.deep.equal([
-      defaultBreadcrumb,
+      ...defaultBreadcrumbs,
       { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
       {
         href: `${medicationsUrls.MEDICATIONS_URL}?page=1`,
@@ -243,51 +245,11 @@ describe('createBreadcrumbs', () => {
       1,
     );
     expect(breadcrumbs).to.deep.equal([
-      defaultBreadcrumb,
+      ...defaultBreadcrumbs,
       { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
       {
         href: medicationsUrls.MEDICATIONS_REFILL,
         label: 'Refill prescriptions',
-      },
-    ]);
-  });
-
-  it('should return breadcrumbs for the DETAILS path with a prescription', () => {
-    const breadcrumbs = createBreadcrumbs(
-      locationMock(medicationsUrls.subdirectories.DETAILS),
-      prescriptionMock,
-      3,
-    );
-    expect(breadcrumbs).to.deep.equal([
-      defaultBreadcrumb,
-      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
-      {
-        href: `${medicationsUrls.MEDICATIONS_URL}?page=3`,
-        label: 'Medications',
-      },
-      {
-        href: `/${prescriptionMock.prescriptionId}`,
-        label: prescriptionMock.prescriptionName,
-      },
-    ]);
-  });
-
-  it('should return breadcrumbs for the DETAILS path with a prescription and empty currentPage', () => {
-    const breadcrumbs = createBreadcrumbs(
-      locationMock(medicationsUrls.subdirectories.DETAILS),
-      prescriptionMock,
-      undefined,
-    );
-    expect(breadcrumbs).to.deep.equal([
-      defaultBreadcrumb,
-      { href: medicationsUrls.MEDICATIONS_ABOUT, label: 'About medications' },
-      {
-        href: `${medicationsUrls.MEDICATIONS_URL}?page=1`,
-        label: 'Medications',
-      },
-      {
-        href: `/${prescriptionMock.prescriptionId}`,
-        label: prescriptionMock.prescriptionName,
       },
     ]);
   });

@@ -1,10 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { MemoryRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
+
 import UploadPage from '../../containers/UploadPage';
-import { handleRouteChange } from '../../helpers';
 
 describe('UploadPage', () => {
   const getStore = () => ({
@@ -13,34 +13,25 @@ describe('UploadPage', () => {
     dispatch: () => {},
   });
 
-  const renderPage = () =>
-    render(
+  it('should handle the Continue button', async () => {
+    let testLocation;
+    const { getByTestId } = render(
       <Provider store={getStore()}>
         <MemoryRouter initialEntries={['/21-0779']}>
-          <Route path="/:id">
-            <UploadPage />
-          </Route>
+          <UploadPage />
+          <Route
+            path="/:id"
+            render={({ _, location }) => {
+              testLocation = location;
+              return null;
+            }}
+          />
         </MemoryRouter>
       </Provider>,
     );
 
-  it('should render a header and breadcrumbs', () => {
-    const { container, getByRole } = renderPage();
+    await fireEvent.click(getByTestId('continue-button'));
 
-    expect(getByRole('heading', { level: 1 }).textContent).to.contain(
-      'Upload VA Form 21-0779',
-    );
-    expect(
-      container.querySelector('va-breadcrumbs').breadcrumbList.length,
-    ).to.eq(3);
-  });
-
-  it('should handle route changes correctly', () => {
-    const history = [];
-
-    handleRouteChange({ detail: { href: 'test-href' } }, history);
-
-    expect(history.length).to.equal(1);
-    expect(history[0]).to.equal('test-href');
+    expect(testLocation.pathname).to.equal('/21-0779/review');
   });
 });

@@ -1,3 +1,10 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { uploadFile } from 'platform/forms-system/src/js/actions';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+
+export const MAX_FILE_SIZE_MB = 25;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
+
 export const getBreadcrumbList = formNumber => [
   { href: '/', label: 'VA.gov home' },
   {
@@ -31,7 +38,7 @@ export const handleRouteChange = ({ detail }, history) => {
   history.push(href);
 };
 
-export function getFileSize(num) {
+export const getFileSize = num => {
   if (num > 999999) {
     return `${(num / 1000000).toFixed(1)} MB`;
   }
@@ -39,4 +46,56 @@ export function getFileSize(num) {
     return `${Math.floor(num / 1000)} KB`;
   }
   return `${num} B`;
+};
+
+export const createPayload = (file, formId) => {
+  const payload = new FormData();
+  payload.set('form_id', formId);
+  payload.append('file', file);
+  return payload;
+};
+
+export function uploadScannedForm(formNumber, fileToUpload, onFileUploaded) {
+  const uiOptions = {
+    fileUploadUrl: `${
+      environment.API_URL
+    }/simple_forms_api/v1/scanned_form_upload`,
+    fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
+    maxSize: MAX_FILE_SIZE_BYTES,
+    createPayload,
+    parseResponse: ({ data }) => data?.attributes,
+  };
+
+  return dispatch => {
+    const uploadRequest = uploadFile(
+      fileToUpload,
+      uiOptions,
+      () => {}, // onProgress
+      file => onFileUploaded(file),
+      () => {}, // onError
+    );
+    uploadRequest(dispatch, () => ({
+      form: {
+        formId: formNumber,
+      },
+    }));
+  };
 }
+
+export const submitForm = (formNumber, confirmationCode, history) => {
+  apiRequest(`${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`, {
+    method: 'POST',
+    body: JSON.stringify({
+      confirmationCode,
+      formNumber,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then(response => {
+    history.push(`/${formNumber}/confirmation`, {
+      confirmationNumber: response.confirmationNumber,
+      submittedAt: Date.now(),
+    });
+  });
+};
