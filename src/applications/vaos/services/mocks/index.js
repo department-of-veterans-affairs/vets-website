@@ -48,6 +48,7 @@ const specialtyGroups = require('./wellHive/specialtyGroups.json');
 const providerOrgs = require('./wellHive/providerOrganizations.json');
 const providerServices = require('./wellHive/providerServices.json');
 const providerSlots = require('./wellHive/providerServicesSlots.json');
+const referrals = require('./wellHive/referrals.json');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -609,6 +610,16 @@ const responses = {
     ];
     return res.json({
       data: getSlot.find(slot => slot?.id === req.params.slotId),
+    });
+  },
+  'GET /vaos/v2/wellhive/referrals': (req, res) => {
+    return res.json({ data: referrals });
+  },
+  'GET /vaos/v2/wellhive/referrals/:referralId': (req, res) => {
+    return res.json({
+      data: referrals.referrals.find(
+        referral => referral?.id === req.params.referralId,
+      ),
     });
   },
   'GET /v0/user': {
