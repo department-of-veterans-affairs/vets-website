@@ -33,7 +33,7 @@ const NearByVetCenters = props => {
       },
       body: JSON.stringify(body),
     }).then(res => {
-      dispatch(fetchFacilitySuccess());
+      dispatch(fetchFacilitySuccess(res.data));
       setFetchedVetCenters(res.data);
     });
   };

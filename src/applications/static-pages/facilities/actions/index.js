@@ -90,7 +90,7 @@ export function fetchFacility(id) {
     return apiRequest(`/va/`, {
       apiVersion: 'facilities_api/v2',
       // eslint-disable-next-line camelcase
-      body: JSON.stringify({ ids: [id], per_page: 1, page: 1 }),
+      body: JSON.stringify({ ids: id, per_page: 1, page: 1 }),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -98,7 +98,8 @@ export function fetchFacility(id) {
     })
       .then(facility => {
         if (facility.data?.length && facility.data.some(d => d.id === id)) {
-          return dispatch(fetchFacilitySuccess(facility.data));
+          const facilityData = facility.data.find(d => d.id === id);
+          return dispatch(fetchFacilitySuccess(facilityData));
         }
         return dispatch(fetchFacilityFailed());
       })
@@ -120,13 +121,14 @@ export function fetchMainSatelliteLocationFacility(id) {
     return apiRequest(`/va`, {
       apiVersion: 'facilities_api/v2',
       // eslint-disable-next-line camelcase
-      body: JSON.stringify({ ids: [id], per_page: 1, page: 1 }),
+      body: JSON.stringify({ ids: id, per_page: 1, page: 1 }),
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     })
       .then(facility => {
         if (facility.data?.length && facility.data.some(d => d.id === id)) {
-          return dispatch(fetchMainSatelliteLocationSuccess(facility.data));
+          const facilityData = facility.data.find(d => d.id === id);
+          return dispatch(fetchMainSatelliteLocationSuccess(facilityData));
         }
         return dispatch(fetchMainSatelliteLocationFailed());
       })
@@ -145,7 +147,7 @@ export function fetchMultiFacility(id) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       // eslint-disable-next-line camelcase
-      body: JSON.stringify({ ids: [id], per_page: 1, page: 1 }),
+      body: JSON.stringify({ ids: id, per_page: 1, page: 1 }),
     })
       .then(facility => {
         if (facility.data?.length && facility.data.some(d => d.id === id)) {
