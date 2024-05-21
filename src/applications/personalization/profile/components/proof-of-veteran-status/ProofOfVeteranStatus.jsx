@@ -29,7 +29,7 @@ const ProofOfVeteranStatus = ({
     (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
     /android/i.test(userAgent);
 
-  // Veteran is considered eligible is their most recent discharge code is allow-listed
+// Veteran is considered eligible if their most recent discharge code is allow-listed
   const mostRecentDischargeCode =
     serviceHistory.length > 0
       ? serviceHistory.at(-1).characterOfDischargeCode
