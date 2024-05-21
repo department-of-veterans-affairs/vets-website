@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { add, format, formatISO } from 'date-fns';
 
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
@@ -19,12 +19,15 @@ import {
 } from '../constants';
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 
-const todayPlus120 = moment()
-  .add(120, 'days')
-  .format('YYYY-M-D')
-  .split('-');
+const todayPlus120 = format(add(new Date(), { days: 120 }), 'yyyy-M-d').split(
+  '-',
+);
 
-export const mockItf = {
+export const mockItf = (
+  offset = { days: 1 },
+  status = 'active',
+  type = 'compensation',
+) => ({
   data: {
     id: '',
     type: 'evss_intent_to_file_intent_to_files_responses',
@@ -33,13 +36,11 @@ export const mockItf = {
         {
           id: '1',
           creationDate: '2014-07-28T19:53:45.810+00:00',
-          expirationDate: moment()
-            .add(1, 'd')
-            .format(),
+          expirationDate: formatISO(add(new Date(), offset)),
           participantId: 1,
           source: 'EBN',
-          status: 'active',
-          type: 'compensation',
+          status,
+          type,
         },
         {
           id: '1',
@@ -80,7 +81,38 @@ export const mockItf = {
       ],
     },
   },
-};
+});
+
+export const errorItf = () => ({
+  errors: [
+    {
+      title: 'Bad Request',
+      detail: 'Received a bad request response from the upstream server',
+      code: 'EVSS400',
+      source: 'EVSS::DisabilityCompensationForm::Service',
+      status: '400',
+      meta: {},
+    },
+  ],
+});
+
+export const postItf = () => ({
+  data: {
+    attributes: {
+      intentToFile: {
+        id: '1',
+        creationDate: '2018-01-21T19:53:45.810+00:00',
+        expirationDate: formatISO(add(new Date(), { years: 1 })),
+        participantId: 1,
+        source: 'EBN',
+        status: 'active',
+        type: 'compensation',
+      },
+    },
+    id: {},
+    type: 'evss_intent_to_file_intent_to_files_responses',
+  },
+});
 
 /**
  * Get the toggle value within a given list of toggles and for a given a name
