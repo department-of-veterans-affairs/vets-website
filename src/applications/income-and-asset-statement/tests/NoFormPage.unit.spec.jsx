@@ -10,7 +10,7 @@ import { NoFormPage } from '../components/NoFormPage';
 const mockStore = configureStore([]);
 
 describe('No Form Page', () => {
-  it('should render', () => {
+  it('should render', async () => {
     const store = mockStore({
       user: { login: { currentlyLoggedIn: true } },
     });
@@ -19,7 +19,7 @@ describe('No Form Page', () => {
         <NoFormPage />
       </Provider>,
     );
-    waitFor(() => {
+    await waitFor(() => {
       expect($('h1', container).textContent).to.eql(
         '21P-0969 Income and Asset Statement Form',
       );
