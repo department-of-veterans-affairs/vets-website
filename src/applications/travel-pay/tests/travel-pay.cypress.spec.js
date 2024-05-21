@@ -27,7 +27,7 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       // Log in if the form requires an authenticated session.
-      // cy.login();
+      cy.login();
 
       cy.route('POST', formConfig.submitUrl, { status: 200 });
     },
