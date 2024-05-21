@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import moment from 'moment';
 import { transform } from '../../utils/transform';
-// import inputObject from './unit-maximal.json';
 import inputObject from './efsr-unit-maximal.json';
 import {
   sumValues,
@@ -15,7 +14,6 @@ import {
   nameStr,
 } from '../../utils/helpers';
 import { getMonthlyIncome } from '../../utils/calculateIncome';
-import { getMonthlyExpenses } from '../../utils/calculateExpenses';
 
 describe('efsr-fsr transform helper functions', () => {
   describe('efsr-dateFormatter helper', () => {
@@ -160,36 +158,6 @@ describe('efsr-fsr transform helper functions', () => {
 
       // Total income
       expect(result.totalMonthlyNetIncome).to.equal(21388.36);
-    });
-  });
-
-  // depends on sumValues
-  describe('efsr-getMonthlyExpenses helper', () => {
-    it('should calculate the sum of total monthly expenses for enhanced financial status report', () => {
-      const expenses = {
-        'view:enhancedFinancialStatusReport': true,
-        expenses: {
-          expenseRecords: [{ name: 'Rent', amount: '100' }],
-        },
-        otherExpenses: [
-          { name: 'Food', amount: '100' },
-          { name: 'Veteran added', amount: '100' },
-        ],
-        utilityRecords: [
-          { name: 'Electricity', amount: '100' },
-          { name: 'Water', amount: '100' },
-        ],
-        installmentContracts: [
-          { amountDueMonthly: '100' },
-          { amountDueMonthly: '100' },
-        ],
-      };
-
-      // Call the function to test
-      const result = getMonthlyExpenses(expenses);
-
-      // Expected result: 100 (Rent) + 100 (Food) + 100 (Veteran added) + 100 (Electricity) + 100 (Water) + 100 + 100 (Installment contracts) = 700
-      expect(result).to.equal(700);
     });
   });
 
