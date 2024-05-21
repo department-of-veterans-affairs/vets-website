@@ -18,7 +18,8 @@ export const content = {
   edit: 'Edit',
   editLinkAria: 'Edit document type for',
   editLabel: 'Edit evidence summary page',
-  remove: 'Remove',
+  remove: 'Remove', // for locations
+  delete: 'Delete', // for files
   update: 'Update page',
 
   summaryTitle: 'Review the evidence you’re submitting',

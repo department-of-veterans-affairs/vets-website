@@ -20,8 +20,8 @@ import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
 import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
 import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
 import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
-import veteransAddressZipPage from '../chapters/personalInformation/veteranAddressZip';
 import veteransLocationOfResidencePage from '../chapters/personalInformation/veteransLocationOfResidence';
+import veteransPostalCode from '../chapters/personalInformation/veteransPostalCode';
 import yourAddressPage from '../chapters/personalInformation/yourAddress';
 import yourContactInformationPage from '../chapters/personalInformation/yourContactInformation';
 import yourCountryPage from '../chapters/personalInformation/yourCountry';
@@ -62,10 +62,10 @@ const ch3Pages = {
     schema: deathDatePage.schema,
     depends: form => form.isVeteranDeceased === 'YES',
   },
-  veteransAddressZip: {
-    title: CHAPTER_3.VET_POSTAL_CODE.TITLE,
-    uiSchema: veteransAddressZipPage.uiSchema,
-    schema: veteransAddressZipPage.schema,
+  veteransPostalCode: {
+    title: CHAPTER_3.VETERANS_POSTAL_CODE.TITLE,
+    uiSchema: veteransPostalCode.uiSchema,
+    schema: veteransPostalCode.schema,
   },
   veteransLocationOfResidence: {
     title: CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.TITLE,
@@ -230,7 +230,7 @@ const myOwnBenFam = [
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransAddressZip',
+  'veteransPostalCode',
   'aboutYourself',
   'searchVAMedicalCenter',
   'yourContactInformation',
@@ -269,7 +269,7 @@ const someoneElseBenFam = [
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransAddressZip',
+  'veteransPostalCode',
   'whoThisIsAbout',
   'searchVAMedicalCenter',
   'aboutYourFamilyMember',
@@ -306,7 +306,7 @@ const someoneElseBen3rdParty = [
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransAddressZip',
+  'veteransPostalCode',
   'searchVAMedicalCenter',
   'aboutYourself',
   'yourContactInformation',
@@ -326,7 +326,7 @@ const someoneElseBen3rdPartyEducation = [
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransAddressZip',
+  'veteransPostalCode',
   'searchVAMedicalCenter',
   'aboutYourself',
   'yourContactInformation',

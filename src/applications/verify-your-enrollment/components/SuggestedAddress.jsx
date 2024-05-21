@@ -25,6 +25,7 @@ const SuggestedAddress = ({
   setSuggestedAddressPicked,
   suggestedAddressPicked,
   setGoBackToEdit,
+  scrollToTopOfForm,
 }) => {
   const dispatch = useDispatch();
   const { isLoadingValidateAddress, addressValidationData } = useSelector(
@@ -100,6 +101,7 @@ const SuggestedAddress = ({
         setFormData({});
       }
     }
+    scrollToTopOfForm();
   };
 
   return (
