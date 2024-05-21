@@ -10,12 +10,14 @@ import {
   waitForRenderThenFocus,
 } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import environment from 'platform/utilities/environment';
 
 export function trackNoAuthStartLinkClick() {
   recordEvent({ event: 'no-login-start-form' });
 }
 
-export function getInitialData({ mockData, environment }) {
+// environment inside the getInitialData is removed for now until the prod flag on line 96 is removed
+export function getInitialData({ mockData }) {
   return !!mockData && environment.isLocalhost() && !window.Cypress
     ? mockData
     : undefined;
@@ -90,7 +92,8 @@ export function dateOfDeathValidation(errors, fields) {
   }
 
   // Check if dates have 16 or more years between them
-  if (dod.diff(dob, 'years') < 16) {
+  // AFTER PROD FLAG IS REMOVED, ADD environment BACK TO getInitialData({ mockData }) on line 20 === getInitialData({ mockData, environment })
+  if (!environment.isProduction() && dod.diff(dob, 'years') < 16) {
     errors.veteranDateOfDeath.addError(
       'From date of birth to date of death must be at least 16 years.',
     );
