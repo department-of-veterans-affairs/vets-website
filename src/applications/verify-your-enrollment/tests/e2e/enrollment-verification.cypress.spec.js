@@ -80,7 +80,7 @@ describe('Enrollment Verification Page Tests', () => {
     ).click();
     cy.get('div[id="benefits-gi-bill-profile-statement"]').should(
       'contain',
-      'Your benefits profile',
+      'Your Montgomery GI Bill benefits information',
     );
   });
   it("should go back to 'enrollment verification' when 'Verify your school enrollment' link is clicked ", () => {
