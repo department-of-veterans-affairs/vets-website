@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
   createArrayBuilderItemAddPath,
   onNavForwardKeepUrlParams,
@@ -289,16 +290,21 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
 
   /** @type {FormConfigPage['onNavForward']} */
   const navForwardSummary = ({ formData, goPath, pageList }) => {
+    const index = formData[arrayPath] ? formData[arrayPath].length : 0;
+
     if (formData[hasItemsKey]) {
-      const index = formData[arrayPath] ? formData[arrayPath].length : 0;
       const path = createArrayBuilderItemAddPath({
         path: firstItemPagePath,
         index,
       });
       goPath(path);
     } else {
-      const nextPage = getPageAfterPageKey(pageList, itemLastPageKey);
-      goPath(nextPage?.path);
+      const nextPagePath = getNextPagePath(
+        pageList,
+        formData,
+        `/${lastItemPagePath.replace(':index', index - 1)}`,
+      );
+      goPath(nextPagePath);
     }
   };
 
