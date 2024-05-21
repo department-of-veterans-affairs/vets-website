@@ -7,6 +7,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
 import {
   IncomeSourceDescription,
@@ -15,6 +16,14 @@ import {
 import { recipientTypeLabels, typeOfIncomeLabels } from '../../../labels';
 import IncomeSourceView from '../../../components/IncomeSourceView';
 import { doesReceiveIncome } from './helpers';
+
+const {
+  otherTypeExplanation,
+  dependentName,
+  payer,
+  // Need to investigate default value issue
+  // amount,
+} = fullSchemaPensions.definitions.incomeSources.items.properties;
 
 export const otherExplanationRequired = (form, index) =>
   get(['incomeSources', index, 'typeOfIncome'], form) === 'OTHER';
@@ -105,11 +114,13 @@ export default {
           required: ['typeOfIncome', 'receiver', 'payer', 'amount'],
           properties: {
             typeOfIncome: radioSchema(Object.keys(typeOfIncomeLabels)),
-            otherTypeExplanation: { type: 'string' },
+            otherTypeExplanation,
             receiver: radioSchema(Object.keys(recipientTypeLabels)),
-            dependentName: { type: 'string' },
-            payer: { type: 'string' },
-            amount: { type: 'number' },
+            dependentName,
+            payer,
+            amount: {
+              type: 'number',
+            },
           },
         },
       },

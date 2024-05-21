@@ -110,14 +110,14 @@ export const VaContent = ({
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
                   <Header6
-                    className="dd-privacy-hidden"
+                    className="dd-privacy-hidden overflow-wrap-word"
                     data-dd-action-name="VA location name"
                   >
                     {locationAndName}
                   </Header6>
                 )}
                 <div
-                  className="dd-privacy-hidden"
+                  className="dd-privacy-hidden overflow-wrap-word"
                   data-dd-action-name="VA location treated issues"
                 >
                   {errors.issues || readableList(issues)}
@@ -131,7 +131,7 @@ export const VaContent = ({
                   </div>
                 )}
                 {!reviewMode && (
-                  <div>
+                  <div className="vads-u-margin-top--1p5">
                     <Link
                       key={`edit-va-${index}`}
                       id={`edit-va-${index}`}
@@ -229,14 +229,14 @@ export const PrivateContent = ({
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
                   <Header6
-                    className="dd-privacy-hidden"
+                    className="dd-privacy-hidden overflow-wrap-word"
                     data-dd-action-name="Private facility name"
                   >
                     {providerFacilityName}
                   </Header6>
                 )}
                 <div
-                  className="dd-privacy-hidden"
+                  className="dd-privacy-hidden overflow-wrap-word"
                   data-dd-action-name="Private facility treated issues"
                 >
                   {errors.issues || readableList(issues)}
@@ -251,7 +251,7 @@ export const PrivateContent = ({
                   </div>
                 )}
                 {!reviewMode && (
-                  <div>
+                  <div className="vads-u-margin-top--1p5">
                     <Link
                       id={`edit-private-${index}`}
                       className="edit-item"
@@ -279,9 +279,9 @@ export const PrivateContent = ({
         })}
         <li key={LIMITATION_KEY} className={listClassNames}>
           <Header6>{limitContent.title}</Header6>
-          <p>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</p>
+          <div>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</div>
           {!reviewMode && (
-            <div>
+            <div className="vads-u-margin-top--1p5">
               <Link
                 id="edit-limitation"
                 className="edit-item"
@@ -356,7 +356,7 @@ export const UploadContent = ({
               className={hasErrors ? errorClassNames : listClassNames}
             >
               <Header6
-                className="dd-privacy-hidden"
+                className="dd-privacy-hidden overflow-wrap-word"
                 data-dd-action-name="Uploaded document file name"
               >
                 {upload.name}
@@ -367,7 +367,7 @@ export const UploadContent = ({
                   ''}
               </div>
               {!reviewMode && (
-                <div>
+                <div className="vads-u-margin-top--1p5">
                   <Link
                     id={`edit-upload-${index}`}
                     className="edit-item"
@@ -382,8 +382,8 @@ export const UploadContent = ({
                     data-type="upload"
                     onClick={handlers.showModal}
                     class={removeButtonClass}
-                    label={`${content.remove} ${upload.name}`}
-                    text={content.remove}
+                    label={`${content.delete} ${upload.name}`}
+                    text={content.delete}
                     secondary
                     uswds
                   />

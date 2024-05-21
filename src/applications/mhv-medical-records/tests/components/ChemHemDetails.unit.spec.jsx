@@ -61,12 +61,51 @@ describe('Chem Hem details component', () => {
     expect(results).to.exist;
   });
 
+  it('should display the date label', () => {
+    expect(screen.getByText('Date and time collected', { exact: false })).to
+      .exist;
+  });
+
   it('should display the formatted date', () => {
     const dateElement = screen.getByText('January', {
       exact: false,
       selector: 'span',
     });
     expect(dateElement).to.exist;
+  });
+
+  it('should display the site or sample tested', () => {
+    expect(screen.getByText('Site or sample tested', { selector: 'h3' })).to
+      .exist;
+  });
+
+  it('should display the result and interpretation in parentheses', () => {
+    expect(screen.getAllByText('Result', { selector: 'h4' }).length).to.eq(2);
+    expect(screen.getByText('138 mEq/L (Low)', { selector: 'p' })).to.exist;
+  });
+
+  it('should display the reference range with units', () => {
+    expect(
+      screen.getAllByText('Reference range', { selector: 'h4' }).length,
+    ).to.eq(2);
+    expect(screen.getByText('3.6-5.1 mEq/L', { selector: 'p' })).to.exist;
+  });
+
+  it('should display the performing lab location', () => {
+    expect(
+      screen.getAllByText('Performing lab location', { selector: 'h4' }).length,
+    ).to.eq(2);
+  });
+
+  it('should display lab comments', () => {
+    expect(
+      screen.getAllByText('Lab comments', { selector: 'h4' }).length,
+    ).to.eq(2);
+    expect(
+      screen.getByText('Normal Range Prior to 8-22-02 was: 3.6 - 5.0 mEq/L.', {
+        selector: 'p',
+      }),
+    ).to.exist;
   });
 
   it('should display a download started message when the download pdf button is clicked', () => {
