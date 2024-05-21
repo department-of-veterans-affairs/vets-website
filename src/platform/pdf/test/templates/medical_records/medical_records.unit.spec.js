@@ -24,7 +24,10 @@ describe('Medical records PDF template', () => {
 
   const generateAndParsePdf = async (data, config) => {
     const pdfData = await generatePdf(data, config);
-    const pdf = await pdfjs.getDocument(pdfData).promise;
+    const pdf = await pdfjs.getDocument({
+      isEvalSupported: false,
+      data: pdfData,
+    }).promise;
     const metadata = await pdf.getMetadata();
 
     return { metadata, pdf };

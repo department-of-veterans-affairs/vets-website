@@ -24,7 +24,10 @@ describe('Veteran Status PDF template', () => {
 
   const generateAndParsePdf = async data => {
     const pdfData = await generatePdf(data);
-    const pdf = await pdfjs.getDocument(pdfData).promise;
+    const pdf = await pdfjs.getDocument({
+      isEvalSupported: false,
+      data: pdfData,
+    }).promise;
     const metadata = await pdf.getMetadata();
 
     return { metadata, pdf };

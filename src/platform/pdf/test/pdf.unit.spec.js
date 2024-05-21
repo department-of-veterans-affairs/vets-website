@@ -80,7 +80,10 @@ describe('PDF generation API', () => {
       // the following line to write the generated PDF file.
       // fs.writeFileSync('/tmp/test.pdf', Buffer.from(pdfData));
 
-      const pdf = await pdfjs.getDocument(pdfData).promise;
+      const pdf = await pdfjs.getDocument({
+        isEvalSupported: false,
+        data: pdfData,
+      }).promise;
       const metadata = await pdf.getMetadata();
 
       expect(metadata.info.PDFFormatVersion).to.eq('1.7');
