@@ -1,6 +1,5 @@
 import { DEBT_TYPES } from '../constants';
 import { getMonthlyIncome } from './calculateIncome';
-import { getMonthlyExpenses } from './calculateExpenses';
 
 const VHA_LIMIT = 5000;
 
@@ -95,16 +94,4 @@ export const isStreamlinedLongForm = formData => {
 export const calculateTotalAnnualIncome = formData => {
   const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
   return totalMonthlyNetIncome * 12;
-};
-
-/**
- * Discresionary income total baseed on total income less expenses
- *  Long form only
- * @param {object} formData - all formData
- * @returns {number} Discretionary income
- */
-export const calculateDiscretionaryIncome = formData => {
-  const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
-  const expenses = getMonthlyExpenses(formData);
-  return totalMonthlyNetIncome - expenses;
 };
