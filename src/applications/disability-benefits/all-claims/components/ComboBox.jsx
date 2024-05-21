@@ -67,6 +67,12 @@ export class ComboBox extends React.Component {
     this.setState({ highlightedIndex: optionIndex });
   }
 
+  sendFocusToInput = ref => {
+    const { shadowRoot } = ref.current;
+    const input = shadowRoot.querySelector('input');
+    input.focus();
+  };
+
   // Keyboard handling for combobox list options
   handleKeyPress = e => {
     const { highlightedIndex, searchTerm } = this.state;
@@ -83,7 +89,6 @@ export class ComboBox extends React.Component {
             filteredOptions: [],
             highlightedIndex: 0,
           });
-          this.inputRef.current.focus();
         }
         break;
       // Up and Down arrow keys should navigate to the respective next item in the list.
@@ -112,20 +117,13 @@ export class ComboBox extends React.Component {
           filteredOptions: [],
           highlightedIndex: 0,
         });
-        this.inputRef.current.focus();
+        this.sendFocusToInput(this.inputRef);
         e.preventDefault();
-        break;
-      // Space has one case where it is treated addDisabilities user input, otherwise behaves similar to Enter.
-      case ' ':
-        if (index > 0) {
-          this.selectOptionWithKeyboard(e, index, list, searchTerm);
-          e.preventDefault();
-        }
         break;
       // All other cases treat as regular user input into the text field.
       default:
         // focus goes to input box by default
-        this.inputRef.current.focus();
+        this.sendFocusToInput(this.inputRef);
         // highlight dynamic free text option
         this.setState({ highlightedIndex: 0 });
         break;
@@ -206,7 +204,7 @@ export class ComboBox extends React.Component {
     const { onChange } = this.props;
     onChange(option);
     // Send focus to input element for additional user input.
-    this.inputRef.current.focus();
+    this.sendFocusToInput(this.inputRef);
   }
 
   // Keyboard handler for a list item. Need to check index against list for selection via keyboard
