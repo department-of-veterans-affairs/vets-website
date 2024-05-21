@@ -78,7 +78,6 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-10203 (Application for Edith Nourse Rogers STEM
           Scholarship).
         </p>
-        loginPROMPT
         {this.loginPrompt()}
         <h4>Follow the steps below to apply for this scholarship</h4>
         <div className="process schemaform-process">
