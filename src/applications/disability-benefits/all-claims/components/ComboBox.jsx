@@ -43,10 +43,30 @@ export class ComboBox extends React.Component {
     this.listRef = React.createRef();
   }
 
+  componentDidMount() {
+    document.addEventListener('click', this.handleClickOutsideList, true);
+  }
+
   // Triggers updates to the list of items on state change
   componentDidUpdate(prevProps, prevState) {
     this.updateFilterOptions(prevState);
   }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutsideList, true);
+  }
+
+  // Handler for closing the list when a user clicks outside of it
+  handleClickOutsideList = e => {
+    if (this.listRef.current && !this.listRef.current.contains(e.target)) {
+      const { searchTerm } = this.state;
+      this.setState({
+        value: searchTerm,
+        filteredOptions: [],
+      });
+      this.sendFocusToInput(this.inputRef);
+    }
+  };
 
   // handler for main form input
   handleSearchChange = e => {
@@ -59,7 +79,7 @@ export class ComboBox extends React.Component {
     });
     this.props.onChange(newTextValue);
     // send focus back to input after selection in case user wants to append something else
-    this.inputRef.current.focus();
+    this.sendFocusToInput(this.inputRef);
   };
 
   // Handler for the blue background highlight class.
