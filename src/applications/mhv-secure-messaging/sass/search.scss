@@ -109,9 +109,9 @@
   }
   .error-message {
     color: var(--vads-color-secondary-dark);
-    padding-top: 0.8rem;
+    padding-top: 0.5rem;
     font-weight: 700;
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.75rem;
   }
   va-search-input {
     @media (min-width: $medium-screen) {

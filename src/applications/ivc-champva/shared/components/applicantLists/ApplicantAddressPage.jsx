@@ -125,7 +125,7 @@ export function ApplicantAddressCopyPage({
         which prevents long <option> text from overlapping the expansion arrow
         on the right side of the <select>. (Needed for accessibility audit) */
         const sheet = new CSSStyleSheet();
-        sheet.replaceSync('.usa-select {padding-right: 3rem}');
+        sheet.replaceSync('.usa-select {padding-right: 1.875rem}');
         shadowSelect.adoptedStyleSheets.push(sheet);
       }
       if (dirty) handlers.validate();
