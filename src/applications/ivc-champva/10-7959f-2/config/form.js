@@ -20,15 +20,14 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import manifest from '../manifest.json';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
 import GetFormHelp from '../../shared/components/GetFormHelp';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -55,7 +54,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for health care benefits.',
   },
-  title: 'Foreign Medical Program  Cover Sheet',
+  title: 'File a Foreign Medical Program (FMP) Claim',
+  subTitle: 'FMP Claim Form (VA form 10-7959f-2)',
   defaultDefinitions: {},
   chapters: {
     veteranInfoChapter: {
@@ -101,8 +101,6 @@ const formConfig = {
             properties: {
               titleSchema,
               veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
-            },
-          },
         },
       },
     },
