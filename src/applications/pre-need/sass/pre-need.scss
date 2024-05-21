@@ -73,6 +73,16 @@ article#pre-need[data-location="sponsor-demographics"] {
   }
 }
 
+article#pre-need[data-location="applicant-demographics"] {
+  fieldset.schemaform-field-template.usa-input-error {
+    fieldset.vads-u-margin-y--2.rjsf-object-field {
+      div {
+        margin-top: 1.875em;
+      }
+    }
+  }
+}
+
 article#pre-need[data-location="sponsor-deceased"],
 article#pre-need[data-location="sponsor-date-of-death"] {
   .schemaform-first-field .schemaform-label  {
