@@ -92,7 +92,11 @@ const DependentCount = ({
 
   const handleSubmit = event => {
     event.preventDefault();
-    goToPath(determineNextPath());
+    if (!dependents.trim()) {
+      setError('Please enter a valid number of dependents (0-25).');
+    } else {
+      goToPath(determineNextPath());
+    }
   };
 
   return (
