@@ -1,0 +1,92 @@
+{
+  "description": "Is applicant, sponsor alive, child (step), has Medicare A/B",
+  "data": {
+    "applicants": [
+      {
+        "applicantPhone": "2341232345",
+        "applicantEmailAddress": "applicant@email.gov",
+        "applicantAddress": {
+          "country": "USA",
+          "street": "321 Street Av",
+          "city": "Cityburg",
+          "state": "AS",
+          "postalCode": "12312"
+        },
+        "applicantSSN": {
+          "ssn": "123123123"
+        },
+        "applicantName": {
+          "first": "Applicant",
+          "last": "Jones"
+        },
+        "applicantDOB": "2000-02-02",
+        "applicantGender": {
+          "gender": "male"
+        },
+        "applicantRelationshipToSponsor": {
+          "relationshipToVeteran": "child"
+        },
+        "applicantRelationshipOrigin": {
+          "relationshipToVeteran": "step"
+        },
+        "missingUploads": [
+          {
+            "name": "applicantBirthCertOrSocialSecCard",
+            "path": "applicant-child-file/:index",
+            "required": false,
+            "uploaded": false
+          },
+          {
+            "name": "applicantStepMarriageCert",
+            "path": "applicant-child-marriage-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartAPartBCard",
+            "path": "applicant-medicare-ab-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOtherInsuranceCertification",
+            "path": "applicant-other-insurance-10-7959c-file/:index",
+            "required": true,
+            "uploaded": false
+          }
+        ],
+        "applicantMedicareStatus": {
+          "eligibility": "enrolled"
+        },
+        "applicantMedicarePartD": {
+          "enrollment": "notEnrolled"
+        },
+        "applicantHasOhi": {
+          "hasOhi": "no"
+        }
+      }
+    ],
+    "sponsorPhone": "2342342342",
+    "sponsorAddress": {
+      "country": "USA",
+      "street": "123 Street Circle",
+      "city": "Citytown",
+      "state": "AL",
+      "postalCode": "12312"
+    },
+    "sponsorIsDeceased": false,
+    "ssn": {
+      "ssn": "123123123"
+    },
+    "veteransFullName": {
+      "first": "Sponsor",
+      "last": "Jones",
+      "suffix": "Sr."
+    },
+    "sponsorDOB": "1999-01-01",
+    "certifierRole": "applicant",
+    "consentToMailMissingRequiredFiles": true,
+    "statementOfTruthSignature": "applicant jones",
+    "statementOfTruthCertified": true
+  }
+}
