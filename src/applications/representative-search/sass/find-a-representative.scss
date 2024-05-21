@@ -20,8 +20,8 @@
   @media (min-width: $small-screen) and (max-width: $medium-screen) {
     .usa-content,
     .va-nav-breadcrumbs {
-      padding-left: 0.9375rem;
-      padding-right: 0.9375rem;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
     }
   }
 
@@ -36,11 +36,10 @@
           @media (min-width: $medium-screen) {
             .geolocation-container {
               display: flex;
-              min-width: 6.25rem;
-
+              min-width: 10rem;
 
               .location-input {
-                min-width: 30rem;
+                min-width: 48rem;
               }
 
               .use-my-location-button-container {
@@ -51,24 +50,24 @@
               }
             }
             .search-area-dropdown {
-              width: 30rem;
+              width: 48rem;
             }
 
             .representative-name-input {
-              width: 30rem;
+              width: 48rem;
             }
           }
           @media (max-width: $medium-screen) {
             .location-input {
-              max-width: 28.75rem;
+              max-width: 46rem;
             }
 
             .search-area-dropdown {
-              max-width: 28.75rem;
+              max-width: 46rem;
             }
 
             .representative-name-input {
-              max-width: 28.75rem;
+              max-width: 46rem;
             }
 
             .use-my-location-button-container {
@@ -137,19 +136,19 @@
 
   .results-section {
     @media (min-width: $medium-screen) {
-      min-width: 37.5rem;
+      min-width: 60rem;
     }
 
     .loading-indicator-container {
-      margin-bottom: 37.5rem !important;
+      margin-bottom: 60rem !important;
     }
 
     hr {
       @media (min-width: $medium-screen) {
-        min-width: 37.5rem;
+        min-width: 60rem;
       }
       @media (max-width: $medium-screen) {
-        max-width: 35.625rem;
+        max-width: 57rem;
       }
     }
     .pagination-container .hydrated {
@@ -170,17 +169,16 @@
         align-items: flex-end;
 
         .sort-select {
-          min-width: 15.625rem;
+          min-width: 25rem;
           margin-left: 0;
         }
 
         .sort-apply-button {
-          margin-left: 1.25rem;
+          margin-left: 2rem;
         }
       }
 
-
-      @media (max-width: 16.25rem) {
+      @media (max-width: 26rem) {
         .sort-select-and-apply {
           flex-direction: column;
           align-items: flex-start;
@@ -197,16 +195,15 @@
 
       .representative-result-card {
         .representative-result-card-content {
-          @media (min-width: 18.125rem) {
+          @media (min-width: 29rem) {
             .report-outdated-information-button {
-              min-width: 16.875rem;
+              min-width: 27rem;
             }
           }
         }
 
         @media (min-width: $medium-screen) {
-          min-width: 37.5rem;
-
+          min-width: 60rem;
 
           .representative-result-card-content {
             display: grid;
@@ -249,21 +246,20 @@
         @media (max-width: $medium-screen) {
           display: flex;
           align-items: center;
-          max-width: 35.625rem;
-
+          max-width: 57rem;
 
           .report-thank-you-alert {
-            margin-top: 1.875rem;
+            margin-top: 3rem;
             margin-bottom: 0;
           }
 
           .report-outdated-information-button {
-            margin-top: 1.875rem;
+            margin-top: 3rem;
           }
         }
         @media (min-width: 565px) and (max-width: $medium-screen) {
           .representative-result-card-content {
-            min-width: 21.875rem;
+            min-width: 35rem;
           }
         }
       }
@@ -271,14 +267,14 @@
 
     .report-other-text-input {
       @media (min-width: $small-screen) {
-        padding-left: 2.5rem;
+        padding-left: 4rem;
       }
     }
   }
 
   .help-section {
     @media (max-width: $medium-screen) {
-      padding-right: 1.5625rem;
+      padding-right: 2.5rem;
     }
   }
 }

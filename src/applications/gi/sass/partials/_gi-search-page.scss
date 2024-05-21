@@ -105,7 +105,7 @@
   }
 
   .type-of-institution-filter .form-expanding-group-open {
-    padding-left: 1.25rem;
+    padding-left: 2rem;
     border-left: none;
   }
 
@@ -147,7 +147,7 @@
 
   .filters-sidebar-inner {
     @include media-maxwidth($small-screen) {
-      padding-bottom: 5rem;
+      padding-bottom: 8rem;
     }
     h2 {
       margin-top: 0;
@@ -167,7 +167,7 @@
     background: var(--vads-color-base-lightest);
     bottom: 0;
     left: 0;
-    padding: 0.625rem 1.25rem;
+    padding: 1rem 2rem;
     position: fixed;
     width: 100%;
     z-index: 2;
@@ -200,13 +200,13 @@
       display: block;
 
       @include media-maxwidth($small-screen) {
-        margin-top: 1rem;
+        margin-top: 1.6rem;
       }
     }
 
     h2 {
       font-size: 1.35em;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.8rem;
       padding-bottom: 0;
       margin-top: 0;
       a {
@@ -226,7 +226,7 @@
     }
 
     p.count {
-      margin-bottom: 0.625rem;
+      margin-bottom: 1rem;
     }
 
     .estimated-benefits {
@@ -320,7 +320,7 @@
     display: flex;
     border: 1px solid;
     margin: 6px 0px;
-    height: 2.625rem;
+    height: 4.2rem;
 
     input {
       border: none;
@@ -360,10 +360,10 @@
     display: inline-block;
     font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
       "Arial", sans-serif;
-    font-size: 1rem;
+    font-size: 1.6rem;
     font-weight: 700;
     line-height: 1;
-    padding: 0.625rem 1.25rem;
+    padding: 1rem 2rem;
     text-align: center;
     text-decoration: none;
     width: 100%;

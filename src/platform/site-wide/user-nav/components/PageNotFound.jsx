@@ -33,7 +33,7 @@ const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
                 >
                   <div
                     className="vads-u-display--flex vads-u-align-items--flex-start vads-u-justify-content--center"
-                    style={{ height: '3.5625rem' }}
+                    style={{ height: '5.7rem' }}
                   >
                     <label htmlFor="mobile-query" className="sr-only">
                       Search:

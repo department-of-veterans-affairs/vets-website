@@ -291,8 +291,7 @@ class ReviewCardField extends React.Component {
             <ObjectField {...this.props} />
           )
         );
-      }
-      if (dataType === 'array') {
+      } else if (dataType === 'array') {
         const { ArrayField } = this.props.registry.fields;
         return <ArrayField {...this.props} />;
       }
@@ -371,7 +370,7 @@ class ReviewCardField extends React.Component {
             'vads-u-padding-top--3 vads-u-padding-x--3':
               this.props.name !== this.props['view:currentAddress'],
           })}
-          style={{ minHeight: '3.125rem' }}
+          style={{ minHeight: '5rem' }}
         >
           <h4 className={titleClasses}>{title}</h4>
         </div>
@@ -390,7 +389,7 @@ class ReviewCardField extends React.Component {
               <button
                 className={`${editLink} va-button-link vads-u-display--block vads-u-margin-top--2`}
                 aria-label={`Edit ${title.toLowerCase()}`}
-                style={{ minWidth: '5rem' }}
+                style={{ minWidth: '8rem' }}
                 onClick={() => this.startEditing(this.props.name)}
                 type="button"
               >
@@ -403,7 +402,7 @@ class ReviewCardField extends React.Component {
               <button
                 className={`${editLink} va-button-link`}
                 aria-label={`Add a ${title.toLowerCase()}`}
-                style={{ minWidth: '5rem' }}
+                style={{ minWidth: '8rem' }}
                 onClick={() => this.startEditing(this.props.name)}
                 type="button"
               >
@@ -443,7 +442,7 @@ class ReviewCardField extends React.Component {
         {volatileData && (
           <button
             className={`usa-button-primary ${editButton}`}
-            style={{ minWidth: '5rem' }}
+            style={{ minWidth: '8rem' }}
             onClick={() => this.startEditing(this.props.name)}
           >
             {itemNameAction || 'New'} {itemName || title}
@@ -581,11 +580,11 @@ class ReviewCardField extends React.Component {
         <h3 className="vads-u-font-size--h4">Shipping address</h3>
         <div className="vads-u-margin-top--2">
           <p>
-            We’ll ship your order to the address below. Orders typically arrive
+            We'll ship your order to the address below. Orders typically arrive
             within 7 to 10 business days.
           </p>
           <p className="vads-u-font-weight--bold">
-            Select the address where you’d like to send your order:{' '}
+            Select the address where you'd like to send your order:{' '}
             <span className="vads-u-font-weight--normal schemaform-required-span">
               (*Required)
             </span>

@@ -9,7 +9,7 @@
   @include messaging-rectangular-button;
 
   > i {
-    margin-left: 0.3125rem;
+    margin-left: 0.5rem;
   }
 }
 
@@ -48,17 +48,17 @@
   z-index: 3;
 
   @media (max-width: $medium-screen) {
-    width: 12.5rem;
+    width: 20rem;
     right: 0;
   }
 
   @media (min-width: $medium-screen) {
-    width: 15.625rem;
+    width: 25rem;
   }
 
   .msg-btn-newfolder[type="button"] {
     display: block;
-    padding: 0.625rem;
+    padding: 1rem;
     width: 100%;
   }
 }
@@ -67,7 +67,7 @@
   display: block;
   margin: 0;
   overflow: hidden;
-  padding: 0.625rem;
+  padding: 1rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

@@ -95,7 +95,7 @@
     margin-top: 15px;
     margin-bottom: 15px;
     max-width: 500px;
-    font-size: 1rem;
+    font-size: 1.6rem;
     font-weight: normal;
   }
   section {
@@ -191,15 +191,15 @@
   }
   h2 {
     font-size: 32px;
-    margin: 0.625rem 0 !important;
+    margin: 1rem 0 !important;
     padding: 0;
   }
   .rx-page-total-info {
-    margin: 0.9375rem 0 !important;
+    margin: 1.5rem 0 !important;
     padding: 0;
   }
   .line-break {
-    margin: 0.625rem 0;
+    margin: 1rem 0;
     border-bottom: 1px solid rgb(0, 0, 0);
   }
   .no-print,
@@ -213,11 +213,11 @@
     break-inside: avoid;
   }
   .print-only-refill-container {
-    margin-top: 0.9375rem;
+    margin-top: 1.5rem;
   }
   .print-only-crisis-line-header {
-    font-size: 0.9125rem;
-    margin-bottom: 3.125rem;
+    font-size: 1.46rem;
+    margin-bottom: 5rem;
     width: 100%;
   }
   .print-only-rx-image-container {
@@ -225,27 +225,27 @@
       display: block;
       width: 259px;
       height: 195.85px;
-      margin: 0.3125rem 0;
+      margin: 0.5rem 0;
     }
   }
   .print-only-rx-container {
-    margin-bottom: 0.84375rem;
+    margin-bottom: 1.35rem;
     p {
       padding: 0;
       margin: 0;
       word-wrap: break-word;
     }
     .print-only-rx-details-container {
-      margin: 0 auto 0.625rem auto;
+      margin: 0 auto 1rem auto;
       width: 95%;
     }
     h4 {
-      margin: 0.625rem 0 0.3125rem 0;
+      margin: 1rem 0 0.5rem 0;
       padding: 0;
       font-size: 18px;
     }
     h3 {
-      margin: 0.625rem 0;
+      margin: 1rem 0;
       padding: 0;
       font-size: 22px;
     }
@@ -276,7 +276,7 @@
     display: flex;
     justify-content: left;
     align-items: center;
-    gap: 0.9375rem;
+    gap: 1.5rem;
   }
 }
 
