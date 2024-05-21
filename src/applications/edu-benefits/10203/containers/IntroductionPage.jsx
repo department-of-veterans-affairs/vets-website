@@ -12,7 +12,7 @@ export class IntroductionPage extends React.Component {
   componentDidMount() {
     if (this.props.isLoggedIn) {
       focusElement('.va-nav-breadcrumbs-list');
-      this.props.getRemainingEntitlement(this.props.apiVersion);
+      this.props.getRemainingEntitlement();
     }
   }
 
@@ -78,6 +78,7 @@ export class IntroductionPage extends React.Component {
           Equal to VA Form 22-10203 (Application for Edith Nourse Rogers STEM
           Scholarship).
         </p>
+        loginPROMPT
         {this.loginPrompt()}
         <h4>Follow the steps below to apply for this scholarship</h4>
         <div className="process schemaform-process">
@@ -250,7 +251,6 @@ export class IntroductionPage extends React.Component {
 }
 
 IntroductionPage.propTypes = {
-  apiVersion: PropTypes.object,
   getRemainingEntitlement: PropTypes.func,
   isLoggedIn: PropTypes.bool,
   remainingEntitlement: PropTypes.object,
