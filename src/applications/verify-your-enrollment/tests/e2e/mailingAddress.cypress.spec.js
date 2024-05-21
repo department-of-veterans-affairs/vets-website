@@ -33,7 +33,7 @@ describe('Contact information', () => {
       .click();
     cy.url().should('include', '/benefits-profile');
     cy.get(
-      '[class="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif vads-u-margin-y--0"]',
+      '[class="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0"]',
     ).should('contain', 'Mailing address');
   });
   it('Should expand the form when Edit button is clicked', () => {
@@ -43,7 +43,7 @@ describe('Contact information', () => {
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
     cy.get(
-      '[class="vads-u-margin-y--2 vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif"]',
+      '[class="vads-u-margin-y--2 vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans"]',
     ).should('contain', 'Change mailing address');
     cy.get('[id="root_fullName-label"]').should(
       'contain',
@@ -106,7 +106,7 @@ describe('Contact information', () => {
       '[label="cancel updating your bank information for GI Bill benefits"]',
     ).click();
     cy.get(
-      '[class="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif vads-u-margin-y--0"]',
+      '[class="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0"]',
     ).should('contain', 'Mailing address');
   });
   it('should show warning alert if user hits cancel after editing form', () => {
@@ -161,7 +161,7 @@ describe('Contact information', () => {
       .first()
       .click();
     cy.get(
-      '[class="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif vads-u-margin-y--0"]',
+      '[class="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0"]',
     ).should('contain', 'Mailing address');
   });
 });

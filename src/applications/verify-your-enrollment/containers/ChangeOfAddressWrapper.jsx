@@ -166,7 +166,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 message="We’ve successfully updated your mailing address for Montgomery GI Bill benefits."
               />
             )}
-            <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif vads-u-margin-y--0">
+            <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0">
               Mailing address
             </h3>
             <p>
@@ -306,7 +306,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
         )}
         {toggleAddressForm && (
           <div className="address-change-form-container">
-            <h3 className="vads-u-margin-y--2 vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif">
+            <h3 className="vads-u-margin-y--2 vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans">
               Change mailing address
             </h3>
             {(isLoadingValidateAddress || isLoading) && (

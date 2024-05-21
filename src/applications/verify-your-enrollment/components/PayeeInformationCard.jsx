@@ -20,7 +20,7 @@ const PayeeInformationCard = ({
       className="medium-screen:vads-u-padding--4"
       id="benefits-gi-bill-profile-statement"
     >
-      <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif vads-u-margin-y--0">
+      <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0">
         {title}
       </h3>
       {showAdditionalInformation && (

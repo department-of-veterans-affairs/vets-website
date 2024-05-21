@@ -109,7 +109,7 @@ const SuggestedAddress = ({
       {(isLoadingValidateAddress || isLoading) && (
         <Loader className="loader" message="updating..." />
       )}
-      <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif vads-u-margin-y--0">
+      <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0">
         Mailing address
       </h3>
       <div>
