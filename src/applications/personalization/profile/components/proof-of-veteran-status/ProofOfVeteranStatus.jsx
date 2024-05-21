@@ -37,7 +37,7 @@ const ProofOfVeteranStatus = ({
   const eligibilityIndicator =
     mostRecentDischargeCode === null || mostRecentDischargeCode === ''
       ? null
-      : DISCHARGE_CODE_MAP[mostRecentDischargeCode].indicator;
+const eligibilityIndicator = mostRecentDischargeCode && DISCHARGE_CODE_MAP[mostRecentDischargeCode]?.indicator;
 
   const pdfData = {
     title: `Veteran status card for ${formatFullName({
