@@ -53,14 +53,26 @@ const testConfig = createTestConfig(
               selector: 'button',
             }).click({ force: true });
             cy.get('select[name="root_permanentAddress_country"]').select(
-              'CAN',
+              'USA',
+            );
+            cy.get('input[name="root_permanentAddress_street"]').clear();
+            cy.get('input[name="root_permanentAddress_street"]').type(
+              '103 Subbase Rd',
+            );
+            cy.get('input[name="root_permanentAddress_street2"]').clear();
+            cy.get('input[name="root_permanentAddress_street2"]').type(
+              'St Thomas',
+            );
+            cy.get('input[name="root_permanentAddress_city"]').clear();
+            cy.get('input[name="root_permanentAddress_city"]').type(
+              'Charlotte Amalie West',
             );
             cy.get('select[name="root_permanentAddress_state"]').select(
-              'Alberta',
+              'Virgin Islands',
             );
             cy.get('input[name="root_permanentAddress_postalCode"]').clear();
             cy.get('input[name="root_permanentAddress_postalCode"]').type(
-              'T1X0L4',
+              '00802',
             );
             cy.findByText(/Save permanent address/i).click();
           }
