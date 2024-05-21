@@ -205,7 +205,10 @@ const formConfig = {
         },
         applicantDemographics: {
           title: 'Applicant demographics',
-          path: 'applicant-demographics',
+          // MBMS-61967
+          path: environment.isProduction()
+            ? 'applicant-demographics'
+            : 'applicant-demographics-notprod',
           depends: isVeteran,
           uiSchema: applicantDemographics.uiSchema,
           schema: applicantDemographics.schema,
