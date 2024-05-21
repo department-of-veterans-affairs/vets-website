@@ -11,14 +11,11 @@ import { setupPerTest, pageHooks } from './995.cypress.helpers';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-
-    dataSets: ['no-evidence-test', 'minimal-test', 'partial-evidence-test'],
-
+    dataSets: ['maximal-test'],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
-
     pageHooks,
     setupPerTest,
   },
