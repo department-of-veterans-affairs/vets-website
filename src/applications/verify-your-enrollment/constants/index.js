@@ -72,7 +72,7 @@ export const ACTIVEDUTYBENEFITSSTATEMENT = (
 );
 
 export const PENDING_DOCUMENTS_STATEMENT = (
-  <p>The following document is currently being processed for your account.</p>
+  <p>We’re currently processing this document for your account: </p>
 );
 
 // export const PENDING_DOCUMENTS_STATEMENT_ALT = (
