@@ -5,7 +5,7 @@ describe('Enrollment Verification Page Tests', () => {
     cy.intercept('GET', '/vye/v1', { statusCode: 200 });
     cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('/education/verify-your-enrollment/', {
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
       onBeforeLoad: win => {
         /* eslint no-param-reassign: "error" */
         win.isProduction = true;
@@ -50,7 +50,7 @@ describe('Enrollment Verification Page Tests', () => {
       '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
     ).click();
     cy.get('[class="usa-button usa-button--outline"]').click();
-    cy.url().should('include', '/verify-your-enrollment');
+    cy.url().should('include', '/mgib-enrollments');
     cy.get('[id="montgomery-gi-bill-enrollment-statement"]').should(
       'contain',
       'Montgomery GI Bill enrollment verificatio',
@@ -76,7 +76,7 @@ describe('Enrollment Verification Page Tests', () => {
   it("should go to  'Your benefits profile when' when 'Manage your Montgomery GI Bill benefits information' link is clicked ", () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
-      'a[href="/education/verify-your-enrollment/benefits-profile/"]',
+      'a[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
     ).click();
     cy.get('div[id="benefits-gi-bill-profile-statement"]').should(
       'contain',
@@ -86,9 +86,9 @@ describe('Enrollment Verification Page Tests', () => {
   it("should go back to 'enrollment verification' when 'Verify your school enrollment' link is clicked ", () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
-      'a[href="/education/verify-your-enrollment/benefits-profile/"]',
+      'a[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
     ).click();
-    cy.get('a[href="/education/verify-your-enrollment/"]')
+    cy.get('a[href="/education/verify-school-enrollment/mgib-enrollments/"]')
       .first()
       .click();
     cy.url().should('not.include', '/benefits-profile');

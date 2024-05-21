@@ -10,7 +10,7 @@ describe('Direct deposit information', () => {
     cy.intercept('GET', '/vye/v1', { statusCode: 200 });
     cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('/education/verify-your-enrollment/', {
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
       onBeforeLoad: win => {
         /* eslint no-param-reassign: "error" */
         win.isProduction = true;
@@ -18,7 +18,9 @@ describe('Direct deposit information', () => {
     });
   });
   const fillForm = () => {
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+    cy.get(
+      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+    )
       .first()
       .click();
     cy.get('[id="VYE-add-new-account-button"]').click();
@@ -39,7 +41,9 @@ describe('Direct deposit information', () => {
   };
   it('should show Dirct deposit infromation', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+    cy.get(
+      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+    )
       .first()
       .click();
     cy.get('[class="vads-u-font-family--serif vads-u-margin-y--4"]').should(
@@ -49,7 +53,9 @@ describe('Direct deposit information', () => {
   });
   it('should open bank info form when Add or update account buttton is clicked', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+    cy.get(
+      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+    )
       .first()
       .click();
     cy.get('[id="VYE-add-new-account-button"]').click();
@@ -63,7 +69,9 @@ describe('Direct deposit information', () => {
   });
   it('should close the form when Cancel button is clicked ', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+    cy.get(
+      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+    )
       .first()
       .click();
     cy.get('[id="VYE-add-new-account-button"]').click();
@@ -76,7 +84,9 @@ describe('Direct deposit information', () => {
   });
   it('should show show errors when save button is clicked and some or all of the required fields empty ', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+    cy.get(
+      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+    )
       .first()
       .click();
     cy.get('[id="VYE-add-new-account-button"]').click();
@@ -176,7 +186,9 @@ describe('Direct deposit information', () => {
   it('should not show Direct Dopist form if user loggedin without using ID.me', () => {
     cy.injectAxeThenAxeCheck();
     cy.login(mockUserWithOutIDME);
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+    cy.get(
+      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+    )
       .first()
       .click();
     cy.get('[data-testid="direct-deposit-mfa-message"]').should(

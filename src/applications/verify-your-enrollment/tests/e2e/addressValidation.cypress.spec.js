@@ -37,7 +37,7 @@ describe('Address Validations', () => {
     cy.intercept('GET', '/vye/v1', { statusCode: 200 });
     cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('/education/verify-your-enrollment/', {
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
       onBeforeLoad: win => {
         /* eslint no-param-reassign: "error" */
         win.isProduction = true;
@@ -46,7 +46,9 @@ describe('Address Validations', () => {
   });
   it('should not show suggested address if address is correct', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+    cy.get(
+      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+    )
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
@@ -66,7 +68,9 @@ describe('Address Validations', () => {
       statusCode: 200,
       body: mockAddressResponse(92, 'CONFIRMED'),
     }).as('submitAddress');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+    cy.get(
+      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+    )
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
@@ -89,7 +93,9 @@ describe('Address Validations', () => {
       statusCode: 200,
       body: mockAddressResponse(),
     }).as('submitAddress');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+    cy.get(
+      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+    )
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
@@ -115,7 +121,9 @@ describe('Address Validations', () => {
       statusCode: 200,
       body: mockAddressResponse(92, 'MISSING_ZIP'),
     }).as('submitAddress');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+    cy.get(
+      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+    )
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
@@ -143,7 +151,9 @@ describe('Address Validations', () => {
         'STREET_NUMBER_VALIDATED_BUT_MISSING_UNIT_NUMBER',
       ),
     }).as('submitAddress');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+    cy.get(
+      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+    )
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
@@ -171,7 +181,9 @@ describe('Address Validations', () => {
         'STREET_NUMBER_VALIDATED_BUT_BAD_UNIT_NUMBER',
       ),
     }).as('submitAddress');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+    cy.get(
+      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+    )
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
@@ -196,7 +208,9 @@ describe('Address Validations', () => {
       statusCode: 200,
       body: mockAddressResponse(92, 'CONFIRMED'),
     }).as('submitAddress');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+    cy.get(
+      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+    )
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
@@ -227,7 +241,9 @@ describe('Address Validations', () => {
       statusCode: 200,
       body: mockAddressResponse(92, 'CONFIRMED'),
     }).as('submitAddress');
-    cy.get('[href="/education/verify-your-enrollment/benefits-profile/"]')
+    cy.get(
+      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
+    )
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
