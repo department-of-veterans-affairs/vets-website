@@ -187,38 +187,44 @@ const LandingPage = () => {
           </Link>
         </section>
       )}
-      <section>
-        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-          How to find your other medical records
-        </h2>
-        <p className="vads-u-margin-bottom--2">
-          Right now, only some of your medical records are available here on
-          VA.gov. Soon, you’ll be able to find these types of medical records on
-          this page:
-        </p>
-        <ul>
-          <li>Lab and test results</li>
-          {!displayNotes && <li>Care summaries and notes</li>}
-          {!displayVaccines && <li>Vaccines</li>}
-          <li>Health conditions</li>
-          {!displayVitals && <li>Vitals</li>}
-        </ul>
-        <p className="vads-u-margin-bottom--2">
-          To find your other medical records now, you’ll need to go back to the
-          My HealtheVet website.
-        </p>
-        <p className="vads-u-margin-bottom--2">
-          <a
-            href={mhvUrl(
-              isAuthenticatedWithSSOe(fullState),
-              'download-my-data',
-            )}
-            rel="noreferrer"
-          >
-            Go to medical records on the My HealtheVet website
-          </a>
-        </p>
-      </section>
+      {(!displayLabsAndTest ||
+        !displayNotes ||
+        !displayVaccines ||
+        !displayConditions ||
+        !displayVitals) && (
+        <section>
+          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+            How to find your other medical records
+          </h2>
+          <p className="vads-u-margin-bottom--2">
+            Right now, only some of your medical records are available here on
+            VA.gov. Soon, you’ll be able to find these types of medical records
+            on this page:
+          </p>
+          <ul>
+            {!displayLabsAndTest && <li>Lab and test results</li>}
+            {!displayNotes && <li>Care summaries and notes</li>}
+            {!displayVaccines && <li>Vaccines</li>}
+            {!displayConditions && <li>Health conditions</li>}
+            {!displayVitals && <li>Vitals</li>}
+          </ul>
+          <p className="vads-u-margin-bottom--2">
+            To find your other medical records now, you’ll need to go back to
+            the My HealtheVet website.
+          </p>
+          <p className="vads-u-margin-bottom--2">
+            <a
+              href={mhvUrl(
+                isAuthenticatedWithSSOe(fullState),
+                'download-my-data',
+              )}
+              rel="noreferrer"
+            >
+              Go to medical records on the My HealtheVet website
+            </a>
+          </p>
+        </section>
+      )}
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
           What to know as you try out this tool
@@ -255,14 +261,11 @@ const LandingPage = () => {
               What if I can’t find all my medical records?
             </h3>
             <p className="vads-u-margin-bottom--2">
-              Right now, only some types of medical records are available here
-              on VA.gov. And your records on VA.gov only include health
-              information your VA providers have entered.
+              Your medical records on VA.gov only include health information
+              your Va providers have entered.
             </p>
             <p className="vads-u-margin-bottom--2">
-              To find other types of medical records
-              <code>&#8212;</code>
-              including health information you entered yourself
+              To find health information you entered yourself,
               <code>&#8212;</code>
               go to your medical records on the My HealtheVet website.
             </p>
