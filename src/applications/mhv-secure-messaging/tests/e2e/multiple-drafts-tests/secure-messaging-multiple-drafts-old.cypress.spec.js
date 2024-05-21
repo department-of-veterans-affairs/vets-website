@@ -16,28 +16,22 @@ describe('handle multiple drafts older than 45 days', () => {
   });
 
   it('verify interface', () => {
-    const draftsCount = mockMultiDraftsResponse.data.filter(
-      el => el.attributes.draftDate !== null,
-    ).length;
-
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    cy.get(Locators.REPLY_FORM)
-      .find('h2')
-      .should('be.visible')
-      .and('contain.text', `${draftsCount} drafts`);
+    cy.get(Locators.MULT_DRAFT_HEADER).should('have.text', 'Drafts');
 
     cy.get(Locators.ALERTS.EXPIRED_MESSAGE)
       .should('be.visible')
       .and('include.text', 'too old');
 
-    cy.get(Locators.ALERTS.LAST_EDIT_DATE).each(el => {
-      cy.wrap(el).should('include.text', 'edited');
-    });
+    draftPage.expandSingleDraft(2);
+    cy.get('[open="true"] > :nth-child(6) > .compose-form-actions')
+      .find('[data-testid="delete-draft-button"]')
+      .should('be.visible')
+      .and('have.text', `Delete draft 2`);
 
     cy.get(Locators.BUTTONS.SEND).should('not.exist');
-    cy.get(Locators.ALERTS.EDIT_DRAFT).click();
     cy.get(Locators.BUTTONS.SEND).should('not.exist');
   });
 });
