@@ -64,6 +64,7 @@ export const Locators = {
   SELECT: '#select',
   HEADER: 'h1',
   HEADER2: 'h2',
+  MULT_DRAFT_HEADER: '#draft-reply-header',
   HEADLINE: 'h1[slot="headline"]',
   KEYWORD_SEARCH: '[data-testid="keyword-search-input"]',
   NO_MESS: '[data-testid=alert-no-messages] p',

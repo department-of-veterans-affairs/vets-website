@@ -546,6 +546,64 @@ class PatientMessageDraftsPage {
   verifySavedMessageAlertText = message => {
     cy.get(Locators.ALERTS.SAVE_DRAFT).should('include.text', message);
   };
+
+  expandAllDrafts = () => {
+    cy.get('[data-testid="edit-draft-button-body-text"]').click({
+      force: true,
+      waitForAnimations: true,
+    });
+  };
+
+  expandSingleDraft = number => {
+    cy.get(`[subheader="multi-draft #${number}..."]`)
+      .shadow()
+      .find('button')
+      .click({ force: true, waitForAnimations: true });
+  };
+
+  verifyExpandedDraftButtons = number => {
+    cy.get(
+      '[open="true"] > :nth-child(7) > .compose-form-actions > [data-testid="Send-Button"]',
+    )
+      .shadow()
+      .find('button')
+      .should('be.visible')
+      .and('have.text', `Send draft ${number}`);
+    cy.get(
+      '[open="true"] > :nth-child(7) > .compose-form-actions > [data-testid="Save-Draft-Button"]',
+    )
+      .should('be.visible')
+      .and('have.text', `Save draft ${number}`);
+    cy.get(
+      '[open="true"] > :nth-child(7) > .compose-form-actions > [data-testid="delete-draft-button"]',
+    )
+      .should('be.visible')
+      .and('have.text', `Delete draft ${number}`);
+  };
+
+  verifyDraftsExpanded = value => {
+    cy.get('[subheader*="draft"]')
+      .shadow()
+      .find('button')
+      .should('be.visible')
+      .and('have.attr', 'aria-expanded', `${value}`);
+  };
+
+  verifyExpandedSingleDraft = (response, number, index) => {
+    cy.get('[open="true"] > [data-testid="draft-reply-to"]')
+      .should('be.visible')
+      .and(
+        'have.text',
+        `Draft To: ${response.data[index].attributes.senderName}\n(Team: ${
+          response.data[index].attributes.triageGroupName
+        })`,
+      );
+
+    cy.get(`[data-testid="attach-file-button-${number}"]`)
+      .shadow()
+      .find('button')
+      .should('have.text', `Attach file to draft ${number}`);
+  };
 }
 
 export default PatientMessageDraftsPage;

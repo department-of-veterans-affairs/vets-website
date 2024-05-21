@@ -9,6 +9,7 @@ describe('handle multiple drafts in one thread', () => {
   const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
 
+  // method to renew the dates in MultiDraftResponse
   const updateDates = data => {
     const currentDate = new Date();
     return {
@@ -36,6 +37,7 @@ describe('handle multiple drafts in one thread', () => {
     };
   };
 
+  // create updated multiDraftResponse
   const updatedMultiDraftResponse = updateDates(mockMultiDraftsResponse);
 
   beforeEach(() => {
@@ -48,11 +50,11 @@ describe('handle multiple drafts in one thread', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    cy.get('.page-title').should(
+    cy.get(Locators.ALERTS.PAGE_TITLE).should(
       'contain.text',
       `${updatedMultiDraftResponse.data[0].attributes.subject}`,
     );
-    cy.get('#draft-reply-header').should('have.text', 'Drafts');
+    cy.get(Locators.MULT_DRAFT_HEADER).should('have.text', 'Drafts');
 
     cy.get(Locators.REPLY_FORM)
       .find('h3')
@@ -61,30 +63,31 @@ describe('handle multiple drafts in one thread', () => {
       });
   });
 
-  it('verify drafts detailed view', () => {
+  it('verify all drafts expanded', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    cy.get('[data-testid="edit-draft-button-body-text"]').click({
-      force: true,
-      waitForAnimations: true,
-    });
-    cy.get('[subheader*="draft"]')
-      .shadow()
-      .find('button')
-      .should('have.attr', 'aria-expanded', 'true');
-    cy.get('[data-testid="edit-draft-button-body-text"]').click({
-      force: true,
-      waitForAnimations: true,
-    });
-    cy.get('[subheader*="draft"]')
-      .shadow()
-      .find('button')
-      .should('have.attr', 'aria-expanded', 'false');
+    draftPage.expandAllDrafts();
+    draftPage.verifyDraftsExpanded('true');
 
-    cy.get('[subheader="multi-draft #2..."]')
-      .shadow()
-      .find('button')
-      .click({ force: true, waitForAnimations: true });
+    draftPage.expandAllDrafts();
+    draftPage.verifyDraftsExpanded('false');
+  });
+
+  it('verify single draft details', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+
+    // expand and verify first draft
+    draftPage.expandSingleDraft(2);
+    draftPage.verifyExpandedDraftButtons(2);
+    draftPage.verifyExpandedSingleDraft(updatedMultiDraftResponse, 2, 0);
+    draftPage.expandSingleDraft(2);
+
+    // expand and verify second draft
+    draftPage.expandSingleDraft(1);
+    draftPage.verifyExpandedDraftButtons(1);
+    draftPage.verifyExpandedSingleDraft(updatedMultiDraftResponse, 1, 1);
+    draftPage.expandSingleDraft(1);
   });
 });
