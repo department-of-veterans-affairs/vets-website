@@ -752,10 +752,10 @@ export function selectRequestedAppointmentData(state, appointment) {
   const typeOfCareName = typeOfCare?.name;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const typeOfVisit = appointment?.requestVisitType;
+  const isPendingAppointment = selectIsPendingAppointment(appointment);
 
   return {
     appointment,
-    // appointmentDetailsStatus,
     bookingNotes,
     cancelInfo,
     canceled,
@@ -768,6 +768,7 @@ export function selectRequestedAppointmentData(state, appointment) {
     isCCRequest,
     isCanceled,
     isPastAppointment,
+    isPendingAppointment,
     phone,
     preferredDates: requestedPeriod,
     preferredLanguage,

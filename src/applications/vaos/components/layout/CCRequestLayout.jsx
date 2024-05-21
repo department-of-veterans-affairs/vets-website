@@ -4,6 +4,7 @@ import { shallowEqual } from 'recompose';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { useLocation } from 'react-router-dom';
 import { selectRequestedAppointmentData } from '../../appointment-list/redux/selectors';
 import DetailPageLayout, { Section } from './DetailPageLayout';
 import ListBestTimeToCall from '../../appointment-list/components/ListBestTimeToCall';
@@ -12,11 +13,12 @@ import PageLayout from '../../appointment-list/components/PageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 
 export default function CCRequestLayout({ data: appointment }) {
+  const { search } = useLocation();
   const {
     comment,
     email,
     facility,
-    isPastAppointment,
+    isPendingAppointment,
     phone,
     preferredDates,
     preferredLanguage,
@@ -31,13 +33,17 @@ export default function CCRequestLayout({ data: appointment }) {
   );
   const { providerName, treatmentSpecialty } = provider || {};
   const { name: facilityName } = facility;
+  const queryParams = new URLSearchParams(search);
+  const showConfirmMsg = queryParams.get('confirmMsg');
+
   // There is no reason for appointment for CC appointment request.
   // const [reason, otherDetails] = comment?.split(':') || [];
   const reason = null;
   const otherDetails = comment;
 
   let heading = 'We have received your request';
-  if (isPastAppointment) heading = 'Request for community care appointment';
+  if (isPendingAppointment && !showConfirmMsg)
+    heading = 'Request for community care appointment';
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled request for community care appointment';
 

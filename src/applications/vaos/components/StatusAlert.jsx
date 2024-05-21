@@ -57,43 +57,35 @@ export default function StatusAlert({ appointment, facility }) {
     featureAppointmentDetailsRedesign &&
     APPOINTMENT_STATUS.proposed === status
   ) {
-    if (isPastAppointment) {
-      return (
-        <InfoAlert backgroundOnly status="info">
-          <p>
-            We’ll try to schedule your appointment in the next 2 business days.
-            Check back here or call your facility for updates. Review your
-            appointments Schedule a new appointment
-          </p>
-        </InfoAlert>
-      );
-    }
     return (
-      <InfoAlert backgroundOnly status="success">
+      <InfoAlert backgroundOnly status={showConfirmMsg ? 'success' : 'info'}>
         <p>
           We’ll try to schedule your appointment in the next 2 business days.
-          Check back here or call your facility for updates. Review your
-          appointments Schedule a new appointment
+          Check back here or call your facility for updates.
         </p>
-        <div className="vads-u-margin-y--1">
-          <va-link
-            text="Review your appointments"
-            data-testid="review-appointments-link"
-            href={root.url}
-            onClick={() =>
-              recordEvent({
-                event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
-              })
-            }
-          />
-        </div>
-        <div>
-          <va-link
-            text="Schedule a new appointment"
-            data-testid="schedule-appointment-link"
-            onClick={handleClick(history, dispatch, typeOfCare)}
-          />
-        </div>
+        {showConfirmMsg && (
+          <>
+            <div className="vads-u-margin-y--1">
+              <va-link
+                text="Review your appointments"
+                data-testid="review-appointments-link"
+                href={root.url}
+                onClick={() =>
+                  recordEvent({
+                    event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
+                  })
+                }
+              />
+            </div>
+            <div>
+              <va-link
+                text="Schedule a new appointment"
+                data-testid="schedule-appointment-link"
+                onClick={handleClick(history, dispatch, typeOfCare)}
+              />
+            </div>
+          </>
+        )}
       </InfoAlert>
     );
   }
@@ -116,8 +108,7 @@ export default function StatusAlert({ appointment, facility }) {
           <InfoAlert backgroundOnly status="info">
             <p>
               We’ll try to schedule your appointment in the next 2 business
-              days. Check back here or call your facility for updates. Review
-              your appointments Schedule a new appointment
+              days. Check back here or call your facility for updates.
             </p>
           </InfoAlert>
         );
@@ -126,8 +117,7 @@ export default function StatusAlert({ appointment, facility }) {
         <InfoAlert backgroundOnly status="success">
           <p>
             We’ll try to schedule your appointment in the next 2 business days.
-            Check back here or call your facility for updates. Review your
-            appointments Schedule a new appointment
+            Check back here or call your facility for updates.
           </p>
           <div className="vads-u-margin-y--1">
             <va-link
