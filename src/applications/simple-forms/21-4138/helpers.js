@@ -13,7 +13,7 @@ export function getFullNameLabels(label, skipMiddleCheck = false) {
   return label.charAt(0).toUpperCase() + label.slice(1);
 }
 
-export function validateLivingSituation(errors, fields) {
+export function validateCheckboxSelection(errors, fields) {
   const selectedSituations = Object.keys(fields.livingSituation).filter(
     key => fields.livingSituation[key],
   );

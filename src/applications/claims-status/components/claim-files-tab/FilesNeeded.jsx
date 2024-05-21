@@ -18,7 +18,7 @@ function FilesNeeded({ item }) {
             we may need to decide your claim.
           </p>
           <p>
-            Upload the waiver attached to letter if you’re finished adding
+            Upload the waiver attached to the letter if you’re finished adding
             evidence.
           </p>
         </>
