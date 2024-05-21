@@ -18,7 +18,7 @@ export const uiSchema = {
   questions: {
     hasRepayments: yesNoUI({
       title:
-        'Do you make monthly payments on any installment contracts or other debts you make monthly payments on?',
+        'Do you make monthly payments on any installment contracts or other debts?',
       enableAnalytics: true,
       uswds: true,
       required: () => true,
