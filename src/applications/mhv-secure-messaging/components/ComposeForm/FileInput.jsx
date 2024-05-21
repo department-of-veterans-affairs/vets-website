@@ -148,15 +148,17 @@ const FileInput = props => {
             secondary
             text={
               attachments.length > 0
-                ? `Attach additional file${draftSequence &&
-                    ` to draft ${draftSequence}`}`
+                ? `Attach additional file${
+                    draftSequence ? ` to draft ${draftSequence}` : ''
+                  }`
                 : `Attach file${
                     draftSequence ? ` to draft ${draftSequence}` : ''
                   }`
             }
             class="attach-file-button"
-            data-testid={`attach-file-button${draftSequence &&
-              `-${draftSequence}`}`}
+            data-testid={`attach-file-button${
+              draftSequence ? `-${draftSequence}` : ''
+            }`}
             data-dd-action-name="Attach File Button"
           />
         </>
