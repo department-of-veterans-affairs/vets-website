@@ -62,7 +62,9 @@ export const schema = {
   properties: {
     questions: {
       type: 'object',
-      properties: yesNoSchema,
+      properties: {
+        hasRealEstate: yesNoSchema,
+      },
     },
   },
   'view:components': {
