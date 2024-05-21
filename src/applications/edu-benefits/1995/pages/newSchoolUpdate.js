@@ -31,11 +31,6 @@ export const uiSchema = {
       'Education or career goal (For example, “I want to get a bachelor’s degree in criminal justice” or “I want to get an HVAC technician certificate” or “I want to become a police officer.”)',
     'ui:widget': 'textarea',
   },
-  nonVaAssistance: {
-    'ui:title':
-      'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
-    'ui:widget': 'yesNo',
-  },
 };
 
 export const schema = {
