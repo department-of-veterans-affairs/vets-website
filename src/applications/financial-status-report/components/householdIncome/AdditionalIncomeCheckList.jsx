@@ -25,6 +25,7 @@ const AdditionalIncomeCheckList = ({
   } = data;
   const { addlIncRecords = [] } = additionalIncome;
 
+  // Calculate income properties as necessary
   useEffect(() => {
     const calculateIncome = async () => {
       if (
