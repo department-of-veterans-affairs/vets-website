@@ -7,7 +7,7 @@ import {
 
 class ApiInitializer {
   initializeFeatureToggle = {
-    withAppDisabled: () => {
+    withAllFeaturesDisabled: () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
