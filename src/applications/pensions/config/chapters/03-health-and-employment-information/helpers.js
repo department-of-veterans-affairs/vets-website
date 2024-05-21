@@ -11,6 +11,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
 import { getJobTitleOrType } from '../../../helpers';
+import ArrayDescription from '../../../components/ArrayDescription';
 
 export function hasFederalTreatmentHistory(formData) {
   return formData.federalTreatmentHistory === true;
@@ -78,9 +79,11 @@ export const generateMedicalCentersSchemas = (
 ) => {
   return {
     uiSchema: {
-      ...titleUI(medicalCentersTitle),
+      ...titleUI(
+        medicalCentersTitle,
+        <ArrayDescription message={medicalCenterMessage} />,
+      ),
       [medicalCentersKey]: {
-        'ui:title': medicalCenterMessage,
         'ui:options': {
           itemName: 'Medical center',
           itemAriaLabel: data => data.medicalCenter,
@@ -144,9 +147,8 @@ const generateEmployersUISchema = ({
   showJobDateField,
   showJobTitleField,
 }) => ({
-  ...titleUI(employersTitle),
+  ...titleUI(employersTitle, <ArrayDescription message={employerMessage} />),
   [employersKey]: {
-    'ui:title': employerMessage,
     'ui:options': {
       itemName: 'Job',
       itemAriaLabel: data => getJobTitleOrType(data),
