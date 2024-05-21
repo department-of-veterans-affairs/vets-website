@@ -23,7 +23,7 @@ describe(`${appName} -- transitional Medical Records page **enabled**`, () => {
 
 describe(`${appName} -- transitional Medical Records page **disabled**`, () => {
   beforeEach(() => {
-    ApiInitializer.initializeFeatureToggle.withAppDisabled();
+    ApiInitializer.initializeFeatureToggle.withAllFeaturesDisabled();
     cy.login(user);
     cy.visit('/my-health/records');
   });
