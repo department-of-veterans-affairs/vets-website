@@ -5,14 +5,26 @@ import {
   emailUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import AddressViewField from '../components/AddressViewField';
+import AddressViewField from '@department-of-veterans-affairs/platform-forms-system/AddressViewField';
+
 import ReviewCardField from '../components/ReviewCardField';
+
+// Wrap address fields with DL tags to resolve accessibility error.
+const addressUiWithDlWrappedFields = () => {
+  const customAddressUI = addressUI();
+  Object.keys(customAddressUI).forEach(element => {
+    if (customAddressUI[element]['ui:options']) {
+      customAddressUI[element]['ui:options'].useDlWrap = true;
+    }
+  });
+  return customAddressUI;
+};
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     permanentAddress: {
-      ...addressUI(),
+      ...addressUiWithDlWrappedFields(),
       'ui:title': 'Permanent address',
       'ui:field': ReviewCardField,
       'ui:options': {
@@ -25,11 +37,10 @@ export default {
       },
     },
     temporaryAddress: {
-      ...addressUI(),
+      ...addressUiWithDlWrappedFields(),
       'ui:title': 'Temporary address',
       'ui:field': ReviewCardField,
       'ui:options': {
-        // ...addressUI()['ui:options'],
         startInEdit: formData => {
           return Object.values(formData).every(prop => Boolean(prop));
         },
@@ -38,7 +49,14 @@ export default {
         viewComponent: AddressViewField,
       },
     },
-    vetEmail: emailUI(),
+    vetEmail: {
+      ...emailUI(),
+      'ui:options': {
+        inputType: 'email',
+        useDlWrap: true,
+        uswds: true,
+      },
+    },
     viewCurrentAddressField: {
       'ui:options': {
         classNames: 'vads-u-display--none',
