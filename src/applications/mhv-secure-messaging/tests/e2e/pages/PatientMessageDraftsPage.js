@@ -594,9 +594,9 @@ class PatientMessageDraftsPage {
       .should('be.visible')
       .and(
         'have.text',
-        `Draft To: ${response.data[index].attributes.senderName}\n(Team: ${
-          response.data[index].attributes.triageGroupName
-        })`,
+        `Draft ${number} To: ${
+          response.data[index].attributes.senderName
+        }\n(Team: ${response.data[index].attributes.triageGroupName})`,
       );
 
     cy.get(`[data-testid="attach-file-button-${number}"]`)
