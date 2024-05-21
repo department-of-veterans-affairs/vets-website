@@ -56,7 +56,7 @@ const UpcomingAppointmentsList = props => {
     );
   }
   return (
-    <>
+    <div className="vads-u-border-bottom--1px vads-u-border-color--gray-light">
       {groupedAppointments.map(month => {
         const { firstAppointmentStartTime, days } = month;
         const monthDate = new Date(firstAppointmentStartTime);
@@ -74,7 +74,7 @@ const UpcomingAppointmentsList = props => {
                   key={index}
                 >
                   <div className="vads-l-row">
-                    <div className="vads-l-col--2 vads-u-border-top--1px">
+                    <div className="vads-l-col--2 vads-u-border-top--1px vads-u-border-color--gray-light">
                       <h4
                         className="vads-u-text-align--center vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--1p5"
                         data-testid="day-label"
@@ -86,7 +86,7 @@ const UpcomingAppointmentsList = props => {
                         {t('date-day-of-week', { date: dayStartTime })}
                       </h4>
                     </div>
-                    <div className="vads-l-col--10 vads-u-border-top--1px">
+                    <div className="vads-l-col--10 vads-u-border-top--1px vads-u-border-color--gray-light">
                       <ul
                         className="vads-u-margin-bottom--3 check-in--appointment-list appointment-list"
                         data-testid="appointment-list"
@@ -111,7 +111,7 @@ const UpcomingAppointmentsList = props => {
           </div>
         );
       })}
-    </>
+    </div>
   );
 };
 

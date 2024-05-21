@@ -141,6 +141,12 @@ class AppointmentsPage {
       .should('be.visible')
       .click();
   };
+
+  validateErrorMessage = () => {
+    cy.get('[data-testid="upcoming-appointments-error-message"]').should(
+      'be.visible',
+    );
+  };
 }
 
 export default new AppointmentsPage();

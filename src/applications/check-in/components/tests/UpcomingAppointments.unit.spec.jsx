@@ -87,7 +87,7 @@ describe('unified check-in experience', () => {
       );
       expect(
         screen.getByTestId('upcoming-appointments-error-message'),
-      ).to.have.text('There was an error retreiving upcoming appointments');
+      ).to.contain.text('We’re sorry. We’ve run into a problem.');
 
       // restore the hook
       useGetUpcomingAppointmentsDataStub.restore();
