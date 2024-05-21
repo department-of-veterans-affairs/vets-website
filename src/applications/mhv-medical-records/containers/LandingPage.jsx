@@ -51,7 +51,10 @@ const LandingPage = () => {
   return (
     <div className="landing-page">
       <section>
-        <h1 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+        <h1
+          className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+          data-testid="mr-landing-page-title"
+        >
           Medical records
         </h1>
 

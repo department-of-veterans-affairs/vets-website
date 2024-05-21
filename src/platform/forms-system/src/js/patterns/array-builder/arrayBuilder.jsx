@@ -20,6 +20,16 @@ import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
  * @property {function(FormConfigPage): FormConfigPage} itemPage A repeated page corresponding to an item
  */
 
+/**
+ * @typedef {Object} ArrayBuilderHelpers
+ * @property {FormConfigPage['onNavBack']} navBackFirstItem
+ * @property {FormConfigPage['onNavBack']} navBackKeepUrlParams
+ * @property {FormConfigPage['onNavForward']} navForwardIntro
+ * @property {FormConfigPage['onNavForward']} navForwardSummary
+ * @property {FormConfigPage['onNavForward']} navForwardFinishedItem
+ * @property {FormConfigPage['onNavForward']} navForwardKeepUrlParams
+ */
+
 function throwErrorPage(pageType, option) {
   throw new Error(
     `arrayBuilderPages \`pageBuilder.${pageType}()\` must include \`${option}\` property like this: ` +
@@ -167,7 +177,7 @@ export function validateMinItems(minItems) {
  *
  *
  * @param {ArrayBuilderOptions} options
- * @param {(pageBuilder: ArrayBuilderPages) => FormConfigChapter} pageBuilderCallback
+ * @param {(pageBuilder: ArrayBuilderPages, helpers?: ArrayBuilderHelpers) => FormConfigChapter} pageBuilderCallback
  * @returns {FormConfigChapter}
  */
 export function arrayBuilderPages(options, pageBuilderCallback) {
@@ -423,5 +433,17 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     };
   };
 
-  return pageBuilderCallback(pageBuilder);
+  /**
+   * @type {ArrayBuilderHelpers}
+   */
+  const helpers = {
+    navBackFirstItem,
+    navBackKeepUrlParams: onNavBackKeepUrlParams,
+    navForwardIntro,
+    navForwardSummary,
+    navForwardFinishedItem,
+    navForwardKeepUrlParams: onNavForwardKeepUrlParams,
+  };
+
+  return pageBuilderCallback(pageBuilder, helpers);
 }
