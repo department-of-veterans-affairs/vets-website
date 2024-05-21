@@ -26,6 +26,7 @@ export function ToxicExposureSummary({
     formData,
     otherObjectName,
   );
+
   return (
     <>
       {formSubtitle('Summary')}
@@ -72,31 +73,31 @@ export function ToxicExposureSummary({
 
 ToxicExposureSummary.propTypes = {
   /**
+   * Constant providing the mapping of checkbox keys to display values
+   */
+  checkboxDefinitions: PropTypes.object.isRequired,
+  /**
+   * Name of the object containing the checkboxes
+   */
+  checkboxObjectName: PropTypes.string.isRequired,
+  /**
+   * Name of the object containing the locations and date ranges
+   */
+  datesObjectName: PropTypes.string.isRequired,
+  /**
    * Data for the form
    */
   formData: PropTypes.shape({
     toxicExposure: PropTypes.any,
   }).isRequired,
   /**
-   * Constant providing the mapping of checkbox keys to display values
+   * Path to the first page of this Checkbox and Loop flow
    */
-  checkboxDefinitions: PropTypes.any,
-  /**
-   * Name of the object containing the checkboxes
-   */
-  checkboxObjectName: PropTypes.any,
-  /**
-   * Name of the object containing the locations and date ranges
-   */
-  datesObjectName: PropTypes.string,
+  goBackUrlPath: PropTypes.string.isRequired,
   /**
    * Aria label for the go back link
    */
   goBackDescription: PropTypes.string,
-  /**
-   * Path to the first page of this Checkbox and Loop flow
-   */
-  goBackUrlPath: PropTypes.any,
   /**
    * Name of the object containg an 'other' field info
    */
