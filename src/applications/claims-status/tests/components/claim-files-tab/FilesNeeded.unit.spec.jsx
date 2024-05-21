@@ -37,7 +37,7 @@ describe('<FilesNeeded>', () => {
         `We sent you a "5103 notice" letter that lists the types of evidence we may need to decide your claim.`,
       );
       getByText(
-        `Upload the waiver attached to letter if you’re finished adding evidence.`,
+        `Upload the waiver attached to the letter if you’re finished adding evidence.`,
       );
       getByText('Details');
     });
