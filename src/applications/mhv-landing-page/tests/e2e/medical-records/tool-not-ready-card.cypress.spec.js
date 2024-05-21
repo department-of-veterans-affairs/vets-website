@@ -16,7 +16,7 @@ describe(`${appName} -- transitional Medical records card **enabled**`, () => {
   it('renders', () => {
     cy.findByRole('heading', { level: 2, name: heading });
     cy.findByText(/^The new version of this tool isn’t ready yet./);
-    cy.findByRole('link', { name: /^Download your medical records/ });
+    cy.findByRole('link', { name: /^Go back to the previous version/ });
   });
 
   it('passes automated accessibility (a11y) checks', () => {
@@ -26,7 +26,7 @@ describe(`${appName} -- transitional Medical records card **enabled**`, () => {
 
 describe(`${appName} -- transitional Medical Records card **disabled**`, () => {
   beforeEach(() => {
-    ApiInitializer.initializeFeatureToggle.withAppDisabled();
+    ApiInitializer.initializeFeatureToggle.withAllFeaturesDisabled();
     cy.login(user);
     cy.visit('/my-health');
   });

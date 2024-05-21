@@ -62,9 +62,7 @@ const MedicalRecordsCard = ({ href }) => {
         medical records in the previous version of My HealtheVet.
       </p>
       <p>
-        <a href={href}>
-          Download your medical records on the previous version of My HealtheVet
-        </a>
+        <a href={href}>Go back to the previous version of My HealtheVet</a>
       </p>
     </div>
   );
