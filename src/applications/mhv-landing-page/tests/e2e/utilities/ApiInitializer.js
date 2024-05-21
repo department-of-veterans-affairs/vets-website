@@ -16,6 +16,7 @@ class ApiInitializer {
           mhvLandingPagePersonalization: false,
           mhvLandingPageEnableVaGovHealthToolsLinks: false,
           mhvTransitionalMedicalRecordsLandingPage: false,
+          mhvHelpdeskInformationEnabled: false,
         }),
       );
     },
@@ -28,6 +29,7 @@ class ApiInitializer {
           mhvLandingPagePersonalization: false,
           mhvLandingPageEnableVaGovHealthToolsLinks: false,
           mhvTransitionalMedicalRecordsLandingPage: false,
+          mhvHelpdeskInformationEnabled: false,
         }),
       );
     },
@@ -40,6 +42,7 @@ class ApiInitializer {
           mhvLandingPagePersonalization: true,
           mhvLandingPageEnableVaGovHealthToolsLinks: true,
           mhvTransitionalMedicalRecordsLandingPage: true,
+          mhvHelpdeskInformationEnabled: true,
         }),
       );
     },
