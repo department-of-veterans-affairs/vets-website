@@ -135,7 +135,10 @@ describe('POA Requests Retrieval', () => {
     );
 
     const response = await getPOARequestsByCodes(testPoaCodes);
-    expect(response.data).to.deep.equal(mockPOARequestsResponse.data);
+    expect(response.data).to.eql(mockPOARequestsResponse.data);
+    expect(response.meta.totalRecords).to.eq(
+      mockPOARequestsResponse.meta.totalRecords,
+    );
   });
 
   it('returns an error status when the server responds with an error', async () => {
