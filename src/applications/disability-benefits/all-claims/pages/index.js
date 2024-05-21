@@ -25,6 +25,7 @@ import * as gulfWar2001Summary from './toxicExposure/gulfWar2001Summary';
 import * as herbicideLocations from './toxicExposure/herbicideLocations';
 import * as herbicideDetails from './toxicExposure/herbicideDetails';
 import * as herbicideOtherLocations from './toxicExposure/herbicideOtherLocations';
+import * as herbicideSummary from './toxicExposure/herbicideSummary';
 import * as homelessOrAtRisk from './homelessOrAtRisk';
 import * as hospitalizationHistory from './hospitalizationHistory';
 import * as incidentDate from './incidentDate';
@@ -139,6 +140,7 @@ export {
   herbicideLocations,
   herbicideDetails,
   herbicideOtherLocations,
+  herbicideSummary,
   homelessOrAtRisk,
   hospitalizationHistory,
   incidentDate,

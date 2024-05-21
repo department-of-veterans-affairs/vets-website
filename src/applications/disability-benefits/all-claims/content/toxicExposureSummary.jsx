@@ -1,29 +1,31 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import { formSubtitle } from '../utils';
-import { datesDescription, goBackLink } from './toxicExposure';
+import {
+  datesDescription,
+  getOtherFieldDescription,
+  goBackLink,
+} from './toxicExposure';
 
 /**
  * Summary list used for the end of a Checkbox and Loop flow of the various Toxic Exposure pages
- * @param {object} formData - data for the form
- * @param {string} checkboxObjectName - name of the object containing the checkboxes
- * @param {object} checkboxDefinitions - constant providing the mapping of checkbox keys to display values
- * @param {string} datesObjectName - name of the object containing the locations and date ranges
- * @param {string} goBackDescription - aria label for the go back link
- * @param {string} goBackUrlPath - path to the first page of this Checkbox and Loop flow
- * @returns component for toxic exposure summary
  */
-export function toxicExposureSummary(
-  { formData },
+export function ToxicExposureSummary({
+  formData,
   checkboxObjectName,
   checkboxDefinitions,
   datesObjectName,
+  otherObjectName = '',
   goBackDescription,
   goBackUrlPath,
-) {
+}) {
   const { toxicExposure } = formData;
   const checkboxes = toxicExposure[checkboxObjectName];
-
+  const otherFieldDescription = getOtherFieldDescription(
+    formData,
+    otherObjectName,
+  );
   return (
     <>
       {formSubtitle('Summary')}
@@ -32,9 +34,9 @@ export function toxicExposureSummary(
           return (
             checkboxes[item] === true && (
               <li key={item}>
-                <h5 className="vads-u-font-size--h6">
+                <strong className="vads-u-font-size--h6">
                   {checkboxDefinitions[item]}
-                </h5>
+                </strong>
                 <p className="vads-u-margin-y--1">
                   {datesDescription(toxicExposure[datesObjectName][item])}
                 </p>
@@ -42,6 +44,16 @@ export function toxicExposureSummary(
             )
           );
         })}
+        {otherFieldDescription && (
+          <li key="other">
+            <strong className="vads-u-font-size--h6">
+              {toxicExposure[otherObjectName].description}
+            </strong>
+            <p className="vads-u-margin-y--1">
+              {datesDescription(toxicExposure[otherObjectName])}
+            </p>
+          </li>
+        )}
       </ul>
       <p>
         <Link
@@ -57,3 +69,36 @@ export function toxicExposureSummary(
     </>
   );
 }
+
+ToxicExposureSummary.propTypes = {
+  /**
+   * Data for the form
+   */
+  formData: PropTypes.shape({
+    toxicExposure: PropTypes.any,
+  }).isRequired,
+  /**
+   * Constant providing the mapping of checkbox keys to display values
+   */
+  checkboxDefinitions: PropTypes.any,
+  /**
+   * Name of the object containing the checkboxes
+   */
+  checkboxObjectName: PropTypes.any,
+  /**
+   * Name of the object containing the locations and date ranges
+   */
+  datesObjectName: PropTypes.string,
+  /**
+   * Aria label for the go back link
+   */
+  goBackDescription: PropTypes.string,
+  /**
+   * Path to the first page of this Checkbox and Loop flow
+   */
+  goBackUrlPath: PropTypes.any,
+  /**
+   * Name of the object containg an 'other' field info
+   */
+  otherObjectName: PropTypes.string,
+};
