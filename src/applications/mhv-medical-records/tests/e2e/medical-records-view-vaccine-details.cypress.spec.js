@@ -4,12 +4,24 @@ import VaccinesListPage from './pages/VaccinesListPage';
 import defaultVaccines from './fixtures/vaccines/vaccines.json';
 
 describe('Medical Records View Vaccines', () => {
-  it('Visits Medical Records View Vaccine Details', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records/');
+    // Given Navigate to Notes Page
     VaccinesListPage.clickGotoVaccinesLink(defaultVaccines);
-    VaccinesListPage.clickVaccinesDetailsLink(0, defaultVaccines.entry[0]);
+  });
+
+  it('View vaccine details, with full date', () => {
+    // site.login();
+    // cy.visit('my-health/medical-records/');
+    // VaccinesListPage.clickGotoVaccinesLink(defaultVaccines);
+
+    VaccinesListPage.clickVaccinesDetailsLink(1, defaultVaccines.entry[0]);
+    // VaccinesListPage.clickVaccinesDetailsLink(
+    //   0,
+    // ); /* , defaultVaccines.entry[0] */
+
     // cy.get('@vaccineDetails.all').should('have.length', 0);
     VaccineDetailsPage.verifyVaccineName(defaultVaccines.entry[0]);
     VaccineDetailsPage.verifyVaccineDate(defaultVaccines.entry[0]);
@@ -19,6 +31,18 @@ describe('Medical Records View Vaccines', () => {
     // need to check manufacturer -- not in code 12/04/2023
     // Need to check Reactions -- not in code 12/04/2023
 
+    // Axe check
+    cy.injectAxe();
+    cy.axeCheck('main');
+  });
+
+  it('View vaccine details, date with year only', () => {
+    VaccinesListPage.clickVaccinesDetailsLink(0, defaultVaccines.entry[12]);
+    VaccineDetailsPage.verifyVaccineName(defaultVaccines.entry[12]);
+    VaccineDetailsPage.verifyVaccineDate(defaultVaccines.entry[12]);
+    VaccineDetailsPage.verifyVaccineLocation(defaultVaccines.entry[12]);
+    VaccineDetailsPage.verifyVaccineNotes(defaultVaccines.entry[12], 0);
+    VaccineDetailsPage.verifyVaccineNotes(defaultVaccines.entry[12], 1);
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');
