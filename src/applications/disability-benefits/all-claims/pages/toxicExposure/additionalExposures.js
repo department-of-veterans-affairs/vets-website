@@ -3,26 +3,27 @@ import {
   checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
-  gulfWar1990PageTitle,
-  gulfWar1990Question,
+  additionalExposuresQuestion,
+  additionalExposuresTitle,
   validateSelections,
 } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
-import { GULF_WAR_1990_LOCATIONS } from '../../constants';
+import { ADDITIONAL_EXPOSURES } from '../../constants';
 
+/** @type {PageSchema} */
 export const uiSchema = {
-  'ui:title': formTitle(gulfWar1990PageTitle),
+  'ui:title': formTitle(additionalExposuresTitle),
   toxicExposure: {
-    gulfWar1990: checkboxGroupUI({
-      title: gulfWar1990Question,
-      labels: GULF_WAR_1990_LOCATIONS,
+    otherExposures: checkboxGroupUI({
+      title: additionalExposuresQuestion,
+      labels: ADDITIONAL_EXPOSURES,
       required: false,
     }),
   },
   'ui:validations': [
     {
       validator: (errors, formData) => {
-        validateSelections(errors, formData, 'gulfWar1990');
+        validateSelections(errors, formData, 'otherExposures', 'hazards');
       },
     },
   ],
@@ -34,7 +35,7 @@ export const schema = {
     toxicExposure: {
       type: 'object',
       properties: {
-        gulfWar1990: checkboxGroupSchema(Object.keys(GULF_WAR_1990_LOCATIONS)),
+        otherExposures: checkboxGroupSchema(Object.keys(ADDITIONAL_EXPOSURES)),
       },
     },
   },

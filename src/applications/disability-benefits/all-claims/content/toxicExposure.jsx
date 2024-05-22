@@ -46,11 +46,20 @@ export const gulfWar2001PageTitle = 'Service post-9/11';
 export const gulfWar2001Question =
   'Did you serve in any of these Gulf War locations on or after September 11, 2001? Check any locations where you served.';
 
+export const herbicidePageTitle = 'Agent Orange locations';
+export const herbicideQuestion =
+  'Did you serve in any of these locations where the military used the herbicide Agent Orange? Check any locations where you served.';
+
+export const additionalExposuresTitle = 'Other toxic exposures';
+export const additionalExposuresQuestion =
+  'Have you been exposed to any of these hazards? Check any that you’ve been exposed to.';
+
 export const noneAndConditionError =
   'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.';
-
 export const noneAndLocationError =
   'You selected a location, and you also selected "None of these locations." You’ll need to uncheck one of these options to continue.';
+export const noneAndHazardError =
+  'You selected a hazard, and you also selected "None of these." You’ll need to uncheck one of these options to continue.';
 
 export const dateRangeAdditionalInfo = (
   <va-additional-info trigger="What if I have more than one date range?">
@@ -116,10 +125,6 @@ export function dateRangePageDescription(
     </>
   );
 }
-
-export const herbicidePageTitle = 'Agent Orange locations';
-export const herbicideQuestion =
-  'Did you serve in any of these locations where the military used the herbicide Agent Orange? Check any locations where you served.';
 
 /* ---------- utils ---------- */
 /**
@@ -265,19 +270,21 @@ export function getOtherFieldDescription(formData, objectName) {
 }
 
 /**
- * Validates selected locations (e.g. gulfWar1990Locations, gulfWar2001Locations, etc.).
+ * Validates selected items (e.g. gulfWar1990Locations, gulfWar2001Locations, etc.).
  * If the 'none' checkbox is selected along with another location, adds an error.
  *
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  * @param {string} objectName - Name of the object to look at in the form data
  * @param {string} otherObjectName - Name of the object containing other location or other hazard data
+ * @param {string} selectionTypes - locations or hazards
  */
-export function validateLocations(
+export function validateSelections(
   errors,
   formData,
   objectName,
   otherObjectName,
+  selectionTypes = 'locations',
 ) {
   const { [objectName]: locations = {} } = formData?.toxicExposure;
   if (
@@ -285,7 +292,9 @@ export function validateLocations(
     (Object.values(locations).filter(value => value === true).length > 1 ||
       getOtherFieldDescription(formData, otherObjectName))
   ) {
-    errors.toxicExposure[objectName].addError(noneAndLocationError);
+    errors.toxicExposure[objectName].addError(
+      selectionTypes === 'hazards' ? noneAndHazardError : noneAndLocationError,
+    );
   }
 }
 

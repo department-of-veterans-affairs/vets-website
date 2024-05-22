@@ -368,6 +368,10 @@ export const GULF_WAR_1990_LOCATIONS = Object.freeze({
   notsure: 'I’m not sure if I served in these locations',
 });
 
+// used to save feature flag in form in util function for 'depends' keyword of form config
+export const SHOW_REVISED_ADD_DISABILITIES_PAGE =
+  'showRevisedNewDisabilitiesPage';
+
 export const GULF_WAR_2001_LOCATIONS = Object.freeze({
   djibouti: 'Djibouti',
   lebanon: 'Lebanon',
@@ -391,6 +395,13 @@ export const HERBICIDE_LOCATIONS = Object.freeze({
   none: 'None of these locations',
 });
 
-// used to save feature flag in form in util function for 'depends' keyword of form config
-export const SHOW_REVISED_ADD_DISABILITIES_PAGE =
-  'showRevisedNewDisabilitiesPage';
+export const ADDITIONAL_EXPOSURES = Object.freeze({
+  asbestos: 'Asbestos',
+  chemical:
+    'Chemical and biological warfare testing through Project 112 or Project Shipboard Hazard and Defense (SHAD)',
+  water: 'Contaminated water at Camp Lejeune or MCAS New River, North Carolina',
+  mos: 'Military Occupational Specialty (MOS)-related toxin',
+  mustardgas: 'Mustard Gas',
+  radiation: 'Radiation',
+  none: 'None of these',
+});

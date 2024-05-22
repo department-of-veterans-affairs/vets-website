@@ -6,6 +6,7 @@ import {
   gulfWar2001Locations,
   gulfWar2001Details,
   gulfWar2001Summary,
+  additionalExposures,
   herbicideLocations,
   herbicideDetails,
   herbicideOtherLocations,
@@ -13,6 +14,7 @@ import {
 } from '..';
 import { TE_URL_PREFIX } from '../../constants';
 import {
+  additionalExposuresTitle,
   conditionsPageTitle,
   getOtherFieldDescription,
   getSelectedCount,
@@ -91,5 +93,12 @@ export const toxicExposurePages = {
       showSummaryPage(formData, 'herbicide', 'otherHerbicideLocations'),
     uiSchema: herbicideSummary.uiSchema,
     schema: herbicideSummary.schema,
+  },
+  additionalExposures: {
+    title: additionalExposuresTitle,
+    path: `${TE_URL_PREFIX}/additional-exposures`,
+    depends: formData => isClaimingTECondition(formData),
+    uiSchema: additionalExposures.uiSchema,
+    schema: additionalExposures.schema,
   },
 };
