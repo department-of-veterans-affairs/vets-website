@@ -128,7 +128,7 @@ class AppointmentDetails {
   };
 
   clickReview = () => {
-    cy.get('[data-testid="review-information-button"').click({
+    cy.get('[data-testid="review-information-button"] a').click({
       waitForAnimations: true,
     });
   };
