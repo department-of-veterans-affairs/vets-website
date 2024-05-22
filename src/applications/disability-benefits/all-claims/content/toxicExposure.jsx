@@ -395,7 +395,7 @@ export function showSummaryPage(formData, checkboxObjectName, otherObjectName) {
     (Object.values(formData.toxicExposure[checkboxObjectName]).filter(
       value => value === true,
     ).length > 0 ||
-      getOtherFieldDescription(formData, otherObjectName))
+      !!getOtherFieldDescription(formData, otherObjectName))
   );
 }
 
