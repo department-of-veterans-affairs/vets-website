@@ -2,31 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
+import DetailPageLayout, { Section, What, When, Who } from './DetailPageLayout';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
+import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
-import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
-import DetailPageLayout, {
-  When,
-  What,
-  Where,
-  Section,
-  Who,
-} from './DetailPageLayout';
-import { APPOINTMENT_STATUS } from '../../utils/constants';
-import FacilityDirectionsLink from '../FacilityDirectionsLink';
-import Address from '../Address';
-import { selectFeaturePhysicalLocation } from '../../redux/selectors';
 import AddToCalendarButton from '../AddToCalendarButton';
 import NewTabAnchor from '../NewTabAnchor';
+import Address from '../Address';
+import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import FacilityPhone from '../FacilityPhone';
+import { selectFeaturePhysicalLocation } from '../../redux/selectors';
 
-export default function InPersonLayout({ data: appointment }) {
+export default function VideoLayoutVA({ data: appointment }) {
   const {
     clinicName,
     clinicPhysicalLocation,
-    comment,
     facility,
     facilityPhone,
     isPastAppointment,
@@ -41,18 +34,20 @@ export default function InPersonLayout({ data: appointment }) {
     selectFeaturePhysicalLocation(state),
   );
 
-  if (!appointment) return null;
-
-  const [reason, otherDetails] = comment ? comment?.split(':') : [];
-  const oracleHealthProviderName = null;
-
-  let heading = 'In-person appointment';
-  if (isPastAppointment) heading = 'Past in-person appointment';
+  let heading = 'Video appointment at VA location';
+  if (isPastAppointment) heading = 'Past video appointment at VA location';
   else if (APPOINTMENT_STATUS.cancelled === status)
-    heading = 'Canceled in-person appointment';
+    heading = 'Canceled video appointment at VA location';
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
+      {APPOINTMENT_STATUS.booked === status &&
+        !isPastAppointment && (
+          <Section heading="How to join">
+            Join this video appointment at a VA facility.
+            <br />
+          </Section>
+        )}
       <When>
         <AppointmentDate date={startDate} />
         <br />
@@ -68,13 +63,11 @@ export default function InPersonLayout({ data: appointment }) {
             </div>
           )}
       </When>
-      <What>{typeOfCareName || 'Type of care information not available'}</What>
-      {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
-      <Where
-        heading={
-          APPOINTMENT_STATUS.booked === status ? 'Where to attend' : undefined
-        }
-      >
+
+      <What>{typeOfCareName || 'Type of care not noted'}</What>
+
+      <Who />
+      <Section heading="Where to attend">
         {!!facility === false && (
           <>
             <span>Facility details not available</span>
@@ -108,17 +101,18 @@ export default function InPersonLayout({ data: appointment }) {
         {facilityPhone && (
           <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
         )}
-      </Where>
-      <Section heading="Details you shared with your provider">
-        <span>
-          Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
-        </span>
-        <br />
-        <span>Other details: {`${otherDetails || 'Not available'}`}</span>
+        {!facilityPhone && <>Not available</>}
       </Section>
+      {APPOINTMENT_STATUS.booked === status &&
+        !isPastAppointment && (
+          <Section heading="Need to make changes?">
+            Contact this facility if you need to reschedule or cancel your
+            appointment.
+          </Section>
+        )}
     </DetailPageLayout>
   );
 }
-InPersonLayout.propTypes = {
+VideoLayoutVA.propTypes = {
   data: PropTypes.object,
 };
