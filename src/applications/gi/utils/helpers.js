@@ -56,7 +56,7 @@ export const isShowVetTec = (automatedTest = false) => {
   if (isTest || automatedTest) {
     return false;
   }
-  return false;
+  return environment.isDev();
   // Or
   /*
   return (
