@@ -95,7 +95,7 @@ export const NO_PENDING_DOCUMENTS_STATMENT = (
 );
 
 export const EnrollmentInformation = () => (
-  <>
+  <div className="vye-max-width-480px">
     <p>
       <span className="vads-u-font-weight--bold">Note: </span> If the enrollment
       information on this page isn’t correct, you’ll need to leave this tool and
@@ -117,7 +117,7 @@ export const EnrollmentInformation = () => (
       Willful false reports concerning benefits payable by VA may result in a
       fine, imprisonment, or both.
     </p>
-  </>
+  </div>
 );
 export const errorAddressAlert = deliveryPointValidation => {
   if (deliveryPointValidation === BAD_UNIT_NUMBER) {
