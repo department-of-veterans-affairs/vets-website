@@ -16,16 +16,16 @@ describe('Breadcrumbs', () => {
     },
   };
 
-  it('renders with "Back to My HealtheVet" on Landing Page', async () => {
+  it('renders breadcrumb that includes "My HealtheVet" on Landing Page', async () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: `/`,
     });
-    const breadcrumb = await screen.findByText('Back to My HealtheVet home', {
-      exact: true,
-    });
-    expect(breadcrumb);
+    expect(screen.getByTestId('sm-breadcrumb')).to.have.attribute(
+      'sm-crumb-label',
+      'My HealtheVet',
+    );
   });
 
   it('finds parent breadcrumb that displays the label "Back to messages"', async () => {
