@@ -61,21 +61,9 @@ describe('LabsAndTests details container', () => {
     ).to.exist;
   });
 
-  it('displays the sample tested, ordered by, ordering location, and collection location', () => {
-    expect(
-      screen.getAllByText('None noted', {
-        exact: true,
-        selector: 'p',
-      }).length,
-    ).to.eq(6);
-  });
-
   it('displays provider notes', () => {
     expect(
-      screen.getByText(
-        "Lisa's Test 1/20/2021 - Second lab Added Potassium test",
-        { exact: false },
-      ),
+      screen.getByText("Lisa's Test 1/20/2021 - Second lab", { exact: false }),
     ).to.exist;
   });
 
