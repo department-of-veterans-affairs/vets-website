@@ -6,7 +6,6 @@ import mockEhrData from './fixtures/userResponse/vamc-ehr-cerner-mixed.json';
 describe('Secure Messaging Compose', () => {
   it('can send message', () => {
     const site = new SecureMessagingSite();
-    const patientInboxPage = new PatientInboxPage();
     site.login(mockEhrData, false);
     site.loadPageUnauthenticated();
 
@@ -14,7 +13,7 @@ describe('Secure Messaging Compose', () => {
 
     site.login();
 
-    patientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     cy.get(Locators.FOLDERS.SIDEBAR).click();
 
     cy.injectAxe();

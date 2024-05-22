@@ -26,6 +26,7 @@ import * as bankruptcyHistory from './bankruptcy';
 import * as enhancedBankruptcyHistoryRecords from './bankruptcy/enhancedRecords';
 import * as householdExpensesChecklist from './expenses/householdExpensesChecklist';
 import * as householdExpensesInputList from './expenses/householdExpensesValues';
+import monthlyHousingExpenses from './expenses/monthlyHousingExpenses';
 import * as creditCardBills from './expenses/creditCardBills';
 import * as installmentContracts from './expenses/repayments/installmentContracts';
 
@@ -57,6 +58,7 @@ export {
   contactInformation,
   householdExpensesChecklist,
   householdExpensesInputList,
+  monthlyHousingExpenses,
   enhancedBankruptcyHistoryRecords,
   creditCardBills,
   installmentContracts,

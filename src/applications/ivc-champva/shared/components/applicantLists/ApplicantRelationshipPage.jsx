@@ -306,6 +306,7 @@ export default function ApplicantRelationshipPage({
                     customOtherDescription ||
                     `Since ${relativePossessive} relationship with the ${personTitle} was not listed, please describe it here`
                   }
+                  name="other-relationship-description"
                   onInput={handlers.inputUpdate}
                   required={checkValue[primary] === 'other'}
                   error={inputError}

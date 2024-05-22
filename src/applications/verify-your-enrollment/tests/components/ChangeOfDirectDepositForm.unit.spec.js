@@ -10,7 +10,7 @@ import ChangeOfDirectDepositForm, {
 } from '../../components/ChangeOfDirectDepositForm';
 
 const dummyProps = {
-  title: 'TEST Direct Deposit Information',
+  title: 'TEST Direct deposit information',
   formChange: () => {},
   formData: {},
   formPrefix: 'test-',
@@ -57,13 +57,13 @@ describe('Change Of Direct Deposit Form', () => {
     );
     const formDOM = getFormDOM(screen);
     const fullName = screen.getByRole('textbox', {
-      name: "Veteran's Full Name (*Required)",
+      name: "Veteran's full name (*Required)",
     });
     const VeteranPhone = screen.getByRole('textbox', {
-      name: "Veteran's Phone Number (*Required)",
+      name: "Veteran's phone number (*Required)",
     });
     const VeteranEmail = screen.getByRole('textbox', {
-      name: "Veteran's Email Address (*Required)",
+      name: "Veteran's email address (*Required)",
     });
     const accountTypeButton = screen.container.querySelector(
       'va-radio-option[label="Checking"]',
@@ -121,7 +121,7 @@ describe('Change Of Direct Deposit Form', () => {
     );
     const formDOM = getFormDOM(screen);
     const fullName = screen.getByRole('textbox', {
-      name: "Veteran's Full Name (*Required)",
+      name: "Veteran's full name (*Required)",
     });
     const accountTypeButton = screen.container.querySelector(
       'va-radio-option[label="Checking"]',
@@ -130,10 +130,10 @@ describe('Change Of Direct Deposit Form', () => {
       name: /name of financial institution \(\*required\)/i,
     });
     const VeteranPhone = screen.getByRole('textbox', {
-      name: "Veteran's Phone Number (*Required)",
+      name: "Veteran's phone number (*Required)",
     });
     const VeteranEmail = screen.getByRole('textbox', {
-      name: "Veteran's Email Address (*Required)",
+      name: "Veteran's email address (*Required)",
     });
     const bankPhone = screen.getByRole('textbox', {
       name: /telephone number of financial institution \(\*required\)/i,
