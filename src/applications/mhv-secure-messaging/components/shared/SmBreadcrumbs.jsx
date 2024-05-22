@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 import { retrieveFolder } from '../../actions/folders';
@@ -133,19 +134,36 @@ const SmBreadcrumbs = () => {
         !crumbs?.label ? 'breadcrumbs--hidden' : ''
       }`}
     >
-      {crumbs && (
-        <nav aria-label="Breadcrumb">
-          <ul className={breadcrumbSize()}>
-            <li className="sm-breadcrumb-list-item">
-              {!crumbs.path ? (
-                <a href="/my-health">{crumbs.label}</a>
-              ) : (
+      {crumbs &&
+        (!crumbs.path ? (
+          <VaBreadcrumbs
+            breadcrumbList={[
+              {
+                href: '/',
+                label: 'VA.gov',
+              },
+              {
+                href: '/my-health',
+                label: crumbs.label,
+              },
+              {
+                href: '/my-health/secure-messages',
+                label: 'Messages',
+              },
+            ]}
+            label="Breadcrumb"
+            home-veterans-affairs
+            className="vads-u-margin-y--neg1 small-screen:vads-u-margin-y--2"
+          />
+        ) : (
+          <nav aria-label="Breadcrumb">
+            <ul className={breadcrumbSize()}>
+              <li className="sm-breadcrumb-list-item">
                 <Link to={crumbs.path?.toLowerCase()}>{crumbs.label}</Link>
-              )}
-            </li>
-          </ul>
-        </nav>
-      )}
+              </li>
+            </ul>
+          </nav>
+        ))}
     </div>
   );
 };
