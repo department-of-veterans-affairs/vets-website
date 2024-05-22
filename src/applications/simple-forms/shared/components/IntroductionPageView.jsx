@@ -4,7 +4,33 @@ import { focusElement } from '~/platform/utilities/ui';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
 
+/**
+ * @param {Object} props
+ * @param {Object} props.route
+ * @param {{
+ *  formTitle: string,
+ *  formSubTitle: string,
+ *  hideSipIntro: boolean,
+ *  authStartFormText: string,
+ *  saveInProgressText: string,
+ *  unauthStartText: string,
+ *  displayNonVeteranMessaging: boolean,
+ *  verifiedPrefillAlert: Object,
+ *  customLink: any
+ * }} props.content
+ * @param {{
+ *   resBurden: string,
+ *   ombNumber: string,
+ *   expDate: string,
+ * }} props.ombInfo
+ * @param {Object} props.childContent
+ * @param {Object} props.additionalChildContent
+ * @param {{
+ *   forceShowFormControls: boolean
+ * }} props.devOnly
+ */
 export const IntroductionPageView = ({
+  devOnly,
   route,
   content,
   ombInfo,
@@ -36,6 +62,7 @@ export const IntroductionPageView = ({
       {childContent}
       {!hideSipIntro && (
         <SaveInProgressIntro
+          devOnly={devOnly}
           headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
@@ -93,6 +120,9 @@ IntroductionPageView.propTypes = {
     displayNonVeteranMessaging: PropTypes.bool,
     verifiedPrefillAlert: PropTypes.object,
     customLink: PropTypes.any,
+  }),
+  devOnly: PropTypes.shape({
+    forceShowFormControls: PropTypes.bool,
   }),
   ombInfo: PropTypes.shape(),
 };

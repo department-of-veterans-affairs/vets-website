@@ -214,7 +214,7 @@ const formConfig = {
         priorityProcessingOtherReasonsOptionalPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            formData.livingSituation.NONE,
+            !formData.livingSituation.NONE,
           path: 'hardships',
           title: 'Other reasons for request',
           uiSchema: ppOtherReasonsOptionalPage.uiSchema,
@@ -224,7 +224,7 @@ const formConfig = {
         priorityProcessingOtherReasonsRequiredPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            !formData.livingSituation.NONE,
+            formData.livingSituation.NONE,
           path: 'priority-processing-other-reasons',
           title: 'Other reasons for request',
           uiSchema: ppOtherReasonsRequiredPage.uiSchema,
