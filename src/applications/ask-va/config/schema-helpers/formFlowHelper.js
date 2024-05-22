@@ -7,6 +7,7 @@ import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran
 import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
 import addressConfirmationPage from '../chapters/personalInformation/addressConfirmation';
 import deathDatePage from '../chapters/personalInformation/deathDate';
+import familyMembersPostalCodePage from '../chapters/personalInformation/familyMembersPostalCode';
 import howToContactPage from '../chapters/personalInformation/howToContact';
 import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeteranDeceased';
 import moreAboutYourRelationshipToVeteranPage from '../chapters/personalInformation/moreAboutYourRelationshipToVeteran';
@@ -19,8 +20,8 @@ import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
 import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
 import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
 import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
-import veteransAddressZipPage from '../chapters/personalInformation/veteranAddressZip';
 import veteransLocationOfResidencePage from '../chapters/personalInformation/veteransLocationOfResidence';
+import veteransPostalCode from '../chapters/personalInformation/veteransPostalCode';
 import yourAddressPage from '../chapters/personalInformation/yourAddress';
 import yourContactInformationPage from '../chapters/personalInformation/yourContactInformation';
 import yourCountryPage from '../chapters/personalInformation/yourCountry';
@@ -61,15 +62,20 @@ const ch3Pages = {
     schema: deathDatePage.schema,
     depends: form => form.isVeteranDeceased === 'YES',
   },
-  veteransAddressZip: {
-    title: CHAPTER_3.VET_POSTAL_CODE.TITLE,
-    uiSchema: veteransAddressZipPage.uiSchema,
-    schema: veteransAddressZipPage.schema,
+  veteransPostalCode: {
+    title: CHAPTER_3.VETERANS_POSTAL_CODE.TITLE,
+    uiSchema: veteransPostalCode.uiSchema,
+    schema: veteransPostalCode.schema,
   },
   veteransLocationOfResidence: {
     title: CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: veteransLocationOfResidencePage.uiSchema,
     schema: veteransLocationOfResidencePage.schema,
+  },
+  familyMembersPostalCode: {
+    title: CHAPTER_3.FAMILY_MEMBERS_POSTAL_CODE.TITLE,
+    uiSchema: familyMembersPostalCodePage.uiSchema,
+    schema: familyMembersPostalCodePage.schema,
   },
   yourPostalCode: {
     title: CHAPTER_3.YOUR_POSTAL_CODE.TITLE,
@@ -224,7 +230,7 @@ const myOwnBenFam = [
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransAddressZip',
+  'veteransPostalCode',
   'aboutYourself',
   'searchVAMedicalCenter',
   'yourContactInformation',
@@ -263,20 +269,21 @@ const someoneElseBenFam = [
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransAddressZip',
+  'veteransPostalCode',
   'whoThisIsAbout',
   'searchVAMedicalCenter',
   'aboutYourFamilyMember',
   'aboutYourRelationshipToFamilyMember',
   'yourContactInformation',
   'searchVAMedicalCenter',
-  'aboutYourself',
+  // 'aboutYourself',
   'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
   'yourAddressConfirmation',
   'aboutYourFamilyMember',
+  'familyMembersPostalCode',
 ];
 export const someoneElseBenFamPages = flowPages(
   ch3Pages,
@@ -299,7 +306,7 @@ const someoneElseBen3rdParty = [
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransAddressZip',
+  'veteransPostalCode',
   'searchVAMedicalCenter',
   'aboutYourself',
   'yourContactInformation',
@@ -319,7 +326,7 @@ const someoneElseBen3rdPartyEducation = [
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
-  'veteransAddressZip',
+  'veteransPostalCode',
   'searchVAMedicalCenter',
   'aboutYourself',
   'yourContactInformation',

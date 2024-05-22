@@ -243,21 +243,21 @@ export function validateTEConditions(errors, formData) {
 }
 
 /**
- * Validates selected Gulf War 1990 locations.
- * If the 'none' checkbox is selected
- * along with another location adds an error.
+ * Validates selected locations (e.g. gulfWar1990Locations, gulfWar2001Locations, etc.).
+ * If the 'none' checkbox is selected along with another location, adds an error.
  *
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
+ * @param {string} objectName - Name of the object to look at in the form data
  */
-export function validateGulfWar1990Locations(errors, formData) {
-  const { gulfWar1990 = {} } = formData?.toxicExposure;
+export function validateLocations(errors, formData, objectName) {
+  const { [objectName]: locations = {} } = formData?.toxicExposure;
 
   if (
-    gulfWar1990?.none === true &&
-    Object.values(gulfWar1990).filter(value => value === true).length > 1
+    locations?.none === true &&
+    Object.values(locations).filter(value => value === true).length > 1
   ) {
-    errors.toxicExposure.gulfWar1990.addError(noneAndLocationError);
+    errors.toxicExposure[objectName].addError(noneAndLocationError);
   }
 }
 

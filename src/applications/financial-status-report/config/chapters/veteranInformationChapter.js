@@ -125,7 +125,7 @@ export default {
       dependentCount: {
         path: 'dependents-count',
         title: 'Dependents',
-        uiSchema: {},
+        uiSchema: dependents.uiSchemaEnhanced,
         schema: dependents.schemaEnhanced,
         CustomPage: DependentCount,
         CustomPageReview: null,

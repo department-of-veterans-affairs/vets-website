@@ -32,7 +32,6 @@ const RxBreadcrumbs = () => {
             wrapping
             label="Breadcrumb"
             data-testid="rx-breadcrumb"
-            home-veterans-affairs="false"
             breadcrumbList={breadcrumbs}
             className="no-print va-breadcrumbs-li vads-u-margin-bottom--neg1p5 vads-u-display--block"
           />
