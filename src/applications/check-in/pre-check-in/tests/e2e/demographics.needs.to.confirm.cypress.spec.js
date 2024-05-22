@@ -258,6 +258,7 @@ describe('Check In Experience | Pre-Check-In |', () => {
       cy.injectAxeThenAxeCheck();
     });
     it('should complete pre-check-in when answering no to all demographics questions', () => {
+      cy.visitPreCheckInWithUUID('47fa6bad-62b4-440d-a4e1-50e7f7b92d27');
       initializePreCheckInDataGet.withSuccess();
       ValidateVeteran.validateVeteran();
       cy.injectAxeThenAxeCheck();
