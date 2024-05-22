@@ -2,30 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
+import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
+import DetailPageLayout, { Section, What, When, Who } from './DetailPageLayout';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 import {
   AppointmentDate,
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
-import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
-import DetailPageLayout, {
-  When,
-  What,
-  Where,
-  Section,
-  Who,
-} from './DetailPageLayout';
-import { APPOINTMENT_STATUS } from '../../utils/constants';
-import FacilityDirectionsLink from '../FacilityDirectionsLink';
-import Address from '../Address';
-import { selectFeaturePhysicalLocation } from '../../redux/selectors';
 import AddToCalendarButton from '../AddToCalendarButton';
+import Address from '../Address';
 import NewTabAnchor from '../NewTabAnchor';
 import FacilityPhone from '../FacilityPhone';
 
-export default function InPersonLayout({ data: appointment }) {
+export default function PhoneLayout({ data: appointment }) {
   const {
     clinicName,
-    clinicPhysicalLocation,
     comment,
     facility,
     facilityPhone,
@@ -37,22 +28,22 @@ export default function InPersonLayout({ data: appointment }) {
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
   );
-  const featurePhysicalLocation = useSelector(state =>
-    selectFeaturePhysicalLocation(state),
-  );
-
-  if (!appointment) return null;
-
   const [reason, otherDetails] = comment ? comment?.split(':') : [];
   const oracleHealthProviderName = null;
 
-  let heading = 'In-person appointment';
-  if (isPastAppointment) heading = 'Past in-person appointment';
+  let heading = 'Phone appointment';
+  if (isPastAppointment) heading = 'Past phone appointment';
   else if (APPOINTMENT_STATUS.cancelled === status)
-    heading = 'Canceled in-person appointment';
+    heading = 'Canceled phone appointment';
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
+      {APPOINTMENT_STATUS.booked === status && (
+        <Section heading="How to join">
+          We'll call you at the appointment time. But contact the facility you
+          scheduled through if you have questions or need to reschedule.
+        </Section>
+      )}
       <When>
         <AppointmentDate date={startDate} />
         <br />
@@ -70,11 +61,7 @@ export default function InPersonLayout({ data: appointment }) {
       </When>
       <What>{typeOfCareName || 'Type of care information not available'}</What>
       {oracleHealthProviderName && <Who>{oracleHealthProviderName}</Who>}
-      <Where
-        heading={
-          APPOINTMENT_STATUS.booked === status ? 'Where to attend' : undefined
-        }
-      >
+      <Section heading="Scheduling facility">
         {!!facility === false && (
           <>
             <span>Facility details not available</span>
@@ -91,24 +78,14 @@ export default function InPersonLayout({ data: appointment }) {
             {facility.name}
             <br />
             <Address address={facility?.address} />
-            <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-              <FacilityDirectionsLink location={facility} />
-            </div>
-            <br />
           </>
         )}
         <span>Clinic: {clinicName || 'Not available'}</span> <br />
-        {featurePhysicalLocation && (
-          <>
-            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
-            <br />
-          </>
-        )}
         {facilityPhone && (
           <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
         )}
-      </Where>
+        {!facilityPhone && <>Not available</>}
+      </Section>
       <Section heading="Details you shared with your provider">
         <span>
           Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
@@ -119,6 +96,6 @@ export default function InPersonLayout({ data: appointment }) {
     </DetailPageLayout>
   );
 }
-InPersonLayout.propTypes = {
-  data: PropTypes.object,
+PhoneLayout.propTypes = {
+  data: PropTypes.object.isRequired,
 };
