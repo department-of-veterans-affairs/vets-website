@@ -18,7 +18,6 @@
     "applicantMedicareStatusContinued": "eligibleNotEnrolled",
     "applicantMedicareStatus": false,
     "applicantPhone": "6661231234",
-    "applicantEmailAddress": "email@email.net",
     "applicantAddress": {
       "country": "USA",
       "street": "123 Avenue Road",

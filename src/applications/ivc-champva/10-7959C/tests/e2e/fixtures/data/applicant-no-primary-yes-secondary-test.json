@@ -17,7 +17,6 @@
     "applicantMedicareStatusContinued": "enrolledNoUpdates",
     "applicantMedicareStatus": false,
     "applicantPhone": "7771231234",
-    "applicantEmailAddress": "email@email.edu",
     "applicantAddress": {
       "country": "USA",
       "street": "811 Street Circle",
