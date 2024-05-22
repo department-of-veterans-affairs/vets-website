@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { renderDOB } from '@@vap-svc/util/personal-information/personalInformationUtils';
 import { generatePdf } from '~/platform/pdf';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
 import { DISCHARGE_CODE_MAP } from './constants';
@@ -133,8 +134,11 @@ const ProofOfVeteranStatus = ({
               </p>
               <p>
                 If you think your discharge status is incorrect, call the
-                Defense Manpower Data Center at 800-538-9552 (TTY 711). They’re
-                open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+                Defense Manpower Data Center at{' '}
+                <va-telephone contact={CONTACTS.DS_LOGON} /> (
+                <va-telephone contact={CONTACTS[711]} tty />
+                ). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m.
+                ET.
               </p>
             </>
           </va-alert>
@@ -154,8 +158,10 @@ const ProofOfVeteranStatus = ({
               </p>
               <p>
                 To fix the problem with your records, call the Defense Manpower
-                Data Center at 800-538-9552 (TTY 711). They’re open Monday
-                through Friday, 8:00 a.m. to 8:00 p.m. ET.
+                Data Center at <va-telephone contact={CONTACTS.DS_LOGON} /> (
+                <va-telephone contact={CONTACTS[711]} tty />
+                ). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m.
+                ET.
               </p>
             </>
           </va-alert>
