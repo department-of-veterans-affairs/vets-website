@@ -5,20 +5,19 @@ import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPa
 
 describe('edit custom folder name validation', () => {
   it('verify axe check', () => {
-    const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     PatientMessageCustomFolderPage.loadFoldersList();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });
+
   it('verify edit folder name buttons', () => {
-    const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     PatientMessageCustomFolderPage.loadFoldersList();
     PatientMessageCustomFolderPage.loadMessages();
 
@@ -35,10 +34,9 @@ describe('edit custom folder name validation', () => {
   });
 
   it('verify edit folder name error', () => {
-    const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     PatientMessageCustomFolderPage.loadFoldersList();
     PatientMessageCustomFolderPage.loadMessages();
 

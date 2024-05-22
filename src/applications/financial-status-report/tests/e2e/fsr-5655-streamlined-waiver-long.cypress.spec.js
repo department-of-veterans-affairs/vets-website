@@ -68,6 +68,10 @@ const testConfig = createTestConfig(
         calculatedMonthlyExpenses: '6759',
       });
 
+      cy.intercept('POST', '/debts_api/v0/calculate_monthly_income', {
+        totalMonthlyNetIncome: '7951',
+      });
+
       cy.intercept('POST', formConfig.submitUrl, {
         statusCode: 200,
         body: {

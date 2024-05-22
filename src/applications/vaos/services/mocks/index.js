@@ -46,6 +46,7 @@ const WHNetworks = require('./wellHive/networks.json');
 const specialties = require('./wellHive/specialties.json');
 const specialtyGroups = require('./wellHive/specialtyGroups.json');
 const providerOrgs = require('./wellHive/providerOrganizations.json');
+const referrals = require('./wellHive/referrals.json');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -575,6 +576,16 @@ const responses = {
   },
   'GET /vaos/v2/wellhive/provider-organization': (req, res) => {
     return res.json({ data: providerOrgs });
+  },
+  'GET /vaos/v2/wellhive/referrals': (req, res) => {
+    return res.json({ data: referrals });
+  },
+  'GET /vaos/v2/wellhive/referrals/:referralId': (req, res) => {
+    return res.json({
+      data: referrals.referrals.find(
+        referral => referral?.id === req.params.referralId,
+      ),
+    });
   },
   'GET /v0/user': {
     data: {

@@ -83,5 +83,5 @@ export const VA_REGIONAL_OFFICE_CITIES = [
   'Waco',
   'Washington',
   'Wichita',
-  'Winston Salem',
+  'Winston-Salem',
 ];

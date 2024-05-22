@@ -9,7 +9,6 @@ import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-respo
 
 describe('Verify old messages - No association with particular Triage Group', () => {
   const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
 
   const currentDate = new Date();
   const fortyFiveDaysAgo = new Date();
@@ -18,7 +17,7 @@ describe('Verify old messages - No association with particular Triage Group', ()
   beforeEach(() => {
     site.login();
 
-    landingPage.loadInboxMessages(
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       mockNoRecipients,
@@ -43,7 +42,10 @@ describe('Verify old messages - No association with particular Triage Group', ()
       ],
     };
 
-    landingPage.loadSingleThread(oldThreadWithNoAssociatedTG, fortyFiveDaysAgo);
+    PatientInboxPage.loadSingleThread(
+      oldThreadWithNoAssociatedTG,
+      fortyFiveDaysAgo,
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -112,7 +114,7 @@ describe('Verify old messages - No association with particular Triage Group', ()
       ],
     };
 
-    landingPage.loadSingleThread(mockThreadWithOldDraft, fortyFiveDaysAgo);
+    PatientInboxPage.loadSingleThread(mockThreadWithOldDraft, fortyFiveDaysAgo);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

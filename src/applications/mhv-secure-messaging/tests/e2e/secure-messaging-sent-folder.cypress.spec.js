@@ -6,10 +6,9 @@ import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('Secure Messaging Sent Folder checks', () => {
   beforeEach(() => {
-    const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     PatientMessagesSentPage.loadMessages();
   });
 
