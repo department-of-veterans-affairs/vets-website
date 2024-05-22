@@ -1,5 +1,4 @@
 import { appName } from '../../../manifest.json';
-import vamcEhr from '../../fixtures/vamc-ehr.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
 import { resolveLandingPageLinks } from '../../../utilities/data';
@@ -15,7 +14,6 @@ describe(appName, () => {
   describe('Display content based on LOA', () => {
     viewportSizes.forEach(size => {
       beforeEach(() => {
-        cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
         ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       });
 

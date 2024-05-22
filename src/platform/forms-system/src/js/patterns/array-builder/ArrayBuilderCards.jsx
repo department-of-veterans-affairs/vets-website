@@ -2,9 +2,9 @@
 /* eslint-disable no-unused-vars */
 /**
  * For array builder pattern
- * Cards with "Edit" and "Remove"
+ * Cards with "Edit" and "DELETE"
  */
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
@@ -12,34 +12,26 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
+import { focusElement } from 'platform/utilities/ui';
 import { createArrayBuilderItemEditPath } from './helpers';
 
-const EditLink = ({ to, itemName }) => (
+const EditLink = ({ to, srText }) => (
   <Link to={to} data-action="edit">
-    <span className="vads-u-display--flex vads-u-align-items--center">
+    <span className="vads-u-display--flex vads-u-align-items--center vads-u-font-size--md">
       Edit
       <va-icon size={3} icon="chevron_right" aria-hidden="true" />
-      <span className="sr-only">{itemName}</span>
+      <span className="sr-only">{srText}</span>
     </span>
   </Link>
 );
 
-const RemoveButton = ({ onClick, itemName }) => (
-  <button
-    type="button"
-    className="va-button-link vads-u-color--secondary-dark vads-u-font-weight--bold vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center"
+const RemoveButton = ({ onClick, srText }) => (
+  <va-button-icon
     data-action="remove"
+    button-type="delete"
     onClick={onClick}
-  >
-    <va-icon
-      size={3}
-      icon="delete"
-      aria-hidden="true"
-      className="vads-u-margin-right--1 vads-u-font-size--md"
-    />
-    Remove
-    <span className="sr-only">{itemName}</span>
-  </button>
+    label={srText}
+  />
 );
 
 const MissingInformationAlert = ({ children }) => (
@@ -80,13 +72,23 @@ const ArrayBuilderCards = ({
   titleHeaderLevel = '3',
   getText,
   onRemoveAll,
+  onRemove,
   required,
+  isReview,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const arrayData = get(arrayPath, formData);
   const currentItem = arrayData?.[currentIndex];
-  const isReview = window.location?.pathname?.includes('review-and-submit');
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      // notice this is in the return of the useEffect
+      // which is the cleanup function
+      isMounted.current = false;
+    };
+  }, []);
 
   if (!arrayData?.length) {
     return null;
@@ -97,19 +99,35 @@ const ArrayBuilderCards = ({
     setIsModalVisible(true);
   }
 
-  function hideRemoveConfirmationModal() {
+  function hideRemoveConfirmationModal({ focusRemoveButton }) {
+    const lastIndex = currentIndex;
     setCurrentIndex(null);
     setIsModalVisible(false);
+    if (focusRemoveButton) {
+      requestAnimationFrame(() => {
+        if (!isMounted.current) {
+          return;
+        }
+        focusElement(
+          `va-card[name="${nounSingular}_${lastIndex}"] [data-action="remove"]`,
+        );
+      });
+    }
   }
 
   function removeAction() {
+    const removedIndex = currentIndex;
+    const removedItem = currentItem;
+
     const arrayWithRemovedItem = arrayData.filter(
       (_, index) => index !== currentIndex,
     );
     const newData = set(arrayPath, arrayWithRemovedItem, formData);
-
     setFormData(newData);
-    hideRemoveConfirmationModal();
+    hideRemoveConfirmationModal({
+      focusRemoveButton: false,
+    });
+    onRemove(removedIndex, removedItem);
     if (arrayWithRemovedItem.length === 0) {
       onRemoveAll();
     }
@@ -151,18 +169,24 @@ const ArrayBuilderCards = ({
                         </MissingInformationAlert>
                       )}
                     </div>
-                    <span className="vads-u-margin-top--2 vads-u-display--flex vads-u-justify-content--space-between vads-u-font-weight--bold">
+                    <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
                       <EditLink
                         to={createArrayBuilderItemEditPath({
                           path: editItemPathUrl,
                           index,
                           isReview,
                         })}
-                        itemName={itemName}
+                        srText={`${itemName}. ${getText(
+                          'cardDescription',
+                          itemData,
+                        )}`}
                       />
                       <RemoveButton
                         onClick={() => showRemoveConfirmationModal(index)}
-                        itemName={itemName}
+                        srText={`Delete ${itemName}. ${getText(
+                          'cardDescription',
+                          itemData,
+                        )}`}
                       />
                     </span>
                   </Card>
@@ -175,18 +199,26 @@ const ArrayBuilderCards = ({
       <VaModal
         clickToClose
         status="warning"
-        modalTitle={getText('removeTitle', currentItem)}
-        primaryButtonText={getText('removeYes', currentItem)}
-        secondaryButtonText={getText('removeNo', currentItem)}
-        onCloseEvent={hideRemoveConfirmationModal}
+        modalTitle={getText('deleteTitle', currentItem)}
+        primaryButtonText={getText('deleteYes', currentItem)}
+        secondaryButtonText={getText('deleteNo', currentItem)}
+        onCloseEvent={() =>
+          hideRemoveConfirmationModal({
+            focusRemoveButton: true,
+          })
+        }
         onPrimaryButtonClick={removeAction}
-        onSecondaryButtonClick={hideRemoveConfirmationModal}
+        onSecondaryButtonClick={() =>
+          hideRemoveConfirmationModal({
+            focusRemoveButton: true,
+          })
+        }
         visible={isModalVisible}
         uswds
       >
         {required(formData) && arrayData?.length === 1
-          ? getText('removeNeedAtLeastOneDescription', currentItem)
-          : getText('removeDescription', currentItem)}
+          ? getText('deleteNeedAtLeastOneDescription', currentItem)
+          : getText('deleteDescription', currentItem)}
       </VaModal>
     </div>
   );
@@ -212,9 +244,11 @@ ArrayBuilderCards.propTypes = {
   formData: PropTypes.object.isRequired,
   getText: PropTypes.func.isRequired,
   isIncomplete: PropTypes.func.isRequired,
+  isReview: PropTypes.bool.isRequired,
   nounSingular: PropTypes.string.isRequired,
   required: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
   titleHeaderLevel: PropTypes.func,
 };

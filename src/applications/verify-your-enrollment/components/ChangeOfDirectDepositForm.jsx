@@ -5,6 +5,7 @@ import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone
 import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import { CHANGE_OF_DIRECT_DEPOSIT_TITLE } from '../constants';
 
 export function makeFormProperties(prefix) {
   return {
@@ -78,21 +79,21 @@ export function makeSchemas(prefix, defaultName) {
 
   const uiSchema = {
     [properties.fullName]: {
-      'ui:title': "Veteran's Full Name",
+      'ui:title': "Veteran's full name",
       'ui:errorMessages': {
         required: "Please enter the Veteran's Full Name",
       },
     },
     [properties.bankName]: {
-      'ui:title': 'Name of Financial Institution',
+      'ui:title': 'Name of financial institution',
       'ui:errorMessages': {
         required: 'Please enter the name of your Financial Institution',
       },
     },
-    [properties.phone]: phoneUI("Veteran's Phone Number"),
-    [properties.email]: emailUI("Veteran's Email Address"),
+    [properties.phone]: phoneUI("Veteran's phone number"),
+    [properties.email]: emailUI("Veteran's email address"),
     [properties.bankPhone]: phoneUI(
-      'Telephone Number of Financial Institution',
+      'Telephone number of financial institution',
     ),
     [properties.accountType]: {
       'ui:title': 'Account type',
@@ -149,7 +150,7 @@ const ChangeOfDirectDepositForm = ({
       addNameAttribute
       name="Direct Deposit Information"
       // title is required by the SchemaForm and used internally
-      title="Direct Deposit Information"
+      title={CHANGE_OF_DIRECT_DEPOSIT_TITLE}
       schema={schema}
       uiSchema={uiSchema}
       data={formData}

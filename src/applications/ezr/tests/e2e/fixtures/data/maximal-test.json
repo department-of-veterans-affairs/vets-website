@@ -151,6 +151,10 @@
       "last": "Doe",
       "suffix": "Jr."
     },
+    "view:gulfWarServiceDates": {
+      "gulfWarStartDate": "1990-09-XX",
+      "gulfWarEndDate": "1991-01-XX"
+    },
     "privacyAgreementAccepted": true
   }
 }

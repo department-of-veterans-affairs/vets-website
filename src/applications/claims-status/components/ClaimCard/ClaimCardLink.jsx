@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export default function ClaimCardLink({
   ariaLabel,
   href,
-  text = 'View details',
+  text = 'Details',
   onClick,
 }) {
   return (

@@ -62,7 +62,9 @@ describe('validateDate & isValidDate', () => {
   });
   it('should throw a range error for dates too old', () => {
     validateDate(errors, '1899-01-01');
-    expect(errorMessage[0]).to.contain(sharedErrorMessages.decisions.newerDate);
+    expect(errorMessage[0]).to.contain(
+      sharedErrorMessages.decisions.recentDate,
+    );
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
     expect(errorMessage[1]).to.contain('year');
@@ -92,7 +94,9 @@ describe('validateDate & isValidDate', () => {
   it('should throw an error for dates more than a year in the past', () => {
     const date = parseDateWithOffset({ weeks: -60 });
     validateDate(errors, date);
-    expect(errorMessage[0]).to.contain(sharedErrorMessages.decisions.newerDate);
+    expect(errorMessage[0]).to.contain(
+      sharedErrorMessages.decisions.recentDate,
+    );
     expect(errorMessage[1]).to.not.contain('month');
     expect(errorMessage[1]).to.not.contain('day');
     expect(errorMessage[1]).to.contain('year');

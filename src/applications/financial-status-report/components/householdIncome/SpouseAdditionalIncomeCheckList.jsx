@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
@@ -24,21 +25,34 @@ const SpouseAdditionalIncomeCheckList = ({
   const { spAddlIncome = [] } = additionalIncome?.spouse;
 
   // Calculate income properties as necessary
-  const updateStreamlinedValues = () => {
-    if (spAddlIncome.length || !gmtData?.isEligibleForStreamlined) return;
+  useEffect(() => {
+    const calculateIncome = async () => {
+      if (spAddlIncome.length || !gmtData?.isEligibleForStreamlined) return;
 
-    const calculatedIncome = calculateTotalAnnualIncome(data);
+      try {
+        const calculatedIncome = await calculateTotalAnnualIncome(data);
 
-    setFormData({
-      ...data,
-      gmtData: {
-        ...gmtData,
-        incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
-        incomeBelowOneFiftyGmt:
-          calculatedIncome < gmtData?.incomeUpperThreshold,
-      },
-    });
-  };
+        setFormData({
+          ...data,
+          gmtData: {
+            ...gmtData,
+            incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
+            incomeBelowOneFiftyGmt:
+              calculatedIncome < gmtData?.incomeUpperThreshold,
+          },
+        });
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(
+            `calculateTotalAnnualIncome failed in SpouseAdditionalIncomeChecklist: ${error}`,
+          );
+        });
+      }
+    };
+
+    calculateIncome();
+  }, []);
 
   const onChange = ({ target }) => {
     const { value } = target;
@@ -98,7 +112,7 @@ const SpouseAdditionalIncomeCheckList = ({
           {contentBeforeButtons}
           <FormNavButtons
             goBack={goBack}
-            goForward={updateStreamlinedValues}
+            goForward={goForward}
             submitToContinue
           />
           {contentAfterButtons}

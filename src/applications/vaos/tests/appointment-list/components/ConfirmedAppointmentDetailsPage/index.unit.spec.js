@@ -19,14 +19,14 @@ import {
   mockGetPendingAppointmentsApi,
   mockGetUpcomingAppointmentsApi,
   mockSingleVAOSAppointmentFetch,
-} from '../../../mocks/helpers.v2';
-import { getVAOSAppointmentMock } from '../../../mocks/v2';
+} from '../../../mocks/helpers';
+import { getVAOSAppointmentMock } from '../../../mocks/mock';
 import {
-  mockFacilitiesFetchByVersion,
-  mockFacilityFetchByVersion,
-  mockSingleClinicFetchByVersion,
+  mockFacilitiesFetch,
+  mockFacilityFetch,
+  mockSingleClinicFetch,
 } from '../../../mocks/fetch';
-import { createMockFacilityByVersion } from '../../../mocks/data';
+import { createMockFacility } from '../../../mocks/data';
 import MockAppointmentResponse from '../../../e2e/fixtures/MockAppointmentResponse';
 import MockFacilityResponse from '../../../e2e/fixtures/MockFacilityResponse';
 import MockClinicResponse from '../../../e2e/fixtures/MockClinicResponse';
@@ -43,12 +43,13 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       vaOnlineSchedulingStatusImprovement: true,
       vaOnlineSchedulingVAOSServiceRequests: true,
       vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      vaOnlineSchedulingAppointmentDetailsRedesign: false,
     },
   };
 
   beforeEach(() => {
     mockFetch();
-    mockFacilitiesFetchByVersion();
+    mockFacilitiesFetch();
   });
 
   it('should show confirmed appointments detail page', async () => {
@@ -70,7 +71,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       locationId: '983',
       response: [clinicResponse],
     });
-    mockFacilityFetchByVersion({ facility: facilityResponse });
+    mockFacilityFetch({ facility: facilityResponse });
 
     // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -148,7 +149,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       locationId: '983GC',
       response: [clinicResponse],
     });
-    mockFacilityFetchByVersion({ facility: facilityResponse });
+    mockFacilityFetch({ facility: facilityResponse });
 
     // Act
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -269,16 +270,15 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       },
     };
 
-    mockSingleClinicFetchByVersion({
+    mockSingleClinicFetch({
       clinicId: '455',
       locationId: '983GC',
       clinicName: 'Some fancy clinic name',
-      version: 2,
     });
     mockSingleVAOSAppointmentFetch({ appointment });
 
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
+    mockFacilityFetch({
+      facility: createMockFacility({
         id: '983GC',
         name: 'Cheyenne VA Medical Center',
         phone: '970-224-1550',
@@ -386,8 +386,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
     mockSingleVAOSAppointmentFetch({ appointment });
 
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
+    mockFacilityFetch({
+      facility: createMockFacility({
         id: '983GC',
         name: 'Cheyenne VA Medical Center',
         phone: '970-224-1550',
@@ -452,16 +452,15 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       cancellable: true,
     };
 
-    mockSingleClinicFetchByVersion({
+    mockSingleClinicFetch({
       clinicId: '455',
       locationId: '983GC',
       clinicName: 'Some fancy clinic name',
-      version: 2,
     });
     mockSingleVAOSAppointmentFetch({ appointment });
 
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
+    mockFacilityFetch({
+      facility: createMockFacility({
         id: '983GC',
         name: 'Cheyenne VA Medical Center',
         address: {
@@ -556,7 +555,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     response.setLocationId('983').setStart(yesterday);
 
     mockAppointmentApi({ response });
-    mockFacilityFetchByVersion({
+    mockFacilityFetch({
       facility: new MockFacilityResponse('983'),
     });
 
@@ -652,7 +651,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     response.setLocationId('983');
 
     mockAppointmentApi({ response });
-    mockFacilityFetchByVersion({
+    mockFacilityFetch({
       facility: new MockFacilityResponse({ id: '983' }),
     });
 
@@ -843,7 +842,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
     mockAppointmentApi({ response });
     mockClinicsApi({ clinicId: '455', locationId: '983' });
-    mockFacilityFetchByVersion({
+    mockFacilityFetch({
       facility: new MockFacilityResponse({ id: 983 }),
     });
 

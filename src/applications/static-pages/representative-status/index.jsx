@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import './stylesheet.scss';
 
-export default (store, widgetType, baseHeader = 3, showIntroCopy) => {
+export default (store, widgetType, baseHeader = 3) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
   if (root) {
     import(/* webpackChunkName: "representative-status" */
@@ -12,7 +12,7 @@ export default (store, widgetType, baseHeader = 3, showIntroCopy) => {
 
       ReactDOM.render(
         <Provider store={store}>
-          <App baseHeader={baseHeader} showIntroCopy={showIntroCopy} />
+          <App baseHeader={baseHeader} />
         </Provider>,
         root,
       );

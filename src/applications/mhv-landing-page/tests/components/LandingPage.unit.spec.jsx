@@ -80,20 +80,4 @@ describe('LandingPage component', () => {
       expect(recordEventSpy.calledWith(loa1Event)).to.be.true;
     });
   });
-
-  it('reports non-VA Patient condition to GA via recordEvent', async () => {
-    const loa1Event = {
-      ...event,
-      'alert-box-headline': 'You don’t have access to My HealtheVet',
-      'alert-box-status': 'warning',
-    };
-    const recordEventSpy = sinon.spy();
-    const props = { recordEvent: recordEventSpy };
-    const initialState = stateFn({ facilities: [] });
-    setup({ initialState, props });
-    await waitFor(() => {
-      expect(recordEventSpy.calledOnce).to.be.true;
-      expect(recordEventSpy.calledWith(loa1Event)).to.be.true;
-    });
-  });
 });

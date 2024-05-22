@@ -91,7 +91,7 @@ export function InPersonLayout() {
             {facility.name}
             <br />
             <Address address={facility?.address} />
-            <div className="vads-u-display--flex vads-u-margin-top--1 vads-u-color--link-default">
+            <div className="vads-u-margin-top--1 vads-u-color--link-default">
               <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
               <FacilityDirectionsLink location={facility} />
             </div>

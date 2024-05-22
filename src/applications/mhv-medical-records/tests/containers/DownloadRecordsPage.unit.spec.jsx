@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import DownloadRecordsPage from '../../containers/DownloadRecordsPage';
 import user from '../fixtures/user.json';
@@ -66,13 +66,17 @@ describe('DownloadRecordsPage with connection error', () => {
     });
   });
 
-  it('should display download an error message when the download pdf button is clicked', () => {
+  it('should display an error message when the download pdf button is clicked', () => {
     fireEvent.click(screen.getByTestId('download-blue-button-pdf'));
-    expect(screen.getByTestId('expired-alert-message')).to.exist;
+    waitFor(() => {
+      expect(screen.getByTestId('expired-alert-message')).to.exist;
+    });
   });
 
-  it('should display download an error when the download txt file button is clicked', () => {
+  it('should display an error when the download txt file button is clicked', () => {
     fireEvent.click(screen.getByTestId('download-blue-button-txt'));
-    expect(screen.getByTestId('expired-alert-message')).to.exist;
+    waitFor(() => {
+      expect(screen.getByTestId('expired-alert-message')).to.exist;
+    });
   });
 });

@@ -252,11 +252,15 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           type="button"
           onClick={generatePdf}
           data-testid="download-blue-button-pdf"
+          style={{ position: 'absolute' }}
         >
-          <i
-            className="fas fa-download vads-u-margin-right--0p5"
+          <span
+            className="vads-u-margin-right--0p5"
             aria-hidden="true"
-          />
+            style={{ position: 'relative', top: '2px' }}
+          >
+            <va-icon icon="file_download" size={1} />
+          </span>
           Download PDF document
         </button>
         <br />
@@ -265,14 +269,18 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           type="button"
           onClick={generateTxt}
           data-testid="download-blue-button-txt"
+          style={{ position: 'absolute' }}
         >
-          <i
-            className="fas fa-download vads-u-margin-right--0p5"
+          <span
+            className="vads-u-margin-right--0p5"
             aria-hidden="true"
-          />
+            style={{ position: 'relative', top: '2px' }}
+          >
+            <va-icon icon="file_download" size={1} />
+          </span>
           Download Text file
         </button>
-        <h3 className="vads-u-margin-top--2">
+        <h3 className="vads-u-margin-top--6">
           What to do if you can’t find all your records
         </h3>
         <p>

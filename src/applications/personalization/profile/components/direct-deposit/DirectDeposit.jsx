@@ -98,6 +98,7 @@ export const DirectDeposit = () => {
     return (
       <Wrapper>
         <TemporaryOutage customMessaging />
+        <FraudVictimSummary />
       </Wrapper>
     );
   }

@@ -20,7 +20,7 @@ import {
  * formContext contained one or more properties that intersect with the
  * requiredFiles object
  */
-function isRequiredFile(formContext) {
+export function isRequiredFile(formContext) {
   return Object.keys(formContext?.schema?.properties || {}).filter(v =>
     Object.keys(requiredFiles).includes(v),
   ).length >= 1
@@ -115,14 +115,10 @@ export const applicantSchoolCertUploadUiSchema = {
           return (
             <>
               You’ll need to submit a copy of a document showing proof of{' '}
-              <b>{posessive}</b> school enrollment. If{' '}
-              <b>{nonPosessive === 'you' ? 'you’re' : posessive}</b> planning to
-              enroll,{' '}
-              <b>
-                {nonPosessive === 'you' ? 'you’ll' : `${nonPosessive} will`}
-              </b>{' '}
-              need to upload a document showing information about{' '}
-              <b>{posessive}</b> plan to enroll.
+              <b>{posessive}</b> school enrollment. If <b>{posessive}</b>{' '}
+              planning to enroll, <b>{nonPosessive} will</b> need to upload a
+              document showing information about <b>{posessive}</b> plan to
+              enroll.
               <br />
               <br />
               {mailOrFaxLaterMsg}
@@ -154,9 +150,8 @@ export const applicantSchoolCertUploadUiSchema = {
                   principal)
                 </li>
               </ul>
-              If {nonPosessive === 'you' ? 'you’re' : `${nonPosessive} is`} not
-              enrolled, upload a copy of {posessive} acceptance letter from the
-              school.
+              If {nonPosessive} is not enrolled, upload a copy of {posessive}{' '}
+              acceptance letter from the school.
             </>
           );
         },
@@ -399,16 +394,13 @@ export const appMedicareOver65IneligibleUploadUiSchema = {
           );
           return (
             <>
-              <b>{nonPosessive === 'You' ? 'You’re' : `${nonPosessive} is`}</b>{' '}
-              65 years or older and you selected that{' '}
-              <b>{nonPosessive === 'You' ? 'you’re' : 'they’re'}</b> not
-              eligible for Medicare.
+              <b>{nonPosessive}</b> is 65 years or older and you selected that{' '}
+              they’re not eligible for Medicare.
               <br />
               <br />
               You’ll need to submit a copy of a letter from the Social Security
-              Administration that confirms that{' '}
-              <b>{nonPosessive === 'You' ? 'you' : 'they'}</b> don’t qualify for
-              Medicare benefits under anyone’s Social Security number.
+              Administration that confirms that they don’t qualify for Medicare
+              benefits under anyone’s Social Security number.
               {mailOrFaxLaterMsg}
             </>
           );

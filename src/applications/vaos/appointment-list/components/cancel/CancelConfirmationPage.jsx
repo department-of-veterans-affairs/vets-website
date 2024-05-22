@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { APPOINTMENT_TYPES, GA_PREFIX } from '../../../utils/constants';
 import { startNewAppointmentFlow } from '../../redux/actions';
-import PageLayout from '../PageLayout';
 import BackLink from '../../../components/BackLink';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../../../new-appointment/newAppointmentFlow';
@@ -49,7 +48,7 @@ export default function CancelConfirmationPage({ appointment, cancelInfo }) {
   }
 
   return (
-    <PageLayout showNeedHelp>
+    <>
       <BackLink appointment={appointment} featureAppointmentDetailsRedesign />
       <h1 className="vads-u-margin-y--2p5">{heading}</h1>
       <p>
@@ -64,7 +63,7 @@ export default function CancelConfirmationPage({ appointment, cancelInfo }) {
         Scheduling a new appointment
       </a>
       <CancelPageContent type={type} />
-    </PageLayout>
+    </>
   );
 }
 CancelConfirmationPage.propTypes = {

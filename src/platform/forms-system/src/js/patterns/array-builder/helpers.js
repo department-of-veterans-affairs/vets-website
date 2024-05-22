@@ -39,13 +39,16 @@ export function initGetText({
    * @returns {string}
    */
   return (key, itemData) => {
+    const keyVal = getTextValues?.[key];
     if (key === 'getItemName' || key === 'cardDescription') {
-      return getTextValues?.[key](itemData);
+      return typeof keyVal === 'function' ? keyVal(itemData) : keyVal;
     }
-    return getTextValues?.[key]({
-      ...getTextProps,
-      itemData,
-    });
+    return typeof keyVal === 'function'
+      ? getTextValues?.[key]({
+          ...getTextProps,
+          itemData,
+        })
+      : keyVal;
   };
 }
 
@@ -145,6 +148,10 @@ export function createArrayBuilderItemEditPath({ path, index, isReview }) {
   }`;
 }
 
+export function formatNounSingularForUrl(nounSingular) {
+  return nounSingular.toLowerCase().replace(/ /g, '-');
+}
+
 /**
  * Creates a path with a `updated` query param
  * @param {Object} props
@@ -158,7 +165,9 @@ export function createArrayBuilderUpdatedPath({
   nounSingular,
   index,
 }) {
-  return `${basePath}?updated=${nounSingular}-${index}`;
+  return `${basePath}?updated=${formatNounSingularForUrl(
+    nounSingular,
+  )}-${index}`;
 }
 
 export function isDeepEmpty(obj) {
@@ -173,7 +182,10 @@ export function isDeepEmpty(obj) {
     : true;
 }
 
-// Used as a helper so that we can stub this for tests
+/**
+ * @param {string} [search] e.g. `?add=true`
+ * @returns {URLSearchParams}
+ */
 export function getArrayUrlSearchParams(search = window?.location?.search) {
   return new URLSearchParams(search);
 }
@@ -184,3 +196,63 @@ export function getArrayIndexFromPathName(
 ) {
   return getUrlPathIndex(pathname);
 }
+
+/**
+ * Gets the nounSingular and index from the URL `updated=` path
+ * @param {string} [search] e.g. `?add=true`
+ * @returns {{
+ *   nounSingular: string | null,
+ *   index: number | null,
+ * }}
+ */
+export function getUpdatedItemFromPath(search = window?.location?.search) {
+  const urlParams = getArrayUrlSearchParams(search);
+  const updatedValue = urlParams.get('updated');
+
+  const updatedItem = {
+    nounSingular: null,
+    index: null,
+  };
+
+  try {
+    const parts = updatedValue?.split('-');
+    if (parts?.length) {
+      const index = Number(parts.pop());
+      updatedItem.index = index;
+      updatedItem.nounSingular = parts.join(' ');
+    }
+  } catch (e) {
+    // do nothing
+  }
+  return updatedItem;
+}
+
+/**
+ * @param {{
+ *  arrayPath: string,
+ *  nounSingular: string,
+ *  nounPlural: string,
+ *  maxItems: boolean,
+ * }} options
+ */
+export const maxItemsHint = ({
+  arrayData,
+  nounSingular,
+  nounPlural,
+  maxItems,
+}) => {
+  let hint = '';
+  const len = arrayData?.length;
+
+  if (maxItems) {
+    if (!len || maxItems === 1 || len >= maxItems) {
+      hint = `You can add up to ${maxItems}.`;
+    } else if (len && maxItems - len === 1) {
+      hint = `You can add 1 more ${nounSingular}.`;
+    } else if (len && maxItems - len > 1) {
+      hint = `You can add ${maxItems - len} more ${nounPlural}.`;
+    }
+  }
+
+  return hint;
+};

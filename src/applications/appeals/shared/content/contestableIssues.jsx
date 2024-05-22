@@ -60,7 +60,7 @@ export const MaxSelectionsAlert = ({ closeModal, appName }) => (
   >
     You are limited to {MAX_LENGTH.SELECTIONS} selected issues for each{' '}
     {appName} request. If you would like to select more than{' '}
-    {MAX_LENGTH.SELECTIONS}, submit this request and create a new request for
+    {MAX_LENGTH.SELECTIONS}, submit this request. Then create a new request for
     the remaining issues.
   </VaModal>
 );
@@ -183,7 +183,10 @@ export const removeModalContent = {
   description: issueName => (
     <span>
       We’ll remove{' '}
-      <strong className="dd-privacy-hidden" data-dd-action-name="issue name">
+      <strong
+        className="dd-privacy-hidden word-break-all"
+        data-dd-action-name="issue name"
+      >
         {issueName}
       </strong>{' '}
       from the issues you’d like us to review

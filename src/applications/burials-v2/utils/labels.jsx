@@ -4,7 +4,7 @@ export const relationshipLabels = {
   parent: 'Parent',
   executor:
     'Executor of the Veteran’s estate or someone else acting for the Veteran’s estate',
-  funeralDirector: 'Funeral home,cemetery, or other organization',
+  funeralDirector: 'Funeral home, cemetery, or other organization',
   otherFamily:
     'Other family member or friend who isn’t the executor of the Veteran’s estate',
 };
@@ -19,8 +19,9 @@ export const locationOfDeathLabels = {
 };
 
 export const allowanceLabels = {
-  nonService: 'Non-service-connected death',
-  service: 'Service-connected death',
+  nonService:
+    'I’m claiming a burial allowance for a non-service-connected death',
+  service: 'I’m claiming a burial allowance for a service-connected death',
   unclaimed:
     'I’m claiming a burial allowance for the unclaimed remains of a Veteran',
 };

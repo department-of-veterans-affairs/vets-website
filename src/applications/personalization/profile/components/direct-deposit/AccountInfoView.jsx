@@ -6,8 +6,8 @@ import ContactInformationUpdateSuccessAlert from '@@vap-svc/components/ContactIn
 
 import { useDispatch } from 'react-redux';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { toggleDirectDepositEdit } from '../../actions/directDeposit';
 import recordEvent from '~/platform/monitoring/record-event';
+import { toggleDirectDepositEdit } from '../../actions/directDeposit';
 import { DIRECT_DEPOSIT_ALERT_SETTINGS } from '../../constants';
 
 const AccountWithInfo = ({
@@ -48,6 +48,7 @@ const AccountWithInfo = ({
         </TransitionGroup>
       </div>
       <VaButton
+        id="edit-bank-info-button"
         data-testid="edit-bank-info-button"
         data-field-name="direct-deposit"
         text="Edit"

@@ -259,6 +259,7 @@ export function transformVAOSAppointment(appt) {
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
   const isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
   const isCancellable = appt.cancellable;
+  const appointmentTZ = appt.location?.attributes?.timezone?.timeZoneId;
 
   let videoData = { isVideo };
   if (isVideo) {
@@ -381,6 +382,7 @@ export function transformVAOSAppointment(appt) {
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     avsPath: isPast ? appt.avsPath : null,
     start: !isRequest ? start.format() : null,
+    timezone: appointmentTZ,
     // This contains the vista status for v0 appointments, but
     // we don't have that for v2, so this is a made up status
     description: appt.kind !== 'cc' ? 'VAOS_UNKNOWN' : null,
@@ -442,7 +444,7 @@ export function transformVAOSAppointment(appt) {
       isPhoneAppointment: appt.kind === 'phone',
       isCOVIDVaccine: appt.serviceType === COVID_VACCINE_ID,
       apiData: appt,
-      timeZone: null,
+      timeZone: appointmentTZ,
       facilityData,
     },
     version: 2,

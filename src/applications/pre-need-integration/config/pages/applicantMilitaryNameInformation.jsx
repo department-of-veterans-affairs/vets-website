@@ -12,11 +12,16 @@ export const nonRequiredFullNameUI = omit('required', fullNameUI);
 const { fullName } = fullSchemaPreNeed.definitions;
 
 const nonRequiredFullName = omit('required', fullName);
+function suffixSpacing() {
+  return <div className="suffixSpacing" />;
+}
 
 export const uiSchema = {
   application: {
     veteran: {
-      'ui:description': <h3 className="vads-u-font-size--h5">Previous name</h3>,
+      'ui:description': (
+        <h3 className="vads-u-font-size--h5">Your previous name</h3>
+      ),
       serviceName: merge({}, nonRequiredFullNameUI, {
         first: {
           'ui:title': 'Your previous first name',
@@ -35,6 +40,9 @@ export const uiSchema = {
           'ui:title': 'Your previous suffix',
         },
       }),
+      'view:suffixSpacing': {
+        'ui:field': suffixSpacing,
+      },
     },
   },
 };
@@ -48,6 +56,10 @@ export const schema = {
           type: 'object',
           properties: {
             serviceName: nonRequiredFullName,
+            'view:suffixSpacing': {
+              type: 'object',
+              properties: {},
+            },
           },
         },
       },

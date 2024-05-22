@@ -11,6 +11,7 @@ import startApp from 'platform/startup/router';
 import routes from './routes';
 import reducer from './reducers';
 import manifest from './manifest.json';
+import '~/platform/mhv/secondary-nav/sass/mhv-sec-nav.scss';
 
 startApp({
   url: manifest.rootUrl,

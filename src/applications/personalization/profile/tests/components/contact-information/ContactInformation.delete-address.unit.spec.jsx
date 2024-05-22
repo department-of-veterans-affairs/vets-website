@@ -66,7 +66,7 @@ async function testSlowSuccess(addressName) {
 
   server.use(...mocks.transactionSucceeded);
 
-  await wait(10);
+  await wait(100);
 
   // update saved alert should appear
   await view.findByText('Update saved.');
@@ -111,7 +111,7 @@ async function testSlowFailure(addressName) {
 
   server.use(...mocks.transactionFailed);
 
-  await wait(20);
+  await wait(1500);
 
   // make sure the error message appears
   expect(

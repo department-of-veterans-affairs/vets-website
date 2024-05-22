@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 
-import { SIGN_IN_URL } from '../../../../constants';
+import UserNav from '../common/UserNav';
 
 const WiderThanMobileLogoRow = () => {
   return (
@@ -27,18 +27,7 @@ const WiderThanMobileLogoRow = () => {
         >
           Contact us
         </a>
-        <div className="sign-in-nav">
-          <div className="sign-in-links">
-            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-            <a
-              data-testid="wider-than-mobile-logo-row-sign-in-link"
-              className="usa-button usa-button-primary"
-              href={SIGN_IN_URL}
-            >
-              Sign in
-            </a>
-          </div>
-        </div>
+        <UserNav />
       </div>
     </div>
   );

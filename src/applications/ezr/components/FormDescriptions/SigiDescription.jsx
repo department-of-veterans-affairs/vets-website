@@ -3,7 +3,7 @@ import React from 'react';
 const SigiDescription = (
   <va-additional-info
     trigger="What to know before you decide to share your gender identity"
-    class="vads-u-margin-bottom--4"
+    class="vads-u-margin-bottom--4 hydrated"
     uswds
   >
     <div>

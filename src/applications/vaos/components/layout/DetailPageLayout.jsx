@@ -59,13 +59,17 @@ function CancelButton({ appointment }) {
   const { status, vaos } = appointment;
   const { isCommunityCare } = vaos;
 
+  let event = `${GA_PREFIX}-cancel-booked-clicked`;
+  if (APPOINTMENT_STATUS.proposed === status)
+    event = `${GA_PREFIX}-cancel-request-clicked`;
+
   const button = (
     <VaButton
       text="Cancel appointment"
       secondary
       onClick={() => {
         recordEvent({
-          event: `${GA_PREFIX}-cancel-booked-clicked`,
+          event,
         });
         dispatch(startAppointmentCancel(appointment));
       }}

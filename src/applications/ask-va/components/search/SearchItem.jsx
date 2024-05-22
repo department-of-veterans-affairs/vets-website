@@ -37,7 +37,7 @@ const SearchItem = ({
       <>
         <p>
           {`Showing ${facilityData.data.length} results for`}
-          <strong>{`"${searchInput}"`}</strong>{' '}
+          <strong>{`"${searchInput.place_name || searchInput}"`}</strong>{' '}
         </p>
         <p>
           The results are listed from nearest to farthest from your location.

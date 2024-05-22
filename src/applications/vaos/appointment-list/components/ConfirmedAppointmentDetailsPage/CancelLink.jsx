@@ -28,16 +28,10 @@ export default function CancelLink({ appointment }) {
   }
 
   return (
-    <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-      <i
-        aria-hidden="true"
-        className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg vads-u-color--link-default"
-      />
+    <div className="vads-u-margin-top--2 vaos-hide-for-print">
       <button
         onClick={() => {
-          recordEvent({
-            event: `${GA_PREFIX}-cancel-booked-clicked`,
-          });
+          recordEvent({ event: `${GA_PREFIX}-cancel-booked-clicked` });
           dispatch(startAppointmentCancel(appointment));
         }}
         aria-label={
@@ -51,6 +45,9 @@ export default function CancelLink({ appointment }) {
         data-testid="cancelButton"
         type="button"
       >
+        <span className="vads-u-margin-right--0p5">
+          <va-icon icon="cancel" size="3" aria-hidden="true" />
+        </span>
         Cancel appointment
         {formatAppointmentDate(appointment.start) && (
           <span className="sr-only">

@@ -7,6 +7,8 @@ import { setupServer } from 'msw/node';
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
 
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import {
   createBasicInitialState,
   renderWithProfileReducers,
@@ -27,12 +29,15 @@ function deleteEmailAddress() {
   view
     .getByLabelText(/remove contact email address/i, { selector: 'button' })
     .click();
-  const confirmDeleteButton = view.getByText('Yes, remove my information', {
-    selector: 'button',
-  });
-  const cancelDeleteButton = view.getByText('No, cancel this change', {
-    selector: 'button',
-  });
+
+  const confirmDeleteButton = $(
+    'button[aria-label="Yes, remove my information"]',
+    view.container,
+  );
+  const cancelDeleteButton = $(
+    'va-button[label="No, cancel this change"]',
+    view.container,
+  );
   confirmDeleteButton.click();
 
   return { confirmDeleteButton, cancelDeleteButton };
@@ -68,7 +73,7 @@ describe('Deleting email address', () => {
     server.use(...mocks.transactionPending);
     deleteEmailAddress();
 
-    await wait(10);
+    await wait(100);
 
     // check that the "we're saving your..." message appears
     const deletingMessage = await view.findByText(
@@ -99,7 +104,7 @@ describe('Deleting email address', () => {
 
     server.use(...mocks.transactionSucceeded);
 
-    await wait(10);
+    await wait(100);
 
     // update saved alert should appear
     await view.findByText('Update saved.');
@@ -130,7 +135,7 @@ describe('Deleting email address', () => {
 
     server.use(...mocks.transactionFailed);
 
-    await wait(10);
+    await wait(1500);
 
     // expect an error to be shown
     await view.findByText(

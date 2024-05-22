@@ -1,5 +1,4 @@
-import generateEmployersSchemas from './employmentHistory';
-import { isEmployedUnder65 } from './helpers';
+import { generateEmployersSchemas, isEmployedUnder65 } from './helpers';
 
 export default {
   title: 'Current employment',

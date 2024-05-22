@@ -5,6 +5,7 @@ import {
   loincCodes,
   noteTypes,
   loadStates,
+  dischargeSummarySortFields,
 } from '../util/constants';
 import { extractContainedResource, isArrayAndHasItems } from '../util/helpers';
 
@@ -113,23 +114,70 @@ export const getAttending = noteSummary => {
   );
 };
 
-const convertAdmissionAndDischargeDetails = record => {
+const isValidDate = d => {
+  return d instanceof Date && !Number.isNaN(d.getTime());
+};
+
+export const getDateFromBody = (noteSummary, label) => {
+  const dateStr =
+    noteSummary
+      ?.split(label)[1]
+      ?.split('\n')[0]
+      ?.trim() || null;
+  const date = dateStr ? new Date(dateStr) : null;
+  return isValidDate(date) ? date : null;
+};
+
+export const getAdmissionDate = (record, noteSummary) => {
+  let admissionDate = record.context?.period?.start
+    ? new Date(record.context.period.start)
+    : null;
+  if (!admissionDate) {
+    admissionDate = getDateFromBody(noteSummary, 'DATE OF ADMISSION:');
+  }
+  return admissionDate;
+};
+
+export const getDischargeDate = (record, noteSummary) => {
+  let dischargeDate = record.context?.period?.end
+    ? new Date(record.context.period.end)
+    : null;
+  if (!dischargeDate) {
+    dischargeDate = getDateFromBody(noteSummary, 'DATE OF DISCHARGE:');
+  }
+  return dischargeDate;
+};
+
+export const convertAdmissionAndDischargeDetails = record => {
   const summary = getNote(record);
+
+  const admissionDate = getAdmissionDate(record, summary);
+  const dischargeDate = getDischargeDate(record, summary);
+  const dateEntered = record.date ? new Date(record.date) : null;
+
+  const sortByDate = admissionDate || dischargeDate || dateEntered;
+  let sortByField = null;
+  if (admissionDate) {
+    sortByField = dischargeSummarySortFields.ADMISSION_DATE;
+  } else if (dischargeDate) {
+    sortByField = dischargeSummarySortFields.DISCHARGE_DATE;
+  } else if (dateEntered) {
+    sortByField = dischargeSummarySortFields.DATE_ENTERED;
+  }
 
   return {
     id: record.id,
     name: getTitle(record),
     type: getType(record),
-    admissionDate: record.context?.period?.start
-      ? formatDateLong(record.context.period.start)
-      : EMPTY_FIELD,
-    dischargeDate: record.context?.period?.end
-      ? formatDateLong(record.context.period.end)
-      : EMPTY_FIELD,
+    admissionDate: admissionDate ? formatDateLong(admissionDate) : EMPTY_FIELD,
+    dischargeDate: dischargeDate ? formatDateLong(dischargeDate) : EMPTY_FIELD,
+    dateEntered: dateEntered ? formatDateLong(dateEntered) : EMPTY_FIELD,
     admittedBy: getAttending(summary) || EMPTY_FIELD,
     dischargedBy: extractAuthor(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     summary: summary || EMPTY_FIELD,
+    sortByDate,
+    sortByField,
   };
 };
 
@@ -144,6 +192,7 @@ const convertProgressNote = record => {
     coSignedBy: extractAuthenticator(record) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     note: getNote(record) || EMPTY_FIELD,
+    sortByDate: record.date ? new Date(record.date) : null,
   };
 };
 
@@ -214,7 +263,12 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
             ?.map(note => {
               return convertCareSummariesAndNotesRecord(note.resource);
             })
-            .filter(record => record.type !== noteTypes.OTHER) || [],
+            .filter(record => record.type !== noteTypes.OTHER)
+            .sort((a, b) => {
+              if (!a.sortByDate) return 1; // Push nulls to the end
+              if (!b.sortByDate) return -1; // Keep non-nulls at the front
+              return b.sortByDate.getTime() - a.sortByDate.getTime();
+            }) || [],
       };
     }
     case Actions.CareSummariesAndNotes.CLEAR_DETAIL: {

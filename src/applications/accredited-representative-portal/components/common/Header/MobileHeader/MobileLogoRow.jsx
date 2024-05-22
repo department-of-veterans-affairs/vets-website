@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 
-import { SIGN_IN_URL } from '../../../../constants';
+import UserNav from '../common/UserNav';
 
 export const MobileLogoRow = () => {
   return (
@@ -23,17 +23,7 @@ export const MobileLogoRow = () => {
         <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center">
           <div className="profile-nav-container">
             <div className="hidden-header vads-u-display--flex vads-u-align-items--center">
-              <div className="sign-in-nav">
-                <div className="sign-in-links">
-                  <a
-                    data-testid="mobile-logo-row-sign-in-link"
-                    href={SIGN_IN_URL}
-                    className="sign-in-link"
-                  >
-                    Sign in
-                  </a>
-                </div>
-              </div>
+              <UserNav isMobile />
             </div>
           </div>
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
@@ -45,7 +35,6 @@ export const MobileLogoRow = () => {
             type="button"
           >
             Menu
-            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-icon-component */}
             <i
               aria-hidden="true"
               className="fa fa-bars vads-u-margin-left--1 vads-u-font-size--sm"

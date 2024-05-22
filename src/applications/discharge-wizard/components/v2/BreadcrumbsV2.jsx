@@ -3,9 +3,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 
 const BreadcrumbsV2 = () => (
   <VaBreadcrumbs
-    class="vads-u-margin-left--1p5"
     label="Breadcrumbs"
-    uswds
     breadcrumbList={[
       {
         href: '/',

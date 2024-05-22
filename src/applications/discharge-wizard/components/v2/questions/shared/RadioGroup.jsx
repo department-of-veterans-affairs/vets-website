@@ -80,6 +80,7 @@ const RadioGroup = ({
   return (
     <>
       <VaRadio
+        class="xsmall-screen:vads-u-margin-top--0"
         data-testid={testId}
         form-heading={H1}
         form-heading-level={1}
@@ -89,17 +90,15 @@ const RadioGroup = ({
         onVaValueChange={e => onValueChange(e.detail.value)}
         onLoad={applyFocus('duw-radio', headerHasFocused, setHeaderHasFocused)}
         use-forms-pattern="single"
-        uswds
       >
         {renderRadioOptions()}
       </VaRadio>
       <VaButtonPair
-        class="vads-u-margin-top--3"
+        class="vads-u-margin-top--3 small-screen:vads-u-margin-x--0p5"
         data-testid="duw-buttonPair"
         onPrimaryClick={onContinueClick}
         onSecondaryClick={onBackClick}
         continue
-        uswds
       />
     </>
   );

@@ -1,6 +1,5 @@
 import { appName, rootUrl } from '../../../manifest.json';
 import user from '../../fixtures/user.json';
-import vamcEhr from '../../fixtures/vamc-ehr.json';
 import { generateFeatureToggles } from '../../../mocks/api/feature-toggles';
 import ApiInitializer from '../utilities/ApiInitializer';
 
@@ -14,7 +13,6 @@ describe(`${appName} -- VA.gov Health Tools feature`, () => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'featureToggles',
     );
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcEhr).as('vamcEhr');
     ApiInitializer.initializeMessageData.withNoUnreadMessages();
     cy.login(user);
     cy.visit(rootUrl);

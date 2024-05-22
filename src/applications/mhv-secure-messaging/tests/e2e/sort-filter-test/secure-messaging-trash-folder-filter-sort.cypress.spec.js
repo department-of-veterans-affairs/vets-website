@@ -5,10 +5,9 @@ import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Trash Folder checks', () => {
   beforeEach(() => {
-    const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     PatientMessageTrashPage.loadMessages();
   });
 

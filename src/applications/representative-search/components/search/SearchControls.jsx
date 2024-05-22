@@ -230,17 +230,16 @@ const SearchControls = props => {
                 <button
                   onClick={handleGeolocationButtonClick}
                   type="button"
-                  className="use-my-location-button"
+                  className="use-my-location-link"
                   aria-label="Use my location"
                   style={{ order: 2 }}
                 >
-                  <va-icon
-                    size={4}
-                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                    className="use-my-location-icon"
+                  <i
+                    className="use-my-location-button"
                     aria-hidden="true"
+                    role="presentation"
                   />
-                  <div className="button-text">Use my location</div>
+                  Use my location
                 </button>
               )}
             </div>

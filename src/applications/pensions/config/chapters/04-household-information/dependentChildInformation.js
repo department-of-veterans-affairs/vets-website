@@ -1,33 +1,35 @@
 import merge from 'lodash/merge';
 import moment from 'moment';
-
 import {
   radioSchema,
   radioUI,
   ssnSchema,
   ssnUI,
   titleUI,
-  yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
 import {
   VaCheckboxField,
   VaTextInputField,
 } from 'platform/forms-system/src/js/web-component-fields';
-
 import get from 'platform/utilities/data/get';
-
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
-
 import { DependentSeriouslyDisabledDescription } from '../../../helpers';
 import {
   DisabilityDocsAlert,
   SchoolAttendanceAlert,
   AdoptionEvidenceAlert,
 } from '../../../components/FormAlerts';
-
 import { doesHaveDependents, getDependentChildTitle } from './helpers';
+
+const {
+  childPlaceOfBirth,
+  attendingCollege,
+  disabled,
+  previouslyMarried,
+  married,
+} = fullSchemaPensions.properties.dependents.items.properties;
 
 const childRelationshipOptions = {
   BIOLOGICAL: "They're my biological child",
@@ -48,8 +50,8 @@ function isBetween18And23(childDOB) {
 
 /** @type {PageSchema} */
 export default {
-  path: 'household/dependents/children/information/:index',
   title: item => getDependentChildTitle(item, 'information'),
+  path: 'household/dependents/children/information/:index',
   depends: doesHaveDependents,
   showPagePerItem: true,
   arrayPath: 'dependents',
@@ -136,20 +138,20 @@ export default {
             'previouslyMarried',
           ],
           properties: {
-            childPlaceOfBirth: { type: 'string' },
+            childPlaceOfBirth,
             childSocialSecurityNumber: ssnSchema,
             'view:noSSN': { type: 'boolean' },
             childRelationship: radioSchema(
               Object.keys(childRelationshipOptions),
             ),
             'view:adoptionDocs': { type: 'object', properties: {} },
-            attendingCollege: yesNoSchema,
+            attendingCollege,
             'view:schoolWarning': { type: 'object', properties: {} },
-            disabled: yesNoSchema,
+            disabled,
             'view:disabilityDocs': { type: 'object', properties: {} },
             'view:disabilityInformation': { type: 'object', properties: {} },
-            previouslyMarried: yesNoSchema,
-            married: yesNoSchema,
+            previouslyMarried,
+            married,
           },
         },
       },
