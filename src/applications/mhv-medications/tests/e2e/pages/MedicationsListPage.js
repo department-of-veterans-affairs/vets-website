@@ -72,6 +72,13 @@ class MedicationsListPage {
     );
   };
 
+  verifyDownloadErrorMessageForAllergiesAPICallFail = () => {
+    cy.get('[data-testid="no-medications-list"]').should(
+      'contain',
+      'We can’t download your records right now',
+    );
+  };
+
   verifyTextInsideDropDownOnListPage = () => {
     cy.get('[data-testid="dropdown-info"]').should(
       'contain',
