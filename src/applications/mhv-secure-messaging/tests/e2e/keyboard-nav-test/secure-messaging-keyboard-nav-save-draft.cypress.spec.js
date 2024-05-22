@@ -6,13 +6,12 @@ import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Check confirmation message after save draft', () => {
   const site = new SecureMessagingSite();
-  const inboxPage = new PatientInboxPage();
 
   it('Check confirmation message after save draft', () => {
     site.login();
-    inboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
 
-    inboxPage.navigateToComposePage(true);
+    PatientInboxPage.navigateToComposePage(true);
     PatientComposePage.selectRecipient(requestBody.recipientId);
     PatientComposePage.selectCategory(requestBody.category);
 

@@ -45,7 +45,7 @@ describe('526 All Claims Private medical records', () => {
     const submitButton = getByText('Submit');
     userEvent.click(submitButton);
     expect(onSubmit.calledOnce).to.be.false;
-    expect($('va-radio').error).to.eq('Please provide a response');
+    expect($('va-radio').error).to.eq('You must provide a response');
   });
 
   it('should submit when user selects "yes" to upload', () => {

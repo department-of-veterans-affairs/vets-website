@@ -275,7 +275,7 @@ const ContestableIssuesWidget = props => {
               : null}
           </p>
         </VaModal>
-        <ul className="issues vads-u-border-top--1px vads-u-border-color--gray-light">
+        <ul className="issues remove-bullets vads-u-border-top--1px vads-u-border-color--gray-light">
           {content}
         </ul>
         {onReviewPage && inReviewMode ? null : (
