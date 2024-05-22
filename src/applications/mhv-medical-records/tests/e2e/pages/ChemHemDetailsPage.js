@@ -37,7 +37,7 @@ class ChemHemDetailsPage extends BaseDetailsPage {
   };
 
   verifyProviderNotes = notes => {
-    cy.get('[data-testid="list-item-single"]').should('contain', notes);
+    cy.get('[data-testid="list-item-multiple"]').should('contain', notes);
   };
 
   verifyDownloadTextFileHeadless = (
