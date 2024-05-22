@@ -56,7 +56,8 @@ export const isShowVetTec = (automatedTest = false) => {
   if (isTest || automatedTest) {
     return false;
   }
-  return isReviewInstance();
+  return false;
+  // Or
   /*
   return (
     environment.isProduction() || // Comment out to send to production
