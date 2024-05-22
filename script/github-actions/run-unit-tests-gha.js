@@ -100,6 +100,7 @@ if (testsToVerify === null) {
   if (appsToRun && appsToRun.length > 0) {
     core.exportVariable('NO_APPS_TO_RUN', false);
     for (const dir of appsToRun) {
+      console.log('Running tests for: ', dir);
       const updatedPath = options['app-folder']
         ? options.path.map(p => `'${p}'`).join(' ')
         : options.path[0].replace(
@@ -120,7 +121,7 @@ if (testsToVerify === null) {
         runCommand(command);
       } else {
         // Case: Unit Tests are runnning, but the app with changed code in this case has no unit tests as a part of it.
-        console.log('This app has no tests to run');
+        console.log('This app has no tests to run (not stress test)');
       }
     }
   } else {
@@ -133,6 +134,7 @@ if (testsToVerify === null) {
     .filter(app => app.startsWith('src/applications'))
     .map(app => app.split('/')[2]);
   for (const app of appsToVerify) {
+    console.log('Running stress tests for: ', app);
     const testsToRun = testsToVerify
       .filter(test => test.includes(`src/applications/${app}`))
       .join(' ');
@@ -147,7 +149,7 @@ if (testsToVerify === null) {
       runCommand(command);
     } else {
       // Case: Unit Tests are runnning, but the app with changed code in this case has no unit tests as a part of it.
-      console.log('This app has no tests to run');
+      console.log('This app has no tests to run (stress test)');
     }
   }
   // Case: Unit Tests are needed to be Stress Tested. Selected tests are all run in one container so each container runs the full suite.
