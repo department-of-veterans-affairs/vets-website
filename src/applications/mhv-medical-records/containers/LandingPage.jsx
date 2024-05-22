@@ -252,7 +252,6 @@ const LandingPage = () => {
           </a>
         </p>
       </section>
-
       <section className="vads-u-margin-bottom--4">
         <h2>Questions about this medical records tool</h2>
         <va-accordion bordered>
@@ -260,15 +259,37 @@ const LandingPage = () => {
             <h3 className="vads-u-font-size--h6" slot="headline">
               What if I can’t find all my medical records?
             </h3>
-            <p className="vads-u-margin-bottom--2">
-              Your medical records on VA.gov only include health information
-              your Va providers have entered.
-            </p>
-            <p className="vads-u-margin-bottom--2">
-              To find health information you entered yourself,
-              <code>&#8212;</code>
-              go to your medical records on the My HealtheVet website.
-            </p>
+            {!displayLabsAndTest ||
+            !displayNotes ||
+            !displayVaccines ||
+            !displayConditions ||
+            !displayVitals ? (
+              <>
+                <p className="vads-u-margin-bottom--2">
+                  Right now, only some types of medical records are available
+                  here on VA.gov. And your records on VA.gov only include health
+                  information your VA providers have entered.
+                </p>
+                <p className="vads-u-margin-bottom--2">
+                  To find other types of medical records
+                  <code>&#8212;</code>
+                  including health information you entered yourself
+                  <code>&#8212;</code>
+                  go to your medical records on the My HealtheVet website.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="vads-u-margin-bottom--2">
+                  Your medical records on VA.gov only include health information
+                  your VA providers have entered.
+                </p>
+                <p className="vads-u-margin-bottom--2">
+                  To find health information you entered yourself, go to your
+                  medical records on the My HealtheVet website.
+                </p>
+              </>
+            )}
             <p className="vads-u-margin-bottom--2">
               <a
                 href={mhvUrl(
