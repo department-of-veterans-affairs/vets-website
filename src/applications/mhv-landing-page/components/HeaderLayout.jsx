@@ -6,7 +6,6 @@ import WelcomeContainer from '../containers/WelcomeContainer';
 
 const HeaderLayout = ({ showWelcomeMessage = false }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  // toggle name aka feature flag name is mhvLandingPageEnableVaGovHealthToolsLinks
   const showHealthToolsLinks = useToggleValue(
     TOGGLE_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
   );
