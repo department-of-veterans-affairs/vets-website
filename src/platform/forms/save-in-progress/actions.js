@@ -58,7 +58,7 @@ export const PREFILL_STATUSES = {
   unfilled: 'unfilled',
 };
 
-const validateFetchInProgressFormsErrors = status => {
+export const validateFetchInProgressFormsErrors = status => {
   // check if typeof status is a string, return that string
   if (
     typeof status === 'string' &&
