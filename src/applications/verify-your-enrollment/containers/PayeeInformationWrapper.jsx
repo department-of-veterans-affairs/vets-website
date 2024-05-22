@@ -12,9 +12,9 @@ const PayeeInformationWrapper = ({
 
   return (
     <div>
-      <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold">
+      <h2 className="vads-u-margin-y--4 vads-u-font-family--serif">
         {PAYEE_INFO_TITLE}
-      </p>
+      </h2>
       <div
         className="vads-u-border-color--gray-lighter
                 vads-u-color-gray-dark

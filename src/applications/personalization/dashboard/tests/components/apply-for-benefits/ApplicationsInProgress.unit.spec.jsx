@@ -9,8 +9,8 @@ import {
 } from '@@profile/tests/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
-import ApplicationsInProgress from '../../../components/benefit-application-drafts/ApplicationsInProgress';
 import reducers from '~/applications/personalization/dashboard/reducers';
+import ApplicationsInProgress from '../../../components/benefit-application-drafts/ApplicationsInProgress';
 
 const savedForms = [
   {
@@ -62,6 +62,25 @@ const savedForms = [
         errorMessage: false,
         id: false,
         timestamp: false,
+        hasAttemptedSubmit: false,
+      },
+      expiresAt: oneYearFromNow() / 1000,
+      lastUpdated: oneDayAgo() / 1000,
+      inProgressFormId: 5179,
+    },
+    lastUpdated: oneDayAgo() / 1000,
+  },
+  {
+    // non-existent form
+    form: '33333',
+    metadata: {
+      version: 1,
+      returnUrl: '/example',
+      savedAt: oneDayAgo(),
+      submission: {
+        status: false,
+        errorMessage: false,
+        id: false,
         hasAttemptedSubmit: false,
       },
       expiresAt: oneYearFromNow() / 1000,

@@ -8,13 +8,12 @@ import { AXE_CONTEXT } from './utils/constants';
 
 describe('manage folders', () => {
   describe('folder created message', () => {
-    const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     const newFolder = `folder${Date.now()}`;
 
     before(() => {
       site.login();
-      landingPage.loadInboxMessages();
+      PatientInboxPage.loadInboxMessages();
       PatientMessageCustomFolderPage.loadFoldersList();
     });
 
@@ -29,14 +28,13 @@ describe('manage folders', () => {
   });
 
   describe('folder deleted message', () => {
-    const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     const folderName = createdFolderResponse.data.attributes.name;
     const { folderId } = createdFolderResponse.data.attributes;
 
     before(() => {
       site.login();
-      landingPage.loadInboxMessages();
+      PatientInboxPage.loadInboxMessages();
       PatientMessageCustomFolderPage.loadFoldersList(mockFolders);
     });
 

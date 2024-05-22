@@ -11,6 +11,7 @@ import {
   expiredMessage,
   inProgressMessage as getInProgressMessage,
 } from '~/platform/forms-system/src/js/utilities/save-in-progress-messages';
+import environment from 'platform/utilities/environment';
 import recordEvent from '~/platform/monitoring/record-event';
 
 import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
@@ -359,7 +360,11 @@ class SaveInProgressIntro extends React.Component {
   };
 
   render() {
-    const { formConfig, buttonOnly } = this.props;
+    const { formConfig, buttonOnly, devOnly } = this.props;
+    const devOnlyForceShowFormControls =
+      environment.isLocalhost() &&
+      !window.Cypress &&
+      devOnly?.forceShowFormControls;
     const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
     const { profile, login } = this.props.user;
     const savedForm =
@@ -385,14 +390,20 @@ class SaveInProgressIntro extends React.Component {
     }
 
     const { alert, includesFormControls } = this.getAlert(savedForm);
+    const showFormControls = !includesFormControls && login.currentlyLoggedIn;
 
     const content = (
       <div>
         {!buttonOnly && alert}
         {buttonOnly && !login.currentlyLoggedIn && alert}
-        {!includesFormControls &&
-          login.currentlyLoggedIn &&
-          this.getFormControls(savedForm)}
+        {showFormControls && this.getFormControls(savedForm)}
+        {!showFormControls &&
+          devOnlyForceShowFormControls && (
+            <>
+              <div>dev only:</div>
+              <div>{this.getFormControls(savedForm)}</div>
+            </>
+          )}
         {!buttonOnly && this.props.afterButtonContent}
         <br />
       </div>
@@ -439,6 +450,9 @@ SaveInProgressIntro.propTypes = {
   buttonOnly: PropTypes.bool,
   children: PropTypes.any,
   customLink: PropTypes.any,
+  devOnly: PropTypes.shape({
+    forceShowFormControls: PropTypes.bool,
+  }),
   displayNonVeteranMessaging: PropTypes.bool,
   downtime: PropTypes.object,
   formConfig: PropTypes.shape({
