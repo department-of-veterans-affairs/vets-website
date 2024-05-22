@@ -48,6 +48,13 @@ const getLabLocation = (performer, record) => {
   return null;
 };
 
+const distilChemHemNotes = (notes, valueProp) => {
+  if (isArrayAndHasItems(notes)) {
+    return notes.map(note => note[valueProp]);
+  }
+  return [];
+};
+
 /**
  * @param {Object} record - A FHIR chem/hem Observation object
  * @returns the appropriate frontend object for display
@@ -72,17 +79,9 @@ const convertChemHemObservation = (results, record) => {
       standardRange: standardRange || EMPTY_FIELD,
       status: result.status || EMPTY_FIELD,
       labLocation: getLabLocation(result.performer, record) || EMPTY_FIELD,
-      labComments:
-        (isArrayAndHasItems(result.note) && result.note[0].text) || EMPTY_FIELD,
+      labComments: distilChemHemNotes(result.note, 'text') || EMPTY_FIELD,
     };
   });
-};
-
-const distilChemHemNotes = extension => {
-  if (isArrayAndHasItems(extension)) {
-    return extension.map(note => note.valueString);
-  }
-  return [];
 };
 
 const getPractitioner = (record, serviceRequest) => {
@@ -132,7 +131,7 @@ const convertChemHemRecord = record => {
       ? dateFormat(record.effectiveDateTime)
       : EMPTY_FIELD,
     collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
-    comments: distilChemHemNotes(record.extension),
+    comments: distilChemHemNotes(record.extension, 'valueString'),
     results: convertChemHemObservation(results, record),
     sampleTested: getSpecimen(record) || EMPTY_FIELD,
   };
