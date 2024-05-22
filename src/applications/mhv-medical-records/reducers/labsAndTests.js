@@ -39,11 +39,11 @@ const initialState = {
   labsAndTestsDetails: undefined,
 };
 
-const getLabLocation = (performer, contained) => {
+const getLabLocation = (performer, record) => {
   if (isArrayAndHasItems(performer)) {
-    const locationRef = performer[0]?.reference?.substring(1);
-    const location = contained.find(resource => resource.id === locationRef);
-    return location?.name;
+    const locationRef = performer[0]?.reference;
+    const labLocation = extractContainedResource(record, locationRef);
+    return labLocation?.name;
   }
   return null;
 };
@@ -52,7 +52,7 @@ const getLabLocation = (performer, contained) => {
  * @param {Object} record - A FHIR chem/hem Observation object
  * @returns the appropriate frontend object for display
  */
-const convertChemHemObservation = (results, contained) => {
+const convertChemHemObservation = (results, record) => {
   return results.filter(obs => obs.valueQuantity).map(result => {
     const { observationValue, observationUnit } = getObservationValueWithUnits(
       result,
@@ -71,7 +71,7 @@ const convertChemHemObservation = (results, contained) => {
       result: observationValueWithUnits || EMPTY_FIELD,
       standardRange: standardRange || EMPTY_FIELD,
       status: result.status || EMPTY_FIELD,
-      labLocation: getLabLocation(result.performer, contained) || EMPTY_FIELD,
+      labLocation: getLabLocation(result.performer, record) || EMPTY_FIELD,
       labComments:
         (isArrayAndHasItems(result.note) && result.note[0].text) || EMPTY_FIELD,
     };
@@ -131,11 +131,9 @@ const convertChemHemRecord = record => {
     date: record.effectiveDateTime
       ? dateFormat(record.effectiveDateTime)
       : EMPTY_FIELD,
-    orderingLocation: record.location || EMPTY_FIELD,
-    collectingLocation:
-      getLabLocation(record.performer, record.contained) || EMPTY_FIELD,
+    collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
     comments: distilChemHemNotes(record.extension),
-    results: convertChemHemObservation(results, record.contained),
+    results: convertChemHemObservation(results, record),
     sampleTested: getSpecimen(record) || EMPTY_FIELD,
   };
 };
