@@ -15,8 +15,11 @@ export default function EnrollmentVerificationBreadcrumbs() {
     <a href="/education/" key="education-and-training">
       Education and training
     </a>,
-    <a href="/verify-school-enrollment/" key="verify-school-enrollment">
-      Verify your school enrollment
+    <a
+      href="/education/verify-school-enrollment/"
+      key="verify-school-enrollment"
+    >
+      Verify your school enrollment for GI Bill benefits
     </a>,
     <a href={BASE_URL} key="enrollment-verification-page">
       Montgomery GI Bill enrollment verification
