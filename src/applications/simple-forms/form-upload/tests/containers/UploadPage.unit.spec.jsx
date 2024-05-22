@@ -13,25 +13,29 @@ describe('UploadPage', () => {
     dispatch: () => {},
   });
 
-  it('should handle the Continue button', async () => {
-    let testLocation;
-    const { getByTestId } = render(
-      <Provider store={getStore()}>
-        <MemoryRouter initialEntries={['/21-0779']}>
-          <UploadPage />
-          <Route
-            path="/:id"
-            render={({ _, location }) => {
-              testLocation = location;
-              return null;
-            }}
-          />
-        </MemoryRouter>
-      </Provider>,
-    );
+  context('click Continue when no file uploaded yet', () => {
+    it('should populate errors and not change route', async () => {
+      let testLocation;
+      const { container, getByTestId } = render(
+        <Provider store={getStore()}>
+          <MemoryRouter initialEntries={['/21-0779']}>
+            <UploadPage />
+            <Route
+              path="/:id"
+              render={({ _, location }) => {
+                testLocation = location;
+                return null;
+              }}
+            />
+          </MemoryRouter>
+        </Provider>,
+      );
 
-    await fireEvent.click(getByTestId('continue-button'));
+      await fireEvent.click(getByTestId('continue-button'));
 
-    expect(testLocation.pathname).to.equal('/21-0779/review');
+      expect(testLocation.pathname).to.equal('/21-0779');
+      const input = container.getElementsByTagName('va-file-input');
+      expect(input.item(0).error).to.eq('Upload a completed form 21-0779');
+    });
   });
 });
