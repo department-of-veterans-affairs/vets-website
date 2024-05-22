@@ -54,9 +54,9 @@
       ],
       "name" : [
         {
-          "family" : "HALL",
+          "family" : "DOE",
           "given" : [
-            "LISA",
+            "JANE",
             "A"
           ]
         }
@@ -364,7 +364,7 @@
   "extension" : [
     {
       "url" : "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/Notes",
-      "valueString" : "Lisa's Test 1/20/2021 - Second lab"
+      "valueString" : "Jane's Test 1/20/2021 - Second lab"
     },
     {
       "url" : "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/Notes",
