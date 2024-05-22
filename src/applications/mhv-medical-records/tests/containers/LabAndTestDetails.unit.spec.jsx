@@ -61,10 +61,24 @@ describe('LabsAndTests details container', () => {
     ).to.exist;
   });
 
-  it('displays provider notes', () => {
+  it('displays the site or sample tested', () => {
+    expect(screen.getByText('SERUM', { exact: false })).to.exist;
+  });
+
+  it('displays who the test was ordered by', () => {
+    expect(screen.getByText('HALL, LISA A', { exact: false })).to.exist;
+  });
+
+  it('displays the collecting location', () => {
+    expect(screen.getByText('Lab Site 989', { exact: false })).to.exist;
+  });
+
+  it('displays lab comments', () => {
     expect(
       screen.getByText("Lisa's Test 1/20/2021 - Second lab", { exact: false }),
     ).to.exist;
+    expect(screen.getByText('Added Potassium test', { exact: false })).to.exist;
+    expect(screen.getAllByTestId('list-item-multiple')).to.have.length(2);
   });
 
   it('displays results label', () => {

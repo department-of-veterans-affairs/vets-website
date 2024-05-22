@@ -77,6 +77,34 @@ describe('Chem Hem details component', () => {
   it('should display the site or sample tested', () => {
     expect(screen.getByText('Site or sample tested', { selector: 'h3' })).to
       .exist;
+    expect(screen.getByText('SERUM', { exact: false })).to.exist;
+  });
+
+  it('displays who the test was ordered by', () => {
+    expect(screen.getByText('Ordered by', { selector: 'h3' })).to.exist;
+    expect(screen.getByText('HALL, LISA A', { exact: false })).to.exist;
+  });
+
+  it('displays the collecting location', () => {
+    expect(screen.getByText('Collecting location', { selector: 'h3' })).to
+      .exist;
+    expect(screen.getByText('Lab Site 989', { exact: false })).to.exist;
+  });
+
+  it('displays lab comments', () => {
+    expect(screen.getByText('Lab comments', { selector: 'h3' })).to.exist;
+    expect(screen.getByText("Lisa's Test 1/20/2021 - Second lab")).to.exist;
+    expect(screen.getByText('Added Potassium test')).to.exist;
+    expect(screen.getAllByTestId('list-item-multiple')).to.have.length(2);
+  });
+
+  it('displays results label', () => {
+    expect(screen.getByText('Results', { exact: true, selector: 'h2' })).to
+      .exist;
+  });
+
+  it('displays a list of results', () => {
+    expect(screen.getAllByRole('listitem')).to.exist;
   });
 
   it('should display the result and interpretation in parentheses', () => {
@@ -95,6 +123,7 @@ describe('Chem Hem details component', () => {
     expect(
       screen.getAllByText('Performing lab location', { selector: 'h4' }).length,
     ).to.eq(2);
+    expect(screen.getAllByText('DAYTON, OH VAMC').length).to.eq(2);
   });
 
   it('should display lab comments', () => {
