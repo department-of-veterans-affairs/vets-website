@@ -5,7 +5,6 @@ import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Keyboard Navigation for Filter & Sort functionalities', () => {
   const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
   const filteredData = {
     data: inboxFilterResponse.data.filter(item =>
       item.attributes.subject.toLowerCase().includes('test'),
@@ -14,22 +13,22 @@ describe('Keyboard Navigation for Filter & Sort functionalities', () => {
 
   beforeEach(() => {
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
   });
 
   it('Verify filter works correctly', () => {
-    landingPage.inputFilterDataByKeyboard('test');
-    landingPage.submitFilterByKeyboard(filteredData);
-    landingPage.verifyFilterResults('test', filteredData);
+    PatientInboxPage.inputFilterDataByKeyboard('test');
+    PatientInboxPage.submitFilterByKeyboard(filteredData);
+    PatientInboxPage.verifyFilterResults('test', filteredData);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('Verify clear filter btn works correctly', () => {
-    landingPage.inputFilterDataByKeyboard('test');
-    landingPage.submitFilterByKeyboard(filteredData);
-    landingPage.clearFilterByKeyboard();
-    landingPage.verifyFilterFieldCleared();
+    PatientInboxPage.inputFilterDataByKeyboard('test');
+    PatientInboxPage.submitFilterByKeyboard(filteredData);
+    PatientInboxPage.clearFilterByKeyboard();
+    PatientInboxPage.verifyFilterFieldCleared();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
@@ -41,7 +40,7 @@ describe('Keyboard Navigation for Filter & Sort functionalities', () => {
         new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
     );
 
-    landingPage.verifySortingByKeyboard('Oldest to newest', testData);
+    PatientInboxPage.verifySortingByKeyboard('Oldest to newest', testData);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

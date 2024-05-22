@@ -9,7 +9,6 @@ import secureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 
 describe('Verify thread - No association at all', () => {
   const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
   beforeEach(() => {
     site.login();
   });
@@ -33,7 +32,7 @@ describe('Verify thread - No association at all', () => {
   });
 
   it('inbox with messages page view', () => {
-    landingPage.loadInboxMessages(
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       mockNoRecipients,
@@ -68,12 +67,12 @@ describe('Verify thread - No association at all', () => {
   });
 
   it('detailed view', () => {
-    landingPage.loadInboxMessages(
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       mockNoRecipients,
     );
-    landingPage.loadSingleThread();
+    PatientInboxPage.loadSingleThread();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
