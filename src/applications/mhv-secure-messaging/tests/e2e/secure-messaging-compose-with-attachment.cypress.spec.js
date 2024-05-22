@@ -4,12 +4,11 @@ import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Compose a new message with attachments', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
   });
 
   it('verify use can send a message with attachments', () => {
@@ -48,12 +47,11 @@ describe('Compose a new message with attachments', () => {
 });
 
 describe('verify attach file button behaviour', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
   });
 
   it('verify attach file button label change', () => {

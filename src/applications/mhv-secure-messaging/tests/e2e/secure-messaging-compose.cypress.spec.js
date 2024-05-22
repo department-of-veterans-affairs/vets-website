@@ -5,12 +5,11 @@ import requestBody from './fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
   });
   it('verify user can send a message', () => {
     PatientPatientComposePage.selectRecipient(requestBody.recipientId);

@@ -50,6 +50,22 @@ describe('ConfirmationPageV2', () => {
       </Provider>,
     );
     expect($('va-alert[status="success"]', container)).to.exist;
+
+    const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
+    expect(items.length).to.eq(9);
+    expect(
+      items.map((el, index) => el[index === 4 ? 'innerHTML' : 'textContent']),
+    ).to.deep.equal([
+      '●●●–●●–V A file number ending with ',
+      '',
+      'Not selected',
+      '',
+      '',
+      ',  ',
+      'Not selected',
+      'Not selected',
+      '',
+    ]);
   });
 
   it('should render the confirmation page with evidence', () => {
