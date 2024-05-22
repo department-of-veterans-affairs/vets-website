@@ -52,7 +52,7 @@ const distilChemHemNotes = (notes, valueProp) => {
   if (isArrayAndHasItems(notes)) {
     return notes.map(note => note[valueProp]);
   }
-  return [];
+  return null;
 };
 
 /**
