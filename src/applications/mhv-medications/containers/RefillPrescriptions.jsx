@@ -21,6 +21,7 @@ import { dispStatusObj, DD_ACTIONS_PAGE_TYPE } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
+import PrintOnlyPage from './PrintOnlyPage';
 
 const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // Hooks
@@ -190,7 +191,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           Refill prescriptions
         </h1>
         {prescriptionsApiError ? (
-          <ApiErrorNotification />
+          <ApiErrorNotification errorType="access" content="medications" />
         ) : (
           <>
             {fullRefillList?.length > 0 ? (
@@ -333,19 +334,34 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             <RenewablePrescriptions
               renewablePrescriptionsList={fullRenewList}
             />
-            <div className="print-only">
-              <AllergiesPrintOnly
-                allergies={allergies}
-                allergiesError={allergiesError}
-              />
-            </div>
           </>
         )}
       </div>
     );
   };
 
-  return <>{content()}</>;
+  return (
+    <>
+      <div>
+        <div
+          className={
+            !prescriptionsApiError && !allergiesError ? '' : 'no-print'
+          }
+        >
+          {content()}
+          <AllergiesPrintOnly allergies={allergies} />
+        </div>
+        {(prescriptionsApiError || allergiesError) && (
+          <PrintOnlyPage
+            title="Refill prescriptions"
+            preface={
+              "We're sorry. There's a problem with our system. Check back later. If you need help now, call your VA pharmacy. You can find the pharmacy phone number on the prescription label."
+            }
+          />
+        )}
+      </div>
+    </>
+  );
 };
 
 // These have been added for testing purposes only

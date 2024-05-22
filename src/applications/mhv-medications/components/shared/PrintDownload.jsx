@@ -1,17 +1,11 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import FeedbackEmail from './FeedbackEmail';
-import { DD_ACTIONS_PAGE_TYPE } from '../../util/constants';
-
-export const DOWNLOAD_FORMAT = {
-  PDF: 'PDF',
-  TXT: 'TXT',
-};
-
-export const PRINT_FORMAT = {
-  PRINT: 'print',
-  PRINT_FULL_LIST: 'print-full-list',
-};
+import {
+  DD_ACTIONS_PAGE_TYPE,
+  DOWNLOAD_FORMAT,
+  PRINT_FORMAT,
+} from '../../util/constants';
 
 const PrintDownload = props => {
   const { download, isSuccess, list } = props;
