@@ -210,7 +210,7 @@ describe('Check In Experience | Pre-Check-In |', () => {
       Confirmation.validateConfirmWithUpdates();
       cy.injectAxeThenAxeCheck();
     });
-    it('should complete pre-check-in when answering no to all demogrpahics questions', () => {
+    it('should complete pre-check-in when answering no to all demographics questions', () => {
       initializePreCheckInDataGet.withSuccess();
       ValidateVeteran.validateVeteran();
       cy.injectAxeThenAxeCheck();
