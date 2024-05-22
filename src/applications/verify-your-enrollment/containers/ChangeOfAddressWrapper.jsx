@@ -280,28 +280,17 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 />
               </>
             )}
-
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="info"
-              visible
-              background-only
-              class="vads-u-margin-top--3 vads-u-margin-bottom--1"
-            >
-              <p className="vye-alert-absolute-title-position vads-u-margin-bottom--0">
-                <span className="vads-u-display--inline-block">
-                  This address is only used for payments for Montgomery GI Bill
-                  Benefits.
-                </span>
-                <span className="vads-u-display--inline-block vads-u-margin-top--1p5">
-                  To change your address for other VA services, edit your
-                  <a href="https://www.va.gov/profile/personal-information">
-                    VA Profile.
-                  </a>
-                </span>
+            <div>
+              <p>
+                <span className="vads-u-font-weight--bold">Note: </span> Any
+                updates you make here will affect your Montgomery GI Bill
+                benefits only.
               </p>
-            </va-alert>
-            {/* {bankInfoHelpText} */}
+              <va-link
+                href="/resources/change-your-address-on-file-with-va/"
+                text="Learn how to update your mailing address for other VA benefits"
+              />
+            </div>
           </>
         )}
         {toggleAddressForm && (
