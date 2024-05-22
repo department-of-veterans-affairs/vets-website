@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   VaBreadcrumbs,
@@ -7,32 +7,36 @@ import {
   VaSegmentedProgressBar,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { submitToSimpleForms } from '../actions';
+import { useDispatch } from 'react-redux';
 import {
   getBreadcrumbList,
   getFormNumber,
   getFormUploadContent,
   handleRouteChange,
+  uploadScannedForm,
 } from '../helpers';
 
 const UploadPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const confirmationCode = useSelector(
-    state => state?.formUpload?.uploads?.confirmationCode,
-  );
+  const [file, setFile] = useState({});
 
   const location = useLocation();
   const formNumber = getFormNumber(location);
   const formUploadContent = getFormUploadContent(formNumber);
   const breadcrumbList = getBreadcrumbList(formNumber);
 
+  const onClickContinue = () => history.push(`/${formNumber}/review`, { file });
+  const onRouteChange = ({ detail }) => handleRouteChange({ detail }, history);
+  const onFileUploaded = uploadedFile => setFile(uploadedFile);
+  const onVaChange = e =>
+    dispatch(uploadScannedForm(formNumber, e.detail.files[0], onFileUploaded));
+
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
       <VaBreadcrumbs
         breadcrumbList={breadcrumbList}
-        onRouteChange={({ detail }) => handleRouteChange({ detail }, history)}
+        onRouteChange={onRouteChange}
       />
       <h1>{`Upload VA Form ${formNumber}`}</h1>
       <p>{formUploadContent}</p>
@@ -62,9 +66,7 @@ const UploadPage = () => {
         hint={null}
         label={`Upload VA Form ${formNumber}`}
         name="form-upload-file-input"
-        onVaChange={e =>
-          dispatch(submitToSimpleForms(formNumber, e.detail.files[0]))
-        }
+        onVaChange={onVaChange}
         uswds
       />
       <span>
@@ -72,11 +74,8 @@ const UploadPage = () => {
         <VaButton
           primary
           text="Continue >>"
-          onClick={() =>
-            history.push(`/${formNumber}/review`, {
-              state: { confirmationCode },
-            })
-          }
+          onClick={onClickContinue}
+          data-testid="continue-button"
         />
       </span>
       <div className="need-help-footer">

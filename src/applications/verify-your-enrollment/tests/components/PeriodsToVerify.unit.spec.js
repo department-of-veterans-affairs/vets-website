@@ -18,6 +18,9 @@ const initialState = {
   personalInfo: {
     personalInfo: {},
   },
+  verifyEnrollment: {
+    error: '',
+  },
 };
 let store;
 describe('<PeriodsToVerify />', () => {
@@ -25,7 +28,7 @@ describe('<PeriodsToVerify />', () => {
     store = mockStore(initialState);
     const wrapper = shallow(
       <Provider store={store}>
-        <PeriodsToVerify />
+        <PeriodsToVerify verifyEnrollmen={{}} />
       </Provider>,
     );
     expect(wrapper.exists()).to.be.true;
@@ -38,6 +41,7 @@ describe('<PeriodsToVerify />', () => {
       loading: true,
       isUserLoggedIn: false,
       enrollmentData: {},
+      verifyEnrollment: {},
       loggedIEnenrollmentData: {},
       dispatchUpdatePendingVerifications: sinon.spy(),
       dispatchUpdateVerifications: sinon.spy(),
@@ -62,6 +66,7 @@ describe('<PeriodsToVerify />', () => {
       isUserLoggedIn: false,
       enrollmentData: { mockData },
       loggedIEnenrollmentData: {},
+      verifyEnrollment: {},
       dispatchUpdatePendingVerifications: sinon.spy(),
       dispatchUpdateVerifications: sinon.spy(),
       dispatchVerifyEnrollmentAction: sinon.spy(),
@@ -79,6 +84,7 @@ describe('<PeriodsToVerify />', () => {
     wrapper.unmount();
   });
   it('should set data to loggedInEnenrollmentData when user is isUserLoggedIn', () => {
+    store = mockStore(initialState);
     const props = {
       enrollmentData: {},
       loggedInEnenrollmentData: {
@@ -91,6 +97,7 @@ describe('<PeriodsToVerify />', () => {
       isUserLoggedIn: true,
       link: () => {},
       toggleEnrollmentSuccess: false,
+      verifyEnrollment: {},
     };
     const wrapper = mount(
       <Provider store={store}>
@@ -106,6 +113,7 @@ describe('<PeriodsToVerify />', () => {
     wrapper.unmount();
   });
   it('should render VerifiedSuccessStatement when there are no pending verifications', () => {
+    store = mockStore(initialState);
     const props = {
       enrollmentData: {
         'vye::UserInfo': {
@@ -129,6 +137,7 @@ describe('<PeriodsToVerify />', () => {
     wrapper.unmount();
   });
   it('should renders  UpToDateVerificationStatement when there is no awardIds and its been verified before', () => {
+    store = mockStore(initialState);
     const props = {
       enrollmentData: {
         'vye::UserInfo': {
@@ -180,6 +189,7 @@ describe('<PeriodsToVerify />', () => {
       isUserLoggedIn: false,
       link: () => {},
       toggleEnrollmentSuccess: false,
+      verifyEnrollment: { error: '' },
     };
     const wrapper = mount(
       <Provider store={store}>
@@ -190,8 +200,32 @@ describe('<PeriodsToVerify />', () => {
       wrapper.update();
 
       const alert = wrapper.find('va-alert');
-      expect(alert).to.have.lengthOf(1);
       expect(alert.text()).to.include('You have enrollment periods to verify');
+      wrapper.unmount();
+    });
+  });
+  it('should renders error messsage if something with enrollments verifications went wrong', () => {
+    store = mockStore({
+      ...initialState,
+      verifyEnrollment: { error: 'some error' },
+    });
+    const props = {
+      enrollmentData: UPDATED_USER_MOCK_DATA,
+      isUserLoggedIn: false,
+      link: () => {},
+      toggleEnrollmentSuccess: false,
+      verifyEnrollment: { error: 'some error' },
+    };
+    const wrapper = mount(
+      <Provider store={store}>
+        <PeriodsToVerify {...props} />
+      </Provider>,
+    );
+    return new Promise(resolve => setImmediate(resolve)).then(() => {
+      wrapper.update();
+
+      const alert = wrapper.find('va-alert');
+      expect(alert.at(0).text()).to.include('Oops Something went wrong');
       wrapper.unmount();
     });
   });

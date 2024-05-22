@@ -16,10 +16,18 @@ import {
   VaCheckboxField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import { updateMultiresponseUiOptions } from '../../../helpers';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
 import { doesHaveCareExpenses } from './helpers';
+
+const {
+  childName,
+  provider,
+  ratePerHour,
+  noCareEndDate,
+  paymentAmount,
+} = fullSchemaPensions.definitions.careExpenses.items.properties;
 
 const careOptions = {
   CARE_FACILITY: 'Care facility',
@@ -59,7 +67,8 @@ export default {
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
-        updateSchema: updateMultiresponseUiOptions,
+        showSave: true,
+        reviewMode: true,
       },
       items: {
         recipients: radioUI({
@@ -141,18 +150,18 @@ export default {
           ],
           properties: {
             recipients: radioSchema(Object.keys(recipientTypeLabels)),
-            childName: { type: 'string' },
-            provider: { type: 'string' },
+            childName,
+            provider,
             careType: radioSchema(Object.keys(careOptions)),
-            ratePerHour: { type: 'number' },
+            ratePerHour,
             hoursPerWeek: numberSchema,
             careDateRange: {
               ...currentOrPastDateRangeSchema,
               required: ['from'],
             },
-            noCareEndDate: { type: 'boolean' },
+            noCareEndDate,
             paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
-            paymentAmount: { type: 'number' },
+            paymentAmount,
           },
         },
       },

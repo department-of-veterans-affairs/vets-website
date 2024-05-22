@@ -279,13 +279,22 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
-  VET_POSTAL_CODE: {
+  FAMILY_MEMBERS_POSTAL_CODE: {
+    TITLE: "Family member's postal code",
+    PAGE_DESCRIPTION: '',
+    QUESTION_1:
+      'Family member receives mail outside of the United States on a U.S. military base.',
+    QUESTION_2: 'Post office',
+    QUESTION_3: 'State',
+    QUESTION_4: 'Postal code',
+  },
+  VETERANS_POSTAL_CODE: {
     TITLE: "Veteran's postal code",
     PAGE_DESCRIPTION: '',
     QUESTION_1:
-      'The Veteran lives on a United States military base outside of the country.',
+      'Veteran receives mail outside of the United States on a U.S. military base.',
     QUESTION_2: 'Post office',
-    QUESTION_3: 'Region',
+    QUESTION_3: 'State',
     QUESTION_4: 'Postal code',
   },
   YOUR_POSTAL_CODE: {
@@ -340,7 +349,7 @@ export const CHAPTER_3 = {
       'I live on a United States military base outside of the country',
   },
   YOUR_ADDRESS: {
-    TITLE: 'Your address', // full address
+    TITLE: 'Your mailing address', // full address
     PAGE_DESCRIPTION: '',
   },
   ADDRESS_CONFIRM: {
@@ -379,6 +388,10 @@ export const CHAPTER_3 = {
     TITLE: 'School information',
     PAGE_DESCRIPTION: 'School or state of residency',
     QUESTION_1: 'Please provide one of the following',
+  },
+  VETERAN_LOCATION_OF_RESIDENCE: {
+    TITLE: `Veteran's location of residence`,
+    QUESTION_1: 'State/Province/Region',
   },
 };
 

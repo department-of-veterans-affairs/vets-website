@@ -1,12 +1,14 @@
 import {
   titleUI,
-  yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import {
   IncomeAssetStatementFormAlert,
   AssetTransferInformationAlert,
 } from '../../../components/FormAlerts';
+
+const { transferredAssets } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -37,7 +39,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      transferredAssets: yesNoSchema,
+      transferredAssets,
       'view:warningAlert': {
         type: 'object',
         properties: {},

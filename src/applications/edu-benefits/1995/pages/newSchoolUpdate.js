@@ -10,7 +10,6 @@ const { educationObjective, nonVaAssistance } = fullSchema1995.properties;
 const { educationTypeUpdate } = fullSchema1995.definitions;
 
 export const uiSchema = {
-  'ui:title': 'School or training facility you want to attend',
   // Broken up because we need to fit educationTypeUpdate between name and address
   // Put back together again in transform()
   newSchoolName: {
@@ -31,11 +30,6 @@ export const uiSchema = {
     'ui:title':
       'Education or career goal (For example, “I want to get a bachelor’s degree in criminal justice” or “I want to get an HVAC technician certificate” or “I want to become a police officer.”)',
     'ui:widget': 'textarea',
-  },
-  nonVaAssistance: {
-    'ui:title':
-      'Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?',
-    'ui:widget': 'yesNo',
   },
 };
 

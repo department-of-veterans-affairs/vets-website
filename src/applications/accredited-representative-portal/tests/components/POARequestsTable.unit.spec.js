@@ -45,7 +45,7 @@ describe('POARequestsTable', () => {
     );
     expect(
       getByTestId('poa-requests-table-headers-received').textContent,
-    ).to.eq('POA received date');
+    ).to.eq('Date received');
   });
 
   it('renders POA requests', () => {

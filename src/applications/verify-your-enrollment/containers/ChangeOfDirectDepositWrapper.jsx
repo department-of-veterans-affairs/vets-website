@@ -37,6 +37,7 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
     setShowModal(false);
     scrollToTopOfForm();
   }, []);
+
   const onCancelButtonClick = () => {
     if (hasFormChanged(formData, applicantName)) {
       setShowModal(true);
@@ -52,7 +53,7 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
       // phone2: formData[`${prefix}phone`],
       fullName: formData[`${prefix}fullName`],
       email: formData[`${prefix}email`],
-      acctType: formData[`${prefix}AccountType`],
+      acctType: formData[`${prefix}AccountType`].toLowerCase(),
       routingNo: formData[`${prefix}RoutingNumber`],
       acctNo: formData[`${prefix}AccountNumber`],
       bankName: formData[`${prefix}BankName`],
@@ -63,11 +64,13 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
 
   useEffect(
     () => {
-      if (!loading) {
+      if (!loading && (response || error)) {
         handleCloseForm();
+      } else {
+        window.scrollTo(0, 0);
       }
     },
-    [handleCloseForm, loading],
+    [error, handleCloseForm, loading, response],
   );
   const directDepositDescription = (
     <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
@@ -140,9 +143,9 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
 
   return (
     <div id={CHANGE_OF_DIRECT_DEPOSIT_TITLE}>
-      <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold">
+      <h2 className="vads-u-font-family--serif vads-u-margin-y--4">
         {CHANGE_OF_DIRECT_DEPOSIT_TITLE}
-      </p>
+      </h2>
       <div
         className="vads-u-border-color--gray-lighter
             vads-u-color-gray-dark
@@ -169,7 +172,8 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
             {response?.ok && (
               <Alert
                 status="success"
-                message="Your direct deposit information has been updated."
+                title="New account added"
+                message="We’ve updated your direct deposit information for Montgomery GI Bill benefits."
               />
             )}
             <va-alert
@@ -196,7 +200,9 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
         )}
         {toggleDirectDepositForm && (
           <div className="direct-deposit-form-container">
-            <p className="vads-u-font-weight--bold">Add new account</p>
+            <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif vads-u-margin-y--0">
+              Add new account
+            </h3>
             {directDepositDescription}
             {loading && <Loader className="loader" />}
             <ChangeOfDirectDepositForm
