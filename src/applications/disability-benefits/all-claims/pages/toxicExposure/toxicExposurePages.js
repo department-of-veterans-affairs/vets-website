@@ -87,7 +87,8 @@ export const toxicExposurePages = {
   herbicideSummary: {
     title: 'Summary of Agent Orange locations',
     path: `${TE_URL_PREFIX}/herbicide-summary`,
-    depends: formData => showSummaryPage(formData, 'herbicide'),
+    depends: formData =>
+      showSummaryPage(formData, 'herbicide', 'otherHerbicideLocations'),
     uiSchema: herbicideSummary.uiSchema,
     schema: herbicideSummary.schema,
   },

@@ -379,20 +379,23 @@ export function showCheckboxLoopDetailsPage(
  * Checks if the a checkbox and loop's summary page should display. It should display if all the following
  * are true
  * 1. TE pages should be showing at all
- * 2. at least one checkbox item was selected
+ * 2. at least one checkbox item was selected OR an 'other' item input was populated
  * 3. the 'none' location checkbox is not true
  *
  * @param {object} formData - full form data
+ * @param {string} checkboxObjectName - name of the object containing the checkboxes
+ * @param {string} otherObjectName - name of the object containing an 'other' input
  * @returns {boolean} true if the page should display, false otherwise
  */
-export function showSummaryPage(formData, checkboxObjectName) {
+export function showSummaryPage(formData, checkboxObjectName, otherObjectName) {
   return (
     isClaimingTECondition(formData) &&
     formData?.toxicExposure[checkboxObjectName] &&
     formData?.toxicExposure[checkboxObjectName].none !== true &&
-    Object.values(formData.toxicExposure[checkboxObjectName]).filter(
+    (Object.values(formData.toxicExposure[checkboxObjectName]).filter(
       value => value === true,
-    ).length > 0
+    ).length > 0 ||
+      getOtherFieldDescription(formData, otherObjectName))
   );
 }
 
