@@ -29,7 +29,7 @@ export default function EnrollmentVerificationBreadcrumbs() {
   if ([BENEFITS_PROFILE_URL_SEGMENT].includes(page)) {
     breadcrumbs.push(
       <a href={BENEFITS_PROFILE_URL} key="BenefitsProfilePage">
-        Your benefits profile
+        Montgomery GI Bill enrollment verification
       </a>,
     );
   }
@@ -37,7 +37,7 @@ export default function EnrollmentVerificationBreadcrumbs() {
   if ([VERIFICATION_REVIEW_URL_SEGMENT].includes(page)) {
     breadcrumbs.push(
       <a href={VERIFICATION_PROFILE_URL} key="VerificationReviewPage">
-        Verify your enrollment
+        Montgomery GI Bill enrollment verification
       </a>,
     );
   }

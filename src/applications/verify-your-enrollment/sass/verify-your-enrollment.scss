@@ -90,3 +90,6 @@
 .icon-color svg use {
     width: 20px !important;
 }
+va-radio::part(legend){
+    font-weight: bold;
+}
