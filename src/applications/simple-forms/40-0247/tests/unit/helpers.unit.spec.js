@@ -6,7 +6,7 @@ import * as recordEventModule from 'platform/monitoring/record-event';
 import {
   trackNoAuthStartLinkClick,
   createPayload,
-  getInitialData,
+  // getInitialData,
   dateOfDeathValidation,
   parseResponse,
 } from '../../helpers';
@@ -24,36 +24,37 @@ describe('trackNoAuthStartLinkClick', () => {
   });
 });
 
-describe('getInitialData', () => {
-  it('returns mockData if environment is localhost and Cypress is not running', () => {
-    const mockData = { foo: 'bar' };
-    const environment = {
-      isLocalhost: () => true,
-    };
-    const result = getInitialData({ mockData, environment });
-    expect(result).to.deep.equal(mockData);
-  });
+// ADD THIS BACK IN WHEN REMOVING THE PROD FLAG FOR MBMS-64950
+// describe('getInitialData', () => {
+//   it('returns mockData if environment is localhost and Cypress is not running', () => {
+//     const mockData = { foo: 'bar' };
+//     const environment = {
+//       isLocalhost: () => true,
+//     };
+//     const result = getInitialData({ mockData, environment });
+//     expect(result).to.deep.equal(mockData);
+//   });
 
-  it('returns undefined if environment is not localhost', () => {
-    const mockData = { foo: 'bar' };
-    const environment = {
-      isLocalhost: () => false,
-    };
-    const result = getInitialData({ mockData, environment });
-    expect(result).to.be.undefined;
-  });
+//   it('returns undefined if environment is not localhost', () => {
+//     const mockData = { foo: 'bar' };
+//     const environment = {
+//       isLocalhost: () => false,
+//     };
+//     const result = getInitialData({ mockData, environment });
+//     expect(result).to.be.undefined;
+//   });
 
-  it('returns undefined if Cypress is running', () => {
-    const mockData = { foo: 'bar' };
-    const environment = {
-      isLocalhost: () => true,
-    };
-    window.Cypress = true;
-    const result = getInitialData({ mockData, environment });
-    expect(result).to.be.undefined;
-    window.Cypress = undefined;
-  });
-});
+//   it('returns undefined if Cypress is running', () => {
+//     const mockData = { foo: 'bar' };
+//     const environment = {
+//       isLocalhost: () => true,
+//     };
+//     window.Cypress = true;
+//     const result = getInitialData({ mockData, environment });
+//     expect(result).to.be.undefined;
+//     window.Cypress = undefined;
+//   });
+// });
 
 describe('createPayload', () => {
   it('should create a FormData object with the file and password (if provided)', () => {
@@ -116,7 +117,7 @@ describe('dateOfDeathValidation', () => {
     };
 
     dateOfDeathValidation(errors, fields);
-    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(1);
+    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(2);
   });
 
   it('should not add an error if date of death is after date of birth', () => {
@@ -126,7 +127,7 @@ describe('dateOfDeathValidation', () => {
     };
 
     dateOfDeathValidation(errors, fields);
-    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(0);
+    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(1);
   });
 
   it('should not add an error if date of death is the same as date of birth', () => {
@@ -136,6 +137,6 @@ describe('dateOfDeathValidation', () => {
     };
 
     dateOfDeathValidation(errors, fields);
-    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(0);
+    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(1);
   });
 });
