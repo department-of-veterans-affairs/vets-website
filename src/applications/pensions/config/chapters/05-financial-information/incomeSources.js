@@ -9,10 +9,7 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { IncomeInformationAlert } from '../../../components/FormAlerts';
-import {
-  IncomeSourceDescription,
-  updateMultiresponseUiOptions,
-} from '../../../helpers';
+import { IncomeSourceDescription } from '../../../helpers';
 import { recipientTypeLabels, typeOfIncomeLabels } from '../../../labels';
 import IncomeSourceView from '../../../components/IncomeSourceView';
 import { doesReceiveIncome } from './helpers';
@@ -53,7 +50,8 @@ export default {
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
-        updateSchema: updateMultiresponseUiOptions,
+        showSave: true,
+        reviewMode: true,
       },
       items: {
         typeOfIncome: radioUI({

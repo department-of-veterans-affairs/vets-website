@@ -386,7 +386,7 @@ const formConfig = {
         isSponsor: {
           path: 'is-sponsor',
           depends: formData =>
-            !isAuthorizedAgent(formData) && isVeteran(formData),
+            isAuthorizedAgent(formData) && !isVeteran(formData),
           uiSchema: isSponsor.uiSchema,
           schema: isSponsor.schema,
         },
