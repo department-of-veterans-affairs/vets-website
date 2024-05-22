@@ -15,8 +15,8 @@ describe(`${appName} -- transitional Medical records card **enabled**`, () => {
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('renders', () => {
     cy.findByRole('heading', { level: 2, name: heading });
-    cy.findByText(/^The new version of this tool isn’t ready yet./);
-    cy.findByRole('link', { name: /^Go back to the previous version/ });
+    cy.findAllByText(/^The new version of this tool isn’t ready yet./);
+    cy.findAllByRole('link', { name: /^Go back to the previous version/ });
   });
 
   it('passes automated accessibility (a11y) checks', () => {
