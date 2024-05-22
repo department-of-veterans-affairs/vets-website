@@ -4,12 +4,11 @@ import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data, Locators, Assertions } from './utils/constants';
 
 describe('Secure Messaging Delete Unsaved Compose Draft', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
   });
 
   it('verify delete could be canceled', () => {

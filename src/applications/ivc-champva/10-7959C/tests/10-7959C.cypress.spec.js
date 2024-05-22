@@ -9,16 +9,12 @@ import manifest from '../manifest.json';
 import {
   reviewAndSubmitPageFlow,
   fillAddressWebComponentPattern,
+  getAllPages,
 } from '../../shared/tests/helpers';
 
 // Put all page objects into an object where pagename maps to page data
 // E.g., {page1: {path: '/blah'}}
-const ALL_PAGES = {};
-Object.values(formConfig.chapters).forEach(ch =>
-  Object.keys(ch.pages).forEach(p => {
-    ALL_PAGES[p] = ch.pages[p];
-  }),
-);
+const ALL_PAGES = getAllPages(formConfig);
 
 const testConfig = createTestConfig(
   {
@@ -128,9 +124,13 @@ const testConfig = createTestConfig(
               // format of dates (goes from YYYY-MM-DD to MM-DD-YYYY).
               // TODO: Address discrepancy at some point.
               expect(data[k]?.length).to.equal(req.body[k]?.length);
+            } else {
+              expect(data[k] === req.body[k]);
             }
           });
         });
+        // Mock the backend response on form submit:
+        req.reply({ status: 200 });
       });
       cy.config('includeShadowDom', true);
     },

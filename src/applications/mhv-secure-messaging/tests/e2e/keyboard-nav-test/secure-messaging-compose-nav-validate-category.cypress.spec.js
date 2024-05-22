@@ -6,12 +6,11 @@ import categories from '../fixtures/categories-response.json';
 
 describe('Validate the category', () => {
   it('selects a category', () => {
-    const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     const listOfCategories = categories.data.attributes.messageCategoryType;
 
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
     PatientInterstitialPage.getContinueButton().click();
     cy.tabToElement('[data-testid="edit-preferences-button"]').should(
