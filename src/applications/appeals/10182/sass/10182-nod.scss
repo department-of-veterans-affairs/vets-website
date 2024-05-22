@@ -7,13 +7,6 @@
 @import "../../../../platform/forms/sass/m-form-confirmation";
 @import "../../shared/sass/appeals";
 
-ul.issues-summary,
-ul.issues,
-.usa-accordion-bordered ul li ul.issues {
-  list-style: none;
-  padding: 0;
-}
-
 @media screen and (min-width: 481px) {
   .va-profile-wrapper button {
     width: auto;

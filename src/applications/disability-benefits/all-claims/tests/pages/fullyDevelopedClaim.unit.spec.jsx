@@ -58,7 +58,7 @@ describe('Fully Developed Claim', () => {
     );
 
     userEvent.click(getByText('Submit'));
-    getByText('Please provide a response');
+    getByText('You must provide a response');
     expect(onSubmit.calledOnce).to.be.false;
   });
 

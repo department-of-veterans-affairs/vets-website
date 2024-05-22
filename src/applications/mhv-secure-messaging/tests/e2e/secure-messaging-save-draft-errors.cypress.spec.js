@@ -4,12 +4,11 @@ import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 
 describe('Secure Messaging Compose Errors', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
   });
 
   it('error message for no recipient', () => {

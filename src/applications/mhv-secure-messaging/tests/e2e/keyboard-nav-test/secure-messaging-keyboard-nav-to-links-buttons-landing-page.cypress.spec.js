@@ -5,9 +5,8 @@ import { AXE_CONTEXT, Locators, Data } from '../utils/constants';
 describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
   it('Tab to Links and Buttons on the Landing Page', () => {
     const site = new SecureMessagingSite();
-    const landingPage = new PatientInboxPage();
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     cy.get(Locators.ALERTS.SIDEBAR_NAV).click();
     cy.get(Locators.ALERTS.INBOX_TEXT).should('be.visible');
     cy.tabToElement('[text="Go to your inbox"]').should(
