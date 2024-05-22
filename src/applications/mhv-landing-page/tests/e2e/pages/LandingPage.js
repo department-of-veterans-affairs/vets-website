@@ -15,6 +15,23 @@ class LandingPage {
     cy.visit(this.pageUrl);
   };
 
+  validateHealthToolsLinksEnabled = () => {
+    cy.findByText(/Welcome to the new home for My HealtheVet/i).should('exist');
+    cy.findByText(
+      /Now you can manage your health care needs in the same place/i,
+    ).should('exist');
+    cy.findByText(/If you're not ready to try the new My HealtheVet/i).should(
+      'exist',
+    );
+  };
+
+  validateHealthToolsLinksDisabled = () => {
+    cy.findByText(/Learn more about My HealtheVet on VA.gov/i).should('exist');
+    cy.findByText(
+      /where you can manage your VA health care and your health/i,
+    ).should('exist');
+  };
+
   /**
    * Validate a card has a heading and the correct number of links in it.
    * @param {*} cardHeadline a string with the title of a card
@@ -39,5 +56,37 @@ class LandingPage {
       });
   };
 }
+
+describe('My HealtheVet Landing Page', () => {
+  const landingPage = new LandingPage();
+
+  context('when mhvLandingPageEnableVaGovHealthToolsLinks is enabled', () => {
+    it('displays the new content', () => {
+      landingPage.validateHealthToolsLinksEnabled();
+      cy.axeCheck();
+    });
+  });
+
+  context('when mhvLandingPageEnableVaGovHealthToolsLinks is disabled', () => {
+    beforeEach(() => {
+      cy.intercept('GET', '/v0/feature_toggles', {
+        data: {
+          features: [
+            {
+              name: 'mhvLandingPageEnableVaGovHealthToolsLinks',
+              value: false,
+            },
+          ],
+        },
+      });
+      landingPage.visitPage();
+    });
+
+    it('displays the default content', () => {
+      landingPage.validateHealthToolsLinksDisabled();
+      cy.axeCheck();
+    });
+  });
+});
 
 export default new LandingPage();
