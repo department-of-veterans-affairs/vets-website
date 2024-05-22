@@ -49,7 +49,7 @@ export default function AppointmentsPage() {
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA online scheduling');
 
-  const featureAppointmentDetailsRedesign = useSelector(state =>
+  const featureCCDirectScheduling = useSelector(state =>
     selectFeatureCCDirectScheduling(state),
   );
 
@@ -150,7 +150,7 @@ export default function AppointmentsPage() {
       />
       {/* {!hideScheduleLink() && <ScheduleNewAppointment />} */}
       <ScheduleNewAppointment />
-      {featureAppointmentDetailsRedesign && (
+      {featureCCDirectScheduling && (
         <div>
           <ReferralAppLink
             linkText="Review and manage your appointment notifications"
