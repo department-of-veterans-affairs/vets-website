@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { GA_PREFIX } from 'applications/vaos/utils/constants';
-import { selectFeatureStartSchedulingLink } from '../../redux/selectors';
+import { selectFeatureCCDirectScheduling } from '../../redux/selectors';
 
 function handleClick(history, linkPath) {
   return e => {
@@ -18,10 +18,10 @@ function handleClick(history, linkPath) {
 
 function ReferralAppLinkComponent({ linkPath, linkText }) {
   const history = useHistory();
-  const featureStartSchedulingLink = useSelector(
-    selectFeatureStartSchedulingLink,
+  const featureCCDirectScheduling = useSelector(
+    selectFeatureCCDirectScheduling,
   );
-  return featureStartSchedulingLink ? (
+  return featureCCDirectScheduling ? (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a
       className="vads-c-action-link--green vaos-hide-for-print vads-u-margin-bottom--2p5"
