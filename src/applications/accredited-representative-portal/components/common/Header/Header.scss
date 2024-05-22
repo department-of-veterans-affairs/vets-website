@@ -46,7 +46,7 @@
     }
 
     .user-nav {
-      margin-left: 1rem;
+      margin-left: 10px;
 
       .user-dropdown-email {
         max-width: 64px;
@@ -71,10 +71,10 @@
       .vet-toolbar {
         display: flex;
         justify-content: flex-end;
-        flex: 0 1 30rem;
+        flex: 0 1 300px;
 
         .user-nav {
-          margin-inline: 1rem;
+          margin-inline: 10px;
 
           .loading-icon-container {
             width: 88px;
@@ -83,7 +83,7 @@
       }
 
       .va-header-logo-menu {
-        padding-top: 1em;
+        padding: 10px 0px 0px 10px;
       }
     }
 
@@ -124,26 +124,6 @@
         list-style: none;
         padding-left: 0;
         margin-bottom: 0;
-      }
-
-      .usa-button-secondary {
-        padding: calc(1rem + 2px);
-        margin: 0.8rem 1.6rem;
-        width: auto;
-        background-color: var(--vads-color-base-lightest);
-
-        &:hover {
-          text-decoration: none;
-        }
-
-        @include media($medium-screen) {
-          display: inline-block;
-          background-color: transparent;
-
-          &.vetnav-level2-button-second {
-            margin-left: 0;
-          }
-        }
       }
     }
   }
