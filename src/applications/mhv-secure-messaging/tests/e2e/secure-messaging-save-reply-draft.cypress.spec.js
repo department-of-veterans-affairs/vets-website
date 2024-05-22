@@ -10,7 +10,6 @@ import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
     // declare pages & constants
-    const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     const draftPage = new PatientMessageDraftsPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
@@ -21,8 +20,8 @@ describe('Secure Messaging Reply', () => {
 
     // load single thread
     site.login();
-    landingPage.loadInboxMessages(mockMessages);
-    landingPage.loadSingleThread(mockSingleThread);
+    PatientInboxPage.loadInboxMessages(mockMessages);
+    PatientInboxPage.loadSingleThread(mockSingleThread);
 
     // click reply btn
     messageDetailsPage.clickReplyButton(mockSingleThread);
