@@ -48,7 +48,7 @@ const getLabLocation = (performer, record) => {
   return null;
 };
 
-const distilChemHemNotes = (notes, valueProp) => {
+const distillChemHemNotes = (notes, valueProp) => {
   if (isArrayAndHasItems(notes)) {
     return notes.map(note => note[valueProp]);
   }
@@ -59,7 +59,10 @@ const distilChemHemNotes = (notes, valueProp) => {
  * @param {Object} record - A FHIR chem/hem Observation object
  * @returns the appropriate frontend object for display
  */
-const convertChemHemObservation = (results, record) => {
+const convertChemHemObservation = record => {
+  const results = record.contained.filter(
+    recordItem => recordItem.resourceType === 'Observation',
+  );
   return results.filter(obs => obs.valueQuantity).map(result => {
     const { observationValue, observationUnit } = getObservationValueWithUnits(
       result,
@@ -79,7 +82,7 @@ const convertChemHemObservation = (results, record) => {
       standardRange: standardRange || EMPTY_FIELD,
       status: result.status || EMPTY_FIELD,
       labLocation: getLabLocation(result.performer, record) || EMPTY_FIELD,
-      labComments: distilChemHemNotes(result.note, 'text') || EMPTY_FIELD,
+      labComments: distillChemHemNotes(result.note, 'text') || EMPTY_FIELD,
     };
   });
 };
@@ -113,13 +116,9 @@ const getSpecimen = record => {
  * @returns the appropriate frontend object for display
  */
 const convertChemHemRecord = record => {
-  const results = record.contained.filter(
-    recordItem => recordItem.resourceType === 'Observation',
-  );
-  const serviceRequest = extractContainedResource(
-    record,
-    record.basedOn[0]?.reference,
-  );
+  const basedOnRef =
+    isArrayAndHasItems(record.basedOn) && record.basedOn[0]?.reference;
+  const serviceRequest = extractContainedResource(record, basedOnRef);
   return {
     id: record.id,
     type: labTypes.CHEM_HEM,
@@ -131,8 +130,8 @@ const convertChemHemRecord = record => {
       ? dateFormat(record.effectiveDateTime)
       : EMPTY_FIELD,
     collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
-    comments: distilChemHemNotes(record.extension, 'valueString'),
-    results: convertChemHemObservation(results, record),
+    comments: distillChemHemNotes(record.extension, 'valueString'),
+    results: convertChemHemObservation(record),
     sampleTested: getSpecimen(record) || EMPTY_FIELD,
   };
 };

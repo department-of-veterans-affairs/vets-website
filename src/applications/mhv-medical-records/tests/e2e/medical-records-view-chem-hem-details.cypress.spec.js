@@ -14,11 +14,11 @@ describe('Medical Records View Labs And Tests', () => {
     );
     ChemHemDetailsPage.verifyLabDate('January 20, 2021');
     ChemHemDetailsPage.verifySampleTested('SERUM');
-    ChemHemDetailsPage.verifyOrderedBy('HALL, LISA A');
+    ChemHemDetailsPage.verifyOrderedBy('DOE, JANE A');
     ChemHemDetailsPage.verifyLabCollectingLocation('Lab Site 989');
     // There might be a new line in this provider notes example.  we need to check later
     ChemHemDetailsPage.verifyProviderNotes(
-      "Lisa's Test 1/20/2021 - Second lab",
+      "Jane's Test 1/20/2021 - Second lab",
     );
     ChemHemDetailsPage.verifyProviderNotes('Added Potassium test');
     // Axe check

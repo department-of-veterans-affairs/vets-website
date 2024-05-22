@@ -82,7 +82,7 @@ describe('Chem Hem details component', () => {
 
   it('displays who the test was ordered by', () => {
     expect(screen.getByText('Ordered by', { selector: 'h3' })).to.exist;
-    expect(screen.getByText('HALL, LISA A', { exact: false })).to.exist;
+    expect(screen.getByText('DOE, JANE A', { exact: false })).to.exist;
   });
 
   it('displays the collecting location', () => {
@@ -93,7 +93,7 @@ describe('Chem Hem details component', () => {
 
   it('displays lab comments', () => {
     expect(screen.getByText('Lab comments', { selector: 'h3' })).to.exist;
-    expect(screen.getByText("Lisa's Test 1/20/2021 - Second lab")).to.exist;
+    expect(screen.getByText("Jane's Test 1/20/2021 - Second lab")).to.exist;
     expect(screen.getByText('Added Potassium test')).to.exist;
     expect(screen.getAllByTestId('list-item-multiple')).to.have.length(2);
   });
