@@ -74,7 +74,9 @@ article#pre-need[data-location="sponsor-demographics"] {
 }
 
 // MBMS-61967: change "applicant-demographics-notprod" to "applicant-demographics" and remove the applicant-demographics-notprod section from form.jsx
-article#pre-need[data-location="applicant-demographics-notprod"] {
+// MBMS-61967: change "sponsor-demographics-notprod" to "sponsor-demographics" and remove the sponsor-demographics-notprod section from form.jsx
+article#pre-need[data-location="applicant-demographics-notprod"],
+article#pre-need[data-location="sponsor-demographics-notprod"] {
   fieldset.schemaform-field-template.usa-input-error {
     fieldset.vads-u-margin-y--2.rjsf-object-field {
       div {
