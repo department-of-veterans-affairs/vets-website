@@ -50,7 +50,7 @@ export default function MyVAHealth() {
             const message = err?.error;
             if (message === 'Agreement not accepted') {
               setDisplayTerms(true);
-            } else if (message === 'Account not provisioned') {
+            } else if (message === 'Account not Provisioned') {
               redirectToErrorPage(111);
             } else {
               setError({
