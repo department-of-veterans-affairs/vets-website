@@ -20,15 +20,25 @@ const UploadPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [file, setFile] = useState({});
+  const [fileInputError, setFileInputError] = useState('');
 
   const location = useLocation();
   const formNumber = getFormNumber(location);
   const formUploadContent = getFormUploadContent(formNumber);
   const breadcrumbList = getBreadcrumbList(formNumber);
 
-  const onClickContinue = () => history.push(`/${formNumber}/review`, { file });
+  const onClickContinue = () => {
+    if (Object.keys(file).length === 0) {
+      setFileInputError(`Upload a completed form ${formNumber}`);
+    } else {
+      history.push(`/${formNumber}/review`, { file });
+    }
+  };
   const onRouteChange = ({ detail }) => handleRouteChange({ detail }, history);
-  const onFileUploaded = uploadedFile => setFile(uploadedFile);
+  const onFileUploaded = uploadedFile => {
+    setFileInputError('');
+    setFile(uploadedFile);
+  };
   const onVaChange = e =>
     dispatch(uploadScannedForm(formNumber, e.detail.files[0], onFileUploaded));
 
@@ -62,11 +72,12 @@ const UploadPage = () => {
       </div>
       <VaFileInput
         accept=".pdf,.jpeg,.png"
-        error=""
+        error={fileInputError}
         hint={null}
         label={`Upload VA Form ${formNumber}`}
         name="form-upload-file-input"
         onVaChange={onVaChange}
+        required
         uswds
       />
       <span>
