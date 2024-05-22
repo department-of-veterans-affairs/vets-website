@@ -33,7 +33,7 @@ import {
 } from '../pages/priorityProcessing';
 import { personalRecordsRequestPage } from '../pages/recordsRequest';
 import { claimStatusToolPage } from '../pages/newEvidence';
-import { personalInformationPage } from '../pages/nameAndDateOfBirth';
+import { personalInformationPage } from '../pages/personalInformation';
 import { identificationInformationPage } from '../pages/identificationInfo';
 import { mailingAddressPage } from '../pages/mailingAddress';
 import { contactInformationPage } from '../pages/phoneAndEmail';
