@@ -10,7 +10,7 @@ describe('Enrollment Verification Page Tests', () => {
     });
     cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('/education/verify-your-enrollment/', {
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
       onBeforeLoad: win => {
         /* eslint no-param-reassign: "error" */
         win.isProduction = true;
@@ -22,14 +22,14 @@ describe('Enrollment Verification Page Tests', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[id="vye-periods-to-verify-container"]').should('exist');
   });
-  it('should show VA Form 22-8979 STUDENT VERIFICATION OF ENROLLMENT', () => {
+  it('should show "Student Verification of Enrollment (VA Form 22-8979)"', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
     ).click();
     cy.get('.va-introtext').should(
       'contain',
-      'VA Form 22-8979 STUDENT VERIFICATION OF ENROLLMENT',
+      'Student Verification of Enrollment (VA Form 22-8979)',
     );
     cy.url().should('include', '/verification-review');
     cy.get('.vye-highlighted-content-container').should('exist');
@@ -55,28 +55,45 @@ describe('Enrollment Verification Page Tests', () => {
       '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
     ).click();
     cy.get('[class="usa-button usa-button--outline"]').click();
-    cy.url().should('include', '/verify-your-enrollment');
+    cy.url().should('include', '/mgib-enrollments');
     cy.get('[id="montgomery-gi-bill-enrollment-statement"]').should(
       'contain',
-      'Montgomery GI Bill® enrollment verification',
+      'Montgomery GI Bill enrollment verificatio',
     );
   });
-  it("should go to  'Your benefits profile when' when 'Manage your benefits profile' link is clicked ", () => {
+  it('should show success message when submit button is clicked', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.get('[class="vads-u-margin-y--0 text-color vads-u-font-family--sans"]')
+      .should('be.visible')
+      .and('contain', 'You haven’t verified your enrollment for the month.');
+    cy.get(
+      '.vye-mimic-va-button.vads-u-font-family--sans.vads-u-margin-top--0',
+    ).click();
+    cy.get('[for="vye-radio-button-yesinput"]').click();
+    cy.get('[text="Submit"]').click();
+    cy.get(
+      '[class=" vads-u-font-size--h2 vads-u-font-weight--bold vye-h2-style-as-h3 "]',
+    ).should('contain', 'You have successfully verified your enrollment');
+    cy.get(
+      '[class="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center"]',
+    ).should('contain', 'Verified');
+  });
+  it("should go to  'Your benefits profile when' when 'Manage your Montgomery GI Bill benefits information' link is clicked ", () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
-      'a[href="/education/verify-your-enrollment/benefits-profile/"]',
+      'a[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
     ).click();
     cy.get('div[id="benefits-gi-bill-profile-statement"]').should(
       'contain',
-      'Your benefits profile',
+      'Your Montgomery GI Bill benefits information',
     );
   });
-  it("should go back to 'enrollment verification' when 'Montgomery GI Bill Enrollment Verification' link is clicked ", () => {
+  it("should go back to 'enrollment verification' when 'Verify your school enrollment' link is clicked ", () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
-      'a[href="/education/verify-your-enrollment/benefits-profile/"]',
+      'a[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
     ).click();
-    cy.get('a[href="/education/verify-your-enrollment/"]')
+    cy.get('a[href="/education/verify-school-enrollment/mgib-enrollments/"]')
       .first()
       .click();
     cy.url().should('not.include', '/benefits-profile');

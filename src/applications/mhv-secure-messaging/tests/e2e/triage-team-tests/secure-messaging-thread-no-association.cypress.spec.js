@@ -8,7 +8,6 @@ import mockThread from '../fixtures/thread-response.json';
 
 describe('Verify thread - No association with particular Triage Group', () => {
   const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
 
   const updatedData = mockRecipients.data.slice(1);
   const updatedMeta = { ...mockRecipients.meta, associatedTriageGroups: 6 };
@@ -20,7 +19,7 @@ describe('Verify thread - No association with particular Triage Group', () => {
   it('creating message view', () => {
     site.login();
 
-    landingPage.loadInboxMessages(
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       removedFirstRecipientsList,
@@ -62,12 +61,12 @@ describe('Verify thread - No association with particular Triage Group', () => {
     };
     site.login();
 
-    landingPage.loadInboxMessages(
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       removedFirstRecipientsList,
     );
-    landingPage.loadSingleThread(threadWithNoAssociatedTG);
+    PatientInboxPage.loadSingleThread(threadWithNoAssociatedTG);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
