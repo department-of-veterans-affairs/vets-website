@@ -101,7 +101,7 @@ const LandingPage = () => {
           <section>
             <h1
               data-testid="landing-page-heading"
-              className="small-screen:vads-u-margin-top--4 small-screen:vads-u-margin-bottom--0 vads-u-margin-top--3 vads-u-margin-bottom--1"
+              className="small-screen:vads-u-margin-bottom--0 vads-u-margin-bottom--1"
             >
               About medications
             </h1>
@@ -634,7 +634,7 @@ const LandingPage = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <div className="landing-page vads-l-grid-container vads-u-margin-top--3 vads-u-margin-bottom--6 small-screen:vads-u-margin-x--1">
+      <div className="landing-page small-screen:vads-u-margin-top--1 vads-u-margin-bottom--6">
         {content()}
       </div>
     </RequiredLoginView>
