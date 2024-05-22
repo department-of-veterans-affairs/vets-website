@@ -54,10 +54,21 @@ describe('Check In Experience | Pre-Check-In |', () => {
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
 
+      cy.wait('@post-pre_check_ins-success')
+        .its('request.body.preCheckIn')
+        .should('deep.equal', {
+          uuid: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
+          demographicsUpToDate: true,
+          nextOfKinUpToDate: true,
+          emergencyContactUpToDate: true,
+          checkInType: 'preCheckIn',
+        });
+
       Confirmation.validatePageLoaded();
+      Confirmation.validateConfirmNoUpdates();
       cy.injectAxeThenAxeCheck();
     });
-    it('should complete pre-check-in and only display relevant demographics', () => {
+    it('should complete pre-check-in and only display and update relevant demographics', () => {
       initializePreCheckInDataGet.withSuccess({
         nextOfKinNeedsUpdate: false,
         nextOfKinConfirmedAt: dateFns.format(
@@ -81,7 +92,157 @@ describe('Check In Experience | Pre-Check-In |', () => {
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
       Demographics.attemptToGoToNextPage('yes');
+
+      cy.wait('@post-pre_check_ins-success')
+        .its('request.body.preCheckIn')
+        .should('deep.equal', {
+          uuid: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
+          demographicsUpToDate: true,
+          checkInType: 'preCheckIn',
+        });
+
       Confirmation.validatePageLoaded();
+      Confirmation.validateConfirmNoUpdates();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('should complete pre-check-in when answering no to contact info', () => {
+      initializePreCheckInDataGet.withSuccess();
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
+      ValidateVeteran.attemptToGoToNextPage();
+
+      AppointmentsPage.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      AppointmentsPage.attemptCheckIn();
+
+      Demographics.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Demographics.attemptToGoToNextPage('no');
+
+      EmergencyContact.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      EmergencyContact.attemptToGoToNextPage();
+
+      NextOfKin.validatePage.preCheckIn();
+      cy.injectAxeThenAxeCheck();
+      NextOfKin.attemptToGoToNextPage();
+
+      cy.wait('@post-pre_check_ins-success')
+        .its('request.body.preCheckIn')
+        .should('deep.equal', {
+          uuid: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
+          demographicsUpToDate: false,
+          nextOfKinUpToDate: true,
+          emergencyContactUpToDate: true,
+          checkInType: 'preCheckIn',
+        });
+      Confirmation.validatePageLoaded();
+      Confirmation.validateConfirmWithUpdates();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('should complete pre-check-in when answering no to Emergency Contact', () => {
+      initializePreCheckInDataGet.withSuccess();
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
+      ValidateVeteran.attemptToGoToNextPage();
+
+      AppointmentsPage.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      AppointmentsPage.attemptCheckIn();
+
+      Demographics.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Demographics.attemptToGoToNextPage();
+
+      EmergencyContact.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      EmergencyContact.attemptToGoToNextPage('no');
+
+      NextOfKin.validatePage.preCheckIn();
+      cy.injectAxeThenAxeCheck();
+      NextOfKin.attemptToGoToNextPage();
+
+      cy.wait('@post-pre_check_ins-success')
+        .its('request.body.preCheckIn')
+        .should('deep.equal', {
+          uuid: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
+          demographicsUpToDate: true,
+          nextOfKinUpToDate: true,
+          emergencyContactUpToDate: false,
+          checkInType: 'preCheckIn',
+        });
+      Confirmation.validatePageLoaded();
+      Confirmation.validateConfirmWithUpdates();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('should complete pre-check-in when answering no to Next Of Kin', () => {
+      initializePreCheckInDataGet.withSuccess();
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
+      ValidateVeteran.attemptToGoToNextPage();
+
+      AppointmentsPage.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      AppointmentsPage.attemptCheckIn();
+
+      Demographics.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Demographics.attemptToGoToNextPage();
+
+      EmergencyContact.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      EmergencyContact.attemptToGoToNextPage();
+
+      NextOfKin.validatePage.preCheckIn();
+      cy.injectAxeThenAxeCheck();
+      NextOfKin.attemptToGoToNextPage('no');
+
+      cy.wait('@post-pre_check_ins-success')
+        .its('request.body.preCheckIn')
+        .should('deep.equal', {
+          uuid: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
+          demographicsUpToDate: true,
+          nextOfKinUpToDate: false,
+          emergencyContactUpToDate: true,
+          checkInType: 'preCheckIn',
+        });
+      Confirmation.validatePageLoaded();
+      Confirmation.validateConfirmWithUpdates();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('should complete pre-check-in when answering no to all demographics questions', () => {
+      initializePreCheckInDataGet.withSuccess();
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
+      ValidateVeteran.attemptToGoToNextPage();
+
+      AppointmentsPage.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      AppointmentsPage.attemptCheckIn();
+
+      Demographics.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      Demographics.attemptToGoToNextPage('no');
+
+      EmergencyContact.validatePageLoaded();
+      cy.injectAxeThenAxeCheck();
+      EmergencyContact.attemptToGoToNextPage('no');
+
+      NextOfKin.validatePage.preCheckIn();
+      cy.injectAxeThenAxeCheck();
+      NextOfKin.attemptToGoToNextPage('no');
+
+      cy.wait('@post-pre_check_ins-success')
+        .its('request.body.preCheckIn')
+        .should('deep.equal', {
+          uuid: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
+          demographicsUpToDate: false,
+          nextOfKinUpToDate: false,
+          emergencyContactUpToDate: false,
+          checkInType: 'preCheckIn',
+        });
+      Confirmation.validatePageLoaded();
+      Confirmation.validateConfirmWithUpdates();
       cy.injectAxeThenAxeCheck();
     });
   });
