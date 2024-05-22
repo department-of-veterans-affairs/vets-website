@@ -4,6 +4,7 @@ import {
   concatCategoryCodeText,
   concatObservationInterpretations,
   dateFormat,
+  extractContainedResource,
   getObservationValueWithUnits,
   isArrayAndHasItems,
 } from '../util/helpers';
@@ -38,11 +39,20 @@ const initialState = {
   labsAndTestsDetails: undefined,
 };
 
+const getLabLocation = (performer, contained) => {
+  if (isArrayAndHasItems(performer)) {
+    const locationRef = performer[0]?.reference?.substring(1);
+    const location = contained.find(resource => resource.id === locationRef);
+    return location?.name;
+  }
+  return null;
+};
+
 /**
  * @param {Object} record - A FHIR chem/hem Observation object
  * @returns the appropriate frontend object for display
  */
-const convertChemHemObservation = results => {
+const convertChemHemObservation = (results, contained) => {
   return results.filter(obs => obs.valueQuantity).map(result => {
     const { observationValue, observationUnit } = getObservationValueWithUnits(
       result,
@@ -61,11 +71,42 @@ const convertChemHemObservation = results => {
       result: observationValueWithUnits || EMPTY_FIELD,
       standardRange: standardRange || EMPTY_FIELD,
       status: result.status || EMPTY_FIELD,
-      labLocation: result.labLocation || EMPTY_FIELD,
+      labLocation: getLabLocation(result.performer, contained) || EMPTY_FIELD,
       labComments:
         (isArrayAndHasItems(result.note) && result.note[0].text) || EMPTY_FIELD,
     };
   });
+};
+
+const distilChemHemNotes = extension => {
+  if (isArrayAndHasItems(extension)) {
+    return extension.map(note => note.valueString);
+  }
+  return [];
+};
+
+const getPractitioner = (record, serviceRequest) => {
+  const practitionerRef = serviceRequest?.requester?.reference;
+  const practitioner = extractContainedResource(record, practitionerRef);
+  if (isArrayAndHasItems(practitioner?.name)) {
+    const practitionerName = practitioner?.name[0];
+    const familyName = practitionerName?.family;
+    const givenNames = practitionerName?.given.join(' ');
+    return `${familyName ? `${familyName}, ` : ''}${givenNames}`;
+  }
+  return null;
+};
+
+const getSpecimen = record => {
+  const specimenRef = isArrayAndHasItems(record.specimen);
+  if (specimenRef) {
+    const specimen = extractContainedResource(
+      record,
+      record.specimen[0]?.reference,
+    );
+    return specimen?.type?.text;
+  }
+  return null;
 };
 
 /**
@@ -76,21 +117,26 @@ const convertChemHemRecord = record => {
   const results = record.contained.filter(
     recordItem => recordItem.resourceType === 'Observation',
   );
+  const serviceRequest = extractContainedResource(
+    record,
+    record.basedOn[0]?.reference,
+  );
   return {
     id: record.id,
     type: labTypes.CHEM_HEM,
-    name: concatCategoryCodeText(record),
-    category: concatCategoryCodeText(record),
-    orderedBy: record.physician || EMPTY_FIELD,
-    requestedBy: record.physician || EMPTY_FIELD,
+    testType: serviceRequest?.code?.text || EMPTY_FIELD,
+    name: concatCategoryCodeText(record) || EMPTY_FIELD,
+    category: concatCategoryCodeText(record) || EMPTY_FIELD,
+    orderedBy: getPractitioner(record, serviceRequest) || EMPTY_FIELD,
     date: record.effectiveDateTime
       ? dateFormat(record.effectiveDateTime)
       : EMPTY_FIELD,
     orderingLocation: record.location || EMPTY_FIELD,
-    collectingLocation: record.location || EMPTY_FIELD,
-    comments: [record.conclusion],
-    results: convertChemHemObservation(results),
-    sampleTested: record.specimen?.text || EMPTY_FIELD,
+    collectingLocation:
+      getLabLocation(record.performer, record.contained) || EMPTY_FIELD,
+    comments: distilChemHemNotes(record.extension),
+    results: convertChemHemObservation(results, record.contained),
+    sampleTested: getSpecimen(record) || EMPTY_FIELD,
   };
 };
 
@@ -128,7 +174,7 @@ const convertPathologyRecord = record => {
     id: record.id,
     name: record.code?.text,
     type: labTypes.PATHOLOGY,
-    category: concatCategoryCodeText(record),
+    category: concatCategoryCodeText(record) || EMPTY_FIELD,
     orderedBy: record.physician || EMPTY_FIELD,
     requestedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
