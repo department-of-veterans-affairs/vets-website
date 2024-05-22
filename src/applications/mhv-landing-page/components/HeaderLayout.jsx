@@ -23,11 +23,11 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
         <div className="vads-l-col medium-screen:vads-l-col--8">
           <div className="vads-l-col">
             <div className="vads-l-row">
-              <div className="vads-l-col-6">
-                <h1>My HealtheVet</h1>
+              <div className="vads-l-col-6 ">
+                <h1 className="vads-u-margin-y--0">My HealtheVet</h1>
               </div>
               <div className="vads-l-col-2 vads-u-margin-left--2 vads-u-margin-top--2">
-                {showHealthToolsLinks && (
+                {!showHealthToolsLinks && (
                   <span className="usa-label vads-u-background-color--cool-blue">
                     New
                   </span>
@@ -36,7 +36,7 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
             </div>
           </div>
           <div className="va-introtext">
-            {showHealthToolsLinks ? (
+            {!showHealthToolsLinks ? (
               <>
                 <p>
                   Welcome to the new home for My HealtheVet. Now you can manage
