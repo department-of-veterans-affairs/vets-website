@@ -11,32 +11,32 @@ import {
   DECISION_REVIEW_TYPES,
 } from './constants';
 import { statementTypePage } from '../pages/statementType';
-import { layOrWitnessHandoffPage } from '../pages/layOrWitness';
+import { layWitnessStatementPage } from '../pages/layOrWitness';
 import {
   decisionReviewPage,
-  decisionReviewTypePage,
+  selectDecisionReviewPage,
 } from '../pages/decisionReview';
 import {
-  nodOldHandoffPage,
-  nodSupplementalHandoffPage,
-  nodHLRHandoffPage,
-  nodBAHandoffPage,
+  newSupplementalClaimPage,
+  supplementalClaimPage,
+  higherLevelReviewPage,
+  boardAppealPage,
 } from '../pages/noticeOfDisagreement';
 import {
-  ppIntroPage,
-  ppLivingSituationPage,
-  ppOtherHousingRisksPage,
-  ppOtherReasonsOptionalPage,
-  ppOtherReasonsRequiredPage,
-  ppNotQualifiedPage,
-  ppQualifiedHandoffPage,
+  aboutPriorityProcessingPage,
+  housingRisksPage,
+  otherHousingRisksPage,
+  hardshipsOptionalPage,
+  hardshipsRequiredPage,
+  priorityProcessingNotQualifiedPage,
+  priorityProcessingRequestPage,
 } from '../pages/priorityProcessing';
-import { recordsRequestHandoffPage } from '../pages/recordsRequest';
-import { newEvidenceHandoffPage } from '../pages/newEvidence';
-import { nameAndDateOfBirthPage } from '../pages/nameAndDateOfBirth';
+import { personalRecordsRequestPage } from '../pages/recordsRequest';
+import { claimStatusToolPage } from '../pages/newEvidence';
+import { personalInformationPage } from '../pages/personalInformation';
 import { identificationInformationPage } from '../pages/identificationInfo';
 import { mailingAddressPage } from '../pages/mailingAddress';
-import { phoneAndEmailPage } from '../pages/phoneAndEmail';
+import { contactInformationPage } from '../pages/phoneAndEmail';
 import { statementPage } from '../pages/statement';
 import {
   getMockData,
@@ -106,13 +106,13 @@ const formConfig = {
           // we want required fields prefilled for LOCAL testing/previewing one single initialData prop here will suffice for entire form
           initialData: getMockData(mockData, isLocalhost),
         },
-        layOrWitnessHandoffPage: {
+        layWitnessStatementPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.BUDDY_STATEMENT,
           path: 'lay-witness-statement',
           title: "There's a better way to submit your statement to us",
-          uiSchema: layOrWitnessHandoffPage.uiSchema,
-          schema: layOrWitnessHandoffPage.schema,
+          uiSchema: layWitnessStatementPage.uiSchema,
+          schema: layWitnessStatementPage.schema,
           pageClass: 'lay-witness-statement',
           hideNavButtons: true,
         },
@@ -125,149 +125,149 @@ const formConfig = {
           schema: decisionReviewPage.schema,
           pageClass: 'decision-review',
         },
-        noticeOfDisagreementOldHandoffPage: {
+        newSupplementalClaimPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
             !isEligibleForDecisionReview(formData.decisionDate),
           path: 'new-supplemental-claim',
           title: 'What to know before you request a decision review',
-          uiSchema: nodOldHandoffPage.uiSchema,
-          schema: nodOldHandoffPage.schema,
+          uiSchema: newSupplementalClaimPage.uiSchema,
+          schema: newSupplementalClaimPage.schema,
           pageClass: 'new-supplemental-claim',
           hideNavButtons: true,
         },
-        decisionReviewTypePage: {
+        selectDecisionReviewPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
             isEligibleForDecisionReview(formData.decisionDate),
           path: 'select-decision-review',
           title: 'Which description is true for you?',
-          uiSchema: decisionReviewTypePage.uiSchema,
-          schema: decisionReviewTypePage.schema,
+          uiSchema: selectDecisionReviewPage.uiSchema,
+          schema: selectDecisionReviewPage.schema,
           pageClass: 'select-decision-review',
         },
-        noticeOfDisagreementSupplementalHandoffPage: {
+        supplementalClaimPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
             isEligibleForDecisionReview(formData.decisionDate) &&
             formData.decisionReviewType === DECISION_REVIEW_TYPES.NEW_EVIDENCE,
           path: 'supplemental-claim',
           title: 'What to know before you request a decision review',
-          uiSchema: nodSupplementalHandoffPage.uiSchema,
-          schema: nodSupplementalHandoffPage.schema,
+          uiSchema: supplementalClaimPage.uiSchema,
+          schema: supplementalClaimPage.schema,
           pageClass: 'supplemental-claim',
           hideNavButtons: true,
         },
-        noticeOfDisagreementHLRHandoffPage: {
+        higherLevelReviewPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
             isEligibleForDecisionReview(formData.decisionDate) &&
             formData.decisionReviewType === DECISION_REVIEW_TYPES.ERROR_MADE,
           path: 'higher-level-review',
           title: "There's a better way for you to ask for a decision review",
-          uiSchema: nodHLRHandoffPage.uiSchema,
-          schema: nodHLRHandoffPage.schema,
+          uiSchema: higherLevelReviewPage.uiSchema,
+          schema: higherLevelReviewPage.schema,
           pageClass: 'higher-level-review',
           hideNavButtons: true,
         },
-        noticeOfDisagreementBAHandoffPage: {
+        boardAppealPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
             isEligibleForDecisionReview(formData.decisionDate) &&
             formData.decisionReviewType === DECISION_REVIEW_TYPES.BVA_REQUEST,
           path: 'board-appeal',
           title: "There's a better way for you to ask for a decision review",
-          uiSchema: nodBAHandoffPage.uiSchema,
-          schema: nodBAHandoffPage.schema,
+          uiSchema: boardAppealPage.uiSchema,
+          schema: boardAppealPage.schema,
           pageClass: 'board-appeal',
           hideNavButtons: true,
         },
-        priorityProcessingIntroPage: {
+        aboutPriorityProcessingPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING,
           path: 'about-priority-processing',
           title: 'What to know before you request priority processing',
-          uiSchema: ppIntroPage.uiSchema,
-          schema: ppIntroPage.schema,
+          uiSchema: aboutPriorityProcessingPage.uiSchema,
+          schema: aboutPriorityProcessingPage.schema,
           pageClass: 'about-priority-processing',
         },
-        priorityProcessingLivingSituationPage: {
+        housingRisksPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING,
           path: 'housing-risks',
           title:
             'Which of these statements best describes your living situation?',
-          uiSchema: ppLivingSituationPage.uiSchema,
-          schema: ppLivingSituationPage.schema,
+          uiSchema: housingRisksPage.uiSchema,
+          schema: housingRisksPage.schema,
           pageClass: 'housing-risks',
         },
-        priorityProcessingOtherHousingRiskPage: {
+        otherHousingRisksPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
             formData.livingSituation.OTHER_RISK,
-          path: 'priority-processing-other-housing-risks',
+          path: 'other-housing-risk',
           title: 'Other housing risks',
-          uiSchema: ppOtherHousingRisksPage.uiSchema,
-          schema: ppOtherHousingRisksPage.schema,
-          pageClass: 'priority-processing-other-housing-risks',
+          uiSchema: otherHousingRisksPage.uiSchema,
+          schema: otherHousingRisksPage.schema,
+          pageClass: 'other-housing-risk',
         },
-        priorityProcessingOtherReasonsOptionalPage: {
+        hardshipsOptionalPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
             !formData.livingSituation.NONE,
           path: 'hardships',
           title: 'Other reasons for request',
-          uiSchema: ppOtherReasonsOptionalPage.uiSchema,
-          schema: ppOtherReasonsOptionalPage.schema,
+          uiSchema: hardshipsOptionalPage.uiSchema,
+          schema: hardshipsOptionalPage.schema,
           pageClass: 'hardships',
         },
-        priorityProcessingOtherReasonsRequiredPage: {
+        hardshipsRequiredPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
             formData.livingSituation.NONE,
-          path: 'priority-processing-other-reasons',
+          path: 'hardships',
           title: 'Other reasons for request',
-          uiSchema: ppOtherReasonsRequiredPage.uiSchema,
-          schema: ppOtherReasonsRequiredPage.schema,
-          pageClass: 'priority-processing-other-reasons',
+          uiSchema: hardshipsRequiredPage.uiSchema,
+          schema: hardshipsRequiredPage.schema,
+          pageClass: 'hardships',
         },
         priorityProcessingNotQualifiedPage: {
           depends: formData => isIneligibleForPriorityProcessing(formData),
           path: 'priority-processing-not-qualified',
           title: 'You may not qualify for priority processing',
-          uiSchema: ppNotQualifiedPage.uiSchema,
-          schema: ppNotQualifiedPage.schema,
+          uiSchema: priorityProcessingNotQualifiedPage.uiSchema,
+          schema: priorityProcessingNotQualifiedPage.schema,
           pageClass: 'priority-processing-not-qualified',
         },
-        priorityProcessingQualifiedHandoffPage: {
+        priorityProcessingRequestPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
             (!formData.livingSituation.NONE ||
               (formData.livingSituation.NONE && !formData.otherReasons?.NONE)),
           path: 'priority-processing-request',
           title: "There's a better way to request priority processing",
-          uiSchema: ppQualifiedHandoffPage.uiSchema,
-          schema: ppQualifiedHandoffPage.schema,
+          uiSchema: priorityProcessingRequestPage.uiSchema,
+          schema: priorityProcessingRequestPage.schema,
           pageClass: 'priority-processing-request',
           hideNavButtons: true,
         },
-        recordsRequestHandoffPage: {
+        personalRecordsRequestPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PERSONAL_RECORDS,
           path: 'personal-records-request',
           title: "There's a better way to request your personal records",
-          uiSchema: recordsRequestHandoffPage.uiSchema,
-          schema: recordsRequestHandoffPage.schema,
+          uiSchema: personalRecordsRequestPage.uiSchema,
+          schema: personalRecordsRequestPage.schema,
           pageClass: 'personal-records-request',
           hideNavButtons: true,
         },
-        newEvidenceHandoffPage: {
+        claimStatusToolPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.NEW_EVIDENCE,
           path: 'claim-status-tool',
           title: "There's a better way to submit new evidence",
-          uiSchema: newEvidenceHandoffPage.uiSchema,
-          schema: newEvidenceHandoffPage.schema,
+          uiSchema: claimStatusToolPage.uiSchema,
+          schema: claimStatusToolPage.schema,
           pageClass: 'claim-status-tool',
           hideNavButtons: true,
         },
@@ -277,12 +277,12 @@ const formConfig = {
       title: 'Your personal information',
       hideFormTitle: true,
       pages: {
-        nameAndDateOfBirthPage: {
+        personalInformationPage: {
           depends: formData => isEligibleToSubmitStatement(formData),
           path: 'personal-information',
           title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirthPage.uiSchema,
-          schema: nameAndDateOfBirthPage.schema,
+          uiSchema: personalInformationPage.uiSchema,
+          schema: personalInformationPage.schema,
           pageClass: 'personal-information',
         },
       },
@@ -319,12 +319,12 @@ const formConfig = {
       title: 'Your contact information',
       hideFormTitle: true,
       pages: {
-        phoneAndEmailPage: {
+        contactInformationPage: {
           depends: formData => isEligibleToSubmitStatement(formData),
           path: 'contact-information',
           title: 'Phone and email address',
-          uiSchema: phoneAndEmailPage.uiSchema,
-          schema: phoneAndEmailPage.schema,
+          uiSchema: contactInformationPage.uiSchema,
+          schema: contactInformationPage.schema,
           pageClass: 'contact-information',
         },
       },
