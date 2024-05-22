@@ -8,7 +8,7 @@ import environment from 'platform/utilities/environment';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
-import LearnMoreLabel from '../components/LearnMoreLabel';
+
 import {
   isProductionOrTestProdEnv,
   getStateNameForCode,
@@ -30,7 +30,6 @@ import ClearFiltersBtn from '../components/ClearFiltersBtn';
 // import Loader from '../components/Loader';
 
 export function FilterYourResults({
-  dispatchShowModal,
   dispatchFilterChange,
   dispatchError,
   filters,
@@ -196,15 +195,7 @@ export function FilterYourResults({
       {
         name: 'excludeCautionFlags',
         checked: excludeCautionFlags,
-        optionLabel: isProductionOrTestProdEnv() ? (
-          <LearnMoreLabel
-            text="Has no cautionary warnings"
-            onClick={() => {
-              dispatchShowModal('cautionaryWarnings');
-            }}
-            ariaLabel="Learn more about VA education and training programs"
-          />
-        ) : (
+        optionLabel: (
           <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
             Has no cautionary warnings
           </label>
@@ -213,16 +204,7 @@ export function FilterYourResults({
       {
         name: 'accredited',
         checked: accredited,
-        optionLabel: isProductionOrTestProdEnv() ? (
-          <LearnMoreLabel
-            text="Is accredited"
-            onClick={() => {
-              dispatchShowModal('accredited');
-            }}
-            buttonId="accredited-button"
-            ariaLabel="Learn more about VA education and training programs"
-          />
-        ) : (
+        optionLabel: (
           <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
             Is accredited
           </label>

@@ -11,7 +11,7 @@ import mockProfileEmail from './fixtures/mocks/profile-email.json';
 import mockProfileAddress from './fixtures/mocks/profile-address.json';
 import mockProfileAddressValidation from './fixtures/mocks/profile-address-validation.json';
 
-export default function cypressSetup() {
+export default function cypressSetup({ user = mockUser } = {}) {
   Cypress.config({ scrollBehavior: 'nearest' });
 
   cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
@@ -33,5 +33,5 @@ export default function cypressSetup() {
     mockProfileAddressValidation,
   ).as('getAddressValidation');
 
-  cy.login(mockUser);
+  cy.login(user);
 }

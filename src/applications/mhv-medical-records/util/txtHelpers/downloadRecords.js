@@ -4,7 +4,7 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 
 import { loincCodes } from '../constants';
-
+// TODO: figure out a way to reduce complexity of the functions in this file
 /**
  * Helper function to parse consolidated downloads data for txt files.
  *
@@ -107,9 +107,7 @@ ${
   ${'result' in result ? `Result: ${result.result}` : ''}                      
   ${'standardRange' in result ? `Standard range: ${result.standardRange}` : ''}
   ${'status' in result ? `Staus: ${result.status}` : ''}
-  ${
-    'interpretation' in result ? `Interpretation: ${result.interpretation}` : ''
-  }`,
+  ${'labComments' in result ? `Lab comments: ${result.labComments}` : ''}`,
                             )
                             .join('')}\n`
                         : `${record.results}\n`

@@ -35,7 +35,7 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
     expect(breadcrumbs.at(0).text()).to.equal('Home');
     expect(breadcrumbs.at(1).text()).to.equal('Education and training');
     expect(breadcrumbs.at(2).text()).to.equal(
-      'Montgomery GI Bill® enrollment verification',
+      'Montgomery GI Bill enrollment verification',
     );
     expect(breadcrumbs.at(3).text()).to.equal('Your benefits profile');
 

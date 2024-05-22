@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   VaBreadcrumbs,
@@ -7,50 +7,36 @@ import {
   VaSegmentedProgressBar,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { submitToSimpleForms } from '../actions';
-
-export const handleRouteChange = ({ detail }, history) => {
-  const { href } = detail;
-  history.push(href);
-};
+import { useDispatch } from 'react-redux';
+import {
+  getBreadcrumbList,
+  getFormNumber,
+  getFormUploadContent,
+  handleRouteChange,
+  uploadScannedForm,
+} from '../helpers';
 
 const UploadPage = () => {
-  const location = useLocation();
-  const path = location.pathname;
-  const regex = /\/(\d{2}-\d{4})/;
-  const formNumber = path.match(regex)[1];
   const history = useHistory();
   const dispatch = useDispatch();
-  const confirmationCode = useSelector(
-    state => state?.formUpload?.uploads?.confirmationCode,
-  );
+  const [file, setFile] = useState({});
 
-  const breadcrumbList = [
-    { href: '/', label: 'VA.gov home' },
-    {
-      href: `/find-forms/about-form-${formNumber}`,
-      label: `About VA Form ${formNumber}`,
-      isRouterLink: true,
-    },
-    {
-      href: `/form-upload/${formNumber}`,
-      label: `Upload VA Form ${formNumber}`,
-      isRouterLink: true,
-    },
-  ];
+  const location = useLocation();
+  const formNumber = getFormNumber(location);
+  const formUploadContent = getFormUploadContent(formNumber);
+  const breadcrumbList = getBreadcrumbList(formNumber);
 
-  let formUploadContent = '';
-  if (formNumber === '21-0779') {
-    formUploadContent =
-      'Request for Nursing Home Information in Connection with Claim for Aid and Attendance';
-  }
+  const onClickContinue = () => history.push(`/${formNumber}/review`, { file });
+  const onRouteChange = ({ detail }) => handleRouteChange({ detail }, history);
+  const onFileUploaded = uploadedFile => setFile(uploadedFile);
+  const onVaChange = e =>
+    dispatch(uploadScannedForm(formNumber, e.detail.files[0], onFileUploaded));
 
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
       <VaBreadcrumbs
         breadcrumbList={breadcrumbList}
-        onRouteChange={({ detail }) => handleRouteChange({ detail }, history)}
+        onRouteChange={onRouteChange}
       />
       <h1>{`Upload VA Form ${formNumber}`}</h1>
       <p>{formUploadContent}</p>
@@ -80,9 +66,7 @@ const UploadPage = () => {
         hint={null}
         label={`Upload VA Form ${formNumber}`}
         name="form-upload-file-input"
-        onVaChange={e =>
-          dispatch(submitToSimpleForms(formNumber, e.detail.files[0]))
-        }
+        onVaChange={onVaChange}
         uswds
       />
       <span>
@@ -90,11 +74,8 @@ const UploadPage = () => {
         <VaButton
           primary
           text="Continue >>"
-          onClick={() =>
-            history.push(`/${formNumber}/review`, {
-              state: { confirmationCode },
-            })
-          }
+          onClick={onClickContinue}
+          data-testid="continue-button"
         />
       </span>
       <div className="need-help-footer">

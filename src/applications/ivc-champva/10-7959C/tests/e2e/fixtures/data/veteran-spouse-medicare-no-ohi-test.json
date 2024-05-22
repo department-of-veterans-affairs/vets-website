@@ -1,0 +1,69 @@
+{
+  "data": {
+    "applicantHasSecondary": false,
+    "applicantHasPrimary": false,
+    "applicantMedicarePartDCarrier": "Medicare D carrier name",
+    "applicantMedicarePartDEffectiveDate": "2001-05-01",
+    "applicantMedicareStatusD": true,
+    "applicantMedicareAdvantage": true,
+    "applicantMedicarePharmacyBenefits": true,
+    "applicantMedicarePartBCarrier": "Medicare B carrier name",
+    "applicantMedicarePartBEffectiveDate": "2000-06-03",
+    "applicantMedicarePartACarrier": "Medicare A Carrier",
+    "applicantMedicarePartAEffectiveDate": "2001-02-02",
+    "applicantMedicareStatus": true,
+    "applicantPhone": "5551231234",
+    "applicantEmailAddress": "spouse@email.gov",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "441 Lane Street",
+      "city": "Anyburg",
+      "state": "FM",
+      "postalCode": "12312"
+    },
+    "applicantSsn": "444121234",
+    "applicantName": {
+      "first": "Spouse",
+      "middle": "Terry",
+      "last": "Jones"
+    },
+    "applicantDOB": "1950-05-02",
+    "certifierRelationship": {
+      "relationshipToApplicants": "spouse"
+    },
+    "certifierPhone": "1231231234",
+    "certifierEmail": "veteran@email.edu",
+    "certifierAddress": {
+      "country": "USA",
+      "street": "771 Road Lane",
+      "city": "Citypolis",
+      "state": "AK",
+      "postalCode": "12312"
+    },
+    "certifierName": {
+      "first": "Veteran",
+      "middle": "Quincy",
+      "last": "Jones",
+      "suffix": "Jr."
+    },
+    "certifierRole": "sponsor",
+    "preparerType": "sponsor",
+    "missingUploads": [
+      {
+        "name": "applicantMedicarePartAPartBCard",
+        "path": "medicare-ab-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "applicantMedicarePartDCard",
+        "path": "medicare-d-upload",
+        "required": true,
+        "uploaded": false
+      }
+    ],
+    "consentToMailMissingRequiredFiles": true,
+    "statementOfTruthSignature": "Veteran Quincy Jones",
+    "statementOfTruthCertified": true
+  }
+}
