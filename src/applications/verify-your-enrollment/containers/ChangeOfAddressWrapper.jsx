@@ -138,7 +138,15 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     },
     [dispatch, error, response, validationError],
   );
-
+  // This Effect to check if there error from API don't update veteranName
+  useEffect(
+    () => {
+      if (error || validationError) {
+        setVeteranName(applicantName);
+      }
+    },
+    [applicantName, error, validationError],
+  );
   useEffect(
     () => {
       dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
