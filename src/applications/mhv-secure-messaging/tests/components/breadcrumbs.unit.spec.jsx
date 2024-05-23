@@ -22,10 +22,9 @@ describe('Breadcrumbs', () => {
       reducers: reducer,
       path: `/`,
     });
-    expect(screen.getByTestId('sm-breadcrumb')).to.have.attribute(
-      'sm-crumb-label',
-      'My HealtheVet',
-    );
+    const breadcrumb = await screen.getByTestId('sm-breadcrumb');
+    screen.debug();
+    expect(breadcrumb).to.have.attribute('sm-crumb-label', 'My HealtheVet');
   });
 
   it('finds parent breadcrumb that displays the label "Back to messages"', async () => {
