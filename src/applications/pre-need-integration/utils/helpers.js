@@ -28,6 +28,8 @@ import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
+import highestRankAutoSuggest from '../components/HighestRankAutoSuggest';
+import serviceBranchAutoSuggest from '../components/ServiceBranchAutoSuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -891,7 +893,6 @@ export const veteranUI = {
       },
     },
   },
-
   militaryStatus: {
     'ui:title': 'Current military status',
     'ui:webComponentField': VaSelectField,
@@ -1055,11 +1056,10 @@ export const selfServiceRecordsUI = {
     'ui:options': {
       itemName: 'Service Period',
     },
-    serviceBranch: autosuggest.uiSchema('Branch of service', null, {
-      'ui:options': {
-        labels: serviceLabels,
-      },
-    }),
+    serviceBranch: {
+      'ui:title': 'Branch of service',
+      'ui:field': serviceBranchAutoSuggest,
+    },
     dateRange: dateRangeUI(
       'Service start date',
       'Service end date',
@@ -1082,6 +1082,7 @@ export const selfServiceRecordsUI = {
     },
     highestRank: {
       'ui:title': 'Highest rank attained',
+      'ui:field': highestRankAutoSuggest,
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
