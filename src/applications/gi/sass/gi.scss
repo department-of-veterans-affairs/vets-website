@@ -30,9 +30,11 @@
       background: var(--vads-color-primary-alt-lightest);
     }
 
-    i.fa {
+    va-icon {
       padding-right: 0.4em;
+      vertical-align: sub;
     }
+
   }
   .about-this-tool {
     margin-top: 1em;
