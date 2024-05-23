@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -37,7 +37,7 @@ const VerificationReviewWrapper = ({
   // dispatchupdateToggleEnrollmentCard,
 }) => {
   useScrollToTop();
-
+  const location = useLocation();
   const [radioValue, setRadioValue] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
   const { loading, personalInfo, isUserLoggedIn } = useData();
@@ -99,6 +99,17 @@ const VerificationReviewWrapper = ({
       }
     },
     [errorStatement],
+  );
+  // This Effect to check path to add class for bloding Label
+  useEffect(
+    () => {
+      if (location.pathname.includes('verification-review')) {
+        document.body.classList.add('verification-review-path');
+      } else {
+        document.body.classList.remove('verification-review-path');
+      }
+    },
+    [location.pathname],
   );
 
   return (

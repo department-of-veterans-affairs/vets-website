@@ -178,7 +178,7 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
             )}
             <div>
               <p>
-                <span className="vads-u-font-weight--bold">Note: </span> Note:
+                <span className="vads-u-font-weight--bold">Note: </span>
                 Any updates you make here will affect your Montgomery GI Bill
                 benefits only.{' '}
               </p>

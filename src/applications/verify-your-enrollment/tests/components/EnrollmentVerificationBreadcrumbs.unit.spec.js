@@ -23,7 +23,7 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
 
     // Check if the breadcrumbs are rendered
     const breadcrumbs = wrapper.find('va-breadcrumbs').children();
-    expect(breadcrumbs.length).to.equal(4); // Expect 4 breadcrumb links when on BENEFITS_PROFILE_URL_SEGMENT
+    expect(breadcrumbs.length).to.equal(5); // Expect 4 breadcrumb links when on BENEFITS_PROFILE_URL_SEGMENT
 
     // Check for specific breadcrumb links
     expect(breadcrumbs.at(0).props().href).to.equal('/');
