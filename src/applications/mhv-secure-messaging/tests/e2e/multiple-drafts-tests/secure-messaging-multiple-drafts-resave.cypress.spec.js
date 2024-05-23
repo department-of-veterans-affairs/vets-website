@@ -6,7 +6,6 @@ import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-resp
 
 describe('re-save multiple drafts in one thread', () => {
   const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
 
   const updateDates = data => {
@@ -40,7 +39,7 @@ describe('re-save multiple drafts in one thread', () => {
 
   beforeEach(() => {
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     draftPage.loadMultiDraftThread(updatedMultiDraftResponse);
   });
 
@@ -69,6 +68,6 @@ describe('re-save multiple drafts in one thread', () => {
     );
 
     draftPage.verifySavedMessageAlertText(Data.MESSAGE_WAS_SAVED);
-    landingPage.verifyNotForPrintHeaderText();
+    PatientInboxPage.verifyNotForPrintHeaderText();
   });
 });
