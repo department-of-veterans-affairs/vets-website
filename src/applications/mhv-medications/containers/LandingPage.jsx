@@ -16,7 +16,10 @@ import {
   defaultSelectedSortOption,
   DD_ACTIONS_PAGE_TYPE,
 } from '../util/constants';
-import { selectRefillContentFlag } from '../util/selectors';
+import {
+  selectRefillContentFlag,
+  selectCernerFacilityContentFlag,
+} from '../util/selectors';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
@@ -42,7 +45,7 @@ const LandingPage = () => {
     state => state.featureToggles,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
-
+  const showCernerFacilityAlert = useSelector(selectCernerFacilityContentFlag);
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
   const [isRxRenewAccordionOpen, setIsRxRenewAccordionOpen] = useState(false);
@@ -114,11 +117,11 @@ const LandingPage = () => {
           {prescriptionsApiError ? (
             <section>
               <ApiErrorNotification />
-              <CernerFacilityAlert />
+              {showCernerFacilityAlert && <CernerFacilityAlert />}
             </section>
           ) : (
             <>
-              <CernerFacilityAlert />
+              {showCernerFacilityAlert && <CernerFacilityAlert />}
               {paginatedPrescriptionsList?.length ? (
                 <section>
                   <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">

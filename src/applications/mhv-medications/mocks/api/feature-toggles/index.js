@@ -4,6 +4,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvLandingPagePersonalization = true,
     mhvMedicationsToVaGovRelease = true,
     mhvMedicationsDisplayRefillContent = true,
+    mhvMedicationsCernerFacilityContent = true,
   } = toggles;
 
   return {
@@ -25,6 +26,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_refill_content',
           value: mhvMedicationsDisplayRefillContent,
+        },
+        {
+          name: 'mhv_medications_cerner_facility_content',
+          value: mhvMedicationsCernerFacilityContent,
         },
       ],
     },
