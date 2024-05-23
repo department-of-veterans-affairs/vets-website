@@ -30,7 +30,13 @@ export const uiSchema = {
   'ui:validations': [
     {
       validator: (errors, formData) => {
-        validateSelections(errors, formData, 'otherExposures', 'hazards');
+        validateSelections(
+          errors,
+          formData,
+          'otherExposures',
+          'specifyOtherExposures',
+          'hazards',
+        );
       },
     },
   ],
