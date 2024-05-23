@@ -140,9 +140,6 @@ const routes = (
     <AppRoute exact path="/download-all" key="DownloadRecords">
       <DownloadRecordsPage />
     </AppRoute>
-    {/* <AppRoute exact path="/settings" key="Settings">
-      <SettingsPage />
-    </AppRoute> */}
     <Route>
       <PageNotFound />
     </Route>
