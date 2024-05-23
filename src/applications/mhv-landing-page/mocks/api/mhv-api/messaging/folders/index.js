@@ -5,11 +5,11 @@ const allFoldersWithUnreadMessages = {
       id: '0',
       type: 'folders',
       attributes: {
-        folderId: 0,
+        folder_id: 0,
         name: 'Inbox',
         count: 260,
-        unreadCount: 22,
-        systemFolder: true,
+        unread_count: 22,
+        system_folder: true,
       },
       links: {
         self: 'https://staging-api.va.gov/my_health/v1/messaging/folders/0',
@@ -19,11 +19,11 @@ const allFoldersWithUnreadMessages = {
       id: '1',
       type: 'folders',
       attributes: {
-        folderId: 0,
+        folder_id: 0,
         name: 'Favorites',
         count: 55,
-        unreadCount: 7,
-        systemFolder: false,
+        unread_count: 7,
+        system_folder: false,
       },
       links: {
         self: 'https://staging-api.va.gov/my_health/v1/messaging/folders/1',
@@ -42,10 +42,10 @@ const allFoldersWithUnreadMessages = {
   },
   meta: {
     pagination: {
-      currentPage: 1,
-      perPage: 100,
-      totalPages: 1,
-      totalEntries: 14,
+      current_page: 1,
+      per_page: 100,
+      total_pages: 1,
+      total_entries: 14,
     },
   },
 };
@@ -55,11 +55,11 @@ const oneFolderWithUnreadMessages = {
     id: '0',
     type: 'folders',
     attributes: {
-      folderId: 0,
+      folder_id: 0,
       name: 'Inbox',
       count: 260,
-      unreadCount: 68,
-      systemFolder: true,
+      unread_count: 68,
+      system_folder: true,
     },
     links: {
       self: 'https://staging-api.va.gov/my_health/v1/messaging/folders/0',
@@ -72,11 +72,11 @@ const oneFolderWithNoUnreadMessages = {
     id: '0',
     type: 'folders',
     attributes: {
-      folderId: 0,
+      folder_id: 0,
       name: 'Inbox',
       count: 260,
-      unreadCount: 0,
-      systemFolder: true,
+      unread_count: 0,
+      system_folder: true,
     },
     links: {
       self: 'https://staging-api.va.gov/my_health/v1/messaging/folders/0',

@@ -17,21 +17,16 @@ describe(appName, () => {
         ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       });
 
-      it(`Shows unverified identity message for patients with loa1 on ${size} screen`, () => {
+      it(`Shows unverified identity message for unverified patients on ${size} screen`, () => {
         cy.viewportPreset(size);
         const pageLinks = resolveLandingPageLinks(
           false,
           [],
-          0,
           'arialLabel',
           true,
         );
 
-        // User has facilities, but identity is not verified
-        LandingPage.visitPage({
-          facilities: [{ facilityId: '123', isCerner: false }],
-          loa: 1,
-        });
+        LandingPage.visitPage({ unverified: true });
         LandingPage.validatePageLoaded();
         LandingPage.validateURL();
         cy.injectAxeThenAxeCheck();
@@ -56,20 +51,16 @@ describe(appName, () => {
           .exist;
       });
 
-      it(`landing page is enabled for patients with facilities and loa 3 on ${size} screen`, () => {
+      it(`landing page is enabled for registered and verified patients on ${size} screen`, () => {
         cy.viewportPreset(size);
         const pageLinks = resolveLandingPageLinks(
           false,
           [],
-          0,
           'arialLabel',
           true,
         );
 
-        LandingPage.visitPage({
-          facilities: [{ facilityId: '123', isCerner: false }],
-          loa: 3,
-        });
+        LandingPage.visitPage();
         LandingPage.validatePageLoaded();
         LandingPage.validateURL();
         cy.injectAxeThenAxeCheck();

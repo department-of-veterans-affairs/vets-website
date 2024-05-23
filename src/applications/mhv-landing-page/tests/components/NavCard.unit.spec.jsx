@@ -15,7 +15,6 @@ describe('unread message indicator', () => {
     const { cards } = resolveLandingPageLinks(
       undefined,
       { featureToggles: {} },
-      unreadMessageCount,
       unreadMessageAriaLabel,
     );
 

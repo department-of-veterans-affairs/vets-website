@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 const defaultUser = {
   data: {
+    id: '',
+    type: 'user_scaffolds',
     attributes: {
       profile: {
         sign_in: {
@@ -57,7 +59,8 @@ const defaultUser = {
             is_cerner: false,
           },
         ],
-        mhvAccountState: 'OK',
+        va_patient: true,
+        mhv_account_state: 'OK',
       },
     },
   },
@@ -119,7 +122,7 @@ const cernerUser = {
             is_cerner: true,
           },
         ],
-        mhvAccountState: 'OK',
+        mhv_account_state: 'OK',
       },
     },
   },
@@ -143,7 +146,7 @@ const generateUserWithFacilities = ({
         },
         va_profile: {
           ...defaultUser.data.attributes.va_profile,
-          mhvAccountState: 'OK',
+          mhv_account_state: 'OK',
         },
       },
     },
@@ -165,7 +168,7 @@ const generateUserWithServiceProvider = ({ serviceProvider = 'idme' }) => {
         },
         va_profile: {
           ...defaultUser.data.attributes.va_profile,
-          mhvAccountState: 'OK',
+          mhv_account_state: 'OK',
         },
       },
     },
@@ -183,7 +186,7 @@ const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
           ...defaultUser.data.attributes.va_profile,
           facilities:
             facilities || defaultUser.data.attributes.va_profile.facilities,
-          mhvAccountState: 'OK',
+          mhv_account_state: 'OK',
         },
         profile: {
           ...defaultUser.data.attributes.profile,
@@ -210,7 +213,7 @@ const hasMHVAccount = {
       },
       va_profile: {
         ...defaultUser.data.attributes.va_profile,
-        mhvAccountState: 'OK',
+        mhv_account_state: 'OK',
       },
     },
   },
@@ -227,7 +230,7 @@ const noMHVAccount = {
       },
       va_profile: {
         ...defaultUser.data.attributes.va_profile,
-        mhvAccountState: 'NONE',
+        mhv_account_state: 'NONE',
       },
     },
   },
@@ -245,7 +248,7 @@ const generateUserWithMHVAccountState = ({ mhvAccountState = 'OK' }) => {
         },
         va_profile: {
           ...defaultUser.data.attributes.va_profile,
-          mhvAccountState,
+          mhv_account_state: mhvAccountState,
         },
       },
     },

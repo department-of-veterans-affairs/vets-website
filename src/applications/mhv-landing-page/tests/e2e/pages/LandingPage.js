@@ -1,4 +1,7 @@
-import { generateUser } from '../../../mocks/api/user';
+import unverifiedUser from '../../fixtures/user.loa1.json';
+import unregisteredUser from '../../fixtures/user.unregistered.json';
+import user from '../../fixtures/user.json';
+import userData from '../../../mocks/api/user';
 
 class LandingPage {
   constructor() {
@@ -10,8 +13,20 @@ class LandingPage {
 
   validateURL = () => cy.url().should('match', /my-health/);
 
-  visitPage = ({ serviceProvider = 'idme', facilities, loa = 3 } = {}) => {
-    cy.login(generateUser({ serviceProvider, facilities, loa }));
+  visitPage = ({
+    unverified = false,
+    unregistered = false,
+    mhvAccountState = false,
+  } = {}) => {
+    if (unverified) {
+      cy.login(unverifiedUser);
+    } else if (unregistered) {
+      cy.login(unregisteredUser);
+    } else if (mhvAccountState) {
+      cy.login(userData.generateUserWithMHVAccountState(mhvAccountState));
+    } else {
+      cy.login(user);
+    }
     cy.visit(this.pageUrl);
   };
 

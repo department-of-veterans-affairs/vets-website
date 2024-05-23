@@ -8,23 +8,22 @@ const viewportSizes = ['va-top-desktop-1', 'va-top-mobile-1'];
 const noHealthDataHeading = /You don’t have access to My HealtheVet/i;
 
 describe(appName, () => {
-  describe('Display content based on patient facilities', () => {
+  describe('Display content based on patient registration', () => {
     viewportSizes.forEach(size => {
       beforeEach(() => {
         ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       });
 
-      it(`No health info for patients with no facilities on ${size} screen`, () => {
+      it(`unregistered patient on ${size} screen`, () => {
         cy.viewportPreset(size);
         const pageLinks = resolveLandingPageLinks(
           false,
           [],
-          0,
           'arialLabel',
           false,
         );
 
-        LandingPage.visitPage({ facilities: [] });
+        LandingPage.visitPage({ unregistered: true });
         LandingPage.validatePageLoaded();
         LandingPage.validateURL();
         cy.injectAxeThenAxeCheck();
@@ -47,19 +46,16 @@ describe(appName, () => {
         cy.findByRole('heading', { name: /VA health benefits/i }).should.exist;
       });
 
-      it(`landing page is enabled for patients with facilities on ${size} screen`, () => {
+      it(`registered patient on ${size} screen`, () => {
         cy.viewportPreset(size);
         const pageLinks = resolveLandingPageLinks(
           false,
           [],
-          0,
           'arialLabel',
           true,
         );
 
-        LandingPage.visitPage({
-          facilities: [{ facilityId: '123', isCerner: false }],
-        });
+        LandingPage.visitPage();
         LandingPage.validatePageLoaded();
         LandingPage.validateURL();
         cy.injectAxeThenAxeCheck();

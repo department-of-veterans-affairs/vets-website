@@ -7,7 +7,6 @@ describe(manifest.appName, () => {
   describe('show indicator when there are unread messages', () => {
     beforeEach(() => {
       ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
-      ApiInitializer.initializeUserData.withDefaultUser();
     });
 
     const getUnreadLink = () =>
@@ -17,10 +16,9 @@ describe(manifest.appName, () => {
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('indicator is shown when there are unread messages and user has an MHV account', () => {
-      ApiInitializer.initializeUserData.withMHVAccountState('OK');
       ApiInitializer.initializeMessageData.withUnreadMessages();
 
-      LandingPage.visitPage();
+      LandingPage.visitPage({ mhvAccountState: 'OK' });
       LandingPage.validatePageLoaded();
 
       getUnreadLink().should('be.visible');
@@ -28,10 +26,9 @@ describe(manifest.appName, () => {
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('indicator is not shown when there are no unread messages and user does not have an MHV', () => {
-      ApiInitializer.initializeUserData.withMHVAccountState('NONE');
       ApiInitializer.initializeMessageData.withNoUnreadMessages();
 
-      LandingPage.visitPage();
+      LandingPage.visitPage({ mhvAccountState: 'NONE' });
       LandingPage.validatePageLoaded();
 
       getUnreadLink().should('not.exist');

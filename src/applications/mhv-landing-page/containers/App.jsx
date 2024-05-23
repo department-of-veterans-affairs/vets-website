@@ -38,18 +38,11 @@ const App = () => {
       return resolveLandingPageLinks(
         ssoe,
         featureToggles,
-        unreadMessageCount,
         unreadMessageAriaLabel,
         registered,
       );
     },
-    [
-      featureToggles,
-      ssoe,
-      unreadMessageCount,
-      unreadMessageAriaLabel,
-      registered,
-    ],
+    [featureToggles, ssoe, unreadMessageAriaLabel, registered],
   );
 
   const datadogRumConfig = {
