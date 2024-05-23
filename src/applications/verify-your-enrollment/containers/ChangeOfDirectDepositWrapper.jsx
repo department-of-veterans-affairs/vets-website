@@ -176,26 +176,18 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
                 message="We’ve updated your direct deposit information for Montgomery GI Bill benefits."
               />
             )}
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="info"
-              visible
-              background-only
-              class="vads-u-margin-y--2"
-            >
-              <p className="vye-alert-absolute-title-position">
-                This direct deposit information is only used for payments for
-                Montgomery GI Bill® Benefits.
-              </p>
+            <div>
               <p>
-                To change your direct deposit information for other VA services,
-                edit your{' '}
-                <a href="https://www.va.gov/profile/personal-information">
-                  VA Profile.
-                </a>
+                <span className="vads-u-font-weight--bold">Note: </span>
+                Any updates you make here will affect your Montgomery GI Bill
+                benefits only.{' '}
               </p>
-            </va-alert>
-            {bankInfoHelpText}
+              <va-link
+                href="/change-direct-deposit/"
+                text="Learn how to update your direct deposit account for other VA benefits"
+              />
+              <div className="vads-u-margin-top--3">{bankInfoHelpText}</div>
+            </div>
           </>
         )}
         {toggleDirectDepositForm && (
