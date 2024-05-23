@@ -11,7 +11,7 @@ const verifyIdentityHeading =
   'Verify your identity to use your ID.me account on My HealtheVet';
 
 describe(appName, () => {
-  describe('Display content based on LOA', () => {
+  describe('Display content based on account verification', () => {
     viewportSizes.forEach(size => {
       beforeEach(() => {
         ApiInitializer.initializeFeatureToggle.withCurrentFeatures();

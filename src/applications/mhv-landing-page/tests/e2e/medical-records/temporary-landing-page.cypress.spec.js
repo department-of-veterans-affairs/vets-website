@@ -3,7 +3,7 @@ import { appName } from '../../../manifest.json';
 import user from '../../fixtures/user.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 
-describe(`${appName} -- transitional Medical Records page **enabled**`, () => {
+describe(`${appName} -- transitional Medical Records page enabled`, () => {
   beforeEach(() => {
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     cy.login(user);
@@ -21,7 +21,7 @@ describe(`${appName} -- transitional Medical Records page **enabled**`, () => {
   });
 });
 
-describe(`${appName} -- transitional Medical Records page **disabled**`, () => {
+describe(`${appName} -- transitional Medical Records page disabled`, () => {
   beforeEach(() => {
     ApiInitializer.initializeFeatureToggle.withAllFeaturesDisabled();
     cy.login(user);

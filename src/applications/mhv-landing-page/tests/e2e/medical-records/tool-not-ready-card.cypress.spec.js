@@ -5,7 +5,7 @@ import { HEALTH_TOOL_HEADINGS } from '../../../constants';
 
 const heading = HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS;
 
-describe(`${appName} -- transitional Medical records card **enabled**`, () => {
+describe(`${appName} -- transitional Medical records card enabled`, () => {
   beforeEach(() => {
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     cy.login(user);
@@ -24,7 +24,7 @@ describe(`${appName} -- transitional Medical records card **enabled**`, () => {
   });
 });
 
-describe(`${appName} -- transitional Medical Records card **disabled**`, () => {
+describe(`${appName} -- transitional Medical Records card disabled`, () => {
   beforeEach(() => {
     ApiInitializer.initializeFeatureToggle.withAllFeaturesDisabled();
     cy.login(user);
