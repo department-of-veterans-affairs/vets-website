@@ -9,14 +9,6 @@ import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
 
 import {
-  certifierRole,
-  certifierAddress,
-  certifierPhoneEmail,
-  certifierRelationship,
-  certifierNameSchema,
-} from '../chapters/certifierInformation';
-
-import {
   applicantNameDobSchema,
   applicantSsnSchema,
   applicantAddressInfoSchema,
@@ -76,9 +68,7 @@ const formConfig = {
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: formData =>
-        formData.certifierRole === 'applicant'
-          ? 'applicantName'
-          : 'certifierName',
+        formData?.certifierRole ? 'certifierName' : 'applicantName',
     },
   },
   saveInProgress: {
@@ -104,51 +94,12 @@ const formConfig = {
   title: '10-7959C CHAMPVA Other Health Insurance Certification form',
   defaultDefinitions: {},
   chapters: {
-    certifierInformation: {
-      title: 'Signer information',
-      pages: {
-        role: {
-          path: 'signer-type',
-          title: 'Which of these best describes you?',
-          // initialData: mockdata.data,
-          uiSchema: certifierRole.uiSchema,
-          schema: certifierRole.schema,
-        },
-        name: {
-          path: 'signer-info',
-          title: 'Your name',
-          depends: formData => get('certifierRole', formData) !== 'applicant',
-          ...certifierNameSchema,
-        },
-        address: {
-          path: 'signer-mailing-address',
-          title: 'Your mailing address',
-          depends: formData => get('certifierRole', formData) !== 'applicant',
-          ...certifierAddress,
-        },
-        phoneEmail: {
-          path: 'signer-contact-info',
-          title: 'Your phone number',
-          depends: formData => get('certifierRole', formData) !== 'applicant',
-          ...certifierPhoneEmail,
-        },
-        relationship: {
-          path: 'signer-relationship',
-          title: 'Your relationship to the applicant',
-          depends: formData => get('certifierRole', formData) !== 'applicant',
-          ...certifierRelationship,
-        },
-      },
-    },
     applicantInformation: {
       title: 'Applicant information',
       pages: {
         applicantNameDob: {
           path: 'applicant-info',
-          title: formData =>
-            `${
-              formData.certifierRole === 'applicant' ? 'Your' : 'Applicant'
-            } name and date of birth`,
+          title: 'Applicant name and date of birth',
           ...applicantNameDobSchema,
         },
         applicantIdentity: {
