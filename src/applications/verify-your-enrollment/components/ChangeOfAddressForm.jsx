@@ -33,7 +33,9 @@ const ChangeOfAddressForm = ({
     // return new schema with updated fields
     return tempSchemaWithRequiredFields;
   };
-
+  const livesOnMilitaryBaseInfo = {
+    title: 'view:livesOnMilitaryBaseInfo',
+  };
   const countryCode = {
     title: 'countryCodeIso3',
     addressSchema: {
@@ -197,7 +199,7 @@ const ChangeOfAddressForm = ({
               setAddressSchema(
                 removeObjectKeys(
                   createFormSchema(addressFormRequiredData),
-                  [province.title, ipc.title],
+                  [province.title, ipc.title, livesOnMilitaryBaseInfo.title],
                   'schema',
                 ),
               );
@@ -215,7 +217,7 @@ const ChangeOfAddressForm = ({
               setAddressUISchema(
                 removeObjectKeys(
                   addNewCityUI,
-                  [province.title, ipc.title],
+                  [province.title, ipc.title, livesOnMilitaryBaseInfo.title],
                   'uiSchema',
                 ),
               );
@@ -234,7 +236,7 @@ const ChangeOfAddressForm = ({
               setAddressSchema(
                 removeObjectKeys(
                   createFormSchema(tempAddressRequiredData),
-                  [ZC.title, stateCode.title],
+                  [ZC.title, stateCode.title, livesOnMilitaryBaseInfo.title],
                   'schema',
                 ),
               );
@@ -252,7 +254,7 @@ const ChangeOfAddressForm = ({
               setAddressUISchema(
                 removeObjectKeys(
                   addNewCityUI,
-                  [ZC.title, stateCode.title],
+                  [ZC.title, stateCode.title, livesOnMilitaryBaseInfo.title],
                   'uiSchema',
                 ),
               );
