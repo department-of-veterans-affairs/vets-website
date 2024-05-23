@@ -23,6 +23,7 @@ const FormStartControls = props => {
     migrations,
     startPage,
     gaStartEventName,
+    carryoverAvailable,
     prefillAvailable,
     prefillTransformer,
     ariaLabel = null,
@@ -56,6 +57,8 @@ const FormStartControls = props => {
         true,
         prefillTransformer,
       );
+    } else if (carryoverAvailable) {
+      props.fetchCarryoverForm();
     } else {
       goToBeginning();
     }
@@ -162,6 +165,8 @@ const FormStartControls = props => {
 };
 
 FormStartControls.propTypes = {
+  carryoverAvailable: PropTypes.bool.isRequired,
+  fetchCarryoverForm: PropTypes.func.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   formId: PropTypes.string.isRequired,
   formSaved: PropTypes.bool.isRequired,

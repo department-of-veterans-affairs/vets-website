@@ -18,7 +18,11 @@ import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
 import DowntimeNotification, {
   externalServiceStatus,
 } from '~/platform/monitoring/DowntimeNotification';
-import { fetchInProgressForm, removeInProgressForm } from './actions';
+import {
+  fetchCarryoverForm,
+  fetchInProgressForm,
+  removeInProgressForm,
+} from './actions';
 import FormStartControls from './FormStartControls';
 import { getIntroState } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
@@ -34,6 +38,9 @@ class SaveInProgressIntro extends React.Component {
     const startPage = this.getStartPage();
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(this.props.formId)
+    );
+    const carryoverAvailable = !!(
+      profile && profile.carryoversAvailable.includes(this.props.formId)
     );
     const isExpired = savedForm
       ? isBefore(fromUnixTime(savedForm.metadata.expiresAt), new Date())
@@ -51,12 +58,14 @@ class SaveInProgressIntro extends React.Component {
         prefillTransformer={this.props.prefillTransformer}
         fetchInProgressForm={this.props.fetchInProgressForm}
         removeInProgressForm={this.props.removeInProgressForm}
+        carryoverAvailable={carryoverAvailable}
         prefillAvailable={prefillAvailable}
         formSaved={!!savedForm}
         gaStartEventName={this.props.gaStartEventName}
         ariaLabel={this.props.ariaLabel}
         ariaDescribedby={this.props.ariaDescribedby}
         customStartLink={this.props.customLink}
+        carryOverFormId={this.props.formConfig.carryOverFormId}
       />
     );
   };
@@ -437,6 +446,7 @@ class SaveInProgressIntro extends React.Component {
 }
 
 SaveInProgressIntro.propTypes = {
+  fetchCarryoverForm: PropTypes.func.isRequired,
   fetchInProgressForm: PropTypes.func.isRequired,
   formId: PropTypes.string.isRequired,
   pageList: PropTypes.array.isRequired,
@@ -456,6 +466,7 @@ SaveInProgressIntro.propTypes = {
   displayNonVeteranMessaging: PropTypes.bool,
   downtime: PropTypes.object,
   formConfig: PropTypes.shape({
+    carryOverFormId: PropTypes.string,
     signInHelpList: PropTypes.func,
     customText: PropTypes.shape({
       appType: PropTypes.string,
@@ -510,6 +521,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  fetchCarryoverForm,
   fetchInProgressForm,
   removeInProgressForm,
   toggleLoginModal,

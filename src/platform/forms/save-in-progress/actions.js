@@ -299,6 +299,104 @@ export function saveAndRedirectToReturnUrl(...args) {
   return saveForm(saveTypes.SAVE_AND_REDIRECT, ...args);
 }
 
+const formIsInvalid = resBody => {
+  // Return not-found if empty object
+  if (
+    typeof resBody === 'object' &&
+    Object.keys(resBody).length < 1 &&
+    !Array.isArray(resBody)
+  ) {
+    return LOAD_STATUSES.notFound;
+  }
+  // Return invalid-data if api doesn't return JSON
+  if ((typeof resBody === 'object' && Array.isArray(resBody)) || !resBody) {
+    return LOAD_STATUSES.invalidData;
+  }
+  return null;
+};
+
+/**
+ * Loads the form data from the back end into the redux store.
+ *
+ * @param  {Integer} formId      The form’s identifier
+ */
+export function fetchCarryoverForm(formId) {
+  // TODO: Migrations currently aren’t sent; they’re taken from `form` in the
+  //  redux store, but form.migrations doesn’t exist (nor should it, really)
+  return (dispatch, getState) => {
+    const { trackingPrefix } = getState().form;
+    const apiUrl = inProgressApi(formId);
+
+    // Update UI while we’re waiting for the API
+    dispatch(setFetchFormPending(true));
+
+    // Query the api and return a promise (for navigation / error handling afterward)
+    return apiRequest(apiUrl, { method: 'GET' })
+      .then(resBody => {
+        const invalid = formIsInvalid(resBody);
+
+        if (invalid) {
+          return Promise.reject(invalid);
+        }
+
+        // If we’ve made it this far, we’ve got valid form
+        try {
+          const { formData, metadata } = resBody;
+          const { pages } = getState().form;
+
+          dispatch(setInProgressForm({ formData, metadata }, pages));
+
+          recordEvent({
+            event: `${trackingPrefix}sip-form-loaded`,
+          });
+
+          dispatch(setFetchFormStatus(LOAD_STATUSES.success));
+
+          return Promise.resolve();
+        } catch (e) {
+          // We don’t want to lose the stacktrace, but want to be able to search for migration errors
+          // related to SiP
+          Sentry.captureException(e);
+          Sentry.withScope(scope => {
+            scope.setExtra('metadata', resBody.metadata);
+            Sentry.captureMessage('vets_sip_error_migration');
+          });
+          return Promise.reject(LOAD_STATUSES.invalidData);
+        }
+      })
+      .catch(status => {
+        const loadedStatus = validateFetchInProgressFormsErrors(status);
+        // If carrying over went wrong for a non-auth reason, it probably means that
+        // they didn’t have info to use and we can continue on as usual
+        if (
+          loadedStatus !== LOAD_STATUSES.noAuth &&
+          loadedStatus !== LOAD_STATUSES.forbidden
+        ) {
+          dispatch(setPrefillComplete());
+          recordEvent({
+            event: `${trackingPrefix}sip-form-carryover-failed`,
+          });
+        } else {
+          // If we're in a noAuth status, users are sent to the error page
+          // where they can sign in again. This isn't an error, it's expected
+          // when a session expires
+          if (loadedStatus === LOAD_STATUSES.noAuth) {
+            recordEvent({
+              event: `${trackingPrefix}sip-form-load-signed-out`,
+            });
+            dispatch(logOut());
+          } else {
+            Sentry.captureMessage(`vets_sip_error_load: ${loadedStatus}`);
+            recordEvent({
+              event: `${trackingPrefix}sip-form-load-failed`,
+            });
+          }
+          dispatch(setFetchFormStatus(loadedStatus));
+        }
+      });
+  };
+}
+
 /**
  * Loads the form data from the back end into the redux store.
  *
@@ -326,20 +424,10 @@ export function fetchInProgressForm(
     // Query the api and return a promise (for navigation / error handling afterward)
     return apiRequest(apiUrl, { method: 'GET' })
       .then(resBody => {
-        // Return not-found if empty object
-        if (
-          typeof resBody === 'object' &&
-          Object.keys(resBody).length < 1 &&
-          !Array.isArray(resBody)
-        ) {
-          return Promise.reject(LOAD_STATUSES.notFound);
-        }
-        // Return invalid-data if api doesn't return JSON
-        if (
-          (typeof resBody === 'object' && Array.isArray(resBody)) ||
-          !resBody
-        ) {
-          return Promise.reject(LOAD_STATUSES.invalidData);
+        const invalid = formIsInvalid(resBody);
+
+        if (invalid) {
+          return Promise.reject(invalid);
         }
 
         // If we’ve made it this far, we’ve got valid form
