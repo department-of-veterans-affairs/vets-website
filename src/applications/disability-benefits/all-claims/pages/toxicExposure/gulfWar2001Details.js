@@ -103,7 +103,7 @@ function makeSchema(locationId) {
  */
 export function makePages() {
   const gulfWar2001DetailPagesList = Object.keys(GULF_WAR_2001_LOCATIONS)
-    .filter(locationId => locationId !== 'none')
+    .filter(locationId => locationId !== 'none' && locationId !== 'notsure')
     .map(locationId => {
       const pageName = `gulf-war-2001-location-${locationId}`;
 
