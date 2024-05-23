@@ -152,9 +152,6 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
 
   return (
     <IntroductionPageView
-      devOnly={{
-        forceShowFormControls: true,
-      }}
       route={route}
       content={content}
       ombInfo={ombInfo}
