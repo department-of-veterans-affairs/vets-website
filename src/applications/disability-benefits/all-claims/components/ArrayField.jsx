@@ -22,6 +22,7 @@ import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import findDuplicateIndexes from 'platform/forms-system/src/js/utilities/data/findDuplicateIndexes';
 
 import { NULL_CONDITION_STRING } from '../constants';
+import { showRevisedNewDisabilitiesPage } from '../content/addDisabilities';
 
 const { Element } = Scroll;
 
@@ -47,6 +48,8 @@ export default class ArrayField extends React.Component {
     this.state = {
       // force edit mode for any empty service period data
       editing: this.setInitialState(),
+      // track feature flag
+      revisedDisabilitiesPage: showRevisedNewDisabilitiesPage,
     };
   }
 
@@ -159,6 +162,11 @@ export default class ArrayField extends React.Component {
     focusElement(errorMessage[0]);
   };
 
+  targetInput = index => {
+    // console.log('focus input on item: ', index);
+    return index;
+  };
+
   // restore data in event of cancellation
   handleCancelEdit = index => {
     this.props.onChange(this.state.oldData);
@@ -178,7 +186,11 @@ export default class ArrayField extends React.Component {
         oldData: this.props.formData,
       }),
       () => {
-        this.targetLabel(index);
+        if (this.state.revisedDisabilitiesPage) {
+          this.targetInput(index);
+        } else {
+          this.targetLabel(index);
+        }
       },
     );
   };
@@ -245,20 +257,26 @@ export default class ArrayField extends React.Component {
         editing: newEditing.concat(true),
       };
 
-      this.setState(newState, () => {
-        const newFormData = this.props.formData.concat(
-          getDefaultFormState(
-            this.props.schema.additionalItems,
-            undefined,
-            this.props.registry.definitions,
-          ) || {},
-        );
-        this.props.onChange(newFormData);
-        // Allow DOM to render the new card
+      this.setState(
+        newState,
+        () => {
+          const newFormData = this.props.formData.concat(
+            getDefaultFormState(
+              this.props.schema.additionalItems,
+              undefined,
+              this.props.registry.definitions,
+            ) || {},
+          );
+          this.props.onChange(newFormData);
+        }, // Allow DOM to render the new card
         setTimeout(() => {
-          this.targetLabel(lastIndex + 1);
-        });
-      });
+          if (this.state.revisedDisabilitiesPage) {
+            this.targetInput(lastIndex + 1);
+          } else {
+            this.targetLabel(lastIndex + 1);
+          }
+        }),
+      );
     } else {
       const touched = setArrayRecordTouched(this.props.idSchema.$id, lastIndex);
       this.props.formContext.setTouched(touched, () => {
