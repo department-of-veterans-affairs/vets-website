@@ -51,16 +51,6 @@ class ApiInitializer {
     withDefaultUser: () => {
       cy.intercept('GET', '/v0/user*', userData.defaultUser).as('user');
     },
-    withCernerPatient: () => {
-      cy.intercept('GET', '/v0/user*', userData.cernerPatient).as('user');
-    },
-    withFacilities: ({ facilities = [] }) => {
-      cy.intercept(
-        'GET',
-        '/v0/user*',
-        userData.generateUserWithFacilities({ facilities }).as('user'),
-      );
-    },
     withMHVAccountState: mhvAccountState => {
       const userDataWithMHVAccountState = userData.generateUserWithMHVAccountState(
         mhvAccountState,

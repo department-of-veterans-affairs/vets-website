@@ -26,7 +26,7 @@ describe(`${appName} - helpdesk information component`, () => {
       cy.findByTestId('mhv-helpdesk-info').should('not.exist');
     });
 
-    it(`shows for verified registered users`, () => {
+    it(`renders for verified registered users`, () => {
       LandingPage.visitPage();
       LandingPage.validatePageLoaded();
       LandingPage.validateURL();
