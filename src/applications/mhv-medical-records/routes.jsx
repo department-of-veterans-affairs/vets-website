@@ -129,12 +129,20 @@ const routes = (
     >
       <RadiologySingleImage />
     </FeatureFlagRoute>
+    <FeatureFlagRoute
+      exact
+      path="/settings"
+      key="Settings"
+      featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplaySettingsPage}
+    >
+      <SettingsPage />
+    </FeatureFlagRoute>
     <AppRoute exact path="/download-all" key="DownloadRecords">
       <DownloadRecordsPage />
     </AppRoute>
-    <AppRoute exact path="/settings" key="Settings">
+    {/* <AppRoute exact path="/settings" key="Settings">
       <SettingsPage />
-    </AppRoute>
+    </AppRoute> */}
     <Route>
       <PageNotFound />
     </Route>
