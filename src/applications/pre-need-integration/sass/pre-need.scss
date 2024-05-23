@@ -22,7 +22,7 @@
 }
 
 .autosuggest-list {
-  max-height: 17rem;
+  max-height: 10.625rem;
 }
 
 h3.name-of-deceased-text {
@@ -33,22 +33,22 @@ h3.name-of-deceased-text {
 
 .mail-or-fax-message,
 .mail-or-fax-steps {
-  margin-bottom: 1rem;
+  margin-bottom: 0.625rem;
   margin-top: 0;
 }
 
 .mail-or-fax-steps {
-  padding: 0 0 0 1rem;
+  padding: 0 0 0 0.625rem;
 }
 
 .mail-or-fax-step {
-  margin-bottom: 0.75rem;
-  padding-left: 1rem;
+  margin-bottom: 0.46875rem;
+  padding-left: 0.625rem;
 }
 
 .mail-fax-address {
   border-left: 3px solid var(--vads-color-primary);
-  padding-left: 1rem;
+  padding-left: 0.625rem;
 }
 
 article#pre-need[data-location="applicant-demographics"],
@@ -202,7 +202,7 @@ fieldset.schemaform-field-template.schemaform-first-field {
 
 .phone {
   @media screen and (min-width: ($small-screen+1px)) {
-    max-width: 18rem;
+    max-width: 11.25rem;
   }
 }
 

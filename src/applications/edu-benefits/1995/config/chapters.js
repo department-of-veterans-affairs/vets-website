@@ -82,6 +82,12 @@ export const servicePeriodsSchema = (automatedTest = false) => {
     : servicePeriodsUpdate.schema;
 };
 
+export const newSchoolTitle = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? 'School, university, program, or training facility you want to attend'
+    : 'School or training facility you want to attend';
+};
+
 export const newSchoolUiSchema = (automatedTest = false) => {
   return isProductionOfTestProdEnv(automatedTest)
     ? newSchool.uiSchema
@@ -155,8 +161,7 @@ export const chapters = {
     pages: {
       newSchool: {
         path: 'school-selection/new-school',
-        title:
-          'School, university, program, or training facility you want to attend',
+        title: newSchoolTitle(),
         initialData: {
           newSchoolAddress: {},
         },

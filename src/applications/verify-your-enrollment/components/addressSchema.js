@@ -30,7 +30,7 @@ export const getFormSchema = (defaultVeteranName, formData = {}) => {
       'view:livesOnMilitaryBaseInfo': {
         type: 'object',
         properties: {},
-        default: formData['view:livesOnMilitaryBas'],
+        default: !formData['view:livesOnMilitaryBas'],
       },
       fullName: {
         type: 'string',
@@ -106,19 +106,20 @@ export const getFormSchema = (defaultVeteranName, formData = {}) => {
 export const getUiSchema = () => {
   return {
     'view:livesOnMilitaryBase': {
-      'ui:title':
-        'I live on a United States military base outside of the United States.',
+      'ui:title': 'I live on a United States military base outside of the U.S.',
     },
     'view:livesOnMilitaryBaseInfo': {
       'ui:description': () => (
-        <p className="profile-military-domestic">
-          U.S. military bases are considered a domestic address and a part of
-          the United States.
-        </p>
+        <va-additional-info trigger="Learn more about military base addresses">
+          <p>
+            We automatically enter the United States as your country if you live
+            on a military case outside of the country.
+          </p>
+        </va-additional-info>
       ),
     },
     fullName: {
-      'ui:title': "Veteran's Full Name",
+      'ui:title': "Veteran's full name",
       'ui:errorMessages': {
         required: "Please enter the Veteran's Full Name",
       },

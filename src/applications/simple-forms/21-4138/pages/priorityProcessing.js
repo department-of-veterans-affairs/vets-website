@@ -13,10 +13,10 @@ import {
   PRIORITY_PROCESSING_NOT_QUALIFIED,
   PRIORITY_PROCESSING_QUALIFIED,
 } from '../config/constants';
-import { validateLivingSituation } from '../helpers';
+import { validateCheckboxSelection } from '../helpers';
 
 /** @type {PageSchema} */
-export const ppIntroPage = {
+export const aboutPriorityProcessingPage = {
   uiSchema: {
     ...titleUI({
       title: 'What to know before you request priority processing',
@@ -50,7 +50,7 @@ export const ppIntroPage = {
 };
 
 /** @type {PageSchema} */
-export const ppLivingSituationPage = {
+export const housingRisksPage = {
   uiSchema: {
     livingSituation: checkboxGroupUI({
       title: 'Which of these statements best describes your living situation?',
@@ -62,7 +62,7 @@ export const ppLivingSituationPage = {
         required: 'Select the appropriate living situation',
       },
     }),
-    'ui:validations': [validateLivingSituation],
+    'ui:validations': [validateCheckboxSelection],
   },
   schema: {
     type: 'object',
@@ -74,7 +74,7 @@ export const ppLivingSituationPage = {
 };
 
 /** @type {PageSchema} */
-export const ppOtherHousingRisksPage = {
+export const otherHousingRisksPage = {
   uiSchema: {
     ...titleUI({ title: 'Other housing risks', headerLevel: 1 }),
     'view:additionalInfo': {
@@ -108,7 +108,7 @@ export const ppOtherHousingRisksPage = {
 };
 
 /** @type {PageSchema} */
-export const ppOtherReasonsOptionalPage = {
+export const hardshipsOptionalPage = {
   uiSchema: {
     otherReasons: checkboxGroupUI({
       title: 'Are any of these descriptions true for you?',
@@ -128,7 +128,7 @@ export const ppOtherReasonsOptionalPage = {
 };
 
 /** @type {PageSchema} */
-export const ppOtherReasonsRequiredPage = {
+export const hardshipsRequiredPage = {
   uiSchema: {
     otherReasons: checkboxGroupUI({
       title: 'Which of these descriptions is true for you?',
@@ -141,6 +141,7 @@ export const ppOtherReasonsRequiredPage = {
         required: 'Select at least one description',
       },
     }),
+    'ui:validations': [validateCheckboxSelection],
   },
   schema: {
     type: 'object',
@@ -152,7 +153,7 @@ export const ppOtherReasonsRequiredPage = {
 };
 
 /** @type {PageSchema} */
-export const ppNotQualifiedPage = {
+export const priorityProcessingNotQualifiedPage = {
   uiSchema: {
     ...titleUI({
       title: 'You may not qualify for priority processing',
@@ -174,7 +175,7 @@ export const ppNotQualifiedPage = {
 };
 
 /** @type {PageSchema} */
-export const ppQualifiedHandoffPage = {
+export const priorityProcessingRequestPage = {
   uiSchema: {
     ...titleUI({
       title: "There's a better way to request priority processing",

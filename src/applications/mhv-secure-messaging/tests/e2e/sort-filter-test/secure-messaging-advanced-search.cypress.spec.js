@@ -14,17 +14,16 @@ describe(manifest.appName, () => {
   describe('Advanced search in Inbox', () => {
     beforeEach(() => {
       const site = new SecureMessagingSite();
-      const landingPage = new PatientInboxPage();
       site.login();
-      landingPage.loadInboxMessages();
+      PatientInboxPage.loadInboxMessages();
       cy.intercept(
         'POST',
         Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
         mockSearchMessages,
       );
-      landingPage.openAdvancedSearch();
-      landingPage.selectAdvancedSearchCategory('COVID');
-      landingPage.clickSubmitSearchButton();
+      PatientInboxPage.openAdvancedSearch();
+      PatientInboxPage.selectAdvancedSearchCategory('COVID');
+      PatientInboxPage.clickSubmitSearchButton();
     });
     it('Check all inbox messages contain the searched category', () => {
       cy.get(Locators.MESSAGES)
@@ -44,9 +43,8 @@ describe(manifest.appName, () => {
   describe('Advanced search in Drafts', () => {
     beforeEach(() => {
       const site = new SecureMessagingSite();
-      const landingPage = new PatientInboxPage();
       site.login();
-      landingPage.loadInboxMessages();
+      PatientInboxPage.loadInboxMessages();
       cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDERS_2, mockDraftsFolder);
       cy.intercept(
         'GET',
@@ -59,9 +57,9 @@ describe(manifest.appName, () => {
         Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
         mockSearchMessages,
       );
-      landingPage.openAdvancedSearch();
-      landingPage.selectAdvancedSearchCategory('COVID');
-      landingPage.clickSubmitSearchButton();
+      PatientInboxPage.openAdvancedSearch();
+      PatientInboxPage.selectAdvancedSearchCategory('COVID');
+      PatientInboxPage.clickSubmitSearchButton();
     });
     it('Check all draft messages contain the searched category', () => {
       cy.get(Locators.MESSAGES)
@@ -82,8 +80,7 @@ describe(manifest.appName, () => {
     beforeEach(() => {
       const site = new SecureMessagingSite();
       site.login();
-      const landingPage = new PatientInboxPage();
-      landingPage.loadInboxMessages();
+      PatientInboxPage.loadInboxMessages();
       cy.intercept(
         'GET',
         '/my_health/v1/messaging/folders/-1*',
@@ -100,9 +97,9 @@ describe(manifest.appName, () => {
         Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
         mockSearchMessages,
       ).as('advancedSearchRequest');
-      landingPage.openAdvancedSearch();
-      landingPage.selectAdvancedSearchCategory('COVID');
-      landingPage.clickSubmitSearchButton();
+      PatientInboxPage.openAdvancedSearch();
+      PatientInboxPage.selectAdvancedSearchCategory('COVID');
+      PatientInboxPage.clickSubmitSearchButton();
     });
     it('Check all sent messages contain the searched category', () => {
       cy.get(Locators.MESSAGES)
@@ -123,8 +120,7 @@ describe(manifest.appName, () => {
     beforeEach(() => {
       const site = new SecureMessagingSite();
       site.login();
-      const landingPage = new PatientInboxPage();
-      landingPage.loadInboxMessages();
+      PatientInboxPage.loadInboxMessages();
       cy.intercept(
         'GET',
         '/my_health/v1/messaging/folders/-3*',
@@ -141,9 +137,9 @@ describe(manifest.appName, () => {
         Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
         mockSearchMessages,
       );
-      landingPage.openAdvancedSearch();
-      landingPage.selectAdvancedSearchCategory('COVID');
-      landingPage.clickSubmitSearchButton();
+      PatientInboxPage.openAdvancedSearch();
+      PatientInboxPage.selectAdvancedSearchCategory('COVID');
+      PatientInboxPage.clickSubmitSearchButton();
     });
     it('Check all messages contain the searched category', () => {
       cy.get(Locators.MESSAGES)
@@ -164,8 +160,7 @@ describe(manifest.appName, () => {
     beforeEach(() => {
       const site = new SecureMessagingSite();
       site.login();
-      const landingPage = new PatientInboxPage();
-      landingPage.loadInboxMessages();
+      PatientInboxPage.loadInboxMessages();
       PatientMessageCustomFolderPage.loadFoldersList();
       PatientMessageCustomFolderPage.loadMessages('TestFolder3');
 
@@ -175,9 +170,9 @@ describe(manifest.appName, () => {
         mockSearchCustomMessages,
       ).as('customFolderSearchResults');
 
-      landingPage.openAdvancedSearch();
-      landingPage.selectAdvancedSearchCategory('COVID');
-      landingPage.clickSubmitSearchButton();
+      PatientInboxPage.openAdvancedSearch();
+      PatientInboxPage.selectAdvancedSearchCategory('COVID');
+      PatientInboxPage.clickSubmitSearchButton();
     });
     it('Check all messages contain the searched category', () => {
       cy.get(Locators.MESSAGES)

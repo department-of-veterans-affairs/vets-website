@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -12,7 +12,7 @@ import { useScrollToTop } from '../hooks/useScrollToTop';
 import VerifyEnrollmentStatement from '../components/VerifyEnrollmentStatement';
 import EnrollmentCard from '../components/Enrollmentcard';
 import NeedHelp from '../components/NeedHelp';
-import { VERIFICATION_RELATIVE_URL } from '../constants';
+import { EnrollmentInformation, VERIFICATION_RELATIVE_URL } from '../constants';
 import Loader from '../components/Loader';
 import { useData } from '../hooks/useData';
 import {
@@ -20,30 +20,33 @@ import {
   updatePendingVerifications,
   updateVerifications,
   verifyEnrollmentAction,
+  // updateVerificationsData,
 } from '../actions';
 import { toLocalISOString } from '../helpers';
 
 const VerificationReviewWrapper = ({
   children,
-  enrollmentData,
+  mockData,
   // loggedIEnenrollmentData,
   dispatchUpdateToggleEnrollmentSuccess,
   dispatchUpdatePendingVerifications,
-  dispatchUpdateVerifications,
+  // dispatchUpdateVerifications,
   dispatchVerifyEnrollmentAction,
+  // dispatchUpdateVerificationsData,
   // isUserLoggedIn,
   // dispatchupdateToggleEnrollmentCard,
 }) => {
   useScrollToTop();
+  const location = useLocation();
   const [radioValue, setRadioValue] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
-  const { loading } = useData();
+  const { loading, personalInfo, isUserLoggedIn } = useData();
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
 
+  const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
   const history = useHistory();
-
   const handleBackClick = () => {
     history.push(VERIFICATION_RELATIVE_URL);
   };
@@ -62,12 +65,14 @@ const VerificationReviewWrapper = ({
     const newVerifiedEnrollments = enrollmentPeriodsToVerify.map(period => {
       return {
         ...period,
-        verifiedDate: currentDateTime,
+        transactDate: currentDateTime,
         paymentDate: null,
       };
     });
-    dispatchUpdateVerifications(newVerifiedEnrollments);
-    dispatchVerifyEnrollmentAction();
+    const awardIds = newVerifiedEnrollments.map(
+      enrollment => enrollment.awardId,
+    );
+    dispatchVerifyEnrollmentAction(awardIds);
   };
 
   const handleSubmission = () => {
@@ -95,6 +100,17 @@ const VerificationReviewWrapper = ({
     },
     [errorStatement],
   );
+  // This Effect to check path to add class for bloding Label
+  useEffect(
+    () => {
+      if (location.pathname.includes('verification-review')) {
+        document.body.classList.add('verification-review-path');
+      } else {
+        document.body.classList.remove('verification-review-path');
+      }
+    },
+    [location.pathname],
+  );
 
   return (
     <>
@@ -113,28 +129,12 @@ const VerificationReviewWrapper = ({
             ) : (
               <>
                 <EnrollmentCard enrollmentPeriods={enrollmentPeriodsToVerify} />
-                <div className="vye-max-width-480px">
-                  <p className="vads-u-margin-top--3">
-                    <span className="vads-u-font-weight--bold">
-                      If the above enrollment information isn’t correct,
-                    </span>{' '}
-                    please do not submit the form. Instead, work with your
-                    School Certifying Official (SCO) to ensure your enrollment
-                    information is updated with the VA.
-                  </p>
-                  <p className="vads-u-margin-top--3">
-                    <span className="vads-u-font-weight--bold">Note:</span>{' '}
-                    Providing false reports concerning your benefits may result
-                    in a fine, imprisonment or both.
-                  </p>
-                </div>
-                <div className="vads-u-margin-top--8">
+                <div className="vads-u-margin-top--2">
                   <VaRadio
+                    className="bold-label"
                     error={errorStatement}
                     hint=""
-                    label="To the best of your knowledge, is this enrollment
-                          information correct?"
-                    required
+                    label="Is this enrollment information correct?"
                     onVaValueChange={handleRadioClick}
                   >
                     <VaRadioOption
@@ -145,6 +145,7 @@ const VerificationReviewWrapper = ({
                       value="true"
                     />
                   </VaRadio>
+                  <EnrollmentInformation />
                 </div>
                 <div
                   style={{
@@ -155,22 +156,13 @@ const VerificationReviewWrapper = ({
                   }}
                 >
                   <va-button onClick={handleBackClick} back uswds />
-                  {radioValue && (
-                    <va-button
-                      onClick={handleSubmission}
-                      text="Submit"
-                      submit
-                      uswds
-                    />
-                  )}
-                  {!radioValue && (
-                    <va-button
-                      onClick={handleSubmission}
-                      text="Submit"
-                      disabled
-                      uswds
-                    />
-                  )}
+                  <va-button
+                    onClick={handleSubmission}
+                    text="Submit"
+                    submit
+                    uswds
+                    disabled={!radioValue}
+                  />
                 </div>
               </>
             )}
@@ -185,7 +177,7 @@ const VerificationReviewWrapper = ({
 };
 
 const mapStateToProps = state => ({
-  enrollmentData: state.mockData.mockData,
+  mockData: state.mockData.mockData,
 });
 
 const mapDispatchToProps = {
@@ -201,10 +193,10 @@ VerificationReviewWrapper.propTypes = {
   dispatchUpdateToggleEnrollmentSuccess: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,
   dispatchVerifyEnrollmentAction: PropTypes.func,
-  enrollmentData: PropTypes.object,
   isUserLoggedIn: PropTypes.bool,
   link: PropTypes.func,
   loggedIEnenrollmentData: PropTypes.object,
+  mockData: PropTypes.object,
 };
 export default connect(
   mapStateToProps,

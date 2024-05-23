@@ -5,7 +5,6 @@ import omit from 'platform/utilities/data/omit';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import * as combobox from '../definitions/combobox';
 import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
-import { newOnlyAlert, increaseAndNewAlert } from '../content/addDisabilities';
 import NewDisability from '../components/NewDisability';
 import ArrayField from '../components/ArrayField';
 import ConditionReviewField from '../components/ConditionReviewField';
@@ -22,12 +21,17 @@ import {
   claimingNew,
   sippableId,
 } from '../utils';
+import {
+  addDisabilitiesInstructions,
+  increaseAndNewAlertRevised,
+  newOnlyAlertRevised,
+} from '../content/addDisabilitiesRevised';
 
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 export const uiSchema = {
-  newDisabilitiesRevised: {
-    'ui:title': 'Tell us the new conditions you want to claim REVISED VERSION!',
+  newDisabilities: {
+    'ui:description': addDisabilitiesInstructions,
     'ui:field': ArrayField,
     'ui:options': {
       viewField: NewDisability,
@@ -41,7 +45,7 @@ export const uiSchema = {
     // field in an array item), but that's not working.
     'ui:validations': [requireDisability],
     items: {
-      condition: combobox.uiSchema('What new condition do you want to claim?', {
+      condition: combobox.uiSchema('Enter your condition', {
         'ui:reviewField': ({ children }) => children,
         'ui:options': {
           debounceRate: 200,
@@ -83,7 +87,7 @@ export const uiSchema = {
   // This object only shows up when the user tries to continue without claiming either a rated or new condition
   'view:newDisabilityErrors': {
     'view:newOnlyAlert': {
-      'ui:description': newOnlyAlert,
+      'ui:description': newOnlyAlertRevised,
       'ui:options': {
         hideIf: formData =>
           !(newConditionsOnly(formData) && !claimingNew(formData)),
@@ -92,7 +96,7 @@ export const uiSchema = {
     // Only show this alert if the veteran is claiming both rated and new
     // conditions but no rated conditions were selected
     'view:increaseAndNewAlert': {
-      'ui:description': increaseAndNewAlert,
+      'ui:description': increaseAndNewAlertRevised,
       'ui:options': {
         hideIf: formData =>
           !(newAndIncrease(formData) && !hasClaimedConditions(formData)),
@@ -104,7 +108,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    newDisabilitiesRevised: {
+    newDisabilities: {
       type: 'array',
       minItems: 1,
       items: {
@@ -114,7 +118,7 @@ export const schema = {
         },
       },
     },
-    'view:newDisabilityErrorsRevised': {
+    'view:newDisabilityErrors': {
       type: 'object',
       properties: {
         'view:newOnlyAlert': { type: 'object', properties: {} },
@@ -181,17 +185,10 @@ const removeDisability = (deletedElement, formData) => {
 
 // Find the old name -> change to new name
 const changeDisabilityName = (oldData, newData, changedIndex) => {
-  const oldId = sippableId(
-    oldData.newDisabilitiesRevised[changedIndex]?.condition,
-  );
-  const newId = sippableId(
-    newData.newDisabilitiesRevised[changedIndex]?.condition,
-  );
+  const oldId = sippableId(oldData.newDisabilities[changedIndex]?.condition);
+  const newId = sippableId(newData.newDisabilities[changedIndex]?.condition);
 
-  let result = removeDisability(
-    oldData.newDisabilitiesRevised[changedIndex],
-    newData,
-  );
+  let result = removeDisability(oldData.newDisabilities[changedIndex], newData);
 
   // Add in the new property with the old value
   const facilitiesPath = 'vaTreatmentFacilities';
@@ -226,8 +223,8 @@ const changeDisabilityName = (oldData, newData, changedIndex) => {
 };
 
 export const updateFormData = (oldData, newData) => {
-  const oldArr = oldData.newDisabilitiesRevised;
-  const newArr = newData.newDisabilitiesRevised;
+  const oldArr = oldData.newDisabilities;
+  const newArr = newData.newDisabilities;
   // Sanity check
   if (!Array.isArray(oldArr) || !Array.isArray(newArr)) return newData;
 

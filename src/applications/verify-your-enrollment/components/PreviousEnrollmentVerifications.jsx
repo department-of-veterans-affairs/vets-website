@@ -19,16 +19,15 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
 
   const totalEnrollmentVerificationsCount = Object.keys(
     combineEnrollmentsWithStartMonth(
-      enrollmentData?.['vye::UserInfo']?.verifications,
+      enrollmentData?.['vye::UserInfo']?.verifications ?? {},
     ),
   ).length;
 
   const totalEnrollmentPendingVerificationsCount = Object.keys(
     combineEnrollmentsWithStartMonth(
-      enrollmentData?.['vye::UserInfo']?.pendingVerifications,
+      enrollmentData?.['vye::UserInfo']?.pendingVerifications ?? {},
     ),
   ).length;
-
   // get count of verified and unverified enrollments (Grouped by start month)
   const totalEnrollmentCount =
     totalEnrollmentPendingVerificationsCount +
@@ -79,7 +78,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
      once we have this, we can sort the array based on month year with
      the latest date on top.
     */
-    enrollments.forEach(enrollment => {
+    enrollments?.forEach(enrollment => {
       const topLevelEnrollment = enrollment?.props?.children;
       const isAnArray = Array.isArray(topLevelEnrollment);
 
@@ -105,7 +104,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
           el => el !== undefined && el !== null && el !== false,
         );
         const firstChildProps =
-          firstNotUndefined.props?.children[0]?.props?.children;
+          firstNotUndefined?.props?.children[0]?.props?.children;
         const firstChildIsArray = Array.isArray(firstChildProps);
 
         if (firstChildIsArray) {
@@ -116,11 +115,11 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
 
         if (!firstChildIsArray) {
           const secondChildProps =
-            firstNotUndefined.props?.children[0]?.props?.children;
+            firstNotUndefined?.props?.children[0]?.props?.children;
           const secondChildPropsIsArray = Array.isArray(secondChildProps);
           if (!secondChildPropsIsArray) {
             tempEnrollmentArray.push({
-              [firstNotUndefined.props?.children[0]?.props
+              [firstNotUndefined?.props?.children[0]?.props
                 ?.children]: enrollment,
             });
           }
@@ -212,7 +211,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
         <h2>Your monthly enrollment verifications</h2>
         <p>
           Verifications are processed on the business day after submission.
-          Payment is projected to be deposited within 3-5 business days.
+          Payment is projected to be processed within 4-6 business days.
         </p>
         <va-additional-info
           trigger="What if I notice an error with my enrollment information?"
