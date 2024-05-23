@@ -1,6 +1,7 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { uploadFile } from 'platform/forms-system/src/js/actions';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
 
 export const MAX_FILE_SIZE_MB = 25;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
@@ -98,4 +99,14 @@ export const submitForm = (formNumber, confirmationCode, history) => {
       submittedAt: Date.now(),
     });
   });
+};
+
+// separate each number so the screenreader reads "number ending with 1 2 3 4"
+// instead of "number ending with 1,234"
+export const mask = value => {
+  const number = (value || '').toString().slice(-4);
+  return srSubstitute(
+    `●●●–●●–${number}`,
+    `ending with ${number.split('').join(' ')}`,
+  );
 };

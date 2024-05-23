@@ -96,7 +96,7 @@ export const OTHER_REASONS_OPTIONAL = Object.freeze({
 });
 
 export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
-  <div className="arrow" style={{ maxWidth: '75%' }}>
+  <div className="action-bar-arrow" style={{ maxWidth: '75%' }}>
     <div className="vads-u-background-color--primary vads-u-padding--1">
       <a className="vads-c-action-link--white" href={href} onClick={onClick}>
         {children}
@@ -109,7 +109,7 @@ export const ESCAPE_HATCH = Object.freeze(
   <div className="vads-u-margin-y--4">
     If you’d like to use VA Form 21-4138 for your statement without selecting an
     answer here, you can{' '}
-    <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
+    <a href="/supporting-forms-for-claims/statement-to-support-claim-form-21-4138/personal-information">
       go to VA Form 21-4138 now.
     </a>
   </div>,

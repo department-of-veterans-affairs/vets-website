@@ -64,7 +64,7 @@ const Notice5103 = ({
       >
         <div slot="description">{content.descriptionInCheckbox}</div>
       </VaCheckbox>
-      <div className="form-nav-buttons vads-u-margin-top--4">
+      <div className="form-nav-buttons vads-u-margin-y--4">
         {onReviewPage && (
           <va-button
             onClick={handlers.onGoForward}

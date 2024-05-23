@@ -24,6 +24,7 @@ const responses = {
     {
       authExpVbaDowntimeMessage: false,
       myVaUseExperimental: false,
+      myVaEnableNewSipConfig: false,
     },
     true,
   ),

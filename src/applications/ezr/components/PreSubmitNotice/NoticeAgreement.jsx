@@ -37,7 +37,7 @@ const NoticeAgreement = () => (
     </ul>
     <va-additional-info
       trigger="Read more about the assignment of benefits"
-      class="vads-u-margin-y--2"
+      class="vads-u-margin-y--2 hydrated"
       uswds
     >
       <p>
