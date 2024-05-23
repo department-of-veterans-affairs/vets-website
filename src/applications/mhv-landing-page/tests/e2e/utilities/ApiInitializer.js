@@ -11,39 +11,21 @@ class ApiInitializer {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          mhvLandingPageEnabled: false,
-          mhvLandingPagePersonalization: false,
-          mhvLandingPageEnableVaGovHealthToolsLinks: false,
-          mhvTransitionalMedicalRecordsLandingPage: false,
-          mhvHelpdeskInformationEnabled: false,
-        }),
+        featureToggles.generateFeatureToggles({ disableAll: true }),
       );
     },
     withCurrentFeatures: () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          mhvLandingPageEnabled: true,
-          mhvLandingPagePersonalization: false,
-          mhvLandingPageEnableVaGovHealthToolsLinks: false,
-          mhvTransitionalMedicalRecordsLandingPage: false,
-          mhvHelpdeskInformationEnabled: false,
-        }),
+        featureToggles.generateFeatureToggles(),
       );
     },
     withAllFeatures: () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          mhvLandingPageEnabled: true,
-          mhvLandingPagePersonalization: true,
-          mhvLandingPageEnableVaGovHealthToolsLinks: true,
-          mhvTransitionalMedicalRecordsLandingPage: true,
-          mhvHelpdeskInformationEnabled: true,
-        }),
+        featureToggles.generateFeatureToggles({ enableAll: true }),
       );
     },
   };
