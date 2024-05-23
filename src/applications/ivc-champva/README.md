@@ -8,7 +8,8 @@ This document contains context and other relevant notes that apply specifically
 to the forms implemented in this `ivc-champva` directory. It provides pointers
 on running the applications locally, testing methods, and other useful info.
 
-> [!IMPORTANT] [platform documentation](https://depo-platform-documentation.scrollhelp.site/developer-docs/) is always the best place to go for form application development information. This document should be consulted _in addition_ to those resources, not _instead_ of.
+> [!IMPORTANT]
+> [platform documentation](https://depo-platform-documentation.scrollhelp.site/developer-docs/) is always the best place to go for form application development information. This document should be consulted _in addition_ to those resources, not _instead_ of.
 
 > [!NOTE]
 > Any shell commands shown in this document assume a MacOS console environment and `bash`/`zsh`
