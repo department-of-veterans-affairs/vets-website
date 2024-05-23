@@ -68,7 +68,7 @@ const IntroductionPage = props => {
       type: 'inquiryStatus',
       attributes: {
         status: 'New',
-        levelOfAuthentication: '18764231182',
+        levelOfAuthentication: '12389467687',
       },
     };
     setHasError(false);
@@ -137,7 +137,7 @@ const IntroductionPage = props => {
             )}
             {status === 'Reopened' && (
               <p className="vads-u-margin-left--2">
-                We received your reply. We’ll response soon
+                We received your reply. We’ll respond soon.
               </p>
             )}
           </div>
