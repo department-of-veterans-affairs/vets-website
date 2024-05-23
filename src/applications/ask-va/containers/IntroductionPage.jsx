@@ -6,7 +6,6 @@ import {
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import { getNextPagePath } from '@department-of-veterans-affairs/platform-forms-system/routing';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import {
   isLoggedIn,
   selectProfile,
@@ -14,14 +13,21 @@ import {
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro'; // @ path now working
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
+import { inProgressOrReopenedIcon, newIcon, successIcon } from '../helpers';
 import DashboardCards from './DashboardCards';
 
 const IntroductionPage = props => {
   const { route, loggedIn, toggleLoginModal } = props;
   const { formConfig, pageList, pathname, formData } = route;
+  const [inquiryData, setInquiryData] = useState(false);
+  const [searchReferenceNumber, setSearchReferenceNumber] = useState(
+    'A-20240521-307161',
+  );
+  const [hasError, setHasError] = useState(false);
 
   const getStartPage = () => {
     const data = formData || {};
@@ -33,12 +39,126 @@ const IntroductionPage = props => {
     recordEvent({ event: 'no-login-start-form' });
   };
 
+  const showSignInModal = () => {
+    toggleLoginModal(true, 'askVA');
+  };
+
   useEffect(
     () => {
       focusElement('.va-nav-breadcrumbs-list');
     },
     [props],
   );
+
+  // const getApiData = url => {
+  //   return apiRequest(url)
+  //     .then(() => {
+  //       setInquiryData(res);
+  //     })
+  //     .catch(() => setHasError(true));
+  // };
+
+  const handleSearchByReferenceNumber = () => {
+    // const url = `${
+    //   environment.API_URL
+    // }/inquiries/${searchReferenceNumber}/status`;
+    // getApiData(url);
+    const mockResponse = {
+      id: 12345,
+      type: 'inquiryStatus',
+      attributes: {
+        status: 'New',
+        levelOfAuthentication: '18764231182',
+      },
+    };
+    setHasError(false);
+    setInquiryData(mockResponse);
+  };
+
+  const handleSearchInputChange = async e => {
+    const searchInputValue = e.target.value;
+    setSearchReferenceNumber(searchInputValue);
+  };
+
+  const questionStatus = () => {
+    if (hasError) {
+      return (
+        <>
+          <p>
+            We didn’t find a question with reference number "
+            <span className="vads-u-font-weight--bold">
+              {searchReferenceNumber}
+            </span>
+            ." Check your reference number and try again.
+          </p>
+          <p>
+            If it still doesn’t work, ask the same question again and include
+            your original reference number.
+          </p>
+        </>
+      );
+    }
+
+    if (inquiryData.id && searchReferenceNumber) {
+      const { status, levelOfAuthentication } = inquiryData.attributes;
+      return (
+        <>
+          <h3 className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2">
+            Showing the status for reference number "
+            <span className="vads-u-font-weight--bold">
+              {searchReferenceNumber}
+            </span>
+            "
+          </h3>
+          <p>
+            <span className="vads-u-font-weight--bold">Status: </span> {status}{' '}
+            {status === 'Solved' && successIcon}
+            {status === 'New' && newIcon}
+            {status === 'In progress' && inProgressOrReopenedIcon}
+            {status === 'Reopened' && inProgressOrReopenedIcon}
+          </p>
+          <div className="vads-u-border-left--5px vads-u-border-color--green-light vads-u-padding--0p5">
+            {status === 'Solved' && (
+              <p className="vads-u-margin-left--2">
+                We either answered your question or didn’t have enough
+                information to answer your question. If you need more help, ask
+                a new question.
+              </p>
+            )}
+            {status === 'New' && (
+              <p className="vads-u-margin-left--2">
+                We received your question. We’ll review it soon.
+              </p>
+            )}
+            {status === 'In progress' && (
+              <p className="vads-u-margin-left--2">
+                We’re reviewing your question.
+              </p>
+            )}
+            {status === 'Reopened' && (
+              <p className="vads-u-margin-left--2">
+                We received your reply. We’ll respons soon
+              </p>
+            )}
+          </div>
+          {levelOfAuthentication !== 'Unauthenticated' && (
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
+            <a
+              role="button"
+              className="vads-c-action-link--green vads-u-margin-top--2"
+              // eslint-disable-next-line no-script-url
+              href="javascript:void(0)"
+              onClick={showSignInModal}
+            >
+              Sign in to check your application status{' '}
+            </a>
+          )}
+        </>
+      );
+    }
+
+    return null;
+  };
 
   return (
     <div className="schemaform-intro">
@@ -126,7 +246,7 @@ const IntroductionPage = props => {
               <VaButton
                 primary-alternate
                 text="Sign in or create an account"
-                onClick={toggleLoginModal}
+                onClick={showSignInModal}
               />
             </div>
           </VaAlert>
@@ -175,7 +295,14 @@ const IntroductionPage = props => {
             </p>
             <h2>Check the status of your question</h2>
             <p className="vads-u-margin--0">Reference number</p>
-            <VaSearchInput label="Reference number" />
+            <VaSearchInput
+              label="Reference number"
+              value={searchReferenceNumber}
+              onInput={handleSearchInputChange}
+              onSubmit={handleSearchByReferenceNumber}
+              uswds
+            />
+            {questionStatus()}
           </div>
         </>
       )}

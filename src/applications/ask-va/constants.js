@@ -6,7 +6,6 @@ export const URL = {
   GET_TOPICS: `/topics?user_mock_data=true`,
   GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
-  GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `/v0/gi/institutions/search?name=`,
