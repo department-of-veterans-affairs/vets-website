@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import BackLink from '../../../components/BackLink';
 import FacilityAddress from '../../../components/FacilityAddress';
 import AppointmentDateTime from '../AppointmentDateTime';
@@ -11,8 +12,14 @@ import RescheduleOrCancelAlert from './RescheduleOrCancelAlert';
 import ProviderName from './ProviderName';
 import CCInstructions from './CCInstructions';
 import { getTypeOfCareById } from '../../../utils/appointment';
+import { selectFeatureAppointmentDetailsRedesign } from '../../../redux/selectors';
+import CCLayout from '../../../components/layout/CCLayout';
 
 export default function DetailsCC({ appointment, useV2, featureVaosV2Next }) {
+  const featureAppointmentDetailsRedesign = useSelector(
+    selectFeatureAppointmentDetailsRedesign,
+  );
+
   const header = 'Community care provider';
   const facility = appointment.communityCareProvider;
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
@@ -47,6 +54,10 @@ export default function DetailsCC({ appointment, useV2, featureVaosV2Next }) {
     }
     return null;
   };
+
+  if (featureAppointmentDetailsRedesign) {
+    return <CCLayout data={appointment} />;
+  }
 
   return (
     <>

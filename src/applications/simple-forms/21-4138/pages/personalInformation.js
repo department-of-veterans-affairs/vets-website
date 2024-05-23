@@ -9,7 +9,7 @@ import {
 import { getFullNameLabels } from '../helpers';
 
 /** @type {PageSchema} */
-export const nameAndDateOfBirthPage = {
+export const personalInformationPage = {
   uiSchema: {
     ...titleUI({ title: 'Name and date of birth', headerLevel: 1 }),
     fullName: fullNameNoSuffixUI(label => getFullNameLabels(label, false)),
