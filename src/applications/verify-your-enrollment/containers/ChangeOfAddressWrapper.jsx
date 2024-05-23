@@ -7,8 +7,8 @@ import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import {
   compareAddressObjects,
+  formatAddress,
   hasFormChanged,
-  objectHasNoUndefinedValues,
   prepareAddressData,
   scrollToElement,
 } from '../helpers';
@@ -170,18 +170,14 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               Mailing address
             </h3>
             <p>
-              {objectHasNoUndefinedValues(newAddress) && (
-                <>
-                  <span className="vads-u-display--block">
-                    {`${newAddress?.street}`}
-                  </span>
-                  <span className="vads-u-display--block">
-                    {`${newAddress?.city}, ${newAddress?.stateCode} ${
-                      newAddress?.zipCode
-                    }`}
-                  </span>
-                </>
-              )}
+              <>
+                <span className="vads-u-display--block">
+                  {`${newAddress?.street ?? ''}`}
+                </span>
+                <span className="vads-u-display--block">
+                  {formatAddress(newAddress)}
+                </span>
+              </>
             </p>
           </div>
         )}
@@ -219,23 +215,15 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     if (tempData?.['view:livesOnMilitaryBase']) {
       tempData.countryCodeIso3 = 'USA';
     }
-    if (!tempData?.['view:livesOnMilitaryBase']) {
-      if (
-        tempData?.city === 'APO' ||
+    if (
+      !tempData?.['view:livesOnMilitaryBase'] &&
+      (tempData?.city === 'APO' ||
         tempData?.city === 'FPO' ||
-        tempData?.city === 'DPO'
-      ) {
-        tempData.city = '';
-      }
-
-      if (
-        tempData?.stateCode === 'AA' ||
-        tempData?.stateCode === 'AE' ||
-        tempData?.stateCode === 'AP'
-      ) {
-        tempData.stateCode = '';
-      }
+        tempData?.city === 'DPO')
+    ) {
+      tempData.city = '';
     }
+
     setFormData(tempData);
     setEditFormData(tempData);
   };

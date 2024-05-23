@@ -582,9 +582,6 @@ export const isMobileDevice = () => {
     navigator.userAgent,
   );
 };
-export const objectHasNoUndefinedValues = obj => {
-  return Object.values(obj).every(value => value !== undefined);
-};
 export const noSuggestedAddress = deliveryPointValidation => {
   return (
     deliveryPointValidation === BAD_UNIT_NUMBER ||
@@ -624,7 +621,15 @@ export const prepareAddressData = formData => {
   }
   return addressData;
 };
+export const formatAddress = address => {
+  const city = address?.city ?? '';
+  const stateCode = address?.stateCode ?? '';
+  const zipCode = address?.zipCode ?? '';
 
+  return `${city}${
+    stateCode || zipCode ? ',' : ''
+  } ${stateCode} ${zipCode}`.trim();
+};
 export const addressLabel = address => {
   // Destructure address object for easier access
   const {
