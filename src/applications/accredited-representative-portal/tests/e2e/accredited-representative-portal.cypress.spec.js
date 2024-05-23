@@ -28,12 +28,39 @@ Cypress.Commands.add('loginArpUser', (userData = arpUserLOA3) => {
 });
 
 describe('Accredited Representative Portal', () => {
-  describe('App feature toggle is not enabled', () => {
+  beforeEach(() => {
+    cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
+    cy.loginArpUser(arpUserLOA3);
+    setFeatureToggles({
+      isAppEnabled: true,
+      isInPilot: false,
+    });
+
+    cy.visit('/representative');
+    cy.injectAxe();
+  });
+
+  describe.only('App feature toggle is not enabled', () => {
     beforeEach(() => {
       setFeatureToggles({
         isAppEnabled: false,
         isInPilot: false,
       });
+
+      // cy.window().then(win => {
+      //   cy.log('Feature toggles:', win.featureToggles);
+      // });
+
+      // cy.window().then(win => {
+      //   cy.log('Is Production:', win.environment.isProduction());
+      // });
+
+      // cy.visit('/representative', {
+      //   onBeforeLoad: win => {
+      //     /* eslint no-param-reassign: "error" */
+      //     win.isProduction = true;
+      //   },
+      // });
 
       cy.visit('/representative');
 
@@ -42,23 +69,22 @@ describe('Accredited Representative Portal', () => {
 
     it('redirects to VA.gov homepage when in production and app is not enabled', () => {
       cy.axeCheck();
-
       cy.location('pathname').should('equal', '/');
     });
   });
 
   describe('App feature toggle is enabled, but Pilot feature toggle is not enabled', () => {
-    beforeEach(() => {
-      cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
-      cy.loginArpUser(arpUserLOA3);
-      setFeatureToggles({
-        isAppEnabled: true,
-        isInPilot: false,
-      });
+    // beforeEach(() => {
+    //   cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
+    //   cy.loginArpUser(arpUserLOA3);
+    //   setFeatureToggles({
+    //     isAppEnabled: true,
+    //     isInPilot: false,
+    //   });
 
-      cy.visit('/representative');
-      cy.injectAxe();
-    });
+    //   cy.visit('/representative');
+    //   cy.injectAxe();
+    // });
 
     it('allows navigation from the Landing Page to unified sign-in page', () => {
       cy.axeCheck();
@@ -70,6 +96,15 @@ describe('Accredited Representative Portal', () => {
     });
 
     it('displays an alert when in production and when user is not in pilot', () => {
+      cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
+      cy.loginArpUser(arpUserLOA3);
+      // cy.window().then(win => {
+      //   win.localStorage.setItem('user', JSON.stringify(arpUserLOA3));
+      // });
+      setFeatureToggles({
+        isAppEnabled: true,
+        isInPilot: false,
+      });
       cy.axeCheck();
 
       cy.get('[data-testid=landing-page-bypass-sign-in-link]').click();
@@ -87,9 +122,13 @@ describe('Accredited Representative Portal', () => {
         isAppEnabled: true,
         isInPilot: true,
       });
+      cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
+      cy.loginArpUser(arpUserLOA3);
+      // cy.window().then(win => {
+      //   win.localStorage.setItem('user', JSON.stringify(arpUserLOA3));
+      // });
 
       cy.visit('/representative');
-
       cy.injectAxe();
     });
 

@@ -12,7 +12,7 @@ const LandingPage = () => {
   if (isLoading) {
     return (
       <div className="vads-u-margin-x--3">
-        <VaLoadingIndicator />
+        <VaLoadingIndicator message="Loading user information..." />
       </div>
     );
   }

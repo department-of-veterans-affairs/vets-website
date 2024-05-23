@@ -1,0 +1,151 @@
+<!--
+  IMPORTANT: This template is only used when running vets-website in standalone mode for development.
+  Changes to this file must also be made to src/site/layouts/page-react.html in the content-build repository.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+
+    <script nonce="**CSP_NONCE**">
+      <%= loadInlineScript('record-event.js') %>
+    </script>
+
+    <!-- Icons -->
+    <link href="/img/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
+    <link href="/img/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
+    <link href="/img/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
+    <link href="/img/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
+    <link rel="shortcut icon" href="/img/design/icons/favicon.ico" />
+
+    <meta name="msapplication-TileImage" content="/img/design/icons/apple-touch-icon-114x114">
+    <meta name="msapplication-TileColor" content="#144073">
+
+    <!-- Preload main fonts -->
+    <link rel="preload" href="/generated/sourcesanspro-bold-webfont.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/generated/sourcesanspro-regular-webfont.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/generated/bitter-bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+    <!-- Scripts and CSS -->
+    <%= modifyScriptAndStyleTags(htmlWebpackPlugin.tags.headTags) %>
+
+    <script nonce="**CSP_NONCE**" type="text/javascript">
+      function focusContent(e) {
+        e.preventDefault();
+        const contentElement = document.querySelector('#content h1') || document.querySelector('#content');
+        contentElement.setAttribute('tabindex', '-1');
+        contentElement.addEventListener('blur', function(event) {
+          event.target.removeAttribute('tabindex');
+        }, true);
+        window.scrollTo(0, contentElement.offsetTop);
+        contentElement.focus();
+      }
+      window.VetsGov = window.VetsGov || {};
+      window.VetsGov.headerFooter = <%= JSON.stringify(headerFooterData) %>;
+    </script>
+  </head>
+
+  <body class="merger">
+    <a class="show-on-focus" href="#content" onclick="focusContent(event)">Skip to Content</a>
+
+    <!-- TODO: Add breadcrumbs -->
+    <% if (includeBreadcrumbs) { %>
+    <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs" id="va-breadcrumbs">
+      <ul id="va-breadcrumbs-list" class="row va-nav-breadcrumbs-list columns" tabindex="-1">
+      <% breadcrumbs_override.forEach(({ name, path }, index) => { %>
+        <li>
+          <a
+            <% if (index === breadcrumbs_override.length - 1) { %>
+            aria-current="page"
+            <% } %>
+            href="/<%= path %>">
+            <%= name %>
+          </a>
+        </li>
+      <% }) %>
+      </ul>
+    </nav>
+    <% } %>
+
+    <!-- React root -->
+    <div id="content">
+      <main id="main" class="main">
+        <% if (widgetType) { %>
+          <div class="usa-grid usa-grid-full vads-u-padding-top--3">
+            <% if (widgetTemplate == 'navigation/facility_sidebar_nav') { %>
+              <script nonce="**CSP_NONCE**" type="text/javascript">
+                window.sideNav = <%= JSON.stringify({rootPath: rootUrl, data: facilitySidebar}) %>;
+              </script>
+              <nav data-template="navigation/facility_sidebar_nav" aria-label="secondary" data-widget-type="side-nav"></nav>
+            <% } %>
+
+            <div class="usa-width-three-fourths">
+              <article class="usa-content">
+                <div data-template="paragraphs/react_widget" data-widget-type="<%= widgetType %>" data-widget-timeout="20">
+                  <div class="loading-indicator-container">
+                    <div class="loading-indicator" role="progressbar" aria-valuetext="Loading" aria-label="secondary"></div>
+                    <span class="loading-indicator-message loading-indicator-message--normal"></span>
+                    <span class="loading-indicator-message loading-indicator-message--slow vads-u-display--none"
+                      aria-hidden="true">
+                      Sorry, this is taking longer than expected.
+                    </span>
+                  </div>
+                  <span class="static-widget-content vads-u-display--none" aria-hidden="true">
+                  </span>
+                  <div class="usa-alert usa-alert-error sip-application-error vads-u-display--none" aria-hidden="true">
+                    <div class="usa-alert-body">
+                      <strong>We&#x2019;re sorry. Something went wrong when we tried to load the
+                        search widget.</strong><br>Please try refreshing your browser in a few
+                      minutes.
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div><!--/.usa-width-three-fourths-->
+          </div><!--/.usa-grid.usa-grid-full-->
+        <% } else{ %>
+          <div class="section">
+            <div id="react-root">
+              <div class="vads-u-margin-y--5">
+                <div class="loading-indicator-container">
+                  <div class="loading-indicator" role="progressbar" aria-valuetext="<%= loadingMessage %>" aria-label="Load application" tabindex="0">
+                  </div>
+                  <%= loadingMessage %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      </main>
+    </div>
+
+    <!-- Footer -->
+    <div id="announcement-root"></div>
+    <footer class="footer" role="contentinfo">
+      <div id="footerNav"
+        data-minimal-footer="<%= typeof minimalFooter !== 'undefined' ? minimalFooter : false %>"
+      ></div>
+    </footer>
+
+    <!--
+      "To care for him who shall have borne the battle and for his widow, and his orphan."
+      - Abraham Lincoln
+    -->
+
+    <% if (entryName === 'static-pages') { %>
+    <script nonce="**CSP_NONCE**" type="text/javascript">
+      (function() {
+      var module = {};
+      <%= loadInlineScript('static-page-widgets.js') %>
+      mountWidgets(document.querySelectorAll('[data-widget-type]'), 6000);
+      })();
+    </script>
+    <% } %>
+
+  </body>
+</html>
