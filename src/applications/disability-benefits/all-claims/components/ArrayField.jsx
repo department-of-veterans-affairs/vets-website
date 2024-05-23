@@ -322,6 +322,7 @@ export default class ArrayField extends React.Component {
       : null;
     const hasTitle = !!title && !hideTitle;
     const hasTitleOrDescription = hasTitle || !!description;
+    const classes = uiOptions.classNames;
 
     // if we have form data, use that, otherwise use an array with a single default object
     const items =
@@ -333,6 +334,7 @@ export default class ArrayField extends React.Component {
       'schemaform-field-container': true,
       'schemaform-block': hasTitleOrDescription,
       'schemaform-block-header': hasTitleOrDescription,
+      [`${classes}`]: classes,
     });
 
     const isOnlyItem = items.length < 2;

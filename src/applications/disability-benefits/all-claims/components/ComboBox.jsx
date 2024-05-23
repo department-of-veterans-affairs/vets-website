@@ -31,9 +31,10 @@ export class ComboBox extends React.Component {
     this.disabilitiesArr = props.uiSchema['ui:options'].listItems;
     this.state = {
       bump: false,
-      searchTerm: '',
-      input: '',
-      value: '',
+      // Autopopulate input with existing form data:
+      searchTerm: props.formData,
+      input: props.formData,
+      value: props.formData,
       highlightedIndex: 0,
       ariaLive1: '',
       ariaLive2: '',
@@ -286,8 +287,10 @@ export class ComboBox extends React.Component {
     return (
       <div className="cc-combobox">
         <VaTextInput
-          message-aria-describedby="What new condition do you want to claim?"
+          label={this.props.uiSchema['ui:title']}
+          required
           name="combobox-input"
+          id={this.props.idSchema.$id}
           value={this.state.value}
           onInput={this.handleSearchChange}
           onChange={this.handleSearchChange}
@@ -303,6 +306,7 @@ export class ComboBox extends React.Component {
           style={{ maxHeight: COMBOBOX_LIST_MAX_HEIGHT }}
           role="listbox"
           ref={this.listRef}
+          aria-label="List of matching conditions"
         >
           {this.drawFreeTextOption(searchTerm)}
           {filteredOptions &&
@@ -340,7 +344,7 @@ export class ComboBox extends React.Component {
           role="alert"
           aria-live="polite"
           aria-atomic="true"
-          id="1"
+          id={`${this.props.idSchema.$id}-live-sr-results1`}
         >
           {ariaLive1}
         </div>
@@ -349,7 +353,7 @@ export class ComboBox extends React.Component {
           role="alert"
           aria-live="polite"
           aria-atomic="true"
-          id="live_sr_results2"
+          id={`${this.props.idSchema.$id}-live-sr-results2`}
         >
           {ariaLive2}
         </div>
@@ -365,6 +369,8 @@ export class ComboBox extends React.Component {
 
 // TODO: flesh this out
 ComboBox.propTypes = {
+  formData: PropTypes.string,
+  idSchema: PropTypes.any,
   uiSchema: PropTypes.any,
   onChange: PropTypes.func,
 };

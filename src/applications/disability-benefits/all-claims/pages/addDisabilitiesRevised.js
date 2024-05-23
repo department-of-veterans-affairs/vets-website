@@ -40,6 +40,7 @@ export const uiSchema = {
       itemName: 'Condition',
       itemAriaLabel: data => data.condition,
       includeRequiredLabelInTitle: true,
+      classNames: 'cc-combobox-container',
     },
     // Ideally, this would show the validation on the array itself (or the name
     // field in an array item), but that's not working.

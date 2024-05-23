@@ -283,3 +283,11 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
     border-bottom: 1px solid var(--vads-color-gray-warm-light);
   }
 }
+
+// Adjusts labels in the ArrayField around combobox groups.
+.cc-combobox-container {
+  .schemaform-label,
+  .va-growable-expanded legend {
+    display: none !important; // there is an !important elsewhere in the cascade that needs overruled here
+  }
+}
