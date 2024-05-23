@@ -5,6 +5,7 @@ import {
   fullNameSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import ArrayDescription from '../../../components/ArrayDescription';
 import ListItemView from '../../../components/ListItemView';
 import { formatFullName } from '../../../helpers';
 import { doesHavePreviousNames } from './helpers';
@@ -21,11 +22,14 @@ PreviousNameView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Previous names',
-  path: 'military/general/add',
+  title: 'List of other names',
+  path: 'military/other-names/add',
   depends: doesHavePreviousNames,
   uiSchema: {
-    ...titleUI('Add other service names'),
+    ...titleUI(
+      'List of other service names',
+      <ArrayDescription message="Add other service names" />,
+    ),
     previousNames: {
       'ui:options': {
         itemName: 'Name',
