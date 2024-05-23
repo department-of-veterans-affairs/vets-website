@@ -13,7 +13,7 @@ describe('Medical Records Labs and Tests List Page', () => {
   });
 
   it('Vaccine Details page Toggle Menu button Print or download ', () => {
-    VaccinesListPage.clickGotoVaccinesLink(defaultVaccines);
+    VaccinesListPage.goToVaccines(defaultVaccines);
     // VaccinesListPage.clickVaccinesDetailsLink(0, defaultVaccines.entry[0]);
     VaccinesListPage.clickVaccinesDetailsLink(0);
     // cy.get('@vaccineDetails.all').should('have.length', 0);

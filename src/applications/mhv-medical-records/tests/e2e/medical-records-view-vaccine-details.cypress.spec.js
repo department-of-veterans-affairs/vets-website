@@ -8,16 +8,11 @@ describe('Medical Records View Vaccines', () => {
 
   beforeEach(() => {
     site.login();
-    // Given Navigate to Notes Page
-    VaccinesListPage.clickGotoVaccinesLink(defaultVaccines);
+    VaccinesListPage.goToVaccines(defaultVaccines);
   });
 
   it('View vaccine details, with full date', () => {
-    // site.login();
-    // cy.visit('my-health/medical-records/');
-    // VaccinesListPage.clickGotoVaccinesLink(defaultVaccines);
-
-    VaccinesListPage.clickVaccinesDetailsLink(1, defaultVaccines.entry[0]);
+    VaccinesListPage.clickVaccinesDetailsLink(1);
     // VaccinesListPage.clickVaccinesDetailsLink(
     //   0,
     // ); /* , defaultVaccines.entry[0] */
