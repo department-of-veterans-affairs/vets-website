@@ -165,6 +165,7 @@
   "scBrowserMonitoringEnabled": "sc_browser_monitoring_enabled",
   "searchRepresentative": "search_representative",
   "searchDropdownComponentEnabled": "search_dropdown_component_enabled",
+  "searchGovMaintenance": "search_gov_maintenance",
   "show526Wizard": "show526_wizard",
   "showPaymentAndDebtSection": "show_payment_and_debt_section",
   "showContactChatbot": "show_contact_chatbot",
