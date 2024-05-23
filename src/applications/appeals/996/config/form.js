@@ -32,6 +32,7 @@ import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 import { errorMessages, ADD_ISSUE_PATH } from '../constants';
 import { mayHaveLegacyAppeals } from '../utils/helpers';
 
+import submissionError from '../../shared/content/submissionError';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
@@ -95,6 +96,7 @@ const formConfig = {
   subTitle: 'VA Form 20-0996 (Higher-Level Review)',
   defaultDefinitions: {},
   preSubmitInfo,
+  submissionError,
   // showReviewErrors: true,
   reviewErrors,
 

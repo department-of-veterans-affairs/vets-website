@@ -51,7 +51,7 @@ describe('Direct deposit information', () => {
       'Direct deposit information',
     );
   });
-  it('should open bank info form when Add or update account buttton is clicked', () => {
+  it('should open bank info form when "Add or change account" buttton is clicked', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',

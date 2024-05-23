@@ -7,8 +7,7 @@ function getPrimaryContact(data) {
   const useCert = data.certifierRole !== 'applicant';
   return {
     name: (useCert ? data?.certifierName : data?.applicantName) ?? false,
-    email:
-      (useCert ? data?.certifierEmail : data?.applicantEmailAddress) ?? false,
+    email: useCert ? data?.certifierEmail ?? false : false, // certifier is the only email we'll potentially have
     phone: (useCert ? data?.certifierPhone : data?.applicantPhone) ?? false,
   };
 }

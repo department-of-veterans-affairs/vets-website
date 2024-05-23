@@ -4,7 +4,6 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import transformForSubmit from './submitTransformer';
-import { getAgeInYears } from '../../shared/utilities';
 import { nameWording } from '../helpers/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
@@ -27,14 +26,12 @@ import {
 
 import {
   applicantHasMedicareABSchema,
-  applicantMedicareABContextSchema,
   applicantMedicarePartACarrierSchema,
   applicantMedicarePartBCarrierSchema,
   applicantMedicarePharmacySchema,
   applicantMedicareAdvantageSchema,
   applicantHasMedicareDSchema,
   applicantMedicarePartDCarrierSchema,
-  appMedicareOver65IneligibleUploadSchema,
   applicantMedicareABUploadSchema,
   applicantMedicareDUploadSchema,
 } from '../chapters/medicareInformation';
@@ -187,34 +184,12 @@ const formConfig = {
           title: formData => `${nameWording(formData)} Medicare status`,
           ...applicantHasMedicareABSchema,
         },
-        // If 'no' to previous question:
-        medicareABContext: {
-          path: 'medicare-ab-status-type',
-          title: formData => `${nameWording(formData)} Medicare status`,
-          depends: formData =>
-            get('applicantMedicareStatus', formData) === false,
-          ...applicantMedicareABContextSchema,
-        },
         // If 'yes' to previous question:
         partACarrier: {
           path: 'medicare-a-carrier',
           title: formData => `${nameWording(formData)} Medicare Part A carrier`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicarePartACarrierSchema,
-        },
-        // If ineligible and over 65, require user to upload proof of ineligibility
-        medicareIneligible: {
-          path: 'medicare-ineligible-upload',
-          title: 'Over 65 and ineligible for Medicare',
-          depends: formData => {
-            return (
-              get('applicantMedicareStatusContinued', formData) ===
-                'ineligible' && getAgeInYears(formData?.applicantDOB) >= 65
-            );
-          },
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
-          ...appMedicareOver65IneligibleUploadSchema,
         },
         partBCarrier: {
           path: 'medicare-b-carrier',
