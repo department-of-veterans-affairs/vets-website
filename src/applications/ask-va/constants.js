@@ -358,9 +358,9 @@ export const CHAPTER_3 = {
     QUESTION_1: '',
   },
   ABOUT_YOUR_FAM_MEM: {
-    TITLE: 'Your relationship to the family member',
+    TITLE: 'Tell us about your family member',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select your relationship to the family member',
+    QUESTION_1: '',
   },
   RELATIONSHIP_TO_FAM_MEM: {
     TITLE: 'What is your relationship to the family member?',
