@@ -191,6 +191,7 @@ SuggestedAddress.propTypes = {
   setGoBackToEdit: PropTypes.func.isRequired,
   address: PropTypes.object,
   formData: PropTypes.object,
+  scrollToTopOfForm: PropTypes.func,
   setSuggestedAddressPicked: PropTypes.func,
   suggestedAddressPicked: PropTypes.bool,
 };
