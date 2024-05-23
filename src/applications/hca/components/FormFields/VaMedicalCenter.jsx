@@ -47,20 +47,22 @@ const VaMedicalCenter = props => {
     [dirtyFields],
   );
 
+  const getFieldNameSuffix = fieldName => fieldName.split('_').pop();
+
   // define our non-checkbox input change event
   const handleChange = useCallback(
     event => {
-      const fieldName = event.target.name.split('_').pop();
+      const fieldName = getFieldNameSuffix(event.target.name);
       setLocalData({ ...localData, [fieldName]: event.target.value });
       addDirtyField(fieldName);
     },
-    [addDirtyField, localData, onChange],
+    [addDirtyField, localData],
   );
 
   // define our non-checkbox input blur event
   const handleBlur = useCallback(
     event => {
-      const fieldName = event.target.name.split('_').pop();
+      const fieldName = getFieldNameSuffix(event.target.name);
       addDirtyField(fieldName);
     },
     [addDirtyField],
@@ -83,7 +85,7 @@ const VaMedicalCenter = props => {
   // grab the facility name based upon the selected value
   const getFacilityName = useCallback(
     val => {
-      const facility = facilities.find(f => f.id.split('_').pop() === val);
+      const facility = facilities.find(f => getFieldNameSuffix(f.id) === val);
       return facility?.name || '\u2014';
     },
     [facilities],
@@ -104,9 +106,10 @@ const VaMedicalCenter = props => {
         vaMedicalFacility: localData.vaMedicalFacility || undefined,
       });
     },
-    [localData],
+    [localData, onChange],
   );
 
+  const localDataFacilityState = localData['view:facilityState'];
   const previousFacilityState = usePrevious(localData['view:facilityState']);
 
   // fetch, map and set our list of facilities based on the state selection
@@ -147,7 +150,7 @@ const VaMedicalCenter = props => {
         isLoading(false);
       }
     },
-    [localData['view:facilityState']],
+    [localDataFacilityState, previousFacilityState],
   );
 
   // render the static facility name on review page
@@ -212,7 +215,7 @@ const VaMedicalCenter = props => {
         uswds
       >
         {facilities.map(f => (
-          <option key={f.id} value={f.id.split('_').pop()}>
+          <option key={f.id} value={getFieldNameSuffix(f.id)}>
             {f.name}
           </option>
         ))}
