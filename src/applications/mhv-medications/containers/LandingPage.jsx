@@ -18,6 +18,7 @@ import {
 } from '../util/constants';
 import { selectRefillContentFlag } from '../util/selectors';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const LandingPage = () => {
   const user = useSelector(selectUser);
@@ -110,6 +111,7 @@ const LandingPage = () => {
               medications list.
             </p>
           </section>
+          <CernerFacilityAlert />
           {prescriptionsApiError ? (
             <section>
               <ApiErrorNotification />
