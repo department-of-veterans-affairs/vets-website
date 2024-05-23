@@ -96,7 +96,7 @@ const LandingPage = () => {
 
   const content = () => {
     return (
-      <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+      <>
         <div className="main-content">
           <section>
             <h1
@@ -605,7 +605,7 @@ const LandingPage = () => {
           </section>
         </div>
         <va-back-to-top />
-      </div>
+      </>
     );
   };
 
@@ -634,7 +634,7 @@ const LandingPage = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <div className="landing-page small-screen:vads-u-margin-top--1 vads-u-margin-bottom--6">
+      <div className="landing-page small-screen:vads-u-margin-top--1 vads-u-margin-bottom--6 vads-l-col--12 medium-screen:vads-l-col--8">
         {content()}
       </div>
     </RequiredLoginView>
