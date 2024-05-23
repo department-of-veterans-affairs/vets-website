@@ -4,10 +4,9 @@ import { AXE_CONTEXT, Data, Locators } from '../utils/constants';
 
 describe('Secure Messaging Keyboard Nav To Compose', () => {
   const site = new SecureMessagingSite();
-  const patientInboxPage = new PatientInboxPage();
   beforeEach(() => {
     site.login();
-    patientInboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
   });
   it('Keyboard Nav from Welcome Page to Compose', () => {
     cy.tabToElement('[data-testid="compose-message-link"]');

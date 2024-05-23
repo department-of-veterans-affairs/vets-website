@@ -10,10 +10,7 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
-import {
-  getJobTitleOrType,
-  updateMultiresponseUiOptions,
-} from '../../../helpers';
+import { getJobTitleOrType } from '../../../helpers';
 import ArrayDescription from '../../../components/ArrayDescription';
 
 export function hasFederalTreatmentHistory(formData) {
@@ -97,7 +94,8 @@ export const generateMedicalCentersSchemas = (
           confirmRemove: true,
           useDlWrap: true,
           useVaCards: true,
-          updateSchema: updateMultiresponseUiOptions,
+          showSave: true,
+          reviewMode: true,
         },
         items: {
           medicalCenter: {
@@ -161,7 +159,8 @@ const generateEmployersUISchema = ({
       confirmRemove: true,
       useDlWrap: true,
       useVaCards: true,
-      updateSchema: updateMultiresponseUiOptions,
+      showSave: true,
+      reviewMode: true,
     },
     items: {
       ...(showJobDateField && {

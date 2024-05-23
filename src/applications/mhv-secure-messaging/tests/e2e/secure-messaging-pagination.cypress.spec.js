@@ -6,7 +6,6 @@ import { AXE_CONTEXT, Data } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('Secure Messaging Reply', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
@@ -23,7 +22,7 @@ describe('Secure Messaging Reply', () => {
       currentItem.attributes.threadPageSize = threadLength;
     });
 
-    landingPage.loadInboxMessages(mockMessagesPageOne);
+    PatientInboxPage.loadInboxMessages(mockMessagesPageOne);
     cy.get('va-pagination').should('be.visible');
     site.clickAndLoadVAPaginationNextMessagesButton(2, mockMessagesPageTwo);
     site.verifyPaginationMessagesDisplayedText(11, 20, threadLength);
@@ -63,7 +62,7 @@ describe('Secure Messaging Reply', () => {
       data: [mockMessagesPageOne.data[mockMessagesPageOne.data.length - 1]],
     };
 
-    landingPage.loadInboxMessages(mockMessagesPageOne);
+    PatientInboxPage.loadInboxMessages(mockMessagesPageOne);
     site.clickAndLoadVAPaginationLastPageButton(
       pageNumber,
       mockSingleMessageThread,
