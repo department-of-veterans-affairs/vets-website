@@ -17,26 +17,11 @@ class VaccinesListPage extends BaseListPage {
     }
   };
 
-  clickVaccinesDetailsLink = (
-    _VaccinesIndex = 0,
-    // VaccinesDetails = defaultVaccineDetail,
-    // wait = false,
-  ) => {
-    // cy.intercept(
-    //   'GET',
-    //   `/my_health/v1/medical_records/vaccines/${VaccinesDetails.id}`,
-    //   VaccinesDetails,
-    // ).as('vaccineDetails');
-
-    // cy.log(VaccinesDetails.id);
-
+  clickVaccinesDetailsLink = (vaccinesIndex = 0) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
-      .eq(_VaccinesIndex)
+      .eq(vaccinesIndex)
       .click();
-    // if (wait) {
-    //   cy.wait('@vaccineDetails');
-    // }
   };
 }
 

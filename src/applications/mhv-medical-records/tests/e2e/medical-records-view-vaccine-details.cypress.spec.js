@@ -11,13 +11,8 @@ describe('Medical Records View Vaccines', () => {
     VaccinesListPage.goToVaccines(defaultVaccines);
   });
 
-  it('View vaccine details, with full date', () => {
+  it('View vaccine details, vaccine with full date', () => {
     VaccinesListPage.clickVaccinesDetailsLink(1);
-    // VaccinesListPage.clickVaccinesDetailsLink(
-    //   0,
-    // ); /* , defaultVaccines.entry[0] */
-
-    // cy.get('@vaccineDetails.all').should('have.length', 0);
     VaccineDetailsPage.verifyVaccineName(defaultVaccines.entry[0]);
     VaccineDetailsPage.verifyVaccineDate(defaultVaccines.entry[0]);
     VaccineDetailsPage.verifyVaccineLocation(defaultVaccines.entry[0]);
@@ -31,8 +26,8 @@ describe('Medical Records View Vaccines', () => {
     cy.axeCheck('main');
   });
 
-  it('View vaccine details, date with year only', () => {
-    VaccinesListPage.clickVaccinesDetailsLink(0, defaultVaccines.entry[12]);
+  it('View vaccine details, vaccine date with year only', () => {
+    VaccinesListPage.clickVaccinesDetailsLink(0);
     VaccineDetailsPage.verifyVaccineName(defaultVaccines.entry[12]);
     VaccineDetailsPage.verifyVaccineDate(defaultVaccines.entry[12]);
     VaccineDetailsPage.verifyVaccineLocation(defaultVaccines.entry[12]);
