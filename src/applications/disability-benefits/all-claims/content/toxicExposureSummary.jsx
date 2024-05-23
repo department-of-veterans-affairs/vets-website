@@ -28,20 +28,22 @@ export function toxicExposureSummary(
     <>
       {formSubtitle('Summary')}
       <ul>
-        {Object.keys(checkboxes).map(item => {
-          return (
-            checkboxes[item] === true && (
-              <li key={item}>
-                <h5 className="vads-u-font-size--h6">
-                  {checkboxDefinitions[item]}
-                </h5>
-                <p className="vads-u-margin-y--1">
-                  {datesDescription(toxicExposure[datesObjectName][item])}
-                </p>
-              </li>
-            )
-          );
-        })}
+        {Object.keys(checkboxes)
+          .filter(item => item !== 'none' && item !== 'notsure')
+          .map(item => {
+            return (
+              checkboxes[item] === true && (
+                <li key={item}>
+                  <h5 className="vads-u-font-size--h6">
+                    {checkboxDefinitions[item]}
+                  </h5>
+                  <p className="vads-u-margin-y--1">
+                    {datesDescription(toxicExposure[datesObjectName][item])}
+                  </p>
+                </li>
+              )
+            );
+          })}
       </ul>
       <p>
         <Link
