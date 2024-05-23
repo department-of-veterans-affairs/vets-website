@@ -39,6 +39,7 @@ class SearchApp extends React.Component {
       results: PropTypes.array,
     }).isRequired,
     fetchSearchResults: PropTypes.func.isRequired,
+    searchGovMaintenance: PropTypes.bool,
   };
 
   constructor(props) {
@@ -351,6 +352,7 @@ class SearchApp extends React.Component {
   };
 
   renderResults() {
+    const { searchGovMaintenance } = this.props;
     const {
       loading,
       errors,
@@ -480,6 +482,22 @@ class SearchApp extends React.Component {
       };
     }
 
+    if (searchGovMaintenance) {
+      return (
+        <div className="columns vads-u-margin-bottom--4">
+          <va-banner
+            data-label="Error banner"
+            headline="Search Maintenance"
+            type="error"
+          >
+            We’re working on Search VA.gov right now. If you have trouble using
+            the search tool, check back later. Thank you for your patience.
+          </va-banner>
+          {searchInput}
+        </div>
+      );
+    }
+
     if (
       isWithinMaintenanceWindow() &&
       results &&
@@ -488,6 +506,7 @@ class SearchApp extends React.Component {
       !loading
     ) {
       const { start, end } = calculateCurrentMaintenanceWindow(); // Use this for the next scheduled maintenance window
+
       return (
         <div className="columns vads-u-margin-bottom--4">
           <va-maintenance-banner
@@ -844,6 +863,9 @@ const mapStateToProps = state => ({
   search: state.search,
   searchDropdownComponentEnabled: toggleValues(state)[
     FEATURE_FLAG_NAMES.searchDropdownComponentEnabled
+  ],
+  searchGovMaintenance: toggleValues(state)[
+    FEATURE_FLAG_NAMES.searchGovMaintenance
   ],
 });
 
