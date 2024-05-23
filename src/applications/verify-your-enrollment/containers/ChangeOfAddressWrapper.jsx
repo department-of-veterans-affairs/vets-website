@@ -39,6 +39,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
   const [editFormData, setEditFormData] = useState({});
+  const [veteranName, setVeteranName] = useState();
   const [beforeDditFormData, setBeforeEditFormData] = useState({});
   const [suggestedAddressPicked, setSuggestedAddressPicked] = useState(false);
   const [newAddress, setNewAddress] = useState({});
@@ -226,6 +227,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
 
     setFormData(tempData);
     setEditFormData(tempData);
+    setVeteranName(tempData?.fullName);
   };
 
   return (
@@ -297,7 +299,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             />
 
             <ChangeOfAddressForm
-              applicantName={applicantName}
+              applicantName={veteranName || applicantName}
               addressFormData={formData}
               formChange={addressData => updateAddressData(addressData)}
               formPrefix={PREFIX}
