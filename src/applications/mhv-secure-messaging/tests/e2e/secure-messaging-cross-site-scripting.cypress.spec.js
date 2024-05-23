@@ -5,12 +5,11 @@ import requestBody from './fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging - Cross Site Scripting', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
 
   it('search for script', () => {
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
 
@@ -19,7 +18,7 @@ describe('Secure Messaging - Cross Site Scripting', () => {
       subject: 'Test Cross Scripting - ><script>alert(1);</script>',
       body: 'Test message body - ><script>alert(1);</script>',
     };
-    landingPage.navigateToComposePage();
+    PatientInboxPage.navigateToComposePage();
     PatientComposePage.selectRecipient(requestBody.recipientId);
     PatientComposePage.selectCategory(requestBody.category);
     PatientComposePage.getMessageSubjectField().type(

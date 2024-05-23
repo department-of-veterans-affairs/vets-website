@@ -1,4 +1,4 @@
-import mockdata from '../../fixtures/data/test-data.json';
+import mockdata from '../../e2e/fixtures/data/test-data.json';
 import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/pageTests.spec';
 
 import formConfig from '../../../config/form';

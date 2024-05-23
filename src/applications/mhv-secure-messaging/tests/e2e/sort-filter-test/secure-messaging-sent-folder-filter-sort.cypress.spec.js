@@ -5,10 +5,9 @@ import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Message Details in Sent AXE Check', () => {
   beforeEach(() => {
-    const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     PatientMessagesSentPage.loadMessages();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

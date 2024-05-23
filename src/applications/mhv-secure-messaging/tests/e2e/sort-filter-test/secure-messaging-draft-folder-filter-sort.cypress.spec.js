@@ -4,12 +4,11 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Draft Folder checks', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   const draftsPage = new PatientMessagesDraftsPage();
   beforeEach(() => {
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     draftsPage.loadMessages();
   });
 

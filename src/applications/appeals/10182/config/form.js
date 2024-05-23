@@ -47,6 +47,7 @@ import {
   savedFormMessages,
 } from '../content/saveInProgress';
 
+import submissionError from '../../shared/content/submissionError';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
@@ -94,7 +95,7 @@ const formConfig = {
   savedFormMessages,
   saveInProgress,
   // errorText: '',
-  // submissionError: '',
+  submissionError,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
 

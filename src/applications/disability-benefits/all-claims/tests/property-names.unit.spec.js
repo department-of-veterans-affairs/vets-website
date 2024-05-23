@@ -26,6 +26,8 @@ const ignoreList = {
     'toxicExposureConditions',
     'gulfWar1990Locations',
     'gulfWar2001Locations',
+    'herbicideLocations',
+    'herbicideOtherLocations',
   ],
   unemployability: [
     'medicalCare',
@@ -54,6 +56,7 @@ describe('Root property names', () => {
     const duplicatedPropertiesToIgnore = [
       'view:hasEvidence',
       'view:hasEvidenceFollowUp',
+      'view:newDisabilityErrors',
     ];
 
     Object.keys(pages).forEach(pageName => {
