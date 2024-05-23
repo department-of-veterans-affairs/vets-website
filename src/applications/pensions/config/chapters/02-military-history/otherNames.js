@@ -10,11 +10,11 @@ import ListItemView from '../../../components/ListItemView';
 import { formatFullName } from '../../../helpers';
 import { doesHavePreviousNames } from './helpers';
 
-export const PreviousNameView = ({ formData }) => (
+export const OtherNameView = ({ formData }) => (
   <ListItemView title={formatFullName(formData.previousFullName)} />
 );
 
-PreviousNameView.propTypes = {
+OtherNameView.propTypes = {
   formData: PropTypes.shape({
     previousFullName: PropTypes.object,
   }),
@@ -35,7 +35,7 @@ export default {
         itemName: 'Name',
         itemAriaLabel: data =>
           data.previousFullName && formatFullName(data.previousFullName),
-        viewField: PreviousNameView,
+        viewField: OtherNameView,
         reviewTitle: 'Previous names',
         keepInPageOnReview: true,
         customTitle: ' ',
