@@ -12,18 +12,18 @@
                 7px 0 7px -7px var(--vads-color-action-focus-on-light),
                 -7px 0 7px -7px var(--vads-color-action-focus-on-light);
     list-style: none;
-    margin-top: -.5rem;
-    max-width: 46rem;
+    margin-top: -.0.3125rem;
+    max-width: 28.75rem;
     padding: 0;
     position: relative;
 
     @include media-maxwidth($small-screen) {
-        font-size: 1.3rem;
+        font-size: 0.8125rem;
     }
   }
 
   .suggestion {
-    padding: .5rem 1rem;
+    padding: 0.3125rem 0.625rem;
 
     &-highlighted {
       background-color: var(--vads-color-primary-alt-light);

@@ -7,21 +7,21 @@ export default function transformForSubmit(formConfig, form) {
   );
   const dataPostTransform = {
     veteran: {
-      date_of_birth: transformedData.veteranDateOfBirth || '',
-      full_name: transformedData?.veteranFullName || {},
+      date_of_birth: transformedData.veteranDOB,
+      full_name: transformedData?.veteranFullName,
       physical_address: transformedData.physicalAddress || {
+        country: 'NA',
         street: 'NA',
         city: 'NA',
         state: 'NA',
         postalCode: 'NA',
-        country: 'NA',
       },
       mailing_address: transformedData.veteranAddress || {
+        country: 'NA',
         street: 'NA',
         city: 'NA',
         state: 'NA',
         postalCode: 'NA',
-        country: 'NA',
       },
       ssn: transformedData?.veteranSocialSecurityNumber?.ssn || '',
       va_claim_number: transformedData?.vaFileNumber || '',

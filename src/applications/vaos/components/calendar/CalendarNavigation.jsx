@@ -48,7 +48,16 @@ const CalendarNavigation = ({
       <span className="vads-u-display--none small-screen:vads-u-display--inline vads-u-padding-right--1">
         Next
       </span>
-      <span className="vaos-calendar__nav-link-icon ">
+      <span
+        className={classNames(
+          `vaos-calendar__nav-link-icon`,
+          `${
+            nextDisabled
+              ? 'vads-u-background-color--gray-light'
+              : 'vads-u-background-color--primary'
+          }`,
+        )}
+      >
         <va-icon icon="navigate_next" size="3" aria-hidden="true" />
       </span>
     </button>

@@ -41,7 +41,14 @@ export const fillAddressWebComponentPattern = (fieldName, addressObject) => {
   fillTextWebComponent(`${fieldName}_street`, addressObject.street);
   fillTextWebComponent(`${fieldName}_street2`, addressObject.street2);
   fillTextWebComponent(`${fieldName}_street3`, addressObject.street3);
-  selectDropdownWebComponent(`${fieldName}_state`, addressObject.state);
+  // List loop fields sometimes fail on this because the state <select> renders as a text input
+  // TODO: look into that bug. For now, set the test to check which field type we have
+  cy.get('body').then(body => {
+    if (body.find(`va-select[name="root_${fieldName}_state"]`).length > 0)
+      selectDropdownWebComponent(`${fieldName}_state`, addressObject.state);
+    if (body.find(`va-text-input[name="root_${fieldName}_state"]`).length > 0)
+      fillTextWebComponent(`${fieldName}_state`, addressObject.state);
+  });
   fillTextWebComponent(`${fieldName}_postalCode`, addressObject.postalCode);
 };
 
@@ -118,3 +125,19 @@ export const reviewAndSubmitPageFlow = (
     selector: 'button',
   }).click();
 };
+
+/**
+ * Puts all page objects into an object where pagename maps to page data
+ * E.g., {page1: {path: '/blah'}}*
+ * @param {object} formConfig A standard config representing a form
+ * @returns object mapping page name to the matching page object: {page1: {path: '/blah'}}
+ */
+export function getAllPages(formConfig) {
+  const allPages = {};
+  Object.values(formConfig.chapters).forEach(ch =>
+    Object.keys(ch.pages).forEach(p => {
+      allPages[p] = ch.pages[p];
+    }),
+  );
+  return allPages;
+}

@@ -29,8 +29,10 @@ module.exports = [
   { name: 'vaOnlineSchedulingPhysicalLocation', value: true },
   { name: 'vaOnlineSchedulingDatadogRum', value: true },
   { name: 'vaOnlineSchedulingAppointmentDetailsRedesign', value: false },
+  { name: 'vaOnlineSchedulingCCDirectScheduling', value: false },
   { name: 'selectFeaturePocTypeOfCare', value: true },
   { name: 'edu_section_103', value: true },
   { name: 'vaViewDependentsAccess', value: false },
   { name: 'gibctEybBottomSheet', value: true },
+  { name: 'mhv_secondary_navigation_enabled', value: true },
 ];

@@ -7,7 +7,7 @@ export default {
   ...generateEmployersSchemas({
     employersKey: 'currentEmployers',
     employersTitle: 'Current employment',
-    employerMessage: 'Enter all your current jobs',
+    employerMessage: 'Enter up to two of your current jobs',
     jobTypeFieldLabel: 'What kind of work do you currently do?',
     jobHoursWeekFieldLabel: 'How many hours per week do you work on average?',
     employersReviewTitle: 'Current employers',

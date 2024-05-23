@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+// eslint-disable-next-line import/no-named-default
+import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
 /**
  * A secondary nav item.
- * @param iconClass the classname(s) for a font awesome icon
- * @param href the link for the navigation item
- * @param title the title for the navigation item
- * @param abbreviation the abbreviation for the navigation item shown instead of the title when the width is less than 400px
- * @param isActive true if the nav item is to be shown as active
+ * @property {string} iconClass the classname(s) for a font awesome icon
+ * @property {string} href the link for the navigation item
+ * @property {string} title the title for the navigation item
+ * @property {string} abbreviation the abbreviation for the navigation item shown instead of the title when the width is less than 400px
+ * @property {string} actionName the name of the action to be provided for DD monitoring purposes
+ * @property {string} isActive true if the nav item is to be shown as active
+ * @property {string} isHeader true if the nav item is to be shown as the header
  * @returns a secondary nav item
  */
 const MhvSecondaryNavItem = ({
@@ -16,8 +20,10 @@ const MhvSecondaryNavItem = ({
   href,
   title,
   abbreviation,
+  actionName,
   isActive = false,
   isHeader = false,
+  recordEvent = recordEventFn,
 }) => {
   const key = title.toLowerCase().replaceAll(' ', '_');
   const mobileTitle = abbreviation ? (
@@ -44,7 +50,20 @@ const MhvSecondaryNavItem = ({
 
   return (
     <div key={key} className={itemClass} data-testid="mhv-sec-nav-item">
-      <a href={href} className="vads-u-text-decoration--none">
+      <a
+        href={href}
+        data-dd-action-name={actionName}
+        className="vads-u-text-decoration--none"
+        onClick={() => {
+          recordEvent({
+            event: 'nav-mhv-secondary',
+            action: 'click',
+            'nav-link-text': title,
+            'nav-link-url': href,
+            'nav-link-location': 'MHV secondary nav',
+          });
+        }}
+      >
         {!!icon && <va-icon icon={icon} size={3} />}
         <span className={`mhv-u-sec-nav-item-title ${titleClass}`}>
           {title}
@@ -62,8 +81,10 @@ MhvSecondaryNavItem.propTypes = {
   icon: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   abbreviation: PropTypes.string,
+  actionName: PropTypes.string,
   isActive: PropTypes.bool,
   isHeader: PropTypes.bool,
+  recordEvent: PropTypes.func,
 };
 
 export default MhvSecondaryNavItem;

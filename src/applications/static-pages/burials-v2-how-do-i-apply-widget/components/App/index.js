@@ -200,7 +200,7 @@ export const App = () => {
           request these documents now.
         </p>
         <va-link
-          href="https://www.va.gov/records/get-military-service-records/"
+          href="/records/get-military-service-records/"
           text="Learn more about requesting military service records"
         />
 
@@ -234,7 +234,7 @@ export const App = () => {
           Fill out an Application for Burial Benefits (VA Form 21P-530EZ).
           <br />
           <va-link
-            href="https://www.va.gov/find-forms/about-form-21p-530ez/"
+            href="/find-forms/about-form-21p-530ez/"
             text="Get VA Form 21P-530EZ to download"
           />
         </p>
@@ -464,7 +464,7 @@ export const App = () => {
         Fill out an Application for Burial Benefits (VA Form 21P-530EZ).
         <br />
         <va-link
-          href="https:www.va.gov/find-forms/about-form-21p-530ez/"
+          href="/find-forms/about-form-21p-530ez/"
           text="Get VA Form 21P-530EZ to download"
         />
       </p>
@@ -474,7 +474,7 @@ export const App = () => {
         VA regional office.
         <br />
         <va-link
-          href="https:www.va.gov/find-locations/?facilityType=benefits"
+          href="/find-locations/?facilityType=benefits"
           text="Find your nearest VA regional office"
         />
       </p>

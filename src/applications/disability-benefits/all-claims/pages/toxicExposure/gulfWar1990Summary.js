@@ -12,7 +12,7 @@ export const uiSchema = {
       GULF_WAR_1990_LOCATIONS,
       'gulfWar1990Details',
       'go back and edit locations and dates for service after August 2, 1990',
-      `${TE_URL_PREFIX}/gulf-war-hazard-1990`,
+      `${TE_URL_PREFIX}/gulf-war-1990`,
     ),
 };
 

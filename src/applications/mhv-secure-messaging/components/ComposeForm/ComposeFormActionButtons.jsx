@@ -59,7 +59,6 @@ const ComposeFormActionButtons = ({
           data-testid="Save-Draft-Button"
           onClick={e => onSaveDraft('manual', e)}
         >
-          <i className="fas fa-save" aria-hidden="true" />
           Save draft
         </button>
       )}
@@ -76,6 +75,7 @@ const ComposeFormActionButtons = ({
         setDeleteButtonClicked={setDeleteButtonClicked}
         cannotReply={cannotReply}
         messageBody={messageBody}
+        showIcon={false}
       />
     </div>
   );

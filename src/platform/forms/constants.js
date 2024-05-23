@@ -25,6 +25,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_526EZ: '21-526EZ',
   FORM_21_686C: '686C-674',
   FORM_21P_0847: '21P-0847',
+  FORM_21P_0969: '21P-0969',
   FORM_21P_527EZ: '21P-527EZ',
   FORM_21P_530: '21P-530',
   FORM_21P_530V2: '21P-530V2',
@@ -77,6 +78,8 @@ export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
 
 export const FORM_BENEFITS = {
   [VA_FORM_IDS.FORM_10_10D]: 'application for champva benefits',
+  [VA_FORM_IDS.FORM_10_7959F_1]:
+    'Foreign Medical Program (FMP) Registration Form',
   [VA_FORM_IDS.FORM_20_10206]: 'personal records request',
   [VA_FORM_IDS.FORM_21_0972]: 'alternate signer',
   [VA_FORM_IDS.FORM_21_10210]: 'lay/witness statement',
@@ -146,6 +149,7 @@ export const FORM_DESCRIPTIONS = Object.keys(FORM_BENEFITS).reduce(
   {},
 );
 
+// Entries previously added to FORM_LINKS go in here:
 export const getAllFormLinks = getAppUrlImpl => {
   if (!getAppUrlImpl) {
     throw new Error(
@@ -156,6 +160,7 @@ export const getAllFormLinks = getAppUrlImpl => {
   return {
     [VA_FORM_IDS.FEEDBACK_TOOL]: `${getAppUrlImpl('feedback-tool')}/`,
     [VA_FORM_IDS.FORM_10_10D]: `${getAppUrlImpl('10-10D')}/`,
+    [VA_FORM_IDS.FORM_10_7959F_1]: `${getAppUrlImpl('10-7959f-1-FMP')}/`,
     [VA_FORM_IDS.FORM_10_10EZ]: `${getAppUrlImpl('hca')}/`,
     [VA_FORM_IDS.FORM_10182]: `${getAppUrlImpl('10182-board-appeal')}/`,
     [VA_FORM_IDS.FORM_20_0995]: `${getAppUrlImpl('995-supplemental-claim')}/`,
@@ -210,6 +215,7 @@ export const memoizedGetFormLink = (getAppUrlImpl = getAppUrl) => {
 
 export const TRACKING_PREFIXES = {
   [VA_FORM_IDS.FORM_10_10D]: '10-10D-',
+  [VA_FORM_IDS.FORM_10_7959F_1]: '10-7959f-1-FMP-',
   [VA_FORM_IDS.FORM_20_10206]: 'pa-10206-',
   [VA_FORM_IDS.FORM_21_0972]: '21-0972-alternate-signer-',
   [VA_FORM_IDS.FORM_21_10210]: 'lay-witness-10210-',
@@ -244,6 +250,7 @@ export const TRACKING_PREFIXES = {
 
 export const SIP_ENABLED_FORMS = new Set([
   VA_FORM_IDS.FORM_10_10D,
+  VA_FORM_IDS.FORM_10_7959F_1,
   VA_FORM_IDS.FORM_10_10EZ,
   VA_FORM_IDS.FORM_20_10206,
   VA_FORM_IDS.FORM_21_0972,
@@ -276,3 +283,240 @@ export const SIP_ENABLED_FORMS = new Set([
   VA_FORM_IDS.FORM_VA_2346A,
   VA_FORM_IDS.FORM_5655,
 ]);
+
+/**
+ * The following MY_VA_SIP_FORMS array is a work-in-progress, maintained by the Authenticated Experience team.
+ * Platform documentation have NOT been updated to reflect this change
+ */
+
+export const MY_VA_SIP_FORMS = [
+  {
+    id: VA_FORM_IDS.FORM_10_10EZ,
+    benefit: 'health care benefits',
+    title: 'health care benefits (10-10EZ)',
+    description: 'health care benefits application (10-10EZ)',
+    trackingPrefix: 'hca-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_10_10D,
+    benefit: 'application for champva benefits',
+    title: 'application for champva benefits (10-10D)',
+    description: 'application for champva benefits application (10-10D)',
+    trackingPrefix: '10-10D-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_20_10206,
+    benefit: 'personal records request',
+    title: 'personal records request (20-10206)',
+    description: 'personal records request application (20-10206)',
+    trackingPrefix: 'pa-10206-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_0972,
+    benefit: 'alternate signer',
+    title: 'alternate signer (21-0972)',
+    description: 'alternate signer application (21-0972)',
+    trackingPrefix: '21-0972-alternate-signer-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_10210,
+    benefit: 'lay/witness statement',
+    title: 'lay/witness statement (21-10210)',
+    description: 'lay/witness statement application (21-10210)',
+    trackingPrefix: 'lay-witness-10210-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_4142,
+    benefit: 'authorization to release medical information',
+    title: 'authorization to release medical information (21-4142)',
+    description:
+      'authorization to release medical information application (21-4142)',
+    trackingPrefix: 'medical-release-4142-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_686C,
+    benefit: 'dependent status',
+    title: 'dependent status (686C-674)',
+    description: 'dependent status application (686C-674)',
+    trackingPrefix: '686-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_526EZ,
+    benefit: 'disability compensation',
+    title: 'disability compensation (21-526EZ)',
+    description: 'disability compensation application (21-526EZ)',
+    trackingPrefix: 'disability-526EZ-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_0847,
+    benefit: 'substitute claimant',
+    title: 'substitute claimant (21P-0847)',
+    description: 'substitute claimant application (21P-0847)',
+    trackingPrefix: '21P-0847-substitute-claimant-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_527EZ,
+    benefit: 'Veterans pension benefits',
+    title: 'Veterans pension benefits (21P-527EZ)',
+    description: 'Veterans pension benefits application (21P-527EZ)',
+    trackingPrefix: 'pensions-527EZ-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_530,
+    benefit: 'burial benefits',
+    title: 'burial benefits (21P-530)',
+    description: 'burial benefits application (21P-530)',
+    trackingPrefix: 'burials-530-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_0993,
+    benefit: 'opt out',
+    title: 'opt out (22-0993)',
+    description: 'opt out application (22-0993)',
+    trackingPrefix: 'edu-0993-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_0994,
+    benefit: 'VET TEC',
+    title: 'VET TEC (22-0994)',
+    description: 'VET TEC application (22-0994)',
+    trackingPrefix: 'edu-0994-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_1990,
+    benefit: 'education benefits',
+    title: 'education benefits (22-1990)',
+    description: 'education benefits application (22-1990)',
+    trackingPrefix: 'edu-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_1990E,
+    benefit: 'education benefits',
+    title: 'education benefits (22-1990E)',
+    description: 'education benefits application (22-1990E)',
+    trackingPrefix: 'edu-1990e-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_1990EZ,
+    benefit: 'education benefits',
+    title: 'education benefits (22-1990EZ)',
+    description: 'education benefits application (22-1990EZ)',
+    trackingPrefix: 'edu-1990ez-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_1990N,
+    benefit: 'education benefits',
+    title: 'education benefits (22-1990N)',
+    description: 'education benefits application (22-1990N)',
+    trackingPrefix: 'edu-1990n-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_1995,
+    benefit: 'education benefits',
+    title: 'education benefits (22-1995)',
+    description: 'education benefits application (22-1995)',
+    trackingPrefix: 'edu-1995-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_5490,
+    benefit: 'education benefits',
+    title: 'education benefits (22-5490)',
+    description: 'education benefits application (22-5490)',
+    trackingPrefix: 'edu-5490-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_5495,
+    benefit: 'education benefits',
+    title: 'education benefits (22-5495)',
+    description: 'education benefits application (22-5495)',
+    trackingPrefix: 'edu-5495-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_10203,
+    benefit: 'Rogers STEM Scholarship',
+    title: 'Rogers STEM Scholarship (22-10203)',
+    description: 'Rogers STEM Scholarship application (22-10203)',
+    trackingPrefix: 'edu-10203-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_26_1880,
+    benefit: 'VA home loan certification of eligibility',
+    title: 'VA home loan certification of eligibility (26-1880)',
+    description:
+      'VA home loan certification of eligibility application (26-1880)',
+    trackingPrefix: 'undefined',
+  },
+  {
+    id: VA_FORM_IDS.FORM_26_4555,
+    benefit: 'specially adapted housing grant',
+    title: 'specially adapted housing grant (26-4555)',
+    description: 'specially adapted housing grant application (26-4555)',
+    trackingPrefix: 'adapted-housing-4555-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_28_1900,
+    benefit: 'Veteran Readiness and Employment Benefits',
+    title: 'Veteran Readiness and Employment Benefits (28-1900)',
+    description:
+      'Veteran Readiness and Employment Benefits application (28-1900)',
+    trackingPrefix: '28-1900-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_28_8832,
+    benefit: 'personalized career planning and guidance',
+    title: 'personalized career planning and guidance (28-8832)',
+    description:
+      'personalized career planning and guidance application (28-8832)',
+    trackingPrefix: '28-8832-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_40_10007,
+    benefit: 'pre-need determination of eligibility in a VA national cemetery',
+    title: 'pre-need determination of eligibility in a VA national cemetery',
+    description:
+      'pre-need determination of eligibility in a VA national cemetery application ',
+    trackingPrefix: 'preneed-',
+  },
+  {
+    id: VA_FORM_IDS.FEEDBACK_TOOL,
+    benefit: 'feedback',
+    title: 'feedback (GI Bill School Feedback Tool)',
+    description: 'feedback application (FEEDBACK-TOOL)',
+    trackingPrefix: 'gi_bill_feedback',
+  },
+  {
+    id: VA_FORM_IDS.FORM_10182,
+    benefit: 'Board Appeal',
+    title: 'Board Appeal (10182)',
+    description: 'Board Appeal application (10182)',
+    trackingPrefix: '10182-board-appeal-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_20_0995,
+    benefit: 'Supplemental Claim',
+    title: 'Supplemental Claim (20-0995)',
+    description: 'Supplemental Claim application (20-0995)',
+    trackingPrefix: '995-supplemental-claim-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_20_0996,
+    benefit: 'Higher-Level Review',
+    title: 'Higher-Level Review (20-0996)',
+    description: 'Higher-Level Review application (20-0996)',
+    trackingPrefix: 'decision-reviews-va20-0996-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_VA_2346A,
+    benefit: 'hearing aid batteries and accessories',
+    title: 'hearing aid batteries and accessories (MDOT)',
+    description: 'hearing aid batteries and accessories (MDOT)',
+    trackingPrefix: 'bam-2346a-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_5655,
+    benefit: 'financial status report',
+    title: 'financial status report (5655)',
+    description: 'financial status report application (5655)',
+    trackingPrefix: 'fsr-5655-',
+  },
+];
