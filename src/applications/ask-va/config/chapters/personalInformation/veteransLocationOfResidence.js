@@ -9,7 +9,7 @@ const veteransLocationOfResidencePage = {
   uiSchema: {
     ...titleUI(CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.TITLE),
     locationOfResidence: selectUI({
-      title: `State/Province/Region`,
+      title: CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.QUESTION_1,
       errorMessages: {
         required: 'Please select your location',
       },

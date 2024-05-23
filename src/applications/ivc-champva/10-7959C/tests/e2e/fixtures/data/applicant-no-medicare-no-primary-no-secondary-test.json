@@ -2,10 +2,8 @@
   "data": {
     "applicantHasSecondary": false,
     "applicantHasPrimary": false,
-    "applicantMedicareStatusContinued": "eligibleNotEnrolled",
     "applicantMedicareStatus": false,
     "applicantPhone": "1112221212",
-    "applicantEmailAddress": "email@email.ca",
     "applicantAddress": {
       "country": "USA",
       "street": "888 Street Lane",
