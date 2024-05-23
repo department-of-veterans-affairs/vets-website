@@ -5,7 +5,7 @@ import backendStatus from './fixtures/mocks/backendStatus.json';
 describe('Gibs Test', () => {
   it('Fills the form', () => {
     cy.login();
-    cy.intercept('GET', '/v0/post911_gi_bill_status', enrollmentData).as(
+    cy.intercept('GET', '/v1/post911_gi_bill_status', enrollmentData).as(
       'enrollmentData',
     );
     cy.intercept('GET', '/v0/backend_statuses/gibs', backendStatus).as(
