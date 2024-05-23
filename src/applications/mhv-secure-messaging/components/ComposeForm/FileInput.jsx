@@ -142,7 +142,9 @@ const FileInput = props => {
             type="file"
             id="attachments"
             name="attachments"
-            data-testid="attach-file-input"
+            data-testid={`attach-file-input${
+              draftSequence ? `-${draftSequence}` : ''
+            }`}
             onChange={handleFiles}
             hidden
           />
