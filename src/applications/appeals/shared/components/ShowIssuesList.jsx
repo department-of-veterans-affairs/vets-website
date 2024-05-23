@@ -8,7 +8,7 @@ const ShowIssuesList = ({ issues }) => (
     {issues.map((issue, index) => (
       <li key={index}>
         <strong
-          className="capitalize dd-privacy-hidden"
+          className="capitalize dd-privacy-hidden overflow-wrap-word"
           data-dd-action-name="issue name"
         >
           {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}

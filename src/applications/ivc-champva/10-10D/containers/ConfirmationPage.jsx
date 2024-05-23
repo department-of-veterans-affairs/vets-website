@@ -82,29 +82,29 @@ export function ConfirmationPage(props) {
         <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
           Your submission information
         </h3>
-        {data.statementOfTruthSignature ? (
+        {data.statementOfTruthSignature && (
           <span className="veterans-full-name">
             <strong>Who submitted this form</strong>
             <br />
             {data.statementOfTruthSignature}
             <br />
           </span>
-        ) : null}
+        )}
         <br />
-        {data.statementOfTruthSignature ? (
+        {data.statementOfTruthSignature && (
           <span className="veterans-full-name">
             <strong>Confirmation number</strong>
             <br />
             {form.submission?.response?.confirmationNumber || ''}
           </span>
-        ) : null}
-        {isValid(submitDate) ? (
+        )}
+        {isValid(submitDate) && (
           <p className="date-submitted">
             <strong>Date submitted</strong>
             <br />
             <span>{format(submitDate, 'MMMM d, yyyy')}</span>
           </p>
-        ) : null}
+        )}
         <span className="veterans-full-name">
           <strong>Confirmation for your records</strong>
           <br />

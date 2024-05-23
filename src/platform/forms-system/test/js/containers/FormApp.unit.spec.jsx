@@ -4,6 +4,20 @@ import SkinDeep from 'skin-deep';
 
 import { FormApp } from '../../../src/js/containers/FormApp';
 
+const shallowFormApp = ({ formConfig, currentLocation, formData = null }) => {
+  const routes = [{ pageList: [{ path: currentLocation.pathname }] }];
+  return SkinDeep.shallowRender(
+    <FormApp
+      formConfig={formConfig}
+      routes={routes}
+      currentLocation={currentLocation}
+      formData={formData}
+    >
+      <div className="child" />
+    </FormApp>,
+  );
+};
+
 describe('Schemaform <FormApp>', () => {
   it('should render children on intro page, but not form title or nav', () => {
     const formConfig = {};
@@ -11,51 +25,25 @@ describe('Schemaform <FormApp>', () => {
       pathname: 'introduction',
       search: '',
     };
-    const routes = [
-      {
-        pageList: [{ path: currentLocation.pathname }],
-      },
-    ];
-
-    const tree = SkinDeep.shallowRender(
-      <FormApp
-        formConfig={formConfig}
-        routes={routes}
-        currentLocation={currentLocation}
-      >
-        <div className="child" />
-      </FormApp>,
-    );
+    const tree = shallowFormApp({ formConfig, currentLocation });
 
     expect(tree.everySubTree('.child')).not.to.be.empty;
     expect(tree.everySubTree('FormNav')).to.be.empty;
     expect(tree.everySubTree('FormTitle')).to.be.empty;
   });
+
   it('should show nav when the form is in progress', () => {
     const formConfig = {};
     const currentLocation = {
       pathname: '/veteran-information/personal-information',
       search: '',
     };
-    const routes = [
-      {
-        pageList: [{ path: currentLocation.pathname }],
-      },
-    ];
-
-    const tree = SkinDeep.shallowRender(
-      <FormApp
-        formConfig={formConfig}
-        routes={routes}
-        currentLocation={currentLocation}
-      >
-        <div className="child" />
-      </FormApp>,
-    );
+    const tree = shallowFormApp({ formConfig, currentLocation });
 
     expect(tree.everySubTree('.child')).not.to.be.empty;
     expect(tree.everySubTree('FormNav')).not.to.be.empty;
   });
+
   it('should show dynamic title', () => {
     const titles = ['Main title', 'Alternate title'];
     const formData = { test: false };
@@ -66,22 +54,8 @@ describe('Schemaform <FormApp>', () => {
       pathname: '/veteran-information/personal-information',
       search: '',
     };
-    const routes = [
-      {
-        pageList: [{ path: currentLocation.pathname }],
-      },
-    ];
 
-    const tree = SkinDeep.shallowRender(
-      <FormApp
-        formConfig={formConfig}
-        formData={formData}
-        routes={routes}
-        currentLocation={currentLocation}
-      >
-        <div className="child" />
-      </FormApp>,
-    );
+    const tree = shallowFormApp({ formConfig, currentLocation, formData });
 
     expect(tree.everySubTree('FormTitle')[0].props.title).to.equal(titles[0]);
     formData.test = true;
@@ -97,24 +71,73 @@ describe('Schemaform <FormApp>', () => {
       pathname: '/veteran-information/personal-information',
       search: '',
     };
-    const routes = [
-      {
-        pageList: [{ path: currentLocation.pathname }],
-      },
-    ];
+    const tree = shallowFormApp({ formConfig, currentLocation });
 
-    const tree = SkinDeep.shallowRender(
-      <FormApp
-        formConfig={formConfig}
-        routes={routes}
-        currentLocation={currentLocation}
-      >
-        <div className="child" />
-      </FormApp>,
-    );
     expect(tree.everySubTree('.child')).not.to.be.empty;
     expect(tree.everySubTree('FormTitle')).to.be.empty;
     expect(tree.everySubTree('.row')).to.be.empty;
     expect(tree.everySubTree('.usa-width-two-thirds')).to.be.empty;
+  });
+
+  describe('hiding and displaying form title', () => {
+    const mockPage = path => ({
+      firstPage: { path, schema: { type: 'object', properties: {} } },
+    });
+    const formConfig = {
+      title: 'Form Title',
+      subTitle: 'Form Subtitle',
+      chapters: {
+        formTitleHiddenChapter: {
+          title: 'Form Title Hidden',
+          hideFormTitle: true,
+          pages: mockPage('/form-title-hidden'),
+        },
+        formTitleExplicitlyDisplayedChapter: {
+          title: 'Form Title Explicitly Displayed',
+          hideFormTitle: false,
+          pages: mockPage('/form-title-explicitly-displayed'),
+        },
+        formTitleImplictlyDisplayedChapter: {
+          title: 'Form Title Implicitly Displayed',
+          pages: mockPage('/form-title-implicitly-displayed'),
+        },
+      },
+    };
+
+    describe('when on a page where form title is hidden', () => {
+      it('hides the form title', () => {
+        const currentLocation = {
+          pathname: '/form-title-hidden',
+          search: '',
+        };
+        const tree = shallowFormApp({ formConfig, currentLocation });
+
+        expect(tree.everySubTree('FormTitle')).to.be.empty;
+      });
+    });
+
+    describe('when on a page where form title is explicitly displayed', () => {
+      it('displays the form title', () => {
+        const currentLocation = {
+          pathname: '/form-title-explicitly-displayed',
+          search: '',
+        };
+        const tree = shallowFormApp({ formConfig, currentLocation });
+
+        expect(tree.everySubTree('FormTitle')).not.to.be.empty;
+      });
+    });
+
+    describe('when on a page where form title is implicitly displayed', () => {
+      it('displays the form title', () => {
+        const currentLocation = {
+          pathname: '/form-title-implicitly-displayed',
+          search: '',
+        };
+        const tree = shallowFormApp({ formConfig, currentLocation });
+
+        expect(tree.everySubTree('FormTitle')).not.to.be.empty;
+      });
+    });
   });
 });

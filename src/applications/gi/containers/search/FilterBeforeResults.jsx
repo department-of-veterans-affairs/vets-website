@@ -18,15 +18,20 @@ import {
   addAllOption,
   createId,
   specializedMissionDefinitions,
+  sortedSpecializedMissionDefinitions,
   validateSearchTerm,
 } from '../../utils/helpers';
 import { showModal, filterChange, setError } from '../../actions';
-import { TABS, INSTITUTION_TYPES } from '../../constants';
+import {
+  TABS,
+  INSTITUTION_TYPES,
+  INSTITUTION_TYPES_DICTIONARY,
+} from '../../constants';
 import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 import VaAccordionGi from '../../components/VaAccordionGi';
-import { useFilterBtn } from '../../hooks/useFilterbtn';
+// import { useFilterBtn } from '../../hooks/useFilterbtn';
 
 export function FilterBeforeResults({
   dispatchFilterChange,
@@ -44,12 +49,7 @@ export function FilterBeforeResults({
   const history = useHistory();
   const { version } = preview;
   const { error } = errorReducer;
-  const {
-    isCleared,
-    setIsCleared,
-    focusOnFirstInput,
-    loading,
-  } = useFilterBtn();
+  // const { isCleared, setIsCleared, loading } = useFilterBtn();
   const {
     schools,
     excludedSchoolTypes,
@@ -80,7 +80,7 @@ export function FilterBeforeResults({
   const [smfAccordionExpanded, setSmfAccordionExpanded] = useState(false);
   const [jumpLinkToggle, setJumpLinkToggle] = useState(0);
 
-  const smfDefinitions = specializedMissionDefinitions.map(smf => {
+  const smfDefinitions = sortedSpecializedMissionDefinitions().map(smf => {
     return (
       <div key={smf.key}>
         <h3>{smf.title}</h3>
@@ -119,6 +119,14 @@ export function FilterBeforeResults({
     });
   };
 
+  const recordCheckboxHomeEvent = e => {
+    recordEvent({
+      event: 'gibct-home-form-change',
+      'gibct-home-form-field': e.target.name,
+      'gibct-home-form-value': e.target.checked,
+    });
+  };
+
   const handleVetTechPreferredProviderChange = e => {
     const { checked, name } = e.target;
     if (checked && name === 'vettec') {
@@ -128,6 +136,7 @@ export function FilterBeforeResults({
         preferredProvider: true,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
     if (!checked && name === 'vettec') {
       dispatchFilterChange({
@@ -136,6 +145,7 @@ export function FilterBeforeResults({
         preferredProvider: false,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
 
     if (checked && name === 'employers') {
@@ -144,6 +154,7 @@ export function FilterBeforeResults({
         employers: true,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
 
     if (!checked && name === 'employers') {
@@ -152,6 +163,7 @@ export function FilterBeforeResults({
         employers: false,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
   };
 
@@ -171,6 +183,7 @@ export function FilterBeforeResults({
 
   const onChangeCheckbox = e => {
     recordCheckboxEvent(e);
+    recordCheckboxHomeEvent(e);
     updateInstitutionFilters(e.target.name, e.target.checked);
   };
 
@@ -205,7 +218,7 @@ export function FilterBeforeResults({
       return {
         name: type.toUpperCase(),
         checked: excludedSchoolTypes.includes(type.toUpperCase()),
-        optionLabel: type,
+        optionLabel: INSTITUTION_TYPES_DICTIONARY[type],
         dataTestId: `school-type-${type}`,
       };
     });
@@ -229,8 +242,7 @@ export function FilterBeforeResults({
           row={!smallScreen}
           colNum="1p5"
           labelMargin="3"
-          focusOnFirstInput={focusOnFirstInput}
-          setIsCleared={setIsCleared}
+          // setIsCleared={setIsCleared}
         />
       </div>
     );
@@ -274,7 +286,7 @@ export function FilterBeforeResults({
 
     return (
       <CheckboxGroup
-        setIsCleared={setIsCleared}
+        // setIsCleared={setIsCleared}
         className={isProductionOrTestProdEnv() ? 'about-school-checkbox' : ''}
         label={
           <h3
@@ -319,7 +331,7 @@ export function FilterBeforeResults({
         }
         onChange={handleVetTechPreferredProviderChange}
         options={options}
-        setIsCleared={setIsCleared}
+        // setIsCleared={setIsCleared}
         row={!smallScreen}
         colNum="4p5"
       />
@@ -417,7 +429,7 @@ export function FilterBeforeResults({
         dataTestId: 'special-mission-relaffil',
         checked: specialMissionRelaffil,
         optionLabel: isProductionOrTestProdEnv()
-          ? 'Religiously affiliated institutions'
+          ? 'Religiously-affiliated institutions'
           : 'Religious affiliation',
       },
       {
@@ -470,6 +482,10 @@ export function FilterBeforeResults({
       },
     ];
 
+    const sortedOptions = options.sort((a, b) =>
+      a.optionLabel.localeCompare(b.optionLabel),
+    );
+
     return (
       <div className="community-focus-container">
         <h3
@@ -498,14 +514,9 @@ export function FilterBeforeResults({
           <CheckboxGroup
             class="vads-u-margin-y--4"
             className={isProductionOrTestProdEnv() ? 'my-filters-margin' : ''}
-            label={
-              <h3 className="visually-hidden" aria-level={2}>
-                Community focus
-              </h3>
-            }
             onChange={onChangeCheckbox}
-            options={options}
-            setIsCleared={setIsCleared}
+            options={sortedOptions}
+            // setIsCleared={setIsCleared}
             row={!smallScreen}
             colNum="4"
           />
@@ -562,7 +573,6 @@ export function FilterBeforeResults({
       </>
     );
   };
-
   const typeOfInstitution = () => {
     const title = 'Filter your results';
     return (
@@ -592,10 +602,11 @@ export function FilterBeforeResults({
             {isProductionOrTestProdEnv() ? (
               <ClearFiltersBtn
                 testId="clear-button"
-                isCleared={isCleared}
-                setIsCleared={setIsCleared}
+                // isCleared={isCleared}
+                // setIsCleared={setIsCleared}
+                onClick={onApplyFilterClick}
               >
-                Clear filters
+                Reset search
               </ClearFiltersBtn>
             ) : (
               <button
@@ -606,7 +617,7 @@ export function FilterBeforeResults({
                     : 'clear-filters-button'
                 }
               >
-                Clear filters
+                Reset search
               </button>
             )}
           </div>
@@ -648,7 +659,7 @@ export function FilterBeforeResults({
 
   return (
     <div className="filter-your-results vads-u-margin-bottom--2">
-      {loading && <Loader className="search-loader" />}
+      {/* {loading && <Loader className="search-loader" />} */}
       {!smallScreen && (
         <div>
           {search.inProgress && (

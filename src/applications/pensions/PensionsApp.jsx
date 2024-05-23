@@ -6,6 +6,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
+import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
 
 export default function PensionEntry({ location, children }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -20,6 +21,9 @@ export default function PensionEntry({ location, children }) {
     window.location.href = '/pension/survivors-pension/';
   }
 
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring();
+
   if (isLoadingFeatures !== false || redirectToHowToPage) {
     return <va-loading-indicator message="Loading application..." />;
   }
@@ -27,6 +31,7 @@ export default function PensionEntry({ location, children }) {
   if (!pensionFormEnabled) {
     return <NoFormPage />;
   }
+
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}

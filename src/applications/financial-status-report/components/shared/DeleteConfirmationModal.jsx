@@ -21,7 +21,6 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onDelete, modalTitle }) => {
       secondaryButtonText="Cancel"
       status="warning"
       visible={isOpen}
-      uswds
     />
   );
 };

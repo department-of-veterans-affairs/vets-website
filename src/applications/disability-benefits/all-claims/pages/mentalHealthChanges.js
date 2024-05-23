@@ -1,3 +1,4 @@
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { PTSD_CHANGE_LABELS } from '../constants';
 import { ptsd781aNameTitle } from '../content/ptsdClassification';
@@ -10,27 +11,35 @@ export const uiSchema = {
   'ui:description': changeDescription,
   mentalChanges: {
     depression: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': PTSD_CHANGE_LABELS.depression,
     },
     obsessive: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': PTSD_CHANGE_LABELS.obsessive,
     },
     prescription: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': PTSD_CHANGE_LABELS.prescription,
     },
     substance: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': PTSD_CHANGE_LABELS.substance,
     },
     hypervigilance: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': PTSD_CHANGE_LABELS.hypervigilance,
     },
     agoraphobia: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': PTSD_CHANGE_LABELS.agoraphobia,
     },
     fear: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': PTSD_CHANGE_LABELS.fear,
     },
     other: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': 'Other',
     },
     otherExplanation: {
@@ -43,6 +52,7 @@ export const uiSchema = {
       },
     },
     noneApply: {
+      'ui:webComponentField': VaCheckboxField,
       'ui:title': 'None of these apply to me',
     },
   },

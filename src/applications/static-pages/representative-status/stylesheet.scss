@@ -1,6 +1,8 @@
 .auth-card {
   display: flex;
 
+  word-break: break-all;
+
   .auth-header-icon {
     margin: -2px 5px 0 0;
   }
@@ -43,14 +45,6 @@
       h5 {
         margin-top: 12px;
         margin-bottom: 4px;
-      }
-    }
-
-    .contact-info {
-      display: flex;
-
-      .contact-icon {
-        margin: 5px 8px 0 0;
       }
     }
   }

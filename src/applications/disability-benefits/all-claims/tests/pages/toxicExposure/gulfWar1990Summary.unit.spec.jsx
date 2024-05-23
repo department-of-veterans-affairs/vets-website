@@ -18,23 +18,25 @@ describe('Gulf War 1990 Summary', () => {
 
   it('renders when multiple locations with various date range situations', () => {
     const formData = {
-      gulfWar1990: {
-        afghanistan: true,
-        airspace: true,
-        qatar: true,
-        waters: true,
-      },
-      gulfWar1990Locations: {
-        airspace: {
-          startDate: '2023-10-01',
+      toxicExposure: {
+        gulfWar1990: {
+          afghanistan: true,
+          airspace: true,
+          qatar: true,
+          waters: true,
         },
-        afghanistan: {},
-        qatar: {
-          endDate: '2023-09-05',
-        },
-        waters: {
-          startDate: '2000-01-01',
-          endDate: '2004-01-01',
+        gulfWar1990Details: {
+          airspace: {
+            startDate: '2023-10-01',
+          },
+          afghanistan: {},
+          qatar: {
+            endDate: '2023-09-05',
+          },
+          waters: {
+            startDate: '2000-01-01',
+            endDate: '2004-01-01',
+          },
         },
       },
     };
@@ -65,17 +67,19 @@ describe('Gulf War 1990 Summary', () => {
 
   it('does not render a location if not checked', () => {
     const formData = {
-      gulfWar1990: {
-        airspace: false,
-        waters: true,
-      },
-      gulfWar1990Locations: {
-        airspace: {
-          startDate: '2023-10-01',
+      toxicExposure: {
+        gulfWar1990: {
+          airspace: false,
+          waters: true,
         },
-        waters: {
-          startDate: '2000-01-01',
-          endDate: '2004-01-01',
+        gulfWar1990Details: {
+          airspace: {
+            startDate: '2023-10-01',
+          },
+          waters: {
+            startDate: '2000-01-01',
+            endDate: '2004-01-01',
+          },
         },
       },
     };

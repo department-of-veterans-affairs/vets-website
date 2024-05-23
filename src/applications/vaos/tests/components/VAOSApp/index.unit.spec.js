@@ -126,7 +126,7 @@ describe('VAOS App: VAOSApp', () => {
     expect(
       screen
         .queryByTestId('downtime-approaching-modal')
-        .getAttribute('secondaryButtonText'),
+        .getAttribute('secondary-button-text'),
     ).to.eq('Dismiss');
     const dismissBtn = screen.queryByTestId('downtime-approaching-modal')
       .__events.secondaryButtonClick;

@@ -1,6 +1,6 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { USER_MOCK_DATA } from '../constants/mockData';
+import { UPDATED_USER_MOCK_DATA } from '../constants/mockData';
 // Action Types
 export const UPDATE_PENDING_VERIFICATIONS = 'UPDATE_PENDING_VERIFICATIONS';
 export const UPDATE_VERIFICATIONS = 'UPDATE_VERIFICATIONS';
@@ -67,7 +67,7 @@ export const getData = () => {
     setTimeout(() => {
       disptach({
         type: GET_DATA_SUCCESS,
-        response: USER_MOCK_DATA,
+        response: UPDATED_USER_MOCK_DATA,
       });
     }, 1000);
   };
@@ -142,13 +142,13 @@ export const updateBankInfo = bankInfo => {
   };
 };
 
-export const verifyEnrollmentAction = () => {
+export const verifyEnrollmentAction = verifications => {
   return async dispatch => {
     dispatch({ type: VERIFY_ENROLLMENT });
     try {
       const response = await apiRequest(`${API_URL}/verify`, {
         method: 'POST',
-        // body: JSON.stringify(bankInfo),
+        body: JSON.stringify({ awardIds: verifications }),
         headers: { 'Content-Type': 'application/json' },
       });
 

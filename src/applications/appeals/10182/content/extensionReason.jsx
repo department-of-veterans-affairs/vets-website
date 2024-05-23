@@ -16,7 +16,7 @@ export const content = {
   description: '',
   label: 'Reason for requesting an extension:',
   hint: `${MAX_LENGTH.NOD_EXTENSION_REASON} characters max.`,
-  errorMessage: 'This field cannot be left blank.',
+  errorMessage: 'You must provide a reason if you’re requesting an extension.',
 };
 
 export const ExtensionReasonReviewField = ({ children }) => (

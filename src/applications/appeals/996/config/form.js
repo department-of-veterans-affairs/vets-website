@@ -32,11 +32,13 @@ import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 import { errorMessages, ADD_ISSUE_PATH } from '../constants';
 import { mayHaveLegacyAppeals } from '../utils/helpers';
 
+import submissionError from '../../shared/content/submissionError';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
 import reviewErrors from '../../shared/content/reviewErrors';
+import { focusRadioH3 } from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -94,6 +96,7 @@ const formConfig = {
   subTitle: 'VA Form 20-0996 (Higher-Level Review)',
   defaultDefinitions: {},
   preSubmitInfo,
+  submissionError,
   // showReviewErrors: true,
   reviewErrors,
 
@@ -188,9 +191,12 @@ const formConfig = {
       pages: {
         requestConference: {
           path: 'informal-conference',
-          title: 'Request an informal conference',
+          // Adding trailing space so this title and chapter title are different
+          // then the page header renders on the review & submit page
+          title: 'Request an informal conference ',
           uiSchema: informalConference.uiSchema,
           schema: informalConference.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
         representativeInfoV2: {
           // changing path from v1, but this shouldn't matter since the

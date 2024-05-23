@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format } from 'date-fns';
 
-import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement } from '~/platform/utilities/ui';
+import scrollToTop from '~/platform/utilities/ui/scrollToTop';
 import ApplicationDownloadLink from '../ApplicationDownloadLink';
 
 const ConfirmationScreenView = ({ form, name, timestamp }) => {
@@ -38,7 +38,7 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
           <>
             <h4>Date you applied</h4>
             <p data-testid="cg-submission-date">
-              {moment(timestamp).format('MMM D, YYYY')}
+              {format(new Date(timestamp), 'MMM. d, yyyy')}
             </p>
           </>
         ) : null}

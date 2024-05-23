@@ -20,6 +20,7 @@ export default function SupportingDocumentsPage({
     showConsent: false,
     fileNameMap: { ...requiredFiles },
     requiredFiles,
+    nonListNameKey: 'applicantName',
   });
   return <>{OverviewComp}</>;
 }

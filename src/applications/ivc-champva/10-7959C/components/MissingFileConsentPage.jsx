@@ -16,6 +16,7 @@ export function MissingFileConsentPage(props) {
     showConsent: true,
     fileNameMap: { ...requiredFiles },
     requiredFiles,
+    nonListNameKey: 'applicantName',
   });
   return <>{OverviewComp}</>;
 }

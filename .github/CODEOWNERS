@@ -38,10 +38,15 @@ src/applications/terms-of-use @department-of-veterans-affairs/octo-identity
 src/applications/verify @department-of-veterans-affairs/octo-identity
 src/platform/site-wide/ebenefits/ @department-of-veterans-affairs/octo-identity
 src/platform/site-wide/user-nav/containers/AutoSSO.jsx @department-of-veterans-affairs/octo-identity
+src/platform/site-wide/user-nav/tests/containers/AutoSSO.unit.spec.jsx @department-of-veterans-affairs/octo-identity # unit tests
 src/platform/user/authentication @department-of-veterans-affairs/octo-identity
+src/platform/user/tests/authentication @department-of-veterans-affairs/octo-identity # unit tests
 src/platform/user/authorization/components/IdentityNotVerified.jsx @department-of-veterans-affairs/octo-identity
+src/platform/user/tests/authorization/components/IdentityNotVerified.unit.spec.jsx @department-of-veterans-affairs/octo-identity # unit tests
 src/platform/utilities/oauth @department-of-veterans-affairs/octo-identity
+src/platform/utilities/tests/oauth @department-of-veterans-affairs/octo-identity # unit tests
 src/platform/utilities/sso @department-of-veterans-affairs/octo-identity
+src/platform/utilities/tests/sso @department-of-veterans-affairs/octo-identity # unit tests
 
 # VSP QA Standards
 
@@ -58,7 +63,7 @@ src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-f
 src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Disability Benefits Experience
-src/applications/disability-benefits @department-of-veterans-affairs/DBEX-TREX @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/disability-benefits @department-of-veterans-affairs/disability-experience @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Benefits Management Tools (DSVA Slack: #benefits-management-tools)
 src/applications/claims-status @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
@@ -118,7 +123,6 @@ src/applications/static-pages/events @department-of-veterans-affairs/vfs-public-
 src/applications/static-pages/homepage @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/homepage-veteran-banner @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/i18select @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/shifted-vets-banner @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/resources-and-support @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pact-act @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
@@ -210,7 +214,6 @@ src/applications/static-pages/view-modify-dependents @department-of-veterans-aff
 
 # Flagship Mobile Reviewers
 src/applications/static-pages/subscription-creators @department-of-veterans-affairs/flagship-mobile-reviewers @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/widget-creators @department-of-veterans-affairs/flagship-mobile-reviewers @department-of-veterans-affairs/va-platform-cop-frontend
 
 # VAOS
 
@@ -226,6 +229,7 @@ src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-h
 src/applications/virtual-agent @department-of-veterans-affairs/orchid @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pre-need @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pre-need-integration @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/static-pages/widget-creators @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Need more specific owners
 

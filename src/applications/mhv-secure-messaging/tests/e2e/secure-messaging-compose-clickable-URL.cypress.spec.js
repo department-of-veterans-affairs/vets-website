@@ -8,10 +8,9 @@ import { AXE_CONTEXT, Locators } from './utils/constants';
 describe('Secure Messaging - Compose with Clickable URL', () => {
   it('search for clickable URL', () => {
     const site = new SecureMessagingSite();
-    const landingPage = new PatientInboxPage();
-    const composePage = new PatientComposePage();
+    // const composePage = new PatientComposePage();
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     const requestBodyUpdated = {
@@ -20,13 +19,16 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     };
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
     PatientInterstitialPage.getContinueButton().click();
-    composePage.selectRecipient(requestBodyUpdated.recipientId);
-    composePage.selectCategory(requestBodyUpdated.category);
-    composePage.getMessageSubjectField().type(`${requestBodyUpdated.subject}`);
-    composePage
-      .getMessageBodyField()
-      .type(`${requestBodyUpdated.body}`, { force: true });
-    composePage.verifyClickableURLinMessageBody('https://www.va.gov/');
+    PatientComposePage.selectRecipient(requestBodyUpdated.recipientId);
+    PatientComposePage.selectCategory(requestBodyUpdated.category);
+    PatientComposePage.getMessageSubjectField().type(
+      `${requestBodyUpdated.subject}`,
+    );
+    PatientComposePage.getMessageBodyField().type(
+      `${requestBodyUpdated.body}`,
+      { force: true },
+    );
+    PatientComposePage.verifyClickableURLinMessageBody('https://www.va.gov/');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });

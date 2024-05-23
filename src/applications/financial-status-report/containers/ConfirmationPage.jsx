@@ -123,7 +123,7 @@ const ConfirmationPage = ({ form, download }) => {
   const renderLongFormAlert = () => {
     return (
       <>
-        <va-alert status="success" uswds>
+        <va-alert status="success">
           <h3 slot="headline" className="vads-u-font-size--h3">
             We’ve received your request
           </h3>
@@ -147,7 +147,7 @@ const ConfirmationPage = ({ form, download }) => {
   const renderSWConfirmationAlert = () => {
     return (
       <>
-        <va-alert status="success" uswds>
+        <va-alert status="success">
           <h3 slot="headline" className="vads-u-font-size--h3">
             You’re tentatively eligible for debt relief
           </h3>
@@ -186,17 +186,14 @@ const ConfirmationPage = ({ form, download }) => {
       )}
 
       <h3>How can I check the status of my request?</h3>
-      <va-process-list
-        uswds
-        class="vads-u-margin-left--neg2 vads-u-padding-bottom--0"
-      >
-        <va-process-list-item header="Sign in to VA.gov" level="4" uswds>
+      <va-process-list class="vads-u-margin-left--neg2 vads-u-padding-bottom--0">
+        <va-process-list-item header="Sign in to VA.gov" level="4">
           <p>
             You can sign in with your Login.gov, ID.me, DS Logon, or My
             HealtheVet
           </p>
         </va-process-list-item>
-        <va-process-list-item header="Submit your request" level="4" uswds>
+        <va-process-list-item header="Submit your request" level="4">
           <p>
             This helps keep your information safe, and prevents fraud and
             identity theft. If you’ve already verified your identity with us,
@@ -206,7 +203,6 @@ const ConfirmationPage = ({ form, download }) => {
         <va-process-list-item
           header="Go to your debt management portal"
           level="4"
-          uswds
         >
           <p>
             After you sign in, you can go to

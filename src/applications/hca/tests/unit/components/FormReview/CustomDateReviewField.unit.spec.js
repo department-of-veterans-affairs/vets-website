@@ -8,7 +8,7 @@ describe('hca <CustomDateReviewField>', () => {
   const getData = () => ({
     props: {
       uiSchema: { 'ui:title': 'Review Field Title' },
-      formData: new Date('2020-5-15'),
+      formData: '2020-5-15',
     },
   });
 

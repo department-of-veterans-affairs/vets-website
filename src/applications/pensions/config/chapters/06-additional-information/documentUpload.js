@@ -1,9 +1,7 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-
 import { files } from '../../definitions';
 
 const Description = (
@@ -24,7 +22,11 @@ const Description = (
 
     <p>You can upload your documents now.</p>
 
-    <p>File types you can upload: PDF</p>
+    <p>Guidelines to upload a file:</p>
+    <ul>
+      <li>You can upload a .pdf, .jpeg, or .png file</li>
+      <li>Your file should be no larger than 20MB</li>
+    </ul>
   </div>
 );
 

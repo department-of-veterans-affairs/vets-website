@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+// import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -110,12 +110,23 @@ class IntroductionPage extends React.Component {
           </VaAlert>
         )}
         {loggedIn && (
-          <Link
-            to="/your-information/description"
-            className="auth-start-link vads-c-action-link--green"
-          >
-            Start your application
-          </Link>
+          <div className="signed-in-sip">
+            {/* <Link
+              to="/your-information/description"
+              className="auth-start-link vads-c-action-link--green"
+            >
+              Start your application
+            </Link> */}
+            <SaveInProgressIntro
+              testActionLink
+              prefillEnabled={route.formConfig.prefillEnabled}
+              messages={route.formConfig.savedFormMessages}
+              formConfig={route.formConfig}
+              pageList={route.pageList}
+              startText="Start the application"
+              headingLevel={2}
+            />
+          </div>
         )}
         <br />
 

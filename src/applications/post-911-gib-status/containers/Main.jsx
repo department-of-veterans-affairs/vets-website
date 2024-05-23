@@ -9,6 +9,7 @@ import {
   backendErrorMessage,
   authenticationErrorMessage,
   genericErrorMessage,
+  serviceDowntimeErrorMessage,
 } from '../utils/helpers';
 
 export class Main extends React.Component {
@@ -34,6 +35,9 @@ export class Main extends React.Component {
       case 'getEnrollmentDataFailure':
       case 'backendServiceError':
         appContent = backendErrorMessage;
+        break;
+      case 'serviceDowntimeError':
+        appContent = serviceDowntimeErrorMessage;
         break;
       default:
         appContent = genericErrorMessage;

@@ -1,0 +1,17 @@
+{
+    "cancelReasons": [
+      {
+        "id": "930c8a9f-ce78-449c-8dda-d5428d183ec8",
+        "name": "Patient"
+      },
+      {
+        "id": "57b56149-10e8-41e9-8117-2abf67de46d0",
+        "name": "Provider"
+      },
+      {
+        "id": "c7a4fbdb-7f2f-45ad-b0b1-4d27f19fde19",
+        "name": "Other"
+      }
+    ],
+    "count": 3
+  }

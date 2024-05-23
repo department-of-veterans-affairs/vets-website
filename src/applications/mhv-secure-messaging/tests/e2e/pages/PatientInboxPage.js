@@ -153,7 +153,7 @@ class PatientInboxPage {
 
   loadSingleThread = (
     testSingleThread = mockThread,
-    sentDate = mockThread.data[0].attributes.sentDate,
+    sentDate = new Date(),
     draftDate = mockThread.data[0].attributes.draftDate,
   ) => {
     this.singleThread = testSingleThread;
@@ -735,4 +735,4 @@ class PatientInboxPage {
   };
 }
 
-export default PatientInboxPage;
+export default new PatientInboxPage();

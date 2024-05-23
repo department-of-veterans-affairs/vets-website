@@ -238,6 +238,12 @@ class PatientComposePage {
     });
   };
 
+  attachFewFiles = list => {
+    for (let i = 0; i < list.length; i += 1) {
+      this.attachMessageFromFile(list[i]);
+    }
+  };
+
   verifyAttachmentButtonText = (numberOfAttachments = 0) => {
     if (numberOfAttachments < 1) {
       cy.get(Locators.BUTTONS.ATTACH_FILE)
@@ -256,9 +262,11 @@ class PatientComposePage {
     cy.get(Locators.ATTACHMENT_COUNT).should('contain', expectedCount);
   };
 
-  removeAttachMessageFromFile = () => {
-    cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT).click();
-    cy.contains('Remove').click();
+  removeAttachedFile = () => {
+    cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT).click({ force: true });
+    cy.get(Locators.BUTTONS.CONFIRM_REMOVE_ATTACHMENT).click({
+      force: true,
+    });
   };
 
   verifyRemoveAttachmentButtonHasFocus = (_attachmentIndex = 0) => {
@@ -413,6 +421,12 @@ class PatientComposePage {
       .should('exist')
       .and('be.focused');
   };
+
+  verifyAttachmentInfo = data => {
+    cy.get(Locators.INFO.ATTACH_OPT).each((el, index) => {
+      cy.wrap(el).should('have.text', data[index]);
+    });
+  };
 }
 
-export default PatientComposePage;
+export default new PatientComposePage();

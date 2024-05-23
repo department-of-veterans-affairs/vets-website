@@ -129,7 +129,7 @@ import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import { fileWithMetadataSchema } from '../../shared/components/fileUploads/attachments';
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 
 /** @type {FormConfig} */
@@ -514,9 +514,8 @@ const formConfig = {
       title: 'Applicant information',
       pages: {
         page13: {
+          title: 'Applicant information',
           path: 'applicant-information',
-          arrayPath: 'applicants',
-          title: 'Applicants',
           uiSchema: {
             ...titleUI('Applicant name and date of birth', () => (
               <>
@@ -537,10 +536,6 @@ const formConfig = {
                 itemName: 'Applicant',
                 customTitle: ' ', // prevent <dl> around the schemaform-field-container
                 confirmRemove: true,
-              },
-              'ui:errorMessages': {
-                minItems: 'Must have at least one applicant listed.',
-                maxItems: `You can add up to ${MAX_APPLICANTS} in a single application. If you need to add more than ${MAX_APPLICANTS} applicants, you need to submit a separate application for them.`,
               },
               items: {
                 applicantName: fullNameUI(),
@@ -904,7 +899,7 @@ const formConfig = {
                   'intendsToEnroll',
                   'over18HelplessChild',
                 ]),
-                otherStatus: { type: 'string' },
+                _unused: { type: 'string' },
               },
             },
           }),
@@ -972,7 +967,7 @@ const formConfig = {
           path: 'applicant-marriage/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} marriage documents`,
+          title: item => `${applicantWording(item)} marriage details`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
@@ -997,6 +992,7 @@ const formConfig = {
           }),
           uiSchema: {
             applicants: {
+              'ui:options': { viewField: ApplicantField },
               items: {},
             },
           },
@@ -1043,7 +1039,7 @@ const formConfig = {
         },
         // Applicant separated from sponsor before sponsor's death
         page18f6: {
-          path: 'applicant-information/:index/married-separated-dates',
+          path: 'applicant-information/married-separated-dates/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
@@ -1164,7 +1160,7 @@ const formConfig = {
               type: 'object',
               properties: {
                 eligibility: { type: 'string' },
-                otherIneligible: { type: 'string' },
+                _unused: { type: 'string' },
               },
             },
           }),
@@ -1276,7 +1272,7 @@ const formConfig = {
               get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
-              ) !== 'enrolled' &&
+              ) === 'ineligible' &&
               getAgeInYears(formData.applicants[index]?.applicantDOB) >= 65
             );
           },
@@ -1300,7 +1296,13 @@ const formConfig = {
           CustomPage: ApplicantOhiStatusPage,
           CustomPageReview: ApplicantOhiStatusReviewPage,
           schema: applicantListSchema([], {
-            applicantHasOhi: { type: 'string' },
+            applicantHasOhi: {
+              type: 'object',
+              properties: {
+                hasOhi: { type: 'string' },
+                _unused: { type: 'string' },
+              },
+            },
           }),
           uiSchema: {
             applicants: {
@@ -1316,7 +1318,8 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantHasOhi', formData?.applicants?.[index]) === 'yes'
+              get('applicantHasOhi.hasOhi', formData?.applicants?.[index]) ===
+              'yes'
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1339,7 +1342,8 @@ const formConfig = {
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (
-              get('applicantHasOhi', formData?.applicants?.[index]) === 'yes' ||
+              get('applicantHasOhi.hasOhi', formData?.applicants?.[index]) ===
+                'yes' ||
               get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],

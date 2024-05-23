@@ -100,10 +100,12 @@ export default function VaCheckboxGroupField(props) {
                 name={`${props.childrenProps.idSchema.$id}_${key}`}
                 key={key}
                 uswds={props.uiOptions?.uswds ?? true}
-                label={uiSchema['ui:title']}
+                label={uiSchema?.['ui:title'] || schema.title}
                 checked={formData === 'undefined' ? false : formData}
                 tile={props.uiOptions?.tile}
-                checkbox-description={uiSchema['ui:description']}
+                checkbox-description={
+                  uiSchema?.['ui:description'] || schema.description
+                }
               />
             );
           })}

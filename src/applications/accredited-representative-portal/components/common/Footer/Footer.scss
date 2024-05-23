@@ -1,0 +1,22 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.arp-footer {
+  .mobile {
+    @media (min-width: $medium-screen) {
+      display: none !important;
+    }
+  }
+
+  .wider-than-mobile {
+    display: none;
+
+    @media (min-width: $medium-screen) {
+      display: block;
+    }
+  }
+}
+
+// There is a div in content-build accredited-representative-portal.html that would require changes to platform code to remove. For now this scss hides it.
+.arp-footer-hidden {
+    display: none;
+}

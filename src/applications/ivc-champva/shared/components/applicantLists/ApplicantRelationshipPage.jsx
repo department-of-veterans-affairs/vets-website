@@ -275,11 +275,12 @@ export default function ApplicantRelationshipPage({
           required
           error={checkError}
           onVaValueChange={handlers.radioUpdate}
+          name={`root_${keyname}`}
         >
           {options.map(option => (
             <va-radio-option
               key={option.value}
-              name="describes-you"
+              name={`root_${keyname}`}
               label={option.label}
               value={option.value}
               checked={checkValue[primary] === option.value}
@@ -305,6 +306,7 @@ export default function ApplicantRelationshipPage({
                     customOtherDescription ||
                     `Since ${relativePossessive} relationship with the ${personTitle} was not listed, please describe it here`
                   }
+                  name="other-relationship-description"
                   onInput={handlers.inputUpdate}
                   required={checkValue[primary] === 'other'}
                   error={inputError}

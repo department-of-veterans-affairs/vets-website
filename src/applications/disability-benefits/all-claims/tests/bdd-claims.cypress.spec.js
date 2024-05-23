@@ -12,6 +12,7 @@ import { setup, pageHooks } from './cypress.helpers';
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
+    useWebComponentFields: true,
 
     dataSets: ['minimal-bdd-test', 'maximal-bdd-test'],
 

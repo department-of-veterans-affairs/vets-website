@@ -40,6 +40,7 @@ import {
 } from '../utils/appeals-v2-helpers';
 import { setPageFocus, setUpPage } from '../utils/page';
 import { groupClaimsByDocsNeeded, setDocumentTitle } from '../utils/helpers';
+import ClaimLetterSection from '../components/claim-letters/ClaimLetterSection';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -244,6 +245,7 @@ class YourClaimsPageV2 extends React.Component {
               </div>
             </va-additional-info>
             {content}
+            <ClaimLetterSection />
             <FeaturesWarning />
             <h2 id="what-if-i-dont-see-my-appeal">
               What if I don’t see my appeal?

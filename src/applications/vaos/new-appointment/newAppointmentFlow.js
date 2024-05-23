@@ -9,6 +9,7 @@ import {
   getFormData,
   getNewAppointment,
   getTypeOfCare,
+  selectSingleSupportedVALocation,
   selectCommunityCareSupportedSites,
   selectEligibility,
 } from './redux/selectors';
@@ -328,6 +329,7 @@ const flow = {
 export default function getNewAppointmentFlow(state) {
   const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
   const flowType = getFlowType(state);
+  const isSingleVaFacility = selectSingleSupportedVALocation(state);
 
   return {
     ...flow,
@@ -476,6 +478,10 @@ export default function getNewAppointmentFlow(state) {
     },
     vaFacilityV2: {
       ...flow.vaFacilityV2,
+      label: isSingleVaFacility
+        ? 'Your appointment location'
+        : 'Choose a VA location',
+
       url: featureBreadcrumbUrlUpdate
         ? 'location'
         : '/new-appointment/va-facility-2',

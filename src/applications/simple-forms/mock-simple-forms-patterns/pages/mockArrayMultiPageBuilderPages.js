@@ -4,13 +4,12 @@ import {
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
   titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-} from '../arrayBuilder/components/arrayBuilderPatterns';
+  arrayBuilderItemSubsequentPageTitleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
 /** @type {ArrayBuilderOptions} */
 export const employersOptions = {
@@ -107,7 +106,7 @@ export const employersPageNameAndAddressPage = {
 /** @returns {PageSchema} */
 export const employersDatesPage = {
   uiSchema: {
-    ...titleUI(
+    ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
         formData?.name
           ? `Dates you were employed at ${formData.name}`

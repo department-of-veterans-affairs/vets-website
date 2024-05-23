@@ -3,6 +3,7 @@ import mockFolders from '../fixtures/folder-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import { dateFormat } from '../../../util/helpers';
 import { Locators, Paths } from '../utils/constants';
+import PatientInterstitialPage from './PatientInterstitialPage';
 
 class PatientMessageDetailsPage {
   currentThread = defaultMockThread;
@@ -536,13 +537,26 @@ class PatientMessageDetailsPage {
     });
   };
 
-  // temporary changed to 'contain', 'REPLY'
-  replyToMessageBody = testMessageBody => {
-    cy.get('[data-testid="message-body"]').should('contain', testMessageBody);
+  replyToMessageBody = testMessage => {
+    cy.get(`[data-testid="message-body-${testMessage.data.id}"]`).should(
+      'contain',
+      testMessage.data.attributes.body,
+    );
   };
 
   verifyDeleteMessageConfirmationMessageHasFocus = () => {
     cy.focused().should('contain.text', 'Draft was successfully deleted.');
+  };
+
+  clickReplyButton = singleThreadData => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${singleThreadData.data[0].id}/thread*`,
+      singleThreadData,
+    ).as('replyThread');
+
+    cy.get(Locators.BUTTONS.REPLY).click({ force: true });
+    PatientInterstitialPage.getContinueButton().click();
   };
 }
 

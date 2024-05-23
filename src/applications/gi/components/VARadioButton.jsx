@@ -43,6 +43,7 @@ const VARadioButton = ({
         value={value}
         checked={value === initialValue}
         ariaDescribedby={ariaDescribedby || `${name}_radio_options`}
+        uswds
       />
     ))}
   </VaRadio>

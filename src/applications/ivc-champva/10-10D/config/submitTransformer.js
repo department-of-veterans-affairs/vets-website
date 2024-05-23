@@ -26,6 +26,7 @@ function transformApplicants(applicants) {
       ssh_or_tin: app.applicantSSN ?? '',
       date_of_birth: app.applicantDOB ?? '',
       phone_number: app.applicantPhone ?? '',
+      email: app.applicantEmailAddress ?? '',
       vet_relationship: transformRelationship(
         app.applicantRelationshipToSponsor?.relationshipToVeteran || 'NA',
       ),
@@ -50,7 +51,7 @@ function transformApplicants(applicants) {
         app?.applicantOtherInsuranceCertification,
         app?.applicantHelplessCert,
       ],
-      address: app.applicantAddress ?? '',
+      address: app.applicantAddress ?? {},
       gender: app.applicantGender?.gender ?? '',
     };
 
@@ -69,13 +70,44 @@ function parseCertifier(transformedData) {
     date: new Date().toJSON().slice(0, 10),
     firstName: transformedData.veteransFullName.first || '',
     lastName: transformedData.veteransFullName.last || '',
-    middleInitial: transformedData?.veteransFullName.middle || '',
+    middleInitial: transformedData?.veteransFullName?.middle || '',
     phone_number: transformedData?.sponsorPhone || '',
     relationship: '',
-    streetAddress: transformedData.sponsorAddress.street || '',
-    city: transformedData.sponsorAddress.city || '',
-    state: transformedData.sponsorAddress.state || '',
-    postal_code: transformedData.sponsorAddress.postal_code || '',
+    streetAddress: transformedData?.sponsorAddress?.street || '',
+    city: transformedData?.sponsorAddress?.city || '',
+    state: transformedData?.sponsorAddress?.state || '',
+    postal_code: transformedData?.sponsorAddress?.postal_code || '',
+  };
+}
+
+function getPrimaryContact(data) {
+  // If a certification name is present, we know the form was filled by
+  // a third party or the sponsor, and that they should be primary contact.
+  const useCert =
+    data?.certification?.firstName && data?.certification?.firstName !== '';
+
+  // Depending on the result of useCert, grab the first and last name, phone,
+  // and email from either the `certification` object or the first applicant,
+  // then return so we can set up the `primaryContactInfo` for the backend
+  // notification API service.
+  return {
+    name: {
+      first:
+        (useCert
+          ? data?.certification?.firstName
+          : data?.applicants?.[0]?.full_name?.first) ?? false,
+      last:
+        (useCert
+          ? data?.certification?.lastName
+          : data?.applicants?.[0]?.full_name?.last) ?? false,
+    },
+    email:
+      (useCert ? data?.certification?.email : data?.applicants?.[0]?.email) ??
+      false,
+    phone:
+      (useCert
+        ? data?.certification?.phone_number
+        : data?.applicants?.[0]?.phone_number) ?? false,
   };
 }
 
@@ -155,6 +187,11 @@ export default function transformForSubmit(formConfig, form) {
   dataPostTransform.veteran.address['postal_code'] =
     dataPostTransform.veteran.address.postalCode || '';
   delete dataPostTransform.veteran.address.postalCode;
+
+  // For our backend callback API, we need to designate which contact info
+  // should be used if there is a notification event pertaining to this specific
+  // form submission. We do this by adding the `primaryContactInfo` key:
+  dataPostTransform.primaryContactInfo = getPrimaryContact(dataPostTransform);
 
   return JSON.stringify({
     ...dataPostTransform,

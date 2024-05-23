@@ -3,6 +3,7 @@ const commandLineArgs = require('command-line-args');
 const glob = require('glob');
 const path = require('path');
 const core = require('@actions/core');
+const fs = require('fs');
 const { runCommand } = require('../utils');
 // For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
@@ -80,10 +81,11 @@ const coverageReporter = options['coverage-html']
 const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';
-let testsToVerify = null;
-if (process.env.TESTS_TO_VERIFY) {
-  testsToVerify = JSON.parse(process.env.TESTS_TO_VERIFY);
-}
+const testsToVerify = fs.existsSync(
+  path.resolve(`unit_tests_to_stress_test.json`),
+)
+  ? JSON.parse(fs.readFileSync(path.resolve(`unit_tests_to_stress_test.json`)))
+  : null;
 
 const splitUnitTests = splitArray(
   allUnitTestDirs,

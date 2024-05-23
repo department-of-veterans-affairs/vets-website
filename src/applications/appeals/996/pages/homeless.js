@@ -3,7 +3,7 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { errorMessages } from '../constants';
+import errorMessages from '../../shared/content/errorMessages';
 import {
   homelessTitle,
   homelessReviewField,

@@ -15,7 +15,7 @@ const searchVAMedicalCenterPage = {
   },
   schema: {
     type: 'object',
-    required: [],
+    required: ['vaMedicalCenter'],
     properties: {
       vaMedicalCenter: {
         type: 'string',

@@ -15,9 +15,10 @@ export const OnThisPageStatements = () => (
             href="#account-summary"
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
-            <i
+            <va-icon
+              icon="arrow_downward"
               aria-hidden="true"
-              className="fas fa-arrow-down vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             Account summary
           </a>
@@ -25,9 +26,10 @@ export const OnThisPageStatements = () => (
             href="#statement-charges"
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
-            <i
+            <va-icon
+              icon="arrow_downward"
               aria-hidden="true"
-              className="fas fa-arrow-down vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             Statement charges
           </a>
@@ -35,21 +37,56 @@ export const OnThisPageStatements = () => (
             href="#statement-addresses"
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
-            <i
+            <va-icon
+              icon="arrow_downward"
               aria-hidden="true"
-              className="fas fa-arrow-down vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
             Statement addresses
           </a>
           <a
-            href="#what-do-questions"
+            href="#how-to-pay"
             className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
           >
-            <i
+            <va-icon
+              icon="arrow_downward"
               aria-hidden="true"
-              className="fas fa-arrow-down vads-u-margin-right--1"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
             />
-            What to do if you have questions about your statement
+            How to pay your copay bill
+          </a>
+          <a
+            href="#how-to-get-financial-help"
+            className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
+          >
+            <va-icon
+              icon="arrow_downward"
+              aria-hidden="true"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
+            />
+            How to get financial help for your copays
+          </a>
+          <a
+            href="#dispute-charges"
+            className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
+          >
+            <va-icon
+              icon="arrow_downward"
+              aria-hidden="true"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
+            />
+            How to dispute your copay charges
+          </a>
+          <a
+            href="#balance-questions"
+            className="vads-u-display--flex vads-u-align-items--baseline vads-u-padding--1 vads-u-text-decoration--none"
+          >
+            <va-icon
+              icon="arrow_downward"
+              aria-hidden="true"
+              class="vads-u-margin-right--1 vads-u-margin-bottom--neg0p25"
+            />
+            What to do if you have questions about your balance
           </a>
         </dd>
       </dl>

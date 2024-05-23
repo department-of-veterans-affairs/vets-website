@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { usePrevious } from 'platform/utilities/react-hooks';
@@ -25,7 +24,7 @@ import {
   updateFormData,
   hideEligibilityModal,
 } from '../../redux/actions';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import { getPageTitle } from '../../newAppointmentFlow';
 
 const initialSchema = {
   type: 'object',
@@ -46,10 +45,9 @@ const sortOptions = [
   { value: 'alphabetical', label: 'Alphabetically' },
 ];
 
-export default function VAFacilityPageV2({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function VAFacilityPageV2() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+
   const history = useHistory();
   const dispatch = useDispatch();
   const {
@@ -87,9 +85,6 @@ export default function VAFacilityPageV2({ changeCrumb }) {
   const loadingFacilities =
     childFacilitiesStatus === FETCH_STATUS.loading ||
     childFacilitiesStatus === FETCH_STATUS.notStarted;
-  const pageTitle = singleValidVALocation
-    ? 'Your appointment location'
-    : 'Choose a VA location';
 
   const isLoading =
     loadingFacilities || (singleValidVALocation && loadingEligibility);
@@ -104,9 +99,6 @@ export default function VAFacilityPageV2({ changeCrumb }) {
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
       scrollAndFocus();
-      if (featureBreadcrumbUrlUpdate) {
-        changeCrumb(pageTitle);
-      }
     },
     [isLoading],
   );
@@ -302,7 +294,3 @@ export default function VAFacilityPageV2({ changeCrumb }) {
     </div>
   );
 }
-
-VAFacilityPageV2.propTypes = {
-  changeCrumb: PropTypes.func,
-};

@@ -47,6 +47,7 @@ import {
   savedFormMessages,
 } from '../content/saveInProgress';
 
+import submissionError from '../../shared/content/submissionError';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
@@ -94,7 +95,7 @@ const formConfig = {
   savedFormMessages,
   saveInProgress,
   // errorText: '',
-  // submissionError: '',
+  submissionError,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
 
@@ -197,7 +198,10 @@ const formConfig = {
       title: 'Board review option',
       pages: {
         boardReviewOption: {
-          title: 'Board review option',
+          // Adding trailing space so this title and chapter title are different
+          // then the page header renders on the review & submit page, see:
+          // https://github.com/department-of-veterans-affairs/vets-website/pull/29514#discussion_r1586347078
+          title: 'Board review option ',
           path: 'board-review-option',
           uiSchema: boardReview.uiSchema,
           schema: boardReview.schema,

@@ -29,6 +29,7 @@ const VACheckboxButton = ({
       onVaValueChange(target, name);
     }}
     ariaDescribedby={ariaDescribedby || `${name}_radio`}
+    uswds
   >
     {options.map(({ value, label }) => (
       <va-checkbox

@@ -9,7 +9,6 @@ import {
   getContestableIssues,
   getEligibleContestableIssues,
   getPart3Data,
-  getTimeZone,
   getEmail,
 } from '../../utils/submit';
 
@@ -367,13 +366,6 @@ describe('getAddress', () => {
       zipCode5: '00000',
       internationalPostalCode: '55555',
     });
-  });
-});
-
-describe('getTimeZone', () => {
-  it('should return a string', () => {
-    // result will be a location string, not stubbing for this test
-    expect(getTimeZone().length).to.be.greaterThan(1);
   });
 });
 
