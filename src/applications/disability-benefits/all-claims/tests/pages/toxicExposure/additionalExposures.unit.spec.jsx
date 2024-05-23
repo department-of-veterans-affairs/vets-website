@@ -8,6 +8,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { checkVaCheckbox } from '@department-of-veterans-affairs/platform-testing/helpers';
 import formConfig from '../../../config/form';
 import {
   additionalExposuresQuestion,
@@ -77,15 +78,8 @@ describe('Additional Exposures', () => {
     );
 
     const checkboxGroup = $('va-checkbox-group', container);
-    await checkboxGroup.__events.vaChange({
-      target: { checked: true, dataset: { key: 'asbestos' } },
-      detail: { checked: true },
-    });
-
-    await checkboxGroup.__events.vaChange({
-      target: { checked: true, dataset: { key: 'radiation' } },
-      detail: { checked: true },
-    });
+    checkVaCheckbox(checkboxGroup, 'asbestos');
+    checkVaCheckbox(checkboxGroup, 'radiation');
 
     userEvent.click(getByText('Submit'));
     expect(onSubmit.calledOnce).to.be.true;
@@ -97,17 +91,8 @@ describe('Additional Exposures', () => {
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
     );
     const checkboxGroup = $('va-checkbox-group', container);
-    await checkboxGroup.__events.vaChange({
-      target: { checked: true, dataset: { key: 'asbestos' } },
-      detail: { checked: true },
-    });
-    await checkboxGroup.__events.vaChange({
-      target: {
-        checked: true,
-        dataset: { key: 'none' },
-      },
-      detail: { checked: true },
-    });
+    checkVaCheckbox(checkboxGroup, 'asbestos');
+    checkVaCheckbox(checkboxGroup, 'none');
 
     await userEvent.click(getByText('Submit'));
     expect($('va-checkbox-group').error).to.equal(noneAndHazardError);
