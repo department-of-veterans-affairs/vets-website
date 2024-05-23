@@ -39,6 +39,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
   const [editFormData, setEditFormData] = useState({});
+  const [veteranName, setVeteranName] = useState();
   const [beforeDditFormData, setBeforeEditFormData] = useState({});
   const [suggestedAddressPicked, setSuggestedAddressPicked] = useState(false);
   const [newAddress, setNewAddress] = useState({});
@@ -137,7 +138,15 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     },
     [dispatch, error, response, validationError],
   );
-
+  // This Effect to check if there error from API don't update veteranName
+  useEffect(
+    () => {
+      if (error || validationError) {
+        setVeteranName(applicantName);
+      }
+    },
+    [applicantName, error, validationError],
+  );
   useEffect(
     () => {
       dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
@@ -226,6 +235,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
 
     setFormData(tempData);
     setEditFormData(tempData);
+    setVeteranName(tempData?.fullName);
   };
 
   return (
@@ -297,7 +307,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             />
 
             <ChangeOfAddressForm
-              applicantName={applicantName}
+              applicantName={veteranName || applicantName}
               addressFormData={formData}
               formChange={addressData => updateAddressData(addressData)}
               formPrefix={PREFIX}
