@@ -461,10 +461,14 @@ const ReplyDraftItem = props => {
             data-dd-privacy="mask"
             label="Message"
             required
-            id="reply-message-body"
-            name="reply-message-body"
+            id={`reply-message-body${draftSequence ? `-${draftSequence}` : ''}`}
+            name={`reply-message-body${
+              draftSequence ? `-${draftSequence}` : ''
+            }`}
             className="message-body"
-            data-testid="message-body-field"
+            data-testid={`message-body-field${
+              draftSequence ? `-${draftSequence}` : ''
+            }`}
             onInput={messageBodyHandler}
             value={draft?.body || formattededSignature} // populate with the signature, unless there is a saved draft
             error={bodyError}
