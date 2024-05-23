@@ -75,7 +75,12 @@ export async function checkAutoSession(
   profile = {},
 ) {
   const { ttl, transactionid, ...queryParams } = await ssoKeepAliveSession();
-
+  const removeReturnUrl = url => {
+    // eslint-disable-next-line prettier/prettier
+    const isExternalCSP = sessionStorage.getItem(url).includes('mhv' || 'myhealth' || 'ebenefits' || 'MAP');
+    // eslint-disable-next-line prettier/prettier
+    return (isExternalCSP ? sessionStorage.removeItem(url) : null);
+  };
   /**
    * Ensure user is authenticated with SSOe by verifying
    * loggedIn status and transaction ID
@@ -130,6 +135,7 @@ export async function checkAutoSession(
      * 3b. If `loginAttempted` is true but `hasSessionSSO` is true & `sessionExpirationSSO` has a timestamp
      * 4. Have a non-empty type value from eAuth keepalive endpoint
      */
+    removeReturnUrl('authReturnUrl');
     login({
       policy: POLICY_TYPES.CUSTOM,
       queryParams: { ...queryParams },
