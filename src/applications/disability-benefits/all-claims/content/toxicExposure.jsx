@@ -352,18 +352,23 @@ export function showCheckboxLoopDetailsPage(
  * 1. TE pages should be showing at all
  * 2. at least one checkbox item was selected
  * 3. the 'none' location checkbox is not true
+ * 4. the 'notsure' location checkbox is not the only one selected
  *
  * @param {object} formData - full form data
  * @returns {boolean} true if the page should display, false otherwise
  */
 export function showSummaryPage(formData, checkboxObjectName) {
+  const numSelected = Object.values(
+    formData.toxicExposure[checkboxObjectName],
+  ).filter(value => value === true).length;
+
   return (
     isClaimingTECondition(formData) &&
     formData?.toxicExposure[checkboxObjectName] &&
     formData?.toxicExposure[checkboxObjectName].none !== true &&
-    Object.values(formData.toxicExposure[checkboxObjectName]).filter(
-      value => value === true,
-    ).length > 0
+    numSelected > 0 &&
+    (formData?.toxicExposure[checkboxObjectName].notsure !== true ||
+      numSelected > 1)
   );
 }
 
