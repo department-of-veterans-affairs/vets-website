@@ -13,6 +13,7 @@ import {
   additionalExposuresQuestion,
   additionalExposuresTitle,
   noneAndHazardError,
+  specifyOtherExposuresLabel,
 } from '../../../content/toxicExposure';
 import { ADDITIONAL_EXPOSURES } from '../../../constants';
 
@@ -22,7 +23,7 @@ describe('Additional Exposures', () => {
     uiSchema,
   } = formConfig.chapters.disabilities.pages.additionalExposures;
 
-  it('should render with all checkboxes', () => {
+  it('should render with all checkboxes and other field', () => {
     const { container, getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
     );
@@ -41,6 +42,10 @@ describe('Additional Exposures', () => {
     Object.values(ADDITIONAL_EXPOSURES).forEach(option => {
       expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
     });
+
+    expect($('va-textarea', container).getAttribute('label')).to.equal(
+      specifyOtherExposuresLabel,
+    );
   });
 
   it('should submit without selecting any hazards', () => {

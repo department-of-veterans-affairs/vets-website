@@ -1,10 +1,12 @@
 import {
   checkboxGroupUI,
   checkboxGroupSchema,
+  textareaUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   additionalExposuresQuestion,
   additionalExposuresTitle,
+  specifyOtherExposuresLabel,
   validateSelections,
 } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
@@ -19,6 +21,11 @@ export const uiSchema = {
       labels: ADDITIONAL_EXPOSURES,
       required: false,
     }),
+    specifyOtherExposures: {
+      description: textareaUI({
+        title: specifyOtherExposuresLabel,
+      }),
+    },
   },
   'ui:validations': [
     {
@@ -36,6 +43,16 @@ export const schema = {
       type: 'object',
       properties: {
         otherExposures: checkboxGroupSchema(Object.keys(ADDITIONAL_EXPOSURES)),
+        specifyOtherExposures: {
+          type: 'object',
+          properties: {
+            description: {
+              type: 'string',
+              pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
+              maxLength: 250,
+            },
+          },
+        },
       },
     },
   },

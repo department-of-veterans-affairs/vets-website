@@ -53,6 +53,8 @@ export const herbicideQuestion =
 export const additionalExposuresTitle = 'Other toxic exposures';
 export const additionalExposuresQuestion =
   'Have you been exposed to any of these hazards? Check any that you’ve been exposed to.';
+export const specifyOtherExposuresLabel =
+  'Other toxic exposures not listed here (250 characters maximum)';
 
 export const noneAndConditionError =
   'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.';
@@ -271,7 +273,7 @@ export function getOtherFieldDescription(formData, objectName) {
 
 /**
  * Validates selected items (e.g. gulfWar1990Locations, gulfWar2001Locations, etc.).
- * If the 'none' checkbox is selected along with another location, adds an error.
+ * If the 'none' checkbox is selected along with another item, adds an error.
  *
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
@@ -286,11 +288,12 @@ export function validateSelections(
   otherObjectName,
   selectionTypes = 'locations',
 ) {
-  const { [objectName]: locations = {} } = formData?.toxicExposure;
+  const { [objectName]: items = {} } = formData?.toxicExposure;
+
   if (
-    locations?.none === true &&
-    (Object.values(locations).filter(value => value === true).length > 1 ||
-      getOtherFieldDescription(formData, otherObjectName))
+    items?.none === true &&
+    (Object.values(items).filter(value => value === true).length > 1 ||
+      !!getOtherFieldDescription(formData, otherObjectName))
   ) {
     errors.toxicExposure[objectName].addError(
       selectionTypes === 'hazards' ? noneAndHazardError : noneAndLocationError,
