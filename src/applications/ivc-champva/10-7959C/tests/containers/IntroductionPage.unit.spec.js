@@ -6,58 +6,58 @@ import { expect } from 'chai';
 import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
 
-const props = {
-  route: {
-    path: 'introduction',
-    pageList: [],
-    formConfig,
+const getData = ({ loggedIn = true, isVerified = true } = {}) => ({
+  props: {
+    loggedIn,
+    route: {
+      formConfig,
+      pageList: [{ path: '/introduction' }, { path: '/next', formConfig }],
+    },
   },
-};
-
-const mockStore = {
-  getState: () => ({
-    user: {
-      login: {
-        currentlyLoggedIn: false,
-      },
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-        verified: false,
-        dob: '2000-01-01',
-        claims: {
-          appeals: false,
+  mockStore: {
+    getState: () => ({
+      isVerified,
+      user: {
+        login: {
+          currentlyLoggedIn: loggedIn,
+        },
+        profile: {
+          savedForms: [],
+          prefillsAvailable: [],
         },
       },
-    },
-    form: {
-      formId: formConfig.formId,
-      loadedStatus: 'success',
-      savedStatus: '',
-      loadedData: {
-        metadata: {},
+      form: {
+        formId: formConfig.formId,
+        loadedData: {
+          metadata: {},
+        },
       },
-      data: {},
-    },
-    scheduledDowntime: {
-      globalDowntime: null,
-      isReady: true,
-      isPending: false,
-      serviceMap: { get() {} },
-      dismissedDowntimeWarnings: [],
-    },
-  }),
-  subscribe: () => {},
-  dispatch: () => {},
-};
+      route: {
+        formConfig: {},
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  },
+});
 
 describe('IntroductionPage', () => {
   it('should render', () => {
+    const { props, mockStore } = getData({ loggedIn: false });
     const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
     expect(container).to.exist;
+  });
+  it('should show the logged in start link', () => {
+    const { props, mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    expect(container.querySelector('.signed-in-sip')).to.exist;
   });
 });

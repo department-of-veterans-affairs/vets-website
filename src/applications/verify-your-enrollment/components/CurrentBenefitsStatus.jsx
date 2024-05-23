@@ -12,13 +12,13 @@ const CurrentBenefitsStatus = ({
     <div className="vads-u-margin-top--5">
       <va-card>
         <span className="usa-label">UPDATED {updated}</span>
-        <h3 className="vads-u-font-size--lg vads-u-font-family--serif vads-u-margin-top--2">
-          Current Benefits Status
-        </h3>
+        <h2 className="vads-u-font-size--lg vads-u-font-family--serif vads-u-margin-top--2">
+          Current benefits status
+        </h2>
         <div>
-          <Paragraph title=" Remaining Benefits" date={remainingBenefits} />
+          <Paragraph title=" Remaining benefits" date={remainingBenefits} />
           <Paragraph
-            title=" Expiration Date"
+            title=" Expiration date"
             date={expirationDate}
             className="vads-u-margin-top--neg2"
           />

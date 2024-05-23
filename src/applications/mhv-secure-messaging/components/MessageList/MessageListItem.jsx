@@ -6,8 +6,7 @@ import { dateFormat } from '../../util/helpers';
 
 const unreadMessageClassList = 'vads-u-margin-y--0p5 vads-u-font-weight--bold';
 const readMessageClassList = 'vads-u-margin-y--0p5';
-const attachmentClasses =
-  'vads-u-margin-right--1 vads-u-font-size--sm fas fa-paperclip';
+const attachmentClasses = 'vads-u-margin-right--1 vads-u-font-size--sm';
 
 const MessageListItem = props => {
   const location = useLocation();
@@ -70,10 +69,10 @@ const MessageListItem = props => {
       <div className="unread-column vads-l-col">
         {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
           (readReceipt !== 'READ' && (
-            <i
-              role="img"
+            <span
               aria-label="Unread message"
-              className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
+              role="img"
+              className="unread-icon vads-u-margin-right--1 unread-bubble"
               alt="Unread message icon"
             />
           ))}
@@ -111,7 +110,13 @@ const MessageListItem = props => {
           {categoryLabel}: {getHighlightedText(subject)}
         </Link>
         <p className="received-date vads-u-margin-y--0p5">
-          {attachment && <i className={attachmentClasses} aria-hidden />}
+          {attachment && (
+            <va-icon
+              icon="attach-file"
+              className={attachmentClasses}
+              aria-hidden
+            />
+          )}
           <span data-dd-privacy="mask">{formattedDate}</span>
         </p>
       </div>

@@ -1,0 +1,228 @@
+  {
+  "data": [
+    {
+      "id": "3163906",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 3163906,
+        "category": "TEST_RESULTS",
+        "subject": "Multiple drafts from legacy",
+        "body": "draft #33",
+        "attachment": null,
+        "sentDate": null,
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK",
+        "recipientId": 6832726,
+        "recipientName": "TG-7410",
+        "readReceipt": null,
+        "triageGroupName": "TG-7410",
+        "proxySenderName": null,
+        "threadId": 3103881,
+        "folderId": -2,
+        "messageBody": "draft #33",
+        "draftDate": "2023-12-22T23:11:42.000Z",
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/3163906"
+      }
+    },
+    {
+      "id": "3163899",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 3163899,
+        "category": "TEST_RESULTS",
+        "subject": "Multiple drafts from legacy",
+        "body": "multiple draft #3 new save again 222",
+        "attachment": null,
+        "sentDate": null,
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK",
+        "recipientId": 678848,
+        "recipientName": "TRIAGE GROUP_UAT2929",
+        "readReceipt": null,
+        "triageGroupName": "TRIAGE GROUP_UAT2929",
+        "proxySenderName": null,
+        "threadId": 3103881,
+        "folderId": -2,
+        "messageBody": "multiple draft #3 new save again 222",
+        "draftDate": "2023-11-29T23:10:07.000Z",
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/3163899"
+      }
+    },
+    {
+      "id": "3163320",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 3163320,
+        "category": "TEST_RESULTS",
+        "subject": "Multiple drafts from legacy",
+        "body": "Draft 1\nnew autosave 1111111",
+        "attachment": null,
+        "sentDate": null,
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK",
+        "recipientId": 678848,
+        "recipientName": "TRIAGE GROUP_UAT2929",
+        "readReceipt": null,
+        "triageGroupName": "TRIAGE GROUP_UAT2929",
+        "proxySenderName": null,
+        "threadId": 3103881,
+        "folderId": -2,
+        "messageBody": "Draft 1\nnew autosave 1111111",
+        "draftDate": "2023-11-25T16:36:48.000Z",
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/3163320"
+      }
+    },
+    {
+      "id": "3163203",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 3163203,
+        "category": "TEST_RESULTS",
+        "subject": "Multiple drafts from legacy",
+        "body": "Draft 3s testing autosaved testing again manual save. news redux",
+        "attachment": null,
+        "sentDate": "2023-11-25T15:03:07.000Z",
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK",
+        "recipientId": 678848,
+        "recipientName": "TRIAGE GROUP_UAT2929",
+        "readReceipt": null,
+        "triageGroupName": "TRIAGE GROUP_UAT2929",
+        "proxySenderName": null,
+        "threadId": 3103881,
+        "folderId": -2,
+        "messageBody": "Draft 3s testing autosaved testing again manual save. news redux",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/3163203"
+      }
+    },
+    {
+      "id": "3161671",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 3161671,
+        "category": "TEST_RESULTS",
+        "subject": "Multiple drafts from legacy",
+        "body": "Draft 3s testing autosaved testing again manual save. news redux\nSending now",
+        "attachment": null,
+        "sentDate": "2023-11-28T22:34:44.000Z",
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK",
+        "recipientId": 678848,
+        "recipientName": "TRIAGE GROUP_UAT2929",
+        "readReceipt": null,
+        "triageGroupName": "TRIAGE GROUP_UAT2929",
+        "proxySenderName": null,
+        "threadId": 3103881,
+        "folderId": -1,
+        "messageBody": "Draft 3s testing autosaved testing again manual save. news redux\nSending now",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/3161671"
+      }
+    },
+    {
+      "id": "3103905",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 3103905,
+        "category": "TEST_RESULTS",
+        "subject": "Multiple drafts from legacy",
+        "body": "M2",
+        "attachment": null,
+        "sentDate": "2023-10-31T19:08:27.000Z",
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK ",
+        "recipientId": 678848,
+        "recipientName": "TRIAGE GROUP_UAT2929",
+        "readReceipt": null,
+        "triageGroupName": "TRIAGE GROUP_UAT2929",
+        "proxySenderName": null,
+        "threadId": 3103881,
+        "folderId": -1,
+        "messageBody": "M2",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/3103905"
+      }
+    },
+    {
+      "id": "3103891",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 3103891,
+        "category": "TEST_RESULTS",
+        "subject": "Multiple drafts from legacy",
+        "body": "P1",
+        "attachment": null,
+        "sentDate": "2023-10-31T19:03:25.000Z",
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK ",
+        "recipientId": 678848,
+        "recipientName": "TRIAGE GROUP_UAT2929",
+        "readReceipt": null,
+        "triageGroupName": "TRIAGE GROUP_UAT2929",
+        "proxySenderName": null,
+        "threadId": 3103881,
+        "folderId": -1,
+        "messageBody": "P1",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/3103891"
+      }
+    },
+    {
+      "id": "3103882",
+      "type": "message_thread_details",
+      "attributes": {
+        "messageId": 3103882,
+        "category": "TEST_RESULTS",
+        "subject": "Multiple drafts from legacy",
+        "body": "\r\nM1\r\n\r\n\r\nDimitar\r\nMD",
+        "attachment": null,
+        "sentDate": "2023-10-31T19:02:00.000Z",
+        "senderId": 678797,
+        "senderName": "SPARROW, JACK",
+        "recipientId": 251391,
+        "recipientName": "MHVDAYMARK, MARK ",
+        "readReceipt": "READ",
+        "triageGroupName": "TRIAGE GROUP_UAT2929",
+        "proxySenderName": null,
+        "threadId": 3103881,
+        "folderId": 0,
+        "messageBody": "\r\nM1\r\n\r\n\r\ntestBody\r\nMD",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/3103882"
+      }
+    }
+  ]
+}

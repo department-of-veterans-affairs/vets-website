@@ -9,13 +9,12 @@ import mockThread from '../fixtures/thread-response.json';
 
 describe('verify drafts - blocked from facility', () => {
   const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
   const newDate = new Date().toISOString();
 
   beforeEach(() => {
     site.login();
 
-    landingPage.loadInboxMessages(
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       mockFacilityBlockedRecipients,
@@ -39,7 +38,7 @@ describe('verify drafts - blocked from facility', () => {
       ],
     };
 
-    landingPage.loadSingleThread(mockThreadWithDraft, newDate, newDate);
+    PatientInboxPage.loadSingleThread(mockThreadWithDraft, newDate, newDate);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -102,7 +101,7 @@ describe('verify drafts - blocked from facility', () => {
       ],
     };
 
-    landingPage.loadSingleThread(mockSingleDraft, newDate, newDate);
+    PatientInboxPage.loadSingleThread(mockSingleDraft, newDate, newDate);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

@@ -49,6 +49,9 @@ export const gulfWar2001Question =
 export const noneAndConditionError =
   'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.';
 
+export const noneAndLocationError =
+  'You selected a location, and you also selected "None of these locations." You’ll need to uncheck one of these options to continue.';
+
 export const dateRangeAdditionalInfo = (
   <va-additional-info trigger="What if I have more than one date range?">
     <p>
@@ -148,7 +151,7 @@ export function isClaimingTECondition(formData) {
 
 /**
  * Builds the Schema based on user entered condition names
- * 
+ *
  * Example output:
 {
     type: 'object',
@@ -240,6 +243,25 @@ export function validateTEConditions(errors, formData) {
 }
 
 /**
+ * Validates selected locations (e.g. gulfWar1990Locations, gulfWar2001Locations, etc.).
+ * If the 'none' checkbox is selected along with another location, adds an error.
+ *
+ * @param {object} errors - Errors object from rjsf
+ * @param {object} formData
+ * @param {string} objectName - Name of the object to look at in the form data
+ */
+export function validateLocations(errors, formData, objectName) {
+  const { [objectName]: locations = {} } = formData?.toxicExposure;
+
+  if (
+    locations?.none === true &&
+    Object.values(locations).filter(value => value === true).length > 1
+  ) {
+    errors.toxicExposure[objectName].addError(noneAndLocationError);
+  }
+}
+
+/**
  * Given the key for a selected checkbox option, find the index within the selected items. In this
  * example, there are two selected locations. The key='bahrain' would give index of 1, and
  * key='airspace' would give index 2.
@@ -305,6 +327,7 @@ export function getSelectedCount(objectName, { formData } = {}) {
  * the following is true
  * 1. TE pages should be showing at all
  * 2. the given checkbox data is present for the given itemId with a value of true
+ * 3. the 'none' location checkbox is not true
  *
  * @param {object} formData - full form data
  * @param {string} locationId - unique id for the location
@@ -318,6 +341,7 @@ export function showCheckboxLoopDetailsPage(
   return (
     isClaimingTECondition(formData) &&
     formData?.toxicExposure[checkboxObjectName] &&
+    formData?.toxicExposure[checkboxObjectName].none !== true &&
     formData?.toxicExposure[checkboxObjectName][itemId] === true
   );
 }
@@ -327,6 +351,8 @@ export function showCheckboxLoopDetailsPage(
  * are true
  * 1. TE pages should be showing at all
  * 2. at least one checkbox item was selected
+ * 3. the 'none' location checkbox is not true
+ *
  * @param {object} formData - full form data
  * @returns {boolean} true if the page should display, false otherwise
  */
@@ -334,6 +360,7 @@ export function showSummaryPage(formData, checkboxObjectName) {
   return (
     isClaimingTECondition(formData) &&
     formData?.toxicExposure[checkboxObjectName] &&
+    formData?.toxicExposure[checkboxObjectName].none !== true &&
     Object.values(formData.toxicExposure[checkboxObjectName]).filter(
       value => value === true,
     ).length > 0

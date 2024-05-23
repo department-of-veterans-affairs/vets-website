@@ -554,6 +554,67 @@ describe('toxicExposure', () => {
         expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'bahrain'))
           .to.be.true;
       });
+
+      it('should return false when `none` location is selected', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              none: true,
+            },
+            gulfWar2001: {
+              none: true,
+            },
+          },
+        };
+
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'none')).to
+          .be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar2001', 'none')).to
+          .be.false;
+      });
+
+      it('should return false when `none` and another location is selected', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              afghanistan: true,
+              none: true,
+            },
+            gulfWar2001: {
+              yemen: true,
+              none: true,
+            },
+          },
+        };
+
+        expect(
+          showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'afghanistan'),
+        ).to.be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar2001', 'yemen')).to
+          .be.false;
+      });
     });
   });
 
@@ -645,6 +706,62 @@ describe('toxicExposure', () => {
         };
 
         expect(showSummaryPage(formData, 'gulfWar1990')).to.be.true;
+      });
+
+      it('should return false when `none` location is selected', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              none: true,
+            },
+            gulfWar2001: {
+              none: true,
+            },
+          },
+        };
+
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar2001')).to.be.false;
+      });
+
+      it('should return false when `none` and another location is selected', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              afghanistan: true,
+              none: true,
+            },
+            gulfWar2001: {
+              yemen: true,
+              none: true,
+            },
+          },
+        };
+
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar2001')).to.be.false;
       });
     });
   });

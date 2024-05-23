@@ -51,13 +51,19 @@ class VitalsListPage extends BaseListPage {
       .contains(date);
     cy.get('[data-testid="vital-li-review-over-time"]')
       .eq(index)
-      .contains(`Review ${name} over time`, { matchCase: false });
+      .contains(`Review your ${name} over time`, { matchCase: false });
   };
 
   clickVitalsDetailsLink = (_VitalsIndex = 0) => {
     cy.get('[data-testid="record-list-item"]')
       .find('a')
       .eq(_VitalsIndex)
+      .click();
+  };
+
+  clickVitalsListNextButton = () => {
+    cy.get('[aria-label="Next page"]')
+      .find('a')
       .click();
   };
 }

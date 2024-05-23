@@ -12,6 +12,7 @@ import {
   gulfWar1990PageTitle,
   showCheckboxLoopDetailsPage,
   startDateApproximate,
+  teSubtitle,
 } from '../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 
@@ -101,12 +102,18 @@ function makeSchema(locationId) {
  * @returns an object with a page object for each details page
  */
 export function makePages() {
-  const gulfWar1990DetailPagesList = Object.keys(GULF_WAR_1990_LOCATIONS).map(
-    locationId => {
+  const gulfWar1990DetailPagesList = Object.keys(GULF_WAR_1990_LOCATIONS)
+    .filter(locationId => locationId !== 'none')
+    .map(locationId => {
       const pageName = `gulf-war-1990-location-${locationId}`;
       return {
         [pageName]: {
-          title: gulfWar1990PageTitle,
+          title: formData =>
+            teSubtitle(
+              getKeyIndex(locationId, 'gulfWar1990', { formData }),
+              getSelectedCount('gulfWar1990', { formData }),
+              GULF_WAR_1990_LOCATIONS[locationId],
+            ),
           path: `${TE_URL_PREFIX}/${pageName}`,
           uiSchema: makeUiSchema(locationId),
           schema: makeSchema(locationId),
@@ -114,8 +121,7 @@ export function makePages() {
             showCheckboxLoopDetailsPage(formData, 'gulfWar1990', locationId),
         },
       };
-    },
-  );
+    });
 
   return Object.assign({}, ...gulfWar1990DetailPagesList);
 }

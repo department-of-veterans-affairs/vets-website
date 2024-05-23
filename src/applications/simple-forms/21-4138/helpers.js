@@ -1,3 +1,6 @@
+import { startOfDay, subYears, isBefore } from 'date-fns';
+import { STATEMENT_TYPES } from './config/constants';
+
 export function getMockData(mockData, isLocalhost) {
   return !!mockData && isLocalhost() && !window.Cypress ? mockData : undefined;
 }
@@ -10,7 +13,7 @@ export function getFullNameLabels(label, skipMiddleCheck = false) {
   return label.charAt(0).toUpperCase() + label.slice(1);
 }
 
-export function validateLivingSituation(errors, fields) {
+export function validateCheckboxSelection(errors, fields) {
   const selectedSituations = Object.keys(fields.livingSituation).filter(
     key => fields.livingSituation[key],
   );
@@ -23,3 +26,24 @@ export function validateLivingSituation(errors, fields) {
     );
   }
 }
+
+export const isEligibleForDecisionReview = decisionDate => {
+  if (!decisionDate) return false;
+  const oneYearAgo = startOfDay(subYears(new Date(), 1));
+  const decisionDateTime = startOfDay(new Date(decisionDate.split('-')));
+  return isBefore(oneYearAgo, decisionDateTime);
+};
+
+export const isIneligibleForPriorityProcessing = formData => {
+  return (
+    formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
+    (formData.livingSituation.NONE && formData.otherReasons?.NONE)
+  );
+};
+
+export const isEligibleToSubmitStatement = formData => {
+  return (
+    formData.statementType === STATEMENT_TYPES.NOT_LISTED ||
+    isIneligibleForPriorityProcessing(formData)
+  );
+};

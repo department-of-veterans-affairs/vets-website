@@ -134,6 +134,14 @@
   padding-top: 2px;
 }
 
+.vaos-calendar__nav-link-icon {
+  background: var(--vads-color-primary);
+  border-radius: 20px;
+  color: var(--vads-color-white);
+  font-size: 20px;
+  position: initial;
+}
+
 .vaos-calendar__options-container {
   position: absolute;
   width: 100%;

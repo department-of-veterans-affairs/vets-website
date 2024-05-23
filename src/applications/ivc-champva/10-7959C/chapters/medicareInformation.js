@@ -5,8 +5,6 @@ import {
   titleSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
-  radioUI,
-  radioSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -54,51 +52,6 @@ export const applicantHasMedicareABSchema = {
   },
 };
 
-export const applicantMedicareABContextSchema = {
-  uiSchema: {
-    ...titleUI(({ formData }) => `${nameWording(formData)} Medicare status`),
-    applicantMedicareStatusContinued: {
-      ...radioUI({
-        updateUiSchema: formData => {
-          const useFirstPerson = formData?.certifierRole === 'applicant';
-          let title = 'Which of these best describes you?';
-          if (formData?.certifierRole !== 'applicant') {
-            title = `${title.slice(0, -4)} ${nameWording(formData, false)}?`;
-          }
-          const labels = {
-            ineligible: `${
-              useFirstPerson ? 'I’m' : nameWording(formData, false)
-            } not eligible for Medicare`,
-            enrolledNoUpdates: `${
-              useFirstPerson ? 'I have' : `${nameWording(formData, false)} has`
-            } Medicare but no updates to add at this time`,
-            eligibleNotEnrolled: `No, ${
-              useFirstPerson ? 'I’m' : `${nameWording(formData, false)} is`
-            } eligible for Medicare but ${
-              useFirstPerson ? 'have' : 'has'
-            } not signed up for it yet`,
-          };
-          return {
-            'ui:title': title,
-            'ui:options': { labels, hint: additionalFilesHint },
-          };
-        },
-      }),
-    },
-  },
-  schema: {
-    type: 'object',
-    required: ['applicantMedicareStatusContinued'],
-    properties: {
-      applicantMedicareStatusContinued: radioSchema([
-        'ineligible',
-        'enrolledNoUpdates',
-        'eligibleNotEnrolled',
-      ]),
-    },
-  },
-};
-
 export const applicantMedicarePartACarrierSchema = {
   uiSchema: {
     ...titleUI(
@@ -122,49 +75,6 @@ export const applicantMedicarePartACarrierSchema = {
       titleSchema,
       applicantMedicarePartACarrier: { type: 'string' },
       applicantMedicarePartAEffectiveDate: currentOrPastDateSchema,
-    },
-  },
-};
-
-export const appMedicareOver65IneligibleUploadSchema = {
-  uiSchema: {
-    ...titleUI(
-      ({ _formData, formContext }) =>
-        `Upload proof of Medicare ineligibility ${isRequiredFile(
-          formContext,
-          requiredFiles,
-        )}`,
-      ({ formData }) => {
-        const appName = nameWording(formData, false, true);
-        return (
-          <>
-            <b>{appName}</b> is 65 years or older and you selected that they’re
-            not eligible for Medicare.
-            <br />
-            <br />
-            You’ll need to submit a copy of a letter from the Social Security
-            Administration that confirms that <b>{appName}</b> doesn’t qualify
-            for Medicare benefits under anyone’s Social Security number.
-            <br />
-            If you don’t have a copy to upload now, you can send one by mail or
-            fax
-          </>
-        );
-      },
-    ),
-    ...fileUploadBlurb,
-    applicantMedicareIneligibleProof: fileUploadUI({
-      label: 'Upload proof of Medicare ineligibility',
-    }),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      titleSchema,
-      'view:fileUploadBlurb': blankSchema,
-      applicantMedicareIneligibleProof: fileWithMetadataSchema([
-        'Letter from the SSA',
-      ]),
     },
   },
 };

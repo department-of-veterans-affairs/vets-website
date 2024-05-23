@@ -9,11 +9,10 @@ import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Save Draft', () => {
   it('Axe Check Save Draft', () => {
-    const landingPage = new PatientInboxPage();
     const draftsPage = new PatientMessageDraftsPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse);
     PatientInterstitialPage.getContinueButton().should('not.exist');

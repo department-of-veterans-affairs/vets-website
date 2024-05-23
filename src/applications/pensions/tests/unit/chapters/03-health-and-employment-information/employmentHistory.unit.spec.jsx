@@ -1,10 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
   FakeProvider,
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import {
@@ -35,6 +38,69 @@ describe('pensions employment history', () => {
     expectedNumberOfErrors,
     pageTitle,
   );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle, {
+    currentEmployment: false,
+    employers: [
+      {
+        jobTitle: 'Cashier',
+        jobType: 'Customer service',
+        jobHoursWeek: '20',
+      },
+      {
+        jobTitle: 'Customer Service Representative',
+        jobType: 'Customer service',
+        jobHoursWeek: '20',
+      },
+    ],
+  });
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 3,
+    },
+    pageTitle,
+  );
+
+  it('should set the aria-label to the jobTitle or jobType', () => {
+    const { container } = render(
+      <FakeProvider>
+        <DefinitionTester
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{
+            currentEmployment: false,
+            employers: [
+              {
+                jobTitle: 'Cashier',
+                jobType: 'Customer service',
+                jobHoursWeek: '20',
+              },
+              {
+                jobTitle: 'Customer Service Representative',
+                jobType: 'Customer service',
+                jobHoursWeek: '20',
+              },
+            ],
+          }}
+        />
+      </FakeProvider>,
+    );
+
+    const cashierEditButton = container.querySelector(
+      '[aria-label="Edit Cashier"]',
+    );
+    const csrEditButton = container.querySelector(
+      '[aria-label="Edit Customer Service Representative"]',
+    );
+
+    expect(cashierEditButton).to.exist;
+    expect(csrEditButton).to.exist;
+  });
 
   describe('EmployerView', () => {
     it('should render a list view', () => {
