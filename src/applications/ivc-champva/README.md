@@ -8,7 +8,7 @@ This document contains context and other relevant notes that apply specifically
 to the forms implemented in this `ivc-champva` directory. It provides pointers
 on running the applications locally, testing methods, and other useful info.
 
-> [!IMPORTANT][platform documentation](https://depo-platform-documentation.scrollhelp.site/developer-docs/) is always the best place to go for form application development information. This document should be consulted _in addition_ to those resources, not _instead_ of.
+> [!IMPORTANT] [platform documentation](https://depo-platform-documentation.scrollhelp.site/developer-docs/) is always the best place to go for form application development information. This document should be consulted _in addition_ to those resources, not _instead_ of.
 
 > [!NOTE]
 > Any shell commands shown in this document assume a MacOS console environment and `bash`/`zsh`
@@ -61,9 +61,9 @@ To run the IVC-CHAMPVA form apps locally:
 
     ```JSON
     // vets-website/src/applications/ivc-champva/10-7959C/manifest.json:
-    ...
+    // ...
     "rootUrl": "/health-care/champva/other-insurance-form-10-7959c",
-    ...
+    // ...
     ```
 
     yielding: **localhost:3001/health-care/champva/other-insurance-form-10-7959c**
@@ -230,7 +230,12 @@ To Save In Progress locally you must mock vets-api locally to intercept the fron
 1. Read over the [vets-website README info on Running a mock API](https://github.com/department-of-veterans-affairs/vets-website#running-a-mock-api-for-local-development). You will need to mock JSON static-responses for the user, SIP GET, & SIP PUT calls.
 2. View the example mock set up in [ivc-champva/10-7959C](https://github.com/department-of-veterans-affairs/vets-website/pull/29340)'s local-mock-responses file to get an idea of how to set up your responses and mocks files.
 3. To trigger the In-Progress state of the Intro-page's SIP-alert add the desired form-ID as a string into the `user.json`'s "in-progress-forms" array ([example here](https://github.com/department-of-veterans-affairs/vets-website/blob/8483a502755da0397e0a23ace2bd97d1791493de/src/applications/ivc-champva/10-7959C/tests/e2e/fixtures/mocks/user.json#L22)) -- e.g., `"in-progress-forms": ["10-7959C"]`, and the sip-get.json & sip-put.json support the SIP-alerts you see just above a form-pages back-continue buttons, as you input data into the fields
-4. To simulate a logged in user, visit the form locally in your browser and enter the following into the browser console:
+4. Launch the mocked API using the following command
+    ```bash
+    # Run in vets-website
+    yarn mock-api --responses path/to/responses.js
+    ```
+5. To simulate a logged in user, visit the form locally in your browser and enter the following into the browser console:
 
    ```JavaScript
    // When viewing a form with a mocked API, imitate a logged in user by setting this in local storage:
