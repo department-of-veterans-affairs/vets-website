@@ -251,7 +251,7 @@ export class ComboBox extends React.Component {
   drawFreeTextOption(option) {
     const { highlightedIndex, searchTerm, value } = this.state;
 
-    if (option === value) {
+    if (option === value || option.length < 1) {
       return null;
     }
 
