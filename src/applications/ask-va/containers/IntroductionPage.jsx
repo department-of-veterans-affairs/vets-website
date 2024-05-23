@@ -137,7 +137,7 @@ const IntroductionPage = props => {
             )}
             {status === 'Reopened' && (
               <p className="vads-u-margin-left--2">
-                We received your reply. We’ll respons soon
+                We received your reply. We’ll response soon
               </p>
             )}
           </div>
