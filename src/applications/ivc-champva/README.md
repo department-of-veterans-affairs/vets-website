@@ -60,10 +60,13 @@ To run the IVC-CHAMPVA form apps locally:
     the `manifest.json` for that particular form app.
     For example, to access form 10-7959C append the following rootURL value to **http://localhost:3001**:
 
-    ```JSON
+    ```JavaScript
     // vets-website/src/applications/ivc-champva/10-7959C/manifest.json:
     // ...
-    "rootUrl": "/health-care/champva/other-insurance-form-10-7959c",
+    {
+      "rootUrl": "/health-care/champva/other-insurance-form-10-7959c",
+      // ...
+    }
     // ...
     ```
 
