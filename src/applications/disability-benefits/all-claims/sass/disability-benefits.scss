@@ -256,10 +256,12 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
   position: relative
 }
 .cc-combobox__list {
+  position: absolute;
+  width: 100%;
+  max-width: 30rem;
   background-color: var(--vads-color-white);
   padding: 0;
-  position: absolute;
-  width: calc(100% - 18px); // to offset overflow scrollbar
+  margin: 0;
   overflow-y: auto;
   z-index: 100;
 
@@ -269,7 +271,7 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
 }
 .cc-combobox__option {
   display: block;
-  padding: units(2);
+  padding: units(1);
   margin: 0;
 
   &--active {
