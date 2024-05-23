@@ -11,7 +11,7 @@ export const renderPTag = (automatedTest = false) => {
     );
   }
   return (
-    <p className="vads-u-font-size--h3 vads-u-color--gray-dark">
+    <p className="vads-u-font-size--h3 vads-u-color--gray-dark main-text-subtext">
       Learn about and compare your GI Bill benefits at approved schools, and
       employers providers.
     </p>
