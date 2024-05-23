@@ -31,7 +31,6 @@
     "applicantHasPrimary": true,
     "applicantMedicareStatus": false,
     "applicantPhone": "5551112222",
-    "applicantEmailAddress": "email@email.gov",
     "applicantAddress": {
       "country": "USA",
       "street": "456 Street Avenue",

@@ -15,7 +15,6 @@
     "applicantHasPrimary": false,
     "applicantMedicareStatus": false,
     "applicantPhone": "1231231234",
-    "applicantEmailAddress": "applicant@email.gov",
     "applicantAddress": {
       "country": "USA",
       "street": "123 Circle Street",

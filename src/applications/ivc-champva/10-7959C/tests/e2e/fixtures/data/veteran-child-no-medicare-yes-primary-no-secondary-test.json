@@ -16,7 +16,6 @@
     "applicantHasPrimary": true,
     "applicantMedicareStatus": false,
     "applicantPhone": "1231231234",
-    "applicantEmailAddress": "email@email.com",
     "applicantAddress": {
       "country": "USA",
       "street": "123 Streetland",
