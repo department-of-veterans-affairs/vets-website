@@ -3,7 +3,6 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import EnrollmentVerificationBreadcrumbs from '../../components/EnrollmentVerificationBreadcrumbs';
 import {
-  BASE_URL,
   BENEFITS_PROFILE_URL,
   BENEFITS_PROFILE_URL_SEGMENT,
 } from '../../constants/index';
@@ -28,16 +27,22 @@ describe('<EnrollmentVerificationBreadcrumbs>', () => {
     // Check for specific breadcrumb links
     expect(breadcrumbs.at(0).props().href).to.equal('/');
     expect(breadcrumbs.at(1).props().href).to.equal('/education/');
-    expect(breadcrumbs.at(2).props().href).to.equal(BASE_URL);
-    expect(breadcrumbs.at(3).props().href).to.equal(BENEFITS_PROFILE_URL);
+    expect(breadcrumbs.at(2).props().href).to.equal(
+      '/education/verify-school-enrollment/',
+    );
+    expect(breadcrumbs.at(3).props().href).to.equal(
+      '/education/verify-school-enrollment/mgib-enrollments/',
+    );
 
     // Check the breadcrumb texts
     expect(breadcrumbs.at(0).text()).to.equal('Home');
     expect(breadcrumbs.at(1).text()).to.equal('Education and training');
     expect(breadcrumbs.at(2).text()).to.equal(
+      'Verify your school enrollment for GI Bill benefits',
+    );
+    expect(breadcrumbs.at(3).text()).to.equal(
       'Montgomery GI Bill enrollment verification',
     );
-    expect(breadcrumbs.at(3).text()).to.equal('Your benefits profile');
 
     wrapper.unmount();
 
