@@ -34,7 +34,7 @@ describe('Cerner Facility Alert', () => {
   it(`does not render CernerFacilityAlert if cernerFacilities is empty`, async () => {
     const screen = setup();
     const alert = screen.queryByTestId('cerner-facilities-alert');
-    expect(alert).to.have.property('visible', 'false');
+    expect(alert).to.have.attribute('visible', 'false');
   });
 
   it(`renders CernerFacilityAlert with list of facilities if cernerFacilities.length > 1`, async () => {

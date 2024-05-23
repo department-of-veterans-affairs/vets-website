@@ -38,7 +38,9 @@ const CernerFacilityAlert = () => {
   };
   return (
     <va-alert
-      class="vads-u-margin-bottom--2p5"
+      class={
+        cernerFacilitiesNames?.length > 0 ? 'vads-u-margin-bottom--2p5' : ''
+      }
       status="warning"
       visible={cernerFacilitiesNames?.length > 0}
       data-testid="cerner-facilities-alert"

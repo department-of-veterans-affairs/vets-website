@@ -111,13 +111,14 @@ const LandingPage = () => {
               medications list.
             </p>
           </section>
-          <CernerFacilityAlert />
           {prescriptionsApiError ? (
             <section>
               <ApiErrorNotification />
+              <CernerFacilityAlert />
             </section>
           ) : (
             <>
+              <CernerFacilityAlert />
               {paginatedPrescriptionsList?.length ? (
                 <section>
                   <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
