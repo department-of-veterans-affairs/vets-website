@@ -365,6 +365,7 @@ export const GULF_WAR_1990_LOCATIONS = Object.freeze({
     'The waters of the Arabian Sea, Gulf of Aden, Gulf of Oman, Persian Gulf, and Red Sea',
   airspace: 'The airspace above any of these locations',
   none: 'None of these locations',
+  notsure: "I'm not sure if I served in these locations",
 });
 
 // used to save feature flag in form in util function for 'depends' keyword of form config
@@ -378,4 +379,5 @@ export const GULF_WAR_2001_LOCATIONS = Object.freeze({
   yemen: 'Yemen',
   airspace: 'The airspace above any of these locations',
   none: 'None of these locations',
+  notsure: "I'm not sure if I served in these locations",
 });
