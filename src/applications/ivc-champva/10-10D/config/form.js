@@ -1039,7 +1039,7 @@ const formConfig = {
         },
         // Applicant separated from sponsor before sponsor's death
         page18f6: {
-          path: 'applicant-information/:index/married-separated-dates',
+          path: 'applicant-information/married-separated-dates/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
@@ -1272,7 +1272,7 @@ const formConfig = {
               get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
-              ) !== 'enrolled' &&
+              ) === 'ineligible' &&
               getAgeInYears(formData.applicants[index]?.applicantDOB) >= 65
             );
           },

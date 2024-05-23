@@ -46,6 +46,9 @@ const WHNetworks = require('./wellHive/networks.json');
 const specialties = require('./wellHive/specialties.json');
 const specialtyGroups = require('./wellHive/specialtyGroups.json');
 const providerOrgs = require('./wellHive/providerOrganizations.json');
+const providerServices = require('./wellHive/providerServices.json');
+const providerSlots = require('./wellHive/providerServicesSlots.json');
+const referrals = require('./wellHive/referrals.json');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -575,6 +578,49 @@ const responses = {
   },
   'GET /vaos/v2/wellhive/provider-organization': (req, res) => {
     return res.json({ data: providerOrgs });
+  },
+  'GET /vaos/v2/wellhive/provider-services': (req, res) => {
+    return res.json({ data: providerServices });
+  },
+  'GET /vaos/v2/wellhive/provider-services/:providerServiceId': (req, res) => {
+    return res.json({
+      data: providerServices.providerServices.find(
+        providerService => providerService?.id === req.params.providerServiceId,
+      ),
+    });
+  },
+  'GET /vaos/v2/wellhive/provider-services/:providerServiceId/slots': (
+    req,
+    res,
+  ) => {
+    return res.json({
+      data: providerSlots.slots.find(
+        slots => slots?.providerServiceId === req.params.providerServiceId,
+      ),
+    });
+  },
+  'GET /vaos/v2/wellhive/provider-services/:providerServiceId/slots/:slotId': (
+    req,
+    res,
+  ) => {
+    const getSlot = [
+      providerSlots.slots.find(
+        slots => slots?.providerServiceId === req.params.providerServiceId,
+      ),
+    ];
+    return res.json({
+      data: getSlot.find(slot => slot?.id === req.params.slotId),
+    });
+  },
+  'GET /vaos/v2/wellhive/referrals': (req, res) => {
+    return res.json({ data: referrals });
+  },
+  'GET /vaos/v2/wellhive/referrals/:referralId': (req, res) => {
+    return res.json({
+      data: referrals.referrals.find(
+        referral => referral?.id === req.params.referralId,
+      ),
+    });
   },
   'GET /v0/user': {
     data: {

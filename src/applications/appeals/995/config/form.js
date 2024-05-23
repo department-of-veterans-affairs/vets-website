@@ -21,7 +21,6 @@ import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
 import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
-import submissionError from '../content/submissionError';
 import reviewErrors from '../content/reviewErrors';
 
 import veteranInfo from '../pages/veteranInfo';
@@ -70,6 +69,7 @@ import fullSchema from './form-0995-schema.json';
 
 import { focusEvidence, focusUploads } from '../utils/focus';
 
+import submissionError from '../../shared/content/submissionError';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { focusAlertH3, focusRadioH3 } from '../../shared/utils/focus';

@@ -63,7 +63,9 @@ export class IntroductionPage extends React.Component {
         ) : (
           <SaveInProgressIntro {...sipOptions} />
         )}
-        <h2>Follow these steps to request a Board Appeal</h2>
+        <h2 className="vads-u-margin-top--2">
+          Follow these steps to request a Board Appeal
+        </h2>
         <va-process-list uswds>
           <va-process-list-item header="Check to be sure you can request a Board Appeal">
             {filingDeadlineContent}
@@ -116,7 +118,9 @@ export class IntroductionPage extends React.Component {
         ) : (
           <SaveInProgressIntro buttonOnly {...sipOptions} />
         )}
-        <h2>What if I need help filling out my application?</h2>
+        <h2 className="vads-u-margin-top--2">
+          What if I need help filling out my application?
+        </h2>
         <p>
           If you need help requesting a Board Appeal, you can contact a VA
           regional office near you.

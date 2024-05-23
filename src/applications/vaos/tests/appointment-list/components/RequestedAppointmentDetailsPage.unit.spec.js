@@ -560,7 +560,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       });
 
       // Assert
-      expect(await screen.findByText('We have received your request')).to.be.ok;
+      expect(await screen.findByText('Request for appointment')).to.be.ok;
       expect(screen.baseElement).not.to.contain.text('Canceled');
 
       // When user clicks on cancel request link
@@ -604,7 +604,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       });
 
       // Assert
-      expect(await screen.findByText('We have received your request')).to.be.ok;
+      expect(await screen.findByText('Request for appointment')).to.be.ok;
       expect(screen.baseElement).not.to.contain.text('Canceled');
 
       let button = document.querySelector(
@@ -659,8 +659,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         });
 
         // Assert
-        expect(await screen.findByText('We have received your request')).to.be
-          .ok;
+        expect(await screen.findByText('Request for appointment')).to.be.ok;
         expect(screen.baseElement).not.to.contain.text('Canceled');
 
         const button = document.querySelector(
@@ -680,9 +679,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         });
         fireEvent.click(link);
         await waitFor(
-          () =>
-            expect(screen.queryByText(/We have received your request/i)).to.be
-              .ok,
+          () => expect(screen.queryByText(/Request for appointment/i)).to.be.ok,
         );
       });
     });
@@ -727,8 +724,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         });
 
         // Assert
-        expect(await screen.findByText('We have received your request')).to.be
-          .ok;
+        expect(await screen.findByText('Request for appointment')).to.be.ok;
         expect(screen.baseElement).not.to.contain.text('Canceled');
 
         let button = document.querySelector(
@@ -806,8 +802,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         });
 
         // Assert
-        expect(await screen.findByText('We have received your request')).to.be
-          .ok;
+        expect(await screen.findByText('Request for appointment')).to.be.ok;
         expect(screen.baseElement).not.to.contain.text('Canceled');
 
         let button = document.querySelector(

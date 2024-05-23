@@ -1,6 +1,7 @@
 import {
   householdExpensesChecklist,
   householdExpensesInputList,
+  monthlyHousingExpenses,
   utilityBillPages,
   creditCardBills,
   installmentContracts,
@@ -51,7 +52,9 @@ export default {
         title: 'Household expenses checklist',
         uiSchema: householdExpensesChecklist.uiSchema,
         schema: householdExpensesChecklist.schema,
-        depends: formData => !isStreamlinedShortForm(formData),
+        depends: formData =>
+          !isStreamlinedShortForm(formData) &&
+          !formData['view:showUpdatedExpensePages'],
       },
       householdExpensesInputList: {
         path: 'household-expenses-values',
@@ -61,7 +64,17 @@ export default {
         CustomPageReview: HouseholdExpensesSummaryReview,
         depends: formData =>
           formData.expenses?.expenseRecords?.length > 0 &&
-          !isStreamlinedShortForm(formData),
+          !isStreamlinedShortForm(formData) &&
+          !formData['view:showUpdatedExpensePages'],
+      },
+      monthlyHousingExpenses: {
+        path: 'monthly-housing-expenses',
+        title: 'Monthly housing expenses',
+        schema: monthlyHousingExpenses.schema,
+        uiSchema: monthlyHousingExpenses.uiSchema,
+        depends: formData =>
+          !isStreamlinedShortForm(formData) &&
+          formData['view:showUpdatedExpensePages'],
       },
       // Enhanced Utility Bills
       utilityBillChecklist: {
