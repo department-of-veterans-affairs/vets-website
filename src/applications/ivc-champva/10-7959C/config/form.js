@@ -52,6 +52,17 @@ import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview'
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
 
+// Control whether we show the file overview page by calling `hasReq` to
+// determine if any files have not been uploaded. Defaults to false (hide the page)
+// if anything goes sideways.
+function showFileOverviewPage(formData) {
+  try {
+    return hasReq(formData, true, true) || hasReq(formData, false, true);
+  } catch {
+    return false;
+  }
+}
+
 /** @type {PageSchema} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -412,6 +423,7 @@ const formConfig = {
         supportingFilesReview: {
           path: 'supporting-files',
           title: 'Upload your supporting files',
+          depends: formData => showFileOverviewPage(formData),
           CustomPage: SupportingDocumentsPage,
           CustomPageReview: null,
           uiSchema: {
@@ -424,18 +436,7 @@ const formConfig = {
         missingFileConsent: {
           path: 'consent-mail',
           title: 'Upload your supporting files',
-          depends: formData => {
-            try {
-              return (
-                hasReq(formData.applicants, true) ||
-                hasReq(formData.applicants, false) ||
-                hasReq(formData, true) ||
-                hasReq(formData, false)
-              );
-            } catch {
-              return false;
-            }
-          },
+          depends: formData => showFileOverviewPage(formData),
           CustomPage: MissingFileConsentPage,
           CustomPageReview: null,
           uiSchema: {
