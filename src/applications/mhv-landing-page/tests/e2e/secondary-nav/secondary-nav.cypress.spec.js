@@ -13,7 +13,8 @@ describe(`${appName} -- MHV Secondary Nav enabled`, () => {
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('renders', () => {
-      cy.get('nav[aria-label="My HealtheVet"]');
+      cy.findByRole('heading', { level: 1, name: 'My HealtheVet' });
+      cy.findByRole('navigation', { name: 'My HealtheVet' });
     });
 
     it('passes automated accessibility (a11y) checks', () => {
@@ -30,7 +31,10 @@ describe(`${appName} -- MHV Secondary Nav enabled`, () => {
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('does not render', () => {
-      cy.get('nav[aria-label="My HealtheVet"]');
+      cy.findByRole('heading', { level: 1, name: 'My HealtheVet' });
+      cy.findByRole('navigation', { name: 'My HealtheVet' }).should(
+        'not.exist',
+      );
     });
 
     it('passes automated accessibility (a11y) checks', () => {
@@ -48,7 +52,8 @@ describe(`${appName} -- MHV Secondary Nav disabled`, () => {
 
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('does not render', () => {
-    cy.get('nav[aria-label="My HealtheVet"]').should('not.exist');
+    cy.findByRole('heading', { level: 1, name: 'My HealtheVet' });
+    cy.findByRole('navigation', { name: 'My HealtheVet' }).should('not.exist');
   });
 
   it('passes automated accessibility (a11y) checks', () => {
