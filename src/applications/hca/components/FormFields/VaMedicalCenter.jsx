@@ -155,10 +155,13 @@ const VaMedicalCenter = props => {
 
   // render the static facility name on review page
   if (reviewMode) {
+    const stateLabel = constants.states.USA.find(
+      state => state.value === localData['view:facilityState'],
+    )?.label;
     return (
       <VaMedicalCenterReviewField
         facilityName={getFacilityName(localData.vaMedicalFacility)}
-        stateCode={localData['view:facilityState']}
+        stateLabel={stateLabel}
       />
     );
   }
