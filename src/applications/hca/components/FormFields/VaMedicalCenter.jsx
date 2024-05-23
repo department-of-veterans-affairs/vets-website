@@ -174,7 +174,15 @@ const VaMedicalCenter = props => {
     );
   }
 
-  return !error ? (
+  if (error) {
+    return (
+      <div className="server-error-message vads-u-margin-top--4">
+        <ServerErrorAlert />
+      </div>
+    );
+  }
+
+  return (
     <fieldset className="rjsf-object-field vads-u-margin-y--2">
       <legend
         id="root_view:preferredFacility__title"
@@ -221,10 +229,6 @@ const VaMedicalCenter = props => {
         ))}
       </VaSelect>
     </fieldset>
-  ) : (
-    <div className="server-error-message vads-u-margin-top--4">
-      <ServerErrorAlert />
-    </div>
   );
 };
 
