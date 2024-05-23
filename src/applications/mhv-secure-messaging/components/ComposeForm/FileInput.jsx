@@ -119,7 +119,7 @@ const FileInput = props => {
     <div className="file-input vads-u-font-weight--bold vads-u-color--secondary-dark">
       {error && (
         <label
-          htmlFor="attachments"
+          htmlFor={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
           id={`error-${selectedFileId}`}
           role="alert"
           data-testid="file-input-error-message"
@@ -134,14 +134,17 @@ const FileInput = props => {
       {attachments?.length < Attachments.MAX_FILE_COUNT && (
         <>
           {/* Wave plugin addressed this as an issue, label required */}
-          <label htmlFor="attachments" hidden>
+          <label
+            htmlFor={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
+            hidden
+          >
             Attachments input
           </label>
           <input
             ref={fileInputRef}
             type="file"
-            id="attachments"
-            name="attachments"
+            id={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
+            name={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
             data-testid={`attach-file-input${
               draftSequence ? `-${draftSequence}` : ''
             }`}
