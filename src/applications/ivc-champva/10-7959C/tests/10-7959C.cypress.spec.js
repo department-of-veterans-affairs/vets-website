@@ -50,19 +50,6 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      [ALL_PAGES.address.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
-              'certifierAddress',
-              data.certifierAddress,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
       [ALL_PAGES.applicantAddressInfo.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -92,10 +79,7 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const name =
-              data.certifierRole === 'applicant'
-                ? data.applicantName
-                : data.certifierName;
+            const name = data.applicantName;
             reviewAndSubmitPageFlow(name);
           });
         });
