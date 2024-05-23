@@ -37,7 +37,7 @@ const ReplyDraftItem = props => {
     isSaving,
     signature,
     draftsCount,
-    draftsequence,
+    draftSequence,
     replyMessage,
     replyToName,
     setLastFocusableElement,
@@ -427,7 +427,7 @@ const ReplyDraftItem = props => {
 
       <h3 className="vads-u-margin-bottom--0p5" slot="headline">
         [Draft
-        {draftsequence ? ` ${draftsequence}]` : ']'}
+        {draftSequence ? ` ${draftSequence}]` : ']'}
       </h3>
       <>
         <span
@@ -440,7 +440,7 @@ const ReplyDraftItem = props => {
             <va-icon icon="undo" aria-hidden="true" />
           </div>
           <span className="thread-list-draft reply-draft-label vads-u-padding-right--0p5">
-            {`Draft ${draftsequence ? `${draftsequence} ` : ''}`}
+            {`Draft ${draftSequence ? `${draftSequence} ` : ''}`}
           </span>
           {`To: ${replyToName}\n(Team: ${draft?.triageGroupName ||
             replyMessage.triageGroupName})`}
@@ -491,7 +491,7 @@ const ReplyDraftItem = props => {
                 attachments={attachments}
                 setAttachments={setAttachments}
                 setAttachFileSuccess={setAttachFileSuccess}
-                draftSequence={draftsequence}
+                draftSequence={draftSequence}
               />
             </section>
           )}
@@ -508,7 +508,7 @@ const ReplyDraftItem = props => {
             refreshThreadCallback={refreshThreadHandler}
             setDeleteButtonClicked={setDeleteButtonClicked}
             setNavigationError={setNavigationError}
-            draftSequence={draftsequence}
+            draftSequence={draftSequence}
           />
         </div>
       </>
@@ -519,8 +519,8 @@ const ReplyDraftItem = props => {
 ReplyDraftItem.propTypes = {
   cannotReply: PropTypes.bool,
   draft: PropTypes.object,
+  draftSequence: PropTypes.number,
   draftsCount: PropTypes.number,
-  draftsequence: PropTypes.number,
   editMode: PropTypes.bool,
   isSaving: PropTypes.bool,
   replyMessage: PropTypes.object,

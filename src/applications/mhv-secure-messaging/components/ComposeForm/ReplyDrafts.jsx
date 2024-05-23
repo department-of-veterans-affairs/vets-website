@@ -58,7 +58,7 @@ const ReplyDrafts = props => {
                   cannotReply={cannotReply || showBlockedTriageGroupAlert}
                   draft={draft}
                   draftsCount={drafts?.length}
-                  draftsequence={drafts?.length > 1 && drafts.length - i}
+                  draftSequence={drafts?.length > 1 && drafts.length - i}
                   editMode
                   isSaving={isSaving}
                   replyMessage={replyMessage}

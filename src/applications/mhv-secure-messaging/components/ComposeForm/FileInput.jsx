@@ -111,6 +111,10 @@ const FileInput = props => {
     setAttachFileSuccess(false);
   };
 
+  const draftText = draftSequence ? ` to draft ${draftSequence}` : '';
+  const attachText =
+    attachments.length > 0 ? 'Attach additional file' : 'Attach file';
+
   return (
     <div className="file-input vads-u-font-weight--bold vads-u-color--secondary-dark">
       {error && (
@@ -146,20 +150,15 @@ const FileInput = props => {
           <va-button
             onClick={useFileInput}
             secondary
-            text={
-              attachments.length > 0
-                ? `Attach additional file${
-                    draftSequence ? ` to draft ${draftSequence}` : ''
-                  }`
-                : `Attach file${
-                    draftSequence ? ` to draft ${draftSequence}` : ''
-                  }`
-            }
+            text={`${attachText}${draftText}`}
             class="attach-file-button"
             data-testid={`attach-file-button${
               draftSequence ? `-${draftSequence}` : ''
             }`}
-            data-dd-action-name="Attach File Button"
+            id={`attach-file-button${draftSequence ? `-${draftSequence}` : ''}`}
+            data-dd-action-name={`Attach File Button${
+              draftSequence ? `-${draftSequence}` : ''
+            }`}
           />
         </>
       )}
