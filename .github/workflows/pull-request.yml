@@ -192,7 +192,7 @@ jobs:
 
             ## Note:
 
-            Font Awesome is deprecated. Please use va-icon instead. For more information, visit the migration documentation: [https://design.va.gov/about/developers/using-web-components#how-to-migrate-from-font-awesome-to-va-icon]
+            Font Awesome is deprecated. Please use va-icon instead. For more information, visit the migration documentation: [Migrate from font awesome to va-icon](https://design.va.gov/about/developers/using-web-components#how-to-migrate-from-font-awesome-to-va-icon)
 
   sentry-check:
     name: Sentry Check
