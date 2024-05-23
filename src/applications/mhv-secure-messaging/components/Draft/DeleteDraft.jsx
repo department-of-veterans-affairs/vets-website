@@ -94,12 +94,12 @@ const DeleteDraft = props => {
         type="button"
         id={`delete-draft-button${draftSequence ? `-${draftSequence}` : ''}`}
         ref={deleteDraftButtonRef}
-        className={`usa-button usa-button-${
-          cannotReply
-            ? 'secondary vads-u-padding-x--4'
-            : 'secondary vads-u-flex--1'
+        className={`usa-button usa-button-secondary ${
+          cannotReply ? 'vads-u-padding-x--4' : 'vads-u-flex--1'
         } delete-draft-button vads-u-margin-top--0 vads-u-margin-right--0 vads-u-margin-bottom--0 vads-u-padding-x--0p5 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center`}
-        data-testid="delete-draft-button"
+        data-testid={`delete-draft-button${
+          draftSequence ? `-${draftSequence}` : ''
+        }`}
         onClick={() => {
           if (
             newMessageNavErr ||

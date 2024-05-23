@@ -23,7 +23,6 @@ const ComposeFormActionButtons = ({
       {!cannotReply && (
         <va-button
           text={`Send${draftSequence ? ` draft ${draftSequence}` : ''}`}
-          label="Send"
           id={`send-button${draftSequence ? `-${draftSequence}` : ''}`}
           class={`
             small-screen:vads-u-flex--1
@@ -34,8 +33,10 @@ const ComposeFormActionButtons = ({
             vads-u-margin-top--0
             vads-u-width--full
           `}
-          data-testid="Send-Button"
-          data-dd-action-name="Send Button"
+          data-testid={`Send-Button${draftSequence ? `-${draftSequence}` : ''}`}
+          data-dd-action-name={`Send-Button${
+            draftSequence ? `-${draftSequence}` : ''
+          }`}
           onClick={onSend}
         />
       )}
@@ -57,7 +58,9 @@ const ComposeFormActionButtons = ({
             xsmall-screen:vads-u-margin-bottom--0
             xsmall-screen:vads-u-margin-right--1
           `}
-          data-testid="Save-Draft-Button"
+          data-testid={`Save-Draft-Button${
+            draftSequence ? `-${draftSequence}` : ''
+          }`}
           onClick={e => onSaveDraft('manual', e)}
         >
           Save draft {draftSequence}
@@ -86,6 +89,7 @@ const ComposeFormActionButtons = ({
 ComposeFormActionButtons.propTypes = {
   cannotReply: PropTypes.bool,
   draftId: PropTypes.number,
+  draftSequence: PropTypes.number,
   draftsCount: PropTypes.number,
   formPopulated: PropTypes.bool,
   messageBody: PropTypes.string,
