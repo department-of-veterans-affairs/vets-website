@@ -485,6 +485,7 @@ const ReplyDraftItem = props => {
                 editingEnabled
                 attachFileSuccess={attachFileSuccess}
                 setAttachFileSuccess={setAttachFileSuccess}
+                draftSequence={draftSequence}
               />
 
               <FileInput

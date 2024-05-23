@@ -10,6 +10,7 @@ const AttachmentsList = props => {
   const {
     attachments,
     compose,
+    draftSequence,
     reply,
     setAttachments,
     setNavigationError,
@@ -253,6 +254,7 @@ const AttachmentsList = props => {
       </ul>
       {(compose || reply) && (
         <RemoveAttachmentModal
+          draftSequence={draftSequence}
           visible={isModalVisible}
           onClose={() => {
             setIsModalVisible(false);
@@ -288,6 +290,7 @@ AttachmentsList.propTypes = {
   attachFileSuccess: PropTypes.bool,
   attachments: PropTypes.array,
   compose: PropTypes.bool,
+  draftSequence: PropTypes.number,
   editingEnabled: PropTypes.bool,
   forPrint: PropTypes.bool,
   reply: PropTypes.bool,
