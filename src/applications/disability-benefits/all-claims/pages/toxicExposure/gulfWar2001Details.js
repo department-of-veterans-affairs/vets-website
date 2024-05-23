@@ -13,6 +13,7 @@ import {
   gulfWar2001PageTitle,
   showCheckboxLoopDetailsPage,
   teSubtitle,
+  notSureDatesDetails,
 } from '../../content/toxicExposure';
 import { GULF_WAR_2001_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 
@@ -41,6 +42,9 @@ function makeUiSchema(locationId) {
             title: endDateApproximate,
             monthYearOnly: true,
           }),
+          'view:notSure': {
+            'ui:title': notSureDatesDetails,
+          },
         },
       },
       'view:gulfWar2001AdditionalInfo': {
@@ -70,6 +74,9 @@ function makeSchema(locationId) {
                 properties: {
                   startDate: currentOrPastDateSchema,
                   endDate: currentOrPastDateSchema,
+                  'view:notSure': {
+                    type: 'boolean',
+                  },
                 },
               },
             },

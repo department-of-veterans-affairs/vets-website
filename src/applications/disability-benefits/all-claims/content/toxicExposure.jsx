@@ -68,6 +68,9 @@ export const endDateApproximate = 'Service end date (approximate)';
 export const goBackLink = 'Edit locations and dates';
 export const noDatesEntered = 'No dates entered';
 export const notSureDatesSummary = "I'm not sure of the dates";
+export const notSureDatesDetails = (
+  <p className="vads-spacing-1">I'm not sure of the dates</p>
+);
 
 /**
  * Generate the Toxic Exposure subtitle, which is used on Review and Submit and on the pages
