@@ -22,7 +22,7 @@ PreviousNameView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
-  title: 'List of other names',
+  title: 'List of other service names',
   path: 'military/other-names/add',
   depends: doesHavePreviousNames,
   uiSchema: {
