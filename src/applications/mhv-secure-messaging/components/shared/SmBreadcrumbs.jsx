@@ -155,7 +155,7 @@ const SmBreadcrumbs = () => {
             home-veterans-affairs
             className="vads-u-margin-y--neg1 small-screen:vads-u-margin-y--2"
             dataTestid="sm-breadcrumb"
-            smCrumbLabel={crumbs.label}
+            smCrumbLabel="My HealtheVet"
           />
         ) : (
           <nav aria-label="Breadcrumb">
