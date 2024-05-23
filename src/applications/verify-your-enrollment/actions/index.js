@@ -102,7 +102,10 @@ export function postMailingAddress(mailingAddress) {
       const response = await apiRequest(`${API_URL}/address`, {
         method: 'POST',
         body: JSON.stringify(mailingAddress),
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Key-Inflection': 'camel',
+        },
       });
       dispatch({
         type: UPDATE_ADDRESS_SUCCESS,
@@ -125,7 +128,10 @@ export const updateBankInfo = bankInfo => {
       const response = await apiRequest(`${API_URL}/bank_info`, {
         method: 'POST',
         body: JSON.stringify(bankInfo),
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Key-Inflection': 'camel',
+        },
       });
 
       dispatch({
@@ -149,7 +155,10 @@ export const verifyEnrollmentAction = verifications => {
       const response = await apiRequest(`${API_URL}/verify`, {
         method: 'POST',
         body: JSON.stringify({ awardIds: verifications }),
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Key-Inflection': 'camel',
+        },
       });
 
       dispatch({

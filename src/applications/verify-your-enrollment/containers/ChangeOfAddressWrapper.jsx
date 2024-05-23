@@ -215,23 +215,15 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     if (tempData?.['view:livesOnMilitaryBase']) {
       tempData.countryCodeIso3 = 'USA';
     }
-    // if (!tempData?.['view:livesOnMilitaryBase']) {
-    //   if (
-    //     tempData?.city === 'APO' ||
-    //     tempData?.city === 'FPO' ||
-    //     tempData?.city === 'DPO'
-    //   ) {
-    //     // tempData.city = '';
-    //   }
+    if (
+      !tempData?.['view:livesOnMilitaryBase'] &&
+      (tempData?.city === 'APO' ||
+        tempData?.city === 'FPO' ||
+        tempData?.city === 'DPO')
+    ) {
+      tempData.city = '';
+    }
 
-    //   if (
-    //     tempData?.stateCode === 'AA' ||
-    //     tempData?.stateCode === 'AE' ||
-    //     tempData?.stateCode === 'AP'
-    //   ) {
-    //     tempData.stateCode = '';
-    //   }
-    // }
     setFormData(tempData);
     setEditFormData(tempData);
   };
