@@ -4,11 +4,13 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import { Prompts } from '../../util/constants';
 
 const DeleteDraftModal = props => {
-  const { unsavedNewDraft } = props;
+  const { unsavedNewDraft, draftSequence } = props;
   return (
     <VaModal
-      id="delete-draft-modal"
-      data-testid="delete-draft-modal"
+      id={`delete-draft-modal${draftSequence ? `-${draftSequence}` : ''}`}
+      data-testid={`delete-draft-modal${
+        draftSequence ? `-${draftSequence}` : ''
+      }`}
       modalTitle={
         unsavedNewDraft
           ? Prompts.Draft.DELETE_NEW_DRAFT_TITLE
@@ -42,6 +44,7 @@ const DeleteDraftModal = props => {
 };
 
 DeleteDraftModal.propTypes = {
+  draftSequence: PropTypes.number,
   id: PropTypes.number,
   unsavedNewDraft: PropTypes.bool,
   visible: PropTypes.bool,
