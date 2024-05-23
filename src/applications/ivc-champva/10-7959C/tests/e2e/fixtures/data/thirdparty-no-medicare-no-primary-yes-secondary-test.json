@@ -13,7 +13,6 @@
     "applicantSecondaryExpirationDate": "2023-05-02",
     "applicantHasSecondary": true,
     "applicantHasPrimary": false,
-    "applicantMedicareStatusContinued": "ineligible",
     "applicantMedicareStatus": false,
     "applicantPhone": "1231231234",
     "applicantEmailAddress": "applicant@email.gov",
