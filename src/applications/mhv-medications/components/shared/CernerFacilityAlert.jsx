@@ -37,56 +37,54 @@ const CernerFacilityAlert = () => {
     return cernerFacilitiesNames[0];
   };
   return (
-    <>
-      <va-alert
-        class="vads-u-margin-bottom--2p5"
-        status="warning"
-        visible={cernerFacilitiesNames?.length > 0}
-        data-testid="cerner-facilities-alert"
-      >
-        <h2 className="vads-u-font-size--md">
-          Make sure you’re in the right health portal
-        </h2>
-        <div>
-          <p data-testid="single-cerner-facility-text">
-            To manage medications at {detailsText()}, go to My VA Health
-            {cernerFacilitiesNames?.length > 1 ? ':' : '.'}
-          </p>
-          {cernerFacilitiesNames?.length > 1 && (
-            <ul>
-              {cernerFacilitiesNames.map((facilityName, i) => (
-                <li data-testid="cerner-facility" key={i}>
-                  {facilityName}
-                </li>
-              ))}
-            </ul>
-          )}
-          <a
-            className="vads-c-action-link--blue"
-            href={getCernerURL('/pages/home', true)}
-          >
-            Go to My VA Health
-          </a>
+    <va-alert
+      class="vads-u-margin-bottom--2p5"
+      status="warning"
+      visible={cernerFacilitiesNames?.length > 0}
+      data-testid="cerner-facilities-alert"
+    >
+      <h2 className="vads-u-font-size--md">
+        Make sure you’re in the right health portal
+      </h2>
+      <div>
+        <p data-testid="single-cerner-facility-text">
+          To manage medications at {detailsText()}, go to My VA Health
+          {cernerFacilitiesNames?.length > 1 ? ':' : '.'}
+        </p>
+        {cernerFacilitiesNames?.length > 1 && (
+          <ul>
+            {cernerFacilitiesNames.map((facilityName, i) => (
+              <li data-testid="cerner-facility" key={i}>
+                {facilityName}
+              </li>
+            ))}
+          </ul>
+        )}
+        <a
+          className="vads-c-action-link--blue"
+          href={getCernerURL('/pages/home', true)}
+        >
+          Go to My VA Health
+        </a>
 
-          <va-additional-info
-            trigger="Having trouble opening My VA Health?"
-            uswds
-            class="vads-u-margin-top--2p5 vads-u-margin-bottom--0p5"
-          >
-            <div>
-              <p className="vads-u-margin-top--0">Try these steps:</p>
-              <ul className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-                <li>Disable your browser’s pop-up blocker</li>
-                <li>
-                  Sign in to My VA Health with the same account you used to sign
-                  in to VA.gov
-                </li>
-              </ul>
-            </div>
-          </va-additional-info>
-        </div>
-      </va-alert>
-    </>
+        <va-additional-info
+          trigger="Having trouble opening My VA Health?"
+          uswds
+          class="vads-u-margin-top--2p5 vads-u-margin-bottom--0p5"
+        >
+          <div>
+            <p className="vads-u-margin-top--0">Try these steps:</p>
+            <ul className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+              <li>Disable your browser’s pop-up blocker</li>
+              <li>
+                Sign in to My VA Health with the same account you used to sign
+                in to VA.gov
+              </li>
+            </ul>
+          </div>
+        </va-additional-info>
+      </div>
+    </va-alert>
   );
 };
 
