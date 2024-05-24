@@ -9,6 +9,8 @@ export function isRequiredFile(formContext, requiredFiles) {
 // Return either 'your' or the applicant's name depending
 export function nameWording(formData, isPosessive = true, cap = true) {
   let retVal = '';
+  // NOTE: certifierRole isn't used in this form anymore so this will always
+  // skip to else clause
   if (formData?.certifierRole === 'applicant') {
     retVal = isPosessive ? 'your' : 'you';
   } else {
