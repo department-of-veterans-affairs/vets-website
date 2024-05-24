@@ -33,6 +33,8 @@ const nameAndAddressPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Where did you receive medical treatment?',
+      description:
+        'List VA medical centers, Defense Department military treatment facilities, or private medical facilities where you were treated. Provide the approximate date that the treatment started. You may add up to 5 facilities.',
       nounSingular: options.nounSingular,
     }),
     facilityName: {
@@ -147,5 +149,3 @@ export default arrayBuilderPages(options, pageBuilder => ({
     schema: treatmentDatePage.schema,
   }),
 }));
-
-// 'List VA medical centers, Defense Department military treatment facilities, or private medical facilities where you were treated. Provide the approximate date that the treatment started. You may add up to 5 facilities.'
