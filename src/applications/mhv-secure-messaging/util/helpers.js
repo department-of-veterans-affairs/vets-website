@@ -272,17 +272,17 @@ export const checkTriageGroupAssociation = tempRecipient => {
 export const updateTriageGroupRecipientStatus = (recipients, tempRecipient) => {
   const formattedRecipient = tempRecipient;
 
-  // isBlocked from TGs, and preferred triage group can be either true or false
+  // isBlocked means TG exists in the blockedRecipients list (preferred can be either true or false)
   const isBlocked = recipients?.blockedRecipients?.some(
     checkTriageGroupAssociation(formattedRecipient),
   );
 
-  // isAssociated is not blocked and preferred triage group is strictly true
-  const isAssociated = recipients?.allowedRecipients?.some(
+  // isAssociated means the TG exists in the allRecipients list (blocked can be true or false; preferred can be true or false)
+  const isAssociated = recipients?.allRecipients?.some(
     checkTriageGroupAssociation(formattedRecipient),
   );
 
-  // !isAssociated is blocked and preferred triage group is either true or false
+  // if TG is not associated or is blocked, formattedRecipient will include status of "not associated" or "blocked"
   if (!isAssociated) {
     formattedRecipient.status = RecipientStatus.NOT_ASSOCIATED;
   } else if (isBlocked) {
