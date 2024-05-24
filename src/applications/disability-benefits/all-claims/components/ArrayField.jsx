@@ -22,7 +22,6 @@ import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import findDuplicateIndexes from 'platform/forms-system/src/js/utilities/data/findDuplicateIndexes';
 
 import { NULL_CONDITION_STRING } from '../constants';
-import { showRevisedNewDisabilitiesPage } from '../content/addDisabilities';
 
 const { Element } = Scroll;
 
@@ -48,8 +47,10 @@ export default class ArrayField extends React.Component {
     this.state = {
       // force edit mode for any empty service period data
       editing: this.setInitialState(),
-      // track feature flag
-      revisedDisabilitiesPage: showRevisedNewDisabilitiesPage,
+      // use new focus target function, if the prop is present
+      useNewFocus: props.uiSchema.useNewFocus ?? false,
+      // TODO: use new button styles, if the prop is present
+      useNewButtons: false,
     };
   }
 
@@ -163,8 +164,10 @@ export default class ArrayField extends React.Component {
   };
 
   targetInput = index => {
-    // console.log('focus input on item: ', index);
-    return index;
+    this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
+    const inputs = this.findElementsFromIndex(index, 'va-text-input');
+    // use web-component shadow DOM as root to search within
+    focusElement('input', {}, inputs[0]);
   };
 
   // restore data in event of cancellation
@@ -186,7 +189,7 @@ export default class ArrayField extends React.Component {
         oldData: this.props.formData,
       }),
       () => {
-        if (this.state.revisedDisabilitiesPage) {
+        if (this.state.useNewFocus) {
           this.targetInput(index);
         } else {
           this.targetLabel(index);
@@ -270,7 +273,7 @@ export default class ArrayField extends React.Component {
           this.props.onChange(newFormData);
         }, // Allow DOM to render the new card
         setTimeout(() => {
-          if (this.state.revisedDisabilitiesPage) {
+          if (this.state.useNewFocus) {
             this.targetInput(lastIndex + 1);
           } else {
             this.targetLabel(lastIndex + 1);
