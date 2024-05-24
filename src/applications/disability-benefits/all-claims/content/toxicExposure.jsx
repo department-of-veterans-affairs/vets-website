@@ -400,7 +400,7 @@ export function showSummaryPage(formData, checkboxObjectName) {
  */
 export function datesDescription(dates) {
   if (!dates?.startDate && !dates?.endDate) {
-    if (dates['view:notSure']) {
+    if (dates?.['view:notSure']) {
       return notSureDatesSummary;
     }
     return noDatesEntered;
