@@ -321,9 +321,16 @@ export function getSelectedCount(objectName, { formData } = {}) {
   )
     return 0;
 
-  return Object.values(formData.toxicExposure[objectName]).filter(
-    value => value === true,
-  ).length;
+  let count = 0;
+  for (const [key, value] of Object.entries(
+    formData.toxicExposure[objectName],
+  )) {
+    // Skip `notsure` since it's not a location
+    if (value === true && key !== 'notsure') {
+      count += 1;
+    }
+  }
+  return count;
 }
 
 /**
