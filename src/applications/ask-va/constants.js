@@ -393,6 +393,10 @@ export const CHAPTER_3 = {
     TITLE: `Veteran's location of residence`,
     QUESTION_1: 'State/Province/Region',
   },
+  FAMILY_MEMBERS_LOCATION_OF_RESIDENCE: {
+    TITLE: `Family member's location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
 };
 
 export const noEditBtn = [
