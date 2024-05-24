@@ -29,10 +29,8 @@
     "applicantPrimaryEffectiveDate": "2001-01-02",
     "applicantPrimaryExpirationDate": "2020-03-03",
     "applicantHasPrimary": true,
-    "applicantMedicareStatusContinued": "ineligible",
     "applicantMedicareStatus": false,
     "applicantPhone": "5551112222",
-    "applicantEmailAddress": "email@email.gov",
     "applicantAddress": {
       "country": "USA",
       "street": "456 Street Avenue",
@@ -51,12 +49,6 @@
     "certifierRole": "applicant",
     "preparerType": "sponsor",
     "missingUploads": [
-      {
-        "name": "applicantMedicareIneligibleProof",
-        "path": "medicare-ineligible-upload",
-        "required": true,
-        "uploaded": false
-      },
       {
         "name": "primaryInsuranceCard",
         "path": "insurance-upload",

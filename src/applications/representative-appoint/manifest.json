@@ -1,0 +1,7 @@
+{
+  "appName": "Fill out your form to appoint a VA accredited representative or VSO",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "appoint-a-representative",
+  "rootUrl": "/get-help-from-accredited-representative/appoint-rep",
+  "productId": "ded52e11-c5f2-493d-b7bb-ce9c630b38f3"
+}
