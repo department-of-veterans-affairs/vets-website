@@ -52,13 +52,9 @@ const Error = () => {
       </p>
     </div>
   );
-  const chevRight = (
-    <span className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
-  );
   const mixedModalityMessage = (
     <div data-testid="mixed-modality-message">
       <div>
-        {chevRight}
         <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
           {t('in-person-appointment')}
         </span>
@@ -69,7 +65,6 @@ const Error = () => {
         )}
       </div>
       <div className="vads-u-margin-top--2">
-        {chevRight}
         <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
           {t('video-appointment--title')}
         </span>
@@ -86,7 +81,6 @@ const Error = () => {
         </ExternalLink>
       </div>
       <div className="vads-u-margin-top--2">
-        {chevRight}
         <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
           {t('phone-appointment')}
         </span>
