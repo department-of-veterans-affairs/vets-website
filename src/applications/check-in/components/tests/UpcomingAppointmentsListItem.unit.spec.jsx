@@ -51,6 +51,18 @@ const appointments = [
     clinicStopCodeName: '',
     kind: 'vvc',
   },
+  {
+    facility: 'LOMA LINDA VA CLINIC',
+    clinicPhoneNumber: '5551234567',
+    clinicFriendlyName: 'TEST CLINIC',
+    clinicName: 'LOM ACC CLINIC TEST',
+    appointmentIen: 'some-ien',
+    startTime: '2021-11-16T21:39:36',
+    doctorName: 'Dr. Green',
+    clinicStopCodeName: 'Primary care',
+    kind: 'clinic',
+    status: 'CANCELLED BY PATIENT',
+  },
 ];
 
 const mockRouter = {
@@ -79,6 +91,8 @@ describe('unified check-in experience', () => {
           />
         </CheckInProvider>,
       );
+
+      expect(screen.getByTestId('appointment-details')).to.exist;
 
       expect(screen.getByTestId('appointment-time')).to.have.text('9:39 p.m.');
 
@@ -147,6 +161,18 @@ describe('unified check-in experience', () => {
       expect(screen.getByTestId('appointment-type-and-provider')).to.have.text(
         'VA appointment',
       );
+    });
+    it('should render details with strikethough if the appointment was cancelled', () => {
+      const screen = render(
+        <CheckInProvider>
+          <UpcomingAppointmentsListItem
+            appointment={appointments[4]}
+            goToDetails={goToDetails}
+            router={mockRouter}
+          />
+        </CheckInProvider>,
+      );
+      expect(screen.getByTestId('appointment-details-cancelled')).to.exist;
     });
   });
 });
