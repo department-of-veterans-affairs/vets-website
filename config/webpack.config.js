@@ -143,6 +143,11 @@ async function getScaffoldAssets() {
   return Object.fromEntries(loadedAssets);
 }
 
+const templateLayoutToDevTemplate = {
+  'accredited-representative-portal.html':
+    'src/platform/landing-pages/arp-dev-template.ejs',
+};
+
 /**
  * Generates HTML files for each app and widget.
  *
@@ -210,7 +215,9 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
       filename: path.join(buildPath, rootUrl, 'index.html'),
       inject: false,
       scriptLoading: 'defer',
-      template: 'src/platform/landing-pages/dev-template.ejs',
+      template:
+        templateLayoutToDevTemplate[template.layout] ||
+        'src/platform/landing-pages/dev-template.ejs',
       templateParameters: {
         // Menu and navigation content
         headerFooterData,
