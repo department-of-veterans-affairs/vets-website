@@ -20,7 +20,7 @@ const responses = (selectedMockType = MOCK_TYPES.VERIFIED_USER) => {
       case MOCK_TYPES.UNVERIFIED_USER:
         return generateUser({ loa: 1 });
       case MOCK_TYPES.UNREGISTERED_USER:
-        return generateUser({ vaPatient: true });
+        return generateUser({ vaPatient: false });
       default:
         return generateUser();
     }
