@@ -2,7 +2,7 @@ import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns';
 import { RECORDS_REQUEST_HANDOFF } from '../config/constants';
 
 /** @type {PageSchema} */
-export const recordsRequestHandoffPage = {
+export const personalRecordsRequestPage = {
   uiSchema: {
     ...titleUI({
       title: "There's a better way to request your personal records",

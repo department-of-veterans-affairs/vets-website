@@ -7,8 +7,8 @@ import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import {
   compareAddressObjects,
+  formatAddress,
   hasFormChanged,
-  objectHasNoUndefinedValues,
   prepareAddressData,
   scrollToElement,
 } from '../helpers';
@@ -39,6 +39,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
   const [editFormData, setEditFormData] = useState({});
+  const [veteranName, setVeteranName] = useState();
   const [beforeDditFormData, setBeforeEditFormData] = useState({});
   const [suggestedAddressPicked, setSuggestedAddressPicked] = useState(false);
   const [newAddress, setNewAddress] = useState({});
@@ -137,7 +138,15 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     },
     [dispatch, error, response, validationError],
   );
-
+  // This Effect to check if there error from API don't update veteranName
+  useEffect(
+    () => {
+      if (error || validationError) {
+        setVeteranName(applicantName);
+      }
+    },
+    [applicantName, error, validationError],
+  );
   useEffect(
     () => {
       dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
@@ -163,25 +172,21 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             {response?.ok && (
               <Alert
                 status="success"
-                message="Your Address has been successfully updated."
+                message="We’ve successfully updated your mailing address for Montgomery GI Bill benefits."
               />
             )}
-            <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
+            <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0">
               Mailing address
-            </p>
+            </h3>
             <p>
-              {objectHasNoUndefinedValues(newAddress) && (
-                <>
-                  <span className="vads-u-display--block">
-                    {`${newAddress?.street}`}
-                  </span>
-                  <span className="vads-u-display--block">
-                    {`${newAddress?.city}, ${newAddress?.stateCode} ${
-                      newAddress?.zipCode
-                    }`}
-                  </span>
-                </>
-              )}
+              <>
+                <span className="vads-u-display--block">
+                  {`${newAddress?.street ?? ''}`}
+                </span>
+                <span className="vads-u-display--block">
+                  {formatAddress(newAddress)}
+                </span>
+              </>
             </p>
           </div>
         )}
@@ -219,32 +224,25 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     if (tempData?.['view:livesOnMilitaryBase']) {
       tempData.countryCodeIso3 = 'USA';
     }
-    if (!tempData?.['view:livesOnMilitaryBase']) {
-      if (
-        tempData?.city === 'APO' ||
+    if (
+      !tempData?.['view:livesOnMilitaryBase'] &&
+      (tempData?.city === 'APO' ||
         tempData?.city === 'FPO' ||
-        tempData?.city === 'DPO'
-      ) {
-        tempData.city = '';
-      }
-
-      if (
-        tempData?.stateCode === 'AA' ||
-        tempData?.stateCode === 'AE' ||
-        tempData?.stateCode === 'AP'
-      ) {
-        tempData.stateCode = '';
-      }
+        tempData?.city === 'DPO')
+    ) {
+      tempData.city = '';
     }
+
     setFormData(tempData);
     setEditFormData(tempData);
+    setVeteranName(tempData?.fullName);
   };
 
   return (
     <div id={CHANGE_OF_ADDRESS_TITLE}>
-      <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold">
+      <h2 className="vads-u-font-family--serif vads-u-margin-y--4">
         {CHANGE_OF_ADDRESS_TITLE}
-      </p>
+      </h2>
       <div
         className="vads-u-border-color--gray-lighter
             vads-u-color-gray-dark
@@ -280,31 +278,24 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
                 />
               </>
             )}
-
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="info"
-              visible
-              background-only
-              class="vads-u-margin-y--2"
-            >
-              <p className="vye-alert-absolute-title-position">
-                This address is only used for payments for Montgomery GI Bill®
-                Benefits.
-              </p>
+            <div>
               <p>
-                To change your address for other VA services, edit your{' '}
-                <a href="https://www.va.gov/profile/personal-information">
-                  VA Profile.
-                </a>
+                <span className="vads-u-font-weight--bold">Note: </span> Any
+                updates you make here will affect your Montgomery GI Bill
+                benefits only.
               </p>
-            </va-alert>
-            {/* {bankInfoHelpText} */}
+              <va-link
+                href="/resources/change-your-address-on-file-with-va/"
+                text="Learn how to update your mailing address for other VA benefits"
+              />
+            </div>
           </>
         )}
         {toggleAddressForm && (
           <div className="address-change-form-container">
-            <p className="vads-u-font-weight--bold">Change mailing address</p>
+            <h3 className="vads-u-margin-y--2 vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans">
+              Change mailing address
+            </h3>
             {(isLoadingValidateAddress || isLoading) && (
               <Loader className="loader" message="updating..." />
             )}
@@ -316,7 +307,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             />
 
             <ChangeOfAddressForm
-              applicantName={applicantName}
+              applicantName={veteranName || applicantName}
               addressFormData={formData}
               formChange={addressData => updateAddressData(addressData)}
               formPrefix={PREFIX}

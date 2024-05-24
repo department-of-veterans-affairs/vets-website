@@ -279,6 +279,15 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
+  FAMILY_MEMBERS_POSTAL_CODE: {
+    TITLE: "Family member's postal code",
+    PAGE_DESCRIPTION: '',
+    QUESTION_1:
+      'Family member receives mail outside of the United States on a U.S. military base.',
+    QUESTION_2: 'Post office',
+    QUESTION_3: 'State',
+    QUESTION_4: 'Postal code',
+  },
   VETERANS_POSTAL_CODE: {
     TITLE: "Veteran's postal code",
     PAGE_DESCRIPTION: '',
@@ -382,6 +391,10 @@ export const CHAPTER_3 = {
   },
   VETERAN_LOCATION_OF_RESIDENCE: {
     TITLE: `Veteran's location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
+  FAMILY_MEMBERS_LOCATION_OF_RESIDENCE: {
+    TITLE: `Family member's location of residence`,
     QUESTION_1: 'State/Province/Region',
   },
 };
