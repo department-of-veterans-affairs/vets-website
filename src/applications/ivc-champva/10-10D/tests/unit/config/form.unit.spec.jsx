@@ -12,6 +12,7 @@ import formConfig from '../../../config/form';
 import { getFileSize } from '../../../helpers/utilities';
 import { isRequiredFile } from '../../../components/Applicant/applicantFileUpload';
 import { requiredFiles } from '../../../config/requiredUploads';
+import { ApplicantAddressCopyPage } from '../../../../shared/components/applicantLists/ApplicantAddressPage';
 
 import FileFieldCustom from '../../../../shared/components/fileUploads/FileUpload';
 
@@ -125,7 +126,7 @@ testNumberOfWebComponentFields(
   formConfig.chapters.applicantInformation.pages.page13a.uiSchema,
   0,
   'Applicant - Start screen',
-  { ...mockData.data },
+  { applicants: [...mockData.data.applicants, []] },
 );
 
 testNumberOfWebComponentFields(
@@ -378,6 +379,21 @@ testComponentRender(
 );
 
 testComponentRender('FileFieldCustom', <FileFieldCustom data={{}} />);
+
+testComponentRender(
+  'ApplicantAddressCopyPage',
+  <ApplicantAddressCopyPage
+    contentBeforeButtons={<></>}
+    contentAfterButtons={<></>}
+    data={mockData.data}
+    setFormData={() => {}}
+    goBack={() => {}}
+    goForward={() => {}}
+    pagePerItemIndex={0}
+    updatePage={() => {}}
+    onReviewPage={false}
+  />,
+);
 
 describe('File sizes', () => {
   it('should be in bytes for values < 999', () => {
