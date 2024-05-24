@@ -6,10 +6,7 @@ const Alert = props => {
   const { isAlertVisible, paginatedPrescriptionsList } = props;
 
   return (
-    <div
-      visible={isAlertVisible}
-      className={`${isAlertVisible ? 'vads-u-margin-top--5' : ''}`}
-    >
+    <div className={`${isAlertVisible ? 'vads-u-margin-top--5' : ''}`}>
       {!paginatedPrescriptionsList && (
         <va-alert
           close-btn-aria-label="Close notification"
@@ -56,7 +53,7 @@ const Alert = props => {
 export default Alert;
 
 Alert.propTypes = {
-  isAlertVisible: PropTypes.string,
+  isAlertVisible: PropTypes.bool,
   paginatedPrescriptionsList: PropTypes.array,
   ssoe: PropTypes.any,
 };
