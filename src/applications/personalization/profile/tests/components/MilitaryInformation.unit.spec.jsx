@@ -3,7 +3,6 @@ import { expect } from 'chai';
 
 import { renderWithProfileReducers } from '../unit-test-helpers';
 
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import MilitaryInformation from '../../components/military-information/MilitaryInformation';
 
 function createBasicInitialState(toggles = {}) {
@@ -214,23 +213,11 @@ describe('MilitaryInformation', () => {
     });
   });
   describe('when proof of veteran status exists', () => {
-    it('should show proof of veteran status component if toggle is on', () => {
-      initialState = createBasicInitialState({
-        [Toggler.TOGGLE_NAMES.profileShowProofOfVeteranStatus]: true,
-      });
+    it('should show proof of veteran status component', () => {
       view = renderWithProfileReducers(<MilitaryInformation />, {
         initialState,
       });
       expect(view.getByText(/Proof of Veteran status/)).to.exist;
-    });
-    it('should not show proof of veteran status component if toggle is off', () => {
-      initialState = createBasicInitialState({
-        [Toggler.TOGGLE_NAMES.profileShowProofOfVeteranStatus]: false,
-      });
-      view = renderWithProfileReducers(<MilitaryInformation />, {
-        initialState,
-      });
-      expect(view.queryByText(/Proof of Veteran status/)).not.to.exist;
     });
   });
 

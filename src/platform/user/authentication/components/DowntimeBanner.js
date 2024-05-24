@@ -22,7 +22,8 @@ export default function DowntimeBanners() {
   }, []); // only on load
 
   // mimics the mvi service error if we don't get an OK response from vets-api
-  const isApiDown = () => !isLocalhost && (!statuses || statuses?.length === 0);
+  const isApiDown = () =>
+    !isLocalhost && !loading && (!statuses || statuses?.length === 0);
 
   return (
     <div className="downtime-notification row">

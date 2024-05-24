@@ -11,13 +11,12 @@ import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Move Message tests', () => {
   it('move message from custom folder to Deleted', () => {
-    const landingPage = new PatientInboxPage();
     const site = new SecureMessagingSite();
     const folderName = mockFoldersResponse.data.at(4).attributes.name;
     const { folderId } = mockFoldersResponse.data.at(4).attributes;
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.clickMyFoldersSideBar();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.clickMyFoldersSideBar();
 
     FolderManagementPage.clickAndLoadCustomFolder(
       folderName,
@@ -26,7 +25,7 @@ describe('Secure Messaging Move Message tests', () => {
       mockMessages,
     );
 
-    landingPage.loadSingleThread(mockCustomMessagesResponse);
+    PatientInboxPage.loadSingleThread(mockCustomMessagesResponse);
 
     FolderManagementPage.selectFolderFromModal();
     FolderManagementPage.moveCustomFolderMessageToDifferentFolder();
@@ -38,11 +37,10 @@ describe('Secure Messaging Move Message tests', () => {
   });
 
   it('move message from inbox to deleted', () => {
-    const landingPage = new PatientInboxPage();
     const messageDetailsPage = new PatientMessageDetailsPage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
+    PatientInboxPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
     messageDetailsPage.loadMessageDetails(mockMessagewithAttachment);
 
     FolderManagementPage.moveInboxFolderMessageToDifferentFolder();

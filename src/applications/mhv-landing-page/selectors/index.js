@@ -7,10 +7,15 @@ import {
   selectProfile,
   isLOA3,
   isInMPI,
+  isProfileLoading,
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import { isLandingPageEnabled, personalizationEnabled } from './featureToggles';
+import {
+  isLandingPageEnabled,
+  personalizationEnabled,
+  helpdeskInfoEnabled,
+} from './featureToggles';
 import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
 import { hasHealthData } from './hasHealthData';
 import { selectHasMHVAccountState } from './hasMHVAccountState';
@@ -27,7 +32,9 @@ export {
   isLandingPageEnabledForUser,
   isLOA3,
   isLoggedIn,
+  isProfileLoading,
   personalizationEnabled,
+  helpdeskInfoEnabled,
   selectDrupalStaticData,
   selectGreetingName,
   selectPersonalInformation,

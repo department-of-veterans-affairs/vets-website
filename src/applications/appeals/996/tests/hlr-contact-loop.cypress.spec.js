@@ -72,36 +72,36 @@ describe('HLR contact info loop', () => {
     cy.get('a[href$="phone"]').click();
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-mobile-phone`,
+      `${BASE_URL}/contact-information/edit-mobile-phone`,
     );
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
 
     // Email
     cy.get('a[href$="email-address"]').click();
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-email-address`,
+      `${BASE_URL}/contact-information/edit-email-address`,
     );
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
 
     // Mailing address
     cy.get('a[href$="mailing-address"]').click();
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-mailing-address`,
+      `${BASE_URL}/contact-information/edit-mailing-address`,
     );
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', `${BASE_URL}/contact-information`);
   });
 
@@ -114,11 +114,17 @@ describe('HLR contact info loop', () => {
     cy.contains('Edit mobile phone').should('be.visible');
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-mobile-phone`,
+      `${BASE_URL}/contact-information/edit-mobile-phone`,
     );
 
-    cy.findByLabelText(/mobile phone/i).clear();
-    cy.findByLabelText(/mobile phone/i).type('8885551212');
+    cy.get('va-text-input[label^="Mobile phone"]')
+      .shadow()
+      .find('input')
+      .clear();
+    cy.get('va-text-input[label^="Mobile phone"]')
+      .shadow()
+      .find('input')
+      .type('8885551212');
 
     cy.findAllByText(/save/i, { selector: 'button' })
       .first()

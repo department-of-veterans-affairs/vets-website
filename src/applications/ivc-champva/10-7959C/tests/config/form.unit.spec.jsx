@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { testNumberOfWebComponentFields } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
-import mockData from '../fixtures/data/test-data.json';
+import mockData from '../e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../../components/FileUploadWrapper';
 
 // Call the depends() function for any page that relies on it
@@ -151,7 +151,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.applicantContactInfo.schema,
   formConfig.chapters.applicantInformation.pages.applicantContactInfo.uiSchema,
-  2,
+  1,
   'Applicant contact info',
   { ...mockData.data },
 );
@@ -176,37 +176,10 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.medicareInformation.pages.medicareABContext.schema,
-  formConfig.chapters.medicareInformation.pages.medicareABContext.uiSchema,
-  1,
-  'Applicant medicare AB context (certifier role: applicant)',
-  { ...mockData.data, certifierRole: 'applicant' },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.medicareInformation.pages.medicareABContext.schema,
-  formConfig.chapters.medicareInformation.pages.medicareABContext.uiSchema,
-  1,
-  'Applicant medicare AB context',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
   formConfig.chapters.medicareInformation.pages.partACarrier.schema,
   formConfig.chapters.medicareInformation.pages.partACarrier.uiSchema,
   2,
   'Applicant medicare A carrier',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.medicareInformation.pages.medicareIneligible.schema,
-  formConfig.chapters.medicareInformation.pages.medicareIneligible.uiSchema,
-  0,
-  'Applicant medicare ineligible',
   { ...mockData.data },
 );
 
@@ -292,23 +265,6 @@ testNumberOfWebComponentFields(
   'Applicant medicare D cards',
   { ...mockData.data },
 );
-
-describe('Medicare ineligibility screen depends function', () => {
-  // Get date 65 yrs ago in format MM-DD-YYYY (to match what form would produce)
-  const date65YrAgo = new Date();
-  date65YrAgo.setFullYear(date65YrAgo.getFullYear() - 65);
-
-  it('should return true if applicant is ineligible and over 65', () => {
-    const depRes = formConfig.chapters.medicareInformation.pages.medicareIneligible.depends(
-      {
-        applicantMedicareStatusContinued: 'ineligible',
-        applicantDOB: date65YrAgo,
-      },
-    );
-
-    expect(depRes).to.be.true;
-  });
-});
 
 describe('Medicare part D screen depends function', () => {
   it('should return true if applicant has Medicare parts A, B, and D', () => {

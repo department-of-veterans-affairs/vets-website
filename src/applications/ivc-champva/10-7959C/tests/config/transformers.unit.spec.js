@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import formConfig from '../../config/form';
-import mockData from '../fixtures/data/test-data.json';
+import mockData from '../e2e/fixtures/data/test-data.json';
 
 import transformForSubmit from '../../config/submitTransformer';
 import { prefillTransformer } from '../../config/prefillTransformer';
@@ -77,7 +77,6 @@ describe('Submit transformer', () => {
         certifierRole: 'applicant',
         applicantName: { first: 'Jack', middle: 'Middle', last: 'Applicant' },
         applicantPhone: '1231231234',
-        applicantEmailAddress: 'applicant@email.gov',
       },
     };
     const transformed = JSON.parse(
@@ -92,9 +91,8 @@ describe('Submit transformer', () => {
     expect(transformed.primaryContactInfo.phone).to.equal(
       certifierCert.data.applicantPhone,
     );
-    expect(transformed.primaryContactInfo.email).to.equal(
-      certifierCert.data.applicantEmailAddress,
-    );
+    // Applicants don't have email address
+    expect(transformed.primaryContactInfo.email).to.equal(false);
   });
   it('should set missing primary contact values to false', () => {
     const certifierCert = {
