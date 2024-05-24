@@ -230,6 +230,7 @@ export const Alerts = {
     LINK: 'Find your VA health facility',
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
+  OLD_MSG: 'This conversation is too old for new replies',
 };
 
 export const Data = {

@@ -596,6 +596,15 @@ class PatientMessageDraftsPage {
       .should('be.visible')
       .and('have.text', `Delete draft ${number}`);
   };
+
+  verifyExpandedOldDraftButtons = number => {
+    cy.get(`#delete-draft-button-${number}`)
+      .should('be.visible')
+      .and('have.text', `Delete draft ${number}`);
+
+    cy.get(`#send-button-${number}`).should('not.exist');
+    cy.get(`#save-draft-button-${number}`).should('not.exist');
+  };
 }
 
 export default PatientMessageDraftsPage;
