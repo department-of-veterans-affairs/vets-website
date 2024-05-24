@@ -126,7 +126,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     title: 'Review the claimant’s medical treatments',
     path: 'medical-treatments-third-party-non-veteran',
     depends: formData =>
-      formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
+      formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
@@ -134,7 +134,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     title: 'Where did the claimant receive medical treatment?',
     path: 'medical-treatments-third-party-non-veteran/:index/name-and-address',
     depends: formData =>
-      formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
+      formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
     uiSchema: nameAndAddressPage.uiSchema,
     schema: nameAndAddressPage.schema,
   }),
@@ -142,7 +142,7 @@ export default arrayBuilderPages(options, pageBuilder => ({
     title: 'When did the claimant receive medical treatment?',
     path: 'medical-treatments-third-party-non-veteran/:index/treatment-date',
     depends: formData =>
-      formData.preparerType === PREPARER_TYPES.THIRD_PARTY_VETERAN,
+      formData.preparerType === PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
     uiSchema: treatmentDatePage.uiSchema,
     schema: treatmentDatePage.schema,
   }),
