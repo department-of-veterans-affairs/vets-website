@@ -1,8 +1,18 @@
+import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { toxicExposureSummary } from '../../content/toxicExposureSummary';
+import { ToxicExposureSummary } from '../../components/ToxicExposureSummary';
 import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 import { goBackLink, noDatesEntered } from '../../content/toxicExposure';
+
+const props = {
+  checkboxObjectName: 'gulfWar1990',
+  checkboxDefinitions: GULF_WAR_1990_LOCATIONS,
+  datesObjectName: 'gulfWar1990Details',
+  goBackDescription:
+    'go back and edit locations and dates for service after August 2, 1990',
+  goBackUrlPath: `${TE_URL_PREFIX}/gulf-war-1990`,
+};
 
 describe('toxicExposureSummary', () => {
   it('renders when a location has no dates', () => {
@@ -16,14 +26,7 @@ describe('toxicExposureSummary', () => {
     };
 
     const tree = render(
-      toxicExposureSummary(
-        { formData },
-        'gulfWar1990',
-        GULF_WAR_1990_LOCATIONS,
-        'gulfWar1990Details',
-        'go back and edit locations and dates for service after August 2, 1990',
-        `${TE_URL_PREFIX}/gulf-war-1990`,
-      ),
+      <ToxicExposureSummary formData={formData} {...props} />,
     );
 
     tree.getByText('Summary');
@@ -53,14 +56,7 @@ describe('toxicExposureSummary', () => {
     };
 
     const tree = render(
-      toxicExposureSummary(
-        { formData },
-        'gulfWar1990',
-        GULF_WAR_1990_LOCATIONS,
-        'gulfWar1990Details',
-        'go back and edit locations and dates for service after August 2, 1990',
-        `${TE_URL_PREFIX}/gulf-war-1990`,
-      ),
+      <ToxicExposureSummary formData={formData} {...props} />,
     );
 
     tree.getByText('Summary');
@@ -94,14 +90,7 @@ describe('toxicExposureSummary', () => {
     };
 
     const tree = render(
-      toxicExposureSummary(
-        { formData },
-        'gulfWar1990',
-        GULF_WAR_1990_LOCATIONS,
-        'gulfWar1990Details',
-        'go back and edit locations and dates for service after August 2, 1990',
-        `${TE_URL_PREFIX}/gulf-war-1990`,
-      ),
+      <ToxicExposureSummary formData={formData} {...props} />,
     );
 
     tree.getByText('Summary');
@@ -138,14 +127,7 @@ describe('toxicExposureSummary', () => {
     };
 
     const { queryByText } = render(
-      toxicExposureSummary(
-        { formData },
-        'gulfWar1990',
-        GULF_WAR_1990_LOCATIONS,
-        'gulfWar1990Details',
-        'go back and edit locations and dates for service after August 2, 1990',
-        `${TE_URL_PREFIX}/gulf-war-1990`,
-      ),
+      <ToxicExposureSummary formData={formData} {...props} />,
     );
 
     expect(queryByText(GULF_WAR_1990_LOCATIONS.waters)).to.exist;

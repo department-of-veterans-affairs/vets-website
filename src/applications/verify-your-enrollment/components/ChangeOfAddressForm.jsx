@@ -33,7 +33,6 @@ const ChangeOfAddressForm = ({
     // return new schema with updated fields
     return tempSchemaWithRequiredFields;
   };
-
   const countryCode = {
     title: 'countryCodeIso3',
     addressSchema: {
