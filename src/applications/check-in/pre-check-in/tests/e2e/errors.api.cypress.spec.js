@@ -24,7 +24,7 @@ describe('Check In Experience | Pre-Check-In | API Errors', () => {
     it('should take them straight to the error page without validation', () => {
       initializeSessionGet.withFailure();
       cy.visitPreCheckInWithUUID();
-      Error.validatePageLoaded();
+      Error.validatePageLoadedGeneric();
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -36,7 +36,7 @@ describe('Check In Experience | Pre-Check-In | API Errors', () => {
       cy.visitPreCheckInWithUUID();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
-      Error.validatePageLoaded();
+      Error.validatePageLoadedGeneric();
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -58,7 +58,7 @@ describe('Check In Experience | Pre-Check-In | API Errors', () => {
       EmergencyContact.attemptToGoToNextPage();
       NextOfKin.validatePage.preCheckIn();
       NextOfKin.attemptToGoToNextPage();
-      Error.validatePageLoaded();
+      Error.validateAPIErrorPageLoaded();
       cy.injectAxeThenAxeCheck();
     });
   });
