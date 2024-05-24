@@ -28,23 +28,20 @@ const PrescriptionsPrintOnly = ({ list, hasError = false }) => {
             preface={
               !hasError
                 ? 'This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.'
-                : "We're sorry. There's a problem with our system. Check back later. If you need help now, call your VA pharmacy. You can find the pharmacy phone number on the prescription label."
+                : undefined
             }
+            hasError={hasError}
             subtitle={!hasError ? 'Medications list' : ''}
           >
-            {!hasError && (
-              <>
-                <MedicationsList
-                  rxList={list}
-                  pagination={{
-                    currentPage: 1,
-                    totalEntries: list?.length,
-                  }}
-                  selectedSortOption={selectedSortOption}
-                />
-                <AllergiesPrintOnly allergies={allergies} />
-              </>
-            )}
+            <MedicationsList
+              rxList={list}
+              pagination={{
+                currentPage: 1,
+                totalEntries: list?.length,
+              }}
+              selectedSortOption={selectedSortOption}
+            />
+            <AllergiesPrintOnly allergies={allergies} />
           </PrintOnlyPage>
         ) : (
           <></>

@@ -352,12 +352,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           <AllergiesPrintOnly allergies={allergies} />
         </div>
         {(prescriptionsApiError || allergiesError) && (
-          <PrintOnlyPage
-            title="Refill prescriptions"
-            preface={
-              "We're sorry. There's a problem with our system. Check back later. If you need help now, call your VA pharmacy. You can find the pharmacy phone number on the prescription label."
-            }
-          />
+          <PrintOnlyPage title="Refill prescriptions" hasError />
         )}
       </div>
     </>

@@ -324,7 +324,8 @@ const PrescriptionDetails = () => {
     pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
       allergiesError,
   );
-
+  const hasPrintError =
+    prescription && !prescriptionsApiError && !allergiesError;
   const content = () => {
     if (
       (pdfTxtGenerateStatus.status !== PDF_TXT_GENERATE_STATUS.InProgress ||
@@ -391,25 +392,20 @@ const PrescriptionDetails = () => {
           </div>
           <PrintOnlyPage
             title="Medication details"
+            hasError={!hasPrintError}
             preface={
-              prescription && !prescriptionsApiError && !allergiesError
+              hasPrintError
                 ? 'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.'
-                : "We're sorry. There's a problem with our system. Check back later. If you need help now, call your VA pharmacy. You can find the pharmacy phone number on the prescription label."
+                : undefined
             }
           >
-            {prescription &&
-              !prescriptionsApiError &&
-              !allergiesError && (
-                <>
-                  <PrescriptionPrintOnly
-                    hideLineBreak
-                    rx={prescription}
-                    refillHistory={!nonVaPrescription ? refillHistory : []}
-                    isDetailsRx
-                  />
-                  <AllergiesPrintOnly allergies={allergies} />
-                </>
-              )}
+            <PrescriptionPrintOnly
+              hideLineBreak
+              rx={prescription}
+              refillHistory={!nonVaPrescription ? refillHistory : []}
+              isDetailsRx
+            />
+            <AllergiesPrintOnly allergies={allergies} />
           </PrintOnlyPage>
         </>
       );
