@@ -13,12 +13,11 @@ describe(`${appName} -- transitional Medical records card **enabled**`, () => {
   });
 
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-  cy.findByRole('heading', { level: 2, name: heading });
-  cy.get('#mhv-c-card-medical-records')
+  cy.findByRole('heading', { level: 2, name: heading })
     .parent()
     .within(() => {
       cy.findByText(/^The new version of this tool isn't ready yet./);
-      cy.findAllByRole('link', { name: /^Go back to the previous version/ });
+      cy.findByRole('link', { name: /^Go back to the previous version/ });
     });
 
   it('passes automated accessibility (a11y) checks', () => {
