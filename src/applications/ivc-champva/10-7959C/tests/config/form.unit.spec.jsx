@@ -46,71 +46,7 @@ describe('title text logic', () => {
   });
 });
 
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.certifierInformation.pages.role.schema,
-  formConfig.chapters.certifierInformation.pages.role.uiSchema,
-  1,
-  'Certifier information',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.certifierInformation.pages.name.schema,
-  formConfig.chapters.certifierInformation.pages.name.uiSchema,
-  4,
-  'Certifier name',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.certifierInformation.pages.address.schema,
-  formConfig.chapters.certifierInformation.pages.address.uiSchema,
-  8,
-  'Certifier address',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.certifierInformation.pages.phoneEmail.schema,
-  formConfig.chapters.certifierInformation.pages.phoneEmail.uiSchema,
-  2,
-  'Certifier phone/email',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.certifierInformation.pages.relationship.schema,
-  formConfig.chapters.certifierInformation.pages.relationship.uiSchema,
-  2,
-  'Certifier relationship',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.certifierInformation.pages.relationship.schema,
-  formConfig.chapters.certifierInformation.pages.relationship.uiSchema,
-  1,
-  'Certifier relationship',
-  {
-    ...mockData.data,
-    certifierRelationship: { relationshipToApplicants: 'applicant' },
-  },
-);
-
 describe('Applicant Name/DOB page title', () => {
-  it('should start with "Your" if role is "applicant"', () => {
-    const {
-      title,
-    } = formConfig.chapters.applicantInformation.pages.applicantNameDob;
-    const res = title({ ...mockData.data, certifierRole: 'applicant' });
-    expect(res.startsWith('Your')).to.be.true;
-  });
   testNumberOfWebComponentFields(
     formConfig,
     formConfig.chapters.applicantInformation.pages.applicantNameDob.schema,
@@ -118,14 +54,6 @@ describe('Applicant Name/DOB page title', () => {
     5,
     'Applicant name/DOB',
     { ...mockData.data },
-  );
-  testNumberOfWebComponentFields(
-    formConfig,
-    formConfig.chapters.applicantInformation.pages.applicantNameDob.schema,
-    formConfig.chapters.applicantInformation.pages.applicantNameDob.uiSchema,
-    5,
-    'Applicant name/DOB',
-    { certifierRole: 'applicant' },
   );
 });
 
@@ -167,15 +95,6 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
-  formConfig.chapters.medicareInformation.pages.hasMedicareAB.schema,
-  formConfig.chapters.medicareInformation.pages.hasMedicareAB.uiSchema,
-  1,
-  'Applicant has medicare AB (certifier role: applicant)',
-  { ...mockData.data, certifierRole: 'applicant' },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
   formConfig.chapters.medicareInformation.pages.partACarrier.schema,
   formConfig.chapters.medicareInformation.pages.partACarrier.uiSchema,
   2,
@@ -210,16 +129,6 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
-// Hit the useFirstPerson conditional branch in title
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.medicareInformation.pages.pharmacyBenefits.schema,
-  formConfig.chapters.medicareInformation.pages.pharmacyBenefits.uiSchema,
-  1,
-  'Applicant medicare pharmacy benefits',
-  { ...mockData.data, certifierRole: 'applicant' },
-);
-
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.medicareInformation.pages.advantagePlan.schema,
@@ -236,16 +145,6 @@ testNumberOfWebComponentFields(
   1,
   'Applicant has medicare D',
   { ...mockData.data },
-);
-
-// Follow title else path
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.medicareInformation.pages.hasMedicareD.schema,
-  formConfig.chapters.medicareInformation.pages.hasMedicareD.uiSchema,
-  1,
-  'Applicant has medicare D',
-  { ...mockData.data, certifierRole: 'applicant' },
 );
 
 testNumberOfWebComponentFields(
@@ -331,7 +230,7 @@ testNumberOfWebComponentFields(
     .uiSchema,
   1,
   'Applicant has secondary healthcare',
-  { applicantHasSecondary: true, certifierRole: 'applicant' },
+  { applicantHasSecondary: true },
 );
 
 testNumberOfWebComponentFields(
@@ -386,7 +285,7 @@ testNumberOfWebComponentFields(
   formConfig.chapters.healthcareInformation.pages.secondaryType.uiSchema,
   6,
   'Applicant secondary insurance type',
-  { ...mockData.data, certifierRole: 'applicant' },
+  { ...mockData.data },
 );
 
 testNumberOfWebComponentFields(
@@ -404,7 +303,7 @@ testNumberOfWebComponentFields(
   formConfig.chapters.healthcareInformation.pages.secondaryMedigap.uiSchema,
   1,
   'Applicant secondary Medigap type',
-  { ...mockData.data, certifierRole: 'applicant' },
+  { ...mockData.data },
 );
 
 testNumberOfWebComponentFields(
@@ -444,17 +343,9 @@ testNumberOfWebComponentFields(
 );
 
 describe('fullNamePath', () => {
-  it('should be "applicantName" if certifierRole is "applicant"', () => {
-    const v = formConfig.preSubmitInfo.statementOfTruth.fullNamePath({
-      certifierRole: 'applicant',
-    });
+  it('should be "applicantName"', () => {
+    const v = formConfig.preSubmitInfo.statementOfTruth.fullNamePath({});
     expect(v).to.equal('applicantName');
-  });
-  it('should be "certifierName" if certifierRole is "applicant"', () => {
-    const v = formConfig.preSubmitInfo.statementOfTruth.fullNamePath({
-      certifierRole: 'other',
-    });
-    expect(v).to.equal('certifierName');
   });
 });
 
