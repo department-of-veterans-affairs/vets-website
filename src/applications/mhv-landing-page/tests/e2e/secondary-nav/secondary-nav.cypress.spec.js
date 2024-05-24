@@ -7,7 +7,6 @@ describe(`${appName} -- MHV Secondary Nav enabled`, () => {
     it('renders', () => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures();
       LandingPage.visit();
-      LandingPage.loaded();
       LandingPage.secondaryNavRendered();
       cy.injectAxeThenAxeCheck();
     });
@@ -17,7 +16,6 @@ describe(`${appName} -- MHV Secondary Nav enabled`, () => {
     it('does not render', () => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures();
       LandingPage.visit({ registered: false });
-      LandingPage.loaded();
       LandingPage.secondaryNav().should('not.exist');
       cy.injectAxeThenAxeCheck();
     });
@@ -28,7 +26,6 @@ describe(`${appName} -- MHV Secondary Nav disabled`, () => {
   it('does not render', () => {
     ApiInitializer.initializeFeatureToggle.withAllFeaturesDisabled();
     LandingPage.visit();
-    LandingPage.loaded();
     LandingPage.secondaryNav().should('not.exist');
     cy.injectAxeThenAxeCheck();
   });

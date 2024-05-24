@@ -34,7 +34,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const signInService = useSelector(signInServiceName);
   const showWelcomeMessage = useSelector(personalizationEnabled);
   const showHelpdeskInfo =
-    useSelector(helpdeskInfoEnabled) && registered && verified;
+    useSelector(helpdeskInfoEnabled) && verified && registered;
   const showCards = verified && registered;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;

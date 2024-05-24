@@ -9,11 +9,8 @@ const MOCK_TYPES = Object.freeze({
 });
 
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
-const featureToggles = require('./feature-toggles/index');
-const otherUsers = require('./user/index');
-// const anotherVerfiedUser = require('../../tests/fixtures/user.json');
-const loa1User = require('../../tests/fixtures/user.loa1.json');
-const unregisteredUser = require('../../tests/fixtures/user.unregistered.json');
+const { generateFeatureToggles } = require('./feature-toggles/index');
+const { generateUser } = require('./user/index');
 const folders = require('./mhv-api/messaging/folders/index');
 const personalInformation = require('../../tests/fixtures/personal-information.json');
 
@@ -21,20 +18,20 @@ const responses = (selectedMockType = MOCK_TYPES.VERIFIED_USER) => {
   const getUser = () => {
     switch (selectedMockType) {
       case MOCK_TYPES.UNVERIFIED_USER:
-        return loa1User;
+        return generateUser({ loa: 1 });
       case MOCK_TYPES.UNREGISTERED_USER:
-        return unregisteredUser;
+        return generateUser({ vaPatient: true });
       default:
-        return otherUsers.defaultUser;
+        return generateUser();
     }
   };
 
   const getFeatureToggles = () => {
     if (selectedMockType === MOCK_TYPES.VERIFIED_USER_ALL_FEATURES) {
-      return featureToggles.generateFeatureToggles({ enableAll: true });
+      return generateFeatureToggles({ enableAll: true });
     }
 
-    return featureToggles.generateFeatureToggles();
+    return generateFeatureToggles();
   };
 
   return {
