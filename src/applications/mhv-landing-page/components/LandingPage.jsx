@@ -17,6 +17,7 @@ import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
 import CardLayout from './CardLayout';
 import HeaderLayout from './HeaderLayout';
+import HeaderLayoutVAgovTools from './HeaderLayoutVAgovTools';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
@@ -33,6 +34,9 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const hasHealth = useSelector(hasHealthData);
   const signInService = useSelector(signInServiceName);
   const showWelcomeMessage = useSelector(personalizationEnabled);
+  const { mhvLandingPageEnableVaGovHealthToolsLinks = false } = useSelector(
+    state => state.featureToggles,
+  );
   const showHelpdeskInfo =
     useSelector(helpdeskInfoEnabled) && hasHealth && !isUnverified;
   const showCards = hasHealth && !isUnverified;
@@ -72,7 +76,11 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
             dependencies={[externalServices.mhvPlatform]}
             render={renderMHVDowntime}
           />
-          <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
+          {mhvLandingPageEnableVaGovHealthToolsLinks ? (
+            <HeaderLayoutVAgovTools showWelcomeMessage={showWelcomeMessage} />
+          ) : (
+            <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
+          )}
           {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
         </div>
         {showHelpdeskInfo && (
