@@ -5,7 +5,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   additionalExposuresQuestion,
-  additionalExposuresTitle,
+  additionalExposuresPageTitle,
   specifyOtherExposuresLabel,
   validateSelections,
 } from '../../content/toxicExposure';
@@ -14,7 +14,7 @@ import { ADDITIONAL_EXPOSURES } from '../../constants';
 
 /** @type {PageSchema} */
 export const uiSchema = {
-  'ui:title': formTitle(additionalExposuresTitle),
+  'ui:title': formTitle(additionalExposuresPageTitle),
   toxicExposure: {
     otherExposures: checkboxGroupUI({
       title: additionalExposuresQuestion,

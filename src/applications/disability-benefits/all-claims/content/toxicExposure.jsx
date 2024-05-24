@@ -50,7 +50,7 @@ export const herbicidePageTitle = 'Agent Orange locations';
 export const herbicideQuestion =
   'Did you serve in any of these locations where the military used the herbicide Agent Orange? Check any locations where you served.';
 
-export const additionalExposuresTitle = 'Other toxic exposures';
+export const additionalExposuresPageTitle = 'Other toxic exposures';
 export const additionalExposuresQuestion =
   'Have you been exposed to any of these hazards? Check any that you’ve been exposed to.';
 export const specifyOtherExposuresLabel =
@@ -93,13 +93,19 @@ export const notSureDatesDetails = (
  * @param {number} currentItem - this item's count out of the total selected items
  * @param {number} totalItems - total number of selected items
  * @param {string} locationName - Display name of the location
+ * @param {string} itemName - Name of the item. Defaults to 'Location'
  * @returns
  */
-export function teSubtitle(currentItem, totalItems, locationName) {
+export function teSubtitle(
+  currentItem,
+  totalItems,
+  locationName,
+  itemName = 'Location',
+) {
   return (
     (currentItem > 0 &&
       totalItems > 0 &&
-      `Location ${currentItem} of ${totalItems}: ${locationName}`) ||
+      `${itemName} ${currentItem} of ${totalItems}: ${locationName}`) ||
     locationName
   );
 }
@@ -110,15 +116,17 @@ export function teSubtitle(currentItem, totalItems, locationName) {
  * @param {number} currentItem - Current item being viewed
  * @param {number} totalItems - Total items for this location
  * @param {string} locationName - Display name of the location
+ * @param {string} itemName - Name of the item to display
  * @returns h4 subtitle and p description
  */
 export function dateRangePageDescription(
   currentItem,
   totalItems,
   locationName,
+  itemName = 'Location',
 ) {
   const subtitle = formSubtitle(
-    teSubtitle(currentItem, totalItems, locationName),
+    teSubtitle(currentItem, totalItems, locationName, itemName),
   );
   return (
     <>

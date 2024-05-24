@@ -1,4 +1,5 @@
 import {
+  additionalExposuresDetails,
   gulfWar1990Locations,
   toxicExposureConditions,
   gulfWar1990Details,
@@ -14,7 +15,7 @@ import {
 } from '..';
 import { TE_URL_PREFIX } from '../../constants';
 import {
-  additionalExposuresTitle,
+  additionalExposuresPageTitle,
   conditionsPageTitle,
   getOtherFieldDescription,
   getSelectedCount,
@@ -95,10 +96,11 @@ export const toxicExposurePages = {
     schema: herbicideSummary.schema,
   },
   additionalExposures: {
-    title: additionalExposuresTitle,
+    title: additionalExposuresPageTitle,
     path: `${TE_URL_PREFIX}/additional-exposures`,
     depends: formData => isClaimingTECondition(formData),
     uiSchema: additionalExposures.uiSchema,
     schema: additionalExposures.schema,
   },
+  ...additionalExposuresDetails.makePages(),
 };
