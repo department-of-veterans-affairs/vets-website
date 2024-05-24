@@ -130,7 +130,7 @@ export const convertVaccine = vaccine => {
     name: vaccine.vaccineCode?.text,
     date: vaccine.occurrenceDateTime
       ? checkIsYear(vaccine.occurrenceDateTime)
-      : vaccine.occurrenceDateTime,
+      : EMPTY_FIELD,
     location: extractLocation(vaccine),
     manufacturer: vaccine.manufacturer || EMPTY_FIELD,
     reactions: extractReaction(vaccine),
