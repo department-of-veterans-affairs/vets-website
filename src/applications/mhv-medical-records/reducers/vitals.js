@@ -77,7 +77,7 @@ export const convertVital = record => {
     type,
     id: record.id,
     measurement: getMeasurement(record, type) || EMPTY_FIELD,
-    dateTime: record?.effectiveDateTime
+    date: record?.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
     location: extractLocation(record),

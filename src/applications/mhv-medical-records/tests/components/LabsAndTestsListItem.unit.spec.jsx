@@ -53,8 +53,10 @@ describe('LabsAndTestsListItem component', () => {
   });
 
   it('should contain the date of the record', () => {
-    const date = screen.getAllByText('January', { exact: false });
-    expect(date).to.exist;
+    const date = screen.getAllByText('January 21, 2021, 11:32 a.m.', {
+      exact: false,
+    });
+    expect(date.length).to.eq(2);
   });
 
   it('should contain a link to view record details', () => {
