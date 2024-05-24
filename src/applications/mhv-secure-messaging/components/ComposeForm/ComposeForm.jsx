@@ -175,11 +175,11 @@ const ComposeForm = props => {
       };
 
       const {
-        isAssociated,
+        isBlocked,
         formattedRecipient,
       } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
 
-      if (!isAssociated) {
+      if (isBlocked) {
         setShowBlockedTriageGroupAlert(true);
         setBlockedTriageGroupList([
           formattedRecipient,
