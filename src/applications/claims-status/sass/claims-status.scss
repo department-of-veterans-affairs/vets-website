@@ -1136,31 +1136,12 @@ $marker-text-width: 5.625rem;
   font-weight: bold;
   margin-top: 16px;
 
-  &:focus i::before,
-  &:hover i::before {
+  &:focus va-icon,
+  &:hover va-icon {
     margin-left: 0.75rem;
     transition-duration: 0.3s;
     transition-timing-function: ease-in-out;
     transition-property: margin;
-  }
-
-  i::before {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
-    font-family: "Font Awesome 5 Free";
-    font-size: 1rem;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: 900;
-    line-height: 1;
-    margin-right: 0.5rem;
-    text-rendering: auto;
-    content: "\f105"; /* fa-angle-right */
-    margin-bottom: 0.0625rem;
-    margin-left: 0.5rem;
-    margin-right: 0;
-    vertical-align: middle;
   }
 }
 

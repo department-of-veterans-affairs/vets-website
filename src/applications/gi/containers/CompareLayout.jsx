@@ -8,6 +8,7 @@ import {
   boolYesNo,
   convertRatingToStars,
   formatCurrency,
+  isShowVetTec,
   naIfNull,
   schoolSize,
   upperCaseFirstLetterOnly,
@@ -34,6 +35,27 @@ import {
   MilitaryTuitionAssistanceModalContent,
   PriorityEnrollmentModalContent,
 } from '../components/content/modals';
+
+export const renFieldData = (programHours, automatedTest = false) => {
+  if (isShowVetTec(automatedTest)) {
+    return [
+      {
+        label: 'Length of VET TEC programs',
+        mapper: institution => programHours(institution.programLengthInHours),
+      },
+      {
+        label: 'Credit for military training',
+        mapper: institution => boolYesNo(institution.creditForMilTraining),
+      },
+    ];
+  }
+  return [
+    {
+      label: 'Credit for military training',
+      mapper: institution => boolYesNo(institution.creditForMilTraining),
+    },
+  ];
+};
 
 const CompareLayout = ({
   calculated,
@@ -503,17 +525,7 @@ const CompareLayout = ({
         institutions={institutions}
         showDifferences={showDifferences}
         smallScreen={smallScreen}
-        fieldData={[
-          {
-            label: 'Length of VET TEC programs',
-            mapper: institution =>
-              programHours(institution.programLengthInHours),
-          },
-          {
-            label: 'Credit for military training',
-            mapper: institution => boolYesNo(institution.creditForMilTraining),
-          },
-        ]}
+        fieldData={renFieldData(programHours)}
       />
       <va-additional-info trigger="Additional information on academics fields">
         <MilitaryTrainingCreditModalContent />
