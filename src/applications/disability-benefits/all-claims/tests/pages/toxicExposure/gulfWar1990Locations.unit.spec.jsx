@@ -109,4 +109,34 @@ describe('Gulf War 1990 Locations', () => {
     await userEvent.click(getByText('Submit'));
     expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
   });
+
+  it('should submit with `notsure` and other locations selected', async () => {
+    const onSubmit = sinon.spy();
+
+    const { container, getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    await checkboxGroup.__events.vaChange({
+      target: { checked: true, dataset: { key: 'oman' } },
+      detail: { checked: true },
+    });
+    await checkboxGroup.__events.vaChange({
+      target: { checked: true, dataset: { key: 'syria' } },
+      detail: { checked: true },
+    });
+    await checkboxGroup.__events.vaChange({
+      target: { checked: true, dataset: { key: 'notsure' } },
+      detail: { checked: true },
+    });
+
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
+  });
 });
