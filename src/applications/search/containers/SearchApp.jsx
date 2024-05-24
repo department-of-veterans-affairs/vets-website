@@ -511,7 +511,7 @@ class SearchApp extends React.Component {
         <div className="columns vads-u-margin-bottom--4">
           <va-maintenance-banner
             banner-id="search-gov-maintenance-banner"
-            maintenance-title="Search.gov Maintenance"
+            maintenance-title="Search Maintenance"
             maintenance-start-date-time={start}
             maintenance-end-date-time={end}
             isError
