@@ -35,8 +35,10 @@ export const verifySession = () => {
     .getItem('sessionExpirationSSO')
     ?.toString();
   const isValidPath = !window.location.pathname?.includes('terms-of-use');
+  const isNotSubdomain = window.location.host === 'www.va.gov';
 
   return (
+    isNotSubdomain &&
     isValidPath &&
     hasSessionSSO &&
     loginAttempted &&
