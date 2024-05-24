@@ -22,6 +22,7 @@ const allDemographicsCurrentUUID = 'e544c217-6fe8-44c5-915f-6c3d9908a678';
 const onlyDemographicsCurrentUUID = '7397abc0-fb4d-4238-a3e2-32b0e47a1527';
 
 const noFacilityAddressUUID = '5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3';
+const singlePreCheckInAppt = '47fa6bad-62b4-440d-a4e1-50e7f7b92d27';
 
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
 
@@ -125,42 +126,57 @@ const createMockSuccessResponse = (
   if (token === noFacilityAddressUUID) {
     facilityAddress = {};
   }
+  let appointments = [
+    createAppointment({
+      clinicLocation: location ?? 'SECOND FLOOR ROOM 1',
+      kind: apptKind,
+      status,
+      startTime: mockTime,
+      checkInSteps,
+      preCheckInValid: true,
+      appointmentIen: '0001',
+      facilityAddress,
+    }),
+    createAppointment({
+      clinicLocation: location ?? 'SECOND FLOOR ROOM 2',
+      kind: apptKind,
+      status,
+      startTime: dateFns.sub(new Date(), { hours: 1 }),
+      checkInSteps,
+      preCheckInValid: true,
+      appointmentIen: '0002',
+      facilityAddress,
+    }),
+    createAppointment({
+      clinicLocation: location ?? 'SECOND FLOOR ROOM 3',
+      kind: apptKind,
+      status,
+      startTime: dateFns.sub(new Date(), { hours: 2 }),
+      checkInSteps,
+      preCheckInValid: true,
+      appointmentIen: '0003',
+      facilityAddress,
+    }),
+  ];
+  if (token === singlePreCheckInAppt) {
+    appointments = [
+      createAppointment({
+        clinicLocation: location ?? 'SECOND FLOOR ROOM 1',
+        kind: apptKind,
+        status,
+        startTime: mockTime,
+        checkInSteps,
+        preCheckInValid: true,
+        appointmentIen: '0001',
+        facilityAddress,
+      }),
+    ];
+  }
   return {
     id: token || defaultUUID,
     payload: {
       demographics: mockDemographics,
-      appointments: [
-        createAppointment({
-          clinicLocation: location ?? 'SECOND FLOOR ROOM 1',
-          kind: apptKind,
-          status,
-          startTime: mockTime,
-          checkInSteps,
-          preCheckInValid: true,
-          appointmentIen: '0001',
-          facilityAddress,
-        }),
-        createAppointment({
-          clinicLocation: location ?? 'SECOND FLOOR ROOM 2',
-          kind: apptKind,
-          status,
-          startTime: dateFns.sub(new Date(), { hours: 1 }),
-          checkInSteps,
-          preCheckInValid: true,
-          appointmentIen: '0002',
-          facilityAddress,
-        }),
-        createAppointment({
-          clinicLocation: location ?? 'SECOND FLOOR ROOM 3',
-          kind: apptKind,
-          status,
-          startTime: dateFns.sub(new Date(), { hours: 2 }),
-          checkInSteps,
-          preCheckInValid: true,
-          appointmentIen: '0003',
-          facilityAddress,
-        }),
-      ],
+      appointments,
       patientDemographicsStatus: {
         demographicsNeedsUpdate: demographicsNeedsUpdateValue,
         demographicsConfirmedAt: demographicsConfirmedAtValue,
