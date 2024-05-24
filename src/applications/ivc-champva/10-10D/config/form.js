@@ -132,6 +132,21 @@ import { fileWithMetadataSchema } from '../../shared/components/fileUploads/atta
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 
+// Control whether we show the file overview page by calling `hasReq` to
+// determine if any files have not been uploaded
+function showFileOverviewPage(formData) {
+  try {
+    return (
+      hasReq(formData.applicants, true, true) ||
+      hasReq(formData.applicants, false, true) ||
+      hasReq(formData, true, true) ||
+      hasReq(formData, false, true)
+    );
+  } catch {
+    return false;
+  }
+}
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -1371,6 +1386,7 @@ const formConfig = {
         page23: {
           path: 'supporting-files',
           title: 'Upload your supporting files',
+          depends: formData => showFileOverviewPage(formData),
           CustomPage: SupportingDocumentsPage,
           CustomPageReview: null,
           uiSchema: {
@@ -1383,18 +1399,7 @@ const formConfig = {
         page24: {
           path: 'consent-mail',
           title: 'Upload your supporting files',
-          depends: formData => {
-            try {
-              return (
-                hasReq(formData.applicants, true) ||
-                hasReq(formData.applicants, false) ||
-                hasReq(formData, true) ||
-                hasReq(formData, false)
-              );
-            } catch {
-              return false;
-            }
-          },
+          depends: formData => showFileOverviewPage(formData),
           CustomPage: MissingFileConsentPage,
           CustomPageReview: null,
           uiSchema: {
