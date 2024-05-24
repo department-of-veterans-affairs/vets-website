@@ -26,8 +26,7 @@ import {
   aboutPriorityProcessingPage,
   housingRisksPage,
   otherHousingRisksPage,
-  hardshipsOptionalPage,
-  hardshipsRequiredPage,
+  hardshipsPage,
   priorityProcessingNotQualifiedPage,
   priorityProcessingRequestPage,
 } from '../pages/priorityProcessing';
@@ -211,24 +210,13 @@ const formConfig = {
           schema: otherHousingRisksPage.schema,
           pageClass: 'other-housing-risk',
         },
-        hardshipsOptionalPage: {
+        hardshipsPage: {
           depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            !formData.livingSituation.NONE,
+            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING,
           path: 'hardships',
           title: 'Other reasons for request',
-          uiSchema: hardshipsOptionalPage.uiSchema,
-          schema: hardshipsOptionalPage.schema,
-          pageClass: 'hardships',
-        },
-        hardshipsRequiredPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            formData.livingSituation.NONE,
-          path: 'hardships',
-          title: 'Other reasons for request',
-          uiSchema: hardshipsRequiredPage.uiSchema,
-          schema: hardshipsRequiredPage.schema,
+          uiSchema: hardshipsPage.uiSchema,
+          schema: hardshipsPage.schema,
           pageClass: 'hardships',
         },
         priorityProcessingNotQualifiedPage: {
