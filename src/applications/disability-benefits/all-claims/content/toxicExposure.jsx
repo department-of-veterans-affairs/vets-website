@@ -350,6 +350,7 @@ export function showCheckboxLoopDetailsPage(
   itemId,
 ) {
   return (
+    itemId !== 'notsure' &&
     isClaimingTECondition(formData) &&
     formData?.toxicExposure[checkboxObjectName] &&
     formData?.toxicExposure[checkboxObjectName].none !== true &&
@@ -369,18 +370,21 @@ export function showCheckboxLoopDetailsPage(
  * @returns {boolean} true if the page should display, false otherwise
  */
 export function showSummaryPage(formData, checkboxObjectName) {
-  const numSelected = Object.values(
-    formData.toxicExposure[checkboxObjectName],
-  ).filter(value => value === true).length;
-
-  return (
+  if (
     isClaimingTECondition(formData) &&
-    formData?.toxicExposure[checkboxObjectName] &&
-    formData?.toxicExposure[checkboxObjectName].none !== true &&
-    numSelected > 0 &&
-    (formData?.toxicExposure[checkboxObjectName].notsure !== true ||
-      numSelected > 1)
-  );
+    formData?.toxicExposure[checkboxObjectName]
+  ) {
+    const locations = formData?.toxicExposure[checkboxObjectName];
+    const numSelected = Object.values(
+      formData?.toxicExposure[checkboxObjectName],
+    ).filter(value => value === true).length;
+    return (
+      locations.none !== true &&
+      numSelected > 0 &&
+      (locations.notsure !== true || numSelected > 1)
+    );
+  }
+  return false;
 }
 
 /**
