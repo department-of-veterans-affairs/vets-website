@@ -6,7 +6,7 @@ describe('Medical Records View Vaccines', () => {
     const site = new MedicalRecordsSite();
     site.login();
     cy.visit('my-health/medical-records/');
-    VaccinesListPage.clickGotoVaccinesLink();
+    VaccinesListPage.goToVaccines();
     // click on the vaccines link
     cy.reload();
     cy.get('@VaccinesList.all').should('have.length', 2);
