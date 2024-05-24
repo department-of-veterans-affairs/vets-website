@@ -13,6 +13,7 @@ const UpcomingAppointmentsListItem = props => {
   const { t } = useTranslation();
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
+  const isCancelled = appointment.status?.includes('CANCELLED');
 
   const appointmentInfo = () => {
     if (appointment?.kind === 'vvc') {
@@ -38,43 +39,55 @@ const UpcomingAppointmentsListItem = props => {
     );
   };
 
+  const appointmentDetails = testId => {
+    return (
+      <div data-testid={testId}>
+        <div
+          className="vads-u-margin-top--1p5 vads-u-margin-bottom--1"
+          data-testid="appointment-time"
+        >
+          {t('date-time', { date: appointmentDateTime })}
+        </div>
+        <div
+          data-testid="appointment-type-and-provider"
+          className="vads-u-font-weight--bold vads-u-margin-bottom--1"
+        >
+          {appointment.clinicStopCodeName
+            ? appointment.clinicStopCodeName
+            : t('VA-appointment')}
+          {appointment.doctorName
+            ? ` ${t('with')} ${appointment.doctorName}`
+            : ''}
+        </div>
+        <div className="vads-u-display--flex">
+          <div
+            data-testid="appointment-kind-icon"
+            className="vads-u-margin-right--0p5 check-in--label"
+          >
+            {appointmentIcon(appointment)}
+          </div>
+          <div
+            data-testid="appointment-kind-and-location"
+            className="vads-u-display--inline"
+          >
+            {appointmentInfo()}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <li
       className={`check-in--appointment-item ${border &&
         'vads-u-border-bottom--1px vads-u-border-color--gray-light'}`}
       data-testid="appointment-list-item"
     >
-      <div
-        className="vads-u-margin-top--1p5 vads-u-margin-bottom--1"
-        data-testid="appointment-time"
-      >
-        {t('date-time', { date: appointmentDateTime })}
-      </div>
-      <div
-        data-testid="appointment-type-and-provider"
-        className="vads-u-font-weight--bold vads-u-margin-bottom--1"
-      >
-        {appointment.clinicStopCodeName
-          ? appointment.clinicStopCodeName
-          : t('VA-appointment')}
-        {appointment.doctorName
-          ? ` ${t('with')} ${appointment.doctorName}`
-          : ''}
-      </div>
-      <div className="vads-u-display--flex">
-        <div
-          data-testid="appointment-kind-icon"
-          className="vads-u-margin-right--0p5 check-in--label"
-        >
-          {appointmentIcon(appointment)}
-        </div>
-        <div
-          data-testid="appointment-kind-and-location"
-          className="vads-u-display--inline"
-        >
-          {appointmentInfo()}
-        </div>
-      </div>
+      {isCancelled ? (
+        <del>{appointmentDetails('appointment-details-cancelled')}</del>
+      ) : (
+        appointmentDetails('appointment-details')
+      )}
       <div className="vads-u-margin-top--1p5 vads-u-margin-bottom--2">
         <a
           data-testid="details-link"
