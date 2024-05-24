@@ -442,6 +442,8 @@ const FacilitiesMap = props => {
             fullWidth
             status="info"
             className="vads-u-margin-top--1"
+            data-testid="emergency-care-info-note"
+            id="emergency-care-info-note"
           >
             <strong>Note:</strong> If you think your life or health is in
             danger, call{' '}
