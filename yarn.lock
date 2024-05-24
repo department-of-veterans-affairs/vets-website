@@ -2864,12 +2864,12 @@
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
 "@department-of-veterans-affairs/component-library@^42.0.0":
-  version "42.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-42.0.0.tgz#a4da1305ac0cdf47b6efa80ebaae358eeb601b38"
-  integrity sha512-aOTjfIHgZm+paz6xCs30ByCL+9tof807aKJeqGVuDwvj83rw3WI5u6MD+xlp9TynPP1thVcN4x6luBGSj9fzGA==
+  version "42.1.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-42.1.0.tgz#c526fc4a10428e0253298426130bd9fcb1655692"
+  integrity sha512-kFj0UcNJugabXzth28elLhibr9fsNflnUvBu6oZsicnHzKPru1MgyQS/YC54eNEKSRp5KBIfi6zW7qY+HsG69A==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "9.0.0"
+    "@department-of-veterans-affairs/web-components" "9.1.1"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2950,10 +2950,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@9.0.0":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-9.0.0.tgz#cc3878182ed01184868d557cd983106729a96850"
-  integrity sha512-tTRR369ReUGSyqrk6GyGIBmB/fI88jIYUwKMDeowl41RJbTMx8Rhyt1kwPa1fO8qMTBa1S1cRZ1T9blq21IY6w==
+"@department-of-veterans-affairs/web-components@9.1.1":
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-9.1.1.tgz#807039281992b2151e28e8001f725bcbcc05fe25"
+  integrity sha512-LzAmIld8tBgVoCl42Dm09U0BjiTfsLoTVlZQEXOtGES8KgoPq8UD/Fro2yFlrK/5buJeSjtKHarapXgxXWgsuw==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.7.0"
     "@stencil/core" "^2.19.2"
