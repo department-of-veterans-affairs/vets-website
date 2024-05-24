@@ -14,7 +14,7 @@ const UpcomingAppointmentsListItem = props => {
   const { t } = useTranslation();
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
-  const isCanceled = appointment.status.includes('CANCELLED');
+  const isCanceled = appointment.status?.includes('CANCELLED');
 
   const appointmentInfo = () => {
     if (appointment?.kind === 'vvc') {
