@@ -122,6 +122,7 @@
   "mhvMedicalRecordsDisplayNotes": "mhv_medical_records_display_notes",
   "mhvMedicalRecordsDisplaySidenav": "mhv_medical_records_display_sidenav",
   "mhvMedicalRecordsDisplayVaccines": "mhv_medical_records_display_vaccines",
+  "mhvMedicalRecordsDisplaySettingsPage": "mhv_medical_records_display_settings_page",
   "mhvMedicalRecordsDisplayVitals": "mhv_medical_records_display_vitals",
   "mhvMedicalRecordsToVaGovRelease": "mhv_medical_records_to_va_gov_release",
   "mhvMedicationsToVaGovRelease": "mhv_medications_to_va_gov_release",
