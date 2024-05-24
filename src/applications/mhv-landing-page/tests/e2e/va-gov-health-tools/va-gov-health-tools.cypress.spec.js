@@ -32,7 +32,7 @@ describe(`${appName} -- VA.gov Health Tools feature`, () => {
         };
         cy.findByRole('heading', heading).should.exist;
         links.forEach(({ text, href }) => {
-          const linkNameRegex = new RegExp(text, 'i');
+          const linkNameRegex = new RegExp(text);
           cy.findByRole('link', { name: linkNameRegex }).should(
             'have.attr',
             'href',
