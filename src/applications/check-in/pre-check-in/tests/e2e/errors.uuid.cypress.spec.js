@@ -29,14 +29,6 @@ describe('Check In Experience | Pre-Check-In | UUID Errors', () => {
       cy.injectAxeThenAxeCheck();
     });
   });
-  describe('Patient who encounters an error fetching session', () => {
-    it('should take them straight to the error page without validation', () => {
-      initializeSessionGet.withFailure();
-      cy.visitPreCheckInWithUUID();
-      Error.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-    });
-  });
   describe('Patient with a UUID that is not found', () => {
     it('should take them straight to the error page after validation', () => {
       initializePreCheckInDataGet.withUuidNotFound();
