@@ -50,7 +50,17 @@ const CernerFacilityAlert = () => {
       </h2>
       <div>
         <p data-testid="single-cerner-facility-text">
-          To manage medications at {detailsText()}, go to My VA Health
+          To manage medications at{' '}
+          <span
+            className={
+              cernerFacilitiesNames?.length === 1
+                ? 'vads-u-font-weight--bold'
+                : ''
+            }
+          >
+            {detailsText()}
+          </span>
+          , go to My VA Health
           {cernerFacilitiesNames?.length > 1 ? ':' : '.'}
         </p>
         {cernerFacilitiesNames?.length > 1 && (
