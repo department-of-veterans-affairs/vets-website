@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
   updatePageTitle,
   reportGeneratedBy,
@@ -10,18 +11,15 @@ import {
 import {
   getPrescriptionDetails,
   getAllergiesList,
-  clearAllergiesError,
 } from '../actions/prescriptions';
 import PrintOnlyPage from './PrintOnlyPage';
 import {
   dateFormat,
   generateMedicationsPDF,
   generateTextFile,
+  getErrorTypeFromFormat,
 } from '../util/helpers';
-import PrintDownload, {
-  DOWNLOAD_FORMAT,
-} from '../components/shared/PrintDownload';
-import AllergiesErrorModal from '../components/shared/AllergiesErrorModal';
+import PrintDownload from '../components/shared/PrintDownload';
 import NonVaPrescription from '../components/PrescriptionDetails/NonVaPrescription';
 import VaPrescription from '../components/PrescriptionDetails/VaPrescription';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -38,6 +36,7 @@ import {
 import {
   PDF_TXT_GENERATE_STATUS,
   DD_ACTIONS_PAGE_TYPE,
+  DOWNLOAD_FORMAT,
 } from '../util/constants';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
@@ -321,30 +320,12 @@ const PrescriptionDetails = () => {
     );
   };
 
-  const handleModalClose = () => {
-    dispatch(clearAllergiesError());
-    setPdfTxtGenerateStatus({
-      ...pdfTxtGenerateStatus,
-      status: PDF_TXT_GENERATE_STATUS.NotStarted,
-    });
-  };
-
-  const handleModalDownloadButton = () => {
-    if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
-      generatePDF();
-    } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
-      generateTXT(buildAllergiesTXT());
-    } else {
-      setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.NotStarted });
-      setTimeout(() => window.print(), 1);
-    }
-    if (allergiesError) {
-      setTimeout(() => {
-        dispatch(clearAllergiesError());
-      }, 1);
-    }
-  };
-
+  const isErrorNotificationVisible = Boolean(
+    pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
+      allergiesError,
+  );
+  const hasPrintError =
+    prescription && !prescriptionsApiError && !allergiesError;
   const content = () => {
     if (
       (pdfTxtGenerateStatus.status !== PDF_TXT_GENERATE_STATUS.InProgress ||
@@ -354,16 +335,6 @@ const PrescriptionDetails = () => {
       return (
         <>
           <div className="no-print">
-            <AllergiesErrorModal
-              onCloseButtonClick={handleModalClose}
-              onDownloadButtonClick={handleModalDownloadButton}
-              onCancelButtonClick={handleModalClose}
-              isPrint={Boolean(pdfTxtGenerateStatus.format === 'print')}
-              visible={Boolean(
-                pdfTxtGenerateStatus.status ===
-                  PDF_TXT_GENERATE_STATUS.InProgress && allergiesError,
-              )}
-            />
             <h1
               aria-describedby="last-filled"
               data-testid="prescription-name"
@@ -373,7 +344,7 @@ const PrescriptionDetails = () => {
               {prescriptionHeader}
             </h1>
             {prescriptionsApiError ? (
-              <ApiErrorNotification />
+              <ApiErrorNotification errorType="access" content="medications" />
             ) : (
               <>
                 <p
@@ -383,6 +354,22 @@ const PrescriptionDetails = () => {
                 >
                   {filledEnteredDate()}
                 </p>
+                {isErrorNotificationVisible && (
+                  <ApiErrorNotification
+                    errorType={getErrorTypeFromFormat(
+                      pdfTxtGenerateStatus.format,
+                    )}
+                    content="records"
+                  >
+                    <div>
+                      If it still doesn’t work, call us at{' '}
+                      <va-telephone contact="8773270022" /> (
+                      <va-telephone contact={CONTACTS[711]} tty />
+                      ). We’re here Monday through Friday, 8:00 a.m. to 8:00
+                      p.m. ET.
+                    </div>
+                  </ApiErrorNotification>
+                )}
                 <div className="no-print">
                   <PrintDownload
                     download={handleFileDownload}
@@ -405,28 +392,20 @@ const PrescriptionDetails = () => {
           </div>
           <PrintOnlyPage
             title="Medication details"
+            hasError={!hasPrintError}
             preface={
-              prescription
+              hasPrintError
                 ? 'This is a single medication record from your VA medical records. When you download a medication record, we also include a list of allergies and reactions in your VA medical records.'
-                : "We're sorry. There's a problem with our system. Check back later. If you need help now, call your VA pharmacy. You can find the pharmacy phone number on the prescription label."
+                : undefined
             }
           >
-            {prescription ? (
-              <>
-                <PrescriptionPrintOnly
-                  hideLineBreak
-                  rx={prescription}
-                  refillHistory={!nonVaPrescription ? refillHistory : []}
-                  isDetailsRx
-                />
-                <AllergiesPrintOnly
-                  allergies={allergies}
-                  allergiesError={allergiesError}
-                />
-              </>
-            ) : (
-              <></>
-            )}
+            <PrescriptionPrintOnly
+              hideLineBreak
+              rx={prescription}
+              refillHistory={!nonVaPrescription ? refillHistory : []}
+              isDetailsRx
+            />
+            <AllergiesPrintOnly allergies={allergies} />
           </PrintOnlyPage>
         </>
       );
