@@ -367,10 +367,9 @@ export class ComboBox extends React.Component {
   }
 }
 
-// TODO: flesh this out
 ComboBox.propTypes = {
   formData: PropTypes.string,
-  idSchema: PropTypes.any,
-  uiSchema: PropTypes.any,
+  idSchema: PropTypes.object,
+  uiSchema: PropTypes.object,
   onChange: PropTypes.func,
 };

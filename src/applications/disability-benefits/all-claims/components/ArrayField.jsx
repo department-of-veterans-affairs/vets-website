@@ -49,8 +49,6 @@ export default class ArrayField extends React.Component {
       editing: this.setInitialState(),
       // use new focus target function, if the prop is present
       useNewFocus: props.uiSchema.useNewFocus ?? false,
-      // TODO: use new button styles, if the prop is present
-      useNewButtons: false,
     };
   }
 
