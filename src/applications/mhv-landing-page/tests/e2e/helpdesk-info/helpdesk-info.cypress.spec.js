@@ -9,27 +9,21 @@ describe(`${appName} - helpdesk information component`, () => {
     });
 
     it(`does not render for unverified users`, () => {
-      LandingPage.visitPage({ unverified: true });
-      LandingPage.validatePageLoaded();
-      LandingPage.validateURL();
+      LandingPage.visit({ verified: false });
       cy.injectAxeThenAxeCheck();
 
       cy.findByTestId('mhv-helpdesk-info').should('not.exist');
     });
 
     it(`does not render for unregistered users`, () => {
-      LandingPage.visitPage({ unregistered: true });
-      LandingPage.validatePageLoaded();
-      LandingPage.validateURL();
+      LandingPage.visit({ registered: false });
       cy.injectAxeThenAxeCheck();
 
       cy.findByTestId('mhv-helpdesk-info').should('not.exist');
     });
 
     it(`renders for verified registered users`, () => {
-      LandingPage.visitPage();
-      LandingPage.validatePageLoaded();
-      LandingPage.validateURL();
+      LandingPage.visit();
       cy.injectAxeThenAxeCheck();
 
       cy.findByTestId('mhv-helpdesk-info').should.exist;
@@ -39,9 +33,7 @@ describe(`${appName} - helpdesk information component`, () => {
   describe('display content based on feature toggle', () => {
     it(`toggle is off`, () => {
       ApiInitializer.initializeFeatureToggle.withAllFeaturesDisabled();
-      LandingPage.visitPage();
-      LandingPage.validatePageLoaded();
-      LandingPage.validateURL();
+      LandingPage.visit();
       cy.injectAxeThenAxeCheck();
 
       cy.findByTestId('mhv-helpdesk-info').should('not.exist');
@@ -49,9 +41,7 @@ describe(`${appName} - helpdesk information component`, () => {
 
     it(`toggle is on`, () => {
       ApiInitializer.initializeFeatureToggle.withAllFeatures();
-      LandingPage.visitPage();
-      LandingPage.validatePageLoaded();
-      LandingPage.validateURL();
+      LandingPage.visit();
       cy.injectAxeThenAxeCheck();
 
       cy.findByTestId('mhv-helpdesk-info').should.exist;

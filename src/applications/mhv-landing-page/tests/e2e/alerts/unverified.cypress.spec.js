@@ -26,9 +26,7 @@ describe(appName, () => {
           true,
         );
 
-        LandingPage.visitPage({ unverified: true });
-        LandingPage.validatePageLoaded();
-        LandingPage.validateURL();
+        LandingPage.visit({ verified: false });
         cy.injectAxeThenAxeCheck();
 
         // Test that the unverified identity message is present
@@ -60,9 +58,7 @@ describe(appName, () => {
           true,
         );
 
-        LandingPage.visitPage();
-        LandingPage.validatePageLoaded();
-        LandingPage.validateURL();
+        LandingPage.visit();
         cy.injectAxeThenAxeCheck();
 
         // Validate the cards and hubs

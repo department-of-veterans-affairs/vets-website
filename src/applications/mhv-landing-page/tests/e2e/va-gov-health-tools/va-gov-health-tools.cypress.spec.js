@@ -1,6 +1,6 @@
-import { appName, rootUrl } from '../../../manifest.json';
-import user from '../../fixtures/user.json';
+import { appName } from '../../../manifest.json';
 import ApiInitializer from '../utilities/ApiInitializer';
+import LandingPage from '../pages/LandingPage';
 
 import { HEALTH_TOOLS, HEALTH_TOOL_HEADINGS } from '../../../constants';
 
@@ -8,8 +8,7 @@ describe(`${appName} -- VA.gov Health Tools feature`, () => {
   beforeEach(() => {
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeMessageData.withNoUnreadMessages();
-    cy.login(user);
-    cy.visit(rootUrl);
+    LandingPage.visit();
   });
 
   HEALTH_TOOLS.forEach(({ name, links }) => {

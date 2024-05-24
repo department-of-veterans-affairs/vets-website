@@ -6,20 +6,20 @@ const generateFeatureToggles = ({
   enableAll = false,
   disableAll = false,
 } = {}) => {
-  let defaultValue;
-  if (enableAll) defaultValue = true;
-  if (disableAll) defaultValue = false;
+  let overrideValue;
+  if (enableAll) overrideValue = true;
+  if (disableAll) overrideValue = false;
 
-  const overrideValue = enableAll || disableAll;
+  const override = enableAll || disableAll;
 
   const snakeCaseToggles = Object.entries(toggles).map(([key, value]) => ({
     name: key,
-    value: overrideValue ? defaultValue : value,
+    value: override ? overrideValue : value,
   }));
 
   const camelCaseToggles = Object.entries(toggles).map(([key, value]) => ({
     name: snakeCase(key),
-    value: overrideValue ? defaultValue : value,
+    value: override ? overrideValue : value,
   }));
 
   return {

@@ -29,13 +29,13 @@ import UnregisteredAlert from './UnregisteredAlert';
 
 const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
   const { cards = [], hubs = [] } = data;
-  const registered = useSelector(isVAPatient);
   const verified = useSelector(isLOA3);
+  const registered = useSelector(isVAPatient);
   const signInService = useSelector(signInServiceName);
   const showWelcomeMessage = useSelector(personalizationEnabled);
   const showHelpdeskInfo =
     useSelector(helpdeskInfoEnabled) && registered && verified;
-  const showCards = registered && verified;
+  const showCards = verified && registered;
   const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
   const noCardsDisplay = !verified ? (
@@ -62,7 +62,7 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
 
   return (
     <>
-      {registered && verified && <MhvSecondaryNav />}
+      {verified && registered && <MhvSecondaryNav />}
       <div
         className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--5"
         data-testid="landing-page-container"

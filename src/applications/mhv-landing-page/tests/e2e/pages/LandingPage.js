@@ -1,7 +1,4 @@
-import unverifiedUser from '../../fixtures/user.loa1.json';
-import unregisteredUser from '../../fixtures/user.unregistered.json';
-import user from '../../fixtures/user.json';
-import userData from '../../../mocks/api/user';
+import { generateUser } from '../../../mocks/api/user';
 
 class LandingPage {
   constructor() {
@@ -11,24 +8,30 @@ class LandingPage {
   validatePageLoaded = () =>
     cy.findByRole('heading', { name: /^My HealtheVet$/i }).should.exist;
 
-  validateURL = () => cy.url().should('match', /my-health/);
+  loaded = () => this.validatePageLoaded();
+
+  secondaryNav = () => cy.findByRole('navigation', { name: 'My HealtheVet' });
+
+  secondaryNavRendered = () => this.secondaryNav().should.exist;
+
+  validateURL = () => cy.url().should('match', /\/my-health\/$/);
 
   visitPage = ({
-    unverified = false,
-    unregistered = false,
-    mhvAccountState = false,
+    verified = true,
+    registered = true,
+    mhvAccountState = 'OK',
   } = {}) => {
-    if (unverified) {
-      cy.login(unverifiedUser);
-    } else if (unregistered) {
-      cy.login(unregisteredUser);
-    } else if (mhvAccountState) {
-      cy.login(userData.generateUserWithMHVAccountState(mhvAccountState));
-    } else {
-      cy.login(user);
-    }
+    let props = { mhvAccountState };
+    if (!verified) props = { ...props, loa: 1 };
+    if (!registered) props = { ...props, vaPatient: false };
+    const user = generateUser(props);
+    cy.login(user);
     cy.visit(this.pageUrl);
+    this.loaded();
+    this.validateURL();
   };
+
+  visit = props => this.visitPage(props);
 
   /**
    * Validate a card has a heading and the correct number of links in it.

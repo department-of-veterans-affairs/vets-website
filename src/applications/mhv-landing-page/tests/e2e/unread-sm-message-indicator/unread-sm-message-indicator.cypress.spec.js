@@ -17,31 +17,25 @@ describe(manifest.appName, () => {
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('renders', () => {
       ApiInitializer.initializeMessageData.withUnreadMessages();
-
-      LandingPage.visitPage({ mhvAccountState: 'OK' });
-      LandingPage.validatePageLoaded();
-
+      LandingPage.visit({ mhvAccountState: 'OK' });
       getUnreadLink().should('be.visible');
+      cy.injectAxeThenAxeCheck();
     });
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('does not render when no unread messages', () => {
       ApiInitializer.initializeMessageData.withNoUnreadMessages();
-
-      LandingPage.visitPage();
-      LandingPage.validatePageLoaded();
-
+      LandingPage.visit();
       getUnreadLink().should('not.exist');
+      cy.injectAxeThenAxeCheck();
     });
 
     // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('does not render when no MHV account', () => {
       ApiInitializer.initializeMessageData.withUnreadMessages();
-
-      LandingPage.visitPage({ mhvAccountState: 'NONE' });
-      LandingPage.validatePageLoaded();
-
+      LandingPage.visit({ mhvAccountState: 'NONE' });
       getUnreadLink().should('not.exist');
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

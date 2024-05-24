@@ -1,5 +1,5 @@
 import { appName } from '../../../manifest.json';
-import user from '../../fixtures/user.json';
+import { defaultUser as user } from '../../../mocks/api/user';
 import ApiInitializer from '../utilities/ApiInitializer';
 import { HEALTH_TOOL_HEADINGS } from '../../../constants';
 
@@ -12,14 +12,10 @@ describe(`${appName} -- transitional Medical records card enabled`, () => {
     cy.visit('/my-health');
   });
 
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('renders', () => {
     cy.findByRole('heading', { level: 2, name: heading });
     cy.findByText(/^The new version of this tool isn’t ready yet./);
     cy.findByRole('link', { name: /^Go back to the previous version/ });
-  });
-
-  it('passes automated accessibility (a11y) checks', () => {
     cy.injectAxeThenAxeCheck();
   });
 });
@@ -31,14 +27,10 @@ describe(`${appName} -- transitional Medical Records card disabled`, () => {
     cy.visit('/my-health');
   });
 
-  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('renders MHV NP links', () => {
     cy.findByRole('heading', { level: 2, name: heading });
     cy.findByRole('link', { name: 'Download medical record (Blue Button®)' });
     cy.findByRole('link', { name: 'Lab and test results' });
-  });
-
-  it('passes automated accessibility (a11y) checks', () => {
     cy.injectAxeThenAxeCheck();
   });
 });

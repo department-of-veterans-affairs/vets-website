@@ -1,5 +1,5 @@
 import { appName, rootUrl } from '../../../manifest.json';
-import user from '../../fixtures/user.json';
+import { defaultUser as user } from '../../../mocks/api/user';
 import ApiInitializer from '../utilities/ApiInitializer';
 
 describe(`${appName} -- Welcome message`, () => {
