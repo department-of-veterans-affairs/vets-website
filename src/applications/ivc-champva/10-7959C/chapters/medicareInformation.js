@@ -28,15 +28,11 @@ export const applicantHasMedicareABSchema = {
     applicantMedicareStatus: {
       ...yesNoUI({
         updateUiSchema: formData => {
-          let title = 'Do you have Medicare Parts A & B to add or update?';
-          if (formData?.certifierRole !== 'applicant') {
-            title = `Does ${nameWording(
+          return {
+            'ui:title': `Does ${nameWording(
               formData,
               false,
-            )} have Medicare Parts A & B to add or update?`;
-          }
-          return {
-            'ui:title': title,
+            )} have Medicare Parts A & B to add or update?`,
             'ui:options': { hint: additionalFilesHint },
           };
         },
@@ -114,11 +110,10 @@ export const applicantMedicarePharmacySchema = {
     applicantMedicarePharmacyBenefits: {
       ...yesNoUI({
         updateUiSchema: formData => {
-          const useFirstPerson = formData?.certifierRole === 'applicant';
           return {
-            'ui:title': `${
-              useFirstPerson ? 'Do your' : `Does ${nameWording(formData)}`
-            } Medicare parts A & B provide pharmacy benefits?`,
+            'ui:title': `Does ${nameWording(
+              formData,
+            )} Medicare parts A & B provide pharmacy benefits?`,
             'ui:options': {
               hint:
                 'You can find this information ont he front of your Medicare card.',
@@ -209,15 +204,11 @@ export const applicantHasMedicareDSchema = {
     applicantMedicareStatusD: {
       ...yesNoUI({
         updateUiSchema: formData => {
-          let title = 'Are you enrolled in Medicare Part D?';
-          if (formData?.certifierRole !== 'applicant') {
-            title = `Is ${nameWording(
+          return {
+            'ui:title': `Is ${nameWording(
               formData,
               false,
-            )} enrolled in Medicare Part D?`;
-          }
-          return {
-            'ui:title': title,
+            )} enrolled in Medicare Part D?`,
             'ui:options': { hint: additionalFilesHint },
           };
         },

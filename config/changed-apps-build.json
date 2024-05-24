@@ -111,6 +111,11 @@
       "rootFolder": "pensions",
       "slackGroup": "<@C0667PCPVLM>",
       "continuousDeployment": false
+    },
+    {
+      "rootFolder": "income-and-asset-statement",
+      "slackGroup": "<@C0667PCPVLM>",
+      "continuousDeployment": false
     }
   ]
 }

@@ -299,7 +299,7 @@
   align-items: baseline;
 
   &::before {
-    min-width: 2rem;
+    min-width: 1.25rem !important;
   }
 }
 
