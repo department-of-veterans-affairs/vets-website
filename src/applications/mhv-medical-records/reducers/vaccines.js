@@ -89,6 +89,39 @@ export const extractNote = vaccine => {
  * @returns a vaccine object that this application can use, or null if the param is null/undefined
  */
 export const convertVaccine = vaccine => {
+  // check date type
+  function checkIsYear(str) {
+    const yearRegex = /^\d{4}$/;
+    const monthRegex = /^\d{4}-\d{2}$/;
+    if (yearRegex.test(str)) {
+      return str;
+    }
+    if (monthRegex.test(str)) {
+      const date = new Date(str);
+      const month = date.getMonth();
+      const year = date.getFullYear();
+
+      const monthNames = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ];
+
+      const monthName = monthNames[month + 1];
+      return `${monthName}, ${year}`;
+    }
+    return formatDateLong(str);
+  }
+
   if (typeof vaccine === 'undefined' || vaccine === null) {
     return null;
   }
@@ -96,8 +129,8 @@ export const convertVaccine = vaccine => {
     id: vaccine.id,
     name: vaccine.vaccineCode?.text,
     date: vaccine.occurrenceDateTime
-      ? formatDateLong(vaccine.occurrenceDateTime)
-      : EMPTY_FIELD,
+      ? checkIsYear(vaccine.occurrenceDateTime)
+      : vaccine.occurrenceDateTime,
     location: extractLocation(vaccine),
     manufacturer: vaccine.manufacturer || EMPTY_FIELD,
     reactions: extractReaction(vaccine),
