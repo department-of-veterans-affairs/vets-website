@@ -62,12 +62,14 @@ export const HEALTH_TOOL_LINKS = freeze({
   ]),
   PAYMENTS: freeze([
     {
-      href: 'https://dvagov-btsss.dynamics365portals.us/signin',
-      text: 'File a claim for travel reimbursement',
-    },
-    {
       href: '/manage-va-debt/summary/copay-balances',
       text: 'Pay copay bills',
+    },
+    {
+      href: 'https://dvagov-btsss.dynamics365portals.us/signin',
+      text:
+        'File a claim for travel reimbursement on the Beneficiary Travel Self-Service System website',
+      isExternal: true,
     },
   ]),
   MEDICAL_SUPPLIES: freeze([
