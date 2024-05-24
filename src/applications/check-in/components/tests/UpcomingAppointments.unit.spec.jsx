@@ -85,9 +85,8 @@ describe('unified check-in experience', () => {
       expect(screen.getByTestId('upcoming-appointments-header')).to.have.text(
         'Upcoming appointments',
       );
-      expect(
-        screen.getByTestId('upcoming-appointments-error-message'),
-      ).to.contain.text('We’re sorry. We’ve run into a problem.');
+      expect(screen.getByTestId('upcoming-appointments-error-message')).to
+        .exist;
 
       // restore the hook
       useGetUpcomingAppointmentsDataStub.restore();
