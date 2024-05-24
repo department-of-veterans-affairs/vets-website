@@ -17,6 +17,15 @@ export const dateFormat = (timestamp, format = null) => {
 };
 
 /**
+ * @param {*} datetime (2017-08-02T09:50:57-04:00)
+ * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
+ */
+export const dateFormatWithoutTimezone = datetime => {
+  const withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+  return moment(withoutTimezone).format('MMMM D, YYYY, h:mm a');
+};
+
+/**
  * @param {Object} nameObject {first, middle, last, suffix}
  * @returns {String} formatted timestamp
  */
