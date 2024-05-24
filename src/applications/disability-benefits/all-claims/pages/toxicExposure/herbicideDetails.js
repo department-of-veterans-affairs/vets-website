@@ -4,34 +4,34 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { formTitle } from '../../utils';
 import {
+  dateRangeAdditionalInfo,
   dateRangePageDescription,
   endDateApproximate,
   getKeyIndex,
   getSelectedCount,
-  dateRangeAdditionalInfo,
-  startDateApproximate,
-  gulfWar2001PageTitle,
+  herbicidePageTitle,
   showCheckboxLoopDetailsPage,
+  startDateApproximate,
   teSubtitle,
 } from '../../content/toxicExposure';
-import { GULF_WAR_2001_LOCATIONS, TE_URL_PREFIX } from '../../constants';
+import { HERBICIDE_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 
 /**
- * Make the uiSchema for each gulf war 2001 details page
+ * Make the uiSchema for each herbicide details page
  * @param {string} locationId - unique id for the location
  * @returns {object} uiSchema object
  */
 function makeUiSchema(locationId) {
   return {
-    'ui:title': formTitle(gulfWar2001PageTitle),
+    'ui:title': formTitle(herbicidePageTitle),
     'ui:description': ({ formData }) =>
       dateRangePageDescription(
-        getKeyIndex(locationId, 'gulfWar2001', formData),
-        getSelectedCount('gulfWar2001', formData),
-        GULF_WAR_2001_LOCATIONS[locationId],
+        getKeyIndex(locationId, 'herbicide', formData),
+        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+        HERBICIDE_LOCATIONS[locationId],
       ),
     toxicExposure: {
-      gulfWar2001Details: {
+      herbicideDetails: {
         [locationId]: {
           startDate: currentOrPastDateUI({
             title: startDateApproximate,
@@ -41,7 +41,7 @@ function makeUiSchema(locationId) {
           }),
         },
       },
-      'view:gulfWar2001AdditionalInfo': {
+      'view:herbicideAdditionalInfo': {
         'ui:description': dateRangeAdditionalInfo,
       },
     },
@@ -49,7 +49,7 @@ function makeUiSchema(locationId) {
 }
 
 /**
- * Make the schema for each gulf war 2001 details page
+ * Make the schema for each herbicide details page
  * @param {string} locationId - unique id for the location
  * @returns {object} - schema object
  */
@@ -60,7 +60,7 @@ function makeSchema(locationId) {
       toxicExposure: {
         type: 'object',
         properties: {
-          gulfWar2001Details: {
+          herbicideDetails: {
             type: 'object',
             properties: {
               [locationId]: {
@@ -72,7 +72,7 @@ function makeSchema(locationId) {
               },
             },
           },
-          'view:gulfWar2001AdditionalInfo': {
+          'view:herbicideAdditionalInfo': {
             type: 'object',
             properties: {},
           },
@@ -82,45 +82,31 @@ function makeSchema(locationId) {
   };
 }
 
-/**
- * Make all the page configurations for each Gulf War 2001 details pages. Example
- * {
- *  'gulf-war-2001-location-djibouti': {
- *    title: 'Service post-9/11',
- *    path: 'toxic-exposure/gulf-war-2001-location-djibouti',
- *    uiSchema: [Object],
- *    schema: [Object],
- *    depends: [Function: depends]
- *  },
- *  'gulf-war-2001-location-lebanon': {
- *    ... // continue for the rest of the locations
- *  }
- * }
- *
- * @returns an object with a page object for each details page
- */
 export function makePages() {
-  const gulfWar2001DetailPagesList = Object.keys(GULF_WAR_2001_LOCATIONS)
+  const herbicideLocationPagesList = Object.keys(HERBICIDE_LOCATIONS)
     .filter(locationId => locationId !== 'none')
     .map(locationId => {
-      const pageName = `gulf-war-2001-location-${locationId}`;
-
+      const pageName = `herbicide-location-${locationId}`;
       return {
         [pageName]: {
           title: formData =>
             teSubtitle(
-              getKeyIndex(locationId, 'gulfWar2001', formData),
-              getSelectedCount('gulfWar2001', formData),
-              GULF_WAR_2001_LOCATIONS[locationId],
+              getKeyIndex(locationId, 'herbicide', formData),
+              getSelectedCount(
+                'herbicide',
+                formData,
+                'otherHerbicideLocations',
+              ),
+              HERBICIDE_LOCATIONS[locationId],
             ),
           path: `${TE_URL_PREFIX}/${pageName}`,
           uiSchema: makeUiSchema(locationId),
           schema: makeSchema(locationId),
           depends: formData =>
-            showCheckboxLoopDetailsPage(formData, 'gulfWar2001', locationId),
+            showCheckboxLoopDetailsPage(formData, 'herbicide', locationId),
         },
       };
     });
 
-  return Object.assign({}, ...gulfWar2001DetailPagesList);
+  return Object.assign({}, ...herbicideLocationPagesList);
 }
