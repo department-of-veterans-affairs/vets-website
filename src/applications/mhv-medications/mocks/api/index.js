@@ -21,7 +21,6 @@ const responses = {
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvMedicationsToVaGovRelease: true,
     mhvMedicationsDisplayRefillContent: true,
-    mhvMedicationsCernerFacilityContent: true,
   }),
   // VAMC facility data that apps query for on startup
   'GET /data/cms/vamc-ehr.json': vamcEhr,

@@ -127,7 +127,6 @@
   "mhvMedicalRecordsToVaGovRelease": "mhv_medical_records_to_va_gov_release",
   "mhvMedicationsToVaGovRelease": "mhv_medications_to_va_gov_release",
   "mhvMedicationsDisplayRefillContent": "mhv_medications_display_refill_content",
-  "mhvMedicationsCernerFacilityContent": "mhv_medications_cerner_facility_content",
   "myVaEnableNotificationComponent": "my_va_notification_component",
   "myVaUseExperimental": "my_va_experimental",
   "myVaUseExperimentalFrontend": "my_va_experimental_frontend",
