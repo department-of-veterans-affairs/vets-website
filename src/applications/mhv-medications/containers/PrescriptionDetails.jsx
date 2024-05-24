@@ -82,12 +82,12 @@ const PrescriptionDetails = () => {
     () => {
       if (prescription) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(`${prescription.prescriptionName} | Veterans Affairs`);
+        updatePageTitle(`${prescriptionHeader} | Veterans Affairs`);
       } else {
         window.scrollTo(0, 0);
       }
     },
-    [prescription],
+    [prescription, prescriptionHeader],
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
