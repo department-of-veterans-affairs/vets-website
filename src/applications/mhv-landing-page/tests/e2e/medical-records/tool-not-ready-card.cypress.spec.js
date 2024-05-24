@@ -15,13 +15,9 @@ describe(`${appName} -- transitional Medical records card **enabled**`, () => {
   // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('renders', () => {
     cy.findByRole('heading', { level: 2, name: heading });
-    cy.findByText(/^The new version of this tool isn’t ready yet./)
-      .parent()
-      .within(() => {
-        cy.findByRole('link', {
-          name: 'Go back to the previous version of My HealtheVet',
-        });
-      });
+    cy.findByTestId('mhv-mr-coming-soon-card').within(() => {
+      cy.findByRole('link', { name: /^Go back to the previous version/ });
+    });
   });
 
   it('passes automated accessibility (a11y) checks', () => {
