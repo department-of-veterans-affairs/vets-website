@@ -41,7 +41,7 @@ MedicalExpenseView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Medical expenses and other unreimbursed expenses',
+  title: 'List of medical expenses and other unreimbursed expenses',
   path: 'financial/medical-expenses/add',
   depends: doesHaveMedicalExpenses,
   uiSchema: {
