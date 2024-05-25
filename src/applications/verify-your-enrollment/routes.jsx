@@ -17,16 +17,16 @@ import LoadFail from './components/LoadFail';
 const IsUserLoggedIn = () => {
   const user = useSelector(selectUser);
   const response = useSelector(state => state.personalInfo);
-  const serverError = response?.error?.errors
-    ? response.error.errors[0]
-    : 'server Error';
 
+  const serverError = response?.error?.errors
+    ? response?.error?.errors[0]
+    : response?.error;
   return (
     <RequiredLoginView
       serviceRequired={backendServices.USER_PROFILE}
       user={user}
     >
-      {serverError?.code === '500' ? (
+      {parseInt(serverError?.status, 10) === 500 ? (
         <LoadFail />
       ) : (
         <Switch>

@@ -59,63 +59,33 @@ export const updateVerifications = verifications => ({
   type: UPDATE_VERIFICATIONS,
   payload: verifications,
 });
-
-// export const fetchPersonalInfo = () => {
-//   return async dispatch => {
-//     dispatch({ type: FETCH_PERSONAL_INFO });
-//     return apiRequest(API_URL, {
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     })
-//       .then(response => {
-//         dispatch({
-//           type: FETCH_PERSONAL_INFO_SUCCESS,
-//           response,
-//         });
-//       })
-//       .catch(errors => {
-//         dispatch({
-//           type: FETCH_PERSONAL_INFO_FAILED,
-//           errors,
-//         });
-//       });
-//   };
-// };
-export const fetchPersonalInfo = () => {
-  return async dispatch => {
-    dispatch({ type: FETCH_PERSONAL_INFO });
-    try {
-      const response = await fetch(API_URL, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        console.log(`HTTP error! Status: ${response.status}`)
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      dispatch({
-        type: FETCH_PERSONAL_INFO_SUCCESS,
-        response: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: FETCH_PERSONAL_INFO_FAILED,
-        errors: error,
-      });
-    }
-  };
-};
-
 const customHeaders = {
   'Content-Type': 'application/json',
   'X-Key-Inflection': 'camel',
 };
+export const fetchPersonalInfo = () => {
+  return async dispatch => {
+    dispatch({ type: FETCH_PERSONAL_INFO });
+    return apiRequest(API_URL, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => {
+        dispatch({
+          type: FETCH_PERSONAL_INFO_SUCCESS,
+          response,
+        });
+      })
+      .catch(errors => {
+        dispatch({
+          type: FETCH_PERSONAL_INFO_FAILED,
+          errors,
+        });
+      });
+  };
+};
+
 export function postMailingAddress(mailingAddress) {
   return async dispatch => {
     dispatch({ type: UPDATE_ADDRESS });
