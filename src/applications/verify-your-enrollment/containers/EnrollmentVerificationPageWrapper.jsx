@@ -43,19 +43,48 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
 
   useEffect(
     () => {
-      /*
-      make sure the begin date and end date are in the same month,
-      if not then expand the enrollment period for each month
-      between the begin and end dates of the enrollment
-    */
+      const expandAllEnrollments = () => {
+        /*
+          make sure the begin date and end date are in the same month,
+          if not then expand the enrollment period for each month
+          between the begin and end dates of the enrollment
+        */
 
-      const pending = enrollmentData['vye::UserInfo']?.pendingVerifications;
-      const verified = enrollmentData['vye::UserInfo']?.verifications;
-      const expandedPending = [];
-      const expendedVerified = [];
+        const pending = personalInfo?.pendingVerifications;
+        const verified = personalInfo?.verifications;
+        const expandedPending = [];
+        const expendedVerified = [];
 
-      verified.forEach(enrollment => {
-        if (enrollment.actBegin !== null && enrollment.actEnd !== null) {
+        verified.forEach(enrollment => {
+          if (enrollment.actBegin !== null && enrollment.actEnd !== null) {
+            if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)) {
+              const expandedMonths = getDateRangesBetween(
+                enrollment.actBegin,
+                enrollment.actEnd,
+              );
+              expandedMonths.forEach(period => {
+                const [startDate, endDate] = period.split(' - ');
+                expendedVerified.push({
+                  actBegin: startDate,
+                  actEnd: endDate,
+                  paymentDate: enrollment.paymentDate,
+                  transactDate: enrollment.transactDate,
+                  caseTrace: enrollment.caseTrace,
+                  monthlyRate: enrollment.monthlyRate,
+                  numberHours: enrollment.numberHours,
+                  sourceInd: enrollment.sourceInd,
+                  awardId: enrollment.awardId,
+                });
+              });
+            } else {
+              expendedVerified.push({ ...enrollment });
+            }
+          } else {
+            expendedVerified.push({ ...enrollment });
+          }
+        });
+
+        pending.forEach(enrollment => {
           if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)) {
             const expandedMonths = getDateRangesBetween(
               enrollment.actBegin,
@@ -63,7 +92,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
             );
             expandedMonths.forEach(period => {
               const [startDate, endDate] = period.split(' - ');
-              expendedVerified.push({
+              expandedPending.push({
                 actBegin: startDate,
                 actEnd: endDate,
                 paymentDate: enrollment.paymentDate,
@@ -71,51 +100,38 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                 caseTrace: enrollment.caseTrace,
                 monthlyRate: enrollment.monthlyRate,
                 numberHours: enrollment.numberHours,
+                sourceInd: enrollment.sourceInd,
+                awardId: enrollment.awardId,
               });
             });
           } else {
-            expendedVerified.push({ ...enrollment });
-          }
-        } else {
-          expendedVerified.push({ ...enrollment });
-        }
-      });
-
-      pending.forEach(enrollment => {
-        if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)) {
-          const expandedMonths = getDateRangesBetween(
-            enrollment.actBegin,
-            enrollment.actEnd,
-          );
-          expandedMonths.forEach(period => {
-            const [startDate, endDate] = period.split(' - ');
             expandedPending.push({
-              actBegin: startDate,
-              actEnd: endDate,
+              actBegin: enrollment.actBegin,
+              actEnd: enrollment.actEnd,
+              paymentDate: enrollment.paymentDate,
+              transactDate: enrollment.transactDate,
+              caseTrace: enrollment.caseTrace,
               monthlyRate: enrollment.monthlyRate,
               numberHours: enrollment.numberHours,
+              sourceInd: enrollment.sourceInd,
+              awardId: enrollment.awardId,
             });
-          });
-        } else {
-          expandedPending.push({
-            actBegin: enrollment.actBegin,
-            actEnd: enrollment.actEnd,
-            monthlyRate: enrollment.monthlyRate,
-            numberHours: enrollment.numberHours,
-          });
-        }
-      });
+          }
+        });
 
-      const tempEnrollments = {
-        ...enrollmentData,
-        'vye::UserInfo': {
-          ...enrollmentData['vye::UserInfo'],
-          pendingVerifications: expandedPending,
-          verifications: expendedVerified,
-        },
+        const tempEnrollments = {
+          ...personalInfo,
+          'vye::UserInfo': {
+            ...personalInfo,
+            pendingVerifications: expandedPending,
+            verifications: expendedVerified,
+          },
+        };
+        /* eslint-disable no-unused-expressions */
+        setExpandedEnrollmentData(tempEnrollments);
       };
 
-      setExpandedEnrollmentData(tempEnrollments);
+      personalInfo && expandAllEnrollments();
     },
     [enrollmentData],
   );

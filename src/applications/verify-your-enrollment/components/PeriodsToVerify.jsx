@@ -8,13 +8,14 @@ import Alert from './Alert';
 
 const PeriodsToVerify = ({
   enrollmentData,
-  loggedInEnenrollmentData,
-  isUserLoggedIn,
+  // loggedInEnenrollmentData,
+  // isUserLoggedIn,
   link,
   toggleEnrollmentSuccess,
   verifyEnrollment,
 }) => {
-  const userData = isUserLoggedIn ? loggedInEnenrollmentData : enrollmentData;
+  // const userData = isUserLoggedIn ? loggedInEnenrollmentData : enrollmentData;
+  const userData = enrollmentData;
   const [userEnrollmentData, setUserEnrollmentData] = useState(userData);
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const justVerified = !!toggleEnrollmentSuccess;
