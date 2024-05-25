@@ -48,6 +48,7 @@ const VerificationReviewWrapper = ({
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
+  const [originalPeriodsToVerify, setOriginalPeriodsToVerify] = useState([]);
 
   const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
   const history = useHistory();
@@ -66,7 +67,7 @@ const VerificationReviewWrapper = ({
     const currentDateTime = toLocalISOString(new Date());
     // update pendingVerifications to a blank array
     dispatchUpdatePendingVerifications([]);
-    const newVerifiedEnrollments = enrollmentPeriodsToVerify.map(period => {
+    const newVerifiedEnrollments = originalPeriodsToVerify.map(period => {
       return {
         ...period,
         transactDate: currentDateTime,
@@ -76,6 +77,7 @@ const VerificationReviewWrapper = ({
     const awardIds = newVerifiedEnrollments.map(
       enrollment => enrollment.awardId,
     );
+
     dispatchVerifyEnrollmentAction(awardIds);
   };
 
@@ -89,7 +91,7 @@ const VerificationReviewWrapper = ({
     () => {
       if (enrollmentData?.['vye::UserInfo']?.pendingVerifications) {
         const { pendingVerifications } = enrollmentData?.['vye::UserInfo'];
-
+        setOriginalPeriodsToVerify(pendingVerifications);
         const expandedPendingEnrollments = [];
         pendingVerifications.forEach(enrollment => {
           if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)) {
