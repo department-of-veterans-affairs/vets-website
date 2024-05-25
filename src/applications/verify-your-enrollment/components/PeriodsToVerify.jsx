@@ -66,11 +66,7 @@ const PeriodsToVerify = ({
             </div>
           </va-alert>
         )}
-        {/* 
-                will need to update logic here/ currently this would not work in prod
-                as it would always show the verified success statement if there are no pending
-                enrollments even if the user didn't just verify
-            */}
+
         {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.length ===
           0 &&
           justVerified && (

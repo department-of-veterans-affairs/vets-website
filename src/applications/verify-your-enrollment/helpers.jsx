@@ -103,7 +103,6 @@ export const translateDatePeriod = (startDateString, endDateString) => {
     const year = date.getUTCFullYear();
     return `${month}/${day}/${year}`;
   }
-
   // Format both dates and concatenate them
   return `${date1 === dateUnavailable ? date1 : formatDate(date1)} - ${
     date2 === dateUnavailable ? date2 : formatDate(date2)
@@ -172,7 +171,83 @@ export const remainingBenefits = remEnt => {
   return { month, day };
 };
 
+export const isSameMonth = (date1, date2) => {
+  const [year1, month1] = date1.split('-').map(str => parseInt(str, 10));
+  const [year2, month2] = date2.split('-').map(str => parseInt(str, 10));
+
+  return month1 === month2 && year1 === year2;
+};
+
+const getEndOfMonth = (year, month) => {
+  return new Date(year, month, 0).getDate(); // Last day of the month
+};
+
+export const getDateRangesBetween = (date1, date2) => {
+  const [year1, month1] = date1.split('-').map(str => parseInt(str, 10));
+  const [year2, month2] = date2.split('-').map(str => parseInt(str, 10));
+
+  const ranges = [];
+
+  // Range for the first month
+  const endOfMonth1 = getEndOfMonth(year1, month1);
+  ranges.push(
+    `${date1} - ${year1}-${String(month1).padStart(2, '0')}-${endOfMonth1}`,
+  );
+
+  // Add ranges for full months in between
+  let currentYear = year1;
+  let currentMonth = month1 + 1;
+  while (
+    currentYear < year2 ||
+    (currentYear === year2 && currentMonth < month2)
+  ) {
+    const endOfMonth = getEndOfMonth(currentYear, currentMonth);
+    ranges.push(
+      `${currentYear}-${String(currentMonth).padStart(
+        2,
+        '0',
+      )}-01 - ${currentYear}-${String(currentMonth).padStart(
+        2,
+        '0',
+      )}-${endOfMonth}`,
+    );
+
+    if (currentMonth === 12) {
+      currentMonth = 1;
+      currentYear++;
+    } else {
+      currentMonth++;
+    }
+  }
+
+  // Range for the last month
+  ranges.push(`${year2}-${String(month2).padStart(2, '0')}-01 - ${date2}`);
+
+  return ranges;
+};
 export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
+  // const expandedPendingEnrollments = []
+  // pendingEnrollments.forEach(enrollment =>{
+  //   if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)){
+  //     const expandedMonths = getDateRangesBetween(enrollment.actBegin, enrollment.actEnd)
+  //     expandedMonths.forEach(period=>{
+  //       const [startDate, endDate] = period.split(' - ');
+  //       expandedPendingEnrollments.push({
+  //         actBegin: startDate,
+  //         actEnd: endDate,
+  //         monthlyRate: enrollment.monthlyRate,
+  //         numberHours: enrollment.numberHours,
+  //     })
+  //     })
+  //   }else{
+  //     expandedPendingEnrollments.push({
+  //         actBegin: enrollment.actBegin,
+  //         actEnd: enrollment.actEnd,
+  //         monthlyRate: enrollment.monthlyRate,
+  //         numberHours: enrollment.numberHours,
+  //     })
+  //   }
+  // })
   return pendingEnrollments
     .map(enrollmentToBeVerified => {
       const {
@@ -438,7 +513,7 @@ export const getSignlePreviousEnrollments = awards => {
                   : awards.numberHours}
               </p>
               <p>
-                <span className="vads-u-font-weight--bold">Monthly rate:</span>{' '}
+                <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
                 {awards.monthlyRate === null
                   ? 'Data unavailable'
                   : formatCurrency(awards.monthlyRate)}
@@ -484,7 +559,7 @@ export const getSignlePreviousEnrollments = awards => {
                   : awards.numberHours}
               </p>
               <p>
-                <span className="vads-u-font-weight--bold">Monthly rate:</span>{' '}
+                <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
                 {awards.monthlyRate === null
                   ? 'Data unavailable'
                   : formatCurrency(awards.monthlyRate)}

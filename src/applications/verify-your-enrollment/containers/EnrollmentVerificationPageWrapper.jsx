@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getToggleEnrollmentSuccess } from '../selectors/getToggleEnrollmentSuccess';
@@ -21,12 +21,13 @@ import MoreInfoCard from '../components/MoreInfoCard';
 import NeedHelp from '../components/NeedHelp';
 import Loader from '../components/Loader';
 import PeriodsToVerify from '../components/PeriodsToVerify';
+import { isSameMonth, getDateRangesBetween } from '../helpers';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
   const mockData = useSelector(getMockData);
   const {
-    personalInfo,
+    // personalInfo,
     expirationDate,
     updated,
     month,
@@ -34,9 +35,91 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
     loading,
     isUserLoggedIn,
   } = useData();
-
+  const response = useSelector(state => state.personalInfo);
+  const personalInfo = response?.personalInfo?.['vye::UserInfo'];
   const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
   const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
+  const [expandedEnrollmentData, setExpandedEnrollmentData] = useState([]);
+
+  useEffect(
+    () => {
+      /*
+      make sure the begin date and end date are in the same month,
+      if not then expand the enrollment period for each month
+      between the begin and end dates of the enrollment
+    */
+
+      const pending = enrollmentData['vye::UserInfo']?.pendingVerifications;
+      const verified = enrollmentData['vye::UserInfo']?.verifications;
+      const expandedPending = [];
+      const expendedVerified = [];
+
+      verified.forEach(enrollment => {
+        if (enrollment.actBegin !== null && enrollment.actEnd !== null) {
+          if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)) {
+            const expandedMonths = getDateRangesBetween(
+              enrollment.actBegin,
+              enrollment.actEnd,
+            );
+            expandedMonths.forEach(period => {
+              const [startDate, endDate] = period.split(' - ');
+              expendedVerified.push({
+                actBegin: startDate,
+                actEnd: endDate,
+                paymentDate: enrollment.paymentDate,
+                transactDate: enrollment.transactDate,
+                caseTrace: enrollment.caseTrace,
+                monthlyRate: enrollment.monthlyRate,
+                numberHours: enrollment.numberHours,
+              });
+            });
+          } else {
+            expendedVerified.push({ ...enrollment });
+          }
+        } else {
+          expendedVerified.push({ ...enrollment });
+        }
+      });
+
+      pending.forEach(enrollment => {
+        if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)) {
+          const expandedMonths = getDateRangesBetween(
+            enrollment.actBegin,
+            enrollment.actEnd,
+          );
+          expandedMonths.forEach(period => {
+            const [startDate, endDate] = period.split(' - ');
+            expandedPending.push({
+              actBegin: startDate,
+              actEnd: endDate,
+              monthlyRate: enrollment.monthlyRate,
+              numberHours: enrollment.numberHours,
+            });
+          });
+        } else {
+          expandedPending.push({
+            actBegin: enrollment.actBegin,
+            actEnd: enrollment.actEnd,
+            monthlyRate: enrollment.monthlyRate,
+            numberHours: enrollment.numberHours,
+          });
+        }
+      });
+
+      const tempEnrollments = {
+        ...enrollmentData,
+        'vye::UserInfo': {
+          ...enrollmentData['vye::UserInfo'],
+          pendingVerifications: expandedPending,
+          verifications: expendedVerified,
+        },
+      };
+
+      setExpandedEnrollmentData(tempEnrollments);
+    },
+    [enrollmentData],
+  );
+
   return (
     <>
       <div name="topScrollElement" />
@@ -54,7 +137,8 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
             ) : (
               <>
                 <PeriodsToVerify
-                  enrollmentData={enrollmentData}
+                  enrollmentData={expandedEnrollmentData}
+                  // enrollmentData={enrollmentData}
                   isUserLoggedIn={isUserLoggedIn}
                   link={() => (
                     <PageLink
@@ -83,7 +167,10 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                 />
               </>
             )}
-            <PreviousEnrollmentVerifications enrollmentData={enrollmentData} />
+            <PreviousEnrollmentVerifications
+              enrollmentData={expandedEnrollmentData}
+              // enrollmentData={enrollmentData}
+            />
             <MoreInfoCard
               marginTop="7"
               linkText="Manage your Montgomery GI Bill benefits information"

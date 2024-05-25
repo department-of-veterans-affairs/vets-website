@@ -22,7 +22,11 @@ import {
   verifyEnrollmentAction,
   // updateVerificationsData,
 } from '../actions';
-import { toLocalISOString } from '../helpers';
+import {
+  toLocalISOString,
+  isSameMonth,
+  getDateRangesBetween,
+} from '../helpers';
 
 const VerificationReviewWrapper = ({
   children,
@@ -85,7 +89,35 @@ const VerificationReviewWrapper = ({
     () => {
       if (enrollmentData?.['vye::UserInfo']?.pendingVerifications) {
         const { pendingVerifications } = enrollmentData?.['vye::UserInfo'];
-        setEnrollmentPeriodsToVerify(pendingVerifications);
+
+        const expandedPendingEnrollments = [];
+        pendingVerifications.forEach(enrollment => {
+          if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)) {
+            const expandedMonths = getDateRangesBetween(
+              enrollment.actBegin,
+              enrollment.actEnd,
+            );
+            expandedMonths.forEach(period => {
+              const [startDate, endDate] = period.split(' - ');
+              expandedPendingEnrollments.push({
+                actBegin: startDate,
+                actEnd: endDate,
+                monthlyRate: enrollment.monthlyRate,
+                numberHours: enrollment.numberHours,
+              });
+            });
+          } else {
+            expandedPendingEnrollments.push({
+              actBegin: enrollment.actBegin,
+              actEnd: enrollment.actEnd,
+              monthlyRate: enrollment.monthlyRate,
+              numberHours: enrollment.numberHours,
+            });
+          }
+        });
+
+        setEnrollmentPeriodsToVerify(expandedPendingEnrollments);
+        // setEnrollmentPeriodsToVerify(pendingVerifications);
       }
     },
     [enrollmentData],
