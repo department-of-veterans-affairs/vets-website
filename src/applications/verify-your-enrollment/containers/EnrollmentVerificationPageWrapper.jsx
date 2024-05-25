@@ -39,7 +39,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
   const personalInfo = response?.personalInfo?.['vye::UserInfo'];
   const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
   const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
-  const [expandedEnrollmentData, setExpandedEnrollmentData] = useState([]);
+  const [expandedEnrollmentData, setExpandedEnrollmentData] = useState({});
 
   useEffect(
     () => {
