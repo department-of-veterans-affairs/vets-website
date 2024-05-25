@@ -29,6 +29,7 @@ const VerificationReviewWrapper = ({
   dispatchUpdateToggleEnrollmentSuccess,
   dispatchUpdatePendingVerifications,
   dispatchVerifyEnrollmentAction,
+  verifyEnrollment,
 }) => {
   useScrollToTop();
   const location = useLocation();
@@ -38,7 +39,7 @@ const VerificationReviewWrapper = ({
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
-
+  const { error } = verifyEnrollment;
   const enrollmentData = personalInfo;
   const history = useHistory();
   const handleBackClick = () => {
@@ -71,7 +72,9 @@ const VerificationReviewWrapper = ({
 
   const handleSubmission = () => {
     handleVerification();
-    dispatchUpdateToggleEnrollmentSuccess(true);
+    if (!error) {
+      dispatchUpdateToggleEnrollmentSuccess(true);
+    }
     history.push(VERIFICATION_RELATIVE_URL);
   };
 
@@ -171,7 +174,7 @@ const VerificationReviewWrapper = ({
 };
 
 const mapStateToProps = state => ({
-  mockData: state.mockData.mockData,
+  verifyEnrollment: state.verifyEnrollment,
 });
 
 const mapDispatchToProps = {
@@ -190,6 +193,7 @@ VerificationReviewWrapper.propTypes = {
   link: PropTypes.func,
   loggedIEnenrollmentData: PropTypes.object,
   mockData: PropTypes.object,
+  verifyEnrollment: PropTypes.object,
 };
 export default connect(
   mapStateToProps,
