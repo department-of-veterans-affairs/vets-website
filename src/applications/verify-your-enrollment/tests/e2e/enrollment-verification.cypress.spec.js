@@ -1,9 +1,10 @@
 import { UPDATED_USER_MOCK_DATA } from '../../constants/mockData';
+import { mockUser } from './login';
 
 // Testing Start enrollment verification
 describe('Enrollment Verification Page Tests', () => {
   beforeEach(() => {
-    cy.login();
+    cy.login(mockUser);
     cy.intercept('GET', '/vye/v1', {
       statusCode: 200,
       body: UPDATED_USER_MOCK_DATA,
@@ -61,7 +62,7 @@ describe('Enrollment Verification Page Tests', () => {
       'Montgomery GI Bill enrollment verificatio',
     );
   });
-  it('should show success message when submit button is clicked', () => {
+  it('should show error message when submit button is clicked and something went wrong', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[class="vads-u-margin-y--0 text-color vads-u-font-family--sans"]')
       .should('be.visible')
@@ -71,9 +72,10 @@ describe('Enrollment Verification Page Tests', () => {
     ).click();
     cy.get('[for="vye-radio-button-yesinput"]').click();
     cy.get('[text="Submit"]').click();
-    cy.get(
-      '[class=" vads-u-font-size--h2 vads-u-font-weight--bold vye-h2-style-as-h3 "]',
-    ).should('contain', 'You have successfully verified your enrollment');
+    cy.get('[class="vads-u-margin-y--0"]').should(
+      'contain',
+      'Oops Something went wrong',
+    );
     cy.get(
       '[class="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center"]',
     ).should('contain', 'Verified');

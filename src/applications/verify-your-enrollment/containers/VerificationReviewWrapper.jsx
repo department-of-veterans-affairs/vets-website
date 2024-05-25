@@ -26,26 +26,20 @@ import { toLocalISOString } from '../helpers';
 
 const VerificationReviewWrapper = ({
   children,
-  mockData,
-  // loggedIEnenrollmentData,
   dispatchUpdateToggleEnrollmentSuccess,
   dispatchUpdatePendingVerifications,
-  // dispatchUpdateVerifications,
   dispatchVerifyEnrollmentAction,
-  // dispatchUpdateVerificationsData,
-  // isUserLoggedIn,
-  // dispatchupdateToggleEnrollmentCard,
 }) => {
   useScrollToTop();
   const location = useLocation();
   const [radioValue, setRadioValue] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
-  const { loading, personalInfo, isUserLoggedIn } = useData();
+  const { loading, personalInfo } = useData();
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
 
-  const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
+  const enrollmentData = personalInfo;
   const history = useHistory();
   const handleBackClick = () => {
     history.push(VERIFICATION_RELATIVE_URL);
@@ -193,7 +187,6 @@ VerificationReviewWrapper.propTypes = {
   dispatchUpdateToggleEnrollmentSuccess: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,
   dispatchVerifyEnrollmentAction: PropTypes.func,
-  isUserLoggedIn: PropTypes.bool,
   link: PropTypes.func,
   loggedIEnenrollmentData: PropTypes.object,
   mockData: PropTypes.object,

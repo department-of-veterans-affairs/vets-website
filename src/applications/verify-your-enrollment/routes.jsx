@@ -12,33 +12,43 @@ import {
 import EnrollmentVerificationPageWrapper from './containers/EnrollmentVerificationPageWrapper';
 import BenefitsProfileWrapper from './containers/BenefitsProfilePageWrapper';
 import VerificationReviewWrapper from './containers/VerificationReviewWrapper';
+import LoadFail from './components/LoadFail';
 
 const IsUserLoggedIn = () => {
   const user = useSelector(selectUser);
+  const response = useSelector(state => state.personalInfo);
+  const serverError = response?.error?.errors
+    ? response.error.errors[0]
+    : 'server Error';
+
   return (
     <RequiredLoginView
       serviceRequired={backendServices.USER_PROFILE}
       user={user}
     >
-      <Switch>
-        <Route exact key="EnrollmentVerificationPage" path="/">
-          <EnrollmentVerificationPageWrapper />
-        </Route>
-        <Route
-          exact
-          key="BenefitsProfilePage"
-          path={`${BENEFITS_PROFILE_RELATIVE_URL}`}
-        >
-          <BenefitsProfileWrapper />
-        </Route>
-        <Route
-          exact
-          key="VerificationReview"
-          path={`${VERIFICATION_REVIEW_RELATIVE_URL}`}
-        >
-          <VerificationReviewWrapper />
-        </Route>
-      </Switch>
+      {serverError?.code === '500' ? (
+        <LoadFail />
+      ) : (
+        <Switch>
+          <Route exact key="EnrollmentVerificationPage" path="/">
+            <EnrollmentVerificationPageWrapper />
+          </Route>
+          <Route
+            exact
+            key="BenefitsProfilePage"
+            path={`${BENEFITS_PROFILE_RELATIVE_URL}`}
+          >
+            <BenefitsProfileWrapper />
+          </Route>
+          <Route
+            exact
+            key="VerificationReview"
+            path={`${VERIFICATION_REVIEW_RELATIVE_URL}`}
+          >
+            <VerificationReviewWrapper />
+          </Route>
+        </Switch>
+      )}
     </RequiredLoginView>
   );
 };

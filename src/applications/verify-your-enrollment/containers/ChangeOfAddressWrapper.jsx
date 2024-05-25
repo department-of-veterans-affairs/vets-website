@@ -207,6 +207,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     setEditFormData({});
     dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
     handleCloseForm();
+    setVeteranName('');
   };
   const onCancleButtonClicked = () => {
     if (
