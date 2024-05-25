@@ -367,10 +367,6 @@ export const GULF_WAR_1990_LOCATIONS = Object.freeze({
   none: 'None of these locations',
 });
 
-// used to save feature flag in form in util function for 'depends' keyword of form config
-export const SHOW_REVISED_ADD_DISABILITIES_PAGE =
-  'showRevisedNewDisabilitiesPage';
-
 export const GULF_WAR_2001_LOCATIONS = Object.freeze({
   djibouti: 'Djibouti',
   lebanon: 'Lebanon',
@@ -379,3 +375,20 @@ export const GULF_WAR_2001_LOCATIONS = Object.freeze({
   airspace: 'The airspace above any of these locations',
   none: 'None of these locations',
 });
+
+export const HERBICIDE_LOCATIONS = Object.freeze({
+  cambodia: 'Cambodia at Mimot or Krek, Kampong Cham Province',
+  guam: 'Guam, American Samoa, or their territorial waters',
+  koreandemilitarizedzone: 'In or near the Korean demilitarized zone',
+  johnston: 'Johnston Atoll or on a ship that called at Johnston Atoll',
+  laos: 'Laos',
+  c123:
+    'Somewhere you had contact with C-123 airplanes while serving in the Air Force or the Air Force Reserves',
+  thailand: 'A U.S. or Royal Thai military base in Thailand',
+  vietnam: 'Vietnam or the waters in or off of Vietnam',
+  none: 'None of these locations',
+});
+
+// used to save feature flag in form in util function for 'depends' keyword of form config
+export const SHOW_REVISED_ADD_DISABILITIES_PAGE =
+  'showRevisedNewDisabilitiesPage';

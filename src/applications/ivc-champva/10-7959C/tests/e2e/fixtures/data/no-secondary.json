@@ -35,7 +35,6 @@
       "primaryMedigapPlan": "medigapPlanA",
       "primaryAdditionalComments": "Additional primary comment",
       "applicantHasSecondary": false,
-      "certifierRole": "applicant",
       "consentToMailMissingRequiredFiles": true,
       "statementOfTruthCertified": true,
       "statementOfTruthSignature": "Jimmy Alvin"

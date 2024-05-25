@@ -41,13 +41,10 @@
     "applicantSsn": "333221111",
     "applicantName": {
       "first": "Applicant",
-      "middle": "Jerry",
       "last": "Jones",
       "suffix": "Sr."
     },
     "applicantDOB": "1950-02-03",
-    "certifierRole": "applicant",
-    "preparerType": "sponsor",
     "missingUploads": [
       {
         "name": "primaryInsuranceCard",
@@ -63,7 +60,7 @@
       }
     ],
     "consentToMailMissingRequiredFiles": true,
-    "statementOfTruthSignature": "Applicant Jerry Jones",
+    "statementOfTruthSignature": "Applicant Jones",
     "statementOfTruthCertified": true
   }
 }
