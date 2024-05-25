@@ -5,11 +5,12 @@ import fullSchema1995 from 'vets-json-schema/dist/22-1995-schema.json';
 import { showSchoolAddress } from '../../utils/helpers';
 import educationTypeUpdateUISchema from '../../definitions/educationTypeUpdate';
 
-const { educationObjective, nonVaAssistance } = fullSchema1995.properties;
+const { educationObjective } = fullSchema1995.properties;
 
 const { educationTypeUpdate } = fullSchema1995.definitions;
 
 export const uiSchema = {
+  'ui:title': 'School or training facility you want to attend',
   // Broken up because we need to fit educationTypeUpdate between name and address
   // Put back together again in transform()
   newSchoolName: {
@@ -42,6 +43,5 @@ export const schema = {
     educationTypeUpdate,
     newSchoolAddress: address.schema(fullSchema1995),
     educationObjective,
-    nonVaAssistance,
   },
 };

@@ -20,6 +20,7 @@ import {
   specializedMissionDefinitions,
   sortedSpecializedMissionDefinitions,
   validateSearchTerm,
+  isShowVetTec,
 } from '../../utils/helpers';
 import { showModal, filterChange, setError } from '../../actions';
 import {
@@ -32,6 +33,33 @@ import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 import VaAccordionGi from '../../components/VaAccordionGi';
 // import { useFilterBtn } from '../../hooks/useFilterbtn';
+
+const etTecOJTOptions = (employers, vettec, automatedTest = false) => {
+  if (isShowVetTec(automatedTest)) {
+    return [
+      {
+        name: 'employers',
+        dataTestId: 'employers',
+        checked: employers,
+        optionLabel: 'On-the-job training and apprenticeships',
+      },
+      {
+        name: 'vettec',
+        dataTestId: 'vettec',
+        checked: vettec,
+        optionLabel: 'VET TEC providers',
+      },
+    ];
+  }
+  return [
+    {
+      name: 'employers',
+      dataTestId: 'employers',
+      checked: employers,
+      optionLabel: 'On-the-job training and apprenticeships',
+    },
+  ];
+};
 
 export function FilterBeforeResults({
   dispatchFilterChange,
@@ -303,21 +331,9 @@ export function FilterBeforeResults({
       />
     );
   };
+
   const vetTecOJT = () => {
-    const options = [
-      {
-        name: 'employers',
-        dataTestId: 'employers',
-        checked: employers,
-        optionLabel: 'On-the-job training and apprenticeships',
-      },
-      {
-        name: 'vettec',
-        dataTestId: 'vettec',
-        checked: vettec,
-        optionLabel: 'VET TEC providers',
-      },
-    ];
+    const options = etTecOJTOptions(employers, vettec);
     return (
       <CheckboxGroup
         className={isProductionOrTestProdEnv() ? 'other-checkbox' : ''}
