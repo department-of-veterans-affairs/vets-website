@@ -4,7 +4,7 @@ import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
 
 describe(manifest.appName, () => {
-  describe('the dot', () => {
+  describe('unread messages indicator', () => {
     beforeEach(() => {
       ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
     });

@@ -1,15 +1,5 @@
 const { entries, freeze, values } = Object;
 
-// Please, keep these feature toggle settings up-to-date with production's feature toggles settings.
-const APPLICATION_FEATURE_TOGGLES = freeze({
-  mhvLandingPageEnabled: true,
-  mhvLandingPagePersonalization: false,
-  mhvSecondaryNavigationEnabled: false,
-  mhvLandingPageEnableVaGovHealthToolsLinks: false,
-  mhvTransitionalMedicalRecordsLandingPage: false,
-  mhvHelpdeskInformationEnabled: false,
-});
-
 const HEALTH_TOOL_HEADINGS = freeze({
   APPOINTMENTS: 'Appointments',
   MESSAGES: 'Messages',
@@ -104,7 +94,6 @@ const HEALTH_TOOLS = entries(HEALTH_TOOL_HEADINGS).map(([key, name]) => ({
 }));
 
 module.exports = {
-  APPLICATION_FEATURE_TOGGLES,
   HEALTH_TOOL_HEADINGS,
   HEALTH_TOOL_NAMES,
   HEALTH_TOOL_LINKS,

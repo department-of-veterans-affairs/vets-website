@@ -11,13 +11,13 @@ const verifyIdentityHeading =
   'Verify your identity to use your ID.me account on My HealtheVet';
 
 describe(appName, () => {
-  describe('Display content based on account verification', () => {
+  describe('Display content based on identity verification', () => {
     viewportSizes.forEach(size => {
       beforeEach(() => {
         ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       });
 
-      it(`Shows unverified identity message for unverified patients on ${size} screen`, () => {
+      it(`Shows unverified identity message on ${size} screen`, () => {
         cy.viewportPreset(size);
         const pageLinks = resolveLandingPageLinks(
           false,
@@ -49,7 +49,7 @@ describe(appName, () => {
           .exist;
       });
 
-      it(`landing page is enabled for registered and verified patients on ${size} screen`, () => {
+      it(`Shows landing page on ${size} screen`, () => {
         cy.viewportPreset(size);
         const pageLinks = resolveLandingPageLinks(
           false,

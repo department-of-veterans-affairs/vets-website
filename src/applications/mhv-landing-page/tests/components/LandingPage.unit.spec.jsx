@@ -51,7 +51,7 @@ describe('LandingPage component', () => {
     getByRole('heading', { level: 2, name: /Welcome/ });
   });
 
-  it('shows an alert when user has is unregistered', () => {
+  it('shows an alert when user is unregistered', () => {
     const initialState = stateFn({ vaPatient: false });
     const { getByText } = setup({ initialState });
     getByText('You don’t have access to My HealtheVet');
