@@ -123,7 +123,7 @@ const {
 /** @type {FormConfig} */
 const formConfig = {
   dev: {
-    showNavLinks: false,
+    showNavLinks: true,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
