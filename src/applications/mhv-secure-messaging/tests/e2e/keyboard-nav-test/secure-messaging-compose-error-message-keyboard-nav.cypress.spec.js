@@ -4,13 +4,12 @@ import PatientComposePage from '../pages/PatientComposePage';
 import { AXE_CONTEXT, Data } from '../utils/constants';
 
 describe('Secure Messaging Compose Errors Keyboard Nav', () => {
-  const landingPage = new PatientInboxPage();
   // const composePage = new PatientComposePage();
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
   });
 
   it('focus on error message for no provider', () => {

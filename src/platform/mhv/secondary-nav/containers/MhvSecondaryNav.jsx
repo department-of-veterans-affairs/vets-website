@@ -44,7 +44,8 @@ export const mhvSecNavItems = [
     abbreviation: 'Meds',
     actionName: `${actionPrefix} - Medications`,
     icon: 'medication',
-    href: `/my-health/medications`,
+    href: '/my-health/medications/about',
+    appRootUrl: '/my-health/medications',
   },
 ];
 

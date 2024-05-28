@@ -6,7 +6,7 @@ import Alert from '../../../components/shared/Alert';
 
 describe('Alert', () => {
   const setup = (
-    isAlertVisible = 'true',
+    isAlertVisible = true,
     paginatedPrescriptionsList = undefined,
   ) => {
     return render(

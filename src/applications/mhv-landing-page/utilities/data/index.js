@@ -29,7 +29,6 @@ const resolveUnreadMessageAriaLabel = unreadMessageCount => {
 const resolveLandingPageLinks = (
   authdWithSSOe = false,
   featureToggles,
-  unreadMessageCount,
   unreadMessageAriaLabel,
   userHasHealthData = false,
 ) => {

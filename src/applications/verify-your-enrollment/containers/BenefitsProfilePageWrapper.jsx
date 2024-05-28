@@ -13,7 +13,6 @@ import {
   VERIFICATION_PROFILE_URL,
 } from '../constants';
 import { useData } from '../hooks/useData';
-import { useScrollToTop } from '../hooks/useScrollToTop';
 import CurrentBenefitsStatus from '../components/CurrentBenefitsStatus';
 import MoreInfoCard from '../components/MoreInfoCard';
 import NeedHelp from '../components/NeedHelp';
@@ -21,7 +20,6 @@ import Loader from '../components/Loader';
 import LoginAlert from '../components/LoginAlert';
 
 const BenefitsProfileWrapper = ({ children }) => {
-  useScrollToTop();
   const {
     loading,
     expirationDate,
@@ -61,10 +59,9 @@ const BenefitsProfileWrapper = ({ children }) => {
   }, []);
 
   const { signIn } = userData;
-
   return (
     <>
-      <div name="topScrollElement" />
+      <div />
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
           <div className="vads-l-col--12">
@@ -115,11 +112,11 @@ const BenefitsProfileWrapper = ({ children }) => {
             {children}
             <MoreInfoCard
               marginTop="7"
-              linkText="Montgomery GI Bill Enrollment Verification"
+              linkText="Verify your school enrollment"
               relativeURL={VERIFICATION_RELATIVE_URL}
               URL={VERIFICATION_PROFILE_URL}
               className="vads-u-font-family--sans vads-u-font-weight--bold"
-              linkDescription="Verify your enrollment and view past verifications for the Montgomery GI Bill."
+              linkDescription="If you're using GI Bill benefits, you can verify your enrollment for school or training on VA.gov."
             />
             <NeedHelp />
           </div>
