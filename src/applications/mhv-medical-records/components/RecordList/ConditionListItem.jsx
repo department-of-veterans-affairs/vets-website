@@ -18,8 +18,7 @@ const ConditionListItem = props => {
           data-dd-privacy="mask"
         >
           <span>
-            {record.name.split(' (')[0]}{' '}
-            <span className="sr-only">on {record.date}</span>
+            {record.name} <span className="sr-only">on {record.date}</span>
           </span>
         </Link>
       </h3>
