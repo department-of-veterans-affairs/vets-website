@@ -13,9 +13,12 @@ describe(`${appName} -- transitional Medical records card enabled`, () => {
   });
 
   it('renders', () => {
-    cy.findByRole('heading', { level: 2, name: heading });
-    cy.findByText(/^The new version of this tool isn’t ready yet./);
-    cy.findByRole('link', { name: /^Go back to the previous version/ });
+    cy.findByTestId('mhv-mr-coming-soon-card').within(() => {
+      cy.findByRole('heading', { level: 2, name: heading });
+      cy.findByText(/^The new version of this tool isn’t ready yet./);
+      cy.findByRole('link', { name: /^Go back to the previous version/ });
+    });
+
     cy.injectAxeThenAxeCheck();
   });
 });
