@@ -6,7 +6,7 @@ const caseInsensitiveComparison = (a, b) => {
     : a === b;
 };
 
-const nameToValue = name => {
+const countryNameToValue = name => {
   let countryName = name.trim();
 
   // Convert from DLC APO format.
@@ -20,11 +20,21 @@ const nameToValue = name => {
   return country ? country.value : countryName;
 };
 
-const valueToName = countryValue => {
+const countryValueToName = countryValue => {
   const country = constants.countries.find(countryMapping =>
     caseInsensitiveComparison(countryMapping.value, countryValue),
   );
   return country ? country.label : countryValue;
 };
 
-export { caseInsensitiveComparison, nameToValue, valueToName };
+const isMilitaryState = stateName => {
+  const militaryStates = constants.militaryStates.map(state => state.value);
+  return militaryStates.includes(stateName);
+};
+
+export {
+  caseInsensitiveComparison,
+  countryNameToValue,
+  countryValueToName,
+  isMilitaryState,
+};

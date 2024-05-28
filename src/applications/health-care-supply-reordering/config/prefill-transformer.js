@@ -1,22 +1,20 @@
-import { nameToValue } from '../utils/country-mapping';
+import { countryNameToValue, isMilitaryState } from '../utils/addresses';
 
 export default function prefillTransformer(pages, formData, metadata) {
   const newFormData = formData;
-  if (newFormData.permanentAddress?.country) {
-    newFormData.permanentAddress.country = nameToValue(
-      formData.permanentAddress.country,
-    );
+
+  for (const addressType of ['permanentAddress', 'temporaryAddress']) {
+    if (newFormData[addressType]?.country) {
+      newFormData[addressType].country =
+        countryNameToValue(formData[addressType].country) ?? 'USA';
+    }
+    if (newFormData[addressType]?.state) {
+      newFormData[addressType].isMilitary = isMilitaryState(
+        formData[addressType].state,
+      );
+    }
   }
-  if (newFormData.temporaryAddress?.country) {
-    newFormData.temporaryAddress.country =
-      nameToValue(formData.temporaryAddress.country) ?? 'USA';
-  }
-  if (newFormData.temporaryAddress) {
-    newFormData.temporaryAddress.city = formData.temporaryAddress.city ?? '';
-    newFormData.temporaryAddress.state = formData.temporaryAddress.state ?? '';
-    newFormData.temporaryAddress.street =
-      formData.temporaryAddress.street ?? '';
-  }
+
   return {
     pages,
     formData: newFormData,

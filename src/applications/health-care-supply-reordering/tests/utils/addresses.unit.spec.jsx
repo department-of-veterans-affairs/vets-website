@@ -4,59 +4,60 @@ import constants from 'vets-json-schema/dist/constants.json';
 
 import {
   caseInsensitiveComparison,
-  nameToValue,
-  valueToName,
-} from '../../utils/country-mapping';
+  countryNameToValue,
+  countryValueToName,
+  isMilitaryState,
+} from '../../utils/addresses';
 
 describe('country-mapping', () => {
-  describe('nameToValue', () => {
+  describe('countryNameToValue', () => {
     it('returns the value for a known country name', () => {
       const countryName = constants.countries[0].label;
       const expectedValue = constants.countries[0].value;
 
-      expect(nameToValue(countryName)).to.equal(expectedValue);
+      expect(countryNameToValue(countryName)).to.equal(expectedValue);
     });
 
     it('returns the value for a known country name (case insensitive)', () => {
       const countryName = constants.countries[0].label.toUpperCase();
       const expectedValue = constants.countries[0].value;
 
-      expect(nameToValue(countryName)).to.equal(expectedValue);
+      expect(countryNameToValue(countryName)).to.equal(expectedValue);
     });
 
     it('maps from DLC APO Country format', () => {
       const countryName = 'ARMED FORCES AF,EU,ME,CA';
       const expectedValue = 'USA';
 
-      expect(nameToValue(countryName)).to.equal(expectedValue);
+      expect(countryNameToValue(countryName)).to.equal(expectedValue);
     });
 
     it('returns the input if the country name is unknown', () => {
       const countryName = 'Unknown Country';
 
-      expect(nameToValue(countryName)).to.equal(countryName);
+      expect(countryNameToValue(countryName)).to.equal(countryName);
     });
   });
 
-  describe('valueToName', () => {
+  describe('countryValueToName', () => {
     it('returns the name for a known country value', () => {
       const countryValue = constants.countries[0].value;
       const expectedName = constants.countries[0].label;
 
-      expect(valueToName(countryValue)).to.equal(expectedName);
+      expect(countryValueToName(countryValue)).to.equal(expectedName);
     });
 
     it('returns the name for a known country value (case insensitive)', () => {
       const countryValue = constants.countries[0].value.toUpperCase();
       const expectedName = constants.countries[0].label;
 
-      expect(valueToName(countryValue)).to.equal(expectedName);
+      expect(countryValueToName(countryValue)).to.equal(expectedName);
     });
 
     it('returns the input if the country value is unknown', () => {
       const countryValue = 'Unknown Value';
 
-      expect(valueToName(countryValue)).to.equal(countryValue);
+      expect(countryValueToName(countryValue)).to.equal(countryValue);
     });
   });
 
@@ -87,6 +88,20 @@ describe('country-mapping', () => {
       const b = 456;
 
       expect(caseInsensitiveComparison(a, b)).to.be.false;
+    });
+  });
+
+  describe('isMilitaryState', () => {
+    it('returns true for a military state', () => {
+      const militaryState = constants.militaryStates[0].value;
+
+      expect(isMilitaryState(militaryState)).to.be.true;
+    });
+
+    it('returns false for a non-military state', () => {
+      const nonMilitaryState = 'CO';
+
+      expect(isMilitaryState(nonMilitaryState)).to.be.false;
     });
   });
 });

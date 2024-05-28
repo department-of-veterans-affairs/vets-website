@@ -4,7 +4,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
-import { valueToName } from '../utils/country-mapping';
+import { countryValueToName } from '../utils/addresses';
 import addressPage from '../pages/addressPage';
 import FooterInfo from '../components/FooterInfo';
 import prefillTransformer from './prefill-transformer';
@@ -34,8 +34,8 @@ const submit = form => {
   const currentAddress = form.data['view:currentAddress'];
   const itemQuantities = form.data?.order?.length;
   const { order, permanentAddress, temporaryAddress, vetEmail } = form.data;
-  permanentAddress.country = valueToName(permanentAddress.country);
-  temporaryAddress.country = valueToName(temporaryAddress.country);
+  permanentAddress.country = countryValueToName(permanentAddress.country);
+  temporaryAddress.country = countryValueToName(temporaryAddress.country);
   const useVeteranAddress = currentAddress === 'permanentAddress';
   const useTemporaryAddress = currentAddress === 'temporaryAddress';
   const payload = {

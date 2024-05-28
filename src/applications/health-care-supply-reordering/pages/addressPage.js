@@ -11,7 +11,7 @@ import ReviewCardField from '../components/ReviewCardField';
 
 // Wrap address fields with DL tags to resolve accessibility error.
 const addressUiWithDlWrappedFields = () => {
-  const customAddressUI = addressUI();
+  const customAddressUI = addressUI({ omit: ['street3'] });
   Object.keys(customAddressUI).forEach(element => {
     if (customAddressUI[element]['ui:options']) {
       customAddressUI[element]['ui:options'].useDlWrap = true;
@@ -68,8 +68,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      permanentAddress: addressSchema({}),
-      temporaryAddress: addressSchema({}),
+      permanentAddress: addressSchema({ omit: ['street3'] }),
+      temporaryAddress: addressSchema({ omit: ['street3'] }),
       vetEmail: emailSchema,
       viewCurrentAddressField: {
         type: 'string',
