@@ -59,7 +59,7 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
                       <p>
                         <strong>What you can do now on VA.gov:</strong>
                       </p>
-                      <ul>
+                      <ul className="vads-u-font-family--sans">
                         <li>
                           Schedule, cancel, and manage some health appointments
                         </li>
@@ -72,11 +72,11 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
                       <p>
                         <strong>What’s coming soon:</strong>
                       </p>
-                      <ul>
+                      <ul className="vads-u-font-family--sans">
                         <li>Find, print, and download your medical records</li>
                         <li>Get your lab and test results</li>
                       </ul>
-                      <p>
+                      <p className="vads-u-font-family--sans">
                         We’re working to bring your medical records to VA.gov.
                         For now, you can download your records using the
                         previous version of My HealtheVet.{' '}
