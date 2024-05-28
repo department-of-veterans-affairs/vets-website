@@ -22,7 +22,6 @@ describe(appName, () => {
         const pageLinks = resolveLandingPageLinks(
           false,
           [],
-          0,
           'arialLabel',
           true,
         );
@@ -61,7 +60,6 @@ describe(appName, () => {
         const pageLinks = resolveLandingPageLinks(
           false,
           [],
-          0,
           'arialLabel',
           true,
         );
