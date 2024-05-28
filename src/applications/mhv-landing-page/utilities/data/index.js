@@ -216,6 +216,7 @@ const resolveLandingPageLinks = (
     {
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,
       icon: 'attach_money',
+      iconClasses: 'vads-u-margin-right--0 vads-u-margin-left--neg0p5',
       links: HEALTH_TOOL_LINKS.PAYMENTS,
     },
     {
