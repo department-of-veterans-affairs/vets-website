@@ -323,12 +323,6 @@ jobs:
           delimiter: ','
           output-type: 'folder'
 
-      - name: Output allow list
-        run: cat unit_test_allow_list.json
-
-      - name: Output stress test list
-        run: cat unit_tests_to_stress_test.json
-
       - name: Run unit tests
         run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
@@ -409,6 +403,12 @@ jobs:
         with:
           name: unit-tests-to-stress-test
           path: .
+
+      - name: Output allow list
+        run: cat unit_test_allow_list.json
+
+      - name: Output stress test list
+        run: cat unit_tests_to_stress_test.json
 
       - name: Run unit tests
         run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
