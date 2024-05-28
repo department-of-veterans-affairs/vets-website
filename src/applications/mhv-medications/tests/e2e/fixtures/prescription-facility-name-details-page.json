@@ -84,10 +84,6 @@
                     "indicationForUseFlag": null,
                     "category": "Rx Medication",
                     "orderableItem": null,
-                    "shape": null,
-                    "color": null,
-                    "frontImprint": null,
-                    "backImprint": null,
                     "dataSourceSystem": "VISTA",
                     "trackingList": null,
                     "rxRfRecords": null,
@@ -97,10 +93,10 @@
             "tracking": false,
             "orderableItem": "ALUMINUM HYDROXIDE",
             "sortedDispensedDate": "2024-03-18",
-            "shape": null,
-            "color": null,
-            "backImprint": null,
-            "frontImprint": null
+            "shape": "round",
+            "color": "white",
+            "backImprint": 250,
+            "frontImprint": "IP188"
         },
         "links": {
             "self": "https://staging-api.va.gov/my_health/v1/prescriptions/23298058"
