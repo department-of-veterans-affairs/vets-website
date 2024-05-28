@@ -13,7 +13,6 @@ import {
   VERIFICATION_REVIEW_RELATIVE_URL,
   VERIFICATION_REVIEW_URL,
 } from '../constants';
-import { getMockData } from '../selectors/mockData';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import CurrentBenefitsStatus from '../components/CurrentBenefitsStatus';
 import { useData } from '../hooks/useData';
@@ -25,7 +24,6 @@ import { isSameMonth, getDateRangesBetween } from '../helpers';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
-  const mockData = useSelector(getMockData);
   const {
     // personalInfo,
     expirationDate,
@@ -33,12 +31,11 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
     month,
     day,
     loading,
-    isUserLoggedIn,
   } = useData();
   const response = useSelector(state => state.personalInfo);
   const personalInfo = response?.personalInfo?.['vye::UserInfo'];
   const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
-  const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
+  const enrollmentData = personalInfo;
   const [expandedEnrollmentData, setExpandedEnrollmentData] = useState({});
 
   useEffect(
@@ -52,6 +49,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
 
         const pending = personalInfo?.pendingVerifications;
         const verified = personalInfo?.verifications;
+
         const expandedPending = [];
         const expendedVerified = [];
 
@@ -121,12 +119,10 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
 
         const tempEnrollments = {
           ...personalInfo,
-          'vye::UserInfo': {
-            ...personalInfo,
-            pendingVerifications: expandedPending,
-            verifications: expendedVerified,
-          },
+          pendingVerifications: expandedPending,
+          verifications: expendedVerified,
         };
+
         /* eslint-disable no-unused-expressions */
         setExpandedEnrollmentData(tempEnrollments);
       };
@@ -155,7 +151,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                 <PeriodsToVerify
                   enrollmentData={expandedEnrollmentData}
                   // enrollmentData={enrollmentData}
-                  isUserLoggedIn={isUserLoggedIn}
+                  // isUserLoggedIn={isUserLoggedIn}
                   link={() => (
                     <PageLink
                       linkText="Start enrollment verification"

@@ -9,45 +9,42 @@ import Alert from './Alert';
 const PeriodsToVerify = ({
   enrollmentData,
   // loggedInEnenrollmentData,
-  // isUserLoggedIn,
   link,
   toggleEnrollmentSuccess,
   verifyEnrollment,
 }) => {
-  // const userData = isUserLoggedIn ? loggedInEnenrollmentData : enrollmentData;
-  const userData = enrollmentData;
-  const [userEnrollmentData, setUserEnrollmentData] = useState(userData);
+  // const userData = loggedInEnenrollmentData?.['vye::UserInfo'];
+  // const [userEnrollmentData, setUserEnrollmentData] = useState(enrollmentData);
+
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const justVerified = !!toggleEnrollmentSuccess;
   const { error } = verifyEnrollment;
-  useEffect(
-    () => {
-      setUserEnrollmentData(userData);
-    },
-    [userData],
-  );
+  // useEffect(
+  //   () => {
+  //     setUserEnrollmentData(enrollmentData);
+  //   },
+  //   [enrollmentData],
+  // );
 
   useEffect(
     () => {
       if (
-        userEnrollmentData?.['vye::UserInfo']?.verifications &&
-        userEnrollmentData?.['vye::UserInfo']?.pendingVerifications
+        enrollmentData?.verifications &&
+        enrollmentData?.pendingVerifications
       ) {
-        const { pendingVerifications } = userEnrollmentData?.['vye::UserInfo'];
-
+        const { pendingVerifications } = enrollmentData;
         // add all data to be verified into single array
         setPendingEnrollments(pendingVerifications);
       }
     },
-    [userEnrollmentData],
+    [enrollmentData],
   );
 
   return (
     <>
       {error && <Alert status="error" message="Oops Something went wrong" />}
       <div id="verifications-pending-alert">
-        {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.length >
-          0 && (
+        {enrollmentData?.pendingVerifications?.length > 0 && (
           <va-alert
             close-btn-aria-label="Close notification"
             status="info"
@@ -68,15 +65,13 @@ const PeriodsToVerify = ({
           </va-alert>
         )}
 
-        {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.length ===
-          0 &&
+        {enrollmentData?.pendingVerifications?.length === 0 &&
           justVerified && (
             <div>
               <VerifiedSuccessStatement />
             </div>
           )}
-        {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.length ===
-          0 &&
+        {enrollmentData?.pendingVerifications?.length === 0 &&
           !justVerified && (
             <div className="vads-u-margin-top--2">
               <UpToDateVerificationStatement />
@@ -88,17 +83,15 @@ const PeriodsToVerify = ({
 };
 
 const mapStateToProps = state => ({
-  loggedInEnenrollmentData: state.personalInfo.personalInfo,
+  // loggedInEnenrollmentData: state.personalInfo.personalInfo,
   verifyEnrollment: state.verifyEnrollment,
   // verificationsResponse: state.verificationsReducer.verificationsReducer,
 });
 
 PeriodsToVerify.propTypes = {
-  enrollmentData: PropTypes.object,
-  isUserLoggedIn: PropTypes.bool,
   link: PropTypes.func,
   loading: PropTypes.bool,
-  loggedInEnenrollmentData: PropTypes.object,
+  // loggedInEnenrollmentData: PropTypes.object,
   toggleEnrollmentSuccess: PropTypes.bool,
   verifyEnrollment: PropTypes.object,
 };

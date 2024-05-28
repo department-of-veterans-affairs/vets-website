@@ -30,27 +30,22 @@ import {
 
 const VerificationReviewWrapper = ({
   children,
-  mockData,
-  // loggedIEnenrollmentData,
   dispatchUpdateToggleEnrollmentSuccess,
   dispatchUpdatePendingVerifications,
-  // dispatchUpdateVerifications,
   dispatchVerifyEnrollmentAction,
-  // dispatchUpdateVerificationsData,
-  // isUserLoggedIn,
-  // dispatchupdateToggleEnrollmentCard,
+  verifyEnrollment,
 }) => {
   useScrollToTop();
   const location = useLocation();
   const [radioValue, setRadioValue] = useState(false);
   const [errorStatement, setErrorStatement] = useState(null);
-  const { loading, personalInfo, isUserLoggedIn } = useData();
+  const { loading, personalInfo } = useData();
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
   const [originalPeriodsToVerify, setOriginalPeriodsToVerify] = useState([]);
-
-  const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
+  const { error } = verifyEnrollment;
+  const enrollmentData = personalInfo;
   const history = useHistory();
   const handleBackClick = () => {
     history.push(VERIFICATION_RELATIVE_URL);
@@ -83,7 +78,9 @@ const VerificationReviewWrapper = ({
 
   const handleSubmission = () => {
     handleVerification();
-    dispatchUpdateToggleEnrollmentSuccess(true);
+    if (!error) {
+      dispatchUpdateToggleEnrollmentSuccess(true);
+    }
     history.push(VERIFICATION_RELATIVE_URL);
   };
 
@@ -211,7 +208,7 @@ const VerificationReviewWrapper = ({
 };
 
 const mapStateToProps = state => ({
-  mockData: state.mockData.mockData,
+  verifyEnrollment: state.verifyEnrollment,
 });
 
 const mapDispatchToProps = {
@@ -227,10 +224,10 @@ VerificationReviewWrapper.propTypes = {
   dispatchUpdateToggleEnrollmentSuccess: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,
   dispatchVerifyEnrollmentAction: PropTypes.func,
-  isUserLoggedIn: PropTypes.bool,
   link: PropTypes.func,
   loggedIEnenrollmentData: PropTypes.object,
   mockData: PropTypes.object,
+  verifyEnrollment: PropTypes.object,
 };
 export default connect(
   mapStateToProps,
