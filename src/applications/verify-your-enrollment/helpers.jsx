@@ -226,28 +226,6 @@ export const getDateRangesBetween = (date1, date2) => {
   return ranges;
 };
 export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
-  // const expandedPendingEnrollments = []
-  // pendingEnrollments.forEach(enrollment =>{
-  //   if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)){
-  //     const expandedMonths = getDateRangesBetween(enrollment.actBegin, enrollment.actEnd)
-  //     expandedMonths.forEach(period=>{
-  //       const [startDate, endDate] = period.split(' - ');
-  //       expandedPendingEnrollments.push({
-  //         actBegin: startDate,
-  //         actEnd: endDate,
-  //         monthlyRate: enrollment.monthlyRate,
-  //         numberHours: enrollment.numberHours,
-  //     })
-  //     })
-  //   }else{
-  //     expandedPendingEnrollments.push({
-  //         actBegin: enrollment.actBegin,
-  //         actEnd: enrollment.actEnd,
-  //         monthlyRate: enrollment.monthlyRate,
-  //         numberHours: enrollment.numberHours,
-  //     })
-  //   }
-  // })
   return pendingEnrollments
     .map(enrollmentToBeVerified => {
       const {
