@@ -244,7 +244,7 @@ class PatientMessageDraftsPage {
     cy.wait('@sentDraftResponse');
   };
 
-  saveMultiDraftMessage = (mockResponse, messageId) => {
+  saveMultiDraftMessage = (mockResponse, messageId, btnNum) => {
     const firstNonDraftMessageId = mockMultiDraftsResponse.data.filter(
       el => el.attributes.draftDate === null,
     )[0].attributes.messageId;
@@ -253,9 +253,9 @@ class PatientMessageDraftsPage {
       `${
         Paths.SM_API_BASE
       }/message_drafts/${firstNonDraftMessageId}/replydraft/${messageId}`,
-      { data: mockResponse },
+      { ok: true },
     ).as('saveDraft');
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+    cy.get(`#save-draft-button-${btnNum}`).click();
     cy.wait('@saveDraft');
   };
 
@@ -548,6 +548,62 @@ class PatientMessageDraftsPage {
       'include.text',
       MESSAGE_WAS_SAVED,
     );
+  };
+
+  expandAllDrafts = () => {
+    cy.get(Locators.BUTTONS.EDIT_DRAFTS).click({
+      force: true,
+      waitForAnimations: true,
+    });
+  };
+
+  verifyDraftsExpanded = value => {
+    cy.get('[subheader*="draft"]')
+      .shadow()
+      .find('button')
+      .should('be.visible')
+      .and('have.attr', 'aria-expanded', `${value}`);
+  };
+
+  expandSingleDraft = number => {
+    cy.get(`[subheader="draft #${number}..."]`)
+      .shadow()
+      .find('button')
+      .click({ force: true, waitForAnimations: true });
+  };
+
+  verifyExpandedSingleDraft = (response, number, index) => {
+    cy.get('[open="true"] > [data-testid="draft-reply-to"]')
+      .should('be.visible')
+      .and(
+        'have.text',
+        `Draft ${number} To: ${
+          response.data[index].attributes.senderName
+        }\n(Team: ${response.data[index].attributes.triageGroupName})`,
+      );
+  };
+
+  verifyExpandedDraftButtons = number => {
+    cy.get(`#send-button-${number}`)
+      .shadow()
+      .find('button')
+      .should('be.visible')
+      .and('have.text', `Send draft ${number}`);
+    cy.get(`#save-draft-button-${number}`)
+      .should('be.visible')
+      .and('have.text', `Save draft ${number}`);
+    cy.get(`#delete-draft-button-${number}`)
+      .should('be.visible')
+      .and('have.text', `Delete draft ${number}`);
+  };
+
+  verifyExpandedOldDraftButtons = number => {
+    cy.get(`#delete-draft-button-${number}`)
+      .should('be.visible')
+      .and('have.text', `Delete draft ${number}`);
+
+    cy.get(`#send-button-${number}`).should('not.exist');
+    cy.get(`#save-draft-button-${number}`).should('not.exist');
   };
 }
 

@@ -1,6 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
@@ -16,28 +16,18 @@ describe('handle multiple drafts older than 45 days', () => {
   });
 
   it('verify interface', () => {
-    const draftsCount = mockMultiDraftsResponse.data.filter(
-      el => el.attributes.draftDate !== null,
-    ).length;
-
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    cy.get(Locators.REPLY_FORM)
-      .find('h2')
-      .should('be.visible')
-      .and('contain.text', `${draftsCount} drafts`);
+    cy.get(Locators.HEADERS.DRAFTS_HEADER).should('have.text', 'Drafts');
 
     cy.get(Locators.ALERTS.EXPIRED_MESSAGE)
       .should('be.visible')
-      .and('include.text', 'too old');
+      .and('have.text', Alerts.OLD_MSG);
 
-    cy.get(Locators.ALERTS.LAST_EDIT_DATE).each(el => {
-      cy.wrap(el).should('include.text', 'edited');
-    });
+    cy.get(Locators.BUTTONS.EDIT_DRAFTS).should('not.exist');
 
-    cy.get(Locators.BUTTONS.SEND).should('not.exist');
-    cy.get(Locators.ALERTS.EDIT_DRAFT).click();
-    cy.get(Locators.BUTTONS.SEND).should('not.exist');
+    draftPage.expandSingleDraft(2);
+    draftPage.verifyExpandedOldDraftButtons(2);
   });
 });

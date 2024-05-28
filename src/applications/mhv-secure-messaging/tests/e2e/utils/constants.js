@@ -134,6 +134,7 @@ export const Locators = {
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
     ADD_FILTER_BUTTON: '[id="additional-filter-accordion"] h3.headline-text',
+    EDIT_DRAFTS: '[data-testid="edit-draft-button-body-text"]',
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
@@ -209,6 +210,9 @@ export const Locators = {
   BLOCKS: {
     ATTACHMENTS: '.attachments-list',
   },
+  HEADERS: {
+    DRAFTS_HEADER: '#draft-reply-header',
+  },
 };
 
 export const Alerts = {
@@ -226,6 +230,7 @@ export const Alerts = {
     LINK: 'Find your VA health facility',
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
+  OLD_MSG: 'This conversation is too old for new replies',
 };
 
 export const Data = {

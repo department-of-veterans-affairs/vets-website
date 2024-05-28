@@ -48,10 +48,17 @@ describe('re-save multiple drafts in one thread', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    cy.get('textarea').type('newText', { force: true });
+    draftPage.expandSingleDraft(2);
+
+    cy.get('[data-testid="message-body-field-2"]')
+      .shadow()
+      .find('#input-type-textarea')
+      .type('\n\nnewText', { force: true });
+
     draftPage.saveMultiDraftMessage(
       updatedMultiDraftResponse.data[0],
       updatedMultiDraftResponse.data[0].attributes.messageId,
+      2,
     );
 
     draftPage.verifySavedMessageAlertText(Data.MESSAGE_WAS_SAVED);
@@ -61,14 +68,19 @@ describe('re-save multiple drafts in one thread', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    cy.get('#edit-draft-button').click({ waitForAnimations: true });
-    cy.get('textarea').type('newText', { force: true });
+    draftPage.expandSingleDraft(1);
+
+    cy.get('[data-testid="message-body-field-1"]')
+      .shadow()
+      .find('#input-type-textarea')
+      .type('\n\nnewText', { force: true });
+
     draftPage.saveMultiDraftMessage(
       updatedMultiDraftResponse.data[1],
       updatedMultiDraftResponse.data[1].attributes.messageId,
+      1,
     );
 
     draftPage.verifySavedMessageAlertText(Data.MESSAGE_WAS_SAVED);
-    landingPage.verifyNotForPrintHeaderText();
   });
 });
