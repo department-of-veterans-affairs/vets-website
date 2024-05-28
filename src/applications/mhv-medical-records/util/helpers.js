@@ -307,7 +307,7 @@ export const parseDate = str => {
       'December',
     ];
 
-    const monthName = monthNames[month + 1];
+    const monthName = monthNames[month];
     return `${monthName}, ${year}`;
   }
   return formatDateLong(str);
