@@ -45,7 +45,6 @@ const formConfig = {
   trackingPrefix: 'mock-alternate-header-0845',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  v3SegmentedProgressBar: true,
   CustomHeader,
   useCustomScrollAndFocus: true,
   preSubmitInfo: {},

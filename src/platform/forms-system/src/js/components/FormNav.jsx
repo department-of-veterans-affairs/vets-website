@@ -19,13 +19,7 @@ import {
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
 export default function FormNav(props) {
-  const {
-    formConfig = {},
-    currentPath,
-    formData,
-    isLoggedIn,
-    inProgressFormId,
-  } = props;
+  const { formConfig = {}, currentPath, formData } = props;
 
   const [index, setIndex] = useState(0);
 
@@ -52,7 +46,6 @@ export default function FormNav(props) {
 
   let current;
   let chapterName;
-  let inProgressMessage = null;
 
   if (page.chapterKey) {
     const onReviewPage = page.chapterKey === 'review';
@@ -69,17 +62,6 @@ export default function FormNav(props) {
     }
   }
 
-  if (isLoggedIn) {
-    inProgressMessage = (
-      <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
-        We&rsquo;ll save your application on every change.{' '}
-        {inProgressFormId &&
-          `Your application ID number is ${inProgressFormId}.`}
-      </span>
-    );
-  }
-
-  const showHeader = Math.abs(current - index) === 1;
   // Some chapters may have progress-bar & step-header hidden via hideFormNavProgress.
   const hideFormNavProgress =
     formConfig?.chapters[page.chapterKey]?.hideFormNavProgress;
@@ -93,10 +75,6 @@ export default function FormNav(props) {
   });
   // Returns NaN if the current chapter isn't found
   const currentChapterDisplay = getCurrentChapterDisplay(formConfig, current);
-  const stepText = Number.isNaN(currentChapterDisplay)
-    ? ''
-    : `Step ${currentChapterDisplay} of ${chaptersLengthDisplay}: ${chapterName ||
-        ''}`;
 
   // The goal with this is to quickly "remove" the header from the DOM, and
   // immediately re-render the component with the header included.
@@ -142,42 +120,17 @@ export default function FormNav(props) {
     ],
   );
 
-  const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
-  // show progress-bar and stepText only if hideFormNavProgress is falsy.
   return (
     <div>
       {!hideFormNavProgress && (
         <va-segmented-progress-bar
           total={chaptersLengthDisplay}
           current={currentChapterDisplay}
-          uswds={v3SegmentedProgressBar}
           heading-text={chapterName ?? ''} // functionality only available for v3
           name="v3SegmentedProgressBar"
-          {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
+          header-level="2"
         />
       )}
-      {!v3SegmentedProgressBar &&
-        !hideFormNavProgress && (
-          <div className="schemaform-chapter-progress">
-            <div className="nav-header nav-header-schemaform">
-              {showHeader ? (
-                <h2
-                  id="nav-form-header"
-                  data-testid="navFormHeader"
-                  className="vads-u-font-size--h4"
-                >
-                  {stepText}
-                  {inProgressMessage}
-                </h2>
-              ) : (
-                <div data-testid="navFormDiv" className="vads-u-font-size--h4">
-                  {stepText}
-                  {inProgressMessage}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
     </div>
   );
 }

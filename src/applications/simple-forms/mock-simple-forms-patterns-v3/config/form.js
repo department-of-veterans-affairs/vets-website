@@ -18,7 +18,6 @@ const formConfig = {
   dev: {
     showNavLinks: false,
   },
-  v3SegmentedProgressBar: true,
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
