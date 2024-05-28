@@ -16,7 +16,7 @@ export const VERIFICATION_REVIEW_URL = `${VERIFICATION_PROFILE_URL}${VERIFICATIO
 export const VERIFICATION_REVIEW_RELATIVE_URL = `${VERIFICATION_RELATIVE_URL}${VERIFICATION_REVIEW_URL_SEGMENT}/`;
 
 export const CHANGE_OF_DIRECT_DEPOSIT_TITLE = 'Direct deposit information';
-export const DIRECT_DEPOSIT_BUTTON_TEXT = 'Add or update account';
+export const DIRECT_DEPOSIT_BUTTON_TEXT = 'Add or change account';
 export const CHANGE_OF_ADDRESS_TITLE = 'Contact information';
 export const PAYEE_INFO_TITLE = 'Payee information';
 export const PENDING_DOCUMENTS_TITLE = 'Pending documents';
@@ -94,6 +94,31 @@ export const NO_PENDING_DOCUMENTS_STATMENT = (
   </p>
 );
 
+export const EnrollmentInformation = () => (
+  <div className="vye-max-width-480px">
+    <p>
+      <span className="vads-u-font-weight--bold">Note: </span> If the enrollment
+      information on this page isn’t correct, you’ll need to leave this tool and
+      contact your School Certifying Official (SCO) to update your enrollment
+      information. After they update your information, you’ll need to return to
+      this tool to verify your updated information.
+    </p>
+    <p>
+      You can use our GI Bill Comparison Tool to search for your school and find
+      your SCO.
+    </p>
+    <p>
+      <va-link
+        href="/education/gi-bill-comparison-tool/"
+        text="Use the GI Bill Comparison Tool to find your SCO"
+      />
+    </p>
+    <p>
+      Willful false reports concerning benefits payable by VA may result in a
+      fine, imprisonment, or both.
+    </p>
+  </div>
+);
 export const errorAddressAlert = deliveryPointValidation => {
   if (deliveryPointValidation === BAD_UNIT_NUMBER) {
     return (

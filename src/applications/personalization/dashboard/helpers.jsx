@@ -65,14 +65,15 @@ export const isSIPEnabledFormV2 = savedForm => {
   const formNumber = savedForm.form;
   const foundForm = MY_VA_SIP_FORMS.find(form => form.id === formNumber);
 
-  if (!foundForm.title || !getFormLink(formNumber)) {
+  if (!foundForm?.title || !getFormLink(formNumber)) {
     Sentry.captureMessage('vets_sip_list_item_missing_info');
     return false;
   }
 
-  if (!MY_VA_SIP_FORMS.some(form => form.id === formNumber)) {
-    const { prefix } = foundForm;
-    throw new Error(`Could not find form ${prefix} in list of sipEnabledForms`);
+  if (!foundForm) {
+    throw new Error(
+      `Could not find form ${formNumber} in list of sipEnabledForms`,
+    );
   }
 
   return true;

@@ -324,6 +324,29 @@ class MedicationsRefillPage {
     });
   };
 
+  clickRequestRefillButtonforPartialSuccessfulRequests = (
+    prescriptionId1,
+    prescriptionId2,
+    partialsuccess,
+  ) => {
+    cy.intercept(
+      'PATCH',
+      `/my_health/v1/prescriptions/refill_prescriptions?ids[]=${prescriptionId1}&ids[]=${prescriptionId2}`,
+      partialsuccess,
+    );
+    cy.get('[data-testid="request-refill-button"]').should('exist');
+    cy.get('[data-testid="request-refill-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyPartialSuccessAlertOnRefillPage = () => {
+    cy.get('[data-testid="failed-message-title"]').should(
+      'contain',
+      'Only part of your request was submitted',
+    );
+  };
+
   verifyFailedRequestMessageAlertOnRefillPage = () => {
     cy.get('[data-testid="failed-message-title"]').should('exist');
     cy.get('[data-testid="failed-message-title"]').should(

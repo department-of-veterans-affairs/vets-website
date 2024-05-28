@@ -7,14 +7,12 @@ import { getPeriodsToVerify } from '../helpers';
 import Alert from './Alert';
 
 const PeriodsToVerify = ({
-  enrollmentData,
   loggedInEnenrollmentData,
-  isUserLoggedIn,
   link,
   toggleEnrollmentSuccess,
   verifyEnrollment,
 }) => {
-  const userData = isUserLoggedIn ? loggedInEnenrollmentData : enrollmentData;
+  const userData = loggedInEnenrollmentData;
   const [userEnrollmentData, setUserEnrollmentData] = useState(userData);
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const justVerified = !!toggleEnrollmentSuccess;
@@ -97,8 +95,6 @@ const mapStateToProps = state => ({
 });
 
 PeriodsToVerify.propTypes = {
-  enrollmentData: PropTypes.object,
-  isUserLoggedIn: PropTypes.bool,
   link: PropTypes.func,
   loading: PropTypes.bool,
   loggedInEnenrollmentData: PropTypes.object,

@@ -117,6 +117,10 @@ export function dateRangePageDescription(
   );
 }
 
+export const herbicidePageTitle = 'Agent Orange locations';
+export const herbicideQuestion =
+  'Did you serve in any of these locations where the military used the herbicide Agent Orange? Check any locations where you served.';
+
 /* ---------- utils ---------- */
 /**
  * Checks if the toxic exposure pages should be displayed using the following criteria
@@ -249,19 +253,37 @@ export function validateTEConditions(errors, formData) {
 }
 
 /**
+ * Get the value for the 'other' field's description
+ * @param {object} formData - full form data
+ * @param {string} objectName - name of the object containing the 'other' field
+ * @returns {string} sanitized description value if present
+ */
+export function getOtherFieldDescription(formData, objectName) {
+  const description = formData?.toxicExposure?.[objectName]?.description;
+
+  return typeof description === 'string' ? description.trim() : '';
+}
+
+/**
  * Validates selected locations (e.g. gulfWar1990Locations, gulfWar2001Locations, etc.).
  * If the 'none' checkbox is selected along with another location, adds an error.
  *
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  * @param {string} objectName - Name of the object to look at in the form data
+ * @param {string} otherObjectName - Name of the object containing other location or other hazard data
  */
-export function validateLocations(errors, formData, objectName) {
+export function validateLocations(
+  errors,
+  formData,
+  objectName,
+  otherObjectName,
+) {
   const { [objectName]: locations = {} } = formData?.toxicExposure;
-
   if (
     locations?.none === true &&
-    Object.values(locations).filter(value => value === true).length > 1
+    (Object.values(locations).filter(value => value === true).length > 1 ||
+      getOtherFieldDescription(formData, otherObjectName))
   ) {
     errors.toxicExposure[objectName].addError(noneAndLocationError);
   }
@@ -285,7 +307,7 @@ export function validateLocations(errors, formData, objectName) {
  * @param {object} formData - full formData for the form
  * @returns {number} - index of the key within the list of selected items if found, 0 otherwise
  */
-export function getKeyIndex(key, objectName, { formData }) {
+export function getKeyIndex(key, objectName, formData) {
   if (
     !formData ||
     !formData?.toxicExposure ||
@@ -311,28 +333,34 @@ export function getKeyIndex(key, objectName, { formData }) {
  * Given an object storing checkbox values, get a count of how many values have been selected
  * by the Veteran
  *
- * @param {string} objectName - name of the object to look at in the form data
+ * @param {string} checkboxObjectName - name of the checkbox object to look at in the form data
+ * @param {string} otherFieldName - name of the 'other' field to look at in the form data
  * @param {object} formData - full formData for the form
  * @returns {number} count of checkboxes with a value of true
  */
-export function getSelectedCount(objectName, { formData } = {}) {
-  if (
-    !formData ||
-    !formData?.toxicExposure ||
-    !formData?.toxicExposure[objectName]
-  )
+export function getSelectedCount(
+  checkboxObjectName,
+  formData,
+  otherFieldName = '',
+) {
+  const otherFieldDescription = getOtherFieldDescription(
+    formData,
+    otherFieldName,
+  );
+  if (!formData?.toxicExposure?.[checkboxObjectName] && !otherFieldDescription)
     return 0;
 
   let count = 0;
   for (const [key, value] of Object.entries(
-    formData.toxicExposure[objectName],
+    formData.toxicExposure[checkboxObjectName],
   )) {
     // Skip `notsure` since it's not a location
     if (value === true && key !== 'notsure') {
       count += 1;
     }
   }
-  return count;
+
+  return count + (otherFieldDescription ? 1 : 0);
 }
 
 /**
@@ -364,14 +392,20 @@ export function showCheckboxLoopDetailsPage(
  * Checks if the a checkbox and loop's summary page should display. It should display if all the following
  * are true
  * 1. TE pages should be showing at all
- * 2. at least one checkbox item was selected
+ * 2. at least one checkbox item was selected OR an 'other' item input was populated
  * 3. the 'none' location checkbox is not true
  * 4. the 'notsure' location checkbox is not the only one selected
  *
  * @param {object} formData - full form data
+ * @param {string} checkboxObjectName - name of the object containing the checkboxes
+ * @param {string} otherObjectName - name of the object containing an 'other' input
  * @returns {boolean} true if the page should display, false otherwise
  */
-export function showSummaryPage(formData, checkboxObjectName) {
+export function showSummaryPage(
+  formData,
+  checkboxObjectName,
+  otherObjectName = '',
+) {
   if (
     isClaimingTECondition(formData) &&
     formData?.toxicExposure[checkboxObjectName]
@@ -382,8 +416,8 @@ export function showSummaryPage(formData, checkboxObjectName) {
     ).filter(value => value === true).length;
     return (
       locations.none !== true &&
-      numSelected > 0 &&
-      (locations.notsure !== true || numSelected > 1)
+      ((numSelected > 0 && (locations.notsure !== true || numSelected > 1)) ||
+        !!getOtherFieldDescription(formData, otherObjectName))
     );
   }
   return false;

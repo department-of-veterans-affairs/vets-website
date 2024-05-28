@@ -25,7 +25,7 @@ import { GULF_WAR_2001_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 function makeUiSchema(locationId) {
   return {
     'ui:title': formTitle(gulfWar2001PageTitle),
-    'ui:description': formData =>
+    'ui:description': ({ formData }) =>
       dateRangePageDescription(
         getKeyIndex(locationId, 'gulfWar2001', formData),
         getSelectedCount('gulfWar2001', formData),
@@ -36,11 +36,9 @@ function makeUiSchema(locationId) {
         [locationId]: {
           startDate: currentOrPastDateUI({
             title: startDateApproximate,
-            monthYearOnly: true,
           }),
           endDate: currentOrPastDateUI({
             title: endDateApproximate,
-            monthYearOnly: true,
           }),
           'view:notSure': {
             'ui:title': notSureDatesDetails,
@@ -118,8 +116,8 @@ export function makePages() {
         [pageName]: {
           title: formData =>
             teSubtitle(
-              getKeyIndex(locationId, 'gulfWar2001', { formData }),
-              getSelectedCount('gulfWar2001', { formData }),
+              getKeyIndex(locationId, 'gulfWar2001', formData),
+              getSelectedCount('gulfWar2001', formData),
               GULF_WAR_2001_LOCATIONS[locationId],
             ),
           path: `${TE_URL_PREFIX}/${pageName}`,
