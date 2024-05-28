@@ -42,7 +42,7 @@ describe('Condition details container', () => {
     const conditionName = screen.getByText(
       initialState.mr.conditions.conditionDetails.name.split(' (')[0],
       {
-        exact: false,
+        exact: true,
         selector: 'h1',
       },
     );
