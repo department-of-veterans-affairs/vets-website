@@ -6,7 +6,6 @@ import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPa
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('remove folder error modal', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   const folderName =
     mockFolders.data[mockFolders.data.length - 1].attributes.name;
@@ -14,7 +13,7 @@ describe('remove folder error modal', () => {
 
   before(() => {
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     PatientMessageCustomFolderPage.loadFoldersList(mockFolders);
   });
 

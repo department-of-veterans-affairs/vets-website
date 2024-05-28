@@ -15,6 +15,7 @@ export const rxListSortingOptions = {
 };
 
 export const medicationsUrls = {
+  VA_HOME: '/../../../',
   MHV_HOME: '/../../my-health',
   MEDICATIONS_URL: '/my-health/medications',
   MEDICATIONS_LOGIN: '/my-health/medications?next=loginModal&oauth=true',
@@ -172,6 +173,16 @@ export const PDF_TXT_GENERATE_STATUS = {
   NotStarted: 'PDF_GENERATE_NOT_STARTED',
   InProgress: 'PDF_GENERATE_IN_PROGRESS',
   Success: 'PDF_GENERATE_SUCCESS',
+};
+
+export const DOWNLOAD_FORMAT = {
+  PDF: 'PDF',
+  TXT: 'TXT',
+};
+
+export const PRINT_FORMAT = {
+  PRINT: 'print',
+  PRINT_FULL_LIST: 'print-full-list',
 };
 
 export const defaultSelectedSortOption =

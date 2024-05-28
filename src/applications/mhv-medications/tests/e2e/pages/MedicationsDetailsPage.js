@@ -122,7 +122,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="rx-breadcrumb"]')
       .shadow()
       .find('a')
-      .eq(1)
+      .eq(2)
       .click({
         waitForAnimations: true,
       });
@@ -157,6 +157,13 @@ class MedicationsDetailsPage {
   clickPrintOrDownloadThisPageDropDownOnDetailsPage = () => {
     cy.get('[data-testid="print-records-button"] > span').click({
       force: true,
+    });
+  };
+
+  clickPrintThisPageButtonOnDetailsPage = () => {
+    cy.get('[data-testid="download-print-button"]').should('exist');
+    cy.get('[data-testid="download-print-button"]').click({
+      waitForAnimations: true,
     });
   };
 
@@ -354,6 +361,10 @@ class MedicationsDetailsPage {
       'have.text',
       `${prescriptionDetails.data.attributes.dispStatus}`,
     );
+  };
+
+  verifyFacilityInPlainLanguageOnDetailsPage = prescription => {
+    cy.get('[data-testid="facility-name"]').should('contain', prescription);
   };
 }
 export default MedicationsDetailsPage;

@@ -7,11 +7,10 @@ import mockFacilityBlockedRecipients from '../fixtures/recipientsResponse/facili
 import blockedThread from '../fixtures/recipientsResponse/thread-with-blocked-group-response.json';
 
 describe('Verify Thread - Blocked from Facility', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   it('create message view - verify user can not create a message to any group in blocked facility', () => {
     site.login();
-    landingPage.loadInboxMessages(
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       mockFacilityBlockedRecipients,
@@ -40,13 +39,13 @@ describe('Verify Thread - Blocked from Facility', () => {
 
   it('detailed view', () => {
     site.login();
-    landingPage.loadInboxMessages(
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       mockFacilityBlockedRecipients,
     );
 
-    landingPage.loadSingleThread(blockedThread);
+    PatientInboxPage.loadSingleThread(blockedThread);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

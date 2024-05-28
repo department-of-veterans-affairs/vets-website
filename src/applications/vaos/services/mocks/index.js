@@ -40,6 +40,15 @@ const confirmedV2 = require('./v2/confirmed.json');
 // CC Direct Scheduling mocks
 const wellHiveAppointments = require('./wellHive/appointments.json');
 const WHCancelReasons = require('./wellHive/cancelReasons.json');
+const driveTimes = require('./wellHive/driveTime.json');
+const patients = require('./wellHive/patients.json');
+const WHNetworks = require('./wellHive/networks.json');
+const specialties = require('./wellHive/specialties.json');
+const specialtyGroups = require('./wellHive/specialtyGroups.json');
+const providerOrgs = require('./wellHive/providerOrganizations.json');
+const providerServices = require('./wellHive/providerServices.json');
+const providerSlots = require('./wellHive/providerServicesSlots.json');
+const referrals = require('./wellHive/referrals.json');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -516,7 +525,103 @@ const responses = {
     mockWellHiveAppts.push(submittedAppt);
     return res.json({ data: submittedAppt });
   },
-
+  'POST /vaos/v2/wellhive/drive-times': (req, res) => {
+    return res.json({ driveTimes });
+  },
+  'GET /vaos/v2/wellhive/patients/:patientId': (req, res) => {
+    const WHPatients = [patients];
+    return res.json({
+      data: WHPatients.find(patient => patient?.id === req.params.patientId),
+    });
+  },
+  'GET /vaos/v2/wellhive/patients/:patientId/identifier/:system': (
+    req,
+    res,
+  ) => {
+    const WHPatients = [patients];
+    const patientSystem = WHPatients.find(
+      patient => patient?.id === req.params.patientId,
+    ).identifier.find(identifier => identifier.system === req.params.system);
+    return res.json({
+      data: patientSystem,
+    });
+  },
+  'GET /vaos/v2/wellhive/networks': (req, res) => {
+    return res.json({ data: WHNetworks });
+  },
+  'GET /vaos/v2/wellhive/networks/:networkId': (req, res) => {
+    return res.json({
+      data: WHNetworks.networks.find(
+        network => network?.id === req.params.networkId,
+      ),
+    });
+  },
+  'GET /vaos/v2/wellhive/specialties': (req, res) => {
+    return res.json({ data: specialties });
+  },
+  'GET /vaos/v2/wellhive/specialties/:specialtyId': (req, res) => {
+    return res.json({
+      data: specialties.specialties.find(
+        specialty => specialty?.id === req.params.specialtyId,
+      ),
+    });
+  },
+  'GET /vaos/v2/wellhive/specialty-groups': (req, res) => {
+    return res.json({ data: specialtyGroups });
+  },
+  'GET /vaos/v2/wellhive/specialty-groups/:specialtyGroupId': (req, res) => {
+    return res.json({
+      data: specialtyGroups.specialtyGroups.find(
+        specialtyGroup => specialtyGroup?.id === req.params.specialtyGroupId,
+      ),
+    });
+  },
+  'GET /vaos/v2/wellhive/provider-organization': (req, res) => {
+    return res.json({ data: providerOrgs });
+  },
+  'GET /vaos/v2/wellhive/provider-services': (req, res) => {
+    return res.json({ data: providerServices });
+  },
+  'GET /vaos/v2/wellhive/provider-services/:providerServiceId': (req, res) => {
+    return res.json({
+      data: providerServices.providerServices.find(
+        providerService => providerService?.id === req.params.providerServiceId,
+      ),
+    });
+  },
+  'GET /vaos/v2/wellhive/provider-services/:providerServiceId/slots': (
+    req,
+    res,
+  ) => {
+    return res.json({
+      data: providerSlots.slots.find(
+        slots => slots?.providerServiceId === req.params.providerServiceId,
+      ),
+    });
+  },
+  'GET /vaos/v2/wellhive/provider-services/:providerServiceId/slots/:slotId': (
+    req,
+    res,
+  ) => {
+    const getSlot = [
+      providerSlots.slots.find(
+        slots => slots?.providerServiceId === req.params.providerServiceId,
+      ),
+    ];
+    return res.json({
+      data: getSlot.find(slot => slot?.id === req.params.slotId),
+    });
+  },
+  'GET /vaos/v2/wellhive/referrals': (req, res) => {
+    return res.json({ data: referrals });
+  },
+  'GET /vaos/v2/wellhive/referrals/:referralId': (req, res) => {
+    return res.json({
+      data: referrals.referrals.find(
+        referral => referral?.id === req.params.referralId,
+      ),
+    });
+  },
   'GET /v0/user': {
     data: {
       attributes: {

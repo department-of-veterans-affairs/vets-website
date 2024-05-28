@@ -13,7 +13,6 @@ import {
   VERIFICATION_REVIEW_RELATIVE_URL,
   VERIFICATION_REVIEW_URL,
 } from '../constants';
-import { getMockData } from '../selectors/mockData';
 import { useScrollToTop } from '../hooks/useScrollToTop';
 import CurrentBenefitsStatus from '../components/CurrentBenefitsStatus';
 import { useData } from '../hooks/useData';
@@ -24,7 +23,6 @@ import PeriodsToVerify from '../components/PeriodsToVerify';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
-  const mockData = useSelector(getMockData);
   const {
     personalInfo,
     expirationDate,
@@ -32,11 +30,9 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
     month,
     day,
     loading,
-    isUserLoggedIn,
   } = useData();
 
   const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
-  const enrollmentData = isUserLoggedIn ? personalInfo : mockData;
   return (
     <>
       <div name="topScrollElement" />
@@ -54,8 +50,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
             ) : (
               <>
                 <PeriodsToVerify
-                  enrollmentData={enrollmentData}
-                  isUserLoggedIn={isUserLoggedIn}
+                  enrollmentData={personalInfo}
                   link={() => (
                     <PageLink
                       linkText="Start enrollment verification"
@@ -73,7 +68,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                   expirationDate={expirationDate}
                   link={() => (
                     <PageLink
-                      linkText="Manage your benefits profile"
+                      linkText="Manage your Montgomery GI Bill benefits information"
                       relativeURL={BENEFITS_PROFILE_RELATIVE_URL}
                       URL={BENEFITS_PROFILE_URL}
                       margin="0"
@@ -83,14 +78,14 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                 />
               </>
             )}
-            <PreviousEnrollmentVerifications enrollmentData={enrollmentData} />
+            <PreviousEnrollmentVerifications enrollmentData={personalInfo} />
             <MoreInfoCard
               marginTop="7"
-              linkText="Manage your benefits profile"
+              linkText="Manage your Montgomery GI Bill benefits information"
               relativeURL={BENEFITS_PROFILE_RELATIVE_URL}
               URL={BENEFITS_PROFILE_URL}
               className="vads-u-font-family--sans vads-u-font-weight--bold"
-              linkDescription="Update your contact and direct deposit information for the Montgomery GI Bill."
+              linkDescription="Update your contact and direct deposit information for your Montgomery GI Bill benefits."
             />
             <NeedHelp />
             {children}
