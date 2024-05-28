@@ -14,7 +14,6 @@ const IS_STRESS_TEST = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = ALLOW_LIST.filter(spec => spec.allowed === false).map(
   spec => spec.spec_path.substring(spec.spec_path.indexOf('src')),
 );
-console.log('ALL_SPECS: ', ALL_SPECS);
 const ALL_APPS = [
   ...new Set(
     ALL_SPECS.map(filePath =>
@@ -25,8 +24,6 @@ const ALL_APPS = [
     ),
   ),
 ];
-
-console.log('ALL_APPS', ALL_APPS);
 
 const CHANGED_APPS =
   CHANGED_FILES.length > 0
@@ -47,7 +44,6 @@ const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(
 );
 
 core.exportVariable('DISALLOWED_TESTS', DISALLOWED_SPECS);
-console.log('TESTS_TO_STRESS_TEST:', TESTS_TO_STRESS_TEST);
 if (TESTS_TO_STRESS_TEST.length > 0 && IS_STRESS_TEST === 'false') {
   core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', 'true');
   core.exportVariable('APPS_TO_STRESS_TEST', CHANGED_APPS_UNIQUE);

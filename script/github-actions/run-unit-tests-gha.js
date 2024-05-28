@@ -137,7 +137,6 @@ if (testsToVerify === null) {
         app.startsWith('src/platform'),
       ),
     );
-  console.log(appsToVerify);
   for (const app of appsToVerify) {
     const testsToRun = testsToVerify
       .filter(
@@ -146,8 +145,6 @@ if (testsToVerify === null) {
           test.includes(`src/platform`),
       )
       .join(' ');
-    console.log('testsToVerify: ', testsToVerify);
-    console.log('testsToRun: ', testsToRun);
     if (testsToRun !== '') {
       const command = `LOG_LEVEL=${options[
         'log-level'
