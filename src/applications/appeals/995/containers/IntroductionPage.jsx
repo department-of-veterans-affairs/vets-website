@@ -64,7 +64,9 @@ class IntroductionPage extends React.Component {
         {loggedIn &&
           !showVerifyLink &&
           !showMissingInfo && <SaveInProgressIntro {...sipOptions} />}
-        <h2>Follow these steps to get started</h2>
+        <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+          Follow these steps to get started
+        </h2>
         <va-process-list uswds>
           <va-process-list-item header="Check your eligibility">
             <p>

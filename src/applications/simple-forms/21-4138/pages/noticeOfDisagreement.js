@@ -7,7 +7,7 @@ import {
 } from '../config/constants';
 
 /** @type {PageSchema} */
-export const nodOldHandoffPage = {
+export const newSupplementalClaimPage = {
   uiSchema: {
     ...titleUI({
       title: "There's a better way for you to ask for a decision review",
@@ -29,7 +29,7 @@ export const nodOldHandoffPage = {
 };
 
 /** @type {PageSchema} */
-export const nodSupplementalHandoffPage = {
+export const supplementalClaimPage = {
   uiSchema: {
     ...titleUI({
       title: "There's a better way for you to ask for a decision review",
@@ -51,7 +51,7 @@ export const nodSupplementalHandoffPage = {
 };
 
 /** @type {PageSchema} */
-export const nodHLRHandoffPage = {
+export const higherLevelReviewPage = {
   uiSchema: {
     ...titleUI({
       title: "There's a better way for you to ask for a decision review",
@@ -73,7 +73,7 @@ export const nodHLRHandoffPage = {
 };
 
 /** @type {PageSchema} */
-export const nodBAHandoffPage = {
+export const boardAppealPage = {
   uiSchema: {
     ...titleUI({
       title: "There's a better way for you to ask for a decision review",

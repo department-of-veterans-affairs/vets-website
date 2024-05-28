@@ -7,11 +7,10 @@ import mockBlockedRecipients from '../fixtures/recipientsResponse/blocked-recipi
 import blockedThread from '../fixtures/recipientsResponse/thread-with-blocked-group-response.json';
 
 describe('Verify Thread - Blocked from particular Triage Group', () => {
-  const landingPage = new PatientInboxPage();
   const site = new SecureMessagingSite();
   beforeEach(() => {
     site.login();
-    landingPage.loadInboxMessages(
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       mockBlockedRecipients,
@@ -20,7 +19,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
 
   describe('general alert', () => {
     beforeEach(() => {
-      landingPage.loadSingleThread(blockedThread);
+      PatientInboxPage.loadSingleThread(blockedThread);
     });
 
     it('verify alert header', () => {
@@ -57,7 +56,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
 
   describe('expanded alert', () => {
     beforeEach(() => {
-      landingPage.loadSingleThread(blockedThread);
+      PatientInboxPage.loadSingleThread(blockedThread);
     });
 
     beforeEach(() => {

@@ -9,11 +9,11 @@ import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Secure Messaging Delete Draft', () => {
   const site = new SecureMessagingSite();
-  const inboxPage = new PatientInboxPage();
+
   const draftsPage = new PatientMessageDraftsPage();
   it(' Delete Existing Draft', () => {
     site.login();
-    inboxPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
     draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
     PatientInterstitialPage.getContinueButton().should('not.exist');
