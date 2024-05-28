@@ -338,7 +338,7 @@ export default function RequestedAppointmentDetailsPage() {
                     <FacilityAddress
                       facility={facility}
                       showPhone
-                      phoneHeading="Scheduling facility phone:"
+                      phoneHeading="Facility phone:"
                     />
                   </>
                 )}
