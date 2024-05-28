@@ -102,11 +102,7 @@ describe('VAOS Component: FacilityAddress', () => {
 });
 
 describe('VAOS Component: FacilityAddress when vaOnlineSchedulingPhysicalLocation is on', () => {
-  const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingPhysicalLocation: true,
-    },
-  };
+  const initialState = {};
 
   it('should display clinic physical location for in person VA appointment', () => {
     const { address } = facility;
