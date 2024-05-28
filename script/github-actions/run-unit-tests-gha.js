@@ -132,6 +132,7 @@ if (testsToVerify === null) {
   const appsToVerify = JSON.parse(process.env.APPS_TO_VERIFY)
     .filter(app => app.startsWith('src/applications'))
     .map(app => app.split('/')[2]);
+  console.log(appsToVerify);
   for (const app of appsToVerify) {
     const testsToRun = testsToVerify
       .filter(
