@@ -216,7 +216,7 @@ export const Prompts = {
 };
 
 export const Breadcrumbs = {
-  MYHEALTH: { path: Paths.MYHEALTH, label: 'Back to My HealtheVet home' },
+  MYHEALTH: { path: Paths.MYHEALTH, label: 'My HealtheVet' },
   MESSAGES: { path: '/', label: 'Back to messages' },
   COMPOSE: {
     path: Paths.COMPOSE,
