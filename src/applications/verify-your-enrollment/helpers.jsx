@@ -214,9 +214,9 @@ export const getDateRangesBetween = (date1, date2) => {
 
     if (currentMonth === 12) {
       currentMonth = 1;
-      currentYear++;
+      currentYear += 1;
     } else {
-      currentMonth++;
+      currentMonth += 1;
     }
   }
 
