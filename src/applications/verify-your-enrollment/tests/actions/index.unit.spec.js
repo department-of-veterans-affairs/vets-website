@@ -5,9 +5,6 @@ import configureMockStore from 'redux-mock-store';
 import * as apiModule from '@department-of-veterans-affairs/platform-utilities/api';
 import { waitFor } from '@testing-library/react';
 import {
-  getData,
-  GET_DATA,
-  GET_DATA_SUCCESS,
   fetchPersonalInfo,
   FETCH_PERSONAL_INFO,
   FETCH_PERSONAL_INFO_FAILED,
@@ -46,7 +43,6 @@ const store = mockStore({
   suggestedAddress: { isSuggestedAddressPicked: false },
 });
 
-const mockData = { user: 'user' };
 describe('getData, creator', () => {
   let dispatch;
   let apiRequestStub;
@@ -60,8 +56,6 @@ describe('getData, creator', () => {
   afterEach(() => {
     apiRequestStub.restore();
   });
-  let mockDispatch;
-  let clock;
 
   // ENROLLMENTS
   it('should disptach UPDATE_TOGGLE_ENROLLMENT_SUCCESS action', () => {
@@ -109,22 +103,6 @@ describe('getData, creator', () => {
     store.dispatch(updateVerifications(mockPayload));
 
     expect(store.getActions()).to.eql(expectedAction);
-  });
-
-  it('should dispatch  GET_DATA, GET_DATA_SUCCESS', async () => {
-    mockDispatch = sinon.spy();
-    clock = sinon.useFakeTimers({
-      toFake: ['setTimeout', 'clearTimeout'],
-    });
-    const firstAction = { type: GET_DATA };
-    const seconfAction = { type: GET_DATA_SUCCESS, response: mockData };
-
-    getData()(mockDispatch);
-    expect(mockDispatch.calledWith(firstAction)).to.be.true;
-    clock.tick(1000);
-    await waitFor(() => {
-      expect(mockDispatch.calledWith(seconfAction)).to.be.false;
-    });
   });
   it('should FETCH_PERSONAL_INFO and FETCH_PERSONAL_INFO_SUCCESS when api call is successful', async () => {
     const response = { data: 'test data' };
