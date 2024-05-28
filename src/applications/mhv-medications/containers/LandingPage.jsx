@@ -112,7 +112,7 @@ const LandingPage = () => {
           </section>
           {prescriptionsApiError ? (
             <section>
-              <ApiErrorNotification />
+              <ApiErrorNotification errorType="access" content="medications" />
             </section>
           ) : (
             <>

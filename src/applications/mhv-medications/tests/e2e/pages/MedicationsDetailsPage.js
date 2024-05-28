@@ -160,6 +160,13 @@ class MedicationsDetailsPage {
     });
   };
 
+  clickPrintThisPageButtonOnDetailsPage = () => {
+    cy.get('[data-testid="download-print-button"]').should('exist');
+    cy.get('[data-testid="download-print-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
   verifyPrintButtonEnabledOnDetailsPage = () => {
     cy.get('[data-testid="print-records-button"]')
       .should('contain', 'Print or download')
