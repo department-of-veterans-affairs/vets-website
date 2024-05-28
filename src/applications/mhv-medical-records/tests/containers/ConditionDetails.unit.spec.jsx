@@ -40,9 +40,9 @@ describe('Condition details container', () => {
 
   it('displays the condition name', () => {
     const conditionName = screen.getByText(
-      initialState.mr.conditions.conditionDetails.name.split(' (')[0],
+      `Health Conditions: ${initialState.mr.conditions.conditionDetails.name}`,
       {
-        exact: false,
+        exact: true,
         selector: 'h1',
       },
     );
