@@ -148,7 +148,7 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      if (recipients.allowedRecipients.length > 0) {
+      if (recipients.allowedRecipients?.length > 0) {
         setRecipientsList([
           ...defaultRecipientsList,
           ...recipients.allowedRecipients,
