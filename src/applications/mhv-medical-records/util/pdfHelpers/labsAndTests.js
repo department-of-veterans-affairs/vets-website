@@ -27,11 +27,6 @@ export const generateChemHemContent = record => ({
         inline: true,
       },
       {
-        title: 'Ordering location',
-        value: record.orderingLocation,
-        inline: true,
-      },
-      {
         title: 'Collecting location',
         value: record.collectingLocation,
         inline: true,
