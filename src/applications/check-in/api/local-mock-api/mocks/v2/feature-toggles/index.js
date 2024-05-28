@@ -8,7 +8,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceTravelLogic = true,
     checkInExperienceBrowserMonitoring = false,
     checkInExperiencePreCheckInActionLinkTopPlacement = true,
-    checkInExperienceUnifiedLandingPage = false,
+    checkInExperienceUpcomingAppointmentsEnabled = false,
   } = toggles;
 
   return {
@@ -48,8 +48,8 @@ const generateFeatureToggles = (toggles = {}) => {
           value: checkInExperiencePreCheckInActionLinkTopPlacement,
         },
         {
-          name: 'check_in_experience_unified_landing_page',
-          value: checkInExperienceUnifiedLandingPage,
+          name: 'check_in_experience_upcoming_appointments_enabled',
+          value: checkInExperienceUpcomingAppointmentsEnabled,
         },
       ],
     },

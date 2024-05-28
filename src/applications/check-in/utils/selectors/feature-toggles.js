@@ -30,8 +30,8 @@ const selectFeatureToggles = createSelector(
     isPreCheckInActionLinkTopPlacementEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperiencePreCheckInActionLinkTopPlacement
     ],
-    isUnifiedLandingPageEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceUnifiedLandingPage
+    isUpcomingAppointmentsEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceUpcomingAppointmentsEnabled
     ],
   }),
   toggles => toggles,
