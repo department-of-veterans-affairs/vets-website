@@ -108,7 +108,6 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
-  v3SegmentedProgressBar: true,
   chapters: {
     preparerTypeChapter: {
       title: 'Your identity',

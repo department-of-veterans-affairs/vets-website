@@ -84,7 +84,6 @@ const formConfig = {
       enum: [true],
     },
   },
-  v3SegmentedProgressBar: true,
   chapters: {
     preparerTypeChapter: {
       title: 'Requester information',

@@ -66,7 +66,6 @@ const formConfig = {
   },
   title: 'Request a Presidential Memorial Certificate',
   subTitle: 'Presidential Memorial Certificate request form (VA Form 40-0247)',
-  v3SegmentedProgressBar: true,
   defaultDefinitions: {
     privacyAgreementAccepted: {
       type: 'boolean',

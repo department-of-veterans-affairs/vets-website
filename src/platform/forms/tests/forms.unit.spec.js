@@ -90,7 +90,6 @@ const formConfigKeys = [
   'showReviewErrors',
   'reviewErrors',
   'useCustomScrollAndFocus',
-  'v3SegmentedProgressBar',
   'formOptions',
 ];
 
