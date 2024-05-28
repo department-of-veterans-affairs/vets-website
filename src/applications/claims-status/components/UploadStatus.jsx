@@ -14,7 +14,8 @@ export default function UploadStatus({ files, onCancel, progress }) {
       </div>
       <div>
         <h4>
-          Uploading {files} {files === 1 ? 'file' : 'files'}
+          Uploading <span data-dd-privacy="mask">{files}</span>{' '}
+          {files === 1 ? 'file' : 'files'}
           ...
         </h4>
         <va-progress-bar percent={progress * 100} />
