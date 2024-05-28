@@ -1,7 +1,6 @@
 import { appName } from '../../../manifest.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
-
 import { HEALTH_TOOLS, HEALTH_TOOL_HEADINGS } from '../../../constants';
 
 describe(`${appName} -- VA.gov Health Tools feature`, () => {
@@ -25,7 +24,8 @@ describe(`${appName} -- VA.gov Health Tools feature`, () => {
         };
         cy.findByRole('heading', heading).should.exist;
         links.forEach(({ text, href }) => {
-          cy.findByRole('link', { name: text }).should(
+          const startsWithText = new RegExp(`^${text}`);
+          cy.findByRole('link', { name: startsWithText }).should(
             'have.attr',
             'href',
             href,

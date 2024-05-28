@@ -1,26 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { validateField } from '../../util/helpers';
 
 const AllergiesPrintOnly = props => {
-  const { allergies, allergiesError } = props;
+  const { allergies } = props;
 
   const content = () => {
-    if (allergiesError === true) {
-      return (
-        <div data-testid="allergy-error-message">
-          We couldn’t access your allergy records when you downloaded this list.
-          We’re sorry. There was a problem with our system. Try again later.{' '}
-          <br />
-          <br />
-          If it still doesn’t work, call us at{' '}
-          <va-telephone not-clickable contact="8773270022" /> (
-          <va-telephone not-clickable contact={CONTACTS[711]} tty />
-          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-        </div>
-      );
-    }
     return (
       <>
         {allergies?.length > 0 ? (
@@ -91,7 +76,7 @@ const AllergiesPrintOnly = props => {
   };
 
   return (
-    <div className="print-only-rx-container">
+    <div className="print-only print-only-rx-container">
       <h2>Allergies</h2>
       {content()}
     </div>

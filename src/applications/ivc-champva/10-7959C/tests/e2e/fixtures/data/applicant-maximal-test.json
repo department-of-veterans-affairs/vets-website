@@ -20,7 +20,6 @@
       "ppo": true,
       "medicaid": true,
       "rxDiscount": true,
-      "other": false,
       "medigap": true
     },
     "applicantPrimaryEOB": "hasEob",
@@ -41,7 +40,6 @@
     "applicantMedicarePartAEffectiveDate": "2020-01-05",
     "applicantMedicareStatus": true,
     "applicantPhone": "5551231234",
-    "applicantEmailAddress": "email@email.com",
     "applicantAddress": {
       "country": "USA",
       "street": "123 Street Lane",
@@ -52,13 +50,10 @@
     "applicantSsn": "123123123",
     "applicantName": {
       "first": "Applicant",
-      "middle": "Jerry",
       "last": "Jones",
       "suffix": "Jr."
     },
     "applicantDOB": "1950-01-02",
-    "certifierRole": "applicant",
-    "preparerType": "sponsor",
     "missingUploads": [
       {
         "name": "applicantMedicarePartAPartBCard",
@@ -86,7 +81,7 @@
       }
     ],
     "consentToMailMissingRequiredFiles": true,
-    "statementOfTruthSignature": "Applicant Jerry Jones",
+    "statementOfTruthSignature": "Applicant Jones",
     "statementOfTruthCertified": true
   }
 }
