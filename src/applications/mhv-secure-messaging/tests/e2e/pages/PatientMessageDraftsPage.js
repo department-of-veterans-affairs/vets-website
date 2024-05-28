@@ -244,7 +244,7 @@ class PatientMessageDraftsPage {
     cy.wait('@sentDraftResponse');
   };
 
-  saveMultiDraftMessage = (mockResponse, messageId) => {
+  saveMultiDraftMessage = (mockResponse, messageId, btnNum) => {
     const firstNonDraftMessageId = mockMultiDraftsResponse.data.filter(
       el => el.attributes.draftDate === null,
     )[0].attributes.messageId;
@@ -255,7 +255,7 @@ class PatientMessageDraftsPage {
       }/message_drafts/${firstNonDraftMessageId}/replydraft/${messageId}`,
       { data: mockResponse },
     ).as('saveDraft');
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+    cy.get(`#save-draft-button-${btnNum}`).click();
     cy.wait('@saveDraft');
   };
 
