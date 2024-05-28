@@ -8,23 +8,13 @@ import Alert from './Alert';
 
 const PeriodsToVerify = ({
   enrollmentData,
-  // loggedInEnenrollmentData,
   link,
   toggleEnrollmentSuccess,
   verifyEnrollment,
 }) => {
-  // const userData = loggedInEnenrollmentData?.['vye::UserInfo'];
-  // const [userEnrollmentData, setUserEnrollmentData] = useState(enrollmentData);
-
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const justVerified = !!toggleEnrollmentSuccess;
   const { error } = verifyEnrollment;
-  // useEffect(
-  //   () => {
-  //     setUserEnrollmentData(enrollmentData);
-  //   },
-  //   [enrollmentData],
-  // );
 
   useEffect(
     () => {
@@ -83,15 +73,12 @@ const PeriodsToVerify = ({
 };
 
 const mapStateToProps = state => ({
-  // loggedInEnenrollmentData: state.personalInfo.personalInfo,
   verifyEnrollment: state.verifyEnrollment,
-  // verificationsResponse: state.verificationsReducer.verificationsReducer,
 });
 
 PeriodsToVerify.propTypes = {
   link: PropTypes.func,
   loading: PropTypes.bool,
-  // loggedInEnenrollmentData: PropTypes.object,
   toggleEnrollmentSuccess: PropTypes.bool,
   verifyEnrollment: PropTypes.object,
 };

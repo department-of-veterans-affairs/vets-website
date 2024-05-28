@@ -24,14 +24,7 @@ import { isSameMonth, getDateRangesBetween } from '../helpers';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
-  const {
-    // personalInfo,
-    expirationDate,
-    updated,
-    month,
-    day,
-    loading,
-  } = useData();
+  const { expirationDate, updated, month, day, loading } = useData();
   const response = useSelector(state => state.personalInfo);
   const personalInfo = response?.personalInfo?.['vye::UserInfo'];
   const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
@@ -150,8 +143,6 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
               <>
                 <PeriodsToVerify
                   enrollmentData={expandedEnrollmentData}
-                  // enrollmentData={enrollmentData}
-                  // isUserLoggedIn={isUserLoggedIn}
                   link={() => (
                     <PageLink
                       linkText="Start enrollment verification"
@@ -181,7 +172,6 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
             )}
             <PreviousEnrollmentVerifications
               enrollmentData={expandedEnrollmentData}
-              // enrollmentData={enrollmentData}
             />
             <MoreInfoCard
               marginTop="7"
