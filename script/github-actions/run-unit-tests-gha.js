@@ -131,7 +131,14 @@ if (testsToVerify === null) {
   // Stress test
   const appsToVerify = JSON.parse(process.env.APPS_TO_VERIFY)
     .filter(app => app.startsWith('src/applications'))
-    .map(app => app.split('/')[2]);
+    .map(app => app.split('/')[2])
+    .concat(
+      JSON.parse(
+        process.env.APPS_TO_VERIFY.filter(app =>
+          app.startsWith('src/platform'),
+        ),
+      ),
+    );
   console.log(appsToVerify);
   for (const app of appsToVerify) {
     const testsToRun = testsToVerify
