@@ -34,8 +34,13 @@ const submit = form => {
   const currentAddress = form.data['view:currentAddress'];
   const itemQuantities = form.data?.order?.length;
   const { order, permanentAddress, temporaryAddress, vetEmail } = form.data;
-  permanentAddress.country = countryValueToName(permanentAddress.country);
-  temporaryAddress.country = countryValueToName(temporaryAddress.country);
+  for (const address of [permanentAddress, temporaryAddress]) {
+    // Remove state for non-US addresses per DLC's preference.
+    if (address.country !== 'USA') {
+      address.state = '';
+    }
+    address.country = countryValueToName(address.country);
+  }
   const useVeteranAddress = currentAddress === 'permanentAddress';
   const useTemporaryAddress = currentAddress === 'temporaryAddress';
   const payload = {
