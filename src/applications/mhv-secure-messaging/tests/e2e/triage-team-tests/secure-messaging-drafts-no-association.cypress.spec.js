@@ -9,10 +9,8 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 
 describe('Verify drafts - No association with particular Triage Group', () => {
   const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
   const newDate = new Date().toISOString();
-
   const updatedData = mockRecipients.data.slice(1);
   const updatedMeta = { ...mockRecipients.meta, associatedTriageGroups: 6 };
   const removedFirstRecipientsList = {
@@ -23,7 +21,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
   beforeEach(() => {
     site.login();
 
-    landingPage.loadInboxMessages(
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       removedFirstRecipientsList,
@@ -47,7 +45,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       ],
     };
 
-    landingPage.loadSingleThread(mockThreadWithDraft, newDate, newDate);
+    PatientInboxPage.loadSingleThread(mockThreadWithDraft, newDate, newDate);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -113,7 +111,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       ],
     };
 
-    landingPage.loadSingleThread(mockSingleDraft, newDate, newDate);
+    PatientInboxPage.loadSingleThread(mockSingleDraft, newDate, newDate);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

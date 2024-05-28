@@ -59,7 +59,6 @@ const BenefitsProfileWrapper = ({ children }) => {
   }, []);
 
   const { signIn } = userData;
-
   return (
     <>
       <div />
@@ -113,11 +112,11 @@ const BenefitsProfileWrapper = ({ children }) => {
             {children}
             <MoreInfoCard
               marginTop="7"
-              linkText="Montgomery GI Bill Enrollment Verification"
+              linkText="Verify your school enrollment"
               relativeURL={VERIFICATION_RELATIVE_URL}
               URL={VERIFICATION_PROFILE_URL}
               className="vads-u-font-family--sans vads-u-font-weight--bold"
-              linkDescription="Verify your enrollment and view past verifications for the Montgomery GI Bill."
+              linkDescription="If you're using GI Bill benefits, you can verify your enrollment for school or training on VA.gov."
             />
             <NeedHelp />
           </div>

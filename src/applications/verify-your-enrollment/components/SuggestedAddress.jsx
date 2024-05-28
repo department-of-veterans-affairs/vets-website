@@ -109,9 +109,9 @@ const SuggestedAddress = ({
       {(isLoadingValidateAddress || isLoading) && (
         <Loader className="loader" message="updating..." />
       )}
-      <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
+      <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0">
         Mailing address
-      </p>
+      </h3>
       <div>
         <NoSuggestedAddress
           deliveryPointValidation={deliveryPointValidation}
@@ -191,6 +191,7 @@ SuggestedAddress.propTypes = {
   setGoBackToEdit: PropTypes.func.isRequired,
   address: PropTypes.object,
   formData: PropTypes.object,
+  scrollToTopOfForm: PropTypes.func,
   setSuggestedAddressPicked: PropTypes.func,
   suggestedAddressPicked: PropTypes.bool,
 };

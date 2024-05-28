@@ -41,7 +41,7 @@ export default function SubmittedTrackedItem({ item }) {
         reviewed && (
           <div>
             <span className="submission-status reviewed-file">
-              <i className="fa fa-check-circle submission-icon" />
+              <va-icon icon="check_circle" size={3} class="submission-icon" />
               Reviewed by VA
             </span>
             <span className="submission-date reviewed-file">

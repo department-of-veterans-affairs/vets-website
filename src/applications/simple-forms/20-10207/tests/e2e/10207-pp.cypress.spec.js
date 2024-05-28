@@ -8,6 +8,7 @@ import {
   fillDateWebComponentPattern,
   fillTextWebComponent,
   reviewAndSubmitPageFlow,
+  selectYesNoWebComponent,
 } from '../../../shared/tests/e2e/helpers';
 
 import formConfig from '../../config/form';
@@ -38,6 +39,9 @@ const userLOA3 = {
     },
   },
 };
+
+// tracks if already added list and loop item
+let addedListAndLoopItem = false;
 
 const testConfig = createTestConfig(
   {
@@ -83,27 +87,52 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'medical-treatment': ({ afterHook }) => {
+      'medical-treatments': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let hasReceivedMedicalTreatment =
+              data['view:hasReceivedMedicalTreatment'];
+            if (addedListAndLoopItem) {
+              hasReceivedMedicalTreatment = false;
+              addedListAndLoopItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:hasReceivedMedicalTreatment',
+              hasReceivedMedicalTreatment,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'medical-treatments/0/name-and-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { medicalTreatments } = data;
-            const {
-              facilityName,
-              facilityAddress,
-              startDate,
-            } = medicalTreatments[0];
-            fillTextWebComponent(
-              'medicalTreatments_0_facilityName',
-              facilityName,
-            );
-            fillAddressWebComponentPattern(
-              'medicalTreatments_0_facilityAddress',
-              facilityAddress,
-            );
-            fillDateWebComponentPattern(
-              'medicalTreatments_0_startDate',
-              startDate,
-            );
+            const { facilityName, facilityAddress } = medicalTreatments[0];
+
+            fillTextWebComponent('facilityName', facilityName);
+            fillAddressWebComponentPattern('facilityAddress', facilityAddress);
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'medical-treatments/0/treatment-date': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { medicalTreatments } = data;
+            const { startDate } = medicalTreatments[0];
+
+            fillDateWebComponentPattern('startDate', startDate);
+
+            addedListAndLoopItem = true;
+
             cy.findAllByText(/^Continue/, { selector: 'button' })
               .last()
               .click();

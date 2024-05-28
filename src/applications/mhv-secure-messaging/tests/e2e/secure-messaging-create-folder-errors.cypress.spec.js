@@ -5,12 +5,10 @@ import { AXE_CONTEXT, Locators, Data, Paths } from './utils/constants';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 
 describe('create folder errors check', () => {
-  const landingPage = new PatientInboxPage();
-
   beforeEach(() => {
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
   });
 
   it('create folder network error check', () => {

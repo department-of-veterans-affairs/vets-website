@@ -175,6 +175,16 @@ export const PDF_TXT_GENERATE_STATUS = {
   Success: 'PDF_GENERATE_SUCCESS',
 };
 
+export const DOWNLOAD_FORMAT = {
+  PDF: 'PDF',
+  TXT: 'TXT',
+};
+
+export const PRINT_FORMAT = {
+  PRINT: 'print',
+  PRINT_FULL_LIST: 'print-full-list',
+};
+
 export const defaultSelectedSortOption =
   sessionStorage.getItem(SESSION_SELECTED_SORT_OPTION) ??
   Object.keys(rxListSortingOptions)[0];
