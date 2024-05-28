@@ -253,7 +253,7 @@ class PatientMessageDraftsPage {
       `${
         Paths.SM_API_BASE
       }/message_drafts/${firstNonDraftMessageId}/replydraft/${messageId}`,
-      { data: mockResponse },
+      { ok: true },
     ).as('saveDraft');
     cy.get(`#save-draft-button-${btnNum}`).click();
     cy.wait('@saveDraft');

@@ -6,7 +6,7 @@ import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-resp
 
 // This test skipped due to unclear response details
 // TODO explore and figure out response details on draft save action
-describe.skip('re-save multiple drafts in one thread', () => {
+describe('re-save multiple drafts in one thread', () => {
   const site = new SecureMessagingSite();
   const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
