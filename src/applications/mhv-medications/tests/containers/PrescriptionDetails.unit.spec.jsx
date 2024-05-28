@@ -6,12 +6,25 @@ import {
   mockFetch,
   resetFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import PrescriptionDetails from '../../containers/PrescriptionDetails';
 import rxDetailsResponse from '../fixtures/prescriptionDetails.json';
 import nonVaRxResponse from '../fixtures/nonVaPrescription.json';
 import { dateFormat } from '../../util/helpers';
+
+const allergyErrorState = {
+  initialState: {
+    rx: {
+      prescriptions: {
+        prescriptionDetails: rxDetailsResponse.data.attributes,
+      },
+      allergies: { error: true },
+    },
+  },
+  reducers: reducer,
+  path: '/',
+};
 
 describe('Prescription details container', () => {
   const initialState = {
@@ -72,6 +85,40 @@ describe('Prescription details container', () => {
     waitFor(() => {
       expect(screen.getByTestId('loading-indicator')).to.exist;
       expect(screen.getByText('Loading your medication record...')).to.exist;
+    });
+  });
+
+  it('should show the allergy error alert when downloading txt', () => {
+    resetFetch();
+    const mockData = [nonVaRxResponse];
+    mockApiRequest(mockData);
+    const screen = renderWithStoreAndRouter(
+      <PrescriptionDetails />,
+      allergyErrorState,
+    );
+    const pdfButton = screen.getByTestId('download-txt-button');
+    fireEvent.click(pdfButton);
+    expect(screen);
+    waitFor(() => {
+      expect(screen.getByText('We can’t download your records right now')).to
+        .exist;
+    });
+  });
+
+  it('should show the allergy error alert when printing', () => {
+    resetFetch();
+    const mockData = [nonVaRxResponse];
+    mockApiRequest(mockData);
+    const screen = renderWithStoreAndRouter(
+      <PrescriptionDetails />,
+      allergyErrorState,
+    );
+    const pdfButton = screen.getByTestId('download-print-button');
+    fireEvent.click(pdfButton);
+    expect(screen);
+    waitFor(() => {
+      expect(screen.getByText('We can’t print your records right now')).to
+        .exist;
     });
   });
 

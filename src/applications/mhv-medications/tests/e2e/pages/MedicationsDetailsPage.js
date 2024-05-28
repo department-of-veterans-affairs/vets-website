@@ -160,6 +160,13 @@ class MedicationsDetailsPage {
     });
   };
 
+  clickPrintThisPageButtonOnDetailsPage = () => {
+    cy.get('[data-testid="download-print-button"]').should('exist');
+    cy.get('[data-testid="download-print-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
   verifyPrintButtonEnabledOnDetailsPage = () => {
     cy.get('[data-testid="print-records-button"]')
       .should('contain', 'Print or download')
@@ -354,6 +361,10 @@ class MedicationsDetailsPage {
       'have.text',
       `${prescriptionDetails.data.attributes.dispStatus}`,
     );
+  };
+
+  verifyFacilityInPlainLanguageOnDetailsPage = prescription => {
+    cy.get('[data-testid="facility-name"]').should('contain', prescription);
   };
 }
 export default MedicationsDetailsPage;
