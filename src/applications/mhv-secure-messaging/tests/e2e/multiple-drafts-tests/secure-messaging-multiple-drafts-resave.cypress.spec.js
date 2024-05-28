@@ -4,8 +4,6 @@ import { AXE_CONTEXT, Data } from '../utils/constants';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
-// This test skipped due to unclear response details
-// TODO explore and figure out response details on draft save action
 describe('re-save multiple drafts in one thread', () => {
   const site = new SecureMessagingSite();
   const landingPage = new PatientInboxPage();
