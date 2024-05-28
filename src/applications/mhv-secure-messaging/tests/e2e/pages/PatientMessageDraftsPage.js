@@ -578,7 +578,7 @@ class PatientMessageDraftsPage {
       .and(
         'have.text',
         `Draft ${number} To: ${
-          response.data[index].attributes.recipientName
+          response.data[index].attributes.senderName
         }\n(Team: ${response.data[index].attributes.triageGroupName})`,
       );
   };

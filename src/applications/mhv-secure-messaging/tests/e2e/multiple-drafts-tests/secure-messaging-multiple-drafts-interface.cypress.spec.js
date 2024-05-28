@@ -84,18 +84,29 @@ describe('handle multiple drafts in one thread', () => {
   it('verify single draft details', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
+    const receivedMessageIndex = mockMultiDraftsResponse.data.findIndex(
+      el => el.attributes.folderId === 0,
+    );
 
     // TODO fix assertion below
     // expand and verify first draft
     draftPage.expandSingleDraft(2);
     draftPage.verifyExpandedDraftButtons(2);
-    // draftPage.verifyExpandedSingleDraft(updatedMultiDraftResponse, 2, 0);
+    draftPage.verifyExpandedSingleDraft(
+      updatedMultiDraftResponse,
+      2,
+      receivedMessageIndex,
+    );
     draftPage.expandSingleDraft(2);
 
     // expand and verify second draft
     draftPage.expandSingleDraft(1);
     draftPage.verifyExpandedDraftButtons(1);
-    // draftPage.verifyExpandedSingleDraft(updatedMultiDraftResponse, 1, 1);
+    draftPage.verifyExpandedSingleDraft(
+      updatedMultiDraftResponse,
+      1,
+      receivedMessageIndex,
+    );
     draftPage.expandSingleDraft(1);
   });
 });
