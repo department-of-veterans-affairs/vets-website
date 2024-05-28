@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
-import AutoSuggest from './MyAutoSuggestField';
+import AutoSuggest from './MilitaryAutoSuggestField';
 import jsonData from '../utils/Military Ranks.json';
 
 function HighestRankAutoSuggest({ formData }) {

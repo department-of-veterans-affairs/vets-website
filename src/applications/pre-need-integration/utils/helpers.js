@@ -29,7 +29,6 @@ import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
 import highestRankAutoSuggest from '../components/HighestRankAutoSuggest';
-import serviceBranchAutoSuggest from '../components/ServiceBranchAutoSuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -1056,10 +1055,11 @@ export const selfServiceRecordsUI = {
     'ui:options': {
       itemName: 'Service Period',
     },
-    serviceBranch: {
-      'ui:title': 'Branch of service',
-      'ui:field': serviceBranchAutoSuggest,
-    },
+    serviceBranch: autosuggest.uiSchema('Branch of service', null, {
+      'ui:options': {
+        labels: serviceLabels,
+      },
+    }),
     dateRange: dateRangeUI(
       'Service start date',
       'Service end date',

@@ -40,6 +40,10 @@ function AutoSuggest({ value, setValue, labels, onSelectionChange, maxItems }) {
     return score;
   };
 
+  const formatValue = valueText => {
+    return valueText.toLowerCase();
+  };
+
   return (
     <Downshift
       onChange={selection => {
@@ -89,7 +93,7 @@ function AutoSuggest({ value, setValue, labels, onSelectionChange, maxItems }) {
                   >
                     {item.label.value === ''
                       ? item.label.key
-                      : item.label.value}
+                      : formatValue(item.label.value)}
                   </div>
                 ))}
             </div>
