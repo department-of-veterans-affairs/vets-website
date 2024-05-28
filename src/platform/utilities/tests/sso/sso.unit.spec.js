@@ -61,7 +61,7 @@ const fakeWindow = () => {
       set: value => {
         global.window.location = value;
       },
-      host: 'www.va.gov',
+      host: 'www.va.gov', // fix
       pathname: '',
       search: '',
     },
