@@ -13,10 +13,8 @@
     "applicantSecondaryExpirationDate": "2023-05-02",
     "applicantHasSecondary": true,
     "applicantHasPrimary": false,
-    "applicantMedicareStatusContinued": "ineligible",
     "applicantMedicareStatus": false,
     "applicantPhone": "1231231234",
-    "applicantEmailAddress": "applicant@email.gov",
     "applicantAddress": {
       "country": "USA",
       "street": "123 Circle Street",
@@ -27,31 +25,10 @@
     "applicantSsn": "123123123",
     "applicantName": {
       "first": "Applicant",
-      "middle": "Quincy",
       "last": "Jones",
       "suffix": "III"
     },
     "applicantDOB": "2000-02-01",
-    "certifierRelationship": {
-      "relationshipToApplicants": "other",
-      "otherRelationshipToApplicants": "Other relationship here"
-    },
-    "certifierPhone": "1231231234",
-    "certifierEmail": "test@email.com",
-    "certifierAddress": {
-      "country": "USA",
-      "street": "123 Streettown",
-      "city": "Cityland",
-      "state": "DE",
-      "postalCode": "12312"
-    },
-    "certifierName": {
-      "first": "Certifier",
-      "middle": "Jerry",
-      "last": "Jones"
-    },
-    "certifierRole": "other",
-    "preparerType": "sponsor",
     "missingUploads": [
       {
         "name": "secondaryInsuranceCard",
@@ -61,7 +38,7 @@
       }
     ],
     "consentToMailMissingRequiredFiles": true,
-    "statementOfTruthSignature": "Certifier Jerry Jones",
+    "statementOfTruthSignature": "Applicant Jones",
     "statementOfTruthCertified": true
   }
 }

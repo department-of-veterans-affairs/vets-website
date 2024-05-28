@@ -29,10 +29,8 @@
     "applicantPrimaryEffectiveDate": "2001-01-02",
     "applicantPrimaryExpirationDate": "2020-03-03",
     "applicantHasPrimary": true,
-    "applicantMedicareStatusContinued": "ineligible",
     "applicantMedicareStatus": false,
     "applicantPhone": "5551112222",
-    "applicantEmailAddress": "email@email.gov",
     "applicantAddress": {
       "country": "USA",
       "street": "456 Street Avenue",
@@ -43,20 +41,11 @@
     "applicantSsn": "333221111",
     "applicantName": {
       "first": "Applicant",
-      "middle": "Jerry",
       "last": "Jones",
       "suffix": "Sr."
     },
     "applicantDOB": "1950-02-03",
-    "certifierRole": "applicant",
-    "preparerType": "sponsor",
     "missingUploads": [
-      {
-        "name": "applicantMedicareIneligibleProof",
-        "path": "medicare-ineligible-upload",
-        "required": true,
-        "uploaded": false
-      },
       {
         "name": "primaryInsuranceCard",
         "path": "insurance-upload",
@@ -71,7 +60,7 @@
       }
     ],
     "consentToMailMissingRequiredFiles": true,
-    "statementOfTruthSignature": "Applicant Jerry Jones",
+    "statementOfTruthSignature": "Applicant Jones",
     "statementOfTruthCertified": true
   }
 }
