@@ -154,7 +154,7 @@ Provider Notes: ${processList(record.comments)}\n`;
             aria-describedby="condition-date"
             data-dd-privacy="mask"
           >
-            {record.name.split(' (')[0]}
+            {`Health Conditions: ${record.name.split(' (')[0]}`}
           </h1>
           <DateSubheading
             date={record.date}
