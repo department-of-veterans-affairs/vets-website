@@ -16,7 +16,7 @@ describe('PreviousEnrollmentVerifications', () => {
   it('should render', () => {
     const { container } = render(
       <PreviousEnrollmentVerifications
-        enrollmentData={UPDATED_USER_MOCK_DATA}
+        enrollmentData={UPDATED_USER_MOCK_DATA['vye::UserInfo']}
       />,
     );
     expect(container).to.be.ok;
@@ -25,7 +25,7 @@ describe('PreviousEnrollmentVerifications', () => {
   it('should render with mock enrollment data', async () => {
     const { getByText } = render(
       <PreviousEnrollmentVerifications
-        enrollmentData={UPDATED_USER_MOCK_DATA}
+        enrollmentData={UPDATED_USER_MOCK_DATA['vye::UserInfo']}
       />,
     );
 
@@ -55,7 +55,7 @@ describe('PreviousEnrollmentVerifications', () => {
   it('simulates page change in VaPagination to page 2', async () => {
     const wrapper = mount(
       <PreviousEnrollmentVerifications
-        enrollmentData={PAGINATION_USER_MOCK_DATA}
+        enrollmentData={PAGINATION_USER_MOCK_DATA['vye::UserInfo']}
       />,
     );
 
@@ -86,7 +86,7 @@ describe('PreviousEnrollmentVerifications', () => {
   it('simulates page change in VaPagination to last page', async () => {
     const wrapper = mount(
       <PreviousEnrollmentVerifications
-        enrollmentData={PAGINATION_USER_MOCK_DATA}
+        enrollmentData={PAGINATION_USER_MOCK_DATA['vye::UserInfo']}
       />,
     );
 
