@@ -57,13 +57,11 @@ export function applicantHasInsuranceSchema(isPrimary) {
       [keyname]: {
         ...yesNoUI({
           updateUiSchema: formData => {
-            const useFirstPerson = formData.certifierRole === 'applicant';
             return {
-              'ui:title': `${
-                useFirstPerson
-                  ? 'Do you'
-                  : `Does ${nameWording(formData, false)}`
-              } need to provide or update any other health insurance coverage?`,
+              'ui:title': `Does ${nameWording(
+                formData,
+                false,
+              )} need to provide or update any other health insurance coverage?`,
               'ui:options': {
                 hint: additionalFilesHint,
               },
@@ -267,13 +265,11 @@ export function applicantInsuranceTypeSchema(isPrimary) {
           },
           required: true,
           updateUiSchema: formData => {
-            const useFirstPerson = formData.certifierRole === 'applicant';
             return {
-              'ui:title': `What type of insurance ${
-                useFirstPerson
-                  ? 'are you'
-                  : `is ${nameWording(formData, false)}`
-              } enrolled in?`,
+              'ui:title': `What type of insurance is ${nameWording(
+                formData,
+                false,
+              )} enrolled in?`,
             };
           },
         }),
@@ -315,13 +311,11 @@ export function applicantMedigapSchema(isPrimary) {
           required: () => true,
           labels: MEDIGAP,
           updateUiSchema: formData => {
-            const useFirstPerson = formData.certifierRole === 'applicant';
             return {
-              'ui:title': `What type of Medigap plan ${
-                useFirstPerson
-                  ? 'are you'
-                  : `is ${nameWording(formData, false)}`
-              } enrolled in?`,
+              'ui:title': `What type of Medigap plan is ${nameWording(
+                formData,
+                false,
+              )} enrolled in?`,
             };
           },
         }),

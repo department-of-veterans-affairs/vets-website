@@ -1,14 +1,14 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { getObjectsWithAttachmentId } from '../helpers/utilities';
 
 function getPrimaryContact(data) {
   // For callback API we need to know what data in the form should be
-  // treated as the primary contact. Determined based on `certifierRole`:
-  const useCert = data.certifierRole !== 'applicant';
+  // treated as the primary contact.
   return {
-    name: (useCert ? data?.certifierName : data?.applicantName) ?? false,
-    email: useCert ? data?.certifierEmail ?? false : false, // certifier is the only email we'll potentially have
-    phone: (useCert ? data?.certifierPhone : data?.applicantPhone) ?? false,
+    name: data?.applicantName ?? false,
+    email: false, // We don't collect email
+    phone: data?.applicantPhone ?? false,
   };
 }
 
@@ -22,8 +22,10 @@ export default function transformForSubmit(formConfig, form) {
   copyOfData.hasOtherHealthInsurance =
     copyOfData.applicantHasPrimary || copyOfData.applicantHasSecondary;
 
-  copyOfData.applicantName.middle =
-    copyOfData.applicantName?.middle?.charAt(0) ?? '';
+  if (copyOfData.applicantName?.middle) {
+    copyOfData.applicantName.middle =
+      copyOfData.applicantName?.middle?.charAt(0) ?? '';
+  }
 
   // go from medigapPlanA -> A
   if (copyOfData.primaryMedigapPlan) {
@@ -46,6 +48,8 @@ export default function transformForSubmit(formConfig, form) {
   copyOfData.certificationDate = new Date()
     .toLocaleDateString('es-pa')
     .replace(/\//g, '-');
+
+  copyOfData.supportingDocs = getObjectsWithAttachmentId(copyOfData);
 
   // Set this for the callback API so it knows who to contact if there's
   // a status event notification

@@ -28,6 +28,7 @@
     "daily-product-scan": "node script/github-actions/daily-product-scan/index.js",
     "debug:webpack:prod": "NODE_ENV=production NODE_OPTIONS=--max-old-space-size=4096 node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js --env.buildtype vagovprod",
     "generate-app-list": "node script/github-actions/generate-app-list.js",
+    "generate-form-docs": "node ./script/generate-form-docs.js",
     "heroku-postbuild": "sh script/heroku-postbuild.sh",
     "heroku-serve": "http-server",
     "install-repos": "./script/install-repos.sh",
