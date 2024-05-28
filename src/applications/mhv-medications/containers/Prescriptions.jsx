@@ -8,6 +8,7 @@ import React, {
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import PropTypes from 'prop-types';
 import {
   usePrintTitle,
@@ -18,7 +19,6 @@ import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selector
 import {
   getPrescriptionsPaginatedSortedList,
   getAllergiesList,
-  clearAllergiesError,
 } from '../actions/prescriptions';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
@@ -26,6 +26,7 @@ import {
   dateFormat,
   generateMedicationsPDF,
   generateTextFile,
+  getErrorTypeFromFormat,
 } from '../util/helpers';
 import { Actions } from '../util/actionTypes';
 import {
@@ -35,13 +36,11 @@ import {
   defaultSelectedSortOption,
   medicationsUrls,
   DD_ACTIONS_PAGE_TYPE,
-} from '../util/constants';
-import PrintDownload, {
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
-} from '../components/shared/PrintDownload';
+} from '../util/constants';
+import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
-import AllergiesErrorModal from '../components/shared/AllergiesErrorModal';
 import {
   buildPrescriptionsPDFList,
   buildAllergiesPDFList,
@@ -84,7 +83,7 @@ const Prescriptions = () => {
     false,
   );
   const [isRetrievingFullList, setIsRetrievingFullList] = useState(false);
-  const [isAlertVisible, setAlertVisible] = useState('false');
+  const [isAlertVisible, setAlertVisible] = useState(false);
   const [isLoading, setLoading] = useState();
   const [loadingMessage, setLoadingMessage] = useState('');
   const [sortingInProgress, setSortingInProgress] = useState(false);
@@ -202,9 +201,9 @@ const Prescriptions = () => {
         !isLoading &&
         (!paginatedPrescriptionsList || paginatedPrescriptionsList?.length <= 0)
       ) {
-        setAlertVisible('true');
-      } else if (isAlertVisible === 'true') {
-        setAlertVisible('false');
+        setAlertVisible(true);
+      } else if (isAlertVisible) {
+        setAlertVisible(false);
       }
     },
     [isLoading, paginatedPrescriptionsList, isAlertVisible],
@@ -452,38 +451,13 @@ const Prescriptions = () => {
     if (!allergies) await dispatch(getAllergiesList());
   };
 
-  const handleModalClose = () => {
-    dispatch(clearAllergiesError());
-    setPdfTxtGenerateStatus({
-      ...pdfTxtGenerateStatus,
-      status: PDF_TXT_GENERATE_STATUS.NotStarted,
-    });
-  };
-
-  const handleModalDownloadButton = () => {
-    if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
-      generatePDF(buildPrescriptionsPDFList(prescriptionsFullList));
-    } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
-      generateTXT(
-        buildPrescriptionsTXT(prescriptionsFullList),
-        buildAllergiesTXT(),
-      );
-    } else {
-      updateLoadingStatus(false, '');
-      setPrintedList(
-        pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT_FULL_LIST
-          ? paginatedPrescriptionsList
-          : prescriptionsFullList,
-      );
-      setPdfTxtGenerateStatus({
-        status: PDF_TXT_GENERATE_STATUS.NotStarted,
-      });
-      printRxList();
-    }
-    setTimeout(() => {
-      dispatch(clearAllergiesError());
-    }, 1);
-  };
+  const isShowingErrorNotification = Boolean(
+    ((prescriptionsFullList?.length &&
+      pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
+      paginatedPrescriptionsList) &&
+      pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
+      allergiesError,
+  );
 
   const content = () => {
     if (!isLoading) {
@@ -500,7 +474,7 @@ const Prescriptions = () => {
           <br />
           <br />
           {prescriptionsApiError ? (
-            <ApiErrorNotification />
+            <ApiErrorNotification errorType="access" content="medications" />
           ) : (
             <>
               {paginatedPrescriptionsList &&
@@ -539,26 +513,30 @@ const Prescriptions = () => {
                     paginatedPrescriptionsList={paginatedPrescriptionsList}
                     ssoe={ssoe}
                   />
-                  <AllergiesErrorModal
-                    onCloseButtonClick={handleModalClose}
-                    onDownloadButtonClick={handleModalDownloadButton}
-                    onCancelButtonClick={handleModalClose}
-                    isPrint={Boolean(
-                      pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT ||
-                        pdfTxtGenerateStatus.format ===
-                          PRINT_FORMAT.PRINT_FULL_LIST,
-                    )}
-                    visible={Boolean(
-                      ((prescriptionsFullList?.length &&
-                        pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
-                        paginatedPrescriptionsList) &&
-                        pdfTxtGenerateStatus.status ===
-                          PDF_TXT_GENERATE_STATUS.InProgress &&
-                        allergiesError,
-                    )}
-                  />
+                  {isShowingErrorNotification && (
+                    <div className="vads-u-margin-y--3">
+                      <ApiErrorNotification
+                        errorType={getErrorTypeFromFormat(
+                          pdfTxtGenerateStatus.format,
+                        )}
+                        content="records"
+                      >
+                        <div>
+                          If it still doesn’t work, call us at{' '}
+                          <va-telephone contact="8773270022" /> (
+                          <va-telephone contact={CONTACTS[711]} tty />
+                          ). We’re here Monday through Friday, 8:00 a.m. to 8:00
+                          p.m. ET.
+                        </div>
+                      </ApiErrorNotification>
+                    </div>
+                  )}
                   {paginatedPrescriptionsList?.length ? (
-                    <div className="landing-page-content">
+                    <div
+                      className={`landing-page-content vads-u-margin-top--${
+                        !isShowingErrorNotification ? '5' : '3'
+                      }`}
+                    >
                       <PrintDownload
                         download={handleFullListDownload}
                         isSuccess={
@@ -606,7 +584,7 @@ const Prescriptions = () => {
       {content()}
       <PrescriptionsPrintOnly
         list={printedList}
-        hasError={hasFullListDownloadError || isAlertVisible === 'true'}
+        hasError={hasFullListDownloadError || isAlertVisible || allergiesError}
       />
     </div>
   );

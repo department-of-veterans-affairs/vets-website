@@ -67,7 +67,7 @@ describe('NOD contact info loop', () => {
     cy.get('a[href$="phone"]').click();
     cy.location('pathname').should(
       'eq',
-      `${NOD_BASE_URL}/edit-contact-information-mobile-phone`,
+      `${NOD_BASE_URL}/contact-information/edit-mobile-phone`,
     );
     cy.injectAxe();
     cy.axeCheck();
@@ -93,7 +93,7 @@ describe('NOD contact info loop', () => {
     cy.get('a[href$="email-address"]').click();
     cy.location('pathname').should(
       'eq',
-      `${NOD_BASE_URL}/edit-contact-information-email-address`,
+      `${NOD_BASE_URL}/contact-information/edit-email-address`,
     );
     cy.injectAxe();
     cy.axeCheck();
@@ -119,7 +119,7 @@ describe('NOD contact info loop', () => {
     cy.get('a[href$="mailing-address"]').click();
     cy.location('pathname').should(
       'eq',
-      `${NOD_BASE_URL}/edit-contact-information-mailing-address`,
+      `${NOD_BASE_URL}/contact-information/edit-mailing-address`,
     );
     cy.injectAxe();
     cy.axeCheck();
