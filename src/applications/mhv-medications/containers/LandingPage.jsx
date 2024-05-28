@@ -18,6 +18,7 @@ import {
 } from '../util/constants';
 import { selectRefillContentFlag } from '../util/selectors';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const LandingPage = () => {
   const user = useSelector(selectUser);
@@ -113,9 +114,11 @@ const LandingPage = () => {
           {prescriptionsApiError ? (
             <section>
               <ApiErrorNotification errorType="access" content="medications" />
+              <CernerFacilityAlert />
             </section>
           ) : (
             <>
+              <CernerFacilityAlert />
               {paginatedPrescriptionsList?.length ? (
                 <section>
                   <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
