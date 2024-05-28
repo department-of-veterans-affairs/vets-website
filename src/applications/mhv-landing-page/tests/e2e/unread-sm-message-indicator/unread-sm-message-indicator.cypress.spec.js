@@ -14,7 +14,6 @@ describe(manifest.appName, () => {
         name: /You have unread messages. Go to your inbox/i,
       });
 
-    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('renders', () => {
       ApiInitializer.initializeMessageData.withUnreadMessages();
       LandingPage.visit({ mhvAccountState: 'OK' });
@@ -22,7 +21,6 @@ describe(manifest.appName, () => {
       cy.injectAxeThenAxeCheck();
     });
 
-    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('does not render when no unread messages', () => {
       ApiInitializer.initializeMessageData.withNoUnreadMessages();
       LandingPage.visit();
@@ -30,7 +28,6 @@ describe(manifest.appName, () => {
       cy.injectAxeThenAxeCheck();
     });
 
-    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
     it('does not render when no MHV account', () => {
       ApiInitializer.initializeMessageData.withUnreadMessages();
       LandingPage.visit({ mhvAccountState: 'NONE' });
