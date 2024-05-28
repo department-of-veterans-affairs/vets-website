@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { within } from '@testing-library/react';
 
 import ClaimPhaseStepper from '../../../components/claim-overview-tab/ClaimPhaseStepper';
 import { renderWithRouter } from '../../utils';
@@ -65,6 +66,7 @@ describe('<ClaimPhaseStepper>', () => {
       'Note: You can submit evidence at any time. But if you submit evidence after this step, your claim will go back to this step for review.',
     );
   });
+
   it('should render a ClaimPhaseStepper section where step 4 is the current step', () => {
     const { container, getByText } = renderWithRouter(
       <ClaimPhaseStepper
@@ -81,8 +83,112 @@ describe('<ClaimPhaseStepper>', () => {
     expect(phaseRepeats).to.exist;
 
     getByText('We’ll review all the evidence for your claim.');
+    const phaseText = $('#phase4, container');
+    expect(
+      within(phaseText).getByText(
+        'If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
+      ),
+    ).to.exist;
+  });
+
+  it('should render a ClaimPhaseStepper section where step 5 is the current step', () => {
+    const { container, getByText } = renderWithRouter(
+      <ClaimPhaseStepper
+        claimDate={claimDate}
+        currentClaimPhaseDate={currentClaimPhaseDate}
+        currentPhase={5}
+      />,
+    );
+    expect($('.claim-phase-stepper', container)).to.exist;
+    const currentPhase = $('#phase5 .current-phase', container);
+    expect(currentPhase).to.exist;
+
+    const phaseRepeats = $('#phase5 .repeat-phase', container);
+    expect(phaseRepeats).to.exist;
+
+    getByText('We’ll decide your claim and determine your disability rating.');
+    const phaseText = $('#phase6, container');
+    expect(
+      within(phaseText).getByText(
+        'If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
+      ),
+    ).to.exist;
+  });
+
+  it('should render a ClaimPhaseStepper section where step 6 is the current step', () => {
+    const { container, getByText } = renderWithRouter(
+      <ClaimPhaseStepper
+        claimDate={claimDate}
+        currentClaimPhaseDate={currentClaimPhaseDate}
+        currentPhase={6}
+      />,
+    );
+    expect($('.claim-phase-stepper', container)).to.exist;
+    const currentPhase = $('#phase6 .current-phase', container);
+    expect(currentPhase).to.exist;
+
+    const phaseRepeats = $('#phase6 .repeat-phase', container);
+    expect(phaseRepeats).to.exist;
+
+    getByText('We’ll prepare your decision letter.');
     getByText(
-      'If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
+      'If you’re eligible for disability benefits, this letter will include your disability rating, the amount of your monthly payments, and the date your payments will start.',
+    );
+    const phaseText = $('#phase6, container');
+    expect(
+      within(phaseText).getByText(
+        'If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
+      ),
+    ).to.exist;
+  });
+
+  it('should render a ClaimPhaseStepper section where step 7 is the current step', () => {
+    const { container, getByText } = renderWithRouter(
+      <ClaimPhaseStepper
+        claimDate={claimDate}
+        currentClaimPhaseDate={currentClaimPhaseDate}
+        currentPhase={7}
+      />,
+    );
+    expect($('.claim-phase-stepper', container)).to.exist;
+    const currentPhase = $('#phase7 .current-phase', container);
+    expect(currentPhase).to.exist;
+
+    const phaseRepeats = $('#phase7 .repeat-phase', container);
+    expect(phaseRepeats).to.not.exist;
+
+    getByText(
+      'A senior reviewer will do a final review of your claim and the decision letter.',
+    );
+
+    const phaseText = $('#phase7, container');
+    expect(
+      within(phaseText).getByText(
+        'If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
+      ),
+    ).to.exist;
+  });
+
+  it('should render a ClaimPhaseStepper section where step 8 is the current step', () => {
+    const { container, getByText } = renderWithRouter(
+      <ClaimPhaseStepper
+        claimDate={claimDate}
+        currentClaimPhaseDate={currentClaimPhaseDate}
+        currentPhase={8}
+      />,
+    );
+    expect($('.claim-phase-stepper', container)).to.exist;
+    const currentPhase = $('#phase8 .current-phase', container);
+    expect(currentPhase).to.exist;
+
+    const phaseRepeats = $('#phase8 .repeat-phase', container);
+    expect(phaseRepeats).to.not.exist;
+
+    getByText(
+      'You’ll be able to view and download your decision letter on the status page for this claim.',
+    );
+    getByText(
+      'We’ll also send you a copy of your decision letter by mail. It should arrive within 10 business days, but it may take longer.',
     );
   });
 });

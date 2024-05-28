@@ -112,7 +112,7 @@ export default function ClaimPhaseStepper({
       header: 'Step 6: Preparing decision letter',
       description: (
         <>
-          <p>We’ll prepare your decision letter. </p>
+          <p>We’ll prepare your decision letter.</p>
           <p>
             If you’re eligible for disability benefits, this letter will include
             your disability rating, the amount of your monthly payments, and the
@@ -148,7 +148,7 @@ export default function ClaimPhaseStepper({
         <>
           <p>
             You’ll be able to view and download your decision letter on the
-            status page for this claim.{' '}
+            status page for this claim.
           </p>
           <Link
             aria-label="Go to the status page for this claim"
