@@ -35,8 +35,8 @@ export const showLegacyHeader = () => {
  * @param {boolean} show
  */
 export const toggleMinimalHeader = show => {
-  const minimalHeader = document.querySelector('#header-minimal');
-  const defaultHeader = document.querySelector('header#header-default');
+  const minimalHeader = document.getElementById('header-minimal');
+  const defaultHeader = document.getElementById('header-default');
 
   if (!minimalHeader || !defaultHeader) {
     return;

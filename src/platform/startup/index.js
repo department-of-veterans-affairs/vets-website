@@ -55,13 +55,18 @@ export default function startApp({
       basename: url,
     });
 
-    store.dispatch(updateRoute(history.getCurrentLocation()));
+    try {
+      store.dispatch(updateRoute(history.getCurrentLocation()));
 
-    history.listen(location => {
-      if (location) {
-        store.dispatch(updateRoute(location));
-      }
-    });
+      history.listen(location => {
+        if (location) {
+          store.dispatch(updateRoute(location));
+        }
+      });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Error dispatching route change');
+    }
   }
 
   let content = component;

@@ -35,12 +35,7 @@ export function updateRoute(location) {
   if (!location) {
     return {
       type: UPDATE_ROUTE,
-      location: {
-        base: '',
-        path: '',
-        search: '',
-        hash: '',
-      },
+      location: {},
     };
   }
 

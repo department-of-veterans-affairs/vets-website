@@ -9,16 +9,17 @@ import App from './components/App';
 
 const setupMinimalHeader = () => {
   let showMinimalHeader;
+  // #header-minimal will not be in the DOM unless specified in content-build
   const headerMinimal = document.querySelector('#header-minimal');
 
   if (headerMinimal) {
-    showMinimalHeader = () => false;
-    if (headerMinimal.dataset.excludePaths) {
+    showMinimalHeader = () => true;
+    if (headerMinimal.dataset?.excludePaths) {
       const excludePathsString = headerMinimal.dataset.excludePaths;
       const excludePaths = JSON.parse(excludePathsString);
       // Remove the data attribute from the DOM since it's no longer needed
       headerMinimal.removeAttribute('data-exclude-paths');
-      showMinimalHeader = path => !excludePaths.includes(path);
+      showMinimalHeader = path => path != null && !excludePaths.includes(path);
     }
   }
 

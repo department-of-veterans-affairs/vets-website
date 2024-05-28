@@ -10,12 +10,7 @@ import {
 } from '../actions';
 
 const initialState = {
-  route: {
-    base: '',
-    path: '',
-    search: '',
-    hash: '',
-  },
+  route: {},
   showFormSignInModal: false,
   showLoginModal: false,
   showAccountTransitionModal: false,
@@ -57,10 +52,10 @@ export default function userNavReducer(state = initialState, action) {
       return set(
         'route',
         {
-          base: action.location.base,
-          path: action.location.path,
-          search: action.location.search,
-          hash: action.location.hash,
+          base: action.location?.base,
+          path: action.location?.path,
+          search: action.location?.search,
+          hash: action.location?.hash,
         },
         state,
       );

@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import debounce from 'platform/utilities/data/debounce';
 import { updateLayoutHeaderType } from 'platform/site-wide/layout/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import MobileHeader from '../Header';
@@ -12,6 +13,45 @@ import {
 
 const MOBILE_BREAKPOINT_PX = 768;
 
+function determineHeaderState(show, showMinimalHeader, path, isDesktop) {
+  if (!show) {
+    return 'none';
+  }
+  if (
+    showMinimalHeader &&
+    (typeof showMinimalHeader === 'function'
+      ? showMinimalHeader(path)
+      : showMinimalHeader)
+  ) {
+    return 'minimal';
+  }
+
+  if (!isDesktop) {
+    return 'mobile';
+  }
+
+  return 'default';
+}
+
+function setStaticHeaderDisplay(
+  show,
+  isMinimalHeaderApplicable,
+  headerState,
+  isDesktop,
+) {
+  if (show) {
+    if (isMinimalHeaderApplicable) {
+      toggleMinimalHeader(headerState === 'minimal');
+    }
+    if (isDesktop) {
+      showLegacyHeader();
+    } else {
+      hideLegacyHeader();
+    }
+  }
+  // else everything is already hidden by default
+}
+
 export const App = ({
   megaMenuData,
   show,
@@ -21,54 +61,51 @@ export const App = ({
 }) => {
   const dispatch = useDispatch();
   const path = useSelector(state => state?.navigation?.route?.path);
+  const [headerState, setHeaderState] = useState(null);
   const [isDesktop, setIsDesktop] = useState(
     window.innerWidth >= MOBILE_BREAKPOINT_PX,
   );
-  const prevHeaderState = useRef(null);
-  const isMinimalHeaderApplicable = !!showMinimalHeader;
-
-  let headerState = 'default';
-  if (!show) {
-    headerState = 'none';
-  } else if (isMinimalHeaderApplicable && showMinimalHeader(path)) {
-    headerState = 'minimal';
-  } else if (!isDesktop) {
-    headerState = 'mobile';
-  }
-
-  const deriveIsDesktop = () =>
-    setIsDesktop(window.innerWidth >= MOBILE_BREAKPOINT_PX);
 
   useEffect(() => {
+    const deriveIsDesktop = () =>
+      setIsDesktop(window.innerWidth >= MOBILE_BREAKPOINT_PX);
+
+    const onResize = debounce(100, deriveIsDesktop);
+
     recordEvent({
       event: 'phased-roll-out-enabled',
       'product-description': 'Header V2',
     });
 
-    window.addEventListener('resize', deriveIsDesktop);
+    window.addEventListener('resize', onResize);
 
-    return () => window.removeEventListener('resize', deriveIsDesktop);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
-  if (prevHeaderState.current !== headerState) {
-    prevHeaderState.current = headerState;
+  useEffect(
+    () => {
+      const newHeaderState = determineHeaderState(
+        show,
+        showMinimalHeader,
+        path,
+        isDesktop,
+      );
 
-    if (show) {
-      if (isMinimalHeaderApplicable) {
-        toggleMinimalHeader(headerState === 'minimal');
+      if (headerState !== newHeaderState) {
+        setStaticHeaderDisplay(
+          show,
+          showMinimalHeader,
+          newHeaderState,
+          isDesktop,
+        );
+        setHeaderState(newHeaderState);
+        dispatch(updateLayoutHeaderType(newHeaderState));
       }
-      if (isDesktop) {
-        showLegacyHeader();
-      } else {
-        hideLegacyHeader();
-      }
-    }
+    },
+    [show, showMinimalHeader, path, isDesktop, dispatch, headerState],
+  );
 
-    dispatch(updateLayoutHeaderType(headerState));
-  }
-
-  if (!show || headerState === 'minimal' || headerState === 'default') {
-    // don't show MobileHeader
+  if (!show || headerState !== 'mobile') {
     return null;
   }
 
@@ -86,7 +123,7 @@ App.propTypes = {
   show: PropTypes.bool.isRequired,
   showMegaMenu: PropTypes.bool.isRequired,
   showNavLogin: PropTypes.bool.isRequired,
-  showMinimalHeader: PropTypes.func,
+  showMinimalHeader: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
 };
 
 export default App;
