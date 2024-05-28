@@ -19,8 +19,17 @@ describe('<ClaimPhaseStepper>', () => {
       />,
     );
     expect($('.claim-phase-stepper', container)).to.exist;
+
     const currentPhase = $('#phase1 .current-phase', container);
-    expect(currentPhase).to.exist;
+    expect(
+      within(currentPhase).getByText(
+        'Your claim is in this step as of March 7, 2024.',
+      ),
+    ).to.exist;
+
+    const phaseComplete = $('#phase1 va-icon.phase-current', container);
+    expect(phaseComplete).to.exist;
+
     getByText('We started working on your claim on January 16, 2024');
   });
 
@@ -33,8 +42,17 @@ describe('<ClaimPhaseStepper>', () => {
       />,
     );
     expect($('.claim-phase-stepper', container)).to.exist;
+
     const currentPhase = $('#phase2 .current-phase', container);
-    expect(currentPhase).to.exist;
+    expect(
+      within(currentPhase).getByText(
+        'Your claim is in this step as of March 7, 2024.',
+      ),
+    ).to.exist;
+
+    const phaseComplete = $('#phase2 va-icon.phase-current', container);
+    expect(phaseComplete).to.exist;
+
     getByText(
       'We’ll check your claim for basic information we need, like your name and Social Security number.',
     );
@@ -52,8 +70,16 @@ describe('<ClaimPhaseStepper>', () => {
       />,
     );
     expect($('.claim-phase-stepper', container)).to.exist;
+
     const currentPhase = $('#phase3 .current-phase', container);
-    expect(currentPhase).to.exist;
+    expect(
+      within(currentPhase).getByText(
+        'Your claim is in this step as of March 7, 2024.',
+      ),
+    ).to.exist;
+
+    const phaseComplete = $('#phase3 va-icon.phase-current', container);
+    expect(phaseComplete).to.exist;
 
     const phaseRepeats = $('#phase3 .repeat-phase', container);
     expect(phaseRepeats).to.exist;
@@ -76,8 +102,16 @@ describe('<ClaimPhaseStepper>', () => {
       />,
     );
     expect($('.claim-phase-stepper', container)).to.exist;
+
     const currentPhase = $('#phase4 .current-phase', container);
-    expect(currentPhase).to.exist;
+    expect(
+      within(currentPhase).getByText(
+        'Your claim is in this step as of March 7, 2024.',
+      ),
+    ).to.exist;
+
+    const phaseComplete = $('#phase4 va-icon.phase-current', container);
+    expect(phaseComplete).to.exist;
 
     const phaseRepeats = $('#phase4 .repeat-phase', container);
     expect(phaseRepeats).to.exist;
@@ -100,8 +134,16 @@ describe('<ClaimPhaseStepper>', () => {
       />,
     );
     expect($('.claim-phase-stepper', container)).to.exist;
+
     const currentPhase = $('#phase5 .current-phase', container);
-    expect(currentPhase).to.exist;
+    expect(
+      within(currentPhase).getByText(
+        'Your claim is in this step as of March 7, 2024.',
+      ),
+    ).to.exist;
+
+    const phaseComplete = $('#phase5 va-icon.phase-current', container);
+    expect(phaseComplete).to.exist;
 
     const phaseRepeats = $('#phase5 .repeat-phase', container);
     expect(phaseRepeats).to.exist;
@@ -124,8 +166,16 @@ describe('<ClaimPhaseStepper>', () => {
       />,
     );
     expect($('.claim-phase-stepper', container)).to.exist;
+
     const currentPhase = $('#phase6 .current-phase', container);
-    expect(currentPhase).to.exist;
+    expect(
+      within(currentPhase).getByText(
+        'Your claim is in this step as of March 7, 2024.',
+      ),
+    ).to.exist;
+
+    const phaseComplete = $('#phase6 va-icon.phase-current', container);
+    expect(phaseComplete).to.exist;
 
     const phaseRepeats = $('#phase6 .repeat-phase', container);
     expect(phaseRepeats).to.exist;
@@ -150,9 +200,18 @@ describe('<ClaimPhaseStepper>', () => {
         currentPhase={7}
       />,
     );
+
     expect($('.claim-phase-stepper', container)).to.exist;
+
     const currentPhase = $('#phase7 .current-phase', container);
-    expect(currentPhase).to.exist;
+    expect(
+      within(currentPhase).getByText(
+        'Your claim is in this step as of March 7, 2024.',
+      ),
+    ).to.exist;
+
+    const phaseComplete = $('#phase7 va-icon.phase-current', container);
+    expect(phaseComplete).to.exist;
 
     const phaseRepeats = $('#phase7 .repeat-phase', container);
     expect(phaseRepeats).to.not.exist;
@@ -177,9 +236,18 @@ describe('<ClaimPhaseStepper>', () => {
         currentPhase={8}
       />,
     );
+
     expect($('.claim-phase-stepper', container)).to.exist;
+
     const currentPhase = $('#phase8 .current-phase', container);
-    expect(currentPhase).to.exist;
+    expect(
+      within(currentPhase).getByText(
+        'Your claim is in this step as of March 7, 2024.',
+      ),
+    ).to.exist;
+
+    const phaseComplete = $('#phase8 va-icon.phase-complete', container);
+    expect(phaseComplete).to.exist;
 
     const phaseRepeats = $('#phase8 .repeat-phase', container);
     expect(phaseRepeats).to.not.exist;

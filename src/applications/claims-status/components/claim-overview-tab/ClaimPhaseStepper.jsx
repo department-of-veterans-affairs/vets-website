@@ -174,11 +174,11 @@ export default function ClaimPhaseStepper({
   };
 
   const headerIcon = phase => {
-    if (isCurrentPhase(phase)) {
+    if (isCurrentPhase(phase) && phase !== 8) {
       return 'flag';
     }
 
-    if (phase < currentPhase) {
+    if (phase < currentPhase || (isCurrentPhase(phase) && phase === 8)) {
       return 'check_circle';
     }
 
@@ -186,11 +186,11 @@ export default function ClaimPhaseStepper({
   };
 
   const headerIconColor = phase => {
-    if (isCurrentPhase(phase)) {
+    if (isCurrentPhase(phase) && phase !== 8) {
       return 'phase-current';
     }
 
-    if (phase < currentPhase) {
+    if (phase < currentPhase || (isCurrentPhase(phase) && phase === 8)) {
       return 'phase-complete';
     }
 
