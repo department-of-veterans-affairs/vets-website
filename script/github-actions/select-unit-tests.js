@@ -26,6 +26,8 @@ const ALL_APPS = [
   ),
 ];
 
+console.log('ALL_APPS', ALL_APPS);
+
 const CHANGED_APPS =
   CHANGED_FILES.length > 0
     ? CHANGED_FILES.split(' ').map(filePath =>
