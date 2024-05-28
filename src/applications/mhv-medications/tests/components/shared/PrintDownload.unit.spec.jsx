@@ -3,9 +3,8 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent } from '@testing-library/dom';
 import sinon from 'sinon';
-import PrintDownload, {
-  DOWNLOAD_FORMAT,
-} from '../../../components/shared/PrintDownload';
+import PrintDownload from '../../../components/shared/PrintDownload';
+import { DOWNLOAD_FORMAT } from '../../../util/constants';
 
 describe('Medicaitons Print/Download button component', () => {
   let handleFullListDownload;

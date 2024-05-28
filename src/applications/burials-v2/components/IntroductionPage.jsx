@@ -49,7 +49,7 @@ const IntroductionPage = ({ route }) => {
           </p>
           <p>
             <strong>
-              You’ll also need to provide copies of these documents:
+              You may also need to provide copies of these documents:
             </strong>
           </p>
           <ul>

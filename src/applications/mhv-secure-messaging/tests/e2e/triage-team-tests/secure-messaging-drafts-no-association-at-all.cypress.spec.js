@@ -9,13 +9,12 @@ import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-respo
 
 describe('Verify drafts - No association with particular Triage Group', () => {
   const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
   const newDate = new Date().toISOString();
 
   beforeEach(() => {
     site.login();
 
-    landingPage.loadInboxMessages(
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       mockNoRecipients,
@@ -39,7 +38,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       ],
     };
 
-    landingPage.loadSingleThread(mockThreadWithDraft, newDate, newDate);
+    PatientInboxPage.loadSingleThread(mockThreadWithDraft, newDate, newDate);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -105,7 +104,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       ],
     };
 
-    landingPage.loadSingleThread(mockSingleDraft, newDate, newDate);
+    PatientInboxPage.loadSingleThread(mockSingleDraft, newDate, newDate);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {

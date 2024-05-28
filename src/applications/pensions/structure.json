@@ -235,7 +235,7 @@
         "path": "financial/medical-expenses"
       },
       {
-        "title": "Medical expenses and other unreimbursed expenses",
+        "title": "List of medical expenses and other unreimbursed expenses",
         "path": "financial/medical-expenses/add",
         "depends": "doesHaveMedicalExpenses"
       }

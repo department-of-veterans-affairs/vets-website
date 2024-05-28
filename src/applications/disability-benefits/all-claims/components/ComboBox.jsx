@@ -43,11 +43,32 @@ export class ComboBox extends React.Component {
     this.listRef = React.createRef();
   }
 
+  componentDidMount() {
+    document.addEventListener('click', this.handleClickOutsideList, true);
+  }
+
   // Triggers updates to the list of items on state change
   componentDidUpdate(prevProps, prevState) {
     this.updateFilterOptions(prevState);
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutsideList, true);
+  }
+
+  // Handler for closing the list when a user clicks outside of it
+  handleClickOutsideList = e => {
+    if (this.listRef.current && !this.listRef.current.contains(e.target)) {
+      const { searchTerm } = this.state;
+      this.setState({
+        value: searchTerm,
+        filteredOptions: [],
+      });
+      this.sendFocusToInput(this.inputRef);
+    }
+  };
+
+  // handler for main form input
   handleSearchChange = e => {
     const { bump } = this.state;
     const newTextValue = e.target.value;
@@ -57,12 +78,77 @@ export class ComboBox extends React.Component {
       input: newTextValue,
     });
     this.props.onChange(newTextValue);
+    // send focus back to input after selection in case user wants to append something else
+    this.sendFocusToInput(this.inputRef);
   };
 
-  // update highlight class
+  // Handler for the blue background highlight class.
   handleMouseEnter(e, optionIndex) {
     this.setState({ highlightedIndex: optionIndex });
   }
+
+  sendFocusToInput = ref => {
+    const { shadowRoot } = ref.current;
+    const input = shadowRoot.querySelector('input');
+    input.focus();
+  };
+
+  // Keyboard handling for combobox list options
+  handleKeyPress = e => {
+    const { highlightedIndex, searchTerm } = this.state;
+    const list = this.listRef.current;
+    let index = highlightedIndex;
+
+    switch (e.key) {
+      // On Tab, user input should remain as-is, list should close, focus goes to save button.
+      case 'Tab':
+        if (list.children.length) {
+          this.setState({
+            value: searchTerm,
+            searchTerm,
+            filteredOptions: [],
+            highlightedIndex: 0,
+          });
+        }
+        break;
+      // Up and Down arrow keys should navigate to the respective next item in the list.
+      case 'ArrowUp':
+        index = this.decrementIndex(index);
+        this.scrollIntoView(index);
+        this.setState({ highlightedIndex: index });
+        e.preventDefault();
+        break;
+      case 'ArrowDown':
+        index = this.incrementIndex(index);
+        this.scrollIntoView(index);
+        this.setState({ highlightedIndex: index });
+        e.preventDefault();
+        break;
+      // On Enter, select the highlighted option and close the list. Focus on text input.
+      case 'Enter':
+        e.preventDefault();
+        this.selectOptionWithKeyboard(e, index, list, searchTerm);
+        break;
+      // On Escape, user input should remain as-is, list should collapse. Focus on text input.
+      case 'Escape':
+        this.setState({
+          value: searchTerm,
+          searchTerm,
+          filteredOptions: [],
+          highlightedIndex: 0,
+        });
+        this.sendFocusToInput(this.inputRef);
+        e.preventDefault();
+        break;
+      // All other cases treat as regular user input into the text field.
+      default:
+        // focus goes to input box by default
+        this.sendFocusToInput(this.inputRef);
+        // highlight dynamic free text option
+        this.setState({ highlightedIndex: 0 });
+        break;
+    }
+  };
 
   // Filters list of conditions based on free-text input
   filterOptions = () => {
@@ -91,6 +177,42 @@ export class ComboBox extends React.Component {
     });
   };
 
+  // Scroll helper for keyboard arrow interactions with list items
+  scrollIntoView = index => {
+    const list = this.listRef.current;
+    const currentItem = list.children[index];
+    if (currentItem) {
+      const { scrollTop, clientHeight } = list;
+      const { offsetTop, clientHeight: itemHeight } = currentItem;
+      const isItemFullyVisible =
+        offsetTop >= scrollTop &&
+        offsetTop + itemHeight <= scrollTop + clientHeight;
+      if (!isItemFullyVisible) {
+        currentItem.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+        });
+      }
+    }
+  };
+
+  // Helpers for arrow key navigation
+  decrementIndex = index => {
+    if (index > 0) {
+      return index - 1;
+    }
+    return index;
+  };
+
+  incrementIndex = index => {
+    const { filteredOptions } = this.state;
+    const maxIndex = filteredOptions.length;
+    if (index < maxIndex) {
+      return index + 1;
+    }
+    return index;
+  };
+
   // Click handler for a list item
   selectOption(option) {
     this.setState({
@@ -99,9 +221,19 @@ export class ComboBox extends React.Component {
       filteredOptions: [],
       highlightedIndex: 0,
     });
-    this.inputRef.current.focus();
     const { onChange } = this.props;
     onChange(option);
+    // Send focus to input element for additional user input.
+    this.sendFocusToInput(this.inputRef);
+  }
+
+  // Keyboard handler for a list item. Need to check index against list for selection via keyboard
+  selectOptionWithKeyboard(e, index, list, searchTerm) {
+    if (index > 0) {
+      this.selectOption(list.children[index].innerText);
+    } else if (index === 0) {
+      this.selectOption(searchTerm);
+    }
   }
 
   // Handler for updating the visible list of items when state changes
@@ -135,8 +267,8 @@ export class ComboBox extends React.Component {
         }}
         style={{ cursor: 'pointer' }}
         tabIndex={0}
-        onMouseEnter={evt => {
-          this.handleMouseEnter(evt, 0);
+        onMouseEnter={e => {
+          this.handleMouseEnter(e, 0);
         }}
         onKeyDown={() => null}
         label="new-condition-option"
@@ -159,6 +291,7 @@ export class ComboBox extends React.Component {
           value={this.state.value}
           onInput={this.handleSearchChange}
           onChange={this.handleSearchChange}
+          onKeyDown={this.handleKeyPress}
           ref={this.inputRef}
         />
         <ul

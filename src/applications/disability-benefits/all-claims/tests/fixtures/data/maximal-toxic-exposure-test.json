@@ -165,6 +165,31 @@
           "startDate": "2002-01-01"
         },
         "airspace": {}
+      },
+      "herbicide": {
+        "guam": true,
+        "laos": true,
+        "c123": true
+      },
+      "herbicideDetails": {
+        "c123": {
+          "endDate": "1966-02-20"
+        },
+        "laos": {
+          "startDate": "1965-01-01"
+        },
+        "guam": {},
+        "cambodia": {},
+        "koreandemilitarizedzone": {},
+        "johnston": {},
+        "thailand": {},
+        "vietnam": {}
+      },
+      "view:herbicideAdditionalInfo": {},
+      "otherHerbicideLocations": {
+        "description": "Test location 1",
+        "startDate": "1968-01-01",
+        "endDate": "1969-01-01"
       }
     },
     "view:powStatus": true,

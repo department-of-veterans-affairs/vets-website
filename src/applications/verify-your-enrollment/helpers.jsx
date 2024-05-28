@@ -209,7 +209,7 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
             }
           >
             <span className="vads-u-font-weight--bold">
-              Total Credit Hours:
+              Total credit hours:
             </span>{' '}
             {numberHours === null ? 'Data unavailable' : numberHours}
           </p>
@@ -220,7 +220,7 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
                 : 'vads-u-margin--0 vads-u-font-size--base'
             }
           >
-            <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
+            <span className="vads-u-font-weight--bold">Monthly rate:</span>{' '}
             {monthlyRate === null
               ? 'Data unavailable'
               : formatCurrency(monthlyRate)}
@@ -252,7 +252,7 @@ export const getGroupedPreviousEnrollments = month => {
             />{' '}
             <span className="vads-u-display--block">Verified</span>
           </h3>
-          <p>Payment for this month has been processed.</p>
+          <p>We processed your payment for this month.</p>
           <va-additional-info
             trigger={`
               ${
@@ -275,7 +275,7 @@ export const getGroupedPreviousEnrollments = month => {
                   </p>
                   <p className="vads-u-margin--0">
                     <span className="vads-u-font-weight--bold">
-                      Total Credit Hours:
+                      Total credit hours:
                     </span>{' '}
                     {numberHours === null ? 'Data unavailable' : numberHours}
                   </p>
@@ -338,7 +338,7 @@ export const getGroupedPreviousEnrollments = month => {
                   </p>
                   <p className="vads-u-margin--0">
                     <span className="vads-u-font-weight--bold">
-                      Total Credit Hours:
+                      Total credit hours:
                     </span>{' '}
                     {numberHours === null ? 'Data unavailable' : numberHours}
                   </p>
@@ -385,7 +385,7 @@ export const getGroupedPreviousEnrollments = month => {
               slim
             >
               <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
-                This month has not yet been verified.
+                You haven’t verified your enrollment for the month.
               </p>
             </va-alert>
           </div>
@@ -415,7 +415,7 @@ export const getSignlePreviousEnrollments = awards => {
               />{' '}
               <span className="vads-u-display--block">Verified</span>
             </h3>
-            <p>Payment for this month has been processed.</p>
+            <p>We processed your payment for this month.</p>
             <va-additional-info
               trigger={`
             ${
@@ -431,14 +431,14 @@ export const getSignlePreviousEnrollments = awards => {
               </p>
               <p>
                 <span className="vads-u-font-weight--bold">
-                  Total Credit Hours:
+                  Total credit hours:
                 </span>{' '}
                 {awards.numberHours === null
                   ? 'Data unavailable'
                   : awards.numberHours}
               </p>
               <p>
-                <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
+                <span className="vads-u-font-weight--bold">Monthly rate:</span>{' '}
                 {awards.monthlyRate === null
                   ? 'Data unavailable'
                   : formatCurrency(awards.monthlyRate)}
@@ -477,14 +477,14 @@ export const getSignlePreviousEnrollments = awards => {
               </p>
               <p>
                 <span className="vads-u-font-weight--bold">
-                  Total Credit Hours:
+                  Total credit hours:
                 </span>{' '}
                 {awards.numberHours === null
                   ? 'Data unavailable'
                   : awards.numberHours}
               </p>
               <p>
-                <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
+                <span className="vads-u-font-weight--bold">Monthly rate:</span>{' '}
                 {awards.monthlyRate === null
                   ? 'Data unavailable'
                   : formatCurrency(awards.monthlyRate)}
@@ -513,7 +513,7 @@ export const getSignlePreviousEnrollments = awards => {
               slim
             >
               <p className="vads-u-margin-y--0 text-color vads-u-font-family--sans">
-                This month has not yet been verified.
+                You haven’t verified your enrollment for the month.
               </p>
             </va-alert>
           </>
@@ -582,9 +582,6 @@ export const isMobileDevice = () => {
     navigator.userAgent,
   );
 };
-export const objectHasNoUndefinedValues = obj => {
-  return Object.values(obj).every(value => value !== undefined);
-};
 export const noSuggestedAddress = deliveryPointValidation => {
   return (
     deliveryPointValidation === BAD_UNIT_NUMBER ||
@@ -624,7 +621,15 @@ export const prepareAddressData = formData => {
   }
   return addressData;
 };
+export const formatAddress = address => {
+  const city = address?.city ?? '';
+  const stateCode = address?.stateCode ?? '';
+  const zipCode = address?.zipCode ?? '';
 
+  return `${city}${
+    stateCode || zipCode ? ',' : ''
+  } ${stateCode} ${zipCode}`.trim();
+};
 export const addressLabel = address => {
   // Destructure address object for easier access
   const {
@@ -669,7 +674,7 @@ export const addressLabel = address => {
 };
 
 export const hasFormChanged = (obj, applicantName) => {
-  const keys = Object.keys(obj);
+  const keys = Object.keys(obj ?? {});
 
   for (const key of keys) {
     if (

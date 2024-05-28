@@ -376,7 +376,7 @@ describe('<EvidenceSummary>', () => {
     const result = records().additionalDocuments[0];
 
     // remove second upload entry
-    fireEvent.click($('va-button[label="Remove x-rays.pdf"]', container));
+    fireEvent.click($('va-button[label="Delete x-rays.pdf"]', container));
 
     const modal = $('va-modal', container);
     modal.__events.primaryButtonClick(); // Remove entry
@@ -394,10 +394,10 @@ describe('<EvidenceSummary>', () => {
     const { container } = setupSummary({ setFormData });
 
     // remove second VA entry
-    fireEvent.click($('va-button[label="Remove x-rays.pdf"]', container));
+    fireEvent.click($('va-button[label="Delete x-rays.pdf"]', container));
 
     const modal = $('va-modal', container);
-    modal.__events.secondaryButtonClick(); // Cancel removal
+    modal.__events.secondaryButtonClick(); // Cancel delete
 
     await waitFor(() => {
       expect(setFormData.called).to.be.false;

@@ -510,7 +510,10 @@ export function sponsorMailingAddressHasState(item) {
 }
 
 export function isVeteran(item) {
-  return get('application.claimant.relationshipToVet', item) === 'veteran';
+  const response =
+    get('application.claimant.relationshipToVet', item) ||
+    get('formData.application.claimant.relationshipToVet', item);
+  return response === 'veteran';
 }
 
 export function isSponsorDeceased(item) {

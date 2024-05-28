@@ -132,6 +132,21 @@ import { fileWithMetadataSchema } from '../../shared/components/fileUploads/atta
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 
+// Control whether we show the file overview page by calling `hasReq` to
+// determine if any files have not been uploaded
+function showFileOverviewPage(formData) {
+  try {
+    return (
+      hasReq(formData.applicants, true, true) ||
+      hasReq(formData.applicants, false, true) ||
+      hasReq(formData, true, true) ||
+      hasReq(formData, false, true)
+    );
+  } catch {
+    return false;
+  }
+}
+
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -899,7 +914,7 @@ const formConfig = {
                   'intendsToEnroll',
                   'over18HelplessChild',
                 ]),
-                otherStatus: { type: 'string' },
+                _unused: { type: 'string' },
               },
             },
           }),
@@ -1039,7 +1054,7 @@ const formConfig = {
         },
         // Applicant separated from sponsor before sponsor's death
         page18f6: {
-          path: 'applicant-information/:index/married-separated-dates',
+          path: 'applicant-information/married-separated-dates/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
           title: item => `${applicantWording(item)} marriage dates`,
@@ -1160,7 +1175,7 @@ const formConfig = {
               type: 'object',
               properties: {
                 eligibility: { type: 'string' },
-                otherIneligible: { type: 'string' },
+                _unused: { type: 'string' },
               },
             },
           }),
@@ -1272,7 +1287,7 @@ const formConfig = {
               get(
                 'applicantMedicareStatus.eligibility',
                 formData?.applicants?.[index],
-              ) !== 'enrolled' &&
+              ) === 'ineligible' &&
               getAgeInYears(formData.applicants[index]?.applicantDOB) >= 65
             );
           },
@@ -1371,6 +1386,7 @@ const formConfig = {
         page23: {
           path: 'supporting-files',
           title: 'Upload your supporting files',
+          depends: formData => showFileOverviewPage(formData),
           CustomPage: SupportingDocumentsPage,
           CustomPageReview: null,
           uiSchema: {
@@ -1383,18 +1399,7 @@ const formConfig = {
         page24: {
           path: 'consent-mail',
           title: 'Upload your supporting files',
-          depends: formData => {
-            try {
-              return (
-                hasReq(formData.applicants, true) ||
-                hasReq(formData.applicants, false) ||
-                hasReq(formData, true) ||
-                hasReq(formData, false)
-              );
-            } catch {
-              return false;
-            }
-          },
+          depends: formData => showFileOverviewPage(formData),
           CustomPage: MissingFileConsentPage,
           CustomPageReview: null,
           uiSchema: {

@@ -44,23 +44,8 @@
     "applicantSecondaryInsuranceType": { "ppo": true, "medigap": true },
     "secondaryMedigapPlan": "medigapPlanM",
     "secondaryAdditionalComments": "Additional secondary comment",
-    "certifierRelationship": {
-      "relationshipToApplicants": "other",
-      "otherRelationshipToApplicants": "Another relationship"
-    },
-    "certifierName": { "first": "Certifier", "last": "Jones" },
-    "certifierPhone": "5551231234",
-    "certifierEmail": "certifier@email.gov",
-    "certifierAddress": {
-      "country": "USA",
-      "street": "123 Street Lane",
-      "city": "Anytown",
-      "state": "AL",
-      "postalCode": "12345"
-    },
-    "certifierRole": "other",
     "consentToMailMissingRequiredFiles": true,
     "statementOfTruthCertified": true,
-    "statementOfTruthSignature": "Certifier Jones"
+    "statementOfTruthSignature": "Jimmy Alvin"
   }
 }
