@@ -140,6 +140,8 @@ if (testsToVerify === null) {
           test.includes(`src/platform`),
       )
       .join(' ');
+    console.log('testsToVerify: ', testsToVerify);
+    console.log('testsToRun: ', testsToRun);
     if (testsToRun !== '') {
       const command = `LOG_LEVEL=${options[
         'log-level'
