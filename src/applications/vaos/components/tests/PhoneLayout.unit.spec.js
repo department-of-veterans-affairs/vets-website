@@ -30,7 +30,6 @@ describe('VAOS Component: PhoneLayout', () => {
     },
     featureToggles: {
       vaOnlineSchedulingAppointmentDetailsRedesign: true,
-      vaOnlineSchedulingPhysicalLocation: true,
     },
   };
 

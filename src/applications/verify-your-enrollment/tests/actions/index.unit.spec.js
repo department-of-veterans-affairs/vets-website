@@ -13,7 +13,6 @@ import {
   UPDATE_BANK_INFO_SUCCESS,
   UPDATE_BANK_INFO_FAILED,
   UPDATE_ADDRESS,
-  // UPDATE_ADDRESS_SUCCESS,
   UPDATE_ADDRESS_FAILURE,
   postMailingAddress,
   VERIFY_ENROLLMENT_SUCCESS,
@@ -43,7 +42,7 @@ const store = mockStore({
   suggestedAddress: { isSuggestedAddressPicked: false },
 });
 
-describe('getData, creator', () => {
+describe('actions creator', () => {
   let dispatch;
   let apiRequestStub;
 
@@ -310,25 +309,6 @@ describe('getData, creator', () => {
     expect(actions[1]).to.deep.equal({
       type: ADDRESS_VALIDATION_START,
     });
-    // expect(actions[3]).to.deep.equal({
-    //   type: ADDRESS_VALIDATION_SUCCESS,
-    //   payload: {
-    //     addresses: [
-    //       {
-    //         address: {
-    //           addressLine1: '123 Main St',
-    //           addressLine2: 'Apt 4B',
-    //           stateCode: 'NY',
-    //           zipCode: '10001',
-    //           countryCodeIso3: 'USA',
-    //         },
-    //         addressMetaData: {
-    //           confidenceScore: 100,
-    //         },
-    //       },
-    //     ],
-    //   },
-    // });
   });
   it('should not call  postMailingAddress action when confidence score is less than 100', async () => {
     const formData = {};
