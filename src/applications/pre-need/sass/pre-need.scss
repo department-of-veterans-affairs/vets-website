@@ -137,11 +137,14 @@ article#pre-need[data-location="review-and-submit"] {
     margin-bottom: 1em;
     padding-bottom: 2em;
   }
+  // MBMS-61967: remove race-view class
+  .race-view {
   fieldset > div.schemaform-widget-wrapper > fieldset > div {
     margin-top: -0.9em;
   }
   fieldset.usa-input-error  > div.schemaform-widget-wrapper > fieldset > div {
     margin-top: 0.9em;
+  }
   }
 }
 
