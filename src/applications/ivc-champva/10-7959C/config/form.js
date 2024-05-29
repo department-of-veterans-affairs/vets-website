@@ -110,7 +110,7 @@ const formConfig = {
       pages: {
         applicantNameDob: {
           path: 'applicant-info',
-          title: 'Applicant name and date of birth',
+          title: 'Beneficiary’s name and date of birth',
           ...applicantNameDobSchema,
         },
         applicantIdentity: {
