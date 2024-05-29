@@ -30,105 +30,132 @@ const BlockedTriageGroupAlert = props => {
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
-  const { noAssociations, allTriageGroupsBlocked } = useSelector(
-    state => state.sm.recipients,
+  const {
+    noAssociations,
+    allTriageGroupsBlocked,
+    blockedFacilities,
+  } = useSelector(state => state.sm.recipients);
+
+  const blockedFacilityNames = useMemo(
+    () => {
+      return (
+        blockedFacilities
+          ?.filter(facility =>
+            getVamcSystemNameFromVhaId(ehrDataByVhaId, facility),
+          )
+          .map(facility => {
+            return {
+              stationNumber: facility,
+              name: getVamcSystemNameFromVhaId(ehrDataByVhaId, facility),
+              type: Recipients.FACILITY,
+            };
+          }) || []
+      );
+    },
+    [blockedFacilities, ehrDataByVhaId],
   );
 
-  const { blockedFacilities } = useSelector(state => state.sm.recipients);
-
-  const blockedFacilityNames =
-    blockedFacilities
-      ?.filter(facility => getVamcSystemNameFromVhaId(ehrDataByVhaId, facility))
-      .map(facility => {
-        return {
-          stationNumber: facility,
-          name: getVamcSystemNameFromVhaId(ehrDataByVhaId, facility),
-          type: Recipients.FACILITY,
-        };
-      }) || [];
-
-  const blockedTriageList = useMemo(() => {
-    return blockedTriageGroupList?.length > 1 && blockedFacilityNames.length > 0
-      ? [
-          ...sortTriageList(
-            blockedTriageGroupList.filter(
-              triageGroup =>
-                !blockedFacilityNames?.some(
-                  facilityName =>
-                    facilityName.stationNumber === triageGroup.stationNumber,
-                ),
+  const blockedTriageList = useMemo(
+    () => {
+      return blockedTriageGroupList?.length > 1 &&
+        blockedFacilityNames.length > 0
+        ? [
+            ...sortTriageList(
+              blockedTriageGroupList.filter(
+                triageGroup =>
+                  !blockedFacilityNames?.some(
+                    facilityName =>
+                      facilityName.stationNumber === triageGroup.stationNumber,
+                  ),
+              ),
             ),
-          ),
-          ...sortTriageList(blockedFacilityNames),
-        ]
-      : sortTriageList(blockedTriageGroupList);
-  }, []);
+            ...sortTriageList(blockedFacilityNames),
+          ]
+        : sortTriageList(blockedTriageGroupList);
+    },
+    [blockedFacilityNames, blockedTriageGroupList],
+  );
 
   useEffect(
     () => {
-      if (alertTitleText !== alertTitle.NO_ASSOCIATIONS) {
-        let value = '';
-        if (alertTitleText.includes(MESSAGE_TO_CARE_TEAMS)) {
-          value = `${MESSAGE_TO_CARE_TEAMS} FACILITY`;
-        } else if (alertTitleText.includes(MESSAGE_TO_CARE_TEAM)) {
-          value = `${MESSAGE_TO_CARE_TEAM} TG_NAME`;
-        } else if (alertTitleText.includes(ACCOUNT_DISCONNECTED)) {
-          value = `${ACCOUNT_DISCONNECTED} TG_NAME`;
-        } else {
-          value = alertTitleText;
-        }
-        datadogRum.addAction('Blocked triage group alert', { type: value });
+      if (alertTitleText === alertTitle.NO_ASSOCIATIONS) {
+        return;
       }
+      let value = '';
+      if (alertTitleText.includes(MESSAGE_TO_CARE_TEAMS)) {
+        value = `${MESSAGE_TO_CARE_TEAMS} FACILITY`;
+      } else if (alertTitleText.includes(MESSAGE_TO_CARE_TEAM)) {
+        value = `${MESSAGE_TO_CARE_TEAM} TG_NAME`;
+      } else if (alertTitleText.includes(ACCOUNT_DISCONNECTED)) {
+        value = `${ACCOUNT_DISCONNECTED} TG_NAME`;
+      } else {
+        value = alertTitleText;
+      }
+      datadogRum.addAction('Blocked triage group alert', { type: value });
     },
     [alertTitle.NO_ASSOCIATIONS, alertTitleText],
   );
 
-  useEffect(() => {
-    if (parentComponent === ParentComponent.FOLDER_HEADER) {
-      if (noAssociations) {
-        return;
-      }
+  useEffect(
+    () => {
+      if (parentComponent === ParentComponent.FOLDER_HEADER) {
+        if (noAssociations) {
+          return;
+        }
 
-      if (allTriageGroupsBlocked) {
-        setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
-        setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
-        return;
-      }
-    }
-
-    if (parentComponent === ParentComponent.COMPOSE_FORM) {
-      if (noAssociations) {
-        return;
-      }
-
-      if (allTriageGroupsBlocked) {
-        setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
-        setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
-        return;
-      }
-    }
-
-    if (blockedTriageList?.length === 1) {
-      if (blockedTriageList[0].type === Recipients.FACILITY) {
-        setAlertTitleText(
-          `${MESSAGE_TO_CARE_TEAMS} ${blockedTriageList[0].name}`,
-        );
-        setAlertInfoText(alertMessage.SINGLE_FACILITY_BLOCKED);
-      } else {
-        setAlertTitleText(
-          blockedTriageList[0].status === RecipientStatus.NOT_ASSOCIATED
-            ? `${ACCOUNT_DISCONNECTED} ${blockedTriageList[0].name}`
-            : `${MESSAGE_TO_CARE_TEAM} ${blockedTriageList[0].name}`,
-        );
-        if (blockedTriageList[0].status === RecipientStatus.BLOCKED) {
-          setAlertInfoText(alertMessage.SINGLE_TEAM_BLOCKED);
+        if (allTriageGroupsBlocked) {
+          setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
+          setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
+          return;
         }
       }
-    } else {
-      setAlertTitleText(alertTitle.MULTIPLE_TEAMS_BLOCKED);
-      setAlertInfoText(alertMessage.MULTIPLE_TEAMS_BLOCKED);
-    }
-  }, []);
+
+      if (parentComponent === ParentComponent.COMPOSE_FORM) {
+        if (noAssociations) {
+          return;
+        }
+
+        if (allTriageGroupsBlocked) {
+          setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
+          setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
+          return;
+        }
+      }
+
+      if (blockedTriageList?.length === 1) {
+        if (blockedTriageList[0].type === Recipients.FACILITY) {
+          setAlertTitleText(
+            `${MESSAGE_TO_CARE_TEAMS} ${blockedTriageList[0].name}`,
+          );
+          setAlertInfoText(alertMessage.SINGLE_FACILITY_BLOCKED);
+        } else {
+          setAlertTitleText(
+            blockedTriageList[0].status === RecipientStatus.NOT_ASSOCIATED
+              ? `${ACCOUNT_DISCONNECTED} ${blockedTriageList[0].name}`
+              : `${MESSAGE_TO_CARE_TEAM} ${blockedTriageList[0].name}`,
+          );
+          if (blockedTriageList[0].status === RecipientStatus.BLOCKED) {
+            setAlertInfoText(alertMessage.SINGLE_TEAM_BLOCKED);
+          }
+        }
+      } else {
+        setAlertTitleText(alertTitle.MULTIPLE_TEAMS_BLOCKED);
+        setAlertInfoText(alertMessage.MULTIPLE_TEAMS_BLOCKED);
+      }
+    },
+    [
+      alertMessage.ALL_TEAMS_BLOCKED,
+      alertMessage.MULTIPLE_TEAMS_BLOCKED,
+      alertMessage.SINGLE_FACILITY_BLOCKED,
+      alertMessage.SINGLE_TEAM_BLOCKED,
+      alertTitle.ALL_TEAMS_BLOCKED,
+      alertTitle.MULTIPLE_TEAMS_BLOCKED,
+      allTriageGroupsBlocked,
+      blockedTriageList,
+      noAssociations,
+      parentComponent,
+    ],
+  );
 
   return alertStyle === BlockedTriageAlertStyles.ALERT ? (
     <va-alert-expandable
