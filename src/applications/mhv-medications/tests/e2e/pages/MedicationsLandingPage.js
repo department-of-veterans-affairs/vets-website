@@ -104,5 +104,12 @@ class MedicationsLandingPage {
       'We can’t access your medications ',
     );
   };
+
+  verifyCernerUserMyVAHealthAlertOnAboutMedicationsPage = () => {
+    cy.get('[data-testid="cerner-facilities-alert"]').should(
+      'contain',
+      'Make sure you’re in the right health portal',
+    );
+  };
 }
 export default MedicationsLandingPage;
