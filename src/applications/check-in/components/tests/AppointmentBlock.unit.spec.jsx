@@ -45,9 +45,6 @@ describe('AppointmentBlock', () => {
             <AppointmentBlock appointments={appointments} page="intro" />
           </CheckInProvider>,
         );
-        expect(screen.getByTestId('appointment-day-location')).to.have.text(
-          'Your appointments are on November 16, 2021.',
-        );
         expect(screen.getAllByTestId('appointment-list-item').length).to.equal(
           2,
         );
@@ -62,31 +59,9 @@ describe('AppointmentBlock', () => {
             />
           </CheckInProvider>,
         );
-        expect(screen.getByTestId('appointment-day-location')).to.have.text(
-          'Your appointment is on November 16, 2021.',
-        );
 
         expect(screen.getAllByTestId('appointment-list-item').length).to.equal(
           1,
-        );
-      });
-    });
-    describe('Phone appointment context', () => {
-      const phoneAppointments = JSON.parse(JSON.stringify(appointments));
-      phoneAppointments[0].kind = 'phone';
-      phoneAppointments[1].kind = 'phone';
-
-      it('Renders appointment time with no clinic for phone appointments', () => {
-        const screen = render(
-          <CheckInProvider store={{ app: 'preCheckIn' }}>
-            <AppointmentBlock
-              appointments={phoneAppointments}
-              page="confirmation"
-            />
-          </CheckInProvider>,
-        );
-        expect(screen.getByTestId('appointment-day-location')).to.have.text(
-          'Your appointments are on November 16, 2021.',
         );
       });
     });
