@@ -25,12 +25,14 @@ describe('MHV Landing Page -- Header Layout', () => {
       const store = mockStore({
         mhvLandingPageEnableVaGovHealthToolsLinks: true,
       });
-      const { getByText } = render(
+      const { findByText } = render(
         <Provider store={store}>
           <HeaderLayout />
         </Provider>,
       );
-      const result = getByText(/Welcome to the new home for My HealtheVet/);
+      const result = await findByText(
+        /Welcome to the new home for My HealtheVet/,
+      );
       expect(result).to.exist;
     });
   });
@@ -40,12 +42,14 @@ describe('MHV Landing Page -- Header Layout', () => {
       const store = mockStore({
         mhvLandingPageEnableVaGovHealthToolsLinks: false,
       });
-      const { getByText } = render(
+      const { findByText } = render(
         <Provider store={store}>
           <HeaderLayout />
         </Provider>,
       );
-      const result = getByText(/Learn more about My HealtheVet on VA.gov/);
+      const result = await findByText(
+        /Learn more about My HealtheVet on VA.gov/,
+      );
       expect(result).to.exist;
     });
   });
