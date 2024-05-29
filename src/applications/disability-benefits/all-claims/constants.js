@@ -375,7 +375,7 @@ export const GULF_WAR_2001_LOCATIONS = Object.freeze({
   yemen: 'Yemen',
   airspace: 'The airspace above any of these locations',
   none: 'None of these locations',
-  notsure: "I'm not sure if I served in these locations",
+  notsure: "I’m not sure if I served in these locations",
 });
 
 export const HERBICIDE_LOCATIONS = Object.freeze({
