@@ -76,7 +76,6 @@ const updateForm = (
   patientDemographicsStatus,
   isTravelReimbursementEnabled,
   appointments,
-  isTravelLogicEnabled,
   travelPaySent,
 ) => {
   const pages = CHECK_IN_FORM_PAGES.map(page => page.url);
@@ -87,7 +86,6 @@ const updateForm = (
     URLS,
     isTravelReimbursementEnabled,
     appointments,
-    isTravelLogicEnabled,
     travelPaySent,
   );
 };

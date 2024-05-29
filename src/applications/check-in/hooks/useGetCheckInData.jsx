@@ -51,9 +51,7 @@ const useGetCheckInData = ({
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isTravelReimbursementEnabled, isTravelLogicEnabled } = useSelector(
-    selectFeatureToggles,
-  );
+  const { isTravelReimbursementEnabled } = useSelector(selectFeatureToggles);
   const { jumpToPage } = useFormRouting(router);
   const { setPreCheckinComplete } = useStorage(APP_NAMES.PRE_CHECK_IN);
   const { getTravelPaySent } = useStorage(APP_NAMES.CHECK_IN, true);
@@ -90,7 +88,6 @@ const useGetCheckInData = ({
               patientDemographicsStatus,
               isTravelReimbursementEnabled,
               appointments,
-              isTravelLogicEnabled,
               travelPaySent,
             }),
           );
@@ -108,7 +105,6 @@ const useGetCheckInData = ({
       isTravelReimbursementEnabled,
       reload,
       getTravelPaySent,
-      isTravelLogicEnabled,
     ],
   );
 

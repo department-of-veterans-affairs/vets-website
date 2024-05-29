@@ -48,14 +48,12 @@ export const updateFormAction = ({
   patientDemographicsStatus,
   isTravelReimbursementEnabled,
   appointments,
-  isTravelLogicEnabled,
   travelPaySent,
 }) => {
   const pages = updateForm(
     patientDemographicsStatus,
     isTravelReimbursementEnabled,
     appointments,
-    isTravelLogicEnabled,
     travelPaySent,
   );
   return {
