@@ -25,7 +25,7 @@ export const ConfirmationPage = props => {
   } else if (status === 'DUPLICATE') {
     content = {
       headlineText: 'Thank you for completing your benefit application',
-      nextStepsText: `We received your application, but we already have an existing housing grant application from you on file. We're still processing your existing application. If you have any questions, contact us at 877-827-3702, select the Specially Adapted Housing grant option, and give them your confirmation number ${referenceNumber}.`,
+      nextStepsText: `We received your application, but we already have an existing housing grant application from you on file. We're still processing your existing application. If you have any questions, contact us at 877-827-3702, select the Specially Adapted Housing grant option.`,
     };
   }
 

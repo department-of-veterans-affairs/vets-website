@@ -10,14 +10,14 @@ import {
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
-import previousNames, {
-  PreviousNameView,
-} from '../../../../config/chapters/02-military-history/previousNames';
+import otherNames, {
+  OtherNameView,
+} from '../../../../config/chapters/02-military-history/otherNames';
 
-const { schema, uiSchema } = previousNames;
+const { schema, uiSchema } = otherNames;
 
-describe('pensions military history', () => {
-  const pageTitle = 'add previous names';
+describe('pensions list of other service names', () => {
+  const pageTitle = 'add other service names';
   const expectedNumberOfFields = 4;
   testNumberOfWebComponentFields(
     formConfig,
@@ -47,11 +47,11 @@ describe('pensions military history', () => {
     pageTitle,
   );
 
-  describe('PreviousNameView', () => {
+  describe('OtherNameView', () => {
     it('should render a list view', () => {
       const { container } = render(
         <FakeProvider>
-          <PreviousNameView
+          <OtherNameView
             formData={{
               previousFullName: {
                 first: 'Jamie',

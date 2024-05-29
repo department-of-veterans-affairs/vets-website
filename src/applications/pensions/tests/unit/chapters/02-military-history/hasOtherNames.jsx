@@ -5,12 +5,12 @@ import {
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
-import generalHistory from '../../../../config/chapters/02-military-history/generalHistory';
+import hasOtherNames from '../../../../config/chapters/02-military-history/hasOtherNames';
 
-const { schema, uiSchema } = generalHistory;
+const { schema, uiSchema } = hasOtherNames;
 
-describe('pensions military general history page', () => {
-  const pageTitle = 'military history';
+describe('pensions has other names page', () => {
+  const pageTitle = 'Has other service names';
   const expectedNumberOfFields = 1;
   testNumberOfWebComponentFields(
     formConfig,
