@@ -87,7 +87,6 @@ const useGetCheckInData = ({
             updateDayOfForm({
               patientDemographicsStatus,
               isTravelReimbursementEnabled,
-              appointments,
               travelPaySent,
             }),
           );

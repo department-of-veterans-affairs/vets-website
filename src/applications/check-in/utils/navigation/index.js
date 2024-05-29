@@ -10,8 +10,7 @@ const updateFormPages = (
   pages,
   URLS,
   isTravelReimbursementEnabled = false,
-  appointments = [],
-  travelPaySent = {},
+  travelPaySent = '',
 ) => {
   const skippedPages = [];
   const {
@@ -61,11 +60,9 @@ const updateFormPages = (
     URLS.TRAVEL_REVIEW,
   ];
 
-  const { stationNo } = appointments[0];
   const skipLogic =
-    stationNo in travelPaySent &&
-    !differenceInCalendarDays(Date.now(), parseISO(travelPaySent[stationNo]));
-
+    travelPaySent &&
+    !differenceInCalendarDays(Date.now(), parseISO(travelPaySent));
   if (!isTravelReimbursementEnabled || skipLogic) {
     skippedPages.push(...travelPayPages);
   }

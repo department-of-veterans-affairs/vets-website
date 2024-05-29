@@ -47,13 +47,11 @@ export const UPDATE_DAY_OF_CHECK_IN_FORM = 'UPDATE_DAY_OF_CHECK_IN_FORM';
 export const updateFormAction = ({
   patientDemographicsStatus,
   isTravelReimbursementEnabled,
-  appointments,
   travelPaySent,
 }) => {
   const pages = updateForm(
     patientDemographicsStatus,
     isTravelReimbursementEnabled,
-    appointments,
     travelPaySent,
   );
   return {
