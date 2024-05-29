@@ -32,6 +32,8 @@ export const ADDRESS_POU = {
   RESIDENCE: 'RESIDENCE/CHOICE',
 };
 
+export const MILITARY_BASE_DATA = 'view:livesOnMilitaryBase';
+
 // address props that are primarily used for comparing two addresses
 export const ADDRESS_PROPS = [
   'addressLine1',

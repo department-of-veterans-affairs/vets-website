@@ -1,7 +1,20 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
 
 const actionPrefix = 'MHV Secondary Nav';
+
+const medicalRecordsLink = {
+  title: 'Records',
+  actionName: `${actionPrefix} - Records`,
+  icon: 'note_add',
+  href: `/my-health/medical-records`,
+};
+
+const transitionalMedicalRecordsLink = {
+  ...medicalRecordsLink,
+  href: '/my-health/records',
+};
 
 /**
  * MHV secondary navigation items. Note the first item is the home link.
@@ -31,13 +44,8 @@ export const mhvSecNavItems = [
     abbreviation: 'Meds',
     actionName: `${actionPrefix} - Medications`,
     icon: 'medication',
-    href: `/my-health/medications`,
-  },
-  {
-    title: 'Records',
-    actionName: `${actionPrefix} - Records`,
-    icon: 'note_add',
-    href: `/my-health/medical-records`,
+    href: '/my-health/medications/about',
+    appRootUrl: '/my-health/medications',
   },
 ];
 
@@ -46,7 +54,21 @@ export const mhvSecNavItems = [
  * @returns the navigation bar
  */
 const MhvSecondaryNav = () => {
-  return <MhvSecondaryNavMenu items={mhvSecNavItems} />;
+  const items = [...mhvSecNavItems];
+  const {
+    loading,
+    mhvTransitionalMedicalRecordsLandingPage = false,
+  } = useSelector(state => state.featureToggles);
+
+  if (loading) return <></>;
+
+  if (mhvTransitionalMedicalRecordsLandingPage) {
+    items.push(transitionalMedicalRecordsLink);
+  } else {
+    items.push(medicalRecordsLink);
+  }
+
+  return <MhvSecondaryNavMenu items={items} />;
 };
 
 export default MhvSecondaryNav;

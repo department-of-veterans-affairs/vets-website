@@ -1,6 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/dom';
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import messageResponse from '../fixtures/message-response.json';
 import { inbox } from '../fixtures/folder-inbox-response.json';
@@ -15,6 +16,20 @@ describe('Breadcrumbs', () => {
       folders: { folder: inbox },
     },
   };
+
+  it('renders breadcrumb that includes "My HealtheVet" on Landing Page', async () => {
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState,
+      reducers: reducer,
+      path: `/`,
+    });
+    await waitFor(() => {
+      expect(screen.getByTestId('sm-breadcrumb')).to.have.attribute(
+        'sm-crumb-label',
+        'My HealtheVet',
+      );
+    });
+  });
 
   it('finds parent breadcrumb that displays the label "Back to messages"', async () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {

@@ -4,18 +4,9 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import transformForSubmit from './submitTransformer';
-import { getAgeInYears } from '../../shared/utilities';
 import { nameWording } from '../helpers/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
-
-import {
-  certifierRole,
-  certifierAddress,
-  certifierPhoneEmail,
-  certifierRelationship,
-  certifierNameSchema,
-} from '../chapters/certifierInformation';
 
 import {
   applicantNameDobSchema,
@@ -27,14 +18,12 @@ import {
 
 import {
   applicantHasMedicareABSchema,
-  applicantMedicareABContextSchema,
   applicantMedicarePartACarrierSchema,
   applicantMedicarePartBCarrierSchema,
   applicantMedicarePharmacySchema,
   applicantMedicareAdvantageSchema,
   applicantHasMedicareDSchema,
   applicantMedicarePartDCarrierSchema,
-  appMedicareOver65IneligibleUploadSchema,
   applicantMedicareABUploadSchema,
   applicantMedicareDUploadSchema,
 } from '../chapters/medicareInformation';
@@ -50,10 +39,21 @@ import {
   applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
-// import mockdata from '../tests/fixtures/data/test-data.json';
+// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
+
+// Control whether we show the file overview page by calling `hasReq` to
+// determine if any files have not been uploaded. Defaults to false (hide the page)
+// if anything goes sideways.
+function showFileOverviewPage(formData) {
+  try {
+    return hasReq(formData, true, true) || hasReq(formData, false, true);
+  } catch {
+    return false;
+  }
+}
 
 /** @type {PageSchema} */
 const formConfig = {
@@ -79,9 +79,7 @@ const formConfig = {
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: formData =>
-        formData.certifierRole === 'applicant'
-          ? 'applicantName'
-          : 'certifierName',
+        formData?.certifierRole ? 'certifierName' : 'applicantName',
     },
   },
   saveInProgress: {
@@ -107,61 +105,22 @@ const formConfig = {
   title: '10-7959C CHAMPVA Other Health Insurance Certification form',
   defaultDefinitions: {},
   chapters: {
-    certifierInformation: {
-      title: 'Signer information',
-      pages: {
-        role: {
-          path: 'your-information/description',
-          title: 'Which of these best describes you?',
-          // initialData: mockdata.data,
-          uiSchema: certifierRole.uiSchema,
-          schema: certifierRole.schema,
-        },
-        name: {
-          path: 'your-information/name',
-          title: 'Your name',
-          depends: formData => get('certifierRole', formData) !== 'applicant',
-          ...certifierNameSchema,
-        },
-        address: {
-          path: 'your-information/address',
-          title: 'Your mailing address',
-          depends: formData => get('certifierRole', formData) !== 'applicant',
-          ...certifierAddress,
-        },
-        phoneEmail: {
-          path: 'your-information/phone-email',
-          title: 'Your phone number',
-          depends: formData => get('certifierRole', formData) !== 'applicant',
-          ...certifierPhoneEmail,
-        },
-        relationship: {
-          path: 'your-information/relationship',
-          title: 'Your relationship to the applicant',
-          depends: formData => get('certifierRole', formData) !== 'applicant',
-          ...certifierRelationship,
-        },
-      },
-    },
     applicantInformation: {
       title: 'Applicant information',
       pages: {
         applicantNameDob: {
-          path: 'applicant-information',
-          title: formData =>
-            `${
-              formData.certifierRole === 'applicant' ? 'Your' : 'Applicant'
-            } name and date of birth`,
+          path: 'applicant-info',
+          title: 'Applicant name and date of birth',
           ...applicantNameDobSchema,
         },
         applicantIdentity: {
-          path: 'applicant-information/ssn',
+          path: 'applicant-identification-info',
           title: formData =>
             `${nameWording(formData)} identification information`,
           ...applicantSsnSchema,
         },
         applicantAddressInfo: {
-          path: 'applicant-information/address',
+          path: 'applicant-mailing-address',
           title: formData => `${nameWording(formData)} mailing address`,
           ...applicantAddressInfoSchema,
         },
@@ -173,7 +132,7 @@ const formConfig = {
         // TODO: have conditional logic to check if third party and app
         // is under age 18 (contact page)
         applicantContactInfo: {
-          path: 'applicant-information/contact',
+          path: 'applicant-contact-info',
           title: formData => `${nameWording(formData)} contact information`,
           ...applicantContactInfoSchema,
         },
@@ -183,60 +142,38 @@ const formConfig = {
       title: 'Medicare information',
       pages: {
         hasMedicareAB: {
-          path: 'medicare-ab',
+          path: 'medicare-ab-status',
           title: formData => `${nameWording(formData)} Medicare status`,
           ...applicantHasMedicareABSchema,
         },
-        // If 'no' to previous question:
-        medicareABContext: {
-          path: 'no-medicare-ab',
-          title: formData => `${nameWording(formData)} Medicare status`,
-          depends: formData =>
-            get('applicantMedicareStatus', formData) === false,
-          ...applicantMedicareABContextSchema,
-        },
         // If 'yes' to previous question:
         partACarrier: {
-          path: 'carrier-a',
+          path: 'medicare-a-carrier',
           title: formData => `${nameWording(formData)} Medicare Part A carrier`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicarePartACarrierSchema,
         },
-        // If ineligible and over 65, require user to upload proof of ineligibility
-        medicareIneligible: {
-          path: 'ineligible',
-          title: 'Over 65 and ineligible for Medicare',
-          depends: formData => {
-            return (
-              get('applicantMedicareStatusContinued', formData) ===
-                'ineligible' && getAgeInYears(formData?.applicantDOB) >= 65
-            );
-          },
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
-          ...appMedicareOver65IneligibleUploadSchema,
-        },
         partBCarrier: {
-          path: 'carrier-b',
+          path: 'medicare-b-carrier',
           title: formData => `${nameWording(formData)} Medicare Part B carrier`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicarePartBCarrierSchema,
         },
         pharmacyBenefits: {
-          path: 'pharmacy',
+          path: 'medicare-pharmacy',
           title: formData =>
             `${nameWording(formData)} Medicare pharmacy benefits`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicarePharmacySchema,
         },
         advantagePlan: {
-          path: 'advantage',
+          path: 'medicare-coverage',
           title: formData => `${nameWording(formData)} Medicare coverage`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicareAdvantageSchema,
         },
         medicareABCards: {
-          path: 'ab-upload',
+          path: 'medicare-ab-upload',
           title: formData => `${nameWording(formData)} Medicare card (A/B)`,
           depends: formData => get('applicantMedicareStatus', formData),
           CustomPage: FileFieldWrapped,
@@ -244,13 +181,13 @@ const formConfig = {
           ...applicantMedicareABUploadSchema,
         },
         hasMedicareD: {
-          path: 'medicare-d',
+          path: 'medicare-d-status',
           title: formData => `${nameWording(formData)} Medicare status`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantHasMedicareDSchema,
         },
         partDCarrier: {
-          path: 'carrier-d',
+          path: 'medicare-d-carrier',
           title: formData => `${nameWording(formData)} Medicare Part D carrier`,
           depends: formData =>
             get('applicantMedicareStatus', formData) &&
@@ -258,7 +195,7 @@ const formConfig = {
           ...applicantMedicarePartDCarrierSchema,
         },
         medicareDCards: {
-          path: 'd-upload',
+          path: 'medicare-d-upload',
           title: formData => `${nameWording(formData)} Medicare card (D)`,
           depends: formData =>
             get('applicantMedicareStatus', formData) &&
@@ -274,20 +211,20 @@ const formConfig = {
       title: 'Healthcare information',
       pages: {
         hasPrimaryHealthInsurance: {
-          path: 'has-primary',
+          path: 'insurance-status',
           title: formData =>
             `${nameWording(formData)} primary health insurance`,
           ...applicantHasInsuranceSchema(true),
         },
         primaryProvider: {
-          path: 'primary-provider',
+          path: 'insurance-info',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData =>
             `${nameWording(formData)} health insurance information`,
           ...applicantProviderSchema(true),
         },
         primaryThroughEmployer: {
-          path: 'primary-through-employer',
+          path: 'insurance-type',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData =>
             `${nameWording(formData)} ${
@@ -296,7 +233,7 @@ const formConfig = {
           ...applicantInsuranceThroughEmployerSchema(true),
         },
         primaryPrescription: {
-          path: 'primary-prescription',
+          path: 'insurance-prescription',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData =>
             `${nameWording(formData)} ${
@@ -305,7 +242,7 @@ const formConfig = {
           ...applicantInsurancePrescriptionSchema(true),
         },
         primaryEOB: {
-          path: 'primary-eob',
+          path: 'insurance-eob',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData =>
             `${nameWording(formData)} ${
@@ -314,7 +251,7 @@ const formConfig = {
           ...applicantInsuranceEOBSchema(true),
         },
         primaryType: {
-          path: 'primary-insurance-type',
+          path: 'insurance-plan',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData =>
             `${nameWording(formData)} ${
@@ -323,7 +260,7 @@ const formConfig = {
           ...applicantInsuranceTypeSchema(true),
         },
         primaryMedigap: {
-          path: 'primary-medigap',
+          path: 'insurance-medigap',
           depends: formData =>
             get('applicantHasPrimary', formData) &&
             get('applicantPrimaryInsuranceType.medigap', formData),
@@ -334,7 +271,7 @@ const formConfig = {
           ...applicantMedigapSchema(true),
         },
         primaryComments: {
-          path: 'primary-comments',
+          path: 'insurance-comments',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData =>
             `${nameWording(formData)} ${
@@ -343,7 +280,7 @@ const formConfig = {
           ...applicantInsuranceCommentsSchema(true),
         },
         primaryCard: {
-          path: 'primary-card-upload',
+          path: 'insurance-upload',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData =>
             `${nameWording(formData)} primary health insurance card`,
@@ -352,20 +289,20 @@ const formConfig = {
           ...applicantInsuranceCardSchema(true),
         },
         hasSecondaryHealthInsurance: {
-          path: 'has-secondary',
+          path: 'secondary-insurance',
           title: formData =>
             `${nameWording(formData)} secondary health insurance`,
           ...applicantHasInsuranceSchema(false),
         },
         secondaryProvider: {
-          path: 'secondary-provider',
+          path: 'secondary-insurance-info',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
             `${nameWording(formData)} secondary health insurance information`,
           ...applicantProviderSchema(false),
         },
         secondaryThroughEmployer: {
-          path: 'secondary-through-employer',
+          path: 'secondary-insurance-type',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
             `${nameWording(formData)} ${
@@ -374,7 +311,7 @@ const formConfig = {
           ...applicantInsuranceThroughEmployerSchema(false),
         },
         secondaryPrescription: {
-          path: 'secondary-prescription',
+          path: 'secondary-insurance-prescription',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
             `${nameWording(formData)} ${
@@ -383,7 +320,7 @@ const formConfig = {
           ...applicantInsurancePrescriptionSchema(false),
         },
         secondaryEOB: {
-          path: 'secondary-eob',
+          path: 'secondary-insurance-eob',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
             `${nameWording(formData)} ${
@@ -392,7 +329,7 @@ const formConfig = {
           ...applicantInsuranceEOBSchema(false),
         },
         secondaryType: {
-          path: 'secondary-insurance-type',
+          path: 'secondary-insurance-plan',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
             `${nameWording(formData)} ${
@@ -401,7 +338,7 @@ const formConfig = {
           ...applicantInsuranceTypeSchema(false),
         },
         secondaryMedigap: {
-          path: 'secondary-medigap',
+          path: 'secondary-insurance-medigap',
           depends: formData =>
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryInsuranceType.medigap', formData),
@@ -412,7 +349,7 @@ const formConfig = {
           ...applicantMedigapSchema(false),
         },
         secondaryComments: {
-          path: 'secondary-comments',
+          path: 'secondary-insurance-comments',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
             `${nameWording(formData)} ${
@@ -421,7 +358,7 @@ const formConfig = {
           ...applicantInsuranceCommentsSchema(false),
         },
         secondaryCard: {
-          path: 'secondary-card-upload',
+          path: 'secondary-insurance-card-upload',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
             `${nameWording(formData)} secondary health insurance card`,
@@ -437,6 +374,7 @@ const formConfig = {
         supportingFilesReview: {
           path: 'supporting-files',
           title: 'Upload your supporting files',
+          depends: formData => showFileOverviewPage(formData),
           CustomPage: SupportingDocumentsPage,
           CustomPageReview: null,
           uiSchema: {
@@ -449,18 +387,7 @@ const formConfig = {
         missingFileConsent: {
           path: 'consent-mail',
           title: 'Upload your supporting files',
-          depends: formData => {
-            try {
-              return (
-                hasReq(formData.applicants, true) ||
-                hasReq(formData.applicants, false) ||
-                hasReq(formData, true) ||
-                hasReq(formData, false)
-              );
-            } catch {
-              return false;
-            }
-          },
+          depends: formData => showFileOverviewPage(formData),
           CustomPage: MissingFileConsentPage,
           CustomPageReview: null,
           uiSchema: {

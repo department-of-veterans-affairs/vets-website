@@ -735,4 +735,4 @@ class PatientInboxPage {
   };
 }
 
-export default PatientInboxPage;
+export default new PatientInboxPage();

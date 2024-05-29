@@ -2,7 +2,7 @@ import nodeLcs from 'node-lcs';
 
 // Define Constants
 const MAX_OPTIONS = 20;
-const THRESHOLD = 0.5;
+const THRESHOLD = 0.625;
 const REGEX_SPLIT = /[\s-,()]+/;
 const COMMON_WORDS = [
   'left',
@@ -199,7 +199,7 @@ export function fullStringSimilaritySearch(
     x => !distinctTerms.includes(x.original) && distinctTerms.push(x.original),
   );
   distinctTerms = Array.from(new Set([...startsWith, ...distinctTerms]));
-  return distinctTerms.slice(0, 20);
+  return distinctTerms.slice(0, MAX_OPTIONS);
 }
 
 export const exportForTesting = {

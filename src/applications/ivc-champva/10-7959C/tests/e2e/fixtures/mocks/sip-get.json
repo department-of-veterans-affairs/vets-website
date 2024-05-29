@@ -1,7 +1,5 @@
 {
-  "formData": {
-    "preparerType": "sponsor"
-  },
+  "formData": {},
   "metadata": {
     "version": 0,
     "prefill": true,

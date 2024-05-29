@@ -3,6 +3,8 @@ import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
   concatObservationInterpretations,
+  dateFormat,
+  extractContainedResource,
   getObservationValueWithUnits,
   isArrayAndHasItems,
 } from '../util/helpers';
@@ -37,21 +39,76 @@ const initialState = {
   labsAndTestsDetails: undefined,
 };
 
+const getLabLocation = (performer, record) => {
+  if (isArrayAndHasItems(performer)) {
+    const locationRef = performer[0]?.reference;
+    const labLocation = extractContainedResource(record, locationRef);
+    return labLocation?.name;
+  }
+  return null;
+};
+
+const distillChemHemNotes = (notes, valueProp) => {
+  if (isArrayAndHasItems(notes)) {
+    return notes.map(note => note[valueProp]);
+  }
+  return null;
+};
+
 /**
  * @param {Object} record - A FHIR chem/hem Observation object
  * @returns the appropriate frontend object for display
  */
-const convertChemHemObservation = results => {
+const convertChemHemObservation = record => {
+  const results = record.contained.filter(
+    recordItem => recordItem.resourceType === 'Observation',
+  );
   return results.filter(obs => obs.valueQuantity).map(result => {
+    const { observationValue, observationUnit } = getObservationValueWithUnits(
+      result,
+    );
+    let observationValueWithUnits = `${observationValue} ${observationUnit}`;
+    const interpretation = concatObservationInterpretations(result);
+    if (observationValueWithUnits && interpretation) {
+      observationValueWithUnits += ` (${interpretation})`;
+    }
+    let standardRange;
+    if (observationUnit) {
+      standardRange = `${result.referenceRange[0].text} ${observationUnit}`;
+    }
     return {
       name: result.code.text,
-      result: getObservationValueWithUnits(result) || EMPTY_FIELD,
-      standardRange: result.referenceRange[0].text || EMPTY_FIELD,
+      result: observationValueWithUnits || EMPTY_FIELD,
+      standardRange: standardRange || EMPTY_FIELD,
       status: result.status || EMPTY_FIELD,
-      labLocation: result.labLocation || EMPTY_FIELD,
-      interpretation: concatObservationInterpretations(result) || EMPTY_FIELD,
+      labLocation: getLabLocation(result.performer, record) || EMPTY_FIELD,
+      labComments: distillChemHemNotes(result.note, 'text') || EMPTY_FIELD,
     };
   });
+};
+
+const getPractitioner = (record, serviceRequest) => {
+  const practitionerRef = serviceRequest?.requester?.reference;
+  const practitioner = extractContainedResource(record, practitionerRef);
+  if (isArrayAndHasItems(practitioner?.name)) {
+    const practitionerName = practitioner?.name[0];
+    const familyName = practitionerName?.family;
+    const givenNames = practitionerName?.given.join(' ');
+    return `${familyName ? `${familyName}, ` : ''}${givenNames}`;
+  }
+  return null;
+};
+
+const getSpecimen = record => {
+  const specimenRef = isArrayAndHasItems(record.specimen);
+  if (specimenRef) {
+    const specimen = extractContainedResource(
+      record,
+      record.specimen[0]?.reference,
+    );
+    return specimen?.type?.text;
+  }
+  return null;
 };
 
 /**
@@ -59,24 +116,23 @@ const convertChemHemObservation = results => {
  * @returns the appropriate frontend object for display
  */
 const convertChemHemRecord = record => {
-  const results = record.contained.filter(
-    recordItem => recordItem.resourceType === 'Observation',
-  );
+  const basedOnRef =
+    isArrayAndHasItems(record.basedOn) && record.basedOn[0]?.reference;
+  const serviceRequest = extractContainedResource(record, basedOnRef);
   return {
     id: record.id,
     type: labTypes.CHEM_HEM,
-    name: concatCategoryCodeText(record),
-    category: concatCategoryCodeText(record),
-    orderedBy: record.physician || EMPTY_FIELD,
-    requestedBy: record.physician || EMPTY_FIELD,
+    testType: serviceRequest?.code?.text || EMPTY_FIELD,
+    name: concatCategoryCodeText(record) || EMPTY_FIELD,
+    category: concatCategoryCodeText(record) || EMPTY_FIELD,
+    orderedBy: getPractitioner(record, serviceRequest) || EMPTY_FIELD,
     date: record.effectiveDateTime
-      ? formatDateLong(record.effectiveDateTime)
+      ? dateFormat(record.effectiveDateTime)
       : EMPTY_FIELD,
-    orderingLocation: record.location || EMPTY_FIELD,
-    collectingLocation: record.location || EMPTY_FIELD,
-    comments: [record.conclusion],
-    results: convertChemHemObservation(results),
-    sampleTested: record.specimen?.text || EMPTY_FIELD,
+    collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
+    comments: distillChemHemNotes(record.extension, 'valueString'),
+    results: convertChemHemObservation(record),
+    sampleTested: getSpecimen(record) || EMPTY_FIELD,
   };
 };
 
@@ -114,7 +170,7 @@ const convertPathologyRecord = record => {
     id: record.id,
     name: record.code?.text,
     type: labTypes.PATHOLOGY,
-    category: concatCategoryCodeText(record),
+    category: concatCategoryCodeText(record) || EMPTY_FIELD,
     orderedBy: record.physician || EMPTY_FIELD,
     requestedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime

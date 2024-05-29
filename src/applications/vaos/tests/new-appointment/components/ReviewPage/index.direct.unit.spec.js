@@ -21,9 +21,9 @@ import {
   onCalendarChange,
   startDirectScheduleFlow,
 } from '../../../../new-appointment/redux/actions';
-import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
-import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
-import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
+import { mockAppointmentSubmit } from '../../../mocks/helpers';
+import { createMockCheyenneFacility } from '../../../mocks/data';
+import { mockFacilityFetch } from '../../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -165,7 +165,7 @@ describe('VAOS Page: ReviewPage direct scheduling with v2 api', () => {
   });
 
   it('should submit successfully', async () => {
-    mockAppointmentSubmitV2({
+    mockAppointmentSubmit({
       id: 'fake_id',
       attributes: {
         reasonCode: {},
@@ -203,8 +203,8 @@ describe('VAOS Page: ReviewPage direct scheduling with v2 api', () => {
   });
 
   it('should show error message on failure', async () => {
-    mockFacilityFetchByVersion({
-      facility: createMockCheyenneFacilityByVersion({}),
+    mockFacilityFetch({
+      facility: createMockCheyenneFacility({}),
     });
 
     setFetchJSONFailure(
