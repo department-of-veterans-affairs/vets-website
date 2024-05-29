@@ -82,7 +82,7 @@ class MedicationsListPage {
   verifyTextInsideDropDownOnListPage = () => {
     cy.get('[data-testid="dropdown-info"]').should(
       'contain',
-      'we’ll include a list of allergies and reactions',
+      'If you’re on a public or shared computer',
     );
   };
 

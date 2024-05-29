@@ -8,8 +8,8 @@ const { serveUnderOtherNames } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
-  title: 'General history',
-  path: 'military/general',
+  title: 'Other service names',
+  path: 'military/other-names',
   uiSchema: {
     ...titleUI('Other service names'),
     serveUnderOtherNames: yesNoUI({
