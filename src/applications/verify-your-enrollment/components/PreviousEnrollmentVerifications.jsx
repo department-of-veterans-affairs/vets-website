@@ -239,7 +239,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
           start={subsetStart + 1}
           end={subsetEnd}
           total={totalEnrollmentCount}
-          isError={false}
+          hasEnrollment={false}
         />
       )}
       {response?.error?.error === 'Forbidden' && (
@@ -247,7 +247,7 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
           start={subsetStart}
           end={subsetEnd}
           total={totalEnrollmentCount}
-          isError
+          hasEnrollment
         />
       )}
       {totalEnrollmentCount > 0 && getPreviouslyVerified()}
