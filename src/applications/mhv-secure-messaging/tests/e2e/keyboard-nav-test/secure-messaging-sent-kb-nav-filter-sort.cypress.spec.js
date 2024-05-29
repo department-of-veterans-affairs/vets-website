@@ -42,11 +42,12 @@ describe('Keyboard Navigation for Filter & Sort functionalities', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    const testData = { ...mockSentMessages };
-    testData.data.sort(
-      (a, b) =>
-        new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
-    );
+    const testData = {
+      data: Array.from(mockSentMessages.data).sort(
+        (a, b) =>
+          new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
+      ),
+    };
 
     PatientMessageSentPage.verifySortingByKeyboard(
       'Oldest to newest',

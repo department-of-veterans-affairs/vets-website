@@ -175,7 +175,7 @@ class PatientMessageSentPage {
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}/threads**`,
       data,
-    );
+    ).as('sortResponse');
     cy.tabToElement('[data-testid="sort-button"]');
     cy.realPress('Enter');
   };
