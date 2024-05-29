@@ -8,10 +8,14 @@ export default function prefillTransformer(pages, formData, metadata) {
       newFormData[addressType].country =
         countryNameToValue(formData[addressType].country) ?? 'USA';
     }
-    if (newFormData[addressType]?.state) {
-      newFormData[addressType].isMilitary = isMilitaryState(
-        formData[addressType].state,
-      );
+    newFormData[addressType].isMilitary = isMilitaryState(
+      formData[addressType]?.state,
+    );
+    if (newFormData[addressType]?.street2) {
+      newFormData[addressType].street2 =
+        newFormData[addressType].street2.trim() !== ','
+          ? newFormData[addressType].street2
+          : undefined;
     }
   }
 
