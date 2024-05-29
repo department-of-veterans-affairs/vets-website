@@ -17,6 +17,12 @@ describe('unified check-in experience', () => {
     teardownI18n();
   });
   describe('AppointmentsPage', () => {
+    const appointmentsOn = {
+      check_in_experience_upcoming_appointments_enabled: true,
+    };
+    const appointmentsOff = {
+      check_in_experience_upcoming_appointments_enabled: false,
+    };
     it('renders regions', () => {
       // Mock the return value for the useGetCheckInData hook
       const useGetCheckInDataStub = sinon
@@ -26,7 +32,7 @@ describe('unified check-in experience', () => {
         });
 
       const { getByTestId } = render(
-        <CheckInProvider>
+        <CheckInProvider store={{ features: appointmentsOn }}>
           <AppointmentsPage />
         </CheckInProvider>,
       );
@@ -47,7 +53,7 @@ describe('unified check-in experience', () => {
           isLoading: true,
         });
       const screen = render(
-        <CheckInProvider store={{ appointments: [] }}>
+        <CheckInProvider store={{ appointments: [], features: appointmentsOn }}>
           <AppointmentsPage />
         </CheckInProvider>,
       );
@@ -58,7 +64,7 @@ describe('unified check-in experience', () => {
     });
     it('shows the date & time the appointments were loaded & a refresh link', () => {
       const checkIn = render(
-        <CheckInProvider>
+        <CheckInProvider store={{ features: appointmentsOn }}>
           <AppointmentsPage />
         </CheckInProvider>,
       );
@@ -69,6 +75,15 @@ describe('unified check-in experience', () => {
         'refresh-appointments-button',
       );
       expect(refreshButton).to.exist;
+    });
+    it('does not show upcoming appointments or accordions with the feature off', () => {
+      const checkIn = render(
+        <CheckInProvider store={{ features: appointmentsOff }}>
+          <AppointmentsPage />
+        </CheckInProvider>,
+      );
+      expect(checkIn.queryByTestId('upcoming-appointments')).to.not.exist;
+      expect(checkIn.queryByTestId('appointments-accordions')).to.not.exist;
     });
   });
 });

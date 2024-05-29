@@ -7,6 +7,7 @@ import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import Wrapper from '../../layout/Wrapper';
 import { APP_NAMES } from '../../../utils/appConstants';
 import { makeSelectApp, makeSelectVeteranData } from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import UpcomingAppointments from '../../UpcomingAppointments';
 import ActionItemDisplay from '../../ActionItemDisplay';
@@ -16,6 +17,8 @@ import { intervalUntilNextAppointmentIneligibleForCheckin } from '../../../utils
 
 const AppointmentsPage = props => {
   const { router } = props;
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isUpcomingAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
   const { t } = useTranslation();
@@ -172,7 +175,9 @@ const AppointmentsPage = props => {
       withBackButton
     >
       <ActionItemDisplay router={router} />
-      <UpcomingAppointments router={router} refresh={refresh} />
+      {isUpcomingAppointmentsEnabled && (
+        <UpcomingAppointments router={router} refresh={refresh} />
+      )}
       <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column vads-u-padding-top--1p5 vads-u-padding-bottom--5">
         <p data-testid="update-text">
           <Trans
@@ -190,19 +195,21 @@ const AppointmentsPage = props => {
           data-testid="refresh-appointments-button"
         />
       </div>
-      <va-accordion uswds bordered data-testid="appointments-accordions">
-        {accordionContent.map((accordion, index) => (
-          <va-accordion-item
-            key={index}
-            header={accordion.header}
-            open={accordion.open}
-            uswds
-            bordered
-          >
-            {accordion.body}
-          </va-accordion-item>
-        ))}
-      </va-accordion>
+      {isUpcomingAppointmentsEnabled && (
+        <va-accordion uswds bordered data-testid="appointments-accordions">
+          {accordionContent.map((accordion, index) => (
+            <va-accordion-item
+              key={index}
+              header={accordion.header}
+              open={accordion.open}
+              uswds
+              bordered
+            >
+              {accordion.body}
+            </va-accordion-item>
+          ))}
+        </va-accordion>
+      )}
     </Wrapper>
   );
 };
