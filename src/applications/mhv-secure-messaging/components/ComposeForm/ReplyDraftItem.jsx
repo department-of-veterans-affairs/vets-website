@@ -501,7 +501,7 @@ const ReplyDraftItem = props => {
             </section>
           )}
 
-        <DraftSavedInfo />
+        <DraftSavedInfo messageId={draft?.messageId} />
 
         <div ref={composeFormActionButtonsRef}>
           <ComposeFormActionButtons

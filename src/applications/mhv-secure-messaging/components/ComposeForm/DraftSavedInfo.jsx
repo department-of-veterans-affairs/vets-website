@@ -1,12 +1,17 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
 import { ErrorMessages } from '../../util/constants';
 
-const DraftSavedInfo = () => {
-  const { isSaving, saveError, lastSaveTime } = useSelector(
-    state => state.sm.threadDetails,
-  );
+const DraftSavedInfo = props => {
+  const { messageId } = props;
+
+  const threadDetails = useSelector(state => state.sm.threadDetails);
+
+  const { isSaving, saveError, lastSaveTime } = messageId
+    ? threadDetails.drafts.find(d => d.messageId === messageId)
+    : threadDetails;
 
   const content = () => {
     if (isSaving) return 'Saving...';
@@ -58,6 +63,10 @@ const DraftSavedInfo = () => {
     );
   }
   return '';
+};
+
+DraftSavedInfo.propTypes = {
+  messageId: PropTypes.number,
 };
 
 export default DraftSavedInfo;

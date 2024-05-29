@@ -30,6 +30,24 @@ export const threadDetailsReducer = (state = initialState, action) => {
         ...state,
         drafts: state.drafts.map(d => {
           if (d.messageId === action.payload.messageId) {
+            return {
+              ...d,
+              ...action.payload,
+              isSaving: false,
+              lastSaveTime: Date.now(),
+            };
+          }
+          return d;
+        }),
+        isSaving: false,
+        lastSaveTime: Date.now(),
+      };
+    }
+    case Actions.Thread.UPDATE_DRAFT_IN_THREAD_OLD: {
+      return {
+        ...state,
+        drafts: state.drafts.map(d => {
+          if (d.messageId === action.payload.messageId) {
             return { ...d, ...action.payload };
           }
           return d;
@@ -41,13 +59,24 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.DRAFT_SAVE_STARTED:
       return {
         ...state,
+        drafts: state.drafts.map(d => {
+          if (d.messageId === action.payload.messageId) {
+            return { ...d, isSaving: true, saveError: null };
+          }
+          return d;
+        }),
         isSaving: true,
         saveError: null,
       };
     case Actions.Draft.CREATE_SUCCEEDED:
       return {
         ...state,
-        drafts: [action.response.data.attributes],
+        drafts: {
+          ...[action.response.data.attributes],
+          isSaving: false,
+          saveError: null,
+          lastSaveTime: Date.now(),
+        },
         isSaving: false,
         saveError: null,
         lastSaveTime: Date.now(),
@@ -55,6 +84,17 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Draft.SAVE_FAILED:
       return {
         ...state,
+        drafts: state.drafts.map(d => {
+          if (d.messageId === action.payload.messageId) {
+            return {
+              ...d,
+              isSaving: false,
+              lastSaveTime: null,
+              saveError: { ...action.response },
+            };
+          }
+          return d;
+        }),
         isSaving: false,
         lastSaveTime: null,
         saveError: { ...action.response },
