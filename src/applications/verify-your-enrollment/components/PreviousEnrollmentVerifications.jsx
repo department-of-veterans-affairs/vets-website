@@ -18,14 +18,12 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   const [subsetEnd, setSubsetEnd] = useState(0);
 
   const totalEnrollmentVerificationsCount = Object.keys(
-    combineEnrollmentsWithStartMonth(
-      enrollmentData?.['vye::UserInfo']?.verifications ?? {},
-    ),
+    combineEnrollmentsWithStartMonth(enrollmentData?.verifications ?? {}),
   ).length;
 
   const totalEnrollmentPendingVerificationsCount = Object.keys(
     combineEnrollmentsWithStartMonth(
-      enrollmentData?.['vye::UserInfo']?.pendingVerifications ?? {},
+      enrollmentData?.pendingVerifications ?? {},
     ),
   ).length;
   // get count of verified and unverified enrollments (Grouped by start month)
@@ -169,16 +167,14 @@ const PreviousEnrollmentVerifications = ({ enrollmentData }) => {
   useEffect(
     () => {
       const allEnrollments = [];
-      if (
-        userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.length > 0
-      ) {
-        const { pendingVerifications } = userEnrollmentData?.['vye::UserInfo'];
+      if (userEnrollmentData?.pendingVerifications?.length > 0) {
+        const { pendingVerifications } = userEnrollmentData;
         pendingVerifications.forEach(pendingAward => {
           allEnrollments.push(pendingAward);
         });
       }
-      if (userEnrollmentData?.['vye::UserInfo']?.verifications?.length > 0) {
-        const { verifications } = userEnrollmentData?.['vye::UserInfo'];
+      if (userEnrollmentData?.verifications?.length > 0) {
+        const { verifications } = userEnrollmentData;
         verifications.forEach(award => {
           allEnrollments.push(award);
         });

@@ -1,6 +1,6 @@
 const { entries, freeze, values } = Object;
 
-export const HEALTH_TOOL_HEADINGS = freeze({
+const HEALTH_TOOL_HEADINGS = freeze({
   APPOINTMENTS: 'Appointments',
   MESSAGES: 'Messages',
   MEDICATIONS: 'Medications',
@@ -9,9 +9,9 @@ export const HEALTH_TOOL_HEADINGS = freeze({
   MEDICAL_SUPPLIES: 'Medical supplies',
 });
 
-export const HEALTH_TOOL_NAMES = freeze(values(HEALTH_TOOL_HEADINGS));
+const HEALTH_TOOL_NAMES = freeze(values(HEALTH_TOOL_HEADINGS));
 
-export const HEALTH_TOOL_LINKS = freeze({
+const HEALTH_TOOL_LINKS = freeze({
   APPOINTMENTS: freeze([
     {
       href: '/my-health/appointments/schedule/type-of-care',
@@ -88,6 +88,14 @@ export const HEALTH_TOOL_LINKS = freeze({
   ]),
 });
 
-export const HEALTH_TOOLS = entries(HEALTH_TOOL_HEADINGS).map(
-  ([key, name]) => ({ name, links: HEALTH_TOOL_LINKS[key] }),
-);
+const HEALTH_TOOLS = entries(HEALTH_TOOL_HEADINGS).map(([key, name]) => ({
+  name,
+  links: HEALTH_TOOL_LINKS[key],
+}));
+
+module.exports = {
+  HEALTH_TOOL_HEADINGS,
+  HEALTH_TOOL_NAMES,
+  HEALTH_TOOL_LINKS,
+  HEALTH_TOOLS,
+};
