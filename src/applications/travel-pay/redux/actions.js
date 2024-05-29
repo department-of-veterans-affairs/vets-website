@@ -5,10 +5,6 @@ export const FETCH_TRAVEL_CLAIMS_STARTED = 'FETCH_TRAVEL_CLAIMS_STARTED';
 export const FETCH_TRAVEL_CLAIMS_SUCCESS = 'FETCH_TRAVEL_CLAIMS_SUCCESS';
 export const FETCH_TRAVEL_CLAIMS_FAILURE = 'FETCH_TRAVEL_CLAIMS_FAILURE';
 
-export const FETCH_UNAUTH_PING_STARTED = 'FETCH_UNAUTH_PING_STARTED';
-export const FETCH_UNAUTH_PING_SUCCESS = 'FETCH_UNAUTH_PING_SUCCESS';
-export const FETCH_UNAUTH_PING_FAILURE = 'FETCH_UNAUTH_PING_FAILURE';
-
 const fetchTravelClaimsStart = () => ({ type: FETCH_TRAVEL_CLAIMS_STARTED });
 const fetchTravelClaimsSuccess = data => ({
   type: FETCH_TRAVEL_CLAIMS_SUCCESS,
@@ -16,19 +12,6 @@ const fetchTravelClaimsSuccess = data => ({
 });
 const fetchTravelClaimsFailure = error => ({
   type: FETCH_TRAVEL_CLAIMS_FAILURE,
-  error,
-});
-
-/* istanbul ignore next */
-const fetchUnauthPingStart = () => ({ type: FETCH_UNAUTH_PING_STARTED });
-/* istanbul ignore next */
-const fetchUnauthPingSuccess = data => ({
-  type: FETCH_UNAUTH_PING_SUCCESS,
-  payload: data,
-});
-/* istanbul ignore next */
-const fetchUnauthPingFailure = error => ({
-  type: FETCH_UNAUTH_PING_FAILURE,
   error,
 });
 
@@ -43,22 +26,6 @@ export function getTravelClaims() {
       dispatch(fetchTravelClaimsSuccess(response.data));
     } catch (error) {
       dispatch(fetchTravelClaimsFailure(error));
-    }
-  };
-}
-
-/* istanbul ignore next */
-export function getUnauthPing() {
-  return async dispatch => {
-    dispatch(fetchUnauthPingStart());
-
-    try {
-      const absoluteURL = `${environment.API_URL}/travel_pay/pings/ping`;
-      const response = await apiRequest(absoluteURL);
-
-      dispatch(fetchUnauthPingSuccess(response.data));
-    } catch (error) {
-      dispatch(fetchUnauthPingFailure(error));
     }
   };
 }
