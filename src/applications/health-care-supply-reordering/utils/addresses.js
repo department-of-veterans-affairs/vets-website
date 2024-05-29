@@ -1,5 +1,7 @@
 import constants from 'vets-json-schema/dist/constants.json';
 
+const { countries, militaryStates, states50AndDC, states } = constants;
+
 const caseInsensitiveComparison = (a, b) => {
   return typeof a === 'string' && typeof b === 'string'
     ? a.localeCompare(b, undefined, { sensitivity: 'accent' }) === 0
@@ -14,22 +16,38 @@ const countryNameToValue = name => {
     countryName = 'United States';
   }
 
-  const country = constants.countries.find(countryMapping =>
+  const country = countries.find(countryMapping =>
     caseInsensitiveComparison(countryMapping.label, countryName),
   );
   return country ? country.value : countryName;
 };
 
 const countryValueToName = countryValue => {
-  const country = constants.countries.find(countryMapping =>
+  const country = countries.find(countryMapping =>
     caseInsensitiveComparison(countryMapping.value, countryValue),
   );
   return country ? country.label : countryValue;
 };
 
 const isMilitaryState = stateName => {
-  const militaryStates = constants.militaryStates.map(state => state.value);
-  return militaryStates.includes(stateName);
+  const militaryStateValues = militaryStates.map(state => state.value);
+  return militaryStateValues.includes(stateName);
+};
+
+const isTerritory = countryName => {
+  // Get states from usaStates and remove the values in states50AndDC and militaryStates
+  const usaStateLabels = states.USA.map(state => state.label);
+  const militaryStateLabels = militaryStates.map(state => state.label);
+  const states50AndDCLabels = states50AndDC.map(state => state.label);
+  const territories = usaStateLabels.filter(
+    state =>
+      !militaryStateLabels.includes(state) &&
+      !states50AndDCLabels.includes(state),
+  );
+  const territoryMatch = territories.find(territory => {
+    return caseInsensitiveComparison(territory, countryName);
+  });
+  return territoryMatch ?? countryName;
 };
 
 export {
@@ -37,4 +55,5 @@ export {
   countryNameToValue,
   countryValueToName,
   isMilitaryState,
+  isTerritory,
 };
