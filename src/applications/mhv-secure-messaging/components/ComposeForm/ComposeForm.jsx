@@ -2,10 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import {
-  VaModal,
-  VaSelect,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
@@ -17,7 +14,6 @@ import {
   messageSignatureFormatter,
   setCaretToPos,
   navigateToFolderByFolderId,
-  sortRecipients,
   resetUserSession,
   updateTriageGroupRecipientStatus,
 } from '../../util/helpers';
@@ -41,6 +37,8 @@ import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ViewOnlyDraftSection from './ViewOnlyDraftSection';
 import { RadioCategories } from '../../util/inputContants';
 import { getCategories } from '../../actions/categories';
+import DigitalSignature from './DigitalSignature';
+import RecipientsSelect from './RecipientsSelect';
 
 const ComposeForm = props => {
   const { draft, recipients, signature } = props;
@@ -618,28 +616,12 @@ const ComposeForm = props => {
           {recipientsList &&
             !noAssociations &&
             !allTriageGroupsBlocked && (
-              <>
-                <VaSelect
-                  uswds={false}
-                  enable-analytics
-                  id="recipient-dropdown"
-                  label="To"
-                  name="to"
-                  value={selectedRecipient}
-                  onVaSelect={recipientHandler}
-                  class="composeSelect"
-                  data-testid="compose-recipient-select"
-                  error={recipientError}
-                  data-dd-privacy="mask"
-                  data-dd-action-name="Compose Recipient Dropdown List"
-                >
-                  {sortRecipients(recipientsList)?.map(item => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </VaSelect>
-              </>
+              <RecipientsSelect
+                recipientsList={recipientsList}
+                onValueChange={recipientHandler}
+                error={recipientError}
+                defaultValue={selectedRecipient}
+              />
             )}
 
           <div className="compose-form-div">
@@ -733,6 +715,8 @@ const ComposeForm = props => {
                   />
                 </section>
               ))}
+
+          <DigitalSignature />
 
           <DraftSavedInfo />
           <ComposeFormActionButtons
