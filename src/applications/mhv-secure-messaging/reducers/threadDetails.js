@@ -43,19 +43,6 @@ export const threadDetailsReducer = (state = initialState, action) => {
         lastSaveTime: Date.now(),
       };
     }
-    case Actions.Thread.UPDATE_DRAFT_IN_THREAD_OLD: {
-      return {
-        ...state,
-        drafts: state.drafts.map(d => {
-          if (d.messageId === action.payload.messageId) {
-            return { ...d, ...action.payload };
-          }
-          return d;
-        }),
-        isSaving: false,
-        lastSaveTime: Date.now(),
-      };
-    }
     case Actions.Thread.DRAFT_SAVE_STARTED:
       return {
         ...state,
