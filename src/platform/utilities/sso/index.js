@@ -82,10 +82,10 @@ export async function checkAutoSession(
 ) {
   const { ttl, transactionid, ...queryParams } = await ssoKeepAliveSession();
   const removeReturnUrl = url => {
-    // eslint-disable-next-line prettier/prettier
-    const isExternalCSP = sessionStorage.getItem(url).includes('mhv' || 'myhealth' || 'ebenefits' || 'MAP');
-    // eslint-disable-next-line prettier/prettier
-    return (isExternalCSP ? sessionStorage.removeItem(url) : null);
+    const isExternalCSP = sessionStorage
+      .getItem(url)
+      .includes('mhv' || 'myhealth' || 'ebenefits' || 'MAP');
+    return isExternalCSP ? sessionStorage.removeItem(url) : null;
   };
   /**
    * Ensure user is authenticated with SSOe by verifying
