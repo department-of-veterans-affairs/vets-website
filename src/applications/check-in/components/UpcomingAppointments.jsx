@@ -78,10 +78,10 @@ const UpcomingAppointments = props => {
         status="error"
       >
         <h3 className="vads-u-margin-top--0">
-          {t('were-sorry-weve-run-into-a-problem')}
+          {t('we-cant-access-appointments')}
         </h3>
         <p className="vads-u-margin-bottom--0">
-          {t('were-having-trouble-getting-your-upcoming-appointments')}
+          {t('were-sorry-theres-a-problem-with-system')}
         </p>
       </va-alert>
     );

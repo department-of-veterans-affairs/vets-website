@@ -21,9 +21,7 @@ const PreCheckInSuccessAlert = () => {
   const { showPreCheckInSuccess } = useSelector(selectCurrentContext);
   const successMessage = hasPhoneAppointments(appointments)
     ? t('your-provider-will-call-you-at-your-appointment-time')
-    : t('you-can-check-in-with-your-smartphone', {
-        date: new Date(appointments[0].startTime),
-      });
+    : t('when-time-to-check-in-for-appointment-well-send-another-text');
 
   if (isLoading) {
     return (
@@ -45,7 +43,12 @@ const PreCheckInSuccessAlert = () => {
         data-testid="pre-check-in-success-alert"
       >
         <h2 slot="headline">{t('your-information-is-up-to-date')}</h2>
-        <p data-testid="success-message" className="vads-u-margin-y--0">
+        <p
+          data-testid={`success-message${
+            hasPhoneAppointments(appointments) ? '-phone' : '-in-person'
+          }`}
+          className="vads-u-margin-y--0"
+        >
           {successMessage}
         </p>
       </VaAlert>
