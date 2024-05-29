@@ -20,6 +20,7 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
 import { doesHaveCareExpenses } from './helpers';
+import ArrayDescription from '../../../components/ArrayDescription';
 
 const {
   childName,
@@ -51,11 +52,14 @@ CareExpenseView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Unreimbursed care expenses',
+  title: 'List of unreimbursed care expenses',
   path: 'financial/care-expenses/add',
   depends: doesHaveCareExpenses,
   uiSchema: {
-    ...titleUI('Add an unreimbursed care expense'),
+    ...titleUI(
+      'List of unreimbursed care expenses',
+      <ArrayDescription message="Add an unreimbursed care expense" />,
+    ),
     careExpenses: {
       'ui:options': {
         itemName: 'Care Expense',
