@@ -80,23 +80,24 @@ export default function ArrayBuilderSummaryPage({
 }) {
   /** @type {CustomPageType} */
   function CustomPage(props) {
-    const [showUpdatedAlert, setShowUpdatedAlert] = useState(false);
+    const {
+      index: updateItemIndex,
+      nounSingular: updatedNounSingular,
+    } = getUpdatedItemFromPath();
+    const arrayData = get(arrayPath, props.data);
+    const updatedItemData =
+      updatedNounSingular === nounSingular.toLowerCase() &&
+      updateItemIndex != null
+        ? arrayData?.[updateItemIndex]
+        : null;
+
+    const [showUpdatedAlert, setShowUpdatedAlert] = useState(!!updatedItemData);
     const [showRemovedAlert, setShowRemovedAlert] = useState(false);
     const [removedItemText, setRemovedItemText] = useState('');
     const [removedItemIndex, setRemovedItemIndex] = useState(null);
     const updatedAlertRef = useRef(null);
     const removedAlertRef = useRef(null);
     const { uiSchema, schema } = props;
-    const arrayData = get(arrayPath, props.data);
-    const {
-      index: updateItemIndex,
-      nounSingular: updatedNounSingular,
-    } = getUpdatedItemFromPath();
-    const updatedItemData =
-      updatedNounSingular === nounSingular.toLowerCase() &&
-      updateItemIndex != null
-        ? arrayData?.[updateItemIndex]
-        : null;
     const Heading = `h${titleHeaderLevel}`;
     const isMaxItemsReached = arrayData?.length >= maxItems;
 
@@ -125,7 +126,7 @@ export default function ArrayBuilderSummaryPage({
     useEffect(
       () => {
         if (updatedNounSingular === nounSingular.toLowerCase()) {
-          setShowUpdatedAlert(updateItemIndex != null);
+          setShowUpdatedAlert(() => updateItemIndex != null);
         }
       },
       [updatedNounSingular, updateItemIndex, nounSingular],
@@ -146,7 +147,7 @@ export default function ArrayBuilderSummaryPage({
         }
         return () => timeout && clearTimeout(timeout);
       },
-      [showUpdatedAlert, updateItemIndex, updatedAlertRef.current],
+      [showUpdatedAlert, updateItemIndex, updatedAlertRef],
     );
 
     useEffect(
@@ -184,7 +185,7 @@ export default function ArrayBuilderSummaryPage({
     }
 
     function onDismissUpdatedAlert() {
-      setShowUpdatedAlert(false);
+      setShowUpdatedAlert(() => false);
       requestAnimationFrame(() => {
         focusElement(
           document.querySelector(
@@ -195,9 +196,9 @@ export default function ArrayBuilderSummaryPage({
     }
 
     function onDismissRemovedAlert() {
-      setShowRemovedAlert(false);
-      setRemovedItemText('');
-      setRemovedItemIndex(null);
+      setShowRemovedAlert(() => false);
+      setRemovedItemText(() => '');
+      setRemovedItemIndex(() => null);
       requestAnimationFrame(() => {
         focusElement(
           document.querySelector(
@@ -211,11 +212,11 @@ export default function ArrayBuilderSummaryPage({
       // updated alert may be from initial state (URL path)
       // so we can go ahead and remove it if there is a new
       // alert
-      setShowUpdatedAlert(false);
+      setShowUpdatedAlert(() => false);
 
-      setRemovedItemText(getText('alertItemDeleted', item));
-      setRemovedItemIndex(index);
-      setShowRemovedAlert(true);
+      setRemovedItemText(() => getText('alertItemDeleted', item));
+      setRemovedItemIndex(() => index);
+      setShowRemovedAlert(() => true);
       requestAnimationFrame(() => {
         focusElement(removedAlertRef.current);
       });
@@ -277,7 +278,7 @@ export default function ArrayBuilderSummaryPage({
       );
     };
 
-    const Cards = (
+    const Cards = () => (
       <>
         <RemovedAlert show={showRemovedAlert} />
         <UpdatedAlert show={showUpdatedAlert} />
@@ -327,7 +328,7 @@ export default function ArrayBuilderSummaryPage({
               </dl>
             </>
           )}
-          {Cards}
+          <Cards />
           {!isMaxItemsReached && (
             <div className="vads-u-margin-top--2">
               <va-button
@@ -354,7 +355,7 @@ export default function ArrayBuilderSummaryPage({
           )}
         </>
       );
-      uiSchema['ui:description'] = Cards;
+      uiSchema['ui:description'] = <Cards />;
     } else {
       uiSchema['ui:title'] = undefined;
       uiSchema['ui:description'] = undefined;

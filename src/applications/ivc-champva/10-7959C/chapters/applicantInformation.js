@@ -3,8 +3,6 @@ import {
   addressSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
-  emailUI,
-  emailSchema,
   fullNameUI,
   fullNameSchema,
   phoneUI,
@@ -20,12 +18,7 @@ export const blankSchema = { type: 'object', properties: {} };
 
 export const applicantNameDobSchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
-        `${
-          formData.certifierRole === 'applicant' ? 'Your' : 'Applicant'
-        } name and date of birth`,
-    ),
+    ...titleUI('Applicant name and date of birth'),
     applicantName: fullNameUI(),
     applicantDOB: dateOfBirthUI({ required: true }),
   },
@@ -94,7 +87,6 @@ export const applicantContactInfoSchema = {
         )} faster if we need to follow up with you about the application.`,
     ),
     applicantPhone: phoneUI(),
-    applicantEmailAddress: emailUI(),
   },
   schema: {
     type: 'object',
@@ -102,7 +94,6 @@ export const applicantContactInfoSchema = {
     properties: {
       titleSchema,
       applicantPhone: phoneSchema,
-      applicantEmailAddress: emailSchema,
     },
   },
 };

@@ -17,6 +17,7 @@ export const getFormattedPhone = phone => {
   if (fullString.length === 10) {
     const ext = phone.extension ? `, ext. ${phone.extension}` : '';
     let i = 0;
+    // eslint-disable-next-line no-plusplus
     return phonePattern.replace(hashRegex, () => fullString[i++] || '') + ext;
   }
   return fullString;

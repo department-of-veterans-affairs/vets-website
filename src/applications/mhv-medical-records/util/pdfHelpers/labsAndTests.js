@@ -27,17 +27,12 @@ export const generateChemHemContent = record => ({
         inline: true,
       },
       {
-        title: 'Ordering location',
-        value: record.orderingLocation,
-        inline: true,
-      },
-      {
         title: 'Collecting location',
         value: record.collectingLocation,
         inline: true,
       },
       {
-        title: 'Provider notes',
+        title: 'Lab comments',
         value: record.comments,
         inline: !record.comments,
       },
@@ -70,8 +65,8 @@ export const generateChemHemContent = record => ({
           inline: true,
         },
         {
-          title: 'Interpretation',
-          value: item.interpretation,
+          title: 'Lab comments',
+          value: item.labComments,
           inline: true,
         },
       ],

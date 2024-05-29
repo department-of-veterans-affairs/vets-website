@@ -46,7 +46,7 @@ describe('useLoadWebChat', () => {
 
       const script = document.querySelector('script');
       expect(script.src).to.equal(
-        'https://www.unpkg.com/botframework-webchat@4.16.1-main.20240405.6a623fb/dist/webchat.js',
+        'https://cdn.botframework.com/botframework-webchat/4.17.0/webchat.js',
       );
     });
   });

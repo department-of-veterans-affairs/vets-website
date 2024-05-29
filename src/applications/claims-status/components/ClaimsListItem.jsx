@@ -33,8 +33,10 @@ const isClaimComplete = claim => claim.attributes.status === 'COMPLETE';
 const CommunicationsItem = ({ children, icon }) => {
   return (
     <li className="vads-u-margin--0">
-      <i
-        className={`fa fa-${icon} vads-u-margin-right--1`}
+      <va-icon
+        icon={icon}
+        size={3}
+        class="vads-u-margin-right--1"
         aria-hidden="true"
       />
       {children}
@@ -72,12 +74,12 @@ export default function ClaimsListItem({ claim }) {
     >
       <ul className="communications">
         {showPrecomms && developmentLetterSent ? (
-          <CommunicationsItem icon="envelope">
+          <CommunicationsItem icon="mail">
             We sent you a development letter
           </CommunicationsItem>
         ) : null}
         {decisionLetterSent && (
-          <CommunicationsItem icon="envelope">
+          <CommunicationsItem icon="mail">
             You have a decision letter ready
           </CommunicationsItem>
         )}

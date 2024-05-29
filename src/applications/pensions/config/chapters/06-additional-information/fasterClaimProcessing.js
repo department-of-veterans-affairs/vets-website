@@ -2,9 +2,10 @@ import React from 'react';
 import {
   titleUI,
   yesNoUI,
-  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 
+const { noRapidProcessing } = fullSchemaPensions.properties;
 const fullyDevelopedClaimsLinkText =
   'Learn more about fully developed claims (opens in new tab)';
 
@@ -82,7 +83,7 @@ export default {
     type: 'object',
     required: ['noRapidProcessing'],
     properties: {
-      noRapidProcessing: yesNoSchema,
+      noRapidProcessing,
       fdcWarning: {
         type: 'object',
         properties: {},

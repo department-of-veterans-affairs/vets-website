@@ -34,8 +34,20 @@ export const verifySession = () => {
   const sessionExpiration = localStorage
     .getItem('sessionExpirationSSO')
     ?.toString();
+  const isValidPath = !window.location.pathname?.includes('terms-of-use');
+  const isNotSubdomain = [
+    'www.va.gov',
+    'dev.va.gov',
+    'staging.va.gov',
+  ].includes(window.location.host);
 
-  return hasSessionSSO && loginAttempted && sessionExpiration?.length > 0;
+  return (
+    isNotSubdomain &&
+    isValidPath &&
+    hasSessionSSO &&
+    loginAttempted &&
+    sessionExpiration?.length > 0
+  );
 };
 
 export async function ssoKeepAliveSession() {
