@@ -1,6 +1,15 @@
 import user from './fixtures/mocks/user.json';
 import { setFeatureToggles } from './intercepts/feature-toggles';
 
+const vamcUser = {
+  data: {
+    nodeQuery: {
+      count: 0,
+      entities: [],
+    },
+  },
+};
+
 const arpUserLOA3 = {
   ...user,
   data: {
@@ -29,41 +38,39 @@ Cypress.Commands.add('loginArpUser', (userData = arpUserLOA3) => {
 
 describe('Accredited Representative Portal', () => {
   beforeEach(() => {
-    cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
-    cy.loginArpUser(arpUserLOA3);
-    setFeatureToggles({
-      isAppEnabled: true,
-      isInPilot: false,
-    });
-
-    cy.visit('/representative');
-    cy.injectAxe();
+    // cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
+    // cy.loginArpUser(arpUserLOA3);
+    // cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser'); // TODO: is this necessary?
+    // // cy.visit('/representative');
+    // // cy.injectAxe();
+    // // NOTE: navigating to the root URL will redirect to the VA.gov homepage and the v0/user endpoint will be hit by the main VA.gov header
+    // cy.intercept('GET', 'http://localhost:3000/v0/user', {
+    //   statusCode: 200,
+    //   body: {},
+    // }).as('getUser');
   });
 
   describe.only('App feature toggle is not enabled', () => {
     beforeEach(() => {
+      cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
+      cy.loginArpUser(arpUserLOA3);
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser'); // TODO: is this necessary?
+
+      // NOTE: navigating to the root URL will redirect to the VA.gov homepage and the v0/user endpoint will be hit by the main VA.gov header
+      cy.intercept('GET', 'http://localhost:3000/v0/user', {
+        statusCode: 200,
+        body: {},
+      }).as('getUser');
       setFeatureToggles({
         isAppEnabled: false,
         isInPilot: false,
       });
 
-      // cy.window().then(win => {
-      //   cy.log('Feature toggles:', win.featureToggles);
-      // });
-
-      // cy.window().then(win => {
-      //   cy.log('Is Production:', win.environment.isProduction());
-      // });
-
-      // cy.visit('/representative', {
-      //   onBeforeLoad: win => {
-      //     /* eslint no-param-reassign: "error" */
-      //     win.isProduction = true;
-      //   },
-      // });
-
-      cy.visit('/representative');
-
+      cy.visit('/representative', {
+        onBeforeLoad: win => {
+          win.localStorage.setItem('overrideBuildType', 'vagovprod');
+        },
+      });
       cy.injectAxe();
     });
 
@@ -74,17 +81,29 @@ describe('Accredited Representative Portal', () => {
   });
 
   describe('App feature toggle is enabled, but Pilot feature toggle is not enabled', () => {
-    // beforeEach(() => {
-    //   cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
-    //   cy.loginArpUser(arpUserLOA3);
-    //   setFeatureToggles({
-    //     isAppEnabled: true,
-    //     isInPilot: false,
-    //   });
+    beforeEach(() => {
+      cy.intercept('GET', 'accredited_representative_portal/v0/user', {
+        statusCode: 200,
+        body: {},
+      }).as('fetchUser');
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
+      // NOTE: navigating to the root URL will redirect to the VA.gov homepage and the v0/user endpoint will be hit by the main VA.gov header
+      cy.intercept('GET', 'http://localhost:3000/v0/user', {
+        statusCode: 200,
+        body: {},
+      }).as('getUser');
+      setFeatureToggles({
+        isAppEnabled: true,
+        isInPilot: false,
+      });
 
-    //   cy.visit('/representative');
-    //   cy.injectAxe();
-    // });
+      cy.visit('/representative', {
+        onBeforeLoad: win => {
+          win.localStorage.setItem('overrideBuildType', 'vagovprod');
+        },
+      });
+      cy.injectAxe();
+    });
 
     it('allows navigation from the Landing Page to unified sign-in page', () => {
       cy.axeCheck();
@@ -98,9 +117,9 @@ describe('Accredited Representative Portal', () => {
     it('displays an alert when in production and when user is not in pilot', () => {
       cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
       cy.loginArpUser(arpUserLOA3);
-      // cy.window().then(win => {
-      //   win.localStorage.setItem('user', JSON.stringify(arpUserLOA3));
-      // });
+      cy.window().then(win => {
+        win.localStorage.setItem('user', JSON.stringify(arpUserLOA3));
+      });
       setFeatureToggles({
         isAppEnabled: true,
         isInPilot: false,
@@ -124,9 +143,9 @@ describe('Accredited Representative Portal', () => {
       });
       cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
       cy.loginArpUser(arpUserLOA3);
-      // cy.window().then(win => {
-      //   win.localStorage.setItem('user', JSON.stringify(arpUserLOA3));
-      // });
+      cy.window().then(win => {
+        win.localStorage.setItem('user', JSON.stringify(arpUserLOA3));
+      });
 
       cy.visit('/representative');
       cy.injectAxe();

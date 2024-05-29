@@ -7,12 +7,12 @@ import { selectUser } from '../selectors/user';
 import { SIGN_IN_URL } from '../constants';
 
 const LandingPage = () => {
-  const { isLoading, profile } = useSelector(selectUser);
+  const { isLoading, user } = useSelector(selectUser);
 
   if (isLoading) {
     return (
       <div className="vads-u-margin-x--3">
-        <VaLoadingIndicator message="Loading user information..." />
+        <VaLoadingIndicator message="Loading user information (Landing Page)..." />
       </div>
     );
   }
@@ -42,7 +42,7 @@ const LandingPage = () => {
               </p>
             </div>
           </div>
-          {!profile && (
+          {!user && (
             <div className="vads-l-col--12 medium-screen:vads-l-col--6 homepage-hero__container">
               <div className="vads-u-display--flex vads-u-width--full vads-u-align-items--center vars-u-justify-content--center">
                 <div className="va-flex vads-u-flex-direction--column vads-u-align-items--flex-start vads-u-background-color--white vads-u-margin-top--6 vads-u-margin-bottom--6 vads-u-padding-x--3 vads-u-padding-y--2 vads-u-width--full homepage-hero__create-account">

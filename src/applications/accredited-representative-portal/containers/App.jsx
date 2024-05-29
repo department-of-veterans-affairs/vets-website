@@ -1,18 +1,21 @@
+import ENVIRONMENTS from 'site/constants/environments';
 import React, { useEffect } from 'react';
-import { connect, useDispatch, Provider } from 'react-redux';
+import { useDispatch, useSelector, connect } from 'react-redux';
 import { Outlet } from 'react-router-dom-v5-compat';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { fetchUser } from '../actions/user';
-import createReduxStore from '../store';
 import Header from '../components/common/Header/Header';
 import Footer from '../components/common/Footer/Footer';
 
-const store = createReduxStore();
+const selectUserProfile = state => state.user?.profile;
+const selectUserIsLoading = state => state.user?.isLoading;
 
-function App({ user }) {
+function App() {
   const dispatch = useDispatch();
+  const profile = useSelector(selectUserProfile);
+  const isLoading = useSelector(selectUserIsLoading);
+
   useEffect(
     () => {
       dispatch(fetchUser());
@@ -30,8 +33,13 @@ function App({ user }) {
   const isAppEnabled = useToggleValue(
     TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
   );
+  const getBuildType = () => {
+    return localStorage.getItem('overrideBuildType') || __BUILDTYPE__;
+  };
 
-  const isProduction = environment.isProduction();
+  const isProduction = () => {
+    return getBuildType() === ENVIRONMENTS.VAGOVPROD;
+  };
 
   if (isAppToggleLoading) {
     return (
@@ -42,22 +50,21 @@ function App({ user }) {
   }
 
   if (isProduction && !isAppEnabled) {
-    return document.location.replace('/');
+    document.location.replace('/');
+    return null;
   }
 
   return (
-    <Provider store={store}>
-      <>
-        <Header isSignedIn={!!user} />
+    <>
+      <Header isSignedIn={!!profile} />
+      {isLoading ? (
+        <VaLoadingIndicator message="Loading user information (App)..." />
+      ) : (
         <Outlet />
-        <Footer />
-      </>
-    </Provider>
+      )}
+      <Footer />
+    </>
   );
 }
 
-function mapStateToProps({ user }) {
-  return { user };
-}
-
-export default connect(mapStateToProps)(App);
+export default App;

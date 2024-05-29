@@ -6,12 +6,9 @@ import {
 
 const initialState = {
   isLoading: true,
-  profile: null,
+  profile: {},
 };
-export default function reducer(state = initialState, action) {
-  // export default function user(state = initialState, action) {
-  console.log('user reducer action is: ', action.type);
-  console.log('user reducer state is: ', state);
+export default function ArfUserInformation(state = initialState, action) {
   switch (action.type) {
     case FETCH_USER:
       return {
@@ -19,8 +16,6 @@ export default function reducer(state = initialState, action) {
         isLoading: true,
       };
     case FETCH_USER_SUCCESS:
-      console.log('FETCH_USER_SUCCESS action triggered');
-      console.log('Action payload:', action.payload);
       return {
         isLoading: false,
         profile: action.payload,

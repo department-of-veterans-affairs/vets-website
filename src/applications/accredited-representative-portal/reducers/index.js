@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux';
-import user from './user';
+import ArfUserInformation from './user';
 
 const rootReducer = combineReducers({
-  user,
-  // Add other reducers here if needed
+  user: ArfUserInformation,
 });
 
 export default rootReducer;
