@@ -60,7 +60,7 @@ describe('App', () => {
           claimNumber: 'TC0928098230498',
           claimName: 'string',
           claimStatus: 'IN_PROCESS',
-          appointmentDate: '2024-04-22T16:45:34.465Z',
+          appointmentDate: '2024-02-22T16:45:34.465Z',
           appointmentName: 'older',
           appointmentLocation: 'Cheyenne VA Medical Center',
           createdOn: '2024-02-22T21:22:34.465Z',
@@ -194,24 +194,24 @@ describe('App', () => {
       reducers: reducer,
     });
 
-    userEvent.selectOptions(screen.getByRole('combobox'), ['oldest']);
-    expect(screen.getByRole('option', { name: 'Oldest' }).selected).to.be.true;
-    fireEvent.click(document.querySelector('va-button[text="Sort"]'));
-
     await waitFor(() => {
+      userEvent.selectOptions(screen.getByRole('combobox'), ['oldest']);
+      expect(screen.getByRole('option', { name: 'Oldest' }).selected).to.be
+        .true;
+      fireEvent.click(document.querySelector('va-button[text="Sort"]'));
+
       expect(screen.getAllByTestId('travel-claim-details').length).to.eq(2);
-      // TODO: figure out why this isn't re-rendering the list properly.
-      // expect(
-      //   screen.getAllByTestId('travel-claim-details')[0].textContent,
-      // ).to.eq('Thursday, February 22, 2024 at 11:45 AM appointment');
+      expect(
+        screen.getAllByTestId('travel-claim-details')[0].textContent,
+      ).to.eq('Thursday, February 22, 2024 at 10:45 AM appointment');
     });
 
-    userEvent.selectOptions(screen.getByRole('combobox'), ['mostRecent']);
-    expect(screen.getByRole('option', { name: 'Most Recent' }).selected).to.be
-      .true;
-    fireEvent.click(document.querySelector('va-button[text="Sort"]'));
-
     await waitFor(() => {
+      userEvent.selectOptions(screen.getByRole('combobox'), ['mostRecent']);
+      expect(screen.getByRole('option', { name: 'Most Recent' }).selected).to.be
+        .true;
+      fireEvent.click(document.querySelector('va-button[text="Sort"]'));
+
       expect(screen.getAllByTestId('travel-claim-details').length).to.eq(2);
       expect(
         screen.getAllByTestId('travel-claim-details')[0].textContent,
