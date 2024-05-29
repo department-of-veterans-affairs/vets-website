@@ -22,7 +22,9 @@ export default function App({ children }) {
   // and validating logged in status
   // const user = useSelector(selectUser);
 
-  const { isLoading, travelClaims } = useSelector(state => state.travelPay);
+  const { isLoading, travelClaims, error } = useSelector(
+    state => state.travelPay,
+  );
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
@@ -105,6 +107,7 @@ export default function App({ children }) {
                   />
                 </>
               )}
+              {error && <p>Error fetching travel claims.</p>}
               {userLoggedIn &&
                 !isLoading &&
                 travelClaims.length > 0 && (
@@ -145,6 +148,7 @@ export default function App({ children }) {
                 )}
               {userLoggedIn &&
                 !isLoading &&
+                !error &&
                 travelClaims.length === 0 && <p>No travel claims to show.</p>}
             </div>
           </div>

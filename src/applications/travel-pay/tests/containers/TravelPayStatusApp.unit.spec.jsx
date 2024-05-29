@@ -142,9 +142,8 @@ describe('App', () => {
       reducers: reducer,
     });
 
-    await waitFor(() => {
-      expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
-      expect(screen.findByText('No travel claims to show.')).to.exist;
+    await waitFor(async () => {
+      expect(await screen.findByText('Error fetching travel claims.')).to.exist;
     });
   });
 
@@ -162,8 +161,9 @@ describe('App', () => {
       reducers: reducer,
     });
 
-    await waitFor(() => {
+    await waitFor(async () => {
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
+      expect(await screen.findByText('No travel claims to show.')).to.exist;
     });
   });
 
