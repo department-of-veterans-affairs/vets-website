@@ -166,14 +166,13 @@ export function verifyAllDataWasSubmitted(data, req) {
         // Just check length match. There's a discrepancy in the
         // format of dates (goes from YYYY-MM-DD to MM-DD-YYYY).
         // TODO: Address discrepancy at some point.
-        expect(data[k]?.length, missingValErrMsg(k, data, req.body)).to.equal(
-          req.body[k]?.length,
+        expect(data[k]?.length, missingValErrMsg(k, data, req)).to.equal(
+          req[k]?.length,
         );
       } else {
-        expect(
-          JSON.stringify(req.body[k]),
-          missingValErrMsg(k, data, req.body),
-        ).to.equal(JSON.stringify(data[k]));
+        expect(JSON.stringify(req[k]), missingValErrMsg(k, data, req)).to.equal(
+          JSON.stringify(data[k]),
+        );
       }
       // cy.axeCheck();
     });

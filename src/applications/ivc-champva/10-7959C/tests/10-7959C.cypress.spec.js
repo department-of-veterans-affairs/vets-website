@@ -88,7 +88,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
-          verifyAllDataWasSubmitted(data, req);
+          verifyAllDataWasSubmitted(data, req.body);
         });
         // Mock the backend response on form submit:
         req.reply({ status: 200 });

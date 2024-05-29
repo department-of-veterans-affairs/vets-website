@@ -155,8 +155,8 @@ const formConfig = {
   showReviewErrors: !environment.isProduction(),
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   footerContent: GetFormHelp,
-  // submit: () =>
-  // Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: () =>
+    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-10D-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
