@@ -14,7 +14,6 @@ import NewTabAnchor from '../NewTabAnchor';
 import Address from '../Address';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import FacilityPhone from '../FacilityPhone';
-import { selectFeaturePhysicalLocation } from '../../redux/selectors';
 
 export default function VideoLayoutVA({ data: appointment }) {
   const {
@@ -29,9 +28,6 @@ export default function VideoLayoutVA({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
-  );
-  const featurePhysicalLocation = useSelector(state =>
-    selectFeaturePhysicalLocation(state),
   );
 
   let heading = 'Video appointment at VA location';
@@ -92,12 +88,8 @@ export default function VideoLayoutVA({ data: appointment }) {
           </>
         )}
         <span>Clinic: {clinicName || 'Not available'}</span> <br />
-        {featurePhysicalLocation && (
-          <>
-            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
-            <br />
-          </>
-        )}
+        <span>Location: {clinicPhysicalLocation || 'Not available'}</span>{' '}
+        <br />
         {facilityPhone && (
           <FacilityPhone heading="Clinic phone:" contact={facilityPhone} />
         )}

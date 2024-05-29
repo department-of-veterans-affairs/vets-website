@@ -26,7 +26,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingGA4Migration', value: true },
   { name: 'vaOnlineSchedulingAfterVisitSummary', value: true },
   { name: 'vaOnlineSchedulingStartSchedulingLink', value: true },
-  { name: 'vaOnlineSchedulingPhysicalLocation', value: true },
   { name: 'vaOnlineSchedulingDatadogRum', value: true },
   { name: 'vaOnlineSchedulingAppointmentDetailsRedesign', value: false },
   { name: 'vaOnlineSchedulingCCDirectScheduling', value: false },
