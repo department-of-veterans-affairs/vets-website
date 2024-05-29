@@ -24,27 +24,6 @@ $anchor-font-size: 1.1875rem;
   margin-left: 0.625rem;
 }
 
-// .magical {
-//   color: var(--vads-color-primary);
-//   & .alert-expandable-trigger {
-//     display: flex;
-//     align-items: center;
-//     justify-content: space-between;
-//   }
-// }
-
-.magical::shadow .alert-expandable-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.alert-expandable-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .mhv-u-list-style--none {
   list-style: none;
 }
