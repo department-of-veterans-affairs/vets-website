@@ -27,12 +27,12 @@ describe('Medical Records View Vaccines', () => {
   });
 
   it('View vaccine details, vaccine date with year only', () => {
-    VaccinesListPage.clickVaccinesDetailsLink(1);
-    VaccineDetailsPage.verifyVaccineName(defaultVaccines.entry[0]);
-    VaccineDetailsPage.verifyVaccineDateYearOnly(defaultVaccines.entry[0]);
-    VaccineDetailsPage.verifyVaccineLocation(defaultVaccines.entry[0]);
-    VaccineDetailsPage.verifyVaccineNotes(defaultVaccines.entry[0], 0);
-    VaccineDetailsPage.verifyVaccineNotes(defaultVaccines.entry[0], 1);
+    VaccinesListPage.clickVaccinesDetailsLink(0);
+    VaccineDetailsPage.verifyVaccineName(defaultVaccines.entry[12]);
+    VaccineDetailsPage.verifyVaccineDateYearOnly(defaultVaccines.entry[12]);
+    VaccineDetailsPage.verifyVaccineLocation(defaultVaccines.entry[12]);
+    VaccineDetailsPage.verifyVaccineNotes(defaultVaccines.entry[12], 0);
+    VaccineDetailsPage.verifyVaccineNotes(defaultVaccines.entry[12], 1);
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');
