@@ -11,7 +11,7 @@ describe('Medical Records View EKG Details', () => {
   });
   it('Navigate to EKG Details page, verify fields', () => {
     // Given As a Medical Records User I wanted to Navigate to "EKG" Detail Page
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(3);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(4);
     EKGDetailsPage.verifyPrintOrDownload();
     EKGDetailsPage.clickPrintOrDownload();
     EKGDetailsPage.verifyPrintButton();
