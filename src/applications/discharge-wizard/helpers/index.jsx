@@ -87,7 +87,7 @@ export const venueAddress = (formValues, noDRB) => {
       case 'airForce':
         return (
           <p className="va-address-block">
-            Air Force Discharge Review Board
+            Air Force Review Boards Agency
             <br />
             3351 Celmers Lane
             <br />
