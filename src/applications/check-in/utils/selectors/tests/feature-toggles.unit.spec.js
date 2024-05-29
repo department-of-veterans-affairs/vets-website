@@ -17,7 +17,8 @@ describe('check-in', () => {
         check_in_experience_travel_reimbursement: false,
         check_in_experience_travel_logic: false,
         check_in_experience_browser_monitoring: false,
-        check_in_experience_unified_landing_page: false,
+        check_in_experience_pre_check_in_action_link_top_placement: true,
+        check_in_experience_upcoming_appointments_enabled: true,
         loading: false,
       },
     };
@@ -34,7 +35,8 @@ describe('check-in', () => {
           isTravelReimbursementEnabled: false,
           isTravelLogicEnabled: false,
           isBrowserMonitoringEnabled: false,
-          isUnifiedLandingPageEnabled: false,
+          isPreCheckInActionLinkTopPlacementEnabled: true,
+          isUpcomingAppointmentsEnabled: true,
         });
       });
     });
