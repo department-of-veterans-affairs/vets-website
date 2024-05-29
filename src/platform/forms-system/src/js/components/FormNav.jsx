@@ -19,7 +19,13 @@ import {
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
 export default function FormNav(props) {
-  const { formConfig = {}, currentPath, formData } = props;
+  const {
+    formConfig = {},
+    currentPath,
+    formData,
+    isLoggedIn,
+    inProgressFormId,
+  } = props;
 
   const [index, setIndex] = useState(0);
 
@@ -46,6 +52,7 @@ export default function FormNav(props) {
 
   let current;
   let chapterName;
+  let inProgressMessage = null;
 
   if (page.chapterKey) {
     const onReviewPage = page.chapterKey === 'review';
@@ -60,6 +67,16 @@ export default function FormNav(props) {
       // not on review-page.
       chapterName = chapterName({ formData, formConfig, onReviewPage });
     }
+  }
+
+  if (isLoggedIn) {
+    inProgressMessage = (
+      <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+        We&rsquo;ll save your application on every change.{' '}
+        {inProgressFormId &&
+          `Your application ID number is ${inProgressFormId}.`}
+      </span>
+    );
   }
 
   // Some chapters may have progress-bar & step-header hidden via hideFormNavProgress.
@@ -130,6 +147,15 @@ export default function FormNav(props) {
           name="v3SegmentedProgressBar"
           header-level="2"
         />
+      )}
+      {!hideFormNavProgress && (
+        <div className="schemaform-chapter-progress">
+          <div className="nav-header nav-header-schemaform">
+            <div data-testid="navFormDiv" className="vads-u-font-size--h4">
+              {inProgressMessage}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
