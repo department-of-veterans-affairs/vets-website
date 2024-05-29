@@ -17,7 +17,7 @@ const ADDRESS_FORM_VALUES = {
 
 const STREET_LINE_MAX_LENGTH = 20;
 
-export const getFormSchema = (defaultVeteranName, formData = {}) => {
+export const getFormSchema = (formData = {}) => {
   const defaultCountry = countries.find(
     country => country.countryCodeISO3 === formData?.countryCodeIso3,
   )?.countryCodeISO3;
@@ -31,12 +31,6 @@ export const getFormSchema = (defaultVeteranName, formData = {}) => {
         type: 'object',
         properties: {},
         default: !formData['view:livesOnMilitaryBas'],
-      },
-      fullName: {
-        type: 'string',
-        minLength: 1,
-        maxLength: 100,
-        default: defaultVeteranName,
       },
       countryCodeIso3: {
         type: 'string',

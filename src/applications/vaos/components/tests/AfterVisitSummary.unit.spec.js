@@ -8,7 +8,6 @@ describe('VAOS Component: AfterVisitSummary', () => {
   const initialState = {
     featureToggles: {
       vaOnlineSchedulingAppointmentDetailsRedesign: true,
-      vaOnlineSchedulingPhysicalLocation: true,
     },
   };
 
