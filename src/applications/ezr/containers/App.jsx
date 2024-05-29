@@ -6,13 +6,23 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
+import { selectAuthStatus } from '../utils/selectors/auth-status';
+import { fetchEnrollmentStatus } from '../utils/actions/enrollment-status';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { parseVeteranDob, parseVeteranGender } from '../utils/helpers/general';
 import content from '../locales/en/content.json';
 import formConfig from '../config/form';
 
 const App = props => {
-  const { children, features, formData, location, setFormData, user } = props;
+  const {
+    children,
+    features,
+    formData,
+    getEnrollmentStatus,
+    location,
+    setFormData,
+    user,
+  } = props;
   const { veteranFullName } = formData;
   const {
     loading: isLoadingFeatures,
@@ -27,21 +37,16 @@ const App = props => {
   } = user;
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
   const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
+  const { isUserLOA3 } = useSelector(selectAuthStatus);
 
-  /**
-   * Redirect users without the prod feature toggle enabled to the VA.gov home page
-   *
-   * NOTE: this is temporary functionality while the new application is being
-   * rolled out for user research and production testing
-   */
   useEffect(
     () => {
-      if (!isLoadingFeatures && !isProdEnabled) {
-        window.location.replace('https://www.va.gov');
+      if (isUserLOA3) {
+        getEnrollmentStatus();
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLoadingFeatures],
+    [isUserLOA3],
   );
 
   /**
@@ -98,6 +103,7 @@ App.propTypes = {
   ]),
   features: PropTypes.object,
   formData: PropTypes.object,
+  getEnrollmentStatus: PropTypes.func,
   location: PropTypes.object,
   setFormData: PropTypes.func,
   user: PropTypes.object,
@@ -111,6 +117,7 @@ const mapStateToProps = state => ({
     isTeraEnabled: state.featureToggles.ezrTeraEnabled,
   },
   formData: state.form.data,
+  getEnrollmentStatus: fetchEnrollmentStatus,
   user: state.user.profile,
 });
 

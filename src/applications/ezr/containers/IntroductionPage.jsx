@@ -10,7 +10,6 @@ import {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
-import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
 import IdentityVerificationAlert from '../components/FormAlerts/IdentityVerificationAlert';
@@ -19,9 +18,9 @@ import SaveInProgressInfo from '../components/IntroductionPage/SaveInProgressInf
 import OMBInfo from '../components/IntroductionPage/OMBInfo';
 import content from '../locales/en/content.json';
 
-const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
+const IntroductionPage = ({ route }) => {
   const { isLoading } = useSelector(selectEnrollmentStatus);
-  const { isUserLOA1, isUserLOA3 } = useSelector(selectAuthStatus);
+  const { isUserLOA1 } = useSelector(selectAuthStatus);
   const { formConfig, pageList } = route;
   const sipProps = { formConfig, pageList };
 
@@ -29,10 +28,6 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
-    if (isUserLOA3) {
-      fetchEnrollmentStatus();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -62,13 +57,10 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
 };
 
 IntroductionPage.propTypes = {
-  fetchEnrollmentStatus: PropTypes.func,
   route: PropTypes.object,
 };
 
-const mapDispatchToProps = {
-  fetchEnrollmentStatus: fetchEnrollmentStatusAction,
-};
+const mapDispatchToProps = {};
 
 export default connect(
   null,
