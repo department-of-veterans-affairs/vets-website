@@ -305,7 +305,7 @@ const ProfilePageHeader = ({
               <LearnMoreLabel
                 text={
                   <>
-                    <i className="fa fa-star vads-u-color--gold" />
+                    <va-icon icon="star" size={3} class="vads-u-color--gold" />
                     <strong> Preferred Provider</strong>
                   </>
                 }
