@@ -32,7 +32,7 @@
       "applicantPrimaryHasPrescription": true,
       "applicantPrimaryEOB": "noEob",
       "applicantPrimaryInsuranceType": { "hmo": true, "medigap": true },
-      "primaryMedigapPlan": "medigapPlanA",
+      "primaryMedigapPlan": "A",
       "primaryAdditionalComments": "Additional primary comment",
       "applicantHasSecondary": false,
       "consentToMailMissingRequiredFiles": true,
