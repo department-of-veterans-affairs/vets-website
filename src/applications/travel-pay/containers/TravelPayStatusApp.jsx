@@ -96,42 +96,7 @@ export default function App({ children }) {
                   message="Loading Travel Claims..."
                 />
               )}
-              {userLoggedIn ? (
-                <>
-                  <p id="pagination-info">
-                    Showing 1 ‒ {travelClaims.length} of {travelClaims.length}{' '}
-                    events
-                  </p>
-                  <div className="btsss-claims-order-container">
-                    <p className="vads-u-margin-bottom--0">
-                      Show appointments in this order
-                    </p>
-                    <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
-                      <select
-                        className="vads-u-margin-bottom--0"
-                        hint={null}
-                        name="claimsOrder"
-                        value={selectedClaimsOrder}
-                        onChange={e => setSelectedClaimsOrder(e.target.value)}
-                      >
-                        <option value="mostRecent">Most Recent</option>
-                        <option value="oldest">Oldest</option>
-                      </select>
-                      <va-button
-                        onClick={() => setOrderClaimsBy(selectedClaimsOrder)}
-                        data-testid="Sort travel claims"
-                        text="Sort"
-                        label="Sort"
-                      />
-                    </div>
-                  </div>
-                  {travelClaims.map(travelClaim =>
-                    TravelClaimCard(travelClaim),
-                  )}
-
-                  <HelpText />
-                </>
-              ) : (
+              {!userLoggedIn && (
                 <>
                   <p>Log in to view your travel claims</p>
                   <va-button
@@ -140,6 +105,47 @@ export default function App({ children }) {
                   />
                 </>
               )}
+              {userLoggedIn &&
+                !isLoading &&
+                travelClaims.length > 0 && (
+                  <>
+                    <p id="pagination-info">
+                      Showing 1 ‒ {travelClaims.length} of {travelClaims.length}{' '}
+                      events
+                    </p>
+                    <div className="btsss-claims-order-container">
+                      <p className="vads-u-margin-bottom--0">
+                        Show appointments in this order
+                      </p>
+                      <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
+                        <select
+                          className="vads-u-margin-bottom--0"
+                          hint={null}
+                          name="claimsOrder"
+                          value={selectedClaimsOrder}
+                          onChange={e => setSelectedClaimsOrder(e.target.value)}
+                        >
+                          <option value="mostRecent">Most Recent</option>
+                          <option value="oldest">Oldest</option>
+                        </select>
+                        <va-button
+                          onClick={() => setOrderClaimsBy(selectedClaimsOrder)}
+                          data-testid="Sort travel claims"
+                          text="Sort"
+                          label="Sort"
+                        />
+                      </div>
+                    </div>
+                    {travelClaims.map(travelClaim =>
+                      TravelClaimCard(travelClaim),
+                    )}
+
+                    <HelpText />
+                  </>
+                )}
+              {userLoggedIn &&
+                !isLoading &&
+                travelClaims.length === 0 && <p>No travel claims to show.</p>}
             </div>
           </div>
         </article>

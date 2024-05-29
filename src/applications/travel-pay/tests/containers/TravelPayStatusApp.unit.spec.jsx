@@ -144,6 +144,26 @@ describe('App', () => {
 
     await waitFor(() => {
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
+      expect(screen.findByText('No travel claims to show.')).to.exist;
+    });
+  });
+
+  it('handles a successful fetch of zero claims', async () => {
+    global.fetch.restore();
+    mockApiRequest({ data: [] });
+
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+      }),
+      path: `/`,
+      reducers: reducer,
+    });
+
+    await waitFor(() => {
+      expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
     });
   });
 
