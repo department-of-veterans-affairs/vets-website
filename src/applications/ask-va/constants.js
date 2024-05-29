@@ -6,7 +6,6 @@ export const URL = {
   GET_TOPICS: `/topics?user_mock_data=true`,
   GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
-  GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `/v0/gi/institutions/search?name=`,
@@ -358,9 +357,9 @@ export const CHAPTER_3 = {
     QUESTION_1: '',
   },
   ABOUT_YOUR_FAM_MEM: {
-    TITLE: 'Your relationship to the family member',
+    TITLE: 'Tell us about your family member',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select your relationship to the family member',
+    QUESTION_1: '',
   },
   RELATIONSHIP_TO_FAM_MEM: {
     TITLE: 'What is your relationship to the family member?',
@@ -391,6 +390,10 @@ export const CHAPTER_3 = {
   },
   VETERAN_LOCATION_OF_RESIDENCE: {
     TITLE: `Veteran's location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
+  FAMILY_MEMBERS_LOCATION_OF_RESIDENCE: {
+    TITLE: `Family member's location of residence`,
     QUESTION_1: 'State/Province/Region',
   },
 };

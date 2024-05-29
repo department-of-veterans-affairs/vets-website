@@ -30,12 +30,8 @@ function AppointmentListSection() {
             path="/appointment-notifications"
             component={AppointmentNotificationPage}
           />
-          <Route path="/appointment-notifications" component={ReviewApproved} />
           <Route path="/confirm-approved" component={ConfirmApprovedPage} />
-          <Route
-            path="/review-approved"
-            component={AppointmentNotificationPage}
-          />
+          <Route path="/review-approved" component={ReviewApproved} />
           <Route
             path="/:pastOrPending?/cc/:id"
             component={ConfirmedAppointmentDetailsPage}
@@ -61,8 +57,8 @@ function AppointmentListSection() {
             path="/appointment-notifications"
             component={AppointmentNotificationPage}
           />
-          <Route path="/review-approved" component={ReviewApproved} />
           <Route path="/confirm-approved" component={ConfirmApprovedPage} />
+          <Route path="/review-approved" component={ReviewApproved} />
           <Route
             path="/pending/:id"
             component={RequestedAppointmentDetailsPage}

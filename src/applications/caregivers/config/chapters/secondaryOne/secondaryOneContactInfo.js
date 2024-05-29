@@ -12,10 +12,9 @@ import {
   addressWithAutofillUI,
   emailEncouragementUI,
 } from '../../../definitions/UIDefinitions/sharedUI';
-import {
-  secondaryOneInputLabel,
-  hasSecondaryCaregiverTwoUI,
-} from '../../../definitions/UIDefinitions/caregiverUI';
+import { secondaryOneInputLabel } from '../../../definitions/UIDefinitions/caregiverUI';
+import { AdditionalCaregiverDescription } from '../../../components/FormDescriptions';
+import CustomYesNoReviewField from '../../../components/FormReview/CustomYesNoReviewField';
 import SecondaryCaregiverDescription from '../../../components/FormDescriptions/SecondaryCaregiverDescription';
 
 const { address } = fullSchema.definitions;
@@ -43,7 +42,16 @@ const secondaryCaregiverContactPage = {
     [secondaryOneFields.vetRelationship]: vetRelationshipUI(
       secondaryOneInputLabel,
     ),
-    [secondaryOneFields.hasSecondaryCaregiverTwo]: hasSecondaryCaregiverTwoUI,
+    [secondaryOneFields.hasSecondaryCaregiverTwo]: {
+      'ui:title':
+        'Would you like to apply for benefits for another Secondary Family Caregiver?',
+      'ui:description': AdditionalCaregiverDescription,
+      'ui:reviewField': CustomYesNoReviewField,
+      'ui:widget': 'yesNo',
+      'ui:options': {
+        hideLabelText: true,
+      },
+    },
   },
   schema: {
     type: 'object',

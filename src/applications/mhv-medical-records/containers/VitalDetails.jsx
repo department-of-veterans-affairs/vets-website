@@ -196,6 +196,7 @@ Provider notes: ${vital.notes}\n\n`,
           downloadPdf={generateVitalsPdf}
           downloadTxt={generateVitalsTxt}
           allowTxtDownloads={allowTxtDownloads}
+          list
         />
         <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
 
