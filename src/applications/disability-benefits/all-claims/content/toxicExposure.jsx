@@ -70,7 +70,7 @@ export const noDatesEntered = 'No dates entered';
 export const notSureDatesSummary = "I’m not sure of the dates";
 export const notSureDatesDetails = (
   <p className="vads-spacing-1">
-    I'm not sure of the dates I served in this location
+    I’m not sure of the dates I served in this location
   </p>
 );
 
