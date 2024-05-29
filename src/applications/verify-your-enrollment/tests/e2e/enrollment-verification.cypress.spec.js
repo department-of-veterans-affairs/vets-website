@@ -130,7 +130,7 @@ describe('Enrollment Verification Page Tests', () => {
       },
     });
     cy.get(
-      'p[class="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2"]',
+      'span[class="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2"]',
     ).should('contain', 'You currently have no enrollments.');
   });
 
