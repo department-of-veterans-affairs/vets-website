@@ -11,40 +11,22 @@ class ApiInitializer {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          mhvLandingPageEnabled: false,
-          mhvLandingPagePersonalization: false,
-          mhvLandingPageEnableVaGovHealthToolsLinks: false,
-          mhvTransitionalMedicalRecordsLandingPage: false,
-          mhvHelpdeskInformationEnabled: false,
-        }),
-      );
+        featureToggles.generateFeatureToggles({ disableAll: true }),
+      ).as('featureToggles');
     },
     withCurrentFeatures: () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          mhvLandingPageEnabled: true,
-          mhvLandingPagePersonalization: false,
-          mhvLandingPageEnableVaGovHealthToolsLinks: false,
-          mhvTransitionalMedicalRecordsLandingPage: false,
-          mhvHelpdeskInformationEnabled: false,
-        }),
-      );
+        featureToggles.generateFeatureToggles(),
+      ).as('featureToggles');
     },
     withAllFeatures: () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          mhvLandingPageEnabled: true,
-          mhvLandingPagePersonalization: true,
-          mhvLandingPageEnableVaGovHealthToolsLinks: true,
-          mhvTransitionalMedicalRecordsLandingPage: true,
-          mhvHelpdeskInformationEnabled: true,
-        }),
-      );
+        featureToggles.generateFeatureToggles({ enableAll: true }),
+      ).as('featureToggles');
     },
   };
 
@@ -54,36 +36,26 @@ class ApiInitializer {
         'GET',
         '/my_health/v1/messaging/folders*',
         allFoldersWithUnreadMessages,
-      );
+      ).as('sm');
     },
     withNoUnreadMessages: () => {
       cy.intercept(
         'GET',
         '/my_health/v1/messaging/folders*',
         oneFolderWithNoUnreadMessages,
-      );
+      ).as('sm');
     },
   };
 
   initializeUserData = {
     withDefaultUser: () => {
-      cy.intercept('GET', '/v0/user*', userData.defaultUser);
-    },
-    withCernerPatient: () => {
-      cy.intercept('GET', '/v0/user*', userData.cernerPatient);
-    },
-    withFacilities: ({ facilities = [] }) => {
-      cy.intercept(
-        'GET',
-        '/v0/user*',
-        userData.generateUserWithFacilities({ facilities }),
-      );
+      cy.intercept('GET', '/v0/user*', userData.defaultUser).as('user');
     },
     withMHVAccountState: mhvAccountState => {
       const userDataWithMHVAccountState = userData.generateUserWithMHVAccountState(
         mhvAccountState,
       );
-      cy.intercept('GET', '/v0/user*', userDataWithMHVAccountState);
+      cy.intercept('GET', '/v0/user*', userDataWithMHVAccountState).as('user');
     },
   };
 }

@@ -127,8 +127,7 @@ describe('<PeriodsToVerify />', () => {
   });
   it('renders the pending enrollments when there are awards and pending verifications', () => {
     const props = {
-      loggedInEnenrollmentData: UPDATED_USER_MOCK_DATA,
-      isUserLoggedIn: false,
+      enrollmentData: UPDATED_USER_MOCK_DATA['vye::UserInfo'],
       link: () => {},
       toggleEnrollmentSuccess: false,
       verifyEnrollment: { error: '' },
