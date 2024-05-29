@@ -464,13 +464,15 @@ const Prescriptions = () => {
       return (
         <div className="landing-page no-print">
           <h1 data-testid="list-page-title">Medications</h1>
-          <div
-            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3 vads-u-font-family--serif"
+          <p
+            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3"
             data-testid="Title-Notes"
           >
-            Refill and track your VA prescriptions. And review all medications
-            in your VA medical records.
-          </div>
+            When you share your medications list with providers, make sure you
+            also tell them about your allergies and reactions to medications. If
+            you print or download this list, we’ll include a list of your
+            allergies.
+          </p>
           <br />
           <br />
           {prescriptionsApiError ? (
