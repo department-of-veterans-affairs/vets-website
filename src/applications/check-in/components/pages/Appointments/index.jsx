@@ -116,7 +116,7 @@ const AppointmentsPage = props => {
 
   const accordionContent = [
     {
-      header: t('what-to-do-if-you-cant-find-your-appointments'),
+      header: t('what-if-cant-find-appointments-in-list'),
       body: (
         <>
           <p>
