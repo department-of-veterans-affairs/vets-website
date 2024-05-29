@@ -194,9 +194,9 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           <ApiErrorNotification errorType="access" content="medications" />
         ) : (
           <>
+            <RefillNotification refillResult={refillResult} />
             {fullRefillList?.length > 0 ? (
               <div>
-                <RefillNotification refillResult={refillResult} />
                 <h2
                   className="vads-u-margin-top--3"
                   data-testid="refill-page-subtitle"
