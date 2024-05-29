@@ -48,7 +48,6 @@ describe('uploadWithInfoComponent', () => {
   });
 });
 
-// Cover when certifierRole !== sponsor or applicant
 describe('fileUploadUI functions', () => {
   it('should create a formData containing the same file', async () => {
     const fileObj = new File(['hello'], 'hello.png', {
