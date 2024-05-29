@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
+import FileFieldWrapped from '../../../components/FileUploadWrapper';
 import {
   testNumberOfWebComponentFields,
   testComponentRender,
@@ -468,8 +469,6 @@ describe('isRequiredFile', () => {
     expect(isRequiredFile(context)).to.equal('(Required)');
   });
 });
-
-import FileFieldWrapped from '../../../components/FileUploadWrapper';
 
 describe('FileFieldWrapped', () => {
   it('should be called', () => {
