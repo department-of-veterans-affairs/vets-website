@@ -392,11 +392,11 @@
   "sign-in-to-schedule": "Sign in to schedule a new appointment",
   "or-talk-staff-if-at-facility": "Or talk to a staff member if you’re at a VA facility.",
   "video": "Video",
-  "what-to-do-if-you-cant-find-your-appointments": "What to do if you can’t find your appointments in this list",
   "our-online-check-in-tool-doesnt-include-all--accordion-item": "Our online check-in tool doesn’t include all appointment types at this time. To find appointments that aren’t in this list, you’ll need to go to our appointments tool on VA.gov.",
   "were-sorry-weve-run-into-a-problem": "We’re sorry. We’ve run into a problem.",
   "were-having-trouble-getting-your-upcoming-appointments": "We’re having trouble getting your upcoming appointments. Please try again later.",
   "we-cant-access-appointments": "We can’t access your appointments right now",
   "were-sorry-theres-a-problem-with-system": "We’re sorry. There's a problem with our system.",
-  "when-time-to-check-in-for-appointment-well-send-another-text": "When it’s time to check in for your appointment, we’ll send you another text."
+  "when-time-to-check-in-for-appointment-well-send-another-text": "When it’s time to check in for your appointment, we’ll send you another text.",
+  "what-if-cant-find-appointments-in-list": "What if I can’t find my appointments in this list?"
 }
