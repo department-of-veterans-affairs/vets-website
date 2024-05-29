@@ -67,7 +67,7 @@ export const startDateApproximate = 'Service start date (approximate)';
 export const endDateApproximate = 'Service end date (approximate)';
 export const goBackLink = 'Edit locations and dates';
 export const noDatesEntered = 'No dates entered';
-export const notSureDatesSummary = "I'm not sure of the dates";
+export const notSureDatesSummary = "I’m not sure of the dates";
 export const notSureDatesDetails = (
   <p className="vads-spacing-1">
     I'm not sure of the dates I served in this location
