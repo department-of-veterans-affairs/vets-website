@@ -14,9 +14,9 @@ export const EnrollmentStatus = ({ start, end, total, isError }) => (
       end > 0 ? ` - ${end}` : ''
     } of ${total} monthly enrollments listed by most recent`}
     {isError && (
-      <p className="vads-u-font-weight--bold">
+      <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2">
         You currently have no enrollments.
-      </p>
+      </span>
     )}
   </p>
 );
