@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import HeaderLayout from '../../components/HeaderLayout';
@@ -25,15 +25,15 @@ describe('MHV Landing Page -- Header Layout', () => {
       const store = mockStore({
         mhvLandingPageEnableVaGovHealthToolsLinks: true,
       });
-      const { findByText } = render(
+      const { getByText } = render(
         <Provider store={store}>
           <HeaderLayout />
         </Provider>,
       );
-      const result = await findByText(
-        /Welcome to the new home for My HealtheVet/,
-      );
-      expect(result).to.exist;
+      await waitFor(() => {
+        const result = getByText(/Welcome to the new home for My HealtheVet/);
+        expect(result).to.exist;
+      });
     });
   });
 
@@ -42,15 +42,15 @@ describe('MHV Landing Page -- Header Layout', () => {
       const store = mockStore({
         mhvLandingPageEnableVaGovHealthToolsLinks: false,
       });
-      const { findByText } = render(
+      const { getByText } = render(
         <Provider store={store}>
           <HeaderLayout />
         </Provider>,
       );
-      const result = await findByText(
-        /Learn more about My HealtheVet on VA.gov/,
-      );
-      expect(result).to.exist;
+      await waitFor(() => {
+        const result = getByText(/Learn more about My HealtheVet on VA.gov/);
+        expect(result).to.exist;
+      });
     });
   });
 });
