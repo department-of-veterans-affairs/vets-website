@@ -7,8 +7,8 @@ import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import {
   compareAddressObjects,
+  formatAddress,
   hasFormChanged,
-  objectHasNoUndefinedValues,
   prepareAddressData,
   scrollToElement,
 } from '../helpers';
@@ -39,6 +39,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const [toggleAddressForm, setToggleAddressForm] = useState(false);
   const [formData, setFormData] = useState({});
   const [editFormData, setEditFormData] = useState({});
+  const [veteranName, setVeteranName] = useState();
   const [beforeDditFormData, setBeforeEditFormData] = useState({});
   const [suggestedAddressPicked, setSuggestedAddressPicked] = useState(false);
   const [newAddress, setNewAddress] = useState({});
@@ -137,7 +138,15 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     },
     [dispatch, error, response, validationError],
   );
-
+  // This Effect to check if there error from API don't update veteranName
+  useEffect(
+    () => {
+      if (error || validationError) {
+        setVeteranName(applicantName);
+      }
+    },
+    [applicantName, error, validationError],
+  );
   useEffect(
     () => {
       dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
@@ -170,18 +179,14 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               Mailing address
             </h3>
             <p>
-              {objectHasNoUndefinedValues(newAddress) && (
-                <>
-                  <span className="vads-u-display--block">
-                    {`${newAddress?.street}`}
-                  </span>
-                  <span className="vads-u-display--block">
-                    {`${newAddress?.city}, ${newAddress?.stateCode} ${
-                      newAddress?.zipCode
-                    }`}
-                  </span>
-                </>
-              )}
+              <>
+                <span className="vads-u-display--block">
+                  {`${newAddress?.street ?? ''}`}
+                </span>
+                <span className="vads-u-display--block">
+                  {formatAddress(newAddress)}
+                </span>
+              </>
             </p>
           </div>
         )}
@@ -202,6 +207,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     setEditFormData({});
     dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
     handleCloseForm();
+    setVeteranName('');
   };
   const onCancleButtonClicked = () => {
     if (
@@ -219,25 +225,18 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     if (tempData?.['view:livesOnMilitaryBase']) {
       tempData.countryCodeIso3 = 'USA';
     }
-    if (!tempData?.['view:livesOnMilitaryBase']) {
-      if (
-        tempData?.city === 'APO' ||
+    if (
+      !tempData?.['view:livesOnMilitaryBase'] &&
+      (tempData?.city === 'APO' ||
         tempData?.city === 'FPO' ||
-        tempData?.city === 'DPO'
-      ) {
-        tempData.city = '';
-      }
-
-      if (
-        tempData?.stateCode === 'AA' ||
-        tempData?.stateCode === 'AE' ||
-        tempData?.stateCode === 'AP'
-      ) {
-        tempData.stateCode = '';
-      }
+        tempData?.city === 'DPO')
+    ) {
+      tempData.city = '';
     }
+
     setFormData(tempData);
     setEditFormData(tempData);
+    setVeteranName(tempData?.fullName);
   };
 
   return (
@@ -309,7 +308,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             />
 
             <ChangeOfAddressForm
-              applicantName={applicantName}
+              applicantName={veteranName || applicantName}
               addressFormData={formData}
               formChange={addressData => updateAddressData(addressData)}
               formPrefix={PREFIX}

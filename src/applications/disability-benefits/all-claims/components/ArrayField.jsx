@@ -47,6 +47,8 @@ export default class ArrayField extends React.Component {
     this.state = {
       // force edit mode for any empty service period data
       editing: this.setInitialState(),
+      // use new focus target function, if the prop is present
+      useNewFocus: props.uiSchema.useNewFocus ?? false,
     };
   }
 
@@ -159,6 +161,13 @@ export default class ArrayField extends React.Component {
     focusElement(errorMessage[0]);
   };
 
+  targetInput = index => {
+    this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
+    const inputs = this.findElementsFromIndex(index, 'va-text-input');
+    // use web-component shadow DOM as root to search within
+    focusElement('input', {}, inputs[0]);
+  };
+
   // restore data in event of cancellation
   handleCancelEdit = index => {
     this.props.onChange(this.state.oldData);
@@ -178,7 +187,11 @@ export default class ArrayField extends React.Component {
         oldData: this.props.formData,
       }),
       () => {
-        this.targetLabel(index);
+        if (this.state.useNewFocus) {
+          this.targetInput(index);
+        } else {
+          this.targetLabel(index);
+        }
       },
     );
   };
@@ -245,20 +258,26 @@ export default class ArrayField extends React.Component {
         editing: newEditing.concat(true),
       };
 
-      this.setState(newState, () => {
-        const newFormData = this.props.formData.concat(
-          getDefaultFormState(
-            this.props.schema.additionalItems,
-            undefined,
-            this.props.registry.definitions,
-          ) || {},
-        );
-        this.props.onChange(newFormData);
-        // Allow DOM to render the new card
+      this.setState(
+        newState,
+        () => {
+          const newFormData = this.props.formData.concat(
+            getDefaultFormState(
+              this.props.schema.additionalItems,
+              undefined,
+              this.props.registry.definitions,
+            ) || {},
+          );
+          this.props.onChange(newFormData);
+        }, // Allow DOM to render the new card
         setTimeout(() => {
-          this.targetLabel(lastIndex + 1);
-        });
-      });
+          if (this.state.useNewFocus) {
+            this.targetInput(lastIndex + 1);
+          } else {
+            this.targetLabel(lastIndex + 1);
+          }
+        }),
+      );
     } else {
       const touched = setArrayRecordTouched(this.props.idSchema.$id, lastIndex);
       this.props.formContext.setTouched(touched, () => {
@@ -322,6 +341,7 @@ export default class ArrayField extends React.Component {
       : null;
     const hasTitle = !!title && !hideTitle;
     const hasTitleOrDescription = hasTitle || !!description;
+    const classes = uiOptions.classNames;
 
     // if we have form data, use that, otherwise use an array with a single default object
     const items =
@@ -333,6 +353,7 @@ export default class ArrayField extends React.Component {
       'schemaform-field-container': true,
       'schemaform-block': hasTitleOrDescription,
       'schemaform-block-header': hasTitleOrDescription,
+      [`${classes}`]: classes,
     });
 
     const isOnlyItem = items.length < 2;

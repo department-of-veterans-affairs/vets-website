@@ -34,6 +34,14 @@ export const UPDATED_USER_MOCK_DATA = {
         caseTrace: 'CASE 1b',
       },
       {
+        awardId: 6,
+        actBegin: '2024-03-25',
+        actEnd: '2024-04-30',
+        numberHours: 10,
+        monthlyRate: 600.0,
+        caseTrace: 'CASE 1b',
+      },
+      {
         awardId: 2,
         actBegin: '2024-03-25',
         actEnd: '2024-03-31',
@@ -44,7 +52,7 @@ export const UPDATED_USER_MOCK_DATA = {
       {
         awardId: 3,
         actBegin: '2024-02-05',
-        actEnd: '2024-02-31',
+        actEnd: '2024-02-29',
         numberHours: 12,
         monthlyRate: 1400.0,
         caseTrace: 'CASE 7',
@@ -84,7 +92,7 @@ export const UPDATED_USER_MOCK_DATA = {
       {
         transactDate: '2023-03-01',
         actBegin: '2019-02-06',
-        actEnd: '2023-02-28',
+        actEnd: '2019-02-28',
         numberHours: 6,
         monthlyRate: 800.0,
         paymentDate: '2023-03-01',
@@ -93,7 +101,7 @@ export const UPDATED_USER_MOCK_DATA = {
       {
         transactDate: '2023-03-01',
         actBegin: '2018-02-06',
-        actEnd: '2023-02-28',
+        actEnd: '2018-02-28',
         numberHours: 6,
         monthlyRate: 800.0,
         paymentDate: '2023-03-01',
@@ -102,7 +110,7 @@ export const UPDATED_USER_MOCK_DATA = {
       {
         transactDate: '2023-03-01',
         actBegin: '2017-02-06',
-        actEnd: '2023-02-28',
+        actEnd: '2017-02-28',
         numberHours: 6,
         monthlyRate: 800.0,
         paymentDate: '2023-03-01',
@@ -111,7 +119,7 @@ export const UPDATED_USER_MOCK_DATA = {
       {
         transactDate: '2023-03-01',
         actBegin: '2016-02-06',
-        actEnd: '2023-02-28',
+        actEnd: '2016-02-28',
         numberHours: 6,
         monthlyRate: 800.0,
         paymentDate: '2023-03-01',
@@ -120,7 +128,7 @@ export const UPDATED_USER_MOCK_DATA = {
       {
         transactDate: '2023-03-01',
         actBegin: '2015-02-06',
-        actEnd: '2023-02-28',
+        actEnd: '2015-02-28',
         numberHours: 6,
         monthlyRate: 800.0,
         paymentDate: '2023-03-01',
@@ -129,7 +137,7 @@ export const UPDATED_USER_MOCK_DATA = {
       {
         transactDate: '2023-03-01',
         actBegin: '2014-02-06',
-        actEnd: '2023-02-28',
+        actEnd: '2014-02-28',
         numberHours: 6,
         monthlyRate: 800.0,
         paymentDate: '2023-03-01',
@@ -138,7 +146,7 @@ export const UPDATED_USER_MOCK_DATA = {
       {
         transactDate: '2023-03-01',
         actBegin: '2013-02-06',
-        actEnd: '2023-02-28',
+        actEnd: '2013-02-28',
         numberHours: 6,
         monthlyRate: 800.0,
         paymentDate: '2023-03-01',
@@ -147,7 +155,7 @@ export const UPDATED_USER_MOCK_DATA = {
       {
         transactDate: '2023-03-01',
         actBegin: '2012-02-06',
-        actEnd: '2023-02-28',
+        actEnd: '2012-02-28',
         numberHours: 6,
         monthlyRate: 800.0,
         paymentDate: '2023-03-01',
@@ -156,7 +164,7 @@ export const UPDATED_USER_MOCK_DATA = {
       {
         transactDate: '2023-03-01',
         actBegin: '2011-02-06',
-        actEnd: '2023-02-28',
+        actEnd: '2011-02-28',
         numberHours: 6,
         monthlyRate: 800.0,
         paymentDate: '2023-03-01',
@@ -165,7 +173,7 @@ export const UPDATED_USER_MOCK_DATA = {
       {
         transactDate: '2023-03-01',
         actBegin: '2010-02-06',
-        actEnd: '2023-02-28',
+        actEnd: '2010-02-28',
         numberHours: 6,
         monthlyRate: 800.0,
         paymentDate: '2023-03-01',

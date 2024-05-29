@@ -43,17 +43,28 @@ export const getReactions = record => {
 };
 
 /**
+ * @param {Any} obj
+ * @returns {Boolean} true if obj is an array and has at least one item
+ */
+export const isArrayAndHasItems = obj => {
+  return Array.isArray(obj) && obj.length;
+};
+
+/**
  * Concatenate all the record.category[].text values in a FHIR record.
  *
  * @param {Object} record
  * @returns {String} list of text values, separated by a comma
  */
 export const concatCategoryCodeText = record => {
-  const textFields = record.category
-    .filter(category => category.text)
-    .map(category => category.text);
+  if (isArrayAndHasItems(record.category)) {
+    const textFields = record.category
+      .filter(category => category.text)
+      .map(category => category.text);
 
-  return textFields.join(', ');
+    return textFields.join(', ');
+  }
+  return null;
 };
 
 /**
@@ -65,13 +76,16 @@ export const concatCategoryCodeText = record => {
  * @returns {String} list of interpretations, separated by a comma
  */
 export const concatObservationInterpretations = record => {
-  const textFields = record.interpretation
-    .filter(interpretation => interpretation.text)
-    .map(
-      interpretation =>
-        interpretationMap[interpretation.text] || interpretation.text,
-    );
-  return textFields.join(', ');
+  if (isArrayAndHasItems(record.interpretation)) {
+    const textFields = record.interpretation
+      .filter(interpretation => interpretation.text)
+      .map(
+        interpretation =>
+          interpretationMap[interpretation.text] || interpretation.text,
+      );
+    return textFields.join(', ');
+  }
+  return null;
 };
 
 /**
@@ -119,14 +133,6 @@ export const sendErrorToSentry = (error, page) => {
  */
 export const macroCase = str => {
   return snakeCase(str).toUpperCase();
-};
-
-/**
- * @param {Any} obj
- * @returns {Boolean} true if obj is an array and has at least one item
- */
-export const isArrayAndHasItems = obj => {
-  return Array.isArray(obj) && obj.length;
 };
 
 /**

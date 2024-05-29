@@ -6,8 +6,10 @@ export const OnThisPageLink = ({ link, text }) => {
     <a className="arrow-down-link" href={link}>
       <p>
         <span className="icon-with-info">
-          <i
-            className="fa fa-arrow-down vads-u-padding-right--1"
+          <va-icon
+            icon="arrow_downward"
+            size={3}
+            class="vads-u-padding-right--1"
             aria-hidden="true"
           />
           {text}

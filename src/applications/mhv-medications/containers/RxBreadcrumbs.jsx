@@ -24,7 +24,7 @@ const RxBreadcrumbs = () => {
   );
 
   return (
-    <>
+    <div className="no-print">
       {breadcrumbs.length > 0 &&
         !location.pathname.includes(medicationsUrls.subdirectories.DETAILS) && (
           <VaBreadcrumbs
@@ -47,7 +47,7 @@ const RxBreadcrumbs = () => {
           />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
