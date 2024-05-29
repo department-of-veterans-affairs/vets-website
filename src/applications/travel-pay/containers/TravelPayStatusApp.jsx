@@ -31,12 +31,12 @@ export default function App({ children }) {
   switch (orderClaimsBy) {
     case 'mostRecent':
       travelClaims.sort(
-        (a, b) => new Date(b.appointmentDate) - new Date(a.appointmentDate),
+        (a, b) => Date.parse(b.appointmentDate) - Date.parse(a.appointmentDate),
       );
       break;
     case 'oldest':
       travelClaims.sort(
-        (a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate),
+        (a, b) => Date.parse(a.appointmentDate) - Date.parse(b.appointmentDate),
       );
       break;
     default:
