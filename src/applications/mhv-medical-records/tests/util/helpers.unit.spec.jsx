@@ -271,7 +271,7 @@ describe('parseDate', () => {
 
   it('parses a date that has a YYYY-MM format and no DD (day of month).', () => {
     const expectedStyle = 'March, 2013';
-    const date = parseDate('2013-04'); // January starts at [0] instead of "1"
+    const date = parseDate('2013-02'); // January starts at [0] instead of "1"
 
     expect(date).to.equal(expectedStyle);
   });
