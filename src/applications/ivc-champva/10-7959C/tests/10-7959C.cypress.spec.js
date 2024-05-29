@@ -10,48 +10,12 @@ import {
   reviewAndSubmitPageFlow,
   fillAddressWebComponentPattern,
   getAllPages,
+  verifyAllDataWasSubmitted,
 } from '../../shared/tests/helpers';
 
 // Put all page objects into an object where pagename maps to page data
 // E.g., {page1: {path: '/blah'}}
 const ALL_PAGES = getAllPages(formConfig);
-
-function missingValErrMsg(key, original, submitted) {
-  return `Property with name ${key} and value ${
-    original[key]
-  } not found in submitted data (instead got ${submitted[key]})`;
-}
-
-function verifyAllDataWasSubmitted(data, req) {
-  describe('Data submitted after E2E runthrough should include all data supplied in test file', () => {
-    Object.keys(data).forEach(k => {
-      // Expect all original data used to populate the form
-      // to be present in the submission - this is how we
-      // know that pages we intended to fill didn't get skipped:
-
-      // handle special cases:
-      if (k.endsWith('MedigapPlan')) {
-        // Grab last letter from original data ('medigapPlanK' -> 'K')
-        expect(data[k].slice(-1), missingValErrMsg(k, data, req.body)).to.equal(
-          req.body[k],
-        );
-      } else if (k.includes('DOB') || k.includes('Date')) {
-        // Just check length match. There's a discrepancy in the
-        // format of dates (goes from YYYY-MM-DD to MM-DD-YYYY).
-        // TODO: Address discrepancy at some point.
-        expect(data[k]?.length, missingValErrMsg(k, data, req.body)).to.equal(
-          req.body[k]?.length,
-        );
-      } else {
-        expect(
-          JSON.stringify(req.body[k]),
-          missingValErrMsg(k, data, req.body),
-        ).to.equal(JSON.stringify(data[k]));
-      }
-      // cy.axeCheck();
-    });
-  });
-}
 
 const testConfig = createTestConfig(
   {
@@ -124,7 +88,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
-          verifyAllDataWasSubmitted(data, req);
+          verifyAllDataWasSubmitted(data, req.body);
         });
         // Mock the backend response on form submit:
         req.reply({ status: 200 });
