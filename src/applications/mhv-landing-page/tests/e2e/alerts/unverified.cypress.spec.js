@@ -11,29 +11,22 @@ const verifyIdentityHeading =
   'Verify your identity to use your ID.me account on My HealtheVet';
 
 describe(appName, () => {
-  describe('Display content based on LOA', () => {
+  describe('Display content based on identity verification', () => {
     viewportSizes.forEach(size => {
       beforeEach(() => {
         ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       });
 
-      it(`Shows unverified identity message for patients with loa1 on ${size} screen`, () => {
+      it(`Shows unverified identity message on ${size} screen`, () => {
         cy.viewportPreset(size);
         const pageLinks = resolveLandingPageLinks(
           false,
           [],
-          0,
           'arialLabel',
           true,
         );
 
-        // User has facilities, but identity is not verified
-        LandingPage.visitPage({
-          facilities: [{ facilityId: '123', isCerner: false }],
-          loa: 1,
-        });
-        LandingPage.validatePageLoaded();
-        LandingPage.validateURL();
+        LandingPage.visit({ verified: false });
         cy.injectAxeThenAxeCheck();
 
         // Test that the unverified identity message is present
@@ -56,22 +49,16 @@ describe(appName, () => {
           .exist;
       });
 
-      it(`landing page is enabled for patients with facilities and loa 3 on ${size} screen`, () => {
+      it(`Shows landing page on ${size} screen`, () => {
         cy.viewportPreset(size);
         const pageLinks = resolveLandingPageLinks(
           false,
           [],
-          0,
           'arialLabel',
           true,
         );
 
-        LandingPage.visitPage({
-          facilities: [{ facilityId: '123', isCerner: false }],
-          loa: 3,
-        });
-        LandingPage.validatePageLoaded();
-        LandingPage.validateURL();
+        LandingPage.visit();
         cy.injectAxeThenAxeCheck();
 
         // Validate the cards and hubs

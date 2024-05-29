@@ -362,5 +362,9 @@ class MedicationsDetailsPage {
       `${prescriptionDetails.data.attributes.dispStatus}`,
     );
   };
+
+  verifyFacilityInPlainLanguageOnDetailsPage = prescription => {
+    cy.get('[data-testid="facility-name"]').should('contain', prescription);
+  };
 }
 export default MedicationsDetailsPage;

@@ -5,9 +5,11 @@ import {
 import {
   isLoggedIn,
   selectProfile,
+  isLOA1,
   isLOA3,
   isInMPI,
   isProfileLoading,
+  isVAPatient,
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
@@ -17,7 +19,6 @@ import {
   helpdeskInfoEnabled,
 } from './featureToggles';
 import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
-import { hasHealthData } from './hasHealthData';
 import { selectHasMHVAccountState } from './hasMHVAccountState';
 import {
   selectGreetingName,
@@ -25,14 +26,15 @@ import {
 } from './personalInformation';
 
 export {
-  hasHealthData,
   isAuthenticatedWithSSOe,
   isInMPI,
   isLandingPageEnabled,
   isLandingPageEnabledForUser,
+  isLOA1,
   isLOA3,
   isLoggedIn,
   isProfileLoading,
+  isVAPatient,
   personalizationEnabled,
   helpdeskInfoEnabled,
   selectDrupalStaticData,
