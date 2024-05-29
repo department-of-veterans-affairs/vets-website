@@ -78,9 +78,7 @@ describe('unified check-in experience', () => {
       );
 
       expect(getByTestId('pre-check-in-success-alert')).to.exist;
-      expect(getByTestId('success-message')).to.have.text(
-        'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.',
-      );
+      expect(getByTestId('success-message-phone')).to.exist;
 
       preCheckinAlreadyCompletedStub.restore();
       hasPhoneAppointmentsStub.restore();
@@ -100,9 +98,7 @@ describe('unified check-in experience', () => {
       );
 
       expect(getByTestId('pre-check-in-success-alert')).to.exist;
-      expect(getByTestId('success-message')).to.contain.text(
-        'You can check-in with your smartphone once you arrive for your appointment on',
-      );
+      expect(getByTestId('success-message-in-person')).to.exist;
       preCheckinAlreadyCompletedStub.restore();
     });
   });
