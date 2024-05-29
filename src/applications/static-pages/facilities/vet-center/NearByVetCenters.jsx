@@ -23,17 +23,12 @@ const NearByVetCenters = props => {
   );
   const dispatch = useDispatch();
 
-  const fetchVetCenters = body => {
+  const fetchVetCenters = query => {
     dispatch(fetchFacilityStarted());
-    apiRequest('/va', {
-      apiVersion: 'facilities_api/v2',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
+    apiRequest(query, {
+      apiVersion: 'v1',
     }).then(res => {
-      dispatch(fetchFacilitySuccess(res.data));
+      dispatch(fetchFacilitySuccess());
       setFetchedVetCenters(res.data);
     });
   };
@@ -56,18 +51,17 @@ const NearByVetCenters = props => {
         coordinates[0],
         NEARBY_VET_CENTER_RADIUS_MILES,
       );
-      const params = {
-        type: 'vet_center',
-        page: 1,
-        // eslint-disable-next-line camelcase
-        per_page: 5,
-        mobile: false,
-        radius: NEARBY_VET_CENTER_RADIUS_MILES,
-        lat: coordinates[1],
-        long: coordinates[0],
-        bbox: boundingBox,
-      };
-      fetchVetCenters(params);
+      const params = [
+        'type=vet_center',
+        'page=1',
+        'per_page=5',
+        'mobile=false',
+        `radius=${NEARBY_VET_CENTER_RADIUS_MILES}`,
+        `latitude=${coordinates[1]}`,
+        `longitude=${coordinates[0]}`,
+        ...boundingBox.map(c => `bbox[]=${c}`),
+      ].join('&');
+      fetchVetCenters(`/facilities/va/?${params}`);
     }
   };
 

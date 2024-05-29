@@ -45,7 +45,7 @@
         ],
         "isCernerPatient": false,
         "facilities": [],
-        "vaPatient": true,
+        "vaPatient": false,
         "mhvAccountState": "NONE"
       },
       "veteranStatus": {

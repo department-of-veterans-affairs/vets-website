@@ -1,3 +1,4 @@
+import { UPDATED_USER_MOCK_DATA } from '../../constants/mockData';
 import { mockUser } from './login';
 
 describe('Address Validations', () => {
@@ -34,7 +35,10 @@ describe('Address Validations', () => {
 
   beforeEach(() => {
     cy.login();
-    cy.intercept('GET', '/vye/v1', { statusCode: 200 });
+    cy.intercept('GET', '/vye/v1', {
+      statusCode: 200,
+      body: UPDATED_USER_MOCK_DATA,
+    });
     cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
     cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
