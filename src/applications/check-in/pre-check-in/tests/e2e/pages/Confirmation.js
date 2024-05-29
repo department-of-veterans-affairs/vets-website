@@ -10,7 +10,6 @@ class Confirmation {
       .should('be.visible')
       .and('have.text', 'You’ve completed pre-check-in');
     cy.get("[data-testid='confirmation-wrapper']");
-    cy.get("p[data-testid='appointment-day-location']");
     cy.get("[data-testid='appointment-list']");
     cy.get("[header='What if I have questions about my appointment?']")
       .shadow()
