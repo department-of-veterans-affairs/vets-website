@@ -488,7 +488,7 @@ export function Modals({ hideModal, modals, profile }) {
 
         <p>
           <a
-            href="https://studentaid.ed.gov/sa/about/data-center/school/hcm"
+            href="https://studentaid.gov/data-center/school/hcm"
             target="_blank"
             rel="noopener noreferrer"
           >
