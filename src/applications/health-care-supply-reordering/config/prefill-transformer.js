@@ -8,9 +8,11 @@ export default function prefillTransformer(pages, formData, metadata) {
       newFormData[addressType].country =
         countryNameToValue(formData[addressType].country) ?? 'USA';
     }
-    newFormData[addressType].isMilitary = isMilitaryState(
-      formData[addressType]?.state,
-    );
+    if (newFormData[addressType]) {
+      newFormData[addressType].isMilitary = isMilitaryState(
+        formData[addressType]?.state,
+      );
+    }
     if (newFormData[addressType]?.street2) {
       newFormData[addressType].street2 =
         newFormData[addressType].street2.trim() !== ','
