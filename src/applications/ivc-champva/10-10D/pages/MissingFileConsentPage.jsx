@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MissingFileOverview from '../components/File/MissingFileOverview';
+import { requiredFiles, optionalFiles } from '../config/requiredUploads';
+import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 
 export function MissingFileConsentPage(props) {
   const OverviewComp = MissingFileOverview({
@@ -13,6 +14,8 @@ export function MissingFileConsentPage(props) {
     heading: <></>,
     showMail: true,
     showConsent: true,
+    fileNameMap: { ...requiredFiles, ...optionalFiles },
+    requiredFiles,
   });
   return <>{OverviewComp}</>;
 }

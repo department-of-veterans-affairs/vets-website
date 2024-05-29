@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { getTime } from 'date-fns';
 import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUser from './fixtures/mocks/mockUser';
@@ -44,7 +44,7 @@ describe('HCA-Household-Non-Disclosure', () => {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });
@@ -189,7 +189,7 @@ describe('HCA-Household-Spousal-Disclosure', () => {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });
@@ -407,7 +407,7 @@ describe('HCA-Household-Dependent-Disclosure', () => {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });
@@ -1081,7 +1081,7 @@ describe('HCA-Household-Full-Disclosure', () => {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });

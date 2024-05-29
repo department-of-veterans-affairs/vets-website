@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const boardReviewErrorMessage =
-  'Choose a Board review option to proceed';
+  'You must choose a Board review option to proceed';
 
 export const boardReviewTitle = 'Select a Board review option:';
 

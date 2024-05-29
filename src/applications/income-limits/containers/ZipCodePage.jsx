@@ -139,9 +139,7 @@ const ZipCodePage = ({
         <VaNumberInput
           className="input-size-3"
           data-testid="il-zipCode"
-          error={
-            (formError && 'Please enter a valid 5 digit zip code.') || null
-          }
+          error={(formError && 'Enter a valid 5 digit zip code.') || null}
           hint={`Enter the zip code for where you lived for all or most of ${getPreviousYear(
             pastMode,
             year,
@@ -154,7 +152,6 @@ const ZipCodePage = ({
           name="zipCode"
           onBlur={onBlurInput}
           onInput={onZipInput}
-          required
           uswds
           value={zipCode || ''}
         />

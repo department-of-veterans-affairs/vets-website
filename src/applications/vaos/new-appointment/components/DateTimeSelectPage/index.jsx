@@ -22,10 +22,9 @@ import { FETCH_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import { getPageTitle } from '../../newAppointmentFlow';
 
 const pageKey = 'selectDateTime';
-const pageTitle = 'Choose a date and time';
 
 function renderContent({ dispatch, isRequest, facilityId, history }) {
   // Display this content when the facility is configured to accept appointment
@@ -101,10 +100,8 @@ function goForward({ dispatch, data, history, setSubmitted }) {
   }
 }
 
-export default function DateTimeSelectPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function DateTimeSelectPage() {
+  const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const {
     appointmentSlotsStatus,
@@ -128,12 +125,6 @@ export default function DateTimeSelectPage({ changeCrumb }) {
 
   const isInitialLoad = useIsInitialLoad(loadingSlots);
   const eligibility = useSelector(selectEligibility);
-
-  useEffect(() => {
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
-  }, []);
 
   useEffect(
     () => {
@@ -268,8 +259,4 @@ export default function DateTimeSelectPage({ changeCrumb }) {
 ErrorMessage.propTypes = {
   facilityId: PropTypes.string.isRequired,
   history: PropTypes.object.isRequired,
-};
-
-DateTimeSelectPage.propTypes = {
-  changeCrumb: PropTypes.func,
 };

@@ -1,4 +1,4 @@
-import { startOfDay, sub } from 'date-fns';
+import { startOfDay } from 'date-fns';
 import { expect } from 'chai';
 
 import {
@@ -8,7 +8,7 @@ import {
 } from '../../utils/helpers';
 
 import { LEGACY_TYPE, SELECTED } from '../../../shared/constants';
-import { parseDate } from '../../../shared/utils/dates';
+import { parseDateWithOffset } from '../../../shared/utils/dates';
 import {
   isEmptyObject,
   returnPhoneObject,
@@ -33,7 +33,7 @@ describe('getEligibleContestableIssues', () => {
     attributes: {
       ratingIssueSubjectText: 'Issue 2',
       description: '',
-      approxDecisionDate: parseDate(sub(date, { months: 10 })),
+      approxDecisionDate: parseDateWithOffset({ months: -10 }, date),
     },
   };
   const ineligibleIssue = [
@@ -42,7 +42,7 @@ describe('getEligibleContestableIssues', () => {
       attributes: {
         ratingIssueSubjectText: 'Issue 1',
         description: '',
-        approxDecisionDate: parseDate(sub(date, { years: 2 })),
+        approxDecisionDate: parseDateWithOffset({ years: -2 }, date),
       },
     },
   ];
@@ -51,7 +51,7 @@ describe('getEligibleContestableIssues', () => {
     attributes: {
       ratingIssueSubjectText: 'Issue 2',
       description: 'this is a deferred issue',
-      approxDecisionDate: parseDate(sub(date, { months: -1 })),
+      approxDecisionDate: parseDateWithOffset({ months: -1 }, date),
     },
   };
 

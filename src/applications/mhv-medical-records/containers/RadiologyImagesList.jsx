@@ -52,7 +52,7 @@ const RadiologyImagesList = () => {
     ],
   };
 
-  const download = () => {
+  const downloadPdf = () => {
     GenerateRadiologyPdf(labAndTestDetails);
   };
 
@@ -94,7 +94,7 @@ const RadiologyImagesList = () => {
 
           <div className="no-print">
             <PrintDownload
-              download={download}
+              downloadPdf={downloadPdf}
               allowTxtDownloads={allowTxtDownloads}
             />
             <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />

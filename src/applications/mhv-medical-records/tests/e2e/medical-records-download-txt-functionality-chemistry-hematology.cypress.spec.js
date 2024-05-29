@@ -26,7 +26,7 @@ describe('Medical Records Health Chemistry And Hematology', () => {
 
     // should display a download text file button "Download Details as a text file"
     ChemHemDetailsPage.verifyDownloadTextFile();
-    ChemHemDetailsPage.clickDownloadTextFile();
+    ChemHemDetailsPage.clickDownloadTxtFile();
 
     // verify content of the downloaded text file when running in headless mode
     ChemHemDetailsPage.verifyDownloadTextFileHeadless(

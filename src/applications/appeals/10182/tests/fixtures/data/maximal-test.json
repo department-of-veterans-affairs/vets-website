@@ -4,6 +4,7 @@
       "ssnLastFour": "9876",
       "vaFileLastFour": "8765",
       "address": {
+        "addressType": "DOMESTIC",
         "addressLine1": "123 Main St",
         "addressLine2": "Suite #1200",
         "addressLine3": "Box 45678901234",
@@ -100,7 +101,8 @@
       {
         "type": "contestableIssue",
         "attributes": {
-          "ratingIssueSubjectText": "tinnitus"
+          "ratingIssueSubjectText": "tinnitus",
+          "approxDecisionDate": "2021-6-1"
         },
         "disagreementOptions": {
           "serviceConnection": true,
@@ -112,7 +114,8 @@
       {
         "type": "contestableIssue",
         "attributes": {
-          "ratingIssueSubjectText": "left knee"
+          "ratingIssueSubjectText": "left knee",
+          "approxDecisionDate": "2021-6-2"
         },
         "disagreementOptions": {
           "serviceConnection": false,
@@ -122,6 +125,7 @@
       },
       {
         "issue": "right shoulder",
+        "decisionDate": "2021-6-6",
         "disagreementOptions": {
           "evaluation": true
         },

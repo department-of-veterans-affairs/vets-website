@@ -270,10 +270,10 @@ export const isLessThan180DaysInFuture = (errors, fieldData) => {
   const in180Days = moment().add(180, 'days');
   if (enteredDate.isValid()) {
     if (enteredDate.isBefore()) {
-      errors.addError('Please enter a future separation date');
+      errors.addError('Enter a future separation date');
     } else if (enteredDate.isSameOrAfter(in180Days)) {
       errors.addError(
-        'Please enter a separation date less than 180 days in the future',
+        'Enter a separation date less than 180 days in the future',
       );
     }
   }
@@ -295,7 +295,7 @@ export const title10BeforeRad = (errors, pageData) => {
 
   if (rad.isValid() && activation.isValid() && rad.isBefore(activation)) {
     errors.reservesNationalGuardService.title10Activation.anticipatedSeparationDate.addError(
-      'Please enter an expected separation date that is after your activation date',
+      'Enter an expected separation date that is after your activation date',
     );
   }
 };
@@ -326,13 +326,8 @@ export const isValidYear = (err, fieldData) => {
  * first visited the facility.
  * @param {Object} formData - Full formData for the form
  */
-export function startedAfterServicePeriod(err, fieldData, formData) {
-  if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
-    return;
-  }
-
-  // find the earliest service period
-  const earliestServiceStartDate = formData.serviceInformation.servicePeriods
+export function findEarliestServiceDate(servicePeriods) {
+  return servicePeriods
     .filter(({ serviceBranch } = {}) => (serviceBranch || '') !== '')
     .map(period => moment(period.dateRange.from, 'YYYY-MM-DD'))
     .reduce(
@@ -340,11 +335,43 @@ export function startedAfterServicePeriod(err, fieldData, formData) {
         current.isBefore(earliestDate) ? current : earliestDate,
       moment(),
     );
+}
+export function isMonthOnly(fieldData) {
+  return /^XXXX-\d{2}-XX$/.test(fieldData);
+}
+export function isYearOnly(fieldData) {
+  return /^\d{4}-XX-XX$/.test(fieldData);
+}
+export function isYearMonth(fieldData) {
+  return /^\d{4}-\d{2}-XX$/.test(fieldData);
+}
+export function isTreatmentBeforeService(
+  treatmentDate,
+  earliestServiceDate,
+  fieldData,
+) {
+  return (
+    (isYearOnly(fieldData) &&
+      treatmentDate.diff(earliestServiceDate, 'year') < 0) ||
+    (isYearMonth(fieldData) &&
+      treatmentDate.diff(earliestServiceDate, 'month') < 0)
+  );
+}
+export function startedAfterServicePeriod(err, fieldData, formData) {
+  if (!_.get('servicePeriods.length', formData.serviceInformation, false)) {
+    return;
+  }
 
-  const treatmentStartDate = moment(fieldData, 'YYYY-MM');
-  // If the moment is earlier than the moment passed to moment.diff(),
-  // the return value will be negative.
-  if (treatmentStartDate.diff(earliestServiceStartDate, 'month') < 0) {
+  const treatmentDate = moment(fieldData, 'YYYY-MM');
+  const { servicePeriods } = formData.serviceInformation;
+  const earliestServiceDate = findEarliestServiceDate(servicePeriods);
+
+  if (isMonthOnly(fieldData)) {
+    err.addError('Enter a month and year.');
+    return;
+  }
+
+  if (isTreatmentBeforeService(treatmentDate, earliestServiceDate, fieldData)) {
     err.addError(
       'Your first treatment date needs to be after the start of your earliest service period.',
     );
@@ -562,7 +589,8 @@ export const validateAge = (
   _currentIndex,
   appStateData,
 ) => {
-  if (moment(dateString).isBefore(moment(appStateData.dob).add(13, 'years'))) {
+  const dob = moment(appStateData.dob).add(13, 'years');
+  if (moment(dateString).isSameOrBefore(dob)) {
     errors.addError('Your start date must be after your 13th birthday');
   }
 };
@@ -646,7 +674,9 @@ export const validateTitle10StartDate = (
       }
       return b > a ? -1 : 1;
     });
-  if (!startTimes[0] || dateString < startTimes[0]) {
+  if (moment(dateString).isAfter()) {
+    errors.addError('Enter an activation date in the past');
+  } else if (!startTimes[0] || dateString < startTimes[0]) {
     errors.addError(
       'Your activation date must be after your earliest service start date for the Reserve or the National Guard',
     );

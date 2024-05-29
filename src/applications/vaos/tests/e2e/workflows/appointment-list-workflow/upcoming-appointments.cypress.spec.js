@@ -22,7 +22,9 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles();
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentDetailsRedesign: false,
+      });
       mockVamcEhrApi();
     });
 
@@ -189,7 +191,9 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles();
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentDetailsRedesign: false,
+      });
       mockVamcEhrApi();
     });
 
@@ -345,7 +349,7 @@ describe('VAOS upcoming appointment flow', () => {
         .first()
         .click();
 
-      cy.findByText(/You canceled your appointment/i);
+      cy.findByText(/You canceled this appointment/i);
 
       cy.axeCheckBestPractice();
     });
@@ -569,7 +573,9 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles();
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentDetailsRedesign: false,
+      });
       mockVamcEhrApi();
     });
 
@@ -621,7 +627,9 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles();
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentDetailsRedesign: false,
+      });
       mockVamcEhrApi();
     });
 
@@ -677,7 +685,9 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles();
+      mockFeatureToggles({
+        vaOnlineSchedulingAppointmentDetailsRedesign: false,
+      });
       mockVamcEhrApi();
     });
 

@@ -6,6 +6,7 @@ import { waitFor } from '@testing-library/react';
 import Vitals from '../../containers/Vitals';
 import reducer from '../../reducers';
 import vitals from '../fixtures/vitals.json';
+import vitalsWithNoBloodPressure from '../fixtures/vitalsWithNoBloodPressure.json';
 import { convertVital } from '../../reducers/vitals';
 import user from '../fixtures/user.json';
 
@@ -72,7 +73,7 @@ describe('Vitals list container', () => {
     });
   });
 
-  it('displays Blood oxygen level (pulse oximetry) vitals', async () => {
+  it('displays Blood oxygen level vitals', async () => {
     await waitFor(() => {
       expect(
         screen.getAllByText('Blood oxygen level (pulse oximetry)', {
@@ -188,7 +189,10 @@ describe('Vitals list container', () => {
       });
       [bloodOxygen] = screen.getAllByText(
         'Blood oxygen level (pulse oximetry)',
-        { selector: 'h2', exact: true },
+        {
+          selector: 'h2',
+          exact: true,
+        },
       );
       [temperature] = screen.getAllByText('Temperature', {
         selector: 'h2',
@@ -278,5 +282,77 @@ describe('Vitals list container with no vitals', () => {
         exact: true,
       }),
     ).to.exist;
+  });
+});
+
+describe('Vitals list container with no vitals of a type', () => {
+  const initialState = {
+    user,
+    mr: {
+      vitals: {
+        vitalsList: vitalsWithNoBloodPressure.entry.map(item =>
+          convertVital(item.resource),
+        ),
+      },
+      alerts: {
+        alertList: [],
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<Vitals />, {
+      initialState,
+      reducers: reducer,
+      path: '/vitals',
+    });
+  });
+
+  it('displays a no vitals message for blood pressure', () => {
+    waitFor(() => {
+      expect(
+        screen.getAllByText(
+          'There are no blood pressure results in your VA medical records.',
+          {
+            exact: true,
+          },
+        ).length,
+      ).to.eq(2);
+    });
+  });
+});
+
+describe('Vitals list container first time loading', () => {
+  const initialState = {
+    user,
+    mr: {
+      vitals: { listCurrentAsOf: undefined },
+      alerts: { alertList: [] },
+      refresh: { initialFhirLoad: true },
+    },
+  };
+
+  it('displays the first-time loading indicator when data is stale', () => {
+    const screen = renderWithStoreAndRouter(<Vitals runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/vitals',
+    });
+
+    expect(screen.getByTestId('initial-fhir-loading-indicator')).to.exist;
+  });
+
+  it('does not display the first-time loading indicator when data is current', () => {
+    const screen = renderWithStoreAndRouter(<Vitals runningUnitTest />, {
+      initialState: {
+        ...initialState,
+        mr: { ...initialState.mr, vitals: { listCurrentAsOf: new Date() } },
+      },
+      reducers: reducer,
+      path: '/vitals',
+    });
+
+    expect(screen.queryByTestId('initial-fhir-loading-indicator')).to.not.exist;
   });
 });

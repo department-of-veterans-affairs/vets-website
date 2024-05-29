@@ -101,13 +101,6 @@ class Introduction {
       .click();
   };
 
-  expandAccordion = () => {
-    cy.get('[data-testid="intro-accordion-item"]')
-      .shadow()
-      .find('button[aria-controls="content"]')
-      .click();
-  };
-
   validateAppointmentType = type => {
     if (type === 'phone') {
       cy.get('[data-testid="appointment-kind-and-location"]').each(item => {

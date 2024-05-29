@@ -10,8 +10,8 @@ export const FinancialHelp = () => (
       having a sudden decrease in income, or having an increase in out-of-pocket
       family health care expenses, we can help.
     </p>
-    <va-accordion uswds>
-      <va-accordion-item header="Request help for your current bills" uswds>
+    <va-accordion>
+      <va-accordion-item header="Request help for your current bills">
         <p>You can request these debt relief options:</p>
         <ul>
           <li>
@@ -30,15 +30,15 @@ export const FinancialHelp = () => (
           </li>
         </ul>
         <p>
-          <a href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/">
-            Learn more about requesting VA financial hardship assistance
+          <a
+            className="vads-c-action-link--blue"
+            href="/manage-va-debt/request-debt-help-form-5655/"
+          >
+            Request help with your debt
           </a>
         </p>
       </va-accordion-item>
-      <va-accordion-item
-        header="Request help for your future health care"
-        uswds
-      >
+      <va-accordion-item header="Request help for your future health care">
         <p>
           You may be eligible for a hardship determination, which would qualify
           you for a copay exemption. This means we’ll assign you to a higher
@@ -46,7 +46,10 @@ export const FinancialHelp = () => (
           of the calendar year.
         </p>
         <p>
-          <a href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/">
+          <a
+            href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/"
+            className="vads-c-action-link--blue"
+          >
             Learn more about requesting a hardship determination
           </a>
         </p>

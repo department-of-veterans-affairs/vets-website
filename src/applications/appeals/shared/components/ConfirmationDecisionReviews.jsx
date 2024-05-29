@@ -1,16 +1,18 @@
 import React, { useEffect, useRef } from 'react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { selectProfile } from 'platform/user/selectors';
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import scrollTo from '@department-of-veterans-affairs/platform-utilities/scrollTo';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
+
+import { selectProfile } from '~/platform/user/selectors';
 
 import { DateSubmitted } from './DateSubmitted';
 import { IssuesSubmitted } from './IssuesSubmitted';
 import { getIssuesListItems } from '../utils/issues';
 import { renderFullName } from '../utils/data';
+import { parseDate } from '../utils/dates';
+import { FORMAT_READABLE_DATE_FNS } from '../constants';
 
 export const ConfirmationDecisionReviews = ({
   pageTitle,
@@ -35,7 +37,10 @@ export const ConfirmationDecisionReviews = ({
 
   const { submission, data } = form;
   const issues = data ? getIssuesListItems(data) : [];
-  const submitDate = moment(submission?.timestamp);
+  const submitDate = parseDate(
+    submission?.timestamp || new Date(),
+    FORMAT_READABLE_DATE_FNS,
+  );
 
   return (
     <div>
@@ -57,13 +62,13 @@ export const ConfirmationDecisionReviews = ({
       </va-alert>
 
       <va-summary-box uswds class="vads-u-margin-top--2">
-        <h3 className="vads-u-margin-top--0">
+        <h3 slot="headline" className="vads-u-margin-top--0">
           Your information for this claim
         </h3>
 
         <h4>Your name</h4>
         {renderFullName(name)}
-        {submitDate.isValid() && <DateSubmitted submitDate={submitDate} />}
+        {submitDate && <DateSubmitted submitDate={submitDate} />}
         <IssuesSubmitted issues={issues} />
       </va-summary-box>
 
@@ -75,7 +80,7 @@ export const ConfirmationDecisionReviews = ({
 ConfirmationDecisionReviews.propTypes = {
   alertDescription: PropTypes.element,
   alertTitle: PropTypes.string,
-  children: PropTypes.element,
+  children: PropTypes.array,
   form: PropTypes.shape({
     data: PropTypes.shape({}),
     formId: PropTypes.string,

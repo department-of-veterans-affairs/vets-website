@@ -99,20 +99,28 @@ const IntroductionPage = props => {
       </h3>
       <ul>
         <li>
-          Military personnel records, such as a determination from the DOD
+          Military personnel records, such as a determination from the DOD{' '}
+          <strong>and</strong>
         </li>
         <li>Medical evidence showing severe disability or injury</li>
       </ul>
-      <h3>For former prisoners or war</h3>
+      <h3>For former prisoners of war</h3>
       <ul>
-        <li>Military personnel records, such as DD214</li>
-        <li>Service number and branch and dates of service</li>
-        <li>Dates and location of internment</li>
-        <li>Detaining power or other relevant information</li>
+        <li>
+          Copy of military personnel records such as DD214, Certificate of
+          Release, or Discharge from Active Duty, <strong>or</strong>
+        </li>
+        <li>
+          Information such as service number, branch and dates of service, dates
+          and location of internment, detaining power, or any other information
+          relevant to the detainment
+        </li>
       </ul>
       <h3>For Medal of Honor or Purple Heart award recipients</h3>
       <ul>
-        <li>Military personnel records, such as DD214</li>
+        <li>
+          Copy of military personnel records such as DD214, <strong>or</strong>
+        </li>
         <li>
           Information showing receipt of Medal of Honor or Purple Heart award
         </li>

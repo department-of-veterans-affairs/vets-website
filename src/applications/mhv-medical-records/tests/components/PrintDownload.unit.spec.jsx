@@ -74,7 +74,7 @@ describe('Print download menu component', () => {
 
   it('should open', () => {
     const screen = render(<PrintDownload />);
-    fireEvent.click(screen.getByTestId('print-records-button'));
+    fireEvent.click(screen.getByTestId('print-download-menu'));
     const downloadPdfButton = screen.getByText('Download PDF of this page', {
       exact: true,
       selector: 'button',
@@ -84,13 +84,13 @@ describe('Print download menu component', () => {
 
   it('should tab through the options', () => {
     const screen = render(<PrintDownload />);
-    fireEvent.keyDown(screen.getByTestId('print-records-button'), {
+    fireEvent.keyDown(screen.getByTestId('print-download-menu'), {
       keyCode: 40,
     });
-    fireEvent.keyDown(screen.getByTestId('print-records-button'), {
+    fireEvent.keyDown(screen.getByTestId('print-download-menu'), {
       keyCode: 38,
     });
-    fireEvent.keyDown(screen.getByTestId('print-records-button'), {
+    fireEvent.keyDown(screen.getByTestId('print-download-menu'), {
       keyCode: 27,
     });
     expect(screen).to.exist;

@@ -14,8 +14,9 @@ import {
   setTypeOfFacility,
 } from '../../../mocks/setup';
 import {
-  mockCommunityCareEligibility,
   mockCCProviderFetch,
+  mockSchedulingConfigurations,
+  mockV2CommunityCareEligibility,
   mockGetCurrentPosition,
 } from '../../../mocks/helpers';
 
@@ -23,13 +24,9 @@ import CommunityCareProviderSelectionPage from '../../../../new-appointment/comp
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../../utils/constants';
-import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
-import { createMockFacilityByVersion } from '../../../mocks/data';
-import { getSchedulingConfigurationMock } from '../../../mocks/v2';
-import {
-  mockSchedulingConfigurations,
-  mockV2CommunityCareEligibility,
-} from '../../../mocks/helpers.v2';
+import { mockFacilitiesFetch } from '../../../mocks/fetch';
+import { createMockFacility } from '../../../mocks/data';
+import { getSchedulingConfigurationMock } from '../../../mocks/mock';
 
 const initialState = {
   featureToggles: {
@@ -70,11 +67,11 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ),
       CC_PROVIDERS_DATA,
     );
-    mockFacilitiesFetchByVersion({
+    mockFacilitiesFetch({
       children: true,
       ids: ['983'],
       facilities: [
-        createMockFacilityByVersion({
+        createMockFacility({
           id: '983',
           address: {
             line: [],
@@ -266,7 +263,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
   });
 
-  it.skip('should allow remove provider clicked when user has no residential address', async () => {
+  it('should allow remove provider clicked when user has no residential address', async () => {
     // Given the CC iteration flag is on
     // And the user does not have a residential address
     const store = createTestStore({
@@ -302,9 +299,9 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
 
-    // Belgrade is the 2nd of three options so the expectation is
+    // Facility 983 is the 2nd of three options so the expectation is
     // that it should be selected when we get to the CommunityCareProviderSelectionPage.
-    await setClosestCity(store, /Belgrade/i);
+    await setClosestCity(store, '983');
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
       {
@@ -630,12 +627,6 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     // remove the page and change the type of care
     await cleanup();
 
-    // Mock CC calls for Podiatry, now that we've switched
-    mockCommunityCareEligibility({
-      parentSites: ['983', '983GJ', '983GC'],
-      supportedSites: ['983', '983GJ'],
-      careType: 'Podiatry',
-    });
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
       ['213E00000X', '213EG0000X', '213EP1101X', '213ES0131X', '213ES0103X'],
@@ -741,23 +732,20 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
   });
 
-  it.skip('should not display closest city question since iterations toggle is now the default', async () => {
+  it('should not display closest city question since iterations toggle is now the default', async () => {
     // Given a user with two supported sites
     // And the CC iterations toggle is on
     // And type of care is selected
     const store = await setCommunityCareFlow({
-      toggles: {
-        vaOnlineSchedulingFacilitiesServiceV2: true,
-      },
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },
         { id: '984', address: { city: 'Belgrade', state: 'MT' } },
       ],
     });
 
-    // Belgrade is the 2nd of three options so the expectation is
+    // Facility 984 is the 2nd of three options so the expectation is
     // that it should be selected when we get to the CommunityCareProviderSelectionPage.
-    await setClosestCity(store, /Belgrade/i);
+    await setClosestCity(store, '984');
 
     // When the page is displayed
     const screen = renderWithStoreAndRouter(

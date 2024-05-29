@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react';
-// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-// import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { ServerErrorAlert } from '../../config/helpers';
-// import { URL } from '../../constants';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { URL } from '../../constants';
 import { formatAddress } from '../../helpers';
-import { candidateAddresses } from '../../config/chapters/personalInformation/mockValidationResponse';
 
 const AddressValidationRadio = props => {
   const { formData, setFormData } = props;
   const [apiData, setApiData] = useState([]);
-  // const [loading, isLoading] = useState(false);
-  const [error, hasError] = useState(false);
+  const [loading, isLoading] = useState(false);
 
   const [selectedAddress, setSelectedAddress] = useState('');
 
@@ -23,12 +20,12 @@ const AddressValidationRadio = props => {
     setSelectedAddress(id);
     const addressString = JSON.stringify({
       city: address.city,
-      country: address.country.iso3Code || address.country,
-      postalCode: address.postalCode || address.zipCode5,
-      state: address.state || address.stateProvince?.code,
+      country: address.countryCodeIso3,
+      postalCode: address.zipCode,
+      state: address.stateCode,
       province: address.stateProvince?.code || '',
-      street: address.street || address.addressLine1,
-      street2: address.street2 || address.addressLine2,
+      street: address.addressLine1,
+      street2: address.addressLine2 || '',
     });
 
     setFormData({
@@ -37,17 +34,64 @@ const AddressValidationRadio = props => {
     });
   };
 
+  const {
+    state,
+    street,
+    street2,
+    city,
+    postalCode,
+    militaryAddress,
+  } = formData.address;
+
+  const { militaryPostOffice, militaryState } = militaryAddress || {};
+
+  /* eslint-disable camelcase */
+  const postData = {
+    address_line1: street,
+    address_line2: street2,
+    city: city || militaryPostOffice,
+    zip_code: postalCode,
+    state_code: state || militaryState,
+    country_name: 'United States',
+    country_code_iso3: 'USA',
+    address_pou: 'RESIDENCE/CHOICE',
+    address_type: 'DOMESTIC',
+  };
+
+  const options = {
+    body: JSON.stringify({ address: { ...postData } }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const getApiData = url => {
+    isLoading(true);
+    return apiRequest(url, options)
+      .then(res => {
+        setApiData(res.addresses);
+        isLoading(false);
+      })
+      .catch(() => {
+        isLoading(false);
+        handleValueChange(formData.address, 'userEntered');
+      });
+  };
+
   useEffect(() => {
-    // TODO: Add apiRequest to get data from api when available
-    if (candidateAddresses.length > 0) {
-      setApiData(candidateAddresses);
-      handleValueChange(candidateAddresses[0], '0');
-    } else {
-      // change when api it added
-      hasError(false);
-    }
+    getApiData(`${environment.API_URL}${URL.ADDRESS_VALIDATION}`);
     focusElement('#address-validation-alert-heading');
   }, []);
+
+  useEffect(
+    () => {
+      if (apiData.length > 0) {
+        handleValueChange(apiData[0].address, '0');
+      }
+    },
+    [apiData],
+  );
 
   const renderAddressOption = (address, id = 'userEntered') => {
     const hasConfirmedSuggestions = apiData.length > 0;
@@ -92,46 +136,45 @@ const AddressValidationRadio = props => {
   };
 
   // render loading indicator while we fetch
-  // if (loading) {
-  //   return (
-  //     <va-loading-indicator label="Loading" message="Loading..." set-focus />
-  //   );
-  // }
+  if (loading) {
+    return (
+      <va-loading-indicator label="Loading" message="Loading..." set-focus />
+    );
+  }
 
   const shouldShowSuggestions = apiData.length > 0;
 
-  return !error ? (
+  return (
     <>
       <div role="alert">
-        {/* TODO: When API is in place. Remove alert if one address is found */}
-        <VaAlert
-          className="vads-u-margin-bottom--1 vads-u-margin-top--0"
-          status="warning"
-          visible
-          uswds
-        >
-          <h4 id="address-validation-alert-heading" slot="headline">
-            We can’t confirm the address you entered with the U.S. Postal
-            Service
-          </h4>
-          <p>Tell us which addresses you’d like to use.</p>
-        </VaAlert>
+        {apiData.length > 1 && (
+          <VaAlert
+            className="vads-u-margin-bottom--1 vads-u-margin-top--0"
+            status="warning"
+            visible
+            uswds
+          >
+            <h4 id="address-validation-alert-heading" slot="headline">
+              We can’t confirm the address you entered with the U.S. Postal
+              Service
+            </h4>
+            <p>Tell us which addresses you’d like to use.</p>
+          </VaAlert>
+        )}
       </div>
       <div>
         <span className="vads-u-font-weight--bold">You entered:</span>
         {renderAddressOption(formData.address)}
         <span className="vads-u-font-weight--bold">Suggested Addresses:</span>
         {shouldShowSuggestions ? (
-          apiData.map((address, index) =>
-            renderAddressOption(address, String(index)),
+          apiData.map((item, index) =>
+            renderAddressOption(item.address, String(index)),
           )
         ) : (
           <p>No recommendations available</p>
         )}
       </div>
     </>
-  ) : (
-    <ServerErrorAlert />
   );
 };
 

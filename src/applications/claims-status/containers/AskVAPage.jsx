@@ -17,6 +17,7 @@ import { cstUseLighthouse } from '../selectors';
 // END lighthouse_migration
 import { setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
+import { setDocumentTitle } from '../utils/helpers';
 
 class AskVAPage extends React.Component {
   constructor() {
@@ -27,7 +28,7 @@ class AskVAPage extends React.Component {
   }
 
   componentDidMount() {
-    document.title = 'Ask for your Claim Decision';
+    setDocumentTitle('Ask for your Claim Decision');
     setUpPage();
   }
 

@@ -53,14 +53,14 @@ describe('EKG details component', () => {
     expect(dateElement).to.exist;
   });
 
-  it('should download a pdf', () => {
+  it('should display a download started message when the download pdf button is clicked', () => {
     fireEvent.click(screen.getByTestId('printButton-1'));
-    expect(screen).to.exist;
+    expect(screen.getByTestId('download-success-alert-message')).to.exist;
   });
 
-  it('should download a text file', () => {
+  it('should display a download started message when the download txt file button is clicked', () => {
     fireEvent.click(screen.getByTestId('printButton-2'));
-    expect(screen).to.exist;
+    expect(screen.getByTestId('download-success-alert-message')).to.exist;
   });
 });
 

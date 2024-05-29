@@ -1,6 +1,8 @@
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import hasCareExpenses from '../../../../config/chapters/04-household-information/hasDependents';
@@ -24,6 +26,18 @@ describe('Has dependent children page', () => {
     schema,
     uiSchema,
     expectedNumberOfErrors,
+    pageTitle,
+  );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-radio': 1,
+    },
     pageTitle,
   );
 });

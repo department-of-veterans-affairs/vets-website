@@ -1327,5 +1327,10 @@
     "domain": "www.benefits.va.gov",
     "src": "/COMPENSATION/dbq_fax_numbers.asp",
     "dest": "/disability/how-to-file-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vso/index.asp",
+    "dest": "/resources/va-accredited-representative-faqs/"
   }
 ]

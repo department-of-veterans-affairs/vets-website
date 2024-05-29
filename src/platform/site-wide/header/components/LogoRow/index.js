@@ -34,21 +34,50 @@ export const LogoRow = ({
           <button
             aria-controls="header-nav-items"
             aria-expanded={isMenuOpen ? 'true' : 'false'}
-            className="header-menu-button usa-button vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding-y--1 vads-u-padding-x--1p5 vads-u-margin--0 vads-u-margin-left--2 vads-u-position--relative"
+            className="header-menu-button usa-button vads-u-display--flex vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding--1p5 vads-u-margin--0 vads-u-margin-left--2 vads-u-position--relative"
             onClick={onMenuToggle}
+            style={{ zIndex: 1 }}
             type="button"
           >
             {!isMenuOpen ? 'Menu' : 'Close'}
             {!isMenuOpen ? (
-              <i
-                aria-hidden="true"
-                className="fa fa-bars vads-u-margin-left--1 vads-u-font-size--sm"
-              />
+              <>
+                {/* hamburger icon */}
+                {/* Convert to va-icon when injected header/footer split is in prod: https://github.com/department-of-veterans-affairs/vets-website/pull/27590 */}
+                <svg
+                  aria-hidden="true"
+                  className="vads-u-margin-left--0p5"
+                  focusable="false"
+                  viewBox="1 2 16 16"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="#005ea2"
+                    d="M4 17V15H22V17H4ZM4 12V10H22V12H4ZM4 7V5H22V7H4Z"
+                  />
+                </svg>
+              </>
             ) : (
-              <i
-                aria-hidden="true"
-                className="fa fa-times vads-u-margin-left--1 vads-u-font-size--sm"
-              />
+              <>
+                {/* close icon */}
+                {/* Convert to va-icon when injected header/footer split is in prod: https://github.com/department-of-veterans-affairs/vets-website/pull/27590 */}
+                <svg
+                  aria-hidden="true"
+                  className="vads-u-margin-left--0p5"
+                  focusable="false"
+                  viewBox="3 3 16 16"
+                  width="15"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="#005ea2"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                  />
+                </svg>
+              </>
             )}
             {isMenuOpen && (
               <div className="header-menu-button-overlay vads-u-background-color--gray-lightest vads-u-position--absolute vads-u-width--full" />

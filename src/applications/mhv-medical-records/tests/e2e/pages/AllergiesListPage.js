@@ -1,6 +1,7 @@
 import defaultAllergies from '../fixtures/allergies.json';
+import BaseListPage from './BaseListPage';
 
-class AllergiesListPage {
+class AllergiesListPage extends BaseListPage {
   clickGotoAllergiesLink = (
     allergies = defaultAllergies,
     waitForAllergies = false,
@@ -43,10 +44,9 @@ class AllergiesListPage {
   };
 
   verifyBreadcrumbs = breadcrumbsText => {
-    cy.get('[data-testid="breadcrumbs"]').should(
-      'contain',
-      `‹ ${breadcrumbsText}`,
-    );
+    cy.get('[data-testid="breadcrumbs"]').contains(`${breadcrumbsText}`, {
+      matchCase: false,
+    });
   };
 }
 export default new AllergiesListPage();

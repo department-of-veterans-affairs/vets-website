@@ -12,11 +12,10 @@ const SectionGuideButton = props => {
             props.onMenuClick();
           }}
           type="button"
+          data-testid="section-guide-button"
         >
-          <span className="vads-u-font-weight--bold">
-            In the Medical Records section
-          </span>
-          <i className="fas fa-bars" aria-hidden="true" />
+          <span className="vads-u-font-weight--bold">In this section</span>
+          <va-icon icon="menu" size={3} aria-hidden="true" />
         </button>
       </div>
     </div>

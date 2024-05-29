@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { sub } from 'date-fns';
 import sinon from 'sinon';
 
 import {
@@ -9,7 +8,7 @@ import {
   selectionRequired,
 } from '../../validations/issues';
 
-import { parseDate } from '../../utils/dates';
+import { parseDateWithOffset } from '../../utils/dates';
 import { SELECTED, MAX_LENGTH } from '../../constants';
 
 const _ = null;
@@ -122,7 +121,7 @@ describe('maxIssues', () => {
   });
   it('should show not show an error when the array length is greater than max', () => {
     const errors = { addError: sinon.spy() };
-    const validDate = parseDate(sub(new Date(), { months: 2 }));
+    const validDate = parseDateWithOffset({ months: -2 });
     const template = {
       issue: 'x',
       decisionDate: validDate,

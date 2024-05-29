@@ -60,11 +60,10 @@ describe('Check In Experience', () => {
       Appointments.clickDetails(2);
       AppointmentDetails.validatePageLoadedInPerson();
       AppointmentDetails.validateWhen();
-      AppointmentDetails.validateWhat();
       AppointmentDetails.validateProvider();
       AppointmentDetails.validateWhere();
       AppointmentDetails.validateFacilityAddress(true);
-      AppointmentDetails.validateDirectionsLink(false);
+      AppointmentDetails.validateDirectionsLink(true);
       AppointmentDetails.validatePhone();
       AppointmentDetails.validateCheckInButton();
       AppointmentDetails.validateReturnToAppointmentsPageButton();
@@ -77,7 +76,6 @@ describe('Check In Experience', () => {
       Appointments.clickDetails(2);
       AppointmentDetails.validatePageLoadedInPerson();
       AppointmentDetails.validateWhen();
-      AppointmentDetails.validateWhat();
       AppointmentDetails.validateProvider();
       AppointmentDetails.validateWhere();
       AppointmentDetails.validatePhone();
@@ -91,7 +89,6 @@ describe('Check In Experience', () => {
       Appointments.clickDetails();
       AppointmentDetails.validatePageLoadedInPerson();
       AppointmentDetails.validateWhen();
-      AppointmentDetails.validateWhat();
       AppointmentDetails.validateProvider();
       AppointmentDetails.validateWhere();
       AppointmentDetails.validatePhone();

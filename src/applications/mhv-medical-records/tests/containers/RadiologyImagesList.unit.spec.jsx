@@ -54,14 +54,9 @@ describe('Radiology Images List container', () => {
     expect(screen).to.exist;
   });
 
-  it('displays Date of birth for the print view', () => {
-    const screen = setup();
-    expect(screen.getByText('Date of birth:', { exact: false })).to.exist;
-  });
-
   it('displays a print button', () => {
     const screen = setup();
-    const printButton = screen.getByTestId('print-records-button');
+    const printButton = screen.getByTestId('print-download-menu');
     expect(printButton).to.exist;
   });
 
@@ -80,11 +75,11 @@ describe('Radiology Images List container', () => {
 
   it('displays the formatted received date', () => {
     const screen = setup();
-    const formattedDate = screen.getAllByText('April', {
+    const formattedDate = screen.getByText('April', {
       exact: false,
       selector: 'span',
     });
-    expect(formattedDate.length).to.eq(2);
+    expect(formattedDate).to.exist;
   });
 
   it('displays the images', () => {

@@ -14,7 +14,6 @@ const HowDoIPay = ({ userData }) => (
       Management Center at <va-telephone contact="8008270648" />.
     </p>
     <va-accordion
-      uswds
       disable-analytics={{
         value: 'false',
       }}
@@ -22,7 +21,7 @@ const HowDoIPay = ({ userData }) => (
         value: 'null',
       }}
     >
-      <va-accordion-item id="first" uswds header="Option 1: Pay online">
+      <va-accordion-item id="first" header="Option 1: Pay online" open="true">
         <p>
           You can pay directly from your bank account or by debit or credit card
           on the secure{' '}
@@ -73,7 +72,7 @@ const HowDoIPay = ({ userData }) => (
           Pay on pay.va.gov
         </a>
       </va-accordion-item>
-      <va-accordion-item header="Option 2: Pay by phone" id="second" uswds>
+      <va-accordion-item header="Option 2: Pay by phone" id="second">
         <p>
           Call us at{' '}
           <va-telephone
@@ -87,7 +86,7 @@ const HowDoIPay = ({ userData }) => (
           <va-telephone contact="6127136415" international />.
         </p>
       </va-accordion-item>
-      <va-accordion-item header="Option 3: Pay by mail" id="third" uswds>
+      <va-accordion-item header="Option 3: Pay by mail" id="third">
         <p className="vads-u-margin-y--0">
           Find instructions on how to pay by mail in the demand letter sent to
           your address or you can

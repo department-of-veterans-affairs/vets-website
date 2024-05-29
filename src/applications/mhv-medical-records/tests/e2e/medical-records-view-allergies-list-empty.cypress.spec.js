@@ -14,7 +14,7 @@ describe('Medical Records View Allergies', () => {
 
     cy.get('[data-testid="no-records-message"]').should('be.visible');
 
-    cy.get('[data-testid="print-records-button"]').should('not.exist');
+    cy.get('[data-testid="print-download-menu"]').should('not.exist');
     // .click({ force: true });
 
     cy.injectAxe();

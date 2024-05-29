@@ -113,7 +113,7 @@ describe('the HLR Sub-task', () => {
       event: 'howToWizard-formChange',
       'form-field-type': 'form-radio-buttons',
       'form-field-label':
-        'What type of claim are you requesting a Higher-Level Review?',
+        'What type of claim are you requesting a Higher-Level Review for?',
       'form-field-value': 'compensation',
     });
 

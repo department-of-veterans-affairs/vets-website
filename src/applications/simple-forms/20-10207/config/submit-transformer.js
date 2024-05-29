@@ -1,6 +1,4 @@
 import sharedTransformForSubmit from '../../shared/config/submit-transformer';
-import livingSituation from '../pages/livingSituation';
-
 import { PREPARER_TYPES } from './constants';
 
 export default function transformForSubmit(formConfig, form) {
@@ -121,7 +119,7 @@ export default function transformForSubmit(formConfig, form) {
   }
 
   // delete unneeded otherHousingRisks data based on livingSituation
-  if (!livingSituation.OTHER_RISK) {
+  if (!transformedData.livingSituation.OTHER_RISK) {
     delete transformedData.otherHousingRisks;
   }
 

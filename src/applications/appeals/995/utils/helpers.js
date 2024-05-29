@@ -1,10 +1,11 @@
-import moment from 'moment';
+import { isValid, startOfDay, isBefore } from 'date-fns';
 
 import { AMA_DATE } from '../constants';
 
-import { FORMAT_YMD } from '../../shared/constants';
 import { processContestableIssues } from '../../shared/utils/issues';
+import { parseDateToDateObj } from '../../shared/utils/dates';
 import '../../shared/definitions';
+import { FORMAT_YMD_DATE_FNS } from '../../shared/constants';
 
 /**
  * Filter out ineligible contestable issues:
@@ -29,13 +30,13 @@ export const getEligibleContestableIssues = issues => {
       !isDeferred &&
       ratingIssueSubjectText &&
       approxDecisionDate &&
-      moment(approxDecisionDate, FORMAT_YMD).isValid()
+      isValid(parseDateToDateObj(approxDecisionDate, FORMAT_YMD_DATE_FNS))
     );
   });
   return processContestableIssues(result);
 };
 
-const amaCutoff = moment(AMA_DATE).startOf('day');
+const amaCutoff = startOfDay(parseDateToDateObj(AMA_DATE, FORMAT_YMD_DATE_FNS));
 /**
  * Are there any legacy appeals in the API, or did the Veteran manually add an
  * issue of unknown legacy status?
@@ -51,9 +52,12 @@ export const mayHaveLegacyAppeals = ({
     return true;
   }
   return contestedIssues?.some(issue => {
-    const decisionDate = moment(issue.attributes.approxDecisionDate).startOf(
-      'day',
+    const decisionDate = startOfDay(
+      parseDateToDateObj(
+        issue.attributes.approxDecisionDate,
+        FORMAT_YMD_DATE_FNS,
+      ),
     );
-    return decisionDate.isBefore(amaCutoff);
+    return isBefore(decisionDate, amaCutoff);
   });
 };

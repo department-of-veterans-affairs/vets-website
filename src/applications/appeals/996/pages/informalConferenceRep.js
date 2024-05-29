@@ -1,4 +1,7 @@
-import { phoneUI } from 'platform/forms-system/src/js/web-component-patterns/phonePattern';
+import {
+  phoneUI,
+  phoneSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 import { emailUI } from 'platform/forms-system/src/js/web-component-patterns/emailPattern';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
@@ -87,14 +90,7 @@ export default {
             type: 'string',
             maxLength: MAX_LENGTH.HLR_REP_LAST_NAME,
           },
-          phone: {
-            type: 'string',
-            pattern: '^[0-9]{3,21}$',
-            maxLength:
-              MAX_LENGTH.PHONE_COUNTRY_CODE +
-              MAX_LENGTH.PHONE_AREA_CODE +
-              MAX_LENGTH.PHONE_NUMBER,
-          },
+          phone: phoneSchema,
           extension: {
             type: 'string',
             pattern: '^[a-zA-Z0-9]{1,10}$',

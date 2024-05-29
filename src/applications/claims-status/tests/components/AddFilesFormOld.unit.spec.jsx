@@ -2,6 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
+// import { renderWithRouter } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -575,5 +576,26 @@ describe('<AddFilesFormOld>', () => {
 
     // VaTextInput has a name prop set to 'password'
     expect(tree.everySubTree('*', byName('password'))[0]).to.exist;
+  });
+
+  it('remove files modal should not be visible', () => {
+    const fileFormProps = {
+      field: { value: '', dirty: false },
+      files: [],
+      onSubmit: () => {},
+      onAddFile: () => {},
+      onRemoveFile: () => {},
+      onFieldChange: () => {},
+      onCancel: () => {},
+      removeFile: () => {},
+      onDirtyFields: () => {},
+      uploading: false,
+      backUrl: '../files',
+    };
+
+    const { container } = renderWithRouter(
+      <AddFilesFormOld {...fileFormProps} />,
+    );
+    expect($('#remove-file', container).visible).to.be.false;
   });
 });

@@ -19,7 +19,7 @@ import saveInProgressData from './fixtures/mocks/saveInProgress.json';
 // TODO: Skipping this test due to the Chromium Renderer crash issue.
 // Track the progress of the fix in issue #63283
 
-describe('Enhanced FSR debt and copay alerts', () => {
+describe.skip('Enhanced FSR debt and copay alerts', () => {
   afterEach(() => {
     cy.window().then(win => {
       win.sessionStorage.clear();

@@ -281,4 +281,58 @@ describe('Pension migrations', () => {
     ]);
     expect(formData).to.eql(v8formData);
   });
+  it('should update from v8 to v9', () => {
+    const veteranAddress = {
+      street: 'Prince Philip Drive',
+      city: "St. John's",
+      state: 'NF', // -> NL
+      country: 'CAN',
+      postalCode: 'A1B 4J6',
+    };
+    const spouseAddress = {
+      street: '1726 Hollis Street',
+      city: 'Halifax',
+      state: 'NV', // -> NS
+      country: 'CAN',
+      postalCode: 'B3J 2Y3',
+    };
+    const dependents = [
+      { ...v8formData.dependents[0], childAddress: spouseAddress },
+      v8formData.dependents[1],
+    ];
+    const { formData, metadata } = migrations[8]({
+      formData: {
+        ...v8formData,
+        veteranAddress,
+        spouseAddress,
+        dependents,
+      },
+      metadata: {
+        returnUrl: '/review-and-submit',
+      },
+    });
+
+    expect(metadata.returnUrl).to.equal('/review-and-submit');
+    expect(formData).to.be.an('object');
+
+    expect(formData.veteranAddress.state).to.eq('NL');
+    expect(formData.spouseAddress.state).to.eq('NS');
+    expect(formData.dependents[0].childAddress.state).to.eq('NS');
+    const updatedData = {
+      ...v8formData,
+      veteranAddress: {
+        ...veteranAddress,
+        state: 'NL',
+      },
+      spouseAddress: { ...spouseAddress, state: 'NS' },
+      dependents: [
+        {
+          ...v8formData.dependents[0],
+          childAddress: { ...spouseAddress, state: 'NS' },
+        },
+        v8formData.dependents[1],
+      ],
+    };
+    expect(formData).to.eql(updatedData);
+  });
 });

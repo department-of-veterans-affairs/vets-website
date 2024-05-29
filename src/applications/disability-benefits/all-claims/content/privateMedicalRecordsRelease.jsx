@@ -3,12 +3,8 @@ import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-libr
 import { recordEventOnce } from 'platform/monitoring/record-event';
 import { ANALYTICS_EVENTS, HELP_TEXT_CLICKED_EVENT } from '../constants';
 
-export const limitedConsentTitle = (
-  <p>
-    I want to limit my consent for VA to retrieve only specific information from
-    my private medical provider(s).
-  </p>
-);
+export const limitedConsentTitle =
+  'I want to limit my consent for VA to retrieve only specific information from my private medical provider(s).';
 
 export const limitedConsentTextTitle = (
   <p>Describe the limitation below (treatment dates, disability type, etc.).</p>

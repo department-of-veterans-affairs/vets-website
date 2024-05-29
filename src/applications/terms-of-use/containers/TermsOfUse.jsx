@@ -13,11 +13,10 @@ import {
   parseRedirectUrl,
   declineAndLogout,
   validateWhichRedirectUrlToUse,
+  touUpdatedDate,
 } from '../helpers';
 import { touStyles, errorMessages } from '../constants';
 import touData from '../touData';
-
-const touUpdatedDate = `March 2024`;
 
 export default function TermsOfUse() {
   const isAuthenticatedWithSiS = useSelector(isAuthenticatedWithOAuth);

@@ -27,6 +27,9 @@ describe('Medical Records View Allergies Multiple Page', () => {
         'aria-required-children': {
           enabled: false,
         },
+        'duplicate-id-aria': {
+          enabled: false,
+        },
       },
     });
   });

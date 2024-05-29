@@ -12,11 +12,7 @@ const DownloadPDF = ({ formNumber = '', fileName = '', size = '' }) => (
     rel="noopener noreferrer"
     className="vads-u-text-decoration--none"
   >
-    <i
-      aria-hidden="true"
-      className="fas fa-download fa-lg vads-u-padding-right--1"
-      role="img"
-    />
+    <va-icon aria-hidden="true" icon="file_download" size={3} />
     <span lang="en" className="vads-u-text-decoration--underline">
       Download VA Form {formNumber}{' '}
       <dfn>

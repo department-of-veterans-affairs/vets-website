@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import moment from 'moment';
+import { format, isValid } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { FORMAT_READABLE } from '../../shared/constants';
+import { FORMAT_READABLE_DATE_FNS } from '../../shared/constants';
 import { getSelected, getIssueName } from '../../shared/utils/issues';
 import { scrollAndFocusTarget } from '../utils/focus';
 
@@ -19,7 +19,7 @@ export const ConfirmationPage = ({ data }) => {
       </span>
     </li>
   ));
-  const submitDate = moment();
+  const submitDate = new Date();
   const handlers = {
     print: () => window.print(),
   };
@@ -49,11 +49,11 @@ export const ConfirmationPage = ({ data }) => {
         <span className="dd-privacy-hidden" data-dd-action-name="full name">
           HECTOR BAKER
         </span>
-        {submitDate.isValid() && (
+        {isValid(submitDate) && (
           <p>
             <strong>Date submitted</strong>
             <br role="presentation" />
-            <span>{submitDate.format(FORMAT_READABLE)}</span>
+            <span>{format(submitDate, FORMAT_READABLE_DATE_FNS)}</span>
           </p>
         )}
         <strong>

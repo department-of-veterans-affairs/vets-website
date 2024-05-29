@@ -6,10 +6,7 @@ import {
 } from '../../../utils/validations';
 
 const RecVehicleInfo = (
-  <va-additional-info
-    trigger="What if I don’t know the estimated value of my trailer, camper, or boat?"
-    uswds
-  >
+  <va-additional-info trigger="What if I don’t know the estimated value of my trailer, camper, or boat?">
     Include the amount of money you think you would get if you sold the vehicle
     in your local community. To get an idea of prices, you can check these
     places:

@@ -1,16 +1,5 @@
 import React from 'react';
 
-export const HasEvidenceLabel = () => {
-  const content =
-    'Do you want to upload any other documents or evidence at this time?';
-
-  return (
-    <>
-      {content} <span className="schemaform-required-span">(*Required)</span>
-    </>
-  );
-};
-
 export const evidenceTypeTitle = (
   <h3 className="vads-u-font-size--h4">
     What type of evidence do you want to submit as part of your claim?
@@ -19,15 +8,8 @@ export const evidenceTypeTitle = (
 
 export const privateMedicalRecords = 'Private medical records';
 
-export const bddShaOtherEvidence = (
-  <>
-    <strong>
-      Required Separation Health Assessment - Part A Self-Assessment
-    </strong>{' '}
-    or other documents like your DD Form 214, supporting (lay) statements, or
-    other evidence
-  </>
-);
+export const bddShaOtherEvidence =
+  'Required Separation Health Assessment - Part A Self-Assessment or other documents like your DD Form 214, supporting (lay) statements, or other evidence';
 
 export const defaultOtherEvidence = (
   <>

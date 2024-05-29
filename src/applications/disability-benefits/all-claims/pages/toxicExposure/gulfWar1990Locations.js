@@ -5,23 +5,37 @@ import {
 import {
   gulfWar1990PageTitle,
   gulfWar1990Question,
+  validateLocations,
 } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
 import { GULF_WAR_1990_LOCATIONS } from '../../constants';
 
 export const uiSchema = {
   'ui:title': formTitle(gulfWar1990PageTitle),
-  gulfWar1990: checkboxGroupUI({
-    title: gulfWar1990Question,
-    labels: GULF_WAR_1990_LOCATIONS,
-    required: false,
-    uswds: false,
-  }),
+  toxicExposure: {
+    gulfWar1990: checkboxGroupUI({
+      title: gulfWar1990Question,
+      labels: GULF_WAR_1990_LOCATIONS,
+      required: false,
+    }),
+  },
+  'ui:validations': [
+    {
+      validator: (errors, formData) => {
+        validateLocations(errors, formData, 'gulfWar1990');
+      },
+    },
+  ],
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    gulfWar1990: checkboxGroupSchema(Object.keys(GULF_WAR_1990_LOCATIONS)),
+    toxicExposure: {
+      type: 'object',
+      properties: {
+        gulfWar1990: checkboxGroupSchema(Object.keys(GULF_WAR_1990_LOCATIONS)),
+      },
+    },
   },
 };

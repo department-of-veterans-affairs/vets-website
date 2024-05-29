@@ -171,7 +171,6 @@ describe('<AdditionalEvidencePageOld>', () => {
         </Provider>,
       );
 
-      expect(document.title).to.equal('Additional Evidence');
       expect(resetUploads.called).to.be.true;
     });
 

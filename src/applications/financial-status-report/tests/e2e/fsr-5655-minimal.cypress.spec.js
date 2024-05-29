@@ -76,6 +76,14 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'spouse-information': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#root_questions_isMarriedNo')
+            .should('be.visible')
+            .click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'dependents-count': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(testData => {
@@ -88,6 +96,26 @@ const testConfig = createTestConfig(
               .find('button:contains("Continue")')
               .click();
           });
+        });
+      },
+      'cash-on-hand': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('125');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'cash-in-bank': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('#cash')
+            .first()
+            .shadow()
+            .find('input')
+            .type('329.12');
+          cy.get('.usa-button-primary').click();
         });
       },
       // ==============================================================

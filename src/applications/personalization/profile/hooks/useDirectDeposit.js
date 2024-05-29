@@ -121,6 +121,15 @@ export const useDirectDeposit = () => {
     [dispatch, formData, controlInformation],
   );
 
+  const {
+    canUpdateDirectDeposit,
+    isCorpAvailable,
+    isEduClaimAvailable,
+  } = controlInformation || { canUpdateDirectDeposit: false };
+
+  const hasEligibleControlInformation =
+    canUpdateDirectDeposit && (isCorpAvailable || isEduClaimAvailable);
+
   return {
     ui: useMemo(() => ui, [ui]),
     loadError,
@@ -147,6 +156,6 @@ export const useDirectDeposit = () => {
     isEligible:
       isLighthouseAvailable &&
       isIdentityVerified &&
-      controlInformation?.canUpdateDirectDeposit,
+      hasEligibleControlInformation,
   };
 };

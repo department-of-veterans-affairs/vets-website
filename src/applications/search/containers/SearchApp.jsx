@@ -39,6 +39,7 @@ class SearchApp extends React.Component {
       results: PropTypes.array,
     }).isRequired,
     fetchSearchResults: PropTypes.func.isRequired,
+    searchGovMaintenance: PropTypes.bool,
   };
 
   constructor(props) {
@@ -351,6 +352,7 @@ class SearchApp extends React.Component {
   };
 
   renderResults() {
+    const { searchGovMaintenance } = this.props;
     const {
       loading,
       errors,
@@ -383,7 +385,22 @@ class SearchApp extends React.Component {
                 onChange={this.handleInputChange}
               />
               <button type="submit">
-                <i className="fas fa-solid fa-sm fa-search vads-u-margin-right--0p5" />
+                {/* search icon on the header dropdown (next to the input on mobile) */}
+                {/* Convert to va-icon when injected header/footer split is in prod: https://github.com/department-of-veterans-affairs/vets-website/pull/27590 */}
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  width="18"
+                  viewBox="3 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="#fff"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"
+                  />
+                </svg>
                 <span className="button-text">Search</span>
               </button>
             </form>
@@ -465,6 +482,22 @@ class SearchApp extends React.Component {
       };
     }
 
+    if (searchGovMaintenance) {
+      return (
+        <div className="columns vads-u-margin-bottom--4">
+          <va-banner
+            data-label="Error banner"
+            headline="Search Maintenance"
+            type="error"
+          >
+            We’re working on Search VA.gov right now. If you have trouble using
+            the search tool, check back later. Thank you for your patience.
+          </va-banner>
+          {searchInput}
+        </div>
+      );
+    }
+
     if (
       isWithinMaintenanceWindow() &&
       results &&
@@ -473,11 +506,12 @@ class SearchApp extends React.Component {
       !loading
     ) {
       const { start, end } = calculateCurrentMaintenanceWindow(); // Use this for the next scheduled maintenance window
+
       return (
         <div className="columns vads-u-margin-bottom--4">
           <va-maintenance-banner
             banner-id="search-gov-maintenance-banner"
-            maintenance-title="Search.gov Maintenance"
+            maintenance-title="Search Maintenance"
             maintenance-start-date-time={start}
             maintenance-end-date-time={end}
             isError
@@ -829,6 +863,9 @@ const mapStateToProps = state => ({
   search: state.search,
   searchDropdownComponentEnabled: toggleValues(state)[
     FEATURE_FLAG_NAMES.searchDropdownComponentEnabled
+  ],
+  searchGovMaintenance: toggleValues(state)[
+    FEATURE_FLAG_NAMES.searchGovMaintenance
   ],
 });
 

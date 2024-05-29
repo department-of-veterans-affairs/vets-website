@@ -46,8 +46,6 @@ describe('Pre-Check In Experience ', () => {
     Introduction.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
     Introduction.validateAppointmentType('phone');
-    Introduction.expandAccordion();
-    cy.createScreenshots('Pre-check-in--Phone-appointment--Introduction');
     Introduction.attemptToGoToNextPage();
 
     // page: Demographics
@@ -67,11 +65,7 @@ describe('Pre-Check In Experience ', () => {
     Confirmation.validateAppointmentType('phone');
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots(
-      'Pre-check-in--Phone-appointment--Confirmation-answer-yes-to-all--default-accordions',
-    );
-    Confirmation.expandAllAccordions();
-    cy.createScreenshots(
-      'Pre-check-in--Phone-appointment--Confirmation-answer-yes-to-all--expanded-accordions',
+      'Pre-check-in--Phone-appointment--Confirmation-answer-yes-to-all',
     );
   });
   it('Happy Path no to demographics', () => {
@@ -103,11 +97,7 @@ describe('Pre-Check In Experience ', () => {
 
     cy.injectAxeThenAxeCheck();
     cy.createScreenshots(
-      'Pre-check-in--Phone-appointment--Confirmation-answer-no-to-all--default-accordions',
-    );
-    Confirmation.expandAllAccordions();
-    cy.createScreenshots(
-      'Pre-check-in--Phone-appointment--Confirmation-answer-no-to-all--expanded-accordions',
+      'Pre-check-in--Phone-appointment--Confirmation-answer-no-to-all',
     );
   });
 });

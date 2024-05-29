@@ -139,7 +139,7 @@ describe('<ClaimsListItem>', () => {
     };
 
     const screen = renderWithRouter(<ClaimsListItem claim={claim} />);
-    expect(screen.getByText(/Last updated: August 20, 2019/i)).to.exist;
+    expect(screen.getByText(/Moved to this step on August 20, 2019/i)).to.exist;
     expect(screen.getByText(/Received on February 10, 2019/i)).to.exist;
   });
 });

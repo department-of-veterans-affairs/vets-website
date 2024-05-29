@@ -256,10 +256,10 @@ describe('travel-mileage', () => {
         );
         expect(
           component.getByTestId('appointment-list-item-111'),
-        ).to.contain.text('VA Appointment with Dr. Face');
+        ).to.contain.text('VA appointment with Dr. Face');
         expect(
           component.getByTestId('appointment-list-item-222'),
-        ).to.contain.text('VA Appointment');
+        ).to.contain.text('VA appointment');
         expect(
           component.getByTestId('appointment-list-item-333'),
         ).to.contain.text('Dermatology appointment');

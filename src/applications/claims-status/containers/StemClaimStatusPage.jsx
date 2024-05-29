@@ -9,10 +9,10 @@ import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import StemDeniedDetails from '../components/StemDeniedDetails';
 import { setUpPage } from '../utils/page';
 import withRouter from '../utils/withRouter';
-import { claimAvailable } from '../utils/helpers';
+import { claimAvailable, setDocumentTitle } from '../utils/helpers';
 
 const setTitle = () => {
-  document.title = 'Your Edith Nourse Rogers STEM Scholarship application';
+  setDocumentTitle('Your Edith Nourse Rogers STEM Scholarship application');
 };
 
 class StemClaimStatusPage extends React.Component {

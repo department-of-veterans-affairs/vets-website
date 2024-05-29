@@ -6,6 +6,7 @@ import {
   AtlasAppoinment,
   Facility,
 } from '../../../../tests/mocks/unit-test-helpers';
+import { createTestStore } from '../../../../tests/mocks/setup';
 
 const appointmentData = {
   start: '2024-07-19T12:00:00Z',
@@ -27,6 +28,7 @@ describe('VAOS Component: DetailsVideo', () => {
     featureToggles: {},
   };
   it('should return Back to past appointments descriptive back link and past status alart', async () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
       videoData: {
@@ -41,7 +43,7 @@ describe('VAOS Component: DetailsVideo', () => {
     };
     const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
-      initialState,
+      store,
     });
     expect(
       wrapper.getByText('Back to past appointments', {
@@ -55,6 +57,7 @@ describe('VAOS Component: DetailsVideo', () => {
       .to.exist;
   });
   it('should return appointment time, provider, insturctions, print link, calendar link, video Location and cancel message', async () => {
+    const store = createTestStore(initialState);
     const atlasAppointment = new AtlasAppoinment();
     const appointment = {
       ...appointmentData,
@@ -65,7 +68,7 @@ describe('VAOS Component: DetailsVideo', () => {
     };
     const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
-      initialState,
+      store,
     });
 
     // Check for AppointmentDateTime component.
@@ -98,6 +101,7 @@ describe('VAOS Component: DetailsVideo', () => {
     expect(await wrapper.findByText('Need to make changes?')).to.exist;
   });
   it('should return header as VA Video Connect using VA device with MOBILE_ANY kind', () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
       videoData: {
@@ -109,7 +113,7 @@ describe('VAOS Component: DetailsVideo', () => {
     };
     const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
-      initialState,
+      store,
     });
     expect(
       wrapper.getByText('VA Video Connect using VA device', {
@@ -119,6 +123,7 @@ describe('VAOS Component: DetailsVideo', () => {
     ).to.exist;
   });
   it('should return header as VA Video Connect using VA device wiith ADHOC kind', () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
       videoData: {
@@ -130,7 +135,7 @@ describe('VAOS Component: DetailsVideo', () => {
     };
     const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
-      initialState,
+      store,
     });
     expect(
       wrapper.getByText('VA Video Connect using VA device', {
@@ -140,6 +145,7 @@ describe('VAOS Component: DetailsVideo', () => {
     ).to.exist;
   });
   it('should return header as VA Video Connect at home with MOBILE_ANY kind', () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
       videoData: {
@@ -151,7 +157,7 @@ describe('VAOS Component: DetailsVideo', () => {
     };
     const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
-      initialState,
+      store,
     });
     expect(
       wrapper.getByText('VA Video Connect at home', {
@@ -161,6 +167,7 @@ describe('VAOS Component: DetailsVideo', () => {
     ).to.exist;
   });
   it('should return header as VA Video Connect at home with ADHOC kind', () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
       videoData: {
@@ -172,7 +179,7 @@ describe('VAOS Component: DetailsVideo', () => {
     };
     const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
-      initialState,
+      store,
     });
     expect(
       wrapper.getByText('VA Video Connect at home', {
@@ -182,6 +189,7 @@ describe('VAOS Component: DetailsVideo', () => {
     ).to.exist;
   });
   it('should return header as VA Video Connect at VA location', () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
       videoData: {
@@ -192,7 +200,7 @@ describe('VAOS Component: DetailsVideo', () => {
     };
     const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
-      initialState,
+      store,
     });
     expect(
       wrapper.getByText('VA Video Connect at VA location', {
@@ -202,6 +210,7 @@ describe('VAOS Component: DetailsVideo', () => {
     ).to.exist;
   });
   it('should return header as VA Video Connect at an ATLAS location', () => {
+    const store = createTestStore(initialState);
     const atlasAppointment = new AtlasAppoinment();
     const appointment = {
       ...appointmentData,
@@ -209,7 +218,7 @@ describe('VAOS Component: DetailsVideo', () => {
     };
     const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
-      initialState,
+      store,
     });
     expect(
       wrapper.getByText('VA Video Connect at an ATLAS location', {
@@ -219,6 +228,7 @@ describe('VAOS Component: DetailsVideo', () => {
     ).to.exist;
   });
   it('should return header as empty string', () => {
+    const store = createTestStore(initialState);
     const appointment = {
       ...appointmentData,
       videoData: {
@@ -230,7 +240,7 @@ describe('VAOS Component: DetailsVideo', () => {
     };
     const props = { appointment, facilityData };
     const wrapper = renderWithStoreAndRouter(<DetailsVideo {...props} />, {
-      initialState,
+      store,
     });
     expect(
       wrapper.getByText('', {

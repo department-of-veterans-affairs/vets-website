@@ -1,59 +1,59 @@
 // import defaultMicrobiology from './fixtures/microbiology.json';
 
-class MicrobiologyDetailsPage {
-  verifyPrintButton = () => {
-    // should display print button for a list "Print this list"
-    cy.get('[data-testid="printButton-0"]').should('be.visible');
+import BaseDetailsPage from './BaseDetailsPage';
+
+class MicrobiologyDetailsPage extends BaseDetailsPage {
+  verifyLabName = name => {
+    cy.get('[data-testid="microbio-name"]').should('contain', name);
   };
 
-  verifyPrintOrDownload = () => {
-    // should display a toggle menu button
-    cy.get('[data-testid="print-records-button"]').should('be.visible');
+  verifyLabDate = date => {
+    cy.get('[data-testid="header-time"]').should('contain', date);
   };
 
-  clickPrintOrDownload = () => {
-    cy.get('[data-testid="print-records-button"]').click({ force: true });
-  };
-
-  verifyDownloadPDF = () => {
-    // should display a download pdf file button "Download PDF of this page"
-    cy.get('[data-testid="printButton-1"]').should('be.visible');
-  };
-
-  verifyDownloadTextFile = () => {
-    // should display a download text file button "Download list as a text file"
-    cy.get('[data-testid="printButton-2"]').should('be.visible');
-  };
-
-  verifyEpnadUnderstandResultsBtton = () => {
-    // Expand "help to be able to understand results"
-    cy.get('[data-testid="understanding-result"]').should('be.visible');
-  };
-
-  clickExpnadUnderstandResultsBtton = () => {
-    // Expand "help to be able to understand results"
-    cy.get('[data-testid="understanding-result"]').click();
-  };
-
-  verifyResultDropdownReferance = resultDropdownReferance => {
-    // should display  "If your results are outside the reference range"
-    cy.get('[data-testid="result-dropdown-1"]').should('be.visible');
-    cy.get('[data-testid="result-dropdown-1"]').contains(
-      resultDropdownReferance,
+  verifySampleTested = sampleTested => {
+    cy.get('[data-testid="microbio-sample-tested"]').should(
+      'contain',
+      sampleTested,
     );
   };
 
-  verifyResultDropdownReviw = resultDropdownReviw => {
-    // should display  "Your provider will review your results. If you need to do anything, your provider will contact you."
-    cy.get('[data-testid="result-dropdown-2"]').should('be.visible');
-    cy.get('[data-testid="result-dropdown-2"]').contains(resultDropdownReviw);
+  verifySampleFrom = sampleFrom => {
+    cy.get('[data-testid="microbio-sample-from"]').should(
+      'contain',
+      sampleFrom,
+    );
   };
 
-  verifyResultDropdownQuestion = resultDropdownQuestion => {
-    // should display  "If you have any questions, send a message to the care team that ordered this test"
-    cy.get('[data-testid="result-dropdown-3"]').should('be.visible');
-    cy.get('[data-testid="result-dropdown-3"]').contains(
-      resultDropdownQuestion,
+  verifyOrderedBy = orderedBy => {
+    cy.get('[data-testid="microbio-ordered-by"]').should('contain', orderedBy);
+  };
+
+  verifyOrderingLocation = orderingLocation => {
+    cy.get('[data-testid="microbio-ordering-location"]').should(
+      'contain',
+      orderingLocation,
+    );
+  };
+
+  verifyCollectingLocation = collectingLocation => {
+    cy.get('[data-testid="microbio-collecting-location"]').should(
+      'contain',
+      collectingLocation,
+    );
+  };
+
+  verifyLabLocation = labLocation => {
+    cy.get('[data-testid="microbio-lab-location"]').should(
+      'contain',
+      labLocation,
+    );
+  };
+
+  verifyDateCompleted = dateCompleted => {
+    cy.get('[data-testid="microbio-date-completed"]').should(
+      'contain',
+      dateCompleted,
     );
   };
 

@@ -7,10 +7,13 @@ import { buildDateFormatter } from '../utils/helpers';
 export default function DueDate({ date }) {
   const now = moment();
   const dueDate = moment(date);
-  const className = dueDate.isBefore(now) ? 'past-due' : 'due-file';
+  const pastDueDate = dueDate.isBefore(now);
+  const className = pastDueDate ? 'past-due' : 'due-file';
 
   const formattedClaimDate = buildDateFormatter()(date);
-  const dueDateHeader = `Needed from you by ${formattedClaimDate}`;
+  const dueDateHeader = pastDueDate
+    ? `Needed from you by ${formattedClaimDate} - Due ${dueDate.fromNow()}`
+    : `Needed from you by ${formattedClaimDate}`;
 
   return (
     <div className="due-date-header">

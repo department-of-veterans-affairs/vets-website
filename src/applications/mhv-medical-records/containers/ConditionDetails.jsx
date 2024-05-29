@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -38,6 +38,8 @@ import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateConditionContent } from '../util/pdfHelpers/conditions';
+import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import { useIsDetails } from '../hooks/useIsDetails';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -55,6 +57,9 @@ const ConditionDetails = props => {
   const { conditionId } = useParams();
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
+  const [downloadStarted, setDownloadStarted] = useState(false);
+
+  useIsDetails(dispatch);
 
   useEffect(
     () => {
@@ -62,7 +67,7 @@ const ConditionDetails = props => {
         setBreadcrumbs([
           {
             url: '/my-health/medical-records/conditions',
-            label: 'Conditions',
+            label: 'Health conditions',
           },
         ]),
       );
@@ -100,7 +105,8 @@ const ConditionDetails = props => {
     updatePageTitle,
   );
 
-  const generateConditionDetails = async () => {
+  const generateConditionDetailsPdf = async () => {
+    setDownloadStarted(true);
     const title = `Conditions: ${record.name} on ${record.date}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
@@ -109,24 +115,19 @@ const ConditionDetails = props => {
     makePdf(pdfName, pdfData, 'Condition details', runningUnitTest);
   };
 
-  const download = () => {
-    generateConditionDetails();
-  };
-
   const generateConditionTxt = async () => {
+    setDownloadStarted(true);
     const content = `
 ${crisisLineHeader}\n\n
 ${record.name} \n
 ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Date entered: ${record.date} \n
-${txtLine} \n
-Provider: ${record.provider} \n
-Provider Notes: ${processList(record.note)} \n
-Status of health condition: ${record.active} \n
-Location: ${record.facility} \n
-SNOMED Clinical term: ${record.name} \n`;
+Entered on: ${record.date}\n
+${txtLine}\n
+Provider: ${record.provider}\n
+Location: ${record.facility}\n
+Provider Notes: ${processList(record.comments)}\n`;
 
     const fileName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
 
@@ -138,7 +139,10 @@ SNOMED Clinical term: ${record.name} \n`;
   const content = () => {
     if (accessAlert) {
       return (
-        <AccessTroubleAlertBox alertType={accessAlertTypes.HEALTH_CONDITIONS} />
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.HEALTH_CONDITIONS}
+          className="vads-u-margin-bottom--9"
+        />
       );
     }
     if (record) {
@@ -150,22 +154,23 @@ SNOMED Clinical term: ${record.name} \n`;
             aria-describedby="condition-date"
             data-dd-privacy="mask"
           >
-            {record.name.split(' (')[0]}
+            {`Health Conditions: ${record.name}`}
           </h1>
           <DateSubheading
             date={record.date}
             id="condition-date"
-            label="Date entered"
+            label="Entered on"
           />
 
-          <div className="condition-subheader vads-u-margin-bottom--3">
-            <PrintDownload
-              download={download}
-              allowTxtDownloads={allowTxtDownloads}
-              downloadTxt={generateConditionTxt}
-            />
-            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          </div>
+          {downloadStarted && <DownloadSuccessAlert />}
+          <PrintDownload
+            downloadPdf={generateConditionDetailsPdf}
+            allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateConditionTxt}
+          />
+          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+
           <div className="condition-details max-80">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
               Provider
@@ -179,7 +184,9 @@ SNOMED Clinical term: ${record.name} \n`;
             <p data-dd-privacy="mask" data-testid="condition-location">
               {record.facility || 'There is no facility reported at this time'}
             </p>
-            <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
+            <h2 className="vads-u-margin-bottom--0 vads-u-font-family--sans">
+              Provider notes
+            </h2>
             <ItemList
               data-testid="condition-provider-notes"
               list={record.comments}

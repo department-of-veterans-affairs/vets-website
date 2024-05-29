@@ -7,11 +7,11 @@ describe('Medical Records View Vaccines', () => {
     const site = new MedicalRecordsSite();
     site.login();
     cy.visit('my-health/medical-records/');
-    VaccinesListPage.clickGotoVaccinesLink(emptyVaccinesList);
+    VaccinesListPage.goToVaccines(emptyVaccinesList);
     // click on the vaccines link
 
     cy.get('[data-testid="no-records-message"]').should('be.visible');
-    cy.get('[data-testid="print-records-button"]').should('not.exist');
+    cy.get('[data-testid="print-download-menu"]').should('not.exist');
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');

@@ -30,13 +30,13 @@ const Vitals = () => {
   const [cards, setCards] = useState(null);
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
-  const vatalsCurrentAsOf = useSelector(
+  const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
   );
 
   useListRefresh({
     listState,
-    listCurrentAsOf: vatalsCurrentAsOf,
+    listCurrentAsOf: vitalsCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: refreshExtractTypes.VPR,
     dispatchAction: getVitals,
@@ -67,6 +67,7 @@ const Vitals = () => {
         Object.keys(vitalTypes).forEach(type => {
           const firstOfType = vitals.find(item => item.type === type);
           if (firstOfType) firstOfEach.push(firstOfType);
+          else firstOfEach.push({ type, noRecords: true });
         });
         setCards(firstOfEach);
       }
@@ -78,10 +79,37 @@ const Vitals = () => {
 
   const content = () => {
     if (accessAlert) {
-      return <AccessTroubleAlertBox alertType={accessAlertTypes.VITALS} />;
+      return (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.VITALS}
+          className="vads-u-margin-bottom--9"
+        />
+      );
+    }
+    if (refresh.initialFhirLoad && !vitalsCurrentAsOf) {
+      return (
+        <div className="vads-u-margin-y--8">
+          <va-loading-indicator
+            class="hydrated initial-fhir-load"
+            message="We're loading your records for the first time. This can take up to 2 minutes. Stay on this page until your records load."
+            setFocus
+            data-testid="initial-fhir-loading-indicator"
+          />
+        </div>
+      );
     }
     if (vitals?.length === 0) {
-      return <NoRecordsMessage type={recordType.VITALS} />;
+      return (
+        <>
+          <ul>
+            <li>Blood pressure and blood oxygen level</li>
+            <li>Breathing rate and heart rate</li>
+            <li>Height and weight</li>
+            <li>Temperature</li>
+          </ul>
+          <NoRecordsMessage type={recordType.VITALS} />
+        </>
+      );
     }
     if (cards?.length) {
       return (
@@ -111,8 +139,8 @@ const Vitals = () => {
         Vitals
       </h1>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
-        Vitals are basic health numbers your providers check at your
-        appointments.
+        {`Vitals are basic health numbers your providers check at your
+        appointments. ${vitals?.length === 0 ? 'Vitals include:' : ''}`}
       </p>
       {content()}
     </div>

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -31,6 +31,8 @@ import {
   generateLabsIntro,
   generateMicrobioContent,
 } from '../../util/pdfHelpers/labsAndTests';
+import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import { useIsDetails } from '../../hooks/useIsDetails';
 
 const MicroDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -41,6 +43,10 @@ const MicroDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+  const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const dispatch = useDispatch();
+  useIsDetails(dispatch);
 
   useEffect(
     () => {
@@ -60,6 +66,7 @@ const MicroDetails = props => {
   );
 
   const generateMicrobiologyPdf = async () => {
+    setDownloadStarted(true);
     const { title, subject, preface } = generateLabsIntro(record);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateMicrobioContent(record) };
@@ -68,6 +75,7 @@ const MicroDetails = props => {
   };
 
   const generateMicroTxt = async () => {
+    setDownloadStarted(true);
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
@@ -97,49 +105,57 @@ ${record.results}`;
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1 className="vads-u-margin-bottom--0" aria-describedby="microbio-date">
+      <h1
+        className="vads-u-margin-bottom--0"
+        aria-describedby="microbio-date"
+        data-testid="microbio-name"
+      >
         {record.name}
       </h1>
       <DateSubheading date={record.date} id="microbio-date" />
 
-      <div className="no-print">
-        <PrintDownload
-          download={generateMicrobiologyPdf}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generateMicroTxt}
-        />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-      </div>
+      {downloadStarted && <DownloadSuccessAlert />}
+      <PrintDownload
+        downloadPdf={generateMicrobiologyPdf}
+        allowTxtDownloads={allowTxtDownloads}
+        downloadTxt={generateMicroTxt}
+      />
+      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Sample tested
         </h3>
-        <p>{record.sampleTested}</p>
+        <p data-testid="microbio-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Sample from
         </h3>
-        <p>{record.sampleFrom}</p>
+        <p data-testid="microbio-sample-from">{record.sampleFrom}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p>{record.orderedBy}</p>
+        <p data-testid="microbio-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordering location
         </h3>
-        <p>{record.orderingLocation}</p>
+        <p data-testid="microbio-ordering-location">
+          {record.orderingLocation}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Collecting location
         </h3>
-        <p>{record.collectingLocation}</p>
+        <p data-testid="microbio-collecting-location">
+          {record.collectingLocation}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Lab location
         </h3>
-        <p>{record.labLocation}</p>
+        <p data-testid="microbio-lab-location">{record.labLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date completed
         </h3>
-        <p>{record.date}</p>
+        <p data-testid="microbio-date-completed">{record.date}</p>
       </div>
 
       <div className="test-results-container">

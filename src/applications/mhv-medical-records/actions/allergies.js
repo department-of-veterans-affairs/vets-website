@@ -3,6 +3,7 @@ import { getAllergies, getAllergy } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
+import { getListWithRetry } from './common';
 
 export const getAllergiesList = (isCurrent = false) => async dispatch => {
   dispatch({
@@ -10,7 +11,7 @@ export const getAllergiesList = (isCurrent = false) => async dispatch => {
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const response = await getAllergies();
+    const response = await getListWithRetry(dispatch, getAllergies);
     dispatch({
       type: Actions.Allergies.GET_LIST,
       response,

@@ -2,14 +2,17 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
-  dateHelp,
+  dateRangeDescription,
   dateRangePageDescription,
+  datesDescription,
   getKeyIndex,
+  getOtherFieldDescription,
   getSelectedCount,
   isClaimingTECondition,
   makeTEConditionsSchema,
   makeTEConditionsUISchema,
-  showGulfWar1990LocationDatesPage,
+  showCheckboxLoopDetailsPage,
+  showSummaryPage,
   showToxicExposurePages,
   validateTEConditions,
 } from '../../content/toxicExposure';
@@ -153,10 +156,12 @@ describe('toxicExposure', () => {
             condition: 'Anemia',
           },
         ],
-        toxicExposureConditions: {
-          tinnitus: true,
-          anemia: false,
-          none: false,
+        toxicExposure: {
+          conditions: {
+            tinnitus: true,
+            anemia: false,
+            none: false,
+          },
         },
       };
 
@@ -180,10 +185,12 @@ describe('toxicExposure', () => {
           'view:claimingIncrease': false,
           'view:claimingNew': true,
         },
-        toxicExposureConditions: {
-          tinnitus: false,
-          anemia: false,
-          none: false,
+        toxicExposure: {
+          conditions: {
+            tinnitus: false,
+            anemia: false,
+            none: false,
+          },
         },
       };
 
@@ -196,10 +203,12 @@ describe('toxicExposure', () => {
           'view:claimingIncrease': false,
           'view:claimingNew': true,
         },
-        toxicExposureConditions: {
-          tinnitus: false,
-          anemia: false,
-          none: true,
+        toxicExposure: {
+          conditions: {
+            tinnitus: false,
+            anemia: false,
+            none: true,
+          },
         },
       };
 
@@ -302,40 +311,48 @@ describe('toxicExposure', () => {
   describe('validateTEConditions', () => {
     it('should add error when selecting none and a condition', () => {
       const errors = {
-        toxicExposureConditions: {
-          addError: sinon.spy(),
+        toxicExposure: {
+          conditions: {
+            addError: sinon.spy(),
+          },
         },
       };
 
       const formData = {
-        toxicExposureConditions: {
-          anemia: true,
-          tinnitusringingorhissinginears: false,
-          none: true,
+        toxicExposure: {
+          conditions: {
+            anemia: true,
+            tinnitusringingorhissinginears: false,
+            none: true,
+          },
         },
       };
 
       validateTEConditions(errors, formData);
-      expect(errors.toxicExposureConditions.addError.called).to.be.true;
+      expect(errors.toxicExposure.conditions.addError.called).to.be.true;
     });
 
     it('should not add error when selecting conditions', () => {
       const errors = {
-        toxicExposureConditions: {
-          addError: sinon.spy(),
+        toxicExposure: {
+          conditions: {
+            addError: sinon.spy(),
+          },
         },
       };
 
       const formData = {
-        toxicExposureConditions: {
-          anemia: true,
-          tinnitusringingorhissinginears: true,
-          none: false,
+        toxicExposure: {
+          conditions: {
+            anemia: true,
+            tinnitusringingorhissinginears: true,
+            none: false,
+          },
         },
       };
 
       validateTEConditions(errors, formData);
-      expect(errors.toxicExposureConditions.addError.called).to.be.false;
+      expect(errors.toxicExposure.conditions.addError.called).to.be.false;
     });
   });
 
@@ -343,93 +360,303 @@ describe('toxicExposure', () => {
     it('displays description when counts specified', () => {
       const tree = render(dateRangePageDescription(1, 5, 'Egypt'));
       tree.getByText('1 of 5: Egypt', { exact: false });
-      tree.getByText(dateHelp);
+      tree.getByText(dateRangeDescription);
     });
 
     it('displays description when counts not specified', () => {
       const tree = render(dateRangePageDescription(0, 0, 'Egypt'));
       tree.getByText('Egypt');
-      tree.getByText(dateHelp);
+      tree.getByText(dateRangeDescription);
     });
   });
 
   describe('getKeyIndex', () => {
     it('finds and returns the index', () => {
       const formData = {
-        gulfWar1990: {
-          bahrain: true,
-          egypt: false,
-          airspace: true,
+        toxicExposure: {
+          gulfWar1990: {
+            bahrain: true,
+            egypt: false,
+            airspace: true,
+          },
         },
       };
 
-      expect(getKeyIndex('bahrain', 'gulfWar1990', { formData })).to.equal(1);
-      expect(getKeyIndex('airspace', 'gulfWar1990', { formData })).to.equal(2);
+      expect(getKeyIndex('bahrain', 'gulfWar1990', formData)).to.equal(1);
+      expect(getKeyIndex('airspace', 'gulfWar1990', formData)).to.equal(2);
     });
 
-    it('returns 0 when not location data not available', () => {
-      const formData = {};
+    it('returns 0 when location data not available', () => {
+      const formData = {
+        toxicExposure: {},
+      };
 
-      expect(getKeyIndex('bahrain', 'gulfWar1990', { formData })).to.equal(0);
+      expect(getKeyIndex('bahrain', 'gulfWar1990', {})).to.equal(0);
+      expect(getKeyIndex('bahrain', 'gulfWar1990', formData)).to.equal(0);
     });
 
     it('returns 0 when location not selected', () => {
       const formData = {
-        gulfWar1990: {
-          egypt: false,
+        toxicExposure: {
+          gulfWar1990: {
+            egypt: false,
+          },
         },
       };
 
-      expect(getKeyIndex('egypt', 'gulfWar1990', { formData })).to.equal(0);
-      expect(getKeyIndex('bahrain', 'gulfWar1990', { formData })).to.equal(0);
+      expect(getKeyIndex('egypt', 'gulfWar1990', formData)).to.equal(0);
+      expect(getKeyIndex('bahrain', 'gulfWar1990', formData)).to.equal(0);
     });
   });
 
   describe('getSelectedCount', () => {
     it('gets the count with a mix of selected and deselected items', () => {
       const formData = {
-        gulfWar1990: {
-          bahrain: true,
-          egypt: false,
-          airspace: true,
+        toxicExposure: {
+          gulfWar1990: {
+            bahrain: true,
+            egypt: false,
+            airspace: true,
+          },
         },
       };
 
-      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(2);
+      expect(getSelectedCount('gulfWar1990', formData)).to.be.equal(2);
     });
 
     it('gets 0 count when no items selected', () => {
       const formData = {
-        gulfWar1990: {
-          bahrain: false,
-          egypt: false,
-          airspace: false,
+        toxicExposure: {
+          gulfWar1990: {
+            bahrain: false,
+            egypt: false,
+            airspace: false,
+          },
         },
       };
 
-      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
+      expect(getSelectedCount('gulfWar1990', formData)).to.be.equal(0);
     });
 
     it('gets 0 count when no checkbox values', () => {
       const formData = {
-        gulfWar1990: {},
+        toxicExposure: {
+          gulfWar1990: {},
+        },
       };
 
-      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
+      expect(getSelectedCount('gulfWar1990', formData)).to.be.equal(0);
     });
 
     it('gets 0 count when no checkbox object not found', () => {
       const formData = {};
 
-      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
+      expect(getSelectedCount('gulfWar1990', formData)).to.be.equal(0);
     });
 
     it('gets 0 count when no form data', () => {
       expect(getSelectedCount('gulfWar1990', undefined)).to.be.equal(0);
     });
+
+    it('gets the count with a mix of selected and deselected items and other description', () => {
+      const formData = {
+        toxicExposure: {
+          herbicide: {
+            cambodia: true,
+            koreandemilitarizedzone: true,
+            laos: true,
+            vietnam: false,
+          },
+          otherHerbicideLocations: {
+            startDate: '1968-01-01',
+            endDate: '1969-01-01',
+            description: 'location 1, location 2',
+          },
+        },
+      };
+
+      expect(
+        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+      ).to.be.equal(4);
+    });
+
+    it('gets the count with other description only', () => {
+      const formData = {
+        toxicExposure: {
+          herbicide: {},
+          otherHerbicideLocations: {
+            description: 'location 1, location 2',
+          },
+        },
+      };
+
+      expect(
+        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+      ).to.be.equal(1);
+    });
   });
 
-  describe('showGulfWar1990LocationDatesPage', () => {
+  describe('showCheckboxLoopDetailsPage', () => {
+    describe('toggle disabled', () => {
+      it('should return false when toggle not enabled', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              bahrain: true,
+              egypt: false,
+              airspace: true,
+            },
+          },
+        };
+
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'bahrain'))
+          .to.be.false;
+      });
+    });
+
+    describe('toggle enabled', () => {
+      beforeEach(() => {
+        window.sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, 'true');
+      });
+
+      it('should return false when toggle enabled, but no new disabilities', () => {
+        const formData = {
+          newDisabilities: [],
+        };
+
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'bahrain'))
+          .to.be.false;
+      });
+
+      it('should return false when toggle enabled, claiming new disability, but no selected locations', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              bahrain: false,
+              airspace: false,
+            },
+          },
+        };
+
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'bahrain'))
+          .to.be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'egypt')).to
+          .be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'airspace'))
+          .to.be.false;
+      });
+
+      it('should return true when all criteria met', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              bahrain: true,
+              egypt: false,
+              airspace: true,
+            },
+          },
+        };
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'bahrain'))
+          .to.be.true;
+      });
+
+      it('should return false when `none` location is selected', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              none: true,
+            },
+            gulfWar2001: {
+              none: true,
+            },
+          },
+        };
+
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'none')).to
+          .be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar2001', 'none')).to
+          .be.false;
+      });
+
+      it('should return false when `none` and another location is selected', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              afghanistan: true,
+              none: true,
+            },
+            gulfWar2001: {
+              yemen: true,
+              none: true,
+            },
+          },
+        };
+
+        expect(
+          showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'afghanistan'),
+        ).to.be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar2001', 'yemen')).to
+          .be.false;
+      });
+    });
+  });
+
+  describe('showSummaryPage', () => {
     describe('toggle disabled', () => {
       it('should return false when toggle not enabled', () => {
         const formData = {
@@ -446,13 +673,14 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
-          toxicExposureConditions: {
-            anemia: true,
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
           },
         };
 
-        expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
-          .false;
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
       });
     });
 
@@ -466,16 +694,11 @@ describe('toxicExposure', () => {
           newDisabilities: [],
         };
 
-        expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
-          .false;
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
       });
 
       it('should return false when toggle enabled, claiming new disability, but no selected locations', () => {
         const formData = {
-          gulfWar1990: {
-            bahrain: false,
-            airspace: false,
-          },
           newDisabilities: [
             {
               cause: 'NEW',
@@ -484,25 +707,22 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
-          toxicExposureConditions: {
-            anemia: true,
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              bahrain: false,
+              airspace: false,
+            },
           },
         };
 
-        expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
-          .false;
-        expect(showGulfWar1990LocationDatesPage(formData, 'egypt')).to.be.false;
-        expect(showGulfWar1990LocationDatesPage(formData, 'airspace')).to.be
-          .false;
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
       });
 
       it('should return true when all criteria met', () => {
         const formData = {
-          gulfWar1990: {
-            bahrain: true,
-            egypt: false,
-            airspace: true,
-          },
           newDisabilities: [
             {
               cause: 'NEW',
@@ -511,13 +731,137 @@ describe('toxicExposure', () => {
               condition: 'anemia',
             },
           ],
-          toxicExposureConditions: {
-            anemia: true,
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              bahrain: true,
+              egypt: false,
+              airspace: true,
+            },
           },
         };
-        expect(showGulfWar1990LocationDatesPage(formData, 'bahrain')).to.be
-          .true;
+
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.true;
       });
+
+      it('should return false when `none` location is selected', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              none: true,
+            },
+            gulfWar2001: {
+              none: true,
+            },
+          },
+        };
+
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar2001')).to.be.false;
+      });
+
+      it('should return false when `none` and another location is selected', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              afghanistan: true,
+              none: true,
+            },
+            gulfWar2001: {
+              yemen: true,
+              none: true,
+            },
+          },
+        };
+
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar2001')).to.be.false;
+      });
+    });
+  });
+
+  describe('datesDescription', () => {
+    it('build the no dates description when no dates are provided', () => {
+      expect(datesDescription({})).to.equal('No dates entered');
+    });
+
+    it('build the no dates description when empty dates are provided', () => {
+      const dates = {
+        startDate: '',
+        endDate: '',
+      };
+
+      expect(datesDescription(dates)).to.equal('No dates entered');
+    });
+
+    it('build the description with both dates when both dates are provided', () => {
+      const dates = {
+        startDate: '2020-01-01',
+        endDate: '2022-01-05',
+      };
+
+      expect(datesDescription(dates)).to.equal('January 2020 - January 2022');
+    });
+
+    it('builds the description with end date only', () => {
+      const dates = {
+        endDate: '2022-01-05',
+      };
+
+      expect(datesDescription(dates)).to.equal(
+        'No start date entered - January 2022',
+      );
+    });
+
+    it('builds the description with start date only', () => {
+      const dates = {
+        startDate: '2022-01-05',
+      };
+
+      expect(datesDescription(dates)).to.equal(
+        'January 2022 - No end date entered',
+      );
+    });
+  });
+
+  describe('getOtherFieldDescription', () => {
+    it('gets the trimmed value', () => {
+      const formData = {
+        toxicExposure: {
+          otherHerbicideLocations: {
+            startDate: '1968-01-01',
+            endDate: '1969-01-01',
+            description: ' location 1, location 2   ',
+          },
+        },
+      };
+      expect(
+        getOtherFieldDescription(formData, 'otherHerbicideLocations'),
+      ).to.equal('location 1, location 2');
     });
   });
 });

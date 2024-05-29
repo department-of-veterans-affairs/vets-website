@@ -30,6 +30,10 @@ export {
 };
 
 export function displayFileSize(size) {
+  if (size == null) {
+    return '';
+  }
+
   if (size < 1024) {
     return `${size}B`;
   }

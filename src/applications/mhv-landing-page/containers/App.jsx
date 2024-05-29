@@ -13,10 +13,9 @@ import { useDatadogRum } from '../hooks/useDatadogRum';
 import {
   isAuthenticatedWithSSOe,
   isLandingPageEnabledForUser,
+  isVAPatient,
   selectProfile,
-  selectVamcEhrData,
   signInServiceEnabled,
-  hasHealthData,
   selectHasMHVAccountState,
 } from '../selectors';
 import { getFolderList } from '../utilities/api';
@@ -25,11 +24,10 @@ const App = () => {
   const { featureToggles, user } = useSelector(state => state);
   const [unreadMessageCount, setUnreadMessageCount] = useState();
   const enabled = useSelector(isLandingPageEnabledForUser);
-  const vamcEhrData = useSelector(selectVamcEhrData);
   const profile = useSelector(selectProfile);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
-  const userHasHealthData = useSelector(hasHealthData);
+  const registered = useSelector(isVAPatient);
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
@@ -40,18 +38,11 @@ const App = () => {
       return resolveLandingPageLinks(
         ssoe,
         featureToggles,
-        unreadMessageCount,
         unreadMessageAriaLabel,
-        userHasHealthData,
+        registered,
       );
     },
-    [
-      featureToggles,
-      ssoe,
-      unreadMessageCount,
-      unreadMessageAriaLabel,
-      userHasHealthData,
-    ],
+    [featureToggles, ssoe, unreadMessageAriaLabel, registered],
   );
 
   const datadogRumConfig = {
@@ -69,8 +60,7 @@ const App = () => {
   };
   useDatadogRum(datadogRumConfig);
 
-  const loading =
-    vamcEhrData.loading || featureToggles.loading || profile.loading;
+  const loading = featureToggles.loading || profile.loading;
 
   useEffect(
     () => {

@@ -97,7 +97,7 @@ describe('AppointmentListItem', () => {
         );
         expect(
           screen.getByTestId('appointment-type-and-provider'),
-        ).to.have.text('VA Appointment with Dr. Green');
+        ).to.have.text('VA appointment with Dr. Green');
         expect(screen.getByTestId('appointment-info-clinic')).to.exist;
       });
       it('Displays appointment instructions for pre-check-in in-person appointment on confirmation page', () => {
@@ -140,7 +140,7 @@ describe('AppointmentListItem', () => {
         );
         expect(screen.getByTestId('details-link')).to.have.attribute(
           'aria-label',
-          'Details for in person VA Appointment with Dr. Green on Tuesday, November 16, 2021 at 9:39 p.m.',
+          'Details for in person VA appointment with Dr. Green on Tuesday, November 16, 2021 at 9:39 p.m.',
         );
       });
     });
@@ -160,7 +160,7 @@ describe('AppointmentListItem', () => {
         );
         expect(
           screen.getByTestId('appointment-type-and-provider'),
-        ).to.have.text('VA Appointment');
+        ).to.have.text('VA appointment');
         expect(screen.getByTestId('appointment-info-phone')).to.exist;
       });
       it('Displays appointment instructions for pre-check-in phone appointment confirmation page', () => {
@@ -189,7 +189,7 @@ describe('AppointmentListItem', () => {
         );
         expect(screen.getByTestId('details-link')).to.have.attribute(
           'aria-label',
-          'Details for Phone VA Appointment on Tuesday, November 16, 2021 at 9:39 p.m.',
+          'Details for Phone VA appointment on Tuesday, November 16, 2021 at 9:39 p.m.',
         );
       });
     });

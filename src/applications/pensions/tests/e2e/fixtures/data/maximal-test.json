@@ -170,6 +170,7 @@
         "childPlaceOfBirth": "Tallahassee, FL",
         "childSocialSecurityNumber": "333224444",
         "childRelationship": "BIOLOGICAL",
+        "disabled": false,
         "previouslyMarried": true,
         "married": true,
         "fullName": {
@@ -185,6 +186,7 @@
         "childSocialSecurityNumber": "333224444",
         "childRelationship": "ADOPTED",
         "previouslyMarried": false,
+        "disabled": false,
         "attendingCollege": true,
         "fullName": {
           "first": "Bobby",

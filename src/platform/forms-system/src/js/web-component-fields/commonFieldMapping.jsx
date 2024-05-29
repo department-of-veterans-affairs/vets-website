@@ -13,6 +13,7 @@ export default function commonFieldMapping(props) {
     inputmode: uiOptions?.inputmode,
     invalid: uiOptions?.invalid,
     label,
+    labelHeaderLevel: uiOptions?.labelHeaderLevel,
     maxlength: childrenProps.schema.maxLength,
     minlength: childrenProps.schema.minLength,
     messageAriaDescribedby: uiOptions?.messageAriaDescribedby,

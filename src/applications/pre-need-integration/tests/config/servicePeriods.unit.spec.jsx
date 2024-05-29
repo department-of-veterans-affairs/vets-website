@@ -122,7 +122,7 @@ describe('Pre-need service periods', () => {
 
   const { sponsorMilitaryHistory } = formConfig.chapters.militaryHistory.pages;
   const {
-    applicantMilitaryHistory,
+    applicantMilitaryHistorySelf,
   } = formConfig.chapters.militaryHistory.pages;
 
   describe('sponsor', () => {
@@ -130,6 +130,6 @@ describe('Pre-need service periods', () => {
   });
 
   describe('applicant', () => {
-    servicePeriodsTests(applicantMilitaryHistory);
+    servicePeriodsTests(applicantMilitaryHistorySelf);
   });
 });

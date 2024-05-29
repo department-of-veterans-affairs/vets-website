@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { formatDate } from '../../utils/helpers/general';
 import { normalizeFullName } from '../../utils/helpers';
 
 const GuestVerifiedInformation = ({ user }) => {
@@ -12,7 +12,7 @@ const GuestVerifiedInformation = ({ user }) => {
   const veteranSSN = `xxx-xx-${veteranSocialSecurityNumber.substring(
     veteranSocialSecurityNumber.length - 4,
   )}`;
-  const veteranDOB = moment(veteranDateOfBirth).format('MMMM DD, YYYY');
+  const veteranDOB = formatDate(veteranDateOfBirth, 'MMMM dd, yyyy');
   const veteranName = normalizeFullName(veteranFullName, true);
   return (
     <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">

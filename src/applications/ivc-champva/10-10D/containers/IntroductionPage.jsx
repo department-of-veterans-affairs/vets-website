@@ -125,7 +125,7 @@ class IntroductionPage extends React.Component {
 
         {loggedIn && (
           <Link
-            to="/your-information/description"
+            to="/signer"
             className="auth-start-link vads-c-action-link--green"
           >
             Start your application

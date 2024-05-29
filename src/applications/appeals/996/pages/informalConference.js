@@ -21,6 +21,7 @@ const informalConference = {
       errorMessages: {
         required: errorMessages.informalConferenceContactChoice,
       },
+      labelHeaderLevel: 3,
     }),
   },
   schema: {

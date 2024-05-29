@@ -1,33 +1,35 @@
 import merge from 'lodash/merge';
 import moment from 'moment';
-
 import {
   radioSchema,
   radioUI,
   ssnSchema,
   ssnUI,
   titleUI,
-  yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
 import {
   VaCheckboxField,
   VaTextInputField,
 } from 'platform/forms-system/src/js/web-component-fields';
-
 import get from 'platform/utilities/data/get';
-
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import createHouseholdMemberTitle from '../../../components/DisclosureTitle';
-
 import { DependentSeriouslyDisabledDescription } from '../../../helpers';
 import {
   DisabilityDocsAlert,
   SchoolAttendanceAlert,
   AdoptionEvidenceAlert,
 } from '../../../components/FormAlerts';
-
 import { doesHaveDependents, getDependentChildTitle } from './helpers';
+
+const {
+  childPlaceOfBirth,
+  attendingCollege,
+  disabled,
+  previouslyMarried,
+  married,
+} = fullSchemaPensions.properties.dependents.items.properties;
 
 const childRelationshipOptions = {
   BIOLOGICAL: "They're my biological child",
@@ -46,19 +48,10 @@ function isBetween18And23(childDOB) {
   );
 }
 
-// Checks to see if they’re under 17.75 years old
-function isEligibleForDisabilitySupport(childDOB) {
-  return moment()
-    .startOf('day')
-    .subtract(17, 'years')
-    .subtract(9, 'months')
-    .isBefore(childDOB);
-}
-
 /** @type {PageSchema} */
 export default {
-  path: 'household/dependents/children/information/:index',
   title: item => getDependentChildTitle(item, 'information'),
+  path: 'household/dependents/children/information/:index',
   depends: doesHaveDependents,
   showPagePerItem: true,
   arrayPath: 'dependents',
@@ -108,14 +101,8 @@ export default {
         },
         disabled: yesNoUI({
           title: 'Is your child seriously disabled?',
-          hideIf: (formData, index) =>
-            !isEligibleForDisabilitySupport(
-              get(['dependents', index, 'childDateOfBirth'], formData),
-            ),
           required: (formData, index) =>
-            isEligibleForDisabilitySupport(
-              get(['dependents', index, 'childDateOfBirth'], formData),
-            ),
+            get(['dependents', index, 'childDateOfBirth'], formData),
         }),
         'view:disabilityDocs': {
           'ui:description': DisabilityDocsAlert,
@@ -125,12 +112,6 @@ export default {
         },
         'view:disabilityInformation': {
           'ui:description': DependentSeriouslyDisabledDescription,
-          'ui:options': {
-            hideIf: (formData, index) =>
-              !isEligibleForDisabilitySupport(
-                get(['dependents', index, 'childDateOfBirth'], formData),
-              ),
-          },
         },
         previouslyMarried: yesNoUI({
           title: 'Has your child ever been married?',
@@ -157,20 +138,20 @@ export default {
             'previouslyMarried',
           ],
           properties: {
-            childPlaceOfBirth: { type: 'string' },
+            childPlaceOfBirth,
             childSocialSecurityNumber: ssnSchema,
             'view:noSSN': { type: 'boolean' },
             childRelationship: radioSchema(
               Object.keys(childRelationshipOptions),
             ),
             'view:adoptionDocs': { type: 'object', properties: {} },
-            attendingCollege: yesNoSchema,
+            attendingCollege,
             'view:schoolWarning': { type: 'object', properties: {} },
-            disabled: yesNoSchema,
+            disabled,
             'view:disabilityDocs': { type: 'object', properties: {} },
             'view:disabilityInformation': { type: 'object', properties: {} },
-            previouslyMarried: yesNoSchema,
-            married: yesNoSchema,
+            previouslyMarried,
+            married,
           },
         },
       },

@@ -12,7 +12,8 @@ import { BASE_URL } from '../../constants';
 import pageNames from './pageNames';
 
 const content = {
-  groupLabel: 'What type of claim are you requesting a Higher-Level Review?',
+  groupLabel:
+    'What type of claim are you requesting a Higher-Level Review for?',
   errorMessage: 'You must choose a claim type.',
 };
 

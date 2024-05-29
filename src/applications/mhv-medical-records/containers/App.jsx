@@ -28,6 +28,7 @@ import {
   selectSidenavFlag,
   selectVaccinesFlag,
   selectVitalsFlag,
+  selectSettingsPageFlag,
 } from '../util/selectors';
 import { downtimeNotificationParams } from '../util/constants';
 
@@ -49,6 +50,7 @@ const App = ({ children }) => {
   const showNotes = useSelector(selectNotesFlag);
   const showVaccines = useSelector(selectVaccinesFlag);
   const showVitals = useSelector(selectVitalsFlag);
+  const showSettingsPage = useSelector(selectSettingsPageFlag);
 
   const [isHidden, setIsHidden] = useState(true);
   const [height, setHeight] = useState(0);
@@ -122,12 +124,7 @@ const App = ({ children }) => {
             //   path: '/download-all',
             //   label: 'Download all medical records',
             //   datatestid: 'download-your-medical-records-sidebar',
-            // },
-            // {
-            //   path: '/settings',
-            //   label: 'Medical records settings',
-            //   datatestid: 'settings-sidebar',
-            // },
+            // }
           ],
         },
       ];
@@ -152,10 +149,23 @@ const App = ({ children }) => {
         'Health conditions',
       );
       addSideNavItem(navPaths, showVitals, '/vitals', 'Vitals');
+      addSideNavItem(
+        navPaths,
+        showSettingsPage,
+        '/settings',
+        'Medical records settings',
+      );
 
       setPaths(navPaths);
     },
-    [showConditions, showLabsAndTests, showNotes, showVaccines, showVitals],
+    [
+      showConditions,
+      showLabsAndTests,
+      showNotes,
+      showVaccines,
+      showVitals,
+      showSettingsPage,
+    ],
   );
 
   useEffect(
@@ -191,6 +201,24 @@ const App = ({ children }) => {
     [current],
   );
 
+  useEffect(
+    () => {
+      // If the user is not whitelisted or feature flag is disabled, redirect them.
+      if (featureTogglesLoading === false && appEnabled !== true) {
+        window.location.replace('/health-care/get-medical-records');
+      }
+    },
+    [featureTogglesLoading, appEnabled],
+  );
+
+  const isMissingRequiredService = (loggedIn, services) => {
+    if (loggedIn && !services.includes(backendServices.MEDICAL_RECORDS)) {
+      window.location.replace('/health-care/get-medical-records');
+      return true;
+    }
+    return false;
+  };
+
   if (featureTogglesLoading) {
     return (
       <div className="vads-l-grid-container">
@@ -203,19 +231,10 @@ const App = ({ children }) => {
     );
   }
 
-  // If the user is not whitelisted or feature flag is disabled, redirect them.
-  if (!appEnabled) {
-    window.location.replace('/health-care/get-medical-records');
+  if (appEnabled !== true) {
+    // If the user is not whitelisted or feature flag is disabled, return nothing.
     return <></>;
   }
-
-  const isMissingRequiredService = (loggedIn, services) => {
-    if (loggedIn && !services.includes(backendServices.MEDICAL_RECORDS)) {
-      window.location.replace('/health-care/get-medical-records');
-      return true;
-    }
-    return false;
-  };
 
   return (
     <RequiredLoginView
@@ -250,7 +269,7 @@ const App = ({ children }) => {
                 {showSideNav && (
                   <>
                     <Navigation paths={paths} data-testid="mhv-mr-navigation" />
-                    <div className="vads-u-margin-right--4" />
+                    <div className="vads-u-margin-right--4 no-print" />
                   </>
                 )}
                 <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">

@@ -7,6 +7,10 @@ import IndexLink from './IndexLink';
 export default function TabItem({ className, id, shortcut, tabpath, title }) {
   const navigate = useNavigate();
 
+  // The code if logic is a bit confusing but looks like we expect a user
+  // to click the 'Alt' key + '1' OR '2' OR '3' in order for the user to
+  // be directed to a given tab in the CST
+  // TODO: Verify we want this logic
   const tabShortcut = evt => {
     if (evt.altKey && evt.which === 48 + shortcut) {
       navigate(tabpath);

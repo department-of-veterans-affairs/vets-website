@@ -17,6 +17,8 @@ const useAlerts = dispatch => {
       if (filteredSortedAlerts.length > 0) {
         // The activeAlert is the most recent alert marked as active.
         setActiveAlert(filteredSortedAlerts[0]);
+      } else {
+        setActiveAlert(null);
       }
     },
     [alertList],
