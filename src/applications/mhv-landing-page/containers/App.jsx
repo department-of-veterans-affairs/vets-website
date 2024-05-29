@@ -13,9 +13,9 @@ import { useDatadogRum } from '../hooks/useDatadogRum';
 import {
   isAuthenticatedWithSSOe,
   isLandingPageEnabledForUser,
+  isVAPatient,
   selectProfile,
   signInServiceEnabled,
-  hasHealthData,
   selectHasMHVAccountState,
 } from '../selectors';
 import { getFolderList } from '../utilities/api';
@@ -27,7 +27,7 @@ const App = () => {
   const profile = useSelector(selectProfile);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const useSiS = useSelector(signInServiceEnabled);
-  const userHasHealthData = useSelector(hasHealthData);
+  const registered = useSelector(isVAPatient);
   const unreadMessageAriaLabel = resolveUnreadMessageAriaLabel(
     unreadMessageCount,
   );
@@ -39,10 +39,10 @@ const App = () => {
         ssoe,
         featureToggles,
         unreadMessageAriaLabel,
-        userHasHealthData,
+        registered,
       );
     },
-    [featureToggles, ssoe, unreadMessageAriaLabel, userHasHealthData],
+    [featureToggles, ssoe, unreadMessageAriaLabel, registered],
   );
 
   const datadogRumConfig = {

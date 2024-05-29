@@ -15,6 +15,7 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
 import { doesHaveMedicalExpenses } from './helpers';
+import ArrayDescription from '../../../components/ArrayDescription';
 
 const {
   childName,
@@ -45,13 +46,16 @@ export default {
   path: 'financial/medical-expenses/add',
   depends: doesHaveMedicalExpenses,
   uiSchema: {
-    ...titleUI('Add a medical or other unreimbursed expense'),
+    ...titleUI(
+      'List of medical expenses and other unreimbursed expenses',
+      <ArrayDescription message="Add a medical or other unreimbursed expense" />,
+    ),
     medicalExpenses: {
       'ui:options': {
-        itemName: 'Unreimbursed Expense',
+        itemName: 'Medical Expense',
         itemAriaLabel: data => `${data.provider} unreimbursed expense`,
         viewField: MedicalExpenseView,
-        reviewTitle: 'Unreimbursed Expenses',
+        reviewTitle: 'Medical Expenses',
         keepInPageOnReview: true,
         customTitle: ' ',
         confirmRemove: true,
