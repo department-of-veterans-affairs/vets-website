@@ -12,6 +12,7 @@ import {
   herbicideDetails,
   herbicideOtherLocations,
   herbicideSummary,
+  specifyOtherExposures,
 } from '..';
 import { TE_URL_PREFIX } from '../../constants';
 import {
@@ -103,4 +104,18 @@ export const toxicExposurePages = {
     schema: additionalExposures.schema,
   },
   ...additionalExposuresDetails.makePages(),
+  specifyOtherExposures: {
+    title: formData =>
+      teSubtitle(
+        getSelectedCount('otherExposures', formData, 'specifyOtherExposures'),
+        getSelectedCount('otherExposures', formData, 'specifyOtherExposures'),
+        getOtherFieldDescription(formData, 'specifyOtherExposures'),
+        'Hazard',
+      ),
+    path: `${TE_URL_PREFIX}/additional-exposure-other`,
+    depends: formData =>
+      getOtherFieldDescription(formData, 'specifyOtherExposures'),
+    uiSchema: specifyOtherExposures.uiSchema,
+    schema: specifyOtherExposures.schema,
+  },
 };

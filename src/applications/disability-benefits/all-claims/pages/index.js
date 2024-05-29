@@ -89,6 +89,7 @@ import * as separationPay from './separationPay';
 import * as serviceTreatmentRecords from './serviceTreatmentRecords';
 import * as serviceTreatmentRecordsAttachments from './serviceTreatmentRecordsAttachments';
 import * as socialBehaviorChanges from './socialBehaviorChanges';
+import * as specifyOtherExposures from './toxicExposure/specifyOtherExposures';
 import * as summaryOfDisabilities from './summaryOfDisabilities';
 import * as summaryOfEvidence from './summaryOfEvidence';
 import * as supplementalBenefits from './supplementalBenefits';
@@ -206,6 +207,7 @@ export {
   serviceTreatmentRecords,
   serviceTreatmentRecordsAttachments,
   socialBehaviorChanges,
+  specifyOtherExposures,
   summaryOfDisabilities,
   summaryOfEvidence,
   supplementalBenefits,

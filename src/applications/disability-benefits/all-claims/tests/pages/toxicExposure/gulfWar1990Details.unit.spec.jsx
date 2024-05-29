@@ -7,7 +7,7 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { makePages } from '../../../pages/toxicExposure/gulfWar1990Details';
 import {
-  dateRangeDescription,
+  dateRangeDescriptionWithLocation,
   endDateApproximate,
   gulfWar1990PageTitle,
   startDateApproximate,
@@ -45,7 +45,7 @@ describe('gulfWar1990Details', () => {
         );
 
         getByText(gulfWar1990PageTitle);
-        getByText(dateRangeDescription);
+        getByText(dateRangeDescriptionWithLocation);
 
         const addlInfo = container.querySelector('va-additional-info');
         expect(addlInfo).to.have.attribute(

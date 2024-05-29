@@ -7,11 +7,11 @@ import {
   additionalExposuresPageTitle,
   dateRangeAdditionalInfo,
   dateRangePageDescription,
-  endDateApproximate,
+  exposureEndDateApproximate,
+  exposureStartDateApproximate,
   getKeyIndex,
   getSelectedCount,
   showCheckboxLoopDetailsPage,
-  startDateApproximate,
   teSubtitle,
 } from '../../content/toxicExposure';
 import { ADDITIONAL_EXPOSURES, TE_URL_PREFIX } from '../../constants';
@@ -35,10 +35,10 @@ function makeUiSchema(itemId) {
       otherExposuresDetails: {
         [itemId]: {
           startDate: currentOrPastDateUI({
-            title: startDateApproximate,
+            title: exposureStartDateApproximate,
           }),
           endDate: currentOrPastDateUI({
-            title: endDateApproximate,
+            title: exposureEndDateApproximate,
           }),
         },
       },
@@ -96,7 +96,7 @@ export function makePages() {
               getSelectedCount(
                 'otherExposures',
                 formData,
-                'specifyOtherExposres',
+                'specifyOtherExposures',
               ),
               ADDITIONAL_EXPOSURES[itemId],
               'Hazard',

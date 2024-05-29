@@ -5,7 +5,7 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import formConfig from '../../../config/form';
 import {
-  dateRangeDescription,
+  dateRangeDescriptionWithLocation,
   endDateApproximate,
   herbicidePageTitle,
   startDateApproximate,
@@ -36,7 +36,7 @@ describe('Herbicide Other Locations', () => {
     );
 
     getByText(herbicidePageTitle);
-    getByText(dateRangeDescription);
+    getByText(dateRangeDescriptionWithLocation);
 
     const addlInfo = container.querySelector('va-additional-info');
     expect(addlInfo).to.have.attribute(

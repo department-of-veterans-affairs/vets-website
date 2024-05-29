@@ -72,9 +72,13 @@ export const dateRangeAdditionalInfo = (
   </va-additional-info>
 );
 
-export const dateRangeDescription =
+export const dateRangeDescriptionWithLocation =
   'Enter any date range you served in this location. You don’t need to have exact dates.';
+export const dateRangeDescriptionWithHazard =
+  'Enter any date range you were exposed to this hazard. You don’t need to have exact dates.';
 export const startDateApproximate = 'Service start date (approximate)';
+export const exposureStartDateApproximate = 'Exposure start date (approximate)';
+export const exposureEndDateApproximate = 'Exposure end date (approximate)';
 export const endDateApproximate = 'Service end date (approximate)';
 export const goBackLink = 'Edit locations and dates';
 export const noDatesEntered = 'No dates entered';
@@ -131,7 +135,11 @@ export function dateRangePageDescription(
   return (
     <>
       {subtitle}
-      <p>{dateRangeDescription}</p>
+      <p>
+        {itemName === 'Location'
+          ? dateRangeDescriptionWithLocation
+          : dateRangeDescriptionWithHazard}
+      </p>
     </>
   );
 }
@@ -354,8 +362,8 @@ export function getKeyIndex(key, objectName, formData) {
  * by the Veteran
  *
  * @param {string} checkboxObjectName - name of the checkbox object to look at in the form data
- * @param {string} otherFieldName - name of the 'other' field to look at in the form data
  * @param {object} formData - full formData for the form
+ * @param {string} otherFieldName - name of the 'other' field to look at in the form data
  * @returns {number} count of checkboxes with a value of true
  */
 export function getSelectedCount(

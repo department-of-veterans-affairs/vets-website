@@ -8,7 +8,7 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { makePages } from '../../../pages/toxicExposure/herbicideDetails';
 import { HERBICIDE_LOCATIONS } from '../../../constants';
 import {
-  dateRangeDescription,
+  dateRangeDescriptionWithLocation,
   endDateApproximate,
   herbicidePageTitle,
   startDateApproximate,
@@ -45,7 +45,7 @@ describe('herbicideDetails', () => {
         );
 
         getByText(herbicidePageTitle);
-        getByText(dateRangeDescription);
+        getByText(dateRangeDescriptionWithLocation);
 
         const addlInfo = container.querySelector('va-additional-info');
         expect(addlInfo).to.have.attribute(

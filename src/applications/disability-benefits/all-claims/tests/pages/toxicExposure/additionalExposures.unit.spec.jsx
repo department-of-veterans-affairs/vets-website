@@ -11,8 +11,8 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import { checkVaCheckbox } from '@department-of-veterans-affairs/platform-testing/helpers';
 import formConfig from '../../../config/form';
 import {
+  additionalExposuresPageTitle,
   additionalExposuresQuestion,
-  additionalExposuresTitle,
   noneAndHazardError,
   specifyOtherExposuresLabel,
 } from '../../../content/toxicExposure';
@@ -29,7 +29,7 @@ describe('Additional Exposures', () => {
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
     );
 
-    getByText(additionalExposuresTitle);
+    getByText(additionalExposuresPageTitle);
 
     expect($$('va-checkbox-group', container).length).to.equal(1);
     expect($('va-checkbox-group', container).getAttribute('label')).to.equal(

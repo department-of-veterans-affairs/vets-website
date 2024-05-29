@@ -9,9 +9,9 @@ import { makePages } from '../../../pages/toxicExposure/additionalExposuresDetai
 import { ADDITIONAL_EXPOSURES } from '../../../constants';
 import {
   additionalExposuresPageTitle,
-  dateRangeDescription,
-  endDateApproximate,
-  startDateApproximate,
+  dateRangeDescriptionWithHazard,
+  exposureEndDateApproximate,
+  exposureStartDateApproximate,
 } from '../../../content/toxicExposure';
 
 /**
@@ -44,7 +44,7 @@ describe('additional exposures details', () => {
         );
 
         getByText(additionalExposuresPageTitle);
-        getByText(dateRangeDescription);
+        getByText(dateRangeDescriptionWithHazard);
 
         const addlInfo = container.querySelector('va-additional-info');
         expect(addlInfo).to.have.attribute(
@@ -53,10 +53,17 @@ describe('additional exposures details', () => {
         );
 
         expect(
-          $(`va-memorable-date[label="${startDateApproximate}"]`, container),
+          $(
+            `va-memorable-date[label="${exposureStartDateApproximate}"]`,
+            container,
+          ),
         ).to.exist;
-        expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
-          .to.exist;
+        expect(
+          $(
+            `va-memorable-date[label="${exposureEndDateApproximate}"]`,
+            container,
+          ),
+        ).to.exist;
 
         if (itemId === 'asbestos') {
           getByText(`Hazard 1 of 2: ${ADDITIONAL_EXPOSURES.asbestos}`, {
