@@ -149,6 +149,21 @@ const templateLayoutToDevTemplate = {
 };
 
 /**
+ * Retrieves the development template path for a given content-build layout
+ *
+ * @param {String} templateLayout - The content-build layout file that the
+ * development template is simulating
+ * @return {String} - The path to the development template. Falls back to the
+ * default development template if no specific alternative template is found.
+ */
+function getDevTemplate(templateLayout) {
+  return (
+    templateLayoutToDevTemplate[templateLayout] ||
+    'src/platform/landing-pages/dev-template.ejs'
+  );
+}
+
+/**
  * Generates HTML files for each app and widget.
  *
  * @param {String} buildPath - Path to the overall build destination.
@@ -215,9 +230,7 @@ function generateHtmlFiles(buildPath, scaffoldAssets) {
       filename: path.join(buildPath, rootUrl, 'index.html'),
       inject: false,
       scriptLoading: 'defer',
-      template:
-        templateLayoutToDevTemplate[template.layout] ||
-        'src/platform/landing-pages/dev-template.ejs',
+      template: getDevTemplate(template.layout),
       templateParameters: {
         // Menu and navigation content
         headerFooterData,
