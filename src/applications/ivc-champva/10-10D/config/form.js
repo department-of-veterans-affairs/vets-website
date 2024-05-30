@@ -631,7 +631,11 @@ const formConfig = {
           showPagePerItem: true,
           keepInPageOnReview: false,
           title: item => `${applicantWording(item)} mailing address`,
-          depends: (formData, index) => index && index > 0,
+          // Only show if we have addresses to pull from:
+          depends: (formData, index) =>
+            (index && index > 0) || // We will have app0's address
+            (get('street', formData?.certifierAddress) ||
+              get('street', formData?.sponsorAddress)),
           CustomPage: ApplicantAddressCopyPage,
           CustomPageReview: null,
           uiSchema: {
