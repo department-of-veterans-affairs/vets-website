@@ -54,6 +54,7 @@ export const PROFILE_PATHS = Object.freeze({
   ACCOUNT_SECURITY: '/profile/account-security',
   CONTACTS: '/profile/contacts',
   EDIT: '/profile/edit',
+  BENEFITS_PROFILE: '/profile/benefits-profile',
 });
 
 export const PROFILE_PATH_NAMES = Object.freeze({
@@ -67,6 +68,7 @@ export const PROFILE_PATH_NAMES = Object.freeze({
   ACCOUNT_SECURITY: 'Account security',
   CONTACTS: 'Personal health care contacts',
   EDIT: 'Edit your information',
+  BENEFITS_PROFILE: 'Benefits profile',
 });
 
 export const PROFILE_PATHS_WITH_NAMES = Object.entries(PROFILE_PATHS).map(

@@ -18,7 +18,7 @@ import Headline from '../ProfileSectionHeadline';
 import ContactInformationContent from './ContactInformationContent';
 
 import { PROFILE_PATHS } from '../../constants';
-
+import ChangeOfAddressWrapper from '../direct-deposit/vye/containers/ChangeOfAddressWrapper';
 // drops the leading `edit` from the hash and looks for that element
 const getScrollTarget = hash => {
   const hashWithoutLeadingEdit = hash.replace(/^#edit-/, '#');
@@ -141,6 +141,7 @@ const ContactInformation = () => {
           hasVAPServiceError={hasVAPServiceError}
           showBadAddress={showFormBadAddressAlert}
         />
+        <ChangeOfAddressWrapper />
       </DowntimeNotification>
     </>
   );
