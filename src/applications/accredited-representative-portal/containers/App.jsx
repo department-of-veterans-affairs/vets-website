@@ -1,6 +1,6 @@
 import ENVIRONMENTS from 'site/constants/environments';
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector, connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom-v5-compat';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
@@ -10,11 +10,13 @@ import Footer from '../components/common/Footer/Footer';
 
 const selectUserProfile = state => state.user?.profile;
 const selectUserIsLoading = state => state.user?.isLoading;
+const selectFeatureToggles = state => state.featureToggles;
 
 function App() {
   const dispatch = useDispatch();
   const profile = useSelector(selectUserProfile);
   const isLoading = useSelector(selectUserIsLoading);
+  const featureToggles = useSelector(selectFeatureToggles);
 
   useEffect(
     () => {
@@ -28,8 +30,13 @@ function App() {
     useToggleLoadingValue,
     TOGGLE_NAMES,
   } = useFeatureToggle();
+  console.log('featureToggles state:', featureToggles);
 
   const isAppToggleLoading = useToggleLoadingValue();
+  console.log(
+    'isAppEnabled',
+    useToggleValue(TOGGLE_NAMES.accreditedRepresentativePortalFrontend),
+  );
   const isAppEnabled = useToggleValue(
     TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
   );

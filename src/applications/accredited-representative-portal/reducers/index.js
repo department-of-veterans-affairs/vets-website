@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux';
-import ArfUserInformation from './user';
+import { FeatureToggleReducer } from 'platform/site-wide/feature-toggles/reducers';
+
+import user from './user';
 
 const rootReducer = combineReducers({
-  user: ArfUserInformation,
+  user,
+  featureToggles: FeatureToggleReducer,
 });
 
 export default rootReducer;

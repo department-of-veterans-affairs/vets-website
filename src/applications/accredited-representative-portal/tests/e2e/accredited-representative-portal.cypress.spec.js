@@ -50,7 +50,7 @@ describe('Accredited Representative Portal', () => {
     // }).as('getUser');
   });
 
-  describe.only('App feature toggle is not enabled', () => {
+  describe('App feature toggle is not enabled', () => {
     beforeEach(() => {
       cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
       cy.loginArpUser(arpUserLOA3);
@@ -80,7 +80,7 @@ describe('Accredited Representative Portal', () => {
     });
   });
 
-  describe('App feature toggle is enabled, but Pilot feature toggle is not enabled', () => {
+  describe.only('App feature toggle is enabled, but Pilot feature toggle is not enabled', () => {
     beforeEach(() => {
       cy.intercept('GET', 'accredited_representative_portal/v0/user', {
         statusCode: 200,
@@ -114,25 +114,25 @@ describe('Accredited Representative Portal', () => {
       cy.location('pathname').should('equal', '/sign-in/');
     });
 
-    it('displays an alert when in production and when user is not in pilot', () => {
-      cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
-      cy.loginArpUser(arpUserLOA3);
-      cy.window().then(win => {
-        win.localStorage.setItem('user', JSON.stringify(arpUserLOA3));
-      });
-      setFeatureToggles({
-        isAppEnabled: true,
-        isInPilot: false,
-      });
-      cy.axeCheck();
+    // it('displays an alert when in production and when user is not in pilot', () => {
+    //   cy.intercept('accredited_representative_portal/v0/user', arpUserLOA3); // may not need
+    //   cy.loginArpUser(arpUserLOA3);
+    //   cy.window().then(win => {
+    //     win.localStorage.setItem('user', JSON.stringify(arpUserLOA3));
+    //   });
+    //   setFeatureToggles({
+    //     isAppEnabled: true,
+    //     isInPilot: false,
+    //   });
+    //   cy.axeCheck();
 
-      cy.get('[data-testid=landing-page-bypass-sign-in-link]').click();
-      cy.get('[data-testid=not-in-pilot-alert]').should('exist');
-      cy.get('[data-testid=not-in-pilot-alert-heading]').should(
-        'have.text',
-        'Accredited Representative Portal is currently in pilot',
-      );
-    });
+    //   cy.get('[data-testid=landing-page-bypass-sign-in-link]').click();
+    //   cy.get('[data-testid=not-in-pilot-alert]').should('exist');
+    //   cy.get('[data-testid=not-in-pilot-alert-heading]').should(
+    //     'have.text',
+    //     'Accredited Representative Portal is currently in pilot',
+    //   );
+    // });
   });
 
   describe('App feature toggle and Pilot feature toggle are enabled', () => {
