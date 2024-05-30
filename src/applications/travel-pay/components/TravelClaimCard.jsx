@@ -16,7 +16,7 @@ export default function TravelClaimCard(props) {
     createdOn,
     claimStatus,
     claimNumber,
-    appointmentDateTime,
+    appointmentDate: appointmentDateTime,
     facilityName,
     modifiedOn,
   } = props;
@@ -51,7 +51,7 @@ export default function TravelClaimCard(props) {
 }
 
 TravelClaimCard.propTypes = {
-  appointmentDateTime: PropTypes.string,
+  appointmentDate: PropTypes.string,
   claimNumber: PropTypes.string,
   claimStatus: PropTypes.string,
   createdOn: PropTypes.string,
