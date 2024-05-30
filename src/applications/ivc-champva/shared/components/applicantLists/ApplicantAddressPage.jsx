@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import _ from 'lodash';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -31,6 +32,39 @@ export function ApplicantAddressCopyPage({
   function fullName(name) {
     return `${name?.first} ${name?.middle || ''} ${name?.last} ${name?.suffix ||
       ''}`;
+  }
+
+  /**
+   * Toggles specific object property from string to JSON within an array of objects
+   *
+   * E.g., for array:
+   * `array = [
+   *   { name: 'jim', address: {street: '123'}},
+   * ]`
+   *
+   * calling `parseOrStringifyProperty(array, 'address')`
+   *
+   * would yield:
+   * `[{name: 'jim', address: '{"street":"123"}'}]`
+   *
+   * and calling `parseOrStringifyProperty(array, 'address', false)` would
+   * return that result to its original form.
+   *
+   * @param {*} arrOfObj List containing objects
+   * @param {*} keyname Target property we want to either stringify or parse
+   * @param {*} toS True (default) if we want to stringify; false if we want to parse to JSON
+   * @returns original array with each object's [property] either stringified or parsed to JSON
+   */
+  function parseOrStringifyProperty(arrOfObj, keyname, toS = true) {
+    return arrOfObj.map(o => {
+      const obj = o;
+      if (toS) {
+        obj[keyname] = JSON.stringify(obj[keyname]);
+      } else if (typeof obj[keyname] === 'string') {
+        obj[keyname] = JSON.parse(obj[keyname]);
+      }
+      return obj;
+    });
   }
 
   function isValidOrigin(person) {
@@ -67,7 +101,17 @@ export function ApplicantAddressCopyPage({
         displayText: app.applicantAddress?.street,
       }),
     );
-    return allAddresses;
+    // Drop any entries with duplicate addresses (convert to str for easy comparison)
+    const uniqueAddresses = _.uniqBy(
+      parseOrStringifyProperty(allAddresses, 'originatorAddress'),
+      'originatorAddress',
+    );
+    // Revert str to live obj and return
+    return parseOrStringifyProperty(
+      uniqueAddresses,
+      'originatorAddress',
+      false,
+    );
   }
 
   const handlers = {
