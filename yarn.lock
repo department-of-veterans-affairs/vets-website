@@ -2883,6 +2883,14 @@
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     rimraf "^5.0.5"
 
+"@department-of-veterans-affairs/css-library@^0.7.3":
+  version "0.7.3"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.7.3.tgz#91673fe8a620addc5a83c2d744fbfba9332d83de"
+  integrity sha512-Sy/d+MhD0W/33DPrF/KBosukMHGK6grkTmbc0SdpdyrYpUDIdj5UqJspHGf1K6NW8zKtmlt72s8IVjxUKhW7Fw==
+  dependencies:
+    "@divriots/style-dictionary-to-figma" "^0.4.0"
+    rimraf "^5.0.5"
+
 "@department-of-veterans-affairs/eslint-plugin@^1.18.0":
   version "1.18.0"
   resolved "https://registry.npmjs.org/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.18.0.tgz#4a013cfc06f50ee6abddec2ba87244e3ea0c8dc0"
