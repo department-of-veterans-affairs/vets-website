@@ -18,8 +18,20 @@ describe('ReplyDrafts component', () => {
     replyMessage,
     setLastFocusableElement: () => {},
     signature: 'signature',
+    isEditing: true,
+    setIsEditing: () => {},
   };
-  const defaultState = { sm: { folders: { folder: { folderId: 0 } } } };
+  const defaultState = {
+    sm: {
+      folders: { folder: { folderId: 0 } },
+      threadDetails: {
+        drafts: drafts.map(d => {
+          return { ...d, isSaving: false, saveError: null, lastSaveTime: null };
+        }),
+        isSaving: false,
+      },
+    },
+  };
   const setup = ({ initialState = defaultState, props = defaultProps }) =>
     renderWithStoreAndRouter(<ReplyDrafts {...props} />, {
       initialState,
@@ -58,8 +70,27 @@ describe('ReplyDrafts component', () => {
       replyMessage: threadWithMultipleDrafts.threadDetails.messages[0],
       setLastFocusableElement: () => {},
       signature: 'signature',
+      isEditing: true,
+      setIsEditing: () => {},
+    };
+    const customState = {
+      sm: {
+        folders: { folder: { folderId: 0 } },
+        threadDetails: {
+          drafts: threadWithMultipleDrafts.threadDetails.drafts.map(d => {
+            return {
+              ...d,
+              isSaving: false,
+              saveError: null,
+              lastSaveTime: null,
+            };
+          }),
+          isSaving: false,
+        },
+      },
     };
     const { getByText } = setup({
+      initialState: customState,
       props: customProps,
     });
 
@@ -118,8 +149,27 @@ describe('ReplyDrafts component', () => {
       cannotReply: true,
       drafts: threadWithMultipleDrafts.threadDetails.drafts,
       replyMessage: threadWithMultipleDrafts.threadDetails.messages[0],
+      isEditing: true,
+      setIsEditing: () => {},
+    };
+    const customState = {
+      sm: {
+        folders: { folder: { folderId: 0 } },
+        threadDetails: {
+          drafts: threadWithMultipleDrafts.threadDetails.drafts.map(d => {
+            return {
+              ...d,
+              isSaving: false,
+              saveError: null,
+              lastSaveTime: null,
+            };
+          }),
+          isSaving: false,
+        },
+      },
     };
     const { getByText } = setup({
+      initialState: customState,
       props: customProps,
     });
 

@@ -107,6 +107,7 @@ describe('draftDetails actions', () => {
       .then(() => {
         expect(store.getActions()).to.deep.include({
           type: Actions.Thread.DRAFT_SAVE_STARTED,
+          payload: { messageId: undefined },
         });
         expect(store.getActions()).to.deep.include({
           type: Actions.Draft.CREATE_SUCCEEDED,
@@ -157,6 +158,7 @@ describe('draftDetails actions', () => {
       .then(() => {
         expect(store.getActions()).to.deep.include({
           type: Actions.Thread.DRAFT_SAVE_STARTED,
+          payload: { messageId: undefined },
         });
         expect(store.getActions()).to.deep.include({
           type: Actions.Draft.CREATE_SUCCEEDED,

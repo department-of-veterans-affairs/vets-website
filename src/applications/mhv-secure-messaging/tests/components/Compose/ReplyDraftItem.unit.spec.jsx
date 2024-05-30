@@ -26,7 +26,22 @@ describe('ReplyDraftItem component', () => {
     replyMessage,
     replyToName,
   };
-  const defaultState = { sm: { folders: { folder: { folderId: 0 } } } };
+  const defaultState = {
+    sm: {
+      folders: { folder: { folderId: 0 } },
+      threadDetails: {
+        drafts: [
+          {
+            ...draft,
+            isSaving: false,
+            saveError: null,
+            lastSaveTime: null,
+          },
+        ],
+        isSaving: false,
+      },
+    },
+  };
 
   const setup = ({ initialState = defaultState, props = defaultProps }) =>
     renderWithStoreAndRouter(<ReplyDraftItem {...props} />, {
@@ -68,7 +83,22 @@ describe('ReplyDraftItem component', () => {
   });
 
   it('dispays "Saving..." message on draft save', async () => {
-    const customState = { sm: { threadDetails: { isSaving: true } } };
+    const customState = {
+      sm: {
+        folders: { folder: { folderId: 0 } },
+        threadDetails: {
+          drafts: [
+            {
+              ...draft,
+              isSaving: true,
+              saveError: null,
+              lastSaveTime: null,
+            },
+          ],
+          isSaving: true,
+        },
+      },
+    };
 
     const { getByText } = setup({
       initialState: customState,
@@ -83,7 +113,17 @@ describe('ReplyDraftItem component', () => {
     const lastSaveTime = '2021-04-01T19:20:30.000Z';
     const customState = {
       sm: {
+        folders: { folder: { folderId: 0 } },
         threadDetails: {
+          drafts: [
+            {
+              ...draft,
+              isSaving: false,
+              saveError: null,
+              lastSaveTime,
+            },
+          ],
+          isSaving: false,
           lastSaveTime,
         },
       },
