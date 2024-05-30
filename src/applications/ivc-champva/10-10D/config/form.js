@@ -712,7 +712,7 @@ const formConfig = {
           path: 'applicant-gender/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} gender`,
+          title: item => `${applicantWording(item)} sex listed at birth`,
           CustomPage: ApplicantGenderPage,
           CustomPageReview: ApplicantGenderReviewPage,
           uiSchema: {
