@@ -26,7 +26,12 @@ export default function SubmittedTrackedItem({ item }) {
         documents.map((doc, index) => (
           <div key={index} className="submission-description">
             <span className="claim-item-label">File:</span>{' '}
-            <span data-dd-privacy="mask">{doc.originalFileName}</span>
+            <span
+              className="submission-description-filename"
+              data-dd-privacy="mask"
+            >
+              {doc.originalFileName}
+            </span>
             <br />
             <span className="claim-item-label">Type:</span>{' '}
             {doc.documentTypeLabel}

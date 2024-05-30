@@ -77,12 +77,14 @@ export default function AppealListItem({ appeal, name }) {
           <p>
             {appeal.attributes.issues.length === 1 ? 'Issue' : 'Issues'} on
             {isAppeal ? ' appeal' : ' review'}:{' '}
-            <span data-dd-privacy="mask">{appeal.attributes.description}</span>
+            <span className="masked-issue" data-dd-privacy="mask">
+              {appeal.attributes.description}
+            </span>
           </p>
         )}
         <p>
           Status:{' '}
-          <span data-dd-privacy="mask">
+          <span className="masked-issue" data-dd-privacy="mask">
             {getStatusContents(appeal, name).title}
           </span>
         </p>

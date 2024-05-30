@@ -592,4 +592,41 @@ describe('<AddFilesForm>', () => {
     // VaTextInput has a name prop set to 'password'
     expect(tree.everySubTree('*', byName('password'))[0]).to.exist;
   });
+
+  it('should mask filenames from Datadog (no PII)', () => {
+    const fileFormProps = {
+      field: { value: '', dirty: false },
+      files: [
+        {
+          file: {
+            size: 20,
+            name: 'something.jpeg',
+          },
+          docType: 'L501',
+        },
+      ],
+      onSubmit: () => {},
+      onAddFile: () => {},
+      onRemoveFile: () => {},
+      onFieldChange: () => {},
+      onCancel: () => {},
+      removeFile: () => {},
+      onDirtyFields: () => {},
+    };
+    const files = [
+      {
+        file: {
+          size: 20,
+          name: 'something.jpeg',
+        },
+        docType: 'L501',
+      },
+    ];
+    const { container } = render(
+      <AddFilesForm {...fileFormProps} files={files} />,
+    );
+    expect(
+      $('.document-title', container).getAttribute('data-dd-privacy'),
+    ).to.equal('mask');
+  });
 });

@@ -9,7 +9,11 @@ const Issues = ({ issues, isAppeal }) => {
   const withdrawn = issues.filter(i => i.status === 'withdrawn');
 
   const getListItems = (item, i) => (
-    <li key={`${item.status}-${i}`} data-dd-privacy="mask">
+    <li
+      className="issue-item"
+      key={`${item.status}-${i}`}
+      data-dd-privacy="mask"
+    >
       {item.description}
     </li>
   );
