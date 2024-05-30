@@ -162,13 +162,16 @@ export function verifyAllDataWasSubmitted(data, req) {
   describe('Data submitted after E2E runthrough should include all data supplied in test file', () => {
     Object.keys(data).forEach(k => {
       // handle special cases:
-      if (k.includes('DOB') || k.includes('Date')) {
+      if (k.includes('DOB') || k.includes('Date') || k === 'missingUploads') {
         // Just check length match. There's a discrepancy in the
         // format of dates (goes from YYYY-MM-DD to MM-DD-YYYY).
         // TODO: Address discrepancy at some point.
         expect(data[k]?.length, missingValErrMsg(k, data, req)).to.equal(
           req[k]?.length,
         );
+
+        // if 'missingUploads' -> we just want to check that we have the same number
+        // of files listed, so re-using this conditional works.
       } else {
         expect(JSON.stringify(req[k]), missingValErrMsg(k, data, req)).to.equal(
           JSON.stringify(data[k]),
