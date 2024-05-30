@@ -59,7 +59,6 @@ const BenefitsProfileWrapper = ({ children }) => {
   }, []);
 
   const { signIn } = userData;
-
   return (
     <>
       <div />
