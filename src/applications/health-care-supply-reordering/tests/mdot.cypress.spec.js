@@ -8,12 +8,19 @@ import happyPath from './data/users/gregUserData.json';
 import noTempAddress from './data/users/markUserData.json';
 import noBatteries from './data/users/jerryUserData.json';
 import noAccessories from './data/users/eddieUserData.json';
+import USTerritory from './data/users/johnUserData.json';
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'testData',
 
-    dataSets: ['happyPath', 'noTempAddress', 'noBatteries', 'noAccessories'],
+    dataSets: [
+      'happyPath',
+      'noTempAddress',
+      'noBatteries',
+      'noAccessories',
+      'USTerritory',
+    ],
 
     fixtures: {
       data: path.join(__dirname, 'data'),
@@ -126,6 +133,25 @@ const testConfig = createTestConfig(
           ];
         } else if (testKey === 'noTempAddress') {
           cy.intercept('GET', '/v0/user', noTempAddress);
+          postData = [
+            {
+              status: 'Order Processed',
+              orderId: 2329,
+              productId: 1,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2330,
+              productId: 3,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2331,
+              productId: 5,
+            },
+          ];
+        } else if (testKey === 'USTerritory') {
+          cy.intercept('GET', '/v0/user', USTerritory);
           postData = [
             {
               status: 'Order Processed',
