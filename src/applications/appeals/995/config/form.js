@@ -67,7 +67,7 @@ import submitForm from './submitForm';
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
 
-import { focusEvidence, focusUploads } from '../utils/focus';
+import { focusEvidence } from '../utils/focus';
 
 import submissionError from '../../shared/content/submissionError';
 import GetFormHelp from '../../shared/content/GetFormHelp';
@@ -278,7 +278,7 @@ const formConfig = {
           depends: hasOtherEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,
-          scrollAndFocusTarget: focusUploads,
+          scrollAndFocusTarget: focusH3,
         },
         evidenceSummary: {
           title: 'Summary of evidence',
