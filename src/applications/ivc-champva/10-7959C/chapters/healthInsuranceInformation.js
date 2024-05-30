@@ -239,6 +239,51 @@ export function applicantInsuranceEOBSchema(isPrimary) {
   };
 }
 
+export function applicantInsuranceSOBSchema(isPrimary) {
+  const val = isPrimary ? 'primary' : 'secondary';
+  const keyname = isPrimary
+    ? 'primaryInsuranceScheduleOfBenefits'
+    : 'secondaryInsuranceScheduleOfBenefits';
+  return {
+    uiSchema: {
+      ...titleUI(
+        ({ formData, formContext }) =>
+          `Upload ${
+            isPrimary
+              ? formData?.applicantPrimaryProvider
+              : formData?.applicantSecondaryProvider
+          } ${val} schedule of benefits ${isRequiredFile(
+            formContext,
+            requiredFiles,
+          )}`,
+        () => {
+          return (
+            <>
+              You’ll need to submit a copy of the card or document that shows
+              the schedule of benefits that lists your co-payments.
+              <br />
+              If you don’t have a copy to upload now, you can send it by mail or
+              fax
+            </>
+          );
+        },
+      ),
+      ...fileUploadBlurb,
+      [keyname]: fileUploadUI({
+        label: 'Upload schedule of benefits document',
+      }),
+    },
+    schema: {
+      type: 'object',
+      properties: {
+        titleSchema,
+        'view:fileUploadBlurb': blankSchema,
+        [keyname]: fileWithMetadataSchema([`Schedule of benefits card`]),
+      },
+    },
+  };
+}
+
 export function applicantInsuranceTypeSchema(isPrimary) {
   const keyname = isPrimary
     ? 'applicantPrimaryInsuranceType'
