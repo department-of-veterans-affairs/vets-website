@@ -20,7 +20,6 @@ describe('Contact information', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('input[id="root_fullName"]').type('Jhon Doe');
     cy.get('[id="root_countryCodeIso3"]').select('United States');
     cy.get('input[id="root_addressLine1"]').type('322 26th ave apt 1');
     cy.get('input[id="root_city"]').type('San Francisco');
@@ -54,10 +53,6 @@ describe('Contact information', () => {
     cy.get(
       '[class="vads-u-margin-y--2 vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans"]',
     ).should('contain', 'Change mailing address');
-    cy.get('[id="root_fullName-label"]').should(
-      'contain',
-      "Veteran's full name",
-    );
   });
   it('Should shows error if one if requried field is missing', () => {
     cy.injectAxeThenAxeCheck();
@@ -145,9 +140,9 @@ describe('Contact information', () => {
     cy.get('va-button[uswds]')
       .last()
       .click({ force: true });
-    cy.get('[id="root_fullName-label"]').should(
+    cy.get('[for="root_view:livesOnMilitaryBase"]').should(
       'contain',
-      "Veteran's full name",
+      'I live on a United States military base outside of the U.S.',
     );
   });
   it('should show warning alert if user hits cancel after editing form and it should close alert and form when user clicks Yes, cancel my changes', () => {

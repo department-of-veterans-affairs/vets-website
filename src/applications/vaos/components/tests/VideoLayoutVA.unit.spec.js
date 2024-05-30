@@ -30,7 +30,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
     },
     featureToggles: {
       vaOnlineSchedulingAppointmentDetailsRedesign: true,
-      vaOnlineSchedulingPhysicalLocation: true,
     },
   };
 
