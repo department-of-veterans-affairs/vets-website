@@ -30,6 +30,12 @@
     "applicantDOB": "2001-03-02",
     "missingUploads": [
       {
+        "name": "primaryInsuranceScheduleOfBenefits",
+        "path": "insurance-sob",
+        "required": false,
+        "uploaded": false
+      },
+      {
         "name": "primaryInsuranceCard",
         "path": "insurance-upload",
         "required": true,

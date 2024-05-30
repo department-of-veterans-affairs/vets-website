@@ -125,4 +125,12 @@ describe('<Issues/>', () => {
     expect(activePanel.find('h3').text()).to.equal('Currently on review');
     wrapper.unmount();
   });
+
+  it('should should mask Issue details in DataDog (no PII)', () => {
+    const wrapper = shallow(<Issues {...oneOpenIssue} />);
+    expect(wrapper.find('.issue-item').props()['data-dd-privacy']).to.equal(
+      'mask',
+    );
+    wrapper.unmount();
+  });
 });
