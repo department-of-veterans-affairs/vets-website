@@ -102,7 +102,7 @@ describe('check-in', () => {
         expect(component.getByTestId('travelPayVehicle')).to.have.text('yes');
         expect(component.getByTestId('travelPayEligible')).to.have.text('yes');
         expect(component.getByTestId('travelPayData')).to.have.text(
-          '2022-08-12',
+          '2022-08-12T15:15:00Z',
         );
       });
     });
