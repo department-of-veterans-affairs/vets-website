@@ -299,6 +299,7 @@ export const formatRecipient = recipient => {
     blockedStatus: recipient.attributes.blockedStatus,
     preferredTeam: recipient.attributes.preferredTeam,
     relationshipType: recipient.attributes.relationshipType,
+    signatureRequired: recipient.attributes.signatureRequired,
     type: Recipients.CARE_TEAM,
     status: recipient.attributes.blockedStatus
       ? RecipientStatus.BLOCKED
