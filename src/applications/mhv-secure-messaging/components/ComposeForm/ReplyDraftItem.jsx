@@ -439,7 +439,7 @@ const ReplyDraftItem = props => {
           <div className="vads-u-margin-right--0p5 vads-u-margin-top--0p25">
             <va-icon icon="undo" aria-hidden="true" />
           </div>
-          <span className="thread-list-draft reply-draft-label vads-u-padding-right--0p5">
+          <span className="thread-list-draft reply-draft-label vads-u-padding-right--2">
             {`Draft ${draftSequence ? `${draftSequence} ` : ''}`}
           </span>
           {`To: ${replyToName}\n(Team: ${draft?.triageGroupName ||
