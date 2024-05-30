@@ -57,8 +57,10 @@ const ComposeForm = props => {
   const [bodyError, setBodyError] = useState(null);
   const [recipientError, setRecipientError] = useState('');
   const [subjectError, setSubjectError] = useState('');
+  const [signatureError, setSignatureError] = useState('');
   const [subject, setSubject] = useState('');
   const [messageBody, setMessageBody] = useState('');
+  const [digitalSignature, setDigitalSignature] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [formPopulated, setFormPopulated] = useState(false);
   const [fieldsString, setFieldsString] = useState('');
@@ -307,10 +309,21 @@ const ComposeForm = props => {
         setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
         messageValid = false;
       }
+      if (isSignatureRequired && !digitalSignature) {
+        setSignatureError(ErrorMessages.ComposeForm.SIGNATURE_REQUIRED);
+        messageValid = false;
+      }
       setMessageInvalid(!messageValid);
       return messageValid;
     },
-    [category, messageBody, selectedRecipient, subject],
+    [
+      category,
+      messageBody,
+      selectedRecipient,
+      subject,
+      isSignatureRequired,
+      digitalSignature,
+    ],
   );
 
   const saveDraftHandler = useCallback(
@@ -480,21 +493,15 @@ const ComposeForm = props => {
     ],
   );
 
-  const recipientHandler = e => {
-    setSelectedRecipient(e.detail.value);
-    if (
-      recipientsList.some(
-        recipient =>
-          recipient.id.toString() === e.detail.value &&
-          recipient.signatureRequired,
-      )
-    ) {
+  const recipientHandler = recipient => {
+    setSelectedRecipient(recipient.id.toString());
+    if (recipient.signatureRequired) {
       setIsSignatureRequired(true);
     } else if (isSignatureRequired) {
       setIsSignatureRequired(false);
     }
-    if (e.detail.value !== '0') {
-      if (e.detail.value) setRecipientError('');
+    if (recipient.id !== '0') {
+      if (recipient.id) setRecipientError('');
       setUnsavedNavigationError();
     }
   };
@@ -508,6 +515,12 @@ const ComposeForm = props => {
   const messageBodyHandler = e => {
     setMessageBody(e.target.value);
     if (e.target.value) setBodyError('');
+    setUnsavedNavigationError();
+  };
+
+  const digitalSignatureHandler = e => {
+    setDigitalSignature(e.target.value);
+    if (e.target.value) setSignatureError('');
     setUnsavedNavigationError();
   };
 
@@ -634,7 +647,6 @@ const ComposeForm = props => {
                 error={recipientError}
                 defaultValue={selectedRecipient}
                 isSignatureRequired={isSignatureRequired}
-                onAlertClose={() => setIsSignatureRequired(null)}
               />
             )}
 
@@ -730,7 +742,12 @@ const ComposeForm = props => {
                 </section>
               ))}
 
-          <DigitalSignature />
+          {isSignatureRequired && (
+            <DigitalSignature
+              error={signatureError}
+              onInput={digitalSignatureHandler}
+            />
+          )}
 
           <DraftSavedInfo />
           <ComposeFormActionButtons

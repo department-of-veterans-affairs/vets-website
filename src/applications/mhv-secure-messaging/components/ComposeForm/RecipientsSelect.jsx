@@ -2,35 +2,44 @@ import {
   VaAlert,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { sortRecipients } from '../../util/helpers';
+import { Prompts } from '../../util/constants';
 
-const RecipientsSelect = props => {
-  const {
-    recipientsList,
-    onValueChange,
-    defaultValue,
-    error,
-    isSignatureRequired,
-    onAlertClose,
-  } = props;
-  const SIGNATURE_REQUIRED =
-    'Messages to this team require a signature. We added a signature box to this page.';
-  const SIGNATURE_NOT_REQUIRED =
-    "Messages to this team don't require a signature. We removed the signature box from this page.";
+const RecipientsSelect = ({
+  recipientsList,
+  onValueChange,
+  defaultValue,
+  error,
+  isSignatureRequired,
+}) => {
   const alertRef = useRef(null);
+  const [alertDisplayed, setAlertDisplayed] = useState(false);
 
   useEffect(
     () => {
-      if (isSignatureRequired !== null && alertRef.current) {
-        setTimeout(() => {
-          focusElement(alertRef.current.shadowRoot.querySelector('button'));
-        }, 500);
+      if (isSignatureRequired === true) {
+        setAlertDisplayed(true);
+        if (alertRef.current) {
+          setTimeout(() => {
+            focusElement(alertRef.current.shadowRoot.querySelector('button'));
+          }, 500);
+        }
       }
     },
     [alertRef, isSignatureRequired],
+  );
+
+  const handleRecipientSelect = useCallback(
+    e => {
+      const recipient = recipientsList.find(
+        r => r.id.toString() === e.detail.value,
+      );
+      onValueChange(recipient);
+    },
+    [recipientsList, onValueChange],
   );
 
   return (
@@ -42,7 +51,7 @@ const RecipientsSelect = props => {
         label="To"
         name="to"
         value={defaultValue}
-        onVaSelect={onValueChange}
+        onVaSelect={handleRecipientSelect}
         class="composeSelect"
         data-testid="compose-recipient-select"
         error={error}
@@ -55,22 +64,24 @@ const RecipientsSelect = props => {
           </option>
         ))}
       </VaSelect>
-      {isSignatureRequired !== null && (
+      {alertDisplayed && (
         <VaAlert
           aria-live="polite"
           ref={alertRef}
           class="vads-u-margin-y--4"
           closeBtnAriaLabel="Close notification"
           closeable
-          onCloseEvent={onAlertClose}
+          onCloseEvent={() => {
+            setAlertDisplayed(false);
+          }}
           status="info"
           visible
           data-testid="signature-alert"
         >
           <p className="vads-u-margin-y--0">
             {isSignatureRequired === true
-              ? SIGNATURE_REQUIRED
-              : SIGNATURE_NOT_REQUIRED}
+              ? Prompts.Compose.SIGNATURE_REQUIRED
+              : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
           </p>
         </VaAlert>
       )}
@@ -84,7 +95,6 @@ RecipientsSelect.propTypes = {
   defaultValue: PropTypes.string,
   error: PropTypes.string,
   isSignatureRequired: PropTypes.bool,
-  onAlertClose: PropTypes.func,
 };
 
 export default RecipientsSelect;

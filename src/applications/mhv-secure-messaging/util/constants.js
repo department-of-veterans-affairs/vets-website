@@ -52,6 +52,7 @@ export const ErrorMessages = {
     CATEGORY_REQUIRED: 'Please select a category.',
     SUBJECT_REQUIRED: 'Subject cannot be blank.',
     BODY_REQUIRED: 'Message body cannot be blank.',
+    SIGNATURE_REQUIRED: 'Your full name cannot be blank.',
     UNABLE_TO_SAVE: {
       title: "We can't save this message yet",
       p1: 'We need more information from you before we can save this draft.',
@@ -199,6 +200,10 @@ export const Prompts = {
       'You can edit your contact list or signature settings on the My HealtheVet website. Then refresh this page to review your updated list.',
     EDIT_PREFERENCES_LINK: `Edit your message preferences on the My HealtheVet website 
     (opens in a new tab)`,
+    SIGNATURE_REQUIRED:
+      'Messages to this team require a signature. We added a signature box to this page.',
+    SIGNATURE_NOT_REQUIRED:
+      "Messages to this team don't require a signature. We removed the signature box from this page.",
   },
   Message: {
     DELETE_MESSAGE_CONFIRM:
