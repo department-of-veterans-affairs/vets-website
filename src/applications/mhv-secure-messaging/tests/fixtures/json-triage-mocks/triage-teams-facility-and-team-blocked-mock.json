@@ -88,7 +88,7 @@
       "name": "ATIVAN_PCMM RELATIONSHIP_MAY 09 2022_DAYT29",
       "stationNumber": "636",
       "blockedStatus": true,
-      "preferredTeam": true,
+      "preferredTeam": false,
       "relationshipType": "PATIENT"
     }
   ],
