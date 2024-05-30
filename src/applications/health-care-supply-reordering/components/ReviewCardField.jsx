@@ -340,15 +340,7 @@ class ReviewCardField extends React.Component {
       'vads-u-margin-top--1',
       'vads-u-width--auto',
     ].join(' ');
-    const { data } = this.props;
     const { street, city, country } = this.props.formData;
-    /* eslint-disable no-unused-vars */
-    // using destructuring to remove view:livesOnMilitaryBaseInfo prop
-    const {
-      'view:livesOnMilitaryBaseInfo': removed,
-      ...temporaryAddress
-    } = data.temporaryAddress;
-    /* eslint-enable no-unused-vars */
     let isTempAddressValid = true;
     if (this.props.name === 'temporaryAddress') {
       isTempAddressValid = Boolean(street && city && country);
