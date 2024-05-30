@@ -339,7 +339,12 @@ export const CHAPTER_3 = {
   CONTACT_PREF: {
     TITLE: 'Your contact preference',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'How should we contact you?',
+    QUESTION_1: {
+      QUESTION: 'Preferred name',
+      HINT: 'Let us know how we should refer to you',
+      ERROR: 'This field accepts alphabetic characters only',
+    },
+    QUESTION_2: 'How should we contact you?',
   },
   YOUR_COUNTRY: {
     TITLE: 'Your country', // country
