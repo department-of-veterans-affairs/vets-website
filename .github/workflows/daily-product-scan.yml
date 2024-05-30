@@ -1,7 +1,7 @@
 on:
   schedule:
     - cron: '0 12 * * 1-5'
-
+  
 name: Daily Product Scan
 
 jobs:
@@ -62,7 +62,7 @@ jobs:
           MANIFEST_GLOB_PATH: src/applications/**/*manifest.json
 
       - name: Add and Commit change(s)
-        uses: EndBug/add-and-commit@v7
+        uses: EndBug/add-and-commit@v9
         with:
           author_name: va-vsp-bot
           author_email: devops@va.gov
