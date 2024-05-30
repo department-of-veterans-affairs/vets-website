@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mockApiRequest } from 'platform/testing/unit/helpers';
 import {
   FETCH_FACILITY_STARTED,
   FETCH_FACILITY_SUCCESS,
@@ -10,6 +9,7 @@ import {
   fetchFacilityFailed,
   fetchFacility,
 } from '../actions';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { mockFacilityLocatorApiResponse } from './mockFacilitiesData';
 
 const getState = () => ({
