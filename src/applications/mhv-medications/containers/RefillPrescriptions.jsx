@@ -21,6 +21,7 @@ import { dispStatusObj, DD_ACTIONS_PAGE_TYPE } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
+import PrintOnlyPage from './PrintOnlyPage';
 
 const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // Hooks
@@ -190,12 +191,12 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           Refill prescriptions
         </h1>
         {prescriptionsApiError ? (
-          <ApiErrorNotification />
+          <ApiErrorNotification errorType="access" content="medications" />
         ) : (
           <>
+            <RefillNotification refillResult={refillResult} />
             {fullRefillList?.length > 0 ? (
               <div>
-                <RefillNotification refillResult={refillResult} />
                 <h2
                   className="vads-u-margin-top--3"
                   data-testid="refill-page-subtitle"
@@ -333,19 +334,29 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
             <RenewablePrescriptions
               renewablePrescriptionsList={fullRenewList}
             />
-            <div className="print-only">
-              <AllergiesPrintOnly
-                allergies={allergies}
-                allergiesError={allergiesError}
-              />
-            </div>
           </>
         )}
       </div>
     );
   };
 
-  return <>{content()}</>;
+  return (
+    <>
+      <div>
+        <div
+          className={
+            !prescriptionsApiError && !allergiesError ? '' : 'no-print'
+          }
+        >
+          {content()}
+          <AllergiesPrintOnly allergies={allergies} />
+        </div>
+        {(prescriptionsApiError || allergiesError) && (
+          <PrintOnlyPage title="Refill prescriptions" hasError />
+        )}
+      </div>
+    </>
+  );
 };
 
 // These have been added for testing purposes only

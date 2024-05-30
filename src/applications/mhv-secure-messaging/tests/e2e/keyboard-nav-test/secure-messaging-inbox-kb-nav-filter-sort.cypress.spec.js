@@ -17,31 +17,35 @@ describe('Keyboard Navigation for Filter & Sort functionalities', () => {
   });
 
   it('Verify filter works correctly', () => {
-    PatientInboxPage.inputFilterDataByKeyboard('test');
-    PatientInboxPage.submitFilterByKeyboard(filteredData);
-    PatientInboxPage.verifyFilterResults('test', filteredData);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
+
+    PatientInboxPage.inputFilterDataByKeyboard('test');
+    PatientInboxPage.submitFilterByKeyboard(filteredData, 0);
+    PatientInboxPage.verifyFilterResults('test', filteredData);
   });
 
   it('Verify clear filter btn works correctly', () => {
-    PatientInboxPage.inputFilterDataByKeyboard('test');
-    PatientInboxPage.submitFilterByKeyboard(filteredData);
-    PatientInboxPage.clearFilterByKeyboard();
-    PatientInboxPage.verifyFilterFieldCleared();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
+
+    PatientInboxPage.inputFilterDataByKeyboard('test');
+    PatientInboxPage.submitFilterByKeyboard(filteredData, 0);
+    PatientInboxPage.clearFilterByKeyboard();
+    PatientInboxPage.verifyFilterFieldCleared();
   });
 
   it('verify sorting works properly', () => {
-    const testData = { ...inboxFilterResponse };
-    testData.data.sort(
-      (a, b) =>
-        new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
-    );
-
-    PatientInboxPage.verifySortingByKeyboard('Oldest to newest', testData);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
+
+    const testData = {
+      data: Array.from(inboxFilterResponse.data).sort(
+        (a, b) =>
+          new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
+      ),
+    };
+
+    PatientInboxPage.verifySortingByKeyboard('Oldest to newest', testData, 0);
   });
 });

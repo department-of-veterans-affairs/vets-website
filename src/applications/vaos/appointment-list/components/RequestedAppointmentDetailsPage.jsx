@@ -325,9 +325,9 @@ export default function RequestedAppointmentDetailsPage() {
           <BackLink appointment={appointment} />
           <div className="vads-u-margin-y--2p5">
             <VaAlert status="error" visible>
-              <h2 slot="headline">We couldn’t cancel your appointment</h2>
+              <h2 slot="headline">We couldn’t cancel your request</h2>
               <p>
-                Something went wrong when we tried to cancel this appointment.
+                Something went wrong when we tried to cancel this request.
                 Please contact your medical center to cancel:
                 <br />
                 <br />
@@ -338,7 +338,7 @@ export default function RequestedAppointmentDetailsPage() {
                     <FacilityAddress
                       facility={facility}
                       showPhone
-                      phoneHeading="Scheduling facility phone:"
+                      phoneHeading="Facility phone:"
                     />
                   </>
                 )}
