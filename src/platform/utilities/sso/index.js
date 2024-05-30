@@ -84,7 +84,7 @@ export async function checkAutoSession(
   const shouldRemoveReturnUrl = url => {
     const shouldRemoveSessionStorage = sessionStorage
       .getItem(url)
-      .includes('mhv');
+      ?.includes('mhv');
     return shouldRemoveSessionStorage ? sessionStorage.removeItem(url) : null;
   };
   /**
