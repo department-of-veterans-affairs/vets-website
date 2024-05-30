@@ -229,7 +229,6 @@ export const TRACKING_PREFIXES = {
   [VA_FORM_IDS.FORM_10_10EZ]: 'hca-',
   [VA_FORM_IDS.FORM_22_0993]: 'edu-0993-',
   [VA_FORM_IDS.FORM_21_22]: 'appoint-a-rep-21-22',
-  [VA_FORM_IDS.FORM_21_22A]: 'appoint-a-rep-21-22',
   [VA_FORM_IDS.FORM_22_0994]: 'edu-0994-',
   [VA_FORM_IDS.FORM_22_1990]: 'edu-',
   [VA_FORM_IDS.FORM_22_1990E]: 'edu-1990e-',
@@ -524,5 +523,19 @@ export const MY_VA_SIP_FORMS = [
     title: 'financial status report (5655)',
     description: 'financial status report application (5655)',
     trackingPrefix: 'fsr-5655-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_22,
+    benefit: `Appointment of Veterans Service Organization as Claimant's Representative`,
+    title: `Appointment of Veterans Service Organization as Claimant's Representative (21-22)`,
+    description: 'VSO representative appointment application',
+    trackingPrefix: 'appoint-a-rep-21-22',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_22A,
+    benefit: `Appointment of Individual as Claimant's Representative`,
+    title: `Appointment of Individual as Claimant's Representative (21-22a)`,
+    description: 'Individual representative appointment application',
+    trackingPrefix: 'appoint-a-rep-21-22',
   },
 ];
