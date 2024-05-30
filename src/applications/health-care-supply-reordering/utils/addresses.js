@@ -34,20 +34,23 @@ const isMilitaryState = stateName => {
   return militaryStateValues.includes(stateName);
 };
 
-const isTerritory = countryName => {
+const usTerritories = () => {
   // Get states from usaStates and remove the values in states50AndDC and militaryStates
   const usaStateLabels = states.USA.map(state => state.label);
   const militaryStateLabels = militaryStates.map(state => state.label);
   const states50AndDCLabels = states50AndDC.map(state => state.label);
-  const territories = usaStateLabels.filter(
+  return usaStateLabels.filter(
     state =>
       !militaryStateLabels.includes(state) &&
       !states50AndDCLabels.includes(state),
   );
-  const territoryMatch = territories.find(territory => {
+};
+
+const isTerritory = countryName => {
+  const territoryMatch = usTerritories().find(territory => {
     return caseInsensitiveComparison(territory, countryName);
   });
-  return territoryMatch ?? countryName;
+  return Boolean(territoryMatch);
 };
 
 export {
@@ -56,4 +59,5 @@ export {
   countryValueToName,
   isMilitaryState,
   isTerritory,
+  usTerritories,
 };
