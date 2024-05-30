@@ -34,6 +34,7 @@ export default function({ currentScroll, divisions, divisionWidth, onClick }) {
           <va-icon
             icon="navigate_before"
             class="arrow-icon"
+            size={9}
             onClick={() => arrowClick(-1)}
           />
         </div>
@@ -42,6 +43,7 @@ export default function({ currentScroll, divisions, divisionWidth, onClick }) {
           <va-icon
             icon="navigate_next"
             class="arrow-icon"
+            size={9}
             onClick={() => arrowClick(1)}
           />
         </div>
