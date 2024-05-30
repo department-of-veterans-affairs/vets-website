@@ -49,6 +49,7 @@ const testConfig = createTestConfig(
             );
             cy.findByText(/Save temporary address/i).click();
           } else {
+            cy.get('input#permanentAddress').should('be.checked');
             cy.findByText('Edit permanent address', {
               selector: 'button',
             }).click({ force: true });
