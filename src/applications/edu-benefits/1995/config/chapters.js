@@ -106,6 +106,13 @@ export const directDepositField = (automatedTest = false) => {
     : createDirectDepositChangePageUpdate(fullSchema1995);
 };
 
+export const serviceHistoryTitle = (automatedTest = false) => {
+  if (isProductionOfTestProdEnv(automatedTest)) {
+    return 'Service history';
+  }
+  return 'Applicant service history';
+};
+
 export const chapters = {
   applicantInformation: {
     title: 'Applicant information',
@@ -137,7 +144,7 @@ export const chapters = {
     },
   },
   militaryService: {
-    title: 'Service history',
+    title: serviceHistoryTitle(),
     pages: {
       servicePeriods: {
         path: 'military/service',
