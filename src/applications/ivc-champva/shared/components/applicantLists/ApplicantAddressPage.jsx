@@ -47,21 +47,20 @@ export function ApplicantAddressCopyPage({
    * would yield:
    * `[{name: 'jim', address: '{"street":"123"}'}]`
    *
-   * and calling `parseOrStringifyProperty(array, 'address', false)` would
-   * return that result to its original form.
+   * and calling `parseOrStringifyProperty(array, 'address')` again would reverse
+   * the process, returning that result to its original form.
    *
    * @param {*} arrOfObj List containing objects
    * @param {*} keyname Target property we want to either stringify or parse
-   * @param {*} toS True (default) if we want to stringify; false if we want to parse to JSON
    * @returns original array with each object's [property] either stringified or parsed to JSON
    */
-  function parseOrStringifyProperty(arrOfObj, keyname, toS = true) {
+  function parseOrStringifyProperty(arrOfObj, keyname) {
     return arrOfObj.map(o => {
       const obj = o;
-      if (toS) {
-        obj[keyname] = JSON.stringify(obj[keyname]);
-      } else {
+      if (typeof obj[keyname] === 'string') {
         obj[keyname] = JSON.parse(obj[keyname]);
+      } else {
+        obj[keyname] = JSON.stringify(obj[keyname]);
       }
       return obj;
     });
@@ -107,11 +106,7 @@ export function ApplicantAddressCopyPage({
       'originatorAddress',
     );
     // Revert str to live obj and return
-    return parseOrStringifyProperty(
-      uniqueAddresses,
-      'originatorAddress',
-      false,
-    );
+    return parseOrStringifyProperty(uniqueAddresses, 'originatorAddress');
   }
 
   const handlers = {
