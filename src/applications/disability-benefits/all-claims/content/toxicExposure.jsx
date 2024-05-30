@@ -59,9 +59,9 @@ export const specifyOtherExposuresLabel =
 export const noneAndConditionError =
   'You selected a condition, and you also selected “I’m not claiming any conditions related to toxic exposure.” You’ll need to uncheck one of these options to continue.';
 export const noneAndLocationError =
-  'You selected a location, and you also selected "None of these locations." You’ll need to uncheck one of these options to continue.';
+  'You selected a location, and you also selected “None of these locations.” You’ll need to uncheck one of these options to continue.';
 export const noneAndHazardError =
-  'You selected a hazard, and you also selected "None of these." You’ll need to uncheck one of these options to continue.';
+  'You selected a hazard, and you also selected “None of these.” You’ll need to uncheck one of these options to continue.';
 
 export const dateRangeAdditionalInfo = (
   <va-additional-info trigger="What if I have more than one date range?">
@@ -81,6 +81,7 @@ export const exposureStartDateApproximate = 'Exposure start date (approximate)';
 export const exposureEndDateApproximate = 'Exposure end date (approximate)';
 export const endDateApproximate = 'Service end date (approximate)';
 export const goBackLink = 'Edit locations and dates';
+export const goBackLinkExposures = 'Edit exposures and dates';
 export const noDatesEntered = 'No dates entered';
 export const notSureDatesSummary = 'I’m not sure of the dates';
 export const notSureDatesDetails = (
@@ -91,26 +92,26 @@ export const notSureDatesDetails = (
 
 /**
  * Generate the Toxic Exposure subtitle, which is used on Review and Submit and on the pages
- * themselves. If there are item counts, it will display something like '1 of 3: Location Name'.
+ * themselves. If there are item counts, it will display something like 'Location 1 of 3: Location Name'.
  * If either count is invalid, the prefix will be dropped to only display 'Location Name'.
  *
  * @param {number} currentItem - this item's count out of the total selected items
  * @param {number} totalItems - total number of selected items
- * @param {string} locationName - Display name of the location
- * @param {string} itemName - Name of the item. Defaults to 'Location'
+ * @param {string} itemName - Display name of the location or hazard
+ * @param {string} itemType - Name of the item. Defaults to 'Location'
  * @returns
  */
 export function teSubtitle(
   currentItem,
   totalItems,
-  locationName,
-  itemName = 'Location',
+  itemName,
+  itemType = 'Location',
 ) {
   return (
     (currentItem > 0 &&
       totalItems > 0 &&
-      `${itemName} ${currentItem} of ${totalItems}: ${locationName}`) ||
-    locationName
+      `${itemType} ${currentItem} of ${totalItems}: ${itemName}`) ||
+    itemName
   );
 }
 
@@ -119,24 +120,24 @@ export function teSubtitle(
  *
  * @param {number} currentItem - Current item being viewed
  * @param {number} totalItems - Total items for this location
- * @param {string} locationName - Display name of the location
+ * @param {string} itemName - Display name of the location or hazard
  * @param {string} itemName - Name of the item to display
  * @returns h4 subtitle and p description
  */
 export function dateRangePageDescription(
   currentItem,
   totalItems,
-  locationName,
-  itemName = 'Location',
+  itemName,
+  itemType = 'Location',
 ) {
   const subtitle = formSubtitle(
-    teSubtitle(currentItem, totalItems, locationName, itemName),
+    teSubtitle(currentItem, totalItems, itemName, itemType),
   );
   return (
     <>
       {subtitle}
       <p>
-        {itemName === 'Location'
+        {itemType === 'Location'
           ? dateRangeDescriptionWithLocation
           : dateRangeDescriptionWithHazard}
       </p>

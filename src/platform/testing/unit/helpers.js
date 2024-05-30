@@ -258,8 +258,8 @@ const createTestHistory = (path = '/') => {
 /**
  * Input a string value into a va-text-input component.
  * @param {any} container - React Testing Library container
- * @param {string} value - String value to enter in the input field
- * @param {string} selector - select or element
+ * @param {string} value - string value to enter in the input field
+ * @param {string} selector - string containing selector to match
  */
 const inputVaTextInput = (container, value, selector = 'va-text-input') => {
   const vaTextInput = $(selector, container);

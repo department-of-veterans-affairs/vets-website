@@ -359,7 +359,7 @@ describe('toxicExposure', () => {
   describe('dateRangePageDescription', () => {
     it('displays description when counts specified', () => {
       const tree = render(dateRangePageDescription(1, 5, 'Egypt'));
-      tree.getByText('1 of 5: Egypt', { exact: false });
+      tree.getByText('Location 1 of 5: Egypt', { exact: false });
       tree.getByText(dateRangeDescriptionWithLocation);
     });
 

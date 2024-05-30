@@ -13,6 +13,7 @@ import {
   herbicideOtherLocations,
   herbicideSummary,
   specifyOtherExposures,
+  additionalExposuresSummary,
 } from '..';
 import { TE_URL_PREFIX } from '../../constants';
 import {
@@ -84,6 +85,7 @@ export const toxicExposurePages = {
       ),
     path: `${TE_URL_PREFIX}/herbicide-location-other`,
     depends: formData =>
+      isClaimingTECondition(formData) &&
       getOtherFieldDescription(formData, 'otherHerbicideLocations'),
     uiSchema: herbicideOtherLocations.uiSchema,
     schema: herbicideOtherLocations.schema,
@@ -114,8 +116,17 @@ export const toxicExposurePages = {
       ),
     path: `${TE_URL_PREFIX}/additional-exposure-other`,
     depends: formData =>
+      isClaimingTECondition(formData) &&
       getOtherFieldDescription(formData, 'specifyOtherExposures'),
     uiSchema: specifyOtherExposures.uiSchema,
     schema: specifyOtherExposures.schema,
+  },
+  additionalExposuresSummary: {
+    title: 'Summary of Other toxic exposures',
+    path: `${TE_URL_PREFIX}/additional-exposure-summary`,
+    depends: formData =>
+      showSummaryPage(formData, 'otherExposures', 'specifyOtherExposures'),
+    uiSchema: additionalExposuresSummary.uiSchema,
+    schema: additionalExposuresSummary.schema,
   },
 };

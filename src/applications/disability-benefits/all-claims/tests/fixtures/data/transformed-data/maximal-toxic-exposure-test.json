@@ -79,6 +79,24 @@
         "description": "Test location 1",
         "endDate": "1969-01-01",
         "startDate": "1968-01-01"
+      },
+      "otherExposuresDetails": {
+        "radiation": {
+          "endDate": "2005-05-30"
+        },
+        "mos": {
+          "startDate": "2001-01-08"
+        }
+      },
+      "specifyOtherExposures": {
+        "startDate": "2000-03-20",
+        "endDate": "2001-03-01",
+        "description": "Test substance 1, Test Substance 2, Test Substance 3"
+      },
+      "otherExposures": {
+        "asbestos": true,
+        "mos": true,
+        "radiation": true
       }
     },
     "vaTreatmentFacilities": [

@@ -4,6 +4,7 @@ import * as additionalBehaviorChanges from './additionalBehaviorChanges';
 import * as additionalDocuments from './additionalDocuments';
 import * as additionalExposures from './toxicExposure/additionalExposures';
 import * as additionalExposuresDetails from './toxicExposure/additionalExposuresDetails';
+import * as additionalExposuresSummary from './toxicExposure/additionalExposuresSummary';
 import * as additionalRemarks781 from './additionalRemarks781';
 import * as aidAndAttendance from './aidAndAttendance';
 import * as alternateNames from './alternateNames';
@@ -122,6 +123,7 @@ export {
   additionalDocuments,
   additionalExposures,
   additionalExposuresDetails,
+  additionalExposuresSummary,
   additionalRemarks781,
   aidAndAttendance,
   alternateNames,

@@ -340,6 +340,10 @@ export const MAX_HOUSING_STRING_LENGTH = 500;
 
 export const OMB_CONTROL = '2900-0747';
 
+// used to save feature flag in form in util function for 'depends' keyword of form config
+export const SHOW_REVISED_ADD_DISABILITIES_PAGE =
+  'showRevisedNewDisabilitiesPage';
+
 // used to save feature flag in form data for toxic exposure
 export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';
 
@@ -367,10 +371,6 @@ export const GULF_WAR_1990_LOCATIONS = Object.freeze({
   none: 'None of these locations',
   notsure: 'I’m not sure if I served in these locations',
 });
-
-// used to save feature flag in form in util function for 'depends' keyword of form config
-export const SHOW_REVISED_ADD_DISABILITIES_PAGE =
-  'showRevisedNewDisabilitiesPage';
 
 export const GULF_WAR_2001_LOCATIONS = Object.freeze({
   djibouti: 'Djibouti',
