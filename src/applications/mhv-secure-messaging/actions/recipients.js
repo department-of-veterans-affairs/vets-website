@@ -1,12 +1,11 @@
 import { Actions } from '../util/actionTypes';
 import { getAllRecipients } from '../api/SmApi';
-import { triageGroupsROI } from '../util/constants';
 
 const isSignatureRequired = recipients => {
+  const regex = /.*\s*(Privacy Issue|Privacy Issues|Release of Information Medical Records|Record Amendment)\s*_*\s*Admin/i;
+
   return recipients.map(recipient => {
-    if (
-      triageGroupsROI.some(value => recipient.attributes.name.includes(value))
-    ) {
+    if (regex.test(recipient.attributes.name)) {
       return {
         ...recipient,
         attributes: {

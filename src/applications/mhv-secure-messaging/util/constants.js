@@ -408,9 +408,3 @@ export const filterDescription = {
   withMsgId:
     'Enter information from one of these fields: To, from, message ID, or subject',
 };
-
-export const triageGroupsROI = [
-  'Release of Information Medical Records_Admin',
-  'Privacy Issue_Admin',
-  'Record Amendment_Admin',
-];
