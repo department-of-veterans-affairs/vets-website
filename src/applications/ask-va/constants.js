@@ -396,6 +396,10 @@ export const CHAPTER_3 = {
     TITLE: `Family member's location of residence`,
     QUESTION_1: 'State/Province/Region',
   },
+  YOUR_LOCATION_OF_RESIDENCE: {
+    TITLE: `Your location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
 };
 
 export const noEditBtn = [
