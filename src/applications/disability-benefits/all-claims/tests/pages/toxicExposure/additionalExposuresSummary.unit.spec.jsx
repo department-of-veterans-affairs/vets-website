@@ -7,6 +7,7 @@ import {
   additionalExposuresPageTitle,
   goBackLinkExposures,
   noDatesEntered,
+  notSureDatesSummary,
 } from '../../../content/toxicExposure';
 import { ADDITIONAL_EXPOSURES } from '../../../constants';
 
@@ -113,5 +114,39 @@ describe('Additional Exposures Summary', () => {
 
     getByText(ADDITIONAL_EXPOSURES.radiation);
     getByText('No start date entered - May 2005');
+  });
+
+  it('renders `notSureDatesSummary` when `view:notSure` was selected', () => {
+    const formData = {
+      toxicExposure: {
+        otherExposuresDetails: {
+          mustardgas: {
+            'view:notSure': true,
+          },
+          water: {
+            'view:notSure': true,
+          },
+          asbestos: {},
+          chemical: {},
+          mos: {},
+          radiation: {},
+        },
+        'view:otherExposuresAdditionalInfo': {},
+        otherExposures: {
+          water: true,
+          mustardgas: true,
+        },
+      },
+    };
+
+    const { getAllByText, getByText } = render(
+      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+    );
+
+    getByText(additionalExposuresPageTitle);
+    getByText('Summary');
+    getByText(ADDITIONAL_EXPOSURES.water);
+    getByText(ADDITIONAL_EXPOSURES.mustardgas);
+    expect(getAllByText(notSureDatesSummary).length).to.equal(2);
   });
 });

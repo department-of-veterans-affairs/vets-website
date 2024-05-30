@@ -96,7 +96,8 @@
       "otherExposures": {
         "asbestos": true,
         "mos": true,
-        "radiation": true
+        "radiation": true,
+        "notsure": true
       }
     },
     "vaTreatmentFacilities": [

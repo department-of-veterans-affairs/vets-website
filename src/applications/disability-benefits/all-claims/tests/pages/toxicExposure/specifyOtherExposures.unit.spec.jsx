@@ -23,6 +23,7 @@ describe('Specify Other Exposures', () => {
         otherExposures: {
           asbestos: true,
           mos: true,
+          notsure: true,
         },
         otherExposuresDetails: {
           asbestos: {
@@ -49,12 +50,14 @@ describe('Specify Other Exposures', () => {
 
     getByText(additionalExposuresPageTitle);
     getByText(dateRangeDescriptionWithHazard);
-
-    const addlInfo = container.querySelector('va-additional-info');
-    expect(addlInfo).to.have.attribute(
-      'trigger',
-      'What if I have more than one date range?',
-    );
+    getByText(`Hazard 3 of 3: Test Substance`, {
+      exact: false,
+    });
+    expect(
+      formConfig.chapters.disabilities.pages.specifyOtherExposures.title(
+        formData,
+      ),
+    ).to.equal(`Hazard 3 of 3: Test Substance`);
 
     expect(
       $(
@@ -66,13 +69,10 @@ describe('Specify Other Exposures', () => {
       $(`va-memorable-date[label="${exposureEndDateApproximate}"]`, container),
     ).to.exist;
 
-    getByText(`Hazard 3 of 3: Test Substance`, {
-      exact: false,
-    });
-    expect(
-      formConfig.chapters.disabilities.pages.specifyOtherExposures.title(
-        formData,
-      ),
-    ).to.equal(`Hazard 3 of 3: Test Substance`);
+    const addlInfo = container.querySelector('va-additional-info');
+    expect(addlInfo).to.have.attribute(
+      'trigger',
+      'What if I have more than one date range?',
+    );
   });
 });

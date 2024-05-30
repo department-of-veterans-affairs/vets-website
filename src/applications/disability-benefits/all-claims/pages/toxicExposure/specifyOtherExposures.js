@@ -10,6 +10,7 @@ import {
   exposureStartDateApproximate,
   getOtherFieldDescription,
   getSelectedCount,
+  notSureDatesDetails,
 } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
 
@@ -36,6 +37,9 @@ export const uiSchema = {
       endDate: currentOrPastDateUI({
         title: exposureEndDateApproximate,
       }),
+      'view:notSure': {
+        'ui:title': notSureDatesDetails,
+      },
     },
     'view:additionalExposuresAdditionalInfo': {
       'ui:description': dateRangeAdditionalInfo,
@@ -54,6 +58,9 @@ export const schema = {
           properties: {
             startDate: currentOrPastDateSchema,
             endDate: currentOrPastDateSchema,
+            'view:notSure': {
+              type: 'boolean',
+            },
           },
         },
         'view:additionalExposuresAdditionalInfo': {

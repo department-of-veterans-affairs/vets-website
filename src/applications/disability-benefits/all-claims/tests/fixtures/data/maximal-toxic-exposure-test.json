@@ -183,7 +183,9 @@
         "koreandemilitarizedzone": {},
         "johnston": {},
         "thailand": {},
-        "vietnam": {}
+        "vietnam": {
+          "view:notSure": true
+        }
       },
       "view:herbicideAdditionalInfo": {},
       "otherHerbicideLocations": {
@@ -213,7 +215,8 @@
       "otherExposures": {
         "asbestos": true,
         "mos": true,
-        "radiation": true
+        "radiation": true,
+        "notsure": true
       }
     },
     "view:powStatus": true,

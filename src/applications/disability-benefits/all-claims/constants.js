@@ -393,6 +393,7 @@ export const HERBICIDE_LOCATIONS = Object.freeze({
   thailand: 'A U.S. or Royal Thai military base in Thailand',
   vietnam: 'Vietnam or the waters in or off of Vietnam',
   none: 'None of these locations',
+  notsure: 'I’m not sure if I served in these locations',
 });
 
 export const ADDITIONAL_EXPOSURES = Object.freeze({
@@ -404,4 +405,5 @@ export const ADDITIONAL_EXPOSURES = Object.freeze({
   mustardgas: 'Mustard Gas',
   radiation: 'Radiation',
   none: 'None of these',
+  notsure: 'I’m not sure if I have been exposed to these hazards',
 });

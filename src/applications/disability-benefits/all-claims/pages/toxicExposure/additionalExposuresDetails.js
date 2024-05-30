@@ -11,6 +11,7 @@ import {
   exposureStartDateApproximate,
   getKeyIndex,
   getSelectedCount,
+  notSureHazardDetails,
   showCheckboxLoopDetailsPage,
   teSubtitle,
 } from '../../content/toxicExposure';
@@ -40,6 +41,9 @@ function makeUiSchema(itemId) {
           endDate: currentOrPastDateUI({
             title: exposureEndDateApproximate,
           }),
+          'view:notSure': {
+            'ui:title': notSureHazardDetails,
+          },
         },
       },
       'view:otherExposuresAdditionalInfo': {
@@ -69,6 +73,9 @@ function makeSchema(itemId) {
                 properties: {
                   startDate: currentOrPastDateSchema,
                   endDate: currentOrPastDateSchema,
+                  'view:notSure': {
+                    type: 'boolean',
+                  },
                 },
               },
             },
@@ -85,7 +92,7 @@ function makeSchema(itemId) {
 
 export function makePages() {
   const pagesList = Object.keys(ADDITIONAL_EXPOSURES)
-    .filter(itemId => itemId !== 'none')
+    .filter(itemId => itemId !== 'none' && itemId !== 'notsure')
     .map(itemId => {
       const pageName = `additional-exposure-${itemId}`;
       return {

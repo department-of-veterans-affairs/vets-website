@@ -36,19 +36,6 @@ describe('Herbicide Other Locations', () => {
     );
 
     getByText(herbicidePageTitle);
-    getByText(dateRangeDescriptionWithLocation);
-
-    const addlInfo = container.querySelector('va-additional-info');
-    expect(addlInfo).to.have.attribute(
-      'trigger',
-      'What if I have more than one date range?',
-    );
-
-    expect($(`va-memorable-date[label="${startDateApproximate}"]`, container))
-      .to.exist;
-    expect($(`va-memorable-date[label="${endDateApproximate}"]`, container)).to
-      .exist;
-
     getByText(`Location 3 of 3: Test location 1`, {
       exact: false,
     });
@@ -57,5 +44,19 @@ describe('Herbicide Other Locations', () => {
         formData,
       ),
     ).to.equal(`Location 3 of 3: Test Location 1`);
+    getByText(dateRangeDescriptionWithLocation);
+
+    expect($(`va-memorable-date[label="${startDateApproximate}"]`, container))
+      .to.exist;
+    expect($(`va-memorable-date[label="${endDateApproximate}"]`, container)).to
+      .exist;
+
+    getByText('I’m not sure of the dates I served in this location');
+
+    const addlInfo = container.querySelector('va-additional-info');
+    expect(addlInfo).to.have.attribute(
+      'trigger',
+      'What if I have more than one date range?',
+    );
   });
 });

@@ -47,31 +47,21 @@ describe('gulfWar1990Details', () => {
         getByText(gulfWar1990PageTitle);
         getByText(dateRangeDescriptionWithLocation);
 
-        const addlInfo = container.querySelector('va-additional-info');
-        expect(addlInfo).to.have.attribute(
-          'trigger',
-          'What if I have more than one date range?',
-        );
-
-        expect(
-          $(
-            `input[type="checkbox"][name="root_toxicExposure_gulfWar1990Details_${locationId}_view:notSure"]`,
-            container,
-          ),
-        ).to.exist;
-        expect(
-          $(
-            `label[for="root_toxicExposure_gulfWar1990Details_${locationId}_view:notSure"]`,
-            container,
-          ),
-        ).to.exist;
-
         expect(
           $(`va-memorable-date[label="${startDateApproximate}"]`, container),
         ).to.exist;
         expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
           .to.exist;
 
+        getByText('I’m not sure of the dates I served in this location');
+
+        const addlInfo = container.querySelector('va-additional-info');
+        expect(addlInfo).to.have.attribute(
+          'trigger',
+          'What if I have more than one date range?',
+        );
+
+        // subtitle checks
         if (locationId === 'afghanistan') {
           getByText(`Location 1 of 2: ${GULF_WAR_1990_LOCATIONS.afghanistan}`, {
             exact: false,

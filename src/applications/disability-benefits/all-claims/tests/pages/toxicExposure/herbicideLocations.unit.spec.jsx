@@ -126,4 +126,24 @@ describe('Herbicide Location', () => {
     userEvent.click(getByText('Submit'));
     expect($('va-textarea').error.startsWith('does not match pattern'));
   });
+
+  it('should submit with "notsure" and other locations selected', async () => {
+    const onSubmit = sinon.spy();
+
+    const { container, getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    checkVaCheckbox(checkboxGroup, 'cambodia');
+    checkVaCheckbox(checkboxGroup, 'notsure');
+
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
+  });
 });

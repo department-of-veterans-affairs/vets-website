@@ -47,30 +47,19 @@ describe('gulfWar2001Details', () => {
         getByText(gulfWar2001PageTitle);
         getByText(dateRangeDescriptionWithLocation);
 
-        const addlInfo = container.querySelector('va-additional-info');
-        expect(addlInfo).to.have.attribute(
-          'trigger',
-          'What if I have more than one date range?',
-        );
-
-        expect(
-          $(
-            `input[type="checkbox"][name="root_toxicExposure_gulfWar2001Details_${locationId}_view:notSure"]`,
-            container,
-          ),
-        ).to.exist;
-        expect(
-          $(
-            `label[for="root_toxicExposure_gulfWar2001Details_${locationId}_view:notSure"]`,
-            container,
-          ),
-        ).to.exist;
-
         expect(
           $(`va-memorable-date[label="${startDateApproximate}"]`, container),
         ).to.exist;
         expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
           .to.exist;
+
+        getByText('I’m not sure of the dates I served in this location');
+
+        const addlInfo = container.querySelector('va-additional-info');
+        expect(addlInfo).to.have.attribute(
+          'trigger',
+          'What if I have more than one date range?',
+        );
 
         // Look for the text on the page and also the title used for review and submit
         if (locationId === 'yemen') {

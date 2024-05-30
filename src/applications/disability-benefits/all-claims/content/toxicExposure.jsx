@@ -89,6 +89,11 @@ export const notSureDatesDetails = (
     I’m not sure of the dates I served in this location
   </p>
 );
+export const notSureHazardDetails = (
+  <p className="vads-spacing-1">
+    I’m not sure of the dates I was exposed to this hazard
+  </p>
+);
 
 /**
  * Generate the Toxic Exposure subtitle, which is used on Review and Submit and on the pages
@@ -119,7 +124,7 @@ export function teSubtitle(
  * Create the markup for page description including the subtitle and date range description text
  *
  * @param {number} currentItem - Current item being viewed
- * @param {number} totalItems - Total items for this location
+ * @param {number} totalItems - Total items for this group
  * @param {string} itemName - Display name of the location or hazard
  * @param {string} itemName - Name of the item to display
  * @returns h4 subtitle and p description
@@ -397,10 +402,10 @@ export function getSelectedCount(
  * the following is true
  * 1. TE pages should be showing at all
  * 2. the given checkbox data is present for the given itemId with a value of true
- * 3. the 'none' location checkbox is not true
+ * 3. the 'none' checkbox is not true
  *
  * @param {object} formData - full form data
- * @param {string} locationId - unique id for the location
+ * @param {string} itemId - unique id for the item
  * @returns {boolean} true if the page should display, false otherwise
  */
 export function showCheckboxLoopDetailsPage(
@@ -422,8 +427,8 @@ export function showCheckboxLoopDetailsPage(
  * are true
  * 1. TE pages should be showing at all
  * 2. at least one checkbox item was selected OR an 'other' item input was populated
- * 3. the 'none' location checkbox is not true
- * 4. the 'notsure' location checkbox is not the only one selected
+ * 3. the 'none' checkbox is not true
+ * 4. the 'notsure' checkbox is not the only one selected
  *
  * @param {object} formData - full form data
  * @param {string} checkboxObjectName - name of the object containing the checkboxes
@@ -439,13 +444,13 @@ export function showSummaryPage(
     isClaimingTECondition(formData) &&
     formData?.toxicExposure[checkboxObjectName]
   ) {
-    const locations = formData?.toxicExposure[checkboxObjectName];
+    const checkboxes = formData?.toxicExposure[checkboxObjectName];
     const numSelected = Object.values(
       formData?.toxicExposure[checkboxObjectName],
     ).filter(value => value === true).length;
     return (
-      locations.none !== true &&
-      ((numSelected > 0 && (locations.notsure !== true || numSelected > 1)) ||
+      checkboxes.none !== true &&
+      ((numSelected > 0 && (checkboxes.notsure !== true || numSelected > 1)) ||
         !!getOtherFieldDescription(formData, otherObjectName))
     );
   }

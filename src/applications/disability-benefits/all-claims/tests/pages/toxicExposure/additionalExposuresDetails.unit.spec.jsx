@@ -31,7 +31,7 @@ describe('additional exposures details', () => {
   };
 
   Object.keys(ADDITIONAL_EXPOSURES)
-    .filter(itemId => itemId !== 'none')
+    .filter(itemId => itemId !== 'none' && itemId !== 'notsure')
     .forEach(itemId => {
       const pageSchema = schemas[`additional-exposure-${itemId}`];
       it(`should render for ${itemId}`, () => {
@@ -46,12 +46,6 @@ describe('additional exposures details', () => {
         getByText(additionalExposuresPageTitle);
         getByText(dateRangeDescriptionWithHazard);
 
-        const addlInfo = container.querySelector('va-additional-info');
-        expect(addlInfo).to.have.attribute(
-          'trigger',
-          'What if I have more than one date range?',
-        );
-
         expect(
           $(
             `va-memorable-date[label="${exposureStartDateApproximate}"]`,
@@ -65,6 +59,15 @@ describe('additional exposures details', () => {
           ),
         ).to.exist;
 
+        getByText('I’m not sure of the dates I was exposed to this hazard');
+
+        const addlInfo = container.querySelector('va-additional-info');
+        expect(addlInfo).to.have.attribute(
+          'trigger',
+          'What if I have more than one date range?',
+        );
+
+        // subtitle checks
         if (itemId === 'asbestos') {
           getByText(`Hazard 1 of 2: ${ADDITIONAL_EXPOSURES.asbestos}`, {
             exact: false,
