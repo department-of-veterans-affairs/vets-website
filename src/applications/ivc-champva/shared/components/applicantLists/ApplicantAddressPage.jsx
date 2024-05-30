@@ -60,7 +60,7 @@ export function ApplicantAddressCopyPage({
       const obj = o;
       if (toS) {
         obj[keyname] = JSON.stringify(obj[keyname]);
-      } else if (typeof obj[keyname] === 'string') {
+      } else {
         obj[keyname] = JSON.parse(obj[keyname]);
       }
       return obj;
