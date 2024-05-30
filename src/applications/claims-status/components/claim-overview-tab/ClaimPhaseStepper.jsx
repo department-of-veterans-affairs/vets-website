@@ -72,6 +72,7 @@ export default function ClaimPhaseStepper({
             review.
           </p>
           <Link
+            data-testid="submit-evidence-link"
             aria-label="Submit evidence now"
             title="Submit evidence now"
             to="../files"
@@ -143,7 +144,7 @@ export default function ClaimPhaseStepper({
     },
     {
       phase: 8,
-      header: 'Step 8: Decision letter available',
+      header: 'Step 8: Decision decided',
       description: (
         <>
           <p>
@@ -151,11 +152,11 @@ export default function ClaimPhaseStepper({
             status page for this claim.
           </p>
           <Link
-            aria-label="Go to the status page for this claim"
-            title="Go to the status page for this claim "
+            aria-label="Go to the claim letters page"
+            title="Go to the claim letters page"
             to="../status"
           >
-            Go to the status page for this claim
+            Go to the claim letters page
           </Link>
           <p>
             We’ll also send you a copy of your decision letter by mail. It

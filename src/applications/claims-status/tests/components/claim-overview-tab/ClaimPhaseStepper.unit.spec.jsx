@@ -62,7 +62,7 @@ describe('<ClaimPhaseStepper>', () => {
   });
 
   it('should render a ClaimPhaseStepper section where step 3 is the current step', () => {
-    const { container, getByText } = renderWithRouter(
+    const { container, getByText, getByTestId } = renderWithRouter(
       <ClaimPhaseStepper
         claimDate={claimDate}
         currentClaimPhaseDate={currentClaimPhaseDate}
@@ -90,6 +90,12 @@ describe('<ClaimPhaseStepper>', () => {
     getByText('This is usually the longest step in the process.');
     getByText(
       'Note: You can submit evidence at any time. But if you submit evidence after this step, your claim will go back to this step for review.',
+    );
+    expect(getByTestId('submit-evidence-link').textContent).to.equal(
+      'Submit evidence now',
+    );
+    expect(within($('#phase3 ul', container)).getByRole('link')).to.have.text(
+      'Learn more about VA claim exams',
     );
   });
 
@@ -245,6 +251,10 @@ describe('<ClaimPhaseStepper>', () => {
         'Your claim is in this step as of March 7, 2024.',
       ),
     ).to.exist;
+
+    expect(within($('#phase8', container)).getByRole('link')).to.have.text(
+      'Go to the claim letters page',
+    );
 
     const phaseComplete = $('#phase8 va-icon.phase-complete', container);
     expect(phaseComplete).to.exist;
