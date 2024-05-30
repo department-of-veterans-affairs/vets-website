@@ -59,10 +59,7 @@ export const updateVerifications = verifications => ({
   type: UPDATE_VERIFICATIONS,
   payload: verifications,
 });
-const customHeaders = {
-  'Content-Type': 'application/json',
-  'X-Key-Inflection': 'camel',
-};
+
 export const fetchPersonalInfo = () => {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFO });
@@ -85,7 +82,10 @@ export const fetchPersonalInfo = () => {
       });
   };
 };
-
+const customHeaders = {
+  'Content-Type': 'application/json',
+  'X-Key-Inflection': 'camel',
+};
 export function postMailingAddress(mailingAddress) {
   return async dispatch => {
     dispatch({ type: UPDATE_ADDRESS });
@@ -118,6 +118,7 @@ export const updateBankInfo = bankInfo => {
         body: JSON.stringify(bankInfo),
         headers: customHeaders,
       });
+
       dispatch({
         type: UPDATE_BANK_INFO_SUCCESS,
         response,
