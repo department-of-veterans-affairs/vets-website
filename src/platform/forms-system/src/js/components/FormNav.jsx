@@ -141,6 +141,7 @@ export default function FormNav(props) {
     <div>
       {!hideFormNavProgress && (
         <va-segmented-progress-bar
+          id="nav-form-header"
           total={chaptersLengthDisplay}
           current={currentChapterDisplay}
           heading-text={chapterName ?? ''} // functionality only available for v3

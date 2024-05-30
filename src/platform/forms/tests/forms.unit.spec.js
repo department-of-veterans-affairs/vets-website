@@ -88,6 +88,7 @@ const formConfigKeys = [
   'showReviewErrors',
   'reviewErrors',
   'useCustomScrollAndFocus',
+  'v3SegmentedProgressBar', // deprecated
   'formOptions',
 ];
 
