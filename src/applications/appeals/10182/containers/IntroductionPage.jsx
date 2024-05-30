@@ -29,6 +29,8 @@ const IntroductionPage = props => {
   const { formConfig, pageList } = route;
   const { formId, prefillEnabled, savedFormMessages, downtime } = formConfig;
   const sipOptions = {
+    // See https://dsva.slack.com/archives/C04KW0B46N5/p1716415144602809 as for
+    // why this ariaDescribedby is here & commented out
     // ariaDescribedby: 'main-content',
     downtime,
     // formConfig needed to update messages within the SaveInProgressIntro to

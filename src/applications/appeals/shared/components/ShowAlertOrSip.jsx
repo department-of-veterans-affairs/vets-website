@@ -30,6 +30,11 @@ const ShowAlertOrSip = ({ basename, sipOptions, bottom }) => {
     state => selectProfile(state)?.userFullName || {},
   );
 
+  // Don't render any alerts if not logged in and rendering the top slot
+  if (!loggedIn && !bottom) {
+    return null;
+  }
+
   const classes = `sip-wrapper ${bottom ? 'vads-u-margin-y--2 bottom' : ''}`;
 
   // Without being LOA3 (verified), the prefill & contestable issues won't load
@@ -56,7 +61,7 @@ const ShowAlertOrSip = ({ basename, sipOptions, bottom }) => {
     );
   }
 
-  return !loggedIn && !bottom ? null : (
+  return (
     <div className={classes}>
       <SaveInProgressIntro {...sipOptions} buttonOnly={bottom && loggedIn} />
     </div>
