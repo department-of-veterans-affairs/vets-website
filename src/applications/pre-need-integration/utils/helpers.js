@@ -28,7 +28,7 @@ import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
-import highestRankAutoSuggest from '../components/HighestRankAutoSuggest';
+import HighestRankAutoSuggest from '../components/HighestRankAutoSuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -1036,6 +1036,22 @@ export const preparerVeteranUI = {
   },
 };
 
+export const validateMilitaryHistory = (errors, serviceRecords) => {
+  for (let index = 0; index < serviceRecords.length; index++) {
+    const serviceRecord = serviceRecords[index];
+    if (
+      serviceRecord.serviceBranch === undefined &&
+      serviceRecord.highestRank !== undefined
+    ) {
+      errors[index].highestRank.addError(
+        'Select a branch of service before selecting your highest rank attained.',
+      );
+    }
+  }
+
+  // errors.addError('Select a branch of service before selecting your highest rank attained.');
+};
+
 export const selfServiceRecordsUI = {
   'ui:title': 'Your service period(s)',
   'ui:options': {
@@ -1044,6 +1060,7 @@ export const selfServiceRecordsUI = {
     keepInPageOnReview: true,
     useDlWrap: true,
   },
+  'ui:validations': [validateMilitaryHistory],
   items: {
     'ui:order': [
       'serviceBranch',
@@ -1082,7 +1099,10 @@ export const selfServiceRecordsUI = {
     },
     highestRank: {
       'ui:title': 'Highest rank attained',
-      'ui:field': highestRankAutoSuggest,
+      'ui:field': HighestRankAutoSuggest,
+      'ui:options': {
+        className: index => index, // Pass the index dynamically
+      },
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',

@@ -1,47 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Downshift from 'downshift';
 
-function AutoSuggest({ value, setValue, labels, onSelectionChange, maxItems }) {
-  // Consistently handle items as objects with a label key
-  const itemToString = item => {
-    if (!item) {
-      return '';
-    }
-    if (item.value === '') {
-      return item.key;
-    }
-    return item.value;
-  };
+function MilitaryAutoSuggest({ value, setValue, labels, onSelectionChange }) {
+  const [inputValue, setInputValue] = useState('');
+
+  const formatValue = valueText =>
+    valueText
+      ? valueText.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())
+      : '';
+
+  useEffect(
+    () => {
+      if (value) {
+        setInputValue(formatValue(value));
+      }
+    },
+    [value],
+  );
+
+  const itemToString = item => (item ? item.value || item.key : '');
 
   const getMatchScore = (input, labelValue) => {
-    if (!input || !labelValue) {
-      return 0;
-    }
+    if (!input || !labelValue) return 0;
 
     const normalizedInput = input.toLowerCase();
-    const label = labelValue.value === '' ? labelValue.key : labelValue.value;
-    const normalizedLabel = label.toLowerCase();
-    let score = 0;
+    const label = labelValue.value || labelValue.key;
+    const normalizedLabel = label ? label.toLowerCase() : '';
+    let score = normalizedLabel.startsWith(normalizedInput) ? 10000 : 0;
 
-    if (normalizedLabel.startsWith(normalizedInput)) {
-      score += 10000;
-    }
-
-    const inputWords = normalizedInput.split(/\s+/);
-    const labelWords = normalizedLabel.split(/\s+/);
-    inputWords.forEach(inputWord => {
-      labelWords.forEach(labelWord => {
-        if (labelWord.startsWith(inputWord)) {
-          score += 1000;
-        }
+    normalizedInput.split(/\s+/).forEach(inputWord => {
+      normalizedLabel.split(/\s+/).forEach(labelWord => {
+        if (labelWord.startsWith(inputWord)) score += 1000;
       });
     });
 
     return score;
-  };
-
-  const formatValue = valueText => {
-    return valueText.toLowerCase();
   };
 
   return (
@@ -52,23 +45,19 @@ function AutoSuggest({ value, setValue, labels, onSelectionChange, maxItems }) {
       }}
       itemToString={itemToString}
       selectedItem={value}
+      inputValue={inputValue}
+      onInputValueChange={setInputValue}
     >
-      {({
-        getInputProps,
-        getItemProps,
-        isOpen,
-        inputValue,
-        highlightedIndex,
-      }) => (
+      {({ getInputProps, getItemProps, isOpen, highlightedIndex }) => (
         <div className="relative">
           <input
             {...getInputProps({
-              className:
-                'block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md',
+              value: inputValue,
+              onChange: e => setInputValue(e.target.value),
             })}
           />
           {isOpen && (
-            <div className="absolute z-10 mt-2 w-full bg-white shadow-lg max-h-60 overflow-y-auto">
+            <div className="autosuggest-list">
               {labels
                 .map((label, index) => ({
                   label,
@@ -77,23 +66,19 @@ function AutoSuggest({ value, setValue, labels, onSelectionChange, maxItems }) {
                 }))
                 .filter(item => item.score > 0)
                 .sort((a, b) => b.score - a.score)
-                .slice(0, maxItems)
                 .map((item, index) => (
                   <div
                     key={item.index}
                     {...getItemProps({
                       item: item.label,
                       index,
-                      className: `cursor-pointer select-none relative py-2 pl-10 pr-4 ${
+                      className:
                         highlightedIndex === index
-                          ? 'bg-indigo-600 text-white'
-                          : 'text-gray-900'
-                      }`,
+                          ? 'autosuggest-item-highlighted'
+                          : 'autosuggest-item',
                     })}
                   >
-                    {item.label.value === ''
-                      ? item.label.key
-                      : formatValue(item.label.value)}
+                    {formatValue(item.label.value) || item.label.key}
                   </div>
                 ))}
             </div>
@@ -104,4 +89,4 @@ function AutoSuggest({ value, setValue, labels, onSelectionChange, maxItems }) {
   );
 }
 
-export default AutoSuggest;
+export default MilitaryAutoSuggest;
