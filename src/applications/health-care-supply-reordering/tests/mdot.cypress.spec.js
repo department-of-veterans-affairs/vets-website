@@ -9,6 +9,7 @@ import noTempAddress from './data/users/markUserData.json';
 import noBatteries from './data/users/jerryUserData.json';
 import noAccessories from './data/users/eddieUserData.json';
 import USTerritory from './data/users/johnUserData.json';
+import foreignAddress from './data/users/consuelaUserData.json';
 
 const testConfig = createTestConfig(
   {
@@ -20,6 +21,7 @@ const testConfig = createTestConfig(
       'noBatteries',
       'noAccessories',
       'USTerritory',
+      'foreignAddress',
     ],
 
     fixtures: {
@@ -55,6 +57,8 @@ const testConfig = createTestConfig(
               'T1X0L4',
             );
             cy.findByText(/Save temporary address/i).click();
+          } else if (testKey === 'foreignAddress') {
+            // Don't modify the address for this order.
           } else {
             cy.get('input#permanentAddress').should('be.checked');
             cy.findByText('Edit permanent address', {
@@ -152,6 +156,25 @@ const testConfig = createTestConfig(
           ];
         } else if (testKey === 'USTerritory') {
           cy.intercept('GET', '/v0/user', USTerritory);
+          postData = [
+            {
+              status: 'Order Processed',
+              orderId: 2329,
+              productId: 1,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2330,
+              productId: 3,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2331,
+              productId: 5,
+            },
+          ];
+        } else if (testKey === 'foreignAddress') {
+          cy.intercept('GET', '/v0/user', foreignAddress);
           postData = [
             {
               status: 'Order Processed',
