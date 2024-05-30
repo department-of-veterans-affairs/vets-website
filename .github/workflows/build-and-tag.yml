@@ -65,7 +65,8 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: Get AWS IAM role
-        uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+        uses: ./.github/workflows/inject-secrets
+
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
