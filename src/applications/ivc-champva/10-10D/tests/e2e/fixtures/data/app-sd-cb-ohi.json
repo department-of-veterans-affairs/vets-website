@@ -71,8 +71,6 @@
       "ssn": "123123123"
     },
     "certifierRole": "applicant",
-    "consentToMailMissingRequiredFiles": true,
-    "statementOfTruthSignature": "applicant jones",
-    "statementOfTruthCertified": true
+    "consentToMailMissingRequiredFiles": true
   }
 }

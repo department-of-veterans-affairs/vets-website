@@ -726,14 +726,17 @@ export const addressLabel = address => {
   );
 };
 
-export const hasFormChanged = (obj, applicantName) => {
+export const hasFormChanged = obj => {
   const keys = Object.keys(obj ?? {});
-
   for (const key of keys) {
-    if (
-      (!key.includes('fullName') && obj[key] !== undefined) ||
-      (key.includes('fullName') && obj[key] !== applicantName)
-    ) {
+    const value = obj[key];
+    // Skip the specific key
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+    // Checking if there is value that is not undefined
+    if (value !== undefined) {
       return true;
     }
   }
@@ -750,6 +753,10 @@ export function compareAddressObjects(obj1, obj2) {
     return false;
   }
   for (const key of keys1) {
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
     if (
       hasOwnProperty.call(obj1, key) &&
       hasOwnProperty.call(obj2, key) &&
@@ -760,6 +767,10 @@ export function compareAddressObjects(obj1, obj2) {
   }
 
   for (const key of keys2) {
+    if (key === 'view:livesOnMilitaryBaseInfo') {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
     if (
       hasOwnProperty.call(obj2, key) &&
       hasOwnProperty.call(obj1, key) &&

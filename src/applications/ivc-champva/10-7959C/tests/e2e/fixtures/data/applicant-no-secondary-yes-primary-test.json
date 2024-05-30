@@ -2,7 +2,7 @@
   "data": {
     "applicantHasSecondary": false,
     "primaryAdditionalComments": "Primary comments",
-    "primaryMedigapPlan": "medigapPlanD",
+    "primaryMedigapPlan": "D",
     "applicantPrimaryInsuranceType": {
       "medicaid": true,
       "rxDiscount": true,

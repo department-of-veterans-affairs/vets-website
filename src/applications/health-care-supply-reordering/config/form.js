@@ -4,7 +4,10 @@ import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
+import { countryValueToName } from '../utils/addresses';
+import addressPage from '../pages/addressPage';
 import FooterInfo from '../components/FooterInfo';
+import prefillTransformer from './prefill-transformer';
 import IntroductionPage from '../components/IntroductionPage';
 import { schemaFields } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -12,30 +15,9 @@ import UIDefinitions from '../schemas/2346UI';
 
 import manifest from '../manifest.json';
 
-const {
-  email,
-  date,
-  supplies,
-  addressWithIsMilitaryBase,
-} = fullSchema.definitions;
-
-const {
-  vetEmailField,
-  suppliesField,
-  permanentAddressField,
-  temporaryAddressField,
-  viewCurrentAddressField,
-  viewVeteranInfoField,
-} = schemaFields;
-
-const {
-  emailUI,
-  suppliesUI,
-  permanentAddressUI,
-  temporaryAddressUI,
-  currentAddressUI,
-  veteranInfoUI,
-} = UIDefinitions.sharedUISchemas;
+const { email, date, supplies } = fullSchema.definitions;
+const { suppliesField, viewVeteranInfoField } = schemaFields;
+const { suppliesUI, veteranInfoUI } = UIDefinitions.sharedUISchemas;
 
 const formChapterTitles = {
   veteranInformation: 'Veteran information',
@@ -48,15 +30,17 @@ const formPageTitlesLookup = {
   addSuppliesPage: 'Add supplies to your order',
 };
 
-// We need to add this property so we can display the component within our address schema, underneath the checkbox for military bases.
-addressWithIsMilitaryBase.properties['view:livesOnMilitaryBaseInfo'] = {
-  type: 'string',
-};
-
 const submit = form => {
   const currentAddress = form.data['view:currentAddress'];
   const itemQuantities = form.data?.order?.length;
   const { order, permanentAddress, temporaryAddress, vetEmail } = form.data;
+  for (const address of [permanentAddress, temporaryAddress]) {
+    // Remove state for non-US addresses per DLC's preference.
+    if (address.country !== 'USA') {
+      address.state = '';
+    }
+    address.country = countryValueToName(address.country);
+  }
   const useVeteranAddress = currentAddress === 'permanentAddress';
   const useTemporaryAddress = currentAddress === 'temporaryAddress';
   const payload = {
@@ -146,6 +130,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: FooterInfo,
   formId: VA_FORM_IDS.FORM_VA_2346A,
+  prefillTransformer,
   saveInProgress: {
     messages: {
       inProgress: 'You have a hearing aid or CPAP supplies order in progress.',
@@ -178,7 +163,6 @@ const formConfig = {
     email,
     supplies,
     date,
-    addressWithIsMilitaryBase,
   },
   chapters: {
     veteranInformationChapter: {
@@ -203,25 +187,8 @@ const formConfig = {
         [formPageTitlesLookup.address]: {
           path: 'address',
           title: formPageTitlesLookup.address,
-          uiSchema: {
-            [permanentAddressField]: permanentAddressUI,
-            [temporaryAddressField]: temporaryAddressUI,
-            [vetEmailField]: emailUI,
-            [viewCurrentAddressField]: currentAddressUI,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [permanentAddressField]: addressWithIsMilitaryBase,
-              [temporaryAddressField]: addressWithIsMilitaryBase,
-              [vetEmailField]: email,
-              [viewCurrentAddressField]: {
-                type: 'string',
-                enum: ['permanentAddress', 'temporaryAddress'],
-                default: 'permanentAddress',
-              },
-            },
-          },
+          uiSchema: addressPage.uiSchema,
+          schema: addressPage.schema,
         },
       },
     },

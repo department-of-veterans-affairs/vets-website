@@ -24,9 +24,7 @@ const IntroductionPage = props => {
   const { route, loggedIn, toggleLoginModal } = props;
   const { formConfig, pageList, pathname, formData } = route;
   const [inquiryData, setInquiryData] = useState(false);
-  const [searchReferenceNumber, setSearchReferenceNumber] = useState(
-    'A-20240521-307161',
-  );
+  const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
   const [hasError, setHasError] = useState(false);
 
   const getStartPage = () => {

@@ -17,6 +17,12 @@ class VaccinesDetailsPage extends BaseDetailsPage {
     );
   };
 
+  verifyVaccineDateYearOnly = (VaccinesDetails = defaultVaccines.entry[0]) => {
+    cy.get('[data-testid="header-time"]').contains(
+      moment(VaccinesDetails.resource.occurrenceDateTime).format('YYYY'),
+    );
+  };
+
   verifyVaccineLocation = (VaccinesDetails = defaultVaccines.entry[0]) => {
     cy.get('[data-testid="vaccine-location"]').contains(
       VaccinesDetails.resource.contained[0].name,

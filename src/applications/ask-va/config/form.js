@@ -69,9 +69,9 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for ask the va test.',
-    noAuth:
-      'Please sign in again to continue your application for ask the va test.',
+    // notFound: 'Please start over to apply for ask the va test.',
+    // noAuth:
+    //   'Please sign in again to continue your application for ask the va test.',
   },
   title: 'Ask VA',
   subTitle: 'Get answers to your questions about VA benefits and services.',

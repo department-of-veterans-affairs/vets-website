@@ -148,7 +148,7 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      if (recipients.allowedRecipients.length > 0) {
+      if (recipients.allowedRecipients?.length > 0) {
         setRecipientsList([
           ...defaultRecipientsList,
           ...recipients.allowedRecipients,
@@ -176,6 +176,7 @@ const ComposeForm = props => {
 
       const {
         isAssociated,
+        isBlocked,
         formattedRecipient,
       } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
 
@@ -185,7 +186,7 @@ const ComposeForm = props => {
           formattedRecipient,
           ...recipients.blockedRecipients,
         ]);
-      } else if (recipients.associatedBlockedTriageGroupsQty > 0) {
+      } else if (isBlocked) {
         setShowBlockedTriageGroupAlert(true);
         setBlockedTriageGroupList(recipients.blockedRecipients);
       }

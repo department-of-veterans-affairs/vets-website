@@ -88,9 +88,9 @@ export const NO_PENDING_DOCUMENTS_STATMENT = (
   <p>
     We currently do not show a claim pending. If you recently submitted your
     claim, Verify Your Enrollment may not have been updated yet. Please allow
-    for mail time plus 3 - 5 business days. Check back periodically. If you have
-    had a claim pending, but it is no longer reflected on this page, it may have
-    been recently completed.
+    for mail time plus 4 to 6 business days. Check back periodically. If you
+    have had a claim pending, but it is no longer reflected on this page, it may
+    have been recently completed.
   </p>
 );
 

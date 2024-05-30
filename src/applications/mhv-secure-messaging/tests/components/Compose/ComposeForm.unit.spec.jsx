@@ -37,6 +37,7 @@ describe('Compose form component', () => {
       triageTeams: { triageTeams },
       categories: { categories },
       recipients: {
+        allRecipients: noBlockedRecipients.mockAllRecipients,
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
         associatedTriageGroupsQty:
@@ -57,6 +58,7 @@ describe('Compose form component', () => {
       categories: { categories },
       threadDetails: { ...threadDetailsReducer.threadDetails },
       recipients: {
+        allRecipients: noBlockedRecipients.mockAllRecipients,
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
         associatedTriageGroupsQty:
@@ -542,6 +544,7 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
+          allRecipients: oneBlockedRecipient.mockAllRecipients,
           allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
           blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
           associatedTriageGroupsQty:
@@ -586,6 +589,7 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
+          allRecipients: twoBlockedRecipients.mockAllRecipients,
           allowedRecipients: twoBlockedRecipients.mockAllowedRecipients,
           blockedRecipients: twoBlockedRecipients.mockBlockedRecipients,
           blockedFacilities: [],
@@ -629,6 +633,7 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
+          allRecipients: lostAssociation.mockAllRecipients,
           allowedRecipients: lostAssociation.mockAllowedRecipients,
           blockedRecipients: lostAssociation.mockBlockedRecipients,
           associatedTriageGroupsQty: lostAssociation.associatedTriageGroupsQty,
@@ -669,6 +674,7 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
+          allRecipients: noAssociationsAtAll.mockAllRecipients,
           allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
           blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
           associatedTriageGroupsQty:
@@ -732,6 +738,7 @@ describe('Compose form component', () => {
       sm: {
         ...initialState.sm,
         recipients: {
+          allRecipients: blockedFacility.mockAllRecipients,
           allowedRecipients: blockedFacility.mockAllowedRecipients,
           blockedRecipients: blockedFacility.mockBlockedRecipients,
           blockedFacilities: blockedFacility.mockBlockedFacilities,
@@ -769,6 +776,7 @@ describe('Compose form component', () => {
       sm: {
         ...initialState.sm,
         recipients: {
+          allRecipients: blockedFacilityAndTeam.mockAllRecipients,
           allowedRecipients: blockedFacilityAndTeam.mockAllowedRecipients,
           blockedRecipients: blockedFacilityAndTeam.mockBlockedRecipients,
           blockedFacilities: blockedFacilityAndTeam.mockBlockedFacilities,
@@ -812,6 +820,7 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
+          allRecipients: allBlockedAssociations.mockAllRecipients,
           allowedRecipients: allBlockedAssociations.mockAllowedRecipients,
           blockedRecipients: allBlockedAssociations.mockBlockedRecipients,
           associatedTriageGroupsQty:

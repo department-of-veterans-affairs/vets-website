@@ -2,6 +2,8 @@ import mockUser from '../fixtures/user.json';
 import vamcUser from '../fixtures/vamc-ehr.json';
 import mockUnauthenticatedUser from '../fixtures/non-rx-user.json';
 import mockToggles from '../fixtures/toggles-response.json';
+import cernerUser from '../fixtures/cerner-user.json';
+import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
 
 import prescriptions from '../fixtures/prescriptions.json';
 import { medicationsUrls } from '../../../util/constants';
@@ -48,6 +50,26 @@ class MedicationsSite {
         'mockUnAuthUser',
       );
       cy.intercept('GET', '/health-care/refill-track-prescriptions');
+    }
+  };
+
+  cernerLogin = (isMedicationsUser = true) => {
+    if (isMedicationsUser) {
+      cy.login();
+      window.localStorage.setItem('isLoggedIn', true);
+
+      cy.intercept(
+        { method: 'GET', url: '/v0/feature_toggles?*' },
+        mockToggles,
+      ).as('featureToggle');
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
+
+      cy.intercept(
+        'GET',
+        '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+        emptyPrescriptionsList,
+      ).as('emptyPrescriptionsList');
+      cy.intercept('GET', '/v0/user', cernerUser).as('mockUser');
     }
   };
 

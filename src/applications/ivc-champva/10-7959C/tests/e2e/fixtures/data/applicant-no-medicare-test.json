@@ -1,7 +1,7 @@
 {
   "data": {
     "secondaryAdditionalComments": "Secondary comment",
-    "secondaryMedigapPlan": "medigapPlanD",
+    "secondaryMedigapPlan": "D",
     "applicantSecondaryInsuranceType": {
       "hmo": true,
       "ppo": true,
@@ -16,7 +16,7 @@
     "applicantSecondaryExpirationDate": "2023-06-02",
     "applicantHasSecondary": true,
     "primaryAdditionalComments": "Additional primary comment",
-    "primaryMedigapPlan": "medigapPlanB",
+    "primaryMedigapPlan": "B",
     "applicantPrimaryInsuranceType": {
       "hmo": true,
       "ppo": true,

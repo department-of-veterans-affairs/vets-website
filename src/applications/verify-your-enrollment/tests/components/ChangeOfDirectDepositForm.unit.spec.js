@@ -40,7 +40,7 @@ describe('Change Of Direct Deposit Form', () => {
     const formDOM = getFormDOM(screen);
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(8);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(7);
   });
 
   it('Should raise one error with the account validation', () => {
@@ -56,9 +56,7 @@ describe('Change Of Direct Deposit Form', () => {
       />,
     );
     const formDOM = getFormDOM(screen);
-    const fullName = screen.getByRole('textbox', {
-      name: "Veteran's full name (*Required)",
-    });
+
     const VeteranPhone = screen.getByRole('textbox', {
       name: "Veteran's phone number (*Required)",
     });
@@ -86,7 +84,6 @@ describe('Change Of Direct Deposit Form', () => {
     });
 
     fireEvent.click(accountTypeButton);
-    fireEvent.change(fullName, { target: { value: 'Jhon Doe' } });
     fireEvent.change(VeteranPhone, { target: { value: '3134567890' } });
     fireEvent.change(VeteranEmail, {
       target: { value: 'someemail@gmail.com' },
@@ -120,9 +117,6 @@ describe('Change Of Direct Deposit Form', () => {
       />,
     );
     const formDOM = getFormDOM(screen);
-    const fullName = screen.getByRole('textbox', {
-      name: "Veteran's full name (*Required)",
-    });
     const accountTypeButton = screen.container.querySelector(
       'va-radio-option[label="Checking"]',
     );
@@ -148,7 +142,6 @@ describe('Change Of Direct Deposit Form', () => {
       name: /verify account number \(\*required\)/i,
     });
     fireEvent.click(accountTypeButton);
-    fireEvent.change(fullName, { target: { value: 'Jhon Doe' } });
     fireEvent.change(VeteranPhone, { target: { value: '3134567890' } });
     fireEvent.change(VeteranEmail, {
       target: { value: 'someemail@gmail.com' },

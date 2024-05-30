@@ -24,7 +24,6 @@ describe('Direct deposit information', () => {
       .first()
       .click();
     cy.get('[id="VYE-add-new-account-button"]').click();
-    cy.get('[id="root_GI-Bill-Chapters-fullName"]').type('John Smith');
     cy.get('input[id="root_GI-Bill-Chapters-phone"]').type('4082037901');
     cy.get('[id="root_GI-Bill-Chapters-email"]').type('uer01@mail.com');
     cy.get(
@@ -97,10 +96,6 @@ describe('Direct deposit information', () => {
     cy.get(
       '[aria-label="save your bank information for GI Bill® benefits"]',
     ).click();
-    cy.get('[id="root_GI-Bill-Chapters-fullName-error-message"]').should(
-      'contain',
-      "Please enter the Veteran's Full Name",
-    );
     cy.get('[id="root_GI-Bill-Chapters-email-error-message"]').should(
       'contain',
       'Please enter an email address',

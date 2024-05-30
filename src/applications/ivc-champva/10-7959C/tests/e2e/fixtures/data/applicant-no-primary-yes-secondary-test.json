@@ -1,7 +1,7 @@
 {
   "data": {
     "secondaryAdditionalComments": "Secondary comments",
-    "secondaryMedigapPlan": "medigapPlanK",
+    "secondaryMedigapPlan": "K",
     "applicantSecondaryInsuranceType": {
       "ppo": true,
       "medigap": true

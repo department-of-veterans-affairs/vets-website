@@ -27,6 +27,9 @@
         "applicantRelationshipToSponsor": {
           "relationshipToVeteran": "spouse"
         },
+        "applicantSponsorMarriageDetails": {
+          "relationshipToVeteran": "marriedTillDeathNoRemarriage"
+        },
         "missingUploads": [
           {
             "name": "applicantMarriageCert",
@@ -95,7 +98,7 @@
             "uploaded": false
           }
         ],
-        "sharesAddressWith": "{\"originatorName\":\"Applicant  Jones \",\"originatorAddress\":{\"view:militaryBaseDescription\":{},\"country\":\"USA\",\"street\":\"123 App1 Street\",\"city\":\"App1 Town\",\"state\":\"MD\",\"postalCode\":\"12312\"},\"displayText\":\"123 App1 Street\"}",
+        "sharesAddressWith": "not-shared",
         "applicantGender": {
           "gender": "male"
         },

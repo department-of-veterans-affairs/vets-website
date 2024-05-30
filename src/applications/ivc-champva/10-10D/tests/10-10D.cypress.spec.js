@@ -16,6 +16,7 @@ import {
   fillDateWebComponentPattern,
   fillAddressWebComponentPattern,
   getAllPages,
+  verifyAllDataWasSubmitted,
 } from '../../shared/tests/helpers';
 
 // All pages from form config i.e.: {page1: {path: '/blah'}}
@@ -390,32 +391,13 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
-          Object.keys(data).forEach(k => {
-            // Verify that all test data was filled in on the form
-
-            // Handle special cases:
-            if (typeof k === 'object') {
-              // For objects with nested keys, just stringify and check
-              // (easier for things like home address)
-              expect(JSON.stringify(data[k])).to.equal(
-                JSON.stringify(req.body[k]),
-              );
-            } else if (k.includes('DOB') || k.includes('Date')) {
-              // Just check length match since dates flip from YYYY-MM-DD to
-              // MM-DD-YYYY). TODO: Address date reformat.
-              expect(
-                `${k}: ${data[k]?.length}` === `${k}: ${req.body[k]?.length}`,
-              );
-              // expect(data[k]?.length).to.equal(req.body[k]?.length);
-            } else {
-              expect(`${k}: ${data[k]}` === `${k}: ${req.body[k]}`);
-            }
-          });
+          verifyAllDataWasSubmitted(data, req.body.raw_data);
         });
         // Mock response
         req.reply({ status: 200 });
       });
       cy.config('includeShadowDom', true);
+      cy.config('retries', { runMode: 0 });
     },
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.

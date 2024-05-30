@@ -44,6 +44,16 @@
                     }
                 },
                 {
+                    "title": "Mann-Grandstaff Department of Veterans Affairs Medical Center",
+                    "fieldFacilityLocatorApiId": "vha_668",
+                    "fieldRegionPage": {
+                        "entity": {
+                            "title": "VA Spokane health care",
+                            "fieldVamcEhrSystem": "cerner"
+                        }
+                    }
+                },
+                {
                     "title": "Ioannis A. Lougaris Veterans' Administration Medical Center",
                     "fieldFacilityLocatorApiId": "vha_654",
                     "fieldRegionPage": {

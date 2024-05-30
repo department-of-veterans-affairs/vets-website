@@ -11,7 +11,6 @@ export function makeFormProperties(prefix) {
   return {
     phone: `${prefix}phone`,
     phone2: `${prefix}phone`,
-    fullName: `${prefix}fullName`,
     email: `${prefix}email`,
     accountType: `${prefix}AccountType`,
     routingNumber: `${prefix}RoutingNumber`,
@@ -22,15 +21,11 @@ export function makeFormProperties(prefix) {
   };
 }
 
-export function makeSchemas(prefix, defaultName) {
+export function makeSchemas(prefix) {
   const properties = makeFormProperties(prefix);
   const schema = {
     type: 'object',
     properties: {
-      [properties.fullName]: {
-        type: 'string',
-        default: defaultName,
-      },
       [properties.phone]: {
         type: 'string',
         pattern: '^\\d{10}$',
@@ -65,7 +60,6 @@ export function makeSchemas(prefix, defaultName) {
       },
     },
     required: [
-      properties.fullName,
       properties.phone,
       properties.email,
       properties.bankName,
@@ -78,12 +72,6 @@ export function makeSchemas(prefix, defaultName) {
   };
 
   const uiSchema = {
-    [properties.fullName]: {
-      'ui:title': "Veteran's full name",
-      'ui:errorMessages': {
-        required: "Please enter the Veteran's Full Name",
-      },
-    },
     [properties.bankName]: {
       'ui:title': 'Name of financial institution',
       'ui:errorMessages': {
@@ -141,9 +129,8 @@ const ChangeOfDirectDepositForm = ({
   formData,
   formPrefix,
   formSubmit,
-  defaultName,
 }) => {
-  const { schema, uiSchema } = makeSchemas(formPrefix, defaultName);
+  const { schema, uiSchema } = makeSchemas(formPrefix);
 
   return (
     <SchemaForm

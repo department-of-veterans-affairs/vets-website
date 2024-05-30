@@ -151,7 +151,6 @@ describe('<SuggestedAddress />', () => {
     useDispatchMock.returns(dispatch);
 
     const formData = {
-      fullName: 'John Doe',
       addressLine1: '123 Main St',
       addressLine2: 'Apt 4',
       city: 'Anytown',
@@ -169,6 +168,7 @@ describe('<SuggestedAddress />', () => {
           setAddressToUI={setAddressToUI}
           suggestedAddressPicked={false}
           scrollToTopOfForm={() => {}}
+          applicantName="John Doe"
         />
       </Provider>,
     );

@@ -77,6 +77,7 @@ const mapStateToProps = state => ({
 });
 
 PeriodsToVerify.propTypes = {
+  enrollmentData: PropTypes.object,
   link: PropTypes.func,
   loading: PropTypes.bool,
   toggleEnrollmentSuccess: PropTypes.bool,

@@ -12,13 +12,12 @@ const ChangeOfAddressForm = ({
   formChange,
   addressFormData,
   formSubmit,
-  applicantName,
   formData,
 }) => {
   const [addressSchema, setAddressSchema] = useState({});
   const [addressUISchema, setAddressUISchema] = useState({});
   const createFormSchema = (requiredArray = []) => {
-    const fSchema = getFormSchema(applicantName, formData);
+    const fSchema = getFormSchema(formData);
 
     if (requiredArray.size === 0) {
       return fSchema;
@@ -287,7 +286,6 @@ ChangeOfAddressForm.propTypes = {
   formChange: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   formSubmit: PropTypes.func.isRequired,
-  applicantName: PropTypes.string,
   cancelButtonClasses: PropTypes.arrayOf(PropTypes.string),
   children: PropTypes.oneOfType([
     PropTypes.string,
