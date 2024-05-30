@@ -209,6 +209,7 @@ class ClaimStatusPage extends React.Component {
       status,
       trackedItems,
     } = claim.attributes;
+    const claimPhaseType = claimPhaseDates.latestPhaseType;
     const isOpen = isClaimOpen(status, closeDate);
     const filesNeeded = itemsNeedingAttentionFromVet(trackedItems);
     const showDocsNeeded =
@@ -222,7 +223,10 @@ class ClaimStatusPage extends React.Component {
             {isOpen ? (
               <>
                 <WhatYouNeedToDo claim={claim} useLighthouse />
-                <WhatWeAreDoing status={status} />
+                <WhatWeAreDoing
+                  claimPhaseType={claimPhaseType}
+                  status={status}
+                />
               </>
             ) : (
               <>

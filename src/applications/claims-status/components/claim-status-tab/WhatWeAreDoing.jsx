@@ -1,15 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom-v5-compat';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import {
   getStatusDescription,
   getClaimStatusDescription,
+  getClaimPhaseTypeHeaderText,
+  getClaimPhaseTypeDescription,
 } from '../../utils/helpers';
 
-export default function WhatWeAreDoing({ status }) {
-  const humanStatus = getStatusDescription(status);
-  const description = getClaimStatusDescription(status);
+export default function WhatWeAreDoing({ claimPhaseType, status }) {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
+  const humanStatus = cstClaimPhasesEnabled
+    ? getClaimPhaseTypeHeaderText(claimPhaseType)
+    : getStatusDescription(status);
+  const description = cstClaimPhasesEnabled
+    ? getClaimPhaseTypeDescription(claimPhaseType)
+    : getClaimStatusDescription(status);
+  const linkText = cstClaimPhasesEnabled
+    ? 'Learn more about this step'
+    : 'Overview of the process';
 
   return (
     <div className="what-were-doing-container vads-u-margin-bottom--4">
@@ -22,11 +34,11 @@ export default function WhatWeAreDoing({ status }) {
           {description}
         </p>
         <Link
-          aria-label="Overview of the process"
+          aria-label={linkText}
           className="vads-u-margin-top--1 active-va-link"
           to="../overview"
         >
-          Overview of the process
+          {linkText}
           <va-icon icon="chevron_right" size={3} aria-hidden="true" />
         </Link>
       </va-card>
@@ -35,5 +47,6 @@ export default function WhatWeAreDoing({ status }) {
 }
 
 WhatWeAreDoing.propTypes = {
+  claimPhaseType: PropTypes.string,
   status: PropTypes.string,
 };

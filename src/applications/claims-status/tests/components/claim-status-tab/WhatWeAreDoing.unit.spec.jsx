@@ -1,8 +1,13 @@
 import React from 'react';
 
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { expect } from 'chai';
 import {
   getStatusDescription,
   getClaimStatusDescription,
+  getClaimPhaseTypeHeaderText,
+  getClaimPhaseTypeDescription,
 } from '../../../utils/helpers';
 import { renderWithRouter } from '../../utils';
 
@@ -29,12 +34,42 @@ const claim = {
 };
 
 describe('<WhatWeAreDoing>', () => {
-  it('should render a WhatWereDoing section', () => {
-    const { status } = claim.attributes;
+  const getStore = (cstClaimPhasesEnabled = true) =>
+    createStore(() => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        cst_claim_phases: cstClaimPhasesEnabled,
+      },
+    }));
 
-    const screen = renderWithRouter(<WhatWeAreDoing status={status} />);
+  const { status, claimPhaseDates } = claim.attributes;
+  const claimPhaseType = claimPhaseDates.latestPhaseType;
 
-    screen.getByText(getStatusDescription(status));
-    screen.getByText(getClaimStatusDescription(status));
+  context('cstClaimPhases feature flag enabled', () => {
+    it('should render a WhatWereDoing section', () => {
+      const { getByText, getByRole } = renderWithRouter(
+        <Provider store={getStore()}>
+          <WhatWeAreDoing status={status} claimPhaseType={claimPhaseType} />
+        </Provider>,
+      );
+
+      getByText(getClaimPhaseTypeHeaderText(claimPhaseType));
+      getByText(getClaimPhaseTypeDescription(claimPhaseType));
+      expect(getByRole('link')).to.have.text('Learn more about this step');
+    });
+  });
+
+  context('cstClaimPhases feature flag disabled', () => {
+    it('should render a WhatWereDoing section', () => {
+      const { getByText, getByRole } = renderWithRouter(
+        <Provider store={getStore(false)}>
+          <WhatWeAreDoing status={status} claimPhaseType={claimPhaseType} />
+        </Provider>,
+      );
+
+      getByText(getStatusDescription(status));
+      getByText(getClaimStatusDescription(status));
+      expect(getByRole('link')).to.have.text('Overview of the process');
+    });
   });
 });
