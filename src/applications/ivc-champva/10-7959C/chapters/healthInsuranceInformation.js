@@ -26,15 +26,15 @@ const additionalFilesHint =
   'Depending on your response, you may need to submit additional documents with this application.';
 
 const MEDIGAP = {
-  medigapPlanA: 'Medigap Plan A',
-  medigapPlanB: 'Medigap Plan B',
-  medigapPlanC: 'Medigap Plan C',
-  medigapPlanD: 'Medigap Plan D',
-  medigapPlanF: 'Medigap Plan F',
-  medigapPlanG: 'Medigap Plan G',
-  medigapPlanK: 'Medigap Plan K',
-  medigapPlanL: 'Medigap Plan L',
-  medigapPlanM: 'Medigap Plan M',
+  A: 'Medigap Plan A',
+  B: 'Medigap Plan B',
+  C: 'Medigap Plan C',
+  D: 'Medigap Plan D',
+  F: 'Medigap Plan F',
+  G: 'Medigap Plan G',
+  K: 'Medigap Plan K',
+  L: 'Medigap Plan L',
+  M: 'Medigap Plan M',
 };
 
 /*

@@ -88,7 +88,6 @@ ${txtLine}\n\n
 Type of test: ${record.type} \n
 Sample tested: ${record.sampleTested} \n
 Ordered by: ${record.orderedBy} \n
-Order location: ${record.orderingLocation} \n
 Collecting location: ${record.collectingLocation} \n
 Lab comments: ${processList(record.comments)} \n
 ${txtLine}\n\n
