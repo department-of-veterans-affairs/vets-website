@@ -135,6 +135,7 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
+          scrollAndFocusTarget: focusH3,
         },
 
         ...contactInfo,
@@ -161,6 +162,7 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
+          scrollAndFocusTarget: focusH3,
         },
         addIssue: {
           title: 'Add issues for review',
@@ -171,12 +173,14 @@ const formConfig = {
           uiSchema: {},
           schema: blankSchema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
+          scrollAndFocusTarget: focusH3,
         },
         issueSummary: {
           title: 'Issue summary',
           path: 'issue-summary',
           uiSchema: issueSummary.uiSchema,
           schema: issueSummary.schema,
+          scrollAndFocusTarget: focusH3,
         },
         optIn: {
           title: 'Opt in',
@@ -184,6 +188,7 @@ const formConfig = {
           depends: mayHaveLegacyAppeals,
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
+          scrollAndFocusTarget: focusH3,
         },
       },
     },
@@ -238,6 +243,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
           schema: evidencePrivateRecordsAuthorization.schema,
+          scrollAndFocusTarget: focusH3,
         },
         evidencePrivateRecords: {
           title: 'Private medical records',
@@ -257,6 +263,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: blankUiSchema,
           schema: blankSchema,
+          scrollAndFocusTarget: focusH3,
         },
         evidenceWillUpload: {
           title: 'Upload new and relevant evidence',
@@ -280,6 +287,7 @@ const formConfig = {
           CustomPageReview: EvidenceSummaryReview,
           uiSchema: evidenceSummary.uiSchema,
           schema: evidenceSummary.schema,
+          scrollAndFocusTarget: focusH3,
         },
       },
     },
