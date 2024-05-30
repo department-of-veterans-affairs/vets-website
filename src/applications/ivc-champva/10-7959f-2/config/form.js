@@ -1,8 +1,8 @@
 import { cloneDeep } from 'lodash';
 
 import {
-  // ssnOrVaFileNumberSchema,
-  // ssnOrVaFileNumberNoHintUI,
+  ssnOrVaFileNumberSchema,
+  ssnOrVaFileNumberNoHintUI,
   fullNameUI,
   fullNameSchema,
   titleUI,
@@ -76,6 +76,31 @@ const formConfig = {
               titleSchema,
               veteranFullName: fullNameSchema,
               veteranDateOfBirth: dateOfBirthSchema,
+            },
+          },
+        },
+      },
+    },
+    veteranIdentificationChapter: {
+      title: 'Identification information',
+      pages: {
+        page2: {
+          path: 'identification-information',
+          uiSchema: {
+            ...titleUI(
+              'Identification information',
+              'You must enter either a Social Security Number or a VA file number.',
+            ),
+            messageAriaDescribedby:
+              'You must enter either a Social Security number or VA file number.',
+            veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['veteranSocialSecurityNumber'],
+            properties: {
+              titleSchema,
+              veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
             },
           },
         },

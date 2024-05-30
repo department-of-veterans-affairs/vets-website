@@ -26,6 +26,7 @@ const SuggestedAddress = ({
   suggestedAddressPicked,
   setGoBackToEdit,
   scrollToTopOfForm,
+  applicantName,
 }) => {
   const dispatch = useDispatch();
   const { isLoadingValidateAddress, addressValidationData } = useSelector(
@@ -70,7 +71,7 @@ const SuggestedAddress = ({
       setSuggestedAddressPicked(true);
       dispatch(handleSuggestedAddressPicked(true));
       try {
-        dispatch(validateAddress(fields, formData?.fullName));
+        dispatch(validateAddress(fields, applicantName));
       } catch (err) {
         throw new Error(err);
       } finally {
@@ -80,7 +81,7 @@ const SuggestedAddress = ({
       try {
         await dispatch(
           postMailingAddress({
-            veteranName: formData.fullName,
+            veteranName: applicantName,
             address1: formData.addressLine1,
             address2: formData.addressLine2,
             address3: formData.addressLine3,
@@ -185,6 +186,7 @@ const SuggestedAddress = ({
 };
 
 SuggestedAddress.propTypes = {
+  applicantName: PropTypes.string.isRequired,
   handleAddNewClick: PropTypes.func.isRequired,
   setAddressToUI: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
