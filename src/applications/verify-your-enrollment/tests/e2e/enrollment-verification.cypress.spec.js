@@ -168,4 +168,26 @@ describe('Enrollment Verification Page Tests', () => {
       "This page isn't available right now.",
     );
   });
+  it("Should return 'You currently have no enrollments.' if a user is new", () => {
+    cy.injectAxeThenAxeCheck();
+    const enrollmentData = {
+      ...UPDATED_USER_MOCK_DATA['vye::UserInfo'],
+      pendingVerifications: [],
+      verifications: [],
+    };
+    cy.intercept('GET', '/vye/v1', {
+      statusCode: 200,
+      body: enrollmentData,
+    });
+
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad: win => {
+        /* eslint no-param-reassign: "error" */
+        win.isProduction = true;
+      },
+    });
+    cy.get(
+      'span[class="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2"]',
+    ).should('contain', 'You currently have no enrollments.');
+  });
 });
