@@ -114,6 +114,26 @@ describe('Enrollment Verification Page Tests', () => {
     cy.get('a[aria-label="page 1, first page"]').click();
     cy.get('[id="vye-pagination-page-status-text"]').should('be.focused');
   });
+
+  it('Should shows You currently have no enrollments if user is not part og VYE ', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.intercept('GET', '/vye/v1', {
+      statusCode: 403,
+      body: {
+        error: 'Forbidden',
+      },
+    });
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad: win => {
+        /* eslint no-param-reassign: "error" */
+        win.isProduction = true;
+      },
+    });
+    cy.get(
+      'span[class="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2"]',
+    ).should('contain', 'You currently have no enrollments.');
+  });
+
   it("Should return This page isn't available right now if there is 500 error ", () => {
     cy.injectAxeThenAxeCheck();
     cy.intercept('GET', '/vye/v1', {
@@ -129,6 +149,7 @@ describe('Enrollment Verification Page Tests', () => {
         ],
       },
     }).as('getServerError');
+
     cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
       onBeforeLoad: win => {
         /* eslint no-param-reassign: "error" */
