@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import _ from 'lodash';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -35,35 +34,21 @@ export function ApplicantAddressCopyPage({
   }
 
   /**
-   * Toggles specific object property from string to JSON within an array of objects
+   * Removes objects from the array if they have an identical [property] as an
+   * earlier object in the array.
    *
-   * E.g., for array:
-   * `array = [
-   *   { name: 'jim', address: {street: '123'}},
-   * ]`
-   *
-   * calling `parseOrStringifyProperty(array, 'address')`
-   *
-   * would yield:
-   * `[{name: 'jim', address: '{"street":"123"}'}]`
-   *
-   * and calling `parseOrStringifyProperty(array, 'address')` again would reverse
-   * the process, returning that result to its original form.
-   *
-   * @param {*} arrOfObj List containing objects
-   * @param {*} keyname Target property we want to either stringify or parse
-   * @returns original array with each object's [property] either stringified or parsed to JSON
+   * @param {array} array List containing objects
+   * @param {string} property Target property for determining uniqueness
+   * @returns original array minus objects with duplicate [property] values
    */
-  function parseOrStringifyProperty(arrOfObj, keyname) {
-    return arrOfObj.map(o => {
-      const obj = o;
-      if (typeof obj[keyname] === 'string') {
-        obj[keyname] = JSON.parse(obj[keyname]);
-      } else {
-        obj[keyname] = JSON.stringify(obj[keyname]);
-      }
-      return obj;
-    });
+  function eliminateDuplicatesByKey(array, property) {
+    return array.filter(
+      (item, index) =>
+        index ===
+        array.findIndex(
+          t => JSON.stringify(t[property]) === JSON.stringify(item[property]),
+        ),
+    );
   }
 
   function isValidOrigin(person) {
@@ -100,13 +85,8 @@ export function ApplicantAddressCopyPage({
         displayText: app.applicantAddress?.street,
       }),
     );
-    // Drop any entries with duplicate addresses (convert to str for easy comparison)
-    const uniqueAddresses = _.uniqBy(
-      parseOrStringifyProperty(allAddresses, 'originatorAddress'),
-      'originatorAddress',
-    );
-    // Revert str to live obj and return
-    return parseOrStringifyProperty(uniqueAddresses, 'originatorAddress');
+    // Drop any entries with duplicate addresses
+    return eliminateDuplicatesByKey(allAddresses, 'originatorAddress');
   }
 
   const handlers = {
