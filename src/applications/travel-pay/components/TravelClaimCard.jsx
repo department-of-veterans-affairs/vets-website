@@ -1,14 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
-
-function formatDateTime(datetimeString) {
-  const dateTime = new Date(datetimeString);
-  const formattedDate = format(dateTime, 'eeee, MMMM d, yyyy');
-  const formattedTime = format(dateTime, 'h:mm a');
-
-  return [formattedDate, formattedTime];
-}
+import { formatDateTime } from '../util/dates';
 
 export default function TravelClaimCard(props) {
   const {

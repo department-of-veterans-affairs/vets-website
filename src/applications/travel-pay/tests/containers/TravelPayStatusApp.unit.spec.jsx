@@ -11,6 +11,7 @@ import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing
 
 import reducer from '../../redux/reducer';
 import App from '../../containers/TravelPayStatusApp';
+import { formatDateTime } from '../../util/dates';
 
 describe('App', () => {
   let oldLocation;
@@ -36,6 +37,9 @@ describe('App', () => {
     };
   };
 
+  const aprDate = '2024-04-22T16:45:34.465Z';
+  const febDate = '2024-02-22T16:45:34.465Z';
+
   beforeEach(() => {
     oldLocation = global.window.location;
     delete global.window.location;
@@ -49,7 +53,7 @@ describe('App', () => {
           claimNumber: 'TC0928098230498',
           claimName: 'string',
           claimStatus: 'IN_PROCESS',
-          appointmentDate: '2024-04-22T16:45:34.465Z',
+          appointmentDate: aprDate,
           appointmentName: 'more recent',
           appointmentLocation: 'Cheyenne VA Medical Center',
           createdOn: '2024-04-22T21:22:34.465Z',
@@ -60,7 +64,7 @@ describe('App', () => {
           claimNumber: 'TC0928098230498',
           claimName: 'string',
           claimStatus: 'IN_PROCESS',
-          appointmentDate: '2024-02-22T16:45:34.465Z',
+          appointmentDate: febDate,
           appointmentName: 'older',
           appointmentLocation: 'Cheyenne VA Medical Center',
           createdOn: '2024-02-22T21:22:34.465Z',
@@ -195,6 +199,7 @@ describe('App', () => {
     });
 
     await waitFor(() => {
+      const [date, time] = formatDateTime(febDate);
       userEvent.selectOptions(screen.getByRole('combobox'), ['oldest']);
       expect(screen.getByRole('option', { name: 'Oldest' }).selected).to.be
         .true;
@@ -203,10 +208,11 @@ describe('App', () => {
       expect(screen.getAllByTestId('travel-claim-details').length).to.eq(2);
       expect(
         screen.getAllByTestId('travel-claim-details')[0].textContent,
-      ).to.eq('Thursday, February 22, 2024 at 10:45 AM appointment');
+      ).to.eq(`${date} at ${time} appointment`);
     });
 
     await waitFor(() => {
+      const [date, time] = formatDateTime(aprDate);
       userEvent.selectOptions(screen.getByRole('combobox'), ['mostRecent']);
       expect(screen.getByRole('option', { name: 'Most Recent' }).selected).to.be
         .true;
@@ -215,7 +221,7 @@ describe('App', () => {
       expect(screen.getAllByTestId('travel-claim-details').length).to.eq(2);
       expect(
         screen.getAllByTestId('travel-claim-details')[0].textContent,
-      ).to.eq('Monday, April 22, 2024 at 11:45 AM appointment');
+      ).to.eq(`${date} at ${time} appointment`);
     });
   });
 });
