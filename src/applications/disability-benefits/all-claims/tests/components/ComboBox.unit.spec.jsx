@@ -30,8 +30,15 @@ describe('ComboBox', () => {
     const tree = render(<ComboBox {...defaultProps} />);
     // nothing typed, no items visible
     expect(tree.getByRole('listbox')).to.have.length(0);
-
-    // can't find the input element inside web-component shadowDOM
-    // in order to test any other functionality here...
   });
+
+  // can't find the input element inside web-component shadowDOM
+  // in order to test any other functionality here...
+  // it('should handle keyboard input', async () => {
+  //   const tree = render(<ComboBox {...defaultProps} />);
+  //   expect(tree.getByRole('listbox')).to.have.length(0);
+  //   const input = tree.getByLabelText('Test');
+  //   await userEvent.type(input, 'acl', { skipClick: true });
+  //   expect(tree.getByRole('listbox')).to.have.length(21);
+  // });
 });
