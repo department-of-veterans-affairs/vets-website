@@ -8,7 +8,11 @@ const DigitalSignature = () => {
       </h2>
       <p />
 
-      <va-text-input label="Your full name" required />
+      <va-text-input
+        label="Your full name"
+        message-aria-describedby="Digital signature."
+        required
+      />
     </va-card>
   );
 };

@@ -51,6 +51,7 @@ const ComposeForm = props => {
   const [selectedRecipient, setSelectedRecipient] = useState(
     defaultRecipientsList[0].id,
   );
+  const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [category, setCategory] = useState(null);
   const [categoryError, setCategoryError] = useState('');
   const [bodyError, setBodyError] = useState(null);
@@ -146,7 +147,7 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      if (recipients.allowedRecipients.length > 0) {
+      if (recipients.allowedRecipients?.length > 0) {
         setRecipientsList([
           ...defaultRecipientsList,
           ...recipients.allowedRecipients,
@@ -481,6 +482,17 @@ const ComposeForm = props => {
 
   const recipientHandler = e => {
     setSelectedRecipient(e.detail.value);
+    if (
+      recipientsList.some(
+        recipient =>
+          recipient.id.toString() === e.detail.value &&
+          recipient.signatureRequired,
+      )
+    ) {
+      setIsSignatureRequired(true);
+    } else if (isSignatureRequired) {
+      setIsSignatureRequired(false);
+    }
     if (e.detail.value !== '0') {
       if (e.detail.value) setRecipientError('');
       setUnsavedNavigationError();
@@ -621,6 +633,8 @@ const ComposeForm = props => {
                 onValueChange={recipientHandler}
                 error={recipientError}
                 defaultValue={selectedRecipient}
+                isSignatureRequired={isSignatureRequired}
+                onAlertClose={() => setIsSignatureRequired(null)}
               />
             )}
 

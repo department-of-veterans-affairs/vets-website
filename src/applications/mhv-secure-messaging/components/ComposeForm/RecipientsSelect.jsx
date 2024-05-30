@@ -2,16 +2,36 @@ import {
   VaAlert,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { sortRecipients } from '../../util/helpers';
 
 const RecipientsSelect = props => {
-  const { recipientsList, onValueChange, defaultValue, error } = props;
+  const {
+    recipientsList,
+    onValueChange,
+    defaultValue,
+    error,
+    isSignatureRequired,
+    onAlertClose,
+  } = props;
   const SIGNATURE_REQUIRED =
     'Messages to this team require a signature. We added a signature box to this page.';
-  //   const SIGNATURE_NOT_REQUIRED =
-  //     "Messages to this team don't require a signature. We removed the signature box from this page.";
+  const SIGNATURE_NOT_REQUIRED =
+    "Messages to this team don't require a signature. We removed the signature box from this page.";
+  const alertRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (isSignatureRequired !== null && alertRef.current) {
+        setTimeout(() => {
+          focusElement(alertRef.current.shadowRoot.querySelector('button'));
+        }, 500);
+      }
+    },
+    [alertRef, isSignatureRequired],
+  );
 
   return (
     <>
@@ -35,16 +55,25 @@ const RecipientsSelect = props => {
           </option>
         ))}
       </VaSelect>
-      <VaAlert
-        class="vads-u-margin-y--4"
-        closeBtnAriaLabel="Close notification"
-        closeable
-        onCloseEvent={function noRefCheck() {}}
-        status="info"
-        visible
-      >
-        <p className="vads-u-margin-y--0">{SIGNATURE_REQUIRED}</p>
-      </VaAlert>
+      {isSignatureRequired !== null && (
+        <VaAlert
+          aria-live="polite"
+          ref={alertRef}
+          class="vads-u-margin-y--4"
+          closeBtnAriaLabel="Close notification"
+          closeable
+          onCloseEvent={onAlertClose}
+          status="info"
+          visible
+          data-testid="signature-alert"
+        >
+          <p className="vads-u-margin-y--0">
+            {isSignatureRequired === true
+              ? SIGNATURE_REQUIRED
+              : SIGNATURE_NOT_REQUIRED}
+          </p>
+        </VaAlert>
+      )}
     </>
   );
 };
@@ -54,6 +83,8 @@ RecipientsSelect.propTypes = {
   onValueChange: PropTypes.func.isRequired,
   defaultValue: PropTypes.string,
   error: PropTypes.string,
+  isSignatureRequired: PropTypes.bool,
+  onAlertClose: PropTypes.func,
 };
 
 export default RecipientsSelect;
