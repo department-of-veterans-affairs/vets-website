@@ -40,11 +40,11 @@ export default function VideoLayoutAtlas({ data: appointment }) {
   );
 
   const address = facility?.address;
-  let heading = 'Video appointment at an Atlas location';
+  let heading = 'Video appointment at an ATLAS location';
   if (isPastAppointment)
-    heading = 'Past video appointment at an Atlas location';
+    heading = 'Past video appointment at an ATLAS location';
   else if (APPOINTMENT_STATUS.cancelled === status)
-    heading = 'Canceled video appointment at an Atlas location';
+    heading = 'Canceled video appointment at an ATLAS location';
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
