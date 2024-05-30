@@ -63,4 +63,18 @@ describe('<Decision/>', () => {
     );
     wrapper.unmount();
   });
+
+  it('masks the issue details from datadog (no PII)', () => {
+    const wrapper = shallow(<Decision {...defaultProps} />);
+
+    const allowedList = wrapper.find('.allowed-items ~ ul');
+    const deniedList = wrapper.find('.denied-items ~ ul');
+    const remandList = wrapper.find('.remand-items ~ ul');
+
+    expect(allowedList.props()['data-dd-privacy']).to.equal('mask');
+    expect(deniedList.props()['data-dd-privacy']).to.equal('mask');
+    expect(remandList.props()['data-dd-privacy']).to.equal('mask');
+
+    wrapper.unmount();
+  });
 });
