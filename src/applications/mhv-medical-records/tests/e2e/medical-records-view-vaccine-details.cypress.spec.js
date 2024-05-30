@@ -29,7 +29,7 @@ describe('Medical Records View Vaccines', () => {
   it('View vaccine details, vaccine date with year only', () => {
     VaccinesListPage.clickVaccinesDetailsLink(0);
     VaccineDetailsPage.verifyVaccineName(defaultVaccines.entry[12]);
-    VaccineDetailsPage.verifyVaccineDate(defaultVaccines.entry[12]);
+    VaccineDetailsPage.verifyVaccineDateYearOnly(defaultVaccines.entry[12]);
     VaccineDetailsPage.verifyVaccineLocation(defaultVaccines.entry[12]);
     VaccineDetailsPage.verifyVaccineNotes(defaultVaccines.entry[12], 0);
     VaccineDetailsPage.verifyVaccineNotes(defaultVaccines.entry[12], 1);
