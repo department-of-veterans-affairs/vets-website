@@ -2,10 +2,11 @@ import { expect } from 'chai';
 import React from 'react';
 import { render } from '@testing-library/react';
 import BeforeYouDownloadDropdown from '../../../components/shared/BeforeYouDownloadDropdown';
+import { DD_ACTIONS_PAGE_TYPE } from '../../../util/constants';
 
 describe('What do know before you download dropdown component', () => {
-  const setup = () => {
-    return render(<BeforeYouDownloadDropdown />);
+  const setup = page => {
+    return render(<BeforeYouDownloadDropdown page={page} />);
   };
 
   it('renders without errors', () => {
@@ -13,11 +14,17 @@ describe('What do know before you download dropdown component', () => {
     expect(screen);
   });
 
-  it('displays text inside of drop down', () => {
-    const screen = setup();
-    const firsListItem = screen.findByText(
-      'If you print this page, it won’t include your allergies and reactions to medications.',
+  it('displays text inside of drop down on Details page', async () => {
+    const screen = setup(DD_ACTIONS_PAGE_TYPE.DETAILS);
+    const firstItem = await screen.findByText('If you download this page,');
+    expect(firstItem).to.exist;
+  });
+
+  it('displays text inside of drop down on List page', async () => {
+    const screen = setup(DD_ACTIONS_PAGE_TYPE.LIST);
+    const firstItem = await screen.findByText(
+      'If you’re on a public or shared computer,',
     );
-    expect(firsListItem).to.exist;
+    expect(firstItem).to.exist;
   });
 });

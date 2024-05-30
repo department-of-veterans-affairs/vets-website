@@ -52,10 +52,6 @@ export const fileUploadBlurb = {
               phone
             </li>
           </ul>
-          <p>
-            If you don’t want to upload your supporting files now, you’ll have
-            the option to upload them again at the end of this application.
-          </p>
         </div>
       </>
     ),

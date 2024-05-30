@@ -2,7 +2,7 @@
   "data": {
     "applicantHasSecondary": false,
     "primaryAdditionalComments": "Primary comments",
-    "primaryMedigapPlan": "medigapPlanD",
+    "primaryMedigapPlan": "D",
     "applicantPrimaryInsuranceType": {
       "medicaid": true,
       "rxDiscount": true,
@@ -27,13 +27,10 @@
     "applicantSsn": "222111234",
     "applicantName": {
       "first": "Applicant",
-      "middle": "Jerry",
       "last": "Jones",
       "suffix": "IV"
     },
     "applicantDOB": "1950-01-01",
-    "certifierRole": "applicant",
-    "preparerType": "sponsor",
     "missingUploads": [
       {
         "name": "primaryInsuranceCard",
@@ -43,7 +40,7 @@
       }
     ],
     "consentToMailMissingRequiredFiles": true,
-    "statementOfTruthSignature": "Applicant Jerry Jones",
+    "statementOfTruthSignature": "Applicant Jones",
     "statementOfTruthCertified": true
   }
 }

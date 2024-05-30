@@ -2,13 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
+export const externalLinkText = '(opens in new tab)';
+
 const NavCard = ({ icon = null, title, links }) => {
-  const listItems = links.map(({ ariaLabel, href, text }) => (
+  const listItems = links.map(({ ariaLabel, href, text, isExternal }) => (
     <li className="mhv-c-navlistitem" key={href}>
       <a
-        className="mhv-c-navlink"
+        className={isExternal ? 'mhv-c-navlink-external' : 'mhv-c-navlink'}
         href={href}
         aria-label={ariaLabel}
+        target={isExternal ? '_blank' : ''}
         onClick={() => {
           recordEvent({
             event: 'nav-linkslist',
@@ -16,13 +19,14 @@ const NavCard = ({ icon = null, title, links }) => {
             'links-list-section-header': title,
           });
         }}
+        rel="noreferrer"
       >
         <span
           className={ariaLabel?.includes('unread') ? 'mhv-c-indicator' : ''}
         >
-          {text}
+          {text} {isExternal && externalLinkText}
         </span>
-        <i aria-hidden="true" />
+        {!isExternal && <i aria-hidden="true" />}
       </a>
     </li>
   ));
@@ -64,6 +68,7 @@ NavCard.propTypes = {
     PropTypes.shape({
       text: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
       href: PropTypes.string,
+      isExternal: PropTypes.bool,
     }),
   ),
   title: PropTypes.string,
