@@ -83,7 +83,11 @@ class DetailsPage extends React.Component {
             {hasContentions ? (
               <ul className="claim-detail-list">
                 {contentions.map((contention, index) => (
-                  <li key={index} className="claim-detail-list-item">
+                  <li
+                    key={index}
+                    className="claim-detail-list-item"
+                    data-dd-privacy="mask"
+                  >
                     {contention.name}
                   </li>
                 ))}

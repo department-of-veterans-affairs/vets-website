@@ -33,6 +33,24 @@ export function ApplicantAddressCopyPage({
       ''}`;
   }
 
+  /**
+   * Removes objects from the array if they have an identical [property] as an
+   * earlier object in the array.
+   *
+   * @param {array} array List containing objects
+   * @param {string} property Target property for determining uniqueness
+   * @returns original array minus objects with duplicate [property] values
+   */
+  function eliminateDuplicatesByKey(array, property) {
+    return array.filter(
+      (item, index) =>
+        index ===
+        array.findIndex(
+          t => JSON.stringify(t[property]) === JSON.stringify(item[property]),
+        ),
+    );
+  }
+
   function isValidOrigin(person) {
     // Make sure that our <select> only shows options that:
     // 1. Have a valid address we can copy
@@ -67,7 +85,8 @@ export function ApplicantAddressCopyPage({
         displayText: app.applicantAddress?.street,
       }),
     );
-    return allAddresses;
+    // Drop any entries with duplicate addresses
+    return eliminateDuplicatesByKey(allAddresses, 'originatorAddress');
   }
 
   const handlers = {
