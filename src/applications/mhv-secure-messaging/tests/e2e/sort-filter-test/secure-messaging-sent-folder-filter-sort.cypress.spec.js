@@ -16,7 +16,7 @@ describe('Secure Messaging Message Details in Sent AXE Check', () => {
   it('Verify filter works correctly', () => {
     PatientMessagesSentPage.inputFilterDataText('test');
     PatientMessagesSentPage.clickFilterMessagesButton();
-    PatientMessagesSentPage.verifyFilterResultsText('test');
+    PatientMessagesSentPage.verifyFilterResults('test');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

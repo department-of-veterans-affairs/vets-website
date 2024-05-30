@@ -95,6 +95,11 @@ export const focusRadioH3 = () => {
   }
 };
 
+export const focusH3 = () => {
+  scrollTo('topContentElement');
+  focusByOrder(['#main h3', defaultFocusSelector]);
+};
+
 export const focusAlertH3 = () => {
   scrollTo('topContentElement');
   // va-alert header is not in the shadow DOM, but still the content doesn't
