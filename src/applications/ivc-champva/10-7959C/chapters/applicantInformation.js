@@ -1,10 +1,9 @@
+import { cloneDeep } from 'lodash';
 import {
   addressUI,
   addressSchema,
   dateOfBirthUI,
   dateOfBirthSchema,
-  emailUI,
-  emailSchema,
   fullNameUI,
   fullNameSchema,
   phoneUI,
@@ -18,15 +17,13 @@ import { nameWording } from '../helpers/utilities';
 
 export const blankSchema = { type: 'object', properties: {} };
 
+const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
+fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
+
 export const applicantNameDobSchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
-        `${
-          formData.certifierRole === 'applicant' ? 'Your' : 'Applicant'
-        } name and date of birth`,
-    ),
-    applicantName: fullNameUI(),
+    ...titleUI('Beneficiary’s name and date of birth'),
+    applicantName: fullNameMiddleInitialUI,
     applicantDOB: dateOfBirthUI({ required: true }),
   },
   schema: {
@@ -43,8 +40,13 @@ export const applicantNameDobSchema = {
 export const applicantSsnSchema = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) => `${nameWording(formData)} identification information`,
-      `You must enter a Social Security number`,
+      ({ formData }) =>
+        `${nameWording(
+          formData,
+          undefined,
+          undefined,
+          true,
+        )} identification information`,
     ),
     applicantSsn: ssnUI(),
   },
@@ -61,16 +63,12 @@ export const applicantSsnSchema = {
 export const applicantAddressInfoSchema = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) => `${nameWording(formData)} mailing address`,
-      'We’ll send any important information about your application to this address.',
+      ({ formData }) =>
+        `${nameWording(formData, undefined, undefined, true)} mailing address`,
+      'We’ll send any important information about this form to this address.',
     ),
     applicantAddress: {
-      ...addressUI({
-        labels: {
-          militaryCheckbox:
-            'Address is on a United States military base outside the country.',
-        },
-      }),
+      ...addressUI({ labels: { street3: 'Apartment or unit number' } }),
     },
   },
   schema: {
@@ -85,16 +83,11 @@ export const applicantAddressInfoSchema = {
 export const applicantContactInfoSchema = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) => `${nameWording(formData)} phone number`,
       ({ formData }) =>
-        `This information helps us contact ${nameWording(
-          formData,
-          false,
-          false,
-        )} faster if we need to follow up with you about the application.`,
+        `${nameWording(formData, undefined, undefined, true)} phone number`,
+      'We’ll contact this phone number if we need to follow up about this form.',
     ),
     applicantPhone: phoneUI(),
-    applicantEmailAddress: emailUI(),
   },
   schema: {
     type: 'object',
@@ -102,7 +95,6 @@ export const applicantContactInfoSchema = {
     properties: {
       titleSchema,
       applicantPhone: phoneSchema,
-      applicantEmailAddress: emailSchema,
     },
   },
 };

@@ -6,7 +6,6 @@ import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-resp
 
 describe('re-save multiple drafts in one thread', () => {
   const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
   const draftPage = new PatientMessageDraftsPage();
 
   const updateDates = data => {
@@ -40,7 +39,7 @@ describe('re-save multiple drafts in one thread', () => {
 
   beforeEach(() => {
     site.login();
-    landingPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
     draftPage.loadMultiDraftThread(updatedMultiDraftResponse);
   });
 

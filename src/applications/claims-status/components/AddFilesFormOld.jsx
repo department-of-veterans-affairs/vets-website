@@ -222,7 +222,9 @@ class AddFilesFormOld extends React.Component {
                 <div className="document-title-row">
                   <div className="document-title-text-container">
                     <div>
-                      <span className="document-title">{file.name}</span>
+                      <span className="document-title" data-dd-privacy="mask">
+                        {file.name}
+                      </span>
                     </div>
                     <div>{displayFileSize(file.size)}</div>
                   </div>

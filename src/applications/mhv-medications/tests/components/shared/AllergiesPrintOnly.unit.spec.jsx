@@ -29,18 +29,11 @@ describe('Medications Print Allergies', () => {
     },
   ];
 
-  const setup = (emptyAllergies = false, allergiesError = false) => {
+  const setup = (emptyAllergies = false) => {
     if (emptyAllergies === true) {
-      return render(
-        <AllergiesPrintOnly allergies={[]} allergiesError={allergiesError} />,
-      );
+      return render(<AllergiesPrintOnly allergies={[]} />);
     }
-    return render(
-      <AllergiesPrintOnly
-        allergies={allergies}
-        allergiesError={allergiesError}
-      />,
-    );
+    return render(<AllergiesPrintOnly allergies={allergies} />);
   };
 
   it('renders without errors', () => {
@@ -58,11 +51,5 @@ describe('Medications Print Allergies', () => {
     const screen = setup(true);
     const noAllergiesMessage = screen.getByTestId('no-allergies-message');
     expect(noAllergiesMessage).to.exist;
-  });
-
-  it('renders error message', () => {
-    const screen = setup(false, true);
-    const errorMessage = screen.getByTestId('allergy-error-message');
-    expect(errorMessage).to.exist;
   });
 });

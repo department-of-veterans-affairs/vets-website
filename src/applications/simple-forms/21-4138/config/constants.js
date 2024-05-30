@@ -68,7 +68,7 @@ export const LIVING_SITUATIONS = Object.freeze({
   NONE: 'None of these situations apply to me.',
 });
 
-export const OTHER_REASONS_REQUIRED = Object.freeze({
+export const OTHER_REASONS = Object.freeze({
   FINANCIAL_HARDSHIP:
     'I’m experiencing extreme financial hardship (such as loss of your job or sudden decrease in income).',
   ALS:
@@ -82,21 +82,8 @@ export const OTHER_REASONS_REQUIRED = Object.freeze({
   NONE: 'None of these situations apply to me.',
 });
 
-export const OTHER_REASONS_OPTIONAL = Object.freeze({
-  FINANCIAL_HARDSHIP:
-    'I’m experiencing extreme financial hardship (such as loss of your job or sudden decrease in income).',
-  ALS:
-    'I have ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s disease.',
-  TERMINAL_ILLNESS: 'I have a terminal illness.',
-  VSI_SI:
-    'I have a status from the Defense Department of Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI).',
-  OVER_85: 'I’m age 85 or older.',
-  FORMER_POW: 'I’m a former prisoner of war (POW).',
-  MEDAL_AWARD: 'I’m a Medal of Honor or Purple Heart award recipient.',
-});
-
 export const PrimaryActionLink = ({ href = '/', children, onClick = null }) => (
-  <div className="arrow" style={{ maxWidth: '75%' }}>
+  <div className="action-bar-arrow" style={{ maxWidth: '75%' }}>
     <div className="vads-u-background-color--primary vads-u-padding--1">
       <a className="vads-c-action-link--white" href={href} onClick={onClick}>
         {children}
@@ -109,7 +96,7 @@ export const ESCAPE_HATCH = Object.freeze(
   <div className="vads-u-margin-y--4">
     If you’d like to use VA Form 21-4138 for your statement without selecting an
     answer here, you can{' '}
-    <a href="/supporting-forms-for-claims/support-statement-21-4138/name-and-date-of-birth">
+    <a href="/supporting-forms-for-claims/statement-to-support-claim-form-21-4138/personal-information">
       go to VA Form 21-4138 now.
     </a>
   </div>,

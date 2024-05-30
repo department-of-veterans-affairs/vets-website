@@ -42,14 +42,14 @@ describe('LabsAndTests list container', () => {
   });
 
   it('displays a count of the records', () => {
-    expect(screen.getByText('Showing 1 to 10 of 13 records', { exact: false }))
+    expect(screen.getByText('Showing 1 to 10 of 14 records', { exact: false }))
       .to.exist;
   });
 
   it('displays a list of records', async () => {
     await waitFor(() => {
       // counting shown records plus all records due to print view
-      expect(screen.getAllByTestId('record-list-item').length).to.eq(23);
+      expect(screen.getAllByTestId('record-list-item').length).to.eq(24);
     });
   });
 });

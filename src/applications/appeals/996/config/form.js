@@ -32,12 +32,13 @@ import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
 import { errorMessages, ADD_ISSUE_PATH } from '../constants';
 import { mayHaveLegacyAppeals } from '../utils/helpers';
 
+import submissionError from '../../shared/content/submissionError';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
 import reviewErrors from '../../shared/content/reviewErrors';
-import { focusRadioH3 } from '../../shared/utils/focus';
+import { focusRadioH3, focusH3 } from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -95,6 +96,7 @@ const formConfig = {
   subTitle: 'VA Form 20-0996 (Higher-Level Review)',
   defaultDefinitions: {},
   preSubmitInfo,
+  submissionError,
   // showReviewErrors: true,
   reviewErrors,
 
@@ -122,6 +124,7 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
+          scrollAndFocusTarget: focusH3,
           // initialData,
         },
         homeless: {
@@ -129,6 +132,7 @@ const formConfig = {
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
         ...contactInfo,
       },
@@ -143,6 +147,7 @@ const formConfig = {
           uiSchema: contestableIssuesPage.uiSchema,
           schema: contestableIssuesPage.schema,
           appStateSelector,
+          scrollAndFocusTarget: focusH3,
         },
         // v2 - add issue. Accessed from contestableIssues page only
         addIssue: {
@@ -155,6 +160,7 @@ const formConfig = {
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
+          scrollAndFocusTarget: focusH3,
         },
         areaOfDisagreementFollowUp: {
           title: getIssueTitle,
@@ -165,6 +171,7 @@ const formConfig = {
           arrayPath: 'areaOfDisagreement',
           uiSchema: areaOfDisagreementFollowUp.uiSchema,
           schema: areaOfDisagreementFollowUp.schema,
+          scrollAndFocusTarget: focusH3,
         },
         optIn: {
           title: 'Opt in',
@@ -175,12 +182,14 @@ const formConfig = {
           initialData: {
             socOptIn: false,
           },
+          scrollAndFocusTarget: focusH3,
         },
         issueSummary: {
           title: 'Issue summary',
           path: 'issue-summary',
           uiSchema: issueSummary.uiSchema,
           schema: issueSummary.schema,
+          scrollAndFocusTarget: focusH3,
         },
       },
     },
@@ -204,6 +213,7 @@ const formConfig = {
           depends: formData => formData?.informalConference === 'rep',
           uiSchema: informalConferenceRepV2.uiSchema,
           schema: informalConferenceRepV2.schema,
+          scrollAndFocusTarget: focusH3,
         },
         conferenceTime: {
           path: 'informal-conference/conference-availability',
@@ -211,6 +221,7 @@ const formConfig = {
           depends: formData => formData?.informalConference === 'me',
           uiSchema: informalConferenceTime.uiSchema,
           schema: informalConferenceTime.schema,
+          scrollAndFocusTarget: focusH3,
         },
         conferenceTimeRep: {
           path: 'informal-conference/conference-rep-availability',
@@ -218,6 +229,7 @@ const formConfig = {
           depends: formData => formData?.informalConference === 'rep',
           uiSchema: informalConferenceTimeRep.uiSchema,
           schema: informalConferenceTimeRep.schema,
+          scrollAndFocusTarget: focusH3,
         },
       },
     },

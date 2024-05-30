@@ -26,15 +26,15 @@ const additionalFilesHint =
   'Depending on your response, you may need to submit additional documents with this application.';
 
 const MEDIGAP = {
-  medigapPlanA: 'Medigap Plan A',
-  medigapPlanB: 'Medigap Plan B',
-  medigapPlanC: 'Medigap Plan C',
-  medigapPlanD: 'Medigap Plan D',
-  medigapPlanF: 'Medigap Plan F',
-  medigapPlanG: 'Medigap Plan G',
-  medigapPlanK: 'Medigap Plan K',
-  medigapPlanL: 'Medigap Plan L',
-  medigapPlanM: 'Medigap Plan M',
+  A: 'Medigap Plan A',
+  B: 'Medigap Plan B',
+  C: 'Medigap Plan C',
+  D: 'Medigap Plan D',
+  F: 'Medigap Plan F',
+  G: 'Medigap Plan G',
+  K: 'Medigap Plan K',
+  L: 'Medigap Plan L',
+  M: 'Medigap Plan M',
 };
 
 /*
@@ -57,13 +57,11 @@ export function applicantHasInsuranceSchema(isPrimary) {
       [keyname]: {
         ...yesNoUI({
           updateUiSchema: formData => {
-            const useFirstPerson = formData.certifierRole === 'applicant';
             return {
-              'ui:title': `${
-                useFirstPerson
-                  ? 'Do you'
-                  : `Does ${nameWording(formData, false)}`
-              } need to provide or update any other health insurance coverage?`,
+              'ui:title': `Does ${nameWording(
+                formData,
+                false,
+              )} need to provide or update any other health insurance coverage?`,
               'ui:options': {
                 hint: additionalFilesHint,
               },
@@ -241,6 +239,51 @@ export function applicantInsuranceEOBSchema(isPrimary) {
   };
 }
 
+export function applicantInsuranceSOBSchema(isPrimary) {
+  const val = isPrimary ? 'primary' : 'secondary';
+  const keyname = isPrimary
+    ? 'primaryInsuranceScheduleOfBenefits'
+    : 'secondaryInsuranceScheduleOfBenefits';
+  return {
+    uiSchema: {
+      ...titleUI(
+        ({ formData, formContext }) =>
+          `Upload ${
+            isPrimary
+              ? formData?.applicantPrimaryProvider
+              : formData?.applicantSecondaryProvider
+          } ${val} schedule of benefits ${isRequiredFile(
+            formContext,
+            requiredFiles,
+          )}`,
+        () => {
+          return (
+            <>
+              You’ll need to submit a copy of the card or document that shows
+              the schedule of benefits that lists your co-payments.
+              <br />
+              If you don’t have a copy to upload now, you can send it by mail or
+              fax
+            </>
+          );
+        },
+      ),
+      ...fileUploadBlurb,
+      [keyname]: fileUploadUI({
+        label: 'Upload schedule of benefits document',
+      }),
+    },
+    schema: {
+      type: 'object',
+      properties: {
+        titleSchema,
+        'view:fileUploadBlurb': blankSchema,
+        [keyname]: fileWithMetadataSchema([`Schedule of benefits card`]),
+      },
+    },
+  };
+}
+
 export function applicantInsuranceTypeSchema(isPrimary) {
   const keyname = isPrimary
     ? 'applicantPrimaryInsuranceType'
@@ -267,13 +310,11 @@ export function applicantInsuranceTypeSchema(isPrimary) {
           },
           required: true,
           updateUiSchema: formData => {
-            const useFirstPerson = formData.certifierRole === 'applicant';
             return {
-              'ui:title': `What type of insurance ${
-                useFirstPerson
-                  ? 'are you'
-                  : `is ${nameWording(formData, false)}`
-              } enrolled in?`,
+              'ui:title': `What type of insurance is ${nameWording(
+                formData,
+                false,
+              )} enrolled in?`,
             };
           },
         }),
@@ -315,13 +356,11 @@ export function applicantMedigapSchema(isPrimary) {
           required: () => true,
           labels: MEDIGAP,
           updateUiSchema: formData => {
-            const useFirstPerson = formData.certifierRole === 'applicant';
             return {
-              'ui:title': `What type of Medigap plan ${
-                useFirstPerson
-                  ? 'are you'
-                  : `is ${nameWording(formData, false)}`
-              } enrolled in?`,
+              'ui:title': `What type of Medigap plan is ${nameWording(
+                formData,
+                false,
+              )} enrolled in?`,
             };
           },
         }),

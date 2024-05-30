@@ -27,7 +27,7 @@ export default function WhatWeAreDoing({ status }) {
           to="../overview"
         >
           Overview of the process
-          <i aria-hidden="true" />
+          <va-icon icon="chevron_right" size={3} aria-hidden="true" />
         </Link>
       </va-card>
     </div>

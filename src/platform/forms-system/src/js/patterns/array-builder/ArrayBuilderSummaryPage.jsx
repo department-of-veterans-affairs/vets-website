@@ -101,6 +101,11 @@ export default function ArrayBuilderSummaryPage({
     const Heading = `h${titleHeaderLevel}`;
     const isMaxItemsReached = arrayData?.length >= maxItems;
 
+    // generate unique cards key to force re-render for SchemaForm
+    const cardsKey = `${arrayPath}-cards-${
+      arrayData?.length
+    }-${showUpdatedAlert}-${showRemovedAlert}-${updateItemIndex}-${removedItemIndex}`;
+
     useEffect(() => {
       // We may end up with empty items if the user navigates back
       // from outside of the array scope, because of FormPage's
@@ -126,7 +131,7 @@ export default function ArrayBuilderSummaryPage({
     useEffect(
       () => {
         if (updatedNounSingular === nounSingular.toLowerCase()) {
-          setShowUpdatedAlert(updateItemIndex != null);
+          setShowUpdatedAlert(() => updateItemIndex != null);
         }
       },
       [updatedNounSingular, updateItemIndex, nounSingular],
@@ -185,7 +190,7 @@ export default function ArrayBuilderSummaryPage({
     }
 
     function onDismissUpdatedAlert() {
-      setShowUpdatedAlert(false);
+      setShowUpdatedAlert(() => false);
       requestAnimationFrame(() => {
         focusElement(
           document.querySelector(
@@ -196,9 +201,9 @@ export default function ArrayBuilderSummaryPage({
     }
 
     function onDismissRemovedAlert() {
-      setShowRemovedAlert(false);
-      setRemovedItemText('');
-      setRemovedItemIndex(null);
+      setShowRemovedAlert(() => false);
+      setRemovedItemText(() => '');
+      setRemovedItemIndex(() => null);
       requestAnimationFrame(() => {
         focusElement(
           document.querySelector(
@@ -212,11 +217,11 @@ export default function ArrayBuilderSummaryPage({
       // updated alert may be from initial state (URL path)
       // so we can go ahead and remove it if there is a new
       // alert
-      setShowUpdatedAlert(false);
+      setShowUpdatedAlert(() => false);
 
-      setRemovedItemText(getText('alertItemDeleted', item));
-      setRemovedItemIndex(index);
-      setShowRemovedAlert(true);
+      setRemovedItemText(() => getText('alertItemDeleted', item));
+      setRemovedItemIndex(() => index);
+      setShowRemovedAlert(() => true);
       requestAnimationFrame(() => {
         focusElement(removedAlertRef.current);
       });
@@ -278,8 +283,8 @@ export default function ArrayBuilderSummaryPage({
       );
     };
 
-    const Cards = () => (
-      <>
+    const Cards = ({ key }) => (
+      <div key={key}>
         <RemovedAlert show={showRemovedAlert} />
         <UpdatedAlert show={showUpdatedAlert} />
         <ArrayBuilderCards
@@ -295,7 +300,7 @@ export default function ArrayBuilderSummaryPage({
           onRemove={onRemoveItem}
           isReview={isReviewPage}
         />
-      </>
+      </div>
     );
 
     if (isReviewPage) {
@@ -328,7 +333,7 @@ export default function ArrayBuilderSummaryPage({
               </dl>
             </>
           )}
-          <Cards />
+          <Cards key={cardsKey} />
           {!isMaxItemsReached && (
             <div className="vads-u-margin-top--2">
               <va-button
@@ -355,7 +360,8 @@ export default function ArrayBuilderSummaryPage({
           )}
         </>
       );
-      uiSchema['ui:description'] = <Cards />;
+      // ensure new reference to trigger re-render
+      uiSchema['ui:description'] = <Cards key={cardsKey} />;
     } else {
       uiSchema['ui:title'] = undefined;
       uiSchema['ui:description'] = undefined;
