@@ -8,9 +8,20 @@ import {
   getClaimStatusDescription,
   getClaimPhaseTypeHeaderText,
   getClaimPhaseTypeDescription,
+  buildDateFormatter,
 } from '../../utils/helpers';
 
-export default function WhatWeAreDoing({ claimPhaseType, status }) {
+const getPhaseChangeDateText = phaseChangeDate => {
+  const formattedDate = buildDateFormatter()(phaseChangeDate);
+
+  return `Moved to this step on ${formattedDate}`;
+};
+
+export default function WhatWeAreDoing({
+  claimPhaseType,
+  phaseChangeDate,
+  status,
+}) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
   const humanStatus = cstClaimPhasesEnabled
@@ -33,6 +44,9 @@ export default function WhatWeAreDoing({ claimPhaseType, status }) {
         <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0p5">
           {description}
         </p>
+        {cstClaimPhasesEnabled && (
+          <p>{getPhaseChangeDateText(phaseChangeDate)}</p>
+        )}
         <Link
           aria-label={linkText}
           className="vads-u-margin-top--1 active-va-link"
@@ -48,5 +62,6 @@ export default function WhatWeAreDoing({ claimPhaseType, status }) {
 
 WhatWeAreDoing.propTypes = {
   claimPhaseType: PropTypes.string,
+  phaseChangeDate: PropTypes.string,
   status: PropTypes.string,
 };

@@ -225,6 +225,7 @@ class ClaimStatusPage extends React.Component {
                 <WhatYouNeedToDo claim={claim} useLighthouse />
                 <WhatWeAreDoing
                   claimPhaseType={claimPhaseType}
+                  phaseChangeDate={claimPhaseDates.phaseChangeDate}
                   status={status}
                 />
               </>
@@ -246,7 +247,7 @@ class ClaimStatusPage extends React.Component {
               isOpen && (
                 <ClaimTimeline
                   id={claim.id}
-                  phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
+                  phase={getPhaseFromStatus(claimPhaseType)}
                   currentPhaseBack={claimPhaseDates.currentPhaseBack}
                   events={generateEventTimeline(claim)}
                 />
