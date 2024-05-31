@@ -16,6 +16,7 @@ const prescriptions = require('./medications/prescriptions/index');
 const allergiesFixture = require('./medications/allergies/allergies.json');
 
 const folders = require('./secure-messaging/folders');
+const threads = require('./secure-messaging/threads');
 const recipients = require('./secure-messaging/recipients');
 const categories = require('./secure-messaging/categories');
 const messages = require('./secure-messaging/messages');
@@ -68,13 +69,19 @@ const responses = {
   'GET /my_health/v1/messaging/folders': folders.allFolders,
   'GET /my_health/v1/messaging/folders/:index': folders.oneFolder,
   'GET /my_health/v1/messaging/folders/:index/messages': folders.messages,
-  'GET /my_health/v1/messaging/folders/0/threads': folders.allThreads,
+
+  'GET /my_health/v1/messaging/folders/0/threads': threads.thread,
+  // 'GET /my_health/v1/messaging/folders/0/threads': folders.allThreads,
   'GET /my_health/v1/messaging/messages/categories':
     categories.defaultCategories,
   'GET /my_health/v1/messaging/messages/:id': messages.single,
   'GET /my_health/v1/messaging/messages/:id/thread': messages.thread,
   'GET /my_health/v1/messaging/recipients': recipients.defaultRecipients,
   'GET /my_health/v1/messaging/allrecipients': allRecipients.allRecipients,
+  'POST /my_health/v1/messaging/messages': messages.single,
+  'POST /my_health/v1/messaging/message_drafts': messages.saveNewDraft,
+  'PUT /my_health/v1/messaging/message_drafts/:id': messages.updateDraft,
+
   'GET /v0/maintenance_windows': (_req, res) => {
     // three different scenarios for testing downtime banner
     // all service names/keys are available in src/platform/monitoring/DowntimeNotification/config/externalService.js

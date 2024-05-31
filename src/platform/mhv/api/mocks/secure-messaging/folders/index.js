@@ -7,12 +7,99 @@ const allFolders = {
       attributes: {
         folderId: 0,
         name: 'Inbox',
-        count: 260,
-        unreadCount: 22,
+        count: 17,
+        unreadCount: 0,
         systemFolder: true,
       },
       links: {
         self: 'https://staging-api.va.gov/my_health/v1/messaging/folders/0',
+      },
+    },
+    {
+      id: '-2',
+      type: 'folders',
+      attributes: {
+        folderId: -2,
+        name: 'Drafts',
+        count: 55,
+        unreadCount: 55,
+        systemFolder: true,
+      },
+      links: {
+        self: 'https://staging-api.va.gov/my_health/v1/messaging/folders/-2',
+      },
+    },
+    {
+      id: '-1',
+      type: 'folders',
+      attributes: {
+        folderId: -1,
+        name: 'Sent',
+        count: 211,
+        unreadCount: 211,
+        systemFolder: true,
+      },
+      links: {
+        self: 'https://staging-api.va.gov/my_health/v1/messaging/folders/-1',
+      },
+    },
+    {
+      id: '-3',
+      type: 'folders',
+      attributes: {
+        folderId: -3,
+        name: 'Deleted',
+        count: 3,
+        unreadCount: 0,
+        systemFolder: true,
+      },
+      links: {
+        self: 'https://staging-api.va.gov/my_health/v1/messaging/folders/-3',
+      },
+    },
+    {
+      id: '3175737',
+      type: 'folders',
+      attributes: {
+        folderId: 3175737,
+        name: 'Test 1',
+        count: 0,
+        unreadCount: 0,
+        systemFolder: false,
+      },
+      links: {
+        self:
+          'https://staging-api.va.gov/my_health/v1/messaging/folders/3175737',
+      },
+    },
+    {
+      id: '3047706',
+      type: 'folders',
+      attributes: {
+        folderId: 3047706,
+        name: 'folder 2',
+        count: 28,
+        unreadCount: 0,
+        systemFolder: false,
+      },
+      links: {
+        self:
+          'https://staging-api.va.gov/my_health/v1/messaging/folders/3047706',
+      },
+    },
+    {
+      id: '2893979',
+      type: 'folders',
+      attributes: {
+        folderId: 2893979,
+        name: 'Folder 4',
+        count: 8,
+        unreadCount: 0,
+        systemFolder: false,
+      },
+      links: {
+        self:
+          'https://staging-api.va.gov/my_health/v1/messaging/folders/2893979',
       },
     },
   ],
@@ -31,7 +118,7 @@ const allFolders = {
       currentPage: 1,
       perPage: 100,
       totalPages: 1,
-      totalEntries: 14,
+      totalEntries: 25,
     },
   },
 };
