@@ -9,14 +9,6 @@ import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
 
 import {
-  certifierRole,
-  certifierAddress,
-  certifierPhoneEmail,
-  certifierRelationship,
-  certifierNameSchema,
-} from '../chapters/certifierInformation';
-
-import {
   applicantNameDobSchema,
   applicantSsnSchema,
   applicantAddressInfoSchema,
@@ -39,6 +31,7 @@ import {
   applicantHasInsuranceSchema,
   applicantProviderSchema,
   applicantInsuranceEOBSchema,
+  applicantInsuranceSOBSchema,
   applicantInsuranceThroughEmployerSchema,
   applicantInsurancePrescriptionSchema,
   applicantInsuranceTypeSchema,
@@ -51,6 +44,17 @@ import {
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
+
+// Control whether we show the file overview page by calling `hasReq` to
+// determine if any files have not been uploaded. Defaults to false (hide the page)
+// if anything goes sideways.
+function showFileOverviewPage(formData) {
+  try {
+    return hasReq(formData, true, true) || hasReq(formData, false, true);
+  } catch {
+    return false;
+  }
+}
 
 /** @type {PageSchema} */
 const formConfig = {
@@ -76,9 +80,7 @@ const formConfig = {
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       fullNamePath: formData =>
-        formData.certifierRole === 'applicant'
-          ? 'applicantName'
-          : 'certifierName',
+        formData?.certifierRole ? 'certifierName' : 'applicantName',
     },
   },
   saveInProgress: {
@@ -104,51 +106,12 @@ const formConfig = {
   title: '10-7959C CHAMPVA Other Health Insurance Certification form',
   defaultDefinitions: {},
   chapters: {
-    certifierInformation: {
-      title: 'Signer information',
-      pages: {
-        role: {
-          path: 'signer-type',
-          title: 'Which of these best describes you?',
-          // initialData: mockdata.data,
-          uiSchema: certifierRole.uiSchema,
-          schema: certifierRole.schema,
-        },
-        name: {
-          path: 'signer-info',
-          title: 'Your name',
-          depends: formData => get('certifierRole', formData) !== 'applicant',
-          ...certifierNameSchema,
-        },
-        address: {
-          path: 'signer-mailing-address',
-          title: 'Your mailing address',
-          depends: formData => get('certifierRole', formData) !== 'applicant',
-          ...certifierAddress,
-        },
-        phoneEmail: {
-          path: 'signer-contact-info',
-          title: 'Your phone number',
-          depends: formData => get('certifierRole', formData) !== 'applicant',
-          ...certifierPhoneEmail,
-        },
-        relationship: {
-          path: 'signer-relationship',
-          title: 'Your relationship to the applicant',
-          depends: formData => get('certifierRole', formData) !== 'applicant',
-          ...certifierRelationship,
-        },
-      },
-    },
     applicantInformation: {
       title: 'Applicant information',
       pages: {
         applicantNameDob: {
           path: 'applicant-info',
-          title: formData =>
-            `${
-              formData.certifierRole === 'applicant' ? 'Your' : 'Applicant'
-            } name and date of birth`,
+          title: 'Beneficiary’s name and date of birth',
           ...applicantNameDobSchema,
         },
         applicantIdentity: {
@@ -288,6 +251,19 @@ const formConfig = {
             } explanation of benefits`,
           ...applicantInsuranceEOBSchema(true),
         },
+        primaryScheduleOfBenefits: {
+          path: 'insurance-sob',
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantPrimaryEOB', formData) === 'noEob',
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantPrimaryProvider
+            } schedule of benefits`,
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          ...applicantInsuranceSOBSchema(true),
+        },
         primaryType: {
           path: 'insurance-plan',
           depends: formData => get('applicantHasPrimary', formData),
@@ -366,6 +342,19 @@ const formConfig = {
             } explanation of benefits`,
           ...applicantInsuranceEOBSchema(false),
         },
+        secondaryScheduleOfBenefits: {
+          path: 'secondary-insurance-sob',
+          depends: formData =>
+            get('applicantHasSecondary', formData) &&
+            get('applicantSecondaryEOB', formData) === 'noEob',
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantSecondaryProvider
+            } schedule of benefits`,
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          ...applicantInsuranceSOBSchema(false),
+        },
         secondaryType: {
           path: 'secondary-insurance-plan',
           depends: formData => get('applicantHasSecondary', formData),
@@ -412,6 +401,7 @@ const formConfig = {
         supportingFilesReview: {
           path: 'supporting-files',
           title: 'Upload your supporting files',
+          depends: formData => showFileOverviewPage(formData),
           CustomPage: SupportingDocumentsPage,
           CustomPageReview: null,
           uiSchema: {
@@ -424,18 +414,7 @@ const formConfig = {
         missingFileConsent: {
           path: 'consent-mail',
           title: 'Upload your supporting files',
-          depends: formData => {
-            try {
-              return (
-                hasReq(formData.applicants, true) ||
-                hasReq(formData.applicants, false) ||
-                hasReq(formData, true) ||
-                hasReq(formData, false)
-              );
-            } catch {
-              return false;
-            }
-          },
+          depends: formData => showFileOverviewPage(formData),
           CustomPage: MissingFileConsentPage,
           CustomPageReview: null,
           uiSchema: {

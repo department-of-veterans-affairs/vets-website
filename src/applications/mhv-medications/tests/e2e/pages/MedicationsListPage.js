@@ -39,10 +39,50 @@ class MedicationsListPage {
     );
   };
 
+  clickGoToMedicationsLinkWhenNoAllergiesAPICallFails = (
+    waitForMeds = false,
+  ) => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    ).as('medicationsList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      prescriptions,
+    );
+    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
+    if (waitForMeds) {
+      cy.wait('@medicationsList');
+    }
+  };
+
+  clickPrintThisPageOfTheListButtonOnListPage = () => {
+    cy.get('[data-testid="download-print-button"]').should('exist');
+    cy.get('[data-testid="download-print-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyPrintErrorMessageForAllergiesAPICallFail = () => {
+    cy.get('[data-testid="no-medications-list"]').should(
+      'contain',
+      'We can’t print your records right now',
+    );
+  };
+
+  verifyDownloadErrorMessageForAllergiesAPICallFail = () => {
+    cy.get('[data-testid="no-medications-list"]').should(
+      'contain',
+      'We can’t download your records right now',
+    );
+  };
+
   verifyTextInsideDropDownOnListPage = () => {
     cy.get('[data-testid="dropdown-info"]').should(
       'contain',
-      'we’ll include a list of allergies and reactions',
+      'If you’re on a public or shared computer',
     );
   };
 

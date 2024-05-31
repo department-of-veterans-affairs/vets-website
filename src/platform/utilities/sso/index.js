@@ -35,8 +35,14 @@ export const verifySession = () => {
     .getItem('sessionExpirationSSO')
     ?.toString();
   const isValidPath = !window.location.pathname?.includes('terms-of-use');
+  const isNotSubdomain = [
+    'www.va.gov',
+    'dev.va.gov',
+    'staging.va.gov',
+  ].includes(window.location.host);
 
   return (
+    isNotSubdomain &&
     isValidPath &&
     hasSessionSSO &&
     loginAttempted &&
@@ -75,7 +81,12 @@ export async function checkAutoSession(
   profile = {},
 ) {
   const { ttl, transactionid, ...queryParams } = await ssoKeepAliveSession();
-
+  const shouldRemoveReturnUrl = url => {
+    const shouldRemoveSessionStorage = sessionStorage
+      .getItem(url)
+      ?.includes('mhv');
+    return shouldRemoveSessionStorage ? sessionStorage.removeItem(url) : null;
+  };
   /**
    * Ensure user is authenticated with SSOe by verifying
    * loggedIn status and transaction ID
@@ -130,6 +141,7 @@ export async function checkAutoSession(
      * 3b. If `loginAttempted` is true but `hasSessionSSO` is true & `sessionExpirationSSO` has a timestamp
      * 4. Have a non-empty type value from eAuth keepalive endpoint
      */
+    shouldRemoveReturnUrl('authReturnUrl');
     login({
       policy: POLICY_TYPES.CUSTOM,
       queryParams: { ...queryParams },
