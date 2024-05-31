@@ -56,9 +56,6 @@ describe('<ClaimPhaseStepper>', () => {
     getByText(
       'We’ll check your claim for basic information we need, like your name and Social Security number.',
     );
-    getByText(
-      'If basic information is missing, we’ll contact you to gather that information.',
-    );
   });
 
   it('should render a ClaimPhaseStepper section where step 3 is the current step', () => {
@@ -225,13 +222,6 @@ describe('<ClaimPhaseStepper>', () => {
     getByText(
       'A senior reviewer will do a final review of your claim and the decision letter.',
     );
-
-    const phaseText = $('#phase7, container');
-    expect(
-      within(phaseText).getByText(
-        'If we need more evidence or you submit more evidence, your claim will go back to Step 3: Evidence gathering.',
-      ),
-    ).to.exist;
   });
 
   it('should render a ClaimPhaseStepper section where step 8 is the current step', () => {

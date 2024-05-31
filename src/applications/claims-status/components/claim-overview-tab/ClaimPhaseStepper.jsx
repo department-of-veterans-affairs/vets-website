@@ -35,10 +35,6 @@ export default function ClaimPhaseStepper({
             We’ll check your claim for basic information we need, like your name
             and Social Security number.
           </p>
-          <p className="vads-u-margin-bottom--0">
-            If basic information is missing, we’ll contact you to gather that
-            information.
-          </p>
         </>
       ),
     },
@@ -134,10 +130,6 @@ export default function ClaimPhaseStepper({
           <p>
             A senior reviewer will do a final review of your claim and the
             decision letter.
-          </p>
-          <p>
-            If we need more evidence or you submit more evidence, your claim
-            will go back to Step 3: Evidence gathering.
           </p>
         </>
       ),
