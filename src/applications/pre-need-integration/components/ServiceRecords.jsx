@@ -16,7 +16,10 @@ import {
   focusElement,
   getFocusableElements,
 } from 'platform/forms-system/src/js/utilities/ui';
-import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
+import {
+  setArrayRecordTouched,
+  formatReviewDate,
+} from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import { getScrollOptions, isReactComponent } from 'platform/utilities/ui';
 import {
@@ -497,13 +500,14 @@ export default class ServiceRecords extends React.Component {
                       uswds
                     >
                       {(item?.serviceBranch !== undefined &&
-                        item?.dateRange?.from !== undefined &&
-                        item?.dateRange?.to !== undefined && (
+                        (item?.dateRange?.from !== undefined ||
+                          item?.dateRange?.to !== undefined) && (
                           <p>
                             We’ll remove this service period for{' '}
                             <strong>
                               {serviceLabels[(item?.serviceBranch)]},{' '}
-                              {item?.dateRange?.from} - {item?.dateRange?.to}
+                              {formatReviewDate(item?.dateRange?.from)} &mdash;{' '}
+                              {formatReviewDate(item?.dateRange?.to)}
                             </strong>
                           </p>
                         )) ||
