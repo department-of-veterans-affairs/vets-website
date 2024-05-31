@@ -307,13 +307,13 @@ function main() {
   exportVariables(testsToRunNormally);
 
   if (RUN_FULL_SUITE) {
-    core.exportVariable('e2e_tests_to_STRESS_TEST', 'true');
+    core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', 'true');
     fs.writeFileSync(
       `e2e_tests_to_stress_test.json`,
       JSON.stringify(allAllowListSpecs),
     );
   } else {
-    core.exportVariable('e2e_tests_to_STRESS_TEST', 'true');
+    core.exportVariable('CYPRESS_TESTS_TO_STRESS_TEST', 'true');
     fs.writeFileSync(
       `e2e_tests_to_stress_test.json`,
       JSON.stringify(testsToStressTest),
