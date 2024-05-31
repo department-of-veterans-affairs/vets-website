@@ -26,6 +26,7 @@ import * as autosuggest from 'platform/forms-system/src/js/definitions/autosugge
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
+import ServiceRecords from '../components/ServiceRecords';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
 
@@ -1038,12 +1039,22 @@ export const preparerVeteranUI = {
 
 export const selfServiceRecordsUI = {
   'ui:title': 'Your service period(s)',
+  // 'ui:options': {
+  //   viewField: ServicePeriodView,
+  //   itemName: 'Service period',
+  //   keepInPageOnReview: true,
+  //   useDlWrap: true,
+  // },
+
+  'ui:field': ServiceRecords,
   'ui:options': {
     viewField: ServicePeriodView,
-    itemName: 'Service period',
     keepInPageOnReview: true,
-    useDlWrap: true,
+    showSave: true,
+    confirmRemove: true,
+    itemName: 'Service period',
   },
+
   items: {
     'ui:order': [
       'serviceBranch',
