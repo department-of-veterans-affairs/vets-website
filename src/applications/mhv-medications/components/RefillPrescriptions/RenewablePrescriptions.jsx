@@ -106,15 +106,14 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
             key={idx}
             className={`vads-u-margin-top--${idx !== 0 ? '5' : '2p5'}`}
           >
-            <h4 className="vads-u-margin--0">
-              <Link
-                data-testid={`medication-details-page-link-${idx}`}
-                to={`/prescription/${prescription.prescriptionId}`}
-                onClick={() => onRxLinkClick(prescription)}
-              >
-                {prescription.prescriptionName}
-              </Link>
-            </h4>
+            <Link
+              data-testid={`medication-details-page-link-${idx}`}
+              to={`/prescription/${prescription.prescriptionId}`}
+              onClick={() => onRxLinkClick(prescription)}
+              className="vads-u-font-weight--bold"
+            >
+              {prescription.prescriptionName}
+            </Link>
             <p className="vads-u-margin-top--0">
               Prescription number: {prescription.prescriptionNumber}
               <br />

@@ -44,7 +44,7 @@ const MedicationsListCard = ({ rx }) => {
             DD_ACTIONS_PAGE_TYPE.LIST
           }`}
           data-testid="medications-history-details-link"
-          className="vads-u-font-weight--bold vads-u-margin-y--0p5 vads-u-font-size--h4 vads-u-font-family--serif"
+          className="vads-u-font-weight--bold"
           to={`/prescription/${rx.prescriptionId}`}
           onClick={handleLinkClick}
         >
