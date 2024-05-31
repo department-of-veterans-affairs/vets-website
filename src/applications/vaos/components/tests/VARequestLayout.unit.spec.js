@@ -157,9 +157,8 @@ describe('VAOS Component: VARequestLayout', () => {
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;
-      expect(
-        screen.container.querySelector('va-button[text="Cancel appointment"]'),
-      ).to.be.ok;
+      expect(screen.container.querySelector('va-button[text="Cancel request"]'))
+        .to.be.ok;
     });
   });
 
@@ -277,9 +276,8 @@ describe('VAOS Component: VARequestLayout', () => {
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;
-      expect(
-        screen.container.querySelector('va-button[text="Cancel appointment"]'),
-      ).not.to.exist;
+      expect(screen.container.querySelector('va-button[text="Cancel request"]'))
+        .not.to.exist;
     });
   });
 
@@ -408,9 +406,8 @@ describe('VAOS Component: VARequestLayout', () => {
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;
-      expect(
-        screen.container.querySelector('va-button[text="Cancel appointment"]'),
-      ).to.be.ok;
+      expect(screen.container.querySelector('va-button[text="Cancel request"]'))
+        .to.be.ok;
     });
   });
 });
