@@ -564,9 +564,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       expect(screen.baseElement).not.to.contain.text('Canceled');
 
       // When user clicks on cancel request link
-      const button = document.querySelector(
-        'va-button[text="Cancel appointment"]',
-      );
+      const button = document.querySelector('va-button[text="Cancel request"]');
       button.click();
       await waitFor(() => {
         expect(store.getState().appointments.showCancelModal).to.equal(true);
@@ -607,9 +605,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       expect(await screen.findByText('Request for appointment')).to.be.ok;
       expect(screen.baseElement).not.to.contain.text('Canceled');
 
-      let button = document.querySelector(
-        'va-button[text="Cancel appointment"]',
-      );
+      let button = document.querySelector('va-button[text="Cancel request"]');
       button.click();
       await waitFor(() => {
         expect(store.getState().appointments.showCancelModal).to.equal(true);
@@ -663,7 +659,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         expect(screen.baseElement).not.to.contain.text('Canceled');
 
         const button = document.querySelector(
-          'va-button[text="Cancel appointment"]',
+          'va-button[text="Cancel request"]',
         );
         button.click();
         await waitFor(() => {
@@ -727,9 +723,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         expect(await screen.findByText('Request for appointment')).to.be.ok;
         expect(screen.baseElement).not.to.contain.text('Canceled');
 
-        let button = document.querySelector(
-          'va-button[text="Cancel appointment"]',
-        );
+        let button = document.querySelector('va-button[text="Cancel request"]');
         button.click();
 
         await waitFor(() => {
@@ -805,9 +799,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         expect(await screen.findByText('Request for appointment')).to.be.ok;
         expect(screen.baseElement).not.to.contain.text('Canceled');
 
-        let button = document.querySelector(
-          'va-button[text="Cancel appointment"]',
-        );
+        let button = document.querySelector('va-button[text="Cancel request"]');
         button.click();
 
         await waitFor(() => {

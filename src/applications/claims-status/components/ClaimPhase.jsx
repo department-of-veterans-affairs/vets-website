@@ -94,7 +94,7 @@ export default class ClaimPhase extends React.Component {
 
       case 'supporting_document':
         return (
-          <div className="claims-evidence-item">
+          <div className="claims-evidence-item" data-dd-privacy="mask">
             You or someone else submitted {file ? `"${file}"` : 'a file'}.
           </div>
         );
