@@ -1,7 +1,7 @@
 import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
-import rxDescriptionDetails from './fixtures/prescription-description-details.json';
+import rxDescriptionDetails from './fixtures/prescription-facility-name-details-page.json';
 
 describe('Medications List Page DropDown', () => {
   it('visits Medications List Page DropDown', () => {

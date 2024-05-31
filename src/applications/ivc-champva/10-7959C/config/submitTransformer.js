@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { getObjectsWithAttachmentId } from '../helpers/utilities';
 
 function getPrimaryContact(data) {
   // For callback API we need to know what data in the form should be
@@ -26,14 +27,6 @@ export default function transformForSubmit(formConfig, form) {
       copyOfData.applicantName?.middle?.charAt(0) ?? '';
   }
 
-  // go from medigapPlanA -> A
-  if (copyOfData.primaryMedigapPlan) {
-    copyOfData.primaryMedigapPlan = copyOfData.primaryMedigapPlan.slice(-1);
-  }
-  if (copyOfData.secondaryMedigapPlan) {
-    copyOfData.secondaryMedigapPlan = copyOfData.secondaryMedigapPlan.slice(-1);
-  }
-
   // Make sure all dates are in MM-DD-YYYY format
   Object.keys(copyOfData).forEach(key => {
     if (key.toLowerCase().includes('date')) {
@@ -47,6 +40,8 @@ export default function transformForSubmit(formConfig, form) {
   copyOfData.certificationDate = new Date()
     .toLocaleDateString('es-pa')
     .replace(/\//g, '-');
+
+  copyOfData.supportingDocs = getObjectsWithAttachmentId(copyOfData);
 
   // Set this for the callback API so it knows who to contact if there's
   // a status event notification

@@ -300,9 +300,9 @@ export const CHAPTER_3 = {
     TITLE: 'Your postal code',
     PAGE_DESCRIPTION: '',
     QUESTION_1:
-      'I receive mail outside of the United States on a U.S. military base.',
+      'Veteran receives mail outside of the United States on a U.S. military base.',
     QUESTION_2: 'Post office',
-    QUESTION_3: 'Region',
+    QUESTION_3: 'State',
     QUESTION_4: 'Postal code',
   },
   WHO_QUES_IS_ABOUT: {
@@ -357,9 +357,9 @@ export const CHAPTER_3 = {
     QUESTION_1: '',
   },
   ABOUT_YOUR_FAM_MEM: {
-    TITLE: 'Your relationship to the family member',
+    TITLE: 'Tell us about your family member',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select your relationship to the family member',
+    QUESTION_1: '',
   },
   RELATIONSHIP_TO_FAM_MEM: {
     TITLE: 'What is your relationship to the family member?',
@@ -394,6 +394,10 @@ export const CHAPTER_3 = {
   },
   FAMILY_MEMBERS_LOCATION_OF_RESIDENCE: {
     TITLE: `Family member's location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
+  YOUR_LOCATION_OF_RESIDENCE: {
+    TITLE: `Your location of residence`,
     QUESTION_1: 'State/Province/Region',
   },
 };
