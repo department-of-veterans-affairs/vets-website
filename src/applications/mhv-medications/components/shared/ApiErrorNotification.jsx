@@ -8,7 +8,7 @@ const ApiErrorNotification = ({ errorType, content, children }) => {
         className="vads-u-margin--0 vads-u-font-size--h3"
         data-testid="no-medications-list"
       >
-        We can’t {errorType} your {content} right now
+        {`We can’t ${errorType} your ${content} right now`}
       </h2>
       <p>We’re sorry. There’s a problem with our system. Check back later.</p>
       {!children ? (
