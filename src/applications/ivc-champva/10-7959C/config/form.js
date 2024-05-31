@@ -41,6 +41,7 @@ import {
 } from '../chapters/healthInsuranceInformation';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
@@ -68,6 +69,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   showReviewErrors: !environment.isProduction(),
+  footerContent: GetFormHelp,
   formId: '10-7959C',
   dev: {
     showNavLinks: false,
