@@ -20,64 +20,48 @@ class IntroductionPage extends React.Component {
     return (
       <article className="schemaform-intro">
         <FormTitle
-          title="Apply for CHAMPVA Other Health Insurance Certification"
-          subTitle="Application for CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)"
+          title="File for CHAMPVA Other Health Insurance Certification"
+          subTitle="CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)"
         />
 
         <p>
-          If you’re the spouse or child of a Veteran with disabilities or a
-          Veteran who has died, you may be able to get health insurance through
-          the Civilian Health and Medical Program of the Department of Veterans
-          Affairs (CHAMPVA). Apply online now.
+          Use this form if you're applying for Civilian Health and Medical
+          Program of the Department of Veterans Affairs (CHAMPVA) benefits and
+          have other non-VA health insurance. You can also use this form to
+          report changes in your non-VA health insurance or your personal
+          information, like your address or phone number.
         </p>
 
-        {!loggedIn && (
-          <VaAlert status="info" visible uswds>
-            <h2>Have you applied for VA health care before?</h2>
-            <SaveInProgressIntro
-              buttonOnly
-              headingLevel={2}
-              prefillEnabled={formConfig.prefillEnabled}
-              messages={formConfig.savedFormMessages}
-              pageList={pageList}
-              unauthStartText="Sign in to check your application status"
-              hideUnauthedStartLink
-            />
-          </VaAlert>
-        )}
+        <h2>What to know before you fill out this form</h2>
 
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps to get started
-        </h2>
-        <va-process-list uswds>
-          <va-process-list-item header="Gather this information">
-            <p>
-              <b>Here’s what you’ll need to apply:</b>
-              Make sure you meet our eligibility requirements before you apply
-            </p>
-            <ul>
-              <li>
-                <b>Personal information about you</b> and anyone else you’re
-                applying for
-              </li>
-            </ul>
-            <p>
-              You may also need to submit supporting documents, like copies of
-              your Medicare or other health insurance cards
-            </p>
-          </va-process-list-item>
-          <va-process-list-item header="Apply">
-            <p>
-              We’ll take you through each step of the process. This application
-              should take about [XX] minutes.
-            </p>
-          </va-process-list-item>
-          <va-process-list-item header="After you apply">
-            <p>
-              We’ll contact you if we have questions or need more information.
-            </p>
-          </va-process-list-item>
-        </va-process-list>
+        <p>
+          If you're applying for CHAMPVA benefits for the first time, here's
+          what you'll need to provide:
+        </p>
+        <ul>
+          <li>
+            <b>Personal information.</b> This includes your phone number and
+            address.
+          </li>
+          <li>
+            <b>Insurance information.</b> This includes any non-VA health
+            insurance companies that cover you. And you may need to upload
+            supporting documents, like copies of your Medicare cards, other
+            health insurance cards, schedule of benefits and co-payment
+            documents. Be sure to include any secondary or supplemental
+            insurance such as vision, dental or accidental insurance.
+          </li>
+        </ul>
+
+        <p>
+          <b>If you're already receiving CHAMPVA benefits,</b> you can provide
+          updated personal information, like your phone number and address.
+          <br />
+          <br />
+          And you can also provide your updated non-VA health insurance
+          information and copies of your Medicare or other health insurance
+          cards.
+        </p>
 
         {!loggedIn && (
           <VaAlert status="info" visible uswds>
