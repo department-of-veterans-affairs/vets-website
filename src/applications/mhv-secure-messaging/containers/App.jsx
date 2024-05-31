@@ -19,7 +19,6 @@ import {
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
 import AuthorizedRoutes from './AuthorizedRoutes';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
-import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
 import manifest from '../manifest.json';
@@ -173,7 +172,6 @@ const App = ({ isPilot }) => {
           vads-u-flex-direction--column
           medium-screen:vads-u-flex-direction--row"
               >
-                <Navigation />
                 <ScrollToTop />
                 <Switch>
                   <AuthorizedRoutes />
