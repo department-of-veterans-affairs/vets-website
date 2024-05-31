@@ -73,6 +73,35 @@ class MedicationsSite {
     }
   };
 
+  cernerLoginPrescriptionListError = (isMedicationsUser = true) => {
+    if (isMedicationsUser) {
+      cy.login();
+      window.localStorage.setItem('isLoggedIn', true);
+
+      cy.intercept(
+        { method: 'GET', url: '/v0/feature_toggles?*' },
+        mockToggles,
+      ).as('featureToggle');
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
+      cy.intercept('GET', '/v0/user', cernerUser).as('mockUser');
+    }
+  };
+
+  cernerLoginRefillPageError = (isMedicationsUser = true) => {
+    if (isMedicationsUser) {
+      cy.login();
+      window.localStorage.setItem('isLoggedIn', true);
+
+      cy.intercept(
+        { method: 'GET', url: '/v0/feature_toggles?*' },
+        mockToggles,
+      ).as('featureToggle');
+      cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
+      cy.intercept('GET', '/v0/user', cernerUser).as('mockUser');
+      cy.visit(medicationsUrls.MEDICATIONS_REFILL);
+    }
+  };
+
   verifyloadLogInModal = () => {
     cy.visit(medicationsUrls.MEDICATIONS_ABOUT);
     cy.get('#signin-signup-modal-title').should('contain', 'Sign in');
