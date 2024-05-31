@@ -39,7 +39,7 @@ const HealthCareCTA = ({
         viewMhvLink && (
           <IconCTALink
             text="Visit My HealtheVet on VA.gov"
-            icon="briefcase-medical"
+            icon="language"
             href="/my-health"
             testId="visit-mhv-on-va-gov"
             onClick={() =>
@@ -76,7 +76,7 @@ const HealthCareCTA = ({
               !hasAppointmentsError && (
                 <IconCTALink
                   href="/my-health/appointments"
-                  icon="calendar"
+                  icon="calendar_today"
                   text="Schedule and manage your appointments"
                   testId="view-manage-appointments-link-from-cta"
                   onClick={() => {
