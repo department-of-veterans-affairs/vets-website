@@ -11,6 +11,7 @@ import {
   dispatchDetails,
   getActiveLinksStyle,
   dateFormatWithoutTimezone,
+  parseDate,
 } from '../../util/helpers';
 
 describe('Name formatter', () => {
@@ -266,5 +267,28 @@ describe('getActiveLinksStyle', () => {
     const style = getActiveLinksStyle(linkPath, currentPath);
 
     expect(style).to.equal(expectedStyle);
+  });
+});
+
+describe('parseDate', () => {
+  it('parses a full date', () => {
+    const expectedStyle = 'March 3, 2013';
+    const date = parseDate('2013-03-03');
+
+    expect(date).to.equal(expectedStyle);
+  });
+
+  it('parses a date that has a YYYY-MM format and no DD (day of month).', () => {
+    const expectedStyle = 'March, 2013';
+    const date = parseDate('2013-02'); // January starts at [0] instead of "1"
+
+    expect(date).to.equal(expectedStyle);
+  });
+
+  it('parses a date that only has YYYY and no DD (day of month) nor MM (month)', () => {
+    const expectedStyle = '2013';
+    const date = parseDate('2013');
+
+    expect(date).to.equal(expectedStyle);
   });
 });

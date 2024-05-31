@@ -37,4 +37,16 @@ describe('<AdditionalEvidenceItem>', () => {
 
     expect(tree.everySubTree('.submission-date')).to.be.empty;
   });
+
+  it('should mask filenames in DataDog (no PII)', () => {
+    const item = {
+      uploadDate: null,
+      documentTypeLabel: 'Test Type',
+      originalFileName: 'testfile.pdf',
+    };
+
+    const tree = SkinDeep.shallowRender(<AdditionalEvidenceItem item={item} />);
+
+    expect(tree.subTree('.filename').props['data-dd-privacy']).to.equal('mask');
+  });
 });

@@ -2,6 +2,7 @@ import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { EMPTY_FIELD, interpretationMap } from './constants';
 
 /**
@@ -292,4 +293,37 @@ export const getActiveLinksStyle = (linkPath, currentPath) => {
   }
 
   return '';
+};
+
+// check date type
+export const parseDate = str => {
+  const yearRegex = /^\d{4}$/;
+  const monthRegex = /^\d{4}-\d{2}$/;
+  if (yearRegex.test(str)) {
+    return str;
+  }
+  if (monthRegex.test(str)) {
+    const date = new Date(str);
+    const month = date.getMonth();
+    const year = date.getFullYear();
+
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    const monthName = monthNames[month + 1];
+    return `${monthName}, ${year}`;
+  }
+  return formatDateLong(str);
 };

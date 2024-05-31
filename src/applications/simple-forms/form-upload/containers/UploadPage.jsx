@@ -36,8 +36,10 @@ const UploadPage = () => {
   };
   const onRouteChange = ({ detail }) => handleRouteChange({ detail }, history);
   const onFileUploaded = uploadedFile => {
-    setFileInputError('');
-    setFile(uploadedFile);
+    if (uploadedFile.confirmationCode) {
+      setFileInputError('');
+      setFile(uploadedFile);
+    }
   };
   const onVaChange = e =>
     dispatch(uploadScannedForm(formNumber, e.detail.files[0], onFileUploaded));

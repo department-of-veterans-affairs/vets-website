@@ -65,12 +65,11 @@ describe('Facilities actions', () => {
     it('calls the api to get the facility', done => {
       const thunk = fetchFacility('vha_646');
       const dispatch = sinon.spy();
-      mockApiRequest({ data: mockFacilityLocatorApiResponse.data });
+      mockApiRequest({ data: mockFacilityLocatorApiResponse.data[0] });
       thunk(dispatch, getState)
         .then(() => {
-          expect(global.fetch.args[0][0]).to.contain('/facilities_api/v2/va');
-          expect(global.fetch.args[0][1].body).to.equal(
-            '{"ids":"vha_646","per_page":1,"page":1}',
+          expect(global.fetch.args[0][0]).to.contain(
+            '/v1/facilities/va/vha_646',
           );
           done();
         })
@@ -81,7 +80,7 @@ describe('Facilities actions', () => {
     it('dispatches a success if there are no errors', done => {
       const thunk = fetchFacility('vha_646');
       const dispatch = sinon.spy();
-      mockApiRequest({ data: mockFacilityLocatorApiResponse.data });
+      mockApiRequest({ data: mockFacilityLocatorApiResponse.data[0] });
 
       thunk(dispatch, getState)
         .then(() => {

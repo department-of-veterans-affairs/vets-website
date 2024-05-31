@@ -15,6 +15,7 @@ import {
   noneAndLocationError,
 } from '../../../content/toxicExposure';
 import { GULF_WAR_2001_LOCATIONS } from '../../../constants';
+import { checkVaCheckbox } from '../../testUtils';
 
 describe('Gulf War 2001 Locations', () => {
   const {
@@ -74,15 +75,8 @@ describe('Gulf War 2001 Locations', () => {
     );
 
     const checkboxGroup = $('va-checkbox-group', container);
-    await checkboxGroup.__events.vaChange({
-      target: { checked: true, dataset: { key: 'yemen' } },
-      detail: { checked: true },
-    });
-
-    await checkboxGroup.__events.vaChange({
-      target: { checked: true, dataset: { key: 'airspace' } },
-      detail: { checked: true },
-    });
+    checkVaCheckbox(checkboxGroup, 'yemen');
+    checkVaCheckbox(checkboxGroup, 'airspace');
 
     userEvent.click(getByText('Submit'));
     expect(onSubmit.calledOnce).to.be.true;
@@ -94,19 +88,31 @@ describe('Gulf War 2001 Locations', () => {
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
     );
     const checkboxGroup = $('va-checkbox-group', container);
-    await checkboxGroup.__events.vaChange({
-      target: { checked: true, dataset: { key: 'yemen' } },
-      detail: { checked: true },
-    });
-    await checkboxGroup.__events.vaChange({
-      target: {
-        checked: true,
-        dataset: { key: 'none' },
-      },
-      detail: { checked: true },
-    });
+    checkVaCheckbox(checkboxGroup, 'yemen');
+    checkVaCheckbox(checkboxGroup, 'none');
 
     await userEvent.click(getByText('Submit'));
     expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
+  });
+
+  it('should submit with `notsure` and other locations selected', async () => {
+    const onSubmit = sinon.spy();
+
+    const { container, getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    checkVaCheckbox(checkboxGroup, 'lebanon');
+    checkVaCheckbox(checkboxGroup, 'yemen');
+    checkVaCheckbox(checkboxGroup, 'notsure');
+
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
   });
 });
