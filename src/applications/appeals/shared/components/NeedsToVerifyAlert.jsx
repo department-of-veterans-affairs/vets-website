@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
-const NeedsToVerify = ({ pathname }) => {
+export const heading =
+  'You’ll need to verify your identity to access more VA.gov tools and features';
+
+const NeedsToVerify = ({ basename }) => {
+  const alertRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        focusElement(alertRef.current);
+      }
+    },
+    [alertRef],
+  );
+
   recordEvent({
     event: 'visible-alert-box',
     'alert-box-type': 'continue',
-    'alert-box-heading':
-      'You’ll need to verify your identity to access more VA.gov tools and features',
+    'alert-box-heading': heading,
     'error-key': 'not_verified',
     'alert-box-full-width': false,
     'alert-box-background-only': false,
@@ -17,11 +31,8 @@ const NeedsToVerify = ({ pathname }) => {
   });
 
   return (
-    <va-alert status="continue" uswds>
-      <h2 slot="headline">
-        You’ll need to verify your identity to access more VA.gov tools and
-        features
-      </h2>
+    <va-alert ref={alertRef} status="continue">
+      <h2 slot="headline">{heading}</h2>
       <p>
         We need to make sure you’re you — and not someone pretending to be you —
         before we can give you access to your personal and health-related
@@ -31,7 +42,7 @@ const NeedsToVerify = ({ pathname }) => {
       <strong>This one-time process takes about 5-10 minutes.</strong>
       <p>
         <a
-          href={`/verify?next=${pathname}`}
+          href={`/verify?next=${basename}`}
           className="verify-link vads-c-action-link--green"
         >
           Verify your identity to start your request
@@ -42,7 +53,7 @@ const NeedsToVerify = ({ pathname }) => {
 };
 
 NeedsToVerify.propTypes = {
-  pathname: PropTypes.string,
+  basename: PropTypes.string,
 };
 
 export default NeedsToVerify;

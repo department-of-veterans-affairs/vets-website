@@ -31,6 +31,7 @@ import {
   applicantHasInsuranceSchema,
   applicantProviderSchema,
   applicantInsuranceEOBSchema,
+  applicantInsuranceSOBSchema,
   applicantInsuranceThroughEmployerSchema,
   applicantInsurancePrescriptionSchema,
   applicantInsuranceTypeSchema,
@@ -110,7 +111,7 @@ const formConfig = {
       pages: {
         applicantNameDob: {
           path: 'applicant-info',
-          title: 'Applicant name and date of birth',
+          title: 'Beneficiary’s name and date of birth',
           ...applicantNameDobSchema,
         },
         applicantIdentity: {
@@ -250,6 +251,19 @@ const formConfig = {
             } explanation of benefits`,
           ...applicantInsuranceEOBSchema(true),
         },
+        primaryScheduleOfBenefits: {
+          path: 'insurance-sob',
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantPrimaryEOB', formData) === 'noEob',
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantPrimaryProvider
+            } schedule of benefits`,
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          ...applicantInsuranceSOBSchema(true),
+        },
         primaryType: {
           path: 'insurance-plan',
           depends: formData => get('applicantHasPrimary', formData),
@@ -327,6 +341,19 @@ const formConfig = {
               formData.applicantSecondaryProvider
             } explanation of benefits`,
           ...applicantInsuranceEOBSchema(false),
+        },
+        secondaryScheduleOfBenefits: {
+          path: 'secondary-insurance-sob',
+          depends: formData =>
+            get('applicantHasSecondary', formData) &&
+            get('applicantSecondaryEOB', formData) === 'noEob',
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantSecondaryProvider
+            } schedule of benefits`,
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          ...applicantInsuranceSOBSchema(false),
         },
         secondaryType: {
           path: 'secondary-insurance-plan',
