@@ -144,7 +144,7 @@ export default function ClaimPhaseStepper({
     },
     {
       phase: 8,
-      header: 'Step 8: Decision decided',
+      header: 'Step 8: Claim decided',
       description: (
         <>
           <p>
