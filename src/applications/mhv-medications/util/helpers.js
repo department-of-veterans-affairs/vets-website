@@ -1,7 +1,13 @@
 import moment from 'moment-timezone';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
-import { EMPTY_FIELD, imageRootUri, medicationsUrls } from './constants';
+import {
+  EMPTY_FIELD,
+  imageRootUri,
+  medicationsUrls,
+  PRINT_FORMAT,
+  DOWNLOAD_FORMAT,
+} from './constants';
 
 /**
  * @param {*} timestamp
@@ -257,4 +263,17 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
     ]);
   }
   return [];
+};
+
+export const getErrorTypeFromFormat = format => {
+  switch (format) {
+    case PRINT_FORMAT.PRINT:
+    case PRINT_FORMAT.PRINT_FULL_LIST:
+      return 'print';
+    case DOWNLOAD_FORMAT.PDF:
+    case DOWNLOAD_FORMAT.TXT:
+      return 'download';
+    default:
+      return 'print';
+  }
 };

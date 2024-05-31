@@ -1,5 +1,6 @@
 import React from 'react';
 import PropType from 'prop-types';
+import { useSelector } from 'react-redux';
 import PageLink from './PageLink';
 
 const MoreInfoCard = ({
@@ -10,6 +11,8 @@ const MoreInfoCard = ({
   className,
   linkDescription,
 }) => {
+  const response = useSelector(state => state.personalInfo);
+  if (response?.error?.error === 'Forbidden') return null;
   return (
     <div className={`vads-u-margin-top--${marginTop}`}>
       <va-card background>

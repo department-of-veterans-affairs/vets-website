@@ -8,12 +8,30 @@ class LandingPage {
   validatePageLoaded = () =>
     cy.findByRole('heading', { name: /^My HealtheVet$/i }).should.exist;
 
-  validateURL = () => cy.url().should('match', /my-health/);
+  loaded = () => this.validatePageLoaded();
 
-  visitPage = ({ serviceProvider = 'idme', facilities, loa = 3 } = {}) => {
-    cy.login(generateUser({ serviceProvider, facilities, loa }));
+  secondaryNav = () => cy.findByRole('navigation', { name: 'My HealtheVet' });
+
+  secondaryNavRendered = () => this.secondaryNav().should.exist;
+
+  validateURL = () => cy.url().should('match', /\/my-health\/$/);
+
+  visitPage = ({
+    verified = true,
+    registered = true,
+    mhvAccountState = 'OK',
+  } = {}) => {
+    let props = { mhvAccountState };
+    if (!verified) props = { ...props, loa: 1 };
+    if (!registered) props = { ...props, vaPatient: false };
+    const user = generateUser(props);
+    cy.login(user);
     cy.visit(this.pageUrl);
+    this.loaded();
+    this.validateURL();
   };
+
+  visit = props => this.visitPage(props);
 
   /**
    * Validate a card has a heading and the correct number of links in it.

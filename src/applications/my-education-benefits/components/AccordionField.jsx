@@ -189,6 +189,7 @@ export default class AccordionField extends React.Component {
           {items.map(item => {
             return (
               <ViewField
+                // eslint-disable-next-line no-plusplus
                 key={`${this.id}-${vaAccordionItemKeyId++}`}
                 formData={item}
               />
@@ -223,6 +224,7 @@ export default class AccordionField extends React.Component {
             return (
               <va-accordion-item
                 header={item.serviceBranch}
+                // eslint-disable-next-line no-plusplus
                 key={`${this.id}-${vaAccordionItemKeyId++}`}
                 open="false"
                 subheader={subheader}
