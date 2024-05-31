@@ -11,10 +11,10 @@ import {
   dateOfBirthSchema,
   // addressUI,
   // addressSchema,
-  // phoneUI,
-  // phoneSchema,
-  // emailUI,
-  // emailSchema,
+  phoneUI,
+  phoneSchema,
+  emailUI,
+  emailSchema,
   // checkboxGroupUI,
   // checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -101,6 +101,33 @@ const formConfig = {
             properties: {
               titleSchema,
               veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
+            },
+          },
+        },
+      },
+    },
+    contactInformation: {
+      title: 'Contact Information',
+      pages: {
+        page5: {
+          path: 'contact-info',
+          title: "Veteran's contact information",
+          uiSchema: {
+            ...titleUI(
+              'Phone and email address',
+              'Please include this information so that we can contact you with questions or updates',
+            ),
+            messageAriaDescribedby:
+              'Please include this information so that we can contact you with questions or updates.',
+            veteranPhoneNumber: phoneUI(),
+            veteranEmailAddress: emailUI(),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              titleSchema,
+              veteranPhoneNumber: phoneSchema,
+              veteranEmailAddress: emailSchema,
             },
           },
         },
