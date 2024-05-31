@@ -114,7 +114,7 @@ const LandingPage = () => {
           {prescriptionsApiError ? (
             <section>
               <ApiErrorNotification errorType="access" content="medications" />
-              <CernerFacilityAlert />
+              <CernerFacilityAlert className="vads-u-margin-top--2" />
             </section>
           ) : (
             <>
