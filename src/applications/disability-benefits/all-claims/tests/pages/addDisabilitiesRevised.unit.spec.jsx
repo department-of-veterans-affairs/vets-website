@@ -143,48 +143,6 @@ describe('showRevisedNewDisabilitiesPage', () => {
     form.unmount();
   });
 
-  it('should display max characters error if input is greater than 255', () => {
-    const {
-      schema,
-      uiSchema,
-    } = formConfig.chapters.disabilities.pages.addDisabilitiesRevised;
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:claimType': {
-            'view:claimingNew': true,
-            'view:claimingIncrease': false,
-          },
-          newDisabilities: [
-            {
-              condition:
-                'this is a really long input that will produce an error to the user to shorten the input value. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetu',
-            },
-          ],
-          // no rated disability selected
-          ratedDisabilities: [{}, {}],
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-    // console.log(form.debug())
-    // form.find('form').simulate('submit');
-    // const error = form.find('.usa-input-error-message')
-    // console.log(error.text())
-    // const error = form.find('span[role="alert"]')
-    // expect(error.text()).to.contain(
-    //   'This needs to be less than 256 characters',
-    // );
-    // expect(error.length).to.equal(1);
-    // expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-
   it('should submit when form is completed', () => {
     const {
       schema,
