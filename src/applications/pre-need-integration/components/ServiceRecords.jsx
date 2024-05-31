@@ -22,10 +22,6 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import { getScrollOptions, isReactComponent } from 'platform/utilities/ui';
-import {
-  CurrentlyBurriedPersonsDescriptionWrapper,
-  currentlyBuriedPersonsTitle,
-} from '../utils/helpers';
 import { serviceLabels } from '../utils/labels';
 
 const { Element } = Scroll;
@@ -355,8 +351,6 @@ export default class ServiceRecords extends React.Component {
 
     return (
       <div className={containerClassNames}>
-        {currentlyBuriedPersonsTitle}
-        <CurrentlyBurriedPersonsDescriptionWrapper formContext={formContext} />
         {hasTitleOrDescription && (
           <div className="schemaform-block-header">
             {title &&
@@ -415,9 +409,7 @@ export default class ServiceRecords extends React.Component {
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
                       {onReviewPage && (
-                        <h3 className="vads-u-font-size--h5">
-                          Name of deceased
-                        </h3>
+                        <h3 className="vads-u-font-size--h5">Service period</h3>
                       )}
                       {!onReviewPage && isLast && multipleRows ? (
                         <h3 className="vads-u-font-size--h5">
@@ -561,14 +553,26 @@ export default class ServiceRecords extends React.Component {
                       Edit
                     </button>
                     <dl className="review">
-                      <h3 className="vads-u-font-size--h5">Name of deceased</h3>
+                      <h3 className="vads-u-font-size--h5">Service period</h3>
                       <div className="review-row">
-                        <dt>Deceased's first name</dt>
-                        <dd>{item?.name?.first}</dd>
+                        <dt>Branch of service</dt>
+                        <dd>{serviceLabels[(item?.serviceBranch)]}</dd>
                       </div>
                       <div className="review-row">
-                        <dt>Deceased's last name</dt>
-                        <dd>{item?.name?.last}</dd>
+                        <dt>Highest rank attained</dt>
+                        <dd>{item?.highestRank}</dd>
+                      </div>
+                      <div className="review-row">
+                        <dt>Service start date</dt>
+                        <dd>{formatReviewDate(item?.dateRange?.from)}</dd>
+                      </div>
+                      <div className="review-row">
+                        <dt>Service end date</dt>
+                        <dd>{formatReviewDate(item?.dateRange?.to)}</dd>
+                      </div>
+                      <div className="review-row">
+                        <dt>Discharge character of service</dt>
+                        <dd>{item?.dischargeType}</dd>
                       </div>
                     </dl>
                   </>
