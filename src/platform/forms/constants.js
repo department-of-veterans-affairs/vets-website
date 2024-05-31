@@ -53,10 +53,10 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_HC_QSTNR: 'HC-QSTNR',
   FORM_COVID_VACCINE_TRIAL: 'COVID-VACCINE-TRIAL',
   FORM_COVID_VACCINE_TRIAL_UPDATE: 'COVID-VACCINE-TRIAL-UPDATE',
-  FORM_21_22: '21-22',
   FORM_5655: '5655',
   FORM_COVID_VACCINATION_EXPANSION: 'COVID-VACCINATION-EXPANSION',
   FORM_26_1880: '26-1880',
+  FORM_21_22: '21-22',
   FORM_21_22A: '21-22a',
   FORM_XX_123: 'XX-123',
   FORM_MOCK: '00-1234',
@@ -112,6 +112,9 @@ export const FORM_BENEFITS = {
   [VA_FORM_IDS.FORM_20_0996]: 'Higher-Level Review',
   [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
   [VA_FORM_IDS.FORM_5655]: 'financial status report',
+  [VA_FORM_IDS.FORM_21_22]: 'VSO representative appointment application',
+  [VA_FORM_IDS.FORM_21_22A]:
+    'Individual representative appointment application',
 };
 
 export const FORM_TITLES = Object.keys(FORM_BENEFITS).reduce((titles, key) => {
@@ -229,6 +232,7 @@ export const TRACKING_PREFIXES = {
   [VA_FORM_IDS.FORM_10_10EZ]: 'hca-',
   [VA_FORM_IDS.FORM_22_0993]: 'edu-0993-',
   [VA_FORM_IDS.FORM_21_22]: 'appoint-a-rep-21-22',
+  [VA_FORM_IDS.FORM_21_22A]: 'appoint-a-rep-21-22',
   [VA_FORM_IDS.FORM_22_0994]: 'edu-0994-',
   [VA_FORM_IDS.FORM_22_1990]: 'edu-',
   [VA_FORM_IDS.FORM_22_1990E]: 'edu-1990e-',
