@@ -87,22 +87,8 @@ export function fetchFacility(id) {
     dispatch(fetchFacilityStarted());
 
     // eslint-disable-next-line consistent-return
-    return apiRequest(`/va/`, {
-      apiVersion: 'facilities_api/v2',
-      // eslint-disable-next-line camelcase
-      body: JSON.stringify({ ids: id, per_page: 1, page: 1 }),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(facility => {
-        if (facility.data?.length && facility.data.some(d => d.id === id)) {
-          const facilityData = facility.data.find(d => d.id === id);
-          return dispatch(fetchFacilitySuccess(facilityData));
-        }
-        return dispatch(fetchFacilityFailed());
-      })
+    return apiRequest(`/facilities/va/${id}`, { apiVersion: 'v1' })
+      .then(facility => dispatch(fetchFacilitySuccess(facility.data)))
       .catch(() => dispatch(fetchFacilityFailed()));
   };
 }
@@ -118,20 +104,10 @@ export function fetchMainSatelliteLocationFacility(id) {
     dispatch(fetchMainSatelliteLocationStarted());
 
     // eslint-disable-next-line consistent-return
-    return apiRequest(`/va`, {
-      apiVersion: 'facilities_api/v2',
-      // eslint-disable-next-line camelcase
-      body: JSON.stringify({ ids: id, per_page: 1, page: 1 }),
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then(facility => {
-        if (facility.data?.length && facility.data.some(d => d.id === id)) {
-          const facilityData = facility.data.find(d => d.id === id);
-          return dispatch(fetchMainSatelliteLocationSuccess(facilityData));
-        }
-        return dispatch(fetchMainSatelliteLocationFailed());
-      })
+    return apiRequest(`/facilities/va/${id}`, { apiVersion: 'v1' })
+      .then(facility =>
+        dispatch(fetchMainSatelliteLocationSuccess(facility.data)),
+      )
       .catch(() => dispatch(fetchMainSatelliteLocationFailed()));
   };
 }
@@ -142,34 +118,17 @@ export function fetchMultiFacility(id) {
     dispatch(fetchMultiFacilityStarted(id));
 
     // eslint-disable-next-line consistent-return
-    return apiRequest(`/va`, {
-      apiVersion: 'facilities_api/v2',
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      // eslint-disable-next-line camelcase
-      body: JSON.stringify({ ids: id, per_page: 1, page: 1 }),
-    })
-      .then(facility => {
-        if (facility.data?.length && facility.data.some(d => d.id === id)) {
-          dispatch(fetchMultiFacilitySuccess(facility.data, id));
-        } else {
-          dispatch(fetchMultiFacilityFailed(id));
-        }
-      })
+    return apiRequest(`/facilities/va/${id}`, { apiVersion: 'v1' })
+      .then(facility => dispatch(fetchMultiFacilitySuccess(facility.data, id)))
       .catch(() => dispatch(fetchMultiFacilityFailed(id)));
   };
 }
 
-export function multiTypeQuery(facilityType, url, body) {
+export function multiTypeQuery(facilityType, queryString) {
   return dispatch => {
     // With fetchMultiFacility started creates an empty object for the facility data
     dispatch(fetchMultiFacilityStarted(facilityType));
-    return apiRequest(url, {
-      apiVersion: 'facilities_api/v2',
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' },
-    })
+    return apiRequest(queryString, { apiVersion: 'v1' })
       .then(res => {
         dispatch(
           // success action will populate the facility data object with data key/value

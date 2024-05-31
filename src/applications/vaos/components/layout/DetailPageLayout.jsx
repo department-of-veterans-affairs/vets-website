@@ -75,7 +75,9 @@ function CancelButton({ appointment }) {
 
   const button = (
     <VaButton
-      text="Cancel appointment"
+      text={`Cancel ${
+        APPOINTMENT_STATUS.booked === status ? 'appointment' : 'request'
+      }`}
       secondary
       onClick={() => {
         recordEvent({
