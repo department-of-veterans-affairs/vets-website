@@ -259,26 +259,17 @@ class PatientMessageDraftsPage {
     cy.wait('@saveDraft');
   };
 
-  confirmDeleteDraft = (draftMessage, isNewDraftText = false) => {
+  confirmDeleteDraft = draftMessage => {
     cy.intercept(
       'DELETE',
       `${Paths.INTERCEPT.MESSAGES}/${draftMessage.data.attributes.messageId}`,
       draftMessage,
     ).as('deletedDraftResponse');
-    if (isNewDraftText) {
-      cy.get(Locators.ALERTS.DRAFT_MODAL)
-        .find('va-button[text="Delete draft"]', { force: true })
-        .contains('Delete draft')
-        .click({ force: true });
-      // Wait needs to be added back in before closing PR
-      // cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
-    } else {
-      cy.get(Locators.ALERTS.DRAFT_MODAL)
-        .find('va-button[text="Delete draft"]', { force: true })
-        .contains('Delete draft')
-        .click({ force: true });
-      cy.wait('@deletedDraftResponse', { requestTimeout: 10000 });
-    }
+    cy.get(Locators.ALERTS.DRAFT_MODAL)
+      .find('va-button[text="Delete draft"]', { force: true })
+      .contains('Delete draft')
+      .click({ force: true });
+    cy.get('[visible=""] > [secondary=""]').click({ force: true });
   };
 
   deleteDraftMessage = (mockResponse, messageId) => {

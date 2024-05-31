@@ -35,12 +35,13 @@ describe('Secure Messaging Delete Reply Draft', () => {
         )}`,
       );
     });
+
     draftsPage.clickDeleteButton();
     draftsPage.confirmDeleteDraft(messageDetails);
     draftsPage.verifyDeleteConfirmationMessage();
     draftsPage.verifyDraftMessageBannerTextHasFocus();
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
