@@ -10,7 +10,6 @@ import { Provider } from 'react-redux';
 
 import formConfig from '../../../config/form';
 import { getData } from '../../fixtures/data/mock-form-data';
-import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 
 const {
   schema,
@@ -32,15 +31,11 @@ describe('yourContactInformationPage', () => {
       </Provider>,
     );
 
-    const labels = $$('.schemaform-field-template > label', container);
-    const labelList = ['Phone number', 'Email address'];
+    const inputs = $$('va-text-input', container);
+    const options = $$('va-radio-option', container);
 
     expect($('h3', container).textContent).to.eq('Your contact information');
-
-    labels.forEach(
-      label =>
-        expect(labelList.includes(removeReqFromLabel(label.textContent))).to.be
-          .true,
-    );
+    expect(inputs.length).to.eq(3);
+    expect(options.length).to.eq(3);
   });
 });

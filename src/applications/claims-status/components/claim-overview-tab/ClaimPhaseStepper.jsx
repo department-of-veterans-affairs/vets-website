@@ -154,7 +154,7 @@ export default function ClaimPhaseStepper({
           <Link
             aria-label="Go to the claim letters page"
             title="Go to the claim letters page"
-            to="../status"
+            to="/your-claim-letters"
           >
             Go to the claim letters page
           </Link>
