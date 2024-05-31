@@ -3,17 +3,17 @@ import { Link } from 'react-router';
 
 export const addDisabilitiesInstructions = (
   <>
-    <h2>Tell us the new conditions you want to claim</h2>
+    <h3>Tell us the new conditions you want to claim</h3>
     <p>
       Enter the name of your condition. Then, select your condition from the
       list of possible matches.
     </p>
-    <h3>What if my condition isn’t listed?</h3>
+    <h4>What if my condition isn’t listed?</h4>
     <p>
       You can claim a condition that isn’t listed. Enter your condition,
       diagnosis, or short description of you symptoms.
     </p>
-    <h3>Examples of conditions</h3>
+    <h4>Examples of conditions</h4>
     <ul>
       <li>Tinnitus (ringing or hissing in ears)</li>
       <li>PTSD (post-traumatic stress disorder), combat-related</li>

@@ -29,6 +29,7 @@ export class ComboBox extends React.Component {
     super(props);
     // is there a cleaner way to pass this in?
     this.disabilitiesArr = props.uiSchema['ui:options'].listItems;
+    this.screenReaderHeader = props.uiSchema['ui:options'].screenReaderHeader;
     this.state = {
       bump: false,
       // Autopopulate input with existing form data:
@@ -286,6 +287,11 @@ export class ComboBox extends React.Component {
     const { searchTerm, ariaLive1, ariaLive2, filteredOptions } = this.state;
     return (
       <div className="cc-combobox">
+        {this.screenReaderHeader && (
+          <h4 className="vads-u-visibility--screen-reader">
+            {this.props.uiSchema['ui:title']}
+          </h4>
+        )}
         <VaTextInput
           label={this.props.uiSchema['ui:title']}
           required
