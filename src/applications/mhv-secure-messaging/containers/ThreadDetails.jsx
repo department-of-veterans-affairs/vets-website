@@ -119,7 +119,7 @@ const ThreadDetails = props => {
             replyMessage={messages[0]}
             isCreateNewModalVisible={isCreateNewModalVisible}
             setIsCreateNewModalVisible={setIsCreateNewModalVisible}
-            threadId={threadId}
+            threadId={message?.threadId}
             isEditing={isEditing}
             setIsEditing={setIsEditing}
           />
