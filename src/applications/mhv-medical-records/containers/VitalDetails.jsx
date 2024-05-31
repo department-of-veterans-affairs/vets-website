@@ -122,9 +122,17 @@ const VitalDetails = props => {
   useEffect(
     () => {
       if (records?.length) {
-        focusElement(document.querySelector('h2'));
         paginatedVitals.current = paginateData(records);
         setCurrentVitals(paginatedVitals.current[currentPage - 1]);
+      }
+    },
+    [records],
+  );
+
+  useEffect(
+    () => {
+      if (currentPage > 1 && records?.length) {
+        focusElement(document.querySelector('h2'));
       }
     },
     [currentPage, records],

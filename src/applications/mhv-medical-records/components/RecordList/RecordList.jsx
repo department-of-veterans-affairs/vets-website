@@ -55,17 +55,17 @@ const RecordList = props => {
         setCurrentRecords(paginatedRecords.current[currentPage - 1]);
       }
     },
-    [currentPage, records, perPage],
+    [records, perPage],
   );
 
   useEffect(
     () => {
-      if (!isInitialPage) {
+      if (currentPage > 1 && records?.length) {
         focusElement(document.querySelector('#showingRecords'));
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       }
     },
-    [currentPage, isInitialPage],
+    [currentPage, isInitialPage, records],
   );
 
   const displayNums = fromToNums(currentPage, records?.length);
