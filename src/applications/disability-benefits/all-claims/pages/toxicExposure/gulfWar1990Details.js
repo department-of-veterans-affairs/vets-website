@@ -13,6 +13,7 @@ import {
   showCheckboxLoopDetailsPage,
   startDateApproximate,
   teSubtitle,
+  notSureDatesDetails,
 } from '../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 
@@ -39,6 +40,9 @@ function makeUiSchema(locationId) {
           endDate: currentOrPastDateUI({
             title: endDateApproximate,
           }),
+          'view:notSure': {
+            'ui:title': notSureDatesDetails,
+          },
         },
       },
       'view:gulfWar1990AdditionalInfo': {
@@ -68,6 +72,9 @@ function makeSchema(locationId) {
                 properties: {
                   startDate: currentOrPastDateSchema,
                   endDate: currentOrPastDateSchema,
+                  'view:notSure': {
+                    type: 'boolean',
+                  },
                 },
               },
             },
@@ -101,7 +108,7 @@ function makeSchema(locationId) {
  */
 export function makePages() {
   const gulfWar1990DetailPagesList = Object.keys(GULF_WAR_1990_LOCATIONS)
-    .filter(locationId => locationId !== 'none')
+    .filter(locationId => locationId !== 'none' && locationId !== 'notsure')
     .map(locationId => {
       const pageName = `gulf-war-1990-location-${locationId}`;
       return {

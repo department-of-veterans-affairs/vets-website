@@ -9,7 +9,12 @@ export function isRequiredFile(formContext, requiredFiles) {
 }
 
 // Return either 'your' or the applicant's name depending
-export function nameWording(formData, isPosessive = true, cap = true) {
+export function nameWording(
+  formData,
+  isPosessive = true,
+  cap = true,
+  firstNameOnly = false,
+) {
   let retVal = '';
   // NOTE: certifierRole isn't used in this form anymore so this will always
   // skip to else clause
@@ -17,9 +22,11 @@ export function nameWording(formData, isPosessive = true, cap = true) {
     retVal = isPosessive ? 'your' : 'you';
   } else {
     // Concatenate all parts of applicant's name (first, middle, etc...)
-    retVal = Object.values(formData?.applicantName || {})
-      .filter(el => el)
-      .join(' ');
+    retVal = firstNameOnly
+      ? formData?.applicantName?.first
+      : Object.values(formData?.applicantName || {})
+          .filter(el => el)
+          .join(' ');
     retVal = isPosessive ? `${retVal}’s` : retVal;
   }
 

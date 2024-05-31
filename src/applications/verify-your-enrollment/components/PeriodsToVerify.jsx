@@ -62,6 +62,7 @@ const PeriodsToVerify = ({
             </div>
           )}
         {enrollmentData?.pendingVerifications?.length === 0 &&
+          enrollmentData?.verifications.length !== 0 &&
           !justVerified && (
             <div className="vads-u-margin-top--2">
               <UpToDateVerificationStatement />

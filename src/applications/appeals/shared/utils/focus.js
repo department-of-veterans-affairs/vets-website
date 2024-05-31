@@ -45,12 +45,17 @@ export const focusFileCard = (name, root) => {
   );
   if (target) {
     scrollTo(target.id);
-    const select = $('va-select', target);
-    if (select) {
-      focusElement('select', {}, select.shadowRoot);
-    } else {
-      focusElement(target);
-    }
+    setTimeout(() => {
+      const select = $('va-select', target); // SC only
+      if (select) {
+        // Set focusElement root parameter to a string because internally,
+        // focusElement will wait for shadow DOM to render before attempting to
+        // find the 'select' target
+        focusElement('select', {}, `#${target.id} va-select`);
+      } else {
+        focusElement(target);
+      }
+    });
   }
 };
 
