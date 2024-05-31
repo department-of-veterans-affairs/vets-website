@@ -4,15 +4,15 @@ import { render, waitFor } from '@testing-library/react';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import NeedsToVerify from '../../components/NeedsToVerify';
+import NeedsToVerifyAlert, {
+  heading,
+} from '../../components/NeedsToVerifyAlert';
 
-describe('<NeedsToVerify>', () => {
-  const heading =
-    'You’ll need to verify your identity to access more VA.gov tools and features';
-  const setup = ({ pathname = '/introduction' } = {}) => {
+describe('<NeedsToVerifyAlert>', () => {
+  const setup = ({ basename = 'nod/intro' } = {}) => {
     return (
       <div>
-        <NeedsToVerify pathname={pathname} />
+        <NeedsToVerifyAlert basename={basename} />
       </div>
     );
   };
@@ -20,6 +20,7 @@ describe('<NeedsToVerify>', () => {
     const { container } = render(setup());
     expect($('va-alert', container)).to.exist;
     expect($('h2', container).textContent).to.eq(heading);
+    expect($('a', container).href).to.contain('/verify?next=nod/intro');
   });
 
   it('should capture google analytics', async () => {

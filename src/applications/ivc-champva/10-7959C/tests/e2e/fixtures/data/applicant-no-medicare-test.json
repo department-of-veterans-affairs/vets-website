@@ -53,6 +53,12 @@
         "uploaded": false
       },
       {
+        "name": "secondaryInsuranceScheduleOfBenefits",
+        "path": "secondary-insurance-sob",
+        "required": false,
+        "uploaded": false
+      },
+      {
         "name": "secondaryInsuranceCard",
         "path": "secondary-insurance-card-upload",
         "required": true,
