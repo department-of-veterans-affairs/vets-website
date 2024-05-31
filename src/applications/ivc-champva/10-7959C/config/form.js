@@ -13,6 +13,7 @@ import {
   applicantSsnSchema,
   applicantAddressInfoSchema,
   applicantContactInfoSchema,
+  applicantGenderSchema,
   blankSchema,
 } from '../chapters/applicantInformation';
 
@@ -31,6 +32,7 @@ import {
   applicantHasInsuranceSchema,
   applicantProviderSchema,
   applicantInsuranceEOBSchema,
+  applicantInsuranceSOBSchema,
   applicantInsuranceThroughEmployerSchema,
   applicantInsurancePrescriptionSchema,
   applicantInsuranceTypeSchema,
@@ -106,22 +108,33 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     applicantInformation: {
-      title: 'Applicant information',
+      title: 'Beneficiary information',
       pages: {
         applicantNameDob: {
           path: 'applicant-info',
-          title: 'Applicant name and date of birth',
+          title: 'Beneficiary’s name and date of birth',
           ...applicantNameDobSchema,
         },
         applicantIdentity: {
           path: 'applicant-identification-info',
           title: formData =>
-            `${nameWording(formData)} identification information`,
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} identification information`,
           ...applicantSsnSchema,
         },
         applicantAddressInfo: {
           path: 'applicant-mailing-address',
-          title: formData => `${nameWording(formData)} mailing address`,
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} mailing address`,
           ...applicantAddressInfoSchema,
         },
 
@@ -133,8 +146,25 @@ const formConfig = {
         // is under age 18 (contact page)
         applicantContactInfo: {
           path: 'applicant-contact-info',
-          title: formData => `${nameWording(formData)} contact information`,
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} contact information`,
           ...applicantContactInfoSchema,
+        },
+        applicantGender: {
+          path: 'applicant-gender',
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} sex listed at birth`,
+          ...applicantGenderSchema,
         },
       },
     },
@@ -250,6 +280,19 @@ const formConfig = {
             } explanation of benefits`,
           ...applicantInsuranceEOBSchema(true),
         },
+        primaryScheduleOfBenefits: {
+          path: 'insurance-sob',
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantPrimaryEOB', formData) === 'noEob',
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantPrimaryProvider
+            } schedule of benefits`,
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          ...applicantInsuranceSOBSchema(true),
+        },
         primaryType: {
           path: 'insurance-plan',
           depends: formData => get('applicantHasPrimary', formData),
@@ -327,6 +370,19 @@ const formConfig = {
               formData.applicantSecondaryProvider
             } explanation of benefits`,
           ...applicantInsuranceEOBSchema(false),
+        },
+        secondaryScheduleOfBenefits: {
+          path: 'secondary-insurance-sob',
+          depends: formData =>
+            get('applicantHasSecondary', formData) &&
+            get('applicantSecondaryEOB', formData) === 'noEob',
+          title: formData =>
+            `${nameWording(formData)} ${
+              formData.applicantSecondaryProvider
+            } schedule of benefits`,
+          CustomPage: FileFieldWrapped,
+          CustomPageReview: null,
+          ...applicantInsuranceSOBSchema(false),
         },
         secondaryType: {
           path: 'secondary-insurance-plan',

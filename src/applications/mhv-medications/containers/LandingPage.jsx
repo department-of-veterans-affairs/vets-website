@@ -114,7 +114,7 @@ const LandingPage = () => {
           {prescriptionsApiError ? (
             <section>
               <ApiErrorNotification errorType="access" content="medications" />
-              <CernerFacilityAlert />
+              <CernerFacilityAlert className="vads-u-margin-top--2" />
             </section>
           ) : (
             <>
@@ -572,7 +572,7 @@ const LandingPage = () => {
                   <a
                     href={mhvUrl(
                       isAuthenticatedWithSSOe(fullState),
-                      'health-history',
+                      'va-allergies-adverse-reactions',
                     )}
                     rel="noreferrer"
                     data-dd-action-name={`Go To Your Allergy And Reaction Records Link - ${

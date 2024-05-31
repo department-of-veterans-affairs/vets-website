@@ -72,6 +72,7 @@ export default function ClaimPhaseStepper({
             review.
           </p>
           <Link
+            data-testid="submit-evidence-link"
             aria-label="Submit evidence now"
             title="Submit evidence now"
             to="../files"
@@ -94,6 +95,76 @@ export default function ClaimPhaseStepper({
         </>
       ),
     },
+    {
+      phase: 5,
+      header: 'Step 5: Rating',
+      description: (
+        <>
+          <p>We’ll decide your claim and determine your disability rating.</p>
+          <p>
+            If we need more evidence or you submit more evidence, your claim
+            will go back to Step 3: Evidence gathering.
+          </p>
+        </>
+      ),
+    },
+    {
+      phase: 6,
+      header: 'Step 6: Preparing decision letter',
+      description: (
+        <>
+          <p>We’ll prepare your decision letter.</p>
+          <p>
+            If you’re eligible for disability benefits, this letter will include
+            your disability rating, the amount of your monthly payments, and the
+            date your payments will start.
+          </p>
+          <p>
+            If we need more evidence or you submit more evidence, your claim
+            will go back to Step 3: Evidence gathering.
+          </p>
+        </>
+      ),
+    },
+    {
+      phase: 7,
+      header: 'Step 7: Final review',
+      description: (
+        <>
+          <p>
+            A senior reviewer will do a final review of your claim and the
+            decision letter.
+          </p>
+          <p>
+            If we need more evidence or you submit more evidence, your claim
+            will go back to Step 3: Evidence gathering.
+          </p>
+        </>
+      ),
+    },
+    {
+      phase: 8,
+      header: 'Step 8: Claim decided',
+      description: (
+        <>
+          <p>
+            You’ll be able to view and download your decision letter on the
+            status page for this claim.
+          </p>
+          <Link
+            aria-label="Go to the claim letters page"
+            title="Go to the claim letters page"
+            to="/your-claim-letters"
+          >
+            Go to the claim letters page
+          </Link>
+          <p>
+            We’ll also send you a copy of your decision letter by mail. It
+            should arrive within 10 business days, but it may take longer.
+          </p>
+        </>
+      ),
+    },
   ];
   const isCurrentPhase = phase => {
     return phase === currentPhase;
@@ -104,11 +175,11 @@ export default function ClaimPhaseStepper({
   };
 
   const headerIcon = phase => {
-    if (isCurrentPhase(phase)) {
+    if (isCurrentPhase(phase) && phase !== 8) {
       return 'flag';
     }
 
-    if (phase < currentPhase) {
+    if (phase < currentPhase || (isCurrentPhase(phase) && phase === 8)) {
       return 'check_circle';
     }
 
@@ -116,11 +187,11 @@ export default function ClaimPhaseStepper({
   };
 
   const headerIconColor = phase => {
-    if (isCurrentPhase(phase)) {
+    if (isCurrentPhase(phase) && phase !== 8) {
       return 'phase-current';
     }
 
-    if (phase < currentPhase) {
+    if (phase < currentPhase || (isCurrentPhase(phase) && phase === 8)) {
       return 'phase-complete';
     }
 
@@ -135,6 +206,7 @@ export default function ClaimPhaseStepper({
             key={phaseIndex}
             header={claimPhase.header}
             id={`phase${claimPhase.phase}`}
+            open={isCurrentPhase(claimPhase.phase)}
           >
             <va-icon
               icon={headerIcon(claimPhase.phase)}
