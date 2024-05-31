@@ -35,6 +35,9 @@ export default function ClaimPhaseStepper({
             We’ll check your claim for basic information we need, like your name
             and Social Security number.
           </p>
+          <p className="vads-u-margin-bottom--0">
+            If information is missing, we’ll contact you.
+          </p>
         </>
       ),
     },

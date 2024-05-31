@@ -56,6 +56,7 @@ describe('<ClaimPhaseStepper>', () => {
     getByText(
       'We’ll check your claim for basic information we need, like your name and Social Security number.',
     );
+    getByText('If information is missing, we’ll contact you.');
   });
 
   it('should render a ClaimPhaseStepper section where step 3 is the current step', () => {
