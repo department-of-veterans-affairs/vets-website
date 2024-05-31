@@ -81,7 +81,11 @@ const useGetCheckInData = ({
         dispatch(receivedMultipleAppointmentDetails(appointments, token));
         dispatch(additionalContext({ setECheckinStartedCalled }));
         if (!appointmentsOnly) {
-          const travelPaySent = getTravelPaySent(window);
+          let travelPaySent = getTravelPaySent(window);
+          // This will reset existing entries in local storage.
+          if (typeof travelPaySent === 'object') {
+            travelPaySent = '';
+          }
           dispatch(receivedDemographicsData(demographics));
           dispatch(
             updateDayOfForm({
