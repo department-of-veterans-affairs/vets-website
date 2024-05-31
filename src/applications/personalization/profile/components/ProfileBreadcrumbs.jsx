@@ -32,7 +32,6 @@ export const ProfileBreadcrumbs = ({ className }) => {
 
       try {
         const routeInfo = getRouteInfoFromPath(path, PROFILE_PATHS_WITH_NAMES);
-
         return [
           ...PROFILE_BREADCRUMB_BASE,
           {
@@ -56,7 +55,6 @@ export const ProfileBreadcrumbs = ({ className }) => {
     },
     [location],
   );
-
   return (
     <div
       className={className}

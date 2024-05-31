@@ -8,7 +8,7 @@ import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
-
+import BenefitsProfilePageWrapper from './components/direct-deposit/vye/containers/BenefitsProfilePageWrapper';
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
 // they are not shown in nav UI
@@ -38,6 +38,13 @@ export const routesForNav = [
     component: MilitaryInformation,
     name: PROFILE_PATH_NAMES.MILITARY_INFORMATION,
     path: PROFILE_PATHS.MILITARY_INFORMATION,
+    requiresLOA3: true,
+    requiresMVI: true,
+  },
+  {
+    component: BenefitsProfilePageWrapper,
+    name: PROFILE_PATH_NAMES.BENEFITS_PROFILE,
+    path: PROFILE_PATHS.BENEFITS_PROFILE,
     requiresLOA3: true,
     requiresMVI: true,
   },

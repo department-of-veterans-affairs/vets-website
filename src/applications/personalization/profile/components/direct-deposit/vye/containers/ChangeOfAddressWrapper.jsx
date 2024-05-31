@@ -21,11 +21,8 @@ import Alert from '../components/Alert';
 import Loader from '../components/Loader';
 import SuggestedAddress from '../components/SuggestedAddress';
 import AlertModal from '../components/AlertModal';
-import { useData } from '../hooks/useData';
 
-const ChangeOfAddressWrapper = () => {
-  const { loading, latestAddress } = useData();
-  const applicantName = latestAddress?.veteranName;
+const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
   const { loading: isLoading, error, data: response } = useSelector(
     state => state.updateAddress,
   );
@@ -57,19 +54,9 @@ const ChangeOfAddressWrapper = () => {
   // This Effcet to defalut setNewAddress to mailingAddress
   useEffect(
     () => {
-      setNewAddress({
-        street: latestAddress?.address1,
-        city: latestAddress?.city,
-        stateCode: latestAddress?.state,
-        zipCode: latestAddress?.zipCode,
-      });
+      setNewAddress(mailingAddress);
     },
-    [
-      latestAddress?.address1,
-      latestAddress?.city,
-      latestAddress?.state,
-      latestAddress?.zipCode,
-    ],
+    [mailingAddress],
   );
   const handleCloseForm = useCallback(
     () => {
@@ -159,40 +146,33 @@ const ChangeOfAddressWrapper = () => {
   const addressDescription = () => {
     return (
       <>
-        {loading ? (
-          <va-loading-indicator
-            label="Loading"
-            message="Loading mailing address..."
-          />
-        ) : (
-          <div className="vads-u-margin-bottom--1">
-            {(error || validationError) && (
-              <Alert
-                status="error"
-                message="We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please try again later."
-              />
-            )}
-            {response?.ok && (
-              <Alert
-                status="success"
-                message="We’ve successfully updated your mailing address for Montgomery GI Bill benefits."
-              />
-            )}
-            <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0">
-              Mailing address
-            </h3>
-            <p>
-              <>
-                <span className="vads-u-display--block">
-                  {`${newAddress?.street ?? ''}`}
-                </span>
-                <span className="vads-u-display--block">
-                  {formatAddress(newAddress)}
-                </span>
-              </>
-            </p>
-          </div>
-        )}
+        <div className="vads-u-margin-bottom--1">
+          {(error || validationError) && (
+            <Alert
+              status="error"
+              message="We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please try again later."
+            />
+          )}
+          {response?.ok && (
+            <Alert
+              status="success"
+              message="We’ve successfully updated your mailing address for Montgomery GI Bill benefits."
+            />
+          )}
+          <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0">
+            Mailing address
+          </h3>
+          <p>
+            <>
+              <span className="vads-u-display--block">
+                {`${newAddress?.street ?? ''}`}
+              </span>
+              <span className="vads-u-display--block">
+                {formatAddress(newAddress)}
+              </span>
+            </>
+          </p>
+        </div>
       </>
     );
   };
@@ -245,6 +225,9 @@ const ChangeOfAddressWrapper = () => {
       <h2 className="vads-u-font-family--serif vads-u-margin-y--4">
         {CHANGE_OF_ADDRESS_TITLE}
       </h2>
+      <h3 className="heading vads-u-background-color--gray-lightest vads-u-border-color--gray-lighter vads-u-color--gray-darkest vads-u-border-top--1px vads-u-border-left--1px vads-u-border-right--1px vads-u-margin--0 vads-u-padding-x--2 vads-u-padding-y--1p5 vads-u-font-size--h3 medium-screen:vads-u-padding-x--4 medium-screen:vads-u-padding-y--2">
+        Address
+      </h3>
       <div
         className="vads-u-border-color--gray-lighter
             vads-u-color-gray-dark
@@ -343,7 +326,6 @@ const ChangeOfAddressWrapper = () => {
 };
 ChangeOfAddressWrapper.propTypes = {
   applicantName: PropTypes.string,
-  loading: PropTypes.bool,
   mailingAddress: PropTypes.object,
 };
 export default ChangeOfAddressWrapper;
