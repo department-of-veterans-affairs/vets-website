@@ -201,7 +201,7 @@ class PatientComposePage {
       `/my_health/v1/messaging/message_drafts/${
         draftMessage.data.attributes.messageId
       }`,
-      draftMessage,
+      { ok: true },
     ).as('draft_message');
 
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
