@@ -572,7 +572,7 @@ const LandingPage = () => {
                   <a
                     href={mhvUrl(
                       isAuthenticatedWithSSOe(fullState),
-                      'health-history',
+                      'va-allergies-adverse-reactions',
                     )}
                     rel="noreferrer"
                     data-dd-action-name={`Go To Your Allergy And Reaction Records Link - ${
