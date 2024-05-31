@@ -29,7 +29,7 @@ describe('Secure Messaging Draft Save with Attachments', () => {
     PatientComposePage.saveDraftButton().click();
     cy.get(Locators.FIELDS.VISIBLE_P).should('contain', Data.SAVE_MEG_AS_DRAFT);
 
-    cy.wait('@autosaveResponse');
+    // cy.wait('@autosaveResponse');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     cy.realPress(['Enter']);

@@ -269,16 +269,6 @@ class PatientMessageDraftsPage {
       .find('va-button[text="Delete draft"]', { force: true })
       .contains('Delete draft')
       .click({ force: true });
-    cy.get('[visible=""] > [secondary=""]').click({ force: true });
-  };
-
-  deleteDraftMessage = (mockResponse, messageId) => {
-    cy.intercept('DELETE', `${Paths.INTERCEPT.MESSAGES}/${messageId}`, {
-      data: mockResponse,
-    }).as('deletedDraftResponse');
-
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({ waitForAnimations: true });
-    cy.get('[text="Delete draft"]').click({ waitForAnimations: true });
   };
 
   // method below could be deleted after refactoring associated specs
