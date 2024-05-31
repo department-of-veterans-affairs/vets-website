@@ -1,7 +1,4 @@
-import {
-  $,
-  $$,
-} from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
@@ -14,9 +11,9 @@ import { getData } from '../../fixtures/data/mock-form-data';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.yourContactInformation_generalquestion;
+} = formConfig.chapters.personalInformation.pages.yourPostalCode_veteranmybenefits;
 
-describe('yourContactInformationPage', () => {
+describe('yourPostalCodePage', () => {
   it('should render', () => {
     const { container } = render(
       <Provider store={{ ...getData().mockStore }}>
@@ -31,11 +28,11 @@ describe('yourContactInformationPage', () => {
       </Provider>,
     );
 
-    const inputs = $$('va-text-input', container);
-    const options = $$('va-radio-option', container);
+    const checkboxText =
+      'Veteran receives mail outside of the United States on a U.S. military base.';
 
-    expect($('h3', container).textContent).to.eq('Your contact information');
-    expect(inputs.length).to.eq(3);
-    expect(options.length).to.eq(3);
+    expect($('.form-checkbox > label', container).textContent).to.eq(
+      checkboxText,
+    );
   });
 });
