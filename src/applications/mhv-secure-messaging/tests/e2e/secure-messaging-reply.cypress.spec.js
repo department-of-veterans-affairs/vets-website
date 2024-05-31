@@ -27,6 +27,5 @@ describe('Secure Messaging Reply', () => {
     PatientReplyPage.clickSendReplyMessageDetailsButton(testMessage);
     PatientReplyPage.verifySendMessageConfirmationMessageText();
     PatientReplyPage.verifySendMessageConfirmationHasFocus();
-    // PatientReplyPage.verifySendMessageConfirmationMessageHasFocus();
   });
 });
