@@ -125,7 +125,7 @@ export const Results = ({
         onPageSelect={e => onPageSelect(e.detail.page)}
         page={page}
         pages={Math.ceil(totalResults / perPage)}
-        maxPageListLength={perPage}
+        maxPageListLength={5}
         showLastPage
         uswds
       />
