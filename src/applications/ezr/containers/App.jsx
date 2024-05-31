@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { parseVeteranDob, parseVeteranGender } from '../utils/helpers/general';
@@ -19,14 +21,28 @@ const App = props => {
     isProdEnabled,
     isSigiEnabled,
     isTeraEnabled,
+    isAuthOnlyEnabled,
   } = features;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
     loading: isLoadingProfile,
-  } = user;
+  } = user.profile;
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
   const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
+  const sipApp =
+    isAppLoading || !isProdEnabled ? (
+      <va-loading-indicator
+        data-testid="ezr-loading-indicator"
+        message={content['load-app']}
+        class="vads-u-margin-y--4"
+        set-focus
+      />
+    ) : (
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    );
 
   /**
    * Redirect users without the prod feature toggle enabled to the VA.gov home page
@@ -78,16 +94,15 @@ const App = props => {
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring();
 
-  return isAppLoading || !isProdEnabled ? (
-    <va-loading-indicator
-      message={content['load-app']}
-      class="vads-u-margin-y--4"
-      set-focus
-    />
+  return isAuthOnlyEnabled ? (
+    <RequiredLoginView
+      serviceRequired={backendServices.USER_PROFILE}
+      user={user}
+    >
+      {sipApp}
+    </RequiredLoginView>
   ) : (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    sipApp
   );
 };
 
@@ -109,9 +124,10 @@ const mapStateToProps = state => ({
     isProdEnabled: state.featureToggles.ezrProdEnabled,
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
     isTeraEnabled: state.featureToggles.ezrTeraEnabled,
+    isAuthOnlyEnabled: state.featureToggles.ezrAuthOnlyEnabled,
   },
   formData: state.form.data,
-  user: state.user.profile,
+  user: state.user,
 });
 
 const mapDispatchToProps = {
