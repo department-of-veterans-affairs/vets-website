@@ -46,7 +46,7 @@ export const threadDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         drafts:
-          state.drafts?.length > 0
+          state.drafts?.length > 1
             ? state.drafts.map(d => {
                 if (d.messageId === action.payload.messageId) {
                   return { ...d, isSaving: true, saveError: null };
