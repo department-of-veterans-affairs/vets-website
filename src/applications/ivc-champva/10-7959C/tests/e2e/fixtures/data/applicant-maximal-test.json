@@ -1,7 +1,7 @@
 {
   "data": {
     "secondaryAdditionalComments": "Secondary comments",
-    "secondaryMedigapPlan": "medigapPlanC",
+    "secondaryMedigapPlan": "C",
     "applicantSecondaryInsuranceType": {
       "hmo": true,
       "ppo": true,
@@ -15,7 +15,7 @@
     "applicantSecondaryExpirationDate": "2024-04-02",
     "applicantHasSecondary": true,
     "primaryAdditionalComments": "Additional Comment 1",
-    "primaryMedigapPlan": "medigapPlanG",
+    "primaryMedigapPlan": "G",
     "applicantPrimaryInsuranceType": {
       "ppo": true,
       "medicaid": true,
@@ -71,6 +71,12 @@
         "name": "primaryInsuranceCard",
         "path": "insurance-upload",
         "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "secondaryInsuranceScheduleOfBenefits",
+        "path": "secondary-insurance-sob",
+        "required": false,
         "uploaded": false
       },
       {

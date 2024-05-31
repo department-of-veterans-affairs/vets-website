@@ -51,7 +51,7 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
     const fields = {
       phone: formData[`${prefix}phone`],
       // phone2: formData[`${prefix}phone`],
-      fullName: formData[`${prefix}fullName`],
+      fullName: applicantName,
       email: formData[`${prefix}email`],
       acctType: formData[`${prefix}AccountType`].toLowerCase(),
       routingNo: formData[`${prefix}RoutingNumber`],
@@ -158,11 +158,6 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
       >
         {!toggleDirectDepositForm && (
           <>
-            <va-button
-              id="VYE-add-new-account-button"
-              onClick={handleAddNewClick}
-              text={DIRECT_DEPOSIT_BUTTON_TEXT}
-            />
             {error && (
               <Alert
                 status="error"
@@ -176,6 +171,11 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
                 message="We’ve updated your direct deposit information for Montgomery GI Bill benefits."
               />
             )}
+            <va-button
+              id="VYE-add-new-account-button"
+              onClick={handleAddNewClick}
+              text={DIRECT_DEPOSIT_BUTTON_TEXT}
+            />
             <div>
               <p>
                 <span className="vads-u-font-weight--bold">Note: </span>
@@ -199,7 +199,7 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
             {loading && <Loader className="loader" />}
             <ChangeOfDirectDepositForm
               defaultName={applicantName}
-              formData={formData}
+              formData={formData ?? {}}
               formChange={data => setFormData(data)}
               formPrefix={prefix}
               formSubmit={saveBankInfo}

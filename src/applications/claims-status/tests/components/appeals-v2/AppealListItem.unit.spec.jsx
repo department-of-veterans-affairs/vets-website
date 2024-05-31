@@ -154,4 +154,16 @@ describe('<AppealListItem>', () => {
     ).to.contain('Description here.');
     wrapper.unmount();
   });
+
+  it('should mask appeal issues in DataDog (no PII)', () => {
+    const wrapper = shallow(<AppealListItem {...defaultProps} />);
+
+    expect(
+      wrapper
+        .find('.masked-issue')
+        .first()
+        .props()['data-dd-privacy'],
+    ).to.equal('mask');
+    wrapper.unmount();
+  });
 });
