@@ -333,9 +333,7 @@ class MedicationsListPage {
 
   verifyNonVAPrescriptionNameOnListPage = () => {
     cy.get(
-      `#card-header-${
-        nonVARx.data.id
-      } > [data-testid="medications-history-details-link"]`,
+      '[data-testid="medication-list"] > :nth-child(5) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
     ).should('contain', `${nonVARx.data.attributes.prescriptionName}`);
   };
 
