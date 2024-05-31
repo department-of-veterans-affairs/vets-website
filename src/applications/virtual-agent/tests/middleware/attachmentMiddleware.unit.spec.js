@@ -60,7 +60,7 @@ describe('attachmentMiddleware', () => {
     expect(nextSpy.calledWithExactly(card)).to.be.true;
   });
 
-  it.only('should extract the URL from the input', () => {
+  it('should extract the URL from the input', () => {
     const input =
       'The input from PVA is: {   "type": "message",   "attachments": [     {       "content": {         "action": "https://app.hermes.cirrusmd.com/va/jwt/auth?plan_uuid=b6a7375d-f442-43f4-b65b-f20086155f3b",         "jwt": "jwt goes here",         "title": "Open VA Health Chat"       },       "contentType": "application/vnd.microsoft.botframework.samples.vhc-form-button"     }   ] }. Now exiting the skill.';
     const expectedUrl =
