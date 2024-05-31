@@ -29,6 +29,8 @@ import {
   roundToNearest,
   groupClaimsByDocsNeeded,
   claimAvailable,
+  getClaimPhaseTypeHeaderText,
+  getClaimPhaseTypeDescription,
 } from '../../utils/helpers';
 
 import {
@@ -1027,6 +1029,22 @@ describe('Disability benefits helpers: ', () => {
       const isClaimAvaliable = claimAvailable(claim);
 
       expect(isClaimAvaliable).to.be.true;
+    });
+  });
+
+  describe('getClaimPhaseTypeHeaderText', () => {
+    it('should display claim phase type header text from map', () => {
+      const desc = getClaimPhaseTypeHeaderText('CLAIM_RECEIVED');
+
+      expect(desc).to.equal('Step 1 of 8: Claim received');
+    });
+  });
+
+  describe('getClaimPhaseTypeDescription', () => {
+    it('should display claim phase type description from map', () => {
+      const desc = getClaimPhaseTypeDescription('CLAIM_RECEIVED');
+
+      expect(desc).to.equal('We received your claim in our system.');
     });
   });
 });
