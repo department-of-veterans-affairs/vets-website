@@ -1,13 +1,19 @@
 /* eslint-disable cypress/unsafe-to-chain-command */
 // START lighthouse_migration
 import featureToggleClaimDetailV2Enabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-detail-v2-enabled.json';
+import featureToggleClaimPhasesEnabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-phases-enabled.json';
 // END lighthouse_migration
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 /* eslint-disable class-methods-use-this */
 class TrackClaimsPageV2 {
-  loadPage(claimsList, mock = null, submitForm = false) {
+  loadPage(
+    claimsList,
+    mock = null,
+    submitForm = false,
+    cstClaimPhasesToggleEnabled = false,
+  ) {
     if (submitForm) {
       cy.intercept('POST', `/v0/evss_claims/189685/request_decision`, {
         body: {},
@@ -20,11 +26,20 @@ class TrackClaimsPageV2 {
       );
     }
 
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles?*',
-      featureToggleClaimDetailV2Enabled,
-    );
+    if (cstClaimPhasesToggleEnabled) {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles?*',
+        featureToggleClaimPhasesEnabled,
+      );
+    } else {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles?*',
+        featureToggleClaimDetailV2Enabled,
+      );
+    }
+
     cy.intercept('GET', '/v0/benefits_claims', claimsList);
     cy.login();
 
@@ -444,9 +459,24 @@ class TrackClaimsPageV2 {
     cy.url().should('contain', '/your-claims/189685/overview');
   }
 
+  verifyOverviewClaimPhaseDiagramAndStepper() {
+    cy.get('#tabOverview').click();
+    cy.url().should('contain', '/your-claims/189685/overview');
+    cy.get('.claim-overview-header-container p').should(
+      'contain',
+      'There are 8 steps in the claim process. It’s common for claims to repeat steps 3 to 6 if we need more information.',
+    );
+    cy.get('.claim-phase-diagram').should('be.visible');
+    cy.get('.claim-phase-stepper').should('be.visible');
+  }
+
   verifyOverviewTimeline() {
     cy.get('#tabOverview').click();
     cy.url().should('contain', '/your-claims/189685/overview');
+    cy.get('.claim-overview-header-container p').should(
+      'contain',
+      'Learn about the VA claim process and what happens after you file your claim.',
+    );
     cy.get('.claim-timeline').should('be.visible');
   }
 
