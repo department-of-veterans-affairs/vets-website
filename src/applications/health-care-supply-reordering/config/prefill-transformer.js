@@ -1,4 +1,8 @@
-import { countryNameToValue, isMilitaryState } from '../utils/addresses';
+import {
+  countryNameToValue,
+  isMilitaryState,
+  isTerritory,
+} from '../utils/addresses';
 
 export default function prefillTransformer(pages, formData, metadata) {
   const newFormData = formData;
@@ -7,6 +11,9 @@ export default function prefillTransformer(pages, formData, metadata) {
     if (newFormData[addressType]?.country) {
       newFormData[addressType].country =
         countryNameToValue(formData[addressType].country) ?? 'USA';
+      if (isTerritory(formData[addressType].country)) {
+        newFormData[addressType].country = 'USA';
+      }
     }
     if (newFormData[addressType]) {
       newFormData[addressType].isMilitary = isMilitaryState(
