@@ -45,15 +45,19 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.DRAFT_SAVE_STARTED:
       return {
         ...state,
-        drafts: state.drafts.map(d => {
-          if (d.messageId === action.payload.messageId) {
-            return { ...d, isSaving: true, saveError: null };
-          }
-          return d;
-        }),
+        drafts:
+          state.drafts?.length > 0
+            ? state.drafts.map(d => {
+                if (d.messageId === action.payload.messageId) {
+                  return { ...d, isSaving: true, saveError: null };
+                }
+                return d;
+              })
+            : state.drafts,
         isSaving: true,
         saveError: null,
       };
+
     case Actions.Draft.CREATE_SUCCEEDED:
       return {
         ...state,
