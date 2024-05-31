@@ -11,7 +11,7 @@ import InterstitialPage from './InterstitialPage';
 const MessageReply = () => {
   const dispatch = useDispatch();
   const { replyId } = useParams();
-  const { drafts, error, messages, threadViewCount } = useSelector(
+  const { drafts, error, messages } = useSelector(
     state => state.sm.threadDetails,
   );
   const replyMessage = messages?.length && messages[0];
@@ -68,7 +68,7 @@ const MessageReply = () => {
   const thread = () => {
     return (
       <>
-        <MessageThread messageHistory={messages} viewCount={threadViewCount} />
+        <MessageThread messageHistory={messages} />
       </>
     );
   };

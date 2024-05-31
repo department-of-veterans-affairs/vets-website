@@ -25,13 +25,9 @@ const ThreadDetails = props => {
 
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const { recipients } = useSelector(state => state.sm);
-  const {
-    cannotReply,
-    drafts,
-    messages,
-    threadFolderId,
-    threadViewCount,
-  } = useSelector(state => state.sm.threadDetails);
+  const { cannotReply, drafts, messages, threadFolderId } = useSelector(
+    state => state.sm.threadDetails,
+  );
   const { folder } = useSelector(state => state.sm.folders);
 
   const message = messages?.length && messages[0];
@@ -126,11 +122,7 @@ const ThreadDetails = props => {
 
           <MessageThreadForPrint messageHistory={messages} />
 
-          <MessageThread
-            isDraftThread
-            messageHistory={messages}
-            viewCount={threadViewCount}
-          />
+          <MessageThread isDraftThread messageHistory={messages} />
         </div>
       );
     }
@@ -159,11 +151,7 @@ const ThreadDetails = props => {
 
           <MessageThreadForPrint messageHistory={messages} />
 
-          <MessageThread
-            messageHistory={messages}
-            threadId={threadId}
-            viewCount={threadViewCount}
-          />
+          <MessageThread messageHistory={messages} />
         </>
       );
     }

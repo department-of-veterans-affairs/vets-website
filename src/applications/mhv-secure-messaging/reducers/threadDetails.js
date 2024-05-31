@@ -9,7 +9,6 @@ const initialState = {
   threadFolderId: undefined,
   replyToMessageId: undefined,
   cannotReply: false,
-  threadViewCount: 5,
 };
 
 export const threadDetailsReducer = (state = initialState, action) => {
@@ -108,9 +107,7 @@ export const threadDetailsReducer = (state = initialState, action) => {
     case Actions.Thread.CANNOT_REPLY_ALERT: {
       return { ...state, cannotReply: action.payload };
     }
-    case Actions.Thread.SET_THREAD_VIEW_COUNT: {
-      return { ...state, threadViewCount: action.payload };
-    }
+
     default:
       return state;
   }

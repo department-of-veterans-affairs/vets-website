@@ -63,7 +63,6 @@ MessageThread.propTypes = {
   isDraftThread: PropType.bool,
   messageHistory: PropType.array,
   replyMessage: PropType.object,
-  viewCount: PropType.number,
 };
 
 export default MessageThread;

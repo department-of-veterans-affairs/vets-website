@@ -182,7 +182,6 @@ describe('Thread Details container', () => {
           replyToName: 'SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
           threadFolderId: -2,
           cannotReply: false,
-          threadViewCount: 5,
         },
         recipients: {
           allRecipients: noBlockedRecipients.mockAllRecipients,
@@ -233,7 +232,6 @@ describe('Thread Details container', () => {
           triageTeams: recipients,
         },
         threadDetails: {
-          threadViewCount: 5,
           cannotReply: isOlderThan(getLastSentMessage(messages).sentDate, 45),
           drafts: [
             {
@@ -313,7 +311,6 @@ describe('Thread Details container', () => {
         },
         threadDetails: {
           replyToName: 'FREEMAN, GORDON',
-          threadViewCount: 5,
           cannotReply: isOlderThan(
             getLastSentMessage(draftMessageHistoryUpdated).sentDate,
             45,
