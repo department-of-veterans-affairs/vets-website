@@ -26,6 +26,7 @@ import {
   preCheckinExpired,
   appointmentWasCanceled,
   allAppointmentsCanceled,
+  preCheckinAlreadyCompleted,
 } from '../utils/appointment';
 
 import { isDemographicsUpToDate } from '../utils/demographics';
@@ -182,6 +183,11 @@ const useGetCheckInData = ({
           if (allAppointmentsCanceled(payload.appointments)) {
             updateError('appointment-canceled');
             return;
+          }
+
+          if (preCheckinAlreadyCompleted(payload.appointments)) {
+            setPreCheckinComplete(true);
+            jumpToPage(URLS.COMPLETE);
           }
 
           if (isDemographicsUpToDate(payload.patientDemographicsStatus)) {
