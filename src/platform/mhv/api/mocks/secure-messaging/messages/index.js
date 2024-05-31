@@ -149,7 +149,81 @@ const single = {
     },
   },
 };
+
+const saveNewDraft = (req, res) => {
+  const { recipientId, category, subject, body } = req.body;
+
+  const response = {
+    data: {
+      id: '3636166',
+      type: 'message_drafts',
+      attributes: {
+        messageId: 3636166,
+        category,
+        subject,
+        body,
+        attachment: false,
+        sentDate: null,
+        senderId: 251391,
+        senderName: 'MHVDAYMARK, MARK',
+        recipientId,
+        recipientName: 'DIMITAR TRIAGE GROUP_UAT2929',
+        readReceipt: null,
+        triageGroupName: null,
+        proxySenderName: null,
+      },
+      relationships: {
+        attachments: {
+          data: [],
+        },
+      },
+      links: {
+        self: 'http://127.0.0.1:3000/my_health/v1/messaging/messages/3636166',
+      },
+    },
+  };
+
+  return res.json(response);
+};
+
+const updateDraft = (req, res) => {
+  const { recipientId, category, subject, body } = req.body;
+  const messageId = req.params.id;
+  const response = {
+    data: {
+      id: messageId,
+      type: 'message_drafts',
+      attributes: {
+        messageId,
+        category,
+        subject,
+        body,
+        attachment: false,
+        sentDate: null,
+        senderId: 251391,
+        senderName: 'MHVDAYMARK, MARK',
+        recipientId,
+        recipientName: 'DIMITAR TRIAGE GROUP_UAT2929',
+        readReceipt: null,
+        triageGroupName: null,
+        proxySenderName: null,
+      },
+      relationships: {
+        attachments: {
+          data: [],
+        },
+      },
+      links: {
+        self: 'http://127.0.0.1:3000/my_health/v1/messaging/messages/3636166',
+      },
+    },
+  };
+  return res.json(response);
+};
+
 module.exports = {
   thread,
   single,
+  saveNewDraft,
+  updateDraft,
 };
