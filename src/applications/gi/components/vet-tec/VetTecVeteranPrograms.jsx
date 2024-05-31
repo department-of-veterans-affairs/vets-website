@@ -36,6 +36,7 @@ export class VetTecVeteranPrograms extends React.Component {
   renderProgramLabel = (program, index) => {
     const icon = program.available ? (
       <va-icon
+        id="checkIcon"
         icon="check"
         size={3}
         class="vads-u-padding-right--1"
