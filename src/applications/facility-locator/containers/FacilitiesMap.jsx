@@ -446,12 +446,8 @@ const FacilitiesMap = props => {
             id="emergency-care-info-note"
           >
             <strong>Note:</strong> If you think your life or health is in
-            danger, call{' '}
-            <va-telephone
-              contact="911"
-              message-aria-describedby="Emergency care contact number"
-            />{' '}
-            or go to the nearest emergency department right away.
+            danger, call <va-telephone contact="911" /> or go to the nearest
+            emergency department right away.
           </VaAlert>
         )}
         <div id="search-results-title" ref={searchResultTitleRef}>
