@@ -237,7 +237,7 @@ const formConfig = {
           path: 'insurance-prescription',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${nameWording(formData, undefined, undefined, true)} ${
               formData.applicantPrimaryProvider
             } prescription coverage`,
           ...applicantInsurancePrescriptionSchema(true),
@@ -246,7 +246,7 @@ const formConfig = {
           path: 'insurance-eob',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${nameWording(formData, undefined, undefined, true)} ${
               formData.applicantPrimaryProvider
             } explanation of benefits`,
           ...applicantInsuranceEOBSchema(true),
@@ -255,7 +255,7 @@ const formConfig = {
           path: 'insurance-sob',
           depends: formData =>
             get('applicantHasPrimary', formData) &&
-            get('applicantPrimaryEOB', formData) === 'noEob',
+            !get('applicantPrimaryEOB', formData),
           title: formData =>
             `${nameWording(formData)} ${
               formData.applicantPrimaryProvider
@@ -328,16 +328,16 @@ const formConfig = {
           path: 'secondary-insurance-prescription',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${nameWording(formData, undefined, undefined, true)} ${
               formData.applicantSecondaryProvider
-            } secondary prescription coverage`,
+            } prescription coverage`,
           ...applicantInsurancePrescriptionSchema(false),
         },
         secondaryEOB: {
           path: 'secondary-insurance-eob',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${nameWording(formData, undefined, undefined, true)} ${
               formData.applicantSecondaryProvider
             } explanation of benefits`,
           ...applicantInsuranceEOBSchema(false),
@@ -346,7 +346,7 @@ const formConfig = {
           path: 'secondary-insurance-sob',
           depends: formData =>
             get('applicantHasSecondary', formData) &&
-            get('applicantSecondaryEOB', formData) === 'noEob',
+            !get('applicantSecondaryEOB', formData),
           title: formData =>
             `${nameWording(formData)} ${
               formData.applicantSecondaryProvider
