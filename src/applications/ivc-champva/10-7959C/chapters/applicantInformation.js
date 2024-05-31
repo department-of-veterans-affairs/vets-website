@@ -8,6 +8,8 @@ import {
   fullNameSchema,
   phoneUI,
   phoneSchema,
+  radioUI,
+  radioSchema,
   ssnUI,
   ssnSchema,
   titleUI,
@@ -95,6 +97,56 @@ export const applicantContactInfoSchema = {
     properties: {
       titleSchema,
       applicantPhone: phoneSchema,
+    },
+  },
+};
+
+export const applicantGenderSchema = {
+  uiSchema: {
+    ...titleUI(
+      ({ formData }) =>
+        `${nameWording(
+          formData,
+          undefined,
+          undefined,
+          true,
+        )} sex listed at birth`,
+    ),
+    applicantGender: {
+      ...radioUI({
+        updateUiSchema: formData => {
+          const labels = {
+            male: 'Male',
+            female: 'Female',
+          };
+
+          return {
+            'ui:title': `What's ${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} sex listed at birth?`,
+            'ui:options': {
+              labels,
+              hint: `Enter the sex that appears on ${nameWording(
+                formData,
+                undefined,
+                undefined,
+                true,
+              )} birth certificate.`,
+            },
+          };
+        },
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['applicantGender'],
+    properties: {
+      titleSchema,
+      applicantGender: radioSchema(['male', 'female']),
     },
   },
 };
