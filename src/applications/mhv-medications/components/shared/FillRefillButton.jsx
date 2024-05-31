@@ -77,7 +77,7 @@ const FillRefillButton = rx => {
           uswds
           type="button"
           className="va-button vads-u-padding-y--0p5"
-          id="fill-or-refill-button"
+          id={`fill-or-refill-button-${rx.prescriptionId}`}
           aria-describedby={`card-header-${prescriptionId}`}
           data-dd-action-name={`Fill Or Refill Button - ${
             DD_ACTIONS_PAGE_TYPE.LIST
