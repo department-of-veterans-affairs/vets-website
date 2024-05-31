@@ -175,6 +175,16 @@ export default function ArrayBuilderSummaryPage({
       [isReviewPage, arrayData?.length],
     );
 
+    useEffect(
+      () => {
+        // Force SchemaForm to rerender. This is needed due to
+        // the way SchemaForm interacts with CustomPage here,
+        // to hide/show alerts correctly.
+        props.setData({ ...props.data });
+      },
+      [showRemovedAlert, showUpdatedAlert],
+    );
+
     function addAnotherItemButtonClick() {
       const index = arrayData ? arrayData.length : 0;
       const path = createArrayBuilderItemAddPath({
