@@ -166,7 +166,7 @@ describe('<OverviewPage>', () => {
     });
   });
 
-  context('cstClaimPhases feature flag enabled', () => {
+  context('cstClaimPhases feature flag disabled', () => {
     context('when claim is closed', () => {
       const claim = {
         id: '1',

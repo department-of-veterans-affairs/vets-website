@@ -32,7 +32,7 @@ describe('gulfWar2001Details', () => {
   };
 
   Object.keys(GULF_WAR_2001_LOCATIONS)
-    .filter(locationId => locationId !== 'none')
+    .filter(locationId => locationId !== 'none' && locationId !== 'notsure')
     .forEach(locationId => {
       const pageSchema = schemas[`gulf-war-2001-location-${locationId}`];
       it(`should render for ${locationId}`, () => {
@@ -52,6 +52,19 @@ describe('gulfWar2001Details', () => {
           'trigger',
           'What if I have more than one date range?',
         );
+
+        expect(
+          $(
+            `input[type="checkbox"][name="root_toxicExposure_gulfWar2001Details_${locationId}_view:notSure"]`,
+            container,
+          ),
+        ).to.exist;
+        expect(
+          $(
+            `label[for="root_toxicExposure_gulfWar2001Details_${locationId}_view:notSure"]`,
+            container,
+          ),
+        ).to.exist;
 
         expect(
           $(`va-memorable-date[label="${startDateApproximate}"]`, container),
