@@ -7,6 +7,8 @@ import {
   countryNameToValue,
   countryValueToName,
   isMilitaryState,
+  isTerritory,
+  usTerritories,
 } from '../../utils/addresses';
 
 describe('country-mapping', () => {
@@ -102,6 +104,41 @@ describe('country-mapping', () => {
       const nonMilitaryState = 'CO';
 
       expect(isMilitaryState(nonMilitaryState)).to.be.false;
+    });
+  });
+
+  describe('usTerritories', () => {
+    it('returns only territories', () => {
+      const territories = usTerritories();
+
+      // Check that all returned names are indeed territories
+      territories.forEach(territory => {
+        const isState = constants.states50AndDC.some(
+          state => state.label === territory,
+        );
+        const isMilState = constants.militaryStates.some(
+          state => state.label === territory,
+        );
+        expect(isState).to.be.false;
+        expect(isMilState).to.be.false;
+      });
+    });
+  });
+
+  describe('isTerritory', () => {
+    it('returns true for a territory', () => {
+      const territory = usTerritories()[0];
+      expect(isTerritory(territory)).to.be.true;
+    });
+
+    it('returns false for a non-territory state', () => {
+      const nonTerritoryState = constants.states50AndDC[0].label;
+      expect(isTerritory(nonTerritoryState)).to.be.false;
+    });
+
+    it('returns false for a military state', () => {
+      const militaryState = constants.militaryStates[0].label;
+      expect(isTerritory(militaryState)).to.be.false;
     });
   });
 });

@@ -28,7 +28,7 @@ function RemoveFileModal({
       status="warning"
     >
       <p>
-        We’ll remove <strong>{removeFileName}</strong>
+        We’ll remove <strong data-dd-privacy="mask">{removeFileName}</strong>
       </p>
     </VaModal>
   );
