@@ -305,6 +305,21 @@ export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
     });
   },
 
+  'new-disabilities-revised/add': () => {
+    cy.get('@testData').then(data => {
+      data.newDisabilities.forEach((disability, index) => {
+        console.log('enter data for this disability', disability);
+        // if not first index
+        // click the add another condition button
+
+        // click on input
+        // enterData() condition name into input
+        // click on first suggestion
+        // click save
+      });
+    });
+  },
+
   'disabilities/rated-disabilities': () => {
     cy.get('@testData').then(data => {
       data.ratedDisabilities.forEach((disability, index) => {
