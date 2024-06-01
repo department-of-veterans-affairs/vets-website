@@ -13,6 +13,7 @@ import {
   applicantSsnSchema,
   applicantAddressInfoSchema,
   applicantContactInfoSchema,
+  applicantGenderSchema,
   blankSchema,
 } from '../chapters/applicantInformation';
 
@@ -107,7 +108,7 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     applicantInformation: {
-      title: 'Applicant information',
+      title: 'Beneficiary information',
       pages: {
         applicantNameDob: {
           path: 'applicant-info',
@@ -117,12 +118,23 @@ const formConfig = {
         applicantIdentity: {
           path: 'applicant-identification-info',
           title: formData =>
-            `${nameWording(formData)} identification information`,
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} identification information`,
           ...applicantSsnSchema,
         },
         applicantAddressInfo: {
           path: 'applicant-mailing-address',
-          title: formData => `${nameWording(formData)} mailing address`,
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} mailing address`,
           ...applicantAddressInfoSchema,
         },
 
@@ -134,8 +146,25 @@ const formConfig = {
         // is under age 18 (contact page)
         applicantContactInfo: {
           path: 'applicant-contact-info',
-          title: formData => `${nameWording(formData)} contact information`,
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} contact information`,
           ...applicantContactInfoSchema,
+        },
+        applicantGender: {
+          path: 'applicant-gender',
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} sex listed at birth`,
+          ...applicantGenderSchema,
         },
       },
     },
