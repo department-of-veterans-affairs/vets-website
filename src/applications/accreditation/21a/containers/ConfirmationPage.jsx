@@ -18,6 +18,8 @@ export class ConfirmationPage extends React.Component {
 
     const { fullName } = data;
 
+    const submitDate = new Date(submission?.timestamp);
+
     return (
       <div>
         <div className="print-only">
