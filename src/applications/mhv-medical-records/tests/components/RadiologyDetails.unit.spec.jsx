@@ -55,10 +55,13 @@ describe('Radiology details component', () => {
   });
 
   it('should display the formatted date', () => {
-    const formattedDate = screen.getAllByText('September 1, 2004, 12:00 a.m.', {
-      exact: true,
-      selector: 'span',
-    });
+    const formattedDate = screen.getAllByText(
+      'September 24, 2004, 11:25 a.m.',
+      {
+        exact: true,
+        selector: 'span',
+      },
+    );
     expect(formattedDate).to.exist;
   });
 

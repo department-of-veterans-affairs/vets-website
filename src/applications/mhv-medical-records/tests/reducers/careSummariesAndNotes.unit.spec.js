@@ -435,7 +435,10 @@ describe('convertAdmissionAndDischargeDetails', () => {
   it('should properly convert dates', () => {
     const record = {
       context: {
-        period: { start: '2022-08-05T13:41:23Z', end: '2022-08-18T04:00:00Z' },
+        period: {
+          start: '2022-08-05T13:41:23-0500',
+          end: '2022-08-18T04:00:00-0500',
+        },
       },
     };
     const dsNote = convertAdmissionAndDischargeDetails(record);

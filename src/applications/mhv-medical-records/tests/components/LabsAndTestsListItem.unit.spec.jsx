@@ -53,7 +53,7 @@ describe('LabsAndTestsListItem component', () => {
   });
 
   it('should contain the date of the record', () => {
-    const date = screen.getAllByText('January 21, 2021, 11:32 a.m.', {
+    const date = screen.getAllByText('January 20, 2021, 4:38 p.m.', {
       exact: false,
     });
     expect(date.length).to.eq(2);
