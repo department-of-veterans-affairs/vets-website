@@ -22,7 +22,9 @@ export default function App({ children }) {
   // and validating logged in status
   // const user = useSelector(selectUser);
 
-  const { isLoading, travelClaims } = useSelector(state => state.travelPay);
+  const { isLoading, travelClaims, error } = useSelector(
+    state => state.travelPay,
+  );
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
   const [orderClaimsBy, setOrderClaimsBy] = useState('mostRecent');
@@ -31,12 +33,12 @@ export default function App({ children }) {
   switch (orderClaimsBy) {
     case 'mostRecent':
       travelClaims.sort(
-        (a, b) => new Date(b.appointmentDate) - new Date(a.appointmentDate),
+        (a, b) => Date.parse(b.appointmentDate) - Date.parse(a.appointmentDate),
       );
       break;
     case 'oldest':
       travelClaims.sort(
-        (a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate),
+        (a, b) => Date.parse(a.appointmentDate) - Date.parse(b.appointmentDate),
       );
       break;
     default:
@@ -96,40 +98,7 @@ export default function App({ children }) {
                   message="Loading Travel Claims..."
                 />
               )}
-              {userLoggedIn ? (
-                <>
-                  <p id="pagination-info">
-                    Showing 1 ‒ {travelClaims.length} of {travelClaims.length}{' '}
-                    events
-                  </p>
-                  <div className="btsss-claims-order-container">
-                    <p className="vads-u-margin-bottom--0">
-                      Show appointments in this order
-                    </p>
-                    <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
-                      <select
-                        className="vads-u-margin-bottom--0"
-                        hint={null}
-                        name="claimsOrder"
-                        value={selectedClaimsOrder}
-                        onChange={e => setSelectedClaimsOrder(e.target.value)}
-                      >
-                        <option value="mostRecent">Most Recent</option>
-                        <option value="oldest">Oldest</option>
-                      </select>
-                      <va-button
-                        onClick={() => setOrderClaimsBy(selectedClaimsOrder)}
-                        text="Sort"
-                      />
-                    </div>
-                  </div>
-                  {travelClaims.map(travelClaim =>
-                    TravelClaimCard(travelClaim),
-                  )}
-
-                  <HelpText />
-                </>
-              ) : (
+              {!userLoggedIn && (
                 <>
                   <p>Log in to view your travel claims</p>
                   <va-button
@@ -138,6 +107,49 @@ export default function App({ children }) {
                   />
                 </>
               )}
+              {error && <p>Error fetching travel claims.</p>}
+              {userLoggedIn &&
+                !isLoading &&
+                travelClaims.length > 0 && (
+                  <>
+                    <p id="pagination-info">
+                      Showing 1 ‒ {travelClaims.length} of {travelClaims.length}{' '}
+                      events
+                    </p>
+                    <div className="btsss-claims-order-container">
+                      <p className="vads-u-margin-bottom--0">
+                        Show appointments in this order
+                      </p>
+                      <div className="btsss-claims-order-select-container vads-u-margin-bottom--3">
+                        <select
+                          className="vads-u-margin-bottom--0"
+                          hint={null}
+                          name="claimsOrder"
+                          value={selectedClaimsOrder}
+                          onChange={e => setSelectedClaimsOrder(e.target.value)}
+                        >
+                          <option value="mostRecent">Most Recent</option>
+                          <option value="oldest">Oldest</option>
+                        </select>
+                        <va-button
+                          onClick={() => setOrderClaimsBy(selectedClaimsOrder)}
+                          data-testid="Sort travel claims"
+                          text="Sort"
+                          label="Sort"
+                        />
+                      </div>
+                    </div>
+                    {travelClaims.map(travelClaim =>
+                      TravelClaimCard(travelClaim),
+                    )}
+
+                    <HelpText />
+                  </>
+                )}
+              {userLoggedIn &&
+                !isLoading &&
+                !error &&
+                travelClaims.length === 0 && <p>No travel claims to show.</p>}
             </div>
           </div>
         </article>
