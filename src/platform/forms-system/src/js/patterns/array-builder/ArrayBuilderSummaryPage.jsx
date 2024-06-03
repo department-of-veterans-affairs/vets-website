@@ -175,7 +175,7 @@ export default function ArrayBuilderSummaryPage({
       [isReviewPage, arrayData?.length],
     );
 
-    function setDismissAlertTimestamp() {
+    function setAlertChangedTimestamp() {
       // This is a hacky workaround to rerender the page
       // due to the way SchemaForm interacts with CustomPage
       // here in order to hide/show alerts correctly.
@@ -183,7 +183,7 @@ export default function ArrayBuilderSummaryPage({
         ...props.data,
         _metadata: {
           ...props.data._metadata,
-          [`${nounPlural}DismissAlertTimestamp`]: Date.now(),
+          [`${nounPlural}AlertChangedTimestamp`]: Date.now(),
         },
       });
     }
@@ -211,7 +211,7 @@ export default function ArrayBuilderSummaryPage({
           ),
         );
       });
-      setDismissAlertTimestamp();
+      setAlertChangedTimestamp();
     }
 
     function onDismissRemovedAlert() {
@@ -225,21 +225,22 @@ export default function ArrayBuilderSummaryPage({
           ),
         );
       });
-      setDismissAlertTimestamp();
+      setAlertChangedTimestamp();
     }
 
     function onRemoveItem(index, item) {
       // updated alert may be from initial state (URL path)
       // so we can go ahead and remove it if there is a new
       // alert
-      setShowUpdatedAlert(() => false);
+      setShowUpdatedAlert(false);
 
-      setRemovedItemText(() => getText('alertItemDeleted', item));
-      setRemovedItemIndex(() => index);
-      setShowRemovedAlert(() => true);
+      setRemovedItemText(getText('alertItemDeleted', item));
+      setRemovedItemIndex(index);
+      setShowRemovedAlert(true);
       requestAnimationFrame(() => {
         focusElement(removedAlertRef.current);
       });
+      setAlertChangedTimestamp();
     }
 
     function onRemoveAllItems() {
