@@ -51,10 +51,13 @@ describe('Vital details container', () => {
 
   it('displays the formatted received date', () => {
     waitFor(() => {
-      const formattedDate = screen.getAllByText('September', {
-        exact: false,
-        selector: 'h2',
-      });
+      const formattedDate = screen.getAllByText(
+        'September 1, 2004, 12:00 a.m.',
+        {
+          exact: true,
+          selector: 'h2',
+        },
+      );
       expect(formattedDate.length).to.eq(2);
     });
   });
