@@ -1,4 +1,3 @@
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import {
   loincCodes,
@@ -12,7 +11,7 @@ import {
   isArrayAndHasItems,
   macroCase,
   extractContainedResource,
-  dateFormat,
+  dateFormatWithoutTimezone,
 } from '../util/helpers';
 
 const initialState = {
@@ -79,10 +78,7 @@ export const convertVital = record => {
     id: record.id,
     measurement: getMeasurement(record, type) || EMPTY_FIELD,
     date: record?.effectiveDateTime
-      ? formatDateLong(record.effectiveDateTime)
-      : EMPTY_FIELD,
-    dateTime: record?.effectiveDateTime
-      ? dateFormat(record.effectiveDateTime)
+      ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
     location: extractLocation(record),
     notes:
