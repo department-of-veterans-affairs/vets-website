@@ -5,14 +5,14 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import formConfig from '../config/form';
 
 const breadcrumbList = [
-  { href: '/', label: 'VA.gov home' },
+  { href: '/', label: 'Home' },
   {
     href: `/family-and-caregiver-benefits`,
-    label: `Family and Caregiver Benefits`,
+    label: `Family and caregiver benefits`,
   },
   {
     href: `/family-and-caregiver-benefits/health-and-disability/`,
-    label: `Health and Disability`,
+    label: `Health and disability`,
   },
   {
     href: `/family-and-caregiver-benefits/health-and-disability/champva`,

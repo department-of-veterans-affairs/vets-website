@@ -10,13 +10,14 @@ describe('Medications Landing Page', () => {
     const landingPage = new MedicationsLandingPage();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
+    const cardNumber = 20;
     site.login();
     // cy.visit('my-health/about-medications/');
     landingPage.visitLandingPageURL();
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
-    detailsPage.clickMedicationDetailsLink(rxFacilityName);
+    detailsPage.clickMedicationDetailsLink(rxFacilityName, cardNumber);
     detailsPage.verifyFacilityInPlainLanguageOnDetailsPage(
       rxFacilityName.data.attributes.facilityName,
     );

@@ -275,7 +275,9 @@ const formConfig = {
         },
         primaryEOB: {
           path: 'insurance-eob',
-          depends: formData => get('applicantHasPrimary', formData),
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantPrimaryHasPrescription', formData),
           title: formData =>
             `${nameWording(formData, undefined, undefined, true)} ${
               formData.applicantPrimaryProvider
@@ -286,6 +288,7 @@ const formConfig = {
           path: 'insurance-sob',
           depends: formData =>
             get('applicantHasPrimary', formData) &&
+            get('applicantPrimaryHasPrescription', formData) &&
             !get('applicantPrimaryEOB', formData),
           title: formData =>
             `${nameWording(formData)} ${
@@ -366,7 +369,9 @@ const formConfig = {
         },
         secondaryEOB: {
           path: 'secondary-insurance-eob',
-          depends: formData => get('applicantHasSecondary', formData),
+          depends: formData =>
+            get('applicantHasSecondary', formData) &&
+            get('applicantSecondaryHasPrescription', formData),
           title: formData =>
             `${nameWording(formData, undefined, undefined, true)} ${
               formData.applicantSecondaryProvider
@@ -377,6 +382,7 @@ const formConfig = {
           path: 'secondary-insurance-sob',
           depends: formData =>
             get('applicantHasSecondary', formData) &&
+            get('applicantSecondaryHasPrescription', formData) &&
             !get('applicantSecondaryEOB', formData),
           title: formData =>
             `${nameWording(formData)} ${
