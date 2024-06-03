@@ -3,44 +3,45 @@ import {
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
+  additionalExposuresPageTitle,
   dateRangeAdditionalInfo,
   dateRangePageDescription,
-  endDateApproximate,
+  exposureEndDateApproximate,
+  exposureStartDateApproximate,
   getOtherFieldDescription,
   getSelectedCount,
-  herbicidePageTitle,
   notSureDatesDetails,
-  startDateApproximate,
 } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
 
 export const uiSchema = {
-  'ui:title': formTitle(herbicidePageTitle),
+  'ui:title': formTitle(additionalExposuresPageTitle),
   'ui:description': ({ formData }) => {
     const indexAndSelectedCount = getSelectedCount(
-      'herbicide',
+      'otherExposures',
       formData,
-      'otherHerbicideLocations',
+      'specifyOtherExposures',
     );
     return dateRangePageDescription(
       indexAndSelectedCount,
       indexAndSelectedCount,
-      getOtherFieldDescription(formData, 'otherHerbicideLocations'),
+      getOtherFieldDescription(formData, 'specifyOtherExposures'),
+      'Hazard',
     );
   },
   toxicExposure: {
-    otherHerbicideLocations: {
+    specifyOtherExposures: {
       startDate: currentOrPastDateUI({
-        title: startDateApproximate,
+        title: exposureStartDateApproximate,
       }),
       endDate: currentOrPastDateUI({
-        title: endDateApproximate,
+        title: exposureEndDateApproximate,
       }),
       'view:notSure': {
         'ui:title': notSureDatesDetails,
       },
     },
-    'view:herbicideAdditionalInfo': {
+    'view:additionalExposuresAdditionalInfo': {
       'ui:description': dateRangeAdditionalInfo,
     },
   },
@@ -52,7 +53,7 @@ export const schema = {
     toxicExposure: {
       type: 'object',
       properties: {
-        otherHerbicideLocations: {
+        specifyOtherExposures: {
           type: 'object',
           properties: {
             startDate: currentOrPastDateSchema,
@@ -62,7 +63,7 @@ export const schema = {
             },
           },
         },
-        'view:herbicideAdditionalInfo': {
+        'view:additionalExposuresAdditionalInfo': {
           type: 'object',
           properties: {},
         },

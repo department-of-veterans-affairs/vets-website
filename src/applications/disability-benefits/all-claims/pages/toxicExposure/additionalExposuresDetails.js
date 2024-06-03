@@ -4,48 +4,49 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { formTitle } from '../../utils';
 import {
+  additionalExposuresPageTitle,
   dateRangeAdditionalInfo,
   dateRangePageDescription,
-  endDateApproximate,
+  exposureEndDateApproximate,
+  exposureStartDateApproximate,
   getKeyIndex,
   getSelectedCount,
-  herbicidePageTitle,
-  notSureDatesDetails,
+  notSureHazardDetails,
   showCheckboxLoopDetailsPage,
-  startDateApproximate,
   teSubtitle,
 } from '../../content/toxicExposure';
-import { HERBICIDE_LOCATIONS, TE_URL_PREFIX } from '../../constants';
+import { ADDITIONAL_EXPOSURES, TE_URL_PREFIX } from '../../constants';
 
 /**
- * Make the uiSchema for each herbicide details page
- * @param {string} locationId - unique id for the location
+ * Make the uiSchema for each additional exposures details page
+ * @param {string} itemId - unique id for the exposure
  * @returns {object} uiSchema object
  */
-function makeUiSchema(locationId) {
+function makeUiSchema(itemId) {
   return {
-    'ui:title': formTitle(herbicidePageTitle),
+    'ui:title': formTitle(additionalExposuresPageTitle),
     'ui:description': ({ formData }) =>
       dateRangePageDescription(
-        getKeyIndex(locationId, 'herbicide', formData),
-        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
-        HERBICIDE_LOCATIONS[locationId],
+        getKeyIndex(itemId, 'otherExposures', formData),
+        getSelectedCount('otherExposures', formData, 'specifyOtherExposures'),
+        ADDITIONAL_EXPOSURES[itemId],
+        'Hazard',
       ),
     toxicExposure: {
-      herbicideDetails: {
-        [locationId]: {
+      otherExposuresDetails: {
+        [itemId]: {
           startDate: currentOrPastDateUI({
-            title: startDateApproximate,
+            title: exposureStartDateApproximate,
           }),
           endDate: currentOrPastDateUI({
-            title: endDateApproximate,
+            title: exposureEndDateApproximate,
           }),
           'view:notSure': {
-            'ui:title': notSureDatesDetails,
+            'ui:title': notSureHazardDetails,
           },
         },
       },
-      'view:herbicideAdditionalInfo': {
+      'view:otherExposuresAdditionalInfo': {
         'ui:description': dateRangeAdditionalInfo,
       },
     },
@@ -53,21 +54,21 @@ function makeUiSchema(locationId) {
 }
 
 /**
- * Make the schema for each herbicide details page
- * @param {string} locationId - unique id for the location
+ * Make the schema for each additional exposures details page
+ * @param {string} itemId - unique id for the exposure
  * @returns {object} - schema object
  */
-function makeSchema(locationId) {
+function makeSchema(itemId) {
   return {
     type: 'object',
     properties: {
       toxicExposure: {
         type: 'object',
         properties: {
-          herbicideDetails: {
+          otherExposuresDetails: {
             type: 'object',
             properties: {
-              [locationId]: {
+              [itemId]: {
                 type: 'object',
                 properties: {
                   startDate: currentOrPastDateSchema,
@@ -79,7 +80,7 @@ function makeSchema(locationId) {
               },
             },
           },
-          'view:herbicideAdditionalInfo': {
+          'view:otherExposuresAdditionalInfo': {
             type: 'object',
             properties: {},
           },
@@ -90,30 +91,31 @@ function makeSchema(locationId) {
 }
 
 export function makePages() {
-  const herbicideLocationPagesList = Object.keys(HERBICIDE_LOCATIONS)
-    .filter(locationId => locationId !== 'none' && locationId !== 'notsure')
-    .map(locationId => {
-      const pageName = `herbicide-location-${locationId}`;
+  const pagesList = Object.keys(ADDITIONAL_EXPOSURES)
+    .filter(itemId => itemId !== 'none' && itemId !== 'notsure')
+    .map(itemId => {
+      const pageName = `additional-exposure-${itemId}`;
       return {
         [pageName]: {
           title: formData =>
             teSubtitle(
-              getKeyIndex(locationId, 'herbicide', formData),
+              getKeyIndex(itemId, 'otherExposures', formData),
               getSelectedCount(
-                'herbicide',
+                'otherExposures',
                 formData,
-                'otherHerbicideLocations',
+                'specifyOtherExposures',
               ),
-              HERBICIDE_LOCATIONS[locationId],
+              ADDITIONAL_EXPOSURES[itemId],
+              'Hazard',
             ),
           path: `${TE_URL_PREFIX}/${pageName}`,
-          uiSchema: makeUiSchema(locationId),
-          schema: makeSchema(locationId),
+          uiSchema: makeUiSchema(itemId),
+          schema: makeSchema(itemId),
           depends: formData =>
-            showCheckboxLoopDetailsPage(formData, 'herbicide', locationId),
+            showCheckboxLoopDetailsPage(formData, 'otherExposures', itemId),
         },
       };
     });
 
-  return Object.assign({}, ...herbicideLocationPagesList);
+  return Object.assign({}, ...pagesList);
 }

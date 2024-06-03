@@ -11,42 +11,45 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import { checkVaCheckbox } from '@department-of-veterans-affairs/platform-testing/helpers';
 import formConfig from '../../../config/form';
 import {
-  gulfWar2001PageTitle,
-  gulfWar2001Question,
-  noneAndLocationError,
+  additionalExposuresPageTitle,
+  additionalExposuresQuestion,
+  noneAndHazardError,
+  specifyOtherExposuresLabel,
 } from '../../../content/toxicExposure';
-import { GULF_WAR_2001_LOCATIONS } from '../../../constants';
+import { ADDITIONAL_EXPOSURES } from '../../../constants';
 
-describe('Gulf War 2001 Locations', () => {
+describe('Additional Exposures', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.disabilities.pages.gulfWar2001Locations;
+  } = formConfig.chapters.disabilities.pages.additionalExposures;
 
-  it('should render with all checkboxes', () => {
+  it('should render with all checkboxes and other field', () => {
     const { container, getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
     );
 
-    getByText(gulfWar2001PageTitle);
+    getByText(additionalExposuresPageTitle);
 
     expect($$('va-checkbox-group', container).length).to.equal(1);
     expect($('va-checkbox-group', container).getAttribute('label')).to.equal(
-      gulfWar2001Question,
+      additionalExposuresQuestion,
     );
 
-    // fail fast - verify we have the right number of checkboxes
     expect($$('va-checkbox', container).length).to.equal(
-      Object.keys(GULF_WAR_2001_LOCATIONS).length,
+      Object.keys(ADDITIONAL_EXPOSURES).length,
     );
 
-    // verify that each checkbox exists with user facing label
-    Object.values(GULF_WAR_2001_LOCATIONS).forEach(option => {
+    Object.values(ADDITIONAL_EXPOSURES).forEach(option => {
       expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
     });
+
+    expect($('va-textarea', container).getAttribute('label')).to.equal(
+      specifyOtherExposuresLabel,
+    );
   });
 
-  it('should submit without selecting any locations', () => {
+  it('should submit without selecting any hazards', () => {
     const onSubmit = sinon.spy();
 
     const { getByText } = render(
@@ -62,7 +65,7 @@ describe('Gulf War 2001 Locations', () => {
     expect(onSubmit.calledOnce).to.be.true;
   });
 
-  it('should submit with locations selected', async () => {
+  it('should submit with hazards selected', async () => {
     const onSubmit = sinon.spy();
 
     const { container, getByText } = render(
@@ -75,44 +78,23 @@ describe('Gulf War 2001 Locations', () => {
     );
 
     const checkboxGroup = $('va-checkbox-group', container);
-    checkVaCheckbox(checkboxGroup, 'yemen');
-    checkVaCheckbox(checkboxGroup, 'airspace');
+    checkVaCheckbox(checkboxGroup, 'asbestos');
+    checkVaCheckbox(checkboxGroup, 'radiation');
 
     userEvent.click(getByText('Submit'));
     expect(onSubmit.calledOnce).to.be.true;
   });
 
-  it('should display error when condition and "none"', async () => {
+  it('should display error when hazard and "none" selected', async () => {
     const formData = {};
     const { container, getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
     );
     const checkboxGroup = $('va-checkbox-group', container);
-    checkVaCheckbox(checkboxGroup, 'yemen');
+    checkVaCheckbox(checkboxGroup, 'asbestos');
     checkVaCheckbox(checkboxGroup, 'none');
 
     await userEvent.click(getByText('Submit'));
-    expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
-  });
-
-  it('should submit with `notsure` and other locations selected', async () => {
-    const onSubmit = sinon.spy();
-
-    const { container, getByText } = render(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    const checkboxGroup = $('va-checkbox-group', container);
-    checkVaCheckbox(checkboxGroup, 'lebanon');
-    checkVaCheckbox(checkboxGroup, 'yemen');
-    checkVaCheckbox(checkboxGroup, 'notsure');
-
-    userEvent.click(getByText('Submit'));
-    expect(onSubmit.calledOnce).to.be.true;
+    expect($('va-checkbox-group').error).to.equal(noneAndHazardError);
   });
 });
