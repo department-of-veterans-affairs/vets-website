@@ -796,8 +796,11 @@ export const veteranUI = {
       pattern: 'Your VA claim number must be between 8 to 9 digits',
     },
   },
-  placeOfBirth: {
-    'ui:title': 'Place of birth (City, State, or Territory)',
+  cityOfBirth: {
+    'ui:title': 'Your birth city or county',
+  },
+  stateOfBirth: {
+    'ui:title': 'Your birth state or territory',
   },
   gender: {
     'ui:title': 'What’s your sex?',

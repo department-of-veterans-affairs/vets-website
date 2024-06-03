@@ -8,8 +8,8 @@ import {
   nonPreparerDateOfBirthUI,
   ssnDashesUI,
   // partial implementation of story resolving the address change:
-  // applicantDetailsCityTitle,
-  // applicantDetailsStateTitle,
+  applicantDetailsCityTitle,
+  applicantDetailsStateTitle,
 } from '../../utils/helpers';
 
 const {
@@ -23,10 +23,11 @@ export function uiSchema(
   nameUI = nonPreparerFullMaidenNameUI,
   ssnUI = ssnDashesUI,
   dateOfBirthUI = nonPreparerDateOfBirthUI,
+  cityTitle = applicantDetailsCityTitle,
+  stateTitle = applicantDetailsStateTitle,
 ) {
   // partial implementation of story resolving the address change:
-  // cityTitle = applicantDetailsCityTitle,
-  // stateTitle = applicantDetailsStateTitle,
+
   return {
     application: {
       'ui:title': subHeader,
@@ -42,8 +43,11 @@ export function uiSchema(
         dateOfBirth: dateOfBirthUI,
       },
       veteran: {
-        placeOfBirth: {
-          'ui:title': 'Place of birth (city, state, territory)',
+        cityOfBirth: {
+          'ui:title': cityTitle,
+        },
+        stateOfBirth: {
+          'ui:title': stateTitle,
         },
       },
     },
@@ -72,8 +76,21 @@ export const schema = {
         },
         veteran: {
           type: 'object',
-          required: ['placeOfBirth'],
-          properties: pick(veteran.properties, ['placeOfBirth']),
+          required: ['cityOfBirth', 'stateOfBirth'],
+          properties: merge(
+            {},
+            pick(veteran.properties, ['cityOfBirth', 'stateOfBirth']),
+            {
+              cityOfBirth: {
+                type: 'string',
+                maxLength: 100,
+              },
+              stateOfBirth: {
+                type: 'string',
+                maxLength: 100,
+              },
+            },
+          ),
         },
       },
     },

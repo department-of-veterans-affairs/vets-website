@@ -79,10 +79,10 @@ import {
   applicantContactInfoDescription,
   applicantContactInfoPreparerDescription,
   // partial implementation of story resolving the address change:
-  // applicantDetailsCityTitle,
-  // applicantDetailsStateTitle,
-  // applicantDetailsPreparerCityTitle,
-  // applicantDetailsPreparerStateTitle,
+  applicantDetailsCityTitle,
+  applicantDetailsStateTitle,
+  applicantDetailsPreparerCityTitle,
+  applicantDetailsPreparerStateTitle,
   applicantDemographicsSubHeader,
   applicantDemographicsPreparerSubHeader,
   applicantDemographicsGenderTitle,
@@ -262,14 +262,13 @@ const formConfig = {
           depends: formData =>
             !isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: veteranApplicantDetails.uiSchema(
-            // partial implementation of story resolving the address change:
-            // applicantDetailsCityTitle,
-            // applicantDetailsStateTitle,
             veteranApplicantDetailsSubHeader,
             '',
             nonPreparerFullMaidenNameUI,
             ssnDashesUI,
             nonPreparerDateOfBirthUI,
+            applicantDetailsCityTitle,
+            applicantDetailsStateTitle,
           ),
           schema: veteranApplicantDetails.schema,
         },
@@ -279,14 +278,13 @@ const formConfig = {
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: veteranApplicantDetails.uiSchema(
-            // partial implementation of story resolving the address change:
-            // applicantDetailsPreparerCityTitle,
-            // applicantDetailsPreparerStateTitle,
             veteranApplicantDetailsPreparerSubHeader,
             veteranApplicantDetailsPreparerDescription,
             preparerFullMaidenNameUI,
             preparerSsnDashesUI,
             preparerDateOfBirthUI,
+            applicantDetailsPreparerCityTitle,
+            applicantDetailsPreparerStateTitle,
           ),
           schema: veteranApplicantDetails.schema,
         },
