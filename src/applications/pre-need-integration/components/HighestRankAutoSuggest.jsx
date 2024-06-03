@@ -50,9 +50,10 @@ function HighestRankAutoSuggest({ formData, idSchema }) {
         if (currentBranch) {
           setBranchOfService(currentBranch);
         }
+        const ranks = getRanksForBranch(currentBranch);
         const currentRank = serviceRecords[currentIndex]?.highestRank;
         if (currentRank) {
-          const matchingRank = rankOptions.find(
+          const matchingRank = ranks.find(
             rankOption => rankOption.key === currentRank,
           );
           if (matchingRank) {
