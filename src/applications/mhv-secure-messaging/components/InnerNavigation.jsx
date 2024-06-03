@@ -51,7 +51,7 @@ const InnerNavigation = () => {
         <div
           key={i}
           data-testid={path.datatestid}
-          activeFolder={handleActiveLinksStyle(path)}
+          activetab={handleActiveLinksStyle(path)}
           className={`
             vads-u-margin-right--2
             vads-u-font-size--lg

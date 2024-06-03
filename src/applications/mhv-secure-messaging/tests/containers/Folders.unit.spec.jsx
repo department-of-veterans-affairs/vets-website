@@ -62,12 +62,9 @@ describe('Folders Landing Page', () => {
 
   it('renders innerNavigation component with Folders being the active tab', () => {
     const foldersTab = screen.getByTestId('folders-inner-nav');
-    expect(foldersTab).to.have.attribute(
-      'activeFolder',
-      'active-innerNav-link',
-    );
+    expect(foldersTab).to.have.attribute('activetab', 'active-innerNav-link');
     const inboxTab = screen.getByTestId('inbox-inner-nav');
-    expect(inboxTab).to.have.attribute('activeFolder', '');
+    expect(inboxTab).to.have.attribute('activetab', '');
   });
 
   it('should verify that a custom folder exists', async () => {

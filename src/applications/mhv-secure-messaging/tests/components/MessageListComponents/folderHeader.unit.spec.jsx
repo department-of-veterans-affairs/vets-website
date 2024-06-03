@@ -176,12 +176,9 @@ describe('Folder Header component', () => {
       expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
 
       const inboxTab = screen.getByTestId('inbox-inner-nav');
-      expect(inboxTab).to.have.attribute(
-        'activeFolder',
-        'active-innerNav-link',
-      );
+      expect(inboxTab).to.have.attribute('activetab', 'active-innerNav-link');
       const foldersTab = screen.getByTestId('folders-inner-nav');
-      expect(foldersTab).to.have.attribute('activeFolder', '');
+      expect(foldersTab).to.have.attribute('activetab', '');
     });
 
     it('renders FilterBox with `threadCount` in INBOX FOLDER', () => {
