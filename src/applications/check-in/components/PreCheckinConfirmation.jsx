@@ -2,12 +2,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import AppointmentBlock from './AppointmentBlock';
 import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
 import HowToLink from './HowToLink';
 import Wrapper from './layout/Wrapper';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 const PreCheckinConfirmation = props => {
   const { appointments, isLoading, formData, router } = props;
@@ -48,7 +48,7 @@ const PreCheckinConfirmation = props => {
     }
     return (
       <Wrapper
-        pageTitle={t('you-successfully-reviewed-your-contact-information')}
+        pageTitle={t('your-information-is-up-to-date')}
         testID="confirmation-wrapper"
       >
         <AppointmentBlock

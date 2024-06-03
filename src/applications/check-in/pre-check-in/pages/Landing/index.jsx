@@ -71,8 +71,7 @@ const Index = props => {
           api.v2
             .getSession({ token, checkInType })
             .then(session => {
-              // if successful, dispatch session data  into redux and current window
-
+              // if successful, dispatch session data into redux and current window
               if (session.error || session.errors) {
                 clearCurrentStorage(window);
                 updateError('session-error');

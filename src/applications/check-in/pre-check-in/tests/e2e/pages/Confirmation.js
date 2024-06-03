@@ -6,16 +6,12 @@ class Confirmation {
   };
 
   validatePageContent = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'You’ve completed pre-check-in');
-    cy.get("[data-testid='confirmation-wrapper']");
+    cy.get("[data-testid='header']");
+    cy.get("[data-testid='appointment-text']");
     cy.get("[data-testid='appointment-list']");
-    cy.get("[header='What if I have questions about my appointment?']")
-      .shadow()
-      .find('button')
-      .contains('What if I have questions about my appointment?')
-      .should('be.visible');
+    cy.get("[data-testid='how-to-link']");
+    cy.get("[data-testid='external-link']");
+    cy.get("[data-testid='pre-check-in-accordions']");
   };
 
   validateConfirmWithUpdates = () => {

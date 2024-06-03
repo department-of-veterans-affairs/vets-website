@@ -117,12 +117,12 @@ const AppointmentListItem = props => {
             {t('date-long', { date: appointmentDateTime })}
           </div>
         )}
-        <div
+        <h3
           data-testid="appointment-time"
-          className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold vads-u-line-height--1 vads-u-margin-bottom--2"
+          className="vads-u-font-size--h2 vads-u-margin-top--0 vads-u-font-family--serif vads-u-font-weight--bold vads-u-line-height--1 vads-u-margin-bottom--2"
         >
           {t('date-time', { date: appointmentDateTime })}{' '}
-        </div>
+        </h3>
         <div
           data-testid="appointment-type-and-provider"
           className="vads-u-font-weight--bold"

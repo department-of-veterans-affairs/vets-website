@@ -3,18 +3,22 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
-import {
-  multipleAppointments,
-  singleAppointment,
-} from '../../tests/unit/mocks/mock-appointments';
+import { singleAppointment } from '../../tests/unit/mocks/mock-appointments';
 import ActionItemDisplay from '../ActionItemDisplay';
 import * as appointmentModule from '../../utils/appointment';
+import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
 
 describe('unified check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
   describe('ActionItemDisplay', () => {
     it('displays the what to do next component if the app is day of', () => {
       const mockstore = {
-        upcomingAppointments: multipleAppointments,
+        appointments: singleAppointment,
         app: 'dayOf',
       };
       const { getByTestId } = render(
@@ -26,7 +30,7 @@ describe('unified check-in experience', () => {
     });
     it('displays the WhatToDoNext component if the app is day-of and pre check in is complete', () => {
       const mockstore = {
-        upcomingAppointments: singleAppointment,
+        appointments: singleAppointment,
         app: 'dayOf',
       };
       const preCheckinAlreadyCompletedStub = sinon
@@ -42,64 +46,18 @@ describe('unified check-in experience', () => {
 
       preCheckinAlreadyCompletedStub.restore();
     });
-    it('displays the pre-check-in-success-alert if the app is pre-check-in and pre check in is complete', () => {
+    it('displays the WhatToDoNext component if the app is pre-check-in', () => {
       const mockstore = {
-        upcomingAppointments: singleAppointment,
+        appointments: singleAppointment,
         app: 'preCheckIn',
       };
-      const preCheckinAlreadyCompletedStub = sinon
-        .stub(appointmentModule, 'preCheckinAlreadyCompleted')
-        .returns(true);
       const { getByTestId } = render(
         <CheckInProvider store={mockstore}>
           <ActionItemDisplay />
         </CheckInProvider>,
       );
 
-      expect(getByTestId('pre-check-in-success-alert')).to.exist;
-
-      preCheckinAlreadyCompletedStub.restore();
-    });
-    it('displays the correct success message for phone appointments', () => {
-      const mockstore = {
-        upcomingAppointments: singleAppointment,
-        app: 'preCheckIn',
-      };
-      const preCheckinAlreadyCompletedStub = sinon
-        .stub(appointmentModule, 'preCheckinAlreadyCompleted')
-        .returns(true);
-      const hasPhoneAppointmentsStub = sinon
-        .stub(appointmentModule, 'hasPhoneAppointments')
-        .returns(true);
-      const { getByTestId } = render(
-        <CheckInProvider store={mockstore}>
-          <ActionItemDisplay />
-        </CheckInProvider>,
-      );
-
-      expect(getByTestId('pre-check-in-success-alert')).to.exist;
-      expect(getByTestId('success-message-phone')).to.exist;
-
-      preCheckinAlreadyCompletedStub.restore();
-      hasPhoneAppointmentsStub.restore();
-    });
-    it('displays the correct success message for in person appointments', () => {
-      const mockstore = {
-        upcomingAppointments: singleAppointment,
-        app: 'preCheckIn',
-      };
-      const preCheckinAlreadyCompletedStub = sinon
-        .stub(appointmentModule, 'preCheckinAlreadyCompleted')
-        .returns(true);
-      const { getByTestId } = render(
-        <CheckInProvider store={mockstore}>
-          <ActionItemDisplay />
-        </CheckInProvider>,
-      );
-
-      expect(getByTestId('pre-check-in-success-alert')).to.exist;
-      expect(getByTestId('success-message-in-person')).to.exist;
-      preCheckinAlreadyCompletedStub.restore();
+      expect(getByTestId('what-to-do-next')).to.exist;
     });
   });
 });

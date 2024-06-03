@@ -40,4 +40,9 @@ const getDemographicsStatuses = patientDemographicsStatus => {
   };
 };
 
-export { getDemographicsStatuses };
+const isDemographicsUpToDate = patientDemographicsStatus => {
+  const statuses = getDemographicsStatuses(patientDemographicsStatus);
+  return Object.values(statuses).every(status => status === true);
+};
+
+export { getDemographicsStatuses, isDemographicsUpToDate };
