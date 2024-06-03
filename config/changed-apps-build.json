@@ -120,6 +120,10 @@
     {
       "rootFolder": "mhv-medical-records",
       "slackGroup": "@C04ER7MHX5E"
+    },
+    {
+      "rootFolder": "mhv-medications",
+      "slackGroup": "@C059Q28DV99"
     }
   ]
 }

@@ -614,7 +614,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       expect(await screen.findByText('Would you like to cancel this request?'))
         .to.be.ok;
 
-      button = screen.getByText(/Yes, cancel appointment/i);
+      button = screen.getByText(/Yes, cancel request/i);
       button.click();
 
       expect(window.dataLayer[0]).to.deep.equal({
@@ -734,7 +734,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           await screen.findByText('Would you like to cancel this request?'),
         ).to.be.ok;
 
-        button = screen.getByText(/Yes, cancel appointment/i);
+        button = screen.getByText(/Yes, cancel request/i);
         button.click();
 
         expect(window.dataLayer[0]).to.deep.equal({
@@ -810,7 +810,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
           await screen.findByText('Would you like to cancel this request?'),
         ).to.be.ok;
 
-        button = screen.getByText(/Yes, cancel appointment/i);
+        button = screen.getByText(/Yes, cancel request/i);
         button.click();
 
         await waitFor(() => {
