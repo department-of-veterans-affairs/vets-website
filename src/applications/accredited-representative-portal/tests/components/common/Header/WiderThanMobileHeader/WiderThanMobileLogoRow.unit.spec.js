@@ -2,6 +2,19 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
+import { describe, it } from 'mocha';
+import sinon from 'sinon';
+
+const UserNav = () => (
+  <div data-testid="user-nav-wider-than-mobile-sign-in-link">Sign in</div>
+);
+
+sinon
+  .stub(
+    require('../../../../../components/common/Header/common/UserNav'),
+    'default',
+  )
+  .callsFake(UserNav);
 
 import WiderThanMobileLogoRow from '../../../../../components/common/Header/WiderThanMobileHeader/WiderThanMobileLogoRow';
 
