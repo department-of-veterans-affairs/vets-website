@@ -60,7 +60,9 @@ const InnerNavigation = () => {
             ${handleActiveLinksStyle(path)}
           `}
         >
-          <Link to={path.path}>{path.label}</Link>
+          <Link className="inner-nav-link" to={path.path}>
+            {path.label}
+          </Link>
         </div>
       ))}
     </div>

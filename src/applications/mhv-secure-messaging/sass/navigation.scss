@@ -213,4 +213,12 @@
   font-weight: bold;
   color: var(--vads-color-base);
   text-decoration: none;
+
+  &:visited {
+    color: var(--vads-color-base);
+  }
+}
+
+.inner-nav-link:visited {
+  color: var(--vads-color-link);
 }
