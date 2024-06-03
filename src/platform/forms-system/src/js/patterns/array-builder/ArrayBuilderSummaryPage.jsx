@@ -175,6 +175,19 @@ export default function ArrayBuilderSummaryPage({
       [isReviewPage, arrayData?.length],
     );
 
+    function setDismissAlertTimestamp() {
+      // This is a hacky workaround to rerender the page
+      // due to the way SchemaForm interacts with CustomPage
+      // here in order to hide/show alerts correctly.
+      props.setData({
+        ...props.data,
+        _metadata: {
+          ...props.data._metadata,
+          [`${nounPlural}DismissAlertTimestamp`]: Date.now(),
+        },
+      });
+    }
+
     function addAnotherItemButtonClick() {
       const index = arrayData ? arrayData.length : 0;
       const path = createArrayBuilderItemAddPath({
@@ -190,7 +203,7 @@ export default function ArrayBuilderSummaryPage({
     }
 
     function onDismissUpdatedAlert() {
-      setShowUpdatedAlert(() => false);
+      setShowUpdatedAlert(false);
       requestAnimationFrame(() => {
         focusElement(
           document.querySelector(
@@ -198,12 +211,13 @@ export default function ArrayBuilderSummaryPage({
           ),
         );
       });
+      setDismissAlertTimestamp();
     }
 
     function onDismissRemovedAlert() {
-      setShowRemovedAlert(() => false);
-      setRemovedItemText(() => '');
-      setRemovedItemIndex(() => null);
+      setShowRemovedAlert(false);
+      setRemovedItemText('');
+      setRemovedItemIndex(null);
       requestAnimationFrame(() => {
         focusElement(
           document.querySelector(
@@ -211,6 +225,7 @@ export default function ArrayBuilderSummaryPage({
           ),
         );
       });
+      setDismissAlertTimestamp();
     }
 
     function onRemoveItem(index, item) {

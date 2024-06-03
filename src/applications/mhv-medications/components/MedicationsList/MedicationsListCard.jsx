@@ -35,24 +35,22 @@ const MedicationsListCard = ({ rx }) => {
         className="rx-card-details vads-u-padding--2"
         data-testid="rx-card-info"
       >
-        <h3
-          aria-describedby="status status-description fill-or-refill-button"
-          className="vads-u-font-weight--bold"
+        <Link
           id={`card-header-${rx.prescriptionId}`}
+          aria-describedby={`status-${rx.prescriptionId} status-description-${
+            rx.prescriptionId
+          } fill-or-refill-button-${rx.prescriptionId}`}
+          data-dd-action-name={`Medication Name Link In Card - ${
+            DD_ACTIONS_PAGE_TYPE.LIST
+          }`}
+          data-testid="medications-history-details-link"
+          className="vads-u-font-weight--bold"
+          to={`/prescription/${rx.prescriptionId}`}
+          onClick={handleLinkClick}
         >
-          <Link
-            data-dd-action-name={`Medication Name Link In Card - ${
-              DD_ACTIONS_PAGE_TYPE.LIST
-            }`}
-            data-testid="medications-history-details-link"
-            className="vads-u-margin-y--0p5 vads-u-font-size--h4"
-            to={`/prescription/${rx.prescriptionId}`}
-            onClick={handleLinkClick}
-          >
-            {rx.prescriptionName ||
-              (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
-          </Link>
-        </h3>
+          {rx.prescriptionName ||
+            (rx.dispStatus === 'Active: Non-VA' ? rx.orderableItem : '')}
+        </Link>
         {rx.dispStatus !== 'Unknown' &&
           rx.dispStatus !== 'Active: Non-VA' && (
             <div data-testid="rx-number">
@@ -63,7 +61,7 @@ const MedicationsListCard = ({ rx }) => {
         {showRefillRemaining && refillsRemaining()}
         {rx.dispStatus !== 'Unknown' && (
           <div
-            id="status"
+            id={`status-${rx.prescriptionId}`}
             className="vads-u-margin-top--1p5 vads-u-font-weight--bold"
             data-testid="rxStatus"
           >
