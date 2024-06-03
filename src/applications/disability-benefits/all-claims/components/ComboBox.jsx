@@ -287,11 +287,6 @@ export class ComboBox extends React.Component {
     const { searchTerm, ariaLive1, ariaLive2, filteredOptions } = this.state;
     return (
       <div className="cc-combobox">
-        {this.screenReaderHeader && (
-          <h4 className="vads-u-visibility--screen-reader">
-            {this.props.uiSchema['ui:title']}
-          </h4>
-        )}
         <VaTextInput
           label={this.props.uiSchema['ui:title']}
           required

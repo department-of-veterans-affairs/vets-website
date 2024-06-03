@@ -69,8 +69,6 @@ export const uiSchema = {
           ],
           // options for the combobox dropdown
           listItems: Object.values(disabilityLabelsRevised),
-          // flag to include additional header for screenreaders
-          screenReaderHeader: true,
         },
         // autoSuggest schema doesn't have any default validations as long as { `freeInput: true` }
         'ui:validations': [validateDisabilityName, limitNewDisabilities],

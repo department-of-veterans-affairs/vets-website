@@ -23,6 +23,7 @@ export const addDisabilitiesInstructions = (
       <li>Hypertension (high blood pressure)</li>
       <li>Migraines (headaches)</li>
     </ul>
+    <h4>Your new conditions</h4>
   </>
 );
 
