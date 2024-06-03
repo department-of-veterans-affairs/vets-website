@@ -13,7 +13,7 @@ const IntroductionPage = props => {
     <article className="schemaform-intro">
       <FormTitle
         title="File a Foreign Medical Program (FMP) Claim"
-        subTitle="FMP Claim Form (VA form 10-7959f-2)"
+        subTitle="FMP Claim Cover Sheet (VA Form 10-7959f-2)"
       />
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for health care benefits.
