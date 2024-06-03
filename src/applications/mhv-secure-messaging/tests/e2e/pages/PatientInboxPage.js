@@ -322,6 +322,13 @@ class PatientInboxPage {
 
   clickDraftsSideBar = () => {};
 
+  selectFolder = () => {
+    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDER}`, mockFolders).as(
+      'foldersResponse',
+    );
+    cy.get('[data-testid="my-folders-sidebar"]>a').click({ force: true });
+  };
+
   clickMyFoldersSideBar = () => {
     cy.intercept(
       'GET',
