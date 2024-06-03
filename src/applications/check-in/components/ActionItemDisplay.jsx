@@ -8,33 +8,21 @@ import { useFormRouting } from '../hooks/useFormRouting';
 
 import { setForm } from '../actions/universal';
 import { makeSelectApp, makeSelectVeteranData } from '../selectors';
-import { APP_NAMES } from '../utils/appConstants';
-import {
-  preCheckinAlreadyCompleted,
-  getAppointmentId,
-} from '../utils/appointment';
+import { getAppointmentId } from '../utils/appointment';
 
 import WhatToDoNext from './WhatToDoNext';
-import PreCheckInSuccessAlert from './PreCheckInSuccessAlert';
 
 const ActionItemDisplay = props => {
   const { router } = props;
   const dispatch = useDispatch();
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
-  const {
-    goToNextPage,
-    jumpToPage,
-    pages,
-    getNextPageFromRouter,
-  } = useFormRouting(router);
+  const { goToNextPage, jumpToPage, getNextPageFromRouter } = useFormRouting(
+    router,
+  );
   const nextPage = getNextPageFromRouter();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
-
-  const displaySuccessAlert =
-    app === APP_NAMES.PRE_CHECK_IN &&
-    (preCheckinAlreadyCompleted(appointments) || pages.length < 5);
 
   const action = (e, appointmentId) => {
     e.preventDefault();
@@ -61,20 +49,14 @@ const ActionItemDisplay = props => {
   };
 
   return (
-    <>
-      {displaySuccessAlert ? (
-        <PreCheckInSuccessAlert />
-      ) : (
-        <section data-testid="what-to-do-next">
-          <WhatToDoNext
-            router={router}
-            appointments={appointments}
-            goToDetails={goToDetails}
-            action={action}
-          />
-        </section>
-      )}
-    </>
+    <section data-testid="what-to-do-next">
+      <WhatToDoNext
+        router={router}
+        appointments={appointments}
+        goToDetails={goToDetails}
+        action={action}
+      />
+    </section>
   );
 };
 

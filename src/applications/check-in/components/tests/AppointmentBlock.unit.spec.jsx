@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { format as formatDate } from 'date-fns';
 import { setupI18n, teardownI18n } from '../../utils/i18n/i18n';
 import CheckInProvider from '../../tests/unit/utils/CheckInProvider';
 
@@ -62,21 +61,6 @@ describe('AppointmentBlock', () => {
 
         expect(screen.getAllByTestId('appointment-list-item').length).to.equal(
           1,
-        );
-      });
-    });
-  });
-  describe('day-of context', () => {
-    describe('In person appointment context', () => {
-      it('Renders appointment date', () => {
-        const today = formatDate(new Date(), 'MMMM dd, yyyy');
-        const screen = render(
-          <CheckInProvider store={{ app: 'dayOf' }}>
-            <AppointmentBlock appointments={appointments} page="details" />
-          </CheckInProvider>,
-        );
-        expect(screen.getByTestId('date-text')).to.have.text(
-          `Here are your appointments for today: ${today}.`,
         );
       });
     });

@@ -139,7 +139,7 @@ const Error = () => {
       header = t('we-couldnt-check-you-in');
       alerts = [
         {
-          subHeading: t('your-appointment'),
+          subHeading: t('your-appointments', { count: 1 }),
           type: 'warning',
           message: t(
             'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
