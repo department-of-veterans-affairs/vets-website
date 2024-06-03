@@ -101,11 +101,6 @@ export default function ArrayBuilderSummaryPage({
     const Heading = `h${titleHeaderLevel}`;
     const isMaxItemsReached = arrayData?.length >= maxItems;
 
-    // generate unique cards key to force re-render for SchemaForm
-    const cardsKey = `${arrayPath}-cards-${
-      arrayData?.length
-    }-${showUpdatedAlert}-${showRemovedAlert}-${updateItemIndex}-${removedItemIndex}`;
-
     useEffect(() => {
       // We may end up with empty items if the user navigates back
       // from outside of the array scope, because of FormPage's
@@ -175,15 +170,15 @@ export default function ArrayBuilderSummaryPage({
       [isReviewPage, arrayData?.length],
     );
 
-    function setAlertChangedTimestamp() {
+    function forceRerender(data = props.data) {
       // This is a hacky workaround to rerender the page
       // due to the way SchemaForm interacts with CustomPage
       // here in order to hide/show alerts correctly.
       props.setData({
-        ...props.data,
+        ...data,
         _metadata: {
-          ...props.data._metadata,
-          [`${nounPlural}AlertChangedTimestamp`]: Date.now(),
+          ...data._metadata,
+          [`${nounPlural}ForceRenderTimestamp`]: Date.now(),
         },
       });
     }
@@ -211,7 +206,7 @@ export default function ArrayBuilderSummaryPage({
           ),
         );
       });
-      setAlertChangedTimestamp();
+      forceRerender();
     }
 
     function onDismissRemovedAlert() {
@@ -225,7 +220,7 @@ export default function ArrayBuilderSummaryPage({
           ),
         );
       });
-      setAlertChangedTimestamp();
+      forceRerender();
     }
 
     function onRemoveItem(index, item) {
@@ -240,7 +235,6 @@ export default function ArrayBuilderSummaryPage({
       requestAnimationFrame(() => {
         focusElement(removedAlertRef.current);
       });
-      setAlertChangedTimestamp();
     }
 
     function onRemoveAllItems() {
@@ -299,8 +293,8 @@ export default function ArrayBuilderSummaryPage({
       );
     };
 
-    const Cards = ({ key }) => (
-      <div key={key}>
+    const Cards = () => (
+      <div>
         <RemovedAlert show={showRemovedAlert} />
         <UpdatedAlert show={showUpdatedAlert} />
         <ArrayBuilderCards
@@ -315,6 +309,7 @@ export default function ArrayBuilderSummaryPage({
           onRemoveAll={onRemoveAllItems}
           onRemove={onRemoveItem}
           isReview={isReviewPage}
+          forceRerender={forceRerender}
         />
       </div>
     );
@@ -349,7 +344,7 @@ export default function ArrayBuilderSummaryPage({
               </dl>
             </>
           )}
-          <Cards key={cardsKey} />
+          <Cards />
           {!isMaxItemsReached && (
             <div className="vads-u-margin-top--2">
               <va-button
@@ -377,7 +372,7 @@ export default function ArrayBuilderSummaryPage({
         </>
       );
       // ensure new reference to trigger re-render
-      uiSchema['ui:description'] = <Cards key={cardsKey} />;
+      uiSchema['ui:description'] = <Cards />;
     } else {
       uiSchema['ui:title'] = undefined;
       uiSchema['ui:description'] = undefined;
