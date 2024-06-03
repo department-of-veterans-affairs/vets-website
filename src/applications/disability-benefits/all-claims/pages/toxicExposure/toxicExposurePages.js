@@ -1,4 +1,5 @@
 import {
+  additionalExposuresDetails,
   gulfWar1990Locations,
   toxicExposureConditions,
   gulfWar1990Details,
@@ -6,13 +7,17 @@ import {
   gulfWar2001Locations,
   gulfWar2001Details,
   gulfWar2001Summary,
+  additionalExposures,
   herbicideLocations,
   herbicideDetails,
   herbicideOtherLocations,
   herbicideSummary,
+  specifyOtherExposures,
+  additionalExposuresSummary,
 } from '..';
 import { TE_URL_PREFIX } from '../../constants';
 import {
+  additionalExposuresPageTitle,
   conditionsPageTitle,
   getOtherFieldDescription,
   getSelectedCount,
@@ -80,6 +85,7 @@ export const toxicExposurePages = {
       ),
     path: `${TE_URL_PREFIX}/herbicide-location-other`,
     depends: formData =>
+      isClaimingTECondition(formData) &&
       getOtherFieldDescription(formData, 'otherHerbicideLocations'),
     uiSchema: herbicideOtherLocations.uiSchema,
     schema: herbicideOtherLocations.schema,
@@ -91,5 +97,36 @@ export const toxicExposurePages = {
       showSummaryPage(formData, 'herbicide', 'otherHerbicideLocations'),
     uiSchema: herbicideSummary.uiSchema,
     schema: herbicideSummary.schema,
+  },
+  additionalExposures: {
+    title: additionalExposuresPageTitle,
+    path: `${TE_URL_PREFIX}/additional-exposures`,
+    depends: formData => isClaimingTECondition(formData),
+    uiSchema: additionalExposures.uiSchema,
+    schema: additionalExposures.schema,
+  },
+  ...additionalExposuresDetails.makePages(),
+  specifyOtherExposures: {
+    title: formData =>
+      teSubtitle(
+        getSelectedCount('otherExposures', formData, 'specifyOtherExposures'),
+        getSelectedCount('otherExposures', formData, 'specifyOtherExposures'),
+        getOtherFieldDescription(formData, 'specifyOtherExposures'),
+        'Hazard',
+      ),
+    path: `${TE_URL_PREFIX}/additional-exposure-other`,
+    depends: formData =>
+      isClaimingTECondition(formData) &&
+      getOtherFieldDescription(formData, 'specifyOtherExposures'),
+    uiSchema: specifyOtherExposures.uiSchema,
+    schema: specifyOtherExposures.schema,
+  },
+  additionalExposuresSummary: {
+    title: 'Summary of Other toxic exposures',
+    path: `${TE_URL_PREFIX}/additional-exposure-summary`,
+    depends: formData =>
+      showSummaryPage(formData, 'otherExposures', 'specifyOtherExposures'),
+    uiSchema: additionalExposuresSummary.uiSchema,
+    schema: additionalExposuresSummary.schema,
   },
 };

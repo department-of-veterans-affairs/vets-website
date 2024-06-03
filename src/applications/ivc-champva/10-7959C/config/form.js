@@ -13,6 +13,7 @@ import {
   applicantSsnSchema,
   applicantAddressInfoSchema,
   applicantContactInfoSchema,
+  applicantGenderSchema,
   blankSchema,
 } from '../chapters/applicantInformation';
 
@@ -41,6 +42,7 @@ import {
 } from '../chapters/healthInsuranceInformation';
 
 // import mockdata from '../tests/e2e/fixtures/data/test-data.json';
+import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import SupportingDocumentsPage from '../components/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../components/MissingFileConsentPage';
@@ -68,6 +70,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   showReviewErrors: !environment.isProduction(),
+  footerContent: GetFormHelp,
   formId: '10-7959C',
   dev: {
     showNavLinks: false,
@@ -107,7 +110,7 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     applicantInformation: {
-      title: 'Applicant information',
+      title: 'Beneficiary information',
       pages: {
         applicantNameDob: {
           path: 'applicant-info',
@@ -117,12 +120,23 @@ const formConfig = {
         applicantIdentity: {
           path: 'applicant-identification-info',
           title: formData =>
-            `${nameWording(formData)} identification information`,
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} identification information`,
           ...applicantSsnSchema,
         },
         applicantAddressInfo: {
           path: 'applicant-mailing-address',
-          title: formData => `${nameWording(formData)} mailing address`,
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} mailing address`,
           ...applicantAddressInfoSchema,
         },
 
@@ -134,8 +148,25 @@ const formConfig = {
         // is under age 18 (contact page)
         applicantContactInfo: {
           path: 'applicant-contact-info',
-          title: formData => `${nameWording(formData)} contact information`,
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} contact information`,
           ...applicantContactInfoSchema,
+        },
+        applicantGender: {
+          path: 'applicant-gender',
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} sex listed at birth`,
+          ...applicantGenderSchema,
         },
       },
     },
@@ -237,16 +268,18 @@ const formConfig = {
           path: 'insurance-prescription',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${nameWording(formData, undefined, undefined, true)} ${
               formData.applicantPrimaryProvider
             } prescription coverage`,
           ...applicantInsurancePrescriptionSchema(true),
         },
         primaryEOB: {
           path: 'insurance-eob',
-          depends: formData => get('applicantHasPrimary', formData),
+          depends: formData =>
+            get('applicantHasPrimary', formData) &&
+            get('applicantPrimaryHasPrescription', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${nameWording(formData, undefined, undefined, true)} ${
               formData.applicantPrimaryProvider
             } explanation of benefits`,
           ...applicantInsuranceEOBSchema(true),
@@ -255,7 +288,8 @@ const formConfig = {
           path: 'insurance-sob',
           depends: formData =>
             get('applicantHasPrimary', formData) &&
-            get('applicantPrimaryEOB', formData) === 'noEob',
+            get('applicantPrimaryHasPrescription', formData) &&
+            !get('applicantPrimaryEOB', formData),
           title: formData =>
             `${nameWording(formData)} ${
               formData.applicantPrimaryProvider
@@ -328,16 +362,18 @@ const formConfig = {
           path: 'secondary-insurance-prescription',
           depends: formData => get('applicantHasSecondary', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${nameWording(formData, undefined, undefined, true)} ${
               formData.applicantSecondaryProvider
-            } secondary prescription coverage`,
+            } prescription coverage`,
           ...applicantInsurancePrescriptionSchema(false),
         },
         secondaryEOB: {
           path: 'secondary-insurance-eob',
-          depends: formData => get('applicantHasSecondary', formData),
+          depends: formData =>
+            get('applicantHasSecondary', formData) &&
+            get('applicantSecondaryHasPrescription', formData),
           title: formData =>
-            `${nameWording(formData)} ${
+            `${nameWording(formData, undefined, undefined, true)} ${
               formData.applicantSecondaryProvider
             } explanation of benefits`,
           ...applicantInsuranceEOBSchema(false),
@@ -346,7 +382,8 @@ const formConfig = {
           path: 'secondary-insurance-sob',
           depends: formData =>
             get('applicantHasSecondary', formData) &&
-            get('applicantSecondaryEOB', formData) === 'noEob',
+            get('applicantSecondaryHasPrescription', formData) &&
+            !get('applicantSecondaryEOB', formData),
           title: formData =>
             `${nameWording(formData)} ${
               formData.applicantSecondaryProvider

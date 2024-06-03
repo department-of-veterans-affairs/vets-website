@@ -178,7 +178,7 @@ export const isSameMonth = (date1, date2) => {
   return month1 === month2 && year1 === year2;
 };
 
-const getEndOfMonth = (year, month) => {
+export const getEndOfMonth = (year, month) => {
   return new Date(year, month, 0).getDate(); // Last day of the month
 };
 
