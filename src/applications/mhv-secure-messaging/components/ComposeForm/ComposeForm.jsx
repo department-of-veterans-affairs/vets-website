@@ -205,7 +205,11 @@ const ComposeForm = props => {
       if (sendMessageFlag && isSaving !== true) {
         const messageData = {
           category,
-          body: messageBody,
+          body: `${messageBody} ${
+            digitalSignature
+              ? `\n\ndigital signature for ROI request\n${digitalSignature}`
+              : ``
+          }`,
           subject,
         };
         messageData[`${'draft_id'}`] = draft?.messageId;
@@ -499,6 +503,7 @@ const ComposeForm = props => {
       setIsSignatureRequired(true);
     } else if (isSignatureRequired) {
       setIsSignatureRequired(false);
+      setDigitalSignature('');
     }
     if (recipient.id !== '0') {
       if (recipient.id) setRecipientError('');
