@@ -311,11 +311,17 @@ export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
         console.log('enter data for this disability', disability);
         // if not first index
         // click the add another condition button
+        if (index > 0) {
+          cy.findByText(/add another condition/i).click();
+        }
 
         // click on input
         // enterData() condition name into input
+        cy.get('#inputField').type(disability.condition);
         // click on first suggestion
+        cy.get('.cc-combobox__option cc-combobox__option--free').click();
         // click save
+        cy.findByText(/save/i, { selector: 'button' }).click();
       });
     });
   },
