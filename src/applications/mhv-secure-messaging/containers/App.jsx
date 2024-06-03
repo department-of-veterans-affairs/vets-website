@@ -27,7 +27,6 @@ import { Actions } from '../util/actionTypes';
 import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ isPilot }) => {
-  localStorage.setItem('hasSession', true);
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const userServices = user.profile.services; // mhv_messaging_policy.rb defines if messaging service is avaialble when a user is in Premium status upon structuring user services from the user profile in services.rb
