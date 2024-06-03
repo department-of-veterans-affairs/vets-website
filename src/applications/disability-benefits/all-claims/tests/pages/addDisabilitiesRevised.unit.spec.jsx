@@ -3,9 +3,11 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import set from 'platform/utilities/data/set';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 import { SHOW_REVISED_ADD_DISABILITIES_PAGE } from '../../constants';
+import { updateFormData } from '../../pages/addDisabilitiesRevised';
 
 import { showRevisedNewDisabilitiesPage } from '../../content/addDisabilities';
 
@@ -186,6 +188,68 @@ describe('showRevisedNewDisabilitiesPage', () => {
     it('should return true if the toggle is enabled', () => {
       const formData = {};
       expect(showRevisedNewDisabilitiesPage(formData)).to.be.true;
+    });
+  });
+
+  describe('updateFormData', () => {
+    // It's a function just to make sure we're not mutating it anywhere along the way
+    const oldData = () => ({
+      newDisabilities: [{ condition: 'Something with-hyphens and ALLCAPS' }],
+      vaTreatmentFacilities: [
+        {
+          treatedDisabilityNames: {
+            somethingwithhyphensandallcaps: true,
+          },
+        },
+      ],
+      'view:isPow': {
+        powDisabilities: { somethingwithhyphensandallcaps: true },
+      },
+    });
+
+    describe('should return unmodified newData', () => {
+      it("if oldData.newDisabilities doesn't exist", () => {
+        const newData = { newDisabilities: ['foo'] };
+        expect(updateFormData({}, newData)).to.deep.equal(newData);
+      });
+      it("if newData.newDisabilities doesn't exist", () => {
+        const newData = {};
+        expect(updateFormData(oldData(), newData)).to.deep.equal(newData);
+      });
+      it('if no disabilities changed', () => {
+        const old = oldData();
+        expect(updateFormData(old, old)).to.deep.equal(old);
+      });
+    });
+
+    it('should not modify oldData', () => {
+      const old = oldData();
+      updateFormData(
+        old,
+        set('newDisabilities[1]', { condition: 'Something else' }, oldData()),
+      );
+      expect(old).to.deep.equal(oldData());
+    });
+
+    it('should change the property name in treatedDisabilityNames and powDisabilities when a disability name is changed', () => {
+      const newData = set(
+        'newDisabilities[0].condition',
+        'Foo-with EXTRAz',
+        oldData(),
+      );
+      const result = updateFormData(oldData(), newData);
+      expect(
+        result.vaTreatmentFacilities[0].treatedDisabilityNames.foowithextraz,
+      ).to.be.true;
+      expect(result['view:isPow'].powDisabilities.foowithextraz).to.be.true;
+    });
+
+    it('should remove a deleted disability from treatedDisabilityNames and powDisabilities', () => {
+      const newData = Object.assign(oldData(), { newDisabilities: [] });
+      const result = updateFormData(oldData(), newData);
+      expect(result.vaTreatmentFacilities[0].treatedDisabilityNames).to.be
+        .empty;
+      expect(result['view:isPow'].powDisabilities).to.be.empty;
     });
   });
 });
