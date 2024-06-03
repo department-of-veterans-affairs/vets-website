@@ -1,6 +1,8 @@
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
+// ToDo: update the shared-variables import when the import for "~@department-of-veterans-affairs/formation/sass/utilities/color" is updated. 
+// The color import requires variables that are not included in the css-library version of variables
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/formation/sass/utilities/color";
 @import "../../../platform/forms/sass/m-schemaform";
 

@@ -1,6 +1,8 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/formation-overrides/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 @import "partials/gi-vet-tec";
 @import "partials/gi-preview-banner";
 @import "partials/gi-autocomplete";
@@ -40,7 +42,7 @@
     a {
       // background-image: none;
       text-align: center;
-      font-family: $font-sans;
+      font-family: $font-family-sans;
       font-size: 0.850rem;
       line-height: 2.5rem;
       margin-right: 1.5625rem;
