@@ -1,13 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../constants';
+import {
+  selectUserProfile,
+  selectUserIsLoading,
+} from '../../../../selectors/user';
 
-const testProfile = null;
-// const testProfile = { firstName: 'James', lastName: 'Smith' };
+const generateUniqueId = () =>
+  `account-menu-${Math.random()
+    .toString(36)
+    .substr(2, 9)}`;
 
-const UserNav = ({ isMobile, isLoading = false, profile = testProfile }) => {
-  let content = null;
+const UserNav = ({ isMobile }) => {
+  const profile = useSelector(selectUserProfile);
+  const isLoading = useSelector(selectUserIsLoading);
+  const uniqueId = useRef(generateUniqueId());
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -36,6 +44,7 @@ const UserNav = ({ isMobile, isLoading = false, profile = testProfile }) => {
     [isDropdownOpen],
   );
 
+  let content;
   if (isLoading) {
     content = (
       <div className="loading-icon-container">
@@ -74,7 +83,7 @@ const UserNav = ({ isMobile, isLoading = false, profile = testProfile }) => {
         <button
           data-testid="user-nav-dropdown-panel-button"
           className="sign-in-drop-down-panel-button va-btn-withicon va-dropdown-trigger"
-          aria-controls="account-menu"
+          aria-controls={uniqueId.current}
           aria-expanded={isDropdownOpen}
           onClick={toggleDropdown}
           type="button"
@@ -98,13 +107,15 @@ const UserNav = ({ isMobile, isLoading = false, profile = testProfile }) => {
               data-dd-privacy="mask"
               data-dd-action-name="First Name"
             >
-              {`${profile.firstName}${isMobile ? '' : ` ${profile.lastName}`}`}
+              {`${profile.first_name}${
+                isMobile ? '' : ` ${profile.last_name}`
+              }`}
             </div>
           </span>
         </button>
         <div
           className={`va-dropdown-panel ${isDropdownOpen ? '' : 'hidden'}`}
-          id="account-menu"
+          id={uniqueId.current}
         >
           <ul>
             <li>

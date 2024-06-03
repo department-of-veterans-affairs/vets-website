@@ -8,13 +8,12 @@ export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE';
 export function fetchUser() {
   return async dispatch => {
     dispatch({ type: FETCH_USER });
-
     try {
       const response = await apiRequest(
         `${environment.API_URL}/accredited_representative_portal/v0/user`,
         {
           method: 'GET',
-          // credentials: 'include', // may need?
+          // credentials: 'include', // TODOARF: Do we need this?
           headers: {
             'Content-Type': 'application/json',
           },

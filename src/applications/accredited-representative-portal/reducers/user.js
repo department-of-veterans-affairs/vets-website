@@ -6,9 +6,10 @@ import {
 
 const initialState = {
   isLoading: true,
-  profile: {},
+  profile: null,
+  error: null,
 };
-export default function ArfUserInformation(state = initialState, action) {
+export default function arfUserReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_USER:
       return {
@@ -17,13 +18,16 @@ export default function ArfUserInformation(state = initialState, action) {
       };
     case FETCH_USER_SUCCESS:
       return {
+        ...state,
         isLoading: false,
         profile: action.payload,
       };
     case FETCH_USER_FAILURE:
       return {
+        ...state,
         isLoading: false,
         profile: null,
+        error: action.error || 'Unknown error',
       };
     default:
       return state;
