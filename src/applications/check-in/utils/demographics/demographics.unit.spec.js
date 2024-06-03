@@ -1,9 +1,33 @@
 import { expect } from 'chai';
 
-import { getDemographicsStatuses } from './index';
+import { getDemographicsStatuses, isDemographicsUpToDate } from './index';
 
 describe('Utils', () => {
   describe('demographics utils', () => {
+    describe('isDemographicsUpToDate', () => {
+      it('returns true when all demographics are up to date', () => {
+        const patientDemographicsStatus = {
+          demographicsNeedsUpdate: false,
+          demographicsConfirmedAt: new Date().toISOString(),
+          nextOfKinNeedsUpdate: false,
+          nextOfKinConfirmedAt: new Date().toISOString(),
+          emergencyContactNeedsUpdate: false,
+          emergencyContactConfirmedAt: new Date().toISOString(),
+        };
+        expect(isDemographicsUpToDate(patientDemographicsStatus)).to.be.true;
+      });
+      it('returns false when not all are not up to date', () => {
+        const patientDemographicsStatus = {
+          demographicsNeedsUpdate: true,
+          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
+          nextOfKinNeedsUpdate: false,
+          nextOfKinConfirmedAt: new Date().toISOString(),
+          emergencyContactNeedsUpdate: false,
+          emergencyContactConfirmedAt: new Date().toISOString(),
+        };
+        expect(isDemographicsUpToDate(patientDemographicsStatus)).to.be.false;
+      });
+    });
     describe('getDemographicsStatuses', () => {
       it('returns an object with the correct key value pairs with valid values', () => {
         const patientDemographicsStatus = {

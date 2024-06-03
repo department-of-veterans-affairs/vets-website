@@ -9,7 +9,6 @@ import { createAnalyticsSlug } from '../utils/analytics';
 import AppointmentListItem from './AppointmentDisplay/AppointmentListItem';
 import { makeSelectApp } from '../selectors';
 import { useFormRouting } from '../hooks/useFormRouting';
-import { APP_NAMES } from '../utils/appConstants';
 import {
   getAppointmentId,
   sortAppointmentsByStartTime,
@@ -35,11 +34,9 @@ const AppointmentBlock = props => {
 
   return (
     <div>
-      {app === APP_NAMES.CHECK_IN && (
-        <p className="vads-u-font-family--serif" data-testid="date-text">
-          {t('here-are-your-appointments-for-today', { date: new Date() })}
-        </p>
-      )}
+      <h2 className="vads-u-margin-top--0" data-testid="appointment-text">
+        {t('your-appointments', { count: sortedAppointments.length })}
+      </h2>
       <ul
         className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
         data-testid="appointment-list"
