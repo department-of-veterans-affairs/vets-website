@@ -2,12 +2,13 @@ import manifest from '../../manifest.json';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import FolderLoadPage from './pages/FolderLoadPage';
 import { AXE_CONTEXT } from './utils/constants';
+import PatientInboxPage from './pages/PatientInboxPage';
 
 describe(manifest.appName, () => {
   beforeEach(() => {
     const site = new SecureMessagingSite();
     site.login();
-    FolderLoadPage.loadInboxMessages();
+    PatientInboxPage.loadInboxMessages();
   });
 
   it('Check the Inbox folder', () => {

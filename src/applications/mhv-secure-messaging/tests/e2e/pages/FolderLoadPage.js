@@ -4,6 +4,7 @@ import mockFolders from '../fixtures/folder-response.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import { Data, Assertions, Locators, Paths } from '../utils/constants';
+import PatientInboxPage from './PatientInboxPage';
 
 class FolderLoadPage {
   foldersSetup = () => {
@@ -28,6 +29,7 @@ class FolderLoadPage {
 
   loadFolderMessages = (folderName, folderNumber, folderResponseIndex) => {
     this.foldersSetup();
+    PatientInboxPage.selectFolder();
     cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderNumber}*`, {
       data: mockFolders.data[folderResponseIndex],
     }).as('folderMetaData');
@@ -37,7 +39,7 @@ class FolderLoadPage {
       mockMessages,
     ).as('folderThreadResponse');
 
-    cy.get(`[data-testid="${folderName}-sidebar"]`).click();
+    cy.get(`[data-testid=${folderName}]>a`).click({ force: true });
     cy.wait('@folderMetaData');
     cy.wait('@folderThreadResponse');
     cy.wait('@featureToggle');
@@ -45,19 +47,19 @@ class FolderLoadPage {
   };
 
   loadInboxMessages = () => {
-    this.loadFolderMessages('inbox', 0, 0);
+    this.loadFolderMessages('Inbox', 0, 0);
   };
 
   loadDraftMessages = () => {
-    this.loadFolderMessages('drafts', -2, 1);
+    this.loadFolderMessages('Drafts', -2, 1);
   };
 
   loadSentMessages = () => {
-    this.loadFolderMessages('sent', -1, 2);
+    this.loadFolderMessages('Sent', -1, 2);
   };
 
   loadDeletedMessages = () => {
-    this.loadFolderMessages('trash', -3, 3);
+    this.loadFolderMessages('Deleted', -3, 3);
   };
 
   verifyFolderHeaderText = text => {

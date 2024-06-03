@@ -6,9 +6,7 @@ describe('Secure Messaging Inbox Message Sort', () => {
   beforeEach(() => {
     const site = new SecureMessagingSite();
     site.login();
-    cy.reload(true);
     PatientInboxPage.loadInboxMessages();
-    cy.get(Locators.ALERTS.LIST_HEADER);
   });
   it('Sort Inbox Messages from Newest to Oldest', () => {
     cy.get(Locators.DROPDOWN)
@@ -16,13 +14,7 @@ describe('Secure Messaging Inbox Message Sort', () => {
       .find('select')
       .should('contain', 'Newest');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('Sort Inbox Messages from Oldest to Newest', () => {
@@ -52,9 +44,5 @@ describe('Secure Messaging Inbox Message Sort', () => {
       .should('contain', 'Z to A');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-  });
-
-  afterEach(() => {
-    cy.get(Locators.BUTTONS.SORT).click({ force: true });
   });
 });
