@@ -2,7 +2,7 @@ import '../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../tests/e2e/pages/ValidateVeteran';
-import AppointmentsPage from '../../../tests/e2e/pages/AppointmentsPage';
+import Confirmation from './pages/Confirmation';
 
 describe('Check In Experience | Pre-check-in', () => {
   describe('A patent who does not need to confirm demographics', () => {
@@ -23,7 +23,7 @@ describe('Check In Experience | Pre-check-in', () => {
       initializeUpcomingAppointmentsDataGet.withSuccess();
       cy.visitPreCheckInWithUUID();
     });
-    it('should end on the appointment list page and see the pre-check-in success message', () => {
+    it('should be redirected to the complete page and see the pre-check-in complete message', () => {
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       cy.wait('@post-pre_check_ins-success')
@@ -32,8 +32,8 @@ describe('Check In Experience | Pre-check-in', () => {
           uuid: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
           checkInType: 'preCheckIn',
         });
-      AppointmentsPage.validatePageLoaded();
-      AppointmentsPage.validatePreCheckInSuccessAlert();
+      Confirmation.validatePageLoaded();
+      Confirmation.validatePageContent();
       cy.injectAxeThenAxeCheck();
     });
   });
