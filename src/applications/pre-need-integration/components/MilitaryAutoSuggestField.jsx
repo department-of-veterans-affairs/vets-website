@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Downshift from 'downshift';
 
-function MilitaryAutoSuggest({ value, setValue, labels, onSelectionChange }) {
+function MilitaryAutoSuggest({
+  value,
+  setValue,
+  labels,
+  onSelectionChange,
+  maxItems = 500,
+}) {
   const [inputValue, setInputValue] = useState('');
 
   const formatValue = valueText =>
@@ -68,6 +74,7 @@ function MilitaryAutoSuggest({ value, setValue, labels, onSelectionChange }) {
                 }))
                 .filter(item => item.score > 0)
                 .sort((a, b) => b.score - a.score)
+                .slice(0, maxItems)
                 .map((item, index) => (
                   <div
                     key={item.index}

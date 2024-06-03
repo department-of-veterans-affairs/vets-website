@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -23,22 +23,14 @@ function HighestRankAutoSuggest({ formData, idSchema }) {
       ? valueText.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())
       : '';
 
-  const memoizedRanks = useMemo(() => {
-    const rankMap = new Map();
-    jsonData.forEach(row => {
-      const branch = row['Branch Of Service Code'];
-      if (!rankMap.has(branch)) {
-        rankMap.set(branch, []);
-      }
-      rankMap.get(branch).push({
+  const getRanksForBranch = branch => {
+    return jsonData
+      .filter(row => row['Branch Of Service Code'] === branch)
+      .map(row => ({
         key: row['Rank Code'],
         value: row['Rank Description'] || row['Rank Code'],
-      });
-    });
-    return rankMap;
-  }, []);
-
-  const getRanksForBranch = branch => memoizedRanks.get(branch) || [];
+      }));
+  };
 
   const haveOptionsChanged = (currentOptions, newOptions) => {
     if (currentOptions.length !== newOptions.length) return true;
@@ -82,7 +74,7 @@ function HighestRankAutoSuggest({ formData, idSchema }) {
         const newRankOptions = getRanksForBranch(branchOfService);
         if (haveOptionsChanged(rankOptions, newRankOptions)) {
           if (!initialRender) {
-            setRank(' ');
+            setRank('');
           } else {
             setInitialRender(false);
           }
