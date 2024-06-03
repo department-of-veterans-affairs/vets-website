@@ -12,6 +12,10 @@ const generateFeatureToggles = (toggles = {}) => {
       type: 'feature_toggles',
       features: [
         {
+          name: 'mhv-mock-session',
+          value: true,
+        },
+        {
           name: 'mhv_landing_page_enabled',
           value: mhvLandingPageEnabled,
         },
