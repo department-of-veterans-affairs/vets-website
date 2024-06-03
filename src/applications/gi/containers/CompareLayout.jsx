@@ -464,9 +464,9 @@ const CompareLayout = ({
                 <div className="vads-u-display--flex">
                   <div className="caution-flag-icon vads-u-flex--1">
                     {!hasFlags && (
-                      <i className="fa fa-check" style={{ display: 'none' }} />
+                      <va-icon size={4} icon="check" class="display-none" />
                     )}
-                    {hasFlags && <i className="fa fa-exclamation-triangle" />}
+                    {hasFlags && <va-icon size={3} icon="warning" />}
                   </div>
                   <div className="vads-u-flex--4">
                     {!hasFlags && (
