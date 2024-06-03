@@ -10,12 +10,13 @@ describe('Medications Details Page Expired Status DropDown', () => {
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
     const landingPage = new MedicationsLandingPage();
+    const cardNumber = 15;
     site.login();
     landingPage.visitLandingPageURL();
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
-    detailsPage.clickMedicationDetailsLink(expiredRx);
+    detailsPage.clickMedicationDetailsLink(expiredRx, cardNumber);
     detailsPage.clickWhatDoesThisStatusMeanDropDown();
     detailsPage.verifyExpiredStatusDropDownDefinition();
   });
