@@ -81,6 +81,16 @@ export const schema = {
               'cityOfBirth',
               'stateOfBirth',
             ]),
+            {
+              cityOfBirth: {
+                type: 'string',
+                maxLength: 100,
+              },
+              stateOfBirth: {
+                type: 'string',
+                maxLength: 100,
+              },
+            },
           ),
         },
       },
