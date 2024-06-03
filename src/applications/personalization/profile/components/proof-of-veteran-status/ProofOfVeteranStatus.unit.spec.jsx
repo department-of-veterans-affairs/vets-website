@@ -4,7 +4,29 @@ import { renderWithProfileReducers } from '../../tests/unit-test-helpers';
 
 import ProofOfVeteranStatus from './ProofOfVeteranStatus';
 
-function createBasicInitialState(dischargeCode) {
+const eligibleServiceHistoryItem = {
+  branchOfService: 'Air Force',
+  beginDate: '2009-04-12',
+  endDate: '2013-04-11',
+  personnelCategoryTypeCode: 'V',
+  characterOfDischargeCode: 'A',
+};
+const ineligibleServiceHistoryItem = {
+  branchOfService: 'Air Force',
+  beginDate: '2009-04-12',
+  endDate: '2013-04-11',
+  personnelCategoryTypeCode: 'V',
+  characterOfDischargeCode: 'D',
+};
+const neutralServiceHistoryItem = {
+  branchOfService: 'Air Force',
+  beginDate: '2009-04-12',
+  endDate: '2013-04-11',
+  personnelCategoryTypeCode: 'V',
+  characterOfDischargeCode: 'DVN',
+};
+
+function createBasicInitialState(serviceHistory) {
   return {
     user: {
       profile: {
@@ -28,22 +50,7 @@ function createBasicInitialState(dischargeCode) {
       },
       militaryInformation: {
         serviceHistory: {
-          serviceHistory: [
-            {
-              branchOfService: 'Air Force',
-              beginDate: '2009-04-12',
-              endDate: '2013-04-11',
-              personnelCategoryTypeCode: 'V',
-              characterOfDischargeCode: dischargeCode,
-            },
-            {
-              branchOfService: 'Air Force',
-              beginDate: '2005-04-12',
-              endDate: '2009-04-11',
-              personnelCategoryTypeCode: 'A',
-              characterOfDischargeCode: dischargeCode,
-            },
-          ],
+          serviceHistory,
         },
       },
     },
@@ -52,7 +59,7 @@ function createBasicInitialState(dischargeCode) {
 
 describe('ProofOfVeteranStatus', () => {
   describe('when it exists', () => {
-    const initialState = createBasicInitialState('A');
+    const initialState = createBasicInitialState([eligibleServiceHistoryItem]);
 
     it('should render heading', () => {
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
@@ -82,9 +89,28 @@ describe('ProofOfVeteranStatus', () => {
     });
   });
 
+  describe('when eligible', () => {
+    it('should render card if service history contains an eligible discharge despite any other discharges', () => {
+      const initialState = createBasicInitialState([
+        eligibleServiceHistoryItem,
+        ineligibleServiceHistoryItem,
+        neutralServiceHistoryItem,
+      ]);
+      const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
+        initialState,
+      });
+
+      expect(
+        view.queryByAltText(
+          /sample proof of 3 veteran status card featuring name, date of birth, disability rating and period of service/,
+        ),
+      ).to.exist;
+    });
+  });
+
   describe('discharge status problem message', () => {
-    it('should render if discharge status is unknown', () => {
-      const initialState = createBasicInitialState('DVN');
+    it('should render if service history contains neither eligible nor ineligible discharges', () => {
+      const initialState = createBasicInitialState([neutralServiceHistoryItem]);
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
@@ -98,8 +124,11 @@ describe('ProofOfVeteranStatus', () => {
   });
 
   describe('ineligibility message', () => {
-    it('should render if discharge status is dishonorable', () => {
-      const initialState = createBasicInitialState('F');
+    it('should render if service history does not contain an eligible discharge, but does contain an inelible discharge', () => {
+      const initialState = createBasicInitialState([
+        ineligibleServiceHistoryItem,
+        neutralServiceHistoryItem,
+      ]);
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
