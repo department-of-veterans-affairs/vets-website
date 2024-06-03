@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import set from 'platform/utilities/data/set';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -18,14 +18,27 @@ function HighestRankAutoSuggest({ formData, idSchema }) {
     return match ? parseInt(match[1], 10) : 0;
   };
 
-  const filterRanks = branch => {
-    return jsonData
-      .filter(row => row['Branch Of Service Code'] === branch)
-      .map(row => ({
+  const formatValue = valueText =>
+    valueText
+      ? valueText.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())
+      : '';
+
+  const memoizedRanks = useMemo(() => {
+    const rankMap = new Map();
+    jsonData.forEach(row => {
+      const branch = row['Branch Of Service Code'];
+      if (!rankMap.has(branch)) {
+        rankMap.set(branch, []);
+      }
+      rankMap.get(branch).push({
         key: row['Rank Code'],
         value: row['Rank Description'] || row['Rank Code'],
-      }));
-  };
+      });
+    });
+    return rankMap;
+  }, []);
+
+  const getRanksForBranch = branch => memoizedRanks.get(branch) || [];
 
   const haveOptionsChanged = (currentOptions, newOptions) => {
     if (currentOptions.length !== newOptions.length) return true;
@@ -47,7 +60,16 @@ function HighestRankAutoSuggest({ formData, idSchema }) {
         }
         const currentRank = serviceRecords[currentIndex]?.highestRank;
         if (currentRank) {
-          setRank(currentRank);
+          const matchingRank = rankOptions.find(
+            rankOption => rankOption.key === currentRank,
+          );
+          if (matchingRank) {
+            setRank(
+              `${matchingRank.key.toUpperCase()} - ${formatValue(
+                matchingRank.value,
+              )}`,
+            );
+          }
         }
       }
     },
@@ -57,7 +79,7 @@ function HighestRankAutoSuggest({ formData, idSchema }) {
   useEffect(
     () => {
       if (branchOfService) {
-        const newRankOptions = filterRanks(branchOfService);
+        const newRankOptions = getRanksForBranch(branchOfService);
         if (haveOptionsChanged(rankOptions, newRankOptions)) {
           if (!initialRender) {
             setRank(' ');
@@ -72,10 +94,10 @@ function HighestRankAutoSuggest({ formData, idSchema }) {
   );
 
   const handleSelectionChange = selection => {
-    setRank(selection?.label);
+    setRank(`${selection.key.toUpperCase()} - ${formatValue(selection.value)}`);
     const updatedFormData = set(
       `application.veteran.serviceRecords[${index}].highestRank`,
-      selection.value,
+      selection.key,
       { ...formData },
     );
     dispatch(setData(updatedFormData));

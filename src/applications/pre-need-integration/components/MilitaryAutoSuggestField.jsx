@@ -12,7 +12,7 @@ function MilitaryAutoSuggest({ value, setValue, labels, onSelectionChange }) {
   useEffect(
     () => {
       if (value) {
-        setInputValue(formatValue(value));
+        setInputValue(value);
       }
     },
     [value],
@@ -24,7 +24,7 @@ function MilitaryAutoSuggest({ value, setValue, labels, onSelectionChange }) {
     if (!input || !labelValue) return 0;
 
     const normalizedInput = input.toLowerCase();
-    const label = labelValue.value || labelValue.key;
+    const label = `${labelValue.key} - ${labelValue.value}`;
     const normalizedLabel = label ? label.toLowerCase() : '';
     let score = normalizedLabel.startsWith(normalizedInput) ? 10000 : 0;
 
@@ -40,7 +40,9 @@ function MilitaryAutoSuggest({ value, setValue, labels, onSelectionChange }) {
   return (
     <Downshift
       onChange={selection => {
-        setValue(selection);
+        setValue(
+          `${selection.key.toUpperCase()} - ${formatValue(selection.value)}`,
+        );
         onSelectionChange(selection);
       }}
       itemToString={itemToString}
@@ -78,7 +80,7 @@ function MilitaryAutoSuggest({ value, setValue, labels, onSelectionChange }) {
                           : 'autosuggest-item',
                     })}
                   >
-                    {formatValue(item.label.value) || item.label.key}
+                    {`${item.label.key} - ${formatValue(item.label.value)}`}
                   </div>
                 ))}
             </div>

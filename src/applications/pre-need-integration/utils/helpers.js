@@ -1048,8 +1048,6 @@ export const validateMilitaryHistory = (errors, serviceRecords) => {
       );
     }
   }
-
-  // errors.addError('Select a branch of service before selecting your highest rank attained.');
 };
 
 export const selfServiceRecordsUI = {
