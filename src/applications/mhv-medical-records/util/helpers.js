@@ -290,12 +290,11 @@ export const getActiveLinksStyle = (linkPath, currentPath) => {
 export const parseDate = str => {
   const yearRegex = /^\d{4}$/;
   const monthRegex = /^\d{4}-\d{2}$/;
-  const [year, month] = str.split('-').map(Number);
-
   if (yearRegex.test(str)) {
     return str;
   }
   if (monthRegex.test(str)) {
+    const [year, month] = str.split('-').map(Number);
     const monthNames = [
       'January',
       'February',
