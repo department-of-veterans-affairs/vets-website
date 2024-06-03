@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
-  dateRangeDescription,
+  dateRangeDescriptionWithLocation,
   dateRangePageDescription,
   datesDescription,
   getKeyIndex,
@@ -359,14 +359,14 @@ describe('toxicExposure', () => {
   describe('dateRangePageDescription', () => {
     it('displays description when counts specified', () => {
       const tree = render(dateRangePageDescription(1, 5, 'Egypt'));
-      tree.getByText('1 of 5: Egypt', { exact: false });
-      tree.getByText(dateRangeDescription);
+      tree.getByText('Location 1 of 5: Egypt', { exact: false });
+      tree.getByText(dateRangeDescriptionWithLocation);
     });
 
     it('displays description when counts not specified', () => {
       const tree = render(dateRangePageDescription(0, 0, 'Egypt'));
       tree.getByText('Egypt');
-      tree.getByText(dateRangeDescription);
+      tree.getByText(dateRangeDescriptionWithLocation);
     });
   });
 

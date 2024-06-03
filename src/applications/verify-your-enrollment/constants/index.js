@@ -5,7 +5,7 @@ import Alert from '../components/Alert';
 
 export const BASE_URL = `${manifest.rootUrl}/`;
 export const BENEFITS_PROFILE_URL_SEGMENT = 'benefits-profile';
-export const VERIFICATION_REVIEW_URL_SEGMENT = 'verification-review';
+export const VERIFICATION_REVIEW_URL_SEGMENT = 'verify-information';
 export const VERIFICATION_PROFILE_URL = BASE_URL;
 export const VERIFICATION_RELATIVE_URL = `/`;
 

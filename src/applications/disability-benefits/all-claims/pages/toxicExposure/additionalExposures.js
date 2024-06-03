@@ -4,24 +4,26 @@ import {
   textareaUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
-  herbicidePageTitle,
-  herbicideQuestion,
+  additionalExposuresQuestion,
+  additionalExposuresPageTitle,
+  specifyOtherExposuresLabel,
   validateSelections,
 } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
-import { HERBICIDE_LOCATIONS } from '../../constants';
+import { ADDITIONAL_EXPOSURES } from '../../constants';
 
+/** @type {PageSchema} */
 export const uiSchema = {
-  'ui:title': formTitle(herbicidePageTitle),
+  'ui:title': formTitle(additionalExposuresPageTitle),
   toxicExposure: {
-    herbicide: checkboxGroupUI({
-      title: herbicideQuestion,
-      labels: HERBICIDE_LOCATIONS,
+    otherExposures: checkboxGroupUI({
+      title: additionalExposuresQuestion,
+      labels: ADDITIONAL_EXPOSURES,
       required: false,
     }),
-    otherHerbicideLocations: {
+    specifyOtherExposures: {
       description: textareaUI({
-        title: 'Other locations not listed here (250 characters maximum)',
+        title: specifyOtherExposuresLabel,
       }),
     },
   },
@@ -31,8 +33,9 @@ export const uiSchema = {
         validateSelections(
           errors,
           formData,
-          'herbicide',
-          'otherHerbicideLocations',
+          'otherExposures',
+          'specifyOtherExposures',
+          'hazards',
         );
       },
     },
@@ -45,8 +48,8 @@ export const schema = {
     toxicExposure: {
       type: 'object',
       properties: {
-        herbicide: checkboxGroupSchema(Object.keys(HERBICIDE_LOCATIONS)),
-        otherHerbicideLocations: {
+        otherExposures: checkboxGroupSchema(Object.keys(ADDITIONAL_EXPOSURES)),
+        specifyOtherExposures: {
           type: 'object',
           properties: {
             description: {
