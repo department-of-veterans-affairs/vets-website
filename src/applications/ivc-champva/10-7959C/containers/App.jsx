@@ -23,10 +23,7 @@ const breadcrumbList = [
 export default function App({ location, children }) {
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <VaBreadcrumbs
-        breadcrumbList={breadcrumbList}
-        homeVeteransAffairs={false}
-      />
+      <VaBreadcrumbs breadcrumbList={breadcrumbList} />
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
