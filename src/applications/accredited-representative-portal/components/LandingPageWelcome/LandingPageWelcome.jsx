@@ -34,6 +34,7 @@ const LandingPageWelcome = ({ firstName, children }) => (
 );
 
 LandingPageWelcome.propTypes = {
+  children: PropTypes.node,
   firstName: PropTypes.string,
 };
 

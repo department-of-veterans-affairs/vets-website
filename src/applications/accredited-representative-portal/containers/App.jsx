@@ -5,13 +5,12 @@ import { Outlet } from 'react-router-dom-v5-compat';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { fetchUser } from '../actions/user';
-import { selectUserProfile, selectUserIsLoading } from '../selectors/user';
+import { selectUserIsLoading } from '../selectors/user';
 import Header from '../components/common/Header/Header';
 import Footer from '../components/common/Footer/Footer';
 
 function App() {
   const dispatch = useDispatch();
-  const profile = useSelector(selectUserProfile);
   const isLoading = useSelector(selectUserIsLoading);
 
   useEffect(
