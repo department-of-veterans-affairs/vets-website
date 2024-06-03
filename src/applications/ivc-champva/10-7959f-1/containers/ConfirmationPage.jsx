@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
@@ -30,10 +31,12 @@ export class ConfirmationPage extends React.Component {
             Register for the Foreign Medical Program (FMP) with Form 10-7959f-1
           </h2>
         </div>
-        <h2 className="vads-u-font-size--h3">
-          You've submitted your registration for FMP (VA Form 10-7959f-1)
-        </h2>
-        <p>We may contact you for more information or documents.</p>
+        <VaAlert uswds status="success">
+          <h2 className="vads-u-font-size--h3">
+            You've submitted your registration for FMP (VA Form 10-7959f-1)
+          </h2>
+        </VaAlert>
+
         <div className="inset">
           <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
             Your submission information
@@ -45,13 +48,6 @@ export class ConfirmationPage extends React.Component {
               {data.statementOfTruthSignature}
               <br />
             </p>
-          )}
-          {data.statementOfTruthSignature && (
-            <span className="veterans-full-name">
-              <strong>Confirmation number</strong>
-              <br />
-              {form.submission?.response?.confirmationNumber || ''}
-            </span>
           )}
           {isValid(submitDate) && (
             <p>
@@ -71,12 +67,12 @@ export class ConfirmationPage extends React.Component {
             onClick={window.print}
           />
         </div>
-        <h2>What happpens now?</h2>
+        <h2>What happpens next</h2>
         <p>
-          If you're eligible to register for RMP, we'll send you a benefits
-          authorization letter. This letter will list your service-connected
-          conditions that we'll cover. Then you can file FMP claims for care
-          related to the covered conditions.{' '}
+          We'll review your eligibility for the FMP and send you a notification
+          letter. If your registration is approved, the letter will list all of
+          your covered service-connected conditions. In the meantime, you are
+          also able to file claims to the FMP for care received abroad.
         </p>
         <div>
           <a className="vads-c-action-link--green" href="https://www.va.gov/">
