@@ -140,7 +140,7 @@ const CheckInConfirmation = props => {
             {t('tell-a-staff-member-if-you-wait')}
           </p>
         </div>
-        <h2 className="vads-u-font-family--serif">{t('your-appointment')}</h2>
+        <h2>{t('your-appointments', { count: 1 })}</h2>
         <ul
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
           data-testid="appointment-list"
