@@ -31,7 +31,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
         ...initialState.featureToggles,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
         vaOnlineSchedulingVAOSServiceCCAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
       },
     };
     const now = moment();
