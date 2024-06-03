@@ -1,5 +1,6 @@
+import * as Sentry from '@sentry/browser';
 import { DEBT_TYPES } from '../constants';
-import { getMonthlyIncome, safeNumber } from './calculateIncome';
+import { getCalculatedMonthlyIncomeApi, safeNumber } from './calculateIncome';
 import { getTotalAssets } from './helpers';
 
 const VHA_LIMIT = 5000;
@@ -92,9 +93,32 @@ export const isStreamlinedLongForm = formData => {
  * @param {object} formData - all formData
  * @returns {number} Total yearly income
  */
-export const calculateTotalAnnualIncome = formData => {
-  const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
-  return totalMonthlyNetIncome * 12;
+export const calculateTotalAnnualIncome = async formData => {
+  try {
+    const response = await getCalculatedMonthlyIncomeApi(formData);
+
+    if (!response)
+      throw new Error(
+        'No response from getCalculatedMonthlyIncomeApi in calculateTotalAnnualIncome',
+      );
+
+    const { totalMonthlyNetIncome } = response;
+
+    if (!totalMonthlyNetIncome)
+      throw new Error(
+        'No value destructured in response from getCalculatedMonthlyIncomeApi calculateTotalAnnualIncome',
+      );
+
+    return totalMonthlyNetIncome * 12;
+  } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(
+        `getCalculatedMonthlyIncomeApi failed in helper: ${error}`,
+      );
+    });
+  }
+  return 0;
 };
 
 /**

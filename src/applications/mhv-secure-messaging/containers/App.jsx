@@ -66,11 +66,14 @@ const App = ({ isPilot }) => {
 
   useEffect(
     () => {
-      dispatch(getScheduledDowntime());
+      const fetchAllData = async () => {
+        dispatch(getScheduledDowntime());
 
-      if (user.login.currentlyLoggedIn) {
-        dispatch(getAllTriageTeamRecipients());
-      }
+        if (user.login.currentlyLoggedIn) {
+          await dispatch(getAllTriageTeamRecipients());
+        }
+      };
+      fetchAllData();
     },
     [user.login.currentlyLoggedIn, dispatch],
   );

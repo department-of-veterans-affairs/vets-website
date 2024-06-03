@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
-import parkedRx from '../fixtures/parked-prescription-details.json';
+
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
 
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
@@ -39,10 +39,50 @@ class MedicationsListPage {
     );
   };
 
+  clickGoToMedicationsLinkWhenNoAllergiesAPICallFails = (
+    waitForMeds = false,
+  ) => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    ).as('medicationsList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      prescriptions,
+    );
+    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
+    if (waitForMeds) {
+      cy.wait('@medicationsList');
+    }
+  };
+
+  clickPrintThisPageOfTheListButtonOnListPage = () => {
+    cy.get('[data-testid="download-print-button"]').should('exist');
+    cy.get('[data-testid="download-print-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  verifyPrintErrorMessageForAllergiesAPICallFail = () => {
+    cy.get('[data-testid="no-medications-list"]').should(
+      'contain',
+      'We can’t print your records right now',
+    );
+  };
+
+  verifyDownloadErrorMessageForAllergiesAPICallFail = () => {
+    cy.get('[data-testid="no-medications-list"]').should(
+      'contain',
+      'We can’t download your records right now',
+    );
+  };
+
   verifyTextInsideDropDownOnListPage = () => {
     cy.get('[data-testid="dropdown-info"]').should(
       'contain',
-      'we’ll include a list of allergies and reactions',
+      'If you’re on a public or shared computer',
     );
   };
 
@@ -215,12 +255,6 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusActiveParked = () => {
     cy.get(
-      `#card-header-${
-        parkedRx.data.id
-      } > [data-testid="medications-history-details-link"]`,
-    ).should('be.visible');
-
-    cy.get(
       '[data-testid="medication-list"] > :nth-child(11) > [data-testid="rx-card-info"] > [data-testid="rxStatus"]',
     )
       // cy.get(':nth-child(5) > .rx-card-detials > [data-testid="rxStatus"]')
@@ -270,11 +304,6 @@ class MedicationsListPage {
 
   verifyInformationBasedOnStatusActiveRefillsLeft = () => {
     cy.get(
-      `[data-testid="rx-card-info"] > #card-header-${
-        activeRxRefills.data.id
-      } > [data-testid="medications-history-details-link"]`,
-    );
-    cy.get(
       '[data-testid="medication-list"] > :nth-child(2) > [data-testid="rx-card-info"] > :nth-child(4)',
     ).should(
       'contain',
@@ -293,9 +322,7 @@ class MedicationsListPage {
 
   verifyNonVAPrescriptionNameOnListPage = () => {
     cy.get(
-      `#card-header-${
-        nonVARx.data.id
-      } > [data-testid="medications-history-details-link"]`,
+      '[data-testid="medication-list"] > :nth-child(5) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
     ).should('contain', `${nonVARx.data.attributes.prescriptionName}`);
   };
 
@@ -443,11 +470,9 @@ class MedicationsListPage {
     );
   };
 
-  verifyDiscontinuedMedicationNameIsVisibleOnListPage = prescriptionDetails => {
+  verifyDiscontinuedMedicationNameIsVisibleOnListPage = () => {
     cy.get(
-      `#card-header-${
-        prescriptionDetails.data.attributes.prescriptionId
-      } > [data-testid="medications-history-details-link"]`,
+      '[data-testid="medication-list"] > :nth-child(6) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]',
     ).should('be.visible');
   };
 

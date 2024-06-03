@@ -29,9 +29,8 @@ const resolveUnreadMessageAriaLabel = unreadMessageCount => {
 const resolveLandingPageLinks = (
   authdWithSSOe = false,
   featureToggles,
-  unreadMessageCount,
   unreadMessageAriaLabel,
-  userHasHealthData = false,
+  registered = false,
 ) => {
   const messagesLinks = resolveLinks(
     [
@@ -227,7 +226,7 @@ const resolveLandingPageLinks = (
   ];
   const hubs = [
     {
-      title: userHasHealthData ? 'My VA health benefits' : 'VA health benefits',
+      title: registered ? 'My VA health benefits' : 'VA health benefits',
       links: myVaHealthBenefitsLinks,
     },
     {

@@ -119,7 +119,7 @@
         "subject": {
           "reference": "Patient/ex-MHV-patient-1"
         },
-        "date": "2022-08-08T16:56:00Z",
+        "date": "2022-08-08T16:56:00-0400",
         "author": [
           {
             "reference": "#ex-MHV-practitioner-36556"
@@ -368,7 +368,7 @@
         "subject": {
           "reference": "Patient/ex-MHV-patient-1"
         },
-        "date": "2022-08-14T16:56:00Z",
+        "date": "2022-08-14T16:56:00-0400",
         "author": [
           {
             "reference": "#ex-MHV-practitioner-36556"
@@ -635,7 +635,7 @@
         "subject": {
         "reference": "Patient/4103"
         },
-        "date": "2024-02-07T12:00:00Z",
+        "date": "2024-02-07T12:00:00-0400",
         "author": [
         {
           "reference": "#Author-0"
@@ -645,7 +645,7 @@
         "extension": [
           {
             "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/noteAuthenticatedWhen",
-            "valueDateTime": "2024-02-07T12:00:00Z"
+            "valueDateTime": "2024-02-07T12:00:00-0400"
           }
         ],
         "reference": "#Provider-1"

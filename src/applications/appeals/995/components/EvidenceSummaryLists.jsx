@@ -89,7 +89,7 @@ export const VaContent = ({
   return list?.length ? (
     <>
       <Header5>{content.vaTitle}</Header5>
-      <ul className="evidence-summary">
+      <ul className="evidence-summary remove-bullets">
         {list.map((location, index) => {
           const { locationAndName, issues = [], evidenceDates = {} } =
             location || {};
@@ -195,7 +195,7 @@ export const PrivateContent = ({
   return list?.length ? (
     <>
       <Header5>{content.privateTitle}</Header5>
-      <ul className="evidence-summary">
+      <ul className="evidence-summary remove-bullets">
         {list.map((facility, index) => {
           const {
             providerFacilityName,
@@ -341,7 +341,7 @@ export const UploadContent = ({
   return list?.length ? (
     <>
       <Header5>{content.otherTitle}</Header5>
-      <ul className="evidence-summary">
+      <ul className="evidence-summary remove-bullets">
         {list.map((upload, index) => {
           const errors = {
             attachmentId: upload.attachmentId

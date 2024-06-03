@@ -2,7 +2,7 @@
   "data": {
     "applicantHasSecondary": false,
     "primaryAdditionalComments": "Primary comments",
-    "primaryMedigapPlan": "medigapPlanD",
+    "primaryMedigapPlan": "D",
     "applicantPrimaryInsuranceType": {
       "medicaid": true,
       "rxDiscount": true,
@@ -15,10 +15,8 @@
     "applicantPrimaryEffectiveDate": "2000-01-01",
     "applicantPrimaryExpirationDate": "2024-01-01",
     "applicantHasPrimary": true,
-    "applicantMedicareStatusContinued": "eligibleNotEnrolled",
     "applicantMedicareStatus": false,
     "applicantPhone": "6661231234",
-    "applicantEmailAddress": "email@email.net",
     "applicantAddress": {
       "country": "USA",
       "street": "123 Avenue Road",
@@ -29,13 +27,10 @@
     "applicantSsn": "222111234",
     "applicantName": {
       "first": "Applicant",
-      "middle": "Jerry",
       "last": "Jones",
       "suffix": "IV"
     },
     "applicantDOB": "1950-01-01",
-    "certifierRole": "applicant",
-    "preparerType": "sponsor",
     "missingUploads": [
       {
         "name": "primaryInsuranceCard",
@@ -45,7 +40,7 @@
       }
     ],
     "consentToMailMissingRequiredFiles": true,
-    "statementOfTruthSignature": "Applicant Jerry Jones",
+    "statementOfTruthSignature": "Applicant Jones",
     "statementOfTruthCertified": true
   }
 }

@@ -22,7 +22,7 @@ const MilitaryBaseInfo = () => (
   </div>
 );
 
-const veteransPostalCode = {
+const veteransPostalCodePage = {
   uiSchema: {
     ...titleUI(CHAPTER_3.VETERANS_POSTAL_CODE.TITLE),
     'ui:objectViewField': PageFieldSummary,
@@ -90,4 +90,4 @@ const veteransPostalCode = {
   },
 };
 
-export default veteransPostalCode;
+export default veteransPostalCodePage;

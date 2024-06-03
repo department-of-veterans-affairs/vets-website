@@ -17,10 +17,10 @@ import {
 } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import { updateMultiresponseUiOptions } from '../../../helpers';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../labels';
 import { doesHaveCareExpenses } from './helpers';
+import ArrayDescription from '../../../components/ArrayDescription';
 
 const {
   childName,
@@ -52,11 +52,14 @@ CareExpenseView.propTypes = {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Unreimbursed care expenses',
+  title: 'List of unreimbursed care expenses',
   path: 'financial/care-expenses/add',
   depends: doesHaveCareExpenses,
   uiSchema: {
-    ...titleUI('Add an unreimbursed care expense'),
+    ...titleUI(
+      'List of unreimbursed care expenses',
+      <ArrayDescription message="Add an unreimbursed care expense" />,
+    ),
     careExpenses: {
       'ui:options': {
         itemName: 'Care Expense',
@@ -68,7 +71,8 @@ export default {
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
-        updateSchema: updateMultiresponseUiOptions,
+        showSave: true,
+        reviewMode: true,
       },
       items: {
         recipients: radioUI({

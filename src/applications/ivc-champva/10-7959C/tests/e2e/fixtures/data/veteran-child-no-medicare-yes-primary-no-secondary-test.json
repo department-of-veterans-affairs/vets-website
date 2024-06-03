@@ -4,8 +4,7 @@
     "primaryAdditionalComments": "Additional comment",
     "applicantPrimaryInsuranceType": {
       "rxDiscount": true,
-      "other": true,
-      "medigap": false
+      "other": true
     },
     "applicantPrimaryEOB": "noEob",
     "applicantPrimaryHasPrescription": false,
@@ -14,10 +13,8 @@
     "applicantPrimaryEffectiveDate": "1999-01-01",
     "applicantPrimaryExpirationDate": "2001-05-02",
     "applicantHasPrimary": true,
-    "applicantMedicareStatusContinued": "eligibleNotEnrolled",
     "applicantMedicareStatus": false,
     "applicantPhone": "1231231234",
-    "applicantEmailAddress": "email@email.com",
     "applicantAddress": {
       "country": "USA",
       "street": "123 Streetland",
@@ -28,31 +25,16 @@
     "applicantSsn": "123123123",
     "applicantName": {
       "first": "Applicant",
-      "middle": "Child",
       "last": "Jones"
     },
     "applicantDOB": "2001-03-02",
-    "certifierRelationship": {
-      "relationshipToApplicants": "parent"
-    },
-    "certifierPhone": "1231231234",
-    "certifierEmail": "123@email.gov",
-    "certifierAddress": {
-      "country": "USA",
-      "street": "123 Streetname",
-      "city": "Cityland",
-      "state": "AL",
-      "postalCode": "12312"
-    },
-    "certifierName": {
-      "first": "Veteran",
-      "middle": "Quincy",
-      "last": "Jones",
-      "suffix": "II"
-    },
-    "certifierRole": "sponsor",
-    "preparerType": "sponsor",
     "missingUploads": [
+      {
+        "name": "primaryInsuranceScheduleOfBenefits",
+        "path": "insurance-sob",
+        "required": false,
+        "uploaded": false
+      },
       {
         "name": "primaryInsuranceCard",
         "path": "insurance-upload",
@@ -61,7 +43,7 @@
       }
     ],
     "consentToMailMissingRequiredFiles": true,
-    "statementOfTruthSignature": "Veteran Quincy Jones",
+    "statementOfTruthSignature": "Applicant Jones",
     "statementOfTruthCertified": true
   }
 }

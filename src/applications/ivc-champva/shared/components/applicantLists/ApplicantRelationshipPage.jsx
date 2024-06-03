@@ -29,15 +29,6 @@ export function appRelBoilerplate({ data, pagePerItemIndex }) {
   const personTitle = 'Sponsor';
   const applicant = applicantWording(currentListItem, undefined, false);
 
-  // TODO: remove useFirstPerson when we're sure we won't want the functionality
-  // // Determine what tense/person the phrasing should be in
-  // const useFirstPerson =
-  //   data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
-  const useFirstPerson = false;
-
-  const relative = `${useFirstPerson ? 'I' : applicant}`;
-  const beingVerbPresent = useFirstPerson ? 'am' : 'is';
-
   const relativePossessive = applicantWording(
     currentListItem,
     undefined,
@@ -50,9 +41,9 @@ export function appRelBoilerplate({ data, pagePerItemIndex }) {
     currentListItem,
     personTitle,
     applicant,
-    useFirstPerson,
-    relative,
-    beingVerbPresent,
+    useFirstPerson: false,
+    relative: applicant,
+    beingVerbPresent: 'is',
     relativePossessive,
   };
 }
@@ -306,6 +297,7 @@ export default function ApplicantRelationshipPage({
                     customOtherDescription ||
                     `Since ${relativePossessive} relationship with the ${personTitle} was not listed, please describe it here`
                   }
+                  name="other-relationship-description"
                   onInput={handlers.inputUpdate}
                   required={checkValue[primary] === 'other'}
                   error={inputError}

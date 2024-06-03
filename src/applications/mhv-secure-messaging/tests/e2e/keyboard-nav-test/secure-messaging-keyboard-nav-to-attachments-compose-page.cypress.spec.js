@@ -6,12 +6,11 @@ import requestBody from '../fixtures/message-compose-request-body.json';
 
 describe('Secure Messaging Keyboard Nav to Attachment', () => {
   it('Keyboard Nav to Focus on Attachment', () => {
-    const landingPage = new PatientInboxPage();
     // const composePage = new PatientComposePage();
     const site = new SecureMessagingSite();
     site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
     PatientComposePage.selectRecipient(requestBody.recipientId);
     PatientComposePage.selectCategory(`${requestBody.category}`);
     // cy.tabToElement('#OTHEROTHERinput');

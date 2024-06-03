@@ -7,6 +7,7 @@ import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran
 import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
 import addressConfirmationPage from '../chapters/personalInformation/addressConfirmation';
 import deathDatePage from '../chapters/personalInformation/deathDate';
+import familyMembersLocationOfResidencePage from '../chapters/personalInformation/familyMembersLocationOfResidence';
 import familyMembersPostalCodePage from '../chapters/personalInformation/familyMembersPostalCode';
 import howToContactPage from '../chapters/personalInformation/howToContact';
 import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeteranDeceased';
@@ -21,10 +22,11 @@ import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility
 import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
 import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
 import veteransLocationOfResidencePage from '../chapters/personalInformation/veteransLocationOfResidence';
-import veteransPostalCode from '../chapters/personalInformation/veteransPostalCode';
+import veteransPostalCodePage from '../chapters/personalInformation/veteransPostalCode';
 import yourAddressPage from '../chapters/personalInformation/yourAddress';
 import yourContactInformationPage from '../chapters/personalInformation/yourContactInformation';
 import yourCountryPage from '../chapters/personalInformation/yourCountry';
+import yourLocationOfResidencePage from '../chapters/personalInformation/yourLocationOfResidence';
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
 import yourRolePage from '../chapters/personalInformation/yourRole';
 import yourRoleEducationPage from '../chapters/personalInformation/yourRoleEducation';
@@ -64,8 +66,8 @@ const ch3Pages = {
   },
   veteransPostalCode: {
     title: CHAPTER_3.VETERANS_POSTAL_CODE.TITLE,
-    uiSchema: veteransPostalCode.uiSchema,
-    schema: veteransPostalCode.schema,
+    uiSchema: veteransPostalCodePage.uiSchema,
+    schema: veteransPostalCodePage.schema,
   },
   veteransLocationOfResidence: {
     title: CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.TITLE,
@@ -170,6 +172,16 @@ const ch3Pages = {
     uiSchema: theirRelationshipToVeteranPage.uiSchema,
     schema: theirRelationshipToVeteranPage.schema,
   },
+  familyMembersLocationOfResidence: {
+    title: CHAPTER_3.FAMILY_MEMBERS_LOCATION_OF_RESIDENCE.TITLE,
+    uiSchema: familyMembersLocationOfResidencePage.uiSchema,
+    schema: familyMembersLocationOfResidencePage.schema,
+  },
+  yourLocationOfResidence: {
+    title: CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.TITLE,
+    uiSchema: yourLocationOfResidencePage.uiSchema,
+    schema: yourLocationOfResidencePage.schema,
+  },
 };
 
 export const flowPaths = {
@@ -249,7 +261,6 @@ const someoneElseBenVet = [
   'aboutYourself',
   'yourContactInformation',
   'howToContact',
-  // 'yourCountry',
   'yourAddress',
   'yourAddressConfirmation',
   'yourPostalCode',
@@ -276,12 +287,12 @@ const someoneElseBenFam = [
   'aboutYourRelationshipToFamilyMember',
   'yourContactInformation',
   'searchVAMedicalCenter',
-  // 'aboutYourself',
   'yourContactInformation',
   'howToContact',
   'yourCountry',
   'yourAddress',
   'yourAddressConfirmation',
+  'familyMembersLocationOfResidence',
   'aboutYourFamilyMember',
   'familyMembersPostalCode',
 ];
@@ -302,18 +313,19 @@ someoneElseBenFamPages.searchVAMedicalCenter_familysomeonesbenefits.onNavForward
 };
 
 const someoneElseBen3rdParty = [
-  'yourRole',
-  'aboutTheVeteran',
-  'veteranDeceased',
-  'dateOfDeath',
-  'veteransPostalCode',
-  'searchVAMedicalCenter',
-  'aboutYourself',
-  'yourContactInformation',
-  'howToContact',
-  'yourCountry',
-  'yourAddress',
-  'yourAddressConfirmation',
+  // 'yourRole',
+  // 'aboutTheVeteran',
+  // 'veteranDeceased',
+  // 'dateOfDeath',
+  // 'veteransPostalCode',
+  // 'searchVAMedicalCenter',
+  // 'aboutYourself',
+  // 'yourContactInformation',
+  // 'howToContact',
+  // 'yourCountry',
+  // 'yourAddress',
+  // 'yourAddressConfirmation',
+  'yourLocationOfResidence',
 ];
 export const someoneElseBen3rdPartyPages = flowPages(
   ch3Pages,

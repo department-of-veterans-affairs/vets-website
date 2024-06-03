@@ -1,6 +1,5 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { UPDATED_USER_MOCK_DATA } from '../constants/mockData';
 // Action Types
 export const UPDATE_PENDING_VERIFICATIONS = 'UPDATE_PENDING_VERIFICATIONS';
 export const UPDATE_VERIFICATIONS = 'UPDATE_VERIFICATIONS';
@@ -61,17 +60,6 @@ export const updateVerifications = verifications => ({
   payload: verifications,
 });
 
-export const getData = () => {
-  return disptach => {
-    disptach({ type: GET_DATA }); // TODO: replace with real API call when is ready
-    setTimeout(() => {
-      disptach({
-        type: GET_DATA_SUCCESS,
-        response: UPDATED_USER_MOCK_DATA,
-      });
-    }, 1000);
-  };
-};
 export const fetchPersonalInfo = () => {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFO });
@@ -94,7 +82,10 @@ export const fetchPersonalInfo = () => {
       });
   };
 };
-
+const customHeaders = {
+  'Content-Type': 'application/json',
+  'X-Key-Inflection': 'camel',
+};
 export function postMailingAddress(mailingAddress) {
   return async dispatch => {
     dispatch({ type: UPDATE_ADDRESS });
@@ -102,7 +93,7 @@ export function postMailingAddress(mailingAddress) {
       const response = await apiRequest(`${API_URL}/address`, {
         method: 'POST',
         body: JSON.stringify(mailingAddress),
-        headers: { 'Content-Type': 'application/json' },
+        headers: customHeaders,
       });
       dispatch({
         type: UPDATE_ADDRESS_SUCCESS,
@@ -125,7 +116,7 @@ export const updateBankInfo = bankInfo => {
       const response = await apiRequest(`${API_URL}/bank_info`, {
         method: 'POST',
         body: JSON.stringify(bankInfo),
-        headers: { 'Content-Type': 'application/json' },
+        headers: customHeaders,
       });
 
       dispatch({
@@ -149,7 +140,7 @@ export const verifyEnrollmentAction = verifications => {
       const response = await apiRequest(`${API_URL}/verify`, {
         method: 'POST',
         body: JSON.stringify({ awardIds: verifications }),
-        headers: { 'Content-Type': 'application/json' },
+        headers: customHeaders,
       });
 
       dispatch({
