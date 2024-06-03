@@ -1038,14 +1038,6 @@ export const preparerVeteranUI = {
 };
 
 export const selfServiceRecordsUI = {
-  'ui:title': 'Your service period(s)',
-  // 'ui:options': {
-  //   viewField: ServicePeriodView,
-  //   itemName: 'Service period',
-  //   keepInPageOnReview: true,
-  //   useDlWrap: true,
-  // },
-
   'ui:field': ServiceRecords,
   'ui:options': {
     viewField: ServicePeriodView,
