@@ -17,12 +17,12 @@ describe('Reply with attachments', () => {
 
     messageDetailsPage.loadMessageDetails(testMessage);
     messageDetailsPage.loadReplyPageDetails(testMessage);
-  });
-
-  it('verify use can send a reply with attachments', () => {
     PatientInterstitialPage.getContinueButton().click({
       waitForAnimations: true,
     });
+  });
+
+  it('verify use can send a reply with attachments', () => {
     PatientReplyPage.getMessageBodyField().type('\nTest message body', {
       force: true,
     });
@@ -39,9 +39,6 @@ describe('Reply with attachments', () => {
   it('verify attachments info', () => {
     const optList = Data.ATTACH_INFO;
 
-    PatientInterstitialPage.getContinueButton().click({
-      waitForAnimations: true,
-    });
     cy.get(Locators.INFO.ATTACH_INFO).click({ force: true });
     PatientComposePage.verifyAttachmentInfo(optList);
 
@@ -50,10 +47,6 @@ describe('Reply with attachments', () => {
   });
 
   it('verify use can delete attachment', () => {
-    PatientInterstitialPage.getContinueButton().click({
-      waitForAnimations: true,
-    });
-
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
     PatientComposePage.removeAttachedFile();
 
@@ -61,12 +54,19 @@ describe('Reply with attachments', () => {
   });
 });
 
-describe.skip('verify attach file button behaviour', () => {
+describe('verify attach file button behaviour', () => {
   const site = new SecureMessagingSite();
+  const messageDetailsPage = new PatientMessageDetailsPage();
+  const testMessage = PatientInboxPage.getNewMessageDetails();
   beforeEach(() => {
     site.login();
-    PatientInboxPage.loadInboxMessages();
-    PatientInboxPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
+
+    messageDetailsPage.loadMessageDetails(testMessage);
+    messageDetailsPage.loadReplyPageDetails(testMessage);
+    PatientInterstitialPage.getContinueButton().click({
+      waitForAnimations: true,
+    });
   });
 
   it('verify attach file button label change', () => {
@@ -85,7 +85,7 @@ describe.skip('verify attach file button behaviour', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify attach file button label change', () => {
+  it('verify already attached file error', () => {
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
 
