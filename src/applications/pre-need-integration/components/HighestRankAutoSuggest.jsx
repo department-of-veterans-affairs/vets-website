@@ -5,7 +5,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import AutoSuggest from './MilitaryAutoSuggestField';
 import jsonData from '../utils/Military Ranks.json';
 
-function HighestRankAutoSuggest({ formData, idSchema }) {
+function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
   const dispatch = useDispatch();
   const [branchOfService, setBranchOfService] = useState('');
   const [rankOptions, setRankOptions] = useState([]);
@@ -98,14 +98,21 @@ function HighestRankAutoSuggest({ formData, idSchema }) {
 
   return (
     <div>
-      <div className="highestRank">
-        <AutoSuggest
-          value={rank}
-          setValue={setRank}
-          labels={rankOptions}
-          onSelectionChange={handleSelectionChange}
-        />
-      </div>
+      {!formContext.onReviewPage ||
+      (formContext.onReviewPage && !formContext.reviewMode) ? (
+        <div className="highestRank">
+          <AutoSuggest
+            value={rank}
+            setValue={setRank}
+            labels={rankOptions}
+            onSelectionChange={handleSelectionChange}
+          />
+        </div>
+      ) : (
+        <div>
+          <span>{rank}</span>
+        </div>
+      )}
     </div>
   );
 }
