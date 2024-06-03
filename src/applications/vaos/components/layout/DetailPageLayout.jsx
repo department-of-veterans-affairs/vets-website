@@ -67,6 +67,7 @@ function CancelButton({ appointment }) {
     isCompAndPenAppointment,
     isVideo,
     isPastAppointment,
+    isPhoneAppointment,
   } = vaos;
 
   let event = `${GA_PREFIX}-cancel-booked-clicked`;
@@ -93,7 +94,8 @@ function CancelButton({ appointment }) {
     !isCommunityCare &&
     !isCompAndPenAppointment &&
     !isVideo &&
-    !isPastAppointment
+    !isPastAppointment &&
+    !isPhoneAppointment
   )
     return button;
 

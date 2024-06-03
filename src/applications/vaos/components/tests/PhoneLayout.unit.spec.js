@@ -51,7 +51,7 @@ describe('VAOS Component: PhoneLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
-          isVAPhoneAppointment: true,
+          isPhoneAppointment: true,
           apiData: {
             serviceType: 'primaryCare',
           },
@@ -115,7 +115,7 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(screen.container.querySelector('va-button[text="Print"]'));
       expect(
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
-      ).to.be.ok;
+      ).not.to.exist;
     });
 
     it('should display default text for empty data', async () => {
@@ -130,7 +130,7 @@ describe('VAOS Component: PhoneLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
-          isVAPhoneAppointment: true,
+          isPhoneAppointment: true,
           apiData: {},
         },
         status: 'booked',
