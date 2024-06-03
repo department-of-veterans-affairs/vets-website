@@ -30,14 +30,12 @@ const ProofOfVeteranStatus = ({
     (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
     /android/i.test(userAgent);
 
-  // Veteran is considered eligible if their most recent discharge code is allow-listed
-  const mostRecentDischargeCode =
-    serviceHistory.length > 0
-      ? serviceHistory.at(-1).characterOfDischargeCode
-      : null;
-  const eligibilityIndicator =
-    mostRecentDischargeCode &&
-    DISCHARGE_CODE_MAP[mostRecentDischargeCode]?.indicator;
+  const eligibilityMap = serviceHistory.map(
+    service =>
+      service.characterOfDischargeCode
+        ? DISCHARGE_CODE_MAP[service.characterOfDischargeCode].indicator
+        : 'N',
+  );
 
   const pdfData = {
     title: `Veteran status card for ${formatFullName({
@@ -81,7 +79,8 @@ const ProofOfVeteranStatus = ({
           <strong>Note: </strong>
           This card doesn’t entitle you to any VA benefits.
         </p>
-        {serviceHistory.length > 0 && eligibilityIndicator === 'Y' ? (
+
+        {serviceHistory.length > 0 && eligibilityMap.includes('Y') ? (
           <>
             <div className="vads-u-font-size--md">
               <va-link
@@ -120,7 +119,9 @@ const ProofOfVeteranStatus = ({
           </>
         ) : null}
 
-        {serviceHistory.length > 0 && eligibilityIndicator === 'N' ? (
+        {serviceHistory.length > 0 &&
+        !eligibilityMap.includes('Y') &&
+        eligibilityMap.includes('N') ? (
           <va-alert
             close-btn-aria-label="Close notification"
             status="warning"
@@ -144,7 +145,8 @@ const ProofOfVeteranStatus = ({
           </va-alert>
         ) : null}
 
-        {serviceHistory.length === 0 || eligibilityIndicator === 'Z' ? (
+        {serviceHistory.length === 0 ||
+        (!eligibilityMap.includes('Y') && !eligibilityMap.includes('N')) ? (
           <va-alert
             close-btn-aria-label="Close notification"
             status="warning"
