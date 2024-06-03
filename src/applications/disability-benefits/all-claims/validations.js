@@ -512,7 +512,7 @@ export const requireDisability = (err, fieldData, formData) => {
 export const limitNewDisabilities = (err, fieldData, formData) => {
   if (formData.newDisabilities?.length > 100) {
     const errorMessage = showRevisedNewDisabilitiesPage()
-      ? "You've added the maximum number of conditions. If you'd like to add another one, you'll need to remove a condition from your claim"
+      ? "You’ve added the maximum number of conditions. If you’d like to add another one, you’ll need to remove a condition from your claim."
       : 'You have reached the 100 condition limit. If you need to add another condition, you must remove a previously added condition.';
     err.addError(errorMessage);
   }
