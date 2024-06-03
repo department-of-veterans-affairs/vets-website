@@ -13,7 +13,7 @@ class IntroductionPage extends React.Component {
   render() {
     const { route } = this.props;
     return (
-      <div className="schemaform-intro">
+      <div className="schemaform-introo">
         <FormTitle title="Apply for burial benefits" />
         <p>Equal to VA Form 21P-530 (Application for Burial Benefits).</p>
         <SaveInProgressIntro
