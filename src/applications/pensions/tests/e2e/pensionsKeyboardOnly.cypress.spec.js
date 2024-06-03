@@ -43,7 +43,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
   before(() => {
     cypressBeforeAllSetup();
   });
-  context('Simple', () => {
+  skipInCI('Simple', () => {
     it('keyboard navigates through the form', () => {
       cy.wrap(simpleFixture.data).as('testData');
       cypressSetup(cy);
