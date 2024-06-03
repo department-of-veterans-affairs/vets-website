@@ -65,17 +65,12 @@ const CheckInConfirmation = props => {
     getShouldSendTravelPayClaim,
   } = useStorage(APP_NAMES.CHECK_IN);
 
-  const { setTravelPaySent, getTravelPaySent } = useStorage(
-    APP_NAMES.CHECK_IN,
-    true,
-  );
+  const { setTravelPaySent } = useStorage(APP_NAMES.CHECK_IN, true);
 
   useEffect(
     () => {
       if (travelPayClaimSent) {
-        const { stationNo } = selectedAppointment;
-        const travelPaySent = getTravelPaySent(window);
-        travelPaySent[stationNo] = new Date();
+        const travelPaySent = new Date();
         setShouldSendTravelPayClaim(window, false);
         setTravelPaySent(window, travelPaySent);
       }
@@ -84,7 +79,6 @@ const CheckInConfirmation = props => {
       travelPayClaimSent,
       setShouldSendTravelPayClaim,
       setTravelPaySent,
-      getTravelPaySent,
       selectedAppointment,
     ],
   );
