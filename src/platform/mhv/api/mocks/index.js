@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
 
 const commonResponses = require('../../../testing/local-dev-mock-api/common');
