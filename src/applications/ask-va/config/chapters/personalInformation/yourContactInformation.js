@@ -1,3 +1,4 @@
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
   emailSchema,
   emailUI,
@@ -13,10 +14,21 @@ import { getContactMethods, isEqualToOnlyEmail } from '../../helpers';
 const yourContactInformationPage = {
   uiSchema: {
     'ui:description': PrefillAlertAndTitle,
+    contactPreferredName: {
+      'ui:title': CHAPTER_3.CONTACT_PREF.QUESTION_1.QUESTION,
+      'ui:webComponentField': VaTextInputField,
+      'ui:errorMessages': {
+        pattern: CHAPTER_3.CONTACT_PREF.QUESTION_1.ERROR,
+      },
+      'ui:options': {
+        uswds: true,
+        hint: CHAPTER_3.CONTACT_PREF.QUESTION_1.HINT,
+      },
+    },
     phoneNumber: phoneUI(),
     emailAddress: emailUI(),
     contactPreference: radioUI({
-      title: CHAPTER_3.CONTACT_PREF.QUESTION_1,
+      title: CHAPTER_3.CONTACT_PREF.QUESTION_2,
       description: '',
       labels: {
         PHONE: 'Phone call',
@@ -43,6 +55,7 @@ const yourContactInformationPage = {
         return {
           ...formSchema,
           properties: {
+            contactPreferredName: { type: 'string' },
             phoneNumber: phoneSchema,
             emailAddress: emailSchema,
             contactPreference: radioSchema(
