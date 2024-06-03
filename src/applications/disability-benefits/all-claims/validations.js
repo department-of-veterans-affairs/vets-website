@@ -481,7 +481,7 @@ export const validateDisabilityName = (
   );
   if (itemCount.length > 1) {
     const errorMessage = showRevisedNewDisabilitiesPage()
-      ? "You've already added this condition to your claim"
+      ? "You’ve already added this condition to your claim"
       : 'Please enter a unique condition name';
     err.addError(errorMessage);
   }
