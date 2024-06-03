@@ -32,7 +32,7 @@ describe('Medical Records View EKG Details', () => {
       '',
     );
     EKGDetailsPage.verifyTitle('Electrocardiogram (EKG)');
-    EKGDetailsPage.verifyDate('2000-12-14T11:35:00Z');
+    EKGDetailsPage.verifyDate('December 14, 2000, 11:35 a.m.');
     EKGDetailsPage.verifyOrderingLocation('school parking lot');
     EKGDetailsPage.verifyResults();
     cy.injectAxe();
