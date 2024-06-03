@@ -40,8 +40,7 @@ describe('showRevisedNewDisabilitiesPage', () => {
       />,
     );
     const labelStr = 'Enter your condition';
-    expect(screen.getByText(labelStr, { ignore: '.schemaform-label' })).to
-      .exist;
+    expect(screen.getByText(labelStr)).to.exist;
   });
 
   it('should render updated content', () => {
