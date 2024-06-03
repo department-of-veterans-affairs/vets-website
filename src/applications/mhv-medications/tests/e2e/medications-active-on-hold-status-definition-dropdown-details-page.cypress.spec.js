@@ -10,12 +10,16 @@ describe('Medications Details Page Status DropDown', () => {
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
     const landingPage = new MedicationsLandingPage();
+    const cardNumber = 10;
     site.login();
     landingPage.visitLandingPageURL();
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
-    detailsPage.clickMedicationDetailsLink(onHoldPrescriptionDetails);
+    detailsPage.clickMedicationDetailsLink(
+      onHoldPrescriptionDetails,
+      cardNumber,
+    );
     detailsPage.clickWhatDoesThisStatusMeanDropDown();
     detailsPage.verifyOnHoldStatusDropDownDefinition();
   });
