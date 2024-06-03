@@ -15,7 +15,6 @@ import {
   FORM_STATUS_BDD,
   SHOW_8940_4192,
   SAVED_SEPARATION_DATE,
-  SHOW_TOXIC_EXPOSURE,
 } from '../constants';
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 
@@ -133,7 +132,6 @@ export const setup = (cy, toggles = mockFeatureToggles) => {
   window.sessionStorage.setItem(SHOW_8940_4192, 'true');
   window.sessionStorage.removeItem(WIZARD_STATUS);
   window.sessionStorage.removeItem(FORM_STATUS_BDD);
-  window.sessionStorage.removeItem(SHOW_TOXIC_EXPOSURE);
 
   cy.intercept('GET', '/v0/feature_toggles*', toggles);
 
