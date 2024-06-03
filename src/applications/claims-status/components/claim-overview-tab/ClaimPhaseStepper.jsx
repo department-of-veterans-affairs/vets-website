@@ -36,8 +36,7 @@ export default function ClaimPhaseStepper({
             and Social Security number.
           </p>
           <p className="vads-u-margin-bottom--0">
-            If basic information is missing, we’ll contact you to gather that
-            information.
+            If information is missing, we’ll contact you.
           </p>
         </>
       ),
@@ -135,16 +134,12 @@ export default function ClaimPhaseStepper({
             A senior reviewer will do a final review of your claim and the
             decision letter.
           </p>
-          <p>
-            If we need more evidence or you submit more evidence, your claim
-            will go back to Step 3: Evidence gathering.
-          </p>
         </>
       ),
     },
     {
       phase: 8,
-      header: 'Step 8: Decision decided',
+      header: 'Step 8: Claim decided',
       description: (
         <>
           <p>

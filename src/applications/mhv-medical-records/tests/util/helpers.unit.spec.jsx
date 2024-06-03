@@ -10,6 +10,7 @@ import {
   extractContainedResource,
   dispatchDetails,
   getActiveLinksStyle,
+  dateFormatWithoutTimezone,
   parseDate,
 } from '../../util/helpers';
 
@@ -31,6 +32,14 @@ describe('Date formatter', () => {
     const timeStamp = '2023-09-29T11:04:31.316-04:00';
     const formattedDate = dateFormat(timeStamp);
     expect(formattedDate).to.contain('September');
+  });
+});
+
+describe('Date formatter with no timezone', () => {
+  it('formats a date in the original time without a timezone', () => {
+    const timeStamp = '2023-09-29T11:04:31.316-04:00';
+    const formattedDate = dateFormatWithoutTimezone(timeStamp);
+    expect(formattedDate).to.eq('September 29, 2023, 11:04 a.m.');
   });
 });
 
