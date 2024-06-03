@@ -134,10 +134,10 @@ const VerificationReviewWrapper = ({
   // This Effect to check path to add class for bloding Label
   useEffect(
     () => {
-      if (location.pathname.includes('verification-review')) {
-        document.body.classList.add('verification-review-path');
+      if (location.pathname.includes('verify-information')) {
+        document.body.classList.add('verify-information-path');
       } else {
-        document.body.classList.remove('verification-review-path');
+        document.body.classList.remove('verify-information-path');
       }
     },
     [location.pathname],
