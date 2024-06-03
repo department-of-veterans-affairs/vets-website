@@ -1,0 +1,24 @@
+{
+  "data": {
+    "attributes": {
+      "profile": {
+        "sign_in": {
+          "service_name": "idme"
+        },
+        "email": "william.phelps@example.com",
+        "loa": { "current": 3 },
+        "first_name": "William",
+        "middle_name": "",
+        "last_name": "Phelps",
+        "gender": "F",
+        "birth_date": "1985-01-01",
+        "verified": true,
+        "poa_codes": [],
+        "ogc_registration_number": "123456789"
+      },
+      "in_progress_forms": [],
+      "prefills_available": []
+    }
+  },
+  "meta": { "errors": null }
+}

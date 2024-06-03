@@ -74,7 +74,7 @@ describe('Header on screens wider than mobile', () => {
       'have.text',
       'Welcome to the Accredited Representative Portal',
     );
-    cy.get('[data-testid=landing-page-bypass-sign-in-link]').click();
+    cy.get('[data-testid=wider-than-mobile-menu-poa-link]').click();
 
     cy.location('pathname').should('equal', '/representative/poa-requests');
     cy.axeCheck();
