@@ -97,8 +97,12 @@ ${record.results}`;
       >
         {record.name}
       </h1>
-      <DateSubheading date={record.date} id="radiology-date" />
-
+      <DateSubheading
+        date={record.date}
+        id="radiology-date"
+        label="Date and time performed"
+        labelClass="vads-font-weight-regular"
+      />
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
         downloadPdf={downloadPdf}

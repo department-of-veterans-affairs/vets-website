@@ -290,14 +290,12 @@ export const getActiveLinksStyle = (linkPath, currentPath) => {
 export const parseDate = str => {
   const yearRegex = /^\d{4}$/;
   const monthRegex = /^\d{4}-\d{2}$/;
+  const [year, month] = str.split('-').map(Number);
+
   if (yearRegex.test(str)) {
     return str;
   }
   if (monthRegex.test(str)) {
-    const date = new Date(str);
-    const month = date.getMonth();
-    const year = date.getFullYear();
-
     const monthNames = [
       'January',
       'February',
@@ -312,8 +310,7 @@ export const parseDate = str => {
       'November',
       'December',
     ];
-
-    const monthName = monthNames[month + 1];
+    const monthName = monthNames[month - 1];
     return `${monthName}, ${year}`;
   }
   return formatDateLong(str);
