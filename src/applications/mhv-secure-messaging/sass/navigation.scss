@@ -205,11 +205,11 @@
   }
 }
 
-.is-inner-active {
+.active-innerNav-link {
   border-bottom: 5px solid var(--vads-color-primary);
 }
 
-.is-inner-active > a {
+.active-innerNav-link > a {
   font-weight: bold;
   color: var(--vads-color-base);
   text-decoration: none;

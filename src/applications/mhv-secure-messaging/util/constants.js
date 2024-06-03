@@ -333,7 +333,7 @@ export const PageTitles = {
   EDIT_DRAFT_PAGE_TITLE_TAG:
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
   MY_FOLDERS_PAGE_TITLE_TAG:
-    'My folders - MHV Secure Messaging | Veterans Affairs',
+    'Folders - MHV Secure Messaging | Veterans Affairs',
 };
 
 export const Recipients = {

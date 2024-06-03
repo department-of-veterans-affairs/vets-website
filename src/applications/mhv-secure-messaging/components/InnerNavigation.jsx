@@ -11,12 +11,12 @@ const InnerNavigation = () => {
         path: Paths.INBOX,
         label: 'Inbox',
         id: DefaultFolders.INBOX.id,
-        datatestid: 'inbox-sidebar',
+        datatestid: 'inbox-inner-nav',
       },
       {
         path: Paths.FOLDERS,
         label: 'Folders',
-        datatestid: 'my-folders-sidebar',
+        datatestid: 'folders-inner-nav',
       },
     ];
   };
@@ -33,7 +33,7 @@ const InnerNavigation = () => {
       isInnerActive = true;
     }
 
-    return isInnerActive ? 'is-inner-active' : '';
+    return isInnerActive ? 'active-innerNav-link' : '';
   };
 
   return (
@@ -51,6 +51,7 @@ const InnerNavigation = () => {
         <div
           key={i}
           data-testid={path.datatestid}
+          activeFolder={handleActiveLinksStyle(path)}
           className={`
             vads-u-margin-right--2
             vads-u-font-size--lg
