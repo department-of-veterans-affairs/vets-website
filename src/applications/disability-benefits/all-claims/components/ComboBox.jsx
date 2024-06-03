@@ -29,7 +29,6 @@ export class ComboBox extends React.Component {
     super(props);
     // is there a cleaner way to pass this in?
     this.disabilitiesArr = props.uiSchema['ui:options'].listItems;
-    this.screenReaderHeader = props.uiSchema['ui:options'].screenReaderHeader;
     this.state = {
       bump: false,
       // Autopopulate input with existing form data:
