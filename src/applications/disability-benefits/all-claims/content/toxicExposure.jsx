@@ -67,6 +67,12 @@ export const startDateApproximate = 'Service start date (approximate)';
 export const endDateApproximate = 'Service end date (approximate)';
 export const goBackLink = 'Edit locations and dates';
 export const noDatesEntered = 'No dates entered';
+export const notSureDatesSummary = 'I’m not sure of the dates';
+export const notSureDatesDetails = (
+  <p className="vads-spacing-1">
+    I’m not sure of the dates I served in this location
+  </p>
+);
 
 /**
  * Generate the Toxic Exposure subtitle, which is used on Review and Submit and on the pages
@@ -344,11 +350,17 @@ export function getSelectedCount(
   if (!formData?.toxicExposure?.[checkboxObjectName] && !otherFieldDescription)
     return 0;
 
-  return (
-    Object.values(formData.toxicExposure[checkboxObjectName]).filter(
-      value => value === true,
-    ).length + (otherFieldDescription ? 1 : 0)
-  );
+  let count = 0;
+  for (const [key, value] of Object.entries(
+    formData.toxicExposure[checkboxObjectName],
+  )) {
+    // Skip `notsure` since it's not a location
+    if (value === true && key !== 'notsure') {
+      count += 1;
+    }
+  }
+
+  return count + (otherFieldDescription ? 1 : 0);
 }
 
 /**
@@ -368,6 +380,7 @@ export function showCheckboxLoopDetailsPage(
   itemId,
 ) {
   return (
+    itemId !== 'notsure' &&
     isClaimingTECondition(formData) &&
     formData?.toxicExposure[checkboxObjectName] &&
     formData?.toxicExposure[checkboxObjectName].none !== true &&
@@ -381,22 +394,33 @@ export function showCheckboxLoopDetailsPage(
  * 1. TE pages should be showing at all
  * 2. at least one checkbox item was selected OR an 'other' item input was populated
  * 3. the 'none' location checkbox is not true
+ * 4. the 'notsure' location checkbox is not the only one selected
  *
  * @param {object} formData - full form data
  * @param {string} checkboxObjectName - name of the object containing the checkboxes
  * @param {string} otherObjectName - name of the object containing an 'other' input
  * @returns {boolean} true if the page should display, false otherwise
  */
-export function showSummaryPage(formData, checkboxObjectName, otherObjectName) {
-  return (
+export function showSummaryPage(
+  formData,
+  checkboxObjectName,
+  otherObjectName = '',
+) {
+  if (
     isClaimingTECondition(formData) &&
-    formData?.toxicExposure[checkboxObjectName] &&
-    formData?.toxicExposure[checkboxObjectName].none !== true &&
-    (Object.values(formData.toxicExposure[checkboxObjectName]).filter(
-      value => value === true,
-    ).length > 0 ||
-      !!getOtherFieldDescription(formData, otherObjectName))
-  );
+    formData?.toxicExposure[checkboxObjectName]
+  ) {
+    const locations = formData?.toxicExposure[checkboxObjectName];
+    const numSelected = Object.values(
+      formData?.toxicExposure[checkboxObjectName],
+    ).filter(value => value === true).length;
+    return (
+      locations.none !== true &&
+      ((numSelected > 0 && (locations.notsure !== true || numSelected > 1)) ||
+        !!getOtherFieldDescription(formData, otherObjectName))
+    );
+  }
+  return false;
 }
 
 /**
@@ -412,6 +436,9 @@ export function showSummaryPage(formData, checkboxObjectName, otherObjectName) {
  */
 export function datesDescription(dates) {
   if (!dates?.startDate && !dates?.endDate) {
+    if (dates?.['view:notSure']) {
+      return notSureDatesSummary;
+    }
     return noDatesEntered;
   }
   const startDate =

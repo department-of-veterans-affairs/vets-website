@@ -8,7 +8,7 @@ describe('Medical Records View Labs And Tests', () => {
     const site = new MedicalRecordsSite();
     site.login();
     cy.visit('my-health/medical-records/labs-and-tests');
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(1);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(2);
     MicrobiologyDetailsPage.verifyLabName('Microbiology');
     MicrobiologyDetailsPage.verifyLabDate('August 3, 1995');
     MicrobiologyDetailsPage.verifySampleTested('None noted');

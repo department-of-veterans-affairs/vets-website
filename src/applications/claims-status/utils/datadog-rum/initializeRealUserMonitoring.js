@@ -22,6 +22,17 @@ const defaultRumSettings = {
   trackResources: true,
   trackLongTasks: true,
   defaultPrivacyLevel: 'mask-user-input',
+  beforeSend: event => {
+    // Prevent PII from being sent to Datadog with click actions.
+    if (
+      event.action?.type === 'click' &&
+      event.action?.target.getAttribute('data-dd-privacy') === 'mask'
+    ) {
+      // eslint-disable-next-line no-param-reassign
+      event.action.target.name = 'Clicked item';
+    }
+    return true;
+  },
 };
 
 import { isProductionEnv } from '../../constants';

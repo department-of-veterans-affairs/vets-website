@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import PropTypes from 'prop-types';
 
-const CernerFacilityAlert = () => {
+const CernerFacilityAlert = ({ className = '' }) => {
   const ehrDataByVhaId = useSelector(
     state => state.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
   );
@@ -38,9 +39,9 @@ const CernerFacilityAlert = () => {
   };
   return (
     <va-alert
-      class={
+      class={`${className} ${
         cernerFacilitiesNames?.length > 0 ? 'vads-u-margin-bottom--2p5' : ''
-      }
+      }`}
       status="warning"
       visible={cernerFacilitiesNames?.length > 0}
       data-testid="cerner-facilities-alert"
@@ -98,6 +99,10 @@ const CernerFacilityAlert = () => {
       </div>
     </va-alert>
   );
+};
+
+CernerFacilityAlert.propTypes = {
+  className: PropTypes.string,
 };
 
 export default CernerFacilityAlert;
