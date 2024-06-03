@@ -304,7 +304,17 @@ const StatusDropdown = props => {
         );
       }
       default: {
-        const dropdownContent = () => {};
+        const dropdownContent = () => {
+          return (
+            <div data-testid="unknown-status-definition">
+              <p>
+                There’s a problem with our system. You can’t manage this
+                prescription online right now.
+              </p>
+              <p>If you need this prescription now, call your VA pharmacy.</p>
+            </div>
+          );
+        };
         return (
           <>
             <p data-testid="status">Unknown</p>
