@@ -1,5 +1,6 @@
 import React from 'react';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
 import {
   titleUI,
   titleSchema,
@@ -353,6 +354,31 @@ export const applicantMedicareDUploadSchema = {
         'Back of Medicare Part D card',
         'Other supporting document',
       ]),
+    },
+  },
+};
+
+export const applicantMedicareAdditionalCommentsSchema = {
+  uiSchema: {
+    ...titleUI(
+      ({ formData }) =>
+        `${nameWording(
+          formData,
+          undefined,
+          undefined,
+          true,
+        )} Medicare additional comments`,
+    ),
+    applicantMedicareAdditionalComments: {
+      'ui:title': 'Any additional comments about this Medicare plan?',
+      'ui:webComponentField': VaTextareaField,
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      titleSchema,
+      applicantMedicareAdditionalComments: { type: 'string' },
     },
   },
 };

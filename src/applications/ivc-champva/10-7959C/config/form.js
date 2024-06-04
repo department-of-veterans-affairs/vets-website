@@ -27,6 +27,7 @@ import {
   applicantMedicarePartDCarrierSchema,
   applicantMedicareABUploadSchema,
   applicantMedicareDUploadSchema,
+  applicantMedicareAdditionalCommentsSchema,
 } from '../chapters/medicareInformation';
 import {
   applicantHasInsuranceSchema,
@@ -276,6 +277,12 @@ const formConfig = {
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           ...applicantMedicareDUploadSchema,
+        },
+        medicareComments: {
+          path: 'medicare-comments',
+          title: 'Medicare additional comments',
+          depends: formData => get('applicantMedicareStatus', formData),
+          ...applicantMedicareAdditionalCommentsSchema,
         },
       },
     },
