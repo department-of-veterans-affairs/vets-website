@@ -31,7 +31,7 @@ const NavCard = ({
         >
           {text} {isExternal && externalLinkText}
         </span>
-        {!isExternal && <i aria-hidden="true" />}
+        {!isExternal && <va-icon icon="navigate_next" size={4} />}
       </a>
     </li>
   ));

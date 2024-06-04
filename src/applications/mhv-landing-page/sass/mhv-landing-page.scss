@@ -41,7 +41,7 @@ $anchor-font-size: 1.1875rem;
     content: "";
     display: inline-block;
     height: 0.625rem;
-    margin-right: .3125rem;
+    margin-right: 0.3125rem;
     width: 0.625rem;
   }
 
@@ -91,24 +91,11 @@ $anchor-font-size: 1.1875rem;
     text-decoration: none;
   }
 
-  i::before {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: inline;
-    font-family: "Font Awesome 5 Free";
-    font-style: normal;
-    font-size: 1.5rem;
-    font-variant: normal;
-    line-height: 1;
-    margin-right: 0.5rem;
-    text-rendering: auto;
-  }
-
-  i::before {
-    content: "\f105"; /* fa-angle-right */
-    margin-left: 0.5rem;
-    margin-right: 0;
-    vertical-align: middle;
+  > {
+    span,
+    va-icon {
+      vertical-align: middle;
+    }
   }
 }
 
