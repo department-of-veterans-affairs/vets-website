@@ -25,6 +25,7 @@ const getData = ({
   accountUuid = '',
   pathname = '/introduction',
   push = () => {},
+  status = '',
 } = {}) => {
   setStoredSubTask({ benefitType: data?.benefitType || '' });
   return {
@@ -32,8 +33,10 @@ const getData = ({
       location: { pathname, search: '' },
       children: <h1>Intro</h1>,
       router: { push },
+      routes: [{ path: pathname }],
     },
     data: {
+      routes: [{ path: pathname }],
       user: {
         login: {
           currentlyLoggedIn: loggedIn,
@@ -42,6 +45,7 @@ const getData = ({
           savedForms,
           verified,
           accountUuid,
+          prefillsAvailable: [],
         },
       },
       form: {
@@ -55,7 +59,7 @@ const getData = ({
         data,
       },
       contestableIssues: {
-        status: '',
+        status,
       },
     },
   };
@@ -80,11 +84,9 @@ describe('App', () => {
   });
 
   it('should render logged in state', () => {
-    const { props, data } = getData({ loggedIn: false });
+    const { props, data } = getData({ loggedIn: false, status: 'done' });
     const { container } = render(
-      <Provider
-        store={mockStore({ ...data, contestableIssues: { status: 'done' } })}
-      >
+      <Provider store={mockStore(data)}>
         <App {...props} />
       </Provider>,
     );
@@ -95,8 +97,19 @@ describe('App', () => {
     expect($('va-loading-indicator', container)).to.not.exist;
   });
 
-  it('should show contestable issue loading indicator', () => {
+  it('should not show contestable issue loading indicator on introduction page', () => {
     const { props, data } = getData();
+    const { container } = render(
+      <Provider store={mockStore(data)}>
+        <App {...props} />
+      </Provider>,
+    );
+
+    expect($('va-loading-indicator', container)).to.not.exist;
+  });
+
+  it('should show contestable issue loading indicator', () => {
+    const { props, data } = getData({ pathname: '/vet-info' });
     const { container } = render(
       <Provider store={mockStore(data)}>
         <App {...props} />
@@ -177,7 +190,10 @@ describe('App', () => {
   });
 
   it('should update contestable issues', async () => {
-    const { props, data } = getData({ loggedIn: true });
+    const { props, data } = getData({
+      loggedIn: true,
+      data: { ...hasComp, internalTesting: true },
+    });
     const contestableIssues = {
       status: 'done',
       issues: [],
@@ -199,24 +215,28 @@ describe('App', () => {
         ...hasComp,
         contestedIssues: [],
         legacyCount: 0,
+        internalTesting: true,
       });
     });
   });
 
   it('should update evidence', async () => {
-    const { props, data } = getData({ loggedIn: true });
+    const { props, data } = getData({
+      loggedIn: true,
+      data: {
+        ...hasComp,
+        contestedIssues: [],
+        legacyCount: 0,
+        [EVIDENCE_VA]: true,
+        locations: [{ issues: ['abc', 'def'] }],
+        additionalIssues: [{ issue: 'bbb', [SELECTED]: true }],
+        internalTesting: true,
+      },
+    });
     const contestableIssues = {
       status: 'done',
       issues: [],
       legacyCount: 0,
-    };
-    data.form.data = {
-      ...hasComp,
-      contestedIssues: [],
-      legacyCount: 0,
-      [EVIDENCE_VA]: true,
-      locations: [{ issues: ['abc', 'def'] }],
-      additionalIssues: [{ issue: 'bbb', [SELECTED]: true }],
     };
     const store = mockStore({ ...data, contestableIssues });
 
