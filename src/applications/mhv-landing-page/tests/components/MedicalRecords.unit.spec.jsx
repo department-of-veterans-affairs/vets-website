@@ -19,6 +19,6 @@ describe('MHV Landing Page -- temporary Medical Records page', () => {
     const link = getByRole('link', { name });
     expect(link.getAttribute('href')).to.eq(props.blueButtonUrl);
     recordTypes.forEach(type => getByText(type));
-    expect(document.title).to.includes(titleCase(pageTitle));
+    expect(document.title).to.include(titleCase(pageTitle));
   });
 });
