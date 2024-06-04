@@ -32,7 +32,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/ccp/urgent_care?page=1&per_page=10&address=14713%20Calaveras%20Drive,%20Austin,%20Texas%2078717,%20United%20States&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
+      }/facilities_api/v2/ccp/urgent_care?page=1&per_page=10&address=14713%20Calaveras%20Drive,%20Austin,%20Texas%2078717,%20United%20States&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
     );
   });
 
@@ -53,7 +53,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/ccp/pharmacy?page=1&per_page=10&address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09`,
+      }/facilities_api/v2/ccp/pharmacy?page=1&per_page=10&address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09`,
     );
   });
 
@@ -71,7 +71,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=health&page=1&per_page=10&mobile=false&bbox[]=-118.9939&bbox[]=33.3044&bbox[]=-117.4939&bbox[]=34.8044`,
+      }/facilities_api/v2/va?type=health&page=1&per_page=10&mobile=false&bbox[]=-118.9939&bbox[]=33.3044&bbox[]=-117.4939&bbox[]=34.8044`,
     );
     result = resolveParamsWithUrl({
       locationType: 'health',
@@ -84,7 +84,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=health&services[]=PrimaryCare&page=1&per_page=10&mobile=false&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
+      }/facilities_api/v2/va?type=health&services[]=PrimaryCare&page=1&per_page=10&mobile=false&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
     );
   });
 
@@ -104,7 +104,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=health&services[]=UrgentCare&page=1&per_page=10&mobile=false&bbox[]=-118.9939&bbox[]=33.3044&bbox[]=-117.4939&bbox[]=34.8044`,
+      }/facilities_api/v2/va?type=health&services[]=UrgentCare&page=1&per_page=10&mobile=false&bbox[]=-118.9939&bbox[]=33.3044&bbox[]=-117.4939&bbox[]=34.8044`,
     );
   });
 
@@ -122,7 +122,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=benefits&page=1&per_page=10&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
+      }/facilities_api/v2/va?type=benefits&page=1&per_page=10&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
     );
     result = resolveParamsWithUrl({
       locationType: 'benefits',
@@ -135,7 +135,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=benefits&services[]=VAHomeLoanAssistance&page=1&per_page=10&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
+      }/facilities_api/v2/va?type=benefits&services[]=VAHomeLoanAssistance&page=1&per_page=10&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
     );
     result = resolveParamsWithUrl({
       locationType: 'benefits',
@@ -148,7 +148,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=benefits&services[]=ApplyingForBenefits&page=1&per_page=10&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
+      }/facilities_api/v2/va?type=benefits&services[]=ApplyingForBenefits&page=1&per_page=10&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
     );
   });
 
@@ -166,7 +166,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=cemetery&page=1&per_page=10&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
+      }/facilities_api/v2/va?type=cemetery&page=1&per_page=10&bbox[]=-98.52&bbox[]=29.74&bbox[]=-97.02&bbox[]=31.24`,
     );
   });
 
@@ -188,7 +188,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/ccp/provider?specialties[]=122300000X&page=1&per_page=10&address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09`,
+      }/facilities_api/v2/ccp/provider?specialties[]=122300000X&page=1&per_page=10&address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09`,
     );
   });
 
@@ -206,7 +206,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=vet_center&page=1&per_page=10&mobile=false&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09`,
+      }/facilities_api/v2/va?type=vet_center&page=1&per_page=10&mobile=false&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09`,
     );
   });
 
@@ -229,7 +229,7 @@ describe('Locator url and parameters builder', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/ccp/provider?specialties[]=122300000X&page=1&per_page=10&radius=40&address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&latitude=33.32464&longitude=-97.18077`,
+      }/facilities_api/v2/ccp/provider?specialties[]=122300000X&page=1&per_page=10&radius=40&address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&bbox[]=-98.45&bbox[]=29.59&bbox[]=-96.95&bbox[]=31.09&latitude=33.32464&longitude=-97.18077`,
     );
   });
 });

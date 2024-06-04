@@ -17,24 +17,7 @@ describe('<ServicesAtFacility>', () => {
         },
       },
     };
-    const testFacilityV0 = {
-      id: 'vba_313f',
-      type: 'facility',
-      attributes: {
-        classification: 'Voc Rehab And Employment',
-        facilityType: 'va_benefits_facility',
-        id: 'vba_313f',
-        services: {
-          benefits: {
-            standard: ['VocationalRehabilitationAndEmploymentAssistance'],
-          },
-        },
-      },
-    };
-    let wrapper = shallow(<ServicesAtFacility facility={testFacilityV1} />);
-    expect(wrapper.type()).to.not.equal(null);
-    wrapper.unmount();
-    wrapper = shallow(<ServicesAtFacility facility={testFacilityV0} />);
+    const wrapper = shallow(<ServicesAtFacility facility={testFacilityV1} />);
     expect(wrapper.type()).to.not.equal(null);
     wrapper.unmount();
   });

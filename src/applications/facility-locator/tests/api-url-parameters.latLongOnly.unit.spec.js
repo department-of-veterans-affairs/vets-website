@@ -31,7 +31,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/ccp/urgent_care?page=1&per_page=10&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/ccp/urgent_care?page=1&per_page=10&lat=35.78&long=-78.68`,
     );
   });
 
@@ -49,7 +49,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/ccp/pharmacy?page=1&per_page=10&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/ccp/pharmacy?page=1&per_page=10&lat=35.78&long=-78.68`,
     );
   });
 
@@ -67,7 +67,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=health&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/va?type=health&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68`,
     );
     result = resolveParamsWithUrl({
       locationType: 'health',
@@ -80,7 +80,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=health&services[]=PrimaryCare&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/va?type=health&services[]=PrimaryCare&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68`,
     );
   });
 
@@ -99,7 +99,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=health&services[]=UrgentCare&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/va?type=health&services[]=UrgentCare&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68`,
     );
   });
 
@@ -117,7 +117,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=benefits&page=1&per_page=10&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/va?type=benefits&page=1&per_page=10&lat=35.78&long=-78.68`,
     );
     result = resolveParamsWithUrl({
       locationType: 'benefits',
@@ -130,7 +130,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=benefits&services[]=VAHomeLoanAssistance&page=1&per_page=10&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/va?type=benefits&services[]=VAHomeLoanAssistance&page=1&per_page=10&lat=35.78&long=-78.68`,
     );
     result = resolveParamsWithUrl({
       locationType: 'benefits',
@@ -143,7 +143,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=benefits&services[]=ApplyingForBenefits&page=1&per_page=10&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/va?type=benefits&services[]=ApplyingForBenefits&page=1&per_page=10&lat=35.78&long=-78.68`,
     );
   });
 
@@ -161,7 +161,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=cemetery&page=1&per_page=10&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/va?type=cemetery&page=1&per_page=10&lat=35.78&long=-78.68`,
     );
   });
 
@@ -183,7 +183,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/ccp/provider?specialties[]=122300000X&page=1&per_page=10&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/ccp/provider?specialties[]=122300000X&page=1&per_page=10&lat=35.78&long=-78.68`,
     );
   });
 
@@ -201,7 +201,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/va?type=vet_center&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/va?type=vet_center&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68`,
     );
   });
 
@@ -220,7 +220,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/ccp/provider?specialties[]=122300000X&page=1&per_page=10&radius=40&lat=33.32464&long=-97.18077`,
+      }/facilities_api/v2/ccp/provider?specialties[]=122300000X&page=1&per_page=10&radius=40&lat=33.32464&long=-97.18077`,
     );
   });
 });
