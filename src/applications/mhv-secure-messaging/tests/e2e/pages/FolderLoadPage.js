@@ -4,7 +4,6 @@ import mockFolders from '../fixtures/folder-response.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import { Data, Assertions, Locators, Paths } from '../utils/constants';
-import PatientInboxPage from './PatientInboxPage';
 
 class FolderLoadPage {
   foldersSetup = () => {
@@ -27,6 +26,13 @@ class FolderLoadPage {
     });
   };
 
+  loadFolders = () => {
+    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDER}`, mockFolders).as(
+      'foldersResponse',
+    );
+    cy.get('[data-testid="folders-inner-nav"]>a').click({ force: true });
+  };
+
   loadFolderMessages = (
     folderName,
     folderNumber,
@@ -34,7 +40,7 @@ class FolderLoadPage {
     messagesList = mockMessages,
   ) => {
     this.foldersSetup();
-    PatientInboxPage.selectFolder();
+    this.loadFolders();
     cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderNumber}*`, {
       data: mockFolders.data[folderResponseIndex],
     }).as('folderMetaData');

@@ -9,7 +9,8 @@ describe('Secure Messaging Sent Folder checks', () => {
     const site = new SecureMessagingSite();
     site.login();
     PatientInboxPage.loadInboxMessages();
-    PatientMessagesSentPage.loadMessages();
+    FolderLoadPage.loadFolders();
+    FolderLoadPage.loadSentMessages();
   });
 
   it('Verify folder header', () => {

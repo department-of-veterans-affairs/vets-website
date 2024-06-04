@@ -9,7 +9,7 @@ import { Alerts } from '../../../util/constants';
 import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 import mockMessages from '../fixtures/messages-response.json';
-import PatientInboxPage from './PatientInboxPage';
+import FolderLoadPage from './FolderLoadPage';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -42,7 +42,7 @@ class PatientMessageDraftsPage {
       this.mockDraftMessages,
     ).as('draftsResponse');
 
-    PatientInboxPage.selectFolder();
+    FolderLoadPage.loadFolders();
     cy.get('[data-testid="Drafts"]>a').click({ force: true });
     // cy.wait('@draftsFolderMetaResponse');
     // cy.wait('@draftsResponse');

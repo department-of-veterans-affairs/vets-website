@@ -9,7 +9,8 @@ describe('Secure Messaging Trash Folder checks', () => {
     const site = new SecureMessagingSite();
     site.login();
     PatientInboxPage.loadInboxMessages();
-    PatientMessageTrashPage.loadMessages();
+    FolderLoadPage.loadFolders();
+    FolderLoadPage.loadDeletedMessages();
   });
 
   it('Verify folder header', () => {

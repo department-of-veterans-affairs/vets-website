@@ -314,31 +314,6 @@ class PatientInboxPage {
     }
   };
 
-  clickInboxSideBar = () => {};
-
-  clickSentSideBar = () => {};
-
-  clickTrashSideBar = () => {};
-
-  clickDraftsSideBar = () => {};
-
-  selectFolder = () => {
-    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDER}`, mockFolders).as(
-      'foldersResponse',
-    );
-    cy.get('[data-testid="folders-inner-nav"]>a').click({ force: true });
-  };
-
-  clickMyFoldersSideBar = () => {
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
-      mockFolders,
-    ).as('folders');
-    cy.get(Locators.FOLDERS_LIST).click();
-    cy.wait('@folders');
-  };
-
   getLoadedMessages = () => {
     return this.loadedMessagesData;
   };
@@ -361,12 +336,6 @@ class PatientInboxPage {
 
   verifyMoveMessageWithAttachmentSuccessMessage = () => {
     cy.get('p').contains('Message conversation was successfully moved');
-  };
-
-  interstitialStartMessage = type => {
-    return cy
-      .get('a')
-      .contains(`Continue to ${!type ? 'start message' : type} `);
   };
 
   navigateToComposePage = (checkFocusOnVcl = false) => {

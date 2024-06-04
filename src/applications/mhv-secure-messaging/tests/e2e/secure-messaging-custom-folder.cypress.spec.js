@@ -2,13 +2,14 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 import { AXE_CONTEXT } from './utils/constants';
+import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('Secure Messaging Custom Folder AXE Check', () => {
   beforeEach(() => {
     const site = new SecureMessagingSite();
     site.login();
     PatientInboxPage.loadInboxMessages();
-    PatientInboxPage.selectFolder();
+    FolderLoadPage.loadFolders();
     PatientMessageCustomFolderPage.loadMessages();
   });
 

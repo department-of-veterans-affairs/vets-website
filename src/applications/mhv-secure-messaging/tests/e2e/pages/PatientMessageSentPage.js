@@ -5,7 +5,7 @@ import mockSingleMessageResponse from '../fixtures/sentResponse/sent-single-mess
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/sentResponse/sorted-sent-messages-response.json';
 import { Locators, Paths } from '../utils/constants';
-import PatientInboxPage from './PatientInboxPage';
+import FolderLoadPage from './FolderLoadPage';
 
 class PatientMessageSentPage {
   loadMessages = (mockMessagesResponse = mockSentMessages) => {
@@ -19,7 +19,7 @@ class PatientMessageSentPage {
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-1/threads**`,
       mockMessagesResponse,
     ).as('sentFolderMessages');
-    PatientInboxPage.selectFolder();
+    FolderLoadPage.loadFolders();
   };
 
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {

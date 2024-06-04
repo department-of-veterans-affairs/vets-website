@@ -2,13 +2,14 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT, Locators, Data } from './utils/constants';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
+import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('edit custom folder name validation', () => {
   it('verify axe check', () => {
     const site = new SecureMessagingSite();
     site.login();
     PatientInboxPage.loadInboxMessages();
-    PatientInboxPage.selectFolder();
+    FolderLoadPage.loadFolders();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
@@ -18,7 +19,7 @@ describe('edit custom folder name validation', () => {
     const site = new SecureMessagingSite();
     site.login();
     PatientInboxPage.loadInboxMessages();
-    PatientInboxPage.selectFolder();
+    FolderLoadPage.loadFolders();
     PatientMessageCustomFolderPage.loadMessages();
 
     PatientMessageCustomFolderPage.editFolderButton()
@@ -37,7 +38,7 @@ describe('edit custom folder name validation', () => {
     const site = new SecureMessagingSite();
     site.login();
     PatientInboxPage.loadInboxMessages();
-    PatientInboxPage.selectFolder();
+    FolderLoadPage.loadFolders();
     PatientMessageCustomFolderPage.loadMessages();
 
     PatientMessageCustomFolderPage.editFolderButton()

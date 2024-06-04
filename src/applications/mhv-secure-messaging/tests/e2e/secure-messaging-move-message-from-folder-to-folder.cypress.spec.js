@@ -8,6 +8,7 @@ import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import mockMessages from './fixtures/messages-response.json';
 import mockMessagewithAttachment from './fixtures/message-response-withattachments.json';
 import { AXE_CONTEXT } from './utils/constants';
+import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('Secure Messaging Move Message tests', () => {
   it('move message from custom folder to Deleted', () => {
@@ -16,7 +17,7 @@ describe('Secure Messaging Move Message tests', () => {
     const { folderId } = mockFoldersResponse.data.at(4).attributes;
     site.login();
     PatientInboxPage.loadInboxMessages();
-    PatientInboxPage.clickMyFoldersSideBar();
+    FolderLoadPage.loadFolders();
 
     FolderManagementPage.clickAndLoadCustomFolder(
       folderName,
