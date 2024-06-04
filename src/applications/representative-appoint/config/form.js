@@ -1,18 +1,11 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+// import fullSchema from 'vets-json-schema/dist/21-22-schema.json';
 
-// Example of an imported schema:
-// import fullSchema from '../21-22-AND-21-22A-schema.json';
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/21-22-AND-21-22A-schema.json';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms-system/src/js/definitions/address';
-
-// import fullSchema from 'vets-json-schema/dist/21-22-AND-21-22A-schema.json';
 
 import manifest from '../manifest.json';
 
@@ -35,16 +28,19 @@ const formConfig = {
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
+  trackingPrefix: 'appoint-a-rep-21-22',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21-22-AND-21-22A',
+  formId: '21-22',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your VA accredited representative appointment application (21-22-AND-21-22A) is in progress.',
-    //   expired: 'Your saved VA accredited representative appointment application (21-22-AND-21-22A) has expired. If you want to apply for VA accredited representative appointment, please start a new application.',
-    //   saved: 'Your VA accredited representative appointment application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your VA accredited representative appointment application (21-22) is in progress.',
+      expired:
+        'Your saved VA accredited representative appointment application (21-22) has expired. If you want to apply for VA accredited representative appointment, please start a new application.',
+      saved:
+        'Your VA accredited representative appointment application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,

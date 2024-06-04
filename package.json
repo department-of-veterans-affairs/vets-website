@@ -28,6 +28,7 @@
     "daily-product-scan": "node script/github-actions/daily-product-scan/index.js",
     "debug:webpack:prod": "NODE_ENV=production NODE_OPTIONS=--max-old-space-size=4096 node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js --env.buildtype vagovprod",
     "generate-app-list": "node script/github-actions/generate-app-list.js",
+    "generate-form-docs": "node ./script/generate-form-docs.js",
     "heroku-postbuild": "sh script/heroku-postbuild.sh",
     "heroku-serve": "http-server",
     "install-repos": "./script/install-repos.sh",
@@ -259,7 +260,7 @@
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-logs": "^5.8.0",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "^42.0.0",
+    "@department-of-veterans-affairs/component-library": "^42.1.1",
     "@department-of-veterans-affairs/css-library": "^0.7.3-rc32",
     "@department-of-veterans-affairs/formation": "11.0.5",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
@@ -331,7 +332,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#988c85761c01720a53759e1be0bc62642b9dc2bb"
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#70557e02ecd63b9cc10dca138fdfcb17e176e09a"
   },
   "resolutions": {
     "**/lodash": "4.17.21",

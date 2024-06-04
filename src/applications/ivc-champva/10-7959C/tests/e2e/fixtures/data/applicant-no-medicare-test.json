@@ -1,7 +1,7 @@
 {
   "data": {
     "secondaryAdditionalComments": "Secondary comment",
-    "secondaryMedigapPlan": "medigapPlanD",
+    "secondaryMedigapPlan": "D",
     "applicantSecondaryInsuranceType": {
       "hmo": true,
       "ppo": true,
@@ -16,7 +16,7 @@
     "applicantSecondaryExpirationDate": "2023-06-02",
     "applicantHasSecondary": true,
     "primaryAdditionalComments": "Additional primary comment",
-    "primaryMedigapPlan": "medigapPlanB",
+    "primaryMedigapPlan": "B",
     "applicantPrimaryInsuranceType": {
       "hmo": true,
       "ppo": true,
@@ -41,18 +41,21 @@
     "applicantSsn": "333221111",
     "applicantName": {
       "first": "Applicant",
-      "middle": "Jerry",
       "last": "Jones",
       "suffix": "Sr."
     },
     "applicantDOB": "1950-02-03",
-    "certifierRole": "applicant",
-    "preparerType": "sponsor",
     "missingUploads": [
       {
         "name": "primaryInsuranceCard",
         "path": "insurance-upload",
         "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "secondaryInsuranceScheduleOfBenefits",
+        "path": "secondary-insurance-sob",
+        "required": false,
         "uploaded": false
       },
       {
@@ -63,7 +66,7 @@
       }
     ],
     "consentToMailMissingRequiredFiles": true,
-    "statementOfTruthSignature": "Applicant Jerry Jones",
+    "statementOfTruthSignature": "Applicant Jones",
     "statementOfTruthCertified": true
   }
 }

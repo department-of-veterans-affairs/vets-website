@@ -179,6 +179,10 @@
   }
 }
 
+.renew-card-details > p {
+  margin: 0px;
+}
+
 .pagination {
   max-width: 500px;
   border-top: 0px;
@@ -301,7 +305,7 @@
   align-items: baseline;
 
   &::before {
-    min-width: 2rem;
+    min-width: 1.25rem !important;
   }
 }
 

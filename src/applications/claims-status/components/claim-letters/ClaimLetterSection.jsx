@@ -16,7 +16,7 @@ export default function ClaimLetterSection() {
       <h2 id="your-claim-letters">Your claim letters</h2>
       <Link className="active-va-link" to="/your-claim-letters">
         Download your VA claim letters
-        <i aria-hidden="true" />
+        <va-icon icon="chevron_right" size={3} aria-hidden="true" />
       </Link>
       <p className="vads-u-margin-y--0p5">{claimLetterSubText}</p>
     </div>

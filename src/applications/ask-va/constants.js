@@ -6,7 +6,6 @@ export const URL = {
   GET_TOPICS: `/topics?user_mock_data=true`,
   GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
-  GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `/v0/gi/institutions/search?name=`,
@@ -301,9 +300,9 @@ export const CHAPTER_3 = {
     TITLE: 'Your postal code',
     PAGE_DESCRIPTION: '',
     QUESTION_1:
-      'I receive mail outside of the United States on a U.S. military base.',
+      'Veteran receives mail outside of the United States on a U.S. military base.',
     QUESTION_2: 'Post office',
-    QUESTION_3: 'Region',
+    QUESTION_3: 'State',
     QUESTION_4: 'Postal code',
   },
   WHO_QUES_IS_ABOUT: {
@@ -340,7 +339,12 @@ export const CHAPTER_3 = {
   CONTACT_PREF: {
     TITLE: 'Your contact preference',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'How should we contact you?',
+    QUESTION_1: {
+      QUESTION: 'Preferred name',
+      HINT: 'Let us know how we should refer to you',
+      ERROR: 'This field accepts alphabetic characters only',
+    },
+    QUESTION_2: 'How should we contact you?',
   },
   YOUR_COUNTRY: {
     TITLE: 'Your country', // country
@@ -358,9 +362,9 @@ export const CHAPTER_3 = {
     QUESTION_1: '',
   },
   ABOUT_YOUR_FAM_MEM: {
-    TITLE: 'Your relationship to the family member',
+    TITLE: 'Tell us about your family member',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select your relationship to the family member',
+    QUESTION_1: '',
   },
   RELATIONSHIP_TO_FAM_MEM: {
     TITLE: 'What is your relationship to the family member?',
@@ -395,6 +399,10 @@ export const CHAPTER_3 = {
   },
   FAMILY_MEMBERS_LOCATION_OF_RESIDENCE: {
     TITLE: `Family member's location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
+  YOUR_LOCATION_OF_RESIDENCE: {
+    TITLE: `Your location of residence`,
     QUESTION_1: 'State/Province/Region',
   },
 };

@@ -10,6 +10,7 @@ import {
   reviewAndSubmitPageFlow,
   fillAddressWebComponentPattern,
   getAllPages,
+  verifyAllDataWasSubmitted,
 } from '../../shared/tests/helpers';
 
 // Put all page objects into an object where pagename maps to page data
@@ -24,10 +25,9 @@ const testConfig = createTestConfig(
     // Rename and modify the test data as needed.
     /* 
     1. test-data: standard run-through of the form
-    2. no-secondary: no secondary insurance, certifierRole === 'applicant'
-       (skips all certifier + secondary ins pages) 
+    2. no-secondary: no secondary insurance (skips all secondary ins pages) 
     The rest of the tests are described by their filenames and are just
-    variations designed to trigger the conditionals in the form. 
+    variations designed to trigger the conditionals in the form/follow different paths. 
     */
     dataSets: [
       'test-data',
@@ -48,19 +48,6 @@ const testConfig = createTestConfig(
           cy.findAllByText(/start/i, { selector: 'a' })
             .first()
             .click();
-        });
-      },
-      [ALL_PAGES.address.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
-              'certifierAddress',
-              data.certifierAddress,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
         });
       },
       [ALL_PAGES.applicantAddressInfo.path]: ({ afterHook }) => {
@@ -92,10 +79,7 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const name =
-              data.certifierRole === 'applicant'
-                ? data.applicantName
-                : data.certifierName;
+            const name = data.applicantName;
             reviewAndSubmitPageFlow(name);
           });
         });
@@ -104,35 +88,13 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
-          Object.keys(data).forEach(k => {
-            // Expect all original data used to populate the form
-            // to be present in the submission - this is how we
-            // know that pages we intended to fill didn't get skipped:
-
-            // handle special cases:
-            if (k.endsWith('MedigapPlan')) {
-              // Grab last letter from original data ('medigapPlanK' -> 'K')
-              expect(data[k].slice(-1)).to.equal(req.body[k]);
-            } else if (typeof k === 'object') {
-              // For objects with nested keys, just stringify and check
-              // (easier for things like home address)
-              expect(JSON.stringify(data[k])).to.equal(
-                JSON.stringify(req.body[k]),
-              );
-            } else if (k.includes('DOB') || k.includes('Date')) {
-              // Just check length match. There's a discrepancy in the
-              // format of dates (goes from YYYY-MM-DD to MM-DD-YYYY).
-              // TODO: Address discrepancy at some point.
-              expect(data[k]?.length).to.equal(req.body[k]?.length);
-            } else {
-              expect(data[k] === req.body[k]);
-            }
-          });
+          verifyAllDataWasSubmitted(data, req.body);
         });
         // Mock the backend response on form submit:
         req.reply({ status: 200 });
       });
       cy.config('includeShadowDom', true);
+      cy.config('retries', { runMode: 0 });
     },
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
