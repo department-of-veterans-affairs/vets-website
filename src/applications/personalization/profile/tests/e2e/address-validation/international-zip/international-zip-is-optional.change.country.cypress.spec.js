@@ -1,10 +1,10 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 import receivedTransaction from '@@profile/tests/fixtures/transactions/received-transaction.json';
 import finishedTransaction from '@@profile/tests/fixtures/transactions/finished-transaction.json';
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import mockUser from './mocks/international-user.json';
 import AddressPage from '../page-objects/AddressPage';
 import { generateFeatureToggles } from '../../../../mocks/endpoints/feature-toggles';
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { createUserResponse } from '../user';
 import { createAddressValidationResponse } from '../addressValidation';
 

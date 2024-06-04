@@ -36,4 +36,15 @@ describe('<CurrentStatus/>', () => {
     expect(statusTitle).to.equal(props.title);
     expect(statusDescription).to.equal(props.description.props.children);
   });
+
+  it('masks the contention details from datadog (no PII)', () => {
+    const wrapper = shallow(<CurrentStatus {...defaultProps} />);
+    expect(
+      wrapper
+        .find('.current-status-content > div')
+        .first()
+        .props()['data-dd-privacy'],
+    ).to.equal('mask');
+    wrapper.unmount();
+  });
 });

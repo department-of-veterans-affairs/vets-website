@@ -2,10 +2,11 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
-  dateRangeDescription,
+  dateRangeDescriptionWithLocation,
   dateRangePageDescription,
   datesDescription,
   getKeyIndex,
+  getOtherFieldDescription,
   getSelectedCount,
   isClaimingTECondition,
   makeTEConditionsSchema,
@@ -358,14 +359,14 @@ describe('toxicExposure', () => {
   describe('dateRangePageDescription', () => {
     it('displays description when counts specified', () => {
       const tree = render(dateRangePageDescription(1, 5, 'Egypt'));
-      tree.getByText('1 of 5: Egypt', { exact: false });
-      tree.getByText(dateRangeDescription);
+      tree.getByText('Location 1 of 5: Egypt', { exact: false });
+      tree.getByText(dateRangeDescriptionWithLocation);
     });
 
     it('displays description when counts not specified', () => {
       const tree = render(dateRangePageDescription(0, 0, 'Egypt'));
       tree.getByText('Egypt');
-      tree.getByText(dateRangeDescription);
+      tree.getByText(dateRangeDescriptionWithLocation);
     });
   });
 
@@ -381,8 +382,8 @@ describe('toxicExposure', () => {
         },
       };
 
-      expect(getKeyIndex('bahrain', 'gulfWar1990', { formData })).to.equal(1);
-      expect(getKeyIndex('airspace', 'gulfWar1990', { formData })).to.equal(2);
+      expect(getKeyIndex('bahrain', 'gulfWar1990', formData)).to.equal(1);
+      expect(getKeyIndex('airspace', 'gulfWar1990', formData)).to.equal(2);
     });
 
     it('returns 0 when location data not available', () => {
@@ -403,8 +404,8 @@ describe('toxicExposure', () => {
         },
       };
 
-      expect(getKeyIndex('egypt', 'gulfWar1990', { formData })).to.equal(0);
-      expect(getKeyIndex('bahrain', 'gulfWar1990', { formData })).to.equal(0);
+      expect(getKeyIndex('egypt', 'gulfWar1990', formData)).to.equal(0);
+      expect(getKeyIndex('bahrain', 'gulfWar1990', formData)).to.equal(0);
     });
   });
 
@@ -420,7 +421,7 @@ describe('toxicExposure', () => {
         },
       };
 
-      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(2);
+      expect(getSelectedCount('gulfWar1990', formData)).to.be.equal(2);
     });
 
     it('gets 0 count when no items selected', () => {
@@ -434,7 +435,7 @@ describe('toxicExposure', () => {
         },
       };
 
-      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
+      expect(getSelectedCount('gulfWar1990', formData)).to.be.equal(0);
     });
 
     it('gets 0 count when no checkbox values', () => {
@@ -444,17 +445,66 @@ describe('toxicExposure', () => {
         },
       };
 
-      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
+      expect(getSelectedCount('gulfWar1990', formData)).to.be.equal(0);
     });
 
     it('gets 0 count when no checkbox object not found', () => {
       const formData = {};
 
-      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
+      expect(getSelectedCount('gulfWar1990', formData)).to.be.equal(0);
     });
 
     it('gets 0 count when no form data', () => {
       expect(getSelectedCount('gulfWar1990', undefined)).to.be.equal(0);
+    });
+
+    it('gets the count with a mix of selected and deselected items and other description', () => {
+      const formData = {
+        toxicExposure: {
+          herbicide: {
+            cambodia: true,
+            koreandemilitarizedzone: true,
+            laos: true,
+            vietnam: false,
+          },
+          otherHerbicideLocations: {
+            startDate: '1968-01-01',
+            endDate: '1969-01-01',
+            description: 'location 1, location 2',
+          },
+        },
+      };
+
+      expect(
+        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+      ).to.be.equal(4);
+    });
+
+    it('gets the count with other description only', () => {
+      const formData = {
+        toxicExposure: {
+          herbicide: {},
+          otherHerbicideLocations: {
+            description: 'location 1, location 2',
+          },
+        },
+      };
+
+      expect(
+        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+      ).to.be.equal(1);
+    });
+
+    it('gets 0 count when `notsure` location is selected', () => {
+      const formData = {
+        toxicExposure: {
+          gulfWar1990: {
+            notsure: true,
+          },
+        },
+      };
+
+      expect(getSelectedCount('gulfWar1990', { formData })).to.be.equal(0);
     });
   });
 
@@ -572,10 +622,15 @@ describe('toxicExposure', () => {
             gulfWar1990: {
               none: true,
             },
+            gulfWar2001: {
+              none: true,
+            },
           },
         };
 
         expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'none')).to
+          .be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar2001', 'none')).to
           .be.false;
       });
 
@@ -597,12 +652,47 @@ describe('toxicExposure', () => {
               afghanistan: true,
               none: true,
             },
+            gulfWar2001: {
+              yemen: true,
+              none: true,
+            },
           },
         };
 
         expect(
           showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'afghanistan'),
         ).to.be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar2001', 'yemen')).to
+          .be.false;
+      });
+
+      it('should return false when `notsure` location is selected', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              notsure: true,
+            },
+            gulfWar2001: {
+              notsure: true,
+            },
+          },
+        };
+
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar1990', 'notsure'))
+          .to.be.false;
+        expect(showCheckboxLoopDetailsPage(formData, 'gulfWar2001', 'notsure'))
+          .to.be.false;
       });
     });
   });
@@ -714,13 +804,17 @@ describe('toxicExposure', () => {
             gulfWar1990: {
               none: true,
             },
+            gulfWar2001: {
+              none: true,
+            },
           },
         };
 
         expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar2001')).to.be.false;
       });
 
-      it('should return false when `none` and another location is selected', () => {
+      it('should return false when `none` and another location are selected', () => {
         const formData = {
           newDisabilities: [
             {
@@ -738,10 +832,71 @@ describe('toxicExposure', () => {
               afghanistan: true,
               none: true,
             },
+            gulfWar2001: {
+              yemen: true,
+              none: true,
+            },
           },
         };
 
         expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar2001')).to.be.false;
+      });
+
+      it('should return false when `notsure` location is selected', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              notsure: true,
+            },
+            gulfWar2001: {
+              notsure: true,
+            },
+          },
+        };
+
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.false;
+        expect(showSummaryPage(formData, 'gulfWar2001')).to.be.false;
+      });
+
+      it('should return true when `notsure` and another location are selected', () => {
+        const formData = {
+          newDisabilities: [
+            {
+              cause: 'NEW',
+              primaryDescription: 'Test description',
+              'view:serviceConnectedDisability': {},
+              condition: 'anemia',
+            },
+          ],
+          toxicExposure: {
+            conditions: {
+              anemia: true,
+            },
+            gulfWar1990: {
+              afghanistan: true,
+              notsure: true,
+            },
+            gulfWar2001: {
+              yemen: true,
+              notsure: true,
+            },
+          },
+        };
+
+        expect(showSummaryPage(formData, 'gulfWar1990')).to.be.true;
+        expect(showSummaryPage(formData, 'gulfWar2001')).to.be.true;
       });
     });
   });
@@ -787,6 +942,23 @@ describe('toxicExposure', () => {
       expect(datesDescription(dates)).to.equal(
         'January 2022 - No end date entered',
       );
+    });
+  });
+
+  describe('getOtherFieldDescription', () => {
+    it('gets the trimmed value', () => {
+      const formData = {
+        toxicExposure: {
+          otherHerbicideLocations: {
+            startDate: '1968-01-01',
+            endDate: '1969-01-01',
+            description: ' location 1, location 2   ',
+          },
+        },
+      };
+      expect(
+        getOtherFieldDescription(formData, 'otherHerbicideLocations'),
+      ).to.equal('location 1, location 2');
     });
   });
 });

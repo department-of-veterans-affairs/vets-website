@@ -2,6 +2,7 @@ import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { EMPTY_FIELD, interpretationMap } from './constants';
 
 /**
@@ -14,6 +15,15 @@ export const dateFormat = (timestamp, format = null) => {
   return moment
     .tz(timestamp, timeZone)
     .format(format || 'MMMM D, YYYY, h:mm a z');
+};
+
+/**
+ * @param {*} datetime (2017-08-02T09:50:57-04:00)
+ * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
+ */
+export const dateFormatWithoutTimezone = datetime => {
+  const withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+  return moment(withoutTimezone).format('MMMM D, YYYY, h:mm a');
 };
 
 /**
@@ -43,17 +53,28 @@ export const getReactions = record => {
 };
 
 /**
+ * @param {Any} obj
+ * @returns {Boolean} true if obj is an array and has at least one item
+ */
+export const isArrayAndHasItems = obj => {
+  return Array.isArray(obj) && obj.length;
+};
+
+/**
  * Concatenate all the record.category[].text values in a FHIR record.
  *
  * @param {Object} record
  * @returns {String} list of text values, separated by a comma
  */
 export const concatCategoryCodeText = record => {
-  const textFields = record.category
-    .filter(category => category.text)
-    .map(category => category.text);
+  if (isArrayAndHasItems(record.category)) {
+    const textFields = record.category
+      .filter(category => category.text)
+      .map(category => category.text);
 
-  return textFields.join(', ');
+    return textFields.join(', ');
+  }
+  return null;
 };
 
 /**
@@ -65,13 +86,16 @@ export const concatCategoryCodeText = record => {
  * @returns {String} list of interpretations, separated by a comma
  */
 export const concatObservationInterpretations = record => {
-  const textFields = record.interpretation
-    .filter(interpretation => interpretation.text)
-    .map(
-      interpretation =>
-        interpretationMap[interpretation.text] || interpretation.text,
-    );
-  return textFields.join(', ');
+  if (isArrayAndHasItems(record.interpretation)) {
+    const textFields = record.interpretation
+      .filter(interpretation => interpretation.text)
+      .map(
+        interpretation =>
+          interpretationMap[interpretation.text] || interpretation.text,
+      );
+    return textFields.join(', ');
+  }
+  return null;
 };
 
 /**
@@ -80,9 +104,10 @@ export const concatObservationInterpretations = record => {
  */
 export const getObservationValueWithUnits = observation => {
   if (observation.valueQuantity) {
-    return `${observation.valueQuantity.value} ${
-      observation.valueQuantity.unit
-    }`;
+    return {
+      observationValue: observation.valueQuantity.value,
+      observationUnit: observation.valueQuantity.unit,
+    };
   }
   return null;
 };
@@ -118,14 +143,6 @@ export const sendErrorToSentry = (error, page) => {
  */
 export const macroCase = str => {
   return snakeCase(str).toUpperCase();
-};
-
-/**
- * @param {Any} obj
- * @returns {Boolean} true if obj is an array and has at least one item
- */
-export const isArrayAndHasItems = obj => {
-  return Array.isArray(obj) && obj.length;
 };
 
 /**
@@ -276,4 +293,37 @@ export const getActiveLinksStyle = (linkPath, currentPath) => {
   }
 
   return '';
+};
+
+// check date type
+export const parseDate = str => {
+  const yearRegex = /^\d{4}$/;
+  const monthRegex = /^\d{4}-\d{2}$/;
+  if (yearRegex.test(str)) {
+    return str;
+  }
+  if (monthRegex.test(str)) {
+    const date = new Date(str);
+    const month = date.getMonth();
+    const year = date.getFullYear();
+
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    const monthName = monthNames[month + 1];
+    return `${monthName}, ${year}`;
+  }
+  return formatDateLong(str);
 };

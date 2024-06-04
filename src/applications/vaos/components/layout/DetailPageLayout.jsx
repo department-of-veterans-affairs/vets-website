@@ -1,20 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import { shallowEqual } from 'recompose';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import { useParams } from 'react-router-dom';
 import BackLink from '../BackLink';
 import AppointmentCard from '../AppointmentCard';
-import { getConfirmedAppointmentDetailsInfo } from '../../appointment-list/redux/selectors';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
 import { startAppointmentCancel } from '../../appointment-list/redux/actions';
+import AfterVisitSummary from '../AfterVisitSummary';
+import {
+  selectFacility,
+  selectIsPast,
+} from '../../appointment-list/redux/selectors';
+import StatusAlert from '../StatusAlert';
 
 export function Section({ children, heading }) {
   return (
     <>
-      <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
+      <h2 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
         {heading}
       </h2>
       {children}
@@ -47,17 +51,23 @@ Who.propTypes = {
   children: PropTypes.node,
 };
 
-export function Where({ children }) {
-  return <Section heading="Where to attend">{children}</Section>;
+export function Where({ children, heading = 'Where' } = {}) {
+  return <Section heading={heading}>{children}</Section>;
 }
 Where.propTypes = {
   children: PropTypes.node,
+  heading: PropTypes.string,
 };
 
 function CancelButton({ appointment }) {
   const dispatch = useDispatch();
   const { status, vaos } = appointment;
-  const { isCommunityCare } = vaos;
+  const {
+    isCommunityCare,
+    isCompAndPenAppointment,
+    isVideo,
+    isPastAppointment,
+  } = vaos;
 
   let event = `${GA_PREFIX}-cancel-booked-clicked`;
   if (APPOINTMENT_STATUS.proposed === status)
@@ -65,7 +75,9 @@ function CancelButton({ appointment }) {
 
   const button = (
     <VaButton
-      text="Cancel appointment"
+      text={`Cancel ${
+        APPOINTMENT_STATUS.booked === status ? 'appointment' : 'request'
+      }`}
       secondary
       onClick={() => {
         recordEvent({
@@ -76,27 +88,44 @@ function CancelButton({ appointment }) {
     />
   );
 
-  if (!isCommunityCare && APPOINTMENT_STATUS.cancelled !== status)
+  if (
+    APPOINTMENT_STATUS.cancelled !== status &&
+    !isCommunityCare &&
+    !isCompAndPenAppointment &&
+    !isVideo &&
+    !isPastAppointment
+  )
     return button;
 
-  if (isCommunityCare && APPOINTMENT_STATUS.booked !== status) return button;
+  if (APPOINTMENT_STATUS.proposed === status && !isPastAppointment)
+    return button;
 
   return null;
 }
 
-export default function DetailPageLayout({ children, header, instructions }) {
+export default function DetailPageLayout({
+  children,
+  data: appointment,
+  heading,
+}) {
   const { id } = useParams();
-  const { appointment } = useSelector(
-    state => getConfirmedAppointmentDetailsInfo(state, id),
-    shallowEqual,
-  );
+  const { facility } = useSelector(state => selectFacility(state, id));
+
+  if (!appointment) return null;
+
+  const isPastAppointment = selectIsPast(appointment);
 
   return (
     <>
       <BackLink appointment={appointment} />
       <AppointmentCard appointment={appointment}>
-        <h1>{header}</h1>
-        {!!instructions && <p>{instructions}</p>}
+        <h1 className="vads-u-font-size--h2">{heading}</h1>
+        <StatusAlert appointment={appointment} facility={facility} />
+        {isPastAppointment && (
+          <Section heading="After visit summary">
+            <AfterVisitSummary data={appointment} />
+          </Section>
+        )}
         {children}
         <div className="vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print">
           <span className="vads-u-margin-right--2">
@@ -116,6 +145,6 @@ export default function DetailPageLayout({ children, header, instructions }) {
 }
 DetailPageLayout.propTypes = {
   children: PropTypes.node,
-  header: PropTypes.string,
-  instructions: PropTypes.string,
+  data: PropTypes.object,
+  heading: PropTypes.string,
 };

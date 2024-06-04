@@ -12,13 +12,15 @@ describe('Medical Records View Labs And Tests', () => {
     ChemHemDetailsPage.verifyLabName(
       'POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN:',
     );
-    ChemHemDetailsPage.verifyLabDate('January 21, 2021');
-    ChemHemDetailsPage.verifySampleTested('None noted');
-    ChemHemDetailsPage.verifyOrderedBy('None noted');
-    ChemHemDetailsPage.verifyLabOrderingLocation('None noted');
-    ChemHemDetailsPage.verifyLabCollectingLocation('None noted');
+    ChemHemDetailsPage.verifyLabDate('January 20, 2021');
+    ChemHemDetailsPage.verifySampleTested('SERUM');
+    ChemHemDetailsPage.verifyOrderedBy('DOE, JANE A');
+    ChemHemDetailsPage.verifyLabCollectingLocation('Lab Site 989');
     // There might be a new line in this provider notes example.  we need to check later
-    ChemHemDetailsPage.verifyProviderNotes("Lisa's Test 1/20/2021");
+    ChemHemDetailsPage.verifyProviderNotes(
+      "Jane's Test 1/20/2021 - Second lab",
+    );
+    ChemHemDetailsPage.verifyProviderNotes('Added Potassium test');
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');

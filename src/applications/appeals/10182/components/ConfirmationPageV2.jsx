@@ -22,7 +22,7 @@ export const ConfirmationPageV2 = () => {
   const alertRef = useRef(null);
 
   const form = useSelector(state => state.form || {});
-  const profile = useSelector(state => selectProfile(state) || {});
+  const profile = useSelector(state => selectProfile(state));
 
   useEffect(
     () => {
@@ -35,7 +35,7 @@ export const ConfirmationPageV2 = () => {
     [alertRef],
   );
 
-  const { submission, data } = form;
+  const { submission, data = {} } = form;
   const submitDate = getReadableDate(
     submission?.timestamp || new Date().toISOString(),
   );
@@ -126,11 +126,16 @@ export const ConfirmationPageV2 = () => {
         You submitted the following information for the Board Appeal
       </h2>
 
-      <ConfirmationPersonalInfo profile={profile} data={data} />
+      <ConfirmationPersonalInfo
+        dob={profile.dob}
+        homeless={data.homeless}
+        userFullName={profile.userFullName}
+        veteran={data.veteran}
+      />
 
       <ConfirmationIssues data={data} />
 
-      <h3 className="vads-u-margin-top--2">Board Review Options</h3>
+      <h3 className="vads-u-margin-top--2">Board review options</h3>
       {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
           a problem with Safari not treating the `ul` as a list. */}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
@@ -146,22 +151,23 @@ export const ConfirmationPageV2 = () => {
             {boardReviewLabels[data.boardReviewOption] || ''}
           </div>
         </li>
-        {data.boardReviewOption === 'evidence_submission' && (
-          <li>
-            <div className="page-title vads-u-color--gray">
-              Uploaded evidence
-            </div>
-            {data.evidence.map((file, index) => (
-              <div
-                key={index}
-                className="page-value dd-privacy-hidden"
-                data-dd-action-name="evidence file name"
-              >
-                {file.name}
+        {data.boardReviewOption === 'evidence_submission' &&
+          data.evidence.length && (
+            <li>
+              <div className="page-title vads-u-color--gray">
+                Uploaded evidence
               </div>
-            ))}
-          </li>
-        )}
+              {data.evidence?.map((file, index) => (
+                <div
+                  key={index}
+                  className="page-value dd-privacy-hidden"
+                  data-dd-action-name="evidence file name"
+                >
+                  {file.name}
+                </div>
+              ))}
+            </li>
+          )}
         {data.boardReviewOption === 'hearing' && (
           <>
             <li>

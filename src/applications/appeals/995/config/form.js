@@ -21,7 +21,6 @@ import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
 import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
-import submissionError from '../content/submissionError';
 import reviewErrors from '../content/reviewErrors';
 
 import veteranInfo from '../pages/veteranInfo';
@@ -68,11 +67,12 @@ import submitForm from './submitForm';
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 import fullSchema from './form-0995-schema.json';
 
-import { focusEvidence, focusUploads } from '../utils/focus';
+import { focusEvidence } from '../utils/focus';
 
+import submissionError from '../../shared/content/submissionError';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
-import { focusAlertH3, focusRadioH3 } from '../../shared/utils/focus';
+import { focusAlertH3, focusRadioH3, focusH3 } from '../../shared/utils/focus';
 import { appStateSelector } from '../../shared/utils/issues';
 
 // const { } = fullSchema.properties;
@@ -135,6 +135,7 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
+          scrollAndFocusTarget: focusH3,
         },
 
         ...contactInfo,
@@ -161,6 +162,7 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
+          scrollAndFocusTarget: focusH3,
         },
         addIssue: {
           title: 'Add issues for review',
@@ -171,12 +173,14 @@ const formConfig = {
           uiSchema: {},
           schema: blankSchema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
+          scrollAndFocusTarget: focusH3,
         },
         issueSummary: {
           title: 'Issue summary',
           path: 'issue-summary',
           uiSchema: issueSummary.uiSchema,
           schema: issueSummary.schema,
+          scrollAndFocusTarget: focusH3,
         },
         optIn: {
           title: 'Opt in',
@@ -184,6 +188,7 @@ const formConfig = {
           depends: mayHaveLegacyAppeals,
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
+          scrollAndFocusTarget: focusH3,
         },
       },
     },
@@ -238,6 +243,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
           schema: evidencePrivateRecordsAuthorization.schema,
+          scrollAndFocusTarget: focusH3,
         },
         evidencePrivateRecords: {
           title: 'Private medical records',
@@ -257,6 +263,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: blankUiSchema,
           schema: blankSchema,
+          scrollAndFocusTarget: focusH3,
         },
         evidenceWillUpload: {
           title: 'Upload new and relevant evidence',
@@ -271,7 +278,7 @@ const formConfig = {
           depends: hasOtherEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,
-          scrollAndFocusTarget: focusUploads,
+          scrollAndFocusTarget: focusH3,
         },
         evidenceSummary: {
           title: 'Summary of evidence',
@@ -280,6 +287,7 @@ const formConfig = {
           CustomPageReview: EvidenceSummaryReview,
           uiSchema: evidenceSummary.uiSchema,
           schema: evidenceSummary.schema,
+          scrollAndFocusTarget: focusH3,
         },
       },
     },
