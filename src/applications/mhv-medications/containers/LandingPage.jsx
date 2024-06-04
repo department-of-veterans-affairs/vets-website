@@ -190,7 +190,7 @@ const LandingPage = () => {
               )}
             </>
           )}
-          <hr className="vads-u-margin-y--3 small-screen:vads-u-margin-y--6" />
+          <div className="no-print vads-u-margin-y--3 small-screen:vads-u-margin-y--6 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
           <section>
             <h2 className="vads-u-margin-top--0">
               What to know as you try out this tool
