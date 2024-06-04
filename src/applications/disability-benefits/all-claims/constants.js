@@ -340,6 +340,10 @@ export const MAX_HOUSING_STRING_LENGTH = 500;
 
 export const OMB_CONTROL = '2900-0747';
 
+// used to save feature flag in form in util function for 'depends' keyword of form config
+export const SHOW_REVISED_ADD_DISABILITIES_PAGE =
+  'showRevisedNewDisabilitiesPage';
+
 // used to save feature flag in form data for toxic exposure
 export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';
 
@@ -389,8 +393,17 @@ export const HERBICIDE_LOCATIONS = Object.freeze({
   thailand: 'A U.S. or Royal Thai military base in Thailand',
   vietnam: 'Vietnam or the waters in or off of Vietnam',
   none: 'None of these locations',
+  notsure: 'I’m not sure if I served in these locations',
 });
 
-// used to save feature flag in form in util function for 'depends' keyword of form config
-export const SHOW_REVISED_ADD_DISABILITIES_PAGE =
-  'showRevisedNewDisabilitiesPage';
+export const ADDITIONAL_EXPOSURES = Object.freeze({
+  asbestos: 'Asbestos',
+  chemical:
+    'Chemical and biological warfare testing through Project 112 or Project Shipboard Hazard and Defense (SHAD)',
+  water: 'Contaminated water at Camp Lejeune or MCAS New River, North Carolina',
+  mos: 'Military Occupational Specialty (MOS)-related toxin',
+  mustardgas: 'Mustard Gas',
+  radiation: 'Radiation',
+  none: 'None of these',
+  notsure: 'I’m not sure if I have been exposed to these hazards',
+});

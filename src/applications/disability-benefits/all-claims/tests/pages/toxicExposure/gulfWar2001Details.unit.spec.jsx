@@ -7,7 +7,7 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { makePages } from '../../../pages/toxicExposure/gulfWar2001Details';
 import {
-  dateRangeDescription,
+  dateRangeDescriptionWithLocation,
   endDateApproximate,
   gulfWar2001PageTitle,
   startDateApproximate,
@@ -45,32 +45,21 @@ describe('gulfWar2001Details', () => {
         );
 
         getByText(gulfWar2001PageTitle);
-        getByText(dateRangeDescription);
-
-        const addlInfo = container.querySelector('va-additional-info');
-        expect(addlInfo).to.have.attribute(
-          'trigger',
-          'What if I have more than one date range?',
-        );
-
-        expect(
-          $(
-            `input[type="checkbox"][name="root_toxicExposure_gulfWar2001Details_${locationId}_view:notSure"]`,
-            container,
-          ),
-        ).to.exist;
-        expect(
-          $(
-            `label[for="root_toxicExposure_gulfWar2001Details_${locationId}_view:notSure"]`,
-            container,
-          ),
-        ).to.exist;
+        getByText(dateRangeDescriptionWithLocation);
 
         expect(
           $(`va-memorable-date[label="${startDateApproximate}"]`, container),
         ).to.exist;
         expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
           .to.exist;
+
+        getByText('I’m not sure of the dates I served in this location');
+
+        const addlInfo = container.querySelector('va-additional-info');
+        expect(addlInfo).to.have.attribute(
+          'trigger',
+          'What if I have more than one date range?',
+        );
 
         // Look for the text on the page and also the title used for review and submit
         if (locationId === 'yemen') {
