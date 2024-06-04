@@ -45,6 +45,7 @@ export function mapRawUserDataToState(json) {
           multifactor,
           verified,
           claims,
+          shouldShowOnboardingScreen,
         },
         services,
         vaProfile,
@@ -79,6 +80,7 @@ export function mapRawUserDataToState(json) {
     vapContactInfo: vet360ContactInformation,
     session,
     veteranStatus: {},
+    shouldShowOnboardingScreen,
   };
 
   if (meta && veteranStatus === null) {

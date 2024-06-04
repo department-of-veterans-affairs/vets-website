@@ -39,6 +39,7 @@ import MPIConnectionError from '~/applications/personalization/components/MPICon
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import { useSessionStorage } from '~/applications/personalization/common/hooks/useSessionStorage';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
@@ -54,9 +55,8 @@ import { canAccess } from '../../common/selectors';
 import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntimeNotification';
 import BenefitApplicationDrafts from './benefit-application-drafts/BenefitApplicationDrafts';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
-import { signInServiceName } from '~/platform/user/authentication/selectors';
 
-const DashboardHeader = ({ showNotifications }) => {
+const DashboardHeader = ({ showNotifications, shouldShowOnboardingScreen }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const hideNotificationsSection = useToggleValue(
     TOGGLE_NAMES.myVaHideNotificationsSection,
@@ -70,7 +70,7 @@ const DashboardHeader = ({ showNotifications }) => {
         tabIndex="-1"
         className="vads-u-margin--0 vads-u-margin-top--2 medium-screen:vads-u-margin-top--3"
       >
-        My VA
+        {shouldShowOnboardingScreen ? 'ONBOARDING!' : 'My VA'}
       </h1>
       <CTALink
         href="/profile"
@@ -235,7 +235,12 @@ const Dashboard = ({
               </div>
             )}
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
-              <DashboardHeader showNotifications={showNotifications} />
+              <DashboardHeader
+                showNotifications={showNotifications}
+                shouldShowOnboardingScreen={
+                  props.user.profile.shouldShowOnboardingScreen
+                }
+              />
 
               {showMPIConnectionError && (
                 <div className="vads-l-row">
