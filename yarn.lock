@@ -2883,10 +2883,10 @@
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     rimraf "^5.0.5"
 
-"@department-of-veterans-affairs/css-library@^0.7.3-rc31":
-  version "0.7.3-rc31"
-  resolved "http://localhost:4873/@department-of-veterans-affairs/css-library/-/css-library-0.7.3-rc31.tgz#f64065d6f9d3997a4feb596dd54b8b77225b1885"
-  integrity sha512-q42SA7ITn9008v8cXMVr5MIduOgqUh2ohJq6OY6igAdwec8X78gSrWvn/pJG1l67sLA2U/UugJy5ph8BpLJYcg==
+"@department-of-veterans-affairs/css-library@^0.7.3-rc32":
+  version "0.7.3-rc32"
+  resolved "http://localhost:4873/@department-of-veterans-affairs/css-library/-/css-library-0.7.3-rc32.tgz#857a7635dfe36569bf7cc41483249360ae2291ee"
+  integrity sha512-vA3wDCgNi8PnUSfmfGST3cOH3u5d0baJxks9azW92TidiiyhMURvU7tvIAE16cnyQD+MSJCUtrUlvX5sQftikQ==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.7.1"
