@@ -7,7 +7,7 @@ const DigitalSignature = ({ error, onInput }) => {
       <h2 className="vads-u-font-size--h3 vads-u-margin-top--1">
         Digital signature
       </h2>
-      <p />
+      <p>You need to sign all messages to this team.</p>
 
       <va-text-input
         label="Your full name"
