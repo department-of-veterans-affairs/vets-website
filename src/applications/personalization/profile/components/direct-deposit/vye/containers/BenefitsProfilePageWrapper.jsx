@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { CSP_IDS } from '~/platform/user/authentication/constants';
 import ChangeOfAddressWrapper from './ChangeOfAddressWrapper';
 import ChangeOfDirectDepositWrapper from './ChangeOfDirectDepositWrapper';
 import { useData } from '../hooks/useData';
@@ -9,30 +9,10 @@ import LoginAlert from '../components/LoginAlert';
 const BenefitsProfileWrapper = () => {
   const { loading, latestAddress } = useData();
   const applicantName = latestAddress?.veteranName;
-  const [userData, setUserData] = useState({});
-
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const {
-          data: {
-            attributes: { profile },
-          },
-        } = await apiRequest('/user', {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        setUserData(profile);
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
-    getUserData();
-  }, []);
-  const { signIn } = userData;
+  const { profile } = useSelector(state => state.user || {});
+  const {
+    signIn: { serviceName },
+  } = profile;
   return (
     <>
       {loading ? (
@@ -42,11 +22,11 @@ const BenefitsProfileWrapper = () => {
         />
       ) : (
         <section className="profile-info-card vads-u-margin-bottom--6">
-          {signIn?.serviceName === 'idme' ||
-          signIn?.serviceName === 'logingov' ? (
-            <ChangeOfDirectDepositWrapper applicantName={applicantName} />
-          ) : (
+          {!serviceName ||
+          [CSP_IDS.DS_LOGON, CSP_IDS.MHV].includes(serviceName) ? (
             <LoginAlert />
+          ) : (
+            <ChangeOfDirectDepositWrapper applicantName={applicantName} />
           )}
           <ChangeOfAddressWrapper
             applicantName={applicantName}
@@ -62,10 +42,6 @@ const BenefitsProfileWrapper = () => {
       )}
     </>
   );
-};
-
-BenefitsProfileWrapper.propTypes = {
-  children: PropTypes.any,
 };
 
 export default BenefitsProfileWrapper;
