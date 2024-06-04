@@ -95,7 +95,7 @@ const IntroductionPage = props => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start"
+          startText="Start the application"
         />
       )}
 
