@@ -308,6 +308,15 @@ export const pageHooks = (cy, toggles = mockFeatureToggles) => ({
   'new-disabilities-revised/add': () => {
     cy.get('@testData').then(data => {
       data.newDisabilities.forEach((disability, index) => {
+        if (
+          getToggleValue(
+            toggles,
+            'disability_526_improved_autosuggestions_add_disabilities_page',
+          ) !== true
+        ) {
+          throw new Error('Unexpectedly showing addDisabilitiesRevised page');
+        }
+
         // if not first index
         // click the add another condition button
         if (index > 0) {
