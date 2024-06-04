@@ -33,7 +33,7 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
           The {boardDecision ? 'judge' : 'reviewer'} granted the following{' '}
           {pluralize.allowed}:
         </p>
-        <ul>{allowedIssues}</ul>
+        <ul data-dd-privacy="mask">{allowedIssues}</ul>
       </div>
     );
   }
@@ -45,7 +45,7 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
           The {boardDecision ? 'judge' : 'reviewer'} denied the following{' '}
           {pluralize.denied}:
         </p>
-        <ul>{deniedIssues}</ul>
+        <ul data-dd-privacy="mask">{deniedIssues}</ul>
       </div>
     );
   }
@@ -61,7 +61,7 @@ const Decision = ({ issues, aoj, ama = true, boardDecision = false }) => {
             : 'gather more evidence or to fix a mistake before deciding whether to grant or deny'}
           :
         </p>
-        <ul>{remandIssues}</ul>
+        <ul data-dd-privacy="mask">{remandIssues}</ul>
       </div>
     );
   }

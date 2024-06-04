@@ -6,7 +6,7 @@ const CurrentStatus = ({ title, description, isClosed }) => (
     <h2>Current status</h2>
     <div className="current-status-content">
       <h3>{title}</h3>
-      <div>{description}</div>
+      <div data-dd-privacy="mask">{description}</div>
     </div>
     {!isClosed && <div className="down-arrow" />}
   </div>

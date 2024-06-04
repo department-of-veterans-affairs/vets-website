@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
@@ -9,6 +9,32 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
   const showHealthToolsLinks = useToggleValue(
     TOGGLE_NAMES.mhvLandingPageEnableVaGovHealthToolsLinks,
   );
+
+  const alertExpandableRef = useRef(null);
+
+  useEffect(() => {
+    const alertExpandable = alertExpandableRef.current;
+    if (alertExpandable) {
+      try {
+        const style = document.createElement('style');
+        style.innerHTML = `
+          .alert-expandable-trigger {
+            align-items: center !important;
+          }
+          .alert-expandable-icon {
+            vertical-align: middle !important;
+          }
+        `;
+        alertExpandable.shadowRoot.appendChild(style);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(
+          'Error adding custom styles to alert-expandable component',
+          error,
+        );
+      }
+    }
+  }, []);
 
   return (
     <>
@@ -53,13 +79,14 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
                 <div>
                   <va-alert-expandable
                     status="info"
+                    ref={alertExpandableRef}
                     trigger="Learn more about My HealtheVet on VA.gov "
                   >
                     <div>
                       <p>
                         <strong>What you can do now on VA.gov:</strong>
                       </p>
-                      <ul>
+                      <ul className="vads-u-font-family--sans">
                         <li>
                           Schedule, cancel, and manage some health appointments
                         </li>
@@ -72,11 +99,11 @@ const HeaderLayout = ({ showWelcomeMessage = false }) => {
                       <p>
                         <strong>What’s coming soon:</strong>
                       </p>
-                      <ul>
+                      <ul className="vads-u-font-family--sans">
                         <li>Find, print, and download your medical records</li>
                         <li>Get your lab and test results</li>
                       </ul>
-                      <p>
+                      <p className="vads-u-font-family--sans">
                         We’re working to bring your medical records to VA.gov.
                         For now, you can download your records using the
                         previous version of My HealtheVet.{' '}

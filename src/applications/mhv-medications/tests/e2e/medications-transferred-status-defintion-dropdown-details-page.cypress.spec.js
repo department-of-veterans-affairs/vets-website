@@ -10,12 +10,13 @@ describe('Medications Details Page Transferred Status DropDown', () => {
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
     const landingPage = new MedicationsLandingPage();
+    const cardNumber = 3;
     site.login();
     landingPage.visitLandingPageURL();
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
-    detailsPage.clickMedicationDetailsLink(transferredRx);
+    detailsPage.clickMedicationDetailsLink(transferredRx, cardNumber);
     detailsPage.clickWhatDoesThisStatusMeanDropDown();
     detailsPage.verifyTransferredStatusDropDownDefinition();
   });
