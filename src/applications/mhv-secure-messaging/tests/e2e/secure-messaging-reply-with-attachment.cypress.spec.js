@@ -1,28 +1,36 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
+import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data, Locators } from './utils/constants';
+import mockMessages from './fixtures/messages-response.json';
+import PatientInterstitialPage from './pages/PatientInterstitialPage';
+import PatientReplyPage from './pages/PatientReplyPage';
 
-describe('Compose a new message with attachments', () => {
+describe('Reply with attachments', () => {
   const site = new SecureMessagingSite();
+  const messageDetailsPage = new PatientMessageDetailsPage();
+  const testMessage = PatientInboxPage.getNewMessageDetails();
   beforeEach(() => {
     site.login();
-    PatientInboxPage.loadInboxMessages();
-    PatientInboxPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
+
+    messageDetailsPage.loadMessageDetails(testMessage);
+    messageDetailsPage.loadReplyPageDetails(testMessage);
+    PatientInterstitialPage.getContinueButton().click({
+      waitForAnimations: true,
+    });
   });
 
-  it('verify use can send a message with attachments', () => {
-    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    PatientComposePage.selectCategory('COVID');
-    PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
-    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
+  it('verify use can send a reply with attachments', () => {
+    PatientReplyPage.getMessageBodyField().type('\nTest message body', {
       force: true,
-      waitforanimations: true,
     });
+
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
-    PatientComposePage.sendMessage();
-    PatientComposePage.verifySendMessageConfirmationMessageText();
-    PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
+    PatientReplyPage.clickSendReplyMessageDetailsButton(testMessage);
+    PatientReplyPage.verifySendMessageConfirmationMessageText();
+    PatientReplyPage.verifySendMessageConfirmationHasFocus();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -48,10 +56,17 @@ describe('Compose a new message with attachments', () => {
 
 describe('verify attach file button behaviour', () => {
   const site = new SecureMessagingSite();
+  const messageDetailsPage = new PatientMessageDetailsPage();
+  const testMessage = PatientInboxPage.getNewMessageDetails();
   beforeEach(() => {
     site.login();
-    PatientInboxPage.loadInboxMessages();
-    PatientInboxPage.navigateToComposePage();
+    PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
+
+    messageDetailsPage.loadMessageDetails(testMessage);
+    messageDetailsPage.loadReplyPageDetails(testMessage);
+    PatientInterstitialPage.getContinueButton().click({
+      waitForAnimations: true,
+    });
   });
 
   it('verify attach file button label change', () => {
