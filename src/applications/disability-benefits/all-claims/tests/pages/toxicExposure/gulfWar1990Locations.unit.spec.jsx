@@ -8,6 +8,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { checkVaCheckbox } from '@department-of-veterans-affairs/platform-testing/helpers';
 import formConfig from '../../../config/form';
 import {
   gulfWar1990PageTitle,
@@ -15,7 +16,6 @@ import {
   noneAndLocationError,
 } from '../../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS } from '../../../constants';
-import { checkVaCheckbox } from '../../testUtils';
 
 describe('Gulf War 1990 Locations', () => {
   const {
