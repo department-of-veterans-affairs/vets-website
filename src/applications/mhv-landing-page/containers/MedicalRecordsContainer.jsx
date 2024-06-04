@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import titleCase from '@department-of-veterans-affairs/platform-utilities/titleCase';
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe, isProfileLoading } from '../selectors';
@@ -8,7 +9,13 @@ import MedicalRecords from '../components/MedicalRecords';
 
 const Placeholder = () => <div style={{ height: '555px' }} />;
 
+const pageTitle = 'Medical records';
+
 const MedicalRecordsContainer = () => {
+  useEffect(() => {
+    document.title = `${titleCase(pageTitle)} | Veterans Affairs`;
+  }, []);
+
   const {
     loading: featureTogglesLoading,
     mhvTransitionalMedicalRecordsLandingPage,
@@ -26,7 +33,7 @@ const MedicalRecordsContainer = () => {
   ) : (
     <>
       <MhvSecondaryNav />
-      <MedicalRecords blueButtonUrl={blueButtonUrl} />
+      <MedicalRecords blueButtonUrl={blueButtonUrl} pageTitle={pageTitle} />
     </>
   );
 };
