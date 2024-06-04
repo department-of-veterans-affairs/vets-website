@@ -312,10 +312,15 @@ export function validateSelections(
 ) {
   const { [objectName]: items = {} } = formData?.toxicExposure;
 
+  const selectedLocations = Object.values(items).filter(value => value === true)
+    .length;
+
   if (
     items?.none === true &&
-    (Object.values(items).filter(value => value === true).length > 1 ||
-      !!getOtherFieldDescription(formData, otherObjectName))
+    (selectedLocations > 1 ||
+      !!getOtherFieldDescription(formData, otherObjectName)) &&
+    // If user selects `none` and `not sure`, we don't want to show the error
+    (selectedLocations > 2 || items?.notsure !== true)
   ) {
     errors.toxicExposure[objectName].addError(
       selectionTypes === 'hazards' ? noneAndHazardError : noneAndLocationError,
