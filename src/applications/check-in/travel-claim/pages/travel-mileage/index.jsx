@@ -9,11 +9,7 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { setFormData } from '../../../actions/travel-claim';
 import { sortAppointmentsByStartTime } from '../../../utils/appointment';
-import {
-  makeSelectCurrentContext,
-  makeSelectForm,
-  makeSelectVeteranData,
-} from '../../../selectors';
+import { makeSelectForm, makeSelectVeteranData } from '../../../selectors';
 import { APP_NAMES } from '../../../utils/appConstants';
 import Wrapper from '../../../components/layout/Wrapper';
 import BackButton from '../../../components/BackButton';
@@ -30,16 +26,16 @@ const TravelMileage = props => {
     goToPreviousPage,
     getPreviousPageFromRouter,
   } = useFormRouting(router);
-  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
-  const { eligibleToFile } = useSelector(selectCurrentContext);
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
   const { appointmentToFile } = data;
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
-  const [selectedAppointment, setSelectedAppointment] = useState(null);
   const multipleAppointments = appointments.length > 1;
+  const [selectedAppointment, setSelectedAppointment] = useState(
+    multipleAppointments ? null : appointments[0],
+  );
   const [error, setError] = useState(false);
 
   useEffect(
@@ -69,7 +65,7 @@ const TravelMileage = props => {
     [dispatch, goToNextPage, selectedAppointment, setError],
   );
   let header = t('file-mileage-only-claim-todays-appointment', {
-    count: eligibleToFile.length,
+    count: 1,
   });
   if (multipleAppointments) {
     header = t('select-appointments-to-file-today');
