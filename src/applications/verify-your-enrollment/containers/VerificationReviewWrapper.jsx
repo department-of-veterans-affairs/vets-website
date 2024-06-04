@@ -22,7 +22,11 @@ import {
   verifyEnrollmentAction,
   // updateVerificationsData,
 } from '../actions';
-import { toLocalISOString } from '../helpers';
+import {
+  toLocalISOString,
+  isSameMonth,
+  getDateRangesBetween,
+} from '../helpers';
 
 const VerificationReviewWrapper = ({
   children,
@@ -39,6 +43,7 @@ const VerificationReviewWrapper = ({
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
+  const [originalPeriodsToVerify, setOriginalPeriodsToVerify] = useState([]);
   const { error } = verifyEnrollment;
   const enrollmentData = personalInfo;
   const history = useHistory();
@@ -57,7 +62,7 @@ const VerificationReviewWrapper = ({
     const currentDateTime = toLocalISOString(new Date());
     // update pendingVerifications to a blank array
     dispatchUpdatePendingVerifications([]);
-    const newVerifiedEnrollments = enrollmentPeriodsToVerify.map(period => {
+    const newVerifiedEnrollments = originalPeriodsToVerify.map(period => {
       return {
         ...period,
         transactDate: currentDateTime,
@@ -67,6 +72,7 @@ const VerificationReviewWrapper = ({
     const awardIds = newVerifiedEnrollments.map(
       enrollment => enrollment.awardId,
     );
+
     dispatchVerifyEnrollmentAction(awardIds);
   };
 
@@ -82,7 +88,35 @@ const VerificationReviewWrapper = ({
     () => {
       if (enrollmentData?.['vye::UserInfo']?.pendingVerifications) {
         const { pendingVerifications } = enrollmentData?.['vye::UserInfo'];
-        setEnrollmentPeriodsToVerify(pendingVerifications);
+        setOriginalPeriodsToVerify(pendingVerifications);
+        const expandedPendingEnrollments = [];
+        pendingVerifications.forEach(enrollment => {
+          if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)) {
+            const expandedMonths = getDateRangesBetween(
+              enrollment.actBegin,
+              enrollment.actEnd,
+            );
+            expandedMonths.forEach(period => {
+              const [startDate, endDate] = period.split(' - ');
+              expandedPendingEnrollments.push({
+                actBegin: startDate,
+                actEnd: endDate,
+                monthlyRate: enrollment.monthlyRate,
+                numberHours: enrollment.numberHours,
+              });
+            });
+          } else {
+            expandedPendingEnrollments.push({
+              actBegin: enrollment.actBegin,
+              actEnd: enrollment.actEnd,
+              monthlyRate: enrollment.monthlyRate,
+              numberHours: enrollment.numberHours,
+            });
+          }
+        });
+
+        setEnrollmentPeriodsToVerify(expandedPendingEnrollments);
+        // setEnrollmentPeriodsToVerify(pendingVerifications);
       }
     },
     [enrollmentData],
@@ -100,10 +134,10 @@ const VerificationReviewWrapper = ({
   // This Effect to check path to add class for bloding Label
   useEffect(
     () => {
-      if (location.pathname.includes('verification-review')) {
-        document.body.classList.add('verification-review-path');
+      if (location.pathname.includes('verify-information')) {
+        document.body.classList.add('verify-information-path');
       } else {
-        document.body.classList.remove('verification-review-path');
+        document.body.classList.remove('verify-information-path');
       }
     },
     [location.pathname],

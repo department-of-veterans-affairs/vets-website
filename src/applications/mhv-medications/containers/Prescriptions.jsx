@@ -51,6 +51,7 @@ import { selectRefillContentFlag } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -464,33 +465,42 @@ const Prescriptions = () => {
       return (
         <div className="landing-page no-print">
           <h1 data-testid="list-page-title">Medications</h1>
-          <div
-            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3 vads-u-font-family--serif"
+          <p
+            className="vads-u-margin-top--1 vads-u-margin-bottom--neg3"
             data-testid="Title-Notes"
           >
-            Refill and track your VA prescriptions. And review all medications
-            in your VA medical records.
-          </div>
+            When you share your medications list with providers, make sure you
+            also tell them about your allergies and reactions to medications. If
+            you print or download this list, we’ll include a list of your
+            allergies.
+          </p>
           <br />
           <br />
           {prescriptionsApiError ? (
-            <ApiErrorNotification errorType="access" content="medications" />
+            <>
+              <ApiErrorNotification errorType="access" content="medications" />
+              <CernerFacilityAlert className="vads-u-margin-top--2" />
+            </>
           ) : (
             <>
               {paginatedPrescriptionsList &&
               paginatedPrescriptionsList.length === 0 ? (
-                <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                  <h2 className="vads-u-margin--0">
-                    You don’t have any VA prescriptions or medication records
-                  </h2>
-                  <p className="vads-u-margin-y--3">
-                    If you need a prescription or you want to tell us about a
-                    medication you’re taking, tell your care team at your next
-                    appointment.
-                  </p>
-                </div>
+                <>
+                  <CernerFacilityAlert />
+                  <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
+                    <h2 className="vads-u-margin--0">
+                      You don’t have any VA prescriptions or medication records
+                    </h2>
+                    <p className="vads-u-margin-y--3">
+                      If you need a prescription or you want to tell us about a
+                      medication you’re taking, tell your care team at your next
+                      appointment.
+                    </p>
+                  </div>
+                </>
               ) : (
                 <>
+                  <CernerFacilityAlert />
                   {showRefillContent && (
                     <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
                       <h2 className="vads-u-margin--0 vads-u-font-size--h3">

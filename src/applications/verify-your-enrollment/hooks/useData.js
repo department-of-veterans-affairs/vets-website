@@ -20,7 +20,7 @@ export const useData = () => {
     },
     [dispatch, enrollmentResponse],
   );
-  const isUserLoggedIn = localStorage.getItem('hasSession') !== null;
+
   const userInfo = response?.personalInfo?.['vye::UserInfo'];
 
   const expirationDate = translateDateIntoMonthDayYearFormat(userInfo?.delDate);
@@ -29,7 +29,6 @@ export const useData = () => {
   return {
     personalInfo: response?.personalInfo,
     errorMessage: response,
-    isUserLoggedIn,
     loading: response?.isLoading,
     expirationDate,
     updated,

@@ -202,6 +202,7 @@ export const VeteranFullNameDescription = (
     </span>
   </>
 );
+
 export const CaregiverFullNameDescription = (
   <>
     <span className="vads-u-display--block vads-u-color--gray-medium">

@@ -7,7 +7,7 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { makePages } from '../../../pages/toxicExposure/gulfWar1990Details';
 import {
-  dateRangeDescription,
+  dateRangeDescriptionWithLocation,
   endDateApproximate,
   gulfWar1990PageTitle,
   startDateApproximate,
@@ -32,7 +32,7 @@ describe('gulfWar1990Details', () => {
   };
 
   Object.keys(GULF_WAR_1990_LOCATIONS)
-    .filter(locationId => locationId !== 'none')
+    .filter(locationId => locationId !== 'none' && locationId !== 'notsure')
     .forEach(locationId => {
       const pageSchema = schemas[`gulf-war-1990-location-${locationId}`];
       it(`should render for ${locationId}`, () => {
@@ -45,13 +45,7 @@ describe('gulfWar1990Details', () => {
         );
 
         getByText(gulfWar1990PageTitle);
-        getByText(dateRangeDescription);
-
-        const addlInfo = container.querySelector('va-additional-info');
-        expect(addlInfo).to.have.attribute(
-          'trigger',
-          'What if I have more than one date range?',
-        );
+        getByText(dateRangeDescriptionWithLocation);
 
         expect(
           $(`va-memorable-date[label="${startDateApproximate}"]`, container),
@@ -59,6 +53,15 @@ describe('gulfWar1990Details', () => {
         expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
           .to.exist;
 
+        getByText('I’m not sure of the dates I served in this location');
+
+        const addlInfo = container.querySelector('va-additional-info');
+        expect(addlInfo).to.have.attribute(
+          'trigger',
+          'What if I have more than one date range?',
+        );
+
+        // subtitle checks
         if (locationId === 'afghanistan') {
           getByText(`Location 1 of 2: ${GULF_WAR_1990_LOCATIONS.afghanistan}`, {
             exact: false,

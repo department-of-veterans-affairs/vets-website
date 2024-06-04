@@ -47,6 +47,17 @@ const App = ({ isPilot }) => {
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
   );
 
+  const mhvMockSessionFlag = useSelector(
+    state => state.featureToggles['mhv-mock-session'],
+  );
+
+  useEffect(
+    () => {
+      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+    },
+    [mhvMockSessionFlag],
+  );
+
   const scheduledDowntimes = useSelector(
     state => state.scheduledDowntime?.serviceMap || [],
   );
@@ -66,11 +77,14 @@ const App = ({ isPilot }) => {
 
   useEffect(
     () => {
-      dispatch(getScheduledDowntime());
+      const fetchAllData = async () => {
+        dispatch(getScheduledDowntime());
 
-      if (user.login.currentlyLoggedIn) {
-        dispatch(getAllTriageTeamRecipients());
-      }
+        if (user.login.currentlyLoggedIn) {
+          await dispatch(getAllTriageTeamRecipients());
+        }
+      };
+      fetchAllData();
     },
     [user.login.currentlyLoggedIn, dispatch],
   );

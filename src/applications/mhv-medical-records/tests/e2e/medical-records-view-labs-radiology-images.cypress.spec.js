@@ -12,7 +12,7 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
 
   it('Navigate to MHV Classic to view their Radiology Images', () => {
     // Given As a Medical Records User I wanted to Navigate to "Radiology" Detail Page
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(4);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(5);
     RadiologyDetailsPage.verifyRadiologyImageLink(
       'Request images on the My HealtheVet website',
     );

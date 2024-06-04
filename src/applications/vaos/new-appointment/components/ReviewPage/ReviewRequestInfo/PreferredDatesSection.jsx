@@ -56,6 +56,7 @@ export default function PreferredDatesSection(props) {
               text="Edit"
               data-testid="edit-new-appointment"
               onClick={handleClick(history, pageFlow, isCommunityCare)}
+              tabindex="0"
             />
           </div>
         </div>

@@ -31,6 +31,9 @@ const getData = ({
           currentlyLoggedIn: loggedIn,
         },
         profile: {
+          userFullName: { last: 'last' },
+          dob: '2000-01-01',
+          claims: { appeals: true },
           savedForms: [],
           prefillsAvailable: [],
           verified: isVerified,

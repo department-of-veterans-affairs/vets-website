@@ -27,14 +27,6 @@ export default function transformForSubmit(formConfig, form) {
       copyOfData.applicantName?.middle?.charAt(0) ?? '';
   }
 
-  // go from medigapPlanA -> A
-  if (copyOfData.primaryMedigapPlan) {
-    copyOfData.primaryMedigapPlan = copyOfData.primaryMedigapPlan.slice(-1);
-  }
-  if (copyOfData.secondaryMedigapPlan) {
-    copyOfData.secondaryMedigapPlan = copyOfData.secondaryMedigapPlan.slice(-1);
-  }
-
   // Make sure all dates are in MM-DD-YYYY format
   Object.keys(copyOfData).forEach(key => {
     if (key.toLowerCase().includes('date')) {

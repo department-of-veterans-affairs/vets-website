@@ -10,6 +10,7 @@ import {
   getKeyIndex,
   getSelectedCount,
   herbicidePageTitle,
+  notSureDatesDetails,
   showCheckboxLoopDetailsPage,
   startDateApproximate,
   teSubtitle,
@@ -39,6 +40,9 @@ function makeUiSchema(locationId) {
           endDate: currentOrPastDateUI({
             title: endDateApproximate,
           }),
+          'view:notSure': {
+            'ui:title': notSureDatesDetails,
+          },
         },
       },
       'view:herbicideAdditionalInfo': {
@@ -68,6 +72,9 @@ function makeSchema(locationId) {
                 properties: {
                   startDate: currentOrPastDateSchema,
                   endDate: currentOrPastDateSchema,
+                  'view:notSure': {
+                    type: 'boolean',
+                  },
                 },
               },
             },
@@ -84,7 +91,7 @@ function makeSchema(locationId) {
 
 export function makePages() {
   const herbicideLocationPagesList = Object.keys(HERBICIDE_LOCATIONS)
-    .filter(locationId => locationId !== 'none')
+    .filter(locationId => locationId !== 'none' && locationId !== 'notsure')
     .map(locationId => {
       const pageName = `herbicide-location-${locationId}`;
       return {

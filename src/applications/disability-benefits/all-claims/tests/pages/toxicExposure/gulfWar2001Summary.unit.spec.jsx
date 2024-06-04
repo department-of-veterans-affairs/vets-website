@@ -7,6 +7,7 @@ import {
   goBackLink,
   gulfWar2001PageTitle,
   noDatesEntered,
+  notSureDatesSummary,
 } from '../../../content/toxicExposure';
 import { GULF_WAR_2001_LOCATIONS } from '../../../constants';
 
@@ -93,5 +94,33 @@ describe('Gulf War 2001 Summary', () => {
 
     expect(queryByText(GULF_WAR_2001_LOCATIONS.airspace)).to.not.exist;
     expect(queryByText('October 2004 - No end date entered')).to.not.exist;
+  });
+
+  it('renders `notSureDatesSummary` when `view:notSure` was selected', () => {
+    const formData = {
+      toxicExposure: {
+        gulfWar2001: {
+          yemen: true,
+          airspace: true,
+        },
+        gulfWar2001Details: {
+          yemen: {},
+          airspace: {
+            'view:notSure': true,
+          },
+        },
+      },
+    };
+
+    const { getByText } = render(
+      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+    );
+
+    getByText(gulfWar2001PageTitle);
+    getByText('Summary');
+    getByText(GULF_WAR_2001_LOCATIONS.yemen);
+    getByText(noDatesEntered);
+    getByText(GULF_WAR_2001_LOCATIONS.airspace);
+    getByText(notSureDatesSummary);
   });
 });

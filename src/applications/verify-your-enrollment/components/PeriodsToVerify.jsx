@@ -7,44 +7,34 @@ import { getPeriodsToVerify } from '../helpers';
 import Alert from './Alert';
 
 const PeriodsToVerify = ({
-  loggedInEnenrollmentData,
+  enrollmentData,
   link,
   toggleEnrollmentSuccess,
   verifyEnrollment,
 }) => {
-  const userData = loggedInEnenrollmentData;
-  const [userEnrollmentData, setUserEnrollmentData] = useState(userData);
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const justVerified = !!toggleEnrollmentSuccess;
   const { error } = verifyEnrollment;
-  useEffect(
-    () => {
-      setUserEnrollmentData(userData);
-    },
-    [userData],
-  );
 
   useEffect(
     () => {
       if (
-        userEnrollmentData?.['vye::UserInfo']?.verifications &&
-        userEnrollmentData?.['vye::UserInfo']?.pendingVerifications
+        enrollmentData?.verifications &&
+        enrollmentData?.pendingVerifications
       ) {
-        const { pendingVerifications } = userEnrollmentData?.['vye::UserInfo'];
-
+        const { pendingVerifications } = enrollmentData;
         // add all data to be verified into single array
         setPendingEnrollments(pendingVerifications);
       }
     },
-    [userEnrollmentData],
+    [enrollmentData],
   );
 
   return (
     <>
       {error && <Alert status="error" message="Oops Something went wrong" />}
       <div id="verifications-pending-alert">
-        {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.length >
-          0 && (
+        {enrollmentData?.pendingVerifications?.length > 0 && (
           <va-alert
             close-btn-aria-label="Close notification"
             status="info"
@@ -64,20 +54,15 @@ const PeriodsToVerify = ({
             </div>
           </va-alert>
         )}
-        {/* 
-                will need to update logic here/ currently this would not work in prod
-                as it would always show the verified success statement if there are no pending
-                enrollments even if the user didn't just verify
-            */}
-        {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.length ===
-          0 &&
+
+        {enrollmentData?.pendingVerifications?.length === 0 &&
           justVerified && (
             <div>
               <VerifiedSuccessStatement />
             </div>
           )}
-        {userEnrollmentData?.['vye::UserInfo']?.pendingVerifications?.length ===
-          0 &&
+        {enrollmentData?.pendingVerifications?.length === 0 &&
+          enrollmentData?.verifications.length !== 0 &&
           !justVerified && (
             <div className="vads-u-margin-top--2">
               <UpToDateVerificationStatement />
@@ -89,15 +74,13 @@ const PeriodsToVerify = ({
 };
 
 const mapStateToProps = state => ({
-  loggedInEnenrollmentData: state.personalInfo.personalInfo,
   verifyEnrollment: state.verifyEnrollment,
-  // verificationsResponse: state.verificationsReducer.verificationsReducer,
 });
 
 PeriodsToVerify.propTypes = {
+  enrollmentData: PropTypes.object,
   link: PropTypes.func,
   loading: PropTypes.bool,
-  loggedInEnenrollmentData: PropTypes.object,
   toggleEnrollmentSuccess: PropTypes.bool,
   verifyEnrollment: PropTypes.object,
 };

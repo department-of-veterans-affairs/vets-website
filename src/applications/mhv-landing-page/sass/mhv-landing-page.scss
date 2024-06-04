@@ -113,15 +113,9 @@ $anchor-font-size: 1.1875rem;
 }
 
 .mhv-c-navlink-external {
+  font-size: $anchor-font-size;
   display: inline-block;
   align-items: center;
-  text-decoration: none;
-
-  &:active,
-  &:hover,
-  &:visited {
-    text-decoration: none;
-  }
 }
 
 .visibility\:hidden {
