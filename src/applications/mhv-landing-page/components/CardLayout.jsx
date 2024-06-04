@@ -53,7 +53,7 @@ const CardLayout = ({ data }) => {
             mhvTransitionalMedicalRecordsLandingPage ? (
               <MedicalRecordsCard href={blueButtonUrl} />
             ) : (
-              <NavCard title={col.title} icon={col.icon} links={col.links} />
+              <NavCard {...col} />
             )}
           </div>
         ))}
