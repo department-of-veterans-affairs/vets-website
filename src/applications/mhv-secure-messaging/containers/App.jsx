@@ -47,6 +47,17 @@ const App = ({ isPilot }) => {
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
   );
 
+  const mhvMockSessionFlag = useSelector(
+    state => state.featureToggles['mhv-mock-session'],
+  );
+
+  useEffect(
+    () => {
+      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+    },
+    [mhvMockSessionFlag],
+  );
+
   const scheduledDowntimes = useSelector(
     state => state.scheduledDowntime?.serviceMap || [],
   );
