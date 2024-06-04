@@ -23,6 +23,7 @@ import { checkRedirect } from '../utils/redirect';
 import { copyAreaOfDisagreementOptions } from '../../shared/utils/areaOfDisagreement';
 import { useBrowserMonitoring } from '../../shared/utils/useBrowserMonitoring';
 import { getSelected, getIssueNameAndDate } from '../../shared/utils/issues';
+import { isOutsideForm } from '../../shared/utils/helpers';
 
 export const FormApp = ({
   isLoading,
@@ -37,6 +38,8 @@ export const FormApp = ({
   returnUrlFromSIPForm,
   isStartingOver,
 }) => {
+  const { pathname } = location || {};
+
   useEffect(
     () => {
       if (loggedIn) {
@@ -72,7 +75,10 @@ export const FormApp = ({
         return;
       }
 
-      if (!contestableIssues?.status) {
+      if (
+        !contestableIssues?.status &&
+        (!isOutsideForm(pathname) || formData.internalTesting)
+      ) {
         getContestableIssues();
       } else if (
         // Checks if the API has returned contestable issues not already reflected
@@ -103,7 +109,13 @@ export const FormApp = ({
     // `useEffect` (e.g. `setFormData`) never change, so we don't need to include
     // them in the dependency array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [loggedIn, contestableIssues, showPart3, formData.contestedIssues],
+    [
+      loggedIn,
+      contestableIssues,
+      showPart3,
+      formData.contestedIssues,
+      pathname,
+    ],
   );
 
   useEffect(
@@ -171,7 +183,7 @@ export const FormApp = ({
   });
 
   return (
-    <article id="form-10182" data-location={`${location?.pathname?.slice(1)}`}>
+    <article id="form-10182" data-location={`${pathname?.slice(1)}`}>
       {content}
     </article>
   );
