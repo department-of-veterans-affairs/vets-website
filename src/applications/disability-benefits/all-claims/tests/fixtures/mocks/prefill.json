@@ -53,7 +53,8 @@
     "bankAccountType": "Checking",
     "bankAccountNumber": "*********1234",
     "bankRoutingNumber": "*****2115",
-    "bankName": "Comerica"
+    "bankName": "Comerica",
+    "includeToxicExposure": true
   },
   "metadata": {
     "version": 0,
