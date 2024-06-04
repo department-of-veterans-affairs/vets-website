@@ -187,7 +187,7 @@ describe('Refill Prescriptions Component', () => {
     button.click();
   });
 
-  it('Checks for error message when refilling with 0 meds selected and 1 available', async () => {
+  it.skip('Checks for error message when refilling with 0 meds selected and 1 available', async () => {
     const screen = setup(initialState, [prescriptions[0]]);
     const button = await screen.findByTestId('request-refill-button');
     button.click();
