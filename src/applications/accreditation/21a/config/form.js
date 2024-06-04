@@ -1,13 +1,28 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import FormFooter from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 // import fullSchema from 'vets-json-schema/dist/21A-schema.json';
 
 import manifest from '../manifest.json';
 
-import IntroductionPage from '../containers/IntroductionPage';
+import GetFormHelp from '../components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import IntroductionPage from '../containers/IntroductionPage';
+
+import contactInformation from '../pages/contactInformation';
+import currentEmployerAddressPhone from '../pages/currentEmployerAddressPhone';
+import currentEmployerDates from '../pages/currentEmployerDates';
+import currentEmployerInformation from '../pages/currentEmployerInformation';
+import employerReview from '../pages/employerReview';
+import homeAddress from '../pages/homeAddress';
+import militaryHistory from '../pages/militaryHistory';
+import militaryServiceExperience from '../pages/militaryServiceExperience';
+import personalInformation from '../pages/personalInformation';
+import placeOfBirth from '../pages/placeOfBirth';
+import previousEmployerInformation from '../pages/previousEmployerInformation';
+import workAddress from '../pages/workAddress';
 
 // const { } = fullSchema.properties;
 
@@ -24,7 +39,7 @@ const formConfig = {
   trackingPrefix: '21a-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21a',
+  formId: VA_FORM_IDS.FORM_21A,
   saveInProgress: {
     messages: {
       inProgress:
@@ -50,61 +65,79 @@ const formConfig = {
     date,
   },
   chapters: {
-    personalInformationChapter: {
+    personalInformation: {
       title: 'Personal information',
       pages: {
         personalInformation: {
           path: 'personal-information',
-          title: 'Personal information',
-          uiSchema: {
-            fullName: fullNameUI,
-          },
-          schema: {
-            type: 'object',
-            required: ['fullName'],
-            properties: {
-              fullName,
-            },
-          },
+          uiSchema: personalInformation.uiSchema,
+          schema: personalInformation.schema,
         },
         placeOfBirth: {
           path: 'place-of-birth',
-          title: 'Place of birth',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            required: [],
-            properties: {},
-          },
+          uiSchema: placeOfBirth.uiSchema,
+          schema: placeOfBirth.schema,
+        },
+        contactInformation: {
+          path: 'contact-information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
+        },
+        homeAddress: {
+          path: 'home-address',
+          uiSchema: homeAddress.uiSchema,
+          schema: homeAddress.schema,
+        },
+        workAddress: {
+          path: 'work-address',
+          uiSchema: workAddress.uiSchema,
+          schema: workAddress.schema,
+        },
+        militaryHistory: {
+          path: 'military-history',
+          uiSchema: militaryHistory.uiSchema,
+          schema: militaryHistory.schema,
+        },
+        militaryServiceExperience: {
+          path: 'military-service-experience',
+          uiSchema: militaryServiceExperience.uiSchema,
+          schema: militaryServiceExperience.schema,
         },
       },
     },
-    employmentInformationChapter: {
+    employmentInformation: {
       title: 'Employment information',
       pages: {
-        currentEmployerAndPositionInformation: {
+        currentEmployerInformation: {
           path: 'current-employer-information',
-          title: 'Current employer and position information',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            required: [],
-            properties: {},
-          },
+          uiSchema: currentEmployerInformation.uiSchema,
+          schema: currentEmployerInformation.schema,
         },
-        currentEmployerAddressAndPhoneNumber: {
+        currentEmployerAddressPhone: {
           path: 'current-employer-address-phone',
-          title: 'Current employer address and phone number',
-          uiSchema: {},
-          schema: {
-            type: 'object',
-            required: [],
-            properties: {},
-          },
+          uiSchema: currentEmployerAddressPhone.uiSchema,
+          schema: currentEmployerAddressPhone.schema,
+        },
+        currentEmployerDates: {
+          path: 'current-employer-dates',
+          uiSchema: currentEmployerDates.uiSchema,
+          schema: currentEmployerDates.schema,
+        },
+        employerReview: {
+          path: 'employer-review',
+          uiSchema: employerReview.uiSchema,
+          schema: employerReview.schema,
+        },
+        previousEmployerInformation: {
+          path: 'previous-employer-information',
+          uiSchema: previousEmployerInformation.uiSchema,
+          schema: previousEmployerInformation.schema,
         },
       },
     },
   },
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
 };
 
 export default formConfig;
