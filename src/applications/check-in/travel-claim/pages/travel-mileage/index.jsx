@@ -8,17 +8,17 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { createAnalyticsSlug } from '../../../utils/analytics';
 import { setFormData } from '../../../actions/travel-claim';
+import { sortAppointmentsByStartTime } from '../../../utils/appointment';
 import {
-  hasMultipleFacilities,
-  sortAppointmentsByStartTime,
-  utcToFacilityTimeZone,
-} from '../../../utils/appointment';
-import { makeSelectCurrentContext, makeSelectForm } from '../../../selectors';
+  makeSelectCurrentContext,
+  makeSelectForm,
+  makeSelectVeteranData,
+} from '../../../selectors';
 import { APP_NAMES } from '../../../utils/appConstants';
 import Wrapper from '../../../components/layout/Wrapper';
 import BackButton from '../../../components/BackButton';
 import SingleFacilityBody from './SingleFacilityBody';
-import MultipleFacilityBody from './MultiFacilityBody';
+import MultipleAppointmentBody from './MultiAppointmentBody';
 
 const TravelMileage = props => {
   const { router } = props;
@@ -34,43 +34,25 @@ const TravelMileage = props => {
   const { eligibleToFile } = useSelector(selectCurrentContext);
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
-  const { facilitiesToFile } = data;
-
-  const multipleFacilities = hasMultipleFacilities(eligibleToFile);
-  let appointmentsByFacility;
-  const [selectedFacilities, setSelectedFacilities] = useState([]);
+  const { appointmentToFile } = data;
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { appointments } = useSelector(selectVeteranData);
+  const sortedAppointments = sortAppointmentsByStartTime(appointments);
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const multipleAppointments = appointments.length > 1;
   const [error, setError] = useState(false);
 
   useEffect(
     () => {
-      if (!multipleFacilities) {
-        const firstAppointment = sortAppointmentsByStartTime(eligibleToFile)[0];
-        setSelectedFacilities([
-          {
-            stationNo: firstAppointment.stationNo,
-            startTime: utcToFacilityTimeZone(
-              firstAppointment.startTime,
-              firstAppointment.timezone,
-            ),
-            appointmentCount: eligibleToFile.length,
-            facility: firstAppointment.facility,
-          },
-        ]);
-      }
-      if (facilitiesToFile && facilitiesToFile.length) {
-        setSelectedFacilities(facilitiesToFile);
+      if (appointmentToFile) {
+        setSelectedAppointment(appointmentToFile);
       }
     },
-    [
-      eligibleToFile,
-      facilitiesToFile,
-      multipleFacilities,
-      setSelectedFacilities,
-    ],
+    [appointmentToFile, setSelectedAppointment],
   );
   const continueClick = useCallback(
     () => {
-      if (selectedFacilities.length) {
+      if (selectedAppointment) {
         recordEvent({
           event: createAnalyticsSlug(
             'continue-from-travel-mileage-clicked',
@@ -78,26 +60,18 @@ const TravelMileage = props => {
             APP_NAMES.TRAVEL_CLAIM,
           ),
         });
-        dispatch(setFormData({ facilitiesToFile: selectedFacilities }));
+        dispatch(setFormData({ appointmentToFile: selectedAppointment }));
         goToNextPage();
       } else {
         setError(true);
       }
     },
-    [dispatch, goToNextPage, selectedFacilities, setError],
+    [dispatch, goToNextPage, selectedAppointment, setError],
   );
   let header = t('file-mileage-only-claim-todays-appointment', {
     count: eligibleToFile.length,
   });
-  if (multipleFacilities) {
-    appointmentsByFacility = {};
-    eligibleToFile.forEach(appointment => {
-      if (appointment.stationNo in appointmentsByFacility) {
-        appointmentsByFacility[appointment.stationNo].push(appointment);
-      } else {
-        appointmentsByFacility[appointment.stationNo] = [appointment];
-      }
-    });
+  if (multipleAppointments) {
     header = t('select-appointments-to-file-today');
   }
   return (
@@ -114,19 +88,18 @@ const TravelMileage = props => {
         testID="travel-mileage-page"
       >
         {/* Setting state value here for testing purposes. Could not mock hook with our test setup. */}
-        <div data-testid={JSON.stringify(selectedFacilities)}>
-          {multipleFacilities ? (
-            <MultipleFacilityBody
-              error={error}
-              appointmentsByFacility={appointmentsByFacility}
-              selectedFacilities={selectedFacilities}
-              setSelectedFacilities={setSelectedFacilities}
-            />
+        <div data-testid={JSON.stringify(selectedAppointment)}>
+          {multipleAppointments ? (
+            <>
+              <MultipleAppointmentBody
+                error={error}
+                appointments={sortedAppointments}
+                selectedAppointment={selectedAppointment}
+                setSelectedAppointment={setSelectedAppointment}
+              />
+            </>
           ) : (
-            <SingleFacilityBody
-              facility={eligibleToFile[0].facility}
-              appointments={eligibleToFile}
-            />
+            <SingleFacilityBody appointments={sortedAppointments} />
           )}
           <va-additional-info
             trigger={t('if-you-have-other-expenses-to-claim')}
