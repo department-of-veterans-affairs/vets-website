@@ -28,6 +28,8 @@ const ignoreList = {
     'gulfWar2001Locations',
     'herbicideLocations',
     'herbicideOtherLocations',
+    'otherExposures',
+    'specifyOtherExposures',
   ],
   unemployability: [
     'medicalCare',

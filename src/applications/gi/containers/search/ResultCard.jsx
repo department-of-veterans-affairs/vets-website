@@ -324,7 +324,7 @@ export function ResultCard({
             {schoolProvider && ratingsInformation}
             {preferredProvider && (
               <span className="preferred-provider-text">
-                <i className="fa fa-star vads-u-color--gold" />
+                <va-icon icon="star" size={3} class="vads-u-color--gold" />
                 <strong> Preferred Provider</strong>
               </span>
             )}
@@ -338,28 +338,26 @@ export function ResultCard({
               />
             </div>
           )}
-          {
-            <>
-              <div
-                className={classNames(
-                  'vads-u-padding-x--2 vads-u-margin-bottom--4',
-                  {
-                    'vads-u-border-top--3px': cautionFlags.length === 0,
-                    'vads-u-border-color--white': cautionFlags.length === 0,
-                  },
-                )}
-              >
-                {tuitionAndEligibility}
+          <>
+            <div
+              className={classNames(
+                'vads-u-padding-x--2 vads-u-margin-bottom--4',
+                {
+                  'vads-u-border-top--3px': cautionFlags.length === 0,
+                  'vads-u-border-color--white': cautionFlags.length === 0,
+                },
+              )}
+            >
+              {tuitionAndEligibility}
+            </div>
+            <div className="vads-u-border-top--3px vads-u-border-color--white vads-u-padding-x--2">
+              <div className="vads-u-display--flex vads-u-margin-top--1 ">
+                {!vetTecProvider
+                  ? schoolEmployerInstitutionDetails
+                  : vettecInstitutionDetails}
               </div>
-              <div className="vads-u-border-top--3px vads-u-border-color--white vads-u-padding-x--2">
-                <div className="vads-u-display--flex vads-u-margin-top--1 ">
-                  {!vetTecProvider
-                    ? schoolEmployerInstitutionDetails
-                    : vettecInstitutionDetails}
-                </div>
-              </div>
-            </>
-          }
+            </div>
+          </>
 
           <div
             className={classNames(
