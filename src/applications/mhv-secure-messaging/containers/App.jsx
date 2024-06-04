@@ -104,7 +104,7 @@ const App = ({ isPilot }) => {
   useDatadogRum(datadogRumConfig);
   useEffect(
     () => {
-      setDatadogRumUser(user);
+      setDatadogRumUser({ id: user?.profile?.accountUuid });
     },
     [user],
   );

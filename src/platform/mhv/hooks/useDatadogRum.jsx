@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { datadogRum } from '@datadog/browser-rum';
 
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
 const initializeDatadogRum = config => {
   const datadogRumConfig = config;
@@ -45,12 +44,9 @@ const setDatadogRumUser = user => {
     window.DD_RUM?.getInitConfiguration() &&
     // Not during unit tests
     !window.Mocha &&
-    user.login.currentlyLoggedIn
+    user?.id
   ) {
-    const url = `${environment.API_URL}/analytics/v0/user/hashes`;
-    apiRequest(url).then(data => {
-      setRumUser({ id: data.user.fingerprint });
-    });
+    setRumUser({ id: user.id });
   }
 };
 
