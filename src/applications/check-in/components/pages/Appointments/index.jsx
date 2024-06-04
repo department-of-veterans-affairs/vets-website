@@ -1,7 +1,14 @@
-import React, { useEffect, useMemo, useState, useRef } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+} from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
+import { VaModal } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import Wrapper from '../../layout/Wrapper';
@@ -28,6 +35,7 @@ const AppointmentsPage = props => {
   const [loadedAppointments, setLoadedAppointments] = useState(appointments);
   const [isLoading, setIsLoading] = useState(true);
   const [refresh, setRefresh] = useState(false);
+  const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
 
   const {
     isComplete,
@@ -41,6 +49,21 @@ const AppointmentsPage = props => {
   });
 
   const refreshTimer = useRef(null);
+
+  const getModalUrl = modalState => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('modal', modalState);
+    return `${url.pathname}${url.search}`;
+  };
+
+  const handleModalEvent = useCallback(
+    (e, modalState) => {
+      e.preventDefault();
+      window.history.replaceState(null, null, getModalUrl(modalState));
+      setPrivacyActModalOpen(modalState === 'open');
+    },
+    [setPrivacyActModalOpen],
+  );
 
   useEffect(
     () => {
@@ -210,6 +233,25 @@ const AppointmentsPage = props => {
           ))}
         </va-accordion>
       )}
+      <div className="vads-u-margin-top--4">
+        <a
+          data-testid="privacy-act-statement-link"
+          href="/health-care/appointment-pre-check-in/introduction?modal=open"
+          onClick={e => handleModalEvent(e, 'open')}
+        >
+          {t('privacy-act-statement')}
+        </a>
+      </div>
+      <VaModal
+        modalTitle={t('privacy-act-statement')}
+        onCloseEvent={e => handleModalEvent(e, 'closed')}
+        visible={privacyActModalOpen}
+        initialFocusSelector="button"
+      >
+        <p data-testid="privacy-act-statement-text">
+          {t('privacy-act-statement-text')}
+        </p>
+      </VaModal>
     </Wrapper>
   );
 };
