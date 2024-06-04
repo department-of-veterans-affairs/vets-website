@@ -81,6 +81,8 @@ export const schema = {
               'cityOfBirth',
               'stateOfBirth',
             ]),
+            // delete this once schema is updated
+
             {
               cityOfBirth: {
                 type: 'string',

@@ -37,6 +37,29 @@ export const veteranApplicantDetailsSubHeader = (
   </div>
 );
 
+export function isApplicantTheVeteran(item) {
+  return get('application.applicant.isVeteran', item) === 'yes';
+}
+
+export function veteranApplicantDetailsSummary({ formContext, formData }) {
+  return (
+    <>
+      {formData &&
+        !formContext.onReviewPage && (
+          <div className="veteranApplicantDetailsSummaryBox">
+            <va-summary-box>
+              <p className="veteranApplicantDetailsSummaryBoxText">
+                We’ve prefilled some of your information from your account. If
+                you need to correct anything, you can edit the form fields
+                below.
+              </p>
+            </va-summary-box>
+          </div>
+        )}
+    </>
+  );
+}
+
 export const veteranApplicantDetailsPreparerSubHeader = (
   <div className="applicantDetailsSubHeader">
     <h3 className="vads-u-font-size--h5">Applicant details</h3>

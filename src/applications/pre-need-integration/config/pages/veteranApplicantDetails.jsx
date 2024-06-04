@@ -7,9 +7,9 @@ import {
   nonPreparerFullMaidenNameUI,
   nonPreparerDateOfBirthUI,
   ssnDashesUI,
-  // partial implementation of story resolving the address change:
   applicantDetailsCityTitle,
   applicantDetailsStateTitle,
+  veteranApplicantDetailsSummary,
 } from '../../utils/helpers';
 
 const {
@@ -26,9 +26,9 @@ export function uiSchema(
   cityTitle = applicantDetailsCityTitle,
   stateTitle = applicantDetailsStateTitle,
 ) {
-  // partial implementation of story resolving the address change:
-
   return {
+    'ui:title': (formContext, formData) =>
+      veteranApplicantDetailsSummary(formContext, formData),
     application: {
       'ui:title': subHeader,
       claimant: {
@@ -80,6 +80,7 @@ export const schema = {
           properties: merge(
             {},
             pick(veteran.properties, ['cityOfBirth', 'stateOfBirth']),
+            // delete this once schema is updated
             {
               cityOfBirth: {
                 type: 'string',
