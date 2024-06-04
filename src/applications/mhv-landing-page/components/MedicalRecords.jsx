@@ -35,7 +35,7 @@ export const pageTitle = 'Medical records';
 
 const MedicalRecords = ({ blueButtonUrl }) => {
   useEffect(() => {
-    document.title = titleCase(pageTitle);
+    document.title = titleCase(`${pageTitle} | Veterans Affairs`);
   }, []);
 
   return (
