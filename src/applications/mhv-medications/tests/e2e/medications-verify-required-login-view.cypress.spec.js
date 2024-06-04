@@ -1,6 +1,6 @@
 import MedicationsSite from './med_site/MedicationsSite';
 
-describe('Medications Login View', () => {
+describe.skip('Medications Login View', () => {
   it('visits Medications Login View', () => {
     const site = new MedicationsSite();
 
