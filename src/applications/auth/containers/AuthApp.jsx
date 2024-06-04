@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
+import { get as lodashGet } from 'lodash';
 
 import * as Sentry from '@sentry/browser';
 import { Toggler } from 'platform/utilities/feature-toggles';
@@ -66,6 +67,7 @@ export class AuthApp extends React.Component {
       requestId:
         this.props.location.query.request_id ||
         'No corresponding Request ID was found',
+      showOnboarding: false,
     };
   }
 
@@ -114,6 +116,14 @@ export class AuthApp extends React.Component {
     if (!skipToRedirect) {
       setupProfileSession(authMetrics.userProfile);
     }
+
+    const showOnboarding = lodashGet(
+      response,
+      'data.attributes.onboarding.show',
+      false,
+    );
+    this.setState({ showOnboarding });
+
     this.redirect();
   };
 
@@ -126,7 +136,7 @@ export class AuthApp extends React.Component {
 
     // redirect to my-va if necessary
     const updatedUrl = generateReturnURL(
-      veteranOnboardingToggleValue,
+      veteranOnboardingToggleValue && this.state.showOnboarding,
       returnUrl,
     );
 
@@ -240,11 +250,15 @@ const AuthAppWithToggle = props => (
   </Toggler.Hoc>
 );
 
+const mapStateToProps = state => {
+  return { user: state.user };
+};
+
 const mapDispatchToProps = dispatch => ({
   openLoginModal: () => dispatch(toggleLoginModal(true)),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(AuthAppWithToggle);
