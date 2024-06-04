@@ -49,7 +49,6 @@ const ContactInformationSection = ({ className, showBadAddress }) => {
         className="vads-u-margin-bottom--6"
         showBadAddress={showBadAddress}
       />
-
       <PhoneNumbersTable className="vads-u-margin-bottom--3" />
     </div>
   );

@@ -160,7 +160,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
             />
           )}
           <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0">
-            Mailing address
+            Payment Mailing address
           </h3>
           <p>
             <>
@@ -222,12 +222,6 @@ const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
 
   return (
     <div id={CHANGE_OF_ADDRESS_TITLE}>
-      <h2 className="vads-u-font-family--serif vads-u-margin-y--4">
-        {CHANGE_OF_ADDRESS_TITLE}
-      </h2>
-      <h3 className="heading vads-u-background-color--gray-lightest vads-u-border-color--gray-lighter vads-u-color--gray-darkest vads-u-border-top--1px vads-u-border-left--1px vads-u-border-right--1px vads-u-margin--0 vads-u-padding-x--2 vads-u-padding-y--1p5 vads-u-font-size--h3 medium-screen:vads-u-padding-x--4 medium-screen:vads-u-padding-y--2">
-        Address
-      </h3>
       <div
         className="vads-u-border-color--gray-lighter
             vads-u-color-gray-dark

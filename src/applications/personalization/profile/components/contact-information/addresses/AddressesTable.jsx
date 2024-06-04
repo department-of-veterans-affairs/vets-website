@@ -11,6 +11,7 @@ import ProfileInformationFieldController from '@@vap-svc/components/ProfileInfor
 
 import { formatAddressTitle } from '@@vap-svc/util/contact-information/addressUtils';
 
+import { NavLink } from 'react-router-dom';
 import CopyAddressModalController from './CopyAddressModalController';
 
 import { ProfileInfoCard } from '../../ProfileInfoCard';
@@ -22,10 +23,16 @@ const generateRows = showBadAddress => [
     description: FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.MAILING_ADDRESS],
     id: FIELD_IDS[FIELD_NAMES.MAILING_ADDRESS],
     value: (
-      <ProfileInformationFieldController
-        fieldName={FIELD_NAMES.MAILING_ADDRESS}
-        ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
-      />
+      <>
+        <ProfileInformationFieldController
+          fieldName={FIELD_NAMES.MAILING_ADDRESS}
+          ariaDescribedBy={`described-by-${FIELD_NAMES.MAILING_ADDRESS}`}
+        />
+        <NavLink activeClassName="is-active" exact to="/profile/direct-deposit">
+          Go to direct deposit to manage your Montgomery Gl Bill benefit payment
+          address.
+        </NavLink>
+      </>
     ),
     alertMessage: showBadAddress ? <BadAddressAlert /> : null,
   },

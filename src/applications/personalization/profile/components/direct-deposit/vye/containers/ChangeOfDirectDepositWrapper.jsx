@@ -143,9 +143,9 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
 
   return (
     <div id={CHANGE_OF_DIRECT_DEPOSIT_TITLE}>
-      <h2 className="vads-u-font-family--serif vads-u-margin-y--4">
-        {CHANGE_OF_DIRECT_DEPOSIT_TITLE}
-      </h2>
+      <h3 className="heading vads-u-background-color--gray-lightest vads-u-border-color--gray-lighter vads-u-color--gray-darkest vads-u-border-top--1px vads-u-border-left--1px vads-u-border-right--1px vads-u-margin--0 vads-u-padding-x--2 vads-u-padding-y--1p5 vads-u-font-size--h3 medium-screen:vads-u-padding-x--4 medium-screen:vads-u-padding-y--2">
+        Montgomery Gl Bill benefit payments
+      </h3>
       <div
         className="vads-u-border-color--gray-lighter
             vads-u-color-gray-dark
@@ -171,6 +171,9 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
                 message="We’ve updated your direct deposit information for Montgomery GI Bill benefits."
               />
             )}
+            <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--2 vads-u-margin-top--0">
+              Account
+            </h3>
             <va-button
               id="VYE-add-new-account-button"
               onClick={handleAddNewClick}
@@ -182,10 +185,10 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
                 Any updates you make here will affect your Montgomery GI Bill
                 benefits only.{' '}
               </p>
-              <va-link
+              {/* <va-link
                 href="/change-direct-deposit/"
                 text="Learn how to update your direct deposit account for other VA benefits"
-              />
+              /> */}
               <div className="vads-u-margin-top--3">{bankInfoHelpText}</div>
             </div>
           </>

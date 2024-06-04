@@ -23,6 +23,7 @@ import {
 import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
+import { benefitTypes } from '~/applications/personalization/common/constants';
 import { handleDowntimeForSection } from '../../alerts/DowntimeBanner';
 import VerifyIdentity from '../alerts/VerifyIdentity';
 
@@ -31,13 +32,13 @@ import Headline from '../../ProfileSectionHeadline';
 import { FraudVictimSummary } from '../FraudVictimSummary';
 import { PaymentHistoryCard } from '../PaymentHistoryCard';
 import BankInfo from './BankInfo';
-import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import DirectDepositWrapper from './DirectDepositWrapper';
 import TemporaryOutageCnp from './alerts/TemporaryOutageCnp';
 
 import { DIRECT_DEPOSIT_ALERT_SETTINGS } from '../../../constants';
 import { EduMigrationAlert } from './alerts/EduMigrationAlert';
+import BenefitsProfilePageWrapper from '../vye/containers/BenefitsProfilePageWrapper';
 
 const DirectDeposit = ({
   cnpUiState,
@@ -166,6 +167,7 @@ const DirectDeposit = ({
                   setViewingPayments={setViewingPayments}
                   showSuccessMessage={showCNPSuccessMessage}
                 />
+                <BenefitsProfilePageWrapper />
               </>
             )}
           </DowntimeNotification>
