@@ -1,8 +1,11 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-
-import MedicalRecords, { recordTypes } from '../../components/MedicalRecords';
+import titleCase from '@department-of-veterans-affairs/platform-utilities/titleCase';
+import MedicalRecords, {
+  recordTypes,
+  pageTitle,
+} from '../../components/MedicalRecords';
 
 describe('MHV Landing Page -- temporary Medical Records page', () => {
   it('renders', () => {
@@ -11,10 +14,11 @@ describe('MHV Landing Page -- temporary Medical Records page', () => {
       <MedicalRecords {...props} />,
     );
     getByTestId('mhvMedicalRecords');
-    getByRole('heading', { level: 1, name: 'Medical records' });
+    getByRole('heading', { level: 1, name: pageTitle });
     const name = 'Go back to the previous version of My HealtheVet';
     const link = getByRole('link', { name });
     expect(link.getAttribute('href')).to.eq(props.blueButtonUrl);
     recordTypes.forEach(type => getByText(type));
+    expect(document.title).to.eql(titleCase(pageTitle));
   });
 });
