@@ -1,7 +1,6 @@
 // Dependencies
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { get } from 'lodash';
 // Relative
 import { NavItemPropTypes } from '../prop-types';
@@ -21,12 +20,7 @@ const ExpandCollapseButton = ({ depth, item }) => {
 
   return (
     <span className="va-sidenav-toggle-expand">
-      <i
-        className={classNames('fa', {
-          'fa-chevron-up': expanded,
-          'fa-chevron-down': !expanded,
-        })}
-      />
+      <va-icon icon={expanded ? 'expand_less' : 'expand_more'} size="3" />
     </span>
   );
 };
