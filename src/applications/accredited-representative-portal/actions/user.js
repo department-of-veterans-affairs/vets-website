@@ -13,7 +13,7 @@ export function fetchUser() {
         `${environment.API_URL}/accredited_representative_portal/v0/user`,
         {
           method: 'GET',
-          // credentials: 'include', // TODOARF: Do we need this?
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
           },
