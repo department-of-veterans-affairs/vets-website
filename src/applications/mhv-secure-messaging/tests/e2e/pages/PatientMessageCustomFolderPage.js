@@ -1,7 +1,7 @@
 import mockCustomFolderMessages from '../fixtures/customResponse/custom-folder-messages-response.json';
 import mockSingleMessageResponse from '../fixtures/customResponse/custom-single-message-response.json';
 import mockSortedMessages from '../fixtures/customResponse/sorted-custom-folder-messages-response.json';
-import mockFolders from '../fixtures/generalResponses/folders.json';
+import mockFolders from '../fixtures/folder-response.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
 import { Paths, Locators, Data, Assertions } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';

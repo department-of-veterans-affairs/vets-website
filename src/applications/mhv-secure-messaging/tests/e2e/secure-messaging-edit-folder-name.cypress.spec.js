@@ -8,7 +8,7 @@ describe('edit custom folder name validation', () => {
     const site = new SecureMessagingSite();
     site.login();
     PatientInboxPage.loadInboxMessages();
-    PatientMessageCustomFolderPage.loadFoldersList();
+    PatientInboxPage.selectFolder();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
@@ -18,7 +18,7 @@ describe('edit custom folder name validation', () => {
     const site = new SecureMessagingSite();
     site.login();
     PatientInboxPage.loadInboxMessages();
-    PatientMessageCustomFolderPage.loadFoldersList();
+    PatientInboxPage.selectFolder();
     PatientMessageCustomFolderPage.loadMessages();
 
     PatientMessageCustomFolderPage.editFolderButton()
@@ -37,7 +37,7 @@ describe('edit custom folder name validation', () => {
     const site = new SecureMessagingSite();
     site.login();
     PatientInboxPage.loadInboxMessages();
-    PatientMessageCustomFolderPage.loadFoldersList();
+    PatientInboxPage.selectFolder();
     PatientMessageCustomFolderPage.loadMessages();
 
     PatientMessageCustomFolderPage.editFolderButton()
