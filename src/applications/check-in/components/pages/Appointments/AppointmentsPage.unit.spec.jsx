@@ -85,5 +85,16 @@ describe('unified check-in experience', () => {
       expect(checkIn.queryByTestId('upcoming-appointments')).to.not.exist;
       expect(checkIn.queryByTestId('appointments-accordions')).to.not.exist;
     });
+    it('shows a privacy act modal if the link is clicked', () => {
+      const checkIn = render(
+        <CheckInProvider store={{ features: appointmentsOn }}>
+          <AppointmentsPage />
+        </CheckInProvider>,
+      );
+      const privacyActLink = checkIn.getByTestId('privacy-act-statement-link');
+      expect(privacyActLink).to.exist;
+      privacyActLink.click();
+      expect(checkIn.getByTestId('privacy-act-statement-text')).to.exist;
+    });
   });
 });
