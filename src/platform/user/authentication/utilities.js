@@ -85,7 +85,11 @@ export const sanitizeCernerParams = path => {
   return `${updatedPath}?authenticated=true`;
 };
 
-export const generateReturnURL = returnUrl => {
+export const generateReturnURL = (veteranOnboardingToggleValue, returnUrl) => {
+  if (veteranOnboardingToggleValue) {
+    return `${environment.BASE_URL}/onboarding/`;
+  }
+
   return [
     ``, // create account links don't have a authReturnUrl
     `${environment.BASE_URL}/?next=loginModal`,

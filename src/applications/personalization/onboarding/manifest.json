@@ -1,0 +1,7 @@
+{
+  "appName": "Veteran Onboarding",
+  "entryFile": "./onboarding-entry.jsx",
+  "entryName": "veteran-onboarding",
+  "rootUrl": "/onboarding",
+  "productId": "ihavenoideawhattoputinhere"
+}

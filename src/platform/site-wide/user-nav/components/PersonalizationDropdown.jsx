@@ -10,6 +10,7 @@ import { logoutUrl } from 'platform/user/authentication/utilities';
 import { logoutUrlSiS, logoutEvent } from 'platform/utilities/oauth/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import MyHealthLink from './MyHealthLink';
 
 const recordNavUserEvent = section => () => {
@@ -22,6 +23,14 @@ const recordDependentsEvent = recordNavUserEvent('dependents');
 const recordLettersEvent = recordNavUserEvent('letters');
 
 export function PersonalizationDropdown(props) {
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+  const togglesLoading = useToggleLoadingValue();
+  const toggleValue = useToggleValue(TOGGLE_NAMES.veteranOnboardingBetaFlow);
+
   const { isSSOe, csp } = props;
 
   const createSignout = useCallback(
@@ -36,8 +45,17 @@ export function PersonalizationDropdown(props) {
     [isSSOe, csp],
   );
 
+  if (togglesLoading) {
+    return null;
+  }
+
   return (
     <ul>
+      {toggleValue && (
+        <li>
+          <a href="/onboarding/">Welcome to VA</a>
+        </li>
+      )}
       <li>
         <a href="/my-va/" onClick={recordMyVaEvent}>
           My VA

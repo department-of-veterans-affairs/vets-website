@@ -141,5 +141,15 @@
     "appName": "Representative Status",
     "rootUrl": "/representative-status",
     "widgetType": "representative-status"
+  },
+  {
+    "appName": "Veteran Onboarding",
+    "entryName": "veteran-onboarding",
+    "rootUrl": "/onboarding",
+    "template": {
+      "title": "Welcome to VA",
+      "layout": "page-react.html",
+      "description": "Onboarding page for new veterans"
+    }
   }
 ]

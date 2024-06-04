@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 
 import * as Sentry from '@sentry/browser';
-
+import { Toggler } from 'platform/utilities/feature-toggles';
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import {
@@ -119,12 +119,16 @@ export class AuthApp extends React.Component {
 
   redirect = () => {
     const { returnUrl } = this.state;
+    const { veteranOnboardingToggleValue } = this.props;
 
     // remove from session storage
     sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
     // redirect to my-va if necessary
-    const updatedUrl = generateReturnURL(returnUrl);
+    const updatedUrl = generateReturnURL(
+      veteranOnboardingToggleValue,
+      returnUrl,
+    );
 
     // check if usip client
     const postAuthUrl = this.checkReturnUrl(updatedUrl)
@@ -225,6 +229,17 @@ export class AuthApp extends React.Component {
   }
 }
 
+const AuthAppWithToggle = props => (
+  <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.veteranOnboardingBetaFlow}>
+    {veteranOnboardingToggleValue => (
+      <AuthApp
+        {...props}
+        veteranOnboardingToggleValue={veteranOnboardingToggleValue}
+      />
+    )}
+  </Toggler.Hoc>
+);
+
 const mapDispatchToProps = dispatch => ({
   openLoginModal: () => dispatch(toggleLoginModal(true)),
 });
@@ -232,4 +247,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps,
-)(AuthApp);
+)(AuthAppWithToggle);
