@@ -1,8 +1,35 @@
+/**
+ * Renders a select dropdown for selecting recipients in the compose form.
+ *  - If a recipient requires a signature or switching from a recipient that does not 
+ *    require a signature to one that does, an alert is displayed notifyong that signature is required.
+ *  - If switching from a recipient that requires a signature to one that does not, 
+ *    the alert is displayed notifying that signature is no longer required.
+ *  - If switching from a recipient that does not require a signature to another that does not,
+ *    the alert is not displayed.
+ *  - When alert is rendered or content of alert has changed, focus is set to the alert.
+ *
+ * @component
+ * @example
+
+ * const recipientsList = [
+ *   { id: 1, name: 'Recipient 1', signatureRequired: true },
+ *   { id: 2, name: 'Recipient 2', signatureRequired: false },
+ *   // ...
+ * ];
+ *
+ * @param {Object} props - The component props.
+ * @param {Array} props.recipientsList - The list of recipients to populate the dropdown.
+ * @param {Function} props.onValueChange - The callback function to handle selected recipient change.
+ * @param {string} [props.defaultValue] - The default value for the dropdown.
+ * @param {string} [props.error] - The error message to display.
+ * @param {boolean} [props.isSignatureRequired] - Indicates if a signature is required for the selected recipient.
+ * @returns {JSX.Element} The rendered RecipientsSelect component.
+ */
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   VaAlert,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { sortRecipients } from '../../util/helpers';
@@ -16,41 +43,59 @@ const RecipientsSelect = ({
   isSignatureRequired,
 }) => {
   const alertRef = useRef(null);
+  const isSignatureRequiredRef = useRef();
+  isSignatureRequiredRef.current = isSignatureRequired;
+
   const [alertDisplayed, setAlertDisplayed] = useState(false);
+  const [selectedRecipient, setSelectedRecipient] = useState(null);
 
   useEffect(
     () => {
       if (isSignatureRequired === true) {
         setAlertDisplayed(true);
-        if (alertRef.current) {
+      }
+    },
+    [isSignatureRequired],
+  );
+
+  useEffect(
+    () => {
+      if (selectedRecipient) {
+        onValueChange(selectedRecipient);
+        if (
+          selectedRecipient.signatureRequired ||
+          isSignatureRequiredRef.current !== null
+        ) {
           setTimeout(() => {
-            focusElement(alertRef.current.shadowRoot.querySelector('button'));
+            focusElement(
+              document.querySelector('[data-testid="signature-alert"]'),
+            );
           }, 500);
         }
       }
     },
-    [alertRef, isSignatureRequired],
+    [selectedRecipient, onValueChange],
   );
 
   const handleRecipientSelect = useCallback(
     e => {
-      const recipient = recipientsList.find(
-        r => r.id.toString() === e.detail.value,
-      );
-      onValueChange(recipient);
+      const recipient = recipientsList.find(r => +r.id === +e.detail.value);
+      setSelectedRecipient(recipient);
+      if (recipient.signatureRequired || isSignatureRequired) {
+        setAlertDisplayed(true);
+      }
     },
-    [recipientsList, onValueChange],
+    [recipientsList, isSignatureRequired],
   );
 
   return (
     <>
       <VaSelect
-        uswds={false}
         enable-analytics
         id="recipient-dropdown"
         label="To"
         name="to"
-        value={defaultValue}
+        value={defaultValue !== undefined ? defaultValue : ''}
         onVaSelect={handleRecipientSelect}
         class="composeSelect"
         data-testid="compose-recipient-select"

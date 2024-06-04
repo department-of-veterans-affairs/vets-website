@@ -42,16 +42,30 @@ import RecipientsSelect from './RecipientsSelect';
 
 const ComposeForm = props => {
   const { draft, recipients, signature } = props;
-  const { noAssociations, allTriageGroupsBlocked } = recipients;
+  const {
+    noAssociations,
+    allTriageGroupsBlocked,
+    allowedRecipients,
+  } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const defaultRecipientsList = [{ id: 0, name: ' ' }];
-  const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
-  const [selectedRecipient, setSelectedRecipient] = useState(
-    defaultRecipientsList[0].id,
-  );
+  const [recipientsList, setRecipientsList] = useState(allowedRecipients);
+  const [selectedRecipient, setSelectedRecipient] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
+
+  useEffect(
+    () => {
+      if (selectedRecipient) {
+        setIsSignatureRequired(
+          allowedRecipients.some(
+            r => +r.id === +selectedRecipient && r.signatureRequired,
+          ) || false,
+        );
+      }
+    },
+    [selectedRecipient, allowedRecipients],
+  );
   const [category, setCategory] = useState(null);
   const [categoryError, setCategoryError] = useState('');
   const [bodyError, setBodyError] = useState(null);
@@ -149,21 +163,17 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      if (recipients.allowedRecipients?.length > 0) {
-        setRecipientsList([
-          ...defaultRecipientsList,
-          ...recipients.allowedRecipients,
-        ]);
+      if (allowedRecipients?.length > 0) {
+        setRecipientsList([...allowedRecipients]);
       }
 
       if (!draft) {
-        setSelectedRecipient('0');
         setCategory(null);
         setSubject('');
         setMessageBody('');
       }
     },
-    [recipients, draft],
+    [recipients, draft, allowedRecipients],
   );
 
   useEffect(() => {
@@ -254,13 +264,18 @@ const ComposeForm = props => {
     [alertStatus],
   );
 
-  const recipientExists = recipientId => {
-    return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
-  };
+  const recipientExists = useCallback(
+    recipientId => {
+      return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
+    },
+    [recipientsList],
+  );
 
   //  Populates form fields with recipients and categories
   const populateForm = () => {
-    if (!recipientExists(draft.recipientId)) {
+    if (recipientExists(draft.recipientId)) {
+      setSelectedRecipient(draft.recipientId);
+    } else {
       const newRecipient = {
         id: draft.recipientId,
         name: draft.recipientName,
@@ -499,12 +514,7 @@ const ComposeForm = props => {
 
   const recipientHandler = recipient => {
     setSelectedRecipient(recipient.id.toString());
-    if (recipient.signatureRequired) {
-      setIsSignatureRequired(true);
-    } else if (isSignatureRequired) {
-      setIsSignatureRequired(false);
-      setDigitalSignature('');
-    }
+
     if (recipient.id !== '0') {
       if (recipient.id) setRecipientError('');
       setUnsavedNavigationError();
