@@ -9,11 +9,11 @@ import MedicalRecords from '../components/MedicalRecords';
 
 const Placeholder = () => <div style={{ height: '555px' }} />;
 
-const pageTitle = 'Medical records';
+const pageHeading = 'Medical records';
 
 const MedicalRecordsContainer = () => {
   useEffect(() => {
-    document.title = `${titleCase(pageTitle)} | Veterans Affairs`;
+    document.title = `${titleCase(pageHeading)} | Veterans Affairs`;
   }, []);
 
   const {
@@ -33,7 +33,7 @@ const MedicalRecordsContainer = () => {
   ) : (
     <>
       <MhvSecondaryNav />
-      <MedicalRecords blueButtonUrl={blueButtonUrl} pageTitle={pageTitle} />
+      <MedicalRecords blueButtonUrl={blueButtonUrl} pageHeading={pageHeading} />
     </>
   );
 };
