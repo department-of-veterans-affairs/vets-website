@@ -94,7 +94,7 @@ class MedicationsDetailsPage {
       .click({ force: true });
   };
 
-  clickMedicationDetailsLink = prescriptionDetails => {
+  clickMedicationDetailsLink = (prescriptionDetails, cardNumber) => {
     cy.intercept(
       'GET',
       `/my_health/v1/prescriptions/${
@@ -103,14 +103,10 @@ class MedicationsDetailsPage {
       prescriptionDetails,
     ).as('prescriptionDetails');
     cy.get(
-      `[data-testid="rx-card-info"] > #card-header-${
-        prescriptionDetails.data.attributes.prescriptionId
-      } > [data-testid="medications-history-details-link"]`,
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]`,
     ).should('be.visible');
     cy.get(
-      `#card-header-${
-        prescriptionDetails.data.attributes.prescriptionId
-      } > [data-testid="medications-history-details-link"]`,
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="medications-history-details-link"]`,
     )
       .first()
       .click({ waitForAnimations: true });

@@ -53,7 +53,11 @@ export default function JumpLink({
     >
       <p className={customClass && 'filter-before-res-link'}>
         {iconToggle && (
-          <i className="fa fa-arrow-down iconToggle" aria-hidden="true" />
+          <va-icon
+            icon="arrow_downward"
+            aria-hidden="true"
+            class="iconToggle"
+          />
         )}
         {label}
       </p>

@@ -32,7 +32,7 @@ export default function CCRequestLayout({ data: appointment }) {
     shallowEqual,
   );
   const { providerName, treatmentSpecialty } = provider || {};
-  const { name: facilityName } = facility;
+  const { name: facilityName } = facility || {};
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
 
