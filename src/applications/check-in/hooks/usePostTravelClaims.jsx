@@ -7,6 +7,7 @@ import { makeSelectForm, makeSelectCurrentContext } from '../selectors';
 import { useFormRouting } from './useFormRouting';
 import { APP_NAMES } from '../utils/appConstants';
 import { URLS } from '../utils/navigation';
+import { utcToFacilityTimeZone } from '../utils/appointment';
 
 const usePostTravelClaims = props => {
   const { router } = props;
@@ -16,7 +17,10 @@ const usePostTravelClaims = props => {
   const [travelPayClaimError, setTravelPayClaimError] = useState(false);
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
-  const { facilitiesToFile, startedTime } = data;
+  const { appointmentToFile, startedTime } = data;
+  const appointmentStartTime = utcToFacilityTimeZone(
+    appointmentToFile.startTime,
+  );
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token: uuid } = useSelector(selectCurrentContext);
   const { setTravelPaySent, getTravelPaySent } = useStorage(
@@ -26,14 +30,8 @@ const usePostTravelClaims = props => {
   const travelPaySent = getTravelPaySent(window);
   const now = new Date().getTime();
   const timeToComplete = Math.round((now - startedTime) / 1000).toString();
-  const faciltiesToPost = facilitiesToFile.filter(
-    facility =>
-      !(facility.stationNo in travelPaySent) ||
-      differenceInCalendarDays(
-        Date.now(),
-        parseISO(travelPaySent[facility.stationNo]),
-      ),
-  );
+  const alreadyPosted =
+    differenceInCalendarDays(Date.now(), parseISO(travelPaySent)) === 0;
   useEffect(
     () => {
       if (
@@ -44,27 +42,24 @@ const usePostTravelClaims = props => {
         jumpToPage(URLS.TRAVEL_INTRO);
         return;
       }
-      const markTravelPayClaimSent = facilities => {
-        facilities.forEach(facility => {
-          travelPaySent[facility.stationNo] = new Date();
-          setTravelPaySent(window, travelPaySent);
-        });
+      const markTravelPayClaimSent = () => {
+        setTravelPaySent(window, new Date());
       };
       if (isLoading && !isComplete) {
         return;
       }
       setIsLoading(true);
-      if (!faciltiesToPost.length) {
+      if (alreadyPosted) {
         setIsLoading(false);
         return;
       }
       api.v2
-        .postTravelPayClaims(faciltiesToPost, uuid, timeToComplete)
+        .postTravelPayClaims(appointmentStartTime, uuid, timeToComplete)
         .catch(() => {
           setTravelPayClaimError(true);
         })
         .finally(() => {
-          markTravelPayClaimSent(faciltiesToPost);
+          markTravelPayClaimSent();
           setIsLoading(false);
           setIsComplete(true);
         });
@@ -74,11 +69,12 @@ const usePostTravelClaims = props => {
       setTravelPaySent,
       uuid,
       isComplete,
-      faciltiesToPost,
       travelPaySent,
       data,
       jumpToPage,
       timeToComplete,
+      alreadyPosted,
+      appointmentStartTime,
     ],
   );
 
