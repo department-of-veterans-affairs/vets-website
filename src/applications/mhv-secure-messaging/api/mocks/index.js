@@ -45,14 +45,6 @@ const responses = {
 
     return res.json(maintenanceWindows.noDowntime);
   },
-  'GET /analytics/v0/user/hashes': (_req, res) => {
-    res.json({
-      user: {
-        fingerprint:
-          'e867710d806a3533f0843405c3ba9bdd0769b2ff84fcce8f75e6b64a406e70c3',
-      },
-    });
-  },
 };
 
 module.exports = delay(responses, 3000);
