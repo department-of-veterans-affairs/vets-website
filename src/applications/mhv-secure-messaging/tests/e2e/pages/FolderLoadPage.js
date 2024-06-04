@@ -27,7 +27,12 @@ class FolderLoadPage {
     });
   };
 
-  loadFolderMessages = (folderName, folderNumber, folderResponseIndex) => {
+  loadFolderMessages = (
+    folderName,
+    folderNumber,
+    folderResponseIndex,
+    messagesList = mockMessages,
+  ) => {
     this.foldersSetup();
     PatientInboxPage.selectFolder();
     cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderNumber}*`, {
@@ -36,7 +41,7 @@ class FolderLoadPage {
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderNumber}/threads*`,
-      mockMessages,
+      messagesList,
     ).as('folderThreadResponse');
 
     cy.get(`[data-testid=${folderName}]>a`).click({ force: true });
@@ -46,20 +51,20 @@ class FolderLoadPage {
     cy.wait('@mockUser');
   };
 
-  loadInboxMessages = () => {
-    this.loadFolderMessages('Inbox', 0, 0);
+  loadInboxMessages = messagesList => {
+    this.loadFolderMessages('Inbox', 0, 0, messagesList);
   };
 
-  loadDraftMessages = () => {
-    this.loadFolderMessages('Drafts', -2, 1);
+  loadDraftMessages = messagesList => {
+    this.loadFolderMessages('Drafts', -2, 1, messagesList);
   };
 
-  loadSentMessages = () => {
-    this.loadFolderMessages('Sent', -1, 2);
+  loadSentMessages = messagesList => {
+    this.loadFolderMessages('Sent', -1, 2, messagesList);
   };
 
-  loadDeletedMessages = () => {
-    this.loadFolderMessages('Deleted', -3, 3);
+  loadDeletedMessages = messagesList => {
+    this.loadFolderMessages('Deleted', -3, 3, messagesList);
   };
 
   verifyFolderHeaderText = text => {

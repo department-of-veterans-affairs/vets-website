@@ -2,7 +2,6 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import FolderManagementPage from './pages/FolderManagementPage';
 import { AXE_CONTEXT, Locators, Data, Paths } from './utils/constants';
-import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 
 describe('create folder errors check', () => {
   beforeEach(() => {
@@ -14,7 +13,8 @@ describe('create folder errors check', () => {
   it('create folder network error check', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessageCustomFolderPage.loadFoldersList();
+    PatientInboxPage.selectFolder();
+
     FolderManagementPage.createANewFolderButton().click({
       waitForAnimations: true,
     });
@@ -42,7 +42,7 @@ describe('create folder errors check', () => {
   it('create blank name folder error check', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    PatientMessageCustomFolderPage.loadFoldersList();
+    PatientInboxPage.selectFolder();
     cy.get(Locators.ALERTS.CREATE_NEW_FOLDER).click();
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click({
       waitForAnimations: true,
