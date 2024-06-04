@@ -408,7 +408,7 @@ describe('Compose form component', () => {
         path: Paths.COMPOSE,
       },
     );
-    const val = initialState.sm.recipients.allowedRecipients[0].name;
+    const val = initialState.sm.recipients.allowedRecipients[0].id;
     selectVaSelect(screen.container, val);
     waitFor(() => {
       expect(screen.getByTestId('compose-recipient-select')).to.have.value(val);
