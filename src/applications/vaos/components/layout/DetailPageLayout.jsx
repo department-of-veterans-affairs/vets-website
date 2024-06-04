@@ -63,6 +63,7 @@ function CancelButton({ appointment }) {
   const dispatch = useDispatch();
   const { status, vaos } = appointment;
   const {
+    isCancellable,
     isCommunityCare,
     isCompAndPenAppointment,
     isVideo,
@@ -90,7 +91,8 @@ function CancelButton({ appointment }) {
   );
 
   if (
-    APPOINTMENT_STATUS.cancelled !== status &&
+    APPOINTMENT_STATUS.booked === status &&
+    isCancellable &&
     !isCommunityCare &&
     !isCompAndPenAppointment &&
     !isVideo &&

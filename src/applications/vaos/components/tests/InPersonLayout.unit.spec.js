@@ -46,6 +46,7 @@ describe('VAOS Component: InPersonLayout', () => {
         },
         videoData: {},
         vaos: {
+          isCancellable: true,
           isCommunityCare: false,
           isCompAndPenAppointment: false,
           isCOVIDVaccine: false,
