@@ -46,8 +46,8 @@ describe('EKG details component', () => {
   });
 
   it('should display the formatted date', () => {
-    const dateElement = screen.getByText('April', {
-      exact: false,
+    const dateElement = screen.getByText('April 13, 2022, 5:25 a.m. MDT', {
+      exact: true,
       selector: 'span',
     });
     expect(dateElement).to.exist;

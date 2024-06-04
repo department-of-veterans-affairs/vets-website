@@ -68,8 +68,8 @@
   "subject": {
     "reference": "Patient/ex-MHV-patient-1"
   },
-  "effectiveDateTime": "2000-08-10T15:56:00Z",
-  "issued": "2000-08-10T15:56:00Z",
+  "effectiveDateTime": "2000-08-10T15:56:00-0400",
+  "issued": "2000-08-10T15:56:00-0400",
   "performer": [
     {
       "reference": "Organization/ex-MHV-organization-989"

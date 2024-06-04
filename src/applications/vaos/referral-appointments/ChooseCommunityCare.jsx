@@ -56,6 +56,7 @@ export default function ChooseCommunityCare() {
               aria-label="Review available appointments"
               text="Review available appointments"
               data-testid="review-available-appointments-link"
+              tabindex="0"
             />
           </div>
         </va-card>
@@ -96,6 +97,7 @@ export default function ChooseCommunityCare() {
                   aria-label={provider.reviewText}
                   text={provider.reviewText}
                   data-testid="review-available-appointments-link"
+                  tabindex="0"
                 />
               </div>
               <hr />
@@ -107,6 +109,7 @@ export default function ChooseCommunityCare() {
             aria-label="More available appointments"
             text={`+${providers.length - 1} more available appointments`}
             data-testid="more-available-appointments-link"
+            tabindex="0"
           />
         </div>
       </div>
