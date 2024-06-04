@@ -125,7 +125,7 @@ const useGetCheckInData = ({
 
   const setTravelData = useCallback(
     payload => {
-      const travelPaySent = getTravelPaySentTravelClaim(window);
+      const travelPaySent = {};
       const { appointments } = payload;
       const filteredAppointments = {
         alreadyFiled: [],
