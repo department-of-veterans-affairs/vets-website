@@ -29,7 +29,7 @@ const downtimeTesting = ({
 
       cy.intercept('GET', `${contestableApi}compensation`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
-      });
+      }).as('getIssues');
       cy.intercept('PUT', `/v0/in_progress_forms/${formId}`, mockInProgress);
       cy.intercept(
         'GET',
