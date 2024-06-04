@@ -21,7 +21,7 @@ const RecordList = props => {
   const paramPage = getParamValue(location.search, 'page');
   const [currentRecords, setCurrentRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState(paramPage);
-  const [isInitialPage, setInitialPage] = useState(false);
+  const [setInitialPage] = useState(false);
   const paginatedRecords = useRef([]);
 
   const onPageChange = page => {
@@ -65,7 +65,7 @@ const RecordList = props => {
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       }
     },
-    [currentPage, isInitialPage, records],
+    [currentPage, records],
   );
 
   const displayNums = fromToNums(currentPage, records?.length);

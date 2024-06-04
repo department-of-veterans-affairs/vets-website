@@ -132,7 +132,8 @@ const VitalDetails = props => {
   useEffect(
     () => {
       if (currentPage > 1 && records?.length) {
-        focusElement(document.querySelector('h2'));
+        focusElement(document.querySelector('#showingRecords'));
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       }
     },
     [currentPage, records],
@@ -212,6 +213,7 @@ Provider notes: ${vital.notes}\n\n`,
           className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-padding-y--1 
             vads-u-margin-bottom--0 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light no-print 
             vads-u-margin-top--3 small-screen:vads-u-margin-top--4"
+          id="showingRecords"
         >
           {`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
             records.length
