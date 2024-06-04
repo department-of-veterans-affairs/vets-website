@@ -7,7 +7,6 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   margin-bottom: 5em;
 
   h3 {
-    border-bottom: 1px solid var(--vads-color-base-light);
     margin: 1em 0 .5em 0;
     padding: 0 0 .25em 0;
   }
@@ -31,15 +30,6 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   /*.usa-alert {
     margin: 1em 0 1em 0;
   }*/
-
-  .feature {
-      min-height: 0;
-      margin-top: 1em;
-
-    &.help-desk {
-      margin-top: 2em;
-    }
-  }
 
   .not-qualified h5 {
     margin-top: 1em;
