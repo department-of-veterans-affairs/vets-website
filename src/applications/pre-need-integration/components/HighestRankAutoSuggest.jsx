@@ -18,11 +18,6 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
     return match ? parseInt(match[1], 10) : 0;
   };
 
-  const formatValue = valueText =>
-    valueText
-      ? valueText.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())
-      : '';
-
   const getRanksForBranch = branch => {
     return jsonData
       .filter(row => row['Branch Of Service Code'] === branch)
@@ -58,9 +53,7 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
           );
           if (matchingRank) {
             setRank(
-              `${matchingRank.key.toUpperCase()} - ${formatValue(
-                matchingRank.value,
-              )}`,
+              `${matchingRank.key.toUpperCase()} - ${matchingRank.value}`,
             );
           }
         }
@@ -87,7 +80,7 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema }) {
   );
 
   const handleSelectionChange = selection => {
-    setRank(`${selection.key.toUpperCase()} - ${formatValue(selection.value)}`);
+    setRank(`${selection.key.toUpperCase()} - ${selection.value}`);
     const updatedFormData = set(
       `application.veteran.serviceRecords[${index}].highestRank`,
       selection.key,

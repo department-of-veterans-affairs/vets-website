@@ -10,11 +10,6 @@ function MilitaryAutoSuggest({
 }) {
   const [inputValue, setInputValue] = useState('');
 
-  const formatValue = valueText =>
-    valueText
-      ? valueText.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())
-      : '';
-
   useEffect(
     () => {
       if (value) {
@@ -46,9 +41,7 @@ function MilitaryAutoSuggest({
   return (
     <Downshift
       onChange={selection => {
-        setValue(
-          `${selection.key.toUpperCase()} - ${formatValue(selection.value)}`,
-        );
+        setValue(`${selection.key.toUpperCase()} - ${selection.value}`);
         onSelectionChange(selection);
       }}
       itemToString={itemToString}
@@ -87,7 +80,7 @@ function MilitaryAutoSuggest({
                           : 'autosuggest-item',
                     })}
                   >
-                    {`${item.label.key} - ${formatValue(item.label.value)}`}
+                    {`${item.label.key} - ${item.label.value}`}
                   </div>
                 ))}
             </div>
