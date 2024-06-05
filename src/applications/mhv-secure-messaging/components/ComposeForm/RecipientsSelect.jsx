@@ -74,7 +74,7 @@ const RecipientsSelect = ({
         }
       }
     },
-    [selectedRecipient, onValueChange],
+    [selectedRecipient],
   );
 
   const handleRecipientSelect = useCallback(
@@ -137,7 +137,7 @@ const RecipientsSelect = ({
 RecipientsSelect.propTypes = {
   recipientsList: PropTypes.array.isRequired,
   onValueChange: PropTypes.func.isRequired,
-  defaultValue: PropTypes.string,
+  defaultValue: PropTypes.number,
   error: PropTypes.string,
   isSignatureRequired: PropTypes.bool,
 };

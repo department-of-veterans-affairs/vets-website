@@ -332,6 +332,9 @@ const ComposeForm = props => {
         setSignatureError(ErrorMessages.ComposeForm.SIGNATURE_REQUIRED);
         messageValid = false;
       }
+      if (signatureError !== '') {
+        messageValid = false;
+      }
       setMessageInvalid(!messageValid);
       return messageValid;
     },
@@ -350,7 +353,7 @@ const ComposeForm = props => {
       if (type === 'manual') {
         setLastFocusableElement(e.target);
         await setMessageInvalid(false);
-        if (checkMessageValidity() === true) {
+        if (checkMessageValidity({ isDraft: true }) === true) {
           setUnsavedNavigationError(null);
           setSavedDraft(true);
         } else
@@ -512,14 +515,17 @@ const ComposeForm = props => {
     ],
   );
 
-  const recipientHandler = recipient => {
-    setSelectedRecipient(recipient.id.toString());
+  const recipientHandler = useCallback(
+    recipient => {
+      setSelectedRecipient(recipient.id.toString());
 
-    if (recipient.id !== '0') {
-      if (recipient.id) setRecipientError('');
-      setUnsavedNavigationError();
-    }
-  };
+      if (recipient.id !== '0') {
+        if (recipient.id) setRecipientError('');
+        setUnsavedNavigationError();
+      }
+    },
+    [setRecipientError, setUnsavedNavigationError],
+  );
 
   const subjectHandler = e => {
     setSubject(e.target.value);
@@ -535,7 +541,12 @@ const ComposeForm = props => {
 
   const digitalSignatureHandler = e => {
     setDigitalSignature(e.target.value);
-    if (e.target.value) setSignatureError('');
+    const regex = /^[^0-9!@#$%^&*()+<>?/]*$/;
+    if (!regex.test(e.target.value)) {
+      setSignatureError(ErrorMessages.ComposeForm.VALID_SIGNATURE_REQUIRED);
+    } else if (e.target.value) {
+      setSignatureError('');
+    }
     setUnsavedNavigationError();
   };
 
@@ -660,7 +671,7 @@ const ComposeForm = props => {
                 recipientsList={recipientsList}
                 onValueChange={recipientHandler}
                 error={recipientError}
-                defaultValue={selectedRecipient}
+                defaultValue={+selectedRecipient}
                 isSignatureRequired={isSignatureRequired}
               />
             )}

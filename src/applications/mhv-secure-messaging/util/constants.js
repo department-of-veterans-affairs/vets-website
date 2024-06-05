@@ -53,6 +53,7 @@ export const ErrorMessages = {
     SUBJECT_REQUIRED: 'Subject cannot be blank.',
     BODY_REQUIRED: 'Message body cannot be blank.',
     SIGNATURE_REQUIRED: 'Enter your full name',
+    VALID_SIGNATURE_REQUIRED: 'Valid signature required',
     UNABLE_TO_SAVE: {
       title: "We can't save this message yet",
       p1: 'We need more information from you before we can save this draft.',
