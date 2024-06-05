@@ -6,7 +6,6 @@
       "rxDiscount": true,
       "other": true
     },
-    "applicantPrimaryEOB": "noEob",
     "applicantPrimaryHasPrescription": false,
     "applicantPrimaryThroughEmployer": false,
     "applicantPrimaryProvider": "Primary Provider",
@@ -15,6 +14,7 @@
     "applicantHasPrimary": true,
     "applicantMedicareStatus": false,
     "applicantPhone": "1231231234",
+    "applicantGender": "male",
     "applicantAddress": {
       "country": "USA",
       "street": "123 Streetland",
@@ -29,12 +29,6 @@
     },
     "applicantDOB": "2001-03-02",
     "missingUploads": [
-      {
-        "name": "primaryInsuranceScheduleOfBenefits",
-        "path": "insurance-sob",
-        "required": false,
-        "uploaded": false
-      },
       {
         "name": "primaryInsuranceCard",
         "path": "insurance-upload",

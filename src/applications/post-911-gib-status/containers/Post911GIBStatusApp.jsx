@@ -34,12 +34,7 @@ function AppContent({ children, isDataAvailable }) {
     view = children;
   }
 
-  return (
-    <div className="row">
-      <h1>Your Post-9/11 GI Bill Statement of Benefits</h1>
-      {view}
-    </div>
-  );
+  return <div className="row">{view}</div>;
 }
 
 AppContent.propTypes = {
