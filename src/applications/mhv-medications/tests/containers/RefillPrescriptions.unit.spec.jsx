@@ -61,7 +61,7 @@ describe('Refill Prescriptions Component', () => {
   });
 
   afterEach(() => {
-    resetFetch();
+    // resetFetch();
   });
 
   it('renders without errors', () => {
