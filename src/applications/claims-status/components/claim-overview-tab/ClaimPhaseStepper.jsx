@@ -181,6 +181,18 @@ export default function ClaimPhaseStepper({
     return '';
   };
 
+  const headerIconText = phase => {
+    if (isCurrentPhase(phase) && phase !== 8) {
+      return 'Current';
+    }
+
+    if (phase < currentPhase || (isCurrentPhase(phase) && phase === 8)) {
+      return 'Completed';
+    }
+
+    return '';
+  };
+
   const headerIconColor = phase => {
     if (isCurrentPhase(phase) && phase !== 8) {
       return 'phase-current';
@@ -206,6 +218,7 @@ export default function ClaimPhaseStepper({
             <va-icon
               icon={headerIcon(claimPhase.phase)}
               class={headerIconColor(claimPhase.phase)}
+              srtext={headerIconText(claimPhase.phase)}
               slot="icon"
             />
             {isCurrentPhase(claimPhase.phase) && (
