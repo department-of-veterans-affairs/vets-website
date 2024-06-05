@@ -64,7 +64,7 @@ const Landing = props => {
       }
 
       const travelPaySent = getTravelPaySent(window);
-      if (!differenceInCalendarDays(Date.now(), parseISO(travelPaySent))) {
+      if (differenceInCalendarDays(Date.now(), parseISO(travelPaySent)) === 0) {
         updateError('already-filed-claim');
       }
 
