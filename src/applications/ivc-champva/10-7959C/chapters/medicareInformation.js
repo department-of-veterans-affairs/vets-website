@@ -1,5 +1,4 @@
 import React from 'react';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
 import {
   titleUI,
@@ -307,11 +306,10 @@ export const applicantMedicarePartDCarrierSchema = {
     ...titleUI(
       ({ formData }) => `${nameWording(formData)} Medicare Part D carrier`,
     ),
-    applicantMedicarePartDCarrier: {
-      'ui:title': 'Name of insurance carrier',
-      'ui:description': 'Your insurance carrier is your insurance company.',
-      'ui:webComponentField': VaTextInputField,
-    },
+    applicantMedicarePartDCarrier: textUI({
+      title: 'Name of insurance carrier',
+      hint: 'Your insurance carrier is your insurance company.',
+    }),
     applicantMedicarePartDEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part D effective date',
       hint: effectiveDateHint,
@@ -325,7 +323,7 @@ export const applicantMedicarePartDCarrierSchema = {
     ],
     properties: {
       titleSchema,
-      applicantMedicarePartDCarrier: { type: 'string' },
+      applicantMedicarePartDCarrier: textSchema,
       applicantMedicarePartDEffectiveDate: currentOrPastDateSchema,
     },
   },
