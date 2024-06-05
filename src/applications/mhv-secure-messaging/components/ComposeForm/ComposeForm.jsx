@@ -306,7 +306,7 @@ const ComposeForm = props => {
   if (draft && !formPopulated) populateForm();
 
   const checkMessageValidity = useCallback(
-    () => {
+    isDraft => {
       let messageValid = true;
       if (
         selectedRecipient === '0' ||
@@ -328,7 +328,7 @@ const ComposeForm = props => {
         setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
         messageValid = false;
       }
-      if (isSignatureRequired && !digitalSignature) {
+      if (!isDraft && isSignatureRequired && !digitalSignature) {
         setSignatureError(ErrorMessages.ComposeForm.SIGNATURE_REQUIRED);
         messageValid = false;
       }
@@ -390,7 +390,7 @@ const ComposeForm = props => {
         body: messageBody,
       };
 
-      if (checkMessageValidity() === true) {
+      if (checkMessageValidity({ draft: true }) === true) {
         dispatch(saveDraft(formData, type, draftId));
       }
     },
