@@ -38,13 +38,14 @@ function alertOrLink(file, entryName, index, fileNameDict = {}) {
 /**
  * Produce an unordered list JSX component with a list of all missing files
  * a user needs to upload.
- * @param {object} param0 data: either an applicant obj or an entire formData obj
- * nameKey: property name to access person's full name (e.g., 'applicantName')
- * title: title text to display
- * description: description text to display
- * disableLinks: whether or not to show link to edit page
- * subset: which classification of files to show: 'required', 'optional', 'all'
- * filenameMap: (optional) all file names mapped to user-friendly labels
+ * @param {object} param0
+ * @param {object} param0.data: either an entire formData obj or a subset of that data. Must contain a property that matches the `nameKey` passed to this function.
+ * @param {string} param0.nameKey: property name to access person's full name (e.g., `applicantName`)
+ * @param {string} param0.title: title text to display
+ * @param {string} param0.description: description text to display
+ * @param {boolean} param0.disableLinks: whether or not to show link to edit page
+ * @param {string} param0.subset: which classification of files to show: 'required', 'optional', 'all'
+ * @param {object} param0.filenameMap: (optional) all file names mapped to user-friendly labels
  * @returns JSX
  */
 export default function MissingFileList({

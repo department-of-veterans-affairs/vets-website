@@ -26,11 +26,14 @@ export default function CancelWarningPage({ appointment, cancelInfo }) {
   const type = selectAppointmentType(appointment);
 
   let heading = 'Would you like to cancel this appointment?';
+  let buttonText = 'Yes, cancel appointment';
   if (
     APPOINTMENT_TYPES.request === type ||
     APPOINTMENT_TYPES.ccRequest === type
-  )
+  ) {
     heading = 'Would you like to cancel this request?';
+    buttonText = 'Yes, cancel request';
+  }
 
   useEffect(() => {
     scrollAndFocus();
@@ -55,7 +58,7 @@ export default function CancelWarningPage({ appointment, cancelInfo }) {
           aria-label="Cancel appointment"
           onClick={handleConfirm(dispatch)}
         >
-          Yes, cancel appointment
+          {buttonText}
         </button>
       </div>
       <div className="vads-u-display--flex vads-u-align-items--center vaos-hide-for-print">

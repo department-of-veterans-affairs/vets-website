@@ -216,16 +216,6 @@ export const getEmail = (formData = {}) => {
 };
 
 /**
- * Get user's current time zone
- * @returns {String}
- * @example 'America/Los_Angeles'
- */
-export const getTimeZone = () =>
-  // supports IE11
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
-  Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-/**
  *
  * @param {Boolean} requestingExtension - yes/no indicating the Veteran is
  *   requesting an extension

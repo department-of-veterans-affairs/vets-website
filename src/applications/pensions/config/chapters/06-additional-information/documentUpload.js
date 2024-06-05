@@ -22,7 +22,11 @@ const Description = (
 
     <p>You can upload your documents now.</p>
 
-    <p>File types you can upload: PDF</p>
+    <p>Guidelines to upload a file:</p>
+    <ul>
+      <li>You can upload a .pdf, .jpeg, or .png file</li>
+      <li>Your file should be no larger than 20MB</li>
+    </ul>
   </div>
 );
 

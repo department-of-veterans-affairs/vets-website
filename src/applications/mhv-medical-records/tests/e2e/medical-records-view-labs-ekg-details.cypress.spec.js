@@ -11,7 +11,7 @@ describe('Medical Records View EKG Details', () => {
   });
   it('Navigate to EKG Details page, verify fields', () => {
     // Given As a Medical Records User I wanted to Navigate to "EKG" Detail Page
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(3);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(4);
     EKGDetailsPage.verifyPrintOrDownload();
     EKGDetailsPage.clickPrintOrDownload();
     EKGDetailsPage.verifyPrintButton();
@@ -32,7 +32,7 @@ describe('Medical Records View EKG Details', () => {
       '',
     );
     EKGDetailsPage.verifyTitle('Electrocardiogram (EKG)');
-    EKGDetailsPage.verifyDate('2000-12-14T11:35:00Z');
+    EKGDetailsPage.verifyDate('December 14, 2000, 11:35 a.m.');
     EKGDetailsPage.verifyOrderingLocation('school parking lot');
     EKGDetailsPage.verifyResults();
     cy.injectAxe();

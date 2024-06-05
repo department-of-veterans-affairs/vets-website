@@ -3,14 +3,6 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "profile_show_profile_2.0",
-        "value": false
-      },
-      {
-        "name": "form214138",
-        "value": true
-      },
-      {
         "name": "form214138",
         "value": true
       }

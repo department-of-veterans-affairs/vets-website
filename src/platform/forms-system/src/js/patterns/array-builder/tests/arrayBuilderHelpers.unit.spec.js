@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import * as helpers from '../helpers';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from '../arrayBuilderText';
+import * as helpers from '../helpers';
 
 describe('arrayBuilder helpers', () => {
   it('onNavBackRemoveAddingItem returned to intro if items are 0', () => {
@@ -265,4 +265,68 @@ describe('arrayBuilderText', () => {
     expect(getText(key)).to.be.a('string');
   });
   expect(getText).to.be.a('function');
+});
+
+describe('maxItemsHint', () => {
+  let hint = helpers.maxItemsHint({
+    arrayData: [],
+    nounPlural: 'employers',
+    nounSingular: 'employer',
+    maxItems: 5,
+  });
+  expect(hint).to.eq('You can add up to 5.');
+
+  hint = helpers.maxItemsHint({
+    arrayData: [{}],
+    nounPlural: 'employers',
+    nounSingular: 'employer',
+    maxItems: 5,
+  });
+  expect(hint).to.eq('You can add 4 more employers.');
+
+  hint = helpers.maxItemsHint({
+    arrayData: [{}, {}, {}, {}],
+    nounPlural: 'employers',
+    nounSingular: 'employer',
+    maxItems: 5,
+  });
+  expect(hint).to.eq('You can add 1 more employer.');
+
+  hint = helpers.maxItemsHint({
+    arrayData: [{}, {}, {}, {}, {}],
+    nounPlural: 'employers',
+    nounSingular: 'employer',
+    maxItems: 5,
+  });
+  expect(hint).to.eq('You can add up to 5.');
+
+  hint = helpers.maxItemsHint({
+    arrayData: [],
+    nounPlural: 'employers',
+    nounSingular: 'employer',
+    maxItems: 1,
+  });
+  expect(hint).to.eq('You can add up to 1.');
+});
+
+describe('getUpdatedItemFromPath', () => {
+  it('should return null values if no updated param', () => {
+    const updatedItem = helpers.getUpdatedItemFromPath('');
+    expect(updatedItem.nounSingular).to.eq(null);
+    expect(updatedItem.index).to.eq(null);
+  });
+
+  it('should return expected values for an item', () => {
+    const updatedItem = helpers.getUpdatedItemFromPath('?updated=employer-0');
+    expect(updatedItem.nounSingular).to.eq('employer');
+    expect(updatedItem.index).to.eq(0);
+  });
+
+  it('should return expected values for an item', () => {
+    const updatedItem = helpers.getUpdatedItemFromPath(
+      '?updated=treatment-records-2',
+    );
+    expect(updatedItem.nounSingular).to.eq('treatment records');
+    expect(updatedItem.index).to.eq(2);
+  });
 });

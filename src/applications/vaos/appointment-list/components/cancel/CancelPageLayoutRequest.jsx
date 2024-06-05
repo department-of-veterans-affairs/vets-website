@@ -22,15 +22,19 @@ export default function CancelPageLayoutRequest() {
     phone,
     preferredDates,
     preferredLanguage,
-    preferredProvider,
     preferredTimesForPhoneCall,
+    provider: preferredProvider,
     typeOfCareName,
     typeOfVisit,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
   );
-  const [reason, otherDetails] = bookingNotes.split(':');
+  let [reason, otherDetails] = bookingNotes.split(':');
+  if (isCC) {
+    reason = null;
+    otherDetails = bookingNotes;
+  }
 
   return (
     <>
@@ -61,7 +65,8 @@ export default function CancelPageLayoutRequest() {
           <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
             Preferred community care provider
           </h3>
-          {preferredProvider?.name || 'Provider information not available'}
+          {preferredProvider?.providerName ||
+            'Provider information not available'}
           <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
             Language you’d prefer the provider speak
           </h3>

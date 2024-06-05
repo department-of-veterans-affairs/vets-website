@@ -16,10 +16,7 @@ import {
   phoneSchema,
   emailUI,
   emailSchema,
-  // checkboxGroupUI,
-  // checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
 import transformForSubmit from './submitTransformer';
 import manifest from '../manifest.json';
 import prefillTransformer from './prefillTransformer';
@@ -28,7 +25,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../../shared/components/GetFormHelp';
 
-// import mockdata from '../tests/fixtures/data/test-data.json';
+// import mockdata from '../tests/e2e/fixtures/data/test-data.json';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -55,7 +52,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'fullName',
+      fullNamePath: 'veteranFullName',
     },
   },
   formId: '10-7959F-1',
@@ -93,16 +90,16 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'We use this information to verify other details.',
-            fullName: veteranFullNameUI,
-            veteranDOB: dateOfBirthUI(),
+            veteranFullName: veteranFullNameUI,
+            veteranDateOfBirth: dateOfBirthUI({ required: true }),
           },
           schema: {
             type: 'object',
-            required: ['fullName', 'veteranDOB'],
+            required: ['veteranFullName', 'veteranDateOfBirth'],
             properties: {
               titleSchema,
-              fullName: fullNameSchema,
-              veteranDOB: dateOfBirthSchema,
+              veteranFullName: fullNameSchema,
+              veteranDateOfBirth: dateOfBirthSchema,
             },
           },
         },
@@ -121,14 +118,14 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'You must enter either a Social Security number or VA file number.',
-            ssn: ssnOrVaFileNumberNoHintUI(),
+            veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintUI(),
           },
           schema: {
             type: 'object',
-            required: ['ssn'],
+            required: ['veteranSocialSecurityNumber'],
             properties: {
               titleSchema,
-              ssn: ssnOrVaFileNumberSchema,
+              veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
             },
           },
         },
@@ -137,7 +134,7 @@ const formConfig = {
     mailingAddress: {
       title: 'Mailing Address',
       pages: {
-        page: {
+        page3: {
           path: 'mailing-address',
           title: "Veteran's Mailing address",
           uiSchema: {
@@ -147,11 +144,7 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               "We'll send any important information about your application to this address.",
-            mailingAddress: addressUI({
-              labels: {
-                street2: 'Apartment or unit number',
-              },
-              omit: ['street3'],
+            veteranAddress: addressUI({
               required: {
                 state: () => true,
               },
@@ -159,12 +152,10 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['mailingAddress'],
+            required: ['veteranAddress'],
             properties: {
               titleSchema,
-              mailingAddress: addressSchema({
-                omit: ['street3'],
-              }),
+              veteranAddress: addressSchema({}),
             },
           },
         },
@@ -183,18 +174,7 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'This is your current location, outside the United States.',
-            // matchAddress: checkboxGroupUI({
-            //   title: ' ',
-            //   required: () => false,
-            //   labels: {
-            //     yes: 'Same as Mailing Address',
-            //   },
-            // }),
             physicalAddress: addressUI({
-              labels: {
-                street2: 'Apartment or unit number',
-              },
-              omit: ['street3'],
               required: {
                 state: () => true,
               },
@@ -205,10 +185,7 @@ const formConfig = {
             required: ['physicalAddress'],
             properties: {
               titleSchema,
-              // matchAddress: checkboxGroupSchema(['yes']),
-              physicalAddress: addressSchema({
-                omit: ['street3'],
-              }),
+              physicalAddress: addressSchema({}),
             },
           },
         },
@@ -227,15 +204,15 @@ const formConfig = {
             ),
             messageAriaDescribedby:
               'Please include this information so that we can contact you with questions or updates.',
-            phoneNumber: phoneUI(),
-            emailAddress: emailUI(),
+            veteranPhoneNumber: phoneUI(),
+            veteranEmailAddress: emailUI(),
           },
           schema: {
             type: 'object',
             properties: {
               titleSchema,
-              phoneNumber: phoneSchema,
-              emailAddress: emailSchema,
+              veteranPhoneNumber: phoneSchema,
+              veteranEmailAddress: emailSchema,
             },
           },
         },

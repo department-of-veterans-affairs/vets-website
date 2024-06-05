@@ -135,7 +135,7 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
         )}
         <a
           className="vads-c-action-link--blue"
-          href="/health-care/apply/application/introduction"
+          href="/health-care/apply-for-health-care-form-10-10ez/"
         >
           Apply for VA health care
         </a>

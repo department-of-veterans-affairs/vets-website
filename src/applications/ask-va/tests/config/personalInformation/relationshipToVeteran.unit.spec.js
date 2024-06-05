@@ -28,8 +28,6 @@ describe('relationshipToVeteranPage', () => {
       </Provider>,
     );
 
-    // screen.debug();
-
     const radioLabels = $$('.form-radio-buttons > label', container);
     const radioLabelList = [
       "I'm the Veteran",
