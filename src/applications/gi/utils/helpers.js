@@ -53,10 +53,10 @@ export const isProductionOrTestProdEnv = (automatedTest = false) => {
 // flag for staging
 export const isStaging = (automatedTest = false) => {
   const isTest = global && global?.window && global?.window?.buildType;
-  if (isTest || automatedTest) {
+  if (automatedTest) {
     return false;
   }
-  return environment.isStaging() || environment.isLocalhost();
+  return environment.isStaging() || environment.isLocalhost() || isTest;
 };
 
 export const isShowVetTec = (automatedTest = false) => {
