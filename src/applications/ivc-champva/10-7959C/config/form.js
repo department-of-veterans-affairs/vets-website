@@ -18,15 +18,16 @@ import {
 } from '../chapters/applicantInformation';
 
 import {
-  applicantHasMedicareABSchema,
+  applicantHasMedicareSchema,
+  applicantMedicareClassSchema,
   applicantMedicarePartACarrierSchema,
   applicantMedicarePartBCarrierSchema,
   applicantMedicarePharmacySchema,
-  applicantMedicareAdvantageSchema,
   applicantHasMedicareDSchema,
   applicantMedicarePartDCarrierSchema,
   applicantMedicareABUploadSchema,
   applicantMedicareDUploadSchema,
+  applicantMedicareAdditionalCommentsSchema,
 } from '../chapters/medicareInformation';
 import {
   applicantHasInsuranceSchema,
@@ -106,7 +107,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA other health insurance certification.',
   },
-  title: '10-7959C CHAMPVA Other Health Insurance Certification form',
+  title: 'File for CHAMPVA Other Health Insurance Certification',
+  subTitle: 'CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)',
   defaultDefinitions: {},
   chapters: {
     applicantInformation: {
@@ -176,37 +178,64 @@ const formConfig = {
         hasMedicareAB: {
           path: 'medicare-ab-status',
           title: formData => `${nameWording(formData)} Medicare status`,
-          ...applicantHasMedicareABSchema,
+          ...applicantHasMedicareSchema,
+        },
+        medicareClass: {
+          path: 'medicare-class',
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} Medicare coverage`,
+          depends: formData => get('applicantMedicareStatus', formData),
+          ...applicantMedicareClassSchema,
+        },
+        pharmacyBenefits: {
+          path: 'medicare-pharmacy',
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} Medicare pharmacy benefits`,
+          depends: formData =>
+            get('applicantMedicareStatus', formData) &&
+            ['advantage', 'other'].includes(
+              get('applicantMedicareClass', formData),
+            ),
+          ...applicantMedicarePharmacySchema,
         },
         // If 'yes' to previous question:
         partACarrier: {
           path: 'medicare-a-carrier',
-          title: formData => `${nameWording(formData)} Medicare Part A carrier`,
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} Medicare Part A carrier`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicarePartACarrierSchema,
         },
         partBCarrier: {
           path: 'medicare-b-carrier',
-          title: formData => `${nameWording(formData)} Medicare Part B carrier`,
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} Medicare Part B carrier`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicarePartBCarrierSchema,
         },
-        pharmacyBenefits: {
-          path: 'medicare-pharmacy',
-          title: formData =>
-            `${nameWording(formData)} Medicare pharmacy benefits`,
-          depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantMedicarePharmacySchema,
-        },
-        advantagePlan: {
-          path: 'medicare-coverage',
-          title: formData => `${nameWording(formData)} Medicare coverage`,
-          depends: formData => get('applicantMedicareStatus', formData),
-          ...applicantMedicareAdvantageSchema,
-        },
         medicareABCards: {
           path: 'medicare-ab-upload',
-          title: formData => `${nameWording(formData)} Medicare card (A/B)`,
+          title: 'Medicare card for hospital and medical coverage',
           depends: formData => get('applicantMedicareStatus', formData),
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
@@ -214,13 +243,25 @@ const formConfig = {
         },
         hasMedicareD: {
           path: 'medicare-d-status',
-          title: formData => `${nameWording(formData)} Medicare status`,
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} Medicare Part D status`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantHasMedicareDSchema,
         },
         partDCarrier: {
           path: 'medicare-d-carrier',
-          title: formData => `${nameWording(formData)} Medicare Part D carrier`,
+          title: formData =>
+            `${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} Medicare Part D carrier`,
           depends: formData =>
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
@@ -228,7 +269,7 @@ const formConfig = {
         },
         medicareDCards: {
           path: 'medicare-d-upload',
-          title: formData => `${nameWording(formData)} Medicare card (D)`,
+          title: 'Medicare Part D card',
           depends: formData =>
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
@@ -236,6 +277,12 @@ const formConfig = {
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           ...applicantMedicareDUploadSchema,
+        },
+        medicareComments: {
+          path: 'medicare-comments',
+          title: 'Medicare additional comments',
+          depends: formData => get('applicantMedicareStatus', formData),
+          ...applicantMedicareAdditionalCommentsSchema,
         },
       },
     },
