@@ -2,7 +2,8 @@
 export const draftAutoSaveTimeout = 10000;
 
 export const Paths = {
-  MYHEALTH: null,
+  MYHEALTH: '/my-health',
+  MESSAGES: '/',
   INBOX: '/inbox/',
   SENT: '/sent/',
   DRAFTS: '/drafts/',
@@ -216,18 +217,19 @@ export const Prompts = {
 };
 
 export const Breadcrumbs = {
-  MYHEALTH: { path: Paths.MYHEALTH, label: 'My HealtheVet' },
-  MESSAGES: { path: '/', label: 'Back to messages' },
+  MYHEALTH: { href: Paths.MYHEALTH, label: 'My HealtheVet' },
+  MESSAGES: { href: Paths.MESSAGES, label: 'Messages', isRouterLink: true },
   COMPOSE: {
-    path: Paths.COMPOSE,
+    href: Paths.COMPOSE,
     label: 'Start a new message',
+    isRouterLink: true,
   },
-  INBOX: { path: Paths.INBOX, label: 'Back to inbox' },
-  DRAFTS: { path: Paths.DRAFTS, label: 'Drafts' },
-  DRAFT: { path: Paths.DRAFT, label: 'Drafts' },
-  FOLDERS: { path: Paths.FOLDERS, label: 'Back to my folders' },
-  SENT: { path: Paths.SENT, label: 'Sent' },
-  TRASH: { path: Paths.DELETED, label: 'Trash' },
+  INBOX: { href: Paths.INBOX, label: 'Inbox', isRouterLink: true },
+  DRAFTS: { href: Paths.DRAFTS, label: 'Drafts', isRouterLink: true },
+  DRAFT: { href: Paths.DRAFT, label: 'Drafts', isRouterLink: true },
+  FOLDERS: { href: Paths.FOLDERS, label: 'Folders', isRouterLink: true },
+  SENT: { href: Paths.SENT, label: 'Sent', isRouterLink: true },
+  TRASH: { href: Paths.DELETED, label: 'Trash', isRouterLink: true },
 };
 
 export const ALERT_TYPE_ERROR = 'error';

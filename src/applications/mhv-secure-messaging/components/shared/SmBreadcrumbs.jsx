@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -17,15 +17,9 @@ const SmBreadcrumbs = () => {
     : null;
   const activeFolder = useSelector(state => state.sm.folders.folder);
   const crumbs = useSelector(state => state.sm.breadcrumbs.list);
-  const [isMobile, setIsMobile] = useState(false);
-
-  function checkScreenSize() {
-    if (window.innerWidth <= 768 && setIsMobile !== false) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-  }
+  const crumbsList = useSelector(state => state.sm.breadcrumbs.crumbsList);
+  const previousPath = useRef(Constants.Breadcrumbs.MESSAGES);
+  const [, setPrevPath] = useState(previousPath.current);
 
   const [locationBasePath, locationChildPath] = useMemo(
     () => {
@@ -38,9 +32,15 @@ const SmBreadcrumbs = () => {
 
   useEffect(
     () => {
-      checkScreenSize();
+      setPrevPath(prev => {
+        previousPath.current = prev;
+        return (
+          Constants.Breadcrumbs[locationBasePath.toUpperCase()] ||
+          Constants.Breadcrumbs.MESSAGES
+        );
+      });
     },
-    [isMobile],
+    [locationBasePath],
   );
 
   useEffect(
@@ -55,15 +55,8 @@ const SmBreadcrumbs = () => {
     [locationBasePath, locationChildPath, history],
   );
 
-  window.addEventListener('resize', checkScreenSize);
-
   useEffect(
     () => {
-      if (!locationBasePath) {
-        dispatch(setBreadcrumbs(Constants.Breadcrumbs.MYHEALTH, null));
-        return;
-      }
-
       const path = `/${locationBasePath}/`;
 
       if (
@@ -75,11 +68,36 @@ const SmBreadcrumbs = () => {
         ].includes(path) ||
         (path === Constants.Paths.FOLDERS && !locationChildPath)
       ) {
-        dispatch(setBreadcrumbs(Constants.Breadcrumbs.MESSAGES, location));
+        dispatch(
+          setBreadcrumbs(
+            [Constants.Breadcrumbs[locationBasePath.toUpperCase()]],
+            location,
+            Constants.Breadcrumbs[locationBasePath.toUpperCase()],
+          ),
+        );
       } else if (path === Constants.Paths.FOLDERS && locationChildPath) {
-        dispatch(setBreadcrumbs(Constants.Breadcrumbs.FOLDERS, location));
-      } else if (path === Constants.Paths.COMPOSE) {
-        dispatch(setBreadcrumbs(Constants.Breadcrumbs.INBOX, location));
+        dispatch(
+          setBreadcrumbs(
+            [
+              {
+                href: `/folders/`,
+                label: Constants.Breadcrumbs.FOLDERS.label,
+                isRouterLink: true,
+              },
+              {
+                href: `/${locationBasePath}/${locationChildPath}`,
+                label: activeFolder.name,
+                isRouterLink: true,
+              },
+            ],
+            location,
+            {
+              href: `/${locationBasePath}/${locationChildPath}`,
+              label: activeFolder.name,
+              isRouterLink: true,
+            },
+          ),
+        );
       } else if (
         path ===
           (Constants.Paths.MESSAGE_THREAD ||
@@ -90,14 +108,23 @@ const SmBreadcrumbs = () => {
         dispatch(
           setBreadcrumbs(
             {
-              path: `${Constants.Paths.FOLDERS}${activeFolder.folderId}`,
-              label: `Back to ${
+              href: `${Constants.Paths.FOLDERS}${activeFolder.folderId}`,
+              label: `${
                 activeFolder.folderId < 1
                   ? activeFolder.name.toLowerCase()
                   : activeFolder.name
               }`,
+              isRouterLink: true,
             },
             location,
+          ),
+        );
+      } else {
+        dispatch(
+          setBreadcrumbs(
+            [],
+            location,
+            Constants.Breadcrumbs[locationBasePath.toUpperCase()],
           ),
         );
       }
@@ -121,51 +148,42 @@ const SmBreadcrumbs = () => {
     [messageDetails, activeFolder, dispatch],
   );
 
-  const breadcrumbSize = () => {
-    if (isMobile) {
-      return Constants.BreadcrumbViews.MOBILE_VIEW;
-    }
-    return Constants.BreadcrumbViews.DESKTOP_VIEW;
+  const handleRoutechange = ({ detail }) => {
+    const { href } = detail;
+    history.push(href);
   };
 
   return (
-    <div
-      className={`breadcrumbs vads-1-row ${
-        !crumbs?.label ? 'breadcrumbs--hidden' : ''
-      }`}
-    >
-      {crumbs &&
-        (!crumbs.path ? (
-          <VaBreadcrumbs
-            breadcrumbList={[
-              {
-                href: '/',
-                label: 'VA.gov',
-              },
-              {
-                href: '/my-health',
-                label: crumbs.label,
-              },
-              {
-                href: '/my-health/secure-messages',
-                label: 'Messages',
-              },
-            ]}
-            label="Breadcrumb"
-            home-veterans-affairs
-            className="vads-u-margin-y--neg1 small-screen:vads-u-margin-y--2"
-            dataTestid="sm-breadcrumb"
-            smCrumbLabel={crumbs.label}
-          />
-        ) : (
-          <nav aria-label="Breadcrumb">
-            <ul className={breadcrumbSize()}>
-              <li className="sm-breadcrumb-list-item">
-                <Link to={crumbs.path?.toLowerCase()}>{crumbs.label}</Link>
-              </li>
-            </ul>
-          </nav>
-        ))}
+    <div>
+      {locationBasePath === 'thread' ||
+      locationBasePath === 'reply' ||
+      locationBasePath === 'new-message' ? (
+        <nav
+          aria-label="Breadcrumb"
+          smCrumbLabel={crumbs.label}
+          className="breadcrumbs vads-u-padding-y--4"
+        >
+          <span className="sm-breadcrumb-list-item">
+            <Link
+              to={previousPath.current.href}
+              className="vads-u-font-size--md"
+            >
+              Back to {previousPath.current.label}{' '}
+            </Link>
+          </span>
+        </nav>
+      ) : (
+        <VaBreadcrumbs
+          breadcrumbList={crumbsList}
+          label="Breadcrumb"
+          home-veterans-affairs
+          onRouteChange={handleRoutechange}
+          className="small-screen:vads-u-margin-y--2"
+          dataTestid="sm-breadcrumb"
+          smCrumbLabel={crumbs.label}
+          uswds
+        />
+      )}
     </div>
   );
 };
