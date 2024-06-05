@@ -1,45 +1,41 @@
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
-import FormFooter from 'platform/forms/components/FormFooter';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-
 // import fullSchema from 'vets-json-schema/dist/21A-schema.json';
 
-import manifest from '../manifest.json';
+import {
+  dateOfBirthSchema,
+  dateOfBirthUI,
+  fullNameSchema,
+  fullNameUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import FormFooter from 'platform/forms/components/FormFooter';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import GetFormHelp from '../components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-
-import contactInformation from '../pages/contactInformation';
-import currentEmployerAddressPhone from '../pages/currentEmployerAddressPhone';
-import currentEmployerDates from '../pages/currentEmployerDates';
-import currentEmployerInformation from '../pages/currentEmployerInformation';
-import employerReview from '../pages/employerReview';
-import homeAddress from '../pages/homeAddress';
-import militaryHistory from '../pages/militaryHistory';
-import militaryServiceExperience from '../pages/militaryServiceExperience';
-import personalInformation from '../pages/personalInformation';
-import placeOfBirth from '../pages/placeOfBirth';
-import previousEmployerInformation from '../pages/previousEmployerInformation';
-import workAddress from '../pages/workAddress';
+import manifest from '../manifest.json';
 
 // const { } = fullSchema.properties;
-
 // const { } = fullSchema.definitions;
 
-const { fullName, date } = commonDefinitions;
-
 const formConfig = {
+  formId: VA_FORM_IDS.FORM_21A,
+  version: 0,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '21a-',
+  title: 'Apply to become a VA accredited attorney or claims agent',
+  subTitle: 'VA Form 21a',
+  downtime: {},
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: VA_FORM_IDS.FORM_21A,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
+  errorText: '',
+  prefillEnabled: true,
   saveInProgress: {
     messages: {
       inProgress:
@@ -50,94 +46,44 @@ const formConfig = {
         'Your application to become a VA accredited attorney or claims agent (21a) has been saved.',
     },
   },
-  version: 0,
-  prefillEnabled: true,
   savedFormMessages: {
     notFound:
       'Please start over to apply to become a VA accredited attorney or claims agent.',
     noAuth:
       'Please sign in again to continue your application to become a VA accredited attorney or claims agent.',
   },
-  title: 'Apply to become a VA accredited attorney or claims agent',
-  subTitle: 'VA Form 21a',
-  defaultDefinitions: {
-    fullName,
-    date,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+    },
   },
+  defaultDefinitions: {},
   chapters: {
     personalInformation: {
       title: 'Personal information',
       pages: {
         personalInformation: {
+          title: 'Personal information',
           path: 'personal-information',
-          uiSchema: personalInformation.uiSchema,
-          schema: personalInformation.schema,
-        },
-        placeOfBirth: {
-          path: 'place-of-birth',
-          uiSchema: placeOfBirth.uiSchema,
-          schema: placeOfBirth.schema,
-        },
-        contactInformation: {
-          path: 'contact-information',
-          uiSchema: contactInformation.uiSchema,
-          schema: contactInformation.schema,
-        },
-        homeAddress: {
-          path: 'home-address',
-          uiSchema: homeAddress.uiSchema,
-          schema: homeAddress.schema,
-        },
-        workAddress: {
-          path: 'work-address',
-          uiSchema: workAddress.uiSchema,
-          schema: workAddress.schema,
-        },
-        militaryHistory: {
-          path: 'military-history',
-          uiSchema: militaryHistory.uiSchema,
-          schema: militaryHistory.schema,
-        },
-        militaryServiceExperience: {
-          path: 'military-service-experience',
-          uiSchema: militaryServiceExperience.uiSchema,
-          schema: militaryServiceExperience.schema,
-        },
-      },
-    },
-    employmentInformation: {
-      title: 'Employment information',
-      pages: {
-        currentEmployerInformation: {
-          path: 'current-employer-information',
-          uiSchema: currentEmployerInformation.uiSchema,
-          schema: currentEmployerInformation.schema,
-        },
-        currentEmployerAddressPhone: {
-          path: 'current-employer-address-phone',
-          uiSchema: currentEmployerAddressPhone.uiSchema,
-          schema: currentEmployerAddressPhone.schema,
-        },
-        currentEmployerDates: {
-          path: 'current-employer-dates',
-          uiSchema: currentEmployerDates.uiSchema,
-          schema: currentEmployerDates.schema,
-        },
-        employerReview: {
-          path: 'employer-review',
-          uiSchema: employerReview.uiSchema,
-          schema: employerReview.schema,
-        },
-        previousEmployerInformation: {
-          path: 'previous-employer-information',
-          uiSchema: previousEmployerInformation.uiSchema,
-          schema: previousEmployerInformation.schema,
+          uiSchema: {
+            fullName: fullNameUI(),
+            dateOfBirth: dateOfBirthUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['dateOfBirth'],
+            properties: {
+              fullName: fullNameSchema,
+              dateOfBirth: dateOfBirthSchema,
+            },
+          },
         },
       },
     },
   },
-  footerContent: FormFooter,
-  getHelp: GetFormHelp,
 };
 
 export default formConfig;

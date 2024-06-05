@@ -121,7 +121,7 @@ IntroductionPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool,
-      savedFormMessages: PropTypes.arrayOf(PropTypes.string),
+      savedFormMessages: PropTypes.object,
       title: PropTypes.string,
       subTitle: PropTypes.string,
     }),
