@@ -28,7 +28,6 @@ const formConfig = {
   trackingPrefix: '21a-',
   title: 'Apply to become a VA accredited attorney or claims agent',
   subTitle: 'VA Form 21a',
-  downtime: {},
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
