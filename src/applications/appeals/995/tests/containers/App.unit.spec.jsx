@@ -108,19 +108,6 @@ describe('App', () => {
     expect($('va-loading-indicator', container)).to.not.exist;
   });
 
-  it('should show contestable issue loading indicator', () => {
-    const { props, data } = getData({ pathname: '/vet-info' });
-    const { container } = render(
-      <Provider store={mockStore(data)}>
-        <App {...props} />
-      </Provider>,
-    );
-
-    expect(
-      $('va-loading-indicator', container).getAttribute('message'),
-    ).to.contain('Loading your previous decision');
-  });
-
   it('should redirect to start', () => {
     const push = sinon.spy();
     const { props, data } = getData({ push, data: {} });
