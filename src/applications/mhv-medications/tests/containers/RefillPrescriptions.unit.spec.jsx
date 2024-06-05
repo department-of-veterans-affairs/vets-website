@@ -89,7 +89,6 @@ describe('Refill Prescriptions Component', () => {
     resetFetch();
     mockApiRequest(prescriptionsList);
     const screen = setup();
-    screen.debug();
     const title = await screen.findByTestId('refill-page-title');
     expect(title).to.exist;
   });
