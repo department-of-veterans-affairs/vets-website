@@ -70,6 +70,10 @@
       "slackGroup": "@mhv-on-va-gov-group"
     },
     {
+      "rootFolder": "mhv-secure-messaging",
+      "slackGroup": "@mhv-sm-redesign-devs"
+    },
+    {
       "rootFolder": "personalization",
       "slackGroup": "<@C053JC66YHF>, <@U026GBU02UW>",
       "continuousDeployment": false

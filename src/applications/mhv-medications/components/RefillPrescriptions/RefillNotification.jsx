@@ -119,12 +119,14 @@ const RefillNotification = ({ refillResult = {} }) => {
                   </li>
                 ))}
               </ul>
-              <p
+              <div
                 className="vads-u-margin-y--0"
                 data-testid="success-message-description"
               >
-                For updates on your refill requests, go to your medications
-                list. <br />
+                <p>
+                  For updates on your refill requests, go to your medications
+                  list.
+                </p>
                 <Link
                   data-testid="back-to-medications-page-link"
                   to="/"
@@ -135,7 +137,7 @@ const RefillNotification = ({ refillResult = {} }) => {
                 >
                   Go to your medications list
                 </Link>
-              </p>
+              </div>
             </va-alert>
           </div>
         </>
