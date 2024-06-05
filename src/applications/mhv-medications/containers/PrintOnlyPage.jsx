@@ -33,7 +33,8 @@ const PrintOnlyPage = props => {
           <p>
             We’re sorry. There’s a problem with our system. We can’t print your
             records right now. Try again later.
-            <br />
+          </p>
+          <p>
             If it still doesn’t work, call us at{' '}
             <va-telephone not-clickable contact="8773270022" /> (
             <va-telephone not-clickable contact={CONTACTS[711]} tty />
