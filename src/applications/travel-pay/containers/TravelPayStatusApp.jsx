@@ -92,6 +92,7 @@ export default function App({ children }) {
               </h1>
             </div>
             <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+              <HelpText />
               {isLoading && (
                 <va-loading-indicator
                   label="Loading"
@@ -142,8 +143,6 @@ export default function App({ children }) {
                     {travelClaims.map(travelClaim =>
                       TravelClaimCard(travelClaim),
                     )}
-
-                    <HelpText />
                   </>
                 )}
               {userLoggedIn &&
