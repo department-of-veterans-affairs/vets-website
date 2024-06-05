@@ -20,6 +20,10 @@ const MedicationsList = props => {
     updateLoadingStatus,
     scrollLocation,
   } = props;
+  const sortOptionLowercase = rxListSortingOptions[
+    selectedSortOption
+  ]?.LABEL.toLowerCase();
+  const totalMedications = pagination.totalEntries;
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
@@ -48,13 +52,14 @@ const MedicationsList = props => {
         data-testid="page-total-info"
         id="showingRx"
       >
-        Showing
         <span className="no-print">
-          {` ${displayNums[0]} - ${displayNums[1]} of`}
+          {`Showing ${displayNums[0]} - ${
+            displayNums[1]
+          } of ${totalMedications} medications, ${sortOptionLowercase}`}
         </span>
-        {` ${pagination.totalEntries} medications, ${rxListSortingOptions[
-          selectedSortOption
-        ]?.LABEL.toLowerCase()}`}
+        <span className="print-only">
+          {`Showing ${totalMedications} medications, ${sortOptionLowercase}`}
+        </span>
       </h2>
       <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
       <div className="print-only vads-u-margin--0 vads-u-width--full">
